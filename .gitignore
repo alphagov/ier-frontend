@@ -11,3 +11,4 @@ RUNNING_PID
 .idea_modules
 scripts/bin/*
 logs/*
+govuk_template_play
