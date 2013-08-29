@@ -1,0 +1,20 @@
+@(applicantForm: Form[uk.gov.gds.ier.model.WebApplication])
+
+@import helper.twitterBootstrap._
+@import helper._
+@import layouts._
+
+@main(Some("IER - Register to Vote")) {
+    <h2>Register To Vote</h2>
+
+    @form(action = routes.RegisterToVoteController.submitApplication) {
+        @inputText(applicantForm("firstName"))
+        @inputText(applicantForm("middleName"))
+        @inputText(applicantForm("lastName"))
+        @inputText(applicantForm("previousLastName"))
+        @inputText(applicantForm("dob"))
+        @inputText(applicantForm("nino"))
+        <input type="submit" id="submit" class="medium button" value="Submit"/>
+    }
+
+}

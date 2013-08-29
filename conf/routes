@@ -1,0 +1,12 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET         /                          controllers.RegisterToVoteController.index
+POST        /submit-application        controllers.RegisterToVoteController.submitApplication
+GET         /register-to-vote          controllers.RegisterToVoteController.registerToVote
+
+# Map static resources from the /public folder to the /assets URL path
+GET         /assets/*file              controllers.Assets.at(path="/public", file)
+GET         /template/*file            controllers.Template.at(path="/govuk_template_play/assets", file)

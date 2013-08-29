@@ -1,0 +1,255 @@
+2013-08-27 12:09:40,042 - [INFO] - from play in main 
+Listening for HTTP on /0:0:0:0:0:0:0:0:9000
+
+2013-08-27 12:10:13,260 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2013-08-27 12:11:04,721 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2013-08-27 12:11:14,989 - [ERROR] - from application in play-internal-execution-context-2 
+
+
+! @6fdc8b637 - Internal server error, for (GET) [/prototype] ->
+
+play.api.Application$$anon$1: Execution exception[[JadeLexerException: invalid indentation]]
+	at play.api.Application$class.handleError(Application.scala:289) ~[play_2.10.jar:2.1.2]
+	at play.api.DefaultApplication.handleError(Application.scala:383) [play_2.10.jar:2.1.2]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$18$$anonfun$apply$18.apply(PlayDefaultUpstreamHandler.scala:310) [play_2.10.jar:2.1.2]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$18$$anonfun$apply$18.apply(PlayDefaultUpstreamHandler.scala:308) [play_2.10.jar:2.1.2]
+	at play.api.libs.concurrent.PlayPromise$$anonfun$extend1$1.apply(Promise.scala:113) [play_2.10.jar:2.1.2]
+	at play.api.libs.concurrent.PlayPromise$$anonfun$extend1$1.apply(Promise.scala:113) [play_2.10.jar:2.1.2]
+	at play.api.libs.concurrent.PlayPromise$$anonfun$extend$1$$anonfun$apply$1.apply(Promise.scala:104) [play_2.10.jar:2.1.2]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library.jar:na]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [na:1.7.0_13]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [na:1.7.0_13]
+	at java.lang.Thread.run(Thread.java:722) [na:1.7.0_13]
+Caused by: de.neuland.jade4j.exceptions.JadeLexerException: invalid indentation
+	at de.neuland.jade4j.lexer.Lexer.indent(Lexer.java:647) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.lexer.Lexer.next(Lexer.java:151) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.lexer.Lexer.lookahead(Lexer.java:191) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.parser.Parser.lookahead(Parser.java:697) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.parser.Parser.peek(Parser.java:701) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.parser.Parser.parseBlock(Parser.java:251) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.parser.Parser.parseExpr(Parser.java:119) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.parser.Parser.parse(Parser.java:91) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.JadeConfiguration.createTemplate(JadeConfiguration.java:86) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.JadeConfiguration.getTemplate(JadeConfiguration.java:58) ~[jade4j-0.3.11.jar:na]
+	at uk.gov.gds.ier.jade.JadeController$$anonfun$render$2.apply(JadeController.scala:36) ~[na:na]
+	at uk.gov.gds.ier.jade.JadeController$$anonfun$render$2.apply(JadeController.scala:35) ~[na:na]
+	at uk.gov.gds.ier.jade.Timing$class.timeThis(JadeController.scala:51) ~[na:na]
+	at uk.gov.gds.ier.controller.PrototypeController.timeThis(PrototypeController.scala:6) ~[na:na]
+	at uk.gov.gds.ier.jade.JadeController$class.render(JadeController.scala:34) ~[na:na]
+	at uk.gov.gds.ier.controller.PrototypeController.render(PrototypeController.scala:6) ~[na:na]
+	at uk.gov.gds.ier.jade.JadeController$$anonfun$render$1.apply(JadeController.scala:31) ~[na:na]
+	at uk.gov.gds.ier.jade.JadeController$$anonfun$render$1.apply(JadeController.scala:31) ~[na:na]
+	at uk.gov.gds.ier.jade.Timing$class.timeThis(JadeController.scala:51) ~[na:na]
+	at uk.gov.gds.ier.controller.PrototypeController.timeThis(PrototypeController.scala:6) ~[na:na]
+	at uk.gov.gds.ier.jade.JadeController$class.render(JadeController.scala:30) ~[na:na]
+	at uk.gov.gds.ier.controller.PrototypeController.render(PrototypeController.scala:6) ~[na:na]
+	at uk.gov.gds.ier.controller.PrototypeController$$anonfun$index$1.apply(PrototypeController.scala:8) ~[na:na]
+	at uk.gov.gds.ier.controller.PrototypeController$$anonfun$index$1.apply(PrototypeController.scala:8) ~[na:na]
+	at play.api.mvc.ActionBuilder$$anonfun$apply$10.apply(Action.scala:252) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.ActionBuilder$$anonfun$apply$10.apply(Action.scala:252) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.ActionBuilder$$anon$1.apply(Action.scala:215) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:108) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:108) ~[play_2.10.jar:2.1.2]
+	at play.utils.Threads$.withContextClassLoader(Threads.scala:18) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:107) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:105) ~[play_2.10.jar:2.1.2]
+	at scala.Option.map(Option.scala:145) ~[scala-library.jar:na]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:105) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:98) ~[play_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anonfun$map$1.apply(Iteratee.scala:409) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anonfun$map$1.apply(Iteratee.scala:409) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1.apply(Iteratee.scala:426) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1.apply(Iteratee.scala:425) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anonfun$pureFold$1.apply(Iteratee.scala:383) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anonfun$pureFold$1.apply(Iteratee.scala:383) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Done$$anon$2.fold(Iteratee.scala:513) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anon$1$$anonfun$fold$1.apply(Iteratee.scala:18) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anon$1$$anonfun$fold$1.apply(Iteratee.scala:18) ~[play-iteratees_2.10.jar:2.1.2]
+	at scala.concurrent.Future$$anonfun$flatMap$1.liftedTree3$1(Future.scala:278) ~[scala-library.jar:na]
+	at scala.concurrent.Future$$anonfun$flatMap$1.apply(Future.scala:277) ~[scala-library.jar:na]
+	at scala.concurrent.Future$$anonfun$flatMap$1.apply(Future.scala:274) ~[scala-library.jar:na]
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:29) ~[scala-library.jar:na]
+	... 3 common frames omitted
+
+2013-08-27 12:11:57,951 - [INFO] - from play in play-internal-execution-context-4 
+Application started (Dev)
+
+2013-08-27 12:11:58,018 - [ERROR] - from application in play-internal-execution-context-3 
+
+
+! @6fdc8dhkc - Internal server error, for (GET) [/prototype] ->
+
+play.api.Application$$anon$1: Execution exception[[JadeLexerException: invalid indentation]]
+	at play.api.Application$class.handleError(Application.scala:289) ~[play_2.10.jar:2.1.2]
+	at play.api.DefaultApplication.handleError(Application.scala:383) [play_2.10.jar:2.1.2]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$18$$anonfun$apply$18.apply(PlayDefaultUpstreamHandler.scala:310) [play_2.10.jar:2.1.2]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$18$$anonfun$apply$18.apply(PlayDefaultUpstreamHandler.scala:308) [play_2.10.jar:2.1.2]
+	at play.api.libs.concurrent.PlayPromise$$anonfun$extend1$1.apply(Promise.scala:113) [play_2.10.jar:2.1.2]
+	at play.api.libs.concurrent.PlayPromise$$anonfun$extend1$1.apply(Promise.scala:113) [play_2.10.jar:2.1.2]
+	at play.api.libs.concurrent.PlayPromise$$anonfun$extend$1$$anonfun$apply$1.apply(Promise.scala:104) [play_2.10.jar:2.1.2]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library.jar:na]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [na:1.7.0_13]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [na:1.7.0_13]
+	at java.lang.Thread.run(Thread.java:722) [na:1.7.0_13]
+Caused by: de.neuland.jade4j.exceptions.JadeLexerException: invalid indentation
+	at de.neuland.jade4j.lexer.Lexer.indent(Lexer.java:647) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.lexer.Lexer.next(Lexer.java:151) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.lexer.Lexer.lookahead(Lexer.java:191) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.parser.Parser.lookahead(Parser.java:697) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.parser.Parser.peek(Parser.java:701) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.parser.Parser.parseBlock(Parser.java:251) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.parser.Parser.parseExpr(Parser.java:119) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.parser.Parser.parse(Parser.java:91) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.JadeConfiguration.createTemplate(JadeConfiguration.java:86) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.JadeConfiguration.getTemplate(JadeConfiguration.java:58) ~[jade4j-0.3.11.jar:na]
+	at uk.gov.gds.ier.jade.JadeController$$anonfun$render$2.apply(JadeController.scala:36) ~[na:na]
+	at uk.gov.gds.ier.jade.JadeController$$anonfun$render$2.apply(JadeController.scala:35) ~[na:na]
+	at uk.gov.gds.ier.jade.Timing$class.timeThis(JadeController.scala:51) ~[na:na]
+	at uk.gov.gds.ier.controller.PrototypeController.timeThis(PrototypeController.scala:6) ~[na:na]
+	at uk.gov.gds.ier.jade.JadeController$class.render(JadeController.scala:34) ~[na:na]
+	at uk.gov.gds.ier.controller.PrototypeController.render(PrototypeController.scala:6) ~[na:na]
+	at uk.gov.gds.ier.jade.JadeController$$anonfun$render$1.apply(JadeController.scala:31) ~[na:na]
+	at uk.gov.gds.ier.jade.JadeController$$anonfun$render$1.apply(JadeController.scala:31) ~[na:na]
+	at uk.gov.gds.ier.jade.Timing$class.timeThis(JadeController.scala:51) ~[na:na]
+	at uk.gov.gds.ier.controller.PrototypeController.timeThis(PrototypeController.scala:6) ~[na:na]
+	at uk.gov.gds.ier.jade.JadeController$class.render(JadeController.scala:30) ~[na:na]
+	at uk.gov.gds.ier.controller.PrototypeController.render(PrototypeController.scala:6) ~[na:na]
+	at uk.gov.gds.ier.controller.PrototypeController$$anonfun$index$1.apply(PrototypeController.scala:8) ~[na:na]
+	at uk.gov.gds.ier.controller.PrototypeController$$anonfun$index$1.apply(PrototypeController.scala:8) ~[na:na]
+	at play.api.mvc.ActionBuilder$$anonfun$apply$10.apply(Action.scala:252) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.ActionBuilder$$anonfun$apply$10.apply(Action.scala:252) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.ActionBuilder$$anon$1.apply(Action.scala:215) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:108) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:108) ~[play_2.10.jar:2.1.2]
+	at play.utils.Threads$.withContextClassLoader(Threads.scala:18) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:107) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:105) ~[play_2.10.jar:2.1.2]
+	at scala.Option.map(Option.scala:145) ~[scala-library.jar:na]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:105) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:98) ~[play_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anonfun$map$1.apply(Iteratee.scala:409) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anonfun$map$1.apply(Iteratee.scala:409) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1.apply(Iteratee.scala:426) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1.apply(Iteratee.scala:425) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anonfun$pureFold$1.apply(Iteratee.scala:383) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anonfun$pureFold$1.apply(Iteratee.scala:383) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Done$$anon$2.fold(Iteratee.scala:513) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anon$1$$anonfun$fold$1.apply(Iteratee.scala:18) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anon$1$$anonfun$fold$1.apply(Iteratee.scala:18) ~[play-iteratees_2.10.jar:2.1.2]
+	at scala.concurrent.Future$$anonfun$flatMap$1.liftedTree3$1(Future.scala:278) ~[scala-library.jar:na]
+	at scala.concurrent.Future$$anonfun$flatMap$1.apply(Future.scala:277) ~[scala-library.jar:na]
+	at scala.concurrent.Future$$anonfun$flatMap$1.apply(Future.scala:274) ~[scala-library.jar:na]
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:29) ~[scala-library.jar:na]
+	... 3 common frames omitted
+
+2013-08-27 12:59:08,357 - [INFO] - from play in play-internal-execution-context-4 
+Application started (Dev)
+
+2013-08-27 12:59:08,447 - [ERROR] - from application in play-internal-execution-context-1 
+
+
+! @6fdceiil2 - Internal server error, for (GET) [/prototype] ->
+
+play.api.Application$$anon$1: Execution exception[[JadeLexerException: invalid indentation]]
+	at play.api.Application$class.handleError(Application.scala:289) ~[play_2.10.jar:2.1.2]
+	at play.api.DefaultApplication.handleError(Application.scala:383) [play_2.10.jar:2.1.2]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$18$$anonfun$apply$18.apply(PlayDefaultUpstreamHandler.scala:310) [play_2.10.jar:2.1.2]
+	at play.core.server.netty.PlayDefaultUpstreamHandler$$anonfun$18$$anonfun$apply$18.apply(PlayDefaultUpstreamHandler.scala:308) [play_2.10.jar:2.1.2]
+	at play.api.libs.concurrent.PlayPromise$$anonfun$extend1$1.apply(Promise.scala:113) [play_2.10.jar:2.1.2]
+	at play.api.libs.concurrent.PlayPromise$$anonfun$extend1$1.apply(Promise.scala:113) [play_2.10.jar:2.1.2]
+	at play.api.libs.concurrent.PlayPromise$$anonfun$extend$1$$anonfun$apply$1.apply(Promise.scala:104) [play_2.10.jar:2.1.2]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.liftedTree1$1(Future.scala:24) [scala-library.jar:na]
+	at scala.concurrent.impl.Future$PromiseCompletingRunnable.run(Future.scala:24) [scala-library.jar:na]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [na:1.7.0_13]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [na:1.7.0_13]
+	at java.lang.Thread.run(Thread.java:722) [na:1.7.0_13]
+Caused by: de.neuland.jade4j.exceptions.JadeLexerException: invalid indentation
+	at de.neuland.jade4j.lexer.Lexer.indent(Lexer.java:647) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.lexer.Lexer.next(Lexer.java:151) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.lexer.Lexer.lookahead(Lexer.java:191) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.parser.Parser.lookahead(Parser.java:697) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.parser.Parser.peek(Parser.java:701) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.parser.Parser.parseBlock(Parser.java:251) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.parser.Parser.parseExpr(Parser.java:119) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.parser.Parser.parse(Parser.java:91) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.JadeConfiguration.createTemplate(JadeConfiguration.java:86) ~[jade4j-0.3.11.jar:na]
+	at de.neuland.jade4j.JadeConfiguration.getTemplate(JadeConfiguration.java:58) ~[jade4j-0.3.11.jar:na]
+	at uk.gov.gds.ier.jade.JadeController$$anonfun$render$2.apply(JadeController.scala:36) ~[na:na]
+	at uk.gov.gds.ier.jade.JadeController$$anonfun$render$2.apply(JadeController.scala:35) ~[na:na]
+	at uk.gov.gds.ier.jade.Timing$class.timeThis(JadeController.scala:51) ~[na:na]
+	at uk.gov.gds.ier.controller.PrototypeController.timeThis(PrototypeController.scala:6) ~[na:na]
+	at uk.gov.gds.ier.jade.JadeController$class.render(JadeController.scala:34) ~[na:na]
+	at uk.gov.gds.ier.controller.PrototypeController.render(PrototypeController.scala:6) ~[na:na]
+	at uk.gov.gds.ier.jade.JadeController$$anonfun$render$1.apply(JadeController.scala:31) ~[na:na]
+	at uk.gov.gds.ier.jade.JadeController$$anonfun$render$1.apply(JadeController.scala:31) ~[na:na]
+	at uk.gov.gds.ier.jade.Timing$class.timeThis(JadeController.scala:51) ~[na:na]
+	at uk.gov.gds.ier.controller.PrototypeController.timeThis(PrototypeController.scala:6) ~[na:na]
+	at uk.gov.gds.ier.jade.JadeController$class.render(JadeController.scala:30) ~[na:na]
+	at uk.gov.gds.ier.controller.PrototypeController.render(PrototypeController.scala:6) ~[na:na]
+	at uk.gov.gds.ier.controller.PrototypeController$$anonfun$index$1.apply(PrototypeController.scala:8) ~[na:na]
+	at uk.gov.gds.ier.controller.PrototypeController$$anonfun$index$1.apply(PrototypeController.scala:8) ~[na:na]
+	at play.api.mvc.ActionBuilder$$anonfun$apply$10.apply(Action.scala:252) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.ActionBuilder$$anonfun$apply$10.apply(Action.scala:252) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.ActionBuilder$$anon$1.apply(Action.scala:215) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:108) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4$$anonfun$apply$5.apply(Action.scala:108) ~[play_2.10.jar:2.1.2]
+	at play.utils.Threads$.withContextClassLoader(Threads.scala:18) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:107) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.Action$$anonfun$apply$1$$anonfun$apply$4.apply(Action.scala:105) ~[play_2.10.jar:2.1.2]
+	at scala.Option.map(Option.scala:145) ~[scala-library.jar:na]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:105) ~[play_2.10.jar:2.1.2]
+	at play.api.mvc.Action$$anonfun$apply$1.apply(Action.scala:98) ~[play_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anonfun$map$1.apply(Iteratee.scala:409) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anonfun$map$1.apply(Iteratee.scala:409) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1.apply(Iteratee.scala:426) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anonfun$flatMap$1.apply(Iteratee.scala:425) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anonfun$pureFold$1.apply(Iteratee.scala:383) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anonfun$pureFold$1.apply(Iteratee.scala:383) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Done$$anon$2.fold(Iteratee.scala:513) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anon$1$$anonfun$fold$1.apply(Iteratee.scala:18) ~[play-iteratees_2.10.jar:2.1.2]
+	at play.api.libs.iteratee.Iteratee$$anon$1$$anonfun$fold$1.apply(Iteratee.scala:18) ~[play-iteratees_2.10.jar:2.1.2]
+	at scala.concurrent.Future$$anonfun$flatMap$1.liftedTree3$1(Future.scala:278) ~[scala-library.jar:na]
+	at scala.concurrent.Future$$anonfun$flatMap$1.apply(Future.scala:277) ~[scala-library.jar:na]
+	at scala.concurrent.Future$$anonfun$flatMap$1.apply(Future.scala:274) ~[scala-library.jar:na]
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:29) ~[scala-library.jar:na]
+	... 3 common frames omitted
+
+2013-08-27 12:59:37,179 - [INFO] - from play in play-internal-execution-context-4 
+Application started (Dev)
+
+2013-08-27 12:59:37,485 - [DEBUG] - from application in iteratee-execution-context-1 
+Execution took 250ms
+
+2013-08-27 12:59:37,485 - [DEBUG] - from application in iteratee-execution-context-1 
+Execution took 251ms
+
+2013-08-27 12:59:56,407 - [INFO] - from play in play-internal-execution-context-2 
+Application started (Dev)
+
+2013-08-27 12:59:56,580 - [DEBUG] - from application in iteratee-execution-context-1 
+Execution took 116ms
+
+2013-08-27 12:59:56,582 - [DEBUG] - from application in iteratee-execution-context-1 
+Execution took 118ms
+
+2013-08-27 13:00:22,282 - [DEBUG] - from application in iteratee-execution-context-2 
+Execution took 10ms
+
+2013-08-27 13:00:22,283 - [DEBUG] - from application in iteratee-execution-context-2 
+Execution took 11ms
+
+2013-08-27 13:00:58,993 - [INFO] - from play in play-internal-execution-context-1 
+Application started (Dev)
+
+2013-08-27 13:00:59,257 - [DEBUG] - from application in iteratee-execution-context-2 
+Execution took 217ms
+
+2013-08-27 13:00:59,260 - [DEBUG] - from application in iteratee-execution-context-2 
+Execution took 220ms
+

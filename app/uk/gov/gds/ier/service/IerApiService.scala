@@ -1,0 +1,25 @@
+package uk.gov.gds.ier.service
+
+import com.google.inject.Inject
+import uk.gov.gds.ier.client.ApiClient
+import uk.gov.gds.ier.model._
+
+import uk.gov.gds.ier.model.Fail
+import uk.gov.gds.ier.model.WebApplication
+import uk.gov.gds.ier.model.Success
+import uk.gov.gds.ier.logging.Logging
+import uk.gov.gds.ier.serialiser.JsonSerialiser
+
+class IerApiService @Inject() (apiClient: ApiClient, serialiser: JsonSerialiser) extends ApiUrls with Logging {
+
+  def submitApplication(applicant: WebApplication): ApiApplicationResponse = {
+    val apiApplicant = ApiApplication(applicant)
+    apiClient.post(submitApplicationUrl, serialiser.toJson(apiApplicant)) match {
+      case Success(body) => serialiser.fromJson[ApiApplicationResponse](body)
+      case Fail(error) => {
+        logger.error("Submitting application to api failed: " + error)
+        throw new ApiException(error)
+      }
+    }
+  }
+}
