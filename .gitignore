@@ -10,3 +10,4 @@ RUNNING_PID
 *.swp
 .idea_modules
 scripts/bin/*
+logs/*

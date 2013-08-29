@@ -3,8 +3,8 @@
 thisDir="$( dirname "$0" )"
 cd $thisDir
 
-installPlay="../scripts/play/setup-play.sh"
-play="../scripts/bin/play-2.1.2/play"
+installPlay="scripts/play/setup-play.sh"
+play="scripts/bin/play-2.1.2/play"
 
 if [ ! -f "$play" ]; then 
   echo "Play not found. Installing play"
