@@ -1,5 +1,4 @@
 target
-govuk_template_play
 *.iml
 *.iml.bak
 *.ipr
@@ -11,4 +10,3 @@ RUNNING_PID
 .idea_modules
 scripts/bin/*
 logs/*
-govuk_template_play
