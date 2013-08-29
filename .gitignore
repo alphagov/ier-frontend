@@ -1,2 +1,12 @@
 target
 govuk_template_play
+*.iml
+*.iml.bak
+*.ipr
+*.iws
+.idea
+.DS_Store
+RUNNING_PID
+*.swp
+.idea_modules
+scripts/bin/*
