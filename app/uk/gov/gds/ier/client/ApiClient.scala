@@ -9,6 +9,18 @@ import uk.gov.gds.ier.config.Config
 
 class ApiClient {
 
+  def get(url: String, headers: (String, String)*) : ApiResponse = {
+    val result = Await.result(
+      WS.url(url)
+        .withHeaders(headers + "Content-Type" -> MimeTypes.JSON).get(),
+      Config.apiTimeout seconds
+    )
+    result.status match {
+      case Status.OK => Success(result.body)
+      case _ => Fail(result.body)
+    }
+  }
+
   def post(url:String, content:String) : ApiResponse = {
     val result = Await.result(
       WS.url(url)

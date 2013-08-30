@@ -37,3 +37,7 @@ object ApiApplication {
     )
   }
 }
+
+case class Address(addressLine:String, postcode:String)
+
+case class PostcodeAnywhereResponse(Items:List[Map[String,String]])
