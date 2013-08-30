@@ -11,8 +11,7 @@ class ApiClient {
 
   def get(url: String, headers: (String, String)*) : ApiResponse = {
     val result = Await.result(
-      WS.url(url)
-        .withHeaders(headers + "Content-Type" -> MimeTypes.JSON).get(),
+      WS.url(url).get(),
       Config.apiTimeout seconds
     )
     result.status match {

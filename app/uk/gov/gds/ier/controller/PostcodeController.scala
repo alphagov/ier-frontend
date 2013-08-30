@@ -6,6 +6,8 @@ import play.api.mvc.Controller
 import play.api.mvc.Action
 import uk.gov.gds.ier.client.ApiResults
 import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
+import uk.gov.gds.common.http.ApiResponseException
+import uk.gov.gds.ier.exception.PostcodeLookupFailedException
 
 class PostcodeController @Inject()(postcodeAnywhere: PostcodeAnywhereService, serialiser: JsonSerialiser)
   extends Controller with ApiResults with WithSerialiser {
@@ -16,6 +18,10 @@ class PostcodeController @Inject()(postcodeAnywhere: PostcodeAnywhereService, se
 
   def lookup(postcode: String) = Action {
     implicit request =>
-      okResult("addresses" -> postcodeAnywhere.lookup(postcode))
+      try {
+        okResult("addresses" -> postcodeAnywhere.lookup(postcode))
+      } catch {
+        case e:PostcodeLookupFailedException => serverErrorResult("error" -> e.getMessage)
+      }
   }
 }

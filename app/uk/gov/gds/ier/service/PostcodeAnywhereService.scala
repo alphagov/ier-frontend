@@ -8,6 +8,8 @@ import uk.gov.gds.ier.model.Fail
 import uk.gov.gds.ier.model.Success
 import uk.gov.gds.ier.model.Address
 import uk.gov.gds.common.model.{PAAddress, PAList}
+import uk.gov.gds.common.http.ApiResponseException
+import uk.gov.gds.ier.exception.PostcodeLookupFailedException
 
 class PostcodeAnywhereService @Inject() (apiClient: ApiClient, serialiser: JsonSerialiser) {
 
@@ -19,7 +21,7 @@ class PostcodeAnywhereService @Inject() (apiClient: ApiClient, serialiser: JsonS
           Address(List(pa.Line1, pa.Line2, pa.Line3, pa.Line4, pa.Line5, pa.PostTown, pa.County).filterNot(_ == "").mkString(", "), pa.Postcode)
         })
       }
-      case Fail(error) => List()
+      case Fail(error) => throw new PostcodeLookupFailedException(error)
     }
   }
 }
