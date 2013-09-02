@@ -8,9 +8,10 @@ import uk.gov.gds.ier.client.ApiResults
 import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
 import uk.gov.gds.common.http.ApiResponseException
 import uk.gov.gds.ier.exception.PostcodeLookupFailedException
+import uk.gov.gds.ier.model.IerForms
 
 class PostcodeController @Inject()(postcodeAnywhere: PostcodeAnywhereService, serialiser: JsonSerialiser)
-  extends Controller with ApiResults with WithSerialiser {
+  extends Controller with ApiResults with WithSerialiser with IerForms {
 
   def toJson(obj: AnyRef): String = serialiser.toJson(obj)
 
@@ -18,10 +19,14 @@ class PostcodeController @Inject()(postcodeAnywhere: PostcodeAnywhereService, se
 
   def lookup(postcode: String) = Action {
     implicit request =>
-      try {
-        okResult("addresses" -> postcodeAnywhere.lookup(postcode))
-      } catch {
-        case e:PostcodeLookupFailedException => serverErrorResult("error" -> e.getMessage)
-      }
+      postcodeForm.bind(Map("postcode" -> postcode)).fold(
+        errors => badResult("errors" -> errors.errorsAsMap),
+        postcode =>
+          try {
+            okResult("addresses" -> postcodeAnywhere.lookup(postcode))
+          } catch {
+            case e:PostcodeLookupFailedException => serverErrorResult("error" -> e.getMessage)
+          }
+      )
   }
 }
