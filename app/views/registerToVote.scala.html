@@ -5,16 +5,681 @@
 @import layouts._
 
 @main(Some("IER - Register to Vote")) {
-    <h2>Register To Vote</h2>
 
-    @form(action = routes.RegisterToVoteController.submitApplication) {
-        @inputText(applicantForm("firstName"))
-        @inputText(applicantForm("middleName"))
-        @inputText(applicantForm("lastName"))
-        @inputText(applicantForm("previousLastName"))
-        @inputText(applicantForm("dob"))
-        @inputText(applicantForm("nino"))
-        <input type="submit" id="submit" class="medium button" value="Submit"/>
-    }
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/register.css")">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+
+    <script src="@routes.Assets.at("javascripts/history.js/scripts/bundled/html5/jquery.history.js")"></script>
+    <script src="@routes.Assets.at("javascripts/typeahead.js")"></script>
+    <script src="@routes.Assets.at("javascripts/register.js")"></script>
+
+    <!--[if IE 8]>
+    <script>
+      (function(){if(window.opera){return;}
+      setTimeout(function(){var a=document,g,b={families:(g=
+      ["nta"]),urls:["https://assets.digital.cabinet-office.gov.uk/static/fonts-ie8-beb10cbc00c9b7dcdbdee824962bc5f6.css"]},
+      c="https://assets.digital.cabinet-office.gov.uk/static/libs/goog/webfont-debug-96870cf9f159ed811fd43c39bdf4656b.js",d="script",
+      e=a.createElement(d),f=a.getElementsByTagName(d)[0],h=g.length;WebFontConfig
+      ={custom:b},e.src=c,f.parentNode.insertBefore(e,f);for(;h=h-1;a.documentElement
+      .className+=' wf-'+g[h].replace(/\s/g,'').toLowerCase()+'-n4-loading');},0)
+      })()
+    </script><![endif]-->
+    <!--[if gte IE 9]><!-->
+    <link href="https://assets.digital.cabinet-office.gov.uk/static/fonts-0fb6b917e34e45c93a44eec72dcc21de.css" media="all" rel="stylesheet" type="text/css"><!--<![endif]-->
+
+<section id="content" class="content">
+        <div class="inner-block">
+          <div class="big-header">
+            <h1>Register to vote</h1>
+          </div>
+          <div class="small-header">
+            <header class="cf">
+              <h1>Register to vote</h1>
+              <!--
+              <div class="start-again"><a href="#" class="button">Start again</a></div>
+              -->
+            </header>
+            <div class="steps"><a href="#" class="back button"><i class="icon-caret-left"></i><span>Back</span></a>
+              <div class="progress"><span class="step">Step</span><span id="progressStep" class="page-number">1</span><span class="of">of</span><span class="total">11</span></div>
+            </div>
+          </div>
+          <div class="questions-main">
+            <div id="step-1" class="step">
+              <div class="question">
+                <h2><span class="question-number">1</span><span>What is your nationality?</span></h2>
+                <div class="help">
+                  <p>If you have dual nationality, select all options that are relevant to you.</p>
+                </div>
+                <ul class="answers">
+                  <li class="answer">
+                    <label class="selectable">
+                      <input type="checkbox" name="nationality" value="British" data-name="Nationality" data-value="British" class="checkbox"><span>British</span>
+                    </label>
+                  </li>
+                  <li class="answer">
+                    <label class="selectable">
+                      <input type="checkbox" name="nationality" value="Irish" data-name="Nationality" data-value="Irish" class="checkbox"><span>Irish</span>
+                    </label>
+                  </li>
+                  <li class="answer">
+                    <label class="selectable">
+                      <input id="otherCountry" type="checkbox" name="hasOtherNationality" value="true" class="checkbox"><span>Other country ...</span>
+                    </label>
+                    <div id="optionalSectionOtherCountry" class="optional-section optional-section-other-country">
+                      <div id="otherCountries" class="other-countries">
+                        <div id="otherCountryTemplate" class="template">
+                          <div class="answer other-country">
+                            <label class="above"><span>Country</span><span class="number"></span><a href="#" class="remove">remove</a></label>
+                            <input type="text" name="otherCountry" class="input-other-country text long">
+                          </div>
+                        </div>
+                        <div class="answer other-country">
+                          <label class="above">Country</label>
+                          <input type="text" name="otherCountry" class="input-other-country text long">
+                        </div>
+                      </div>
+                      <div class="action"><a id="addCountry" href="#">Add another country</a></div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="more-help-wrap">
+                <div class="more-help-link"><span><i class="icon-caret-right"></i><a href="#">Help</a></span></div>
+                <div class="more-help-content"><p>Nationality usually refers to the country where you or your parents were born, or where you have officially become a citizen.</p>
+<p>If possible, it&#39;s important that you find out your nationality - without it you will need to provide other documentation by post.</p>
+
+                  <p><a id="no-nationality-link" href="#">I can't provide my nationality</a></p>
+                  <div id="optional-section-no-nationality" class="optional-section">
+                    <div class="question">
+                      <label class="above">Why can't you provide your nationality?</label>
+                      <textarea name="noNationalityReason" class="small"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="validation-message"></div>
+              <div class="next-question">
+                <button data-next="step-2" class="button next">Continue</button>
+                <button class="button save">Continue</button>
+              </div>
+            </div>
+            <div id="step-2" class="step">
+              <div class="question">
+                <h2><span class="question-number">2</span><span>What is your date of birth?</span></h2>
+                <ul class="answers">
+                  <li class="answer"><span class="validation-wrap">
+                      <select id="input-dob-day" name="dobDay" class="day">
+                        <option>Day</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                        <option>13</option>
+                        <option>14</option>
+                        <option>15</option>
+                        <option>16</option>
+                        <option>17</option>
+                        <option>18</option>
+                        <option>19</option>
+                        <option>20</option>
+                        <option>21</option>
+                        <option>22</option>
+                        <option>23</option>
+                        <option>24</option>
+                        <option>25</option>
+                        <option>26</option>
+                        <option>27</option>
+                        <option>28</option>
+                        <option>29</option>
+                        <option>30</option>
+                        <option>31</option>
+                      </select></span><span class="validation-wrap">
+                      <select id="input-dob-month" name="dobMonth" class="month">
+                        <option>Month</option>
+                        <option>January</option>
+                        <option>February</option>
+                        <option>March</option>
+                        <option>April</option>
+                        <option>May</option>
+                        <option>June</option>
+                        <option>July</option>
+                        <option>August</option>
+                        <option>September</option>
+                        <option>October</option>
+                        <option>November</option>
+                        <option>December</option>
+                      </select></span><span class="validation-wrap">
+                      <select id="input-dob-year" name="dobYear" class="year">
+                        <option>Year</option>
+                        <option>2000</option>
+                        <option>1999</option>
+                        <option>1998</option>
+                        <option>1997</option>
+                        <option>1996</option>
+                        <option>1995</option>
+                        <option>1994</option>
+                        <option>1993</option>
+                        <option>1992</option>
+                        <option>1991</option>
+                        <option>1990</option>
+                        <option>1989</option>
+                        <option>1988</option>
+                        <option>1987</option>
+                        <option>1986</option>
+                        <option>1985</option>
+                        <option>1984</option>
+                        <option>1983</option>
+                        <option>1982</option>
+                        <option>1981</option>
+                        <option>1980</option>
+                        <option>1979</option>
+                        <option>1978</option>
+                        <option>1977</option>
+                        <option>1976</option>
+                        <option>1975</option>
+                        <option>1974</option>
+                        <option>1973</option>
+                        <option>1972</option>
+                        <option>1971</option>
+                        <option>1970</option>
+                        <option>1969</option>
+                        <option>1968</option>
+                        <option>1967</option>
+                        <option>1966</option>
+                        <option>1965</option>
+                        <option>1964</option>
+                        <option>1963</option>
+                        <option>1962</option>
+                        <option>1961</option>
+                        <option>1960</option>
+                        <option>1959</option>
+                        <option>1958</option>
+                        <option>1957</option>
+                        <option>1956</option>
+                        <option>1955</option>
+                        <option>1954</option>
+                        <option>1953</option>
+                        <option>1952</option>
+                        <option>1951</option>
+                        <option>1950</option>
+                        <option>1949</option>
+                        <option>1948</option>
+                        <option>1947</option>
+                        <option>1946</option>
+                        <option>1945</option>
+                        <option>1944</option>
+                        <option>1943</option>
+                        <option>1942</option>
+                        <option>1941</option>
+                        <option>1940</option>
+                      </select></span></li>
+                </ul>
+              </div>
+              <div class="more-help-wrap">
+                <div class="more-help-link"><span><i class="icon-caret-right"></i><a href="#">Help</a></span></div>
+                <div class="more-help-content"><p>If you don&#39;t know your exact date of birth, please use the one you put on other official documents, for example your passport or driver&#39;s licence.</p>
+<p>If possible, it&#39;s important that you find out your date of birth - without it you will need to provide other documentation by post.</p>
+
+                  <p><a id="no-dob-link" href="#">I can't provide my date of birth</a></p>
+                  <div id="optional-section-no-dob" class="optional-section">
+                    <div class="question">
+                      <label class="above">Why can't you provide your date of birth?</label>
+                      <textarea name="noNinoReason" class="small"></textarea>
+                    </div>
+                    <div class="question">
+                      <label class="above">How old are you?</label>
+                      <div class="answer">
+                        <label class="selectable">
+                          <input type="radio" name="dobStatement" class="radio"><span>Under 18 years old</span>
+                        </label>
+                      </div>
+                      <div class="answer">
+                        <label class="selectable">
+                          <input type="radio" name="dobStatement" class="radio"><span>Between 18 and 70 years old</span>
+                        </label>
+                      </div>
+                      <div class="answer">
+                        <label class="selectable">
+                          <input type="radio" name="dobStatement" class="radio"><span>Over 70 years old</span>
+                        </label>
+                      </div>
+                      <div class="answer">
+                        <label class="selectable">
+                          <input type="radio" name="dobStatement" class="radio"><span>I don't know</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="validation-message"></div>
+              <div class="next-question">
+                <button data-next="step-3" class="button next">Continue</button>
+                <button class="button save">Continue</button>
+              </div>
+            </div>
+            <div id="step-3" class="step">
+              <h2><span class="question-number">3</span><span>What is your name?</span></h2>
+              <div class="question">
+                <label class="above">First name or names</label>
+                <div class="validation-wrap">
+                  <input id="input-first-name" type="text" name="firstName" class="text first-name long">
+                </div>
+              </div>
+              <!--
+              <div class="question">
+                <label class="above"><span>Middle names</span><span class="optional"></span></label>
+                <input type="text" name="middleNames" class="text middle-names long">
+              </div>
+              -->
+              <div class="question">
+                <label class="above">Last name</label>
+                <div class="validation-wrap">
+                  <input id="input-last-name" type="text" name="lastName" class="text last-name long">
+                </div>
+              </div>
+              <div class="validation-message"></div>
+              <div class="next-question">
+                <button data-next="step-previous-name" class="button next">Continue</button>
+                <button class="button save">Continue</button>
+              </div>
+            </div>
+            <div id="step-previous-name" class="step">
+              <h2><span class="question-number">4</span><span>Have you changed your name in the last 12 months?</span></h2>
+              <div class="question">
+                <label class="selectable binary">
+                  <input type="radio" name="nameChange" value="true" class="radio"><span>Yes</span>
+                </label>
+                <label class="selectable binary">
+                  <input type="radio" name="nameChange" value="false" class="radio"><span>No</span>
+                </label>
+              </div>
+              <div id="optionalSectionPreviousName" class="optional-section optional-section-previous-name">
+                <h3>Previous name</h3>
+                <div class="question">
+                  <label class="above">First name or names</label>
+                  <div class="validation-wrap">
+                    <input id="input-previous-first-name" type="text" name="previousFirstName" class="text first-name long">
+                  </div>
+                </div>
+                <div class="question">
+                  <label class="above">Last name</label>
+                  <div class="validation-wrap">
+                    <input id="input-previous-last-name" type="text" name="previousLastName" class="text last-name long">
+                  </div>
+                </div>
+              </div>
+              <div class="validation-message"></div>
+              <div class="next-question">
+                <button data-next="step-4" class="button next">Continue</button>
+                <button class="button save">Continue</button>
+              </div>
+            </div>
+            <div id="step-4" class="step">
+              <h2><span class="question-number">5</span><span>What is your National Insurance number?</span></h2>
+              <div class="help">
+                <!--
+                <p>You can find your National Insurance number on pay slips or official letters about tax, pensions and benefits.</p>
+                -->
+              </div>
+              <div class="question">
+                <div class="validation-wrap">
+                  <input id="input-nino" type="text" name="nino" class="text nino">
+                </div>
+                <div class="help">
+                  <p>Example: AB 12 34 56 C</p>
+                </div>
+              </div>
+              <div class="more-help-wrap">
+                <div class="more-help-link"><span><i class="icon-caret-right"></i><a href="#">Help</a></span></div>
+                <div class="more-help-content"><p>You can find your National Insurance number on pay slips or official letters about tax, pensions and benefits.</p>
+<p><a href="https://www.gov.uk/lost-national-insurance-number">Get a reminder of your National Insurance number</a></p>
+<p>It&#39;s important that you try and find your National Insurance number - without it you will need to provide other documentation by post.</p>
+
+                  <p><a id="noNinoLink" href="#">I can't provide a National Insurance number</a></p>
+                  <div id="optional-section-no-nino" class="optional-section">
+                    <div class="question">
+                      <label class="above">Why can't you provide a National Insurance number?</label>
+                      <textarea name="noNinoReason" class="small"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="validation-message"></div>
+              <div class="next-question">
+                <button data-next="step-5" class="button next">Continue</button>
+                <button class="button save">Continue</button>
+              </div>
+            </div>
+            <div id="step-5" class="step">
+              <h2><span class="question-number">6</span><span>Where do you live?</span></h2>
+              <div class="help">
+                <p>If you have more than one address, just give the one where you spend most of your time.</p>
+              </div>
+              <div class="address-tabs">
+                <div class="address-step-1">
+                  <div class="question">
+                    <label class="above">Enter your postcode to search for your address</label>
+                    <div class="search-wrap">
+                      <input type="text" name="postcode" class="postcode text long">
+                      <button class="button search"><span>Find address</span></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="postcode-search-results">
+                  <div class="question">
+                    <div class="validation-wrap">
+                      <select id="input-address-list" name="address" data-name="Address" class="addressList lonely"></select>
+                    </div>
+                    <div class="action"><a href="#" class="address-not-listed">My address is not listed</a></div>
+                  </div>
+                </div>
+                <div class="type-in-address">
+                  <div class="question">
+                    <label class="above">Address</label>
+                    <textarea id="input-address-text" name="address" class="small"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="address-step-2">
+                <div class="validation-message"></div>
+                <div class="next-question">
+                  <button data-next="step-previous-address" class="button next">Continue</button>
+                  <button class="button save">Continue</button>
+                </div>
+              </div>
+            </div>
+            <div id="step-previous-address" class="step">
+              <h2><span class="question-number">7</span><span>Have you moved within the last 12 months?</span></h2>
+              <div class="question">
+                <label class="selectable binary">
+                  <input type="radio" name="movedRecently" value="true" class="radio"><span>Yes</span>
+                </label>
+                <label class="selectable binary">
+                  <input type="radio" name="movedRecently" value="false" class="radio"><span>No</span>
+                </label>
+              </div>
+              <div class="optional-section optional-section-previous-address">
+                <div class="address-tabs">
+                  <div class="address-step-1">
+                    <div class="question">
+                      <label class="above">Enter the postcode to find your previous address</label>
+                      <div class="search-wrap">
+                        <input type="text" name="previousPostcode" class="postcode text long">
+                        <button class="button search"><span>Find address</span></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="postcode-search-results">
+                    <div class="question"><span class="validation-wrap">
+                        <select id="input-previous-address-list" name="previousAddress" data-name="previousAddress" class="addressList lonely"></select></span>
+                      <div class="action"><a href="#" class="address-not-listed">The address is not listed</a></div>
+                    </div>
+                  </div>
+                  <div class="type-in-address">
+                    <div class="question">
+                      <label class="above">Previous address</label><span class="validation-wrap">
+                        <textarea id="input-previous-address-text" name="previousAddress" class="small"></textarea></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="validation-message"></div>
+              <div class="next-question">
+                <button data-next="step-other-address" class="button next">Continue</button>
+                <button class="button save">Continue</button>
+              </div>
+            </div>
+            <div id="step-other-address" class="step">
+              <h2><span class="question-number">8</span><span>Do you spend part of your time living at other UK address?</span></h2>
+              <div class="question">
+                <label class="selectable binary">
+                  <input type="radio" name="hasOtherAddress" value="true" class="radio"><span>Yes</span>
+                </label>
+                <label class="selectable binary">
+                  <input type="radio" name="hasOtherAddress" value="false" class="radio"><span>No</span>
+                </label>
+              </div>
+              <div class="optional-section optional-section-other-address">
+                <div class="address-tabs">
+                  <div class="address-step-1">
+                    <div class="question">
+                      <label class="above">Enter the postcode to find your second address</label>
+                      <div class="search-wrap">
+                        <input type="text" name="otherPostcode" class="postcode text long">
+                        <button class="button search"><span>Find address</span></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="postcode-search-results">
+                    <div class="question"><span class="validation-wrap">
+                        <select id="input-other-address-list" name="otherAddress" data-name="otherAddress" class="addressList lonely"></select></span>
+                      <div class="action"><a href="#" class="address-not-listed">The address is not listed</a></div>
+                    </div>
+                  </div>
+                  <div class="type-in-address">
+                    <div class="question">
+                      <label class="above">Second address</label><span class="validation-wrap">
+                        <textarea id="input-other-address-text" name="otherAddress" class="small"></textarea></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="validation-message"></div>
+              <div class="next-question">
+                <button data-next="step-6" class="button next">Continue</button>
+                <button class="button save">Continue</button>
+              </div>
+            </div>
+            <div id="step-6" class="step">
+              <h2><span class="question-number">9</span><span>Tell us if you want information about postal or proxy voting</span></h2>
+              <div class="help">
+                <p>You’ll get a polling card from your local council shortly before each election. The polling card will tell you which polling station to vote at.</p>
+                <p>You can also apply to vote by post or arrange for someone else to vote for you (called voting ‘by proxy’).</p>
+              </div>
+              <div class="question">
+                <ul class="answers">
+                  <li class="answer">
+                    <label class="selectable">
+                      <input type="checkbox" name="voteByPost" value="true" class="checkbox"><span>Send me information on voting by post</span>
+                    </label>
+                  </li>
+                  <li class="answer">
+                    <label class="selectable">
+                      <input type="checkbox" name="voteByProxy" value="true" class="checkbox"><span>Send me information on voting by proxy</span>
+                    </label>
+                  </li>
+                </ul>
+              </div>
+              <div class="next-question">
+                <button data-next="step-7" class="button next">Continue</button>
+                <button class="button save">Continue</button>
+              </div>
+            </div>
+            <div id="step-7" class="step">
+              <h2><span class="question-number">10</span><span>Tell us whether to include your details on the open register</span></h2>
+              <div class="help">
+                <p>The open register is an edited version of the electoral register that’s available for sale to anyone (for example, companies or charities who want to send you information).</p>
+                <p>You can choose whether your details are included on the open register. It doesn’t affect your right to vote.</p>
+              </div>
+              <!--
+              <div class="help">
+                <p>The Edited register allows companies and charities to find information about you.</p>
+              </div>
+              -->
+              <div class="question">
+                <ul class="answers">
+                  <li class="answer">
+                    <label class="selectable">
+                      <input type="radio" name="editedRegisterOptin" value="true" class="radio"><span>Include my details on the open register</span>
+                    </label>
+                  </li>
+                  <li class="answer">
+                    <label class="selectable">
+                      <input type="radio" name="editedRegisterOptin" value="false" class="radio"><span>Don't include my details on the open register</span>
+                    </label>
+                  </li>
+                </ul>
+              </div>
+              <div class="validation-message"></div>
+              <div class="next-question">
+                <button data-next="step-8" class="button next">Continue</button>
+                <button class="button save">Continue</button>
+              </div>
+            </div>
+            <div id="step-8" class="step">
+              <h2><span class="question-number">11</span><span>Tell us how to contact you</span></h2>
+              <div class="help">
+                <p>If we have any questions about your application, we’ll contact you by post.</p>
+                <p>But if you want us to contact you in other way, give us your phone number or email address.</p>
+              </div>
+              <div class="question">
+                <label class="above"><span>Phone number</span><span class="optional">(optional)</span></label>
+                <input type="tel" name="telephone" class="text">
+              </div>
+              <div class="question">
+                <label class="above"><span>Email</span><span class="optional">(optional)</span></label>
+                <input type="email" name="email" class="text long">
+              </div>
+              <div class="next-question">
+                <button data-next="confirmation" class="button next">Continue</button>
+                <button class="button save">Continue</button>
+              </div>
+            </div>
+            <div id="confirmation" class="step">
+              <h2><span class="question-number">9</span><span>Register to vote</span></h2>
+              <div class="help">
+                <p>Is this information correct?</p>
+              </div>
+              <ul class="details">
+                <li class="detail">
+                  <h3>Name</h3>
+                  <div class="data-wrap">
+                    <p class="data name"></p>
+                  </div><a href="/step-3/edit" class="change">Change</a>
+                </li>
+                <li class="detail">
+                  <h3>Previous name</h3>
+                  <div class="data-wrap">
+                    <div class="name-change-yes">
+                      <p class="data previous-name"> </p>
+                    </div>
+                    <div class="name-change-no">
+                      <p class="message">You have not changed your name in the last 12 months</p>
+                    </div>
+                  </div><a href="/step-previous-name/edit" class="change">Change</a>
+                </li>
+                <li class="detail">
+                  <h3>Date of birth</h3>
+                  <div class="data-wrap">
+                    <p class="data dob"> </p>
+                  </div><a href="/step-2/edit" class="change">Change</a>
+                </li>
+                <li class="detail">
+                  <h3>Nationality</h3>
+                  <div class="data-wrap">
+                    <p class="data nationality"> </p>
+                  </div><a href="/step-1/edit" class="change">Change</a>
+                </li>
+                <li class="detail">
+                  <h3>National Insurance number</h3>
+                  <div class="data-wrap">
+                    <p class="data nino"></p>
+                    <!--<a href="#" class="show">Show</a>
+                    -->
+                  </div><a href="/step-4/edit" class="change">Change</a>
+                </li>
+                <li class="detail">
+                  <h3>Address</h3>
+                  <div class="data-wrap">
+                    <p class="data address"></p>
+                    <p class="data postcode"></p>
+                  </div><a href="/step-5/edit" class="change">Change</a>
+                </li>
+                <li class="detail">
+                  <h3>Previous address</h3>
+                  <div class="data-wrap">
+                    <div class="moved-recently-yes">
+                      <p class="data previousAddress"></p>
+                      <p class="data previousPostcode"></p>
+                    </div>
+                    <p class="data message moved-recently-no">You have not moved in the last 12 months</p>
+                  </div><a href="/step-previous-address/edit" class="change">Change</a>
+                </li>
+                <li class="detail">
+                  <h3>Second address</h3>
+                  <div class="data-wrap">
+                    <div class="other-address-yes">
+                      <p class="data otherAddress"></p>
+                      <p class="data otherPostcode"></p>
+                    </div>
+                    <p class="data message other-address-no">You don't have a second address</p>
+                  </div><a href="/step-other-address/edit" class="change">Change</a>
+                </li>
+                <li class="detail">
+                  <h3>Postal or proxy vote form</h3>
+                  <div class="data-wrap">
+                    <p class="data message vote-by-person-yes">You don’t want us to send you information about postal or proxy voting</p>
+                    <p class="data message vote-by-post-yes">You want us to send you information about postal voting </p>
+                    <p class="data message vote-by-proxy-yes">You want us to send you information about proxy voting </p>
+                  </div><a href="/step-6/edit" class="change">Change</a>
+                </li>
+                <li class="detail">
+                  <h3>Edited register</h3>
+                  <div class="data-wrap">
+                    <p class="data message edited-register-optin-yes">You want us to include your details on the edited register so they are available to charities and companies.</p>
+                    <p class="data message edited-register-optin-no">You don’t want us to include your details on the edited register so they are available to charities and companies.</p>
+                  </div><a href="/step-7/edit" class="change">Change</a>
+                </li>
+                <li class="detail">
+                  <h3>How we should contact you</h3>
+                  <div class="data-wrap">
+                    <p class="message data contact-by-post-yes">If there are any problems with your application we will contact you by post.</p>
+                    <p class="data contact-by-phone-yes"><span>Phone number:&nbsp;</span><span class="data telephone"></span></p>
+                    <p class="data contact-by-email-yes"><span>Email:&nbsp;</span><span class="data email"></span></p>
+                  </div><a href="/step-8/edit" class="change">Change</a>
+                </li>
+              </ul>
+              <div class="help">
+                <p>By sending your application you declare that the information you have supplied is true, and that you understand that the information you have supplied will be used to change your details on the electoral register.</p>
+              </div>
+              <div class="next-question">
+                <button data-next="complete" class="button next">Send application</button>
+              </div>
+            </div>
+            <div id="complete" class="step">
+              <h2><i class="icon icon-ok"></i><span>Your application is now being processed</span></h2>
+              <div class="help">
+                <p>Your local council will be in touch with more information</p>
+              </div>
+            </div>
+            <div id="exit-nationality" class="step">
+              <h2><span>Sorry - you cannot register to vote</span></h2>
+              <p>You can only register to vote if you’re British, or a citizen of:</p>
+              <ul>
+                <li>a Commonwealth country</li>
+                <li>an EU country</li>
+              </ul>
+              <p><a href="https://www.gov.uk/voting-in-the-uk"><span>More about voting in the UK</span></a></p>
+            </div>
+            <div id="exit-dob" class="step">
+              <h2><span>Sorry - you're not old enough to register</span></h2><p>You have to be 16 before you can register to vote.</p>
+<p>But you can vote in elections to the <a href="http://www.ukyouthparliament.org.uk">UK Youth Parliament</a> from age 11.</p>
+<p><a href="https://www.gov.uk/voting-in-the-uk">More about voting in the UK</a></p>
+
+            </div>
+          </div>
+        </div>
+      </section>
 
 }
