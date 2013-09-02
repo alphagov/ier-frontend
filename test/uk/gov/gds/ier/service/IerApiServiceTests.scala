@@ -9,10 +9,13 @@ import uk.gov.gds.ier.model.WebApplication
 import uk.gov.gds.ier.model.Success
 import uk.gov.gds.ier.model.Fail
 import scala.Some
+import uk.gov.gds.ier.config.Config
 
 class IerApiServiceTests extends Specification {
 
-  class FakeApiClient extends ApiClient {
+  class MockConfig extends Config
+
+  class FakeApiClient extends ApiClient(new MockConfig) {
     override def post(url:String, content:String) : ApiResponse = {
       if (content contains """"fn":"John"""") Success("""{
           "ierId" : "1234",
