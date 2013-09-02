@@ -9,7 +9,7 @@ import uk.gov.gds.ier.config.Config
 
 class ApiClient {
 
-  def get(url: String, headers: (String, String)*) : ApiResponse = {
+  def get(url: String) : ApiResponse = {
     val result = Await.result(
       WS.url(url).get(),
       Config.apiTimeout seconds
