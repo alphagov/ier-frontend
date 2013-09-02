@@ -8,6 +8,7 @@ import uk.gov.gds.ier.client.ApiClient
 import uk.gov.gds.ier.test.BrowserHelpers
 import uk.gov.gds.ier.DynamicGlobal
 import uk.gov.gds.ier.model.{Fail, Success, ApiResponse}
+import uk.gov.gds.ier.config.Config
 
 class IntegrationSpec extends Specification with BrowserHelpers {
 
@@ -58,7 +59,10 @@ class IntegrationSpec extends Specification with BrowserHelpers {
   }
 }
 
-class MockApiClient extends ApiClient {
+class MockConfig extends Config {
+}
+
+class MockApiClient extends ApiClient(new MockConfig) {
   override def post(url:String, content:String) : ApiResponse = {
     if (content contains """"fn":"John"""") {
       Success("""{
