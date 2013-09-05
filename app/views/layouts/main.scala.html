@@ -3,8 +3,5 @@
 @head() = {
 
 }
-@foot() = {
 
-}
-
-@govuk_template(title, None)(head, foot)(content)
+@govuk_template(title, None)(head, bodyEnd())(content)

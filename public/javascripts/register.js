@@ -3,6 +3,13 @@ $(function(){
 	var countries = ["Afghanistan","Åland Islands","Albania","Algeria","American Samoa","Andorra","Angola","Anguilla","Antarctica","Antigua and Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bonaire","Bosnia and Herzegovina","Botswana","Bouvet Island","Brazil","British Indian Ocean Territory","Brunei Darussalam","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central African Republic","Chad","Chile","China","Christmas Island","Cocos (Keeling) Islands","Colombia","Comoros","Republic of the Congo","Democratic Republic of the Congo","Cook Islands","Costa Rica","Côte d'Ivoire","Croatia","Cuba","Curaçao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands (Malvinas)","Faroe Islands","Fiji","Finland","France","French Guiana","French Polynesia","French Southern Territories","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guadeloupe","Guam","Guatemala","Guernsey","Guinea","Guinea-Bissau","Guyana","Haiti","Heard Island and McDonald Islands","Vatican City","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macao","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Martinique","Mauritania","Mauritius","Mayotte","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar (Burma)","Namibia","Nauru","Nepal","Netherlands","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","Niue","Norfolk Island","North Korea","Northern Mariana Islands","Norway","Oman","Pakistan","Palau","Palestinian Territory","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Pitcairn","Poland","Portugal","Puerto Rico","Qatar","Réunion","Romania","Russian Federation","Rwanda","Saint Barthélemy","Saint Helena","Saint Kitts and Nevis","Saint Lucia","Saint Martin","Saint Pierre and Miquelon","Saint Vincent and the Grenadines","Samoa","San Marino","São Tomé and Príncipe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Sint Maarten","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Georgia","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Svalbard and Jan Mayen","Swaziland","Sweden","Switzerland","Syrian Arab Republic","Taiwan","Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tokelau","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Turks and Caicos Islands","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","United States Minor Outlying Islands","Uruguay","Uzbekistan","Vanuatu","Venezuela","Viet Nam","Virgin Islands (British)","Virgin Islands (U.S.)","Wallis and Futuna","Western Sahara","Yemen","Zambia","Zimbabwe"];
 	var validCountries = ["Åland Islands","Antigua and Barbuda","Australia","Austria","Bahamas","Bangladesh","Barbados","Belgium","Belize","Bermuda","Botswana","British Indian Ocean Territory","Bulgaria","Cameroon","Canada","Cayman Islands","Cyprus","Czech Republic","Denmark","Dominica","Dominican Republic","Estonia","Falkland Islands (Malvinas)","Faroe Islands","Fiji","Finland","France","Gambia","Germany","Ghana","Gibraltar","Greece","Grenada","Guernsey","Guyana","Hungary","India","Ireland","Isle of Man","Italy","Jamaica","Jersey","Kenya","Kiribati","Latvia","Lesotho","Lithuania","Luxembourg","Malawi","Malaysia","Maldives","Malta","Mauritius","Montserrat","Mozambique","Namibia","Nauru","Netherlands","New Zealand","Nigeria","Pakistan","Papua New Guinea","Pitcairn","Poland","Portugal","Romania","Rwanda","Saint Helena","Saint Kitts and Nevis","Saint Martin","Saint Vincent and the Grenadines","Samoa","Seychelles","Sierra Leone","Slovakia","Slovenia","Solomon Islands","South Africa","Spain","Sri Lanka","Sweden","Tonga","Trinidad and Tobago","Tuvalu","Uganda","United Kingdom","Vanuatu","Virgin Islands (British)","Zambia","Zimbabwe"];
 
+	var upperCaseValidCountries = [];
+
+	for (var i = 0; i<validCountries.length; i++){
+
+		upperCaseValidCountries.push(validCountries[i].toUpperCase());
+
+	}
 
 	var textInputTypes = ['text', 'search', 'number', 'datetime', 'datetime-local', 'date', 'month', 'week', 'time', 'tel', 'url', 'color', 'range'];
 	$.expr[':'].textall = function (elem) {
@@ -17,72 +24,69 @@ $(function(){
 		return (root + path);
 	};
 
-	(function(window,undefined){
+	$(window).hashchange( function(){
 
-		History.Adapter.bind(window,'statechange',function(){
+		console.log('window.statechange');
 
-			console.log('window.statechange');
+		var hash = location.hash;
 
-			var State = History.getState();
+		var path = hash.replace('#', ''),
+			step = null;
 
-			var path = State.hash.replace(root, ''),
-				step = null;
+		console.log(path);
 
-			console.log(path);
+		if (path == '' || path == '/'){
 
-			if (path == '' || path == '/'){
+			step = 'step-start';
 
-				step = 'step-1';
+		} else {
 
+			var pathParts = path.split('/');
+
+			step = pathParts[0];
+
+			if (pathParts[1] == 'edit'){
+				$('.next-question .next').hide();
+				$('.next-question .save').show();
 			} else {
-
-				var pathParts = path.split('/').slice(1);
-
-				step = pathParts[0];
-
-				if (pathParts[1] == 'edit'){
-					$('.next-question .next').hide();
-					$('.next-question .save').show();
-				} else {
-					$('.next-question .next').show();
-					$('.next-question .save').hide();
-				}
+				$('.next-question .next').show();
+				$('.next-question .save').hide();
 			}
+		}
 
-			$('.questions-main .step').hide();
-			$('#'+step).show();
-			$(window).scrollTop(0);
+		$('.questions-main .step').hide();
+		$('#'+step).show();
+		$(window).scrollTop(0);
 
-			//progress
+		//progress
 
-			if (step.indexOf('step') != 0){
+		if (step.indexOf('step') != 0){
 
-				$('.progress').hide();
+			$('.progress').hide();
 
-			} else {
+		} else {
 
-				$('.progress').show();
+			$('.progress').show();
 
-				var progressStep = $('#'+step + ' .question-number').text();
+			var progressStep = $('#'+step + ' .question-number').text();
 
-				$('#progressStep').text(progressStep);
+			$('#progressStep').text(progressStep);
 
-			}
+		}
 
-			if (step == 'step-1' || step == 'complete'){
+		if (step == 'step-start' || step == 'complete'){
 
-				$('.big-header').show();
-				$('.small-header').hide();
+			$('.big-header').show();
+			$('.small-header').hide();
 
-			} else {
+		} else {
 
-				$('.big-header').hide();
-				$('.small-header').show();
+			$('.big-header').hide();
+			$('.small-header').show();
 
-			}
+		}
 
-		});
-	})(window);
+	});
 
 
 	$('.back').on('click', function(e){
@@ -97,13 +101,13 @@ $(function(){
 
 		var $ninoWrap = $(this).closest('.detail');
 
-		if ($ninoWrap.find('.data.nino').text() != formData.nino){
+		if ($ninoWrap.find('.data.nino').text() != formData.NINO){
 
 			$('.detail').css({'visibility': 'hidden'});
 
 			$ninoWrap.css({'visibility': 'visible'});
 
-			$ninoWrap.find('.data.nino').text(formData.nino);
+			$ninoWrap.find('.data.nino').text(formData.NINO);
 
 		} else {
 
@@ -212,11 +216,11 @@ $(function(){
 						  'messages' : [],
 						  'redirectURL' : null};
 
-		if (step == 1){
+		if (step == 'nationality'){
 
 			// nationality
 
-			if (!formData.otherCountry && !formData.nationality) {
+			if (!formData.otherCountry && !formData.nationality && !formData.noNationalityReason) {
 
 				validation.valid = false;
 				validation.messages.push('Please select your nationality');
@@ -230,7 +234,7 @@ $(function(){
 
 					console.log('checking ' + otherCountries[i]);
 
-					if (validCountries.indexOf(otherCountries[i]) != -1){
+					if (upperCaseValidCountries.indexOf(otherCountries[i].toUpperCase()) != -1){
 						validOtherCountry = true;
 						break;
 					}
@@ -239,16 +243,30 @@ $(function(){
 				if (!validOtherCountry){
 
 					validation.valid = false;
-					validation.redirectURL = '/exit-nationality';
+					validation.redirectURL = 'exit-nationality';
 
 				}
 			}
 
-		} else if (step == 2){
+		} else if (step == 'date-of-birth'){
 
 			// date of birth
 
-			if (!formData.dobDay || ! formData.dobMonth || !formData.dobYear){
+			if (formData.noDOBReason){
+
+				if (!formData.DOBStatement){
+
+					validation.valid = false;
+					validation.messages.push('Please enter your age');
+
+				} else if (formData.DOBStatement == 'under18' || formData.DOBStatement == 'dontKnow'){
+
+					validation.valid = false;
+					validation.redirectURL = 'exit-unknown-dob';
+
+				}
+
+			} else if (!formData.dobDay || ! formData.dobMonth || !formData.dobYear){
 
 				// missing field
 
@@ -275,12 +293,12 @@ $(function(){
 				if (now.getTime() - dob.getTime() < 1000 * 60 * 60 * 24 * 365 * 16){
 
 					validation.valid = false;
-					validation.redirectURL = '/exit-dob';
+					validation.redirectURL = 'exit-dob';
 				}
 
 			}
 
-		} else if (step == 3) {
+		} else if (step == 'name') {
 
 
 			if (!formData.firstName || !formData.lastName){
@@ -324,10 +342,9 @@ $(function(){
 
 			}
 
-		} else if (step == 4) {
+		} else if (step == 'nino') {
 
-
-			if (!formData.nino){
+			if (!formData.NINO && !formData.noNINOReason){
 			
 				validation.valid = false;
 
@@ -337,7 +354,7 @@ $(function(){
 
 			}
 
-		} else if (step == 5) {
+		} else if (step == 'address') {
 
 
 			if (!formData.address){
@@ -389,7 +406,7 @@ $(function(){
 
 			}
 
-		} else if (step == '7') {
+		} else if (step == 'open-register') {
 
 			if (!formData.editedRegisterOptin){
 			
@@ -405,11 +422,11 @@ $(function(){
 
 			$('#step-'+ step).find('.validation-message').hide();
 
-			History.pushState(null, null, makeURL("/" + nextStep));
+			window.location.hash = nextStep;
 
 		} else if (validation.redirectURL){
 
-			History.pushState(null, null, makeURL(validation.redirectURL));
+			window.location.hash = validation.redirectURL;
 
 		} else {
 
@@ -701,6 +718,25 @@ $(function(){
 	});
 
 
+	$('body').on('change', 'input[type="checkbox"]', function(e){
+
+		var $this = $(this);
+
+		$this.closest('label').toggleClass('selected', $this.is(':checked'));
+
+	});
+
+	$('body').on('change', 'input[type="radio"]', function(e){
+
+		var $this = $(this),
+			$step = $this.closest('.step');
+
+		$step.find('input[type="radio"][name="' + $this.attr('name') + '"]').closest('label').removeClass('selected');
+
+		$this.closest('label').toggleClass('selected', $this.is(':checked'));
+
+	});
+
 	$('#no-nationality-link').on('click', function(e){
 		e.preventDefault();
 		$('#optional-section-no-nationality').toggle();
@@ -751,12 +787,12 @@ $(function(){
 
 	var redactedNino = function(){
 
-		return formData.nino;
+		return formData.NINO;
 
 		// not redacting for now
 
 		var redactedNino = '',
-			nino = formData.nino;
+			nino = formData.NINO;
 
 		if (nino){
 			redactedNino = nino.substring(0,1) + nino.substring(1,nino.length-1).replace(/[a-z0-9]/gi,'*') + nino.substring(nino.length-1,nino.length);
@@ -915,5 +951,6 @@ $(function(){
 
 	}
 
-	$(window).trigger('statechange');
+	$(window).hashchange();
+
 });

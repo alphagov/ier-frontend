@@ -9,12 +9,6 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="@routes.Assets.at("stylesheets/register.css")">
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-
-    <script src="@routes.Assets.at("javascripts/history.js/scripts/bundled/html5/jquery.history.js")"></script>
-    <script src="@routes.Assets.at("javascripts/typeahead.js")"></script>
-    <script src="@routes.Assets.at("javascripts/register.js")"></script>
-
     <!--[if IE 8]>
     <script>
       (function(){if(window.opera){return;}
@@ -29,24 +23,44 @@
     <!--[if gte IE 9]><!-->
     <link href="https://assets.digital.cabinet-office.gov.uk/static/fonts-0fb6b917e34e45c93a44eec72dcc21de.css" media="all" rel="stylesheet" type="text/css"><!--<![endif]-->
 
-<section id="content" class="content">
+ <section id="content" class="content">
         <div class="inner-block">
-          <div class="big-header">
-            <h1>Register to vote</h1>
-          </div>
           <div class="small-header">
-            <header class="cf">
-              <h1>Register to vote</h1>
-              <!--
-              <div class="start-again"><a href="#" class="button">Start again</a></div>
-              -->
-            </header>
             <div class="steps"><a href="#" class="back button"><i class="icon-caret-left"></i><span>Back</span></a>
               <div class="progress"><span class="step">Step</span><span id="progressStep" class="page-number">1</span><span class="of">of</span><span class="total">11</span></div>
             </div>
           </div>
           <div class="questions-main">
-            <div id="step-1" class="step">
+            <div id="step-start" class="step">
+              <ul class="breadcrumbs">
+                <li><a href="https://www.gov.uk/">Home</a></li>
+                <li><a href="https://www.gov.uk/browse/citizenship">Citizenship and living in the UK</a></li>
+                <li><a href="https://www.gov.uk/browse/citizenship/voting">Voting</a></li>
+              </ul>
+              <h1>Register to vote</h1>
+              <p>Before you can vote in UK elections and referendums, you need to have your details added to the electoral register (sometimes called the ‘electoral roll’).</p>
+              <p>You can also use this service to update your details on the electoral register.</p>
+              <h2>What you will need</h2>
+              <p>You’ll need your National Insurance number (if you have one).</p>
+              <div class="next-question">
+                <button id="start-button" data-next="step-nationality" class="button next"><strong>Register to vote</strong><i class="icon-chevron-right"></i></button>
+              </div>
+              <h2>Before you start</h2>
+              <h3>Age and nationality</h3>
+              <p>You need to be:</p>
+              <ul>
+                <li>16 or over  </li>
+                <li>British, or a citizen of a Commonwealth or EU country</li>
+              </ul>
+              <h3>National Insurance number</h3><p>You&#39;ll need to provide evidence of your identity. The easiest way is to enter your <a href="https://www.gov.uk/lost-national-insurance-number">National Insurance number</a>.</p>
+<p>If you can&#39;t supply a National Insurance number, you&#39;ll need to post copies of identity documents to your local electoral register office once you&#39;ve completed the application.</p>
+
+              <h2>What you need to know</h2>
+              <p>Takes around 10 minutes.</p>
+              <h2>Other ways to apply</h2><p>To apply by post, download the <a href="#">register to vote form</a> [PDF, 128KB].</p>
+
+            </div>
+            <div id="step-nationality" class="step">
               <div class="question">
                 <h2><span class="question-number">1</span><span>What is your nationality?</span></h2>
                 <div class="help">
@@ -101,11 +115,11 @@
               </div>
               <div class="validation-message"></div>
               <div class="next-question">
-                <button data-next="step-2" class="button next">Continue</button>
+                <button data-next="step-date-of-birth" class="button next">Continue</button>
                 <button class="button save">Continue</button>
               </div>
             </div>
-            <div id="step-2" class="step">
+            <div id="step-date-of-birth" class="step">
               <div class="question">
                 <h2><span class="question-number">2</span><span>What is your date of birth?</span></h2>
                 <ul class="answers">
@@ -234,28 +248,28 @@
                   <div id="optional-section-no-dob" class="optional-section">
                     <div class="question">
                       <label class="above">Why can't you provide your date of birth?</label>
-                      <textarea name="noNinoReason" class="small"></textarea>
+                      <textarea name="noDOBReason" class="small"></textarea>
                     </div>
                     <div class="question">
                       <label class="above">How old are you?</label>
                       <div class="answer">
                         <label class="selectable">
-                          <input type="radio" name="dobStatement" class="radio"><span>Under 18 years old</span>
+                          <input type="radio" name="DOBStatement" value="under18" class="radio"><span>Under 18 years old</span>
                         </label>
                       </div>
                       <div class="answer">
                         <label class="selectable">
-                          <input type="radio" name="dobStatement" class="radio"><span>Between 18 and 70 years old</span>
+                          <input type="radio" name="DOBStatement" value="18to70" class="radio"><span>Between 18 and 70 years old</span>
                         </label>
                       </div>
                       <div class="answer">
                         <label class="selectable">
-                          <input type="radio" name="dobStatement" class="radio"><span>Over 70 years old</span>
+                          <input type="radio" name="DOBStatement" value="over70" class="radio"><span>Over 70 years old</span>
                         </label>
                       </div>
                       <div class="answer">
                         <label class="selectable">
-                          <input type="radio" name="dobStatement" class="radio"><span>I don't know</span>
+                          <input type="radio" name="DOBStatement" value="dontKnow" class="radio"><span>I don't know</span>
                         </label>
                       </div>
                     </div>
@@ -264,11 +278,11 @@
               </div>
               <div class="validation-message"></div>
               <div class="next-question">
-                <button data-next="step-3" class="button next">Continue</button>
+                <button data-next="step-name" class="button next">Continue</button>
                 <button class="button save">Continue</button>
               </div>
             </div>
-            <div id="step-3" class="step">
+            <div id="step-name" class="step">
               <h2><span class="question-number">3</span><span>What is your name?</span></h2>
               <div class="question">
                 <label class="above">First name or names</label>
@@ -321,11 +335,11 @@
               </div>
               <div class="validation-message"></div>
               <div class="next-question">
-                <button data-next="step-4" class="button next">Continue</button>
+                <button data-next="step-nino" class="button next">Continue</button>
                 <button class="button save">Continue</button>
               </div>
             </div>
-            <div id="step-4" class="step">
+            <div id="step-nino" class="step">
               <h2><span class="question-number">5</span><span>What is your National Insurance number?</span></h2>
               <div class="help">
                 <!--
@@ -334,7 +348,7 @@
               </div>
               <div class="question">
                 <div class="validation-wrap">
-                  <input id="input-nino" type="text" name="nino" class="text nino">
+                  <input id="input-nino" type="text" name="NINO" class="text nino">
                 </div>
                 <div class="help">
                   <p>Example: AB 12 34 56 C</p>
@@ -350,18 +364,18 @@
                   <div id="optional-section-no-nino" class="optional-section">
                     <div class="question">
                       <label class="above">Why can't you provide a National Insurance number?</label>
-                      <textarea name="noNinoReason" class="small"></textarea>
+                      <textarea name="noNINOReason" class="small"></textarea>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="validation-message"></div>
               <div class="next-question">
-                <button data-next="step-5" class="button next">Continue</button>
+                <button data-next="step-address" class="button next">Continue</button>
                 <button class="button save">Continue</button>
               </div>
             </div>
-            <div id="step-5" class="step">
+            <div id="step-address" class="step">
               <h2><span class="question-number">6</span><span>Where do you live?</span></h2>
               <div class="help">
                 <p>If you have more than one address, just give the one where you spend most of your time.</p>
@@ -441,7 +455,7 @@
               </div>
             </div>
             <div id="step-other-address" class="step">
-              <h2><span class="question-number">8</span><span>Do you spend part of your time living at other UK address?</span></h2>
+              <h2><span class="question-number">8</span><span>Do you spend part of your time living at another UK address?</span></h2>
               <div class="question">
                 <label class="selectable binary">
                   <input type="radio" name="hasOtherAddress" value="true" class="radio"><span>Yes</span>
@@ -477,11 +491,11 @@
               </div>
               <div class="validation-message"></div>
               <div class="next-question">
-                <button data-next="step-6" class="button next">Continue</button>
+                <button data-next="step-other-ways-of-voting" class="button next">Continue</button>
                 <button class="button save">Continue</button>
               </div>
             </div>
-            <div id="step-6" class="step">
+            <div id="step-other-ways-of-voting" class="step">
               <h2><span class="question-number">9</span><span>Tell us if you want information about postal or proxy voting</span></h2>
               <div class="help">
                 <p>You’ll get a polling card from your local council shortly before each election. The polling card will tell you which polling station to vote at.</p>
@@ -502,11 +516,11 @@
                 </ul>
               </div>
               <div class="next-question">
-                <button data-next="step-7" class="button next">Continue</button>
+                <button data-next="step-open-register" class="button next">Continue</button>
                 <button class="button save">Continue</button>
               </div>
             </div>
-            <div id="step-7" class="step">
+            <div id="step-open-register" class="step">
               <h2><span class="question-number">10</span><span>Tell us whether to include your details on the open register</span></h2>
               <div class="help">
                 <p>The open register is an edited version of the electoral register that’s available for sale to anyone (for example, companies or charities who want to send you information).</p>
@@ -533,11 +547,11 @@
               </div>
               <div class="validation-message"></div>
               <div class="next-question">
-                <button data-next="step-8" class="button next">Continue</button>
+                <button data-next="step-contact" class="button next">Continue</button>
                 <button class="button save">Continue</button>
               </div>
             </div>
-            <div id="step-8" class="step">
+            <div id="step-contact" class="step">
               <h2><span class="question-number">11</span><span>Tell us how to contact you</span></h2>
               <div class="help">
                 <p>If we have any questions about your application, we’ll contact you by post.</p>
@@ -566,7 +580,7 @@
                   <h3>Name</h3>
                   <div class="data-wrap">
                     <p class="data name"></p>
-                  </div><a href="/step-3/edit" class="change">Change</a>
+                  </div><a href="/step-name/edit" class="change">Change</a>
                 </li>
                 <li class="detail">
                   <h3>Previous name</h3>
@@ -583,13 +597,13 @@
                   <h3>Date of birth</h3>
                   <div class="data-wrap">
                     <p class="data dob"> </p>
-                  </div><a href="/step-2/edit" class="change">Change</a>
+                  </div><a href="/step-date-of-birth/edit" class="change">Change</a>
                 </li>
                 <li class="detail">
                   <h3>Nationality</h3>
                   <div class="data-wrap">
                     <p class="data nationality"> </p>
-                  </div><a href="/step-1/edit" class="change">Change</a>
+                  </div><a href="/step-nationality/edit" class="change">Change</a>
                 </li>
                 <li class="detail">
                   <h3>National Insurance number</h3>
@@ -597,14 +611,14 @@
                     <p class="data nino"></p>
                     <!--<a href="#" class="show">Show</a>
                     -->
-                  </div><a href="/step-4/edit" class="change">Change</a>
+                  </div><a href="/step-nino/edit" class="change">Change</a>
                 </li>
                 <li class="detail">
                   <h3>Address</h3>
                   <div class="data-wrap">
                     <p class="data address"></p>
                     <p class="data postcode"></p>
-                  </div><a href="/step-5/edit" class="change">Change</a>
+                  </div><a href="/step-address/edit" class="change">Change</a>
                 </li>
                 <li class="detail">
                   <h3>Previous address</h3>
@@ -632,14 +646,14 @@
                     <p class="data message vote-by-person-yes">You don’t want us to send you information about postal or proxy voting</p>
                     <p class="data message vote-by-post-yes">You want us to send you information about postal voting </p>
                     <p class="data message vote-by-proxy-yes">You want us to send you information about proxy voting </p>
-                  </div><a href="/step-6/edit" class="change">Change</a>
+                  </div><a href="/step-other-ways-to-vote/edit" class="change">Change</a>
                 </li>
                 <li class="detail">
-                  <h3>Edited register</h3>
+                  <h3>Open register</h3>
                   <div class="data-wrap">
-                    <p class="data message edited-register-optin-yes">You want us to include your details on the edited register so they are available to charities and companies.</p>
-                    <p class="data message edited-register-optin-no">You don’t want us to include your details on the edited register so they are available to charities and companies.</p>
-                  </div><a href="/step-7/edit" class="change">Change</a>
+                    <p class="data message edited-register-optin-yes">You want us to include your details on the open register so they are available to charities and companies.</p>
+                    <p class="data message edited-register-optin-no">You don’t want us to include your details on the open register so they are available to charities and companies.</p>
+                  </div><a href="/step-open-register/edit" class="change">Change</a>
                 </li>
                 <li class="detail">
                   <h3>How we should contact you</h3>
@@ -647,7 +661,7 @@
                     <p class="message data contact-by-post-yes">If there are any problems with your application we will contact you by post.</p>
                     <p class="data contact-by-phone-yes"><span>Phone number:&nbsp;</span><span class="data telephone"></span></p>
                     <p class="data contact-by-email-yes"><span>Email:&nbsp;</span><span class="data email"></span></p>
-                  </div><a href="/step-8/edit" class="change">Change</a>
+                  </div><a href="/step-contact/edit" class="change">Change</a>
                 </li>
               </ul>
               <div class="help">
@@ -658,10 +672,12 @@
               </div>
             </div>
             <div id="complete" class="step">
-              <h2><i class="icon icon-ok"></i><span>Your application is now being processed</span></h2>
-              <div class="help">
-                <p>Your local council will be in touch with more information</p>
-              </div>
+              <h1>Register to vote</h1>
+              <h2>Your application is finished</h2><p>Your application will be sent to your local registration office. They will contact you - either to confirm that your details have been entered onto the electoral register, or to ask you for more information.</p>
+<p>Once your details are on the register, you’ll be be sent information about elections that are coming up (including where to go to cast your vote).</p>
+<p><a href="https://www.gov.uk/voting-in-the-uk">More about voting in the UK</a> </p>
+<p><a href="http://www.aboutmyvote.co.uk/">Contact your local electoral registration office</a> <i class="icon-external-link"></i></p>
+
             </div>
             <div id="exit-nationality" class="step">
               <h2><span>Sorry - you cannot register to vote</span></h2>
@@ -678,8 +694,11 @@
 <p><a href="https://www.gov.uk/voting-in-the-uk">More about voting in the UK</a></p>
 
             </div>
+            <div id="exit-unknown-dob" class="step">
+              <h2><span>Sorry - you need to be over 18 to register</span></h2><p><a href="https://www.gov.uk/voting-in-the-uk">More about voting in the UK</a></p>
+
+            </div>
           </div>
         </div>
       </section>
-
 }

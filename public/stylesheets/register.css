@@ -132,7 +132,7 @@ input.button{
 .small-header{
 	display: none;
 	max-width: 600px;
-	margin: 1em 0 2em 0;
+	margin: 2em 0 3em 0;
 }
 
 .small-header .steps{
@@ -164,18 +164,36 @@ input.button{
 	margin: 0.5em 1em 1em 0;
 }
 
-.big-header h1{
+h1{
 	font-size: 48px;
-	margin: 1em 16px 0.5em 16px;
+	margin: 1em 16px 0.5em 0;
 }
 
-.small-header h1{
-	display: none;
-	float: left;
-	font-size: 19px;
-	margin: 0.5em 16px 1em 16px;
+.breadcrumbs{
+	margin: 1em 0 2em 0;
+	padding: 0;
 }
 
+.breadcrumbs li{
+	display: inline-block;
+	background-image: url(https://assets.digital.cabinet-office.gov.uk/static/separator-73822610794bc3a64871f144d93d6526.png);
+	background-position: 100% 50%;
+	background-repeat: no-repeat;
+	list-style: none;
+	margin-left: 0;
+	margin-right: 0.5em;
+	padding-right: 1em;
+}
+
+.breadcrumbs li:last-child{
+	background: none;
+	padding-right: 0;
+}
+
+.breadcrumbs li a{
+	font-size: 16px;
+	color: #111;
+}
 
 .optional{
 	color: #666;
@@ -236,6 +254,10 @@ input.button{
 	vertical-align: top;
 }
 
+#start-button i{
+	display: inline-block;
+	margin: 0 0 0 0.6em;
+}
 
 #content{
 	margin: 0 auto 60px auto;
@@ -247,7 +269,7 @@ input.button{
 }
 
 .help p{
-	color: #666;
+	color: #555;
 	margin: 1em 0 1em;
 }
 
@@ -283,11 +305,13 @@ input.button{
 	text-decoration: none;
 	color: #222;
 	background: rgba(0,0,0,0.05);
+	font-size: 16px;
 }
 
 
 .questions-main .step{
 	padding: 0 1em;
+	max-width: 630px;
 }
 
 .questions-main .question{
@@ -324,12 +348,30 @@ label.above{
 label.selectable{
 	display: inline-block;
 	cursor: pointer;
-	/*background: #F4F4F4;*/
-	border: 1px solid #DDD;
+	background: #F4F4F4;
+	border: 1px solid #FFF;
 	padding: 12px 14px;
 	margin: 0 1em 0 0;
 }
 
+label.selected{
+	border: 1px solid #555;
+	background: #fff;
+}
+/*
+label.selectable{
+	display: inline-block;
+	cursor: pointer;
+	border: 1px solid #EEE;
+	padding: 12px 14px;
+	margin: 0 1em 0 0;
+}
+
+label.selected{
+	background: #fff2d3;
+	border: 1px solid #CCC;
+}
+*/
 .question .radio,
 .question .checkbox{
 	margin: 0 10px 0 0;
@@ -387,7 +429,7 @@ label.selectable{
 }
 
 .next-question{
-	margin: 0 0 2em 0;
+	margin: 1em 0 2em 0;
 }
 
 .next-question .save{
@@ -561,13 +603,8 @@ Style for redacted NINO
 		padding: 0 0;
 	}
 
-	.big-header h1{
+	h1{
 		font-size: 32px;
-	}
-
-	.small-header h1{
-		display: none;
-		font-size: 16px;
 	}
 
 	h2{
@@ -582,6 +619,7 @@ Style for redacted NINO
 	h3,
 	p,
 	a,
+	li,
 	textarea,
 	select,
 	.action,
