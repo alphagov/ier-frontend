@@ -91,7 +91,7 @@ $(function(){
 
 	$('.back').on('click', function(e){
 		e.preventDefault();
-		History.back();
+		window.history.back();
 	});
 
 
@@ -470,28 +470,6 @@ $(function(){
 			currentStep = $currentStep.attr('id').replace('step-','');
 
 		validateStep(currentStep, "confirmation");
-
-	});
-
-
-	$('.change').on('click', function(e){
-
-		e.preventDefault();
-
-		History.pushState(null, null, makeURL($(this).attr('href')));
-
-	});
-
-
-	$('.start-again').on('click', function(e){
-
-		e.preventDefault();
-
-		delete localStorage['formData'];
-
-		formData = $.extend(true, {}, defaultFormData);
-
-		History.pushState(null, null, makeURL(""));
 
 	});
 
