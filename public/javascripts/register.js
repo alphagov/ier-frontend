@@ -664,16 +664,30 @@ $(function(){
 		}
 
 		$.ajax({
-			url : '/api/postcodeToAddressList/' /*+ 'wr26nj'*/ + postcode
+			//url : '/api/postcodeToAddressList/' /*+ 'wr26nj'*/ + postcode
+			url : '/address/' /*+ 'wr26nj'*/ + postcode.replace(/\s/g,'')
 		}).done(function(data){
 
 			$step.find('.address-step-2').show();
 			$step.find('.postcode-search-results').show();
 			$step.find('.type-in-address').hide();
 
-			var addressesHTML = '<option>Select your address</option><option>';
+			var addressesHTML = '<option>Select your address</option><option>',
+				addresses = [];
 
-			addressesHTML += data.addresses.join('</option><option>') + '</option>';
+			if (data.addresses[0].addressLine){
+
+				for (var i = 0; i < data.addresses.length; i++){
+					addresses.push(data.addresses[i].addressLine);
+				}
+
+			} else {
+
+				addresses = data.addresses;
+
+			}
+
+			addressesHTML += addresses.join('</option><option>') + '</option>';
 
 			$step.find('.addressList').html(addressesHTML);
 
