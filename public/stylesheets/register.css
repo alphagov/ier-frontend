@@ -83,6 +83,7 @@ textarea.small{
 }
 
 
+a.button,
 button.button,
 input.button{
 	background-color: #0fa660;
@@ -304,6 +305,7 @@ h1{
 	border-bottom: 1px solid rgba(0,0,0,0.2);
 	text-decoration: none;
 	color: #222;
+    box-shadow: none;
 	background: rgba(0,0,0,0.05);
 	font-size: 16px;
 }
@@ -701,6 +703,7 @@ Style for redacted NINO
 	.next-question .button{
 		width: 100%;
 		height: 44px;
+        text-align: center;
 	}
 }
 }

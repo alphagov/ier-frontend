@@ -4,62 +4,14 @@
 @import helper._
 @import layouts._
 
-@main(Some("IER - Register to Vote")) {
+@main(title = Some("IER - Register to Vote"), header = head(), scripts = bodyEnd()) {
 
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/register.css")">
-
-    <!--[if IE 8]>
-    <script>
-      (function(){if(window.opera){return;}
-      setTimeout(function(){var a=document,g,b={families:(g=
-      ["nta"]),urls:["https://assets.digital.cabinet-office.gov.uk/static/fonts-ie8-beb10cbc00c9b7dcdbdee824962bc5f6.css"]},
-      c="https://assets.digital.cabinet-office.gov.uk/static/libs/goog/webfont-debug-96870cf9f159ed811fd43c39bdf4656b.js",d="script",
-      e=a.createElement(d),f=a.getElementsByTagName(d)[0],h=g.length;WebFontConfig
-      ={custom:b},e.src=c,f.parentNode.insertBefore(e,f);for(;h=h-1;a.documentElement
-      .className+=' wf-'+g[h].replace(/\s/g,'').toLowerCase()+'-n4-loading');},0)
-      })()
-    </script><![endif]-->
-    <!--[if gte IE 9]><!-->
-    <link href="https://assets.digital.cabinet-office.gov.uk/static/fonts-0fb6b917e34e45c93a44eec72dcc21de.css" media="all" rel="stylesheet" type="text/css"><!--<![endif]-->
-
- <section id="content" class="content">
-        <div class="inner-block">
           <div class="small-header">
             <div class="steps"><a href="#" class="back button"><i class="icon-caret-left"></i><span>Back</span></a>
               <div class="progress"><span class="step">Step</span><span id="progressStep" class="page-number">1</span><span class="of">of</span><span class="total">11</span></div>
             </div>
           </div>
           <div class="questions-main">
-            <div id="step-start" class="step">
-              <ul class="breadcrumbs">
-                <li><a href="https://www.gov.uk/">Home</a></li>
-                <li><a href="https://www.gov.uk/browse/citizenship">Citizenship and living in the UK</a></li>
-                <li><a href="https://www.gov.uk/browse/citizenship/voting">Voting</a></li>
-              </ul>
-              <h1>Register to vote</h1>
-              <p>Before you can vote in UK elections and referendums, you need to have your details added to the electoral register (sometimes called the ‘electoral roll’).</p>
-              <p>You can also use this service to update your details on the electoral register.</p>
-              <h2>What you will need</h2>
-              <p>You’ll need your National Insurance number (if you have one).</p>
-              <div class="next-question">
-                <button id="start-button" data-next="step-nationality" class="button next"><strong>Register to vote</strong><i class="icon-chevron-right"></i></button>
-              </div>
-              <h2>Before you start</h2>
-              <h3>Age and nationality</h3>
-              <p>You need to be:</p>
-              <ul>
-                <li>16 or over  </li>
-                <li>British, or a citizen of a Commonwealth or EU country</li>
-              </ul>
-              <h3>National Insurance number</h3><p>You&#39;ll need to provide evidence of your identity. The easiest way is to enter your <a href="https://www.gov.uk/lost-national-insurance-number">National Insurance number</a>.</p>
-<p>If you can&#39;t supply a National Insurance number, you&#39;ll need to post copies of identity documents to your local electoral register office once you&#39;ve completed the application.</p>
-
-              <h2>What you need to know</h2>
-              <p>Takes around 10 minutes.</p>
-              <h2>Other ways to apply</h2><p>To apply by post, download the <a href="#">register to vote form</a> [PDF, 128KB].</p>
-
-            </div>
             <div id="step-nationality" class="step">
               <div class="question">
                 <h2><span class="question-number">1</span><span>What is your nationality?</span></h2>
@@ -710,6 +662,4 @@
 
             </div>
           </div>
-        </div>
-      </section>
 }

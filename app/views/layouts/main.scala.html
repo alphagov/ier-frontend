@@ -1,7 +1,9 @@
-@(title:Option[String] = None)(content:Html)
+@(title:Option[String] = None, header: Html = Html.empty, scripts: Html = Html.empty)(content:Html)
 
-@head() = {
-
+@govuk_template(title, None)(header, scripts){
+    <section id="content" class="content transaction">
+        <div class="inner-block">
+            @content
+        </div>
+    </section>
 }
-
-@govuk_template(title, None)(head, bodyEnd())(content)

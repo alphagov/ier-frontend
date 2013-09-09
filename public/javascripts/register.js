@@ -37,7 +37,7 @@ $(function(){
 
 		if (path == '' || path == '/'){
 
-			step = 'step-start';
+			step = 'step-nationality';
 
 		} else {
 
