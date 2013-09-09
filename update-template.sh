@@ -4,9 +4,9 @@ thisDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 function removeSubmodule() {
   submodule="$(cat $thisDir/.gitmodules | grep "path = .*$1" | grep -Eo "\S*$1")"
   if [[ -n $submodule ]]; then 
-    rm -rf "$thisDir/$submodule"
-    rm -rf "$thisDir/.gitmodules"
-    rm -rf "$thisDir/.git/modules/$1"
+    rm -rv "$thisDir/$submodule"
+    rm -rv "$thisDir/.gitmodules"
+    rm -rv "$thisDir/.git/modules/$1"
     git rm "$thisDir/$submodule"
   fi
 }
