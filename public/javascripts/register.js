@@ -826,17 +826,30 @@ $(function(){
 
 		// LOL performance
 
-		var nationalities = [];
+		if (formData.noNationalityReason){
 
-		if (formData.nationality){
-			nationalities = nationalities.concat(formData.nationality);
+			$('.nationality-yes').hide();
+			$('.nationality-no').show();
+
+			$('.data.no-nationality-reason').text(formData.noNationalityReason);
+
+		} else {
+
+			$('.nationality-no').hide();
+			$('.nationality-yes').show();
+
+			var nationalities = [];
+
+			if (formData.nationality){
+				nationalities = nationalities.concat(formData.nationality);
+			}
+
+			if (formData.otherCountry && formData.hasOtherNationality){
+				nationalities = nationalities.concat(formData.otherCountry);
+			}
+
+			$('.data.nationality').text(nationalities.join(', '));
 		}
-
-		if (formData.otherCountry && formData.hasOtherNationality){
-			nationalities = nationalities.concat(formData.otherCountry);
-		}
-
-		$('.data.nationality').text(nationalities.join(', '));
 
 		$('.data.name').text(formData.firstName + ' ' + formData.lastName);
 
@@ -855,9 +868,33 @@ $(function(){
 
 		$('.optional-section-previous-name').toggle(formData.nameChange == 'true');
 
-		$('.data.dob').text(formData.dobDay + ' ' + formData.dobMonth + ' ' + formData.dobYear);
+		if (formData.noDOBReason){
 
-		$('.data.nino').text(redactedNino());
+			var DOBStatement = (formData.DOBStatement == '18to70') ? 'I am over 18 years old' : 'I am over 70 years old';
+
+			$('.data.dob').html('You are unable to provide your date of birth because: ' + formData.noDOBReason + '<br/><br/>' + DOBStatement);
+
+		} else {
+
+			$('.data.dob').text(formData.dobDay + ' ' + formData.dobMonth + ' ' + formData.dobYear);
+
+		}
+
+
+		if (formData.noNINOReason){
+
+			$('.NINO-no').show();
+			$('.NINO-yes').hide();
+
+			$('.data.no-NINO-reason').text(formData.noNINOReason);
+
+		} else {
+
+			$('.NINO-no').hide();
+			$('.NINO-yes').show();
+
+			$('.data.nino').text(redactedNino());
+		}
 
 		// address
 

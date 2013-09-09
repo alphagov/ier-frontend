@@ -23,7 +23,7 @@
     <!--[if gte IE 9]><!-->
     <link href="https://assets.digital.cabinet-office.gov.uk/static/fonts-0fb6b917e34e45c93a44eec72dcc21de.css" media="all" rel="stylesheet" type="text/css"><!--<![endif]-->
 
-<section id="content" class="content">
+ <section id="content" class="content">
         <div class="inner-block">
           <div class="small-header">
             <div class="steps"><a href="#" class="back button"><i class="icon-caret-left"></i><span>Back</span></a>
@@ -572,8 +572,9 @@
             </div>
             <div id="confirmation" class="step">
               <h2><span class="question-number">9</span><span>Register to vote</span></h2>
-              <div class="help">
-                <p>Is this information correct?</p>
+              <div class="help"><p>Please check your details carefully and correct any mistakes.</p>
+<p>If you supply information that&#39;s incorrect, it could delay your application.</p>
+
               </div>
               <ul class="details">
                 <li class="detail">
@@ -602,15 +603,25 @@
                 <li class="detail">
                   <h3>Nationality</h3>
                   <div class="data-wrap">
-                    <p class="data nationality"> </p>
+                    <div class="nationality-yes">
+                      <p class="data nationality"> </p>
+                    </div>
+                    <div class="nationality-no">
+                      <p>You cannot provide your nationality because:</p>
+                      <p class="data no-nationality-reason"></p>
+                    </div>
                   </div><a href="#step-nationality/edit" class="change">Change</a>
                 </li>
                 <li class="detail">
                   <h3>National Insurance number</h3>
                   <div class="data-wrap">
-                    <p class="data nino"></p>
-                    <!--<a href="#" class="show">Show</a>
-                    -->
+                    <div class="NINO-yes">
+                      <p class="data NINO"></p>
+                    </div>
+                    <div class="NINO-no">
+                      <p>You cannot provide your national insurance number because:</p>
+                      <p class="data no-NINO-reason"></p>
+                    </div>
                   </div><a href="#step-nino/edit" class="change">Change</a>
                 </li>
                 <li class="detail">

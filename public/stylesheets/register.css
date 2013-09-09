@@ -348,7 +348,7 @@ label.above{
 label.selectable{
 	display: inline-block;
 	cursor: pointer;
-	background: #F4F4F4;
+	background: #F0F0F0;
 	border: 1px solid #FFF;
 	padding: 12px 14px;
 	margin: 0 1em 0 0;
@@ -489,7 +489,7 @@ label.selected{
 	vertical-align: top;
 }
 
-.detail .data{
+.detail p{
 	margin: 0 0 0.5em 0;
 }
 
