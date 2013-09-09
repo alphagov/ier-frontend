@@ -243,7 +243,7 @@ $(function(){
 				if (!validOtherCountry){
 
 					validation.valid = false;
-					validation.redirectURL = 'exit-nationality';
+					validation.redirectURL = 'register-to-vote/error/exit-nationality';
 
 				}
 			}
@@ -262,7 +262,7 @@ $(function(){
 				} else if (formData.DOBStatement == 'under18' || formData.DOBStatement == 'dontKnow'){
 
 					validation.valid = false;
-					validation.redirectURL = 'exit-unknown-dob';
+					validation.redirectURL = 'register-to-vote/error/exit-unknown-dob';
 
 				}
 
@@ -293,7 +293,7 @@ $(function(){
 				if (now.getTime() - dob.getTime() < 1000 * 60 * 60 * 24 * 365 * 16){
 
 					validation.valid = false;
-					validation.redirectURL = 'exit-dob';
+					validation.redirectURL = 'register-to-vote/error/exit-dob';
 				}
 
 			}
@@ -416,7 +416,10 @@ $(function(){
 
 			}
 
-		}
+		} else if (step == 'confirmation') {
+            validation.valid = true;
+            validation.redirectURL = "register-to-vote/complete"
+        }
 
 		if (validation.valid){
 
@@ -426,7 +429,7 @@ $(function(){
 
 		} else if (validation.redirectURL){
 
-			window.location.hash = validation.redirectURL;
+			window.location = validation.redirectURL;
 
 		} else {
 
