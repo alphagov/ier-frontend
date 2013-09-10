@@ -1,0 +1,77 @@
+@(application:uk.gov.gds.ier.model.InprogressApplication)
+
+@import helper._
+@import layouts._
+
+@checkedIf(property:Option[String], string:String) = {
+    @if(property.getOrElse("") == string){
+        checked="true"
+    }
+}
+
+@main(title = Some("Register to Vote - What is your Nationality?"), header = head(), scripts = stepsBodyEnd()) {
+
+@layouts.stepIndicator(1)
+
+<div id="step-nationality" class="step">
+    @form(routes.RegisterToVoteController.next("nationality")) {
+    <div class="question">
+        <h2><span class="question-number">1</span><span>What is your nationality?</span></h2>
+        <div class="help">
+            <p>If you have dual nationality, select all options that are relevant to you.</p>
+        </div>
+        <ul class="answers">
+            <li class="answer">
+                <label class="selectable">
+                    <input type="checkbox" name="nationality" value="British" data-name="Nationality" data-value="British" class="checkbox" @checkedIf(application.nationality, "British")><span>British</span>
+                </label>
+            </li>
+            <li class="answer">
+                <label class="selectable">
+                    <input type="checkbox" name="nationality" value="Irish" data-name="Nationality" data-value="Irish" class="checkbox" @checkedIf(application.nationality, "Irish")><span>Irish</span>
+                </label>
+            </li>
+            <li class="answer">
+                <label class="selectable">
+                    <input id="otherCountry" type="checkbox" name="hasOtherNationality" value="true" class="checkbox"><span>Other country ...</span>
+                </label>
+                <div id="optionalSectionOtherCountry" class="optional-section optional-section-other-country">
+                    <div id="otherCountries" class="other-countries">
+                        <div id="otherCountryTemplate" class="template">
+                            <div class="answer other-country">
+                                <label class="above"><span>Country</span><span class="number"></span><a href="#" class="remove">remove</a></label>
+                                <input type="text" name="otherCountry" class="input-other-country text long">
+                            </div>
+                        </div>
+                        <div class="answer other-country">
+                            <label class="above">Country</label>
+                            <input type="text" name="otherCountry" class="input-other-country text long">
+                        </div>
+                    </div>
+                    <div class="action"><a id="addCountry" href="#">Add another country</a></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="more-help-wrap">
+        <div class="more-help-link"><span><i class="icon-caret-right"></i><a href="#">Help</a></span></div>
+        <div class="more-help-content"><p>Nationality usually refers to the country where you or your parents were born, or where you have officially become a citizen.</p>
+            <p>If possible, it&#39;s important that you find out your nationality - without it you will need to provide other documentation by post.</p>
+
+            <p><a id="no-nationality-link" href="#">I can't provide my nationality</a></p>
+            <div id="optional-section-no-nationality" class="optional-section">
+                <div class="question">
+                    <label class="above">Why can't you provide your nationality?</label>
+                    <textarea name="noNationalityReason" class="small"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="validation-message"></div>
+    <div class="next-question">
+        <input data-next="step-date-of-birth" type="submit" class="button next" value="Continue" />
+    </div>
+    }
+</div>
+
+}

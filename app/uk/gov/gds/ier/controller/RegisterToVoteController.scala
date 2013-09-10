@@ -1,13 +1,19 @@
 package uk.gov.gds.ier.controller
 
-import play.api.mvc.Controller
-import play.api.mvc.Action
-import uk.gov.gds.ier.model.IerForms
+import play.api.mvc.{Session, BodyParsers, Controller, Action}
+import uk.gov.gds.ier.model.{Steps, IerForms}
 import com.google.inject.Inject
 import uk.gov.gds.ier.service.IerApiService
 import views._
+import controllers._
+import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 
-class RegisterToVoteController @Inject() (ierApi:IerApiService) extends Controller with IerForms {
+class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: JsonSerialiser) extends Controller with IerForms with WithSerialiser with Steps {
+
+  def toJson(obj: AnyRef): String = serialiser.toJson(obj)
+
+  def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson[T](json)
+
   def index = Action {
     Ok(html.start())
   }
@@ -17,15 +23,23 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService) extends Controll
   }
 
   def registerStep(step:String) = Action {
-    Ok(html.registerToVote(webApplicationForm))
+    implicit request =>
+      Ok(pageFor(step))
   }
 
-  def complete = Action {
-    Ok(html.complete())
+  def next(step:String) = Action(BodyParsers.parse.urlFormEncoded) {
+    implicit request =>
+      inprogressForm.bindFromRequest().fold(
+        errors => Redirect(routes.RegisterToVoteController.registerToVote()),
+          form => {
+            val application = session.merge(form)
+            Redirect(routes.RegisterToVoteController.registerStep(nextStep(step))).withSession(application.toSession)
+          }
+      )
   }
 
   def errorRedirect(error:String) = Action {
-    Redirect(controllers.routes.RegisterToVoteController.error()).flashing("error-type" -> error)
+    Redirect(routes.RegisterToVoteController.error()).flashing("error-type" -> error)
   }
 
   def error = Action {
@@ -37,9 +51,8 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService) extends Controll
       }
   }
 
-  def confirmation = Action {
-    implicit request =>
-      Ok()
+  def complete = Action {
+    Ok(html.complete())
   }
 
   def submitApplication = Action {

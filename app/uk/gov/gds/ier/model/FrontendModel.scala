@@ -38,6 +38,11 @@ object ApiApplication {
   }
 }
 
+case class InprogressApplication(dobYear: Option[String] = None,
+                                 dobMonth: Option[String] = None,
+                                 dobDay: Option[String] = None,
+                                 nationality: Option[String] = None)
+
 case class Address(addressLine:String, postcode:String)
 
 case class PostcodeAnywhereResponse(Items:List[Map[String,String]])

@@ -1,0 +1,123 @@
+@(application: uk.gov.gds.ier.model.InprogressApplication)(implicit request:RequestHeader)
+
+@import helper._
+@import layouts._
+
+@main(title = Some("Register to Vote - Confirm your details"), header = head(), scripts = stepsBodyEnd()) {
+
+<div id="confirmation" class="step">
+    @for((key, value) <- request.session.data) {
+        @key = @value
+    }
+    <h2><span class="question-number">9</span><span>Register to vote</span></h2>
+    <div class="help"><p>Please check your details carefully and correct any mistakes.</p>
+        <p>If you supply information that&#39;s incorrect, it could delay your application.</p>
+
+    </div>
+    <ul class="details">
+        <li class="detail">
+            <h3>Name</h3>
+            <div class="data-wrap">
+                <p class="data name"></p>
+            </div><a href="#step-name/edit" class="change">Change</a>
+        </li>
+        <li class="detail">
+            <h3>Previous name</h3>
+            <div class="data-wrap">
+                <div class="name-change-yes">
+                    <p class="data previous-name"> </p>
+                </div>
+                <div class="name-change-no">
+                    <p class="message">You have not changed your name in the last 12 months</p>
+                </div>
+            </div><a href="#step-previous-name/edit" class="change">Change</a>
+        </li>
+        <li class="detail">
+            <h3>Date of birth</h3>
+            <div class="data-wrap">
+                <p class="data dob"> </p>
+            </div><a href="#step-date-of-birth/edit" class="change">Change</a>
+        </li>
+        <li class="detail">
+            <h3>Nationality</h3>
+            <div class="data-wrap">
+                <div class="nationality-yes">
+                    <p class="data nationality"> </p>
+                </div>
+                <div class="nationality-no">
+                    <p>You cannot provide your nationality because:</p>
+                    <p class="data no-nationality-reason"></p>
+                </div>
+            </div><a href="#step-nationality/edit" class="change">Change</a>
+        </li>
+        <li class="detail">
+            <h3>National Insurance number</h3>
+            <div class="data-wrap">
+                <div class="NINO-yes">
+                    <p class="data NINO"></p>
+                </div>
+                <div class="NINO-no">
+                    <p>You cannot provide your national insurance number because:</p>
+                    <p class="data no-NINO-reason"></p>
+                </div>
+            </div><a href="#step-nino/edit" class="change">Change</a>
+        </li>
+        <li class="detail">
+            <h3>Address</h3>
+            <div class="data-wrap">
+                <p class="data address"></p>
+                <p class="data postcode"></p>
+            </div><a href="#step-address/edit" class="change">Change</a>
+        </li>
+        <li class="detail">
+            <h3>Previous address</h3>
+            <div class="data-wrap">
+                <div class="moved-recently-yes">
+                    <p class="data previousAddress"></p>
+                    <p class="data previousPostcode"></p>
+                </div>
+                <p class="data message moved-recently-no">You have not moved in the last 12 months</p>
+            </div><a href="#step-previous-address/edit" class="change">Change</a>
+        </li>
+        <li class="detail">
+            <h3>Second address</h3>
+            <div class="data-wrap">
+                <div class="other-address-yes">
+                    <p class="data otherAddress"></p>
+                    <p class="data otherPostcode"></p>
+                </div>
+                <p class="data message other-address-no">You don't have a second address</p>
+            </div><a href="#step-other-address/edit" class="change">Change</a>
+        </li>
+        <li class="detail">
+            <h3>Postal or proxy vote form</h3>
+            <div class="data-wrap">
+                <p class="data message vote-by-person-yes">You don’t want us to send you information about postal or proxy voting</p>
+                <p class="data message vote-by-post-yes">You want us to send you information about postal voting </p>
+                <p class="data message vote-by-proxy-yes">You want us to send you information about proxy voting </p>
+            </div><a href="#step-other-ways-to-vote/edit" class="change">Change</a>
+        </li>
+        <li class="detail">
+            <h3>Open register</h3>
+            <div class="data-wrap">
+                <p class="data message edited-register-optin-yes">You want us to include your details on the open register so they are available to charities and companies.</p>
+                <p class="data message edited-register-optin-no">You don’t want us to include your details on the open register so they are available to charities and companies.</p>
+            </div><a href="#step-open-register/edit" class="change">Change</a>
+        </li>
+        <li class="detail">
+            <h3>How we should contact you</h3>
+            <div class="data-wrap">
+                <p class="message data contact-by-post-yes">If there are any problems with your application we will contact you by post.</p>
+                <p class="data contact-by-phone-yes"><span>Phone number:&nbsp;</span><span class="data telephone"></span></p>
+                <p class="data contact-by-email-yes"><span>Email:&nbsp;</span><span class="data email"></span></p>
+            </div><a href="#step-contact/edit" class="change">Change</a>
+        </li>
+    </ul>
+    <div class="help">
+        <p>By sending your application you declare that the information you have supplied is true, and that you understand that the information you have supplied will be used to change your details on the electoral register.</p>
+    </div>
+    <div class="next-question">
+        <button data-next="complete" class="button next">Send application</button>
+    </div>
+</div>
+}
