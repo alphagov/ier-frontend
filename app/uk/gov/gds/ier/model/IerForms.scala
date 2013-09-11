@@ -4,6 +4,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc.{Session, Request, AnyContent}
 import uk.gov.gds.ier.serialiser.WithSerialiser
+import org.joda.time.{LocalDate, DateTime}
 
 trait IerForms {
   self: WithSerialiser =>
@@ -19,7 +20,7 @@ trait IerForms {
       "previousLastName" -> nonEmptyText,
       "nino" -> nonEmptyText,
       "dob" -> jodaLocalDate(dobFormat)
-      )(WebApplication.apply)(WebApplication.unapply)
+    )(WebApplication.apply)(WebApplication.unapply)
   )
   val apiApplicationForm = Form(
     mapping(
@@ -45,6 +46,24 @@ trait IerForms {
     single(
       "postcode" -> nonEmptyText.verifying(_.matches(postcodeRegex))
     )
+  )
+
+  val completeApplicationForm = Form(
+    mapping(
+      "firstName" -> optional(nonEmptyText),
+      "middleName" -> optional(nonEmptyText),
+      "lastName" -> optional(nonEmptyText),
+      "previousLastName" -> optional(nonEmptyText),
+      "nino" -> optional(nonEmptyText),
+      "dob" -> optional(mapping(
+          "day" -> number,
+          "month" -> number,
+          "year" -> number)
+        ((day, month, year) => LocalDate.now().withDayOfMonth(day).withMonthOfYear(month).withYear(year))
+        (date => Some(date.getDayOfMonth, date.getMonthOfYear, date.getYear))
+      ),
+      "nationality" -> optional(nonEmptyText)
+    )(CompleteApplication.apply)(CompleteApplication.unapply)
   )
 
   val inprogressForm = Form(

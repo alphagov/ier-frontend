@@ -38,6 +38,14 @@ object ApiApplication {
   }
 }
 
+case class CompleteApplication(firstName: Option[String],
+                               middleName: Option[String],
+                               lastName: Option[String],
+                               previousLastName: Option[String],
+                               nino: Option[String],
+                               dob: Option[LocalDate],
+                               nationality: Option[String])
+
 case class InprogressApplication(dobYear: Option[String] = None,
                                  dobMonth: Option[String] = None,
                                  dobDay: Option[String] = None,

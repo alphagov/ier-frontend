@@ -1,4 +1,4 @@
-@(application: uk.gov.gds.ier.model.InprogressApplication)(implicit request:RequestHeader)
+@(application: uk.gov.gds.ier.model.InprogressApplication)
 
 @import helper._
 @import layouts._
@@ -6,9 +6,7 @@
 @main(title = Some("Register to Vote - Confirm your details"), header = head(), scripts = stepsBodyEnd()) {
 
 <div id="confirmation" class="step">
-    @for((key, value) <- request.session.data) {
-        @key = @value
-    }
+    @form(routes.RegisterToVoteController.next("confirmation")) {
     <h2><span class="question-number">9</span><span>Register to vote</span></h2>
     <div class="help"><p>Please check your details carefully and correct any mistakes.</p>
         <p>If you supply information that&#39;s incorrect, it could delay your application.</p>
@@ -35,19 +33,22 @@
         <li class="detail">
             <h3>Date of birth</h3>
             <div class="data-wrap">
-                <p class="data dob"> </p>
+                <p class="data dob"> @application.dobDay.getOrElse("") @application.dobMonth.getOrElse("") @application.dobYear.getOrElse("")</p>
+                <input type="hidden" value="@application.dobDay.getOrElse("")" name="dobDay">
+                <input type="hidden" value="@application.dobYear.getOrElse("")" name="dobYear">
+                <input type="hidden" value="@application.dobMonth.getOrElse("")" name="dobMonth">
             </div><a href="#step-date-of-birth/edit" class="change">Change</a>
         </li>
         <li class="detail">
             <h3>Nationality</h3>
             <div class="data-wrap">
                 <div class="nationality-yes">
-                    <p class="data nationality"> </p>
+                    <p class="data nationality"> @application.nationality.getOrElse("")</p>
                 </div>
-                <div class="nationality-no">
-                    <p>You cannot provide your nationality because:</p>
-                    <p class="data no-nationality-reason"></p>
-                </div>
+                @*<div class="nationality-no">*@
+                    @*<p>You cannot provide your nationality because:</p>*@
+                    @*<p class="data no-nationality-reason"></p>*@
+                @*</div>*@
             </div><a href="#step-nationality/edit" class="change">Change</a>
         </li>
         <li class="detail">
@@ -117,7 +118,8 @@
         <p>By sending your application you declare that the information you have supplied is true, and that you understand that the information you have supplied will be used to change your details on the electoral register.</p>
     </div>
     <div class="next-question">
-        <button data-next="complete" class="button next">Send application</button>
+        <input data-next="complete" type="submit" class="button next" value="Send application" />
     </div>
+    }
 </div>
 }

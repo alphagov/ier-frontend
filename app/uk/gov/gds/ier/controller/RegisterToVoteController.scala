@@ -15,10 +15,14 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
   def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson[T](json)
 
   def index = Action {
-    Ok(html.start())
+    Ok(html.start()).withNewSession
   }
 
   def registerToVote = Action {
+    Redirect(controllers.routes.RegisterToVoteController.registerStep(firstStep()))
+  }
+
+  def registerToVoteJS = Action {
     Ok(html.registerToVote(webApplicationForm))
   }
 
@@ -48,6 +52,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
         case Some("exit-unknown-dob") => Ok(html.errors.exitUnknownDob())
         case Some("exit-nationality") => Ok(html.errors.exitNationality())
         case Some("exit-dob") => Ok(html.errors.exitDob())
+        case Some("exit-error") => Ok(html.errors.exitError())
       }
   }
 
@@ -57,11 +62,11 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
 
   def submitApplication = Action {
     implicit request =>
-      webApplicationForm.bindFromRequest().fold(
-        errors => Ok(html.registerToVote(errors)),
+      completeApplicationForm.bindFromRequest().fold(
+        errors => Redirect(controllers.routes.RegisterToVoteController.errorRedirect("error-exit")),
         applicant => {
-          val response = ierApi.submitApplication(applicant)
-          Ok(html.complete())
+          //val response = ierApi.submitApplication(applicant)
+          Redirect(controllers.routes.RegisterToVoteController.complete()).withNewSession
         }
       )
   }

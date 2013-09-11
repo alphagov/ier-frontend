@@ -10,10 +10,13 @@ trait Steps extends IerForms{
   def nextStep(step:String) = {
     step match {
       case "nationality" => "date-of-birth"
-      case "date-of-birth" => "nationality"
-      case _ => ""
+      case "date-of-birth" => "confirmation"
+      case "confirmation" => "complete"
+      case _ => "nationality"
     }
   }
+
+  def firstStep() = "nationality"
 
   def pageFor(step:String)(implicit request: RequestHeader) = {
     step match {
