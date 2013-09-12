@@ -1,10 +1,13 @@
 echo "Build IER for Jenkins"
 
-echo "Compiling Ier Frontend";
+echo "Clean and update the build"
+./play clean-files update;
+
+echo "Compiling Ier Frontend"
 ./play compile;
 
-echo "Testing Ier Frontend";
-./play test
+echo "Testing Ier Frontend"
+./play test;
 
 echo "Building Package"
-./play package dist
+./play dist;
