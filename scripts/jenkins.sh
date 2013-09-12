@@ -5,3 +5,6 @@ echo "Compiling Ier Frontend";
 
 echo "Testing Ier Frontend";
 ./play test
+
+echo "Building Package"
+./play package dist

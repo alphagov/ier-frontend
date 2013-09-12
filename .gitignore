@@ -10,3 +10,4 @@ RUNNING_PID
 .idea_modules
 scripts/bin/*
 logs/*
+dist/*
