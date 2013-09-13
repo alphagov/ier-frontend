@@ -10,4 +10,4 @@ echo "Testing Ier Frontend"
 ./play test;
 
 echo "Building Package"
-./play dist;
+./play -DMODE=CACHED_MODE dist;
