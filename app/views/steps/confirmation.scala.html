@@ -26,12 +26,15 @@
         <li class="detail">
             <h3>Previous name</h3>
             <div class="data-wrap">
-                <div class="name-change-yes">
-                    <p class="data previous-name"> </p>
-                </div>
-                <div class="name-change-no">
-                    <p class="message">You have not changed your name in the last 12 months</p>
-                </div>
+                @if(application.nameChange == Some("true")){
+                    <div class="name-change-yes">
+                        <p class="data previous-name">@name(application.previousFirstName, application.previousMiddleName, application.previousLastName)</p>
+                    </div>
+                } else {
+                    <div class="name-change-no">
+                        <p class="message">You have not changed your name in the last 12 months</p>
+                    </div>
+                }
             </div><a href="#step-previous-name/edit" class="change">Change</a>
         </li>
         <li class="detail">

@@ -1,0 +1,49 @@
+@(application: uk.gov.gds.ier.model.InprogressApplication)
+
+@import helper._
+@import uk.gov.gds.ier.model.DateOfBirthConstants._
+@import layouts._
+
+@main(title = Some("Register to Vote - Have you changed your name in the last 12 months?"), header = head(), scripts = stepsBodyEnd()) {
+
+@stepIndicator(4)
+
+<div id="step-previous-name" class="step">
+    @form(routes.RegisterToVoteController.next("previous-name")) {
+    <h2><span class="question-number">4</span><span>Have you changed your name in the last 12 months?</span></h2>
+    <div class="question">
+        <label class="selectable binary">
+            <input type="radio" id="input-name-change-yes" name="nameChange" value="true" class="radio"><span>Yes</span>
+        </label>
+        <label class="selectable binary">
+            <input type="radio" id="input-name-change-no" name="nameChange" value="false" class="radio"><span>No</span>
+        </label>
+    </div>
+    <div id="optionalSectionPreviousName" class="optional-section optional-section-previous-name">
+        <h3>Previous name</h3>
+        <div class="question">
+            <label class="above">First name</label>
+            <div class="validation-wrap">
+                <input id="input-previous-first-name" type="text" name="previousFirstName" class="text first-name long">
+            </div>
+        </div>
+        <div class="question">
+            <label class="above">Middle names</label>
+            <div class="validation-wrap">
+                <input id="input-previous-middle-names" type="text" name="previousMiddleNames" class="text middle-names long">
+            </div>
+        </div>
+        <div class="question">
+            <label class="above">Last name</label>
+            <div class="validation-wrap">
+                <input id="input-previous-last-name" type="text" name="previousLastName" class="text last-name long">
+            </div>
+        </div>
+    </div>
+    <div class="validation-message"></div>
+    <div class="next-question">
+        <input data-next="step-name" type="submit" class="button next" value="Continue" />
+    </div>
+    }
+</div>
+}

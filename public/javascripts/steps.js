@@ -19,3 +19,12 @@ $('body').on('click', '.more-help-link a', function(e){
     }
 
 });
+
+
+$('#step-previous-name #input-name-change-yes').on('click', function(e) {
+    $('#step-previous-name #optionalSectionPreviousName').show();
+});
+
+$('#step-previous-name #input-name-change-no').on('click', function(e) {
+    $('#step-previous-name #optionalSectionPreviousName').hide();
+});
