@@ -10,7 +10,8 @@ trait Steps extends IerForms{
   def nextStep(step:String) = {
     step match {
       case "nationality" => "date-of-birth"
-      case "date-of-birth" => "confirmation"
+      case "date-of-birth" => "name"
+      case "name" => "confirmation"
       case "confirmation" => "complete"
       case _ => "nationality"
     }
@@ -22,6 +23,7 @@ trait Steps extends IerForms{
     step match {
       case "nationality" => html.steps.nationality(request.session.getApplication)
       case "date-of-birth" => html.steps.dateOfBirth(request.session.getApplication)
+      case "name" => html.steps.name(request.session.getApplication)
       case "confirmation" => html.steps.confirmation(request.session.getApplication)
     }
   }

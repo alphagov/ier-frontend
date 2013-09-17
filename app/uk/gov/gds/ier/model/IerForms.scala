@@ -68,6 +68,9 @@ trait IerForms {
 
   val inprogressForm = Form(
     mapping(
+      "firstName" -> optional(nonEmptyText),
+      "middleNames" -> optional(nonEmptyText),
+      "lastName" -> optional(nonEmptyText),
       "dobYear" -> optional(nonEmptyText),
       "dobMonth" -> optional(nonEmptyText),
       "dobDay" -> optional(nonEmptyText),
@@ -93,6 +96,9 @@ trait IerForms {
     def merge(application: InprogressApplication):InprogressApplication= {
       val stored = getApplication
       stored.copy(
+        firstName = application.firstName.orElse(stored.firstName),
+        middleName = application.middleName.orElse(stored.middleName),
+        lastName = application.lastName.orElse(stored.lastName),
         dobYear = application.dobYear.orElse(stored.dobYear),
         dobMonth = application.dobMonth.orElse(stored.dobMonth),
         dobDay = application.dobDay.orElse(stored.dobDay),

@@ -3,6 +3,10 @@
 @import helper._
 @import layouts._
 
+@name(firstName:Option[String], middleName:Option[String], lastName:Option[String]) = {
+    @{firstName.map(_ + " ").getOrElse("") + middleName.map(_ + " ").getOrElse("") + lastName.getOrElse("")}
+}
+
 @main(title = Some("Register to Vote - Confirm your details"), header = head(), scripts = stepsBodyEnd()) {
 
 <div id="confirmation" class="step">
@@ -16,7 +20,7 @@
         <li class="detail">
             <h3>Name</h3>
             <div class="data-wrap">
-                <p class="data name"></p>
+                <p class="data name">@name(application.firstName, application.middleName, application.lastName)</p>
             </div><a href="#step-name/edit" class="change">Change</a>
         </li>
         <li class="detail">

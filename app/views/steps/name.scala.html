@@ -1,0 +1,36 @@
+@(application: uk.gov.gds.ier.model.InprogressApplication)
+
+@import helper._
+@import uk.gov.gds.ier.model.DateOfBirthConstants._
+@import layouts._
+
+@main(title = Some("Register to Vote - What is your Date Of Birth?"), header = head(), scripts = stepsBodyEnd()) {
+
+@stepIndicator(3)
+
+<div id="step-name" class="step">
+    @form(routes.RegisterToVoteController.next("name")) {
+    <h2><span class="question-number">3</span><span>What is your name?</span></h2>
+    <div class="question">
+        <label class="above">First name or names</label>
+        <div class="validation-wrap">
+            <input id="input-first-name" type="text" name="firstName" class="text first-name long" value="@application.firstName.getOrElse("")">
+        </div>
+    </div>
+    <div class="question">
+        <label class="above"><span>Middle names</span><span class="optional"></span></label>
+        <input type="text" name="middleNames" class="text middle-names long" value="@application.middleName.getOrElse("")">
+    </div>
+    <div class="question">
+        <label class="above">Last name</label>
+        <div class="validation-wrap">
+            <input id="input-last-name" type="text" name="lastName" class="text last-name long" value="@application.lastName.getOrElse("")">
+        </div>
+    </div>
+    <div class="validation-message"></div>
+    <div class="next-question">
+        <input data-next="step-name" type="submit" class="button next" value="Continue" />
+    </div>
+    }
+</div>
+}

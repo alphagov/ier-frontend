@@ -46,10 +46,13 @@ case class CompleteApplication(firstName: Option[String],
                                dob: Option[LocalDate],
                                nationality: Option[String])
 
-case class InprogressApplication(dobYear: Option[String] = None,
-                                 dobMonth: Option[String] = None,
-                                 dobDay: Option[String] = None,
-                                 nationality: Option[String] = None)
+case class InprogressApplication( firstName: Option[String] = None,
+                                  middleName: Option[String] = None,
+                                  lastName: Option[String] = None,
+                                  dobYear: Option[String] = None,
+                                  dobMonth: Option[String] = None,
+                                  dobDay: Option[String] = None,
+                                  nationality: Option[String] = None)
 
 case class Address(addressLine:String, postcode:String)
 
