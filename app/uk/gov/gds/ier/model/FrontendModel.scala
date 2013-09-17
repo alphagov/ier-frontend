@@ -56,7 +56,8 @@ case class InprogressApplication( firstName: Option[String] = None,
                                   dobYear: Option[String] = None,
                                   dobMonth: Option[String] = None,
                                   dobDay: Option[String] = None,
-                                  nationality: Option[String] = None)
+                                  nationality: Option[String] = None,
+                                  nino: Option[String] = None)
 
 case class Address(addressLine:String, postcode:String)
 

@@ -12,7 +12,8 @@ trait Steps extends IerForms{
       case "nationality" => "date-of-birth"
       case "date-of-birth" => "name"
       case "name" => "previous-name"
-      case "previous-name" => "confirmation"
+      case "previous-name" => "nino"
+      case "nino" => "confirmation"
       case "confirmation" => "complete"
       case _ => "nationality"
     }
@@ -26,6 +27,7 @@ trait Steps extends IerForms{
       case "date-of-birth" => html.steps.dateOfBirth(request.session.getApplication)
       case "name" => html.steps.name(request.session.getApplication)
       case "previous-name" => html.steps.previousName(request.session.getApplication)
+      case "nino" => html.steps.nino(request.session.getApplication)
       case "confirmation" => html.steps.confirmation(request.session.getApplication)
     }
   }

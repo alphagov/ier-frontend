@@ -78,7 +78,8 @@ trait IerForms {
       "dobYear" -> optional(nonEmptyText),
       "dobMonth" -> optional(nonEmptyText),
       "dobDay" -> optional(nonEmptyText),
-      "nationality" -> optional(nonEmptyText)
+      "nationality" -> optional(nonEmptyText),
+      "NINO" -> optional(nonEmptyText)
     ) (InprogressApplication.apply) (InprogressApplication.unapply)
   )
 
@@ -110,7 +111,8 @@ trait IerForms {
         dobYear = application.dobYear.orElse(stored.dobYear),
         dobMonth = application.dobMonth.orElse(stored.dobMonth),
         dobDay = application.dobDay.orElse(stored.dobDay),
-        nationality = application.nationality.orElse(stored.nationality)
+        nationality = application.nationality.orElse(stored.nationality),
+        nino = application.nino.orElse(stored.nino)
       )
     }
   }

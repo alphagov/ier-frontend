@@ -61,13 +61,16 @@
         <li class="detail">
             <h3>National Insurance number</h3>
             <div class="data-wrap">
-                <div class="NINO-yes">
-                    <p class="data NINO"></p>
-                </div>
-                <div class="NINO-no">
-                    <p>You cannot provide your national insurance number because:</p>
-                    <p class="data no-NINO-reason"></p>
-                </div>
+                @if(application.nino.isDefined){
+                    <div class="NINO-yes">
+                        <p class="data NINO">@application.nino.getOrElse("")</p>
+                    </div>
+                } else {
+                    <div class="NINO-no">
+                        <p>You cannot provide your national insurance number because:</p>
+                        <p class="data no-NINO-reason"></p>
+                    </div>
+                }
             </div><a href="#step-nino/edit" class="change">Change</a>
         </li>
         <li class="detail">
