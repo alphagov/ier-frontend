@@ -66,11 +66,14 @@ trait IerForms {
     )(CompleteApplication.apply)(CompleteApplication.unapply)
   )
 
+  val nameMapping = mapping(
+    "firstName" -> nonEmptyText,
+    "middleNames" -> optional(nonEmptyText),
+    "lastName" -> nonEmptyText) (Name.apply) (Name.unapply)
+
   val inprogressForm = Form(
     mapping(
-      "firstName" -> optional(nonEmptyText),
-      "middleNames" -> optional(nonEmptyText),
-      "lastName" -> optional(nonEmptyText),
+      "name" -> optional(nameMapping),
       "nameChange" -> optional(nonEmptyText),
       "previousFirstName" -> optional(nonEmptyText),
       "previousMiddleNames" -> optional(nonEmptyText),
@@ -79,7 +82,15 @@ trait IerForms {
       "dobMonth" -> optional(nonEmptyText),
       "dobDay" -> optional(nonEmptyText),
       "nationality" -> optional(nonEmptyText),
-      "NINO" -> optional(nonEmptyText)
+      "NINO" -> optional(nonEmptyText),
+      "address" -> optional(nonEmptyText),
+      "postcode" -> optional(nonEmptyText),
+      "movedRecently" -> optional(nonEmptyText),
+      "previousAddress" -> optional(nonEmptyText),
+      "previousPostcode" -> optional(nonEmptyText),
+      "hasOtherAddress" -> optional(nonEmptyText),
+      "otherAddress" -> optional(nonEmptyText),
+      "otherPostcode" -> optional(nonEmptyText)
     ) (InprogressApplication.apply) (InprogressApplication.unapply)
   )
 
@@ -101,9 +112,7 @@ trait IerForms {
     def merge(application: InprogressApplication):InprogressApplication= {
       val stored = getApplication
       stored.copy(
-        firstName = application.firstName.orElse(stored.firstName),
-        middleName = application.middleName.orElse(stored.middleName),
-        lastName = application.lastName.orElse(stored.lastName),
+        name = application.name.orElse(stored.name),
         nameChange = application.nameChange.orElse(stored.nameChange),
         previousFirstName = application.previousFirstName.orElse(stored.previousFirstName),
         previousMiddleName = application.previousMiddleName.orElse(stored.previousMiddleName),
@@ -112,7 +121,15 @@ trait IerForms {
         dobMonth = application.dobMonth.orElse(stored.dobMonth),
         dobDay = application.dobDay.orElse(stored.dobDay),
         nationality = application.nationality.orElse(stored.nationality),
-        nino = application.nino.orElse(stored.nino)
+        nino = application.nino.orElse(stored.nino),
+        address = application.address.orElse(stored.address),
+        postcode = application.postcode.orElse(stored.postcode),
+        movedRecently = application.movedRecently.orElse(stored.movedRecently),
+        previousAddress = application.previousAddress.orElse(stored.previousAddress),
+        previousPostcode = application.previousPostcode.orElse(stored.previousPostcode),
+        hasOtherAddress = application.hasOtherAddress.orElse(stored.hasOtherAddress),
+        otherAddress = application.otherAddress.orElse(stored.otherAddress),
+        otherPostcode = application.otherPostcode.orElse(stored.otherPostcode)
       )
     }
   }

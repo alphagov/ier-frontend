@@ -6,6 +6,7 @@
 GET         /                                     controllers.RegisterToVoteController.index
 POST        /submit-application                   controllers.RegisterToVoteController.submitApplication
 GET         /register-to-vote                     controllers.RegisterToVoteController.registerToVote
+GET         /register-to-vote/                    controllers.RegisterToVoteController.registerToVote
 GET         /register-to-vote/complete            controllers.RegisterToVoteController.complete
 POST        /register-to-vote/confirmation        controllers.RegisterToVoteController.submitApplication
 GET         /register-to-vote/error               controllers.RegisterToVoteController.error

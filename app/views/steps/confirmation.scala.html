@@ -20,7 +20,7 @@
         <li class="detail">
             <h3>Name</h3>
             <div class="data-wrap">
-                <p class="data name">@name(application.firstName, application.middleName, application.lastName)</p>
+                <p class="data name">@name(application.name.map(_.firstName), application.name.map(_.middleNames), application.name.map(_.lastName))</p>
             </div><a href="#step-name/edit" class="change">Change</a>
         </li>
         <li class="detail">
@@ -76,18 +76,21 @@
         <li class="detail">
             <h3>Address</h3>
             <div class="data-wrap">
-                <p class="data address"></p>
-                <p class="data postcode"></p>
+                <p class="data address">@application.address.getOrElse("")</p>
+                <p class="data postcode">@application.postcode.getOrElse("")</p>
             </div><a href="#step-address/edit" class="change">Change</a>
         </li>
         <li class="detail">
             <h3>Previous address</h3>
             <div class="data-wrap">
-                <div class="moved-recently-yes">
-                    <p class="data previousAddress"></p>
-                    <p class="data previousPostcode"></p>
-                </div>
-                <p class="data message moved-recently-no">You have not moved in the last 12 months</p>
+                @if(application.movedRecently == Some("true")){
+                    <div class="moved-recently-yes">
+                        <p class="data previousAddress">@application.previousAddress.getOrElse("")</p>
+                        <p class="data previousPostcode">@application.previousPostcode.getOrElse("")</p>
+                    </div>
+                }else{
+                    <p class="data message moved-recently-no">You have not moved in the last 12 months</p>
+                }
             </div><a href="#step-previous-address/edit" class="change">Change</a>
         </li>
         <li class="detail">

@@ -13,17 +13,17 @@
     <div class="question">
         <label class="above">First name or names</label>
         <div class="validation-wrap">
-            <input id="input-first-name" type="text" name="firstName" class="text first-name long" value="@application.firstName.getOrElse("")">
+            <input id="input-first-name" type="text" name="name.firstName" class="text first-name long" value="@application.name.map(_.firstName).getOrElse("")">
         </div>
     </div>
     <div class="question">
         <label class="above"><span>Middle names</span><span class="optional"></span></label>
-        <input type="text" name="middleNames" class="text middle-names long" value="@application.middleName.getOrElse("")">
+        <input type="text" name="name.middleNames" class="text middle-names long" value="@application.name.map(_.middleNames).getOrElse("")">
     </div>
     <div class="question">
         <label class="above">Last name</label>
         <div class="validation-wrap">
-            <input id="input-last-name" type="text" name="lastName" class="text last-name long" value="@application.lastName.getOrElse("")">
+            <input id="input-last-name" type="text" name="name.lastName" class="text last-name long" value="@application.name.map(_.lastName).getOrElse("")">
         </div>
     </div>
     <div class="validation-message"></div>
