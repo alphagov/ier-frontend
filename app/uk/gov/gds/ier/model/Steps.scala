@@ -16,7 +16,8 @@ trait Steps extends IerForms{
       case "nino" => "address"
       case "address" => "previous-address"
       case "previous-address" => "other-address"
-      case "other-address" => "confirmation"
+      case "other-address" => "open-register"
+      case "open-register" => "confirmation"
       case "confirmation" => "complete"
       case _ => "nationality"
     }
@@ -34,6 +35,7 @@ trait Steps extends IerForms{
       case "address" => html.steps.address(request.session.getApplication)
       case "previous-address" => html.steps.previousAddress(request.session.getApplication)
       case "other-address" => html.steps.otherAddress(request.session.getApplication)
+      case "open-register" => html.steps.openRegister(request.session.getApplication)
       case "confirmation" => html.steps.confirmation(request.session.getApplication)
     }
   }

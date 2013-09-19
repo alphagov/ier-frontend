@@ -87,7 +87,8 @@ trait IerForms {
       "previousPostcode" -> optional(nonEmptyText),
       "hasOtherAddress" -> optional(nonEmptyText),
       "otherAddress" -> optional(nonEmptyText),
-      "otherPostcode" -> optional(nonEmptyText)
+      "otherPostcode" -> optional(nonEmptyText),
+      "openRegisterOptin" -> optional(nonEmptyText)
     ) (InprogressApplication.apply) (InprogressApplication.unapply)
   )
 
@@ -123,7 +124,8 @@ trait IerForms {
         previousPostcode = application.previousPostcode.orElse(stored.previousPostcode),
         hasOtherAddress = application.hasOtherAddress.orElse(stored.hasOtherAddress),
         otherAddress = application.otherAddress.orElse(stored.otherAddress),
-        otherPostcode = application.otherPostcode.orElse(stored.otherPostcode)
+        otherPostcode = application.otherPostcode.orElse(stored.otherPostcode),
+        openRegisterOptin = application.openRegisterOptin.orElse(stored.openRegisterOptin)
       )
     }
   }

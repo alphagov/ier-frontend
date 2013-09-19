@@ -104,18 +104,13 @@
             </div><a href="#step-other-address/edit" class="change">Change</a>
         </li>
         <li class="detail">
-            <h3>Postal or proxy vote form</h3>
-            <div class="data-wrap">
-                <p class="data message vote-by-person-yes">You don’t want us to send you information about postal or proxy voting</p>
-                <p class="data message vote-by-post-yes">You want us to send you information about postal voting </p>
-                <p class="data message vote-by-proxy-yes">You want us to send you information about proxy voting </p>
-            </div><a href="#step-other-ways-to-vote/edit" class="change">Change</a>
-        </li>
-        <li class="detail">
             <h3>Open register</h3>
             <div class="data-wrap">
-                <p class="data message edited-register-optin-yes">You want us to include your details on the open register so they are available to charities and companies.</p>
-                <p class="data message edited-register-optin-no">You don’t want us to include your details on the open register so they are available to charities and companies.</p>
+                @if(application.openRegisterOptin == Some("true")){
+                    <p class="data message edited-register-optin-yes">You want us to include your details on the open register so they are available to charities and companies.</p>
+                }else{
+                    <p class="data message edited-register-optin-no">You don’t want us to include your details on the open register so they are available to charities and companies.</p>
+                }
             </div><a href="#step-open-register/edit" class="change">Change</a>
         </li>
         <li class="detail">

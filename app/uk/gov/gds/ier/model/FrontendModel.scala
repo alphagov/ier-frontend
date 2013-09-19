@@ -75,7 +75,8 @@ case class InprogressApplication( name: Option[NameUnderlying] = None,
                                   previousPostcode: Option[String] = None,
                                   hasOtherAddress: Option[String] = None,
                                   otherAddress: Option[String] = None,
-                                  otherPostcode: Option[String] = None)
+                                  otherPostcode: Option[String] = None,
+                                  openRegisterOptin: Option[String] = None)
 
 case class Address(addressLine:String, postcode:String)
 
