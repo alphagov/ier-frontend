@@ -11,13 +11,14 @@ trait Steps extends IerForms{
     step match {
       case "nationality" => "date-of-birth"
       case "date-of-birth" => "name"
-      case "name" => "confirmation"
+      case "name" => "previous-name"
       case "previous-name" => "nino"
       case "nino" => "address"
       case "address" => "previous-address"
       case "previous-address" => "other-address"
       case "other-address" => "open-register"
-      case "open-register" => "confirmation"
+      case "open-register" => "contact"
+      case "contact" => "confirmation"
       case "confirmation" => "complete"
       case _ => "nationality"
     }
@@ -36,6 +37,7 @@ trait Steps extends IerForms{
       case "previous-address" => html.steps.previousAddress(request.session.getApplication)
       case "other-address" => html.steps.otherAddress(request.session.getApplication)
       case "open-register" => html.steps.openRegister(request.session.getApplication)
+      case "contact" => html.steps.contact(request.session.getApplication)
       case "confirmation" => html.steps.confirmation(request.session.getApplication)
     }
   }

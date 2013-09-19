@@ -132,7 +132,6 @@ input.button{
 }
 
 .small-header{
-	display: none;
 	max-width: 600px;
 	margin: 2em 0 3em 0;
 }
@@ -512,6 +511,28 @@ Style for redacted NINO
 .details .show{
 	display: inline-block;
 	margin: 0 0 0 1em;
+}
+
+i.icon-caret-left{
+    background-image: url("/assets/images/icon-caret-left.png");
+    display: inline-block;
+    height: 100%;
+    min-height: 11px;
+    width: 8px;
+    background-position-y: 50%;
+    background-repeat: no-repeat;
+}
+
+i.icon-pointer{
+    display: inline-block;
+    background-image: url("/assets/images/icon-pointer.png");
+    background-repeat: no-repeat;
+    background-position-y: 50%;
+    min-height: 19px;
+    width: 16px;
+    margin-left: 8px;
+    position: relative;
+    top: 2px;
 }
 
 .icon{

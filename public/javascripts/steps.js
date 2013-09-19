@@ -17,7 +17,23 @@ $('body').on('click', '.more-help-link a', function(e){
         $moreHelpWrap.find('.more-help-link i').addClass('icon-caret-right').removeClass('icon-caret-down');
 
     }
+});
 
+$('body').on('change', 'input[type="checkbox"]', function(e){
+    var $this = $(this);
+    $this.closest('label').toggleClass('selected', $this.is(':checked'));
+});
+
+$('body').on('change', 'input[type="radio"]', function(e){
+    var $this = $(this);
+    var $step = $this.closest('.step');
+    $step.find('input[type="radio"][name="' + $this.attr('name') + '"]').closest('label').removeClass('selected');
+    $this.closest('label').toggleClass('selected', $this.is(':checked'));
+});
+
+$('.back').on('click', function(e){
+    e.preventDefault();
+    window.history.back();
 });
 
 
