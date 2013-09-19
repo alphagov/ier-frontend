@@ -62,10 +62,7 @@ object Name {
 }
 
 case class InprogressApplication( name: Option[NameUnderlying] = None,
-                                  nameChange: Option[String] = None,
-                                  previousFirstName: Option[String] = None,
-                                  previousMiddleName: Option[String] = None,
-                                  previousLastName: Option[String] = None,
+                                  previousName: Option[NameUnderlying] = None,
                                   dobYear: Option[String] = None,
                                   dobMonth: Option[String] = None,
                                   dobDay: Option[String] = None,

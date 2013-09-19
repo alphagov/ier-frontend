@@ -22,11 +22,11 @@ $('body').on('click', '.more-help-link a', function(e){
 
 
 $('#step-previous-name #input-name-change-yes').on('click', function(e) {
-    $('#step-previous-name #optionalSectionPreviousName').show();
+    show($('#step-previous-name #optionalSectionPreviousName'));
 });
 
 $('#step-previous-name #input-name-change-no').on('click', function(e) {
-    $('#step-previous-name #optionalSectionPreviousName').hide();
+    hide($('#step-previous-name #optionalSectionPreviousName'));
 });
 
 $('#step-address #find-address').on('click', function(e) {
@@ -35,11 +35,11 @@ $('#step-address #find-address').on('click', function(e) {
 });
 
 $('#step-previous-address #input-previous-address-no').on('click', function(e) {
-    $('#optional-section-previous-address').hide();
+    hide($('#optional-section-previous-address'));
 });
 
 $('#step-previous-address #input-previous-address-yes').on('click', function(e) {
-    $('#optional-section-previous-address').show();
+    show($('#optional-section-previous-address'));
 });
 
 $('#step-previous-address #find-previous-address').on('click', function(e) {
@@ -48,17 +48,27 @@ $('#step-previous-address #find-previous-address').on('click', function(e) {
 });
 
 $('#step-other-address #input-other-address-no').on('click', function(e) {
-    $('#optional-section-previous-address').hide();
+    hide($('#optional-section-previous-address'));
 });
 
 $('#step-other-address #input-other-address-yes').on('click', function(e) {
-    $('#optional-section-previous-address').show();
+    show($('#optional-section-previous-address'));
 });
 
 $('#step-other-address #find-other-address').on('click', function(e) {
     e.preventDefault();
     addressLookup($('#step-other-address'));
 });
+
+function show($block) {
+    $block.addClass('visible');
+    $block.removeClass('hidden');
+}
+
+function hide($block) {
+    $block.addClass('hidden');
+    $block.removeClass('visible');
+}
 
 function addressLookup($step) {
 

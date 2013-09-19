@@ -74,10 +74,7 @@ trait IerForms {
   val inprogressForm = Form(
     mapping(
       "name" -> optional(nameMapping),
-      "nameChange" -> optional(nonEmptyText),
-      "previousFirstName" -> optional(nonEmptyText),
-      "previousMiddleNames" -> optional(nonEmptyText),
-      "previousLastName" -> optional(nonEmptyText),
+      "previousName" -> optional(nameMapping),
       "dobYear" -> optional(nonEmptyText),
       "dobMonth" -> optional(nonEmptyText),
       "dobDay" -> optional(nonEmptyText),
@@ -113,10 +110,7 @@ trait IerForms {
       val stored = getApplication
       stored.copy(
         name = application.name.orElse(stored.name),
-        nameChange = application.nameChange.orElse(stored.nameChange),
-        previousFirstName = application.previousFirstName.orElse(stored.previousFirstName),
-        previousMiddleName = application.previousMiddleName.orElse(stored.previousMiddleName),
-        previousLastName = application.previousLastName.orElse(stored.previousLastName),
+        previousName = application.previousName.orElse(stored.previousName),
         dobYear = application.dobYear.orElse(stored.dobYear),
         dobMonth = application.dobMonth.orElse(stored.dobMonth),
         dobDay = application.dobDay.orElse(stored.dobDay),

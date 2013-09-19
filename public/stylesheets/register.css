@@ -26,6 +26,7 @@ a{
 
 h2{
 	font-size: 28px;
+	font-size: 28px;
 	margin: 1em 0;
 }
 
@@ -522,6 +523,13 @@ Style for redacted NINO
 	margin: 1em 0 1em 0;
 }
 
+.visible{
+    display: block !important;
+}
+
+.hidden{
+    display: none !important;
+}
 
 .other-country .number{
 	display: inline-block;

@@ -26,9 +26,9 @@
         <li class="detail">
             <h3>Previous name</h3>
             <div class="data-wrap">
-                @if(application.nameChange == Some("true")){
+                @if(application.previousName.isDefined){
                     <div class="name-change-yes">
-                        <p class="data previous-name">@name(application.previousFirstName, application.previousMiddleName, application.previousLastName)</p>
+                        <p class="data previous-name">@name(application.previousName.map(_.firstName), application.previousName.map(_.middleNames), application.previousName.map(_.lastName))</p>
                     </div>
                 } else {
                     <div class="name-change-no">
