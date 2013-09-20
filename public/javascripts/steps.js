@@ -36,13 +36,12 @@ $('.back').on('click', function(e){
     window.history.back();
 });
 
-
 $('#step-previous-name #input-name-change-yes').on('click', function(e) {
-    show($('#step-previous-name #optionalSectionPreviousName'));
+    show($('#optionalSectionPreviousName'));
 });
 
 $('#step-previous-name #input-name-change-no').on('click', function(e) {
-    hide($('#step-previous-name #optionalSectionPreviousName'));
+    hide($('#optionalSectionPreviousName'));
 });
 
 $('#step-address #find-address').on('click', function(e) {
@@ -64,17 +63,45 @@ $('#step-previous-address #find-previous-address').on('click', function(e) {
 });
 
 $('#step-other-address #input-other-address-no').on('click', function(e) {
-    hide($('#optional-section-previous-address'));
+    hide($('#optional-section-other-address'));
 });
 
 $('#step-other-address #input-other-address-yes').on('click', function(e) {
-    show($('#optional-section-previous-address'));
+    show($('#optional-section-other-address'));
 });
 
 $('#step-other-address #find-other-address').on('click', function(e) {
     e.preventDefault();
     addressLookup($('#step-other-address'));
 });
+
+$('#step-contact #contact-post').on('click', function(e) {
+    show($('#optional-section-contact-post'));
+    hide($('#optional-section-contact-phone'));
+    hide($('#optional-section-contact-email'));
+    hide($('#optional-section-contact-text'));
+})
+
+$('#step-contact #contact-phone').on('click', function(e) {
+    show($('#optional-section-contact-phone'));
+    hide($('#optional-section-contact-email'));
+    hide($('#optional-section-contact-text'));
+    hide($('#optional-section-contact-post'));
+})
+
+$('#step-contact #contact-email').on('click', function(e) {
+    hide($('#optional-section-contact-phone'));
+    show($('#optional-section-contact-email'));
+    hide($('#optional-section-contact-text'));
+    hide($('#optional-section-contact-post'));
+})
+
+$('#step-contact #contact-text').on('click', function(e) {
+    hide($('#optional-section-contact-phone'));
+    hide($('#optional-section-contact-email'));
+    show($('#optional-section-contact-text'));
+    hide($('#optional-section-contact-post'));
+})
 
 function show($block) {
     $block.addClass('visible');

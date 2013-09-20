@@ -1,48 +1,55 @@
 @(application: uk.gov.gds.ier.model.InprogressApplication)
 
+@import includes._
+
 <h2><span class="question-number">11</span><span>If we have questions about your application, how should we contact you?</span></h2>
 <div class="question">
     <div class="answer">
         <label class="selectable">
-            <input id="contact-post" type="radio" name="contact.contactType" value="post" class="radio"><span>Post</span>
+            <input id="contact-post" type="radio" name="contact.contactType" value="post" class="radio" @checkedIf(application.contact.map(_.contactType) == Some("post"))><span>Post</span>
         </label>
-        <div id="optional-section-contact-phone" class="optional-section">
-            <label class="above">Phone number</label>
+        <div id="optional-section-contact-post" class="optional-section @classIf(application.contact.map(_.contactType) == Some("post"), "visible")">
+            <label class="above">Address</label>
             <div class="validation-wrap">
-                <input id="input-post" type="hidden" name="contact.post" class="text" value="@application.address.getOrElse("")">
+                @for(address <- Array(application.address, application.otherAddress).filter(_.isDefined)){
+                    <label class="selectable">
+                        <input id="input-post" type="radio" name="contact.post" class="text" value="@address.getOrElse("")" @checkedIf(application.contact.map(_.contactDetail) == address)>
+                        <span>@address.getOrElse("")</span>
+                    </label>
+                }
             </div>
         </div>
     </div>
     <div class="answer">
         <label class="selectable">
-            <input type="radio" name="contact.contactType" value="phone" class="radio"><span>Phone call</span>
+            <input id="contact-phone" type="radio" name="contact.contactType" value="phone" class="radio" @checkedIf(application.contact.map(_.contactType) == Some("phone"))><span>Phone call</span>
         </label>
-        <div id="optional-section-contact-phone" class="optional-section">
+        <div id="optional-section-contact-phone" class="optional-section @classIf(application.contact.map(_.contactType) == Some("phone"), "visible")">
             <label class="above">Phone number</label>
             <div class="validation-wrap">
-                <input id="input-phone" type="tel" name="contact.phone" class="text">
+                <input id="input-phone" type="tel" name="contact.phone" class="text" value="@if(application.contact.map(_.contactType) == Some("phone")){ @application.contact.map(_.contactDetail).getOrElse("") }">
             </div>
         </div>
     </div>
     <div class="answer">
         <label class="selectable">
-            <input type="radio" name="contact.contactType" value="text" class="radio"><span>Text message</span>
+            <input id="contact-text" type="radio" name="contact.contactType" value="text" class="radio" @checkedIf(application.contact.map(_.contactType) == Some("text"))><span>Text message</span>
         </label>
-        <div id="optional-section-contact-text" class="optional-section">
+        <div id="optional-section-contact-text" class="optional-section  @classIf(application.contact.map(_.contactType) == Some("text"), "visible")">
             <label class="above">Phone number</label>
             <div class="validation-wrap">
-                <input id="input-text-number" type="tel" name="contact.textNumber" class="text">
+                <input id="input-text-number" type="tel" name="contact.textNumber" class="text" value="@if(application.contact.map(_.contactType) == Some("phone")){ @application.contact.map(_.contactDetail).getOrElse("") }">
             </div>
         </div>
     </div>
     <div class="answer">
         <label class="selectable">
-            <input type="radio" name="contact.contactType" value="email" class="radio"><span>Email</span>
+            <input id="contact-email" type="radio" name="contact.contactType" value="email" class="radio" @checkedIf(application.contact.map(_.contactType) == Some("email"))><span>Email</span>
         </label>
-        <div id="optional-section-contact-email" class="optional-section">
+        <div id="optional-section-contact-email" class="optional-section @classIf(application.contact.map(_.contactType) == Some("email"), "visible")">
             <label class="above">Email address</label>
             <div class="validation-wrap">
-                <input id="input-email" type="email" name="contact.email" class="text long">
+                <input id="input-email" type="email" name="contact.email" class="text long" value="@if(application.contact.map(_.contactType) == Some("phone")){ @application.contact.map(_.contactDetail).getOrElse("") }">
             </div>
         </div>
     </div>

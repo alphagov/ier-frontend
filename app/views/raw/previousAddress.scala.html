@@ -1,15 +1,17 @@
 @(application:uk.gov.gds.ier.model.InprogressApplication)
 
+@import includes._
+
 <h2><span class="question-number">7</span><span>Have you moved within the last 12 months?</span></h2>
 <div class="question">
     <label class="selectable binary">
-        <input type="radio" id="input-previous-address-yes" name="movedRecently" value="true" class="radio"><span>Yes</span>
+        <input type="radio" id="input-previous-address-yes" name="movedRecently" value="true" class="radio" @checkedIf(application.movedRecently == Some("true"))><span>Yes</span>
     </label>
     <label class="selectable binary">
-        <input type="radio" id="input-previous-address-no" name="movedRecently" value="false" class="radio"><span>No</span>
+        <input type="radio" id="input-previous-address-no" name="movedRecently" value="false" class="radio" @checkedIf(application.movedRecently == Some("false"))><span>No</span>
     </label>
 </div>
-<div id="optional-section-previous-address" class="optional-section optional-section-previous-address">
+<div id="optional-section-previous-address" class="optional-section optional-section-previous-address @classIf(application.movedRecently == Some("true"), "visible")">
     <div class="address-tabs">
         <div class="address-step-1">
             <div class="question">

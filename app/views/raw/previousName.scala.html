@@ -5,13 +5,13 @@
 <h2><span class="question-number">4</span><span>Have you changed your name in the last 12 months?</span></h2>
 <div class="question">
     <label class="selectable binary">
-        <input type="radio" id="input-name-change-yes" name="nameChange" value="true" class="radio" @checkedIf(application.previousName.isDefined)><span>Yes</span>
+        <input type="radio" id="input-name-change-yes" name="nameChange" value="true" class="radio" @checkedIf(application.previousName == Some("true"))><span>Yes</span>
     </label>
     <label class="selectable binary">
-        <input type="radio" id="input-name-change-no" name="nameChange" value="false" class="radio" @checkedIf(application.previousName.isEmpty)><span>No</span>
+        <input type="radio" id="input-name-change-no" name="nameChange" value="false" class="radio" @checkedIf(application.previousName == Some("false"))><span>No</span>
     </label>
 </div>
-<div id="optionalSectionPreviousName" class="optional-section optional-section-previous-name @classIf(application.previousName.isDefined, "visible")">
+<div id="optionalSectionPreviousName" class="optional-section optional-section-previous-name @classIf(application.previousName == Some("true"), "visible")">
     <h3>Previous name</h3>
     <div class="question">
         <label class="above">First name</label>
