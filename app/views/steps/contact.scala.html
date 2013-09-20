@@ -15,51 +15,58 @@
 @stepIndicator(10)
 
 <div id="step-contact" class="step" style="display: block;">
+    @form(routes.RegisterToVoteController.next("contact")){
     <h2><span class="question-number">11</span><span>If we have questions about your application, how should we contact you?</span></h2>
     <div class="question">
         <div class="answer">
             <label class="selectable">
-                <input type="radio" name="contactType" value="post" class="radio"><span>Post</span>
-            </label>
-        </div>
-        <div class="answer">
-            <label class="selectable">
-                <input type="radio" name="contactType" value="phone" class="radio"><span>Phone call</span>
+                <input id="contact-post" type="radio" name="contact.contactType" value="post" class="radio"><span>Post</span>
             </label>
             <div id="optional-section-contact-phone" class="optional-section">
                 <label class="above">Phone number</label>
                 <div class="validation-wrap">
-                    <input id="input-phone" type="tel" name="phone" class="text">
+                    <input id="input-post" type="hidden" name="contact.post" class="text" value="@application.address.getOrElse("")">
                 </div>
             </div>
         </div>
         <div class="answer">
             <label class="selectable">
-                <input type="radio" name="contactType" value="text" class="radio"><span>Text message</span>
+                <input type="radio" name="contact.contactType" value="phone" class="radio"><span>Phone call</span>
+            </label>
+            <div id="optional-section-contact-phone" class="optional-section">
+                <label class="above">Phone number</label>
+                <div class="validation-wrap">
+                    <input id="input-phone" type="tel" name="contact.phone" class="text">
+                </div>
+            </div>
+        </div>
+        <div class="answer">
+            <label class="selectable">
+                <input type="radio" name="contact.contactType" value="text" class="radio"><span>Text message</span>
             </label>
             <div id="optional-section-contact-text" class="optional-section">
                 <label class="above">Phone number</label>
                 <div class="validation-wrap">
-                    <input id="input-text-number" type="tel" name="textNumber" class="text">
+                    <input id="input-text-number" type="tel" name="contact.textNumber" class="text">
                 </div>
             </div>
         </div>
         <div class="answer">
             <label class="selectable">
-                <input type="radio" name="contactType" value="email" class="radio"><span>Email</span>
+                <input type="radio" name="contact.contactType" value="email" class="radio"><span>Email</span>
             </label>
             <div id="optional-section-contact-email" class="optional-section">
                 <label class="above">Email address</label>
                 <div class="validation-wrap">
-                    <input id="input-email" type="email" name="email" class="text long">
+                    <input id="input-email" type="email" name="contact.email" class="text long">
                 </div>
             </div>
         </div>
     </div>
     <div class="validation-message"></div>
     <div class="next-question">
-        <button data-next="confirmation" class="button next">Continue</button>
-        <button class="button save" style="display: none;">Continue</button>
+        <input type="submit" class="button next" value="Continue" />
     </div>
+    }
 </div>
 }

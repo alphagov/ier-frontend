@@ -71,6 +71,13 @@ trait IerForms {
     "middleNames" -> optional(nonEmptyText),
     "lastName" -> nonEmptyText) (Name.apply) (Name.unapply)
 
+  val contactMapping = mapping(
+    "contactType" -> nonEmptyText,
+    "post" -> optional(nonEmptyText),
+    "phone" -> optional(nonEmptyText),
+    "textNum" -> optional(nonEmptyText),
+    "email" -> optional(nonEmptyText)) (Contact.apply) (Contact.unapply)
+
   val inprogressForm = Form(
     mapping(
       "name" -> optional(nameMapping),
@@ -88,7 +95,8 @@ trait IerForms {
       "hasOtherAddress" -> optional(nonEmptyText),
       "otherAddress" -> optional(nonEmptyText),
       "otherPostcode" -> optional(nonEmptyText),
-      "openRegisterOptin" -> optional(nonEmptyText)
+      "openRegisterOptin" -> optional(nonEmptyText),
+      "contact" -> optional(contactMapping)
     ) (InprogressApplication.apply) (InprogressApplication.unapply)
   )
 
@@ -125,7 +133,8 @@ trait IerForms {
         hasOtherAddress = application.hasOtherAddress.orElse(stored.hasOtherAddress),
         otherAddress = application.otherAddress.orElse(stored.otherAddress),
         otherPostcode = application.otherPostcode.orElse(stored.otherPostcode),
-        openRegisterOptin = application.openRegisterOptin.orElse(stored.openRegisterOptin)
+        openRegisterOptin = application.openRegisterOptin.orElse(stored.openRegisterOptin),
+        contact = application.contact.orElse(stored.contact)
       )
     }
   }

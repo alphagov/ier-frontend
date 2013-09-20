@@ -116,9 +116,19 @@
         <li class="detail">
             <h3>How we should contact you</h3>
             <div class="data-wrap">
-                <p class="message data contact-by-post-yes">If there are any problems with your application we will contact you by post.</p>
-                <p class="data contact-by-phone-yes"><span>Phone number:&nbsp;</span><span class="data telephone"></span></p>
-                <p class="data contact-by-email-yes"><span>Email:&nbsp;</span><span class="data email"></span></p>
+                <p class="message">If there are any problems with your application we will contact you by:</p>
+                @if(application.contact.map(_.contactType) == Some("phone")){
+                    <p class="data contact-by-phone-yes"><span>Phone number at </span><span class="data telephone">@application.contact.map(_.contactDetail).getOrElse("")</span></p>
+                }
+                @if(application.contact.map(_.contactType) == Some("text")){
+                    <p class="data contact-by-text-yes"><span>Text message at </span><span class="data text">@application.contact.map(_.contactDetail).getOrElse("")</span></p>
+                }
+                @if(application.contact.map(_.contactType) == Some("email")){
+                    <p class="data contact-by-email-yes"><span>Email at </span><span class="data email">@application.contact.map(_.contactDetail).getOrElse("")</span></p>
+                }
+                @if(application.contact.map(_.contactType) == Some("post")){
+                    <p class="data contact-by-post-yes"><span>Post at </span><span class="data post">@application.contact.map(_.contactDetail).getOrElse("")</span></p>
+                }
             </div><a href="#step-contact/edit" class="change">Change</a>
         </li>
     </ul>
