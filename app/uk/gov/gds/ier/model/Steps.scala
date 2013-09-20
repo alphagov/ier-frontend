@@ -38,7 +38,7 @@ trait Steps extends IerForms{
       case "other-address" => html.steps.otherAddress(request.session.getApplication)
       case "open-register" => html.steps.openRegister(request.session.getApplication)
       case "contact" => html.steps.contact(request.session.getApplication)
-      case "confirmation" => html.steps.confirmation(request.session.getApplication)
+      case "confirmation" => html.confirmation(request.session.getApplication)
     }
   }
 }

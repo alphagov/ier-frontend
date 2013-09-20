@@ -1,0 +1,40 @@
+@(application:uk.gov.gds.ier.model.InprogressApplication)
+
+<h2><span class="question-number">8</span><span>Do you spend part of your time living at another UK address?</span></h2>
+<div class="question">
+    <label class="selectable binary">
+        <input type="radio" id="input-other-address-yes" name="hasOtherAddress" value="true" class="radio"><span>Yes</span>
+    </label>
+    <label class="selectable binary">
+        <input type="radio" id="input-other-address-no" name="hasOtherAddress" value="false" class="radio"><span>No</span>
+    </label>
+</div>
+<div id="optional-section-other-address" class="optional-section optional-section-other-address">
+    <div class="address-tabs">
+        <div class="address-step-1">
+            <div class="question">
+                <label class="above">Enter the postcode to find your second address</label>
+                <div class="search-wrap">
+                    <input type="text" name="otherPostcode" class="postcode text long">
+                    <button id="find-other-address" class="button search"><span>Find address</span></button>
+                </div>
+            </div>
+        </div>
+        <div class="postcode-search-results">
+            <div class="question"><span class="validation-wrap">
+                <select id="input-other-address-list" name="otherAddress" data-name="otherAddress" class="addressList lonely"></select></span>
+                <div class="action"><a href="#" class="address-not-listed">The address is not listed</a></div>
+            </div>
+        </div>
+        <div class="type-in-address">
+            <div class="question">
+                <label class="above">Second address</label><span class="validation-wrap">
+                <textarea id="input-other-address-text" name="otherAddress" class="small"></textarea></span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="validation-message"></div>
+<div class="next-question">
+    <input data-next="step-name" type="submit" class="button next" value="Continue" />
+</div>
