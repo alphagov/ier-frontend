@@ -1,0 +1,10 @@
+@(application: uk.gov.gds.ier.model.InprogressApplication)
+
+@import helper._
+@import layouts._
+
+@main(title = Some("Register to Vote - Have you changed your name in the last 12 months?"), header = head(), scripts = stepsBodyEnd()) {
+    @form(routes.RegisterToVoteController.next("edit")) {
+        @raw.previousName(application)
+    }
+}

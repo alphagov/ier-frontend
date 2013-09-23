@@ -15,4 +15,5 @@ object RegisterToVoteController extends DelegatingController[GuicedController] {
   def registerToVote = delegate.registerToVote
   def registerStep(step:String) = delegate.registerStep(step)
   def next(step:String) = delegate.next(step)
+  def edit(step:String) = delegate.edit(step)
 }

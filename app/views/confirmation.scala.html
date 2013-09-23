@@ -21,7 +21,7 @@
             <h3>Name</h3>
             <div class="data-wrap">
                 <p class="data name">@name(application.name.map(_.firstName), application.name.map(_.middleNames), application.name.map(_.lastName))</p>
-            </div><a href="#step-name/edit" class="change">Change</a>
+            </div><a href="@routes.RegisterToVoteController.edit("name")" class="change">Change</a>
         </li>
         <li class="detail">
             <h3>Previous name</h3>
@@ -35,7 +35,7 @@
                         <p class="message">You have not changed your name in the last 12 months</p>
                     </div>
                 }
-            </div><a href="#step-previous-name/edit" class="change">Change</a>
+            </div><a href="@routes.RegisterToVoteController.edit("previous-name")" class="change">Change</a>
         </li>
         <li class="detail">
             <h3>Date of birth</h3>
@@ -44,7 +44,7 @@
                 <input type="hidden" value="@application.dobDay.getOrElse("")" name="dobDay">
                 <input type="hidden" value="@application.dobYear.getOrElse("")" name="dobYear">
                 <input type="hidden" value="@application.dobMonth.getOrElse("")" name="dobMonth">
-            </div><a href="#step-date-of-birth/edit" class="change">Change</a>
+            </div><a href="@routes.RegisterToVoteController.edit("date-of-birth")" class="change">Change</a>
         </li>
         <li class="detail">
             <h3>Nationality</h3>
@@ -56,7 +56,7 @@
                     @*<p>You cannot provide your nationality because:</p>*@
                     @*<p class="data no-nationality-reason"></p>*@
                 @*</div>*@
-            </div><a href="#step-nationality/edit" class="change">Change</a>
+            </div><a href="@routes.RegisterToVoteController.edit("nationality")" class="change">Change</a>
         </li>
         <li class="detail">
             <h3>National Insurance number</h3>
@@ -71,14 +71,14 @@
                         <p class="data no-NINO-reason"></p>
                     </div>
                 }
-            </div><a href="#step-nino/edit" class="change">Change</a>
+            </div><a href="@routes.RegisterToVoteController.edit("nino")" class="change">Change</a>
         </li>
         <li class="detail">
             <h3>Address</h3>
             <div class="data-wrap">
                 <p class="data address">@application.address.getOrElse("")</p>
                 <p class="data postcode">@application.postcode.getOrElse("")</p>
-            </div><a href="#step-address/edit" class="change">Change</a>
+            </div><a href="@routes.RegisterToVoteController.edit("address")" class="change">Change</a>
         </li>
         <li class="detail">
             <h3>Previous address</h3>
@@ -91,17 +91,20 @@
                 }else{
                     <p class="data message moved-recently-no">You have not moved in the last 12 months</p>
                 }
-            </div><a href="#step-previous-address/edit" class="change">Change</a>
+            </div><a href="@routes.RegisterToVoteController.edit("previous-address")" class="change">Change</a>
         </li>
         <li class="detail">
             <h3>Second address</h3>
             <div class="data-wrap">
-                <div class="other-address-yes">
-                    <p class="data otherAddress"></p>
-                    <p class="data otherPostcode"></p>
-                </div>
-                <p class="data message other-address-no">You don't have a second address</p>
-            </div><a href="#step-other-address/edit" class="change">Change</a>
+                @if(application.hasOtherAddress == Some("true")){
+                    <div class="other-address-yes">
+                        <p class="data otherAddress">@application.otherAddress.getOrElse("")</p>
+                        <p class="data otherPostcode">@application.otherPostcode.getOrElse("")</p>
+                    </div>
+                }else{
+                    <p class="data message other-address-no">You don't have a second address</p>
+                }
+            </div><a href="@routes.RegisterToVoteController.edit("other-address")" class="change">Change</a>
         </li>
         <li class="detail">
             <h3>Open register</h3>
@@ -111,7 +114,7 @@
                 }else{
                     <p class="data message edited-register-optin-no">You don’t want us to include your details on the open register so they are available to charities and companies.</p>
                 }
-            </div><a href="#step-open-register/edit" class="change">Change</a>
+            </div><a href="@routes.RegisterToVoteController.edit("open-register")" class="change">Change</a>
         </li>
         <li class="detail">
             <h3>How we should contact you</h3>
@@ -129,7 +132,7 @@
                 @if(application.contact.map(_.contactType) == Some("post")){
                     <p class="data contact-by-post-yes"><span>Post at </span><span class="data post">@application.contact.map(_.contactDetail).getOrElse("")</span></p>
                 }
-            </div><a href="#step-contact/edit" class="change">Change</a>
+            </div><a href="@routes.RegisterToVoteController.edit("contact")" class="change">Change</a>
         </li>
     </ul>
     <div class="help">

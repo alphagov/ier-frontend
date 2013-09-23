@@ -47,6 +47,11 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
       )
   }
 
+  def edit(step:String) = Action(BodyParsers.parse.urlFormEncoded) {
+    implicit request =>
+      Ok(editPageFor(step))
+  }
+
   def errorRedirect(error:String) = Action {
     Redirect(routes.RegisterToVoteController.error()).flashing("error-type" -> error)
   }

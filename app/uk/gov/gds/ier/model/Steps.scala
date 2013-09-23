@@ -20,11 +20,27 @@ trait Steps extends IerForms {
       case "open-register" => "contact"
       case "contact" => "confirmation"
       case "confirmation" => "complete"
+      case "edit" => "confirmation"
       case _ => "nationality"
     }
   }
 
   def firstStep() = "nationality"
+
+  def editPageFor(step:String)(implicit request: RequestHeader) = {
+    step match {
+      case "nationality" => html.edit.nationality(request.session.getApplication)
+      case "date-of-birth" => html.edit.dateOfBirth(request.session.getApplication)
+      case "name" => html.edit.name(request.session.getApplication)
+      case "previous-name" => html.edit.previousName(request.session.getApplication)
+      case "nino" => html.edit.nino(request.session.getApplication)
+      case "address" => html.edit.address(request.session.getApplication)
+      case "previous-address" => html.edit.previousAddress(request.session.getApplication)
+      case "other-address" => html.edit.otherAddress(request.session.getApplication)
+      case "open-register" => html.edit.openRegister(request.session.getApplication)
+      case "contact" => html.edit.contact(request.session.getApplication)
+    }
+  }
 
   def pageFor(step:String)(implicit request: RequestHeader) = {
     step match {

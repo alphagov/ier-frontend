@@ -12,6 +12,7 @@ GET         /register-to-vote/error               controllers.RegisterToVoteCont
 GET         /register-to-vote/error/:error        controllers.RegisterToVoteController.errorRedirect(error: String)
 GET         /register-to-vote/:step               controllers.RegisterToVoteController.registerStep(step: String)
 POST        /register-to-vote/:step               controllers.RegisterToVoteController.next(step: String)
+GET         /register-to-vote/edit/:step          controllers.RegisterToVoteController.edit(step: String)
 
 
 #Postcode Lookup
