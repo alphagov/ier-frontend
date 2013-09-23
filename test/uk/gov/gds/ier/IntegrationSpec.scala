@@ -1,4 +1,4 @@
-package test
+package uk.gov.gds.ier
 
 import org.specs2.mutable._
 
@@ -6,10 +6,8 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.client.ApiClient
 import uk.gov.gds.ier.test.BrowserHelpers
-import uk.gov.gds.ier.DynamicGlobal
 import uk.gov.gds.ier.model.{Fail, Success, ApiResponse}
 import uk.gov.gds.ier.config.Config
-import play.api.libs.ws.WS
 
 class IntegrationSpec extends Specification with BrowserHelpers {
 
@@ -32,30 +30,47 @@ class IntegrationSpec extends Specification with BrowserHelpers {
     }
   }
 
-  "register to vote page" should {
-    "successfully process a valid application" in {
-      running(TestServer(3333, FakeApplication(withGlobal = Some(stubGlobal))), HTMLUNIT) { implicit browser =>
-        goTo("http://localhost:3333/register-to-vote")
-
-        formText("#firstName", "John")
-        formText("#middleName", "James")
-        formText("#lastName", "Smith")
-        formText("#previousLastName", "Jones")
-        formText("#dob", "1988-01-01")
-        formText("#nino", "AB 12 34 56 D")
-
-        click("#submit")
-
-        waitForSelector("#confirmation")
-        browser.pageSource() must contain("First Name: John")
-        browser.pageSource() must contain("Last Name: Smith")
-        browser.pageSource() must contain("Previous Last Name: Jones")
-        browser.pageSource() must contain("Date Of Birth: 1988-01-01")
-        browser.pageSource() must contain("Middle Name: James")
-        browser.pageSource() must contain("IER ID: 1234")
-        browser.pageSource() must contain("Nino: AB 12 34 56 D")
-        browser.pageSource() must contain("Creation Date: 1988-01-01 12:00:00")
-        browser.pageSource() must contain("Status: Unprocessed")
+  "RegisterToVote form" should {
+    "have no page 404" in {
+      "Nationality should not 404" in {
+        val result = controllers.RegisterToVoteController.registerStep("nationality")(FakeRequest())
+        status(result) mustEqual OK
+      }
+      "Name should not 404" in {
+        val result = controllers.RegisterToVoteController.registerStep("name")(FakeRequest())
+        status(result) mustEqual OK
+      }
+      "Address should not 404" in {
+        val result = controllers.RegisterToVoteController.registerStep("address")(FakeRequest())
+        status(result) mustEqual OK
+      }
+      "Contact should not 404" in {
+        val result = controllers.RegisterToVoteController.registerStep("contact")(FakeRequest())
+        status(result) mustEqual OK
+      }
+      "Date Of Birth should not 404" in {
+        val result = controllers.RegisterToVoteController.registerStep("date-of-birth")(FakeRequest())
+        status(result) mustEqual OK
+      }
+      "NINO should not 404" in {
+        val result = controllers.RegisterToVoteController.registerStep("nino")(FakeRequest())
+        status(result) mustEqual OK
+      }
+      "Open Register should not 404" in {
+        val result = controllers.RegisterToVoteController.registerStep("open-register")(FakeRequest())
+        status(result) mustEqual OK
+      }
+      "Other Address should not 404" in {
+        val result = controllers.RegisterToVoteController.registerStep("other-address")(FakeRequest())
+        status(result) mustEqual OK
+      }
+      "Previous Address should not 404" in {
+        val result = controllers.RegisterToVoteController.registerStep("previous-address")(FakeRequest())
+        status(result) mustEqual OK
+      }
+      "Previous Name should not 404" in {
+        val result = controllers.RegisterToVoteController.registerStep("previous-name")(FakeRequest())
+        status(result) mustEqual OK
       }
     }
   }
@@ -92,7 +107,7 @@ class IntegrationSpec extends Specification with BrowserHelpers {
 class MockConfig extends Config {
   override def paKey = "1234"
   override def paUrl = "http://pa.com"
-  override def apiTimeout = 1
+  override def apiTimeout = 3
 }
 
 class MockApiClient extends ApiClient(new MockConfig) {

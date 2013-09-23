@@ -1,14 +1,19 @@
 package uk.gov.gds.ier.controller
 
 import play.api.mvc.{Session, BodyParsers, Controller, Action}
-import uk.gov.gds.ier.model.{Steps, IerForms}
+import uk.gov.gds.ier.model.{InProgressSession, Steps, IerForms}
 import com.google.inject.Inject
 import uk.gov.gds.ier.service.IerApiService
 import views._
 import controllers._
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 
-class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: JsonSerialiser) extends Controller with IerForms with WithSerialiser with Steps {
+class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: JsonSerialiser)
+    extends Controller
+    with IerForms
+    with WithSerialiser
+    with Steps
+    with InProgressSession {
 
   def toJson(obj: AnyRef): String = serialiser.toJson(obj)
 

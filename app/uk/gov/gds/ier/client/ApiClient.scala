@@ -16,8 +16,12 @@ class ApiClient @Inject() (config: Config) {
       config.apiTimeout seconds
     )
     result.status match {
-      case Status.OK => Success(result.body)
-      case _ => Fail(result.body)
+      case Status.OK => {
+        Success(result.body)
+      }
+      case _ => {
+        Fail(result.body)
+      }
     }
   }
 

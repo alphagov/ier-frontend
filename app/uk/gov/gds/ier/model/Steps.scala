@@ -4,8 +4,8 @@ import views.html
 import play.api.mvc.RequestHeader
 import uk.gov.gds.ier.serialiser.WithSerialiser
 
-trait Steps extends IerForms{
-  self: WithSerialiser =>
+trait Steps extends IerForms {
+  self: InProgressSession =>
 
   def nextStep(step:String) = {
     step match {
