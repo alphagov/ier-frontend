@@ -4,13 +4,7 @@
 @import layouts._
 
 @main(title = Some("Register to Vote - Have you moved within the last 12 months?"), header = head(), scripts = stepsBodyEnd()) {
-
-    @stepIndicator(7)
-
-<div id="step-previous-address" class="step">
     @form(routes.RegisterToVoteController.next("previous-address")) {
         @raw.previousAddress(application)
     }
-</div>
-
 }

@@ -4,12 +4,7 @@
 @import layouts._
 
 @main(title = Some("Register to Vote - Where do you live?"), header = head(), scripts = stepsBodyEnd()) {
-
-    @stepIndicator(6)
-
-<div id="step-address" class="step">
     @form(routes.RegisterToVoteController.next("address")) {
         @raw.address(application)
     }
-</div>
 }

@@ -2,41 +2,45 @@
 
 @import includes._
 
-<h2><span class="question-number">7</span><span>Have you moved within the last 12 months?</span></h2>
-<div class="question">
-    <label class="selectable binary">
-        <input type="radio" id="input-previous-address-yes" name="movedRecently" value="true" class="radio" @checkedIf(application.movedRecently == Some("true"))><span>Yes</span>
-    </label>
-    <label class="selectable binary">
-        <input type="radio" id="input-previous-address-no" name="movedRecently" value="false" class="radio" @checkedIf(application.movedRecently == Some("false"))><span>No</span>
-    </label>
-</div>
-<div id="optional-section-previous-address" class="optional-section optional-section-previous-address @classIf(application.movedRecently == Some("true"), "visible")">
-    <div class="address-tabs">
-        <div class="address-step-1">
-            <div class="question">
-                <label class="above">Enter the postcode to find your previous address</label>
-                <div class="search-wrap">
-                    <input type="text" name="previousPostcode" class="postcode text long">
-                    <button id="find-previous-address" class="button search"><span>Find address</span></button>
+@layouts.stepIndicator(7)
+
+<div id="step-previous-address" class="step">
+    <h2><span class="question-number">7</span><span>Have you moved within the last 12 months?</span></h2>
+    <div class="question">
+        <label class="selectable binary">
+            <input type="radio" id="input-previous-address-yes" name="movedRecently" value="true" class="radio" @checkedIf(application.movedRecently == Some("true"))><span>Yes</span>
+        </label>
+        <label class="selectable binary">
+            <input type="radio" id="input-previous-address-no" name="movedRecently" value="false" class="radio" @checkedIf(application.movedRecently == Some("false"))><span>No</span>
+        </label>
+    </div>
+    <div id="optional-section-previous-address" class="optional-section optional-section-previous-address @classIf(application.movedRecently == Some("true"), "visible")">
+        <div class="address-tabs">
+            <div class="address-step-1">
+                <div class="question">
+                    <label class="above">Enter the postcode to find your previous address</label>
+                    <div class="search-wrap">
+                        <input type="text" name="previousPostcode" class="postcode text long">
+                        <button id="find-previous-address" class="button search"><span>Find address</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="postcode-search-results">
+                <div class="question"><span class="validation-wrap">
+                    <select id="input-previous-address-list" name="previousAddress" data-name="previousAddress" class="addressList lonely"></select></span>
+                    <div class="action"><a href="#" class="address-not-listed">The address is not listed</a></div>
+                </div>
+            </div>
+            <div class="type-in-address">
+                <div class="question">
+                    <label class="above">Previous address</label><span class="validation-wrap">
+                    <textarea id="input-previous-address-text" name="previousAddress" class="small"></textarea></span>
                 </div>
             </div>
         </div>
-        <div class="postcode-search-results">
-            <div class="question"><span class="validation-wrap">
-                <select id="input-previous-address-list" name="previousAddress" data-name="previousAddress" class="addressList lonely"></select></span>
-                <div class="action"><a href="#" class="address-not-listed">The address is not listed</a></div>
-            </div>
-        </div>
-        <div class="type-in-address">
-            <div class="question">
-                <label class="above">Previous address</label><span class="validation-wrap">
-                <textarea id="input-previous-address-text" name="previousAddress" class="small"></textarea></span>
-            </div>
-        </div>
     </div>
-</div>
-<div class="validation-message"></div>
-<div class="next-question">
-    <input data-next="step-name" type="submit" class="button next" value="Continue" />
+    <div class="validation-message"></div>
+    <div class="next-question">
+        <input data-next="step-name" type="submit" class="button next" value="Continue" />
+    </div>
 </div>

@@ -4,12 +4,7 @@
 @import layouts._
 
 @main(title = Some("Register to Vote - What is your National Insurance number?"), header = head(), scripts = stepsBodyEnd()) {
-
-@stepIndicator(5)
-
-<div id="step-nino" class="step">
     @form(routes.RegisterToVoteController.next("nino")) {
         @raw.nino(application)
     }
-</div>
 }

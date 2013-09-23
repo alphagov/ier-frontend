@@ -4,12 +4,7 @@
 @import layouts._
 
 @main(title = Some("Register to Vote - What is your Date Of Birth?"), header = head(), scripts = stepsBodyEnd()) {
-
-@layouts.stepIndicator(2)
-
-<div id="step-date-of-birth" class="step">
     @form(routes.RegisterToVoteController.next("date-of-birth")) {
         @raw.dateOfBirth(application)
     }
-</div>
 }

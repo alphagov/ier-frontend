@@ -3,71 +3,74 @@
 @import includes._
 @import uk.gov.gds.ier.model.DateOfBirthConstants
 
+@layouts.stepIndicator(2)
 
-<div class="question">
-    <h2><span class="question-number">2</span><span>What is your date of birth?</span></h2>
-    <ul class="answers">
-        <li class="answer"><span class="validation-wrap">
-            <select id="input-dob-day" name="dobDay" class="day">
-                <option>Day</option>
-                @for(day <- DateOfBirthConstants.days) {
-                    <option @selectedIf(application.dobDay == Some("" + day)) >@day</option>
-                }
+<div id="step-date-of-birth" class="step">
+    <div class="question">
+        <h2><span class="question-number">2</span><span>What is your date of birth?</span></h2>
+        <ul class="answers">
+            <li class="answer"><span class="validation-wrap">
+                <select id="input-dob-day" name="dobDay" class="day">
+                    <option>Day</option>
+                    @for(day <- DateOfBirthConstants.days) {
+                        <option @selectedIf(application.dobDay == Some("" + day)) >@day</option>
+                    }
 
+                    </select></span><span class="validation-wrap">
+                <select id="input-dob-month" name="dobMonth" class="month">
+                    <option>Month</option>
+                    @for(month <- DateOfBirthConstants.months) {
+                        <option @selectedIf(application.dobMonth == Some(month)) >@month</option>
+                    }
                 </select></span><span class="validation-wrap">
-            <select id="input-dob-month" name="dobMonth" class="month">
-                <option>Month</option>
-                @for(month <- DateOfBirthConstants.months) {
-                    <option @selectedIf(application.dobMonth == Some(month)) >@month</option>
-                }
-            </select></span><span class="validation-wrap">
-            <select id="input-dob-year" name="dobYear" class="year">
-                <option>Year</option>
-                @for(year <- DateOfBirthConstants.years) {
-                    <option @selectedIf(application.dobYear == Some(""+year)) >@year</option>
-                }
+                <select id="input-dob-year" name="dobYear" class="year">
+                    <option>Year</option>
+                    @for(year <- DateOfBirthConstants.years) {
+                        <option @selectedIf(application.dobYear == Some(""+year)) >@year</option>
+                    }
 
-            </select></span></li>
-    </ul>
-</div>
-<div class="more-help-wrap">
-    <div class="more-help-link"><span><i class="icon-caret-right"></i><a href="#">Help</a></span></div>
-    <div class="more-help-content"><p>If you don&#39;t know your exact date of birth, please use the one you put on other official documents, for example your passport or driver&#39;s licence.</p>
-        <p>If possible, it&#39;s important that you find out your date of birth - without it you will need to provide other documentation by post.</p>
+                </select></span></li>
+        </ul>
+    </div>
+    <div class="more-help-wrap">
+        <div class="more-help-link"><span><i class="icon-caret-right"></i><a href="#">Help</a></span></div>
+        <div class="more-help-content"><p>If you don&#39;t know your exact date of birth, please use the one you put on other official documents, for example your passport or driver&#39;s licence.</p>
+            <p>If possible, it&#39;s important that you find out your date of birth - without it you will need to provide other documentation by post.</p>
 
-        <p><a id="no-dob-link" href="#">I can't provide my date of birth</a></p>
-        <div id="optional-section-no-dob" class="optional-section">
-            <div class="question">
-                <label class="above">Why can't you provide your date of birth?</label>
-                <textarea name="noDOBReason" class="small"></textarea>
-            </div>
-            <div class="question">
-                <label class="above">How old are you?</label>
-                <div class="answer">
-                    <label class="selectable">
-                        <input type="radio" name="DOBStatement" value="under18" class="radio"><span>Under 18 years old</span>
-                    </label>
+            <p><a id="no-dob-link" href="#">I can't provide my date of birth</a></p>
+            <div id="optional-section-no-dob" class="optional-section">
+                <div class="question">
+                    <label class="above">Why can't you provide your date of birth?</label>
+                    <textarea name="noDOBReason" class="small"></textarea>
                 </div>
-                <div class="answer">
-                    <label class="selectable">
-                        <input type="radio" name="DOBStatement" value="18to70" class="radio"><span>Between 18 and 70 years old</span>
-                    </label>
-                </div>
-                <div class="answer">
-                    <label class="selectable">
-                        <input type="radio" name="DOBStatement" value="over70" class="radio"><span>Over 70 years old</span>
-                    </label>
-                </div>
-                <div class="answer">
-                    <label class="selectable">
-                        <input type="radio" name="DOBStatement" value="dontKnow" class="radio"><span>I don't know</span>
-                    </label>
+                <div class="question">
+                    <label class="above">How old are you?</label>
+                    <div class="answer">
+                        <label class="selectable">
+                            <input type="radio" name="DOBStatement" value="under18" class="radio"><span>Under 18 years old</span>
+                        </label>
+                    </div>
+                    <div class="answer">
+                        <label class="selectable">
+                            <input type="radio" name="DOBStatement" value="18to70" class="radio"><span>Between 18 and 70 years old</span>
+                        </label>
+                    </div>
+                    <div class="answer">
+                        <label class="selectable">
+                            <input type="radio" name="DOBStatement" value="over70" class="radio"><span>Over 70 years old</span>
+                        </label>
+                    </div>
+                    <div class="answer">
+                        <label class="selectable">
+                            <input type="radio" name="DOBStatement" value="dontKnow" class="radio"><span>I don't know</span>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="validation-message"></div>
-<div class="next-question">
-    <input data-next="step-name" type="submit" class="button next" value="Continue" />
+    <div class="validation-message"></div>
+    <div class="next-question">
+        <input data-next="step-name" type="submit" class="button next" value="Continue" />
+    </div>
 </div>

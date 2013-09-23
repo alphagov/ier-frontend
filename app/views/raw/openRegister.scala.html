@@ -2,32 +2,36 @@
 
 @import includes._
 
-<h2><span class="question-number">9</span><span>Tell us whether to include your details on the open register</span></h2>
-<div class="help">
-    <p>The open register is an edited version of the electoral register that’s available for sale to anyone (for example, companies or charities who want to send you information).</p>
-    <p>You can choose whether your details are included on the open register. It doesn’t affect your right to vote.</p>
-</div>
-<!--
-              <div class="help">
-                <p>The Edited register allows companies and charities to find information about you.</p>
-              </div>
-              -->
-<div class="question">
-    <ul class="answers">
-        <li class="answer">
-            <label class="selectable">
-                <input type="radio" name="openRegisterOptin" value="true" class="radio" @checkedIf(application.openRegisterOptin == Some("true"))><span>Include my details on the open register</span>
-            </label>
-        </li>
-        <li class="answer">
-            <label class="selectable">
-                <input type="radio" name="openRegisterOptin" value="false" class="radio" @checkedIf(application.openRegisterOptin == Some("false"))><span>Don't include my details on the open register</span>
-            </label>
-        </li>
-    </ul>
-</div>
-<div class="validation-message"></div>
-<div class="next-question">
-    <button data-next="step-contact" class="button next">Continue</button>
-    <button class="button save">Continue</button>
+@layouts.stepIndicator(9)
+
+<div id="step-open-register" class="step">
+    <h2><span class="question-number">9</span><span>Tell us whether to include your details on the open register</span></h2>
+    <div class="help">
+        <p>The open register is an edited version of the electoral register that’s available for sale to anyone (for example, companies or charities who want to send you information).</p>
+        <p>You can choose whether your details are included on the open register. It doesn’t affect your right to vote.</p>
+    </div>
+    <!--
+                  <div class="help">
+                    <p>The Edited register allows companies and charities to find information about you.</p>
+                  </div>
+                  -->
+    <div class="question">
+        <ul class="answers">
+            <li class="answer">
+                <label class="selectable">
+                    <input type="radio" name="openRegisterOptin" value="true" class="radio" @checkedIf(application.openRegisterOptin == Some("true"))><span>Include my details on the open register</span>
+                </label>
+            </li>
+            <li class="answer">
+                <label class="selectable">
+                    <input type="radio" name="openRegisterOptin" value="false" class="radio" @checkedIf(application.openRegisterOptin == Some("false"))><span>Don't include my details on the open register</span>
+                </label>
+            </li>
+        </ul>
+    </div>
+    <div class="validation-message"></div>
+    <div class="next-question">
+        <button data-next="step-contact" class="button next">Continue</button>
+        <button class="button save">Continue</button>
+    </div>
 </div>

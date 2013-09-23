@@ -4,12 +4,7 @@
 @import layouts._
 
 @main(title = Some("Register to Vote - Have you changed your name in the last 12 months?"), header = head(), scripts = stepsBodyEnd()) {
-
-@stepIndicator(4)
-
-<div id="step-previous-name" class="step">
     @form(routes.RegisterToVoteController.next("previous-name")) {
         @raw.previousName(application)
     }
-</div>
 }

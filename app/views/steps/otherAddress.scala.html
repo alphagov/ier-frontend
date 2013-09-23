@@ -4,12 +4,7 @@
 @import layouts._
 
 @main(title = Some("Register to Vote - Do you spend part of your time living at another UK address?"), header = head(), scripts = stepsBodyEnd()) {
-
-    @stepIndicator(8)
-
-<div id="step-other-address" class="step">
     @form(routes.RegisterToVoteController.next("other-address")) {
         @raw.otherAddress(application)
     }
-</div>
 }

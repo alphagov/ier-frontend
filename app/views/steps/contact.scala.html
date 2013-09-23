@@ -3,20 +3,8 @@
 @import helper._
 @import layouts._
 
-
-@checkedIf(condition:Boolean) = {
-    @if(condition){
-        checked="checked"
-    }
-}
-
 @main(title = Some("Register to Vote - Tell us how to contact you"), header = head(), scripts = stepsBodyEnd()) {
-
-@stepIndicator(10)
-
-<div id="step-contact" class="step" style="display: block;">
     @form(routes.RegisterToVoteController.next("contact")){
         @raw.contact(application)
     }
-</div>
 }
