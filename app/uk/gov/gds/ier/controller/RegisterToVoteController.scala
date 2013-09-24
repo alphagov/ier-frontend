@@ -38,16 +38,20 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
 
   def next(step:String) = Action(BodyParsers.parse.urlFormEncoded) {
     implicit request =>
-      inprogressForm.bindFromRequest().fold(
+      val binding = inprogressForm.bindFromRequest()
+      println("Inprogress Form binding data " + binding.data)
+      println("Request body data " + request.body)
+      binding.fold(
         errors => Redirect(routes.RegisterToVoteController.registerToVote()),
           form => {
             val application = session.merge(form)
+            println("Currently in session" + application)
             Redirect(routes.RegisterToVoteController.registerStep(nextStep(step))).withSession(application.toSession)
           }
       )
   }
 
-  def edit(step:String) = Action(BodyParsers.parse.urlFormEncoded) {
+  def edit(step:String) = Action {
     implicit request =>
       Ok(editPageFor(step))
   }
@@ -67,7 +71,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
   }
 
   def complete = Action {
-    Ok(html.complete())
+    Ok(html.complete()).withNewSession
   }
 
   def submitApplication = Action {

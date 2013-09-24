@@ -11,18 +11,8 @@
         <div class="answer">
             <label class="selectable">
                 <input id="contact-post" type="radio" name="contact.contactType" value="post" class="radio" @checkedIf(application.contact.map(_.contactType) == Some("post"))><span>Post</span>
+                <input id="input-post" type="hidden" name="contact.post" value="@application.address.getOrElse("")" class="hidden">
             </label>
-            <div id="optional-section-contact-post" class="optional-section @classIf(application.contact.map(_.contactType) == Some("post"), "visible")">
-                <label class="above">Address</label>
-                <div class="validation-wrap">
-                    @for(address <- Array(application.address, application.otherAddress).filter(_.isDefined)){
-                        <label class="selectable">
-                            <input id="input-post" type="radio" name="contact.post" class="text" value="@address.getOrElse("")" @checkedIf(application.contact.map(_.contactDetail) == address)>
-                            <span>@address.getOrElse("")</span>
-                        </label>
-                    }
-                </div>
-            </div>
         </div>
         <div class="answer">
             <label class="selectable">

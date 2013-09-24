@@ -13,29 +13,29 @@
         <ul class="answers">
             <li class="answer">
                 <label class="selectable">
-                    <input type="checkbox" name="nationality" value="British" data-name="Nationality" data-value="British" class="checkbox" @checkedIf(application.nationality == Some("British"))><span>British</span>
+                    <input type="checkbox" name="nationality.nationalities[0]" value="British" data-name="Nationality" data-value="British" class="checkbox" @checkedIf(application.nationality == Some("British"))><span>British</span>
                 </label>
             </li>
             <li class="answer">
                 <label class="selectable">
-                    <input type="checkbox" name="nationality" value="Irish" data-name="Nationality" data-value="Irish" class="checkbox" @checkedIf(application.nationality == Some("Irish"))><span>Irish</span>
+                    <input type="checkbox" name="nationality.nationalities[1]" value="Irish" data-name="Nationality" data-value="Irish" class="checkbox" @checkedIf(application.nationality == Some("Irish"))><span>Irish</span>
                 </label>
             </li>
             <li class="answer">
                 <label class="selectable">
-                    <input id="otherCountry" type="checkbox" name="hasOtherNationality" value="true" class="checkbox"><span>Other country ...</span>
+                    <input id="nationality.otherCountry" type="checkbox" name="hasOtherNationality" value="true" class="checkbox"><span>Other country ...</span>
                 </label>
                 <div id="optionalSectionOtherCountry" class="optional-section optional-section-other-country">
                     <div id="otherCountries" class="other-countries">
                         <div id="otherCountryTemplate" class="template">
                             <div class="answer other-country">
                                 <label class="above"><span>Country</span><span class="number"></span><a href="#" class="remove">remove</a></label>
-                                <input type="text" name="otherCountry" class="input-other-country text long">
+                                <input type="text" name="nationality.otherCountries" class="input-other-country text long">
                             </div>
                         </div>
                         <div class="answer other-country">
                             <label class="above">Country</label>
-                            <input type="text" name="otherCountry" class="input-other-country text long">
+                            <input type="text" name="nationality.otherCountries" class="input-other-country text long">
                         </div>
                     </div>
                     <div class="action"><a id="addCountry" href="#">Add another country</a></div>
@@ -52,7 +52,7 @@
             <div id="optional-section-no-nationality" class="optional-section">
                 <div class="question">
                     <label class="above">Why can't you provide your nationality?</label>
-                    <textarea name="noNationalityReason" class="small"></textarea>
+                    <textarea name="nationality.noNationalityReason" class="small"></textarea>
                 </div>
             </div>
         </div>

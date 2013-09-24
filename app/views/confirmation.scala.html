@@ -50,7 +50,7 @@
             <h3>Nationality</h3>
             <div class="data-wrap">
                 <div class="nationality-yes">
-                    <p class="data nationality"> @application.nationality.getOrElse("")</p>
+                    <p class="data nationality">You are @application.nationality.map(_.nationalities.map(_.mkString(" and "))).getOrElse("") </p>
                 </div>
                 @*<div class="nationality-no">*@
                     @*<p>You cannot provide your nationality because:</p>*@
@@ -97,10 +97,7 @@
             <h3>Second address</h3>
             <div class="data-wrap">
                 @if(application.hasOtherAddress == Some("true")){
-                    <div class="other-address-yes">
-                        <p class="data otherAddress">@application.otherAddress.getOrElse("")</p>
-                        <p class="data otherPostcode">@application.otherPostcode.getOrElse("")</p>
-                    </div>
+                    <p class="data message other-address-yes">You have a second address</p>
                 }else{
                     <p class="data message other-address-no">You don't have a second address</p>
                 }

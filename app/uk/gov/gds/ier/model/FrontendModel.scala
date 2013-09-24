@@ -87,12 +87,17 @@ object Name {
   }
 }
 
-case class InprogressApplication( name: Option[NameUnderlying] = None,
+case class Nationality (nationalities:Option[List[String]],
+                        hasOtherCountries:Option[String],
+                        otherCountries:Option[List[String]],
+                        noNationalityReason:Option[String])
+
+case class InprogressApplication (name: Option[NameUnderlying] = None,
                                   previousName: Option[NameUnderlying] = None,
                                   dobYear: Option[String] = None,
                                   dobMonth: Option[String] = None,
                                   dobDay: Option[String] = None,
-                                  nationality: Option[String] = None,
+                                  nationality: Option[Nationality] = None,
                                   nino: Option[String] = None,
                                   address: Option[String] = None,
                                   postcode: Option[String] = None,
@@ -100,8 +105,6 @@ case class InprogressApplication( name: Option[NameUnderlying] = None,
                                   previousAddress: Option[String] = None,
                                   previousPostcode: Option[String] = None,
                                   hasOtherAddress: Option[String] = None,
-                                  otherAddress: Option[String] = None,
-                                  otherPostcode: Option[String] = None,
                                   openRegisterOptin: Option[String] = None,
                                   contact: Option[ContactUnderlying] = None)
 
