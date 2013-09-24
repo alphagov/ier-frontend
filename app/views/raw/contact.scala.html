@@ -11,7 +11,7 @@
         <div class="answer">
             <label class="selectable">
                 <input id="contact-post" type="radio" name="contact.contactType" value="post" class="radio" @checkedIf(application.contact.map(_.contactType) == Some("post"))><span>Post</span>
-                <input id="input-post" type="hidden" name="contact.post" value="@application.address.getOrElse("")" class="hidden">
+                <input id="input-post" type="hidden" name="contact.post" value="@application.address.map(_.addressLine).getOrElse("")" class="hidden">
             </label>
         </div>
         <div class="answer">

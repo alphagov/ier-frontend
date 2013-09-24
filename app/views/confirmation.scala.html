@@ -40,7 +40,7 @@
         <li class="detail">
             <h3>Date of birth</h3>
             <div class="data-wrap">
-                <p class="data dob"> @application.dob.map(dob => dob.day + dob.month + dob.year).getOrElse("")</p>
+                <p class="data dob"> @application.dob.map(dob => dob.day + " " + dob.month + " " + dob.year).getOrElse("")</p>
             </div><a href="@routes.RegisterToVoteController.edit("date-of-birth")" class="change">Change</a>
         </li>
         <li class="detail">
