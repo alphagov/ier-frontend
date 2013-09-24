@@ -91,11 +91,13 @@ case class Nationality (nationalities:List[String],
                         hasOtherCountries:Option[String],
                         otherCountries:List[String])
 
+case class DateOfBirth(year:String,
+                       month:String,
+                       day:String)
+
 case class InprogressApplication (name: Option[NameUnderlying] = None,
                                   previousName: Option[NameUnderlying] = None,
-                                  dobYear: Option[String] = None,
-                                  dobMonth: Option[String] = None,
-                                  dobDay: Option[String] = None,
+                                  dob: Option[DateOfBirth] = None,
                                   nationality: Option[Nationality] = None,
                                   nino: Option[String] = None,
                                   address: Option[Address] = None,

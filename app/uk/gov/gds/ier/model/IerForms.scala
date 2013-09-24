@@ -86,13 +86,17 @@ trait IerForms {
     "postcode" -> nonEmptyText
   ) (Address.apply) (Address.unapply)
 
+  val dobMapping = mapping(
+    "year" -> nonEmptyText,
+    "month" -> nonEmptyText,
+    "day" -> nonEmptyText
+  ) (DateOfBirth.apply) (DateOfBirth.unapply)
+
   val inprogressForm = Form(
     mapping(
       "name" -> optional(nameMapping),
       "previousName" -> optional(nameMapping),
-      "dobYear" -> optional(nonEmptyText),
-      "dobMonth" -> optional(nonEmptyText),
-      "dobDay" -> optional(nonEmptyText),
+      "dob" -> optional(dobMapping),
       "nationality" -> optional(nationalityMapping),
       "NINO" -> optional(nonEmptyText),
       "address" -> optional(addressMapping),

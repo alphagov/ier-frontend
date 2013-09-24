@@ -26,9 +26,7 @@ trait InProgressSession extends IerForms {
       stored.copy(
         name = application.name.orElse(stored.name),
         previousName = application.previousName.orElse(stored.previousName),
-        dobYear = application.dobYear.orElse(stored.dobYear),
-        dobMonth = application.dobMonth.orElse(stored.dobMonth),
-        dobDay = application.dobDay.orElse(stored.dobDay),
+        dob = application.dob.orElse(stored.dob),
         nationality = application.nationality.orElse(stored.nationality),
         nino = application.nino.orElse(stored.nino),
         address = application.address.orElse(stored.address),
