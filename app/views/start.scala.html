@@ -1,0 +1,37 @@
+@()
+
+@import layouts._
+
+@main(title = Some("IER - Register to Vote"), header = head()) {
+
+    <div class="questions-main">
+        <div id="step-start" class="step">
+            <ul class="breadcrumbs">
+                <li><a href="https://www.gov.uk/">Home</a></li>
+                <li><a href="https://www.gov.uk/browse/citizenship">Citizenship and living in the UK</a></li>
+                <li><a href="https://www.gov.uk/browse/citizenship/voting">Voting</a></li>
+            </ul>
+            <h1>Register to vote</h1>
+            <p>Before you can vote in UK elections and referendums, you need to have your details added to the electoral register (sometimes called the ‘electoral roll’).</p>
+            <p>You can also use this service to update your details on the electoral register.</p>
+            <h2>What you will need</h2>
+            <p>You’ll need your National Insurance number (if you have one).</p>
+            <div class="next-question">
+                <a href="@routes.RegisterToVoteController.registerToVote()" class="button next"><strong>Register to vote</strong><i class="icon-pointer"></i></a>
+            </div>
+            <h2>Before you start</h2>
+            <h3>Age and nationality</h3>
+            <p>You need to be:</p>
+            <ul>
+                <li>16 or over  </li>
+                <li>British, or a citizen of a Commonwealth or EU country</li>
+            </ul>
+            <h3>National Insurance number</h3><p>You&#39;ll need to provide evidence of your identity. The easiest way is to enter your <a href="https://www.gov.uk/lost-national-insurance-number">National Insurance number</a>.</p>
+            <p>If you can&#39;t supply a National Insurance number, you&#39;ll need to post copies of identity documents to your local electoral register office once you&#39;ve completed the application.</p>
+
+            <h2>What you need to know</h2>
+            <p>Takes around 10 minutes.</p>
+            <h2>Other ways to apply</h2><p>To apply by post, download the <a href="#">register to vote form</a> [PDF, 128KB].</p>
+        </div>
+    </div>
+}

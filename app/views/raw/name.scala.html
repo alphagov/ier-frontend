@@ -1,0 +1,27 @@
+@(application: uk.gov.gds.ier.model.InprogressApplication)
+
+@layouts.stepIndicator(3)
+
+<div id="step-name" class="step">
+    <h2><span class="question-number">3</span><span>What is your name?</span></h2>
+    <div class="question">
+        <label class="above">First name or names</label>
+        <div class="validation-wrap">
+            <input id="input-first-name" type="text" name="name.firstName" class="text first-name long" value="@application.name.map(_.firstName).getOrElse("")">
+        </div>
+    </div>
+    <div class="question">
+        <label class="above"><span>Middle names</span><span class="optional"></span></label>
+        <input type="text" name="name.middleNames" class="text middle-names long" value="@application.name.map(_.middleNames).getOrElse("")">
+    </div>
+    <div class="question">
+        <label class="above">Last name</label>
+        <div class="validation-wrap">
+            <input id="input-last-name" type="text" name="name.lastName" class="text last-name long" value="@application.name.map(_.lastName).getOrElse("")">
+        </div>
+    </div>
+    <div class="validation-message"></div>
+    <div class="next-question">
+        <input data-next="step-name" type="submit" class="button next" value="Continue" />
+    </div>
+</div>

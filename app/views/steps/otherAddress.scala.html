@@ -1,0 +1,10 @@
+@(application: uk.gov.gds.ier.model.InprogressApplication)
+
+@import helper._
+@import layouts._
+
+@main(title = Some("Register to Vote - Do you spend part of your time living at another UK address?"), header = head(), scripts = stepsBodyEnd()) {
+    @form(routes.RegisterToVoteController.next("other-address")) {
+        @raw.otherAddress(application)
+    }
+}

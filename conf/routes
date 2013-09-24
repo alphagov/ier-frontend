@@ -3,13 +3,21 @@
 # ~~~~
 
 # Home page
-GET         /                          controllers.RegisterToVoteController.index
-POST        /submit-application        controllers.RegisterToVoteController.submitApplication
-GET         /register-to-vote          controllers.RegisterToVoteController.registerToVote
+GET         /                                     controllers.RegisterToVoteController.index
+GET         /register-to-vote                     controllers.RegisterToVoteController.registerToVote
+GET         /register-to-vote/                    controllers.RegisterToVoteController.registerToVote
+GET         /register-to-vote/complete            controllers.RegisterToVoteController.complete
+POST        /register-to-vote/confirmation        controllers.RegisterToVoteController.submitApplication
+GET         /register-to-vote/error               controllers.RegisterToVoteController.error
+GET         /register-to-vote/error/:error        controllers.RegisterToVoteController.errorRedirect(error: String)
+GET         /register-to-vote/:step               controllers.RegisterToVoteController.registerStep(step: String)
+POST        /register-to-vote/:step               controllers.RegisterToVoteController.next(step: String)
+GET         /register-to-vote/edit/:step          controllers.RegisterToVoteController.edit(step: String)
+
 
 #Postcode Lookup
-GET         /address/:postcode         controllers.PostcodeController.lookup(postcode)
+GET         /address/:postcode                    controllers.PostcodeController.lookup(postcode)
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file              controllers.Assets.at(path="/public", file)
-GET         /template/*file            controllers.Template.at(path="/govuk_template_play/assets", file)
+GET         /assets/*file                         controllers.Assets.at(path="/public", file)
+GET         /template/*file                       controllers.Template.at(path="/govuk_template_play/assets", file)

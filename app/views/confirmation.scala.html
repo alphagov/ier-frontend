@@ -1,21 +1,143 @@
-@(applicant:uk.gov.gds.ier.model.ApiApplicationResponse)
+@(application: uk.gov.gds.ier.model.InprogressApplication)
+
+@import helper._
 @import layouts._
 
-@main(Some("IER - Register to Vote")) {
-        <div id="confirmation">
-            <h2>Congratulations!</h2>
+@name(firstName:Option[String], middleName:Option[String], lastName:Option[String]) = {
+    @{firstName.map(_ + " ").getOrElse("") + middleName.map(_ + " ").getOrElse("") + lastName.getOrElse("")}
+}
 
-            <p>@applicant.detail.fn @applicant.detail.ln, you're application will be processed by your Local Authorities Electoral Registration officer.</p>
+@main(title = Some("Register to Vote - Confirm your details"), header = head(), scripts = stepsBodyEnd()) {
 
-            <p>First Name: @applicant.detail.fn</p>
-            <p>Middle Name: @applicant.detail.mn</p>
-            <p>Last Name: @applicant.detail.ln</p>
-            <p>Previous Last Name: @applicant.detail.pln</p>
-            <p>Date Of Birth: @applicant.detail.dob.toString()</p>
-            <p>IER ID: @applicant.ierId</p>
-            <p>Nino: @applicant.detail.nino</p>
-            <p>Creation Date: @applicant.createdAt.toString()</p>
-            <p>Status: @applicant.status</p>
-        </div>
+<div id="confirmation" class="step">
+    @form(routes.RegisterToVoteController.next("confirmation")) {
+    <h2><span class="question-number">9</span><span>Register to vote</span></h2>
+    <div class="help"><p>Please check your details carefully and correct any mistakes.</p>
+        <p>If you supply information that&#39;s incorrect, it could delay your application.</p>
 
+    </div>
+    <ul class="details">
+        <li class="detail">
+            <h3>Name</h3>
+            <div class="data-wrap">
+                <p class="data name">@name(application.name.map(_.firstName), application.name.map(_.middleNames), application.name.map(_.lastName))</p>
+            </div><a href="@routes.RegisterToVoteController.edit("name")" class="change">Change</a>
+        </li>
+        <li class="detail">
+            <h3>Previous name</h3>
+            <div class="data-wrap">
+                @if(application.previousName.isDefined){
+                    <div class="name-change-yes">
+                        <p class="data previous-name">@name(application.previousName.map(_.firstName), application.previousName.map(_.middleNames), application.previousName.map(_.lastName))</p>
+                    </div>
+                } else {
+                    <div class="name-change-no">
+                        <p class="message">You have not changed your name in the last 12 months</p>
+                    </div>
+                }
+            </div><a href="@routes.RegisterToVoteController.edit("previous-name")" class="change">Change</a>
+        </li>
+        <li class="detail">
+            <h3>Date of birth</h3>
+            <div class="data-wrap">
+                <p class="data dob"> @application.dob.map(dob => dob.day + dob.month + dob.year).getOrElse("")</p>
+            </div><a href="@routes.RegisterToVoteController.edit("date-of-birth")" class="change">Change</a>
+        </li>
+        <li class="detail">
+            <h3>Nationality</h3>
+            <div class="data-wrap">
+                @if(application.nationality.isDefined) {
+                    <div class="nationality-yes">
+                        <p class="data nationality">@application.nationality.map("You are " + _.nationalities.mkString(" and ")).getOrElse("") </p>
+                    </div>
+                }else{
+                    <div class="nationality-no">
+                        <p>You cannot provide your nationality because:</p>
+                        <p class="data no-nationality-reason">@application.noNationalityReason.getOrElse("")</p>
+                    </div>
+                }
+            </div><a href="@routes.RegisterToVoteController.edit("nationality")" class="change">Change</a>
+        </li>
+        <li class="detail">
+            <h3>National Insurance number</h3>
+            <div class="data-wrap">
+                @if(application.nino.isDefined){
+                    <div class="NINO-yes">
+                        <p class="data NINO">@application.nino.getOrElse("")</p>
+                    </div>
+                } else {
+                    <div class="NINO-no">
+                        <p>You cannot provide your national insurance number because:</p>
+                        <p class="data no-NINO-reason"></p>
+                    </div>
+                }
+            </div><a href="@routes.RegisterToVoteController.edit("nino")" class="change">Change</a>
+        </li>
+        <li class="detail">
+            <h3>Address</h3>
+            <div class="data-wrap">
+                <p class="data address">@application.address.map(_.addressLine).getOrElse("")</p>
+                <p class="data postcode">@application.address.map(_.postcode).getOrElse("")</p>
+            </div><a href="@routes.RegisterToVoteController.edit("address")" class="change">Change</a>
+        </li>
+        <li class="detail">
+            <h3>Previous address</h3>
+            <div class="data-wrap">
+                @if(application.movedRecently == Some("true")){
+                    <div class="moved-recently-yes">
+                        <p class="data previousAddress">@application.previousAddress.map(_.addressLine).getOrElse("")</p>
+                        <p class="data previousPostcode">@application.previousAddress.map(_.postcode).getOrElse("")</p>
+                    </div>
+                }else{
+                    <p class="data message moved-recently-no">You have not moved in the last 12 months</p>
+                }
+            </div><a href="@routes.RegisterToVoteController.edit("previous-address")" class="change">Change</a>
+        </li>
+        <li class="detail">
+            <h3>Second address</h3>
+            <div class="data-wrap">
+                @if(application.hasOtherAddress == Some("true")){
+                    <p class="data message other-address-yes">You have a second address</p>
+                }else{
+                    <p class="data message other-address-no">You don't have a second address</p>
+                }
+            </div><a href="@routes.RegisterToVoteController.edit("other-address")" class="change">Change</a>
+        </li>
+        <li class="detail">
+            <h3>Open register</h3>
+            <div class="data-wrap">
+                @if(application.openRegisterOptin == Some("true")){
+                    <p class="data message edited-register-optin-yes">You want us to include your details on the open register so they are available to charities and companies.</p>
+                }else{
+                    <p class="data message edited-register-optin-no">You don’t want us to include your details on the open register so they are available to charities and companies.</p>
+                }
+            </div><a href="@routes.RegisterToVoteController.edit("open-register")" class="change">Change</a>
+        </li>
+        <li class="detail">
+            <h3>How we should contact you</h3>
+            <div class="data-wrap">
+                <p class="message">If there are any problems with your application we will contact you by:</p>
+                @if(application.contact.map(_.contactType) == Some("phone")){
+                    <p class="data contact-by-phone-yes"><span>Phone number at </span><span class="data telephone">@application.contact.map(_.contactDetail).getOrElse("")</span></p>
+                }
+                @if(application.contact.map(_.contactType) == Some("text")){
+                    <p class="data contact-by-text-yes"><span>Text message at </span><span class="data text">@application.contact.map(_.contactDetail).getOrElse("")</span></p>
+                }
+                @if(application.contact.map(_.contactType) == Some("email")){
+                    <p class="data contact-by-email-yes"><span>Email at </span><span class="data email">@application.contact.map(_.contactDetail).getOrElse("")</span></p>
+                }
+                @if(application.contact.map(_.contactType) == Some("post")){
+                    <p class="data contact-by-post-yes"><span>Post at </span><span class="data post">@application.contact.map(_.contactDetail).getOrElse("")</span></p>
+                }
+            </div><a href="@routes.RegisterToVoteController.edit("contact")" class="change">Change</a>
+        </li>
+    </ul>
+    <div class="help">
+        <p>By sending your application you declare that the information you have supplied is true, and that you understand that the information you have supplied will be used to change your details on the electoral register.</p>
+    </div>
+    <div class="next-question">
+        <input data-next="complete" type="submit" class="button next" value="Send application" />
+    </div>
+    }
+</div>
 }

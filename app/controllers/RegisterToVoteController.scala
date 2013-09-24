@@ -8,6 +8,12 @@ import uk.gov.gds.ier.controller.{RegisterToVoteController => GuicedController}
 object RegisterToVoteController extends DelegatingController[GuicedController] {
   
   def index = delegate.index
+  def complete = delegate.complete
+  def error = delegate.error
+  def errorRedirect(error:String) = delegate.errorRedirect(error)
   def submitApplication = delegate.submitApplication
   def registerToVote = delegate.registerToVote
+  def registerStep(step:String) = delegate.registerStep(step)
+  def next(step:String) = delegate.next(step)
+  def edit(step:String) = delegate.edit(step)
 }

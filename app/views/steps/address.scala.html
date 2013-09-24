@@ -1,0 +1,10 @@
+@(application: uk.gov.gds.ier.model.InprogressApplication)
+
+@import helper._
+@import layouts._
+
+@main(title = Some("Register to Vote - Where do you live?"), header = head(), scripts = stepsBodyEnd()) {
+    @form(routes.RegisterToVoteController.next("address")) {
+        @raw.address(application)
+    }
+}
