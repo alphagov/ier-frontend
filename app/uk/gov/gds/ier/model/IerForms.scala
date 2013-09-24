@@ -76,10 +76,9 @@ trait IerForms {
     "email" -> optional(nonEmptyText)) (Contact.apply) (Contact.unapply)
 
   val nationalityMapping = mapping(
-    "nationalities" -> optional(list(nonEmptyText)),
+    "nationalities" -> list(nonEmptyText),
     "hasOtherCountries" -> optional(nonEmptyText),
-    "otherCountries" -> optional(list(nonEmptyText)),
-    "noNationalityReason" -> optional(nonEmptyText)
+    "otherCountries" -> list(nonEmptyText)
   ) (Nationality.apply) (Nationality.unapply)
 
   val inprogressForm = Form(
@@ -98,7 +97,8 @@ trait IerForms {
       "previousPostcode" -> optional(nonEmptyText),
       "hasOtherAddress" -> optional(nonEmptyText),
       "openRegisterOptin" -> optional(nonEmptyText),
-      "contact" -> optional(contactMapping)
+      "contact" -> optional(contactMapping),
+      "noNationalityReason" -> optional(nonEmptyText)
     ) (InprogressApplication.apply) (InprogressApplication.unapply)
   )
 
