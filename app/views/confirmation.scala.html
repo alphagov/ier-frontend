@@ -79,8 +79,8 @@
         <li class="detail">
             <h3>Address</h3>
             <div class="data-wrap">
-                <p class="data address">@application.address.getOrElse("")</p>
-                <p class="data postcode">@application.postcode.getOrElse("")</p>
+                <p class="data address">@application.address.map(_.addressLine).getOrElse("")</p>
+                <p class="data postcode">@application.address.map(_.postcode).getOrElse("")</p>
             </div><a href="@routes.RegisterToVoteController.edit("address")" class="change">Change</a>
         </li>
         <li class="detail">
@@ -88,8 +88,8 @@
             <div class="data-wrap">
                 @if(application.movedRecently == Some("true")){
                     <div class="moved-recently-yes">
-                        <p class="data previousAddress">@application.previousAddress.getOrElse("")</p>
-                        <p class="data previousPostcode">@application.previousPostcode.getOrElse("")</p>
+                        <p class="data previousAddress">@application.previousAddress.map(_.addressLine).getOrElse("")</p>
+                        <p class="data previousPostcode">@application.previousAddress.map(_.postcode).getOrElse("")</p>
                     </div>
                 }else{
                     <p class="data message moved-recently-no">You have not moved in the last 12 months</p>

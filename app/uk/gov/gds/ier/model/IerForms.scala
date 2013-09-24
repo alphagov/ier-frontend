@@ -81,6 +81,11 @@ trait IerForms {
     "otherCountries" -> list(nonEmptyText)
   ) (Nationality.apply) (Nationality.unapply)
 
+  val addressMapping = mapping(
+    "address" -> nonEmptyText,
+    "postcode" -> nonEmptyText
+  ) (Address.apply) (Address.unapply)
+
   val inprogressForm = Form(
     mapping(
       "name" -> optional(nameMapping),
@@ -90,11 +95,9 @@ trait IerForms {
       "dobDay" -> optional(nonEmptyText),
       "nationality" -> optional(nationalityMapping),
       "NINO" -> optional(nonEmptyText),
-      "address" -> optional(nonEmptyText),
-      "postcode" -> optional(nonEmptyText),
+      "address" -> optional(addressMapping),
       "movedRecently" -> optional(nonEmptyText),
-      "previousAddress" -> optional(nonEmptyText),
-      "previousPostcode" -> optional(nonEmptyText),
+      "previousAddress" -> optional(addressMapping),
       "hasOtherAddress" -> optional(nonEmptyText),
       "openRegisterOptin" -> optional(nonEmptyText),
       "contact" -> optional(contactMapping),
