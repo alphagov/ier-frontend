@@ -3,7 +3,7 @@
 @import helper._
 @import layouts._
 
-@main(title = Some("Register to Vote - Tell us whether to include your details on the open register"), header = head(), scripts = stepsBodyEnd()) {
+@main(title = Some("Register to Vote - Tell us whether to include your details on the open register"), stylesheets = head(), scripts = stepsBodyEnd()) {
     @form(routes.RegisterToVoteController.next("edit")){
         @raw.openRegister(application)
     }

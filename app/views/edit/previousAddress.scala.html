@@ -3,7 +3,7 @@
 @import helper._
 @import layouts._
 
-@main(title = Some("Register to Vote - Have you moved within the last 12 months?"), header = head(), scripts = stepsBodyEnd()) {
+@main(title = Some("Register to Vote - Have you moved within the last 12 months?"), stylesheets = head(), scripts = stepsBodyEnd()) {
     @form(routes.RegisterToVoteController.next("edit")) {
         @raw.previousAddress(application)
     }

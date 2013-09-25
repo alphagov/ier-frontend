@@ -3,7 +3,7 @@
 @import helper._
 @import layouts._
 
-@main(title = Some("Register to Vote - What is your name?"), header = head(), scripts = stepsBodyEnd()) {
+@main(title = Some("Register to Vote - What is your name?"), stylesheets = head(), scripts = stepsBodyEnd()) {
     @form(routes.RegisterToVoteController.next("name")) {
         @raw.name(application)
     }
