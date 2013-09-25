@@ -4,7 +4,7 @@
 @import layouts._
 
 
-@main(title = Some("Register to Vote - What is your Nationality?"), header = head(), scripts = stepsBodyEnd()) {
+@main(title = Some("Register to Vote - What is your Nationality?"), stylesheets = head(), scripts = stepsBodyEnd()) {
     @form(routes.RegisterToVoteController.next("nationality")) {
         @raw.nationality(application)
     }
