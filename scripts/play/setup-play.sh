@@ -2,8 +2,8 @@
 
 thisDir="$( dirname "$0")"
 playdir="$thisDir/../bin"
-playsource="http://downloads.typesafe.com/play/2.1.2/"
-playartifact="play-2.1.2"
+playsource="http://downloads.typesafe.com/play/2.1.5/"
+playartifact="play-2.1.5"
 playextension=".zip"
 playcache="download-cache"
 
