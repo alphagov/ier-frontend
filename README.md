@@ -6,10 +6,10 @@ This is the Individual Electoral Registration Frontend app. The point of it is t
 
  1. `git clone git@github.gds:gds/ier-frontend.git`
  
- 2. `./play`
+ 2. `./play compile`
  
  3. Wait (Downloading the entire internet)
  
- 4. in the play console `run`
+ 4. `./play run`
  
  5. go to `http://localhost:9000/`
