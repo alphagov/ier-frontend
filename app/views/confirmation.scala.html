@@ -46,14 +46,14 @@
         <li class="detail">
             <h3>Nationality</h3>
             <div class="data-wrap">
-                @if(application.nationality.isDefined) {
+                @if(application.nationality.map(_.nationalities.size > 0) == Some(true)) {
                     <div class="nationality-yes">
                         <p class="data nationality">@application.nationality.map("You are " + _.nationalities.mkString(" and ")).getOrElse("") </p>
                     </div>
                 }else{
                     <div class="nationality-no">
                         <p>You cannot provide your nationality because:</p>
-                        <p class="data no-nationality-reason">@application.noNationalityReason.getOrElse("")</p>
+                        <p class="data no-nationality-reason">@application.nationality.map(_.noNationalityReason.getOrElse("")).getOrElse("")</p>
                     </div>
                 }
             </div><a href="@routes.RegisterToVoteController.edit("nationality")" class="change">Change</a>

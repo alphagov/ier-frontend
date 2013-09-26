@@ -6,7 +6,8 @@ $('body').on('click', '.more-help-link a', function(e){
         $moreHelpWrap = $this.closest('.more-help-wrap'),
         $moreHelpContent = $moreHelpWrap.find('.more-help-content');
 
-    $moreHelpContent.toggle();
+    $moreHelpContent.toggleClass('hidden');
+    $moreHelpContent.toggleClass('visible');
 
     if ($moreHelpContent.is(':visible')){
 
@@ -34,6 +35,11 @@ $('body').on('change', 'input[type="radio"]', function(e){
 $('.back').on('click', function(e){
     e.preventDefault();
     window.history.back();
+});
+
+$('#step-nationality #no-nationality-link').on('click', function(e) {
+    e.preventDefault();
+    show($('#optional-section-no-nationality'));
 });
 
 $('#step-previous-name #input-name-change-yes').on('click', function(e) {

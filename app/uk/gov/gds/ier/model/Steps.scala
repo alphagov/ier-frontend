@@ -29,7 +29,7 @@ trait Steps extends IerForms {
 
   def editPageFor(step:String)(implicit request: RequestHeader) = {
     step match {
-      case "nationality" => html.edit.nationality(request.session.getApplication)
+      case "nationality" => html.edit.nationality(InProgressForm(request.session.getApplication))
       case "date-of-birth" => html.edit.dateOfBirth(request.session.getApplication)
       case "name" => html.edit.name(request.session.getApplication)
       case "previous-name" => html.edit.previousName(request.session.getApplication)
@@ -44,7 +44,7 @@ trait Steps extends IerForms {
 
   def pageFor(step:String)(implicit request: RequestHeader) = {
     step match {
-      case "nationality" => html.steps.nationality(request.session.getApplication)
+      case "nationality" => html.steps.nationality(InProgressForm(request.session.getApplication))
       case "date-of-birth" => html.steps.dateOfBirth(request.session.getApplication)
       case "name" => html.steps.name(request.session.getApplication)
       case "previous-name" => html.steps.previousName(request.session.getApplication)

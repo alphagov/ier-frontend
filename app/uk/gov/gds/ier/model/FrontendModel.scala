@@ -88,12 +88,12 @@ object Name {
 }
 
 case class Nationality (nationalities:List[String],
-                        hasOtherCountries:Option[String],
-                        otherCountries:List[String])
+                        otherCountries:List[String],
+                        noNationalityReason:Option[String])
 
-case class DateOfBirth(year:String,
-                       month:String,
-                       day:String)
+case class DateOfBirth (year:String,
+                        month:String,
+                        day:String)
 
 case class InprogressApplication (name: Option[NameUnderlying] = None,
                                   previousName: Option[NameUnderlying] = None,
@@ -105,8 +105,7 @@ case class InprogressApplication (name: Option[NameUnderlying] = None,
                                   previousAddress: Option[Address] = None,
                                   hasOtherAddress: Option[String] = None,
                                   openRegisterOptin: Option[String] = None,
-                                  contact: Option[ContactUnderlying] = None,
-                                  noNationalityReason: Option[String] = None)
+                                  contact: Option[ContactUnderlying] = None)
 
 case class Address(addressLine:String, postcode:String)
 

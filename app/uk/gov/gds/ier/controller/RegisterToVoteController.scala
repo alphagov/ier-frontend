@@ -27,10 +27,6 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
     Redirect(controllers.routes.RegisterToVoteController.registerStep(firstStep()))
   }
 
-  def registerToVoteJS = Action {
-    Ok(html.registerToVote(webApplicationForm))
-  }
-
   def registerStep(step:String) = Action {
     implicit request =>
       Ok(pageFor(step))
@@ -40,7 +36,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
     implicit request =>
       val binding = inprogressForm.bindFromRequest()
       binding.fold(
-        errors => Redirect(routes.RegisterToVoteController.registerToVote()),
+        errors => Ok(pageFor(step)),
           form => {
             val application = session.merge(form)
             Redirect(routes.RegisterToVoteController.registerStep(nextStep(step))).withSession(application.toSession)
@@ -73,12 +69,6 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
 
   def submitApplication = Action {
     implicit request =>
-      completeApplicationForm.bindFromRequest().fold(
-        errors => Redirect(controllers.routes.RegisterToVoteController.errorRedirect("error-exit")),
-        applicant => {
-          //val response = ierApi.submitApplication(applicant)
-          Redirect(controllers.routes.RegisterToVoteController.complete()).withNewSession
-        }
-      )
+      Redirect(controllers.routes.RegisterToVoteController.complete()).withNewSession
   }
 }
