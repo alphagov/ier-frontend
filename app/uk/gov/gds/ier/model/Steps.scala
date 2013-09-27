@@ -3,6 +3,7 @@ package uk.gov.gds.ier.model
 import views.html
 import play.api.mvc.RequestHeader
 import uk.gov.gds.ier.serialiser.WithSerialiser
+import play.api.data.Form
 
 trait Steps extends IerForms {
   self: InProgressSession =>
@@ -42,9 +43,9 @@ trait Steps extends IerForms {
     }
   }
 
-  def pageFor(step:String)(implicit request: RequestHeader) = {
+  def pageFor(step:String, form:Form[InprogressApplication])(implicit request: RequestHeader) = {
     step match {
-      case "nationality" => html.steps.nationality(InProgressForm(request.session.getApplication))
+      case "nationality" => html.steps.nationality(InProgressForm(form))
       case "date-of-birth" => html.steps.dateOfBirth(request.session.getApplication)
       case "name" => html.steps.name(request.session.getApplication)
       case "previous-name" => html.steps.previousName(request.session.getApplication)
