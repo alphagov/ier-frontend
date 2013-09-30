@@ -1,12 +1,33 @@
 package uk.gov.gds.ier.model
 
 import views.html
-import play.api.mvc.RequestHeader
-import uk.gov.gds.ier.serialiser.WithSerialiser
+import play.api.mvc._
 import play.api.data.Form
+import play.api.templates.Html
 
 trait Steps extends IerForms {
   self: InProgressSession =>
+
+  case class Step(page: InProgressForm => Html,
+                  editPage: InProgressForm => Html,
+                  validation: Form[InprogressApplication],
+                  next:String)
+
+  val nationalityStep = Step(
+    form => html.steps.nationality(form),
+    form => html.edit.nationality(form),
+    nationalityForm,
+    "date-of-birth")
+
+
+
+  object Step {
+    def apply(step:String)(block: Step => Result):Result = {
+      step match {
+        case "nationality" => block(nationalityStep)
+      }
+    }
+  }
 
   def nextStep(step:String) = {
     step match {
@@ -40,6 +61,12 @@ trait Steps extends IerForms {
       case "other-address" => html.edit.otherAddress(request.session.getApplication)
       case "open-register" => html.edit.openRegister(request.session.getApplication)
       case "contact" => html.edit.contact(request.session.getApplication)
+    }
+  }
+
+  def validationFor(step:String) = {
+    step match {
+      case "nationality" => nationalityForm
     }
   }
 

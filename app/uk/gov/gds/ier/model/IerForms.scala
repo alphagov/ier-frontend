@@ -4,7 +4,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import org.joda.time.LocalDate
 
-trait IerForms extends FormKeys {
+trait IerForms extends FormKeys with FormMappings {
 
   lazy val postcodeRegex = "(?i)((GIR 0AA)|((([A-Z-[QVX]][0-9][0-9]?)|(([A-Z-[QVX]][A-Z-[IJZ]][0-9][0-9]?)|(([A-Z-[QVX]][0-9][A-HJKSTUW])|([A-Z-[QVX]][A-Z-[IJZ]][0-9][ABEHMNPRVWXY]))))\\s?[0-9][A-Z-[CIKMOV]]{2}))"
   val dobFormat = "yyyy-MM-dd"
@@ -15,38 +15,21 @@ trait IerForms extends FormKeys {
     )
   )
 
-  val nameMapping = mapping(
-    firstName -> nonEmptyText,
-    middleNames -> optional(nonEmptyText),
-    lastName -> nonEmptyText
-  ) (Name.apply) (Name.unapply)
-
-  val contactMapping = mapping(
-    contactType -> nonEmptyText,
-    post -> optional(nonEmptyText),
-    phone -> optional(nonEmptyText),
-    textNum -> optional(nonEmptyText),
-    email -> optional(nonEmptyText)
-  ) (Contact.apply) (Contact.unapply)
-
-  val nationalityMapping = mapping(
-    nationalities -> list(nonEmptyText),
-    otherCountries -> list(nonEmptyText),
-    noNationalityReason -> optional(nonEmptyText)
-  ) (Nationality.apply) (Nationality.unapply) verifying("Please select your Nationality", nationality => {
-    (nationality.nationalities.size > 0 || nationality.otherCountries.size > 0) || nationality.noNationalityReason.isDefined
-  })
-
-  val addressMapping = mapping(
-    address -> nonEmptyText,
-    postcode -> nonEmptyText
-  ) (Address.apply) (Address.unapply)
-
-  val dobMapping = mapping(
-    year -> nonEmptyText,
-    month -> nonEmptyText,
-    day -> nonEmptyText
-  ) (DateOfBirth.apply) (DateOfBirth.unapply)
+  val nationalityForm = Form(
+    mapping(nationality -> nationalityMapping)
+      (nationality => InprogressApplication(nationality = Some(nationality)))
+      (inprogressApplication => inprogressApplication.nationality)
+  )
+  val dateOfBirthForm = Form(
+    mapping(dob -> dobMapping)
+      (dob => InprogressApplication(dob = Some(dob)))
+      (inprogress => inprogress.dob)
+  )
+  val nameForm = Form(
+    mapping(name -> nameMapping)
+      (name => InprogressApplication(name = Some(name)))
+      (inprogress => inprogress.name)
+  )
 
   val inprogressForm = Form(
     mapping(

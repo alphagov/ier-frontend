@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.controller
 
 import play.api.mvc.{Session, BodyParsers, Controller, Action}
-import uk.gov.gds.ier.model.{InProgressSession, Steps, IerForms}
+import uk.gov.gds.ier.model.{InProgressForm, InProgressSession, Steps, IerForms}
 import com.google.inject.Inject
 import uk.gov.gds.ier.service.IerApiService
 import views._
@@ -32,18 +32,18 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
       Ok(pageFor(step, inprogressForm))
   }
 
-  def next(step:String) = Action(BodyParsers.parse.urlFormEncoded) {
-    implicit request =>
-      val binding = inprogressForm.bindFromRequest()
-      binding.fold(
+  def next(step:String) = Action(BodyParsers.parse.urlFormEncoded) { implicit request =>
+    Step(step) { stepDetail =>
+      stepDetail.validation.bindFromRequest().fold(
         errors => {
-          Ok(pageFor(step, errors))
+          Ok(stepDetail.page(InProgressForm(errors)))
         },
         form => {
           val application = session.merge(form)
-          Redirect(routes.RegisterToVoteController.registerStep(nextStep(step))).withSession(application.toSession)
+          Redirect(routes.RegisterToVoteController.registerStep(stepDetail.next)).withSession(application.toSession)
         }
       )
+    }
   }
 
   def edit(step:String) = Action {
