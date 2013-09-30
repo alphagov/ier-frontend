@@ -19,12 +19,24 @@ trait Steps extends IerForms {
     nationalityForm,
     "date-of-birth")
 
+//  val dateOfBirthStep = Step(
+//    form => html.steps.dateOfBirth(form),
+//    form => html.edit.dateOfBirth(form),
+//    dateOfBirthStep,
+//    "name")
 
+  val nameStep = Step(
+    form => html.steps.name(form),
+    form => html.edit.name(form),
+    nameForm,
+    "name")
 
   object Step {
     def apply(step:String)(block: Step => Result):Result = {
       step match {
         case "nationality" => block(nationalityStep)
+        case "name" => block(nameStep)
+//        case "date-of-birth" => block(dateOfBirthStep)
       }
     }
   }
@@ -51,9 +63,7 @@ trait Steps extends IerForms {
 
   def editPageFor(step:String)(implicit request: RequestHeader) = {
     step match {
-      case "nationality" => html.edit.nationality(InProgressForm(request.session.getApplication))
       case "date-of-birth" => html.edit.dateOfBirth(request.session.getApplication)
-      case "name" => html.edit.name(request.session.getApplication)
       case "previous-name" => html.edit.previousName(request.session.getApplication)
       case "nino" => html.edit.nino(request.session.getApplication)
       case "address" => html.edit.address(request.session.getApplication)
@@ -72,9 +82,7 @@ trait Steps extends IerForms {
 
   def pageFor(step:String, form:Form[InprogressApplication])(implicit request: RequestHeader) = {
     step match {
-      case "nationality" => html.steps.nationality(InProgressForm(form))
       case "date-of-birth" => html.steps.dateOfBirth(request.session.getApplication)
-      case "name" => html.steps.name(request.session.getApplication)
       case "previous-name" => html.steps.previousName(request.session.getApplication)
       case "nino" => html.steps.nino(request.session.getApplication)
       case "address" => html.steps.address(request.session.getApplication)

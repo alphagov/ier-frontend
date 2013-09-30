@@ -1,7 +1,6 @@
 @(formData: uk.gov.gds.ier.model.InProgressForm)
 @import uk.gov.gds.ier.model.FormKeys._
 @import uk.gov.gds.ier.model.FormKeys
-
 @import helper._
 @import includes._
 
@@ -56,7 +55,7 @@
             </div>
         </div>
     </div>
-    <div class="validation-message @visibleIf(formData.form.hasErrors)">@formData(FormKeys.nationality).error.map(_.message).getOrElse("")</div>
+
     <div class="next-question">
         <input data-next="step-date-of-birth" type="submit" class="button next" value="Continue" />
     </div>

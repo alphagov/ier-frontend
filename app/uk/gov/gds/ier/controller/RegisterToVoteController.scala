@@ -27,9 +27,10 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
     Redirect(controllers.routes.RegisterToVoteController.registerStep(firstStep()))
   }
 
-  def registerStep(step:String) = Action {
-    implicit request =>
-      Ok(pageFor(step, inprogressForm))
+  def registerStep(step:String) = Action { implicit request =>
+    Step(step) { stepDetail =>
+      Ok(stepDetail.page(InProgressForm(request.session.getApplication)))
+    }
   }
 
   def next(step:String) = Action(BodyParsers.parse.urlFormEncoded) { implicit request =>

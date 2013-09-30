@@ -5,9 +5,9 @@ import play.api.data.Forms._
 trait FormMappings extends FormKeys {
 
   val nameMapping = mapping(
-    firstName -> nonEmptyText,
+    firstName -> text.verifying("Please enter your First name", _.nonEmpty),
     middleNames -> optional(nonEmptyText),
-    lastName -> nonEmptyText
+    lastName -> text.verifying("Please enter your Last name", _.nonEmpty)
   ) (Name.apply) (Name.unapply)
 
   val contactMapping = mapping(
