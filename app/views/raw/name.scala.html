@@ -18,6 +18,7 @@
         <label class="above">Last name</label>
         @helper.inputText(formData(keys.name.lastName), 'class -> "text last-name long")
     </div>
+    @validationMessage(formData(keys.name))
     @validationMessage(formData(keys.name.firstName))
     @validationMessage(formData(keys.name.middleNames))
     @validationMessage(formData(keys.name.lastName))

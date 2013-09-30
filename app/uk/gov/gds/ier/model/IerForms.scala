@@ -73,7 +73,7 @@ case class InProgressForm(form:Form[InprogressApplication]) extends FormKeys{
     form(key)
   }
   def hasNoNationalityReason = {
-    form(nationality.noNationalityReason).value.isDefined
+    form(nationality.noNationalityReason).value.exists(_.nonEmpty)
   }
   def hasNationality(thisNationality:String) = {
     form(nationality.nationalities).value.exists(_.contains(thisNationality))

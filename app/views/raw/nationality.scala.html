@@ -1,8 +1,7 @@
 @(formData: uk.gov.gds.ier.model.InProgressForm)
-@import uk.gov.gds.ier.model.FormKeys._
-@import uk.gov.gds.ier.model.FormKeys
+
+@import uk.gov.gds.ier.form.FormHelpers._
 @import helper._
-@import includes._
 
 @layouts.stepIndicator(1)
 
@@ -14,10 +13,10 @@
         </div>
         <ul class="answers">
             <li class="answer">
-                @check(field = formData(FormKeys.nationality.nationalities.item(0)), label = "British", id = "nationality-checkbox-british", value = "British")
+                @check(field = formData(keys.nationality.nationalities.item(0)), label = "British", id = "nationality-checkbox-british", value = "British")
             </li>
             <li class="answer">
-                @check(field = formData(FormKeys.nationality.nationalities.item(1)), label = "Irish", id = "nationality-checkbox-british", value = "Irish")
+                @check(field = formData(keys.nationality.nationalities.item(1)), label = "Irish", id = "nationality-checkbox-british", value = "Irish")
             </li>
             <li class="answer">
                 <label class="selectable">
@@ -55,7 +54,7 @@
             </div>
         </div>
     </div>
-
+    @validationMessage(formData(keys.nationality))
     <div class="next-question">
         <input data-next="step-date-of-birth" type="submit" class="button next" value="Continue" />
     </div>
