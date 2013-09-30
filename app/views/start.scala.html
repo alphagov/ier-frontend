@@ -2,7 +2,7 @@
 
 @import layouts._
 
-@main(title = Some("IER - Register to Vote"), stylesheets = head()) {
+@main(title = Some("IER - Register to Vote"), stylesheets = govukHead()) {
 
     <ol role="breadcrumbs" class="breadcrumbs">
         <li><a href="https://www.gov.uk/">Home</a></li>
@@ -17,9 +17,9 @@
       <p>You can also use this service to update your details on the electoral register.</p>
       <h2>What you will need</h2>
       <p>You’ll need your National Insurance number (if you have one).</p>
-      <div class="next-question">
-          <a href="@routes.RegisterToVoteController.registerToVote()" class="button next"><strong>Register to vote</strong><i class="icon-pointer"></i></a>
-      </div>
+      <p id="get-started" class="get-started group">
+        <a href="@routes.RegisterToVoteController.registerToVote()" rel="external" class="button">Register to vote</a>
+      </p>
       <h2>Before you start</h2>
       <h3>Age and nationality</h3>
       <p>You need to be:</p>
