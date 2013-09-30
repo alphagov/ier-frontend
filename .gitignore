@@ -11,3 +11,4 @@ RUNNING_PID
 scripts/bin/*
 logs/*
 dist/*
+.sass-cache
