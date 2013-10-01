@@ -42,6 +42,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
           Ok(stepDetail.page(InProgressForm(errors)))
         },
         form => {
+          println(form)
           val application = session.merge(form)
           Redirect(routes.RegisterToVoteController.registerStep(stepDetail.next)).withSession(application.toSession)
         }
