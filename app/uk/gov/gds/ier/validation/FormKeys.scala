@@ -39,6 +39,7 @@ trait FormKeys {
   lazy val movedRecently = prependNamespace("movedRecently")
   lazy val otherAddress = prependNamespace("otherAddress")
   lazy val hasOtherAddress = prependNamespace("hasOtherAddress")
+  lazy val openRegister = prependNamespace("openRegister")
   lazy val openRegisterOptin = prependNamespace("openRegisterOptin")
 
   lazy val contact = prependNamespace("contact")

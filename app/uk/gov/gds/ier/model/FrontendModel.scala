@@ -109,7 +109,7 @@ case class InprogressApplication (name: Option[NameUnderlying] = None,
                                   address: Option[Address] = None,
                                   previousAddress: Option[PreviousAddress] = None,
                                   otherAddress: Option[OtherAddress] = None,
-                                  openRegisterOptin: Option[String] = None,
+                                  openRegisterOptin: Option[Boolean] = None,
                                   contact: Option[ContactUnderlying] = None)
 
 case class Address(addressLine:String, postcode:String)

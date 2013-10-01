@@ -46,6 +46,10 @@ trait FormMappings extends FormKeys {
     hasOtherAddress -> boolean
   ) (OtherAddress.apply) (OtherAddress.unapply)
 
+  val openRegisterMapping = single(
+    openRegisterOptin -> boolean
+  )
+
   val dobMapping = mapping(
     year -> nonEmptyText,
     month -> nonEmptyText,
