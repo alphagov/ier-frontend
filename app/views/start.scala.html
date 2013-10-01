@@ -2,15 +2,54 @@
 
 @import layouts._
 
-@main(title = Some("IER - Register to Vote"), stylesheets = govukHead()) {
+@mainRelated() = {
+  <div class="related-positioning">
+    <div class="related-container">
+      <div class="related" id="related">
+        <div class="inner group related-subsection">
+          <h2 id="parent-subsection">Voting</h2>
+          <nav role="navigation" aria-labelledby="parent-subsection">
+            <ul>
+                <li>
+                  <a href="https://www.gov.uk/electoral-register">The electoral register </a>
+                </li>
+                <li>
+                  <a href="https://www.gov.uk/voting-in-the-uk">Voting in the UK</a>
+                </li>
+              <li class="related-topic"><a href="https://www.gov.uk/browse/citizenship/voting" title="More in Voting">More <span class="visuallyhidden">in Voting</span></a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="inner group">
+          <a class="return-to-top" href="#content">Return to top ↑</a>
+        </div>
+        <div id="legacy-sources">
+          <p>This page replaces</p>
+          <ul>
+            <li class="directgov">Directgov</li>
+            <li class="businesslink">Business Link</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+@main(title = Some("IER - Register to Vote"), stylesheets = govukHead(), related = mainRelated()) {
 
     <ol role="breadcrumbs" class="breadcrumbs">
         <li><a href="https://www.gov.uk/">Home</a></li>
         <li><a href="https://www.gov.uk/browse/citizenship">Citizenship and living in the UK</a></li>
         <li><strong><a href="https://www.gov.uk/browse/citizenship/voting">Voting</a></strong></li>
     </ol>
-    <header>
-      <h1>Register to vote</h1>
+    <header class="page-header group">
+      <div>
+        <h1>
+          <span>Service</span>
+          Register to vote
+        </h1>
+      </div>
+      <a class="skip-to-related" href="#related">Not what you're looking for? ↓</a>
     </header>
     <article>
       <p>Before you can vote in UK elections and referendums, you need to have your details added to the electoral register (sometimes called the ‘electoral roll’).</p>

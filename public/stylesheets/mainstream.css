@@ -1,125 +1,192 @@
 /* Styles for start page on GOV.UK */
+/* govuk_frontend_toolkit styles */
+@-ms-viewport {
+  width: device-width; }
 
+@-o-viewport {
+  width: device-width; }
+
+/* Cross-browser shims
+
+  Ways of normalising properties across browsers.
+ */
+@-ms-viewport {
+  width: device-width; }
+
+@-o-viewport {
+  width: device-width; }
+
+/* Usage:
+   @include inline-block
+
+   or
+
+   @include inline-block("250px")
+
+   which gives a min-height to the inline-block elements.
+*/
+/* Contain floats usage:
+
+   .this-has-floated-children {
+     @extend %contain-floats;
+   }
+
+*/
+/* CSS 3 Mixins
+
+  Add them as you need them. This should let us manage vendor prefixes in one place.
+ */
+@font-face {
+  font-family: GDS-Logo;
+  src: local("HelveticaNeue"), local("Helvetica Neue"), local("Arial"), local("Helvetica"); }
+
+@-ms-viewport {
+  width: device-width; }
+
+@-o-viewport {
+  width: device-width; }
+
+/* Cross-browser shims
+
+  Ways of normalising properties across browsers.
+ */
+@-ms-viewport {
+  width: device-width; }
+
+@-o-viewport {
+  width: device-width; }
+
+/* Usage:
+   @include inline-block
+
+   or
+
+   @include inline-block("250px")
+
+   which gives a min-height to the inline-block elements.
+*/
+/* Contain floats usage:
+
+   .this-has-floated-children {
+     @extend %contain-floats;
+   }
+
+*/
+/* CSS 3 Mixins
+
+  Add them as you need them. This should let us manage vendor prefixes in one place.
+ */
+@-ms-viewport {
+  width: device-width; }
+
+@-o-viewport {
+  width: device-width; }
+
+/*
+
+Mixin and defaults for making buttons on GOV.UK services.
+
+For guidance, see: https://www.gov.uk/service-manual/design-and-content/resources/buttons.html
+
+Example usage:
+
+.button{
+  @include button;
+}
+.button-secondary{
+  @include button($grey-3);
+}
+.button-warning{
+  @include button($red);
+}
+
+*/
 /*
  * Page headers
  */
 header.page-header .skip-to-related {
-  position: absolute;
-  left: -9999em;
-}
-header.page-header .skip-to-related:focus {
   position: relative;
-  display: -moz-inline-stack;
-  display: inline-block;
-  left: 32px;
-  top: -2em;
-}
-@media (max-width: 640px) {
-  header.page-header .skip-to-related {
+  left: 1em;
+  top: -1em; }
+  header.page-header .skip-to-related:focus {
     position: relative;
     display: -moz-inline-stack;
     display: inline-block;
-    left: 1em;
-    top: -1em;
-  }
-}
+    left: 32px;
+    top: -2em; }
+  @media (min-width: 641px) {
+    header.page-header .skip-to-related {
+      position: absolute;
+      left: -9999em; } }
 header.page-header div {
   background-color: #fff;
   display: block;
-  margin: 0 24em 0 0;
-  padding: 1em 2em 2em 2em;
-}
-@media (max-width: 800px) {
-  header.page-header div {
-    margin: 0;
-    padding-bottom: 0;
-  }
-}
-header.page-header div h1 {
-  font-family: "nta", Arial, sans-serif;
-  font-size: 48px;
-  line-height: 1.04167;
-  font-weight: 400;
-  text-transform: none;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  background-repeat: no-repeat;
-  color: #0b0c0c;
-  font-weight: 600;
-}
-@media (max-width: 640px) {
+  margin: 0;
+  padding: 1em 2em 0 1em; }
+  @media (min-width: 641px) {
+    header.page-header div {
+      margin: 0 24em 0 0;
+      padding-bottom: 2em;
+      padding-left: 2em; } }
   header.page-header div h1 {
-    font-size: 32px;
-    line-height: 1.09375;
-  }
-}
-@media (min-width: 641px) {
-  header.page-header div h1 {
-    padding-top: 7px;
-    padding-bottom: 13px;
-  }
-}
-header.page-header div h1 span {
-  font-family: "nta", Arial, sans-serif;
-  font-size: 27px;
-  line-height: 1;
-  font-weight: 400;
-  text-transform: none;
-  display: block;
-  margin-bottom: 0.25em;
-  text-shadow: none;
-  color: #6f777b;
-}
-@media (max-width: 640px) {
-  header.page-header div h1 span {
-    font-size: 18px;
-    line-height: 1.11111;
-  }
-}
-header.page-header div h1 span {
-  font-family: "nta", Arial, sans-serif;
-  font-size: 27px;
-  line-height: 1;
-  font-weight: 400;
-  text-transform: none;
-  display: block;
-  margin-bottom: 0.25em;
-  text-shadow: none;
-  color: #6f777b;
-}
-@media (max-width: 640px) {
-  header.page-header div h1 span {
-    font-size: 18px;
-    line-height: 1.11111;
-  }
-}
+    font-family: "nta", Arial, sans-serif;
+    font-size: 48px;
+    line-height: 1.04167;
+    font-weight: 400;
+    text-transform: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-repeat: no-repeat;
+    color: #0b0c0c;
+    font-weight: 600;
+    margin-left: 0;
+    min-height: 2.44em; }
+    @media (max-width: 640px) {
+      header.page-header div h1 {
+        font-size: 32px;
+        line-height: 1.09375; } }
+    @media (min-width: 641px) {
+      header.page-header div h1 {
+        padding-top: 7px;
+        padding-bottom: 13px; } }
+    @media (min-width: 769px) {
+      header.page-header div h1 {
+        min-height: 0; } }
+    header.page-header div h1 span {
+      font-family: "nta", Arial, sans-serif;
+      font-size: 27px;
+      line-height: 1;
+      font-weight: 400;
+      text-transform: none;
+      display: block;
+      margin-bottom: 0.25em;
+      text-shadow: none;
+      color: #6f777b; }
+      @media (max-width: 640px) {
+        header.page-header div h1 span {
+          font-size: 18px;
+          line-height: 1.11111; } }
+
+ol.breadcrumbs {
+  border-top: 10px solid #2b8cc4; }
+
 /*
  * Related box
  */
 .related-positioning {
-  height: 0;
+  position: static;
+  top: auto;
+  height: auto;
   left: 0;
-  position: fixed;
-  position: absolute;
-  top: 9.5em;
   width: 100%;
-  z-index: 0;
+  z-index: 0; }
+  @media (min-width: 769px) {
+    .related-positioning {
+      position: absolute;
+      top: 7em;
+      height: 0; } }
 
-  @include ie-lte(8) {
-    z-index: 0;
-  }
-
-  @include ie-lte(7) {
-    position: absolute !important;
-  }
-
-  @include media(tablet) {
-    position: static;
-    top: auto;
-    height: auto;
-  }
-}
-
+/*
 .js-enabled .related-positioning {
   top: 7em;
 }
@@ -131,206 +198,164 @@ header.page-header div h1 span {
 .js-enabled .related-beta {
   top: 9.5em;
 }
-
+*/
 .related-container {
   position: relative;
-  height: 0;
   margin: 0 auto;
-  max-width: 1020px;
-  position: relative;
-  z-index: 50;
-
-  @include ie-lte(7) {
-    width: 960px;
-  }
-
-
-  @include media(tablet) {
-    max-width: auto;
-    height: auto;
-
-
-    @include ie-lte(7) {
-      width: auto;
-    }
-  }
-}
+  max-width: auto;
+  height: auto;
+  z-index: 50; }
+  @media (min-width: 769px) {
+    .related-container {
+      height: 0;
+      max-width: 1020px; } }
 
 .related {
-  position: absolute;
-  right: 1.75em;
+  position: static;
+  right: auto;
+  width: auto;
   margin: 3em 0 0 0;
-  width: 15em;
-  width: 18.75em;
-  border-top: 10px solid $mainstream-brand;
-
-  @include media(tablet) {
-    position: static;
-    right: auto;
-    width: auto;
-  }
-
-  .inner {
-    background-color: $white;
-    padding: 0.5em 1em 0 0;
-    width: auto;
-
-    @include media(tablet) {
-      padding-left: 2em;
-    }
-
-    @include media(mobile) {
-      padding-left: 1em;
-    }
-  }
-
-  nav {
-    margin-bottom: 1.25em;
-  }
-
-  h2 {
-    @include core-24;
+  border-top: 10px solid #2b8cc4; }
+  @media (min-width: 769px) {
+    .related {
+      position: absolute;
+      right: 1.75em;
+      width: 18.75em; } }
+  .related .inner {
+    background-color: white;
+    padding: 0.5em 1em 0 1em;
+    width: auto; }
+    @media (min-width: 641px) {
+      .related .inner {
+        padding-left: 2em; } }
+    @media (min-width: 769px) {
+      .related .inner {
+        padding-left: 0; } }
+  .related nav {
+    margin-bottom: 1.25em; }
+  .related h2 {
+    font-family: "nta", Arial, sans-serif;
+    font-size: 24px;
+    line-height: 1.25;
+    font-weight: 400;
+    text-transform: none;
     font-weight: 600;
-    color: $text-colour;
+    color: #0b0c0c;
     margin-top: 0.3em;
-    margin-bottom: 0.5em;
-    position: relative;
-
-    @include media(mobile) {
-      font-size: 17px;
-      margin-bottom: 0.625em;
-    }
-  }
-
-  ul {
-    @include core-16;
+    margin-bottom: 0.625em;
+    position: relative; }
+    @media (max-width: 640px) {
+      .related h2 {
+        font-size: 20px;
+        line-height: 1.2; } }
+    @media (max-width: 640px) {
+      .related h2 {
+        font-size: 17px;
+        margin-bottom: 0.5em; } }
+  .related ul {
+    font-family: "nta", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.25;
+    font-weight: 300;
+    text-transform: none;
     list-style: none;
     margin: 0;
     padding: 0;
-    overflow: hidden;
-  }
-
-  li {
+    overflow: hidden; }
+    @media (max-width: 640px) {
+      .related ul {
+        font-size: 14px;
+        line-height: 1.14286; } }
+  .related li {
     margin-bottom: 0.75em;
-    padding-left: 0;
-
-    &.related-topic {
-      list-style: none outside none;
-
-      a {
+    padding-left: 0; }
+    .related li.related-topic {
+      list-style: none outside none; }
+      .related li.related-topic a {
         display: inline;
-        font-weight: bold;
-      }
-    }
-
-    a {
+        font-weight: bold; }
+    .related li a {
       background-position: 0 -287px;
       background-repeat: no-repeat;
       display: block;
-      line-height:1.25em;
-      orphans: 2;
-
-      &:hover {
-        background-position: 0 10px;
-      }
-
-      @include ie-lte(8) {
-        height: 1%;
-      }
-    }
-
-    a[href*="#"] {
+      line-height: 1.25em;
+      orphans: 2; }
+      .related li a:hover {
+        background-position: 0 10px; }
+    .related li a[href*="#"] {
       /* grey out stub links */
       background: none;
       color: #888;
       cursor: default;
-      text-decoration: none;
-    }
-
-    a.view-all {
-      margin: 10px 0 10px;
-    }
-
-    a[rel="external"]:after {
+      text-decoration: none; }
+    .related li a.view-all {
+      margin: 10px 0 10px; }
+    .related li a[rel="external"]:after {
       content: "\A0\A0\A0\A0\A0\A0";
-      background-position: 5px 0px;
-    }
-    
-    a[rel="external"]:hover:after {
-      background-position: 5px -388px;
-    }
-
-  }
-
-  .return-to-top {
-    @include core-16;
+      background-position: 5px 0px; }
+    .related li a[rel="external"]:hover:after {
+      background-position: 5px -388px; }
+  .related .return-to-top {
+    font-family: "nta", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.25;
+    font-weight: 300;
+    text-transform: none;
     margin-bottom: 0.5em;
     position: absolute;
-    left: -9999em;
-
-    @include media(mobile) {
-      position: static;
-      margin: 0.25em 0 0;
-      padding: 0.75em 0;
-    }
-  }
-}
+    left: -9999em; }
+    @media (max-width: 640px) {
+      .related .return-to-top {
+        font-size: 14px;
+        line-height: 1.14286; } }
+    @media (max-width: 640px) {
+      .related .return-to-top {
+        position: static;
+        margin: 0.25em 0 0;
+        padding: 0.75em 0; } }
 
 .related.sections-list li a {
-  padding: 0.1em 0em;
-}
+  padding: 0.1em 0em; }
 
 #legacy-sources {
   margin-top: 1em;
-  display: none;
-
-  @include media(tablet) {
-    margin: 1em 2em 0em;
-  }
-
-  @include media(mobile) {
-    margin-left: 1em;
-    margin-right: 1em;
-  }
-
-  p {
+  display: none; }
+  @media (min-width: 641px) {
+    #legacy-sources {
+      margin: 1em 2em 0em; } }
+  @media (max-width: 640px) {
+    #legacy-sources {
+      margin-left: 1em;
+      margin-right: 1em; } }
+  #legacy-sources p {
     font-size: 1em;
     margin-bottom: 0;
     padding: 0;
-    color: black;
-  }
-
-  ul {
+    color: black; }
+  #legacy-sources ul {
     margin: 0;
     padding: 0;
-    overflow:hidden;
-  }
-
-  li {
+    overflow: hidden; }
+  #legacy-sources li {
     text-indent: -5000px;
     float: left;
     background-repeat: no-repeat;
-    display: none;
-  }
-}
+    display: none; }
 
 .businesslink #legacy-sources,
 .directgov #legacy-sources {
-  display: block;
-}
+  display: block; }
 
 .businesslink #legacy-sources li.businesslink {
   background-image: image-url("businesslink-logo.png");
   width: 84px;
   height: 33px;
   margin-top: 0.5em;
-  display: block;
-
-  @include device-pixel-ratio() {
-    background-image: image-url("businesslink-logo-2x.png");
-    background-size: 84px 33px;
-  }
-}
+  display: block; }
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 20 / 10), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+    .businesslink #legacy-sources li.businesslink {
+      background-image: image-url("businesslink-logo-2x.png");
+      background-size: 84px 33px; } }
 
 .directgov #legacy-sources li.directgov {
   background-image: image-url("directgov-logo.png");
@@ -338,10 +363,8 @@ header.page-header div h1 span {
   height: 14px;
   margin-right: 1em;
   margin-top: 1.2em;
-  display: block;
-
-  @include device-pixel-ratio() {
-    background-image: image-url("directgov-logo-2x.png");
-    background-size: 74px 14px;
-  }
-}
+  display: block; }
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 20 / 10), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+    .directgov #legacy-sources li.directgov {
+      background-image: image-url("directgov-logo-2x.png");
+      background-size: 74px 14px; } }
