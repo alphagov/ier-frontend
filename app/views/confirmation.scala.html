@@ -83,10 +83,10 @@
         <li class="detail">
             <h3>Previous address</h3>
             <div class="data-wrap">
-                @if(application.movedRecently == Some("true")){
+                @if(application.previousAddress.map(_.movedRecently) == Some("true")){
                     <div class="moved-recently-yes">
-                        <p class="data previousAddress">@application.previousAddress.map(_.addressLine).getOrElse("")</p>
-                        <p class="data previousPostcode">@application.previousAddress.map(_.postcode).getOrElse("")</p>
+                        <p class="data previousAddress">@application.previousAddress.map(_.previousAddress.map(_.addressLine).getOrElse("")).getOrElse("")</p>
+                        <p class="data previousPostcode">@application.previousAddress.map(_.previousAddress.map(_.postcode).getOrElse("")).getOrElse("")</p>
                     </div>
                 }else{
                     <p class="data message moved-recently-no">You have not moved in the last 12 months</p>

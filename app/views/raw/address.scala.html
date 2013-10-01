@@ -21,9 +21,7 @@
         </div>
         <div class="postcode-search-results">
             <div class="question">
-                <div class="validation-wrap">
-                    @helper.select(formData(keys.address.address), possibleAddresses, 'class -> "addressList lonely", 'id -> "input-address-list")
-                </div>
+                @helper.select(formData(keys.address.address), possibleAddresses, 'class -> "addressList lonely", 'id -> "input-address-list")
                 <div class="action"><a href="#" class="address-not-listed">My address is not listed</a></div>
             </div>
         </div>

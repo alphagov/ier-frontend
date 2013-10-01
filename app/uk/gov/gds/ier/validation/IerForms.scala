@@ -45,6 +45,11 @@ trait IerForms extends FormKeys with FormMappings {
       (address => InprogressApplication(address = Some(address)))
       (inprogress => inprogress.address)
   )
+  val previousAddressForm = Form(
+    mapping(previousAddress -> previousAddressMapping)
+      (prevAddress => InprogressApplication(previousAddress = Some(prevAddress)))
+      (inprogress => inprogress.previousAddress)
+  )
 
   val inprogressForm = Form(
     mapping(
@@ -54,8 +59,7 @@ trait IerForms extends FormKeys with FormMappings {
       nationality -> optional(nationalityMapping),
       nino -> optional(ninoMapping),
       address -> optional(addressMapping),
-      movedRecently -> optional(nonEmptyText),
-      previousAddress -> optional(addressMapping),
+      previousAddress -> optional(previousAddressMapping),
       hasOtherAddress -> optional(nonEmptyText),
       openRegisterOptin -> optional(nonEmptyText),
       contact -> optional(contactMapping)

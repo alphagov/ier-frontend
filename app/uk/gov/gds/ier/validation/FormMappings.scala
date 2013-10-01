@@ -37,6 +37,11 @@ trait FormMappings extends FormKeys {
     postcode -> nonEmptyText
   ) (Address.apply) (Address.unapply)
 
+  val previousAddressMapping = mapping(
+    movedRecently -> boolean,
+    previousAddress -> optional(addressMapping)
+  ) (PreviousAddress.apply) (PreviousAddress.unapply)
+
   val dobMapping = mapping(
     year -> nonEmptyText,
     month -> nonEmptyText,

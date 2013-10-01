@@ -31,7 +31,6 @@ trait InProgressSession extends IerForms {
         nationality = application.nationality.orElse(stored.nationality),
         nino = application.nino.orElse(stored.nino),
         address = application.address.orElse(stored.address),
-        movedRecently = application.movedRecently.orElse(stored.movedRecently),
         previousAddress = application.previousAddress.orElse(stored.previousAddress),
         hasOtherAddress = application.hasOtherAddress.orElse(stored.hasOtherAddress),
         openRegisterOptin = application.openRegisterOptin.orElse(stored.openRegisterOptin),

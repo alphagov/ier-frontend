@@ -107,12 +107,14 @@ case class InprogressApplication (name: Option[NameUnderlying] = None,
                                   nationality: Option[Nationality] = None,
                                   nino: Option[Nino] = None,
                                   address: Option[Address] = None,
-                                  movedRecently: Option[String] = None,
-                                  previousAddress: Option[Address] = None,
+                                  previousAddress: Option[PreviousAddress] = None,
                                   hasOtherAddress: Option[String] = None,
                                   openRegisterOptin: Option[String] = None,
                                   contact: Option[ContactUnderlying] = None)
 
 case class Address(addressLine:String, postcode:String)
+
+case class PreviousAddress (movedRecently:Boolean,
+                            previousAddress:Option[Address])
 
 case class PostcodeAnywhereResponse(Items:List[Map[String,String]])
