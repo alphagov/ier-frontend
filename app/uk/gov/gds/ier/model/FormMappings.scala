@@ -10,6 +10,11 @@ trait FormMappings extends FormKeys {
     lastName -> text.verifying("Please enter your Last name", _.nonEmpty)
   ) (Name.apply) (Name.unapply)
 
+  val previousNameMapping = mapping(
+    hasPreviousName -> boolean,
+    previousName -> optional(nameMapping)
+  ) (PreviousName.apply) (PreviousName.unapply)
+
   val contactMapping = mapping(
     contactType -> nonEmptyText,
     post -> optional(nonEmptyText),

@@ -30,11 +30,16 @@ trait IerForms extends FormKeys with FormMappings {
       (name => InprogressApplication(name = Some(name)))
       (inprogress => inprogress.name)
   )
+  val previousNameForm = Form(
+    mapping(previousName -> previousNameMapping.verifying("Please enter you Previous name", previous => (previous.hasPreviousName && previous.previousName.isDefined) || !previous.hasPreviousName))
+      (prevName => InprogressApplication(previousName = Some(prevName)))
+      (inprogress => inprogress.previousName)
+  )
 
   val inprogressForm = Form(
     mapping(
       name -> optional(nameMapping),
-      previousName -> optional(nameMapping),
+      previousName -> optional(previousNameMapping),
       dob -> optional(dobMapping),
       nationality -> optional(nationalityMapping),
       nino -> optional(nonEmptyText),

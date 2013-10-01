@@ -76,6 +76,9 @@ case class NameUnderlying(firstName:String,
                           middleNames:String,
                           lastName:String)
 
+case class PreviousName(hasPreviousName:Boolean,
+                        previousName:Option[NameUnderlying])
+
 object Name {
   def apply(firstName:String,
             middleNames:Option[String],
@@ -96,7 +99,7 @@ case class DateOfBirth (year:String,
                         day:String)
 
 case class InprogressApplication (name: Option[NameUnderlying] = None,
-                                  previousName: Option[NameUnderlying] = None,
+                                  previousName: Option[PreviousName] = None,
                                   dob: Option[DateOfBirth] = None,
                                   nationality: Option[Nationality] = None,
                                   nino: Option[String] = None,

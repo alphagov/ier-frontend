@@ -1,41 +1,39 @@
-@(application: uk.gov.gds.ier.model.InprogressApplication)
+@(formData: uk.gov.gds.ier.model.InProgressForm)
 
-@import includes._
+@import uk.gov.gds.ier.form.FormHelpers._
 
 @layouts.stepIndicator(4)
 
 <div id="step-previous-name" class="step">
+    @formData
     <h2><span class="question-number">4</span><span>Have you changed your name in the last 12 months?</span></h2>
     <div class="question">
-        <label class="selectable binary">
-            <input type="radio" id="input-name-change-yes" name="nameChange" value="true" class="radio" @checkedIf(application.previousName == Some("true"))><span>Yes</span>
+        <label class="selectable binary @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "selected")">
+            <input type="radio" id="input-name-change-yes" name="@keys.previousName.hasPreviousName" value="true" class="radio" @checkedIf(formData(keys.previousName.hasPreviousName).value == Some("true"))><span>Yes</span>
         </label>
-        <label class="selectable binary">
-            <input type="radio" id="input-name-change-no" name="nameChange" value="false" class="radio" @checkedIf(application.previousName == Some("false"))><span>No</span>
+        <label class="selectable binary @classIf(formData(keys.previousName.hasPreviousName).value == Some("false"), "selected")">
+            <input type="radio" id="input-name-change-no" name="@keys.previousName.hasPreviousName" value="false" class="radio" @checkedIf(formData(keys.previousName.hasPreviousName).value == Some("false"))><span>No</span>
         </label>
     </div>
-    <div id="optionalSectionPreviousName" class="optional-section optional-section-previous-name @classIf(application.previousName == Some("true"), "visible")">
+    <div id="optionalSectionPreviousName" class="optional-section optional-section-previous-name @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "visible")">
         <h3>Previous name</h3>
         <div class="question">
             <label class="above">First name</label>
-            <div class="validation-wrap">
-                <input id="input-previous-first-name" type="text" name="previousName.firstName" value="@application.previousName.map(_.firstName).getOrElse("")" class="text first-name long">
-            </div>
+            @helper.inputText(formData(keys.previousName.previousName.firstName), 'class -> "text first-name long")
         </div>
         <div class="question">
             <label class="above">Middle names</label>
-            <div class="validation-wrap">
-                <input id="input-previous-middle-names" type="text" name="previousName.middleNames" value="@application.previousName.map(_.middleNames).getOrElse("")" class="text middle-names long">
-            </div>
+            @helper.inputText(formData(keys.previousName.previousName.middleNames), 'class -> "text middle-names long")
         </div>
         <div class="question">
             <label class="above">Last name</label>
-            <div class="validation-wrap">
-                <input id="input-previous-last-name" type="text" name="previousName.lastName" value="@application.previousName.map(_.lastName).getOrElse("")" class="text last-name long">
-            </div>
+            @helper.inputText(formData(keys.previousName.previousName.lastName), 'class -> "text last-name long")
         </div>
     </div>
-    <div class="validation-message"></div>
+    @validationMessage(formData(keys.previousName))
+    @validationMessage(formData(keys.previousName.previousName.firstName))
+    @validationMessage(formData(keys.previousName.previousName.middleNames))
+    @validationMessage(formData(keys.previousName.previousName.lastName))
     <div class="next-question">
         <input data-next="step-name" type="submit" class="button next" value="Continue" />
     </div>

@@ -19,6 +19,7 @@ trait FormKeys {
 
   lazy val name = prependNamespace("name")
   lazy val previousName = prependNamespace("previousName")
+  lazy val hasPreviousName = prependNamespace("hasPreviousName")
   lazy val firstName = prependNamespace("firstName")
   lazy val middleNames = prependNamespace("middleNames")
   lazy val lastName = prependNamespace("lastName")

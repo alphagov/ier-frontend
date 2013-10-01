@@ -28,7 +28,7 @@
             <div class="data-wrap">
                 @if(application.previousName.isDefined){
                     <div class="name-change-yes">
-                        <p class="data previous-name">@name(application.previousName.map(_.firstName), application.previousName.map(_.middleNames), application.previousName.map(_.lastName))</p>
+                        <p class="data previous-name">@name(application.previousName.map(_.previousName.map(_.firstName).getOrElse("")), application.previousName.map(_.previousName.map(_.middleNames).getOrElse("")), application.previousName.map(_.previousName.map(_.lastName).getOrElse("")))</p>
                     </div>
                 } else {
                     <div class="name-change-no">

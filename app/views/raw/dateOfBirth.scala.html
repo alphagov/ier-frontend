@@ -1,6 +1,7 @@
-@(application: uk.gov.gds.ier.model.InprogressApplication)
+@(formData: uk.gov.gds.ier.model.InProgressForm)
 
 @import includes._
+@import uk.gov.gds.ier.form.FormHelpers._
 @import uk.gov.gds.ier.model.DateOfBirthConstants
 
 @layouts.stepIndicator(2)
@@ -9,27 +10,23 @@
     <div class="question">
         <h2><span class="question-number">2</span><span>What is your date of birth?</span></h2>
         <ul class="answers">
-            <li class="answer"><span class="validation-wrap">
-                <select id="input-dob-day" name="dob.day" class="day">
-                    <option>Day</option>
-                    @for(day <- DateOfBirthConstants.days) {
-                        <option @selectedIf(application.dob.map(_.day) == Some("" + day)) >@day</option>
-                    }
-
-                    </select></span><span class="validation-wrap">
-                <select id="input-dob-month" name="dob.month" class="month">
-                    <option>Month</option>
-                    @for(month <- DateOfBirthConstants.months) {
-                        <option @selectedIf(application.dob.map(_.month) == Some(month)) >@month</option>
-                    }
-                </select></span><span class="validation-wrap">
-                <select id="input-dob-year" name="dob.year" class="year">
-                    <option>Year</option>
-                    @for(year <- DateOfBirthConstants.years) {
-                        <option @selectedIf(application.dob.map(_.year) == Some(""+year)) >@year</option>
-                    }
-
-                </select></span></li>
+            <li class="answer">
+                @helper.select(
+                    formData(keys.dob.day),
+                    DateOfBirthConstants.days,
+                    '_default -> "Day", 'class -> "day"
+                )
+                @helper.select(
+                    formData(keys.dob.month),
+                    DateOfBirthConstants.months,
+                    '_default -> "Month", 'class -> "month"
+                )
+                @helper.select(
+                    formData(keys.dob.year),
+                    DateOfBirthConstants.years,
+                    '_default -> "Year", 'class -> "year"
+                )
+            </li>
         </ul>
     </div>
     <div class="more-help-wrap">
