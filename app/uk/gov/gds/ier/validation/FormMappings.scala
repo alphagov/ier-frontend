@@ -33,7 +33,7 @@ trait FormMappings extends FormKeys {
   })
 
   val addressMapping = mapping(
-    address -> nonEmptyText,
+    address -> nonEmptyText.verifying("Please select your address", address => address != "Select your address"),
     postcode -> nonEmptyText
   ) (Address.apply) (Address.unapply)
 

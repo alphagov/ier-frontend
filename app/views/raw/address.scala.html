@@ -1,4 +1,6 @@
-@(application: uk.gov.gds.ier.model.InprogressApplication)
+@(formData: uk.gov.gds.ier.validation.InProgressForm, possibleAddresses: Seq[(String, String)] = Seq.empty[(String,String)])
+
+@import uk.gov.gds.ier.form.FormHelpers._
 
 @layouts.stepIndicator(6)
 
@@ -12,7 +14,7 @@
             <div class="question">
                 <label class="above">Enter your postcode to search for your address</label>
                 <div class="search-wrap">
-                    <input type="text" name="address.postcode" class="postcode text long">
+                    @helper.inputText(formData(keys.address.postcode), 'class -> "postcode text long")
                     <button id="find-address" class="button search"><span>Find address</span></button>
                 </div>
             </div>
@@ -20,7 +22,7 @@
         <div class="postcode-search-results">
             <div class="question">
                 <div class="validation-wrap">
-                    <select id="input-address-list" name="address.address" data-name="Address" class="addressList lonely"></select>
+                    @helper.select(formData(keys.address.address), possibleAddresses, 'class -> "addressList lonely", 'id -> "input-address-list")
                 </div>
                 <div class="action"><a href="#" class="address-not-listed">My address is not listed</a></div>
             </div>
@@ -28,12 +30,13 @@
         <div class="type-in-address">
             <div class="question">
                 <label class="above">Address</label>
-                <textarea id="input-address-text" name="address.address" class="small"></textarea>
+                @helper.textarea(formData(keys.address.address), 'class -> "small")
             </div>
         </div>
     </div>
+    @validationMessage(formData(keys.address.address))
+    @validationMessage(formData(keys.address.postcode))
     <div class="address-step-2">
-        <div class="validation-message"></div>
         <div class="next-question">
             <input data-next="step-name" type="submit" class="button next" value="Continue" />
         </div>

@@ -36,6 +36,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
 
   def next(step:String) = Action(BodyParsers.parse.urlFormEncoded) { implicit request =>
     Step(step) { stepDetail =>
+      println(request.body)
       stepDetail.validation.bindFromRequest().fold(
         errors => {
           Ok(stepDetail.page(InProgressForm(errors)))

@@ -38,12 +38,17 @@ trait Steps extends IerForms {
     previousNameForm,
     "nino"
   )
-
   val ninoStep = Step(
     form => html.steps.nino(form),
     form => html.edit.nino(form),
     ninoForm,
     "address"
+  )
+  val addressStep = Step(
+    form => html.steps.address(form),
+    form => html.edit.address(form),
+    addressForm,
+    "previous-address"
   )
 
   object Step {
@@ -54,6 +59,7 @@ trait Steps extends IerForms {
         case "date-of-birth" => block(dateOfBirthStep)
         case "previous-name" => block(previousNameStep)
         case "nino" => block(ninoStep)
+        case "address" => block(addressStep)
       }
     }
   }
@@ -80,7 +86,6 @@ trait Steps extends IerForms {
 
   def editPageFor(step:String)(implicit request: RequestHeader) = {
     step match {
-      case "address" => html.edit.address(request.session.getApplication)
       case "previous-address" => html.edit.previousAddress(request.session.getApplication)
       case "other-address" => html.edit.otherAddress(request.session.getApplication)
       case "open-register" => html.edit.openRegister(request.session.getApplication)
@@ -90,7 +95,6 @@ trait Steps extends IerForms {
 
   def pageFor(step:String, form:Form[InprogressApplication])(implicit request: RequestHeader) = {
     step match {
-      case "address" => html.steps.address(request.session.getApplication)
       case "previous-address" => html.steps.previousAddress(request.session.getApplication)
       case "other-address" => html.steps.otherAddress(request.session.getApplication)
       case "open-register" => html.steps.openRegister(request.session.getApplication)

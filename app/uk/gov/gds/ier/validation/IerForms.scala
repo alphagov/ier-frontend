@@ -40,6 +40,11 @@ trait IerForms extends FormKeys with FormMappings {
       (nino => InprogressApplication(nino = Some(nino)))
       (inprogress => inprogress.nino)
   )
+  val addressForm = Form(
+    mapping(address -> addressMapping)
+      (address => InprogressApplication(address = Some(address)))
+      (inprogress => inprogress.address)
+  )
 
   val inprogressForm = Form(
     mapping(
