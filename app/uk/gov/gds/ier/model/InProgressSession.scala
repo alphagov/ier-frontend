@@ -2,6 +2,7 @@ package uk.gov.gds.ier.model
 
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.mvc.Session
+import uk.gov.gds.ier.validation.IerForms
 
 trait InProgressSession extends IerForms {
   self: WithSerialiser =>

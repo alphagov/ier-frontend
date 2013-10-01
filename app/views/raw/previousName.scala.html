@@ -1,4 +1,4 @@
-@(formData: uk.gov.gds.ier.model.InProgressForm)
+@(formData: uk.gov.gds.ier.validation.InProgressForm)
 
 @import uk.gov.gds.ier.form.FormHelpers._
 
@@ -19,7 +19,9 @@
         <h3>Previous name</h3>
         <div class="question">
             <label class="above">First name</label>
-            @helper.inputText(formData(keys.previousName.previousName.firstName), 'class -> "text first-name long")
+            @validationWrap(formData(keys.previousName)) {
+                @helper.inputText(formData(keys.previousName.previousName.firstName), 'class -> "text first-name long")
+            }
         </div>
         <div class="question">
             <label class="above">Middle names</label>
@@ -27,7 +29,9 @@
         </div>
         <div class="question">
             <label class="above">Last name</label>
-            @helper.inputText(formData(keys.previousName.previousName.lastName), 'class -> "text last-name long")
+            @validationWrap(formData(keys.previousName)) {
+                @helper.inputText(formData(keys.previousName.previousName.lastName), 'class -> "text last-name long")
+            }
         </div>
     </div>
     @validationMessage(formData(keys.previousName))

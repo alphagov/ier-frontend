@@ -1,10 +1,10 @@
-@(formData: uk.gov.gds.ier.model.InProgressForm)
+@(formData: uk.gov.gds.ier.validation.InProgressForm)
 
 @import includes._
+@import uk.gov.gds.ier.validation.DateOfBirthConstants
 @import uk.gov.gds.ier.form.FormHelpers._
-@import uk.gov.gds.ier.model.DateOfBirthConstants
 
-@layouts.stepIndicator(2)
+    @layouts.stepIndicator(2)
 
 <div id="step-date-of-birth" class="step">
     <div class="question">

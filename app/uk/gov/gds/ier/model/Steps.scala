@@ -4,6 +4,7 @@ import views.html
 import play.api.mvc._
 import play.api.data.Form
 import play.api.templates.Html
+import uk.gov.gds.ier.validation.{InProgressForm, IerForms}
 
 trait Steps extends IerForms {
   self: InProgressSession =>
@@ -38,6 +39,13 @@ trait Steps extends IerForms {
     "nino"
   )
 
+  val ninoStep = Step(
+    form => html.steps.nino(form),
+    form => html.edit.nino(form),
+    ninoForm,
+    "address"
+  )
+
   object Step {
     def apply(step:String)(block: Step => Result):Result = {
       step match {
@@ -45,6 +53,7 @@ trait Steps extends IerForms {
         case "name" => block(nameStep)
         case "date-of-birth" => block(dateOfBirthStep)
         case "previous-name" => block(previousNameStep)
+        case "nino" => block(ninoStep)
       }
     }
   }
@@ -71,7 +80,6 @@ trait Steps extends IerForms {
 
   def editPageFor(step:String)(implicit request: RequestHeader) = {
     step match {
-      case "nino" => html.edit.nino(request.session.getApplication)
       case "address" => html.edit.address(request.session.getApplication)
       case "previous-address" => html.edit.previousAddress(request.session.getApplication)
       case "other-address" => html.edit.otherAddress(request.session.getApplication)
@@ -80,15 +88,8 @@ trait Steps extends IerForms {
     }
   }
 
-  def validationFor(step:String) = {
-    step match {
-      case "nationality" => nationalityForm
-    }
-  }
-
   def pageFor(step:String, form:Form[InprogressApplication])(implicit request: RequestHeader) = {
     step match {
-      case "nino" => html.steps.nino(request.session.getApplication)
       case "address" => html.steps.address(request.session.getApplication)
       case "previous-address" => html.steps.previousAddress(request.session.getApplication)
       case "other-address" => html.steps.otherAddress(request.session.getApplication)

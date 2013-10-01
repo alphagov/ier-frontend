@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.model
+package uk.gov.gds.ier.validation
 
 trait FormKeys {
   lazy val namespace = ""
@@ -31,6 +31,7 @@ trait FormKeys {
   lazy val year = prependNamespace("year")
 
   lazy val nino = prependNamespace("NINO")
+  lazy val noNinoReason = prependNamespace("NoNinoReason")
 
   lazy val address = prependNamespace("address")
   lazy val postcode = prependNamespace("postcode")

@@ -1,4 +1,4 @@
-@(application:uk.gov.gds.ier.model.InProgressForm)
+@(formData:uk.gov.gds.ier.validation.InProgressForm)
 
 @import helper._
 @import layouts._
@@ -6,6 +6,6 @@
 
 @main(title = Some("Register to Vote - What is your Nationality?"), stylesheets = head(), scripts = stepsBodyEnd()) {
     @form(routes.RegisterToVoteController.next("nationality")) {
-        @raw.nationality(application)
+        @raw.nationality(formData)
     }
 }

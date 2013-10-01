@@ -1,4 +1,4 @@
-@(elements: helper.FieldElements)
-<div class="validation-wrap @if(elements.hasErrors) {invalid}">
+@(elements: helper.FieldElements) @import views.html.includes.validationWrap
+@validationWrap(elements.field) {
     @elements.input
-</div>
+}

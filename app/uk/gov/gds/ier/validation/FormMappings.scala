@@ -1,13 +1,14 @@
-package uk.gov.gds.ier.model
+package uk.gov.gds.ier.validation
 
 import play.api.data.Forms._
+import uk.gov.gds.ier.model._
 
 trait FormMappings extends FormKeys {
 
   val nameMapping = mapping(
-    firstName -> text.verifying("Please enter your First name", _.nonEmpty),
+    firstName -> text.verifying("Please enter your first name", _.nonEmpty),
     middleNames -> optional(nonEmptyText),
-    lastName -> text.verifying("Please enter your Last name", _.nonEmpty)
+    lastName -> text.verifying("Please enter your last name", _.nonEmpty)
   ) (Name.apply) (Name.unapply)
 
   val previousNameMapping = mapping(
@@ -42,4 +43,8 @@ trait FormMappings extends FormKeys {
     day -> nonEmptyText
   ) (DateOfBirth.apply) (DateOfBirth.unapply)
 
+  val ninoMapping = mapping(
+    nino -> optional(nonEmptyText.verifying("Your National Insurance number is not correct", nino => NinoValidator.isValid(nino))),
+    noNinoReason -> optional(nonEmptyText)
+  ) (Nino.apply) (Nino.unapply)
 }

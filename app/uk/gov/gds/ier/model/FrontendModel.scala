@@ -94,6 +94,9 @@ case class Nationality (nationalities:List[String],
                         otherCountries:List[String],
                         noNationalityReason:Option[String])
 
+case class Nino(nino:Option[String],
+                noNinoReason:Option[String])
+
 case class DateOfBirth (year:String,
                         month:String,
                         day:String)
@@ -102,7 +105,7 @@ case class InprogressApplication (name: Option[NameUnderlying] = None,
                                   previousName: Option[PreviousName] = None,
                                   dob: Option[DateOfBirth] = None,
                                   nationality: Option[Nationality] = None,
-                                  nino: Option[String] = None,
+                                  nino: Option[Nino] = None,
                                   address: Option[Address] = None,
                                   movedRecently: Option[String] = None,
                                   previousAddress: Option[Address] = None,

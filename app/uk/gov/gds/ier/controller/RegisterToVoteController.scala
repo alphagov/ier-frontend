@@ -1,12 +1,13 @@
 package uk.gov.gds.ier.controller
 
 import play.api.mvc.{Session, BodyParsers, Controller, Action}
-import uk.gov.gds.ier.model.{InProgressForm, InProgressSession, Steps, IerForms}
+import uk.gov.gds.ier.model.{InProgressSession, Steps}
 import com.google.inject.Inject
 import uk.gov.gds.ier.service.IerApiService
 import views._
 import controllers._
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
+import uk.gov.gds.ier.validation.{InProgressForm, IerForms}
 
 class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: JsonSerialiser)
     extends Controller

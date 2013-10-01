@@ -1,8 +1,8 @@
-package uk.gov.gds.ier.model
+package uk.gov.gds.ier.validation
 
 import play.api.data.Form
 import play.api.data.Forms._
-import org.joda.time.LocalDate
+import uk.gov.gds.ier.model.InprogressApplication
 
 trait IerForms extends FormKeys with FormMappings {
 
@@ -31,9 +31,14 @@ trait IerForms extends FormKeys with FormMappings {
       (inprogress => inprogress.name)
   )
   val previousNameForm = Form(
-    mapping(previousName -> previousNameMapping.verifying("Please enter you Previous name", previous => (previous.hasPreviousName && previous.previousName.isDefined) || !previous.hasPreviousName))
+    mapping(previousName -> previousNameMapping.verifying("Please enter you previous name", previous => (previous.hasPreviousName && previous.previousName.isDefined) || !previous.hasPreviousName))
       (prevName => InprogressApplication(previousName = Some(prevName)))
       (inprogress => inprogress.previousName)
+  )
+  val ninoForm = Form(
+    mapping(nino -> ninoMapping.verifying("Please enter your nino", nino => nino.nino.isDefined || nino.noNinoReason.isDefined))
+      (nino => InprogressApplication(nino = Some(nino)))
+      (inprogress => inprogress.nino)
   )
 
   val inprogressForm = Form(
@@ -42,7 +47,7 @@ trait IerForms extends FormKeys with FormMappings {
       previousName -> optional(previousNameMapping),
       dob -> optional(dobMapping),
       nationality -> optional(nationalityMapping),
-      nino -> optional(nonEmptyText),
+      nino -> optional(ninoMapping),
       address -> optional(addressMapping),
       movedRecently -> optional(nonEmptyText),
       previousAddress -> optional(addressMapping),
