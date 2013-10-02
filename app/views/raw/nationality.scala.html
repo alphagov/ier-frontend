@@ -48,7 +48,7 @@
             <div id="optional-section-no-nationality" class="optional-section @visibleIf(formData.hasNoNationalityReason)">
                 <div class="question">
                     <label class="above">Why can't you provide your nationality?</label>
-                    <textarea name="nationality.noNationalityReason" class="small">@formData.getNoNationalityReason</textarea>
+                    <textarea name="nationality.noNationalityReason" class="small">@formData(keys.nationality.noNationalityReason).value.getOrElse("")</textarea>
                 </div>
             </div>
         </div>

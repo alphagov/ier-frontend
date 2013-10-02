@@ -109,11 +109,27 @@ case class InProgressForm(form:Form[InprogressApplication]) extends FormKeys{
   def apply(key:String) = {
     form(key)
   }
+  def getNationalities = {
+    form.value match {
+      case Some(application) => application.nationality.map(_.nationalities.filter(_.nonEmpty)).filter(_.size > 0)
+      case None => None
+    }
+  }
+  def getOtherCountries = {
+    form.value match {
+      case Some(application) => application.nationality.map(_.otherCountries.filter(_.nonEmpty)).filter(_.size > 0)
+      case None => None
+    }
+  }
   def hasNoNationalityReason = {
     form(nationality.noNationalityReason).value.exists(_.nonEmpty)
   }
   def hasNationality(thisNationality:String) = {
     form(nationality.nationalities).value.exists(_.contains(thisNationality))
   }
-  def getNoNationalityReason = form(nationality.nationalities).value.getOrElse("")
+  def confirmationNationalityString = {
+    val nationalityString = getNationalities.map(_.mkString(" and "))
+    val otherString = getOtherCountries.map("a citizen of " + _.mkString(" and "))
+    List(nationalityString.getOrElse(""), otherString.getOrElse("")).filter(_.nonEmpty).mkString(" and ")
+  }
 }

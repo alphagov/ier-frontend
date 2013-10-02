@@ -24,26 +24,23 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
     Ok(html.start()).withNewSession
   }
 
-  def registerToVote = Action {
-    Redirect(controllers.routes.RegisterToVoteController.registerStep(firstStep()))
-  }
-
   def registerStep(step:String) = Action { implicit request =>
     Step(step) { stepDetail =>
       Ok(stepDetail.page(InProgressForm(request.session.getApplication)))
     }
   }
 
+  def registerToVote = Action {
+    Redirect(controllers.routes.RegisterToVoteController.registerStep(firstStep()))
+  }
+
   def next(step:String) = Action(BodyParsers.parse.urlFormEncoded) { implicit request =>
     Step(step) { stepDetail =>
-      println(request.body)
       stepDetail.validation.bindFromRequest().fold(
         errors => {
-          println(errors)
           Ok(stepDetail.page(InProgressForm(errors)))
         },
         form => {
-          println(form)
           val application = session.merge(form)
           Redirect(routes.RegisterToVoteController.registerStep(stepDetail.next)).withSession(application.toSession)
         }
@@ -53,7 +50,9 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
 
   def edit(step:String) = Action {
     implicit request =>
-      Ok(editPageFor(step))
+      Step(step) { stepDetail =>
+        Ok(stepDetail.editPage(InProgressForm(request.session.getApplication)))
+      }
   }
 
   def errorRedirect(error:String) = Action {

@@ -55,11 +55,11 @@ $('#step-address #find-address').on('click', function(e) {
     addressLookup($('#step-address'));
 });
 
-$('#step-previous-address #input-previous-address-no').on('click', function(e) {
+$('#step-previous-address #input-previous-address_false').on('click', function(e) {
     hide($('#optional-section-previous-address'));
 });
 
-$('#step-previous-address #input-previous-address-yes').on('click', function(e) {
+$('#step-previous-address #input-previous-address_true').on('click', function(e) {
     show($('#optional-section-previous-address'));
 });
 

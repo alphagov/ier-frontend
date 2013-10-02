@@ -74,6 +74,12 @@ trait Steps extends IerForms {
     contactForm,
     "confirmation"
   )
+  val confirmationStep = Step(
+    form => html.confirmation(form),
+    form => html.confirmation(form),
+    inprogressForm,
+    ""
+  )
 
   object Step {
     def apply(step:String)(block: Step => Result):Result = {
@@ -88,40 +94,10 @@ trait Steps extends IerForms {
         case "other-address" => block(otherAddressStep)
         case "open-register" => block(openRegisterStep)
         case "contact" => block(contactStep)
+        case "confirmation" => block(confirmationStep)
       }
     }
   }
 
-  def nextStep(step:String) = {
-    step match {
-      case "nationality" => "date-of-birth"
-      case "date-of-birth" => "name"
-      case "name" => "previous-name"
-      case "previous-name" => "nino"
-      case "nino" => "address"
-      case "address" => "previous-address"
-      case "previous-address" => "other-address"
-      case "other-address" => "open-register"
-      case "open-register" => "contact"
-      case "contact" => "confirmation"
-      case "confirmation" => "complete"
-      case "edit" => "confirmation"
-      case _ => "nationality"
-    }
-  }
-
   def firstStep() = "nationality"
-
-  def editPageFor(step:String)(implicit request: RequestHeader) = {
-    step match {
-      case "start" => html.start()
-    }
-  }
-
-  def pageFor(step:String, form:Form[InprogressApplication])(implicit request: RequestHeader) = {
-    step match {
-      case "start" => html.start()
-      case "confirmation" => html.confirmation(request.session.getApplication)
-    }
-  }
 }

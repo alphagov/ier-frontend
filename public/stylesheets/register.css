@@ -375,6 +375,10 @@ input[type='radio'] + label {
     margin: 0 0 0 -40px;
 }
 
+input[type='radio'].binary + label {
+    margin-right: 32px;
+}
+
 input[type='radio'] {
     position: relative;
     z-index: 1;

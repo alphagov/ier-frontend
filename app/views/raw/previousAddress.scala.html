@@ -7,12 +7,7 @@
 <div id="step-previous-address" class="step">
     <h2><span class="question-number">7</span><span>Have you moved within the last 12 months?</span></h2>
     <div class="question">
-        <label class="selectable binary">
-            <input type="radio" id="input-previous-address-yes" name="movedRecently" value="true" class="radio" @checkedIf(formData(keys.previousAddress.movedRecently).value == Some("true"))><span>Yes</span>
-        </label>
-        <label class="selectable binary">
-            <input type="radio" id="input-previous-address-no" name="movedRecently" value="false" class="radio" @checkedIf(formData(keys.previousAddress.movedRecently).value == Some("false"))><span>No</span>
-        </label>
+        @helper.inputRadioGroup(formData(keys.previousAddress.movedRecently), Seq("true" -> "Yes", "false" -> "No"), 'class -> "radio binary", 'id -> "input-previous-address")
     </div>
     <div id="optional-section-previous-address" class="optional-section optional-section-previous-address @classIf(formData(keys.previousAddress.movedRecently).value == Some("true"), "visible")">
         <div class="address-tabs">

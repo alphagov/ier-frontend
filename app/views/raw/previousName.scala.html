@@ -5,7 +5,6 @@
 @layouts.stepIndicator(4)
 
 <div id="step-previous-name" class="step">
-    @formData
     <h2><span class="question-number">4</span><span>Have you changed your name in the last 12 months?</span></h2>
     <div class="question">
         <label class="selectable binary @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "selected")">
