@@ -68,6 +68,12 @@ trait Steps extends IerForms {
     openRegisterForm,
     "contact"
   )
+  val contactStep = Step(
+    form => html.steps.contact(form),
+    form => html.edit.contact(form),
+    contactForm,
+    "confirmation"
+  )
 
   object Step {
     def apply(step:String)(block: Step => Result):Result = {
@@ -81,6 +87,7 @@ trait Steps extends IerForms {
         case "previous-address" => block(previousAddressStep)
         case "other-address" => block(otherAddressStep)
         case "open-register" => block(openRegisterStep)
+        case "contact" => block(contactStep)
       }
     }
   }
@@ -107,13 +114,13 @@ trait Steps extends IerForms {
 
   def editPageFor(step:String)(implicit request: RequestHeader) = {
     step match {
-      case "contact" => html.edit.contact(request.session.getApplication)
+      case "start" => html.start()
     }
   }
 
   def pageFor(step:String, form:Form[InprogressApplication])(implicit request: RequestHeader) = {
     step match {
-      case "contact" => html.steps.contact(request.session.getApplication)
+      case "start" => html.start()
       case "confirmation" => html.confirmation(request.session.getApplication)
     }
   }

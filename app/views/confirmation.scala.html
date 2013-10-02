@@ -118,16 +118,16 @@
             <div class="data-wrap">
                 <p class="message">If there are any problems with your application we will contact you by:</p>
                 @if(application.contact.map(_.contactType) == Some("phone")){
-                    <p class="data contact-by-phone-yes"><span>Phone number at </span><span class="data telephone">@application.contact.map(_.contactDetail).getOrElse("")</span></p>
+                    <p class="data contact-by-phone-yes"><span>Phone number at </span><span class="data telephone">@application.contact.map(_.phone.getOrElse("")).getOrElse("")</span></p>
                 }
                 @if(application.contact.map(_.contactType) == Some("text")){
-                    <p class="data contact-by-text-yes"><span>Text message at </span><span class="data text">@application.contact.map(_.contactDetail).getOrElse("")</span></p>
+                    <p class="data contact-by-text-yes"><span>Text message at </span><span class="data text">@application.contact.map(_.textNum.getOrElse("")).getOrElse("")</span></p>
                 }
                 @if(application.contact.map(_.contactType) == Some("email")){
-                    <p class="data contact-by-email-yes"><span>Email at </span><span class="data email">@application.contact.map(_.contactDetail).getOrElse("")</span></p>
+                    <p class="data contact-by-email-yes"><span>Email at </span><span class="data email">@application.contact.map(_.email.getOrElse("")).getOrElse("")</span></p>
                 }
                 @if(application.contact.map(_.contactType) == Some("post")){
-                    <p class="data contact-by-post-yes"><span>Post at </span><span class="data post">@application.contact.map(_.contactDetail).getOrElse("")</span></p>
+                    <p class="data contact-by-post-yes"><span>Post at </span><span class="data post">@application.contact.map(_.post.getOrElse("")).getOrElse("")</span></p>
                 }
             </div><a href="@routes.RegisterToVoteController.edit("contact")" class="change">Change</a>
         </li>

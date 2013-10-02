@@ -46,31 +46,11 @@ case class CompleteApplication (firstName: Option[String],
                                 dob: Option[LocalDate],
                                 nationality: Option[String])
 
-case class ContactUnderlying (contactType: String,
-                              contactDetail: String)
-
-object Contact {
-  def apply (contactType:String,
-             post: Option[String],
-             phone: Option[String],
-             textNum: Option[String],
-             email: Option[String]) = {
-    (contactType, post, phone, textNum, email) match {
-      case ("phone", _, Some(p), _, _) => ContactUnderlying(contactType, p)
-      case ("text",  _, _, Some(t), _) => ContactUnderlying(contactType, t)
-      case ("email", _, _, _, Some(e)) => ContactUnderlying(contactType, e)
-      case ("post",  Some(p), _, _, _) => ContactUnderlying(contactType, p)
-    }
-  }
-  def unapply(contact:ContactUnderlying) : Option[(String, Option[String], Option[String], Option[String], Option[String])]= {
-    contact match {
-      case ContactUnderlying("phone", phone) => Some("phone", None, Some(phone), None, None)
-      case ContactUnderlying("text", text) => Some("text", None, None, Some(text), None)
-      case ContactUnderlying("email", email) => Some("email", None, None, None, Some(email))
-      case ContactUnderlying("post", post) => Some("post", Some(post), None, None, None)
-    }
-  }
-}
+case class Contact (contactType:String,
+                    post: Option[String],
+                    phone: Option[String],
+                    textNum: Option[String],
+                    email: Option[String])
 
 case class NameUnderlying(firstName:String,
                           middleNames:String,
@@ -110,7 +90,7 @@ case class InprogressApplication (name: Option[NameUnderlying] = None,
                                   previousAddress: Option[PreviousAddress] = None,
                                   otherAddress: Option[OtherAddress] = None,
                                   openRegisterOptin: Option[Boolean] = None,
-                                  contact: Option[ContactUnderlying] = None)
+                                  contact: Option[Contact] = None)
 
 case class Address(addressLine:String, postcode:String)
 

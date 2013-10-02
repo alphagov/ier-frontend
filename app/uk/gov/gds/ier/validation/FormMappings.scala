@@ -17,7 +17,7 @@ trait FormMappings extends FormKeys {
   ) (PreviousName.apply) (PreviousName.unapply)
 
   val contactMapping = mapping(
-    contactType -> nonEmptyText,
+    contactType -> text.verifying("Please answer this question", contact => List("text", "phone", "email", "post").contains(contact)),
     post -> optional(nonEmptyText),
     phone -> optional(nonEmptyText),
     textNum -> optional(nonEmptyText),

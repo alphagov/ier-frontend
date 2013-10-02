@@ -39,6 +39,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
       println(request.body)
       stepDetail.validation.bindFromRequest().fold(
         errors => {
+          println(errors)
           Ok(stepDetail.page(InProgressForm(errors)))
         },
         form => {
