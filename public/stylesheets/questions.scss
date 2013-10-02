@@ -15,12 +15,12 @@ label.above{
 }
 
 label.selectable{
-	display: inline-block;
-	cursor: pointer;
+  float: left;
+  clear: left;
 	background: #F0F0F0;
 	border: 1px solid #FFF;
 	padding: 12px 14px;
-	margin: 0 1em 0 0;
+	margin: 0 1em 1em 0;
 
   @include media(mobile) {
     display: block;
@@ -65,24 +65,74 @@ input.text,
 	}
 }
 
-/* Styles specific to question pages */
+input.text {
+	text-transform: none;
+	border: 1px solid #bbb;
+	margin: 0;
+	padding: 0.5em;
+}
+@include media(desktop) {
+  input.text {
+    min-width: 8em;
+  }
 
-.small-header .button  {
-	padding: 9px 12px;
-	border-bottom: 1px solid rgba(0,0,0,0.2);
-	text-decoration: none;
-	color: #222;
-  box-shadow: none;
-	background: rgba(0,0,0,0.05);
-	font-size: 16px;
+  input.long {
+    width: 320px;
+  }
 
-  @include media(mobile) {
-    .progress{
-      float: right;
-    }
+  textarea.small {
+    width: 320px;
+    height: 120px;
   }
 }
 
+/* Styles specific to question pages */
+
+.back-to-previous {
+  @include core-16;
+  display: block;
+  position: absolute;
+  text-decoration: none;
+  border-bottom: $black 1px solid;
+  width: 2.25em;
+  background: url("/assets/images/icon-caret-left.png") left 0.2em no-repeat;
+  padding-left: 0.75em;
+  text-align: right;
+}
+
+main header {
+  &,
+  & p {
+    @include core-16;
+  }
+
+  padding-bottom: 2em;
+
+
+  p {
+    padding-left: 4.5em;
+    margin-bottom: 0;
+    color: $grey-1;
+  }
+
+  &.question-one p {
+    padding-left: 0;
+  }
+
+  h1 {
+    margin-top: 1em;
+  }
+}
+
+fieldset {
+  @extend %contain-floats;
+  margin-left: 0;
+  margin-bottom: 1em;
+}
+
+form p {
+  margin-bottom: 1em;
+}
 .questions-answered-wrap {
 	display: none;
 	margin: 0 1em;
@@ -250,12 +300,6 @@ input.text,
 		display: block;
 	}
 
-	.next-question .button{
-		width: 100%;
-		height: 44px;
-        text-align: center;
-	}
-
 .search-wrap {
 	display: inline-block;
 	position: relative;
@@ -276,6 +320,34 @@ input.text,
       height: 36px;
     }
   }
+}
+
+.toggle {
+  @include core-19;
+  display: block;
+}
+
+.toggle-closed {
+  background: url("/assets/images/icon-caret-right.png") left 0.3em no-repeat;
+  padding-left: 0.75em;
+}
+
+.toggle-open {
+  background: url("/assets/images/icon-caret-down.png") left 0.5em no-repeat;
+  padding-left: 0.75em;
+}
+
+.info-notice {
+  border-left: $grey-2 solid 4px;
+  padding-left: 15px;
+  margin-bottom: 2em;
+}
+
+.next {
+  @include core-19;
+  text-align: center;
+  padding: 0.6em 0.8em 0.5em 0.8em;
+  margin-bottom: 2em;
 }
 
 .validation-wrap.invalid {
@@ -313,7 +385,7 @@ input.text,
 	max-width: 600px;
 	margin: 2em 0 3em 0;
 
-  .steps {
+  .questions {
     margin: 0.2em 1em;
   }
 
@@ -322,7 +394,7 @@ input.text,
     text-decoration: none;
   }
 
-  .steps i {
+  .questions i {
     margin: 0 0.5em 0 0;
   } 
 
@@ -341,11 +413,6 @@ input.text,
 .start-again {
 	float: right;
 	margin: 0.5em 1em 1em 0;
-}
-
-.help p {
-	color: #555;
-	margin: 1em 0 1em;
 }
 
 .more-help-content {

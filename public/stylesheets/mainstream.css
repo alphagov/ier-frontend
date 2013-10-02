@@ -1,20 +1,24 @@
 /* Styles for start page on GOV.UK */
 /* govuk_frontend_toolkit styles */
 @-ms-viewport {
-  width: device-width; }
+  width: device-width;
+}
 
 @-o-viewport {
-  width: device-width; }
+  width: device-width;
+}
 
 /* Cross-browser shims
 
   Ways of normalising properties across browsers.
  */
 @-ms-viewport {
-  width: device-width; }
+  width: device-width;
+}
 
 @-o-viewport {
-  width: device-width; }
+  width: device-width;
+}
 
 /* Usage:
    @include inline-block
@@ -38,23 +42,28 @@
  */
 @font-face {
   font-family: GDS-Logo;
-  src: local("HelveticaNeue"), local("Helvetica Neue"), local("Arial"), local("Helvetica"); }
+  src: local("HelveticaNeue"), local("Helvetica Neue"), local("Arial"), local("Helvetica");
+}
 
 @-ms-viewport {
-  width: device-width; }
+  width: device-width;
+}
 
 @-o-viewport {
-  width: device-width; }
+  width: device-width;
+}
 
 /* Cross-browser shims
 
   Ways of normalising properties across browsers.
  */
 @-ms-viewport {
-  width: device-width; }
+  width: device-width;
+}
 
 @-o-viewport {
-  width: device-width; }
+  width: device-width;
+}
 
 /* Usage:
    @include inline-block
@@ -77,10 +86,12 @@
   Add them as you need them. This should let us manage vendor prefixes in one place.
  */
 @-ms-viewport {
-  width: device-width; }
+  width: device-width;
+}
 
 @-o-viewport {
-  width: device-width; }
+  width: device-width;
+}
 
 /*
 
@@ -104,87 +115,122 @@ Example usage:
 /*
  * Page headers
  */
+/* line 16, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
 header.page-header .skip-to-related {
   position: relative;
   left: 1em;
-  top: -1em; }
-  header.page-header .skip-to-related:focus {
-    position: relative;
-    display: -moz-inline-stack;
-    display: inline-block;
-    left: 32px;
-    top: -2em; }
-  @media (min-width: 641px) {
-    header.page-header .skip-to-related {
-      position: absolute;
-      left: -9999em; } }
+  top: -1em;
+}
+/* line 21, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+header.page-header .skip-to-related:focus {
+  position: relative;
+  display: -moz-inline-stack;
+  display: inline-block;
+  left: 32px;
+  top: -2em;
+}
+@media (min-width: 641px) {
+  /* line 16, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+  header.page-header .skip-to-related {
+    position: absolute;
+    left: -9999em;
+  }
+}
+/* line 34, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
 header.page-header div {
   background-color: #fff;
   display: block;
   margin: 0;
-  padding: 1em 2em 0 1em; }
-  @media (min-width: 641px) {
-    header.page-header div {
-      margin: 0 24em 0 0;
-      padding-bottom: 2em;
-      padding-left: 2em; } }
+  padding: 1em 2em 0 1em;
+}
+@media (min-width: 641px) {
+  /* line 34, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+  header.page-header div {
+    margin: 0 24em 0 0;
+    padding-bottom: 2em;
+    padding-left: 2em;
+  }
+}
+/* line 46, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+header.page-header div h1 {
+  font-family: "nta", Arial, sans-serif;
+  font-size: 48px;
+  line-height: 1.04167;
+  font-weight: 400;
+  text-transform: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-repeat: no-repeat;
+  color: #0b0c0c;
+  font-weight: 600;
+  margin-left: 0;
+  min-height: 2.44em;
+}
+@media (max-width: 640px) {
+  /* line 46, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
   header.page-header div h1 {
-    font-family: "nta", Arial, sans-serif;
-    font-size: 48px;
-    line-height: 1.04167;
-    font-weight: 400;
-    text-transform: none;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background-repeat: no-repeat;
-    color: #0b0c0c;
-    font-weight: 600;
-    margin-left: 0;
-    min-height: 2.44em; }
-    @media (max-width: 640px) {
-      header.page-header div h1 {
-        font-size: 32px;
-        line-height: 1.09375; } }
-    @media (min-width: 641px) {
-      header.page-header div h1 {
-        padding-top: 7px;
-        padding-bottom: 13px; } }
-    @media (min-width: 769px) {
-      header.page-header div h1 {
-        min-height: 0; } }
-    header.page-header div h1 span {
-      font-family: "nta", Arial, sans-serif;
-      font-size: 27px;
-      line-height: 1;
-      font-weight: 400;
-      text-transform: none;
-      display: block;
-      margin-bottom: 0.25em;
-      text-shadow: none;
-      color: #6f777b; }
-      @media (max-width: 640px) {
-        header.page-header div h1 span {
-          font-size: 18px;
-          line-height: 1.11111; } }
+    font-size: 32px;
+    line-height: 1.09375;
+  }
+}
+@media (min-width: 641px) {
+  /* line 46, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+  header.page-header div h1 {
+    padding-top: 7px;
+    padding-bottom: 13px;
+  }
+}
+@media (min-width: 769px) {
+  /* line 46, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+  header.page-header div h1 {
+    min-height: 0;
+  }
+}
+/* line 64, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+header.page-header div h1 span {
+  font-family: "nta", Arial, sans-serif;
+  font-size: 27px;
+  line-height: 1;
+  font-weight: 400;
+  text-transform: none;
+  display: block;
+  margin-bottom: 0.25em;
+  text-shadow: none;
+  color: #6f777b;
+}
+@media (max-width: 640px) {
+  /* line 64, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+  header.page-header div h1 span {
+    font-size: 18px;
+    line-height: 1.11111;
+  }
+}
 
+/* line 79, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
 ol.breadcrumbs {
-  border-top: 10px solid #2b8cc4; }
+  border-top: 10px solid #2b8cc4;
+}
 
 /*
  * Related box
  */
+/* line 86, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
 .related-positioning {
   position: static;
   top: auto;
   height: auto;
   left: 0;
   width: 100%;
-  z-index: 0; }
-  @media (min-width: 769px) {
-    .related-positioning {
-      position: absolute;
-      top: 7em;
-      height: 0; } }
+  z-index: 0;
+}
+@media (min-width: 769px) {
+  /* line 86, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+  .related-positioning {
+    position: absolute;
+    top: 7em;
+    height: 0;
+  }
+}
 
 /*
 .js-enabled .related-positioning {
@@ -199,172 +245,259 @@ ol.breadcrumbs {
   top: 9.5em;
 }
 */
+/* line 123, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
 .related-container {
   position: relative;
   margin: 0 auto;
   max-width: auto;
   height: auto;
-  z-index: 50; }
-  @media (min-width: 769px) {
-    .related-container {
-      height: 0;
-      max-width: 1020px; } }
+  z-index: 50;
+}
+@media (min-width: 769px) {
+  /* line 123, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+  .related-container {
+    height: 0;
+    max-width: 1020px;
+  }
+}
 
+/* line 140, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
 .related {
   position: static;
   right: auto;
   width: auto;
   margin: 3em 0 0 0;
-  border-top: 10px solid #2b8cc4; }
-  @media (min-width: 769px) {
-    .related {
-      position: absolute;
-      right: 1.75em;
-      width: 18.75em; } }
-  .related .inner {
-    background-color: white;
-    padding: 0.5em 1em 0 1em;
-    width: auto; }
-    @media (min-width: 641px) {
-      .related .inner {
-        padding-left: 2em; } }
-    @media (min-width: 769px) {
-      .related .inner {
-        padding-left: 0; } }
-  .related nav {
-    margin-bottom: 1.25em; }
-  .related h2 {
-    font-family: "nta", Arial, sans-serif;
-    font-size: 24px;
-    line-height: 1.25;
-    font-weight: 400;
-    text-transform: none;
-    font-weight: 600;
-    color: #0b0c0c;
-    margin-top: 0.3em;
-    margin-bottom: 0.625em;
-    position: relative; }
-    @media (max-width: 640px) {
-      .related h2 {
-        font-size: 20px;
-        line-height: 1.2; } }
-    @media (max-width: 640px) {
-      .related h2 {
-        font-size: 17px;
-        margin-bottom: 0.5em; } }
-  .related ul {
-    font-family: "nta", Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.25;
-    font-weight: 300;
-    text-transform: none;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden; }
-    @media (max-width: 640px) {
-      .related ul {
-        font-size: 14px;
-        line-height: 1.14286; } }
-  .related li {
-    margin-bottom: 0.75em;
-    padding-left: 0; }
-    .related li.related-topic {
-      list-style: none outside none; }
-      .related li.related-topic a {
-        display: inline;
-        font-weight: bold; }
-    .related li a {
-      background-position: 0 -287px;
-      background-repeat: no-repeat;
-      display: block;
-      line-height: 1.25em;
-      orphans: 2; }
-      .related li a:hover {
-        background-position: 0 10px; }
-    .related li a[href*="#"] {
-      /* grey out stub links */
-      background: none;
-      color: #888;
-      cursor: default;
-      text-decoration: none; }
-    .related li a.view-all {
-      margin: 10px 0 10px; }
-    .related li a[rel="external"]:after {
-      content: "\A0\A0\A0\A0\A0\A0";
-      background-position: 5px 0px; }
-    .related li a[rel="external"]:hover:after {
-      background-position: 5px -388px; }
-  .related .return-to-top {
-    font-family: "nta", Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.25;
-    font-weight: 300;
-    text-transform: none;
-    margin-bottom: 0.5em;
+  border-top: 10px solid #2b8cc4;
+}
+@media (min-width: 769px) {
+  /* line 140, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+  .related {
     position: absolute;
-    left: -9999em; }
-    @media (max-width: 640px) {
-      .related .return-to-top {
-        font-size: 14px;
-        line-height: 1.14286; } }
-    @media (max-width: 640px) {
-      .related .return-to-top {
-        position: static;
-        margin: 0.25em 0 0;
-        padding: 0.75em 0; } }
+    right: 1.75em;
+    width: 18.75em;
+  }
+}
+/* line 153, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+.related .inner {
+  background-color: white;
+  padding: 0.5em 1em 0 1em;
+  width: auto;
+}
+@media (min-width: 641px) {
+  /* line 153, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+  .related .inner {
+    padding-left: 2em;
+  }
+}
+@media (min-width: 769px) {
+  /* line 153, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+  .related .inner {
+    padding-left: 0;
+  }
+}
+/* line 167, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+.related nav {
+  margin-bottom: 1.25em;
+}
+/* line 171, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+.related h2 {
+  font-family: "nta", Arial, sans-serif;
+  font-size: 24px;
+  line-height: 1.25;
+  font-weight: 400;
+  text-transform: none;
+  font-weight: 600;
+  color: #0b0c0c;
+  margin-top: 0.3em;
+  margin-bottom: 0.625em;
+  position: relative;
+}
+@media (max-width: 640px) {
+  /* line 171, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+  .related h2 {
+    font-size: 20px;
+    line-height: 1.2;
+  }
+}
+@media (max-width: 640px) {
+  /* line 171, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+  .related h2 {
+    font-size: 17px;
+    margin-bottom: 0.5em;
+  }
+}
+/* line 185, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+.related ul {
+  font-family: "nta", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 300;
+  text-transform: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+@media (max-width: 640px) {
+  /* line 185, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+  .related ul {
+    font-size: 14px;
+    line-height: 1.14286;
+  }
+}
+/* line 193, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+.related li {
+  margin-bottom: 0.75em;
+  padding-left: 0;
+}
+/* line 197, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+.related li.related-topic {
+  list-style: none outside none;
+}
+/* line 200, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+.related li.related-topic a {
+  display: inline;
+  font-weight: bold;
+}
+/* line 206, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+.related li a {
+  background-position: 0 -287px;
+  background-repeat: no-repeat;
+  display: block;
+  line-height: 1.25em;
+  orphans: 2;
+}
+/* line 213, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+.related li a:hover {
+  background-position: 0 10px;
+}
+/* line 222, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+.related li a[href*="#"] {
+  /* grey out stub links */
+  background: none;
+  color: #888;
+  cursor: default;
+  text-decoration: none;
+}
+/* line 230, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+.related li a.view-all {
+  margin: 10px 0 10px;
+}
+/* line 234, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+.related li a[rel="external"]:after {
+  content: "\A0\A0\A0\A0\A0\A0";
+  background-position: 5px 0px;
+}
+/* line 239, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+.related li a[rel="external"]:hover:after {
+  background-position: 5px -388px;
+}
+/* line 245, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+.related .return-to-top {
+  font-family: "nta", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 300;
+  text-transform: none;
+  margin-bottom: 0.5em;
+  position: absolute;
+  left: -9999em;
+}
+@media (max-width: 640px) {
+  /* line 245, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+  .related .return-to-top {
+    font-size: 14px;
+    line-height: 1.14286;
+  }
+}
+@media (max-width: 640px) {
+  /* line 245, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+  .related .return-to-top {
+    position: static;
+    margin: 0.25em 0 0;
+    padding: 0.75em 0;
+  }
+}
 
+/* line 259, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
 .related.sections-list li a {
-  padding: 0.1em 0em; }
+  padding: 0.1em 0em;
+}
 
+/* line 263, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
 #legacy-sources {
   margin-top: 1em;
-  display: none; }
-  @media (min-width: 641px) {
-    #legacy-sources {
-      margin: 1em 2em 0em; } }
-  @media (max-width: 640px) {
-    #legacy-sources {
-      margin-left: 1em;
-      margin-right: 1em; } }
-  #legacy-sources p {
-    font-size: 1em;
-    margin-bottom: 0;
-    padding: 0;
-    color: black; }
-  #legacy-sources ul {
-    margin: 0;
-    padding: 0;
-    overflow: hidden; }
-  #legacy-sources li {
-    text-indent: -5000px;
-    float: left;
-    background-repeat: no-repeat;
-    display: none; }
+  display: none;
+}
+@media (min-width: 641px) {
+  /* line 263, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+  #legacy-sources {
+    margin: 1em 2em 0em;
+  }
+}
+@media (max-width: 640px) {
+  /* line 263, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+  #legacy-sources {
+    margin-left: 1em;
+    margin-right: 1em;
+  }
+}
+/* line 276, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+#legacy-sources p {
+  font-size: 1em;
+  margin-bottom: 0;
+  padding: 0;
+  color: black;
+}
+/* line 283, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+#legacy-sources ul {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+/* line 289, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+#legacy-sources li {
+  text-indent: -5000px;
+  float: left;
+  background-repeat: no-repeat;
+  display: none;
+}
 
+/* line 298, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
 .businesslink #legacy-sources,
 .directgov #legacy-sources {
-  display: block; }
+  display: block;
+}
 
+/* line 302, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
 .businesslink #legacy-sources li.businesslink {
   background-image: image-url("businesslink-logo.png");
   width: 84px;
   height: 33px;
   margin-top: 0.5em;
-  display: block; }
-  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 20 / 10), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-    .businesslink #legacy-sources li.businesslink {
-      background-image: image-url("businesslink-logo-2x.png");
-      background-size: 84px 33px; } }
+  display: block;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 20 / 10), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+  /* line 302, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+  .businesslink #legacy-sources li.businesslink {
+    background-image: image-url("businesslink-logo-2x.png");
+    background-size: 84px 33px;
+  }
+}
 
+/* line 315, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
 .directgov #legacy-sources li.directgov {
   background-image: image-url("directgov-logo.png");
   width: 74px;
   height: 14px;
   margin-right: 1em;
   margin-top: 1.2em;
-  display: block; }
-  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 20 / 10), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-    .directgov #legacy-sources li.directgov {
-      background-image: image-url("directgov-logo-2x.png");
-      background-size: 74px 14px; } }
+  display: block;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 20 / 10), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+  /* line 315, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
+  .directgov #legacy-sources li.directgov {
+    background-image: image-url("directgov-logo-2x.png");
+    background-size: 74px 14px;
+  }
+}

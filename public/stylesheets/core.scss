@@ -6,6 +6,10 @@ li {
   @include core-19;
 }
 
+p {
+  margin: 0;
+}
+
 ul,li {
 	list-style-type: circle;
   list-style-image: url("/assets/images/bullet-disc-5px.gif");
@@ -36,25 +40,8 @@ select {
 	border: 1px solid #aaa;
 }
 
-input.text {
-	text-transform: none;
-	border: 1px solid #bbb;
-	min-width: 8em;
-	margin: 0;
-	padding: 0.5em;
-}
-
-input.long {
-	width: 320px;
-}
-
 textarea {
 	padding: 10px;
-}
-
-textarea.small {
-	width: 320px;
-	height: 120px;
 }
 
 .button {
@@ -173,7 +160,8 @@ i.icon-pointer {
   }
 }
 
-article {
+article,
+form {
   padding: 0 1em;
 
   @include media(tablet) {
@@ -182,10 +170,19 @@ article {
 
   @include media(desktop) {
     padding-left: 2em;
+  }
+}
+
+article {
+  @include media(desktop) {
     margin-right: 22.25em;
     min-height: 35em;
     max-width: 38em;
   }
+}
+
+form {
+  padding-top: 2em;
 }
 
 .inner-block{

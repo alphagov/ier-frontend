@@ -4,11 +4,10 @@
 @import uk.gov.gds.ier.validation.DateOfBirthConstants
 @import uk.gov.gds.ier.form.FormHelpers._
 
-    @layouts.stepIndicator(2)
+@layouts.questionHeader("What is your date of birth?", "/register-to-vote/nationality", 2)
 
 <div id="step-date-of-birth" class="step">
     <div class="question">
-        <h2><span class="question-number">2</span><span>What is your date of birth?</span></h2>
         <ul class="answers">
             <li class="answer">
                 @helper.select(
