@@ -82,20 +82,23 @@ trait Steps extends IerForms {
   )
 
   object Step {
-    def apply(step:String)(block: Step => Result):Result = {
+    def getStep(step:String): Step = {
       step match {
-        case "nationality" => block(nationalityStep)
-        case "name" => block(nameStep)
-        case "date-of-birth" => block(dateOfBirthStep)
-        case "previous-name" => block(previousNameStep)
-        case "nino" => block(ninoStep)
-        case "address" => block(addressStep)
-        case "previous-address" => block(previousAddressStep)
-        case "other-address" => block(otherAddressStep)
-        case "open-register" => block(openRegisterStep)
-        case "contact" => block(contactStep)
-        case "confirmation" => block(confirmationStep)
+        case "nationality" => nationalityStep
+        case "name" => nameStep
+        case "date-of-birth" => dateOfBirthStep
+        case "previous-name" => previousNameStep
+        case "nino" => ninoStep
+        case "address" => addressStep
+        case "previous-address" => previousAddressStep
+        case "other-address" => otherAddressStep
+        case "open-register" => openRegisterStep
+        case "contact" => contactStep
+        case "confirmation" => confirmationStep
       }
+    }
+    def apply(step:String)(block: Step => Result):Result = {
+      block(getStep(step))
     }
   }
 

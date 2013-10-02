@@ -71,16 +71,16 @@ trait IerForms extends FormKeys with FormMappings {
 
   val inprogressForm = Form(
     mapping(
-      name -> optional(nameMapping),
-      previousName -> optional(previousNameMapping),
-      dob -> optional(dobMapping),
-      nationality -> optional(nationalityMapping),
-      nino -> optional(ninoMapping),
-      address -> optional(addressMapping),
-      previousAddress -> optional(previousAddressMapping),
-      otherAddress -> optional(otherAddressMapping),
-      openRegister -> optional(openRegisterMapping),
-      contact -> optional(contactMapping)
+      name -> optional(nameMapping).verifying("Please complete this step", _.isDefined),
+      previousName -> optional(previousNameMapping).verifying("Please complete this step", _.isDefined),
+      dob -> optional(dobMapping).verifying("Please complete this step", _.isDefined),
+      nationality -> optional(nationalityMapping).verifying("Please complete this step", _.isDefined),
+      nino -> optional(ninoMapping).verifying("Please complete this step", _.isDefined),
+      address -> optional(addressMapping).verifying("Please complete this step", _.isDefined),
+      previousAddress -> optional(previousAddressMapping).verifying("Please complete this step", _.isDefined),
+      otherAddress -> optional(otherAddressMapping).verifying("Please complete this step", _.isDefined),
+      openRegister -> optional(openRegisterMapping).verifying("Please complete this step", _.isDefined),
+      contact -> optional(contactMapping).verifying("Please complete this step", _.isDefined)
     ) (InprogressApplication.apply) (InprogressApplication.unapply)
   )
 

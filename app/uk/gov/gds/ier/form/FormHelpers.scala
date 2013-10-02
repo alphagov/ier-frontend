@@ -10,6 +10,7 @@ object FormHelpers extends FormKeys {
   lazy val keys = FormKeys
   lazy val validationMessage = views.html.includes.validationMessage
   lazy val validationWrap = views.html.includes.validationWrap
+  lazy val validationSwitch = views.html.includes.validationSwitch
   lazy val check = views.html.includes.check
   lazy val classIf = views.html.includes.classIf
   lazy val checkedIf = views.html.includes.checkedIf
