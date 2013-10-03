@@ -11,23 +11,21 @@
           <label class="selectable">
               <input id="nationality.otherCountry" type="checkbox" name="hasOtherNationality" value="true" class="checkbox">I am a citizen of another country
           </label>
+          <div class="optional-section" data-condition="nationality.otherCountry">
+            <label class="above">Which country?</label>
+            <input type="text" name="nationality.otherCountries" class="input-other-country text long">
+            <a id="addCountry" href="#">Add another country</a>
+          </div>
         </fieldset>
-        <div id="optionalSectionOtherCountry" class="optional-section optional-section-other-country">
-          <label class="above">Which country?</label>
-          <input type="text" name="nationality.otherCountries" class="input-other-country text long">
-          <a id="addCountry" href="#">Add another country</a>
-        </div>
-        <a href="#" class="toggle" title="Show or hide help">Help</a>
-        <div class="help-content info-notice @visibleIf(formData.hasNoNationalityReason)">
-          <h2 class="visuallyhidden">Help</h2>
+        <div class="help-content info-notice">
+          <h2>Help</h2>
           <p>If you're not sure about your nationality, try to find out from an official document like a passport or national ID card.</p>
           <p>We need to know your nationality so we can work out which elections you're entitled to vote in. If you can’t confirm your nationality, you'll have to send copies of identity documents through the post.</p>
-          <a href="#" class="toggle" title="">I can't provide my nationality</a>
-          <div class="optional-section @visibleIf(formData.hasNoNationalityReason)">
+          <div class="optional-section">
+            <h3>I can't provide my nationality</h3>
             <label class="above">Why can't you provide your nationality?</label>
             <textarea name="noNationalityReason" class="small">@formData(keys.nationality.noNationalityReason).value.getOrElse("")</textarea>
           </div>
         </div>
         @validationMessage(formData(keys.nationality))
         <input type="submit" class="button next" value="Continue" />
-</div>

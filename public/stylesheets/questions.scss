@@ -279,33 +279,38 @@ form p {
 	margin: 0 0.5em;
 }
 
-.optional-section{
-	display: none;
+.optional-section {
+  clear: both;
 	margin: 1em 0 1em 0;
 }
 
-.other-country .number{
+.js-enabled .optional-section,
+.js-enabled .help-content {
+  display: none;
+}
+
+.other-country .number {
 	display: inline-block;
 	margin: 0 0 0 0.3em;
 }
 
-.other-country .remove{
+.other-country .remove {
 	display: inline-block;
 	margin: 0 0 0 1em;
 	font-size: 14px;
 }
-/* mobile */
-	.validation-wrap,
-	.validation-wrap.invalid{
-		display: block;
-	}
+
+.validation-wrap,
+.validation-wrap.invalid {
+  display: block;
+}
 
 .search-wrap {
-	display: inline-block;
-	position: relative;
-	margin: 1em 0;
+display: inline-block;
+position: relative;
+margin: 1em 0;
 
-  @include media(mobile) {
+@include media(mobile) {
     display: block;
   }
 
@@ -340,14 +345,13 @@ form p {
 .info-notice {
   border-left: $grey-2 solid 4px;
   padding-left: 15px;
-  margin-bottom: 2em;
 }
 
 .next {
   @include core-19;
   text-align: center;
   padding: 0.6em 0.8em 0.5em 0.8em;
-  margin-bottom: 2em;
+  margin: 2em 0;
 }
 
 .validation-wrap.invalid {

@@ -1,24 +1,115 @@
-$('body').on('click', '.more-help-link a', function(e){
+window.GOVUK = window.GOVUK || {};
 
-    e.preventDefault();
+(function () {
+  "use strict"
+  var root = this,
+      $ = root.jQuery;
 
-    var $this = $(this),
-        $moreHelpWrap = $this.closest('.more-help-wrap'),
-        $moreHelpContent = $moreHelpWrap.find('.more-help-content');
+  var toggleContent,
+      toggleHelp,
+      optionalInformation,
+      conditionalControl,
+      makeToggle;
 
-    $moreHelpContent.toggleClass('hidden');
-    $moreHelpContent.toggleClass('visible');
+  toggleContent = {
+    toggle : function () {
+      if (this.$content.css("display") === "none") {
+        this.$content.show();
+        this.$toggle.removeClass("toggle-closed");
+        this.$toggle.addClass("toggle-open");
+      } else {
+        this.$content.hide();
+        this.$toggle.removeClass("toggle-open");
+        this.$toggle.addClass("toggle-closed");
+      }
+    },
+    setup : function () {
+      this.$heading = this.$content.find("h1,h2,h3,h4").first();
+      this.$toggle = $('<a href="#" class="toggle">' + this.$heading.text() + '</a>');
+      this.$toggle.insertBefore(this.$content);
+    },
+    bindEvents : function () {
+      var inst = this;
 
-    if ($moreHelpContent.is(':visible')){
-
-        $moreHelpWrap.find('.more-help-link i').removeClass('icon-caret-right').addClass('icon-caret-down');
-
-    } else {
-
-        $moreHelpWrap.find('.more-help-link i').addClass('icon-caret-right').removeClass('icon-caret-down');
-
+      this.$toggle.on('click', function () {
+        inst.toggle();
+        return false;
+      });
     }
-});
+  };
+
+  makeToggle = function () {
+    var method,
+        func = function (elm) {
+          this.$content = $(elm);
+          this.setup();
+          this.bindEvents();
+        };
+
+    for (method in toggleContent) {
+      func.prototype[method] = toggleContent[method];
+    }
+    return func;
+  };
+
+  toggleHelp = makeToggle();
+  toggleHelp.prototype.setup = function () {
+    this.$heading = this.$content.find("h1,h2,h3,h4").first();
+    this.$toggle = $('<a href="#" class="toggle toggle-closed" title="show or hide help">' + this.$heading.text() + '</a>');
+    this.$toggle.insertBefore(this.$content);
+    this.$heading.addClass("visuallyhidden");
+  };
+
+  optionalInformation = makeToggle();
+  optionalInformation.prototype.setup = function () {
+    this.$heading = this.$content.find("h1,h2,h3,h4").first();
+    this.$toggle = $('<a href="#" class="toggle toggle-closed">' + this.$heading.text() + '</a>');
+    this.$toggle.insertBefore(this.$content);
+    this.$heading.remove();
+  };
+
+  conditionalControl = makeToggle();
+  conditionalControl.prototype.setup = function () {
+    this.$toggle = $(document.getElementById(this.$content.data('condition')));
+  }; 
+  conditionalControl.prototype.bindEvents = function () {
+    var inst = this;
+
+    this.$toggle.on('change', function () {
+      inst.toggle();
+    });
+
+    if (this.$toggle.is(":checked")) {
+      this.$toggle.trigger("change");
+    }
+  };
+  conditionalControl.prototype.toggle = function () {
+    if (this.$toggle.is(":checked")) {
+      this.$content.show();
+    } else {
+      this.$content.hide();
+    }
+  };
+
+  GOVUK.registerToVote = {
+    "toggleHelp" : toggleHelp,
+    "optionalInformation" : optionalInformation,
+    "conditionalControl" : conditionalControl
+  };
+
+  $(document).on('ready', function () { 
+    $('.help-content').each(function (idx, elm) {
+      new GOVUK.registerToVote.toggleHelp(elm);
+    });
+    $('.optional-section').each(function (idx, elm) {
+      if ($(elm).data('condition') !== undefined) {
+        new GOVUK.registerToVote.conditionalControl(elm);
+      } else {
+        new GOVUK.registerToVote.optionalInformation(elm);
+      }
+    });
+  });
+}.call(this));
 
 $('body').on('change', 'input[type="checkbox"]', function(e){
     var $this = $(this);
