@@ -5,13 +5,14 @@ window.GOVUK = window.GOVUK || {};
   var root = this,
       $ = root.jQuery;
 
-  var toggleContent,
+  var toggleObj,
       toggleHelp,
       optionalInformation,
       conditionalControl,
-      makeToggle;
+      makeToggle,
+      duplicateField;
 
-  toggleContent = {
+  toggleObj = {
     toggle : function () {
       if (this.$content.css("display") === "none") {
         this.$content.show();
@@ -46,8 +47,8 @@ window.GOVUK = window.GOVUK || {};
           this.bindEvents();
         };
 
-    for (method in toggleContent) {
-      func.prototype[method] = toggleContent[method];
+    for (method in toggleObj) {
+      func.prototype[method] = toggleObj[method];
     }
     return func;
   };
@@ -70,7 +71,7 @@ window.GOVUK = window.GOVUK || {};
 
   conditionalControl = makeToggle();
   conditionalControl.prototype.setup = function () {
-    this.$toggle = $(document.getElementById(this.$content.data('condition')));
+    this.$toggle = $('#' + this.$content.data('condition'));
   }; 
   conditionalControl.prototype.bindEvents = function () {
     var inst = this;
@@ -91,10 +92,37 @@ window.GOVUK = window.GOVUK || {};
     }
   };
 
+  duplicateField = function (control) {
+    var fieldId,
+        inst = this;
+
+    this.$control = $(control);
+    fieldId = this.$control.data('field');
+    this.$field = $('#' + fieldId);
+    this.$label = this.$control.siblings('label');
+    this.$control.parent().on('click', function (e) {
+      if (e.target.className !== inst.$control[0].className) {
+        return false;
+      }
+      inst.duplicate();
+      return false;
+    });
+  };
+
+  duplicateField.prototype.duplicate = function () {
+    var newField = document.createDocumentFragment();
+
+    newField.appendChild(this.$label.clone()[0]);
+    newField.appendChild(this.$field.clone()[0]);
+    newField.appendChild(this.$control.clone()[0]);
+    this.$label[0].parentNode.appendChild(newField.cloneNode(true));
+  };
+
   GOVUK.registerToVote = {
     "toggleHelp" : toggleHelp,
     "optionalInformation" : optionalInformation,
-    "conditionalControl" : conditionalControl
+    "conditionalControl" : conditionalControl,
+    "duplicateField" : duplicateField
   };
 
   $(document).on('ready', function () { 
@@ -107,6 +135,9 @@ window.GOVUK = window.GOVUK || {};
       } else {
         new GOVUK.registerToVote.optionalInformation(elm);
       }
+    });
+    $('.duplicate-control').each(function (idx, elm) {
+      new GOVUK.registerToVote.duplicateField(elm);
     });
   });
 }.call(this));
