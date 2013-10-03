@@ -52,6 +52,11 @@ label.selected {
 	background: #fff;
 }
 
+textarea {
+  display: block;
+  margin-bottom: 1em;
+}
+
 textarea,
 textarea.medium,
 textarea.small,
@@ -294,6 +299,7 @@ form p {
 .js-enabled .optional-section,
 .js-enabled .help-content {
   display: none;
+  @extend %contain-floats;
 }
 
 .other-country .number {

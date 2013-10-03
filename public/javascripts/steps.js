@@ -10,7 +10,8 @@ window.GOVUK = window.GOVUK || {};
       optionalInformation,
       conditionalControl,
       makeToggle,
-      duplicateField;
+      duplicateField,
+      markSelected;
 
   toggleObj = {
     toggle : function () {
@@ -118,11 +119,44 @@ window.GOVUK = window.GOVUK || {};
     this.$label[0].parentNode.appendChild(newField.cloneNode(true));
   };
 
+  markSelected = function (elm) {
+    var inst = this;
+
+    this.$label = $(elm);
+    this.$control = $('#' + this.$label.attr('for'));
+    this.$label.on('change', function () {
+      inst.toggle();
+    });
+    if (this.$control.is(':checked')) {
+      this.$label.addClass('selected');
+    }
+  };
+
+  markSelected.prototype.toggle = function () {
+    var inst = this,
+        isChecked = this.$control.is(':checked'),
+        controlType = this.$control.attr('type');
+
+    if (controlType === 'radio') {
+      $('input[name=' + this.$control.attr('name') + ']', this.$control.closest('fieldset')).each(function (idx, elm) {
+        $('label[for=' + elm.id + ']', inst.$label.parent()).removeClass('selected');
+      });
+      this.$label.addClass('selected');
+    } else { // checkbox
+      if (isChecked) {
+        this.$control.addClass('selected');
+      } else {
+        this.$control.removeClass('selected');
+      }
+    }
+  };
+
   GOVUK.registerToVote = {
     "toggleHelp" : toggleHelp,
     "optionalInformation" : optionalInformation,
     "conditionalControl" : conditionalControl,
-    "duplicateField" : duplicateField
+    "duplicateField" : duplicateField,
+    "markSelected" : markSelected
   };
 
   $(document).on('ready', function () { 
@@ -139,18 +173,14 @@ window.GOVUK = window.GOVUK || {};
     $('.duplicate-control').each(function (idx, elm) {
       new GOVUK.registerToVote.duplicateField(elm);
     });
+    $('.selectable').each(function (idx, elm) {
+      new GOVUK.registerToVote.markSelected(elm);
+    });
   });
 }.call(this));
 
 $('body').on('change', 'input[type="checkbox"]', function(e){
     var $this = $(this);
-    $this.closest('label').toggleClass('selected', $this.is(':checked'));
-});
-
-$('body').on('change', 'input[type="radio"]', function(e){
-    var $this = $(this);
-    var $step = $this.closest('.step');
-    $step.find('input[type="radio"][name="' + $this.attr('name') + '"]').closest('label').removeClass('selected');
     $this.closest('label').toggleClass('selected', $this.is(':checked'));
 });
 
