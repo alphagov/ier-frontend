@@ -11,7 +11,7 @@
 @main(title = Some("Register to Vote - Confirm your details"), stylesheets = head(), scripts = stepsBodyEnd()) {
 
 <div id="confirmation" class="step">
-    @form(routes.RegisterToVoteController.next("confirmation")) {
+    @form(routes.RegisterToVoteController.validateStep("confirmation")) {
     <h2><span class="question-number">9</span><span>Register to vote</span></h2>
     <div class="help"><p>Please check your details carefully and correct any mistakes.</p>
         <p>If you supply information that&#39;s incorrect, it could delay your application.</p>

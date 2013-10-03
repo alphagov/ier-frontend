@@ -4,7 +4,7 @@
 @import layouts._
 
 @main(title = Some("Register to Vote - Where do you live?"), stylesheets = head(), scripts = stepsBodyEnd()) {
-    @form(routes.RegisterToVoteController.next("address")) {
+    @form(routes.RegisterToVoteController.validateStep("address")) {
         @raw.address(formData)
     }
 }
