@@ -86,15 +86,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
 
   def confirmApplication = Action {
     implicit request => Step("confirmation") { stepDetail =>
-      Ok({
-        stepDetail.page({
-          val inprogress = InProgressForm({
-            val filledForm = stepDetail.validation.fillAndValidate(request.session.getApplication)
-            filledForm
-          })
-          inprogress
-        })
-      })
+      Ok(stepDetail.page(InProgressForm(stepDetail.validation.fillAndValidate(request.session.getApplication))))
     }
   }
 
