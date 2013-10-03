@@ -9,6 +9,19 @@ textarea {
   @include core-19;
 }
 
+label,
+textarea {
+  display: block;
+} 
+
+label {
+  margin-bottom: 0.5em;
+}
+
+textarea {
+  margin-bottom: 1em;
+}
+
 label.above{
 	display: block;
 	margin: 0 0 0.5em 0;
@@ -50,11 +63,6 @@ label.selectable{
 label.selected {
 	border: 1px solid #555;
 	background: #fff;
-}
-
-textarea {
-  display: block;
-  margin-bottom: 1em;
 }
 
 textarea,
@@ -363,6 +371,7 @@ margin: 1em 0;
 .next {
   @include core-19;
   text-align: center;
+  display: block;
   padding: 0.6em 0.8em 0.5em 0.8em;
   margin: (1 / 19 * 32) * 1em 0;
 }
