@@ -1,9 +1,10 @@
 #!/bin/bash
 
 thisDir="$( dirname "$0")"
+playVersion=$(<$thisDir/playVersion)
 playdir="$thisDir/../bin"
-playsource="http://downloads.typesafe.com/play/2.1.5/"
-playartifact="play-2.1.5"
+playsource="http://downloads.typesafe.com/play/$playVersion/"
+playartifact="play-$playVersion"
 playextension=".zip"
 playcache="download-cache"
 
@@ -13,7 +14,7 @@ playzip=$playartifact$playextension
 
 if [ ! -f "$playdir/$playcache/$playzip" ]; then
 	dest=$playdir/$playcache/$playzip
-	echo "Downloading $playsource/$playzip"
+	echo "Downloading $playsource$playzip"
 	curl -# -o $dest "$playsource$playzip"
 fi
 if [ ! -f "$playdir/$playartifact" ]; then
