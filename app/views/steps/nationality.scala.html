@@ -5,7 +5,7 @@
 
 
 @main(title = Some("Register to Vote - What is your Nationality?"), stylesheets = head(), scripts = stepsBodyEnd()) {
-    @form(routes.RegisterToVoteController.next("nationality")) {
+    @form(routes.RegisterToVoteController.validateStep("nationality")) {
         @raw.nationality(formData)
     }
 }

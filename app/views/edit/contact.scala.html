@@ -4,7 +4,7 @@
 @import layouts._
 
 @main(title = Some("Register to Vote - Tell us how to contact you"), stylesheets = head(), scripts = stepsBodyEnd()) {
-    @form(routes.RegisterToVoteController.next("edit")){
+    @form(routes.RegisterToVoteController.validateStep("edit")){
         @raw.contact(application)
     }
 }

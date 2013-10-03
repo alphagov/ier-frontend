@@ -4,7 +4,7 @@
 @import layouts._
 
 @main(title = Some("Register to Vote - What is your Date Of Birth?"), stylesheets = head(), scripts = stepsBodyEnd()) {
-    @form(routes.RegisterToVoteController.next("date-of-birth")) {
+    @form(routes.RegisterToVoteController.validateStep("date-of-birth")) {
         @raw.dateOfBirth(formData)
     }
 }

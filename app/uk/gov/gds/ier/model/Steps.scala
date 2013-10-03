@@ -78,7 +78,7 @@ trait Steps extends IerForms {
     form => html.confirmation(form),
     form => html.confirmation(form),
     inprogressForm,
-    ""
+    "confirmation"
   )
 
   object Step {
@@ -95,6 +95,7 @@ trait Steps extends IerForms {
         case "open-register" => openRegisterStep
         case "contact" => contactStep
         case "confirmation" => confirmationStep
+        case "edit" => confirmationStep
       }
     }
     def apply(step:String)(block: Step => Result):Result = {

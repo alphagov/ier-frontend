@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.controller
 
-import play.api.mvc.{Session, BodyParsers, Controller, Action}
+import play.api.mvc._
 import uk.gov.gds.ier.model.{InProgressSession, Steps}
 import com.google.inject.Inject
 import uk.gov.gds.ier.service.IerApiService
@@ -8,6 +8,7 @@ import views._
 import controllers._
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation.{InProgressForm, IerForms}
+import scala.Some
 
 class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: JsonSerialiser)
     extends Controller
@@ -24,27 +25,31 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
     Ok(html.start()).withNewSession
   }
 
+  def registerToVote = Action {
+    Redirect(controllers.routes.RegisterToVoteController.registerStep(firstStep()))
+  }
+
+  def validateAndRedirect(step:Step, redirectOnSuccess:Call)(implicit request: play.api.mvc.Request[_]) = {
+    step.validation.bindFromRequest().fold(
+      errors => {
+        Ok(step.page(InProgressForm(errors)))
+      },
+      form => {
+        val application = session.merge(form)
+        Redirect(redirectOnSuccess).withSession(application.toSession)
+      }
+    )
+  }
+
   def registerStep(step:String) = Action { implicit request =>
     Step(step) { stepDetail =>
       Ok(stepDetail.page(InProgressForm(request.session.getApplication)))
     }
   }
 
-  def registerToVote = Action {
-    Redirect(controllers.routes.RegisterToVoteController.registerStep(firstStep()))
-  }
-
-  def next(step:String) = Action(BodyParsers.parse.urlFormEncoded) { implicit request =>
+  def validateStep(step:String) = Action(BodyParsers.parse.urlFormEncoded) { implicit request =>
     Step(step) { stepDetail =>
-      stepDetail.validation.bindFromRequest().fold(
-        errors => {
-          Ok(stepDetail.page(InProgressForm(errors)))
-        },
-        form => {
-          val application = session.merge(form)
-          Redirect(routes.RegisterToVoteController.registerStep(stepDetail.next)).withSession(application.toSession)
-        }
-      )
+      validateAndRedirect(stepDetail, routes.RegisterToVoteController.registerStep(stepDetail.next))
     }
   }
 
@@ -53,6 +58,12 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
       Step(step) { stepDetail =>
         Ok(stepDetail.editPage(InProgressForm(request.session.getApplication)))
       }
+  }
+
+  def validateEdit(step:String) = Action(BodyParsers.parse.urlFormEncoded) { implicit request =>
+    Step(step) { stepDetail =>
+      validateAndRedirect(stepDetail, routes.RegisterToVoteController.confirmApplication())
+    }
   }
 
   def errorRedirect(error:String) = Action {
@@ -71,6 +82,20 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
 
   def complete = Action {
     Ok(html.complete()).withNewSession
+  }
+
+  def confirmApplication = Action {
+    implicit request => Step("confirmation") { stepDetail =>
+      Ok({
+        stepDetail.page({
+          val inprogress = InProgressForm({
+            val filledForm = stepDetail.validation.fillAndValidate(request.session.getApplication)
+            filledForm
+          })
+          inprogress
+        })
+      })
+    }
   }
 
   def submitApplication = Action {

@@ -4,7 +4,7 @@
 @import layouts._
 
 @main(title = Some("Register to Vote - What is your National Insurance number?"), stylesheets = head(), scripts = stepsBodyEnd()) {
-    @form(routes.RegisterToVoteController.next("edit")) {
+    @form(routes.RegisterToVoteController.validateEdit("nino")) {
         @raw.nino(formData)
     }
 }

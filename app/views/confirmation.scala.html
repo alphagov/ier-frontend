@@ -11,7 +11,7 @@
 @main(title = Some("Register to Vote - Confirm your details"), stylesheets = head(), scripts = stepsBodyEnd()) {
 
 <div id="confirmation" class="step">
-    @form(routes.RegisterToVoteController.next("confirmation")) {
+    @form(routes.RegisterToVoteController.validateStep("confirmation")) {
     <h2><span class="question-number">9</span><span>Register to vote</span></h2>
     <div class="help"><p>Please check your details carefully and correct any mistakes.</p>
         <p>If you supply information that&#39;s incorrect, it could delay your application.</p>
@@ -45,7 +45,7 @@
         <li class="detail">
             <h3>Date of birth</h3>
             <div class="data-wrap">
-            @validationSwitch(formData(keys.previousName)) {
+            @validationSwitch(formData(keys.dob)) {
                 <p class="data dob"> @formData(keys.dob.day).value.getOrElse("") @formData(keys.dob.month).value.getOrElse("") @formData(keys.dob.year).value.getOrElse("")</p>
             }
             </div><a href="@routes.RegisterToVoteController.edit("date-of-birth")" class="change">Change</a>
@@ -89,7 +89,7 @@
         <li class="detail">
             <h3>Address</h3>
             <div class="data-wrap">
-            @validationSwitch(formData(keys.nino)) {
+            @validationSwitch(formData(keys.address)) {
                 <p class="data address">@formData(keys.address.address).value.getOrElse("")</p>
                 <p class="data postcode">@formData(keys.address.postcode).value.getOrElse("")</p>
             }
