@@ -11,7 +11,4 @@ import uk.gov.gds.guice.DependencyInjectionProvider
  * pattern
  */
 
-abstract class DelegatingController[A <: AnyRef](implicit m: Manifest[A]) extends Controller with DependencyInjectionProvider {
-
-  protected val delegate = dependency[A]
-}
+abstract class DelegatingController[A <: AnyRef](implicit m: Manifest[A]) extends Delegate[A] with Controller

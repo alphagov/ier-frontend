@@ -3,48 +3,10 @@ package uk.gov.gds.ier.model
 import org.joda.time.{DateTime, LocalDate}
 import com.fasterxml.jackson.annotation.JsonFormat
 
-case class WebApplication (firstName:String,
-                           middleName: String,
-                           lastName:String,
-                           previousLastName: String,
-                           nino: String,
-                           dob: LocalDate)
-
-case class ApiApplication (fn:String,
-                           mn: String,
-                           ln:String,
-                           pln:String,
-                           gssCode: String = "badGSS",
-                           nino: String,
-                           dob: LocalDate)
-
-
-case class ApiApplicationResponse (detail: ApiApplication,
-                                   ierId: String,
+case class ApiApplicationResponse (ierId: String,
                                    createdAt: String,
                                    status: String,
                                    source: String)
-
-object ApiApplication {
-  def apply(applicant:WebApplication): ApiApplication = {
-    ApiApplication(
-      fn = applicant.firstName,
-      pln= applicant.previousLastName,
-      ln= applicant.lastName,
-      mn = applicant.middleName,
-      nino = applicant.nino,
-      dob = applicant.dob
-    )
-  }
-}
-
-case class CompleteApplication (firstName: Option[String],
-                                middleName: Option[String],
-                                lastName: Option[String],
-                                previousLastName: Option[String],
-                                nino: Option[String],
-                                dob: Option[LocalDate],
-                                nationality: Option[String])
 
 case class Contact (contactType:String,
                     post: Option[String],
@@ -100,3 +62,40 @@ case class PreviousAddress (movedRecently:Boolean,
 case class OtherAddress (hasOtherAddress:Boolean)
 
 case class PostcodeAnywhereResponse(Items:List[Map[String,String]])
+
+case class CompleteApplication ( fn:String, mn:String, ln:String,
+                                 pfn:String, pmn:String, pln:String,
+                                 dob:String,
+                                 nat:String, nonat:String,
+                                 nino:String, nonino:String,
+                                 cadr:String, cpost:String,
+                                 padr:String, ppost:String,
+                                 oadr:String,
+                                 opnreg:String,
+                                 post:String, phone:String, text:String, email:String)
+
+object CompleteApplication {
+  def apply(inprogress:InprogressApplication):CompleteApplication = {
+    CompleteApplication(
+      fn = inprogress.name.map(_.firstName).getOrElse(""), mn = inprogress.name.map(_.middleNames).getOrElse(""), ln = inprogress.name.map(_.lastName).getOrElse(""),
+      pfn = inprogress.previousName.map(_.previousName.map(_.firstName).getOrElse("")).getOrElse(""),
+      pmn = inprogress.previousName.map(_.previousName.map(_.middleNames).getOrElse("")).getOrElse(""),
+      pln = inprogress.previousName.map(_.previousName.map(_.lastName).getOrElse("")).getOrElse(""),
+      dob = inprogress.dob.map(dob => dob.day + "/" + dob.month + "/" + dob.year).getOrElse(""),
+      nat = inprogress.nationality.map(n => (n.nationalities ++ n.otherCountries).mkString(", ")).getOrElse(""),
+      nonat = inprogress.nationality.map(_.noNationalityReason.getOrElse("")).getOrElse(""),
+      nino = inprogress.nino.map(_.nino.getOrElse("")).getOrElse(""),
+      nonino = inprogress.nino.map(_.noNinoReason.getOrElse("")).getOrElse(""),
+      cadr = inprogress.address.map(_.addressLine).getOrElse(""),
+      cpost = inprogress.address.map(_.postcode).getOrElse(""),
+      padr = inprogress.previousAddress.map(_.previousAddress.map(_.addressLine).getOrElse("")).getOrElse(""),
+      ppost = inprogress.previousAddress.map(_.previousAddress.map(_.postcode).getOrElse("")).getOrElse(""),
+      oadr = inprogress.otherAddress.map(_.hasOtherAddress.toString).getOrElse("false"),
+      opnreg = inprogress.openRegisterOptin.map(_.toString).getOrElse("false"),
+      post = inprogress.contact.map(_.post.getOrElse("")).getOrElse(""),
+      phone = inprogress.contact.map(_.phone.getOrElse("")).getOrElse(""),
+      text = inprogress.contact.map(_.textNum.getOrElse("")).getOrElse(""),
+      email = inprogress.contact.map(_.email.getOrElse("")).getOrElse("")
+    )
+  }
+}
