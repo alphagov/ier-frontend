@@ -9,52 +9,45 @@ window.GOVUK = window.GOVUK || {};
       toggleHelp,
       optionalInformation,
       conditionalControl,
-      makeToggle,
       duplicateField,
       markSelected;
 
-  toggleObj = {
-    toggle : function () {
-      if (this.$content.css("display") === "none") {
-        this.$content.show();
-        this.$toggle.removeClass("toggle-closed");
-        this.$toggle.addClass("toggle-open");
-      } else {
-        this.$content.hide();
-        this.$toggle.removeClass("toggle-open");
-        this.$toggle.addClass("toggle-closed");
-      }
-    },
-    setup : function () {
-      this.$heading = this.$content.find("h1,h2,h3,h4").first();
-      this.$toggle = $('<a href="#" class="toggle">' + this.$heading.text() + '</a>');
-      this.$toggle.insertBefore(this.$content);
-    },
-    bindEvents : function () {
-      var inst = this;
-
-      this.$toggle.on('click', function () {
-        inst.toggle();
-        return false;
-      });
+  toggleObj = function (elm) {
+    if (elm) {
+      this.$content = $(elm);
+      this.setup();
+      this.bindEvents();
     }
   };
-
-  makeToggle = function () {
-    var method,
-        func = function (elm) {
-          this.$content = $(elm);
-          this.setup();
-          this.bindEvents();
-        };
-
-    for (method in toggleObj) {
-      func.prototype[method] = toggleObj[method];
+  toggleObj.prototype.toggle = function () {
+    if (this.$content.css("display") === "none") {
+      this.$content.show();
+      this.$toggle.removeClass("toggle-closed");
+      this.$toggle.addClass("toggle-open");
+    } else {
+      this.$content.hide();
+      this.$toggle.removeClass("toggle-open");
+      this.$toggle.addClass("toggle-closed");
     }
-    return func;
+  };
+  toggleObj.prototype.setup = function () {
+    this.$heading = this.$content.find("h1,h2,h3,h4").first();
+    this.$toggle = $('<a href="#" class="toggle">' + this.$heading.text() + '</a>');
+    this.$toggle.insertBefore(this.$content);
+  };
+  toggleObj.prototype.bindEvents = function () {
+    var inst = this;
+
+    this.$toggle.on('click', function () {
+      inst.toggle();
+      return false;
+    });
   };
 
-  toggleHelp = makeToggle();
+  toggleHelp = function () {
+    toggleObj.apply(this, arguments);
+  };
+  $.extend(toggleHelp.prototype, new toggleObj());
   toggleHelp.prototype.setup = function () {
     this.$heading = this.$content.find("h1,h2,h3,h4").first();
     this.$toggle = $('<a href="#" class="toggle toggle-closed" title="show or hide help">' + this.$heading.text() + '</a>');
@@ -62,7 +55,10 @@ window.GOVUK = window.GOVUK || {};
     this.$heading.addClass("visuallyhidden");
   };
 
-  optionalInformation = makeToggle();
+  optionalInformation = function () {
+    toggleObj.apply(this, arguments);
+  };
+  $.extend(optionalInformation.prototype, new toggleObj());
   optionalInformation.prototype.setup = function () {
     this.$heading = this.$content.find("h1,h2,h3,h4").first();
     this.$toggle = $('<a href="#" class="toggle toggle-closed">' + this.$heading.text() + '</a>');
@@ -70,7 +66,10 @@ window.GOVUK = window.GOVUK || {};
     this.$heading.remove();
   };
 
-  conditionalControl = makeToggle();
+  conditionalControl = function () {
+    toggleObj.apply(this, arguments);
+  };
+  $.extend(conditionalControl.prototype, new toggleObj());
   conditionalControl.prototype.setup = function () {
     this.$toggle = $('#' + this.$content.data('condition'));
   }; 
