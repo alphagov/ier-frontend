@@ -6,11 +6,11 @@ window.GOVUK = window.GOVUK || {};
       $ = root.jQuery;
 
   var toggleObj,
-      toggleHelp,
       optionalInformation,
       conditionalControl,
       duplicateField,
-      markSelected;
+      markSelected,
+      monitorRadios;
 
   toggleObj = function (elm) {
     if (elm) {
@@ -44,26 +44,16 @@ window.GOVUK = window.GOVUK || {};
     });
   };
 
-  toggleHelp = function () {
-    toggleObj.apply(this, arguments);
-  };
-  $.extend(toggleHelp.prototype, new toggleObj());
-  toggleHelp.prototype.setup = function () {
-    this.$heading = this.$content.find("h1,h2,h3,h4").first();
-    this.$toggle = $('<a href="#" class="toggle toggle-closed" title="show or hide help">' + this.$heading.text() + '</a>');
-    this.$toggle.insertBefore(this.$content);
-    this.$heading.addClass("visuallyhidden");
-  };
-
   optionalInformation = function () {
     toggleObj.apply(this, arguments);
   };
   $.extend(optionalInformation.prototype, new toggleObj());
   optionalInformation.prototype.setup = function () {
+    var headingText;
     this.$heading = this.$content.find("h1,h2,h3,h4").first();
     this.$toggle = $('<a href="#" class="toggle toggle-closed">' + this.$heading.text() + '</a>');
     this.$toggle.insertBefore(this.$content);
-    this.$heading.remove();
+    this.$heading.addClass("visuallyhidden");
   };
 
   conditionalControl = function () {
@@ -74,21 +64,37 @@ window.GOVUK = window.GOVUK || {};
     this.$toggle = $('#' + this.$content.data('condition'));
   }; 
   conditionalControl.prototype.bindEvents = function () {
-    var inst = this;
+    var inst = this,
+        toggleName = this.$toggle.attr('name');
 
     this.$toggle.on('change', function () {
       inst.toggle();
     });
-
+    if (this.$toggle.attr('type') === 'radio') {
+      $(document).on('radio:' + toggleName, function (e, data) {
+        inst.toggle(data.selectedRadio);
+      });
+    }
     if (this.$toggle.is(":checked")) {
       this.$toggle.trigger("change");
     }
   };
-  conditionalControl.prototype.toggle = function () {
-    if (this.$toggle.is(":checked")) {
-      this.$content.show();
-    } else {
+  conditionalControl.prototype.clearContent = function (controlId) {
+    if (controlId !== this.$toggle.attr('id')) {
       this.$content.hide();
+    }
+  };
+  conditionalControl.prototype.toggle = function (selectedRadio) {
+    if (selectedRadio !== undefined) {
+      if (this.$toggle.attr('id') !== selectedRadio.id) {
+        this.$content.hide();
+      }
+    } else {
+      if (this.$toggle.is(":checked")) {
+        this.$content.show();
+      } else {
+        this.$content.hide();
+      }
     }
   };
 
@@ -123,44 +129,68 @@ window.GOVUK = window.GOVUK || {};
 
     this.$label = $(elm);
     this.$control = $('#' + this.$label.attr('for'));
-    this.$label.on('change', function () {
+    this.$label.on('click', function () {
       inst.toggle();
     });
+    if (this.$control.attr('type') === 'radio') {
+      $(document).on('radio:' + this.$control.attr('name'), function (e, data) {
+        inst.toggle(data.selectedRadio);
+      });
+    }
     if (this.$control.is(':checked')) {
       this.$label.addClass('selected');
     }
   };
 
-  markSelected.prototype.toggle = function () {
-    var inst = this,
-        isChecked = this.$control.is(':checked'),
-        controlType = this.$control.attr('type');
+  markSelected.prototype.toggle = function (selectedRadio) {
+    var isChecked = this.$control.is(':checked');
 
-    if (controlType === 'radio') {
-      $('input[name=' + this.$control.attr('name') + ']', this.$control.closest('fieldset')).each(function (idx, elm) {
-        $('label[for=' + elm.id + ']', inst.$label.parent()).removeClass('selected');
+    // called by a change on a radio group
+    if (selectedRadio !== undefined) {
+      $(selectedRadio).closest('fieldset').find('input[type=radio]').each(function (idx, elm) {
+        if (elm.name === selectedRadio.name) {
+          $(elm).closest('label').removeClass('selected');
+        }
       });
-      this.$label.addClass('selected');
-    } else { // checkbox
+    } else { // called from a control selection
       if (isChecked) {
-        this.$control.addClass('selected');
+        this.$label.addClass('selected');
       } else {
-        this.$control.removeClass('selected');
+        this.$label.removeClass('selected');
       }
     }
   };
 
+  monitorRadios = (function () {
+    var radioGroups = [];
+
+    return (function (elm) {
+      var groupName = elm.name,
+          $fieldset = $(elm).closest('fieldset');
+
+      if ($.inArray(radioGroups, groupName) === -1) {
+        radioGroups.push(groupName);
+        $fieldset.on('change', function (e) {
+          var target = e.target;
+          if (target.type && target.type === 'radio') {
+            $(document).trigger('radio:' + target.name, { "selectedRadio" : target });
+          }
+        });
+      }
+    });
+  }());
+
   GOVUK.registerToVote = {
-    "toggleHelp" : toggleHelp,
     "optionalInformation" : optionalInformation,
     "conditionalControl" : conditionalControl,
     "duplicateField" : duplicateField,
-    "markSelected" : markSelected
+    "markSelected" : markSelected,
+    "monitorRadios" : monitorRadios
   };
 
   $(document).on('ready', function () { 
     $('.help-content').each(function (idx, elm) {
-      new GOVUK.registerToVote.toggleHelp(elm);
+      new GOVUK.registerToVote.optionalInformation(elm);
     });
     $('.optional-section').each(function (idx, elm) {
       if ($(elm).data('condition') !== undefined) {
@@ -173,6 +203,14 @@ window.GOVUK = window.GOVUK || {};
       new GOVUK.registerToVote.duplicateField(elm);
     });
     $('.selectable').each(function (idx, elm) {
+      var $label = $(elm),
+          $control = $label.find('input#' + $label.attr('for')),
+          controlName = $control.attr('name');
+
+      if ($control.attr('type') === 'radio') {
+        // set up event monitoring for radios sharing that name
+        GOVUK.registerToVote.monitorRadios(elm);
+      }
       new GOVUK.registerToVote.markSelected(elm);
     });
   });

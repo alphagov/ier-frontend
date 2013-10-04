@@ -10,7 +10,9 @@ textarea {
 }
 
 label,
-textarea {
+textarea,
+.search,
+.next {
   display: block;
 } 
 
@@ -18,13 +20,9 @@ label {
   margin-bottom: 0.5em;
 }
 
-textarea {
+textarea,
+select {
   margin-bottom: 1em;
-}
-
-label.above{
-	display: block;
-	margin: 0 0 0.5em 0;
 }
 
 label.selectable{
@@ -73,7 +71,7 @@ input.text,
 .twitter-typeahead {
   width: 100%;
 
-  @include media(mobile) {
+  @include media(tablet) {
     width: auto;
 	}
 }
@@ -147,7 +145,6 @@ main header {
 fieldset {
   @extend %contain-floats;
   margin-left: 0;
-  margin-bottom: 1em;
 }
 
 form p {
@@ -193,18 +190,6 @@ form p {
   .checkbox {
     margin: 0 10px 0 0;
     vertical-align: 2px;
-  }
-}
-
-.next-question {
-	margin: 1em 0 2em 0;
-
-  .button{
-    font-size: 19px;
-  }
-
-  .save {
-    display: none;
   }
 }
 
@@ -302,6 +287,10 @@ form p {
 .optional-section {
   clear: both;
 	margin: 1em 0 1em 0;
+
+  h3 {
+    margin-bottom: 1em;
+  }
 }
 
 .js-enabled .optional-section,
@@ -327,11 +316,11 @@ form p {
 }
 
 .search-wrap {
-display: inline-block;
-position: relative;
-margin: 1em 0;
+  display: inline-block;
+  position: relative;
+  margin: 1em 0;
 
-@include media(mobile) {
+  @include media(mobile) {
     display: block;
   }
 
@@ -351,6 +340,7 @@ margin: 1em 0;
 .toggle {
   @include core-19;
   display: block;
+  clear: both;
 }
 
 .toggle-closed {
@@ -368,12 +358,24 @@ margin: 1em 0;
   padding-left: 15px;
 }
 
+.next,
+.search {
+  text-align: center;
+  clear: both;
+  margin: (1 / 19 * 32) * 1em 0;
+}
+
 .next {
   @include core-19;
-  text-align: center;
+  padding: 0.6em 0.8em 0.5em 0.8em;
+}
+
+.search {
+  @include button($mainstream-brand);
+  @include core-19;
   display: block;
   padding: 0.6em 0.8em 0.5em 0.8em;
-  margin: (1 / 19 * 32) * 1em 0;
+  margin-top: 0;
 }
 
 .validation-wrap.invalid {

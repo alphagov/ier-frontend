@@ -2,15 +2,16 @@
 
 @import uk.gov.gds.ier.form.FormHelpers._
 
-@layouts.questionHeader("What is your name?", "/register-to-vote/name", 3)
+@layouts.questionHeader("What is your name?", "/register-to-vote/date-of-birth", 3)
 
-        <label for="first-name">First name or names</label>
-        @helper.inputText(formData(keys.name.firstName), 'class -> "text first-name long")
-        <label for="middle-names"><span>Middle names</span><span class="optional"></span></label>
-        @helper.inputText(formData(keys.name.middleNames), 'class -> "text middle-names long")
-        <label for="last-name">Last name</label>
-        @helper.inputText(formData(keys.name.lastName), 'class -> "text last-name long")
-        <div class="validation-message"></div>
+        <fieldset>
+          <label for="first-name">First name or names</label>
+          @helper.inputText(formData(keys.name.firstName), 'class -> "text first-name long")
+          <label for="middle-names"><span>Middle names</span><span class="optional"></span></label>
+          @helper.inputText(formData(keys.name.middleNames), 'class -> "text middle-names long")
+          <label for="last-name">Last name</label>
+          @helper.inputText(formData(keys.name.lastName), 'class -> "text last-name long")
+        </fieldset
         @validationMessage(formData(keys.name))
         @validationMessage(formData(keys.name.firstName))
         @validationMessage(formData(keys.name.middleNames))
