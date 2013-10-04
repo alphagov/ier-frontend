@@ -63,6 +63,8 @@ case class OtherAddress (hasOtherAddress:Boolean)
 
 case class PostcodeAnywhereResponse(Items:List[Map[String,String]])
 
+case class ApiApplication(application:CompleteApplication)
+
 case class CompleteApplication ( fn:String, mn:String, ln:String,
                                  pfn:String, pmn:String, pln:String,
                                  dob:String,
