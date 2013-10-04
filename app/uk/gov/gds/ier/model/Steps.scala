@@ -1,60 +1,107 @@
 package uk.gov.gds.ier.model
 
 import views.html
-import play.api.mvc.RequestHeader
-import uk.gov.gds.ier.serialiser.WithSerialiser
+import play.api.mvc._
+import play.api.data.Form
+import play.api.templates.Html
+import uk.gov.gds.ier.validation.{InProgressForm, IerForms}
 
 trait Steps extends IerForms {
   self: InProgressSession =>
 
-  def nextStep(step:String) = {
-    step match {
-      case "nationality" => "date-of-birth"
-      case "date-of-birth" => "name"
-      case "name" => "previous-name"
-      case "previous-name" => "nino"
-      case "nino" => "address"
-      case "address" => "previous-address"
-      case "previous-address" => "other-address"
-      case "other-address" => "open-register"
-      case "open-register" => "contact"
-      case "contact" => "confirmation"
-      case "confirmation" => "complete"
-      case "edit" => "confirmation"
-      case _ => "nationality"
+  case class Step(page: InProgressForm => Html,
+                  editPage: InProgressForm => Html,
+                  validation: Form[InprogressApplication],
+                  next:String)
+
+  val nationalityStep = Step(
+    form => html.steps.nationality(form),
+    form => html.edit.nationality(form),
+    nationalityForm,
+    "date-of-birth")
+
+  val dateOfBirthStep = Step(
+    form => html.steps.dateOfBirth(form),
+    form => html.edit.dateOfBirth(form),
+    dateOfBirthForm,
+    "name")
+
+  val nameStep = Step(
+    form => html.steps.name(form),
+    form => html.edit.name(form),
+    nameForm,
+    "previous-name")
+
+  val previousNameStep = Step(
+    form => html.steps.previousName(form),
+    form => html.edit.previousName(form),
+    previousNameForm,
+    "nino"
+  )
+  val ninoStep = Step(
+    form => html.steps.nino(form),
+    form => html.edit.nino(form),
+    ninoForm,
+    "address"
+  )
+  val addressStep = Step(
+    form => html.steps.address(form),
+    form => html.edit.address(form),
+    addressForm,
+    "previous-address"
+  )
+  val previousAddressStep = Step(
+    form => html.steps.previousAddress(form),
+    form => html.edit.previousAddress(form),
+    previousAddressForm,
+    "other-address"
+  )
+  val otherAddressStep = Step(
+    form => html.steps.otherAddress(form),
+    form => html.edit.otherAddress(form),
+    otherAddressForm,
+    "open-register"
+  )
+  val openRegisterStep = Step(
+    form => html.steps.openRegister(form),
+    form => html.edit.openRegister(form),
+    openRegisterForm,
+    "contact"
+  )
+  val contactStep = Step(
+    form => html.steps.contact(form),
+    form => html.edit.contact(form),
+    contactForm,
+    "confirmation"
+  )
+  val confirmationStep = Step(
+    form => html.confirmation(form),
+    form => html.confirmation(form),
+    inprogressForm,
+    "confirmation"
+  )
+
+  object Step {
+    def getStep(step:String): Step = {
+      step match {
+        case "nationality" => nationalityStep
+        case "name" => nameStep
+        case "date-of-birth" => dateOfBirthStep
+        case "previous-name" => previousNameStep
+        case "nino" => ninoStep
+        case "address" => addressStep
+        case "previous-address" => previousAddressStep
+        case "other-address" => otherAddressStep
+        case "open-register" => openRegisterStep
+        case "contact" => contactStep
+        case "confirmation" => confirmationStep
+        case "edit" => confirmationStep
+      }
+    }
+    def apply(step:String)(block: Step => Result):Result = {
+      block(getStep(step))
     }
   }
 
   def firstStep() = "nationality"
-
-  def editPageFor(step:String)(implicit request: RequestHeader) = {
-    step match {
-      case "nationality" => html.edit.nationality(request.session.getApplication)
-      case "date-of-birth" => html.edit.dateOfBirth(request.session.getApplication)
-      case "name" => html.edit.name(request.session.getApplication)
-      case "previous-name" => html.edit.previousName(request.session.getApplication)
-      case "nino" => html.edit.nino(request.session.getApplication)
-      case "address" => html.edit.address(request.session.getApplication)
-      case "previous-address" => html.edit.previousAddress(request.session.getApplication)
-      case "other-address" => html.edit.otherAddress(request.session.getApplication)
-      case "open-register" => html.edit.openRegister(request.session.getApplication)
-      case "contact" => html.edit.contact(request.session.getApplication)
-    }
-  }
-
-  def pageFor(step:String)(implicit request: RequestHeader) = {
-    step match {
-      case "nationality" => html.steps.nationality(request.session.getApplication)
-      case "date-of-birth" => html.steps.dateOfBirth(request.session.getApplication)
-      case "name" => html.steps.name(request.session.getApplication)
-      case "previous-name" => html.steps.previousName(request.session.getApplication)
-      case "nino" => html.steps.nino(request.session.getApplication)
-      case "address" => html.steps.address(request.session.getApplication)
-      case "previous-address" => html.steps.previousAddress(request.session.getApplication)
-      case "other-address" => html.steps.otherAddress(request.session.getApplication)
-      case "open-register" => html.steps.openRegister(request.session.getApplication)
-      case "contact" => html.steps.contact(request.session.getApplication)
-      case "confirmation" => html.confirmation(request.session.getApplication)
-    }
-  }
 }

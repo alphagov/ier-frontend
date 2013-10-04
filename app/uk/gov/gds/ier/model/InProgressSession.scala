@@ -2,6 +2,7 @@ package uk.gov.gds.ier.model
 
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.mvc.Session
+import uk.gov.gds.ier.validation.IerForms
 
 trait InProgressSession extends IerForms {
   self: WithSerialiser =>
@@ -30,9 +31,8 @@ trait InProgressSession extends IerForms {
         nationality = application.nationality.orElse(stored.nationality),
         nino = application.nino.orElse(stored.nino),
         address = application.address.orElse(stored.address),
-        movedRecently = application.movedRecently.orElse(stored.movedRecently),
         previousAddress = application.previousAddress.orElse(stored.previousAddress),
-        hasOtherAddress = application.hasOtherAddress.orElse(stored.hasOtherAddress),
+        otherAddress = application.otherAddress.orElse(stored.otherAddress),
         openRegisterOptin = application.openRegisterOptin.orElse(stored.openRegisterOptin),
         contact = application.contact.orElse(stored.contact)
       )

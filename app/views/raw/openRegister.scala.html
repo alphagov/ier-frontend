@@ -1,6 +1,5 @@
-@(application:uk.gov.gds.ier.model.InprogressApplication)
-
-@import includes._
+@(formData:uk.gov.gds.ier.validation.InProgressForm)
+@import uk.gov.gds.ier.form.FormHelpers._
 
 @layouts.stepIndicator(9)
 
@@ -18,18 +17,18 @@
     <div class="question">
         <ul class="answers">
             <li class="answer">
-                <label class="selectable">
-                    <input type="radio" name="openRegisterOptin" value="true" class="radio" @checkedIf(application.openRegisterOptin == Some("true"))><span>Include my details on the open register</span>
+                <label class="selectable @classIf(formData(keys.openRegister.openRegisterOptin).value == Some("true"), "selected")">
+                    <input type="radio" name="@keys.openRegister.openRegisterOptin" value="true" class="radio" @checkedIf(formData(keys.openRegister.openRegisterOptin).value == Some("true"))><span>Include my details on the open register</span>
                 </label>
             </li>
             <li class="answer">
-                <label class="selectable">
-                    <input type="radio" name="openRegisterOptin" value="false" class="radio" @checkedIf(application.openRegisterOptin == Some("false"))><span>Don't include my details on the open register</span>
+                <label class="selectable @classIf(formData(keys.openRegister.openRegisterOptin).value == Some("false"), "selected")">
+                    <input type="radio" name="@keys.openRegister.openRegisterOptin" value="false" class="radio" @checkedIf(formData(keys.openRegister.openRegisterOptin).value == Some("false"))><span>Don't include my details on the open register</span>
                 </label>
             </li>
         </ul>
     </div>
-    <div class="validation-message"></div>
+    @validationMessage(formData(keys.openRegister))
     <div class="next-question">
         <button data-next="step-contact" class="button next">Continue</button>
         <button class="button save">Continue</button>

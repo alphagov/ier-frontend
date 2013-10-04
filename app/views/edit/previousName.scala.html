@@ -1,10 +1,10 @@
-@(application: uk.gov.gds.ier.model.InprogressApplication)
+@(formData: uk.gov.gds.ier.validation.InProgressForm)
 
 @import helper._
 @import layouts._
 
 @main(title = Some("Register to Vote - Have you changed your name in the last 12 months?"), stylesheets = head(), scripts = stepsBodyEnd()) {
-    @form(routes.RegisterToVoteController.next("edit")) {
-        @raw.previousName(application)
+    @form(routes.RegisterToVoteController.validateEdit("previous-name")) {
+        @raw.previousName(formData)
     }
 }

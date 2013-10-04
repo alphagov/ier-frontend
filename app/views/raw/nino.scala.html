@@ -1,4 +1,6 @@
-@(application: uk.gov.gds.ier.model.InprogressApplication)
+@(formData: uk.gov.gds.ier.validation.InProgressForm)
+
+@import uk.gov.gds.ier.form.FormHelpers._
 
 @layouts.stepIndicator(5)
 
@@ -10,9 +12,9 @@
                     -->
     </div>
     <div class="question">
-        <div class="validation-wrap">
-            <input id="input-nino" type="text" name="NINO" class="text nino" value="@application.nino.getOrElse("")">
-        </div>
+        @validationWrap(formData(keys.nino)) {
+            @helper.inputText(formData(keys.nino.nino), 'class -> "text nino")
+        }
         <div class="help">
             <p>Example: AB 12 34 56 C</p>
         </div>
@@ -27,12 +29,15 @@
             <div id="optional-section-no-nino" class="optional-section">
                 <div class="question">
                     <label class="above">Why can't you provide a National Insurance number?</label>
+                    @helper.textarea(formData(keys.nino.noNinoReason), 'class -> "small")
                     <textarea name="noNINOReason" class="small"></textarea>
                 </div>
             </div>
         </div>
     </div>
-    <div class="validation-message"></div>
+    @validationMessage(formData(keys.nino))
+    @validationMessage(formData(keys.nino.nino))
+    @validationMessage(formData(keys.nino.noNinoReason))
     <div class="next-question">
         <input data-next="step-name" type="submit" class="button next" value="Continue" />
     </div>

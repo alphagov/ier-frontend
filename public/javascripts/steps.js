@@ -6,7 +6,8 @@ $('body').on('click', '.more-help-link a', function(e){
         $moreHelpWrap = $this.closest('.more-help-wrap'),
         $moreHelpContent = $moreHelpWrap.find('.more-help-content');
 
-    $moreHelpContent.toggle();
+    $moreHelpContent.toggleClass('hidden');
+    $moreHelpContent.toggleClass('visible');
 
     if ($moreHelpContent.is(':visible')){
 
@@ -36,6 +37,11 @@ $('.back').on('click', function(e){
     window.history.back();
 });
 
+$('#step-nationality #no-nationality-link').on('click', function(e) {
+    e.preventDefault();
+    show($('#optional-section-no-nationality'));
+});
+
 $('#step-previous-name #input-name-change-yes').on('click', function(e) {
     show($('#optionalSectionPreviousName'));
 });
@@ -49,11 +55,11 @@ $('#step-address #find-address').on('click', function(e) {
     addressLookup($('#step-address'));
 });
 
-$('#step-previous-address #input-previous-address-no').on('click', function(e) {
+$('#step-previous-address #input-previous-address_false').on('click', function(e) {
     hide($('#optional-section-previous-address'));
 });
 
-$('#step-previous-address #input-previous-address-yes').on('click', function(e) {
+$('#step-previous-address #input-previous-address_true').on('click', function(e) {
     show($('#optional-section-previous-address'));
 });
 

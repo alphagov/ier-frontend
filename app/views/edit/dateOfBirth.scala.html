@@ -1,10 +1,10 @@
-@(application: uk.gov.gds.ier.model.InprogressApplication)
+@(formData: uk.gov.gds.ier.validation.InProgressForm)
 
 @import helper._
 @import layouts._
 
 @main(title = Some("Register to Vote - What is your Date Of Birth?"), stylesheets = head(), scripts = stepsBodyEnd()) {
-    @form(routes.RegisterToVoteController.next("edit")) {
-        @raw.dateOfBirth(application)
+    @form(routes.RegisterToVoteController.validateEdit("date-of-birth")) {
+        @raw.dateOfBirth(formData)
     }
 }
