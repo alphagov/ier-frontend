@@ -40,22 +40,17 @@ label.selectable{
     position: relative;
     line-height: 140%;
 
-    &.binary {
-      margin: 0 8px 0.5em 0;
-      display: inline-block;
-      width: 48%;
-
-      &:last-child{
-        margin-right: 0;
-      }
-    }
-
     & input {
       position: absolute;
       top: 18px;
       left: 18px;
     }
   }
+}
+
+label.binary {
+  float: none;
+  @include inline-block;
 }
 
 label.selected {
@@ -138,7 +133,7 @@ main header {
   }
 
   h1 {
-    margin-top: 1em;
+    margin-top: 1.2em;
   }
 }
 

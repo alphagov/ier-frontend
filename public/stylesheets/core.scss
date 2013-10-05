@@ -24,6 +24,10 @@ li {
   padding-left: 0.3em;
 }
 
+h1 {
+  @include bold-27;
+}
+
 h2 {
   @include bold-24;
   margin-bottom: 1em;
@@ -125,32 +129,6 @@ textarea {
   }
 }
 
-i.icon-caret-left {
-    background-image: url("/assets/images/icon-caret-left.png");
-    display: inline-block;
-    height: 100%;
-    min-height: 11px;
-    width: 8px;
-    background-position-y: 50%;
-    background-repeat: no-repeat;
-}
-
-i.icon-pointer {
-    display: inline-block;
-    background-image: url("/assets/images/icon-pointer.png");
-    background-repeat: no-repeat;
-    background-position-y: 50%;
-    min-height: 19px;
-    width: 16px;
-    margin-left: 8px;
-    position: relative;
-    top: 2px;
-}
-
-.icon {
-	margin: 0 0.3em 0 0;
-}
-
 #content {
 	margin: 0 auto;
 	max-width: 1020px;
@@ -183,6 +161,7 @@ article {
 
 form {
   padding-top: 2em;
+  @extends %contain-floats;
 }
 
 .inner-block{
@@ -193,4 +172,15 @@ form {
 .global-header .header-wrapper {
   padding-left: 0;
   padding-right: 0;
+}
+
+.help-notice {
+  font-weight: 600;
+  padding-left: 3em;
+  background: url("/assets/images/icon-important.png") no-repeat scroll 0 0.5em;
+
+  @include device-pixel-ratio() {
+    background-image: url("/assets/images/icon-important-2x.png");
+    background-size: 34px 34px;
+  }
 }

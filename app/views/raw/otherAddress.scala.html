@@ -5,10 +5,10 @@
 
         <fieldset>
           <label class="selectable binary @classIf(formData(keys.otherAddress.hasOtherAddress).value == Some("true"), "selected")">
-              <input type="radio" id="input-other-address-yes" name="@keys.otherAddress.hasOtherAddress" value="true" class="radio" @checkedIf(formData(keys.otherAddress.hasOtherAddress).value == Some("true"))><span>Yes</span>
+            <input type="radio" id="input-other-address-yes" name="@keys.otherAddress.hasOtherAddress" value="true" class="radio" @checkedIf(formData(keys.otherAddress.hasOtherAddress).value == Some("true"))>Yes
           </label>
           <label class="selectable binary @classIf(formData(keys.otherAddress.hasOtherAddress).value == Some("false"), "selected")">
-              <input type="radio" id="input-other-address-no" name="@keys.otherAddress.hasOtherAddress" value="false" class="radio" @checkedIf(formData(keys.otherAddress.hasOtherAddress).value == Some("false"))><span>No</span>
+            <input type="radio" id="input-other-address-no" name="@keys.otherAddress.hasOtherAddress" value="false" class="radio" @checkedIf(formData(keys.otherAddress.hasOtherAddress).value == Some("false"))>No
           </label>
         </fieldset>
         <p>If you have two homes, and spend about the same amount of time in each, you may be able to register to vote at both addresses.</p>

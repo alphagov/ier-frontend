@@ -8,159 +8,149 @@
     @{firstName.map(_ + " ").getOrElse("") + middleName.map(_ + " ").getOrElse("") + lastName.getOrElse("")}
 }
 
-@main(title = Some("Register to Vote - Confirm your details"), stylesheets = head(), scripts = stepsBodyEnd()) {
+@main(title = Some("Register to Vote - Confirm your details"), stylesheets = head(), scripts = stepsBodyEnd(), contentClasses = Some("confirmation")) {
 
-<div id="confirmation" class="step">
-    @form(routes.RegisterToVoteController.validateStep("confirmation")) {
-    <h2><span class="question-number">9</span><span>Register to vote</span></h2>
-    <div class="help"><p>Please check your details carefully and correct any mistakes.</p>
-        <p>If you supply information that&#39;s incorrect, it could delay your application.</p>
-
-    </div>
-    <ul class="details">
-        <li class="detail">
-            <h3>Name</h3>
-            <div class="data-wrap">
+      <article>
+        <a class="back-to-previous" href="/register-to-vote/contact" title="Back to the previous question">Back</a>
+        <header>
+          <h1>Register to vote</h1>
+        </header>
+        <p>Please check your details carefully and correct any mistakes.</p>
+        <div>
+          <h3>Name</h3>
+          <div class="data-wrap">
             @validationSwitch(formData(keys.name)) {
-                <p class="data name">@name(formData(keys.name.firstName).value, formData(keys.name.middleNames).value, formData(keys.name.lastName).value)</p>
+              <p>@name(formData(keys.name.firstName).value, formData(keys.name.middleNames).value, formData(keys.name.lastName).value)</p>
             }
-            </div><a href="@routes.RegisterToVoteController.edit("name")" class="change">Change</a>
-        </li>
-        <li class="detail">
-            <h3>Previous name</h3>
-            <div class="data-wrap">
+          </div>
+          <a href="@routes.RegisterToVoteController.edit("name")" class="change">Change</a>
+        </div>
+        <div>
+          <h3>Previous name</h3>
+          <div class="data-wrap">
             @validationSwitch(formData(keys.previousName)) {
                 @if(formData(keys.previousName.hasPreviousName).value == Some("true")){
-                    <div class="name-change-yes">
-                        <p class="data previous-name">@name(formData(keys.previousName.previousName.firstName).value, formData(keys.previousName.previousName.middleNames).value, formData(keys.previousName.previousName.lastName).value)</p>
-                    </div>
+                  <p>@name(formData(keys.previousName.previousName.firstName).value, formData(keys.previousName.previousName.middleNames).value, formData(keys.previousName.previousName.lastName).value)</p>
                 } else {
-                    <div class="name-change-no">
-                        <p class="message">You have not changed your name in the last 12 months</p>
-                    </div>
+                  <p class="message">You have not changed your name in the last 12 months</p>
                 }
             }
-            </div><a href="@routes.RegisterToVoteController.edit("previous-name")" class="change">Change</a>
-        </li>
-        <li class="detail">
-            <h3>Date of birth</h3>
-            <div class="data-wrap">
+          </div>
+          <a href="@routes.RegisterToVoteController.edit("previous-name")" class="change">Change</a>
+        </div>
+        <div>
+          <h3>Date of birth</h3>
+          <div class="data-wrap">
             @validationSwitch(formData(keys.dob)) {
-                <p class="data dob"> @formData(keys.dob.day).value.getOrElse("") @formData(keys.dob.month).value.getOrElse("") @formData(keys.dob.year).value.getOrElse("")</p>
+                <p> @formData(keys.dob.day).value.getOrElse("") @formData(keys.dob.month).value.getOrElse("") @formData(keys.dob.year).value.getOrElse("")</p>
             }
-            </div><a href="@routes.RegisterToVoteController.edit("date-of-birth")" class="change">Change</a>
-        </li>
-        <li class="detail">
-            <h3>Nationality</h3>
-            <div class="data-wrap">
+          </div>
+          <a href="@routes.RegisterToVoteController.edit("date-of-birth")" class="change">Change</a>
+        </div>
+        <div>
+          <h3>Nationality</h3>
+          <div class="data-wrap"> 
             @validationSwitch(formData(keys.nationality)) {
-                @if(formData.getNationalities.exists(_.nonEmpty) || formData.getOtherCountries.exists(_.nonEmpty)) {
-                    <div class="nationality-yes">
-                        <p class="data nationality">
-                            You are @formData.confirmationNationalityString
-                        </p>
-                    </div>
-                }else{
-                    <div class="nationality-no">
-                        <p>You cannot provide your nationality because:</p>
-                        <p class="data no-nationality-reason">@formData(keys.nationality.noNationalityReason).value.getOrElse("")</p>
-                    </div>
-                }
+              @if(formData.getNationalities.exists(_.nonEmpty) || formData.getOtherCountries.exists(_.nonEmpty)) {
+                  <p>
+                    You are @formData.confirmationNationalityString
+                  </p>
+              }else{
+                  <p>You cannot provide your nationality because:</p>
+                  <p>@formData(keys.nationality.noNationalityReason).value.getOrElse("")</p>
+              }
             }
-            </div><a href="@routes.RegisterToVoteController.edit("nationality")" class="change">Change</a>
-        </li>
-        <li class="detail">
-            <h3>National Insurance number</h3>
-            <div class="data-wrap">
+          </div>
+          <a href="@routes.RegisterToVoteController.edit("nationality")" class="change">Change</a>
+        </div>
+        <div>
+          <h3>National Insurance number</h3>
+          <div class="data-wrap">
             @validationSwitch(formData(keys.nino)) {
-                @if(formData(keys.nino.nino).value.isDefined){
-                    <div class="NINO-yes">
-                        <p class="data NINO">@formData(keys.nino.nino).value.getOrElse("")</p>
-                    </div>
-                } else {
-                    <div class="NINO-no">
-                        <p>You cannot provide your national insurance number because:</p>
-                        <p class="data no-NINO-reason">@formData(keys.nino.noNinoReason).value.getOrElse("")</p>
-                    </div>
-                }
+              @if(formData(keys.nino.nino).value.isDefined){
+                <p>@formData(keys.nino.nino).value.getOrElse("")</p>
+              } else {
+                <p>You cannot provide your national insurance number because:</p>
+                <p>@formData(keys.nino.noNinoReason).value.getOrElse("")</p>
+              }
             }
-            </div><a href="@routes.RegisterToVoteController.edit("nino")" class="change">Change</a>
-        </li>
-        <li class="detail">
-            <h3>Address</h3>
-            <div class="data-wrap">
+          </div>
+          <a href="@routes.RegisterToVoteController.edit("nino")" class="change">Change</a>
+        </div>
+        <div>
+          <h3>Address</h3>
+          <div class="data-wrap"> 
             @validationSwitch(formData(keys.address)) {
-                <p class="data address">@formData(keys.address.address).value.getOrElse("")</p>
-                <p class="data postcode">@formData(keys.address.postcode).value.getOrElse("")</p>
+              <p>@formData(keys.address.address).value.getOrElse("")</p>
+              <p>@formData(keys.address.postcode).value.getOrElse("")</p>
             }
-            </div><a href="@routes.RegisterToVoteController.edit("address")" class="change">Change</a>
-        </li>
-        <li class="detail">
-            <h3>Previous address</h3>
-            <div class="data-wrap">
-            @validationSwitch(formData(keys.previousAddress)) {
-                @if(formData(keys.previousAddress.movedRecently).value == Some("true")){
-                    <div class="moved-recently-yes">
-                        <p class="data previousAddress">@formData(keys.previousAddress.previousAddress.address).value.getOrElse("")</p>
-                        <p class="data previousPostcode">@formData(keys.previousAddress.previousAddress.postcode).value.getOrElse("")</p>
-                    </div>
-                }else{
-                    <p class="data message moved-recently-no">You have not moved in the last 12 months</p>
-                }
+          </div>
+          <a href="@routes.RegisterToVoteController.edit("address")" class="change">Change</a>
+        </div>
+        <div>
+          <h3>Previous address</h3>
+          <div class="data-wrap"> 
+          @validationSwitch(formData(keys.previousAddress)) {
+            @if(formData(keys.previousAddress.movedRecently).value == Some("true")){
+              <p>@formData(keys.previousAddress.previousAddress.address).value.getOrElse("")</p>
+              <p>@formData(keys.previousAddress.previousAddress.postcode).value.getOrElse("")</p>
+            }else{
+              <p>You have not moved in the last 12 months</p>
             }
-            </div><a href="@routes.RegisterToVoteController.edit("previous-address")" class="change">Change</a>
-        </li>
-        <li class="detail">
-            <h3>Second address</h3>
-            <div class="data-wrap">
-            @validationSwitch(formData(keys.otherAddress)) {
-                @if(formData(keys.otherAddress.hasOtherAddress).value == Some("true")){
-                    <p class="data message other-address-yes">You have a second address</p>
-                }else{
-                    <p class="data message other-address-no">You don't have a second address</p>
-                }
+          }
+          </div>
+          <a href="@routes.RegisterToVoteController.edit("previous-address")" class="change">Change</a>
+        </div>
+        <div>
+          <h3>Second address</h3>
+          <div class="data-wrap"> 
+          @validationSwitch(formData(keys.otherAddress)) {
+            @if(formData(keys.otherAddress.hasOtherAddress).value == Some("true")){
+                <p>You have a second address</p>
+            }else{
+                <p>You don't have a second address</p>
             }
-            </div><a href="@routes.RegisterToVoteController.edit("other-address")" class="change">Change</a>
-        </li>
-        <li class="detail">
-            <h3>Open register</h3>
-            <div class="data-wrap">
-            @validationSwitch(formData(keys.openRegister)) {
-                @if(formData(keys.openRegister.openRegisterOptin).value == Some("true")){
-                    <p class="data message edited-register-optin-yes">You want us to include your details on the open register so they are available to charities and companies.</p>
-                }else{
-                    <p class="data message edited-register-optin-no">You don’t want us to include your details on the open register so they are available to charities and companies.</p>
-                }
+          }
+          </div>
+          <a href="@routes.RegisterToVoteController.edit("other-address")" class="change">Change</a>
+        </div>
+        <div>
+          <h3>Open register</h3>
+          <div class="data-wrap"> 
+          @validationSwitch(formData(keys.openRegister)) {
+            @if(formData(keys.openRegister.openRegisterOptin).value == Some("true")){
+              <p>You want us to include your details on the open register so they are available to charities and companies.</p>
+            }else{
+              <p>You don’t want us to include your details on the open register so they are available to charities and companies.</p>
             }
-            </div><a href="@routes.RegisterToVoteController.edit("open-register")" class="change">Change</a>
-        </li>
-        <li class="detail">
-            <h3>How we should contact you</h3>
-            <div class="data-wrap">
+          }
+          </div>
+          <a href="@routes.RegisterToVoteController.edit("open-register")" class="change">Change</a>
+        </div>
+        <div>
+          <h3>How we should contact you</h3>
+          <div class="data-wrap"> 
+            <p class="message">If there are any problems with your application we will contact you by:</p>
             @validationSwitch(formData(keys.contact)) {
-                <p class="message">If there are any problems with your application we will contact you by:</p>
-                @if(formData(keys.contact.contactType).value == Some("phone")){
-                    <p class="data contact-by-phone-yes"><span>Phone number at </span><span class="data telephone">@formData(keys.contact.phone).value.getOrElse("")</span></p>
-                }
-                @if(formData(keys.contact.contactType).value == Some("text")){
-                    <p class="data contact-by-text-yes"><span>Text message at </span><span class="data text">@formData(keys.contact.textNum).value.getOrElse("")</span></p>
-                }
-                @if(formData(keys.contact.contactType).value == Some("email")){
-                    <p class="data contact-by-email-yes"><span>Email at </span><span class="data email">@formData(keys.contact.email).value.getOrElse("")</span></p>
-                }
-                @if(formData(keys.contact.contactType).value == Some("post")){
-                    <p class="data contact-by-post-yes"><span>Post at </span><span class="data post">@formData(keys.contact.post).value.getOrElse("")</span></p>
-                }
+              @if(formData(keys.contact.contactType).value == Some("phone")){
+                <p>Phone number at f@formData(keys.contact.phone).value.getOrElse("")</p>
+              }
+              @if(formData(keys.contact.contactType).value == Some("text")){
+                <p>Text message at @formData(keys.contact.textNum).value.getOrElse("")</p>
+              }
+              @if(formData(keys.contact.contactType).value == Some("email")){
+                <p>Email at @formData(keys.contact.email).value.getOrElse("")</p>
+              }
+              @if(formData(keys.contact.contactType).value == Some("post")){
+                <p>Post at @formData(keys.contact.post).value.getOrElse("")</p>
+              }
             }
-            </div><a href="@routes.RegisterToVoteController.edit("contact")" class="change">Change</a>
-        </li>
-    </ul>
-    <div class="help">
-        <p>By sending your application you declare that the information you have supplied is true, and that you understand that the information you have supplied will be used to change your details on the electoral register.</p>
-    </div>
-    <div class="next-question">
-        <input data-next="complete" type="submit" class="button next" value="Send application" />
-    </div>
-    }
-</div>
+          </div>
+          <a href="@routes.RegisterToVoteController.edit("contact")" class="change">Change</a>
+        </div>
+        <p class="help-notice">By sending your application you declare that the information you have supplied is true, and that you understand that the information you have supplied will be used to change your details on the electoral register.</p>
+      </article>
+      @form(routes.RegisterToVoteController.validateStep("confirmation")) {
+      <input data-next="complete" type="submit" class="button next" value="I accept - send my application" />
+      }
 }

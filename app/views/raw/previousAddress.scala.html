@@ -5,10 +5,10 @@
 @layouts.questionHeader("Have you moved within the last 12 months?", "/register-to-vote/address", 7)
 
         <fieldset>
-          <label class="selectable" for="input-previous-address-yes">
+          <label class="selectable binary" for="input-previous-address-yes">
             <input type="radio" id="input-previous-address-yes" name="movedRecently" value="true" class="radio" @checkedIf(application.movedRecently == Some("true"))>Yes
           </label>
-          <label class="selectable" for="input-previous-address-no">
+          <label class="selectable binary" for="input-previous-address-no">
             <input type="radio" id="input-previous-address-no" name="movedRecently" value="false" class="radio" @checkedIf(application.movedRecently == Some("false"))>No
           </label>
         </fieldset>
