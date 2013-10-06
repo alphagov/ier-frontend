@@ -16,15 +16,10 @@
           <label for="previousAddress-postcode">Enter the postcode to find your previous address</label>
           @helper.inputText(formData(keys.previousAddress.previousAddress.postcode), 'class -> "postcode text long")
           <button id="find-previous-address" class="button search">Find address</button>
-          <label for="input-previous-address-list" class="visuallyhidden">Previous address</label>
-          @helper.select(formData(keys.previousAddress.previousAddress.address), possibleAddresses, 'class -> "addressList lonely", 'id -> "input-previous-address-list")
-          <div class="help-content">
-            <h2>The address is not listed</h2>
-            <label for="input-previous-address-text">Previous address</label>
-            @helper.textarea(formData(keys.previousAddress.previousAddress.address), 'class -> "small")
-          </div>
         </fieldset>
-        @validationMessage(formData(keys.previousAddress))
-        @validationMessage(formData(keys.previousAddress.previousAddress.address))
-        @validationMessage(formData(keys.previousAddress.previousAddress.postcode))
-        <input data-next="step-name" type="submit" class="button next" value="Continue" />
+        <fieldset class="optional-section @classIf(application.movedRecently == Some("false"), "visible")" data-condition="input-previous-address-no">
+          @validationMessage(formData(keys.previousAddress))
+          @validationMessage(formData(keys.previousAddress.previousAddress.address))
+          @validationMessage(formData(keys.previousAddress.previousAddress.postcode))
+          <input data-next="step-name" type="submit" class="button next" value="Continue" />
+        </fieldset>

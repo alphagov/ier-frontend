@@ -9,14 +9,4 @@
         <label for="address-postcode">Postcode</label>
         @helper.inputText(formData(keys.address.postcode), 'class -> "postcode text long")
         <button class="button search">Find address</button>
-        <label for="input-address-list">Select your address</label>
-        @helper.textarea(formData(keys.address.address), 'class -> "small")
-        <div class="help-content">
-          <h2>My address is not listed</h2>
-          <label id="input-address-text">Address</label>
-          @helper.textarea(formData(keys.address.address), 'class -> "small")
-        </div>
-        @validationMessage(formData(keys.address.address))
-        @validationMessage(formData(keys.address.postcode))
-        <input data-next="step-name" type="submit" class="button next" value="Continue" />
       </fieldset>

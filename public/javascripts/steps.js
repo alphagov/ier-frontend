@@ -10,7 +10,8 @@ window.GOVUK = window.GOVUK || {};
       conditionalControl,
       duplicateField,
       markSelected,
-      monitorRadios;
+      monitorRadios,
+      postcodeLookup;
 
   toggleObj = function (elm) {
     if (elm) {
@@ -180,12 +181,90 @@ window.GOVUK = window.GOVUK || {};
     });
   }());
 
+  postcodeLookup = function (searchButton) {
+    this.$searchButton = $(searchButton);
+    this.$searchInput = this.$searchButton.closest('fieldset').find('input.postcode');
+    this.$waitMessage = $('<p id="wait-for-request">Finding address</p>');
+    this.fragment = [
+      '<label for="input-address-list">Select your address</label>' +
+      '<select id="input-address-list" name="address.address" class="lonely">' +
+        '<option value="">Please select...</option>',
+      '</select>' +
+      '<div class="help-content">' +
+        '<h2>My address is not listed</h2>' +
+        '<label id="input-address-text">Enter your address</label>' +
+        '<textarea id="input-address-text" name="address.address" class="small"></textarea>' +
+      '</div>' +
+      '<div class="validation-message"></div>' +
+      '<input data-next="step-name" type="submit" class="button next" value="Continue" />'
+    ];
+    this.bindEvents();
+  };
+  postcodeLookup.prototype.bindEvents = function () {
+    var inst = this;
+
+    this.$searchButton.on('click', function () {
+      inst.getAddresses();
+      return false;
+    });
+  };
+  postcodeLookup.prototype.onTimeout = function (xhrObj) {
+    
+  };
+  postcodeLookup.prototype.onError = function (status, errorStr) {
+
+  };
+  postcodeLookup.prototype.onEmpty = function () {
+
+  };
+  postcodeLookup.prototype.addLookup = function (data) {
+    var resultStr = this.fragment[0];
+
+    $(data.addresses).each(function (idx, address) {
+     resultStr += '<option>' + address + '</option>'
+    });
+    resultStr += this.fragment[1];
+    $(resultStr).insertAfter(this.$searchButton);
+    new GOVUK.registerToVote.optionalInformation(this.$searchButton.closest('fieldset').find('.help-content')[0]);
+  };
+  postcodeLookup.prototype.getAddresses = function () {
+    var inst = this,
+        postcode = this.$searchInput.val(),
+        URL = '/assets/javascripts/sample_addresses.json';
+
+    if (postcode === "") { 
+      this.onEmpty();
+    } else {
+      postcode = postcode.replace(/\s/g,'');
+      this.$waitMessage.insertAfter(this.$searchButton);
+      $.ajax({
+        url : URL,
+        dataType : 'json',
+        timeout : 10000
+      }).
+      done(function (data, status, xhrObj) {
+        inst.addLookup(data);
+      }).
+      fail(function (xhrObj, status, errorStr) {
+        if (status === 'timeout' ) {
+          inst.onTimeout(xhrObj);
+        } else {
+          inst.onError(status, errorStr);
+        }
+      }).
+      always(function () {
+        inst.$waitMessage.remove();
+      });
+    }
+  };
+
   GOVUK.registerToVote = {
     "optionalInformation" : optionalInformation,
     "conditionalControl" : conditionalControl,
     "duplicateField" : duplicateField,
     "markSelected" : markSelected,
-    "monitorRadios" : monitorRadios
+    "monitorRadios" : monitorRadios,
+    "postcodeLookup" : postcodeLookup
   };
 
   $(document).on('ready', function () { 
@@ -212,6 +291,9 @@ window.GOVUK = window.GOVUK || {};
         GOVUK.registerToVote.monitorRadios(elm);
       }
       new GOVUK.registerToVote.markSelected(elm);
+    });
+    $('.search').each(function (idx, elm) {
+      new GOVUK.registerToVote.postcodeLookup(elm);
     });
   });
 }.call(this));
