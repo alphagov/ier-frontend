@@ -21,24 +21,12 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
 
   def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson[T](json)
 
-  def index = Action {
-    Ok(html.start()).withNewSession
+  def index = Action { implicit request =>
+    Ok(html.start()).withNewSession.withSession(session.createToken)
   }
 
   def registerToVote = ValidSession requiredFor Action {
     Redirect(controllers.routes.RegisterToVoteController.registerStep(firstStep()))
-  }
-
-  def validateAndRedirect(step:Step, redirectOnSuccess:Call)(implicit request: play.api.mvc.Request[_]) = {
-    step.validation.bindFromRequest().fold(
-      errors => {
-        Ok(step.page(InProgressForm(errors)))
-      },
-      form => {
-        val application = session.merge(form)
-        Redirect(redirectOnSuccess).withSession(application.toSession)
-      }
-    )
   }
 
   def registerStep(step:String) = ValidSession requiredFor Action { implicit request =>
@@ -49,7 +37,10 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
 
   def validateStep(step:String) = ValidSession requiredFor Action(BodyParsers.parse.urlFormEncoded) { implicit request =>
     Step(step) { stepDetail =>
-      validateAndRedirect(stepDetail, routes.RegisterToVoteController.registerStep(stepDetail.next))
+      stepDetail.validation.bindFromRequest().fold(
+        errors => Ok(stepDetail.page(InProgressForm(errors))),
+        form => Redirect(routes.RegisterToVoteController.registerStep(stepDetail.next)).mergeWithSession(form)
+      )
     }
   }
 
@@ -62,7 +53,10 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
 
   def validateEdit(step:String) = ValidSession requiredFor Action(BodyParsers.parse.urlFormEncoded) { implicit request =>
     Step(step) { stepDetail =>
-      validateAndRedirect(stepDetail, routes.RegisterToVoteController.confirmApplication())
+      stepDetail.validation.bindFromRequest().fold(
+        errors => Ok(stepDetail.page(InProgressForm(errors))),
+        form => Redirect(routes.RegisterToVoteController.confirmApplication()).mergeWithSession(form)
+      )
     }
   }
 

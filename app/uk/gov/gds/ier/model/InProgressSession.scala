@@ -5,6 +5,7 @@ import play.api.mvc._
 import uk.gov.gds.ier.validation.IerForms
 import controllers.routes
 import scala.Some
+import org.joda.time.DateTime
 
 
 trait InProgressSession extends IerForms {
@@ -28,6 +29,12 @@ trait InProgressSession extends IerForms {
     }
   }
 
+  implicit class SimpleResultToSession(result:PlainResult) {
+    def mergeWithSession(application: InprogressApplication)(implicit request: play.api.mvc.Request[_]) = {
+      result.withSession(request.session.merge(application))
+    }
+  }
+
   implicit class InprogressApplicationToSession(app:InprogressApplication) {
     private val sessionKey = "application"
     def toSession:(String, String) = {
@@ -38,6 +45,9 @@ trait InProgressSession extends IerForms {
   implicit class InProgressSession(session:Session) {
     private val sessionPayloadKey = "application"
     private val sessionTokenKey = "sessionKey"
+    def createToken = {
+      session + (sessionTokenKey -> DateTime.now.toString)
+    }
     def getToken = {
       session.get(sessionTokenKey)
     }
@@ -47,9 +57,9 @@ trait InProgressSession extends IerForms {
         case _ => InprogressApplication()
       }
     }
-    def merge(application: InprogressApplication):InprogressApplication= {
+    def merge(application: InprogressApplication):Session = {
       val stored = getApplication
-      stored.copy(
+      session + sessionPayloadKey -> stored.copy(
         name = application.name.orElse(stored.name),
         previousName = application.previousName.orElse(stored.previousName),
         dob = application.dob.orElse(stored.dob),
@@ -60,7 +70,8 @@ trait InProgressSession extends IerForms {
         otherAddress = application.otherAddress.orElse(stored.otherAddress),
         openRegisterOptin = application.openRegisterOptin.orElse(stored.openRegisterOptin),
         contact = application.contact.orElse(stored.contact)
-      )
+      ).toSession
+      session
     }
   }
 }
