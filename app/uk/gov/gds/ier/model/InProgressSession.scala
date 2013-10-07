@@ -13,6 +13,15 @@ trait InProgressSession extends IerForms {
 
   object ValidSession {
 
+    private def isValidToken(token:String) = {
+      try {
+        val dt = DateTime.parse(token)
+        dt.isAfter(DateTime.now.minusMinutes(30))
+      } catch {
+        case e:IllegalArgumentException => false
+      }
+    }
+
     def requiredFor[A](action: Action[A]) = apply(action)
 
     def apply[A](action: Action[A]): Action[A] = apply(action.parser)(action)
@@ -22,7 +31,10 @@ trait InProgressSession extends IerForms {
 
       def apply(ctx: Request[A]) = {
         ctx.session.getToken match {
-          case Some(token) => action(ctx)
+          case Some(token) => isValidToken(token) match {
+            case true => action(ctx)
+            case false => Redirect(routes.RegisterToVoteController.index())
+          }
           case None => Redirect(routes.RegisterToVoteController.index())
         }
       }
