@@ -11,19 +11,26 @@
           <label class="selectable binary @classIf(formData(keys.previousName.hasPreviousName).value == Some("false"), "selected")">
               <input type="radio" id="input-name-change-no" name="@keys.previousName.hasPreviousName" value="false" class="radio" @checkedIf(formData(keys.previousName.hasPreviousName).value == Some("false"))><span>No</span>
           </label>
-          <div class="optional-section @classIf(application.previousName == Some("true"), "visible")" data-condition="input-name-change-yes">
-            <h3>Previous name</h3>
-            <label class="above" for="input-previous-first-name">First name</label>
-            @validationWrap(formData(keys.previousName)) {
-                @helper.inputText(formData(keys.previousName.previousName.firstName), 'class -> "text first-name long")
-            }
-            <label class="above" for="input-previous-names">Middle names</label>
-            @helper.inputText(formData(keys.previousName.previousName.middleNames), 'class -> "text middle-names long")
-            <label class="above" for="input-previous-last-name">Last name</label>
-            @validationWrap(formData(keys.previousName)) {
-                @helper.inputText(formData(keys.previousName.previousName.lastName), 'class -> "text last-name long")
-            }
-          </div>
+        </fieldset>
+        <fieldset class="optional-section @classIf(application.previousName == Some("true"), "visible")" data-condition="input-name-change-yes">
+          <h3>Previous name</h3>
+          <label class="above" for="input-previous-first-name">First name</label>
+          @validationWrap(formData(keys.previousName)) {
+              @helper.inputText(formData(keys.previousName.previousName.firstName), 'class -> "text first-name long")
+          }
+          <label class="above" for="input-previous-names">Middle names</label>
+          @helper.inputText(formData(keys.previousName.previousName.middleNames), 'class -> "text middle-names long")
+          <label class="above" for="input-previous-last-name">Last name</label>
+          @validationWrap(formData(keys.previousName)) {
+              @helper.inputText(formData(keys.previousName.previousName.lastName), 'class -> "text last-name long")
+          }
+          @validationMessage(formData(keys.previousName))
+          @validationMessage(formData(keys.previousName.previousName.firstName))
+          @validationMessage(formData(keys.previousName.previousName.middleNames))
+          @validationMessage(formData(keys.previousName.previousName.lastName))
+          <input data-next="step-name" type="submit" class="button next" value="Continue" />
+        </fieldset>
+        <fieldset class="optional-section @classIf(application.previousName == Some("false"), "visible")" data-condition="input-name-change-no">
           @validationMessage(formData(keys.previousName))
           @validationMessage(formData(keys.previousName.previousName.firstName))
           @validationMessage(formData(keys.previousName.previousName.middleNames))

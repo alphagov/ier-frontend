@@ -3,6 +3,7 @@
 .confirmation {
   article {
     padding-top: 2em;
+    padding-bottom: 0;
   }
 
   form {
@@ -26,7 +27,12 @@
 
   div {
     @extend %contain-floats;
-    padding: 1em 0;
+    padding: 1em 5.5em 1em 0;
+    position: relative;
+
+    @include media(tablet) {
+      padding-right: 0;
+    }
 
     h3,
     .data-wrap,
@@ -39,7 +45,10 @@
       border-top: none;
       margin: 0 0 1em;
       padding: 0;
-      @include inline-block;
+
+      @include media(tablet) {
+        @include inline-block;
+      }
     }
 
     h3 {
@@ -48,8 +57,12 @@
     }
 
     .data-wrap {
-      padding: 0 1.25em;
-      width: 35%;
+      padding: 0;
+
+      @include media(tablet) {
+        padding: 0 1.25em;
+        width: 35%;
+      }
 
       p {
         color: $black;
@@ -67,7 +80,14 @@
 
   .change {
     @include button($grey-3);
-    float: right;
+    position: absolute;
+    top: 1em;
+    right: 0;
+
+    @include media(tablet) {
+      position: static;
+      float: right;
+    }
   }
 
   .help-notice {

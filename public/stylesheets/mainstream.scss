@@ -48,7 +48,7 @@ header.page-header {
       background-repeat: no-repeat;
       color: $text-colour;
       font-weight: 600;
-      margin-left: 0;
+      margin: 0;
       min-height: (61em/25);
 
       @include ie(6) {
@@ -57,7 +57,7 @@ header.page-header {
         zoom: 1;
       }
 
-      @include media(desktop) {
+      @include media(tablet) {
         min-height: 0;
       }
 

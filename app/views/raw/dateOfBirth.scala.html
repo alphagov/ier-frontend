@@ -8,21 +8,18 @@
 
         <fieldset>
           <label for="input-dob-day" class="visuallyhidden">Day you were born</label>
-                @helper.select(
-                    formData(keys.dob.day),
-                    DateOfBirthConstants.days,
-                    '_default -> "Day", 'class -> "day"
-                )
-                @helper.select(
-                    formData(keys.dob.month),
-                    DateOfBirthConstants.months,
-                    '_default -> "Month", 'class -> "month"
-                )
-                @helper.select(
-                    formData(keys.dob.year),
-                    DateOfBirthConstants.years,
-                    '_default -> "Year", 'class -> "year"
-                )
+          @helper.select(
+              formData(keys.dob.day),
+              DateOfBirthConstants.days,
+              '_default -> "Day", 'class -> "day"
+          )
+          @helper.select(
+              formData(keys.dob.month),
+              DateOfBirthConstants.months,
+              '_default -> "Month", 'class -> "month"
+          )
+          <label for="input-dob-year" class="visuallyhidden">Year you were born</label>
+          <input id="input-dob-year" name="dob.year" type="text" class="year text short" placeholder="Year" />
         </fieldset>
         <div class="help-content info-notice">
           <h3>Help</h3>

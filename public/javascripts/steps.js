@@ -56,6 +56,15 @@ window.GOVUK = window.GOVUK || {};
     this.$toggle.insertBefore(this.$content);
     this.$heading.addClass("visuallyhidden");
   };
+  optionalInformation.prototype.bindEvents = function () {
+    var inst = this;
+
+    this.$toggle.on('click', function () {
+      inst.toggle();
+      return false;
+    });
+    this.$toggle.trigger('click');
+  };
 
   conditionalControl = function () {
     toggleObj.apply(this, arguments);
@@ -76,9 +85,7 @@ window.GOVUK = window.GOVUK || {};
         inst.toggle(data.selectedRadio);
       });
     }
-    if (this.$toggle.is(":checked")) {
-      this.$toggle.trigger("change");
-    }
+    this.$toggle.trigger("change");
   };
   conditionalControl.prototype.clearContent = function (controlId) {
     if (controlId !== this.$toggle.attr('id')) {
@@ -106,8 +113,8 @@ window.GOVUK = window.GOVUK || {};
     this.$control = $(control);
     fieldId = this.$control.data('field');
     this.$field = $('#' + fieldId);
-    this.$label = this.$control.siblings('label');
-    this.$control.parent().on('click', function (e) {
+    this.$label = this.$control.closest('fieldset').find('label[for=' + fieldId +']');
+    this.$control.closest('.optional-section').on('click', function (e) {
       if (e.target.className !== inst.$control[0].className) {
         return false;
       }
@@ -115,21 +122,41 @@ window.GOVUK = window.GOVUK || {};
       return false;
     });
   };
+  duplicateField.prototype.removeDuplicate = function (id) {
+    var $input = $('#' + id),
+        $label = $input.siblings('label[for=' + id + ']');
 
+    $input.next('a.duplicate-control').remove();
+    $label.next('a.remove-field').remove();
+    $input.remove();
+    $label.remove();
+  };
   duplicateField.prototype.duplicate = function () {
-    var newField = document.createDocumentFragment();
+    var inst = this,
+        newField = document.createDocumentFragment(),
+        country = this.$control.closest('.optional-section').find('input').length + 1,
+        newId = this.$field.attr('id') + '-' + country,
+        $newLabel = this.$label.clone().text('Country ' + country).attr('for', newId),
+        $newInput = this.$field.clone().attr('id', newId),
+        $newControl = this.$control.clone().attr('for', newId),
+        $removalControl = $('<a href="#" class="remove-field">Remove<span class="visuallyhidden"> Country' + country + '</span></a>');
 
-    newField.appendChild(this.$label.clone()[0]);
-    newField.appendChild(this.$field.clone()[0]);
-    newField.appendChild(this.$control.clone()[0]);
+    newField.appendChild($newLabel[0]);
+    newField.appendChild($removalControl[0]);
+    newField.appendChild($newInput[0]);
+    newField.appendChild($newControl[0]);
     this.$label[0].parentNode.appendChild(newField.cloneNode(true));
+    $('#' + newId).prev('a.remove-field').on('click', function (e) {
+      inst.removeDuplicate(newId);
+      return false;
+    });
   };
 
   markSelected = function (elm) {
     var inst = this;
 
     this.$label = $(elm);
-    this.$control = $('#' + this.$label.attr('for'));
+    this.$control = $(document.getElementById(this.$label.attr('for')));
     this.$label.on('click', function () {
       inst.toggle();
     });
@@ -230,7 +257,7 @@ window.GOVUK = window.GOVUK || {};
   postcodeLookup.prototype.getAddresses = function () {
     var inst = this,
         postcode = this.$searchInput.val(),
-        URL = '/assets/javascripts/sample_addresses.json';
+        URL = '/address/' + postcode;
 
     if (postcode === "") { 
       this.onEmpty();

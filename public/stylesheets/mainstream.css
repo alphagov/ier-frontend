@@ -163,7 +163,7 @@ header.page-header div h1 {
   background-repeat: no-repeat;
   color: #0b0c0c;
   font-weight: 600;
-  margin-left: 0;
+  margin: 0;
   min-height: 2.44em;
 }
 @media (max-width: 640px) {
@@ -180,7 +180,7 @@ header.page-header div h1 {
     padding-bottom: 13px;
   }
 }
-@media (min-width: 769px) {
+@media (min-width: 641px) {
   /* line 46, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/mainstream.scss */
   header.page-header div h1 {
     min-height: 0;
