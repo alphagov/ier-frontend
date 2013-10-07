@@ -25,7 +25,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
     Ok(html.start()).withNewSession
   }
 
-  def registerToVote = Action {
+  def registerToVote = ValidSession requiredFor Action {
     Redirect(controllers.routes.RegisterToVoteController.registerStep(firstStep()))
   }
 
@@ -41,26 +41,26 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
     )
   }
 
-  def registerStep(step:String) = Action { implicit request =>
+  def registerStep(step:String) = ValidSession requiredFor Action { implicit request =>
     Step(step) { stepDetail =>
       Ok(stepDetail.page(InProgressForm(request.session.getApplication)))
     }
   }
 
-  def validateStep(step:String) = Action(BodyParsers.parse.urlFormEncoded) { implicit request =>
+  def validateStep(step:String) = ValidSession requiredFor Action(BodyParsers.parse.urlFormEncoded) { implicit request =>
     Step(step) { stepDetail =>
       validateAndRedirect(stepDetail, routes.RegisterToVoteController.registerStep(stepDetail.next))
     }
   }
 
-  def edit(step:String) = Action {
+  def edit(step:String) = ValidSession requiredFor Action {
     implicit request =>
       Step(step) { stepDetail =>
         Ok(stepDetail.editPage(InProgressForm(request.session.getApplication)))
       }
   }
 
-  def validateEdit(step:String) = Action(BodyParsers.parse.urlFormEncoded) { implicit request =>
+  def validateEdit(step:String) = ValidSession requiredFor Action(BodyParsers.parse.urlFormEncoded) { implicit request =>
     Step(step) { stepDetail =>
       validateAndRedirect(stepDetail, routes.RegisterToVoteController.confirmApplication())
     }
@@ -84,13 +84,13 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
     Ok(html.complete()).withNewSession
   }
 
-  def confirmApplication = Action {
+  def confirmApplication = ValidSession requiredFor Action {
     implicit request => Step("confirmation") { stepDetail =>
       Ok(stepDetail.page(InProgressForm(stepDetail.validation.fillAndValidate(request.session.getApplication))))
     }
   }
 
-  def submitApplication = Action {
+  def submitApplication = ValidSession requiredFor Action {
     implicit request =>
       inprogressForm.fillAndValidate(request.session.getApplication).fold(
         errors => Ok(Step.getStep("confirmation").page(InProgressForm(errors))),

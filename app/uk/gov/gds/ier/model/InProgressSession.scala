@@ -1,11 +1,32 @@
 package uk.gov.gds.ier.model
 
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import play.api.mvc.Session
+import play.api.mvc._
 import uk.gov.gds.ier.validation.IerForms
+import controllers.routes
+import scala.Some
+
 
 trait InProgressSession extends IerForms {
-  self: WithSerialiser =>
+  self: WithSerialiser with Controller =>
+
+  object ValidSession {
+
+    def requiredFor[A](action: Action[A]) = apply(action)
+
+    def apply[A](action: Action[A]): Action[A] = apply(action.parser)(action)
+
+    def apply[A](bodyParser: BodyParser[A])(action: Action[A]): Action[A] = new Action[A] {
+      def parser = bodyParser
+
+      def apply(ctx: Request[A]) = {
+        ctx.session.getToken match {
+          case Some(token) => action(ctx)
+          case None => Redirect(routes.RegisterToVoteController.index())
+        }
+      }
+    }
+  }
 
   implicit class InprogressApplicationToSession(app:InprogressApplication) {
     private val sessionKey = "application"
@@ -15,9 +36,13 @@ trait InProgressSession extends IerForms {
   }
 
   implicit class InProgressSession(session:Session) {
-    private val sessionKey = "application"
+    private val sessionPayloadKey = "application"
+    private val sessionTokenKey = "sessionKey"
+    def getToken = {
+      session.get(sessionTokenKey)
+    }
     def getApplication = {
-      session.get(sessionKey) match {
+      session.get(sessionPayloadKey) match {
         case Some(app) => fromJson[InprogressApplication](app)
         case _ => InprogressApplication()
       }
