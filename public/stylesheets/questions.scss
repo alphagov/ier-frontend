@@ -207,28 +207,6 @@ fieldset {
   @include inline-block;
 }
 
-.search-wrap {
-  display: inline-block;
-  position: relative;
-  margin: 1em 0;
-
-  @include media(mobile) {
-    display: block;
-  }
-
-  .search {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 45px;
-    padding: 7px 17px;
-
-    @include media(mobile) {
-      height: 36px;
-    }
-  }
-}
-
 .toggle {
   @include core-19;
   display: block;
@@ -306,64 +284,4 @@ fieldset {
 	border-left: 4px solid #f47738;
 	color: #f47738;
 	font-weight: bold;
-}
-
-.main-footer {
-	height: 400px;
-	background: #dee0e2;
-	border-top: 10px solid #2b8cc4;
-}
-
-.template {
-	display: none;
-}
-
-.small-header {
-	max-width: 600px;
-	margin: 2em 0 3em 0;
-
-  .questions {
-    margin: 0.2em 1em;
-  }
-
-  .back {
-    @include inline-block;
-    text-decoration: none;
-  }
-
-  .questions i {
-    margin: 0 0.5em 0 0;
-  } 
-
-  .progress {
-    @include inline-block;
-    margin-left: 1em;
-    padding: 9px 0 0 0;
-    color: #666;
-  }
-
-  .progress span {
-    margin: 0 0 0 0.3em;
-  }
-}
-
-.start-again {
-	float: right;
-	margin: 0.5em 1em 1em 0;
-}
-
-.more-help-content {
-	display: none;
-	border-left: 4px solid #999;
-	padding-left: 15px;
-	max-width: 610px;
-}
-
-.more-help-wrap {
-	margin: 0 0 1em 0;
-}
-
-.more-help-link i {
-	display: inline-block;
-	width: 0.8em;
 }
