@@ -9,10 +9,10 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 
 @Singleton
 class StubApiClient @Inject() (config: Config, serialiser: JsonSerialiser) extends ApiClient(config) {
-  override def post(url:String, content:String): ApiResponse = {
+  override def post(url:String, content:String,headers: (String, String)*): ApiResponse = {
     if (url.contains("/citizen/application")) {
       println("Stubbing POST to " + url)
-      Success(serialiser.toJson(ApiApplicationResponse(UUID.randomUUID().toString, DateTime.now().toString, "success", "web")))
+      Success(serialiser.toJson(ApiApplicationResponse(UUID.randomUUID().toString, DateTime.now().toString, "success", "web", "fake-gsscode")))
     } else {
       super.get(url)
     }

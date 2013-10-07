@@ -3,10 +3,11 @@ package uk.gov.gds.ier.model
 import org.joda.time.{DateTime, LocalDate}
 import com.fasterxml.jackson.annotation.JsonFormat
 
-case class ApiApplicationResponse (ierId: String,
+case class ApiApplicationResponse (id: String,
                                    createdAt: String,
                                    status: String,
-                                   source: String)
+                                   source: String,
+                                   gssCode: String)
 
 case class Contact (contactType:String,
                     post: Option[String],
@@ -74,7 +75,8 @@ case class CompleteApplication ( fn:String, mn:String, ln:String,
                                  padr:String, ppost:String,
                                  oadr:String,
                                  opnreg:String,
-                                 post:String, phone:String, text:String, email:String)
+                                 post:String, phone:String, text:String, email:String,
+                                 gssCode:String)
 
 object CompleteApplication {
   def apply(inprogress:InprogressApplication):CompleteApplication = {
@@ -97,7 +99,8 @@ object CompleteApplication {
       post = inprogress.contact.map(_.post.getOrElse("")).getOrElse(""),
       phone = inprogress.contact.map(_.phone.getOrElse("")).getOrElse(""),
       text = inprogress.contact.map(_.textNum.getOrElse("")).getOrElse(""),
-      email = inprogress.contact.map(_.email.getOrElse("")).getOrElse("")
+      email = inprogress.contact.map(_.email.getOrElse("")).getOrElse(""),
+      gssCode = ""
     )
   }
 }
