@@ -92,11 +92,11 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
 
   def submitApplication = Action {
     implicit request =>
-      inprogressForm.bindFromRequest().fold(
+      inprogressForm.fillAndValidate(request.session.getApplication).fold(
         errors => Ok(Step.getStep("confirmation").page(InProgressForm(errors))),
         validApplication => {
-          //Post to Api
-          Redirect(controllers.routes.RegisterToVoteController.complete()).withNewSession
+          ierApi.submitApplication(validApplication)
+          Redirect(controllers.routes.RegisterToVoteController.complete())
         }
       )
   }

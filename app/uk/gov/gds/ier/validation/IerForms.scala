@@ -2,7 +2,7 @@ package uk.gov.gds.ier.validation
 
 import play.api.data.Form
 import play.api.data.Forms._
-import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.model.{CompleteApplication, InprogressApplication}
 
 trait IerForms extends FormKeys with FormMappings {
 
