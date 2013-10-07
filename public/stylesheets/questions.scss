@@ -54,7 +54,7 @@ label.selectable{
 
 label.binary {
   float: left;
-  width: 25%;
+  width: 27%;
 
   &:last-child {
     float: right;
@@ -84,6 +84,7 @@ textarea.small,
 input.medium,
 select.lonely,
 input.text,
+input.long,
 .twitter-typeahead {
   width: 100%;
 }
@@ -202,8 +203,8 @@ fieldset {
 }
 
 .validation-wrap,
-.validation-wrap.invalid {
-  display: block;
+.invalid {
+  @include inline-block;
 }
 
 .search-wrap {

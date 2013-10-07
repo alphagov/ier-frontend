@@ -7,7 +7,7 @@
           <p>The open register is an edited version of the electoral register that's available for sale to anyone (for example, companies or charities who want to send you information).</p>
           <p>Your decision does not affect your right to vote or your credit score.</p>
           <label for="openRegisterOptin" class="selectable">
-            <input type="checkbox" id="openRegisterOptin" name="openRegisterOptin" value="false" @checkedIf(application.openRegisterOptin == Some("false"))>Remove my details from the open register
+            <input type="checkbox" id="openRegisterOptin" name="openRegisterOptin" value="false" @checkedIf(formData(keys.openRegister.openRegisterOptin).value)>Remove my details from the open register
           </label>
         </fieldset>
         @validationMessage(formData(keys.openRegister))

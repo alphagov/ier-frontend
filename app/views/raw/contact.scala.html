@@ -13,7 +13,7 @@
           <label for="contact-phone" class="selectable">
             @helper.inputRadioGroup(formData(keys.contact.contactType), Seq("phone" -> "Phone Call"), 'class -> "radio", 'id -> "contact-phone")
           </label>
-          <div class="optional-section info-notice @classIf(application.contact.map(_.contactType) == Some("phone"), "visible")" data-condition="contact-phone">
+          <div class="optional-section info-notice @formData(keys.contact.contactType).value == Some("phone"), "visible")" data-condition="contact-phone">
             <label for="input-phone">Phone number</label>
             @validationWrap(formData(keys.contact)){
                 @helper.inputText(formData(keys.contact.phone), 'class -> "text", 'type -> "tel")
@@ -22,7 +22,7 @@
           <label for="contact-text" class="selectable">
             @helper.inputRadioGroup(formData(keys.contact.contactType), Seq("text" -> "Text Message"), 'class -> "radio", 'id -> "contact-text")
           </label>
-          <div class="optional-section info-notice @classIf(application.contact.map(_.contactType) == Some("text"), "visible")" data-condition="contact-text">
+          <div class="optional-section info-notice @formData(keys.contact.contactType).value == Some("text"), "visible")" data-condition="contact-text">
             <label for="input-text-number">Phone number</label>
             @validationWrap(formData(keys.contact)){
                 @helper.inputText(formData(keys.contact.textNum), 'class -> "text", 'type -> "tel")
@@ -31,7 +31,7 @@
           <label for="contact-email" class="selectable">
             @helper.inputRadioGroup(formData(keys.contact.contactType), Seq("email" -> "Email"), 'class -> "radio", 'id -> "contact-email")
           </label>
-          <div class="optional-section info-notice @classIf(application.contact.map(_.contactType) == Some("email"), "visible")" data-condition="contact-email">
+          <div class="optional-section info-notice @formData(keys.contact.contactType).value == Some("email"), "visible")" data-condition="contact-email">
             <label for="input-email">Email address</label>
             @validationWrap(formData(keys.contact)){
                 @helper.inputText(formData(keys.contact.email), 'class -> "text long", 'type -> "email")

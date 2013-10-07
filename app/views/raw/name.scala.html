@@ -11,7 +11,7 @@
           @helper.inputText(formData(keys.name.middleNames), 'class -> "text middle-names long")
           <label for="last-name">Last name</label>
           @helper.inputText(formData(keys.name.lastName), 'class -> "text last-name long")
-        </fieldset
+        </fieldset>
         @validationMessage(formData(keys.name))
         @validationMessage(formData(keys.name.firstName))
         @validationMessage(formData(keys.name.middleNames))

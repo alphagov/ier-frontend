@@ -12,7 +12,7 @@
               <input type="radio" id="input-name-change-no" name="@keys.previousName.hasPreviousName" value="false" class="radio" @checkedIf(formData(keys.previousName.hasPreviousName).value == Some("false"))><span>No</span>
           </label>
         </fieldset>
-        <fieldset class="optional-section @classIf(application.previousName == Some("true"), "visible")" data-condition="input-name-change-yes">
+        <fieldset class="optional-section @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "visible")" data-condition="input-name-change-yes">
           <h3>Previous name</h3>
           <label class="above" for="input-previous-first-name">First name</label>
           @validationWrap(formData(keys.previousName)) {
@@ -30,7 +30,7 @@
           @validationMessage(formData(keys.previousName.previousName.lastName))
           <input data-next="step-name" type="submit" class="button next" value="Continue" />
         </fieldset>
-        <fieldset class="optional-section @classIf(application.previousName == Some("false"), "visible")" data-condition="input-name-change-no">
+        <fieldset class="optional-section @classIf(formData(keys.previousName.hasPreviousName).value == Some("false"), "visible")" data-condition="input-name-change-no">
           @validationMessage(formData(keys.previousName))
           @validationMessage(formData(keys.previousName.previousName.firstName))
           @validationMessage(formData(keys.previousName.previousName.middleNames))

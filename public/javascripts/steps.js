@@ -71,7 +71,7 @@ window.GOVUK = window.GOVUK || {};
   };
   $.extend(conditionalControl.prototype, new toggleObj());
   conditionalControl.prototype.setup = function () {
-    this.$toggle = $('#' + this.$content.data('condition'));
+    this.$toggle = $(document.getElementById(this.$content.data('condition')));
   }; 
   conditionalControl.prototype.bindEvents = function () {
     var inst = this,
@@ -112,8 +112,8 @@ window.GOVUK = window.GOVUK || {};
 
     this.$control = $(control);
     fieldId = this.$control.data('field');
-    this.$field = $('#' + fieldId);
-    this.$label = this.$control.closest('fieldset').find('label[for=' + fieldId +']');
+    this.$field = $(document.getElementById(fieldId));
+    this.$label = this.$field.prev('label');
     this.$control.closest('.optional-section').on('click', function (e) {
       if (e.target.className !== inst.$control[0].className) {
         return false;
@@ -123,13 +123,7 @@ window.GOVUK = window.GOVUK || {};
     });
   };
   duplicateField.prototype.removeDuplicate = function (id) {
-    var $input = $('#' + id),
-        $label = $input.siblings('label[for=' + id + ']');
-
-    $input.next('a.duplicate-control').remove();
-    $label.next('a.remove-field').remove();
-    $input.remove();
-    $label.remove();
+    $(document.getElementById(id)).closest('.added-country').remove();
   };
   duplicateField.prototype.duplicate = function () {
     var inst = this,
@@ -139,14 +133,17 @@ window.GOVUK = window.GOVUK || {};
         $newLabel = this.$label.clone().text('Country ' + country).attr('for', newId),
         $newInput = this.$field.clone().attr('id', newId),
         $newControl = this.$control.clone().attr('for', newId),
-        $removalControl = $('<a href="#" class="remove-field">Remove<span class="visuallyhidden"> Country' + country + '</span></a>');
+        $removalControl = $('<a href="#" class="remove-field">Remove<span class="visuallyhidden"> Country' + country + '</span></a>'),
+        wrapperDiv = document.createElement('div');
 
+    wrapperDiv.className = 'added-country';
     newField.appendChild($newLabel[0]);
     newField.appendChild($removalControl[0]);
     newField.appendChild($newInput[0]);
     newField.appendChild($newControl[0]);
-    this.$label[0].parentNode.appendChild(newField.cloneNode(true));
-    $('#' + newId).prev('a.remove-field').on('click', function (e) {
+    wrapperDiv.appendChild(newField.cloneNode(true));
+    this.$label[0].parentNode.appendChild(wrapperDiv);
+    $(document.getElementById(newId)).prev('a.remove-field').on('click', function (e) {
       inst.removeDuplicate(newId);
       return false;
     });
@@ -156,7 +153,7 @@ window.GOVUK = window.GOVUK || {};
     var inst = this;
 
     this.$label = $(elm);
-    this.$control = $(document.getElementById(this.$label.attr('for')));
+    this.$control = this.$label.find('input');
     this.$label.on('click', function () {
       inst.toggle();
     });
@@ -212,19 +209,20 @@ window.GOVUK = window.GOVUK || {};
     this.$searchButton = $(searchButton);
     this.$searchInput = this.$searchButton.closest('fieldset').find('input.postcode');
     this.$waitMessage = $('<p id="wait-for-request">Finding address</p>');
-    this.fragment = [
-      '<label for="input-address-list">Select your address</label>' +
-      '<select id="input-address-list" name="address.address" class="lonely">' +
-        '<option value="">Please select...</option>',
-      '</select>' +
-      '<div class="help-content">' +
-        '<h2>My address is not listed</h2>' +
-        '<label id="input-address-text">Enter your address</label>' +
-        '<textarea id="input-address-text" name="address.address" class="small"></textarea>' +
-      '</div>' +
-      '<div class="validation-message"></div>' +
-      '<input data-next="step-name" type="submit" class="button next" value="Continue" />'
-    ];
+    this.fragment = {
+      'label' : '<label for="input-address-list">Select your address</label>',
+      'select' : [
+        '<select id="input-address-list" name="address.address" class="lonely">' +
+          '<option value="">Please select...</option>',
+        '</select>'
+      ],
+      'help' : '<div class="help-content">' +
+                  '<h2>My address is not listed</h2>' +
+                  '<label id="input-address-text">Enter your address</label>' +
+                  '<textarea id="input-address-text" name="address.address" class="small"></textarea>' +
+                '</div>',
+      'submit' : '<input data-next="step-name" type="submit" class="button next" value="Continue" />'
+    };
     this.bindEvents();
   };
   postcodeLookup.prototype.bindEvents = function () {
@@ -245,24 +243,34 @@ window.GOVUK = window.GOVUK || {};
 
   };
   postcodeLookup.prototype.addLookup = function (data) {
-    var resultStr = this.fragment[0];
+    var resultStr,
+        $existingAddresses = this.$searchButton.closest('fieldset').find('select');
 
-    $(data.addresses).each(function (idx, address) {
-     resultStr += '<option>' + address + '</option>'
+    if ($existingAddresses.length) {
+      resultStr = this.fragment.select[0];
+    } else {
+      resultStr = this.fragment.label + this.fragment.select[0];
+    }
+    $(data.addresses).each(function (idx, entry) {
+     resultStr += '<option>' + entry.addressLine + '</option>'
     });
-    resultStr += this.fragment[1];
-    $(resultStr).insertAfter(this.$searchButton);
-    new GOVUK.registerToVote.optionalInformation(this.$searchButton.closest('fieldset').find('.help-content')[0]);
+    if ($existingAddresses.length) {
+      resultStr += this.fragment.select[1];
+      $existingAddresses.replaceWith(resultStr);
+    } else {
+      resultStr += this.fragment.select[1] + this.fragment.help + this.fragment.submit;
+      $(resultStr).insertAfter(this.$searchButton);
+      new GOVUK.registerToVote.optionalInformation(this.$searchButton.closest('fieldset').find('.help-content')[0]);
+    }
   };
   postcodeLookup.prototype.getAddresses = function () {
     var inst = this,
         postcode = this.$searchInput.val(),
-        URL = '/address/' + postcode;
+        URL = '/address/' + postcode.replace(/\s/g,'');
 
     if (postcode === "") { 
       this.onEmpty();
     } else {
-      postcode = postcode.replace(/\s/g,'');
       this.$waitMessage.insertAfter(this.$searchButton);
       $.ajax({
         url : URL,
@@ -310,7 +318,7 @@ window.GOVUK = window.GOVUK || {};
     });
     $('.selectable').each(function (idx, elm) {
       var $label = $(elm),
-          $control = $label.find('input#' + $label.attr('for')),
+          $control = $label.find('input'),
           controlName = $control.attr('name');
 
       if ($control.attr('type') === 'radio') {

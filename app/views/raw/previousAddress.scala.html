@@ -5,19 +5,14 @@
 @layouts.questionHeader("Have you moved within the last 12 months?", "/register-to-vote/address", 7)
 
         <fieldset>
-          <label class="selectable binary" for="input-previous-address-yes">
-            <input type="radio" id="input-previous-address-yes" name="movedRecently" value="true" class="radio" @checkedIf(application.movedRecently == Some("true"))>Yes
-          </label>
-          <label class="selectable binary" for="input-previous-address-no">
-            <input type="radio" id="input-previous-address-no" name="movedRecently" value="false" class="radio" @checkedIf(application.movedRecently == Some("false"))>No
-          </label>
+          @helper.inputRadioGroup(formData(keys.previousAddress.movedRecently), Seq("true" -> "Yes", "false" -> "No"), 'class -> "radio binary", 'id -> "input-previous-address")
         </fieldset>
-        <fieldset class="optional-section @classIf(application.movedRecently == Some("true"), "visible")" data-condition="input-previous-address-yes">
+        <fieldset class="optional-section @classIf(formData(keys.previousAddress.movedRecently).value == Some("true"), "visible")" data-condition="input-previous-address-yes">
           <label for="previousAddress-postcode">Enter the postcode to find your previous address</label>
           @helper.inputText(formData(keys.previousAddress.previousAddress.postcode), 'class -> "postcode text long")
           <button id="find-previous-address" class="button search">Find address</button>
         </fieldset>
-        <fieldset class="optional-section @classIf(application.movedRecently == Some("false"), "visible")" data-condition="input-previous-address-no">
+        <fieldset class="optional-section @classIf(formData(keys.previousAddress.movedRecently).value == Some("false"), "visible")" data-condition="input-previous-address-no">
           @validationMessage(formData(keys.previousAddress))
           @validationMessage(formData(keys.previousAddress.previousAddress.address))
           @validationMessage(formData(keys.previousAddress.previousAddress.postcode))
