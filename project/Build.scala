@@ -16,9 +16,10 @@ object ApplicationBuild extends IERBuild {
     new ModuleID("org.codehaus.janino", "janino", "2.6.1")
   )
 
-  lazy val main = play.Project(appName, appVersion, appDependencies).settings(
-    GovukTemplatePlay.playSettings ++ GovukFrontendToolkit.playSettings:_*
-  )
+  lazy val main = play.Project(appName, appVersion, appDependencies)
+    .settings(GovukTemplatePlay.playSettings:_*)
+    .settings(GovukToolkit.playSettings:_*)
+    .settings(SassCompiler.playSettings:_*)
 
 }
 
@@ -40,28 +41,31 @@ object GovukTemplatePlay extends Plugin {
     "./scripts/update-template.sh".!
   }
 
-  def playSettings = {
-    Seq(
-      templateKey <<= baseDirectory(_ / "assets" / "govuk_template_play")(Seq(_)),
-      sourceGenerators in Compile <+= (state, templateKey, sourceManaged in Compile, templatesTypes, templatesImport) map ScalaTemplates,
-      playAssetsDirectories <+= baseDirectory { _ / "assets" / "govuk_template_play" / "assets" },
-      updateTemplateTask,
-      compile <<= (compile in Compile) dependsOn updateTemplate
-    )
-  }
+  val playSettings = Seq(
+    templateKey <<= baseDirectory(_ / "assets" / "govuk_template_play")(Seq(_)),
+    sourceGenerators in Compile <+= (state, templateKey, sourceManaged in Compile, templatesTypes, templatesImport) map ScalaTemplates,
+    playAssetsDirectories <+= baseDirectory { _ / "assets" / "govuk_template_play" / "assets" }
+  )
 }
 
-object GovukFrontendToolkit extends Plugin {
+object GovukToolkit extends Plugin {
+  lazy val toolkitKey = SettingKey[Seq[File]]("template-dir", "Directory for assets from the govuk_frontend_toolkit")
+
+  val playSettings = Seq(
+    playAssetsDirectories <+= baseDirectory { _ / "assets" / "govuk_frontend_toolkit" }
+  )
+}
+
+object SassCompiler extends Plugin {
   lazy val compileSass = TaskKey[Unit]("compile-sass", "Compiles our sass from assets/sass into css in public/stylesheets")
   lazy val compileSassTask = compileSass := {
     "./scripts/compile-sass.sh".!
   }
 
-  def playSettings = {
-    Seq(
-      compileSassTask,
-      compile <<= (compile in Compile) dependsOn compileSass,
-      playReload <<= playReload dependsOn compileSass
-    )
-  }
+  val playSettings = Seq(
+    compileSassTask,
+    compile <<= (compile in Compile) dependsOn compileSass,
+    playReload <<= playReload dependsOn compileSass
+  )
+
 }
