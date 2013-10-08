@@ -1,0 +1,2 @@
+@(field:Field)(content:Html) @import views.html.includes.validationMessage
+@if(field.hasErrors){ @validationMessage(field) }else{@content}

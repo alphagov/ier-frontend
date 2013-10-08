@@ -25,15 +25,17 @@ class ApiClient @Inject() (config: Config) {
     }
   }
 
-  def post(url:String, content:String) : ApiResponse = {
+  def post(url:String, content:String, headers: (String, String)*) : ApiResponse = {
     val result = Await.result(
       WS.url(url)
         .withHeaders("Content-Type" -> MimeTypes.JSON)
+        .withHeaders(headers:_*)
         .post(content),
       config.apiTimeout seconds
     )
     result.status match {
       case Status.OK => Success(result.body)
+      case Status.NO_CONTENT => Success("")
       case _ => Fail(result.body)
     }
   }

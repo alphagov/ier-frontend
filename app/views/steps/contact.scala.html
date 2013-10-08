@@ -1,10 +1,10 @@
-@(application: uk.gov.gds.ier.model.InprogressApplication)
+@(application: uk.gov.gds.ier.validation.InProgressForm)
 
 @import helper._
 @import layouts._
 
 @main(title = Some("Register to Vote - Tell us how to contact you"), stylesheets = head(), scripts = stepsBodyEnd()) {
-    @form(routes.RegisterToVoteController.next("contact")){
+    @form(routes.RegisterToVoteController.validateStep("contact")){
         @raw.contact(application)
     }
 }

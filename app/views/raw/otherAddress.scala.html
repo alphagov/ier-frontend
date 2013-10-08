@@ -1,18 +1,19 @@
-@(application:uk.gov.gds.ier.model.InprogressApplication)
+@(formData:uk.gov.gds.ier.validation.InProgressForm)
+@import uk.gov.gds.ier.form.FormHelpers._
 
 @layouts.stepIndicator(8)
 
 <div id="step-other-address" class="step">
     <h2><span class="question-number">8</span><span>Do you spend part of your time living at another UK address?</span></h2>
     <div class="question">
-        <label class="selectable binary">
-            <input type="radio" id="input-other-address-yes" name="hasOtherAddress" value="true" class="radio"><span>Yes</span>
+        <label class="selectable binary @classIf(formData(keys.otherAddress.hasOtherAddress).value == Some("true"), "selected")">
+            <input type="radio" id="input-other-address-yes" name="@keys.otherAddress.hasOtherAddress" value="true" class="radio" @checkedIf(formData(keys.otherAddress.hasOtherAddress).value == Some("true"))><span>Yes</span>
         </label>
-        <label class="selectable binary">
-            <input type="radio" id="input-other-address-no" name="hasOtherAddress" value="false" class="radio"><span>No</span>
+        <label class="selectable binary @classIf(formData(keys.otherAddress.hasOtherAddress).value == Some("false"), "selected")">
+            <input type="radio" id="input-other-address-no" name="@keys.otherAddress.hasOtherAddress" value="false" class="radio" @checkedIf(formData(keys.otherAddress.hasOtherAddress).value == Some("false"))><span>No</span>
         </label>
     </div>
-    <div class="validation-message"></div>
+    @validationMessage(formData(keys.otherAddress))
     <div class="next-question">
         <input data-next="step-name" type="submit" class="button next" value="Continue" />
     </div>

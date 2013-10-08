@@ -3,78 +3,24 @@ package uk.gov.gds.ier.model
 import org.joda.time.{DateTime, LocalDate}
 import com.fasterxml.jackson.annotation.JsonFormat
 
-case class WebApplication (firstName:String,
-                           middleName: String,
-                           lastName:String,
-                           previousLastName: String,
-                           nino: String,
-                           dob: LocalDate)
-
-case class ApiApplication (fn:String,
-                           mn: String,
-                           ln:String,
-                           pln:String,
-                           gssCode: String = "badGSS",
-                           nino: String,
-                           dob: LocalDate)
-
-
-case class ApiApplicationResponse (detail: ApiApplication,
-                                   ierId: String,
+case class ApiApplicationResponse (id: String,
                                    createdAt: String,
                                    status: String,
-                                   source: String)
+                                   source: String,
+                                   gssCode: String)
 
-object ApiApplication {
-  def apply(applicant:WebApplication): ApiApplication = {
-    ApiApplication(
-      fn = applicant.firstName,
-      pln= applicant.previousLastName,
-      ln= applicant.lastName,
-      mn = applicant.middleName,
-      nino = applicant.nino,
-      dob = applicant.dob
-    )
-  }
-}
-
-case class CompleteApplication (firstName: Option[String],
-                                middleName: Option[String],
-                                lastName: Option[String],
-                                previousLastName: Option[String],
-                                nino: Option[String],
-                                dob: Option[LocalDate],
-                                nationality: Option[String])
-
-case class ContactUnderlying (contactType: String,
-                              contactDetail: String)
-
-object Contact {
-  def apply (contactType:String,
-             post: Option[String],
-             phone: Option[String],
-             textNum: Option[String],
-             email: Option[String]) = {
-    (contactType, post, phone, textNum, email) match {
-      case ("phone", _, Some(p), _, _) => ContactUnderlying(contactType, p)
-      case ("text",  _, _, Some(t), _) => ContactUnderlying(contactType, t)
-      case ("email", _, _, _, Some(e)) => ContactUnderlying(contactType, e)
-      case ("post",  Some(p), _, _, _) => ContactUnderlying(contactType, p)
-    }
-  }
-  def unapply(contact:ContactUnderlying) : Option[(String, Option[String], Option[String], Option[String], Option[String])]= {
-    contact match {
-      case ContactUnderlying("phone", phone) => Some("phone", None, Some(phone), None, None)
-      case ContactUnderlying("text", text) => Some("text", None, None, Some(text), None)
-      case ContactUnderlying("email", email) => Some("email", None, None, None, Some(email))
-      case ContactUnderlying("post", post) => Some("post", Some(post), None, None, None)
-    }
-  }
-}
+case class Contact (contactType:String,
+                    post: Option[String],
+                    phone: Option[String],
+                    textNum: Option[String],
+                    email: Option[String])
 
 case class NameUnderlying(firstName:String,
                           middleNames:String,
                           lastName:String)
+
+case class PreviousName(hasPreviousName:Boolean,
+                        previousName:Option[NameUnderlying])
 
 object Name {
   def apply(firstName:String,
@@ -88,26 +34,73 @@ object Name {
 }
 
 case class Nationality (nationalities:List[String],
-                        hasOtherCountries:Option[String],
-                        otherCountries:List[String])
+                        otherCountries:List[String],
+                        noNationalityReason:Option[String])
 
-case class DateOfBirth(year:String,
-                       month:String,
-                       day:String)
+case class Nino(nino:Option[String],
+                noNinoReason:Option[String])
+
+case class DateOfBirth (year:String,
+                        month:String,
+                        day:String)
 
 case class InprogressApplication (name: Option[NameUnderlying] = None,
-                                  previousName: Option[NameUnderlying] = None,
+                                  previousName: Option[PreviousName] = None,
                                   dob: Option[DateOfBirth] = None,
                                   nationality: Option[Nationality] = None,
-                                  nino: Option[String] = None,
+                                  nino: Option[Nino] = None,
                                   address: Option[Address] = None,
-                                  movedRecently: Option[String] = None,
-                                  previousAddress: Option[Address] = None,
-                                  hasOtherAddress: Option[String] = None,
-                                  openRegisterOptin: Option[String] = None,
-                                  contact: Option[ContactUnderlying] = None,
-                                  noNationalityReason: Option[String] = None)
+                                  previousAddress: Option[PreviousAddress] = None,
+                                  otherAddress: Option[OtherAddress] = None,
+                                  openRegisterOptin: Option[Boolean] = None,
+                                  contact: Option[Contact] = None)
 
 case class Address(addressLine:String, postcode:String)
 
+case class PreviousAddress (movedRecently:Boolean,
+                            previousAddress:Option[Address])
+
+case class OtherAddress (hasOtherAddress:Boolean)
+
 case class PostcodeAnywhereResponse(Items:List[Map[String,String]])
+
+case class ApiApplication(application:CompleteApplication)
+
+case class CompleteApplication ( fn:String, mn:String, ln:String,
+                                 pfn:String, pmn:String, pln:String,
+                                 dob:String,
+                                 nat:String, nonat:String,
+                                 nino:String, nonino:String,
+                                 cadr:String, cpost:String,
+                                 padr:String, ppost:String,
+                                 oadr:String,
+                                 opnreg:String,
+                                 post:String, phone:String, text:String, email:String,
+                                 gssCode:String)
+
+object CompleteApplication {
+  def apply(inprogress:InprogressApplication):CompleteApplication = {
+    CompleteApplication(
+      fn = inprogress.name.map(_.firstName).getOrElse(""), mn = inprogress.name.map(_.middleNames).getOrElse(""), ln = inprogress.name.map(_.lastName).getOrElse(""),
+      pfn = inprogress.previousName.map(_.previousName.map(_.firstName).getOrElse("")).getOrElse(""),
+      pmn = inprogress.previousName.map(_.previousName.map(_.middleNames).getOrElse("")).getOrElse(""),
+      pln = inprogress.previousName.map(_.previousName.map(_.lastName).getOrElse("")).getOrElse(""),
+      dob = inprogress.dob.map(dob => dob.day + "/" + dob.month + "/" + dob.year).getOrElse(""),
+      nat = inprogress.nationality.map(n => (n.nationalities ++ n.otherCountries).mkString(", ")).getOrElse(""),
+      nonat = inprogress.nationality.map(_.noNationalityReason.getOrElse("")).getOrElse(""),
+      nino = inprogress.nino.map(_.nino.getOrElse("")).getOrElse(""),
+      nonino = inprogress.nino.map(_.noNinoReason.getOrElse("")).getOrElse(""),
+      cadr = inprogress.address.map(_.addressLine).getOrElse(""),
+      cpost = inprogress.address.map(_.postcode).getOrElse(""),
+      padr = inprogress.previousAddress.map(_.previousAddress.map(_.addressLine).getOrElse("")).getOrElse(""),
+      ppost = inprogress.previousAddress.map(_.previousAddress.map(_.postcode).getOrElse("")).getOrElse(""),
+      oadr = inprogress.otherAddress.map(_.hasOtherAddress.toString).getOrElse("false"),
+      opnreg = inprogress.openRegisterOptin.map(_.toString).getOrElse("false"),
+      post = inprogress.contact.map(_.post.getOrElse("")).getOrElse(""),
+      phone = inprogress.contact.map(_.phone.getOrElse("")).getOrElse(""),
+      text = inprogress.contact.map(_.textNum.getOrElse("")).getOrElse(""),
+      email = inprogress.contact.map(_.email.getOrElse("")).getOrElse(""),
+      gssCode = ""
+    )
+  }
+}

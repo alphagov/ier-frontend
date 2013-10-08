@@ -1,6 +1,6 @@
-@(application:uk.gov.gds.ier.model.InprogressApplication)
+@(formData: uk.gov.gds.ier.validation.InProgressForm)
 
-@import includes._
+@import uk.gov.gds.ier.form.FormHelpers._
 
 @layouts.stepIndicator(1)
 
@@ -12,14 +12,10 @@
         </div>
         <ul class="answers">
             <li class="answer">
-                <label class="selectable">
-                    <input type="checkbox" name="nationality.nationalities[0]" value="British" data-name="Nationality" data-value="British" class="checkbox" @checkedIf(application.nationality == Some("British"))><span>British</span>
-                </label>
+                @check(field = formData(keys.nationality.nationalities.item(0)), label = "British", id = "nationality-checkbox-british", value = "British")
             </li>
             <li class="answer">
-                <label class="selectable">
-                    <input type="checkbox" name="nationality.nationalities[1]" value="Irish" data-name="Nationality" data-value="Irish" class="checkbox" @checkedIf(application.nationality == Some("Irish"))><span>Irish</span>
-                </label>
+                @check(field = formData(keys.nationality.nationalities.item(1)), label = "Irish", id = "nationality-checkbox-british", value = "Irish")
             </li>
             <li class="answer">
                 <label class="selectable">
@@ -45,19 +41,19 @@
     </div>
     <div class="more-help-wrap">
         <div class="more-help-link"><span><i class="icon-caret-right"></i><a href="#">Help</a></span></div>
-        <div class="more-help-content"><p>Nationality usually refers to the country where you or your parents were born, or where you have officially become a citizen.</p>
+        <div class="more-help-content  @visibleIf(formData.hasNoNationalityReason)"><p>Nationality usually refers to the country where you or your parents were born, or where you have officially become a citizen.</p>
             <p>If possible, it&#39;s important that you find out your nationality - without it you will need to provide other documentation by post.</p>
 
             <p><a id="no-nationality-link" href="#">I can't provide my nationality</a></p>
-            <div id="optional-section-no-nationality" class="optional-section">
+            <div id="optional-section-no-nationality" class="optional-section @visibleIf(formData.hasNoNationalityReason)">
                 <div class="question">
                     <label class="above">Why can't you provide your nationality?</label>
-                    <textarea name="noNationalityReason" class="small"></textarea>
+                    <textarea name="nationality.noNationalityReason" class="small">@formData(keys.nationality.noNationalityReason).value.getOrElse("")</textarea>
                 </div>
             </div>
         </div>
     </div>
-    <div class="validation-message"></div>
+    @validationMessage(formData(keys.nationality))
     <div class="next-question">
         <input data-next="step-date-of-birth" type="submit" class="button next" value="Continue" />
     </div>

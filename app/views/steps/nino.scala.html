@@ -1,10 +1,10 @@
-@(application: uk.gov.gds.ier.model.InprogressApplication)
+@(formData: uk.gov.gds.ier.validation.InProgressForm)
 
 @import helper._
 @import layouts._
 
 @main(title = Some("Register to Vote - What is your National Insurance number?"), stylesheets = head(), scripts = stepsBodyEnd()) {
-    @form(routes.RegisterToVoteController.next("nino")) {
-        @raw.nino(application)
+    @form(routes.RegisterToVoteController.validateStep("nino")) {
+        @raw.nino(formData)
     }
 }
