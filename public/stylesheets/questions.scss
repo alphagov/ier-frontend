@@ -36,7 +36,7 @@ label.selectable{
   & input {
     position: absolute;
     left: 14px;
-    top: 12px;
+    top: 10px;
     margin-right: 10px;
   }
 
@@ -53,20 +53,18 @@ label.selectable{
 }
 
 label.binary {
-  float: left;
-  width: 27%;
+  @include inline-block;
+  margin-right: 10px;
+  width: 26%;
 
   &:last-child {
-    float: right;
+    margin-right: 0;
   }
 
-  @include media(tablet) {
-    &:last-child {
-      float: none;
-    }
+  @include media($min-width: 430px) {
+    float: none;
     width: auto;
     @include inline-block;
-
   }
 }
 
@@ -230,7 +228,6 @@ fieldset {
 
 .next,
 .search {
-  @include core-19;
   box-sizing: border-box;
   font-size: 19px;
   text-align: center;
@@ -238,25 +235,30 @@ fieldset {
   margin: (1 / 19 * 32) * 1em 0;
   width: 100%;
 
-  @include media(mobile) {
-    font-size: 19px;
-  }
-
   @include media(tablet) {
     width: auto;
   }
 }
 
 .next {
+  @include core-19;
   padding: 0.6em 0.8em 0.5em 0.8em;
+
+  @include media(mobile) {
+    font-size: 19px;
+  }
 }
 
 .search {
-  @include button($mainstream-brand);
   @include core-19;
+  @include button($mainstream-brand);
   display: block;
   padding: 0.6em 0.8em 0.5em 0.8em;
   margin-top: 0;
+
+  @include media(mobile) {
+    font-size: 19px;
+  }
 }
 
 #wait-for-request {

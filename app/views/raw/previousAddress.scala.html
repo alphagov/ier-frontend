@@ -5,16 +5,19 @@
 @layouts.questionHeader("Have you moved within the last 12 months?", "/register-to-vote/address", 7)
 
         <fieldset>
-          @helper.inputRadioGroup(formData(keys.previousAddress.movedRecently), Seq("true" -> "Yes", "false" -> "No"), 'class -> "radio binary", 'id -> "input-previous-address")
+          <label for="input-previous-address_true" class="selectable binary">
+            <input type="radio" id="input-previous-address_true" name="previousAddress.movedRecently" value="true" class="radio binary">Yes
+          </label>
+          <label for="input-previous-address_false" class="selectable binary">
+            <input type="radio" id="input-previous-address_false" name="previousAddress.movedRecently" value="false" class="radio binary">No
+          </label>
         </fieldset>
-        <fieldset class="optional-section @classIf(formData(keys.previousAddress.movedRecently).value == Some("true"), "visible")" data-condition="input-previous-address-yes">
+        <fieldset class="optional-section @classIf(formData(keys.previousAddress.movedRecently).value == Some("true"), "visible")" data-condition="input-previous-address_true">
           <label for="previousAddress-postcode">Enter the postcode to find your previous address</label>
           @helper.inputText(formData(keys.previousAddress.previousAddress.postcode), 'class -> "postcode text long")
           <button id="find-previous-address" class="button search">Find address</button>
         </fieldset>
-        <fieldset class="optional-section @classIf(formData(keys.previousAddress.movedRecently).value == Some("false"), "visible")" data-condition="input-previous-address-no">
-          @validationMessage(formData(keys.previousAddress))
-          @validationMessage(formData(keys.previousAddress.previousAddress.address))
-          @validationMessage(formData(keys.previousAddress.previousAddress.postcode))
-          <input data-next="step-name" type="submit" class="button next" value="Continue" />
-        </fieldset>
+        @validationMessage(formData(keys.previousAddress))
+        @validationMessage(formData(keys.previousAddress.previousAddress.address))
+        @validationMessage(formData(keys.previousAddress.previousAddress.postcode))
+        <input type="submit" class="button next" value="Continue" />

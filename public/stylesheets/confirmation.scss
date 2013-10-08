@@ -81,8 +81,9 @@
   .change {
     @include button($grey-3);
     position: absolute;
-    top: 1em;
+    top: 0;
     right: 0;
+    margin-top: 1em;
 
     @include media(tablet) {
       position: static;

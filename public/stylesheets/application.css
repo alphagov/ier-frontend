@@ -589,7 +589,7 @@ label.selectable {
 label.selectable input {
   position: absolute;
   left: 14px;
-  top: 12px;
+  top: 10px;
   margin-right: 10px;
 }
 @media (min-width: 641px) {
@@ -608,39 +608,38 @@ label.selectable input {
 
 /* line 55, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 label.binary {
-  float: left;
-  width: 27%;
+  display: -moz-inline-stack;
+  display: inline-block;
+  margin-right: 10px;
+  width: 26%;
 }
-/* line 59, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 60, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 label.binary:last-child {
-  float: right;
+  margin-right: 0;
 }
-@media (min-width: 641px) {
+@media (min-width: 430px) {
   /* line 55, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
   label.binary {
+    float: none;
     width: auto;
     display: -moz-inline-stack;
     display: inline-block;
   }
-  /* line 64, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
-  label.binary:last-child {
-    float: none;
-  }
 }
 
-/* line 73, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 71, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 label.selected {
   border: 1px solid #555555;
   background: #fff;
 }
 
-/* line 78, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 76, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 label.country-label {
   display: -moz-inline-stack;
   display: inline-block;
 }
 
-/* line 88, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 86, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 textarea,
 textarea.small,
 input.medium,
@@ -651,7 +650,7 @@ input.long,
   width: 100%;
 }
 
-/* line 92, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 90, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 input.text {
   text-transform: none;
   border: 1px solid #bbbbbb;
@@ -659,41 +658,41 @@ input.text {
   padding: 0.5em;
 }
 
-/* line 99, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 97, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 input.short {
   width: 80px;
 }
 
 @media (min-width: 641px) {
-  /* line 104, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+  /* line 102, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
   input.text {
     min-width: 8em;
   }
 
-  /* line 108, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+  /* line 106, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
   input.long {
     width: 320px;
   }
 
-  /* line 112, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+  /* line 110, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
   input.medium {
     width: 160px;
   }
 
-  /* line 116, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+  /* line 114, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
   textarea.small {
     width: 320px;
     height: 120px;
   }
 
-  /* line 122, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+  /* line 120, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
   textarea,
   select.lonely {
     width: auto;
   }
 }
 /* Styles specific to question pages */
-/* line 129, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 127, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 .back-to-previous {
   font-family: "nta", Arial, sans-serif;
   font-size: 16px;
@@ -710,28 +709,28 @@ input.short {
   text-align: right;
 }
 @media (max-width: 640px) {
-  /* line 129, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+  /* line 127, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
   .back-to-previous {
     font-size: 14px;
     line-height: 1.14286;
   }
 }
 @media (max-width: 640px) {
-  /* line 129, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+  /* line 127, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
   .back-to-previous {
     font-size: 16px;
   }
 }
-/* line 147, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 145, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 .back-to-previous, .back-to-previous:active, .back-to-previous:hover, .back-to-previous:focus {
   color: #0b0c0c;
 }
 
-/* line 152, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 150, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 main header {
   padding-bottom: 2em;
 }
-/* line 154, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 152, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 main header, main header p {
   font-family: "nta", Arial, sans-serif;
   font-size: 16px;
@@ -740,19 +739,19 @@ main header, main header p {
   text-transform: none;
 }
 @media (max-width: 640px) {
-  /* line 154, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+  /* line 152, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
   main header, main header p {
     font-size: 14px;
     line-height: 1.14286;
   }
 }
 @media (max-width: 640px) {
-  /* line 154, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+  /* line 152, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
   main header, main header p {
     font-size: 16px;
   }
 }
-/* line 164, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 162, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 main header p {
   text-align: right;
   padding-left: 4.5em;
@@ -760,53 +759,53 @@ main header p {
   color: #6f777b;
 }
 @media (min-width: 641px) {
-  /* line 164, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+  /* line 162, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
   main header p {
     text-align: left;
   }
 }
-/* line 175, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 173, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 main header.question-one p {
   padding-left: 0;
 }
-/* line 179, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 177, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 main header h1 {
   margin-top: 2em;
 }
 @media (min-width: 641px) {
-  /* line 179, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+  /* line 177, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
   main header h1 {
     margin-top: 1.2em;
   }
 }
 
-/* line 188, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 186, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 fieldset {
   margin-left: 0;
 }
 
-/* line 193, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 191, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 .duplicate-control {
   display: block;
 }
-/* line 196, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 194, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 p .duplicate-control {
   display: inline;
 }
 
-/* line 201, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 199, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 .remove-field {
   margin-left: 1em;
 }
 
-/* line 206, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 204, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 .validation-wrap,
 .invalid {
   display: -moz-inline-stack;
   display: inline-block;
 }
 
-/* line 210, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 208, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 .toggle {
   font-family: "nta", Arial, sans-serif;
   font-size: 19px;
@@ -817,39 +816,34 @@ p .duplicate-control {
   clear: both;
 }
 @media (max-width: 640px) {
-  /* line 210, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+  /* line 208, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
   .toggle {
     font-size: 16px;
     line-height: 1.25;
   }
 }
 
-/* line 216, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 214, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 .toggle-closed {
   background: url("/assets/images/icon-caret-right.png") left 0.3em no-repeat;
   padding-left: 0.75em;
 }
 
-/* line 221, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 219, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 .toggle-open {
   background: url("/assets/images/icon-caret-down.png") left 0.5em no-repeat;
   padding-left: 0.75em;
 }
 
-/* line 226, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 224, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 .info-notice {
   border-left: #bfc1c3 solid 4px;
   padding-left: 15px;
 }
 
-/* line 232, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 230, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 .next,
 .search {
-  font-family: "nta", Arial, sans-serif;
-  font-size: 19px;
-  line-height: 1.31579;
-  font-weight: 400;
-  text-transform: none;
   box-sizing: border-box;
   font-size: 19px;
   text-align: center;
@@ -857,36 +851,44 @@ p .duplicate-control {
   margin: 1.68421em 0;
   width: 100%;
 }
-@media (max-width: 640px) {
-  /* line 232, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
-  .next,
-  .search {
-    font-size: 16px;
-    line-height: 1.25;
-  }
-}
-@media (max-width: 640px) {
-  /* line 232, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
-  .next,
-  .search {
-    font-size: 19px;
-  }
-}
 @media (min-width: 641px) {
-  /* line 232, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+  /* line 230, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
   .next,
   .search {
     width: auto;
   }
 }
 
-/* line 250, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 243, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 .next {
+  font-family: "nta", Arial, sans-serif;
+  font-size: 19px;
+  line-height: 1.31579;
+  font-weight: 400;
+  text-transform: none;
   padding: 0.6em 0.8em 0.5em 0.8em;
 }
+@media (max-width: 640px) {
+  /* line 243, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+  .next {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+}
+@media (max-width: 640px) {
+  /* line 243, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+  .next {
+    font-size: 19px;
+  }
+}
 
-/* line 254, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 252, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 .search {
+  font-family: "nta", Arial, sans-serif;
+  font-size: 19px;
+  line-height: 1.31579;
+  font-weight: 400;
+  text-transform: none;
   background-color: #2b8cc4;
   position: relative;
   display: -moz-inline-stack;
@@ -906,14 +908,16 @@ p .duplicate-control {
   -webkit-font-smoothing: antialiased;
   cursor: pointer;
   color: white;
-  font-family: "nta", Arial, sans-serif;
-  font-size: 19px;
-  line-height: 1.31579;
-  font-weight: 400;
-  text-transform: none;
   display: block;
   padding: 0.6em 0.8em 0.5em 0.8em;
   margin-top: 0;
+}
+@media (max-width: 640px) {
+  /* line 252, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+  .search {
+    font-size: 16px;
+    line-height: 1.25;
+  }
 }
 /* line 51, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/../govuk_frontend_toolkit/stylesheets/design-patterns/_buttons.scss */
 .search:visited {
@@ -976,14 +980,13 @@ p .duplicate-control {
   margin-right: 0;
 }
 @media (max-width: 640px) {
-  /* line 254, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+  /* line 252, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
   .search {
-    font-size: 16px;
-    line-height: 1.25;
+    font-size: 19px;
   }
 }
 
-/* line 262, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 264, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 #wait-for-request {
   padding-right: 20px;
   background: url("/assets/images/spinner.gif") right center no-repeat;
@@ -991,7 +994,7 @@ p .duplicate-control {
   display: inline-block;
 }
 
-/* line 268, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
+/* line 270, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/questions.scss */
 .validation-message {
   padding: 0.5em;
   font-size: 19px;
@@ -1109,8 +1112,9 @@ p .duplicate-control {
   cursor: pointer;
   color: #0b0c0c;
   position: absolute;
-  top: 1em;
+  top: 0;
   right: 0;
+  margin-top: 1em;
 }
 /* line 51, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/../govuk_frontend_toolkit/stylesheets/design-patterns/_buttons.scss */
 .confirmation .change:visited {
@@ -1179,13 +1183,13 @@ p .duplicate-control {
     float: right;
   }
 }
-/* line 93, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/confirmation.scss */
+/* line 94, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/confirmation.scss */
 .confirmation .help-notice {
   color: #0b0c0c;
   padding-top: 1em;
   background-position: 0 1.25em;
 }
-/* line 99, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/confirmation.scss */
+/* line 100, /Users/tombyers/Documents/repos/govuk/ier-frontend/public/stylesheets/confirmation.scss */
 .confirmation .validation-message {
   border-top: none;
   padding-left: 0.5em;

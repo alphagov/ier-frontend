@@ -153,7 +153,7 @@ window.GOVUK = window.GOVUK || {};
     var inst = this;
 
     this.$label = $(elm);
-    this.$control = this.$label.find('input');
+    this.$control = this.$label.find('input[type=radio], input[type=checkbox]');
     this.$label.on('click', function () {
       inst.toggle();
     });
@@ -220,8 +220,7 @@ window.GOVUK = window.GOVUK || {};
                   '<h2>My address is not listed</h2>' +
                   '<label id="input-address-text">Enter your address</label>' +
                   '<textarea id="input-address-text" name="address.address" class="small"></textarea>' +
-                '</div>',
-      'submit' : '<input data-next="step-name" type="submit" class="button next" value="Continue" />'
+                '</div>'
     };
     this.bindEvents();
   };
@@ -258,7 +257,7 @@ window.GOVUK = window.GOVUK || {};
       resultStr += this.fragment.select[1];
       $existingAddresses.replaceWith(resultStr);
     } else {
-      resultStr += this.fragment.select[1] + this.fragment.help + this.fragment.submit;
+      resultStr += this.fragment.select[1] + this.fragment.help;
       $(resultStr).insertAfter(this.$searchButton);
       new GOVUK.registerToVote.optionalInformation(this.$searchButton.closest('fieldset').find('.help-content')[0]);
     }
@@ -318,12 +317,12 @@ window.GOVUK = window.GOVUK || {};
     });
     $('.selectable').each(function (idx, elm) {
       var $label = $(elm),
-          $control = $label.find('input'),
+          $control = $label.find('input[type=radio], input[type=checkbox]'),
           controlName = $control.attr('name');
 
       if ($control.attr('type') === 'radio') {
         // set up event monitoring for radios sharing that name
-        GOVUK.registerToVote.monitorRadios(elm);
+        GOVUK.registerToVote.monitorRadios($control[0]);
       }
       new GOVUK.registerToVote.markSelected(elm);
     });

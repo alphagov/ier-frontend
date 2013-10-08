@@ -28,12 +28,5 @@
           @validationMessage(formData(keys.previousName.previousName.firstName))
           @validationMessage(formData(keys.previousName.previousName.middleNames))
           @validationMessage(formData(keys.previousName.previousName.lastName))
-          <input data-next="step-name" type="submit" class="button next" value="Continue" />
         </fieldset>
-        <fieldset class="optional-section @classIf(formData(keys.previousName.hasPreviousName).value == Some("false"), "visible")" data-condition="input-name-change-no">
-          @validationMessage(formData(keys.previousName))
-          @validationMessage(formData(keys.previousName.previousName.firstName))
-          @validationMessage(formData(keys.previousName.previousName.middleNames))
-          @validationMessage(formData(keys.previousName.previousName.lastName))
-          <input data-next="step-name" type="submit" class="button next" value="Continue" />
-        </fieldset>
+        <input data-next="step-name" type="submit" class="button next" value="Continue" />
