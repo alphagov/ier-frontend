@@ -11,11 +11,17 @@ function removeSubmodule() {
   fi
 }
 
+function checkSubmodule() {
+  submoduleUrl=$1
+  submoduleName=$2
+  if [ -z "$(cat .gitmodules | grep "$submoduleUrl")" ]; then
+    removeSubmodule "$submoduleName"
+    git submodule add "$submoduleUrl"
+  fi
+}
 
-if [ -z "$(cat .gitmodules | grep "https://github.com/alphagov/govuk_template_play.git")" ]; then
-  removeSubmodule govuk_template_play
-  git submodule add https://github.com/alphagov/govuk_template_play.git  
-fi
+checkSubmodule "https://github.com/alphagov/govuk_template_play.git" "govuk_template_play"
+checkSubmodule "https://github.com/alphagov/govuk_frontend_toolkit.git" "govuk_frontend_toolkit"
 
 cd "$thisDir"
 echo "Updating govuk_template_play"
