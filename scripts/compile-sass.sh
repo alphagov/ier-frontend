@@ -1,10 +1,10 @@
 thisDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$thisDir/.."
 
-TOOLKIT=govuk_frontend_toolkit
+TOOLKIT=assets/govuk_frontend_toolkit
 SASS=assets/sass
 CSS=public/stylesheets
-SHEETS=$(ls $SASS | grep -i "scss")
+SHEETS=( $(ls $SASS | grep -i "scss") )
 WORKED=1
 
 for FILE in "${SHEETS[@]}"

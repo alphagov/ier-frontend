@@ -16,7 +16,7 @@ function checkSubmoduleExists() {
   submoduleName=$2
   if [ -z "$(cat .gitmodules | grep "$submoduleUrl")" ]; then
     removeSubmodule "$submoduleName"
-    git submodule add "$submoduleUrl"
+    git submodule add "$submoduleUrl" assets/$submoduleName
   fi
 }
 
