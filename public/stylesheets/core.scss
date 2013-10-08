@@ -57,6 +57,10 @@ textarea {
 	padding: 10px;
 }
 
+main .visible { // assumes default state is block
+  display: block
+}
+
 .button {
   @include button;
 }
@@ -86,6 +90,11 @@ textarea {
 	margin: 0 0.5em 0 0;
 	padding-right: 1em;
 	padding-left: 0;
+
+  @include device-pixel-ratio() {
+    background-image: image-url("/assets/images/separator-2x.png");
+    background-size: 6px 11px;
+  }
 }
 
 .breadcrumbs li:last-child {
