@@ -1,3 +1,6 @@
-[submodule "govuk_template_play"]
-	path = govuk_template_play
+[submodule "app/assets/govuk_template_play"]
+	path = app/assets/govuk_template_play
 	url = https://github.com/alphagov/govuk_template_play.git
+[submodule "app/assets/govuk_frontend_toolkit"]
+	path = app/assets/govuk_frontend_toolkit
+	url = https://github.com/alphagov/govuk_frontend_toolkit.git

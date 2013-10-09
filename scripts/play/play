@@ -1,0 +1,18 @@
+#!/bin/bash
+
+thisDir="$( dirname "$0" )"
+cd `pwd`
+
+playVersion=$(<$thisDir/playVersion)
+
+installPlay="$thisDir/setup-play.sh"
+play="$thisDir/../bin/play-$playVersion/play"
+
+if [ ! -f "$play" ]; then 
+  echo "Play not found. Installing play"
+  echo `$installPlay` 
+fi
+
+SBT_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9999"
+
+$play $@

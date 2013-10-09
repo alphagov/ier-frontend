@@ -1,0 +1,6 @@
+@import "govuk_frontend_toolkit/stylesheets/css3";
+
+.bar {
+  @include box-shadow(1);
+  width: 100px;
+}
