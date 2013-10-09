@@ -1,16 +1,3 @@
 #!/bin/bash
 
-thisDir="$( dirname "$0" )"
-cd $thisDir
-
-installPlay="scripts/play/setup-play.sh"
-play="scripts/bin/play-2.1.2/play"
-
-if [ ! -f "$play" ]; then 
-  echo "Play not found. Installing play"
-  echo `$installPlay` 
-fi
-
-SBT_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9999"
-
-$play $@
+./scripts/play/play
