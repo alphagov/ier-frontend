@@ -16,12 +16,12 @@ function checkSubmoduleExists() {
   submoduleName=$2
   if [ -z "$(cat .gitmodules | grep "$submoduleUrl")" ]; then
     removeSubmodule "$submoduleName"
-    git submodule add "$submoduleUrl" assets/$submoduleName
+    git submodule add "$submoduleUrl" $submoduleName
   fi
 }
 
-checkSubmoduleExists "https://github.com/alphagov/govuk_template_play.git" "govuk_template_play"
-checkSubmoduleExists "https://github.com/alphagov/govuk_frontend_toolkit.git" "govuk_frontend_toolkit"
+checkSubmoduleExists "https://github.com/alphagov/govuk_template_play.git" "app/assets/govuk_template_play"
+checkSubmoduleExists "https://github.com/alphagov/govuk_frontend_toolkit.git" "app/assets/govuk_frontend_toolkit"
 
 echo "Updating govuk_template_play"
 git submodule init
