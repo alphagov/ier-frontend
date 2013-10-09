@@ -6,6 +6,7 @@ import uk.gov.gds.ier.validation.IerForms
 import controllers.routes
 import scala.Some
 import org.joda.time.DateTime
+import scala.concurrent.Future
 
 
 trait InProgressSession extends IerForms {
@@ -33,15 +34,15 @@ trait InProgressSession extends IerForms {
         ctx.session.getToken match {
           case Some(token) => isValidToken(token) match {
             case true => action(ctx)
-            case false => Redirect(routes.RegisterToVoteController.index())
+            case false => Future.successful(Redirect(routes.RegisterToVoteController.index()))
           }
-          case None => Redirect(routes.RegisterToVoteController.index())
+          case None => Future.successful(Redirect(routes.RegisterToVoteController.index()))
         }
       }
     }
   }
 
-  implicit class SimpleResultToSession(result:PlainResult) {
+  implicit class SimpleResultToSession(result:SimpleResult) {
     def mergeWithSession(application: InprogressApplication)(implicit request: play.api.mvc.Request[_]) = {
       result.withSession(request.session.merge(application))
     }
