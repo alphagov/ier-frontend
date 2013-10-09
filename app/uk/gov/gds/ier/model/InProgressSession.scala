@@ -1,11 +1,51 @@
 package uk.gov.gds.ier.model
 
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import play.api.mvc.Session
+import play.api.mvc._
 import uk.gov.gds.ier.validation.IerForms
+import controllers.routes
+import scala.Some
+import org.joda.time.DateTime
+
 
 trait InProgressSession extends IerForms {
-  self: WithSerialiser =>
+  self: WithSerialiser with Controller =>
+
+  object ValidSession {
+
+    private def isValidToken(token:String) = {
+      try {
+        val dt = DateTime.parse(token)
+        dt.isAfter(DateTime.now.minusMinutes(30))
+      } catch {
+        case e:IllegalArgumentException => false
+      }
+    }
+
+    def requiredFor[A](action: Action[A]) = apply(action)
+
+    def apply[A](action: Action[A]): Action[A] = apply(action.parser)(action)
+
+    def apply[A](bodyParser: BodyParser[A])(action: Action[A]): Action[A] = new Action[A] {
+      def parser = bodyParser
+
+      def apply(ctx: Request[A]) = {
+        ctx.session.getToken match {
+          case Some(token) => isValidToken(token) match {
+            case true => action(ctx)
+            case false => Redirect(routes.RegisterToVoteController.index())
+          }
+          case None => Redirect(routes.RegisterToVoteController.index())
+        }
+      }
+    }
+  }
+
+  implicit class SimpleResultToSession(result:PlainResult) {
+    def mergeWithSession(application: InprogressApplication)(implicit request: play.api.mvc.Request[_]) = {
+      result.withSession(request.session.merge(application))
+    }
+  }
 
   implicit class InprogressApplicationToSession(app:InprogressApplication) {
     private val sessionKey = "application"
@@ -15,16 +55,23 @@ trait InProgressSession extends IerForms {
   }
 
   implicit class InProgressSession(session:Session) {
-    private val sessionKey = "application"
+    private val sessionPayloadKey = "application"
+    private val sessionTokenKey = "sessionKey"
+    def createToken = {
+      session + (sessionTokenKey -> DateTime.now.toString)
+    }
+    def getToken = {
+      session.get(sessionTokenKey)
+    }
     def getApplication = {
-      session.get(sessionKey) match {
+      session.get(sessionPayloadKey) match {
         case Some(app) => fromJson[InprogressApplication](app)
         case _ => InprogressApplication()
       }
     }
-    def merge(application: InprogressApplication):InprogressApplication= {
+    def merge(application: InprogressApplication):Session = {
       val stored = getApplication
-      stored.copy(
+      session + sessionPayloadKey -> stored.copy(
         name = application.name.orElse(stored.name),
         previousName = application.previousName.orElse(stored.previousName),
         dob = application.dob.orElse(stored.dob),
@@ -35,7 +82,8 @@ trait InProgressSession extends IerForms {
         otherAddress = application.otherAddress.orElse(stored.otherAddress),
         openRegisterOptin = application.openRegisterOptin.orElse(stored.openRegisterOptin),
         contact = application.contact.orElse(stored.contact)
-      )
+      ).toSession
+      session
     }
   }
 }
