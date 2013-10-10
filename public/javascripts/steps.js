@@ -232,6 +232,9 @@ window.GOVUK = window.GOVUK || {};
                 '</div>'
     };
     this.bindEvents();
+    if (this.$searchButton.closest('.optional-section').length === 0) {
+      $('#continue').hide();
+    }
   };
   postcodeLookup.prototype.bindEvents = function () {
     var inst = this;
