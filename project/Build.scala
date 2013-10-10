@@ -23,8 +23,7 @@ object ApplicationBuild extends IERBuild {
     .settings(GovukToolkit.playSettings:_*)
     .settings(SassPlugin.sassSettings:_*)
     .settings(
-      dependencyOverrides ++= Set("xml-apis" % "xml-apis" % "1.4.01",
-      "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.2.3")
+      dependencyOverrides += "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.2.3"
     )
 }
 

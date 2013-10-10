@@ -3,14 +3,14 @@ package uk.gov.gds.ier.controller
 import play.api.mvc._
 import uk.gov.gds.ier.model.{InProgressSession, Steps}
 import com.google.inject.Inject
-import uk.gov.gds.ier.service.IerApiService
+import uk.gov.gds.ier.service.{PlacesService, IerApiService}
 import views._
 import controllers._
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation.{InProgressForm, IerForms}
 import scala.Some
 
-class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: JsonSerialiser)
+class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: JsonSerialiser, placesService:PlacesService)
     extends Controller
     with IerForms
     with WithSerialiser
@@ -22,7 +22,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
   def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson[T](json)
 
   def index = Action { implicit request =>
-    Ok(html.start()).withNewSession.withSession(session.createToken)
+    Ok(html.start()).withFreshSession()
   }
 
   def registerToVote = ValidSession requiredFor Action {
@@ -75,7 +75,14 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
   }
 
   def complete = Action {
-    Ok(html.complete()).withNewSession
+    implicit request =>
+      request.session.getApplication.address.map(_.postcode) match {
+        case Some(p) => {
+          val authority = placesService.lookupAuthority(p)
+          Ok(html.complete(authority)).withNewSession
+        }
+        case None => Ok(html.complete()).withNewSession
+      }
   }
 
   def confirmApplication = ValidSession requiredFor Action {
@@ -87,7 +94,9 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
   def submitApplication = ValidSession requiredFor Action {
     implicit request =>
       inprogressForm.fillAndValidate(request.session.getApplication).fold(
-        errors => Ok(Step.getStep("confirmation").page(InProgressForm(errors))),
+        errors => {
+          Ok(Step.getStep("confirmation").page(InProgressForm(errors)))
+        },
         validApplication => {
           ierApi.submitApplication(validApplication)
           Redirect(controllers.routes.RegisterToVoteController.complete())

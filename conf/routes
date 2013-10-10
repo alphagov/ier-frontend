@@ -18,7 +18,8 @@ POST        /register-to-vote/edit/:step          controllers.RegisterToVoteCont
 
 
 #Postcode Lookup
-GET         /address/:postcode                    controllers.PostcodeController.lookup(postcode)
+GET         /address/:postcode                    controllers.PostcodeController.lookupAddress(postcode)
+GET         /authority/:postcode                  controllers.PostcodeController.lookupAuthority(postcode)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/template/*file                controllers.Template.at(path="/app/assets/govuk_template_play/assets", file)
