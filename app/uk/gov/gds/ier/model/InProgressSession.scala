@@ -42,25 +42,27 @@ trait InProgressSession extends IerForms {
     }
   }
 
-  implicit class SimpleResultToSession(result:SimpleResult) {
+  trait SessionKeys {
+    val sessionPayloadKey = "application"
+    val sessionTokenKey = "sessionKey"
+  }
+
+  implicit class SimpleResultToSession(result:SimpleResult) extends SessionKeys {
     def mergeWithSession(application: InprogressApplication)(implicit request: play.api.mvc.Request[_]) = {
       result.withSession(request.session.merge(application))
     }
+    def withFreshSession() = {
+      result.withSession(Session(Map(sessionTokenKey -> DateTime.now.toString())))
+    }
   }
 
-  implicit class InprogressApplicationToSession(app:InprogressApplication) {
-    private val sessionKey = "application"
+  implicit class InprogressApplicationToSession(app:InprogressApplication) extends SessionKeys {
     def toSession:(String, String) = {
-      sessionKey -> toJson(app)
+      sessionPayloadKey -> toJson(app)
     }
   }
 
-  implicit class InProgressSession(session:Session) {
-    private val sessionPayloadKey = "application"
-    private val sessionTokenKey = "sessionKey"
-    def createToken = {
-      session + (sessionTokenKey -> DateTime.now.toString)
-    }
+  implicit class InProgressSession(session:Session) extends SessionKeys {
     def getToken = {
       session.get(sessionTokenKey)
     }

@@ -22,7 +22,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
   def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson[T](json)
 
   def index = Action { implicit request =>
-    Ok(html.start()).withNewSession.withSession(session.createToken)
+    Ok(html.start()).withFreshSession()
   }
 
   def registerToVote = ValidSession requiredFor Action {

@@ -12,7 +12,7 @@ object ApplicationBuild extends IERBuild {
 
   val appDependencies = Seq(
     "uk.gov.gds" %% "govuk-guice-utils" % "0.2-SNAPSHOT",
-    "uk.gov.gds" %% "gds-scala-utils" % "0.7.6-SNAPSHOT",
+    "uk.gov.gds" %% "gds-scala-utils" % "0.7.5-SNAPSHOT",
     "joda-time" % "joda-time" % "2.1",
     anorm,
     new ModuleID("org.codehaus.janino", "janino", "2.6.1")
