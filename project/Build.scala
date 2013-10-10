@@ -12,7 +12,7 @@ object ApplicationBuild extends IERBuild {
 
   val appDependencies = Seq(
     "uk.gov.gds" %% "govuk-guice-utils" % "0.2-SNAPSHOT",
-    "uk.gov.gds" %% "gds-scala-utils" % "0.7.5-SNAPSHOT",
+    "uk.gov.gds" %% "gds-scala-utils" % "0.7.6-SNAPSHOT",
     "joda-time" % "joda-time" % "2.1",
     anorm,
     new ModuleID("org.codehaus.janino", "janino", "2.6.1")
@@ -22,10 +22,6 @@ object ApplicationBuild extends IERBuild {
     .settings(GovukTemplatePlay.playSettings:_*)
     .settings(GovukToolkit.playSettings:_*)
     .settings(SassPlugin.sassSettings:_*)
-    .settings(
-      dependencyOverrides ++= Set("xml-apis" % "xml-apis" % "1.4.01",
-      "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.2.3")
-    )
 }
 
 abstract class IERBuild extends Build {
