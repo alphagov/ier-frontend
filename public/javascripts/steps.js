@@ -93,15 +93,24 @@ window.GOVUK = window.GOVUK || {};
     }
   };
   conditionalControl.prototype.toggle = function (selectedRadio) {
+    var $postcodeSearch = this.$content.find('.postcode'),
+        isPostcodeLookup = $postcodeSearch.length > 0,
+        hasAddresses = $postcodeSearch.closest('fieldset').find('select').length > 0;
+
     if (selectedRadio !== undefined) {
       if (this.$toggle.attr('id') !== selectedRadio.id) {
         this.$content.hide();
+        $('#continue').show();
       }
     } else {
       if (this.$toggle.is(":checked")) {
         this.$content.show();
+        if (isPostcodeLookup && !hasAddresses) {
+          $('#continue').hide();
+        }
       } else {
         this.$content.hide();
+        $('#continue').show();
       }
     }
   };
@@ -261,6 +270,7 @@ window.GOVUK = window.GOVUK || {};
       $(resultStr).insertAfter(this.$searchButton);
       new GOVUK.registerToVote.optionalInformation(this.$searchButton.closest('fieldset').find('.help-content')[0]);
     }
+    $('#continue').show();
   };
   postcodeLookup.prototype.getAddresses = function () {
     var inst = this,
