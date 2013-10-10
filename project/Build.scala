@@ -23,7 +23,7 @@ object ApplicationBuild extends IERBuild {
     .settings(GovukTemplatePlay.playSettings:_*)
     .settings(GovukToolkit.playSettings:_*)
     .settings(SassPlugin.sassSettings:_*)
-    .settings(sassOptions := Seq("--load-path", "app/assets/govuk_template_play/stylesheets"))
+    .settings(sassOptions := Seq("--load-path", "/Users/michael/Projects/gds/ier/frontend/app/assets/govuk_template_play/stylesheets", "--debug-info"))
     .settings(
       dependencyOverrides += "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.2.3"
     )
