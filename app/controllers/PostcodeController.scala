@@ -5,5 +5,6 @@ import uk.gov.gds.ier.controller.{PostcodeController => GuicedController}
 
 object PostcodeController extends DelegatingController[GuicedController]{
 
-  def lookup(postcode:String) = delegate.lookup(postcode)
+  def lookupAddress(postcode:String) = delegate.lookupAddress(postcode)
+  def lookupAuthority(postcode:String) = delegate.lookupAuthority(postcode)
 }

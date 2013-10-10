@@ -14,6 +14,11 @@ trait IerForms extends FormKeys with FormMappings {
       postcode -> nonEmptyText.verifying(_.matches(postcodeRegex))
     )
   )
+  val completePostcodeForm = Form(
+    single(
+      address.address.postcode -> nonEmptyText
+    )
+  )
 
   val nationalityForm = Form(
     mapping(nationality -> nationalityMapping)

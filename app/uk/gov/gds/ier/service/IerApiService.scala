@@ -14,7 +14,7 @@ class IerApiService @Inject() (apiClient: ApiClient, serialiser: JsonSerialiser,
 
   def submitApplication(applicant: InprogressApplication) {
     val completeApplication = CompleteApplication(applicant)
-    val gss = eroService.lookupGSS(completeApplication.cpost)
+    val gss = completeApplication.cpost.map(postcode => eroService.lookupGSS(postcode))
 
     val apiApplicant = ApiApplication(completeApplication.copy(gssCode = gss))
 
