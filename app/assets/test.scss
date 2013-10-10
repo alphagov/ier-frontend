@@ -1,6 +1,6 @@
-@import "govuk_frontend_toolkit/stylesheets/css3";
+@import "govuk_frontend_toolkit/stylesheets/shims";
 
 .bar {
-  @include box-shadow(1);
+  @include inline-block();
   width: 100px;
 }

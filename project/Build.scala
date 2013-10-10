@@ -3,6 +3,7 @@ import sbt._
 import sbt.Keys._
 import play.Project._
 import net.litola.SassPlugin
+import net.litola.SassPlugin._
 import net.litola.SassCompiler
 
 object ApplicationBuild extends IERBuild {
@@ -22,6 +23,7 @@ object ApplicationBuild extends IERBuild {
     .settings(GovukTemplatePlay.playSettings:_*)
     .settings(GovukToolkit.playSettings:_*)
     .settings(SassPlugin.sassSettings:_*)
+    .settings(sassOptions := Seq("--load-path", "app/assets/govuk_template_play/stylesheets"))
     .settings(
       dependencyOverrides += "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.2.3"
     )
