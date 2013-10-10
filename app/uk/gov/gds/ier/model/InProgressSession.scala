@@ -72,7 +72,7 @@ trait InProgressSession extends IerForms {
     }
     def merge(application: InprogressApplication):Session = {
       val stored = getApplication
-      session + sessionPayloadKey -> stored.copy(
+      session + stored.copy(
         name = application.name.orElse(stored.name),
         previousName = application.previousName.orElse(stored.previousName),
         dob = application.dob.orElse(stored.dob),
@@ -84,7 +84,6 @@ trait InProgressSession extends IerForms {
         openRegisterOptin = application.openRegisterOptin.orElse(stored.openRegisterOptin),
         contact = application.contact.orElse(stored.contact)
       ).toSession
-      session
     }
   }
 }
