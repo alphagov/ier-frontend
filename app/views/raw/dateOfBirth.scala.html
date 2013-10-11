@@ -4,70 +4,45 @@
 @import uk.gov.gds.ier.validation.DateOfBirthConstants
 @import uk.gov.gds.ier.form.FormHelpers._
 
-    @layouts.stepIndicator(2)
+@layouts.questionHeader("What is your date of birth?", "/register-to-vote/nationality", 2)
 
-<div id="step-date-of-birth" class="step">
-    <div class="question">
-        <h2><span class="question-number">2</span><span>What is your date of birth?</span></h2>
-        <ul class="answers">
-            <li class="answer">
-                @helper.select(
-                    formData(keys.dob.day),
-                    DateOfBirthConstants.days,
-                    '_default -> "Day", 'class -> "day"
-                )
-                @helper.select(
-                    formData(keys.dob.month),
-                    DateOfBirthConstants.months,
-                    '_default -> "Month", 'class -> "month"
-                )
-                @helper.select(
-                    formData(keys.dob.year),
-                    DateOfBirthConstants.years,
-                    '_default -> "Year", 'class -> "year"
-                )
-            </li>
-        </ul>
-    </div>
-    <div class="more-help-wrap">
-        <div class="more-help-link"><span><i class="icon-caret-right"></i><a href="#">Help</a></span></div>
-        <div class="more-help-content"><p>If you don&#39;t know your exact date of birth, please use the one you put on other official documents, for example your passport or driver&#39;s licence.</p>
-            <p>If possible, it&#39;s important that you find out your date of birth - without it you will need to provide other documentation by post.</p>
-
-            <p><a id="no-dob-link" href="#">I can't provide my date of birth</a></p>
-            <div id="optional-section-no-dob" class="optional-section">
-                <div class="question">
-                    <label class="above">Why can't you provide your date of birth?</label>
-                    <textarea name="noDOBReason" class="small"></textarea>
-                </div>
-                <div class="question">
-                    <label class="above">How old are you?</label>
-                    <div class="answer">
-                        <label class="selectable">
-                            <input type="radio" name="DOBStatement" value="under18" class="radio"><span>Under 18 years old</span>
-                        </label>
-                    </div>
-                    <div class="answer">
-                        <label class="selectable">
-                            <input type="radio" name="DOBStatement" value="18to70" class="radio"><span>Between 18 and 70 years old</span>
-                        </label>
-                    </div>
-                    <div class="answer">
-                        <label class="selectable">
-                            <input type="radio" name="DOBStatement" value="over70" class="radio"><span>Over 70 years old</span>
-                        </label>
-                    </div>
-                    <div class="answer">
-                        <label class="selectable">
-                            <input type="radio" name="DOBStatement" value="dontKnow" class="radio"><span>I don't know</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
+        <fieldset>
+          <label for="input-dob-day" class="visuallyhidden">Day you were born</label>
+          @helper.select(
+              formData(keys.dob.day),
+              DateOfBirthConstants.days,
+              '_default -> "Day", 'class -> "day"
+          )
+          @helper.select(
+              formData(keys.dob.month),
+              DateOfBirthConstants.months,
+              '_default -> "Month", 'class -> "month"
+          )
+          <label for="input-dob-year" class="visuallyhidden">Year you were born</label>
+          <input id="input-dob-year" name="dob.year" type="text" class="year text small" placeholder="Year" />
+        </fieldset>
+        <div class="help-content">
+          <h3>Help</h3>
+          <p>If you don’t know your exact date of birth, use the one you put on official documents (for example, your passport or driving licence.</p>
+          <p>If you can’t provide your date of birth you’ll have to send copies of identity documents through the post.</p>
+          <fieldset class="optional-section">
+            <h3>I can't provide my date of birth</h3>
+            <label id="noDOBReason">Why can't you provide your date of birth?</label>
+            <textarea id="noDOBReason" name="noDOBReason" class="small"></textarea>
+            <p>How old are you?</p>
+            <label class="selectable" for="DOBunder18">
+              <input type="radio" id="DOBunder18" name="DOBStatement" value="under18" class="radio"><span class="visuallyhidden">I am</span>Under 18 years old
+            </label>
+            <label class="selectable" for="DOB18to70">
+              <input type="radio" id="DOB18to70" name="DOBStatement" value="18to70" class="radio"><span class="visuallyhidden">I am</span>Between 18 and 70 years old
+            </label>
+            <label class="selectable" for="DOBover70">
+              <input type="radio" id="DOBover70" name="DOBStatement" value="over70" class="radio"><span class="visuallyhidden">I am</span>Over 70 years old
+            </label>
+            <label class="selectable" for="DOBdontknow">
+              <input type="radio" id="DOBdontknow" name="DOBStatement" value="dontKnow" class="radio">I don't know<span class="visuallyhidden"> how old I am</span>
+            </label>
+          </fieldset>
         </div>
-    </div>
-    <div class="validation-message"></div>
-    <div class="next-question">
+        <div class="validation-message"></div>
         <input data-next="step-name" type="submit" class="button next" value="Continue" />
-    </div>
-</div>

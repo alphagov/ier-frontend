@@ -2,48 +2,35 @@
 
 @import uk.gov.gds.ier.form.FormHelpers._
 
-@layouts.stepIndicator(10)
+@layouts.questionHeader("If we have questions about your application, how should we contact you?", "/register-to-vote/open-register", 11)
 
-<div id="step-contact" class="step" style="display: block;">
-
-    <h2><span class="question-number">11</span><span>If we have questions about your application, how should we contact you?</span></h2>
-    <div class="question">
-        <div class="answer">
-                @helper.inputRadioGroup(formData(keys.contact.contactType), Seq("post" -> "Post"), 'class -> "radio", 'id -> "contact-post")
-                <input id="input-post" type="hidden" name="@keys.contact.post" value="@formData(keys.address.address).value.getOrElse("")" class="hidden">
-                @helper.inputText(formData(keys.contact.post), 'class -> "text", 'type -> "hidden", 'value -> formData(keys.address.address).value.getOrElse(""))
-        </div>
-        <div class="answer">
-            @helper.inputRadioGroup(formData(keys.contact.contactType), Seq("phone" -> "Phone Call"), 'class -> "radio", 'id -> "contact-phone")
-            <div id="optional-section-contact-phone" class="optional-section @classIf(formData(keys.contact.contactType).value == Some("phone"), "visible")">
-                <label class="above">Phone number</label>
-                @validationWrap(formData(keys.contact)){
-                    @helper.inputText(formData(keys.contact.phone), 'class -> "text", 'type -> "tel")
-                }
-            </div>
-        </div>
-        <div class="answer">
-            @helper.inputRadioGroup(formData(keys.contact.contactType), Seq("text" -> "Text Message"), 'class -> "radio", 'id -> "contact-text")
-            <div id="optional-section-contact-text" class="optional-section  @classIf(formData(keys.contact.contactType).value == Some("text"), "visible")">
-                <label class="above">Phone number</label>
-                @validationWrap(formData(keys.contact)){
-                    @helper.inputText(formData(keys.contact.textNum), 'class -> "text", 'type -> "tel")
-                }
-            </div>
-        </div>
-        <div class="answer">
-            @helper.inputRadioGroup(formData(keys.contact.contactType), Seq("email" -> "Email"), 'class -> "radio", 'id -> "contact-email")
-            <div id="optional-section-contact-email" class="optional-section @classIf(formData(keys.contact.contactType).value == Some("email"), "visible")">
-                <label class="above">Email address</label>
-                @validationWrap(formData(keys.contact)){
-                    @helper.inputText(formData(keys.contact.email), 'class -> "text long", 'type -> "email")
-                }
-            </div>
-        </div>
-    </div>
-    @validationMessage(formData(keys.contact.contactType))
-    @validationMessage(formData(keys.contact))
-    <div class="next-question">
+        <fieldset>
+          <label class="selectable">
+            <input type="radio" id="contact-post_post" name="contact.contactType" value="post" class="radio">Post
+            <input id="input-post" type="hidden" name="@keys.contact.post" value="@formData(keys.address.address).value.getOrElse("")" class="hidden">
+          </label>
+          <label class="selectable">
+            <input type="radio" id="contact-phone_phone" name="contact.contactType" value="phone" class="radio">Phone call
+          </label>
+          <div class="optional-section @formData(keys.contact.contactType).value == Some("phone"), "visible")" data-condition="contact-phone_phone">
+            <label for="contact-phone">Phone number</label>
+            <input type="tel" id="contact-phone" name="contact.phone" value="" class="text">
+          </div>
+          <label class="selectable">
+            <input type="radio" id="contact-text_text" name="contact.contactType" value="text" class="radio">Text message
+          </label>
+          <div class="optional-section @formData(keys.contact.contactType).value == Some("text"), "visible")" data-condition="contact-text_text">
+            <label for="contact_textNum">Phone number</label>
+            <input type="tel" id="contact-textNum" name="contact.textNum" value="" class="text">
+          </div>
+          <label class="selectable">
+            <input type="radio" id="contact-email_email" name="contact.contactType" value="email" class="radio">Email
+          </label>
+          <div class="optional-section @formData(keys.contact.contactType).value == Some("email"), "visible")" data-condition="contact-email_email">
+            <label for="input-email">Email address</label>
+            <input type="email" id="contact-email" name="contact.email" value="" class="text">
+          </div>
+        </fieldset>
+        @validationMessage(formData(keys.contact.contactType))
+        @validationMessage(formData(keys.contact))
         <input type="submit" class="button next" value="Continue" />
-    </div>
-</div>

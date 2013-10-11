@@ -1,0 +1,262 @@
+/* Styles for the question pages */
+
+/* global form control styles */
+
+label,
+select,
+input,
+textarea {
+  @include core-19;
+}
+
+label,
+textarea,
+.search,
+.next {
+  display: block;
+} 
+
+label {
+  margin-bottom: 0.5em;
+}
+
+textarea,
+select {
+  margin-bottom: 1em;
+}
+
+label.selectable{
+  display: block;
+  position: relative;
+	background: #F0F0F0;
+	border: 1px solid #FFF;
+	padding: 12px 14px 12px 46px;
+	margin: 0 0 1em 0;
+
+  & input {
+    position: absolute;
+    left: 14px;
+    top: 0.65em;
+    margin-right: 10px;
+  }
+
+  @include media(tablet) {
+    float: left;
+    clear: left;
+    line-height: 140%;
+    margin-right: 1em;
+
+    & input {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+label.binary {
+  @include inline-block;
+  margin-right: 10px;
+  width: 26%;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  @include media($min-width: 430px) {
+    float: none;
+    width: auto;
+    @include inline-block;
+  }
+}
+
+label.selected {
+	border: 1px solid #555;
+	background: #fff;
+}
+
+label.country-label {
+  @include inline-block;
+}
+
+textarea,
+select.lonely,
+input.text,
+input.long,
+.twitter-typeahead {
+  width: 100%;
+}
+
+input.text {
+	text-transform: none;
+	border: 1px solid #bbb;
+	margin: 0 0 1em;
+	padding: 0.5em;
+}
+
+input.small{
+  width: 80px;
+}
+
+input.medium {
+  width: 160px;
+}
+
+textarea.small {
+  min-height: 120px;
+}
+
+@include media(tablet) {
+  input.text {
+    width: auto;
+  }
+
+  input.long {
+    width: 320px;
+  }
+
+  textarea.small {
+    width: 320px;
+  }
+
+  textarea,
+  select.lonely {
+    display: block;
+    width: auto;
+  }
+}
+
+/* Styles specific to question pages */
+
+main header {
+  &,
+  & p {
+    @include core-16;
+
+    @include media(mobile) {
+      font-size: 16px;
+    }
+  }
+
+  padding-bottom: 2em;
+
+  p {
+    text-align: right;
+    padding-left: 4.5em;
+    margin-bottom: 0;
+    color: $grey-1;
+
+    @include media(tablet) {
+      text-align: left;
+    }
+  }
+
+  &.question-one p {
+    padding-left: 0;
+  }
+
+  h1 {
+    margin-top: 2em;
+    
+    @include media(tablet) {
+      margin-top: 1.2em;
+    }
+  }
+}
+
+fieldset {
+  @extend %contain-floats;
+  margin-left: 0;
+}
+
+.duplicate-control {
+  display: block;
+
+  p & {
+    display: inline;
+  }
+}
+
+.remove-field {
+  margin-left: 1em;
+}
+
+.validation-wrap,
+.invalid {
+  @include inline-block;
+}
+
+.toggle {
+  @include core-19;
+  display: block;
+  float: left;
+  clear: both;
+}
+
+.toggle-closed {
+  background: url("/assets/images/icon-caret-right.png") left 0.3em no-repeat;
+  padding-left: 0.75em;
+}
+
+.toggle-open {
+  background: url("/assets/images/icon-caret-down.png") left 0.5em no-repeat;
+  padding-left: 0.75em;
+}
+
+.help-content,
+.optional-section {
+  & .toggle-closed,
+  & .toggle-open {
+    background-image: none;
+    padding-left: 0;
+  }
+}
+
+.next,
+.search {
+  box-sizing: border-box;
+  font-size: 19px;
+  text-align: center;
+  clear: both;
+  margin: (1 / 19 * 32) * 1em 0;
+  width: 100%;
+
+  @include media(tablet) {
+    width: auto;
+  }
+}
+
+.next {
+  @include core-19;
+  padding: 0.6em 0.8em 0.5em 0.8em;
+
+  @include media(mobile) {
+    font-size: 19px;
+  }
+}
+
+.search {
+  @include button($mainstream-brand);
+  @include core-19;
+  display: block;
+  padding: 0.6em 0.8em 0.5em 0.8em;
+  margin-top: 0;
+
+  @include media(mobile) {
+    font-size: 19px;
+  }
+}
+
+#wait-for-request {
+  padding-right: 20px;
+  background: url('/assets/images/spinner.gif') right center no-repeat;
+  @include inline-block;
+}
+
+.validation-message {
+	padding: 0.5em;
+	font-size: 19px;
+	display: none;
+	margin: 1em 0 1em 0;
+	border-left: 4px solid #f47738;
+	color: #f47738;
+	font-weight: bold;
+}

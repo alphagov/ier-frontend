@@ -1,0 +1,101 @@
+/* govuk_frontend_toolkit styles */
+
+@import "../govuk_frontend_toolkit/stylesheets/_conditionals";
+@import "../govuk_frontend_toolkit/stylesheets/_shims";
+@import "../govuk_frontend_toolkit/stylesheets/_css3";
+@import "../govuk_frontend_toolkit/stylesheets/_colours";
+@import "../govuk_frontend_toolkit/stylesheets/_typography";
+@import "../govuk_frontend_toolkit/stylesheets/design-patterns/_buttons";
+
+/* IER styles */
+
+@import "core";
+@import "questions";
+@import "confirmation";
+
+.tabs{
+	border-bottom: 1px solid #666;
+	margin: 1em 0 2em 0;
+}
+
+.tabs .tab{
+	display: inline-block;
+	margin: 0 5px 0 5px;
+	background: #fff;
+}
+
+.tabs .tab.selected{
+	margin-bottom: -1px;
+}
+
+.tabs .tab.selected a{
+	padding-bottom: 11px;
+}
+
+.tabs .tab a{
+	font-size: 17px;
+	display: inline-block;
+	color: #222;
+	padding: 10px 14px;
+	border: 1px solid #666;
+	border-bottom: none;
+	text-decoration: none;
+}
+
+.tab-content{
+	display: none;
+}
+
+.tab-content.selected{
+	display: block;
+}
+
+.typeahead,
+.tt-query,
+.tt-hint {
+	font-size: 19px;
+	line-height: 1.25;
+	font-weight: 300;
+	text-transform: none;
+	border: 1px solid #bbb;
+	margin: 0;
+	padding: 0.5em;
+}
+
+.tt-hint{
+	display: none;
+}
+
+.tt-dropdown-menu {
+	padding: 0;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	width: 100%;
+}
+
+.tt-suggestion {
+	padding: 0.5em;
+	font-size: 19px;
+	line-height: 24px;
+}
+
+.tt-suggestion p{
+	margin: 0;
+}
+
+.tt-suggestion.tt-is-under-cursor {
+	color: #fff;
+	background-color: #0097cf;
+}
+
+@media screen and (max-width: 460px){
+
+	.tabs .tab{
+		width: 46%;
+	}
+
+	.tabs .tab a{
+		width: 100%;
+		font-size: 15px;
+	}
+}

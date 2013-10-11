@@ -2,59 +2,30 @@
 
 @import uk.gov.gds.ier.form.FormHelpers._
 
-@layouts.stepIndicator(1)
+@layouts.questionHeader("What is your nationality?", "", 1)
 
-<div id="step-nationality" class="step">
-    <div class="question">
-        <h2><span class="question-number">1</span><span>What is your nationality?</span></h2>
-        <div class="help">
-            <p>If you have dual nationality, select all options that are relevant to you.</p>
+        <p>If you have dual nationality, select all options that are relevant to you.</p>
+        <fieldset>
+          @check(field = formData(keys.nationality.nationalities.item(0)), label = "I am British", id = "nationality-checkbox-british", value = "I am British")
+          @check(field = formData(keys.nationality.nationalities.item(1)), label = "I am Irish", id = "nationality-checkbox-british", value = "I am Irish")
+          <label class="selectable">
+              <input id="nationality.otherCountry" type="checkbox" name="hasOtherNationality" value="true" class="checkbox">I am a citizen of another country
+          </label>
+          <div class="optional-section" data-condition="nationality.otherCountry">
+            <label class="country-label" for="nationality-otherCountries">Which country?</label>
+            <input type="text" id="nationality.otherCountries" name="nationality.otherCountries" class="input-other-country text long">
+            <p>If you have dual nationality <a class="duplicate-control" href="#" data-field="nationality.otherCountries">add another country</a>.</p>
+          </div>
+        </fieldset>
+        <div class="help-content">
+          <h2>Help</h2>
+          <p>If you're not sure about your nationality, try to find out from an official document like a passport or national ID card.</p>
+          <p>We need to know your nationality so we can work out which elections you're entitled to vote in. If you can’t confirm your nationality, you'll have to send copies of identity documents through the post.</p>
+          <div class="optional-section">
+            <h3>I can't provide my nationality</h3>
+            <label class="above" for="noNationalityReason">Why can't you provide your nationality?</label>
+            <textarea name="noNationalityReason" id="noNationalityReason" class="small">@formData(keys.nationality.noNationalityReason).value.getOrElse("")</textarea>
+          </div>
         </div>
-        <ul class="answers">
-            <li class="answer">
-                @check(field = formData(keys.nationality.nationalities.item(0)), label = "British", id = "nationality-checkbox-british", value = "British")
-            </li>
-            <li class="answer">
-                @check(field = formData(keys.nationality.nationalities.item(1)), label = "Irish", id = "nationality-checkbox-british", value = "Irish")
-            </li>
-            <li class="answer">
-                <label class="selectable">
-                    <input id="nationality.otherCountry" type="checkbox" name="hasOtherNationality" value="true" class="checkbox"><span>Other country ...</span>
-                </label>
-                <div id="optionalSectionOtherCountry" class="optional-section optional-section-other-country">
-                    <div id="otherCountries" class="other-countries">
-                        <div id="otherCountryTemplate" class="template">
-                            <div class="answer other-country">
-                                <label class="above"><span>Country</span><span class="number"></span><a href="#" class="remove">remove</a></label>
-                                <input type="text" name="nationality.otherCountries" class="input-other-country text long">
-                            </div>
-                        </div>
-                        <div class="answer other-country">
-                            <label class="above">Country</label>
-                            <input type="text" name="nationality.otherCountries" class="input-other-country text long">
-                        </div>
-                    </div>
-                    <div class="action"><a id="addCountry" href="#">Add another country</a></div>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <div class="more-help-wrap">
-        <div class="more-help-link"><span><i class="icon-caret-right"></i><a href="#">Help</a></span></div>
-        <div class="more-help-content  @visibleIf(formData.hasNoNationalityReason)"><p>Nationality usually refers to the country where you or your parents were born, or where you have officially become a citizen.</p>
-            <p>If possible, it&#39;s important that you find out your nationality - without it you will need to provide other documentation by post.</p>
-
-            <p><a id="no-nationality-link" href="#">I can't provide my nationality</a></p>
-            <div id="optional-section-no-nationality" class="optional-section @visibleIf(formData.hasNoNationalityReason)">
-                <div class="question">
-                    <label class="above">Why can't you provide your nationality?</label>
-                    <textarea name="nationality.noNationalityReason" class="small">@formData(keys.nationality.noNationalityReason).value.getOrElse("")</textarea>
-                </div>
-            </div>
-        </div>
-    </div>
-    @validationMessage(formData(keys.nationality))
-    <div class="next-question">
-        <input data-next="step-date-of-birth" type="submit" class="button next" value="Continue" />
-    </div>
-</div>
+        @validationMessage(formData(keys.nationality))
+        <input type="submit" class="button next" value="Continue" />

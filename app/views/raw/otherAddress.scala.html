@@ -1,20 +1,15 @@
 @(formData:uk.gov.gds.ier.validation.InProgressForm)
 @import uk.gov.gds.ier.form.FormHelpers._
 
-@layouts.stepIndicator(8)
+@layouts.questionHeader("Do you live at a second UK address where you're registered to vote?", "/register-to-vote/previous-address", 8)
 
-<div id="step-other-address" class="step">
-    <h2><span class="question-number">8</span><span>Do you spend part of your time living at another UK address?</span></h2>
-    <div class="question">
-        <label class="selectable binary @classIf(formData(keys.otherAddress.hasOtherAddress).value == Some("true"), "selected")">
-            <input type="radio" id="input-other-address-yes" name="@keys.otherAddress.hasOtherAddress" value="true" class="radio" @checkedIf(formData(keys.otherAddress.hasOtherAddress).value == Some("true"))><span>Yes</span>
-        </label>
-        <label class="selectable binary @classIf(formData(keys.otherAddress.hasOtherAddress).value == Some("false"), "selected")">
-            <input type="radio" id="input-other-address-no" name="@keys.otherAddress.hasOtherAddress" value="false" class="radio" @checkedIf(formData(keys.otherAddress.hasOtherAddress).value == Some("false"))><span>No</span>
-        </label>
-    </div>
-    @validationMessage(formData(keys.otherAddress))
-    <div class="next-question">
+        <fieldset>
+          <label class="selectable binary @classIf(formData(keys.otherAddress.hasOtherAddress).value == Some("true"), "selected")">
+            <input type="radio" id="input-other-address-yes" name="@keys.otherAddress.hasOtherAddress" value="true" class="radio" @checkedIf(formData(keys.otherAddress.hasOtherAddress).value == Some("true"))>Yes
+          </label>
+          <label class="selectable binary @classIf(formData(keys.otherAddress.hasOtherAddress).value == Some("false"), "selected")">
+            <input type="radio" id="input-other-address-no" name="@keys.otherAddress.hasOtherAddress" value="false" class="radio" @checkedIf(formData(keys.otherAddress.hasOtherAddress).value == Some("false"))>No
+          </label>
+        </fieldset>
+        @validationMessage(formData(keys.otherAddress))
         <input data-next="step-name" type="submit" class="button next" value="Continue" />
-    </div>
-</div>

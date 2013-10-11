@@ -1,0 +1,110 @@
+/* Styles for the confirmation page */
+
+.confirmation {
+  article {
+    padding-top: 2em;
+    padding-bottom: 0;
+  }
+
+  form {
+    padding-top: 0;
+    overflow: hidden;
+
+    @include media(desktop) {
+      margin-right: 0;
+      max-width: 100%;
+    }
+  }
+
+  h3,
+  p {
+    color: $grey-1;
+  }
+
+  p {
+    margin-bottom: 1em;
+  }
+  
+  div,
+  .help-notice {
+    border-top: 1px solid $grey-3;
+  }
+
+  div {
+    @extend %contain-floats;
+    padding: 1em 5.5em 1em 0;
+    position: relative;
+
+    @include media(tablet) {
+      padding-right: 0;
+    }
+
+    h3,
+    .data-wrap,
+    .change {
+      vertical-align: top;
+    }
+
+    h3,
+    .data-wrap {
+      border-top: none;
+      margin: 0 0 1em;
+      padding: 0;
+
+      @include media(tablet) {
+        @include inline-block;
+      }
+    }
+
+    h3 {
+      font-weight: normal;
+      width: 33%
+    }
+
+    .data-wrap {
+      padding: 0;
+
+      @include media(tablet) {
+        padding: 0 1.25em;
+        width: 35%;
+      }
+
+      p {
+        color: $black;
+      }
+
+      .message {
+        color: $grey-1;
+      }
+    }
+  }
+
+  .back-to-previous {
+    position: static;
+  }
+
+  .change {
+    @include button($grey-3);
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 1em;
+
+    @include media(tablet) {
+      position: static;
+      float: right;
+      margin-top: 0;
+    }
+  }
+
+  .help-notice {
+    color: $black;
+    padding-top: 1em;
+    background-position: 0 1.25em;
+  }
+
+  .validation-message {
+    border-top: none;
+    padding-left: 0.5em;
+  }
+}

@@ -2,42 +2,22 @@
 
 @import uk.gov.gds.ier.form.FormHelpers._
 
-@layouts.stepIndicator(7)
+@layouts.questionHeader("Have you moved within the last 12 months?", "/register-to-vote/address", 7)
 
-<div id="step-previous-address" class="step">
-    <h2><span class="question-number">7</span><span>Have you moved within the last 12 months?</span></h2>
-    <div class="question">
-        @helper.inputRadioGroup(formData(keys.previousAddress.movedRecently), Seq("true" -> "Yes", "false" -> "No"), 'class -> "radio binary", 'id -> "input-previous-address")
-    </div>
-    <div id="optional-section-previous-address" class="optional-section optional-section-previous-address @classIf(formData(keys.previousAddress.movedRecently).value == Some("true"), "visible")">
-        <div class="address-tabs">
-            <div class="address-step-1">
-                <div class="question">
-                    <label class="above">Enter the postcode to find your previous address</label>
-                    <div class="search-wrap">
-                        @helper.inputText(formData(keys.previousAddress.previousAddress.postcode), 'class -> "postcode text long")
-                        <button id="find-previous-address" class="button search"><span>Find address</span></button>
-                    </div>
-                </div>
-            </div>
-            <div class="postcode-search-results">
-                <div class="question">
-                    @helper.select(formData(keys.previousAddress.previousAddress.address), possibleAddresses, 'class -> "addressList lonely", 'id -> "input-previous-address-list")
-                    <div class="action"><a href="#" class="address-not-listed">The address is not listed</a></div>
-                </div>
-            </div>
-            <div class="type-in-address">
-                <div class="question">
-                    <label class="above">Previous address</label>
-                    @helper.textarea(formData(keys.previousAddress.previousAddress.address), 'class -> "small")
-                </div>
-            </div>
-        </div>
-    </div>
-    @validationMessage(formData(keys.previousAddress))
-    @validationMessage(formData(keys.previousAddress.previousAddress.address))
-    @validationMessage(formData(keys.previousAddress.previousAddress.postcode))
-    <div class="next-question">
-        <input data-next="step-name" type="submit" class="button next" value="Continue" />
-    </div>
-</div>
+        <fieldset>
+          <label for="input-previous-address_true" class="selectable binary">
+            <input type="radio" id="input-previous-address_true" name="@keys.previousAddress.movedRecently" value="true" class="radio binary">Yes
+          </label>
+          <label for="input-previous-address_false" class="selectable binary">
+            <input type="radio" id="input-previous-address_false" name="@keys.previousAddress.movedRecently" value="false" class="radio binary">No
+          </label>
+        </fieldset>
+        <fieldset class="optional-section optional-section-binary @classIf(formData(keys.previousAddress.movedRecently).value == Some("true"), "visible")" data-condition="input-previous-address_true">
+          <label for="previousAddress-postcode">Enter the postcode to find your previous address</label>
+          @helper.inputText(formData(keys.previousAddress.previousAddress.postcode), 'class -> "postcode text medium")
+          <button id="find-previous-address" class="button search">Find address</button>
+        </fieldset>
+        @validationMessage(formData(keys.previousAddress))
+        @validationMessage(formData(keys.previousAddress.previousAddress.address))
+        @validationMessage(formData(keys.previousAddress.previousAddress.postcode))
+        <input type="submit" id="continue" class="button next" value="Continue" />

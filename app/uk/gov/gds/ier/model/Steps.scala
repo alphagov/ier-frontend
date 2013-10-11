@@ -66,6 +66,12 @@ trait Steps extends IerForms {
     form => html.steps.openRegister(form),
     form => html.edit.openRegister(form),
     openRegisterForm,
+    "postal-vote"
+  )
+  val postalVoteStep = Step(
+    form => html.steps.postalVote(form),
+    form => html.edit.postalVote(form),
+    postalVoteForm,
     "contact"
   )
   val contactStep = Step(
@@ -93,6 +99,7 @@ trait Steps extends IerForms {
         case "previous-address" => previousAddressStep
         case "other-address" => otherAddressStep
         case "open-register" => openRegisterStep
+        case "postal-vote" => postalVoteStep
         case "contact" => contactStep
         case "confirmation" => confirmationStep
         case "edit" => confirmationStep

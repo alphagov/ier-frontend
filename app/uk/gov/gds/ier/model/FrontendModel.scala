@@ -42,6 +42,7 @@ case class InprogressApplication (name: Option[Name] = None,
                                   previousAddress: Option[PreviousAddress] = None,
                                   otherAddress: Option[OtherAddress] = None,
                                   openRegisterOptin: Option[Boolean] = None,
+                                  postalVoteOptin: Option[Boolean] = None,
                                   contact: Option[Contact] = None)
 
 case class Address(addressLine:String, postcode:String)

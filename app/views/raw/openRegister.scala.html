@@ -1,36 +1,14 @@
 @(formData:uk.gov.gds.ier.validation.InProgressForm)
 @import uk.gov.gds.ier.form.FormHelpers._
 
-@layouts.stepIndicator(9)
+@layouts.questionHeader("Do you want to remove your name and address from the open register?", "/register-to-vote/other-address", 9)
 
-<div id="step-open-register" class="step">
-    <h2><span class="question-number">9</span><span>Tell us whether to include your details on the open register</span></h2>
-    <div class="help">
-        <p>The open register is an edited version of the electoral register that’s available for sale to anyone (for example, companies or charities who want to send you information).</p>
-        <p>You can choose whether your details are included on the open register. It doesn’t affect your right to vote.</p>
-    </div>
-    <!--
-                  <div class="help">
-                    <p>The Edited register allows companies and charities to find information about you.</p>
-                  </div>
-                  -->
-    <div class="question">
-        <ul class="answers">
-            <li class="answer">
-                <label class="selectable @classIf(formData(keys.openRegister.openRegisterOptin).value == Some("true"), "selected")">
-                    <input type="radio" name="@keys.openRegister.openRegisterOptin" value="true" class="radio" @checkedIf(formData(keys.openRegister.openRegisterOptin).value == Some("true"))><span>Include my details on the open register</span>
-                </label>
-            </li>
-            <li class="answer">
-                <label class="selectable @classIf(formData(keys.openRegister.openRegisterOptin).value == Some("false"), "selected")">
-                    <input type="radio" name="@keys.openRegister.openRegisterOptin" value="false" class="radio" @checkedIf(formData(keys.openRegister.openRegisterOptin).value == Some("false"))><span>Don't include my details on the open register</span>
-                </label>
-            </li>
-        </ul>
-    </div>
-    @validationMessage(formData(keys.openRegister))
-    <div class="next-question">
-        <button data-next="step-contact" class="button next">Continue</button>
-        <button class="button save">Continue</button>
-    </div>
-</div>
+        <fieldset>
+          <p>The open register is a list of names and addresses that is available for sale to anyone (for example, companies or charities who want to send you information).</p>
+          <p>Your decision does not affect your right to vote or your credit score.</p>
+          <label for="openRegisterOptin" class="selectable">
+            <input type="checkbox" id="openRegisterOptin" name="@keys.openRegister.optIn" value="false" @checkedIf(formData(keys.openRegister.optIn).value)>Remove my details from the open register
+          </label>
+        </fieldset>
+        @validationMessage(formData(keys.openRegister))
+        <button class="button next">Continue</button>

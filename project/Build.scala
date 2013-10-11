@@ -3,6 +3,7 @@ import sbt._
 import sbt.Keys._
 import play.Project._
 import net.litola.SassPlugin
+import net.litola.SassPlugin._
 import net.litola.SassCompiler
 
 object ApplicationBuild extends IERBuild {
@@ -12,7 +13,7 @@ object ApplicationBuild extends IERBuild {
 
   val appDependencies = Seq(
     "uk.gov.gds" %% "govuk-guice-utils" % "0.2-SNAPSHOT",
-    "uk.gov.gds" %% "gds-scala-utils" % "0.7.5-SNAPSHOT",
+    "uk.gov.gds" %% "gds-scala-utils" % "0.7.6-SNAPSHOT",
     "joda-time" % "joda-time" % "2.1",
     anorm,
     new ModuleID("org.codehaus.janino", "janino", "2.6.1")
@@ -22,9 +23,7 @@ object ApplicationBuild extends IERBuild {
     .settings(GovukTemplatePlay.playSettings:_*)
     .settings(GovukToolkit.playSettings:_*)
     .settings(SassPlugin.sassSettings:_*)
-    .settings(
-      dependencyOverrides += "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.2.3"
-    )
+    .settings(sassOptions := Seq("--load-path", "/Users/michael/Projects/gds/ier/frontend/app/assets/govuk_template_play/stylesheets", "--debug-info"))
 }
 
 abstract class IERBuild extends Build {
@@ -49,7 +48,8 @@ object GovukTemplatePlay extends Plugin {
     templateKey <<= baseDirectory(_ / "app" / "assets" / "govuk_template_play")(Seq(_)),
     sourceGenerators in Compile <+= (state, templateKey, sourceManaged in Compile, templatesTypes, templatesImport) map ScalaTemplates,
     playAssetsDirectories <+= baseDirectory { _ / "app" / "assets" / "govuk_template_play" / "assets" },
-    updateTemplateTask
+    updateTemplateTask,
+    compile <<= (compile in Compile) dependsOn updateTemplate
   )
 }
 

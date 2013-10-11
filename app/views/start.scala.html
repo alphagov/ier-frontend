@@ -2,36 +2,75 @@
 
 @import layouts._
 
-@main(title = Some("IER - Register to Vote"), stylesheets = head()) {
-
-    <div class="questions-main">
-        <div id="step-start" class="step">
-            <ul class="breadcrumbs">
-                <li><a href="https://www.gov.uk/">Home</a></li>
-                <li><a href="https://www.gov.uk/browse/citizenship">Citizenship and living in the UK</a></li>
-                <li><a href="https://www.gov.uk/browse/citizenship/voting">Voting</a></li>
-            </ul>
-            <h1>Register to vote</h1>
-            <p>Before you can vote in UK elections and referendums, you need to have your details added to the electoral register (sometimes called the ‘electoral roll’).</p>
-            <p>You can also use this service to update your details on the electoral register.</p>
-            <h2>What you will need</h2>
-            <p>You’ll need your National Insurance number (if you have one).</p>
-            <div class="next-question">
-                <a href="@routes.RegisterToVoteController.registerToVote()" class="button next"><strong>Register to vote</strong><i class="icon-pointer"></i></a>
-            </div>
-            <h2>Before you start</h2>
-            <h3>Age and nationality</h3>
-            <p>You need to be:</p>
+@mainRelated() = {
+  <div class="related-positioning">
+    <div class="related-container">
+      <div class="related" id="related">
+        <div class="inner group related-subsection">
+          <h2 id="parent-subsection">Voting</h2>
+          <nav role="navigation" aria-labelledby="parent-subsection">
             <ul>
-                <li>16 or over  </li>
-                <li>British, or a citizen of a Commonwealth or EU country</li>
+                <li>
+                  <a href="https://www.gov.uk/electoral-register">The electoral register </a>
+                </li>
+                <li>
+                  <a href="https://www.gov.uk/voting-in-the-uk">Voting in the UK</a>
+                </li>
+              <li class="related-topic"><a href="https://www.gov.uk/browse/citizenship/voting" title="More in Voting">More <span class="visuallyhidden">in Voting</span></a></li>
             </ul>
-            <h3>National Insurance number</h3><p>You&#39;ll need to provide evidence of your identity. The easiest way is to enter your <a href="https://www.gov.uk/lost-national-insurance-number">National Insurance number</a>.</p>
-            <p>If you can&#39;t supply a National Insurance number, you&#39;ll need to post copies of identity documents to your local electoral register office once you&#39;ve completed the application.</p>
-
-            <h2>What you need to know</h2>
-            <p>Takes around 10 minutes.</p>
-            <h2>Other ways to apply</h2><p>To apply by post, download the <a href="#">register to vote form</a> [PDF, 128KB].</p>
+          </nav>
         </div>
+        <div class="inner group">
+          <a class="return-to-top" href="#content">Return to top ↑</a>
+        </div>
+        <div id="legacy-sources">
+          <p>This page replaces</p>
+          <ul>
+            <li class="directgov">Directgov</li>
+            <li class="businesslink">Business Link</li>
+          </ul>
+        </div>
+      </div>
     </div>
+  </div>
+}
+
+@main(title = Some("IER - Register to Vote"), stylesheets = govukHead(), related = mainRelated()) {
+
+    <ol role="breadcrumbs" class="breadcrumbs">
+        <li><a href="https://www.gov.uk/">Home</a></li>
+        <li><a href="https://www.gov.uk/browse/citizenship">Citizenship and living in the UK</a></li>
+        <li><strong><a href="https://www.gov.uk/browse/citizenship/voting">Voting</a></strong></li>
+    </ol>
+    <header class="page-header group">
+      <div>
+        <h1>
+          <span>Service</span>
+          Register to vote
+        </h1>
+      </div>
+      <a class="skip-to-related" href="#related">Not what you're looking for? ↓</a>
+    </header>
+    <article>
+      <p>Before you can vote in UK elections and referendums, you need to have your details added to the electoral register (sometimes called the ‘electoral roll’).</p>
+      <p>You can also use this service to update your details on the electoral register.</p>
+      <h2>Before you start</h2>
+      <p>Registering takes around 10 minutes</p>
+      <p>You’ll need your National Insurance number (if you have one)</p>
+      <p id="get-started" class="get-started group">
+        <a href="@routes.RegisterToVoteController.registerToVote()" rel="external" class="button">Register to vote</a>
+      </p>
+      <p>To apply by post, download the <a href="#">register to vote form</a> [PDF, 128KB].</p>
+      <h2>Who can register using this service</h2>
+      <h3>You need to be:</h3>
+      <ul>
+        <li>16 or over</li>
+        <li>British, or a citizen of a Commonwealth or EU country</li>
+        <li>Living in the UK</li>
+      </ul>
+      <p>If you can't register using this service</p>
+      <p><a href="/register-to-vote-as-a-british-citizen-overseas">Register to vote (living overseas)</a></p>
+      <p><a href="#">Register to vote (Crown servant or British Council)</a></p>
+      <p><a href="#">Register to vote (Armed forces)</a></p>
+    </article>
 }

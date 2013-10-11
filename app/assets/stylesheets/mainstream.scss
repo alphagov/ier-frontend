@@ -1,0 +1,331 @@
+/* Styles for start page on GOV.UK */
+
+/* govuk_frontend_toolkit styles */
+
+@import "../govuk_frontend_toolkit/stylesheets/_conditionals";
+@import "../govuk_frontend_toolkit/stylesheets/_shims";
+@import "../govuk_frontend_toolkit/stylesheets/_css3";
+@import "../govuk_frontend_toolkit/stylesheets/_colours";
+@import "../govuk_frontend_toolkit/stylesheets/_typography";
+@import "../govuk_frontend_toolkit/stylesheets/design-patterns/_buttons";
+/*
+ * Page headers
+ */
+
+header.page-header {
+  .skip-to-related {
+    position: relative;
+    left: 1em;
+    top: -1em;
+
+    &:focus {
+      position: relative;
+      @include inline-block;
+      left: 32px;
+      top: -2em;
+    }
+
+    @include media(tablet) {
+      position: absolute;
+      left: -9999em;
+    }
+  }
+
+  div {
+    background-color: #fff;
+    display: block;
+    margin: 0;
+    padding: 1em 2em 0 1em;
+
+    @include media(tablet) {
+      margin: 0 24em 0 0;
+      padding-bottom: 2em;
+      padding-left: 2em;
+    }
+
+    h1 {
+      @include heading-48;
+      background-repeat: no-repeat;
+      color: $text-colour;
+      font-weight: 600;
+      margin: 0;
+      min-height: (61em/25);
+
+      @include ie(6) {
+        position: relative;
+        z-index: 1;
+        zoom: 1;
+      }
+
+      @include media(tablet) {
+        min-height: 0;
+      }
+
+      span {
+        @include core-27($line-height: 1);
+        display: block;
+        margin-bottom: 0.25em;
+        text-shadow: none;
+        color: $secondary-text-colour ;
+
+        @include ie-lte(8) {
+          height: 1%;
+        }
+      }
+    }
+  }
+}
+
+ol.breadcrumbs {
+  border-top: 10px solid $mainstream-brand;
+}
+
+/*
+ * Related box
+ */
+.related-positioning {
+  position: static;
+  top: auto;
+  height: auto;
+  left: 0;
+  width: 100%;
+  z-index: 0;
+
+  @include ie-lte(8) {
+    z-index: 0;
+  }
+
+  @include ie-lte(7) {
+    position: absolute !important;
+  }
+
+  @include media(desktop) {
+    position: absolute;
+    top: 7em;
+    height: 0;
+  }
+}
+
+/*
+.js-enabled .related-positioning {
+  top: 7em;
+}
+.beta .related-positioning {
+  top: 12em;
+}
+
+.js-enabled .related-with-cookie,
+.js-enabled .related-beta {
+  top: 9.5em;
+}
+*/
+
+.related-container {
+  position: relative;
+  margin: 0 auto;
+  max-width: auto;
+  height: auto;
+  z-index: 50;
+
+  @include ie-lte(7) {
+    width: 990px;
+  }
+
+  @include media(desktop) {
+    height: 0;
+    max-width: 1020px;
+  }
+}
+
+.related {
+  position: static;
+  right: auto;
+  width: auto;
+  margin: 3em 0 0 0;
+  border-top: 10px solid $mainstream-brand;
+
+  @include media(desktop) {
+    position: absolute;
+    right: 1.75em;
+    width: 18.75em;
+  }
+
+  .inner {
+    background-color: $white;
+    padding: 0.5em 1em 0 1em;
+    width: auto;
+
+    @include media(tablet) {
+      padding-left: 2em;
+    }
+
+    @include media(desktop) {
+      padding-left: 0;
+    }
+  }
+
+  nav {
+    margin-bottom: 1.25em;
+  }
+
+  h2 {
+    @include core-24;
+    font-weight: 600;
+    color: $text-colour;
+    margin-top: 0.3em;
+    margin-bottom: 0.625em;
+    position: relative;
+
+    @include media(mobile) {
+      font-size: 17px;
+      margin-bottom: 0.5em;
+    }
+  }
+
+  ul {
+    @include core-16;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  li {
+    margin-bottom: 0.75em;
+    padding-left: 0;
+
+    &.related-topic {
+      list-style: none outside none;
+
+      a {
+        display: inline;
+        font-weight: bold;
+      }
+    }
+
+    a {
+      background-position: 0 -287px;
+      background-repeat: no-repeat;
+      display: block;
+      line-height:1.25em;
+      orphans: 2;
+
+      &:hover {
+        background-position: 0 10px;
+      }
+
+      @include ie-lte(8) {
+        height: 1%;
+      }
+    }
+
+    a[href*="#"] {
+      /* grey out stub links */
+      background: none;
+      color: #888;
+      cursor: default;
+      text-decoration: none;
+    }
+
+    a.view-all {
+      margin: 10px 0 10px;
+    }
+
+    a[rel="external"]:after {
+      content: "\A0\A0\A0\A0\A0\A0";
+      background-position: 5px 0px;
+    }
+    
+    a[rel="external"]:hover:after {
+      background-position: 5px -388px;
+    }
+
+  }
+
+  .return-to-top {
+    @include core-16;
+    margin-bottom: 0.5em;
+    position: absolute;
+    left: -9999em;
+
+    @include media(mobile) {
+      position: static;
+      margin: 0.25em 0 0;
+      padding: 0.75em 0;
+    }
+  }
+}
+
+.related.sections-list li a {
+  padding: 0.1em 0em;
+}
+
+#legacy-sources {
+  margin-top: 1em;
+  display: none;
+
+  @include media(tablet) {
+    margin: 1em 2em 0em;
+  }
+
+  @include media(mobile) {
+    margin-left: 1em;
+    margin-right: 1em;
+  }
+
+  p {
+    font-size: 1em;
+    margin-bottom: 0;
+    padding: 0;
+    color: black;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    overflow:hidden;
+  }
+
+  li {
+    text-indent: -5000px;
+    float: left;
+    background-repeat: no-repeat;
+    display: none;
+  }
+}
+
+.businesslink #legacy-sources,
+.directgov #legacy-sources {
+  display: block;
+}
+
+.businesslink #legacy-sources li.businesslink {
+  background-image: image-url("businesslink-logo.png");
+  width: 84px;
+  height: 33px;
+  margin-top: 0.5em;
+  display: block;
+
+  @include device-pixel-ratio() {
+    background-image: image-url("businesslink-logo-2x.png");
+    background-size: 84px 33px;
+  }
+}
+
+.directgov #legacy-sources li.directgov {
+  background-image: image-url("directgov-logo.png");
+  width: 74px;
+  height: 14px;
+  margin-right: 1em;
+  margin-top: 1.2em;
+  display: block;
+
+  @include device-pixel-ratio() {
+    background-image: image-url("directgov-logo-2x.png");
+    background-size: 74px 14px;
+  }
+}
+
+article {
+  padding-bottom: 2em;
+}

@@ -2,41 +2,12 @@
 
 @import uk.gov.gds.ier.form.FormHelpers._
 
-@layouts.stepIndicator(6)
+@layouts.questionHeader("Where do you live?", "/register-to-vote/nino", 6)
 
-<div id="step-address" class="step">
-    <h2><span class="question-number">6</span><span>Where do you live?</span></h2>
-    <div class="help">
+      <fieldset>
         <p>If you have more than one address, just give the one where you spend most of your time.</p>
-    </div>
-    <div class="address-tabs">
-        <div class="address-step-1">
-            <div class="question">
-                <label class="above">Enter your postcode to search for your address</label>
-                <div class="search-wrap">
-                    @helper.inputText(formData(keys.address.postcode), 'class -> "postcode text long")
-                    <button id="find-address" class="button search"><span>Find address</span></button>
-                </div>
-            </div>
-        </div>
-        <div class="postcode-search-results">
-            <div class="question">
-                @helper.select(formData(keys.address.address), possibleAddresses, 'class -> "addressList lonely", 'id -> "input-address-list")
-                <div class="action"><a href="#" class="address-not-listed">My address is not listed</a></div>
-            </div>
-        </div>
-        <div class="type-in-address">
-            <div class="question">
-                <label class="above">Address</label>
-                @helper.textarea(formData(keys.address.address), 'class -> "small")
-            </div>
-        </div>
-    </div>
-    @validationMessage(formData(keys.address.address))
-    @validationMessage(formData(keys.address.postcode))
-    <div class="address-step-2">
-        <div class="next-question">
-            <input data-next="step-name" type="submit" class="button next" value="Continue" />
-        </div>
-    </div>
-</div>
+        <label for="address-postcode">Postcode</label>
+        @helper.inputText(formData(keys.address.postcode), 'class -> "postcode text medium")
+        <button id="find-address" class="button search">Find address</button>
+      </fieldset>
+      <input type="submit" id="continue" class="button next" value="Continue" />
