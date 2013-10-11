@@ -48,8 +48,7 @@ object GovukTemplatePlay extends Plugin {
     templateKey <<= baseDirectory(_ / "app" / "assets" / "govuk_template_play")(Seq(_)),
     sourceGenerators in Compile <+= (state, templateKey, sourceManaged in Compile, templatesTypes, templatesImport) map ScalaTemplates,
     playAssetsDirectories <+= baseDirectory { _ / "app" / "assets" / "govuk_template_play" / "assets" },
-    updateTemplateTask,
-    compile <<= (compile in Compile) dependsOn updateTemplate
+    updateTemplateTask
   )
 }
 

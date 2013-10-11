@@ -5,6 +5,8 @@ cd `pwd`
 
 playVersion=$(<$thisDir/playVersion)
 
+updateTemplate=$thisDir/../update-template.sh
+
 installPlay="$thisDir/setup-play.sh"
 play="$thisDir/../bin/play-$playVersion/play"
 
@@ -15,4 +17,5 @@ fi
 
 SBT_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9999"
 
+$updateTemplate
 $play debug $@
