@@ -214,21 +214,21 @@ window.GOVUK = window.GOVUK || {};
     });
   }());
 
-  postcodeLookup = function (searchButton) {
+  postcodeLookup = function (searchButton, inputName) {
     this.$searchButton = $(searchButton);
     this.$searchInput = this.$searchButton.closest('fieldset').find('input.postcode');
     this.$waitMessage = $('<p id="wait-for-request">Finding address</p>');
     this.fragment = {
       'label' : '<label for="input-address-list">Select your address</label>',
       'select' : [
-        '<select id="input-address-list" name="address.address" class="lonely">' +
+        '<select id="input-address-list" name="'+inputName+'" class="lonely">' +
           '<option value="">Please select...</option>',
         '</select>'
       ],
       'help' : '<div class="help-content">' +
                   '<h2>My address is not listed</h2>' +
                   '<label id="input-address-text">Enter your address</label>' +
-                  '<textarea id="input-address-text" name="address.address" class="small"></textarea>' +
+                  '<textarea id="input-address-text" name="'+inputName+'" class="small"></textarea>' +
                 '</div>'
     };
     this.bindEvents();
@@ -339,8 +339,11 @@ window.GOVUK = window.GOVUK || {};
       }
       new GOVUK.registerToVote.markSelected(elm);
     });
-    $('.search').each(function (idx, elm) {
-      new GOVUK.registerToVote.postcodeLookup(elm);
+    $('#find-address').each(function (idx, elm) {
+      new GOVUK.registerToVote.postcodeLookup(elm, "address.address");
+    });
+    $('#find-previous-address').each(function (idx, elm) {
+      new GOVUK.registerToVote.postcodeLookup(elm, "previousAddress.previousAddress.address");
     });
   });
 }.call(this));

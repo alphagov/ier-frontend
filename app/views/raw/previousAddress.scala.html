@@ -6,10 +6,10 @@
 
         <fieldset>
           <label for="input-previous-address_true" class="selectable binary">
-            <input type="radio" id="input-previous-address_true" name="previousAddress.movedRecently" value="true" class="radio binary">Yes
+            <input type="radio" id="input-previous-address_true" name="@keys.previousAddress.movedRecently" value="true" class="radio binary">Yes
           </label>
           <label for="input-previous-address_false" class="selectable binary">
-            <input type="radio" id="input-previous-address_false" name="previousAddress.movedRecently" value="false" class="radio binary">No
+            <input type="radio" id="input-previous-address_false" name="@keys.previousAddress.movedRecently" value="false" class="radio binary">No
           </label>
         </fieldset>
         <fieldset class="optional-section optional-section-binary @classIf(formData(keys.previousAddress.movedRecently).value == Some("true"), "visible")" data-condition="input-previous-address_true">

@@ -61,8 +61,8 @@ trait IerForms extends FormKeys with FormMappings {
       (inprogress => Some(inprogress.otherAddress))
   )
   val openRegisterForm = Form(
-    mapping(openRegister -> optional(optInMapping).verifying("Please answer this question", openRegister => openRegister.isDefined))
-      (openRegister => InprogressApplication(openRegisterOptin = openRegister))
+    mapping(openRegister -> optional(optInMapping))
+      (openRegister => InprogressApplication(openRegisterOptin = openRegister.orElse(Some(true))))
       (inprogress => Some(inprogress.openRegisterOptin))
   )
   val postalVoteForm = Form(
