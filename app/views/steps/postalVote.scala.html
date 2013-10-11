@@ -1,0 +1,10 @@
+@(application: uk.gov.gds.ier.validation.InProgressForm)
+
+@import helper._
+@import layouts._
+
+@main(title = Some("Do you want to apply for a postal vote?"), stylesheets = head(), scripts = stepsBodyEnd()) {
+    @form(routes.RegisterToVoteController.validateStep("postal-vote")){
+        @raw.postalVote(application)
+    }
+}

@@ -61,9 +61,14 @@ trait IerForms extends FormKeys with FormMappings {
       (inprogress => Some(inprogress.otherAddress))
   )
   val openRegisterForm = Form(
-    mapping(openRegister -> optional(openRegisterMapping).verifying("Please answer this question", openRegister => openRegister.isDefined))
+    mapping(openRegister -> optional(optInMapping).verifying("Please answer this question", openRegister => openRegister.isDefined))
       (openRegister => InprogressApplication(openRegisterOptin = openRegister))
       (inprogress => Some(inprogress.openRegisterOptin))
+  )
+  val postalVoteForm = Form(
+    mapping(postalVote -> optional(optInMapping).verifying("Please answer this question", postalVote => postalVote.isDefined))
+      (postalVote => InprogressApplication(postalVoteOptin = postalVote))
+      (inprogress => Some(inprogress.postalVoteOptin))
   )
   val contactForm = Form(
     mapping(contact -> contactMapping
@@ -84,7 +89,8 @@ trait IerForms extends FormKeys with FormMappings {
       address -> optional(addressMapping).verifying("Please complete this step", _.isDefined),
       previousAddress -> optional(previousAddressMapping).verifying("Please complete this step", _.isDefined),
       otherAddress -> optional(otherAddressMapping).verifying("Please complete this step", _.isDefined),
-      openRegister -> optional(openRegisterMapping).verifying("Please complete this step", _.isDefined),
+      openRegister -> optional(optInMapping).verifying("Please complete this step", _.isDefined),
+      postalVote -> optional(optInMapping).verifying("Please complete this step", _.isDefined),
       contact -> optional(contactMapping).verifying("Please complete this step", _.isDefined)
     ) (InprogressApplication.apply) (InprogressApplication.unapply)
   )

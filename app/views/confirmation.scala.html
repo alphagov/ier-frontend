@@ -118,7 +118,7 @@
           <h3>Open register</h3>
           <div class="data-wrap"> 
           @validationSwitch(formData(keys.openRegister)) {
-            @if(formData(keys.openRegister.openRegisterOptin).value == Some("true")){
+            @if(formData(keys.openRegister.optIn).value == Some("true")){
               <p>You want us to include your details on the open register so they are available to charities and companies.</p>
             }else{
               <p>You don’t want us to include your details on the open register so they are available to charities and companies.</p>
@@ -126,6 +126,19 @@
           }
           </div>
           <a href="@routes.RegisterToVoteController.edit("open-register")" class="change">Change</a>
+        </div>
+        <div>
+          <h3>Postal vote</h3>
+          <div class="data-wrap"> 
+          @validationSwitch(formData(keys.postalVote)) {
+            @if(formData(keys.postalVote.optIn).value == Some("true")){
+              <p>Some text.</p>
+            }else{
+              <p>Some text.</p>
+            }
+          }
+          </div>
+          <a href="@routes.RegisterToVoteController.edit("postal-vote")" class="change">Change</a>
         </div>
         <div>
           <h3>How we should contact you</h3>

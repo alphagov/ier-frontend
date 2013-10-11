@@ -84,6 +84,7 @@ trait InProgressSession extends IerForms {
         previousAddress = application.previousAddress.orElse(stored.previousAddress),
         otherAddress = application.otherAddress.orElse(stored.otherAddress),
         openRegisterOptin = application.openRegisterOptin.orElse(stored.openRegisterOptin),
+        postalVoteOptin = application.postalVoteOptin.orElse(stored.postalVoteOptin),
         contact = application.contact.orElse(stored.contact)
       ).toSession
     }
