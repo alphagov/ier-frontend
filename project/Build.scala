@@ -13,7 +13,7 @@ object ApplicationBuild extends IERBuild {
 
   val appDependencies = Seq(
     "uk.gov.gds" %% "govuk-guice-utils" % "0.2-SNAPSHOT",
-    "uk.gov.gds" %% "gds-scala-utils" % "0.7.5-SNAPSHOT",
+    "uk.gov.gds" %% "gds-scala-utils" % "0.7.6-SNAPSHOT",
     "joda-time" % "joda-time" % "2.1",
     anorm,
     new ModuleID("org.codehaus.janino", "janino", "2.6.1")
@@ -24,9 +24,6 @@ object ApplicationBuild extends IERBuild {
     .settings(GovukToolkit.playSettings:_*)
     .settings(SassPlugin.sassSettings:_*)
     .settings(sassOptions := Seq("--load-path", "/Users/michael/Projects/gds/ier/frontend/app/assets/govuk_template_play/stylesheets", "--debug-info"))
-    .settings(
-      dependencyOverrides += "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.2.3"
-    )
 }
 
 abstract class IERBuild extends Build {
