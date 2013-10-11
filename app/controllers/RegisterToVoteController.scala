@@ -9,6 +9,7 @@ object RegisterToVoteController extends DelegatingController[GuicedController] {
   
   def index = delegate.index
   def complete = delegate.complete
+  def fakeComplete = delegate.fakeComplete
   def error = delegate.error
   def errorRedirect(error:String) = delegate.errorRedirect(error)
   def confirmApplication = delegate.confirmApplication

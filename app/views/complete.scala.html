@@ -1,16 +1,29 @@
-@(localAuthority: Option[uk.gov.gds.common.model.LocalAuthority] = None)
+@(localAuthority: Option[uk.gov.gds.common.model.LocalAuthority] = None, refNum: Option[String] = None)
 
 @import layouts._
 
-@main(title = Some("IER - Register to Vote"), stylesheets = head()) {
-    <div class="questions-main">
-        <div id="complete" class="step">
-            <h1>Register to vote</h1>
-            <h2>Your application is finished</h2><p>Your application will be sent to @{localAuthority.map(_.name + ".").getOrElse("your local registration office.")}</p>
-            <p>They will contact you - either to confirm that your details have been entered onto the electoral register, or to ask you for more information.</p>
-            <p>Once your details are on the register, you’ll be be sent information about elections that are coming up (including where to go to cast your vote).</p>
-            <p><a href="https://www.gov.uk/voting-in-the-uk">More about voting in the UK</a> </p>
-            <p><a href="http://www.aboutmyvote.co.uk/">Contact your local electoral registration office</a> <i class="icon-external-link"></i></p>
+@main(title = Some("Application Complete"), stylesheets = govukHead()) {
+    <ol role="breadcrumbs" class="breadcrumbs">
+        <li><a href="https://www.gov.uk/">Home</a></li>
+        <li><a href="https://www.gov.uk/browse/citizenship">Citizenship and living in the UK</a></li>
+        <li><strong><a href="https://www.gov.uk/browse/citizenship/voting">Voting</a></strong></li>
+    </ol>
+    <header class="complete-header group">
+        <div class="reference-number-wrap highlighted">
+            <h2><i class="icon-ok"></i><span>Application complete</span></h2>
+            @if(refNum.isDefined) {
+            <div class="pre-title">Your reference number is</div>
+            <div class="reference-number">@refNum.getOrElse("")</div>
+            }
         </div>
-    </div>
+    </header>
+    <article class="complete">
+        <section class="complete-section first">
+            <h3>What happens next?</h3><p>Your application will be processed by @{localAuthority.map(_.name + ".").getOrElse("your local registration office.")}</p>
+            <p>They will contact you within 2 weeks - either to confirm your registration, or to ask for more information.</p>
+        </section>
+        <section class="complete-section">
+            <p><a href="https://www.gov.uk/voting-in-the-uk">More about information about voting</a></p>
+        </section>
+    </article>
 }
