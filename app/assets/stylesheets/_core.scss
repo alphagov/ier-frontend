@@ -163,6 +163,7 @@ main .visible { // assumes default state is block
 article,
 form {
   padding: 0 1em 2em 1em;
+  margin-right: 0;
 
   @include media(tablet) {
     padding: 0 2em;
@@ -170,13 +171,6 @@ form {
 
   @include media(desktop) {
     padding-left: 2em;
-  }
-}
-
-article {
-  margin-right: 0;
-
-  @include media(desktop) {
     margin-right: 22.25em;
     min-height: 35em;
     max-width: 38em;
@@ -198,6 +192,29 @@ form {
   padding-right: 0;
 }
 
+.optional-section,
+.help-content {
+  border-left: $grey-2 solid 4px;
+  padding: 15px 0 15px 15px;
+  margin-bottom: 1em;
+  clear: both;
+
+  & :last-child {
+    margin-bottom: 0;
+  }
+}
+
+.optional-section-binary,
+.optional-section .optional-section,
+.help-content .optional-section {
+  border-left: none;
+  padding: 0;
+
+  & :last-child {
+    margin-bottom: 1em;
+  }
+}
+
 .help-notice {
   font-weight: 600;
   padding-left: 3em;
@@ -207,4 +224,27 @@ form {
     background-image: url("/assets/images/icon-important-2x.png");
     background-size: 34px 34px;
   }
+}
+
+.back-to-previous {
+  @include core-16;
+  display: block;
+  position: absolute;
+  text-decoration: none;
+  border-bottom: $black 1px solid;
+  width: 2.25em;
+  background: url("/assets/images/icon-caret-left.png") left 0.2em no-repeat;
+  padding-left: 0.75em;
+  text-align: right;
+
+  @include media(mobile) {
+    font-size: 16px;
+  }
+}
+
+a.back-to-previous,
+a.back-to-previous:active,
+a.back-to-previous:hover,
+a.back-to-previous:focus {
+  color: $black;
 }

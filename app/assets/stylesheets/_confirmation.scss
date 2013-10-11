@@ -9,6 +9,11 @@
   form {
     padding-top: 0;
     overflow: hidden;
+
+    @include media(desktop) {
+      margin-right: 0;
+      max-width: 100%;
+    }
   }
 
   h3,
@@ -88,6 +93,7 @@
     @include media(tablet) {
       position: static;
       float: right;
+      margin-top: 0;
     }
   }
 
