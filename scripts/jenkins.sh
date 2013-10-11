@@ -1,13 +1,18 @@
 echo "Build IER for Jenkins"
 
+echo "Install Sass Gem"
+bundle install --quiet
+echo "Sass Gem Install"
+
 echo "Clean and update the build"
-./play clean-files update;
+./scripts/play/play "clean-files"
+./scripts/play/play "update"
 
 echo "Compiling Ier Frontend"
-./play compile;
+./scripts/play/play "compile"
 
 echo "Testing Ier Frontend"
-./play test;
+./scripts/play/play "test"
 
 echo "Building Package"
-./play -DMODE=CACHED_MODE dist;
+./scripts/play/play "dist"

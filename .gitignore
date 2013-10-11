@@ -12,3 +12,4 @@ scripts/bin/*
 logs/*
 dist/*
 .sass-cache
+bin/
