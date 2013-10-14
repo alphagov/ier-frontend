@@ -4,6 +4,7 @@ import views.html.helper.{FieldElements, FieldConstructor}
 import views.html.includes.veryPlainConstructor
 import play.api.data.{Form, Field}
 import uk.gov.gds.ier.validation.{InProgressForm, FormKeys}
+import play.api.templates.Html
 
 object FormHelpers extends FormKeys {
   implicit val myFields = FieldConstructor(veryPlainConstructor.f)

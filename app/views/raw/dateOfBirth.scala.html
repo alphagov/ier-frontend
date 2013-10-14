@@ -1,4 +1,4 @@
-@(formData: uk.gov.gds.ier.validation.InProgressForm)
+@(implicit formData: uk.gov.gds.ier.validation.InProgressForm)
 
 @import includes._
 @import uk.gov.gds.ier.validation.DateOfBirthConstants
@@ -8,6 +8,7 @@
 
         <fieldset>
           <label for="input-dob-day" class="visuallyhidden">Day you were born</label>
+          @select(keys.dob.day, label = "Day", options = DateOfBirthConstants.days, inputAttributes = Map('_default -> "Day", 'class -> "day"), labelAttributes = Map('class -> "visuallyhidden"))
           @helper.select(
               formData(keys.dob.day),
               DateOfBirthConstants.days,
