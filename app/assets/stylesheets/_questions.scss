@@ -157,6 +157,10 @@ main header {
 fieldset {
   @extend %contain-floats;
   margin-left: 0;
+
+  :last-child {
+    margin-bottom: 0;
+  }
 }
 
 .added-country {
@@ -207,6 +211,10 @@ fieldset {
   clear: both;
   margin: 1em 0 2em;
 
+  fieldset & {
+    margin-bottom: 0;
+  }
+
   .help-content &,
   .optional-section & {
     margin-bottom: 0;
@@ -240,7 +248,7 @@ fieldset {
   font-size: 19px;
   text-align: center;
   clear: both;
-  margin: (1 / 19 * 32) * 1em 0;
+  margin: 2em 0;
   width: 100%;
 
   @include media(tablet) {

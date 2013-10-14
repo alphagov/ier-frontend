@@ -319,7 +319,7 @@ window.GOVUK = window.GOVUK || {};
     $('.help-content').each(function (idx, elm) {
       new GOVUK.registerToVote.optionalInformation(elm);
     });
-    $('.optional-section').each(function (idx, elm) {
+    $('.optional-section, .optional-section-binary').each(function (idx, elm) {
       if ($(elm).data('condition') !== undefined) {
         new GOVUK.registerToVote.conditionalControl(elm);
       } else {

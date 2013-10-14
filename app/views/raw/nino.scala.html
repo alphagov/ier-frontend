@@ -4,21 +4,18 @@
 
 @layouts.questionHeader("What is your National Insurance number?", "/register-to-vote/previous-name", 5)
 
-        <fieldset>
-          @text(keys.nino.nino, label = "What is your National Insurance number?", labelAttributes = Map('class -> "visuallyhidden"), inputAttributes = Map('class -> "nino"))
-          <p>Example: AB 12 34 56 C</p>
-          <div class="help-content">
-            <h2>Help</h2>
-            <p>You can find your National Insurance number on pay slips or official letters about tax, pensions and benefits.</p>
-            <p><a href="https://www.gov.uk/lost-national-insurance-number">Get a reminder of your National Insurance number</a></p>
-            <p>It&#39;s important that you try and find your National Insurance number - without it you will need to provide other documentation by post.</p>
-            <div class="optional-section">
-              <h3>I can't provide a National Insurance number</h3>
-              @textArea(keys.nino.noNinoReason, label = "Why can't you provide a National Insurance number?", inputAttributes = Map('class -> "small"))
-            </div>
+        @text(keys.nino.nino, label = "What is your National Insurance number?", labelAttributes = Map('class -> "visuallyhidden"), inputAttributes = Map('class -> "nino"))
+        <p>Example: AB 12 34 56 C</p>
+        <div class="help-content">
+          <h2>Help</h2>
+          <p>You can find your National Insurance number on pay slips or official letters about tax, pensions and benefits.</p>
+          <p><a href="https://www.gov.uk/lost-national-insurance-number">Get a reminder of your National Insurance number</a></p>
+          <p>It&#39;s important that you try and find your National Insurance number - without it you will need to provide other documentation by post.</p>
+          <div class="optional-section">
+            <h3>I can't provide a National Insurance number</h3>
+            @textArea(keys.nino.noNinoReason, label = "Why can't you provide a National Insurance number?", inputAttributes = Map('class -> "small"))
           </div>
-        </fieldset>
-        <div class="validation-message"></div>
+        </div>
         @validationMessage(formData(keys.nino))
         @validationMessage(formData(keys.nino.nino))
         @validationMessage(formData(keys.nino.noNinoReason))
