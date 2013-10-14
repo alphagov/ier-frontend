@@ -115,15 +115,17 @@ window.GOVUK = window.GOVUK || {};
     }
   };
 
-  duplicateField = function (control) {
+  duplicateField = function (control, copyClass) {
     var fieldId,
         inst = this;
 
     this.$control = $(control);
-    fieldId = this.$control.data('field');
-    this.$field = $(document.getElementById(fieldId));
+    this.copyClass = copyClass;
+    this.fieldId = this.$control.data('field');
+    this.$field = $(document.getElementById(this.fieldId));
     this.$label = this.$field.prev('label');
-    this.$control.closest('.optional-section').on('click', function (e) {
+    this.$duplicationIntro = this.$label.parent().find('.duplication-intro');
+    this.$label.parent().on('click', function (e) {
       if (e.target.className !== inst.$control[0].className) {
         return false;
       }
@@ -132,29 +134,73 @@ window.GOVUK = window.GOVUK || {};
     });
   };
   duplicateField.prototype.removeDuplicate = function (id) {
-    $(document.getElementById(id)).closest('.added-country').remove();
+    var $container = this.$label.parent(),
+        $duplicate = $(document.getElementById(id)).closest("." + this.copyClass),
+        duplicateNumber = $duplicate.find('label').text().match(/\d+/)[0],
+        $copies;
+
+    $duplicate.remove();
+    $copies = $container.find("." + this.copyClass);
+    if (!$copies.length) {
+      $container.find('a.duplicate-control').remove();
+      this.$duplicationIntro.insertAfter(this.$field);
+      this.$field.focus();
+      return;
+    }
+    // update field indexes
+    $copies.each(function (idx, elm) {
+      var $elm = $(elm),
+          $input = $elm.find('input'),
+          $label = $elm.find('label'),
+          labelText = $label.text();
+
+      $input.attr({
+        'name' : $input.attr('name').replace(/\[\d\]$/, '[' + (idx + 1) + ']'),
+        'id' : $input.attr('id').replace(/\[\d\]$/, '[' + (idx + 1) + ']')
+      });
+      $label.attr('for', $input.attr('id')).text(labelText.replace(/\d+/, (idx + 1)));
+    });
+    $copies.eq(duplicateNumber - 2).find('input').focus();
   };
   duplicateField.prototype.duplicate = function () {
     var inst = this,
+        $container = this.$label.parent(),
         newField = document.createDocumentFragment(),
-        country = this.$control.closest('.optional-section').find('input').length,
-        newId = this.$field.attr('id').replace(/\[\d+\]/, "[" + country + "]"),
-        newName = this.$field.attr('name').replace(/\[\d+\]/, "[" + country + "]"),
-        $newLabel = this.$label.clone().text('Country ' + country).attr('for', newId).addClass('country-label'),
-        $newInput = this.$field.clone().attr({ 'id' : newId, 'name' : newName }),
-        $newControl = this.$control.clone().attr('for', newId),
-        $removalControl = $('<a href="#" class="remove-field">Remove<span class="visuallyhidden"> Country' + country + '</span></a>'),
-        wrapperDiv = document.createElement('div');
+        countryIdx = $container.find("." + this.copyClass).length + 1,
+        newId = this.fieldId.replace(/\[\d+\]/, "[" + countryIdx + "]"),
+        newName = newId.replace('_', '.'),
+        $newLabel = this.$label
+                      .clone()
+                      .text('Country ' + countryIdx)
+                      .attr('for', newId)
+                      .addClass('country-label'),
+        $newInput = this.$field
+                      .clone()
+                      .attr({ 
+                        'id' : newId,
+                        'name' : newName
+                      }),
+        $removalControl = $('<a href="#" class="remove-field">Remove<span class="visuallyhidden"> Country ' + countryIdx + '</span></a>'),
+        wrapperDiv = document.createElement('div'),
+        $addAnotherLink;
 
-    wrapperDiv.className = 'added-country';
+    wrapperDiv.className = this.copyClass;
     newField.appendChild($newLabel[0]);
     newField.appendChild($removalControl[0]);
     newField.appendChild($newInput[0]);
-    newField.appendChild($newControl[0]);
     wrapperDiv.appendChild(newField.cloneNode(true));
-    this.$label[0].parentNode.appendChild(wrapperDiv);
+
+    if ($container.find('.duplication-intro').length) {
+      $addAnotherLink = this.$duplicationIntro.find('a').clone();
+      this.$duplicationIntro = this.$duplicationIntro.remove();
+      $container.append($addAnotherLink);
+    } else {
+      $addAnotherLink = $container.find('a.duplicate-control');
+    }
+    $(wrapperDiv).insertBefore($addAnotherLink);
+    document.getElementById(newId).focus();
     $(document.getElementById(newId)).prev('a.remove-field').on('click', function (e) {
-      inst.removeDuplicate(newId);
+      inst.removeDuplicate($(e.target).siblings('input').attr('id'));
       return false;
     });
   };
@@ -327,7 +373,7 @@ window.GOVUK = window.GOVUK || {};
       }
     });
     $('.duplicate-control').each(function (idx, elm) {
-      new GOVUK.registerToVote.duplicateField(elm);
+      new GOVUK.registerToVote.duplicateField(elm, 'added-country');
     });
     $('.selectable').each(function (idx, elm) {
       var $label = $(elm),

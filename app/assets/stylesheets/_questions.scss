@@ -164,7 +164,7 @@ fieldset {
 }
 
 .added-country {
-  margin-top: 1em;
+  margin: 0 0 1em;
 
   a {
     @include core-19;
@@ -185,13 +185,14 @@ fieldset {
   .duplication-intro {
     margin-bottom: 0; 
   }
+}
 
-  .duplicate-control {
-    display: block;
+.duplicate-control {
+  @include core-19;
+  display: block;
 
-    p & {
-      display: inline;
-    }
+  p & {
+    display: inline;
   }
 }
 
