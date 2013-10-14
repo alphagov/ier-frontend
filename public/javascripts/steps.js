@@ -137,10 +137,11 @@ window.GOVUK = window.GOVUK || {};
   duplicateField.prototype.duplicate = function () {
     var inst = this,
         newField = document.createDocumentFragment(),
-        country = this.$control.closest('.optional-section').find('input').length + 1,
-        newId = this.$field.attr('id') + '-' + country,
+        country = this.$control.closest('.optional-section').find('input').length,
+        newId = this.$field.attr('id').replace(/\[\d+\]/, "[" + country + "]"),
+        newName = this.$field.attr('name').replace(/\[\d+\]/, "[" + country + "]"),
         $newLabel = this.$label.clone().text('Country ' + country).attr('for', newId),
-        $newInput = this.$field.clone().attr('id', newId),
+        $newInput = this.$field.clone().attr({ 'id' : newId, 'name' : newName }),
         $newControl = this.$control.clone().attr('for', newId),
         $removalControl = $('<a href="#" class="remove-field">Remove<span class="visuallyhidden"> Country' + country + '</span></a>'),
         wrapperDiv = document.createElement('div');

@@ -26,6 +26,7 @@ trait FormMappings extends FormKeys {
 
   val nationalityMapping = mapping(
     nationalities -> list(nonEmptyText),
+    hasOtherCountry -> optional(nonEmptyText),
     otherCountries -> list(nonEmptyText),
     noNationalityReason -> optional(nonEmptyText)
   ) (Nationality.apply) (Nationality.unapply) verifying("Please select your Nationality", nationality => {

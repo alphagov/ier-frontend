@@ -14,6 +14,7 @@ trait FormKeys {
   lazy val nationality = prependNamespace("nationality")
 
   lazy val nationalities = prependNamespace("nationalities")
+  lazy val hasOtherCountry = prependNamespace("hasOtherCountry")
   lazy val otherCountries = prependNamespace("otherCountries")
   lazy val noNationalityReason = prependNamespace("noNationalityReason")
 
@@ -54,6 +55,10 @@ trait FormKeys {
 
   implicit class key2namespace(key:String) extends FormKeys {
     override lazy val namespace = key
+  }
+
+  implicit class Key2Id(key:String) {
+    def asId = key.replace(".", "_")
   }
 }
 

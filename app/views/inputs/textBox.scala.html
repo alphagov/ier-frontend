@@ -1,0 +1,8 @@
+@(id:String, label:String, inputAttributes:Map[Symbol,String] = Map.empty, labelAttributes:Map[Symbol,String] = Map.empty)(implicit form:Form[_])
+@inputType = @{ inputAttributes.get('type).getOrElse("text") }
+@defining(form(id)) { field =>
+<label for="@id.replace(".","_")" class="@(if(field.hasErrors) "invalid" else "") @labelAttributes.get('class).getOrElse("")">
+    @label
+</label>
+<input type="@inputType" id="@id.replace(".", "_")" name="@field.name" value="@field.value.getOrElse("")" class="text @(if(field.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")">
+}

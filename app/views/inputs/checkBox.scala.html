@@ -1,0 +1,7 @@
+@(id:String, value:String, label:String, inputAttributes:Map[Symbol,String] = Map.empty, labelAttributes:Map[Symbol,String] = Map.empty)(implicit form:Form[_])
+@inputType = @{ inputAttributes.get('type).getOrElse("checkbox") }
+@defining(form(id)) { field =>
+<label class="selectable@(if(field.value == Some(value)) " selected" else "")@(if(field.hasErrors) " invalid" else "")@labelAttributes.get('class).map(" " + _).getOrElse("")">
+    <input type="@inputType" id="@id.replace(".", "_")" name="@field.name" value="@value" @(if(field.value == Some(value)) "checked" else "") class="@(if(field.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")">@label
+</label>
+}
