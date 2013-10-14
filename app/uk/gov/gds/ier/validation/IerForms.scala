@@ -6,12 +6,11 @@ import uk.gov.gds.ier.model.{CompleteApplication, InprogressApplication}
 
 trait IerForms extends FormKeys with FormMappings {
 
-  lazy val postcodeRegex = "(?i)((GIR 0AA)|((([A-Z-[QVX]][0-9][0-9]?)|(([A-Z-[QVX]][A-Z-[IJZ]][0-9][0-9]?)|(([A-Z-[QVX]][0-9][A-HJKSTUW])|([A-Z-[QVX]][A-Z-[IJZ]][0-9][ABEHMNPRVWXY]))))\\s?[0-9][A-Z-[CIKMOV]]{2}))"
   val dobFormat = "yyyy-MM-dd"
   val timeFormat = "yyyy-MM-dd HH:mm:ss"
   val postcodeForm = Form(
     single(
-      postcode -> nonEmptyText.verifying(_.matches(postcodeRegex))
+      postcode -> nonEmptyText.verifying(PostcodeValidator.isValid(_))
     )
   )
   val completePostcodeForm = Form(
