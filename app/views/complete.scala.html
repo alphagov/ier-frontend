@@ -3,11 +3,6 @@
 @import layouts._
 
 @main(title = Some("Application Complete"), stylesheets = govukHead(), contentClasses = Some("complete")) {
-    <ol role="breadcrumbs" class="breadcrumbs">
-        <li><a href="https://www.gov.uk/">Home</a></li>
-        <li><a href="https://www.gov.uk/browse/citizenship">Citizenship and living in the UK</a></li>
-        <li><strong><a href="https://www.gov.uk/browse/citizenship/voting">Voting</a></strong></li>
-    </ol>
     <header>
       <h1>Application complete</h1>
       @if(refNum.isDefined) {
