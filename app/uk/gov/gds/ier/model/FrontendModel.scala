@@ -13,25 +13,59 @@ case class Contact (contactType:String,
                     post: Option[String],
                     phone: Option[String],
                     textNum: Option[String],
-                    email: Option[String])
+                    email: Option[String]) {
+  def toApiMap = {
+    post.map(s => Map("post" -> s)).getOrElse(Map.empty) ++
+      phone.map(s => Map("phone" -> s)).getOrElse(Map.empty) ++
+      textNum.map(s => Map("text" -> s)).getOrElse(Map.empty) ++
+      email.map(s => Map("email" -> s)).getOrElse(Map.empty)
+  }
+}
 
 case class PreviousName(hasPreviousName:Boolean,
-                        previousName:Option[Name])
+                        previousName:Option[Name]) {
+  def toApiMap:Map[String,String] = {
+    Map() ++ previousName.map(pn => pn.toApiMap("pfn", "pmn", "pln")).getOrElse(Map.empty)
+  }
+}
 
 case class Name(firstName:String,
                 middleNames:Option[String],
-                lastName:String)
+                lastName:String) {
+  def toApiMap(fnKey:String, mnKey:String, lnKey:String):Map[String,String] = {
+    Map(fnKey -> firstName, lnKey -> lastName) ++ middleNames.map(mn => Map(mnKey -> mn)).getOrElse(Map.empty)
+  }
+}
 
 case class Nationality (nationalities:List[String] = List.empty,
                         otherCountries:List[String] = List.empty,
-                        noNationalityReason:Option[String] = None)
+                        noNationalityReason:Option[String] = None) {
+  def toApiMap = {
+    val natMap = if ((nationalities ++ otherCountries).size > 0) {
+      Map("nat" -> (nationalities ++ otherCountries).mkString(", "))
+    } else {
+      Map.empty
+    }
+    val noNatMap = noNationalityReason.map(nat => Map("nonat" -> nat)).getOrElse(Map.empty)
+    natMap ++ noNatMap
+  }
+}
 
 case class Nino(nino:Option[String],
-                noNinoReason:Option[String])
+                noNinoReason:Option[String]) {
+  def toApiMap = {
+    nino.map(n => Map("nino" -> n)).getOrElse(Map.empty) ++
+    noNinoReason.map(nonino => Map("nonino" -> nonino)).getOrElse(Map.empty)
+  }
+}
 
 case class DateOfBirth (year:String,
                         month:String,
-                        day:String)
+                        day:String) {
+  def toApiMap = {
+    Map("dob" -> (day + "/" + month + "/" + year))
+  }
+}
 
 case class InprogressApplication (name: Option[Name] = None,
                                   previousName: Option[PreviousName] = None,
@@ -43,54 +77,42 @@ case class InprogressApplication (name: Option[Name] = None,
                                   otherAddress: Option[OtherAddress] = None,
                                   openRegisterOptin: Option[Boolean] = None,
                                   postalVoteOptin: Option[Boolean] = None,
-                                  contact: Option[Contact] = None)
+                                  contact: Option[Contact] = None) {
+  def toApiMap:Map[String, String] = {
+    Map.empty ++
+      name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
+      previousName.map(_.toApiMap).getOrElse(Map.empty) ++
+      dob.map(_.toApiMap).getOrElse(Map.empty) ++
+      nationality.map(_.toApiMap).getOrElse(Map.empty) ++
+      nino.map(_.toApiMap).getOrElse(Map.empty) ++
+      address.map(_.toApiMap("cadr", "cpost")).getOrElse(Map.empty) ++
+      previousAddress.map(_.toApiMap).getOrElse(Map.empty) ++
+      otherAddress.map(_.toApiMap).getOrElse(Map.empty) ++
+      openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
+      postalVoteOptin.map(postal => Map("pvote" -> postal.toString)).getOrElse(Map.empty) ++
+      contact.map(_.toApiMap).getOrElse(Map.empty)
+  }
+}
 
-case class Address(addressLine:String, postcode:String)
+case class Address(addressLine:String, postcode:String) {
+  def toApiMap(addressKey:String, postcodeKey:String) = {
+    Map(addressKey -> addressLine, postcodeKey -> postcode)
+  }
+}
 
 case class PreviousAddress (movedRecently:Boolean,
-                            previousAddress:Option[Address])
+                            previousAddress:Option[Address]) {
+  def toApiMap = {
+    previousAddress.map(_.toApiMap("padr", "ppost")).getOrElse(Map.empty)
+  }
+}
 
-case class OtherAddress (hasOtherAddress:Boolean)
+case class OtherAddress (hasOtherAddress:Boolean) {
+  def toApiMap = {
+    Map("oadr" -> hasOtherAddress.toString)
+  }
+}
 
 case class PostcodeAnywhereResponse(Items:List[Map[String,String]])
 
-case class ApiApplication(application:CompleteApplication)
-
-case class CompleteApplication ( fn:Option[String], mn:Option[String], ln:Option[String],
-                                 pfn:Option[String], pmn:Option[String], pln:Option[String],
-                                 dob:Option[String],
-                                 nat:Option[String], nonat:Option[String],
-                                 nino:Option[String], nonino:Option[String],
-                                 cadr:Option[String], cpost:Option[String],
-                                 padr:Option[String], ppost:Option[String],
-                                 oadr:Option[String],
-                                 opnreg:Option[String],
-                                 post:Option[String], phone:Option[String], text:Option[String], email:Option[String],
-                                 gssCode:Option[String])
-
-object CompleteApplication {
-  def apply(inprogress:InprogressApplication):CompleteApplication = {
-    CompleteApplication(
-      fn = inprogress.name.map(_.firstName), mn = inprogress.name.map(_.middleNames).getOrElse(None), ln = inprogress.name.map(_.lastName),
-      pfn = inprogress.previousName.map(_.previousName.map(_.firstName)).getOrElse(None),
-      pmn = inprogress.previousName.map(_.previousName.map(_.middleNames).getOrElse(None)).getOrElse(None),
-      pln = inprogress.previousName.map(_.previousName.map(_.lastName)).getOrElse(None),
-      dob = inprogress.dob.map(dob => dob.day + "/" + dob.month + "/" + dob.year),
-      nat = inprogress.nationality.map(n => (n.nationalities ++ n.otherCountries).mkString(", ")),
-      nonat = inprogress.nationality.map(_.noNationalityReason).getOrElse(None),
-      nino = inprogress.nino.map(_.nino).getOrElse(None),
-      nonino = inprogress.nino.map(_.noNinoReason).getOrElse(None),
-      cadr = inprogress.address.map(_.addressLine),
-      cpost = inprogress.address.map(_.postcode),
-      padr = inprogress.previousAddress.map(_.previousAddress.map(_.addressLine)).getOrElse(None),
-      ppost = inprogress.previousAddress.map(_.previousAddress.map(_.postcode)).getOrElse(None),
-      oadr = inprogress.otherAddress.map(_.hasOtherAddress.toString),
-      opnreg = inprogress.openRegisterOptin.map(_.toString),
-      post = inprogress.contact.map(_.post).getOrElse(None),
-      phone = inprogress.contact.map(_.phone).getOrElse(None),
-      text = inprogress.contact.map(_.textNum).getOrElse(None),
-      email = inprogress.contact.map(_.email).getOrElse(None),
-      gssCode = None
-    )
-  }
-}
+case class ApiApplication(application:Map[String,String])
