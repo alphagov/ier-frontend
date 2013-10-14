@@ -73,10 +73,6 @@ label.selected {
 	background: #fff;
 }
 
-label.country-label {
-  @include inline-block;
-}
-
 textarea,
 select.lonely,
 input.text,
@@ -92,6 +88,22 @@ input.text {
 	padding: 0.5em;
 }
 
+@include media(tablet) {
+  input.text {
+    width: auto;
+  }
+
+  input.long {
+    width: 320px;
+  }
+
+  textarea,
+  select.lonely {
+    display: block;
+    width: auto;
+  }
+}
+
 input.small{
   width: 80px;
 }
@@ -102,26 +114,6 @@ input.medium {
 
 textarea.small {
   min-height: 120px;
-}
-
-@include media(tablet) {
-  input.text {
-    width: auto;
-  }
-
-  input.long {
-    width: 320px;
-  }
-
-  textarea.small {
-    width: 320px;
-  }
-
-  textarea,
-  select.lonely {
-    display: block;
-    width: auto;
-  }
 }
 
 /* Styles specific to question pages */
@@ -167,11 +159,35 @@ fieldset {
   margin-left: 0;
 }
 
-.duplicate-control {
-  display: block;
+.added-country {
+  margin-top: 1em;
 
-  p & {
-    display: inline;
+  a {
+    @include core-19;
+  }
+
+  .country-label,
+  .remove-field {
+    float: left;
+    line-height: 1.25;
+    margin-bottom: 0.5em;
+  }
+
+  .text {
+    clear: left;
+    display: block;
+  }
+
+  .duplication-intro {
+    margin-bottom: 0; 
+  }
+
+  .duplicate-control {
+    display: block;
+
+    p & {
+      display: inline;
+    }
   }
 }
 
@@ -189,6 +205,13 @@ fieldset {
   display: block;
   float: left;
   clear: both;
+  margin: 1em 0 2em;
+
+  .help-content &,
+  .optional-section & {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
 }
 
 .toggle-closed {
@@ -199,6 +222,7 @@ fieldset {
 .toggle-open {
   background: url("/assets/images/icon-caret-down.png") left 0.5em no-repeat;
   padding-left: 0.75em;
+  margin-bottom: 0;
 }
 
 .help-content,
