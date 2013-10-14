@@ -12,7 +12,7 @@
               @text(keys.nationality.otherCountries.item(0), label = "Which country?")
               @keys.nationality.otherCountries.each(1) { (id, i) =>
               <div class="added-country">
-                  @text(id, label = "Country " + i)
+                  @text(id, label = "Country " + i, labelAttributes = Map('class -> "country-label"))
                   <a href="#" class="remove-field">Remove<span class="visuallyhidden"> Country3</span></a>
               </div>
               }

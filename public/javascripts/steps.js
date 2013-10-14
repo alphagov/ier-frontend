@@ -140,7 +140,7 @@ window.GOVUK = window.GOVUK || {};
         country = this.$control.closest('.optional-section').find('input').length,
         newId = this.$field.attr('id').replace(/\[\d+\]/, "[" + country + "]"),
         newName = this.$field.attr('name').replace(/\[\d+\]/, "[" + country + "]"),
-        $newLabel = this.$label.clone().text('Country ' + country).attr('for', newId),
+        $newLabel = this.$label.clone().text('Country ' + country).attr('for', newId).addClass('country-label'),
         $newInput = this.$field.clone().attr({ 'id' : newId, 'name' : newName }),
         $newControl = this.$control.clone().attr('for', newId),
         $removalControl = $('<a href="#" class="remove-field">Remove<span class="visuallyhidden"> Country' + country + '</span></a>'),
