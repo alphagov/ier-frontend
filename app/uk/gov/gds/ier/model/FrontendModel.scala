@@ -38,7 +38,7 @@ case class Name(firstName:String,
 }
 
 case class Nationality (nationalities:List[String] = List.empty,
-                        hasOtherCountry:Option[String] = None,
+                        hasOtherCountry:Option[Boolean] = None,
                         otherCountries:List[String] = List.empty,
                         noNationalityReason:Option[String] = None) {
   def toApiMap = {

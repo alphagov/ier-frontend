@@ -3,7 +3,6 @@
 @import uk.gov.gds.ier.form.FormHelpers._
 
 @layouts.questionHeader("What is your nationality?", "", 1)
-
         <p>If you have dual nationality, select all options that are relevant to you.</p>
         <fieldset>
           @check(keys.nationality.nationalities.item(0), label = "I am British", value = "British")
@@ -29,5 +28,6 @@
             @textArea(keys.nationality.noNationalityReason, label = "Why can't you provide your nationality?", inputAttributes = Map('class -> "small"))
           </div>
         </div>
-        @validationMessage(formData(keys.nationality))
+@validationMessage(formData(keys.nationality))
+@validationMessage(formData(keys.nationality.nationalities))
         <input type="submit" class="button next" value="Continue" />

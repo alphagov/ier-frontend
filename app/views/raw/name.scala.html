@@ -5,12 +5,9 @@
 @layouts.questionHeader("What is your name?", "/register-to-vote/date-of-birth", 3)
 
         <fieldset>
-          @text(keys.name.firstName, label = "First name or names", inputAttributes = Map('class -> "first-name long"))
+          @text(keys.name.firstName, label = "First name", inputAttributes = Map('class -> "first-name long"), crossField = keys.name)
           @text(keys.name.middleNames, label = "Middle names", inputAttributes = Map('class -> "middle-names long"))
-          @text(keys.name.lastName, label = "Last name", inputAttributes = Map('class -> "last-name long"))
+          @text(keys.name.lastName, label = "Last name", inputAttributes = Map('class -> "last-name long"), crossField = keys.name)
         </fieldset>
         @validationMessage(formData(keys.name))
-        @validationMessage(formData(keys.name.firstName))
-        @validationMessage(formData(keys.name.middleNames))
-        @validationMessage(formData(keys.name.lastName))
         <input data-next="step-name" type="submit" class="button next" value="Continue" />
