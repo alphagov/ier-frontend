@@ -8,7 +8,7 @@
     max-width: 640px;
     background: rgb(40, 161, 151) !important;
     margin: 0 2em;
-    margin: 1em 15px 2em;
+    margin: 1em 0 2em;
     padding: 1em;
 
     @include media(tablet) {
@@ -24,9 +24,15 @@
     h1 {
       @include bold-36;
       margin: 0 auto 0.5em;
-      padding-left: 32px;
+      padding-left: 24px;
       width: 10.5em;
       background: url('/assets/images/icon-tick.png') left center no-repeat;
+      background-size: 20px;
+
+      @include media(tablet) {
+        padding-left: 32px;
+        background-size: initial;
+      }
     }
 
     p {
@@ -38,6 +44,10 @@
         @include bold-36;
         display: block;
         margin: 0 0 10px 0;
+
+        @include media(mobile) {
+          font-size: 36px;
+        }
       }
     }
   }
