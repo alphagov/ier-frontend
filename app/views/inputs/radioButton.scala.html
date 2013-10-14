@@ -2,6 +2,6 @@
 @inputType = @{ inputAttributes.get('type).getOrElse("radio") }
 @defining(form(id)) { field =>
     <label class="selectable @(if(field.value == Some(value)) "selected" else "") @(if(field.hasErrors) "invalid" else "") @labelAttributes.get('class).getOrElse("")">
-        <input type="@inputType" id="@id.replace(".", "_")" name="@field.name" value="@value" @(if(field.value == Some(value)) "checked" else "") class="radio @(if(field.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")">@label
+        <input type="@inputType" id="@(id.replace(".", "_")+"_"+value)" name="@field.name" value="@value" @(if(field.value == Some(value)) "checked" else "") class="radio @(if(field.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")">@label
     </label>
 }

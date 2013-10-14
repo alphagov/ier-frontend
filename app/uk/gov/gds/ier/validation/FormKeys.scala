@@ -60,7 +60,7 @@ trait FormKeys {
     override lazy val namespace = key
   }
   implicit class Key2Id(key:String) {
-    def asId = key.replace(".", "_")
+    def asId(value:String = "") = key.replace(".", "_") + value
   }
   implicit class keys2Traversal(key:String)(implicit form:Form[_]) {
     def each(from:Int = 0)(block: (String, Int) => Html):Html = {

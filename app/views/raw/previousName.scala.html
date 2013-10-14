@@ -8,7 +8,7 @@
           @radio(keys.previousName.hasPreviousName, label="Yes", value = "true", labelAttributes = Map('class -> "binary"))
           @radio(keys.previousName.hasPreviousName, label="No", value = "false", labelAttributes = Map('class -> "binary"))
         </fieldset>
-        <fieldset class="optional-section @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "visible")" data-condition="@keys.previousName.hasPreviousName.asId">
+        <fieldset class="optional-section @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "visible")" data-condition="@keys.previousName.hasPreviousName.asId("_true")">
           <h3>Previous name</h3>
           @text(keys.previousName.previousName.firstName, label = "First name or names", inputAttributes = Map('class -> "first-name long"), crossField = keys.previousName)
           @text(keys.previousName.previousName.middleNames, label = "Middle names", inputAttributes = Map('class -> "middle-names long"))
