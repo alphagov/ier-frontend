@@ -2,28 +2,19 @@
 
 @import layouts._
 
-@main(title = Some("Application Complete"), stylesheets = govukHead()) {
-    <ol role="breadcrumbs" class="breadcrumbs">
-        <li><a href="https://www.gov.uk/">Home</a></li>
-        <li><a href="https://www.gov.uk/browse/citizenship">Citizenship and living in the UK</a></li>
-        <li><strong><a href="https://www.gov.uk/browse/citizenship/voting">Voting</a></strong></li>
-    </ol>
-    <header class="complete-header group">
-        <div class="reference-number-wrap highlighted">
-            <h2><i class="icon-ok"></i><span>Application complete</span></h2>
-            @if(refNum.isDefined) {
-            <div class="pre-title">Your reference number is</div>
-            <div class="reference-number">@refNum.getOrElse("")</div>
-            }
-        </div>
+@main(title = Some("Application Complete"), stylesheets = govukHead(), contentClasses = Some("complete")) {
+    <header>
+      <h1>Application complete</h1>
+      @if(refNum.isDefined) {
+      <p>
+        Your reference number is
+        <span>@refNum.getOrElse("")</span>
+      </p>
+      }
     </header>
-    <article class="complete">
-        <section class="complete-section first">
-            <h3>What happens next?</h3><p>Your application will be processed by @{localAuthority.map(_.name + ".").getOrElse("your local registration office.")}</p>
-            <p>They will contact you within 2 weeks - either to confirm your registration, or to ask for more information.</p>
-        </section>
-        <section class="complete-section">
-            <p><a href="https://www.gov.uk/voting-in-the-uk">More about information about voting</a></p>
-        </section>
+    <article>
+      <h2>What happens next?</h2><p>Your application will be processed by @{localAuthority.map(_.name + ".").getOrElse("your local registration office.")}</p>
+      <p>They will contact you within 2 weeks - either to confirm your registration, or to ask for more information.</p>
+      <p><a href="https://www.gov.uk/voting-in-the-uk">More about information about voting</a></p>
     </article>
 }
