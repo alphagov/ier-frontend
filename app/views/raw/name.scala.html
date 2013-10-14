@@ -1,16 +1,13 @@
-@(formData: uk.gov.gds.ier.validation.InProgressForm)
+@(implicit formData: uk.gov.gds.ier.validation.InProgressForm)
 
 @import uk.gov.gds.ier.form.FormHelpers._
 
 @layouts.questionHeader("What is your name?", "/register-to-vote/date-of-birth", 3)
 
         <fieldset>
-          <label for="first-name">First name or names</label>
-          @helper.inputText(formData(keys.name.firstName), 'class -> "text first-name long")
-          <label for="middle-names"><span>Middle names</span><span class="optional"></span></label>
-          @helper.inputText(formData(keys.name.middleNames), 'class -> "text middle-names long")
-          <label for="last-name">Last name</label>
-          @helper.inputText(formData(keys.name.lastName), 'class -> "text last-name long")
+          @text(keys.name.firstName, label = "First name or names", inputAttributes = Map('class -> "first-name long"))
+          @text(keys.name.middleNames, label = "Middle names", inputAttributes = Map('class -> "middle-names long"))
+          @text(keys.name.lastName, label = "Last name", inputAttributes = Map('class -> "last-name long"))
         </fieldset>
         @validationMessage(formData(keys.name))
         @validationMessage(formData(keys.name.firstName))
