@@ -1,29 +1,18 @@
-@(formData: uk.gov.gds.ier.validation.InProgressForm)
+@(implicit formData: uk.gov.gds.ier.validation.InProgressForm)
 
 @import uk.gov.gds.ier.form.FormHelpers._
 
 @layouts.questionHeader("Have you changed your name in the last 12 months?", "/register-to-vote/name", 3)
 
         <fieldset>
-          <label class="selectable binary @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "selected")">
-              <input type="radio" id="input-name-change-yes" name="@keys.previousName.hasPreviousName" value="true" class="radio" @checkedIf(formData(keys.previousName.hasPreviousName).value == Some("true"))><span>Yes</span>
-          </label>
-          <label class="selectable binary @classIf(formData(keys.previousName.hasPreviousName).value == Some("false"), "selected")">
-              <input type="radio" id="input-name-change-no" name="@keys.previousName.hasPreviousName" value="false" class="radio" @checkedIf(formData(keys.previousName.hasPreviousName).value == Some("false"))><span>No</span>
-          </label>
+          @radio(keys.previousName.hasPreviousName, label="Yes", value = "true", labelAttributes = Map('class -> "binary"))
+          @radio(keys.previousName.hasPreviousName, label="No", value = "false", labelAttributes = Map('class -> "binary"))
         </fieldset>
-        <fieldset class="optional-section @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "visible")" data-condition="input-name-change-yes">
+        <fieldset class="optional-section @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "visible")" data-condition="@keys.previousName.hasPreviousName.asId">
           <h3>Previous name</h3>
-          <label class="above" for="input-previous-first-name">First name</label>
-          @validationWrap(formData(keys.previousName)) {
-              @helper.inputText(formData(keys.previousName.previousName.firstName), 'class -> "text first-name long")
-          }
-          <label class="above" for="input-previous-names">Middle names</label>
-          @helper.inputText(formData(keys.previousName.previousName.middleNames), 'class -> "text middle-names long")
-          <label class="above" for="input-previous-last-name">Last name</label>
-          @validationWrap(formData(keys.previousName)) {
-              @helper.inputText(formData(keys.previousName.previousName.lastName), 'class -> "text last-name long")
-          }
+          @text(keys.previousName.previousName.firstName, label = "First name or names", inputAttributes = Map('class -> "first-name long"), crossField = keys.previousName)
+          @text(keys.previousName.previousName.middleNames, label = "Middle names", inputAttributes = Map('class -> "middle-names long"))
+          @text(keys.previousName.previousName.lastName, label = "Last name", inputAttributes = Map('class -> "last-name long"), crossField = keys.previousName)
           @validationMessage(formData(keys.previousName))
           @validationMessage(formData(keys.previousName.previousName.firstName))
           @validationMessage(formData(keys.previousName.previousName.middleNames))
