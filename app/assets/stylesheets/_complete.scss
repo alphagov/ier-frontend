@@ -1,0 +1,36 @@
+.complete {
+  article {
+    min-height: 300px;
+  }
+
+  header {
+    color: $white;
+    max-width: 640px;
+    background: rgb(40, 161, 151) !important;
+    margin: 0 2em;
+    margin: 1em 0 2em 30px;
+    padding: 1em;
+
+    h1,
+    p {
+      text-align: center;
+    }
+
+    h1 {
+      @include bold-36;
+      margin: 0 0 0.5em;
+    }
+
+    p {
+      @include bold-19;
+      color: $white;
+      padding: 0;
+
+      span {
+        @include bold-36;
+        display: block;
+        margin: 0 0 10px 0;
+      }
+    }
+  }
+}
