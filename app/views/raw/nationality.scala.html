@@ -24,7 +24,7 @@
           <div class="optional-section">
             <h3>I can't provide my nationality</h3>
             <label class="above" for="noNationalityReason">Why can't you provide your nationality?</label>
-            <textarea name="noNationalityReason" id="noNationalityReason" class="small">@formData(keys.nationality.noNationalityReason).value.getOrElse("")</textarea>
+            <textarea name="noNationalityReason" id="noNationalityReason" maxlength="500" class="small">@formData(keys.nationality.noNationalityReason).value.getOrElse("")</textarea>
           </div>
         </div>
         @validationMessage(formData(keys.nationality))

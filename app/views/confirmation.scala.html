@@ -3,6 +3,7 @@
 @import helper._
 @import uk.gov.gds.ier.form.FormHelpers._
 @import layouts._
+@import uk.gov.gds.ier.validation.DateOfBirthConstants._
 
 @name(firstName:Option[String], middleName:Option[String], lastName:Option[String]) = {
     @{firstName.map(_ + " ").getOrElse("") + middleName.map(_ + " ").getOrElse("") + lastName.getOrElse("")}
@@ -42,7 +43,7 @@
           <h3>Date of birth</h3>
           <div class="data-wrap">
             @validationSwitch(formData(keys.dob)) {
-                <p> @formData(keys.dob.day).value.getOrElse("") @formData(keys.dob.month).value.getOrElse("") @formData(keys.dob.year).value.getOrElse("")</p>
+                <p> @formData(keys.dob.day).value.getOrElse("") @formData(keys.dob.month).value.map(month => monthsByNumber(month)).getOrElse("") @formData(keys.dob.year).value.getOrElse("")</p>
             }
           </div>
           <a href="@routes.RegisterToVoteController.edit("date-of-birth")" class="change">Change</a>

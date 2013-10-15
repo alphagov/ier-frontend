@@ -29,9 +29,9 @@ case class Nationality (nationalities:List[String] = List.empty,
 case class Nino(nino:Option[String],
                 noNinoReason:Option[String])
 
-case class DateOfBirth (year:String,
-                        month:String,
-                        day:String)
+case class DateOfBirth (year:Int,
+                        month:Int,
+                        day:Int)
 
 case class InprogressApplication (name: Option[Name] = None,
                                   previousName: Option[PreviousName] = None,
