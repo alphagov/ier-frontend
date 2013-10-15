@@ -9,6 +9,7 @@ import controllers._
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation.{InProgressForm, IerForms}
 import scala.Some
+import uk.gov.gds.common.model.{Ero, LocalAuthority}
 
 class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: JsonSerialiser, placesService:PlacesService)
     extends Controller
@@ -76,13 +77,19 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
 
   def complete = Action {
     implicit request =>
-      request.session.getApplication.address.map(_.postcode) match {
-        case Some(p) => {
-          val authority = placesService.lookupAuthority(p)
-          Ok(html.complete(authority)).withNewSession
-        }
-        case None => Ok(html.complete()).withNewSession
+      val authority = request.flash.get("postcode") match {
+        case Some("") => None
+        case Some(postCode) => placesService.lookupAuthority(postCode)
+        case None => None
       }
+      val refNum = request.flash.get("refNum")
+
+      Ok(html.complete(authority, refNum)).withNewSession
+  }
+
+  def fakeComplete = Action {
+    val authority = Some(LocalAuthority("Tower Hamlets Borough Council", Ero(), "00BG", "E09000030"))
+    Ok(html.complete(authority, Some("123456")))
   }
 
   def confirmApplication = ValidSession requiredFor Action {
@@ -98,8 +105,12 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
           Ok(Step.getStep("confirmation").page(InProgressForm(errors)))
         },
         validApplication => {
-          ierApi.submitApplication(validApplication)
-          Redirect(controllers.routes.RegisterToVoteController.complete())
+          val refNum = ierApi.generateReferenceNumber(validApplication)
+          ierApi.submitApplication(validApplication, Some(refNum))
+          Redirect(controllers.routes.RegisterToVoteController.complete()).flashing(
+            "refNum" -> refNum,
+            "postcode" -> validApplication.address.map(_.postcode).getOrElse("")
+          )
         }
       )
   }

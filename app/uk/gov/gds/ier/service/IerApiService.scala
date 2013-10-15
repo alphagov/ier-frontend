@@ -9,14 +9,23 @@ import uk.gov.gds.ier.model.Success
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
+import uk.gov.gds.ier.digest.ShaHashProvider
+import org.joda.time.DateTime
 
-class IerApiService @Inject() (apiClient: ApiClient, serialiser: JsonSerialiser, config: Config, eroService: EroService) extends Logging {
+class IerApiService @Inject() (apiClient: ApiClient,
+                               serialiser: JsonSerialiser,
+                               config: Config,
+                               placesService:PlacesService,
+                               shaHashProvider:ShaHashProvider) extends Logging {
 
-  def submitApplication(applicant: InprogressApplication) {
-    val completeApplication = CompleteApplication(applicant)
-    val gss = completeApplication.cpost.map(postcode => eroService.lookupGSS(postcode))
+  def submitApplication(applicant: InprogressApplication, referenceNumber: Option[String]) = {
+    val authority = applicant.address.map(address => placesService.lookupAuthority(address.postcode)).getOrElse(None)
 
-    val apiApplicant = ApiApplication(completeApplication.copy(gssCode = gss))
+    val completeApplication = applicant.toApiMap ++
+      referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
+      authority.map(auth => Map("gssCode" -> auth.gssId)).getOrElse(Map.empty)
+
+    val apiApplicant = ApiApplication(completeApplication)
 
     apiClient.post(config.ierApiUrl, serialiser.toJson(apiApplicant), ("Authorization", "BEARER " + config.ierApiToken)) match {
       case Success(body) => serialiser.fromJson[ApiApplicationResponse](body)
@@ -25,5 +34,10 @@ class IerApiService @Inject() (apiClient: ApiClient, serialiser: JsonSerialiser,
         throw new ApiException(error)
       }
     }
+  }
+
+  def generateReferenceNumber(application:InprogressApplication) = {
+    val json = serialiser.toJson(application.toApiMap)
+    shaHashProvider.getHash(json, Some(DateTime.now.toString)).map("%02X" format _).take(3).mkString
   }
 }
