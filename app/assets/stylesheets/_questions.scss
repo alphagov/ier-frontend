@@ -163,6 +163,10 @@ fieldset {
   }
 }
 
+.tt-dropdown-menu {
+  margin-top: -1.25em;
+}
+
 .added-country {
   margin: 0 0 1em;
 
@@ -180,6 +184,11 @@ fieldset {
   .text {
     clear: left;
     display: block;
+    margin-bottom: 0;
+  }
+
+  .tt-dropdown-menu {
+    margin-top: 0;
   }
 
   .duplication-intro {

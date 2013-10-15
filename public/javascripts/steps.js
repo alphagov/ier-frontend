@@ -3,7 +3,10 @@ window.GOVUK = window.GOVUK || {};
 (function () {
   "use strict"
   var root = this,
-      $ = root.jQuery;
+      $ = root.jQuery,
+      countries;
+
+  countries = ["Afghanistan","Åland Islands","Albania","Algeria","American Samoa","Andorra","Angola","Anguilla","Antarctica","Antigua and Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bonaire","Bosnia and Herzegovina","Botswana","Bouvet Island","Brazil","British Indian Ocean Territory","Brunei Darussalam","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central African Republic","Chad","Chile","China","Christmas Island","Cocos (Keeling) Islands","Colombia","Comoros","Republic of the Congo","Democratic Republic of the Congo","Cook Islands","Costa Rica","Côte d'Ivoire","Croatia","Cuba","Curaçao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands (Malvinas)","Faroe Islands","Fiji","Finland","France","French Guiana","French Polynesia","French Southern Territories","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guadeloupe","Guam","Guatemala","Guernsey","Guinea","Guinea-Bissau","Guyana","Haiti","Heard Island and McDonald Islands","Vatican City","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macao","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Martinique","Mauritania","Mauritius","Mayotte","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar (Burma)","Namibia","Nauru","Nepal","Netherlands","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","Niue","Norfolk Island","North Korea","Northern Mariana Islands","Norway","Oman","Pakistan","Palau","Palestinian Territory","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Pitcairn","Poland","Portugal","Puerto Rico","Qatar","Réunion","Romania","Russian Federation","Rwanda","Saint Barthélemy","Saint Helena","Saint Kitts and Nevis","Saint Lucia","Saint Martin","Saint Pierre and Miquelon","Saint Vincent and the Grenadines","Samoa","San Marino","São Tomé and Príncipe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Sint Maarten","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Georgia","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Svalbard and Jan Mayen","Swaziland","Sweden","Switzerland","Syrian Arab Republic","Taiwan","Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tokelau","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Turks and Caicos Islands","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","United States Minor Outlying Islands","Uruguay","Uzbekistan","Vanuatu","Venezuela","Viet Nam","Virgin Islands (British)","Virgin Islands (U.S.)","Wallis and Futuna","Western Sahara","Yemen","Zambia","Zimbabwe"];
 
   var toggleObj,
       optionalInformation,
@@ -11,7 +14,8 @@ window.GOVUK = window.GOVUK || {};
       duplicateField,
       markSelected,
       monitorRadios,
-      postcodeLookup;
+      postcodeLookup,
+      autocomplete;
 
   toggleObj = function (elm) {
     if (elm) {
@@ -115,94 +119,139 @@ window.GOVUK = window.GOVUK || {};
     }
   };
 
-  duplicateField = function (control, copyClass) {
+  duplicateField = function (control, copyClass, labelObj) {
     var fieldId,
         inst = this;
 
     this.$control = $(control);
     this.copyClass = copyClass;
+    this.label = labelObj;
     this.fieldId = this.$control.data('field');
+    this.idPattern = this.fieldId;
+    this.namePattern = this.fieldId.replace('_', '.');
     this.$field = $(document.getElementById(this.fieldId));
     this.$label = this.$field.prev('label');
     this.$duplicationIntro = this.$label.parent().find('.duplication-intro');
-    this.$label.parent().on('click', function (e) {
-      if (e.target.className !== inst.$control[0].className) {
+    this.$label.parent()
+      .on('click', function (e) {
+        var className = e.target.className;
+        if (className.indexOf('duplicate-control') !== -1) {
+          inst.duplicate();
+        }
+        else if (className.indexOf('remove-field') !== -1) {
+          inst.removeDuplicate($(e.target).siblings('label').attr('for'));
+        }
         return false;
-      }
-      inst.duplicate();
-      return false;
+      })
+      .find('.added-country').each(function (idx, elm) {
+        var $elm = $(elm);
+
+        // remove this, fixing some odd scala formatting
+        var input = document.getElementById($(elm).find('label').attr('for'));
+        input.value = input.value.replace(/^\s+|\s+$/g, '');
+      });
+  };
+  duplicateField.prototype.makeField = function (fieldNum, fieldValue) {
+    var inst = this,
+        $container = this.$label.parent(),
+        fragment = '<label for="{% id %}" class="{% labelClass %}">{% labelText %}</label>' +
+                    '<a href="#" class="remove-field">Remove<span class="visuallyhidden"> {% labelText %}</span></a>' +
+                    '<input id="{% id %}" name="{% name %}" class="text country-autocomplete" value="{% value %}" />',
+        wrapperDiv = document.createElement('div'),
+        options = {
+          'id' : this.getFieldId(fieldNum),
+          'labelClass' : this.label.className,
+          'labelText' : this.label.txt + " " + fieldNum,
+          'name' : this.getFieldName(fieldNum),
+          'value' : (fieldValue !== undefined) ? fieldValue : ""
+        };
+
+    fragment = fragment.replace(/{%\s([a-zA-Z]+)\s%}/g, function () {
+      var attribute = arguments[1];
+      return options[attribute];
     });
+
+    wrapperDiv.className = this.copyClass;
+    return $(wrapperDiv).html(fragment);
+  };
+  duplicateField.prototype.getFieldId = function (idx) {
+    return this.idPattern.replace(/\[\d+\]/, '[' + idx + ']');
+  };
+  duplicateField.prototype.getFieldName = function (idx) {
+    return this.namePattern.replace(/\[\d+\]/, '[' + idx + ']');
   };
   duplicateField.prototype.removeDuplicate = function (id) {
-    var $container = this.$label.parent(),
-        $duplicate = $(document.getElementById(id)).closest("." + this.copyClass),
-        duplicateNumber = $duplicate.find('label').text().match(/\d+/)[0],
-        $copies;
+    var inst = this,
+        $container = this.$label.parent(),
+        $copies = $container.find("." + this.copyClass),
+        $addAnotherLink = $container.find('a.duplicate-control'),
+        $previousCopy,
+        values = [],
+        getRemainingValues,
+        targetNum,
+        fragment = document.createDocumentFragment();
 
-    $duplicate.remove();
-    $copies = $container.find("." + this.copyClass);
-    if (!$copies.length) {
-      $container.find('a.duplicate-control').remove();
-      this.$duplicationIntro.insertAfter(this.$field);
+    getRemainingValues = function (idx, elm) {
+      var $elm = $(elm),
+          fieldId = $elm.find('label').attr('for');
+
+      if (fieldId !== id) {
+        values.push(document.getElementById(fieldId).value);
+      } else {
+        targetNum = idx + 1;
+      }
+    };
+
+    $copies.each(getRemainingValues).remove();
+    if (values.length === 0) {
+      $addAnotherLink.remove();
+      this.$duplicationIntro.show();
       this.$field.focus();
       return;
-    }
-    // update field indexes
-    $copies.each(function (idx, elm) {
-      var $elm = $(elm),
-          $input = $elm.find('input'),
-          $label = $elm.find('label'),
-          labelText = $label.text();
-
-      $input.attr({
-        'name' : $input.attr('name').replace(/\[\d\]$/, '[' + (idx + 1) + ']'),
-        'id' : $input.attr('id').replace(/\[\d\]$/, '[' + (idx + 1) + ']')
+    } else {
+      $.each(values, function (idx, item) {
+        fragment.appendChild(inst.makeField(idx + 1, item)[0]);
       });
-      $label.attr('for', $input.attr('id')).text(labelText.replace(/\d+/, (idx + 1)));
-    });
-    $copies.eq(duplicateNumber - 2).find('input').focus();
+      $addAnotherLink[0].parentNode.insertBefore(fragment, $addAnotherLink[0]);
+      if (targetNum === 1) {
+        this.$field.focus();
+      } else {
+        $previousCopy = $container.find('.' + this.copyClass).eq(targetNum - 2);
+        $(document.getElementById($previousCopy.find('label').attr('for'))).focus();
+      }
+    }
   };
   duplicateField.prototype.duplicate = function () {
     var inst = this,
         $container = this.$label.parent(),
-        newField = document.createDocumentFragment(),
         countryIdx = $container.find("." + this.copyClass).length + 1,
-        newId = this.fieldId.replace(/\[\d+\]/, "[" + countryIdx + "]"),
-        newName = newId.replace('_', '.'),
-        $newLabel = this.$label
-                      .clone()
-                      .text('Country ' + countryIdx)
-                      .attr('for', newId)
-                      .addClass('country-label'),
-        $newInput = this.$field
-                      .clone()
-                      .attr({ 
-                        'id' : newId,
-                        'name' : newName
-                      }),
-        $removalControl = $('<a href="#" class="remove-field">Remove<span class="visuallyhidden"> Country ' + countryIdx + '</span></a>'),
-        wrapperDiv = document.createElement('div'),
+        $newField = this.makeField(countryIdx),
         $addAnotherLink;
 
-    wrapperDiv.className = this.copyClass;
-    newField.appendChild($newLabel[0]);
-    newField.appendChild($removalControl[0]);
-    newField.appendChild($newInput[0]);
-    wrapperDiv.appendChild(newField.cloneNode(true));
-
-    if ($container.find('.duplication-intro').length) {
-      $addAnotherLink = this.$duplicationIntro.find('a').clone();
-      this.$duplicationIntro = this.$duplicationIntro.remove();
+    if (this.$duplicationIntro.is(':visible')) {
+      $addAnotherLink = $('<a href="#" class="duplicate-control">Add another ' + this.label.txt + '</a>');
+      this.$duplicationIntro.hide();
       $container.append($addAnotherLink);
     } else {
       $addAnotherLink = $container.find('a.duplicate-control');
     }
-    $(wrapperDiv).insertBefore($addAnotherLink);
-    document.getElementById(newId).focus();
-    $(document.getElementById(newId)).prev('a.remove-field').on('click', function (e) {
-      inst.removeDuplicate($(e.target).siblings('input').attr('id'));
-      return false;
-    });
+    $newField.insertBefore($addAnotherLink);
+    $(document).trigger('contentUpdate', { 'context' : $newField });
+    document.getElementById(this.getFieldId(countryIdx)).focus();
+  };
+
+  autocomplete = {
+    add : function ($input) {
+      $input.typeahead({
+        hint: false,
+        name: 'countries',
+        local: countries,
+        limit: 5
+      });
+    },
+    remove : function ($input) {
+      $input.parent('.twitter-typeahead').remove();
+    }
   };
 
   markSelected = function (elm) {
@@ -358,7 +407,8 @@ window.GOVUK = window.GOVUK || {};
     "duplicateField" : duplicateField,
     "markSelected" : markSelected,
     "monitorRadios" : monitorRadios,
-    "postcodeLookup" : postcodeLookup
+    "postcodeLookup" : postcodeLookup,
+    "autocomplete" : autocomplete
   };
 
   $(document).on('ready', function () { 
@@ -372,8 +422,12 @@ window.GOVUK = window.GOVUK || {};
         new GOVUK.registerToVote.optionalInformation(elm);
       }
     });
-    $('.duplicate-control').each(function (idx, elm) {
-      new GOVUK.registerToVote.duplicateField(elm, 'added-country');
+    $('.duplicate-control-initial').each(function (idx, elm) {
+      var labelOpts = {
+        txt : 'Country',
+        className : 'country-label'
+      };
+      new GOVUK.registerToVote.duplicateField(elm, 'added-country', labelOpts);
     });
     $('.selectable').each(function (idx, elm) {
       var $label = $(elm),
@@ -391,6 +445,20 @@ window.GOVUK = window.GOVUK || {};
     });
     $('#find-previous-address').each(function (idx, elm) {
       new GOVUK.registerToVote.postcodeLookup(elm, "previousAddress.previousAddress.address");
+    });
+    $('.country-autocomplete').each(function (idx, elm) {
+      GOVUK.registerToVote.autocomplete.add($(elm));
+    });
+    $(document).bind('contentUpdate', function (e, data) {
+      var context = data.context;
+
+      $('.country-autocomplete', context).each(function (idx, elm) {
+        GOVUK.registerToVote.autocomplete.add($(elm));
+      });
+    });
+    $(document).bind('typeahead:opened', function (e) {
+      var $input = $(e.target);
+      $(e.target).parent().find('.tt-dropdown-menu').css('width', $input.innerWidth() + 'px');
     });
   });
 }.call(this));
