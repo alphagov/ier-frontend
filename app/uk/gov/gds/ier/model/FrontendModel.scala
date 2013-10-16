@@ -60,9 +60,9 @@ case class Nino(nino:Option[String],
   }
 }
 
-case class DateOfBirth (year:String,
-                        month:String,
-                        day:String) {
+case class DateOfBirth (year:Int,
+                        month:Int,
+                        day:Int) {
   def toApiMap = {
     Map("dob" -> (day + "/" + month + "/" + year))
   }
