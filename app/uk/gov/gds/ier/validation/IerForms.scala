@@ -40,7 +40,7 @@ trait IerForms extends FormKeys with FormMappings {
       (inprogress => inprogress.previousName)
   )
   val ninoForm = Form(
-    mapping(nino -> ninoMapping.verifying("Please enter your nino", nino => nino.nino.isDefined || nino.noNinoReason.isDefined))
+    mapping(nino -> ninoMapping.verifying("Please enter your National Insurance number", nino => nino.nino.isDefined || nino.noNinoReason.isDefined))
       (nino => InprogressApplication(nino = Some(nino)))
       (inprogress => inprogress.nino)
   )
