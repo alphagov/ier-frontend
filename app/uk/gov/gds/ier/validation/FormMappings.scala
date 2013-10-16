@@ -33,10 +33,10 @@ trait FormMappings extends FormKeys {
   val nationalityMapping = mapping(
     nationalities -> list(nonEmptyText.verifying(nationalityMaxLengthError, _.size <= maxTextFieldLength)),
     hasOtherCountry -> optional(boolean),
-    otherCountries -> list(nonEmptyText.verifying(nationalityMaxLengthError, _.size <= maxTextFieldLength)),
+    otherCountries -> list(text.verifying(nationalityMaxLengthError, _.size <= maxTextFieldLength)),
     noNationalityReason -> optional(nonEmptyText.verifying(noNationalityReasonMaxLengthError, _.size <= maxExplanationFieldLength))
   ) (Nationality.apply) (Nationality.unapply) verifying("Please select your Nationality", nationality => {
-    (nationality.nationalities.size > 0 || (nationality.otherCountries.size > 0 && nationality.hasOtherCountry.exists(b => b))) || nationality.noNationalityReason.isDefined
+    (nationality.nationalities.size > 0 || (nationality.otherCountries.filter(_.nonEmpty).size > 0 && nationality.hasOtherCountry.exists(b => b))) || nationality.noNationalityReason.isDefined
   }) verifying("You can specify no more than five countries", mapping => mapping.nationalities.size + mapping.otherCountries.size <=5)
 
   val addressMapping = mapping(

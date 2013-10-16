@@ -28,6 +28,7 @@
             @textArea(keys.nationality.noNationalityReason, label = "Why can't you provide your nationality?", inputAttributes = Map('class -> "small", 'maxlength -> "500"))
           </div>
         </div>
-@validationMessage(formData(keys.nationality))
-@validationMessage(formData(keys.nationality.nationalities))
+        @validationMessage(formData(keys.nationality))
+        @validationMessage(formData(keys.nationality.nationalities))
+        @validationMessage(formData(keys.nationality.noNationalityReason))
         <input type="submit" class="button next" value="Continue" />
