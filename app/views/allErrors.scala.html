@@ -1,0 +1,13 @@
+@(implicit form:Form[uk.gov.gds.ier.model.AllErrors])
+
+@import inputs._
+
+@radioButton("singleField", "foo", "Foo Field")
+@radioButton("singleField", "not-foo", "Not Foo Field")
+<br />
+@radioButton("crossField.field1", "bar", "CrossField, Field1")
+@radioButton("crossField.field2", "baz", "CrossField, Field2")
+<br/>
+@radioButton("crossField.field1", "not-bar", "CrossField, Not Field1")
+<br/>
+@radioButton("crossField.field2", "not-baz", "CrossField, Not Field2", inputAttributes = Map('class -> "long"), labelAttributes = Map('type -> "foo"))

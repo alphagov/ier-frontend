@@ -6,10 +6,10 @@ import uk.gov.gds.ier.model._
 trait FormMappings extends FormKeys {
 
   val nameMapping = mapping(
-    firstName -> text.verifying("Please enter your first name", _.nonEmpty),
+    firstName -> text,
     middleNames -> optional(nonEmptyText),
-    lastName -> text.verifying("Please enter your last name", _.nonEmpty)
-  ) (Name.apply) (Name.unapply)
+    lastName -> text
+  ) (Name.apply) (Name.unapply).verifying("Please enter your full name", name => name.firstName.nonEmpty && name.lastName.nonEmpty)
 
   val previousNameMapping = mapping(
     hasPreviousName -> boolean,
@@ -26,10 +26,11 @@ trait FormMappings extends FormKeys {
 
   val nationalityMapping = mapping(
     nationalities -> list(nonEmptyText),
-    otherCountries -> list(nonEmptyText),
+    hasOtherCountry -> optional(boolean),
+    otherCountries -> list(text),
     noNationalityReason -> optional(nonEmptyText)
   ) (Nationality.apply) (Nationality.unapply) verifying("Please select your Nationality", nationality => {
-    (nationality.nationalities.size > 0 || nationality.otherCountries.size > 0) || nationality.noNationalityReason.isDefined
+    (nationality.nationalities.size > 0 || (nationality.otherCountries.size > 0 && nationality.hasOtherCountry.exists(b => b))) || nationality.noNationalityReason.isDefined
   })
 
   val addressMapping = mapping(

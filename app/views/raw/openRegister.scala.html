@@ -1,4 +1,4 @@
-@(formData:uk.gov.gds.ier.validation.InProgressForm)
+@(implicit formData:uk.gov.gds.ier.validation.InProgressForm)
 @import uk.gov.gds.ier.form.FormHelpers._
 
 @layouts.questionHeader("Do you want to remove your name and address from the open register?", "/register-to-vote/other-address", 9)
@@ -6,9 +6,8 @@
         <fieldset>
           <p>The open register is a list of names and addresses that is available for sale to anyone (for example, companies or charities who want to send you information).</p>
           <p>Your decision does not affect your right to vote or your credit score.</p>
-          <label for="openRegisterOptin" class="selectable">
-            <input type="checkbox" id="openRegisterOptin" name="@keys.openRegister.optIn" value="false" @checkedIf(formData(keys.openRegister.optIn).value)>Remove my details from the open register
-          </label>
+          @check(keys.openRegister.optIn, label = "Remove my details from the open register", value = "false")
         </fieldset>
         @validationMessage(formData(keys.openRegister))
+        @validationMessage(formData(keys.openRegister.optIn))
         <button class="button next">Continue</button>

@@ -1,5 +1,8 @@
 package uk.gov.gds.ier.validation
 
+import play.api.data.{Field, Form}
+import play.api.templates.Html
+
 trait FormKeys {
   lazy val namespace = ""
 
@@ -14,6 +17,7 @@ trait FormKeys {
   lazy val nationality = prependNamespace("nationality")
 
   lazy val nationalities = prependNamespace("nationalities")
+  lazy val hasOtherCountry = prependNamespace("hasOtherCountry")
   lazy val otherCountries = prependNamespace("otherCountries")
   lazy val noNationalityReason = prependNamespace("noNationalityReason")
 
@@ -54,6 +58,18 @@ trait FormKeys {
 
   implicit class key2namespace(key:String) extends FormKeys {
     override lazy val namespace = key
+  }
+  implicit class Key2Id(key:String) {
+    def asId(value:String = "") = List(key.replace(".", "_"), value).filter(_.nonEmpty).mkString("_")
+  }
+  implicit class keys2Traversal(key:String)(implicit form:Form[_]) {
+    def each(from:Int = 0)(block: (String, Int) => Html):Html = {
+      val field = form(key.item(from))
+      field.value match {
+        case Some(value) => block(field.name, from) += each(from+1)(block)
+        case None => Html.empty
+      }
+    }
   }
 }
 
