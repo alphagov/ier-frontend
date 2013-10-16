@@ -12,7 +12,7 @@
 @main(title = Some("Register to Vote - Confirm your details"), stylesheets = head(), scripts = stepsBodyEnd(), contentClasses = Some("confirmation")) {
 
       <article>
-        <a class="back-to-previous" href="/register-to-vote/contact" title="Back to the previous question">Back</a>
+        <a id="continue" id="continue" class="back-to-previous" href="/register-to-vote/contact" title="Back to the previous question">Back</a>
         <header>
           <h1>Register to vote</h1>
         </header>
@@ -168,6 +168,6 @@
         </div>
       </article>
       @form(routes.RegisterToVoteController.validateStep("confirmation")) {
-      <input data-next="complete" type="submit" class="button next" value="I accept - send my application" />
+      <input id="continue" type="submit" class="button next" value="I accept - send my application" />
       }
 }
