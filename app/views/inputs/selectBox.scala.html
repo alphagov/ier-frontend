@@ -1,0 +1,19 @@
+@(id:String, label:String, options:Seq[(String, String)], inputAttributes:Map[Symbol,String] = Map.empty, labelAttributes:Map[Symbol,String] = Map.empty)(implicit form:Form[_])
+@defining(form(id)) { field =>
+<label for="@id.replace(".", "_")" class="@(if(field.hasErrors) "invalid" else "") @labelAttributes.get('class).getOrElse("")">
+    @label
+</label>
+<select id="@id.replace(".", "_")" name="@field.name" class="@(if(field.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")">
+@inputAttributes.get('_default).map { defaultValue =>
+    <option class="blank" value="">@defaultValue</option>
+}
+@defining( ( !field.indexes.isEmpty && inputAttributes.contains('multiple) ) match {
+    case true => field.indexes.map( i => field("[%s]".format(i)).value ).flatten.toSet
+    case _ => field.value.toSet
+}){ values =>
+@options.map { v =>
+    <option value="@v._1" @if(values.contains(v._1)){selected}>@v._2</option>
+}
+}
+</select>
+}

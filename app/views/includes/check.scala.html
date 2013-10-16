@@ -1,6 +1,5 @@
 @(field: play.api.data.Field, id:String, value:String, label:String)
 
 <label class="selectable @(if(field.value == Some(value)) "selected" else "")">
-    <input type="checkbox" id="@id" name="@field.name" value="@value" @(if(field.value == Some(value)) "checked" else "")>
-    <span>@label</span>
+    <input type="checkbox" id="@id" name="@field.name" value="@value" @(if(field.value == Some(value)) "checked" else "")>@label
 </label>

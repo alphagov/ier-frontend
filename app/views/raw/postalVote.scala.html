@@ -1,16 +1,12 @@
-@(formData:uk.gov.gds.ier.validation.InProgressForm)
+@(implicit formData:uk.gov.gds.ier.validation.InProgressForm)
 @import uk.gov.gds.ier.form.FormHelpers._
 
 @layouts.questionHeader("Do you want to apply for a postal vote?", "/register-to-vote/open-register", 10)
 
         <fieldset>
           <p>Most people vote in person at a polling station. But if you prefer to vote by post, we can send you an application form.</p>
-          <label for="input-postal-vote_true" class="selectable @classIf(formData(keys.postalVote.optIn).value == Some("true"), "selected")">
-            <input type="radio" id="input-postal-vote_true" name="@keys.postalVote.optIn" value="true" class="radio" @checkedIf(formData(keys.postalVote.optIn).value == Some("true"))>Yes, send me a postal vote application form
-          </label>
-          <label for="input-postal-vote_false" class="selectable @classIf(formData(keys.postalVote.optIn).value == Some("false"), "selected")">
-            <input type="radio" id="input-postal-vote_false" name="@keys.postalVote.optIn" value="false" class="radio" @checkedIf(formData(keys.postalVote.optIn).value == Some("false"))>No, I prefer to vote in person
-          </label>
+          @radio(keys.postalVote.optIn, value="true", label="Yes, send me a postal vote application form")
+          @radio(keys.postalVote.optIn, value="false", label="No, I prefer to vote in person")
         </fieldset>
         @validationMessage(formData(keys.postalVote))
         <button class="button next">Continue</button>

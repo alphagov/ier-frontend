@@ -11,10 +11,10 @@ trait FormMappings extends FormKeys {
   private final val maxExplanationFieldLength = 500
 
   val nameMapping = mapping(
-    firstName -> text.verifying("Please enter your first name", _.nonEmpty).verifying(firstNameMaxLengthError, _.size <= maxTextFieldLength),
+    firstName -> text.verifying(firstNameMaxLengthError, _.size <= maxTextFieldLength),
     middleNames -> optional(nonEmptyText.verifying(middleNameMaxLengthError, _.size <= maxTextFieldLength)),
-    lastName -> text.verifying("Please enter your last name", _.nonEmpty).verifying(lastNameMaxLengthError, _.size <= maxTextFieldLength)
-  ) (Name.apply) (Name.unapply)
+    lastName -> text.verifying(lastNameMaxLengthError, _.size <= maxTextFieldLength)
+  ) (Name.apply) (Name.unapply) verifying("Please enter your full name", name => name.firstName.nonEmpty && name.lastName.nonEmpty)
 
   val previousNameMapping = mapping(
     hasPreviousName -> boolean,
@@ -32,10 +32,11 @@ trait FormMappings extends FormKeys {
 
   val nationalityMapping = mapping(
     nationalities -> list(nonEmptyText.verifying(nationalityMaxLengthError, _.size <= maxTextFieldLength)),
+    hasOtherCountry -> optional(boolean),
     otherCountries -> list(nonEmptyText.verifying(nationalityMaxLengthError, _.size <= maxTextFieldLength)),
     noNationalityReason -> optional(nonEmptyText.verifying(noNationalityReasonMaxLengthError, _.size <= maxExplanationFieldLength))
   ) (Nationality.apply) (Nationality.unapply) verifying("Please select your Nationality", nationality => {
-    (nationality.nationalities.size > 0 || nationality.otherCountries.size > 0) || nationality.noNationalityReason.isDefined
+    (nationality.nationalities.size > 0 || (nationality.otherCountries.size > 0 && nationality.hasOtherCountry.exists(b => b))) || nationality.noNationalityReason.isDefined
   }) verifying("You can specify no more than five countries", mapping => mapping.nationalities.size + mapping.otherCountries.size <=5)
 
   val addressMapping = mapping(

@@ -198,6 +198,7 @@ form {
   padding: 15px 0 15px 15px;
   margin-bottom: 1em;
   clear: both;
+  @extend %contain-floats;
 
   & :last-child {
     margin-bottom: 0;
@@ -208,7 +209,7 @@ form {
 .optional-section .optional-section,
 .help-content .optional-section {
   border-left: none;
-  padding: 0;
+  padding: 15px 0 0;
 
   & :last-child {
     margin-bottom: 1em;

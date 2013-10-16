@@ -1,20 +1,22 @@
-@(formData: uk.gov.gds.ier.validation.InProgressForm)
+@(implicit formData: uk.gov.gds.ier.validation.InProgressForm)
 
 @import uk.gov.gds.ier.form.FormHelpers._
 
 @layouts.questionHeader("What is your nationality?", "", 1)
-
         <p>If you have dual nationality, select all options that are relevant to you.</p>
         <fieldset>
-          @check(field = formData(keys.nationality.nationalities.item(0)), label = "I am British", id = "nationality-checkbox-british", value = "British")
-          @check(field = formData(keys.nationality.nationalities.item(1)), label = "I am Irish", id = "nationality-checkbox-british", value = "Irish")
-          <label class="selectable">
-              <input id="nationality.otherCountry" type="checkbox" name="hasOtherNationality" value="true" class="checkbox">I am a citizen of another country
-          </label>
-          <div class="optional-section" data-condition="nationality.otherCountry">
-            <label class="country-label" for="nationality-otherCountries">Which country?</label>
-            <input type="text" id="nationality.otherCountries" name="nationality.otherCountries" class="input-other-country text long">
-            <p>If you have dual nationality <a class="duplicate-control" href="#" data-field="nationality.otherCountries">add another country</a>.</p>
+          @check(keys.nationality.nationalities.item(0), label = "I am British", value = "British")
+          @check(keys.nationality.nationalities.item(1), label = "I am Irish", value = "Irish")
+          @check(keys.nationality.hasOtherCountry, label = "I am a citizen of another country", value = "true")
+          <div class="optional-section" data-condition="@keys.nationality.hasOtherCountry.asId()">
+              @text(keys.nationality.otherCountries.item(0), label = "Which country?")
+              @keys.nationality.otherCountries.each(1) { (id, i) =>
+              <div class="added-country">
+                  @text(id, label = "Country " + i, labelAttributes = Map('class -> "country-label"))
+                  <a href="#" class="remove-field">Remove<span class="visuallyhidden"> Country3</span></a>
+              </div>
+              }
+            <p class="duplication-intro">If you have dual nationality <a class="duplicate-control" href="#" data-field="@keys.nationality.otherCountries.item(0).asId()">add another country</a>.</p>
           </div>
         </fieldset>
         <div class="help-content">
@@ -23,9 +25,9 @@
           <p>We need to know your nationality so we can work out which elections you're entitled to vote in. If you can’t confirm your nationality, you'll have to send copies of identity documents through the post.</p>
           <div class="optional-section">
             <h3>I can't provide my nationality</h3>
-            <label class="above" for="noNationalityReason">Why can't you provide your nationality?</label>
-            <textarea name="noNationalityReason" id="noNationalityReason" maxlength="500" class="small">@formData(keys.nationality.noNationalityReason).value.getOrElse("")</textarea>
+            @textArea(keys.nationality.noNationalityReason, label = "Why can't you provide your nationality?", inputAttributes = Map('class -> "small", 'maxlength -> "500"))
           </div>
         </div>
-        @validationMessage(formData(keys.nationality))
+@validationMessage(formData(keys.nationality))
+@validationMessage(formData(keys.nationality.nationalities))
         <input type="submit" class="button next" value="Continue" />

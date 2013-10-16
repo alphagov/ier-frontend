@@ -12,7 +12,7 @@ object DateValidator {
     try {
       new DateMidnight(dateOfBirth.year, dateOfBirth.month, dateOfBirth.day).isBeforeNow
     } catch {
-      case ex => false
+      case ex: Exception => false
     }
   }
 
