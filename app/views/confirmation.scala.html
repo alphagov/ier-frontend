@@ -162,7 +162,10 @@
           </div>
           <a href="@routes.RegisterToVoteController.edit("contact")" class="change">Change</a>
         </div>
-        <p class="help-notice">By sending your application you declare that the information you have supplied is true, and that you understand that the information you have supplied will be used to change your details on the electoral register.</p>
+        <div class="help-notice">
+          <p>I understand that the information I provide through this application will be used to change my details on the electoral register.</p>
+          <p>I understand that if I knowingly give false information through this application, I could be fined up to £5,000 or go to prison for up to a year.</p>
+        </div>
       </article>
       @form(routes.RegisterToVoteController.validateStep("confirmation")) {
       <input data-next="complete" type="submit" class="button next" value="I accept - send my application" />
