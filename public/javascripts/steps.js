@@ -11,7 +11,8 @@ window.GOVUK = window.GOVUK || {};
       duplicateField,
       markSelected,
       monitorRadios,
-      postcodeLookup;
+      postcodeLookup,
+      validation;
 
   toggleObj = function (elm) {
     if (elm) {
@@ -252,7 +253,7 @@ window.GOVUK = window.GOVUK || {};
 
   };
   postcodeLookup.prototype.onEmpty = function () {
-
+    $(document).trigger('validation.invalid', { source : this.$searchInput }); 
   };
   postcodeLookup.prototype.addLookup = function (data) {
     var resultStr,
@@ -306,13 +307,85 @@ window.GOVUK = window.GOVUK || {};
     }
   };
 
+  validation = {
+    init : function () {
+      var parentObj = this,
+          bindRulesToObject = function () {
+            var func,
+                rule;
+
+            for (func in parentObj.rules) {
+              var rule = parentObj.rules[func];
+              parentObj.rules[func] = function () { 
+                rule.apply(parentObj, arguments); 
+              };
+            }
+          };
+
+      bindRulesToObject();
+      $(document).bind('validation.invalid', function (e, data) {
+        parentObj.handler('invalid', data.source);
+      });
+    },
+    handler : function (state, $source) {
+      var getFakeData,
+          name,
+          rules = [],
+          rulesStr = "",
+          parentObj = this;
+
+      getFakeData = function (str) {
+        var regEx = new RegExp(str + "\\(([a-zA-Z]+)\\)", "g"),
+            match = regEx.exec($source[0].className);
+
+        if (match) {
+          return match[1];
+        }
+      };
+      name = getFakeData('validation-name');
+      rules = getFakeData('validation-rules');
+
+      if (rules) { 
+        rules = rules.split(' '); 
+        $.each(rules, function (idx, rule) {
+          if (typeof parentObj.rules[rule] !== 'undefined') {
+            parentObj.rules[rule]($source, name);
+          }
+        });
+      }
+    },
+    message : {
+      existing : {},
+      exists : function (messageTxt) {
+        return typeof this.existing[messageTxt] !== 'undefined'
+      },
+      add : function (messageTxt) {
+        if (!this.exists(messageTxt)) {
+          this.existing[messageTxt] = {
+            $elm : $('<div class="validation-message visible">' + messageTxt + '</div>').insertBefore('#continue')
+          };
+        }
+      },
+      remove : function (messageTxt) {
+        if (exists(messageTxt)) {
+          this.existing[messageTxt].$elm.remove();
+          delete existing[messageTxt];
+        }
+      }
+    },
+    rules : {
+     'nonEmpty' : function ($source, name) { this.message.add('Please enter your ' + name) }
+    }
+  };
+
   GOVUK.registerToVote = {
     "optionalInformation" : optionalInformation,
     "conditionalControl" : conditionalControl,
     "duplicateField" : duplicateField,
     "markSelected" : markSelected,
     "monitorRadios" : monitorRadios,
-    "postcodeLookup" : postcodeLookup
+    "postcodeLookup" : postcodeLookup,
+    "validation" : validation
   };
 
   $(document).on('ready', function () { 
@@ -346,5 +419,6 @@ window.GOVUK = window.GOVUK || {};
     $('#find-previous-address').each(function (idx, elm) {
       new GOVUK.registerToVote.postcodeLookup(elm, "previousAddress.previousAddress.address");
     });
+    GOVUK.registerToVote.validation.init();
   });
 }.call(this));

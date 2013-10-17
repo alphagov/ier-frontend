@@ -199,11 +199,6 @@ fieldset {
   margin-left: 1em;
 }
 
-.validation-wrap,
-.invalid {
-  @include inline-block;
-}
-
 .toggle {
   @include core-19;
   display: block;
