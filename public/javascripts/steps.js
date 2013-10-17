@@ -26,10 +26,12 @@ window.GOVUK = window.GOVUK || {};
       this.$content.show();
       this.$toggle.removeClass("toggle-closed");
       this.$toggle.addClass("toggle-open");
+      $(document).trigger('toggle.open', { '$toggle' : this.$toggle });
     } else {
       this.$content.hide();
       this.$toggle.removeClass("toggle-open");
       this.$toggle.addClass("toggle-closed");
+      $(document).trigger('toggle.closed', { '$toggle' : this.$toggle });
     }
   };
   toggleObj.prototype.setup = function () {
@@ -106,11 +108,13 @@ window.GOVUK = window.GOVUK || {};
     } else {
       if (this.$toggle.is(":checked")) {
         this.$content.show();
+        $(document).trigger('toggle.open', { '$toggle' : this.$toggle });
         if (isPostcodeLookup && !hasAddresses) {
           $('#continue').hide();
         }
       } else {
         this.$content.hide();
+        $(document).trigger('toggle.closed', { '$toggle' : this.$toggle });
         $('#continue').show();
       }
     }
@@ -229,7 +233,7 @@ window.GOVUK = window.GOVUK || {};
       ],
       'help' : '<div class="help-content">' +
                   '<h2>My address is not listed</h2>' +
-                  '<label id="input-address-text">Enter your address</label>' +
+                  '<label for="input-address-text">Enter your address</label>' +
                   '<textarea id="input-address-text" name="'+inputName+'" class="small"></textarea>' +
                 '</div>'
     };
@@ -237,6 +241,17 @@ window.GOVUK = window.GOVUK || {};
     if (this.$searchButton.closest('.optional-section').length === 0) {
       $('#continue').hide();
     }
+    $(document).bind('toggle.open', function (e, data) {
+      var $select;
+
+      if (data.$toggle.text() === 'My address is not listed') {
+        data.$toggle.remove();
+        $select = $('#input-address-list');
+        $select.siblings('label[for="input-address-list"]').remove();
+        $select.remove();
+        $('#input-address-text').focus();
+      }
+    });
   };
   postcodeLookup.prototype.bindEvents = function () {
     var inst = this;
@@ -256,36 +271,32 @@ window.GOVUK = window.GOVUK || {};
     $(document).trigger('validation.invalid', { source : this.$searchInput }); 
   };
   postcodeLookup.prototype.addLookup = function (data) {
-    var resultStr,
-        $existingAddresses = this.$searchButton.closest('fieldset').find('select');
+    var resultStr;
 
-    if ($existingAddresses.length) {
-      resultStr = this.fragment.select[0];
-    } else {
-      resultStr = this.fragment.label + this.fragment.select[0];
-    }
+    resultStr = this.fragment.label + this.fragment.select[0];
     $(data.addresses).each(function (idx, entry) {
      resultStr += '<option>' + entry.addressLine + '</option>'
     });
-    if ($existingAddresses.length) {
-      resultStr += this.fragment.select[1];
-      $existingAddresses.replaceWith(resultStr);
-    } else {
-      resultStr += this.fragment.select[1] + this.fragment.help;
-      $(resultStr).insertAfter(this.$searchButton);
-      new GOVUK.registerToVote.optionalInformation(this.$searchButton.closest('fieldset').find('.help-content')[0]);
-    }
+    resultStr += this.fragment.select[1] + this.fragment.help;
+    $(resultStr).insertAfter(this.$searchButton);
+    new GOVUK.registerToVote.optionalInformation(this.$searchButton.closest('fieldset').find('.help-content')[0]);
     $('#continue').show();
   };
   postcodeLookup.prototype.getAddresses = function () {
     var inst = this,
         postcode = this.$searchInput.val(),
-        URL = '/address/' + postcode.replace(/\s/g,'');
+        URL = '/address/' + postcode.replace(/\s/g,''),
+        $optionalInfo = this.$searchButton.closest('fieldset').find('div.help-content'),
+        $addressSelect = $optionalInfo.siblings('select');
 
     if (postcode === "") { 
       this.onEmpty();
     } else {
       this.$waitMessage.insertAfter(this.$searchButton);
+      if ($optionalInfo.length) {
+        $optionalInfo.siblings('label[for="' + $optionalInfo.attr('id') + '"], div.help-content, a.toggle').remove();
+        $optionalInfo.remove();
+      }
       $.ajax({
         url : URL,
         dataType : 'json',
