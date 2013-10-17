@@ -21,6 +21,4 @@ object FormHelpers extends FormKeys {
   lazy val text = views.html.inputs.textBox
   lazy val select = views.html.inputs.selectBox
   lazy val textArea = views.html.inputs.textArea
-
-  implicit def InprogressForm2Form(implicit inprogress:InProgressForm):Form[_] = inprogress.form
 }

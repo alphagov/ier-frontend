@@ -44,8 +44,4 @@ class PostcodeController @Inject()(postcodeAnywhere: PlacesService, serialiser: 
           }
       )
   }
-
-  def allErrors = Action {
-    Ok(views.html.allErrors(AllErrorsForm.allErrorsFrom.fillAndValidate(AllErrors("foo", CrossField("bar", "baz")))))
-  }
 }
