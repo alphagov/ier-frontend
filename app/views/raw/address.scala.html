@@ -6,7 +6,9 @@
 
       <fieldset>
         <p>If you have more than one address, just give the one where you spend most of your time.</p>
-        @text(keys.address.postcode, label = "Postcode", inputAttributes = Map('class -> "postcode medium data-validation-name(postcode) data-validation-rules(nonEmpty)"))
+        @text(keys.address.postcode,
+            label = "Postcode",
+            inputAttributes = Map('class -> "postcode medium", Symbol("data-validation-name") -> "postcode", Symbol("data-validation-rules") -> "nonEmpty"))
         <button id="find-address" class="button search">Find address</button>
       </fieldset>
       <input type="submit" id="continue" class="button next" value="Continue" />
