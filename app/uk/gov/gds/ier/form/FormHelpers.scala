@@ -21,14 +21,14 @@ object FormHelpers extends FormKeys {
   lazy val textArea = views.html.inputs.textArea
 
   trait FormRenderer extends NotNull {
-    def apply(input:Html, label:Html, field:Field): Html
+    def apply(input:Html, label:Html => Html, field:Field): Html
   }
 
   object FormRenderer {
     implicit val basicRenderer = FormRenderer(views.html.inputs.basicRenderer.render)
 
-    def apply(renderer: (Html, Html, Field) => Html) = new FormRenderer {
-      def apply(input: Html, label: Html, field: Field): Html = renderer(input, label, field)
+    def apply(renderer: (Html, Html => Html, Field) => Html) = new FormRenderer {
+      def apply(input: Html, label: Html => Html, field: Field): Html = renderer(input, label, field)
     }
   }
 }
