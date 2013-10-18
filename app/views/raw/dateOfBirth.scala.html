@@ -35,4 +35,8 @@
           </fieldset>
         </div>
         <div class="validation-message"></div>
+        @uk.gov.gds.ier.form.FormHelpers.validationMessage(formData(keys.dob.day))
+        @uk.gov.gds.ier.form.FormHelpers.validationMessage(formData(keys.dob.month))
+        @uk.gov.gds.ier.form.FormHelpers.validationMessage(formData(keys.dob.year))
+        @uk.gov.gds.ier.form.FormHelpers.validationMessage(formData(keys.dob))
         <input data-next="step-name" type="submit" class="button next" value="Continue" />

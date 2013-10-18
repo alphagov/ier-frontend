@@ -18,7 +18,10 @@ object DateOfBirthConstants {
     "October",
     "November",
     "December"
-  ).map(i => (i, i))
+  ).zip((1 to 12).map(_.toString)).
+    map { case (name, number) => (number, name) }
+
+  lazy val monthsByNumber = months.toMap
 
   lazy val years = {
     lazy val now = new DateTime()

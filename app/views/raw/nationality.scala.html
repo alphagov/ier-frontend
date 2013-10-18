@@ -42,9 +42,10 @@
           <p>We need to know your nationality so we can work out which elections you're entitled to vote in. If you can’t confirm your nationality, you'll have to send copies of identity documents through the post.</p>
           <div class="optional-section">
             <h3>I can't provide my nationality</h3>
-            @textArea(keys.nationality.noNationalityReason, label = "Why can't you provide your nationality?", inputAttributes = Map('class -> "small"))
+            @textArea(keys.nationality.noNationalityReason, label = "Why can't you provide your nationality?", inputAttributes = Map('class -> "small", 'maxlength -> "500"))
           </div>
         </div>
-@validationMessage(formData(keys.nationality))
-@validationMessage(formData(keys.nationality.nationalities))
+        @validationMessage(formData(keys.nationality))
+        @validationMessage(formData(keys.nationality.nationalities))
+        @validationMessage(formData(keys.nationality.noNationalityReason))
         <input type="submit" class="button next" value="Continue" />

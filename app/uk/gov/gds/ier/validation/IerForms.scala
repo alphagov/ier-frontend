@@ -6,12 +6,11 @@ import uk.gov.gds.ier.model.InprogressApplication
 
 trait IerForms extends FormKeys with FormMappings {
 
-  lazy val postcodeRegex = "(?i)((GIR 0AA)|((([A-Z-[QVX]][0-9][0-9]?)|(([A-Z-[QVX]][A-Z-[IJZ]][0-9][0-9]?)|(([A-Z-[QVX]][0-9][A-HJKSTUW])|([A-Z-[QVX]][A-Z-[IJZ]][0-9][ABEHMNPRVWXY]))))\\s?[0-9][A-Z-[CIKMOV]]{2}))"
   val dobFormat = "yyyy-MM-dd"
   val timeFormat = "yyyy-MM-dd HH:mm:ss"
   val postcodeForm = Form(
     single(
-      postcode -> nonEmptyText.verifying(_.matches(postcodeRegex))
+      postcode -> nonEmptyText.verifying(PostcodeValidator.isValid(_))
     )
   )
   val completePostcodeForm = Form(
@@ -41,7 +40,7 @@ trait IerForms extends FormKeys with FormMappings {
       (inprogress => inprogress.previousName)
   )
   val ninoForm = Form(
-    mapping(nino -> ninoMapping.verifying("Please enter your nino", nino => nino.nino.isDefined || nino.noNinoReason.isDefined))
+    mapping(nino -> ninoMapping.verifying("Please enter your National Insurance number", nino => nino.nino.isDefined || nino.noNinoReason.isDefined))
       (nino => InprogressApplication(nino = Some(nino)))
       (inprogress => inprogress.nino)
   )
