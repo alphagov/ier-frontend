@@ -26,5 +26,3 @@ GET         /authority/:postcode                   controllers.PostcodeControlle
 GET         /assets/template/*file                 controllers.Template.at(path="/app/assets/govuk_template_play/assets", file)
 GET         /assets/toolkit/*file                  controllers.GovukToolkit.at(path="/app/assets/govuk_frontend_toolkit", file)
 GET         /assets/*file                          controllers.Assets.at(path="/public", file)
-
-GET         /all-errors                            controllers.PostcodeController.allErrors
