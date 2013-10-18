@@ -62,9 +62,9 @@ trait FormKeys {
   implicit class Key2Id(key:String) {
     def asId(value:String = "") = List(key.replace(".", "_"), value).filter(_.nonEmpty).mkString("_")
   }
-  implicit class keys2Traversal(key:String)(implicit form:Form[_]) {
+  implicit class keys2Traversal(key:String)(implicit formData:InProgressForm) {
     def each(from:Int = 0)(block: (String, Int) => Html):Html = {
-      val field = form(key.item(from))
+      val field = formData.form(key.item(from))
       field.value match {
         case Some(value) => block(field.name, from) += each(from+1)(block)
         case None => Html.empty

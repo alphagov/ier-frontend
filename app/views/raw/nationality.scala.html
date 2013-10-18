@@ -26,7 +26,7 @@
               </p>
               @keys.nationality.otherCountries.each(1) { (id, i) =>
               <div class="added-country">
-                  @text(keys.nationality.otherCountries.item(i), label = "Country " + i, inputAttributes = Map('class -> "country-autocomplete"), labelAttributes = Map('class -> "country-label"))(formData.form, FormRenderer(rendererWithRemoveLink))
+                  @text(keys.nationality.otherCountries.item(i), label = "Country " + i, inputAttributes = Map('class -> "country-autocomplete"), labelAttributes = Map('class -> "country-label"))(formData, FormRenderer(rendererWithRemoveLink))
               </div>
               }
               @if(formData.getOtherCountries.exists(_.size > 1)) {

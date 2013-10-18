@@ -20,14 +20,9 @@ object FormHelpers extends FormKeys {
   lazy val select = views.html.inputs.selectBox
   lazy val textArea = views.html.inputs.textArea
 
-  implicit def InprogressForm2Form(implicit inprogress:InProgressForm):Form[_] = inprogress.form
-
   trait FormRenderer extends NotNull {
     def apply(input:Html, label:Html, field:Field): Html
   }
-
-  implicit def templateAsFieldConstructor(t: Template3[Html, Html, Field, Html]) = FormRenderer(t.render)
-  implicit def inlineFieldConstructor(f: (Html, Html, Field) => Html) = FormRenderer(f)
 
   object FormRenderer {
     implicit val basicRenderer = FormRenderer(views.html.inputs.basicRenderer.render)
