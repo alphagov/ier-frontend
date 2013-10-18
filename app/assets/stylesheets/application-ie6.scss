@@ -1,3 +1,8 @@
+// BASE STYLESHEET FOR IE 6 COMPILER
+
+$is-ie: true;
+$ie-version: 6;
+
 /* govuk_template styles */
 
 @import "../govuk_template_play/assets/stylesheets/govuk-template";
