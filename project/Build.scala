@@ -17,7 +17,8 @@ object ApplicationBuild extends IERBuild {
     "joda-time" % "joda-time" % "2.1",
     "org.bouncycastle" % "bcpg-jdk16" % "1.46",
     anorm,
-    new ModuleID("org.codehaus.janino", "janino", "2.6.1")
+    new ModuleID("org.codehaus.janino", "janino", "2.6.1"),
+    "org.scalatest" % "scalatest_2.10" % "2.0.RC2" % "test"
   )
 
   lazy val main = play.Project(appName, appVersion, appDependencies)

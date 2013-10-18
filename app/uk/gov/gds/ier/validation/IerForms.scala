@@ -25,9 +25,9 @@ trait IerForms extends FormKeys with FormMappings {
       (inprogressApplication => inprogressApplication.nationality)
   )
   val dateOfBirthForm = Form(
-    mapping(dob -> dobMapping)
-      (dob => InprogressApplication(dob = Some(dob)))
-      (inprogress => inprogress.dob)
+    mapping(dob -> optional(dobMapping).verifying("Please enter your date of birth", _.isDefined))
+      (dob => InprogressApplication(dob = dob))
+      (inprogress => Some(inprogress.dob))
   )
   val nameForm = Form(
     mapping(name -> nameMapping)
@@ -35,7 +35,7 @@ trait IerForms extends FormKeys with FormMappings {
       (inprogress => inprogress.name)
   )
   val previousNameForm = Form(
-    mapping(previousName -> previousNameMapping.verifying("Please enter you previous name", previous => (previous.hasPreviousName && previous.previousName.isDefined) || !previous.hasPreviousName))
+    mapping(previousName -> previousNameMapping.verifying("Please enter your previous name", previous => (previous.hasPreviousName && previous.previousName.isDefined) || !previous.hasPreviousName))
       (prevName => InprogressApplication(previousName = Some(prevName)))
       (inprogress => inprogress.previousName)
   )
