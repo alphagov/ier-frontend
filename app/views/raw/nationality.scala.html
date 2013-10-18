@@ -2,6 +2,17 @@
 
 @import uk.gov.gds.ier.form.FormHelpers._
 
+@countryValue(countries:Option[List[String]], idx:Int) = {
+  @(countries match {
+    case Some(n) =>  n(idx)
+    case None =>  ""
+  })
+}
+@rendererWithRemoveLink(input:Html, label:Html, field:Field) = {
+    @label
+    <a href="#" class="remove-field" data-field="@field.name.asId()">Remove<span class="visuallyhidden"> Country</span></a>
+    @input
+}
 @layouts.questionHeader("What is your nationality?", "", 1)
         <p>If you have dual nationality, select all options that are relevant to you.</p>
         <fieldset>
@@ -9,14 +20,18 @@
           @check(keys.nationality.nationalities.item(1), label = "I am Irish", value = "Irish")
           @check(keys.nationality.hasOtherCountry, label = "I am a citizen of another country", value = "true")
           <div class="optional-section" data-condition="@keys.nationality.hasOtherCountry.asId()">
-              @text(keys.nationality.otherCountries.item(0), label = "Which country?")
+              @text(keys.nationality.otherCountries.item(0), label = "Which country?", inputAttributes = Map('class -> "country-autocomplete"))
+              <p class="duplication-intro" style="@if(formData.getOtherCountries.exists(_.size > 1)){ display: none }">
+                  If you have dual nationality<a class="duplicate-control-initial" href="#" data-field="@keys.nationality.otherCountries.item(0).asId()">add another country</a>.
+              </p>
               @keys.nationality.otherCountries.each(1) { (id, i) =>
               <div class="added-country">
-                  @text(id, label = "Country " + i, labelAttributes = Map('class -> "country-label"))
-                  <a href="#" class="remove-field">Remove<span class="visuallyhidden"> Country3</span></a>
+                  @text(keys.nationality.otherCountries.item(i), label = "Country " + i, inputAttributes = Map('class -> "country-autocomplete"), labelAttributes = Map('class -> "country-label"))(formData, FormRenderer(rendererWithRemoveLink))
               </div>
               }
-            <p class="duplication-intro">If you have dual nationality <a class="duplicate-control" href="#" data-field="@keys.nationality.otherCountries.item(0).asId()">add another country</a>.</p>
+              @if(formData.getOtherCountries.exists(_.size > 1)) {
+              <a class="duplicate-control" href="#">Add another country</a>
+              }
           </div>
         </fieldset>
         <div class="help-content">

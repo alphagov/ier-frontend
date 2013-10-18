@@ -1,8 +1,13 @@
-@(id:String, label:String, options:Seq[(String, String)], inputAttributes:Map[Symbol,String] = Map.empty, labelAttributes:Map[Symbol,String] = Map.empty)(implicit form:Form[_])
-@defining(form(id)) { field =>
+@(id:String, label:String, options:Seq[(String, String)], inputAttributes:Map[Symbol,String] = Map.empty, labelAttributes:Map[Symbol,String] = Map.empty)(implicit formData:uk.gov.gds.ier.validation.InProgressForm, renderer: uk.gov.gds.ier.form.FormHelpers.FormRenderer)
+@labelHtml = {
+@defining(formData.form(id)) { field =>
 <label for="@id.replace(".", "_")" class="@(if(field.hasErrors) "invalid" else "") @labelAttributes.get('class).getOrElse("")">
     @label
 </label>
+}
+}
+@inputHtml = {
+@defining(formData.form(id)) { field =>
 <select id="@id.replace(".", "_")" name="@field.name" class="@(if(field.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")">
 @inputAttributes.get('_default).map { defaultValue =>
     <option class="blank" value="">@defaultValue</option>
@@ -16,4 +21,8 @@
 }
 }
 </select>
+}
+}
+@defining(formData.form(id)) { field =>
+@renderer(inputHtml, labelHtml, field)
 }

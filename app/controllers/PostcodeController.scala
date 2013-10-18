@@ -7,6 +7,4 @@ object PostcodeController extends DelegatingController[GuicedController]{
 
   def lookupAddress(postcode:String) = delegate.lookupAddress(postcode)
   def lookupAuthority(postcode:String) = delegate.lookupAuthority(postcode)
-
-  def allErrors = delegate.allErrors
 }
