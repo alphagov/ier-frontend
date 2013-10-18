@@ -1,8 +1,9 @@
 @(id:String, label:String, inputAttributes:Map[Symbol,String] = Map.empty, labelAttributes:Map[Symbol,String] = Map.empty)(implicit formData:uk.gov.gds.ier.validation.InProgressForm, renderer: uk.gov.gds.ier.form.FormHelpers.FormRenderer)
 @inputType = @{ inputAttributes.get('type).getOrElse("text") }
-@labelHtml = {
+@labelHtml(content:Html) = {
 @defining(formData.form(id)) { labelField =>
 <label for="@id.replace(".", "_")" class="@(if(labelField.hasErrors) "invalid" else "") @labelAttributes.get('class).getOrElse("")">@label</label>
+@content
 }
 }
 @inputHtml = {

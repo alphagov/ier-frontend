@@ -1,11 +1,12 @@
 @(id:String, label:String, inputAttributes:Map[Symbol,String] = Map.empty, labelAttributes:Map[Symbol,String] = Map.empty, crossField: String = "")(implicit formData:uk.gov.gds.ier.validation.InProgressForm, renderer: uk.gov.gds.ier.form.FormHelpers.FormRenderer)
 @inputType = @{ inputAttributes.get('type).getOrElse("text") }
-@labelHtml = {
+@labelHtml(content:Html) = {
 @defining(formData.form(crossField)) { crossField =>
 @defining(formData.form(id)) { field =>
 <label for="@id.replace(".","_")" class="@(if(field.hasErrors) "invalid" else "") @(if(crossField.hasErrors) "invalid" else "") @labelAttributes.get('class).getOrElse("")">
     @label
 </label>
+@content
 }
 }
 }
