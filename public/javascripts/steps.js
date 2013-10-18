@@ -434,22 +434,13 @@ window.GOVUK = window.GOVUK || {};
       });
     },
     handler : function (state, $source) {
-      var getFakeData,
-          name,
+      var name,
           rules = [],
           rulesStr = "",
           parentObj = this;
 
-      getFakeData = function (str) {
-        var regEx = new RegExp(str + "\\(([a-zA-Z]+)\\)", "g"),
-            match = regEx.exec($source[0].className);
-
-        if (match) {
-          return match[1];
-        }
-      };
-      name = getFakeData('validation-name');
-      rules = getFakeData('validation-rules');
+      name = $source.data('validation-name');
+      rules = $source.data('validation-rules');
 
       if (rules) { 
         rules = rules.split(' '); 
