@@ -163,8 +163,12 @@ fieldset {
   }
 }
 
+.tt-dropdown-menu {
+  margin-top: -1.25em;
+}
+
 .added-country {
-  margin-top: 1em;
+  margin: 0 0 1em;
 
   a {
     @include core-19;
@@ -180,18 +184,24 @@ fieldset {
   .text {
     clear: left;
     display: block;
+    margin-bottom: 0;
+  }
+
+  .tt-dropdown-menu {
+    margin-top: 0;
   }
 
   .duplication-intro {
     margin-bottom: 0; 
   }
+}
 
-  .duplicate-control {
-    display: block;
+.duplicate-control {
+  @include core-19;
+  display: block;
 
-    p & {
-      display: inline;
-    }
+  p & {
+    display: inline;
   }
 }
 
