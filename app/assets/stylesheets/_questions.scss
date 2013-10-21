@@ -292,13 +292,25 @@ fieldset {
   margin-top: 2em;
 }
 
+.invalid {
+  outline: solid 4px $mellow-red;
+}
+
+label.invalid {
+  outline: none;
+}
+
+.invalid:focus {
+  outline: solid 3px $yellow;
+}
+
 .validation-message {
 	padding: 0.5em;
 	font-size: 19px;
 	display: none;
   clear: both;
 	margin: 1em 0 1em 0;
-	border-left: 4px solid #f47738;
-	color: #f47738;
+	border-left: 4px solid $mellow-red;
+	color: $mellow-red;
 	font-weight: bold;
 }

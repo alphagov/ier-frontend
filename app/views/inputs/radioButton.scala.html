@@ -10,7 +10,7 @@
 }
 @inputHtml = {
 @defining(formData.form(id)) { field =>
-    <input type="@inputType" id="@(id.replace(".", "_")+"_"+value)" name="@field.name" value="@value" @(if(field.value == Some(value)) "checked" else "") class="radio @(if(field.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")" @asAttributes(inputAttributes.without('class, 'id, 'name, 'type, 'value))>@label
+    <input type="@inputType" id="@(id.replace(".", "_")+"_"+value)" name="@field.name" value="@value" @(if(field.value == Some(value)) "checked='checked'" else "") class="radio @(if(field.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")" @asAttributes(inputAttributes.without('class, 'id, 'name, 'type, 'value))>@label
 }
 }
 @defining(formData.form(id)) { field =>
