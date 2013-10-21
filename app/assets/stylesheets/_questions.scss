@@ -32,6 +32,10 @@ label.selectable{
 	border: 1px solid #FFF;
 	padding: 12px 14px 12px 46px;
 	margin: 0 0 1em 0;
+  cursor: pointer;
+  @include ie(6) {
+    zoom: 1;
+  }
 
   & input {
     position: absolute;
