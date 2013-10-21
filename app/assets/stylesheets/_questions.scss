@@ -288,6 +288,10 @@ fieldset {
   @include inline-block;
 }
 
+#found-addresses {
+  margin-top: 2em;
+}
+
 .validation-message {
 	padding: 0.5em;
 	font-size: 19px;
