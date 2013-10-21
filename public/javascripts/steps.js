@@ -380,7 +380,7 @@ window.GOVUK = window.GOVUK || {};
     });
     resultStr += this.fragment.select[1] + this.fragment.help;
     this.$targetElement.html(resultStr);
-    new GOVUK.registerToVote.optionalInformation(this.$targetElement[0]);
+    new GOVUK.registerToVote.optionalInformation(this.$targetElement.find('.help-content'));
     $('#continue').show();
   };
   postcodeLookup.prototype.getAddresses = function () {
