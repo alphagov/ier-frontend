@@ -6,9 +6,12 @@ import org.scalatest.{Matchers, FlatSpec}
 import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
 import uk.gov.gds.ier.serialiser.JsonSerialiser
+import org.joda.time.DateTime
 
 @RunWith(classOf[JUnitRunner])
 class IerFormsTests extends FlatSpec with Matchers with IerForms {
+
+  val serialiser = new JsonSerialiser
 
   "PostcodeForm" should "bind a postcode" in {
     val jsVal = Json.toJson(
@@ -17,7 +20,7 @@ class IerFormsTests extends FlatSpec with Matchers with IerForms {
       )
     )
     postcodeForm.bind(jsVal).fold(
-      hasErrors => fail(hasErrors.toString),
+      hasErrors => fail(serialiser.toJson(hasErrors)),
       success => {
         success should be("BT12 5EG")
       }
@@ -122,6 +125,7 @@ class IerFormsTests extends FlatSpec with Matchers with IerForms {
   }
 
   behavior of "dateOfBirthForm"
+
   it should "error out on empty json" in {
     val js = JsNull
     dateOfBirthForm.bind(js).fold(
@@ -186,5 +190,128 @@ class IerFormsTests extends FlatSpec with Matchers with IerForms {
     )
   }
 
-  it should ""
+  it should "successfully bind a valid date" in {
+    val js = Json.toJson(
+      Map(
+        "dob.day" -> "1",
+        "dob.month" -> "12",
+        "dob.year" -> "1980"
+      )
+    )
+    dateOfBirthForm.bind(js).fold(
+      hasErrors => fail(serialiser.toJson(hasErrors)),
+      success => {
+        success.dob.isDefined should be(true)
+        val dob = success.dob.get
+        dob.day should be(1)
+        dob.month should be(12)
+        dob.year should be(1980)
+      }
+    )
+  }
+
+  it should "error out on a date under 16 years from today" in {
+    val js = Json.toJson(
+      Map(
+        "dob.day" -> "1",
+        "dob.month" -> "12",
+        "dob.year" -> (DateTime.now().getYear - 10).toString
+      )
+    )
+    dateOfBirthForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(1)
+        hasErrors.errorsAsMap.get("dob") should be(Some(Seq("Minimum age to register to vote is 16")))
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
+  it should "error out on a date over 100 years old" in {
+    val js = Json.toJson(
+      Map(
+        "dob.day" -> "1",
+        "dob.month" -> "12",
+        "dob.year" -> (DateTime.now().getYear - 120).toString
+      )
+    )
+    dateOfBirthForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(1)
+        hasErrors.errorsAsMap.get("dob") should be(Some(Seq("The date you specified is invalid")))
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
+  it should "error out on a invalid date values" in {
+    val js = Json.toJson(
+      Map(
+        "dob.day" -> "a",
+        "dob.month" -> "b",
+        "dob.year" -> "c"
+      )
+    )
+    dateOfBirthForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(3)
+        hasErrors.errorsAsMap.get("dob.day") should be(Some(Seq("The day you provided is invalid")))
+        hasErrors.errorsAsMap.get("dob.month") should be(Some(Seq("The month you provided is invalid")))
+        hasErrors.errorsAsMap.get("dob.year") should be(Some(Seq("The year you provided is invalid")))
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
+  behavior of "nameForm"
+  it should "error out on empty json" in {
+    val js = JsNull
+    nameForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.errorsAsMap.get("name.firstName") should be(Some(Seq("error.required")))
+        hasErrors.errorsAsMap.get("name.lastName") should be(Some(Seq("error.required")))
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
+  it should "error out on missing fields" in {
+    val js = Json.toJson(
+      Map(
+        "name.firstName" -> "",
+        "name.middleNames" -> "joe",
+        "name.lastName" -> ""
+      )
+    )
+    nameForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(1)
+        hasErrors.errorsAsMap.get("name") should be(Some(Seq("Please enter your full name")))
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
+  it should "successfully bind" in {
+    val js = Json.toJson(
+      Map(
+        "name.firstName" -> "John",
+        "name.middleNames" -> "joe",
+        "name.lastName" -> "Smith"
+      )
+    )
+    nameForm.bind(js).fold(
+      hasErrors => {
+        fail(serialiser.toJson(hasErrors.errorsAsMap))
+      },
+      success => {
+        success.name.isDefined should be(true)
+        val name = success.name.get
+        name.firstName should be("John")
+        name.lastName should be("Smith")
+        name.middleNames should be(Some("joe"))
+      }
+    )
+  }
 }
