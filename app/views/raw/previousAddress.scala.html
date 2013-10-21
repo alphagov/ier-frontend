@@ -12,6 +12,7 @@
           @text(keys.previousAddress.previousAddress.postcode, label = "Enter the postcode to find your previous address", inputAttributes = Map('class -> "postcode medium"))
           <button id="find-previous-address" class="button search">Find address</button>
         </fieldset>
+        <div id="found-addresses"></div>
         @validationMessage(formData(keys.previousAddress))
         @validationMessage(formData(keys.previousAddress.previousAddress.address))
         @validationMessage(formData(keys.previousAddress.previousAddress.postcode))
