@@ -26,10 +26,7 @@ class PlacesService @Inject() (apiClient: PlacesApiClient, serialiser: JsonSeria
   }
 
   def lookupAuthority(postcode:String) : Option[LocalAuthority] = {
-    logger.info("-------------- postcode: " + postcode)
     val result = apiClient.get((config.placesUrl + "/authority?postcode=%s").format(postcode.replaceAllLiterally(" ","").toLowerCase))
-    logger.info("-------------- result: " + result)
-
     result match {
       case Success(body) => Some(serialiser.fromJson[LocalAuthority](body))
       case Fail(error) => None
