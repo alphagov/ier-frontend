@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.service
 
-import uk.gov.gds.ier.client.ApiClient
+import uk.gov.gds.ier.client.{PlacesApiClient, ApiClient}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import com.google.inject.Inject
 import uk.gov.gds.ier.model.Fail
@@ -9,11 +9,12 @@ import uk.gov.gds.ier.model.Address
 import uk.gov.gds.common.model.{GovUkAddress, LocalAuthority}
 import uk.gov.gds.ier.exception.PostcodeLookupFailedException
 import uk.gov.gds.ier.config.Config
+import uk.gov.gds.ier.logging.Logging
 
-class PlacesService @Inject() (apiClient: ApiClient, serialiser: JsonSerialiser, config:Config) {
+class PlacesService @Inject() (apiClient: PlacesApiClient, serialiser: JsonSerialiser, config:Config) extends Logging {
 
   def lookupAddress(postcode: String) : List[Address] = {
-    val result = apiClient.get((config.placesUrl + "/address?postcode=%s").format(postcode))
+    val result = apiClient.get((config.placesUrl + "/address?postcode=%s").format(postcode.replaceAllLiterally(" ","").toLowerCase))
     result match {
       case Success(body) => {
         serialiser.fromJson[List[GovUkAddress]](body).map(pa => {
@@ -25,7 +26,10 @@ class PlacesService @Inject() (apiClient: ApiClient, serialiser: JsonSerialiser,
   }
 
   def lookupAuthority(postcode:String) : Option[LocalAuthority] = {
+    logger.info("-------------- postcode: " + postcode)
     val result = apiClient.get((config.placesUrl + "/authority?postcode=%s").format(postcode.replaceAllLiterally(" ","").toLowerCase))
+    logger.info("-------------- result: " + result)
+
     result match {
       case Success(body) => Some(serialiser.fromJson[LocalAuthority](body))
       case Fail(error) => None
