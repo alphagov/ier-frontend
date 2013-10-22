@@ -48,6 +48,8 @@ trait FormMappings extends FormKeys {
     movedRecently -> boolean,
     previousAddress -> optional(addressMapping)
   ) (PreviousAddress.apply) (PreviousAddress.unapply)
+    .verifying("Please enter your postcode", p => (p.movedRecently && p.previousAddress.isDefined) || !p.movedRecently)
+    .verifying("Please answer this question", p => p.movedRecently || (!p.movedRecently && !p.previousAddress.isDefined))
 
   val otherAddressMapping = mapping(
     hasOtherAddress -> boolean
