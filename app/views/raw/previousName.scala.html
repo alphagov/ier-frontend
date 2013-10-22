@@ -13,9 +13,9 @@
           @text(keys.previousName.previousName.firstName, label = "First name or names", inputAttributes = Map('class -> "first-name long"), crossField = keys.previousName)
           @text(keys.previousName.previousName.middleNames, label = "Middle names", inputAttributes = Map('class -> "middle-names long"))
           @text(keys.previousName.previousName.lastName, label = "Last name", inputAttributes = Map('class -> "last-name long"), crossField = keys.previousName)
-          @validationMessage(formData(keys.previousName))
-          @validationMessage(formData(keys.previousName.previousName.firstName))
-          @validationMessage(formData(keys.previousName.previousName.middleNames))
-          @validationMessage(formData(keys.previousName.previousName.lastName))
         </fieldset>
+        @validationMessage(formData(keys.previousName))
+        @validationMessage(formData(keys.previousName.previousName.firstName))
+        @validationMessage(formData(keys.previousName.previousName.middleNames))
+        @validationMessage(formData(keys.previousName.previousName.lastName))
         <input data-next="step-name" type="submit" class="button next" value="Continue" />
