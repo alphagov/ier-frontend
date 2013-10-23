@@ -23,7 +23,7 @@
           <div class="optional-section" data-condition="@keys.nationality.hasOtherCountry.asId()">
               @text(keys.nationality.otherCountries.item(0), label = "Which country?", inputAttributes = Map('class -> "country-autocomplete"))
               <p class="duplication-intro" style="@if(formData.getOtherCountries.exists(_.size > 1)){ display: none }">
-                  If you have dual nationality<a class="duplicate-control-initial" href="#" data-field="@keys.nationality.otherCountries.item(0).asId()">add another country</a>.
+                  If you have dual nationality <a class="duplicate-control-initial" href="#" data-field="@keys.nationality.otherCountries.item(0).asId()">add another country</a>.
               </p>
               @keys.nationality.otherCountries.each(1) { (id, i) =>
               <div class="added-country">
@@ -47,4 +47,4 @@
         @validationMessage(formData(keys.nationality))
         @validationMessage(formData(keys.nationality.nationalities))
         @validationMessage(formData(keys.nationality.noNationalityReason))
-        <input type="submit" id="continue" class="button next" value="Continue" />
+        <button type="submit" id="continue" class="button next">Continue</button>
