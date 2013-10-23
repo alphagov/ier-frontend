@@ -1,14 +1,16 @@
 @(id:String, label:String, options:Seq[(String, String)], inputAttributes:Map[Symbol,String] = Map.empty, labelAttributes:Map[Symbol,String] = Map.empty)(implicit formData:uk.gov.gds.ier.validation.InProgressForm, renderer: uk.gov.gds.ier.form.FormHelpers.FormRenderer)
-@labelHtml = {
+@import uk.gov.gds.ier.form.FieldHelpers._
+@labelHtml(content:Html) = {
 @defining(formData.form(id)) { field =>
-<label for="@id.replace(".", "_")" class="@(if(field.hasErrors) "invalid" else "") @labelAttributes.get('class).getOrElse("")">
+<label for="@id.replace(".", "_")" class="@(if(field.hasErrors) "invalid" else "") @labelAttributes.get('class).getOrElse("")" @asAttributes(labelAttributes.without('for, 'class))>
     @label
 </label>
+@content
 }
 }
 @inputHtml = {
 @defining(formData.form(id)) { field =>
-<select id="@id.replace(".", "_")" name="@field.name" class="@(if(field.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")">
+<select id="@id.replace(".", "_")" name="@field.name" class="@(if(field.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")" @asAttributes(inputAttributes.without('class, 'id, 'name))>
 @inputAttributes.get('_default).map { defaultValue =>
     <option class="blank" value="">@defaultValue</option>
 }

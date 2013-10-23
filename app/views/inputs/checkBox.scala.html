@@ -1,14 +1,16 @@
 @(id:String, value:String, label:String, inputAttributes:Map[Symbol,String] = Map.empty, labelAttributes:Map[Symbol,String] = Map.empty)(implicit formData:uk.gov.gds.ier.validation.InProgressForm, renderer: uk.gov.gds.ier.form.FormHelpers.FormRenderer)
+@import uk.gov.gds.ier.form.FieldHelpers._
 @inputType = @{ inputAttributes.get('type).getOrElse("checkbox") }
-@labelHtml = {
+@labelHtml(content:Html) = {
 @defining(formData.form(id)) { field =>
-<label class="selectable@(if(field.value == Some(value)) " selected" else "")@(if(field.hasErrors) " invalid" else "")@labelAttributes.get('class).map(" " + _).getOrElse("")">
+<label class="selectable@(if(field.value == Some(value)) " selected" else "")@(if(field.hasErrors) " invalid" else "")@labelAttributes.get('class).map(" " + _).getOrElse("")" @asAttributes(labelAttributes.without('for, 'class))>
+    @content
+</label>
 }
 }
 @inputHtml = {
 @defining(formData.form(id)) { field =>
-    <input type="@inputType" id="@id.replace(".", "_")" name="@field.name" value="@value" @(if(field.value == Some(value)) "checked" else "") class="@(if(field.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")">@label
-</label>
+    <input type="@inputType" id="@id.replace(".", "_")" name="@field.name" value="@value" @(if(field.value == Some(value)) "checked" else "") class="@(if(field.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")" @asAttributes(inputAttributes.without('class, 'id, 'name, 'type, 'value))>@label
 }
 }
 @defining(formData.form(id)) { field =>
