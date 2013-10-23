@@ -264,12 +264,13 @@ window.GOVUK = window.GOVUK || {};
 
     this.$label = $(elm);
     this.$control = this.$label.find('input[type=radio], input[type=checkbox]');
-    this.$label.on('click', function () {
-      inst.toggle();
-    });
     if (this.$control.attr('type') === 'radio') {
       $(document).on('radio:' + this.$control.attr('name'), function (e, data) {
         inst.toggle(data.selectedRadio);
+      });
+    } else {
+      this.$label.on('click', function () {
+        inst.toggle();
       });
     }
     if (this.$control.is(':checked')) {
@@ -284,9 +285,10 @@ window.GOVUK = window.GOVUK || {};
     if (selectedRadio !== undefined) {
       $(selectedRadio).closest('fieldset').find('input[type=radio]').each(function (idx, elm) {
         if (elm.name === selectedRadio.name) {
-          $(elm).closest('label').removeClass('selected');
+          $(elm).parent('label').removeClass('selected');
         }
-      });
+      })
+      $(selectedRadio).parent('label').addClass('selected');
     } else { // called from a control selection
       if (isChecked) {
         this.$label.addClass('selected');
@@ -303,7 +305,7 @@ window.GOVUK = window.GOVUK || {};
       var groupName = elm.name,
           $fieldset = $(elm).closest('fieldset');
 
-      if ($.inArray(radioGroups, groupName) === -1) {
+      if ($.inArray(groupName, radioGroups) === -1) {
         radioGroups.push(groupName);
         $fieldset.on('change', function (e) {
           var target = e.target;
@@ -516,6 +518,12 @@ window.GOVUK = window.GOVUK || {};
         GOVUK.registerToVote.monitorRadios($control[0]);
       }
       new GOVUK.registerToVote.markSelected(elm);
+      $control.on('focus', function () {
+        $(this).parent('label').addClass('selectable-focus');
+      });
+      $control.on('blur', function () {
+        $(this).parent('label').removeClass('selectable-focus');
+      });
     });
     $('#find-address').each(function (idx, elm) {
       new GOVUK.registerToVote.postcodeLookup(elm, "address.address");

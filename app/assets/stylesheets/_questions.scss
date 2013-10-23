@@ -29,7 +29,6 @@ label.selectable{
   display: block;
   position: relative;
 	background: #F0F0F0;
-	border: 1px solid #FFF;
 	padding: 12px 14px 12px 46px;
 	margin: 0 0 1em 0;
   cursor: pointer;
@@ -75,6 +74,7 @@ label.binary {
 label.selected {
 	border: 1px solid #555;
 	background: #fff;
+	padding: 11px 13px 11px 45px;
 }
 
 textarea,
@@ -304,8 +304,13 @@ label.invalid {
   outline: none;
 }
 
-.invalid:focus {
+.invalid:focus,
+.selectable-focus {
   outline: solid 3px $yellow;
+}
+
+.selectable-focus input:focus {
+  outline: none;
 }
 
 .validation-message {
