@@ -21,14 +21,25 @@ trait FormMappings extends FormKeys {
     previousName -> optional(nameMapping)
   ) (PreviousName.apply) (PreviousName.unapply)
 
+  val contactTypeMapping = mapping(
+    contactMe -> boolean,
+    detail -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength))
+  ) ((contact, detail) => if (contact) detail else None) ((detail) => Some(!detail.isEmpty, detail))
+
   val contactMapping = mapping(
-    contactType -> optional(text).verifying("Please answer this question", contact => contact.nonEmpty && List("text", "phone", "email", "post").contains(contact.get)),
-    post -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength)),
-    phone -> optional(nonEmptyText.verifying(phoneMaxLengthError, _.size <= maxTextFieldLength)),
-    textNum -> optional(nonEmptyText.verifying(textNumMaxLengthError, _.size <= maxTextFieldLength)),
-    email -> optional(nonEmptyText.verifying(emailMaxLengthError, _.size <= maxTextFieldLength))
-  ) { (contactType, post, phone, textNum, email) => Contact(contactType.get, post, phone, textNum, email) }
-  { contact => Some(Some(contact.contactType), contact.post, contact.phone, contact.textNum, contact.email) }
+    post -> optional(contactTypeMapping.verifying(
+      "Please enter an address", post => post.nonEmpty)),
+    phone -> optional(contactTypeMapping.verifying(
+      "Please enter your phone number", phone => phone.nonEmpty)),
+    textNum -> optional(contactTypeMapping.verifying(
+      "Please enter your phone number", textNum => textNum.nonEmpty)),
+    email -> optional(contactTypeMapping.verifying(
+      "Please enter your email address", email => email.nonEmpty && EmailValidator.isValid(email)))
+  ) (
+    (post, phone, text, email) => Contact(post.getOrElse(None), phone.getOrElse(None), text.getOrElse(None), email.getOrElse(None))
+  ) (
+    contact => Some(Option(contact.post), Option(contact.phone), Option(contact.textNum), Option(contact.email))
+  )
 
   val nationalityMapping = mapping(
     nationalities -> list(nonEmptyText.verifying(nationalityMaxLengthError, _.size <= maxTextFieldLength)),

@@ -76,12 +76,9 @@ trait IerForms extends FormKeys with FormMappings {
       (inprogress => Some(inprogress.postalVoteOptin))
   )
   val contactForm = Form(
-    mapping(contact -> contactMapping
-      .verifying("Please enter your phone number", contact => contact.contactType != "phone" || {contact.contactType == "phone" && contact.phone.exists(_.nonEmpty)})
-      .verifying("Please enter your phone number", contact => contact.contactType != "text" || {contact.contactType == "text" && contact.textNum.exists(_.nonEmpty)})
-      .verifying("Please enter your email address", contact => contact.contactType != "email" || {contact.contactType == "email" && contact.email.exists(_.nonEmpty)}))
-      (contact => InprogressApplication(contact = Some(contact)))
-      (inprogress => inprogress.contact)
+    mapping(contact -> optional(contactMapping).verifying("Please answer this question", _.isDefined))
+      (contact => InprogressApplication(contact = contact))
+      (inprogress => Some(inprogress.contact))
   )
 
   val inprogressForm = Form(
