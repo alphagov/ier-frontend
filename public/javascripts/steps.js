@@ -484,8 +484,8 @@ window.GOVUK = window.GOVUK || {};
     "markSelected" : markSelected,
     "monitorRadios" : monitorRadios,
     "postcodeLookup" : postcodeLookup,
-    "validation" : validation,
-    "autocomplete" : autocomplete
+    "autocomplete" : autocomplete,
+    "validation" : validation
   };
 
   $(document).on('ready', function () { 
@@ -538,5 +538,6 @@ window.GOVUK = window.GOVUK || {};
       var $input = $(e.target);
       $(e.target).parent().find('.tt-dropdown-menu').css('width', $input.innerWidth() + 'px');
     });
+    GOVUK.registerToVote.validation.init();
   });
 }.call(this));
