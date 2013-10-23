@@ -8,10 +8,11 @@
     case None =>  ""
   })
 }
-@rendererWithRemoveLink(input:Html, label:Html, field:Field) = {
-    @label
-    <a href="#" class="remove-field" data-field="@field.name.asId()">Remove<span class="visuallyhidden"> Country</span></a>
-    @input
+@rendererWithRemoveLink(input:Html, label:Html => Html, field:Field) = {
+    @label {
+        <a href="#" class="remove-field" data-field="@field.name.asId()">Remove<span class="visuallyhidden"> Country</span></a>
+        @input
+    }
 }
 @layouts.questionHeader("What is your nationality?", "", 1)
         <p>If you have dual nationality, select all options that are relevant to you.</p>
@@ -46,4 +47,4 @@
         @validationMessage(formData(keys.nationality))
         @validationMessage(formData(keys.nationality.nationalities))
         @validationMessage(formData(keys.nationality.noNationalityReason))
-        <input type="submit" class="button next" value="Continue" />
+        <input type="submit" id="continue" class="button next" value="Continue" />

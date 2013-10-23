@@ -209,11 +209,6 @@ fieldset {
   margin-left: 1em;
 }
 
-.validation-wrap,
-.invalid {
-  @include inline-block;
-}
-
 .toggle {
   @include core-19;
   display: block;
@@ -291,6 +286,10 @@ fieldset {
   padding-right: 20px;
   background: url('/assets/images/spinner.gif') right center no-repeat;
   @include inline-block;
+}
+
+#found-addresses {
+  margin-top: 2em;
 }
 
 .validation-message {
