@@ -15,8 +15,8 @@ window.GOVUK = window.GOVUK || {};
       markSelected,
       monitorRadios,
       postcodeLookup,
-      autocomplete,
-      validation;
+      validation,
+      autocomplete;
 
   toggleObj = function (elm) {
     if (elm) {
@@ -380,7 +380,7 @@ window.GOVUK = window.GOVUK || {};
     });
     resultStr += this.fragment.select[1] + this.fragment.help;
     this.$targetElement.html(resultStr);
-    new GOVUK.registerToVote.optionalInformation(this.$targetElement[0]);
+    new GOVUK.registerToVote.optionalInformation(this.$targetElement.find('.help-content'));
     $('#continue').show();
   };
   postcodeLookup.prototype.getAddresses = function () {
@@ -523,6 +523,7 @@ window.GOVUK = window.GOVUK || {};
     $('#find-previous-address').each(function (idx, elm) {
       new GOVUK.registerToVote.postcodeLookup(elm, "previousAddress.previousAddress.address");
     });
+    GOVUK.registerToVote.validation.init();
     $('.country-autocomplete').each(function (idx, elm) {
       GOVUK.registerToVote.autocomplete.add($(elm));
     });
