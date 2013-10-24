@@ -161,7 +161,7 @@ window.GOVUK = window.GOVUK || {};
         $container = this.$label.parent(),
         fragment = '<label for="{% id %}" class="{% labelClass %}">{% labelText %}</label>' +
                     '<a href="#" class="remove-field">Remove<span class="visuallyhidden"> {% labelText %}</span></a>' +
-                    '<input id="{% id %}" name="{% name %}" class="text country-autocomplete" value="{% value %}" />',
+                    '<input id="{% id %}" name="{% name %}" class="text country-autocomplete long" value="{% value %}" />',
         wrapperDiv = document.createElement('div'),
         options = {
           'id' : this.getFieldId(fieldNum),
@@ -503,7 +503,7 @@ window.GOVUK = window.GOVUK || {};
     });
     $('.duplicate-control-initial').each(function (idx, elm) {
       var labelOpts = {
-        txt : 'Country',
+        txt : 'country',
         className : 'country-label'
       };
       new GOVUK.registerToVote.duplicateField(elm, 'added-country', labelOpts);

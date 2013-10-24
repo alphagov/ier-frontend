@@ -170,10 +170,9 @@ form {
   }
 
   @include media(desktop) {
-    padding-left: 2em;
-    margin-right: 22.25em;
+    margin-right: 22.5em;
     min-height: 35em;
-    max-width: 38em;
+    max-width: 36em;
   }
 }
 

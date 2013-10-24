@@ -78,6 +78,7 @@ label.selected {
 }
 
 textarea,
+textarea.small,
 select.lonely,
 input.text,
 input.long,
@@ -106,6 +107,11 @@ input.text {
     display: block;
     width: auto;
   }
+
+  textarea.small {
+    width: 320px;
+    min-height: 120px;
+  }
 }
 
 input.small{
@@ -114,10 +120,6 @@ input.small{
 
 input.medium {
   width: 160px;
-}
-
-textarea.small {
-  min-height: 120px;
 }
 
 /* Styles specific to question pages */

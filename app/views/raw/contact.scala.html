@@ -17,7 +17,7 @@
           </div>
           @radio(keys.contact.contactType, value = "email", label = "Email")
           <div class="optional-section @classIf(formData(keys.contact.contactType).value == Some("email"), "visible")" data-condition="@keys.contact.contactType.asId("email")">
-            @text(keys.contact.email, label = "Email address", inputAttributes = Map('type -> "email"))
+            @text(keys.contact.email, label = "Email address", inputAttributes = Map('type -> "email", 'class -> "long"))
           </div>
         </fieldset>
         @validationMessage(formData(keys.contact.contactType))
