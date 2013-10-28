@@ -147,16 +147,16 @@
             <p class="message">If there are any problems with your application we will contact you by:</p>
             @validationSwitch(formData(keys.contact)) {
               @if(formData(keys.contact.contactType).value == Some("phone")){
-                <p>Phone number at f@formData(keys.contact.phone).value.getOrElse("")</p>
+                <p>By phone: @formData(keys.contact.phone).value.getOrElse("")</p>
               }
               @if(formData(keys.contact.contactType).value == Some("text")){
-                <p>Text message at @formData(keys.contact.textNum).value.getOrElse("")</p>
+                <p>By text message: @formData(keys.contact.textNum).value.getOrElse("")</p>
               }
               @if(formData(keys.contact.contactType).value == Some("email")){
-                <p>Email at @formData(keys.contact.email).value.getOrElse("")</p>
+                <p>By email: @formData(keys.contact.email).value.getOrElse("")</p>
               }
               @if(formData(keys.contact.contactType).value == Some("post")){
-                <p>Post at @formData(keys.contact.post).value.getOrElse("")</p>
+                <p>By post: @formData(keys.contact.post).value.getOrElse("")</p>
               }
             }
           </div>
