@@ -4,7 +4,7 @@
 
 @layouts.questionHeader("What is your National Insurance number?", "/register-to-vote/previous-name", 5)
 
-        @text(keys.nino.nino, label = "What is your National Insurance number?", labelAttributes = Map('class -> "visuallyhidden"), inputAttributes = Map('class -> "nino"))
+        @text(keys.nino.nino, label = "What is your National Insurance number?", labelAttributes = Map('class -> "visuallyhidden"), inputAttributes = Map('class -> "nino"), crossField = keys.nino)
         <p>Example: AB 12 34 56 C</p>
         <div class="help-content">
           <h2>Help</h2>
@@ -19,4 +19,4 @@
         @validationMessage(formData(keys.nino))
         @validationMessage(formData(keys.nino.nino))
         @validationMessage(formData(keys.nino.noNinoReason))
-        <input data-next="step-name" type="submit" class="button next" value="Continue" />
+        <button type="submit" id="continue" class="button next">Continue</button>
