@@ -287,3 +287,13 @@ a.back-to-previous:focus {
 	background-color: #0097cf;
 }
 
+button:focus,
+.invalid:focus,
+.selectable-focus {
+  outline: solid 3px $yellow;
+}
+
+.selectable-focus input:focus {
+  outline: none;
+}
+
