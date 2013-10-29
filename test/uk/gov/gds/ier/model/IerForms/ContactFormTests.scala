@@ -3,14 +3,18 @@ package uk.gov.gds.ier.model.IerForms
 import play.api.libs.json.{JsNull, Json}
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.IerForms
-import uk.gov.gds.ier.serialiser.JsonSerialiser
+import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class ContactFormTests extends FlatSpec with Matchers with IerForms {
+class ContactFormTests extends FlatSpec with Matchers with IerForms with WithSerialiser {
 
   val serialiser = new JsonSerialiser
+
+  def toJson(obj: AnyRef): String = serialiser.toJson(obj)
+
+  def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson(json)
 
   it should "bind successfully (post)" in {
     val js = Json.toJson(

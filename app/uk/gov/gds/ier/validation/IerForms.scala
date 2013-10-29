@@ -55,7 +55,7 @@ trait IerForms extends FormKeys with FormMappings {
   )
   val addressForm = Form(
     mapping(
-      address -> optional(addressMapping).verifying("Please answer this question", _.isDefined)),
+      address -> optional(addressMapping).verifying("Please answer this question", _.isDefined),
       possibleAddresses -> optional(possibleAddressMapping)
     ) ((address, possibleAddresses) => InprogressApplication(address = address, possibleAddresses = possibleAddresses))
       (inprogress => Some(inprogress.address, inprogress.possibleAddresses))

@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.model.IerForms
 
-import uk.gov.gds.ier.serialiser.JsonSerialiser
+import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.IerForms
 import org.junit.runner.RunWith
@@ -9,9 +9,13 @@ import play.api.libs.json.{Json, JsNull}
 import org.joda.time.DateTime
 
 @RunWith(classOf[JUnitRunner])
-class DateOfBirthFormTests extends FlatSpec with Matchers with IerForms {
+class DateOfBirthFormTests extends FlatSpec with Matchers with IerForms with WithSerialiser {
 
   val serialiser = new JsonSerialiser
+
+  def toJson(obj: AnyRef): String = serialiser.toJson(obj)
+
+  def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson(json)
 
   it should "error out on empty json" in {
     val js = JsNull
