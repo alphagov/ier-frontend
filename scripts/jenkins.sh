@@ -1,6 +1,8 @@
+#!/usr/bin/env bash
+
 echo "Build IER for Jenkins"
 
-read -d '' version << VERSION 
+read -d '' version << VERSION
 gds.BuildNumber="$BUILD_NUMBER"
 gds.GitCommit="$GIT_COMMIT"
 gds.GitBranch="$GIT_BRANCH"
@@ -16,20 +18,4 @@ echo "Install Sass Gem"
 bundle install --quiet
 echo "Sass Gem Install"
 
-echo "Clean and update the build"
-./scripts/play/play "clean-files"
-./scripts/play/play "update"
-
-echo "Compiling Ier Frontend"
-./scripts/play/play "compile"
-
-echo "Testing Ier Frontend"
-./scripts/play/play "test"
-
-echo "Running Code coverage"
-./scripts/play/play "jacoco:clean"
-./scripts/play/play "jacoco:check"
-
-echo "Building Package"
-./scripts/play/play "dist"
-
+echo "Rest of build done in Jenkins Shell"
