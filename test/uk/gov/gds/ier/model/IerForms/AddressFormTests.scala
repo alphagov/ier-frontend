@@ -7,6 +7,7 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import play.api.libs.json.{Json, JsNull}
 import org.joda.time.DateTime
+import uk.gov.gds.ier.model.Address
 
 @RunWith(classOf[JUnitRunner])
 class AddressFormTests extends FlatSpec with Matchers with IerForms with WithSerialiser {
@@ -63,6 +64,54 @@ class AddressFormTests extends FlatSpec with Matchers with IerForms with WithSer
           Seq("Please answer this question")))
       },
       success => fail("Should have errored out")
+    )
+  }
+
+  it should "successfully bind possible Address list" in {
+    val possibleAddressJS = serialiser.toJson(List(Address("123 Fake Street", "AB12 3CD")))
+    val js = Json.toJson(
+      Map(
+        "address.address" -> "321 My Street",
+        "address.postcode" -> "SW1A 1AA",
+        "possibleAddresses.jsonList" -> possibleAddressJS
+      )
+    )
+    addressForm.bind(js).fold(
+      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      success => {
+        success.address.isDefined should be(true)
+        val Some(address) = success.address
+
+        success.possibleAddresses.isDefined should be(true)
+        val Some(possibleAddresses) = success.possibleAddresses
+
+        address.addressLine should be("321 My Street")
+        address.postcode should be("SW1A 1AA")
+
+        possibleAddresses should be(List(Address("123 Fake Street", "AB12 3CD")))
+      }
+    )
+  }
+
+  it should "not error out with empty text" in {
+    val js = Json.toJson(
+      Map(
+        "address.address" -> "321 My Street",
+        "address.postcode" -> "SW1A 1AA",
+        "possibleAddresses.jsonList" -> ""
+      )
+    )
+    addressForm.bind(js).fold(
+      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      success => {
+        success.address.isDefined should be(true)
+        val Some(address) = success.address
+
+        success.possibleAddresses.isDefined should be(false)
+
+        address.addressLine should be("321 My Street")
+        address.postcode should be("SW1A 1AA")
+      }
     )
   }
 
