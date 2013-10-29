@@ -25,9 +25,9 @@ trait IerForms extends FormKeys with FormMappings {
       (inprogressApplication => inprogressApplication.nationality)
   )
   val dateOfBirthForm = Form(
-    mapping(dob -> dobMapping)
-      (dob => InprogressApplication(dob = Some(dob)))
-      (inprogress => inprogress.dob)
+    mapping(dob -> optional(dobMapping).verifying("Please enter your date of birth", _.isDefined))
+      (dob => InprogressApplication(dob = dob))
+      (inprogress => Some(inprogress.dob))
   )
   val nameForm = Form(
     mapping(name -> nameMapping)
@@ -35,19 +35,25 @@ trait IerForms extends FormKeys with FormMappings {
       (inprogress => inprogress.name)
   )
   val previousNameForm = Form(
-    mapping(previousName -> previousNameMapping.verifying("Please enter you previous name", previous => (previous.hasPreviousName && previous.previousName.isDefined) || !previous.hasPreviousName))
-      (prevName => InprogressApplication(previousName = Some(prevName)))
-      (inprogress => inprogress.previousName)
+    mapping(previousName -> optional(
+      previousNameMapping.verifying(
+        "Please enter your previous name",
+        previous => (previous.hasPreviousName && previous.previousName.isDefined) || !previous.hasPreviousName)
+    ).verifying(
+      "Please answer this question", _.isDefined)
+    ) (prevName => InprogressApplication(previousName = prevName)) (inprogress => Some(inprogress.previousName))
   )
   val ninoForm = Form(
-    mapping(nino -> ninoMapping.verifying("Please enter your National Insurance number", nino => nino.nino.isDefined || nino.noNinoReason.isDefined))
-      (nino => InprogressApplication(nino = Some(nino)))
-      (inprogress => inprogress.nino)
+    mapping(nino -> optional(ninoMapping.verifying(
+      "Please enter your National Insurance number", nino => nino.nino.isDefined || nino.noNinoReason.isDefined)
+    ).verifying("Please enter your National Insurance number", nino => nino.isDefined))
+      (nino => InprogressApplication(nino = nino))
+      (inprogress => Some(inprogress.nino))
   )
   val addressForm = Form(
-    mapping(address -> addressMapping)
-      (address => InprogressApplication(address = Some(address)))
-      (inprogress => inprogress.address)
+    mapping(address -> optional(addressMapping).verifying("Please answer this question", _.isDefined))
+      (address => InprogressApplication(address = address))
+      (inprogress => Some(inprogress.address))
   )
   val previousAddressForm = Form(
     mapping(previousAddress -> optional(previousAddressMapping).verifying("Please answer this question", previousAddress => previousAddress.isDefined))
@@ -70,12 +76,9 @@ trait IerForms extends FormKeys with FormMappings {
       (inprogress => Some(inprogress.postalVoteOptin))
   )
   val contactForm = Form(
-    mapping(contact -> contactMapping
-      .verifying("Please enter your phone number", contact => contact.contactType != "phone" || {contact.contactType == "phone" && contact.phone.exists(_.nonEmpty)})
-      .verifying("Please enter your phone number", contact => contact.contactType != "text" || {contact.contactType == "text" && contact.textNum.exists(_.nonEmpty)})
-      .verifying("Please enter your email address", contact => contact.contactType != "email" || {contact.contactType == "email" && contact.email.exists(_.nonEmpty)}))
-      (contact => InprogressApplication(contact = Some(contact)))
-      (inprogress => inprogress.contact)
+    mapping(contact -> optional(contactMapping).verifying("Please answer this question", _.isDefined))
+      (contact => InprogressApplication(contact = contact))
+      (inprogress => Some(inprogress.contact))
   )
 
   val inprogressForm = Form(

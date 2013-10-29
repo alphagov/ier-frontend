@@ -21,14 +21,25 @@ trait FormMappings extends FormKeys {
     previousName -> optional(nameMapping)
   ) (PreviousName.apply) (PreviousName.unapply)
 
+  val contactTypeMapping = mapping(
+    contactMe -> boolean,
+    detail -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength))
+  ) ((contact, detail) => if (contact) detail else None) ((detail) => Some(!detail.isEmpty, detail))
+
   val contactMapping = mapping(
-    contactType -> optional(text).verifying("Please answer this question", contact => contact.nonEmpty && List("text", "phone", "email", "post").contains(contact.get)),
-    post -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength)),
-    phone -> optional(nonEmptyText.verifying(phoneMaxLengthError, _.size <= maxTextFieldLength)),
-    textNum -> optional(nonEmptyText.verifying(textNumMaxLengthError, _.size <= maxTextFieldLength)),
-    email -> optional(nonEmptyText.verifying(emailMaxLengthError, _.size <= maxTextFieldLength))
-  ) { (contactType, post, phone, textNum, email) => Contact(contactType.get, post, phone, textNum, email) }
-  { contact => Some(Some(contact.contactType), contact.post, contact.phone, contact.textNum, contact.email) }
+    post -> optional(contactTypeMapping.verifying(
+      "Please enter an address", post => post.nonEmpty)),
+    phone -> optional(contactTypeMapping.verifying(
+      "Please enter your phone number", phone => phone.nonEmpty)),
+    textNum -> optional(contactTypeMapping.verifying(
+      "Please enter your phone number", textNum => textNum.nonEmpty)),
+    email -> optional(contactTypeMapping.verifying(
+      "Please enter your email address", email => email.nonEmpty && EmailValidator.isValid(email)))
+  ) (
+    (post, phone, text, email) => Contact(post.getOrElse(None), phone.getOrElse(None), text.getOrElse(None), email.getOrElse(None))
+  ) (
+    contact => Some(Option(contact.post), Option(contact.phone), Option(contact.textNum), Option(contact.email))
+  )
 
   val nationalityMapping = mapping(
     nationalities -> list(nonEmptyText.verifying(nationalityMaxLengthError, _.size <= maxTextFieldLength)),
@@ -48,6 +59,8 @@ trait FormMappings extends FormKeys {
     movedRecently -> boolean,
     previousAddress -> optional(addressMapping)
   ) (PreviousAddress.apply) (PreviousAddress.unapply)
+    .verifying("Please enter your postcode", p => (p.movedRecently && p.previousAddress.isDefined) || !p.movedRecently)
+    .verifying("Please answer this question", p => p.movedRecently || (!p.movedRecently && !p.previousAddress.isDefined))
 
   val otherAddressMapping = mapping(
     hasOtherAddress -> boolean
@@ -60,16 +73,16 @@ trait FormMappings extends FormKeys {
   val dobMapping = mapping(
     year -> text.verifying("Please enter your year of birth", _.nonEmpty).verifying("The year you provided is invalid", year => year.isEmpty || year.matches("\\d+")),
     month -> text.verifying("Please enter your month of birth", _.nonEmpty).verifying("The month you provided is invalid", month => month.isEmpty || month.matches("\\d+")),
-    day -> text.verifying("Please enter you day of birth", _.nonEmpty).verifying("The day you provided is invalid", day => day.isEmpty || day.matches("\\d+"))
+    day -> text.verifying("Please enter your day of birth", _.nonEmpty).verifying("The day you provided is invalid", day => day.isEmpty || day.matches("\\d+"))
   ) {
     (year, month, day) => DateOfBirth(year.toInt, month.toInt, day.toInt)
   } {
     dateOfBirth => Some(dateOfBirth.year.toString, dateOfBirth.month.toString, dateOfBirth.day.toString)
   } verifying(
     "The date you specified is invalid", dob => isExistingDateInThePast(dob) && !isTooOldToBeAlive(dob)
-    ) verifying(
+  ) verifying(
     "Minimum age to register to vote is %d".format(minimumAge), dob => !isExistingDateInThePast(dob) || !isTooYoungToRegister(dob)
-    )
+  )
 
   val ninoMapping = mapping(
     nino -> optional(nonEmptyText.verifying("Your National Insurance number is not correct", nino => NinoValidator.isValid(nino))),
