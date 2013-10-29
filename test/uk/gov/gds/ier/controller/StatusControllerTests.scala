@@ -41,7 +41,7 @@ class StatusControllerTests extends Specification with Matchers {
         contentAsString(result) must matching(".*\"process id\":\"\\d+\".*".r)
       }
       "return a started date and time" in {
-        contentAsString(result) must matching(".*\"started\":\"\\w+ \\d+ \\w+ \\d+:\\d+:\\d+ \\d+\".*".r)
+        contentAsString(result) must matching(".*\"started\":\".+ \\d+:\\d+:\\d+ \\d+\".*".r)
       }
       "claim to be up" in {
         contentAsString(result) must matching(".*\"status\":\"up\".*".r)
