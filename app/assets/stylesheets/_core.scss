@@ -1,4 +1,14 @@
+$grey-8: #DEE0E2;
+
 /* Global styles for all pages */
+html {
+  background-color: $grey-8;
+}
+
+body {
+  background: $white;
+}
+
 p,
 ol,
 ul,
