@@ -49,6 +49,8 @@ trait FormKeys {
 
   lazy val contact = prependNamespace("contact")
   lazy val contactType = prependNamespace("contactType")
+  lazy val contactMe = prependNamespace("contactMe")
+  lazy val detail = prependNamespace("detail")
   lazy val email = prependNamespace("email")
   lazy val textNum = prependNamespace("textNum")
   lazy val phone = prependNamespace("phone")
