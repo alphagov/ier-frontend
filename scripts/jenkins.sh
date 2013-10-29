@@ -26,6 +26,10 @@ echo "Compiling Ier Frontend"
 echo "Testing Ier Frontend"
 ./scripts/play/play "test"
 
+echo "Running Code coverage"
+./scripts/play/play "jacoco:clean"
+./scripts/play/play "jacoco:check"
+
 echo "Building Package"
 ./scripts/play/play "dist"
 
