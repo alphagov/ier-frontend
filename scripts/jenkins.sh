@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 echo "Build IER for Jenkins"
 
 read -d '' version << VERSION 
