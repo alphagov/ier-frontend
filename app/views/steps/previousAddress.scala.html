@@ -1,10 +1,10 @@
-@(application: uk.gov.gds.ier.validation.InProgressForm)
+@(application: uk.gov.gds.ier.validation.InProgressForm, possibleAddress: Option[uk.gov.gds.ier.model.Addresses] = None)
 
 @import helper._
 @import layouts._
 
 @main(title = Some("Register to Vote - Have you moved within the last 12 months?"), stylesheets = head(), scripts = stepsBodyEnd()) {
     @form(routes.RegisterToVoteController.validateStep("previous-address")) {
-        @raw.previousAddress(application)
+        @raw.previousAddress(application, possibleAddress)
     }
 }

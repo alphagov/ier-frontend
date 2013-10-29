@@ -6,7 +6,7 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.IerForms
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import play.api.libs.json.{Json, JsNull}
-import uk.gov.gds.ier.model.Address
+import uk.gov.gds.ier.model.{Addresses, Address}
 
 @RunWith(classOf[JUnitRunner])
 class PreviousAddressTests extends FlatSpec with Matchers with IerForms with WithSerialiser {
@@ -41,7 +41,7 @@ class PreviousAddressTests extends FlatSpec with Matchers with IerForms with Wit
   }
 
   it should "successfully bind to address and movedRecently=true with possible addresses" in {
-    val possibleAddressJS = serialiser.toJson(List(Address("123 Fake Street", "AB12 3CD")))
+    val possibleAddressJS = serialiser.toJson(Addresses(List(Address("123 Fake Street", "AB12 3CD"))))
     val js = Json.toJson(
       Map(
         "previousAddress.movedRecently" -> "true",
@@ -64,7 +64,7 @@ class PreviousAddressTests extends FlatSpec with Matchers with IerForms with Wit
 
         success.possibleAddresses.isDefined should be(true)
         val Some(possibleAddresses) = success.possibleAddresses
-        possibleAddresses should be(List(Address("123 Fake Street", "AB12 3CD")))
+        possibleAddresses.addresses should be(List(Address("123 Fake Street", "AB12 3CD")))
       }
     )
   }

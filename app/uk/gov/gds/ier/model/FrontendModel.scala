@@ -78,7 +78,7 @@ case class InprogressApplication (name: Option[Name] = None,
                                   openRegisterOptin: Option[Boolean] = None,
                                   postalVoteOptin: Option[Boolean] = None,
                                   contact: Option[Contact] = None,
-                                  possibleAddresses: Option[List[Address]] = None) {
+                                  possibleAddresses: Option[Addresses] = None) {
   def toApiMap:Map[String, String] = {
     Map.empty ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
@@ -94,6 +94,8 @@ case class InprogressApplication (name: Option[Name] = None,
       contact.map(_.toApiMap).getOrElse(Map.empty)
   }
 }
+
+case class Addresses(addresses:List[Address])
 
 case class Address(addressLine:String, postcode:String) {
   def toApiMap(addressKey:String, postcodeKey:String) = {

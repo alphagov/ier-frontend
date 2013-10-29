@@ -1,4 +1,4 @@
-@(implicit formData:uk.gov.gds.ier.validation.InProgressForm, possibleAddresses: Seq[(String, String)] = Seq.empty[(String,String)])
+@(implicit formData:uk.gov.gds.ier.validation.InProgressForm, possibleAddress: Option[uk.gov.gds.ier.model.Addresses] = None)
 
 @import uk.gov.gds.ier.form.FormHelpers._
 
@@ -12,8 +12,34 @@
           @text(keys.previousAddress.previousAddress.postcode, label = "Enter the postcode to find your previous address", inputAttributes = Map('class -> "postcode medium"))
           <button id="find-previous-address" class="button search">Find address</button>
         </fieldset>
-        <div id="found-addresses"></div>
+        <div id="found-addresses">
+        @if(possibleAddress.size > 0){
+            <label for="input-address-list">Select your address</label>
+            <select id="input-address-list" name="@keys.address.address" class="lonely">
+                <option value="">Please select...</option>
+                @possibleAddress match {
+                    case Some(addresses) => {
+                        @addresses.addresses.map { address =>
+                            <option>@address.addressLine</option>
+                        }
+                    }
+                    case None => {}
+                }
+            </select>
+            <a href="#" class="toggle toggle-closed">My address is not listed</a>
+            <div class="help-content" style="display: none;">
+                <h2 class="visuallyhidden">My address is not listed</h2>
+                <label for="input-address-text">Enter your address</label>
+                <textarea id="input-address-text" name="address.address" class="small"></textarea>
+            </div>
+        }
+        </div>
         @validationMessage(formData(keys.previousAddress))
         @validationMessage(formData(keys.previousAddress.previousAddress.address))
         @validationMessage(formData(keys.previousAddress.previousAddress.postcode))
         <button type="submit" id="continue" class="button next">Continue</button>
+
+        @text(keys.possibleAddresses.jsonList,
+          label = "Possible Addresses",
+          inputAttributes = Map('class -> "hidden", 'type -> "hidden"),
+          labelAttributes = Map('class -> "hidden"))

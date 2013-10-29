@@ -403,6 +403,7 @@ window.GOVUK = window.GOVUK || {};
       }).
       done(function (data, status, xhrObj) {
         inst.addLookup(data);
+        $('#possibleAddresses_jsonList').val(xhrObj.responseText)
       }).
       fail(function (xhrObj, status, errorStr) {
         if (status === 'timeout' ) {
