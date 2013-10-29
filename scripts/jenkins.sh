@@ -1,6 +1,7 @@
+#!/usr/bin/env bash
 echo "Build IER for Jenkins"
 
-read -d '' version << VERSION 
+read -d '' version << VERSION
 gds.BuildNumber="$BUILD_NUMBER"
 gds.GitCommit="$GIT_COMMIT"
 gds.GitBranch="$GIT_BRANCH"
@@ -22,9 +23,6 @@ echo "Clean and update the build"
 
 echo "Compiling Ier Frontend"
 ./scripts/play/play "compile"
-
-echo "Testing Ier Frontend"
-./scripts/play/play "test"
 
 echo "Running Code coverage"
 ./scripts/play/play "jacoco:clean"
