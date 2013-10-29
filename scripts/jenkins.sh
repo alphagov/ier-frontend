@@ -17,17 +17,4 @@ echo "Install Sass Gem"
 bundle install --quiet
 echo "Sass Gem Install"
 
-echo "Clean and update the build"
-./scripts/play/play "clean-files"
-./scripts/play/play "update"
-
-echo "Compiling Ier Frontend"
-./scripts/play/play "compile"
-
-echo "Running Code coverage"
-./scripts/play/play "jacoco:clean"
-./scripts/play/play "jacoco:check"
-
-echo "Building Package"
-./scripts/play/play "dist"
-
+echo "Rest of build done in Jenkins Shell"
