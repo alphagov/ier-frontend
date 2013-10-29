@@ -32,7 +32,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
 
   def registerStep(step:String) = ValidSession requiredFor Action { implicit request =>
     Step(step) { stepDetail =>
-      Ok(stepDetail.page(InProgressForm(request.session.getApplication)))
+      Ok(stepDetail.page(request.session.getForm))
     }
   }
 
@@ -48,7 +48,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
   def edit(step:String) = ValidSession requiredFor Action {
     implicit request =>
       Step(step) { stepDetail =>
-        Ok(stepDetail.editPage(InProgressForm(request.session.getApplication)))
+        Ok(stepDetail.editPage(request.session.getForm))
       }
   }
 

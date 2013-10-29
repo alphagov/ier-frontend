@@ -4,8 +4,10 @@ import play.api.data.Forms._
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.validation
 import uk.gov.gds.ier.validation.DateValidator._
+import uk.gov.gds.ier.serialiser.WithSerialiser
 
 trait FormMappings extends FormKeys {
+  self: WithSerialiser =>
 
   private final val maxTextFieldLength = 256
   private final val maxExplanationFieldLength = 500

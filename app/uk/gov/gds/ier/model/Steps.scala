@@ -5,9 +5,10 @@ import play.api.mvc._
 import play.api.data.Form
 import play.api.templates.Html
 import uk.gov.gds.ier.validation.{InProgressForm, IerForms}
+import uk.gov.gds.ier.serialiser.WithSerialiser
 
 trait Steps extends IerForms {
-  self: InProgressSession =>
+  self: InProgressSession with WithSerialiser =>
 
   case class Step(page: InProgressForm => Html,
                   editPage: InProgressForm => Html,

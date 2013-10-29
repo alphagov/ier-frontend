@@ -9,7 +9,6 @@ import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
 import uk.gov.gds.common.http.ApiResponseException
 import uk.gov.gds.ier.exception.PostcodeLookupFailedException
 import uk.gov.gds.ier.validation.IerForms
-import uk.gov.gds.ier.model.{CrossField, AllErrorsForm, AllErrors}
 
 class PostcodeController @Inject()(postcodeAnywhere: PlacesService, serialiser: JsonSerialiser)
   extends Controller with ApiResults with WithSerialiser with IerForms {

@@ -3,8 +3,11 @@ package uk.gov.gds.ier.validation
 import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
+import com.google.inject.{Inject, Singleton}
 
 trait IerForms extends FormKeys with FormMappings {
+  self: WithSerialiser =>
 
   val dobFormat = "yyyy-MM-dd"
   val timeFormat = "yyyy-MM-dd HH:mm:ss"
@@ -109,7 +112,12 @@ trait IerForms extends FormKeys with FormMappings {
   }
 }
 
-object InProgressForm extends IerForms {
+@Singleton
+class InProgress @Inject() (serialiser: JsonSerialiser) extends IerForms with WithSerialiser {
+
+  override def toJson(obj: AnyRef): String = serialiser.toJson(obj)
+  override def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson[T](json)
+
   def apply(application:InprogressApplication):InProgressForm = {
     InProgressForm(inprogressForm.fill(application))
   }

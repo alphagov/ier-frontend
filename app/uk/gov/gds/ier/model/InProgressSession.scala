@@ -2,7 +2,7 @@ package uk.gov.gds.ier.model
 
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.mvc._
-import uk.gov.gds.ier.validation.IerForms
+import uk.gov.gds.ier.validation.{InProgressForm, IerForms}
 import controllers.routes
 import scala.Some
 import org.joda.time.DateTime
@@ -71,6 +71,9 @@ trait InProgressSession extends IerForms {
         case Some(app) => fromJson[InprogressApplication](app)
         case _ => InprogressApplication()
       }
+    }
+    def getForm = {
+      InProgressForm(inprogressForm.fill(getApplication))
     }
     def merge(application: InprogressApplication):Session = {
       val stored = getApplication
