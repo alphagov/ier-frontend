@@ -24,7 +24,7 @@ class StatusController @Inject() (serialiser: JsonSerialiser, config: Config) ex
           "branch" -> config.branch
         )
       )
-    )
+    ).withHeaders(CONTENT_TYPE -> JSON)
   }
 
   private def pid = getRuntimeMXBean.getName.split('@').headOption
