@@ -5,8 +5,15 @@ import org.joda.time.{DateTime, LocalDate}
 import play.api.libs.json._
 import play.api.test.FakeRequest
 import uk.gov.gds.ier.validation.IerForms
+import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
 
-class IerFormsTests extends Specification with IerForms {
+class IerFormsTests extends Specification with IerForms with WithSerialiser {
+
+  val serialiser = new JsonSerialiser
+
+  def toJson(obj: AnyRef): String = serialiser.toJson(obj)
+
+  def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson(json)
 
   "PostcodeForm" should {
     "bind a postcode" in {
@@ -38,6 +45,4 @@ class IerFormsTests extends Specification with IerForms {
       )
     }
   }
-
-
 }

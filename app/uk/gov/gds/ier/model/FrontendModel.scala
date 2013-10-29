@@ -78,7 +78,8 @@ case class InprogressApplication (name: Option[Name] = None,
                                   otherAddress: Option[OtherAddress] = None,
                                   openRegisterOptin: Option[Boolean] = None,
                                   postalVoteOptin: Option[Boolean] = None,
-                                  contact: Option[Contact] = None) {
+                                  contact: Option[Contact] = None,
+                                  possibleAddresses: Option[List[Address]] = None) {
   def toApiMap:Map[String, String] = {
     Map.empty ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++

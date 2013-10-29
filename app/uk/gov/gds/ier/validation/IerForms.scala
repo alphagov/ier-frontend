@@ -48,14 +48,18 @@ trait IerForms extends FormKeys with FormMappings {
       (inprogress => inprogress.nino)
   )
   val addressForm = Form(
-    mapping(address -> addressMapping)
-      (address => InprogressApplication(address = Some(address)))
-      (inprogress => inprogress.address)
+    mapping(
+      address -> optional(addressMapping),
+      possibleAddresses -> optional(possibleAddressMapping)
+    ) ((address, possibleAddresses) => InprogressApplication(address = address, possibleAddresses = possibleAddresses))
+      (inprogress => Some(inprogress.address, inprogress.possibleAddresses))
   )
   val previousAddressForm = Form(
-    mapping(previousAddress -> optional(previousAddressMapping).verifying("Please answer this question", previousAddress => previousAddress.isDefined))
-      (prevAddress => InprogressApplication(previousAddress = prevAddress))
-      (inprogress => Some(inprogress.previousAddress))
+    mapping(
+      previousAddress -> optional(previousAddressMapping).verifying("Please answer this question", previousAddress => previousAddress.isDefined),
+      possibleAddresses -> optional(possibleAddressMapping)
+    ) ((prevAddress, possibleAddresses) => InprogressApplication(previousAddress = prevAddress, possibleAddresses = possibleAddresses))
+      (inprogress => Some(inprogress.previousAddress, inprogress.possibleAddresses))
   )
   val otherAddressForm = Form(
     mapping(otherAddress -> optional(otherAddressMapping).verifying("Please answer this question", otherAddress => otherAddress.isDefined))
@@ -93,7 +97,8 @@ trait IerForms extends FormKeys with FormMappings {
       otherAddress -> optional(otherAddressMapping).verifying("Please complete this step", _.isDefined),
       openRegister -> optional(optInMapping).verifying("Please complete this step", _.isDefined),
       postalVote -> optional(optInMapping).verifying("Please complete this step", _.isDefined),
-      contact -> optional(contactMapping).verifying("Please complete this step", _.isDefined)
+      contact -> optional(contactMapping).verifying("Please complete this step", _.isDefined),
+      possibleAddresses -> optional(possibleAddressMapping)
     ) (InprogressApplication.apply) (InprogressApplication.unapply)
   )
 

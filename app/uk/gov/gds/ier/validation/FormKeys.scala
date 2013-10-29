@@ -55,6 +55,7 @@ trait FormKeys {
   lazy val post = prependNamespace("post")
 
   lazy val possibleAddresses = prependNamespace("possibleAddresses")
+  lazy val jsonList = prependNamespace("jsonList")
 
   def item(i:Int) = namespace + "[" + i + "]"
 
