@@ -2,6 +2,18 @@
 
 @import layouts._
 
+@govukSearch() = {
+          <a href="#search" class="search-toggle js-header-toggle">Search</a>
+
+          <form id="search" class="site-search" action="/search" method="get" role="search">
+            <div class="content">
+              <label for="site-search-text">Search</label>
+              <input type="search" name="q" id="site-search-text" title="Search" class="js-search-focus"/>
+              <input class="submit" type="submit" value="Search"/>
+            </div>
+          </form>
+}
+
 @mainRelated() = {
   <div class="related-positioning">
     <div class="related-container">
@@ -35,7 +47,7 @@
   </div>
 }
 
-@main(title = Some("IER - Register to Vote"), stylesheets = govukHead(), related = mainRelated()) {
+@main(title = Some("IER - Register to Vote"), stylesheets = govukHead(), scripts = govukBodyEnd(), related = mainRelated(), insideHeader = govukSearch()) {
 
     <ol role="breadcrumbs" class="breadcrumbs">
         <li><a href="https://www.gov.uk/">Home</a></li>

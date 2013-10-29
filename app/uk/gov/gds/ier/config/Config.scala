@@ -10,4 +10,9 @@ class Config {
   def fakeApi = configuration.getBoolean("api.fake")
   def ierApiUrl = configuration.getString("ier.api.url")
   def ierApiToken = configuration.getString("ier.api.token")
+
+  def buildDate = configuration.getString("gds.BuildTime", "unknown")
+  def buildNumber = configuration.getString("gds.BuildNumber", "unknown")
+  def revision = configuration.getString("gds.GitCommit", "unknown")
+  def branch = configuration.getString("gds.GitBranch", "unknown")
 }

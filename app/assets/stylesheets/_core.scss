@@ -1,4 +1,14 @@
+$grey-8: #DEE0E2;
+
 /* Global styles for all pages */
+html {
+  background-color: $grey-8;
+}
+
+body {
+  background: $white;
+}
+
 p,
 ol,
 ul,
@@ -170,10 +180,9 @@ form {
   }
 
   @include media(desktop) {
-    padding-left: 2em;
-    margin-right: 22.25em;
+    margin-right: 22.5em;
     min-height: 35em;
-    max-width: 38em;
+    max-width: 36em;
   }
 }
 
@@ -286,5 +295,15 @@ a.back-to-previous:focus {
 .tt-suggestion.tt-is-under-cursor {
 	color: #fff;
 	background-color: #0097cf;
+}
+
+button:focus,
+.invalid:focus,
+.selectable-focus {
+  outline: solid 3px $yellow;
+}
+
+.selectable-focus input:focus {
+  outline: none;
 }
 

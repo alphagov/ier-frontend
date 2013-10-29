@@ -13,3 +13,4 @@ logs/*
 dist/*
 .sass-cache
 bin/
+conf/version.conf
