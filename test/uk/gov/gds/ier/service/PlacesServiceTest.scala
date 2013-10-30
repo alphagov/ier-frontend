@@ -1,10 +1,11 @@
 package uk.gov.gds.ier.service
 
 import org.specs2.mutable.Specification
-import uk.gov.gds.ier.client.ApiClient
+import uk.gov.gds.ier.client.{PlacesApiClient, ApiClient}
 import uk.gov.gds.ier.model.{Fail, Success, ApiResponse}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
+import uk.gov.gds.ier.guice.WithConfig
 
 class PlacesServiceTest extends Specification {
 
@@ -12,9 +13,9 @@ class PlacesServiceTest extends Specification {
     override def placesUrl = "http://places"
   }
 
-  class FakeApiClient extends ApiClient(new MockConfig) {
+  class FakeApiClient extends PlacesApiClient(new MockConfig) {
     override def get(url: String) : ApiResponse = {
-      if (url == "http://places/address?postcode=BT125EG") {
+      if (url == "http://places/address?postcode=bt125eg") {
         Success("""[
             {
               "uprn": 51088262,
@@ -44,5 +45,4 @@ class PlacesServiceTest extends Specification {
       addresses(0).postcode mustEqual "BT12 5EG"
     }
   }
-
 }
