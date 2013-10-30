@@ -7,7 +7,7 @@ import play.api.templates.Html
 import uk.gov.gds.ier.validation.{InProgressForm, IerForms}
 
 trait Steps extends IerForms {
-  self: InProgressSession =>
+  self: SessionHandling =>
 
   case class Step(page: InProgressForm => Html,
                   editPage: InProgressForm => Html,

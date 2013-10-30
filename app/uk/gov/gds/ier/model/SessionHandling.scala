@@ -9,7 +9,7 @@ import org.joda.time.DateTime
 import scala.concurrent.Future
 
 
-trait InProgressSession extends IerForms {
+trait SessionHandling extends IerForms {
   self: WithSerialiser with Controller =>
 
   object ValidSession {

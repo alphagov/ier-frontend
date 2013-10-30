@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.controller
 
 import play.api.mvc._
-import uk.gov.gds.ier.model.{InProgressSession, Steps}
+import uk.gov.gds.ier.model.{SessionHandling, Steps}
 import com.google.inject.Inject
 import uk.gov.gds.ier.service.{PlacesService, IerApiService}
 import views._
@@ -17,7 +17,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
     with IerForms
     with WithSerialiser
     with Steps
-    with InProgressSession {
+    with SessionHandling {
 
   def logger = LoggerFactory.getLogger(this.getClass)
 
