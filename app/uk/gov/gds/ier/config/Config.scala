@@ -7,7 +7,8 @@ class Config {
   private lazy val configuration = play.Play.application().configuration()
   def apiTimeout = configuration.getInt("api.timeout", 10).toInt
   def placesUrl = configuration.getString("places.url")
-  def fakeApi = configuration.getBoolean("api.fake")
+  def fakeIer = configuration.getBoolean("ier.fake")
+  def fakePlaces = configuration.getBoolean("places.fake")
   def ierApiUrl = configuration.getString("ier.api.url")
   def ierApiToken = configuration.getString("ier.api.token")
 
