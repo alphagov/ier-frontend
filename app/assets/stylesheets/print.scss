@@ -167,6 +167,42 @@ form {
     color: $grey-2;
   }
 }
+
+.confirmation {
+  h3,
+  .data-wrap {
+    @include inline-block;
+  }
+
+  h3 {
+    width: 40%;
+  }
+
+  .data-wrap {
+    width: 59%;
+
+    div,
+    p {
+      width: auto;
+      padding-left: 10pt;
+    }
+  }
+
+  h3,
+  .data-wrap div,
+  .data-wrap p {
+    margin-bottom: 1em;
+  }
+
+  .help-notice {
+    margin-top: 1em;
+    border-top: 1pt solid $black;
+    padding-top: 1em;
+    font-weight: 600;
+    width: 59%;
+  }
+}
+
 .complete {
   header {
     border: solid 1pt $black;
