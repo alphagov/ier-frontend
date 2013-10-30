@@ -23,23 +23,22 @@ trait InProgressSession extends IerForms {
       }
     }
 
-    def requiredFor[A](action: Action[A]) = apply(action)
-
-    def apply[A](action: Action[A]): Action[A] = apply(action.parser)(action)
-
-    def apply[A](bodyParser: BodyParser[A])(action: Action[A]): Action[A] = new Action[A] {
-      def parser = bodyParser
-
-      def apply(ctx: Request[A]) = {
-        ctx.session.getToken match {
+    final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => InprogressApplication => Result):Action[A] = Action(bodyParser) {
+      request =>
+        request.session.getToken match {
           case Some(token) => isValidToken(token) match {
-            case true => action(ctx)
-            case false => Future.successful(Redirect(routes.RegisterToVoteController.index()))
+            case true => block(request)(request.session.getApplication).refreshSession()
+            case false => Redirect(routes.RegisterToVoteController.index()).withFreshSession()
           }
-          case None => Future.successful(Redirect(routes.RegisterToVoteController.index()))
+          case None => Redirect(routes.RegisterToVoteController.index()).withFreshSession()
         }
-      }
     }
+
+    final def withParser[A](bodyParser: BodyParser[A]) = new {
+      def requiredFor(action: Request[A] => InprogressApplication => Result) = validateSession(bodyParser, action)
+    }
+
+    final def requiredFor(action: Request[AnyContent] => InprogressApplication => Result) = withParser(BodyParsers.parse.anyContent) requiredFor action
   }
 
   trait SessionKeys {
@@ -47,12 +46,15 @@ trait InProgressSession extends IerForms {
     val sessionTokenKey = "sessionKey"
   }
 
-  implicit class SimpleResultToSession(result:SimpleResult) extends SessionKeys {
+  implicit class SimpleResultToSession(result:Result) extends SessionKeys {
     def mergeWithSession(application: InprogressApplication)(implicit request: play.api.mvc.Request[_]) = {
       result.withSession(request.session.merge(application))
     }
     def withFreshSession() = {
       result.withSession(Session(Map(sessionTokenKey -> DateTime.now.toString())))
+    }
+    def refreshSession() = {
+      result.withSession(sessionTokenKey -> DateTime.now.toString())
     }
   }
 
