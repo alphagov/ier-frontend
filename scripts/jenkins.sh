@@ -3,10 +3,10 @@
 echo "Build IER for Jenkins"
 
 read -d '' version << VERSION
-gds.BuildNumber="$BUILD_NUMBER"
-gds.GitCommit="$GIT_COMMIT"
-gds.GitBranch="$GIT_BRANCH"
-gds.BuildTime="$BUILD_ID"
+BuildNumber="$BUILD_NUMBER"
+GitCommit="$GIT_COMMIT"
+GitBranch="$GIT_BRANCH"
+BuildTime="$BUILD_ID"
 VERSION
 
 echo "$version" > conf/version.conf
