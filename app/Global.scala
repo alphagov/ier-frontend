@@ -1,11 +1,11 @@
-import uk.gov.gds.common.config.Config
 import uk.gov.gds.ier.client._
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.DynamicGlobal
-import uk.gov.gds.ier.guice.Delegate
+import uk.gov.gds.ier.service.{ConcreteIerApiService, IerApiService}
+import uk.gov.gds.ier.stubs.{PlacesStubApiClient, IerStubApiClient, IerApiServiceWithStripNino}
 
 object Global extends DynamicGlobal {
+
   override def bindings = {
     binder =>
       val config = new Config
@@ -16,6 +16,13 @@ object Global extends DynamicGlobal {
       if (config.fakePlaces) {
         println("Binding PlacesStubApiClient")
         binder.bind(classOf[PlacesApiClient]).to(classOf[PlacesStubApiClient])
+      }
+      if (config.stripNino) {
+        println("Binding IerApiServiceWithStripNino")
+        binder.bind(classOf[IerApiService]).to(classOf[IerApiServiceWithStripNino])
+      } else {
+        println("Binding ConcreteIerApiService")
+        binder.bind(classOf[IerApiService]).to(classOf[ConcreteIerApiService])
       }
   }
 }

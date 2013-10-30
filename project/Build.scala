@@ -19,7 +19,8 @@ object ApplicationBuild extends IERBuild {
     "org.bouncycastle" % "bcpg-jdk16" % "1.46",
     anorm,
     new ModuleID("org.codehaus.janino", "janino", "2.6.1"),
-    "org.scalatest" % "scalatest_2.10" % "2.0.RC2" % "test"
+    "org.scalatest" % "scalatest_2.10" % "2.0.RC3" % "test",
+    "org.mockito" % "mockito-core" % "1.9.5"
   )
 
   lazy val main = play.Project(appName, appVersion, appDependencies)
