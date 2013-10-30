@@ -12,7 +12,7 @@ import uk.gov.gds.ier.client.PlacesApiClient
 class PlacesStubApiClient @Inject() (config: Config, serialiser: JsonSerialiser) extends PlacesApiClient(config) {
 
   override def get(url: String) : ApiResponse = {
-    if (url == "http://localhost:9100/places/address?postcode=wc2b6se") {
+    if (url.startsWith(config.placesUrl + "/address?postcode=")) {
       Success("""[
             {
               "uprn": 10000001,
@@ -27,7 +27,7 @@ class PlacesStubApiClient @Inject() (config: Config, serialiser: JsonSerialiser)
             }
           ]""")
     }
-    else if (url == "http://localhost:9100/places/authority?postcode=wc2b6se") {
+    else if (url.startsWith(config.placesUrl + "/authority?postcode=")) {
       Success("{\"name\":\"Camden Borough Council\",\"ero\":{\"telephoneNumber\":\"\"},\"opcsId\":\"00AG\",\"gssId\":\"E09000007\"}")
     }
     else {
