@@ -54,7 +54,7 @@ trait FormMappings extends FormKeys {
 
   val possibleAddressMapping = mapping(
     jsonList -> nonEmptyText
-  ) (fromJson[Addresses]) (list => Some(toJson(list)))
+  ) (serialiser.fromJson[Addresses]) (list => Some(serialiser.toJson(list)))
 
   val addressMapping = mapping(
     address -> nonEmptyText.verifying(addressMaxLengthError, _.size <= maxTextFieldLength).verifying("Please select your address", address => address != "Select your address"),

@@ -118,16 +118,11 @@ trait IerForms extends FormKeys with FormMappings {
       }
     }
   }
-}
 
-@Singleton
-class InProgress @Inject() (serialiser: JsonSerialiser) extends IerForms with WithSerialiser {
-
-  override def toJson(obj: AnyRef): String = serialiser.toJson(obj)
-  override def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson[T](json)
-
-  def apply(application:InprogressApplication):InProgressForm = {
-    InProgressForm(inprogressForm.fill(application))
+  object InProgress {
+    def apply(application:InprogressApplication):InProgressForm = {
+      InProgressForm(inprogressForm.fill(application))
+    }
   }
 }
 
