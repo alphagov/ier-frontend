@@ -8,9 +8,22 @@ import scala.Some
 import org.joda.time.DateTime
 import scala.concurrent.Future
 
-
 trait SessionHandling extends IerForms {
   self: WithSerialiser with Controller =>
+
+  object NewSession {
+    final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
+      request =>
+        block(request).withFreshSession()
+    }
+
+    final def withParser[A](bodyParser: BodyParser[A]) = new {
+      def requiredFor(action: Request[A] => Result) = validateSession(bodyParser, action)
+    }
+
+    final def requiredFor(action: Request[AnyContent] => Result) = withParser(BodyParsers.parse.anyContent) requiredFor action
+
+  }
 
   object ValidSession {
 

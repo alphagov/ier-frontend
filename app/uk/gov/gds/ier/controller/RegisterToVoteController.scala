@@ -11,6 +11,7 @@ import uk.gov.gds.ier.validation.{InProgressForm, IerForms}
 import scala.Some
 import uk.gov.gds.common.model.{Ero, LocalAuthority}
 import org.slf4j.LoggerFactory
+import BodyParsers.parse._
 
 class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: JsonSerialiser, placesService:PlacesService)
     extends Controller
@@ -25,8 +26,9 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
 
   def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson[T](json)
 
-  def index = Action { implicit request =>
-    Ok(html.start()).withFreshSession()
+  def index = NewSession requiredFor {
+    request =>
+      Ok(html.start())
   }
 
   def registerToVote = ValidSession requiredFor {
@@ -41,7 +43,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
       }
   }
 
-  def validateStep(step:String) = ValidSession withParser(BodyParsers.parse.urlFormEncoded) requiredFor {
+  def validateStep(step:String) = ValidSession withParser urlFormEncoded requiredFor {
     implicit request => application =>
       Step(step) { stepDetail =>
         stepDetail.validation.bindFromRequest().fold(
@@ -58,7 +60,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
       }
   }
 
-  def validateEdit(step:String) = ValidSession withParser(BodyParsers.parse.urlFormEncoded) requiredFor {
+  def validateEdit(step:String) = ValidSession withParser urlFormEncoded requiredFor {
     implicit request => application =>
       Step(step) { stepDetail =>
         stepDetail.validation.bindFromRequest()(request).fold(
@@ -72,7 +74,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
     Redirect(routes.RegisterToVoteController.error()).flashing("error-type" -> error)
   }
 
-  def error = Action {
+  def error = NewSession requiredFor {
     implicit request =>
       flash.get("error-type") match {
         case Some("exit-unknown-dob") => Ok(html.errors.exitUnknownDob())
@@ -82,7 +84,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
       }
   }
 
-  def complete = Action {
+  def complete = NewSession requiredFor {
     implicit request =>
       val authority = request.flash.get("postcode") match {
         case Some("") => None
@@ -91,7 +93,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
       }
       val refNum = request.flash.get("refNum")
 
-      Ok(html.complete(authority, refNum)).withNewSession
+      Ok(html.complete(authority, refNum))
   }
 
   def fakeComplete = Action {
