@@ -31,5 +31,5 @@ trait ApiResults {
   def serverErrorResult[A <: AnyRef, B <: RequestHeader](payload: (String, A)): SimpleResult = serverErrorResult[Map[String, A], B](Map(payload._1 -> payload._2))
 
   private def generate[A <: AnyRef, B <: RequestHeader](status: Results.Status, payload: A): SimpleResult =
-    status(toJson(payload)).as("application/json; charset=utf-8")
+    status(serialiser.toJson(payload)).as("application/json; charset=utf-8")
 }

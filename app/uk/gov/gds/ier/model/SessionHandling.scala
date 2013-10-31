@@ -60,7 +60,7 @@ trait SessionHandling extends IerForms {
     }
     def getApplication = {
       session.get(sessionPayloadKey) match {
-        case Some(app) => fromJson[InprogressApplication](app)
+        case Some(app) => serialiser.fromJson[InprogressApplication](app)
         case _ => InprogressApplication()
       }
     }
@@ -92,7 +92,7 @@ trait SessionHandling extends IerForms {
         postalVoteOptin = application.postalVoteOptin.orElse(stored.postalVoteOptin),
         contact = application.contact.orElse(stored.contact)
       )
-      session + (sessionPayloadKey -> toJson(mergedApplication))
+      session + (sessionPayloadKey -> serialiser.toJson(mergedApplication))
     }
   }
 

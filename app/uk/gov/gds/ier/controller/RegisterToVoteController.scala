@@ -13,7 +13,7 @@ import uk.gov.gds.common.model.{Ero, LocalAuthority}
 import org.slf4j.LoggerFactory
 import BodyParsers.parse._
 
-class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: JsonSerialiser, placesService:PlacesService)
+class RegisterToVoteController @Inject() (ierApi:IerApiService, jsonSerialiser: JsonSerialiser, placesService:PlacesService)
     extends Controller
     with IerForms
     with WithSerialiser
@@ -22,9 +22,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
 
   def logger = LoggerFactory.getLogger(this.getClass)
 
-  def toJson(obj: AnyRef): String = serialiser.toJson(obj)
-
-  def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson[T](json)
+  override val serialiser = jsonSerialiser
 
   def index = NewSession requiredFor {
     request =>

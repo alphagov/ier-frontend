@@ -3,28 +3,27 @@ package uk.gov.gds.ier.controller
 import play.api.mvc.{Action, Controller}
 import sys.process._
 import com.google.inject.Inject
-import uk.gov.gds.ier.serialiser.JsonSerialiser
+import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.config.Config
 import java.lang.management.ManagementFactory._
 import scala.Some
+import uk.gov.gds.ier.client.ApiResults
 
-class StatusController @Inject() (serialiser: JsonSerialiser, config: Config) extends Controller {
+class StatusController @Inject() (jsonSerialiser: JsonSerialiser, config: Config) extends Controller with ApiResults with WithSerialiser {
+
+  override val serialiser = jsonSerialiser
 
   def status = Action {
-    Ok(
-      serialiser.toJson(
-        Map(
-          "status" -> "up",
-          "process id" -> pidAsString,
-          "uptime" -> upTime,
-          "started" -> startTime,
-          "build date" -> config.buildDate,
-          "build number" -> config.buildNumber,
-          "revision" -> config.revision,
-          "branch" -> config.branch
-        )
-      )
-    ).withHeaders(CONTENT_TYPE -> JSON)
+    okResult(Map(
+      "status" -> "up",
+      "process id" -> pidAsString,
+      "uptime" -> upTime,
+      "started" -> startTime,
+      "build date" -> config.buildDate,
+      "build number" -> config.buildNumber,
+      "revision" -> config.revision,
+      "branch" -> config.branch
+    ))
   }
 
   private def pid = getRuntimeMXBean.getName.split('@').headOption
