@@ -102,7 +102,7 @@ window.GOVUK = window.GOVUK || {};
   conditionalControl.prototype.toggle = function (selectedRadio) {
     var $postcodeSearch = this.$content.find('.postcode'),
         isPostcodeLookup = $postcodeSearch.length > 0,
-        hasAddresses = $postcodeSearch.closest('fieldset').find('select').length > 0;
+        hasAddresses = $('#found-addresses select').length > 0;
 
     if (selectedRadio !== undefined) {
       if (this.$toggle.attr('id') !== selectedRadio.id) {
@@ -318,9 +318,28 @@ window.GOVUK = window.GOVUK || {};
   }());
 
   postcodeLookup = function (searchButton, inputName) {
+    var allowSubmission = function ($searchButton) {
+      var $optionalSectionContainer = $searchButton.closest('.optional-section'),
+          isInOptionalSection = ($optionalSectionContainer.length > 0),
+          optionalSectionIsHidden = false;
+
+      if (isInOptionalSection) { 
+        optionalSectionIsHidden = $optionalSectionContainer.css('display') === 'none';
+      }
+      if (isInOptionalSection && optionalSectionIsHidden) {
+        return true;
+      } else { // lookup is visible
+        if (!this.hasAddresses) {
+          return false;
+        }
+      }
+      return true;
+    };
+
     this.$searchButton = $(searchButton);
     this.$searchInput = this.$searchButton.closest('fieldset').find('input.postcode');
     this.$targetElement = $('#found-addresses');
+    this.hasAddresses = ($('#input-address-list').length > 0);
     this.$waitMessage = $('<p id="wait-for-request">Finding address</p>');
     this.fragment = {
       'label' : '<label for="input-address-list">Select your address</label>',
@@ -340,10 +359,12 @@ window.GOVUK = window.GOVUK || {};
       'aria-live' : 'polite',
       'role' : 'region'
     });
-    this.bindEvents();
-    if (this.$searchButton.closest('.optional-section').length === 0) {
+
+    if (!allowSubmission.apply(this, [this.$searchButton])) {
       $('#continue').hide();
     }
+
+    this.bindEvents();
     $(document).bind('toggle.open', function (e, data) {
       var $select;
 
@@ -383,6 +404,7 @@ window.GOVUK = window.GOVUK || {};
     resultStr += this.fragment.select[1] + this.fragment.help;
     this.$targetElement.html(resultStr);
     new GOVUK.registerToVote.optionalInformation(this.$targetElement.find('.help-content'));
+    this.hasAddresses = true;
     $('#continue').show();
   };
   postcodeLookup.prototype.getAddresses = function () {

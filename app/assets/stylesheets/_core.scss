@@ -188,7 +188,7 @@ form {
 
 form {
   padding-top: 2em;
-  @extends %contain-floats;
+  @extend %contain-floats;
 }
 
 .inner-block{
