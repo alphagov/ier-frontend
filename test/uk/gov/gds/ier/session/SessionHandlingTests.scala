@@ -40,7 +40,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       tokenDate.getYear should be(DateTime.now.getYear)
       tokenDate.getHourOfDay should be(DateTime.now.getHourOfDay)
       tokenDate.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
-      tokenDate.getSecondOfMinute should be(DateTime.now.getSecondOfMinute)
+      tokenDate.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 1)
     }
   }
 
@@ -98,7 +98,65 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       nextTokenDate.getYear should be(DateTime.now.getYear)
       nextTokenDate.getHourOfDay should be(DateTime.now.getHourOfDay)
       nextTokenDate.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
-      nextTokenDate.getSecondOfMinute should be(DateTime.now.getSecondOfMinute)
+      nextTokenDate.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 1)
+    }
+  }
+
+  it should "invalidate a session after 15 mins" in {
+    running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
+      class TestController extends Controller with WithSerialiser with SessionHandling with ApiResults {
+        val serialiser = jsonSerialiser
+
+        def index() = ValidSession requiredFor {
+          request => application =>
+            okResult(Map("status" -> "Ok"))
+        }
+      }
+
+      val controller = new TestController()
+      val result = controller.index()(FakeRequest().withSession("sessionKey" -> DateTime.now.minusMinutes(15).toString()))
+
+      status(result) should be(SEE_OTHER)
+
+      session(result).get("sessionKey") should not be None
+      val Some(token) = session(result).get("sessionKey")
+      val tokenDate = DateTime.parse(token)
+      tokenDate.getDayOfMonth should be(DateTime.now.getDayOfMonth)
+      tokenDate.getMonthOfYear should be(DateTime.now.getMonthOfYear)
+      tokenDate.getYear should be(DateTime.now.getYear)
+      tokenDate.getHourOfDay should be(DateTime.now.getHourOfDay)
+      tokenDate.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
+      tokenDate.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 1)
+
+      tokenDate.getMinuteOfHour should not be(DateTime.now.minusMinutes(16).getMinuteOfHour)
+    }
+  }
+
+  it should "refresh a session before 15 mins" in {
+    running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
+      class TestController extends Controller with WithSerialiser with SessionHandling with ApiResults {
+        val serialiser = jsonSerialiser
+
+        def index() = ValidSession requiredFor {
+          request => application =>
+            okResult(Map("status" -> "Ok"))
+        }
+      }
+
+      val controller = new TestController()
+      val result = controller.index()(FakeRequest().withSession("sessionKey" -> DateTime.now.minusMinutes(14).toString()))
+
+      status(result) should be(OK)
+
+      session(result).get("sessionKey") should not be None
+      val Some(token) = session(result).get("sessionKey")
+      val tokenDate = DateTime.parse(token)
+      tokenDate.getDayOfMonth should be(DateTime.now.getDayOfMonth)
+      tokenDate.getMonthOfYear should be(DateTime.now.getMonthOfYear)
+      tokenDate.getYear should be(DateTime.now.getYear)
+      tokenDate.getHourOfDay should be(DateTime.now.getHourOfDay)
+      tokenDate.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
+      tokenDate.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 1)
     }
   }
 }
