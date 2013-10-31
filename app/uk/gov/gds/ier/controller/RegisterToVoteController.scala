@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.controller
 
 import play.api.mvc._
-import uk.gov.gds.ier.model.{SessionHandling, Steps}
 import com.google.inject.Inject
 import uk.gov.gds.ier.service.{PlacesService, IerApiService}
 import views._
@@ -12,6 +11,7 @@ import scala.Some
 import uk.gov.gds.common.model.{Ero, LocalAuthority}
 import org.slf4j.LoggerFactory
 import BodyParsers.parse._
+import uk.gov.gds.ier.session.{Steps, SessionHandling}
 
 class RegisterToVoteController @Inject() (ierApi:IerApiService, jsonSerialiser: JsonSerialiser, placesService:PlacesService)
     extends Controller

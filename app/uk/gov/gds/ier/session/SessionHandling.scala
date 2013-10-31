@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.model
+package uk.gov.gds.ier.session
 
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.mvc._
@@ -7,6 +7,7 @@ import controllers.routes
 import scala.Some
 import org.joda.time.DateTime
 import scala.concurrent.Future
+import uk.gov.gds.ier.model.InprogressApplication
 
 trait SessionHandling extends IerForms {
   self: WithSerialiser with Controller =>
