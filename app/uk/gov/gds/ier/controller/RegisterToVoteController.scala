@@ -10,6 +10,7 @@ import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation.{InProgressForm, IerForms}
 import scala.Some
 import uk.gov.gds.common.model.{Ero, LocalAuthority}
+import org.slf4j.LoggerFactory
 
 class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: JsonSerialiser, placesService:PlacesService)
     extends Controller
@@ -17,6 +18,8 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
     with WithSerialiser
     with Steps
     with InProgressSession {
+
+  def logger = LoggerFactory.getLogger(this.getClass)
 
   def toJson(obj: AnyRef): String = serialiser.toJson(obj)
 
@@ -106,7 +109,9 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
         },
         validApplication => {
           val refNum = ierApi.generateReferenceNumber(validApplication)
-          ierApi.submitApplication(validApplication, Some(refNum))
+          val remoteClientIP = request.headers.get("X-Real-IP")
+          logger.debug("X-Real-IP header: "+remoteClientIP)
+          ierApi.submitApplication(remoteClientIP, validApplication, Some(refNum))
           Redirect(controllers.routes.RegisterToVoteController.complete()).flashing(
             "refNum" -> refNum,
             "postcode" -> validApplication.address.map(_.postcode).getOrElse("")
