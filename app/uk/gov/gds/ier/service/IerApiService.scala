@@ -12,11 +12,16 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.digest.ShaHashProvider
 import org.joda.time.DateTime
 
-class IerApiService @Inject() (apiClient: IerApiClient,
+abstract class IerApiService {
+  def submitApplication(ipAddress: Option[String], applicant: InprogressApplication, referenceNumber: Option[String]): ApiApplicationResponse
+  def generateReferenceNumber(application:InprogressApplication): String
+}
+
+class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
                                serialiser: JsonSerialiser,
                                config: Config,
                                placesService:PlacesService,
-                               shaHashProvider:ShaHashProvider) extends Logging {
+                               shaHashProvider:ShaHashProvider) extends IerApiService with Logging {
 
   def submitApplication(ipAddress: Option[String], applicant: InprogressApplication, referenceNumber: Option[String]) = {
     val authority = applicant.address.map(address => placesService.lookupAuthority(address.postcode)).getOrElse(None)
@@ -42,3 +47,5 @@ class IerApiService @Inject() (apiClient: IerApiClient,
     shaHashProvider.getHash(json, Some(DateTime.now.toString)).map("%02X" format _).take(3).mkString
   }
 }
+
+
