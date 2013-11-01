@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory
 import BodyParsers.parse._
 import uk.gov.gds.ier.session.{Steps, SessionHandling}
 
-class RegisterToVoteController @Inject() (ierApi:IerApiService, jsonSerialiser: JsonSerialiser, placesService:PlacesService)
+class RegisterToVoteController @Inject() (ierApi:IerApiService, val serialiser: JsonSerialiser, placesService:PlacesService)
     extends Controller
     with IerForms
     with WithSerialiser
@@ -21,8 +21,6 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, jsonSerialiser: 
     with SessionHandling {
 
   def logger = LoggerFactory.getLogger(this.getClass)
-
-  override val serialiser = jsonSerialiser
 
   def index = NewSession requiredFor {
     request =>

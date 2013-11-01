@@ -8,10 +8,9 @@ import uk.gov.gds.ier.config.Config
 import java.lang.management.ManagementFactory._
 import scala.Some
 import uk.gov.gds.ier.client.ApiResults
+import uk.gov.gds.ier.service.PlacesService
 
-class StatusController @Inject() (jsonSerialiser: JsonSerialiser, config: Config) extends Controller with ApiResults with WithSerialiser {
-
-  override val serialiser = jsonSerialiser
+class StatusController @Inject() (val serialiser: JsonSerialiser, config: Config, placesService: PlacesService) extends Controller with ApiResults with WithSerialiser {
 
   def status = Action {
     okResult(Map(
@@ -22,7 +21,17 @@ class StatusController @Inject() (jsonSerialiser: JsonSerialiser, config: Config
       "build date" -> config.buildDate,
       "build number" -> config.buildNumber,
       "revision" -> config.revision,
-      "branch" -> config.branch
+      "branch" -> config.branch,
+      "places" -> {
+        placesService.beaconFire match {
+          case true => {
+            "up"
+          }
+          case false => {
+            "down"
+          }
+        }
+      }
     ))
   }
 

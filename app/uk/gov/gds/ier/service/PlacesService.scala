@@ -10,6 +10,7 @@ import uk.gov.gds.common.model.{GovUkAddress, LocalAuthority}
 import uk.gov.gds.ier.exception.PostcodeLookupFailedException
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.logging.Logging
+import java.net.ConnectException
 
 class PlacesService @Inject() (apiClient: PlacesApiClient, serialiser: JsonSerialiser, config:Config) extends Logging {
 
@@ -30,6 +31,20 @@ class PlacesService @Inject() (apiClient: PlacesApiClient, serialiser: JsonSeria
     result match {
       case Success(body) => Some(serialiser.fromJson[LocalAuthority](body))
       case Fail(error) => None
+    }
+  }
+
+  def beaconFire:Boolean = {
+    apiClient.get(config.placesUrl + "/status") match {
+      case Success(body) => {
+        serialiser.fromJson[Map[String,String]](body).get("status") match {
+          case Some("up") => true
+          case _ => false
+        }
+      }
+      case Fail(error) => {
+        false
+      }
     }
   }
 }
