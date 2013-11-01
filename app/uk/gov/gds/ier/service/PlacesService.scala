@@ -32,4 +32,18 @@ class PlacesService @Inject() (apiClient: PlacesApiClient, serialiser: JsonSeria
       case Fail(error) => None
     }
   }
+
+  def beaconFire:Boolean = {
+    apiClient.get(config.placesUrl + "/status") match {
+      case Success(body) => {
+        serialiser.fromJson[Map[String,String]](body).get("status") match {
+          case Some("up") => true
+          case _ => false
+        }
+      }
+      case Fail(error) => {
+        false
+      }
+    }
+  }
 }
