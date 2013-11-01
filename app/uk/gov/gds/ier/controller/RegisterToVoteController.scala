@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.controller
 
 import play.api.mvc._
-import uk.gov.gds.ier.model.{InProgressSession, Steps}
 import com.google.inject.Inject
 import uk.gov.gds.ier.service.{PlacesService, IerApiService}
 import views._
@@ -11,64 +10,69 @@ import uk.gov.gds.ier.validation.{InProgressForm, IerForms}
 import scala.Some
 import uk.gov.gds.common.model.{Ero, LocalAuthority}
 import org.slf4j.LoggerFactory
+import BodyParsers.parse._
+import uk.gov.gds.ier.session.{Steps, SessionHandling}
 
-class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: JsonSerialiser, placesService:PlacesService)
+class RegisterToVoteController @Inject() (ierApi:IerApiService, jsonSerialiser: JsonSerialiser, placesService:PlacesService)
     extends Controller
     with IerForms
     with WithSerialiser
     with Steps
-    with InProgressSession {
+    with SessionHandling {
 
   def logger = LoggerFactory.getLogger(this.getClass)
 
-  def toJson(obj: AnyRef): String = serialiser.toJson(obj)
+  override val serialiser = jsonSerialiser
 
-  def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson[T](json)
-
-  def index = Action { implicit request =>
-    Ok(html.start()).withFreshSession()
+  def index = NewSession requiredFor {
+    request =>
+      Ok(html.start())
   }
 
-  def registerToVote = ValidSession requiredFor Action {
-    Redirect(controllers.routes.RegisterToVoteController.registerStep(firstStep()))
+  def registerToVote = ValidSession requiredFor {
+    request => application =>
+      Redirect(controllers.routes.RegisterToVoteController.registerStep(firstStep()))
   }
 
-  def registerStep(step:String) = ValidSession requiredFor Action { implicit request =>
-    Step(step) { stepDetail =>
-      Ok(stepDetail.page(InProgressForm(request.session.getApplication)))
-    }
-  }
-
-  def validateStep(step:String) = ValidSession requiredFor Action(BodyParsers.parse.urlFormEncoded) { implicit request =>
-    Step(step) { stepDetail =>
-      stepDetail.validation.bindFromRequest().fold(
-        errors => Ok(stepDetail.page(InProgressForm(errors))),
-        form => Redirect(routes.RegisterToVoteController.registerStep(stepDetail.next)).mergeWithSession(form)
-      )
-    }
-  }
-
-  def edit(step:String) = ValidSession requiredFor Action {
-    implicit request =>
+  def registerStep(step:String) = ValidSession requiredFor {
+    request => application =>
       Step(step) { stepDetail =>
-        Ok(stepDetail.editPage(InProgressForm(request.session.getApplication)))
+        Ok(stepDetail.page(InProgressForm(application)))
       }
   }
 
-  def validateEdit(step:String) = ValidSession requiredFor Action(BodyParsers.parse.urlFormEncoded) { implicit request =>
-    Step(step) { stepDetail =>
-      stepDetail.validation.bindFromRequest().fold(
-        errors => Ok(stepDetail.page(InProgressForm(errors))),
-        form => Redirect(routes.RegisterToVoteController.confirmApplication()).mergeWithSession(form)
-      )
-    }
+  def validateStep(step:String) = ValidSession withParser urlFormEncoded requiredFor {
+    implicit request => application =>
+      Step(step) { stepDetail =>
+        stepDetail.validation.bindFromRequest().fold(
+          errors => Ok(stepDetail.page(InProgressForm(errors))),
+          form => Redirect(routes.RegisterToVoteController.registerStep(stepDetail.next)).mergeWithSession(form)
+        )
+      }
+  }
+
+  def edit(step:String) = ValidSession requiredFor {
+    request => application =>
+      Step(step) { stepDetail =>
+        Ok(stepDetail.editPage(InProgressForm(application)))
+      }
+  }
+
+  def validateEdit(step:String) = ValidSession withParser urlFormEncoded requiredFor {
+    implicit request => application =>
+      Step(step) { stepDetail =>
+        stepDetail.validation.bindFromRequest()(request).fold(
+          errors => Ok(stepDetail.page(InProgressForm(errors))),
+          form => Redirect(routes.RegisterToVoteController.confirmApplication()).mergeWithSession(form)
+        )
+      }
   }
 
   def errorRedirect(error:String) = Action {
     Redirect(routes.RegisterToVoteController.error()).flashing("error-type" -> error)
   }
 
-  def error = Action {
+  def error = NewSession requiredFor {
     implicit request =>
       flash.get("error-type") match {
         case Some("exit-unknown-dob") => Ok(html.errors.exitUnknownDob())
@@ -78,7 +82,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
       }
   }
 
-  def complete = Action {
+  def complete = NewSession requiredFor {
     implicit request =>
       val authority = request.flash.get("postcode") match {
         case Some("") => None
@@ -87,7 +91,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
       }
       val refNum = request.flash.get("refNum")
 
-      Ok(html.complete(authority, refNum)).withNewSession
+      Ok(html.complete(authority, refNum))
   }
 
   def fakeComplete = Action {
@@ -95,15 +99,16 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, serialiser: Json
     Ok(html.complete(authority, Some("123456")))
   }
 
-  def confirmApplication = ValidSession requiredFor Action {
-    implicit request => Step("confirmation") { stepDetail =>
-      Ok(stepDetail.page(InProgressForm(stepDetail.validation.fillAndValidate(request.session.getApplication))))
-    }
+  def confirmApplication = ValidSession requiredFor {
+    request => application =>
+      Step("confirmation") { stepDetail =>
+        Ok(stepDetail.page(InProgressForm(stepDetail.validation.fillAndValidate(application))))
+      }
   }
 
-  def submitApplication = ValidSession requiredFor Action {
-    implicit request =>
-      inprogressForm.fillAndValidate(request.session.getApplication).fold(
+  def submitApplication = ValidSession requiredFor {
+    request => application =>
+      inprogressForm.fillAndValidate(application).fold(
         errors => {
           Ok(Step.getStep("confirmation").page(InProgressForm(errors)))
         },

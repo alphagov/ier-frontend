@@ -1,13 +1,14 @@
-package uk.gov.gds.ier.model
+package uk.gov.gds.ier.session
 
 import views.html
 import play.api.mvc._
 import play.api.data.Form
 import play.api.templates.Html
 import uk.gov.gds.ier.validation.{InProgressForm, IerForms}
+import uk.gov.gds.ier.model.InprogressApplication
 
 trait Steps extends IerForms {
-  self: InProgressSession =>
+  self: SessionHandling =>
 
   case class Step(page: InProgressForm => Html,
                   editPage: InProgressForm => Html,
