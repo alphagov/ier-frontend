@@ -12,7 +12,8 @@ import uk.gov.gds.ier.guice.WithConfig
 trait ApiClient {
   self:WithConfig =>
 
-    def get(url: String) : ApiResponse = {
+  def get(url: String) : ApiResponse = {
+    try {
       val result = Await.result(
         WS.url(url).get(),
         config.apiTimeout seconds
@@ -25,9 +26,13 @@ trait ApiClient {
           Fail(result.body)
         }
       }
+    } catch {
+      case e:Exception => Fail(e.getMessage)
     }
+  }
 
-    def post(url:String, content:String, headers: (String, String)*) : ApiResponse = {
+  def post(url:String, content:String, headers: (String, String)*) : ApiResponse = {
+    try {
       val result = Await.result(
         WS.url(url)
           .withHeaders("Content-Type" -> MimeTypes.JSON)
@@ -40,5 +45,8 @@ trait ApiClient {
         case Status.NO_CONTENT => Success("")
         case _ => Fail(result.body)
       }
+    } catch {
+      case e:Exception => Fail(e.getMessage)
     }
+  }
 }

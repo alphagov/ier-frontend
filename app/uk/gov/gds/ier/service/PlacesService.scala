@@ -10,6 +10,7 @@ import uk.gov.gds.common.model.{GovUkAddress, LocalAuthority}
 import uk.gov.gds.ier.exception.PostcodeLookupFailedException
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.logging.Logging
+import java.net.ConnectException
 
 class PlacesService @Inject() (apiClient: PlacesApiClient, serialiser: JsonSerialiser, config:Config) extends Logging {
 
