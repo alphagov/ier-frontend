@@ -9,9 +9,7 @@ import java.lang.management.ManagementFactory._
 import scala.Some
 import uk.gov.gds.ier.client.ApiResults
 
-class StatusController @Inject() (jsonSerialiser: JsonSerialiser, config: Config) extends Controller with ApiResults with WithSerialiser {
-
-  override val serialiser = jsonSerialiser
+class StatusController @Inject() (val serialiser: JsonSerialiser, config: Config) extends Controller with ApiResults with WithSerialiser {
 
   def status = Action {
     okResult(Map(

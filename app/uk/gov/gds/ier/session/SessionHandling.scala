@@ -6,7 +6,6 @@ import uk.gov.gds.ier.validation.IerForms
 import controllers.routes
 import scala.Some
 import org.joda.time.DateTime
-import scala.concurrent.Future
 import uk.gov.gds.ier.model.InprogressApplication
 
 trait SessionHandling extends IerForms {
