@@ -102,7 +102,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
     }
   }
 
-  it should "invalidate a session after 15 mins" in {
+  it should "invalidate a session after 5 mins" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       class TestController extends Controller with WithSerialiser with SessionHandling with ApiResults {
         val serialiser = jsonSerialiser
@@ -114,7 +114,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       }
 
       val controller = new TestController()
-      val result = controller.index()(FakeRequest().withSession("sessionKey" -> DateTime.now.minusMinutes(15).toString()))
+      val result = controller.index()(FakeRequest().withSession("sessionKey" -> DateTime.now.minusMinutes(5).toString()))
 
       status(result) should be(SEE_OTHER)
 
@@ -128,11 +128,11 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       tokenDate.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
       tokenDate.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 1)
 
-      tokenDate.getMinuteOfHour should not be(DateTime.now.minusMinutes(16).getMinuteOfHour)
+      tokenDate.getMinuteOfHour should not be(DateTime.now.minusMinutes(6).getMinuteOfHour)
     }
   }
 
-  it should "refresh a session before 15 mins" in {
+  it should "refresh a session before 5 mins" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       class TestController extends Controller with WithSerialiser with SessionHandling with ApiResults {
         val serialiser = jsonSerialiser
@@ -144,7 +144,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       }
 
       val controller = new TestController()
-      val result = controller.index()(FakeRequest().withSession("sessionKey" -> DateTime.now.minusMinutes(14).toString()))
+      val result = controller.index()(FakeRequest().withSession("sessionKey" -> DateTime.now.minusMinutes(4).toString()))
 
       status(result) should be(OK)
 
