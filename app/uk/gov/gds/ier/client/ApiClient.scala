@@ -10,7 +10,6 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.guice.WithConfig
 
 trait ApiClient {
-
   self:WithConfig =>
 
     def get(url: String) : ApiResponse = {
@@ -43,13 +42,3 @@ trait ApiClient {
       }
     }
 }
-
-class IerApiClient @Inject() (configuration: Config) extends ApiClient with WithConfig {
-  val config = configuration
-}
-
-class PlacesApiClient @Inject() (configuration: Config) extends ApiClient with WithConfig {
-  val config = configuration
-}
-
-

@@ -48,7 +48,7 @@ trait SessionHandling extends IerForms {
     private def isValidToken(token:String) = {
       try {
         val dt = DateTime.parse(token)
-        dt.isAfter(DateTime.now.minusMinutes(15))
+        dt.isAfter(DateTime.now.minusMinutes(5))
       } catch {
         case e:IllegalArgumentException => false
       }
