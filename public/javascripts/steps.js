@@ -28,19 +28,26 @@ window.GOVUK = window.GOVUK || {};
   toggleObj.prototype.toggle = function () {
     if (this.$content.css("display") === "none") {
       this.$content.show();
+      this.$content.attr('aria-hidden', false);
+      this.$toggle.attr('aria-expanded', true);
       this.$toggle.removeClass("toggle-closed");
       this.$toggle.addClass("toggle-open");
       $(document).trigger('toggle.open', { '$toggle' : this.$toggle });
     } else {
       this.$content.hide();
+      this.$content.attr('aria-hidden', true);
+      this.$toggle.attr('aria-expanded', false);
       this.$toggle.removeClass("toggle-open");
       this.$toggle.addClass("toggle-closed");
       $(document).trigger('toggle.closed', { '$toggle' : this.$toggle });
     }
   };
   toggleObj.prototype.setup = function () {
+    var contentId = this.$content.attr('id');
+
     this.$heading = this.$content.find("h1,h2,h3,h4").first();
     this.$toggle = $('<a href="#" class="toggle">' + this.$heading.text() + '</a>');
+    if (contentId) { this.$toggle.attr('aria-controls', contentId); }
     this.$toggle.insertBefore(this.$content);
   };
   toggleObj.prototype.bindEvents = function () {
@@ -57,9 +64,12 @@ window.GOVUK = window.GOVUK || {};
   };
   $.extend(optionalInformation.prototype, new toggleObj());
   optionalInformation.prototype.setup = function () {
-    var headingText;
+    var contentId = this.$content.attr('id'),
+        headingText;
+
     this.$heading = this.$content.find("h1,h2,h3,h4").first();
     this.$toggle = $('<a href="#" class="toggle toggle-closed">' + this.$heading.text() + '</a>');
+    if (contentId) { this.$toggle.attr('aria-controls', contentId); }
     this.$toggle.insertBefore(this.$content);
     this.$heading.addClass("visuallyhidden");
   };
@@ -78,7 +88,10 @@ window.GOVUK = window.GOVUK || {};
   };
   $.extend(conditionalControl.prototype, new toggleObj());
   conditionalControl.prototype.setup = function () {
+    var contentId = this.$content.attr('id');
+
     this.$toggle = $(document.getElementById(this.$content.data('condition')));
+    if (contentId) { this.$toggle.attr('aria-controls', contentId); }
   }; 
   conditionalControl.prototype.bindEvents = function () {
     var inst = this,
@@ -107,17 +120,22 @@ window.GOVUK = window.GOVUK || {};
     if (selectedRadio !== undefined) {
       if (this.$toggle.attr('id') !== selectedRadio.id) {
         this.$content.hide();
+        this.$toggle.attr('aria-expanded', false);
         $('#continue').show();
       }
     } else {
       if (this.$toggle.is(":checked")) {
         this.$content.show();
+        this.$content.attr('aria-hidden', false);
+        this.$toggle.attr('aria-expanded', true);
         $(document).trigger('toggle.open', { '$toggle' : this.$toggle });
         if (isPostcodeLookup && !hasAddresses) {
           $('#continue').hide();
         }
       } else {
         this.$content.hide();
+        this.$content.attr('aria-hidden', true);
+        this.$toggle.attr('aria-expanded', true);
         $(document).trigger('toggle.closed', { '$toggle' : this.$toggle });
         $('#continue').show();
       }
