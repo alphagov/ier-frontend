@@ -12,19 +12,19 @@
 
     <fieldset>
       @select(keys.dob.day,
-          label = "Day you were born?",
+          label = "Day",
           options = DateOfBirthConstants.days,
           inputAttributes = Map('_default -> "Day", 'class -> "day"),
           labelAttributes = Map('class -> "visuallyhidden"),
           crossField = keys.dob)
       @select(keys.dob.month,
-          label = "Month you were born?",
+          label = "Month",
           options = DateOfBirthConstants.months,
           inputAttributes = Map('_default -> "Month", 'class -> "month"),
           labelAttributes = Map('class -> "visuallyhidden"),
           crossField = keys.dob)
       @text(keys.dob.year,
-          label = "Year you were born?",
+          label = "Year",
           inputAttributes = Map('class -> "year text small", 'placeholder -> "Year"),
           labelAttributes = Map('class -> "visuallyhidden"),
           crossField = keys.dob)

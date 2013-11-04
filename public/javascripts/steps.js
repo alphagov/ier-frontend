@@ -21,22 +21,35 @@ window.GOVUK = window.GOVUK || {};
   toggleObj = function (elm) {
     if (elm) {
       this.$content = $(elm);
+      this.toggleActions = {
+        'hidden': 'Expand',
+        'visible': 'Hide'
+      };
       this.setup();
       this.bindEvents();
+    }
+  };
+  toggleObj.prototype.setAccessibilityAPI = function (state) {
+    if (state === 'hidden') {
+      this.$content.attr('aria-hidden', true);
+      this.$toggle.attr('aria-expanded', true);
+      this.$toggle.find('span.visuallyhidden').eq(0).text(this.toggleActions.hidden);
+    } else {
+      this.$content.attr('aria-hidden', false);
+      this.$toggle.attr('aria-expanded', false);
+      this.$toggle.find('span.visuallyhidden').eq(0).text(this.toggleActions.visible);
     }
   };
   toggleObj.prototype.toggle = function () {
     if (this.$content.css("display") === "none") {
       this.$content.show();
-      this.$content.attr('aria-hidden', false);
-      this.$toggle.attr('aria-expanded', true);
+      this.setAccessibilityAPI('visible');
       this.$toggle.removeClass("toggle-closed");
       this.$toggle.addClass("toggle-open");
       $(document).trigger('toggle.open', { '$toggle' : this.$toggle });
     } else {
       this.$content.hide();
-      this.$content.attr('aria-hidden', true);
-      this.$toggle.attr('aria-expanded', false);
+      this.setAccessibilityAPI('hidden');
       this.$toggle.removeClass("toggle-open");
       this.$toggle.addClass("toggle-closed");
       $(document).trigger('toggle.closed', { '$toggle' : this.$toggle });
@@ -46,7 +59,7 @@ window.GOVUK = window.GOVUK || {};
     var contentId = this.$content.attr('id');
 
     this.$heading = this.$content.find("h1,h2,h3,h4").first();
-    this.$toggle = $('<a href="#" class="toggle">' + this.$heading.text() + '</a>');
+    this.$toggle = $('<a href="#" class="toggle"><span class="visuallyhidden">Show</span> ' + this.$heading.text() + ' <span class="visuallyhidden">section</span></a>');
     if (contentId) { this.$toggle.attr('aria-controls', contentId); }
     this.$toggle.insertBefore(this.$content);
   };
@@ -68,7 +81,7 @@ window.GOVUK = window.GOVUK || {};
         headingText;
 
     this.$heading = this.$content.find("h1,h2,h3,h4").first();
-    this.$toggle = $('<a href="#" class="toggle toggle-closed">' + this.$heading.text() + '</a>');
+    this.$toggle = $('<a href="#" class="toggle"><span class="visuallyhidden">Show</span> ' + this.$heading.text() + ' <span class="visuallyhidden">section</span></a>');
     if (contentId) { this.$toggle.attr('aria-controls', contentId); }
     this.$toggle.insertBefore(this.$content);
     this.$heading.addClass("visuallyhidden");
