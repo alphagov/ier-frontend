@@ -40,7 +40,7 @@ class PlacesServiceTest extends FlatSpec with Matchers {
     val addresses = service.lookupAddress("BT125EG")
 
     addresses.size should be(1)
-    addresses(0).addressLine should be("Apartment 3/1, Block A, 181 Sandy Row, Belfast, County Antrim")
+    addresses(0).addressLine should be(Some("Apartment 3/1, Block A, 181 Sandy Row, Belfast, County Antrim"))
     addresses(0).postcode should be("BT12 5EG")
   }
 

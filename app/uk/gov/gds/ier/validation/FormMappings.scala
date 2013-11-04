@@ -57,7 +57,7 @@ trait FormMappings extends FormKeys {
   ) (serialiser.fromJson[Addresses]) (list => Some(serialiser.toJson(list)))
 
   val addressMapping = mapping(
-    address -> nonEmptyText.verifying(addressMaxLengthError, _.size <= maxTextFieldLength).verifying("Please select your address", address => address != "Select your address"),
+    address -> optional(nonEmptyText.verifying(addressMaxLengthError, _.size <= maxTextFieldLength)).verifying("Please select your address", address => address.exists(_ != "Select your address")),
     postcode -> nonEmptyText.verifying("Your postcode is not valid", postcode => PostcodeValidator.isValid(postcode))
   ) (Address.apply) (Address.unapply)
 

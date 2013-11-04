@@ -97,9 +97,9 @@ case class InprogressApplication (name: Option[Name] = None,
 
 case class Addresses(addresses:List[Address])
 
-case class Address(addressLine:String, postcode:String) {
+case class Address(addressLine:Option[String], postcode:String) {
   def toApiMap(addressKey:String, postcodeKey:String) = {
-    Map(addressKey -> addressLine, postcodeKey -> postcode)
+    addressLine.map(address => Map(addressKey -> address)).getOrElse(Map.empty) ++ Map(postcodeKey -> postcode)
   }
 }
 

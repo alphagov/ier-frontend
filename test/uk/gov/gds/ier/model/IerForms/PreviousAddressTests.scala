@@ -34,14 +34,14 @@ class PreviousAddressTests extends FlatSpec with Matchers with IerForms with Wit
         
         previousAddressWrapper.previousAddress.isDefined should be(true)
         val previousAddress = previousAddressWrapper.previousAddress.get
-        previousAddress.addressLine should be("123 Fake Street")
+        previousAddress.addressLine should be(Some("123 Fake Street"))
         previousAddress.postcode should be("SW1A 1AA")
       }
     )
   }
 
   it should "successfully bind to address and movedRecently=true with possible addresses" in {
-    val possibleAddressJS = serialiser.toJson(Addresses(List(Address("123 Fake Street", "AB12 3CD"))))
+    val possibleAddressJS = serialiser.toJson(Addresses(List(Address(Some("123 Fake Street"), "AB12 3CD"))))
     val js = Json.toJson(
       Map(
         "previousAddress.movedRecently" -> "true",
@@ -59,12 +59,12 @@ class PreviousAddressTests extends FlatSpec with Matchers with IerForms with Wit
 
         previousAddressWrapper.previousAddress.isDefined should be(true)
         val previousAddress = previousAddressWrapper.previousAddress.get
-        previousAddress.addressLine should be("123 Fake Street")
+        previousAddress.addressLine should be(Some("123 Fake Street"))
         previousAddress.postcode should be("SW1A 1AA")
 
         success.possibleAddresses.isDefined should be(true)
         val Some(possibleAddresses) = success.possibleAddresses
-        possibleAddresses.addresses should be(List(Address("123 Fake Street", "AB12 3CD")))
+        possibleAddresses.addresses should be(List(Address(Some("123 Fake Street"), "AB12 3CD")))
       }
     )
   }
@@ -87,7 +87,7 @@ class PreviousAddressTests extends FlatSpec with Matchers with IerForms with Wit
 
         previousAddressWrapper.previousAddress.isDefined should be(true)
         val previousAddress = previousAddressWrapper.previousAddress.get
-        previousAddress.addressLine should be("123 Fake Street")
+        previousAddress.addressLine should be(Some("123 Fake Street"))
         previousAddress.postcode should be("SW1A 1AA")
 
         success.possibleAddresses should be(None)

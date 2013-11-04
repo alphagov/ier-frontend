@@ -30,7 +30,7 @@ class AddressFormTests extends FlatSpec with Matchers with IerForms with WithSer
       success => {
         success.address.isDefined should be(true)
         val address = success.address.get
-        address.addressLine should be("123 Fake Street")
+        address.addressLine should be(Some("123 Fake Street"))
         address.postcode should be("SW1A1AA")
       }
     )
@@ -68,7 +68,7 @@ class AddressFormTests extends FlatSpec with Matchers with IerForms with WithSer
   }
 
   it should "successfully bind possible Address list" in {
-    val possibleAddressJS = serialiser.toJson(Addresses(List(Address("123 Fake Street", "AB12 3CD"))))
+    val possibleAddressJS = serialiser.toJson(Addresses(List(Address(Some("123 Fake Street"), "AB12 3CD"))))
     val js = Json.toJson(
       Map(
         "address.address" -> "321 My Street",
@@ -85,10 +85,10 @@ class AddressFormTests extends FlatSpec with Matchers with IerForms with WithSer
         success.possibleAddresses.isDefined should be(true)
         val Some(possibleAddresses) = success.possibleAddresses
 
-        address.addressLine should be("321 My Street")
+        address.addressLine should be(Some("321 My Street"))
         address.postcode should be("SW1A 1AA")
 
-        possibleAddresses.addresses should be(List(Address("123 Fake Street", "AB12 3CD")))
+        possibleAddresses.addresses should be(List(Address(Some("123 Fake Street"), "AB12 3CD")))
       }
     )
   }
@@ -109,7 +109,7 @@ class AddressFormTests extends FlatSpec with Matchers with IerForms with WithSer
 
         success.possibleAddresses.isDefined should be(false)
 
-        address.addressLine should be("321 My Street")
+        address.addressLine should be(Some("321 My Street"))
         address.postcode should be("SW1A 1AA")
       }
     )
