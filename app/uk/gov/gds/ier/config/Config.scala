@@ -1,10 +1,13 @@
 package uk.gov.gds.ier.config
 
 import com.google.inject.Singleton
+import uk.gov.gds.ier.logging.Logging
+import scala.collection.JavaConversions._
 
 @Singleton
-class Config {
+class Config extends Logging {
   private lazy val configuration = play.Play.application().configuration()
+
   def apiTimeout = configuration.getInt("api.timeout", 10).toInt
   def placesUrl = configuration.getString("places.url")
   def fakeIer = configuration.getBoolean("ier.fake")
@@ -17,4 +20,17 @@ class Config {
   def buildNumber = configuration.getString("gds.BuildNumber", "unknown")
   def revision = configuration.getString("gds.GitCommit", "unknown")
   def branch = configuration.getString("gds.GitBranch", "unknown")
+
+  def logConfiguration() = {
+    logger.debug(s"apiTimeout:$apiTimeout")
+    logger.debug(s"placesUrl:$placesUrl")
+    logger.debug(s"fakeIer:$fakeIer")
+    logger.debug(s"fakePlaces:$fakePlaces")
+    logger.debug(s"ierApiUrl:$ierApiUrl")
+    logger.debug(s"stripNino:$stripNino")
+    logger.debug(s"buildDate:$buildDate")
+    logger.debug(s"buildNumber:$buildNumber")
+    logger.debug(s"revision:$revision")
+    logger.debug(s"branch:$branch")
+  }
 }
