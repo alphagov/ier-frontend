@@ -1,10 +1,10 @@
-@(formData: uk.gov.gds.ier.validation.InProgressForm)
+@(formData: uk.gov.gds.ier.validation.InProgressForm, possibleAddress: Option[uk.gov.gds.ier.model.Addresses] = None)
 
 @import helper._
 @import layouts._
 
 @main(title = Some("Register to Vote - Where do you live?"), stylesheets = head(), scripts = stepsBodyEnd()) {
     @form(routes.RegisterToVoteController.validateStep("address")) {
-        @raw.address(formData)
+        @raw.address(formData, possibleAddress)
     }
 }

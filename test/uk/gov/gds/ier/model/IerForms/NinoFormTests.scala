@@ -4,13 +4,17 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.IerForms
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-import uk.gov.gds.ier.serialiser.JsonSerialiser
+import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import play.api.libs.json.{Json, JsNull}
 
 @RunWith(classOf[JUnitRunner])
-class NinoFormTests extends FlatSpec with Matchers with IerForms {
+class NinoFormTests extends FlatSpec with Matchers with IerForms with WithSerialiser {
 
   val serialiser = new JsonSerialiser
+
+  def toJson(obj: AnyRef): String = serialiser.toJson(obj)
+
+  def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson(json)
 
   it should "successfully bind to a valid nino" in {
     val js = Json.toJson(

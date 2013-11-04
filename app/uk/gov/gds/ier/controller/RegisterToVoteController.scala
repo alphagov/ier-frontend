@@ -35,7 +35,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, val serialiser: 
   def registerStep(step:String) = ValidSession requiredFor {
     request => application =>
       Step(step) { stepDetail =>
-        Ok(stepDetail.page(InProgressForm(application)))
+        Ok(stepDetail.page(InProgress(application)))
       }
   }
 
@@ -52,7 +52,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, val serialiser: 
   def edit(step:String) = ValidSession requiredFor {
     request => application =>
       Step(step) { stepDetail =>
-        Ok(stepDetail.editPage(InProgressForm(application)))
+        Ok(stepDetail.editPage(InProgress(application)))
       }
   }
 
@@ -77,6 +77,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, val serialiser: 
         case Some("exit-nationality") => Ok(html.errors.exitNationality())
         case Some("exit-dob") => Ok(html.errors.exitDob())
         case Some("exit-error") => Ok(html.errors.exitError())
+        case _ => Redirect(routes.RegisterToVoteController.index())
       }
   }
 

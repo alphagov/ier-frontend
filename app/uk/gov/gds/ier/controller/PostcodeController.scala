@@ -9,7 +9,7 @@ import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
 import uk.gov.gds.common.http.ApiResponseException
 import uk.gov.gds.ier.exception.PostcodeLookupFailedException
 import uk.gov.gds.ier.validation.IerForms
-import uk.gov.gds.ier.model.{CrossField, AllErrorsForm, AllErrors}
+import uk.gov.gds.ier.model.Addresses
 
 class PostcodeController @Inject()(postcodeAnywhere: PlacesService, val serialiser: JsonSerialiser)
   extends Controller with ApiResults with WithSerialiser with IerForms {
@@ -21,7 +21,7 @@ class PostcodeController @Inject()(postcodeAnywhere: PlacesService, val serialis
         postcode =>
           try {
             val addresses = postcodeAnywhere.lookupAddress(postcode)
-            okResult("addresses" -> addresses)
+            okResult(Addresses(addresses))
           } catch {
             case e:PostcodeLookupFailedException => serverErrorResult("error" -> e.getMessage)
           }

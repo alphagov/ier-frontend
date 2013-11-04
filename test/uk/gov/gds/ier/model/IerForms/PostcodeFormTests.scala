@@ -5,12 +5,16 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.IerForms
-import uk.gov.gds.ier.serialiser.JsonSerialiser
+import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 
 @RunWith(classOf[JUnitRunner])
-class PostcodeFormTests extends FlatSpec with Matchers with IerForms {
+class PostcodeFormTests extends FlatSpec with Matchers with IerForms with WithSerialiser {
 
   val serialiser = new JsonSerialiser
+
+  def toJson(obj: AnyRef): String = serialiser.toJson(obj)
+
+  def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson(json)
 
   it should "bind a postcode" in {
     val jsVal = Json.toJson(

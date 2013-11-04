@@ -4,8 +4,10 @@ import play.api.data.Forms._
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.validation
 import uk.gov.gds.ier.validation.DateValidator._
+import uk.gov.gds.ier.serialiser.WithSerialiser
 
 trait FormMappings extends FormKeys {
+  self: WithSerialiser =>
 
   private final val maxTextFieldLength = 256
   private final val maxExplanationFieldLength = 500
@@ -50,8 +52,12 @@ trait FormMappings extends FormKeys {
     (nationality.nationalities.size > 0 || (nationality.otherCountries.filter(_.nonEmpty).size > 0 && nationality.hasOtherCountry.exists(b => b))) || nationality.noNationalityReason.isDefined
   }) verifying("You can specify no more than five countries", mapping => mapping.nationalities.size + mapping.otherCountries.size <=5)
 
+  val possibleAddressMapping = mapping(
+    jsonList -> nonEmptyText
+  ) (serialiser.fromJson[Addresses]) (list => Some(serialiser.toJson(list)))
+
   val addressMapping = mapping(
-    address -> nonEmptyText.verifying(addressMaxLengthError, _.size <= maxTextFieldLength).verifying("Please select your address", address => address != "Select your address"),
+    address -> optional(nonEmptyText.verifying(addressMaxLengthError, _.size <= maxTextFieldLength)).verifying("Please select your address", address => address.exists(_ != "Select your address")),
     postcode -> nonEmptyText.verifying("Your postcode is not valid", postcode => PostcodeValidator.isValid(postcode))
   ) (Address.apply) (Address.unapply)
 

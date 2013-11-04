@@ -4,13 +4,17 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.IerForms
-import uk.gov.gds.ier.serialiser.JsonSerialiser
+import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import play.api.libs.json.{JsNull, JsBoolean, Json, JsObject}
 
 @RunWith(classOf[JUnitRunner])
-class NationalityFormTests extends FlatSpec with Matchers with IerForms {
+class NationalityFormTests extends FlatSpec with Matchers with IerForms with WithSerialiser {
 
   val serialiser = new JsonSerialiser
+
+  def toJson(obj: AnyRef): String = serialiser.toJson(obj)
+
+  def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson(json)
 
   it should "succesfully bind json" in {
     val js = JsObject(

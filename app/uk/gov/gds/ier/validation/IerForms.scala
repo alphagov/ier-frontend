@@ -3,8 +3,11 @@ package uk.gov.gds.ier.validation
 import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
+import com.google.inject.{Inject, Singleton}
 
 trait IerForms extends FormKeys with FormMappings {
+  self: WithSerialiser =>
 
   val dobFormat = "yyyy-MM-dd"
   val timeFormat = "yyyy-MM-dd HH:mm:ss"
@@ -51,14 +54,18 @@ trait IerForms extends FormKeys with FormMappings {
       (inprogress => Some(inprogress.nino))
   )
   val addressForm = Form(
-    mapping(address -> optional(addressMapping).verifying("Please answer this question", _.isDefined))
-      (address => InprogressApplication(address = address))
-      (inprogress => Some(inprogress.address))
+    mapping(
+      address -> optional(addressMapping).verifying("Please answer this question", _.isDefined),
+      possibleAddresses -> optional(possibleAddressMapping)
+    ) ((address, possibleAddresses) => InprogressApplication(address = address, possibleAddresses = possibleAddresses))
+      (inprogress => Some(inprogress.address, inprogress.possibleAddresses))
   )
   val previousAddressForm = Form(
-    mapping(previousAddress -> optional(previousAddressMapping).verifying("Please answer this question", previousAddress => previousAddress.isDefined))
-      (prevAddress => InprogressApplication(previousAddress = prevAddress))
-      (inprogress => Some(inprogress.previousAddress))
+    mapping(
+      previousAddress -> optional(previousAddressMapping).verifying("Please answer this question", previousAddress => previousAddress.isDefined),
+      possibleAddresses -> optional(possibleAddressMapping)
+    ) ((prevAddress, possibleAddresses) => InprogressApplication(previousAddress = prevAddress, possibleAddresses = possibleAddresses))
+      (inprogress => Some(inprogress.previousAddress, inprogress.possibleAddresses))
   )
   val otherAddressForm = Form(
     mapping(otherAddress -> optional(otherAddressMapping).verifying("Please answer this question", otherAddress => otherAddress.isDefined))
@@ -93,7 +100,8 @@ trait IerForms extends FormKeys with FormMappings {
       otherAddress -> optional(otherAddressMapping).verifying("Please complete this step", _.isDefined),
       openRegister -> optional(optInMapping).verifying("Please complete this step", _.isDefined),
       postalVote -> optional(optInMapping).verifying("Please complete this step", _.isDefined),
-      contact -> optional(contactMapping).verifying("Please complete this step", _.isDefined)
+      contact -> optional(contactMapping).verifying("Please complete this step", _.isDefined),
+      possibleAddresses -> optional(possibleAddressMapping)
     ) (InprogressApplication.apply) (InprogressApplication.unapply)
   )
 
@@ -110,11 +118,11 @@ trait IerForms extends FormKeys with FormMappings {
       }
     }
   }
-}
 
-object InProgressForm extends IerForms {
-  def apply(application:InprogressApplication):InProgressForm = {
-    InProgressForm(inprogressForm.fill(application))
+  object InProgress {
+    def apply(application:InprogressApplication):InProgressForm = {
+      InProgressForm(inprogressForm.fill(application))
+    }
   }
 }
 

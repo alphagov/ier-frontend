@@ -5,10 +5,11 @@ import play.api.mvc._
 import play.api.data.Form
 import play.api.templates.Html
 import uk.gov.gds.ier.validation.{InProgressForm, IerForms}
-import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.serialiser.WithSerialiser
+import uk.gov.gds.ier.model.{Addresses, InprogressApplication}
 
 trait Steps extends IerForms {
-  self: SessionHandling =>
+  self: SessionHandling with WithSerialiser =>
 
   case class Step(page: InProgressForm => Html,
                   editPage: InProgressForm => Html,
@@ -46,13 +47,21 @@ trait Steps extends IerForms {
     "address"
   )
   val addressStep = Step(
-    form => html.steps.address(form),
+    form => html.steps.address(form,
+      form(possibleAddresses.jsonList).value.map(
+        possibleAddressJS => serialiser.fromJson[Addresses](possibleAddressJS)
+      )
+    ),
     form => html.edit.address(form),
     addressForm,
     "previous-address"
   )
   val previousAddressStep = Step(
-    form => html.steps.previousAddress(form),
+    form => html.steps.previousAddress(form,
+      form(possibleAddresses.jsonList).value.map(
+        possibleAddressJS => serialiser.fromJson[Addresses](possibleAddressJS)
+      )
+    ),
     form => html.edit.previousAddress(form),
     previousAddressForm,
     "other-address"

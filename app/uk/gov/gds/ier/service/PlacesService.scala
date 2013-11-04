@@ -19,7 +19,7 @@ class PlacesService @Inject() (apiClient: PlacesApiClient, serialiser: JsonSeria
     result match {
       case Success(body) => {
         serialiser.fromJson[List[GovUkAddress]](body).map(pa => {
-          Address(List(pa.lineOne, pa.lineTwo, pa.lineThree, pa.lineFour, pa.lineFive, pa.city, pa.county).filterNot(_.isEmpty).mkString(", "), pa.postcode)
+          Address(Some(List(pa.lineOne, pa.lineTwo, pa.lineThree, pa.lineFour, pa.lineFive, pa.city, pa.county).filterNot(_.isEmpty).mkString(", ")), pa.postcode)
         })
       }
       case Fail(error) => throw new PostcodeLookupFailedException(error)

@@ -29,9 +29,9 @@ trait SessionHandling extends IerForms {
 
     final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => InprogressApplication => Result):Action[A] = Action(bodyParser) {
       request =>
-        request.session.getToken match {
+        request.getToken match {
           case Some(token) => isValidToken(token) match {
-            case true => block(request)(request.session.getApplication).refreshSession()
+            case true => block(request)(request.getApplication).refreshSession()
             case false => Redirect(routes.RegisterToVoteController.index()).withFreshSession()
           }
           case None => Redirect(routes.RegisterToVoteController.index()).withFreshSession()
@@ -44,7 +44,7 @@ trait SessionHandling extends IerForms {
 
     final def requiredFor(action: Request[AnyContent] => InprogressApplication => Result) = withParser(BodyParsers.parse.anyContent) requiredFor action
 
-    private def isValidToken(token:String) = {
+    protected def isValidToken(token:String) = {
       try {
         val dt = DateTime.parse(token)
         dt.isAfter(DateTime.now.minusMinutes(5))
@@ -54,45 +54,42 @@ trait SessionHandling extends IerForms {
     }
   }
 
-  private implicit class InProgressSession(session:Session) extends SessionKeys {
+  private implicit class InProgressRequest(request:play.api.mvc.Request[_]) extends SessionKeys {
     def getToken = {
-      session.get(sessionTokenKey)
+      request.cookies.get(sessionTokenKey).map(_.value)
     }
     def getApplication = {
-      session.get(sessionPayloadKey) match {
-        case Some(app) => serialiser.fromJson[InprogressApplication](app)
+      request.cookies.get(sessionPayloadKey) match {
+        case Some(cookie) => serialiser.fromJson[InprogressApplication](cookie.value)
         case _ => InprogressApplication()
       }
     }
   }
 
-  implicit class SimpleResultToSession(result:Result) extends SessionKeys {
+  implicit class InProgressResult(result:Result) extends SessionKeys {
     def mergeWithSession(application: InprogressApplication)(implicit request: play.api.mvc.Request[_]) = {
-      result.withSession(merge(session, application))
+      result.withCookies(Cookie(sessionPayloadKey, serialiser.toJson(merge(request.getApplication, application))))
     }
     def withFreshSession() = {
-      result.withSession(Session(Map(sessionTokenKey -> DateTime.now.toString())))
+      result.withCookies(Cookie(sessionTokenKey, DateTime.now.toString())).discardingCookies(DiscardingCookie(sessionPayloadKey))
     }
     def refreshSession() = {
-      result.withSession(sessionTokenKey -> DateTime.now.toString())
+      result.withCookies(Cookie(sessionTokenKey, DateTime.now.toString()))
     }
-
-    private def merge(session:Session, application: InprogressApplication):Session = {
-      val stored = session.getApplication
-      val mergedApplication = stored.copy(
-        name = application.name.orElse(stored.name),
-        previousName = application.previousName.orElse(stored.previousName),
-        dob = application.dob.orElse(stored.dob),
-        nationality = application.nationality.orElse(stored.nationality),
-        nino = application.nino.orElse(stored.nino),
-        address = application.address.orElse(stored.address),
-        previousAddress = application.previousAddress.orElse(stored.previousAddress),
-        otherAddress = application.otherAddress.orElse(stored.otherAddress),
-        openRegisterOptin = application.openRegisterOptin.orElse(stored.openRegisterOptin),
-        postalVoteOptin = application.postalVoteOptin.orElse(stored.postalVoteOptin),
-        contact = application.contact.orElse(stored.contact)
+    private def merge(fromCookieApplication: InprogressApplication, application: InprogressApplication):InprogressApplication = {
+      fromCookieApplication.copy(
+        name = application.name.orElse(fromCookieApplication.name),
+        previousName = application.previousName.orElse(fromCookieApplication.previousName),
+        dob = application.dob.orElse(fromCookieApplication.dob),
+        nationality = application.nationality.orElse(fromCookieApplication.nationality),
+        nino = application.nino.orElse(fromCookieApplication.nino),
+        address = application.address.orElse(fromCookieApplication.address),
+        previousAddress = application.previousAddress.orElse(fromCookieApplication.previousAddress),
+        otherAddress = application.otherAddress.orElse(fromCookieApplication.otherAddress),
+        openRegisterOptin = application.openRegisterOptin.orElse(fromCookieApplication.openRegisterOptin),
+        postalVoteOptin = application.postalVoteOptin.orElse(fromCookieApplication.postalVoteOptin),
+        contact = application.contact.orElse(fromCookieApplication.contact)
       )
-      session + (sessionPayloadKey -> serialiser.toJson(mergedApplication))
     }
   }
 
