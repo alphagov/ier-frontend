@@ -7,9 +7,23 @@
 @layouts.questionHeader("What is your date of birth?", "/register-to-vote/nationality", 2)
 
         <fieldset>
-          @select(keys.dob.day, label = "Day you were born?", options = DateOfBirthConstants.days, inputAttributes = Map('_default -> "Day", 'class -> "day"), labelAttributes = Map('class -> "visuallyhidden"))
-          @select(keys.dob.month, label = "Month you were born?", options = DateOfBirthConstants.months, inputAttributes = Map('_default -> "Month", 'class -> "month"), labelAttributes = Map('class -> "visuallyhidden"))
-          @text(keys.dob.year, label = "Year you were born?", inputAttributes = Map('class -> "year text small", 'placeholder -> "Year"), labelAttributes = Map('class -> "visuallyhidden"))
+          @select(keys.dob.day,
+              label = "Day you were born?",
+              options = DateOfBirthConstants.days,
+              inputAttributes = Map('_default -> "Day", 'class -> "day"),
+              labelAttributes = Map('class -> "visuallyhidden"),
+              crossField = keys.dob)
+          @select(keys.dob.month,
+              label = "Month you were born?",
+              options = DateOfBirthConstants.months,
+              inputAttributes = Map('_default -> "Month", 'class -> "month"),
+              labelAttributes = Map('class -> "visuallyhidden"),
+              crossField = keys.dob)
+          @text(keys.dob.year,
+              label = "Year you were born?",
+              inputAttributes = Map('class -> "year text small", 'placeholder -> "Year"),
+              labelAttributes = Map('class -> "visuallyhidden"),
+              crossField = keys.dob)
         </fieldset>
         <div class="help-content">
           <h3>Help</h3>

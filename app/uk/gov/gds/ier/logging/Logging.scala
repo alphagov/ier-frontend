@@ -12,7 +12,7 @@ trait Logging {
       block
     } finally {
       val timeAtEnd = DateTime.now.getMillis
-      logger.debug(s"message: $message timeTaken: ${timeAtEnd - timeAtStart}")
+      logger.info(s"message: $message timeTaken: ${timeAtEnd - timeAtStart}")
     }
   }
 }

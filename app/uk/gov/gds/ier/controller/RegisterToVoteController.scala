@@ -114,7 +114,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, val serialiser: 
         validApplication => {
           val refNum = ierApi.generateReferenceNumber(validApplication)
           val remoteClientIP = request.headers.get("X-Real-IP")
-          logger.debug("X-Real-IP header: "+remoteClientIP)
+
           ierApi.submitApplication(remoteClientIP, validApplication, Some(refNum))
           Redirect(controllers.routes.RegisterToVoteController.complete()).flashing(
             "refNum" -> refNum,

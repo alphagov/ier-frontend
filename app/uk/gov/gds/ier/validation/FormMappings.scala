@@ -13,10 +13,14 @@ trait FormMappings extends FormKeys {
   private final val maxExplanationFieldLength = 500
 
   val nameMapping = mapping(
-    firstName -> text.verifying(firstNameMaxLengthError, _.size <= maxTextFieldLength),
+    firstName -> optional(text.verifying(firstNameMaxLengthError, _.size <= maxTextFieldLength)).verifying("Please enter your first name", _.nonEmpty),
     middleNames -> optional(nonEmptyText.verifying(middleNameMaxLengthError, _.size <= maxTextFieldLength)),
-    lastName -> text.verifying(lastNameMaxLengthError, _.size <= maxTextFieldLength)
-  ) (Name.apply) (Name.unapply) verifying("Please enter your full name", name => name.firstName.nonEmpty && name.lastName.nonEmpty)
+    lastName -> optional(text.verifying(lastNameMaxLengthError, _.size <= maxTextFieldLength)).verifying("Please enter your last name", _.nonEmpty)
+  ) (
+    (firstName, middleName, lastName) => Name(firstName.get, middleName, lastName.get)
+  ) (
+    name => Some(Some(name.firstName), name.middleNames, Some(name.lastName))
+  )
 
   val previousNameMapping = mapping(
     hasPreviousName -> boolean,

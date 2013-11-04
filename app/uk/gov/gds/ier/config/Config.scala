@@ -22,15 +22,15 @@ class Config extends Logging {
   def branch = configuration.getString("gds.GitBranch", "unknown")
 
   def logConfiguration() = {
-    logger.debug(s"apiTimeout:$apiTimeout")
-    logger.debug(s"placesUrl:$placesUrl")
-    logger.debug(s"fakeIer:$fakeIer")
-    logger.debug(s"fakePlaces:$fakePlaces")
-    logger.debug(s"ierApiUrl:$ierApiUrl")
-    logger.debug(s"stripNino:$stripNino")
-    logger.debug(s"buildDate:$buildDate")
-    logger.debug(s"buildNumber:$buildNumber")
-    logger.debug(s"revision:$revision")
-    logger.debug(s"branch:$branch")
+    logger.info(s"apiTimeout:$apiTimeout")
+    logger.info(s"placesUrl:$placesUrl")
+    logger.info(s"fakeIer:$fakeIer")
+    logger.info(s"fakePlaces:$fakePlaces")
+    logger.info(s"ierApiUrl:$ierApiUrl")
+    logger.info(s"stripNino:$stripNino")
+    logger.info(s"buildDate:$buildDate")
+    logger.info(s"buildNumber:$buildNumber")
+    logger.info(s"revision:$revision")
+    logger.info(s"branch:$branch")
   }
 }

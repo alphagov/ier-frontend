@@ -31,7 +31,7 @@ trait SessionHandling extends IerForms {
       request =>
         request.getToken match {
           case Some(token) => isValidToken(token) match {
-            case true => block(request)(request.getApplication).refreshSession()
+            case true => block(request)(request.getApplication)
             case false => Redirect(routes.RegisterToVoteController.index()).withFreshSession()
           }
           case None => Redirect(routes.RegisterToVoteController.index()).withFreshSession()
@@ -88,7 +88,8 @@ trait SessionHandling extends IerForms {
         otherAddress = application.otherAddress.orElse(fromCookieApplication.otherAddress),
         openRegisterOptin = application.openRegisterOptin.orElse(fromCookieApplication.openRegisterOptin),
         postalVoteOptin = application.postalVoteOptin.orElse(fromCookieApplication.postalVoteOptin),
-        contact = application.contact.orElse(fromCookieApplication.contact)
+        contact = application.contact.orElse(fromCookieApplication.contact),
+        possibleAddresses = None
       )
     }
   }

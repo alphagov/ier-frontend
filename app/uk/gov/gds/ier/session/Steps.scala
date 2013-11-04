@@ -48,9 +48,12 @@ trait Steps extends IerForms {
   )
   val addressStep = Step(
     form => html.steps.address(form,
-      form(possibleAddresses.jsonList).value.map(
-        possibleAddressJS => serialiser.fromJson[Addresses](possibleAddressJS)
-      )
+      form(possibleAddresses.jsonList).value match {
+        case Some(possibleAddressJS) if !possibleAddressJS.isEmpty => {
+          Some(serialiser.fromJson[Addresses](possibleAddressJS))
+        }
+        case _ => None
+      }
     ),
     form => html.edit.address(form),
     addressForm,
@@ -58,9 +61,12 @@ trait Steps extends IerForms {
   )
   val previousAddressStep = Step(
     form => html.steps.previousAddress(form,
-      form(possibleAddresses.jsonList).value.map(
-        possibleAddressJS => serialiser.fromJson[Addresses](possibleAddressJS)
-      )
+      form(possibleAddresses.jsonList).value match {
+        case Some(possibleAddressJS) if !possibleAddressJS.isEmpty => {
+          Some(serialiser.fromJson[Addresses](possibleAddressJS))
+        }
+        case _ => None
+      }
     ),
     form => html.edit.previousAddress(form),
     previousAddressForm,
