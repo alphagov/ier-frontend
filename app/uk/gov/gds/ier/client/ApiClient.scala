@@ -8,30 +8,36 @@ import play.api.http._
 import uk.gov.gds.ier.config.Config
 import com.google.inject.Inject
 import uk.gov.gds.ier.guice.WithConfig
+import uk.gov.gds.ier.logging.Logging
 
-trait ApiClient {
+trait ApiClient extends Logging {
   self:WithConfig =>
 
-  def get(url: String) : ApiResponse = {
+  def get(url: String) : ApiResponse = timeThis(s"apiClient.get url:$url") {
     try {
-      val result = Await.result(
-        WS.url(url).get(),
-        config.apiTimeout seconds
-      )
-      result.status match {
-        case Status.OK => {
-          Success(result.body)
+        val result = Await.result(
+          WS.url(url).get(),
+          config.apiTimeout seconds
+        )
+        result.status match {
+          case Status.OK => {
+            logger.debug(s"apiClient.get url:$url result:200")
+            Success(result.body)
+          }
+          case status => {
+            logger.debug(s"apiClient.get url:$url result:$status reason:${result.body}")
+            Fail(result.body)
+          }
         }
-        case _ => {
-          Fail(result.body)
-        }
-      }
     } catch {
-      case e:Exception => Fail(e.getMessage)
+      case e:Exception => {
+        logger.error(s"apiClient.get url:$url exception:${e.getStackTraceString}")
+        Fail(e.getMessage)
+      }
     }
   }
 
-  def post(url:String, content:String, headers: (String, String)*) : ApiResponse = {
+  def post(url:String, content:String, headers: (String, String)*) : ApiResponse = timeThis(s"apiClient.post url:$url") {
     try {
       val result = Await.result(
         WS.url(url)
@@ -41,12 +47,24 @@ trait ApiClient {
         config.apiTimeout seconds
       )
       result.status match {
-        case Status.OK => Success(result.body)
-        case Status.NO_CONTENT => Success("")
-        case _ => Fail(result.body)
+        case Status.OK => {
+          logger.debug(s"apiClient.post url:$url result:200")
+          Success(result.body)
+        }
+        case Status.NO_CONTENT => {
+          logger.debug(s"apiClient.post url:$url result:204")
+          Success("")
+        }
+        case status => {
+          logger.debug(s"apiClient.post url:$url result:$status")
+          Fail(result.body)
+        }
       }
     } catch {
-      case e:Exception => Fail(e.getMessage)
+      case e:Exception => {
+        logger.error(s"apiClient.post url:$url exception:${e.getStackTraceString}")
+        Fail(e.getMessage)
+      }
     }
   }
 }
