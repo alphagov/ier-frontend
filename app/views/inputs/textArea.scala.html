@@ -1,17 +1,17 @@
-@(id:String, label:String, inputAttributes:Map[Symbol,String] = Map.empty, labelAttributes:Map[Symbol,String] = Map.empty)(implicit formData:uk.gov.gds.ier.validation.InProgressForm, renderer: uk.gov.gds.ier.form.FormHelpers.FormRenderer)
+@(id:uk.gov.gds.ier.validation.Key, label:String, inputAttributes:Map[Symbol,String] = Map.empty, labelAttributes:Map[Symbol,String] = Map.empty)(implicit formData:uk.gov.gds.ier.validation.InProgressForm, renderer: uk.gov.gds.ier.form.FormHelpers.FormRenderer)
 @import uk.gov.gds.ier.form.FieldHelpers._
 @inputType = @{ inputAttributes.get('type).getOrElse("text") }
 @labelHtml(content:Html) = {
-@defining(formData.form(id)) { labelField =>
-<label for="@id.replace(".", "_")" class="@(if(labelField.hasErrors) "invalid" else "") @labelAttributes.get('class).getOrElse("")" @asAttributes(labelAttributes.without('for, 'class))>@label</label>
+@defining(formData(id)) { labelField =>
+<label for="@id.asId()" class="@(if(labelField.hasErrors) "invalid" else "") @labelAttributes.get('class).getOrElse("")" @asAttributes(labelAttributes.without('for, 'class))>@label</label>
 @content
 }
 }
 @inputHtml = {
-@defining(formData.form(id)) { inputField =>
-<textarea name="@inputField.name" id="@id.replace(".", "_")" class="@(if(inputField.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")" @asAttributes(inputAttributes.without('class, 'id, 'name))>@inputField.value.getOrElse("")</textarea>
+@defining(formData(id)) { inputField =>
+<textarea name="@inputField.name" id="@id.asId()" class="@(if(inputField.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")" @asAttributes(inputAttributes.without('class, 'id, 'name))>@inputField.value.getOrElse("")</textarea>
 }
 }
-@defining(formData.form(id)) { field =>
+@defining(formData(id)) { field =>
 @renderer(inputHtml, labelHtml, field)
 }

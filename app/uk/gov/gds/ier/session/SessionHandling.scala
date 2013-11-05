@@ -31,7 +31,7 @@ trait SessionHandling extends IerForms {
       request =>
         request.getToken match {
           case Some(token) => isValidToken(token) match {
-            case true => block(request)(request.getApplication)
+            case true => block(request)(request.getApplication).refreshSession()
             case false => Redirect(routes.RegisterToVoteController.index()).withFreshSession()
           }
           case None => Redirect(routes.RegisterToVoteController.index()).withFreshSession()

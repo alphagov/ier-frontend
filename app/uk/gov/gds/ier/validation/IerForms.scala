@@ -13,32 +13,32 @@ trait IerForms extends FormKeys with FormMappings {
   val timeFormat = "yyyy-MM-dd HH:mm:ss"
   val postcodeForm = Form(
     single(
-      postcode -> nonEmptyText.verifying(PostcodeValidator.isValid(_))
+      "postcode" -> nonEmptyText.verifying(PostcodeValidator.isValid(_))
     )
   )
   val completePostcodeForm = Form(
     single(
-      address.address.postcode -> nonEmptyText
+      address.postcode.key -> nonEmptyText
     )
   )
 
   val nationalityForm = Form(
-    mapping(nationality -> nationalityMapping)
+    mapping(nationality.key -> nationalityMapping)
       (nationality => InprogressApplication(nationality = Some(nationality)))
       (inprogressApplication => inprogressApplication.nationality)
   )
   val dateOfBirthForm = Form(
-    mapping(dob -> optional(dobMapping).verifying("Please enter your date of birth", _.isDefined))
+    mapping(dob.key -> optional(dobMapping).verifying("Please enter your date of birth", _.isDefined))
       (dob => InprogressApplication(dob = dob))
       (inprogress => Some(inprogress.dob))
   )
   val nameForm = Form(
-    mapping(name -> optional(nameMapping).verifying("Please enter your full name", _.isDefined))
+    mapping(name.key -> optional(nameMapping).verifying("Please enter your full name", _.isDefined))
       (name => InprogressApplication(name = name))
       (inprogress => Some(inprogress.name))
   )
   val previousNameForm = Form(
-    mapping(previousName -> optional(
+    mapping(previousName.key -> optional(
       previousNameMapping.verifying(
         "Please enter your previous name",
         previous => (previous.hasPreviousName && previous.previousName.isDefined) || !previous.hasPreviousName)
@@ -47,7 +47,7 @@ trait IerForms extends FormKeys with FormMappings {
     ) (prevName => InprogressApplication(previousName = prevName)) (inprogress => Some(inprogress.previousName))
   )
   val ninoForm = Form(
-    mapping(nino -> optional(ninoMapping.verifying(
+    mapping(nino.key -> optional(ninoMapping.verifying(
       "Please enter your National Insurance number", nino => nino.nino.isDefined || nino.noNinoReason.isDefined)
     ).verifying("Please enter your National Insurance number", nino => nino.isDefined))
       (nino => InprogressApplication(nino = nino))
@@ -55,57 +55,57 @@ trait IerForms extends FormKeys with FormMappings {
   )
   val addressForm = Form(
     mapping(
-      address -> optional(addressMapping).verifying("Please answer this question", _.isDefined),
-      possibleAddresses -> optional(possibleAddressMapping)
+      address.key -> optional(addressMapping).verifying("Please answer this question", _.isDefined),
+      possibleAddresses.key -> optional(possibleAddressMapping)
     ) ((address, possibleAddresses) => InprogressApplication(address = address, possibleAddresses = possibleAddresses))
       (inprogress => Some(inprogress.address, inprogress.possibleAddresses))
   )
   val previousAddressForm = Form(
     mapping(
-      previousAddress -> optional(previousAddressMapping).verifying("Please answer this question", previousAddress => previousAddress.isDefined),
-      possibleAddresses -> optional(possibleAddressMapping)
+      previousAddress.key -> optional(previousAddressMapping).verifying("Please answer this question", previousAddress => previousAddress.isDefined),
+      possibleAddresses.key -> optional(possibleAddressMapping)
     ) ((prevAddress, possibleAddresses) => InprogressApplication(previousAddress = prevAddress, possibleAddresses = possibleAddresses))
       (inprogress => Some(inprogress.previousAddress, inprogress.possibleAddresses))
   )
   val otherAddressForm = Form(
-    mapping(otherAddress -> optional(otherAddressMapping).verifying("Please answer this question", otherAddress => otherAddress.isDefined))
+    mapping(otherAddress.key -> optional(otherAddressMapping).verifying("Please answer this question", otherAddress => otherAddress.isDefined))
       (otherAddress => InprogressApplication(otherAddress = otherAddress))
       (inprogress => Some(inprogress.otherAddress))
   )
   val openRegisterForm = Form(
-    mapping(openRegister -> optional(optInMapping))
+    mapping(openRegister.key -> optional(optInMapping))
       (openRegister => InprogressApplication(openRegisterOptin = openRegister.orElse(Some(true))))
       (inprogress => Some(inprogress.openRegisterOptin))
   )
   val postalVoteForm = Form(
-    mapping(postalVote -> optional(optInMapping).verifying("Please answer this question", postalVote => postalVote.isDefined))
+    mapping(postalVote.key -> optional(optInMapping).verifying("Please answer this question", postalVote => postalVote.isDefined))
       (postalVote => InprogressApplication(postalVoteOptin = postalVote))
       (inprogress => Some(inprogress.postalVoteOptin))
   )
   val contactForm = Form(
-    mapping(contact -> optional(contactMapping).verifying("Please answer this question", _.isDefined))
+    mapping(contact.key -> optional(contactMapping).verifying("Please answer this question", _.isDefined))
     (contact => InprogressApplication(contact = contact))
       (inprogress => Some(inprogress.contact))
   )
 
   val inprogressForm = Form(
     mapping(
-      name -> optional(nameMapping).verifying("Please complete this step", _.isDefined),
-      previousName -> optional(previousNameMapping).verifying("Please complete this step", _.isDefined),
-      dob -> optional(dobMapping).verifying("Please complete this step", _.isDefined),
-      nationality -> optional(nationalityMapping).verifying("Please complete this step", _.isDefined),
-      nino -> optional(ninoMapping).verifying("Please complete this step", _.isDefined),
-      address -> optional(addressMapping).verifying("Please complete this step", _.isDefined),
-      previousAddress -> optional(previousAddressMapping).verifying("Please complete this step", _.isDefined),
-      otherAddress -> optional(otherAddressMapping).verifying("Please complete this step", _.isDefined),
-      openRegister -> optional(optInMapping).verifying("Please complete this step", _.isDefined),
-      postalVote -> optional(optInMapping).verifying("Please complete this step", _.isDefined),
-      contact -> optional(contactMapping).verifying("Please complete this step", _.isDefined),
-      possibleAddresses -> optional(possibleAddressMapping)
+      name.key -> optional(nameMapping).verifying("Please complete this step", _.isDefined),
+      previousName.key -> optional(previousNameMapping).verifying("Please complete this step", _.isDefined),
+      dob.key -> optional(dobMapping).verifying("Please complete this step", _.isDefined),
+      nationality.key -> optional(nationalityMapping).verifying("Please complete this step", _.isDefined),
+      nino.key -> optional(ninoMapping).verifying("Please complete this step", _.isDefined),
+      address.key -> optional(addressMapping).verifying("Please complete this step", _.isDefined),
+      previousAddress.key -> optional(previousAddressMapping).verifying("Please complete this step", _.isDefined),
+      otherAddress.key -> optional(otherAddressMapping).verifying("Please complete this step", _.isDefined),
+      openRegister.key -> optional(optInMapping).verifying("Please complete this step", _.isDefined),
+      postalVote.key -> optional(optInMapping).verifying("Please complete this step", _.isDefined),
+      contact.key -> optional(contactMapping).verifying("Please complete this step", _.isDefined),
+      possibleAddresses.key -> optional(possibleAddressMapping)
     ) (InprogressApplication.apply) (InprogressApplication.unapply)
   )
 
-  implicit class BetterForm[A](form: Form[A]) {
+  implicit class FormWithErrorsAsMap[A](form: Form[A]) {
     def errorsAsMap = {
       form.errors.groupBy(_.key).mapValues {
         errors =>
@@ -127,8 +127,8 @@ trait IerForms extends FormKeys with FormMappings {
 }
 
 case class InProgressForm(form:Form[InprogressApplication]) extends FormKeys{
-  def apply(key:String) = {
-    form(key)
+  def apply(key:Key) = {
+    form(key.key)
   }
   def getNationalities = {
     form.value match {
@@ -143,10 +143,10 @@ case class InProgressForm(form:Form[InprogressApplication]) extends FormKeys{
     }
   }
   def hasNoNationalityReason = {
-    form(nationality.noNationalityReason).value.exists(_.nonEmpty)
+    form(nationality.noNationalityReason.key).value.exists(_.nonEmpty)
   }
   def hasNationality(thisNationality:String) = {
-    form(nationality.nationalities).value.exists(_.contains(thisNationality))
+    form(nationality.nationalities.key).value.exists(_.contains(thisNationality))
   }
   def confirmationNationalityString = {
     val nationalityString = getNationalities.map(_.mkString(" and "))

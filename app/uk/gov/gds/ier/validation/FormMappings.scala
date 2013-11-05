@@ -6,17 +6,18 @@ import uk.gov.gds.ier.validation
 import uk.gov.gds.ier.validation.DateValidator._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.validation.{Invalid, Valid, Constraint}
+import play.api.data.Form
 
-trait FormMappings extends FormKeys {
+trait FormMappings extends FormKeys with Constraints {
   self: WithSerialiser =>
 
   private final val maxTextFieldLength = 256
   private final val maxExplanationFieldLength = 500
 
   val nameMapping = mapping(
-    firstName -> optional(text.verifying(firstNameMaxLengthError, _.size <= maxTextFieldLength)).verifying("Please enter your first name", _.nonEmpty),
-    middleNames -> optional(nonEmptyText.verifying(middleNameMaxLengthError, _.size <= maxTextFieldLength)),
-    lastName -> optional(text.verifying(lastNameMaxLengthError, _.size <= maxTextFieldLength)).verifying("Please enter your last name", _.nonEmpty)
+    firstName.key -> optional(text.verifying(firstNameMaxLengthError, _.size <= maxTextFieldLength)).verifying("Please enter your first name", _.nonEmpty),
+    middleNames.key -> optional(nonEmptyText.verifying(middleNameMaxLengthError, _.size <= maxTextFieldLength)),
+    lastName.key -> optional(text.verifying(lastNameMaxLengthError, _.size <= maxTextFieldLength)).verifying("Please enter your last name", _.nonEmpty)
   ) (
     (firstName, middleName, lastName) => Name(firstName.get, middleName, lastName.get)
   ) (
@@ -24,68 +25,55 @@ trait FormMappings extends FormKeys {
   )
 
   val previousNameMapping = mapping(
-    hasPreviousName -> boolean,
-    previousName -> optional(nameMapping)
+    hasPreviousName.key -> boolean,
+    previousName.key -> optional(nameMapping)
   ) (PreviousName.apply) (PreviousName.unapply)
 
-  val contactTelephoneConstraint = Constraint[Contact](contact.phone) { contactDetails =>
-    if (contactDetails.contactMethod != "phone" || (contactDetails.contactMethod == "phone" && contactDetails.phone.isDefined)) Valid
-    else Invalid("Please enter your phone number", KeyForError(contact.phone))
-  }
-  val contactTextConstraint = Constraint[Contact](contact.textNum) { contactDetails =>
-    if (contactDetails.contactMethod != "text" || (contactDetails.contactMethod == "text" && contactDetails.textNum.isDefined)) Valid
-    else Invalid("Please enter your phone number", KeyForError(contact.textNum))
-  }
-  val contactEmailConstraint = Constraint[Contact](contact.email) { contactDetails =>
-    if (contactDetails.contactMethod != "email" || (contactDetails.contactMethod == "email" && contactDetails.email.isDefined)) Valid
-    else Invalid("Please enter your email address", KeyForError(contact.email))
-  }
-
   val contactMapping = mapping(
-    contactType -> text.verifying("Please select a contact method", method => List("phone", "post", "text", "email").contains(method)),
-    post -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength)),
-    phone -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength)),
-    textNum -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength)),
-    email -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength))
+    contactType.key -> text.verifying("Please select a contact method", method => List("phone", "post", "text", "email").contains(method)),
+    post.key -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength)),
+    phone.key -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength)),
+    textNum.key -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength)),
+    email.key -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength))
   ) (Contact.apply) (Contact.unapply) verifying(contactEmailConstraint, contactTelephoneConstraint, contactTextConstraint)
 
   val nationalityMapping = mapping(
-    nationalities -> list(nonEmptyText.verifying(nationalityMaxLengthError, _.size <= maxTextFieldLength)),
-    hasOtherCountry -> optional(boolean),
-    otherCountries -> list(text.verifying(nationalityMaxLengthError, _.size <= maxTextFieldLength)),
-    noNationalityReason -> optional(nonEmptyText.verifying(noNationalityReasonMaxLengthError, _.size <= maxExplanationFieldLength))
+    nationalities.key -> list(nonEmptyText.verifying(nationalityMaxLengthError, _.size <= maxTextFieldLength)),
+    hasOtherCountry.key -> optional(boolean),
+    otherCountries.key -> list(text.verifying(nationalityMaxLengthError, _.size <= maxTextFieldLength)),
+    noNationalityReason.key -> optional(nonEmptyText.verifying(noNationalityReasonMaxLengthError, _.size <= maxExplanationFieldLength))
   ) (Nationality.apply) (Nationality.unapply) verifying("Please select your Nationality", nationality => {
     (nationality.nationalities.size > 0 || (nationality.otherCountries.filter(_.nonEmpty).size > 0 && nationality.hasOtherCountry.exists(b => b))) || nationality.noNationalityReason.isDefined
   }) verifying("You can specify no more than five countries", mapping => mapping.nationalities.size + mapping.otherCountries.size <=5)
 
   val possibleAddressMapping = mapping(
-    jsonList -> nonEmptyText
+    jsonList.key -> nonEmptyText
   ) (serialiser.fromJson[Addresses]) (list => Some(serialiser.toJson(list)))
 
   val addressMapping = mapping(
-    address -> optional(nonEmptyText.verifying(addressMaxLengthError, _.size <= maxTextFieldLength)).verifying("Please select your address", address => address.exists(_ != "Select your address")),
-    postcode -> nonEmptyText.verifying("Your postcode is not valid", postcode => PostcodeValidator.isValid(postcode))
+    address.key -> optional(nonEmptyText.verifying(addressMaxLengthError, _.size <= maxTextFieldLength)).verifying("Please select your address", address => address.exists(_ != "Select your address")),
+    postcode.key -> nonEmptyText.verifying("Your postcode is not valid", postcode => PostcodeValidator.isValid(postcode))
   ) (Address.apply) (Address.unapply)
 
   val previousAddressMapping = mapping(
-    movedRecently -> boolean,
-    previousAddress -> optional(addressMapping)
+    movedRecently.key -> boolean,
+    previousAddress.key -> optional(addressMapping)
   ) (PreviousAddress.apply) (PreviousAddress.unapply)
     .verifying("Please enter your postcode", p => (p.movedRecently && p.previousAddress.isDefined) || !p.movedRecently)
     .verifying("Please answer this question", p => p.movedRecently || (!p.movedRecently && !p.previousAddress.isDefined))
 
   val otherAddressMapping = mapping(
-    hasOtherAddress -> boolean
+    hasOtherAddress.key -> boolean
   ) (OtherAddress.apply) (OtherAddress.unapply)
 
   val optInMapping = single(
-    optIn -> boolean
+    optIn.key -> boolean
   )
 
   val dobMapping = mapping(
-    year -> text.verifying("Please enter your year of birth", _.nonEmpty).verifying("The year you provided is invalid", year => year.isEmpty || year.matches("\\d+")),
-    month -> text.verifying("Please enter your month of birth", _.nonEmpty).verifying("The month you provided is invalid", month => month.isEmpty || month.matches("\\d+")),
-    day -> text.verifying("Please enter your day of birth", _.nonEmpty).verifying("The day you provided is invalid", day => day.isEmpty || day.matches("\\d+"))
+    year.key -> text.verifying("Please enter your year of birth", _.nonEmpty).verifying("The year you provided is invalid", year => year.isEmpty || year.matches("\\d+")),
+    month.key -> text.verifying("Please enter your month of birth", _.nonEmpty).verifying("The month you provided is invalid", month => month.isEmpty || month.matches("\\d+")),
+    day.key -> text.verifying("Please enter your day of birth", _.nonEmpty).verifying("The day you provided is invalid", day => day.isEmpty || day.matches("\\d+"))
   ) {
     (year, month, day) => DateOfBirth(year.toInt, month.toInt, day.toInt)
   } {
@@ -97,8 +85,8 @@ trait FormMappings extends FormKeys {
   )
 
   val ninoMapping = mapping(
-    nino -> optional(nonEmptyText.verifying("Your National Insurance number is not correct", nino => NinoValidator.isValid(nino))),
-    noNinoReason -> optional(nonEmptyText.verifying(noNinoReasonMaxLengthError, _.size <= maxExplanationFieldLength))
+    nino.key -> optional(nonEmptyText.verifying("Your National Insurance number is not correct", nino => NinoValidator.isValid(nino))),
+    noNinoReason.key -> optional(nonEmptyText.verifying(noNinoReasonMaxLengthError, _.size <= maxExplanationFieldLength))
   ) (Nino.apply) (Nino.unapply)
 
   private def firstNameMaxLengthError = "First name can be no longer than %s characters".format(maxTextFieldLength)

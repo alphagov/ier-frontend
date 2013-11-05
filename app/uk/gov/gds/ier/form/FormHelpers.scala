@@ -24,6 +24,10 @@ object FormHelpers extends FormKeys {
     def apply(input:Html, label:Html => Html, field:Field): Html
   }
 
+  def asId(key:String) = {
+    key.replace(".", "_")
+  }
+
   object FormRenderer {
     implicit val basicRenderer = FormRenderer(views.html.inputs.basicRenderer.render)
 

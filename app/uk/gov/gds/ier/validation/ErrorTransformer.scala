@@ -8,9 +8,9 @@ class ErrorTransformer {
   def transform[T](errorForm: Form[T]):Form[T] = {
     val transformedErrors = errorForm.errors.map(
       error => {
-        val parseKeysForError = error.args.foldLeft(Seq.empty[KeyForError]){
-          (sequence, arg) => if (arg.isInstanceOf[KeyForError]) {
-            sequence :+ arg.asInstanceOf[KeyForError]
+        val parseKeysForError = error.args.foldLeft(Seq.empty[Key]){
+          (sequence, arg) => if (arg.isInstanceOf[Key]) {
+            sequence :+ arg.asInstanceOf[Key]
           } else {
             sequence
           }
