@@ -84,7 +84,7 @@ trait IerForms extends FormKeys with FormMappings {
   )
   val contactForm = Form(
     mapping(contact -> optional(contactMapping).verifying("Please answer this question", _.isDefined))
-      (contact => InprogressApplication(contact = contact))
+    (contact => InprogressApplication(contact = contact))
       (inprogress => Some(inprogress.contact))
   )
 

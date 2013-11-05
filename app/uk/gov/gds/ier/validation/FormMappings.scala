@@ -5,6 +5,7 @@ import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.validation
 import uk.gov.gds.ier.validation.DateValidator._
 import uk.gov.gds.ier.serialiser.WithSerialiser
+import play.api.data.validation.{Invalid, Valid, Constraint}
 
 trait FormMappings extends FormKeys {
   self: WithSerialiser =>
@@ -27,25 +28,26 @@ trait FormMappings extends FormKeys {
     previousName -> optional(nameMapping)
   ) (PreviousName.apply) (PreviousName.unapply)
 
-  val contactTypeMapping = mapping(
-    contactMe -> boolean,
-    detail -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength))
-  ) ((contact, detail) => if (contact) detail else None) ((detail) => Some(!detail.isEmpty, detail))
+  val contactTelephoneConstraint = Constraint[Contact](contact.phone) { contactDetails =>
+    if (contactDetails.contactMethod != "phone" || (contactDetails.contactMethod == "phone" && contactDetails.phone.isDefined)) Valid
+    else Invalid("Please enter your phone number", KeyForError(contact.phone))
+  }
+  val contactTextConstraint = Constraint[Contact](contact.textNum) { contactDetails =>
+    if (contactDetails.contactMethod != "text" || (contactDetails.contactMethod == "text" && contactDetails.textNum.isDefined)) Valid
+    else Invalid("Please enter your phone number", KeyForError(contact.textNum))
+  }
+  val contactEmailConstraint = Constraint[Contact](contact.email) { contactDetails =>
+    if (contactDetails.contactMethod != "email" || (contactDetails.contactMethod == "email" && contactDetails.email.isDefined)) Valid
+    else Invalid("Please enter your email address", KeyForError(contact.email))
+  }
 
   val contactMapping = mapping(
-    post -> optional(contactTypeMapping.verifying(
-      "Please enter an address", post => post.nonEmpty)),
-    phone -> optional(contactTypeMapping.verifying(
-      "Please enter your phone number", phone => phone.nonEmpty)),
-    textNum -> optional(contactTypeMapping.verifying(
-      "Please enter your phone number", textNum => textNum.nonEmpty)),
-    email -> optional(contactTypeMapping.verifying(
-      "Please enter your email address", email => email.nonEmpty && EmailValidator.isValid(email)))
-  ) (
-    (post, phone, text, email) => Contact(post.getOrElse(None), phone.getOrElse(None), text.getOrElse(None), email.getOrElse(None))
-  ) (
-    contact => Some(Option(contact.post), Option(contact.phone), Option(contact.textNum), Option(contact.email))
-  )
+    contactType -> text.verifying("Please select a contact method", method => List("phone", "post", "text", "email").contains(method)),
+    post -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength)),
+    phone -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength)),
+    textNum -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength)),
+    email -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength))
+  ) (Contact.apply) (Contact.unapply) verifying(contactEmailConstraint, contactTelephoneConstraint, contactTextConstraint)
 
   val nationalityMapping = mapping(
     nationalities -> list(nonEmptyText.verifying(nationalityMaxLengthError, _.size <= maxTextFieldLength)),

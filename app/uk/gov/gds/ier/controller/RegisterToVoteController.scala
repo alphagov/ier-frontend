@@ -6,14 +6,18 @@ import uk.gov.gds.ier.service.{PlacesService, IerApiService}
 import views._
 import controllers._
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
-import uk.gov.gds.ier.validation.{InProgressForm, IerForms}
+import uk.gov.gds.ier.validation.{ErrorTransformer, InProgressForm, IerForms}
 import scala.Some
 import uk.gov.gds.common.model.{Ero, LocalAuthority}
 import org.slf4j.LoggerFactory
 import BodyParsers.parse._
 import uk.gov.gds.ier.session.{Steps, SessionHandling}
+import uk.gov.gds.ier.model.InprogressApplication
 
-class RegisterToVoteController @Inject() (ierApi:IerApiService, val serialiser: JsonSerialiser, placesService:PlacesService)
+class RegisterToVoteController @Inject() (ierApi:IerApiService,
+                                          val serialiser: JsonSerialiser,
+                                          placesService:PlacesService,
+                                          errorTransformer: ErrorTransformer)
     extends Controller
     with IerForms
     with WithSerialiser
@@ -43,7 +47,10 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, val serialiser: 
     implicit request => application =>
       Step(step) { stepDetail =>
         stepDetail.validation.bindFromRequest().fold(
-          errors => Ok(stepDetail.page(InProgressForm(errors))),
+          errors => {
+            val errorsTransformed = errorTransformer.transform(errors)
+            Ok(stepDetail.page(InProgressForm(errorsTransformed)))
+          },
           form => Redirect(routes.RegisterToVoteController.registerStep(stepDetail.next)).mergeWithSession(form)
         )
       }
@@ -60,7 +67,10 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService, val serialiser: 
     implicit request => application =>
       Step(step) { stepDetail =>
         stepDetail.validation.bindFromRequest()(request).fold(
-          errors => Ok(stepDetail.page(InProgressForm(errors))),
+          errors => {
+            val errorsTransformed = errorTransformer.transform(errors)
+            Ok(stepDetail.page(InProgressForm(errorsTransformed)))
+          },
           form => Redirect(routes.RegisterToVoteController.confirmApplication()).mergeWithSession(form)
         )
       }

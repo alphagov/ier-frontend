@@ -9,7 +9,8 @@ case class ApiApplicationResponse (id: String,
                                    source: String,
                                    gssCode: String)
 
-case class Contact (post: Option[String],
+case class Contact (contactMethod:String,
+                    post: Option[String],
                     phone: Option[String],
                     textNum: Option[String],
                     email: Option[String]) {
