@@ -26,7 +26,7 @@ trait DynamicGlobal extends GlobalSettings with Logging {
   }
 
   override def onRouteRequest(request: RequestHeader): Option[Handler] = {
-    logger.info(s"routing request ${request.method} ${request.path}")
+    logger.debug(s"routing request ${request.method} ${request.path}")
     super.onRouteRequest(request)
   }
 

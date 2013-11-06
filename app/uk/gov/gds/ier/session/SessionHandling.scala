@@ -8,7 +8,7 @@ import scala.Some
 import org.joda.time.DateTime
 import uk.gov.gds.ier.model.InprogressApplication
 
-trait SessionHandling extends IerForms {
+trait SessionHandling {
   self: WithSerialiser with Controller =>
 
   object NewSession {

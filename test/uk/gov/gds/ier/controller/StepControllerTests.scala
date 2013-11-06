@@ -41,17 +41,16 @@ class StepControllerTests extends FlatSpec with Matchers with MockitoSugar {
     val stepPostRoute: Call = mockStepCall
     val editPostRoute: Call = mockEditCall
     val validation: Form[InprogressApplication] = form
-    val template: (InProgressForm, Call) => Html = (_, _) => Html("This is the template.")
+    def template(form: InProgressForm, call: Call):Html = Html("This is the template.")
   }
 
   behavior of "StepController.get"
   it should "return the template page for a valid session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       val controller = createController(mock[Form[InprogressApplication]])
+      val request = FakeRequest().withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString()))
 
-      val result = controller.get()(
-        FakeRequest().withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString()))
-      )
+      val result = controller.get()(request)
 
       status(result) should be(OK)
       contentAsString(result) should be("This is the template.")
@@ -61,10 +60,9 @@ class StepControllerTests extends FlatSpec with Matchers with MockitoSugar {
   it should "redirect to the start page with invalid session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       val controller = createController(mock[Form[InprogressApplication]])
+      val request = FakeRequest().withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(6).toString()))
 
-      val result = controller.get()(
-        FakeRequest().withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(6).toString()))
-      )
+      val result = controller.get()(request)
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/"))
@@ -77,13 +75,14 @@ class StepControllerTests extends FlatSpec with Matchers with MockitoSugar {
       val form = Form(
         mapping("foo" -> text.verifying("Forcing a failure", foo => false))
           (foo => InprogressApplication())
-          (app => Some("foo"))
-      )
-      val result = createController(form).post()(
-        FakeRequest("POST", "/?foo='Some text'")
-          .withHeaders("Content-Type" -> "application/x-www-form-urlencoded")
-          .withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString()))
-      ).run
+          (app => Some("foo")))
+      val controller = createController(form)
+
+      val request = FakeRequest("POST", "/")
+        .withFormUrlEncodedBody("foo" -> "some text")
+        .withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString()))
+
+      val result = controller.post()(request)
 
       status(result) should be(OK)
       contentAsString(result) should be("This is the template.")
@@ -97,11 +96,13 @@ class StepControllerTests extends FlatSpec with Matchers with MockitoSugar {
           (foo => InprogressApplication())
           (app => Some("foo"))
       )
-      val result = createController(form).post()(
-        FakeRequest("POST", "/?foo='Some text'")
-          .withHeaders("Content-Type" -> "application/x-www-form-urlencoded")
-          .withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString()))
-      ).run
+      val controller = createController(form)
+
+      val request = FakeRequest("POST", "/")
+        .withFormUrlEncodedBody("foo" -> "some text")
+        .withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString()))
+
+      val result = controller.post()(request)
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/next-step"))
@@ -112,10 +113,9 @@ class StepControllerTests extends FlatSpec with Matchers with MockitoSugar {
   it should "return the template page for a valid session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       val controller = createController(mock[Form[InprogressApplication]])
+      val request = FakeRequest().withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString()))
 
-      val result = controller.editGet()(
-        FakeRequest().withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString()))
-      )
+      val result = controller.editGet()(request)
 
       status(result) should be(OK)
       contentAsString(result) should be("This is the template.")
@@ -125,10 +125,9 @@ class StepControllerTests extends FlatSpec with Matchers with MockitoSugar {
   it should "redirect to the start page with invalid session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       val controller = createController(mock[Form[InprogressApplication]])
+      val request = FakeRequest().withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(6).toString()))
 
-      val result = controller.editGet()(
-        FakeRequest().withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(6).toString()))
-      )
+      val result = controller.editGet()(request)
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/"))
@@ -143,11 +142,11 @@ class StepControllerTests extends FlatSpec with Matchers with MockitoSugar {
           (foo => InprogressApplication())
           (app => Some("foo"))
       )
-      val result = createController(form).editPost()(
-        FakeRequest("POST", "/?foo='Some text'")
-          .withHeaders("Content-Type" -> "application/x-www-form-urlencoded")
-          .withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString()))
-      ).run
+      val request = FakeRequest("POST", "/")
+        .withFormUrlEncodedBody("foo" -> "some text")
+        .withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString()))
+
+      val result = createController(form).editPost()(request)
 
       status(result) should be(OK)
       contentAsString(result) should be("This is the template.")
@@ -161,11 +160,11 @@ class StepControllerTests extends FlatSpec with Matchers with MockitoSugar {
           (foo => InprogressApplication())
           (app => Some("foo"))
       )
-      val result = createController(form).editPost()(
-        FakeRequest("POST", "/?foo='Some text'")
-          .withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString()))
-          .withHeaders("Content-Type" -> "application/x-www-form-urlencoded")
-      ).run
+      val request = FakeRequest("POST", "/")
+        .withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString()))
+        .withFormUrlEncodedBody("foo" -> "some text")
+
+      val result = createController(form).editPost()(request)
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/confirmation"))

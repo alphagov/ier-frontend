@@ -11,18 +11,18 @@ object Global extends DynamicGlobal with Logging {
     binder =>
       val config = new Config
       if (config.fakeIer) {
-        logger.info("Binding IerStubApiClient")
+        logger.debug("Binding IerStubApiClient")
         binder.bind(classOf[IerApiClient]).to(classOf[IerStubApiClient])
       }
       if (config.fakePlaces) {
-        logger.info("Binding PlacesStubApiClient")
+        logger.debug("Binding PlacesStubApiClient")
         binder.bind(classOf[PlacesApiClient]).to(classOf[PlacesStubApiClient])
       }
       if (config.stripNino) {
-        logger.info("Binding IerApiServiceWithStripNino")
+        logger.debug("Binding IerApiServiceWithStripNino")
         binder.bind(classOf[IerApiService]).to(classOf[IerApiServiceWithStripNino])
       } else {
-        logger.info("Binding ConcreteIerApiService")
+        logger.debug("Binding ConcreteIerApiService")
         binder.bind(classOf[IerApiService]).to(classOf[ConcreteIerApiService])
       }
   }

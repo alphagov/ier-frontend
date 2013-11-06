@@ -6,7 +6,7 @@ import uk.gov.gds.ier.service.{PlacesService, IerApiService}
 import views._
 import controllers._
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
-import uk.gov.gds.ier.validation.{WithErrorTransformer, ErrorTransformer, InProgressForm, IerForms}
+import uk.gov.gds.ier.validation.{WithErrorTransformer, ErrorTransformer, InProgressForm}
 import scala.Some
 import uk.gov.gds.common.model.{Ero, LocalAuthority}
 import org.slf4j.LoggerFactory
@@ -15,15 +15,16 @@ import uk.gov.gds.ier.session.{Steps, SessionHandling}
 import uk.gov.gds.ier.model.InprogressApplication
 import play.api.data.Form
 import play.api.templates.Html
+import uk.gov.gds.ier.validation.InProgressForm
 
 trait StepController extends Controller with SessionHandling {
   self: WithSerialiser
     with WithErrorTransformer =>
 
   val validation: Form[InprogressApplication]
-  val template:(InProgressForm, Call) => Html
   val editPostRoute: Call
   val stepPostRoute: Call
+  def template(form: InProgressForm, call: Call):Html
   def goToNext(currentState: InprogressApplication):SimpleResult
 
   //Can override this method if you like
@@ -41,10 +42,10 @@ trait StepController extends Controller with SessionHandling {
 
   def get = ValidSession requiredFor {
     request => application =>
-      Ok(stepPage(InProgress(application)))
+      Ok(stepPage(InProgressForm(validation.fill(application))))
   }
 
-  def post = ValidSession withParser urlFormEncoded storeAfter {
+  def post = ValidSession storeAfter {
     implicit request => application =>
       validation.bindFromRequest().fold(
         hasErrors => {
@@ -60,10 +61,10 @@ trait StepController extends Controller with SessionHandling {
 
   def editGet = ValidSession requiredFor {
     request => application =>
-      Ok(editPage(InProgress(application)))
+      Ok(editPage(InProgressForm(validation.fill(application))))
   }
 
-  def editPost = ValidSession withParser urlFormEncoded storeAfter {
+  def editPost = ValidSession storeAfter {
     implicit request => application =>
       validation.bindFromRequest().fold(
         hasErrors => {

@@ -28,12 +28,6 @@ trait Steps extends IerForms {
     dateOfBirthForm,
     "name")
 
-  val nameStep = Step(
-    form => html.steps.name(form),
-    form => html.edit.name(form),
-    nameForm,
-    "previous-name")
-
   val previousNameStep = Step(
     form => html.steps.previousName(form),
     form => html.edit.previousName(form),
@@ -107,7 +101,6 @@ trait Steps extends IerForms {
     def getStep(step:String): Step = {
       step match {
         case "nationality" => nationalityStep
-        case "name" => nameStep
         case "date-of-birth" => dateOfBirthStep
         case "previous-name" => previousNameStep
         case "nino" => ninoStep

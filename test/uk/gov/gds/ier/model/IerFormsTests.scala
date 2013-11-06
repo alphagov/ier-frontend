@@ -4,8 +4,8 @@ import org.specs2.mutable.Specification
 import org.joda.time.{DateTime, LocalDate}
 import play.api.libs.json._
 import play.api.test.FakeRequest
-import uk.gov.gds.ier.validation.IerForms
 import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
+import uk.gov.gds.ier.validation.IerForms
 
 class IerFormsTests extends Specification with IerForms with WithSerialiser {
 
