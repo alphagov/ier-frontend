@@ -1,8 +1,8 @@
 package uk.gov.gds.ier.validation
 
 trait ErrorMessages {
-  final val maxTextFieldLength = 256
-  final val maxExplanationFieldLength = 500
+  lazy val maxTextFieldLength = 256
+  lazy val maxExplanationFieldLength = 500
 
   lazy val firstNameMaxLengthError = s"First name can be no longer than $maxTextFieldLength characters"
   lazy val middleNameMaxLengthError = s"Middle names can be no longer than $maxTextFieldLength characters"

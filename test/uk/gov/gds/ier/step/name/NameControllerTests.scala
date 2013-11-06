@@ -1,24 +1,25 @@
-package uk.gov.gds.ier.controller.step
+package uk.gov.gds.ier.step.name
 
 import org.scalatest.{Matchers, FlatSpec}
 import org.scalatest.mock.MockitoSugar
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-import org.joda.time.DateTime
 import play.api.test._
 import play.api.test.Helpers._
-import play.api.mvc.Cookie
+import uk.gov.gds.ier.test.TestHelpers
 
 @RunWith(classOf[JUnitRunner])
-class NameControllerTests extends FlatSpec with Matchers with MockitoSugar {
+class NameControllerTests
+  extends FlatSpec
+  with Matchers
+  with MockitoSugar
+  with TestHelpers {
 
   behavior of "NameController.get"
   it should "display the page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(GET, "/register-to-vote/name")
-          .withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString())
-        )
+        FakeRequest(GET, "/register-to-vote/name").withIerSession()
       )
       
       status(result) should be(OK)
@@ -32,9 +33,8 @@ class NameControllerTests extends FlatSpec with Matchers with MockitoSugar {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/name")
+          .withIerSession()
           .withFormUrlEncodedBody("name.firstName" -> "John", "name.lastName" -> "Smith")
-          .withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString())
-        )
       )
 
       status(result) should be(SEE_OTHER)
@@ -45,9 +45,7 @@ class NameControllerTests extends FlatSpec with Matchers with MockitoSugar {
   it should "display any errors on unsuccessful bind" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/name")
-          .withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString())
-        )
+        FakeRequest(POST, "/register-to-vote/name").withIerSession()
       )
 
       status(result) should be(OK)
@@ -60,9 +58,7 @@ class NameControllerTests extends FlatSpec with Matchers with MockitoSugar {
   it should "display the edit page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(GET, "/register-to-vote/edit/name")
-          .withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString())
-        )
+        FakeRequest(GET, "/register-to-vote/edit/name").withIerSession()
       )
 
       status(result) should be(OK)
@@ -76,9 +72,8 @@ class NameControllerTests extends FlatSpec with Matchers with MockitoSugar {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/edit/name")
+          .withIerSession()
           .withFormUrlEncodedBody("name.firstName" -> "John", "name.lastName" -> "Smith")
-          .withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString())
-        )
       )
 
       status(result) should be(SEE_OTHER)
@@ -89,9 +84,7 @@ class NameControllerTests extends FlatSpec with Matchers with MockitoSugar {
   it should "display any errors on unsuccessful bind" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/name")
-          .withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString())
-        )
+        FakeRequest(POST, "/register-to-vote/edit/name").withIerSession()
       )
 
       status(result) should be(OK)

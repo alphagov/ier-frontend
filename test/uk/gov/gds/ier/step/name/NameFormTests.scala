@@ -1,14 +1,24 @@
-package uk.gov.gds.ier.model.IerForms
+package uk.gov.gds.ier.step.name
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.IerForms
+import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages, IerForms}
 import play.api.libs.json.{Json, JsNull}
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
+import uk.gov.gds.ier.step.NameForms
+import play.api.data.Form
+import uk.gov.gds.ier.test.TestHelpers
 
 @RunWith(classOf[JUnitRunner])
-class NameFormTests extends FlatSpec with Matchers with IerForms with WithSerialiser {
+class NameFormTests
+  extends FlatSpec
+  with Matchers
+  with NameForms
+  with WithSerialiser
+  with ErrorMessages
+  with FormKeys
+  with TestHelpers {
 
   val serialiser = new JsonSerialiser
 
@@ -17,7 +27,7 @@ class NameFormTests extends FlatSpec with Matchers with IerForms with WithSerial
     nameForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("name") should be(Some(Seq("Please enter your full name")))
+        hasErrors.errorMessages("name") should be(Seq("Please enter your full name"))
       },
       success => fail("Should have errored out")
     )
@@ -34,8 +44,8 @@ class NameFormTests extends FlatSpec with Matchers with IerForms with WithSerial
     nameForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorsAsMap.get("name.firstName") should be(Some(Seq("Please enter your first name")))
-        hasErrors.errorsAsMap.get("name.lastName") should be(Some(Seq("Please enter your last name")))
+        hasErrors.errorMessages("name.firstName") should be(Seq("Please enter your first name"))
+        hasErrors.errorMessages("name.lastName") should be(Seq("Please enter your last name"))
       },
       success => fail("Should have errored out")
     )
@@ -50,8 +60,8 @@ class NameFormTests extends FlatSpec with Matchers with IerForms with WithSerial
     nameForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorsAsMap.get("name.firstName") should be(Some(Seq("Please enter your first name")))
-        hasErrors.errorsAsMap.get("name.lastName") should be(Some(Seq("Please enter your last name")))
+        hasErrors.errorMessages("name.firstName") should be(Seq("Please enter your first name"))
+        hasErrors.errorMessages("name.lastName") should be(Seq("Please enter your last name"))
       },
       success => fail("Should have errored out")
     )
@@ -67,7 +77,7 @@ class NameFormTests extends FlatSpec with Matchers with IerForms with WithSerial
     nameForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("name.lastName") should be(Some(Seq("Please enter your last name")))
+        hasErrors.errorMessages("name.lastName") should be(Seq("Please enter your last name"))
       },
       success => fail("Should have errored out")
     )
@@ -83,7 +93,7 @@ class NameFormTests extends FlatSpec with Matchers with IerForms with WithSerial
     )
     nameForm.bind(js).fold(
       hasErrors => {
-        fail(serialiser.toJson(hasErrors.errorsAsMap))
+        fail(serialiser.toJson(hasErrors.prettyPrint))
       },
       success => {
         success.name.isDefined should be(true)

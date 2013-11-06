@@ -7,22 +7,10 @@ import uk.gov.gds.ier.validation.DateValidator._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import play.api.data.Form
+import uk.gov.gds.ier.step.NameForms
 
-trait FormMappings extends Constraints with FormKeys {
+trait FormMappings extends Constraints with FormKeys with ErrorMessages with NameForms {
   self: WithSerialiser =>
-
-  private final val maxTextFieldLength = 256
-  private final val maxExplanationFieldLength = 500
-
-  val nameMapping = mapping(
-    keys.firstName.key -> optional(text.verifying(firstNameMaxLengthError, _.size <= maxTextFieldLength)).verifying("Please enter your first name", _.nonEmpty),
-    keys.middleNames.key -> optional(nonEmptyText.verifying(middleNameMaxLengthError, _.size <= maxTextFieldLength)),
-    keys.lastName.key -> optional(text.verifying(lastNameMaxLengthError, _.size <= maxTextFieldLength)).verifying("Please enter your last name", _.nonEmpty)
-  ) (
-    (firstName, middleName, lastName) => Name(firstName.get, middleName, lastName.get)
-  ) (
-    name => Some(Some(name.firstName), name.middleNames, Some(name.lastName))
-  )
 
   val previousNameMapping = mapping(
     keys.hasPreviousName.key -> boolean,
@@ -88,16 +76,4 @@ trait FormMappings extends Constraints with FormKeys {
     keys.nino.key -> optional(nonEmptyText.verifying("Your National Insurance number is not correct", nino => NinoValidator.isValid(nino))),
     keys.noNinoReason.key -> optional(nonEmptyText.verifying(noNinoReasonMaxLengthError, _.size <= maxExplanationFieldLength))
   ) (Nino.apply) (Nino.unapply)
-
-  private def firstNameMaxLengthError = "First name can be no longer than %s characters".format(maxTextFieldLength)
-  private def middleNameMaxLengthError = "Middle names can be no longer than %s characters".format(maxTextFieldLength)
-  private def lastNameMaxLengthError = "Last name can be no longer than %s characters".format(maxTextFieldLength)
-  private def postMaxLengthError = "Post information can be no longer than %s characters".format(maxTextFieldLength)
-  private def phoneMaxLengthError = "Phone number can be no longer than %s characters".format(maxTextFieldLength)
-  private def textNumMaxLengthError = "Phone number for text contact can be no longer than %s characters".format(maxTextFieldLength)
-  private def emailMaxLengthError = "Email address can be no longer than %s characters".format(maxTextFieldLength)
-  private def nationalityMaxLengthError = "Country name can be no longer than %s characters".format(maxTextFieldLength)
-  private def noNationalityReasonMaxLengthError = "Reason for not providing nationality must be described in up to %s characters".format(maxExplanationFieldLength)
-  private def addressMaxLengthError = "Address information should be no longer than %s characters".format(maxTextFieldLength)
-  private def noNinoReasonMaxLengthError = "Reason for not providing National Insurance number must be described in up to %s characters".format(maxExplanationFieldLength)
 }
