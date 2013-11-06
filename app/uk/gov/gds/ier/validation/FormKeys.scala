@@ -10,7 +10,7 @@ case class Key(key:String) {
 
 trait FormKeys {
 
-  val keys = new Keys{}
+  lazy val keys = new Keys{}
 
   trait Keys {
     lazy val namespace = ""

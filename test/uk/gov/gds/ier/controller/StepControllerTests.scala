@@ -22,17 +22,22 @@ import play.api.mvc.SimpleResult
 import org.joda.time.DateTime
 import play.api.libs.iteratee.Iteratee
 import org.mockito.Matchers._
+import uk.gov.gds.ier.test.TestHelpers
 
 @RunWith(classOf[JUnitRunner])
-class StepControllerTests extends FlatSpec with Matchers with MockitoSugar {
-  val realSerialiser = new JsonSerialiser
+class StepControllerTests
+  extends FlatSpec
+  with Matchers
+  with MockitoSugar
+  with TestHelpers {
+
   val mockErrorTransformer = mock[ErrorTransformer]
 
   val mockEditCall = mock[Call]
   val mockStepCall = mock[Call]
 
   def createController(form: Form[InprogressApplication]) = new StepController with WithSerialiser with WithErrorTransformer {
-    val serialiser = realSerialiser
+    val serialiser = jsonSerialiser
     val errorTransformer = mockErrorTransformer
 
     def goToNext(currentState: InprogressApplication) = Redirect("/next-step")
@@ -48,7 +53,7 @@ class StepControllerTests extends FlatSpec with Matchers with MockitoSugar {
   it should "return the template page for a valid session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       val controller = createController(mock[Form[InprogressApplication]])
-      val request = FakeRequest().withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString()))
+      val request = FakeRequest().withIerSession()
 
       val result = controller.get()(request)
 
@@ -60,7 +65,7 @@ class StepControllerTests extends FlatSpec with Matchers with MockitoSugar {
   it should "redirect to the start page with invalid session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       val controller = createController(mock[Form[InprogressApplication]])
-      val request = FakeRequest().withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(6).toString()))
+      val request = FakeRequest().withIerSession(6)
 
       val result = controller.get()(request)
 
@@ -79,8 +84,8 @@ class StepControllerTests extends FlatSpec with Matchers with MockitoSugar {
       val controller = createController(form)
 
       val request = FakeRequest("POST", "/")
+        .withIerSession()
         .withFormUrlEncodedBody("foo" -> "some text")
-        .withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString()))
 
       val result = controller.post()(request)
 
@@ -99,8 +104,8 @@ class StepControllerTests extends FlatSpec with Matchers with MockitoSugar {
       val controller = createController(form)
 
       val request = FakeRequest("POST", "/")
+        .withIerSession()
         .withFormUrlEncodedBody("foo" -> "some text")
-        .withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString()))
 
       val result = controller.post()(request)
 
@@ -113,7 +118,7 @@ class StepControllerTests extends FlatSpec with Matchers with MockitoSugar {
   it should "return the template page for a valid session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       val controller = createController(mock[Form[InprogressApplication]])
-      val request = FakeRequest().withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString()))
+      val request = FakeRequest().withIerSession()
 
       val result = controller.editGet()(request)
 
@@ -125,7 +130,7 @@ class StepControllerTests extends FlatSpec with Matchers with MockitoSugar {
   it should "redirect to the start page with invalid session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       val controller = createController(mock[Form[InprogressApplication]])
-      val request = FakeRequest().withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(6).toString()))
+      val request = FakeRequest().withIerSession(6)
 
       val result = controller.editGet()(request)
 
@@ -143,8 +148,8 @@ class StepControllerTests extends FlatSpec with Matchers with MockitoSugar {
           (app => Some("foo"))
       )
       val request = FakeRequest("POST", "/")
+        .withIerSession()
         .withFormUrlEncodedBody("foo" -> "some text")
-        .withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString()))
 
       val result = createController(form).editPost()(request)
 
@@ -161,7 +166,7 @@ class StepControllerTests extends FlatSpec with Matchers with MockitoSugar {
           (app => Some("foo"))
       )
       val request = FakeRequest("POST", "/")
-        .withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(3).toString()))
+        .withIerSession()
         .withFormUrlEncodedBody("foo" -> "some text")
 
       val result = createController(form).editPost()(request)
