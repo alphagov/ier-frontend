@@ -69,7 +69,7 @@ class RegisterToVoteController @Inject() (ierApi:IerApiService,
         stepDetail.validation.bindFromRequest()(request).fold(
           errors => {
             val errorsTransformed = errorTransformer.transform(errors)
-            Ok(stepDetail.page(InProgressForm(errorsTransformed)))
+            Ok(stepDetail.editPage(InProgressForm(errorsTransformed)))
           },
           form => Redirect(routes.RegisterToVoteController.confirmApplication()).mergeWithSession(form)
         )
