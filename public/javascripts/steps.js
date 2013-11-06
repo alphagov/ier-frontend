@@ -4,9 +4,110 @@ window.GOVUK = window.GOVUK || {};
   "use strict"
   var root = this,
       $ = root.jQuery,
-      countries;
+      countries,
+      ENTER = 13;
 
+/*
   countries = ["Afghanistan","Åland Islands","Albania","Algeria","American Samoa","Andorra","Angola","Anguilla","Antarctica","Antigua and Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bonaire","Bosnia and Herzegovina","Botswana","Bouvet Island","Brazil","British Indian Ocean Territory","Brunei Darussalam","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central African Republic","Chad","Chile","China","Christmas Island","Cocos (Keeling) Islands","Colombia","Comoros","Republic of the Congo","Democratic Republic of the Congo","Cook Islands","Costa Rica","Côte d'Ivoire","Croatia","Cuba","Curaçao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands (Malvinas)","Faroe Islands","Fiji","Finland","France","French Guiana","French Polynesia","French Southern Territories","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guadeloupe","Guam","Guatemala","Guernsey","Guinea","Guinea-Bissau","Guyana","Haiti","Heard Island and McDonald Islands","Vatican City","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macao","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Martinique","Mauritania","Mauritius","Mayotte","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar (Burma)","Namibia","Nauru","Nepal","Netherlands","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","Niue","Norfolk Island","North Korea","Northern Mariana Islands","Norway","Oman","Pakistan","Palau","Palestinian Territory","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Pitcairn","Poland","Portugal","Puerto Rico","Qatar","Réunion","Romania","Russian Federation","Rwanda","Saint Barthélemy","Saint Helena","Saint Kitts and Nevis","Saint Lucia","Saint Martin","Saint Pierre and Miquelon","Saint Vincent and the Grenadines","Samoa","San Marino","São Tomé and Príncipe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Sint Maarten","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Georgia","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Svalbard and Jan Mayen","Swaziland","Sweden","Switzerland","Syrian Arab Republic","Taiwan","Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tokelau","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Turks and Caicos Islands","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","United States Minor Outlying Islands","Uruguay","Uzbekistan","Vanuatu","Venezuela","Viet Nam","Virgin Islands (British)","Virgin Islands (U.S.)","Wallis and Futuna","Western Sahara","Yemen","Zambia","Zimbabwe"];
+*/
+
+  countries = [
+    { "value" : "AG", "tokens" : ["Antigua and Barbuda"], "name" : "Antigua and Barbuda" },
+    { "value" : "AI", "tokens" : ["Anguilla"], "name" : "Anguilla" },
+    { "value" : "AQ", "tokens" : ["British Antarctic Territory"], "name" : "British Antarctic Territory" },
+    { "value" : "AT", "tokens" : ["Austria"], "name" : "Austria" },
+    { "value" : "AU", "tokens" : ["Australia"], "name" : "Australia" },
+    { "value" : "BB", "tokens" : ["Barbados"], "name" : "Barbados" },
+    { "value" : "BD", "tokens" : ["Bangladesh"], "name" : "Bangladesh" },
+    { "value" : "BE", "tokens" : ["Belgium"], "name" : "Belgium" },
+    { "value" : "BG", "tokens" : ["Bulgaria"], "name" : "Bulgaria" },
+    { "value" : "BM", "tokens" : ["Bermuda"], "name" : "Bermuda" },
+    { "value" : "BN", "tokens" : ["Brunei Darussalam"], "name" : "Brunei Darussalam" },
+    { "value" : "BS", "tokens" : ["The Bahamas"], "name" : "The Bahamas" },
+    { "value" : "BW", "tokens" : ["Botswana"], "name" : "Botswana" },
+    { "value" : "BZ", "tokens" : ["Belize"], "name" : "Belize" },
+    { "value" : "CA", "tokens" : ["Canada"], "name" : "Canada" },
+    { "value" : "CI", "tokens" : ["Channel Islands"], "name" : "Channel Islands" },
+    { "value" : "CM", "tokens" : ["Cameroon"], "name" : "Cameroon" },
+    { "value" : "CY", "tokens" : ["Cyprus"], "name" : "Cyprus" },
+    { "value" : "CZ", "tokens" : ["Czech Republic"], "name" : "Czech Republic" },
+    { "value" : "DE", "tokens" : ["Germany"], "name" : "Germany" },
+    { "value" : "DK", "tokens" : ["Denmark"], "name" : "Denmark" },
+    { "value" : "DM", "tokens" : ["Dominica"], "name" : "Dominica" },
+    { "value" : "EE", "tokens" : ["Estonia"], "name" : "Estonia" },
+    { "value" : "ES", "tokens" : ["Spain"], "name" : "Spain" },
+    { "value" : "FI", "tokens" : ["Finland"], "name" : "Finland" },
+    { "value" : "FJ", "tokens" : ["Fiji Islands"], "name" : "Fiji Islands" },
+    { "value" : "FK", "tokens" : ["Falkland Islands"], "name" : "Falkland Islands" },
+    { "value" : "FR", "tokens" : ["France"], "name" : "France" },
+    { "value" : "GB", "tokens" : ["United Kingdom"], "name" : "United Kingdom" },
+    { "value" : "GD", "tokens" : ["Grenada"], "name" : "Grenada" },
+    { "value" : "GH", "tokens" : ["Ghana"], "name" : "Ghana" },
+    { "value" : "GI", "tokens" : ["Gibraltar"], "name" : "Gibraltar" },
+    { "value" : "GM", "tokens" : ["The Gambia"], "name" : "The Gambia" },
+    { "value" : "GR", "tokens" : ["Greece"], "name" : "Greece" },
+    { "value" : "GS", "tokens" : ["South Georgia and the South Sandwich Islands"], "name" : "South Georgia and the South Sandwich Islands" },
+    { "value" : "GY", "tokens" : ["Guyana"], "name" : "Guyana" },
+    { "value" : "HK", "tokens" : ["Hong Kong"], "name" : "Hong Kong" },
+    { "value" : "HU", "tokens" : ["Hungary"], "name" : "Hungary" },
+    { "value" : "IE", "tokens" : ["Ireland"], "name" : "Ireland" },
+    { "value" : "IM", "tokens" : ["Isle of Man"], "name" : "Isle of Man" },
+    { "value" : "IN", "tokens" : ["India"], "name" : "India" },
+    { "value" : "IO", "tokens" : ["British Indian Ocean Territory"], "name" : "British Indian Ocean Territory" },
+    { "value" : "IT", "tokens" : ["Italy"], "name" : "Italy" },
+    { "value" : "JM", "tokens" : ["Jamaica"], "name" : "Jamaica" },
+    { "value" : "KE", "tokens" : ["Kenya"], "name" : "Kenya" },
+    { "value" : "KI", "tokens" : ["Kiribati"], "name" : "Kiribati" },
+    { "value" : "KN", "tokens" : ["St Kitts & Nevis"], "name" : "St Kitts & Nevis" },
+    { "value" : "KY", "tokens" : ["Cayman Islands"], "name" : "Cayman Islands" },
+    { "value" : "LC", "tokens" : ["St Lucia"], "name" : "St Lucia" },
+    { "value" : "LK", "tokens" : ["Sri Lanka"], "name" : "Sri Lanka" },
+    { "value" : "LS", "tokens" : ["Lesotho"], "name" : "Lesotho" },
+    { "value" : "LT", "tokens" : ["Lithuania"], "name" : "Lithuania" },
+    { "value" : "LU", "tokens" : ["Luxemburg"], "name" : "Luxemburg" },
+    { "value" : "LV", "tokens" : ["Latvia"], "name" : "Latvia" },
+    { "value" : "MS", "tokens" : ["Montserrat"], "name" : "Montserrat" },
+    { "value" : "MT", "tokens" : ["Malta"], "name" : "Malta" },
+    { "value" : "MU", "tokens" : ["Mauritius"], "name" : "Mauritius" },
+    { "value" : "MV", "tokens" : ["Maldives"], "name" : "Maldives" },
+    { "value" : "MW", "tokens" : ["Malawi"], "name" : "Malawi" },
+    { "value" : "MY", "tokens" : ["Malaysia"], "name" : "Malaysia" },
+    { "value" : "MZ", "tokens" : ["Mozambique"], "name" : "Mozambique" },
+    { "value" : "NA", "tokens" : ["Namibia"], "name" : "Namibia" },
+    { "value" : "NG", "tokens" : ["Nigeria"], "name" : "Nigeria" },
+    { "value" : "NL", "tokens" : ["Netherlands"], "name" : "Netherlands" },
+    { "value" : "NR", "tokens" : ["Nauru"], "name" : "Nauru" },
+    { "value" : "NZ", "tokens" : ["New Zealand"], "name" : "New Zealand" },
+    { "value" : "PG", "tokens" : ["Papua New Guinea"], "name" : "Papua New Guinea" },
+    { "value" : "PK", "tokens" : ["Pakistan"], "name" : "Pakistan" },
+    { "value" : "PL", "tokens" : ["Poland"], "name" : "Poland" },
+    { "value" : "PN", "tokens" : ["Pitcairn Island"], "name" : "Pitcairn Island" },
+    { "value" : "PT", "tokens" : ["Portugal"], "name" : "Portugal" },
+    { "value" : "RO", "tokens" : ["Romania"], "name" : "Romania" },
+    { "value" : "RW", "tokens" : ["Rwanda"], "name" : "Rwanda" },
+    { "value" : "SB", "tokens" : ["Solomon Islands"], "name" : "Solomon Islands" },
+    { "value" : "SC", "tokens" : ["Seychelles"], "name" : "Seychelles" },
+    { "value" : "SE", "tokens" : ["Sweden"], "name" : "Sweden" },
+    { "value" : "SG", "tokens" : ["Singapore"], "name" : "Singapore" },
+    { "value" : "SH", "tokens" : ["St Helena and dependencies (Ascension Island and Tristan da Cunha)"], "name" : "St Helena and dependencies (Ascension Island and Tristan da Cunha)" },
+    { "value" : "SI", "tokens" : ["Slovenia"], "name" : "Slovenia" },
+    { "value" : "SK", "tokens" : ["Slovakia"], "name" : "Slovakia" },
+    { "value" : "SL", "tokens" : ["Sierra Leone"], "name" : "Sierra Leone" },
+    { "value" : "SZ", "tokens" : ["Swaziland"], "name" : "Swaziland" },
+    { "value" : "TC", "tokens" : ["Turks and Caicos Islands"], "name" : "Turks and Caicos Islands" },
+    { "value" : "TO", "tokens" : ["Tonga"], "name" : "Tonga" },
+    { "value" : "TT", "tokens" : ["Trinidad & Tobago"], "name" : "Trinidad & Tobago" },
+    { "value" : "TV", "tokens" : ["Tuvalu"], "name" : "Tuvalu" },
+    { "value" : "TZ", "tokens" : ["United Republic of Tanzania"], "name" : "United Republic of Tanzania" },
+    { "value" : "UG", "tokens" : ["Uganda"], "name" : "Uganda" },
+    { "value" : "VC", "tokens" : ["St Vincent & The Grenadines"], "name" : "St Vincent & The Grenadines" },
+    { "value" : "VG", "tokens" : ["British Virgin Islands"], "name" : "British Virgin Islands" },
+    { "value" : "VU", "tokens" : ["Vanuatu"], "name" : "Vanuatu" },
+    { "value" : "WS", "tokens" : ["Samoa"], "name" : "Samoa" },
+    { "value" : "ZA", "tokens" : ["South Africa"], "name" : "South Africa" },
+    { "value" : "ZM", "tokens" : ["Zambia"], "name" : "Zambia" },
+    { "value" : "ZW", "tokens" : ["Zimbabwe"], "name" : "Zimbabwe" }
+  ];
 
   var toggleObj,
       optionalInformation,
@@ -277,16 +378,75 @@ window.GOVUK = window.GOVUK || {};
   };
 
   autocomplete = {
+    menuIsShowing : false,
+    statusText : '{{results}} results are available, use up and down arrow keys to navigate.',
+    resultHTML : '<p id="{{value}}">{{name}}</p>',
     add : function ($input) {
+      var compiledTemplate = Mustache.compile(this.resultHTML);
+
       $input.typeahead({
         hint: false,
         name: 'countries',
         local: countries,
+        template: compiledTemplate,
+        engine: Mustache,
         limit: 5
       });
     },
     remove : function ($input) {
       $input.parent('.twitter-typeahead').remove();
+    },
+    onInitialized : function (e) {
+      var $input = $(e.target),
+          autocompleteObj = this,
+          menuId = 'typeahead-suggestions';
+
+      $input = $input;
+      this.$menu = $input.parent().find('.tt-dropdown-menu');
+      this.$status = $('<span role="status" aria-live="polite" class="typeahead-status visuallyhidden" />');
+      this.$status.insertAfter($input);
+      this.compiledStatusText = Mustache.compile(this.statusText);
+      $input.attr({
+        'aria-autocomplete' : 'list',
+        'aria-haspopup' : menuId
+      });
+      this.$menu
+        .css('width', $input.innerWidth() + 'px')
+        .attr('id', menuId);
+      $input.on('keydown', function (e) { 
+        var keypressed = e.which;
+        if (keypressed === ENTER) {
+          return autocompleteObj.onEnter(e); 
+        }
+        return true;
+      });
+    },
+    onMenuOpen : function () {
+      var suggestions = this.$menu.find('.suggestions').length;
+
+      this.$status
+        .text(this.compiledStatusText({ 'results' : suggestions }))
+        .show();
+      this.menuIsShowing = true;
+    },
+    onMenuClosed: function () {
+      var suggestions = this.$menu.find('.suggestions').length;
+
+      this.$status.hide();
+      this.menuIsShowing = false;
+    },
+    onSelected : function (e, countryObj) {
+      var $input = $(e.target);
+
+      $input.attr('aria-activedescendant', countryObj.value);
+    },
+    onEnter : function (e) {
+      if (this.menuIsShowing) {
+        this.$menu.hide();
+        this.menuIsShowing = false;
+        return false;
+      } 
+      return true;
     }
   };
 
@@ -589,16 +749,24 @@ window.GOVUK = window.GOVUK || {};
     $('.country-autocomplete').each(function (idx, elm) {
       GOVUK.registerToVote.autocomplete.add($(elm));
     });
+    $(document).bind('typeahead:initialized', function (e) {
+      GOVUK.registerToVote.autocomplete.onInitialized(e);
+    });
+    $(document).bind('typeahead:opened', function (e) {
+      GOVUK.registerToVote.autocomplete.onMenuOpen();
+    });
+    $(document).bind('typeahead:closed', function (e) {
+      GOVUK.registerToVote.autocomplete.onMenuClosed();
+    });
+    $(document).bind('typeahead:selected', function (e, countryObj) {
+      GOVUK.registerToVote.autocomplete.onSelected(e, countryObj);
+    });
     $(document).bind('contentUpdate', function (e, data) {
       var context = data.context;
 
       $('.country-autocomplete', context).each(function (idx, elm) {
         GOVUK.registerToVote.autocomplete.add($(elm));
       });
-    });
-    $(document).bind('typeahead:opened', function (e) {
-      var $input = $(e.target);
-      $(e.target).parent().find('.tt-dropdown-menu').css('width', $input.innerWidth() + 'px');
     });
     GOVUK.registerToVote.validation.init();
   });
