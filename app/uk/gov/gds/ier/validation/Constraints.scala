@@ -6,16 +6,16 @@ import uk.gov.gds.ier.model.Contact
 trait Constraints {
   self: FormKeys =>
 
-  val contactTelephoneConstraint = Constraint[Contact](contact.phone.key) { contactDetails =>
+  lazy val contactTelephoneConstraint = Constraint[Contact](keys.contact.phone.key) { contactDetails =>
     if (contactDetails.contactMethod != "phone" || (contactDetails.contactMethod == "phone" && contactDetails.phone.isDefined)) Valid
-    else Invalid("Please enter your phone number", contact.phone)
+    else Invalid("Please enter your phone number", keys.contact.phone)
   }
-  val contactTextConstraint = Constraint[Contact](contact.textNum.key) { contactDetails =>
+  lazy val contactTextConstraint = Constraint[Contact](keys.contact.textNum.key) { contactDetails =>
     if (contactDetails.contactMethod != "text" || (contactDetails.contactMethod == "text" && contactDetails.textNum.isDefined)) Valid
-    else Invalid("Please enter your phone number", contact.textNum)
+    else Invalid("Please enter your phone number", keys.contact.textNum)
   }
-  val contactEmailConstraint = Constraint[Contact](contact.email.key) { contactDetails =>
+  lazy val contactEmailConstraint = Constraint[Contact](keys.contact.email.key) { contactDetails =>
     if (contactDetails.contactMethod != "email" || (contactDetails.contactMethod == "email" && contactDetails.email.isDefined)) Valid
-    else Invalid("Please enter your email address", contact.email)
+    else Invalid("Please enter your email address", keys.contact.email)
   }
 }

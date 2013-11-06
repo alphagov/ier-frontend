@@ -26,3 +26,7 @@ class ErrorTransformer {
     errorForm.copy(errors = transformedErrors)
   }
 }
+
+trait WithErrorTransformer {
+  val errorTransformer:ErrorTransformer
+}

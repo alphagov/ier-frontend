@@ -27,11 +27,28 @@ trait SessionHandling extends IerForms {
 
   object ValidSession {
 
+    final def validateSessionAndStore[A](bodyParser: BodyParser[A], block:Request[A] => InprogressApplication => (Result, InprogressApplication)):Action[A] = Action(bodyParser) {
+      request =>
+        request.getToken match {
+          case Some(token) => isValidToken(token) match {
+            case true => {
+              val (result, application) = block(request)(request.getApplication)
+              result.refreshSessionAndStore(application)
+            }
+            case false => Redirect(routes.RegisterToVoteController.index()).withFreshSession()
+          }
+          case None => Redirect(routes.RegisterToVoteController.index()).withFreshSession()
+        }
+    }
+
     final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => InprogressApplication => Result):Action[A] = Action(bodyParser) {
       request =>
         request.getToken match {
           case Some(token) => isValidToken(token) match {
-            case true => block(request)(request.getApplication).refreshSession()
+            case true => {
+              val result = block(request)(request.getApplication)
+              result.refreshSession()
+            }
             case false => Redirect(routes.RegisterToVoteController.index()).withFreshSession()
           }
           case None => Redirect(routes.RegisterToVoteController.index()).withFreshSession()
@@ -39,8 +56,11 @@ trait SessionHandling extends IerForms {
     }
 
     final def withParser[A](bodyParser: BodyParser[A]) = new {
+      def storeAfter(action: Request[A] => InprogressApplication => (Result, InprogressApplication)) = validateSessionAndStore(bodyParser, action)
       def requiredFor(action: Request[A] => InprogressApplication => Result) = validateSession(bodyParser, action)
     }
+
+    final def storeAfter(action: Request[AnyContent] => InprogressApplication => (Result, InprogressApplication)) = withParser(BodyParsers.parse.anyContent) storeAfter action
 
     final def requiredFor(action: Request[AnyContent] => InprogressApplication => Result) = withParser(BodyParsers.parse.anyContent) requiredFor action
 
@@ -67,14 +87,18 @@ trait SessionHandling extends IerForms {
   }
 
   implicit class InProgressResult(result:Result) extends SessionKeys {
-    def mergeWithSession(application: InprogressApplication)(implicit request: play.api.mvc.Request[_]) = {
-      result.withCookies(Cookie(sessionPayloadKey, serialiser.toJson(merge(request.getApplication, application))))
-    }
     def withFreshSession() = {
       result.withCookies(Cookie(sessionTokenKey, DateTime.now.toString())).discardingCookies(DiscardingCookie(sessionPayloadKey))
     }
+    def refreshSessionAndStore(application:InprogressApplication) = {
+      result.withCookies(Cookie(sessionTokenKey, DateTime.now.toString()), Cookie(sessionPayloadKey, serialiser.toJson(application)))
+    }
     def refreshSession() = {
       result.withCookies(Cookie(sessionTokenKey, DateTime.now.toString()))
+    }
+
+    def mergeWithSession(application:InprogressApplication)(implicit request: play.api.mvc.Request[_]) = {
+      result.withCookies(Cookie(sessionPayloadKey, serialiser.toJson(merge(request.getApplication, application))))
     }
     private def merge(fromCookieApplication: InprogressApplication, application: InprogressApplication):InprogressApplication = {
       fromCookieApplication.copy(
