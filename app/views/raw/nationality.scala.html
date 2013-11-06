@@ -10,7 +10,7 @@
 }
 @rendererWithRemoveLink(input:Html, label:Html => Html, field:Field) = {
     @label {
-        <a href="#" class="remove-field" data-field="@field.name.asId()">Remove<span class="visuallyhidden"> Country</span></a>
+        <a href="#" class="remove-field" data-field="@asId(field.name)">Remove<span class="visuallyhidden"> Country</span></a>
         @input
     }
 }

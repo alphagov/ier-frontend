@@ -95,8 +95,9 @@ class PreviousNameFormTests extends FlatSpec with Matchers with IerForms with Wi
     )
     previousNameForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("previousName.previousName") should be(Some(Seq("Please enter your full name")))
+        hasErrors.errors.size should be(2)
+        hasErrors.errorsAsMap.get("previousName.previousName.firstName") should be(Some(Seq("Please enter your first name")))
+        hasErrors.errorsAsMap.get("previousName.previousName.lastName") should be(Some(Seq("Please enter your last name")))
       },
       success => fail("Should have errorred out")
     )

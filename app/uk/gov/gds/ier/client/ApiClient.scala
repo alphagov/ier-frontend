@@ -21,11 +21,11 @@ trait ApiClient extends Logging {
         )
         result.status match {
           case Status.OK => {
-            logger.debug(s"apiClient.get url:$url result:200")
+            logger.info(s"apiClient.get url:$url result:200")
             Success(result.body)
           }
           case status => {
-            logger.debug(s"apiClient.get url:$url result:$status reason:${result.body}")
+            logger.info(s"apiClient.get url:$url result:$status reason:${result.body}")
             Fail(result.body)
           }
         }
@@ -48,15 +48,15 @@ trait ApiClient extends Logging {
       )
       result.status match {
         case Status.OK => {
-          logger.debug(s"apiClient.post url:$url result:200")
+          logger.info(s"apiClient.post url:$url result:200")
           Success(result.body)
         }
         case Status.NO_CONTENT => {
-          logger.debug(s"apiClient.post url:$url result:204")
+          logger.info(s"apiClient.post url:$url result:204")
           Success("")
         }
         case status => {
-          logger.debug(s"apiClient.post url:$url result:$status")
+          logger.info(s"apiClient.post url:$url result:$status")
           Fail(result.body)
         }
       }

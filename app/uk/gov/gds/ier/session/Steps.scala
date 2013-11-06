@@ -28,12 +28,6 @@ trait Steps extends IerForms {
     dateOfBirthForm,
     "name")
 
-  val nameStep = Step(
-    form => html.steps.name(form),
-    form => html.edit.name(form),
-    nameForm,
-    "previous-name")
-
   val previousNameStep = Step(
     form => html.steps.previousName(form),
     form => html.edit.previousName(form),
@@ -48,9 +42,12 @@ trait Steps extends IerForms {
   )
   val addressStep = Step(
     form => html.steps.address(form,
-      form(possibleAddresses.jsonList).value.map(
-        possibleAddressJS => serialiser.fromJson[Addresses](possibleAddressJS)
-      )
+      form(keys.possibleAddresses.jsonList).value match {
+        case Some(possibleAddressJS) if !possibleAddressJS.isEmpty => {
+          Some(serialiser.fromJson[Addresses](possibleAddressJS))
+        }
+        case _ => None
+      }
     ),
     form => html.edit.address(form),
     addressForm,
@@ -58,9 +55,12 @@ trait Steps extends IerForms {
   )
   val previousAddressStep = Step(
     form => html.steps.previousAddress(form,
-      form(possibleAddresses.jsonList).value.map(
-        possibleAddressJS => serialiser.fromJson[Addresses](possibleAddressJS)
-      )
+      form(keys.possibleAddresses.jsonList).value match {
+        case Some(possibleAddressJS) if !possibleAddressJS.isEmpty => {
+          Some(serialiser.fromJson[Addresses](possibleAddressJS))
+        }
+        case _ => None
+      }
     ),
     form => html.edit.previousAddress(form),
     previousAddressForm,
@@ -101,7 +101,6 @@ trait Steps extends IerForms {
     def getStep(step:String): Step = {
       step match {
         case "nationality" => nationalityStep
-        case "name" => nameStep
         case "date-of-birth" => dateOfBirthStep
         case "previous-name" => previousNameStep
         case "nino" => ninoStep

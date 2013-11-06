@@ -12,23 +12,18 @@ class NameFormTests extends FlatSpec with Matchers with IerForms with WithSerial
 
   val serialiser = new JsonSerialiser
 
-  def toJson(obj: AnyRef): String = serialiser.toJson(obj)
-
-  def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson(json)
-
   it should "error out on empty json" in {
     val js = JsNull
     nameForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(2)
-        hasErrors.errorsAsMap.get("name.firstName") should be(Some(Seq("error.required")))
-        hasErrors.errorsAsMap.get("name.lastName") should be(Some(Seq("error.required")))
+        hasErrors.errors.size should be(1)
+        hasErrors.errorsAsMap.get("name") should be(Some(Seq("Please enter your full name")))
       },
       success => fail("Should have errored out")
     )
   }
 
-  it should "error out on missing fields" in {
+  it should "describe all missing fields" in {
     val js = Json.toJson(
       Map(
         "name.firstName" -> "",
@@ -38,8 +33,41 @@ class NameFormTests extends FlatSpec with Matchers with IerForms with WithSerial
     )
     nameForm.bind(js).fold(
       hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.errorsAsMap.get("name.firstName") should be(Some(Seq("Please enter your first name")))
+        hasErrors.errorsAsMap.get("name.lastName") should be(Some(Seq("Please enter your last name")))
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
+  it should "error out on missing fields" in {
+    val js = Json.toJson(
+      Map(
+        "name.middleNames" -> "joe"
+      )
+    )
+    nameForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.errorsAsMap.get("name.firstName") should be(Some(Seq("Please enter your first name")))
+        hasErrors.errorsAsMap.get("name.lastName") should be(Some(Seq("Please enter your last name")))
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
+  it should "error out on a missing field" in {
+    val js = Json.toJson(
+      Map(
+        "name.firstName" -> "john",
+        "name.middleNames" -> "joe"
+      )
+    )
+    nameForm.bind(js).fold(
+      hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("name") should be(Some(Seq("Please enter your full name")))
+        hasErrors.errorsAsMap.get("name.lastName") should be(Some(Seq("Please enter your last name")))
       },
       success => fail("Should have errored out")
     )

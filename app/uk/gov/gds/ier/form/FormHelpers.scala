@@ -6,7 +6,6 @@ import play.api.templates.{Template3, Html}
 
 object FormHelpers extends FormKeys {
   implicit val basicRenderer = FormRenderer.basicRenderer
-  lazy val keys = FormKeys
   lazy val validationMessage = views.html.includes.validationMessage
   lazy val validationWrap = views.html.includes.validationWrap
   lazy val validationSwitch = views.html.includes.validationSwitch
@@ -22,6 +21,10 @@ object FormHelpers extends FormKeys {
 
   trait FormRenderer extends NotNull {
     def apply(input:Html, label:Html => Html, field:Field): Html
+  }
+
+  def asId(key:String) = {
+    key.replace(".", "_")
   }
 
   object FormRenderer {

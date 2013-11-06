@@ -3,73 +3,76 @@ package uk.gov.gds.ier.validation
 import play.api.data.{Field, Form}
 import play.api.templates.Html
 
+case class Key(key:String) {
+  def asId(value:String = "") = List(key.replace(".", "_"), value).filter(_.nonEmpty).mkString("_")
+  def item(i:Int) = this.copy(s"$key[$i]")
+}
+
 trait FormKeys {
-  lazy val namespace = ""
 
-  def prependNamespace(str:String):String = {
-    if (namespace.nonEmpty) {
-      namespace + "." + str
-    } else {
-      str
+  val keys = new Keys{}
+
+  trait Keys {
+    lazy val namespace = ""
+
+    def prependNamespace(k:Key):Key = {
+      if (namespace.nonEmpty) {
+        k.copy(namespace + "." + k.key)
+      } else {
+        k
+      }
     }
+    lazy val nationality = prependNamespace(Key("nationality"))
+
+    lazy val nationalities = prependNamespace(Key("nationalities"))
+    lazy val hasOtherCountry = prependNamespace(Key("hasOtherCountry"))
+    lazy val otherCountries = prependNamespace(Key("otherCountries"))
+    lazy val noNationalityReason = prependNamespace(Key("noNationalityReason"))
+
+    lazy val name = prependNamespace(Key("name"))
+    lazy val previousName = prependNamespace(Key("previousName"))
+    lazy val hasPreviousName = prependNamespace(Key("hasPreviousName"))
+    lazy val firstName = prependNamespace(Key("firstName"))
+    lazy val middleNames = prependNamespace(Key("middleNames"))
+    lazy val lastName = prependNamespace(Key("lastName"))
+
+    lazy val dob = prependNamespace(Key("dob"))
+
+    lazy val day = prependNamespace(Key("day"))
+    lazy val month = prependNamespace(Key("month"))
+    lazy val year = prependNamespace(Key("year"))
+
+    lazy val nino = prependNamespace(Key("NINO"))
+    lazy val noNinoReason = prependNamespace(Key("NoNinoReason"))
+
+    lazy val address = prependNamespace(Key("address"))
+    lazy val postcode = prependNamespace(Key("postcode"))
+    lazy val previousAddress = prependNamespace(Key("previousAddress"))
+    lazy val movedRecently = prependNamespace(Key("movedRecently"))
+    lazy val otherAddress = prependNamespace(Key("otherAddress"))
+    lazy val hasOtherAddress = prependNamespace(Key("hasOtherAddress"))
+    lazy val openRegister = prependNamespace(Key("openRegister"))
+    lazy val postalVote = prependNamespace(Key("postalVote"))
+    lazy val optIn = prependNamespace(Key("optIn"))
+
+    lazy val contact = prependNamespace(Key("contact"))
+    lazy val contactType = prependNamespace(Key("contactType"))
+    lazy val detail = prependNamespace(Key("detail"))
+    lazy val email = prependNamespace(Key("email"))
+    lazy val textNum = prependNamespace(Key("textNum"))
+    lazy val phone = prependNamespace(Key("phone"))
+    lazy val post = prependNamespace(Key("post"))
+
+    lazy val possibleAddresses = prependNamespace(Key("possibleAddresses"))
+    lazy val jsonList = prependNamespace(Key("jsonList"))
   }
 
-  lazy val nationality = prependNamespace("nationality")
-
-  lazy val nationalities = prependNamespace("nationalities")
-  lazy val hasOtherCountry = prependNamespace("hasOtherCountry")
-  lazy val otherCountries = prependNamespace("otherCountries")
-  lazy val noNationalityReason = prependNamespace("noNationalityReason")
-
-  lazy val name = prependNamespace("name")
-  lazy val previousName = prependNamespace("previousName")
-  lazy val hasPreviousName = prependNamespace("hasPreviousName")
-  lazy val firstName = prependNamespace("firstName")
-  lazy val middleNames = prependNamespace("middleNames")
-  lazy val lastName = prependNamespace("lastName")
-
-  lazy val dob = prependNamespace("dob")
-
-  lazy val day = prependNamespace("day")
-  lazy val month = prependNamespace("month")
-  lazy val year = prependNamespace("year")
-
-  lazy val nino = prependNamespace("NINO")
-  lazy val noNinoReason = prependNamespace("NoNinoReason")
-
-  lazy val address = prependNamespace("address")
-  lazy val postcode = prependNamespace("postcode")
-  lazy val previousAddress = prependNamespace("previousAddress")
-  lazy val movedRecently = prependNamespace("movedRecently")
-  lazy val otherAddress = prependNamespace("otherAddress")
-  lazy val hasOtherAddress = prependNamespace("hasOtherAddress")
-  lazy val openRegister = prependNamespace("openRegister")
-  lazy val postalVote = prependNamespace("postalVote")
-  lazy val optIn = prependNamespace("optIn")
-
-  lazy val contact = prependNamespace("contact")
-  lazy val contactType = prependNamespace("contactType")
-  lazy val contactMe = prependNamespace("contactMe")
-  lazy val detail = prependNamespace("detail")
-  lazy val email = prependNamespace("email")
-  lazy val textNum = prependNamespace("textNum")
-  lazy val phone = prependNamespace("phone")
-  lazy val post = prependNamespace("post")
-
-  lazy val possibleAddresses = prependNamespace("possibleAddresses")
-  lazy val jsonList = prependNamespace("jsonList")
-
-  def item(i:Int) = namespace + "[" + i + "]"
-
-  implicit class key2namespace(key:String) extends FormKeys {
-    override lazy val namespace = key
+  implicit class key2namespace(key:Key) extends Keys {
+    override lazy val namespace = key.key
   }
-  implicit class Key2Id(key:String) {
-    def asId(value:String = "") = List(key.replace(".", "_"), value).filter(_.nonEmpty).mkString("_")
-  }
-  implicit class keys2Traversal(key:String)(implicit formData:InProgressForm) {
+  implicit class keys2Traversal(key:Key)(implicit formData:InProgressForm) {
     def each(from:Int = 0)(block: (String, Int) => Html):Html = {
-      val field = formData.form(key.item(from))
+      val field = formData(key.item(from))
       field.value match {
         case Some(value) => block(field.name, from) += each(from+1)(block)
         case None => Html.empty
