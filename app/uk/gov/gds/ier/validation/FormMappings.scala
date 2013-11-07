@@ -9,13 +9,15 @@ import play.api.data.validation.{Invalid, Valid, Constraint}
 import play.api.data.Form
 import uk.gov.gds.ier.step.name.NameForms
 import uk.gov.gds.ier.step.previousName.PreviousNameForms
+import uk.gov.gds.ier.step.dateOfBirth.DateOfBirthForms
 
 trait FormMappings 
   extends Constraints 
   with FormKeys 
   with ErrorMessages 
   with NameForms 
-  with PreviousNameForms {
+  with PreviousNameForms
+  with DateOfBirthForms {
     self: WithSerialiser =>
 
   val contactMapping = mapping(
@@ -58,21 +60,7 @@ trait FormMappings
   val optInMapping = single(
     keys.optIn.key -> boolean
   )
-
-  val dobMapping = mapping(
-    keys.year.key -> text.verifying("Please enter your year of birth", _.nonEmpty).verifying("The year you provided is invalid", year => year.isEmpty || year.matches("\\d+")),
-    keys.month.key -> text.verifying("Please enter your month of birth", _.nonEmpty).verifying("The month you provided is invalid", month => month.isEmpty || month.matches("\\d+")),
-    keys.day.key -> text.verifying("Please enter your day of birth", _.nonEmpty).verifying("The day you provided is invalid", day => day.isEmpty || day.matches("\\d+"))
-  ) {
-    (year, month, day) => DateOfBirth(year.toInt, month.toInt, day.toInt)
-  } {
-    dateOfBirth => Some(dateOfBirth.year.toString, dateOfBirth.month.toString, dateOfBirth.day.toString)
-  } verifying(
-    "The date you specified is invalid", dob => isExistingDateInThePast(dob) && !isTooOldToBeAlive(dob)
-  ) verifying(
-    "Minimum age to register to vote is %d".format(minimumAge), dob => !isExistingDateInThePast(dob) || !isTooYoungToRegister(dob)
-  )
-
+ 
   val ninoMapping = mapping(
     keys.nino.key -> optional(nonEmptyText.verifying("Your National Insurance number is not correct", nino => NinoValidator.isValid(nino))),
     keys.noNinoReason.key -> optional(nonEmptyText.verifying(noNinoReasonMaxLengthError, _.size <= maxExplanationFieldLength))

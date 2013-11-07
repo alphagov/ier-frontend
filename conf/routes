@@ -28,6 +28,12 @@ POST        /register-to-vote/previous-name        controllers.step.PreviousName
 GET         /register-to-vote/edit/previous-name   controllers.step.PreviousNameController.editGet
 POST        /register-to-vote/edit/previous-name   controllers.step.PreviousNameController.editPost
 
+#Date Of Birth Step
+GET         /register-to-vote/date-of-birth        controllers.step.DateOfBirthController.get
+POST        /register-to-vote/date-of-birth        controllers.step.DateOfBirthController.post
+GET         /register-to-vote/edit/date-of-birth   controllers.step.DateOfBirthController.editGet
+POST        /register-to-vote/edit/date-of-birth   controllers.step.DateOfBirthController.editPost
+
 
 ##Old steps routes
 GET         /register-to-vote/:step                controllers.RegisterToVoteController.registerStep(step: String)

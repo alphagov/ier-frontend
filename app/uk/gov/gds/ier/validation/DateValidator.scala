@@ -5,8 +5,8 @@ import org.joda.time.{DateTime, DateMidnight}
 
 object DateValidator {
 
-  val minimumAge = 16
-  val maximumAge = 115
+  lazy val minimumAge = 16
+  lazy val maximumAge = 115
 
   def isExistingDateInThePast(dateOfBirth: DateOfBirth) = {
     try {
