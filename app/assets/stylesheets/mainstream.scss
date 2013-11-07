@@ -366,6 +366,7 @@ header.page-header {
 
       @include media(tablet) {
         min-height: 0;
+        padding-bottom: 0;
       }
 
       span {
