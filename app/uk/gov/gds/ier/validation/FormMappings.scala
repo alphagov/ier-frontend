@@ -7,6 +7,7 @@ import uk.gov.gds.ier.validation.DateValidator._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import play.api.data.Form
+import uk.gov.gds.ier.step.nationality.NationalityForms
 import uk.gov.gds.ier.step.name.NameForms
 import uk.gov.gds.ier.step.previousName.PreviousNameForms
 import uk.gov.gds.ier.step.dateOfBirth.DateOfBirthForms
@@ -17,6 +18,7 @@ trait FormMappings
   with FormKeys 
   with ErrorMessages 
   with NinoForms
+  with NationalityForms 
   with NameForms 
   with PreviousNameForms
   with DateOfBirthForms {
@@ -29,15 +31,6 @@ trait FormMappings
     keys.textNum.key -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength)),
     keys.email.key -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength))
   ) (Contact.apply) (Contact.unapply) verifying(contactEmailConstraint, contactTelephoneConstraint, contactTextConstraint)
-
-  val nationalityMapping = mapping(
-    keys.nationalities.key -> list(nonEmptyText.verifying(nationalityMaxLengthError, _.size <= maxTextFieldLength)),
-    keys.hasOtherCountry.key -> optional(boolean),
-    keys.otherCountries.key -> list(text.verifying(nationalityMaxLengthError, _.size <= maxTextFieldLength)),
-    keys.noNationalityReason.key -> optional(nonEmptyText.verifying(noNationalityReasonMaxLengthError, _.size <= maxExplanationFieldLength))
-  ) (Nationality.apply) (Nationality.unapply) verifying("Please select your Nationality", nationality => {
-    (nationality.nationalities.size > 0 || (nationality.otherCountries.filter(_.nonEmpty).size > 0 && nationality.hasOtherCountry.exists(b => b))) || nationality.noNationalityReason.isDefined
-  }) verifying("You can specify no more than five countries", mapping => mapping.nationalities.size + mapping.otherCountries.size <=5)
 
   val possibleAddressMapping = mapping(
     keys.jsonList.key -> nonEmptyText
