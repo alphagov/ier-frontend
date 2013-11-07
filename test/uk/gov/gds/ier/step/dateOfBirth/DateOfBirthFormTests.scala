@@ -1,27 +1,31 @@
-package uk.gov.gds.ier.model.IerForms
+package uk.gov.gds.ier.step.dateOfBirth
 
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.IerForms
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import play.api.libs.json.{Json, JsNull}
 import org.joda.time.DateTime
+import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 
 @RunWith(classOf[JUnitRunner])
-class DateOfBirthFormTests extends FlatSpec with Matchers with IerForms with WithSerialiser {
+class DateOfBirthFormTests 
+  extends FlatSpec
+  with Matchers
+  with DateOfBirthForms
+  with WithSerialiser
+  with ErrorMessages
+  with FormKeys
+  with TestHelpers {
 
-  val serialiser = new JsonSerialiser
-
-  def toJson(obj: AnyRef): String = serialiser.toJson(obj)
-
-  def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson(json)
+  val serialiser = jsonSerialiser
 
   it should "error out on empty json" in {
     val js = JsNull
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorsAsMap.get("dob") should be(Some(Seq("Please enter your date of birth")))
+        hasErrors.errorMessages("dob") should be(Seq("Please enter your date of birth"))
         hasErrors.errors.size should be(1)
       },
       success => fail("Should have errored out.")
@@ -38,7 +42,7 @@ class DateOfBirthFormTests extends FlatSpec with Matchers with IerForms with Wit
     )
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorsAsMap.get("dob") should be(Some(Seq("Please enter your date of birth")))
+        hasErrors.errorMessages("dob") should be(Seq("Please enter your date of birth"))
         hasErrors.errors.size should be(1)
       },
       success => fail("Should have errored out.")
@@ -56,8 +60,8 @@ class DateOfBirthFormTests extends FlatSpec with Matchers with IerForms with Wit
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorsAsMap.get("dob.year") should be(Some(Seq("Please enter your year of birth")))
-        hasErrors.errorsAsMap.get("dob.month") should be(Some(Seq("Please enter your month of birth")))
+        hasErrors.errorMessages("dob.year") should be(Seq("Please enter your year of birth"))
+        hasErrors.errorMessages("dob.month") should be(Seq("Please enter your month of birth"))
       },
       success => fail("Should have errored out.")
     )
@@ -74,8 +78,8 @@ class DateOfBirthFormTests extends FlatSpec with Matchers with IerForms with Wit
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorsAsMap.get("dob.day") should be(Some(Seq("Please enter your day of birth")))
-        hasErrors.errorsAsMap.get("dob.month") should be(Some(Seq("Please enter your month of birth")))
+        hasErrors.errorMessages("dob.day") should be(Seq("Please enter your day of birth"))
+        hasErrors.errorMessages("dob.month") should be(Seq("Please enter your month of birth"))
       },
       success => fail("Should have errored out.")
     )
@@ -112,7 +116,7 @@ class DateOfBirthFormTests extends FlatSpec with Matchers with IerForms with Wit
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("dob") should be(Some(Seq("Minimum age to register to vote is 16")))
+        hasErrors.errorMessages("dob") should be(Seq("Minimum age to register to vote is 16"))
       },
       success => fail("Should have errored out")
     )
@@ -129,7 +133,7 @@ class DateOfBirthFormTests extends FlatSpec with Matchers with IerForms with Wit
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("dob") should be(Some(Seq("The date you specified is invalid")))
+        hasErrors.errorMessages("dob") should be(Seq("The date you specified is invalid"))
       },
       success => fail("Should have errored out")
     )
@@ -146,9 +150,9 @@ class DateOfBirthFormTests extends FlatSpec with Matchers with IerForms with Wit
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(3)
-        hasErrors.errorsAsMap.get("dob.day") should be(Some(Seq("The day you provided is invalid")))
-        hasErrors.errorsAsMap.get("dob.month") should be(Some(Seq("The month you provided is invalid")))
-        hasErrors.errorsAsMap.get("dob.year") should be(Some(Seq("The year you provided is invalid")))
+        hasErrors.errorMessages("dob.day") should be(Seq("The day you provided is invalid"))
+        hasErrors.errorMessages("dob.month") should be(Seq("The month you provided is invalid"))
+        hasErrors.errorMessages("dob.year") should be(Seq("The year you provided is invalid"))
       },
       success => fail("Should have errored out")
     )

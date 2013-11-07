@@ -27,11 +27,6 @@ trait IerForms extends FormMappings {
       (nationality => InprogressApplication(nationality = Some(nationality)))
       (inprogressApplication => inprogressApplication.nationality)
   )
-  val dateOfBirthForm = Form(
-    mapping(keys.dob.key -> optional(dobMapping).verifying("Please enter your date of birth", _.isDefined))
-      (dob => InprogressApplication(dob = dob))
-      (inprogress => Some(inprogress.dob))
-  )
   val addressForm = Form(
     mapping(
       keys.address.key -> optional(addressMapping).verifying("Please answer this question", _.isDefined),
