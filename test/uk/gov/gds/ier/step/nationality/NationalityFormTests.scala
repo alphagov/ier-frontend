@@ -1,20 +1,24 @@
-package uk.gov.gds.ier.model.IerForms
+package uk.gov.gds.ier.step.nationality
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.IerForms
-import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import play.api.libs.json.{JsNull, JsBoolean, Json, JsObject}
+import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
+import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
+import uk.gov.gds.ier.test.TestHelpers
 
 @RunWith(classOf[JUnitRunner])
-class NationalityFormTests extends FlatSpec with Matchers with IerForms with WithSerialiser {
+class NationalityFormTests
+  extends FlatSpec
+  with Matchers
+  with NationalityForms
+  with WithSerialiser
+  with ErrorMessages
+  with FormKeys
+  with TestHelpers {
 
-  val serialiser = new JsonSerialiser
-
-  def toJson(obj: AnyRef): String = serialiser.toJson(obj)
-
-  def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson(json)
+  val serialiser = jsonSerialiser 
 
   it should "succesfully bind json" in {
     val js = JsObject(
@@ -25,7 +29,7 @@ class NationalityFormTests extends FlatSpec with Matchers with IerForms with Wit
     )
     nationalityForm.bind(js).fold(
       hasErrors => {
-        fail(hasErrors.toString)
+        fail(hasErrors.prettyPrint.mkString(", "))
       },
       success => {
         success.nationality.isDefined should be(true)
@@ -51,7 +55,7 @@ class NationalityFormTests extends FlatSpec with Matchers with IerForms with Wit
     )
     nationalityForm.bind(js).fold(
       hasErrors => {
-        fail(hasErrors.toString)
+        fail(hasErrors.prettyPrint.mkString(", "))
       },
       success => {
         success.nationality.isDefined should be(true)
@@ -75,7 +79,7 @@ class NationalityFormTests extends FlatSpec with Matchers with IerForms with Wit
       Map("nationality.noNationalityReason" -> "I don't have a nationality. I am stateless.")
     )
     nationalityForm.bind(js).fold(
-      hasErrors => fail(hasErrors.toString),
+      hasErrors => fail(hasErrors.prettyPrint.mkString(", ")),
       success => {
         val nationality = success.nationality.get
         nationality.hasOtherCountry should be(None)
@@ -90,7 +94,7 @@ class NationalityFormTests extends FlatSpec with Matchers with IerForms with Wit
     val js = JsNull
     nationalityForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorsAsMap.get("nationality") should be(Some(Seq("Please select your Nationality")))
+        hasErrors.errorMessages("nationality") should be(Seq("Please select your Nationality"))
         hasErrors.errors.size should be(1)
       },
       success => fail("Should have errored out.")

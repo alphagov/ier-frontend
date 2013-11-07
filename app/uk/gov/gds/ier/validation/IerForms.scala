@@ -22,11 +22,6 @@ trait IerForms extends FormMappings {
     )
   )
 
-  val nationalityForm = Form(
-    mapping(keys.nationality.key -> nationalityMapping)
-      (nationality => InprogressApplication(nationality = Some(nationality)))
-      (inprogressApplication => inprogressApplication.nationality)
-  )
   val addressForm = Form(
     mapping(
       keys.address.key -> optional(addressMapping).verifying("Please answer this question", _.isDefined),

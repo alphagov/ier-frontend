@@ -16,6 +16,12 @@ GET         /register-to-vote/error/:error         controllers.RegisterToVoteCon
 
 ##Steps routes
 
+#Nationality Step
+GET         /register-to-vote/nationality          controllers.step.NationalityController.get
+POST        /register-to-vote/nationality          controllers.step.NationalityController.post
+GET         /register-to-vote/edit/nationality     controllers.step.NationalityController.editGet
+POST        /register-to-vote/edit/nationality     controllers.step.NationalityController.editPost
+
 #Name Step
 GET         /register-to-vote/name                 controllers.step.NameController.get
 POST        /register-to-vote/name                 controllers.step.NameController.post
