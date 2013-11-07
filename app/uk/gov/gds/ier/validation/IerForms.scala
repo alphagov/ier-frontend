@@ -5,7 +5,6 @@ import play.api.data.Forms._
 import uk.gov.gds.ier.model.InprogressApplication
 import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
 import com.google.inject.{Inject, Singleton}
-import uk.gov.gds.ier.step.NameForms
 
 trait IerForms extends FormMappings {
   self: WithSerialiser =>
@@ -32,15 +31,6 @@ trait IerForms extends FormMappings {
     mapping(keys.dob.key -> optional(dobMapping).verifying("Please enter your date of birth", _.isDefined))
       (dob => InprogressApplication(dob = dob))
       (inprogress => Some(inprogress.dob))
-  )
-  val previousNameForm = Form(
-    mapping(keys.previousName.key -> optional(
-      previousNameMapping.verifying(
-        "Please enter your previous name",
-        previous => (previous.hasPreviousName && previous.previousName.isDefined) || !previous.hasPreviousName)
-    ).verifying(
-      "Please answer this question", _.isDefined)
-    ) (prevName => InprogressApplication(previousName = prevName)) (inprogress => Some(inprogress.previousName))
   )
   val ninoForm = Form(
     mapping(keys.nino.key -> optional(ninoMapping.verifying(

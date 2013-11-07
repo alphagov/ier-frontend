@@ -1,20 +1,24 @@
-package uk.gov.gds.ier.model.IerForms
+package uk.gov.gds.ier.step.previousName
 
 import play.api.libs.json.{JsNull, Json}
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.IerForms
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
+import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 
 @RunWith(classOf[JUnitRunner])
-class PreviousNameFormTests extends FlatSpec with Matchers with IerForms with WithSerialiser {
+class PreviousNameFormTests
+  extends FlatSpec
+  with Matchers
+  with ErrorMessages
+  with FormKeys
+  with PreviousNameForms
+  with WithSerialiser
+  with TestHelpers {
 
-  val serialiser = new JsonSerialiser
-
-  def toJson(obj: AnyRef): String = serialiser.toJson(obj)
-
-  def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson(json)
+  val serialiser = jsonSerialiser
 
   it should "successfully bind" in {
     val js = Json.toJson(
@@ -26,7 +30,7 @@ class PreviousNameFormTests extends FlatSpec with Matchers with IerForms with Wi
       )
     )
     previousNameForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(jsonSerialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.previousName.isDefined should be(true)
         val previousNameWrapper = success.previousName.get
@@ -48,7 +52,7 @@ class PreviousNameFormTests extends FlatSpec with Matchers with IerForms with Wi
       )
     )
     previousNameForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(jsonSerialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.previousName.isDefined should be(true)
         val previousName = success.previousName.get
@@ -67,7 +71,7 @@ class PreviousNameFormTests extends FlatSpec with Matchers with IerForms with Wi
     previousNameForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("previousName") should be(Some(Seq("Please enter your previous name")))
+        hasErrors.errorMessages("previousName") should be(Seq("Please enter your previous name"))
       },
       success => fail("Should have errored out")
     )
@@ -78,7 +82,7 @@ class PreviousNameFormTests extends FlatSpec with Matchers with IerForms with Wi
     previousNameForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("previousName") should be(Some(Seq("Please answer this question")))
+        hasErrors.errorMessages("previousName") should be(Seq("Please answer this question"))
       },
       success => fail("Should have errored out")
     )
@@ -96,8 +100,8 @@ class PreviousNameFormTests extends FlatSpec with Matchers with IerForms with Wi
     previousNameForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorsAsMap.get("previousName.previousName.firstName") should be(Some(Seq("Please enter your first name")))
-        hasErrors.errorsAsMap.get("previousName.previousName.lastName") should be(Some(Seq("Please enter your last name")))
+        hasErrors.errorMessages("previousName.previousName.firstName") should be(Seq("Please enter your first name"))
+        hasErrors.errorMessages("previousName.previousName.lastName") should be(Seq("Please enter your last name"))
       },
       success => fail("Should have errorred out")
     )
