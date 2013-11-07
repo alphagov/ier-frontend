@@ -32,13 +32,6 @@ trait IerForms extends FormMappings {
       (dob => InprogressApplication(dob = dob))
       (inprogress => Some(inprogress.dob))
   )
-  val ninoForm = Form(
-    mapping(keys.nino.key -> optional(ninoMapping.verifying(
-      "Please enter your National Insurance number", nino => nino.nino.isDefined || nino.noNinoReason.isDefined)
-    ).verifying("Please enter your National Insurance number", nino => nino.isDefined))
-      (nino => InprogressApplication(nino = nino))
-      (inprogress => Some(inprogress.nino))
-  )
   val addressForm = Form(
     mapping(
       keys.address.key -> optional(addressMapping).verifying("Please answer this question", _.isDefined),

@@ -28,6 +28,12 @@ POST        /register-to-vote/previous-name        controllers.step.PreviousName
 GET         /register-to-vote/edit/previous-name   controllers.step.PreviousNameController.editGet
 POST        /register-to-vote/edit/previous-name   controllers.step.PreviousNameController.editPost
 
+#Nino Step
+GET         /register-to-vote/nino                 controllers.step.NinoController.get
+POST        /register-to-vote/nino                 controllers.step.NinoController.post
+GET         /register-to-vote/edit/nino            controllers.step.NinoController.editGet
+POST        /register-to-vote/edit/nino            controllers.step.NinoController.editPost
+
 
 ##Old steps routes
 GET         /register-to-vote/:step                controllers.RegisterToVoteController.registerStep(step: String)
