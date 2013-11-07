@@ -30,7 +30,7 @@ class DateOfBirthControllerTests
   }
 
   behavior of "NameController.post"
-  it should "bind successfully and redirect to the Previous Name step" in {
+  it should "bind successfully and redirect to the Name step" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/date-of-birth")
