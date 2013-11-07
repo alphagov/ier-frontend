@@ -28,12 +28,6 @@ trait Steps extends IerForms {
     dateOfBirthForm,
     "name")
 
-  val ninoStep = Step(
-    form => html.steps.nino(form),
-    form => html.edit.nino(form),
-    ninoForm,
-    "address"
-  )
   val addressStep = Step(
     form => html.steps.address(form,
       form(keys.possibleAddresses.jsonList).value match {
@@ -96,7 +90,6 @@ trait Steps extends IerForms {
       step match {
         case "nationality" => nationalityStep
         case "date-of-birth" => dateOfBirthStep
-        case "nino" => ninoStep
         case "address" => addressStep
         case "previous-address" => previousAddressStep
         case "other-address" => otherAddressStep
