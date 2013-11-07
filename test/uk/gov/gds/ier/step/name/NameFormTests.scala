@@ -3,11 +3,9 @@ package uk.gov.gds.ier.step.name
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages, IerForms}
+import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import play.api.libs.json.{Json, JsNull}
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
-import uk.gov.gds.ier.step.NameForms
-import play.api.data.Form
 import uk.gov.gds.ier.test.TestHelpers
 
 @RunWith(classOf[JUnitRunner])
@@ -20,7 +18,7 @@ class NameFormTests
   with FormKeys
   with TestHelpers {
 
-  val serialiser = new JsonSerialiser
+  val serialiser = jsonSerialiser
 
   it should "error out on empty json" in {
     val js = JsNull

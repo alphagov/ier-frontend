@@ -25,6 +25,7 @@ class NameControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("What is your full name?")
+      contentAsString(result) should include("/register-to-vote/name")
     }
   }
 
@@ -51,6 +52,7 @@ class NameControllerTests
       status(result) should be(OK)
       contentAsString(result) should include("What is your full name?")
       contentAsString(result) should include("Please enter your full name")
+      contentAsString(result) should include("/register-to-vote/name")
     }
   }
 
@@ -64,6 +66,7 @@ class NameControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("What is your full name?")
+      contentAsString(result) should include("/register-to-vote/edit/name")
     }
   }
 
@@ -90,6 +93,7 @@ class NameControllerTests
       status(result) should be(OK)
       contentAsString(result) should include("What is your full name?")
       contentAsString(result) should include("Please enter your full name")
+      contentAsString(result) should include("/register-to-vote/edit/name")
     }
   }
 }

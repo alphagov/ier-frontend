@@ -22,6 +22,12 @@ POST        /register-to-vote/name                 controllers.step.NameControll
 GET         /register-to-vote/edit/name            controllers.step.NameController.editGet
 POST        /register-to-vote/edit/name            controllers.step.NameController.editPost
 
+#Previous Name Step
+GET         /register-to-vote/previous-name        controllers.step.PreviousNameController.get
+POST        /register-to-vote/previous-name        controllers.step.PreviousNameController.post
+GET         /register-to-vote/edit/previous-name   controllers.step.PreviousNameController.editGet
+POST        /register-to-vote/edit/previous-name   controllers.step.PreviousNameController.editPost
+
 
 ##Old steps routes
 GET         /register-to-vote/:step                controllers.RegisterToVoteController.registerStep(step: String)

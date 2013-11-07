@@ -15,11 +15,15 @@ import uk.gov.gds.ier.session.{Steps, SessionHandling}
 import uk.gov.gds.ier.model.InprogressApplication
 import play.api.data.Form
 import play.api.templates.Html
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation._
 
-trait StepController extends Controller with SessionHandling {
-  self: WithSerialiser
-    with WithErrorTransformer =>
+trait StepController 
+  extends Controller 
+  with SessionHandling 
+  with ErrorMessages
+  with FormKeys {
+    self:  WithSerialiser
+      with WithErrorTransformer =>
 
   val validation: Form[InprogressApplication]
   val editPostRoute: Call

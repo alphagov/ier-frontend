@@ -7,15 +7,16 @@ import uk.gov.gds.ier.validation.DateValidator._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import play.api.data.Form
-import uk.gov.gds.ier.step.NameForms
+import uk.gov.gds.ier.step.name.NameForms
+import uk.gov.gds.ier.step.previousName.PreviousNameForms
 
-trait FormMappings extends Constraints with FormKeys with ErrorMessages with NameForms {
-  self: WithSerialiser =>
-
-  val previousNameMapping = mapping(
-    keys.hasPreviousName.key -> boolean,
-    keys.previousName.key -> optional(nameMapping)
-  ) (PreviousName.apply) (PreviousName.unapply)
+trait FormMappings 
+  extends Constraints 
+  with FormKeys 
+  with ErrorMessages 
+  with NameForms 
+  with PreviousNameForms {
+    self: WithSerialiser =>
 
   val contactMapping = mapping(
     keys.contactType.key -> text.verifying("Please select a contact method", method => List("phone", "post", "text", "email").contains(method)),
