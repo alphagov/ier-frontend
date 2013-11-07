@@ -33,6 +33,12 @@ GET         /register-to-vote/date-of-birth        controllers.step.DateOfBirthC
 POST        /register-to-vote/date-of-birth        controllers.step.DateOfBirthController.post
 GET         /register-to-vote/edit/date-of-birth   controllers.step.DateOfBirthController.editGet
 POST        /register-to-vote/edit/date-of-birth   controllers.step.DateOfBirthController.editPost
+       
+#Nino Step
+GET         /register-to-vote/nino                 controllers.step.NinoController.get
+POST        /register-to-vote/nino                 controllers.step.NinoController.post
+GET         /register-to-vote/edit/nino            controllers.step.NinoController.editGet
+POST        /register-to-vote/edit/nino            controllers.step.NinoController.editPost
 
 
 ##Old steps routes

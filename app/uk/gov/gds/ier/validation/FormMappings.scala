@@ -10,11 +10,13 @@ import play.api.data.Form
 import uk.gov.gds.ier.step.name.NameForms
 import uk.gov.gds.ier.step.previousName.PreviousNameForms
 import uk.gov.gds.ier.step.dateOfBirth.DateOfBirthForms
+import uk.gov.gds.ier.step.nino.NinoForms
 
 trait FormMappings 
   extends Constraints 
   with FormKeys 
   with ErrorMessages 
+  with NinoForms
   with NameForms 
   with PreviousNameForms
   with DateOfBirthForms {
@@ -60,9 +62,4 @@ trait FormMappings
   val optInMapping = single(
     keys.optIn.key -> boolean
   )
- 
-  val ninoMapping = mapping(
-    keys.nino.key -> optional(nonEmptyText.verifying("Your National Insurance number is not correct", nino => NinoValidator.isValid(nino))),
-    keys.noNinoReason.key -> optional(nonEmptyText.verifying(noNinoReasonMaxLengthError, _.size <= maxExplanationFieldLength))
-  ) (Nino.apply) (Nino.unapply)
 }
