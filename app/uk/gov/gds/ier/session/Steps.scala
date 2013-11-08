@@ -16,19 +16,6 @@ trait Steps extends IerForms {
                   validation: Form[InprogressApplication],
                   next:String)
 
-  val addressStep = Step(
-    form => html.steps.address(form,
-      form(keys.possibleAddresses.jsonList).value match {
-        case Some(possibleAddressJS) if !possibleAddressJS.isEmpty => {
-          Some(serialiser.fromJson[Addresses](possibleAddressJS))
-        }
-        case _ => None
-      }
-    ),
-    form => html.edit.address(form),
-    addressForm,
-    "previous-address"
-  )
   val previousAddressStep = Step(
     form => html.steps.previousAddress(form,
       form(keys.possibleAddresses.jsonList).value match {
@@ -76,7 +63,6 @@ trait Steps extends IerForms {
   object Step {
     def getStep(step:String): Step = {
       step match {
-        case "address" => addressStep
         case "previous-address" => previousAddressStep
         case "other-address" => otherAddressStep
         case "open-register" => openRegisterStep

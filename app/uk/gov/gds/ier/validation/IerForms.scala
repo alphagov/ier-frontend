@@ -22,13 +22,6 @@ trait IerForms extends FormMappings {
     )
   )
 
-  val addressForm = Form(
-    mapping(
-      keys.address.key -> optional(addressMapping).verifying("Please answer this question", _.isDefined),
-      keys.possibleAddresses.key -> optional(possibleAddressMapping)
-    ) ((address, possibleAddresses) => InprogressApplication(address = address, possibleAddresses = possibleAddresses))
-      (inprogress => Some(inprogress.address, inprogress.possibleAddresses))
-  )
   val previousAddressForm = Form(
     mapping(
       keys.previousAddress.key -> optional(previousAddressMapping).verifying("Please answer this question", previousAddress => previousAddress.isDefined),
