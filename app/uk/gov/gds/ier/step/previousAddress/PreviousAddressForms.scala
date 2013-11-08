@@ -14,7 +14,7 @@ trait PreviousAddressForms {
     with AddressForms
     with WithSerialiser =>
 
-  val previousAddressMapping = mapping(
+  lazy val previousAddressMapping = mapping(
     keys.movedRecently.key -> boolean,
     keys.previousAddress.key -> optional(addressMapping)
   ) (

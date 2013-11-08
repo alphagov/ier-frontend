@@ -11,7 +11,7 @@ trait PreviousNameForms
     self:  FormKeys
       with ErrorMessages =>
 
-  val previousNameMapping = mapping(
+  lazy val previousNameMapping = mapping(
     keys.hasPreviousName.key -> boolean,
     keys.previousName.key -> optional(nameMapping)
   ) (

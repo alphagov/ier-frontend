@@ -9,7 +9,7 @@ trait NameForms {
   self:  FormKeys
     with ErrorMessages =>
 
-  val nameMapping = mapping(
+  lazy val nameMapping = mapping(
     keys.firstName.key -> optional(text.verifying(firstNameMaxLengthError, _.size <= maxTextFieldLength))
       .verifying("Please enter your first name", _.nonEmpty),
     keys.middleNames.key -> optional(nonEmptyText.verifying(middleNameMaxLengthError, _.size <= maxTextFieldLength)),

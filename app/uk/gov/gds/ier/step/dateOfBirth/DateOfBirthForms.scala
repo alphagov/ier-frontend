@@ -10,7 +10,7 @@ trait DateOfBirthForms {
     self:  FormKeys
       with ErrorMessages =>
 
-  val dobMapping = mapping(
+  lazy val dobMapping = mapping(
     keys.year.key -> text
       .verifying("Please enter your year of birth", _.nonEmpty)
       .verifying("The year you provided is invalid", year => year.isEmpty || year.matches("\\d+")),
