@@ -1,20 +1,24 @@
-package uk.gov.gds.ier.model.IerForms
+package uk.gov.gds.ier.step.otherAddress
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.IerForms
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
+import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.test.TestHelpers
 import play.api.libs.json.{Json, JsNull}
 
 @RunWith(classOf[JUnitRunner])
-class OtherAddressFormTests extends FlatSpec with Matchers with IerForms with WithSerialiser {
+class OtherAddressFormTests 
+  extends FlatSpec
+  with Matchers
+  with OtherAddressForms
+  with WithSerialiser
+  with ErrorMessages
+  with FormKeys
+  with TestHelpers {
 
-  val serialiser = new JsonSerialiser
-
-  def toJson(obj: AnyRef): String = serialiser.toJson(obj)
-
-  def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson(json)
+  val serialiser = jsonSerialiser
 
   it should "error out on empty json" in {
     val js = JsNull
@@ -22,7 +26,7 @@ class OtherAddressFormTests extends FlatSpec with Matchers with IerForms with Wi
     otherAddressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("otherAddress") should be(Some(Seq("Please answer this question")))
+        hasErrors.errorMessages("otherAddress") should be(Seq("Please answer this question"))
       },
       success => fail("Should have thrown an error")
     )
@@ -37,7 +41,7 @@ class OtherAddressFormTests extends FlatSpec with Matchers with IerForms with Wi
     otherAddressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("otherAddress") should be(Some(Seq("Please answer this question")))
+        hasErrors.errorMessages("otherAddress") should be(Seq("Please answer this question"))
       },
       success => fail("Should have thrown an error")
     )
@@ -52,7 +56,7 @@ class OtherAddressFormTests extends FlatSpec with Matchers with IerForms with Wi
     otherAddressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("otherAddress.hasOtherAddress") should be(Some(Seq("error.boolean")))
+        hasErrors.errorMessages("otherAddress.hasOtherAddress") should be(Seq("error.boolean"))
       },
       success => fail("Should have thrown an error")
     )
@@ -65,7 +69,7 @@ class OtherAddressFormTests extends FlatSpec with Matchers with IerForms with Wi
       )
     )
     otherAddressForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.otherAddress.isDefined should be(true)
         val otherAddress = success.otherAddress.get
@@ -81,7 +85,7 @@ class OtherAddressFormTests extends FlatSpec with Matchers with IerForms with Wi
       )
     )
     otherAddressForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.otherAddress.isDefined should be(true)
         val otherAddress = success.otherAddress.get

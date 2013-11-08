@@ -22,11 +22,6 @@ trait IerForms extends FormMappings {
     )
   )
 
-  val otherAddressForm = Form(
-    mapping(keys.otherAddress.key -> optional(otherAddressMapping).verifying("Please answer this question", otherAddress => otherAddress.isDefined))
-      (otherAddress => InprogressApplication(otherAddress = otherAddress))
-      (inprogress => Some(inprogress.otherAddress))
-  )
   val openRegisterForm = Form(
     mapping(keys.openRegister.key -> optional(optInMapping))
       (openRegister => InprogressApplication(openRegisterOptin = openRegister.orElse(Some(true))))
