@@ -12,6 +12,7 @@ import uk.gov.gds.ier.step.name.NameForms
 import uk.gov.gds.ier.step.previousName.PreviousNameForms
 import uk.gov.gds.ier.step.dateOfBirth.DateOfBirthForms
 import uk.gov.gds.ier.step.nino.NinoForms
+import uk.gov.gds.ier.step.address.AddressForms
 
 trait FormMappings 
   extends Constraints 
@@ -20,6 +21,7 @@ trait FormMappings
   with NinoForms
   with NationalityForms 
   with NameForms 
+  with AddressForms
   with PreviousNameForms
   with DateOfBirthForms {
     self: WithSerialiser =>
@@ -31,15 +33,6 @@ trait FormMappings
     keys.textNum.key -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength)),
     keys.email.key -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength))
   ) (Contact.apply) (Contact.unapply) verifying(contactEmailConstraint, contactTelephoneConstraint, contactTextConstraint)
-
-  val possibleAddressMapping = mapping(
-    keys.jsonList.key -> nonEmptyText
-  ) (serialiser.fromJson[Addresses]) (list => Some(serialiser.toJson(list)))
-
-  val addressMapping = mapping(
-    keys.address.key -> optional(nonEmptyText.verifying(addressMaxLengthError, _.size <= maxTextFieldLength)).verifying("Please select your address", address => address.exists(_ != "Select your address")),
-    keys.postcode.key -> nonEmptyText.verifying("Your postcode is not valid", postcode => PostcodeValidator.isValid(postcode))
-  ) (Address.apply) (Address.unapply)
 
   val previousAddressMapping = mapping(
     keys.movedRecently.key -> boolean,

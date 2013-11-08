@@ -1,8 +1,9 @@
-package uk.gov.gds.ier.model.IerForms
+package uk.gov.gds.ier.step.address
 
+import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.IerForms
+import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import play.api.libs.json.{Json, JsNull}
@@ -10,13 +11,16 @@ import org.joda.time.DateTime
 import uk.gov.gds.ier.model.{Addresses, Address}
 
 @RunWith(classOf[JUnitRunner])
-class AddressFormTests extends FlatSpec with Matchers with IerForms with WithSerialiser {
+class AddressFormTests
+  extends FlatSpec
+  with Matchers
+  with AddressForms
+  with WithSerialiser
+  with ErrorMessages
+  with FormKeys
+  with TestHelpers {
 
-  val serialiser = new JsonSerialiser
-
-  def toJson(obj: AnyRef): String = serialiser.toJson(obj)
-
-  def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson(json)
+  val serialiser = jsonSerialiser
 
   it should "successfully bind a valid address" in {
     val js = Json.toJson(
@@ -42,8 +46,7 @@ class AddressFormTests extends FlatSpec with Matchers with IerForms with WithSer
     addressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("address") should be(Some(
-          Seq("Please answer this question")))
+        hasErrors.errorMessages("address") should be(Seq("Please answer this question"))
       },
       success => fail("Should have errored out")
     )
@@ -60,8 +63,7 @@ class AddressFormTests extends FlatSpec with Matchers with IerForms with WithSer
     addressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("address") should be(Some(
-          Seq("Please answer this question")))
+        hasErrors.errorMessages("address") should be(Seq("Please answer this question"))
       },
       success => fail("Should have errored out")
     )
@@ -77,7 +79,7 @@ class AddressFormTests extends FlatSpec with Matchers with IerForms with WithSer
       )
     )
     addressForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.address.isDefined should be(true)
         val Some(address) = success.address
@@ -102,7 +104,7 @@ class AddressFormTests extends FlatSpec with Matchers with IerForms with WithSer
       )
     )
     addressForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.address.isDefined should be(true)
         val Some(address) = success.address

@@ -22,6 +22,12 @@ POST        /register-to-vote/nationality          controllers.step.NationalityC
 GET         /register-to-vote/edit/nationality     controllers.step.NationalityController.editGet
 POST        /register-to-vote/edit/nationality     controllers.step.NationalityController.editPost
 
+#Address Step
+GET         /register-to-vote/address              controllers.step.AddressController.get
+POST        /register-to-vote/address              controllers.step.AddressController.post
+GET         /register-to-vote/edit/address         controllers.step.AddressController.editGet
+POST        /register-to-vote/edit/address         controllers.step.AddressController.editPost
+
 #Name Step
 GET         /register-to-vote/name                 controllers.step.NameController.get
 POST        /register-to-vote/name                 controllers.step.NameController.post
