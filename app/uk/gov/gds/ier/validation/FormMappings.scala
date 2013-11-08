@@ -13,6 +13,7 @@ import uk.gov.gds.ier.step.previousName.PreviousNameForms
 import uk.gov.gds.ier.step.dateOfBirth.DateOfBirthForms
 import uk.gov.gds.ier.step.nino.NinoForms
 import uk.gov.gds.ier.step.address.AddressForms
+import uk.gov.gds.ier.step.previousAddress.PreviousAddressForms
 
 trait FormMappings 
   extends Constraints 
@@ -22,6 +23,7 @@ trait FormMappings
   with NationalityForms 
   with NameForms 
   with AddressForms
+  with PreviousAddressForms
   with PreviousNameForms
   with DateOfBirthForms {
     self: WithSerialiser =>
@@ -33,13 +35,6 @@ trait FormMappings
     keys.textNum.key -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength)),
     keys.email.key -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength))
   ) (Contact.apply) (Contact.unapply) verifying(contactEmailConstraint, contactTelephoneConstraint, contactTextConstraint)
-
-  val previousAddressMapping = mapping(
-    keys.movedRecently.key -> boolean,
-    keys.previousAddress.key -> optional(addressMapping)
-  ) (PreviousAddress.apply) (PreviousAddress.unapply)
-    .verifying("Please enter your postcode", p => (p.movedRecently && p.previousAddress.isDefined) || !p.movedRecently)
-    .verifying("Please answer this question", p => p.movedRecently || (!p.movedRecently && !p.previousAddress.isDefined))
 
   val otherAddressMapping = mapping(
     keys.hasOtherAddress.key -> boolean
