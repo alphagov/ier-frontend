@@ -1,21 +1,28 @@
-package uk.gov.gds.ier.model.IerForms
+package uk.gov.gds.ier.step.previousAddress
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, FlatSpec}
+import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.validation.IerForms
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import play.api.libs.json.{Json, JsNull}
 import uk.gov.gds.ier.model.{Addresses, Address}
+import uk.gov.gds.ier.step.address.AddressForms
 
 @RunWith(classOf[JUnitRunner])
-class PreviousAddressTests extends FlatSpec with Matchers with IerForms with WithSerialiser {
+class PreviousAddressTests 
+  extends FlatSpec
+  with Matchers
+  with AddressForms
+  with PreviousAddressForms
+  with WithSerialiser
+  with ErrorMessages
+  with FormKeys
+  with TestHelpers {
 
-  val serialiser = new JsonSerialiser
-
-  def toJson(obj: AnyRef): String = serialiser.toJson(obj)
-
-  def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson(json)
+  val serialiser = jsonSerialiser
 
   it should "successfully bind to address and movedRecently=true" in {
     val js = Json.toJson(
@@ -26,7 +33,7 @@ class PreviousAddressTests extends FlatSpec with Matchers with IerForms with Wit
       )
     )
     previousAddressForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.previousAddress.isDefined should be(true)
         val previousAddressWrapper = success.previousAddress.get
@@ -51,7 +58,7 @@ class PreviousAddressTests extends FlatSpec with Matchers with IerForms with Wit
       )
     )
     previousAddressForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.previousAddress.isDefined should be(true)
         val previousAddressWrapper = success.previousAddress.get
@@ -79,7 +86,7 @@ class PreviousAddressTests extends FlatSpec with Matchers with IerForms with Wit
       )
     )
     previousAddressForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.previousAddress.isDefined should be(true)
         val previousAddressWrapper = success.previousAddress.get
@@ -102,7 +109,7 @@ class PreviousAddressTests extends FlatSpec with Matchers with IerForms with Wit
       )
     )
     previousAddressForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.previousAddress.isDefined should be(true)
         val previousAddressWrapper = success.previousAddress.get
@@ -122,7 +129,7 @@ class PreviousAddressTests extends FlatSpec with Matchers with IerForms with Wit
     previousAddressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("previousAddress") should be(Some(Seq("Please enter your postcode")))
+        hasErrors.errorMessages("previousAddress") should be(Seq("Please enter your postcode"))
       },
       success => fail("Should have thrown an error")
     )
@@ -139,7 +146,7 @@ class PreviousAddressTests extends FlatSpec with Matchers with IerForms with Wit
     previousAddressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("previousAddress") should be(Some(Seq("Please answer this question")))
+        hasErrors.errorMessages("previousAddress") should be(Seq("Please answer this question"))
       },
       success => fail("Should have thrown an error")
     )

@@ -12,11 +12,11 @@ trait AddressForms {
     with ErrorMessages
     with WithSerialiser =>
 
-  val possibleAddressMapping = mapping(
+  lazy val possibleAddressMapping = mapping(
     keys.jsonList.key -> nonEmptyText
   ) (serialiser.fromJson[Addresses]) (list => Some(serialiser.toJson(list)))
 
-  val addressMapping = mapping(
+  lazy val addressMapping = mapping(
     keys.address.key -> optional(nonEmptyText
       .verifying(addressMaxLengthError, _.size <= maxTextFieldLength)
     ).verifying("Please select your address", 

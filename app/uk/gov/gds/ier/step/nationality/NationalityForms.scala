@@ -9,7 +9,7 @@ trait NationalityForms {
   self:  FormKeys
     with ErrorMessages =>
 
-  val nationalityMapping = mapping(
+  lazy val nationalityMapping = mapping(
     keys.nationalities.key -> list(nonEmptyText
       .verifying(nationalityMaxLengthError, _.size <= maxTextFieldLength)),
     keys.hasOtherCountry.key -> optional(boolean),

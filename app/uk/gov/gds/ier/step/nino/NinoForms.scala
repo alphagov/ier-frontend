@@ -9,7 +9,7 @@ trait NinoForms {
   self:  FormKeys
     with ErrorMessages =>
 
-  val ninoMapping = mapping(
+  lazy val ninoMapping = mapping(
     keys.nino.key -> optional(nonEmptyText
       .verifying("Your National Insurance number is not correct", nino => NinoValidator.isValid(nino))),
     keys.noNinoReason.key -> optional(nonEmptyText
