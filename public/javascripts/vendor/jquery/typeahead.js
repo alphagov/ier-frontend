@@ -998,6 +998,7 @@
                 utils.each(this.datasets, function(i, dataset) {
                     dataset.getSuggestions(query, function(suggestions) {
                         if (query === that.inputView.getQuery()) {
+                            that.eventBus.trigger("updated", suggestions);
                             that.dropdownView.renderSuggestions(dataset, suggestions);
                         }
                     });

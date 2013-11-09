@@ -395,8 +395,23 @@ window.GOVUK = window.GOVUK || {};
     };
   }());
   autocomplete.prototype.menuIdPrefix = 'typeahead-suggestions';
-  autocomplete.prototype.compiledStatusText = Mustache.compile('{{results}} results are available, use up and down arrow keys to navigate.');
-  autocomplete.prototype.compiledTemplate = Mustache.compile('<p id="{{name}}">{{value}}</p>');
+  autocomplete.prototype.compiledStatusText = Mustache.compile('{{results}} {{#describe}}{{results}}{{/describe}} available, use up and down arrow keys to navigate.');
+  autocomplete.prototype.compiledTemplate = Mustache.compile('<p role="presentation" id="{{name}}">{{value}}</p>');
+  autocomplete.prototype.updateStatus = function (suggestions) {
+    var statusText;
+
+    if (suggestions.length > 0) {
+      statusText = this.compiledStatusText({ 
+        'results' : suggestions.length, 
+        'describe' : function () {
+          return function (results) {
+            return (this.results > 1) ? 'results are' : 'result is';
+          }
+        }
+      });
+      this.$status.text(statusText);
+    }
+  };
   autocomplete.prototype.events = {
     onInitialized : function (e) {
       var autocompleteObj = this.getAutocompleteObj($(e.target)),
@@ -409,29 +424,24 @@ window.GOVUK = window.GOVUK || {};
         'aria-autocomplete' : 'list',
         'aria-haspopup' : menuId
       });
+      this.lastInputValue = this.$input.val();
       this.$menu
         .css('width', this.$input.innerWidth() + 'px')
         .attr('id', menuId);
       this.$input.on('keydown', function (e) { 
-        var keypressed = e.which;
+        var keypressed = e.which,
+            currentInputValue = $(this).val();
+
         if (keypressed === ENTER) {
-          return autocompleteObj.onEnter(e); 
+          return autocompleteObj.events.onEnter.call(autocompleteObj, e); 
         }
         return true;
       });
     },
     onMenuOpen : function () {
-      var suggestions = this.$menu.find('.suggestions').length;
-
-      this.$status
-        .text(this.compiledStatusText({ 'results' : suggestions }))
-        .show();
       this.menuIsShowing = true;
     },
     onMenuClosed : function () {
-      var suggestions = this.$menu.find('.suggestions').length;
-
-      this.$status.hide();
       this.$input.attr('aria-activedescendant', "");
       this.menuIsShowing = false;
     },
@@ -446,6 +456,9 @@ window.GOVUK = window.GOVUK || {};
         return false;
       } 
       return true;
+    },
+    onUpdate : function (e, suggestions) {
+      this.updateStatus(suggestions);
     }
   };
   autocomplete.prototype.getAutocompleteObj = function ($input) {
@@ -459,7 +472,8 @@ window.GOVUK = window.GOVUK || {};
       'initialized' : 'onInitialized',
       'opened' : 'onMenuOpen',
       'closed' : 'onMenuClosed',
-      'movedto' : 'onMoveTo'
+      'movedto' : 'onMoveTo',
+      'updated' : 'onUpdate',
     },
     setCurrentInput : function ($input) {
       this.$currentInput = $input;
@@ -475,18 +489,19 @@ window.GOVUK = window.GOVUK || {};
     existingObj : function ($input) {
       return this.cache[$input.attr('id')];
     },
-    trigger : function (eventName, e) {
-      var existingObj = this.existingObj($(e.target)),
-          method = this.methods[eventName],
-          args = [],
-          i,j;
+    trigger : function (eventName) {
+      var autocompletesObj = this;
 
-      if (existingObj) {
-        for (i = 1, j = arguments.length; i < j; i++) {
-          args.push(arguments[i]);
+      return {
+        'andSend' : function (e) {
+          var existingObj = autocompletesObj.existingObj($(e.target)),
+              method = autocompletesObj.methods[eventName];
+
+          if (existingObj) {
+            existingObj.events[method].apply(existingObj, arguments);
+          }
         }
-        existingObj.events[method].apply(existingObj, args);
-      }
+      };
     },
     add : function ($input) {
       var existingId = this.existingId($input);
@@ -802,17 +817,12 @@ window.GOVUK = window.GOVUK || {};
     $('.country-autocomplete').each(function (idx, elm) {
       GOVUK.registerToVote.autocompletes.add($(elm));
     });
-    $(document).bind('typeahead:initialized', function (e) {
-      GOVUK.registerToVote.autocompletes.trigger('initialized', e);
-    });
-    $(document).bind('typeahead:opened', function (e) {
-      GOVUK.registerToVote.autocompletes.trigger('opened', e);
-    });
-    $(document).bind('typeahead:closed', function (e) {
-      GOVUK.registerToVote.autocompletes.trigger('closed', e);
-    });
-    $(document).bind('typeahead:movedto', function (e, countryObj) {
-      GOVUK.registerToVote.autocompletes.trigger('movedto', e, countryObj);
+    $.each(['initialized', 'opened', 'closed', 'movedto', 'updated'], function (idx, evt) {
+      $(document).bind('typeahead:' + evt, function () {
+        var autocompleteEvent = GOVUK.registerToVote.autocompletes.trigger(evt);
+
+        autocompleteEvent.andSend.apply(GOVUK.registerToVote.autcompletes, arguments);
+      });
     });
     $(document).bind('contentUpdate', function (e, data) {
       var context = data.context;
