@@ -16,6 +16,12 @@ GET         /register-to-vote/error/:error           controllers.RegisterToVoteC
 
 ##Steps routes
 
+#Postal Vote Step
+GET         /register-to-vote/postal-vote          controllers.step.PostalVoteController.get
+POST        /register-to-vote/postal-vote          controllers.step.PostalVoteController.post
+GET         /register-to-vote/edit/postal-vote     controllers.step.PostalVoteController.editGet
+POST        /register-to-vote/edit/postal-vote     controllers.step.PostalVoteController.editPost
+
 #Open Register Step
 GET         /register-to-vote/open-register          controllers.step.OpenRegisterController.get
 POST        /register-to-vote/open-register          controllers.step.OpenRegisterController.post

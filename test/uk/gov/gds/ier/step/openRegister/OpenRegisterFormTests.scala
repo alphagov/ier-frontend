@@ -1,21 +1,25 @@
-package uk.gov.gds.ier.model.IerForms
+package uk.gov.gds.ier.step.openRegister
 
 import play.api.libs.json.{JsNull, Json}
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.IerForms
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
+import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.test.TestHelpers
 
 @RunWith(classOf[JUnitRunner])
-class OpenRegisterFormTests extends FlatSpec with Matchers with IerForms with WithSerialiser {
+class OpenRegisterFormTests  
+  extends FlatSpec
+  with Matchers
+  with OpenRegisterForms
+  with WithSerialiser
+  with ErrorMessages
+  with FormKeys
+  with TestHelpers {
 
-  val serialiser = new JsonSerialiser
-
-  def toJson(obj: AnyRef): String = serialiser.toJson(obj)
-
-  def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson(json)
-
+  val serialiser = jsonSerialiser
+    
   it should "successfully bind (true)" in {
     val js = Json.toJson(
       Map(
@@ -23,7 +27,7 @@ class OpenRegisterFormTests extends FlatSpec with Matchers with IerForms with Wi
       )
     )
     openRegisterForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.openRegisterOptin should be(Some(true))
       }
@@ -37,7 +41,7 @@ class OpenRegisterFormTests extends FlatSpec with Matchers with IerForms with Wi
       )
     )
     openRegisterForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.openRegisterOptin should be(Some(false))
       }
@@ -48,7 +52,7 @@ class OpenRegisterFormTests extends FlatSpec with Matchers with IerForms with Wi
     val js = JsNull
 
     openRegisterForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.openRegisterOptin should be(Some(true))
       }
@@ -63,7 +67,7 @@ class OpenRegisterFormTests extends FlatSpec with Matchers with IerForms with Wi
     )
 
     openRegisterForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.openRegisterOptin should be(Some(true))
       }

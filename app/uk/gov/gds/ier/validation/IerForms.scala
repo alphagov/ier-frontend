@@ -22,11 +22,6 @@ trait IerForms extends FormMappings {
     )
   )
 
-    val postalVoteForm = Form(
-    mapping(keys.postalVote.key -> optional(optInMapping).verifying("Please answer this question", postalVote => postalVote.isDefined))
-      (postalVote => InprogressApplication(postalVoteOptin = postalVote))
-      (inprogress => Some(inprogress.postalVoteOptin))
-  )
   val contactForm = Form(
     mapping(keys.contact.key -> optional(contactMapping).verifying("Please answer this question", _.isDefined))
     (contact => InprogressApplication(contact = contact))
