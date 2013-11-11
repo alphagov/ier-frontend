@@ -1,20 +1,25 @@
-package uk.gov.gds.ier.model.IerForms
+package uk.gov.gds.ier.step.contact
 
 import play.api.libs.json.{JsNull, Json}
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{ErrorTransformer, IerForms}
+import uk.gov.gds.ier.validation._
+import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class ContactFormTests extends FlatSpec with Matchers with IerForms with WithSerialiser {
+class ContactFormTests 
+  extends FlatSpec
+  with Matchers
+  with ContactForms
+  with WithSerialiser
+  with ErrorMessages
+  with Constraints
+  with FormKeys
+  with TestHelpers {
 
-  val serialiser = new JsonSerialiser
-
-  def toJson(obj: AnyRef): String = serialiser.toJson(obj)
-
-  def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson(json)
+  val serialiser = jsonSerialiser
 
   it should "bind successfully (post)" in {
     val js = Json.toJson(
@@ -24,7 +29,7 @@ class ContactFormTests extends FlatSpec with Matchers with IerForms with WithSer
       )
     )
     contactForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.contact.isDefined should be(true)
         val contact = success.contact.get
@@ -43,7 +48,7 @@ class ContactFormTests extends FlatSpec with Matchers with IerForms with WithSer
       )
     )
     contactForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.contact.isDefined should be(true)
         val contact = success.contact.get
@@ -63,7 +68,7 @@ class ContactFormTests extends FlatSpec with Matchers with IerForms with WithSer
       )
     )
     contactForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.contact.isDefined should be(true)
         val contact = success.contact.get
@@ -83,7 +88,7 @@ class ContactFormTests extends FlatSpec with Matchers with IerForms with WithSer
       )
     )
     contactForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.contact.isDefined should be(true)
         val contact = success.contact.get
@@ -103,7 +108,7 @@ class ContactFormTests extends FlatSpec with Matchers with IerForms with WithSer
       )
     )
     contactForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.contact.isDefined should be(true)
         val contact = success.contact.get
@@ -121,7 +126,7 @@ class ContactFormTests extends FlatSpec with Matchers with IerForms with WithSer
     contactForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("contact") should be(Some(Seq("Please answer this question")))
+        hasErrors.errorMessages("contact") should be(Seq("Please answer this question"))
       },
       success => fail("Should have thrown an error")
     )
@@ -140,7 +145,7 @@ class ContactFormTests extends FlatSpec with Matchers with IerForms with WithSer
     contactForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("contact") should be(Some(Seq("Please answer this question")))
+        hasErrors.errorMessages("contact") should be(Seq("Please answer this question"))
       },
       success => fail("Should have thrown an error")
     )
@@ -155,8 +160,8 @@ class ContactFormTests extends FlatSpec with Matchers with IerForms with WithSer
     contactForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("contact") should be(Some(Seq("Please enter your phone number")))
-        new ErrorTransformer().transform(hasErrors).errorsAsMap.get("contact.phone") should be(Some(Seq("Please enter your phone number")))
+        hasErrors.errorMessages("contact") should be(Seq("Please enter your phone number"))
+        new ErrorTransformer().transform(hasErrors).errorMessages("contact.phone") should be(Seq("Please enter your phone number"))
       },
       success => fail("Should have thrown an error")
     )
@@ -171,8 +176,8 @@ class ContactFormTests extends FlatSpec with Matchers with IerForms with WithSer
     contactForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("contact") should be(Some(Seq("Please enter your email address")))
-        new ErrorTransformer().transform(hasErrors).errorsAsMap.get("contact.email") should be(Some(Seq("Please enter your email address")))
+        hasErrors.errorMessages("contact") should be(Seq("Please enter your email address"))
+        new ErrorTransformer().transform(hasErrors).errorMessages("contact.email") should be(Seq("Please enter your email address"))
       },
       success => fail("Should have thrown an error")
     )
@@ -187,8 +192,8 @@ class ContactFormTests extends FlatSpec with Matchers with IerForms with WithSer
     contactForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("contact") should be(Some(Seq("Please enter your phone number")))
-        new ErrorTransformer().transform(hasErrors).errorsAsMap.get("contact.textNum") should be(Some(Seq("Please enter your phone number")))
+        hasErrors.errorMessages("contact") should be(Seq("Please enter your phone number"))
+        new ErrorTransformer().transform(hasErrors).errorMessages("contact.textNum") should be(Seq("Please enter your phone number"))
       },
       success => fail("Should have thrown an error")
     )
