@@ -22,12 +22,7 @@ trait IerForms extends FormMappings {
     )
   )
 
-  val openRegisterForm = Form(
-    mapping(keys.openRegister.key -> optional(optInMapping))
-      (openRegister => InprogressApplication(openRegisterOptin = openRegister.orElse(Some(true))))
-      (inprogress => Some(inprogress.openRegisterOptin))
-  )
-  val postalVoteForm = Form(
+    val postalVoteForm = Form(
     mapping(keys.postalVote.key -> optional(optInMapping).verifying("Please answer this question", postalVote => postalVote.isDefined))
       (postalVote => InprogressApplication(postalVoteOptin = postalVote))
       (inprogress => Some(inprogress.postalVoteOptin))
