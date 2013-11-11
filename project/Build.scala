@@ -29,7 +29,10 @@ object ApplicationBuild extends IERBuild {
     .settings(SassPlugin.sassSettings:_*)
     .settings(sassOptions := Seq("--load-path", "/Users/michael/Projects/gds/ier/frontend/app/assets/govuk_template_play/stylesheets", "--debug-info"))
     .settings(jacoco.settings:_*)
-    .settings(parallelExecution in jacoco.Config := false)
+    .settings(
+        parallelExecution in jacoco.Config := false, 
+        watchSources ~= { _.filterNot(_.isDirectory) }
+    )
 }
 
 abstract class IERBuild extends Build {

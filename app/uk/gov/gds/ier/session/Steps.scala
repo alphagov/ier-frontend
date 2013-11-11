@@ -16,12 +16,6 @@ trait Steps extends IerForms {
                   validation: Form[InprogressApplication],
                   next:String)
 
-  val openRegisterStep = Step(
-    form => html.steps.openRegister(form),
-    form => html.edit.openRegister(form),
-    openRegisterForm,
-    "postal-vote"
-  )
   val postalVoteStep = Step(
     form => html.steps.postalVote(form),
     form => html.edit.postalVote(form),
@@ -44,7 +38,6 @@ trait Steps extends IerForms {
   object Step {
     def getStep(step:String): Step = {
       step match {
-        case "open-register" => openRegisterStep
         case "postal-vote" => postalVoteStep
         case "contact" => contactStep
         case "confirmation" => confirmationStep

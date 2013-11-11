@@ -15,6 +15,7 @@ import uk.gov.gds.ier.step.nino.NinoForms
 import uk.gov.gds.ier.step.address.AddressForms
 import uk.gov.gds.ier.step.previousAddress.PreviousAddressForms
 import uk.gov.gds.ier.step.otherAddress.OtherAddressForms
+import uk.gov.gds.ier.step.openRegister.OpenRegisterForms
 
 trait FormMappings 
   extends Constraints 
@@ -27,7 +28,8 @@ trait FormMappings
   with OtherAddressForms
   with PreviousAddressForms
   with PreviousNameForms
-  with DateOfBirthForms {
+  with DateOfBirthForms
+  with OpenRegisterForms {
     self: WithSerialiser =>
 
   val contactMapping = mapping(
