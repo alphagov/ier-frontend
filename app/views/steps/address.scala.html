@@ -23,7 +23,7 @@
     <div id="found-addresses">
     @if(possibleAddress.size > 0){
       <label for="input-address-list">Select your address</label>
-      <select id="input-address-list" name="@keys.address.address" class="lonely">
+      <select id="input-address-list" name="@keys.address.address.key" class="lonely">
         <option value="">Please select...</option>
         @possibleAddress match {
           case Some(addresses) => {

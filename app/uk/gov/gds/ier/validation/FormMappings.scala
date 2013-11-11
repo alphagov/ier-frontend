@@ -17,6 +17,7 @@ import uk.gov.gds.ier.step.previousAddress.PreviousAddressForms
 import uk.gov.gds.ier.step.otherAddress.OtherAddressForms
 import uk.gov.gds.ier.step.openRegister.OpenRegisterForms
 import uk.gov.gds.ier.step.postalVote.PostalVoteForms
+import uk.gov.gds.ier.step.contact.ContactForms
 
 trait FormMappings 
   extends Constraints 
@@ -31,16 +32,9 @@ trait FormMappings
   with PreviousNameForms
   with DateOfBirthForms
   with OpenRegisterForms 
-  with PostalVoteForms {
+  with PostalVoteForms 
+  with ContactForms {
     self: WithSerialiser =>
-
-  val contactMapping = mapping(
-    keys.contactType.key -> text.verifying("Please select a contact method", method => List("phone", "post", "text", "email").contains(method)),
-    keys.post.key -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength)),
-    keys.phone.key -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength)),
-    keys.textNum.key -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength)),
-    keys.email.key -> optional(nonEmptyText.verifying(postMaxLengthError, _.size <= maxTextFieldLength))
-  ) (Contact.apply) (Contact.unapply) verifying(contactEmailConstraint, contactTelephoneConstraint, contactTextConstraint)
 
   val optInMapping = single(
     keys.optIn.key -> boolean

@@ -22,12 +22,6 @@ trait IerForms extends FormMappings {
     )
   )
 
-  val contactForm = Form(
-    mapping(keys.contact.key -> optional(contactMapping).verifying("Please answer this question", _.isDefined))
-    (contact => InprogressApplication(contact = contact))
-      (inprogress => Some(inprogress.contact))
-  )
-
   val inprogressForm = Form(
     mapping(
       keys.name.key -> optional(nameMapping).verifying("Please complete this step", _.isDefined),
