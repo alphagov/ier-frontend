@@ -1,20 +1,23 @@
-package uk.gov.gds.ier.model.IerForms
-
+package uk.gov.gds.ier.step.postalVote
 import play.api.libs.json.{JsNull, Json}
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.IerForms
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
+import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 
 @RunWith(classOf[JUnitRunner])
-class PostalVoteFormTests extends FlatSpec with Matchers with IerForms with WithSerialiser {
+class PostalVoteFormTests 
+  extends FlatSpec
+  with Matchers
+  with PostalVoteForms
+  with WithSerialiser
+  with ErrorMessages
+  with FormKeys
+  with TestHelpers {
 
-  val serialiser = new JsonSerialiser
-
-  def toJson(obj: AnyRef): String = serialiser.toJson(obj)
-
-  def fromJson[T](json: String)(implicit m: Manifest[T]): T = serialiser.fromJson(json)
+  val serialiser = jsonSerialiser
 
   it should "bind successfully (true)" in {
     val js = Json.toJson(
@@ -23,7 +26,7 @@ class PostalVoteFormTests extends FlatSpec with Matchers with IerForms with With
       )
     )
     postalVoteForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.postalVoteOptin should be(Some(true))
       }
@@ -37,7 +40,7 @@ class PostalVoteFormTests extends FlatSpec with Matchers with IerForms with With
       )
     )
     postalVoteForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.errorsAsMap)),
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.postalVoteOptin should be(Some(false))
       }
@@ -50,7 +53,7 @@ class PostalVoteFormTests extends FlatSpec with Matchers with IerForms with With
     postalVoteForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("postalVote") should be(Some(Seq("Please answer this question")))
+        hasErrors.errorMessages("postalVote") should be(Seq("Please answer this question"))
       },
       success => fail("Should have thrown an error")
     )
@@ -65,7 +68,7 @@ class PostalVoteFormTests extends FlatSpec with Matchers with IerForms with With
     postalVoteForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(1)
-        hasErrors.errorsAsMap.get("postalVote") should be(Some(Seq("Please answer this question")))
+        hasErrors.errorMessages("postalVote") should be(Seq("Please answer this question"))
       },
       success => fail("Should have thrown an error")
     )

@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.step.otherAddress
+package uk.gov.gds.ier.step.postalVote
 
 import org.scalatest.{Matchers, FlatSpec}
 import org.scalatest.mock.MockitoSugar
@@ -9,77 +9,77 @@ import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
 
 @RunWith(classOf[JUnitRunner])
-class OtherAddressControllerTests
+class PostalVoteControllerTests
   extends FlatSpec
   with Matchers
   with MockitoSugar
   with TestHelpers {
 
-  behavior of "OtherAddressController.get"
+  behavior of "PostalVoteController.get"
   it should "display the page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(GET, "/register-to-vote/other-address").withIerSession()
+        FakeRequest(GET, "/register-to-vote/postal-vote").withIerSession()
       )
       
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Do you live at a second UK address where you&#x27;re registered to vote?")
-      contentAsString(result) should include("/register-to-vote/other-address")
+      contentAsString(result) should include("Do you want to apply for a postal vote?")
+      contentAsString(result) should include("/register-to-vote/postal-vote")
     }
   }
 
-  behavior of "OtherAddressController.post"
+  behavior of "PostalVoteController.post"
   it should "bind successfully and redirect to the Open Register step" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/other-address")
+        FakeRequest(POST, "/register-to-vote/postal-vote")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "otherAddress.hasOtherAddress" -> "true" 
+            "postalVote.optIn" -> "true" 
           )
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/open-register"))
+      redirectLocation(result) should be(Some("/register-to-vote/contact"))
     }
   }
 
   it should "display any errors on unsuccessful bind" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/other-address").withIerSession()
+        FakeRequest(POST, "/register-to-vote/postal-vote").withIerSession()
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("Do you live at a second UK address where you&#x27;re registered to vote?")
+      contentAsString(result) should include("Do you want to apply for a postal vote?")
       contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/other-address")
+      contentAsString(result) should include("/register-to-vote/postal-vote")
     }
   }
 
-  behavior of "OtherAddressController.editGet"
+  behavior of "PostalVoteController.editGet"
   it should "display the edit page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(GET, "/register-to-vote/edit/other-address").withIerSession()
+        FakeRequest(GET, "/register-to-vote/edit/postal-vote").withIerSession()
       )
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Do you live at a second UK address where you&#x27;re registered to vote?")
-      contentAsString(result) should include("/register-to-vote/edit/other-address")
+      contentAsString(result) should include("Do you want to apply for a postal vote?")
+      contentAsString(result) should include("/register-to-vote/edit/postal-vote")
     }
   }
 
-  behavior of "OtherAddressController.editPost"
+  behavior of "PostalVoteController.editPost"
   it should "bind successfully and redirect to the Confirmation step" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/other-address")
+        FakeRequest(POST, "/register-to-vote/edit/postal-vote")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "otherAddress.hasOtherAddress" -> "true" 
+            "postalVote.optIn" -> "true" 
           )
       )
 
@@ -91,13 +91,13 @@ class OtherAddressControllerTests
   it should "display any errors on unsuccessful bind" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/other-address").withIerSession()
+        FakeRequest(POST, "/register-to-vote/edit/postal-vote").withIerSession()
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("Do you live at a second UK address where you&#x27;re registered to vote?")
+      contentAsString(result) should include("Do you want to apply for a postal vote?")
       contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/edit/other-address")
+      contentAsString(result) should include("/register-to-vote/edit/postal-vote")
     }
   }
 }

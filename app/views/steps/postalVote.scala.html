@@ -1,10 +1,19 @@
-@(application: uk.gov.gds.ier.validation.InProgressForm)
+@(implicit formData: uk.gov.gds.ier.validation.InProgressForm, postUrl: Call)
 
 @import helper._
 @import layouts._
+@import uk.gov.gds.ier.form.FormHelpers._
 
 @main(title = Some("Do you want to apply for a postal vote?"), stylesheets = head(), scripts = stepsBodyEnd()) {
-    @form(routes.RegisterToVoteController.validateStep("postal-vote")){
-        @raw.postalVote(application)
-    }
+  @form(postUrl){
+    @layouts.questionHeader("Do you want to apply for a postal vote?", "/register-to-vote/open-register", 10)
+  
+    <fieldset>
+      <p>Most people vote in person at a polling station. But if you prefer to vote by post, we can send you an application form.</p>
+      @radio(keys.postalVote.optIn, value="true", label="Yes, send me a postal vote application form")
+      @radio(keys.postalVote.optIn, value="false", label="No, I prefer to vote in person")
+    </fieldset>
+    @validationMessage(formData(keys.postalVote))
+    <button type="submit" id="continue" class="button next">Continue</button>
+  }
 }
