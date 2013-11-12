@@ -307,3 +307,7 @@ button:focus,
   outline: none;
 }
 
+#footer .footer-meta-inner li {
+  @include core-16;
+  padding-left: 0;
+}
