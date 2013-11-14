@@ -26,7 +26,7 @@ class ContactController @Inject ()(val serialiser: JsonSerialiser,
     views.html.steps.contact(form, call)
   }
   def goToNext(currentState: InprogressApplication): SimpleResult = {
-    Redirect(routes.RegisterToVoteController.registerStep("confirmation"))
+    Redirect(routes.ConfirmationController.get)
   }
 }
 

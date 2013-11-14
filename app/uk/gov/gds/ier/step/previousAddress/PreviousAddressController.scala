@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.step.previousAddress
 
-import controllers._
+import controllers.step._
 import com.google.inject.Inject
 import uk.gov.gds.ier.model.Addresses
 import uk.gov.gds.ier.step.address.AddressForms
@@ -21,8 +21,8 @@ class PreviousAddressController @Inject ()(val serialiser: JsonSerialiser,
   with PreviousAddressForms {
 
   val validation: Form[InprogressApplication] = previousAddressForm
-  val editPostRoute: Call = step.routes.PreviousAddressController.editPost
-  val stepPostRoute: Call = step.routes.PreviousAddressController.post
+  val editPostRoute: Call = routes.PreviousAddressController.editPost
+  val stepPostRoute: Call = routes.PreviousAddressController.post
 
   def template(form:InProgressForm, call:Call): Html = {
     val possibleAddresses = form(keys.possibleAddresses.jsonList).value match {
@@ -34,7 +34,7 @@ class PreviousAddressController @Inject ()(val serialiser: JsonSerialiser,
     views.html.steps.previousAddress(form, call, possibleAddresses)
   }
   def goToNext(currentState: InprogressApplication): SimpleResult = {
-    Redirect(routes.RegisterToVoteController.registerStep("other-address"))
+    Redirect(routes.OtherAddressController.get)
   }
 }
 

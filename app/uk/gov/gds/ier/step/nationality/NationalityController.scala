@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.step.nationality
 
-import controllers._
+import controllers.step._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation._
@@ -18,14 +18,14 @@ class NationalityController @Inject ()(val serialiser: JsonSerialiser,
   with NationalityForms {
 
   val validation: Form[InprogressApplication] = nationalityForm
-  val editPostRoute: Call = step.routes.NationalityController.editPost
-  val stepPostRoute: Call = step.routes.NationalityController.post
+  val editPostRoute: Call = routes.NationalityController.editPost
+  val stepPostRoute: Call = routes.NationalityController.post
 
   def template(form:InProgressForm, call:Call): Html = {
     views.html.steps.nationality(form, call)
   }
   def goToNext(currentState: InprogressApplication): SimpleResult = {
-    Redirect(routes.RegisterToVoteController.registerStep("date-of-birth"))
+    Redirect(routes.DateOfBirthController.get)
   }
 }
 

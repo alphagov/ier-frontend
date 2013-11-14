@@ -5,28 +5,32 @@
 # Home page
 GET         /                                        controllers.RegisterToVoteController.index
 GET         /register-to-vote                        controllers.RegisterToVoteController.registerToVote
-GET         /register-to-vote/                       controllers.RegisterToVoteController.registerToVote
-GET         /register-to-vote/complete               controllers.RegisterToVoteController.complete
-GET         /register-to-vote/complete/fake          controllers.RegisterToVoteController.fakeComplete
-GET         /register-to-vote/confirmation           controllers.RegisterToVoteController.confirmApplication
-POST        /register-to-vote/confirmation           controllers.RegisterToVoteController.submitApplication
 GET         /register-to-vote/error                  controllers.RegisterToVoteController.error
 GET         /register-to-vote/error/:error           controllers.RegisterToVoteController.errorRedirect(error: String)
 
 
+#Complete Route
+GET         /register-to-vote/complete               controllers.CompleteController.complete
+GET         /register-to-vote/complete/fake          controllers.CompleteController.fakeComplete
+
+
 ##Steps routes
 
+#Confirmation Step
+GET         /register-to-vote/confirmation           controllers.ConfirmationController.get
+POST        /register-to-vote/confirmation           controllers.ConfirmationController.post
+
 #Contact Step
-GET         /register-to-vote/contact          controllers.step.ContactController.get
-POST        /register-to-vote/contact          controllers.step.ContactController.post
-GET         /register-to-vote/edit/contact     controllers.step.ContactController.editGet
-POST        /register-to-vote/edit/contact     controllers.step.ContactController.editPost
+GET         /register-to-vote/contact                controllers.step.ContactController.get
+POST        /register-to-vote/contact                controllers.step.ContactController.post
+GET         /register-to-vote/edit/contact           controllers.step.ContactController.editGet
+POST        /register-to-vote/edit/contact           controllers.step.ContactController.editPost
 
 #Postal Vote Step
-GET         /register-to-vote/postal-vote          controllers.step.PostalVoteController.get
-POST        /register-to-vote/postal-vote          controllers.step.PostalVoteController.post
-GET         /register-to-vote/edit/postal-vote     controllers.step.PostalVoteController.editGet
-POST        /register-to-vote/edit/postal-vote     controllers.step.PostalVoteController.editPost
+GET         /register-to-vote/postal-vote            controllers.step.PostalVoteController.get
+POST        /register-to-vote/postal-vote            controllers.step.PostalVoteController.post
+GET         /register-to-vote/edit/postal-vote       controllers.step.PostalVoteController.editGet
+POST        /register-to-vote/edit/postal-vote       controllers.step.PostalVoteController.editPost
 
 #Open Register Step
 GET         /register-to-vote/open-register          controllers.step.OpenRegisterController.get
@@ -53,10 +57,10 @@ GET         /register-to-vote/edit/address           controllers.step.AddressCon
 POST        /register-to-vote/edit/address           controllers.step.AddressController.editPost
 
 #Previous Address Step
-GET         /register-to-vote/previous-address        controllers.step.PreviousAddressController.get
-POST        /register-to-vote/previous-address        controllers.step.PreviousAddressController.post
-GET         /register-to-vote/edit/previous-address   controllers.step.PreviousAddressController.editGet
-POST        /register-to-vote/edit/previous-address   controllers.step.PreviousAddressController.editPost
+GET         /register-to-vote/previous-address       controllers.step.PreviousAddressController.get
+POST        /register-to-vote/previous-address       controllers.step.PreviousAddressController.post
+GET         /register-to-vote/edit/previous-address  controllers.step.PreviousAddressController.editGet
+POST        /register-to-vote/edit/previous-address  controllers.step.PreviousAddressController.editPost
 
 #Name Step
 GET         /register-to-vote/name                   controllers.step.NameController.get
@@ -81,14 +85,6 @@ GET         /register-to-vote/nino                   controllers.step.NinoContro
 POST        /register-to-vote/nino                   controllers.step.NinoController.post
 GET         /register-to-vote/edit/nino              controllers.step.NinoController.editGet
 POST        /register-to-vote/edit/nino              controllers.step.NinoController.editPost
-
-
-##Old steps routes
-GET         /register-to-vote/:step                  controllers.RegisterToVoteController.registerStep(step: String)
-POST        /register-to-vote/:step                  controllers.RegisterToVoteController.validateStep(step: String)
-GET         /register-to-vote/edit/:step             controllers.RegisterToVoteController.edit(step: String)
-POST        /register-to-vote/edit/:step             controllers.RegisterToVoteController.validateEdit(step: String)
-
 
 #Postcode Lookup
 GET         /address/:postcode                       controllers.PostcodeController.lookupAddress(postcode)

@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.step.name
 
-import controllers._
+import controllers.step._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation._
@@ -17,14 +17,14 @@ class NameController @Inject ()(val serialiser: JsonSerialiser,
                                                                         with NameForms {
 
   val validation: Form[InprogressApplication] = nameForm
-  val editPostRoute: Call = step.routes.NameController.editPost
-  val stepPostRoute: Call = step.routes.NameController.post
+  val editPostRoute: Call = routes.NameController.editPost
+  val stepPostRoute: Call = routes.NameController.post
 
   def template(form:InProgressForm, call:Call): Html = {
     views.html.steps.name(form, call)
   }
   def goToNext(currentState: InprogressApplication): SimpleResult = {
-    Redirect(routes.RegisterToVoteController.registerStep("previous-name"))
+    Redirect(routes.PreviousNameController.get)
   }
 }
 
