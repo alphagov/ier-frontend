@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.step.address
 
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{InprogressApplication, Address, Addresses}
+import uk.gov.gds.ier.model.{InprogressApplication, Address, Addresses, PossibleAddress}
 import uk.gov.gds.ier.validation.PostcodeValidator
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.Form
@@ -13,8 +13,13 @@ trait AddressForms {
     with WithSerialiser =>
 
   lazy val possibleAddressMapping = mapping(
-    keys.jsonList.key -> nonEmptyText
-  ) (serialiser.fromJson[Addresses]) (list => Some(serialiser.toJson(list)))
+    keys.jsonList.key -> nonEmptyText,
+    keys.postcode.key -> nonEmptyText
+  ) (
+    (json, postcode) => PossibleAddress(serialiser.fromJson[Addresses](json).addresses, postcode)
+  ) (
+    possibleAddress => Some(serialiser.toJson(possibleAddress.addresses), possibleAddress.postcode)
+  )
 
   lazy val addressMapping = mapping(
     keys.address.key -> optional(nonEmptyText

@@ -1,4 +1,4 @@
-@(implicit formData: uk.gov.gds.ier.validation.InProgressForm, postUrl: Call, possibleAddress: Option[uk.gov.gds.ier.model.Addresses] = None)
+@(implicit formData: uk.gov.gds.ier.validation.InProgressForm, postUrl: Call, possibleAddress: Option[uk.gov.gds.ier.model.PossibleAddress] = None)
 
 @import uk.gov.gds.ier.form.FormHelpers._
 @import helper._
@@ -20,26 +20,29 @@
             Symbol("data-validation-rules") -> "nonEmpty"))
       <button id="find-address" class="button search">Find address</button>
     </fieldset>
+  }  
+  @form(postUrl) {
     <div id="found-addresses">
-    @if(possibleAddress.size > 0){
-      <label for="input-address-list">Select your address</label>
-      <select id="input-address-list" name="@keys.address.address.key" class="lonely">
-        <option value="">Please select...</option>
-        @possibleAddress match {
-          case Some(addresses) => {
-              @addresses.addresses.map { address =>
-                  <option>@address.addressLine</option>
-              }
-          }
-          case None => {}
+      @if(possibleAddress.isDefined) {
+        @defining(possibleAddress.get) { possible =>
+          @text(keys.address.postcode,
+              label = "Postcode",
+              inputAttributes = Map('class -> "hidden", 'type -> "hidden", 'value -> possible.postcode),
+              labelAttributes = Map('class -> "hidden"))
+          <label for="input-address-list">Select your address</label>
+          <select id="input-address-list" name="@keys.address.address.key" class="lonely">
+            <option value="">Please select...</option>
+            @for(address <- possible.addresses) {
+              <option>@address.addressLine</option>
+            }
+          </select>
+          <div class="help-content">
+            <h2>My address is not listed</h2>
+            <label for="input-address-text">Enter your address</label>
+            <textarea id="input-address-text" name="address.address" class="small"></textarea>
+          </div>
         }
-      </select>
-      <div class="help-content">
-        <h2>My address is not listed</h2>
-        <label for="input-address-text">Enter your address</label>
-        <textarea id="input-address-text" name="address.address" class="small"></textarea>
-      </div>
-    }
+      }
     </div>
     @validationMessage(formData(keys.address))
     @validationMessage(formData(keys.address.address))
@@ -58,6 +61,10 @@
         <p>Please contact your Electoral Registration Office for advice.</p>
       </div>
     </div>
+    @text(keys.possibleAddresses.postcode,
+      label = "Possible Postcode", 
+      inputAttributes = Map('class -> "hidden", 'type -> "hidden"),
+      labelAttributes = Map('class -> "hidden"))
     @text(keys.possibleAddresses.jsonList,
       label = "Possible Addresses",
       inputAttributes = Map('class -> "hidden", 'type -> "hidden"),

@@ -425,7 +425,8 @@ window.GOVUK = window.GOVUK || {};
       }).
       done(function (data, status, xhrObj) {
         inst.addLookup(data);
-        $('#possibleAddresses_jsonList').val(xhrObj.responseText)
+        $('#possibleAddresses_jsonList').val(xhrObj.responseText);
+        $('#possibleAddresses_postcode').val(postcode);
       }).
       fail(function (xhrObj, status, errorStr) {
         if (status === 'timeout' ) {

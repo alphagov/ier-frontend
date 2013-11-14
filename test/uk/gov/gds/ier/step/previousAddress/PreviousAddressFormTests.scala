@@ -54,7 +54,8 @@ class PreviousAddressTests
         "previousAddress.movedRecently" -> "true",
         "previousAddress.previousAddress.address" -> "123 Fake Street",
         "previousAddress.previousAddress.postcode" -> "SW1A 1AA",
-        "possibleAddresses.jsonList" -> possibleAddressJS
+        "possibleAddresses.jsonList" -> possibleAddressJS,
+        "possibleAddresses.postcode" -> "SW1A 1AA"
       )
     )
     previousAddressForm.bind(js).fold(
@@ -82,7 +83,8 @@ class PreviousAddressTests
         "previousAddress.movedRecently" -> "true",
         "previousAddress.previousAddress.address" -> "123 Fake Street",
         "previousAddress.previousAddress.postcode" -> "SW1A 1AA",
-        "possibleAddresses.jsonList" -> ""
+        "possibleAddresses.jsonList" -> "",
+        "possibleAddresses.postcode" -> ""
       )
     )
     previousAddressForm.bind(js).fold(
