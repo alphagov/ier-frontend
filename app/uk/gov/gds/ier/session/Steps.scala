@@ -16,20 +16,9 @@ trait Steps extends IerForms {
                   validation: Form[InprogressApplication],
                   next:String)
 
-  val confirmationStep = Step(
-    form => html.confirmation(form),
-    form => html.confirmation(form),
-    inprogressForm,
-    "confirmation"
-  )
-
   object Step {
-    def getStep(step:String): Step = {
-      step match {
-        case "confirmation" => confirmationStep
-        case "edit" => confirmationStep
-      }
-    }
+    def getStep(step:String): Step = ???
+
     def apply(step:String)(block: Step => Result):Result = {
       block(getStep(step))
     }

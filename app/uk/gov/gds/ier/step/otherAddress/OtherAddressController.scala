@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.step.otherAddress
 
-import controllers._
+import controllers.step._
 import com.google.inject.Inject
 import uk.gov.gds.ier.model.Addresses
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
@@ -19,14 +19,14 @@ class OtherAddressController @Inject ()(val serialiser: JsonSerialiser,
   with OtherAddressForms {
 
   val validation: Form[InprogressApplication] = otherAddressForm
-  val editPostRoute: Call = step.routes.OtherAddressController.editPost
-  val stepPostRoute: Call = step.routes.OtherAddressController.post
+  val editPostRoute: Call = routes.OtherAddressController.editPost
+  val stepPostRoute: Call = routes.OtherAddressController.post
 
   def template(form:InProgressForm, call:Call): Html = {
     views.html.steps.otherAddress(form, call)
   }
   def goToNext(currentState: InprogressApplication): SimpleResult = {
-    Redirect(routes.RegisterToVoteController.registerStep("open-register"))
+    Redirect(routes.OpenRegisterController.get)
   }
 }
 

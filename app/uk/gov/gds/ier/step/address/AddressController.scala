@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.step.address
 
-import controllers._
+import controllers.step._
 import com.google.inject.Inject
 import uk.gov.gds.ier.model.{PossibleAddress, Addresses}
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
@@ -19,8 +19,8 @@ class AddressController @Inject ()(val serialiser: JsonSerialiser,
   with AddressForms {
 
   val validation: Form[InprogressApplication] = addressForm
-  val editPostRoute: Call = step.routes.AddressController.editPost
-  val stepPostRoute: Call = step.routes.AddressController.post
+  val editPostRoute: Call = routes.AddressController.editPost
+  val stepPostRoute: Call = routes.AddressController.post
 
   def template(form:InProgressForm, call:Call): Html = {
     val possibleAddresses = form(keys.possibleAddresses.jsonList).value match {
@@ -35,7 +35,7 @@ class AddressController @Inject ()(val serialiser: JsonSerialiser,
     views.html.steps.address(form, call, possible)
   }
   def goToNext(currentState: InprogressApplication): SimpleResult = {
-    Redirect(routes.RegisterToVoteController.registerStep("previous-address"))
+    Redirect(routes.PreviousAddressController.get)
   }
 }
 

@@ -33,7 +33,7 @@ trait StepController
 
   //Can override this method if you like
   def goToConfirmation(currentState: InprogressApplication):SimpleResult = {
-    Redirect(routes.RegisterToVoteController.confirmApplication())
+    Redirect(routes.ConfirmationController.get())
   }
 
   def editPage:InProgressForm => Html = {
