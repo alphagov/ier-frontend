@@ -33,7 +33,9 @@ trait PreviousAddressForms {
       keys.possibleAddresses.key -> optional(possibleAddressMapping)
     ) (
       (prevAddress, possibleAddresses) => 
-        InprogressApplication(previousAddress = prevAddress, possibleAddresses = possibleAddresses)
+        InprogressApplication(
+          previousAddress = prevAddress, 
+          possibleAddresses = possibleAddresses)
     ) (
       inprogress => Some(inprogress.previousAddress, inprogress.possibleAddresses)
     )
