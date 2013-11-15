@@ -12,7 +12,7 @@
 
     <fieldset>
       <p>If you have more than one address, just give the one where you spend most of your time.</p>
-      @text(keys.address.postcode,
+      @text(keys.possibleAddresses.postcode,
           label = "Postcode",
           inputAttributes = Map(
             'class -> "postcode medium", 
@@ -20,8 +20,6 @@
             Symbol("data-validation-rules") -> "nonEmpty"))
       <button id="find-address" class="button search">Find address</button>
     </fieldset>
-  }  
-  @form(postUrl) {
     <div id="found-addresses">
       @if(possibleAddress.isDefined) {
         @defining(possibleAddress.get) { possible =>
