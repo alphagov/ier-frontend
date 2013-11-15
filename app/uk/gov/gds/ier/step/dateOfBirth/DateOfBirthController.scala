@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.step.dateOfBirth
 
-import controllers._
+import controllers.step._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.controller.StepController
@@ -18,15 +18,15 @@ class DateOfBirthController @Inject ()(val serialiser: JsonSerialiser,
   with DateOfBirthForms {
 
   val validation: Form[InprogressApplication] = dateOfBirthForm
-  val editPostRoute: Call = step.routes.DateOfBirthController.editPost
-  val stepPostRoute: Call = step.routes.DateOfBirthController.post
+  val editPostRoute: Call = routes.DateOfBirthController.editPost
+  val stepPostRoute: Call = routes.DateOfBirthController.post
 
   def template(form:InProgressForm, call:Call): Html = {
     views.html.steps.dateOfBirth(form, call)
   }
 
   def goToNext(currentState: InprogressApplication): SimpleResult = {
-    Redirect(routes.RegisterToVoteController.registerStep("name"))
+    Redirect(routes.NameController.get)
   }
 }
 
