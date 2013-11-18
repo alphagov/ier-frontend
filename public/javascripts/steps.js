@@ -442,7 +442,6 @@ window.GOVUK = window.GOVUK || {};
       this.menuIsShowing = true;
     },
     onMenuClosed : function () {
-      this.$input.attr('aria-activedescendant', "");
       this.menuIsShowing = false;
     },
     onMoveTo : function (e, countryObj) {
