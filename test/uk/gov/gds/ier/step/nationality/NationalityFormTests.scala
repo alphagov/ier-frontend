@@ -8,7 +8,6 @@ import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.test.TestHelpers
 
-@RunWith(classOf[JUnitRunner])
 class NationalityFormTests
   extends FlatSpec
   with Matchers

@@ -16,7 +16,6 @@ import uk.gov.gds.ier.model.InprogressApplication
 import scala.Some
 import uk.gov.gds.ier.model.Nino
 
-@RunWith(classOf[JUnitRunner])
 class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with MockitoSugar{
 
   it should "replace a nino when submitting Application" in {

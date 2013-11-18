@@ -8,7 +8,6 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
 
-@RunWith(classOf[JUnitRunner])
 class NameControllerTests
   extends FlatSpec
   with Matchers
@@ -25,6 +24,7 @@ class NameControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("What is your full name?")
+      contentAsString(result) should include("Have you changed your name in the last 12 months?")
       contentAsString(result) should include("/register-to-vote/name")
     }
   }
@@ -35,12 +35,34 @@ class NameControllerTests
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/name")
           .withIerSession()
-          .withFormUrlEncodedBody("name.firstName" -> "John", "name.lastName" -> "Smith")
+          .withFormUrlEncodedBody(
+            "name.firstName" -> "John", 
+            "name.lastName" -> "Smith",
+            "previousName.hasPreviousName" -> "true",
+            "previousName.previousName.firstName" -> "John", 
+            "previousName.previousName.lastName" -> "Smith")
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/previous-name"))
+      redirectLocation(result) should be(Some("/register-to-vote/nino"))
     }
+  }
+
+  it should "bind successfully with no previous name and redirect to Nino step" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/name")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "name.firstName" -> "John", 
+            "name.lastName" -> "Smith",
+            "previousName.hasPreviousName" -> "false")
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/nino"))
+    }
+
   }
 
   it should "display any errors on unsuccessful bind" in {
@@ -52,6 +74,8 @@ class NameControllerTests
       status(result) should be(OK)
       contentAsString(result) should include("What is your full name?")
       contentAsString(result) should include("Please enter your full name")
+      contentAsString(result) should include("Have you changed your name in the last 12 months?")
+      contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("/register-to-vote/name")
     }
   }
@@ -65,6 +89,7 @@ class NameControllerTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
+      contentAsString(result) should include("Have you changed your name in the last 12 months?")
       contentAsString(result) should include("What is your full name?")
       contentAsString(result) should include("/register-to-vote/edit/name")
     }
@@ -76,7 +101,28 @@ class NameControllerTests
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/edit/name")
           .withIerSession()
-          .withFormUrlEncodedBody("name.firstName" -> "John", "name.lastName" -> "Smith")
+          .withFormUrlEncodedBody(
+            "name.firstName" -> "John", 
+            "name.lastName" -> "Smith",
+            "previousName.hasPreviousName" -> "true",
+            "previousName.previousName.firstName" -> "John", 
+            "previousName.previousName.lastName" -> "Smith")
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/confirmation"))
+    }
+  }
+
+  it should "bind successfully with no previous name and redirect to the Confirmation step" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/edit/name")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "name.firstName" -> "John", 
+            "name.lastName" -> "Smith",
+            "previousName.hasPreviousName" -> "false")
       )
 
       status(result) should be(SEE_OTHER)

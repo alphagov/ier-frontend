@@ -11,7 +11,6 @@ import play.api.test.Helpers._
 import org.joda.time.DateTime
 import uk.gov.gds.ier.model.{Name, Address, Addresses, InprogressApplication}
 
-@RunWith(classOf[JUnitRunner])
 class SessionHandlingTests extends FlatSpec with Matchers {
 
   val jsonSerialiser = new JsonSerialiser

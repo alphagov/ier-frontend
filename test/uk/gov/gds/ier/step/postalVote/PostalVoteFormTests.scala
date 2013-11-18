@@ -7,7 +7,6 @@ import org.scalatest.junit.JUnitRunner
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 
-@RunWith(classOf[JUnitRunner])
 class PostalVoteFormTests 
   extends FlatSpec
   with Matchers

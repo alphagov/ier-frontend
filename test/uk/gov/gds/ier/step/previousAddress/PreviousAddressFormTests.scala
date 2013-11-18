@@ -11,7 +11,6 @@ import play.api.libs.json.{Json, JsNull}
 import uk.gov.gds.ier.model.{Addresses, Address}
 import uk.gov.gds.ier.step.address.AddressForms
 
-@RunWith(classOf[JUnitRunner])
 class PreviousAddressTests 
   extends FlatSpec
   with Matchers

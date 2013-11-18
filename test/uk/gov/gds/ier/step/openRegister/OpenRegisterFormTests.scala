@@ -8,7 +8,6 @@ import org.scalatest.junit.JUnitRunner
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.test.TestHelpers
 
-@RunWith(classOf[JUnitRunner])
 class OpenRegisterFormTests  
   extends FlatSpec
   with Matchers
