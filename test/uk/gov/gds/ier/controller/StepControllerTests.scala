@@ -5,7 +5,7 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
-import uk.gov.gds.ier.model.{Name, InprogressApplication}
+import uk.gov.gds.ier.model.{Address, PossibleAddress, Name, InprogressApplication}
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc._
@@ -172,6 +172,36 @@ class StepControllerTests
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/confirmation"))
+    }
+  }
+
+  it should "not allow possibleAddresses in to the session, we don't want to store those, ever!" in {
+    running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
+      val form = Form(
+        mapping("foo" -> text.verifying("I will always pass", foo => true))
+          (foo => InprogressApplication(
+            possibleAddresses = Some(PossibleAddress(
+              addresses = List(Address(Some("123 Fake Street"), "SW1A 1AA")),
+              postcode = "SW1A 1AA")),
+            name = Some(Name("John", None, "Smith"))))
+          (app => Some("foo"))
+      )
+      val request = FakeRequest("POST", "/")
+        .withIerSession()
+        .withFormUrlEncodedBody("foo" -> "some text")
+
+      val result = createController(form).editPost()(request)
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/confirmation"))
+
+      cookies(result).get("application") match {
+        case Some(cookie) => {
+          val application = jsonSerialiser.fromJson[InprogressApplication](cookie.value)
+          application.possibleAddresses should be(None)
+        }
+        case _ => fail("Should have been able to deserialise")
+      }
     }
   }
 }

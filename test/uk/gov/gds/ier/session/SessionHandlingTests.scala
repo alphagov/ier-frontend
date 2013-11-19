@@ -159,35 +159,4 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       tokenDate.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 1)
     }
   }
-
-  behavior of "SimpleResultToSession.merge"
-
-  it should "not allow possibleAddresses in to the session, we don't want to store those, ever!" in {
-    running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      class TestController extends Controller with WithSerialiser with SessionHandling with ApiResults {
-        val serialiser = jsonSerialiser
-
-        def index() = ValidSession requiredFor {
-          implicit request => application =>
-            okResult(Map("status" -> "Ok")).mergeWithSession(
-              application.copy(
-                possibleAddresses = Some(PossibleAddress(
-                  addresses = List(Address(Some("123 Fake Street"), "SW1A 1AA")),
-                  postcode = "SW1A 1AA")), 
-                name = Some(Name("John", None, "Smith"))
-              )
-            )
-        }
-      }
-      val result = new TestController().index()(FakeRequest().withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(4).toString())))
-
-      cookies(result).get("application") match {
-        case Some(cookie) => {
-          val application = jsonSerialiser.fromJson[InprogressApplication](cookie.value)
-          application.possibleAddresses should be(None)
-        }
-        case _ => fail("Should have been able to deserialise")
-      }
-    }
-  }
 }

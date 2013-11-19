@@ -7,7 +7,7 @@ import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.controller.StepController
 import play.api.data.Form
 import play.api.mvc.{SimpleResult, Call}
-import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.model.{Country, InprogressApplication}
 import play.api.templates.Html
 
 class CountryController @Inject ()(val serialiser: JsonSerialiser,
@@ -26,7 +26,11 @@ class CountryController @Inject ()(val serialiser: JsonSerialiser,
     views.html.steps.country(form, call)
   }
   def goToNext(currentState: InprogressApplication): SimpleResult = {
-    Redirect(step.routes.NationalityController.get)
+    currentState.country match {
+      case Some(Country("Northern Ireland")) => Redirect(routes.ExitController.northernIreland)
+      case Some(Country("Scotland")) => Redirect(routes.ExitController.scotland)
+      case _ => Redirect(step.routes.NationalityController.get)
+    }
   }
 }
 

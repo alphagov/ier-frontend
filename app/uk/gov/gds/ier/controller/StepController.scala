@@ -95,7 +95,8 @@ trait StepController
       openRegisterOptin = application.openRegisterOptin.orElse(fromCookieApplication.openRegisterOptin),
       postalVoteOptin = application.postalVoteOptin.orElse(fromCookieApplication.postalVoteOptin),
       contact = application.contact.orElse(fromCookieApplication.contact),
-      possibleAddresses = None
+      possibleAddresses = None,
+      country = application.country.orElse(fromCookieApplication.country)
     )
   }
 }

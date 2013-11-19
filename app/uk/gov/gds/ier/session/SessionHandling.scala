@@ -96,26 +96,6 @@ trait SessionHandling {
     def refreshSession() = {
       result.withCookies(Cookie(sessionTokenKey, DateTime.now.toString()))
     }
-
-    def mergeWithSession(application:InprogressApplication)(implicit request: play.api.mvc.Request[_]) = {
-      result.withCookies(Cookie(sessionPayloadKey, serialiser.toJson(merge(request.getApplication, application))))
-    }
-    private def merge(fromCookieApplication: InprogressApplication, application: InprogressApplication):InprogressApplication = {
-      fromCookieApplication.copy(
-        name = application.name.orElse(fromCookieApplication.name),
-        previousName = application.previousName.orElse(fromCookieApplication.previousName),
-        dob = application.dob.orElse(fromCookieApplication.dob),
-        nationality = application.nationality.orElse(fromCookieApplication.nationality),
-        nino = application.nino.orElse(fromCookieApplication.nino),
-        address = application.address.orElse(fromCookieApplication.address),
-        previousAddress = application.previousAddress.orElse(fromCookieApplication.previousAddress),
-        otherAddress = application.otherAddress.orElse(fromCookieApplication.otherAddress),
-        openRegisterOptin = application.openRegisterOptin.orElse(fromCookieApplication.openRegisterOptin),
-        postalVoteOptin = application.postalVoteOptin.orElse(fromCookieApplication.postalVoteOptin),
-        contact = application.contact.orElse(fromCookieApplication.contact),
-        possibleAddresses = None
-      )
-    }
   }
 
   trait SessionKeys {

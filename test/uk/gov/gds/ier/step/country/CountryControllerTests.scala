@@ -38,12 +38,42 @@ class CountryControllerTests
         FakeRequest(POST, "/register-to-vote/country-of-residence")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "country.residence" -> "England" 
-          )
+          "country.residence" -> "England"
+        )
       )
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/register-to-vote/nationality"))
+    }
+  }
+
+  it should "bind successfully on Northern Ireland and redirect to the exit page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/country-of-residence")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+          "country.residence" -> "Northern Ireland"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/exit/northern-ireland"))
+    }
+  }
+
+  it should "bind successfully on Scotland and redirect to the exit page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/country-of-residence")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+          "country.residence" -> "Scotland"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/exit/scotland"))
     }
   }
 
