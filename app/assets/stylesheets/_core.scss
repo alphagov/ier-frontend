@@ -9,6 +9,10 @@ body {
   background: $white;
 }
 
+main {
+  display: block;
+}
+
 p,
 ol,
 ul,
@@ -181,7 +185,6 @@ form {
 
   @include media(desktop) {
     margin-right: 22.5em;
-    min-height: 35em;
     max-width: 36em;
   }
 }

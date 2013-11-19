@@ -706,6 +706,7 @@
             this.isEmpty = true;
             this.isMouseOverDropdown = false;
             this.$menu = $(o.menu).on("mouseenter.tt", this._handleMouseenter).on("mouseleave.tt", this._handleMouseleave).on("click.tt", ".tt-suggestion", this._handleSelection).on("mouseover.tt", ".tt-suggestion", this._handleMouseover);
+            this.$input = this.$menu.siblings('input.tt-query');
         }
         utils.mixin(DropdownView.prototype, EventTarget, {
             _handleMouseenter: function() {
@@ -718,6 +719,7 @@
                 var $suggestion = $($e.currentTarget);
                 this._getSuggestions().removeClass("tt-is-under-cursor");
                 $suggestion.addClass("tt-is-under-cursor");
+                this.$input.trigger("typeahead:movedto", this.getSuggestionUnderCursor());
             },
             _handleSelection: function($e) {
                 var $suggestion = $($e.currentTarget);
@@ -972,9 +974,11 @@
                 this.dropdownView[e.type === "blured" ? "closeUnlessMouseIsOverDropdown" : "close"]();
             },
             _moveDropdownCursor: function(e) {
-                var $e = e.data;
+                var $e = e.data,
+                    isKeyUp = e.type === "upKeyed";
                 if (!$e.shiftKey && !$e.ctrlKey && !$e.metaKey) {
-                    this.dropdownView[e.type === "upKeyed" ? "moveCursorUp" : "moveCursorDown"]();
+                    this.dropdownView[isKeyUp ? "moveCursorUp" : "moveCursorDown"]();
+                    this.eventBus.trigger("movedto", this.dropdownView.getSuggestionUnderCursor()); 
                 }
             },
             _handleSelection: function(e) {
@@ -994,6 +998,7 @@
                 utils.each(this.datasets, function(i, dataset) {
                     dataset.getSuggestions(query, function(suggestions) {
                         if (query === that.inputView.getQuery()) {
+                            that.eventBus.trigger("updated", suggestions);
                             that.dropdownView.renderSuggestions(dataset, suggestions);
                         }
                     });

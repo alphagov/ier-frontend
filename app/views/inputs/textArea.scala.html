@@ -9,7 +9,7 @@
 }
 @inputHtml = {
 @defining(formData(id)) { inputField =>
-<textarea name="@inputField.name" id="@id.asId()" class="@(if(inputField.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")" @asAttributes(inputAttributes.without('class, 'id, 'name))>@inputField.value.getOrElse("")</textarea>
+<textarea name="@inputField.name" id="@id.asId()" class="@(if(inputField.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")" @asAttributes(inputAttributes.without('class, 'id, 'name)) autocomplete="off" >@inputField.value.getOrElse("")</textarea>
 }
 }
 @defining(formData(id)) { field =>

@@ -12,19 +12,19 @@
 
     <fieldset>
       @select(keys.dob.day,
-          label = "Day you were born?",
+          label = "Day",
           options = DateOfBirthConstants.days,
           inputAttributes = Map('_default -> "Day", 'class -> "day"),
           labelAttributes = Map('class -> "visuallyhidden"),
           crossField = keys.dob)
       @select(keys.dob.month,
-          label = "Month you were born?",
+          label = "Month",
           options = DateOfBirthConstants.months,
           inputAttributes = Map('_default -> "Month", 'class -> "month"),
           labelAttributes = Map('class -> "visuallyhidden"),
           crossField = keys.dob)
       @text(keys.dob.year,
-          label = "Year you were born?",
+          label = "Year",
           inputAttributes = Map('class -> "year text small", 'placeholder -> "Year"),
           labelAttributes = Map('class -> "visuallyhidden"),
           crossField = keys.dob)
@@ -36,7 +36,7 @@
       <fieldset class="optional-section">
         <h3>I can't provide my date of birth</h3>
         <label id="noDOBReason">Why can't you provide your date of birth?</label>
-        <textarea id="noDOBReason" name="noDOBReason" class="small"></textarea>
+        <textarea id="noDOBReason" name="noDOBReason" class="small" autocomplete="off"></textarea>
         <p>How old are you?</p>
         <label class="selectable" for="DOBunder18">
           <input type="radio" id="DOBunder18" name="DOBStatement" value="under18" class="radio"><span class="visuallyhidden">I am</span>Under 18 years old
