@@ -24,7 +24,7 @@
               <p>@name(formData(keys.name.firstName).value, formData(keys.name.middleNames).value, formData(keys.name.lastName).value)</p>
             }
           </div>
-          <a href="@step.routes.NameController.editGet" class="change">Change</a>
+          <a href="@step.routes.NameController.editGet" class="change">Change<span class="visuallyhidden"> name</span></a>
         </div>
         <div>
           <h3>Previous name</h3>
@@ -37,7 +37,7 @@
                 }
             }
           </div>
-          <a href="@step.routes.PreviousNameController.editGet" class="change">Change</a>
+          <a href="@step.routes.PreviousNameController.editGet" class="change">Change<span class="visuallyhidden"> previous name</span></a>
         </div>
         <div>
           <h3>Date of birth</h3>
@@ -46,7 +46,7 @@
                 <p> @formData(keys.dob.day).value.getOrElse("") @formData(keys.dob.month).value.map(month => monthsByNumber(month)).getOrElse("") @formData(keys.dob.year).value.getOrElse("")</p>
             }
           </div>
-          <a href="@step.routes.DateOfBirthController.editGet" class="change">Change</a>
+          <a href="@step.routes.DateOfBirthController.editGet" class="change">Change<span class="visuallyhidden"> date of birth</span></a>
         </div>
         <div>
           <h3>Nationality</h3>
@@ -62,7 +62,7 @@
               }
             }
           </div>
-          <a href="@step.routes.NationalityController.editGet" class="change">Change</a>
+          <a href="@step.routes.NationalityController.editGet" class="change">Change<span class="visuallyhidden"> nationality</span></a>
         </div>
         <div>
           <h3>National Insurance number</h3>
@@ -76,7 +76,7 @@
               }
             }
           </div>
-          <a href="@step.routes.NinoController.editGet" class="change">Change</a>
+          <a href="@step.routes.NinoController.editGet" class="change">Change<span class="visuallyhidden"> national insurance number</span></a>
         </div>
         <div>
           <h3>Address</h3>
@@ -86,7 +86,7 @@
               <p>@formData(keys.address.postcode).value.getOrElse("")</p>
             }
           </div>
-          <a href="@step.routes.AddressController.editGet" class="change">Change</a>
+          <a href="@step.routes.AddressController.editGet" class="change">Change<span class="visuallyhidden"> address</span></a>
         </div>
         <div>
           <h3>Previous address</h3>
@@ -100,7 +100,7 @@
             }
           }
           </div>
-          <a href="@step.routes.PreviousAddressController.editGet" class="change">Change</a>
+          <a href="@step.routes.PreviousAddressController.editGet" class="change">Change<span class="visuallyhidden"> previous address</span></a>
         </div>
         <div>
           <h3>Second address</h3>
@@ -113,7 +113,7 @@
             }
           }
           </div>
-          <a href="@step.routes.OtherAddressController.editGet" class="change">Change</a>
+          <a href="@step.routes.OtherAddressController.editGet" class="change">Change<span class="visuallyhidden"> second address</span></a>
         </div>
         <div>
           <h3>Open register</h3>
@@ -126,7 +126,7 @@
             }
           }
           </div>
-          <a href="@step.routes.OpenRegisterController.editGet" class="change">Change</a>
+          <a href="@step.routes.OpenRegisterController.editGet" class="change">Change<span class="visuallyhidden"> if you want your details to be included on the open register</span></a>
         </div>
         <div>
           <h3>Postal vote</h3>
@@ -139,7 +139,7 @@
             }
           }
           </div>
-          <a href="@step.routes.PostalVoteController.editGet" class="change">Change</a>
+          <a href="@step.routes.PostalVoteController.editGet" class="change">Change<span class="visuallyhidden"> if you want to apply for a postal vote</span></a>
         </div>
         <div>
           <h3>How we should contact you</h3>
@@ -160,7 +160,7 @@
               }
             }
           </div>
-          <a href="@step.routes.ContactController.editGet" class="change">Change</a>
+          <a href="@step.routes.ContactController.editGet" class="change">Change<span class="visuallyhidden"> how we should contact you</span></a>
         </div>
         <div class="help-notice">
           <p>I understand that the information I provide through this application will be used to change my details on the electoral register.</p>
