@@ -24,7 +24,6 @@ import play.api.libs.iteratee.Iteratee
 import org.mockito.Matchers._
 import uk.gov.gds.ier.test.TestHelpers
 
-@RunWith(classOf[JUnitRunner])
 class StepControllerTests
   extends FlatSpec
   with Matchers

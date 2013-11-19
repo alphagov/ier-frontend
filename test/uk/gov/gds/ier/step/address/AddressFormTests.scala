@@ -10,7 +10,6 @@ import play.api.libs.json.{Json, JsNull}
 import org.joda.time.DateTime
 import uk.gov.gds.ier.model.{Addresses, Address}
 
-@RunWith(classOf[JUnitRunner])
 class AddressFormTests
   extends FlatSpec
   with Matchers

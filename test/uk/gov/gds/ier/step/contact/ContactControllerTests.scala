@@ -8,7 +8,6 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
 
-@RunWith(classOf[JUnitRunner])
 class ContactControllerTests
   extends FlatSpec
   with Matchers
@@ -24,6 +23,8 @@ class ContactControllerTests
       
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
+      contentAsString(result) should include("Question 10")
+      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/postal-vote")
       contentAsString(result) should include("If we have questions about your application, how should we contact you?")
       contentAsString(result) should include("/register-to-vote/contact")
     }

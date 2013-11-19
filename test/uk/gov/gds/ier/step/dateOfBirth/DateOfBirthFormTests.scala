@@ -9,7 +9,6 @@ import org.joda.time.DateTime
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 
-@RunWith(classOf[JUnitRunner])
 class DateOfBirthFormTests 
   extends FlatSpec
   with Matchers

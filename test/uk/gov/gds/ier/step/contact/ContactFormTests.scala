@@ -8,7 +8,6 @@ import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 
-@RunWith(classOf[JUnitRunner])
 class ContactFormTests 
   extends FlatSpec
   with Matchers
