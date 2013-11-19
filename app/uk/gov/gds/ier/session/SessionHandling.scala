@@ -11,6 +11,19 @@ import uk.gov.gds.ier.model.InprogressApplication
 trait SessionHandling {
   self: WithSerialiser with Controller =>
 
+  object ClearSession {
+    final def eradicateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
+      implicit request =>
+        block(request).emptySession()
+    }
+
+    final def withParser[A](bodyParser: BodyParser[A]) = new {
+      def requiredFor(action: Request[A] => Result) = eradicateSession(bodyParser, action)
+    }
+
+    final def requiredFor(action: Request[AnyContent] => Result) = withParser(BodyParsers.parse.anyContent) requiredFor action
+  }
+
   object NewSession {
     final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
       request =>
@@ -87,6 +100,13 @@ trait SessionHandling {
   }
 
   implicit class InProgressResult(result:Result) extends SessionKeys {
+    def emptySession()(implicit request: play.api.mvc.Request[_]) = {
+      val requestCookies = DiscardingCookie(sessionPayloadKey) ::
+        DiscardingCookie(sessionTokenKey) ::
+        request.cookies.map(c => DiscardingCookie(c.name)).toList
+
+      result.withNewSession.discardingCookies(requestCookies: _*)
+    }
     def withFreshSession() = {
       result.withCookies(Cookie(sessionTokenKey, DateTime.now.toString())).discardingCookies(DiscardingCookie(sessionPayloadKey))
     }

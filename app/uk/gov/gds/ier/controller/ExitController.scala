@@ -10,12 +10,12 @@ class ExitController @Inject() (val serialiser: JsonSerialiser)
   with SessionHandling
   with WithSerialiser {
 
-  def scotland = NewSession requiredFor {
+  def scotland = ClearSession requiredFor {
     request =>
       Ok(views.html.exit.scotland())
   }
 
-  def northernIreland = NewSession requiredFor {
+  def northernIreland = ClearSession requiredFor {
     request =>
       Ok(views.html.exit.northernIreland())
   }

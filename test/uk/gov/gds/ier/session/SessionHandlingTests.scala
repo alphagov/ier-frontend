@@ -159,4 +159,30 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       tokenDate.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 1)
     }
   }
+
+  it should "clear session cookies by setting a maxage below 0" in {
+    running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
+      class TestController extends Controller with WithSerialiser with SessionHandling with ApiResults {
+        val serialiser = jsonSerialiser
+
+        def noSessionTest() = ClearSession requiredFor {
+          request =>
+            okResult(Map("status" -> "no session"))
+        }
+      }
+
+      val controller = new TestController()
+      val result = controller.noSessionTest()(FakeRequest().withCookies(Cookie("aCookie", "foobar")))
+
+      status(result) should be(OK)
+      jsonSerialiser.fromJson[Map[String,String]](contentAsString(result)) should be(Map("status" -> "no session"))
+
+      cookies(result).get("sessionKey").isDefined should be(true)
+      cookies(result).get("sessionKey").get.maxAge.get should be < 0
+      cookies(result).get("application").isDefined should be(true)
+      cookies(result).get("application").get.maxAge.get should be < 0
+      cookies(result).get("aCookie").isDefined should be(true)
+      cookies(result).get("aCookie").get.maxAge.get should be < 0
+    }
+  }
 }
