@@ -35,7 +35,8 @@ trait IerForms extends FormMappings {
       keys.openRegister.key -> optional(optInMapping).verifying("Please complete this step", _.isDefined),
       keys.postalVote.key -> optional(optInMapping).verifying("Please complete this step", _.isDefined),
       keys.contact.key -> optional(contactMapping).verifying("Please complete this step", _.isDefined),
-      keys.possibleAddresses.key -> optional(possibleAddressMapping)
+      keys.possibleAddresses.key -> optional(possibleAddressMapping),
+      keys.country.key -> optional(countryMapping)
     ) (InprogressApplication.apply) (InprogressApplication.unapply)
   )
 

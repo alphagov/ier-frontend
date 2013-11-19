@@ -1,0 +1,24 @@
+@(implicit formData: uk.gov.gds.ier.validation.InProgressForm, postUrl:Call)
+
+@import helper._
+@import layouts._
+@import uk.gov.gds.ier.form.FormHelpers._
+
+@main(title = Some("Register to Vote - Where do you live?"), stylesheets = head(), scripts = stepsBodyEnd()) {
+  @form(postUrl) {
+    @layouts.questionHeader("Where do you live?", "", 1)
+
+    <fieldset>
+      @radio(keys.country.residence, value = "England", label = "England")
+      @radio(keys.country.residence, value = "Scotland", label = "Scotland")
+      @radio(keys.country.residence, value = "Wales", label = "Wales")
+      @radio(keys.country.residence, value = "Northern Ireland", label = "Northern Ireland")
+      @radio(keys.country.residence, value = "British Islands", label = "Isle of Man or the Channel Islands")
+      <p>or</p>
+      @radio(keys.country.residence, value = "Abroad", label = "I am a British citizen living abroad")
+    </fieldset>
+    @validationMessage(formData(keys.country))
+    @validationMessage(formData(keys.country.residence))
+    <button type="submit" id="continue" class="button next">Continue</button>
+  }
+}
