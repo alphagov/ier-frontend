@@ -9,7 +9,7 @@ import uk.gov.gds.ier.client.ApiResults
 import play.api.test._
 import play.api.test.Helpers._
 import org.joda.time.DateTime
-import uk.gov.gds.ier.model.{Name, Address, Addresses, InprogressApplication}
+import uk.gov.gds.ier.model.{Name, Address, PossibleAddress, InprogressApplication}
 
 @RunWith(classOf[JUnitRunner])
 class SessionHandlingTests extends FlatSpec with Matchers {
@@ -171,7 +171,13 @@ class SessionHandlingTests extends FlatSpec with Matchers {
         def index() = ValidSession requiredFor {
           implicit request => application =>
             okResult(Map("status" -> "Ok")).mergeWithSession(
-              application.copy(possibleAddresses = Some(Addresses(addresses = List(Address(Some("123 Fake Street"), "SW1A 1AA")))), name = Some(Name("John", None, "Smith"))))
+              application.copy(
+                possibleAddresses = Some(PossibleAddress(
+                  addresses = List(Address(Some("123 Fake Street"), "SW1A 1AA")),
+                  postcode = "SW1A 1AA")), 
+                name = Some(Name("John", None, "Smith"))
+              )
+            )
         }
       }
       val result = new TestController().index()(FakeRequest().withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(4).toString())))
