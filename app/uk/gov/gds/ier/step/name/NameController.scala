@@ -24,7 +24,7 @@ class NameController @Inject ()(val serialiser: JsonSerialiser,
     views.html.steps.name(form, call)
   }
   def goToNext(currentState: InprogressApplication): SimpleResult = {
-    Redirect(routes.PreviousNameController.get)
+    Redirect(routes.NinoController.get)
   }
 }
 

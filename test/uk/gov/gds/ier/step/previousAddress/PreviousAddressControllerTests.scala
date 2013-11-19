@@ -8,7 +8,6 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
 
-@RunWith(classOf[JUnitRunner])
 class PreviousAddressControllerTests
   extends FlatSpec
   with Matchers
@@ -24,6 +23,8 @@ class PreviousAddressControllerTests
       
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
+      contentAsString(result) should include("Question 6")
+      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/address")
       contentAsString(result) should include("Have you moved within the last 12 months?")
       contentAsString(result) should include("/register-to-vote/previous-address")
     }

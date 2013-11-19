@@ -68,12 +68,6 @@ POST        /register-to-vote/name                   controllers.step.NameContro
 GET         /register-to-vote/edit/name              controllers.step.NameController.editGet
 POST        /register-to-vote/edit/name              controllers.step.NameController.editPost
 
-#Previous Name Step
-GET         /register-to-vote/previous-name          controllers.step.PreviousNameController.get
-POST        /register-to-vote/previous-name          controllers.step.PreviousNameController.post
-GET         /register-to-vote/edit/previous-name     controllers.step.PreviousNameController.editGet
-POST        /register-to-vote/edit/previous-name     controllers.step.PreviousNameController.editPost
-
 #Date Of Birth Step
 GET         /register-to-vote/date-of-birth          controllers.step.DateOfBirthController.get
 POST        /register-to-vote/date-of-birth          controllers.step.DateOfBirthController.post

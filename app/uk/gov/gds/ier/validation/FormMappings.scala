@@ -9,7 +9,6 @@ import play.api.data.validation.{Invalid, Valid, Constraint}
 import play.api.data.Form
 import uk.gov.gds.ier.step.nationality.NationalityForms
 import uk.gov.gds.ier.step.name.NameForms
-import uk.gov.gds.ier.step.previousName.PreviousNameForms
 import uk.gov.gds.ier.step.dateOfBirth.DateOfBirthForms
 import uk.gov.gds.ier.step.nino.NinoForms
 import uk.gov.gds.ier.step.address.AddressForms
@@ -29,7 +28,6 @@ trait FormMappings
   with AddressForms
   with OtherAddressForms
   with PreviousAddressForms
-  with PreviousNameForms
   with DateOfBirthForms
   with OpenRegisterForms 
   with PostalVoteForms 

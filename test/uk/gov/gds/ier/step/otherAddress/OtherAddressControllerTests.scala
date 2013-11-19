@@ -8,7 +8,6 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
 
-@RunWith(classOf[JUnitRunner])
 class OtherAddressControllerTests
   extends FlatSpec
   with Matchers
@@ -24,6 +23,8 @@ class OtherAddressControllerTests
       
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
+      contentAsString(result) should include("Question 7")
+      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/previous-address")
       contentAsString(result) should include("Do you live at a second UK address where you&#x27;re registered to vote?")
       contentAsString(result) should include("/register-to-vote/other-address")
     }

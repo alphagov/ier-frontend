@@ -8,7 +8,6 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
 
-@RunWith(classOf[JUnitRunner])
 class NationalityControllerTests
   extends FlatSpec
   with Matchers
@@ -24,6 +23,9 @@ class NationalityControllerTests
       
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
+
+      contentAsString(result) should include("Question 1")
+      contentAsString(result) should not include("<a class=\"back-to-previous\"")
       contentAsString(result) should include("What is your nationality?")
       contentAsString(result) should include("/register-to-vote/nationality")
     }

@@ -8,7 +8,6 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
 
-@RunWith(classOf[JUnitRunner])
 class OpenRegisterControllerTests
   extends FlatSpec
   with Matchers
@@ -24,6 +23,8 @@ class OpenRegisterControllerTests
       
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
+      contentAsString(result) should include("Question 8")
+      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/other-address")
       contentAsString(result) should include("Do you want to remove your name and address from the open register?")
       contentAsString(result) should include("/register-to-vote/open-register")
     }

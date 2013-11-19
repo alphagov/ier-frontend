@@ -8,7 +8,6 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
 
-@RunWith(classOf[JUnitRunner])
 class PostalVoteControllerTests
   extends FlatSpec
   with Matchers
@@ -24,6 +23,8 @@ class PostalVoteControllerTests
       
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
+      contentAsString(result) should include("Question 9")
+      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/open-register")
       contentAsString(result) should include("Do you want to apply for a postal vote?")
       contentAsString(result) should include("/register-to-vote/postal-vote")
     }

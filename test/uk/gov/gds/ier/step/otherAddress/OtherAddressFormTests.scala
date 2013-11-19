@@ -8,7 +8,6 @@ import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.test.TestHelpers
 import play.api.libs.json.{Json, JsNull}
 
-@RunWith(classOf[JUnitRunner])
 class OtherAddressFormTests 
   extends FlatSpec
   with Matchers

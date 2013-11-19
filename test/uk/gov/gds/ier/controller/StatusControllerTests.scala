@@ -13,7 +13,6 @@ import org.scalatest.junit.JUnitRunner
 import uk.gov.gds.ier.service.PlacesService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 
-@RunWith(classOf[JUnitRunner])
 class StatusControllerTests extends FlatSpec with Matchers {
 
   val stubGlobal = new DynamicGlobal {

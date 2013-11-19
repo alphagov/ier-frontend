@@ -12,9 +12,29 @@
       @text(keys.name.middleNames, label = "Middle names", inputAttributes = Map('class -> "middle-names long"))
       @text(keys.name.lastName, label = "Last name", inputAttributes = Map('class -> "last-name long"), crossField = keys.name)
     </fieldset>
+    <fieldset class="sub-section">
+      <legend class="label">Have you changed your name in the last 12 months?</legend> 
+      @radio(keys.previousName.hasPreviousName, label="Yes", value = "true", labelAttributes = Map('class -> "binary"))
+      @radio(keys.previousName.hasPreviousName, label="No", value = "false", labelAttributes = Map('class -> "binary"))
+    </fieldset>
+    <div class="optional-section @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "visible")" data-condition="@keys.previousName.hasPreviousName.asId("true")">
+      <h2>Previous name</h2>
+      <fieldset>
+        <label for="previousName_previousName_firstName"><span class="visuallyhidden">Previous </span>First name</label>
+        <input type="text" id="previousName_previousName_firstName" name="previousName.previousName.firstName" value="" autocomplete="off" class="text first-name long" />
+        <label for="previousName_previousName_middleNames"><span class="visuallyhidden">Previous </span>Middle names</label>
+        <input type="text" id="previousName_previousName_middleNames" name="previousName.previousName.middleNames" value="" autocomplete="off" class="text middle-names long" />
+        <label for="previousName_previousName_lastName"><span class="visuallyhidden">Previous </span>Last name</label>
+        <input type="text" id="previousName_previousName_lastName" name="previousName.previousName.lastName" value="" autocomplete="off" class="text last-name long">
+      </fieldset> 
+    </div>
     @validationMessage(formData(keys.name))
     @validationMessage(formData(keys.name.firstName))
     @validationMessage(formData(keys.name.lastName))
+    @validationMessage(formData(keys.previousName))
+    @validationMessage(formData(keys.previousName.previousName.firstName))
+    @validationMessage(formData(keys.previousName.previousName.middleNames))
+    @validationMessage(formData(keys.previousName.previousName.lastName))
     <button id="continue" type="submit" class="button next">Continue</button>
   }
 }
