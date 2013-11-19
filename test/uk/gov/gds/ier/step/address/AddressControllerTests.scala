@@ -24,6 +24,8 @@ class AddressControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Where do you live?")
+      contentAsString(result) should include("Question 5")
+      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/nino")
       contentAsString(result) should include("/register-to-vote/address")
     }
   }

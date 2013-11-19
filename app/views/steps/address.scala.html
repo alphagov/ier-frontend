@@ -8,7 +8,7 @@
     stylesheets = head(), 
     scripts = stepsBodyEnd()) {
   @form(postUrl) {
-    @layouts.questionHeader("Where do you live?", "/register-to-vote/nino", 6)
+    @layouts.questionHeader("Where do you live?", "/register-to-vote/nino", 5)
 
     <fieldset>
       <p>If you have more than one address, just give the one where you spend most of your time.</p>
@@ -21,7 +21,7 @@
       <button id="find-address" class="button search">Find address</button>
     </fieldset>
     <div id="found-addresses">
-    @if(possibleAddress.size > 0){
+    @if(possibleAddress.size > 0) {
       <label for="input-address-list">Select your address</label>
       <select id="input-address-list" name="@keys.address.address.key" class="lonely">
         <option value="">Please select...</option>

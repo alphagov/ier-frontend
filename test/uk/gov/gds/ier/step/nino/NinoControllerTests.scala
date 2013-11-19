@@ -23,6 +23,8 @@ class NinoControllerTests
       
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
+      contentAsString(result) should include("Question 4")
+      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/name")
       contentAsString(result) should include("What is your National Insurance number?")
       contentAsString(result) should include("/register-to-vote/nino")
     }
