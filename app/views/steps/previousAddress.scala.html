@@ -21,7 +21,7 @@
           inputAttributes = Map('class -> "binary"), 
           labelAttributes = Map('class -> "binary"))
     </fieldset>
-    <fieldset class="optional-section optional-section-binary @classIf(formData(keys.previousAddress.movedRecently).value == Some("true"), "visible")" data-condition="@keys.previousAddress.movedRecently.asId("true")">
+    <fieldset class="optional-section optional-section-core-content @classIf(formData(keys.previousAddress.movedRecently).value == Some("true"), "visible")" data-condition="@keys.previousAddress.movedRecently.asId("true")">
       @text(keys.possibleAddresses.postcode, 
           label = "Enter the postcode to find your previous address", 
           inputAttributes = Map(
