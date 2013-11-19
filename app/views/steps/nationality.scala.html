@@ -19,7 +19,7 @@
 @main(title = Some("Register to Vote - What is your Nationality?"), stylesheets = head(), scripts = stepsBodyEnd()) {
   @form(postUrl) {
 
-    @layouts.questionHeader("What is your nationality?", "", 1)
+    @layouts.questionHeader("What is your nationality?", "/register-to-vote/country-of-residence", 2)
     <p>If you have dual nationality, select all options that are relevant to you.</p>
     <fieldset>
       @check(keys.nationality.nationalities.item(0), label = "I am British", value = "British")

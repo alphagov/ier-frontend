@@ -6,7 +6,7 @@
 
 @main(title = Some("Register to Vote - What is your name?"), stylesheets = head(), scripts = stepsBodyEnd()) {
   @form(postEndpoint) {
-  @layouts.questionHeader("What is your full name?", "/register-to-vote/date-of-birth", 3)
+  @layouts.questionHeader("What is your full name?", "/register-to-vote/date-of-birth", 4)
     <fieldset>
       @text(keys.name.firstName, label = "First name", inputAttributes = Map('class -> "first-name long"), crossField = keys.name)
       @text(keys.name.middleNames, label = "Middle names", inputAttributes = Map('class -> "middle-names long"))
