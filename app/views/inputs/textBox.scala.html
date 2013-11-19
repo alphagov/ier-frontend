@@ -14,7 +14,7 @@
 @inputHtml = {
 @defining(formData(crossField)) { crossField =>
 @defining(formData(id)) { field =>
-<input type="@inputType" id="@id.asId()" name="@field.name" value="@field.value.getOrElse("")" @if(inputAttributes.contains('placeholder)) { placeholder="@inputAttributes.get('placeholder).getOrElse("")" } class="text @(if(field.hasErrors) "invalid" else "") @(if(crossField.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")" @asAttributes(inputAttributes.without('class, 'id, 'type, 'name, 'value))>
+<input type="@inputType" id="@id.asId()" name="@field.name" value="@field.value.getOrElse("")" autocomplete="off" @if(inputAttributes.contains('placeholder)) { placeholder="@inputAttributes.get('placeholder).getOrElse("")" } class="text @(if(field.hasErrors) "invalid" else "") @(if(crossField.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")" @asAttributes(inputAttributes.without('class, 'id, 'type, 'name, 'value))>
 }
 }
 }

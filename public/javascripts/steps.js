@@ -4,9 +4,106 @@ window.GOVUK = window.GOVUK || {};
   "use strict"
   var root = this,
       $ = root.jQuery,
-      countries;
+      countries,
+      ENTER = 13;
 
-  countries = ["Afghanistan","Åland Islands","Albania","Algeria","American Samoa","Andorra","Angola","Anguilla","Antarctica","Antigua and Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bonaire","Bosnia and Herzegovina","Botswana","Bouvet Island","Brazil","British Indian Ocean Territory","Brunei Darussalam","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central African Republic","Chad","Chile","China","Christmas Island","Cocos (Keeling) Islands","Colombia","Comoros","Republic of the Congo","Democratic Republic of the Congo","Cook Islands","Costa Rica","Côte d'Ivoire","Croatia","Cuba","Curaçao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands (Malvinas)","Faroe Islands","Fiji","Finland","France","French Guiana","French Polynesia","French Southern Territories","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guadeloupe","Guam","Guatemala","Guernsey","Guinea","Guinea-Bissau","Guyana","Haiti","Heard Island and McDonald Islands","Vatican City","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macao","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Martinique","Mauritania","Mauritius","Mayotte","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar (Burma)","Namibia","Nauru","Nepal","Netherlands","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","Niue","Norfolk Island","North Korea","Northern Mariana Islands","Norway","Oman","Pakistan","Palau","Palestinian Territory","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Pitcairn","Poland","Portugal","Puerto Rico","Qatar","Réunion","Romania","Russian Federation","Rwanda","Saint Barthélemy","Saint Helena","Saint Kitts and Nevis","Saint Lucia","Saint Martin","Saint Pierre and Miquelon","Saint Vincent and the Grenadines","Samoa","San Marino","São Tomé and Príncipe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Sint Maarten","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Georgia","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Svalbard and Jan Mayen","Swaziland","Sweden","Switzerland","Syrian Arab Republic","Taiwan","Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tokelau","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Turks and Caicos Islands","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","United States Minor Outlying Islands","Uruguay","Uzbekistan","Vanuatu","Venezuela","Viet Nam","Virgin Islands (British)","Virgin Islands (U.S.)","Wallis and Futuna","Western Sahara","Yemen","Zambia","Zimbabwe"];
+  countries = [
+    { "name" : "AG", "tokens" : ["Antigua and Barbuda"], "value" : "Antigua and Barbuda" },
+    { "name" : "AI", "tokens" : ["Anguilla"], "value" : "Anguilla" },
+    { "name" : "AQ", "tokens" : ["British Antarctic Territory"], "value" : "British Antarctic Territory" },
+    { "name" : "AT", "tokens" : ["Austria"], "value" : "Austria" },
+    { "name" : "AU", "tokens" : ["Australia"], "value" : "Australia" },
+    { "name" : "BB", "tokens" : ["Barbados"], "value" : "Barbados" },
+    { "name" : "BD", "tokens" : ["Bangladesh"], "value" : "Bangladesh" },
+    { "name" : "BE", "tokens" : ["Belgium"], "value" : "Belgium" },
+    { "name" : "BG", "tokens" : ["Bulgaria"], "value" : "Bulgaria" },
+    { "name" : "BM", "tokens" : ["Bermuda"], "value" : "Bermuda" },
+    { "name" : "BN", "tokens" : ["Brunei Darussalam"], "value" : "Brunei Darussalam" },
+    { "name" : "BS", "tokens" : ["The Bahamas"], "value" : "The Bahamas" },
+    { "name" : "BW", "tokens" : ["Botswana"], "value" : "Botswana" },
+    { "name" : "BZ", "tokens" : ["Belize"], "value" : "Belize" },
+    { "name" : "CA", "tokens" : ["Canada"], "value" : "Canada" },
+    { "name" : "CI", "tokens" : ["Channel Islands"], "value" : "Channel Islands" },
+    { "name" : "CM", "tokens" : ["Cameroon"], "value" : "Cameroon" },
+    { "name" : "CY", "tokens" : ["Cyprus"], "value" : "Cyprus" },
+    { "name" : "CZ", "tokens" : ["Czech Republic"], "value" : "Czech Republic" },
+    { "name" : "DE", "tokens" : ["Germany"], "value" : "Germany" },
+    { "name" : "DK", "tokens" : ["Denmark"], "value" : "Denmark" },
+    { "name" : "DM", "tokens" : ["Dominica"], "value" : "Dominica" },
+    { "name" : "EE", "tokens" : ["Estonia"], "value" : "Estonia" },
+    { "name" : "ES", "tokens" : ["Spain"], "value" : "Spain" },
+    { "name" : "FI", "tokens" : ["Finland"], "value" : "Finland" },
+    { "name" : "FJ", "tokens" : ["Fiji Islands"], "value" : "Fiji Islands" },
+    { "name" : "FK", "tokens" : ["Falkland Islands"], "value" : "Falkland Islands" },
+    { "name" : "FR", "tokens" : ["France"], "value" : "France" },
+    { "name" : "GB", "tokens" : ["United Kingdom"], "value" : "United Kingdom" },
+    { "name" : "GD", "tokens" : ["Grenada"], "value" : "Grenada" },
+    { "name" : "GH", "tokens" : ["Ghana"], "value" : "Ghana" },
+    { "name" : "GI", "tokens" : ["Gibraltar"], "value" : "Gibraltar" },
+    { "name" : "GM", "tokens" : ["The Gambia"], "value" : "The Gambia" },
+    { "name" : "GR", "tokens" : ["Greece"], "value" : "Greece" },
+    { "name" : "GS", "tokens" : ["South Georgia and the South Sandwich Islands"], "value" : "South Georgia and the South Sandwich Islands" },
+    { "name" : "GY", "tokens" : ["Guyana"], "value" : "Guyana" },
+    { "name" : "HK", "tokens" : ["Hong Kong"], "value" : "Hong Kong" },
+    { "name" : "HU", "tokens" : ["Hungary"], "value" : "Hungary" },
+    { "name" : "IE", "tokens" : ["Ireland"], "value" : "Ireland" },
+    { "name" : "IM", "tokens" : ["Isle of Man"], "value" : "Isle of Man" },
+    { "name" : "IN", "tokens" : ["India"], "value" : "India" },
+    { "name" : "IO", "tokens" : ["British Indian Ocean Territory"], "value" : "British Indian Ocean Territory" },
+    { "name" : "IT", "tokens" : ["Italy"], "value" : "Italy" },
+    { "name" : "JM", "tokens" : ["Jamaica"], "value" : "Jamaica" },
+    { "name" : "KE", "tokens" : ["Kenya"], "value" : "Kenya" },
+    { "name" : "KI", "tokens" : ["Kiribati"], "value" : "Kiribati" },
+    { "name" : "KN", "tokens" : ["St Kitts & Nevis"], "value" : "St Kitts & Nevis" },
+    { "name" : "KY", "tokens" : ["Cayman Islands"], "value" : "Cayman Islands" },
+    { "name" : "LC", "tokens" : ["St Lucia"], "value" : "St Lucia" },
+    { "name" : "LK", "tokens" : ["Sri Lanka"], "value" : "Sri Lanka" },
+    { "name" : "LS", "tokens" : ["Lesotho"], "value" : "Lesotho" },
+    { "name" : "LT", "tokens" : ["Lithuania"], "value" : "Lithuania" },
+    { "name" : "LU", "tokens" : ["Luxemburg"], "value" : "Luxemburg" },
+    { "name" : "LV", "tokens" : ["Latvia"], "value" : "Latvia" },
+    { "name" : "MS", "tokens" : ["Montserrat"], "value" : "Montserrat" },
+    { "name" : "MT", "tokens" : ["Malta"], "value" : "Malta" },
+    { "name" : "MU", "tokens" : ["Mauritius"], "value" : "Mauritius" },
+    { "name" : "MV", "tokens" : ["Maldives"], "value" : "Maldives" },
+    { "name" : "MW", "tokens" : ["Malawi"], "value" : "Malawi" },
+    { "name" : "MY", "tokens" : ["Malaysia"], "value" : "Malaysia" },
+    { "name" : "MZ", "tokens" : ["Mozambique"], "value" : "Mozambique" },
+    { "name" : "NA", "tokens" : ["Namibia"], "value" : "Namibia" },
+    { "name" : "NG", "tokens" : ["Nigeria"], "value" : "Nigeria" },
+    { "name" : "NL", "tokens" : ["Netherlands"], "value" : "Netherlands" },
+    { "name" : "NR", "tokens" : ["Nauru"], "value" : "Nauru" },
+    { "name" : "NZ", "tokens" : ["New Zealand"], "value" : "New Zealand" },
+    { "name" : "PG", "tokens" : ["Papua New Guinea"], "value" : "Papua New Guinea" },
+    { "name" : "PK", "tokens" : ["Pakistan"], "value" : "Pakistan" },
+    { "name" : "PL", "tokens" : ["Poland"], "value" : "Poland" },
+    { "name" : "PN", "tokens" : ["Pitcairn Island"], "value" : "Pitcairn Island" },
+    { "name" : "PT", "tokens" : ["Portugal"], "value" : "Portugal" },
+    { "name" : "RO", "tokens" : ["Romania"], "value" : "Romania" },
+    { "name" : "RW", "tokens" : ["Rwanda"], "value" : "Rwanda" },
+    { "name" : "SB", "tokens" : ["Solomon Islands"], "value" : "Solomon Islands" },
+    { "name" : "SC", "tokens" : ["Seychelles"], "value" : "Seychelles" },
+    { "name" : "SE", "tokens" : ["Sweden"], "value" : "Sweden" },
+    { "name" : "SG", "tokens" : ["Singapore"], "value" : "Singapore" },
+    { "name" : "SH", "tokens" : ["St Helena and dependencies (Ascension Island and Tristan da Cunha)"], "value" : "St Helena and dependencies (Ascension Island and Tristan da Cunha)" },
+    { "name" : "SI", "tokens" : ["Slovenia"], "value" : "Slovenia" },
+    { "name" : "SK", "tokens" : ["Slovakia"], "value" : "Slovakia" },
+    { "name" : "SL", "tokens" : ["Sierra Leone"], "value" : "Sierra Leone" },
+    { "name" : "SZ", "tokens" : ["Swaziland"], "value" : "Swaziland" },
+    { "name" : "TC", "tokens" : ["Turks and Caicos Islands"], "value" : "Turks and Caicos Islands" },
+    { "name" : "TO", "tokens" : ["Tonga"], "value" : "Tonga" },
+    { "name" : "TT", "tokens" : ["Trinidad & Tobago"], "value" : "Trinidad & Tobago" },
+    { "name" : "TV", "tokens" : ["Tuvalu"], "value" : "Tuvalu" },
+    { "name" : "TZ", "tokens" : ["United Republic of Tanzania"], "value" : "United Republic of Tanzania" },
+    { "name" : "UG", "tokens" : ["Uganda"], "value" : "Uganda" },
+    { "name" : "VC", "tokens" : ["St Vincent & The Grenadines"], "value" : "St Vincent & The Grenadines" },
+    { "name" : "VG", "tokens" : ["British Virgin Islands"], "value" : "British Virgin Islands" },
+    { "name" : "VU", "tokens" : ["Vanuatu"], "value" : "Vanuatu" },
+    { "name" : "WS", "tokens" : ["Samoa"], "value" : "Samoa" },
+    { "name" : "ZA", "tokens" : ["South Africa"], "value" : "South Africa" },
+    { "name" : "ZM", "tokens" : ["Zambia"], "value" : "Zambia" },
+    { "name" : "ZW", "tokens" : ["Zimbabwe"], "value" : "Zimbabwe" }
+  ];
 
   var toggleObj,
       optionalInformation,
@@ -16,31 +113,52 @@ window.GOVUK = window.GOVUK || {};
       monitorRadios,
       postcodeLookup,
       validation,
-      autocomplete;
+      autocomplete,
+      autocompletes;
 
   toggleObj = function (elm) {
     if (elm) {
       this.$content = $(elm);
+      this.toggleActions = {
+        'hidden': 'Expand',
+        'visible': 'Hide'
+      };
       this.setup();
       this.bindEvents();
+    }
+  };
+  toggleObj.prototype.setAccessibilityAPI = function (state) {
+    if (state === 'hidden') {
+      this.$content.attr('aria-hidden', true);
+      this.$toggle.attr('aria-expanded', true);
+      this.$toggle.find('span.visuallyhidden').eq(0).text(this.toggleActions.hidden);
+    } else {
+      this.$content.attr('aria-hidden', false);
+      this.$toggle.attr('aria-expanded', false);
+      this.$toggle.find('span.visuallyhidden').eq(0).text(this.toggleActions.visible);
     }
   };
   toggleObj.prototype.toggle = function () {
     if (this.$content.css("display") === "none") {
       this.$content.show();
+      this.setAccessibilityAPI('visible');
       this.$toggle.removeClass("toggle-closed");
       this.$toggle.addClass("toggle-open");
       $(document).trigger('toggle.open', { '$toggle' : this.$toggle });
     } else {
       this.$content.hide();
+      this.setAccessibilityAPI('hidden');
       this.$toggle.removeClass("toggle-open");
       this.$toggle.addClass("toggle-closed");
       $(document).trigger('toggle.closed', { '$toggle' : this.$toggle });
     }
   };
   toggleObj.prototype.setup = function () {
+    var contentId = this.$content.attr('id');
+
     this.$heading = this.$content.find("h1,h2,h3,h4").first();
-    this.$toggle = $('<a href="#" class="toggle">' + this.$heading.text() + '</a>');
+    this.$toggle = $('<a href="#" class="toggle"><span class="visuallyhidden">Show</span> ' + this.$heading.text() + ' <span class="visuallyhidden">section</span></a>');
+    if (contentId) { this.$toggle.attr('aria-controls', contentId); }
     this.$toggle.insertBefore(this.$content);
   };
   toggleObj.prototype.bindEvents = function () {
@@ -57,9 +175,12 @@ window.GOVUK = window.GOVUK || {};
   };
   $.extend(optionalInformation.prototype, new toggleObj());
   optionalInformation.prototype.setup = function () {
-    var headingText;
+    var contentId = this.$content.attr('id'),
+        headingText;
+
     this.$heading = this.$content.find("h1,h2,h3,h4").first();
-    this.$toggle = $('<a href="#" class="toggle toggle-closed">' + this.$heading.text() + '</a>');
+    this.$toggle = $('<a href="#" class="toggle"><span class="visuallyhidden">Show</span> ' + this.$heading.text() + ' <span class="visuallyhidden">section</span></a>');
+    if (contentId) { this.$toggle.attr('aria-controls', contentId); }
     this.$toggle.insertBefore(this.$content);
     this.$heading.addClass("visuallyhidden");
   };
@@ -78,7 +199,10 @@ window.GOVUK = window.GOVUK || {};
   };
   $.extend(conditionalControl.prototype, new toggleObj());
   conditionalControl.prototype.setup = function () {
+    var contentId = this.$content.attr('id');
+
     this.$toggle = $(document.getElementById(this.$content.data('condition')));
+    if (contentId) { this.$toggle.attr('aria-controls', contentId); }
   }; 
   conditionalControl.prototype.bindEvents = function () {
     var inst = this,
@@ -107,17 +231,22 @@ window.GOVUK = window.GOVUK || {};
     if (selectedRadio !== undefined) {
       if (this.$toggle.attr('id') !== selectedRadio.id) {
         this.$content.hide();
+        this.$toggle.attr('aria-expanded', false);
         $('#continue').show();
       }
     } else {
       if (this.$toggle.is(":checked")) {
         this.$content.show();
+        this.$content.attr('aria-hidden', false);
+        this.$toggle.attr('aria-expanded', true);
         $(document).trigger('toggle.open', { '$toggle' : this.$toggle });
         if (isPostcodeLookup && !hasAddresses) {
           $('#continue').hide();
         }
       } else {
         this.$content.hide();
+        this.$content.attr('aria-hidden', true);
+        this.$toggle.attr('aria-expanded', true);
         $(document).trigger('toggle.closed', { '$toggle' : this.$toggle });
         $('#continue').show();
       }
@@ -161,7 +290,7 @@ window.GOVUK = window.GOVUK || {};
         $container = this.$label.parent(),
         fragment = '<label for="{% id %}" class="{% labelClass %}">{% labelText %}</label>' +
                     '<a href="#" class="remove-field">Remove<span class="visuallyhidden"> {% labelText %}</span></a>' +
-                    '<input type="text" id="{% id %}" name="{% name %}" class="text country-autocomplete long" value="{% value %}" />',
+                    '<input type="text" id="{% id %}" name="{% name %}" class="text country-autocomplete long" value="{% value %}" autocomplete="off" />',
         wrapperDiv = document.createElement('div'),
         options = {
           'id' : this.getFieldId(fieldNum),
@@ -245,17 +374,146 @@ window.GOVUK = window.GOVUK || {};
     document.getElementById(this.getFieldId(countryIdx)).focus();
   };
 
-  autocomplete = {
-    add : function ($input) {
-      $input.typeahead({
-        hint: false,
-        name: 'countries',
-        local: countries,
-        limit: 5
+  autocomplete = function ($input) {
+    this.$input = $input;
+    this.menuIsShowing = false;
+    this.$input.typeahead({
+      hint: false,
+      name: 'countries',
+      local: countries,
+      template: this.compiledTemplate,
+      engine: Mustache,
+      limit: 5
+    });
+  };
+  autocomplete.prototype.getMenuId = (function () {
+    var id = 0;
+
+    return function () {
+      id = id + 1;
+      return this.menuIdPrefix + '-' + id;
+    };
+  }());
+  autocomplete.prototype.menuIdPrefix = 'typeahead-suggestions';
+  autocomplete.prototype.compiledStatusText = Mustache.compile('{{results}} {{#describe}}{{results}}{{/describe}} available, use up and down arrow keys to navigate.');
+  autocomplete.prototype.compiledTemplate = Mustache.compile('<p role="presentation" id="{{name}}">{{value}}</p>');
+  autocomplete.prototype.updateStatus = function (suggestions) {
+    var statusText;
+
+    if (suggestions.length > 0) {
+      statusText = this.compiledStatusText({ 
+        'results' : suggestions.length, 
+        'describe' : function () {
+          return function (results) {
+            return (this.results > 1) ? 'results are' : 'result is';
+          }
+        }
+      });
+      this.$status.text(statusText);
+    }
+  };
+  autocomplete.prototype.events = {
+    onInitialized : function (e) {
+      var autocompleteObj = this.getAutocompleteObj($(e.target)),
+          menuId = this.getMenuId();
+
+      this.$menu = this.$input.parent().find('.tt-dropdown-menu');
+      this.$status = $('<span role="status" aria-live="polite" class="typeahead-status visuallyhidden" />');
+      this.$status.insertAfter(this.$input);
+      this.$input.attr({
+        'aria-autocomplete' : 'list',
+        'aria-haspopup' : menuId
+      });
+      this.lastInputValue = this.$input.val();
+      this.$menu
+        .css('width', this.$input.innerWidth() + 'px')
+        .attr('id', menuId);
+      this.$input.on('keydown', function (e) { 
+        var keypressed = e.which,
+            currentInputValue = $(this).val();
+
+        if (keypressed === ENTER) {
+          return autocompleteObj.events.onEnter.call(autocompleteObj, e); 
+        }
+        return true;
       });
     },
+    onMenuOpen : function () {
+      this.menuIsShowing = true;
+    },
+    onMenuClosed : function () {
+      this.menuIsShowing = false;
+    },
+    onMoveTo : function (e, countryObj) {
+      var idOfSelected = (countryObj !== null) ? countryObj.value : "";
+      this.$input.attr('aria-activedescendant', idOfSelected);
+    },
+    onEnter : function (e) {
+      if (this.menuIsShowing) {
+        this.$menu.hide();
+        this.menuIsShowing = false;
+        return false;
+      } 
+      return true;
+    },
+    onUpdate : function (e, suggestions) {
+      this.updateStatus(suggestions);
+    }
+  };
+  autocomplete.prototype.getAutocompleteObj = function ($input) {
+    return autocompletes.existingObj($input);
+  };
+
+  autocompletes = {
+    $currentInput : null,
+    cache : {},
+    methods : {
+      'initialized' : 'onInitialized',
+      'opened' : 'onMenuOpen',
+      'closed' : 'onMenuClosed',
+      'movedto' : 'onMoveTo',
+      'updated' : 'onUpdate',
+    },
+    setCurrentInput : function ($input) {
+      this.$currentInput = $input;
+    },
+    existingId : function ($input) {
+      var inputId = $input.attr('id');
+
+      if (typeof this.cache[inputId] !== 'undefined') {
+        return inputId;
+      }
+      return false;
+    },
+    existingObj : function ($input) {
+      return this.cache[$input.attr('id')];
+    },
+    trigger : function (eventName) {
+      var autocompletesObj = this;
+
+      return {
+        'andSend' : function (e) {
+          var existingObj = autocompletesObj.existingObj($(e.target)),
+              method = autocompletesObj.methods[eventName];
+
+          if (existingObj) {
+            existingObj.events[method].apply(existingObj, arguments);
+          }
+        }
+      };
+    },
+    add : function ($input) {
+      var existingId = this.existingId($input);
+
+      if (!existingId) {
+        this.cache[$input.attr('id')] = new autocomplete($input);
+      }
+    },
     remove : function ($input) {
-      $input.parent('.twitter-typeahead').remove();
+      var existing = this.getExisting($input);
+
+      $input.typeahead('destroy');
+      if (existing) { delete this.cache[existing]; }
     }
   };
 
@@ -351,7 +609,7 @@ window.GOVUK = window.GOVUK || {};
       'help' : '<div class="help-content">' +
                   '<h2>My address is not listed</h2>' +
                   '<label for="input-address-text">Enter your address</label>' +
-                  '<textarea id="input-address-text" name="'+inputName+'" class="small"></textarea>' +
+                  '<textarea id="input-address-text" name="'+inputName+'" class="small" autocomplete="off"></textarea>' +
                 '</div>'
     };
     this.$searchButton.attr('aria-controls', this.$targetElement.attr('id'));
@@ -509,7 +767,7 @@ window.GOVUK = window.GOVUK || {};
     "markSelected" : markSelected,
     "monitorRadios" : monitorRadios,
     "postcodeLookup" : postcodeLookup,
-    "autocomplete" : autocomplete,
+    "autocompletes" : autocompletes,
     "validation" : validation
   };
 
@@ -556,18 +814,21 @@ window.GOVUK = window.GOVUK || {};
     });
     GOVUK.registerToVote.validation.init();
     $('.country-autocomplete').each(function (idx, elm) {
-      GOVUK.registerToVote.autocomplete.add($(elm));
+      GOVUK.registerToVote.autocompletes.add($(elm));
+    });
+    $.each(['initialized', 'opened', 'closed', 'movedto', 'updated'], function (idx, evt) {
+      $(document).bind('typeahead:' + evt, function () {
+        var autocompleteEvent = GOVUK.registerToVote.autocompletes.trigger(evt);
+
+        autocompleteEvent.andSend.apply(GOVUK.registerToVote.autcompletes, arguments);
+      });
     });
     $(document).bind('contentUpdate', function (e, data) {
       var context = data.context;
 
       $('.country-autocomplete', context).each(function (idx, elm) {
-        GOVUK.registerToVote.autocomplete.add($(elm));
+        GOVUK.registerToVote.autocompletes.add($(elm));
       });
-    });
-    $(document).bind('typeahead:opened', function (e) {
-      var $input = $(e.target);
-      $(e.target).parent().find('.tt-dropdown-menu').css('width', $input.innerWidth() + 'px');
     });
     GOVUK.registerToVote.validation.init();
   });
