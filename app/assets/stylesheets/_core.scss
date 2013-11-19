@@ -67,6 +67,11 @@ select {
 	border: 1px solid #aaa;
 }
 
+legend {
+  border: 0;
+  padding: 0;
+}
+
 textarea {
 	padding: 10px;
 }
@@ -217,7 +222,7 @@ form {
   }
 }
 
-.optional-section-binary,
+.optional-section-core-content,
 .optional-section .optional-section,
 .help-content .optional-section {
   border-left: none;
@@ -225,6 +230,12 @@ form {
 
   & :last-child {
     margin-bottom: 1em;
+  }
+}
+
+.optional-section {
+  h2, h3 {
+    @include bold-19;
   }
 }
 
@@ -237,6 +248,10 @@ form {
     background-image: url("/assets/images/icon-important-2x.png");
     background-size: 34px 34px;
   }
+}
+
+.sub-section {
+  margin-top: 2em;
 }
 
 .back-to-previous {

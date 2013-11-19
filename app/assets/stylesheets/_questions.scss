@@ -2,7 +2,15 @@
 
 /* global form control styles */
 
+legend {
+  @include bold-19;
+  float: left;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
 label,
+.label,
 select,
 input,
 textarea {
