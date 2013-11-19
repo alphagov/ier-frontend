@@ -161,7 +161,7 @@ window.GOVUK = window.GOVUK || {};
         $container = this.$label.parent(),
         fragment = '<label for="{% id %}" class="{% labelClass %}">{% labelText %}</label>' +
                     '<a href="#" class="remove-field">Remove<span class="visuallyhidden"> {% labelText %}</span></a>' +
-                    '<input type="text" id="{% id %}" name="{% name %}" class="text country-autocomplete long" value="{% value %}" />',
+                    '<input type="text" id="{% id %}" name="{% name %}" class="text country-autocomplete long" value="{% value %}" autocomplete="off" />',
         wrapperDiv = document.createElement('div'),
         options = {
           'id' : this.getFieldId(fieldNum),
@@ -351,7 +351,7 @@ window.GOVUK = window.GOVUK || {};
       'help' : '<div class="help-content">' +
                   '<h2>My address is not listed</h2>' +
                   '<label for="input-address-text">Enter your address</label>' +
-                  '<textarea id="input-address-text" name="'+inputName+'" class="small"></textarea>' +
+                  '<textarea id="input-address-text" name="'+inputName+'" class="small" autocomplete="off"></textarea>' +
                 '</div>'
     };
     this.$searchButton.attr('aria-controls', this.$targetElement.attr('id'));
