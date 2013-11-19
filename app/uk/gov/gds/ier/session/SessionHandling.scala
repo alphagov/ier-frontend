@@ -102,10 +102,9 @@ trait SessionHandling {
   implicit class InProgressResult(result:Result) extends SessionKeys {
     def emptySession()(implicit request: play.api.mvc.Request[_]) = {
       val requestCookies = DiscardingCookie(sessionPayloadKey) ::
-        DiscardingCookie(sessionTokenKey) ::
-        request.cookies.map(c => DiscardingCookie(c.name)).toList
+        DiscardingCookie(sessionTokenKey) :: Nil
 
-      result.withNewSession.discardingCookies(requestCookies: _*)
+      result.discardingCookies(requestCookies: _*)
     }
     def withFreshSession() = {
       result.withCookies(Cookie(sessionTokenKey, DateTime.now.toString())).discardingCookies(DiscardingCookie(sessionPayloadKey))

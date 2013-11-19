@@ -172,7 +172,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       }
 
       val controller = new TestController()
-      val result = controller.noSessionTest()(FakeRequest().withCookies(Cookie("aCookie", "foobar")))
+      val result = controller.noSessionTest()(FakeRequest().withCookies(Cookie("application", "barfoo")))
 
       status(result) should be(OK)
       jsonSerialiser.fromJson[Map[String,String]](contentAsString(result)) should be(Map("status" -> "no session"))
@@ -181,8 +181,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       cookies(result).get("sessionKey").get.maxAge.get should be < 0
       cookies(result).get("application").isDefined should be(true)
       cookies(result).get("application").get.maxAge.get should be < 0
-      cookies(result).get("aCookie").isDefined should be(true)
-      cookies(result).get("aCookie").get.maxAge.get should be < 0
+      cookies(result).get("application").get.value should be("")
     }
   }
 }
