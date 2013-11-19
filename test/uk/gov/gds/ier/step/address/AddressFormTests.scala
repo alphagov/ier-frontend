@@ -74,7 +74,8 @@ class AddressFormTests
       Map(
         "address.address" -> "321 My Street",
         "address.postcode" -> "SW1A 1AA",
-        "possibleAddresses.jsonList" -> possibleAddressJS
+        "possibleAddresses.jsonList" -> possibleAddressJS,
+        "possibleAddresses.postcode" -> "SW1A 1AA"
       )
     )
     addressForm.bind(js).fold(
@@ -99,7 +100,8 @@ class AddressFormTests
       Map(
         "address.address" -> "321 My Street",
         "address.postcode" -> "SW1A 1AA",
-        "possibleAddresses.jsonList" -> ""
+        "possibleAddresses.jsonList" -> "",
+        "possibleAddresses.postcode" -> ""
       )
     )
     addressForm.bind(js).fold(
