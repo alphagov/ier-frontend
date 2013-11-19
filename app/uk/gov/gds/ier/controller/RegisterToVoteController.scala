@@ -29,7 +29,7 @@ class RegisterToVoteController @Inject() (val serialiser: JsonSerialiser)
     Redirect(routes.RegisterToVoteController.error()).flashing("error-type" -> error)
   }
 
-  def error = NewSession requiredFor {
+  def error = ClearSession requiredFor {
     implicit request =>
       flash.get("error-type") match {
         case Some("exit-unknown-dob") => Ok(html.errors.exitUnknownDob())
