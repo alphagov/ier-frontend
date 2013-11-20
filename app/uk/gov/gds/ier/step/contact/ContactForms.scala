@@ -1,35 +1,43 @@
 package uk.gov.gds.ier.step.contact
 
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{InprogressApplication, Contact}
-import uk.gov.gds.ier.validation.Constraints
+import uk.gov.gds.ier.validation.{Key, ErrorMessages, FormKeys}
+import uk.gov.gds.ier.model.{InprogressApplication, Contact, ContactDetail}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.Form
 import play.api.data.Forms._
+import uk.gov.gds.ier.validation.constraints.ContactConstraints
 
-trait ContactForms {
+trait ContactForms extends ContactConstraints {
   self:  FormKeys
     with ErrorMessages
-    with WithSerialiser
-    with Constraints =>
-  
+    with WithSerialiser =>
+
+  def contactMeMapping(key:Key, name:String) = mapping(
+    keys.contactMe.key -> boolean,
+    keys.detail.key -> optional(text)
+  ) (ContactDetail.apply) (ContactDetail.unapply).verifying(detailFilled(key.detail, name))
+
+  def contactDetailMapping(key:Key, name:String) = {
+    contactMeMapping(key:Key, name:String).transform(
+      (contact) => if (contact.contactMe) contact.detail else None,
+      (detail:Option[String]) => ContactDetail(detail.isDefined, detail)
+    )
+  }
+
+  lazy val postDetailMapping = mapping(
+    keys.contactMe.key -> optional(boolean)
+  ) (_.getOrElse(false)) (post => Some(Some(post)))
+
   lazy val contactMapping = mapping(
-    keys.contactType.key -> text
-      .verifying("Please select a contact method", 
-        method => List("phone", "post", "text", "email").contains(method)),
-    keys.post.key -> optional(nonEmptyText
-      .verifying(postMaxLengthError, _.size <= maxTextFieldLength)),
-    keys.phone.key -> optional(nonEmptyText
-      .verifying(postMaxLengthError, _.size <= maxTextFieldLength)),
-    keys.textNum.key -> optional(nonEmptyText
-      .verifying(postMaxLengthError, _.size <= maxTextFieldLength)),
-    keys.email.key -> optional(nonEmptyText
-      .verifying(postMaxLengthError, _.size <= maxTextFieldLength))
+    keys.post.key -> postDetailMapping,
+    keys.phone.key -> contactDetailMapping(keys.contact.phone, "phone number"),
+    keys.textNum.key -> contactDetailMapping(keys.contact.textNum, "phone number"),
+    keys.email.key -> contactDetailMapping(keys.contact.email, "email address")
   ) (
     Contact.apply
   ) (
     Contact.unapply
-  ).verifying(contactEmailConstraint, contactTelephoneConstraint, contactTextConstraint)
+  )
 
   val contactForm = Form(
     mapping(

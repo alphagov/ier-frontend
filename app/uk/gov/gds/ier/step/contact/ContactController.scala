@@ -13,7 +13,6 @@ import play.api.templates.Html
 class ContactController @Inject ()(val serialiser: JsonSerialiser,
                                    val errorTransformer: ErrorTransformer)
   extends StepController
-  with Constraints
   with WithSerialiser
   with WithErrorTransformer
   with ContactForms {
