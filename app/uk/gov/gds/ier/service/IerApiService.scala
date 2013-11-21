@@ -27,7 +27,9 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
   def submitApplication(ipAddress: Option[String], applicant: InprogressApplication, referenceNumber: Option[String]) = {
     val authority = applicant.address.map(address => placesService.lookupAuthority(address.postcode)).getOrElse(None)
 
-    val completeApplication = applicant.toApiMap ++
+    val applicationWithIsoCodes = applicant.copy(nationality = applicant.nationality map isoCountryService.transformToIsoCode)
+
+    val completeApplication = applicationWithIsoCodes.toApiMap ++
       referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
       authority.map(auth => Map("gssCode" -> auth.gssId)).getOrElse(Map.empty)  ++
       ipAddress.map(ipAddress => Map("webIpAddress" -> ipAddress)).getOrElse(Map.empty)
