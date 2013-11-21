@@ -18,10 +18,11 @@ abstract class IerApiService {
 }
 
 class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
-                               serialiser: JsonSerialiser,
-                               config: Config,
-                               placesService:PlacesService,
-                               shaHashProvider:ShaHashProvider) extends IerApiService with Logging {
+                                       serialiser: JsonSerialiser,
+                                       config: Config,
+                                       placesService:PlacesService,
+                                       shaHashProvider:ShaHashProvider,
+                                       isoCountryService: IsoCountryService) extends IerApiService with Logging {
 
   def submitApplication(ipAddress: Option[String], applicant: InprogressApplication, referenceNumber: Option[String]) = {
     val authority = applicant.address.map(address => placesService.lookupAuthority(address.postcode)).getOrElse(None)

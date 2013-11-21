@@ -4,30 +4,29 @@ import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.{InprogressApplication, Nationality}
 import play.api.data.Form
 import play.api.data.Forms._
+import uk.gov.gds.ier.guice.WithIsoCountryService
+import uk.gov.gds.ier.validation.constraints.NationalityConstraints
 
-trait NationalityForms {
+trait NationalityForms extends NationalityConstraints {
   self:  FormKeys
     with ErrorMessages =>
 
   lazy val nationalityMapping = mapping(
-    keys.nationalities.key -> list(nonEmptyText
-      .verifying(nationalityMaxLengthError, _.size <= maxTextFieldLength)),
+    keys.british.key -> optional(boolean),
+    keys.irish.key -> optional(boolean),
     keys.hasOtherCountry.key -> optional(boolean),
     keys.otherCountries.key -> list(text
       .verifying(nationalityMaxLengthError, _.size <= maxTextFieldLength)),
     keys.noNationalityReason.key -> optional(nonEmptyText
-      .verifying(noNationalityReasonMaxLengthError, _.size <= maxExplanationFieldLength))
+      .verifying(noNationalityReasonMaxLengthError, _.size <= maxExplanationFieldLength)),
+    "countryCodes" -> optional(list(text))
   ) (
     Nationality.apply
   ) (
     Nationality.unapply
-  ) verifying("Please select your Nationality", nationality => 
-      (nationality.nationalities.size > 0 
-        || (nationality.otherCountries.filter(_.nonEmpty).size > 0 
-          && nationality.hasOtherCountry.exists(b => b))) 
-      || nationality.noNationalityReason.isDefined
-  ) verifying("You can specify no more than five countries", 
-      mapping => mapping.nationalities.size + mapping.otherCountries.size <=5)
+  ) verifying (
+    nationalityIsChosen, notTooManyNationalities, otherCountry0IsValid, otherCountry1IsValid, otherCountry2IsValid
+  )
 
   val nationalityForm = Form(
     mapping(
