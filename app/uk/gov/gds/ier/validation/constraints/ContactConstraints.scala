@@ -9,7 +9,7 @@ trait ContactConstraints extends CommonConstraints {
 
   def detailFilled(key:Key, name:String) = {
     predicateHolds[ContactDetail](key, s"Please enter your $name") {
-      t => (t.contactMe && t.detail.isDefined) || !t.contactMe
+      t => t.detail.isDefined || !t.contactMe
     }
   }
 }

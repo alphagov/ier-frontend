@@ -76,7 +76,7 @@ class ContactFormTests
         success.contact.isDefined should be(true)
         val contact = success.contact.get
         contact.phone should be(Some("1234567890"))
-        contact.post should be(None)
+        contact.post should be(false)
         contact.email should be(None)
         contact.textNum should be(None)
       }
@@ -97,7 +97,7 @@ class ContactFormTests
         val contact = success.contact.get
         contact.email should be(Some("fake@fake.com"))
         contact.phone should be(None)
-        contact.post should be(None)
+        contact.post should be(false)
         contact.textNum should be(None)
       }
     )
@@ -117,7 +117,7 @@ class ContactFormTests
         val contact = success.contact.get
         contact.textNum should be(Some("1234567890"))
         contact.phone should be(None)
-        contact.post should be(None)
+        contact.post should be(false)
         contact.email should be(None)
       }
     )
