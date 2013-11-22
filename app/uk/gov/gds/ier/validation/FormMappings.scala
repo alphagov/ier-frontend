@@ -16,6 +16,7 @@ import uk.gov.gds.ier.step.otherAddress.OtherAddressForms
 import uk.gov.gds.ier.step.openRegister.OpenRegisterForms
 import uk.gov.gds.ier.step.postalVote.PostalVoteForms
 import uk.gov.gds.ier.step.contact.ContactForms
+import uk.gov.gds.ier.step.country.CountryForms
 
 trait FormMappings 
   extends FormKeys 
@@ -29,7 +30,8 @@ trait FormMappings
   with DateOfBirthForms
   with OpenRegisterForms 
   with PostalVoteForms 
-  with ContactForms {
+  with ContactForms 
+  with CountryForms {
     self: WithSerialiser =>
 
   val optInMapping = single(

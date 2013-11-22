@@ -11,6 +11,19 @@ import uk.gov.gds.ier.model.InprogressApplication
 trait SessionHandling {
   self: WithSerialiser with Controller =>
 
+  object ClearSession {
+    final def eradicateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
+      implicit request =>
+        block(request).emptySession()
+    }
+
+    final def withParser[A](bodyParser: BodyParser[A]) = new {
+      def requiredFor(action: Request[A] => Result) = eradicateSession(bodyParser, action)
+    }
+
+    final def requiredFor(action: Request[AnyContent] => Result) = withParser(BodyParsers.parse.anyContent) requiredFor action
+  }
+
   object NewSession {
     final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
       request =>
@@ -87,6 +100,12 @@ trait SessionHandling {
   }
 
   implicit class InProgressResult(result:Result) extends SessionKeys {
+    def emptySession()(implicit request: play.api.mvc.Request[_]) = {
+      val requestCookies = DiscardingCookie(sessionPayloadKey) ::
+        DiscardingCookie(sessionTokenKey) :: Nil
+
+      result.discardingCookies(requestCookies: _*)
+    }
     def withFreshSession() = {
       result.withCookies(Cookie(sessionTokenKey, DateTime.now.toString())).discardingCookies(DiscardingCookie(sessionPayloadKey))
     }
@@ -95,26 +114,6 @@ trait SessionHandling {
     }
     def refreshSession() = {
       result.withCookies(Cookie(sessionTokenKey, DateTime.now.toString()))
-    }
-
-    def mergeWithSession(application:InprogressApplication)(implicit request: play.api.mvc.Request[_]) = {
-      result.withCookies(Cookie(sessionPayloadKey, serialiser.toJson(merge(request.getApplication, application))))
-    }
-    private def merge(fromCookieApplication: InprogressApplication, application: InprogressApplication):InprogressApplication = {
-      fromCookieApplication.copy(
-        name = application.name.orElse(fromCookieApplication.name),
-        previousName = application.previousName.orElse(fromCookieApplication.previousName),
-        dob = application.dob.orElse(fromCookieApplication.dob),
-        nationality = application.nationality.orElse(fromCookieApplication.nationality),
-        nino = application.nino.orElse(fromCookieApplication.nino),
-        address = application.address.orElse(fromCookieApplication.address),
-        previousAddress = application.previousAddress.orElse(fromCookieApplication.previousAddress),
-        otherAddress = application.otherAddress.orElse(fromCookieApplication.otherAddress),
-        openRegisterOptin = application.openRegisterOptin.orElse(fromCookieApplication.openRegisterOptin),
-        postalVoteOptin = application.postalVoteOptin.orElse(fromCookieApplication.postalVoteOptin),
-        contact = application.contact.orElse(fromCookieApplication.contact),
-        possibleAddresses = None
-      )
     }
   }
 

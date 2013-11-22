@@ -1,17 +1,9 @@
 package uk.gov.gds.ier.controller
 
 import play.api.mvc._
-import com.google.inject.Inject
-import uk.gov.gds.ier.service.{PlacesService, IerApiService}
-import views._
 import controllers._
-import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
-import uk.gov.gds.ier.validation.{WithErrorTransformer, ErrorTransformer, InProgressForm}
-import scala.Some
-import uk.gov.gds.common.model.{Ero, LocalAuthority}
-import org.slf4j.LoggerFactory
-import BodyParsers.parse._
-import uk.gov.gds.ier.session.{Steps, SessionHandling}
+import uk.gov.gds.ier.serialiser.WithSerialiser
+import uk.gov.gds.ier.session.SessionHandling
 import uk.gov.gds.ier.model.InprogressApplication
 import play.api.data.Form
 import play.api.templates.Html
@@ -95,7 +87,8 @@ trait StepController
       openRegisterOptin = application.openRegisterOptin.orElse(fromCookieApplication.openRegisterOptin),
       postalVoteOptin = application.postalVoteOptin.orElse(fromCookieApplication.postalVoteOptin),
       contact = application.contact.orElse(fromCookieApplication.contact),
-      possibleAddresses = None
+      possibleAddresses = None,
+      country = application.country.orElse(fromCookieApplication.country)
     )
   }
 }

@@ -160,34 +160,28 @@ class SessionHandlingTests extends FlatSpec with Matchers {
     }
   }
 
-  behavior of "SimpleResultToSession.merge"
-
-  it should "not allow possibleAddresses in to the session, we don't want to store those, ever!" in {
+  it should "clear session cookies by setting a maxage below 0" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       class TestController extends Controller with WithSerialiser with SessionHandling with ApiResults {
         val serialiser = jsonSerialiser
 
-        def index() = ValidSession requiredFor {
-          implicit request => application =>
-            okResult(Map("status" -> "Ok")).mergeWithSession(
-              application.copy(
-                possibleAddresses = Some(PossibleAddress(
-                  addresses = List(Address(Some("123 Fake Street"), "SW1A 1AA")),
-                  postcode = "SW1A 1AA")), 
-                name = Some(Name("John", None, "Smith"))
-              )
-            )
+        def noSessionTest() = ClearSession requiredFor {
+          request =>
+            okResult(Map("status" -> "no session"))
         }
       }
-      val result = new TestController().index()(FakeRequest().withCookies(Cookie("sessionKey", DateTime.now.minusMinutes(4).toString())))
 
-      cookies(result).get("application") match {
-        case Some(cookie) => {
-          val application = jsonSerialiser.fromJson[InprogressApplication](cookie.value)
-          application.possibleAddresses should be(None)
-        }
-        case _ => fail("Should have been able to deserialise")
-      }
+      val controller = new TestController()
+      val result = controller.noSessionTest()(FakeRequest().withCookies(Cookie("application", "barfoo")))
+
+      status(result) should be(OK)
+      jsonSerialiser.fromJson[Map[String,String]](contentAsString(result)) should be(Map("status" -> "no session"))
+
+      cookies(result).get("sessionKey").isDefined should be(true)
+      cookies(result).get("sessionKey").get.maxAge.get should be < 0
+      cookies(result).get("application").isDefined should be(true)
+      cookies(result).get("application").get.maxAge.get should be < 0
+      cookies(result).get("application").get.value should be("")
     }
   }
 }

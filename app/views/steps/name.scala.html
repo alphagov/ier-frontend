@@ -6,7 +6,7 @@
 
 @main(title = Some("Register to Vote - What is your name?"), stylesheets = head(), scripts = stepsBodyEnd()) {
   @form(postEndpoint) {
-  @layouts.questionHeader("What is your full name?", "/register-to-vote/date-of-birth", 3)
+  @layouts.questionHeader("What is your full name?", "/register-to-vote/date-of-birth", 4)
     <fieldset>
       @text(keys.name.firstName, label = "First name", inputAttributes = Map('class -> "first-name long"), crossField = keys.name)
       @text(keys.name.middleNames, label = "Middle names", inputAttributes = Map('class -> "middle-names long"))
@@ -17,15 +17,21 @@
       @radio(keys.previousName.hasPreviousName, label="Yes", value = "true", labelAttributes = Map('class -> "binary"))
       @radio(keys.previousName.hasPreviousName, label="No", value = "false", labelAttributes = Map('class -> "binary"))
     </fieldset>
-    <div class="optional-section @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "visible")" data-condition="@keys.previousName.hasPreviousName.asId("true")">
+    <div class="optional-section-core-content @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "visible")" data-condition="@keys.previousName.hasPreviousName.asId("true")">
       <h2>Previous name</h2>
       <fieldset>
-        <label for="previousName_previousName_firstName"><span class="visuallyhidden">Previous </span>First name</label>
-        <input type="text" id="previousName_previousName_firstName" name="previousName.previousName.firstName" value="" autocomplete="off" class="text first-name long" />
-        <label for="previousName_previousName_middleNames"><span class="visuallyhidden">Previous </span>Middle names</label>
-        <input type="text" id="previousName_previousName_middleNames" name="previousName.previousName.middleNames" value="" autocomplete="off" class="text middle-names long" />
-        <label for="previousName_previousName_lastName"><span class="visuallyhidden">Previous </span>Last name</label>
-        <input type="text" id="previousName_previousName_lastName" name="previousName.previousName.lastName" value="" autocomplete="off" class="text last-name long">
+        @label(keys.previousName.previousName.firstName, "First name") { (l:String) =>
+          <span class="visuallyhidden">Previous </span>@l
+        }
+        @text(keys.previousName.previousName.firstName, label = "First name or names", inputAttributes = Map('class -> "first-name long"), crossField = keys.previousName)
+        @label(keys.previousName.previousName.middleNames, "First name") { (l:String) =>
+          <span class="visuallyhidden">Previous </span>@l
+        }
+        @text(keys.previousName.previousName.middleNames, label = "Middle names", inputAttributes = Map('class -> "middle-names long"))
+        @label(keys.previousName.previousName.lastName, "First name") { (l:String) =>
+          <span class="visuallyhidden">Previous </span>@l
+        }
+        @text(keys.previousName.previousName.lastName, label = "Last name", inputAttributes = Map('class -> "last-name long"), crossField = keys.previousName)
       </fieldset> 
     </div>
     @validationMessage(formData(keys.name))

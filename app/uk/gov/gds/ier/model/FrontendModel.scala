@@ -24,6 +24,8 @@ case class Contact (post: Boolean,
   }
 }
 
+case class Country (country: String)
+
 case class PreviousName(hasPreviousName:Boolean,
                         previousName:Option[Name]) {
   def toApiMap:Map[String,String] = {
@@ -82,7 +84,8 @@ case class InprogressApplication (name: Option[Name] = None,
                                   openRegisterOptin: Option[Boolean] = None,
                                   postalVoteOptin: Option[Boolean] = None,
                                   contact: Option[Contact] = None,
-                                  possibleAddresses: Option[PossibleAddress] = None) {
+                                  possibleAddresses: Option[PossibleAddress] = None,
+                                  country: Option[Country] = None) {
   def toApiMap:Map[String, String] = {
     Map.empty ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++

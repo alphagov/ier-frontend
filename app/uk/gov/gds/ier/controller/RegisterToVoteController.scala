@@ -16,21 +16,20 @@ class RegisterToVoteController @Inject() (val serialiser: JsonSerialiser)
 
   def logger = LoggerFactory.getLogger(this.getClass)
 
-  def index = NewSession requiredFor {
-    request =>
-      Ok(html.start())
+  def index = Action {
+    Ok(html.start())
   }
 
-  def registerToVote = ValidSession requiredFor {
-    request => application =>
-      Redirect(step.routes.NationalityController.get)
+  def registerToVote = NewSession requiredFor {
+    request =>
+      Redirect(step.routes.CountryController.get)
   }
 
   def errorRedirect(error:String) = Action {
     Redirect(routes.RegisterToVoteController.error()).flashing("error-type" -> error)
   }
 
-  def error = NewSession requiredFor {
+  def error = ClearSession requiredFor {
     implicit request =>
       flash.get("error-type") match {
         case Some("exit-unknown-dob") => Ok(html.errors.exitUnknownDob())
