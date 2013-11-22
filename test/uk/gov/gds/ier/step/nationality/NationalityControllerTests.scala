@@ -38,8 +38,9 @@ class NationalityControllerTests
         FakeRequest(POST, "/register-to-vote/nationality")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "nationality.nationalities[0]" -> "British",
-            "nationality.otherCountries[0]" -> "")
+            "nationality.british" -> "true",
+            "nationality.hasOtherCountry" -> "true",
+            "nationality.otherCountries[0]" -> "France")
       )
 
       status(result) should be(SEE_OTHER)
@@ -47,7 +48,7 @@ class NationalityControllerTests
     }
   }
 
-  it should "display any errors on unsuccessful bind" in {
+  it should "display any errors on unsuccessful bind (no content)" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/nationality").withIerSession()
@@ -56,6 +57,24 @@ class NationalityControllerTests
       status(result) should be(OK)
       contentAsString(result) should include("What is your nationality?")
       contentAsString(result) should include("Please select your Nationality")
+      contentAsString(result) should include("/register-to-vote/nationality")
+    }
+  }
+
+  it should "display any errors on unsuccessful bind (bad other country)" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/nationality")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "nationality.british" -> "true",
+            "nationality.hasOtherCountry" -> "true",
+            "nationality.otherCountries[0]" -> "BLARGHHUH")
+      )
+
+      status(result) should be(OK)
+      contentAsString(result) should include("What is your nationality?")
+      contentAsString(result) should include("This is not a valid country")
       contentAsString(result) should include("/register-to-vote/nationality")
     }
   }
@@ -81,8 +100,9 @@ class NationalityControllerTests
         FakeRequest(POST, "/register-to-vote/edit/nationality")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "nationality.nationalities[0]" -> "British",
-            "nationality.otherCountries[0]" -> "")
+            "nationality.british" -> "true",
+            "nationality.hasOtherCountry" -> "true",
+            "nationality.otherCountries[0]" -> "France")
       )
 
       status(result) should be(SEE_OTHER)

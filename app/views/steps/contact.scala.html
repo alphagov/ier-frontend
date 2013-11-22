@@ -9,34 +9,38 @@
     @layouts.questionHeader("If we have questions about your application, how should we contact you?", "/register-to-vote/postal-vote", 11)
 
     <fieldset>
-      @radio(keys.contact.contactType, value = "post", label = "Post")
-      <input id="input-post" type="hidden" name="@keys.contact.post" value="@formData(keys.address.address).value.getOrElse("")" class="hidden">
-      @radio(keys.contact.contactType, 
-          value = "phone", 
+      @check(keys.contact.post.contactMe, value = "true", label = "Post")
+      @check(keys.contact.phone.contactMe,
+          value = "true",
           label = "Phone Call")
-      <div class="optional-section @classIf(formData(keys.contact.contactType).value == Some("phone"), "visible")" data-condition="@keys.contact.contactType.asId("phone")">
-        @text(keys.contact.phone, 
+      <div class="optional-section @classIf(formData(keys.contact.phone.contactMe).value == Some("true"), "visible")" data-condition="@keys.contact.phone.contactMe.asId()">
+        @text(keys.contact.phone.detail,
             label = "Phone number", 
             inputAttributes = Map('type -> "tel"))
       </div>
-      @radio(keys.contact.contactType, value = "text", label = "Text Message")
-      <div class="optional-section @classIf(formData(keys.contact.contactType).value == Some("text"), "visible")" data-condition="@keys.contact.contactType.asId("text")">
-        @text(keys.contact.textNum, 
+      @check(keys.contact.textNum.contactMe, value = "true", label = "Text Message")
+      <div class="optional-section @classIf(formData(keys.contact.textNum.contactMe).value == Some("true"), "visible")" data-condition="@keys.contact.textNum.contactMe.asId()">
+        @text(keys.contact.textNum.detail,
             label = "Phone number", 
             inputAttributes = Map('type -> "tel"))
       </div>
-      @radio(keys.contact.contactType, value = "email", label = "Email")
-      <div class="optional-section @classIf(formData(keys.contact.contactType).value == Some("email"), "visible")" data-condition="@keys.contact.contactType.asId("email")">
-        @text(keys.contact.email, 
+      @check(keys.contact.email.contactMe, value = "true", label = "Email")
+      <div class="optional-section @classIf(formData(keys.contact.email.contactMe).value == Some("true"), "visible")" data-condition="@keys.contact.email.contactMe.asId()">
+        @text(keys.contact.email.detail,
             label = "Email address", 
             inputAttributes = Map('type -> "email", 'class -> "long"))
       </div>
     </fieldset>
     @validationMessage(formData(keys.contact.contactType))
-    @validationMessage(formData(keys.contact.phone))
-    @validationMessage(formData(keys.contact.textNum))
-    @validationMessage(formData(keys.contact.email))
-    @validationMessage(formData(keys.contact))
+      @validationMessage(formData(keys.contact.phone))
+      @validationMessage(formData(keys.contact.textNum))
+      @validationMessage(formData(keys.contact.email))
+      @validationMessage(formData(keys.contact.post))
+      @validationMessage(formData(keys.contact.phone.detail))
+      @validationMessage(formData(keys.contact.textNum.detail))
+      @validationMessage(formData(keys.contact.email.detail))
+      @validationMessage(formData(keys.contact.post.detail))
+      @validationMessage(formData(keys.contact))
     <button type="submit" id="continue" class="button next">Continue</button>
   }
 }

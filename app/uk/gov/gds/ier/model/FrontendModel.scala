@@ -9,13 +9,15 @@ case class ApiApplicationResponse (id: String,
                                    source: String,
                                    gssCode: String)
 
-case class Contact (contactMethod:String,
-                    post: Option[String],
+case class ContactDetail (contactMe:Boolean,
+                          detail:Option[String])
+
+case class Contact (post: Boolean,
                     phone: Option[String],
                     textNum: Option[String],
                     email: Option[String]) {
   def toApiMap = {
-    post.map(s => Map("post" -> s)).getOrElse(Map.empty) ++
+    Map("post" -> post.toString) ++
       phone.map(s => Map("phone" -> s)).getOrElse(Map.empty) ++
       textNum.map(s => Map("text" -> s)).getOrElse(Map.empty) ++
       email.map(s => Map("email" -> s)).getOrElse(Map.empty)
@@ -39,16 +41,17 @@ case class Name(firstName:String,
   }
 }
 
-case class Nationality (nationalities:List[String] = List.empty,
+case class Nationality (british:Option[Boolean] = None,
+                        irish:Option[Boolean] = None,
                         hasOtherCountry:Option[Boolean] = None,
                         otherCountries:List[String] = List.empty,
-                        noNationalityReason:Option[String] = None) {
+                        noNationalityReason:Option[String] = None,
+                        countryIsos:Option[List[String]] = None) {
+  def checkedNationalities = british.toList.filter(_ == true).map(brit => "British") ++
+    irish.toList.filter(_ == true).map(isIrish => "Irish")
+
   def toApiMap = {
-    val natMap = if ((nationalities ++ otherCountries).size > 0) {
-      Map("nat" -> (nationalities ++ otherCountries).mkString(", "))
-    } else {
-      Map.empty
-    }
+    val natMap = countryIsos.map(isos => Map("nat" -> isos.mkString(", "))).getOrElse(Map.empty)
     val noNatMap = noNationalityReason.map(nat => Map("nonat" -> nat)).getOrElse(Map.empty)
     natMap ++ noNatMap
   }

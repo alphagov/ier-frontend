@@ -1,15 +1,8 @@
 package uk.gov.gds.ier.stubs
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
 import org.scalatest.{FlatSpec, Matchers}
-import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.client.{PlacesApiClient, IerApiClient}
-import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.service.{ConcreteIerApiService, PlacesService}
-import uk.gov.gds.common.model.LocalAuthority
-import uk.gov.gds.ier.digest.ShaHashProvider
+import uk.gov.gds.ier.service.ConcreteIerApiService
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import uk.gov.gds.ier.model.InprogressApplication

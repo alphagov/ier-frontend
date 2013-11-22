@@ -52,7 +52,7 @@
           <h3>Nationality</h3>
           <div class="data-wrap"> 
             @validationSwitch(formData(keys.nationality)) {
-              @if(formData.getNationalities.exists(_.nonEmpty) || formData.getOtherCountries.exists(_.nonEmpty)) {
+              @if(formData.nationalityIsFilled()) {
                   <p>
                     You are @formData.confirmationNationalityString
                   </p>
@@ -143,20 +143,19 @@
         </div>
         <div>
           <h3>How we should contact you</h3>
-          <div class="data-wrap"> 
-            <p class="message">If there are any problems with your application we will contact you by:</p>
+          <div class="data-wrap">
             @validationSwitch(formData(keys.contact)) {
-              @if(formData(keys.contact.contactType).value == Some("phone")){
-                <p>By phone: @formData(keys.contact.phone).value.getOrElse("")</p>
+              @if(formData(keys.contact.post.contactMe).value == Some("true")){
+                <p>By post</p>
               }
-              @if(formData(keys.contact.contactType).value == Some("text")){
-                <p>By text message: @formData(keys.contact.textNum).value.getOrElse("")</p>
+              @if(formData(keys.contact.phone.contactMe).value == Some("true")){
+                <p>By phone: @formData(keys.contact.phone.detail).value.getOrElse("")</p>
               }
-              @if(formData(keys.contact.contactType).value == Some("email")){
-                <p>By email: @formData(keys.contact.email).value.getOrElse("")</p>
+              @if(formData(keys.contact.textNum.contactMe).value == Some("true")){
+                <p>By text message: @formData(keys.contact.textNum.detail).value.getOrElse("")</p>
               }
-              @if(formData(keys.contact.contactType).value == Some("post")){
-                <p>By post: @formData(keys.contact.post).value.getOrElse("")</p>
+              @if(formData(keys.contact.email.contactMe).value == Some("true")){
+                <p>By email: @formData(keys.contact.email.detail).value.getOrElse("")</p>
               }
             }
           </div>
