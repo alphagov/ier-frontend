@@ -4,7 +4,7 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, FlatSpec}
 import play.api.libs.json.{JsNull, JsBoolean, Json, JsObject}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
+import uk.gov.gds.ier.validation.{ErrorTransformer, FormKeys, ErrorMessages}
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.test.TestHelpers
 
@@ -17,25 +17,27 @@ class NationalityFormTests
   with FormKeys
   with TestHelpers {
 
-  val serialiser = jsonSerialiser 
+  val serialiser = jsonSerialiser
 
   it should "succesfully bind json" in {
     val js = JsObject(
-      Seq("nationality.nationalities" -> Json.toJson(List("British", "Irish")),
+      Seq(
+        "nationality.british" -> JsBoolean(true),
+        "nationality.irish" -> JsBoolean(true),
         "nationality.otherCountries" -> Json.toJson(List("Italy", "France")),
         "nationality.hasOtherCountry" -> JsBoolean(true)
       )
     )
     nationalityForm.bind(js).fold(
       hasErrors => {
-        fail(hasErrors.prettyPrint.mkString(", "))
+        fail(new ErrorTransformer().transform(hasErrors).prettyPrint.mkString(", "))
       },
       success => {
         success.nationality.isDefined should be(true)
         val nationality = success.nationality.get
 
-        nationality.nationalities should contain("British")
-        nationality.nationalities should contain("Irish")
+        nationality.british should be(Some(true))
+        nationality.irish should be(Some(true))
 
         nationality.otherCountries should contain("Italy")
         nationality.otherCountries should contain("France")
@@ -45,9 +47,34 @@ class NationalityFormTests
     )
   }
 
-  it should "only bind to nationality in InProgressApplication" in {
+  it should "succesfully bind json with only checked nationalities" in {
     val js = JsObject(
-      Seq("nationality.nationalities" -> Json.toJson(List("British", "Irish")),
+      Seq(
+        "nationality.british" -> JsBoolean(true),
+        "nationality.irish" -> JsBoolean(true)
+      )
+    )
+    nationalityForm.bind(js).fold(
+      hasErrors => {
+        fail(new ErrorTransformer().transform(hasErrors).prettyPrint.mkString(", "))
+      },
+      success => {
+        success.nationality.isDefined should be(true)
+        val nationality = success.nationality.get
+
+        nationality.british should be(Some(true))
+        nationality.irish should be(Some(true))
+
+        nationality.otherCountries should be(List.empty)
+        nationality.hasOtherCountry should be(None)
+      }
+    )
+  }
+
+  it should "only bind to nationality in InProgressApplication" in {
+    val js = JsObject(Seq(
+        "nationality.british" -> JsBoolean(true),
+        "nationality.irish" -> JsBoolean(true),
         "nationality.otherCountries" -> Json.toJson(List("Italy", "France")),
         "nationality.hasOtherCountry" -> JsBoolean(true)
       )
@@ -82,7 +109,8 @@ class NationalityFormTests
       success => {
         val nationality = success.nationality.get
         nationality.hasOtherCountry should be(None)
-        nationality.nationalities should be(List.empty)
+        nationality.british should be(None)
+        nationality.irish should be(None)
         nationality.otherCountries should be(List.empty)
         nationality.noNationalityReason should be(Some("I don't have a nationality. I am stateless."))
       }

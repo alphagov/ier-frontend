@@ -39,16 +39,17 @@ case class Name(firstName:String,
   }
 }
 
-case class Nationality (nationalities:List[String] = List.empty,
+case class Nationality (british:Option[Boolean] = None,
+                        irish:Option[Boolean] = None,
                         hasOtherCountry:Option[Boolean] = None,
                         otherCountries:List[String] = List.empty,
-                        noNationalityReason:Option[String] = None) {
+                        noNationalityReason:Option[String] = None,
+                        countryIsos:Option[List[String]] = None) {
+  def checkedNationalities = british.toList.filter(_ == true).map(brit => "British") ++
+    irish.toList.filter(_ == true).map(isIrish => "Irish")
+
   def toApiMap = {
-    val natMap = if ((nationalities ++ otherCountries).size > 0) {
-      Map("nat" -> (nationalities ++ otherCountries).mkString(", "))
-    } else {
-      Map.empty
-    }
+    val natMap = countryIsos.map(isos => Map("nat" -> isos.mkString(", "))).getOrElse(Map.empty)
     val noNatMap = noNationalityReason.map(nat => Map("nonat" -> nat)).getOrElse(Map.empty)
     natMap ++ noNatMap
   }

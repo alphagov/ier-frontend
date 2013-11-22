@@ -22,8 +22,8 @@
     @layouts.questionHeader("What is your nationality?", "", 1)
     <p>If you have dual nationality, select all options that are relevant to you.</p>
     <fieldset>
-      @check(keys.nationality.nationalities.item(0), label = "I am British", value = "British")
-      @check(keys.nationality.nationalities.item(1), label = "I am Irish", value = "Irish")
+      @check(keys.nationality.british, label = "I am British", value = "true")
+      @check(keys.nationality.irish, label = "I am Irish", value = "true")
       @check(keys.nationality.hasOtherCountry, label = "I am a citizen of another country", value = "true")
       <div id="add-countries" class="optional-section" data-condition="@keys.nationality.hasOtherCountry.asId()">
           @text(keys.nationality.otherCountries.item(0), label = "Which country?", inputAttributes = Map('class -> "country-autocomplete long"))
@@ -53,7 +53,9 @@
       </div>
     </div>
     @validationMessage(formData(keys.nationality))
-    @validationMessage(formData(keys.nationality.nationalities))
+    @validationMessage(formData(keys.nationality.otherCountries.item(0)))
+    @validationMessage(formData(keys.nationality.otherCountries.item(1)))
+    @validationMessage(formData(keys.nationality.otherCountries.item(2)))
     @validationMessage(formData(keys.nationality.noNationalityReason))
     <button type="submit" id="continue" class="button next">Continue</button>
     }

@@ -24,6 +24,8 @@ trait FormKeys {
     }
     lazy val nationality = prependNamespace(Key("nationality"))
 
+    lazy val british = prependNamespace(Key("british"))
+    lazy val irish = prependNamespace(Key("irish"))
     lazy val nationalities = prependNamespace(Key("nationalities"))
     lazy val hasOtherCountry = prependNamespace(Key("hasOtherCountry"))
     lazy val otherCountries = prependNamespace(Key("otherCountries"))

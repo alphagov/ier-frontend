@@ -1,5 +1,5 @@
 @(field:Field)
 
 @field.errors.map { error =>
-    <div class="validation-message visible">@error.message</div>
+    <div class="validation-message visible" data-for="@field.name">@error.message</div>
 }

@@ -9,11 +9,15 @@ import play.api.data.Form
 import play.api.mvc.{SimpleResult, Call}
 import uk.gov.gds.ier.model.InprogressApplication
 import play.api.templates.Html
+import uk.gov.gds.ier.service.IsoCountryService
+import uk.gov.gds.ier.guice.WithIsoCountryService
 
 class NationalityController @Inject ()(val serialiser: JsonSerialiser,
-                                       val errorTransformer: ErrorTransformer) 
+                                       val errorTransformer: ErrorTransformer,
+                                       val isoCountryService: IsoCountryService)
   extends StepController
   with WithSerialiser
+  with WithIsoCountryService
   with WithErrorTransformer
   with NationalityForms {
 

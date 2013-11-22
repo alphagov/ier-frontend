@@ -9,7 +9,7 @@ case class InProgressForm(form:Form[InprogressApplication]) extends FormKeys{
   }
   def getNationalities = {
     form.value match {
-      case Some(application) => application.nationality.map(_.nationalities.filter(_.nonEmpty)).filter(_.size > 0)
+      case Some(application) => application.nationality.map(_.checkedNationalities).filter(_.size > 0)
       case None => None
     }
   }
@@ -17,6 +17,14 @@ case class InProgressForm(form:Form[InprogressApplication]) extends FormKeys{
     form.value match {
       case Some(application) => application.nationality.map(_.otherCountries.filter(_.nonEmpty)).filter(_.size > 0)
       case None => None
+    }
+  }
+  def nationalityIsFilled():Boolean = {
+    form.value match {
+      case Some(application) => application.nationality.map(
+        nationality =>
+          nationality.british == Some(true) || nationality.irish == Some(true) || nationality.otherCountries.exists(_.nonEmpty)).exists(b => b)
+      case None => false
     }
   }
   def hasNoNationalityReason = {

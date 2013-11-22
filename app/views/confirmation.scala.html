@@ -52,7 +52,7 @@
           <h3>Nationality</h3>
           <div class="data-wrap"> 
             @validationSwitch(formData(keys.nationality)) {
-              @if(formData.getNationalities.exists(_.nonEmpty) || formData.getOtherCountries.exists(_.nonEmpty)) {
+              @if(formData.nationalityIsFilled()) {
                   <p>
                     You are @formData.confirmationNationalityString
                   </p>

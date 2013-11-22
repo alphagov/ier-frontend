@@ -472,7 +472,7 @@ window.GOVUK = window.GOVUK || {};
       'opened' : 'onMenuOpen',
       'closed' : 'onMenuClosed',
       'movedto' : 'onMoveTo',
-      'updated' : 'onUpdate',
+      'updated' : 'onUpdate'
     },
     setCurrentInput : function ($input) {
       this.$currentInput = $input;
