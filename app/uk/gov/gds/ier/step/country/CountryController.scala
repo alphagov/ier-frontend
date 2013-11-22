@@ -4,6 +4,7 @@ import controllers._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation._
+import uk.gov.gds.ier.validation.constraints.CountryConstraints
 import uk.gov.gds.ier.controller.StepController
 import play.api.data.Form
 import play.api.mvc.{SimpleResult, Call}
@@ -13,7 +14,7 @@ import play.api.templates.Html
 class CountryController @Inject ()(val serialiser: JsonSerialiser,
                                    val errorTransformer: ErrorTransformer)
   extends StepController
-  with Constraints
+  with CountryConstraints
   with WithSerialiser
   with WithErrorTransformer
   with CountryForms {
