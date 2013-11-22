@@ -12,12 +12,19 @@ trait CommonConstraints extends ErrorMessages {
     optional(mapping).verifying(errorMessage, _.nonEmpty)
   }
 
-  protected def fieldNotTooLong [T](fieldKey:Key, errorMessage:String)
-                                   (fieldValue:T => String) = {
+  protected def predicateHolds [T](fieldKey:Key, errorMessage:String)
+                                  (predicate:T => Boolean) = {
     Constraint[T](fieldKey.key) {
       t =>
-        if (fieldValue(t).size <= maxTextFieldLength) Valid
+        if (predicate(t)) Valid
         else Invalid(errorMessage, fieldKey)
+    }
+  }
+
+  protected def fieldNotTooLong [T](fieldKey:Key, errorMessage:String)
+                                   (fieldValue:T => String) = {
+    predicateHolds[T](fieldKey, errorMessage){
+      t => fieldValue(t).size <= maxTextFieldLength
     }
   }
 }

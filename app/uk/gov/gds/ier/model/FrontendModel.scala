@@ -9,13 +9,15 @@ case class ApiApplicationResponse (id: String,
                                    source: String,
                                    gssCode: String)
 
-case class Contact (contactMethod:String,
-                    post: Option[String],
+case class ContactDetail (contactMe:Boolean,
+                          detail:Option[String])
+
+case class Contact (post: Boolean,
                     phone: Option[String],
                     textNum: Option[String],
                     email: Option[String]) {
   def toApiMap = {
-    post.map(s => Map("post" -> s)).getOrElse(Map.empty) ++
+    Map("post" -> post.toString) ++
       phone.map(s => Map("phone" -> s)).getOrElse(Map.empty) ++
       textNum.map(s => Map("text" -> s)).getOrElse(Map.empty) ++
       email.map(s => Map("email" -> s)).getOrElse(Map.empty)

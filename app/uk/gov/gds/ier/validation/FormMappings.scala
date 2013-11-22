@@ -5,7 +5,6 @@ import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.validation
 import uk.gov.gds.ier.validation.DateValidator._
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import play.api.data.validation.{Invalid, Valid, Constraint}
 import play.api.data.Form
 import uk.gov.gds.ier.step.nationality.NationalityForms
 import uk.gov.gds.ier.step.name.NameForms
@@ -19,8 +18,7 @@ import uk.gov.gds.ier.step.postalVote.PostalVoteForms
 import uk.gov.gds.ier.step.contact.ContactForms
 
 trait FormMappings 
-  extends Constraints 
-  with FormKeys 
+  extends FormKeys 
   with ErrorMessages 
   with NinoForms
   with NationalityForms 
