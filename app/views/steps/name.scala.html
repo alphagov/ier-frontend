@@ -17,21 +17,21 @@
       @radio(keys.previousName.hasPreviousName, label="Yes", value = "true", labelAttributes = Map('class -> "binary"))
       @radio(keys.previousName.hasPreviousName, label="No", value = "false", labelAttributes = Map('class -> "binary"))
     </fieldset>
-    <div class="optional-section-core-content @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "visible")" data-condition="@keys.previousName.hasPreviousName.asId("true")">
+    <div class="optional-section optional-section-core-content @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "visible")" data-condition="@keys.previousName.hasPreviousName.asId("true")">
       <h2>Previous name</h2>
       <fieldset>
         @label(keys.previousName.previousName.firstName, "First name") { (l:String) =>
           <span class="visuallyhidden">Previous </span>@l
         }
-        @text(keys.previousName.previousName.firstName, label = "First name or names", inputAttributes = Map('class -> "first-name long"), crossField = keys.previousName)
-        @label(keys.previousName.previousName.middleNames, "First name") { (l:String) =>
+        @text(keys.previousName.previousName.firstName, label = null, inputAttributes = Map('class -> "first-name long"), crossField = keys.previousName)
+        @label(keys.previousName.previousName.middleNames, "Middle names") { (l:String) =>
           <span class="visuallyhidden">Previous </span>@l
         }
-        @text(keys.previousName.previousName.middleNames, label = "Middle names", inputAttributes = Map('class -> "middle-names long"))
-        @label(keys.previousName.previousName.lastName, "First name") { (l:String) =>
+        @text(keys.previousName.previousName.middleNames, label = null, inputAttributes = Map('class -> "middle-names long"))
+        @label(keys.previousName.previousName.lastName, "Last name") { (l:String) =>
           <span class="visuallyhidden">Previous </span>@l
         }
-        @text(keys.previousName.previousName.lastName, label = "Last name", inputAttributes = Map('class -> "last-name long"), crossField = keys.previousName)
+        @text(keys.previousName.previousName.lastName, label = null, inputAttributes = Map('class -> "last-name long"), crossField = keys.previousName)
       </fieldset> 
     </div>
     @validationMessage(formData(keys.name))
