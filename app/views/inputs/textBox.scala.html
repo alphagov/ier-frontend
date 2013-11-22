@@ -4,9 +4,12 @@
 @labelHtml(content:Html) = {
 @defining(formData(crossField)) { crossField =>
 @defining(formData(id)) { field =>
+
+@if(label != null && !label.isEmpty) {
 <label for="@id.asId()" class="@(if(field.hasErrors) "invalid" else "") @(if(crossField.hasErrors) "invalid" else "") @labelAttributes.get('class).getOrElse("")" @asAttributes(labelAttributes.without('for, 'class))>
-    @label
+@label
 </label>
+}
 @content
 }
 }
