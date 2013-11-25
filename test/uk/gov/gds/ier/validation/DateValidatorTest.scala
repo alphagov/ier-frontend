@@ -1,14 +1,14 @@
 package uk.gov.gds.ier.validation
 
 import org.specs2.mutable.Specification
-import uk.gov.gds.ier.model.DateOfBirth
+import uk.gov.gds.ier.model.DOB
 import org.joda.time.{DateMidnight, DateTime}
 
 class DateValidatorTest extends Specification {
 
   "isExistingDateInThePast" should {
     "return true for an existing past date" in {
-      DateValidator.isExistingDateInThePast(DateOfBirth(1986, 10, 11)) mustEqual(true)
+      DateValidator.isExistingDateInThePast(DOB(1986, 10, 11)) mustEqual(true)
     }
   }
 
@@ -21,7 +21,7 @@ class DateValidatorTest extends Specification {
 
   "isExistingDateInThePast" should {
     "return false for a non-existing past date" in {
-      DateValidator.isExistingDateInThePast(DateOfBirth(1987, 2, 29)) mustEqual(false)
+      DateValidator.isExistingDateInThePast(DOB(1987, 2, 29)) mustEqual(false)
     }
   }
 
@@ -74,5 +74,5 @@ class DateValidatorTest extends Specification {
     }
   }
 
-  private def getDateOfBirth(date: DateMidnight) = DateOfBirth(date.getYear, date.getMonthOfYear, date.getDayOfMonth)
+  private def getDateOfBirth(date: DateMidnight) = DOB(date.getYear, date.getMonthOfYear, date.getDayOfMonth)
 }

@@ -43,6 +43,9 @@ trait FormKeys {
     lazy val lastName = prependNamespace(Key("lastName"))
 
     lazy val dob = prependNamespace(Key("dob"))
+    lazy val noDob = prependNamespace(Key("noDob"))
+    lazy val range = prependNamespace(Key("range"))
+    lazy val reason = prependNamespace(Key("reason"))
 
     lazy val day = prependNamespace(Key("day"))
     lazy val month = prependNamespace(Key("month"))

@@ -26,7 +26,7 @@ trait IerForms extends FormMappings {
     mapping(
       keys.name.key -> optional(nameMapping).verifying("Please complete this step", _.isDefined),
       keys.previousName.key -> optional(previousNameMapping).verifying("Please complete this step", _.isDefined),
-      keys.dob.key -> optional(dobMapping).verifying("Please complete this step", _.isDefined),
+      keys.dob.key -> optional(dobAndReasonMapping).verifying("Please complete this step", _.isDefined),
       keys.nationality.key -> optional(nationalityMapping).verifying("Please complete this step", _.isDefined),
       keys.nino.key -> optional(ninoMapping).verifying("Please complete this step", _.isDefined),
       keys.address.key -> optional(addressMapping).verifying("Please complete this step", _.isDefined),

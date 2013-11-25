@@ -65,11 +65,26 @@ case class Nino(nino:Option[String],
   }
 }
 
-case class DateOfBirth (year:Int,
-                        month:Int,
-                        day:Int) {
+case class noDOB(reason:String, 
+                 range:String) {
   def toApiMap = {
-    Map("dob" -> (day + "/" + month + "/" + year))
+    Map("nodobreason" -> reason, "agerange" -> range)
+  }
+}
+
+case class DOB(year:Int,
+               month:Int,
+               day:Int) {
+  def toApiMap = {
+    Map("dob" -> (year + "-" + month + "-" + day))
+  }
+}
+
+case class DateOfBirth(dob:Option[DOB],
+                       noDob:Option[noDOB]) {
+  def toApiMap = {
+    dob.map(_.toApiMap).getOrElse(Map.empty) ++ 
+    noDob.map(_.toApiMap).getOrElse(Map.empty)
   }
 }
 

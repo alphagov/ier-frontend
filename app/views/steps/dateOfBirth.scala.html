@@ -11,22 +11,22 @@
     @layouts.questionHeader("What is your date of birth?", "/register-to-vote/nationality", 3)
 
     <fieldset>
-      @select(keys.dob.day,
+      @select(keys.dob.dob.day,
           label = "Day",
           options = DateOfBirthConstants.days,
           inputAttributes = Map('_default -> "Day", 'class -> "day"),
           labelAttributes = Map('class -> "visuallyhidden"),
           crossField = keys.dob)
-      @select(keys.dob.month,
+      @select(keys.dob.dob.month,
           label = "Month",
           options = DateOfBirthConstants.months,
           inputAttributes = Map('_default -> "Month", 'class -> "month"),
           labelAttributes = Map('class -> "visuallyhidden"),
           crossField = keys.dob)
-      @label(keys.dob.year,
+      @label(keys.dob.dob.year,
           label = "Year",
           attributes = Map('class -> "visuallyhidden"))
-      @text(keys.dob.year,
+      @text(keys.dob.dob.year,
           attributes = Map('class -> "year text small", 'placeholder -> "Year"))
     </fieldset>
     <div class="help-content">
@@ -53,9 +53,9 @@
       </fieldset>
     </div>
     <div class="validation-message"></div>
-    @uk.gov.gds.ier.form.FormHelpers.validationMessage(formData(keys.dob.day))
-    @uk.gov.gds.ier.form.FormHelpers.validationMessage(formData(keys.dob.month))
-    @uk.gov.gds.ier.form.FormHelpers.validationMessage(formData(keys.dob.year))
+    @uk.gov.gds.ier.form.FormHelpers.validationMessage(formData(keys.dob.dob.day))
+    @uk.gov.gds.ier.form.FormHelpers.validationMessage(formData(keys.dob.dob.month))
+    @uk.gov.gds.ier.form.FormHelpers.validationMessage(formData(keys.dob.dob.year))
     @uk.gov.gds.ier.form.FormHelpers.validationMessage(formData(keys.dob))
     <button type="submit" id="continue" class="button next">Continue</button>
   }
