@@ -23,11 +23,11 @@
           inputAttributes = Map('_default -> "Month", 'class -> "month"),
           labelAttributes = Map('class -> "visuallyhidden"),
           crossField = keys.dob)
-      @text(keys.dob.year,
+      @label(keys.dob.year,
           label = "Year",
-          inputAttributes = Map('class -> "year text small", 'placeholder -> "Year"),
-          labelAttributes = Map('class -> "visuallyhidden"),
-          crossField = keys.dob)
+          attributes = Map('class -> "visuallyhidden"))
+      @text(keys.dob.year,
+          attributes = Map('class -> "year text small", 'placeholder -> "Year"))
     </fieldset>
     <div class="help-content">
       <h3>Help</h3>

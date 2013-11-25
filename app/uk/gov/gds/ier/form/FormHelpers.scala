@@ -18,10 +18,10 @@ object FormHelpers extends FormKeys {
   lazy val text = views.html.inputs.textBox
   lazy val select = views.html.inputs.selectBox
   lazy val textArea = views.html.inputs.textArea
-  lazy val label = views.html.inputs.label
-  def simpleLabel(id:uk.gov.gds.ier.validation.Key, label:String, attributes:Map[Symbol,String] = Map.empty)
+  lazy val wrapLabel = views.html.inputs.wrapLabel
+  def label(id:uk.gov.gds.ier.validation.Key, label:String, attributes:Map[Symbol,String] = Map.empty)
            (implicit formData: uk.gov.gds.ier.validation.InProgressForm) = {
-    views.html.inputs.label(id, label, attributes)(label => Html(label))(formData)
+    views.html.inputs.wrapLabel(id, attributes)(Html(label))(formData)
   }
 
   trait FormRenderer extends NotNull {

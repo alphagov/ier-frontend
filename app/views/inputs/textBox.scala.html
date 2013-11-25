@@ -1,26 +1,6 @@
-@(id:uk.gov.gds.ier.validation.Key, label:String, inputAttributes:Map[Symbol,String] = Map.empty, labelAttributes:Map[Symbol,String] = Map.empty, crossField: uk.gov.gds.ier.validation.Key = uk.gov.gds.ier.validation.Key(""))(implicit formData:uk.gov.gds.ier.validation.InProgressForm, renderer: uk.gov.gds.ier.form.FormHelpers.FormRenderer)
+@(id:uk.gov.gds.ier.validation.Key, attributes:Map[Symbol,String] = Map.empty)(implicit formData:uk.gov.gds.ier.validation.InProgressForm)
 @import uk.gov.gds.ier.form.FieldHelpers._
-@inputType = @{ inputAttributes.get('type).getOrElse("text") }
-@labelHtml(content:Html) = {
-@defining(formData(crossField)) { crossField =>
+@inputType = @{ attributes.get('type).getOrElse("text") }
 @defining(formData(id)) { field =>
-
-@if(label != null && !label.isEmpty) {
-<label for="@id.asId()" class="@(if(field.hasErrors) "invalid" else "") @(if(crossField.hasErrors) "invalid" else "") @labelAttributes.get('class).getOrElse("")" @asAttributes(labelAttributes.without('for, 'class))>
-@label
-</label>
-}
-@content
-}
-}
-}
-@inputHtml = {
-@defining(formData(crossField)) { crossField =>
-@defining(formData(id)) { field =>
-<input type="@inputType" id="@id.asId()" name="@field.name" value="@getValue(field, inputAttributes)" autocomplete="off" @if(inputAttributes.contains('placeholder)) { placeholder="@inputAttributes.get('placeholder).getOrElse("")" } class="text @(if(field.hasErrors) "invalid" else "") @(if(crossField.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")" @asAttributes(inputAttributes.without('class, 'id, 'type, 'name, 'value))>
-}
-}
-}
-@defining(formData(id)) { field =>
-@renderer(inputHtml, labelHtml, field)
+<input type="@inputType" id="@id.asId()" name="@field.name" value="@getValue(field, attributes)" autocomplete="off" @if(attributes.contains('placeholder)) { placeholder="@attributes.get('placeholder).getOrElse("")" } class="text @(if(field.hasErrors) "invalid" else "") @attributes.get('class).getOrElse("")" @asAttributes(attributes.without('class, 'id, 'type, 'name, 'value))>
 }

@@ -8,9 +8,12 @@
   @form(postEndpoint) {
   @layouts.questionHeader("What is your full name?", "/register-to-vote/date-of-birth", 4)
     <fieldset>
-      @text(keys.name.firstName, label = "First name", inputAttributes = Map('class -> "first-name long"), crossField = keys.name)
-      @text(keys.name.middleNames, label = "Middle names", inputAttributes = Map('class -> "middle-names long"))
-      @text(keys.name.lastName, label = "Last name", inputAttributes = Map('class -> "last-name long"), crossField = keys.name)
+      @label(keys.name.firstName, label = "First name")
+      @text(keys.name.firstName, attributes = Map('class -> "first-name long"))
+      @label(keys.name.middleNames, label = "Middle names")
+      @text(keys.name.middleNames, attributes = Map('class -> "middle-names long"))
+      @label(keys.name.lastName, label = "Last name")
+      @text(keys.name.lastName, attributes = Map('class -> "last-name long"))
     </fieldset>
     <fieldset class="sub-section">
       <legend class="label">Have you changed your name in the last 12 months?</legend> 
@@ -20,18 +23,18 @@
     <div class="optional-section optional-section-core-content @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "visible")" data-condition="@keys.previousName.hasPreviousName.asId("true")">
       <h2>Previous name</h2>
       <fieldset>
-        @label(keys.previousName.previousName.firstName, "First name") { (l:String) =>
-          <span class="visuallyhidden">Previous </span>@l
+        @wrapLabel(keys.previousName.previousName.firstName) {
+          <span class="visuallyhidden">Previous</span> First name
         }
-        @text(keys.previousName.previousName.firstName, label = null, inputAttributes = Map('class -> "first-name long"), crossField = keys.previousName)
-        @label(keys.previousName.previousName.middleNames, "Middle names") { (l:String) =>
-          <span class="visuallyhidden">Previous </span>@l
+        @text(keys.previousName.previousName.firstName, attributes = Map('class -> "first-name long"))
+        @wrapLabel(keys.previousName.previousName.middleNames) {
+          <span class="visuallyhidden">Previous</span> Middle names
         }
-        @text(keys.previousName.previousName.middleNames, label = null, inputAttributes = Map('class -> "middle-names long"))
-        @label(keys.previousName.previousName.lastName, "Last name") { (l:String) =>
-          <span class="visuallyhidden">Previous </span>@l
+        @text(keys.previousName.previousName.middleNames, attributes = Map('class -> "middle-names long"))
+        @wrapLabel(keys.previousName.previousName.lastName) {
+          <span class="visuallyhidden">Previous</span> Last name
         }
-        @text(keys.previousName.previousName.lastName, label = null, inputAttributes = Map('class -> "last-name long"), crossField = keys.previousName)
+        @text(keys.previousName.previousName.lastName, attributes = Map('class -> "last-name long"))
       </fieldset> 
     </div>
     @validationMessage(formData(keys.name))

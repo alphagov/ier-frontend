@@ -8,8 +8,8 @@
   @form(postUrl) {
   
     @layouts.questionHeader("What is your National Insurance number?", "/register-to-vote/name", 5)
-
-    @text(keys.nino.nino, label = "What is your National Insurance number?", labelAttributes = Map('class -> "visuallyhidden"), inputAttributes = Map('class -> "nino"), crossField = keys.nino)
+    @label(keys.nino.nino, label = "What is your National Insurance number?", attributes = Map('class -> "visuallyhidden"))
+    @text(keys.nino.nino, attributes = Map('class -> "nino"))
     <p>Example: AB 12 34 56 C</p>
     <div class="help-content">
       <h2>Help</h2>

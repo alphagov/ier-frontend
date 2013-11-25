@@ -22,9 +22,9 @@
           labelAttributes = Map('class -> "binary"))
     </fieldset>
     <fieldset class="optional-section optional-section-core-content @classIf(formData(keys.previousAddress.movedRecently).value == Some("true"), "visible")" data-condition="@keys.previousAddress.movedRecently.asId("true")">
+      @label(keys.possibleAddresses.postcode, "Enter the postcode to find your previous address")
       @text(keys.possibleAddresses.postcode, 
-          label = "Enter the postcode to find your previous address", 
-          inputAttributes = Map(
+          attributes = Map(
             'class -> "postcode medium",
             Symbol("data-validation-name") -> "postcode", 
             Symbol("data-validation-rules") -> "nonEmpty"))
@@ -33,11 +33,9 @@
     <div id="found-addresses">
     @if(possibleAddress.isDefined) {
       @defining(possibleAddress.get) { possible => 
+        @label(keys.address.postcode, "Postcode", attributes = Map('class -> "hidden"))
         @text(keys.address.postcode, 
-          label = "Postcode",
-          inputAttributes = Map('class -> "hidden", 
-            'type -> "hidden", 'value -> possible.postcode),
-          labelAttributes = Map('class -> "hidden"))
+          attributes = Map('class -> "hidden", 'type -> "hidden", 'value -> possible.postcode))
         <label for="input-address-list">Select your address</label>
         <select id="input-address-list" name="@keys.previousAddress.previousAddress.address.key" class="lonely">
             <option value="">Please select...</option>
@@ -58,13 +56,7 @@
     @validationMessage(formData(keys.previousAddress.previousAddress.postcode))
     <button type="submit" id="continue" class="button next">Continue</button>
 
-    @text(keys.possibleAddresses.postcode,
-      label = "Possible Postcode",
-      inputAttributes = Map('class -> "hidden", 'type -> "hidden"),
-      labelAttributes = Map('class -> "hidden"))
-    @text(keys.possibleAddresses.jsonList,
-      label = "Possible Addresses",
-      inputAttributes = Map('class -> "hidden", 'type -> "hidden"),
-      labelAttributes = Map('class -> "hidden")) 
+    @text(keys.possibleAddresses.postcode, attributes = Map('class -> "hidden", 'type -> "hidden"))
+    @text(keys.possibleAddresses.jsonList, attributes = Map('class -> "hidden", 'type -> "hidden"))
   }
 }

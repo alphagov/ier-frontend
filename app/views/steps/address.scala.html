@@ -12,9 +12,10 @@
 
     <fieldset>
       <p>If you have more than one address, just give the one where you spend most of your time.</p>
+      @label(keys.possibleAddresses.postcode,
+          label = "Postcode")
       @text(keys.possibleAddresses.postcode,
-          label = "Postcode",
-          inputAttributes = Map(
+          attributes = Map(
             'class -> "postcode medium", 
             Symbol("data-validation-name") -> "postcode", 
             Symbol("data-validation-rules") -> "nonEmpty"))
@@ -23,10 +24,11 @@
     <div id="found-addresses">
       @if(possibleAddress.isDefined) {
         @defining(possibleAddress.get) { possible =>
+          @label(keys.address.postcode,
+              label = "Postcode", 
+              attributes = Map('class -> "hidden"))
           @text(keys.address.postcode,
-              label = "Postcode",
-              inputAttributes = Map('class -> "hidden", 'type -> "hidden", 'value -> possible.postcode),
-              labelAttributes = Map('class -> "hidden"))
+              attributes = Map('class -> "hidden", 'type -> "hidden", 'value -> possible.postcode))
           <label for="input-address-list">Select your address</label>
           <select id="input-address-list" name="@keys.address.address.key" class="lonely">
             <option value="">Please select...</option>
@@ -60,12 +62,8 @@
       </div>
     </div>
     @text(keys.possibleAddresses.postcode,
-      label = "Possible Postcode", 
-      inputAttributes = Map('class -> "hidden", 'type -> "hidden"),
-      labelAttributes = Map('class -> "hidden"))
+      attributes = Map('class -> "hidden", 'type -> "hidden"))
     @text(keys.possibleAddresses.jsonList,
-      label = "Possible Addresses",
-      inputAttributes = Map('class -> "hidden", 'type -> "hidden"),
-      labelAttributes = Map('class -> "hidden"))
+      attributes = Map('class -> "hidden", 'type -> "hidden"))
   }
 }

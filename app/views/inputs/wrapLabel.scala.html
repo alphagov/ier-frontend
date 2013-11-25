@@ -1,7 +1,7 @@
-@(id:uk.gov.gds.ier.validation.Key, label:String, attributes:Map[Symbol,String] = Map.empty)(wrapContent: String => Html)(implicit formData:uk.gov.gds.ier.validation.InProgressForm)
+@(id:uk.gov.gds.ier.validation.Key, attributes:Map[Symbol,String] = Map.empty)(wrapContent: Html)(implicit formData:uk.gov.gds.ier.validation.InProgressForm)
 @import uk.gov.gds.ier.form.FieldHelpers._
 @defining(formData(id)) { field =>
 <label for="@id.asId()" class="@(if(field.hasErrors) "invalid " else "")@attributes.get('class).getOrElse("")" @asAttributes(attributes.without('for, 'class))>
-    @wrapContent(label)
+    @wrapContent
 </label>
 }
