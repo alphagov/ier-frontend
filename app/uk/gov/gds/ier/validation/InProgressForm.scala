@@ -34,8 +34,8 @@ case class InProgressForm(form:Form[InprogressApplication]) extends FormKeys{
     form(keys.nationality.nationalities.key).value.exists(_.contains(thisNationality))
   }
   def confirmationNationalityString = {
-    val nationalityString = getNationalities.map(_.mkString(" and "))
-    val otherString = getOtherCountries.map("a citizen of " + _.mkString(" and "))
-    List(nationalityString.getOrElse(""), otherString.getOrElse("")).filter(_.nonEmpty).mkString(" and ")
+    val allCountries = getNationalities.getOrElse(List.empty) ++ getOtherCountries.getOrElse(List.empty)
+    val nationalityString = List(allCountries.dropRight(1).mkString(", "), allCountries.takeRight(1).mkString("")).filter(_.nonEmpty)
+    s"a citizen of ${nationalityString.mkString(" and ")}"
   }
 }
