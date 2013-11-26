@@ -7,6 +7,7 @@ import play.api.templates.{Template3, Html}
 object FormHelpers extends FormKeys {
   implicit val basicRenderer = FormRenderer.basicRenderer
   lazy val validationMessage = views.html.includes.validationMessage
+  lazy val validationMessages = views.html.includes.validationMessages
   lazy val validationWrap = views.html.includes.validationWrap
   lazy val validationSwitch = views.html.includes.validationSwitch
   lazy val classIf = views.html.includes.classIf

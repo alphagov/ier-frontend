@@ -37,13 +37,7 @@
         @text(keys.previousName.previousName.lastName, attributes = Map('class -> "last-name long"))
       </fieldset> 
     </div>
-    @validationMessage(formData(keys.name))
-    @validationMessage(formData(keys.name.firstName))
-    @validationMessage(formData(keys.name.lastName))
-    @validationMessage(formData(keys.previousName))
-    @validationMessage(formData(keys.previousName.previousName.firstName))
-    @validationMessage(formData(keys.previousName.previousName.middleNames))
-    @validationMessage(formData(keys.previousName.previousName.lastName))
+    @validationMessages(formData)
     <button id="continue" type="submit" class="button next">Continue</button>
   }
 }

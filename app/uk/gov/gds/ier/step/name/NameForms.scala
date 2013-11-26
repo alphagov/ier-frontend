@@ -37,7 +37,7 @@ trait NameForms extends NameConstraints {
 
   val nameForm = Form(
     mapping(
-      keys.name.key -> requiredOptional(nameMapping, "Please enter your full name"),
+      keys.name.key -> optional(nameMapping).verifying(nameNotOptional),
       keys.previousName.key -> requiredOptional(previousNameMapping, "Please answer this question")
     ) (
       (name, previousName) => InprogressApplication(name = name, previousName = previousName)
