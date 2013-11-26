@@ -13,8 +13,7 @@
       <p>Your decision does not affect your right to vote or your credit score.</p>
       @check(keys.openRegister.optIn, label = "Remove my details from the open register", value = "false")
     </fieldset>
-    @validationMessage(formData(keys.openRegister))
-    @validationMessage(formData(keys.openRegister.optIn))
+    @validationMessages(formData)
     <button type="submit" id="continue" class="button next">Continue</button> 
     
   }

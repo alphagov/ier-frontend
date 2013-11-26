@@ -44,9 +44,7 @@
         }
       }
     </div>
-    @validationMessage(formData(keys.address))
-    @validationMessage(formData(keys.address.address))
-    @validationMessage(formData(keys.address.postcode))
+    @validationMessages(formData)
     <button type="submit" id="continue" class="button next">Continue</button>
     <div class="help-content">
       <h2>Help</h2>

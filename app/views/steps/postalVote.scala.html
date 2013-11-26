@@ -13,7 +13,7 @@
       @radio(keys.postalVote.optIn, value="true", label="Yes, send me a postal vote application form")
       @radio(keys.postalVote.optIn, value="false", label="No, I prefer to vote in person")
     </fieldset>
-    @validationMessage(formData(keys.postalVote))
+    @validationMessages(formData)
     <button type="submit" id="continue" class="button next">Continue</button>
   }
 }

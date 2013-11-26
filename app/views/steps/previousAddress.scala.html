@@ -51,9 +51,7 @@
       }
     }
     </div>
-    @validationMessage(formData(keys.previousAddress))
-    @validationMessage(formData(keys.previousAddress.previousAddress.address))
-    @validationMessage(formData(keys.previousAddress.previousAddress.postcode))
+    @validationMessages(formData)
     <button type="submit" id="continue" class="button next">Continue</button>
 
     @text(keys.possibleAddresses.postcode, attributes = Map('class -> "hidden", 'type -> "hidden"))

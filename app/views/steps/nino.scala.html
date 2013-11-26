@@ -21,9 +21,7 @@
         @textArea(keys.nino.noNinoReason, label = "Why can't you provide a National Insurance number?", inputAttributes = Map('class -> "small", 'maxlength -> "500"))
       </div>
     </div>
-    @validationMessage(formData(keys.nino))
-    @validationMessage(formData(keys.nino.nino))
-    @validationMessage(formData(keys.nino.noNinoReason))
+    @validationMessages(formData)
     <button type="submit" id="continue" class="button next">Continue</button>
   }
 }
