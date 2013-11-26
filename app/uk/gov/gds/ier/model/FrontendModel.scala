@@ -47,8 +47,8 @@ case class Nationality (british:Option[Boolean] = None,
                         otherCountries:List[String] = List.empty,
                         noNationalityReason:Option[String] = None,
                         countryIsos:Option[List[String]] = None) {
-  def checkedNationalities = british.toList.filter(_ == true).map(brit => "British") ++
-    irish.toList.filter(_ == true).map(isIrish => "Irish")
+  def checkedNationalities = british.toList.filter(_ == true).map(brit => "United Kingdom") ++
+    irish.toList.filter(_ == true).map(isIrish => "Ireland")
 
   def toApiMap = {
     val natMap = countryIsos.map(isos => Map("nat" -> isos.mkString(", "))).getOrElse(Map.empty)
