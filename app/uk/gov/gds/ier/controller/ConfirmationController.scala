@@ -30,7 +30,7 @@ class ConfirmationController @Inject ()(val serialiser: JsonSerialiser,
   
   def get = ValidSession requiredFor {
     request => application =>
-      Ok(template(InProgressForm(validation.fill(application))))
+      Ok(template(InProgressForm(validation.fillAndValidate(application))))
   }
 
   def post = ValidSession requiredFor {
