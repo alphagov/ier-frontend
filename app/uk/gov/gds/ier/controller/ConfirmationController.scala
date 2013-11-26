@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.step.confirmation
+package uk.gov.gds.ier.controller
 
 import play.api.mvc._
 import controllers._
@@ -7,7 +7,6 @@ import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.session.SessionHandling
 import uk.gov.gds.ier.service.{IerApiService, PlacesService}
-import uk.gov.gds.ier.controller.StepController
 import play.api.data.Form
 import play.api.mvc.{SimpleResult, Call}
 import uk.gov.gds.ier.model.InprogressApplication

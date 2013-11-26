@@ -6,7 +6,7 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.test.TestHelpers
 
-class ConfirmationController
+class ConfirmationControllerTests
   extends FlatSpec
   with Matchers
   with TestHelpers {
