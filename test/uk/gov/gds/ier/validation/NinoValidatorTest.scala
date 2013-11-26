@@ -1,44 +1,40 @@
 package uk.gov.gds.ier.validation
 
-import org.specs2.mutable.Specification
+import org.scalatest.{Matchers, FlatSpec}
 
-class NinoValidatorTest extends Specification {
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitRunner
 
-  "isValid" should {
-    "return true for a valid NINO with suffix" in {
-      NinoValidator.isValid("AB123456C") mustEqual(true)
-    }
+@RunWith(classOf[JUnitRunner])
+class NinoValidatorTest   
+  extends FlatSpec
+  with Matchers {
+
+  behavior of "NinoValidator.isValid" 
+
+  it should "return true for a valid NINO with suffix" in {
+    NinoValidator.isValid("AB123456C") should be(true)
   }
 
-  "isValid" should {
-    "return true for a valid NINO without suffix" in {
-      NinoValidator.isValid("AB123456") mustEqual(true)
-    }
+  it should "return true for a valid NINO without suffix" in {
+    NinoValidator.isValid("AB123456") should be(true)
   }
 
-  "isValid" should {
-    "return false for an empty NINO" in {
-      NinoValidator.isValid("") mustEqual(false)
-    }
+  it should "return false for an empty NINO" in {
+    NinoValidator.isValid("") should be(false)
   }
 
-  "isValid" should {
-    "return true for a valid NINO with spaces" in {
-      NinoValidator.isValid(" AB 12 3 456 C ") mustEqual(true)
-    }
+  it should "return true for a valid NINO with spaces" in {
+    NinoValidator.isValid(" AB 12 3 456 C ") should be(true)
   }
 
-  "isValid" should {
-    "be case-insensitive" in {
-      NinoValidator.isValid("Ab123456c") mustEqual(true)
-    }
+  it should "be case-insensitive" in {
+    NinoValidator.isValid("Ab123456c") should be(true)
   }
 
-  "isValid" should {
-    "return false for an invalid NINO" in {
-      NinoValidator.isValid("AB123456X") mustEqual(false)
-      NinoValidator.isValid("AB123456Cx") mustEqual(false)
-      NinoValidator.isValid("AB12345") mustEqual(false)
-    }
+  it should "return false for an invalid NINO" in {
+    NinoValidator.isValid("AB123456X") should be(false)
+    NinoValidator.isValid("AB123456Cx") should be(false)
+    NinoValidator.isValid("AB12345") should be(false)
   }
 }
