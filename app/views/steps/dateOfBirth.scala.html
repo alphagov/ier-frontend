@@ -14,14 +14,12 @@
           label = "Day",
           options = DateOfBirthConstants.days,
           inputAttributes = Map('_default -> "Day", 'class -> "day"),
-          labelAttributes = Map('class -> "visuallyhidden"),
-          crossField = keys.dob)
+          labelAttributes = Map('class -> "visuallyhidden"))
       @select(keys.dob.month,
           label = "Month",
           options = DateOfBirthConstants.months,
           inputAttributes = Map('_default -> "Month", 'class -> "month"),
-          labelAttributes = Map('class -> "visuallyhidden"),
-          crossField = keys.dob)
+          labelAttributes = Map('class -> "visuallyhidden"))
       @label(keys.dob.year,
           label = "Year",
           attributes = Map('class -> "visuallyhidden"))
