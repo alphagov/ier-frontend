@@ -1242,6 +1242,9 @@ window.GOVUK = window.GOVUK || {};
       },
       'nino' : {
         'atLeastOneNonEmpty' : 'Please enter your National Insurance number'
+      },
+      'postalVote' : {
+        'atLeastOneNonEmpty' : 'Please answer this question'
       }
     }
   };
