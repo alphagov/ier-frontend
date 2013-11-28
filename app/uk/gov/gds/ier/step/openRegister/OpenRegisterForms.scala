@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.step.openRegister
 
-import uk.gov.gds.ier.validation.{TransformedForm, ErrorMessages, FormKeys}
+import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.InprogressApplication
 import play.api.data.Form
 import play.api.data.Forms._
@@ -13,7 +13,7 @@ trait OpenRegisterForms {
     keys.optIn.key -> boolean
   )
 
-  val openRegisterForm = TransformedForm(
+  val openRegisterForm = ErrorTransformForm(
     mapping(
       keys.openRegister.key -> optional(openRegisterOptInMapping)
     ) (

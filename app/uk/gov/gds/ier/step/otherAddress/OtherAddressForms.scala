@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.step.otherAddress
 
-import uk.gov.gds.ier.validation.{TransformedForm, ErrorMessages, FormKeys}
+import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.{InprogressApplication, OtherAddress}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.Form
@@ -15,7 +15,7 @@ trait OtherAddressForms {
     keys.hasOtherAddress.key -> boolean
   ) (OtherAddress.apply) (OtherAddress.unapply)
 
-  val otherAddressForm = TransformedForm(
+  val otherAddressForm = ErrorTransformForm(
     mapping(
       keys.otherAddress.key -> optional(otherAddressMapping)
         .verifying("Please answer this question", otherAddress => otherAddress.isDefined)

@@ -16,7 +16,7 @@ trait StepController
   with FormKeys {
     self:  WithSerialiser =>
 
-  val validation: TransformedForm[InprogressApplication]
+  val validation: ErrorTransformForm[InprogressApplication]
   val editPostRoute: Call
   val stepPostRoute: Call
   def template(form: InProgressForm, call: Call):Html

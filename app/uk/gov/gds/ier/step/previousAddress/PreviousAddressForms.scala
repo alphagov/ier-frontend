@@ -25,7 +25,7 @@ trait PreviousAddressForms extends PreviousAddressConstraints {
     PreviousAddress.unapply
   ) verifying(addressExistsIfMovedRecently, movedRecentlyTrueIfAddressProvided)
 
-  val previousAddressForm = TransformedForm(
+  val previousAddressForm = ErrorTransformForm(
     mapping(
       keys.previousAddress.key -> optional(previousAddressMapping)
         .verifying("Please answer this question", previousAddress => previousAddress.isDefined),

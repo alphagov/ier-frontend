@@ -16,7 +16,7 @@ class TransformedFormTests
     val form = Form(single("foo" -> text))
     val boundForm = form.bind(data)
 
-    val transformedForm = TransformedForm(form)
+    val transformedForm = ErrorTransformForm(form)
     transformedForm.form should be(form)
 
     val boundTransformedForm = transformedForm.bind(data)
@@ -28,7 +28,7 @@ class TransformedFormTests
     val form = Form(single("foo" -> number))
     val boundForm = form.bind(data)
 
-    val transformedForm = TransformedForm(form)
+    val transformedForm = ErrorTransformForm(form)
     val boundTransformedForm = transformedForm.bind(data)
     boundTransformedForm.errors shouldNot be(boundForm.errors)
     boundTransformedForm.error("foo") should be(boundForm.error("foo"))
@@ -43,7 +43,7 @@ class TransformedFormTests
     val form = Form(single("foo" -> text) verifying constraint)
     val boundForm = form.bind(data)
 
-    val transformedForm = TransformedForm(form)
+    val transformedForm = ErrorTransformForm(form)
     val boundTransformedForm = transformedForm.bind(data)
     boundTransformedForm.errors shouldNot be(boundForm.errors)
     boundTransformedForm.errorMessages("foo.notJohn") should be(Seq("Not John"))

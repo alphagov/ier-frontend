@@ -23,7 +23,7 @@ trait NinoForms {
     Nino.unapply
   )
  
-  val ninoForm = TransformedForm(
+  val ninoForm = ErrorTransformForm(
     mapping(
       keys.nino.key -> optional(
         ninoMapping.verifying("Please enter your National Insurance number", 

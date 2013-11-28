@@ -39,7 +39,7 @@ trait AddressForms {
     Address.unapply
   )  
     
-  val addressForm = TransformedForm(
+  val addressForm = ErrorTransformForm(
     mapping(
       keys.address.key -> optional(addressMapping)
         .verifying("Please answer this question", _.isDefined),

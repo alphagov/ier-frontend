@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.step.nationality
 
-import uk.gov.gds.ier.validation.{TransformedForm, ErrorMessages, FormKeys}
+import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.{InprogressApplication, Nationality}
 import play.api.data.Form
 import play.api.data.Forms._
@@ -28,7 +28,7 @@ trait NationalityForms extends NationalityConstraints {
     nationalityIsChosen, notTooManyNationalities, otherCountry0IsValid, otherCountry1IsValid, otherCountry2IsValid
   )
 
-  val nationalityForm = TransformedForm(
+  val nationalityForm = ErrorTransformForm(
     mapping(
       keys.nationality.key -> nationalityMapping
     ) (

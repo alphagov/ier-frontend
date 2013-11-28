@@ -44,7 +44,7 @@ trait ContactForms extends ContactConstraints {
     Contact.unapply
   )
 
-  val contactForm = TransformedForm(
+  val contactForm = ErrorTransformForm(
     mapping(
       keys.contact.key -> optional(contactMapping)
         .verifying("Please answer this question", _.isDefined)

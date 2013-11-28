@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.step.postalVote
 
-import uk.gov.gds.ier.validation.{TransformedForm, ErrorMessages, FormKeys}
+import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.InprogressApplication
 import play.api.data.Form
 import play.api.data.Forms._
@@ -13,7 +13,7 @@ trait PostalVoteForms {
     keys.optIn.key -> boolean
   )
  
-  val postalVoteForm = TransformedForm(
+  val postalVoteForm = ErrorTransformForm(
     mapping(
       keys.postalVote.key -> optional(postalVoteOptInMapping)
         .verifying("Please answer this question", postalVote => postalVote.isDefined)

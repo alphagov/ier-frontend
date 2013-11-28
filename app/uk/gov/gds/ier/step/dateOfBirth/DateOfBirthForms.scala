@@ -30,7 +30,7 @@ trait DateOfBirthForms extends DateOfBirthConstraints {
   }.verifying(isOverTheMinimumAgeToVote, dateNotInTheFuture, notTooOldToBeAlive)
 
 
-  val dateOfBirthForm = TransformedForm(
+  val dateOfBirthForm = ErrorTransformForm(
     mapping(keys.dob.key -> optional(dobMapping))
     (
       dob => InprogressApplication(dob = dob)

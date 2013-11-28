@@ -5,7 +5,7 @@ import play.api.data.{Mapping, Field, FormError, Form}
 import play.api.libs.json.JsValue
 import play.api.i18n.Lang
 
-case class TransformedForm[T](form:Form[T]) {
+case class ErrorTransformForm[T](form:Form[T]) {
   lazy val transformedForm = transformErrors(form)
 
   lazy val mapping : Mapping[T] = form.mapping
@@ -13,25 +13,25 @@ case class TransformedForm[T](form:Form[T]) {
   lazy val errors : Seq[FormError] = transformedForm.errors
   lazy val value : Option[T] = form.value
 
-  def bind(data : scala.Predef.Map[scala.Predef.String, scala.Predef.String]) : TransformedForm[T] = {
+  def bind(data : scala.Predef.Map[scala.Predef.String, scala.Predef.String]) : ErrorTransformForm[T] = {
     this.copy(form.bind(data))
   }
-  def bind(data : play.api.libs.json.JsValue) : TransformedForm[T] = {
+  def bind(data : play.api.libs.json.JsValue) : ErrorTransformForm[T] = {
     this.copy(form.bind(data))
   }
-  def bindFromRequest()(implicit request : play.api.mvc.Request[_]) : TransformedForm[T] = {
+  def bindFromRequest()(implicit request : play.api.mvc.Request[_]) : ErrorTransformForm[T] = {
     this.copy(form.bindFromRequest())
   }
-  def bindFromRequest(data : Map[String, Seq[String]]) : TransformedForm[T] = {
+  def bindFromRequest(data : Map[String, Seq[String]]) : ErrorTransformForm[T] = {
     this.copy(form.bindFromRequest(data))
   }
-  def fill(value : T) : TransformedForm[T] = {
+  def fill(value : T) : ErrorTransformForm[T] = {
     this.copy(form.fill(value))
   }
-  def fillAndValidate(value : T) : TransformedForm[T] = {
+  def fillAndValidate(value : T) : ErrorTransformForm[T] = {
     this.copy(form.fillAndValidate(value))
   }
-  def fold[R](hasErrors : TransformedForm[T] => R, success : T => R) : R = form.value match {
+  def fold[R](hasErrors : ErrorTransformForm[T] => R, success : T => R) : R = form.value match {
     case Some(v) if transformedForm.errors.isEmpty => success(v)
     case _ => hasErrors(this)
   }
@@ -65,16 +65,16 @@ case class TransformedForm[T](form:Form[T]) {
   def errorsAsJson(implicit lang : Lang) : JsValue = {
     transformedForm.errorsAsJson
   }
-  def withError(error : FormError) : TransformedForm[T] = {
+  def withError(error : FormError) : ErrorTransformForm[T] = {
     this.copy(form.withError(error))
   }
-  def withError(key : String, message : String, args : Any*) : TransformedForm[T] = {
+  def withError(key : String, message : String, args : Any*) : ErrorTransformForm[T] = {
     this.copy(form.withError(key, message, args:_*))
   }
-  def withGlobalError(message : String, args : Any*) : TransformedForm[T] = {
+  def withGlobalError(message : String, args : Any*) : ErrorTransformForm[T] = {
     this.copy(form.withGlobalError(message, args:_*))
   }
-  def discardingErrors : TransformedForm[T] = {
+  def discardingErrors : ErrorTransformForm[T] = {
     this.copy(form.discardingErrors)
   }
 
@@ -100,11 +100,11 @@ case class TransformedForm[T](form:Form[T]) {
   }
 }
 
-object TransformedForm {
-  def apply[T](mapping : Mapping[T]) : TransformedForm[T] = {
-    new TransformedForm[T](Form(mapping))
+object ErrorTransformForm {
+  def apply[T](mapping : Mapping[T]) : ErrorTransformForm[T] = {
+    new ErrorTransformForm[T](Form(mapping))
   }
-  def apply[T](mapping: (String, Mapping[T])): TransformedForm[T] = {
-    new TransformedForm[T](Form(mapping))
+  def apply[T](mapping: (String, Mapping[T])): ErrorTransformForm[T] = {
+    new ErrorTransformForm[T](Form(mapping))
   }
 }

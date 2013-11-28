@@ -10,7 +10,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.test._
 import play.api.test.Helpers._
 import play.api.mvc.Call
-import uk.gov.gds.ier.validation.{TransformedForm, InProgressForm}
+import uk.gov.gds.ier.validation.{ErrorTransformForm, InProgressForm}
 import play.api.test.FakeApplication
 import uk.gov.gds.ier.test.TestHelpers
 
@@ -23,7 +23,7 @@ class StepControllerTests
   val mockEditCall = mock[Call]
   val mockStepCall = mock[Call]
 
-  def createController(form: TransformedForm[InprogressApplication]) = new StepController
+  def createController(form: ErrorTransformForm[InprogressApplication]) = new StepController
                                                                        with WithSerialiser {
 
     val serialiser = jsonSerialiser
@@ -40,7 +40,7 @@ class StepControllerTests
   behavior of "StepController.get"
   it should "return the template page for a valid session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      val controller = createController(mock[TransformedForm[InprogressApplication]])
+      val controller = createController(mock[ErrorTransformForm[InprogressApplication]])
       val request = FakeRequest().withIerSession()
 
       val result = controller.get()(request)
@@ -52,7 +52,7 @@ class StepControllerTests
 
   it should "redirect to the start page with invalid session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      val controller = createController(mock[TransformedForm[InprogressApplication]])
+      val controller = createController(mock[ErrorTransformForm[InprogressApplication]])
       val request = FakeRequest().withIerSession(6)
 
       val result = controller.get()(request)
@@ -65,7 +65,7 @@ class StepControllerTests
   behavior of "StepController.post"
   it should "bind to the validation and redisplay the template on error" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      val form = TransformedForm(
+      val form = ErrorTransformForm(
         mapping("foo" -> text.verifying("Forcing a failure", foo => false))
           (foo => InprogressApplication())
           (app => Some("foo")))
@@ -84,7 +84,7 @@ class StepControllerTests
 
   it should "bind to the validation and redirect to the next page on successful validation" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      val form = TransformedForm(
+      val form = ErrorTransformForm(
         mapping("foo" -> text.verifying("I will always pass", foo => true))
           (foo => InprogressApplication())
           (app => Some("foo"))
@@ -105,7 +105,7 @@ class StepControllerTests
   behavior of "StepController.editGet"
   it should "return the template page for a valid session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      val controller = createController(mock[TransformedForm[InprogressApplication]])
+      val controller = createController(mock[ErrorTransformForm[InprogressApplication]])
       val request = FakeRequest().withIerSession()
 
       val result = controller.editGet()(request)
@@ -117,7 +117,7 @@ class StepControllerTests
 
   it should "redirect to the start page with invalid session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      val controller = createController(mock[TransformedForm[InprogressApplication]])
+      val controller = createController(mock[ErrorTransformForm[InprogressApplication]])
       val request = FakeRequest().withIerSession(6)
 
       val result = controller.editGet()(request)
@@ -130,7 +130,7 @@ class StepControllerTests
   behavior of "StepController.editPost"
   it should "bind to the validation and redisplay the template on error" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      val form = TransformedForm(
+      val form = ErrorTransformForm(
         mapping("foo" -> text.verifying("Forcing a failure", foo => false))
           (foo => InprogressApplication())
           (app => Some("foo"))
@@ -148,7 +148,7 @@ class StepControllerTests
 
   it should "bind to the validation and redirect to the next page on successful validation" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      val form = TransformedForm(
+      val form = ErrorTransformForm(
         mapping("foo" -> text.verifying("I will always pass", foo => true))
           (foo => InprogressApplication())
           (app => Some("foo"))
@@ -166,7 +166,7 @@ class StepControllerTests
 
   it should "not allow possibleAddresses in to the session, we don't want to store those, ever!" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      val form = TransformedForm(
+      val form = ErrorTransformForm(
         mapping("foo" -> text.verifying("I will always pass", foo => true))
           (foo => InprogressApplication(
             possibleAddresses = Some(PossibleAddress(
