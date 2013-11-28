@@ -8,9 +8,12 @@
   @form(postEndpoint) {
   @layouts.questionHeader("What is your full name?", "/register-to-vote/date-of-birth", 4)
     <fieldset class="validate" data-validation-name="fullName" data-validation-type="fieldset" data-validation-rules="allNonEmpty" data-validation-children="firstName lastName">
-      @text(keys.name.firstName, label = "First name", inputAttributes = Map('class -> "first-name long validate", Symbol("data-validation-name") -> "firstName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"), crossField = keys.name)
-      @text(keys.name.middleNames, label = "Middle names", inputAttributes = Map('class -> "middle-names long"))
-      @text(keys.name.lastName, label = "Last name", inputAttributes = Map('class -> "last-name long validate", Symbol("data-validation-name") -> "lastName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"), crossField = keys.name)
+      @label(keys.name.firstName, label = "First name")
+      @text(keys.name.firstName, attributes = Map('class -> "first-name long validate", Symbol("data-validation-name") -> "firstName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+      @label(keys.name.middleNames, label = "Middle names")
+      @text(keys.name.middleNames, attributes = Map('class -> "middle-names long"))
+      @label(keys.name.lastName, label = "Last name")
+      @text(keys.name.lastName, attributes = Map('class -> "last-name long validate", Symbol("data-validation-name") -> "lastName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
     </fieldset>
     <fieldset class="sub-section validate" data-validation-name="previousQuestion" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="previousYes previousNo">
       <legend class="label">Have you changed your name in the last 12 months?</legend> 
