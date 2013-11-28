@@ -1205,10 +1205,10 @@ window.GOVUK = window.GOVUK || {};
     }()),
     messages : {
       'fullName' : {
-        'allNonEmpty' : 'Please enter your full name'
+        'allNonEmpty' : 'Please enter your name'
       },
       'previousQuestion' : {
-        'atLeastOneNonEmpty' : 'Please answer this question'
+        'atLeastOneNonEmpty' : 'Please answer if you changed your name'
       },
       'previousName' : {
         'allNonEmpty' : 'Please enter your previous name'
