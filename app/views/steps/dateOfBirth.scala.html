@@ -9,40 +9,49 @@
   @form(postUrl) {
     @questionHeader("What is your date of birth?", "/register-to-vote/nationality", 3)
 
-    <fieldset>
-      @select(keys.dob.dob.day,
+    <fieldset class="validate" data-validation-name="dateOfBirth" data-validation-type="fieldset" data-validation-rules="allNonEmpty" data-validation-children="day month year">
+      @select(keys.dob.day,
           label = "Day",
           options = DateOfBirthConstants.days,
-          inputAttributes = Map('_default -> "Day", 'class -> "day"),
+          inputAttributes = Map('_default -> "Day", 'class -> "day validate", Symbol("data-validation-name") -> "day", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"),
           labelAttributes = Map('class -> "visuallyhidden"))
-      @select(keys.dob.dob.month,
+      @select(keys.dob.month,
           label = "Month",
           options = DateOfBirthConstants.months,
-          inputAttributes = Map('_default -> "Month", 'class -> "month"),
+          inputAttributes = Map('_default -> "Month", 'class -> "month validate", Symbol("data-validation-name") -> "month", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"),
           labelAttributes = Map('class -> "visuallyhidden"))
-      @label(keys.dob.dob.year,
+      @label(keys.dob.year,
           label = "Year",
           attributes = Map('class -> "visuallyhidden"))
-      @text(keys.dob.dob.year,
-          attributes = Map('class -> "year text small", 'placeholder -> "Year"))
+      @text(keys.dob.year,
+          attributes = Map('class -> "year text small validate", 'placeholder -> "Year", Symbol("data-validation-name") -> "year", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
     </fieldset>
     <div class="help-content">
       <h3>Help</h3>
       <p>If you don’t know your exact date of birth, use the one you put on official documents (for example, your passport or driving licence.</p>
       <p>If you can’t provide your date of birth you’ll have to send copies of identity documents through the post.</p>
-      <fieldset class="optional-section">
+      <div class="optional-section validate" data-validation-name="dateOfBirthExcuse" data-validation-type="fieldset"  data-validation-rules="allNonEmpty"  data-validation-children="dateOfBirthExcuseReason excuseAgeAttempt">
         <h3>I can't provide my date of birth</h3>
         @label(keys.dob.noDob.reason, label = "Why can't you provide your date of birth?")
         @textArea(keys.dob.noDob.reason, attributes = Map('class -> "small", 'autocomplete -> "off"))
-        <p>How old are you?</p>
-        @radio(keys.dob.noDob.range, value = DateOfBirthConstants.under18, label = "Under 18 years old")
-        @radio(keys.dob.noDob.range, value = DateOfBirthConstants.is18to70, label = "Between 18 and 70 years old")
-        @radio(keys.dob.noDob.range, value = DateOfBirthConstants.over70, label = "Over 70 years old")
-        @radio(keys.dob.noDob.range, value = DateOfBirthConstants.dontKnow, label = "I don't know")
-      </fieldset>
+        <fieldset class="validate" data-validation-name="excuseAgeAttempt" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="excuseUnder18 excuse18to70 excuseOver70 excuseDontKnow">
+          <p>How old are you?</p>
+          <label class="selectable" for="DOBunder18">
+            <input type="radio" id="DOBunder18" name="DOBStatement" value="under18" class="radio validate" data-validation-name="excuseUnder18" data-validation-type="field" data-validation-rules="nonEmpty"><span class="visuallyhidden">I am</span>Under 18 years old
+          </label>
+          <label class="selectable" for="DOB18to70">
+            <input type="radio" id="DOB18to70" name="DOBStatement" value="18to70" class="radio validate" data-validation-name="excuse18to70" data-validation-type="field" data-validation-rules="nonEmpty"><span class="visuallyhidden">I am</span>Between 18 and 70 years old
+          </label>
+          <label class="selectable" for="DOBover70">
+            <input type="radio" id="DOBover70" name="DOBStatement" value="over70" class="radio validate" data-validation-name="excuseOver70" data-validation-type="field" data-validation-rules="nonEmpty"><span class="visuallyhidden">I am</span>Over 70 years old
+          </label>
+          <label class="selectable" for="DOBdontknow">
+            <input type="radio" id="DOBdontknow" name="DOBStatement" value="dontKnow" class="radio validate" data-validation-name="excuseDontKnow" data-validation-type="field" data-validation-rules="nonEmpty">I don't know<span class="visuallyhidden"> how old I am</span>
+          </label>
+        </fieldset>
+      </div>
     </div>
-    <div class="validation-message"></div>
     @validationMessages(formData)
-    <button type="submit" id="continue" class="button next">Continue</button>
+    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="dateOfBirth day month year dateOfBirthExcuseReason excuseAgeAttempt">Continue</button>
   }
 }
