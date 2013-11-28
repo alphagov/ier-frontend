@@ -944,12 +944,12 @@ window.GOVUK = window.GOVUK || {};
           items.push(itemObj);
         },
         addAssociation : function ($source) {
-          var memberIds = $source.data('validationAssociations').split(' '),
+          var memberNames = $source.data('validationMembers').split(' '),
               itemObj;
 
           itemObj = makeItemObj($source, {
             'type' : 'association',
-            '$members' : memberIds
+            'members' : memberNames
           });
           items.push(itemObj);
         },
@@ -1016,19 +1016,31 @@ window.GOVUK = window.GOVUK || {};
           applyRules;
 
       ruleSources = {
-        'association' : '$members',
+        'association' : 'members',
         'fieldset' : 'children',
         'field' : '$source'
       };
       sourcesToMark = {
-        'association' : '$members',
+        'association' : 'members',
         'fieldset' : '$source',
         'field' : '$source'
       };
       applyRules = function (fieldObj) {
-        var $sourceToMark = fieldObj[sourcesToMark[fieldObj.type]],
+        var $sourcesToMark = fieldObj[sourcesToMark[fieldObj.type]],
+            memberNames,
             failedRule = false;
 
+        // get the source elements for associations
+        if ($sourcesToMark.constructor !== $) {
+          memberNames = $sourcesToMark;
+          $.each(validation.fields.getNames(memberNames), function (idx, fieldObj) {
+            if ($sourcesToMark.constructor !== $) {
+              $sourcesToMark = fieldObj.$source;
+            } else {
+              $sourcesToMark = $sourcesToMark.add(fieldObj.$source);
+            }
+          });
+        }
         // rules are applied in the order they are written in the original attribute value
         $.each(fieldObj.rules, function (idx, rule) {
           var isValid = fieldObj[rule]();
@@ -1036,7 +1048,7 @@ window.GOVUK = window.GOVUK || {};
             failedRule = {
               'name' : fieldObj.name,
               'rule' : rule,
-              '$source' : $sourceToMark
+              '$source' : $sourcesToMark
             }; 
             return false;
           }
@@ -1176,13 +1188,14 @@ window.GOVUK = window.GOVUK || {};
           }
         },
         'association' : {
-          'atLeastOneNotEmpty' : function (validation) {
+          'atLeastOneNonEmpty' : function () {
             var oneFilled = false,
                 memberFields = validation.fields.getNames(this.members);
 
             $.each(memberFields, function (idx, fieldObj) {
-              if (fieldObj.nonEmpty()) {
+              if ((!fieldObj.$source.is(':hidden')) && fieldObj.nonEmpty()) {
                 oneFilled = true;
+                return false;
               }
             });
             return oneFilled;
@@ -1226,6 +1239,9 @@ window.GOVUK = window.GOVUK || {};
       },
       'nationality' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
+      },
+      'nino' : {
+        'atLeastOneNonEmpty' : 'Please enter your National Insurance number'
       }
     }
   };
