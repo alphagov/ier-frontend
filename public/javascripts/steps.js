@@ -1095,7 +1095,9 @@ window.GOVUK = window.GOVUK || {};
       $.each(invalidFields, function (idx, field) {
         name = invalidFields[idx].name;
         rule = invalidFields[idx].rule;
-        $('<div class="validation-message visible">' + _this.messages[name][rule] + '</div>').insertBefore('#continue');
+        if ((typeof _this.messages[name] !== 'undefined') && (typeof _this.messages[name][rule] !== 'undefined')) {
+          $('<div class="validation-message visible">' + _this.messages[name][rule] + '</div>').insertBefore('#continue');
+        }
       });
     },
     rules : (function () {
@@ -1197,6 +1199,15 @@ window.GOVUK = window.GOVUK || {};
       },
       'previousName' : {
         'allNonEmpty' : 'Please enter your previous name'
+      },
+      'day' : {
+        'nonEmpty' : 'Please enter your day of birth'
+      },
+      'month' : {
+        'nonEmpty' : 'Please enter your month of birth'
+      },
+      'year' : {
+        'nonEmpty' : 'Please enter your year of birth'
       }
     }
   };
