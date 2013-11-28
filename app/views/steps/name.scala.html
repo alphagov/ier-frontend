@@ -7,30 +7,27 @@
 @main(title = Some("Register to Vote - What is your name?"), stylesheets = head(), scripts = stepsBodyEnd()) {
   @form(postEndpoint) {
   @layouts.questionHeader("What is your full name?", "/register-to-vote/date-of-birth", 4)
-    <fieldset>
-      @label(keys.name.firstName, label = "First name")
-      @text(keys.name.firstName, attributes = Map('class -> "first-name long"))
-      @label(keys.name.middleNames, label = "Middle names")
-      @text(keys.name.middleNames, attributes = Map('class -> "middle-names long"))
-      @label(keys.name.lastName, label = "Last name")
-      @text(keys.name.lastName, attributes = Map('class -> "last-name long"))
+    <fieldset class="validate" data-validation-name="fullName" data-validation-type="fieldset" data-validation-rules="allNonEmpty" data-validation-children="firstName lastName">
+      @text(keys.name.firstName, label = "First name", inputAttributes = Map('class -> "first-name long validate", Symbol("data-validation-name") -> "firstName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"), crossField = keys.name)
+      @text(keys.name.middleNames, label = "Middle names", inputAttributes = Map('class -> "middle-names long"))
+      @text(keys.name.lastName, label = "Last name", inputAttributes = Map('class -> "last-name long validate", Symbol("data-validation-name") -> "lastName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"), crossField = keys.name)
     </fieldset>
-    <fieldset class="sub-section">
+    <fieldset class="sub-section validate" data-validation-name="previousQuestion" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="previousYes previousNo">
       <legend class="label">Have you changed your name in the last 12 months?</legend> 
-      @radio(keys.previousName.hasPreviousName, label="Yes", value = "true", labelAttributes = Map('class -> "binary"))
-      @radio(keys.previousName.hasPreviousName, label="No", value = "false", labelAttributes = Map('class -> "binary"))
+      @radio(keys.previousName.hasPreviousName, label="Yes", value = "true", labelAttributes = Map('class -> "binary"), inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "previousYes", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+      @radio(keys.previousName.hasPreviousName, label="No", value = "false", labelAttributes = Map('class -> "binary"), inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "previousNo", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
     </fieldset>
     <div class="optional-section optional-section-core-content @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "visible")" data-condition="@keys.previousName.hasPreviousName.asId("true")">
       <h2>Previous name</h2>
-      <fieldset>
+      <fieldset class="validate" data-validation-name="previousName" data-validation-type="fieldset" data-validation-rules="allNonEmpty" data-validation-children="previousFirstName previousLastName">
         @wrapLabel(keys.previousName.previousName.firstName) {
           <span class="visuallyhidden">Previous</span> First name
         }
-        @text(keys.previousName.previousName.firstName, attributes = Map('class -> "first-name long"))
+        @text(keys.previousName.previousName.firstName, attributes = Map('class -> "first-name long", Symbol("data-validation-name") -> "previousFirstName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
         @wrapLabel(keys.previousName.previousName.middleNames) {
           <span class="visuallyhidden">Previous</span> Middle names
         }
-        @text(keys.previousName.previousName.middleNames, attributes = Map('class -> "middle-names long"))
+        @text(keys.previousName.previousName.middleNames, attributes = Map('class -> "middle-names long", Symbol("data-validation-name") -> "previousLastName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
         @wrapLabel(keys.previousName.previousName.lastName) {
           <span class="visuallyhidden">Previous</span> Last name
         }
@@ -38,6 +35,6 @@
       </fieldset> 
     </div>
     @validationMessages(formData)
-    <button id="continue" type="submit" class="button next">Continue</button>
+    <button id="continue" type="submit" class="button next validation-submit" data-validation-sources="fullName previousQuestion previousName">Continue</button>
   }
 }

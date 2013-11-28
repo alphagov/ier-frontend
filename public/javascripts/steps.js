@@ -841,63 +841,363 @@ window.GOVUK = window.GOVUK || {};
 
   validation = {
     init : function () {
-      var parentObj = this,
-          bindRulesToObject = function () {
-            var func,
-                rule;
+      var _this = this,
+          $submits = $('.validation-submit');
 
-            for (func in parentObj.rules) {
-              var rule = parentObj.rules[func];
-              parentObj.rules[func] = function () { 
-                rule.apply(parentObj, arguments); 
-              };
-            }
-          };
-
-      bindRulesToObject();
-      $(document).bind('validation.invalid', function (e, data) {
-        parentObj.handler('invalid', data.source);
+      this.fields.init();
+      $('.validate').each(function (idx, elm) {
+        _this.fields.add($(elm), _this);
+      });
+      this.events.bind('validate', function (e, eData) {
+        return _this.handler(eData.$source);
+      });
+      $submits.each(function (idx, elm) {
+        $(elm.form).on('submit', function (e, eData) {
+          return _this.handler($(elm));
+        });
       });
     },
-    handler : function (state, $source) {
-      var name,
+    handler : function ($source) {
+      var names,
           rules = [],
-          rulesStr = "",
-          parentObj = this;
+          rulesStr = "";
 
-      name = $source.data('validation-name');
-      rules = $source.data('validation-rules');
+      names = $source.data('validationSources');
+      if (names !== null) {
+        names = names.split(' ');
+      } else {
+        names = this.forms[$($source[0].form).data('validationName')];
+      }
+      return this.validate(names);
+    },
+    forms : {
+      refs : {},
+      addName : function ($source) {
+        var name = $source.data('validationName'),
+            formName;
 
-      if (rules) { 
-        rules = rules.split(' '); 
-        $.each(rules, function (idx, rule) {
-          if (typeof parentObj.rules[rule] !== 'undefined') {
-            parentObj.rules[rule]($source, name);
+        if ($source[0].nodeName.toLowerCase() === 'form') {
+          formName = $source[0].action;
+        } else {
+          formName = $source[0].form.action;
+        }
+        if (typeof this.refs[formName] !== 'undefined') {
+          this.refs[formName].push(name);
+        } else {
+          this.refs[formName] = [name];
+        }
+      }
+    },
+    fields : (function () {
+      var items = [],
+          _this = this,
+          ItemObj = function (props) {
+            var prop;
+
+            for (prop in props) {
+              if (props.hasOwnProperty(prop)) {
+                this[prop] = props[prop];       
+              }
+            };
+          },
+          objTypes = {
+            'field' : function (props) { ItemObj.call(this, props); },
+            'fieldset' : function (props) { ItemObj.call(this, props); },
+            'association' : function (props) { ItemObj.call(this, props); }
+          },
+          makeItemObj = function ($source, obj) {
+            obj.name = $source.data('validationName');
+            obj.rules = $source.data('validationRules').split(' ');
+
+            return new objTypes[obj.type](obj);
+          };
+      
+      return {
+        init : function () {
+          var objType,
+              rules,
+              rule;
+
+          for(objType in objTypes) {
+            rules = validation.rules[objType];
+            for (rule in rules) {
+              objTypes[objType].prototype[rule] = rules[rule];
+            }
+          };
+        },
+        addField : function ($source) {
+          var itemObj = makeItemObj($source, {
+            'type' : 'field',
+            '$source' : $source
+          });
+          items.push(itemObj);
+        },
+        addFieldset : function ($source) {
+          var childNames = $source.data('validationChildren').split(' '),
+              itemObj;
+
+          itemObj = makeItemObj($source, {
+            'type' : 'fieldset',
+            '$source' : $source,
+            'children' : childNames
+          });
+          items.push(itemObj);
+        },
+        addAssociation : function ($source) {
+          var memberIds = $source.data('validationAssociations').split(' '),
+              itemObj;
+
+          itemObj = makeItemObj($source, {
+            'type' : 'association',
+            '$members' : memberIds
+          });
+          items.push(itemObj);
+        },
+        remove : function (name, rule) {
+          var result = [],
+              item,
+              itemObj;
+
+          for (item in items) {
+            itemObj = items[item];
+            if ((itemObj.name !== name) && (itemObj.rule !== rule)) {
+              result.push(itemObj);
+            }
           }
+          items = result;
+        },
+        add : function ($source, validation) {
+          var type = $source.data('validationType');
+
+          if (type !== null) {
+            validation.forms.addName($source);
+            switch (type) {
+              case 'association' :
+                this.addAssociation($source);
+                break;
+              case 'fieldset' :
+                this.addFieldset($source);
+                break;
+              case 'field' :
+                this.addField($source);
+                break;
+              default :
+                return;
+            }
+          }
+        },
+        getNames : function (names) {
+          var result = [],
+              name,
+              item,
+              a,b,i,j;
+
+          for (a = 0, b = names.length; a < b; a++) {
+            name = names[a];
+            for (i = 0, j = items.length; i < j; i++) {
+              if (items[i].name === name) {
+                result.push(items[i]);
+              }
+            }
+          }
+          return result;
+        },
+        getAll : function () {
+          return items;
+        }
+      };
+    }()),
+    validate : function (names) {
+      var _this = this,
+          invalidFields = [],
+          fields,
+          ruleSources,
+          sourcesToMark,
+          applyRules;
+
+      ruleSources = {
+        'association' : '$members',
+        'fieldset' : 'children',
+        'field' : '$source'
+      };
+      sourcesToMark = {
+        'association' : '$members',
+        'fieldset' : '$source',
+        'field' : '$source'
+      };
+      applyRules = function (fieldObj) {
+        var $sourceToMark = fieldObj[sourcesToMark[fieldObj.type]],
+            failedRule = false;
+
+        // rules are applied in the order they are written in the original attribute value
+        $.each(fieldObj.rules, function (idx, rule) {
+          var isValid = fieldObj[rule]();
+          if (!isValid) { 
+            failedRule = {
+              'name' : fieldObj.name,
+              'rule' : rule,
+              '$source' : $sourceToMark
+            }; 
+            return false;
+          }
+        });
+        return failedRule;
+      };
+
+      fields = this.fields.getNames(names);
+      $.each(fields, function (idx, field) {
+        var invalidField = applyRules(field);
+
+        if (invalidField) { invalidFields.push(invalidField); }
+      });
+
+      if (invalidFields.length) {
+        this.mark.invalidFields(invalidFields);
+        this.notify(invalidFields);
+        this.events.trigger('invalid', { 'invalidFields' :  invalidFields });
+        return false;
+      }
+      return true;
+    },
+    events : {
+      trigger : function (evt, eData) {
+        $(document).trigger('validation.' + evt, eData);
+      },
+      bind : function (evt, func) {
+        $(document).on('validation.' + evt, func);
+      }
+    },
+    mark : {
+      field : function (fieldObj, isValid) {
+        var method = (isValid) ? 'removeClass' : 'addClass';
+
+        fieldObj.$source[method]('invalid');
+      },
+      invalidFields : function (invalidFields) {
+        var mark = this;
+
+        $.each(validation.fields.getAll(), function (idx, fieldObj) {
+          if (typeof fieldObj.$source !== 'undefined') {
+            mark.field(fieldObj, true);
+          }
+        });
+        $.each(invalidFields, function (idx, fieldObj) {
+          mark.field(fieldObj, false);
         });
       }
     },
-    message : {
-      existing : {},
-      exists : function (messageTxt) {
-        return typeof this.existing[messageTxt] !== 'undefined'
-      },
-      add : function (messageTxt) {
-        if (!this.exists(messageTxt)) {
-          this.existing[messageTxt] = {
-            $elm : $('<div class="validation-message visible">' + messageTxt + '</div>').insertBefore('#continue')
-          };
-        }
-      },
-      remove : function (messageTxt) {
-        if (exists(messageTxt)) {
-          this.existing[messageTxt].$elm.remove();
-          delete existing[messageTxt];
-        }
-      }
+    notify : function (invalidFields) {
+      var _this = this,
+          name,
+          rule;
+
+      $('#continue').siblings('.validation-message').remove();
+      $.each(invalidFields, function (idx, field) {
+        name = invalidFields[idx].name;
+        rule = invalidFields[idx].rule;
+        $('<div class="validation-message visible">' + _this.messages[name][rule] + '</div>').insertBefore('#continue');
+      });
     },
-    rules : {
-     'nonEmpty' : function ($source, name) { this.message.add('Please enter your ' + name) }
+    rules : (function () {
+      var fieldType,
+          selectValue,
+          radioValue,
+          getFieldValue;
+
+      fieldType = function ($field) {
+        var type = $field[0].nodeName.toLowerCase();
+        
+        return (type === 'input') ? $field[0].type : type;
+      };
+      selectValue = function ($field) {
+        var idx = $field[0].selectedIndex;
+
+        return $field.find('option:eq(' + idx + ')').val();
+      };
+      radioValue = function ($field) {
+        var radioName = $field.attr('name'),
+            $radios = $($field[0].form).find('input[type=radio]'),
+            $selectedRadio = false;
+
+        $radios.each(function (idx, elm) {
+          if ((elm.name === radioName) && elm.checked) { $selectedRadio = $(elm); }
+        });
+
+        return ($selectedRadio) ? $selectedRadio.val() : ''; 
+      };
+      getFieldValue = function ($field) {
+        switch (fieldType($field)) {
+          case 'text':
+            return $field.val();
+          case 'checkbox':
+            return ($field.attr('checked')) ? $field.val() : '';
+          case 'select':
+            return selectValue($field);
+          case 'radio':
+            return radioValue($field);
+          default:
+            return '';
+        }
+      };
+      return {
+        'field' : {
+          'nonEmpty' : function () {
+            if (this.$source.is(':hidden')) { return true; }
+            return (getFieldValue(this.$source) !== '');
+          }
+        },
+        'fieldset' : {
+          'atLeastOneNonEmpty' : function () {
+            var oneFilled = false,
+                childFields = validation.fields.getNames(this.children);
+            
+            if (this.$source.is(':hidden')) { return true; }
+            $.each(childFields, function (idx, fieldObj) {
+              if (fieldObj.nonEmpty()) {
+                oneFilled = true;
+              }
+            });
+            return oneFilled;
+          },
+          'allNonEmpty' : function () {
+            var oneEmpty = false,
+                childFields = validation.fields.getNames(this.children);
+
+            if (this.$source.is(':hidden')) { return true; }
+            $.each(childFields, function (idx, fieldObj) {
+              if (!fieldObj.nonEmpty()) {
+                oneEmpty = true;
+                return false;
+              }
+            });
+            return !oneEmpty;
+          }
+        },
+        'association' : {
+          'atLeastOneNotEmpty' : function (validation) {
+            var oneFilled = false,
+                memberFields = validation.fields.getNames(this.members);
+
+            $.each(memberFields, function (idx, fieldObj) {
+              if (fieldObj.nonEmpty()) {
+                oneFilled = true;
+              }
+            });
+            return oneFilled;
+          }
+        }
+      };
+    }()),
+    messages : {
+      'fullName' : {
+        'allNonEmpty' : 'Please enter your full name'
+      },
+      'previousQuestion' : {
+        'atLeastOneNonEmpty' : 'Please answer this question'
+      },
+      'previousName' : {
+        'allNonEmpty' : 'Please enter your previous name'
+      }
     }
   };
 
@@ -953,7 +1253,6 @@ window.GOVUK = window.GOVUK || {};
     $('#find-previous-address').each(function (idx, elm) {
       new GOVUK.registerToVote.postcodeLookup(elm, "previousAddress.previousAddress");
     });
-    GOVUK.registerToVote.validation.init();
     $('.country-autocomplete').each(function (idx, elm) {
       GOVUK.registerToVote.autocompletes.add($(elm));
     });
