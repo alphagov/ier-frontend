@@ -3,7 +3,7 @@ package uk.gov.gds.ier.validation
 import play.api.data.Form
 import uk.gov.gds.ier.model.InprogressApplication
 
-case class InProgressForm(form:Form[InprogressApplication]) extends FormKeys{
+case class InProgressForm(form:TransformedForm[InprogressApplication]) extends FormKeys{
   def apply(key:Key) = {
     form(key.key)
   }

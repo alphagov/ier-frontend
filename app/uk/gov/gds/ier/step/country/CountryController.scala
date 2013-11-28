@@ -11,17 +11,15 @@ import play.api.mvc.{SimpleResult, Call}
 import uk.gov.gds.ier.model.{Country, InprogressApplication}
 import play.api.templates.Html
 
-class CountryController @Inject ()(val serialiser: JsonSerialiser,
-                                   val errorTransformer: ErrorTransformer)
+class CountryController @Inject ()(val serialiser: JsonSerialiser)
   extends StepController
   with CountryConstraints
   with WithSerialiser
-  with WithErrorTransformer
   with CountryForms {
 
-  val validation: Form[InprogressApplication] = countryForm
-  val editPostRoute: Call = step.routes.CountryController.editPost
-  val stepPostRoute: Call = step.routes.CountryController.post
+  val validation = countryForm
+  val editPostRoute = step.routes.CountryController.editPost
+  val stepPostRoute = step.routes.CountryController.post
 
   def template(form:InProgressForm, call:Call): Html = {
     views.html.steps.country(form, call)

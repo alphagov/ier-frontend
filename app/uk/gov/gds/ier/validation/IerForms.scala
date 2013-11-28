@@ -22,7 +22,7 @@ trait IerForms extends FormMappings {
     )
   )
 
-  val inprogressForm = Form(
+  val inprogressForm = TransformedForm(
     mapping(
       keys.name.key -> optional(nameMapping).verifying("Please complete this step", _.isDefined),
       keys.previousName.key -> optional(previousNameMapping).verifying("Please complete this step", _.isDefined),

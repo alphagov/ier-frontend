@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.step.country
 
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.validation.{TransformedForm, ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.{InprogressApplication, Country}
 import uk.gov.gds.ier.validation.constraints.CountryConstraints
 import uk.gov.gds.ier.serialiser.WithSerialiser
@@ -19,7 +19,7 @@ trait CountryForms extends CountryConstraints {
     country => Some(Some(country.country))
   ) verifying isValidCountryConstraint
 
-  val countryForm = Form(
+  val countryForm = TransformedForm(
     mapping(
       keys.country.key -> optional(countryMapping) 
     ) (
@@ -27,6 +27,6 @@ trait CountryForms extends CountryConstraints {
     ) (
       inprogress => Some(inprogress.country)
     ) verifying countryIsFilledConstraint
-  ) 
+  )
 }
 

@@ -10,16 +10,14 @@ import play.api.mvc.{SimpleResult, Call}
 import uk.gov.gds.ier.model.InprogressApplication
 import play.api.templates.Html
 
-class PostalVoteController @Inject ()(val serialiser: JsonSerialiser,
-                                      val errorTransformer: ErrorTransformer) 
+class PostalVoteController @Inject ()(val serialiser: JsonSerialiser)
   extends StepController
   with WithSerialiser
-  with WithErrorTransformer
   with PostalVoteForms {
 
-  val validation: Form[InprogressApplication] = postalVoteForm
-  val editPostRoute: Call = routes.PostalVoteController.editPost
-  val stepPostRoute: Call = routes.PostalVoteController.post
+  val validation = postalVoteForm
+  val editPostRoute = routes.PostalVoteController.editPost
+  val stepPostRoute = routes.PostalVoteController.post
 
   def template(form:InProgressForm, call:Call): Html = {
     views.html.steps.postalVote(form, call)

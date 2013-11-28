@@ -1,14 +1,16 @@
 package uk.gov.gds.ier.step.previousAddress
 
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import uk.gov.gds.ier.validation.PostcodeValidator
-import uk.gov.gds.ier.model.{InprogressApplication, PreviousAddress, Addresses}
+import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.step.address.AddressForms
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.Form
 import play.api.data.Forms._
+import uk.gov.gds.ier.model.InprogressApplication
+import scala.Some
+import uk.gov.gds.ier.model.PreviousAddress
+import uk.gov.gds.ier.validation.constraints.PreviousAddressConstraints
 
-trait PreviousAddressForms {
+trait PreviousAddressForms extends PreviousAddressConstraints {
   self:  FormKeys
     with ErrorMessages
     with AddressForms
@@ -21,12 +23,9 @@ trait PreviousAddressForms {
     PreviousAddress.apply
   ) (
     PreviousAddress.unapply
-  ).verifying("Please enter your postcode", 
-        p => (p.movedRecently && p.previousAddress.isDefined) || !p.movedRecently)
-    .verifying("Please answer this question", 
-        p => p.movedRecently || (!p.movedRecently && !p.previousAddress.isDefined))
-    
-  val previousAddressForm = Form(
+  ) verifying(addressExistsIfMovedRecently, movedRecentlyTrueIfAddressProvided)
+
+  val previousAddressForm = TransformedForm(
     mapping(
       keys.previousAddress.key -> optional(previousAddressMapping)
         .verifying("Please answer this question", previousAddress => previousAddress.isDefined),
@@ -41,4 +40,5 @@ trait PreviousAddressForms {
     )
   )
 }
+
 

@@ -1,9 +1,12 @@
 package uk.gov.gds.ier.step.nino
 
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys, NinoValidator}
+import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.model.{InprogressApplication, Nino}
 import play.api.data.Form
 import play.api.data.Forms._
+import uk.gov.gds.ier.model.InprogressApplication
+import scala.Some
+import uk.gov.gds.ier.model.Nino
 
 trait NinoForms {
   self:  FormKeys
@@ -20,7 +23,7 @@ trait NinoForms {
     Nino.unapply
   )
  
-  val ninoForm = Form(
+  val ninoForm = TransformedForm(
     mapping(
       keys.nino.key -> optional(
         ninoMapping.verifying("Please enter your National Insurance number", 

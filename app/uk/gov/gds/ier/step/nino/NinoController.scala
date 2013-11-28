@@ -10,16 +10,14 @@ import play.api.mvc.{SimpleResult, Call}
 import uk.gov.gds.ier.model.InprogressApplication
 import play.api.templates.Html
 
-class NinoController @Inject ()(val serialiser: JsonSerialiser,
-                                val errorTransformer: ErrorTransformer) 
+class NinoController @Inject ()(val serialiser: JsonSerialiser)
   extends StepController
   with WithSerialiser
-  with WithErrorTransformer
   with NinoForms {
 
-  val validation: Form[InprogressApplication] = ninoForm
-  val editPostRoute: Call = routes.NinoController.editPost
-  val stepPostRoute: Call = routes.NinoController.post
+  val validation = ninoForm
+  val editPostRoute = routes.NinoController.editPost
+  val stepPostRoute = routes.NinoController.post
 
   def template(form:InProgressForm, call:Call): Html = {
     views.html.steps.nino(form, call)

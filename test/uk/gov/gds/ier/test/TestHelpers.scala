@@ -6,13 +6,15 @@ import play.api.mvc.Cookie
 import org.joda.time.DateTime
 import uk.gov.gds.ier.model.InprogressApplication
 import uk.gov.gds.ier.serialiser.JsonSerialiser
+import uk.gov.gds.ier.validation.TransformedForm
 
 trait TestHelpers {
 
   val jsonSerialiser = new JsonSerialiser
 
-  implicit class EasyGetErrorMessageError(form: Form[_]) {
+  implicit class EasyGetErrorMessageError(form: TransformedForm[_]) {
     def errorMessages(key:String) = form.errors(key).map(_.message)
+    def globalErrorMessages = form.globalErrors.map(_.message)
     def prettyPrint = form.errors.map(error => s"${error.key} -> ${error.message}")
   }
 

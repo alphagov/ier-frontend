@@ -1,17 +1,14 @@
 package uk.gov.gds.ier.step.previousAddress
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import uk.gov.gds.ier.validation.IerForms
-import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
-import play.api.libs.json.{Json, JsNull}
+import uk.gov.gds.ier.serialiser.WithSerialiser
+import play.api.libs.json.Json
 import uk.gov.gds.ier.model.{Addresses, Address}
 import uk.gov.gds.ier.step.address.AddressForms
 
-class PreviousAddressTests 
+class PreviousAddressFormTests
   extends FlatSpec
   with Matchers
   with AddressForms
@@ -129,8 +126,9 @@ class PreviousAddressTests
     )
     previousAddressForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
-        hasErrors.errorMessages("previousAddress") should be(Seq("Please enter your postcode"))
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("previousAddress.previousAddress.postcode") should be(Seq("Please enter your postcode"))
+        hasErrors.globalErrorMessages should be(Seq("Please enter your postcode"))
       },
       success => fail("Should have thrown an error")
     )
@@ -146,8 +144,9 @@ class PreviousAddressTests
     )
     previousAddressForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
-        hasErrors.errorMessages("previousAddress") should be(Seq("Please answer this question"))
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("previousAddress.movedRecently") should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
       },
       success => fail("Should have thrown an error")
     )

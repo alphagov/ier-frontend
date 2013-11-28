@@ -1,12 +1,15 @@
 package uk.gov.gds.ier.step.dateOfBirth
 
 import uk.gov.gds.ier.model.{InprogressApplication, DateOfBirth}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
+import uk.gov.gds.ier.validation._
 import play.api.data.Form
 import play.api.data.Forms._
-import uk.gov.gds.ier.validation.DateValidator
+import uk.gov.gds.ier.model.DateOfBirth
+import uk.gov.gds.ier.model.InprogressApplication
+import scala.Some
+import uk.gov.gds.ier.validation.constraints.DateOfBirthConstraints
 
-trait DateOfBirthForms {
+trait DateOfBirthForms extends DateOfBirthConstraints {
     self:  FormKeys
       with ErrorMessages =>
 
@@ -24,14 +27,15 @@ trait DateOfBirthForms {
     (year, month, day) => DateOfBirth(year.toInt, month.toInt, day.toInt)
   } {
     dateOfBirth => Some(dateOfBirth.year.toString, dateOfBirth.month.toString, dateOfBirth.day.toString)
-  }.verifying("The date you specified is invalid", 
-      dob => DateValidator.isExistingDateInThePast(dob) && !DateValidator.isTooOldToBeAlive(dob))
-    .verifying(s"Minimum age to register to vote is ${DateValidator.minimumAge}", 
-      dob => !DateValidator.isExistingDateInThePast(dob) || !DateValidator.isTooYoungToRegister(dob))
+  }.verifying(isOverTheMinimumAgeToVote, dateNotInTheFuture, notTooOldToBeAlive)
 
-  val dateOfBirthForm = Form(
-    mapping(keys.dob.key -> optional(dobMapping).verifying("Please enter your date of birth", _.isDefined))
-      (dob => InprogressApplication(dob = dob))
-      (inprogress => Some(inprogress.dob))
+
+  val dateOfBirthForm = TransformedForm(
+    mapping(keys.dob.key -> optional(dobMapping))
+    (
+      dob => InprogressApplication(dob = dob)
+    )(
+      inprogress => Some(inprogress.dob)
+    ) verifying dateOfBirthRequired
   )
 }

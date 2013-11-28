@@ -1,11 +1,84 @@
 package uk.gov.gds.ier.validation
 
 import uk.gov.gds.ier.model.KeyForError
-import play.api.data.Form
+import play.api.data.{Mapping, Field, FormError, Form}
+import play.api.libs.json.JsValue
+import play.api.i18n.Lang
 
-class ErrorTransformer {
+case class TransformedForm[T](form:Form[T]) {
+  lazy val transformedForm = transformErrors(form)
 
-  def transform[T](errorForm: Form[T]):Form[T] = {
+  lazy val mapping : Mapping[T] = form.mapping
+  lazy val data : Map[String, String] = form.data
+  lazy val errors : Seq[FormError] = transformedForm.errors
+  lazy val value : Option[T] = form.value
+
+  def bind(data : scala.Predef.Map[scala.Predef.String, scala.Predef.String]) : TransformedForm[T] = {
+    this.copy(form.bind(data))
+  }
+  def bind(data : play.api.libs.json.JsValue) : TransformedForm[T] = {
+    this.copy(form.bind(data))
+  }
+  def bindFromRequest()(implicit request : play.api.mvc.Request[_]) : TransformedForm[T] = {
+    this.copy(form.bindFromRequest())
+  }
+  def bindFromRequest(data : Map[String, Seq[String]]) : TransformedForm[T] = {
+    this.copy(form.bindFromRequest(data))
+  }
+  def fill(value : T) : TransformedForm[T] = {
+    this.copy(form.fill(value))
+  }
+  def fillAndValidate(value : T) : TransformedForm[T] = {
+    this.copy(form.fillAndValidate(value))
+  }
+  def fold[R](hasErrors : TransformedForm[T] => R, success : T => R) : R = form.value match {
+    case Some(v) if transformedForm.errors.isEmpty => success(v)
+    case _ => hasErrors(this)
+  }
+  def apply(key : String) : Field = {
+    transformedForm.apply(key)
+  }
+  def globalError : Option[FormError] = {
+    transformedForm.globalError
+  }
+  def globalErrors : Seq[FormError] = {
+    transformedForm.globalErrors
+  }
+  def forField[R](key : String)(handler : Field => R) : R = {
+    handler(this(key))
+  }
+  def hasErrors : scala.Boolean = {
+    transformedForm.hasErrors
+  }
+  def error(key : String) : Option[FormError] = {
+    transformedForm.error(key)
+  }
+  def errors(key : String) : Seq[FormError] = {
+    transformedForm.errors(key)
+  }
+  def hasGlobalErrors : Boolean = {
+    transformedForm.hasGlobalErrors
+  }
+  def get : T = {
+    form.get
+  }
+  def errorsAsJson(implicit lang : Lang) : JsValue = {
+    transformedForm.errorsAsJson
+  }
+  def withError(error : FormError) : TransformedForm[T] = {
+    this.copy(form.withError(error))
+  }
+  def withError(key : String, message : String, args : Any*) : TransformedForm[T] = {
+    this.copy(form.withError(key, message, args:_*))
+  }
+  def withGlobalError(message : String, args : Any*) : TransformedForm[T] = {
+    this.copy(form.withGlobalError(message, args:_*))
+  }
+  def discardingErrors : TransformedForm[T] = {
+    this.copy(form.discardingErrors)
+  }
+
+  def transformErrors[T](errorForm: Form[T]):Form[T] = {
     val transformedErrors = errorForm.errors.flatMap(
       error => {
         val parseKeysForError = error.args.foldLeft(Seq.empty[Key]) (
@@ -27,6 +100,11 @@ class ErrorTransformer {
   }
 }
 
-trait WithErrorTransformer {
-  val errorTransformer:ErrorTransformer
+object TransformedForm {
+  def apply[T](mapping : Mapping[T]) : TransformedForm[T] = {
+    new TransformedForm[T](Form(mapping))
+  }
+  def apply[T](mapping: (String, Mapping[T])): TransformedForm[T] = {
+    new TransformedForm[T](Form(mapping))
+  }
 }

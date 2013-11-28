@@ -1,11 +1,9 @@
 package uk.gov.gds.ier.step.nationality
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, FlatSpec}
 import play.api.libs.json.{JsNull, JsBoolean, Json, JsObject}
-import uk.gov.gds.ier.validation.{ErrorTransformer, FormKeys, ErrorMessages}
-import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
+import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
+import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.test.TestHelpers
 
 class NationalityFormTests
@@ -30,7 +28,7 @@ class NationalityFormTests
     )
     nationalityForm.bind(js).fold(
       hasErrors => {
-        fail(new ErrorTransformer().transform(hasErrors).prettyPrint.mkString(", "))
+        fail(hasErrors.prettyPrint.mkString(", "))
       },
       success => {
         success.nationality.isDefined should be(true)
@@ -56,7 +54,7 @@ class NationalityFormTests
     )
     nationalityForm.bind(js).fold(
       hasErrors => {
-        fail(new ErrorTransformer().transform(hasErrors).prettyPrint.mkString(", "))
+        fail(hasErrors.prettyPrint.mkString(", "))
       },
       success => {
         success.nationality.isDefined should be(true)
@@ -122,7 +120,8 @@ class NationalityFormTests
     nationalityForm.bind(js).fold(
       hasErrors => {
         hasErrors.errorMessages("nationality") should be(Seq("Please select your Nationality"))
-        hasErrors.errors.size should be(1)
+        hasErrors.globalErrorMessages should be(Seq("Please select your Nationality"))
+        hasErrors.errors.size should be(2)
       },
       success => fail("Should have errored out.")
     )

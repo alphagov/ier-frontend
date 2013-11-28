@@ -13,7 +13,6 @@ import uk.gov.gds.ier.model.InprogressApplication
 import play.api.templates.Html
 
 class ConfirmationController @Inject ()(val serialiser: JsonSerialiser,
-                                        errorTransformer: ErrorTransformer,
                                         ierApi: IerApiService,
                                         placesService: PlacesService)
   extends Controller
@@ -21,7 +20,7 @@ class ConfirmationController @Inject ()(val serialiser: JsonSerialiser,
   with WithSerialiser
   with IerForms {
 
-  val validation: Form[InprogressApplication] = inprogressForm
+  val validation = inprogressForm
 
   def template(form:InProgressForm): Html = {
     views.html.confirmation(form)
@@ -36,8 +35,7 @@ class ConfirmationController @Inject ()(val serialiser: JsonSerialiser,
     request => application =>
       validation.fillAndValidate(application).fold(
         hasErrors => {
-          val errorsTransformed = errorTransformer.transform(hasErrors)
-          Ok(template(InProgressForm(errorsTransformed)))
+          Ok(template(InProgressForm(hasErrors)))
         },
         validApplication => {
           val refNum = ierApi.generateReferenceNumber(validApplication)

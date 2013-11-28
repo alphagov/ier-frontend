@@ -10,16 +10,14 @@ import play.api.mvc.{SimpleResult, Call}
 import uk.gov.gds.ier.model.InprogressApplication
 import play.api.templates.Html
 
-class OpenRegisterController @Inject ()(val serialiser: JsonSerialiser,
-                                        val errorTransformer: ErrorTransformer) 
+class OpenRegisterController @Inject ()(val serialiser: JsonSerialiser)
   extends StepController
   with WithSerialiser
-  with WithErrorTransformer
   with OpenRegisterForms {
 
-  val validation: Form[InprogressApplication] = openRegisterForm
-  val editPostRoute: Call = routes.OpenRegisterController.editPost
-  val stepPostRoute: Call = routes.OpenRegisterController.post
+  val validation = openRegisterForm
+  val editPostRoute = routes.OpenRegisterController.editPost
+  val stepPostRoute = routes.OpenRegisterController.post
 
   def template(form:InProgressForm, call:Call): Html = {
     views.html.steps.openRegister(form, call)
