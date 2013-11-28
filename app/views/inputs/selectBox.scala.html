@@ -1,37 +1,33 @@
-@(id:uk.gov.gds.ier.validation.Key, label:String, options:Seq[(String, String)], inputAttributes:Map[Symbol,String] = Map.empty, labelAttributes:Map[Symbol,String] = Map.empty, crossField: uk.gov.gds.ier.validation.Key = uk.gov.gds.ier.validation.Key(""))(implicit formData:uk.gov.gds.ier.validation.InProgressForm, renderer: uk.gov.gds.ier.form.FormHelpers.FormRenderer)
+@(id:uk.gov.gds.ier.validation.Key, label:String, options:Seq[(String, String)], inputAttributes:Map[Symbol,String] = Map.empty, labelAttributes:Map[Symbol,String] = Map.empty)(implicit formData:uk.gov.gds.ier.validation.InProgressForm, renderer: uk.gov.gds.ier.form.FormHelpers.FormRenderer)
 
-    @import uk.gov.gds.ier.form.FieldHelpers._
+@import uk.gov.gds.ier.form.FieldHelpers._
 
-    @labelHtml(content:Html) = {
-        @defining(formData(crossField)) { crossField =>
-            @defining(formData(id)) { field =>
-            <label for="@id.asId()" class="@(if(field.hasErrors) "invalid" else "") @(if(crossField.hasErrors) "invalid" else "") @labelAttributes.get('class).getOrElse("")" @asAttributes(labelAttributes.without('for, 'class))>
-                @label
-            </label>
-            @content
-            }
-        }
+@labelHtml(content:Html) = {
+    @defining(formData(id)) { field =>
+    <label for="@id.asId()" class="@(if(field.hasErrors) "invalid" else "") @labelAttributes.get('class).getOrElse("")" @asAttributes(labelAttributes.without('for, 'class))>
+        @label
+    </label>
+    @content
     }
+}
 
-    @inputHtml = {
-        @defining(formData(crossField)) { crossField =>
-            @defining(formData(id)) { field =>
-            <select id="@id.asId()" name="@field.name" class="@(if(field.hasErrors) "invalid" else "") @(if(crossField.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")" @asAttributes(inputAttributes.without('class, 'id, 'name))>
-            @inputAttributes.get('_default).map { defaultValue =>
-                <option class="blank" value="">@defaultValue</option>
-            }
-            @defining( ( !field.indexes.isEmpty && inputAttributes.contains('multiple) ) match {
-                case true => field.indexes.map( i => field("[%s]".format(i)).value ).flatten.toSet
-                case _ => field.value.toSet
-            }){ values =>
+@inputHtml = {
+    @defining(formData(id)) { field =>
+        <select id="@id.asId()" name="@field.name" class="@(if(field.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")" @asAttributes(inputAttributes.without('class, 'id, 'name))>
+        @inputAttributes.get('_default).map { defaultValue =>
+            <option class="blank" value="">@defaultValue</option>
+        }
+        @defining( ( !field.indexes.isEmpty && inputAttributes.contains('multiple) ) match {
+            case true => field.indexes.map( i => field("[%s]".format(i)).value ).flatten.toSet
+            case _ => field.value.toSet
+        }){ values =>
             @options.map { v =>
-                <option value="@v._1" @if(values.contains(v._1)){selected}>@v._2</option>
+            <option value="@v._1" @if(values.contains(v._1)){selected}>@v._2</option>
             }
         }
-        </select>
-       }
-    }
-    }
+    </select>
+   }
+}
 @defining(formData(id)) { field =>
     @renderer(inputHtml, labelHtml, field)
 }
