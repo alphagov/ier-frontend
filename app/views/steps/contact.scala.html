@@ -8,33 +8,43 @@
   @form(postUrl) {
     @layouts.questionHeader("If we have questions about your application, how should we contact you?", "/register-to-vote/postal-vote", 11)
 
-    <fieldset>
-      @check(keys.contact.post.contactMe, value = "true", label = "Post")
+    <fieldset class="validate" data-validation-name="contact" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="post phoneOption smsOption emailOption">
+      @check(keys.contact.post.contactMe,
+          value = "true",
+          label = "Post",
+          inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "post", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       @check(keys.contact.phone.contactMe,
           value = "true",
-          label = "Phone Call")
+          label = "Phone Call",
+          inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "phoneOption", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       <div class="optional-section @classIf(formData(keys.contact.phone.contactMe).value == Some("true"), "visible")" data-condition="@keys.contact.phone.contactMe.asId()">
         @label(keys.contact.phone.detail,
             label = "Phone number")
-        @text(keys.contact.phone.detail, 
-            attributes = Map('type -> "tel"))
+        @text(keys.contact.phone.detail,
+            attributes = Map('type -> "tel", 'class -> "validate", Symbol("data-validation-name") -> "phoneNumber", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       </div>
-      @check(keys.contact.textNum.contactMe, value = "true", label = "Text Message")
+      @check(keys.contact.textNum.contactMe, 
+          value = "true",
+          label = "Text Message",
+          inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "smsOption", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       <div class="optional-section @classIf(formData(keys.contact.textNum.contactMe).value == Some("true"), "visible")" data-condition="@keys.contact.textNum.contactMe.asId()">
         @label(keys.contact.textNum.detail,
             label = "Phone number")
-        @text(keys.contact.textNum.detail, 
-            attributes = Map('type -> "tel"))
+        @text(keys.contact.textNum.detail,
+            inputAttributes = Map('type -> "tel", 'class -> "validate", Symbol("data-validation-name") -> "smsNumber", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       </div>
-      @check(keys.contact.email.contactMe, value = "true", label = "Email")
+      @check(keys.contact.email.contactMe,
+            value = "true",
+            label = "Email",
+            inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "emailOption", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       <div class="optional-section @classIf(formData(keys.contact.email.contactMe).value == Some("true"), "visible")" data-condition="@keys.contact.email.contactMe.asId()">
         @label(keys.contact.email.detail,
             label = "Email address")
         @text(keys.contact.email.detail,
-            attributes = Map('type -> "email", 'class -> "long"))
+            attributes = Map('type -> "email", 'class -> "long validate", Symbol("data-validation-name") -> "emailAddress", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       </div>
     </fieldset>
     @validationMessages(formData)
-    <button type="submit" id="continue" class="button next">Continue</button>
+    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="contact phoneNumber smsNumber emailAddress">Continue</button>
   }
 }
