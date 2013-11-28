@@ -94,6 +94,27 @@ class AddressFormTests
     )
   }
 
+  it should "error out if it looks like you haven't selected your address" in {
+    val possibleAddressJS = serialiser.toJson(Addresses(List(Address(Some("123 Fake Street"), "AB12 3CD"))))
+    val js = Json.toJson(
+      Map(
+        "address.postcode" -> "SW1A 1AA",
+        "possibleAddresses.jsonList" -> possibleAddressJS,
+        "possibleAddresses.postcode" -> "SW1A 1AA"
+      )
+    )
+    addressForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("address.address") should be(Seq("Please select your address"))
+        hasErrors.globalErrorMessages should be(Seq("Please select your address"))
+      },
+      success => {
+        fail("Should have errored out")
+      }
+    )
+  }
+
   it should "not error out with empty text" in {
     val js = Json.toJson(
       Map(

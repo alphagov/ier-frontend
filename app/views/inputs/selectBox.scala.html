@@ -13,7 +13,7 @@
 
 @inputHtml = {
     @defining(formData(id)) { field =>
-        <select id="@id.asId()" name="@field.name" class="@(if(field.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")" @asAttributes(inputAttributes.without('class, 'id, 'name))>
+        <select id="@id.asId("select")" name="@field.name" class="@(if(field.hasErrors) "invalid" else "") @inputAttributes.get('class).getOrElse("")" @asAttributes(inputAttributes.without('class, 'id, 'name))>
         @inputAttributes.get('_default).map { defaultValue =>
             <option class="blank" value="">@defaultValue</option>
         }
