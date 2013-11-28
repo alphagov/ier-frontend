@@ -21,10 +21,10 @@
 
     @layouts.questionHeader("What is your nationality?", "/register-to-vote/country-of-residence", 2)
     <p>If you have dual nationality, select all options that are relevant to you.</p>
-    <fieldset>
-      @check(keys.nationality.british, label = "I am British", value = "true")
-      @check(keys.nationality.irish, label = "I am Irish", value = "true")
-      @check(keys.nationality.hasOtherCountry, label = "I am a citizen of another country", value = "true")
+    <fieldset class="validate" data-validation-name="nationality" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="british irish other">
+      @check(keys.nationality.british, label = "I am British", value = "true", inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "british", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+      @check(keys.nationality.irish, label = "I am Irish", value = "true", inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "irish", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+      @check(keys.nationality.hasOtherCountry, label = "I am a citizen of another country", value = "true", inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "other", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       <div id="add-countries" class="optional-section" data-condition="@keys.nationality.hasOtherCountry.asId()">
         @label(keys.nationality.otherCountries.item(0), label = "Which country?")  
         @text(keys.nationality.otherCountries.item(0), attributes = Map('class -> "country-autocomplete long"))
@@ -50,11 +50,10 @@
       <p>We need to know your nationality so we can work out which elections you're entitled to vote in. If you can’t confirm your nationality, you'll have to send copies of identity documents through the post.</p>
       <div class="optional-section" id="nationality-provision">
         <h3>I can't provide my nationality</h3>
-        @label(keys.nationality.noNationalityReason, "Why can't you provide your nationality?")
-        @textArea(keys.nationality.noNationalityReason, Map('class -> "small", 'maxlength -> "500"))
+        @textArea(keys.nationality.noNationalityReason, label = "Why can't you provide your nationality?", inputAttributes = Map('class -> "small validate", 'maxlength -> "500", Symbol("data-validation-name") -> "nationalityExcuse", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       </div>
     </div>
     @validationMessages(formData)
-    <button type="submit" id="continue" class="button next">Continue</button>
+    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="nationality">Continue</button>
     }
 }

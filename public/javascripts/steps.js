@@ -1223,6 +1223,9 @@ window.GOVUK = window.GOVUK || {};
       },
       'emailAddress' : {
         'nonEmpty' : 'Please enter your email address'
+      },
+      'nationality' : {
+        'atLeastOneNonEmpty' : 'Please answer this question'
       }
     }
   };
