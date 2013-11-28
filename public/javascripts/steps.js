@@ -1132,13 +1132,13 @@ window.GOVUK = window.GOVUK || {};
           case 'text':
             return $field.val();
           case 'checkbox':
-            return ($field.attr('checked')) ? $field.val() : '';
+            return ($field.is(':checked')) ? $field.val() : '';
           case 'select':
             return selectValue($field);
           case 'radio':
             return radioValue($field);
           default:
-            return '';
+            return $field.val();
         }
       };
       return {
@@ -1208,6 +1208,21 @@ window.GOVUK = window.GOVUK || {};
       },
       'year' : {
         'nonEmpty' : 'Please enter your year of birth'
+      },
+      'otherAddressQuestion' : {
+        'atLeastOneNonEmpty' : 'Please answer this question'
+      },
+      'contact' : {
+        'atLeastOneNonEmpty' : 'Please answer this question'
+      },
+      'phoneNumber' : {
+        'nonEmpty' : 'Please enter your phone number'
+      },
+      'smsNumber' : {
+        'nonEmpty' : 'Please enter the phone number you use for text messages'
+      },
+      'emailAddress' : {
+        'nonEmpty' : 'Please enter your email address'
       }
     }
   };
