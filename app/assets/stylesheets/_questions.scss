@@ -314,16 +314,23 @@ fieldset {
   outline: solid 4px $mellow-red;
 }
 
-label.invalid {
+label.invalid,
+fieldset.invalid {
   outline: none;
 }
 
+fieldset.invalid {
+  border-left: solid 4px $mellow-red;
+  padding-left: 10px;
+  margin-left: -14px;
+}
+
 .validation-message {
-	padding: 0.5em;
 	font-size: 19px;
 	display: none;
   clear: both;
-	margin: 1em 0 1em 0;
+	padding: 10px;
+	margin: 1em 0 1em -14px;
 	border-left: 4px solid $mellow-red;
 	color: $mellow-red;
 	font-weight: bold;
