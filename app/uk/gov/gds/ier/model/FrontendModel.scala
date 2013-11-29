@@ -69,7 +69,7 @@ case class DateOfBirth (year:Int,
                         month:Int,
                         day:Int) {
   def toApiMap = {
-    Map("dob" -> (day + "/" + month + "/" + year))
+    Map("dob" -> (year + "-" + "%02d".format(month) + "-" + "%02d".format(day)))
   }
 }
 
