@@ -1245,6 +1245,9 @@ window.GOVUK = window.GOVUK || {};
       },
       'postalVote' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
+      },
+      'country' : {
+        'atLeastOneNonEmpty' : 'Please answer this question'
       }
     }
   };
