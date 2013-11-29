@@ -1033,14 +1033,21 @@ window.GOVUK = window.GOVUK || {};
         'field' : '$source'
       };
       // get the source elements for associations
-      getSourcesToMark = function (sourcesToMark) {
-        if (sourcesToMark.constructor !== $) {
-          $.each(validation.fields.getNames(sourcesToMark), function (idx, fieldObj) {
-            var sourcesToMark = fieldObj[sourcesToMark[fieldObj.type]];
-            getSourcesToMark(sourcesToMark);
+      getSourcesToMark = function (prop) {
+        var $sources = null;
+
+        if (prop.constructor !== $) {
+          $.each(validation.fields.getNames(prop), function (idx, fieldObj) {
+            var sourceProp = fieldObj[sourcesToMark[fieldObj.type]];
+            if ($sources === null) {
+              $sources = getSourcesToMark(sourceProp);
+            } else {
+              $sources = $sources.add(getSourcesToMark(sourceProp));
+            }
           });
+          return $sources;
         } else {
-          return sourcesToMark;
+          return prop;
         }
       };
       applyRules = function (fieldObj) {
@@ -1197,10 +1204,20 @@ window.GOVUK = window.GOVUK || {};
         'association' : {
           'atLeastOneNonEmpty' : function () {
             var oneFilled = false,
-                memberFields = validation.fields.getNames(this.members);
+                memberFields = validation.fields.getNames(this.members),
+                fieldIsShowing,
+                fieldHasOneNonEmpty;
+
+            fieldIsShowing = function (fieldObj) {
+              return !fieldObj.$source.is(':hidden');
+            };
+            fieldHasOneNonEmpty = function (fieldObj) {
+              var method = (fieldObj.type === 'field') ? 'nonEmpty' : 'atLeastOneNonEmpty';
+              return fieldObj[method]();
+            };
 
             $.each(memberFields, function (idx, fieldObj) {
-              if ((!fieldObj.$source.is(':hidden')) && fieldObj.nonEmpty()) {
+              if (fieldIsShowing(fieldObj) && fieldHasOneNonEmpty(fieldObj)) {
                 oneFilled = true;
                 return false;
               }

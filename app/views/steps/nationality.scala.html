@@ -17,11 +17,11 @@
     }
 }
 @main(title = Some("Register to Vote - What is your Nationality?"), stylesheets = head(), scripts = stepsBodyEnd()) {
-  @form(postUrl) {
+  @form(postUrl, 'class -> "validate", Symbol("data-validation-name") -> "nationality", Symbol("data-validation-type") -> "association", Symbol("data-validation-rules") -> "atLeastOneNonEmpty", Symbol("data-validation-members") -> "country nationalityExcuse") {
 
     @layouts.questionHeader("What is your nationality?", "/register-to-vote/country-of-residence", 2)
     <p>If you have dual nationality, select all options that are relevant to you.</p>
-    <fieldset class="validate" data-validation-name="nationality" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="british irish other">
+    <fieldset class="validate" data-validation-name="country" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="british irish other">
       @check(keys.nationality.british, label = "I am British", value = "true", inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "british", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       @check(keys.nationality.irish, label = "I am Irish", value = "true", inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "irish", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       @check(keys.nationality.hasOtherCountry, label = "I am a citizen of another country", value = "true", inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "other", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
