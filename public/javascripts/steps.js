@@ -858,17 +858,27 @@ window.GOVUK = window.GOVUK || {};
       });
     },
     handler : function ($source) {
-      var names,
+      var formName = validation.getFormFromField($source).action,
           rules = [],
-          rulesStr = "";
+          rulesStr = "",
+          names;
 
       names = $source.data('validationSources');
       if (names !== null) {
         names = names.split(' ');
       } else {
-        names = this.forms[$($source[0].form).data('validationName')];
+        names = $(this.forms[formName]).$source.data('validationName');
       }
       return this.validate(names);
+    },
+    getFormFromField : function ($field) {
+      if ($field[0].nodeName.toLowerCase() === 'form') {
+        return $field[0];
+      } else if (typeof $field[0].form !== 'undefined') {
+        return $field[0].form;
+      } else {
+        return $field.closest('form')[0];
+      }
     },
     forms : {
       refs : {},
@@ -876,11 +886,7 @@ window.GOVUK = window.GOVUK || {};
         var name = $source.data('validationName'),
             formName;
 
-        if ($source[0].nodeName.toLowerCase() === 'form') {
-          formName = $source[0].action;
-        } else {
-          formName = $source[0].form.action;
-        }
+        formName = validation.getFormFromField($source).action;
         if (typeof this.refs[formName] !== 'undefined') {
           this.refs[formName].push(name);
         } else {
@@ -1013,6 +1019,7 @@ window.GOVUK = window.GOVUK || {};
           fields,
           ruleSources,
           sourcesToMark,
+          getSourcesToMark,
           applyRules;
 
       ruleSources = {
@@ -1025,22 +1032,22 @@ window.GOVUK = window.GOVUK || {};
         'fieldset' : '$source',
         'field' : '$source'
       };
+      // get the source elements for associations
+      getSourcesToMark = function (sourcesToMark) {
+        if (sourcesToMark.constructor !== $) {
+          $.each(validation.fields.getNames(sourcesToMark), function (idx, fieldObj) {
+            var sourcesToMark = fieldObj[sourcesToMark[fieldObj.type]];
+            getSourcesToMark(sourcesToMark);
+          });
+        } else {
+          return sourcesToMark;
+        }
+      };
       applyRules = function (fieldObj) {
-        var $sourcesToMark = fieldObj[sourcesToMark[fieldObj.type]],
+        var $sourcesToMark = getSourcesToMark(fieldObj[sourcesToMark[fieldObj.type]]),
             memberNames,
             failedRule = false;
 
-        // get the source elements for associations
-        if ($sourcesToMark.constructor !== $) {
-          memberNames = $sourcesToMark;
-          $.each(validation.fields.getNames(memberNames), function (idx, fieldObj) {
-            if ($sourcesToMark.constructor !== $) {
-              $sourcesToMark = fieldObj.$source;
-            } else {
-              $sourcesToMark = $sourcesToMark.add(fieldObj.$source);
-            }
-          });
-        }
         // rules are applied in the order they are written in the original attribute value
         $.each(fieldObj.rules, function (idx, rule) {
           var isValid = fieldObj[rule]();
