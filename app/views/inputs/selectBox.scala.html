@@ -4,7 +4,7 @@
 
 @labelHtml(content:Html) = {
     @defining(formData(id)) { field =>
-    <label for="@id.asId()" class="@(if(field.hasErrors) "invalid" else "") @labelAttributes.get('class).getOrElse("")" @asAttributes(labelAttributes.without('for, 'class))>
+    <label for="@id.asId("select")" class="@(if(field.hasErrors) "invalid" else "") @labelAttributes.get('class).getOrElse("")" @asAttributes(labelAttributes.without('for, 'class))>
         @label
     </label>
     @content
