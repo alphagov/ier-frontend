@@ -740,14 +740,18 @@ window.GOVUK = window.GOVUK || {};
       ],
       'selectLabel' : '<label for="'+inputId+'_address_select">Select your address</label>',
       'select' : [
-        '<select id="'+inputId+'_address_select" name="'+inputName+'.address" class="lonely">' +
+        '<select id="'+inputId+'" name="'+inputName+'.address" class="lonely validate" ' +
+        'data-validation-name="addressSelect" data-validation-type="field" data-validation-rules="nonEmpty"' +
+        '>' +
           '<option value="">Please select...</option>',
         '</select>'
       ],
       'help' : '<div class="help-content">' +
                   '<h2>My address is not listed</h2>' +
                   '<label for="input-address-text">Enter your address</label>' +
-                  '<textarea id="input-address-text" name="'+inputName+'.address" class="small" autocomplete="off"></textarea>' +
+                  '<textarea id="input-address-text" name="'+inputName+'.address" class="small validate" autocomplete="off" ' +
+                  'data-validation-name="addressExcuse" data-validation-type="field" data-validation-rules="nonEmpty"' +
+                  '></textarea>' +
                 '</div>'
     };
     this.$searchButton.attr('aria-controls', this.$targetElement.attr('id'));
@@ -788,7 +792,7 @@ window.GOVUK = window.GOVUK || {};
 
   };
   postcodeLookup.prototype.onEmpty = function () {
-    $(document).trigger('validation.invalid', { source : this.$searchInput }); 
+
   };
   postcodeLookup.prototype.addLookup = function (data, postcode) {
     var resultStr;
@@ -810,11 +814,10 @@ window.GOVUK = window.GOVUK || {};
         postcode = this.$searchInput.val(),
         URL = '/address/' + postcode.replace(/\s/g,''),
         $optionalInfo = this.$searchButton.closest('fieldset').find('div.help-content'),
-        $addressSelect = $optionalInfo.siblings('select');
+        $addressSelect = $optionalInfo.siblings('select'),
+        fieldValidationName = this.$searchButton.data("validationSources").split(' ');
 
-    if (postcode === "") { 
-      this.onEmpty();
-    } else {
+    if (validation.validate(fieldValidationName) === true) {
       this.$waitMessage.insertAfter(this.$searchButton);
       $.ajax({
         url : URL,
@@ -823,6 +826,10 @@ window.GOVUK = window.GOVUK || {};
       }).
       done(function (data, status, xhrObj) {
         inst.addLookup(data, postcode);
+        $('#found-addresses')
+        .find('.validate').each(function (idx, elm) {
+          validation.fields.add($(elm));
+        });
         $('#possibleAddresses_jsonList').val(xhrObj.responseText);
         $('#possibleAddresses_postcode').val(postcode);
       }).
@@ -851,10 +858,8 @@ window.GOVUK = window.GOVUK || {};
       this.events.bind('validate', function (e, eData) {
         return _this.handler(eData.$source);
       });
-      $submits.each(function (idx, elm) {
-        $(elm.form).on('submit', function (e, eData) {
-          return _this.handler($(elm));
-        });
+      $(document).on('click', '.validation-submit', function (e) {
+        return _this.handler($(e.target));
       });
     },
     handler : function ($source) {
@@ -972,7 +977,7 @@ window.GOVUK = window.GOVUK || {};
           }
           items = result;
         },
-        add : function ($source, validation) {
+        add : function ($source) {
           var type = $source.data('validationType');
 
           if (type !== null) {
@@ -1082,8 +1087,11 @@ window.GOVUK = window.GOVUK || {};
         this.notify(invalidFields);
         this.events.trigger('invalid', { 'invalidFields' :  invalidFields });
         return false;
+      } else {
+        this.unMark.validFields();
+        this.notify([]);
+        return true;
       }
-      return true;
     },
     events : {
       trigger : function (evt, eData) {
@@ -1094,21 +1102,32 @@ window.GOVUK = window.GOVUK || {};
       }
     },
     mark : {
-      field : function (fieldObj, isValid) {
-        var method = (isValid) ? 'removeClass' : 'addClass';
-
-        fieldObj.$source[method]('invalid');
+      field : function (fieldObj) {
+        fieldObj.$source.addClass('invalid');
       },
       invalidFields : function (invalidFields) {
         var mark = this;
 
-        $.each(validation.fields.getAll(), function (idx, fieldObj) {
+        validation.unMark.validFields();
+        $.each(invalidFields, function (idx, fieldObj) {
           if (typeof fieldObj.$source !== 'undefined') {
-            mark.field(fieldObj, true);
+            mark.field(fieldObj);
           }
         });
-        $.each(invalidFields, function (idx, fieldObj) {
-          mark.field(fieldObj, false);
+      }
+    },
+    unMark : {
+      field : function (fieldObj) {
+        fieldObj.$source.removeClass('invalid');
+      },
+      validFields : function (validFields) {
+        var unMark = this;
+
+        if (validFields === undefined) { validFields = validation.fields.getAll(); }
+        $.each(validFields, function (idx, fieldObj) {
+          if (typeof fieldObj.$source !== 'undefined') {
+            unMark.field(fieldObj);
+          }
         });
       }
     },
@@ -1118,13 +1137,15 @@ window.GOVUK = window.GOVUK || {};
           rule;
 
       $('#continue').siblings('.validation-message').remove();
-      $.each(invalidFields, function (idx, field) {
-        name = invalidFields[idx].name;
-        rule = invalidFields[idx].rule;
-        if ((typeof _this.messages[name] !== 'undefined') && (typeof _this.messages[name][rule] !== 'undefined')) {
-          $('<div class="validation-message visible">' + _this.messages[name][rule] + '</div>').insertBefore('#continue');
-        }
-      });
+      if (invalidFields.length) {
+        $.each(invalidFields, function (idx, field) {
+          name = invalidFields[idx].name;
+          rule = invalidFields[idx].rule;
+          if ((typeof _this.messages[name] !== 'undefined') && (typeof _this.messages[name][rule] !== 'undefined')) {
+            $('<div class="validation-message visible">' + _this.messages[name][rule] + '</div>').insertBefore('#continue');
+          }
+        });
+      }
     },
     rules : (function () {
       var fieldType,
@@ -1177,11 +1198,15 @@ window.GOVUK = window.GOVUK || {};
         'fieldset' : {
           'atLeastOneNonEmpty' : function () {
             var oneFilled = false,
-                childFields = validation.fields.getNames(this.children);
-            
+                childFields = validation.fields.getNames(this.children),
+                fieldIsShowing;
+
+            fieldIsShowing = function (fieldObj) {
+              return !fieldObj.$source.is(':hidden');
+            };
             if (this.$source.is(':hidden')) { return true; }
             $.each(childFields, function (idx, fieldObj) {
-              if (fieldObj.nonEmpty()) {
+              if (fieldIsShowing(fieldObj) && fieldObj.nonEmpty()) {
                 oneFilled = true;
               }
             });
@@ -1189,11 +1214,15 @@ window.GOVUK = window.GOVUK || {};
           },
           'allNonEmpty' : function () {
             var oneEmpty = false,
-                childFields = validation.fields.getNames(this.children);
+                childFields = validation.fields.getNames(this.children),
+                fieldIsShowing;
 
+            fieldIsShowing = function (fieldObj) {
+              return !fieldObj.$source.is(':hidden');
+            };
             if (this.$source.is(':hidden')) { return true; }
             $.each(childFields, function (idx, fieldObj) {
-              if (!fieldObj.nonEmpty()) {
+              if (fieldIsShowing(fieldObj) && !fieldObj.nonEmpty()) {
                 oneEmpty = true;
                 return false;
               }
@@ -1271,6 +1300,18 @@ window.GOVUK = window.GOVUK || {};
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
       'country' : {
+        'atLeastOneNonEmpty' : 'Please answer this question'
+      },
+      'postcode' : {
+        'nonEmpty' : 'Please enter a postcode'
+      },
+      'addressSelect' : {
+        'nonEmpty' : 'Please select an address'
+      },
+      'addressExcuse' : {
+        'nonEmpty' : 'Please enter an address'
+      },
+      'previousAddressQuestion' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
       }
     }
