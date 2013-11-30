@@ -26,15 +26,15 @@
         @wrapLabel(keys.previousName.previousName.firstName) {
           <span class="visuallyhidden">Previous</span> First name
         }
-        @text(keys.previousName.previousName.firstName, attributes = Map('class -> "first-name long", Symbol("data-validation-name") -> "previousFirstName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+        @text(keys.previousName.previousName.firstName, attributes = Map('class -> "first-name long validate", Symbol("data-validation-name") -> "previousFirstName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
         @wrapLabel(keys.previousName.previousName.middleNames) {
           <span class="visuallyhidden">Previous</span> Middle names
         }
-        @text(keys.previousName.previousName.middleNames, attributes = Map('class -> "middle-names long", Symbol("data-validation-name") -> "previousLastName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+        @text(keys.previousName.previousName.middleNames, attributes = Map('class -> "middle-names long"))
         @wrapLabel(keys.previousName.previousName.lastName) {
           <span class="visuallyhidden">Previous</span> Last name
         }
-        @text(keys.previousName.previousName.lastName, attributes = Map('class -> "last-name long"))
+        @text(keys.previousName.previousName.lastName, attributes = Map('class -> "last-name long validate", Symbol("data-validation-name") -> "previousLastName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       </fieldset> 
     </div>
     @validationMessages(formData)

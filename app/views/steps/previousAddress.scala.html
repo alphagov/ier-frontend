@@ -9,26 +9,27 @@
     
     @layouts.questionHeader("Have you moved within the last 12 months?", "/register-to-vote/address", 7)
 
-    <fieldset>
+    <fieldset class="validate" data-validation-name="previousAddressQuestion" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="previousAddressYes previousAddressNo">
       @radio(keys.previousAddress.movedRecently, 
           label = "Yes", 
           value = "true", 
-          inputAttributes = Map('class -> "binary"), 
+          inputAttributes = Map('class -> "binary validate", Symbol("data-validation-name") -> "previousAddressYes", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"), 
           labelAttributes = Map('class -> "binary"))
       @radio(keys.previousAddress.movedRecently, 
           label = "No", 
           value = "false", 
-          inputAttributes = Map('class -> "binary"), 
+          inputAttributes = Map('class -> "binary validate", Symbol("data-validation-name") -> "previousAddressNo", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"), 
           labelAttributes = Map('class -> "binary"))
     </fieldset>
     <fieldset class="optional-section optional-section-core-content @classIf(formData(keys.previousAddress.movedRecently).value == Some("true"), "visible")" data-condition="@keys.previousAddress.movedRecently.asId("true")">
       @label(keys.possibleAddresses.postcode, "Enter the postcode to find your previous address")
       @text(keys.possibleAddresses.postcode, 
           attributes = Map(
-            'class -> "postcode medium",
+            'class -> "postcode medium validate",
             Symbol("data-validation-name") -> "postcode", 
+            Symbol("data-validation-type") -> "field", 
             Symbol("data-validation-rules") -> "nonEmpty"))
-      <button id="find-previous-address" class="button search">Find address</button>
+      <button id="find-previous-address" class="button search validation-submit" data-validation-sources="postcode">Find address</button>
     </fieldset>
     <div id="found-addresses">
     @if(possibleAddress.isDefined && formData(keys.previousAddress.movedRecently).value == Some("true")) {
@@ -38,18 +39,17 @@
           attributes = Map('class -> "hidden", 'type -> "hidden", 'value -> possible.postcode))
         @select(keys.previousAddress.previousAddress.address, "Select your address",
           "" -> "Please select..." :: possible.addresses.map(s=>s.addressLine.get->s.addressLine.get),
-          inputAttributes = Map('class -> "lonely"))
-
+          inputAttributes = Map('class -> "lonely", Symbol("data-validation-name") -> "addressSelect", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
         <div class="help-content">
             <h2>My address is not listed</h2>
             <label for="input-address-text">Enter your address</label>
-            <textarea id="input-address-text" name="address.address" class="small"></textarea>
+            <textarea id="input-address-text" name="address.address" class="small validate" data-validation-name="addressExcuse" data-validation-type="field" data-validation-rules="nonEmpty"></textarea>
         </div>
       }
     }
     </div>
     @validationMessages(formData)
-    <button type="submit" id="continue" class="button next">Continue</button>
+    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode previousAddressQuestion addressSelect addressExcuse">Continue</button>
 
     @text(keys.possibleAddresses.postcode, attributes = Map('class -> "hidden", 'type -> "hidden"))
     @text(keys.possibleAddresses.jsonList, attributes = Map('class -> "hidden", 'type -> "hidden"))
