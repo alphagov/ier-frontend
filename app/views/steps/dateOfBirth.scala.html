@@ -35,18 +35,10 @@
         @label(keys.dob.noDob.reason, label = "Why can't you provide your date of birth?")
         @textArea(keys.dob.noDob.reason, attributes = Map('class -> "small", 'autocomplete -> "off"))
         <p>How old are you?</p>
-        <label class="selectable" for="DOBunder18">
-          <input type="radio" id="DOBunder18" name="DOBStatement" value="@DateOfBirthConstants.under18" class="radio"><span class="visuallyhidden">I am</span>Under 18 years old
-        </label>
-        <label class="selectable" for="DOB18to70">
-          <input type="radio" id="DOB18to70" name="DOBStatement" value="@DateOfBirthConstants.is18to70" class="radio"><span class="visuallyhidden">I am</span>Between 18 and 70 years old
-        </label>
-        <label class="selectable" for="DOBover70">
-          <input type="radio" id="DOBover70" name="DOBStatement" value="@DateOfBirthConstants.over70" class="radio"><span class="visuallyhidden">I am</span>Over 70 years old
-        </label>
-        <label class="selectable" for="DOBdontknow">
-          <input type="radio" id="DOBdontknow" name="DOBStatement" value="@DateOfBirthConstants.dontKnow" class="radio">I don't know<span class="visuallyhidden"> how old I am</span>
-        </label>
+        @radio(keys.dob.noDob.range, value = DateOfBirthConstants.under18, label = "Under 18 years old")
+        @radio(keys.dob.noDob.range, value = DateOfBirthConstants.is18to70, label = "Between 18 and 70 years old")
+        @radio(keys.dob.noDob.range, value = DateOfBirthConstants.over70, label = "Over 70 years old")
+        @radio(keys.dob.noDob.range, value = DateOfBirthConstants.dontKnow, label = "I don't know")
       </fieldset>
     </div>
     <div class="validation-message"></div>
