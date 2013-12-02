@@ -1,9 +1,8 @@
 package uk.gov.gds.ier.step.postalVote
+
 import play.api.libs.json.{JsNull, Json}
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
+import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 
@@ -51,8 +50,9 @@ class PostalVoteFormTests
 
     postalVoteForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
+        hasErrors.errors.size should be(2)
         hasErrors.errorMessages("postalVote") should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
       },
       success => fail("Should have thrown an error")
     )
@@ -66,8 +66,9 @@ class PostalVoteFormTests
     )
     postalVoteForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
+        hasErrors.errors.size should be(2)
         hasErrors.errorMessages("postalVote") should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
       },
       success => fail("Should have thrown an error")
     )

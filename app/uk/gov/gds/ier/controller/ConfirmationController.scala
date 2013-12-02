@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.step.confirmation
+package uk.gov.gds.ier.controller
 
 import play.api.mvc._
 import controllers._
@@ -7,14 +7,12 @@ import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.session.SessionHandling
 import uk.gov.gds.ier.service.{IerApiService, PlacesService}
-import uk.gov.gds.ier.controller.StepController
 import play.api.data.Form
 import play.api.mvc.{SimpleResult, Call}
 import uk.gov.gds.ier.model.InprogressApplication
 import play.api.templates.Html
 
 class ConfirmationController @Inject ()(val serialiser: JsonSerialiser,
-                                        errorTransformer: ErrorTransformer,
                                         ierApi: IerApiService,
                                         placesService: PlacesService)
   extends Controller
@@ -22,7 +20,7 @@ class ConfirmationController @Inject ()(val serialiser: JsonSerialiser,
   with WithSerialiser
   with IerForms {
 
-  val validation: Form[InprogressApplication] = inprogressForm
+  val validation = inprogressForm
 
   def template(form:InProgressForm): Html = {
     views.html.confirmation(form)
@@ -30,15 +28,14 @@ class ConfirmationController @Inject ()(val serialiser: JsonSerialiser,
   
   def get = ValidSession requiredFor {
     request => application =>
-      Ok(template(InProgressForm(validation.fill(application))))
+      Ok(template(InProgressForm(validation.fillAndValidate(application))))
   }
 
   def post = ValidSession requiredFor {
     request => application =>
       validation.fillAndValidate(application).fold(
         hasErrors => {
-          val errorsTransformed = errorTransformer.transform(hasErrors)
-          Ok(template(InProgressForm(errorsTransformed)))
+          Ok(template(InProgressForm(hasErrors)))
         },
         validApplication => {
           val refNum = ierApi.generateReferenceNumber(validApplication)

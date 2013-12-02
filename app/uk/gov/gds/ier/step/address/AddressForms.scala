@@ -1,11 +1,15 @@
 package uk.gov.gds.ier.step.address
 
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.model.{InprogressApplication, Address, Addresses, PossibleAddress}
-import uk.gov.gds.ier.validation.PostcodeValidator
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.Form
 import play.api.data.Forms._
+import uk.gov.gds.ier.model.Addresses
+import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.model.PossibleAddress
+import scala.Some
+import uk.gov.gds.ier.model.Address
 
 trait AddressForms {
   self:  FormKeys
@@ -35,7 +39,7 @@ trait AddressForms {
     Address.unapply
   )  
     
-  val addressForm = Form(
+  val addressForm = ErrorTransformForm(
     mapping(
       keys.address.key -> optional(addressMapping)
         .verifying("Please answer this question", _.isDefined),

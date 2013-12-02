@@ -13,17 +13,15 @@ import uk.gov.gds.ier.service.IsoCountryService
 import uk.gov.gds.ier.guice.WithIsoCountryService
 
 class NationalityController @Inject ()(val serialiser: JsonSerialiser,
-                                       val errorTransformer: ErrorTransformer,
                                        val isoCountryService: IsoCountryService)
   extends StepController
   with WithSerialiser
   with WithIsoCountryService
-  with WithErrorTransformer
   with NationalityForms {
 
-  val validation: Form[InprogressApplication] = nationalityForm
-  val editPostRoute: Call = routes.NationalityController.editPost
-  val stepPostRoute: Call = routes.NationalityController.post
+  val validation = nationalityForm
+  val editPostRoute = routes.NationalityController.editPost
+  val stepPostRoute = routes.NationalityController.post
 
   def template(form:InProgressForm, call:Call): Html = {
     views.html.steps.nationality(form, call)

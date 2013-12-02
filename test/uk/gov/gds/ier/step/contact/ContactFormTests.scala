@@ -4,9 +4,7 @@ import play.api.libs.json.{JsNull, Json}
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
+import uk.gov.gds.ier.serialiser.WithSerialiser
 
 class ContactFormTests 
   extends FlatSpec
@@ -128,8 +126,9 @@ class ContactFormTests
 
     contactForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
+        hasErrors.errors.size should be(2)
         hasErrors.errorMessages("contact") should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
       },
       success => fail("Should have thrown an error")
     )
@@ -149,8 +148,9 @@ class ContactFormTests
     )
     contactForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
+        hasErrors.errors.size should be(2)
         hasErrors.errorMessages("contact") should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
       },
       success => fail("Should have thrown an error")
     )
@@ -164,9 +164,9 @@ class ContactFormTests
     )
     contactForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
-        hasErrors.errorMessages("contact.phone") should be(Seq("Please enter your phone number"))
-        new ErrorTransformer().transform(hasErrors).errorMessages("contact.phone.detail") should be(Seq("Please enter your phone number"))
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("contact.phone.detail") should be(Seq("Please enter your phone number"))
+        hasErrors.globalErrorMessages should be(Seq("Please enter your phone number"))
       },
       success => fail("Should have thrown an error")
     )
@@ -180,9 +180,9 @@ class ContactFormTests
     )
     contactForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
-        hasErrors.errorMessages("contact.email") should be(Seq("Please enter your email address"))
-        new ErrorTransformer().transform(hasErrors).errorMessages("contact.email.detail") should be(Seq("Please enter your email address"))
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("contact.email.detail") should be(Seq("Please enter your email address"))
+        hasErrors.globalErrorMessages should be(Seq("Please enter your email address"))
       },
       success => fail("Should have thrown an error")
     )
@@ -196,9 +196,9 @@ class ContactFormTests
     )
     contactForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
-        hasErrors.errorMessages("contact.textNum") should be(Seq("Please enter your phone number"))
-        new ErrorTransformer().transform(hasErrors).errorMessages("contact.textNum.detail") should be(Seq("Please enter your phone number"))
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("contact.textNum.detail") should be(Seq("Please enter your phone number"))
+        hasErrors.globalErrorMessages should be(Seq("Please enter your phone number"))
       },
       success => fail("Should have thrown an error")
     )

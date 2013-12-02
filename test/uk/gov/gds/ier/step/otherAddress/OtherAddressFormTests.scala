@@ -1,9 +1,7 @@
 package uk.gov.gds.ier.step.otherAddress
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
+import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.test.TestHelpers
 import play.api.libs.json.{Json, JsNull}
@@ -24,7 +22,8 @@ class OtherAddressFormTests
 
     otherAddressForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
+        hasErrors.errors.size should be(2)
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
         hasErrors.errorMessages("otherAddress") should be(Seq("Please answer this question"))
       },
       success => fail("Should have thrown an error")
@@ -39,7 +38,8 @@ class OtherAddressFormTests
     )
     otherAddressForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
+        hasErrors.errors.size should be(2)
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
         hasErrors.errorMessages("otherAddress") should be(Seq("Please answer this question"))
       },
       success => fail("Should have thrown an error")
@@ -54,7 +54,8 @@ class OtherAddressFormTests
     )
     otherAddressForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
+        hasErrors.errors.size should be(2)
+        hasErrors.globalErrorMessages should be(Seq("error.boolean"))
         hasErrors.errorMessages("otherAddress.hasOtherAddress") should be(Seq("error.boolean"))
       },
       success => fail("Should have thrown an error")

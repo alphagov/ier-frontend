@@ -36,6 +36,37 @@ class IerApiServiceTests
     }
   """)
 
+  it should "contain the application type field" in {
+    class FakeApiClient extends IerApiClient(new MockConfig) {
+      override def post(url:String, content:String, headers: (String, String)*) : ApiResponse = {
+        if (url.contains("testUrl")) {
+          content should include("applicationType\":\"ordinary\"")
+          successMessage
+        } else {
+          Fail("Bad Url")
+        }
+      }
+    }
+    val mockPlaces = mock[PlacesService]
+    val mockSha = mock[ShaHashProvider]
+    val isoService = new IsoCountryService
+
+    val service = new ConcreteIerApiService(new FakeApiClient, jsonSerialiser,
+      new MockConfig, mockPlaces, mockSha, isoService)
+
+    val application = InprogressApplication(
+      nationality = Some(Nationality(
+        british = Some(true),
+        irish = Some(true),
+        hasOtherCountry = Some(true),
+        otherCountries = List("France")
+      ))
+    )
+
+    service.submitApplication(None, application, None)
+
+  }
+
   it should "convert country names to ISO codes" in {
     class FakeApiClient extends IerApiClient(new MockConfig) {
       override def post(url:String, content:String, headers: (String, String)*) : ApiResponse = {

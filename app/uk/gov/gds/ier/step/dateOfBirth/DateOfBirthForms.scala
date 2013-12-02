@@ -1,12 +1,15 @@
 package uk.gov.gds.ier.step.dateOfBirth
 
 import uk.gov.gds.ier.model.{InprogressApplication, DateOfBirth, DOB, noDOB}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
+import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages, ErrorTransformForm}
+import uk.gov.gds.ier.validation.constraints.DateOfBirthConstraints
 import play.api.data.Form
 import play.api.data.Forms._
-import uk.gov.gds.ier.validation.DateValidator
+import uk.gov.gds.ier.model.DateOfBirth
+import uk.gov.gds.ier.model.InprogressApplication
+import scala.Some
 
-trait DateOfBirthForms {
+trait DateOfBirthForms extends DateOfBirthConstraints {
     self:  FormKeys
       with ErrorMessages =>
 
@@ -23,11 +26,13 @@ trait DateOfBirthForms {
   ) {
     (year, month, day) => DOB(year.toInt, month.toInt, day.toInt)
   } {
-    dateOfBirth => Some(dateOfBirth.year.toString, dateOfBirth.month.toString, dateOfBirth.day.toString)
-  }.verifying("The date you specified is invalid", 
-      dob => DateValidator.isExistingDateInThePast(dob) && !DateValidator.isTooOldToBeAlive(dob))
-    .verifying(s"Minimum age to register to vote is ${DateValidator.minimumAge}", 
-      dob => !DateValidator.isExistingDateInThePast(dob) || !DateValidator.isTooYoungToRegister(dob))
+    dateOfBirth => 
+      Some(
+        dateOfBirth.year.toString, 
+        dateOfBirth.month.toString, 
+        dateOfBirth.day.toString
+      )
+  }.verifying(isOverTheMinimumAgeToVote, dateNotInTheFuture, notTooOldToBeAlive)
 
   lazy val noDobMapping = mapping(
     keys.range.key -> text, 
@@ -39,9 +44,13 @@ trait DateOfBirthForms {
     keys.noDob.key -> optional(noDobMapping)
   ) (DateOfBirth.apply) (DateOfBirth.unapply)
 
-  val dateOfBirthForm = Form(
-    mapping(keys.dob.key -> optional(dobAndReasonMapping).verifying("Please enter your date of birth", _.isDefined))
-      (dob => InprogressApplication(dob = dob))
-      (inprogress => Some(inprogress.dob))
+  val dateOfBirthForm = ErrorTransformForm(
+    mapping(
+      keys.dob.key -> optional(dobAndReasonMapping)
+    ) (
+      dob => InprogressApplication(dob = dob)
+    ) (
+      inprogress => Some(inprogress.dob)
+    ) verifying dateOfBirthRequired
   )
 }

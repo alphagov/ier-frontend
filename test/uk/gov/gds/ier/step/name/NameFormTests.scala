@@ -1,11 +1,9 @@
 package uk.gov.gds.ier.step.name
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import play.api.libs.json.{Json, JsNull}
-import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
+import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.test.TestHelpers
 
 class NameFormTests
@@ -23,9 +21,11 @@ class NameFormTests
     val js = JsNull
     nameForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("name") should be(Seq("Please enter your full name"))
+        hasErrors.errors.size should be(5)
+        hasErrors.errorMessages("name.lastName") should be(Seq("Please enter your full name"))
+        hasErrors.errorMessages("name.firstName") should be(Seq("Please enter your full name"))
         hasErrors.errorMessages("previousName") should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("Please enter your full name", "Please answer this question"))
       },
       success => fail("Should have errored out")
     )
@@ -45,7 +45,12 @@ class NameFormTests
     )
     nameForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(4)
+        hasErrors.errors.size should be(8)
+        hasErrors.globalErrorMessages should be(Seq(
+          "Please enter your first name",
+          "Please enter your last name",
+          "Please enter your first name",
+          "Please enter your last name"))
         hasErrors.errorMessages("name.firstName") should be(Seq("Please enter your first name"))
         hasErrors.errorMessages("name.lastName") should be(Seq("Please enter your last name"))
         hasErrors.errorMessages("previousName.previousName.firstName") should be(Seq("Please enter your first name"))
@@ -65,11 +70,18 @@ class NameFormTests
     )
     nameForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(4)
+        hasErrors.errors.size should be(8)
         hasErrors.errorMessages("name.firstName") should be(Seq("Please enter your first name"))
         hasErrors.errorMessages("name.lastName") should be(Seq("Please enter your last name"))
         hasErrors.errorMessages("previousName.previousName.firstName") should be(Seq("Please enter your first name"))
         hasErrors.errorMessages("previousName.previousName.lastName") should be(Seq("Please enter your last name"))
+
+
+        hasErrors.globalErrorMessages should be(Seq(
+          "Please enter your first name",
+          "Please enter your last name",
+          "Please enter your first name",
+          "Please enter your last name"))
       },
       success => fail("Should have errored out")
     )
@@ -87,9 +99,10 @@ class NameFormTests
     )
     nameForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(2)
+        hasErrors.errors.size should be(4)
         hasErrors.errorMessages("name.lastName") should be(Seq("Please enter your last name"))
         hasErrors.errorMessages("previousName.previousName.lastName") should be(Seq("Please enter your last name"))
+        hasErrors.globalErrorMessages should be(Seq("Please enter your last name","Please enter your last name"))
       },
       success => fail("Should have errored out")
     )

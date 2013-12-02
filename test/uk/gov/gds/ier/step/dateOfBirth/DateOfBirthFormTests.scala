@@ -1,9 +1,7 @@
 package uk.gov.gds.ier.step.dateOfBirth
 
-import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
+import uk.gov.gds.ier.serialiser.WithSerialiser
 import org.scalatest.{Matchers, FlatSpec}
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
 import play.api.libs.json.{Json, JsNull}
 import org.joda.time.DateTime
 import uk.gov.gds.ier.test.TestHelpers
@@ -24,8 +22,11 @@ class DateOfBirthFormTests
     val js = JsNull
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("dob") should be(Seq("Please enter your date of birth"))
-        hasErrors.errors.size should be(1)
+        hasErrors.errorMessages("dob.dob.day") should be(Seq("Please enter your date of birth"))
+        hasErrors.errorMessages("dob.dob.year") should be(Seq("Please enter your date of birth"))
+        hasErrors.errorMessages("dob.dob.month") should be(Seq("Please enter your date of birth"))
+        hasErrors.globalErrorMessages should be(Seq("Please enter your date of birth"))
+        hasErrors.errors.size should be(4)
       },
       success => fail("Should have errored out.")
     )
@@ -41,8 +42,11 @@ class DateOfBirthFormTests
     )
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("dob") should be(Seq("Please enter your date of birth"))
-        hasErrors.errors.size should be(1)
+        hasErrors.errorMessages("dob.dob.day") should be(Seq("Please enter your date of birth"))
+        hasErrors.errorMessages("dob.dob.year") should be(Seq("Please enter your date of birth"))
+        hasErrors.errorMessages("dob.dob.month") should be(Seq("Please enter your date of birth"))
+        hasErrors.globalErrorMessages should be(Seq("Please enter your date of birth"))
+        hasErrors.errors.size should be(4)
       },
       success => fail("Should have errored out.")
     )
@@ -58,9 +62,11 @@ class DateOfBirthFormTests
     )
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(2)
+        hasErrors.errors.size should be(4)
         hasErrors.errorMessages("dob.dob.year") should be(Seq("Please enter your year of birth"))
         hasErrors.errorMessages("dob.dob.month") should be(Seq("Please enter your month of birth"))
+        hasErrors.globalErrorMessages should be(Seq("Please enter your year of birth",
+          "Please enter your month of birth"))
       },
       success => fail("Should have errored out.")
     )
@@ -76,9 +82,11 @@ class DateOfBirthFormTests
     )
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(2)
+        hasErrors.errors.size should be(4)
         hasErrors.errorMessages("dob.dob.day") should be(Seq("Please enter your day of birth"))
         hasErrors.errorMessages("dob.dob.month") should be(Seq("Please enter your month of birth"))
+        hasErrors.globalErrorMessages should be(Seq("Please enter your month of birth",
+          "Please enter your day of birth"))
       },
       success => fail("Should have errored out.")
     )
@@ -114,10 +122,49 @@ class DateOfBirthFormTests
     )
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
-        hasErrors.errorMessages("dob.dob") should be(Seq("Minimum age to register to vote is 16"))
+        hasErrors.errors.size should be(4)
+        hasErrors.errorMessages("dob.dob.day") should be(
+          Seq("Minimum age to register to vote is 16")
+        )
+        hasErrors.errorMessages("dob.dob.month") should be(
+          Seq("Minimum age to register to vote is 16")
+        )
+        hasErrors.errorMessages("dob.dob.year") should be(
+          Seq("Minimum age to register to vote is 16")
+        )
+        hasErrors.globalErrorMessages should be(Seq("Minimum age to register to vote is 16"))
       },
       success => fail("Should have errored out")
+    )
+  }
+
+  it should "error out on a date in the future" in {
+    val js = Json.toJson(
+      Map(
+        "dob.dob.day" -> "1",
+        "dob.dob.month" -> "12",
+        "dob.dob.year" -> (DateTime.now().getYear + 1).toString
+      )
+    )
+    dateOfBirthForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(4)
+        hasErrors.errorMessages("dob.dob.day") should be(
+          Seq("You have entered a date in the future")
+        )
+        hasErrors.errorMessages("dob.dob.month") should be(
+          Seq("You have entered a date in the future")
+        )
+        hasErrors.errorMessages("dob.dob.year") should be(
+          Seq("You have entered a date in the future")
+        )
+        hasErrors.globalErrorMessages should be(
+          Seq("You have entered a date in the future")
+        )
+      },
+      success => {
+        fail("Should have errored out")
+      }
     )
   }
 
@@ -131,8 +178,11 @@ class DateOfBirthFormTests
     )
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
-        hasErrors.errorMessages("dob.dob") should be(Seq("The date you specified is invalid"))
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("dob.dob.year") should be(
+          Seq("Please check the year you were born")
+        )
+        hasErrors.globalErrorMessages should be(Seq("Please check the year you were born"))
       },
       success => fail("Should have errored out")
     )
@@ -148,10 +198,20 @@ class DateOfBirthFormTests
     )
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(3)
-        hasErrors.errorMessages("dob.dob.day") should be(Seq("The day you provided is invalid"))
-        hasErrors.errorMessages("dob.dob.month") should be(Seq("The month you provided is invalid"))
-        hasErrors.errorMessages("dob.dob.year") should be(Seq("The year you provided is invalid"))
+        hasErrors.errors.size should be(6)
+        hasErrors.errorMessages("dob.dob.day") should be(
+          Seq("The day you provided is invalid")
+        )
+        hasErrors.errorMessages("dob.dob.month") should be(
+          Seq("The month you provided is invalid")
+        )
+        hasErrors.errorMessages("dob.dob.year") should be(
+          Seq("The year you provided is invalid")
+        )
+        hasErrors.globalErrorMessages should be(Seq(
+          "The year you provided is invalid",
+          "The month you provided is invalid",
+          "The day you provided is invalid"))
       },
       success => fail("Should have errored out")
     )

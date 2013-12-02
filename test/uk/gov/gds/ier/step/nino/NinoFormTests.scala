@@ -1,12 +1,9 @@
 package uk.gov.gds.ier.step.nino
 
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.IerForms
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
-import play.api.libs.json.{Json, JsNull}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
+import uk.gov.gds.ier.serialiser.WithSerialiser
+import play.api.libs.json.{Json, JsNull}
 import uk.gov.gds.ier.test.TestHelpers
 
 class NinoFormTests 
@@ -59,7 +56,8 @@ class NinoFormTests
 
     ninoForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
+        hasErrors.errors.size should be(2)
+        hasErrors.globalErrorMessages should be(Seq("Please enter your National Insurance number"))
         hasErrors.errorMessages("NINO") should be(Seq("Please enter your National Insurance number"))
       },
       success => fail("Should have errored out")
@@ -75,7 +73,8 @@ class NinoFormTests
     )
     ninoForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
+        hasErrors.errors.size should be(2)
+        hasErrors.globalErrorMessages should be(Seq("Please enter your National Insurance number"))
         hasErrors.errorMessages("NINO") should be(Seq("Please enter your National Insurance number"))
       },
       success => fail("Should have errored out")
@@ -90,7 +89,8 @@ class NinoFormTests
     )
     ninoForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
+        hasErrors.errors.size should be(2)
+        hasErrors.globalErrorMessages should be(Seq("Your National Insurance number is not correct"))
         hasErrors.errorMessages("NINO.NINO") should be(Seq("Your National Insurance number is not correct"))
       },
       success => fail("Should have errored out")

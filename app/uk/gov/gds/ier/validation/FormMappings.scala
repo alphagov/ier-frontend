@@ -20,7 +20,7 @@ import uk.gov.gds.ier.step.country.CountryForms
 
 trait FormMappings 
   extends FormKeys 
-  with ErrorMessages 
+  with ErrorMessages
   with NinoForms
   with NationalityForms 
   with NameForms 

@@ -76,7 +76,7 @@ case class DOB(year:Int,
                month:Int,
                day:Int) {
   def toApiMap = {
-    Map("dob" -> (year + "-" + month + "-" + day))
+    Map("dob" -> (year + "-" + "%02d".format(month) + "-" + "%02d".format(day)))
   }
 }
 

@@ -11,13 +11,12 @@ import uk.gov.gds.ier.validation._
 
 trait StepController 
   extends Controller 
-  with SessionHandling 
+  with SessionHandling
   with ErrorMessages
   with FormKeys {
-    self:  WithSerialiser
-      with WithErrorTransformer =>
+    self:  WithSerialiser =>
 
-  val validation: Form[InprogressApplication]
+  val validation: ErrorTransformForm[InprogressApplication]
   val editPostRoute: Call
   val stepPostRoute: Call
   def template(form: InProgressForm, call: Call):Html
@@ -45,8 +44,7 @@ trait StepController
     implicit request => application =>
       validation.bindFromRequest().fold(
         hasErrors => {
-          val errorsTransformed = errorTransformer.transform(hasErrors)
-          (Ok(stepPage(InProgressForm(errorsTransformed))), application)
+          (Ok(stepPage(InProgressForm(hasErrors))), application)
         },
         success => {
           val mergedApplication = merge(application, success)
@@ -64,8 +62,7 @@ trait StepController
     implicit request => application =>
       validation.bindFromRequest().fold(
         hasErrors => {
-          val errorsTransformed = errorTransformer.transform(hasErrors)
-          (Ok(editPage(InProgressForm(errorsTransformed))), application)
+          (Ok(editPage(InProgressForm(hasErrors))), application)
         },
         success => {
           val mergedApplication = merge(application, success)

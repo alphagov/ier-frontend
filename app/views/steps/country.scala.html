@@ -17,8 +17,7 @@
       <p>or</p>
       @radio(keys.country.residence, value = "Abroad", label = "I am a British citizen living abroad")
     </fieldset>
-    @validationMessage(formData(keys.country))
-    @validationMessage(formData(keys.country.residence))
+    @validationMessages(formData)
     <button type="submit" id="continue" class="button next">Continue</button>
   }
 }

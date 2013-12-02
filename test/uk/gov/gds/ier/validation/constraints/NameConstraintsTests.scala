@@ -144,7 +144,10 @@ class NameConstraintsTests
         hasPreviousName = true,
         previousName = None
       )
-    ) should be(Invalid("Please enter your previous name", keys.previousName.previousName))
+    ) should be(
+      Invalid("Please enter your previous name",
+      keys.previousName.previousName.firstName,
+      keys.previousName.previousName.lastName))
   }
 
   it should "be valid for hasPreviousName = false and filled previousName" in {

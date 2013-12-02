@@ -2,9 +2,7 @@ package uk.gov.gds.ier.step.openRegister
 
 import play.api.libs.json.{JsNull, Json}
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
+import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.test.TestHelpers
 

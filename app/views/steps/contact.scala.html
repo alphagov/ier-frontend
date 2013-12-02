@@ -34,16 +34,7 @@
             attributes = Map('type -> "email", 'class -> "long"))
       </div>
     </fieldset>
-    @validationMessage(formData(keys.contact.contactType))
-    @validationMessage(formData(keys.contact.phone))
-    @validationMessage(formData(keys.contact.textNum))
-    @validationMessage(formData(keys.contact.email))
-    @validationMessage(formData(keys.contact.post))
-    @validationMessage(formData(keys.contact.phone.detail))
-    @validationMessage(formData(keys.contact.textNum.detail))
-    @validationMessage(formData(keys.contact.email.detail))
-    @validationMessage(formData(keys.contact.post.detail))
-    @validationMessage(formData(keys.contact))
+    @validationMessages(formData)
     <button type="submit" id="continue" class="button next">Continue</button>
   }
 }

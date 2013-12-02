@@ -10,19 +10,24 @@ object DateValidator {
 
   def isExistingDateInThePast(dateOfBirth: DOB) = {
     try {
-      new DateMidnight(dateOfBirth.year, dateOfBirth.month, dateOfBirth.day).isBeforeNow
+      parseToDateMidnight(dateOfBirth).isBeforeNow
     } catch {
       case ex: Exception => false
     }
   }
 
   def isTooOldToBeAlive(dateOfBirth: DOB) = {
-    midnight(dateOfBirth).plusYears(maximumAge).isBefore(DateTime.now.toDateMidnight.plusDays(1))
+    parseToDateMidnight(dateOfBirth).plusYears(maximumAge).isBefore(DateTime.now.toDateMidnight.plusDays(1))
   }
 
   def isTooYoungToRegister(dateOfBirth: DOB) = {
-    midnight(dateOfBirth).plusYears(minimumAge).isAfter(DateTime.now.toDateMidnight)
+    parseToDateMidnight(dateOfBirth).plusYears(minimumAge).isAfter(DateTime.now.toDateMidnight)
   }
 
-  private def midnight(dateOfBirth: DOB) = new DateMidnight(dateOfBirth.year, dateOfBirth.month, dateOfBirth.day)
+  private def parseToDateMidnight(dateOfBirth: DOB) = {
+    new DateMidnight(
+      dateOfBirth.year, 
+      dateOfBirth.month, 
+      dateOfBirth.day)
+  }
 }
