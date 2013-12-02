@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.step.name
 
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.{InprogressApplication, Name, PreviousName}
 import play.api.data.Form
 import play.api.data.Forms._
@@ -35,9 +35,9 @@ trait NameForms extends NameConstraints {
     PreviousName.unapply
   ) verifying prevNameFilledIfHasPrevIsTrue
 
-  val nameForm = Form(
+  val nameForm = ErrorTransformForm(
     mapping(
-      keys.name.key -> requiredOptional(nameMapping, "Please enter your full name"),
+      keys.name.key -> optional(nameMapping).verifying(nameNotOptional),
       keys.previousName.key -> requiredOptional(previousNameMapping, "Please answer this question")
     ) (
       (name, previousName) => InprogressApplication(name = name, previousName = previousName)

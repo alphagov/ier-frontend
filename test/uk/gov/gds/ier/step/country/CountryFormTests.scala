@@ -1,16 +1,11 @@
 package uk.gov.gds.ier.step.country
 
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
+import uk.gov.gds.ier.serialiser.WithSerialiser
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{ErrorMessages, ErrorTransformer, FormKeys}
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
+import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import play.api.libs.json.{Json, JsNull}
-import org.joda.time.DateTime
-import uk.gov.gds.ier.model.Country
 
-@RunWith(classOf[JUnitRunner])
 class CountryFormTests
   extends FlatSpec
   with Matchers
@@ -126,9 +121,9 @@ class CountryFormTests
     )
     countryForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
-        hasErrors.errorMessages("country") should be(Seq("This is not a valid country"))
-        new ErrorTransformer().transform(hasErrors).errorMessages("country.residence") should be(Seq("This is not a valid country"))
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("country.residence") should be(Seq("This is not a valid country"))
+        hasErrors.globalErrorMessages should be(Seq("This is not a valid country"))
       },
       success => fail("Should have errored out")
     )
@@ -139,8 +134,9 @@ class CountryFormTests
 
     countryForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
-        new ErrorTransformer().transform(hasErrors).errorMessages("country.residence") should be(Seq("Please answer this question"))
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("country.residence") should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
       },
       success => fail("Should have errored out")
     )
@@ -155,8 +151,9 @@ class CountryFormTests
     )
     countryForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
-        new ErrorTransformer().transform(hasErrors).errorMessages("country.residence") should be(Seq("Please answer this question"))
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("country.residence") should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
       },
       success => fail("Should have errored out")
     )

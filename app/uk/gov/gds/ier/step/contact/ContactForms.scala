@@ -1,11 +1,16 @@
 package uk.gov.gds.ier.step.contact
 
-import uk.gov.gds.ier.validation.{Key, ErrorMessages, FormKeys}
+import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.model.{InprogressApplication, Contact, ContactDetail}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.ContactConstraints
+import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.validation.Key
+import uk.gov.gds.ier.model.ContactDetail
+import scala.Some
+import uk.gov.gds.ier.model.Contact
 
 trait ContactForms extends ContactConstraints {
   self:  FormKeys
@@ -39,7 +44,7 @@ trait ContactForms extends ContactConstraints {
     Contact.unapply
   )
 
-  val contactForm = Form(
+  val contactForm = ErrorTransformForm(
     mapping(
       keys.contact.key -> optional(contactMapping)
         .verifying("Please answer this question", _.isDefined)

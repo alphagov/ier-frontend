@@ -706,6 +706,7 @@ window.GOVUK = window.GOVUK || {};
   }());
 
   postcodeLookup = function (searchButton, inputName) {
+    var inputId = inputName.replace(/\./g, "_")
     var allowSubmission = function ($searchButton) {
       var $optionalSectionContainer = $searchButton.closest('.optional-section'),
           isInOptionalSection = ($optionalSectionContainer.length > 0),
@@ -727,19 +728,19 @@ window.GOVUK = window.GOVUK || {};
     this.$searchButton = $(searchButton);
     this.$searchInput = this.$searchButton.closest('fieldset').find('input.postcode');
     this.$targetElement = $('#found-addresses');
-    this.hasAddresses = ($('#input-address-list').length > 0);
+    this.hasAddresses = ($('#'+inputId+'_address_select').length > 0);
     this.$waitMessage = $('<p id="wait-for-request">Finding address</p>');
     this.fragment = {
-      'hiddenLabel' : '<label for="input-address-postcode" class="hidden">' + 
+      'hiddenLabel' : '<label for="'+inputId+'_postcode" class="hidden">' +
                          'Postcode' + 
                       '</label>',
       'hiddenInput' : [
         '<input type="hidden" id="input-address-postcode" name="'+inputName+'.postcode" value="',
         '" class="text hidden">'
       ],
-      'selectLabel' : '<label for="input-address-list">Select your address</label>',
+      'selectLabel' : '<label for="'+inputId+'_address_select">Select your address</label>',
       'select' : [
-        '<select id="input-address-list" name="'+inputName+'.address" class="lonely">' +
+        '<select id="'+inputId+'_address_select" name="'+inputName+'.address" class="lonely">' +
           '<option value="">Please select...</option>',
         '</select>'
       ],
@@ -765,8 +766,8 @@ window.GOVUK = window.GOVUK || {};
 
       if (data.$toggle.text() === 'My address is not listed') {
         data.$toggle.remove();
-        $select = $('#input-address-list');
-        $select.siblings('label[for="input-address-list"]').remove();
+        $select = $('#'+inputId+'_address_select');
+        $select.siblings('label[for="'+inputId+'_address_select"]').remove();
         $select.remove();
         $('#input-address-text').focus();
       }

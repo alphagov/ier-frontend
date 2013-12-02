@@ -1,13 +1,10 @@
 package uk.gov.gds.ier.step.address
 
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
+import uk.gov.gds.ier.serialiser.WithSerialiser
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
 import play.api.libs.json.{Json, JsNull}
-import org.joda.time.DateTime
 import uk.gov.gds.ier.model.{Addresses, Address}
 
 class AddressFormTests
@@ -44,7 +41,8 @@ class AddressFormTests
 
     addressForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
+        hasErrors.errors.size should be(2)
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
         hasErrors.errorMessages("address") should be(Seq("Please answer this question"))
       },
       success => fail("Should have errored out")
@@ -61,7 +59,8 @@ class AddressFormTests
     )
     addressForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(1)
+        hasErrors.errors.size should be(2)
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
         hasErrors.errorMessages("address") should be(Seq("Please answer this question"))
       },
       success => fail("Should have errored out")
@@ -91,6 +90,27 @@ class AddressFormTests
         address.postcode should be("SW1A 1AA")
 
         possibleAddresses.addresses should be(List(Address(Some("123 Fake Street"), "AB12 3CD")))
+      }
+    )
+  }
+
+  it should "error out if it looks like you haven't selected your address" in {
+    val possibleAddressJS = serialiser.toJson(Addresses(List(Address(Some("123 Fake Street"), "AB12 3CD"))))
+    val js = Json.toJson(
+      Map(
+        "address.postcode" -> "SW1A 1AA",
+        "possibleAddresses.jsonList" -> possibleAddressJS,
+        "possibleAddresses.postcode" -> "SW1A 1AA"
+      )
+    )
+    addressForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("address.address") should be(Seq("Please select your address"))
+        hasErrors.globalErrorMessages should be(Seq("Please select your address"))
+      },
+      success => {
+        fail("Should have errored out")
       }
     )
   }

@@ -11,16 +11,14 @@ import play.api.mvc.{SimpleResult, Call}
 import uk.gov.gds.ier.model.InprogressApplication
 import play.api.templates.Html
 
-class AddressController @Inject ()(val serialiser: JsonSerialiser,
-                                   val errorTransformer: ErrorTransformer)
+class AddressController @Inject ()(val serialiser: JsonSerialiser)
   extends StepController
   with WithSerialiser
-  with WithErrorTransformer
   with AddressForms {
 
-  val validation: Form[InprogressApplication] = addressForm
-  val editPostRoute: Call = routes.AddressController.editPost
-  val stepPostRoute: Call = routes.AddressController.post
+  val validation = addressForm
+  val editPostRoute = routes.AddressController.editPost
+  val stepPostRoute = routes.AddressController.post
 
   def template(form:InProgressForm, call:Call): Html = {
     val possibleAddresses = form(keys.possibleAddresses.jsonList).value match {
