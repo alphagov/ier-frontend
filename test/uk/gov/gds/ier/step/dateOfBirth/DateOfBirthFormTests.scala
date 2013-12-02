@@ -112,32 +112,6 @@ class DateOfBirthFormTests
     )
   }
 
-  it should "error out on a date under 16 years from today" in {
-    val js = Json.toJson(
-      Map(
-        "dob.dob.day" -> "1",
-        "dob.dob.month" -> "12",
-        "dob.dob.year" -> (DateTime.now().getYear - 10).toString
-      )
-    )
-    dateOfBirthForm.bind(js).fold(
-      hasErrors => {
-        hasErrors.errors.size should be(4)
-        hasErrors.errorMessages("dob.dob.day") should be(
-          Seq("Minimum age to register to vote is 16")
-        )
-        hasErrors.errorMessages("dob.dob.month") should be(
-          Seq("Minimum age to register to vote is 16")
-        )
-        hasErrors.errorMessages("dob.dob.year") should be(
-          Seq("Minimum age to register to vote is 16")
-        )
-        hasErrors.globalErrorMessages should be(Seq("Minimum age to register to vote is 16"))
-      },
-      success => fail("Should have errored out")
-    )
-  }
-
   it should "error out on a date in the future" in {
     val js = Json.toJson(
       Map(

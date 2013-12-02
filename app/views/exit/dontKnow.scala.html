@@ -1,0 +1,13 @@
+@()
+@import helper._
+@import uk.gov.gds.ier.form.FormHelpers._
+@import layouts._
+@main(title = Some("Register to Vote - Sorry, you can’t register to vote without a date of birth"),
+    stylesheets = head(),
+    scripts = stepsBodyEnd()) {
+  <article>
+    <h2>Sorry, you can’t register to vote without a date of birth</h2>
+    <p>Try to find out your date of birth.</p>
+    <p><a href="https://www.gov.uk/voting-in-the-uk">More about voting in the UK</a></p>
+  </article>
+}

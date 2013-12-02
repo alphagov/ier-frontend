@@ -32,7 +32,7 @@ trait DateOfBirthForms extends DateOfBirthConstraints {
         dateOfBirth.month.toString, 
         dateOfBirth.day.toString
       )
-  }.verifying(isOverTheMinimumAgeToVote, dateNotInTheFuture, notTooOldToBeAlive)
+  }.verifying(dateNotInTheFuture, notTooOldToBeAlive)
 
   lazy val noDobMapping = mapping(
     keys.reason.key -> required(text, "Please provide a reason"),
@@ -46,7 +46,7 @@ trait DateOfBirthForms extends DateOfBirthConstraints {
   lazy val dobAndReasonMapping = mapping(
     keys.dob.key -> optional(dobMapping),
     keys.noDob.key -> optional(noDobMapping)
-  ) (DateOfBirth.apply) (DateOfBirth.unapply)
+  ) (DateOfBirth.apply) (DateOfBirth.unapply) verifying dobOrNoDobIsFilled
 
   val dateOfBirthForm = ErrorTransformForm(
     mapping(
