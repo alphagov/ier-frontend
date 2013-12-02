@@ -67,6 +67,15 @@ trait DateOfBirthConstraints extends CommonConstraints{
       }
   }
 
+  lazy val reasonIsNotEmpty = Constraint[noDOB](keys.noDob.key) {
+    noDob => 
+      if (noDob.reason == "") {
+        Invalid("Please provide a reason", keys.dob.noDob.reason)
+      } else {
+        Valid
+      }
+  }
+
   lazy val dobOrNoDobIsFilled = Constraint[DateOfBirth](keys.dob.key) {
     dateOfBirth => 
       if (dateOfBirth.dob.isDefined || dateOfBirth.noDob.isDefined) {

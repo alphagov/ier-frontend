@@ -41,7 +41,7 @@ trait DateOfBirthForms extends DateOfBirthConstraints {
     noDOB.apply
   ) (
     noDOB.unapply
-  ).verifying(rangeIsValid)
+  ).verifying(rangeIsValid, reasonIsNotEmpty)
 
   lazy val dobAndReasonMapping = mapping(
     keys.dob.key -> optional(dobMapping),

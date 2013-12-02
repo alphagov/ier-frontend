@@ -238,11 +238,31 @@ class DateOfBirthFormTests
     )
   }
 
-  it should "error out on invalid noDob reason and range" in {
+  it should "error out on invalid noDob reason" in {
      val js = Json.toJson(
       Map(
-        "dob.noDob.reason" -> "Uh, yeah, I dunno",
-        "dob.noDob.range" -> ""
+        "dob.noDob.reason" -> "",
+        "dob.noDob.range" -> "18to70"
+      )
+    )
+    dateOfBirthForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("dob.noDob.reason") should be(
+          Seq("Please provide a reason")
+        )
+        hasErrors.globalErrorMessages should be(
+          Seq("Please provide a reason")
+        )
+      },
+      success => fail("Should have thrown an error")
+    )
+  }
+  it should "error out on invalid noDob range" in {
+     val js = Json.toJson(
+      Map(
+        "dob.noDob.reason" -> "Uh, just cause",
+        "dob.noDob.range" -> "blar"
       )
     )
     dateOfBirthForm.bind(js).fold(
