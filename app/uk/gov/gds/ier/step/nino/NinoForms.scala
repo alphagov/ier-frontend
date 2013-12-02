@@ -1,14 +1,16 @@
 package uk.gov.gds.ier.step.nino
 
 import uk.gov.gds.ier.validation._
-import uk.gov.gds.ier.model.{InprogressApplication, Nino}
-import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.gds.ier.model.InprogressApplication
 import scala.Some
 import uk.gov.gds.ier.model.Nino
+import uk.gov.gds.ier.validation.constraints.NinoConstraints
+import uk.gov.gds.ier.model.InprogressApplication
+import scala.Some
+import uk.gov.gds.ier.model.Nino
 
-trait NinoForms {
+trait NinoForms extends NinoConstraints {
   self:  FormKeys
     with ErrorMessages =>
 
@@ -22,18 +24,14 @@ trait NinoForms {
   ) (
     Nino.unapply
   )
- 
+
   val ninoForm = ErrorTransformForm(
-    mapping(
-      keys.nino.key -> optional(
-        ninoMapping.verifying("Please enter your National Insurance number", 
-          nino => nino.nino.isDefined || nino.noNinoReason.isDefined)
-      ).verifying("Please enter your National Insurance number", nino => nino.isDefined)
-    ) (
+    mapping(keys.nino.key -> optional(ninoMapping))
+    (
       nino => InprogressApplication(nino = nino)
     ) (
       inprogress => Some(inprogress.nino)
-    )
+    ) verifying (ninoOrNoNinoReasonDefined)
   )
 }
 
