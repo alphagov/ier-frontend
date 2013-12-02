@@ -216,4 +216,46 @@ class DateOfBirthFormTests
       success => fail("Should have errored out")
     )
   }
+
+  it should "bind successfully on noDob reason and range" in {
+    val js = Json.toJson(
+      Map(
+        "dob.noDob.reason" -> "Uh, yeah, I dunno",
+        "dob.noDob.range" -> "18to70"
+      )
+    )
+    dateOfBirthForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(",")),
+      success => {
+        success.dob.isDefined should be(true)
+        val Some(dob) = success.dob
+        dob.dob should be(None)
+        dob.noDob.isDefined should be(true)
+        val Some(noDob) = dob.noDob
+        noDob.reason should be("Uh, yeah, I dunno")
+        noDob.range should be("18to70")
+      }
+    )
+  }
+
+  it should "error out on invalid noDob reason and range" in {
+     val js = Json.toJson(
+      Map(
+        "dob.noDob.reason" -> "Uh, yeah, I dunno",
+        "dob.noDob.range" -> ""
+      )
+    )
+    dateOfBirthForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("dob.noDob.range") should be(
+          Seq("Please select a rough age range")
+        )
+        hasErrors.globalErrorMessages should be(
+          Seq("Please select a rough age range")
+        )
+      },
+      success => fail("Should have thrown an error")
+    )
+  }
 }

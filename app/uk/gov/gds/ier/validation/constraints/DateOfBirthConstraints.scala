@@ -1,8 +1,8 @@
 package uk.gov.gds.ier.validation.constraints
 
-import uk.gov.gds.ier.validation.{DateValidator, FormKeys, ErrorMessages}
+import uk.gov.gds.ier.validation._
 import play.api.data.validation.{Invalid, Valid, Constraint}
-import uk.gov.gds.ier.model.{InprogressApplication, DOB}
+import uk.gov.gds.ier.model.{InprogressApplication, DOB, noDOB}
 
 trait DateOfBirthConstraints {
   self: ErrorMessages
@@ -55,6 +55,15 @@ trait DateOfBirthConstraints {
         Invalid("Please check the year you were born", keys.dob.dob.year)
       } else {
         Valid
+      }
+  }
+
+  lazy val rangeIsValid = Constraint[noDOB](keys.noDob.key) {
+    noDob => 
+      if (DateOfBirthConstants.noDobRanges.contains(noDob.range)) {
+        Valid
+      } else {
+        Invalid("Please select a rough age range", keys.dob.noDob.range)
       }
   }
 }
