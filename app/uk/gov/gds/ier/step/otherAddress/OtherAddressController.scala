@@ -10,10 +10,14 @@ import play.api.data.Form
 import play.api.mvc.{SimpleResult, Call}
 import uk.gov.gds.ier.model.InprogressApplication
 import play.api.templates.Html
+import uk.gov.gds.ier.config.Config
+import uk.gov.gds.ier.guice.WithConfig
 
-class OtherAddressController @Inject ()(val serialiser: JsonSerialiser)
+class OtherAddressController @Inject ()(val serialiser: JsonSerialiser,
+                                        val config: Config)
   extends StepController
   with WithSerialiser
+  with WithConfig
   with OtherAddressForms {
 
   val validation = otherAddressForm

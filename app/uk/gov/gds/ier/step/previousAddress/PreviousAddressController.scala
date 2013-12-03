@@ -12,9 +12,14 @@ import play.api.mvc.{SimpleResult, Call}
 import uk.gov.gds.ier.model.InprogressApplication
 import play.api.templates.Html
 
-class PreviousAddressController @Inject ()(val serialiser: JsonSerialiser)
+import uk.gov.gds.ier.config.Config
+import uk.gov.gds.ier.guice.WithConfig
+
+class PreviousAddressController @Inject ()(val serialiser: JsonSerialiser,
+                                           val config: Config)
   extends StepController
   with WithSerialiser
+  with WithConfig
   with AddressForms
   with PreviousAddressForms {
 

@@ -10,11 +10,15 @@ import scala.Some
 import uk.gov.gds.common.model.{Ero, LocalAuthority}
 import org.slf4j.LoggerFactory
 import uk.gov.gds.ier.session.SessionHandling
+import uk.gov.gds.ier.guice.WithConfig
+import uk.gov.gds.ier.config.Config
 
 class CompleteController @Inject() (val serialiser: JsonSerialiser,
-                                    placesService:PlacesService)
+                                    placesService:PlacesService,
+                                    val config: Config)
     extends Controller
     with WithSerialiser
+    with WithConfig
     with SessionHandling {
 
   def logger = LoggerFactory.getLogger(this.getClass)

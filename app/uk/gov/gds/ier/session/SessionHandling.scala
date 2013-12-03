@@ -7,9 +7,12 @@ import controllers.routes
 import scala.Some
 import org.joda.time.DateTime
 import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.guice.WithConfig
 
 trait SessionHandling {
-  self: WithSerialiser with Controller =>
+  self: WithSerialiser
+    with Controller
+    with WithConfig =>
 
   object ClearSession {
     final def eradicateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
@@ -80,7 +83,7 @@ trait SessionHandling {
     protected def isValidToken(token:String) = {
       try {
         val dt = DateTime.parse(token)
-        dt.isAfter(DateTime.now.minusMinutes(5))
+        dt.isAfter(DateTime.now.minusMinutes(config.sessionTimeout))
       } catch {
         case e:IllegalArgumentException => false
       }
