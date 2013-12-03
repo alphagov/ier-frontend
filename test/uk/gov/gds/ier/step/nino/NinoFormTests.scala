@@ -58,7 +58,7 @@ class NinoFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.globalErrorMessages should be(Seq("Please enter your National Insurance number"))
-        hasErrors.errorMessages("NINO") should be(Seq("Please enter your National Insurance number"))
+        hasErrors.errorMessages("NINO.NINO") should be(Seq("Please enter your National Insurance number"))
       },
       success => fail("Should have errored out")
     )
@@ -75,7 +75,7 @@ class NinoFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.globalErrorMessages should be(Seq("Please enter your National Insurance number"))
-        hasErrors.errorMessages("NINO") should be(Seq("Please enter your National Insurance number"))
+        hasErrors.errorMessages("NINO.NINO") should be(Seq("Please enter your National Insurance number"))
       },
       success => fail("Should have errored out")
     )
