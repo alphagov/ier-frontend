@@ -22,9 +22,9 @@ class DateOfBirthFormTests
     val js = JsNull
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("dob.day") should be(Seq("Please enter your date of birth"))
-        hasErrors.errorMessages("dob.year") should be(Seq("Please enter your date of birth"))
-        hasErrors.errorMessages("dob.month") should be(Seq("Please enter your date of birth"))
+        hasErrors.errorMessages("dob.dob.day") should be(Seq("Please enter your date of birth"))
+        hasErrors.errorMessages("dob.dob.year") should be(Seq("Please enter your date of birth"))
+        hasErrors.errorMessages("dob.dob.month") should be(Seq("Please enter your date of birth"))
         hasErrors.globalErrorMessages should be(Seq("Please enter your date of birth"))
         hasErrors.errors.size should be(4)
       },
@@ -35,16 +35,16 @@ class DateOfBirthFormTests
   it should "error out on missing values" in {
     val js = Json.toJson(
       Map(
-        "dob.day" -> "",
-        "dob.month" -> "",
-        "dob.year" -> ""
+        "dob.dob.day" -> "",
+        "dob.dob.month" -> "",
+        "dob.dob.year" -> ""
       )
     )
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("dob.day") should be(Seq("Please enter your date of birth"))
-        hasErrors.errorMessages("dob.year") should be(Seq("Please enter your date of birth"))
-        hasErrors.errorMessages("dob.month") should be(Seq("Please enter your date of birth"))
+        hasErrors.errorMessages("dob.dob.day") should be(Seq("Please enter your date of birth"))
+        hasErrors.errorMessages("dob.dob.year") should be(Seq("Please enter your date of birth"))
+        hasErrors.errorMessages("dob.dob.month") should be(Seq("Please enter your date of birth"))
         hasErrors.globalErrorMessages should be(Seq("Please enter your date of birth"))
         hasErrors.errors.size should be(4)
       },
@@ -55,16 +55,16 @@ class DateOfBirthFormTests
   it should "describe missing values (month, year)" in {
     val js = Json.toJson(
       Map(
-        "dob.day" -> "1",
-        "dob.month" -> "",
-        "dob.year" -> ""
+        "dob.dob.day" -> "1",
+        "dob.dob.month" -> "",
+        "dob.dob.year" -> ""
       )
     )
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(4)
-        hasErrors.errorMessages("dob.year") should be(Seq("Please enter your year of birth"))
-        hasErrors.errorMessages("dob.month") should be(Seq("Please enter your month of birth"))
+        hasErrors.errorMessages("dob.dob.year") should be(Seq("Please enter your year of birth"))
+        hasErrors.errorMessages("dob.dob.month") should be(Seq("Please enter your month of birth"))
         hasErrors.globalErrorMessages should be(Seq("Please enter your year of birth",
           "Please enter your month of birth"))
       },
@@ -75,16 +75,16 @@ class DateOfBirthFormTests
   it should "describe missing values (day, month)" in {
     val js = Json.toJson(
       Map(
-        "dob.day" -> "",
-        "dob.month" -> "",
-        "dob.year" -> "1988"
+        "dob.dob.day" -> "",
+        "dob.dob.month" -> "",
+        "dob.dob.year" -> "1988"
       )
     )
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(4)
-        hasErrors.errorMessages("dob.day") should be(Seq("Please enter your day of birth"))
-        hasErrors.errorMessages("dob.month") should be(Seq("Please enter your month of birth"))
+        hasErrors.errorMessages("dob.dob.day") should be(Seq("Please enter your day of birth"))
+        hasErrors.errorMessages("dob.dob.month") should be(Seq("Please enter your month of birth"))
         hasErrors.globalErrorMessages should be(Seq("Please enter your month of birth",
           "Please enter your day of birth"))
       },
@@ -95,16 +95,16 @@ class DateOfBirthFormTests
   it should "successfully bind a valid date" in {
     val js = Json.toJson(
       Map(
-        "dob.day" -> "1",
-        "dob.month" -> "12",
-        "dob.year" -> "1980"
+        "dob.dob.day" -> "1",
+        "dob.dob.month" -> "12",
+        "dob.dob.year" -> "1980"
       )
     )
     dateOfBirthForm.bind(js).fold(
       hasErrors => fail(hasErrors.prettyPrint.mkString(",")),
       success => {
         success.dob.isDefined should be(true)
-        val dob = success.dob.get
+        val Some(dob) = success.dob.get.dob
         dob.day should be(1)
         dob.month should be(12)
         dob.year should be(1980)
@@ -112,58 +112,50 @@ class DateOfBirthFormTests
     )
   }
 
-  it should "error out on a date under 16 years from today" in {
-    val js = Json.toJson(
-      Map(
-        "dob.day" -> "1",
-        "dob.month" -> "12",
-        "dob.year" -> (DateTime.now().getYear - 10).toString
-      )
-    )
-    dateOfBirthForm.bind(js).fold(
-      hasErrors => {
-        hasErrors.errors.size should be(4)
-        hasErrors.errorMessages("dob.day") should be(Seq("Minimum age to register to vote is 16"))
-        hasErrors.errorMessages("dob.month") should be(Seq("Minimum age to register to vote is 16"))
-        hasErrors.errorMessages("dob.year") should be(Seq("Minimum age to register to vote is 16"))
-        hasErrors.globalErrorMessages should be(Seq("Minimum age to register to vote is 16"))
-      },
-      success => fail("Should have errored out")
-    )
-  }
-
   it should "error out on a date in the future" in {
     val js = Json.toJson(
       Map(
-        "dob.day" -> "1",
-        "dob.month" -> "12",
-        "dob.year" -> (DateTime.now().getYear + 1).toString
+        "dob.dob.day" -> "1",
+        "dob.dob.month" -> "12",
+        "dob.dob.year" -> (DateTime.now().getYear + 1).toString
       )
     )
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(4)
-        hasErrors.errorMessages("dob.day") should be(Seq("You have entered a date in the future"))
-        hasErrors.errorMessages("dob.month") should be(Seq("You have entered a date in the future"))
-        hasErrors.errorMessages("dob.year") should be(Seq("You have entered a date in the future"))
-        hasErrors.globalErrorMessages should be(Seq("You have entered a date in the future"))
+        hasErrors.errorMessages("dob.dob.day") should be(
+          Seq("You have entered a date in the future")
+        )
+        hasErrors.errorMessages("dob.dob.month") should be(
+          Seq("You have entered a date in the future")
+        )
+        hasErrors.errorMessages("dob.dob.year") should be(
+          Seq("You have entered a date in the future")
+        )
+        hasErrors.globalErrorMessages should be(
+          Seq("You have entered a date in the future")
+        )
       },
-      success => fail("Should have errored out")
+      success => {
+        fail("Should have errored out")
+      }
     )
   }
 
   it should "error out on a date over 100 years old" in {
     val js = Json.toJson(
       Map(
-        "dob.day" -> "1",
-        "dob.month" -> "12",
-        "dob.year" -> (DateTime.now().getYear - 120).toString
+        "dob.dob.day" -> "1",
+        "dob.dob.month" -> "12",
+        "dob.dob.year" -> (DateTime.now().getYear - 120).toString
       )
     )
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("dob.year") should be(Seq("Please check the year you were born"))
+        hasErrors.errorMessages("dob.dob.year") should be(
+          Seq("Please check the year you were born")
+        )
         hasErrors.globalErrorMessages should be(Seq("Please check the year you were born"))
       },
       success => fail("Should have errored out")
@@ -173,23 +165,91 @@ class DateOfBirthFormTests
   it should "error out on a invalid date values" in {
     val js = Json.toJson(
       Map(
-        "dob.day" -> "a",
-        "dob.month" -> "b",
-        "dob.year" -> "c"
+        "dob.dob.day" -> "a",
+        "dob.dob.month" -> "b",
+        "dob.dob.year" -> "c"
       )
     )
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(6)
-        hasErrors.errorMessages("dob.day") should be(Seq("The day you provided is invalid"))
-        hasErrors.errorMessages("dob.month") should be(Seq("The month you provided is invalid"))
-        hasErrors.errorMessages("dob.year") should be(Seq("The year you provided is invalid"))
+        hasErrors.errorMessages("dob.dob.day") should be(
+          Seq("The day you provided is invalid")
+        )
+        hasErrors.errorMessages("dob.dob.month") should be(
+          Seq("The month you provided is invalid")
+        )
+        hasErrors.errorMessages("dob.dob.year") should be(
+          Seq("The year you provided is invalid")
+        )
         hasErrors.globalErrorMessages should be(Seq(
           "The year you provided is invalid",
           "The month you provided is invalid",
           "The day you provided is invalid"))
       },
       success => fail("Should have errored out")
+    )
+  }
+
+  it should "bind successfully on noDob reason and range" in {
+    val js = Json.toJson(
+      Map(
+        "dob.noDob.reason" -> "Uh, yeah, I dunno",
+        "dob.noDob.range" -> "18to70"
+      )
+    )
+    dateOfBirthForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(",")),
+      success => {
+        success.dob.isDefined should be(true)
+        val Some(dob) = success.dob
+        dob.dob should be(None)
+        dob.noDob.isDefined should be(true)
+        val Some(noDob) = dob.noDob
+        noDob.reason should be("Uh, yeah, I dunno")
+        noDob.range should be("18to70")
+      }
+    )
+  }
+
+  it should "error out on invalid noDob reason" in {
+     val js = Json.toJson(
+      Map(
+        "dob.noDob.reason" -> "",
+        "dob.noDob.range" -> "18to70"
+      )
+    )
+    dateOfBirthForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("dob.noDob.reason") should be(
+          Seq("Please provide a reason")
+        )
+        hasErrors.globalErrorMessages should be(
+          Seq("Please provide a reason")
+        )
+      },
+      success => fail("Should have thrown an error")
+    )
+  }
+  it should "error out on invalid noDob range" in {
+     val js = Json.toJson(
+      Map(
+        "dob.noDob.reason" -> "Uh, just cause",
+        "dob.noDob.range" -> "blar"
+      )
+    )
+    dateOfBirthForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("dob.noDob.range") should be(
+          Seq("Please select a rough age range")
+        )
+        hasErrors.globalErrorMessages should be(
+          Seq("Please select a rough age range")
+        )
+      },
+      success => fail("Should have thrown an error")
     )
   }
 }

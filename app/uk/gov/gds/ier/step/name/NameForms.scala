@@ -11,13 +11,13 @@ trait NameForms extends NameConstraints {
     with ErrorMessages =>
 
   private lazy val generalNameMapping = mapping(
-    keys.firstName.key -> requiredOptional(text, "Please enter your first name"),
+    keys.firstName.key -> required(text, "Please enter your first name"),
     keys.middleNames.key -> optional(nonEmptyText),
-    keys.lastName.key -> requiredOptional(text, "Please enter your last name")
+    keys.lastName.key -> required(text, "Please enter your last name")
   ) (
-    (firstName, middleName, lastName) => Name(firstName.get, middleName, lastName.get)
+    Name.apply
   ) (
-    name => Some(Some(name.firstName), name.middleNames, Some(name.lastName))
+    Name.unapply
   )
 
   private lazy val prevNameMapping = generalNameMapping verifying(
@@ -38,7 +38,7 @@ trait NameForms extends NameConstraints {
   val nameForm = ErrorTransformForm(
     mapping(
       keys.name.key -> optional(nameMapping).verifying(nameNotOptional),
-      keys.previousName.key -> requiredOptional(previousNameMapping, "Please answer this question")
+      keys.previousName.key -> required(optional(previousNameMapping), "Please answer this question")
     ) (
       (name, previousName) => InprogressApplication(name = name, previousName = previousName)
     ) (

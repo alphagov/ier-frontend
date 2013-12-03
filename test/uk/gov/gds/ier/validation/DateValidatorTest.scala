@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.validation
 
-import uk.gov.gds.ier.model.DateOfBirth
+import uk.gov.gds.ier.model.DOB
 import org.scalatest.{Matchers, FlatSpec}
 import org.joda.time.{DateMidnight, DateTime}
 
@@ -14,7 +14,7 @@ class DateValidatorTest
 
   behavior of "DateValidator.isExistingDateInThePast"
   it should "return true for an existing past date" in {
-    DateValidator.isExistingDateInThePast(DateOfBirth(1986, 10, 11)) should be(true)  
+    DateValidator.isExistingDateInThePast(DOB(1986, 10, 11)) should be(true)  
   }
 
   it should "return true for today" in {
@@ -23,7 +23,7 @@ class DateValidatorTest
   }
 
   it should "return false for a non-existing past date" in {
-    DateValidator.isExistingDateInThePast(DateOfBirth(1987, 2, 29)) should be(false)  
+    DateValidator.isExistingDateInThePast(DOB(1987, 2, 29)) should be(false)  
   }
 
   it should "return false for a future past date" in {
@@ -65,5 +65,5 @@ class DateValidatorTest
     DateValidator.isTooYoungToRegister(getDateOfBirth(almost16YearsAgo)) should be(true)
   }
 
-  private def getDateOfBirth(date: DateMidnight) = DateOfBirth(date.getYear, date.getMonthOfYear, date.getDayOfMonth)
+  private def getDateOfBirth(date: DateMidnight) = DOB(date.getYear, date.getMonthOfYear, date.getDayOfMonth)
 }

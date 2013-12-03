@@ -8,8 +8,8 @@ import uk.gov.gds.ier.validation.Key
 
 trait CommonConstraints extends ErrorMessages {
 
-  def requiredOptional[A](mapping: Mapping[A], errorMessage:String):Mapping[Option[A]] = {
-    optional(mapping).verifying(errorMessage, _.nonEmpty)
+  def required[A](mapping: Mapping[A], errorMessage:String):Mapping[A] = {
+    optional(mapping).verifying(errorMessage, _.nonEmpty).transform(_.get, Option(_))
   }
 
   protected def predicateHolds [T](fieldKey:Key, errorMessage:String)
