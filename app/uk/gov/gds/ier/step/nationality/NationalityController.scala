@@ -12,11 +12,16 @@ import play.api.templates.Html
 import uk.gov.gds.ier.service.IsoCountryService
 import uk.gov.gds.ier.guice.WithIsoCountryService
 
+import uk.gov.gds.ier.config.Config
+import uk.gov.gds.ier.guice.WithConfig
+
 class NationalityController @Inject ()(val serialiser: JsonSerialiser,
-                                       val isoCountryService: IsoCountryService)
+                                       val isoCountryService: IsoCountryService,
+                                       val config: Config)
   extends StepController
   with WithSerialiser
   with WithIsoCountryService
+  with WithConfig
   with NationalityForms {
 
   val validation = nationalityForm

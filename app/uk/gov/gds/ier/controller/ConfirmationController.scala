@@ -11,13 +11,17 @@ import play.api.data.Form
 import play.api.mvc.{SimpleResult, Call}
 import uk.gov.gds.ier.model.InprogressApplication
 import play.api.templates.Html
+import uk.gov.gds.ier.config.Config
+import uk.gov.gds.ier.guice.WithConfig
 
 class ConfirmationController @Inject ()(val serialiser: JsonSerialiser,
                                         ierApi: IerApiService,
-                                        placesService: PlacesService)
+                                        placesService: PlacesService,
+                                        val config: Config)
   extends Controller
   with SessionHandling
   with WithSerialiser
+  with WithConfig
   with IerForms {
 
   val validation = inprogressForm

@@ -3,104 +3,107 @@
 # ~~~~
 
 # Home page
-GET        /                                                   controllers.RegisterToVoteController.index
-GET        /register-to-vote                                   controllers.RegisterToVoteController.registerToVote
-GET        /register-to-vote/error                             controllers.RegisterToVoteController.error
-GET        /register-to-vote/error/:error                      controllers.RegisterToVoteController.errorRedirect(error: String)
+GET         /                                                  controllers.RegisterToVoteController.index
+GET         /register-to-vote                                  controllers.RegisterToVoteController.registerToVote
+GET         /register-to-vote/error                            controllers.RegisterToVoteController.error
+GET         /register-to-vote/error/:error                     controllers.RegisterToVoteController.errorRedirect(error: String)
 
 
 #Complete Route
-GET        /register-to-vote/complete                          controllers.CompleteController.complete
-GET        /register-to-vote/complete/fake                     controllers.CompleteController.fakeComplete
+GET         /register-to-vote/complete                         controllers.CompleteController.complete
+GET         /register-to-vote/complete/fake                    controllers.CompleteController.fakeComplete
 
 
 #Exit Routes
-GET        /register-to-vote/exit/scotland                     controllers.ExitController.scotland
-GET        /register-to-vote/exit/northern-ireland             controllers.ExitController.northernIreland
+GET         /register-to-vote/exit/scotland                    controllers.ExitController.scotland
+GET         /register-to-vote/exit/northern-ireland            controllers.ExitController.northernIreland
+GET         /register-to-vote/exit/under-18                    controllers.ExitController.under18
+GET         /register-to-vote/exit/dont-know                   controllers.ExitController.dontKnow
+GET         /register-to-vote/exit/too-young                   controllers.ExitController.tooYoung
 
 
 ##Steps routes
 
 #Confirmation Step
-GET        /register-to-vote/confirmation                      controllers.ConfirmationController.get
+GET         /register-to-vote/confirmation                     controllers.ConfirmationController.get
 POST        /register-to-vote/confirmation                     controllers.ConfirmationController.post
 
 #Country Step
-GET        /register-to-vote/country-of-residence              controllers.step.CountryController.get
+GET         /register-to-vote/country-of-residence             controllers.step.CountryController.get
 POST        /register-to-vote/country-of-residence             controllers.step.CountryController.post
-GET        /register-to-vote/edit/country-of-residence         controllers.step.CountryController.editGet
+GET         /register-to-vote/edit/country-of-residence        controllers.step.CountryController.editGet
 POST        /register-to-vote/edit/country-of-residence        controllers.step.CountryController.editPost
 
 #Contact Step
-GET        /register-to-vote/contact                           controllers.step.ContactController.get
+GET         /register-to-vote/contact                          controllers.step.ContactController.get
 POST        /register-to-vote/contact                          controllers.step.ContactController.post
-GET        /register-to-vote/edit/contact                      controllers.step.ContactController.editGet
+GET         /register-to-vote/edit/contact                     controllers.step.ContactController.editGet
 POST        /register-to-vote/edit/contact                     controllers.step.ContactController.editPost
 
 #Postal Vote Step
-GET        /register-to-vote/postal-vote                       controllers.step.PostalVoteController.get
+GET         /register-to-vote/postal-vote                      controllers.step.PostalVoteController.get
 POST        /register-to-vote/postal-vote                      controllers.step.PostalVoteController.post
-GET        /register-to-vote/edit/postal-vote                  controllers.step.PostalVoteController.editGet
+GET         /register-to-vote/edit/postal-vote                 controllers.step.PostalVoteController.editGet
 POST        /register-to-vote/edit/postal-vote                 controllers.step.PostalVoteController.editPost
 
 #Open Register Step
-GET        /register-to-vote/open-register                     controllers.step.OpenRegisterController.get
+GET         /register-to-vote/open-register                    controllers.step.OpenRegisterController.get
 POST        /register-to-vote/open-register                    controllers.step.OpenRegisterController.post
-GET        /register-to-vote/edit/open-register                controllers.step.OpenRegisterController.editGet
+GET         /register-to-vote/edit/open-register               controllers.step.OpenRegisterController.editGet
 POST        /register-to-vote/edit/open-register               controllers.step.OpenRegisterController.editPost
 
 #Other Address Step
-GET        /register-to-vote/other-address                     controllers.step.OtherAddressController.get
+GET         /register-to-vote/other-address                    controllers.step.OtherAddressController.get
 POST        /register-to-vote/other-address                    controllers.step.OtherAddressController.post
-GET        /register-to-vote/edit/other-address                controllers.step.OtherAddressController.editGet
+GET         /register-to-vote/edit/other-address               controllers.step.OtherAddressController.editGet
 POST        /register-to-vote/edit/other-address               controllers.step.OtherAddressController.editPost
 
 #Nationality Step
-GET        /register-to-vote/nationality                       controllers.step.NationalityController.get
+GET         /register-to-vote/nationality                      controllers.step.NationalityController.get
 POST        /register-to-vote/nationality                      controllers.step.NationalityController.post
-GET        /register-to-vote/edit/nationality                  controllers.step.NationalityController.editGet
+GET         /register-to-vote/edit/nationality                 controllers.step.NationalityController.editGet
 POST        /register-to-vote/edit/nationality                 controllers.step.NationalityController.editPost
 
 #Address Step
-GET        /register-to-vote/address                           controllers.step.AddressController.get
+GET         /register-to-vote/address                          controllers.step.AddressController.get
 POST        /register-to-vote/address                          controllers.step.AddressController.post
-GET        /register-to-vote/edit/address                      controllers.step.AddressController.editGet
+GET         /register-to-vote/edit/address                     controllers.step.AddressController.editGet
 POST        /register-to-vote/edit/address                     controllers.step.AddressController.editPost
 
 #Previous Address Step
-GET        /register-to-vote/previous-address                  controllers.step.PreviousAddressController.get
+GET         /register-to-vote/previous-address                 controllers.step.PreviousAddressController.get
 POST        /register-to-vote/previous-address                 controllers.step.PreviousAddressController.post
-GET        /register-to-vote/edit/previous-address             controllers.step.PreviousAddressController.editGet
+GET         /register-to-vote/edit/previous-address            controllers.step.PreviousAddressController.editGet
 POST        /register-to-vote/edit/previous-address            controllers.step.PreviousAddressController.editPost
 
 #Name Step
-GET        /register-to-vote/name                              controllers.step.NameController.get
+GET         /register-to-vote/name                             controllers.step.NameController.get
 POST        /register-to-vote/name                             controllers.step.NameController.post
-GET        /register-to-vote/edit/name                         controllers.step.NameController.editGet
+GET         /register-to-vote/edit/name                        controllers.step.NameController.editGet
 POST        /register-to-vote/edit/name                        controllers.step.NameController.editPost
 
 #Date Of Birth Step
-GET        /register-to-vote/date-of-birth                     controllers.step.DateOfBirthController.get
+GET         /register-to-vote/date-of-birth                    controllers.step.DateOfBirthController.get
 POST        /register-to-vote/date-of-birth                    controllers.step.DateOfBirthController.post
-GET        /register-to-vote/edit/date-of-birth                controllers.step.DateOfBirthController.editGet
+GET         /register-to-vote/edit/date-of-birth               controllers.step.DateOfBirthController.editGet
 POST        /register-to-vote/edit/date-of-birth               controllers.step.DateOfBirthController.editPost
        
 #Nino Step
-GET        /register-to-vote/nino                              controllers.step.NinoController.get
+GET         /register-to-vote/nino                             controllers.step.NinoController.get
 POST        /register-to-vote/nino                             controllers.step.NinoController.post
-GET        /register-to-vote/edit/nino                         controllers.step.NinoController.editGet
+GET         /register-to-vote/edit/nino                        controllers.step.NinoController.editGet
 POST        /register-to-vote/edit/nino                        controllers.step.NinoController.editPost
 
 #Postcode Lookup
-GET        /address/:postcode                                  controllers.PostcodeController.lookupAddress(postcode)
-GET        /authority/:postcode                                controllers.PostcodeController.lookupAuthority(postcode)
+GET         /address/:postcode                                 controllers.PostcodeController.lookupAddress(postcode)
+GET         /authority/:postcode                               controllers.PostcodeController.lookupAuthority(postcode)
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET        /assets/template/*file                              controllers.Template.at(path="/app/assets/govuk_template_play/assets", file)
-GET        /assets/toolkit/*file                               controllers.GovukToolkit.at(path="/app/assets/govuk_frontend_toolkit", file)
-GET        /assets/*file                                       controllers.Assets.at(path="/public", file)
+GET         /assets/template/*file                             controllers.Template.at(path="/app/assets/govuk_template_play/assets", file)
+GET         /assets/toolkit/*file                              controllers.GovukToolkit.at(path="/app/assets/govuk_frontend_toolkit", file)
+GET         /assets/*file                                      controllers.Assets.at(path="/public", file)
 
 
 # Status route
-GET        /status                                             controllers.StatusController.status
+GET         /status                                            controllers.StatusController.status

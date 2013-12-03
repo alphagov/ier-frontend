@@ -10,11 +10,15 @@ import play.api.data.Form
 import play.api.mvc.{SimpleResult, Call}
 import uk.gov.gds.ier.model.{Country, InprogressApplication}
 import play.api.templates.Html
+import uk.gov.gds.ier.guice.WithConfig
+import uk.gov.gds.ier.config.Config
 
-class CountryController @Inject ()(val serialiser: JsonSerialiser)
+class CountryController @Inject ()(val serialiser: JsonSerialiser,
+                                   val config:Config)
   extends StepController
   with CountryConstraints
   with WithSerialiser
+  with WithConfig
   with CountryForms {
 
   val validation = countryForm
