@@ -69,4 +69,6 @@ class MockConfig extends Config {
   override def buildDate = "12/01/2012"
   override def buildNumber = "0001"
   override def branch = "master"
+
+  override def sessionTimeout = 20
 }

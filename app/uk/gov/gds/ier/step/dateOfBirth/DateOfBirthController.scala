@@ -10,9 +10,14 @@ import uk.gov.gds.ier.model.{DateOfBirth, InprogressApplication}
 import play.api.templates.Html
 import uk.gov.gds.ier.validation._
 
-class DateOfBirthController @Inject ()(val serialiser: JsonSerialiser)
+import uk.gov.gds.ier.config.Config
+import uk.gov.gds.ier.guice.WithConfig
+
+class DateOfBirthController @Inject ()(val serialiser: JsonSerialiser,
+                                       val config: Config)
   extends StepController
   with WithSerialiser
+  with WithConfig
   with DateOfBirthForms {
 
   val validation = dateOfBirthForm

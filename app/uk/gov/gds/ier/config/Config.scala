@@ -15,6 +15,7 @@ class Config extends Logging {
   def ierApiUrl = configuration.getString("ier.api.url")
   def ierApiToken = configuration.getString("ier.api.token")
   def stripNino = configuration.getBoolean("ier.nino.strip", false)
+  def sessionTimeout = configuration.getInt("session.timeout", 20).toInt
 
   def buildDate = configuration.getString("gds.BuildTime", "unknown")
   def buildNumber = configuration.getString("gds.BuildNumber", "unknown")

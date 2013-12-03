@@ -8,10 +8,14 @@ import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import scala.Some
 import org.slf4j.LoggerFactory
 import uk.gov.gds.ier.session.SessionHandling
+import uk.gov.gds.ier.config.Config
+import uk.gov.gds.ier.guice.WithConfig
 
-class RegisterToVoteController @Inject() (val serialiser: JsonSerialiser)
+class RegisterToVoteController @Inject() (val serialiser: JsonSerialiser,
+                                          val config: Config)
     extends Controller
     with WithSerialiser
+    with WithConfig
     with SessionHandling {
 
   def logger = LoggerFactory.getLogger(this.getClass)
