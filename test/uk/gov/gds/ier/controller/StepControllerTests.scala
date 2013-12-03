@@ -13,6 +13,7 @@ import play.api.mvc.Call
 import uk.gov.gds.ier.validation.{ErrorTransformForm, InProgressForm}
 import play.api.test.FakeApplication
 import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 
 class StepControllerTests
   extends FlatSpec
@@ -179,14 +180,16 @@ class StepControllerTests
         .withIerSession()
         .withFormUrlEncodedBody("foo" -> "some text")
 
-      val result = createController(form).editPost()(request)
+      val result =  createController(form).editPost()(request)
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/confirmation"))
 
       cookies(result).get("application") match {
         case Some(cookie) => {
-          val application = jsonSerialiser.fromJson[InprogressApplication](cookie.value)
+          val cookieKey = session(result).get("payloadCookieKey").getOrElse("")
+          val decryptedInfo = EncryptionService.decrypt(cookie.value, cookieKey ,EncryptionKeys.cookies.getPrivate)
+          val application = jsonSerialiser.fromJson[InprogressApplication](decryptedInfo)
           application.possibleAddresses should be(None)
         }
         case _ => fail("Should have been able to deserialise")
