@@ -7,6 +7,7 @@ import org.scalatest.junit.JUnitRunner
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
+import org.joda.time.DateTime
 
 class DateOfBirthControllerTests
   extends FlatSpec
@@ -37,13 +38,59 @@ class DateOfBirthControllerTests
         FakeRequest(POST, "/register-to-vote/date-of-birth")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "dob.day" -> "1", 
-            "dob.month" -> "1",
-            "dob.year" -> "1970")
+          "dob.dob.day" -> "1",
+          "dob.dob.month" -> "1",
+          "dob.dob.year" -> "1970")
       )
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/register-to-vote/name"))
+    }
+  }
+
+  behavior of "NameController.post"
+  it should "bind successfully and redirect too young exit page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/date-of-birth")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+          "dob.dob.day" -> "1",
+          "dob.dob.month" -> "1",
+          "dob.dob.year" -> s"${DateTime.now.getYear - 10}")
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/exit/too-young"))
+    }
+  }
+
+  it should "bind successfully and push to under18 exit page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/date-of-birth")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+          "dob.noDob.reason" -> "I was never born",
+          "dob.noDob.range" -> "under18"
+        )
+      )
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/exit/under-18"))
+    }
+  }
+  it should "bind successfully and push to dont-know exit page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/date-of-birth")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+          "dob.noDob.reason" -> "I was never born",
+          "dob.noDob.range" -> "dontKnow"
+        )
+      )
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/exit/dont-know"))
     }
   }
 
@@ -81,9 +128,9 @@ class DateOfBirthControllerTests
         FakeRequest(POST, "/register-to-vote/edit/date-of-birth")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "dob.day" -> "1", 
-            "dob.month" -> "1",
-            "dob.year" -> "1970")
+            "dob.dob.day" -> "1",
+            "dob.dob.month" -> "1",
+            "dob.dob.year" -> "1970")
       )
 
       status(result) should be(SEE_OTHER)

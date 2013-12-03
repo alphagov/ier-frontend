@@ -43,7 +43,13 @@
           <h3>Date of birth</h3>
           <div class="data-wrap">
             @validationSwitch(formData(keys.dob)) {
-                <p> @formData(keys.dob.day).value.getOrElse("") @formData(keys.dob.month).value.map(month => monthsByNumber(month)).getOrElse("") @formData(keys.dob.year).value.getOrElse("")</p>
+              @if(formData(keys.dob.dob.day).value.isDefined) {
+                <p> @formData(keys.dob.dob.day).value.getOrElse("") @formData(keys.dob.dob.month).value.map(month => monthsByNumber(month)).getOrElse("") @formData(keys.dob.dob.year).value.getOrElse("")</p>
+              }
+              @if(formData(keys.dob.noDob.reason).value.isDefined) {
+                <p>You cannot provide your date of birth because @formData(keys.dob.noDob.reason).value.getOrElse("") </p>
+                <p>You are roughly @formData(keys.dob.noDob.range).value.getOrElse("") </p>
+              }
             }
           </div>
           <a href="@step.routes.DateOfBirthController.editGet" class="change">Change<span class="visuallyhidden"> date of birth</span></a>
@@ -166,6 +172,7 @@
           <p>I understand that if I knowingly give false information through this application, I could be fined up to £5,000 or go to prison for up to a year.</p>
         </div>
       </article>
+      @formData
       @form(routes.ConfirmationController.post) {
       <input id="continue" type="submit" class="button next" value="I accept - send my application" />
       }

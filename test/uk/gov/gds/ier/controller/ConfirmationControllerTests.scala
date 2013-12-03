@@ -18,7 +18,7 @@ class ConfirmationControllerTests
           Some(InprogressApplication(
             name = Some(Name("john", Some("johhny"), "Smith")),
             previousName = Some(PreviousName(false, None)),
-            dob = Some(DateOfBirth(1988, 1, 1)),
+            dob = Some(DateOfBirth(Some(DOB(1988, 1, 1)), None)),
             nationality = Some(Nationality(Some(true), Some(true), Some(false),
               List.empty, None, Some(List("GB", "IE")))),
             nino = Some(Nino(Some("AB 12 34 56 D"), None)),

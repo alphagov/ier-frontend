@@ -1,0 +1,14 @@
+@()
+@import helper._
+@import uk.gov.gds.ier.form.FormHelpers._
+@import layouts._
+@main(title = Some("Register to Vote - Sorry, you can’t register to vote until you are at least 16"),
+    stylesheets = head(),
+    scripts = stepsBodyEnd(),
+    contentClasses = Some("confirmation")) {
+  <article>
+    <h2>Sorry, you can’t register to vote until you are at least 16</h2>
+    <p>You can't register yet: come back when you turn 16. In the meantime, you may be interested in the <a href="http://www.ukyouthparliament.org.uk/">Youth Parliament</a>.</p>
+    <p><a href="https://www.gov.uk/voting-in-the-uk">More about voting in the UK</a></p>
+  </article>
+}
