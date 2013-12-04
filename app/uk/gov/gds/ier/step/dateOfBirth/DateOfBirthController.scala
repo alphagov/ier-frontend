@@ -6,13 +6,18 @@ import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.controller.StepController
 import play.api.data.Form
 import play.api.mvc.{SimpleResult, Call}
-import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.model.{DateOfBirth, InprogressApplication}
 import play.api.templates.Html
 import uk.gov.gds.ier.validation._
 
-class DateOfBirthController @Inject ()(val serialiser: JsonSerialiser)
+import uk.gov.gds.ier.config.Config
+import uk.gov.gds.ier.guice.WithConfig
+
+class DateOfBirthController @Inject ()(val serialiser: JsonSerialiser,
+                                       val config: Config)
   extends StepController
   with WithSerialiser
+  with WithConfig
   with DateOfBirthForms {
 
   val validation = dateOfBirthForm
@@ -24,7 +29,18 @@ class DateOfBirthController @Inject ()(val serialiser: JsonSerialiser)
   }
 
   def goToNext(currentState: InprogressApplication): SimpleResult = {
-    Redirect(routes.NameController.get)
+    currentState.dob match {
+      case Some(DateOfBirth(Some(dob), _)) if DateValidator.isTooYoungToRegister(dob) => {
+        Redirect(controllers.routes.ExitController.tooYoung)
+      }
+      case Some(DateOfBirth(_, Some(noDob))) if noDob.range == DateOfBirthConstants.under18 => {
+        Redirect(controllers.routes.ExitController.under18)
+      }
+      case Some(DateOfBirth(_, Some(noDob))) if noDob.range == DateOfBirthConstants.dontKnow => {
+        Redirect(controllers.routes.ExitController.dontKnow)
+      }
+      case _ => Redirect(routes.NameController.get)
+    }
   }
 }
 

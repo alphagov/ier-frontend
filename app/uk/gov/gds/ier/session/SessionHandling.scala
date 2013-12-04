@@ -9,9 +9,12 @@ import play.api.mvc.DiscardingCookie
 import play.api.mvc.Cookie
 import scala.Some
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.guice.WithConfig
 
 trait SessionHandling {
-  self: WithSerialiser with Controller =>
+  self: WithSerialiser
+    with Controller
+    with WithConfig =>
 
   object ClearSession {
     final def eradicateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
@@ -82,7 +85,7 @@ trait SessionHandling {
     protected def isValidToken(token:String) = {
       try {
         val dt = DateTime.parse(token)
-        dt.isAfter(DateTime.now.minusMinutes(5))
+        dt.isAfter(DateTime.now.minusMinutes(config.sessionTimeout))
       } catch {
         case e:IllegalArgumentException => false
       }
@@ -124,7 +127,7 @@ trait SessionHandling {
     def withFreshSession()(implicit request: play.api.mvc.Request[_]) = {
       val (encryptedSessionTokenValue, sessionTokenCookieKey) = EncryptionService.encrypt(DateTime.now.toString(), EncryptionKeys.cookies.getPublic)
       val newSession = request.session + (sessionTokenCookieKeyParam -> sessionTokenCookieKey)
-      result.withCookies(Cookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' '))).discardingCookies(DiscardingCookie(sessionPayloadKey))
+      result.withCookies(createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' '))).discardingCookies(DiscardingCookie(sessionPayloadKey))
         .withSession(newSession)
     }
 
@@ -133,21 +136,20 @@ trait SessionHandling {
       val (encryptedSessionTokenValue, sessionTokenCookieKey) = EncryptionService.encrypt(DateTime.now.toString(), EncryptionKeys.cookies.getPublic)
       val newSession = request.session + (payloadCookieKeyParam -> payloadCookieKey) + (sessionTokenCookieKeyParam -> sessionTokenCookieKey)
       result.withCookies(
-        Cookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')),
-        Cookie(sessionPayloadKey, encryptedSessionPayloadValue.filter(_ >= ' ')))
+        createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')),
+        createSecureCookie(sessionPayloadKey, encryptedSessionPayloadValue.filter(_ >= ' ')))
         .withSession(newSession)
     }
 
     def refreshSession()(implicit request: play.api.mvc.Request[_]) = {
       val (encryptedSessionTokenValue, sessionTokenCookieKey) = EncryptionService.encrypt(DateTime.now.toString(), EncryptionKeys.cookies.getPublic)
       val newSession = request.session + (sessionTokenCookieKeyParam -> sessionTokenCookieKey)
-      result.withCookies(Cookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')))
+      result.withCookies(createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')))
         .withSession(newSession)
     }
 
     def createSecureCookie ( name : String, value : String) : Cookie = {
-      Cookie (name, value)
-      //Cookie (name, value, maxAge: Option[Int] = None, path: String = "/", domain: Option[String] = None, secure: Boolean = false, httpOnly: Boolean = true))
+      Cookie (name, value, None, "/", None, config.cookiesSecured, true)
     }
 
   }

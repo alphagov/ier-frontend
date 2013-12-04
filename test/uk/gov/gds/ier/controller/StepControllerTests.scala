@@ -3,7 +3,6 @@ package uk.gov.gds.ier.controller
 import org.scalatest.{Matchers, FlatSpec}
 import org.scalatest.mock.MockitoSugar
 import uk.gov.gds.ier.model.{Address, PossibleAddress, Name, InprogressApplication}
-import play.api.data.Form
 import play.api.data.Forms._
 import play.api.templates.Html
 import uk.gov.gds.ier.serialiser.WithSerialiser
@@ -14,6 +13,7 @@ import uk.gov.gds.ier.validation.{ErrorTransformForm, InProgressForm}
 import play.api.test.FakeApplication
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.guice.WithConfig
 
 class StepControllerTests
   extends FlatSpec
@@ -24,10 +24,14 @@ class StepControllerTests
   val mockEditCall = mock[Call]
   val mockStepCall = mock[Call]
 
+  val mockConfig = new MockConfig
+
   def createController(form: ErrorTransformForm[InprogressApplication]) = new StepController
-                                                                       with WithSerialiser {
+                                                                         with WithSerialiser
+                                                                         with WithConfig {
 
     val serialiser = jsonSerialiser
+    val config = mockConfig
 
     def goToNext(currentState: InprogressApplication) = Redirect("/next-step")
     override def goToConfirmation(currentState: InprogressApplication) = Redirect("/confirmation")
@@ -54,7 +58,7 @@ class StepControllerTests
   it should "redirect to the start page with invalid session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       val controller = createController(mock[ErrorTransformForm[InprogressApplication]])
-      val request = FakeRequest().withIerSession(6)
+      val request = FakeRequest().withIerSession(20)
 
       val result = controller.get()(request)
 
@@ -119,7 +123,7 @@ class StepControllerTests
   it should "redirect to the start page with invalid session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       val controller = createController(mock[ErrorTransformForm[InprogressApplication]])
-      val request = FakeRequest().withIerSession(6)
+      val request = FakeRequest().withIerSession(20)
 
       val result = controller.editGet()(request)
 

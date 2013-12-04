@@ -1,16 +1,15 @@
 package uk.gov.gds.ier.session
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
-import play.api.mvc.{Cookie, Session, Controller}
+import play.api.mvc.{Cookie, Controller}
 import uk.gov.gds.ier.client.ApiResults
 import play.api.test._
 import play.api.test.Helpers._
 import org.joda.time.DateTime
-import uk.gov.gds.ier.model.{Name, Address, PossibleAddress, InprogressApplication}
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.controller.MockConfig
+import uk.gov.gds.ier.guice.WithConfig
 
 class SessionHandlingTests extends FlatSpec with Matchers {
 
@@ -18,8 +17,9 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
   it should "successfully create a new session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      class TestController extends Controller with WithSerialiser with SessionHandling with ApiResults {
+      class TestController extends Controller with WithSerialiser with WithConfig with SessionHandling with ApiResults {
         val serialiser = jsonSerialiser
+        val config = new MockConfig
 
         def index() = NewSession requiredFor {
           request =>
@@ -48,8 +48,9 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
   it should "force a redirect with no valid session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      class TestController extends Controller with WithSerialiser with SessionHandling with ApiResults {
+      class TestController extends Controller with WithSerialiser with WithConfig with SessionHandling with ApiResults {
         val serialiser = jsonSerialiser
+        val config = new MockConfig
 
         def index() = ValidSession requiredFor {
           request => application =>
@@ -66,8 +67,9 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
   it should "refresh a session with a new timestamp" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      class TestController extends Controller with WithSerialiser with SessionHandling with ApiResults {
+      class TestController extends Controller with WithSerialiser with WithConfig with SessionHandling with ApiResults {
         val serialiser = jsonSerialiser
+        val config = new MockConfig
 
         def index() = NewSession requiredFor {
           request =>
@@ -108,10 +110,11 @@ class SessionHandlingTests extends FlatSpec with Matchers {
     }
   }
 
-  it should "invalidate a session after 5 mins" in {
+  it should "invalidate a session after 20 mins" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      class TestController extends Controller with WithSerialiser with SessionHandling with ApiResults {
+      class TestController extends Controller with WithSerialiser with WithConfig with SessionHandling with ApiResults {
         val serialiser = jsonSerialiser
+        val config = new MockConfig
 
         def index() = ValidSession requiredFor {
           request => application =>
@@ -121,7 +124,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
       val controller = new TestController()
 
-      val (encryptedSessionTokenValue, sessionTokenCookieKey) = EncryptionService.encrypt(DateTime.now.minusMinutes(5).toString(), EncryptionKeys.cookies.getPublic)
+      val (encryptedSessionTokenValue, sessionTokenCookieKey) = EncryptionService.encrypt(DateTime.now.minusMinutes(20).toString(), EncryptionKeys.cookies.getPublic)
 
       val result = controller.index()(FakeRequest().withCookies(Cookie("sessionKey", encryptedSessionTokenValue)).withSession(("sessionTokenCookieKey",sessionTokenCookieKey)))
 
@@ -140,15 +143,15 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       tokenDate.getHourOfDay should be(DateTime.now.getHourOfDay)
       tokenDate.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
       tokenDate.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 2)
-
       tokenDate.getMinuteOfHour should not be(DateTime.now.minusMinutes(6).getMinuteOfHour)
     }
   }
 
-  it should "refresh a session before 5 mins" in {
+  it should "refresh a session before 20 mins" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      class TestController extends Controller with WithSerialiser with SessionHandling with ApiResults {
+      class TestController extends Controller with WithSerialiser with WithConfig with SessionHandling with ApiResults {
         val serialiser = jsonSerialiser
+        val config = new MockConfig
 
         def index() = ValidSession requiredFor {
           request => application =>
@@ -157,8 +160,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       }
 
       val controller = new TestController()
-      val (encryptedSessionTokenValue, sessionTokenCookieKey) = EncryptionService.encrypt(DateTime.now.minusMinutes(4).toString(), EncryptionKeys.cookies.getPublic)
-
+      val (encryptedSessionTokenValue, sessionTokenCookieKey) = EncryptionService.encrypt(DateTime.now.minusMinutes(19).toString(), EncryptionKeys.cookies.getPublic)
       val result = controller.index()(FakeRequest().withCookies(Cookie("sessionKey",encryptedSessionTokenValue)).withSession(("sessionTokenCookieKey",sessionTokenCookieKey)))
 
       status(result) should be(OK)
@@ -181,8 +183,9 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
   it should "clear session cookies by setting a maxage below 0" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      class TestController extends Controller with WithSerialiser with SessionHandling with ApiResults {
+      class TestController extends Controller with WithSerialiser with WithConfig with SessionHandling with ApiResults {
         val serialiser = jsonSerialiser
+        val config = new MockConfig
 
         def noSessionTest() = ClearSession requiredFor {
           request =>
