@@ -5,11 +5,10 @@ import javax.crypto.{SecretKey, BadPaddingException, Cipher, KeyGenerator}
 import javax.crypto.spec.{SecretKeySpec, IvParameterSpec}
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import sun.security.rsa.{RSAPublicKeyImpl, RSAPrivateCrtKeyImpl}
-import Base64EncodingService.{decode, encode}
-import uk.gov.gds.common.config.Config
 import uk.gov.gds.ier.config.Config
+import com.google.inject.Inject
 
-object EncryptionKeys {
+class EncryptionKeys @Inject() (base64EncodingService:Base64EncodingService) {
 
   val config = new Config
   private def cookiesRsaPublicKey = config.cookiesRsaPublicKey
@@ -19,68 +18,66 @@ object EncryptionKeys {
 
   def createKeyPair(publicKey: String, privateKey: String) = new KeyPair(createPublicKey(publicKey), createPrivateKey(privateKey))
 
-  private def createPrivateKey(base64EncodedKey: String) = RSAPrivateCrtKeyImpl.newKey(decode(base64EncodedKey))
-
-  private def createPublicKey(base64EncodedKey: String) = new RSAPublicKeyImpl(decode(base64EncodedKey))
+  private def createPrivateKey(base64EncodedKey: String) = RSAPrivateCrtKeyImpl.newKey(base64EncodingService.decode(base64EncodedKey))
+  private def createPublicKey(base64EncodedKey: String) = new RSAPublicKeyImpl(base64EncodingService.decode(base64EncodedKey))
 }
 
-object Base64EncodingService {
+class Base64EncodingService {
 
   import org.apache.commons.codec.binary.Base64
 
   def encode(input: Array[Byte]): String = Base64.encodeBase64String(input)
-
   def decode(input: String): Array[Byte] = Base64.decodeBase64(input)
 }
 
-object EncryptionService {
+class EncryptionService @Inject ()(aesEncryptionService:AesEncryptionService, rsaEncryptionService: RsaEncryptionService) {
   def encrypt(content: String, publicKey: PublicKey): (String, String) = {
-    val (encryptedContent, secretKey) = AesEncryptionService.encryptWithAES(content)
-    (encryptedContent, RsaEncryptionService.encrypt(AesEncryptionService.aesKeyAsBase64EncodedString(secretKey), publicKey))
+    val (encryptedContent, secretKey) = aesEncryptionService.encryptWithAES(content)
+    (encryptedContent, rsaEncryptionService.encrypt(aesEncryptionService.aesKeyAsBase64EncodedString(secretKey), publicKey))
   }
 
   def decrypt(content: String, aesKey: String, privateKey: PrivateKey): String = {
-    val decryptedAesKey = RsaEncryptionService.decrypt(aesKey, privateKey)
-    AesEncryptionService.decryptWithAES(content, AesEncryptionService.aesKeyFromBase64EncodedString(decryptedAesKey))
+    val decryptedAesKey = rsaEncryptionService.decrypt(aesKey, privateKey)
+    aesEncryptionService.decryptWithAES(content, aesEncryptionService.aesKeyFromBase64EncodedString(decryptedAesKey))
   }
 }
 
-object RsaEncryptionService {
+class RsaEncryptionService @Inject() (base64EncodingService:Base64EncodingService){
 
   Security.addProvider(new BouncyCastleProvider)
 
   def encrypt(content: String, publicKey: PublicKey): String = {
     val cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding", "BC")
     cipher.init(Cipher.ENCRYPT_MODE, publicKey)
-    encode(cipher.doFinal(content.getBytes))
+    base64EncodingService.encode(cipher.doFinal(content.getBytes))
   }
 
   def decrypt(encryptedContent: String, privateKey: PrivateKey): String = {
     try {
       val cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding", "BC")
       cipher.init(Cipher.DECRYPT_MODE, privateKey)
-      new String(cipher.doFinal(decode(encryptedContent)))
+      new String(cipher.doFinal(base64EncodingService.decode(encryptedContent)))
     } catch {
       case ex: BadPaddingException => throw new DecryptionFailedException("Most likely caused by incorrect Private key", ex)
     }
   }
 }
 
-object AesEncryptionService {
+class AesEncryptionService @Inject ()(base64EncodingService:Base64EncodingService) {
 
   private val kg = KeyGenerator.getInstance("AES")
   private val iVspec = new IvParameterSpec(new Array[Byte](16))
 
-  def aesKeyAsBase64EncodedString(key: SecretKey) = Base64EncodingService.encode(key.getEncoded)
+  def aesKeyAsBase64EncodedString(key: SecretKey) = base64EncodingService.encode(key.getEncoded)
 
-  def aesKeyFromBase64EncodedString(key: String) = new SecretKeySpec(Base64EncodingService.decode(key), "AES")
+  def aesKeyFromBase64EncodedString(key: String) = new SecretKeySpec(base64EncodingService.decode(key), "AES")
 
   def encryptWithAES(content: String): (String, SecretKey) = {
     val cipher = Cipher.getInstance("AES")
     val aesKey = generateKey
 
     cipher.init(Cipher.ENCRYPT_MODE, aesKey)
-    (encode(cipher.doFinal(content.getBytes)), aesKey)
+    (base64EncodingService.encode(cipher.doFinal(content.getBytes)), aesKey)
   }
 
   def decryptWithAES(encryptedContent: String, key: SecretKey): String = {
@@ -88,7 +85,7 @@ object AesEncryptionService {
 
     try {
       cipher.init(Cipher.DECRYPT_MODE, key, iVspec)
-      new String(cipher.doFinal(decode(encryptedContent)))
+      new String(cipher.doFinal(base64EncodingService.decode(encryptedContent)))
     } catch {
       case ex: BadPaddingException => throw new DecryptionFailedException("Most likely caused by incorrect Private key", ex)
     }
