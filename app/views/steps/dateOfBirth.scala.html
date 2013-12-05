@@ -6,10 +6,10 @@
 @import uk.gov.gds.ier.form.FormHelpers._
 
 @main(title = Some("Register to Vote - What is your Date Of Birth?"), stylesheets = head(), scripts = stepsBodyEnd()) {
-  @form(postUrl) {
+  @form(postUrl, 'class -> "validate", Symbol("data-validation-name") -> "dateOfBirth", Symbol("data-validation-type") -> "association", Symbol("data-validation-rules") -> "fieldsetOrExcuse", Symbol("data-validation-members") -> "dateOfBirthDate dateOfBirthExcuse") {
     @questionHeader("What is your date of birth?", "/register-to-vote/nationality", 3)
 
-    <fieldset class="validate" data-validation-name="dateOfBirth" data-validation-type="fieldset" data-validation-rules="allNonEmpty" data-validation-children="day month year">
+    <fieldset class="validate" data-validation-name="dateOfBirthDate" data-validation-type="fieldset" data-validation-rules="allNonEmpty" data-validation-children="day month year">
       @select(keys.dob.day,
           label = "Day",
           options = DateOfBirthConstants.days,
@@ -52,6 +52,6 @@
       </div>
     </div>
     @validationMessages(formData)
-    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="dateOfBirth day month year dateOfBirthExcuseReason excuseAgeAttempt">Continue</button>
+    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="dateOfBirth">Continue</button>
   }
 }

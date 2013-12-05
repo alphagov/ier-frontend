@@ -825,11 +825,25 @@ window.GOVUK = window.GOVUK || {};
         timeout : 10000
       }).
       done(function (data, status, xhrObj) {
+        var $result = $('#found-addresses'),
+            $continueButton = $('#continue'),
+            validationSources = $continueButton.attr('data-validation-sources');
+
         inst.addLookup(data, postcode);
-        $('#found-addresses')
-        .find('.validate').each(function (idx, elm) {
-          validation.fields.add($(elm));
-        });
+        $result
+          .addClass('validate')
+          .attr({
+            'data-validation-name' : 'address',
+            'data-validation-type' : 'fieldset',
+            'data-validation-rules' : 'fieldOrExcuse',
+            'data-validation-children' : 'addressSelect addressExcuse'
+          })
+          .find('.validate').each(function (idx, elm) {
+            validation.fields.add($(elm));
+          });
+        validation.fields.add($result);
+        validationSources += ' address';
+        $('#continue').attr('data-validation-sources', validationSources);
         $('#possibleAddresses_jsonList').val(xhrObj.responseText);
         $('#possibleAddresses_postcode').val(postcode);
       }).
@@ -1018,68 +1032,82 @@ window.GOVUK = window.GOVUK || {};
         }
       };
     }()),
+    applyRules : function (fieldObj) {
+      var failedRule = false,
+          sourcesToMark = {
+            'association' : 'members',
+            'fieldset' : '$source',
+            'field' : '$source'
+          },
+          $source,
+          getSource;
+
+      $source = fieldObj[sourcesToMark[fieldObj.type]];
+      // rules are applied in the order given
+      $.each(fieldObj.rules, function (idx, rule) {
+        var isValid = fieldObj[rule]();
+        if (!isValid) { 
+          failedRule = {
+            'name' : fieldObj.name,
+            'rule' : rule,
+            '$source' : $source
+          }; 
+          return false;
+        }
+      });
+      return failedRule;
+    },
+    fieldsetCascade : function (name, rule) {
+      var cascades = validation.cascades,
+          exists = function (obj, prop) {
+            return (typeof obj[prop] !== 'undefined');
+          };
+
+      if (exists(cascades, name) && exists(cascades[name], rule)) {
+        return cascades[field.name][rule];
+      }
+      return false;
+    },
     validate : function (names) {
       var _this = this,
           invalidFields = [],
-          fields,
-          ruleSources,
-          sourcesToMark,
-          getSourcesToMark,
-          applyRules;
+          invalidField,
+          addAnyCascades,
+          fields;
 
-      ruleSources = {
-        'association' : 'members',
-        'fieldset' : 'children',
-        'field' : '$source'
-      };
-      sourcesToMark = {
-        'association' : 'members',
-        'fieldset' : '$source',
-        'field' : '$source'
-      };
-      // get the source elements for associations
-      getSourcesToMark = function (prop) {
-        var $sources = null;
+      addAnyCascades = function (field, rule, invalidFields) {
+        var fieldsetCascade = validation.fieldsetCascade(field.name, rule),
+            prefix = validation.rules[field.type][rule].prefix,
+            getChildRule;
 
-        if (prop.constructor !== $) {
-          $.each(validation.fields.getNames(prop), function (idx, fieldObj) {
-            var sourceProp = fieldObj[sourcesToMark[fieldObj.type]];
-            if ($sources === null) {
-              $sources = getSourcesToMark(sourceProp);
-            } else {
-              $sources = $sources.add(getSourcesToMark(sourceProp));
-            }
-          });
-          return $sources;
-        } else {
-          return prop;
+        getChildRule = function (rule, prefix) {
+          var childRule = rule.replace(prefix, '');
+
+          return childRule.charAt(0).toLowerCase() + childRule.slice(1);
+        };
+
+        if (fieldsetCascade) {
+          $.merge(invalidFields, fieldsetCascade.apply(field));
         }
+        return invalidFields;
       };
-      applyRules = function (fieldObj) {
-        var $sourcesToMark = getSourcesToMark(fieldObj[sourcesToMark[fieldObj.type]]),
-            memberNames,
-            failedRule = false;
-
-        // rules are applied in the order they are written in the original attribute value
-        $.each(fieldObj.rules, function (idx, rule) {
-          var isValid = fieldObj[rule]();
-          if (!isValid) { 
-            failedRule = {
-              'name' : fieldObj.name,
-              'rule' : rule,
-              '$source' : $sourcesToMark
-            }; 
-            return false;
-          }
-        });
-        return failedRule;
-      };
-
       fields = this.fields.getNames(names);
       $.each(fields, function (idx, field) {
-        var invalidField = applyRules(field);
+        var failedRule;
 
-        if (invalidField) { invalidFields.push(invalidField); }
+        // associations contain their own validation rules so add the results
+        if (field.type === 'association') {
+          failedRule = field[field.rules[0]]();
+        } else {
+          failedRule = _this.applyRules(field);
+        }
+        if (failedRule) {
+          invalidFields.push(failedRule);
+          invalidField = validation.fields.getNames([failedRule.name])[0];
+          if (invalidField.type === 'fieldset') {
+            invalidFields = addAnyCascades(invalidField, failedRule.rule, invalidFields);
+          }
+        }
       });
 
       if (invalidFields.length) {
@@ -1151,7 +1179,8 @@ window.GOVUK = window.GOVUK || {};
       var fieldType,
           selectValue,
           radioValue,
-          getFieldValue;
+          getFieldValue,
+          rules;
 
       fieldType = function ($field) {
         var type = $field[0].nodeName.toLowerCase();
@@ -1188,7 +1217,7 @@ window.GOVUK = window.GOVUK || {};
             return $field.val();
         }
       };
-      return {
+      rules = {
         'field' : {
           'nonEmpty' : function () {
             if (this.$source.is(':hidden')) { return true; }
@@ -1206,7 +1235,9 @@ window.GOVUK = window.GOVUK || {};
             };
             if (this.$source.is(':hidden')) { return true; }
             $.each(childFields, function (idx, fieldObj) {
-              if (fieldIsShowing(fieldObj) && fieldObj.nonEmpty()) {
+              var method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty';
+
+              if (fieldIsShowing(fieldObj) && fieldObj[method]()) {
                 oneFilled = true;
               }
             });
@@ -1222,40 +1253,89 @@ window.GOVUK = window.GOVUK || {};
             };
             if (this.$source.is(':hidden')) { return true; }
             $.each(childFields, function (idx, fieldObj) {
-              if (fieldIsShowing(fieldObj) && !fieldObj.nonEmpty()) {
+              var method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty';
+
+              if (fieldIsShowing(fieldObj) && !fieldObj[method]()) {
                 oneEmpty = true;
                 return false;
               }
             });
             return !oneEmpty;
-          }
-        },
-        'association' : {
-          'atLeastOneNonEmpty' : function () {
-            var oneFilled = false,
-                memberFields = validation.fields.getNames(this.members),
-                fieldIsShowing,
-                fieldHasOneNonEmpty;
+          },
+          'fieldOrExcuse' : function () {
+            var childFields = validation.fields.getNames(this.children),
+                field = childFields[0],
+                excuse = childFields[1],
+                fieldFailedRule = validation.applyRules(field),
+                excuseFailedRule = validation.applyRules(excuse),
+                fieldIsValid,
+                excuseIsValid,
+                fieldIsShowing;
 
             fieldIsShowing = function (fieldObj) {
               return !fieldObj.$source.is(':hidden');
             };
-            fieldHasOneNonEmpty = function (fieldObj) {
-              var method = (fieldObj.type === 'field') ? 'nonEmpty' : 'atLeastOneNonEmpty';
-              return fieldObj[method]();
-            };
-
-            $.each(memberFields, function (idx, fieldObj) {
-              if (fieldIsShowing(fieldObj) && fieldHasOneNonEmpty(fieldObj)) {
-                oneFilled = true;
+            fieldIsValid = (!fieldFailedRule && fieldIsShowing(field));
+            excuseIsValid = (!excuseFailedRule && fieldIsShowing(excuse));
+            if (fieldIsValid) {
+              return true;
+            } else {
+              if (excuseIsValid) {
+                return true;
+              } else {
                 return false;
               }
-            });
-            return oneFilled;
+            }
+          }
+        },
+        'association' : {
+          'fieldsetOrExcuse' : function () {
+            var memberFields = validation.fields.getNames(this.members),
+                fieldset = memberFields[0],
+                excuse = memberFields[1],
+                fieldsetFailedRule = validation.applyRules(fieldset),
+                excuseFailedRule = validation.applyRules(excuse),
+                fieldsetIsValid,
+                excuseIsValid,
+                fieldIsShowing;
+
+            fieldIsShowing = function (fieldObj) {
+              return !fieldObj.$source.is(':hidden');
+            };
+            fieldsetIsValid = (!fieldsetFailedRule && fieldIsShowing(fieldset));
+            excuseIsValid = (!excuseFailedRule && fieldIsShowing(excuse));
+            if (!fieldsetIsValid && excuseIsValid) {
+              return false;
+            } else {
+              return fieldsetFailedRule;
+            }
           }
         }
       };
+      // rules prefixes used to infer the rules of the children
+      rules.fieldset.atLeastOneNonEmpty.prefix = 'atLeastOne';
+      rules.fieldset.allNonEmpty.prefix = 'all';
+      return rules;
     }()),
+    cascades : {
+      'dateOfBirthDate' : {
+        'allNonEmpty' : function () {
+          var childFields = validation.fields.getNames(this.children),
+              invalidChildRules = [];
+
+          $.each(childFields, function (idx, field) {
+            if (!field.nonEmpty()) {
+              invalidChildRules.push({
+                'name' : field.name,
+                'rule' : 'nonEmpty',
+                '$source' : field.$source
+              });
+            }
+          });
+          return invalidChildRules;
+        }
+      }
+    },
     messages : {
       'fullName' : {
         'allNonEmpty' : 'Please enter your name'
@@ -1293,8 +1373,8 @@ window.GOVUK = window.GOVUK || {};
       'nationality' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
-      'nino' : {
-        'atLeastOneNonEmpty' : 'Please enter your National Insurance number'
+      'ninoCode' : {
+        'nonEmpty' : 'Please enter your National Insurance number'
       },
       'postalVote' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
@@ -1305,11 +1385,8 @@ window.GOVUK = window.GOVUK || {};
       'postcode' : {
         'nonEmpty' : 'Please enter a postcode'
       },
-      'addressSelect' : {
-        'nonEmpty' : 'Please select an address'
-      },
-      'addressExcuse' : {
-        'nonEmpty' : 'Please enter an address'
+      'address' : {
+        'fieldOrExcuse' : 'Please select an address'
       },
       'previousAddressQuestion' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
