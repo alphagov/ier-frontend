@@ -25,7 +25,7 @@
       @check(keys.nationality.british, label = "I am British", value = "true", inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "british", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       @check(keys.nationality.irish, label = "I am Irish", value = "true", inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "irish", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       @check(keys.nationality.hasOtherCountry, label = "I am a citizen of another country", value = "true", inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "other", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
-      <div id="add-countries" class="optional-section" data-condition="@keys.nationality.hasOtherCountry.asId()">
+      <div id="add-countries" class="optional-section validate" data-condition="@keys.nationality.hasOtherCountry.asId()" data-validation-name="otherCountries" data-validation-type="field" data-validation-rules="atLeastOneCountry">
         @label(keys.nationality.otherCountries.item(0), label = "Which country?")  
         @text(keys.nationality.otherCountries.item(0), attributes = Map('class -> "country-autocomplete long"))
         <p class="duplication-intro" style="@if(formData.getOtherCountries.exists(_.size > 1)){ display: none }">
@@ -55,6 +55,6 @@
       </div>
     </div>
     @validationMessages(formData)
-    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="nationality">Continue</button>
+    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="nationality otherCountries">Continue</button>
     }
 }
