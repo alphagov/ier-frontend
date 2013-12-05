@@ -6,11 +6,12 @@
 @import uk.gov.gds.ier.form.FormHelpers._
 
 @main(title = Some("Register to Vote - What is your Date Of Birth?"), stylesheets = head(), scripts = stepsBodyEnd()) {
-  @form(postUrl) {
-    @questionHeader("What is your date of birth?", "/register-to-vote/nationality", 3)
+  @form(postUrl, 'class -> "validate", Symbol("data-validation-name") -> "dateOfBirth", Symbol("data-validation-type") -> "association", Symbol("data-validation-rules") -> "fieldsetOrExcuse", Symbol("data-validation-members") -> "dateOfBirthDate dateOfBirthExcuse") {
+    @layouts.questionHeader("What is your date of birth?", "/register-to-vote/nationality", 3)
 
-    <fieldset class="validate" data-validation-name="dateOfBirth" data-validation-type="fieldset" data-validation-rules="allNonEmpty" data-validation-children="day month year">
+    <fieldset class="validate" data-validation-name="dateOfBirthDate" data-validation-type="fieldset" data-validation-rules="allNonEmpty" data-validation-children="day month year">
       @select(keys.dob.dob.day,
+          label = "Day",
           options = DateOfBirthConstants.days,
           inputAttributes = Map('_default -> "Day", 'class -> "day validate", Symbol("data-validation-name") -> "day", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"),
           labelAttributes = Map('class -> "visuallyhidden"))
@@ -51,7 +52,8 @@
       </div>
     </div>
     <div class="validation-message"></div>
-    @validationMessages(formData)
     <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="dateOfBirth day month year dateOfBirthExcuseReason excuseAgeAttempt">Continue</button>
+    @validationMessages(formData)
+    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="dateOfBirth">Continue</button>
   }
 }

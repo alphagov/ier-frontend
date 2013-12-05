@@ -5,7 +5,7 @@
 @import uk.gov.gds.ier.form.FormHelpers._
 
 @main(title = Some("Register to Vote - What is your National Insurance number?"), stylesheets = head(), scripts = stepsBodyEnd()) {
-  @form(postUrl, 'class -> "validate", Symbol("data-validation-name") -> "nino", Symbol("data-validation-type") ->"association", Symbol("data-validation-rules") -> "atLeastOneNonEmpty", Symbol("data-validation-members") -> "ninoCode ninoExcuse") {
+  @form(postUrl, 'class -> "validate", Symbol("data-validation-name") -> "nino", Symbol("data-validation-type") ->"association", Symbol("data-validation-rules") -> "fieldsetOrExcuse", Symbol("data-validation-members") -> "ninoCode ninoExcuse") {
   
     @layouts.questionHeader("What is your National Insurance number?", "/register-to-vote/name", 5)
     @label(keys.nino.nino, label = "What is your National Insurance number?", attributes = Map('class -> "visuallyhidden"))

@@ -19,7 +19,7 @@
             'class -> "postcode medium validate", Symbol("data-validation-name") -> "postcode", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       <button id="find-address" type="submit" class="button search validation-submit" data-validation-sources="postcode">Find address</button>
     </fieldset>
-    <div id="found-addresses" class="validate" data-validation-name="address" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty">
+    <div id="found-addresses">
       @if(possibleAddress.isDefined) {
         @defining(possibleAddress.get) { possible =>
           @label(keys.address.postcode,
@@ -33,13 +33,14 @@
           <div class="help-content">
             <h2>My address is not listed</h2>
             <label for="input-address-text">Enter your address</label>
-            <textarea id="input-address-text" name="address.address" class="small validate" data-validation-name="addressExcuse" data-validation-type="field" data-validation-rules="nonEmpty"></textarea>
+            <textarea id="input-address-text" name="address.address" class="small"></textarea>
           </div>
         }
       }
     </div>
-    @validationMessages(formData)
     <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode addressSelect addressExcuse">Continue</button>
+    @validationMessages(formData)
+    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode">Continue</button>
     <div class="help-content">
       <h2>Help</h2>
       <p>We need your address and postcode so that we can send your details to the right local Electoral Registration Office.</p>
