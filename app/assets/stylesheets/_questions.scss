@@ -323,6 +323,21 @@ fieldset.invalid {
   border-left: solid 4px $mellow-red;
   padding-left: 10px;
   margin-left: -14px;
+
+  @include media(tablet) {
+    padding-left: 14px;
+    margin-left: -18px;
+  }
+
+  .help-content & {
+    padding-left: 28px;
+    margin-left: -32px;
+
+    @include media(tablet) {
+      padding-left: 32px;
+      margin-left: -36px;
+    }
+  }
 }
 
 .validation-message {
@@ -334,4 +349,9 @@ fieldset.invalid {
 	border-left: 4px solid $mellow-red;
 	color: $mellow-red;
 	font-weight: bold;
+
+  @include media(tablet) {
+    padding-left: 14px;
+    margin-left: -18px;
+  }
 }
