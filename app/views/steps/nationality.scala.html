@@ -51,7 +51,7 @@
       <div class="optional-section" id="nationality-provision">
         <h3>I can't provide my nationality</h3>
         @label(keys.nationality.noNationalityReason, "Why can't you provide your nationality?")
-        @textArea(keys.nationality.noNationalityReason, Map('class -> "small", 'maxlength -> "500"))
+        @textArea(keys.nationality.noNationalityReason, Map('class -> "small validate", 'maxlength -> "500", Symbol("data-validation-name") -> "nationalityExcuse", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       </div>
     </div>
     @validationMessages(formData)
