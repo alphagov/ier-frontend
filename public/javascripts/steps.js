@@ -1064,7 +1064,7 @@ window.GOVUK = window.GOVUK || {};
           };
 
       if (exists(cascades, name) && exists(cascades[name], rule)) {
-        return cascades[field.name][rule];
+        return cascades[name][rule];
       }
       return false;
     },
@@ -1077,14 +1077,7 @@ window.GOVUK = window.GOVUK || {};
 
       addAnyCascades = function (field, rule, invalidFields) {
         var fieldsetCascade = validation.fieldsetCascade(field.name, rule),
-            prefix = validation.rules[field.type][rule].prefix,
-            getChildRule;
-
-        getChildRule = function (rule, prefix) {
-          var childRule = rule.replace(prefix, '');
-
-          return childRule.charAt(0).toLowerCase() + childRule.slice(1);
-        };
+            prefix = validation.rules[field.type][rule].prefix;
 
         if (fieldsetCascade) {
           $.merge(invalidFields, fieldsetCascade.apply(field));
@@ -1222,7 +1215,20 @@ window.GOVUK = window.GOVUK || {};
           'nonEmpty' : function () {
             if (this.$source.is(':hidden')) { return true; }
             return (getFieldValue(this.$source) !== '');
-          }
+          },
+          'atLeastOneCountry' : function () {
+            var $filledCountries,
+                $selectedCountries;
+
+            if (this.$source.is(':hidden')) { return true; }
+            $selectedCountries = this.$source.siblings('label').find('input:checked').not('input[aria-controls="add-countries"]');
+            $filledCountries = this.$source.find('.country-autocomplete');
+            $filledCountries = $.map($filledCountries, function (elm, idx) {
+              return ($(elm).val() === '') ? null : elm;
+            });
+            return ($filledCountries.length > 0) || ($selectedCountries.length > 0);
+          },
+          
         },
         'fieldset' : {
           'atLeastOneNonEmpty' : function () {
@@ -1286,6 +1292,22 @@ window.GOVUK = window.GOVUK || {};
                 return false;
               }
             }
+          },
+          'countryNonEmpty' : function () {
+            var otherField = validation.fields.getNames(['other'])[0],
+                $countryInput = otherField.$source.parent('label')
+                                  .siblings('#add-countries')
+                                  .find('.country-autocomplete');
+
+            if (otherField.nonEmpty()) {
+              if ($countryInput.val() === '') {
+                return false;
+              } else {
+                return true
+              }
+            } else {
+              return true;
+            }
           }
         },
         'association' : {
@@ -1312,9 +1334,6 @@ window.GOVUK = window.GOVUK || {};
           }
         }
       };
-      // rules prefixes used to infer the rules of the children
-      rules.fieldset.atLeastOneNonEmpty.prefix = 'atLeastOne';
-      rules.fieldset.allNonEmpty.prefix = 'all';
       return rules;
     }()),
     cascades : {
@@ -1390,6 +1409,9 @@ window.GOVUK = window.GOVUK || {};
       },
       'previousAddressQuestion' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
+      },
+      'otherCountries' : {
+        'atLeastOneCountry' : 'Please enter a country'
       }
     }
   };

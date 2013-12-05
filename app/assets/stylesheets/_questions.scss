@@ -340,6 +340,22 @@ fieldset.invalid {
   }
 }
 
+#found-addresses.invalid {
+  outline: none;
+
+  select {
+    outline: solid 4px $mellow-red;
+  }
+}
+
+#add-countries.invalid {
+  outline: none;
+
+  .country-autocomplete {
+    outline: solid 4px $mellow-red;
+  }
+}
+
 .validation-message {
 	font-size: 19px;
 	display: none;
