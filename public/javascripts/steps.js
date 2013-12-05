@@ -1228,7 +1228,37 @@ window.GOVUK = window.GOVUK || {};
             });
             return ($filledCountries.length > 0) || ($selectedCountries.length > 0);
           },
-          
+          'telephone' : function () {
+            var entry = getFieldValue(this.$source);
+            
+            return (entry.replace(/[\s|\-]/g, "").match(/^\+?\d+$/) !== null);
+          },
+          'email' : function () {
+            var entry = getFieldValue(this.$source);
+
+            return (entry.match(/\w+@\w+?(?:\.[A-Za-z]{2,3})+/) !== null);
+          },
+          'nino' : function () {
+            var entry = getFieldValue(this.$source),
+                match;
+
+            match = entry
+                    .toUpperCase()
+                    .replace(/[\s|\-]/g, "")
+                    .match(/^[A-CEGHJ-PR-TW-Za-ceghj-pr-tw-z]{1}[A-CEGHJ-NPR-TW-Za-ceghj-npr-tw-z]{1}[0-9]{6}[A-DFMa-dfm]{0,1}$/);
+
+            return (match !== null);
+          },
+          'postcode' : function () {
+            var entry = getFieldValue(this.$source),
+                match;
+
+            match = entry
+                      .toUpperCase()
+                      .replace(/[\s|\-]/g, "")
+                      .match(/((GIR0AA)|((([A-PR-UW-Z][0-9][0-9]?)|(([A-PR-UW-Z]][A-HK-Y][0-9][0-9]?)|(([A-PR-UW-Z][0-9][A-HJKSTUW])|([A-PR-UW-Z][A-HK-Z][0-9][ABEHMNPRVWXY]))))[0-9][A-BD-HJLNP-UW-Z]{2}))/);
+            return (match !== null);
+          }
         },
         'fieldset' : {
           'atLeastOneNonEmpty' : function () {
@@ -1308,6 +1338,20 @@ window.GOVUK = window.GOVUK || {};
             } else {
               return true;
             }
+          },
+          'correctAge' : function () {
+            var children = validation.fields.getNames(this.children),
+                day = parseInt(getFieldValue(children[0]), 10),
+                month = parseInt(getFieldValue(children[1]), 10),
+                year = parseInt(getFieldValue(children[2]), 10),
+                dob = (new Date(year, (month - 1), day)).getTime(),
+                now = (new Date()).getTime(),
+                minAge = 16,
+                maxAge = 115,
+                age = now - dob;
+
+            age = Math.floor((((((age / 1000) / 60) / 60) / 24) / 365.25));
+            return ((age >= minAge) && (age <= maxAge));
           }
         },
         'association' : {
@@ -1381,19 +1425,23 @@ window.GOVUK = window.GOVUK || {};
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
       'phoneNumber' : {
-        'nonEmpty' : 'Please enter your phone number'
+        'nonEmpty' : 'Please enter your phone number',
+        'telephone' : 'Please enter a valid phone number'
       },
       'smsNumber' : {
-        'nonEmpty' : 'Please enter the phone number you use for text messages'
+        'nonEmpty' : 'Please enter the phone number you use for text messages',
+        'telephone' : 'Please enter a valid phone number'
       },
       'emailAddress' : {
-        'nonEmpty' : 'Please enter your email address'
+        'nonEmpty' : 'Please enter your email address',
+        'email' : 'Please enter a valid email address'
       },
       'nationality' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
       'ninoCode' : {
-        'nonEmpty' : 'Please enter your National Insurance number'
+        'nonEmpty' : 'Please enter your National Insurance number',
+        'nino' : 'Please enter a valid National Insurance number'
       },
       'postalVote' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
@@ -1402,7 +1450,8 @@ window.GOVUK = window.GOVUK || {};
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
       'postcode' : {
-        'nonEmpty' : 'Please enter a postcode'
+        'nonEmpty' : 'Please enter a postcode',
+        'postcode' : 'Please enter a valid postcode'
       },
       'address' : {
         'fieldOrExcuse' : 'Please select an address'
