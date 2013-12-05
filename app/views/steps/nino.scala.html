@@ -19,7 +19,7 @@
       <div class="optional-section">
         <h3>I can't provide a National Insurance number</h3>
         @label(keys.nino.noNinoReason, "Why can't you provide a National Insurance number?")
-        @textArea(keys.nino.noNinoReason, label = "Why can't you provide a National Insurance number?", inputAttributes = Map('class -> "small validate", 'maxlength -> "500", Symbol("data-validation-name") -> "ninoExcuse", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+        @textArea(keys.nino.noNinoReason, Map('class -> "small", 'maxlength -> "500"))
       </div>
     </div>
     @validationMessages(formData)
