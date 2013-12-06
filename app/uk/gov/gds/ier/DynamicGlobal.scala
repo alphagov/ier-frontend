@@ -27,8 +27,7 @@ trait DynamicGlobal extends GlobalSettings with Logging {
   override def onRouteRequest(request: RequestHeader): Option[Handler] = {
     logger.debug(s"routing request ${request.method} ${request.path}")
     MDC.put("clientip", request.headers.get("X-Real-IP").getOrElse("N/A"))
-    val handler = super.onRouteRequest(request)
-    handler
+    super.onRouteRequest(request)
   }
 
   override def onError(request: RequestHeader, ex: Throwable): Future[SimpleResult] = {
