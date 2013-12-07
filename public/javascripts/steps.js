@@ -1258,6 +1258,18 @@ window.GOVUK = window.GOVUK || {};
                       .replace(/[\s|\-]/g, "")
                       .match(/((GIR0AA)|((([A-PR-UW-Z][0-9][0-9]?)|(([A-PR-UW-Z]][A-HK-Y][0-9][0-9]?)|(([A-PR-UW-Z][0-9][A-HJKSTUW])|([A-PR-UW-Z][A-HK-Z][0-9][ABEHMNPRVWXY]))))[0-9][A-BD-HJLNP-UW-Z]{2}))/);
             return (match !== null);
+          },
+          smallText : function () {
+            var entry = getFieldValue(this.$source),
+                maxLen = 256;
+
+            return entry.length <= maxLen;
+          },
+          largeText : function () {
+            var entry = getFieldValue(this.$source),
+                maxLen = 500;
+
+            return entry.length <= maxLen;
           }
         },
         'fieldset' : {
@@ -1402,6 +1414,15 @@ window.GOVUK = window.GOVUK || {};
     messages : {
       'fullName' : {
         'allNonEmpty' : 'Please enter your name'
+      },
+      'firstName' : {
+        'smallText' : 'First name can be no longer than 256 characters'
+      },
+      'middleName' : {
+        'smallText' : 'Middle name can be no longer than 256 characters'
+      },
+      'lastName' : {
+        'smallText' : 'Last name can be no longer than 256 characters'
       },
       'previousQuestion' : {
         'atLeastOneNonEmpty' : 'Please answer if you changed your name'
