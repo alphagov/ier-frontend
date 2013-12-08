@@ -134,6 +134,32 @@ input.nino {
   text-transform: uppercase;
 }
 
+.validation-wrapper {
+  font-size: 19px;
+  margin-bottom: 1em;
+
+  input,
+  select {
+    margin-bottom: 0;
+  }
+
+  & .optional-section input,
+  & .help-content select {
+    margin-bottom: 1em;
+  }
+}
+
+.validation-wrapper-invalid {
+  padding-left: 10px;
+  margin-left: -14px;
+  border-left: solid 4px #DF3034;
+
+  @include media(tablet) {
+    padding-left: 14px;
+    margin-left: -18px;
+  }
+}
+
 /* Styles specific to question pages */
 
 main header {

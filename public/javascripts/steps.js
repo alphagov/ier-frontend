@@ -740,11 +740,13 @@ window.GOVUK = window.GOVUK || {};
       ],
       'selectLabel' : '<label for="'+inputId+'_address_select">Select your address</label>',
       'select' : [
-        '<select id="'+inputId+'" name="'+inputName+'.address" class="lonely validate" ' +
-        'data-validation-name="addressSelect" data-validation-type="field" data-validation-rules="nonEmpty"' +
-        '>' +
-          '<option value="">Please select...</option>',
-        '</select>'
+        '<div class="validation-wrapper">' +
+          '<select id="'+inputId+'" name="'+inputName+'.address" class="lonely validate" ' +
+          'data-validation-name="addressSelect" data-validation-type="field" data-validation-rules="nonEmpty"' +
+          '>' +
+            '<option value="">Please select...</option>',
+          '</select>' +
+        '</div>'
       ],
       'help' : '<div class="help-content">' +
                   '<h2>My address is not listed</h2>' +
@@ -1112,7 +1114,12 @@ window.GOVUK = window.GOVUK || {};
     },
     mark : {
       field : function (fieldObj) {
+        var $validationWrapper = fieldObj.$source.closest('.validation-wrapper');
+
         fieldObj.$source.addClass('invalid');
+        if ($validationWrapper.length) {
+          $validationWrapper.addClass('validation-wrapper-invalid');
+        }
       },
       invalidFields : function (invalidFields) {
         var mark = this;
@@ -1127,7 +1134,12 @@ window.GOVUK = window.GOVUK || {};
     },
     unMark : {
       field : function (fieldObj) {
+        var $validationWrapper = fieldObj.$source.closest('.validation-wrapper');
+
         fieldObj.$source.removeClass('invalid');
+        if ($validationWrapper.length) {
+          $validationWrapper.removeClass('validation-wrapper-invalid');
+        }
       },
       validFields : function (validFields) {
         var unMark = this;
@@ -1228,12 +1240,11 @@ window.GOVUK = window.GOVUK || {};
                 $selectedCountries;
 
             if (this.$source.is(':hidden')) { return []; }
-            $selectedCountries = this.$source.siblings('label').find('input:checked').not('input[aria-controls="add-countries"]');
             $countries = this.$source.find('.country-autocomplete');
             $filledCountries = $.map($countries, function (elm, idx) {
               return (getFieldValue($(elm)) === '') ? null : elm;
             });
-            if (($filledCountries.length === 0) && ($selectedCountries.length === 0)) {
+            if ($filledCountries.length === 0) {
               return getInvalidDataFromFields([this, { 'name' : 'country', '$source' : $countries }], 'atLeastOneCountry');
             } else {
               return [];
@@ -1331,9 +1342,41 @@ window.GOVUK = window.GOVUK || {};
               return [];
             }
           },
+          'atLeastOneChecked' :  function () {
+            var invalidRules = this.atLeastOneNonEmpty();
+
+            $.map(invalidRules, function (fieldObj, idx) {
+              if (fieldObj.$source[0].nodeName.toLowerCase() !== 'input') { return fieldObj; }
+            });
+            if (!invalidRules.length) { return []; }
+            return invalidRules;
+          },
+          'checkedOtherHasValue' : function () {
+            var childFields = validation.fields.getNames(this.children),
+                otherIsChecked = false,
+                invalidRules = [],
+                i,j;
+
+            for (i = 0, j = childFields.length; i < j; i++) {
+              var fieldObj = childFields[i];
+
+              if (fieldObj.name === 'otherCountries') {
+                invalidRules = fieldObj.atLeastOneCountry();
+              } else if (fieldObj.name === 'other') {
+                otherIsChecked = (getFieldValue(fieldObj.$source) !== '');
+              } else {
+                if (getFieldValue(fieldObj.$source) !== '') { return []; }
+              }
+            }
+            if (otherIsChecked && !invalidRules.length) {
+              return [];
+            } else {
+              return invalidRules;
+            }
+          },
           'allNonEmpty' : function () {
-            var oneEmpty = false,
-                childFields = validation.fields.getNames(this.children),
+            var childFields = validation.fields.getNames(this.children),
+                childFailedRules = [],
                 fieldIsShowing,
                 i,j;
 
@@ -1347,14 +1390,17 @@ window.GOVUK = window.GOVUK || {};
                   isFilledFailedRules = fieldObj[method]();
 
               if (fieldIsShowing(fieldObj) && isFilledFailedRules.length) {
-                oneEmpty = true;
-                if (this.$source.hasClass('inlineFields')) {
-                  childFields.push(this);
-                }
-                return getInvalidDataFromFields(childFields, 'allNonEmpty');
+                $.merge(childFailedRules, isFilledFailedRules);
               }
-            };
-            return [];
+            }
+            if (childFailedRules.length) {
+              if (this.$source.hasClass('inlineFields')) {
+                childFailedRules.push(this);
+              }
+              return getInvalidDataFromFields(childFailedRules, 'allNonEmpty');
+            } else {
+              return [];
+            }
           },
           'fieldOrExcuse' : function () {
             var childFields = validation.fields.getNames(this.children),
@@ -1485,6 +1531,9 @@ window.GOVUK = window.GOVUK || {};
       'previousName' : {
         'allNonEmpty' : 'Please enter your previous name'
       },
+      'dateOfBirthDate' : {
+        'allNonEmpty' : 'Please enter your date of birth'
+      },
       'day' : {
         'nonEmpty' : 'Please enter your day of birth'
       },
@@ -1515,6 +1564,9 @@ window.GOVUK = window.GOVUK || {};
       'nationality' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
+      'otherCountries' : {
+        'atLeastOneCountry' : 'Please enter a country'
+      },
       'ninoCode' : {
         'nonEmpty' : 'Please enter your National Insurance number',
         'nino' : 'Please enter a valid National Insurance number'
@@ -1534,9 +1586,6 @@ window.GOVUK = window.GOVUK || {};
       },
       'previousAddressQuestion' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
-      },
-      'otherCountries' : {
-        'atLeastOneCountry' : 'Please enter a country'
       }
     }
   };

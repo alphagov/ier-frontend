@@ -9,7 +9,9 @@
   
     @layouts.questionHeader("What is your National Insurance number?", "/register-to-vote/name", 5)
     @label(keys.nino.nino, label = "What is your National Insurance number?", attributes = Map('class -> "visuallyhidden"))
-    @text(keys.nino.nino, attributes = Map('class -> "validate nino", Symbol("data-validation-name") -> "ninoCode", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+    <div class="validation-wrapper">
+      @text(keys.nino.nino, attributes = Map('class -> "validate nino", Symbol("data-validation-name") -> "ninoCode", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+    </div>
     <p>Example: AB 12 34 56 C</p>
     <div class="help-content">
       <h2>Help</h2>

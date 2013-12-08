@@ -9,11 +9,15 @@
   @layouts.questionHeader("What is your full name?", "/register-to-vote/date-of-birth", 4)
     <fieldset class="validate" data-validation-name="fullName" data-validation-type="association" data-validation-rules="allNonEmpty" data-validation-members="firstName lastName">
       @label(keys.name.firstName, label = "First name")
-      @text(keys.name.firstName, attributes = Map('class -> "first-name long validate", Symbol("data-validation-name") -> "firstName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+      <div class="validation-wrapper">
+        @text(keys.name.firstName, attributes = Map('class -> "first-name long validate", Symbol("data-validation-name") -> "firstName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+      </div>
       @label(keys.name.middleNames, label = "Middle names")
       @text(keys.name.middleNames, attributes = Map('class -> "middle-names long"))
       @label(keys.name.lastName, label = "Last name")
-      @text(keys.name.lastName, attributes = Map('class -> "last-name long validate", Symbol("data-validation-name") -> "lastName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+      <div class="validation-wrapper">
+        @text(keys.name.lastName, attributes = Map('class -> "last-name long validate", Symbol("data-validation-name") -> "lastName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+      </div>
     </fieldset>
     <fieldset class="sub-section validate" data-validation-name="previousQuestion" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="previousYes previousNo">
       <legend class="label">Have you changed your name in the last 12 months?</legend> 
@@ -22,7 +26,7 @@
     </fieldset>
     <div class="optional-section optional-section-core-content @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "visible")" data-condition="@keys.previousName.hasPreviousName.asId("true")">
       <h2>Previous name</h2>
-      <fieldset class="validate" data-validation-name="previousName" data-validation-type="fieldset" data-validation-rules="allNonEmpty" data-validation-children="previousFirstName previousLastName">
+      <fieldset class="validate" data-validation-name="previousName" data-validation-type="association" data-validation-rules="allNonEmpty" data-validation-members="previousFirstName previousLastName">
         @wrapLabel(keys.previousName.previousName.firstName) {
           <span class="visuallyhidden">Previous</span> First name
         }

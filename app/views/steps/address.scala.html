@@ -14,9 +14,11 @@
       <p>If you have more than one address, just give the one where you spend most of your time.</p>
       @label(keys.possibleAddresses.postcode,
           label = "Postcode")
-      @text(keys.possibleAddresses.postcode,
+      <div class="validation-wrapper">
+        @text(keys.possibleAddresses.postcode,
           attributes = Map(
             'class -> "postcode medium validate", Symbol("data-validation-name") -> "postcode", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+      </div>
       <button id="find-address" type="submit" class="button search validation-submit" data-validation-sources="postcode">Find address</button>
     </fieldset>
     <div id="found-addresses">
