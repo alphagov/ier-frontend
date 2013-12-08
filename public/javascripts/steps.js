@@ -1033,29 +1033,26 @@ window.GOVUK = window.GOVUK || {};
       };
     }()),
     applyRules : function (fieldObj) {
-      var failedRule = false,
+      var failedRules = false,
           sourcesToMark = {
             'association' : 'members',
             'fieldset' : '$source',
             'field' : '$source'
           },
           $source,
-          getSource;
+          i,j;
 
       $source = fieldObj[sourcesToMark[fieldObj.type]];
       // rules are applied in the order given
-      $.each(fieldObj.rules, function (idx, rule) {
-        var isValid = fieldObj[rule]();
-        if (!isValid) { 
-          failedRule = {
-            'name' : fieldObj.name,
-            'rule' : rule,
-            '$source' : $source
-          }; 
-          return false;
+      for (i = 0, j = fieldObj.rules.length; i < j; i++) {
+        var rule = fieldObj.rules[i];
+
+        failedRules = fieldObj[rule]();
+        if (failedRules.length) { 
+          break;
         }
-      });
-      return failedRule;
+      }
+      return failedRules;
     },
     fieldsetCascade : function (name, rule) {
       var cascades = validation.cascades,
@@ -1086,20 +1083,11 @@ window.GOVUK = window.GOVUK || {};
       };
       fields = this.fields.getNames(names);
       $.each(fields, function (idx, field) {
-        var failedRule;
+        var failedRules;
 
-        // associations contain their own validation rules so add the results
-        if (field.type === 'association') {
-          failedRule = field[field.rules[0]]();
-        } else {
-          failedRule = _this.applyRules(field);
-        }
-        if (failedRule) {
-          invalidFields.push(failedRule);
-          invalidField = validation.fields.getNames([failedRule.name])[0];
-          if (invalidField.type === 'fieldset') {
-            invalidFields = addAnyCascades(invalidField, failedRule.rule, invalidFields);
-          }
+        failedRules = _this.applyRules(field);
+        if (failedRules.length) {
+          $.merge(invalidFields, failedRules);
         }
       });
 
@@ -1173,6 +1161,7 @@ window.GOVUK = window.GOVUK || {};
           selectValue,
           radioValue,
           getFieldValue,
+          getInvalidDataFromFields,
           rules;
 
       fieldType = function ($field) {
@@ -1210,33 +1199,63 @@ window.GOVUK = window.GOVUK || {};
             return $field.val();
         }
       };
+      getInvalidDataFromFields = function (fields, rule) {
+        return $.map(fields, function (item, idx) {
+          return {
+            'name' : item.name,
+            'rule' : rule,
+            '$source' : item.$source
+          };
+        });
+      };
+      /*
+       * Rules should run as a field method with access to all the properties of that field type
+       * They should return an array of failed rules. If there are no failures this array should be empty.
+      */
       rules = {
         'field' : {
           'nonEmpty' : function () {
-            if (this.$source.is(':hidden')) { return true; }
-            return (getFieldValue(this.$source) !== '');
+            if (this.$source.is(':hidden')) { return []; }
+            if (getFieldValue(this.$source) === '') {
+              return getInvalidDataFromFields([this], 'nonEmpty');
+            } else {
+              return [];
+            }
           },
           'atLeastOneCountry' : function () {
-            var $filledCountries,
+            var $countries,
+                $filledCountries,
                 $selectedCountries;
 
-            if (this.$source.is(':hidden')) { return true; }
+            if (this.$source.is(':hidden')) { return []; }
             $selectedCountries = this.$source.siblings('label').find('input:checked').not('input[aria-controls="add-countries"]');
-            $filledCountries = this.$source.find('.country-autocomplete');
-            $filledCountries = $.map($filledCountries, function (elm, idx) {
-              return ($(elm).val() === '') ? null : elm;
+            $countries = this.$source.find('.country-autocomplete');
+            $filledCountries = $.map($countries, function (elm, idx) {
+              return (getFieldValue($(elm)) === '') ? null : elm;
             });
-            return ($filledCountries.length > 0) || ($selectedCountries.length > 0);
+            if (($filledCountries.length === 0) && ($selectedCountries.length === 0)) {
+              return getInvalidDataFromFields([this, { 'name' : 'country', '$source' : $countries }], 'atLeastOneCountry');
+            } else {
+              return [];
+            }
           },
           'telephone' : function () {
             var entry = getFieldValue(this.$source);
             
-            return (entry.replace(/[\s|\-]/g, "").match(/^\+?\d+$/) !== null);
+            if (entry.replace(/[\s|\-]/g, "").match(/^\+?\d+$/) === null) {
+              return getInvalidDataFromFields([this], 'telephone');
+            } else {
+              return [];
+            }
           },
           'email' : function () {
             var entry = getFieldValue(this.$source);
 
-            return (entry.match(/\w+@\w+?(?:\.[A-Za-z]{2,3})+/) !== null);
+            if (entry.match(/\w+@\w+?(?:\.[A-Za-z]{2,3})+/) === null) {
+              return getInvalidDataFromFields([this], 'email');
+            } else {
+              return [];
+            }
           },
           'nino' : function () {
             var entry = getFieldValue(this.$source),
@@ -1247,7 +1266,11 @@ window.GOVUK = window.GOVUK || {};
                     .replace(/[\s|\-]/g, "")
                     .match(/^[A-CEGHJ-PR-TW-Za-ceghj-pr-tw-z]{1}[A-CEGHJ-NPR-TW-Za-ceghj-npr-tw-z]{1}[0-9]{6}[A-DFMa-dfm]{0,1}$/);
 
-            return (match !== null);
+            if (match !== null) {
+              return getInvalidDataFromFields([this], 'nino');
+            } else {
+              return [];
+            }
           },
           'postcode' : function () {
             var entry = getFieldValue(this.$source),
@@ -1257,19 +1280,31 @@ window.GOVUK = window.GOVUK || {};
                       .toUpperCase()
                       .replace(/[\s|\-]/g, "")
                       .match(/((GIR0AA)|((([A-PR-UW-Z][0-9][0-9]?)|(([A-PR-UW-Z]][A-HK-Y][0-9][0-9]?)|(([A-PR-UW-Z][0-9][A-HJKSTUW])|([A-PR-UW-Z][A-HK-Z][0-9][ABEHMNPRVWXY]))))[0-9][A-BD-HJLNP-UW-Z]{2}))/);
-            return (match !== null);
+            if (match === null) {
+              return getInvalidDataFromFields([this], 'postcode');
+            } else {
+              return [];
+            }
           },
-          smallText : function () {
+          'smallText' : function () {
             var entry = getFieldValue(this.$source),
                 maxLen = 256;
 
-            return entry.length <= maxLen;
+            if (entry.length > maxLen) {
+              return getInvalidDataFromFields([this], 'largeText');
+            } else {
+              return [];
+            }
           },
-          largeText : function () {
+          'largeText' : function () {
             var entry = getFieldValue(this.$source),
                 maxLen = 500;
 
-            return entry.length <= maxLen;
+            if (entry.length > maxLen) {
+              return getInvalidDataFromFields([this], 'largeText');
+            } else {
+              return [];
+            }
           }
         },
         'fieldset' : {
@@ -1281,41 +1316,52 @@ window.GOVUK = window.GOVUK || {};
             fieldIsShowing = function (fieldObj) {
               return !fieldObj.$source.is(':hidden');
             };
-            if (this.$source.is(':hidden')) { return true; }
+            if (this.$source.is(':hidden')) { return []; }
             $.each(childFields, function (idx, fieldObj) {
-              var method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty';
+              var method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty',
+                  isFilledFailedRules = fieldObj[method]();
 
-              if (fieldIsShowing(fieldObj) && fieldObj[method]()) {
+              if (fieldIsShowing(fieldObj) && !isFilledFailedRules.length) {
                 oneFilled = true;
               }
             });
-            return oneFilled;
+            if (!oneFilled) {
+              return getInvalidDataFromFields([this], 'atLeastOneNonEmpty');
+            } else {
+              return [];
+            }
           },
           'allNonEmpty' : function () {
             var oneEmpty = false,
                 childFields = validation.fields.getNames(this.children),
-                fieldIsShowing;
+                fieldIsShowing,
+                i,j;
 
             fieldIsShowing = function (fieldObj) {
               return !fieldObj.$source.is(':hidden');
             };
-            if (this.$source.is(':hidden')) { return true; }
-            $.each(childFields, function (idx, fieldObj) {
-              var method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty';
+            if (this.$source.is(':hidden')) { return []; }
+            for (i = 0, j = childFields.length; i < j; i++) {
+              var fieldObj = childFields[i],
+                  method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty',
+                  isFilledFailedRules = fieldObj[method]();
 
-              if (fieldIsShowing(fieldObj) && !fieldObj[method]()) {
+              if (fieldIsShowing(fieldObj) && isFilledFailedRules.length) {
                 oneEmpty = true;
-                return false;
+                if (this.$source.hasClass('inlineFields')) {
+                  childFields.push(this);
+                }
+                return getInvalidDataFromFields(childFields, 'allNonEmpty');
               }
-            });
-            return !oneEmpty;
+            };
+            return [];
           },
           'fieldOrExcuse' : function () {
             var childFields = validation.fields.getNames(this.children),
                 field = childFields[0],
                 excuse = childFields[1],
-                fieldFailedRule = validation.applyRules(field),
-                excuseFailedRule = validation.applyRules(excuse),
+                fieldFailedRules = validation.applyRules(field),
+                excuseFailedRules = validation.applyRules(excuse),
                 fieldIsValid,
                 excuseIsValid,
                 fieldIsShowing;
@@ -1323,15 +1369,15 @@ window.GOVUK = window.GOVUK || {};
             fieldIsShowing = function (fieldObj) {
               return !fieldObj.$source.is(':hidden');
             };
-            fieldIsValid = (!fieldFailedRule && fieldIsShowing(field));
-            excuseIsValid = (!excuseFailedRule && fieldIsShowing(excuse));
+            fieldIsValid = (!fieldFailedRules.length && fieldIsShowing(field));
+            excuseIsValid = (!excuseFailedRules.length && fieldIsShowing(excuse));
             if (fieldIsValid) {
-              return true;
+              return [];
             } else {
               if (excuseIsValid) {
-                return true;
+                return [];
               } else {
-                return false;
+                return getInvalidDataFromFields([field], 'fieldOrExcuse');
               }
             }
           },
@@ -1339,23 +1385,24 @@ window.GOVUK = window.GOVUK || {};
             var otherField = validation.fields.getNames(['other'])[0],
                 $countryInput = otherField.$source.parent('label')
                                   .siblings('#add-countries')
-                                  .find('.country-autocomplete');
+                                  .find('.country-autocomplete'),
+                otherFieldFailed = otherField.nonEmpty();
 
-            if (otherField.nonEmpty()) {
-              if ($countryInput.val() === '') {
-                return false;
+            if (!otherFieldFailed.length) {
+              if (getFieldValue($countryInput) === '') {
+                return getInvalidDataFromFields([otherField, this], 'countryNonEmpty');
               } else {
-                return true
+                return [];
               }
             } else {
-              return true;
+              return [];
             }
           },
           'correctAge' : function () {
             var children = validation.fields.getNames(this.children),
-                day = parseInt(getFieldValue(children[0]), 10),
-                month = parseInt(getFieldValue(children[1]), 10),
-                year = parseInt(getFieldValue(children[2]), 10),
+                day = parseInt(getFieldValue(children[0].$source), 10),
+                month = parseInt(getFieldValue(children[1].$source), 10),
+                year = parseInt(getFieldValue(children[2].$source), 10),
                 dob = (new Date(year, (month - 1), day)).getTime(),
                 now = (new Date()).getTime(),
                 minAge = 16,
@@ -1363,7 +1410,12 @@ window.GOVUK = window.GOVUK || {};
                 age = now - dob;
 
             age = Math.floor((((((age / 1000) / 60) / 60) / 24) / 365.25));
-            return ((age >= minAge) && (age <= maxAge));
+            isValid = ((age >= minAge) && (age <= maxAge));
+            if (!isValid) {
+              return getInvalidDataFromFields(children, 'correctAge');
+            } else {
+              return [];
+            }
           }
         },
         'association' : {
@@ -1371,8 +1423,8 @@ window.GOVUK = window.GOVUK || {};
             var memberFields = validation.fields.getNames(this.members),
                 fieldset = memberFields[0],
                 excuse = memberFields[1],
-                fieldsetFailedRule = validation.applyRules(fieldset),
-                excuseFailedRule = validation.applyRules(excuse),
+                fieldsetFailedRules = validation.applyRules(fieldset),
+                excuseFailedRules = validation.applyRules(excuse),
                 fieldsetIsValid,
                 excuseIsValid,
                 fieldIsShowing;
@@ -1380,37 +1432,40 @@ window.GOVUK = window.GOVUK || {};
             fieldIsShowing = function (fieldObj) {
               return !fieldObj.$source.is(':hidden');
             };
-            fieldsetIsValid = (!fieldsetFailedRule && fieldIsShowing(fieldset));
-            excuseIsValid = (!excuseFailedRule && fieldIsShowing(excuse));
-            if (!fieldsetIsValid && excuseIsValid) {
-              return false;
+            fieldsetIsValid = (!fieldsetFailedRules.length && fieldIsShowing(fieldset));
+            excuseIsValid = (!excuseFailedRules.length && fieldIsShowing(excuse));
+            if (!fieldsetIsValid && !excuseIsValid) {
+              return fieldsetFailedRules;
             } else {
-              return fieldsetFailedRule;
+              return [];
             }
+          },
+          'allNonEmpty' : function () {
+            var oneEmpty = false,
+                memberFields = validation.fields.getNames(this.members),
+                fieldIsShowing,
+                i,j;
+
+            fieldIsShowing = function (fieldObj) {
+              return !fieldObj.$source.is(':hidden');
+            };
+            for (i = 0, j = memberFields.length; i < j; i++) {
+              var fieldObj = memberFields[i],
+                  method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty',
+                  isFilledFailedRules = fieldObj[method]();
+
+              if (fieldIsShowing(fieldObj) && isFilledFailedRules.length) {
+                oneEmpty = true;
+                memberFields.push(this)
+                return getInvalidDataFromFields(memberFields, 'allNonEmpty');
+              }
+            };
+            return [];
           }
         }
       };
       return rules;
     }()),
-    cascades : {
-      'dateOfBirthDate' : {
-        'allNonEmpty' : function () {
-          var childFields = validation.fields.getNames(this.children),
-              invalidChildRules = [];
-
-          $.each(childFields, function (idx, field) {
-            if (!field.nonEmpty()) {
-              invalidChildRules.push({
-                'name' : field.name,
-                'rule' : 'nonEmpty',
-                '$source' : field.$source
-              });
-            }
-          });
-          return invalidChildRules;
-        }
-      }
-    },
     messages : {
       'fullName' : {
         'allNonEmpty' : 'Please enter your name'

@@ -7,7 +7,7 @@
 @main(title = Some("Register to Vote - What is your name?"), stylesheets = head(), scripts = stepsBodyEnd()) {
   @form(postEndpoint) {
   @layouts.questionHeader("What is your full name?", "/register-to-vote/date-of-birth", 4)
-    <fieldset class="validate" data-validation-name="fullName" data-validation-type="fieldset" data-validation-rules="allNonEmpty" data-validation-children="firstName lastName">
+    <fieldset class="validate" data-validation-name="fullName" data-validation-type="association" data-validation-rules="allNonEmpty" data-validation-members="firstName lastName">
       @label(keys.name.firstName, label = "First name")
       @text(keys.name.firstName, attributes = Map('class -> "first-name long validate", Symbol("data-validation-name") -> "firstName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       @label(keys.name.middleNames, label = "Middle names")
