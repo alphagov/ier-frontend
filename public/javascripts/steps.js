@@ -1377,7 +1377,9 @@ window.GOVUK = window.GOVUK || {};
           'allNonEmpty' : function () {
             var childFields = validation.fields.getNames(this.children),
                 childFailedRules = [],
+                rulesToReport,
                 fieldIsShowing,
+                fieldsetObj,
                 i,j;
 
             fieldIsShowing = function (fieldObj) {
@@ -1394,10 +1396,25 @@ window.GOVUK = window.GOVUK || {};
               }
             }
             if (childFailedRules.length) {
-              if (this.$source.hasClass('inlineFields')) {
-                childFailedRules.push(this);
+              if (childFailedRules.length < childFields.length) {
+                // message for each child field
+                rulesToReport = childFailedRules;
+                fieldsetObj = {
+                  'name' : this.name,
+                  '$source' : this.$source
+                };
+              } else { // message from the fieldset level
+                rulesToReport = getInvalidDataFromFields(childFailedRules, 'allNonEmpty');
+                fieldsetObj = {
+                  'name' : this.name,
+                  'rule' : 'allNonEmpty',
+                  '$source' : this.$source
+                };
               }
-              return getInvalidDataFromFields(childFailedRules, 'allNonEmpty');
+              if (this.$source.hasClass('inlineFields')) {
+                rulesToReport.push(fieldsetObj);
+              }
+              return rulesToReport;
             } else {
               return [];
             }
