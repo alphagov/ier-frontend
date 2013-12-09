@@ -990,7 +990,6 @@ window.GOVUK = window.GOVUK || {};
             if ((itemObj.name !== name) && (itemObj.rule !== rule)) {
               result.push(itemObj);
             }
->>>>>>> tb-client-side-validation-refactor
           }
           items = result;
         },

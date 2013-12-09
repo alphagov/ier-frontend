@@ -136,6 +136,7 @@ input.nino {
 
 .validation-wrapper {
   font-size: 19px;
+  clear: left;
   margin-bottom: 1em;
 
   input,
@@ -154,9 +155,21 @@ input.nino {
   margin-left: -14px;
   border-left: solid 4px #DF3034;
 
+  .optional-section &,
+  .help-content & {
+    padding-left: 28px;
+    margin-left: -32px;
+  }
+
   @include media(tablet) {
     padding-left: 14px;
     margin-left: -18px;
+    
+    .optional-section &,
+    .help-content & {
+      padding-left: 30px;
+      margin-left: -34px;
+    }
   }
 }
 
@@ -367,7 +380,6 @@ fieldset.invalid {
 }
 
 #found-addresses.invalid {
->>>>>>> tb-client-side-validation-refactor
   outline: none;
 
   select {
