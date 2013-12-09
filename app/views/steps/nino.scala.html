@@ -5,11 +5,13 @@
 @import uk.gov.gds.ier.form.FormHelpers._
 
 @main(title = Some("Register to Vote - What is your National Insurance number?"), stylesheets = head(), scripts = stepsBodyEnd()) {
-  @form(postUrl) {
+  @form(postUrl, 'class -> "validate", Symbol("data-validation-name") -> "nino", Symbol("data-validation-type") ->"association", Symbol("data-validation-rules") -> "fieldsetOrExcuse", Symbol("data-validation-members") -> "ninoCode ninoExcuse") {
   
     @layouts.questionHeader("What is your National Insurance number?", "/register-to-vote/name", 5)
     @label(keys.nino.nino, label = "What is your National Insurance number?", attributes = Map('class -> "visuallyhidden"))
-    @text(keys.nino.nino, attributes = Map('class -> "nino"))
+    <div class="validation-wrapper">
+      @text(keys.nino.nino, attributes = Map('class -> "validate nino", Symbol("data-validation-name") -> "ninoCode", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+    </div>
     <p>Example: AB 12 34 56 C</p>
     <div class="help-content">
       <h2>Help</h2>
@@ -19,10 +21,10 @@
       <div class="optional-section">
         <h3>I can't provide a National Insurance number</h3>
         @label(keys.nino.noNinoReason, "Why can't you provide a National Insurance number?")
-        @textArea(keys.nino.noNinoReason, Map('class -> "small", 'maxlength -> "500"))
+        @textArea(keys.nino.noNinoReason, Map('class -> "small validate", 'maxlength -> "500", Symbol("data-validation-name") -> "ninoExcuse", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       </div>
     </div>
     @validationMessages(formData)
-    <button type="submit" id="continue" class="button next">Continue</button>
+    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="nino">Continue</button>
   }
 }

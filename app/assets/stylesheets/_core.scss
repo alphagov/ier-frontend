@@ -182,7 +182,7 @@ main .visible { // assumes default state is block
 
 article,
 form {
-  padding: 0 1em 2em 1em;
+  padding: 0 14px 2em 14px;
   margin-right: 0;
 
   @include media(tablet) {
@@ -213,7 +213,7 @@ form {
 .optional-section,
 .help-content {
   border-left: $grey-2 solid 4px;
-  padding: 15px 0 15px 15px;
+  padding: 14px 0 14px 14px;
   margin-bottom: 1em;
   clear: both;
   @extend %contain-floats;
@@ -227,7 +227,7 @@ form {
 .optional-section .optional-section,
 .help-content .optional-section {
   border-left: none;
-  padding: 15px 0 0;
+  padding: 14px 0 0;
 
   & :last-child {
     margin-bottom: 1em;
