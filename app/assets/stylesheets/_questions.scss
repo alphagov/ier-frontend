@@ -134,6 +134,32 @@ input.nino {
   text-transform: uppercase;
 }
 
+.validation-wrapper {
+  font-size: 19px;
+  margin-bottom: 1em;
+
+  input,
+  select {
+    margin-bottom: 0;
+  }
+
+  & .optional-section input,
+  & .help-content select {
+    margin-bottom: 1em;
+  }
+}
+
+.validation-wrapper-invalid {
+  padding-left: 10px;
+  margin-left: -14px;
+  border-left: solid 4px #DF3034;
+
+  @include media(tablet) {
+    padding-left: 14px;
+    margin-left: -18px;
+  }
+}
+
 /* Styles specific to question pages */
 
 main header {
@@ -317,6 +343,44 @@ fieldset {
 label.invalid,
 fieldset.invalid {
   outline: none;
+}
+
+fieldset.invalid {
+  border-left: solid 4px $mellow-red;
+  padding-left: 10px;
+  margin-left: -14px;
+
+  @include media(tablet) {
+    padding-left: 14px;
+    margin-left: -18px;
+  }
+
+  .help-content & {
+    padding-left: 28px;
+    margin-left: -32px;
+
+    @include media(tablet) {
+      padding-left: 32px;
+      margin-left: -36px;
+    }
+  }
+}
+
+#found-addresses.invalid {
+>>>>>>> tb-client-side-validation-refactor
+  outline: none;
+
+  select {
+    outline: solid 4px $mellow-red;
+  }
+}
+
+#add-countries.invalid {
+  outline: none;
+
+  .country-autocomplete {
+    outline: solid 4px $mellow-red;
+  }
 }
 
 fieldset.invalid {

@@ -17,31 +17,37 @@
           value = "true",
           label = "Phone Call",
           inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "phoneOption", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
-      <div class="optional-section @classIf(formData(keys.contact.phone.contactMe).value == Some("true"), "visible")" data-condition="@keys.contact.phone.contactMe.asId()">
-        @label(keys.contact.phone.detail,
-            label = "Phone number")
-        @text(keys.contact.phone.detail,
-            attributes = Map('type -> "tel", 'class -> "validate", Symbol("data-validation-name") -> "phoneNumber", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+      <div class="validation-wrapper">
+        <div class="optional-section @classIf(formData(keys.contact.phone.contactMe).value == Some("true"), "visible")" data-condition="@keys.contact.phone.contactMe.asId()">
+          @label(keys.contact.phone.detail,
+              label = "Phone number")
+          @text(keys.contact.phone.detail,
+              attributes = Map('type -> "tel", 'class -> "validate", Symbol("data-validation-name") -> "phoneNumber", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+        </div>
       </div>
       @check(keys.contact.textNum.contactMe, 
           value = "true",
           label = "Text Message",
           inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "smsOption", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
-      <div class="optional-section @classIf(formData(keys.contact.textNum.contactMe).value == Some("true"), "visible")" data-condition="@keys.contact.textNum.contactMe.asId()">
-        @label(keys.contact.textNum.detail,
-            label = "Phone number")
-        @text(keys.contact.textNum.detail,
-            attributes = Map('type -> "tel", 'class -> "validate", Symbol("data-validation-name") -> "smsNumber", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+      <div class="validation-wrapper">
+        <div class="optional-section @classIf(formData(keys.contact.textNum.contactMe).value == Some("true"), "visible")" data-condition="@keys.contact.textNum.contactMe.asId()">
+          @label(keys.contact.textNum.detail,
+              label = "Phone number")
+          @text(keys.contact.textNum.detail,
+              attributes = Map('type -> "tel", 'class -> "validate", Symbol("data-validation-name") -> "smsNumber", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+        </div>
       </div>
       @check(keys.contact.email.contactMe,
             value = "true",
             label = "Email",
             inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "emailOption", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
-      <div class="optional-section @classIf(formData(keys.contact.email.contactMe).value == Some("true"), "visible")" data-condition="@keys.contact.email.contactMe.asId()">
-        @label(keys.contact.email.detail,
-            label = "Email address")
-        @text(keys.contact.email.detail,
-            attributes = Map('type -> "email", 'class -> "long validate", Symbol("data-validation-name") -> "emailAddress", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+      <div class="validation-wrapper">
+        <div class="optional-section @classIf(formData(keys.contact.email.contactMe).value == Some("true"), "visible")" data-condition="@keys.contact.email.contactMe.asId()">
+          @label(keys.contact.email.detail,
+              label = "Email address")
+          @text(keys.contact.email.detail,
+              attributes = Map('type -> "email", 'class -> "long validate", Symbol("data-validation-name") -> "emailAddress", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+        </div>
       </div>
     </fieldset>
     @validationMessages(formData)
