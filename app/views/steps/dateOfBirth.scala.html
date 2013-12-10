@@ -15,12 +15,12 @@
           options = DateOfBirthConstants.days,
           inputAttributes = Map('_default -> "Day", 'class -> "day validate", Symbol("data-validation-name") -> "day", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"),
           labelAttributes = Map('class -> "visuallyhidden"))
-      @select(keys.dob.month,
+      @select(keys.dob.dob.month,
           label = "Month",
           options = DateOfBirthConstants.months,
           inputAttributes = Map('_default -> "Month", 'class -> "month validate", Symbol("data-validation-name") -> "month", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"),
           labelAttributes = Map('class -> "visuallyhidden"))
-      @label(keys.dob.year,
+      @label(keys.dob.dob.year,
           label = "Year",
           attributes = Map('class -> "visuallyhidden"))
       @text(keys.dob.dob.year,
