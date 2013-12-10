@@ -112,6 +112,28 @@ class DateOfBirthFormTests
     )
   }
 
+  it should "successfully bind a valid date and ignore an invalid reason" in {
+    val js = Json.toJson(
+      Map(
+        "dob.dob.day" -> "1",
+        "dob.dob.month" -> "12",
+        "dob.dob.year" -> "1980",
+        "dob.noDob.reason" -> "", //shouldn't be empty
+        "dob.noDob.range" -> "foo" //should be one of the 4 valid values
+      )
+    )
+    dateOfBirthForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(",")),
+      success => {
+        success.dob.isDefined should be(true)
+        val Some(dob) = success.dob.get.dob
+        dob.day should be(1)
+        dob.month should be(12)
+        dob.year should be(1980)
+      }
+    )
+  }
+
   it should "error out on a date in the future" in {
     val js = Json.toJson(
       Map(
