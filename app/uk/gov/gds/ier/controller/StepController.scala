@@ -9,12 +9,14 @@ import play.api.data.Form
 import play.api.templates.Html
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.guice.WithConfig
+import uk.gov.gds.ier.logging.Logging
 
 trait StepController
   extends Controller
   with SessionHandling
   with ErrorMessages
-  with FormKeys {
+  with FormKeys 
+  with Logging {
     self: WithSerialiser
       with WithConfig =>
 
@@ -39,16 +41,20 @@ trait StepController
 
   def get = ValidSession requiredFor {
     request => application =>
+      logger.info(s"GET request for ${request.path}")
       Ok(stepPage(InProgressForm(validation.fill(application))))
   }
 
   def post = ValidSession storeAfter {
     implicit request => application =>
+      logger.info(s"POST request for ${request.path}")
       validation.bindFromRequest().fold(
         hasErrors => {
+          logger.info(s" - Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
           (Ok(stepPage(InProgressForm(hasErrors))), application)
         },
         success => {
+          logger.info(s" - Form binding successful")
           val mergedApplication = merge(application, success)
           (goToNext(mergedApplication), mergedApplication)
         }
@@ -57,16 +63,20 @@ trait StepController
 
   def editGet = ValidSession requiredFor {
     request => application =>
+      logger.info(s"GET edit request for ${request.path}")
       Ok(editPage(InProgressForm(validation.fill(application))))
   }
 
   def editPost = ValidSession storeAfter {
     implicit request => application =>
+      logger.info(s"POST edit request for ${request.path}")
       validation.bindFromRequest().fold(
         hasErrors => {
+          logger.info(s" - Form binding error: \n - ${hasErrors.prettyPrint.mkString("\n - ")}")
           (Ok(editPage(InProgressForm(hasErrors))), application)
         },
         success => {
+          logger.info(s" - Form binding successful")
           val mergedApplication = merge(application, success)
           (goToConfirmation(mergedApplication), mergedApplication)
         }

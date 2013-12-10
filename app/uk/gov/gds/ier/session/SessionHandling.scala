@@ -8,15 +8,18 @@ import scala.Some
 import org.joda.time.DateTime
 import uk.gov.gds.ier.model.InprogressApplication
 import uk.gov.gds.ier.guice.WithConfig
+import uk.gov.gds.ier.logging.Logging
 
 trait SessionHandling {
   self: WithSerialiser
     with Controller
+    with Logging
     with WithConfig =>
 
   object ClearSession {
     final def eradicateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
       implicit request =>
+        logger.info(" - Clear session - discarding sessionToken and application")
         block(request).emptySession()
     }
 
@@ -30,6 +33,7 @@ trait SessionHandling {
   object NewSession {
     final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
       request =>
+        logger.info(" - New session - refreshing sessionToken and discarding application")
         block(request).withFreshSession()
     }
 
@@ -45,29 +49,51 @@ trait SessionHandling {
 
     final def validateSessionAndStore[A](bodyParser: BodyParser[A], block:Request[A] => InprogressApplication => (Result, InprogressApplication)):Action[A] = Action(bodyParser) {
       request =>
+        logger.info(s"REQUEST ${request.method} ${request.path} - Valid Session needed")
         request.getToken match {
-          case Some(token) => isValidToken(token) match {
-            case true => {
-              val (result, application) = block(request)(request.getApplication)
-              result.refreshSessionAndStore(application)
+          case Some(token) => {
+            logger.info(s" - Validate session and store - Request has token $token")
+            isValidToken(token) match {
+              case true => {
+                logger.info(s" - Validate session and store - token is valid")
+                val (result, application) = block(request)(request.getApplication)
+                result.refreshSessionAndStore(application)
+              }
+              case false => {
+                logger.info(s" - Validate session and store - token is not valid")
+                Redirect(routes.RegisterToVoteController.index()).withFreshSession()
+              }
             }
-            case false => Redirect(routes.RegisterToVoteController.index()).withFreshSession()
           }
-          case None => Redirect(routes.RegisterToVoteController.index()).withFreshSession()
+          case None => {
+            logger.info(s" - Validate session and store - Request has no token, refreshing and redirecting to govuk start page")
+            Redirect(routes.RegisterToVoteController.index()).withFreshSession()
+          }
         }
     }
 
     final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => InprogressApplication => Result):Action[A] = Action(bodyParser) {
       request =>
+        logger.info(s"REQUEST ${request.method} ${request.path} - Valid Session needed")
         request.getToken match {
-          case Some(token) => isValidToken(token) match {
-            case true => {
-              val result = block(request)(request.getApplication)
-              result.refreshSession()
+          case Some(token) => {
+            logger.info(s" - Validate session - Request has token $token")
+            isValidToken(token) match {
+              case true => {
+                logger.info(s" - Validate session - token is valid")
+                val result = block(request)(request.getApplication)
+                result.refreshSession()
+              }
+              case false => {
+                logger.info(s" - Validate session - token is not valid")
+                Redirect(routes.RegisterToVoteController.index()).withFreshSession()
+              }
             }
-            case false => Redirect(routes.RegisterToVoteController.index()).withFreshSession()
           }
-          case None => Redirect(routes.RegisterToVoteController.index()).withFreshSession()
+          case None => {
+            logger.info(s" - Validate session - Request has no token, refreshing and redirecting to govuk start page")
+            Redirect(routes.RegisterToVoteController.index()).withFreshSession()
+          }
         }
     }
 

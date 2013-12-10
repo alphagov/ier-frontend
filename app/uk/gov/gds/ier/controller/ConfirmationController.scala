@@ -13,6 +13,7 @@ import uk.gov.gds.ier.model.InprogressApplication
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.guice.WithConfig
+import uk.gov.gds.ier.logging.Logging
 
 class ConfirmationController @Inject ()(val serialiser: JsonSerialiser,
                                         ierApi: IerApiService,
@@ -22,6 +23,7 @@ class ConfirmationController @Inject ()(val serialiser: JsonSerialiser,
   with SessionHandling
   with WithSerialiser
   with WithConfig
+  with Logging
   with IerForms {
 
   val validation = inprogressForm

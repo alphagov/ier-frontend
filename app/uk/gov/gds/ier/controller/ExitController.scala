@@ -6,12 +6,14 @@ import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
 import com.google.inject.Inject
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.guice.WithConfig
+import uk.gov.gds.ier.logging.Logging
 
 class ExitController @Inject() (val serialiser: JsonSerialiser,
                                 val config: Config)
   extends Controller
   with SessionHandling
   with WithSerialiser
+  with Logging
   with WithConfig {
 
   def scotland = ClearSession requiredFor {

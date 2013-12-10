@@ -10,15 +10,15 @@ import org.slf4j.LoggerFactory
 import uk.gov.gds.ier.session.SessionHandling
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.guice.WithConfig
+import uk.gov.gds.ier.logging.Logging
 
 class RegisterToVoteController @Inject() (val serialiser: JsonSerialiser,
                                           val config: Config)
     extends Controller
     with WithSerialiser
     with WithConfig
+    with Logging
     with SessionHandling {
-
-  def logger = LoggerFactory.getLogger(this.getClass)
 
   def index = Action {
     Ok(html.start())
