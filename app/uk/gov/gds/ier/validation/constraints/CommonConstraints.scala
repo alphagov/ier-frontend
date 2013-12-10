@@ -12,6 +12,13 @@ trait CommonConstraints extends ErrorMessages {
     optional(mapping).verifying(errorMessage, _.nonEmpty).transform(_.get, Option(_))
   }
 
+  def default[A](mapping: Mapping[A], alternative:A):Mapping[A] = {
+    optional(mapping).transform(
+      opt => opt.getOrElse(alternative),
+      alt => if (alt==alternative) None else Some(alt)
+    )
+  }
+
   protected def predicateHolds [T](fieldKey:Key, errorMessage:String)
                                   (predicate:T => Boolean) = {
     Constraint[T](fieldKey.key) {

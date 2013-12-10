@@ -58,22 +58,36 @@ trait DateOfBirthConstraints extends CommonConstraints{
       }
   }
 
-  lazy val rangeIsValid = Constraint[noDOB](keys.noDob.key) {
-    noDob => 
-      if (DateOfBirthConstants.noDobRanges.contains(noDob.range)) {
+  lazy val ifDobEmptyRangeIsValid = Constraint[DateOfBirth](keys.noDob.key) {
+    case DateOfBirth(Some(dob), _) => {
+      Valid
+    }
+    case DateOfBirth(None, None) => {
+      Valid
+    }
+    case DateOfBirth(_, Some(noDob)) => {
+      if (noDob.range.exists(DateOfBirthConstants.noDobRanges.contains)) {
         Valid
       } else {
         Invalid("Please select a rough age range", keys.dob.noDob.range)
       }
+    }
   }
 
-  lazy val reasonIsNotEmpty = Constraint[noDOB](keys.noDob.key) {
-    noDob => 
-      if (noDob.reason == "") {
-        Invalid("Please provide a reason", keys.dob.noDob.reason)
-      } else {
+  lazy val ifDobEmptyReasonIsNotEmpty = Constraint[DateOfBirth](keys.noDob.key) {
+    case DateOfBirth(Some(dob), _) => {
+      Valid
+    }
+    case DateOfBirth(None, None) => {
+      Valid
+    }
+    case DateOfBirth(_, Some(noDob)) => {
+      if (noDob.reason.exists(!_.isEmpty)) {
         Valid
+      } else {
+        Invalid("Please provide a reason", keys.dob.noDob.reason)
       }
+    }
   }
 
   lazy val dobOrNoDobIsFilled = Constraint[DateOfBirth](keys.dob.key) {
