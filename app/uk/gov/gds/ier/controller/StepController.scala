@@ -8,15 +8,18 @@ import uk.gov.gds.ier.model.InprogressApplication
 import play.api.data.Form
 import play.api.templates.Html
 import uk.gov.gds.ier.validation._
-import uk.gov.gds.ier.guice.WithConfig
+import uk.gov.gds.ier.logging.Logging
+import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 
 trait StepController
   extends Controller
   with SessionHandling
   with ErrorMessages
-  with FormKeys {
+  with FormKeys 
+  with Logging {
     self: WithSerialiser
-      with WithConfig =>
+      with WithConfig
+      with WithEncryption =>
 
   val validation: ErrorTransformForm[InprogressApplication]
   val editPostRoute: Call
@@ -39,16 +42,20 @@ trait StepController
 
   def get = ValidSession requiredFor {
     request => application =>
+      logger.debug(s"GET request for ${request.path}")
       Ok(stepPage(InProgressForm(validation.fill(application))))
   }
 
   def post = ValidSession storeAfter {
     implicit request => application =>
+      logger.debug(s"POST request for ${request.path}")
       validation.bindFromRequest().fold(
         hasErrors => {
+          logger.debug(s"Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
           (Ok(stepPage(InProgressForm(hasErrors))), application)
         },
         success => {
+          logger.debug(s"Form binding successful")
           val mergedApplication = merge(application, success)
           (goToNext(mergedApplication), mergedApplication)
         }
@@ -57,16 +64,20 @@ trait StepController
 
   def editGet = ValidSession requiredFor {
     request => application =>
+      logger.debug(s"GET edit request for ${request.path}")
       Ok(editPage(InProgressForm(validation.fill(application))))
   }
 
   def editPost = ValidSession storeAfter {
     implicit request => application =>
+      logger.debug(s"POST edit request for ${request.path}")
       validation.bindFromRequest().fold(
         hasErrors => {
+          logger.debug(s"Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
           (Ok(editPage(InProgressForm(hasErrors))), application)
         },
         success => {
+          logger.debug(s"Form binding successful")
           val mergedApplication = merge(application, success)
           (goToConfirmation(mergedApplication), mergedApplication)
         }

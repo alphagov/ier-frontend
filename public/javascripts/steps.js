@@ -1440,7 +1440,7 @@ window.GOVUK = window.GOVUK || {};
               if (excuseIsValid) {
                 return [];
               } else {
-                return getInvalidDataFromFields([field], 'fieldOrExcuse');
+                return [{ 'name' : this.name, 'rule' : 'fieldOrExcuse', '$source' : field.$source }];
               }
             }
           },

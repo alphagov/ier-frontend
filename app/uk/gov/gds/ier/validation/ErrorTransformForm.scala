@@ -98,6 +98,12 @@ case class ErrorTransformForm[T](form:Form[T]) {
     )
     errorForm.copy(errors = transformedErrors)
   }
+
+  def errorMessages(key:String) = this.errors(key).map(_.message)
+  
+  def globalErrorMessages = this.globalErrors.map(_.message)
+  
+  def prettyPrint = this.errors.map(error => s"${error.key} -> ${error.message}")
 }
 
 object ErrorTransformForm {
