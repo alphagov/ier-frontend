@@ -228,8 +228,8 @@ class DateOfBirthFormTests
         dob.dob should be(None)
         dob.noDob.isDefined should be(true)
         val Some(noDob) = dob.noDob
-        noDob.reason should be("Uh, yeah, I dunno")
-        noDob.range should be("18to70")
+        noDob.reason should be(Some("Uh, yeah, I dunno"))
+        noDob.range should be(Some("18to70"))
       }
     )
   }
