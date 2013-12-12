@@ -50,7 +50,7 @@
     }
     </div>
     @validationMessages(formData)
-    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode previousAddressQuestion addressSelect addressExcuse">Continue</button>
+    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode previousAddressQuestion">Continue</button>
 
     @text(keys.possibleAddresses.postcode, attributes = Map('class -> "hidden", 'type -> "hidden"))
     @text(keys.possibleAddresses.jsonList, attributes = Map('class -> "hidden", 'type -> "hidden"))
