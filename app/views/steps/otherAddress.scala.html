@@ -11,14 +11,16 @@
     @layouts.questionHeader("Do you live at a second UK address where you're registered to vote?", 
         "/register-to-vote/previous-address", 8)
 
-    <fieldset>
+    <fieldset class="validate" data-validation-name="otherAddressQuestion" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="otherAddressYes otherAddressNo">
       @radio(keys.otherAddress.hasOtherAddress, 
           label = "Yes", 
           value = "true", 
+          inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "otherAddressYes", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"),
           labelAttributes = Map('class -> "binary"))
       @radio(keys.otherAddress.hasOtherAddress, 
           label = "No", 
           value = "false", 
+          inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "otherAddressNo", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"),
           labelAttributes = Map('class -> "binary"))
     </fieldset>
     <div class="help-content">
@@ -28,6 +30,6 @@
       <p>If you are registered to vote at two addresses, you can only vote once in any election.</p>
     </div>
     @validationMessages(formData)
-    <button type="submit" id="continue" class="button next">Continue</button>
+    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="otherAddressQuestion">Continue</button>
   }
 }
