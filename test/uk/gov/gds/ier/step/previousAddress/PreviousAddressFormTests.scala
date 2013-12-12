@@ -44,7 +44,7 @@ class PreviousAddressFormTests
   }
 
   it should "successfully bind to address and movedRecently=true with possible addresses" in {
-    val possibleAddressJS = serialiser.toJson(Addresses(List(Address(Some("123 Fake Street"), "AB12 3CD"))))
+    val possibleAddressJS = serialiser.toJson(Addresses(List(Address(Some("123 Fake Street"), "AB12 3CD", None))))
     val js = Json.toJson(
       Map(
         "previousAddress.movedRecently" -> "true",
@@ -68,7 +68,7 @@ class PreviousAddressFormTests
 
         success.possibleAddresses.isDefined should be(true)
         val Some(possibleAddresses) = success.possibleAddresses
-        possibleAddresses.addresses should be(List(Address(Some("123 Fake Street"), "AB12 3CD")))
+        possibleAddresses.addresses should be(List(Address(Some("123 Fake Street"), "AB12 3CD", None)))
       }
     )
   }
@@ -127,8 +127,8 @@ class PreviousAddressFormTests
     previousAddressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("previousAddress.previousAddress.postcode") should be(Seq("Please enter your postcode"))
-        hasErrors.globalErrorMessages should be(Seq("Please enter your postcode"))
+        hasErrors.errorMessages("previousAddress.previousAddress.address") should be(Seq("Please select your address"))
+        hasErrors.globalErrorMessages should be(Seq("Please select your address"))
       },
       success => fail("Should have thrown an error")
     )

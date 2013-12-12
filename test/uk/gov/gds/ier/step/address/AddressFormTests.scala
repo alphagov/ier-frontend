@@ -68,7 +68,7 @@ class AddressFormTests
   }
 
   it should "successfully bind possible Address list" in {
-    val possibleAddressJS = serialiser.toJson(Addresses(List(Address(Some("123 Fake Street"), "AB12 3CD"))))
+    val possibleAddressJS = serialiser.toJson(Addresses(List(Address(Some("123 Fake Street"), "AB12 3CD", None))))
     val js = Json.toJson(
       Map(
         "address.address" -> "321 My Street",
@@ -89,13 +89,13 @@ class AddressFormTests
         address.addressLine should be(Some("321 My Street"))
         address.postcode should be("SW1A 1AA")
 
-        possibleAddresses.addresses should be(List(Address(Some("123 Fake Street"), "AB12 3CD")))
+        possibleAddresses.addresses should be(List(Address(Some("123 Fake Street"), "AB12 3CD", None)))
       }
     )
   }
 
   it should "error out if it looks like you haven't selected your address" in {
-    val possibleAddressJS = serialiser.toJson(Addresses(List(Address(Some("123 Fake Street"), "AB12 3CD"))))
+    val possibleAddressJS = serialiser.toJson(Addresses(List(Address(Some("123 Fake Street"), "AB12 3CD", None))))
     val js = Json.toJson(
       Map(
         "address.postcode" -> "SW1A 1AA",

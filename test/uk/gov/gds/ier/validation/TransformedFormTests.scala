@@ -49,4 +49,17 @@ class TransformedFormTests
     boundTransformedForm.errorMessages("foo.notJohn") should be(Seq("Not John"))
     boundTransformedForm.globalErrorMessages should be(Seq("Not John"))
   }
+
+  it should "not transform any errors that have Keys as args" in {
+    lazy val constraint = Constraint[String] ("test constraint") {
+      str => if (str == "John") Valid else Invalid("Not John")
+    }
+    val data = Map("foo" -> "jim")
+    val form = Form(single("foo" -> text) verifying constraint)
+    val boundForm = form.bind(data)
+
+    val transformedForm = ErrorTransformForm(form)
+    val boundTransformedForm = transformedForm.bind(data)
+    boundTransformedForm.globalErrorMessages shouldNot be(Seq("Not John"))
+  }
 }

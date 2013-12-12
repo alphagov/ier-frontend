@@ -22,7 +22,7 @@ class ConfirmationControllerTests
             nationality = Some(Nationality(Some(true), Some(true), Some(false),
               List.empty, None, Some(List("GB", "IE")))),
             nino = Some(Nino(Some("AB 12 34 56 D"), None)),
-            address = Some(Address(Some("123 Fake Street"), "BT12 34D")),
+            address = Some(Address(Some("123 Fake Street"), "BT12 34D", None)),
             previousAddress = Some(PreviousAddress(false, None)),
             otherAddress = Some(OtherAddress(false)),
             openRegisterOptin = Some(false),

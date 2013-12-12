@@ -748,13 +748,14 @@ window.GOVUK = window.GOVUK || {};
           '</select>' +
         '</div>'
       ],
-      'help' : '<div class="help-content">' +
+        'help' : '<div class="help-content">' +
                   '<h2>My address is not listed</h2>' +
-                  '<label for="input-address-text">Enter your address</label>' +
-                  '<textarea id="input-address-text" name="'+inputName+'.address" class="small validate" autocomplete="off" ' +
+                  '<label for="'+inputId+'_manualAddress">Enter your address</label>' +
+                  '<textarea name="'+inputName+'.manualAddress" id="'+inputId+'_manualAddress" class="small validate" maxlength=500  autocomplete="off" ' +
                   'data-validation-name="addressExcuse" data-validation-type="field" data-validation-rules="nonEmpty"' +
-                  '></textarea>' +
+		          '></textarea>' +
                 '</div>'
+
     };
     this.$searchButton.attr('aria-controls', this.$targetElement.attr('id'));
     this.$targetElement.attr({
@@ -775,7 +776,7 @@ window.GOVUK = window.GOVUK || {};
         $select = $('#'+inputId+'_address_select');
         $select.siblings('label[for="'+inputId+'_address_select"]').remove();
         $select.remove();
-        $('#input-address-text').focus();
+        $('#'+inputId).focus();
       }
     });
   };
