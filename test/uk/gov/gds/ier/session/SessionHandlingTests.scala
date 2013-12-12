@@ -13,6 +13,7 @@ import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import scala.Some
 import play.api.test.FakeApplication
 import play.api.mvc.Cookie
+import uk.gov.gds.ier.logging.Logging
 
 class SessionHandlingTests extends FlatSpec with Matchers {
 
@@ -20,7 +21,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
   it should "successfully create a new session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      class TestController extends Controller with WithSerialiser with WithConfig with SessionHandling with ApiResults with WithEncryption {
+      class TestController extends Controller with WithSerialiser with WithConfig with Logging with SessionHandling with ApiResults with WithEncryption {
         val serialiser = jsonSerialiser
         val config = new MockConfig
         val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
@@ -53,7 +54,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
   it should "force a redirect with no valid session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      class TestController extends Controller with WithSerialiser with WithConfig with SessionHandling with ApiResults with WithEncryption {
+      class TestController extends Controller with WithSerialiser with WithConfig with Logging with SessionHandling with ApiResults with WithEncryption {
         val serialiser = jsonSerialiser
         val config = new MockConfig
         val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
@@ -74,7 +75,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
   it should "refresh a session with a new timestamp" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      class TestController extends Controller with WithSerialiser with WithConfig with SessionHandling with ApiResults with WithEncryption {
+      class TestController extends Controller with WithSerialiser with WithConfig with Logging with SessionHandling with ApiResults with WithEncryption {
         val serialiser = jsonSerialiser
         val config = new MockConfig
         val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
@@ -121,7 +122,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
   it should "invalidate a session after 20 mins" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      class TestController extends Controller with WithSerialiser with WithConfig with SessionHandling with ApiResults with WithEncryption {
+      class TestController extends Controller with WithSerialiser with WithConfig with Logging with SessionHandling with ApiResults with WithEncryption {
         val serialiser = jsonSerialiser
         val config = new MockConfig
         val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
@@ -160,7 +161,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
   it should "refresh a session before 20 mins" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      class TestController extends Controller with WithSerialiser with WithConfig with SessionHandling with ApiResults with WithEncryption {
+      class TestController extends Controller with WithSerialiser with WithConfig with Logging with SessionHandling with ApiResults with WithEncryption {
         val serialiser = jsonSerialiser
         val config = new MockConfig
         val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
@@ -197,7 +198,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
   it should "clear session cookies by setting a maxage below 0" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      class TestController extends Controller with WithSerialiser with WithConfig with SessionHandling with ApiResults with WithEncryption {
+      class TestController extends Controller with WithSerialiser with WithConfig with Logging with SessionHandling with ApiResults with WithEncryption {
         val serialiser = jsonSerialiser
         val config = new MockConfig
         val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
