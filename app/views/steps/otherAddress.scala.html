@@ -12,12 +12,12 @@
         "/register-to-vote/previous-address", 8)
 
     <fieldset class="validate" data-validation-name="otherAddressQuestion" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="otherAddressYes otherAddressNo">
-      @wrapLabel(keys.otherAddress.hasOtherAddress, 'class -> "binary") {
+      @wrapLabel(keys.otherAddress.hasOtherAddress, 'value -> "true", 'class -> "binary selectable") {
         @radio(keys.otherAddress.hasOtherAddress, "true", 
           'class -> "validate", Symbol("data-validation-name") -> "otherAddressYes", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
         Yes
       }
-      @wrapLabel(keys.otherAddress.hasOtherAddress, 'class -> "binary") {
+      @wrapLabel(keys.otherAddress.hasOtherAddress, 'value -> "false", 'class -> "binary selectable") {
         @radio(keys.otherAddress.hasOtherAddress, "false", 
           'class -> "validate", Symbol("data-validation-name") -> "otherAddressNo", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
         No

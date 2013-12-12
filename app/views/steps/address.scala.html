@@ -16,8 +16,7 @@
           label = "Postcode")
       <div class="validation-wrapper">
         @text(keys.possibleAddresses.postcode,
-          attributes = Map(
-            'class -> "postcode medium validate", Symbol("data-validation-name") -> "postcode", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+          'class -> "postcode medium validate", Symbol("data-validation-name") -> "postcode", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
       </div>
       <button id="find-address" type="submit" class="button search validation-submit" data-validation-sources="postcode">Find address</button>
     </fieldset>
@@ -28,7 +27,7 @@
               label = "Postcode", 
               attributes = 'class -> "hidden")
           @text(keys.address.postcode,
-              attributes = Map('class -> "hidden", 'type -> "hidden", 'value -> possible.postcode))
+            'class -> "hidden", 'type -> "hidden", 'value -> possible.postcode)
           @select(keys.address.address, "Select your address",
               "" -> "Please select..." :: possible.addresses.map(s=>s.addressLine.get->s.addressLine.get),
               inputAttributes = Map('class -> "lonely validate", Symbol("data-validation-name") -> "addressSelect", Symbol("dtaa-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
@@ -56,8 +55,8 @@
       </div>
     </div>
     @text(keys.possibleAddresses.postcode,
-      attributes = Map('class -> "hidden", 'type -> "hidden"))
+      'class -> "hidden", 'type -> "hidden")
     @text(keys.possibleAddresses.jsonList,
-      attributes = Map('class -> "hidden", 'type -> "hidden"))
+      'class -> "hidden", 'type -> "hidden")
   }
 }

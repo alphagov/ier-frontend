@@ -10,12 +10,12 @@
   
     <fieldset class="validate" data-validation-name="postalVote" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="postalNo postalYes">
       <p>Most people vote in person at a polling station. But if you prefer to vote by post, we can send you an application form.</p>
-      @wrapLabel(keys.postalVote.optIn) {
+      @wrapLabel(keys.postalVote.optIn, 'value -> "true", 'class -> "selectable") {
         @radio(keys.postalVote.optIn, "true", 
             'class -> "validate", Symbol("data-validation-name") -> "postalYes",  Symbol("data-validation-type") -> "field",  Symbol("data-validation-rules") -> "nonEmpty")
         Yes, send me a postal vote application form
       }
-      @wrapLabel(keys.postalVote.optIn) {
+      @wrapLabel(keys.postalVote.optIn, 'value -> "false", 'class -> "selectable") {
         @radio(keys.postalVote.optIn, "false", 
           'class -> "validate", Symbol("data-validation-name") -> "postalNo",  Symbol("data-validation-type") -> "field",  Symbol("data-validation-rules") -> "nonEmpty")
         No, I prefer to vote in person

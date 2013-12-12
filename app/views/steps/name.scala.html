@@ -10,22 +10,22 @@
     <fieldset class="validate" data-validation-name="fullName" data-validation-type="association" data-validation-rules="allNonEmpty" data-validation-members="firstName lastName">
       @label(keys.name.firstName, label = "First name")
       <div class="validation-wrapper">
-        @text(keys.name.firstName, attributes = Map('class -> "first-name long validate", Symbol("data-validation-name") -> "firstName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+        @text(keys.name.firstName, 'class -> "first-name long validate", Symbol("data-validation-name") -> "firstName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
       </div>
       @label(keys.name.middleNames, label = "Middle names")
-      @text(keys.name.middleNames, attributes = Map('class -> "middle-names long"))
+      @text(keys.name.middleNames, 'class -> "middle-names long")
       @label(keys.name.lastName, label = "Last name")
       <div class="validation-wrapper">
-        @text(keys.name.lastName, attributes = Map('class -> "last-name long validate", Symbol("data-validation-name") -> "lastName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+        @text(keys.name.lastName, 'class -> "last-name long validate", Symbol("data-validation-name") -> "lastName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
       </div>
     </fieldset>
     <fieldset class="sub-section validate" data-validation-name="previousQuestion" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="previousYes previousNo">
       <legend class="label">Have you changed your name in the last 12 months?</legend> 
-      @wrapLabel(keys.previousName.hasPreviousName) {
+      @wrapLabel(keys.previousName.hasPreviousName, 'value -> "true", 'class -> "selectable binary") {
         @radio(keys.previousName.hasPreviousName, "true", 'class -> "validate", Symbol("data-validation-name") -> "previousYes", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty") 
         Yes
       }
-      @wrapLabel(keys.previousName.hasPreviousName) {
+      @wrapLabel(keys.previousName.hasPreviousName, 'value -> "false", 'class -> "selectable binary") {
         @radio(keys.previousName.hasPreviousName, "false", 'class -> "validate", Symbol("data-validation-name") -> "previousNo", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
         No
       }
@@ -36,15 +36,15 @@
         @wrapLabel(keys.previousName.previousName.firstName) {
           <span class="visuallyhidden">Previous</span> First name
         }
-        @text(keys.previousName.previousName.firstName, attributes = Map('class -> "first-name long validate", Symbol("data-validation-name") -> "previousFirstName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+        @text(keys.previousName.previousName.firstName, 'class -> "first-name long validate", Symbol("data-validation-name") -> "previousFirstName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
         @wrapLabel(keys.previousName.previousName.middleNames) {
           <span class="visuallyhidden">Previous</span> Middle names
         }
-        @text(keys.previousName.previousName.middleNames, attributes = Map('class -> "middle-names long"))
+        @text(keys.previousName.previousName.middleNames, 'class -> "middle-names long")
         @wrapLabel(keys.previousName.previousName.lastName) {
           <span class="visuallyhidden">Previous</span> Last name
         }
-        @text(keys.previousName.previousName.lastName, attributes = Map('class -> "last-name long validate", Symbol("data-validation-name") -> "previousLastName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+        @text(keys.previousName.previousName.lastName, 'class -> "last-name long validate", Symbol("data-validation-name") -> "previousLastName", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
       </fieldset> 
     </div>
     @validationMessages(formData)
