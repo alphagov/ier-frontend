@@ -7,6 +7,9 @@ import org.joda.time.DateTime
 import uk.gov.gds.ier.model.InprogressApplication
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.security._
+import uk.gov.gds.ier.model.InprogressApplication
+import play.api.mvc.Cookie
 
 trait TestHelpers {
 
@@ -20,8 +23,15 @@ trait TestHelpers {
 
   implicit class FakeRequestWithOurSessionCookies[A](request: FakeRequest[A]) {
     def withIerSession(timeSinceInteraction:Int = 1, application: Option[InprogressApplication] = None) = {
-      val cookies = Seq(Cookie("sessionKey", DateTime.now.minusMinutes(timeSinceInteraction).toString())) ++
-        application.map(a => Seq(Cookie("sessionPayload", jsonSerialiser.toJson(a)))).getOrElse(Seq.empty)
+
+      val (encryptedSessionPayloadValue, payloadCookieKey) = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService)).encrypt(jsonSerialiser.toJson(application), new EncryptionKeys(new Base64EncodingService).cookies.getPublic)
+      val (encryptedSessionTokenValue, sessionTokenCookieKey) = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService)).encrypt(DateTime.now.minusMinutes(timeSinceInteraction).toString(), new EncryptionKeys(new Base64EncodingService).cookies.getPublic)
+
+      val cookies =
+        Seq(Cookie("sessionKey", encryptedSessionTokenValue.filter(_ >= ' '))) ++
+        application.map(a => Seq(Cookie("sessionPayload", encryptedSessionPayloadValue.filter(_ >= ' ')))).getOrElse(Seq.empty)  ++
+        Seq(Cookie("payloadCookieKey", payloadCookieKey)) ++
+        Seq(Cookie("sessionTokenCookieKey", sessionTokenCookieKey))
 
       request.withCookies(cookies:_*)
     }

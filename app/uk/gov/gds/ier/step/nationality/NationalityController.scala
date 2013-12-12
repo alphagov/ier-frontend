@@ -5,23 +5,25 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.controller.StepController
-import play.api.data.Form
 import play.api.mvc.{SimpleResult, Call}
 import uk.gov.gds.ier.model.InprogressApplication
 import play.api.templates.Html
 import uk.gov.gds.ier.service.IsoCountryService
-import uk.gov.gds.ier.guice.WithIsoCountryService
+import uk.gov.gds.ier.guice.{WithEncryption, WithIsoCountryService, WithConfig}
 
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.guice.WithConfig
+import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 
 class NationalityController @Inject ()(val serialiser: JsonSerialiser,
                                        val isoCountryService: IsoCountryService,
-                                       val config: Config)
+                                       val config: Config,
+                                       val encryptionService : EncryptionService,
+                                       val encryptionKeys : EncryptionKeys)
   extends StepController
   with WithSerialiser
   with WithIsoCountryService
   with WithConfig
+  with WithEncryption
   with NationalityForms {
 
   val validation = nationalityForm

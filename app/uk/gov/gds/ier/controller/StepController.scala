@@ -8,7 +8,7 @@ import uk.gov.gds.ier.model.InprogressApplication
 import play.api.data.Form
 import play.api.templates.Html
 import uk.gov.gds.ier.validation._
-import uk.gov.gds.ier.guice.WithConfig
+import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 
 trait StepController
   extends Controller
@@ -16,7 +16,8 @@ trait StepController
   with ErrorMessages
   with FormKeys {
     self: WithSerialiser
-      with WithConfig =>
+      with WithConfig
+      with WithEncryption =>
 
   val validation: ErrorTransformForm[InprogressApplication]
   val editPostRoute: Call
