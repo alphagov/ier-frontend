@@ -25,6 +25,7 @@ class RegisterToVoteController @Inject() (val serialiser: JsonSerialiser,
   def logger = LoggerFactory.getLogger(this.getClass)
 
   def index = Action {
+    logger.info("starting service register to vote")
     Ok(html.start())
   }
 
