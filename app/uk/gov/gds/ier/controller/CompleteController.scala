@@ -10,18 +10,22 @@ import scala.Some
 import uk.gov.gds.common.model.{Ero, LocalAuthority}
 import org.slf4j.LoggerFactory
 import uk.gov.gds.ier.session.SessionHandling
-import uk.gov.gds.ier.guice.WithConfig
+import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.logging.Logging
+import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 
 class CompleteController @Inject() (val serialiser: JsonSerialiser,
                                     placesService:PlacesService,
-                                    val config: Config)
+                                    val config: Config,
+                                    val encryptionService : EncryptionService,
+                                    val encryptionKeys : EncryptionKeys)
     extends Controller
     with WithSerialiser
     with WithConfig
     with Logging
-    with SessionHandling {
+    with SessionHandling
+    with WithEncryption {
 
   def complete = NewSession requiredFor {
     implicit request =>

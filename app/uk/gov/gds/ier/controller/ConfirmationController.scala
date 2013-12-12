@@ -14,17 +14,22 @@ import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.guice.WithConfig
 import uk.gov.gds.ier.logging.Logging
+import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
+import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 
 class ConfirmationController @Inject ()(val serialiser: JsonSerialiser,
                                         ierApi: IerApiService,
                                         placesService: PlacesService,
-                                        val config: Config)
+                                        val config: Config,
+                                        val encryptionService : EncryptionService,
+                                        val encryptionKeys : EncryptionKeys)
   extends Controller
   with SessionHandling
   with WithSerialiser
   with WithConfig
   with Logging
-  with IerForms {
+  with IerForms
+  with WithEncryption {
 
   val validation = inprogressForm
 
