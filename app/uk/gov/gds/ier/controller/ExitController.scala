@@ -5,6 +5,8 @@ import uk.gov.gds.ier.session.SessionHandling
 import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
 import com.google.inject.Inject
 import uk.gov.gds.ier.config.Config
+import uk.gov.gds.ier.guice.WithConfig
+import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 
@@ -15,6 +17,7 @@ class ExitController @Inject() (val serialiser: JsonSerialiser,
   extends Controller
   with SessionHandling
   with WithSerialiser
+  with Logging
   with WithConfig
   with WithEncryption {
 

@@ -12,6 +12,8 @@ import play.api.mvc.{SimpleResult, Call}
 import uk.gov.gds.ier.model.InprogressApplication
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
+import uk.gov.gds.ier.guice.WithConfig
+import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 
@@ -25,6 +27,7 @@ class ConfirmationController @Inject ()(val serialiser: JsonSerialiser,
   with SessionHandling
   with WithSerialiser
   with WithConfig
+  with Logging
   with IerForms
   with WithEncryption {
 
