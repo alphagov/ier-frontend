@@ -22,7 +22,7 @@ trait SessionHandling {
   object ClearSession {
     final def eradicateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
       implicit request =>
-        logger.debug(" - Clear session - discarding sessionToken and application")
+        logger.debug("Clear session - discarding sessionToken and application")
         block(request).emptySession()
     }
 
@@ -36,7 +36,7 @@ trait SessionHandling {
   object NewSession {
     final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
       request =>
-        logger.debug(" - New session - refreshing sessionToken and discarding application")
+        logger.debug("New session - refreshing sessionToken and discarding application")
         block(request).withFreshSession()
     }
 
@@ -55,21 +55,20 @@ trait SessionHandling {
         logger.debug(s"REQUEST ${request.method} ${request.path} - Valid Session needed")
         request.getToken match {
           case Some(token) => {
-            logger.debug(s" - Validate session and store - Request has token $token")
             isValidToken(token) match {
               case true => {
-                logger.debug(s" - Validate session and store - token is valid")
+                logger.debug(s"Validate session and store - token is valid")
                 val (result, application) = block(request)(request.getApplication)
                 result.refreshSessionAndStore(application)
               }
               case false => {
-                logger.debug(s" - Validate session and store - token is not valid")
+                logger.debug(s"Validate session and store - token is not valid")
                 Redirect(routes.RegisterToVoteController.index()).withFreshSession()
               }
             }
           }
           case None => {
-            logger.debug(s" - Validate session and store - Request has no token, refreshing and redirecting to govuk start page")
+            logger.debug(s"Validate session and store - Request has no token, refreshing and redirecting to govuk start page")
             Redirect(routes.RegisterToVoteController.index()).withFreshSession()
           }
         }
@@ -80,21 +79,20 @@ trait SessionHandling {
         logger.debug(s"REQUEST ${request.method} ${request.path} - Valid Session needed")
         request.getToken match {
           case Some(token) => {
-            logger.debug(s" - Validate session - Request has token $token")
             isValidToken(token) match {
               case true => {
-                logger.debug(s" - Validate session - token is valid")
+                logger.debug(s"Validate session - token is valid")
                 val result = block(request)(request.getApplication)
                 result.refreshSession()
               }
               case false => {
-                logger.debug(s" - Validate session - token is not valid")
+                logger.debug(s"Validate session - token is not valid")
                 Redirect(routes.RegisterToVoteController.index()).withFreshSession()
               }
             }
           }
           case None => {
-            logger.debug(s" - Validate session - Request has no token, refreshing and redirecting to govuk start page")
+            logger.debug(s"Validate session - Request has no token, refreshing and redirecting to govuk start page")
             Redirect(routes.RegisterToVoteController.index()).withFreshSession()
           }
         }

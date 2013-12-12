@@ -51,11 +51,11 @@ trait StepController
       logger.debug(s"POST request for ${request.path}")
       validation.bindFromRequest().fold(
         hasErrors => {
-          logger.debug(s" - Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
+          logger.debug(s"Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
           (Ok(stepPage(InProgressForm(hasErrors))), application)
         },
         success => {
-          logger.debug(s" - Form binding successful")
+          logger.debug(s"Form binding successful")
           val mergedApplication = merge(application, success)
           (goToNext(mergedApplication), mergedApplication)
         }
@@ -73,11 +73,11 @@ trait StepController
       logger.debug(s"POST edit request for ${request.path}")
       validation.bindFromRequest().fold(
         hasErrors => {
-          logger.debug(s" - Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
+          logger.debug(s"Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
           (Ok(editPage(InProgressForm(hasErrors))), application)
         },
         success => {
-          logger.debug(s" - Form binding successful")
+          logger.debug(s"Form binding successful")
           val mergedApplication = merge(application, success)
           (goToConfirmation(mergedApplication), mergedApplication)
         }
