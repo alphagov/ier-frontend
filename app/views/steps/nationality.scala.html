@@ -34,7 +34,7 @@
           </p>
           @keys.nationality.otherCountries.each(1) { (id, i) =>
           <div class="added-country">
-            @wrapLabel(keys.nationality.otherCountries.item(i), attributes = Map('class -> "country-label")) {
+            @wrapLabel(keys.nationality.otherCountries.item(i), 'class -> "country-label") {
               Country @i <a href="#" class="remove-field" data-field="@keys.nationality.otherCountries.item(i).asId()">Remove<span class="visuallyhidden"> Country</span></a>
               @text(keys.nationality.otherCountries.item(i), attributes = Map('class -> "country-autocomplete long"))
             }

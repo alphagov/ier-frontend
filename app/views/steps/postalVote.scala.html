@@ -10,8 +10,16 @@
   
     <fieldset class="validate" data-validation-name="postalVote" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="postalNo postalYes">
       <p>Most people vote in person at a polling station. But if you prefer to vote by post, we can send you an application form.</p>
-      @radio(keys.postalVote.optIn, value="true", label="Yes, send me a postal vote application form", inputAttributes=Map('class -> "validate", Symbol("data-validation-name") -> "postalYes",  Symbol("data-validation-type") -> "field",  Symbol("data-validation-rules") -> "nonEmpty"))
-      @radio(keys.postalVote.optIn, value="false", label="No, I prefer to vote in person", inputAttributes=Map('class -> "validate", Symbol("data-validation-name") -> "postalNo",  Symbol("data-validation-type") -> "field",  Symbol("data-validation-rules") -> "nonEmpty"))
+      @wrapLabel(keys.postalVote.optIn) {
+        @radio(keys.postalVote.optIn, "true", 
+            'class -> "validate", Symbol("data-validation-name") -> "postalYes",  Symbol("data-validation-type") -> "field",  Symbol("data-validation-rules") -> "nonEmpty")
+        Yes, send me a postal vote application form
+      }
+      @wrapLabel(keys.postalVote.optIn) {
+        @radio(keys.postalVote.optIn, "false", 
+          'class -> "validate", Symbol("data-validation-name") -> "postalNo",  Symbol("data-validation-type") -> "field",  Symbol("data-validation-rules") -> "nonEmpty")
+        No, I prefer to vote in person
+      }
     </fieldset>
     @validationMessages(formData)
     <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postalVote">Continue</button>

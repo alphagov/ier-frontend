@@ -4,7 +4,7 @@ import play.api.data.{Field, Form}
 import play.api.templates.Html
 
 case class Key(key:String) {
-  def asId(value:String = "") = List(key.replace(".", "_"), value).filter(_.nonEmpty).mkString("_")
+  def asId(value:String = "") = List(key.replace(".", "_"), value.replace(" ", "_")).filter(_.nonEmpty).mkString("_")
   def item(i:Int) = this.copy(s"$key[$i]")
 }
 

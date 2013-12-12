@@ -26,7 +26,7 @@
         @defining(possibleAddress.get) { possible =>
           @label(keys.address.postcode,
               label = "Postcode", 
-              attributes = Map('class -> "hidden"))
+              attributes = 'class -> "hidden")
           @text(keys.address.postcode,
               attributes = Map('class -> "hidden", 'type -> "hidden", 'value -> possible.postcode))
           @select(keys.address.address, "Select your address",

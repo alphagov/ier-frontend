@@ -21,8 +21,14 @@
     </fieldset>
     <fieldset class="sub-section validate" data-validation-name="previousQuestion" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="previousYes previousNo">
       <legend class="label">Have you changed your name in the last 12 months?</legend> 
-      @radio(keys.previousName.hasPreviousName, label="Yes", value = "true", labelAttributes = Map('class -> "binary"), inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "previousYes", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
-      @radio(keys.previousName.hasPreviousName, label="No", value = "false", labelAttributes = Map('class -> "binary"), inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "previousNo", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+      @wrapLabel(keys.previousName.hasPreviousName) {
+        @radio(keys.previousName.hasPreviousName, "true", 'class -> "validate", Symbol("data-validation-name") -> "previousYes", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty") 
+        Yes
+      }
+      @wrapLabel(keys.previousName.hasPreviousName) {
+        @radio(keys.previousName.hasPreviousName, "false", 'class -> "validate", Symbol("data-validation-name") -> "previousNo", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
+        No
+      }
     </fieldset>
     <div class="optional-section optional-section-core-content @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "visible")" data-condition="@keys.previousName.hasPreviousName.asId("true")">
       <h2>Previous name</h2>
