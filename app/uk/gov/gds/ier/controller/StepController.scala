@@ -73,7 +73,7 @@ trait StepController
       logger.info(s"POST edit request for ${request.path}")
       validation.bindFromRequest().fold(
         hasErrors => {
-          logger.info(s" - Form binding error: \n - ${hasErrors.prettyPrint.mkString("\n - ")}")
+          logger.info(s" - Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
           (Ok(editPage(InProgressForm(hasErrors))), application)
         },
         success => {
