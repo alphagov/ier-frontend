@@ -65,10 +65,11 @@ case class Nino(nino:Option[String],
   }
 }
 
-case class noDOB(reason:String, 
-                 range:String) {
+case class noDOB(reason:Option[String],
+                 range:Option[String]) {
   def toApiMap = {
-    Map("nodobreason" -> reason, "agerange" -> range)
+    reason.map(r => Map("nodobreason" -> r)).getOrElse(Map.empty) ++
+    range.map(r => Map("agerange" -> r)).getOrElse(Map.empty)
   }
 }
 

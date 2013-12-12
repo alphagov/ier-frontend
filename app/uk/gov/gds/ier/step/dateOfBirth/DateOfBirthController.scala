@@ -5,7 +5,7 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.controller.StepController
 import play.api.mvc.{SimpleResult, Call}
-import uk.gov.gds.ier.model.{DateOfBirth, InprogressApplication}
+import uk.gov.gds.ier.model.{DateOfBirth, InprogressApplication, noDOB}
 import play.api.templates.Html
 import uk.gov.gds.ier.validation._
 
@@ -36,10 +36,10 @@ class DateOfBirthController @Inject ()(val serialiser: JsonSerialiser,
       case Some(DateOfBirth(Some(dob), _)) if DateValidator.isTooYoungToRegister(dob) => {
         Redirect(controllers.routes.ExitController.tooYoung)
       }
-      case Some(DateOfBirth(_, Some(noDob))) if noDob.range == DateOfBirthConstants.under18 => {
+      case Some(DateOfBirth(_, Some(noDOB(Some(reason), Some(range))))) if range == DateOfBirthConstants.under18 => {
         Redirect(controllers.routes.ExitController.under18)
       }
-      case Some(DateOfBirth(_, Some(noDob))) if noDob.range == DateOfBirthConstants.dontKnow => {
+      case Some(DateOfBirth(_, Some(noDOB(Some(reason), Some(range))))) if range == DateOfBirthConstants.dontKnow => {
         Redirect(controllers.routes.ExitController.dontKnow)
       }
       case _ => Redirect(routes.NameController.get)
