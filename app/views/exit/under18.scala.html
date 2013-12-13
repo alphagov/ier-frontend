@@ -5,9 +5,11 @@
 @main(title = Some("Register to Vote - Sorry, you can’t register to vote without a date of birth"),
     stylesheets = head(),
     scripts = stepsBodyEnd(),
-    contentClasses = Some("confirmation")) {
+    contentClasses = Some("exit")) {
+  <header>
+    <h1>Sorry, you can’t register to vote without a date of birth</h1>
+  </header>
   <article>
-    <h2>Sorry, you can’t register to vote without a date of birth</h2>
     <p>Try to find out your date of birth: you can only register to vote at 16 or 17 if you can provide an exact date of birth.</p>
     <p>Or try to register again once you’re 18. You can register at 18 without an exact date of birth, as long as you can provide a genuine reason why you don’t know it.</p>
     <p><a href="https://www.gov.uk/voting-in-the-uk">More about voting in the UK</a></p>

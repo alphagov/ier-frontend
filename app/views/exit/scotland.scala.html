@@ -2,12 +2,20 @@
 @import helper._
 @import uk.gov.gds.ier.form.FormHelpers._
 @import layouts._
-@main(title = Some("Register to Vote - Electoral registration form for Scotland"), stylesheets = head(), scripts = stepsBodyEnd(), contentClasses = Some("confirmation")) {
+@main(title = Some("Register to Vote - Electoral registration form for Scotland"), stylesheets = head(), scripts = stepsBodyEnd(), contentClasses = Some("exit")) {
+  <header>
+    <h1>Voter registration forms for Scotland</h1>
+  </header>
   <article>
-    <h2>Electoral registration form for Scotland</h2>
-    <p>To update your details on the electoral register in Scotland you need to complete an electoral registration form.</p>
-    <p>To register to vote, or to update your details if you have moved or changed your name, download and print the <a href="https://www.aboutmyvote.co.uk/register_to_vote/electoral_registration_applica/download_a_blank_electoral_reg.aspx">registration form</a> [PDF, 20KB].</p>
-    <p>You can also download and print the <a href="http://www.aboutmyvote.co.uk/pdf/Scotland-young-person-registration-form-v3.pdf">young voter registration form</a> [PDF, 22KB] for the Scottish independence referendum.</p>
-    <p>You can find more information on the <a href="http://www.aboutmyvote.co.uk/">About My Vote</a> website.</p>
+    <p>You can't register online if you live in Scotland.</p>
+    <p>Instead, complete a paper form &#8211; then post it to your local Electoral Registration Office.</p>
+    <ul>
+      <li><a href="https://www.aboutmyvote.co.uk/register_to_vote/electoral_registration_applica/download_a_blank_electoral_reg.aspx" rel="external">Voter registration form (Scotland)</a></li>
+      <li><a href="https://www.aboutmyvote.co.uk/register_to_vote/british_citizens_living_abroad/register_to_vote.aspx" rel="external">Voter registration form (British citizens living abroad)</a></li>
+      <li><a href="https://www.aboutmyvote.co.uk/register_to_vote/armed_forces/registration_forms_armed_force.aspx" rel="external">Voter registration form (armed forces)</a></li>
+      <li><a href="https://www.aboutmyvote.co.uk/register_to_vote/british_council_employee/registration_forms_crown_serva.aspx" rel="external">Voter registration form (Crown servants and British Council employees)</a></li>
+    </ul>
+    <p>Or complete the young voter registration form if you'll be 16 when the Scottish independence referendum takes place (18 September 2014).</p>
+    <p><a href="http://www.aboutmyvote.co.uk/pdf/Scotland-young-person-registration-form-v3.pdf" rel="external">Young voter registration form (Scotland) [PDF, 47KB]</a>.</p>
   </article>
 }
