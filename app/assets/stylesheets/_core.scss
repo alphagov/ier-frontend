@@ -39,6 +39,17 @@ li {
   padding-left: 0.3em;
 }
 
+ul.plain-format {
+  &,
+  li {
+    padding-left: 0;
+  }
+
+  li {
+    list-style: none;
+  }
+}
+
 h1 {
   @include bold-27;
 
