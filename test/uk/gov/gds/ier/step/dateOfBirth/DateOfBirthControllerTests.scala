@@ -15,7 +15,7 @@ class DateOfBirthControllerTests
   with MockitoSugar
   with TestHelpers {
 
-  behavior of "NameController.get"
+  behavior of "DateOfBirthController.get"
   it should "display the page" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -31,7 +31,7 @@ class DateOfBirthControllerTests
     }
   }
 
-  behavior of "NameController.post"
+  behavior of "DateOfBirthController.post"
   it should "bind successfully and redirect to the Name step" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -48,7 +48,7 @@ class DateOfBirthControllerTests
     }
   }
 
-  behavior of "NameController.post"
+  behavior of "DateOfBirthController.post"
   it should "bind successfully and redirect too young exit page" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -107,7 +107,7 @@ class DateOfBirthControllerTests
     }
   }
 
-  behavior of "NameController.editGet"
+  behavior of "DateOfBirthController.editGet"
   it should "display the edit page" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -121,7 +121,7 @@ class DateOfBirthControllerTests
     }
   }
 
-  behavior of "NameController.editPost"
+  behavior of "DateOfBirthController.editPost"
   it should "bind successfully and redirect to the Confirmation step" in {
     running(FakeApplication()) {
       val Some(result) = route(

@@ -3,7 +3,6 @@ package uk.gov.gds.ier.controller
 import org.scalatest.{Matchers, FlatSpec}
 import org.scalatest.mock.MockitoSugar
 import uk.gov.gds.ier.model.{Address, PossibleAddress, Name, InprogressApplication}
-import play.api.data.Form
 import play.api.data.Forms._
 import play.api.templates.Html
 import uk.gov.gds.ier.serialiser.WithSerialiser
@@ -13,7 +12,16 @@ import play.api.mvc.Call
 import uk.gov.gds.ier.validation.{ErrorTransformForm, InProgressForm}
 import play.api.test.FakeApplication
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.guice.WithConfig
+import uk.gov.gds.ier.security._
+import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
+import uk.gov.gds.ier.validation.InProgressForm
+import scala.Some
+import uk.gov.gds.ier.model.InprogressApplication
+import play.api.mvc.Call
+import uk.gov.gds.ier.model.Name
+import uk.gov.gds.ier.model.PossibleAddress
+import play.api.test.FakeApplication
+import uk.gov.gds.ier.model.Address
 
 class StepControllerTests
   extends FlatSpec
@@ -28,10 +36,13 @@ class StepControllerTests
 
   def createController(form: ErrorTransformForm[InprogressApplication]) = new StepController
                                                                          with WithSerialiser
-                                                                         with WithConfig {
+                                                                         with WithConfig
+                                                                         with WithEncryption {
 
     val serialiser = jsonSerialiser
     val config = mockConfig
+    val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
+    val encryptionKeys = new EncryptionKeys(new Base64EncodingService)
 
     def goToNext(currentState: InprogressApplication) = Redirect("/next-step")
     override def goToConfirmation(currentState: InprogressApplication) = Redirect("/confirmation")
@@ -184,14 +195,17 @@ class StepControllerTests
         .withIerSession()
         .withFormUrlEncodedBody("foo" -> "some text")
 
-      val result = createController(form).editPost()(request)
+      val controller = createController(form)
+      val result =  controller.editPost()(request)
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/confirmation"))
 
       cookies(result).get("application") match {
         case Some(cookie) => {
-          val application = jsonSerialiser.fromJson[InprogressApplication](cookie.value)
+          val cookieKey = cookies(result).get("payloadCookieKey").get.value
+          val decryptedInfo = controller.encryptionService.decrypt(cookie.value, cookieKey, controller.encryptionKeys.cookies.getPrivate)
+          val application = jsonSerialiser.fromJson[InprogressApplication](decryptedInfo)
           application.possibleAddresses should be(None)
         }
         case _ => fail("Should have been able to deserialise")

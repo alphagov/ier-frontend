@@ -22,6 +22,10 @@ class Config extends Logging {
   def revision = configuration.getString("gds.GitCommit", "unknown")
   def branch = configuration.getString("gds.GitBranch", "unknown")
 
+  def cookiesRsaPublicKey = configuration.getString("ier.cookies.Rsa.PublicKey")
+  def cookiesRsaPrivateKey = configuration.getString("ier.cookies.Rsa.PrivateKey")
+  def cookiesSecured = configuration.getBoolean("ier.cookies.secured", false)
+
   def logConfiguration() = {
     logger.debug(s"apiTimeout:$apiTimeout")
     logger.debug(s"placesUrl:$placesUrl")
@@ -33,5 +37,6 @@ class Config extends Logging {
     logger.debug(s"buildNumber:$buildNumber")
     logger.debug(s"revision:$revision")
     logger.debug(s"branch:$branch")
+    logger.debug(s"cookiesSecured:$cookiesSecured")
   }
 }
