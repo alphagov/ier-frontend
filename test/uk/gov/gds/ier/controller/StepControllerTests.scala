@@ -186,7 +186,7 @@ class StepControllerTests
         mapping("foo" -> text.verifying("I will always pass", foo => true))
           (foo => InprogressApplication(
             possibleAddresses = Some(PossibleAddress(
-              addresses = List(Address(Some("123 Fake Street"), "SW1A 1AA")),
+              addresses = List(Address(Some("123 Fake Street"), "SW1A 1AA", None)),
               postcode = "SW1A 1AA")),
             name = Some(Name("John", None, "Smith"))))
           (app => Some("foo"))

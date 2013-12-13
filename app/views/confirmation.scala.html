@@ -88,7 +88,7 @@
           <h3>Address</h3>
           <div class="data-wrap"> 
             @validationSwitch(formData(keys.address)) {
-              <p>@formData(keys.address.address).value.getOrElse("")</p>
+              <p>@formData(keys.address.address).value.getOrElse(formData(keys.address.manualAddress).value.getOrElse(""))</p>
               <p>@formData(keys.address.postcode).value.getOrElse("")</p>
             }
           </div>
@@ -99,7 +99,7 @@
           <div class="data-wrap"> 
           @validationSwitch(formData(keys.previousAddress)) {
             @if(formData(keys.previousAddress.movedRecently).value == Some("true")){
-              <p>@formData(keys.previousAddress.previousAddress.address).value.getOrElse("")</p>
+              <p>@formData(keys.previousAddress.previousAddress.address).value.getOrElse(formData(keys.previousAddress.previousAddress.manualAddress).value.getOrElse(""))</p>
               <p>@formData(keys.previousAddress.previousAddress.postcode).value.getOrElse("")</p>
             }else{
               <p>You have not moved in the last 12 months</p>
