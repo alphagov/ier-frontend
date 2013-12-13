@@ -2,21 +2,27 @@ package uk.gov.gds.ier.session
 
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.mvc._
-import uk.gov.gds.ier.validation.IerForms
 import controllers.routes
-import scala.Some
 import org.joda.time.DateTime
 import uk.gov.gds.ier.model.InprogressApplication
-import uk.gov.gds.ier.guice.WithConfig
+import uk.gov.gds.ier.logging.Logging
+import play.api.mvc.DiscardingCookie
+import play.api.mvc.Cookie
+import scala.Some
+import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 
 trait SessionHandling {
   self: WithSerialiser
     with Controller
-    with WithConfig =>
+    with Logging
+    with WithConfig
+    with WithEncryption =>
 
   object ClearSession {
     final def eradicateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
       implicit request =>
+        logger.debug("Clear session - discarding sessionToken and application")
         block(request).emptySession()
     }
 
@@ -30,6 +36,7 @@ trait SessionHandling {
   object NewSession {
     final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
       request =>
+        logger.debug("New session - refreshing sessionToken and discarding application")
         block(request).withFreshSession()
     }
 
@@ -45,29 +52,49 @@ trait SessionHandling {
 
     final def validateSessionAndStore[A](bodyParser: BodyParser[A], block:Request[A] => InprogressApplication => (Result, InprogressApplication)):Action[A] = Action(bodyParser) {
       request =>
+        logger.debug(s"REQUEST ${request.method} ${request.path} - Valid Session needed")
         request.getToken match {
-          case Some(token) => isValidToken(token) match {
-            case true => {
-              val (result, application) = block(request)(request.getApplication)
-              result.refreshSessionAndStore(application)
+          case Some(token) => {
+            isValidToken(token) match {
+              case true => {
+                logger.debug(s"Validate session and store - token is valid")
+                val (result, application) = block(request)(request.getApplication)
+                result.refreshSessionAndStore(application)
+              }
+              case false => {
+                logger.debug(s"Validate session and store - token is not valid")
+                Redirect(routes.RegisterToVoteController.index()).withFreshSession()
+              }
             }
-            case false => Redirect(routes.RegisterToVoteController.index()).withFreshSession()
           }
-          case None => Redirect(routes.RegisterToVoteController.index()).withFreshSession()
+          case None => {
+            logger.debug(s"Validate session and store - Request has no token, refreshing and redirecting to govuk start page")
+            Redirect(routes.RegisterToVoteController.index()).withFreshSession()
+          }
         }
     }
 
     final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => InprogressApplication => Result):Action[A] = Action(bodyParser) {
       request =>
+        logger.debug(s"REQUEST ${request.method} ${request.path} - Valid Session needed")
         request.getToken match {
-          case Some(token) => isValidToken(token) match {
-            case true => {
-              val result = block(request)(request.getApplication)
-              result.refreshSession()
+          case Some(token) => {
+            isValidToken(token) match {
+              case true => {
+                logger.debug(s"Validate session - token is valid")
+                val result = block(request)(request.getApplication)
+                result.refreshSession()
+              }
+              case false => {
+                logger.debug(s"Validate session - token is not valid")
+                Redirect(routes.RegisterToVoteController.index()).withFreshSession()
+              }
             }
-            case false => Redirect(routes.RegisterToVoteController.index()).withFreshSession()
           }
-          case None => Redirect(routes.RegisterToVoteController.index()).withFreshSession()
+          case None => {
+            logger.debug(s"Validate session - Request has no token, refreshing and redirecting to govuk start page")
+            Redirect(routes.RegisterToVoteController.index()).withFreshSession()
+          }
         }
     }
 
@@ -92,11 +119,28 @@ trait SessionHandling {
 
   private implicit class InProgressRequest(request:play.api.mvc.Request[_]) extends SessionKeys {
     def getToken = {
-      request.cookies.get(sessionTokenKey).map(_.value)
+      val cookie = request.cookies.get(sessionTokenKey)
+      if (cookie.isDefined) {
+        val sessionTokenKeyCookie = request.cookies.get(sessionTokenCookieKeyParam)
+        if (sessionTokenKeyCookie.isDefined) {
+          val decryptedInfo = encryptionService.decrypt(cookie.get.value, sessionTokenKeyCookie.get.value ,encryptionKeys.cookies.getPrivate)
+          Some(decryptedInfo)
+        }
+        else None
+      }
+      else None
+
     }
     def getApplication = {
       request.cookies.get(sessionPayloadKey) match {
-        case Some(cookie) => serialiser.fromJson[InprogressApplication](cookie.value)
+        case Some(cookie) => {
+          val payloadKeyCookie = request.cookies.get(payloadCookieKeyParam)
+          if (payloadKeyCookie.isDefined) {
+            val decryptedInfo = encryptionService.decrypt(cookie.value, payloadKeyCookie.get.value ,encryptionKeys.cookies.getPrivate)
+            serialiser.fromJson[InprogressApplication](decryptedInfo)
+          }
+          else InprogressApplication()
+        }
         case _ => InprogressApplication()
       }
     }
@@ -109,19 +153,43 @@ trait SessionHandling {
 
       result.discardingCookies(requestCookies: _*)
     }
+
     def withFreshSession() = {
-      result.withCookies(Cookie(sessionTokenKey, DateTime.now.toString())).discardingCookies(DiscardingCookie(sessionPayloadKey))
+      val (encryptedSessionTokenValue, sessionTokenCookieKey) = encryptionService.encrypt(DateTime.now.toString(), encryptionKeys.cookies.getPublic)
+      result.withCookies(
+        createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')),
+        createSecureCookie(sessionTokenCookieKeyParam, sessionTokenCookieKey.filter(_ >= ' ')))
+        .discardingCookies(DiscardingCookie(sessionPayloadKey))
     }
+
     def refreshSessionAndStore(application:InprogressApplication) = {
-      result.withCookies(Cookie(sessionTokenKey, DateTime.now.toString()), Cookie(sessionPayloadKey, serialiser.toJson(application)))
+      val (encryptedSessionPayloadValue, payloadCookieKey) = encryptionService.encrypt(serialiser.toJson(application), encryptionKeys.cookies.getPublic)
+      val (encryptedSessionTokenValue, sessionTokenCookieKey) = encryptionService.encrypt(DateTime.now.toString(), encryptionKeys.cookies.getPublic)
+      result.withCookies(
+        createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')),
+        createSecureCookie(sessionPayloadKey, encryptedSessionPayloadValue.filter(_ >= ' ')),
+        createSecureCookie(payloadCookieKeyParam, payloadCookieKey.filter(_ >= ' ')),
+        createSecureCookie(sessionTokenCookieKeyParam, sessionTokenCookieKey.filter(_ >= ' ')))
     }
+
     def refreshSession() = {
-      result.withCookies(Cookie(sessionTokenKey, DateTime.now.toString()))
+      val (encryptedSessionTokenValue, sessionTokenCookieKey) = encryptionService.encrypt(DateTime.now.toString(), encryptionKeys.cookies.getPublic)
+      result.withCookies(
+        createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')),
+        createSecureCookie(sessionTokenCookieKeyParam, sessionTokenCookieKey.filter(_ >= ' ')))
     }
+
+    def createSecureCookie ( name : String, value : String) : Cookie = {
+      Cookie (name, value, None, "/", None, config.cookiesSecured, true)
+    }
+
   }
 
   trait SessionKeys {
     val sessionPayloadKey = "application"
     val sessionTokenKey = "sessionKey"
+
+    val sessionTokenCookieKeyParam = "sessionTokenCookieKey"
+    val payloadCookieKeyParam = "payloadCookieKey"
   }
 }

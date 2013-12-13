@@ -2,6 +2,7 @@ package uk.gov.gds.ier.logging
 
 import org.slf4j.LoggerFactory
 import org.joda.time.DateTime
+import uk.gov.gds.ier.validation.ErrorTransformForm
 
 trait Logging {
   val logger = LoggerFactory.getLogger(this.getClass)
