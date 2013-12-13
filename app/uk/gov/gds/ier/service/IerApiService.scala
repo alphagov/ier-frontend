@@ -33,7 +33,7 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
       authority.map(auth => Map("gssCode" -> auth.gssId)).getOrElse(Map.empty)  ++
       Map("applicationType" -> "ordinary")  ++
-      ipAddress.map(ipAddress => Map("webIpAddress" -> ipAddress)).getOrElse(Map.empty)
+      ipAddress.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty)
 
     val apiApplicant = ApiApplication(completeApplication)
 
