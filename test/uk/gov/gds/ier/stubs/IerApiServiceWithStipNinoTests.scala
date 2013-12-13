@@ -32,4 +32,14 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
     service.generateReferenceNumber(applicationWithNino)
     verify(concreteIerApiServiceMock).generateReferenceNumber(applicationWithStrippedNino)
   }
+
+  it should "not replace a nino when using no nino reason" in {
+    val concreteIerApiServiceMock = mock[ConcreteIerApiService]
+    val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
+    val applicationWithNoNinoReason = InprogressApplication(nino = Some(Nino(None, Some("no nino reason"))))
+
+    when(concreteIerApiServiceMock.submitApplication(None, applicationWithNoNinoReason, None)).thenReturn(ApiApplicationResponse("","","","","")) //don't care about return type
+    service.submitApplication(None, applicationWithNoNinoReason, None)
+    verify(concreteIerApiServiceMock).submitApplication(None, applicationWithNoNinoReason, None)
+  }
 }
