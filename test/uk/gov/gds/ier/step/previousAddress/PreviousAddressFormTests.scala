@@ -43,6 +43,29 @@ class PreviousAddressFormTests
     )
   }
 
+  it should "successfully bind to address and movedRecently=true (manual address)" in {
+    val js = Json.toJson(
+      Map(
+        "previousAddress.movedRecently" -> "true",
+        "previousAddress.previousAddress.manualAddress" -> "123 Fake Street",
+        "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
+      )
+    )
+    previousAddressForm.bind(js).fold(
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
+      success => {
+        success.previousAddress.isDefined should be(true)
+        val previousAddressWrapper = success.previousAddress.get
+        previousAddressWrapper.movedRecently should be(true)
+
+        previousAddressWrapper.previousAddress.isDefined should be(true)
+        val previousAddress = previousAddressWrapper.previousAddress.get
+        previousAddress.manualAddress should be(Some("123 Fake Street"))
+        previousAddress.postcode should be("SW1A 1AA")
+      }
+    )
+  }
+
   it should "successfully bind to address and movedRecently=true with possible addresses" in {
     val possibleAddressJS = serialiser.toJson(Addresses(List(Address(Some("123 Fake Street"), "AB12 3CD", None))))
     val js = Json.toJson(
@@ -73,6 +96,36 @@ class PreviousAddressFormTests
     )
   }
 
+  it should "successfully bind to address and movedRecently=true with possible addresses (manual address)" in {
+    val possibleAddressJS = serialiser.toJson(Addresses(List(Address(Some("123 Fake Street"), "AB12 3CD", None))))
+    val js = Json.toJson(
+      Map(
+        "previousAddress.movedRecently" -> "true",
+        "previousAddress.previousAddress.manualAddress" -> "123 Fake Street",
+        "previousAddress.previousAddress.postcode" -> "SW1A 1AA",
+        "possibleAddresses.jsonList" -> possibleAddressJS,
+        "possibleAddresses.postcode" -> "SW1A 1AA"
+      )
+    )
+    previousAddressForm.bind(js).fold(
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
+      success => {
+        success.previousAddress.isDefined should be(true)
+        val previousAddressWrapper = success.previousAddress.get
+        previousAddressWrapper.movedRecently should be(true)
+
+        previousAddressWrapper.previousAddress.isDefined should be(true)
+        val previousAddress = previousAddressWrapper.previousAddress.get
+        previousAddress.manualAddress should be(Some("123 Fake Street"))
+        previousAddress.postcode should be("SW1A 1AA")
+
+        success.possibleAddresses.isDefined should be(true)
+        val Some(possibleAddresses) = success.possibleAddresses
+        possibleAddresses.addresses should be(List(Address(Some("123 Fake Street"), "AB12 3CD", None)))
+      }
+    )
+  }
+
   it should "not error out with empty text" in {
     val js = Json.toJson(
       Map(
@@ -93,6 +146,33 @@ class PreviousAddressFormTests
         previousAddressWrapper.previousAddress.isDefined should be(true)
         val previousAddress = previousAddressWrapper.previousAddress.get
         previousAddress.addressLine should be(Some("123 Fake Street"))
+        previousAddress.postcode should be("SW1A 1AA")
+
+        success.possibleAddresses should be(None)
+      }
+    )
+  }
+
+  it should "not error out with empty text (manual address)" in {
+    val js = Json.toJson(
+      Map(
+        "previousAddress.movedRecently" -> "true",
+        "previousAddress.previousAddress.manualAddress" -> "123 Fake Street",
+        "previousAddress.previousAddress.postcode" -> "SW1A 1AA",
+        "possibleAddresses.jsonList" -> "",
+        "possibleAddresses.postcode" -> ""
+      )
+    )
+    previousAddressForm.bind(js).fold(
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
+      success => {
+        success.previousAddress.isDefined should be(true)
+        val previousAddressWrapper = success.previousAddress.get
+        previousAddressWrapper.movedRecently should be(true)
+
+        previousAddressWrapper.previousAddress.isDefined should be(true)
+        val previousAddress = previousAddressWrapper.previousAddress.get
+        previousAddress.manualAddress should be(Some("123 Fake Street"))
         previousAddress.postcode should be("SW1A 1AA")
 
         success.possibleAddresses should be(None)
