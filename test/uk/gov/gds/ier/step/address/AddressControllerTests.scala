@@ -47,6 +47,22 @@ class AddressControllerTests
     }
   }
 
+  it should "bind successfully and redirect to the Previous Address step with a manual address" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/address")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "address.manualAddress" -> "123 Fake Street",
+            "address.postcode" -> "SW1A 1AA"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/previous-address"))
+    }
+  }
+
   it should "display any errors on unsuccessful bind" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -84,6 +100,22 @@ class AddressControllerTests
             "address.address" -> "123 Fake Street", 
             "address.postcode" -> "SW1A 1AA"
           )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/confirmation"))
+    }
+  }
+
+  it should "bind successfully and redirect to the Confirmation step with manual address" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/edit/address")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+          "address.manualAddress" -> "123 Fake Street",
+          "address.postcode" -> "SW1A 1AA"
+        )
       )
 
       status(result) should be(SEE_OTHER)

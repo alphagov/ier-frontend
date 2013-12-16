@@ -43,14 +43,14 @@
 
         <div class="help-content">
             <h2>My address is not listed</h2>
-            <label for="input-address-text">Enter your address</label>
-            <textarea id="input-address-text" name="address.address" class="small validate" data-validation-name="addressExcuse" data-validation-type="field" data-validation-rules="nonEmpty"></textarea>
+            @label(keys.previousAddress.manualAddress, "Enter your address")
+            @textArea(keys.previousAddress.manualAddress, Map('class -> "small validate", 'maxlength -> "500"))
         </div>
       }
     }
     </div>
     @validationMessages(formData)
-    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode previousAddressQuestion addressSelect addressExcuse">Continue</button>
+    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode previousAddressQuestion">Continue</button>
 
     @text(keys.possibleAddresses.postcode, attributes = Map('class -> "hidden", 'type -> "hidden"))
     @text(keys.possibleAddresses.jsonList, attributes = Map('class -> "hidden", 'type -> "hidden"))

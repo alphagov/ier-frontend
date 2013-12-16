@@ -56,6 +56,8 @@ trait FormKeys {
 
     lazy val address = prependNamespace(Key("address"))
     lazy val postcode = prependNamespace(Key("postcode"))
+    lazy val manualAddress = prependNamespace(Key("manualAddress"))
+
     lazy val previousAddress = prependNamespace(Key("previousAddress"))
     lazy val movedRecently = prependNamespace(Key("movedRecently"))
     lazy val otherAddress = prependNamespace(Key("otherAddress"))

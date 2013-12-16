@@ -10,8 +10,9 @@ import uk.gov.gds.ier.model.InprogressApplication
 import uk.gov.gds.ier.model.PossibleAddress
 import scala.Some
 import uk.gov.gds.ier.model.Address
+import uk.gov.gds.ier.validation.constraints.AddressConstraints
 
-trait AddressForms {
+trait AddressForms extends AddressConstraints {
   self:  FormKeys
     with ErrorMessages
     with WithSerialiser =>
@@ -27,12 +28,13 @@ trait AddressForms {
 
   lazy val addressMapping = mapping(
     keys.address.key -> optional(nonEmptyText
-      .verifying(addressMaxLengthError, _.size <= maxTextFieldLength)
-    ).verifying("Please select your address", 
-      address => address.exists(_ != "Select your address")),
+      .verifying(addressMaxLengthError, _.size <= maxTextFieldLength)),
     keys.postcode.key -> nonEmptyText
       .verifying("Your postcode is not valid", 
-        postcode => PostcodeValidator.isValid(postcode))
+        postcode => PostcodeValidator.isValid(postcode)),
+    keys.manualAddress.key -> optional(nonEmptyText
+      .verifying(addressMaxLengthError, _.size <= maxTextFieldLength)
+    )
   ) (
     Address.apply
   ) (
@@ -49,6 +51,6 @@ trait AddressForms {
         InprogressApplication(address = address, possibleAddresses = possibleAddresses)
     ) (
       inprogress => Some(inprogress.address, inprogress.possibleAddresses)
-    )
+    ) verifying (addressOrManualAddressDefined)
   )
 }

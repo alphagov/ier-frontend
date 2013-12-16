@@ -2,6 +2,7 @@ package uk.gov.gds.ier.model
 
 import org.joda.time.{DateTime, LocalDate}
 import com.fasterxml.jackson.annotation.JsonFormat
+import play.api.data.validation.{Invalid, Valid}
 
 case class ApiApplicationResponse (id: String,
                                    createdAt: String,
@@ -122,9 +123,12 @@ case class PossibleAddress(addresses:List[Address], postcode: String)
 
 case class Addresses(addresses:List[Address])
 
-case class Address(addressLine:Option[String], postcode:String) {
+case class Address(addressLine:Option[String], postcode:String, manualAddress:Option[String]) {
   def toApiMap(addressKey:String, postcodeKey:String) = {
-    addressLine.map(address => Map(addressKey -> address)).getOrElse(Map.empty) ++ Map(postcodeKey -> postcode)
+    addressLine match {
+      case Some(_) => addressLine.map(address => Map(addressKey -> address)).getOrElse(Map.empty) ++ Map(postcodeKey -> postcode)
+      case None => manualAddress.map(address => Map(addressKey -> address)).getOrElse(Map.empty) ++ Map(postcodeKey -> postcode)
+    }
   }
 }
 
