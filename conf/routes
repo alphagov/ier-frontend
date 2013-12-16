@@ -20,6 +20,7 @@ GET         /register-to-vote/exit/northern-ireland            controllers.ExitC
 GET         /register-to-vote/exit/under-18                    controllers.ExitController.under18
 GET         /register-to-vote/exit/dont-know                   controllers.ExitController.dontKnow
 GET         /register-to-vote/exit/too-young                   controllers.ExitController.tooYoung
+GET         /register-to-vote/exit/no-franchise                controllers.ExitController.noFranchise
 
 
 ##Steps routes

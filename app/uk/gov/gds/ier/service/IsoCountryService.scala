@@ -26,4 +26,14 @@ class IsoCountryService
 
     nationality.copy(countryIsos = if (isoCodes.isEmpty) None else Some(isoCodes))
   }
+
+  def getFranchises(nationality:Nationality):List[Franchise] = {
+    val nationalities = nationality.checkedNationalities ++ nationality.otherCountries
+    val isoCodes = nationalities.flatMap{
+      country =>
+        countryNameToCodes.get(country.toLowerCase)
+    }
+    val franchises = isoCodes.flatMap(_.franchise)
+    franchises
+  }
 }
