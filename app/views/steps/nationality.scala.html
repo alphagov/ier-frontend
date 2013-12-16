@@ -22,9 +22,9 @@
     @layouts.questionHeader("What is your nationality?", "/register-to-vote/country-of-residence", 2)
     <p>If you have dual nationality, select all options that are relevant to you.</p>
     <fieldset class="validate" data-validation-name="country" data-validation-type="fieldset" data-validation-rules="atLeastOneChecked checkedOtherHasValue" data-validation-children="british irish other otherCountries">
-      @check(keys.nationality.british, label = "I am British", value = "true", inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "british", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
-      @check(keys.nationality.irish, label = "I am Irish", value = "true", inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "irish", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
-      @check(keys.nationality.hasOtherCountry, label = "I am a citizen of another country", value = "true", inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "other", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+      @check(keys.nationality.british, label = "British", value = "true", inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "british", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+      @check(keys.nationality.irish, label = "Irish", value = "true", inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "irish", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+      @check(keys.nationality.hasOtherCountry, label = "Citizen of another country", value = "true", inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "other", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       <div class="validation-wrapper">
         <div id="add-countries" class="optional-section validate" data-condition="@keys.nationality.hasOtherCountry.asId()" data-validation-name="otherCountries" data-validation-type="field" data-validation-rules="atLeastOneCountry">
           @label(keys.nationality.otherCountries.item(0), label = "Which country?")  
@@ -48,8 +48,9 @@
     </fieldset>
     <div class="help-content" id="nationality-help">
       <h2>Help</h2>
+      <p>We need to know your nationality so we can work out which elections you're entitled to vote in.</p> 
       <p>If you're not sure about your nationality, try to find out from an official document like a passport or national ID card.</p>
-      <p>We need to know your nationality so we can work out which elections you're entitled to vote in. If you can’t confirm your nationality, you'll have to send copies of identity documents through the post.</p>
+      <p>If you can’t confirm your nationality, you'll need to explain why. And after you've applied, you'll be asked to prove your identity by sending documents in the post (or providing them in person).</p>
       <div class="optional-section" id="nationality-provision">
         <h3>I can't provide my nationality</h3>
         @label(keys.nationality.noNationalityReason, "Why can't you provide your nationality?")
