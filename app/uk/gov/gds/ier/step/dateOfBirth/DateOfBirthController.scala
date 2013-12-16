@@ -8,6 +8,7 @@ import play.api.mvc.{SimpleResult, Call}
 import uk.gov.gds.ier.model.{DateOfBirth, InprogressApplication, noDOB}
 import play.api.templates.Html
 import uk.gov.gds.ier.validation._
+import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}

@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.validation
+package uk.gov.gds.ier.validation.constants
 
 import org.joda.time.DateTime
 

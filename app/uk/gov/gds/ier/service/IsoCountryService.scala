@@ -2,6 +2,7 @@ package uk.gov.gds.ier.service
 
 import uk.gov.gds.ier.validation.constraints.NationalityConstraints
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.validation.constants.NationalityConstants._
 import uk.gov.gds.ier.model.Nationality
 
 class IsoCountryService
@@ -15,7 +16,10 @@ class IsoCountryService
 
   def transformToIsoCode(nationality:Nationality):Nationality = {
     val nationalities = nationality.checkedNationalities ++ nationality.otherCountries
-    val isoCodes = nationalities.map(country => countryNameToCodes.get(country.toLowerCase)).filter(_.isDefined).map{
+    val isoCodes = nationalities.map{
+      country => 
+        countryNameToCodes.get(country.toLowerCase).map(_.isoCode)
+    }.filter(_.isDefined).map{
       case Some(country) => country
       case None => ""
     }
