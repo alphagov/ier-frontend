@@ -22,7 +22,7 @@
             label = "Phone number")
         <div class="validation-wrapper">
           @text(keys.contact.phone.detail,
-              attributes = Map('type -> "tel", 'class -> "validate", Symbol("data-validation-name") -> "phoneNumber", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+            'type -> "tel", 'class -> "validate", Symbol("data-validation-name") -> "phoneNumber", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
         </div>
       </div>
       @check(keys.contact.textNum.contactMe, 
@@ -34,7 +34,7 @@
             label = "Phone number")
         <div class="validation-wrapper">
           @text(keys.contact.textNum.detail,
-              attributes = Map('type -> "tel", 'class -> "validate", Symbol("data-validation-name") -> "smsNumber", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+            'type -> "tel", 'class -> "validate", Symbol("data-validation-name") -> "smsNumber", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
         </div>
       </div>
       @check(keys.contact.email.contactMe,
@@ -46,7 +46,7 @@
             label = "Email address")
         <div class="validation-wrapper">
           @text(keys.contact.email.detail,
-              attributes = Map('type -> "email", 'class -> "long validate", Symbol("data-validation-name") -> "emailAddress", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+            'type -> "email", 'class -> "long validate", Symbol("data-validation-name") -> "emailAddress", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
         </div>
       </div>
     </fieldset>

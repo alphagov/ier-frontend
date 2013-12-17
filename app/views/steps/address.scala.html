@@ -18,8 +18,7 @@
             label = "Postcode")
             <div class="validation-wrapper">
                 @text(keys.possibleAddresses.postcode,
-                attributes = Map(
-                'class -> "postcode medium validate", Symbol("data-validation-name") -> "postcode", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+                'class -> "postcode medium validate", Symbol("data-validation-name") -> "postcode", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
             </div>
             <button id="find-address" type="submit" class="button search validation-submit" data-validation-sources="postcode">Find address</button>
         </fieldset>
@@ -27,14 +26,15 @@
 
   @form(postUrl) {
 
+
     <div id="found-addresses">
       @if(possibleAddress.isDefined && !possibleAddress.get.jsonList.addresses.isEmpty ) {
         @defining(possibleAddress.get) { possible =>
           @label(keys.address.postcode,
               label = "Postcode",
-              attributes = Map('class -> "hidden"))
+              attributes = 'class -> "hidden")
           @text(keys.address.postcode,
-              attributes = Map('class -> "hidden", 'type -> "hidden", 'value -> possible.postcode))
+            'class -> "hidden", 'type -> "hidden", 'value -> possible.postcode)
           @select(keys.address.address, "Select your address",
               "" -> "Please select..." :: possible.jsonList.addresses.map(s=>s.addressLine.get->s.addressLine.get),
               inputAttributes = Map('class -> "lonely validate", Symbol("data-validation-name") -> "addressSelect", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
@@ -45,25 +45,26 @@
           </div>
         }
       }
+
+    </div>
+    @validationMessages(formData)
+    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode">Continue</button>
+    <div class="help-content">
+      <h2>Help</h2>
+      <p>We need your address and postcode so that we can send your details to the right local Electoral Registration Office.</p>
+      <p>If you're a student living away from home, you can register to vote at both your permanent home address and your term-time address.</p>
+      <p>If you're homeless and living in temporary accommodation (for example, a long term hostel), use that address.</p>
+      <p>If you're a long term patient in a psychiatric hospital, use the address of the hospital.</p>
+      <p>If you're a prisoner on long term remand, use the address of the prison.</p>
+      <div class="optional-section">
+        <h2>I can't provide an address</h2>
+        <p>If you do not have a fixed address you will need to complete a Declaration of local connection.</p>
+        <p>Please contact your Electoral Registration Office for advice.</p>
       </div>
-      @validationMessages(formData)
-      <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode">Continue</button>
-      <div class="help-content">
-        <h2>Help</h2>
-        <p>We need your address and postcode so that we can send your details to the right local Electoral Registration Office.</p>
-        <p>If you're a student living away from home, you can register to vote at both your permanent home address and your term-time address.</p>
-        <p>If you're homeless and living in temporary accommodation (for example, a long term hostel), use that address.</p>
-        <p>If you're a long term patient in a psychiatric hospital, use the address of the hospital.</p>
-        <p>If you're a prisoner on long term remand, use the address of the prison.</p>
-        <div class="optional-section">
-          <h2>I can't provide an address</h2>
-          <p>If you do not have a fixed address you will need to complete a Declaration of local connection.</p>
-          <p>Please contact your Electoral Registration Office for advice.</p>
-        </div>
-      </div>
-      @text(keys.possibleAddresses.postcode,
-        attributes = Map('class -> "hidden", 'type -> "hidden"))
-      @text(keys.possibleAddresses.jsonList,
-        attributes = Map('class -> "hidden", 'type -> "hidden"))
-    }
+    </div>
+    @text(keys.possibleAddresses.postcode,
+      'class -> "hidden", 'type -> "hidden")
+    @text(keys.possibleAddresses.jsonList,
+      'class -> "hidden", 'type -> "hidden")
   }
+}
