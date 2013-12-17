@@ -38,7 +38,7 @@
         @text(keys.previousAddress.previousAddress.postcode,
           attributes = Map('class -> "hidden", 'type -> "hidden", 'value -> possible.postcode))
         @select(keys.previousAddress.previousAddress.address, "Select your address",
-          "" -> "Please select..." :: possible.addresses.map(s=>s.addressLine.get->s.addressLine.get),
+          "" -> "Please select..." :: possible.jsonList.addresses.map(s=>s.addressLine.get->s.addressLine.get),
           inputAttributes = Map('class -> "lonely validate", Symbol("data-validation-name") -> "addressSelect", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
 
         <div class="help-content">

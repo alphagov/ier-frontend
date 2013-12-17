@@ -119,7 +119,7 @@ case class InprogressApplication (name: Option[Name] = None,
   }
 }
 
-case class PossibleAddress(addresses:List[Address], postcode: String)
+case class PossibleAddress(jsonList:Addresses, postcode: String)
 
 case class Addresses(addresses:List[Address])
 

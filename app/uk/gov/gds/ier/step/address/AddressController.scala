@@ -13,11 +13,13 @@ import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.service.PlacesService
 
 class AddressController @Inject ()(val serialiser: JsonSerialiser,
                                    val config: Config,
                                    val encryptionService : EncryptionService,
-                                   val encryptionKeys : EncryptionKeys)
+                                   val encryptionKeys : EncryptionKeys,
+                                   val postcodeAnywhere: PlacesService)
   extends StepController
   with WithSerialiser
   with WithConfig
@@ -37,11 +39,52 @@ class AddressController @Inject ()(val serialiser: JsonSerialiser,
     }
     val possiblePostcode = form(keys.possibleAddresses.postcode).value
 
-    val possible = possiblePostcode.map(PossibleAddress(possibleAddresses.addresses, _))
+    val possible = possiblePostcode.map(PossibleAddress(possibleAddresses, _))
     views.html.steps.address(form, call, possible)
   }
   def goToNext(currentState: InprogressApplication): SimpleResult = {
     Redirect(routes.PreviousAddressController.get)
   }
-}
 
+  def lookup = ValidSession requiredFor {
+    implicit request => application =>
+      addressLookupForm.bindFromRequest().fold(
+        hasErrors => {
+          Ok(stepPage(InProgressForm(hasErrors)))
+        },
+        success => {
+          val postcode = success.possibleAddresses.get.postcode
+          val addressesList = postcodeAnywhere.lookupAddress(postcode)
+          val inProgressForm = InProgressForm(
+            validation.fill(
+              success.copy(
+                possibleAddresses = Some(PossibleAddress(Addresses(addressesList), postcode))
+              )
+            )
+          )
+          Ok(stepPage(inProgressForm))
+        }
+      )
+  }
+
+  def editLookup = ValidSession requiredFor {
+    implicit request => application =>
+      addressLookupForm.bindFromRequest().fold(
+        hasErrors => {
+          Ok(editPage(InProgressForm(hasErrors)))
+        },
+        success => {
+          val postcode = success.possibleAddresses.get.postcode
+          val addressesList = postcodeAnywhere.lookupAddress(postcode)
+          val inProgressForm = InProgressForm(
+            validation.fill(
+              success.copy(
+                possibleAddresses = Some(PossibleAddress(Addresses(addressesList), postcode))
+              )
+            )
+          )
+          Ok(editPage(inProgressForm))
+        }
+      )
+  }
+}
