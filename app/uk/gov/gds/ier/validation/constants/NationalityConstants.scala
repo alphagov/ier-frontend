@@ -8,19 +8,25 @@ object NationalityConstants {
   object Franchise {
     def apply(str:String) = {
       require(
-        str == "Full" ||
-        str == "EU" || 
-        str == "Commonwealth" || 
-        str == "BritishTerritories" ||
-        str == "CrownDependencies"
+        str == fullValue ||
+        str == europeanValue ||
+        str == commonwealthValue ||
+        str == britishTerritoriesValue ||
+        str == crownDependenciesValue
       )
       str
     }
-    lazy val full = Franchise("Full")
-    lazy val european = Franchise("EU")
-    lazy val commonwealth = Franchise("Commonwealth")
-    lazy val britishTerritories = Franchise("BritishTerritories")
-    lazy val crownDependencies = Franchise("CrownDependencies")
+    private final val fullValue = "Full"
+    private final val europeanValue = "EU"
+    private final val commonwealthValue = "Commonwealth"
+    private final val britishTerritoriesValue = "British Territories"
+    private final val crownDependenciesValue = "British Crown Dependencies"
+
+    final val full = Franchise(fullValue)
+    final val european = Franchise(europeanValue)
+    final val commonwealth = Franchise(commonwealthValue)
+    final val britishTerritories = Franchise(britishTerritoriesValue)
+    final val crownDependencies = Franchise(crownDependenciesValue)
   }
 
   case class ISOCountry(isoCode:String, franchise: Franchise*)
