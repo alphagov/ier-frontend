@@ -30,11 +30,11 @@
             'class -> "hidden", 'type -> "hidden", 'value -> possible.postcode)
           @select(keys.address.address, "Select your address",
               "" -> "Please select..." :: possible.addresses.map(s=>s.addressLine.get->s.addressLine.get),
-              inputAttributes = Map('class -> "lonely validate", Symbol("data-validation-name") -> "addressSelect", Symbol("dtaa-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+              inputAttributes = Map('class -> "lonely validate", Symbol("data-validation-name") -> "addressSelect", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
           <div class="help-content">
             <h2>My address is not listed</h2>
-            <label for="input-address-text">Enter your address</label>
-            <textarea id="input-address-text" name="address.address" class="small"></textarea>
+            @label(keys.address.manualAddress, "Enter your address")
+            @textArea(keys.address.manualAddress, Map('class -> "small validate", 'maxlength -> "500"))
           </div>
         }
       }
