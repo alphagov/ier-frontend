@@ -754,11 +754,13 @@ window.GOVUK = window.GOVUK || {};
                   '<textarea name="'+inputName+'.manualAddress" id="'+inputId+'_manualAddress" class="small validate" maxlength=500  autocomplete="off" ' +
                   'data-validation-name="addressExcuse" data-validation-type="field" data-validation-rules="nonEmpty"' +
 		          '></textarea>' +
-                '</div>',
-        'postcodeHidden1' : '<input type="hidden" id="possibleAddresses_postcode" name="possibleAddresses.postcode" value="',
-        'postcodeHidden2' : '" autocomplete="off" class="text invalid postcode medium validate" data-validation-name="postcode" data-validation-type="field" data-validation-rules="nonEmpty">'
+                '</div>'
 
     };
+    this.buildHiddenPostCode = function (postcode) {
+        return '<input type="hidden" id="possibleAddresses_postcode" name="possibleAddresses.postcode" value="' + postcode
+        + '" autocomplete="off" class="text invalid postcode medium validate" data-validation-name="postcode" data-validation-type="field" data-validation-rules="nonEmpty">'
+      };
     this.$searchButton.attr('aria-controls', this.$targetElement.attr('id'));
     this.$targetElement.attr({
       'aria-live' : 'polite',
@@ -808,7 +810,7 @@ window.GOVUK = window.GOVUK || {};
     $(data.addresses).each(function (idx, entry) {
      resultStr += '<option>' + entry.addressLine + '</option>'
     });
-    resultStr += this.fragment.select[1] + this.fragment.help + this.fragment.postcodeHidden1 + postcode + this.fragment.postcodeHidden2;
+    resultStr += this.fragment.select[1] + this.fragment.help + this.buildHiddenPostCode(postcode);
     this.$targetElement.html(resultStr);
     new GOVUK.registerToVote.optionalInformation(this.$targetElement.find('.help-content'));
     this.hasAddresses = true;

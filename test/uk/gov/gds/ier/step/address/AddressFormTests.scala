@@ -124,7 +124,7 @@ class AddressFormTests
         address.addressLine should be(Some("321 My Street"))
         address.postcode should be("SW1A 1AA")
 
-        possibleAddresses.addresses should be(List(Address(Some("123 Fake Street"), "AB12 3CD", None)))
+        possibleAddresses.jsonList.addresses should be(List(Address(Some("123 Fake Street"), "AB12 3CD", None)))
       }
     )
   }
@@ -172,7 +172,7 @@ class AddressFormTests
         address.manualAddress should be(Some("1428 Elm Street"))
         address.postcode should be("SW1A 1AA")
 
-        possibleAddresses.addresses should be(List(Address(Some("123 Fake Street"), "AB12 3CD", None)))
+        possibleAddresses.jsonList.addresses should be(List(Address(Some("123 Fake Street"), "AB12 3CD", None)))
       }
     )
   }

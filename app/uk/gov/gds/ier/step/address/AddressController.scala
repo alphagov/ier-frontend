@@ -19,7 +19,7 @@ class AddressController @Inject ()(val serialiser: JsonSerialiser,
                                    val config: Config,
                                    val encryptionService : EncryptionService,
                                    val encryptionKeys : EncryptionKeys,
-                                   val postcodeAnywhere: PlacesService)
+                                   val placesService: PlacesService)
   extends StepController
   with WithSerialiser
   with WithConfig
@@ -49,42 +49,29 @@ class AddressController @Inject ()(val serialiser: JsonSerialiser,
   def lookup = ValidSession requiredFor {
     implicit request => application =>
       addressLookupForm.bindFromRequest().fold(
-        hasErrors => {
-          Ok(stepPage(InProgressForm(hasErrors)))
-        },
-        success => {
-          val postcode = success.possibleAddresses.get.postcode
-          val addressesList = postcodeAnywhere.lookupAddress(postcode)
-          val inProgressForm = InProgressForm(
-            validation.fill(
-              success.copy(
-                possibleAddresses = Some(PossibleAddress(Addresses(addressesList), postcode))
-              )
-            )
-          )
-          Ok(stepPage(inProgressForm))
-        }
+        hasErrors => Ok(stepPage(InProgressForm(hasErrors))),
+        success => Ok(stepPage(lookupAddress(success)))
       )
   }
 
   def editLookup = ValidSession requiredFor {
     implicit request => application =>
       addressLookupForm.bindFromRequest().fold(
-        hasErrors => {
-          Ok(editPage(InProgressForm(hasErrors)))
-        },
-        success => {
-          val postcode = success.possibleAddresses.get.postcode
-          val addressesList = postcodeAnywhere.lookupAddress(postcode)
-          val inProgressForm = InProgressForm(
-            validation.fill(
-              success.copy(
-                possibleAddresses = Some(PossibleAddress(Addresses(addressesList), postcode))
-              )
-            )
-          )
-          Ok(editPage(inProgressForm))
-        }
+        hasErrors => Ok(editPage(InProgressForm(hasErrors))),
+        success => Ok(editPage(lookupAddress(success)))
       )
+  }
+
+  def lookupAddress(success: InprogressApplication): InProgressForm = {
+    val postcode = success.possibleAddresses.get.postcode
+    val addressesList = placesService.lookupAddress(postcode)
+    val inProgressForm = InProgressForm(
+      validation.fill(
+        success.copy(
+          possibleAddresses = Some(PossibleAddress(Addresses(addressesList), postcode))
+        )
+      )
+    )
+    inProgressForm
   }
 }

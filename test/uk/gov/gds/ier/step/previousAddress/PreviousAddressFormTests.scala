@@ -91,7 +91,7 @@ class PreviousAddressFormTests
 
         success.possibleAddresses.isDefined should be(true)
         val Some(possibleAddresses) = success.possibleAddresses
-        possibleAddresses.addresses should be(List(Address(Some("123 Fake Street"), "AB12 3CD", None)))
+        possibleAddresses.jsonList.addresses should be(List(Address(Some("123 Fake Street"), "AB12 3CD", None)))
       }
     )
   }
@@ -121,7 +121,7 @@ class PreviousAddressFormTests
 
         success.possibleAddresses.isDefined should be(true)
         val Some(possibleAddresses) = success.possibleAddresses
-        possibleAddresses.addresses should be(List(Address(Some("123 Fake Street"), "AB12 3CD", None)))
+        possibleAddresses.jsonList.addresses should be(List(Address(Some("123 Fake Street"), "AB12 3CD", None)))
       }
     )
   }
