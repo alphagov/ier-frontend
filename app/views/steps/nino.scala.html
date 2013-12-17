@@ -8,9 +8,9 @@
   @form(postUrl, 'class -> "validate", Symbol("data-validation-name") -> "nino", Symbol("data-validation-type") ->"association", Symbol("data-validation-rules") -> "fieldsetOrExcuse", Symbol("data-validation-members") -> "ninoCode ninoExcuse") {
   
     @layouts.questionHeader("What is your National Insurance number?", "/register-to-vote/name", 5)
-    @label(keys.nino.nino, label = "What is your National Insurance number?", attributes = Map('class -> "visuallyhidden"))
+    @label(keys.nino.nino, "What is your National Insurance number?", 'class -> "visuallyhidden")
     <div class="validation-wrapper">
-      @text(keys.nino.nino, attributes = Map('class -> "validate nino", Symbol("data-validation-name") -> "ninoCode", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+      @text(keys.nino.nino, 'class -> "validate nino", Symbol("data-validation-name") -> "ninoCode", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
     </div>
     <p>Example: AB 12 34 56 C</p>
     <div class="help-content">
