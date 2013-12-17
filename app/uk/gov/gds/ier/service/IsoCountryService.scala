@@ -16,24 +16,22 @@ class IsoCountryService
 
   def transformToIsoCode(nationality:Nationality):Nationality = {
     val nationalities = nationality.checkedNationalities ++ nationality.otherCountries
-    val isoCodes = nationalities.map{
-      country => 
-        countryNameToCodes.get(country.toLowerCase).map(_.isoCode)
-    }.filter(_.isDefined).map{
-      case Some(country) => country
-      case None => ""
+    val isoCountries = nationalities.flatMap{
+      country => countryNameToCodes.get(country.toLowerCase)
     }
-
-    nationality.copy(countryIsos = if (isoCodes.isEmpty) None else Some(isoCodes))
+    val isoCodes = isoCountries match {
+      case Nil => None
+      case list => Some(list.map(_.isoCode))
+    }
+    nationality.copy(countryIsos = isoCodes)
   }
 
   def getFranchises(nationality:Nationality):List[Franchise] = {
     val nationalities = nationality.checkedNationalities ++ nationality.otherCountries
     val isoCodes = nationalities.flatMap{
-      country =>
-        countryNameToCodes.get(country.toLowerCase)
+      country => countryNameToCodes.get(country.toLowerCase)
     }
     val franchises = isoCodes.flatMap(_.franchise)
-    franchises
+    franchises.distinct
   }
 }

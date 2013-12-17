@@ -42,7 +42,7 @@ class NationalityController @Inject ()(val serialiser: JsonSerialiser,
 
     franchises match {
       case Nil => Redirect(ExitController.noFranchise)
-      case list if (list.size > 0) => Redirect(routes.DateOfBirthController.get)
+      case list if list.size > 0 => Redirect(routes.DateOfBirthController.get)
     }
   }
 }
