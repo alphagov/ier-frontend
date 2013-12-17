@@ -8,10 +8,10 @@ object FieldHelpers {
       args.filterKeys(key => !keys.contains(key) && !key.name.startsWith("_"))
     }
   }
-  def getValue(field:Field, attributes:Map[Symbol, String]) = {
-    attributes.get('value) orElse field.value match {
+  def getValue(field:Field, attributes:Seq[(Symbol, String)]) = {
+    attributes.toMap.get('value) orElse field.value match {
       case Some(value) => value
-      case None => attributes.getOrElse('default_value, "")
+      case None => attributes.toMap.getOrElse('default_value, "")
     }
   }
   def asAttributes = views.html.includes.asAttributes.apply _

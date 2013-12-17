@@ -1,6 +1,6 @@
-@(id:uk.gov.gds.ier.validation.Key, attributes:Map[Symbol,String] = Map.empty)(implicit formData:uk.gov.gds.ier.validation.InProgressForm)
+@(id:uk.gov.gds.ier.validation.Key, attributes:(Symbol,String)*)(implicit formData:uk.gov.gds.ier.validation.InProgressForm)
 @import uk.gov.gds.ier.form.FieldHelpers._
-@inputType = @{ attributes.get('type).getOrElse("text") }
+@inputType = @{ attributes.toMap.get('type).getOrElse("text") }
 @defining(formData(id)) { field =>
-<input type="@inputType" id="@id.asId()" name="@field.name" value="@getValue(field, attributes)" autocomplete="off" @if(attributes.contains('placeholder)) { placeholder="@attributes.get('placeholder).getOrElse("")" } class="text @(if(field.hasErrors) "invalid" else "") @attributes.get('class).getOrElse("")" @asAttributes(attributes.without('class, 'id, 'type, 'name, 'value))>
+<input type="@inputType" id="@id.asId()" name="@field.name" value="@getValue(field, attributes)" autocomplete="off" @if(attributes.toMap.contains('placeholder)) { placeholder="@attributes.toMap.get('placeholder).getOrElse("")" } class="text @(if(field.hasErrors) "invalid" else "") @attributes.toMap.get('class).getOrElse("")" @asAttributes(attributes.toMap.without('class, 'id, 'type, 'name, 'value))>
 }

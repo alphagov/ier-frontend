@@ -22,9 +22,9 @@
           labelAttributes = Map('class -> "visuallyhidden"))
       @label(keys.dob.dob.year,
           label = "Year",
-          attributes = Map('class -> "visuallyhidden"))
+          attributes = 'class -> "visuallyhidden")
       @text(keys.dob.dob.year,
-          attributes = Map('class -> "year text small validate", 'placeholder -> "Year", Symbol("data-validation-name") -> "year", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
+        'class -> "year text small validate", 'placeholder -> "Year", Symbol("data-validation-name") -> "year", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
     </fieldset>
     <div class="help-content">
       <h3>Help</h3>
@@ -36,18 +36,38 @@
         @textArea(keys.dob.noDob.reason, attributes = Map('class -> "small", 'autocomplete -> "off", Symbol("data-validation-name") -> "dateOfBirthExcuseReason", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
         <fieldset class="validate" data-validation-name="excuseAgeAttempt" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="excuseUnder18 excuse18to70 excuseOver70 excuseDontKnow">
           <p>How old are you?</p>
-          <label class="selectable" for="dob_noDob_range_under18">
-            <input type="radio" id="dob_noDob_range_under18" name="dob.noDob.range" value="under18" class="radio validate" data-validation-name="excuseUnder18" data-validation-type="field" data-validation-rules="nonEmpty"><span class="visuallyhidden">I am</span>Under 18 years old
-          </label>
-          <label class="selectable" for="dob_noDob_range_18to70">
-            <input type="radio" id="dob_noDob_range_18to70" name="dob.noDob.range" value="18to70" class="radio validate" data-validation-name="excuse18to70" data-validation-type="field" data-validation-rules="nonEmpty"><span class="visuallyhidden">I am</span>Between 18 and 70 years old
-          </label>
-          <label class="selectable" for="dob_noDob_range_over70">
-            <input type="radio" id="dob_noDob_range_over70" name="dob.noDob.range" value="over70" class="radio validate" data-validation-name="excuseOver70" data-validation-type="field" data-validation-rules="nonEmpty"><span class="visuallyhidden">I am</span>Over 70 years old
-          </label>
-          <label class="selectable" for="dob_noDob_range_dontKnow">
-            <input type="radio" id="dob_noDob_range_dontKnow" name="dob.noDob.range" value="dontKnow" class="radio validate" data-validation-name="excuseDontKnow" data-validation-type="field" data-validation-rules="nonEmpty">I don't know<span class="visuallyhidden"> how old I am</span>
-          </label>
+          @wrapLabel(keys.dob.noDob.range, 'value -> DateOfBirthConstants.under18, 'class -> "selectable") {
+            @radio(keys.dob.noDob.range, DateOfBirthConstants.under18, 
+              'class -> "validate", 
+              Symbol("data-validation-name") -> "excuseUnder18", 
+              Symbol("data-validation-type") -> "field", 
+              Symbol("data-validation-rules") -> "nonEmpty")
+            <span class="visuallyhidden">I am</span>Under 18 years old
+          }
+          @wrapLabel(keys.dob.noDob.range, 'value -> DateOfBirthConstants.is18to70, 'class -> "selectable") {
+            @radio(keys.dob.noDob.range, DateOfBirthConstants.is18to70, 
+              'class -> "validate", 
+              Symbol("data-validation-name") -> "excuse18to70", 
+              Symbol("data-validation-type") -> "field", 
+              Symbol("data-validation-rules") -> "nonEmpty")
+            <span class="visuallyhidden">I am</span>Between 18 and 70 years old
+          }
+          @wrapLabel(keys.dob.noDob.range, 'value -> DateOfBirthConstants.over70, 'class -> "selectable") {
+            @radio(keys.dob.noDob.range, DateOfBirthConstants.over70, 
+              'class -> "validate", 
+              Symbol("data-validation-name") -> "excuseOver70", 
+              Symbol("data-validation-type") -> "field", 
+              Symbol("data-validation-rules") -> "nonEmpty")
+            <span class="visuallyhidden">I am</span>Over 70 years old
+          }
+          @wrapLabel(keys.dob.noDob.range, 'value -> DateOfBirthConstants.dontKnow, 'class -> "selectable") {
+            @radio(keys.dob.noDob.range, DateOfBirthConstants.dontKnow, 
+              'class -> "validate", 
+              Symbol("data-validation-name") -> "excuseDontKnow", 
+              Symbol("data-validation-type") -> "field", 
+              Symbol("data-validation-rules") -> "nonEmpty")
+            I don't know<span class="visuallyhidden"> how old I am</span>
+          }
         </fieldset>
       </div>
     </div>
