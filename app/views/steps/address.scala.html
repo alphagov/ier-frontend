@@ -20,7 +20,7 @@
       </div>
       <button id="find-address" type="submit" class="button search validation-submit" data-validation-sources="postcode">Find address</button>
     </fieldset>
-    <div id="found-addresses">
+    <div id="found-addresses" role="region" aria-live="polite">
       @if(possibleAddress.isDefined) {
         @defining(possibleAddress.get) { possible =>
           @label(keys.address.postcode,
@@ -36,6 +36,10 @@
             @label(keys.address.manualAddress, "Enter your address")
             @textArea(keys.address.manualAddress, Map('class -> "small validate", 'maxlength -> "500"))
           </div>
+          }
+        } else {
+          <p>Don't know the postcode?</p>
+          <p><a href="http://www.postoffice.co.uk/postcode-finder" target="_blank" class="lightbox-link" data-target="address-lightbox">Look up a postcode</a> (opens in a new tab)</p>
         }
       }
     </div>
