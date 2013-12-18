@@ -170,6 +170,11 @@ input.nino {
       padding-left: 30px;
       margin-left: -34px;
     }
+
+    .optional-section-core-content & {
+      padding-left: 14px;
+      margin-left: -18px;
+    }
   }
 }
 
@@ -347,6 +352,12 @@ fieldset {
 
 #found-addresses {
   margin-top: 2em;
+
+  @include media(tablet) {
+    .optional-section & .postcode-finder {
+      margin-bottom: 2em;
+    }
+  }
 }
 
 .invalid {

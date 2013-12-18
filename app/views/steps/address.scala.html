@@ -32,14 +32,14 @@
               "" -> "Please select..." :: possible.addresses.map(s=>s.addressLine.get->s.addressLine.get),
               inputAttributes = Map('class -> "lonely validate", Symbol("data-validation-name") -> "addressSelect", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
           <div class="help-content">
-            <h2>My address is not listed</h2>
+            <h2>I can't find my address in the list</h2>
             @label(keys.address.manualAddress, "Enter your address")
             @textArea(keys.address.manualAddress, Map('class -> "small validate", 'maxlength -> "500"))
           </div>
           }
         } else {
           <p>Don't know the postcode?</p>
-          <p><a href="http://www.postoffice.co.uk/postcode-finder" target="_blank" class="lightbox-link" data-target="address-lightbox">Look up a postcode</a> (opens in a new tab)</p>
+          <p class="postcode-finder"><a href="http://www.postoffice.co.uk/postcode-finder" target="_blank" class="lightbox-link" data-target="address-lightbox">Look up a postcode</a> (opens in a new tab)</p>
         }
       }
     </div>
