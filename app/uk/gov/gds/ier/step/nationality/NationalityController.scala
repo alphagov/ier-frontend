@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.step.nationality
 
 import controllers.step._
+import controllers.routes.ExitController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation._
@@ -34,7 +35,15 @@ class NationalityController @Inject ()(val serialiser: JsonSerialiser,
     views.html.steps.nationality(form, call)
   }
   def goToNext(currentState: InprogressApplication): SimpleResult = {
-    Redirect(routes.DateOfBirthController.get)
+    val franchises = currentState.nationality match {
+      case Some(nationality) => isoCountryService.getFranchises(nationality)
+      case None => List.empty
+    }
+
+    franchises match {
+      case Nil => Redirect(ExitController.noFranchise)
+      case list => Redirect(routes.DateOfBirthController.get)
+    }
   }
 }
 
