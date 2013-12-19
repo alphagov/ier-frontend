@@ -88,8 +88,24 @@
           <h3>Address</h3>
           <div class="data-wrap"> 
             @validationSwitch(formData(keys.address)) {
-              <p>@formData(keys.address.address).value.getOrElse(formData(keys.address.manualAddress).value.getOrElse(""))</p>
-              <p>@formData(keys.address.postcode).value.getOrElse("")</p>
+              @formData(keys.address.lineOne).value.map{ lineOne =>
+              <p>@lineOne</p>
+              }
+              @formData(keys.address.lineTwo).value.map{ lineTwo =>
+              <p>@lineTwo</p>
+              }
+              @formData(keys.address.lineThree).value.map{ lineThree =>
+              <p>@lineThree</p>
+              }
+              @formData(keys.address.city).value.map{ city =>
+              <p>@city</p>
+              }
+              @formData(keys.address.county).value.map{ county =>
+              <p>@county</p>
+              }
+              @formData(keys.address.postcode).value.map{ postcode =>
+              <p>@postcode</p>
+              }
             }
           </div>
           <a href="@step.routes.AddressController.editGet" class="change">Change<span class="visuallyhidden"> address</span></a>

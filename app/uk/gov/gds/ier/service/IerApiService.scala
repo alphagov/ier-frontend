@@ -25,17 +25,29 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
                                        isoCountryService: IsoCountryService) extends IerApiService with Logging {
 
   def submitApplication(ipAddress: Option[String], applicant: InprogressApplication, referenceNumber: Option[String]) = {
-    val authority = applicant.address.map(address => placesService.lookupAuthority(address.postcode)).getOrElse(None)
+    val isoCodes = applicant.nationality.map(nationality => isoCountryService.transformToIsoCode(nationality))
+    val authority = applicant.address.flatMap(address => placesService.lookupAuthority(address.postcode))
+    val fullCurrentAddress = applicant.address.flatMap(address => placesService.lookupAddress(address))
+    val fullPreviousAddress = applicant.previousAddress.flatMap(_.previousAddress).flatMap(placesService.lookupAddress(_))
 
-    val applicationWithIsoCodes = applicant.copy(nationality = applicant.nationality map isoCountryService.transformToIsoCode)
+    val completeApplication = OrdinaryApplication(
+      name = applicant.name,
+      previousName = applicant.previousName,
+      dob = applicant.dob,
+      nationality = isoCodes,
+      nino = applicant.nino,
+      address = fullCurrentAddress,
+      previousAddress = fullPreviousAddress,
+      otherAddress = applicant.otherAddress,
+      openRegisterOptin = applicant.openRegisterOptin,
+      postalVoteOptin = applicant.postalVoteOptin,
+      contact = applicant.contact,
+      referenceNumber = referenceNumber,
+      authority = authority,
+      ip = ipAddress
+    )
 
-    val completeApplication = applicationWithIsoCodes.toApiMap ++
-      referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
-      authority.map(auth => Map("gssCode" -> auth.gssId)).getOrElse(Map.empty)  ++
-      Map("applicationType" -> "ordinary")  ++
-      ipAddress.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty)
-
-    val apiApplicant = ApiApplication(completeApplication)
+    val apiApplicant = ApiApplication(completeApplication.toApiMap)
 
     apiClient.post(config.ierApiUrl, serialiser.toJson(apiApplicant), ("Authorization", "BEARER " + config.ierApiToken)) match {
       case Success(body) => serialiser.fromJson[ApiApplicationResponse](body)
@@ -47,7 +59,7 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
   }
 
   def generateReferenceNumber(application:InprogressApplication) = {
-    val json = serialiser.toJson(application.toApiMap)
+    val json = serialiser.toJson(application)
     shaHashProvider.getHash(json, Some(DateTime.now.toString)).map("%02X" format _).take(3).mkString
   }
 }

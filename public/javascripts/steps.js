@@ -741,7 +741,7 @@ window.GOVUK = window.GOVUK || {};
       'selectLabel' : '<label for="'+inputId+'_address_select">Select your address</label>',
       'select' : [
         '<div class="validation-wrapper">' +
-          '<select id="'+inputId+'_address_select" name="'+inputName+'.address" class="lonely validate" ' +
+          '<select id="'+inputId+'_uprn_select" name="'+inputName+'.uprn" class="lonely validate" ' +
           'data-validation-name="addressSelect" data-validation-type="field" data-validation-rules="nonEmpty"' +
           '>' +
             '<option value="">Please select...</option>',
@@ -804,7 +804,7 @@ window.GOVUK = window.GOVUK || {};
     resultStr += this.fragment.hiddenInput[0] + postcode + this.fragment.hiddenInput[1];
     resultStr += this.fragment.selectLabel + this.fragment.select[0];
     $(data.addresses).each(function (idx, entry) {
-     resultStr += '<option>' + entry.addressLine + '</option>'
+     resultStr += '<option value="' + entry.uprn + '">' + entry.lineOne + ', ' + entry.lineTwo + ', ' + entry.lineThree + '</option>'
     });
     resultStr += this.fragment.select[1] + this.fragment.help;
     this.$targetElement.html(resultStr);
