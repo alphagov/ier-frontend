@@ -10,23 +10,34 @@
   
     <fieldset class="validate" data-validation-name="postalVote" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="postalNo postalYes">
       <p>Most people vote in person at a polling station. But if you prefer to vote by post, we can send you an application form.</p>
-      @wrapLabel(keys.postalVote.optIn, 'value -> "true", 'class -> "selectable") {
-        @radio(keys.postalVote.optIn, "true", 
-            'class -> "validate", Symbol("data-validation-name") -> "postalYes",  Symbol("data-validation-type") -> "field",  Symbol("data-validation-rules") -> "nonEmpty")
-        Yes, send me a postal vote application form
-      }
       @wrapLabel(keys.postalVote.optIn, 'value -> "false", 'class -> "selectable") {
         @radio(keys.postalVote.optIn, "false", 
           'class -> "validate", Symbol("data-validation-name") -> "postalNo",  Symbol("data-validation-type") -> "field",  Symbol("data-validation-rules") -> "nonEmpty")
         No, I prefer to vote in person
       }
-      <div class="help-content">
-        <h2>More about voting by post</h2>
-        <p>Anyone can apply for a postal vote and you don't need to give a reason.</p>
-        <p>You can choose the address where you want your ballot paper sent.</p>
-        <p>If you change your mind later, you can cancel your postal vote.</p>
-      </div>
+      @wrapLabel(keys.postalVote.optIn, 'value -> "true", 'class -> "selectable") {
+        @radio(keys.postalVote.optIn, "true", 
+            'class -> "validate", Symbol("data-validation-name") -> "postalYes",  Symbol("data-validation-type") -> "field",  Symbol("data-validation-rules") -> "nonEmpty")
+        Yes, send me a postal vote application form
+      }
     </fieldset>
+    <fieldset class="optional-section sub-section" data-condition="postalVote_optIn_true" data-validation-name="deliveryMethod" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty">
+      <p>How should we send you the form?</p>
+      <label for="deliveryMethod_email" class="selectable">
+        <input type="radio" id="deliveryMethod_email" name="deliveryMethod_email" value="email" class="radio  validate" data-validation-name="deliveryMethodEmail" data-validation-type="field" data-validation-rules="nonEmpty">
+        Email it to me
+      </label>
+      <label for="deliveryMethod_post" class="selectable">
+        <input type="radio" id="deliveryMethod_post" name="deliveryMethod_post" value="post" class="radio binary validate" data-validation-name="deliveryMethodPost" data-validation-type="field" data-validation-rules="nonEmpty">
+        Post it to me
+      </label>
+    </fieldset>
+    <div class="help-content">
+      <h2>More about voting by post</h2>
+      <p>Anyone can apply for a postal vote and you don't need to give a reason.</p>
+      <p>You can choose the address where you want your ballot paper sent.</p>
+      <p>If you change your mind later, you can cancel your postal vote.</p>
+    </div>
     @validationMessages(formData)
     <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postalVote">Continue</button>
   }
