@@ -16,7 +16,7 @@
         <header>
           <h1>Register to vote</h1>
         </header>
-        <p>Please check your details carefully and correct any mistakes.</p>
+        <p>Check your answers before sending your application.</p>
         <div>
           <h3>Name</h3>
           <div class="data-wrap">
@@ -33,7 +33,7 @@
                 @if(formData(keys.previousName.hasPreviousName).value == Some("true")){
                   <p>@name(formData(keys.previousName.previousName.firstName).value, formData(keys.previousName.previousName.middleNames).value, formData(keys.previousName.previousName.lastName).value)</p>
                 } else {
-                  <p class="message">You have not changed your name in the last 12 months</p>
+                  <p class="message">I have not changed your name in the last 12 months</p>
                 }
             }
           </div>
@@ -47,8 +47,8 @@
                 <p> @formData(keys.dob.dob.day).value.getOrElse("") @formData(keys.dob.dob.month).value.map(month => monthsByNumber(month)).getOrElse("") @formData(keys.dob.dob.year).value.getOrElse("")</p>
               }
               @if(formData(keys.dob.noDob.reason).value.isDefined) {
-                <p>You cannot provide your date of birth because @formData(keys.dob.noDob.reason).value.getOrElse("") </p>
-                <p>You are roughly @formData(keys.dob.noDob.range).value.getOrElse("") </p>
+                <p>I cannot provide my date of birth because @formData(keys.dob.noDob.reason).value.getOrElse("") </p>
+                <p>I am roughly @formData(keys.dob.noDob.range).value.getOrElse("") </p>
               }
             }
           </div>
@@ -60,10 +60,10 @@
             @validationSwitch(formData(keys.nationality)) {
               @if(formData.nationalityIsFilled()) {
                   <p>
-                    You are @formData.confirmationNationalityString
+                    I am @formData.confirmationNationalityString
                   </p>
               }else{
-                  <p>You cannot provide your nationality because:</p>
+                  <p>I cannot provide my nationality because:</p>
                   <p>@formData(keys.nationality.noNationalityReason).value.getOrElse("")</p>
               }
             }
@@ -77,7 +77,7 @@
               @if(formData(keys.nino.nino).value.isDefined){
                 <p>@formData(keys.nino.nino).value.getOrElse("")</p>
               } else {
-                <p>You cannot provide your national insurance number because:</p>
+                <p>I cannot provide my national insurance number because:</p>
                 <p>@formData(keys.nino.noNinoReason).value.getOrElse("")</p>
               }
             }
@@ -102,7 +102,7 @@
               <p>@formData(keys.previousAddress.previousAddress.address).value.getOrElse(formData(keys.previousAddress.previousAddress.manualAddress).value.getOrElse(""))</p>
               <p>@formData(keys.previousAddress.previousAddress.postcode).value.getOrElse("")</p>
             }else{
-              <p>You have not moved in the last 12 months</p>
+              <p>I have not moved in the last 12 months</p>
             }
           }
           </div>
@@ -113,9 +113,9 @@
           <div class="data-wrap"> 
           @validationSwitch(formData(keys.otherAddress)) {
             @if(formData(keys.otherAddress.hasOtherAddress).value == Some("true")){
-                <p>You have a second address</p>
+                <p>I have a second address</p>
             }else{
-                <p>You don't have a second address</p>
+                <p>I don't have a second address</p>
             }
           }
           </div>
@@ -126,9 +126,9 @@
           <div class="data-wrap"> 
           @validationSwitch(formData(keys.openRegister)) {
             @if(formData(keys.openRegister.optIn).value == Some("true")){
-              <p>You want us to include your details on the open register so they are available to charities and companies.</p>
+              <p>I want to include my details on the open register.</p>
             }else{
-              <p>You don’t want us to include your details on the open register so they are available to charities and companies.</p>
+              <p>I don’t want to include my details on the open register.</p>
             }
           }
           </div>
@@ -156,9 +156,6 @@
               }
               @if(formData(keys.contact.phone.contactMe).value == Some("true")){
                 <p>By phone: @formData(keys.contact.phone.detail).value.getOrElse("")</p>
-              }
-              @if(formData(keys.contact.textNum.contactMe).value == Some("true")){
-                <p>By text message: @formData(keys.contact.textNum.detail).value.getOrElse("")</p>
               }
               @if(formData(keys.contact.email.contactMe).value == Some("true")){
                 <p>By email: @formData(keys.contact.email.detail).value.getOrElse("")</p>
