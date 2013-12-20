@@ -15,4 +15,11 @@ object FieldHelpers {
     }
   }
   def asAttributes = views.html.includes.asAttributes.apply _
+  def amountDescription(amount:Int, description:Map[String, String]) = {
+    if (amount == 1) {
+      amount.toString().concat(description("singular"))
+    } else {
+      amount.toString().concat(description("plural"))
+    }
+  }
 }
