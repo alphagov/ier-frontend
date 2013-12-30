@@ -6,22 +6,24 @@
 
 @main(title = Some("Register to Vote - Tell us whether to include your details on the open register"), stylesheets = head(), scripts = stepsBodyEnd()) {
   @form(postUrl) {
-    @layouts.questionHeader("Do you want to remove your name and address from the open register?", "/register-to-vote/other-address", 9)
+    @layouts.questionHeader("Do you want your details listed on the open register?", "/register-to-vote/other-address", 9)
 
     <fieldset>
       <p>The open register is a list of names and address that can be bought by any person, company or organisation (for example a business or charity that wants to check your name and address).</p>
     <p>Your decision does not affect your right to vote or your credit score.</p>
     @check(keys.openRegister.optIn, label = "No, I don't want my details on the open register", value = "false")
     <div class="help-content">
-      <h2>Help</h2>
+      <h2>Why are there two registers?</h2>
       <p>Using information received from the public, registration officers keep two registers – the electoral register and the open register (also known as the edited register).</p>
+      <h3>The electoral register<h3>
       <p>The electoral register lists the names and addresses of everyone who is registered to vote in public elections. The register is used for electoral purposes, such as making sure only eligible people can vote.</p>
       <p>It is also used for other limited purposes specified in law, such as:</p>
       <ul>
         <li>detecting crime (e.g. fraud)</li>
         <li>calling people for jury service</li>
+        <li>checking credit applications.</li>
       </ul>
-      <p>checking credit applications.</p>
+      <h3>The open register<h3>
       <p>The open register is an extract of the electoral register, but is not used for elections. It can be bought by any person, company or organisation. For example, it is used by businesses and charities to confirm name and address details.</p>
       <p>Your name and address will be included in the open register unless you ask for them to be removed. Removing your details from the open register does not affect your right to vote.</p>
     </div>

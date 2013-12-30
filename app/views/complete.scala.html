@@ -27,9 +27,9 @@
     <article>
       <p class="intro email">We have sent you a confirmation email.</p>
       <h2>What happens next?</h2>
-      <p>We've sent your application to <a href="/local-authority-url">@{localAuthority.map(_.name + ".").getOrElse("your local registration office.")}</a></p>
+      <p>We've sent your application to <a href="/local-authority-url">@{localAuthority.map(_.name + " electoral registration office").getOrElse("your local electoral registration office")}</a>.</p>
       <p>They will contact you either to confirm your registration, or to ask for more information.</p>
-      <p>If you have any questions about your application, contact <a href="/local-authority-url">@{localAuthority.map(_.name + ".").getOrElse("your local registration office.")}</a> Electoral Services.</p>
+      <p>If you have any questions about your application, contact <a href="/local-authority-url">@{localAuthority.map(_.name + " electoral registration office").getOrElse("your local electoral registration office")}</a>.</p>
       <p class="footnote"><a href="https://www.gov.uk/voting-in-the-uk">More about voting in the UK</a></p>
     </article>
 }
