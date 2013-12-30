@@ -301,7 +301,8 @@ fieldset {
 }
 
 .help-content,
-.optional-section {
+.optional-section,
+#found-addresses {
   & .toggle-closed,
   & .toggle-open {
     background-image: none;

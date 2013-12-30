@@ -746,7 +746,7 @@ window.GOVUK = window.GOVUK || {};
         '{{/options}}' +
         '</select>' +
       '</div>' +
-      '<div class="help-content">' +
+      '<div class="optional-section">' +
         '<h2>{{excuseLabel}}</h2>' +
         '<label for="'+inputId+'_manualAddress">Enter your address</label>' +
         '<textarea name="'+inputName+'.manualAddress" id="'+inputId+'_manualAddress" class="small validate" maxlength=500  autocomplete="off" ' +
@@ -810,7 +810,7 @@ window.GOVUK = window.GOVUK || {};
       htmlData.selectLabel = 'Select your previous address';
     }
     this.$targetElement.html(Mustache.render(this.fragment, htmlData));
-    new GOVUK.registerToVote.optionalInformation(this.$targetElement.find('.help-content'));
+    new GOVUK.registerToVote.optionalInformation(this.$targetElement.find('.optional-section'));
     this.hasAddresses = true;
     $('#continue').show();
   };
