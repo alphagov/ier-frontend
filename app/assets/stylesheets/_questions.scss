@@ -287,6 +287,10 @@ fieldset {
     margin-bottom: 0;
     margin-top: 0;
   }
+
+  .optional-section-core-content & {
+    margin-top: 1em;
+  }
 }
 
 .toggle-closed {
