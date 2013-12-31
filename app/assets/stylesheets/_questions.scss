@@ -170,6 +170,11 @@ input.nino {
       padding-left: 30px;
       margin-left: -34px;
     }
+
+    .optional-section-core-content & {
+      padding-left: 14px;
+      margin-left: -18px;
+    }
   }
 }
 
@@ -282,6 +287,10 @@ fieldset {
     margin-bottom: 0;
     margin-top: 0;
   }
+
+  .optional-section-core-content & {
+    margin-top: 1em;
+  }
 }
 
 .toggle-closed {
@@ -296,7 +305,8 @@ fieldset {
 }
 
 .help-content,
-.optional-section {
+.optional-section,
+#found-addresses {
   & .toggle-closed,
   & .toggle-open {
     background-image: none;
@@ -347,6 +357,12 @@ fieldset {
 
 #found-addresses {
   margin-top: 2em;
+
+  @include media(tablet) {
+    .optional-section & .postcode-finder {
+      margin-bottom: 2em;
+    }
+  }
 }
 
 .invalid {
