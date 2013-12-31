@@ -33,7 +33,7 @@
                 @if(formData(keys.previousName.hasPreviousName).value == Some("true")){
                   <p>@name(formData(keys.previousName.previousName.firstName).value, formData(keys.previousName.previousName.middleNames).value, formData(keys.previousName.previousName.lastName).value)</p>
                 } else {
-                  <p class="message">I have not changed your name in the last 12 months</p>
+                  <p>I have not changed my name in the last 12 months</p>
                 }
             }
           </div>
@@ -89,7 +89,7 @@
           <div class="data-wrap"> 
             @validationSwitch(formData(keys.address)) {
               <p>@formData(keys.address.address).value.getOrElse(formData(keys.address.manualAddress).value.getOrElse(""))</p>
-              <p>@formData(keys.address.postcode).value.getOrElse("")</p>
+              <p class="postcode">@formData(keys.address.postcode).value.getOrElse("")</p>
             }
           </div>
           <a href="@step.routes.AddressController.editGet" class="change">Change<span class="visuallyhidden"> address</span></a>
@@ -126,9 +126,9 @@
           <div class="data-wrap"> 
           @validationSwitch(formData(keys.openRegister)) {
             @if(formData(keys.openRegister.optIn).value == Some("true")){
-              <p>I want to include my details on the open register.</p>
+              <p>I want to include my details on the open register</p>
             }else{
-              <p>I don’t want to include my details on the open register.</p>
+              <p>I don’t want to include my details on the open register</p>
             }
           }
           </div>
@@ -165,8 +165,10 @@
           <a href="@step.routes.ContactController.editGet" class="change">Change<span class="visuallyhidden"> how we should contact you</span></a>
         </div>
         <div class="help-notice">
-          <p>I understand that the information I provide through this application will be used to change my details on the electoral register.</p>
-          <p>I understand that if I knowingly give false information through this application, I could be fined up to £5,000 or go to prison for up to a year.</p>
+          <p>I understand that: </p>
+          <p>The information I provide through this application will be used to change my details on the electoral register.</p>
+          <p>If I knowingly give false information through this application, I could be fined up to £5,000 or go to prison for up to a year.</p>
+          <p>My local electoral registration office may ask the Home Office to check my immigration status.</p>
         </div>
       </article>
       @form(routes.ConfirmationController.post) {
