@@ -747,8 +747,8 @@ window.GOVUK = window.GOVUK || {};
         '</select>' +
       '</div>' +
       '<div class="optional-section">' +
-        '<h2>{{excuseLabel}}</h2>' +
-        '<label for="'+inputId+'_manualAddress">Enter your address</label>' +
+        '<h2>{{excuseToggle}}</h2>' +
+        '<label for="'+inputId+'_manualAddress">{{excuseLabel}}</label>' +
         '<textarea name="'+inputName+'.manualAddress" id="'+inputId+'_manualAddress" class="small validate" maxlength=500  autocomplete="off" ' +
         'data-validation-name="addressExcuse" data-validation-type="field" data-validation-rules="nonEmpty"' +
         '></textarea>' +
@@ -802,12 +802,14 @@ window.GOVUK = window.GOVUK || {};
           'selectLabel' : 'Select your address',
           'defaultOption' : defaultOption,
           'options' : data.addresses,
-          'excuseLabel' : 'I can\'t find my address in the list'
+          'excuseToggle' : 'I can\'t find my address in the list',
+          'excuseLabel' : 'Enter your address'
         };
 
     if (this.addressIsPrevious) {
-      htmlData.excuseLabel = 'I can\'t find my previous address in the list'; 
       htmlData.selectLabel = 'Select your previous address';
+      htmlData.excuseToggle = 'I can\'t find my previous address in the list'; 
+      htmlData.excuseLabel = 'Enter your previous address';
     }
     this.$targetElement.html(Mustache.render(this.fragment, htmlData));
     new GOVUK.registerToVote.optionalInformation(this.$targetElement.find('.optional-section'));
