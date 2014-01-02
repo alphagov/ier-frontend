@@ -4,7 +4,7 @@
 @import layouts._
 @import uk.gov.gds.ier.form.FormHelpers._
 
-@main(title = Some("Register to Vote - Tell us whether to include your name and address on the open register"), stylesheets = head(), scripts = stepsBodyEnd()) {
+@main(title = Some("Register to Vote - Do you want your name and address listed on the open register?"), stylesheets = head(), scripts = stepsBodyEnd()) {
   @form(postUrl) {
     @layouts.questionHeader("Do you want your name and address listed on the open register?", "/register-to-vote/other-address", 9)
 
