@@ -23,6 +23,10 @@ li {
 p {
   margin: 0 0 1em;
   clear: both;
+
+  &.footnote {
+    margin-top: 2em;
+  }
 }
 
 ul,li {
