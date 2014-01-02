@@ -288,6 +288,10 @@ fieldset {
     margin-top: 0;
   }
 
+  #found-addresses & {
+    margin-bottom: 0;
+  }
+
   .optional-section-core-content & {
     margin-top: 1em;
   }
@@ -305,12 +309,19 @@ fieldset {
 }
 
 .help-content,
-.optional-section,
-#found-addresses {
+.optional-section {
   & .toggle-closed,
   & .toggle-open {
     background-image: none;
     padding-left: 0;
+  }
+}
+
+.optional-section-core-content #found-addresses {
+  & .toggle-closed,
+  & .toggle-open {
+    background-image: url("/assets/images/icon-caret-right.png");
+    padding-left: 0.75em;
   }
 }
 
@@ -356,12 +367,12 @@ fieldset {
 }
 
 #found-addresses {
-  margin-top: 2em;
+  @extend %contain-floats;
+  margin-top: 1em;
+  margin-bottom: 2em;
 
-  @include media(tablet) {
-    .optional-section & .postcode-finder {
-      margin-bottom: 2em;
-    }
+  &.contains-addresses {
+    margin-bottom: 0;
   }
 }
 

@@ -811,7 +811,9 @@ window.GOVUK = window.GOVUK || {};
       htmlData.excuseToggle = 'I can\'t find my previous address in the list'; 
       htmlData.excuseLabel = 'Enter your previous address';
     }
-    this.$targetElement.html(Mustache.render(this.fragment, htmlData));
+    this.$targetElement
+      .html(Mustache.render(this.fragment, htmlData))
+      .addClass('contains-addresses');
     new GOVUK.registerToVote.optionalInformation(this.$targetElement.find('.optional-section'));
     this.hasAddresses = true;
     $('#continue').show();
