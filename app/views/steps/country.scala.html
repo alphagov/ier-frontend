@@ -29,11 +29,6 @@
         @radio(keys.country.residence, "British Islands", 'class -> "validate", Symbol("data-validation-name") -> "britishIslands", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
         Isle of Man or the Channel Islands
       }
-      <p>or</p>
-      @wrapLabel(keys.country.residence, 'value -> "Abroad", 'class -> "selectable") {
-        @radio(keys.country.residence, "Abroad", 'class -> "validate", Symbol("data-validation-name") -> "abroad", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
-        I am a British citizen living abroad
-      }
     </fieldset>
     @validationMessages(formData)
     <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="country">Continue</button>

@@ -11,7 +11,7 @@ class ExitControllerTests extends FlatSpec with Matchers {
 
     "ExitController.scotland" should "display the scotland exit page" in {
       status(result) should be(OK)
-      contentAsString(result) should include("Electoral registration form for Scotland")
+      contentAsString(result) should include("Voter registration forms for Scotland")
 
       cookies(result).get("sessionKey").isDefined should be(true)
       cookies(result).get("sessionKey").get.maxAge.get should be < 0
@@ -31,7 +31,7 @@ class ExitControllerTests extends FlatSpec with Matchers {
 
     "ExitController.northernIreland" should "display the northern ireland exit page" in {
       status(result) should be(OK)
-      contentAsString(result) should include("Electoral registration form for Northern Ireland")
+      contentAsString(result) should include("Voter canvass form for Northern Ireland")
     }
     it should "clear cookies correctly" in {
       cookies(result).get("sessionKey").isDefined should be(true)

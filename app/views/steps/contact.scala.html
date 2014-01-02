@@ -38,6 +38,7 @@
           label = "Post",
           inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "post", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
     </fieldset>
+    <p class="footnote">If you give us an email address we can send you a confirmation of your application.</p>
     @validationMessages(formData)
     <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="contact phoneNumber emailAddress">Continue</button>
   }
