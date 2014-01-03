@@ -123,11 +123,20 @@ input.text {
 }
 
 input.small{
-  width: 80px;
+  width: 4.25em;
 }
 
 input.medium {
-  width: 160px;
+  width: 8.5em;
+}
+
+input.day,
+input.month {
+  width: 2.75em;
+}
+
+input.year {
+  width: 4.25em;
 }
 
 input.nino {
@@ -178,6 +187,10 @@ input.nino {
   }
 }
 
+span.date {
+  word-spacing: 0.25em;
+}
+
 /* Styles specific to question pages */
 
 main header {
@@ -222,6 +235,10 @@ fieldset {
 
   :last-child {
     margin-bottom: 0;
+  }
+
+  .example {
+    margin-bottom: 0.5em;
   }
 }
 
