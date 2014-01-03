@@ -4,6 +4,7 @@ import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import uk.gov.gds.ier.model.{InprogressApplication, DateOfBirth, DOB, noDOB}
+import org.joda.time.DateMidnight
 
 trait DateOfBirthConstraints extends CommonConstraints{
   self: ErrorMessages
@@ -23,39 +24,47 @@ trait DateOfBirthConstraints extends CommonConstraints{
 
   lazy val isOverTheMinimumAgeToVote = Constraint[DOB](keys.dob.key) {
     dateOfBirth =>
-      if (DateValidator.isExistingDateInThePast(dateOfBirth) && 
-          DateValidator.isTooYoungToRegister(dateOfBirth)) {
-        Invalid(
-          s"Minimum age to register to vote is ${DateValidator.minimumAge}",
-          keys.dob.dob.day,
-          keys.dob.dob.month,
-          keys.dob.dob.year
-        )
-      } else {
-        Valid
+
+      val validDate = DateValidator.isExistingDate(dateOfBirth)
+
+      validDate match {
+
+        case Some(dateMidnight:DateMidnight) => {
+          if (DateValidator.isExistingDateInThePast(dateMidnight) &&
+            DateValidator.isTooYoungToRegister(dateOfBirth)) {
+            Invalid(
+              s"Minimum age to register to vote is ${DateValidator.minimumAge}",
+              keys.dob.dob.day,
+              keys.dob.dob.month,
+              keys.dob.dob.year
+            )
+          } else {
+            Valid
+          }
+        }
+
+        case None => Invalid(
+          "You have entered an invalid date",keys.dob.dob.day,keys.dob.dob.month,keys.dob.dob.year)
       }
   }
 
-  lazy val dateNotInTheFuture = Constraint[DOB](keys.dob.key) {
+  lazy val validDate = Constraint[DOB](keys.dob.key) {
     dateOfBirth =>
-      if (DateValidator.isExistingDateInThePast(dateOfBirth)) {
-        Valid
-      } else {
-        Invalid(
-          "You have entered a date in the future", 
-          keys.dob.dob.day,
-          keys.dob.dob.month,
-          keys.dob.dob.year
-        )
-      }
-  }
+      val validDate = DateValidator.isExistingDate(dateOfBirth)
 
-  lazy val notTooOldToBeAlive = Constraint[DOB](keys.dob.key) {
-    dateOfBirth =>
-      if (DateValidator.isTooOldToBeAlive(dateOfBirth)) {
-        Invalid("Please check the year you were born", keys.dob.dob.year)
-      } else {
-        Valid
+      validDate match {
+        case Some(dateMidnight:DateMidnight) => {
+
+          if (!DateValidator.isExistingDateInThePast(dateMidnight)) {
+            Invalid("You have entered a date in the future",keys.dob.dob.day,keys.dob.dob.month,keys.dob.dob.year)
+          } else if (DateValidator.isTooOldToBeAlive(dateMidnight)) {
+            Invalid("Please check the year you were born", keys.dob.dob.year)
+          } else {
+            Valid
+          }
+        }
+        case None => Invalid(
+          "You have entered an invalid date",keys.dob.dob.day,keys.dob.dob.month,keys.dob.dob.year)
       }
   }
 
