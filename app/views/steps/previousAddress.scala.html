@@ -39,7 +39,7 @@
           @text(keys.previousAddress.previousAddress.postcode,
             'class -> "hidden", 'type -> "hidden", 'value -> possible.postcode)
           @select(keys.previousAddress.previousAddress.address, "Select your address",
-            "" -> amountDescription(possible.addresses.length, Map("singular" -> " address found", "plural" -> " addresses found")) :: possible.addresses.map(s=>s.addressLine.get->s.addressLine.get),
+            "" -> amountDescription(possible.jsonList.addresses.length, Map("singular" -> " address found", "plural" -> " addresses found")) :: possible.jsonList.addresses.map(s=>s.addressLine.get->s.addressLine.get),
             inputAttributes = Map('class -> "lonely validate", Symbol("data-validation-name") -> "addressSelect", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
         <div class="help-content">
           <h2>I can't find my previous address in the list</h2>

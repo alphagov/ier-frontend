@@ -21,9 +21,9 @@ trait AddressForms extends AddressConstraints {
     keys.jsonList.key -> nonEmptyText,
     keys.postcode.key -> nonEmptyText
   ) (
-    (json, postcode) => PossibleAddress(serialiser.fromJson[Addresses](json).addresses, postcode)
+    (json, postcode) => PossibleAddress(serialiser.fromJson[Addresses](json), postcode)
   ) (
-    possibleAddress => Some(serialiser.toJson(possibleAddress.addresses), possibleAddress.postcode)
+    possibleAddress => Some(serialiser.toJson(possibleAddress.jsonList), possibleAddress.postcode)
   )
 
   lazy val addressMapping = mapping(
@@ -52,5 +52,16 @@ trait AddressForms extends AddressConstraints {
     ) (
       inprogress => Some(inprogress.address, inprogress.possibleAddresses)
     ) verifying (addressOrManualAddressDefined)
+  )
+
+  val addressLookupForm = ErrorTransformForm(
+    mapping(
+      keys.possibleAddresses.postcode.key -> text
+        .verifying("Your postcode is not valid", postcode => PostcodeValidator.isValid(postcode))
+    ) (
+      postcode => InprogressApplication(possibleAddresses = Some(PossibleAddress(jsonList = Addresses(List.empty), postcode = postcode)))
+    ) (
+      inprogress => inprogress.possibleAddresses.map(_.postcode)
+    )
   )
 }

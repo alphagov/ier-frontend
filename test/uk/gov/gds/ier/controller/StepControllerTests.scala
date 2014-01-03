@@ -2,7 +2,7 @@ package uk.gov.gds.ier.controller
 
 import org.scalatest.{Matchers, FlatSpec}
 import org.scalatest.mock.MockitoSugar
-import uk.gov.gds.ier.model.{Address, PossibleAddress, Name, InprogressApplication}
+import uk.gov.gds.ier.model._
 import play.api.data.Forms._
 import play.api.templates.Html
 import uk.gov.gds.ier.serialiser.WithSerialiser
@@ -14,6 +14,10 @@ import play.api.test.FakeApplication
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.security._
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
+import uk.gov.gds.ier.validation.InProgressForm
+import scala.Some
+import play.api.mvc.Call
+import play.api.test.FakeApplication
 import uk.gov.gds.ier.validation.InProgressForm
 import scala.Some
 import uk.gov.gds.ier.model.InprogressApplication
@@ -186,7 +190,7 @@ class StepControllerTests
         mapping("foo" -> text.verifying("I will always pass", foo => true))
           (foo => InprogressApplication(
             possibleAddresses = Some(PossibleAddress(
-              addresses = List(Address(Some("123 Fake Street"), "SW1A 1AA", None)),
+              jsonList = Addresses(List(Address(Some("123 Fake Street"), "SW1A 1AA", None))),
               postcode = "SW1A 1AA")),
             name = Some(Name("John", None, "Smith"))))
           (app => Some("foo"))
