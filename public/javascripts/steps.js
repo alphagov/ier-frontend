@@ -730,7 +730,6 @@ window.GOVUK = window.GOVUK || {};
     this.$targetElement = $('#found-addresses');
     this.hasAddresses = ($('#'+inputId+'_address_select').length > 0);
     this.$waitMessage = $('<p id="wait-for-request">Finding address</p>');
-
     this.fragment =
       '<label for="'+inputId+'_postcode" class="hidden">' +
          'Postcode' + 
@@ -755,9 +754,7 @@ window.GOVUK = window.GOVUK || {};
         '></textarea>' +
       '</div>' +
       '<input type="hidden" id="possibleAddresses_postcode" name="possibleAddresses.postcode" value="{{postcode}}" autocomplete="off" class="text invalid postcode medium validate" data-validation-name="postcode" data-validation-type="field" data-validation-rules="nonEmpty">';
-
     this.addressIsPrevious = (this.$searchInput.siblings('label').text().indexOf('previous address') !== -1);
-
     this.$searchButton.attr('aria-controls', this.$targetElement.attr('id'));
     this.$targetElement.attr({
       'aria-live' : 'polite',
@@ -807,8 +804,7 @@ window.GOVUK = window.GOVUK || {};
           'defaultOption' : defaultOption,
           'options' : data.addresses,
           'excuseToggle' : 'I can\'t find my address in the list',
-          'excuseLabel' : 'Enter your address',
-          'postcode' : postcode
+          'excuseLabel' : 'Enter your address'
         };
 
     if (this.addressIsPrevious) {
