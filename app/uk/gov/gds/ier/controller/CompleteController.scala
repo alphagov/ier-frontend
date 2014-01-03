@@ -40,7 +40,7 @@ class CompleteController @Inject() (val serialiser: JsonSerialiser,
   }
 
   def fakeComplete = Action {
-    val authority = Some(LocalAuthority("Tower Hamlets Borough Council", Ero(), "00BG", "E09000030"))
+    val authority = Some(LocalAuthority("Tower Hamlets", Ero(), "00BG", "E09000030"))
     Ok(html.complete(authority, Some("123456")))
   }
 

@@ -48,6 +48,21 @@ class NationalityControllerTests
     }
   }
 
+  it should "redirect to no-franchise page with a country with no right to vote in UK" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/nationality") 
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "nationality.hasOtherCountry" -> "true",
+            "nationality.otherCountries[0]" -> "Japan")
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/exit/no-franchise"))
+    }
+  }
+
   it should "display any errors on unsuccessful bind (no content)" in {
     running(FakeApplication()) {
       val Some(result) = route(

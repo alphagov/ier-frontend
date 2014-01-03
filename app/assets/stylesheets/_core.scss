@@ -23,6 +23,10 @@ li {
 p {
   margin: 0 0 1em;
   clear: both;
+
+  &.footnote {
+    margin-top: 2em;
+  }
 }
 
 ul,li {
@@ -37,6 +41,17 @@ ul {
 li {
   margin: 0.25em 0;
   padding-left: 0.3em;
+}
+
+ul.plain-format {
+  &,
+  li {
+    padding-left: 0;
+  }
+
+  li {
+    list-style: none;
+  }
 }
 
 h1 {
@@ -54,6 +69,7 @@ h2 {
 
 h3 {
   @include bold-19;
+  margin-bottom: 1em;
 }
 
 input,
@@ -218,6 +234,10 @@ form {
   clear: both;
   @extend %contain-floats;
 
+  &:last-child {
+    margin-bottom: 2em;
+  }
+
   & :last-child {
     margin-bottom: 0;
   }
@@ -225,7 +245,8 @@ form {
 
 .optional-section-core-content,
 .optional-section .optional-section,
-.help-content .optional-section {
+.help-content .optional-section,
+#found-addresses .optional-section {
   border-left: none;
   padding: 14px 0 0;
 
@@ -329,4 +350,21 @@ button:focus,
 #footer .footer-meta-inner li {
   @include core-16;
   padding-left: 0;
+}
+
+.exit {
+  header {
+    margin: 0;
+    padding: 1em 2em 0 1em;
+
+    @include media(tablet) {
+      margin: 0 24em 0 0;
+      padding-left: 2em;
+    }
+  }
+
+ article {
+    padding-top: 2em;
+    padding-bottom: 2em;
+  }
 }

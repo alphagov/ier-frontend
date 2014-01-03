@@ -2,13 +2,16 @@
 @import helper._
 @import uk.gov.gds.ier.form.FormHelpers._
 @import layouts._
-@main(title = Some("Register to Vote - Sorry, you can’t register to vote without a date of birth"),
+@main(title = Some("Register to Vote - Sorry, you can't register to vote without confirming you are at least 18 years old"),
     stylesheets = head(),
     scripts = stepsBodyEnd(), 
-    contentClasses = Some("confirmation")) {
+    contentClasses = Some("exit")) {
+  <header>
+    <h1>Sorry, you can't register to vote without confirming you are at least 18 years old</h1>
+  </header>
   <article>
-    <h2>Sorry, you can’t register to vote without a date of birth</h2>
-    <p>Try to find out your date of birth.</p>
+    <p>Please try to find out your date of birth.</p>
+    <p>If you can't, you can still register by confirming you are at least 18 years old.</p>
     <p><a href="https://www.gov.uk/voting-in-the-uk">More about voting in the UK</a></p>
   </article>
 }

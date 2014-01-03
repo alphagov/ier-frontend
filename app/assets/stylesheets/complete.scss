@@ -367,8 +367,23 @@
       }
     }
   }
+  p.intro{
+    border-bottom: 1px solid $grey-2;
+    padding-bottom: 1.5em;
+    margin-bottom: 1.5em;
+  }
   p.footnote {
     border-top: 1px solid $grey-2;
-    padding-top: 2em;
+    padding-top: 1.5em;
+    margin-top: 1.5em;
+  }
+  .email {
+    padding-left: 34px;
+    background: url('/assets/images/icon-email.png') 0px 3px no-repeat;
+
+    @include device-pixel-ratio() {
+      background-size: 21px 16px;
+      background-image: url('/assets/images/icon-email-2x.png');
+    }
   }
 }

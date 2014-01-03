@@ -1,6 +1,7 @@
 @(implicit formData: uk.gov.gds.ier.validation.InProgressForm, postUrl: Call, possibleAddress: Option[uk.gov.gds.ier.model.PossibleAddress] = None)
 
 @import uk.gov.gds.ier.form.FormHelpers._
+@import uk.gov.gds.ier.form.FieldHelpers._
 @import helper.form
 @import layouts._
 
@@ -25,10 +26,8 @@
   }
 
   @form(postUrl) {
-
-
-    <div id="found-addresses">
-      @if(possibleAddress.isDefined && !possibleAddress.get.jsonList.addresses.isEmpty ) {
+    <div id="found-addresses" role="region" aria-live="polite">
+        @if(possibleAddress.isDefined && !possibleAddress.get.jsonList.addresses.isEmpty ) {
         @defining(possibleAddress.get) { possible =>
           @label(keys.address.postcode,
               label = "Postcode",
@@ -36,32 +35,33 @@
           @text(keys.address.postcode,
             'class -> "hidden", 'type -> "hidden", 'value -> possible.postcode)
           @select(keys.address.address, "Select your address",
-              "" -> "Please select..." :: possible.jsonList.addresses.map(s=>s.addressLine.get->s.addressLine.get),
+              "" -> amountDescription(possible.jsonList.addresses.length, Map("singular" -> " address found", "plural" -> " addresses found")) :: possible.jsonList.addresses.map(s=>s.addressLine.get->s.addressLine.get),
               inputAttributes = Map('class -> "lonely validate", Symbol("data-validation-name") -> "addressSelect", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
-          <div class="help-content">
-            <h2>My address is not listed</h2>
+          <div class="optional-section">
+            <h2>I can't find my address in the list</h2>
             @label(keys.address.manualAddress, "Enter your address")
             @textArea(keys.address.manualAddress, Map('class -> "small validate", 'maxlength -> "500", Symbol("data-validation-name") -> "addressExcuse", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
           </div>
         }
+      } else {
+        <div class="help-content">
+          <h2>I don't know which postcode to use</h2>
+          <p>We need your address and postcode so that we can send your details to the right local Electoral Registration Office.</p>
+          <h3>I don't know the postcode for my address</h3>
+          <p class="postcode-finder">Look up your postcode using the <a href="http://www.postoffice.co.uk/postcode-finder" rel="external" target="_blank" class="lightbox-link" data-target="address-lightbox">Post Office's postcode finder</a>.</p>
+          <h3>I don't know which address to use</h3>
+          <p>If you're a student living away from home, you can register to vote at both your permanent home address and your term-time address.</p>
+          <p>If you're homeless and living in temporary accommodation (for example, a long term hostel), use that address.</p>
+          <p>If you're a long term patient in a psychiatric hospital, use the address of the hospital.</p>
+          <p>If you're a prisoner on long term remand, use the address of the prison.</p>
+          <h3>I can't provide an address</h3>
+          <p>If you can't provide an address, please contact your local Electoral Registration Office.</p>
+        </div>
       }
 
     </div>
     @validationMessages(formData)
     <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode">Continue</button>
-    <div class="help-content">
-      <h2>Help</h2>
-      <p>We need your address and postcode so that we can send your details to the right local Electoral Registration Office.</p>
-      <p>If you're a student living away from home, you can register to vote at both your permanent home address and your term-time address.</p>
-      <p>If you're homeless and living in temporary accommodation (for example, a long term hostel), use that address.</p>
-      <p>If you're a long term patient in a psychiatric hospital, use the address of the hospital.</p>
-      <p>If you're a prisoner on long term remand, use the address of the prison.</p>
-      <div class="optional-section">
-        <h2>I can't provide an address</h2>
-        <p>If you do not have a fixed address you will need to complete a Declaration of local connection.</p>
-        <p>Please contact your Electoral Registration Office for advice.</p>
-      </div>
-    </div>
     @text(keys.possibleAddresses.postcode,
       'class -> "hidden", 'type -> "hidden")
     @text(keys.possibleAddresses.jsonList,

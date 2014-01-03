@@ -2,7 +2,7 @@
 
 @import helper.form
 @import layouts._
-@import uk.gov.gds.ier.validation.DateOfBirthConstants
+@import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 @import uk.gov.gds.ier.form.FormHelpers._
 
 @main(title = Some("Register to Vote - What is your Date Of Birth?"), stylesheets = head(), scripts = stepsBodyEnd()) {
@@ -27,9 +27,9 @@
         'class -> "year text small validate", 'placeholder -> "Year", Symbol("data-validation-name") -> "year", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
     </fieldset>
     <div class="help-content">
-      <h3>Help</h3>
-      <p>If you don’t know your exact date of birth, use the one you put on official documents (for example, your passport or driving licence.</p>
-      <p>If you can’t provide your date of birth you’ll have to send copies of identity documents through the post.</p>
+      <h3>I don't know my exact date of birth</h3>
+      <p>If you don’t know your exact date of birth, use the one you put on official documents (for example, your passport or driving licence).</p>
+      <p>If you can’t provide your date of birth, you'll need to explain why. And after you've applied, you'll be asked to prove your identity by sending documents in the post (or providing them in person).</p>
       <div class="optional-section validate" data-validation-name="dateOfBirthExcuse" data-validation-type="fieldset"  data-validation-rules="allNonEmpty"  data-validation-children="dateOfBirthExcuseReason excuseAgeAttempt">
         <h3>I can't provide my date of birth</h3>
         @label(keys.dob.noDob.reason, label = "Why can't you provide your date of birth?")

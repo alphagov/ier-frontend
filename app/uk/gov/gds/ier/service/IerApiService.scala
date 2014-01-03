@@ -27,11 +27,15 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
   def submitApplication(ipAddress: Option[String], applicant: InprogressApplication, referenceNumber: Option[String]) = {
     val authority = applicant.address.map(address => placesService.lookupAuthority(address.postcode)).getOrElse(None)
 
+    val previousAddress = applicant.previousAddress.map(previousAddress => previousAddress.previousAddress).getOrElse(None)
+    val previousAuthority = previousAddress.map(address => placesService.lookupAuthority(address.postcode)).getOrElse(None)
+
     val applicationWithIsoCodes = applicant.copy(nationality = applicant.nationality map isoCountryService.transformToIsoCode)
 
     val completeApplication = applicationWithIsoCodes.toApiMap ++
       referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
       authority.map(auth => Map("gssCode" -> auth.gssId)).getOrElse(Map.empty)  ++
+      previousAuthority.map(prevAuth => Map("pgssCode" -> prevAuth.gssId)).getOrElse(Map.empty)  ++
       Map("applicationType" -> "ordinary")  ++
       ipAddress.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty)
 
