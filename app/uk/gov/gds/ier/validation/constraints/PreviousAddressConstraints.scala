@@ -14,7 +14,7 @@ trait PreviousAddressConstraints {
         case PartialPreviousAddress(false, _) => Valid
         case PartialPreviousAddress(true, Some(PartialAddress(_, _, Some(manualAddress)))) => Valid  
         case PartialPreviousAddress(true, Some(PartialAddress(Some(uprn), _, _))) => Valid
-        case _ => Invalid("Please select your address", keys.previousAddress.previousAddress.address)
+        case _ => Invalid("Please select your address", keys.previousAddress.previousAddress.uprn)
       }
   }
 

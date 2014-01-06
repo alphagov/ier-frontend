@@ -2,7 +2,7 @@ package uk.gov.gds.ier.service
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.Nationality
+import uk.gov.gds.ier.model.PartialNationality
 
 class IsoCountryServiceTests
   extends FlatSpec
@@ -10,23 +10,20 @@ class IsoCountryServiceTests
   with TestHelpers {
 
   it should "fill in iso codes from country names" in {
-    val nationality = Nationality(british = Some(true), irish = Some(true), otherCountries = List("France", "Italy"))
-    val outputNationality = new IsoCountryService().transformToIsoCode(nationality)
+    val nationality = PartialNationality(british = Some(true), irish = Some(true), otherCountries = List("France", "Italy"))
+    val isoNationality = new IsoCountryService().transformToIsoCode(nationality)
 
-    val Some(isoCodes) = outputNationality.countryIsos
-
-    outputNationality should be(nationality.copy(countryIsos = Some(isoCodes)))
-    isoCodes should contain("GB")
-    isoCodes should contain("IE")
-    isoCodes should contain("FR")
-    isoCodes should contain("IT")
+    isoNationality.countryIsos should contain("GB")
+    isoNationality.countryIsos should contain("IE")
+    isoNationality.countryIsos should contain("FR")
+    isoNationality.countryIsos should contain("IT")
   }
 
   it should "handle no iso codes instance" in {
-    new IsoCountryService().transformToIsoCode(Nationality()).countryIsos should be(None)
+    new IsoCountryService().transformToIsoCode(PartialNationality()).countryIsos should be(Nil)
   }
 
   it should "handle bad country names" in {
-    new IsoCountryService().transformToIsoCode(Nationality(otherCountries = List("BLARGH"))).countryIsos should be(None)
+    new IsoCountryService().transformToIsoCode(PartialNationality(otherCountries = List("BLARGH"))).countryIsos should be(Nil)
   }
 }

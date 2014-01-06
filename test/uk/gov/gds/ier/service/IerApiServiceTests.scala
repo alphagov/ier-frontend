@@ -55,7 +55,7 @@ class IerApiServiceTests
       new MockConfig, mockPlaces, mockSha, isoService)
 
     val application = InprogressApplication(
-      nationality = Some(Nationality(
+      nationality = Some(PartialNationality(
         british = Some(true),
         irish = Some(true),
         hasOtherCountry = Some(true),
@@ -91,7 +91,7 @@ class IerApiServiceTests
       new MockConfig, mockPlaces, mockSha, isoService)
 
     val application = InprogressApplication(
-      nationality = Some(Nationality(
+      nationality = Some(PartialNationality(
         british = Some(true),
         irish = Some(true),
         hasOtherCountry = Some(true),

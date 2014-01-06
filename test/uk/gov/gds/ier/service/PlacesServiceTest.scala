@@ -17,18 +17,18 @@ class PlacesServiceTest extends FlatSpec with Matchers {
   it should "be able to parse a response from PostcodeAnywhere" in {
     class FakeApiClient extends PlacesApiClient(new MockConfig) {
       override def get(url: String) : ApiResponse = {
-        if (url == "http://places/address?postcode=bt125eg") {
+        if (url == "http://places/address?postcode=ab123cd") {
           Success("""[
             {
-              "uprn": 51088262,
-              "lineOne": "Apartment 3/1",
-              "lineTwo": "Block A",
-              "lineThree": "181 Sandy Row",
+              "lineOne": "1A Fake Flat",
+              "lineTwo": "Fake House",
+              "lineThree": "123 Fake Street",
               "lineFour": "",
               "lineFive": "",
-              "city": "Belfast",
-              "county": "County Antrim",
-              "postcode": "BT12 5EG"
+              "city": "Fakerton",
+              "county": "Fakesbury",
+              "uprn": 12345678,
+              "postcode": "AB12 3CD"
             }
           ]""")
         } else {
@@ -37,11 +37,16 @@ class PlacesServiceTest extends FlatSpec with Matchers {
       }
     }
     val service = new PlacesService(new FakeApiClient, new JsonSerialiser, new MockConfig)
-    val addresses = service.lookupAddress("BT125EG")
+    val addresses = service.lookupAddress("AB123CD")
 
     addresses.size should be(1)
-    addresses(0).addressLine should be(Some("Apartment 3/1, Block A, 181 Sandy Row, Belfast, County Antrim"))
-    addresses(0).postcode should be("BT12 5EG")
+    addresses(0).lineOne should be(Some("1A Fake Flat"))
+    addresses(0).lineTwo should be(Some("Fake House"))
+    addresses(0).lineThree should be(Some("123 Fake Street"))
+    addresses(0).city should be(Some("Fakerton"))
+    addresses(0).county should be(Some("Fakesbury"))
+    addresses(0).uprn should be(Some("12345678"))
+    addresses(0).postcode should be("AB12 3CD")
   }
 
   behavior of "PlacesService.beaconFire"

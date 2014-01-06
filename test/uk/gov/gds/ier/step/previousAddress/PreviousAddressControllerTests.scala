@@ -38,7 +38,7 @@ class PreviousAddressControllerTests
           .withIerSession()
           .withFormUrlEncodedBody(
             "previousAddress.movedRecently" -> "true",
-            "previousAddress.previousAddress.address" -> "123 Fake Street", 
+            "previousAddress.previousAddress.uprn" -> "123456789", 
             "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )
@@ -100,7 +100,7 @@ class PreviousAddressControllerTests
           .withIerSession()
           .withFormUrlEncodedBody(
             "previousAddress.movedRecently" -> "true",
-            "previousAddress.previousAddress.address" -> "123 Fake Street", 
+            "previousAddress.previousAddress.uprn" -> "123456789", 
             "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )

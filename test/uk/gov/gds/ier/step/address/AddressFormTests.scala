@@ -21,7 +21,7 @@ class AddressFormTests
   it should "successfully bind a valid address" in {
     val js = Json.toJson(
       Map(
-        "address.address" -> "123 Fake Street",
+        "address.uprn" -> "12345678",
         "address.postcode" -> "SW1A1AA"
       )
     )
@@ -30,7 +30,7 @@ class AddressFormTests
       success => {
         success.address.isDefined should be(true)
         val address = success.address.get
-        address.addressLine should be(Some("123 Fake Street"))
+        address.uprn should be(Some("12345678"))
         address.postcode should be("SW1A1AA")
       }
     )
@@ -103,10 +103,17 @@ class AddressFormTests
   }
 
   it should "successfully bind possible Address list" in {
-    val possibleAddressJS = serialiser.toJson(Addresses(List(Address(Some("123 Fake Street"), "AB12 3CD", None))))
+    val possibleAddress = Address(lineOne = Some("123 Fake Street"), 
+                                 lineTwo = None, 
+                                 lineThree = None, 
+                                 city = Some("Fakerton"),
+                                 county = Some("Fakesbury"),
+                                 uprn = Some("12345678"),
+                                 postcode = "AB12 3CD")
+    val possibleAddressJS = serialiser.toJson(Addresses(List(possibleAddress)))
     val js = Json.toJson(
       Map(
-        "address.address" -> "321 My Street",
+        "address.uprn" -> "12345678",
         "address.postcode" -> "SW1A 1AA",
         "possibleAddresses.jsonList" -> possibleAddressJS,
         "possibleAddresses.postcode" -> "SW1A 1AA"
@@ -121,16 +128,23 @@ class AddressFormTests
         success.possibleAddresses.isDefined should be(true)
         val Some(possibleAddresses) = success.possibleAddresses
 
-        address.addressLine should be(Some("321 My Street"))
+        address.uprn should be(Some("12345678"))
         address.postcode should be("SW1A 1AA")
 
-        possibleAddresses.addresses should be(List(Address(Some("123 Fake Street"), "AB12 3CD", None)))
+        possibleAddresses.addresses should be(List(possibleAddress))
       }
     )
   }
 
   it should "error out if it looks like you haven't selected your address" in {
-    val possibleAddressJS = serialiser.toJson(Addresses(List(Address(Some("123 Fake Street"), "AB12 3CD", None))))
+    val possibleAddress = Address(lineOne = Some("123 Fake Street"), 
+                                 lineTwo = None, 
+                                 lineThree = None, 
+                                 city = Some("Fakerton"),
+                                 county = Some("Fakesbury"),
+                                 uprn = Some("12345678"),
+                                 postcode = "AB12 3CD")
+    val possibleAddressJS = serialiser.toJson(Addresses(List(possibleAddress)))
     val js = Json.toJson(
       Map(
         "address.postcode" -> "SW1A 1AA",
@@ -141,7 +155,7 @@ class AddressFormTests
     addressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("address.address") should be(Seq("Please select your address"))
+        hasErrors.errorMessages("address.uprn") should be(Seq("Please select your address"))
         hasErrors.globalErrorMessages should be(Seq("Please select your address"))
       },
       success => {
@@ -151,7 +165,14 @@ class AddressFormTests
   }
 
   it should "not error if you haven't selected your address but there is a manual address" in {
-    val possibleAddressJS = serialiser.toJson(Addresses(List(Address(Some("123 Fake Street"), "AB12 3CD", None))))
+    val possibleAddress = Address(lineOne = Some("123 Fake Street"), 
+                                 lineTwo = None, 
+                                 lineThree = None, 
+                                 city = Some("Fakerton"),
+                                 county = Some("Fakesbury"),
+                                 uprn = Some("12345678"),
+                                 postcode = "AB12 3CD")
+    val possibleAddressJS = serialiser.toJson(Addresses(List(possibleAddress)))
     val js = Json.toJson(
       Map(
         "address.manualAddress" -> "1428 Elm Street",
@@ -172,7 +193,7 @@ class AddressFormTests
         address.manualAddress should be(Some("1428 Elm Street"))
         address.postcode should be("SW1A 1AA")
 
-        possibleAddresses.addresses should be(List(Address(Some("123 Fake Street"), "AB12 3CD", None)))
+        possibleAddresses.addresses should be(List(possibleAddress))
       }
     )
   }
@@ -180,7 +201,7 @@ class AddressFormTests
   it should "not error out with empty text" in {
     val js = Json.toJson(
       Map(
-        "address.address" -> "321 My Street",
+        "address.uprn" -> "87654321",
         "address.postcode" -> "SW1A 1AA",
         "possibleAddresses.jsonList" -> "",
         "possibleAddresses.postcode" -> ""
@@ -194,7 +215,7 @@ class AddressFormTests
 
         success.possibleAddresses.isDefined should be(false)
 
-        address.addressLine should be(Some("321 My Street"))
+        address.uprn should be(Some("87654321"))
         address.postcode should be("SW1A 1AA")
       }
     )

@@ -50,6 +50,6 @@ trait AddressForms extends AddressConstraints {
         InprogressApplication(address = partialAddress, possibleAddresses = possibleAddresses)
     ) (
       (inprogress) => Some(inprogress.address, inprogress.possibleAddresses)
-    )
-  )
+    ) verifying addressOrManualAddressDefined
+  ) 
 }

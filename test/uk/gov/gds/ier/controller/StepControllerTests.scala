@@ -182,11 +182,18 @@ class StepControllerTests
 
   it should "not allow possibleAddresses in to the session, we don't want to store those, ever!" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
+      val possibleAddress = Address(lineOne = Some("123 Fake Street"), 
+                                 lineTwo = None, 
+                                 lineThree = None, 
+                                 city = Some("Fakerton"),
+                                 county = Some("Fakesbury"),
+                                 uprn = Some("12345678"),
+                                 postcode = "AB12 3CD")
       val form = ErrorTransformForm(
         mapping("foo" -> text.verifying("I will always pass", foo => true))
           (foo => InprogressApplication(
             possibleAddresses = Some(PossibleAddress(
-              addresses = List(Address(Some("123 Fake Street"), "SW1A 1AA", None)),
+              addresses = List(possibleAddress),
               postcode = "SW1A 1AA")),
             name = Some(Name("John", None, "Smith"))))
           (app => Some("foo"))
