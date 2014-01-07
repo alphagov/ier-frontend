@@ -157,6 +157,10 @@ input.nino {
   & .help-content select {
     margin-bottom: 1em;
   }
+
+  & .added-country .text {
+    margin-bottom: 0;
+  }
 }
 
 .validation-wrapper-invalid {

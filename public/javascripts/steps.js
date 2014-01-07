@@ -1679,7 +1679,7 @@ window.GOVUK = window.GOVUK || {};
       $(document).bind('typeahead:' + evt, function () {
         var autocompleteEvent = GOVUK.registerToVote.autocompletes.trigger(evt);
 
-        autocompleteEvent.andSend.apply(GOVUK.registerToVote.autcompletes, arguments);
+        autocompleteEvent.andSend.apply(GOVUK.registerToVote.autocompletes, arguments);
       });
     });
     $(document).bind('contentUpdate', function (e, data) {
