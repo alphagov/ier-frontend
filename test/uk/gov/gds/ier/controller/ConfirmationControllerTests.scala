@@ -22,7 +22,7 @@ class ConfirmationControllerTests
             nationality = Some(PartialNationality(Some(true), Some(true), Some(false),
               List.empty, None)),
             nino = Some(Nino(Some("AB 12 34 56 D"), None)),
-            address = Some(PartialAddress(Some("12345678"), "BT12 34D", None)),
+            address = Some(PartialAddress(Some("123 Fake street"), Some("12345678"), "BT12 34D", None)),
             previousAddress = Some(PartialPreviousAddress(false, None)),
             otherAddress = Some(OtherAddress(false)),
             openRegisterOptin = Some(false),
@@ -37,6 +37,7 @@ class ConfirmationControllerTests
       contentAsString(result) shouldNot include("Please answer this question")
     }
   }
+
   it should "display all errors relevant for an empty inprogress application" in {
     running(FakeApplication()) {
       val Some(result) = route(

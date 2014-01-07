@@ -39,7 +39,7 @@ class PreviousAddressController @Inject ()(val serialiser: JsonSerialiser,
     }
     val possiblePostcode = form(keys.possibleAddresses.postcode).value
 
-    val possible = possiblePostcode.map(PossibleAddress(possibleAddresses.addresses, _))
+    val possible = possiblePostcode.map(PossibleAddress(possibleAddresses, _))
     views.html.steps.previousAddress(form, call, possible)
   }
   def goToNext(currentState: InprogressApplication): SimpleResult = {

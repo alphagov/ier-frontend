@@ -5,7 +5,7 @@ import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.libs.json.Json
-import uk.gov.gds.ier.model.{Addresses, Address}
+import uk.gov.gds.ier.model.{Addresses, Address, PartialAddress}
 import uk.gov.gds.ier.step.address.AddressForms
 
 class PreviousAddressFormTests
@@ -67,13 +67,10 @@ class PreviousAddressFormTests
   }
 
   it should "successfully bind to address and movedRecently=true with possible addresses" in {
-    val possibleAddress = Address(lineOne = Some("123 Fake Street"), 
-                                 lineTwo = None, 
-                                 lineThree = None, 
-                                 city = Some("Fakerton"),
-                                 county = Some("Fakesbury"),
-                                 uprn = Some("12345678"),
-                                 postcode = "AB12 3CD")
+    val possibleAddress = PartialAddress(addressLine = Some("123 Fake Street"), 
+                                         uprn = Some("12345678"),
+                                         postcode = "AB12 3CD", 
+                                         manualAddress = None)
     val possibleAddressJS = serialiser.toJson(Addresses(List(possibleAddress)))
     val js = Json.toJson(
       Map(
@@ -98,19 +95,16 @@ class PreviousAddressFormTests
 
         success.possibleAddresses.isDefined should be(true)
         val Some(possibleAddresses) = success.possibleAddresses
-        possibleAddresses.addresses should be(List(possibleAddress))
+        possibleAddresses.jsonList.addresses should be(List(possibleAddress))
       }
     )
   }
 
   it should "successfully bind to address and movedRecently=true with possible addresses (manual address)" in {
-    val possibleAddress = Address(lineOne = Some("123 Fake Street"), 
-                                 lineTwo = None, 
-                                 lineThree = None, 
-                                 city = Some("Fakerton"),
-                                 county = Some("Fakesbury"),
-                                 uprn = Some("12345678"),
-                                 postcode = "AB12 3CD")
+    val possibleAddress = PartialAddress(addressLine = Some("123 Fake Street"), 
+                                         uprn = Some("12345678"),
+                                         postcode = "AB12 3CD", 
+                                         manualAddress = None)
     val possibleAddressJS = serialiser.toJson(Addresses(List(possibleAddress)))
     val js = Json.toJson(
       Map(
@@ -135,7 +129,7 @@ class PreviousAddressFormTests
 
         success.possibleAddresses.isDefined should be(true)
         val Some(possibleAddresses) = success.possibleAddresses
-        possibleAddresses.addresses should be(List(possibleAddress))
+        possibleAddresses.jsonList.addresses should be(List(possibleAddress))
       }
     )
   }

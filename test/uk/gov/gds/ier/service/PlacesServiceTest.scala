@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.service
 
 import uk.gov.gds.ier.client.{PlacesApiClient, ApiClient}
-import uk.gov.gds.ier.model.{Fail, Success, ApiResponse}
+import uk.gov.gds.ier.model.{Fail, Success, ApiResponse, Address}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.guice.WithConfig
@@ -80,5 +80,62 @@ class PlacesServiceTest extends FlatSpec with Matchers {
     }
     val service = new PlacesService(new FakeApiClient, new JsonSerialiser, new MockConfig)
     service.beaconFire should be(false)
+  }
+
+  behavior of "PlacesService.formAddressLine"
+
+  it should "combine the 3 lines correctly" in {
+    class FakeApiClient extends PlacesApiClient(new MockConfig)
+    val service = new PlacesService(new FakeApiClient, new JsonSerialiser, new MockConfig)
+    
+    val address = Address(
+         lineOne = Some("1A Fake Flat"),
+         lineTwo = Some("Fake House"),
+         lineThree = Some("123 Fake Street"),
+         city = Some("Fakerton"),
+         county = Some("Fakesbury"),
+         uprn = Some("12345678"),
+         postcode = "AB12 3CD")
+
+    service.formAddressLine(address) should be(
+      "1A Fake Flat, Fake House, 123 Fake Street, Fakerton, Fakesbury"
+    )
+  }
+
+  it should "filter out Nones" in {
+    class FakeApiClient extends PlacesApiClient(new MockConfig)
+    val service = new PlacesService(new FakeApiClient, new JsonSerialiser, new MockConfig)
+    
+    val address = Address(
+         lineOne = Some("1A Fake Flat"),
+         lineTwo = None,
+         lineThree = None,
+         city = Some("Fakerton"),
+         county = Some("Fakesbury"),
+         uprn = Some("12345678"),
+         postcode = "AB12 3CD")
+
+    service.formAddressLine(address) should be(
+      "1A Fake Flat, Fakerton, Fakesbury"
+    )
+  }
+
+
+  it should "filter out empty strings" in {
+    class FakeApiClient extends PlacesApiClient(new MockConfig)
+    val service = new PlacesService(new FakeApiClient, new JsonSerialiser, new MockConfig)
+    
+    val address = Address(
+         lineOne = Some("1A Fake Flat"),
+         lineTwo = Some(""),
+         lineThree = Some(""),
+         city = Some("Fakerton"),
+         county = Some("Fakesbury"),
+         uprn = Some("12345678"),
+         postcode = "AB12 3CD")
+
+    service.formAddressLine(address) should be(
+      "1A Fake Flat, Fakerton, Fakesbury"
+    )
   }
 }

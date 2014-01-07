@@ -39,7 +39,18 @@ class ConfirmationController @Inject ()(val serialiser: JsonSerialiser,
   
   def get = ValidSession requiredFor {
     request => application =>
-      Ok(template(InProgressForm(validation.fillAndValidate(application))))
+      val currentAddressLine = application.address.map { placesService.fillAddressLine(_) }
+      val previousAddressLine = application.previousAddress.flatMap { prev => 
+        prev.previousAddress.map { placesService.fillAddressLine(_) }
+      }
+      val appWithAddressLines = application.copy(
+        address = currentAddressLine, 
+        previousAddress = application.previousAddress.map{ prev =>
+          prev.copy(previousAddress = previousAddressLine)
+        }
+      )
+
+      Ok(template(InProgressForm(validation.fillAndValidate(appWithAddressLines))))
   }
 
   def post = ValidSession requiredFor {

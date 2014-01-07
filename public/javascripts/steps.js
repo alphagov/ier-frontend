@@ -730,33 +730,31 @@ window.GOVUK = window.GOVUK || {};
     this.$targetElement = $('#found-addresses');
     this.hasAddresses = ($('#'+inputId+'_address_select').length > 0);
     this.$waitMessage = $('<p id="wait-for-request">Finding address</p>');
-    this.fragment = {
-      'hiddenLabel' : '<label for="'+inputId+'_postcode" class="hidden">' +
-                         'Postcode' + 
-                      '</label>',
-      'hiddenInput' : [
-        '<input type="hidden" id="input-address-postcode" name="'+inputName+'.postcode" value="',
-        '" class="text hidden">'
-      ],
-      'selectLabel' : '<label for="'+inputId+'_address_select">Select your address</label>',
-      'select' : [
-        '<div class="validation-wrapper">' +
-          '<select id="'+inputId+'_uprn_select" name="'+inputName+'.uprn" class="lonely validate" ' +
-          'data-validation-name="addressSelect" data-validation-type="field" data-validation-rules="nonEmpty"' +
-          '>' +
-            '<option value="">Please select...</option>',
-          '</select>' +
-        '</div>'
-      ],
-        'help' : '<div class="help-content">' +
-                  '<h2>My address is not listed</h2>' +
-                  '<label for="'+inputId+'_manualAddress">Enter your address</label>' +
-                  '<textarea name="'+inputName+'.manualAddress" id="'+inputId+'_manualAddress" class="small validate" maxlength=500  autocomplete="off" ' +
-                  'data-validation-name="addressExcuse" data-validation-type="field" data-validation-rules="nonEmpty"' +
-		          '></textarea>' +
-                '</div>'
-
-    };
+    this.fragment =
+      '<label for="'+inputId+'_postcode" class="hidden">' +
+         'Postcode' + 
+      '</label>' +
+      '<input type="hidden" id="input-address-postcode" name="'+inputName+'.postcode" value="{{postcode}}" class="text hidden">' +
+      '<label for="'+inputId+'_address_select">{{selectLabel}}</label>' +
+      '<div class="validation-wrapper">' +
+        '<select id="'+inputId+'_uprn_select" name="'+inputName+'.uprn" class="lonely validate" ' +
+        'data-validation-name="addressSelect" data-validation-type="field" data-validation-rules="nonEmpty"' +
+        '>' +
+        '<option value="">{{defaultOption}}</option>' +
+        '{{#options}}' +
+          '<option value="{{uprn}}">{{addressLine}}</option>' +
+        '{{/options}}' +
+        '</select>' +
+      '</div>' +
+      '<div class="optional-section">' +
+        '<h2>{{excuseToggle}}</h2>' +
+        '<label for="'+inputId+'_manualAddress">{{excuseLabel}}</label>' +
+        '<textarea name="'+inputName+'.manualAddress" id="'+inputId+'_manualAddress" class="small validate" maxlength=500  autocomplete="off" ' +
+        'data-validation-name="addressExcuse" data-validation-type="field" data-validation-rules="nonEmpty"' +
+        '></textarea>' +
+      '</div>' +
+      '<input type="hidden" id="possibleAddresses_postcode" name="possibleAddresses.postcode" value="{{postcode}}" autocomplete="off" class="text invalid postcode medium validate" data-validation-name="postcode" data-validation-type="field" data-validation-rules="nonEmpty">';
+    this.addressIsPrevious = (this.$searchInput.siblings('label').text().indexOf('previous address') !== -1);
     this.$searchButton.attr('aria-controls', this.$targetElement.attr('id'));
     this.$targetElement.attr({
       'aria-live' : 'polite',
@@ -771,7 +769,7 @@ window.GOVUK = window.GOVUK || {};
     $(document).bind('toggle.open', function (e, data) {
       var $select;
 
-      if (data.$toggle.text() === 'My address is not listed') {
+      if (data.$toggle.text() === "I can't find my address in the list") {
         data.$toggle.remove();
         $select = $('#'+inputId+'_address_select');
         $select.siblings('label[for="'+inputId+'_address_select"]').remove();
@@ -798,17 +796,26 @@ window.GOVUK = window.GOVUK || {};
 
   };
   postcodeLookup.prototype.addLookup = function (data, postcode) {
-    var resultStr;
+    var addressNum = data.addresses.length,
+        defaultOption = (addressNum > 1) ? addressNum + ' addresses found' : addressNum + ' address found',
+        htmlData = {
+          'postcode' : postcode,
+          'selectLabel' : 'Select your address',
+          'defaultOption' : defaultOption,
+          'options' : data.addresses,
+          'excuseToggle' : 'I can\'t find my address in the list',
+          'excuseLabel' : 'Enter your address'
+        };
 
-    resultStr = this.fragment.hiddenLabel;
-    resultStr += this.fragment.hiddenInput[0] + postcode + this.fragment.hiddenInput[1];
-    resultStr += this.fragment.selectLabel + this.fragment.select[0];
-    $(data.addresses).each(function (idx, entry) {
-     resultStr += '<option value="' + entry.uprn + '">' + entry.lineOne + ', ' + entry.lineTwo + ', ' + entry.lineThree + '</option>'
-    });
-    resultStr += this.fragment.select[1] + this.fragment.help;
-    this.$targetElement.html(resultStr);
-    new GOVUK.registerToVote.optionalInformation(this.$targetElement.find('.help-content'));
+    if (this.addressIsPrevious) {
+      htmlData.selectLabel = 'Select your previous address';
+      htmlData.excuseToggle = 'I can\'t find my previous address in the list'; 
+      htmlData.excuseLabel = 'Enter your previous address';
+    }
+    this.$targetElement
+      .html(Mustache.render(this.fragment, htmlData))
+      .addClass('contains-addresses');
+    new GOVUK.registerToVote.optionalInformation(this.$targetElement.find('.optional-section'));
     this.hasAddresses = true;
     $('#continue').show();
   };
@@ -830,7 +837,7 @@ window.GOVUK = window.GOVUK || {};
       done(function (data, status, xhrObj) {
         var $result = $('#found-addresses'),
             $continueButton = $('#continue'),
-            validationSources = $continueButton.attr('data-validation-sources');
+            validationSources = $continueButton.attr('data-validation-sources').split(' ');
 
         inst.addLookup(data, postcode);
         $result
@@ -840,13 +847,19 @@ window.GOVUK = window.GOVUK || {};
             'data-validation-type' : 'fieldset',
             'data-validation-rules' : 'fieldOrExcuse',
             'data-validation-children' : 'addressSelect addressExcuse'
-          })
-          .find('.validate').each(function (idx, elm) {
-            validation.fields.add($(elm));
           });
+        if (validationSources[validationSources.length - 1] !== 'address') {
+          validationSources.push('address');
+        } else {
+          validation.fields.remove('address');
+          validation.fields.remove('addressSelect');
+          validation.fields.remove('addressExcuse');
+        }
         validation.fields.add($result);
-        validationSources += ' address';
-        $('#continue').attr('data-validation-sources', validationSources);
+        $result.find('.validate').each(function (idx, elm) {
+          validation.fields.add($(elm));
+        });
+        $('#continue').attr('data-validation-sources', validationSources.join(' '));
         $('#possibleAddresses_jsonList').val(xhrObj.responseText);
         $('#possibleAddresses_postcode').val(postcode);
       }).
@@ -981,17 +994,16 @@ window.GOVUK = window.GOVUK || {};
           });
           items.push(itemObj);
         },
-        remove : function (name, rule) {
+        remove : function (name) {
           var result = [],
               item,
               itemObj;
 
-          for (item in items) {
-            itemObj = items[item];
-            if ((itemObj.name !== name) && (itemObj.rule !== rule)) {
+          $.each(items, function(idx, itemObj) {
+            if (itemObj.name !== name) {
               result.push(itemObj);
             }
-          }
+          });
           items = result;
         },
         add : function ($source) {

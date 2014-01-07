@@ -20,7 +20,7 @@ class PostcodeController @Inject()(postcodeAnywhere: PlacesService, val serialis
         errors => badResult("errors" -> errors.errorsAsMap),
         postcode =>
           try {
-            val addresses = postcodeAnywhere.lookupAddress(postcode)
+            val addresses = postcodeAnywhere.lookupPartialAddress(postcode)
             okResult(Addresses(addresses))
           } catch {
             case e:PostcodeLookupFailedException => serverErrorResult("error" -> e.getMessage)

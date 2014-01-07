@@ -11,8 +11,8 @@ trait AddressConstraints {
   lazy val addressOrManualAddressDefined = Constraint[InprogressApplication](keys.address.key) {
     application =>
       application.address match {
-        case Some(PartialAddress(Some(uprn), _, _)) if !uprn.isEmpty => Valid
-        case Some(PartialAddress(_, _, Some(manualAddress))) if !manualAddress.isEmpty => Valid
+        case Some(PartialAddress(_, Some(uprn), _, _)) if !uprn.isEmpty => Valid
+        case Some(PartialAddress(_, _, _, Some(manualAddress))) if !manualAddress.isEmpty => Valid
         case _ => Invalid("Please select your address", keys.address.uprn)
       }
   }

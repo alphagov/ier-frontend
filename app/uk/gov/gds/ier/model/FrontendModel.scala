@@ -111,6 +111,7 @@ case class OrdinaryApplication(name: Option[Name],
                                contact: Option[Contact],
                                referenceNumber: Option[String],
                                authority: Option[LocalAuthority],
+                               previousAuthority: Option[LocalAuthority],
                                ip: Option[String]) extends CompleteApplication {
   def toApiMap:Map[String, String] = {
     Map.empty ++
@@ -127,11 +128,11 @@ case class OrdinaryApplication(name: Option[Name],
       contact.map(_.toApiMap).getOrElse(Map.empty) ++
       referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
       authority.map(auth => Map("gssCode" -> auth.gssId)).getOrElse(Map.empty)  ++
+      previousAuthority.map(auth => Map("prevGssCode" -> auth.gssId)).getOrElse(Map.empty) ++
       ip.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty) ++
       Map("applicationType" -> "ordinary")
   }
 }
-
 
 case class InprogressApplication (name: Option[Name] = None,
                                   previousName: Option[PreviousName] = None,
@@ -147,11 +148,14 @@ case class InprogressApplication (name: Option[Name] = None,
                                   possibleAddresses: Option[PossibleAddress] = None,
                                   country: Option[Country] = None) 
 
-case class PossibleAddress(addresses:List[Address], postcode: String)
+case class PossibleAddress(jsonList:Addresses, postcode: String)
 
-case class Addresses(addresses:List[Address])
+case class Addresses(addresses:List[PartialAddress])
 
-case class PartialAddress(uprn:Option[String], postcode:String, manualAddress:Option[String])
+case class PartialAddress(addressLine:Option[String], 
+                          uprn:Option[String], 
+                          postcode:String, 
+                          manualAddress:Option[String])
 
 case class Address(lineOne:Option[String], 
                    lineTwo:Option[String],

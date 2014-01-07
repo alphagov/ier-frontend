@@ -26,7 +26,8 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
 
   def submitApplication(ipAddress: Option[String], applicant: InprogressApplication, referenceNumber: Option[String]) = {
     val isoCodes = applicant.nationality.map(nationality => isoCountryService.transformToIsoCode(nationality))
-    val authority = applicant.address.flatMap(address => placesService.lookupAuthority(address.postcode))
+    val currentAuthority = applicant.address.flatMap(address => placesService.lookupAuthority(address.postcode))
+    val previousAuthority = applicant.previousAddress.flatMap(_.previousAddress).flatMap(prevAddress => placesService.lookupAuthority(prevAddress.postcode))
     val fullCurrentAddress = applicant.address.flatMap(address => placesService.lookupAddress(address))
     val fullPreviousAddress = applicant.previousAddress.flatMap(_.previousAddress).flatMap(placesService.lookupAddress(_))
 
@@ -43,7 +44,8 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       postalVoteOptin = applicant.postalVoteOptin,
       contact = applicant.contact,
       referenceNumber = referenceNumber,
-      authority = authority,
+      authority = currentAuthority,
+      previousAuthority = previousAuthority,
       ip = ipAddress
     )
 

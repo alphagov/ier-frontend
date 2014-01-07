@@ -5,7 +5,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import play.api.libs.json.{Json, JsNull}
-import uk.gov.gds.ier.model.{Addresses, Address}
+import uk.gov.gds.ier.model.{Addresses, Address, PartialAddress}
 
 class AddressFormTests
   extends FlatSpec
@@ -103,13 +103,10 @@ class AddressFormTests
   }
 
   it should "successfully bind possible Address list" in {
-    val possibleAddress = Address(lineOne = Some("123 Fake Street"), 
-                                 lineTwo = None, 
-                                 lineThree = None, 
-                                 city = Some("Fakerton"),
-                                 county = Some("Fakesbury"),
-                                 uprn = Some("12345678"),
-                                 postcode = "AB12 3CD")
+    val possibleAddress = PartialAddress(addressLine = Some("123 Fake Street"), 
+                                         uprn = Some("12345678"),
+                                         postcode = "AB12 3CD",
+                                         manualAddress = None)
     val possibleAddressJS = serialiser.toJson(Addresses(List(possibleAddress)))
     val js = Json.toJson(
       Map(
@@ -131,19 +128,16 @@ class AddressFormTests
         address.uprn should be(Some("12345678"))
         address.postcode should be("SW1A 1AA")
 
-        possibleAddresses.addresses should be(List(possibleAddress))
+        possibleAddresses.jsonList.addresses should be(List(possibleAddress))
       }
     )
   }
 
   it should "error out if it looks like you haven't selected your address" in {
-    val possibleAddress = Address(lineOne = Some("123 Fake Street"), 
-                                 lineTwo = None, 
-                                 lineThree = None, 
-                                 city = Some("Fakerton"),
-                                 county = Some("Fakesbury"),
-                                 uprn = Some("12345678"),
-                                 postcode = "AB12 3CD")
+    val possibleAddress = PartialAddress(addressLine = Some("123 Fake Street"), 
+                                         uprn = Some("12345678"),
+                                         postcode = "AB12 3CD", 
+                                         manualAddress = None)
     val possibleAddressJS = serialiser.toJson(Addresses(List(possibleAddress)))
     val js = Json.toJson(
       Map(
@@ -165,13 +159,10 @@ class AddressFormTests
   }
 
   it should "not error if you haven't selected your address but there is a manual address" in {
-    val possibleAddress = Address(lineOne = Some("123 Fake Street"), 
-                                 lineTwo = None, 
-                                 lineThree = None, 
-                                 city = Some("Fakerton"),
-                                 county = Some("Fakesbury"),
-                                 uprn = Some("12345678"),
-                                 postcode = "AB12 3CD")
+    val possibleAddress = PartialAddress(addressLine = Some("123 Fake Street"), 
+                                         uprn = Some("12345678"),
+                                         postcode = "AB12 3CD", 
+                                         manualAddress = None)
     val possibleAddressJS = serialiser.toJson(Addresses(List(possibleAddress)))
     val js = Json.toJson(
       Map(
@@ -193,7 +184,7 @@ class AddressFormTests
         address.manualAddress should be(Some("1428 Elm Street"))
         address.postcode should be("SW1A 1AA")
 
-        possibleAddresses.addresses should be(List(possibleAddress))
+        possibleAddresses.jsonList.addresses should be(List(possibleAddress))
       }
     )
   }
