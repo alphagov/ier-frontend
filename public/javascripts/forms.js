@@ -241,6 +241,7 @@
       } else {
         targetNum = idx + 1;
       }
+      $(document).trigger('contentRemoval', { 'context' : elm });
     };
 
     $copies.each(getRemainingValues).remove();
@@ -464,7 +465,7 @@
       }
     },
     remove : function ($input) {
-      var existing = this.getExisting($input);
+      var existing = this.existingId($input);
 
       $input.typeahead('destroy');
       if (existing) { delete this.cache[existing]; }

@@ -66,5 +66,12 @@
       GOVUK.registerToVote.autocompletes.add($(elm));
     });
   });
+  $(document).bind('contentRemoval', function (e, data) {
+    var context = data.context;
+
+    $('.country-autocomplete', context).each(function (idx, elm) {
+      GOVUK.registerToVote.autocompletes.remove($(elm));
+    });
+  });
   GOVUK.registerToVote.validation.init();
 }.call(this));
