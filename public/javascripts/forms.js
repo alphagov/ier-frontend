@@ -228,11 +228,11 @@
         $addAnotherLink = $container.find('a.duplicate-control'),
         $previousCopy,
         values = [],
-        getRemainingValues,
+        _getRemainingValues,
         targetNum,
         fragment = document.createDocumentFragment();
 
-    getRemainingValues = function (idx, elm) {
+    _getRemainingValues = function (idx, elm) {
       var $elm = $(elm),
           fieldId = $elm.find('label').attr('for');
 
@@ -244,7 +244,7 @@
       $(document).trigger('contentRemoval', { 'context' : elm });
     };
 
-    $copies.each(getRemainingValues).remove();
+    $copies.each(_getRemainingValues).remove();
     if (values.length === 0) {
       $addAnotherLink.remove();
       this.$duplicationIntro.show();
@@ -474,7 +474,7 @@
 
   PostcodeLookup = function (searchButton, inputName) {
     var inputId = inputName.replace(/\./g, "_")
-    var allowSubmission = function ($searchButton) {
+    var _allowSubmission = function ($searchButton) {
       var $optionalSectionContainer = $searchButton.closest('.optional-section'),
           isInOptionalSection = ($optionalSectionContainer.length > 0),
           optionalSectionIsHidden = false;
@@ -528,7 +528,7 @@
       'role' : 'region'
     });
 
-    if (!allowSubmission.apply(this, [this.$searchButton])) {
+    if (!_allowSubmission.apply(this, [this.$searchButton])) {
       $('#continue').hide();
     }
 

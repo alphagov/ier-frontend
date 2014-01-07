@@ -76,7 +76,7 @@
             'fieldset' : function (props) { ItemObj.call(this, props); },
             'association' : function (props) { ItemObj.call(this, props); }
           },
-          makeItemObj = function ($source, obj) {
+          _makeItemObj = function ($source, obj) {
             obj.name = $source.data('validationName');
             obj.rules = $source.data('validationRules').split(' ');
 
@@ -97,7 +97,7 @@
           };
         },
         addField : function ($source) {
-          var itemObj = makeItemObj($source, {
+          var itemObj = _makeItemObj($source, {
             'type' : 'field',
             '$source' : $source
           });
@@ -107,7 +107,7 @@
           var childNames = $source.data('validationChildren').split(' '),
               itemObj;
 
-          itemObj = makeItemObj($source, {
+          itemObj = _makeItemObj($source, {
             'type' : 'fieldset',
             '$source' : $source,
             'children' : childNames
@@ -118,7 +118,7 @@
           var memberNames = $source.data('validationMembers').split(' '),
               itemObj;
 
-          itemObj = makeItemObj($source, {
+          itemObj = _makeItemObj($source, {
             'type' : 'association',
             'members' : memberNames
           });
@@ -214,10 +214,10 @@
       var _this = this,
           invalidFields = [],
           invalidField,
-          addAnyCascades,
+          _addAnyCascades,
           fields;
 
-      addAnyCascades = function (field, rule, invalidFields) {
+      _addAnyCascades = function (field, rule, invalidFields) {
         var fieldsetCascade = validation.fieldsetCascade(field.name, rule),
             prefix = validation.rules[field.type][rule].prefix;
 
@@ -312,24 +312,24 @@
       }
     },
     rules : (function () {
-      var fieldType,
-          selectValue,
-          radioValue,
-          getFieldValue,
-          getInvalidDataFromFields,
+      var _fieldType,
+          _selectValue,
+          _radioValue,
+          _getFieldValue,
+          _getInvalidDataFromFields,
           rules;
 
-      fieldType = function ($field) {
+      _fieldType = function ($field) {
         var type = $field[0].nodeName.toLowerCase();
         
         return (type === 'input') ? $field[0].type : type;
       };
-      selectValue = function ($field) {
+      _selectValue = function ($field) {
         var idx = $field[0].selectedIndex;
 
         return $field.find('option:eq(' + idx + ')').val();
       };
-      radioValue = function ($field) {
+      _radioValue = function ($field) {
         var radioName = $field.attr('name'),
             $radios = $($field[0].form).find('input[type=radio]'),
             $selectedRadio = false;
@@ -340,21 +340,21 @@
 
         return ($selectedRadio) ? $selectedRadio.val() : ''; 
       };
-      getFieldValue = function ($field) {
-        switch (fieldType($field)) {
+      _getFieldValue = function ($field) {
+        switch (_fieldType($field)) {
           case 'text':
             return $field.val();
           case 'checkbox':
             return ($field.is(':checked')) ? $field.val() : '';
           case 'select':
-            return selectValue($field);
+            return _selectValue($field);
           case 'radio':
-            return radioValue($field);
+            return _radioValue($field);
           default:
             return $field.val();
         }
       };
-      getInvalidDataFromFields = function (fields, rule) {
+      _getInvalidDataFromFields = function (fields, rule) {
         return $.map(fields, function (item, idx) {
           return {
             'name' : item.name,
@@ -371,8 +371,8 @@
         'field' : {
           'nonEmpty' : function () {
             if (this.$source.is(':hidden')) { return []; }
-            if (getFieldValue(this.$source) === '') {
-              return getInvalidDataFromFields([this], 'nonEmpty');
+            if (_getFieldValue(this.$source) === '') {
+              return _getInvalidDataFromFields([this], 'nonEmpty');
             } else {
               return [];
             }
@@ -385,34 +385,34 @@
             if (this.$source.is(':hidden')) { return []; }
             $countries = this.$source.find('.country-autocomplete');
             $filledCountries = $.map($countries, function (elm, idx) {
-              return (getFieldValue($(elm)) === '') ? null : elm;
+              return (_getFieldValue($(elm)) === '') ? null : elm;
             });
             if ($filledCountries.length === 0) {
-              return getInvalidDataFromFields([this, { 'name' : 'country', '$source' : $countries }], 'atLeastOneCountry');
+              return _getInvalidDataFromFields([this, { 'name' : 'country', '$source' : $countries }], 'atLeastOneCountry');
             } else {
               return [];
             }
           },
           'telephone' : function () {
-            var entry = getFieldValue(this.$source);
+            var entry = _getFieldValue(this.$source);
             
             if (entry.replace(/[\s|\-]/g, "").match(/^\+?\d+$/) === null) {
-              return getInvalidDataFromFields([this], 'telephone');
+              return _getInvalidDataFromFields([this], 'telephone');
             } else {
               return [];
             }
           },
           'email' : function () {
-            var entry = getFieldValue(this.$source);
+            var entry = _getFieldValue(this.$source);
 
             if (entry.match(/\w+@\w+?(?:\.[A-Za-z]{2,3})+/) === null) {
-              return getInvalidDataFromFields([this], 'email');
+              return _getInvalidDataFromFields([this], 'email');
             } else {
               return [];
             }
           },
           'nino' : function () {
-            var entry = getFieldValue(this.$source),
+            var entry = _getFieldValue(this.$source),
                 match;
 
             match = entry
@@ -421,13 +421,13 @@
                     .match(/^[A-CEGHJ-PR-TW-Za-ceghj-pr-tw-z]{1}[A-CEGHJ-NPR-TW-Za-ceghj-npr-tw-z]{1}[0-9]{6}[A-DFMa-dfm]{0,1}$/);
 
             if (match !== null) {
-              return getInvalidDataFromFields([this], 'nino');
+              return _getInvalidDataFromFields([this], 'nino');
             } else {
               return [];
             }
           },
           'postcode' : function () {
-            var entry = getFieldValue(this.$source),
+            var entry = _getFieldValue(this.$source),
                 match;
 
             match = entry
@@ -435,27 +435,27 @@
                       .replace(/[\s|\-]/g, "")
                       .match(/((GIR0AA)|((([A-PR-UW-Z][0-9][0-9]?)|(([A-PR-UW-Z]][A-HK-Y][0-9][0-9]?)|(([A-PR-UW-Z][0-9][A-HJKSTUW])|([A-PR-UW-Z][A-HK-Z][0-9][ABEHMNPRVWXY]))))[0-9][A-BD-HJLNP-UW-Z]{2}))/);
             if (match === null) {
-              return getInvalidDataFromFields([this], 'postcode');
+              return _getInvalidDataFromFields([this], 'postcode');
             } else {
               return [];
             }
           },
           'smallText' : function () {
-            var entry = getFieldValue(this.$source),
+            var entry = _getFieldValue(this.$source),
                 maxLen = 256;
 
             if (entry.length > maxLen) {
-              return getInvalidDataFromFields([this], 'largeText');
+              return _getInvalidDataFromFields([this], 'largeText');
             } else {
               return [];
             }
           },
           'largeText' : function () {
-            var entry = getFieldValue(this.$source),
+            var entry = _getFieldValue(this.$source),
                 maxLen = 500;
 
             if (entry.length > maxLen) {
-              return getInvalidDataFromFields([this], 'largeText');
+              return _getInvalidDataFromFields([this], 'largeText');
             } else {
               return [];
             }
@@ -465,9 +465,9 @@
           'atLeastOneNonEmpty' : function () {
             var oneFilled = false,
                 childFields = validation.fields.getNames(this.children),
-                fieldIsShowing;
+                _fieldIsShowing;
 
-            fieldIsShowing = function (fieldObj) {
+            _fieldIsShowing = function (fieldObj) {
               return !fieldObj.$source.is(':hidden');
             };
             if (this.$source.is(':hidden')) { return []; }
@@ -475,12 +475,12 @@
               var method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty',
                   isFilledFailedRules = fieldObj[method]();
 
-              if (fieldIsShowing(fieldObj) && !isFilledFailedRules.length) {
+              if (_fieldIsShowing(fieldObj) && !isFilledFailedRules.length) {
                 oneFilled = true;
               }
             });
             if (!oneFilled) {
-              return getInvalidDataFromFields([this], 'atLeastOneNonEmpty');
+              return _getInvalidDataFromFields([this], 'atLeastOneNonEmpty');
             } else {
               return [];
             }
@@ -506,9 +506,9 @@
               if (fieldObj.name === 'otherCountries') {
                 invalidRules = fieldObj.atLeastOneCountry();
               } else if (fieldObj.name === 'other') {
-                otherIsChecked = (getFieldValue(fieldObj.$source) !== '');
+                otherIsChecked = (_getFieldValue(fieldObj.$source) !== '');
               } else {
-                if (getFieldValue(fieldObj.$source) !== '') { return []; }
+                if (_getFieldValue(fieldObj.$source) !== '') { return []; }
               }
             }
             if (otherIsChecked && !invalidRules.length) {
@@ -521,11 +521,11 @@
             var childFields = validation.fields.getNames(this.children),
                 childFailedRules = [],
                 rulesToReport,
-                fieldIsShowing,
+                _fieldIsShowing,
                 fieldsetObj,
                 i,j;
 
-            fieldIsShowing = function (fieldObj) {
+            _fieldIsShowing = function (fieldObj) {
               return !fieldObj.$source.is(':hidden');
             };
             if (this.$source.is(':hidden')) { return []; }
@@ -534,7 +534,7 @@
                   method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty',
                   isFilledFailedRules = fieldObj[method]();
 
-              if (fieldIsShowing(fieldObj) && isFilledFailedRules.length) {
+              if (_fieldIsShowing(fieldObj) && isFilledFailedRules.length) {
                 $.merge(childFailedRules, isFilledFailedRules);
               }
             }
@@ -547,7 +547,7 @@
                   '$source' : this.$source
                 };
               } else { // message from the fieldset level
-                rulesToReport = getInvalidDataFromFields(childFailedRules, 'allNonEmpty');
+                rulesToReport = _getInvalidDataFromFields(childFailedRules, 'allNonEmpty');
                 fieldsetObj = {
                   'name' : this.name,
                   'rule' : 'allNonEmpty',
@@ -570,13 +570,13 @@
                 excuseFailedRules = validation.applyRules(excuse),
                 fieldIsValid,
                 excuseIsValid,
-                fieldIsShowing;
+                _fieldIsShowing;
 
-            fieldIsShowing = function (fieldObj) {
+            _fieldIsShowing = function (fieldObj) {
               return !fieldObj.$source.is(':hidden');
             };
-            fieldIsValid = (!fieldFailedRules.length && fieldIsShowing(field));
-            excuseIsValid = (!excuseFailedRules.length && fieldIsShowing(excuse));
+            fieldIsValid = (!fieldFailedRules.length && _fieldIsShowing(field));
+            excuseIsValid = (!excuseFailedRules.length && _fieldIsShowing(excuse));
             if (fieldIsValid) {
               return [];
             } else {
@@ -595,8 +595,8 @@
                 otherFieldFailed = otherField.nonEmpty();
 
             if (!otherFieldFailed.length) {
-              if (getFieldValue($countryInput) === '') {
-                return getInvalidDataFromFields([otherField, this], 'countryNonEmpty');
+              if (_getFieldValue($countryInput) === '') {
+                return _getInvalidDataFromFields([otherField, this], 'countryNonEmpty');
               } else {
                 return [];
               }
@@ -606,9 +606,9 @@
           },
           'correctAge' : function () {
             var children = validation.fields.getNames(this.children),
-                day = parseInt(getFieldValue(children[0].$source), 10),
-                month = parseInt(getFieldValue(children[1].$source), 10),
-                year = parseInt(getFieldValue(children[2].$source), 10),
+                day = parseInt(_getFieldValue(children[0].$source), 10),
+                month = parseInt(_getFieldValue(children[1].$source), 10),
+                year = parseInt(_getFieldValue(children[2].$source), 10),
                 dob = (new Date(year, (month - 1), day)).getTime(),
                 now = (new Date()).getTime(),
                 minAge = 16,
@@ -618,7 +618,7 @@
             age = Math.floor((((((age / 1000) / 60) / 60) / 24) / 365.25));
             isValid = ((age >= minAge) && (age <= maxAge));
             if (!isValid) {
-              return getInvalidDataFromFields(children, 'correctAge');
+              return _getInvalidDataFromFields(children, 'correctAge');
             } else {
               return [];
             }
@@ -633,13 +633,13 @@
                 excuseFailedRules = validation.applyRules(excuse),
                 fieldsetIsValid,
                 excuseIsValid,
-                fieldIsShowing;
+                _fieldIsShowing;
 
-            fieldIsShowing = function (fieldObj) {
+            _fieldIsShowing = function (fieldObj) {
               return !fieldObj.$source.is(':hidden');
             };
-            fieldsetIsValid = (!fieldsetFailedRules.length && fieldIsShowing(fieldset));
-            excuseIsValid = (!excuseFailedRules.length && fieldIsShowing(excuse));
+            fieldsetIsValid = (!fieldsetFailedRules.length && _fieldIsShowing(fieldset));
+            excuseIsValid = (!excuseFailedRules.length && _fieldIsShowing(excuse));
             if (!fieldsetIsValid && !excuseIsValid) {
               return fieldsetFailedRules;
             } else {
@@ -649,10 +649,10 @@
           'allNonEmpty' : function () {
             var oneEmpty = false,
                 memberFields = validation.fields.getNames(this.members),
-                fieldIsShowing,
+                _fieldIsShowing,
                 i,j;
 
-            fieldIsShowing = function (fieldObj) {
+            _fieldIsShowing = function (fieldObj) {
               return !fieldObj.$source.is(':hidden');
             };
             for (i = 0, j = memberFields.length; i < j; i++) {
@@ -660,10 +660,10 @@
                   method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty',
                   isFilledFailedRules = fieldObj[method]();
 
-              if (fieldIsShowing(fieldObj) && isFilledFailedRules.length) {
+              if (_fieldIsShowing(fieldObj) && isFilledFailedRules.length) {
                 oneEmpty = true;
                 memberFields.push(this)
-                return getInvalidDataFromFields(memberFields, 'allNonEmpty');
+                return _getInvalidDataFromFields(memberFields, 'allNonEmpty');
               }
             };
             return [];
