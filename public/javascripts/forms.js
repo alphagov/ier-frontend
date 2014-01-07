@@ -64,10 +64,10 @@
     this.$toggle.insertBefore(this.$content);
   };
   ToggleObj.prototype.bindEvents = function () {
-    var inst = this;
+    var _this = this;
 
     this.$toggle.on('click', function () {
-      inst.toggle();
+      _this.toggle();
       return false;
     });
   };
@@ -89,10 +89,10 @@
     this.$heading.addClass("visuallyhidden");
   };
   OptionalInformation.prototype.bindEvents = function () {
-    var inst = this;
+    var _this = this;
 
     this.$toggle.on('click', function () {
-      inst.toggle();
+      _this.toggle();
       return false;
     });
     this.$toggle.trigger('click');
@@ -111,15 +111,15 @@
     if (contentId) { this.$toggle.attr('aria-controls', contentId); }
   }; 
   ConditionalControl.prototype.bindEvents = function () {
-    var inst = this,
+    var _this = this,
         toggleName = this.$toggle.attr('name');
 
     this.$toggle.on('change', function () {
-      inst.toggle();
+      _this.toggle();
     });
     if (this.$toggle.attr('type') === 'radio') {
       $(document).on('radio:' + toggleName, function (e, data) {
-        inst.toggle(data.selectedRadio);
+        _this.toggle(data.selectedRadio);
       });
     }
     this.$toggle.trigger("change");
@@ -162,7 +162,7 @@
   // Constructor to add the ability to duplicate a single field multiple times
   DuplicateField = function (control, copyClass, labelObj) {
     var fieldId,
-        inst = this;
+        _this = this;
 
     this.$control = $(control);
     this.copyClass = copyClass;
@@ -177,10 +177,10 @@
       .on('click', function (e) {
         var className = e.target.className;
         if (className.indexOf('duplicate-control') !== -1) {
-          inst.duplicate();
+          _this.duplicate();
         }
         else if (className.indexOf('remove-field') !== -1) {
-          inst.removeDuplicate($(e.target).siblings('label').attr('for'));
+          _this.removeDuplicate($(e.target).siblings('label').attr('for'));
         }
         return false;
       })
@@ -193,7 +193,7 @@
       });
   };
   DuplicateField.prototype.makeField = function (fieldNum, fieldValue) {
-    var inst = this,
+    var _this = this,
         $container = this.$label.parent(),
         fragment = '<label for="{% id %}" class="{% labelClass %}">{% labelText %}</label>' +
                     '<a href="#" class="remove-field">Remove<span class="visuallyhidden"> {% labelText %}</span></a>' +
@@ -222,7 +222,7 @@
     return this.namePattern.replace(/\[\d+\]/, '[' + idx + ']');
   };
   DuplicateField.prototype.removeDuplicate = function (id) {
-    var inst = this,
+    var _this = this,
         $container = this.$label.parent(),
         $copies = $container.find("." + this.copyClass),
         $addAnotherLink = $container.find('a.duplicate-control'),
@@ -252,7 +252,7 @@
       return;
     } else {
       $.each(values, function (idx, item) {
-        fragment.appendChild(inst.makeField(idx + 1, item)[0]);
+        fragment.appendChild(_this.makeField(idx + 1, item)[0]);
       });
       $addAnotherLink[0].parentNode.insertBefore(fragment, $addAnotherLink[0]);
       if (targetNum === 1) {
@@ -264,7 +264,7 @@
     }
   };
   DuplicateField.prototype.duplicate = function () {
-    var inst = this,
+    var _this = this,
         $container = this.$label.parent(),
         countryIdx = $container.find("." + this.copyClass).length + 1,
         $newField = this.makeField(countryIdx),
@@ -289,17 +289,17 @@
   //
   //  ie. radio:address.address
   MarkSelected = function (elm) {
-    var inst = this;
+    var _this = this;
 
     this.$label = $(elm);
     this.$control = this.$label.find('input[type=radio], input[type=checkbox]');
     if (this.$control.attr('type') === 'radio') {
       $(document).on('radio:' + this.$control.attr('name'), function (e, data) {
-        inst.toggle(data.selectedRadio);
+        _this.toggle(data.selectedRadio);
       });
     } else {
       this.$label.on('click', function () {
-        inst.toggle();
+        _this.toggle();
       });
     }
     if (this.$control.is(':checked')) {
@@ -546,10 +546,10 @@
     });
   };
   PostcodeLookup.prototype.bindEvents = function () {
-    var inst = this;
+    var _this = this;
 
     this.$searchButton.on('click', function () {
-      inst.getAddresses();
+      _this.getAddresses();
       return false;
     });
   };
@@ -587,7 +587,7 @@
     $('#continue').show();
   };
   PostcodeLookup.prototype.getAddresses = function () {
-    var inst = this,
+    var _this = this,
         postcode = this.$searchInput.val(),
         URL = '/address/' + postcode.replace(/\s/g,''),
         $optionalInfo = this.$searchButton.closest('fieldset').find('div.help-content'),
@@ -606,7 +606,7 @@
             $continueButton = $('#continue'),
             validationSources = $continueButton.attr('data-validation-sources').split(' ');
 
-        inst.addLookup(data, postcode);
+        _this.addLookup(data, postcode);
         $result
           .addClass('validate')
           .attr({
@@ -632,13 +632,13 @@
       }).
       fail(function (xhrObj, status, errorStr) {
         if (status === 'timeout' ) {
-          inst.onTimeout(xhrObj);
+          _this.onTimeout(xhrObj);
         } else {
-          inst.onError(status, errorStr);
+          _this.onError(status, errorStr);
         }
       }).
       always(function () {
-        inst.$waitMessage.remove();
+        _this.$waitMessage.remove();
       });
     }
   };
