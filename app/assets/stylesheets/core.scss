@@ -235,41 +235,6 @@ form {
   padding-right: 0;
 }
 
-.optional-section,
-.help-content {
-  border-left: $grey-2 solid 4px;
-  padding: 14px 0 14px 14px;
-  margin-bottom: 1em;
-  clear: both;
-  @extend %contain-floats;
-
-  &:last-child {
-    margin-bottom: 2em;
-  }
-
-  & :last-child {
-    margin-bottom: 0;
-  }
-}
-
-.optional-section-core-content,
-.optional-section .optional-section,
-.help-content .optional-section,
-#found-addresses .optional-section {
-  border-left: none;
-  padding: 14px 0 0;
-
-  & :last-child {
-    margin-bottom: 1em;
-  }
-}
-
-.optional-section {
-  h2, h3 {
-    @include bold-19;
-  }
-}
-
 .help-notice {
   font-weight: 600;
   padding-left: 3em;
@@ -306,44 +271,6 @@ a.back-to-previous:active,
 a.back-to-previous:hover,
 a.back-to-previous:focus {
   color: $black;
-}
-
-.typeahead,
-.tt-query,
-.tt-hint {
-	font-size: 19px;
-	line-height: 1.25;
-	font-weight: 300;
-	text-transform: none;
-	border: 1px solid #bbb;
-	margin: 0;
-	padding: 0.5em;
-}
-
-.tt-hint{
-	display: none;
-}
-
-.tt-dropdown-menu {
-	padding: 0;
-	background-color: #fff;
-	border: 1px solid #ccc;
-	width: 100%;
-}
-
-.tt-suggestion {
-	padding: 0.5em;
-	font-size: 19px;
-	line-height: 24px;
-}
-
-.tt-suggestion p{
-	margin: 0;
-}
-
-.tt-suggestion.tt-is-under-cursor {
-	color: #fff;
-	background-color: #0097cf;
 }
 
 button:focus,
