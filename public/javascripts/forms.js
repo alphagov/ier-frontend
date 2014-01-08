@@ -443,11 +443,11 @@
     existingObj : function ($input) {
       return this.cache[$input.attr('id')];
     },
-    trigger : function (eventName) {
+    createEvent : function (eventName) {
       var autocompletesObj = this;
 
       return {
-        'andSend' : function (e) {
+        'trigger' : function (e) {
           var existingObj = autocompletesObj.existingObj($(e.target)),
               method = autocompletesObj.methods[eventName];
 
