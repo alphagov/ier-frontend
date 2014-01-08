@@ -49,7 +49,7 @@
     GOVUK.registerToVote.autocompletes.add($(elm));
   });
 
-  // Functionality bound to elements added through a content update
+  // Custom events
 
   // Bind all autocomplete events
   $.each(['initialized', 'opened', 'closed', 'movedto', 'updated'], function (idx, evt) {
