@@ -443,11 +443,11 @@
     existingObj : function ($input) {
       return this.cache[$input.attr('id')];
     },
-    trigger : function (eventName) {
+    createEvent : function (eventName) {
       var autocompletesObj = this;
 
       return {
-        'andSend' : function (e) {
+        'trigger' : function (e) {
           var existingObj = autocompletesObj.existingObj($(e.target)),
               method = autocompletesObj.methods[eventName];
 
@@ -559,12 +559,9 @@
   PostcodeLookup.prototype.onError = function (status, errorStr) {
 
   };
-  PostcodeLookup.prototype.onEmpty = function () {
-
-  };
   PostcodeLookup.prototype.addLookup = function (data, postcode) {
     var addressNum = data.addresses.length,
-        defaultOption = (addressNum > 1) ? addressNum + ' addresses found' : addressNum + ' address found',
+        defaultOption = (addressNum === 1) ? addressNum + ' address found' : addressNum + ' addresses found',
         htmlData = {
           'postcode' : postcode,
           'selectLabel' : 'Select your address',

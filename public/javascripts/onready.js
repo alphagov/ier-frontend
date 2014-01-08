@@ -49,14 +49,14 @@
     GOVUK.registerToVote.autocompletes.add($(elm));
   });
 
-  // Functionality bound to elements added through a content update
+  // Custom events
 
   // Bind all autocomplete events
   $.each(['initialized', 'opened', 'closed', 'movedto', 'updated'], function (idx, evt) {
     $(document).bind('typeahead:' + evt, function () {
-      var autocompleteEvent = GOVUK.registerToVote.autocompletes.trigger(evt);
+      var autocompleteEvent = GOVUK.registerToVote.autocompletes.createEvent(evt);
 
-      autocompleteEvent.andSend.apply(GOVUK.registerToVote.autocompletes, arguments);
+      autocompleteEvent.trigger.apply(GOVUK.registerToVote.autocompletes, arguments);
     });
   });
   $(document).bind('contentUpdate', function (e, data) {
