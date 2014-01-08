@@ -176,6 +176,10 @@ input.nino {
     margin-left: -32px;
   }
 
+  .optional-section-core-content & :last-child {
+    margin-bottom: 0;
+  }
+
   @include media(tablet) {
     padding-left: 14px;
     margin-left: -18px;

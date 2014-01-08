@@ -25,11 +25,13 @@
     <div class="optional-section optional-section-core-content @classIf(formData(keys.previousAddress.movedRecently).value == Some("true"), "visible")" data-condition="@keys.previousAddress.movedRecently.asId("true")">
       <fieldset>
         @label(keys.possibleAddresses.postcode, "Enter the postcode to find your previous address")
-        @text(keys.possibleAddresses.postcode, 
-          'class -> "postcode medium validate",
-          Symbol("data-validation-name") -> "postcode", 
-          Symbol("data-validation-type") -> "field", 
-          Symbol("data-validation-rules") -> "nonEmpty")
+        <div class="validation-wrapper">
+          @text(keys.possibleAddresses.postcode, 
+            'class -> "postcode medium validate",
+            Symbol("data-validation-name") -> "postcode", 
+            Symbol("data-validation-type") -> "field", 
+            Symbol("data-validation-rules") -> "nonEmpty")
+        </div>
         <button id="find-previous-address" class="button search validation-submit" data-validation-sources="postcode">Find address</button>
       </fieldset>
       <div id="found-addresses" role="region" aria-live="polite">
