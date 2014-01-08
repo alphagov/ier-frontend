@@ -128,7 +128,7 @@ case class OrdinaryApplication(name: Option[Name],
       contact.map(_.toApiMap).getOrElse(Map.empty) ++
       referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
       authority.map(auth => Map("gssCode" -> auth.gssId)).getOrElse(Map.empty)  ++
-      previousAuthority.map(auth => Map("prevGssCode" -> auth.gssId)).getOrElse(Map.empty) ++
+      previousAuthority.map(auth => Map("pgssCode" -> auth.gssId)).getOrElse(Map.empty) ++
       ip.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty) ++
       Map("applicationType" -> "ordinary")
   }
