@@ -1,5 +1,7 @@
 /* Styles for the question pages */
 
+@import "toolkit";
+
 /* global form control styles */
 
 legend {
@@ -157,6 +159,10 @@ input.nino {
   & .help-content select {
     margin-bottom: 1em;
   }
+
+  & .added-country .text {
+    margin-bottom: 0;
+  }
 }
 
 .validation-wrapper-invalid {
@@ -168,6 +174,10 @@ input.nino {
   .help-content & {
     padding-left: 28px;
     margin-left: -32px;
+  }
+
+  .optional-section-core-content & :last-child {
+    margin-bottom: 0;
   }
 
   @include media(tablet) {
@@ -240,6 +250,79 @@ fieldset {
   .example {
     margin-bottom: 0.5em;
   }
+}
+
+.optional-section,
+.help-content {
+  border-left: $grey-2 solid 4px;
+  padding: 14px 0 14px 14px;
+  margin-bottom: 1em;
+  clear: both;
+  @extend %contain-floats;
+
+  &:last-child {
+    margin-bottom: 2em;
+  }
+
+  & :last-child {
+    margin-bottom: 0;
+  }
+}
+
+.optional-section-core-content,
+.optional-section .optional-section,
+.help-content .optional-section,
+#found-addresses .optional-section {
+  border-left: none;
+  padding: 14px 0 0;
+
+  & :last-child {
+    margin-bottom: 1em;
+  }
+}
+
+.optional-section {
+  h2, h3 {
+    @include bold-19;
+  }
+}
+
+.typeahead,
+.tt-query,
+.tt-hint {
+	font-size: 19px;
+	line-height: 1.25;
+	font-weight: 300;
+	text-transform: none;
+	border: 1px solid #bbb;
+	margin: 0;
+	padding: 0.5em;
+}
+
+.tt-hint{
+	display: none;
+}
+
+.tt-dropdown-menu {
+	padding: 0;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	width: 100%;
+}
+
+.tt-suggestion {
+	padding: 0.5em;
+	font-size: 19px;
+	line-height: 24px;
+}
+
+.tt-suggestion p{
+	margin: 0;
+}
+
+.tt-suggestion.tt-is-under-cursor {
+	color: #fff;
+	background-color: #0097cf;
 }
 
 .tt-dropdown-menu {
@@ -457,22 +540,6 @@ fieldset.invalid {
       padding-left: 32px;
       margin-left: -36px;
     }
-  }
-}
-
-#found-addresses.invalid {
-  outline: none;
-
-  select {
-    outline: solid 4px $mellow-red;
-  }
-}
-
-#add-countries.invalid {
-  outline: none;
-
-  .country-autocomplete {
-    outline: solid 4px $mellow-red;
   }
 }
 
