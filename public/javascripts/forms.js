@@ -559,9 +559,6 @@
   PostcodeLookup.prototype.onError = function (status, errorStr) {
 
   };
-  PostcodeLookup.prototype.onEmpty = function () {
-
-  };
   PostcodeLookup.prototype.addLookup = function (data, postcode) {
     var addressNum = data.addresses.length,
         defaultOption = (addressNum === 1) ? addressNum + ' address found' : addressNum + ' addresses found',
