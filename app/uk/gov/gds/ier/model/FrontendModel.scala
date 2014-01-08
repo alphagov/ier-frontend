@@ -120,8 +120,8 @@ case class OrdinaryApplication(name: Option[Name],
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
       nationality.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
-      address.map(_.toApiMap("cadr")).getOrElse(Map.empty) ++
-      previousAddress.map(_.toApiMap("padr")).getOrElse(Map.empty) ++
+      address.map(_.toApiMap("c")).getOrElse(Map.empty) ++
+      previousAddress.map(_.toApiMap("p")).getOrElse(Map.empty) ++
       otherAddress.map(_.toApiMap).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
       postalVoteOptin.map(postal => Map("pvote" -> postal.toString)).getOrElse(Map.empty) ++
@@ -170,13 +170,13 @@ case class Address(lineOne:Option[String],
   }
 
   def toApiMap(addressKey:String) = {
-    lineOne.map(x => Map(addressKey + "l1" -> x)).getOrElse(Map.empty) ++
-      lineTwo.map(x => Map(addressKey + "l2" -> x)).getOrElse(Map.empty) ++
-      lineThree.map(x => Map(addressKey + "l3" -> x)).getOrElse(Map.empty) ++
-      city.map(x => Map(addressKey + "city" -> x)).getOrElse(Map.empty) ++
-      county.map(x => Map(addressKey + "cnty" -> x)).getOrElse(Map.empty) ++
+    lineOne.map(x => Map(addressKey + "property" -> x)).getOrElse(Map.empty) ++
+      lineTwo.map(x => Map(addressKey + "street" -> x)).getOrElse(Map.empty) ++
+      lineThree.map(x => Map(addressKey + "locality" -> x)).getOrElse(Map.empty) ++
+      city.map(x => Map(addressKey + "town" -> x)).getOrElse(Map.empty) ++
+      county.map(x => Map(addressKey + "area" -> x)).getOrElse(Map.empty) ++
       uprn.map(x => Map(addressKey + "uprn" -> x)).getOrElse(Map.empty) ++
-      Map(addressKey + "code" -> postcode)
+      Map(addressKey + "postcode" -> postcode)
   }
 }
 
