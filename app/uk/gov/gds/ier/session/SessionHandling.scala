@@ -9,7 +9,6 @@ import uk.gov.gds.ier.logging.Logging
 import play.api.mvc.DiscardingCookie
 import play.api.mvc.Cookie
 import scala.Some
-import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 
 trait SessionHandling {
@@ -63,7 +62,7 @@ trait SessionHandling {
               }
               case false => {
                 logger.debug(s"Validate session and store - token is not valid")
-                Redirect(routes.RegisterToVoteController.index()).withFreshSession()
+                Redirect(routes.ErrorController.timeout()).withFreshSession()
               }
             }
           }
@@ -87,7 +86,7 @@ trait SessionHandling {
               }
               case false => {
                 logger.debug(s"Validate session - token is not valid")
-                Redirect(routes.RegisterToVoteController.index()).withFreshSession()
+                Redirect(routes.ErrorController.timeout()).withFreshSession()
               }
             }
           }

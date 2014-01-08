@@ -1,0 +1,15 @@
+@()
+@import helper._
+@import uk.gov.gds.ier.form.FormHelpers._
+@import layouts._
+@main(title = Some("Register to Vote - Sorry, your session has expired"),
+    stylesheets = head(),
+    scripts = stepsBodyEnd(),
+    contentClasses = Some("exit")) {
+  <header>
+    <h1>Sorry, your session has expired.</h1>
+  </header>
+  <article>
+    <p>Click <a href="\">here</a> to start again.</p>
+  </article>
+}
