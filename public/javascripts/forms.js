@@ -564,7 +564,7 @@
   };
   PostcodeLookup.prototype.addLookup = function (data, postcode) {
     var addressNum = data.addresses.length,
-        defaultOption = (addressNum > 1) ? addressNum + ' addresses found' : addressNum + ' address found',
+        defaultOption = (addressNum === 1) ? addressNum + ' address found' : addressNum + ' addresses found',
         htmlData = {
           'postcode' : postcode,
           'selectLabel' : 'Select your address',
