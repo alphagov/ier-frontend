@@ -1,3 +1,11 @@
+(function () {
+  "use strict";
+
+  var root = this,
+      GOVUK = root.GOVUK,
+      countries;
+
+  countries = [
     { "name": "AF", "value": "Afghanistan", "tokens": ["Afghanistan"] },
     { "name": "AL", "value": "Albania", "tokens": ["Albania"] },
     { "name": "DZ", "value": "Algeria", "tokens": ["Algeria"] },
@@ -223,3 +231,7 @@
     { "name": "YE", "value": "Yemen", "tokens": ["Yemen"] },
     { "name": "ZM", "value": "Zambia", "tokens": ["Zambia"] },
     { "name": "ZW", "value": "Zimbabwe", "tokens": ["Zimbabwe"] }
+  ];
+
+  GOVUK.registerToVote.countries = countries;
+}.call(this));
