@@ -11,18 +11,6 @@ class TransformedFormTests
   with Matchers
   with TestHelpers {
 
-  it should "bind just like a form" in {
-    val data = Map("foo" -> "John Smith")
-    val form = Form(single("foo" -> text))
-    val boundForm = form.bind(data)
-
-    val transformedForm = ErrorTransformForm(form)
-    transformedForm.form should be(form)
-
-    val boundTransformedForm = transformedForm.bind(data)
-    boundTransformedForm.form should be(boundForm)
-  }
-
   it should "validate like a form" in {
     val data = Map("foo" -> "john")
     val form = Form(single("foo" -> number))
