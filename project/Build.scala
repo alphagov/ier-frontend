@@ -6,6 +6,8 @@ import net.litola.SassPlugin
 import net.litola.SassPlugin._
 import net.litola.SassCompiler
 import de.johoop.jacoco4sbt.JacocoPlugin._
+import org.jba.sbt.plugin.MustachePlugin
+import org.jba.sbt.plugin.MustachePlugin._
 
 object ApplicationBuild extends IERBuild {
 
@@ -20,7 +22,8 @@ object ApplicationBuild extends IERBuild {
     anorm,
     new ModuleID("org.codehaus.janino", "janino", "2.6.1"),
     "org.scalatest" % "scalatest_2.10" % "2.0.RC3" % "test",
-    "org.mockito" % "mockito-core" % "1.9.5"
+    "org.mockito" % "mockito-core" % "1.9.5",
+    "org.jba" %% "play2-mustache" % "1.1.3" // play2.2.0
   )
 
   lazy val main = play.Project(appName, appVersion, appDependencies)
@@ -32,6 +35,15 @@ object ApplicationBuild extends IERBuild {
     .settings(
         parallelExecution in jacoco.Config := false, 
         watchSources ~= { _.filterNot(_.isDirectory) }
+    )
+    .settings(
+      resolvers += Resolver.url("julienba.github.com", url("http://julienba.github.com/repo/"))(Resolver.ivyStylePatterns),
+
+      // Mustache settings
+      mustacheEntryPoints <<= (sourceDirectory in Compile)(base => base / "assets" / "mustache" ** "*.html"),
+
+      mustacheOptions := Seq.empty[String],
+      resourceGenerators in Compile <+= MustacheFileCompiler
     )
 }
 
