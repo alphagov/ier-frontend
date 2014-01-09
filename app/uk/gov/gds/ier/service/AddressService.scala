@@ -23,4 +23,27 @@ class AddressService @Inject()(placesService: PlacesService) {
       }
     }
   }
+
+  def lookupPartialAddress(postcode:String):List[PartialAddress] = {
+    placesService.lookupAddress(postcode) map { address =>
+      PartialAddress(
+        addressLine = Some(formAddressLine(address)),
+        uprn = address.uprn,
+        postcode = address.postcode,
+        None
+      )
+    }
+  }
+
+  def fillAddressLine(partial:PartialAddress):PartialAddress = {
+    val line = placesService.lookupAddress(partial) map formAddressLine
+    partial.copy(addressLine = line)
+  }
+
+  protected[service] def formAddressLine(address:Address):String = {
+    List(address.lineOne, address.lineTwo, address.lineThree, address.city, address.county)
+      .filterNot(line => line.map(_.replaceAllLiterally(" ","")) == Some(""))
+      .flatten
+      .mkString(", ")
+  }
 }

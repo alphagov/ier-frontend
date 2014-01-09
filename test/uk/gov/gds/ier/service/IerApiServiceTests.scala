@@ -13,7 +13,6 @@ import uk.gov.gds.ier.model.InprogressApplication
 import uk.gov.gds.ier.model.Success
 import uk.gov.gds.ier.model.Fail
 import scala.Some
-import uk.gov.gds.common.model.{Ero, LocalAuthority}
 
 class IerApiServiceTests
   extends FlatSpec

@@ -88,20 +88,14 @@
           <h3>Address</h3>
           <div class="data-wrap"> 
             @validationSwitch(formData(keys.address)) {
-              @formData(keys.address.lineOne).value.map{ lineOne =>
-              <p>@lineOne</p>
-              }
-              @formData(keys.address.lineTwo).value.map{ lineTwo =>
-              <p>@lineTwo</p>
-              }
-              @formData(keys.address.lineThree).value.map{ lineThree =>
-              <p>@lineThree</p>
-              }
-              @formData(keys.address.city).value.map{ city =>
-              <p>@city</p>
-              }
-              @formData(keys.address.county).value.map{ county =>
-              <p>@county</p>
+              @if(formData(keys.address.addressLine).value.isDefined){
+                @formData(keys.address.addressLine).value.map{ addressLine =>
+                <p>@addressLine</p>
+                }
+              } else {
+                @formData(keys.address.manualAddress).value.map{ addressLine =>
+                <p>@addressLine</p>
+                }
               }
               @formData(keys.address.postcode).value.map{ postcode =>
               <p>@postcode</p>

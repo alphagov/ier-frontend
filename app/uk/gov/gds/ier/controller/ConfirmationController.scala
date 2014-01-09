@@ -6,7 +6,7 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.session.SessionHandling
-import uk.gov.gds.ier.service.{IerApiService, PlacesService}
+import uk.gov.gds.ier.service.{AddressService, IerApiService, PlacesService}
 import play.api.data.Form
 import play.api.mvc.{SimpleResult, Call}
 import uk.gov.gds.ier.model.InprogressApplication
@@ -19,7 +19,7 @@ import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 
 class ConfirmationController @Inject ()(val serialiser: JsonSerialiser,
                                         ierApi: IerApiService,
-                                        placesService: PlacesService,
+                                        addressService: AddressService,
                                         val config: Config,
                                         val encryptionService : EncryptionService,
                                         val encryptionKeys : EncryptionKeys)
@@ -39,9 +39,9 @@ class ConfirmationController @Inject ()(val serialiser: JsonSerialiser,
   
   def get = ValidSession requiredFor {
     request => application =>
-      val currentAddressLine = application.address.map { placesService.fillAddressLine(_) }
-      val previousAddressLine = application.previousAddress.flatMap { prev => 
-        prev.previousAddress.map { placesService.fillAddressLine(_) }
+      val currentAddressLine = application.address.map { addressService.fillAddressLine(_) }
+      val previousAddressLine = application.previousAddress.flatMap { prev =>
+        prev.previousAddress.map { addressService.fillAddressLine(_) }
       }
       val appWithAddressLines = application.copy(
         address = currentAddressLine, 

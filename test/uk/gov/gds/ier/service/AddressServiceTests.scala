@@ -82,4 +82,61 @@ class AddressServiceTests extends FlatSpec
     service.formFullAddress(None) should be(None)
     verify(mockPlaces, never()).lookupAddress(MockitoMatchers.anyString())
   }
+
+  behavior of "AddressService.formAddressLine"
+
+  it should "combine the 3 lines correctly" in {
+    val mockPlaces = mock[PlacesService]
+    val service = new AddressService(mockPlaces)
+
+    val address = Address(
+      lineOne = Some("1A Fake Flat"),
+      lineTwo = Some("Fake House"),
+      lineThree = Some("123 Fake Street"),
+      city = Some("Fakerton"),
+      county = Some("Fakesbury"),
+      uprn = Some("12345678"),
+      postcode = "AB12 3CD")
+
+    service.formAddressLine(address) should be(
+      "1A Fake Flat, Fake House, 123 Fake Street, Fakerton, Fakesbury"
+    )
+  }
+
+  it should "filter out Nones" in {
+    val mockPlaces = mock[PlacesService]
+    val service = new AddressService(mockPlaces)
+
+    val address = Address(
+      lineOne = Some("1A Fake Flat"),
+      lineTwo = None,
+      lineThree = None,
+      city = Some("Fakerton"),
+      county = Some("Fakesbury"),
+      uprn = Some("12345678"),
+      postcode = "AB12 3CD")
+
+    service.formAddressLine(address) should be(
+      "1A Fake Flat, Fakerton, Fakesbury"
+    )
+  }
+
+
+  it should "filter out empty strings" in {
+    val mockPlaces = mock[PlacesService]
+    val service = new AddressService(mockPlaces)
+
+    val address = Address(
+      lineOne = Some("1A Fake Flat"),
+      lineTwo = Some(""),
+      lineThree = Some(""),
+      city = Some("Fakerton"),
+      county = Some("Fakesbury"),
+      uprn = Some("12345678"),
+      postcode = "AB12 3CD")
+
+    service.formAddressLine(address) should be(
+      "1A Fake Flat, Fakerton, Fakesbury"
+    )
+  }
 }

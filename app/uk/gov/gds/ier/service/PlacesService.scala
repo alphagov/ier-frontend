@@ -39,29 +39,6 @@ class PlacesService @Inject() (apiClient: PlacesApiClient, serialiser: JsonSeria
     }
   }
 
-  def lookupPartialAddress(postcode:String):List[PartialAddress] = {
-    lookupAddress(postcode) map { address => 
-      PartialAddress(
-        addressLine = Some(formAddressLine(address)),
-        uprn = address.uprn,
-        postcode = address.postcode,
-        None
-      )
-    }
-  }
-
-  def fillAddressLine(partial:PartialAddress):PartialAddress = {
-    val line = lookupAddress(partial) map formAddressLine
-    partial.copy(addressLine = line)
-  }
-
-  protected[service] def formAddressLine(address:Address):String = {
-    List(address.lineOne, address.lineTwo, address.lineThree, address.city, address.county)
-      .filterNot(line => line.map(_.replaceAllLiterally(" ","")) == Some(""))
-      .flatten
-      .mkString(", ")
-  }
-
   def lookupAuthority(postcode:String) : Option[LocalAuthority] = {
     val result = apiClient.get((config.placesUrl + "/authority?postcode=%s").format(postcode.replaceAllLiterally(" ","").toLowerCase))
     result match {

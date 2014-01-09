@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.controller
 
 import com.google.inject.Inject
-import uk.gov.gds.ier.service.PlacesService
+import uk.gov.gds.ier.service.{AddressService, PlacesService}
 import play.api.mvc.Controller
 import play.api.mvc.Action
 import uk.gov.gds.ier.client.ApiResults
@@ -11,7 +11,7 @@ import uk.gov.gds.ier.exception.PostcodeLookupFailedException
 import uk.gov.gds.ier.validation.IerForms
 import uk.gov.gds.ier.model.Addresses
 
-class PostcodeController @Inject()(postcodeAnywhere: PlacesService, val serialiser: JsonSerialiser)
+class PostcodeController @Inject()(postcodeAnywhere: PlacesService, addressService:AddressService, val serialiser: JsonSerialiser)
   extends Controller with ApiResults with WithSerialiser with IerForms {
 
   def lookupAddress(postcode: String) = Action {
@@ -20,7 +20,7 @@ class PostcodeController @Inject()(postcodeAnywhere: PlacesService, val serialis
         errors => badResult("errors" -> errors.errorsAsMap),
         postcode =>
           try {
-            val addresses = postcodeAnywhere.lookupPartialAddress(postcode)
+            val addresses = addressService.lookupPartialAddress(postcode)
             okResult(Addresses(addresses))
           } catch {
             case e:PostcodeLookupFailedException => serverErrorResult("error" -> e.getMessage)
