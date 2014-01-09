@@ -5,7 +5,7 @@ import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.libs.json.Json
-import uk.gov.gds.ier.model.{Addresses, Address}
+import uk.gov.gds.ier.model.{Addresses, Address, PartialAddress}
 import uk.gov.gds.ier.step.address.AddressForms
 
 class PreviousAddressFormTests
@@ -24,7 +24,7 @@ class PreviousAddressFormTests
     val js = Json.toJson(
       Map(
         "previousAddress.movedRecently" -> "true",
-        "previousAddress.previousAddress.address" -> "123 Fake Street",
+        "previousAddress.previousAddress.uprn" -> "12345678",
         "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
       )
     )
@@ -37,7 +37,7 @@ class PreviousAddressFormTests
         
         previousAddressWrapper.previousAddress.isDefined should be(true)
         val previousAddress = previousAddressWrapper.previousAddress.get
-        previousAddress.addressLine should be(Some("123 Fake Street"))
+        previousAddress.uprn should be(Some("12345678"))
         previousAddress.postcode should be("SW1A 1AA")
       }
     )
@@ -67,11 +67,15 @@ class PreviousAddressFormTests
   }
 
   it should "successfully bind to address and movedRecently=true with possible addresses" in {
-    val possibleAddressJS = serialiser.toJson(Addresses(List(Address(Some("123 Fake Street"), "AB12 3CD", None))))
+    val possibleAddress = PartialAddress(addressLine = Some("123 Fake Street"), 
+                                         uprn = Some("12345678"),
+                                         postcode = "AB12 3CD", 
+                                         manualAddress = None)
+    val possibleAddressJS = serialiser.toJson(Addresses(List(possibleAddress)))
     val js = Json.toJson(
       Map(
         "previousAddress.movedRecently" -> "true",
-        "previousAddress.previousAddress.address" -> "123 Fake Street",
+        "previousAddress.previousAddress.uprn" -> "12345678",
         "previousAddress.previousAddress.postcode" -> "SW1A 1AA",
         "possibleAddresses.jsonList" -> possibleAddressJS,
         "possibleAddresses.postcode" -> "SW1A 1AA"
@@ -86,18 +90,22 @@ class PreviousAddressFormTests
 
         previousAddressWrapper.previousAddress.isDefined should be(true)
         val previousAddress = previousAddressWrapper.previousAddress.get
-        previousAddress.addressLine should be(Some("123 Fake Street"))
+        previousAddress.uprn should be(Some("12345678"))
         previousAddress.postcode should be("SW1A 1AA")
 
         success.possibleAddresses.isDefined should be(true)
         val Some(possibleAddresses) = success.possibleAddresses
-        possibleAddresses.jsonList.addresses should be(List(Address(Some("123 Fake Street"), "AB12 3CD", None)))
+        possibleAddresses.jsonList.addresses should be(List(possibleAddress))
       }
     )
   }
 
   it should "successfully bind to address and movedRecently=true with possible addresses (manual address)" in {
-    val possibleAddressJS = serialiser.toJson(Addresses(List(Address(Some("123 Fake Street"), "AB12 3CD", None))))
+    val possibleAddress = PartialAddress(addressLine = Some("123 Fake Street"), 
+                                         uprn = Some("12345678"),
+                                         postcode = "AB12 3CD", 
+                                         manualAddress = None)
+    val possibleAddressJS = serialiser.toJson(Addresses(List(possibleAddress)))
     val js = Json.toJson(
       Map(
         "previousAddress.movedRecently" -> "true",
@@ -121,7 +129,7 @@ class PreviousAddressFormTests
 
         success.possibleAddresses.isDefined should be(true)
         val Some(possibleAddresses) = success.possibleAddresses
-        possibleAddresses.jsonList.addresses should be(List(Address(Some("123 Fake Street"), "AB12 3CD", None)))
+        possibleAddresses.jsonList.addresses should be(List(possibleAddress))
       }
     )
   }
@@ -130,7 +138,7 @@ class PreviousAddressFormTests
     val js = Json.toJson(
       Map(
         "previousAddress.movedRecently" -> "true",
-        "previousAddress.previousAddress.address" -> "123 Fake Street",
+        "previousAddress.previousAddress.uprn" -> "12345678",
         "previousAddress.previousAddress.postcode" -> "SW1A 1AA",
         "possibleAddresses.jsonList" -> "",
         "possibleAddresses.postcode" -> ""
@@ -145,7 +153,7 @@ class PreviousAddressFormTests
 
         previousAddressWrapper.previousAddress.isDefined should be(true)
         val previousAddress = previousAddressWrapper.previousAddress.get
-        previousAddress.addressLine should be(Some("123 Fake Street"))
+        previousAddress.uprn should be(Some("12345678"))
         previousAddress.postcode should be("SW1A 1AA")
 
         success.possibleAddresses should be(None)
@@ -207,7 +215,7 @@ class PreviousAddressFormTests
     previousAddressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("previousAddress.previousAddress.address") should be(Seq("Please select your address"))
+        hasErrors.errorMessages("previousAddress.previousAddress.uprn") should be(Seq("Please select your address"))
         hasErrors.globalErrorMessages should be(Seq("Please select your address"))
       },
       success => fail("Should have thrown an error")

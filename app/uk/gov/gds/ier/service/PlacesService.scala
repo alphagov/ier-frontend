@@ -6,6 +6,7 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.model.Fail
 import uk.gov.gds.ier.model.Success
 import uk.gov.gds.ier.model.Address
+import uk.gov.gds.ier.model.PartialAddress
 import uk.gov.gds.common.model.{GovUkAddress, LocalAuthority}
 import uk.gov.gds.ier.exception.PostcodeLookupFailedException
 import uk.gov.gds.ier.config.Config
@@ -13,13 +14,25 @@ import uk.gov.gds.ier.logging.Logging
 import java.net.ConnectException
 
 class PlacesService @Inject() (apiClient: PlacesApiClient, serialiser: JsonSerialiser, config:Config) extends Logging {
+ 
+  def lookupAddress(partialAddress: PartialAddress):Option[Address] = {
+    val listOfAddresses = lookupAddress(partialAddress.postcode)
+    listOfAddresses.find(address => address.uprn == partialAddress.uprn)
+  }
 
   def lookupAddress(postcode: String) : List[Address] = {
     val result = apiClient.get((config.placesUrl + "/address?postcode=%s").format(postcode.replaceAllLiterally(" ","").toLowerCase))
     result match {
       case Success(body) => {
         serialiser.fromJson[List[GovUkAddress]](body).map(pa => {
-          Address(Some(List(pa.lineOne, pa.lineTwo, pa.lineThree, pa.lineFour, pa.lineFive, pa.city, pa.county).filterNot(_.isEmpty).mkString(", ")), pa.postcode, None)
+          Address(
+            Option(pa.lineOne),
+            Option(pa.lineTwo),
+            Option(List(pa.lineThree, pa.lineFour, pa.lineFive).filter(!_.isEmpty).mkString(", ")),
+            Option(pa.city),
+            Option(pa.county),
+            pa.uprn,
+            pa.postcode)
         })
       }
       case Fail(error) => throw new PostcodeLookupFailedException(error)

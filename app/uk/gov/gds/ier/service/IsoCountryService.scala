@@ -2,8 +2,9 @@ package uk.gov.gds.ier.service
 
 import uk.gov.gds.ier.validation.constraints.NationalityConstraints
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.model.PartialNationality
+import uk.gov.gds.ier.model.IsoNationality
 import uk.gov.gds.ier.validation.constants.NationalityConstants._
-import uk.gov.gds.ier.model.Nationality
 
 class IsoCountryService
   extends NationalityConstraints
@@ -14,19 +15,16 @@ class IsoCountryService
     countryNameToCodes.contains(country)
   }
 
-  def transformToIsoCode(nationality:Nationality):Nationality = {
+  def transformToIsoCode(nationality:PartialNationality):IsoNationality = {
     val nationalities = nationality.checkedNationalities ++ nationality.otherCountries
     val isoCountries = nationalities.flatMap{
       country => countryNameToCodes.get(country.toLowerCase)
     }
-    val isoCodes = isoCountries match {
-      case Nil => None
-      case list => Some(list.map(_.isoCode))
-    }
-    nationality.copy(countryIsos = isoCodes)
+    val isoCodes = isoCountries map(_.isoCode)
+    IsoNationality(countryIsos = isoCodes, nationality.noNationalityReason)
   }
 
-  def getFranchises(nationality:Nationality):List[Franchise] = {
+  def getFranchises(nationality:PartialNationality):List[Franchise] = {
     val nationalities = nationality.checkedNationalities ++ nationality.otherCountries
     val isoCodes = nationalities.flatMap{
       country => countryNameToCodes.get(country.toLowerCase)
