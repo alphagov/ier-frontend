@@ -568,23 +568,25 @@
                 excuse = childFields[1],
                 fieldFailedRules = validation.applyRules(field),
                 excuseFailedRules = validation.applyRules(excuse),
-                fieldIsValid,
-                excuseIsValid,
+                fieldIsInvalid,
+                excuseIsInvalid,
                 _fieldIsShowing;
 
             _fieldIsShowing = function (fieldObj) {
               return !fieldObj.$source.is(':hidden');
             };
-            fieldIsValid = (!fieldFailedRules.length && _fieldIsShowing(field));
-            excuseIsValid = (!excuseFailedRules.length && _fieldIsShowing(excuse));
-            if (fieldIsValid) {
-              return [];
-            } else {
-              if (excuseIsValid) {
-                return [];
-              } else {
+            fieldIsInvalid = ((fieldFailedRules.length > 0) && _fieldIsShowing(field));
+            excuseIsInvalid = (excuseFailedRules.length > 0);
+            if (fieldIsInvalid) {
+              if (!_fieldIsShowing(excuse)) {
                 return [{ 'name' : this.name, 'rule' : 'fieldOrExcuse', '$source' : field.$source }];
+              } else { // fieldIsShowing
+                if (!excuseIsInvalid) {
+                  return [];
+                }
               }
+            } else {
+              return [];
             }
           },
           'countryNonEmpty' : function () {
@@ -631,17 +633,23 @@
                 excuse = memberFields[1],
                 fieldsetFailedRules = validation.applyRules(fieldset),
                 excuseFailedRules = validation.applyRules(excuse),
-                fieldsetIsValid,
-                excuseIsValid,
+                fieldsetIsInvalid,
+                excuseIsInvalid,
                 _fieldIsShowing;
 
             _fieldIsShowing = function (fieldObj) {
               return !fieldObj.$source.is(':hidden');
             };
-            fieldsetIsValid = (!fieldsetFailedRules.length && _fieldIsShowing(fieldset));
-            excuseIsValid = (!excuseFailedRules.length && _fieldIsShowing(excuse));
-            if (!fieldsetIsValid && !excuseIsValid) {
-              return fieldsetFailedRules;
+            fieldsetIsInvalid = ((fieldsetFailedRules.length > 0) && _fieldIsShowing(fieldset));
+            excuseIsInvalid = (excuseFailedRules.length > 0);
+            if (fieldsetIsInvalid) {
+              if (!_fieldIsShowing(excuse)) {
+                return fieldsetFailedRules;
+              } else { // excuse is showing
+                if (excuseIsInvalid) {
+                  return fieldsetFailedRules;
+                }
+              }
             } else {
               return [];
             }
