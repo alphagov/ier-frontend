@@ -21,6 +21,7 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
                                        serialiser: JsonSerialiser,
                                        config: Config,
                                        placesService:PlacesService,
+                                       addressService: AddressService,
                                        shaHashProvider:ShaHashProvider,
                                        isoCountryService: IsoCountryService) extends IerApiService with Logging {
 
@@ -28,8 +29,8 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
     val isoCodes = applicant.nationality.map(nationality => isoCountryService.transformToIsoCode(nationality))
     val currentAuthority = applicant.address.flatMap(address => placesService.lookupAuthority(address.postcode))
     val previousAuthority = applicant.previousAddress.flatMap(_.previousAddress).flatMap(prevAddress => placesService.lookupAuthority(prevAddress.postcode))
-    val fullCurrentAddress = applicant.address.flatMap(address => placesService.lookupAddress(address))
-    val fullPreviousAddress = applicant.previousAddress.flatMap(_.previousAddress).flatMap(placesService.lookupAddress(_))
+    val fullCurrentAddress = addressService.formFullAddress(applicant.address)
+    val fullPreviousAddress = addressService.formFullAddress(applicant.previousAddress.flatMap(_.previousAddress))
 
     val completeApplication = OrdinaryApplication(
       name = applicant.name,

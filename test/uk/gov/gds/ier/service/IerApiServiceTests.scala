@@ -48,11 +48,12 @@ class IerApiServiceTests
       }
     }
     val mockPlaces = mock[PlacesService]
+    val addressService = new AddressService(mockPlaces)
     val mockSha = mock[ShaHashProvider]
     val isoService = new IsoCountryService
 
     val service = new ConcreteIerApiService(new FakeApiClient, jsonSerialiser,
-      new MockConfig, mockPlaces, mockSha, isoService)
+      new MockConfig, mockPlaces, addressService, mockSha, isoService)
 
     val application = InprogressApplication(
       nationality = Some(PartialNationality(
@@ -84,11 +85,12 @@ class IerApiServiceTests
       }
     }
     val mockPlaces = mock[PlacesService]
+    val addressService = new AddressService(mockPlaces)
     val mockSha = mock[ShaHashProvider]
     val isoService = new IsoCountryService
 
     val service = new ConcreteIerApiService(new FakeApiClient, jsonSerialiser,
-      new MockConfig, mockPlaces, mockSha, isoService)
+      new MockConfig, mockPlaces, addressService, mockSha, isoService)
 
     val application = InprogressApplication(
       nationality = Some(PartialNationality(
