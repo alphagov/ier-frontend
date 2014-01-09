@@ -10,21 +10,22 @@
     @layouts.questionHeader("What is your date of birth?", "/register-to-vote/nationality", 3)
 
     <fieldset class="validate inlineFields" data-validation-name="dateOfBirthDate" data-validation-type="fieldset" data-validation-rules="allNonEmpty" data-validation-children="day month year">
-      @select(keys.dob.dob.day,
+      @label(keys.dob.dob.day,
           label = "Day",
-          options = DateOfBirthConstants.days,
-          inputAttributes = Map('_default -> "Day", 'class -> "day validate", Symbol("data-validation-name") -> "day", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"),
-          labelAttributes = Map('class -> "visuallyhidden"))
-      @select(keys.dob.dob.month,
+          attributes = 'class -> "visuallyhidden")
+      @text(keys.dob.dob.day,
+          'class -> "day validate", 'type -> "number", 'placeholder -> "DD", Symbol("data-validation-name") -> "day", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
+      @label(keys.dob.dob.month,
           label = "Month",
-          options = DateOfBirthConstants.months,
-          inputAttributes = Map('_default -> "Month", 'class -> "month validate", Symbol("data-validation-name") -> "month", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"),
-          labelAttributes = Map('class -> "visuallyhidden"))
+          attributes = 'class -> "visuallyhidden")
+      @text(keys.dob.dob.month,
+          'class -> "month validate", 'type -> "number", 'placeholder -> "MM", Symbol("data-validation-name") -> "month", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
       @label(keys.dob.dob.year,
           label = "Year",
           attributes = 'class -> "visuallyhidden")
       @text(keys.dob.dob.year,
-        'class -> "year text small validate", 'type -> "number", 'placeholder -> "Year", Symbol("data-validation-name") -> "year", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
+        'class -> "year text validate", 'type -> "number", 'placeholder -> "YYYY", Symbol("data-validation-name") -> "year", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
+      <p class="example">For example: <span class="date">31 12 1970</span></p>
     </fieldset>
     <div class="help-content">
       <h3>I don't know my exact date of birth</h3>

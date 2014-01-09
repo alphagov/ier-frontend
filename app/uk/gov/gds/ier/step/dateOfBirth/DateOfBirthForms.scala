@@ -32,7 +32,7 @@ trait DateOfBirthForms extends DateOfBirthConstraints {
         dateOfBirth.month.toString, 
         dateOfBirth.day.toString
       )
-  }.verifying(dateNotInTheFuture, notTooOldToBeAlive)
+  }.verifying(validDate)
 
   lazy val noDobMapping = mapping(
     keys.reason.key -> optional(text),
