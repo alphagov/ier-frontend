@@ -5,7 +5,7 @@ import play.api.data.{Mapping, Field, FormError, Form}
 import play.api.libs.json.JsValue
 import play.api.i18n.Lang
 
-case class ErrorTransformForm[T](private val form:Form[T]) {
+case class ErrorTransformForm[T](form:Form[T]) {
   lazy val transformedForm = transformErrors(form)
 
   lazy val mapping : Mapping[T] = form.mapping
