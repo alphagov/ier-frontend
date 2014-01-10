@@ -11,11 +11,14 @@ import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import org.jba.Mustache
+import views.html.layouts.{stepsBodyEnd, head}
 
-class OtherAddressController @Inject ()(val serialiser: JsonSerialiser,
-                                        val config: Config,
-                                        val encryptionService : EncryptionService,
-                                        val encryptionKeys : EncryptionKeys)
+class OtherAddressController @Inject()(val serialiser: JsonSerialiser,
+                                       val config: Config,
+                                       val encryptionService: EncryptionService,
+                                       val encryptionKeys: EncryptionKeys,
+                                       val otherAddressTransformer: OtherAddressMustacheTransformer)
   extends StepController
   with WithSerialiser
   with WithConfig
@@ -26,9 +29,17 @@ class OtherAddressController @Inject ()(val serialiser: JsonSerialiser,
   val editPostRoute = routes.OtherAddressController.editPost
   val stepPostRoute = routes.OtherAddressController.post
 
-  def template(form:InProgressForm, call:Call): Html = {
-    views.html.steps.otherAddress(form, call)
+  def template(form: InProgressForm, call: Call): Html = {
+    val data = otherAddressTransformer.transformFormStepToMustacheData(form, call.url).getOrElse(None)
+    views.html.layouts.main(
+      title = Some("Register to Vote - Do you spend part of your time living at another UK address?"),
+      stylesheets = head(),
+      scripts = stepsBodyEnd()
+    )(
+      Mustache.render("ordinary/otherAddress", data)
+    )
   }
+
   def goToNext(currentState: InprogressApplication): SimpleResult = {
     Redirect(routes.OpenRegisterController.get)
   }
