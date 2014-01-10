@@ -7,7 +7,7 @@ import uk.gov.gds.ier.model.InprogressApplication
 import uk.gov.gds.ier.model.Address
 import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
 import com.google.inject.{Inject, Singleton}
-import uk.gov.gds.ier.step.confirmation.ConfirmationForms
+import uk.gov.gds.ier.transaction.confirmation.ConfirmationForms
 
 trait IerForms extends FormMappings with ConfirmationForms {
   self: WithSerialiser =>

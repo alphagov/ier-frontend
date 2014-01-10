@@ -3,7 +3,7 @@ package controllers.step.ordinary
 import play.api._
 import play.api.mvc._
 import uk.gov.gds.ier.guice.DelegatingController
-import uk.gov.gds.ier.step.nino.{NinoController => GuicedController}
+import uk.gov.gds.ier.transaction.nino.{NinoController => GuicedController}
 
 object NinoController extends DelegatingController[GuicedController] {
   

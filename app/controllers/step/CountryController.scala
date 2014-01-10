@@ -3,7 +3,7 @@ package controllers.step
 import play.api._
 import play.api.mvc._
 import uk.gov.gds.ier.guice.DelegatingController
-import uk.gov.gds.ier.step.country.{CountryController => GuicedController}
+import uk.gov.gds.ier.transaction.country.{CountryController => GuicedController}
 
 object CountryController extends DelegatingController[GuicedController] {
   
