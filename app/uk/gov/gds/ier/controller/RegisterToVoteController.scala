@@ -29,7 +29,7 @@ class RegisterToVoteController @Inject() (val serialiser: JsonSerialiser,
     Ok(html.start())
   }
 
-  def registerToVote = ClearSession requiredFor {
+  def registerToVote = NewSession requiredFor {
     request =>
       Redirect(step.routes.CountryController.get)
   }

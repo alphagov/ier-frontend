@@ -12,7 +12,7 @@ import scala.Some
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 
-abstract class SessionHandling[T <: InprogressApplication[T]] extends ResultHandling {
+abstract class SessionHandling[T <: InprogressApplication[T]] extends ResultHandling with SessionCleaner {
   self: WithSerialiser
     with Controller
     with Logging
@@ -20,21 +20,6 @@ abstract class SessionHandling[T <: InprogressApplication[T]] extends ResultHand
     with WithEncryption =>
 
   def factoryOfT():T
-
-  object NewSession {
-    final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
-      request =>
-        logger.debug("New session - refreshing sessionToken and discarding application")
-        block(request).withFreshSession()
-    }
-
-    final def withParser[A](bodyParser: BodyParser[A]) = new {
-      def requiredFor(action: Request[A] => Result) = validateSession(bodyParser, action)
-    }
-
-    final def requiredFor(action: Request[AnyContent] => Result) = withParser(BodyParsers.parse.anyContent) requiredFor action
-
-  }
 
   object ValidSession {
 
@@ -188,6 +173,20 @@ trait ResultHandling {
 
 trait SessionCleaner extends ResultHandling {
   self: WithEncryption with WithSerialiser with WithConfig =>
+
+  object NewSession {
+    final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
+      request =>
+        block(request).withFreshSession()
+    }
+
+    final def withParser[A](bodyParser: BodyParser[A]) = new {
+      def requiredFor(action: Request[A] => Result) = validateSession(bodyParser, action)
+    }
+
+    final def requiredFor(action: Request[AnyContent] => Result) = withParser(BodyParsers.parse.anyContent) requiredFor action
+
+  }
 
   object ClearSession {
     final def eradicateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
