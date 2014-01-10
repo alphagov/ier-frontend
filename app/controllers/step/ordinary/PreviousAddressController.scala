@@ -3,7 +3,7 @@ package controllers.step.ordinary
 import play.api._
 import play.api.mvc._
 import uk.gov.gds.ier.guice.DelegatingController
-import uk.gov.gds.ier.transaction.previousAddress.{PreviousAddressController => GuicedController}
+import uk.gov.gds.ier.transaction.previousAddress.{PreviousAddressStep => GuicedController}
 
 object PreviousAddressController extends DelegatingController[GuicedController] {
   

@@ -13,16 +13,16 @@ import uk.gov.gds.ier.model.InprogressApplication
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
-import uk.gov.gds.ier.controller.{ConfirmationStep, OrdinaryController}
 import uk.gov.gds.ier.model.InprogressOrdinary
+import uk.gov.gds.ier.step.ConfirmationController
 
-class ConfirmationController @Inject ()(val serialiser: JsonSerialiser,
+class ConfirmationStep @Inject ()(val serialiser: JsonSerialiser,
                                         ierApi: IerApiService,
                                         addressService: AddressService,
                                         val config: Config,
                                         val encryptionService : EncryptionService,
                                         val encryptionKeys : EncryptionKeys)
-  extends ConfirmationStep[InprogressOrdinary]
+  extends ConfirmationController[InprogressOrdinary]
   with ConfirmationForms {
 
   def factoryOfT() = InprogressOrdinary()

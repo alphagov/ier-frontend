@@ -1,49 +1,23 @@
-package uk.gov.gds.ier.controller
+package uk.gov.gds.ier.step
 
-import play.api.mvc._
-import controllers._
-import uk.gov.gds.ier.serialiser.WithSerialiser
+import uk.gov.gds.ier.model.InprogressApplication
 import uk.gov.gds.ier.session.SessionHandling
-import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication}
-import play.api.data.Form
-import play.api.templates.Html
-import uk.gov.gds.ier.validation._
+import play.api.mvc.{SimpleResult, Call, Controller}
+import uk.gov.gds.ier.validation.{InProgressForm, ErrorTransformForm, FormKeys, ErrorMessages}
 import uk.gov.gds.ier.logging.Logging
+import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
-
-trait OrdinaryController
-  extends StepController[InprogressOrdinary]
-  with WithSerialiser
-  with WithConfig
-  with WithEncryption {
-  def factoryOfT() = InprogressOrdinary()
-  val confirmationRoute = controllers.step.ordinary.routes.ConfirmationController.get
-}
-
-trait ConfirmationStep[T <: InprogressApplication[T]]
-  extends SessionHandling[T]
-  with Controller
-  with Logging
-  with WithSerialiser
-  with WithConfig
-  with WithEncryption {
-
-  val validation: ErrorTransformForm[T]
-  def template(form:InProgressForm[T]): Html
-  def get:Action[AnyContent]
-  def post:Action[AnyContent]
-}
-
+import play.api.templates.Html
 
 trait StepController [T <: InprogressApplication[T]]
   extends SessionHandling[T]
   with Controller
   with ErrorMessages
-  with FormKeys 
+  with FormKeys
   with Logging {
-    self: WithSerialiser
-      with WithConfig
-      with WithEncryption =>
+  self: WithSerialiser
+    with WithConfig
+    with WithEncryption =>
 
   val validation: ErrorTransformForm[T]
   val editPostRoute: Call
@@ -109,6 +83,4 @@ trait StepController [T <: InprogressApplication[T]]
         }
       )
   }
-
-
 }

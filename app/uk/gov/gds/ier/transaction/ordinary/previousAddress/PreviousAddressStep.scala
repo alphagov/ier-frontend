@@ -6,17 +6,17 @@ import uk.gov.gds.ier.model.{InprogressOrdinary, Addresses, PossibleAddress}
 import uk.gov.gds.ier.transaction.address.AddressForms
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
-import uk.gov.gds.ier.controller.OrdinaryController
 import play.api.mvc.{SimpleResult, Call}
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.step.OrdinaryStep
 
-class PreviousAddressController @Inject ()(val serialiser: JsonSerialiser,
+class PreviousAddressStep @Inject ()(val serialiser: JsonSerialiser,
                                            val config: Config,
                                            val encryptionService : EncryptionService,
                                            val encryptionKeys : EncryptionKeys)
-  extends OrdinaryController
+  extends OrdinaryStep
   with AddressForms
   with PreviousAddressForms {
 

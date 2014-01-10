@@ -26,6 +26,7 @@ import uk.gov.gds.ier.model.Name
 import uk.gov.gds.ier.model.PossibleAddress
 import play.api.test.FakeApplication
 import uk.gov.gds.ier.model.Address
+import uk.gov.gds.ier.step.OrdinaryStep
 
 class StepControllerTests
   extends FlatSpec
@@ -40,7 +41,7 @@ class StepControllerTests
 
   val mockConfig = new MockConfig
 
-  def createController(form: ErrorTransformForm[InprogressOrdinary]) = new OrdinaryController
+  def createController(form: ErrorTransformForm[InprogressOrdinary]) = new OrdinaryStep
                                                                          with WithSerialiser
                                                                          with WithConfig
                                                                          with WithEncryption {
