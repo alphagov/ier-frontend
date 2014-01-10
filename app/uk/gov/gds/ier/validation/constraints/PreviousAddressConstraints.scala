@@ -9,13 +9,10 @@ trait PreviousAddressConstraints {
     with FormKeys =>
 
   lazy val addressExistsIfMovedRecently = Constraint[PreviousAddress](keys.previousAddress.previousAddress.key) {
-    previousAddress =>
-        previousAddress match {
-          case PreviousAddress(false, _) => Valid
-          case PreviousAddress(true, Some(Address(Some(addressLine), _, _))) => Valid
-          case PreviousAddress(true, Some(Address(_, _, Some(manualAddress)))) => Valid
-          case _ => Invalid("Please select your address", keys.previousAddress.previousAddress.address)
-        }
+    case PreviousAddress(false, _) => Valid
+    case PreviousAddress(true, Some(Address(Some(addressLine), _, _))) => Valid
+    case PreviousAddress(true, Some(Address(_, _, Some(manualAddress)))) => Valid
+    case _ => Invalid("Please select your address", keys.previousAddress.previousAddress.address)
   }
 
   lazy val movedRecentlyTrueIfAddressProvided = Constraint[PreviousAddress](keys.previousAddress.movedRecently.key) {
@@ -24,5 +21,4 @@ trait PreviousAddressConstraints {
         (!previousAddress.movedRecently && previousAddress.previousAddress.isEmpty)) Valid
       else Invalid("Please answer this question", keys.previousAddress.movedRecently)
   }
-
 }

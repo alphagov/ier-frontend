@@ -1,21 +1,15 @@
-package uk.gov.gds.ier.controller
+package uk.gov.gds.ier.step.confirmation
 
-import play.api.mvc._
 import controllers._
 import com.google.inject.Inject
-import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
+import uk.gov.gds.ier.serialiser.{JsonSerialiser}
 import uk.gov.gds.ier.validation._
-import uk.gov.gds.ier.session.SessionHandling
 import uk.gov.gds.ier.service.{IerApiService, PlacesService}
-import play.api.data.Form
-import play.api.mvc.{SimpleResult, Call}
-import uk.gov.gds.ier.model.InprogressApplication
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.guice.WithConfig
-import uk.gov.gds.ier.logging.Logging
-import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.controller.{ConfirmationStep, OrdinaryController}
+import uk.gov.gds.ier.model.InprogressOrdinary
 
 class ConfirmationController @Inject ()(val serialiser: JsonSerialiser,
                                         ierApi: IerApiService,
@@ -23,20 +17,17 @@ class ConfirmationController @Inject ()(val serialiser: JsonSerialiser,
                                         val config: Config,
                                         val encryptionService : EncryptionService,
                                         val encryptionKeys : EncryptionKeys)
-  extends Controller
-  with SessionHandling
-  with WithSerialiser
-  with WithConfig
-  with Logging
-  with IerForms
-  with WithEncryption {
+  extends ConfirmationStep[InprogressOrdinary]
+  with ConfirmationForms {
 
-  val validation = inprogressForm
+  def factoryOfT() = InprogressOrdinary()
 
-  def template(form:InProgressForm): Html = {
-    views.html.confirmation(form)
+  val validation = confirmationForm
+
+  def template(form:InProgressForm[InprogressOrdinary]): Html = {
+    views.html.steps.confirmation(form)
   }
-  
+
   def get = ValidSession requiredFor {
     request => application =>
       Ok(template(InProgressForm(validation.fillAndValidate(application))))

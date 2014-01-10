@@ -1,12 +1,13 @@
 package uk.gov.gds.ier.step.contact
 
 import uk.gov.gds.ier.validation._
-import uk.gov.gds.ier.model.{InprogressApplication, Contact, ContactDetail}
+import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.ContactConstraints
-import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.validation.Key
+import scala.Some
 import uk.gov.gds.ier.validation.Key
 import uk.gov.gds.ier.model.ContactDetail
 import scala.Some
@@ -49,7 +50,7 @@ trait ContactForms extends ContactConstraints {
       keys.contact.key -> optional(contactMapping)
         .verifying("Please answer this question", _.isDefined)
     ) (
-      contact => InprogressApplication(contact = contact)
+      contact => InprogressOrdinary(contact = contact)
     ) (
       inprogress => Some(inprogress.contact)
     )

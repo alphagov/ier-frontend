@@ -13,8 +13,8 @@ import uk.gov.gds.ier.digest.ShaHashProvider
 import org.joda.time.DateTime
 
 abstract class IerApiService {
-  def submitApplication(ipAddress: Option[String], applicant: InprogressApplication, referenceNumber: Option[String]): ApiApplicationResponse
-  def generateReferenceNumber(application:InprogressApplication): String
+  def submitApplication(ipAddress: Option[String], applicant: InprogressOrdinary, referenceNumber: Option[String]): ApiApplicationResponse
+  def generateReferenceNumber(application:InprogressOrdinary): String
 }
 
 class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
@@ -24,7 +24,7 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
                                        shaHashProvider:ShaHashProvider,
                                        isoCountryService: IsoCountryService) extends IerApiService with Logging {
 
-  def submitApplication(ipAddress: Option[String], applicant: InprogressApplication, referenceNumber: Option[String]) = {
+  def submitApplication(ipAddress: Option[String], applicant: InprogressOrdinary, referenceNumber: Option[String]) = {
     val authority = applicant.address.map(address => placesService.lookupAuthority(address.postcode)).getOrElse(None)
 
     val previousAddress = applicant.previousAddress.map(previousAddress => previousAddress.previousAddress).getOrElse(None)
@@ -50,7 +50,7 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
     }
   }
 
-  def generateReferenceNumber(application:InprogressApplication) = {
+  def generateReferenceNumber(application:InprogressOrdinary) = {
     val json = serialiser.toJson(application.toApiMap)
     shaHashProvider.getHash(json, Some(DateTime.now.toString)).map("%02X" format _).take(3).mkString
   }

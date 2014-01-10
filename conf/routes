@@ -26,8 +26,8 @@ GET         /register-to-vote/exit/no-franchise                controllers.ExitC
 ##Steps routes
 
 #Confirmation Step
-GET         /register-to-vote/confirmation                     controllers.ConfirmationController.get
-POST        /register-to-vote/confirmation                     controllers.ConfirmationController.post
+GET         /register-to-vote/confirmation                     controllers.step.ConfirmationController.get
+POST        /register-to-vote/confirmation                     controllers.step.ConfirmationController.post
 
 #Country Step
 GET         /register-to-vote/country-of-residence             controllers.step.CountryController.get

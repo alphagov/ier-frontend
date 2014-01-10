@@ -9,7 +9,7 @@ import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import scala.Some
 import uk.gov.gds.common.model.{Ero, LocalAuthority}
 import org.slf4j.LoggerFactory
-import uk.gov.gds.ier.session.SessionHandling
+import uk.gov.gds.ier.session.{SessionCleaner, SessionHandling}
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.logging.Logging
@@ -24,10 +24,10 @@ class CompleteController @Inject() (val serialiser: JsonSerialiser,
     with WithSerialiser
     with WithConfig
     with Logging
-    with SessionHandling
+    with SessionCleaner
     with WithEncryption {
 
-  def complete = NewSession requiredFor {
+  def complete = ClearSession requiredFor {
     implicit request =>
       val authority = request.flash.get("postcode") match {
         case Some("") => None

@@ -5,9 +5,8 @@ import uk.gov.gds.ier.step.address.AddressForms
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.Form
 import play.api.data.Forms._
-import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication, PreviousAddress}
 import scala.Some
-import uk.gov.gds.ier.model.PreviousAddress
 import uk.gov.gds.ier.validation.constraints.PreviousAddressConstraints
 
 trait PreviousAddressForms extends PreviousAddressConstraints {
@@ -31,8 +30,8 @@ trait PreviousAddressForms extends PreviousAddressConstraints {
         .verifying("Please answer this question", previousAddress => previousAddress.isDefined),
       keys.possibleAddresses.key -> optional(possibleAddressMapping)
     ) (
-      (prevAddress, possibleAddresses) => 
-        InprogressApplication(
+      (prevAddress, possibleAddresses) =>
+        InprogressOrdinary(
           previousAddress = prevAddress, 
           possibleAddresses = possibleAddresses)
     ) (

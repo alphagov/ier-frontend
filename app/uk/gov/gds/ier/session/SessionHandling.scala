@@ -4,7 +4,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.mvc._
 import controllers.routes
 import org.joda.time.DateTime
-import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication}
 import uk.gov.gds.ier.logging.Logging
 import play.api.mvc.DiscardingCookie
 import play.api.mvc.Cookie
@@ -12,26 +12,14 @@ import scala.Some
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 
-trait SessionHandling {
+abstract class SessionHandling[T <: InprogressApplication[T]] extends ResultHandling {
   self: WithSerialiser
     with Controller
     with Logging
     with WithConfig
     with WithEncryption =>
 
-  object ClearSession {
-    final def eradicateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
-      implicit request =>
-        logger.debug("Clear session - discarding sessionToken and application")
-        block(request).emptySession()
-    }
-
-    final def withParser[A](bodyParser: BodyParser[A]) = new {
-      def requiredFor(action: Request[A] => Result) = eradicateSession(bodyParser, action)
-    }
-
-    final def requiredFor(action: Request[AnyContent] => Result) = withParser(BodyParsers.parse.anyContent) requiredFor action
-  }
+  def factoryOfT():T
 
   object NewSession {
     final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
@@ -50,7 +38,7 @@ trait SessionHandling {
 
   object ValidSession {
 
-    final def validateSessionAndStore[A](bodyParser: BodyParser[A], block:Request[A] => InprogressApplication => (Result, InprogressApplication)):Action[A] = Action(bodyParser) {
+    final def validateSessionAndStore[A, B <: InprogressApplication[B]](bodyParser: BodyParser[A], block:Request[A] => T => (Result, B))(implicit manifest:Manifest[T]):Action[A] = Action(bodyParser) {
       request =>
         logger.debug(s"REQUEST ${request.method} ${request.path} - Valid Session needed")
         request.getToken match {
@@ -58,8 +46,9 @@ trait SessionHandling {
             isValidToken(token) match {
               case true => {
                 logger.debug(s"Validate session and store - token is valid")
-                val (result, application) = block(request)(request.getApplication)
-                result.refreshSessionAndStore(application)
+                val application = request.getApplication.getOrElse(factoryOfT())
+                val (result, resultApplication) = block(request)(application)
+                result.refreshSessionAndStore(resultApplication)
               }
               case false => {
                 logger.debug(s"Validate session and store - token is not valid")
@@ -74,15 +63,16 @@ trait SessionHandling {
         }
     }
 
-    final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => InprogressApplication => Result):Action[A] = Action(bodyParser) {
+    final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => T => Result)(implicit manifest:Manifest[T]):Action[A] = Action(bodyParser) {
       request =>
         logger.debug(s"REQUEST ${request.method} ${request.path} - Valid Session needed")
         request.getToken match {
           case Some(token) => {
             isValidToken(token) match {
               case true => {
+                val application = request.getApplication.getOrElse(factoryOfT())
                 logger.debug(s"Validate session - token is valid")
-                val result = block(request)(request.getApplication)
+                val result = block(request)(application)
                 result.refreshSession()
               }
               case false => {
@@ -98,14 +88,14 @@ trait SessionHandling {
         }
     }
 
-    final def withParser[A](bodyParser: BodyParser[A]) = new {
-      def storeAfter(action: Request[A] => InprogressApplication => (Result, InprogressApplication)) = validateSessionAndStore(bodyParser, action)
-      def requiredFor(action: Request[A] => InprogressApplication => Result) = validateSession(bodyParser, action)
+    final def withParser[A](bodyParser: BodyParser[A])(implicit manifest:Manifest[T]) = new {
+      def storeAfter(action: Request[A] => T => (Result, T)) = validateSessionAndStore(bodyParser, action)
+      def requiredFor(action: Request[A] => T => Result) = validateSession(bodyParser, action)
     }
 
-    final def storeAfter(action: Request[AnyContent] => InprogressApplication => (Result, InprogressApplication)) = withParser(BodyParsers.parse.anyContent) storeAfter action
+    final def storeAfter(action: Request[AnyContent] => T => (Result, T))(implicit manifest:Manifest[T])  = withParser(BodyParsers.parse.anyContent) storeAfter action
 
-    final def requiredFor(action: Request[AnyContent] => InprogressApplication => Result) = withParser(BodyParsers.parse.anyContent) requiredFor action
+    final def requiredFor(action: Request[AnyContent] => T => Result)(implicit manifest:Manifest[T])  = withParser(BodyParsers.parse.anyContent) requiredFor action
 
     protected def isValidToken(token:String) = {
       try {
@@ -131,20 +121,29 @@ trait SessionHandling {
       else None
 
     }
-    def getApplication = {
-      request.cookies.get(sessionPayloadKey) match {
-        case Some(cookie) => {
-          val payloadKeyCookie = request.cookies.get(payloadCookieKeyParam)
-          if (payloadKeyCookie.isDefined) {
-            val decryptedInfo = encryptionService.decrypt(cookie.value, payloadKeyCookie.get.value ,encryptionKeys.cookies.getPrivate)
-            serialiser.fromJson[InprogressApplication](decryptedInfo)
-          }
-          else InprogressApplication()
+    def getApplication(implicit manifest:Manifest[T]) : Option[T] = {
+      request.cookies.get(sessionPayloadKey) flatMap { cookie =>
+        val payloadKeyCookie = request.cookies.get(payloadCookieKeyParam)
+        payloadKeyCookie map { key =>
+          val decryptedInfo = encryptionService.decrypt(cookie.value, key.value, encryptionKeys.cookies.getPrivate)
+          serialiser.fromJson[T](decryptedInfo)
         }
-        case _ => InprogressApplication()
       }
     }
   }
+
+}
+
+trait SessionKeys {
+  val sessionPayloadKey = "application"
+  val sessionTokenKey = "sessionKey"
+
+  val sessionTokenCookieKeyParam = "sessionTokenCookieKey"
+  val payloadCookieKeyParam = "payloadCookieKey"
+}
+
+trait ResultHandling {
+  self: WithEncryption with WithSerialiser with WithConfig =>
 
   implicit class InProgressResult(result:Result) extends SessionKeys {
     def emptySession()(implicit request: play.api.mvc.Request[_]) = {
@@ -162,7 +161,7 @@ trait SessionHandling {
         .discardingCookies(DiscardingCookie(sessionPayloadKey))
     }
 
-    def refreshSessionAndStore(application:InprogressApplication) = {
+    def refreshSessionAndStore[B <: InprogressApplication[B]](application:B) = {
       val (encryptedSessionPayloadValue, payloadCookieKey) = encryptionService.encrypt(serialiser.toJson(application), encryptionKeys.cookies.getPublic)
       val (encryptedSessionTokenValue, sessionTokenCookieKey) = encryptionService.encrypt(DateTime.now.toString(), encryptionKeys.cookies.getPublic)
       result.withCookies(
@@ -185,11 +184,22 @@ trait SessionHandling {
 
   }
 
-  trait SessionKeys {
-    val sessionPayloadKey = "application"
-    val sessionTokenKey = "sessionKey"
+}
 
-    val sessionTokenCookieKeyParam = "sessionTokenCookieKey"
-    val payloadCookieKeyParam = "payloadCookieKey"
+trait SessionCleaner extends ResultHandling {
+  self: WithEncryption with WithSerialiser with WithConfig =>
+
+  object ClearSession {
+    final def eradicateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
+      implicit request =>
+        block(request).emptySession()
+    }
+
+    final def withParser[A](bodyParser: BodyParser[A]) = new {
+      def requiredFor(action: Request[A] => Result) = eradicateSession(bodyParser, action)
+    }
+
+    final def requiredFor(action: Request[AnyContent] => Result) = withParser(BodyParsers.parse.anyContent) requiredFor action
   }
+
 }

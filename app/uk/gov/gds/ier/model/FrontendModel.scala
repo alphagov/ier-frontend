@@ -90,7 +90,11 @@ case class DateOfBirth(dob:Option[DOB],
   }
 }
 
-case class InprogressApplication (name: Option[Name] = None,
+trait InprogressApplication[T] {
+  def merge(other: T):T
+}
+
+case class InprogressOrdinary (name: Option[Name] = None,
                                   previousName: Option[PreviousName] = None,
                                   dob: Option[DateOfBirth] = None,
                                   nationality: Option[Nationality] = None,
@@ -102,7 +106,7 @@ case class InprogressApplication (name: Option[Name] = None,
                                   postalVoteOptin: Option[Boolean] = None,
                                   contact: Option[Contact] = None,
                                   possibleAddresses: Option[PossibleAddress] = None,
-                                  country: Option[Country] = None) {
+                                  country: Option[Country] = None) extends InprogressApplication[InprogressOrdinary] {
   def toApiMap:Map[String, String] = {
     Map.empty ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
@@ -116,6 +120,24 @@ case class InprogressApplication (name: Option[Name] = None,
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
       postalVoteOptin.map(postal => Map("pvote" -> postal.toString)).getOrElse(Map.empty) ++
       contact.map(_.toApiMap).getOrElse(Map.empty)
+  }
+
+  def merge(other: InprogressOrdinary):InprogressOrdinary = {
+    other.copy(
+      name = this.name.orElse(other.name),
+      previousName = this.previousName.orElse(other.previousName),
+      dob = this.dob.orElse(other.dob),
+      nationality = this.nationality.orElse(other.nationality),
+      nino = this.nino.orElse(other.nino),
+      address = this.address.orElse(other.address),
+      previousAddress = this.previousAddress.orElse(other.previousAddress),
+      otherAddress = this.otherAddress.orElse(other.otherAddress),
+      openRegisterOptin = this.openRegisterOptin.orElse(other.openRegisterOptin),
+      postalVoteOptin = this.postalVoteOptin.orElse(other.postalVoteOptin),
+      contact = this.contact.orElse(other.contact),
+      possibleAddresses = None,
+      country = this.country.orElse(other.country)
+    )
   }
 }
 

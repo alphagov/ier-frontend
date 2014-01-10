@@ -5,7 +5,7 @@ import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.service.ConcreteIerApiService
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
-import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.model.InprogressOrdinary
 import scala.Some
 import uk.gov.gds.ier.model.Nino
 
@@ -14,8 +14,8 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
   it should "replace a nino when submitting Application" in {
     val concreteIerApiServiceMock = mock[ConcreteIerApiService]
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
-    val applicationWithNino = InprogressApplication(nino = Some(Nino(Some("12345"), None)))
-    val applicationWithStrippedNino = InprogressApplication(nino = Some(Nino(Some("AB 12 34 56 D"), None)))
+    val applicationWithNino = InprogressOrdinary(nino = Some(Nino(Some("12345"), None)))
+    val applicationWithStrippedNino = InprogressOrdinary(nino = Some(Nino(Some("AB 12 34 56 D"), None)))
 
     when(concreteIerApiServiceMock.submitApplication(None, applicationWithStrippedNino, None)).thenReturn(ApiApplicationResponse("","","","","")) //don't care about return type
     service.submitApplication(None, applicationWithNino, None)
@@ -25,8 +25,8 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
   it should "replace a nino when generating Reference Number" in {
     val concreteIerApiServiceMock = mock[ConcreteIerApiService]
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
-    val applicationWithNino = InprogressApplication(nino = Some(Nino(Some("12345"), None)))
-    val applicationWithStrippedNino = InprogressApplication(nino = Some(Nino(Some("AB 12 34 56 D"), None)))
+    val applicationWithNino = InprogressOrdinary(nino = Some(Nino(Some("12345"), None)))
+    val applicationWithStrippedNino = InprogressOrdinary(nino = Some(Nino(Some("AB 12 34 56 D"), None)))
 
     when(concreteIerApiServiceMock.generateReferenceNumber(applicationWithStrippedNino)).thenReturn("a1b2c3d4") //don't care about return type
     service.generateReferenceNumber(applicationWithNino)
@@ -36,7 +36,7 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
   it should "not replace a nino when using no nino reason" in {
     val concreteIerApiServiceMock = mock[ConcreteIerApiService]
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
-    val applicationWithNoNinoReason = InprogressApplication(nino = Some(Nino(None, Some("no nino reason"))))
+    val applicationWithNoNinoReason = InprogressOrdinary(nino = Some(Nino(None, Some("no nino reason"))))
 
     when(concreteIerApiServiceMock.submitApplication(None, applicationWithNoNinoReason, None)).thenReturn(ApiApplicationResponse("","","","","")) //don't care about return type
     service.submitApplication(None, applicationWithNoNinoReason, None)

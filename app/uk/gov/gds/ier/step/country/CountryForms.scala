@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.step.country
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{InprogressApplication, Country}
+import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication, Country}
 import uk.gov.gds.ier.validation.constraints.CountryConstraints
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.Form
@@ -23,7 +23,7 @@ trait CountryForms extends CountryConstraints {
     mapping(
       keys.country.key -> optional(countryMapping) 
     ) (
-      country => InprogressApplication(country = country)
+      country => InprogressOrdinary(country = country)
     ) (
       inprogress => Some(inprogress.country)
     ) verifying countryIsFilledConstraint

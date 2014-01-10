@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.step.nationality
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{InprogressApplication, Nationality}
+import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication, Nationality}
 import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.gds.ier.guice.WithIsoCountryService
@@ -32,7 +32,7 @@ trait NationalityForms extends NationalityConstraints {
     mapping(
       keys.nationality.key -> nationalityMapping
     ) (
-      nationality => InprogressApplication(nationality = Some(nationality))
+      nationality => InprogressOrdinary(nationality = Some(nationality))
     ) (
       inprogressApplication => inprogressApplication.nationality
     )

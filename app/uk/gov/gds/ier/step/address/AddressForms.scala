@@ -1,16 +1,16 @@
 package uk.gov.gds.ier.step.address
 
 import uk.gov.gds.ier.validation._
-import uk.gov.gds.ier.model.{InprogressApplication, Address, Addresses, PossibleAddress}
+import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.Form
 import play.api.data.Forms._
+import scala.Some
+import uk.gov.gds.ier.validation.constraints.AddressConstraints
 import uk.gov.gds.ier.model.Addresses
-import uk.gov.gds.ier.model.InprogressApplication
 import uk.gov.gds.ier.model.PossibleAddress
 import scala.Some
 import uk.gov.gds.ier.model.Address
-import uk.gov.gds.ier.validation.constraints.AddressConstraints
 
 trait AddressForms extends AddressConstraints {
   self:  FormKeys
@@ -48,7 +48,7 @@ trait AddressForms extends AddressConstraints {
       keys.possibleAddresses.key -> optional(possibleAddressMapping)
     ) (
       (address, possibleAddresses) => 
-        InprogressApplication(address = address, possibleAddresses = possibleAddresses)
+        InprogressOrdinary(address = address, possibleAddresses = possibleAddresses)
     ) (
       inprogress => Some(inprogress.address, inprogress.possibleAddresses)
     ) verifying (addressOrManualAddressDefined)
@@ -59,7 +59,7 @@ trait AddressForms extends AddressConstraints {
       keys.possibleAddresses.postcode.key -> text
         .verifying("Your postcode is not valid", postcode => PostcodeValidator.isValid(postcode))
     ) (
-      postcode => InprogressApplication(possibleAddresses = Some(PossibleAddress(jsonList = Addresses(List.empty), postcode = postcode)))
+      postcode => InprogressOrdinary(possibleAddresses = Some(PossibleAddress(jsonList = Addresses(List.empty), postcode = postcode)))
     ) (
       inprogress => inprogress.possibleAddresses.map(_.postcode)
     )

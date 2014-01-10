@@ -9,7 +9,7 @@ import uk.gov.gds.ier.test.TestHelpers
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import uk.gov.gds.ier.digest.ShaHashProvider
-import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.model.InprogressOrdinary
 import uk.gov.gds.ier.model.Success
 import uk.gov.gds.ier.model.Fail
 import scala.Some
@@ -54,7 +54,7 @@ class IerApiServiceTests
     val service = new ConcreteIerApiService(new FakeApiClient, jsonSerialiser,
       new MockConfig, mockPlaces, mockSha, isoService)
 
-    val application = InprogressApplication(
+    val application = InprogressOrdinary(
       nationality = Some(Nationality(
         british = Some(true),
         irish = Some(true),
@@ -90,7 +90,7 @@ class IerApiServiceTests
     val service = new ConcreteIerApiService(new FakeApiClient, jsonSerialiser,
       new MockConfig, mockPlaces, mockSha, isoService)
 
-    val application = InprogressApplication(
+    val application = InprogressOrdinary(
       nationality = Some(Nationality(
         british = Some(true),
         irish = Some(true),

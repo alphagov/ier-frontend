@@ -2,13 +2,12 @@ package uk.gov.gds.ier.step.address
 
 import controllers.step._
 import com.google.inject.Inject
-import uk.gov.gds.ier.model.{PossibleAddress, Addresses}
+import uk.gov.gds.ier.model.{InprogressOrdinary, PossibleAddress, Addresses, InprogressApplication}
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation._
-import uk.gov.gds.ier.controller.StepController
+import uk.gov.gds.ier.controller.OrdinaryController
 import play.api.data.Form
 import play.api.mvc.{SimpleResult, Call}
-import uk.gov.gds.ier.model.InprogressApplication
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
@@ -20,17 +19,14 @@ class AddressController @Inject ()(val serialiser: JsonSerialiser,
                                    val encryptionService : EncryptionService,
                                    val encryptionKeys : EncryptionKeys,
                                    val placesService: PlacesService)
-  extends StepController
-  with WithSerialiser
-  with WithConfig
-  with WithEncryption
+  extends OrdinaryController
   with AddressForms {
 
   val validation = addressForm
   val editPostRoute = routes.AddressController.editPost
   val stepPostRoute = routes.AddressController.post
 
-  def template(form:InProgressForm, call:Call): Html = {
+  def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
     val possibleAddresses = form(keys.possibleAddresses.jsonList).value match {
       case Some(possibleAddressJS) if !possibleAddressJS.isEmpty => {
         serialiser.fromJson[Addresses](possibleAddressJS)
@@ -42,7 +38,7 @@ class AddressController @Inject ()(val serialiser: JsonSerialiser,
     val possible = possiblePostcode.map(PossibleAddress(possibleAddresses, _))
     views.html.steps.address(form, call, possible)
   }
-  def goToNext(currentState: InprogressApplication): SimpleResult = {
+  def goToNext(currentState: InprogressOrdinary): SimpleResult = {
     Redirect(routes.PreviousAddressController.get)
   }
 
@@ -62,7 +58,7 @@ class AddressController @Inject ()(val serialiser: JsonSerialiser,
       )
   }
 
-  def lookupAddress(success: InprogressApplication): InProgressForm = {
+  def lookupAddress(success: InprogressOrdinary): InProgressForm[InprogressOrdinary] = {
     val postcode = success.possibleAddresses.get.postcode
     val addressesList = placesService.lookupAddress(postcode)
     val inProgressForm = InProgressForm(

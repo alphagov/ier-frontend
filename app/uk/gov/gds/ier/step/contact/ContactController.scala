@@ -1,12 +1,12 @@
 package uk.gov.gds.ier.step.contact
 
-import controllers._
+import controllers.step.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation._
-import uk.gov.gds.ier.controller.StepController
+import uk.gov.gds.ier.controller.OrdinaryController
 import play.api.mvc.{SimpleResult, Call}
-import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication}
 import play.api.templates.Html
 
 import uk.gov.gds.ier.config.Config
@@ -17,21 +17,18 @@ class ContactController @Inject ()(val serialiser: JsonSerialiser,
                                    val config: Config,
                                    val encryptionService : EncryptionService,
                                    val encryptionKeys : EncryptionKeys)
-  extends StepController
-  with WithSerialiser
-  with WithConfig
-  with WithEncryption
+  extends OrdinaryController
   with ContactForms {
 
   val validation = contactForm
-  val editPostRoute = step.routes.ContactController.editPost
-  val stepPostRoute = step.routes.ContactController.post
+  val editPostRoute = ContactController.editPost
+  val stepPostRoute = ContactController.post
 
-  def template(form:InProgressForm, call:Call): Html = {
+  def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
     views.html.steps.contact(form, call)
   }
-  def goToNext(currentState: InprogressApplication): SimpleResult = {
-    Redirect(routes.ConfirmationController.get)
+  def goToNext(currentState: InprogressOrdinary): SimpleResult = {
+    Redirect(ConfirmationController.get)
   }
 }
 

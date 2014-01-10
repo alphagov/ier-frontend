@@ -5,9 +5,9 @@ import controllers.routes.ExitController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation._
-import uk.gov.gds.ier.controller.StepController
+import uk.gov.gds.ier.controller.OrdinaryController
 import play.api.mvc.{SimpleResult, Call}
-import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication}
 import play.api.templates.Html
 import uk.gov.gds.ier.service.IsoCountryService
 import uk.gov.gds.ier.guice.{WithEncryption, WithIsoCountryService, WithConfig}
@@ -20,21 +20,17 @@ class NationalityController @Inject ()(val serialiser: JsonSerialiser,
                                        val config: Config,
                                        val encryptionService : EncryptionService,
                                        val encryptionKeys : EncryptionKeys)
-  extends StepController
-  with WithSerialiser
-  with WithIsoCountryService
-  with WithConfig
-  with WithEncryption
+  extends OrdinaryController
   with NationalityForms {
 
   val validation = nationalityForm
   val editPostRoute = routes.NationalityController.editPost
   val stepPostRoute = routes.NationalityController.post
 
-  def template(form:InProgressForm, call:Call): Html = {
+  def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
     views.html.steps.nationality(form, call)
   }
-  def goToNext(currentState: InprogressApplication): SimpleResult = {
+  def goToNext(currentState: InprogressOrdinary): SimpleResult = {
     val franchises = currentState.nationality match {
       case Some(nationality) => isoCountryService.getFranchises(nationality)
       case None => List.empty

@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.step.name
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{InprogressApplication, Name, PreviousName}
+import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication, Name, PreviousName}
 import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.NameConstraints
@@ -40,7 +40,7 @@ trait NameForms extends NameConstraints {
       keys.name.key -> optional(nameMapping).verifying(nameNotOptional),
       keys.previousName.key -> required(optional(previousNameMapping), "Please answer this question")
     ) (
-      (name, previousName) => InprogressApplication(name = name, previousName = previousName)
+      (name, previousName) => InprogressOrdinary(name = name, previousName = previousName)
     ) (
       inprogress => Some(inprogress.name, inprogress.previousName)
     )

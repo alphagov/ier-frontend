@@ -2,13 +2,12 @@ package uk.gov.gds.ier.step.previousAddress
 
 import controllers.step._
 import com.google.inject.Inject
-import uk.gov.gds.ier.model.{Addresses, PossibleAddress}
+import uk.gov.gds.ier.model.{InprogressOrdinary, Addresses, PossibleAddress, InprogressApplication}
 import uk.gov.gds.ier.step.address.AddressForms
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation._
-import uk.gov.gds.ier.controller.StepController
+import uk.gov.gds.ier.controller.OrdinaryController
 import play.api.mvc.{SimpleResult, Call}
-import uk.gov.gds.ier.model.InprogressApplication
 import play.api.templates.Html
 
 import uk.gov.gds.ier.config.Config
@@ -19,10 +18,7 @@ class PreviousAddressController @Inject ()(val serialiser: JsonSerialiser,
                                            val config: Config,
                                            val encryptionService : EncryptionService,
                                            val encryptionKeys : EncryptionKeys)
-  extends StepController
-  with WithSerialiser
-  with WithConfig
-  with WithEncryption
+  extends OrdinaryController
   with AddressForms
   with PreviousAddressForms {
 
@@ -30,7 +26,7 @@ class PreviousAddressController @Inject ()(val serialiser: JsonSerialiser,
   val editPostRoute = routes.PreviousAddressController.editPost
   val stepPostRoute = routes.PreviousAddressController.post
 
-  def template(form:InProgressForm, call:Call): Html = {
+  def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
     val possibleAddresses = form(keys.possibleAddresses.jsonList).value match {
       case Some(possibleAddressJS) if !possibleAddressJS.isEmpty => {
         serialiser.fromJson[Addresses](possibleAddressJS)
@@ -42,7 +38,7 @@ class PreviousAddressController @Inject ()(val serialiser: JsonSerialiser,
     val possible = possiblePostcode.map(PossibleAddress(possibleAddresses, _))
     views.html.steps.previousAddress(form, call, possible)
   }
-  def goToNext(currentState: InprogressApplication): SimpleResult = {
+  def goToNext(currentState: InprogressOrdinary): SimpleResult = {
     Redirect(routes.OtherAddressController.get)
   }
 }

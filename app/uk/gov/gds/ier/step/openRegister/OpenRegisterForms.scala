@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.step.openRegister
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication}
 import play.api.data.Form
 import play.api.data.Forms._
 
@@ -17,7 +17,7 @@ trait OpenRegisterForms {
     mapping(
       keys.openRegister.key -> optional(openRegisterOptInMapping)
     ) (
-      openRegister => InprogressApplication(
+      openRegister => InprogressOrdinary(
         openRegisterOptin = openRegister.orElse(Some(true))
       )
     ) (

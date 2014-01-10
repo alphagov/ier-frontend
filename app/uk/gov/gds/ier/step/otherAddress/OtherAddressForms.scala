@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.step.otherAddress
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{InprogressApplication, OtherAddress}
+import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication, OtherAddress}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.Form
 import play.api.data.Forms._
@@ -20,7 +20,7 @@ trait OtherAddressForms {
       keys.otherAddress.key -> optional(otherAddressMapping)
         .verifying("Please answer this question", otherAddress => otherAddress.isDefined)
     ) (
-      otherAddress => InprogressApplication(otherAddress = otherAddress)
+      otherAddress => InprogressOrdinary(otherAddress = otherAddress)
     ) (
       inprogress => Some(inprogress.otherAddress)
     )
