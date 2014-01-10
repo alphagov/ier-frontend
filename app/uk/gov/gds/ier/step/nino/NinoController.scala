@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.step.nino
 
-import controllers.step._
+import controllers.step.ordinary.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation._
@@ -21,14 +21,14 @@ class NinoController @Inject ()(val serialiser: JsonSerialiser,
   with NinoForms {
 
   val validation = ninoForm
-  val editPostRoute = routes.NinoController.editPost
-  val stepPostRoute = routes.NinoController.post
+  val editPostRoute = NinoController.editPost
+  val stepPostRoute = NinoController.post
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
     views.html.steps.nino(form, call)
   }
   def goToNext(currentState: InprogressOrdinary): SimpleResult = {
-    Redirect(routes.AddressController.get)
+    Redirect(AddressController.get)
   }
 }
 

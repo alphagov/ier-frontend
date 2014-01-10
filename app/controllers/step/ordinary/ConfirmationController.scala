@@ -1,4 +1,4 @@
-package controllers.step
+package controllers.step.ordinary
 
 import play.api._
 import play.api.mvc._

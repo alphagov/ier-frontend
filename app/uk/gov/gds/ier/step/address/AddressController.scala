@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.step.address
 
-import controllers.step._
+import controllers.step.ordinary.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.model.{InprogressOrdinary, PossibleAddress, Addresses, InprogressApplication}
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
@@ -23,8 +23,8 @@ class AddressController @Inject ()(val serialiser: JsonSerialiser,
   with AddressForms {
 
   val validation = addressForm
-  val editPostRoute = routes.AddressController.editPost
-  val stepPostRoute = routes.AddressController.post
+  val editPostRoute = AddressController.editPost
+  val stepPostRoute = AddressController.post
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
     val possibleAddresses = form(keys.possibleAddresses.jsonList).value match {
@@ -39,7 +39,7 @@ class AddressController @Inject ()(val serialiser: JsonSerialiser,
     views.html.steps.address(form, call, possible)
   }
   def goToNext(currentState: InprogressOrdinary): SimpleResult = {
-    Redirect(routes.PreviousAddressController.get)
+    Redirect(PreviousAddressController.get)
   }
 
   def lookup = ValidSession requiredFor {

@@ -1,11 +1,11 @@
-package controllers.step
+package controllers.step.ordinary
 
 import play.api._
 import play.api.mvc._
 import uk.gov.gds.ier.guice.DelegatingController
-import uk.gov.gds.ier.step.nino.{NinoController => GuicedController}
+import uk.gov.gds.ier.step.name.{NameController => GuicedController}
 
-object NinoController extends DelegatingController[GuicedController] {
+object NameController extends DelegatingController[GuicedController] {
   
   def get = delegate.get
   def post = delegate.post

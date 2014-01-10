@@ -1,11 +1,11 @@
-package controllers.step
+package controllers.step.ordinary
 
 import play.api._
 import play.api.mvc._
 import uk.gov.gds.ier.guice.DelegatingController
-import uk.gov.gds.ier.step.contact.{ContactController => GuicedController}
+import uk.gov.gds.ier.step.previousAddress.{PreviousAddressController => GuicedController}
 
-object ContactController extends DelegatingController[GuicedController] {
+object PreviousAddressController extends DelegatingController[GuicedController] {
   
   def get = delegate.get
   def post = delegate.post

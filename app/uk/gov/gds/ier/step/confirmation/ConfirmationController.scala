@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.step.confirmation
 
-import controllers._
+import controllers.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.{JsonSerialiser}
 import uk.gov.gds.ier.validation._
@@ -60,7 +60,7 @@ class ConfirmationController @Inject ()(val serialiser: JsonSerialiser,
           val remoteClientIP = request.headers.get("X-Real-IP")
 
           ierApi.submitApplication(remoteClientIP, validApplication, Some(refNum))
-          Redirect(routes.CompleteController.complete()).flashing(
+          Redirect(CompleteController.complete()).flashing(
             "refNum" -> refNum,
             "postcode" -> validApplication.address.map(_.postcode).getOrElse("")
           )

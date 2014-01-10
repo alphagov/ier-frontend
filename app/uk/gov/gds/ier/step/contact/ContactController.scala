@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.step.contact
 
-import controllers.step.routes._
+import controllers.step.ordinary.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation._
