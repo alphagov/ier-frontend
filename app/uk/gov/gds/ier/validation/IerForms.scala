@@ -3,6 +3,8 @@ package uk.gov.gds.ier.validation
 import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication}
+import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.model.Address
 import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
 import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.step.confirmation.ConfirmationForms

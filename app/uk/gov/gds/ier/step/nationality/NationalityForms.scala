@@ -1,10 +1,8 @@
 package uk.gov.gds.ier.step.nationality
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication, Nationality}
-import play.api.data.Form
+import uk.gov.gds.ier.model.{InprogressOrdinary, PartialNationality}
 import play.api.data.Forms._
-import uk.gov.gds.ier.guice.WithIsoCountryService
 import uk.gov.gds.ier.validation.constraints.NationalityConstraints
 
 trait NationalityForms extends NationalityConstraints {
@@ -18,12 +16,11 @@ trait NationalityForms extends NationalityConstraints {
     keys.otherCountries.key -> list(text
       .verifying(nationalityMaxLengthError, _.size <= maxTextFieldLength)),
     keys.noNationalityReason.key -> optional(nonEmptyText
-      .verifying(noNationalityReasonMaxLengthError, _.size <= maxExplanationFieldLength)),
-    "countryCodes" -> optional(list(text))
+      .verifying(noNationalityReasonMaxLengthError, _.size <= maxExplanationFieldLength))
   ) (
-    Nationality.apply
+    PartialNationality.apply
   ) (
-    Nationality.unapply
+    PartialNationality.unapply
   ) verifying (
     nationalityIsChosen, notTooManyNationalities, otherCountry0IsValid, otherCountry1IsValid, otherCountry2IsValid
   )

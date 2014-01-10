@@ -88,8 +88,18 @@
           <h3>Address</h3>
           <div class="data-wrap"> 
             @validationSwitch(formData(keys.address)) {
-              <p>@formData(keys.address.address).value.getOrElse(formData(keys.address.manualAddress).value.getOrElse("../../../public"))</p>
-              <p class="postcode">@formData(keys.address.postcode).value.getOrElse("../../../public")</p>
+              @if(formData(keys.address.addressLine).value.isDefined) {
+                @formData(keys.address.addressLine).value.map { addressLine =>
+                <p>@addressLine</p>
+                }
+              } else {
+                @formData(keys.address.manualAddress).value.map { addressLine =>
+                <p>@addressLine</p>
+                }
+              }
+              @formData(keys.address.postcode).value.map { postcode =>
+              <p>@postcode</p>
+              }
             }
           </div>
           <a href="@step.routes.AddressController.editGet" class="change">Change<span class="visuallyhidden"> address</span></a>
@@ -98,10 +108,20 @@
           <h3>Previous address</h3>
           <div class="data-wrap"> 
           @validationSwitch(formData(keys.previousAddress)) {
-            @if(formData(keys.previousAddress.movedRecently).value == Some("true")){
-              <p>@formData(keys.previousAddress.previousAddress.address).value.getOrElse(formData(keys.previousAddress.previousAddress.manualAddress).value.getOrElse("../../../public"))</p>
-              <p>@formData(keys.previousAddress.previousAddress.postcode).value.getOrElse("../../../public")</p>
-            }else{
+            @if(formData(keys.previousAddress.movedRecently).value == Some("true")) {
+              @if(formData(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
+                @formData(keys.previousAddress.previousAddress.addressLine).value.map { addressLine =>
+                <p>@addressLine</p>
+                }
+              } else {
+                @formData(keys.previousAddress.previousAddress.manualAddress).value.map { addressLine =>
+                <p>@addressLine</p>
+                }
+              }
+              @formData(keys.previousAddress.previousAddress.postcode).value.map { postcode =>
+              <p>@postcode</p>
+              }
+            } else {
               <p>I have not moved in the last 12 months</p>
             }
           }

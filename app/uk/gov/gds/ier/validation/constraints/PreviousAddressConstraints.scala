@@ -2,20 +2,20 @@ package uk.gov.gds.ier.validation.constraints
 
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import play.api.data.validation.{Invalid, Valid, Constraint}
-import uk.gov.gds.ier.model.{Address, PreviousAddress}
+import uk.gov.gds.ier.model.{PartialPreviousAddress, PartialAddress}
 
 trait PreviousAddressConstraints {
   self: ErrorMessages
     with FormKeys =>
 
-  lazy val addressExistsIfMovedRecently = Constraint[PreviousAddress](keys.previousAddress.previousAddress.key) {
-    case PreviousAddress(false, _) => Valid
-    case PreviousAddress(true, Some(Address(Some(addressLine), _, _))) => Valid
-    case PreviousAddress(true, Some(Address(_, _, Some(manualAddress)))) => Valid
-    case _ => Invalid("Please select your address", keys.previousAddress.previousAddress.address)
+  lazy val addressExistsIfMovedRecently = Constraint[PartialPreviousAddress](keys.previousAddress.previousAddress.key) {
+    case PartialPreviousAddress(false, _) => Valid
+    case PartialPreviousAddress(true, Some(PartialAddress(_, _, _, Some(manualAddress)))) => Valid
+    case PartialPreviousAddress(true, Some(PartialAddress(_, Some(uprn), _, _))) => Valid
+    case _ => Invalid("Please select your address", keys.previousAddress.previousAddress.uprn)
   }
 
-  lazy val movedRecentlyTrueIfAddressProvided = Constraint[PreviousAddress](keys.previousAddress.movedRecently.key) {
+  lazy val movedRecentlyTrueIfAddressProvided = Constraint[PartialPreviousAddress](keys.previousAddress.movedRecently.key) {
     previousAddress =>
       if (previousAddress.movedRecently ||
         (!previousAddress.movedRecently && previousAddress.previousAddress.isEmpty)) Valid

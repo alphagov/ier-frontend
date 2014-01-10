@@ -12,13 +12,13 @@ import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
-import uk.gov.gds.ier.service.PlacesService
+import uk.gov.gds.ier.service.AddressService
 
 class AddressController @Inject ()(val serialiser: JsonSerialiser,
                                    val config: Config,
                                    val encryptionService : EncryptionService,
                                    val encryptionKeys : EncryptionKeys,
-                                   val placesService: PlacesService)
+                                   val addressService: AddressService)
   extends OrdinaryController
   with AddressForms {
 
@@ -60,7 +60,7 @@ class AddressController @Inject ()(val serialiser: JsonSerialiser,
 
   def lookupAddress(success: InprogressOrdinary): InProgressForm[InprogressOrdinary] = {
     val postcode = success.possibleAddresses.get.postcode
-    val addressesList = placesService.lookupAddress(postcode)
+    val addressesList = addressService.lookupPartialAddress(postcode)
     val inProgressForm = InProgressForm(
       validation.fill(
         success.copy(

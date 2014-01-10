@@ -3,10 +3,8 @@ package uk.gov.gds.ier.step.previousAddress
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.step.address.AddressForms
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import play.api.data.Form
 import play.api.data.Forms._
-import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication, PreviousAddress}
-import scala.Some
+import uk.gov.gds.ier.model.{InprogressOrdinary, PartialPreviousAddress}
 import uk.gov.gds.ier.validation.constraints.PreviousAddressConstraints
 
 trait PreviousAddressForms extends PreviousAddressConstraints {
@@ -17,11 +15,11 @@ trait PreviousAddressForms extends PreviousAddressConstraints {
 
   lazy val previousAddressMapping = mapping(
     keys.movedRecently.key -> boolean,
-    keys.previousAddress.key -> optional(addressMapping)
+    keys.previousAddress.key -> optional(partialAddressMapping)
   ) (
-    PreviousAddress.apply
+    PartialPreviousAddress.apply
   ) (
-    PreviousAddress.unapply
+    PartialPreviousAddress.unapply
   ) verifying(addressExistsIfMovedRecently, movedRecentlyTrueIfAddressProvided)
 
   val previousAddressForm = ErrorTransformForm(

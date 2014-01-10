@@ -37,7 +37,7 @@ class AddressControllerTests
         FakeRequest(POST, "/register-to-vote/address")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "address.address" -> "123 Fake Street", 
+            "address.uprn" -> "123456789", 
             "address.postcode" -> "SW1A 1AA"
           )
       )
@@ -97,7 +97,7 @@ class AddressControllerTests
         FakeRequest(POST, "/register-to-vote/edit/address")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "address.address" -> "123 Fake Street", 
+            "address.uprn" -> "123456789", 
             "address.postcode" -> "SW1A 1AA"
           )
       )

@@ -13,7 +13,6 @@ import uk.gov.gds.ier.model.InprogressOrdinary
 import uk.gov.gds.ier.model.Success
 import uk.gov.gds.ier.model.Fail
 import scala.Some
-import uk.gov.gds.common.model.{Ero, LocalAuthority}
 
 class IerApiServiceTests
   extends FlatSpec
@@ -48,14 +47,15 @@ class IerApiServiceTests
       }
     }
     val mockPlaces = mock[PlacesService]
+    val addressService = new AddressService(mockPlaces)
     val mockSha = mock[ShaHashProvider]
     val isoService = new IsoCountryService
 
     val service = new ConcreteIerApiService(new FakeApiClient, jsonSerialiser,
-      new MockConfig, mockPlaces, mockSha, isoService)
+      new MockConfig, mockPlaces, addressService, mockSha, isoService)
 
     val application = InprogressOrdinary(
-      nationality = Some(Nationality(
+      nationality = Some(PartialNationality(
         british = Some(true),
         irish = Some(true),
         hasOtherCountry = Some(true),
@@ -84,14 +84,15 @@ class IerApiServiceTests
       }
     }
     val mockPlaces = mock[PlacesService]
+    val addressService = new AddressService(mockPlaces)
     val mockSha = mock[ShaHashProvider]
     val isoService = new IsoCountryService
 
     val service = new ConcreteIerApiService(new FakeApiClient, jsonSerialiser,
-      new MockConfig, mockPlaces, mockSha, isoService)
+      new MockConfig, mockPlaces, addressService, mockSha, isoService)
 
     val application = InprogressOrdinary(
-      nationality = Some(Nationality(
+      nationality = Some(PartialNationality(
         british = Some(true),
         irish = Some(true),
         hasOtherCountry = Some(true),
