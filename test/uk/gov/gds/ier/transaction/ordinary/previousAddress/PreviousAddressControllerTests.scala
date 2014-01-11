@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.previousAddress
+package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
 import org.scalatest.{Matchers, FlatSpec}
 import org.scalatest.mock.MockitoSugar

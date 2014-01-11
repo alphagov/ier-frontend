@@ -1,7 +1,7 @@
-package uk.gov.gds.ier.transaction.previousAddress
+package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
 import uk.gov.gds.ier.validation._
-import uk.gov.gds.ier.transaction.address.AddressForms
+import uk.gov.gds.ier.transaction.ordinary.address.AddressForms
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.Forms._
 import uk.gov.gds.ier.model.{InprogressOrdinary, PartialPreviousAddress}

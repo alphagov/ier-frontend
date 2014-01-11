@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.openRegister
+package uk.gov.gds.ier.transaction.ordinary.openRegister
 
 import play.api.libs.json.{JsNull, Json}
 import org.scalatest.{Matchers, FlatSpec}

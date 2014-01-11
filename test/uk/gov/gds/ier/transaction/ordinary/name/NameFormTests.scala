@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.name
+package uk.gov.gds.ier.transaction.ordinary.name
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}

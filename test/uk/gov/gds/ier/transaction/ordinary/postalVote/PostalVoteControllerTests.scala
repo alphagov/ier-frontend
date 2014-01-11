@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.postalVote
+package uk.gov.gds.ier.transaction.ordinary.postalVote
 
 import org.scalatest.{Matchers, FlatSpec}
 import org.scalatest.mock.MockitoSugar

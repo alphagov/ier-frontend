@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.nationality
+package uk.gov.gds.ier.transaction.ordinary.nationality
 
 import controllers.step.ordinary.routes._
 import controllers.routes._

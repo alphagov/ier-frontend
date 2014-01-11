@@ -6,16 +6,16 @@ import uk.gov.gds.ier.validation
 import uk.gov.gds.ier.validation.DateValidator._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.Form
-import uk.gov.gds.ier.transaction.nationality.NationalityForms
-import uk.gov.gds.ier.transaction.name.NameForms
-import uk.gov.gds.ier.transaction.dateOfBirth.DateOfBirthForms
-import uk.gov.gds.ier.transaction.nino.NinoForms
-import uk.gov.gds.ier.transaction.address.AddressForms
-import uk.gov.gds.ier.transaction.previousAddress.PreviousAddressForms
-import uk.gov.gds.ier.transaction.otherAddress.OtherAddressForms
-import uk.gov.gds.ier.transaction.openRegister.OpenRegisterForms
-import uk.gov.gds.ier.transaction.postalVote.PostalVoteForms
-import uk.gov.gds.ier.transaction.contact.ContactForms
+import uk.gov.gds.ier.transaction.ordinary.nationality.NationalityForms
+import uk.gov.gds.ier.transaction.ordinary.name.NameForms
+import uk.gov.gds.ier.transaction.ordinary.dateOfBirth.DateOfBirthForms
+import uk.gov.gds.ier.transaction.ordinary.nino.NinoForms
+import uk.gov.gds.ier.transaction.ordinary.address.AddressForms
+import uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressForms
+import uk.gov.gds.ier.transaction.ordinary.otherAddress.OtherAddressForms
+import uk.gov.gds.ier.transaction.ordinary.openRegister.OpenRegisterForms
+import uk.gov.gds.ier.transaction.ordinary.postalVote.PostalVoteForms
+import uk.gov.gds.ier.transaction.ordinary.contact.ContactForms
 import uk.gov.gds.ier.transaction.country.CountryForms
 
 trait FormMappings 

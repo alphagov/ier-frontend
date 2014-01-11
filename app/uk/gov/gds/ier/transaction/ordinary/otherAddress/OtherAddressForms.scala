@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.otherAddress
+package uk.gov.gds.ier.transaction.ordinary.otherAddress
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication, OtherAddress}

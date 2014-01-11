@@ -1,12 +1,12 @@
-package uk.gov.gds.ier.transaction.previousAddress
+package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.libs.json.Json
-import uk.gov.gds.ier.model.{Addresses, Address, PartialAddress}
-import uk.gov.gds.ier.transaction.address.AddressForms
+import uk.gov.gds.ier.model.{Addresses, PartialAddress}
+import uk.gov.gds.ier.transaction.ordinary.address.AddressForms
 
 class PreviousAddressFormTests
   extends FlatSpec

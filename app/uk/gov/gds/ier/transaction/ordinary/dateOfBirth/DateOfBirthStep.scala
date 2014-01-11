@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.dateOfBirth
+package uk.gov.gds.ier.transaction.ordinary.dateOfBirth
 
 import controllers.step.ordinary.routes._
 import controllers.routes._

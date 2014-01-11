@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.contact
+package uk.gov.gds.ier.transaction.ordinary.contact
 
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.model._

@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.nino
+package uk.gov.gds.ier.transaction.ordinary.nino
 
 import controllers.step.ordinary.routes._
 import com.google.inject.Inject

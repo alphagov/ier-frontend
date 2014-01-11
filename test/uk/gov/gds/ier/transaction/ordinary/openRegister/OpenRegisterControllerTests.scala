@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.openRegister
+package uk.gov.gds.ier.transaction.ordinary.openRegister
 
 import org.scalatest.{Matchers, FlatSpec}
 import org.scalatest.mock.MockitoSugar

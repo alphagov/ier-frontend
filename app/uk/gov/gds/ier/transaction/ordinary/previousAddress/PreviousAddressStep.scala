@@ -1,9 +1,9 @@
-package uk.gov.gds.ier.transaction.previousAddress
+package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
 import controllers.step.ordinary.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.model.{InprogressOrdinary, Addresses, PossibleAddress}
-import uk.gov.gds.ier.transaction.address.AddressForms
+import uk.gov.gds.ier.transaction.ordinary.address.AddressForms
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
 import play.api.mvc.{SimpleResult, Call}

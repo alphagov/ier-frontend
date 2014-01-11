@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.postalVote
+package uk.gov.gds.ier.transaction.ordinary.postalVote
 
 import controllers.step.ordinary.routes._
 import com.google.inject.Inject

@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.nino
+package uk.gov.gds.ier.transaction.ordinary.nino
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
@@ -6,7 +6,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.libs.json.{Json, JsNull}
 import uk.gov.gds.ier.test.TestHelpers
 
-class NinoFormTests 
+class NinoFormTests
   extends FlatSpec
   with Matchers
   with NinoForms

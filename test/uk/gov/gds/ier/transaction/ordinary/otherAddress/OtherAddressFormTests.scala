@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.otherAddress
+package uk.gov.gds.ier.transaction.ordinary.otherAddress
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.serialiser.WithSerialiser

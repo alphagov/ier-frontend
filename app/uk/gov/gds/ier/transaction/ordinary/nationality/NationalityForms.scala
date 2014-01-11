@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.nationality
+package uk.gov.gds.ier.transaction.ordinary.nationality
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.{InprogressOrdinary, PartialNationality}

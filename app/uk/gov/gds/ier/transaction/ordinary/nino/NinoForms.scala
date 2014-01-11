@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.nino
+package uk.gov.gds.ier.transaction.ordinary.nino
 
 import uk.gov.gds.ier.validation._
 import play.api.data.Forms._

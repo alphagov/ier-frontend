@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.dateOfBirth
+package uk.gov.gds.ier.transaction.ordinary.dateOfBirth
 
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages, ErrorTransformForm}

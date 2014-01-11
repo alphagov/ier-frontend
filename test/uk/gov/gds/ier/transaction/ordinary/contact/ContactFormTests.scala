@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.contact
+package uk.gov.gds.ier.transaction.ordinary.contact
 
 import play.api.libs.json.{JsNull, Json}
 import org.scalatest.{Matchers, FlatSpec}

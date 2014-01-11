@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.name
+package uk.gov.gds.ier.transaction.ordinary.name
 
 import org.scalatest.{Matchers, FlatSpec}
 import org.scalatest.mock.MockitoSugar

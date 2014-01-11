@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.nationality
+package uk.gov.gds.ier.transaction.ordinary.nationality
 
 import org.scalatest.{Matchers, FlatSpec}
 import play.api.libs.json.{JsNull, JsBoolean, Json, JsObject}

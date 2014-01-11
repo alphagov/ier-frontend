@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.confirmation
+package uk.gov.gds.ier.transaction.ordinary.confirmation
 
 import controllers.routes._
 import com.google.inject.Inject

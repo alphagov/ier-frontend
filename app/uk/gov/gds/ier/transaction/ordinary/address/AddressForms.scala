@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.address
+package uk.gov.gds.ier.transaction.ordinary.address
 
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.model._

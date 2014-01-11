@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.otherAddress
+package uk.gov.gds.ier.transaction.ordinary.otherAddress
 
 import controllers.step.ordinary.routes._
 import com.google.inject.Inject

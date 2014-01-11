@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.openRegister
+package uk.gov.gds.ier.transaction.ordinary.openRegister
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication}

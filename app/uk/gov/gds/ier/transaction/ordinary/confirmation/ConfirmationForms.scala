@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.confirmation
+package uk.gov.gds.ier.transaction.ordinary.confirmation
 
 import uk.gov.gds.ier.validation.{FormMappings, ErrorTransformForm}
 import play.api.data.Forms._
