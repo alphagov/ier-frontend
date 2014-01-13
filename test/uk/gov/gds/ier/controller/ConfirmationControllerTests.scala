@@ -15,7 +15,7 @@ class ConfirmationControllerTests
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/confirmation").withIerSession(3,
-          Some(InprogressApplication(
+          Some(InprogressOrdinary(
             name = Some(Name("john", Some("johhny"), "Smith")),
             previousName = Some(PreviousName(false, None)),
             dob = Some(DateOfBirth(Some(DOB(1988, 1, 1)), None)),
@@ -42,7 +42,7 @@ class ConfirmationControllerTests
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/confirmation").withIerSession(3,
-          Some(InprogressApplication(
+          Some(InprogressOrdinary(
             name = None, previousName = None, dob = None, nationality = None,
             nino = None, address = None, previousAddress = None, otherAddress = None,
             openRegisterOptin = None, postalVoteOptin = None, contact = None,

@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.controller
 
 import play.api.mvc.Controller
-import uk.gov.gds.ier.session.SessionHandling
+import uk.gov.gds.ier.session.{SessionCleaner, SessionHandling}
 import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
 import com.google.inject.Inject
 import uk.gov.gds.ier.config.Config
@@ -15,7 +15,7 @@ class ExitController @Inject() (val serialiser: JsonSerialiser,
                                 val encryptionService : EncryptionService,
                                 val encryptionKeys : EncryptionKeys)
   extends Controller
-  with SessionHandling
+  with SessionCleaner
   with WithSerialiser
   with Logging
   with WithConfig
