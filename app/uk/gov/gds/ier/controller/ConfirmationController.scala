@@ -40,8 +40,18 @@ class ConfirmationController @Inject ()(val serialiser: JsonSerialiser,
   def get = ValidSession requiredFor {
     request => application =>
       val currentAddressLine = application.address.map { addressService.fillAddressLine(_) }
-      val previousAddressLine = application.previousAddress.flatMap { prev =>
-        prev.previousAddress.map { addressService.fillAddressLine(_) }
+
+      val previousAddressLine = if (
+        application.previousAddress.isDefined &&
+        application.previousAddress.get.movedRecently.isDefined &&
+        application.previousAddress.get.movedRecently.get == true )
+      {
+        application.previousAddress.flatMap { prev =>
+          prev.previousAddress.map { addressService.fillAddressLine(_) }
+        }
+      }
+      else {
+        None
       }
       val appWithAddressLines = application.copy(
         address = currentAddressLine, 

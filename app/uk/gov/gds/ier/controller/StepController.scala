@@ -84,7 +84,7 @@ trait StepController
       )
   }
 
-  private def merge(fromCookieApplication: InprogressApplication, application: InprogressApplication):InprogressApplication = {
+  protected def merge(fromCookieApplication: InprogressApplication, application: InprogressApplication):InprogressApplication = {
     fromCookieApplication.copy(
       name = application.name.orElse(fromCookieApplication.name),
       previousName = application.previousName.orElse(fromCookieApplication.previousName),
