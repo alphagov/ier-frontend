@@ -11,7 +11,6 @@ import play.api.mvc.Cookie
 import scala.Some
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
-import uk.gov.gds.ier.model.InprogressApplication
 
 abstract class SessionHandling[T <: InprogressApplication[T]]
   extends ResultStoring
@@ -27,7 +26,6 @@ abstract class SessionHandling[T <: InprogressApplication[T]]
   def factoryOfT():T
 
   object ValidSession {
-
 
     final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => T => Result)(implicit manifest:Manifest[T]):Action[A] = Action(bodyParser) {
       request =>

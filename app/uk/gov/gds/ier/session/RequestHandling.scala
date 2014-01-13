@@ -16,15 +16,5 @@ trait RequestHandling {
             cookie <- request.cookies.get(sessionPayloadKey)
             payloadKeyCookie <- request.cookies.get(payloadCookieKeyParam)
         } yield serialiser.fromJson[T](encryptionService.decrypt(cookie.value, payloadKeyCookie.value, encryptionKeys.cookies.getPrivate))
-
-        //        {
-        //            request.cookies.get(sessionPayloadKey) flatMap { cookie =>
-        //                val payloadKeyCookie = request.cookies.get(payloadCookieKeyParam)
-        //                payloadKeyCookie map { key =>
-        //                    val decryptedInfo = encryptionService.decrypt(cookie.value, key.value, encryptionKeys.cookies.getPrivate)
-        //                    serialiser.fromJson[T](decryptedInfo)
-        //                }
-        //            }
-        //        }
     }
 }
