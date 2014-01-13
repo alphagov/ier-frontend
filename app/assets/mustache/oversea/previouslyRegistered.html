@@ -1,0 +1,24 @@
+<form action="{{postUrl}}" method="POST" >
+    <header class="question-one">
+        <p>Question 2 of ?</p>
+        <h1>Is this your first time registering as an overseas voter?</h1>
+    </header>
+    <fieldset class="validate {{^globalErrors.isEmpty}}invalid{{/globalErrors.isEmpty}}" >
+
+        <label for="overseas_previouslyRegsitered_true" class="binary selectable">
+            <input type="radio" id="overseas_previouslyRegsitered_true" name="previouslyRegistered.hasPreviouslyRegistered" value="true" class="radio  validate" >
+            Yes
+        </label>
+
+        <label for="overseas_previouslyRegsitered_false" class="binary selectable">
+            <input type="radio" id="overseas_previouslyRegsitered_false" name="previouslyRegistered.hasPreviouslyRegistered" value="false" class="radio  validate" >
+            No
+        </label>
+
+    </fieldset>
+
+    {{> shared/validationMessages }}
+
+    <button type="submit" id="continue" class="button next validation-submit">Continue</button>
+
+</form>
