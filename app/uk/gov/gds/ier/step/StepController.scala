@@ -46,18 +46,18 @@ trait StepController [T <: InprogressApplication[T]]
       Ok(stepPage(InProgressForm(validation.fill(application))))
   }
 
-  def post(implicit manifest: Manifest[T]) = ValidSession storeAfter {
+  def post(implicit manifest: Manifest[T]) = ValidSession requiredFor {
     implicit request => application =>
       logger.debug(s"POST request for ${request.path}")
       validation.bindFromRequest().fold(
         hasErrors => {
           logger.debug(s"Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
-          (Ok(stepPage(InProgressForm(hasErrors))), application)
+          Ok(stepPage(InProgressForm(hasErrors))) storeInSession application
         },
         success => {
           logger.debug(s"Form binding successful")
           val mergedApplication = success.merge(application)
-          (goToNext(mergedApplication), mergedApplication)
+          goToNext(mergedApplication) storeInSession mergedApplication
         }
       )
   }
@@ -68,18 +68,18 @@ trait StepController [T <: InprogressApplication[T]]
       Ok(editPage(InProgressForm(validation.fill(application))))
   }
 
-  def editPost(implicit manifest: Manifest[T]) = ValidSession storeAfter {
+  def editPost(implicit manifest: Manifest[T]) = ValidSession requiredFor {
     implicit request => application =>
       logger.debug(s"POST edit request for ${request.path}")
       validation.bindFromRequest().fold(
         hasErrors => {
           logger.debug(s"Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
-          (Ok(editPage(InProgressForm(hasErrors))), application)
+          Ok(editPage(InProgressForm(hasErrors))) storeInSession application
         },
         success => {
           logger.debug(s"Form binding successful")
           val mergedApplication = success.merge(application)
-          (goToConfirmation(mergedApplication), mergedApplication)
+          goToConfirmation(mergedApplication) storeInSession mergedApplication
         }
       )
   }
