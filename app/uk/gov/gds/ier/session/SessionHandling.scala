@@ -11,6 +11,7 @@ import play.api.mvc.Cookie
 import scala.Some
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
+import uk.gov.gds.ier.model.InprogressApplication
 
 trait SessionHandling {
   self: WithSerialiser
@@ -58,7 +59,7 @@ trait SessionHandling {
             isValidToken(token) match {
               case true => {
                 logger.debug(s"Validate session and store - token is valid")
-                val (result, application) = block(request)(request.getApplication)
+                val (result, application) = block(request)(request.getApplication.getOrElse(InprogressApplication()))
                 result.refreshSessionAndStore(application)
               }
               case false => {
@@ -82,7 +83,7 @@ trait SessionHandling {
             isValidToken(token) match {
               case true => {
                 logger.debug(s"Validate session - token is valid")
-                val result = block(request)(request.getApplication)
+                val result = block(request)(request.getApplication.getOrElse(InprogressApplication()))
                 result.refreshSession()
               }
               case false => {
@@ -118,32 +119,28 @@ trait SessionHandling {
   }
 
   private implicit class InProgressRequest(request:play.api.mvc.Request[_]) extends SessionKeys {
-    def getToken = {
-      val cookie = request.cookies.get(sessionTokenKey)
-      if (cookie.isDefined) {
-        val sessionTokenKeyCookie = request.cookies.get(sessionTokenCookieKeyParam)
-        if (sessionTokenKeyCookie.isDefined) {
-          val decryptedInfo = encryptionService.decrypt(cookie.get.value, sessionTokenKeyCookie.get.value ,encryptionKeys.cookies.getPrivate)
-          Some(decryptedInfo)
-        }
-        else None
-      }
-      else None
-
-    }
-    def getApplication = {
-      request.cookies.get(sessionPayloadKey) match {
-        case Some(cookie) => {
-          val payloadKeyCookie = request.cookies.get(payloadCookieKeyParam)
-          if (payloadKeyCookie.isDefined) {
-            val decryptedInfo = encryptionService.decrypt(cookie.value, payloadKeyCookie.get.value ,encryptionKeys.cookies.getPrivate)
-            serialiser.fromJson[InprogressApplication](decryptedInfo)
-          }
-          else InprogressApplication()
-        }
-        case _ => InprogressApplication()
-      }
-    }
+    def getToken: Option[String] = for {
+            cookie <- request.cookies.get(sessionTokenKey)
+            sessionTokenKeyCookie <- request.cookies.get(sessionTokenCookieKeyParam)
+    } yield encryptionService.decrypt(cookie.value, sessionTokenKeyCookie.value ,encryptionKeys.cookies.getPrivate)
+        
+    def getApplication: Option[InprogressApplication] = 
+    for {
+        cookie <- request.cookies.get(sessionPayloadKey)
+        payloadKeyCookie <- request.cookies.get(payloadCookieKeyParam)
+    } yield serialiser.fromJson[InprogressApplication](encryptionService.decrypt(cookie.value, payloadKeyCookie.value ,encryptionKeys.cookies.getPrivate))
+//      request.cookies.get(sessionPayloadKey) match {
+//        case Some(cookie) => {
+//          val payloadKeyCookie = request.cookies.get(payloadCookieKeyParam)
+//          if (payloadKeyCookie.isDefined) {
+//            val decryptedInfo = encryptionService.decrypt(cookie.value, payloadKeyCookie.get.value ,encryptionKeys.cookies.getPrivate)
+//            serialiser.fromJson[InprogressApplication](decryptedInfo)
+//          }
+//          else InprogressApplication()
+//        }
+//        case _ => InprogressApplication()
+//      }
+//    }
   }
 
   implicit class InProgressResult(result:Result) extends SessionKeys {
