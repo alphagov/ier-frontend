@@ -14,14 +14,22 @@ import scala.Some
 import play.api.test.FakeApplication
 import play.api.mvc.Cookie
 import uk.gov.gds.ier.logging.Logging
+import uk.gov.gds.ier.model.InprogressApplication
 
 class SessionHandlingTests extends FlatSpec with Matchers {
 
   val jsonSerialiser = new JsonSerialiser
 
+  case class FakeInprogress(foo:String) extends InprogressApplication[FakeInprogress] {
+    def merge(other:FakeInprogress) = {
+      this.copy(foo + other.foo)
+    }
+  }
+
   it should "successfully create a new session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      class TestController extends Controller with WithSerialiser with WithConfig with Logging with SessionHandling with ApiResults with WithEncryption {
+      class TestController extends SessionHandling[FakeInprogress] with Controller with WithSerialiser with WithConfig with Logging with ApiResults with WithEncryption {
+        def factoryOfT() = FakeInprogress("")
         val serialiser = jsonSerialiser
         val config = new MockConfig
         val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
@@ -54,7 +62,8 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
   it should "force a redirect with no valid session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      class TestController extends Controller with WithSerialiser with WithConfig with Logging with SessionHandling with ApiResults with WithEncryption {
+      class TestController extends SessionHandling[FakeInprogress] with Controller with WithSerialiser with WithConfig with Logging with ApiResults with WithEncryption {
+        def factoryOfT() = FakeInprogress("")
         val serialiser = jsonSerialiser
         val config = new MockConfig
         val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
@@ -75,7 +84,8 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
   it should "refresh a session with a new timestamp" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      class TestController extends Controller with WithSerialiser with WithConfig with Logging with SessionHandling with ApiResults with WithEncryption {
+      class TestController extends SessionHandling[FakeInprogress] with Controller with WithSerialiser with WithConfig with Logging with ApiResults with WithEncryption {
+        def factoryOfT() = FakeInprogress("")
         val serialiser = jsonSerialiser
         val config = new MockConfig
         val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
@@ -122,7 +132,8 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
   it should "invalidate a session after 20 mins" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      class TestController extends Controller with WithSerialiser with WithConfig with Logging with SessionHandling with ApiResults with WithEncryption {
+      class TestController extends SessionHandling[FakeInprogress] with Controller with WithSerialiser with WithConfig with Logging with ApiResults with WithEncryption {
+        def factoryOfT() = FakeInprogress("")
         val serialiser = jsonSerialiser
         val config = new MockConfig
         val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
@@ -161,7 +172,8 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
   it should "refresh a session before 20 mins" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      class TestController extends Controller with WithSerialiser with WithConfig with Logging with SessionHandling with ApiResults with WithEncryption {
+      class TestController extends SessionHandling[FakeInprogress] with Controller with WithSerialiser with WithConfig with Logging with ApiResults with WithEncryption {
+        def factoryOfT() = FakeInprogress("")
         val serialiser = jsonSerialiser
         val config = new MockConfig
         val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
@@ -198,7 +210,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
   it should "clear session cookies by setting a maxage below 0" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      class TestController extends Controller with WithSerialiser with WithConfig with Logging with SessionHandling with ApiResults with WithEncryption {
+      class TestController extends SessionCleaner with Controller with WithSerialiser with WithConfig with ApiResults with WithEncryption {
         val serialiser = jsonSerialiser
         val config = new MockConfig
         val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
