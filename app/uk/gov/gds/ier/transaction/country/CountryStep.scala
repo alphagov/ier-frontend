@@ -15,19 +15,20 @@ import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.step.OrdinaryStep
 
 class CountryStep @Inject ()(val serialiser: JsonSerialiser,
-                                   val config:Config,
-                                   val encryptionService : EncryptionService,
-                                   val encryptionKeys : EncryptionKeys)
+                             val config:Config,
+                             val encryptionService : EncryptionService,
+                             val encryptionKeys : EncryptionKeys)
   extends OrdinaryStep
   with CountryConstraints
-  with CountryForms {
+  with CountryForms
+  with CountryMustache {
 
   val validation = countryForm
   val editPostRoute = CountryController.editPost
   val stepPostRoute = CountryController.post
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
-    views.html.steps.country(form, call)
+    countryMustache(form.form, call)
   }
   def goToNext(currentState: InprogressOrdinary): SimpleResult = {
     currentState.country match {
