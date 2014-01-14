@@ -29,22 +29,9 @@ object ApplicationBuild extends IERBuild {
   lazy val main = play.Project(appName, appVersion, appDependencies)
     .settings(GovukTemplatePlay.playSettings:_*)
     .settings(GovukToolkit.playSettings:_*)
-    .settings(SassPlugin.sassSettings:_*)
-    .settings(sassOptions := Seq("--load-path", "/Users/michael/Projects/gds/ier/frontend/app/assets/govuk_template_play/stylesheets", "--debug-info"))
-    .settings(jacoco.settings:_*)
-    .settings(
-        parallelExecution in jacoco.Config := false, 
-        watchSources ~= { _.filterNot(_.isDirectory) }
-    )
-    .settings(
-      resolvers += Resolver.url("julienba.github.com", url("http://julienba.github.com/repo/"))(Resolver.ivyStylePatterns),
-
-      // Mustache settings
-      mustacheEntryPoints <<= (sourceDirectory in Compile)(base => base / "assets" / "mustache" ** "*.html"),
-
-      mustacheOptions := Seq.empty[String],
-      resourceGenerators in Compile <+= MustacheFileCompiler
-    )
+    .settings(Sass.sassSettings:_*)
+    .settings(Jacoco.jacocoSettings:_*)
+    .settings(Mustache.mustacheSettings:_*)
 }
 
 abstract class IERBuild extends Build {
@@ -54,6 +41,29 @@ abstract class IERBuild extends Build {
       "GDS maven repo snapshots" at "http://alphagov.github.com/maven/snapshots",
       "GDS maven repo releases" at "http://alphagov.github.com/maven/releases"
     )
+  )
+}
+
+object Sass {
+  val sassSettings = SassPlugin.sassSettings ++ Seq(
+    sassOptions := Seq("--load-path", "/Users/michael/Projects/gds/ier/frontend/app/assets/govuk_template_play/stylesheets", "--debug-info")
+  )
+}
+
+object Mustache {
+  val mustacheSettings = Seq(
+    resolvers += Resolver.url("julienba.github.com", url("http://julienba.github.com/repo/"))(Resolver.ivyStylePatterns),
+    // Mustache settings
+    mustacheEntryPoints <<= (sourceDirectory in Compile)(base => base / "assets" / "mustache" ** "*.html"),
+    mustacheOptions := Seq.empty[String],
+    resourceGenerators in Compile <+= MustacheFileCompiler
+  )
+}
+
+object Jacoco {
+  val jacocoSettings = jacoco.settings ++ Seq(
+    parallelExecution in jacoco.Config := false, 
+    watchSources ~= { _.filterNot(_.isDirectory) }
   )
 }
 

@@ -124,7 +124,7 @@
             };
         },
         tokenizeQuery: function(str) {
-            return $.trim(str).toLowerCase().split(/[\s]+/);
+            return [$.trim(str).toLowerCase()];
         },
         tokenizeText: function(str) {
             return $.trim(str).toLowerCase().split(/[\s\-_]+/);

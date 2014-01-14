@@ -15,15 +15,15 @@ class ConfirmationControllerTests
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/confirmation").withIerSession(3,
-          Some(InprogressApplication(
+          Some(InprogressOrdinary(
             name = Some(Name("john", Some("johhny"), "Smith")),
             previousName = Some(PreviousName(false, None)),
             dob = Some(DateOfBirth(Some(DOB(1988, 1, 1)), None)),
-            nationality = Some(Nationality(Some(true), Some(true), Some(false),
-              List.empty, None, Some(List("GB", "IE")))),
+            nationality = Some(PartialNationality(Some(true), Some(true), Some(false),
+              List.empty, None)),
             nino = Some(Nino(Some("AB 12 34 56 D"), None)),
-            address = Some(Address(Some("123 Fake Street"), "BT12 34D", None)),
-            previousAddress = Some(PreviousAddress(false, None)),
+            address = Some(PartialAddress(Some("123 Fake street"), Some("12345678"), "BT12 34D", None)),
+            previousAddress = Some(PartialPreviousAddress(false, None)),
             otherAddress = Some(OtherAddress(false)),
             openRegisterOptin = Some(false),
             postalVoteOptin = Some(false),
@@ -37,11 +37,12 @@ class ConfirmationControllerTests
       contentAsString(result) shouldNot include("Please answer this question")
     }
   }
+
   it should "display all errors relevant for an empty inprogress application" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/confirmation").withIerSession(3,
-          Some(InprogressApplication(
+          Some(InprogressOrdinary(
             name = None, previousName = None, dob = None, nationality = None,
             nino = None, address = None, previousAddress = None, otherAddress = None,
             openRegisterOptin = None, postalVoteOptin = None, contact = None,

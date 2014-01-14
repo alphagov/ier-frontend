@@ -55,8 +55,16 @@ trait FormKeys {
     lazy val noNinoReason = prependNamespace(Key("NoNinoReason"))
 
     lazy val address = prependNamespace(Key("address"))
+
+    lazy val lineOne = prependNamespace(Key("lineOne"))
+    lazy val lineTwo = prependNamespace(Key("lineTwo"))
+    lazy val lineThree = prependNamespace(Key("lineThree"))
+    lazy val city = prependNamespace(Key("city"))
+    lazy val county = prependNamespace(Key("county"))
     lazy val postcode = prependNamespace(Key("postcode"))
+    lazy val uprn = prependNamespace(Key("uprn"))
     lazy val manualAddress = prependNamespace(Key("manualAddress"))
+    lazy val addressLine = prependNamespace(Key("addressLine"))
 
     lazy val previousAddress = prependNamespace(Key("previousAddress"))
     lazy val movedRecently = prependNamespace(Key("movedRecently"))
@@ -82,7 +90,7 @@ trait FormKeys {
   implicit class key2namespace(key:Key) extends Keys {
     override lazy val namespace = key.key
   }
-  implicit class keys2Traversal(key:Key)(implicit formData:InProgressForm) {
+  implicit class keys2Traversal(key:Key)(implicit formData:InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary]) {
     def each(from:Int = 0)(block: (String, Int) => Html):Html = {
       val field = formData(key.item(from))
       field.value match {

@@ -1,27 +1,27 @@
 package uk.gov.gds.ier.validation
 
 import play.api.data.Form
-import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication}
 
-case class InProgressForm(form:ErrorTransformForm[InprogressApplication]) extends FormKeys{
+case class InProgressForm[T <: InprogressApplication[T]](form:ErrorTransformForm[T]) extends FormKeys{
   def apply(key:Key) = {
     form(key.key)
   }
   def getNationalities = {
     form.value match {
-      case Some(application) => application.nationality.map(_.checkedNationalities).filter(_.size > 0)
+      case Some(application:InprogressOrdinary) => application.nationality.map(_.checkedNationalities).filter(_.size > 0)
       case None => None
     }
   }
   def getOtherCountries = {
     form.value match {
-      case Some(application) => application.nationality.map(_.otherCountries.filter(_.nonEmpty)).filter(_.size > 0)
+      case Some(application:InprogressOrdinary) => application.nationality.map(_.otherCountries.filter(_.nonEmpty)).filter(_.size > 0)
       case None => None
     }
   }
   def nationalityIsFilled():Boolean = {
     form.value match {
-      case Some(application) => application.nationality.map(
+      case Some(application:InprogressOrdinary) => application.nationality.map(
         nationality =>
           nationality.british == Some(true) || nationality.irish == Some(true) || nationality.otherCountries.exists(_.nonEmpty)).exists(b => b)
       case None => false

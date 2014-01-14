@@ -495,21 +495,21 @@
     this.$searchButton = $(searchButton);
     this.$searchInput = this.$searchButton.closest('fieldset').find('input.postcode');
     this.$targetElement = $('#found-addresses');
-    this.hasAddresses = ($('#'+inputId+'_address_select').length > 0);
+    this.hasAddresses = ($('#'+inputId+'_uprn_select').length > 0);
     this.$waitMessage = $('<p id="wait-for-request">Finding address</p>');
     this.fragment =
       '<label for="'+inputId+'_postcode" class="hidden">' +
          'Postcode' + 
       '</label>' +
       '<input type="hidden" id="input-address-postcode" name="'+inputName+'.postcode" value="{{postcode}}" class="text hidden">' +
-      '<label for="'+inputId+'_address_select">{{selectLabel}}</label>' +
+      '<label for="'+inputId+'_uprn_select">{{selectLabel}}</label>' +
       '<div class="validation-wrapper">' +
-        '<select id="'+inputId+'_address_select" name="'+inputName+'.address" class="lonely validate" ' +
+        '<select id="'+inputId+'_uprn_select" name="'+inputName+'.uprn" class="lonely validate" ' +
         'data-validation-name="addressSelect" data-validation-type="field" data-validation-rules="nonEmpty"' +
         '>' +
         '<option value="">{{defaultOption}}</option>' +
         '{{#options}}' +
-          '<option>{{addressLine}}' +
+          '<option value="{{uprn}}">{{addressLine}}</option>' +
         '{{/options}}' +
         '</select>' +
       '</div>' +
@@ -538,8 +538,8 @@
 
       if (data.$toggle.text() === "I can't find my address in the list") {
         data.$toggle.remove();
-        $select = $('#'+inputId+'_address_select');
-        $select.siblings('label[for="'+inputId+'_address_select"]').remove();
+        $select = $('#'+inputId+'_uprn_select');
+        $select.siblings('label[for="'+inputId+'_uprn_select"]').remove();
         $select.remove();
         $('#'+inputId).focus();
       }

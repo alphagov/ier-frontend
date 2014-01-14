@@ -3,14 +3,17 @@ package uk.gov.gds.ier.validation.constraints
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import play.api.data.validation.{Invalid, Valid, Constraint}
-import uk.gov.gds.ier.model.{InprogressApplication, DateOfBirth, DOB, noDOB}
+import uk.gov.gds.ier.model._
 import org.joda.time.DateMidnight
+import uk.gov.gds.ier.model.DateOfBirth
+import uk.gov.gds.ier.model.DOB
+import scala.Some
 
 trait DateOfBirthConstraints extends CommonConstraints{
   self: ErrorMessages
     with FormKeys =>
 
-  lazy val dateOfBirthRequired = Constraint[InprogressApplication](keys.dob.key) {
+  lazy val dateOfBirthRequired = Constraint[InprogressOrdinary](keys.dob.key) {
     application => application.dob match {
       case Some(dob) => Valid
       case None => Invalid(

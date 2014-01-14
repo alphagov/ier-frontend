@@ -4,7 +4,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.mvc._
 import controllers.routes
 import org.joda.time.DateTime
-import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication}
 import uk.gov.gds.ier.logging.Logging
 import play.api.mvc.DiscardingCookie
 import play.api.mvc.Cookie
@@ -12,77 +12,31 @@ import scala.Some
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 
-trait SessionHandling {
+abstract class SessionHandling[T <: InprogressApplication[T]]
+  extends ResultStoring
+    with ResultCleaning
+    with RequestHandling
+    with SessionCleaner {
   self: WithSerialiser
     with Controller
     with Logging
     with WithConfig
     with WithEncryption =>
 
-  object ClearSession {
-    final def eradicateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
-      implicit request =>
-        logger.debug("Clear session - discarding sessionToken and application")
-        block(request).emptySession()
-    }
-
-    final def withParser[A](bodyParser: BodyParser[A]) = new {
-      def requiredFor(action: Request[A] => Result) = eradicateSession(bodyParser, action)
-    }
-
-    final def requiredFor(action: Request[AnyContent] => Result) = withParser(BodyParsers.parse.anyContent) requiredFor action
-  }
-
-  object NewSession {
-    final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
-      request =>
-        logger.debug("New session - refreshing sessionToken and discarding application")
-        block(request).withFreshSession()
-    }
-
-    final def withParser[A](bodyParser: BodyParser[A]) = new {
-      def requiredFor(action: Request[A] => Result) = validateSession(bodyParser, action)
-    }
-
-    final def requiredFor(action: Request[AnyContent] => Result) = withParser(BodyParsers.parse.anyContent) requiredFor action
-
-  }
+  def factoryOfT():T
 
   object ValidSession {
 
-    final def validateSessionAndStore[A](bodyParser: BodyParser[A], block:Request[A] => InprogressApplication => (Result, InprogressApplication)):Action[A] = Action(bodyParser) {
+    final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => T => Result)(implicit manifest:Manifest[T]):Action[A] = Action(bodyParser) {
       request =>
         logger.debug(s"REQUEST ${request.method} ${request.path} - Valid Session needed")
         request.getToken match {
           case Some(token) => {
             isValidToken(token) match {
               case true => {
-                logger.debug(s"Validate session and store - token is valid")
-                val (result, application) = block(request)(request.getApplication)
-                result.refreshSessionAndStore(application)
-              }
-              case false => {
-                logger.debug(s"Validate session and store - token is not valid")
-                Redirect(routes.RegisterToVoteController.index()).withFreshSession()
-              }
-            }
-          }
-          case None => {
-            logger.debug(s"Validate session and store - Request has no token, refreshing and redirecting to govuk start page")
-            Redirect(routes.RegisterToVoteController.index()).withFreshSession()
-          }
-        }
-    }
-
-    final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => InprogressApplication => Result):Action[A] = Action(bodyParser) {
-      request =>
-        logger.debug(s"REQUEST ${request.method} ${request.path} - Valid Session needed")
-        request.getToken match {
-          case Some(token) => {
-            isValidToken(token) match {
-              case true => {
+                val application = request.getApplication.getOrElse(factoryOfT())
                 logger.debug(s"Validate session - token is valid")
-                val result = block(request)(request.getApplication)
+                val result = block(request)(application)
                 result.refreshSession()
               }
               case false => {
@@ -98,14 +52,11 @@ trait SessionHandling {
         }
     }
 
-    final def withParser[A](bodyParser: BodyParser[A]) = new {
-      def storeAfter(action: Request[A] => InprogressApplication => (Result, InprogressApplication)) = validateSessionAndStore(bodyParser, action)
-      def requiredFor(action: Request[A] => InprogressApplication => Result) = validateSession(bodyParser, action)
+    final def withParser[A](bodyParser: BodyParser[A])(implicit manifest:Manifest[T]) = new {
+      def requiredFor(action: Request[A] => T => Result) = validateSession(bodyParser, action)
     }
 
-    final def storeAfter(action: Request[AnyContent] => InprogressApplication => (Result, InprogressApplication)) = withParser(BodyParsers.parse.anyContent) storeAfter action
-
-    final def requiredFor(action: Request[AnyContent] => InprogressApplication => Result) = withParser(BodyParsers.parse.anyContent) requiredFor action
+    final def requiredFor(action: Request[AnyContent] => T => Result)(implicit manifest:Manifest[T])  = withParser(BodyParsers.parse.anyContent) requiredFor action
 
     protected def isValidToken(token:String) = {
       try {
@@ -115,81 +66,5 @@ trait SessionHandling {
         case e:IllegalArgumentException => false
       }
     }
-  }
-
-  private implicit class InProgressRequest(request:play.api.mvc.Request[_]) extends SessionKeys {
-    def getToken = {
-      val cookie = request.cookies.get(sessionTokenKey)
-      if (cookie.isDefined) {
-        val sessionTokenKeyCookie = request.cookies.get(sessionTokenCookieKeyParam)
-        if (sessionTokenKeyCookie.isDefined) {
-          val decryptedInfo = encryptionService.decrypt(cookie.get.value, sessionTokenKeyCookie.get.value ,encryptionKeys.cookies.getPrivate)
-          Some(decryptedInfo)
-        }
-        else None
-      }
-      else None
-
-    }
-    def getApplication = {
-      request.cookies.get(sessionPayloadKey) match {
-        case Some(cookie) => {
-          val payloadKeyCookie = request.cookies.get(payloadCookieKeyParam)
-          if (payloadKeyCookie.isDefined) {
-            val decryptedInfo = encryptionService.decrypt(cookie.value, payloadKeyCookie.get.value ,encryptionKeys.cookies.getPrivate)
-            serialiser.fromJson[InprogressApplication](decryptedInfo)
-          }
-          else InprogressApplication()
-        }
-        case _ => InprogressApplication()
-      }
-    }
-  }
-
-  implicit class InProgressResult(result:Result) extends SessionKeys {
-    def emptySession()(implicit request: play.api.mvc.Request[_]) = {
-      val requestCookies = DiscardingCookie(sessionPayloadKey) ::
-        DiscardingCookie(sessionTokenKey) :: Nil
-
-      result.discardingCookies(requestCookies: _*)
-    }
-
-    def withFreshSession() = {
-      val (encryptedSessionTokenValue, sessionTokenCookieKey) = encryptionService.encrypt(DateTime.now.toString(), encryptionKeys.cookies.getPublic)
-      result.withCookies(
-        createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')),
-        createSecureCookie(sessionTokenCookieKeyParam, sessionTokenCookieKey.filter(_ >= ' ')))
-        .discardingCookies(DiscardingCookie(sessionPayloadKey))
-    }
-
-    def refreshSessionAndStore(application:InprogressApplication) = {
-      val (encryptedSessionPayloadValue, payloadCookieKey) = encryptionService.encrypt(serialiser.toJson(application), encryptionKeys.cookies.getPublic)
-      val (encryptedSessionTokenValue, sessionTokenCookieKey) = encryptionService.encrypt(DateTime.now.toString(), encryptionKeys.cookies.getPublic)
-      result.withCookies(
-        createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')),
-        createSecureCookie(sessionPayloadKey, encryptedSessionPayloadValue.filter(_ >= ' ')),
-        createSecureCookie(payloadCookieKeyParam, payloadCookieKey.filter(_ >= ' ')),
-        createSecureCookie(sessionTokenCookieKeyParam, sessionTokenCookieKey.filter(_ >= ' ')))
-    }
-
-    def refreshSession() = {
-      val (encryptedSessionTokenValue, sessionTokenCookieKey) = encryptionService.encrypt(DateTime.now.toString(), encryptionKeys.cookies.getPublic)
-      result.withCookies(
-        createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')),
-        createSecureCookie(sessionTokenCookieKeyParam, sessionTokenCookieKey.filter(_ >= ' ')))
-    }
-
-    def createSecureCookie ( name : String, value : String) : Cookie = {
-      Cookie (name, value, None, "/", None, config.cookiesSecured, true)
-    }
-
-  }
-
-  trait SessionKeys {
-    val sessionPayloadKey = "application"
-    val sessionTokenKey = "sessionKey"
-
-    val sessionTokenCookieKeyParam = "sessionTokenCookieKey"
-    val payloadCookieKeyParam = "payloadCookieKey"
   }
 }

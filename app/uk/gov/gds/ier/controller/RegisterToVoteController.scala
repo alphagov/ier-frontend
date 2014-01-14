@@ -7,7 +7,7 @@ import controllers._
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import scala.Some
 import org.slf4j.LoggerFactory
-import uk.gov.gds.ier.session.SessionHandling
+import uk.gov.gds.ier.session.{SessionCleaner, SessionHandling}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
@@ -21,7 +21,7 @@ class RegisterToVoteController @Inject() (val serialiser: JsonSerialiser,
     with WithSerialiser
     with WithConfig
     with Logging
-    with SessionHandling
+    with SessionCleaner
     with WithEncryption {
 
   def index = Action {
