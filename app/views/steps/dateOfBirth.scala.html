@@ -9,22 +9,25 @@
   @form(postUrl, 'class -> "validate", Symbol("data-validation-name") -> "dateOfBirth", Symbol("data-validation-type") -> "association", Symbol("data-validation-rules") -> "fieldsetOrExcuse", Symbol("data-validation-members") -> "dateOfBirthDate dateOfBirthExcuse") {
     @layouts.questionHeader("What is your date of birth?", "/register-to-vote/nationality", 3)
 
-    <fieldset class="validate inlineFields" data-validation-name="dateOfBirthDate" data-validation-type="fieldset" data-validation-rules="allNonEmpty" data-validation-children="day month year">
-      @label(keys.dob.dob.day,
-          label = "Day",
-          attributes = 'class -> "visuallyhidden")
-      @text(keys.dob.dob.day,
-          'class -> "day validate", 'type -> "number", 'placeholder -> "DD", Symbol("data-validation-name") -> "day", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
+    <fieldset class="validate" data-validation-name="dateOfBirthDate" data-validation-type="fieldset" data-validation-rules="allNonEmpty" data-validation-children="day month year">
+      <span class="column-field day">
+        @label(keys.dob.dob.day,
+            label = "Day")
+        @text(keys.dob.dob.day,
+            'class -> "day validate", 'type -> "number", Symbol("data-validation-name") -> "day", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
+      </span>
+      <span class="column-field month">
       @label(keys.dob.dob.month,
-          label = "Month",
-          attributes = 'class -> "visuallyhidden")
+          label = "Month")
       @text(keys.dob.dob.month,
-          'class -> "month validate", 'type -> "number", 'placeholder -> "MM", Symbol("data-validation-name") -> "month", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
+          'class -> "month validate", 'type -> "number", Symbol("data-validation-name") -> "month", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
+      </span>
+      <span class="column-field year">
       @label(keys.dob.dob.year,
-          label = "Year",
-          attributes = 'class -> "visuallyhidden")
+          label = "Year")
       @text(keys.dob.dob.year,
-        'class -> "year text validate", 'type -> "number", 'placeholder -> "YYYY", Symbol("data-validation-name") -> "year", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
+        'class -> "year text validate", 'type -> "number", Symbol("data-validation-name") -> "year", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
+      </span>
       <p class="example">For example: <span class="date">31 12 1970</span></p>
     </fieldset>
     <div class="help-content">
