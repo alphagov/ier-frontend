@@ -91,7 +91,7 @@ trait FormKeys {
   implicit class key2namespace(key:Key) extends Keys {
     override lazy val namespace = key.key
   }
-  implicit class keys2Traversal(key:Key)(implicit formData:InProgressForm) {
+  implicit class keys2Traversal(key:Key)(implicit formData:InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary]) {
     def each(from:Int = 0)(block: (String, Int) => Html):Html = {
       val field = formData(key.item(from))
       field.value match {
