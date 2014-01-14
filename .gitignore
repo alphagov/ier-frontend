@@ -16,3 +16,6 @@ bin/
 conf/version.conf
 /.target
 /.settings
+.cache
+.classpath
+.project
