@@ -10,6 +10,6 @@ trait OverseaStep
   with WithConfig
   with WithEncryption {
     def factoryOfT() = InprogressOverseas()
-    val confirmationRoute = controllers.step.ordinary.routes.ConfirmationController.get
+    val confirmationRoute = controllers.step.overseas.routes.OverseasConfirmationController.get
 }
 

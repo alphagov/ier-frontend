@@ -3,8 +3,9 @@ package uk.gov.gds.ier.transaction.overseas.previouslyRegistered
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.{InprogressOverseas, PreviouslyRegistered}
+import uk.gov.gds.ier.validation.constraints.PreviouslyRegisteredConstraints
 
-trait PreviouslyRegisteredForms {
+trait PreviouslyRegisteredForms extends PreviouslyRegisteredConstraints {
   self: FormKeys
   with ErrorMessages =>
 
@@ -19,6 +20,6 @@ trait PreviouslyRegisteredForms {
       prevRegistered => InprogressOverseas(previouslyRegistered = prevRegistered)
     ) (
       inprogress => Some(inprogress.previouslyRegistered)
-    )
+    ) verifying previouslyRegisteredFilled
   )
 }
