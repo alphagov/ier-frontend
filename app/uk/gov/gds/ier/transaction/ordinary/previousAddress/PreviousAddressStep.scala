@@ -59,7 +59,7 @@ class PreviousAddressStep @Inject ()(val serialiser: JsonSerialiser,
         success => {
           logger.debug(s"Form binding successful")
           if (success.previousAddress.get.findAddress) {
-            (Ok(stepPage(lookupAddress(success)))) storeInSession application
+            (Ok(editPage(lookupAddress(success)))) storeInSession application
           }
           else {
             val mergedApplication = success.merge(application)

@@ -37,6 +37,7 @@ trait StepController [T <: InprogressApplication[T]]
   }
 
   def stepPage:InProgressForm[T] => Html = {
+
     form => template(form, stepPostRoute)
   }
 
