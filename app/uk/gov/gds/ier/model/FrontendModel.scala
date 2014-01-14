@@ -96,6 +96,8 @@ case class DateOfBirth(dob:Option[DOB],
 
 trait InprogressApplication[T] {
   def merge(other: T):T
+  val backUrl: Option[String]
+  def withBackUrl(backUrl: String): T
 }
 
 case class InprogressOrdinary (name: Option[Name] = None,
@@ -110,7 +112,7 @@ case class InprogressOrdinary (name: Option[Name] = None,
                                   postalVoteOptin: Option[Boolean] = None,
                                   contact: Option[Contact] = None,
                                   possibleAddresses: Option[PossibleAddress] = None,
-                                  country: Option[Country] = None) extends InprogressApplication[InprogressOrdinary] {
+                                  country: Option[Country] = None, backUrl: Option[String] = None) extends InprogressApplication[InprogressOrdinary] {
                                        
   def merge(other: InprogressOrdinary):InprogressOrdinary = {
     other.copy(
@@ -129,6 +131,7 @@ case class InprogressOrdinary (name: Option[Name] = None,
       country = this.country.orElse(other.country)
     )
   }
+  def withBackUrl(backUrl: String) = this.copy(backUrl = Some(backUrl)) 
 }
 
 trait CompleteApplication {

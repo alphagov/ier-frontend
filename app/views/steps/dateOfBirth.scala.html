@@ -1,4 +1,4 @@
-@(implicit formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary], postUrl: Call)
+@(implicit formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary], postUrl: Call, backUrl: Option[String] = None)
 
 @import helper.form
 @import layouts._
@@ -7,7 +7,7 @@
 
 @main(title = Some("Register to Vote - What is your Date Of Birth?"), stylesheets = head(), scripts = stepsBodyEnd()) {
   @form(postUrl, 'class -> "validate", Symbol("data-validation-name") -> "dateOfBirth", Symbol("data-validation-type") -> "association", Symbol("data-validation-rules") -> "fieldsetOrExcuse", Symbol("data-validation-members") -> "dateOfBirthDate dateOfBirthExcuse") {
-    @layouts.questionHeader("What is your date of birth?", "/register-to-vote/nationality", 3)
+    @layouts.questionHeader("What is your date of birth?", backUrl, 3)
 
     <fieldset class="validate inlineFields" data-validation-name="dateOfBirthDate" data-validation-type="fieldset" data-validation-rules="allNonEmpty" data-validation-children="day month year">
       @label(keys.dob.dob.day,

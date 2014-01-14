@@ -22,8 +22,8 @@ class OtherAddressStep @Inject ()(val serialiser: JsonSerialiser,
   val editPostRoute = OtherAddressController.editPost
   val stepPostRoute = OtherAddressController.post
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
-    views.html.steps.otherAddress(form, call)
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[String]): Html = {
+    views.html.steps.otherAddress(form, call, backUrl)
   }
   def goToNext(currentState: InprogressOrdinary): SimpleResult = {
     Redirect(OpenRegisterController.get)

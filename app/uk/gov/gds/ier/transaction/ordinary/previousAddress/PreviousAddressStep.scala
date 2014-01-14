@@ -24,7 +24,7 @@ class PreviousAddressStep @Inject ()(val serialiser: JsonSerialiser,
   val editPostRoute = PreviousAddressController.editPost
   val stepPostRoute = PreviousAddressController.post
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[String]): Html = {
     val possibleAddresses = form(keys.possibleAddresses.jsonList).value match {
       case Some(possibleAddressJS) if !possibleAddressJS.isEmpty => {
         serialiser.fromJson[Addresses](possibleAddressJS)
@@ -34,7 +34,7 @@ class PreviousAddressStep @Inject ()(val serialiser: JsonSerialiser,
     val possiblePostcode = form(keys.possibleAddresses.postcode).value
 
     val possible = possiblePostcode.map(PossibleAddress(possibleAddresses, _))
-    views.html.steps.previousAddress(form, call, possible)
+    views.html.steps.previousAddress(form, call, possible, backUrl)
   }
   def goToNext(currentState: InprogressOrdinary): SimpleResult = {
     Redirect(OtherAddressController.get)

@@ -24,8 +24,8 @@ class ContactStep @Inject ()(val serialiser: JsonSerialiser,
   val editPostRoute = ContactController.editPost
   val stepPostRoute = ContactController.post
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
-    views.html.steps.contact(form, call)
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[String]): Html = {
+    views.html.steps.contact(form, call, backUrl)
   }
   def goToNext(currentState: InprogressOrdinary): SimpleResult = {
     Redirect(ConfirmationController.get)

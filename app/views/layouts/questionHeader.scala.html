@@ -1,7 +1,11 @@
-@(pageHeading:String, previousURL:String, question:Int = 0, of:Int = 11)
+@(pageHeading:String, previousURL:Option[String], question:Int = 0, of:Int = 11)
 
 @if(question > 1){
-<a class="back-to-previous" href="@previousURL">Back <span class="visuallyhidden"> to the previous question</span></a>
+@previousURL match {
+case Some(backUrl) => { <a class="back-to-previous" href=@backUrl>Back <span class="visuallyhidden"> to the previous question</span></a> }
+case None => {""} 
+}
+
 <header>
 }else{
 <header class="question-one">

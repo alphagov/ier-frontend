@@ -24,8 +24,8 @@ class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
   val editPostRoute = DateOfBirthController.editPost
   val stepPostRoute = DateOfBirthController.post
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
-    views.html.steps.dateOfBirth(form, call)
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[String]): Html = {
+    views.html.steps.dateOfBirth(form, call, backUrl)
   }
 
   def goToNext(currentState: InprogressOrdinary): SimpleResult = {

@@ -22,8 +22,8 @@ class OpenRegisterStep @Inject ()(val serialiser: JsonSerialiser,
   val editPostRoute = OpenRegisterController.editPost
   val stepPostRoute = OpenRegisterController.post
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
-    views.html.steps.openRegister(form, call)
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[String]): Html = {
+    views.html.steps.openRegister(form, call, backUrl)
   }
   def goToNext(currentState: InprogressOrdinary): SimpleResult = {
     Redirect(PostalVoteController.get)

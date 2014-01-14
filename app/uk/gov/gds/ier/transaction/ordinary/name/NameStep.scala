@@ -22,8 +22,8 @@ class NameStep @Inject ()(val serialiser: JsonSerialiser,
   val editPostRoute = NameController.editPost
   val stepPostRoute = NameController.post
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
-    views.html.steps.name(form, call)
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[String]): Html = {
+    views.html.steps.name(form, call, backUrl)
   }
   def goToNext(currentState: InprogressOrdinary): SimpleResult = {
     Redirect(NinoController.get)

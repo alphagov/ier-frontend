@@ -26,7 +26,7 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
   val editPostRoute = AddressController.editPost
   val stepPostRoute = AddressController.post
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[String]): Html = {
     val possibleAddresses = form(keys.possibleAddresses.jsonList).value match {
       case Some(possibleAddressJS) if !possibleAddressJS.isEmpty => {
         serialiser.fromJson[Addresses](possibleAddressJS)
@@ -36,7 +36,7 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
     val possiblePostcode = form(keys.possibleAddresses.postcode).value
 
     val possible = possiblePostcode.map(PossibleAddress(possibleAddresses, _))
-    views.html.steps.address(form, call, possible)
+    views.html.steps.address(form, call, possible, backUrl)
   }
   def goToNext(currentState: InprogressOrdinary): SimpleResult = {
     Redirect(PreviousAddressController.get)
@@ -45,16 +45,16 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
   def lookup = ValidSession requiredFor {
     implicit request => application =>
       addressLookupForm.bindFromRequest().fold(
-        hasErrors => Ok(stepPage(InProgressForm(hasErrors))),
-        success => Ok(stepPage(lookupAddress(success)))
+        hasErrors => Ok(stepPage(InProgressForm(hasErrors), None)),
+        success => Ok(stepPage(lookupAddress(success), None))
       )
   }
 
   def editLookup = ValidSession requiredFor {
     implicit request => application =>
       addressLookupForm.bindFromRequest().fold(
-        hasErrors => Ok(editPage(InProgressForm(hasErrors))),
-        success => Ok(editPage(lookupAddress(success)))
+        hasErrors => Ok(editPage(InProgressForm(hasErrors), None)),
+        success => Ok(editPage(lookupAddress(success), None))
       )
   }
 

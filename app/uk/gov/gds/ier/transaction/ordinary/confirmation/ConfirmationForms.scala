@@ -22,7 +22,9 @@ trait ConfirmationForms extends FormMappings {
       keys.postalVote.key -> optional(optInMapping).verifying("Please complete this step", _.isDefined),
       keys.contact.key -> optional(contactMapping).verifying("Please complete this step", _.isDefined),
       keys.possibleAddresses.key -> optional(possibleAddressMapping),
-      keys.country.key -> optional(countryMapping)
+      keys.country.key -> optional(countryMapping),
+      "backUrl" -> optional(text)
+      
     ) (InprogressOrdinary.apply) (InprogressOrdinary.unapply)
   )
 

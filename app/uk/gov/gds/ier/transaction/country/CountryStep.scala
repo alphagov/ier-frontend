@@ -27,8 +27,8 @@ class CountryStep @Inject ()(val serialiser: JsonSerialiser,
   val editPostRoute = CountryController.editPost
   val stepPostRoute = CountryController.post
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
-    countryMustache(form.form, call)
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[String]): Html = {
+    countryMustache(form.form, call, backUrl)
   }
   def goToNext(currentState: InprogressOrdinary): SimpleResult = {
     currentState.country match {

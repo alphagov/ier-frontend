@@ -25,8 +25,8 @@ class NationalityStep @Inject ()(val serialiser: JsonSerialiser,
   val editPostRoute = NationalityController.editPost
   val stepPostRoute = NationalityController.post
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
-    views.html.steps.nationality(form, call)
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[String]): Html = {
+    views.html.steps.nationality(form, call, backUrl)
   }
   def goToNext(currentState: InprogressOrdinary): SimpleResult = {
     val franchises = currentState.nationality match {

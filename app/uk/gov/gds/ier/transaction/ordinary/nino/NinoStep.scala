@@ -24,8 +24,8 @@ class NinoStep @Inject ()(val serialiser: JsonSerialiser,
   val editPostRoute = NinoController.editPost
   val stepPostRoute = NinoController.post
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
-    views.html.steps.nino(form, call)
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[String]): Html = {
+    views.html.steps.nino(form, call, backUrl)
   }
   def goToNext(currentState: InprogressOrdinary): SimpleResult = {
     Redirect(AddressController.get)
