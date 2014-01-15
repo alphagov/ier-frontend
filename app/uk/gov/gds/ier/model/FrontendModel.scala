@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.model
 
+import uk.gov.gds.common.model.LocalAuthority
 import org.joda.time.{DateTime, LocalDate}
 import com.fasterxml.jackson.annotation.JsonFormat
 import play.api.data.validation.{Invalid, Valid}
@@ -42,20 +43,23 @@ case class Name(firstName:String,
   }
 }
 
-case class Nationality (british:Option[Boolean] = None,
-                        irish:Option[Boolean] = None,
-                        hasOtherCountry:Option[Boolean] = None,
-                        otherCountries:List[String] = List.empty,
-                        noNationalityReason:Option[String] = None,
-                        countryIsos:Option[List[String]] = None) {
-  def checkedNationalities = british.toList.filter(_ == true).map(brit => "United Kingdom") ++
-    irish.toList.filter(_ == true).map(isIrish => "Ireland")
-
+case class IsoNationality(countryIsos:List[String] = List.empty,
+                          noNationalityReason:Option[String] = None) { 
   def toApiMap = {
-    val natMap = countryIsos.map(isos => Map("nat" -> isos.mkString(", "))).getOrElse(Map.empty)
+    val natMap = if (countryIsos.isEmpty) Map.empty else Map("nat" -> countryIsos.mkString(", "))
     val noNatMap = noNationalityReason.map(nat => Map("nonat" -> nat)).getOrElse(Map.empty)
     natMap ++ noNatMap
   }
+}
+
+
+case class PartialNationality (british:Option[Boolean] = None,
+                               irish:Option[Boolean] = None,
+                               hasOtherCountry:Option[Boolean] = None,
+                               otherCountries:List[String] = List.empty,
+                               noNationalityReason:Option[String] = None) {
+  def checkedNationalities = british.toList.filter(_ == true).map(brit => "United Kingdom") ++
+    irish.toList.filter(_ == true).map(isIrish => "Ireland")
 }
 
 case class Nino(nino:Option[String],
@@ -90,19 +94,62 @@ case class DateOfBirth(dob:Option[DOB],
   }
 }
 
-case class InprogressApplication (name: Option[Name] = None,
+trait InprogressApplication[T] {
+  def merge(other: T):T
+}
+
+case class InprogressOrdinary (name: Option[Name] = None,
                                   previousName: Option[PreviousName] = None,
                                   dob: Option[DateOfBirth] = None,
-                                  nationality: Option[Nationality] = None,
+                                  nationality: Option[PartialNationality] = None,
                                   nino: Option[Nino] = None,
-                                  address: Option[Address] = None,
-                                  previousAddress: Option[PreviousAddress] = None,
+                                  address: Option[PartialAddress] = None,
+                                  previousAddress: Option[PartialPreviousAddress] = None,
                                   otherAddress: Option[OtherAddress] = None,
                                   openRegisterOptin: Option[Boolean] = None,
                                   postalVoteOptin: Option[Boolean] = None,
                                   contact: Option[Contact] = None,
                                   possibleAddresses: Option[PossibleAddress] = None,
-                                  country: Option[Country] = None) {
+                                  country: Option[Country] = None) extends InprogressApplication[InprogressOrdinary] {
+                                       
+  def merge(other: InprogressOrdinary):InprogressOrdinary = {
+    other.copy(
+      name = this.name.orElse(other.name),
+      previousName = this.previousName.orElse(other.previousName),
+      dob = this.dob.orElse(other.dob),
+      nationality = this.nationality.orElse(other.nationality),
+      nino = this.nino.orElse(other.nino),
+      address = this.address.orElse(other.address),
+      previousAddress = this.previousAddress.orElse(other.previousAddress),
+      otherAddress = this.otherAddress.orElse(other.otherAddress),
+      openRegisterOptin = this.openRegisterOptin.orElse(other.openRegisterOptin),
+      postalVoteOptin = this.postalVoteOptin.orElse(other.postalVoteOptin),
+      contact = this.contact.orElse(other.contact),
+      possibleAddresses = None,
+      country = this.country.orElse(other.country)
+    )
+  }
+}
+
+trait CompleteApplication {
+  def toApiMap:Map[String, String]
+}
+
+case class OrdinaryApplication(name: Option[Name],
+                               previousName: Option[PreviousName],
+                               dob: Option[DateOfBirth],
+                               nationality: Option[IsoNationality],
+                               nino: Option[Nino],
+                               address: Option[Address],
+                               previousAddress: Option[Address],
+                               otherAddress: Option[OtherAddress],
+                               openRegisterOptin: Option[Boolean],
+                               postalVoteOptin: Option[Boolean],
+                               contact: Option[Contact],
+                               referenceNumber: Option[String],
+                               authority: Option[LocalAuthority],
+                               previousAuthority: Option[LocalAuthority],
+                               ip: Option[String]) extends CompleteApplication {
   def toApiMap:Map[String, String] = {
     Map.empty ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
@@ -110,34 +157,54 @@ case class InprogressApplication (name: Option[Name] = None,
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
       nationality.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
-      address.map(_.toApiMap("cadr", "cpost")).getOrElse(Map.empty) ++
-      previousAddress.map(_.toApiMap).getOrElse(Map.empty) ++
+      address.map(_.toApiMap("c")).getOrElse(Map.empty) ++
+      previousAddress.map(_.toApiMap("p")).getOrElse(Map.empty) ++
       otherAddress.map(_.toApiMap).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
       postalVoteOptin.map(postal => Map("pvote" -> postal.toString)).getOrElse(Map.empty) ++
-      contact.map(_.toApiMap).getOrElse(Map.empty)
+      contact.map(_.toApiMap).getOrElse(Map.empty) ++
+      referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
+      authority.map(auth => Map("gssCode" -> auth.gssId)).getOrElse(Map.empty)  ++
+      previousAuthority.map(auth => Map("pgssCode" -> auth.gssId)).getOrElse(Map.empty) ++
+      ip.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty) ++
+      Map("applicationType" -> "ordinary")
   }
 }
 
 case class PossibleAddress(jsonList:Addresses, postcode: String)
 
-case class Addresses(addresses:List[Address])
+case class Addresses(addresses:List[PartialAddress])
 
-case class Address(addressLine:Option[String], postcode:String, manualAddress:Option[String]) {
-  def toApiMap(addressKey:String, postcodeKey:String) = {
-    addressLine match {
-      case Some(_) => addressLine.map(address => Map(addressKey -> address)).getOrElse(Map.empty) ++ Map(postcodeKey -> postcode)
-      case None => manualAddress.map(address => Map(addressKey -> address)).getOrElse(Map.empty) ++ Map(postcodeKey -> postcode)
-    }
+case class PartialAddress(addressLine:Option[String], 
+                          uprn:Option[String], 
+                          postcode:String, 
+                          manualAddress:Option[String])
+
+case class Address(lineOne:Option[String], 
+                   lineTwo:Option[String],
+                   lineThree:Option[String],
+                   city:Option[String],
+                   county:Option[String],
+                   uprn:Option[String],
+                   postcode:String) {
+  def prettyAddressLine = {
+    val addressLine = lineOne ++: lineTwo ++: lineThree ++: List(postcode)
+    addressLine.mkString(", ")
+  }
+
+  def toApiMap(addressKey:String) = {
+    lineOne.map(x => Map(addressKey + "property" -> x)).getOrElse(Map.empty) ++
+      lineTwo.map(x => Map(addressKey + "street" -> x)).getOrElse(Map.empty) ++
+      lineThree.map(x => Map(addressKey + "locality" -> x)).getOrElse(Map.empty) ++
+      city.map(x => Map(addressKey + "town" -> x)).getOrElse(Map.empty) ++
+      county.map(x => Map(addressKey + "area" -> x)).getOrElse(Map.empty) ++
+      uprn.map(x => Map(addressKey + "uprn" -> x)).getOrElse(Map.empty) ++
+      Map(addressKey + "postcode" -> postcode)
   }
 }
 
-case class PreviousAddress (movedRecently:Boolean,
-                            previousAddress:Option[Address]) {
-  def toApiMap = {
-    previousAddress.map(_.toApiMap("padr", "ppost")).getOrElse(Map.empty)
-  }
-}
+case class PartialPreviousAddress (movedRecently:Boolean,
+                                   previousAddress:Option[PartialAddress])
 
 case class OtherAddress (hasOtherAddress:Boolean) {
   def toApiMap = {
@@ -147,4 +214,4 @@ case class OtherAddress (hasOtherAddress:Boolean) {
 
 case class PostcodeAnywhereResponse(Items:List[Map[String,String]])
 
-case class ApiApplication(application:Map[String,String])
+case class ApiApplication(application:Map[String,String]) 

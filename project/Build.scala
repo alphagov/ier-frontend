@@ -6,6 +6,8 @@ import net.litola.SassPlugin
 import net.litola.SassPlugin._
 import net.litola.SassCompiler
 import de.johoop.jacoco4sbt.JacocoPlugin._
+import org.jba.sbt.plugin.MustachePlugin
+import org.jba.sbt.plugin.MustachePlugin._
 
 object ApplicationBuild extends IERBuild {
 
@@ -20,19 +22,16 @@ object ApplicationBuild extends IERBuild {
     anorm,
     new ModuleID("org.codehaus.janino", "janino", "2.6.1"),
     "org.scalatest" % "scalatest_2.10" % "2.0.RC3" % "test",
-    "org.mockito" % "mockito-core" % "1.9.5"
+    "org.mockito" % "mockito-core" % "1.9.5",
+    "org.jba" %% "play2-mustache" % "1.1.3" // play2.2.0
   )
 
   lazy val main = play.Project(appName, appVersion, appDependencies)
     .settings(GovukTemplatePlay.playSettings:_*)
     .settings(GovukToolkit.playSettings:_*)
-    .settings(SassPlugin.sassSettings:_*)
-    .settings(sassOptions := Seq("--load-path", "/Users/michael/Projects/gds/ier/frontend/app/assets/govuk_template_play/stylesheets", "--debug-info"))
-    .settings(jacoco.settings:_*)
-    .settings(
-        parallelExecution in jacoco.Config := false, 
-        watchSources ~= { _.filterNot(_.isDirectory) }
-    )
+    .settings(Sass.sassSettings:_*)
+    .settings(Jacoco.jacocoSettings:_*)
+    .settings(Mustache.mustacheSettings:_*)
 }
 
 abstract class IERBuild extends Build {
@@ -42,6 +41,29 @@ abstract class IERBuild extends Build {
       "GDS maven repo snapshots" at "http://alphagov.github.com/maven/snapshots",
       "GDS maven repo releases" at "http://alphagov.github.com/maven/releases"
     )
+  )
+}
+
+object Sass {
+  val sassSettings = SassPlugin.sassSettings ++ Seq(
+    sassOptions := Seq("--load-path", "/Users/michael/Projects/gds/ier/frontend/app/assets/govuk_template_play/stylesheets", "--debug-info")
+  )
+}
+
+object Mustache {
+  val mustacheSettings = Seq(
+    resolvers += Resolver.url("julienba.github.com", url("http://julienba.github.com/repo/"))(Resolver.ivyStylePatterns),
+    // Mustache settings
+    mustacheEntryPoints <<= (sourceDirectory in Compile)(base => base / "assets" / "mustache" ** "*.html"),
+    mustacheOptions := Seq.empty[String],
+    resourceGenerators in Compile <+= MustacheFileCompiler
+  )
+}
+
+object Jacoco {
+  val jacocoSettings = jacoco.settings ++ Seq(
+    parallelExecution in jacoco.Config := false, 
+    watchSources ~= { _.filterNot(_.isDirectory) }
   )
 }
 
