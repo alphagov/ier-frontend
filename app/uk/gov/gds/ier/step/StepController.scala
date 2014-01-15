@@ -25,6 +25,7 @@ trait StepController [T <: InprogressApplication[T]]
   val confirmationRoute: Call
   def template(form: InProgressForm[T], call: Call, backUrl: Option[String]):Html
   def goToNext(currentState: T):SimpleResult
+  def backToPrevious(currentState: T): SimpleResult
 
 
   //Can override this method if you like
@@ -84,5 +85,11 @@ trait StepController [T <: InprogressApplication[T]]
           goToConfirmation(mergedApplication) storeInSession mergedApplication.withBackUrl(request.uri)
         }
       )
+  }
+  def back(implicit manifest: Manifest[T]) = ValidSession requiredFor {
+    request => application =>
+      logger.debug(s"GET request for ${request.path}")
+      backToPrevious(application) 
+//      Ok(stepPage(InProgressForm(validation.fill(application)), application.backUrl))
   }
 }

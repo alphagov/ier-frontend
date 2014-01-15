@@ -30,5 +30,9 @@ class ContactStep @Inject ()(val serialiser: JsonSerialiser,
   def goToNext(currentState: InprogressOrdinary): SimpleResult = {
     Redirect(ConfirmationController.get)
   }
+  
+  def backToPrevious(currentState: InprogressOrdinary): SimpleResult = {
+    Redirect(ConfirmationController.get)  
+  }
 }
 

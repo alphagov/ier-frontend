@@ -9,4 +9,5 @@ object NameController extends DelegatingController[NameStep] {
   def post = delegate.post
   def editGet = delegate.editGet
   def editPost = delegate.editPost
+//  def backToPrevious = delegate.backToPrevious
 }

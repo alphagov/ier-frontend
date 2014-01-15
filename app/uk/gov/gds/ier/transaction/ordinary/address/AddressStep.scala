@@ -25,6 +25,7 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
   val validation = addressForm
   val editPostRoute = AddressController.editPost
   val stepPostRoute = AddressController.post
+  val previousRoute = NinoController.get
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[String]): Html = {
     val possibleAddresses = form(keys.possibleAddresses.jsonList).value match {
@@ -69,5 +70,9 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
       )
     )
     inProgressForm
+  }
+  
+  def backToPrevious(currentState: InprogressOrdinary): SimpleResult = {
+    Redirect(previousRoute)  
   }
 }

@@ -23,6 +23,7 @@ class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
   val validation = dateOfBirthForm
   val editPostRoute = DateOfBirthController.editPost
   val stepPostRoute = DateOfBirthController.post
+  val previousRoute = NationalityController.get
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[String]): Html = {
     views.html.steps.dateOfBirth(form, call, backUrl)
@@ -41,6 +42,9 @@ class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
       }
       case _ => Redirect(NameController.get)
     }
+  }
+  def backToPrevious(currentState: InprogressOrdinary): SimpleResult = {
+    Redirect(previousRoute)  
   }
 }
 

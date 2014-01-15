@@ -37,5 +37,8 @@ class CountryStep @Inject ()(val serialiser: JsonSerialiser,
       case _ => Redirect(NationalityController.get)
     }
   }
+  def backToPrevious(currentState: InprogressOrdinary): SimpleResult = {
+    Ok  
+  }
 }
 

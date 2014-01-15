@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.nationality
 
 import controllers.step.ordinary.routes._
+import controllers.step.routes._
 import controllers.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
@@ -12,6 +13,8 @@ import uk.gov.gds.ier.service.IsoCountryService
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.step.OrdinaryStep
+import uk.gov.gds.ier.model.InprogressOrdinary
+
 
 class NationalityStep @Inject ()(val serialiser: JsonSerialiser,
                                        val isoCountryService: IsoCountryService,
@@ -24,6 +27,8 @@ class NationalityStep @Inject ()(val serialiser: JsonSerialiser,
   val validation = nationalityForm
   val editPostRoute = NationalityController.editPost
   val stepPostRoute = NationalityController.post
+  val prevousRoute = CountryController.get 
+      //CountryController.get
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[String]): Html = {
     views.html.steps.nationality(form, call, backUrl)
@@ -39,5 +44,9 @@ class NationalityStep @Inject ()(val serialiser: JsonSerialiser,
       case list => Redirect(DateOfBirthController.get)
     }
   }
+  def backToPrevious(currentState: InprogressOrdinary): SimpleResult = {
+    Redirect(prevousRoute)  
+  }
+  
 }
 
