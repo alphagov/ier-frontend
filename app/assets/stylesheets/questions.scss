@@ -132,6 +132,10 @@ input.medium {
   width: 8.5em;
 }
 
+input.nino {
+  text-transform: uppercase;
+}
+
 input.day,
 input.month {
   width: 2.75em;
@@ -141,8 +145,17 @@ input.year {
   width: 4.25em;
 }
 
-input.nino {
-  text-transform: uppercase;
+.column-field {
+  @include inline-block;
+  margin-bottom: 1em;
+
+  label {
+    margin-bottom: 0;
+  }
+
+  input.text {
+    margin-right: 1em;
+  }
 }
 
 .validation-wrapper {
