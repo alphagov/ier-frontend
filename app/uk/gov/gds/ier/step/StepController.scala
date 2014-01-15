@@ -79,7 +79,7 @@ trait StepController [T <: InprogressApplication[T]]
         },
         success => {
           logger.debug(s"Form binding successful")
-          val mergedApplication = postMethodPostMerge(success.merge(postMethodPreMerge(application)))
+          val mergedApplication = success.merge(application)
           goToNext(mergedApplication) storeInSession mergedApplication
         }
       )

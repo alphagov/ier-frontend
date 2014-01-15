@@ -35,26 +35,5 @@ class PostalVoteStep @Inject ()(val serialiser: JsonSerialiser,
     ContactController.contactStep
   }
 
-  override def postMethodPostMerge (application:InprogressOrdinary):InprogressOrdinary = {
-    if (application.postalVoteDeliveryMethod.isDefined && application.postalVoteDeliveryMethod.get.emailAddress.isDefined) {
-      if (application.contact.isDefined) {
-
-        val contact = application.contact.get
-        val updatedContact = contact.copy(
-          email = Some( application.postalVoteDeliveryMethod.get.emailAddress.get)
-        )
-        application.copy(
-          contact = Some(updatedContact)
-        )
-      }
-      else {
-        application.copy (
-           contact = Some(Contact(false,None,application.postalVoteDeliveryMethod.get.emailAddress))
-        )
-      }
-    }
-    else application
-  }
-
 }
 
