@@ -5,9 +5,6 @@
 # Home page
 GET         /                                                  controllers.RegisterToVoteController.index
 GET         /register-to-vote                                  controllers.RegisterToVoteController.registerToVote
-GET         /register-to-vote/error                            controllers.RegisterToVoteController.error
-GET         /register-to-vote/error/:error                     controllers.RegisterToVoteController.errorRedirect(error: String)
-
 
 #Complete Route
 GET         /register-to-vote/complete                         controllers.CompleteController.complete
@@ -22,6 +19,8 @@ GET         /register-to-vote/exit/dont-know                   controllers.ExitC
 GET         /register-to-vote/exit/too-young                   controllers.ExitController.tooYoung
 GET         /register-to-vote/exit/no-franchise                controllers.ExitController.noFranchise
 
+#Error Routes
+GET         /register-to-vote/error/timeout                    controllers.ErrorController.timeout
 
 
 ##Initial Branching routes
