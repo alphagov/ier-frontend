@@ -32,11 +32,11 @@
   ToggleObj.prototype.setAccessibilityAPI = function (state) {
     if (state === 'hidden') {
       this.$content.attr('aria-hidden', true);
-      this.$toggle.attr('aria-expanded', true);
+      this.$content.attr('aria-expanded', false);
       this.$toggle.find('span.visuallyhidden').eq(0).text(this.toggleActions.hidden);
     } else {
       this.$content.attr('aria-hidden', false);
-      this.$toggle.attr('aria-expanded', false);
+      this.$content.attr('aria-expanded', true);
       this.$toggle.find('span.visuallyhidden').eq(0).text(this.toggleActions.visible);
     }
   };
@@ -137,22 +137,29 @@
     if (selectedRadio !== undefined) {
       if (this.$toggle.attr('id') !== selectedRadio.id) {
         this.$content.hide();
-        this.$toggle.attr('aria-expanded', false);
+        this.$content.attr({
+          'aria-hidden' : true,
+          'aria-expanded' : false
+        });
         $('#continue').show();
       }
     } else {
       if (this.$toggle.is(":checked")) {
         this.$content.show();
-        this.$content.attr('aria-hidden', false);
-        this.$toggle.attr('aria-expanded', true);
+        this.$content.attr({
+          'aria-hidden' : false,
+          'aria-expanded' : true
+        });
         $(document).trigger('toggle.open', { '$toggle' : this.$toggle });
         if (isPostcodeLookup && !hasAddresses) {
           $('#continue').hide();
         }
       } else {
         this.$content.hide();
-        this.$content.attr('aria-hidden', true);
-        this.$toggle.attr('aria-expanded', true);
+        this.$content.attr({
+          'aria-hidden' : true,
+          'aria-expanded' : true
+        });
         $(document).trigger('toggle.closed', { '$toggle' : this.$toggle });
         $('#continue').show();
       }
