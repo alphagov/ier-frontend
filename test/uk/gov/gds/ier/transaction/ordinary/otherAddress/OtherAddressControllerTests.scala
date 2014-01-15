@@ -8,7 +8,8 @@ import play.api.test.{FakeRequest, FakeApplication}
 import org.specs2.matcher.Matchers
 import uk.gov.gds.ier.test.TestHelpers
 
-@RunWith(classOf[JUnitRunner])
+// Temporarily block runner due to SBT issue: https://github.com/sbt/junit-interface/issues/30
+// @RunWith(classOf[JUnitRunner])
 class OtherAddressControllerTests
   extends Specification
   with Matchers
