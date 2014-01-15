@@ -28,6 +28,7 @@ trait StepController [T <: InprogressApplication[T]]
   val routes: Routes
 
   val validation: ErrorTransformForm[T]
+  val confirmationRoute: Call
 
   def template(form: InProgressForm[T], call: Call):Html
   //Returns true if this step is currently complete
@@ -78,7 +79,7 @@ trait StepController [T <: InprogressApplication[T]]
         },
         success => {
           logger.debug(s"Form binding successful")
-          val mergedApplication = success.merge(application)
+          val mergedApplication = postMethodPostMerge(success.merge(postMethodPreMerge(application)))
           goToNext(mergedApplication) storeInSession mergedApplication
         }
       )

@@ -21,30 +21,33 @@
         Yes, send me a postal vote application form
       }
     </fieldset>
-    <fieldset class="optional-section optional-section-core-content sub-section" data-condition="postalVote_optIn_true" data-validation-name="deliveryMethod" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty">
+    <fieldset class="optional-section optional-section-core-content sub-section validate" data-condition="postalVote_optIn_true" data-validation-name="deliveryMethod" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="deliveryMethodEmail deliveryMethodPost">
       <p>How should we send you the form?</p>
-      <label for="deliveryMethod_email" class="selectable">
-        <input type="radio" id="deliveryMethod_email" name="deliveryMethod" value="email" class="radio  validate" data-validation-name="deliveryMethodEmail" data-validation-type="field" data-validation-rules="nonEmpty">
+      @wrapLabel(keys.deliveryMethod.methodName, 'value -> "email", 'class -> "selectable") {
+        @radio(keys.deliveryMethod.methodName, "email",
+            'class -> "validate", Symbol("data-validation-name") -> "deliveryMethodEmail",  Symbol("data-validation-type") -> "field",  Symbol("data-validation-rules") -> "nonEmpty")
         Email it to me
-      </label>
-      <div class="optional-section" data-condition="deliveryMethod_email">
-        <label for="">Email address</label>
+      }
+      <div class="optional-section" data-condition="deliveryMethod_methodName_email">
+        <label>Email address</label>
         <div class="validation-wrapper">
-          <input name="emailAddress" type="email" class="text long validate" data-validation-name="emailAddress" data-validation-type="field" data-validation-rules="nonEmpty" />
+          @text(keys.deliveryMethod.emailAddress,
+            'type -> "email", 'class -> "text long validate", Symbol("data-validation-name") -> "emailAddress", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
         </div>
       </div>
-      <label for="deliveryMethod_post" class="selectable">
-        <input type="radio" id="deliveryMethod_post" name="deliveryMethod" value="post" class="radio binary validate" data-validation-name="deliveryMethodPost" data-validation-type="field" data-validation-rules="nonEmpty">
+      @wrapLabel(keys.deliveryMethod.methodName, 'value -> "post", 'class -> "selectable") {
+        @radio(keys.deliveryMethod.methodName, "post",
+            'class -> "validate", Symbol("data-validation-name") -> "deliveryMethodPost",  Symbol("data-validation-type") -> "field",  Symbol("data-validation-rules") -> "nonEmpty")
         Post it to me
-      </label>
-    </fieldset>
-    <div class="help-content">
-      <h2>More about voting by post</h2>
-      <p>Anyone can apply for a postal vote and you don't need to give a reason.</p>
-      <p>You can choose the address where you want your ballot paper sent.</p>
-      <p>If you change your mind later, you can cancel your postal vote.</p>
-    </div>
-    @validationMessages(formData)
-    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postalVote">Continue</button>
+      }
+      </fieldset>
+      <div class="help-content">
+        <h2>More about voting by post</h2>
+        <p>Anyone can apply for a postal vote and you don't need to give a reason.</p>
+        <p>You can choose the address where you want your ballot paper sent.</p>
+        <p>If you change your mind later, you can cancel your postal vote.</p>
+      </div>
+      @validationMessages(formData)
+      <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postalVote deliveryMethod emailAddress">Continue</button>
+    }
   }
-}
