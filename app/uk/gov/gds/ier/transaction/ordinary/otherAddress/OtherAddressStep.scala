@@ -10,31 +10,24 @@ import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.step.OrdinaryStep
-import uk.gov.gds.ier.transaction.ordinary.otherAddress.OtherAddressMustacheTransformer
+import uk.gov.gds.ier.transaction.ordinary.otherAddress.OtherAddressMustache
 import views.html.layouts.{stepsBodyEnd, head}
 import org.jba.Mustache
 
 class OtherAddressStep @Inject ()(val serialiser: JsonSerialiser,
                                         val config: Config,
                                         val encryptionService : EncryptionService,
-                                        val encryptionKeys : EncryptionKeys,
-                                        val otherAddressTransformer: OtherAddressMustacheTransformer)
+                                        val encryptionKeys : EncryptionKeys)
   extends OrdinaryStep
-  with OtherAddressForms {
+  with OtherAddressForms
+  with OtherAddressMustache {
 
   val validation = otherAddressForm
   val editPostRoute = OtherAddressController.editPost
   val stepPostRoute = OtherAddressController.post
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
-    val data = otherAddressTransformer.transformFormStepToMustacheData(form, call.url).getOrElse(None)
-    views.html.layouts.main(
-      title = Some("Register to Vote - Do you spend part of your time living at another UK address?"),
-      stylesheets = head(),
-      scripts = stepsBodyEnd()
-    )(
-      Mustache.render("ordinary/otherAddress", data)
-    )
+    otherAddressMustache(form.form, call)
   }
 
   def goToNext(currentState: InprogressOrdinary): SimpleResult = {
