@@ -1,0 +1,17 @@
+@(timeout: Int)
+@import helper._
+@import uk.gov.gds.ier.form.FormHelpers._
+@import uk.gov.gds.ier.config.Config
+@import layouts._
+@main(title = Some("Register to Vote - Sorry, your session has expired"),
+    stylesheets = head(),
+    scripts = stepsBodyEnd(),
+    contentClasses = Some("exit")) {
+  <header>
+    <h1>Sorry, you'll have to start again</h1>
+  </header>
+  <article>
+    <p>You haven't entered any details for @timeout minutes, so we have cleared your information to keep it secure.</p>
+    <p><a href="@routes.RegisterToVoteController.registerToVote()" rel="external" class="button">Start again</a></p>
+  </article>
+}
