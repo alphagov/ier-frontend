@@ -22,14 +22,10 @@ class PostalVoteStep @Inject ()(val serialiser: JsonSerialiser,
   with PostalVoteForms {
 
   val validation = postalVoteForm
-  val editPostRoute = PostalVoteController.editPost
-  val stepPostRoute = PostalVoteController.post
 
   val routes = Routes(
     get = PostalVoteController.get,
-    post = PostalVoteController.post,
-    edit = PostalVoteController.editGet,
-    editPost = PostalVoteController.editPost
+    post = PostalVoteController.post
   )
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {

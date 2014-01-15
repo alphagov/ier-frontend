@@ -22,14 +22,10 @@ class ContactStep @Inject ()(val serialiser: JsonSerialiser,
   with ContactForms {
 
   val validation = contactForm
-  val editPostRoute = ContactController.editPost
-  val stepPostRoute = ContactController.post
 
   val routes = Routes(
     get = ContactController.get,
-    post = ContactController.post,
-    edit = ContactController.editGet,
-    editPost = ContactController.editPost
+    post = ContactController.post
   )
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {

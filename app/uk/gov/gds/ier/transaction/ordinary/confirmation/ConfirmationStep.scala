@@ -30,9 +30,7 @@ class ConfirmationStep @Inject ()(val serialiser: JsonSerialiser,
 
   val routes = Routes(
     get = ConfirmationController.get,
-    post = ConfirmationController.post,
-    edit = ConfirmationController.get,
-    editPost = ConfirmationController.post
+    post = ConfirmationController.post
   ) 
 
   val validation = confirmationForm

@@ -46,39 +46,12 @@ class OtherAddressControllerTests
     }
   }
 
-  it should "display any errors on unsuccessful bind" in {
+  it should "bind successfully and redirect to the confirmation step when complete Application" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/other-address").withIerSession()
-      )
-
-      status(result) should be(OK)
-      contentAsString(result) should include("Do you live at a second UK address where you&#x27;re registered to vote?")
-      contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/other-address")
-    }
-  }
-
-  behavior of "OtherAddressController.editGet"
-  it should "display the edit page" in {
-    running(FakeApplication()) {
-      val Some(result) = route(
-        FakeRequest(GET, "/register-to-vote/edit/other-address").withIerSession()
-      )
-
-      status(result) should be(OK)
-      contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Do you live at a second UK address where you&#x27;re registered to vote?")
-      contentAsString(result) should include("/register-to-vote/edit/other-address")
-    }
-  }
-
-  behavior of "OtherAddressController.editPost"
-  it should "bind successfully and redirect to the Confirmation step" in {
-    running(FakeApplication()) {
-      val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/other-address")
+        FakeRequest(POST, "/register-to-vote/other-address")
           .withIerSession()
+          .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
             "otherAddress.hasOtherAddress" -> "true" 
           )
@@ -92,13 +65,13 @@ class OtherAddressControllerTests
   it should "display any errors on unsuccessful bind" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/other-address").withIerSession()
+        FakeRequest(POST, "/register-to-vote/other-address").withIerSession()
       )
 
       status(result) should be(OK)
       contentAsString(result) should include("Do you live at a second UK address where you&#x27;re registered to vote?")
       contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/edit/other-address")
+      contentAsString(result) should include("/register-to-vote/other-address")
     }
   }
 }

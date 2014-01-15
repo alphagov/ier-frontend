@@ -24,14 +24,10 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
   with AddressForms {
 
   val validation = addressForm
-  val editPostRoute = AddressController.editPost
-  val stepPostRoute = AddressController.post
 
   val routes = Routes(
     get = AddressController.get,
-    post = AddressController.post,
-    edit = AddressController.editGet,
-    editPost = AddressController.editPost
+    post = AddressController.post
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
@@ -56,14 +52,6 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
       addressLookupForm.bindFromRequest().fold(
         hasErrors => Ok(stepPage(InProgressForm(hasErrors))),
         success => Ok(stepPage(lookupAddress(success)))
-      )
-  }
-
-  def editLookup = ValidSession requiredFor {
-    implicit request => application =>
-      addressLookupForm.bindFromRequest().fold(
-        hasErrors => Ok(editPage(InProgressForm(hasErrors))),
-        success => Ok(editPage(lookupAddress(success)))
       )
   }
 

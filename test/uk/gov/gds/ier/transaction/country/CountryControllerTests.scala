@@ -89,47 +89,4 @@ class CountryControllerTests
       contentAsString(result) should include("/register-to-vote/country-of-residence")
     }
   }
-
-  behavior of "CountryController.editGet"
-  it should "display the edit page" in {
-    running(FakeApplication()) {
-      val Some(result) = route(
-        FakeRequest(GET, "/register-to-vote/edit/country-of-residence").withIerSession()
-      )
-
-      status(result) should be(OK)
-      contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Where do you live?")
-      contentAsString(result) should include("/register-to-vote/edit/country-of-residence")
-    }
-  }
-
-  behavior of "CountryController.editPost"
-  it should "bind successfully and redirect to the Confirmation step" in {
-    running(FakeApplication()) {
-      val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/country-of-residence")
-          .withIerSession()
-          .withFormUrlEncodedBody(
-            "country.residence" -> "England" 
-          )
-      )
-
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/confirmation"))
-    }
-  }
-
-  it should "display any errors on unsuccessful bind" in {
-    running(FakeApplication()) {
-      val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/country-of-residence").withIerSession()
-      )
-
-      status(result) should be(OK)
-      contentAsString(result) should include("Where do you live?")
-      contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/edit/country-of-residence")
-    }
-  }
 }

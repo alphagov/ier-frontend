@@ -22,14 +22,10 @@ class NinoStep @Inject ()(val serialiser: JsonSerialiser,
   with NinoForms {
 
   val validation = ninoForm
-  val editPostRoute = NinoController.editPost
-  val stepPostRoute = NinoController.post
 
   val routes = Routes(
     get = NinoController.get,
-    post = NinoController.post,
-    edit = NinoController.editGet,
-    editPost = NinoController.editPost
+    post = NinoController.post
   )
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {

@@ -23,14 +23,10 @@ class NationalityStep @Inject ()(val serialiser: JsonSerialiser,
   with NationalityForms {
 
   val validation = nationalityForm
-  val editPostRoute = NationalityController.editPost
-  val stepPostRoute = NationalityController.post
 
   val routes = Routes(
     get = NationalityController.get,
-    post = NationalityController.post,
-    edit = NationalityController.editGet,
-    editPost = NationalityController.editPost
+    post = NationalityController.post
   )
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {

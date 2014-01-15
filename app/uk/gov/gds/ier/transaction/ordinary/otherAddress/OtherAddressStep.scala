@@ -20,14 +20,10 @@ class OtherAddressStep @Inject ()(val serialiser: JsonSerialiser,
   with OtherAddressForms {
 
   val validation = otherAddressForm
-  val editPostRoute = OtherAddressController.editPost
-  val stepPostRoute = OtherAddressController.post
 
   val routes = Routes(
     get = OtherAddressController.get,
-    post = OtherAddressController.post,
-    edit = OtherAddressController.editGet,
-    editPost = OtherAddressController.editPost
+    post = OtherAddressController.post
   )
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {

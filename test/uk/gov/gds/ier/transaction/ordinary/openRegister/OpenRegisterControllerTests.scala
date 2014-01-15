@@ -44,37 +44,12 @@ class OpenRegisterControllerTests
     }
   }
 
-  it should "not display any errors because we are evil dark patterny" in {
+  it should "bind successfully and redirect to the confirmation step with complete Application" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/open-register").withIerSession()
-      )
-
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/postal-vote"))
-    }
-  }
-
-  behavior of "OpenRegisterController.editGet"
-  it should "display the edit page" in {
-    running(FakeApplication()) {
-      val Some(result) = route(
-        FakeRequest(GET, "/register-to-vote/edit/open-register").withIerSession()
-      )
-
-      status(result) should be(OK)
-      contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Do you want your name and address listed on the open register?")
-      contentAsString(result) should include("/register-to-vote/edit/open-register")
-    }
-  }
-
-  behavior of "OpenRegisterController.editPost"
-  it should "bind successfully and redirect to the Confirmation step" in {
-    running(FakeApplication()) {
-      val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/open-register")
+        FakeRequest(POST, "/register-to-vote/open-register")
           .withIerSession()
+          .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody("openRegister.optIn" -> "true")
       )
 
@@ -86,11 +61,11 @@ class OpenRegisterControllerTests
   it should "not display any errors because we are evil dark patterny" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/open-register").withIerSession()
+        FakeRequest(POST, "/register-to-vote/open-register").withIerSession()
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/confirmation"))
+      redirectLocation(result) should be(Some("/register-to-vote/postal-vote"))
     }
   }
 }

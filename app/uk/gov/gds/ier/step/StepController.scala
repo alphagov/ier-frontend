@@ -58,10 +58,6 @@ trait StepController [T <: InprogressApplication[T]]
     }
   }
 
-  def editPage:InProgressForm[T] => Html = {
-    form => template(form, routes.editPost)
-  }
-
   def stepPage:InProgressForm[T] => Html = {
     form => template(form, routes.post)
   }
@@ -73,28 +69,6 @@ trait StepController [T <: InprogressApplication[T]]
   }
 
   def post(implicit manifest: Manifest[T]) = ValidSession requiredFor {
-    implicit request => application =>
-      logger.debug(s"POST request for ${request.path}")
-      validation.bindFromRequest().fold(
-        hasErrors => {
-          logger.debug(s"Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
-          Ok(stepPage(InProgressForm(hasErrors))) storeInSession application
-        },
-        success => {
-          logger.debug(s"Form binding successful")
-          val mergedApplication = success.merge(application)
-          goToNext(mergedApplication) storeInSession mergedApplication
-        }
-      )
-  }
-
-  def editGet(implicit manifest: Manifest[T]) = ValidSession requiredFor {
-    request => application =>
-      logger.debug(s"GET request for ${request.path}")
-      Ok(editPage(InProgressForm(validation.fill(application))))
-  }
-
-  def editPost(implicit manifest: Manifest[T]) = ValidSession requiredFor {
     implicit request => application =>
       logger.debug(s"POST request for ${request.path}")
       validation.bindFromRequest().fold(

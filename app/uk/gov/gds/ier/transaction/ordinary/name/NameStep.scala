@@ -20,14 +20,10 @@ class NameStep @Inject ()(val serialiser: JsonSerialiser,
   with NameForms {
 
   val validation = nameForm
-  val editPostRoute = NameController.editPost
-  val stepPostRoute = NameController.post
 
   val routes = Routes(
     get = NameController.get,
-    post = NameController.post,
-    edit = NameController.editGet,
-    editPost = NameController.editPost
+    post = NameController.post
   )
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {

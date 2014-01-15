@@ -23,14 +23,10 @@ class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
   with DateOfBirthForms {
 
   val validation = dateOfBirthForm
-  val editPostRoute = DateOfBirthController.editPost
-  val stepPostRoute = DateOfBirthController.post
 
   val routes = Routes(
     get = DateOfBirthController.get,
-    post = DateOfBirthController.post,
-    edit = DateOfBirthController.editGet,
-    editPost = DateOfBirthController.editPost
+    post = DateOfBirthController.post
   ) 
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {

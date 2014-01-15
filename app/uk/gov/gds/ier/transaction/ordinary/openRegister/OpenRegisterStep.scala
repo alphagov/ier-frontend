@@ -20,14 +20,10 @@ class OpenRegisterStep @Inject ()(val serialiser: JsonSerialiser,
   with OpenRegisterForms {
 
   val validation = openRegisterForm
-  val editPostRoute = OpenRegisterController.editPost
-  val stepPostRoute = OpenRegisterController.post
 
   val routes = Routes(
     get = OpenRegisterController.get,
-    post = OpenRegisterController.post,
-    edit = OpenRegisterController.editGet,
-    editPost = OpenRegisterController.editPost
+    post = OpenRegisterController.post
   )
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {

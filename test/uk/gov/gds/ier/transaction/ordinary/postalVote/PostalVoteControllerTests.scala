@@ -46,39 +46,12 @@ class PostalVoteControllerTests
     }
   }
 
-  it should "display any errors on unsuccessful bind" in {
+  it should "bind successfully and redirect to the confirmation step when complete application" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/postal-vote").withIerSession()
-      )
-
-      status(result) should be(OK)
-      contentAsString(result) should include("Do you want to apply for a postal vote?")
-      contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/postal-vote")
-    }
-  }
-
-  behavior of "PostalVoteController.editGet"
-  it should "display the edit page" in {
-    running(FakeApplication()) {
-      val Some(result) = route(
-        FakeRequest(GET, "/register-to-vote/edit/postal-vote").withIerSession()
-      )
-
-      status(result) should be(OK)
-      contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Do you want to apply for a postal vote?")
-      contentAsString(result) should include("/register-to-vote/edit/postal-vote")
-    }
-  }
-
-  behavior of "PostalVoteController.editPost"
-  it should "bind successfully and redirect to the Confirmation step" in {
-    running(FakeApplication()) {
-      val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/postal-vote")
+        FakeRequest(POST, "/register-to-vote/postal-vote")
           .withIerSession()
+          .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
             "postalVote.optIn" -> "true" 
           )
@@ -92,13 +65,13 @@ class PostalVoteControllerTests
   it should "display any errors on unsuccessful bind" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/postal-vote").withIerSession()
+        FakeRequest(POST, "/register-to-vote/postal-vote").withIerSession()
       )
 
       status(result) should be(OK)
       contentAsString(result) should include("Do you want to apply for a postal vote?")
       contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/edit/postal-vote")
+      contentAsString(result) should include("/register-to-vote/postal-vote")
     }
   }
 }
