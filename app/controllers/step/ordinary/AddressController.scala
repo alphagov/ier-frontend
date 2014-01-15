@@ -11,5 +11,4 @@ object AddressController extends DelegatingController[AddressStep] {
   def editPost = delegate.editPost
   def lookup = delegate.lookup
   def editLookup = delegate.editLookup
-
 }

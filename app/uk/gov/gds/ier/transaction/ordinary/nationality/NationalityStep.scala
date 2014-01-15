@@ -27,11 +27,10 @@ class NationalityStep @Inject ()(val serialiser: JsonSerialiser,
   val validation = nationalityForm
   val editPostRoute = NationalityController.editPost
   val stepPostRoute = NationalityController.post
-  val prevousRoute = CountryController.get 
-      //CountryController.get
+  val previousRoute = Some(CountryController.get)
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[String]): Html = {
-    views.html.steps.nationality(form, call, backUrl)
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
+    views.html.steps.nationality(form, call, backUrl.map(_.url))
   }
   def goToNext(currentState: InprogressOrdinary): SimpleResult = {
     val franchises = currentState.nationality match {
@@ -44,9 +43,5 @@ class NationalityStep @Inject ()(val serialiser: JsonSerialiser,
       case list => Redirect(DateOfBirthController.get)
     }
   }
-  def backToPrevious(currentState: InprogressOrdinary): SimpleResult = {
-    Redirect(prevousRoute)  
-  }
-  
 }
 

@@ -36,6 +36,7 @@ class StepControllerTests
 
   val mockEditCall = mock[Call]
   val mockStepCall = mock[Call]
+  val mockPreviousCall = mock[Call]
   val testEncryptionKeys = new EncryptionKeys(new Base64EncodingService)
   val testEncryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
 
@@ -56,8 +57,9 @@ class StepControllerTests
 
     val stepPostRoute: Call = mockStepCall
     val editPostRoute: Call = mockEditCall
+    val previousRoute: Option[Call] = Some(mockPreviousCall)
     val validation = form
-    def template(form: InProgressForm[InprogressOrdinary], call: Call):Html = Html("This is the template.")
+    def template(form: InProgressForm[InprogressOrdinary], call: Call, backUrl: Option[Call]):Html = Html("This is the template.")
   }
 
   behavior of "StepController.get"

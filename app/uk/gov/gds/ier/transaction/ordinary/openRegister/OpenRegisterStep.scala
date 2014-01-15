@@ -21,16 +21,12 @@ class OpenRegisterStep @Inject ()(val serialiser: JsonSerialiser,
   val validation = openRegisterForm
   val editPostRoute = OpenRegisterController.editPost
   val stepPostRoute = OpenRegisterController.post
-  val previousRoute = OtherAddressController.get
+  val previousRoute = Some(OtherAddressController.get)
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[String]): Html = {
-    views.html.steps.openRegister(form, call, backUrl)
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
+    views.html.steps.openRegister(form, call, backUrl.map (_.url))
   }
   def goToNext(currentState: InprogressOrdinary): SimpleResult = {
     Redirect(PostalVoteController.get)
   }
-  def backToPrevious(currentState: InprogressOrdinary): SimpleResult = {
-    Redirect(previousRoute)  
-  }
 }
-

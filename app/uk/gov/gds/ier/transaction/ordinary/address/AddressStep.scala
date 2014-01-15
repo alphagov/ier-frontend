@@ -25,9 +25,9 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
   val validation = addressForm
   val editPostRoute = AddressController.editPost
   val stepPostRoute = AddressController.post
-  val previousRoute = NinoController.get
+  val previousRoute = Some(NinoController.get)
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[String]): Html = {
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
     val possibleAddresses = form(keys.possibleAddresses.jsonList).value match {
       case Some(possibleAddressJS) if !possibleAddressJS.isEmpty => {
         serialiser.fromJson[Addresses](possibleAddressJS)
@@ -37,7 +37,7 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
     val possiblePostcode = form(keys.possibleAddresses.postcode).value
 
     val possible = possiblePostcode.map(PossibleAddress(possibleAddresses, _))
-    views.html.steps.address(form, call, possible, backUrl)
+    views.html.steps.address(form, call, possible, backUrl.map(_.url))
   }
   def goToNext(currentState: InprogressOrdinary): SimpleResult = {
     Redirect(PreviousAddressController.get)
@@ -46,16 +46,16 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
   def lookup = ValidSession requiredFor {
     implicit request => application =>
       addressLookupForm.bindFromRequest().fold(
-        hasErrors => Ok(stepPage(InProgressForm(hasErrors), None)),
-        success => Ok(stepPage(lookupAddress(success), None))
+        hasErrors => Ok(stepPage(InProgressForm(hasErrors))),
+        success => Ok(stepPage(lookupAddress(success)))
       )
   }
 
   def editLookup = ValidSession requiredFor {
     implicit request => application =>
       addressLookupForm.bindFromRequest().fold(
-        hasErrors => Ok(editPage(InProgressForm(hasErrors), None)),
-        success => Ok(editPage(lookupAddress(success), None))
+        hasErrors => Ok(editPage(InProgressForm(hasErrors))),
+        success => Ok(editPage(lookupAddress(success)))
       )
   }
 
@@ -70,9 +70,5 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
       )
     )
     inProgressForm
-  }
-  
-  def backToPrevious(currentState: InprogressOrdinary): SimpleResult = {
-    Redirect(previousRoute)  
   }
 }

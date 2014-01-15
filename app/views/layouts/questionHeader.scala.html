@@ -2,7 +2,7 @@
 
 @if(question > 1){
 @previousURL match {
-case Some(backUrl) => { <a class="back-to-previous" href=@backUrl>Back <span class="visuallyhidden"> to the previous question</span></a> }
+case Some(backUrl) => { <a class="back-to-previous" href="@backUrl">Back <span class="visuallyhidden"> to the previous question</span></a> }
 case None => {""} 
 }
 

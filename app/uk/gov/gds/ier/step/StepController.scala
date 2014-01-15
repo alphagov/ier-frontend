@@ -23,9 +23,9 @@ trait StepController [T <: InprogressApplication[T]]
   val editPostRoute: Call
   val stepPostRoute: Call
   val confirmationRoute: Call
-  def template(form: InProgressForm[T], call: Call, backUrl: Option[String]):Html
+  val previousRoute:Option[Call]
+  def template(form: InProgressForm[T], postUrl: Call, backUrl: Option[Call]):Html
   def goToNext(currentState: T):SimpleResult
-  def backToPrevious(currentState: T): SimpleResult
 
 
   //Can override this method if you like
@@ -33,18 +33,18 @@ trait StepController [T <: InprogressApplication[T]]
     Redirect(confirmationRoute)
   }
 
-  def editPage:(InProgressForm[T], Option[String]) => Html = {
-    (form, backUrl) => template(form, editPostRoute, backUrl)
+  def editPage:(InProgressForm[T]) => Html = {
+    form => template(form, editPostRoute, Some(confirmationRoute))
   }
 
-  def stepPage:(InProgressForm[T], Option[String]) => Html = {
-    (form, backUrl) => template(form, stepPostRoute, backUrl)
+  def stepPage:(InProgressForm[T]) => Html = {
+    form => template(form, stepPostRoute, previousRoute)
   }
 
   def get(implicit manifest: Manifest[T]) = ValidSession requiredFor {
     request => application =>
       logger.debug(s"GET request for ${request.path}")
-      Ok(stepPage(InProgressForm(validation.fill(application)), application.backUrl))
+      Ok(stepPage(InProgressForm(validation.fill(application))))
   }
 
   def post(implicit manifest: Manifest[T]) = ValidSession requiredFor {
@@ -53,14 +53,14 @@ trait StepController [T <: InprogressApplication[T]]
       validation.bindFromRequest().fold(
         hasErrors => {
           logger.debug(s"Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
-          Ok(stepPage(InProgressForm(hasErrors), application.backUrl)) storeInSession application
+          Ok(stepPage(InProgressForm(hasErrors))) storeInSession application
         },
         success => {
           logger.debug(s"Form binding successful")
           val mergedApplication = success.merge(application)
           val backUrl = request.uri
           
-          goToNext(mergedApplication) storeInSession mergedApplication.withBackUrl(request.uri)
+          goToNext(mergedApplication) storeInSession mergedApplication
         }
       )
   }
@@ -68,7 +68,7 @@ trait StepController [T <: InprogressApplication[T]]
   def editGet(implicit manifest: Manifest[T]) = ValidSession requiredFor {
     request => application =>
       logger.debug(s"GET edit request for ${request.path}")
-      Ok(editPage(InProgressForm(validation.fill(application)), application.backUrl))
+      Ok(editPage(InProgressForm(validation.fill(application))))
   }
 
   def editPost(implicit manifest: Manifest[T]) = ValidSession requiredFor {
@@ -77,19 +77,13 @@ trait StepController [T <: InprogressApplication[T]]
       validation.bindFromRequest().fold(
         hasErrors => {
           logger.debug(s"Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
-          Ok(editPage(InProgressForm(hasErrors), application.backUrl)) storeInSession application
+          Ok(editPage(InProgressForm(hasErrors))) storeInSession application
         },
         success => {
           logger.debug(s"Form binding successful")
           val mergedApplication = success.merge(application)
-          goToConfirmation(mergedApplication) storeInSession mergedApplication.withBackUrl(request.uri)
+          goToConfirmation(mergedApplication) storeInSession mergedApplication
         }
       )
-  }
-  def back(implicit manifest: Manifest[T]) = ValidSession requiredFor {
-    request => application =>
-      logger.debug(s"GET request for ${request.path}")
-      backToPrevious(application) 
-//      Ok(stepPage(InProgressForm(validation.fill(application)), application.backUrl))
   }
 }

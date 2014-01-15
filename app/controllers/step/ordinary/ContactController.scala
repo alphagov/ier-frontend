@@ -9,5 +9,4 @@ object ContactController extends DelegatingController[ContactStep] {
   def post = delegate.post
   def editGet = delegate.editGet
   def editPost = delegate.editPost
-  
 }

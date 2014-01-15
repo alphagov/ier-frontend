@@ -69,7 +69,6 @@ GET         /register-to-vote/nationality                      controllers.step.
 POST        /register-to-vote/nationality                      controllers.step.ordinary.NationalityController.post
 GET         /register-to-vote/edit/nationality                 controllers.step.ordinary.NationalityController.editGet
 POST        /register-to-vote/edit/nationality                 controllers.step.ordinary.NationalityController.editPost
-GET         /register-to-vote/nationality/back                      controllers.step.ordinary.NationalityController.back
 
 #Address Step
 GET         /register-to-vote/address                          controllers.step.ordinary.AddressController.get
