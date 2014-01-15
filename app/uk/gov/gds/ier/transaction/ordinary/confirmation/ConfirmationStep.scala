@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.confirmation
 
-import controllers.routes._
+import controllers.step.ordinary.routes.ConfirmationController
+import controllers.routes.CompleteController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.{JsonSerialiser}
 import uk.gov.gds.ier.validation._
@@ -14,18 +15,25 @@ import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.model.InprogressOrdinary
-import uk.gov.gds.ier.step.ConfirmationController
+import uk.gov.gds.ier.step.{ConfirmationStepController, Routes}
 
 class ConfirmationStep @Inject ()(val serialiser: JsonSerialiser,
-                                        ierApi: IerApiService,
-                                        addressService: AddressService,
-                                        val config: Config,
-                                        val encryptionService : EncryptionService,
-                                        val encryptionKeys : EncryptionKeys)
-  extends ConfirmationController[InprogressOrdinary]
+                                  ierApi: IerApiService,
+                                  addressService: AddressService,
+                                  val config: Config,
+                                  val encryptionService : EncryptionService,
+                                  val encryptionKeys : EncryptionKeys)
+  extends ConfirmationStepController[InprogressOrdinary]
   with ConfirmationForms {
 
   def factoryOfT() = InprogressOrdinary()
+
+  val routes = Routes(
+    get = ConfirmationController.get,
+    post = ConfirmationController.post,
+    edit = ConfirmationController.get,
+    editPost = ConfirmationController.post
+  ) 
 
   val validation = confirmationForm
 

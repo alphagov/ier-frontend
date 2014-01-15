@@ -6,6 +6,7 @@ import play.api.libs.json.{Json, JsNull}
 import org.joda.time.DateTime
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.model.{DOB, DateOfBirth, InprogressOrdinary}
 
 class DateOfBirthFormTests 
   extends FlatSpec
@@ -273,5 +274,14 @@ class DateOfBirthFormTests
       },
       success => fail("Should have thrown an error")
     )
+  }
+  it should "fill and validate correctly" in {
+    val filledForm = dateOfBirthForm.fillAndValidate(InprogressOrdinary(dob = Some(DateOfBirth(Some(DOB(1988, 1, 1)), None))))
+    filledForm.errors should be(Nil)
+  }
+
+  it should "fill and validate error out correctly" in {
+    val filledForm = dateOfBirthForm.fillAndValidate(InprogressOrdinary(dob = None))
+    filledForm.errors should not be(Nil)
   }
 }

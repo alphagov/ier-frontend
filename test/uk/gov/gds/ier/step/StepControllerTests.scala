@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.controller
+package uk.gov.gds.ier.step
 
 import org.scalatest.{Matchers, FlatSpec}
 import org.scalatest.mock.MockitoSugar
@@ -16,23 +16,27 @@ import uk.gov.gds.ier.security._
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.validation.InProgressForm
 import scala.Some
-import play.api.mvc.Call
 import play.api.test.FakeApplication
 import uk.gov.gds.ier.validation.InProgressForm
 import scala.Some
 import uk.gov.gds.ier.model.InprogressOrdinary
+import play.api.mvc.Results.Redirect
 import play.api.mvc.Call
 import uk.gov.gds.ier.model.Name
 import uk.gov.gds.ier.model.PossibleAddress
 import play.api.test.FakeApplication
 import uk.gov.gds.ier.model.Address
-import uk.gov.gds.ier.step.OrdinaryStep
+import uk.gov.gds.ier.controller.MockConfig
 
 class StepControllerTests
   extends FlatSpec
   with Matchers
   with MockitoSugar
   with TestHelpers {
+
+  case class Url[T](url:String) extends NextStep[T] {
+    def goToNext(currentState: T) = Redirect(url)
+  }
 
   val mockEditCall = mock[Call]
   val mockStepCall = mock[Call]
@@ -51,8 +55,14 @@ class StepControllerTests
     val encryptionService = testEncryptionService
     val encryptionKeys = testEncryptionKeys
 
-    def goToNext(currentState: InprogressOrdinary) = Redirect("/next-step")
-    override def goToConfirmation(currentState: InprogressOrdinary) = Redirect("/confirmation")
+    val routes = Routes(
+      get = Call("GET","/get"),
+      post = Call("POST","/post"),
+      edit = Call("GET","/edit"),
+      editPost = Call("POST","/editPost")
+    )
+
+    def nextStep(currentState: InprogressOrdinary) = Url("/next-step")
 
     val stepPostRoute: Call = mockStepCall
     val editPostRoute: Call = mockEditCall

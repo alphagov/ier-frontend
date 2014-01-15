@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
-import controllers.step.ordinary.routes._
+import controllers.step.ordinary.OtherAddressController
+import controllers.step.ordinary.routes.PreviousAddressController
 import com.google.inject.Inject
 import uk.gov.gds.ier.model.{InprogressOrdinary, Addresses, PossibleAddress}
 import uk.gov.gds.ier.transaction.ordinary.address.AddressForms
@@ -10,12 +11,12 @@ import play.api.mvc.{SimpleResult, Call}
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
-import uk.gov.gds.ier.step.OrdinaryStep
+import uk.gov.gds.ier.step.{Routes, OrdinaryStep}
 
 class PreviousAddressStep @Inject ()(val serialiser: JsonSerialiser,
-                                           val config: Config,
-                                           val encryptionService : EncryptionService,
-                                           val encryptionKeys : EncryptionKeys)
+                                     val config: Config,
+                                     val encryptionService : EncryptionService,
+                                     val encryptionKeys : EncryptionKeys)
   extends OrdinaryStep
   with AddressForms
   with PreviousAddressForms {
@@ -23,6 +24,13 @@ class PreviousAddressStep @Inject ()(val serialiser: JsonSerialiser,
   val validation = previousAddressForm
   val editPostRoute = PreviousAddressController.editPost
   val stepPostRoute = PreviousAddressController.post
+
+  val routes = Routes(
+    get = PreviousAddressController.get,
+    post = PreviousAddressController.post,
+    edit = PreviousAddressController.editGet,
+    editPost = PreviousAddressController.editPost
+  )
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
     val possibleAddresses = form(keys.possibleAddresses.jsonList).value match {
@@ -36,8 +44,8 @@ class PreviousAddressStep @Inject ()(val serialiser: JsonSerialiser,
     val possible = possiblePostcode.map(PossibleAddress(possibleAddresses, _))
     views.html.steps.previousAddress(form, call, possible)
   }
-  def goToNext(currentState: InprogressOrdinary): SimpleResult = {
-    Redirect(OtherAddressController.get)
+  def nextStep(currentState: InprogressOrdinary) = {
+    OtherAddressController.otherAddressStep
   }
 }
 

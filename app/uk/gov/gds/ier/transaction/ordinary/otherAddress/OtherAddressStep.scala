@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.otherAddress
 
-import controllers.step.ordinary.routes._
+import controllers.step.ordinary.OpenRegisterController
+import controllers.step.ordinary.routes.OtherAddressController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
@@ -9,7 +10,7 @@ import uk.gov.gds.ier.model.InprogressOrdinary
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
-import uk.gov.gds.ier.step.OrdinaryStep
+import uk.gov.gds.ier.step.{OrdinaryStep, Routes}
 
 class OtherAddressStep @Inject ()(val serialiser: JsonSerialiser,
                                         val config: Config,
@@ -22,11 +23,18 @@ class OtherAddressStep @Inject ()(val serialiser: JsonSerialiser,
   val editPostRoute = OtherAddressController.editPost
   val stepPostRoute = OtherAddressController.post
 
+  val routes = Routes(
+    get = OtherAddressController.get,
+    post = OtherAddressController.post,
+    edit = OtherAddressController.editGet,
+    editPost = OtherAddressController.editPost
+  )
+
   def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
     views.html.steps.otherAddress(form, call)
   }
-  def goToNext(currentState: InprogressOrdinary): SimpleResult = {
-    Redirect(OpenRegisterController.get)
+  def nextStep(currentState: InprogressOrdinary) = {
+    OpenRegisterController.openRegisterStep
   }
 }
 
