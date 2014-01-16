@@ -44,13 +44,13 @@ trait StepController [T <: InprogressApplication[T]]
     )
   }
   //Inspects the current state of the application and determines which step should be next
-  //e.g. 
+  //e.g.
   //if (currentState.foo == true)
   //  TrueController
-  //else 
+  //else
   //  FalseController
   def nextStep(currentState: T):NextStep[T]
-                                                    
+
   def goToNext(currentState: T):SimpleResult = {
     if (isStepComplete(currentState)) {
       nextStep(currentState).goToNext(currentState)
@@ -76,20 +76,18 @@ trait StepController [T <: InprogressApplication[T]]
         success => {
           logger.debug(s"Form binding successful")
           val mergedApplication = success.merge(application)
-          val backUrl = request.uri
-          
           goToNext(mergedApplication) storeInSession mergedApplication
         }
       )
   }
-  
+
   def post(implicit manifest: Manifest[T]) = postMethod(routes.post, previousRoute)
-  
+
   def editPost(implicit manifest: Manifest[T]) = postMethod(routes.editPost, Some(confirmationRoute))
 
   def editGet(implicit manifest: Manifest[T]) = ValidSession requiredFor {
     request => application =>
       logger.debug(s"GET edit request for ${request.path}")
-      Ok(template(InProgressForm(validation.fill(application)), routes.post, Some(confirmationRoute)))
+      Ok(template(InProgressForm(validation.fill(application)), routes.editPost, Some(confirmationRoute)))
   }
 }

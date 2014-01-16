@@ -34,7 +34,7 @@ class CountryStep @Inject ()(val serialiser: JsonSerialiser,
   )
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
-    countryMustache(form.form, call, None)
+    countryMustache(form.form, call)
   }
 
   def nextStep(currentState: InprogressOrdinary) = {
