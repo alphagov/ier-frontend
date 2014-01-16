@@ -26,10 +26,11 @@ trait StepController [T <: InprogressApplication[T]]
     with WithEncryption =>
 
   val routes: Routes
-
   val validation: ErrorTransformForm[T]
+  val confirmationRoute: Call
+  val previousRoute:Option[Call]
+  def template(form: InProgressForm[T], call: Call, backUrl: Option[Call]):Html
 
-  def template(form: InProgressForm[T], call: Call):Html
   //Returns true if this step is currently complete
   def isStepComplete(currentState: T):Boolean = {
     val filledForm = validation.fillAndValidate(currentState)
@@ -43,13 +44,13 @@ trait StepController [T <: InprogressApplication[T]]
     )
   }
   //Inspects the current state of the application and determines which step should be next
-  //e.g. 
+  //e.g.
   //if (currentState.foo == true)
   //  TrueController
-  //else 
+  //else
   //  FalseController
   def nextStep(currentState: T):NextStep[T]
-                                                    
+
   def goToNext(currentState: T):SimpleResult = {
     if (isStepComplete(currentState)) {
       nextStep(currentState).goToNext(currentState)
@@ -58,23 +59,19 @@ trait StepController [T <: InprogressApplication[T]]
     }
   }
 
-  def stepPage:InProgressForm[T] => Html = {
-    form => template(form, routes.post)
-  }
-
   def get(implicit manifest: Manifest[T]) = ValidSession requiredFor {
     request => application =>
       logger.debug(s"GET request for ${request.path}")
-      Ok(stepPage(InProgressForm(validation.fill(application))))
+      Ok(template(InProgressForm(validation.fill(application)), routes.post, previousRoute))
   }
 
-  def post(implicit manifest: Manifest[T]) = ValidSession requiredFor {
+  def postMethod(postCall:Call, backUrl:Option[Call])(implicit manifest: Manifest[T]) = ValidSession requiredFor {
     implicit request => application =>
       logger.debug(s"POST request for ${request.path}")
       validation.bindFromRequest().fold(
         hasErrors => {
           logger.debug(s"Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
-          Ok(stepPage(InProgressForm(hasErrors))) storeInSession application
+          Ok(template(InProgressForm(hasErrors), postCall, backUrl)) storeInSession application
         },
         success => {
           logger.debug(s"Form binding successful")
@@ -82,5 +79,15 @@ trait StepController [T <: InprogressApplication[T]]
           goToNext(mergedApplication) storeInSession mergedApplication
         }
       )
+  }
+
+  def post(implicit manifest: Manifest[T]) = postMethod(routes.post, previousRoute)
+
+  def editPost(implicit manifest: Manifest[T]) = postMethod(routes.editPost, Some(confirmationRoute))
+
+  def editGet(implicit manifest: Manifest[T]) = ValidSession requiredFor {
+    request => application =>
+      logger.debug(s"GET edit request for ${request.path}")
+      Ok(template(InProgressForm(validation.fill(application)), routes.editPost, Some(confirmationRoute)))
   }
 }

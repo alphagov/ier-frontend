@@ -1,4 +1,4 @@
-@(implicit formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary], postUrl: Call, possibleAddress: Option[uk.gov.gds.ier.model.PossibleAddress] = None)
+@(implicit formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary], postUrl: Call, possibleAddress: Option[uk.gov.gds.ier.model.PossibleAddress] = None, backUrl: Option[String] = None)
 
 @import uk.gov.gds.ier.form.FormHelpers._
 @import uk.gov.gds.ier.form.FieldHelpers._
@@ -11,7 +11,7 @@
 
   @form(postUrl.copy(url = postUrl.url + "/lookup" )) {
 
-        @layouts.questionHeader("Where do you live?", "/register-to-vote/nino", 6)
+        @layouts.questionHeader("Where do you live?", backUrl, 6)
 
         <fieldset>
             <p>If you have more than one address, just give the one where you spend most of your time.</p>

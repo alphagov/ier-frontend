@@ -1,4 +1,4 @@
-@(implicit formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary], postUrl: Call)
+@(implicit formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary], postUrl: Call, backUrl: Option[String] = None)
 
 @import helper._
 @import layouts._
@@ -7,7 +7,7 @@
 @main(title = Some("Register to Vote - What is your National Insurance number?"), stylesheets = head(), scripts = stepsBodyEnd()) {
   @form(postUrl, 'class -> "validate", Symbol("data-validation-name") -> "nino", Symbol("data-validation-type") ->"association", Symbol("data-validation-rules") -> "fieldsetOrExcuse", Symbol("data-validation-members") -> "ninoCode ninoExcuse") {
   
-    @layouts.questionHeader("What is your National Insurance number?", "/register-to-vote/name", 5)
+    @layouts.questionHeader("What is your National Insurance number?", backUrl, 5)
     @label(keys.nino.nino, "What is your National Insurance number?", 'class -> "visuallyhidden")
     <div class="validation-wrapper">
       @text(keys.nino.nino, 'class -> "validate nino", Symbol("data-validation-name") -> "ninoCode", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")

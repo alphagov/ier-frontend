@@ -24,13 +24,16 @@ class CountryStep @Inject ()(val serialiser: JsonSerialiser,
   with CountryMustache {
 
   val validation = countryForm
+  val previousRoute = None
 
   val routes = Routes(
     get = CountryController.get,
-    post = CountryController.post
+    post = CountryController.post,
+    editGet = CountryController.editGet,
+    editPost = CountryController.editPost
   )
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
     countryMustache(form.form, call)
   }
 

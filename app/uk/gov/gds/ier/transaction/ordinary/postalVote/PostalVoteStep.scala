@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.postalVote
 
 import controllers.step.ordinary.ContactController
-import controllers.step.ordinary.routes.PostalVoteController
+import controllers.step.ordinary.routes.{PostalVoteController, OpenRegisterController}
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation._
@@ -22,14 +22,17 @@ class PostalVoteStep @Inject ()(val serialiser: JsonSerialiser,
   with PostalVoteForms {
 
   val validation = postalVoteForm
+  val previousRoute = Some(OpenRegisterController.get)
 
   val routes = Routes(
     get = PostalVoteController.get,
-    post = PostalVoteController.post
+    post = PostalVoteController.post,
+    editGet = PostalVoteController.editGet,
+    editPost = PostalVoteController.editPost
   )
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
-    views.html.steps.postalVote(form, call)
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
+    views.html.steps.postalVote(form, call, backUrl.map(_.url))
   }
   def nextStep(currentState: InprogressOrdinary) = {
     ContactController.contactStep
