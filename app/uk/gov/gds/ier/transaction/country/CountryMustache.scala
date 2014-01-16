@@ -23,7 +23,7 @@ trait CountryMustache extends StepMustache {
       Field(
         id = keys.country.residence.asId(country),
         name = keys.country.residence.key,
-        attributes = if (form(keys.country.residence.key).value == Some(country)) "checked" else ""
+        attributes = if (form(keys.country.residence.key).value == Some(country)) "checked=\"checked\"" else ""
       )
     }
 
