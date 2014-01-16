@@ -21,7 +21,7 @@ class CountryControllerTests
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/country-of-residence").withIerSession()
       )
-      
+
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 1")

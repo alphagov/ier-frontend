@@ -20,7 +20,7 @@ class NationalityControllerTests
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/nationality").withIerSession()
       )
-      
+
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
 
@@ -46,8 +46,8 @@ class NationalityControllerTests
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/register-to-vote/date-of-birth"))
     }
-  } 
-  
+  }
+
   it should "bind successfully and redirect to the confirmation step with complete application" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -108,6 +108,23 @@ class NationalityControllerTests
       contentAsString(result) should include("What is your nationality?")
       contentAsString(result) should include("This is not a valid country")
       contentAsString(result) should include("/register-to-vote/nationality")
+    }
+  }
+
+  behavior of "Completing a prior step when this question is incomplete"
+  it should "stop on this page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/country-of-residence")
+          .withIerSession()
+          .withApplication(completeOrdinaryApplication.copy(nationality = None))
+          .withFormUrlEncodedBody(
+          "country.residence" -> "England"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/nationality"))
     }
   }
 }

@@ -20,7 +20,7 @@ class OpenRegisterControllerTests
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/open-register").withIerSession()
       )
-      
+
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 9")
@@ -66,6 +66,23 @@ class OpenRegisterControllerTests
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/register-to-vote/postal-vote"))
+    }
+  }
+
+  behavior of "Completing a prior step when this question is incomplete"
+  it should "stop on this page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/country-of-residence")
+          .withIerSession()
+          .withApplication(completeOrdinaryApplication.copy(openRegisterOptin = None))
+          .withFormUrlEncodedBody(
+          "country.residence" -> "England"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/open-register"))
     }
   }
 }

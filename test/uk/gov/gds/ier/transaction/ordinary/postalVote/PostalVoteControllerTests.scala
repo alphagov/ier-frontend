@@ -20,7 +20,7 @@ class PostalVoteControllerTests
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/postal-vote").withIerSession()
       )
-      
+
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 10")
@@ -37,7 +37,7 @@ class PostalVoteControllerTests
         FakeRequest(POST, "/register-to-vote/postal-vote")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "postalVote.optIn" -> "true" 
+            "postalVote.optIn" -> "true"
           )
       )
 
@@ -53,7 +53,7 @@ class PostalVoteControllerTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "postalVote.optIn" -> "true" 
+            "postalVote.optIn" -> "true"
           )
       )
 
@@ -72,6 +72,23 @@ class PostalVoteControllerTests
       contentAsString(result) should include("Do you want to apply for a postal vote?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("/register-to-vote/postal-vote")
+    }
+  }
+
+  behavior of "Completing a prior step when this question is incomplete"
+  it should "stop on this page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/country-of-residence")
+          .withIerSession()
+          .withApplication(completeOrdinaryApplication.copy(postalVoteOptin = None))
+          .withFormUrlEncodedBody(
+          "country.residence" -> "England"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/postal-vote"))
     }
   }
 }

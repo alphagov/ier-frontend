@@ -20,7 +20,7 @@ class NinoControllerTests
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/nino").withIerSession()
       )
-      
+
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 5")
@@ -43,7 +43,7 @@ class NinoControllerTests
       redirectLocation(result) should be(Some("/register-to-vote/address"))
     }
   }
-  
+
   it should "bind successfully and redirect to the confirmation step with complete application" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -68,6 +68,23 @@ class NinoControllerTests
       contentAsString(result) should include("What is your National Insurance number?")
       contentAsString(result) should include("Please enter your National Insurance number")
       contentAsString(result) should include("/register-to-vote/nino")
+    }
+  }
+
+  behavior of "Completing a prior step when this question is incomplete"
+  it should "stop on this page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/country-of-residence")
+          .withIerSession()
+          .withApplication(completeOrdinaryApplication.copy(nino = None))
+          .withFormUrlEncodedBody(
+          "country.residence" -> "England"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/nino"))
     }
   }
 }

@@ -20,7 +20,7 @@ class OtherAddressControllerTests
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/other-address").withIerSession()
       )
-      
+
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 8")
@@ -37,7 +37,7 @@ class OtherAddressControllerTests
         FakeRequest(POST, "/register-to-vote/other-address")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "otherAddress.hasOtherAddress" -> "true" 
+            "otherAddress.hasOtherAddress" -> "true"
           )
       )
 
@@ -53,7 +53,7 @@ class OtherAddressControllerTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "otherAddress.hasOtherAddress" -> "true" 
+            "otherAddress.hasOtherAddress" -> "true"
           )
       )
 
@@ -72,6 +72,23 @@ class OtherAddressControllerTests
       contentAsString(result) should include("Do you live at a second UK address where you&#x27;re registered to vote?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("/register-to-vote/other-address")
+    }
+  }
+
+  behavior of "Completing a prior step when this question is incomplete"
+  it should "stop on this page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/country-of-residence")
+          .withIerSession()
+          .withApplication(completeOrdinaryApplication.copy(otherAddress = None))
+          .withFormUrlEncodedBody(
+          "country.residence" -> "England"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/other-address"))
     }
   }
 }

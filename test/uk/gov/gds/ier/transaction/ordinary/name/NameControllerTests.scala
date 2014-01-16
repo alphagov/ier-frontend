@@ -20,7 +20,7 @@ class NameControllerTests
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/name").withIerSession()
       )
-      
+
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 4")
@@ -38,10 +38,10 @@ class NameControllerTests
         FakeRequest(POST, "/register-to-vote/name")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "name.firstName" -> "John", 
+            "name.firstName" -> "John",
             "name.lastName" -> "Smith",
             "previousName.hasPreviousName" -> "true",
-            "previousName.previousName.firstName" -> "John", 
+            "previousName.previousName.firstName" -> "John",
             "previousName.previousName.lastName" -> "Smith")
       )
 
@@ -56,7 +56,7 @@ class NameControllerTests
         FakeRequest(POST, "/register-to-vote/name")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "name.firstName" -> "John", 
+            "name.firstName" -> "John",
             "name.lastName" -> "Smith",
             "previousName.hasPreviousName" -> "false")
       )
@@ -73,10 +73,10 @@ class NameControllerTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "name.firstName" -> "John", 
+            "name.firstName" -> "John",
             "name.lastName" -> "Smith",
             "previousName.hasPreviousName" -> "true",
-            "previousName.previousName.firstName" -> "John", 
+            "previousName.previousName.firstName" -> "John",
             "previousName.previousName.lastName" -> "Smith")
       )
 
@@ -97,6 +97,23 @@ class NameControllerTests
       contentAsString(result) should include("Have you changed your name in the last 12 months?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("/register-to-vote/name")
+    }
+  }
+
+  behavior of "Completing a prior step when this question is incomplete"
+  it should "stop on this page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/country-of-residence")
+          .withIerSession()
+          .withApplication(completeOrdinaryApplication.copy(name = None))
+          .withFormUrlEncodedBody(
+          "country.residence" -> "England"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/name"))
     }
   }
 }
