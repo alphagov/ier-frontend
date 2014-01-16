@@ -3,6 +3,9 @@
         <p>Question 1 of 11</p>
         <h1>Where do you live?</h1>
     </header>
+
+    {{> ordinary/validationMessages }}
+
     <fieldset class="validate {{countries.classes}}" data-validation-name="country"  data-validation-type="fieldset"  data-validation-rules="atLeastOneNonEmpty"
               data-validation-children="england scotland wales northernIreland britishIslands abroad">
 
@@ -34,8 +37,6 @@
             The Channel Islands or Isle of Man
         </label>
     </fieldset>
-
-    {{> ordinary/validationMessages }}
 
     <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="country">Continue</button>
 
