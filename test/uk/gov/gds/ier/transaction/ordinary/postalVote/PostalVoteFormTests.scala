@@ -117,8 +117,8 @@ class PostalVoteFormTests
     postalVoteForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("deliveryMethod.emailAddress") should be(Seq("Please enter the email address"))
-        hasErrors.globalErrorMessages should be(Seq("Please enter the email address"))
+        hasErrors.errorMessages("deliveryMethod.emailAddress") should be(Seq("Please enter your email address"))
+        hasErrors.globalErrorMessages should be(Seq("Please enter your email address"))
       },
       success => fail("Should have thrown an error")
     )
