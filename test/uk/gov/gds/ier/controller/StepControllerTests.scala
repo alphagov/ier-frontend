@@ -73,7 +73,7 @@ class StepControllerTests
     }
   }
 
-  it should "redirect to the start page with invalid session" in {
+  it should "redirect to the timeout page with invalid session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       val controllerMethod = createController(mock[ErrorTransformForm[InprogressOrdinary]]).get
       val request = FakeRequest().withIerSession(20)
@@ -81,7 +81,7 @@ class StepControllerTests
       val result = controllerMethod(request)
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/"))
+      redirectLocation(result) should be(Some("/register-to-vote/error/timeout"))
     }
   }
 
@@ -138,7 +138,7 @@ class StepControllerTests
     }
   }
 
-  it should "redirect to the start page with invalid session" in {
+  it should "redirect to the dummy page with invalid session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       val controllerMethod = createController(mock[ErrorTransformForm[InprogressOrdinary]]).editGet
       val request = FakeRequest().withIerSession(20)
@@ -146,7 +146,7 @@ class StepControllerTests
       val result = controllerMethod(request)
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/"))
+      redirectLocation(result) should be(Some("/register-to-vote/error/timeout"))
     }
   }
 

@@ -14,12 +14,12 @@
       @wrapLabel(keys.previousAddress.movedRecently, 'value -> "true", 'class -> "binary selectable") { 
         @radio(keys.previousAddress.movedRecently, "true", 
           'class -> "binary validate", Symbol("data-validation-name") -> "previousAddressYes", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
-        Yes
+        Yes<span class="visuallyhidden"> I moved from another Uk address in the last 12 months</span>
       }
       @wrapLabel(keys.previousAddress.movedRecently, 'value -> "false", 'class -> "binary selectable") { 
         @radio(keys.previousAddress.movedRecently, "false", 
           'class -> "binary validate", Symbol("data-validation-name") -> "previousAddressNo", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
-        No
+        No<span class="visuallyhidden"> I haven't moved from another Uk address in the last 12 months</span>
       }
     </fieldset>
     <div class="optional-section optional-section-core-content @classIf(formData(keys.previousAddress.movedRecently).value == Some("true"), "visible")" data-condition="@keys.previousAddress.movedRecently.asId("true")">
