@@ -1,7 +1,9 @@
 package uk.gov.gds.ier.transaction.ordinary.nationality
 
-import controllers.step.ordinary.routes._
-import controllers.routes._
+import controllers.step.routes.CountryController
+import controllers.step.ordinary.DateOfBirthController
+import controllers.step.ordinary.routes.NationalityController
+import controllers.routes.ExitController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
@@ -11,7 +13,8 @@ import play.api.templates.Html
 import uk.gov.gds.ier.service.IsoCountryService
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
-import uk.gov.gds.ier.step.OrdinaryStep
+import uk.gov.gds.ier.model.InprogressOrdinary
+import uk.gov.gds.ier.step.{OrdinaryStep, Routes, Exit}
 
 class NationalityStep @Inject ()(val serialiser: JsonSerialiser,
                                        val isoCountryService: IsoCountryService,
@@ -22,21 +25,27 @@ class NationalityStep @Inject ()(val serialiser: JsonSerialiser,
   with NationalityForms {
 
   val validation = nationalityForm
-  val editPostRoute = NationalityController.editPost
-  val stepPostRoute = NationalityController.post
+  val previousRoute = Some(CountryController.get)
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
-    views.html.steps.nationality(form, call)
+  val routes = Routes(
+    get = NationalityController.get,
+    post = NationalityController.post,
+    editGet = NationalityController.editGet,
+    editPost = NationalityController.editPost
+  )
+
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
+    views.html.steps.nationality(form, call, backUrl.map(_.url))
   }
-  def goToNext(currentState: InprogressOrdinary): SimpleResult = {
+  def nextStep(currentState: InprogressOrdinary) = {
     val franchises = currentState.nationality match {
       case Some(nationality) => isoCountryService.getFranchises(nationality)
       case None => List.empty
     }
 
     franchises match {
-      case Nil => Redirect(ExitController.noFranchise)
-      case list => Redirect(DateOfBirthController.get)
+      case Nil => Exit(ExitController.noFranchise)
+      case list => DateOfBirthController.dateOfBirthStep
     }
   }
 }

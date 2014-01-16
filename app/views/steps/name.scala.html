@@ -1,4 +1,4 @@
-@(implicit formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary], postEndpoint: Call)
+@(implicit formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary], postEndpoint: Call, backUrl: Option[String] = None)
 
 @import helper._
 @import layouts._
@@ -6,7 +6,7 @@
 
 @main(title = Some("Register to Vote - What is your name?"), stylesheets = head(), scripts = stepsBodyEnd()) {
   @form(postEndpoint) {
-  @layouts.questionHeader("What is your full name?", "/register-to-vote/date-of-birth", 4)
+  @layouts.questionHeader("What is your full name?", backUrl, 4)
     <fieldset class="validate" data-validation-name="fullName" data-validation-type="association" data-validation-rules="allNonEmpty" data-validation-members="firstName lastName">
       @label(keys.name.firstName, label = "First name")
       <div class="validation-wrapper">
@@ -23,11 +23,11 @@
       <legend class="label">Have you changed your name in the last 12 months?</legend> 
       @wrapLabel(keys.previousName.hasPreviousName, 'value -> "true", 'class -> "selectable binary") {
         @radio(keys.previousName.hasPreviousName, "true", 'class -> "validate", Symbol("data-validation-name") -> "previousYes", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty") 
-        Yes
+        Yes<span class="visuallyhidden"> I changed my name in the last 12 months</span>
       }
       @wrapLabel(keys.previousName.hasPreviousName, 'value -> "false", 'class -> "selectable binary") {
         @radio(keys.previousName.hasPreviousName, "false", 'class -> "validate", Symbol("data-validation-name") -> "previousNo", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
-        No
+        No<span class="visuallyhidden"> I haven't changed my name in the last 12 months</span>
       }
     </fieldset>
     <div class="optional-section optional-section-core-content @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "visible")" data-condition="@keys.previousName.hasPreviousName.asId("true")">

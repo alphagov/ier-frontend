@@ -204,7 +204,8 @@ case class Address(lineOne:Option[String],
   }
 }
 
-case class PartialPreviousAddress (movedRecently:Boolean,
+case class PartialPreviousAddress (movedRecently:Option[Boolean],
+                                   findAddress:Boolean,
                                    previousAddress:Option[PartialAddress])
 
 case class OtherAddress (hasOtherAddress:Boolean) {
