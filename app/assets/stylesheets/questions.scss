@@ -198,7 +198,8 @@ input.year {
     margin-left: -18px;
     
     .optional-section &,
-    .help-content & {
+    .help-content &,
+    .optional-section-core-content .optional-section & {
       padding-left: 30px;
       margin-left: -34px;
     }
@@ -283,7 +284,6 @@ fieldset {
 }
 
 .optional-section-core-content,
-.optional-section .optional-section,
 .help-content .optional-section,
 #found-addresses .optional-section {
   border-left: none;
@@ -291,6 +291,10 @@ fieldset {
 
   & :last-child {
     margin-bottom: 1em;
+  }
+
+  & .validation-wrapper:last-child {
+    margin-bottom: 0;
   }
 }
 
