@@ -57,7 +57,7 @@ trait TestHelpers {
     otherAddress = Some(OtherAddress(false)),
     openRegisterOptin = Some(false),
     postalVoteOptin = Some(false), 
-    contact = Some(Contact(true, None, None, None)),
+    contact = Some(Contact(true, None, None)),
     possibleAddresses = None,
     country = Some(Country("England"))
   )

@@ -17,10 +17,11 @@ class PostalVoteFormTests
 
   val serialiser = jsonSerialiser
 
-  it should "bind successfully (true)" in {
+  it should "bind successfully on postal vote true and delivery method post" in {
     val js = Json.toJson(
       Map(
-        "postalVote.optIn" -> "true"
+        "postalVote.optIn" -> "true",
+        "deliveryMethod.methodName" -> "post"
       )
     )
     postalVoteForm.bind(js).fold(
@@ -31,7 +32,23 @@ class PostalVoteFormTests
     )
   }
 
-  it should "bind successfully (false)" in {
+  it should "bind successfully on postal vote true and delivery method email (including email)" in {
+    val js = Json.toJson(
+      Map(
+        "postalVote.optIn" -> "true",
+        "deliveryMethod.methodName" -> "email",
+        "deliveryMethod.emailAddress" -> "deliveryMethod.emailAddress"
+      )
+    )
+    postalVoteForm.bind(js).fold(
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
+      success => {
+        success.postalVoteOptin should be(Some(true))
+      }
+    )
+  }
+
+  it should "bind successfully on postal vote false" in {
     val js = Json.toJson(
       Map(
         "postalVote.optIn" -> "false"
@@ -51,7 +68,7 @@ class PostalVoteFormTests
     postalVoteForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("postalVote") should be(Seq("Please answer this question"))
+        hasErrors.errorMessages("postalVote.optIn") should be(Seq("Please answer this question"))
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
       },
       success => fail("Should have thrown an error")
@@ -67,8 +84,41 @@ class PostalVoteFormTests
     postalVoteForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("postalVote") should be(Seq("Please answer this question"))
+        hasErrors.errorMessages("postalVote.optIn") should be(Seq("Please answer this question"))
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+      },
+      success => fail("Should have thrown an error")
+    )
+  }
+
+  it should "error out on empty method delivery when postalVote.optIn is true" in {
+    val js = Json.toJson(
+      Map(
+        "postalVote.optIn" -> "true"
+      )
+    )
+    postalVoteForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("") should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+      },
+      success => fail("Should have thrown an error")
+    )
+  }
+
+  it should "error out on postalVote.optIn true, method delivery email and empty email address" in {
+    val js = Json.toJson(
+      Map(
+        "postalVote.optIn" -> "true",
+        "deliveryMethod.methodName" -> "email"
+      )
+    )
+    postalVoteForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("deliveryMethod.emailAddress") should be(Seq("Please enter the email address"))
+        hasErrors.globalErrorMessages should be(Seq("Please enter the email address"))
       },
       success => fail("Should have thrown an error")
     )
