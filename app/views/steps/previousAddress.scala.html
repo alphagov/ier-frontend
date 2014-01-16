@@ -24,15 +24,15 @@
     </fieldset>
     <div class="optional-section optional-section-core-content @classIf(formData(keys.previousAddress.movedRecently).value == Some("true"), "visible")" data-condition="@keys.previousAddress.movedRecently.asId("true")">
       <fieldset>
-        @label(keys.possibleAddresses.postcode, "Enter the postcode to find your previous address")
+        @label(keys.previousAddress.previousAddress.postcode, "Enter the postcode to find your previous address")
         <div class="validation-wrapper">
-          @text(keys.possibleAddresses.postcode, 
+          @text(keys.previousAddress.previousAddress.postcode,
             'class -> "postcode medium validate",
             Symbol("data-validation-name") -> "postcode", 
             Symbol("data-validation-type") -> "field", 
             Symbol("data-validation-rules") -> "nonEmpty")
         </div>
-        <button id="find-previous-address" class="button search validation-submit" data-validation-sources="postcode">Find address</button>
+        <button id="find-previous-address" class="button search validation-submit" data-validation-sources="postcode" name="previousAddress.findAddress" value="true">Find address</button>
       </fieldset>
       <div id="found-addresses" role="region" aria-live="polite">
       @if(possibleAddress.isDefined && formData(keys.previousAddress.movedRecently).value == Some("true")) {
@@ -51,8 +51,8 @@
 
         <div class="help-content">
           <h2>I can't find my previous address in the list</h2>
-          @label(keys.previousAddress.manualAddress, "Enter your address")
-          @textArea(keys.previousAddress.manualAddress, Map('class -> "small validate", 'maxlength -> "500"))
+          @label(keys.previousAddress.previousAddress.manualAddress, "Enter your address")
+          @textArea(keys.previousAddress.previousAddress.manualAddress, Map('class -> "small validate", 'maxlength -> "500"))
         </div>
         }
       } else {
@@ -65,7 +65,7 @@
       </div>
     </div>
     @validationMessages(formData)
-    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode previousAddressQuestion">Continue</button>
+    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode previousAddressQuestion" name="previousAddress.findAddress" value="false">Continue</button>
 
     @text(keys.possibleAddresses.postcode, 'class -> "hidden", 'type -> "hidden")
     @text(keys.possibleAddresses.jsonList, 'class -> "hidden", 'type -> "hidden")

@@ -53,7 +53,7 @@ trait TestHelpers {
     nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
     address = Some(PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)),
-    previousAddress = Some(PartialPreviousAddress(false, None)),
+    previousAddress = Some(PartialPreviousAddress(Some(false),false, None)),
     otherAddress = Some(OtherAddress(false)),
     openRegisterOptin = Some(false),
     postalVoteOptin = Some(false), 
