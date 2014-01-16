@@ -34,7 +34,7 @@
         </div>
         <button id="find-previous-address" class="button search validation-submit" data-validation-sources="postcode">Find address</button>
       </fieldset>
-      <div id="found-addresses" role="region" aria-live="polite">
+      <div id="found-addresses" role="region" aria-live="polite" aria-label="Previous address">
       @if(possibleAddress.isDefined && formData(keys.previousAddress.movedRecently).value == Some("true")) {
         @defining(possibleAddress.get) { possible => 
           @label(keys.previousAddress.previousAddress.postcode, "Postcode", 'class -> "hidden")

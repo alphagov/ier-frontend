@@ -26,7 +26,7 @@
   }
 
   @form(postUrl) {
-    <div id="found-addresses" role="region" aria-live="polite">
+    <div id="found-addresses" role="region" aria-live="polite" aria-label="Address">
         @if(possibleAddress.isDefined && !possibleAddress.get.jsonList.addresses.isEmpty ) {
         @defining(possibleAddress.get) { possible =>
           @label(keys.address.postcode,
