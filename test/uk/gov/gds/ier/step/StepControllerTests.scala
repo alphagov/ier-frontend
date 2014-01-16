@@ -34,6 +34,7 @@ class StepControllerTests
   with MockitoSugar
   with TestHelpers {
 
+  val mockPreviousCall = mock[Call]
   case class Url[T](url:String) extends NextStep[T] {
     def goToNext(currentState: T) = Redirect(url)
   }
@@ -56,13 +57,16 @@ class StepControllerTests
 
     val routes = Routes(
       get = Call("GET","/get"),
-      post = Call("POST","/post")
+      post = Call("POST","/post"),
+      editGet = Call("GET","/editGet"),
+      editPost = Call("POST","/editPost")
     )
 
     def nextStep(currentState: InprogressOrdinary) = theNextStep
 
+    val previousRoute: Option[Call] = Some(mockPreviousCall)
     val validation = form
-    def template(form: InProgressForm[InprogressOrdinary], call: Call):Html = Html("This is the template.")
+    def template(form: InProgressForm[InprogressOrdinary], call: Call, backUrl: Option[Call]):Html = Html("This is the template.")
   }
 
   behavior of "StepController.get"

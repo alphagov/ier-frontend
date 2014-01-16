@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.confirmation
 
-import controllers.step.ordinary.routes.ConfirmationController
+import controllers.step.ordinary.routes.{ConfirmationController, ContactController}
 import controllers.routes.CompleteController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.{JsonSerialiser}
@@ -30,13 +30,16 @@ class ConfirmationStep @Inject ()(val serialiser: JsonSerialiser,
 
   val routes = Routes(
     get = ConfirmationController.get,
-    post = ConfirmationController.post
+    post = ConfirmationController.post,
+    editGet = ConfirmationController.get,
+    editPost = ConfirmationController.post
   ) 
 
   val validation = confirmationForm
+  val previousRoute = Some(ContactController.get)
 
   def template(form:InProgressForm[InprogressOrdinary]): Html = {
-    views.html.steps.confirmation(form)
+    views.html.steps.confirmation(form, previousRoute.map(_.url))
   }
 
   def get = ValidSession requiredFor {

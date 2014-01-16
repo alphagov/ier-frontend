@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
 import controllers.step.ordinary.OtherAddressController
-import controllers.step.ordinary.routes.PreviousAddressController
+import controllers.step.ordinary.routes.{PreviousAddressController, AddressController}
 import com.google.inject.Inject
 import uk.gov.gds.ier.model.{InprogressOrdinary, Addresses, PossibleAddress}
 import uk.gov.gds.ier.transaction.ordinary.address.AddressForms
@@ -26,25 +26,27 @@ class PreviousAddressStep @Inject ()(val serialiser: JsonSerialiser,
   with PreviousAddressForms {
 
   val validation = previousAddressForm
+  val previousRoute = Some(AddressController.get)
 
   val routes = Routes(
     get = PreviousAddressController.get,
-    post = PreviousAddressController.post
+    post = PreviousAddressController.post,
+    editGet = PreviousAddressController.editGet,
+    editPost = PreviousAddressController.editPost
   )
 
-
-  override def post(implicit manifest: Manifest[InprogressOrdinary]) = ValidSession requiredFor {
+  override def postMethod(postCall:Call, backUrl:Option[Call])(implicit manifest: Manifest[InprogressOrdinary]) = ValidSession requiredFor {
     implicit request => application =>
       logger.debug(s"POST request for ${request.path}")
       validation.bindFromRequest().fold(
         hasErrors => {
           logger.debug(s"Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
-          Ok(stepPage(InProgressForm(hasErrors))) storeInSession application
+          Ok(template(InProgressForm(hasErrors), postCall, backUrl)) storeInSession application
         },
         success => {
           logger.debug(s"Form binding successful")
           if (success.previousAddress.get.findAddress) {
-            (Ok(stepPage(lookupAddress(success)))) storeInSession application
+            Ok(template(lookupAddress(success), postCall, backUrl)) storeInSession application
           }
           else {
             val mergedApplication = success.merge(application)
@@ -54,7 +56,7 @@ class PreviousAddressStep @Inject ()(val serialiser: JsonSerialiser,
       )
   }
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
     val possibleAddresses = form(keys.possibleAddresses.jsonList).value match {
       case Some(possibleAddressJS) if !possibleAddressJS.isEmpty => {
         serialiser.fromJson[Addresses](possibleAddressJS)
@@ -64,7 +66,7 @@ class PreviousAddressStep @Inject ()(val serialiser: JsonSerialiser,
     val possiblePostcode = form(keys.possibleAddresses.postcode).value
 
     val possible = possiblePostcode.map(PossibleAddress(possibleAddresses, _))
-    views.html.steps.previousAddress(form, call, possible)
+    views.html.steps.previousAddress(form, call, possible, backUrl.map(_.url))
   }
   def nextStep(currentState: InprogressOrdinary) = {
     OtherAddressController.otherAddressStep

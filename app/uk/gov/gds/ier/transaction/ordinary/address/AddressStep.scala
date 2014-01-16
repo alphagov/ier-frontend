@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.address
 
-import controllers.step.ordinary.routes.AddressController
+import controllers.step.ordinary.routes.{AddressController, NinoController}
 import controllers.step.ordinary.PreviousAddressController
 import com.google.inject.Inject
 import uk.gov.gds.ier.model.{InprogressOrdinary, PossibleAddress, Addresses, InprogressApplication}
@@ -24,17 +24,20 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
   with AddressForms {
 
   val validation = addressForm
+  val previousRoute = Some(NinoController.get)
 
   val routes = Routes(
     get = AddressController.get,
-    post = AddressController.post
+    post = AddressController.post,
+    editGet = AddressController.editGet,
+    editPost = AddressController.editPost
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
     PreviousAddressController.previousAddressStep
   }
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
     val possibleAddresses = form(keys.possibleAddresses.jsonList).value match {
       case Some(possibleAddressJS) if !possibleAddressJS.isEmpty => {
         serialiser.fromJson[Addresses](possibleAddressJS)
@@ -44,14 +47,14 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
     val possiblePostcode = form(keys.possibleAddresses.postcode).value
 
     val possible = possiblePostcode.map(PossibleAddress(possibleAddresses, _))
-    views.html.steps.address(form, call, possible)
+    views.html.steps.address(form, call, possible, backUrl.map(_.url))
   }
 
   def lookup = ValidSession requiredFor {
     implicit request => application =>
       addressLookupForm.bindFromRequest().fold(
-        hasErrors => Ok(stepPage(InProgressForm(hasErrors))),
-        success => Ok(stepPage(lookupAddress(success)))
+        hasErrors => Ok(template(InProgressForm(hasErrors), routes.post, previousRoute)),
+        success => Ok(template(lookupAddress(success), routes.post, previousRoute))
       )
   }
 
