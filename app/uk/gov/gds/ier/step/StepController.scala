@@ -58,7 +58,6 @@ trait StepController [T <: InprogressApplication[T]]
         success => {
           logger.debug(s"Form binding successful")
           val mergedApplication = success.merge(application)
-          val backUrl = request.uri
           
           goToNext(mergedApplication) storeInSession mergedApplication
         }
