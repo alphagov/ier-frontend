@@ -11,7 +11,7 @@ trait CountryMustache {
 
   case class CountryModel(postUrl:String = "", england: String = "", scotland: String = "", wales: String = "", northIreland: String = "", channelIslands: String = "", globalErrors:Seq[String] = List.empty )
 
-  def transformFormStepToMustacheData (form:ErrorTransformForm[InprogressOrdinary], postUrl:String, backUrl: Option[String]):CountryModel = {
+  def transformFormStepToMustacheData (form:ErrorTransformForm[InprogressOrdinary], postUrl:String):CountryModel = {
     val globalErrors = form.globalErrors 
     val countryForm = form.value.flatMap{ application => application.country}
 
