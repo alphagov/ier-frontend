@@ -3,36 +3,34 @@
         <p>Question 1 of 11</p>
         <h1>Where do you live?</h1>
     </header>
-    <fieldset class="validate {{^globalErrors.isEmpty}}invalid{{/globalErrors.isEmpty}}" data-validation-name="country"  data-validation-type="fieldset"  data-validation-rules="atLeastOneNonEmpty"
+    <fieldset class="validate {{countries.classes}}" data-validation-name="country"  data-validation-type="fieldset"  data-validation-rules="atLeastOneNonEmpty"
               data-validation-children="england scotland wales northernIreland britishIslands abroad">
 
-        <label for="country_residence_England" class="selectable"  >
-            <input type="radio" id="country_residence_England" name="country.residence" value="England"  class="radio  validate" {{england}}
-                   data-validation-name=england  data-validation-type=field  data-validation-rules=nonEmpty >
+        <label for="{{england.name}}" class="selectable"  >
+            <input type="radio" id="{{england.id}}" name="{{england.name}}" value="England"  class="radio  validate" {{england.attributes}}
+                   data-validation-name="england" data-validation-type="field" data-validation-rules="nonEmpty">
             England
         </label>
-        <label for="country_residence_Scotland" class="selectable"  >
-            <input type="radio" id="country_residence_Scotland" name="country.residence" value="Scotland"  class="radio  validate" {{scotland}}
-                   data-validation-name=scotland  data-validation-type=field  data-validation-rules=nonEmpty >
+        <label for="{{scotland.name}}" class="selectable"  >
+            <input type="radio" id="{{scotland.id}}" name="{{scotland.name}}" value="Scotland"  class="radio  validate" {{scotland.attributes}}
+                   data-validation-name="scotland" data-validation-type="field" data-validation-rules="nonEmpty">
             Scotland
         </label>
-        <label for="country_residence_Wales" class="selectable"  >
-            <input type="radio" id="country_residence_Wales" name="country.residence" value="Wales"  class="radio  validate" {{wales}}
-                   data-validation-name=wales  data-validation-type=field  data-validation-rules=nonEmpty >
+        <label for="{{wales.name}}" class="selectable"  >
+            <input type="radio" id="{{wales.id}}" name="{{wales.name}}" value="Wales"  class="radio  validate" {{wales.attributes}}
+                   data-validation-name="wales" data-validation-type="field" data-validation-rules="nonEmpty">
             Wales
         </label>
-
-
-        <label for="country_residence_Northern_Ireland" class="selectable"  >
-            <input type="radio" id="country_residence_Northern_Ireland" name="country.residence" value="Northern Ireland"  class="radio  validate" {{northIreland}}
-                   data-validation-name=northernIreland  data-validation-type=field  data-validation-rules=nonEmpty >
+        <label for="{{northIreland.name}}" class="selectable"  >
+            <input type="radio" id="{{northIreland.id}}" name="{{northIreland.name}}" value="Northern Ireland"  class="radio  validate" {{northIreland.attributes}}
+                   data-validation-name="northernIreland" data-validation-type="field" data-validation-rules="nonEmpty">
             Northern Ireland
         </label>
 
 
-        <label for="country_residence_British_Islands" class="selectable"  >
-            <input type="radio" id="country_residence_British_Islands" name="country.residence" value="British Islands"  class="radio  validate" {{channelIslands}}
-                   data-validation-name=britishIslands  data-validation-type=field  data-validation-rules=nonEmpty >
+        <label for="{{channelIslands.name}}" class="selectable"  >
+            <input type="radio" id="{{channelIslands.id}}" name="{{channelIslands.name}}" value="British Islands"  class="radio  validate" {{channelIslands.attributes}}
+                   data-validation-name="britishIslands" data-validation-type="field" data-validation-rules="nonEmpty">
             The Channel Islands or Isle of Man
         </label>
     </fieldset>
