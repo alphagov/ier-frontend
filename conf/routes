@@ -108,7 +108,7 @@ GET         /register-to-vote/date-of-birth                              control
 POST        /register-to-vote/date-of-birth                              controllers.step.ordinary.DateOfBirthController.post
 GET         /register-to-vote/edit/date-of-birth                         controllers.step.ordinary.DateOfBirthController.editGet
 POST        /register-to-vote/edit/date-of-birth                         controllers.step.ordinary.DateOfBirthController.editPost
-       
+
 #Nino Step
 GET         /register-to-vote/nino                                       controllers.step.ordinary.NinoController.get
 POST        /register-to-vote/nino                                       controllers.step.ordinary.NinoController.post
