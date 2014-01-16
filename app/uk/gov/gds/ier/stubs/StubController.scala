@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.stubs
 
-import play.api.mvc.{Controller, Action}
+import play.api.mvc.{Call, Controller, Action}
+import uk.gov.gds.ier.step.Exit
 
 trait StubController extends Controller {
 
@@ -8,6 +9,8 @@ trait StubController extends Controller {
   def post = fakeAction
   def editGet = fakeAction
   def editPost = fakeAction
+
+  def route[T](url:String) = Exit[T](Call("GET", url))
 
   val fakeAction = Action {
     NotFound("This page has not been implemented")

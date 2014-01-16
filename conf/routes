@@ -89,7 +89,6 @@ POST        /register-to-vote/address                                    control
 POST        /register-to-vote/address/lookup                             controllers.step.ordinary.AddressController.lookup
 GET         /register-to-vote/edit/address                               controllers.step.ordinary.AddressController.editGet
 POST        /register-to-vote/edit/address                               controllers.step.ordinary.AddressController.editPost
-POST        /register-to-vote/edit/address/lookup                        controllers.step.ordinary.AddressController.editLookup
 
 #Previous Address Step
 GET         /register-to-vote/previous-address                           controllers.step.ordinary.PreviousAddressController.get

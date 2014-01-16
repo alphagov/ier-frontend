@@ -11,11 +11,11 @@ trait PreviousRegisteredMustache {
 
   case class PreviouslyRegisteredModel(postUrl:String = "", globalErrors:Seq[String] = List.empty, backUrl:String = "")
 
-  def previousRegisteredMustache(form:ErrorTransformForm[InprogressOverseas], call: Call): Html = {
+  def previousRegisteredMustache(form:ErrorTransformForm[InprogressOverseas], post: Call, back: Option[Call]): Html = {
     val data = PreviouslyRegisteredModel(
-      call.url,
-      form.globalErrors map{ _.message },
-      CountryController.get.url
+      post.url,
+      form.globalErrors.map{ _.message },
+      back.map { call => call.url }.getOrElse("")
     )
     Mustache.render("overseas/previouslyRegistered", data)
   }

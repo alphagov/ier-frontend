@@ -19,7 +19,7 @@ class PreviouslyRegisteredStepTests
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/overseas/previously-registered").withIerSession()
       )
-      
+
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 2")
@@ -81,12 +81,13 @@ class PreviouslyRegisteredStepTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Is this your first time registering as an overseas voter?")
+      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/confirmation")
       contentAsString(result) should include("/register-to-vote/overseas/edit/previously-registered")
     }
   }
 
   behavior of "PreviouslyRegisteredStep.editPost"
-  it should "bind successfully and redirect to the confirmation step if I answer yes" in {
+  it should "bind successfully and redirect to the first time registering step if I answer yes" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/edit/previously-registered")
@@ -96,11 +97,11 @@ class PreviouslyRegisteredStepTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/overseas/confirmation"))
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/first-time-registering"))
     }
   }
 
-  it should "bind successfully and redirect to the confirmation step if I answer no" in {
+  it should "bind successfully and redirect to the date left uk step if I answer no" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/edit/previously-registered")
@@ -110,7 +111,7 @@ class PreviouslyRegisteredStepTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/overseas/confirmation"))
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/date-left-uk"))
     }
   }
 
@@ -127,4 +128,65 @@ class PreviouslyRegisteredStepTests
     }
   }
 
+  behavior of "PreviouslyRegisteredStep.post when complete application"
+  it should "bind successfully and redirect to the confirmation step if I answer yes" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/overseas/previously-registered")
+          .withIerSession()
+          .withApplication(completeApplication)
+          .withFormUrlEncodedBody(
+          "previouslyRegistered.hasPreviouslyRegistered" -> "true")
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/confirmation"))
+    }
+  }
+
+  it should "bind successfully and redirect to the confirmation step if I answer no" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/overseas/previously-registered")
+          .withIerSession()
+          .withApplication(completeApplication)
+          .withFormUrlEncodedBody(
+          "previouslyRegistered.hasPreviouslyRegistered" -> "false")
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/confirmation"))
+    }
+  }
+
+  behavior of "PreviouslyRegisteredStep.editPost when complete application"
+  it should "bind successfully and redirect to the confirmation step if I answer yes" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/overseas/edit/previously-registered")
+          .withIerSession()
+          .withApplication(completeApplication)
+          .withFormUrlEncodedBody(
+          "previouslyRegistered.hasPreviouslyRegistered" -> "true")
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/confirmation"))
+    }
+  }
+
+  it should "bind successfully and redirect to the confirmation step if I answer no" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/overseas/edit/previously-registered")
+          .withIerSession()
+          .withApplication(completeApplication)
+          .withFormUrlEncodedBody(
+          "previouslyRegistered.hasPreviouslyRegistered" -> "false")
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/confirmation"))
+    }
+  }
 }
