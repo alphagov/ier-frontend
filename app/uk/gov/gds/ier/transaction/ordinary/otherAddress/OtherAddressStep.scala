@@ -10,7 +10,6 @@ import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.step.OrdinaryStep
-import uk.gov.gds.ier.transaction.ordinary.otherAddress.OtherAddressMustache
 import views.html.layouts.{stepsBodyEnd, head}
 import org.jba.Mustache
 
