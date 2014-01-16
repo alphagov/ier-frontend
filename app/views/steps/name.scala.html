@@ -1,4 +1,4 @@
-@(implicit formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary], postEndpoint: Call)
+@(implicit formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary], postEndpoint: Call, backUrl: Option[String] = None)
 
 @import helper._
 @import layouts._
@@ -6,7 +6,7 @@
 
 @main(title = Some("Register to Vote - What is your name?"), stylesheets = head(), scripts = stepsBodyEnd()) {
   @form(postEndpoint) {
-  @layouts.questionHeader("What is your full name?", "/register-to-vote/date-of-birth", 4)
+  @layouts.questionHeader("What is your full name?", backUrl, 4)
     <fieldset class="validate" data-validation-name="fullName" data-validation-type="association" data-validation-rules="allNonEmpty" data-validation-members="firstName lastName">
       @label(keys.name.firstName, label = "First name")
       <div class="validation-wrapper">

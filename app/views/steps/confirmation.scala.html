@@ -1,4 +1,4 @@
-@(formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary])
+@(formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary], backUrl: Option[String] = None)
 
 @import helper._
 @import uk.gov.gds.ier.form.FormHelpers._
@@ -13,7 +13,7 @@
 @main(title = Some("Register to Vote - Confirm your details"), stylesheets = head(), scripts = stepsBodyEnd(), contentClasses = Some("confirmation")) {
 
       <article>
-        <a id="continue" class="back-to-previous" href="/register-to-vote/contact" title="Back to the previous question">Back</a>
+        <a id="continue" class="back-to-previous" href=@backUrl.getOrElse("") title="Back to the previous question">Back</a>
         <header>
           <h1>Register to vote</h1>
         </header>
@@ -25,7 +25,7 @@
               <p>@name(formData(keys.name.firstName).value, formData(keys.name.middleNames).value, formData(keys.name.lastName).value)</p>
             }
           </div>
-          <a href="@NameController.get" class="change">Change<span class="visuallyhidden"> name</span></a>
+          <a href="@NameController.editGet" class="change">Change<span class="visuallyhidden"> name</span></a>
         </div>
         <div>
           <h3>Previous name</h3>
@@ -38,7 +38,7 @@
                 }
             }
           </div>
-          <a href="@NameController.get" class="change">Change<span class="visuallyhidden"> previous name</span></a>
+          <a href="@NameController.editGet" class="change">Change<span class="visuallyhidden"> previous name</span></a>
         </div>
         <div>
           <h3>Date of birth</h3>
@@ -53,7 +53,7 @@
               }
             }
           </div>
-          <a href="@DateOfBirthController.get" class="change">Change<span class="visuallyhidden"> date of birth</span></a>
+          <a href="@DateOfBirthController.editGet" class="change">Change<span class="visuallyhidden"> date of birth</span></a>
         </div>
         <div>
           <h3>Nationality</h3>
@@ -69,7 +69,7 @@
               }
             }
           </div>
-          <a href="@NationalityController.get" class="change">Change<span class="visuallyhidden"> nationality</span></a>
+          <a href="@NationalityController.editGet" class="change">Change<span class="visuallyhidden"> nationality</span></a>
         </div>
         <div>
           <h3>National Insurance number</h3>
@@ -83,7 +83,7 @@
               }
             }
           </div>
-          <a href="@NinoController.get" class="change">Change<span class="visuallyhidden"> national insurance number</span></a>
+          <a href="@NinoController.editGet" class="change">Change<span class="visuallyhidden"> national insurance number</span></a>
         </div>
         <div>
           <h3>Address</h3>
@@ -103,7 +103,7 @@
               }
             }
           </div>
-          <a href="@AddressController.get" class="change">Change<span class="visuallyhidden"> address</span></a>
+          <a href="@AddressController.editGet" class="change">Change<span class="visuallyhidden"> address</span></a>
         </div>
         <div>
           <h3>Previous address</h3>
@@ -127,7 +127,7 @@
             }
           }
           </div>
-          <a href="@PreviousAddressController.get" class="change">Change<span class="visuallyhidden"> previous address</span></a>
+          <a href="@PreviousAddressController.editGet" class="change">Change<span class="visuallyhidden"> previous address</span></a>
         </div>
         <div>
           <h3>Second address</h3>
@@ -140,7 +140,7 @@
             }
           }
           </div>
-          <a href="@OtherAddressController.get" class="change">Change<span class="visuallyhidden"> second address</span></a>
+          <a href="@OtherAddressController.editGet" class="change">Change<span class="visuallyhidden"> second address</span></a>
         </div>
         <div>
           <h3>Open register</h3>
@@ -153,7 +153,7 @@
             }
           }
           </div>
-          <a href="@OpenRegisterController.get" class="change">Change<span class="visuallyhidden"> if you want your details to be included on the open register</span></a>
+          <a href="@OpenRegisterController.editGet" class="change">Change<span class="visuallyhidden"> if you want your details to be included on the open register</span></a>
         </div>
         <div>
           <h3>Postal vote</h3>
@@ -173,7 +173,7 @@
             }
           }
           </div>
-          <a href="@PostalVoteController.get" class="change">Change<span class="visuallyhidden"> if you want to apply for a postal vote</span></a>
+          <a href="@PostalVoteController.editGet" class="change">Change<span class="visuallyhidden"> if you want to apply for a postal vote</span></a>
         </div>
         <div>
           <h3>How we should contact you</h3>
@@ -190,7 +190,7 @@
               }
             }
           </div>
-          <a href="@ContactController.get" class="change">Change<span class="visuallyhidden"> how we should contact you</span></a>
+          <a href="@ContactController.editGet" class="change">Change<span class="visuallyhidden"> how we should contact you</span></a>
         </div>
         <div class="help-notice">
           <p>I understand that: </p>

@@ -1,4 +1,4 @@
-@(implicit formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary], postUrl:Call)
+@(implicit formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary], postUrl:Call, backUrl: Option[String] = None)
 
 @import helper._
 @import layouts._
@@ -6,7 +6,7 @@
 
 @main(title = Some("Register to Vote - Tell us how to contact you"), stylesheets = head(), scripts = stepsBodyEnd()) {
   @form(postUrl) {
-    @layouts.questionHeader("If we have questions about your application, how should we contact you?", "/register-to-vote/postal-vote", 11)
+    @layouts.questionHeader("If we have questions about your application, how should we contact you?", backUrl, 11)
 
     <fieldset class="validate" data-validation-name="contact" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="post phoneOption emailOption">
       @check(keys.contact.email.contactMe,

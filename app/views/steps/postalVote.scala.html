@@ -1,4 +1,4 @@
-@(implicit formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary], postUrl: Call)
+@(implicit formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary], postUrl: Call, backUrl: Option[String] = None)
 
 @import helper._
 @import layouts._
@@ -6,7 +6,7 @@
 
 @main(title = Some("Do you want to apply for a postal vote?"), stylesheets = head(), scripts = stepsBodyEnd()) {
   @form(postUrl) {
-    @layouts.questionHeader("Do you want to apply for a postal vote?", "/register-to-vote/open-register", 10)
+    @layouts.questionHeader("Do you want to apply for a postal vote?", backUrl, 10)
     <p>Most people vote in person at a polling station. But if you prefer to vote by post, we can send you an application form.</p>
     <fieldset class="validate" data-validation-name="postalVote" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="postalNo postalYes">
       @wrapLabel(keys.postalVote.optIn, 'value -> "false", 'class -> "selectable") {
