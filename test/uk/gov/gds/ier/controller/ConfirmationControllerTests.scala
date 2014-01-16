@@ -5,6 +5,7 @@ import play.api.test.Helpers._
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.config.Config
 
 class ConfirmationControllerTests
   extends FlatSpec
@@ -13,6 +14,7 @@ class ConfirmationControllerTests
 
   it should "display no errors with a full inprogress application" in {
     running(FakeApplication()) {
+      println("Fake Places" + new Config().fakePlaces.toString)
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/confirmation")
           .withIerSession(3)
