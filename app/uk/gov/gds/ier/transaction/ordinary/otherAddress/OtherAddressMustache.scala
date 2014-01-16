@@ -1,20 +1,27 @@
 package uk.gov.gds.ier.transaction.ordinary.otherAddress
 
-import uk.gov.gds.ier.validation.{ErrorTransformForm, InProgressForm}
+import uk.gov.gds.ier.validation.{FormKeys, ErrorTransformForm, InProgressForm}
 import uk.gov.gds.ier.model.{InprogressOrdinary, OtherAddress, InprogressApplication}
 import play.api.mvc.Call
 import play.api.templates.Html
 import org.jba.Mustache
 import uk.gov.gds.ier.template.MainStepTemplate
 import views.html.layouts.{stepsBodyEnd, head}
+import play.api.data.Field
 
 
-trait OtherAddressMustache {
+trait OtherAddressMustache extends FormKeys {
+
+  case class ModelField(
+                     id: String,
+                     name: String,
+                     value: String
+                     )
 
   case class OtherAddressModel(
                               postUrl: String = "",
-                              hasOtherAddressTrue: String = "",
-                              hasOtherAddressFalse: String = "",
+                              hasOtherAddressTrue: ModelField,
+                              hasOtherAddressFalse: ModelField,
                               globalErrors: Seq[String] = List.empty
                               )
 
@@ -23,8 +30,18 @@ trait OtherAddressMustache {
     val application = form.value
     val otherAddress = application.getOrElse(InprogressOrdinary()).otherAddress
     OtherAddressModel(postUrl,
-        if (otherAddress.exists(_.hasOtherAddress)) "checked" else "",
-        if (otherAddress.exists(!_.hasOtherAddress)) "checked" else "",
+        //if (otherAddress.exists(_.hasOtherAddress)) "checked" else "",
+        //if (otherAddress.exists(!_.hasOtherAddress)) "checked" else "",
+        hasOtherAddressTrue = ModelField(
+          id = keys.otherAddress.hasOtherAddress.asId("true"),
+          name = keys.otherAddress.hasOtherAddress.key,
+          value = if (otherAddress.exists(_.hasOtherAddress)) "checked" else ""
+        ),
+        hasOtherAddressFalse = ModelField(
+          id = keys.otherAddress.hasOtherAddress.asId("false"),
+          name = keys.otherAddress.hasOtherAddress.key,
+          value = if (otherAddress.exists(!_.hasOtherAddress)) "checked" else ""
+        ),
         globalErrors.map(_.message)
     )
   }

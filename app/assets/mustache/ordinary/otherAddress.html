@@ -6,20 +6,20 @@
         <h1>Do you live at a second UK address where you're registered to vote?</h1>
     </header>
 
-    <fieldset class="validate" data-validation-name="otherAddressQuestion" data-validation-type="fieldset"
+    <fieldset class="validate {{^globalErrors.isEmpty}}invalid{{/globalErrors.isEmpty}}" data-validation-name="otherAddressQuestion" data-validation-type="fieldset"
               data-validation-rules="atLeastOneNonEmpty" data-validation-children="otherAddressYes otherAddressNo">
-        <label for="otherAddress_hasOtherAddress_true" class="binary selectable">
+        <label for="{{hasOtherAddressTrue.id}}" class="binary selectable">
 
-            <input id="otherAddress_hasOtherAddress_true" name="otherAddress.hasOtherAddress" value="true"
+            <input id="{{hasOtherAddressTrue.id}}" name="{{hasOtherAddressTrue.name}}" value="true"
                    class="radio  validate" data-validation-name="otherAddressYes" data-validation-type="field"
-                   data-validation-rules="nonEmpty" type="radio" {{hasOtherAddressTrue}}>
+                   data-validation-rules="nonEmpty" type="radio" {{hasOtherAddressTrue.value}}>
             Yes
         </label>
 
-        <label for="otherAddress_hasOtherAddress_false" class="binary selectable">
-            <input id="otherAddress_hasOtherAddress_false" name="otherAddress.hasOtherAddress" value="false"
+        <label for="{{hasOtherAddressFalse.id}}" class="binary selectable">
+            <input id="{{hasOtherAddressFalse.id}}" name="{{hasOtherAddressFalse.name}}" value="false"
                    class="radio  validate" data-validation-name="otherAddressNo" data-validation-type="field"
-                   data-validation-rules="nonEmpty" type="radio" {{hasOtherAddressFalse}}>
+                   data-validation-rules="nonEmpty" type="radio" {{hasOtherAddressFalse.value}}>
             No
         </label>
     </fieldset>
