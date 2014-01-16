@@ -15,12 +15,12 @@
       @wrapLabel(keys.otherAddress.hasOtherAddress, 'value -> "true", 'class -> "binary selectable") {
         @radio(keys.otherAddress.hasOtherAddress, "true", 
           'class -> "validate", Symbol("data-validation-name") -> "otherAddressYes", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
-        Yes
+        Yes<span class="visuallyhidden"> I live at a second UK address where I'm registered to vote</span>
       }
       @wrapLabel(keys.otherAddress.hasOtherAddress, 'value -> "false", 'class -> "binary selectable") {
         @radio(keys.otherAddress.hasOtherAddress, "false", 
           'class -> "validate", Symbol("data-validation-name") -> "otherAddressNo", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
-        No
+        No<span class="visuallyhidden"> I don't live at a second UK address where I'm registered to vote</span>
       }
     </fieldset>
     <div class="help-content">
