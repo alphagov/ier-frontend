@@ -9,4 +9,6 @@ object NationalityController extends DelegatingController[NationalityStep] {
   def post = delegate.post
   def editGet = delegate.editGet
   def editPost = delegate.editPost
+
+  def nationalityStep = delegate
 }
