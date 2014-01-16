@@ -117,7 +117,8 @@ class PostalVoteControllerTests
         FakeRequest(POST, "/register-to-vote/edit/postal-vote")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "postalVote.optIn" -> "true"
+            "postalVote.optIn" -> "true",
+            "deliveryMethod.methodName" -> "post"
           )
       )
 
@@ -133,7 +134,8 @@ class PostalVoteControllerTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "postalVote.optIn" -> "true"
+            "postalVote.optIn" -> "true",
+            "deliveryMethod.methodName" -> "post"
           )
       )
 
