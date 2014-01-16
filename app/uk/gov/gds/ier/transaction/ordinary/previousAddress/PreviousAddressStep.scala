@@ -1,17 +1,20 @@
 package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
-import controllers.step.ordinary.routes._
+import controllers.step.ordinary.OtherAddressController
+import controllers.step.ordinary.routes.PreviousAddressController
 import com.google.inject.Inject
 import uk.gov.gds.ier.model.{InprogressOrdinary, Addresses, PossibleAddress}
 import uk.gov.gds.ier.transaction.ordinary.address.AddressForms
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
-import play.api.mvc.{SimpleResult, Call}
+import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
-import uk.gov.gds.ier.step.OrdinaryStep
 import uk.gov.gds.ier.service.AddressService
+
+import uk.gov.gds.ier.step.{Routes, OrdinaryStep}
+
 
 class PreviousAddressStep @Inject ()(val serialiser: JsonSerialiser,
                                            val config: Config,
@@ -23,8 +26,11 @@ class PreviousAddressStep @Inject ()(val serialiser: JsonSerialiser,
   with PreviousAddressForms {
 
   val validation = previousAddressForm
-  val editPostRoute = PreviousAddressController.editPost
-  val stepPostRoute = PreviousAddressController.post
+
+  val routes = Routes(
+    get = PreviousAddressController.get,
+    post = PreviousAddressController.post
+  )
 
 
   override def post(implicit manifest: Manifest[InprogressOrdinary]) = ValidSession requiredFor {
@@ -48,27 +54,6 @@ class PreviousAddressStep @Inject ()(val serialiser: JsonSerialiser,
       )
   }
 
-  override def editPost(implicit manifest: Manifest[InprogressOrdinary]) = ValidSession requiredFor {
-    implicit request => application =>
-      logger.debug(s"POST edit request for ${request.path}")
-      validation.bindFromRequest().fold(
-        hasErrors => {
-          logger.debug(s"Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
-          Ok(editPage(InProgressForm(hasErrors))) storeInSession application
-        },
-        success => {
-          logger.debug(s"Form binding successful")
-          if (success.previousAddress.get.findAddress) {
-            (Ok(editPage(lookupAddress(success)))) storeInSession application
-          }
-          else {
-            val mergedApplication = success.merge(application)
-            goToConfirmation(mergedApplication) storeInSession mergedApplication
-          }
-        }
-      )
-  }
-
   def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
     val possibleAddresses = form(keys.possibleAddresses.jsonList).value match {
       case Some(possibleAddressJS) if !possibleAddressJS.isEmpty => {
@@ -81,8 +66,8 @@ class PreviousAddressStep @Inject ()(val serialiser: JsonSerialiser,
     val possible = possiblePostcode.map(PossibleAddress(possibleAddresses, _))
     views.html.steps.previousAddress(form, call, possible)
   }
-  def goToNext(currentState: InprogressOrdinary): SimpleResult = {
-    Redirect(OtherAddressController.get)
+  def nextStep(currentState: InprogressOrdinary) = {
+    OtherAddressController.otherAddressStep
   }
 
   def lookupAddress(success: InprogressOrdinary): InProgressForm[InprogressOrdinary] = {

@@ -21,7 +21,7 @@ class DateOfBirthControllerTests
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/date-of-birth").withIerSession()
       )
-      
+
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 3")
@@ -45,6 +45,23 @@ class DateOfBirthControllerTests
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/register-to-vote/name"))
+    }
+  }
+
+  it should "bind successfully and redirect to the confirmation step when all complete" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/date-of-birth")
+          .withIerSession()
+          .withApplication(completeOrdinaryApplication)
+          .withFormUrlEncodedBody(
+          "dob.dob.day" -> "1",
+          "dob.dob.month" -> "1",
+          "dob.dob.year" -> "1970")
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/confirmation"))
     }
   }
 
@@ -107,47 +124,20 @@ class DateOfBirthControllerTests
     }
   }
 
-  behavior of "DateOfBirthController.editGet"
-  it should "display the edit page" in {
+  behavior of "Completing a prior step when this question is incomplete"
+  it should "stop on this page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(GET, "/register-to-vote/edit/date-of-birth").withIerSession()
-      )
-
-      status(result) should be(OK)
-      contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("What is your date of birth?")
-      contentAsString(result) should include("/register-to-vote/edit/date-of-birth")
-    }
-  }
-
-  behavior of "DateOfBirthController.editPost"
-  it should "bind successfully and redirect to the Confirmation step" in {
-    running(FakeApplication()) {
-      val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/date-of-birth")
+        FakeRequest(POST, "/register-to-vote/country-of-residence")
           .withIerSession()
+          .withApplication(completeOrdinaryApplication.copy(dob = None))
           .withFormUrlEncodedBody(
-            "dob.dob.day" -> "1",
-            "dob.dob.month" -> "1",
-            "dob.dob.year" -> "1970")
+          "country.residence" -> "England"
+        )
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/confirmation"))
-    }
-  }
-
-  it should "display any errors on unsuccessful bind" in {
-    running(FakeApplication()) {
-      val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/date-of-birth").withIerSession()
-      )
-
-      status(result) should be(OK)
-      contentAsString(result) should include("What is your date of birth?")
-      contentAsString(result) should include("Please enter your date of birth")
-      contentAsString(result) should include("/register-to-vote/edit/date-of-birth")
+      redirectLocation(result) should be(Some("/register-to-vote/date-of-birth"))
     }
   }
 }

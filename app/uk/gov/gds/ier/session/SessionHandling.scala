@@ -4,19 +4,16 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.mvc._
 import controllers.routes
 import org.joda.time.DateTime
-import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication}
+import uk.gov.gds.ier.model.InprogressApplication
 import uk.gov.gds.ier.logging.Logging
-import play.api.mvc.DiscardingCookie
-import play.api.mvc.Cookie
 import scala.Some
-import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 
 abstract class SessionHandling[T <: InprogressApplication[T]]
   extends ResultStoring
-    with ResultCleaning
-    with RequestHandling
-    with SessionCleaner {
+  with ResultCleaning
+  with RequestHandling
+  with SessionCleaner {
   self: WithSerialiser
     with Controller
     with Logging
@@ -41,7 +38,7 @@ abstract class SessionHandling[T <: InprogressApplication[T]]
               }
               case false => {
                 logger.debug(s"Validate session - token is not valid")
-                Redirect(routes.RegisterToVoteController.index()).withFreshSession()
+                Redirect(routes.ErrorController.timeout()).withFreshSession()
               }
             }
           }

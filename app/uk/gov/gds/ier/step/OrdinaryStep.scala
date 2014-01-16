@@ -10,5 +10,4 @@ trait OrdinaryStep
   with WithConfig
   with WithEncryption {
   def factoryOfT() = InprogressOrdinary()
-  val confirmationRoute = controllers.step.ordinary.routes.ConfirmationController.get
 }
