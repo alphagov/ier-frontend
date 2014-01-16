@@ -49,20 +49,30 @@ trait PreviousAddressForms extends PreviousAddressConstraints {
     ) (
       (prevAddress, json, postcode) =>  {
         if (json.isDefined && postcode.isDefined) {
-          InprogressOrdinary(
-            previousAddress = prevAddress,
-            possibleAddresses = Some(PossibleAddress(serialiser.fromJson[Addresses](json.get), postcode.get)))
+          try {
+            val addresses:Addresses = serialiser.fromJson[Addresses](json.get)
+            InprogressOrdinary (previousAddress = prevAddress,possibleAddresses = Some(PossibleAddress(addresses, postcode.get)))
+          }
+          catch {
+            case e: Exception =>
+              InprogressOrdinary (previousAddress = prevAddress,possibleAddresses = None)
+          }
         }
         else {
-          InprogressOrdinary(
-            previousAddress = prevAddress,
-            possibleAddresses = None)
+          InprogressOrdinary (previousAddress = prevAddress,possibleAddresses = None)
         }
       }
     ) (
       inprogress =>
         if (inprogress.possibleAddresses.isDefined) {
-          Some(inprogress.previousAddress, Some(serialiser.toJson(inprogress.possibleAddresses.get.jsonList)),Some(inprogress.possibleAddresses.get.postcode))
+          try {
+            val json = serialiser.toJson(inprogress.possibleAddresses.get.jsonList)
+            Some(inprogress.previousAddress, Some(json),Some(inprogress.possibleAddresses.get.postcode))
+          }
+          catch {
+            case e:Exception =>
+              Some(inprogress.previousAddress, Option.empty[String],Some(inprogress.possibleAddresses.get.postcode))
+          }
         }
         else {
           Some(inprogress.previousAddress,Option.empty[String],Option.empty[String])
