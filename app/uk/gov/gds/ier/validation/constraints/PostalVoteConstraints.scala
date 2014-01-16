@@ -12,7 +12,7 @@ trait PostalVoteConstraints {
     postaVoteDeliveryMethod =>
       if (postaVoteDeliveryMethod.deliveryMethod.isDefined)
         if (postaVoteDeliveryMethod.deliveryMethod == Some("email") && !postaVoteDeliveryMethod.emailAddress.isDefined )
-          Invalid("Please enter the email address", keys.deliveryMethod.emailAddress)
+          Invalid("Please enter your email address", keys.deliveryMethod.emailAddress)
         else Valid
       else Invalid("Please answer this question", keys.deliveryMethod.methodName)
   }
