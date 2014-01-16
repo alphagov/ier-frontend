@@ -10,10 +10,6 @@ trait PostalVoteForms extends PostalVoteConstraints {
   self:  FormKeys
     with ErrorMessages =>
 
-  lazy val postalVoteOptInMapping = single(
-    keys.optIn.key -> boolean
-  )
-
   lazy val postalVoteDeliveryMethodMapping = mapping(
     keys.methodName.key -> optional(nonEmptyText),
     keys.emailAddress.key -> optional(nonEmptyText)
@@ -26,7 +22,7 @@ trait PostalVoteForms extends PostalVoteConstraints {
 
   val postalVoteForm = ErrorTransformForm(
     mapping(
-      keys.postalVote.key -> optional(postalVoteOptInMapping)
+      keys.postalVote.optIn.key -> optional(boolean)
         .verifying("Please answer this question", postalVote => postalVote.isDefined),
       keys.deliveryMethod.key -> optional(postalVoteDeliveryMethodMapping)
     ) (

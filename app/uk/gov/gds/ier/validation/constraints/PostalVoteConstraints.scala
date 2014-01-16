@@ -11,16 +11,16 @@ trait PostalVoteConstraints {
   lazy val validDeliveryMethod = Constraint[PostalVoteDeliveryMethod](keys.deliveryMethod.key) {
     postaVoteDeliveryMethod =>
       if (postaVoteDeliveryMethod.deliveryMethod.isDefined)
-        if (postaVoteDeliveryMethod.deliveryMethod.equals("email") && !postaVoteDeliveryMethod.emailAddress.isDefined )
+        if (postaVoteDeliveryMethod.deliveryMethod == Some("email") && !postaVoteDeliveryMethod.emailAddress.isDefined )
           Invalid("Please enter the email address", keys.deliveryMethod.emailAddress)
         else Valid
-      else Invalid("Please answer this question", keys.deliveryMethod)
+      else Invalid("Please answer this question", keys.deliveryMethod.methodName)
   }
 
   lazy val validPostVoteOption = Constraint[InprogressOrdinary](keys.deliveryMethod.key) {
     application => {
       if (application.postalVoteOptin.isDefined && application.postalVoteOptin.get == true && !application.postalVoteDeliveryMethod.isDefined)
-        Invalid("Please enter your email address", keys.deliveryMethod)
+        Invalid("Please answer this question", keys.deliveryMethod.methodName)
       else
         Valid
     }

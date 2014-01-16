@@ -163,7 +163,7 @@ case class OrdinaryApplication(name: Option[Name],
       otherAddress.map(_.toApiMap).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
       postalVoteOptin.map(postal => Map("pvote" -> postal.toString)).getOrElse(Map.empty) ++
-      //postalVoteDeliveryMethod.map(postal => Map("pvoteemail" -> postal.emailAddress)).getOrElse(Map.empty) ++
+      postalVoteDeliveryMethod.map(postal => postal.emailAddress.map(emailAddress => Map("pvoteemail" -> emailAddress)).getOrElse(Map.empty)).getOrElse(Map.empty) ++
       contact.map(_.toApiMap).getOrElse(Map.empty) ++
       referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
       authority.map(auth => Map("gssCode" -> auth.gssId)).getOrElse(Map.empty)  ++
