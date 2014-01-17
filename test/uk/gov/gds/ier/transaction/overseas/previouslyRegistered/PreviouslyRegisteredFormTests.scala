@@ -62,7 +62,7 @@ class PreviouslyRegisteredFormTests
       }
     )
   }
-  
+
   it should "successfully parse (false)" in {
     val js = Json.toJson(
       Map(

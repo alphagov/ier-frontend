@@ -7,15 +7,15 @@
 
     {{> shared/validationMessages }}
 
-    <fieldset class="validate {{^globalErrors.isEmpty}}invalid{{/globalErrors.isEmpty}}" >
+    <fieldset class="validate {{previouslyRegistered.classes}}" >
 
-        <label for="overseas_previouslyRegsitered_true" class="binary selectable">
-            <input type="radio" id="overseas_previouslyRegsitered_true" name="previouslyRegistered.hasPreviouslyRegistered" value="true" class="radio  validate" >
+        <label for="{{previouslyRegisteredTrue.id}}" class="binary selectable">
+            <input type="radio" id="{{previouslyRegisteredTrue.id}}" name="{{previouslyRegisteredTrue.name}}" value="true" class="radio validate" {{{previouslyRegisteredTrue.attributes}}} >
             Yes
         </label>
 
-        <label for="overseas_previouslyRegsitered_false" class="binary selectable">
-            <input type="radio" id="overseas_previouslyRegsitered_false" name="previouslyRegistered.hasPreviouslyRegistered" value="false" class="radio  validate" >
+        <label for="{{previouslyRegisteredFalse.id}}" class="binary selectable">
+            <input type="radio" id="{{previouslyRegisteredFalse.id}}" name="{{previouslyRegisteredFalse.name}}" value="false" class="radio validate" {{{previouslyRegisteredFalse.attributes}}}>
             No
         </label>
 
