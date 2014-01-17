@@ -7,6 +7,7 @@ import org.scalatest.junit.JUnitRunner
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.model.{OtherAddress, InprogressOrdinary}
 
 class OtherAddressControllerTests
   extends FlatSpec
@@ -25,8 +26,11 @@ class OtherAddressControllerTests
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 8")
       contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/previous-address")
-      contentAsString(result) should include("Do you live at a second UK address where you&#x27;re registered to vote?")
+      contentAsString(result) should include("Do you live at a second UK address where you're registered to vote?")
       contentAsString(result) should include("/register-to-vote/other-address")
+
+      contentAsString(result) should include("<input id=\"otherAddress_hasOtherAddress_true\" name=\"otherAddress.hasOtherAddress\"")
+      contentAsString(result) should include("<input id=\"otherAddress_hasOtherAddress_false\" name=\"otherAddress.hasOtherAddress\"")
     }
   }
 
@@ -69,7 +73,7 @@ class OtherAddressControllerTests
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("Do you live at a second UK address where you&#x27;re registered to vote?")
+      contentAsString(result) should include("Do you live at a second UK address where you're registered to vote?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("/register-to-vote/other-address")
     }
@@ -103,7 +107,7 @@ class OtherAddressControllerTests
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 8")
       contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/confirmation")
-      contentAsString(result) should include("Do you live at a second UK address where you&#x27;re registered to vote?")
+      contentAsString(result) should include("Do you live at a second UK address where you're registered to vote?")
       contentAsString(result) should include("/register-to-vote/edit/other-address")
     }
   }
@@ -147,9 +151,32 @@ class OtherAddressControllerTests
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("Do you live at a second UK address where you&#x27;re registered to vote?")
+      contentAsString(result) should include("Do you live at a second UK address where you're registered to vote?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("/register-to-vote/edit/other-address")
+    }
+  }
+
+  behavior of "OtherAddressController.get with otherAddress filled as yes in in-progress application"
+  it should "display the page with has other address true radio button selected" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(GET, "/register-to-vote/other-address")
+          .withIerSession(3)
+          .withApplication(InprogressOrdinary(otherAddress = Some(OtherAddress(true))))
+      )
+
+      status(result) should be(OK)
+      contentType(result) should be(Some("text/html"))
+      contentAsString(result) should include("Question 8")
+      contentAsString(result) should include("" +
+        "            <input id=\"otherAddress_hasOtherAddress_true\" name=\"otherAddress.hasOtherAddress\" value=\"true\"\n" +
+        "                   class=\"radio  validate\" data-validation-name=\"otherAddressYes\" data-validation-type=\"field\"\n" +
+        "                   data-validation-rules=\"nonEmpty\" type=\"radio\" checked>")
+      contentAsString(result) should include("" +
+        "            <input id=\"otherAddress_hasOtherAddress_false\" name=\"otherAddress.hasOtherAddress\" value=\"false\"\n" +
+        "                   class=\"radio  validate\" data-validation-name=\"otherAddressNo\" data-validation-type=\"field\"\n" +
+        "                   data-validation-rules=\"nonEmpty\" type=\"radio\" >")
     }
   }
 }
