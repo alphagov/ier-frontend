@@ -19,27 +19,26 @@ trait PreviousRegisteredMustache extends StepMustache {
                                  post: Call,
                                  back: Option[Call]): Html = {
     val prevRegKey = keys.previouslyRegistered.hasPreviouslyRegistered
-    val previouslyRegisteredFieldSet = FieldSet(
-      classes = if (form(prevRegKey.key).hasErrors) "invalid" else ""
-    )
-    val previouslyRegisteredTrue = Field(
-      name = prevRegKey.key,
-      id = prevRegKey.asId("true"),
-      attributes = if (form(prevRegKey.key).value == Some("true")) "checked=\"checked\"" else ""
-    )
-    val previouslyRegisteredFalse = Field(
-      name = prevRegKey.key,
-      id = prevRegKey.asId("false"),
-      attributes = if (form(prevRegKey.key).value == Some("false")) "checked=\"checked\"" else ""
-    )
+
     val data = PreviouslyRegisteredModel(
       post.url,
       form.globalErrors.map{ _.message },
       back.map { call => call.url }.getOrElse(""),
-      previouslyRegisteredFieldSet,
-      previouslyRegisteredTrue,
-      previouslyRegisteredFalse
+      previouslyRegistered = FieldSet(
+        classes = if (form(prevRegKey.key).hasErrors) "invalid" else ""
+      ),
+      previouslyRegisteredTrue = Field(
+        name = prevRegKey.key,
+        id = prevRegKey.asId("true"),
+        attributes = if (form(prevRegKey.key).value == Some("true")) "checked=\"checked\"" else ""
+      ),
+      previouslyRegisteredFalse = Field(
+        name = prevRegKey.key,
+        id = prevRegKey.asId("false"),
+        attributes = if (form(prevRegKey.key).value == Some("false")) "checked=\"checked\"" else ""
+      )
     )
-    Mustache.render("overseas/previouslyRegistered", data)
+    val content = Mustache.render("overseas/previouslyRegistered", data)
+    MainStepTemplate(content, "Is this your first time registering as an overseas voter?")
   }
 }
