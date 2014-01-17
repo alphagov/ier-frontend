@@ -627,7 +627,7 @@
           validation.fields.remove('addressExcuse');
         }
         validation.fields.add($result);
-        $result.find('.validate').each(function (idx, elm) {
+        $result.find('.validate:not([type="hidden"])').each(function (idx, elm) {
           validation.fields.add($(elm));
         });
         $('#continue').attr('data-validation-sources', validationSources.join(' '));
