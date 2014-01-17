@@ -1,94 +1,89 @@
 package uk.gov.gds.ier.transaction.ordinary.name
 
-import uk.gov.gds.ier.validation.{FormKeys, ErrorTransformForm, InProgressForm}
-import uk.gov.gds.ier.model._
-import play.api.mvc.Call
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.templates.Html
-import org.jba.Mustache
-import uk.gov.gds.ier.template.MainStepTemplate
-import views.html.layouts.{stepsBodyEnd, head}
-import play.api.data.Field
-import scala.Some
 import uk.gov.gds.ier.model.InprogressOrdinary
 import play.api.mvc.Call
+import uk.gov.gds.ier.mustache.StepMustache
 
 
-trait NameMustache extends FormKeys {
+trait NameMustache extends StepMustache {
 
   case class ModelField(
                          id: String,
                          name: String,
-                         value: String
+                         value: String,
+                         invalidWrapperClass: String = "",
+                         invalidInputClass: String = ""
                          )
 
   case class NameModel(
                         postUrl: String = "",
-                        name1: ModelField,
-                        name2: ModelField,
-                        name3: ModelField,
+                        showBackUrl:Boolean,
+                        backUrl:String,
+                        firstName: ModelField,
+                        middleNames: ModelField,
+                        lastName: ModelField,
                         hasPreviousNameTrue: ModelField,
                         hasPreviousNameFalse: ModelField,
-                        previousName1: ModelField,
-                        previousName2: ModelField,
-                        previousName3: ModelField,
+                        previousFirstName: ModelField,
+                        previousMiddleNames: ModelField,
+                        previousLastName: ModelField,
                         globalErrors: Seq[String] = List.empty
                         )
 
-  def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOrdinary], postUrl: String): NameModel = {
+  def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOrdinary], postUrl: String, backUrl: Option[String]): NameModel = {
     val globalErrors = form.globalErrors
-    val application = form.value.getOrElse(InprogressOrdinary())
-    val name = application.name.getOrElse(Name("", Some(""), "")) // get applicant name from "session" in-progress data
-    val hasPreviousName = application.previousName.getOrElse(PreviousName(false, None)).hasPreviousName
-    val previousName = application.previousName.getOrElse(PreviousName(false, None)).previousName.getOrElse(Name("", Some(""), ""))
-
     NameModel(
       postUrl,
-      name1 = ModelField(
-        id = keys.name.firstName.key,
+      backUrl.isDefined,
+      backUrl.getOrElse(""),
+      firstName = ModelField(
+        id = keys.name.firstName.asId(),
         name = keys.name.firstName.key,
-        value = name.firstName
+        value = form(keys.name.firstName.key).value.getOrElse("")
       ),
-      name2 = ModelField(
-        id = keys.name.middleNames.key,
+      middleNames = ModelField(
+        id = keys.name.middleNames.asId(),
         name = keys.name.middleNames.key,
-        value = name.middleNames.getOrElse("")
+        value = form(keys.name.middleNames.key).value.getOrElse("")
       ),
-      name3 = ModelField(
-        id = keys.name.lastName.key,
+      lastName = ModelField(
+        id = keys.name.lastName.asId(),
         name = keys.name.lastName.key,
-        value = name.lastName
+        value = form(keys.name.lastName.key).value.getOrElse("")
       ),
       hasPreviousNameTrue = ModelField(
         id = keys.previousName.hasPreviousName.asId("true"),
         name = keys.previousName.hasPreviousName.key,
-        value = if (hasPreviousName) "checked" else ""
+        value = if (form(keys.hasPreviousName.key).value.isDefined) "checked" else ""
       ),
       hasPreviousNameFalse = ModelField(
         id = keys.previousName.hasPreviousName.asId("false"),
         name = keys.previousName.hasPreviousName.key,
-        value = if (hasPreviousName) "checked" else ""
+        value = if (!form(keys.hasPreviousName.key).value.isDefined) "checked" else ""
       ),
-      previousName1 = ModelField(
-        id = keys.previousName.firstName.key,
+      previousFirstName = ModelField(
+        id = keys.previousName.firstName.asId(),
         name = keys.previousName.firstName.key,
-        value = previousName.firstName
+        value = form(keys.previousName.firstName.key).value.getOrElse("")
       ),
-      previousName2 = ModelField(
-        id = keys.previousName.middleNames.key,
+      previousMiddleNames = ModelField(
+        id = keys.previousName.middleNames.asId(),
         name = keys.previousName.middleNames.key,
-        value = previousName.middleNames.getOrElse("")
+        value = form(keys.previousName.middleNames.key).value.getOrElse("")
       ),
-      previousName3 = ModelField(
-        id = keys.previousName.lastName.key,
+      previousLastName = ModelField(
+        id = keys.previousName.lastName.asId(),
         name = keys.previousName.lastName.key,
-        value = previousName.lastName
+        value = form(keys.previousName.lastName.key).value.getOrElse("")
       ),
       globalErrors.map(_.message)
     )
   }
 
-  def otherAddressMustache(form: ErrorTransformForm[InprogressOrdinary], call: Call): Html = {
-    val data = transformFormStepToMustacheData(form, call.url)
+  def nameMustache(form: ErrorTransformForm[InprogressOrdinary], call: Call, backUrl: Option[String]): Html = {
+    val data = transformFormStepToMustacheData(form, call.url, backUrl)
     val content = Mustache.render("ordinary/name", data)
     MainStepTemplate(content, "Register to Vote - What is your name?")
   }

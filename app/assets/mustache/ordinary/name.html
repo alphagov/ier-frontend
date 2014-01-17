@@ -1,54 +1,66 @@
-<form action="/register-to-vote/name" method="POST" >
+<form action="{{postUrl}}" method="POST" >
 
-    <a class="back-to-previous" href="/register-to-vote/date-of-birth">Back <span class="visuallyhidden"> to the previous question</span></a>
+    {{#showBackUrl}}
+    <a class="back-to-previous" href="{{backUrl}}}">Back <span class="visuallyhidden"> to the previous question</span></a>
+    {{/showBackUrl}}
     <header>
         <p>Question 4 of 11</p>
         <h1>What is your full name?</h1>
     </header>
 
+    {{> ordinary/validationMessages }}
+
     <fieldset class="validate" data-validation-name="fullName" data-validation-type="association"
               data-validation-rules="allNonEmpty" data-validation-members="firstName lastName">
 
-        <label for="name_firstName" class=""  >
+        <label for="{{firstName.id}}" class=""  >
             First name
         </label>
-        <div class="validation-wrapper">
-            <input type="text" id="name_firstName" name="name.firstName" value="" autocomplete="off"
-                   class="text  first-name long validate"   data-validation-name=firstName  data-validation-type=field
-                   data-validation-rules=nonEmpty >
+        <div class="validation-wrapper {{firstName.invalidWrapperClass}}">
+            <input type="text" id="{{firstName.id}}" name="{{firstName.name}}" value="{{firstName.value}}" autocomplete="off"
+                   class="text first-name long validate {{firstName.invalidInputClass}}" data-validation-name="firstName" data-validation-type="field"
+                   data-validation-rules="nonEmpty" >
         </div>
 
-        <label for="name_middleNames" class=""  >
+        <!--
+        Invalid css classes:
+        <div class="validation-wrapper validation-wrapper-invalid">
+           <input id="name_firstName" name="name.firstName" value="" autocomplete="off"
+           class="text  first-name long validate invalid" data-validation-name="firstName" data-validation-type="field" data-validation-rules="nonEmpty" type="text">
+        </div>
+        -->
+
+        <label for="{{middleNames.id}}" class=""  >
             Middle names
         </label>
-        <input type="text" id="name_middleNames" name="name.middleNames" value="" autocomplete="off"
-               class="text  middle-names long"  >
+        <input type="text" id="{{middleNames.id}}" name="{{middleNames.name}}" value="{{middleNames.value}}" autocomplete="off"
+               class="text  middle-names long {{middleNames.invalidInputClass}}"  >
 
-        <label for="name_lastName" class=""  >
+        <label for="{{lastName.id}}" class=""  >
             Last name
         </label>
-        <div class="validation-wrapper">
-            <input type="text" id="name_lastName" name="name.lastName" value="" autocomplete="off"
-                   class="text  last-name long validate"   data-validation-name=lastName  data-validation-type=field
-                   data-validation-rules=nonEmpty >
+        <div class="validation-wrapper {{lastName.invalidWrapperClass}}">
+            <input type="text" id="{{lastName.id}}" name="{{lastName.name}}" value="{{lastName.value}}" autocomplete="off"
+                   class="text  last-name long validate {{lastName.invalidInputClass}}"   data-validation-name="lastName"  data-validation-type="field"
+                   data-validation-rules="nonEmpty" >
         </div>
     </fieldset>
 
-    <fieldset class="sub-section validate" data-validation-name="previousQuestion" data-validation-type="fieldset"
+    <fieldset class="sub-section validate {{hasPreviousName}}" data-validation-name="previousQuestion" data-validation-type="fieldset"
               data-validation-rules="atLeastOneNonEmpty" data-validation-children="previousYes previousNo">
         <legend class="label">Have you changed your name in the last 12 months?</legend>
 
-        <label for="previousName_hasPreviousName_true" class="selectable binary"  >
-            <input type="radio" id="previousName_hasPreviousName_true" name="previousName.hasPreviousName"
-                   value="true"  class="radio  validate"   data-validation-name=previousYes  data-validation-type=field
-                   data-validation-rules=nonEmpty >
+        <label for="{{hasPreviousNameTrue.id}}" class="selectable binary"  >
+            <input type="radio" id="{{hasPreviousNameTrue.id}}" name="{{hasPreviousNameTrue.name}}"
+                   value="true" class="radio validate" data-validation-name="previousYes" data-validation-type="field"
+                   data-validation-rules="nonEmpty" {{hasPreviousNameTrue.value}}>
             Yes<span class="visuallyhidden"> I changed my name in the last 12 months</span>
         </label>
 
-        <label for="previousName_hasPreviousName_false" class="selectable binary"  >
-            <input type="radio" id="previousName_hasPreviousName_false" name="previousName.hasPreviousName"
-                   value="false"  class="radio  validate"   data-validation-name=previousNo  data-validation-type=field
-                   data-validation-rules=nonEmpty >
+        <label for="{{hasPreviousNameFalse.id}}" class="selectable binary"  >
+            <input type="radio" id="{{hasPreviousNameFalse.id}}" name="{{hasPreviousNameFalse.name}}"
+                   value="false"  class="radio  validate"   data-validation-name="previousNo"  data-validation-type="field"
+                   data-validation-rules="nonEmpty" {{hasPreviousNameFalse.value}}>
             No<span class="visuallyhidden"> I haven't changed my name in the last 12 months</span>
         </label>
     </fieldset>
@@ -58,25 +70,25 @@
         <fieldset class="validate" data-validation-name="previousName" data-validation-type="association"
                   data-validation-rules="allNonEmpty" data-validation-members="previousFirstName previousLastName">
 
-            <label for="previousName_previousName_firstName" class=""  >
+            <label for="{{previousFirstName.id}}" class=""  >
                 <span class="visuallyhidden">Previous</span> First name
             </label>
-            <input type="text" id="previousName_previousName_firstName" name="previousName.previousName.firstName"
-                   value="" autocomplete="off"  class="text  first-name long validate"
+            <input type="text" id="{{previousFirstName.id}}" name="{{previousFirstName.name}}"
+                   value="{{previousFirstName.value}}" autocomplete="off"  class="text  first-name long validate"
                    data-validation-name="previousFirstName"  data-validation-type="field"  data-validation-rules="nonEmpty" >
 
-            <label for="previousName_previousName_middleNames" class=""  >
+            <label for="{{previousMiddleNames.id}}" class=""  >
                 <span class="visuallyhidden">Previous</span> Middle names
             </label>
-            <input type="text" id="previousName_previousName_middleNames" name="previousName.previousName.middleNames"
-                   value="" autocomplete="off"  class="text  middle-names long"  >
+            <input type="text" id="{{previousMiddleNames.id}}" name="{{previousMiddleNames.name}}"
+                   value="{{previousMiddleNames.value}}" autocomplete="off"  class="text  middle-names long"  >
 
-            <label for="previousName_previousName_lastName" class=""  >
+            <label for="{{previousLastName.id}}" class=""  >
                 <span class="visuallyhidden">Previous</span> Last name
             </label>
-            <input type="text" id="previousName_previousName_lastName" name="previousName.previousName.lastName"
-                   value="" autocomplete="off"  class="text  last-name long validate"
-                   data-validation-name=previousLastName  data-validation-type=field  data-validation-rules=nonEmpty >
+            <input type="text" id="{{previousLastName.id}}" name="{{previousLastName.name}}"
+                   value="{{previousLastName.value}}" autocomplete="off"  class="text  last-name long validate"
+                   data-validation-name="previousLastName"  data-validation-type="field"  data-validation-rules="nonEmpty" >
         </fieldset>
     </div>
 

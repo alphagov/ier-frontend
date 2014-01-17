@@ -202,5 +202,4 @@ class NameControllerTests
       contentAsString(result) should include("/register-to-vote/edit/name")
     }
   }
-
 }
