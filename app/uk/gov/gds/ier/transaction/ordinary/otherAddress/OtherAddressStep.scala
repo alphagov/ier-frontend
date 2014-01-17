@@ -12,6 +12,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.step.OrdinaryStep
+import java.net.URL
 
 class OtherAddressStep @Inject ()(val serialiser: JsonSerialiser,
                                         val config: Config,
@@ -32,9 +33,7 @@ class OtherAddressStep @Inject ()(val serialiser: JsonSerialiser,
   )
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
-    // FIXME: form and back URL
-    //views.html.steps.otherAddress(form, call, backUrl.map(_.url))
-    otherAddressMustache(form.form, call)
+    otherAddressMustache(form.form, call, backUrl.map(_.url))
   }
   def nextStep(currentState: InprogressOrdinary) = {
     OpenRegisterController.openRegisterStep
