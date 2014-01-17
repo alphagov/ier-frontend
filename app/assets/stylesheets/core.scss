@@ -208,16 +208,16 @@ main .visible { // assumes default state is block
 article,
 form {
   padding: 0 14px 2em 14px;
-  margin-right: 0;
+  max-width: 36em;
+
+  @include ie(6) {
+    width: 36em;
+  }
 
   @include media(tablet) {
     padding: 0 2em;
   }
 
-  @include media(desktop) {
-    margin-right: 22.5em;
-    max-width: 36em;
-  }
 }
 
 form {
