@@ -40,7 +40,7 @@ class PreviouslyRegisteredStepTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/overseas/first-time-registering"))
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/first-time-registered"))
     }
   }
 
@@ -81,7 +81,7 @@ class PreviouslyRegisteredStepTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Is this your first time registering as an overseas voter?")
-      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/confirmation")
+      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/confirmation")
       contentAsString(result) should include("/register-to-vote/overseas/edit/previously-registered")
     }
   }
@@ -97,7 +97,7 @@ class PreviouslyRegisteredStepTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/overseas/first-time-registering"))
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/first-time-registered"))
     }
   }
 
@@ -134,7 +134,7 @@ class PreviouslyRegisteredStepTests
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/previously-registered")
           .withIerSession()
-          .withApplication(completeApplication)
+          .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
           "previouslyRegistered.hasPreviouslyRegistered" -> "true")
       )
@@ -149,7 +149,7 @@ class PreviouslyRegisteredStepTests
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/previously-registered")
           .withIerSession()
-          .withApplication(completeApplication)
+          .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
           "previouslyRegistered.hasPreviouslyRegistered" -> "false")
       )
@@ -165,7 +165,7 @@ class PreviouslyRegisteredStepTests
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/edit/previously-registered")
           .withIerSession()
-          .withApplication(completeApplication)
+          .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
           "previouslyRegistered.hasPreviouslyRegistered" -> "true")
       )
@@ -180,7 +180,7 @@ class PreviouslyRegisteredStepTests
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/edit/previously-registered")
           .withIerSession()
-          .withApplication(completeApplication)
+          .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
           "previouslyRegistered.hasPreviouslyRegistered" -> "false")
       )

@@ -37,6 +37,7 @@ class PreviouslyRegisteredStep @Inject() (val serialiser: JsonSerialiser,
     currentState.previouslyRegistered match {
       case Some(PreviouslyRegistered(true)) => FirstTimeRegisteredController.firstTimeStep
       case Some(PreviouslyRegistered(false)) => DateLeftUkController.dateLeftUkStep
+      case _ => this
     }
   }
 

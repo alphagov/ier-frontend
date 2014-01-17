@@ -132,10 +132,10 @@ GET         /register-to-vote/overseas/edit/previously-registered        control
 POST        /register-to-vote/overseas/edit/previously-registered        controllers.step.overseas.PreviouslyRegisteredController.editPost
 
 #First Time Registered
-GET         /register-to-vote/overseas/first-time-registering             controllers.step.overseas.FirstTimeRegisteredController.get
-POST        /register-to-vote/overseas/first-time-registering             controllers.step.overseas.FirstTimeRegisteredController.post
-GET         /register-to-vote/overseas/edit/first-time-registering        controllers.step.overseas.FirstTimeRegisteredController.editGet
-POST        /register-to-vote/overseas/edit/first-time-registering        controllers.step.overseas.FirstTimeRegisteredController.editPost
+GET         /register-to-vote/overseas/first-time-registered             controllers.step.overseas.FirstTimeRegisteredController.get
+POST        /register-to-vote/overseas/first-time-registered             controllers.step.overseas.FirstTimeRegisteredController.post
+GET         /register-to-vote/overseas/edit/first-time-registered        controllers.step.overseas.FirstTimeRegisteredController.editGet
+POST        /register-to-vote/overseas/edit/first-time-registered        controllers.step.overseas.FirstTimeRegisteredController.editPost
 
 #Date Left UK
 GET         /register-to-vote/overseas/date-left-uk                      controllers.step.overseas.DateLeftUkController.get

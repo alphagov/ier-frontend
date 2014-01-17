@@ -4,6 +4,9 @@
         <p>Question 2 of ?</p>
         <h1>Is this your first time registering as an overseas voter?</h1>
     </header>
+
+    {{> shared/validationMessages }}
+
     <fieldset class="validate {{^globalErrors.isEmpty}}invalid{{/globalErrors.isEmpty}}" >
 
         <label for="overseas_previouslyRegsitered_true" class="binary selectable">
@@ -17,8 +20,6 @@
         </label>
 
     </fieldset>
-
-    {{> shared/validationMessages }}
 
     <button type="submit" id="continue" class="button next validation-submit">Continue</button>
 
