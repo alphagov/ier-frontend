@@ -10,14 +10,17 @@ import uk.gov.gds.ier.model.InprogressOrdinary
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
-import uk.gov.gds.ier.step.{OrdinaryStep, Routes}
+import uk.gov.gds.ier.step.Routes
+import uk.gov.gds.ier.step.OrdinaryStep
+import java.net.URL
 
 class OtherAddressStep @Inject ()(val serialiser: JsonSerialiser,
                                         val config: Config,
                                         val encryptionService : EncryptionService,
                                         val encryptionKeys : EncryptionKeys)
   extends OrdinaryStep
-  with OtherAddressForms {
+  with OtherAddressForms
+  with OtherAddressMustache {
 
   val validation = otherAddressForm
   val previousRoute = Some(PreviousAddressController.get)
@@ -30,7 +33,7 @@ class OtherAddressStep @Inject ()(val serialiser: JsonSerialiser,
   )
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
-    views.html.steps.otherAddress(form, call, backUrl.map(_.url))
+    otherAddressMustache(form.form, call, backUrl.map(_.url))
   }
   def nextStep(currentState: InprogressOrdinary) = {
     OpenRegisterController.openRegisterStep
