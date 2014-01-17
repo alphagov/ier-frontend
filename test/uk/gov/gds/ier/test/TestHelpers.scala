@@ -56,8 +56,8 @@ trait TestHelpers {
     previousAddress = Some(PartialPreviousAddress(Some(false),false, None)),
     otherAddress = Some(OtherAddress(false)),
     openRegisterOptin = Some(false),
-    postalVoteOptin = Some(false), 
-    contact = Some(Contact(true, None, None, None)),
+    postalVote = Some(PostalVote(false,None)),
+    contact = Some(Contact(true, None, None)),
     possibleAddresses = None,
     country = Some(Country("England"))
   )

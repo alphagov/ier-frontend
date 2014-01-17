@@ -160,7 +160,14 @@
           <div class="data-wrap"> 
           @validationSwitch(formData(keys.postalVote)) {
             @if(formData(keys.postalVote.optIn).value == Some("true")){
-              <p>I want to apply for a postal vote</p>
+              <p>
+              @if(formData(keys.postalVote.deliveryMethod.methodName).value == Some("email")){
+                  I want you to email a postal vote application form to:
+                  <br/>@formData(keys.postalVote.deliveryMethod.emailAddress).value.getOrElse("")
+              }else{
+                  I want you to mail me a postal vote application form
+              }
+              </p>
             }else{
               <p>I don’t want to apply for a postal vote</p>
             }
