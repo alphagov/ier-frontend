@@ -29,7 +29,8 @@ case class ErrorTransformForm[T](private val form:Form[T]) {
     this.copy(form.fill(value))
   }
   def fillAndValidate(value : T) : ErrorTransformForm[T] = {
-    this.copy(form.fillAndValidate(value))
+    val filledForm = form.fillAndValidate(value)
+    this.copy(form.bind(filledForm.data))
   }
   def fold[R](hasErrors : ErrorTransformForm[T] => R, success : T => R) : R = form.value match {
     case Some(v) if transformedForm.errors.isEmpty => success(v)

@@ -1,4 +1,4 @@
-@(implicit formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary], postUrl: Call)
+@(implicit formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary], postUrl: Call, backUrl: Option[String] = None)
 
 @import helper._
 @import layouts._
@@ -6,7 +6,7 @@
 
 @main(title = Some("Register to Vote - Do you want your name and address listed on the open register?"), stylesheets = head(), scripts = stepsBodyEnd()) {
   @form(postUrl) {
-    @layouts.questionHeader("Do you want your name and address listed on the open register?", "/register-to-vote/other-address", 9)
+    @layouts.questionHeader("Do you want your name and address listed on the open register?", backUrl, 9)
 
     <fieldset>
       <p>The open register is an extract of the electoral register, but is not used for elections. It can be bought by any person, company or organisation.</p>

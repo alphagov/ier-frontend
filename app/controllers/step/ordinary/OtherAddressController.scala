@@ -9,4 +9,6 @@ object OtherAddressController extends DelegatingController[OtherAddressStep] {
   def post = delegate.post
   def editGet = delegate.editGet
   def editPost = delegate.editPost
+
+  def otherAddressStep = delegate
 }

@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.confirmation
 
-import controllers.routes._
+import controllers.step.ordinary.routes.{ConfirmationController, ContactController}
+import controllers.routes.CompleteController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.{JsonSerialiser}
 import uk.gov.gds.ier.validation._
@@ -14,30 +15,48 @@ import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.model.InprogressOrdinary
-import uk.gov.gds.ier.step.ConfirmationController
+import uk.gov.gds.ier.step.{ConfirmationStepController, Routes}
 
 class ConfirmationStep @Inject ()(val serialiser: JsonSerialiser,
-                                        ierApi: IerApiService,
-                                        addressService: AddressService,
-                                        val config: Config,
-                                        val encryptionService : EncryptionService,
-                                        val encryptionKeys : EncryptionKeys)
-  extends ConfirmationController[InprogressOrdinary]
+                                  ierApi: IerApiService,
+                                  addressService: AddressService,
+                                  val config: Config,
+                                  val encryptionService : EncryptionService,
+                                  val encryptionKeys : EncryptionKeys)
+  extends ConfirmationStepController[InprogressOrdinary]
   with ConfirmationForms {
 
   def factoryOfT() = InprogressOrdinary()
 
+  val routes = Routes(
+    get = ConfirmationController.get,
+    post = ConfirmationController.post,
+    editGet = ConfirmationController.get,
+    editPost = ConfirmationController.post
+  ) 
+
   val validation = confirmationForm
+  val previousRoute = Some(ContactController.get)
 
   def template(form:InProgressForm[InprogressOrdinary]): Html = {
-    views.html.steps.confirmation(form)
+    views.html.steps.confirmation(form, previousRoute.map(_.url))
   }
 
   def get = ValidSession requiredFor {
     request => application =>
       val currentAddressLine = application.address.map { addressService.fillAddressLine(_) }
-      val previousAddressLine = application.previousAddress.flatMap { prev =>
-        prev.previousAddress.map { addressService.fillAddressLine(_) }
+
+      val previousAddressLine = if (
+        application.previousAddress.isDefined &&
+        application.previousAddress.get.movedRecently.isDefined &&
+        application.previousAddress.get.movedRecently.get == true )
+      {
+        application.previousAddress.flatMap { prev =>
+          prev.previousAddress.map { addressService.fillAddressLine(_) }
+        }
+      }
+      else {
+        None
       }
       val appWithAddressLines = application.copy(
         address = currentAddressLine, 

@@ -32,6 +32,7 @@ object ApplicationBuild extends IERBuild {
     .settings(Sass.sassSettings:_*)
     .settings(Jacoco.jacocoSettings:_*)
     .settings(Mustache.mustacheSettings:_*)
+    .settings(javaOptions in Test += "-Dconfig.file=conf/test.conf")
 }
 
 abstract class IERBuild extends Build {

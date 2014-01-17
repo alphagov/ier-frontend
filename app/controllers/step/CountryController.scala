@@ -11,4 +11,6 @@ object CountryController extends DelegatingController[GuicedController] {
   def post = delegate.post
   def editGet = delegate.editGet
   def editPost = delegate.editPost
+
+  def countryStep = delegate
 }
