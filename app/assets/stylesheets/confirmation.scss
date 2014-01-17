@@ -59,7 +59,10 @@
 
     h3 {
       font-weight: normal;
-      width: 33%
+
+      @include media(tablet) {
+        width: 33%
+      }
     }
 
     .data-wrap {
@@ -121,5 +124,6 @@
   .validation-message {
     border-top: none;
     padding-left: 0.5em;
+    margin-left: 0;
   }
 }
