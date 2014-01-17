@@ -580,7 +580,7 @@
             if (fieldIsInvalid) {
               if (!_fieldIsShowing(excuse)) {
                 return [{ 'name' : this.name, 'rule' : 'fieldOrExcuse', '$source' : field.$source }];
-              } else { // fieldIsShowing
+              } else { // excuse is showing
                 if (!excuseIsInvalid) {
                   return [];
                 }
@@ -648,6 +648,8 @@
               } else { // excuse is showing
                 if (excuseIsInvalid) {
                   return fieldsetFailedRules;
+                } else { // excuse is valid
+                  return [];
                 }
               }
             } else {
