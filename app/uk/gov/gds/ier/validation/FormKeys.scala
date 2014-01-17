@@ -89,6 +89,9 @@ trait FormKeys {
 
     lazy val possibleAddresses = prependNamespace(Key("possibleAddresses"))
     lazy val jsonList = prependNamespace(Key("jsonList"))
+
+    lazy val previouslyRegistered = prependNamespace(Key("previouslyRegistered"))
+    lazy val hasPreviouslyRegistered = prependNamespace(Key("hasPreviouslyRegistered"))
   }
 
   implicit class key2namespace(key:Key) extends Keys {

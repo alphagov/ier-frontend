@@ -47,8 +47,8 @@ trait TestHelpers {
   }
 
   lazy val completeOrdinaryApplication = InprogressOrdinary(
-    name = Some(Name("John", None, "Smith")), 
-    previousName = Some(PreviousName(false, None)), 
+    name = Some(Name("John", None, "Smith")),
+    previousName = Some(PreviousName(false, None)),
     dob = Some(DateOfBirth(Some(DOB(1988, 1, 1)), None)),
     nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
@@ -60,5 +60,11 @@ trait TestHelpers {
     contact = Some(Contact(true, None, None)),
     possibleAddresses = None,
     country = Some(Country("England"))
+  )
+
+  lazy val completeOverseasApplication = InprogressOverseas(
+    previouslyRegistered = Some(PreviouslyRegistered(true)),
+    dateLeftUk = Some(Stub()),
+    firstTimeRegistered = Some(Stub())
   )
 }

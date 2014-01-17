@@ -1,0 +1,22 @@
+<form action="{{question.postUrl}}" method="POST" >
+    {{> shared/questionHeader }}
+
+    {{> shared/validationMessages }}
+
+    <fieldset class="validate {{previouslyRegistered.classes}}" >
+
+        <label for="{{previouslyRegisteredTrue.id}}" class="binary selectable">
+            <input type="radio" id="{{previouslyRegisteredTrue.id}}" name="{{previouslyRegisteredTrue.name}}" value="true" class="radio validate" {{{previouslyRegisteredTrue.attributes}}} >
+            Yes
+        </label>
+
+        <label for="{{previouslyRegisteredFalse.id}}" class="binary selectable">
+            <input type="radio" id="{{previouslyRegisteredFalse.id}}" name="{{previouslyRegisteredFalse.name}}" value="false" class="radio validate" {{{previouslyRegisteredFalse.attributes}}}>
+            No
+        </label>
+
+    </fieldset>
+
+    <button type="submit" id="continue" class="button next validation-submit">Continue</button>
+
+</form>

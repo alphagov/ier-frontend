@@ -92,6 +92,7 @@ case class DateOfBirth(dob:Option[DOB],
   }
 }
 
+
 trait InprogressApplication[T] {
   def merge(other: T):T
 }
