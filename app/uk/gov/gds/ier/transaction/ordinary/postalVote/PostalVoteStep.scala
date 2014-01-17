@@ -6,7 +6,7 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation._
 import play.api.mvc.{SimpleResult, Call}
-import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication}
+import uk.gov.gds.ier.model.{Contact, InprogressOrdinary, InprogressApplication}
 import play.api.templates.Html
 
 import uk.gov.gds.ier.config.Config
@@ -37,5 +37,6 @@ class PostalVoteStep @Inject ()(val serialiser: JsonSerialiser,
   def nextStep(currentState: InprogressOrdinary) = {
     ContactController.contactStep
   }
+
 }
 

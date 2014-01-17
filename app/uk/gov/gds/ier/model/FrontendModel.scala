@@ -16,12 +16,10 @@ case class ContactDetail (contactMe:Boolean,
 
 case class Contact (post: Boolean,
                     phone: Option[String],
-                    textNum: Option[String],
                     email: Option[String]) {
   def toApiMap = {
     Map("post" -> post.toString) ++
       phone.map(s => Map("phone" -> s)).getOrElse(Map.empty) ++
-      textNum.map(s => Map("text" -> s)).getOrElse(Map.empty) ++
       email.map(s => Map("email" -> s)).getOrElse(Map.empty)
   }
 }
@@ -108,7 +106,7 @@ case class InprogressOrdinary (name: Option[Name] = None,
                                   previousAddress: Option[PartialPreviousAddress] = None,
                                   otherAddress: Option[OtherAddress] = None,
                                   openRegisterOptin: Option[Boolean] = None,
-                                  postalVoteOptin: Option[Boolean] = None,
+                                  postalVote: Option[PostalVote] = None,
                                   contact: Option[Contact] = None,
                                   possibleAddresses: Option[PossibleAddress] = None,
                                   country: Option[Country] = None) extends InprogressApplication[InprogressOrdinary] {
@@ -124,7 +122,7 @@ case class InprogressOrdinary (name: Option[Name] = None,
       previousAddress = this.previousAddress.orElse(other.previousAddress),
       otherAddress = this.otherAddress.orElse(other.otherAddress),
       openRegisterOptin = this.openRegisterOptin.orElse(other.openRegisterOptin),
-      postalVoteOptin = this.postalVoteOptin.orElse(other.postalVoteOptin),
+      postalVote = this.postalVote.orElse(other.postalVote),
       contact = this.contact.orElse(other.contact),
       possibleAddresses = None,
       country = this.country.orElse(other.country)
@@ -145,7 +143,7 @@ case class OrdinaryApplication(name: Option[Name],
                                previousAddress: Option[Address],
                                otherAddress: Option[OtherAddress],
                                openRegisterOptin: Option[Boolean],
-                               postalVoteOptin: Option[Boolean],
+                               postalVote: Option[PostalVote],
                                contact: Option[Contact],
                                referenceNumber: Option[String],
                                authority: Option[LocalAuthority],
@@ -162,7 +160,10 @@ case class OrdinaryApplication(name: Option[Name],
       previousAddress.map(_.toApiMap("p")).getOrElse(Map.empty) ++
       otherAddress.map(_.toApiMap).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
-      postalVoteOptin.map(postal => Map("pvote" -> postal.toString)).getOrElse(Map.empty) ++
+      postalVote.map(postalVote => Map("pvote" -> postalVote.postalVoteOption.toString)).getOrElse(Map.empty) ++
+      postalVote.map(postalVote => postalVote.deliveryMethod.map(
+        deliveryMethod => deliveryMethod.emailAddress.map(
+        emailAddress => Map("pvoteemail" -> emailAddress)).getOrElse(Map.empty)).getOrElse(Map.empty)).getOrElse(Map.empty) ++
       contact.map(_.toApiMap).getOrElse(Map.empty) ++
       referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
       authority.map(auth => Map("gssCode" -> auth.gssId)).getOrElse(Map.empty)  ++
@@ -171,6 +172,10 @@ case class OrdinaryApplication(name: Option[Name],
       Map("applicationType" -> "ordinary")
   }
 }
+
+case class PostalVote (postalVoteOption: Boolean, deliveryMethod: Option[PostalVoteDeliveryMethod])
+
+case class PostalVoteDeliveryMethod(deliveryMethod: Option[String], emailAddress: Option[String])
 
 case class PossibleAddress(jsonList:Addresses, postcode: String)
 
