@@ -17,9 +17,10 @@ trait PostalVoteConstraints {
       else Invalid("Please answer this question", keys.deliveryMethod.methodName)
   }
 
-  lazy val validPostVoteOption = Constraint[InprogressOrdinary](keys.deliveryMethod.key) {
-    application => {
-      if (application.postalVoteOptin.isDefined && application.postalVoteOptin.get == true && !application.postalVoteDeliveryMethod.isDefined)
+  lazy val validPostVoteOption = Constraint[PostalVote](keys.deliveryMethod.key) {
+    postalVote => {
+      if (postalVote.postalVoteOption == true &&
+         !postalVote.deliveryMethod.isDefined)
         Invalid("Please answer this question", keys.deliveryMethod.methodName)
       else
         Valid

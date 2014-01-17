@@ -5,6 +5,7 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.model.{PostalVoteDeliveryMethod, PostalVote}
 
 class PostalVoteFormTests 
   extends FlatSpec
@@ -21,13 +22,13 @@ class PostalVoteFormTests
     val js = Json.toJson(
       Map(
         "postalVote.optIn" -> "true",
-        "deliveryMethod.methodName" -> "post"
+        "postalVote.deliveryMethod.methodName" -> "post"
       )
     )
     postalVoteForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
-        success.postalVoteOptin should be(Some(true))
+        success.postalVote should be(Some(PostalVote(true,Some(PostalVoteDeliveryMethod(Some("post"),None)))))
       }
     )
   }
@@ -36,14 +37,14 @@ class PostalVoteFormTests
     val js = Json.toJson(
       Map(
         "postalVote.optIn" -> "true",
-        "deliveryMethod.methodName" -> "email",
-        "deliveryMethod.emailAddress" -> "deliveryMethod.emailAddress"
+        "postalVote.deliveryMethod.methodName" -> "email",
+        "postalVote.deliveryMethod.emailAddress" -> "deliveryMethod.emailAddress"
       )
     )
     postalVoteForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
-        success.postalVoteOptin should be(Some(true))
+        success.postalVote should be(Some(PostalVote(true,Some(PostalVoteDeliveryMethod(Some("email"),Some("deliveryMethod.emailAddress"))))))
       }
     )
   }
@@ -57,7 +58,7 @@ class PostalVoteFormTests
     postalVoteForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
-        success.postalVoteOptin should be(Some(false))
+        success.postalVote should be(Some(PostalVote(false,None)))
       }
     )
   }
@@ -111,7 +112,7 @@ class PostalVoteFormTests
     val js = Json.toJson(
       Map(
         "postalVote.optIn" -> "true",
-        "deliveryMethod.methodName" -> "email"
+        "postalVote.deliveryMethod.methodName" -> "email"
       )
     )
     postalVoteForm.bind(js).fold(

@@ -161,9 +161,9 @@
           @validationSwitch(formData(keys.postalVote)) {
             @if(formData(keys.postalVote.optIn).value == Some("true")){
               <p>
-              @if(formData(keys.deliveryMethod.methodName).value == Some("email")){
+              @if(formData(keys.postalVote.deliveryMethod.methodName).value == Some("email")){
                   I want you to email a postal vote application form to:
-                  <br/>@formData(keys.deliveryMethod.emailAddress).value.getOrElse("")
+                  <br/>@formData(keys.postalVote.deliveryMethod.emailAddress).value.getOrElse("")
               }else{
                   I want you to mail me a postal vote application form
               }
