@@ -1,0 +1,85 @@
+<form action="/register-to-vote/name" method="POST" >
+
+    <a class="back-to-previous" href="/register-to-vote/date-of-birth">Back <span class="visuallyhidden"> to the previous question</span></a>
+    <header>
+        <p>Question 4 of 11</p>
+        <h1>What is your full name?</h1>
+    </header>
+
+    <fieldset class="validate" data-validation-name="fullName" data-validation-type="association"
+              data-validation-rules="allNonEmpty" data-validation-members="firstName lastName">
+
+        <label for="name_firstName" class=""  >
+            First name
+        </label>
+        <div class="validation-wrapper">
+            <input type="text" id="name_firstName" name="name.firstName" value="" autocomplete="off"
+                   class="text  first-name long validate"   data-validation-name=firstName  data-validation-type=field
+                   data-validation-rules=nonEmpty >
+        </div>
+
+        <label for="name_middleNames" class=""  >
+            Middle names
+        </label>
+        <input type="text" id="name_middleNames" name="name.middleNames" value="" autocomplete="off"
+               class="text  middle-names long"  >
+
+        <label for="name_lastName" class=""  >
+            Last name
+        </label>
+        <div class="validation-wrapper">
+            <input type="text" id="name_lastName" name="name.lastName" value="" autocomplete="off"
+                   class="text  last-name long validate"   data-validation-name=lastName  data-validation-type=field
+                   data-validation-rules=nonEmpty >
+        </div>
+    </fieldset>
+
+    <fieldset class="sub-section validate" data-validation-name="previousQuestion" data-validation-type="fieldset"
+              data-validation-rules="atLeastOneNonEmpty" data-validation-children="previousYes previousNo">
+        <legend class="label">Have you changed your name in the last 12 months?</legend>
+
+        <label for="previousName_hasPreviousName_true" class="selectable binary"  >
+            <input type="radio" id="previousName_hasPreviousName_true" name="previousName.hasPreviousName"
+                   value="true"  class="radio  validate"   data-validation-name=previousYes  data-validation-type=field
+                   data-validation-rules=nonEmpty >
+            Yes<span class="visuallyhidden"> I changed my name in the last 12 months</span>
+        </label>
+
+        <label for="previousName_hasPreviousName_false" class="selectable binary"  >
+            <input type="radio" id="previousName_hasPreviousName_false" name="previousName.hasPreviousName"
+                   value="false"  class="radio  validate"   data-validation-name=previousNo  data-validation-type=field
+                   data-validation-rules=nonEmpty >
+            No<span class="visuallyhidden"> I haven't changed my name in the last 12 months</span>
+        </label>
+    </fieldset>
+
+    <div class="optional-section optional-section-core-content " data-condition="previousName_hasPreviousName_true">
+        <h2>Previous name</h2>
+        <fieldset class="validate" data-validation-name="previousName" data-validation-type="association"
+                  data-validation-rules="allNonEmpty" data-validation-members="previousFirstName previousLastName">
+
+            <label for="previousName_previousName_firstName" class=""  >
+                <span class="visuallyhidden">Previous</span> First name
+            </label>
+            <input type="text" id="previousName_previousName_firstName" name="previousName.previousName.firstName"
+                   value="" autocomplete="off"  class="text  first-name long validate"
+                   data-validation-name="previousFirstName"  data-validation-type="field"  data-validation-rules="nonEmpty" >
+
+            <label for="previousName_previousName_middleNames" class=""  >
+                <span class="visuallyhidden">Previous</span> Middle names
+            </label>
+            <input type="text" id="previousName_previousName_middleNames" name="previousName.previousName.middleNames"
+                   value="" autocomplete="off"  class="text  middle-names long"  >
+
+            <label for="previousName_previousName_lastName" class=""  >
+                <span class="visuallyhidden">Previous</span> Last name
+            </label>
+            <input type="text" id="previousName_previousName_lastName" name="previousName.previousName.lastName"
+                   value="" autocomplete="off"  class="text  last-name long validate"
+                   data-validation-name=previousLastName  data-validation-type=field  data-validation-rules=nonEmpty >
+        </fieldset>
+    </div>
+
+    <button id="continue" type="submit" class="button next validation-submit"
+            data-validation-sources="fullName previousQuestion previousName">Continue</button>
+</form>
