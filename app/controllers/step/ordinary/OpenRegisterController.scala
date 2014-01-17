@@ -9,4 +9,6 @@ object OpenRegisterController extends DelegatingController[OpenRegisterStep] {
   def post = delegate.post
   def editGet = delegate.editGet
   def editPost = delegate.editPost
+
+  def openRegisterStep = delegate
 }

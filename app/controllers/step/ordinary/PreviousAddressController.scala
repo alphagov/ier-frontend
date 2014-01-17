@@ -9,4 +9,6 @@ object PreviousAddressController extends DelegatingController[PreviousAddressSte
   def post = delegate.post
   def editGet = delegate.editGet
   def editPost = delegate.editPost
+
+  def previousAddressStep = delegate
 }

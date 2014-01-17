@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.postalVote
 
-import controllers.step.ordinary.routes._
+import controllers.step.ordinary.ContactController
+import controllers.step.ordinary.routes.{PostalVoteController, OpenRegisterController}
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation._
@@ -11,7 +12,7 @@ import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
-import uk.gov.gds.ier.step.OrdinaryStep
+import uk.gov.gds.ier.step.{OrdinaryStep, Routes}
 
 class PostalVoteStep @Inject ()(val serialiser: JsonSerialiser,
                                       val config: Config,
@@ -21,14 +22,20 @@ class PostalVoteStep @Inject ()(val serialiser: JsonSerialiser,
   with PostalVoteForms {
 
   val validation = postalVoteForm
-  val editPostRoute = PostalVoteController.editPost
-  val stepPostRoute = PostalVoteController.post
+  val previousRoute = Some(OpenRegisterController.get)
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call): Html = {
-    views.html.steps.postalVote(form, call)
+  val routes = Routes(
+    get = PostalVoteController.get,
+    post = PostalVoteController.post,
+    editGet = PostalVoteController.editGet,
+    editPost = PostalVoteController.editPost
+  )
+
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
+    views.html.steps.postalVote(form, call, backUrl.map(_.url))
   }
-  def goToNext(currentState: InprogressOrdinary): SimpleResult = {
-    Redirect(ContactController.get)
+  def nextStep(currentState: InprogressOrdinary) = {
+    ContactController.contactStep
   }
 }
 

@@ -1,4 +1,4 @@
-@(implicit formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary], postUrl:Call)
+@(implicit formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary], postUrl:Call, backUrl: Option[String] = None)
 
 @import helper._
 @import layouts._
@@ -6,7 +6,7 @@
 
 @main(title = Some("Register to Vote - Where do you live?"), stylesheets = head(), scripts = stepsBodyEnd()) {
   @form(postUrl) {
-    @layouts.questionHeader("Where do you live?", "", 1)
+    @layouts.questionHeader("Where do you live?", backUrl, 1)
 
     <fieldset class="validate" data-validation-name="country",  data-validation-type="fieldset",  data-validation-rules="atLeastOneNonEmpty", data-validation-children="england scotland wales northernIreland britishIslands abroad">
       @wrapLabel(keys.country.residence, 'value -> "England", 'class -> "selectable") {

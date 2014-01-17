@@ -1,4 +1,4 @@
-@(formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary])
+@(formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary], backUrl: Option[String] = None)
 
 @import helper._
 @import uk.gov.gds.ier.form.FormHelpers._
@@ -13,7 +13,7 @@
 @main(title = Some("Register to Vote - Confirm your details"), stylesheets = head(), scripts = stepsBodyEnd(), contentClasses = Some("confirmation")) {
 
       <article>
-        <a id="continue" class="back-to-previous" href="/register-to-vote/contact" title="Back to the previous question">Back</a>
+        <a id="continue" class="back-to-previous" href=@backUrl.getOrElse("") title="Back to the previous question">Back</a>
         <header>
           <h1>Register to vote</h1>
         </header>

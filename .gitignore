@@ -19,3 +19,4 @@ conf/version.conf
 .cache
 .classpath
 .project
+.cache
