@@ -56,27 +56,27 @@ trait NameMustache extends StepMustache {
       hasPreviousNameTrue = ModelField(
         id = keys.previousName.hasPreviousName.asId("true"),
         name = keys.previousName.hasPreviousName.key,
-        value = if (form(keys.hasPreviousName.key).value.isDefined) "checked" else ""
+        value = if (form(keys.previousName.hasPreviousName.key).value.isDefined && form(keys.previousName.hasPreviousName.key).value.get == "true") "checked" else ""
       ),
       hasPreviousNameFalse = ModelField(
         id = keys.previousName.hasPreviousName.asId("false"),
         name = keys.previousName.hasPreviousName.key,
-        value = if (!form(keys.hasPreviousName.key).value.isDefined) "checked" else ""
+        value = if (form(keys.previousName.hasPreviousName.key).value.isDefined && form(keys.previousName.hasPreviousName.key).value.get == "false") "checked" else ""
       ),
       previousFirstName = ModelField(
-        id = keys.previousName.firstName.asId(),
-        name = keys.previousName.firstName.key,
-        value = form(keys.previousName.firstName.key).value.getOrElse("")
+        id = keys.previousName.previousName.firstName.asId(),
+        name = keys.previousName.previousName.firstName.key,
+        value = form(keys.previousName.previousName.firstName.key).value.getOrElse("")
       ),
       previousMiddleNames = ModelField(
-        id = keys.previousName.middleNames.asId(),
-        name = keys.previousName.middleNames.key,
-        value = form(keys.previousName.middleNames.key).value.getOrElse("")
+        id = keys.previousName.previousName.middleNames.asId(),
+        name = keys.previousName.previousName.middleNames.key,
+        value = form(keys.previousName.previousName.middleNames.key).value.getOrElse("")
       ),
       previousLastName = ModelField(
-        id = keys.previousName.lastName.asId(),
-        name = keys.previousName.lastName.key,
-        value = form(keys.previousName.lastName.key).value.getOrElse("")
+        id = keys.previousName.previousName.lastName.asId(),
+        name = keys.previousName.previousName.lastName.key,
+        value = form(keys.previousName.previousName.lastName.key).value.getOrElse("")
       ),
       globalErrors.map(_.message)
     )
