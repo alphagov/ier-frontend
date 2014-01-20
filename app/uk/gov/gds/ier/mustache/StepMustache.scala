@@ -13,13 +13,15 @@ trait StepMustache extends FormKeys {
                        header:Html = head(),
                        scripts:Html = stepsBodyEnd(),
                        related:Html = Html.empty,
-                       insideHeader:Html = Html.empty) = {
+                       insideHeader:Html = Html.empty,
+                       contentClasses:Option[String] = None) = {
     views.html.layouts.main (
       title = Some(title),
       stylesheets = header,
       scripts = scripts,
       insideHeader = insideHeader,
-      related = related
+      related = related,
+      contentClasses = contentClasses
     )(content)
   }
 

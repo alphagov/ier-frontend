@@ -14,6 +14,7 @@ import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.transaction.complete.CompleteMustache
 
 class CompleteController @Inject() (val serialiser: JsonSerialiser,
                                     placesService:PlacesService,
@@ -25,7 +26,8 @@ class CompleteController @Inject() (val serialiser: JsonSerialiser,
     with WithConfig
     with Logging
     with SessionCleaner
-    with WithEncryption {
+    with WithEncryption
+    with CompleteMustache {
 
   def complete = ClearSession requiredFor {
     implicit request =>
@@ -36,12 +38,12 @@ class CompleteController @Inject() (val serialiser: JsonSerialiser,
       }
       val refNum = request.flash.get("refNum")
 
-      Ok(html.complete(authority, refNum))
+      Ok(Complete.completePage(authority, refNum))
   }
 
   def fakeComplete = Action {
     val authority = Some(LocalAuthority("Tower Hamlets", Ero(), "00BG", "E09000030"))
-    Ok(html.complete(authority, Some("123456")))
+    Ok(Complete.completePage(authority, Some("123456")))
   }
 
 }

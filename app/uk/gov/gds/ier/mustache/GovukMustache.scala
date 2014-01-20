@@ -5,12 +5,7 @@ import controllers.routes.RegisterToVoteController
 
 trait GovukMustache {
 
-  object RegisterToVote extends StepMustache {
-    case class GovukUrls(startUrl:String,
-                         registerToVoteUrl:String,
-                         registerOverseasUrl:String,
-                         registerArmedForcesUrl:String,
-                         registerCrownServantUrl:String)
+  object Govuk extends StepMustache {
 
     case class Stylesheets(mainstream:String,
                            print:String,
@@ -21,42 +16,6 @@ trait GovukMustache {
 
     case class Scripts(jquery:String,
                        core:String)
-
-    def govukUrls(start:String) = GovukUrls(
-      start,
-      RegisterToVoteController.registerToVote.url,
-      RegisterToVoteController.registerToVoteOverseas.url,
-      "#",
-      "#"
-    )
-
-    def overseasStartPage() = {
-      MainStepTemplate(
-        content = Mustache.render(
-          "govuk/registerToVoteOverseas",
-          govukUrls(RegisterToVoteController.registerToVoteOverseasStart.url)
-        ),
-        title = "Register to Vote (living overseas) - GOV.UK",
-        insideHeader = search(),
-        related = related(),
-        scripts = scripts(),
-        header = stylesheets()
-      )
-    }
-
-    def ordinaryStartPage() = {
-      MainStepTemplate(
-        content = Mustache.render(
-          "govuk/registerToVoteOrdinary",
-          govukUrls(RegisterToVoteController.registerToVoteStart.url)
-        ),
-        title = "Register to Vote - GOV.UK",
-        insideHeader = search(),
-        related = related(),
-        scripts = scripts(),
-        header = stylesheets()
-      )
-    }
 
     def stylesheets() = {
       Mustache.render(
@@ -88,6 +47,50 @@ trait GovukMustache {
 
     def search() = {
       Mustache.render("govuk/search", None)
+    }
+  }
+
+  object RegisterToVote extends StepMustache {
+    case class GovukUrls(startUrl:String,
+                         registerToVoteUrl:String,
+                         registerOverseasUrl:String,
+                         registerArmedForcesUrl:String,
+                         registerCrownServantUrl:String)
+
+    def govukUrls(start:String) = GovukUrls(
+      start,
+      RegisterToVoteController.registerToVote.url,
+      RegisterToVoteController.registerToVoteOverseas.url,
+      "#",
+      "#"
+    )
+
+    def overseasStartPage() = {
+      MainStepTemplate(
+        content = Mustache.render(
+          "govuk/registerToVoteOverseas",
+          govukUrls(RegisterToVoteController.registerToVoteOverseasStart.url)
+        ),
+        title = "Register to Vote (living overseas) - GOV.UK",
+        insideHeader = Govuk.search(),
+        related = Govuk.related(),
+        scripts = Govuk.scripts(),
+        header = Govuk.stylesheets()
+      )
+    }
+
+    def ordinaryStartPage() = {
+      MainStepTemplate(
+        content = Mustache.render(
+          "govuk/registerToVoteOrdinary",
+          govukUrls(RegisterToVoteController.registerToVoteStart.url)
+        ),
+        title = "Register to Vote - GOV.UK",
+        insideHeader = Govuk.search(),
+        related = Govuk.related(),
+        scripts = Govuk.scripts(),
+        header = Govuk.stylesheets()
+      )
     }
   }
 }
