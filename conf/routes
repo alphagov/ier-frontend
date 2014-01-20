@@ -8,6 +8,7 @@ GET         /register-to-vote/start                                      control
 
 #Complete Route
 GET         /register-to-vote/complete                                   controllers.CompleteController.complete
+GET         /register-to-vote/overseas/complete                          controllers.CompleteController.complete
 GET         /register-to-vote/complete/fake                              controllers.CompleteController.fakeComplete
 
 
@@ -20,7 +21,7 @@ GET         /register-to-vote/exit/too-young                             control
 GET         /register-to-vote/exit/no-franchise                          controllers.ExitController.noFranchise
 
 #Error Routes
-GET         /register-to-vote/error/timeout                    controllers.ErrorController.timeout
+GET         /register-to-vote/error/timeout                              controllers.ErrorController.timeout
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/template/*file                                       controllers.Template.at(path="/app/assets/govuk_template_play/assets", file)
@@ -150,4 +151,3 @@ POST        /register-to-vote/overseas/edit/date-left-uk                 control
 #Overseas Confirmation
 GET         /register-to-vote/overseas/confirmation                      controllers.step.overseas.OverseasConfirmationController.get
 POST        /register-to-vote/overseas/confirmation                      controllers.step.overseas.OverseasConfirmationController.post
-
