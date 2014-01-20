@@ -91,7 +91,7 @@ class NationalityFormTests
         success.nino should be(None)
         success.openRegisterOptin should be(None)
         success.otherAddress should be(None)
-        success.postalVoteOptin should be(None)
+        success.postalVote should be(None)
         success.previousAddress should be(None)
         success.previousName should be(None)
       }
