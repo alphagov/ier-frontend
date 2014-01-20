@@ -15,12 +15,12 @@ case class ContactDetail (contactMe:Boolean,
                           detail:Option[String])
 
 case class Contact (post: Boolean,
-                    phone: Option[String],
-                    email: Option[String]) {
+                    phone: Option[ContactDetail],
+                    email: Option[ContactDetail]) {
   def toApiMap = {
     Map("post" -> post.toString) ++
-      phone.map(s => Map("phone" -> s)).getOrElse(Map.empty) ++
-      email.map(s => Map("email" -> s)).getOrElse(Map.empty)
+      phone.map(phone => phone.detail.map(detail => Map("phone" -> detail)).getOrElse(Map.empty)).getOrElse(Map.empty) ++
+      email.map(email => email.detail.map(detail => Map("email" -> detail)).getOrElse(Map.empty)).getOrElse(Map.empty)
   }
 }
 
