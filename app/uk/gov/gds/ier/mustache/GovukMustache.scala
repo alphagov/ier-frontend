@@ -6,7 +6,8 @@ import controllers.routes.RegisterToVoteController
 trait GovukMustache {
 
   object RegisterToVote extends StepMustache {
-    case class GovukUrls(registerToVoteUrl:String,
+    case class GovukUrls(startUrl:String,
+                         registerToVoteUrl:String,
                          registerOverseasUrl:String,
                          registerArmedForcesUrl:String,
                          registerCrownServantUrl:String)
@@ -21,7 +22,8 @@ trait GovukMustache {
     case class Scripts(jquery:String,
                        core:String)
 
-    val govukUrls = GovukUrls(
+    def govukUrls(start:String) = GovukUrls(
+      start,
       RegisterToVoteController.registerToVote.url,
       RegisterToVoteController.registerToVoteOverseas.url,
       "#",
@@ -30,8 +32,25 @@ trait GovukMustache {
 
     def overseasStartPage() = {
       MainStepTemplate(
-        content = Mustache.render("govuk/registerToVoteOverseas", govukUrls),
+        content = Mustache.render(
+          "govuk/registerToVoteOverseas",
+          govukUrls(RegisterToVoteController.registerToVoteOverseasStart.url)
+        ),
         title = "Register to Vote (living overseas) - GOV.UK",
+        insideHeader = search(),
+        related = related(),
+        scripts = scripts(),
+        header = stylesheets()
+      )
+    }
+
+    def ordinaryStartPage() = {
+      MainStepTemplate(
+        content = Mustache.render(
+          "govuk/registerToVoteOrdinary",
+          govukUrls(RegisterToVoteController.registerToVoteStart.url)
+        ),
+        title = "Register to Vote - GOV.UK",
         insideHeader = search(),
         related = related(),
         scripts = scripts(),

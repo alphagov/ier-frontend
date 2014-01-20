@@ -2,7 +2,6 @@ package uk.gov.gds.ier.controller
 
 import play.api.mvc._
 import com.google.inject.Inject
-import views._
 import controllers._
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import scala.Some
@@ -27,7 +26,7 @@ class RegisterToVoteController @Inject() (val serialiser: JsonSerialiser,
     with GovukMustache {
 
   def registerToVote = Action {
-    Ok(html.govuk.registerToVote())
+    Ok(RegisterToVote.ordinaryStartPage())
   }
 
   def registerToVoteStart = NewSession requiredFor {
