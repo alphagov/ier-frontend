@@ -41,14 +41,14 @@
               Symbol("data-validation-name") -> "addressSelect", 
               Symbol("data-validation-type") -> "field", 
               Symbol("data-validation-rules") -> "nonEmpty"))
-          <div class="optional-section">
+          <div class="optional-section" id="cant-find-address">
             <h2>I can't find my address in the list</h2>
             @label(keys.address.manualAddress, "Enter your address")
             @textArea(keys.address.manualAddress, Map('class -> "small validate", 'maxlength -> "500", Symbol("data-validation-name") -> "addressExcuse", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
           </div>
         }
       } else {
-        <div class="help-content">
+        <div class="help-content" id="dont-know-postcode">
           <h2>I don't know which postcode to use</h2>
           <p>We need your address and postcode so that we can send your details to the right local Electoral Registration Office.</p>
           <h3>I don't know the postcode for my address</h3>
