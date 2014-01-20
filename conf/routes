@@ -3,8 +3,8 @@
 # ~~~~
 
 # Home page
-GET         /                                                  controllers.RegisterToVoteController.index
-GET         /register-to-vote                                  controllers.RegisterToVoteController.registerToVote
+GET         /register-to-vote                                            controllers.RegisterToVoteController.registerToVote
+GET         /register-to-vote/start                                      controllers.RegisterToVoteController.registerToVoteStart
 
 #Complete Route
 GET         /register-to-vote/complete                                   controllers.CompleteController.complete
@@ -124,6 +124,10 @@ GET         /authority/:postcode                                         control
 ################################
 ## Overseas Routes
 ################################
+
+#Overseas Start page
+GET         /register-to-vote/overseas                                   controllers.RegisterToVoteController.registerToVoteOverseas
+GET         /register-to-vote/overseas/start                             controllers.RegisterToVoteController.registerToVoteOverseasStart
 
 #Previously Registered Oversesas
 GET         /register-to-vote/overseas/previously-registered             controllers.step.overseas.PreviouslyRegisteredController.get
