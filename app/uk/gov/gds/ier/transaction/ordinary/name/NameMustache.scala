@@ -9,6 +9,7 @@ import uk.gov.gds.ier.mustache.StepMustache
 
 trait NameMustache extends StepMustache {
 
+  // TODO: merge with StepMustache.Field, move invalidWrapperClass and invalidInputClass there?
   case class ModelField(
                          id: String,
                          name: String,
@@ -56,12 +57,12 @@ trait NameMustache extends StepMustache {
       hasPreviousNameTrue = ModelField(
         id = keys.previousName.hasPreviousName.asId("true"),
         name = keys.previousName.hasPreviousName.key,
-        value = if (form(keys.previousName.hasPreviousName.key).value.isDefined && form(keys.previousName.hasPreviousName.key).value.get == "true") "checked" else ""
+        value = if (form(keys.previousName.hasPreviousName.key).value.exists(_ == "true")) "checked" else ""
       ),
       hasPreviousNameFalse = ModelField(
         id = keys.previousName.hasPreviousName.asId("false"),
         name = keys.previousName.hasPreviousName.key,
-        value = if (form(keys.previousName.hasPreviousName.key).value.isDefined && form(keys.previousName.hasPreviousName.key).value.get == "false") "checked" else ""
+        value = if (form(keys.previousName.hasPreviousName.key).value.exists(_ == "false")) "checked" else ""
       ),
       previousFirstName = ModelField(
         id = keys.previousName.previousName.firstName.asId(),
