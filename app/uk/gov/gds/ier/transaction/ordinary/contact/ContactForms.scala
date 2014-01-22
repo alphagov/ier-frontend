@@ -37,8 +37,7 @@ trait ContactForms extends ContactConstraints {
   lazy val contactMapping = mapping(
     keys.post.key -> postDetailMapping,
     keys.phone.key -> contactDetailMapping(keys.contact.phone, "phone number"),
-    keys.textNum.key -> contactDetailMapping(keys.contact.textNum, "phone number"),
-    keys.email.key -> contactDetailMapping(keys.contact.email, "email address").verifying(_.get.matches("""(\w+)@([\w\.]+)"""))
+    keys.email.key -> contactDetailMapping(keys.contact.email, "email address")
   ) (
     Contact.apply
   ) (

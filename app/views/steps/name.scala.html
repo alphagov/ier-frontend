@@ -30,7 +30,7 @@
         No<span class="visuallyhidden"> I haven't changed my name in the last 12 months</span>
       }
     </fieldset>
-    <div class="optional-section optional-section-core-content @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "visible")" data-condition="@keys.previousName.hasPreviousName.asId("true")">
+    <div class="optional-section optional-section-core-content @classIf(formData(keys.previousName.hasPreviousName).value == Some("true"), "visible")" data-condition="@keys.previousName.hasPreviousName.asId("true")" id="previous-address">
       <h2>Previous name</h2>
       <fieldset class="validate" data-validation-name="previousName" data-validation-type="association" data-validation-rules="allNonEmpty" data-validation-members="previousFirstName previousLastName">
         @wrapLabel(keys.previousName.previousName.firstName) {

@@ -24,9 +24,7 @@ class ContactFormTests
         "contact.phone.detail" -> "1234567890",
         "contact.phone.contactMe" -> "true",
         "contact.email.detail" -> "fake@fake.com",
-        "contact.email.contactMe" -> "true",
-        "contact.textNum.detail" -> "1234567890",
-        "contact.textNum.contactMe" -> "true"
+        "contact.email.contactMe" -> "true"
       )
     )
     contactForm.bind(js).fold(
@@ -37,7 +35,6 @@ class ContactFormTests
         contact.post should be(true)
         contact.phone should be(Some("1234567890"))
         contact.email should be(Some("fake@fake.com"))
-        contact.textNum should be(Some("1234567890"))
       }
     )
   }
@@ -56,7 +53,6 @@ class ContactFormTests
         contact.post should be(true)
         contact.phone should be(None)
         contact.email should be(None)
-        contact.textNum should be(None)
       }
     )
   }
@@ -76,7 +72,6 @@ class ContactFormTests
         contact.phone should be(Some("1234567890"))
         contact.post should be(false)
         contact.email should be(None)
-        contact.textNum should be(None)
       }
     )
   }
@@ -96,31 +91,10 @@ class ContactFormTests
         contact.email should be(Some("fake@fake.com"))
         contact.phone should be(None)
         contact.post should be(false)
-        contact.textNum should be(None)
       }
     )
   }
   
-  it should "bind successfully (textNum)" in {
-    val js = Json.toJson(
-      Map(
-        "contact.textNum.detail" -> "1234567890",
-        "contact.textNum.contactMe" -> "true"
-      )
-    )
-    contactForm.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
-      success => {
-        success.contact.isDefined should be(true)
-        val contact = success.contact.get
-        contact.textNum should be(Some("1234567890"))
-        contact.phone should be(None)
-        contact.post should be(false)
-        contact.email should be(None)
-      }
-    )
-  }
-
   it should "error out on empty json" in {
     val js = JsNull
 
@@ -139,11 +113,9 @@ class ContactFormTests
       Map(
         "contact.phone.contactMe" -> "",
         "contact.email.contactMe" -> "",
-        "contact.textNum.contactMe" -> "",
         "contact.post.detail" -> "",
         "contact.phone.detail" -> "",
-        "contact.email.detail" -> "",
-        "contact.textNum.detail" -> ""
+        "contact.email.detail" -> ""
       )
     )
     contactForm.bind(js).fold(
@@ -188,19 +160,4 @@ class ContactFormTests
     )
   }
 
-  it should "error out with contactType and no detail provided (textNum)" in {
-    val js = Json.toJson(
-      Map(
-        "contact.textNum.contactMe" -> "true"
-      )
-    )
-    contactForm.bind(js).fold(
-      hasErrors => {
-        hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("contact.textNum.detail") should be(Seq("Please enter your phone number"))
-        hasErrors.globalErrorMessages should be(Seq("Please enter your phone number"))
-      },
-      success => fail("Should have thrown an error")
-    )
-  }
 }

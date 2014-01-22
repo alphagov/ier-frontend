@@ -30,8 +30,8 @@ class ConfirmationControllerTests
               previousAddress = Some(PartialPreviousAddress(Option(false),false, None)),
               otherAddress = Some(OtherAddress(false)),
               openRegisterOptin = Some(false),
-              postalVoteOptin = Some(false),
-              contact = Some(Contact(true, None, None, None)),
+              postalVote = Some(PostalVote(false,None)),
+              contact = Some(Contact(true, None, None)),
               possibleAddresses = None,
               country = None
             )
@@ -51,7 +51,7 @@ class ConfirmationControllerTests
             InprogressOrdinary(
               name = None, previousName = None, dob = None, nationality = None,
               nino = None, address = None, previousAddress = None, otherAddress = None,
-              openRegisterOptin = None, postalVoteOptin = None, contact = None,
+              openRegisterOptin = None, postalVote = None, contact = None,
               possibleAddresses = None, country = None
             )
           )

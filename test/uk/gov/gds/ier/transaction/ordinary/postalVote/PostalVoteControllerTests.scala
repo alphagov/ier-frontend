@@ -37,7 +37,8 @@ class PostalVoteControllerTests
         FakeRequest(POST, "/register-to-vote/postal-vote")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "postalVote.optIn" -> "true"
+            "postalVote.optIn" -> "true",
+            "postalVote.deliveryMethod.methodName" -> "post"
           )
       )
 
@@ -53,7 +54,8 @@ class PostalVoteControllerTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "postalVote.optIn" -> "true"
+            "postalVote.optIn" -> "true",
+            "postalVote.deliveryMethod.methodName" -> "post"
           )
       )
 
@@ -81,7 +83,7 @@ class PostalVoteControllerTests
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/country-of-residence")
           .withIerSession()
-          .withApplication(completeOrdinaryApplication.copy(postalVoteOptin = None))
+          .withApplication(completeOrdinaryApplication.copy(postalVote = None))
           .withFormUrlEncodedBody(
           "country.residence" -> "England"
         )
@@ -115,7 +117,8 @@ class PostalVoteControllerTests
         FakeRequest(POST, "/register-to-vote/edit/postal-vote")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "postalVote.optIn" -> "true"
+            "postalVote.optIn" -> "true",
+            "postalVote.deliveryMethod.methodName" -> "post"
           )
       )
 
@@ -131,7 +134,8 @@ class PostalVoteControllerTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "postalVote.optIn" -> "true"
+            "postalVote.optIn" -> "true",
+            "postalVote.deliveryMethod.methodName" -> "post"
           )
       )
 

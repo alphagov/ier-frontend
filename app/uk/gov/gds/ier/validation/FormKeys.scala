@@ -74,6 +74,9 @@ trait FormKeys {
     lazy val openRegister = prependNamespace(Key("openRegister"))
     lazy val postalVote = prependNamespace(Key("postalVote"))
     lazy val optIn = prependNamespace(Key("optIn"))
+    lazy val deliveryMethod = prependNamespace(Key("deliveryMethod"))
+    lazy val methodName = prependNamespace(Key("methodName"))
+    lazy val emailAddress = prependNamespace(Key("emailAddress"))
 
     lazy val contact = prependNamespace(Key("contact"))
     lazy val contactType = prependNamespace(Key("contactType"))
@@ -86,6 +89,9 @@ trait FormKeys {
 
     lazy val possibleAddresses = prependNamespace(Key("possibleAddresses"))
     lazy val jsonList = prependNamespace(Key("jsonList"))
+
+    lazy val previouslyRegistered = prependNamespace(Key("previouslyRegistered"))
+    lazy val hasPreviouslyRegistered = prependNamespace(Key("hasPreviouslyRegistered"))
   }
 
   implicit class key2namespace(key:Key) extends Keys {
