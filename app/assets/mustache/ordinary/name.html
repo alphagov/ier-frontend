@@ -1,14 +1,7 @@
-<form action="{{postUrl}}" method="POST" >
+<form action="{{question.postUrl}}" method="POST" >
+    {{> shared/questionHeader }}
 
-    {{#showBackUrl}}
-    <a class="back-to-previous" href="{{backUrl}}">Back <span class="visuallyhidden"> to the previous question</span></a>
-    {{/showBackUrl}}
-    <header>
-        <p>Question 4 of 11</p>
-        <h1>What is your full name?</h1>
-    </header>
-
-    {{> ordinary/validationMessages }}
+    {{> shared/validationMessages }}
 
     <fieldset class="validate" data-validation-name="fullName" data-validation-type="association"
               data-validation-rules="allNonEmpty" data-validation-members="firstName lastName">
@@ -38,7 +31,7 @@
         </div>
     </fieldset>
 
-    <fieldset class="sub-section validate {{hasPreviousName}}" data-validation-name="previousQuestion" data-validation-type="fieldset"
+    <fieldset class="sub-section validate {{hasPreviousName.classes}}" data-validation-name="previousQuestion" data-validation-type="fieldset"
               data-validation-rules="atLeastOneNonEmpty" data-validation-children="previousYes previousNo">
         <legend class="label">Have you changed your name in the last 12 months?</legend>
 
@@ -66,7 +59,7 @@
                 <span class="visuallyhidden">Previous</span> First name
             </label>
             <input type="text" id="{{previousFirstName.id}}" name="{{previousFirstName.name}}" value="{{previousFirstName.value}}"
-                   autocomplete="off"  class="text  first-name long validate"
+                   autocomplete="off"  class="text  first-name long validate {{previousFirstName.invalidInputClass}}"
                    data-validation-name="previousFirstName"  data-validation-type="field"  data-validation-rules="nonEmpty" >
 
             <label for="{{previousMiddleNames.id}}" class=""  >
@@ -79,7 +72,7 @@
                 <span class="visuallyhidden">Previous</span> Last name
             </label>
             <input type="text" id="{{previousLastName.id}}" name="{{previousLastName.name}}" value="{{previousLastName.value}}"
-                   autocomplete="off"  class="text  last-name long validate"
+                   autocomplete="off"  class="text  last-name long validate {{previousLastName.invalidInputClass}}"
                    data-validation-name="previousLastName"  data-validation-type="field"  data-validation-rules="nonEmpty" >
         </fieldset>
     </div>

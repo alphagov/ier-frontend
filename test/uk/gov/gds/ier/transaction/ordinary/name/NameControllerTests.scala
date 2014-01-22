@@ -26,7 +26,7 @@ class NameControllerTests
       contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/date-of-birth")
       contentAsString(result) should include("What is your full name?")
       contentAsString(result) should include("Have you changed your name in the last 12 months?")
-      contentAsString(result) should include("/register-to-vote/name")
+      contentAsString(result) should include("<form action=\"/register-to-vote/name\"")
     }
   }
 
@@ -95,7 +95,7 @@ class NameControllerTests
       contentAsString(result) should include("Please enter your full name")
       contentAsString(result) should include("Have you changed your name in the last 12 months?")
       contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/name")
+      contentAsString(result) should include("<form action=\"/register-to-vote/name\"")
     }
   }
 
@@ -129,7 +129,7 @@ class NameControllerTests
       contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/confirmation")
       contentAsString(result) should include("What is your full name?")
       contentAsString(result) should include("Have you changed your name in the last 12 months?")
-      contentAsString(result) should include("/register-to-vote/edit/name")
+      contentAsString(result) should include("<form action=\"/register-to-vote/edit/name\"")
     }
   }
 
@@ -198,7 +198,7 @@ class NameControllerTests
       contentAsString(result) should include("Please enter your full name")
       contentAsString(result) should include("Have you changed your name in the last 12 months?")
       contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/edit/name")
+      contentAsString(result) should include("<form action=\"/register-to-vote/edit/name\"")
     }
   }
 
