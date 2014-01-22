@@ -22,7 +22,7 @@
         No<span class="visuallyhidden"> I haven't moved from another Uk address in the last 12 months</span>
       }
     </fieldset>
-    <div class="optional-section optional-section-core-content @classIf(formData(keys.previousAddress.movedRecently).value == Some("true"), "visible")" data-condition="@keys.previousAddress.movedRecently.asId("true")">
+    <div class="optional-section optional-section-core-content @classIf(formData(keys.previousAddress.movedRecently).value == Some("true"), "visible")" data-condition="@keys.previousAddress.movedRecently.asId("true")" id="previous-address">
       <fieldset>
         @label(keys.previousAddress.previousAddress.postcode, "Enter the postcode to find your previous address")
         <div class="validation-wrapper">
@@ -49,14 +49,14 @@
               Symbol("data-validation-type") -> "field", 
               Symbol("data-validation-rules") -> "nonEmpty"))
 
-        <div class="help-content">
+        <div class="optional-section" id="cant-find-address">
           <h2>I can't find my previous address in the list</h2>
           @label(keys.previousAddress.previousAddress.manualAddress, "Enter your address")
           @textArea(keys.previousAddress.previousAddress.manualAddress, Map('class -> "small validate", 'maxlength -> "500"))
         </div>
         }
       } else {
-        <div class="help-content">
+        <div class="help-content" id="dont-know-postcode">
           <h3>I don't know the postcode for my previous address</h3>
           <p>We need your previous address and postcode so we can let the right Electoral Registration Office know you've moved.</p>
           <p class="postcode-finder">Look up the postcode using the <a href="http://www.postoffice.co.uk/postcode-finder" rel="external" target="_blank" class="lightbox-link" data-target="address-lightbox">Post Office's postcode finder</a>.</p>
