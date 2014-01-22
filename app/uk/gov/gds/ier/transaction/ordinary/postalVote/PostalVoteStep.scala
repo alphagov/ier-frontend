@@ -34,50 +34,25 @@ class PostalVoteStep @Inject ()(val serialiser: JsonSerialiser,
     editPost = PostalVoteController.editPost
   )
 
-  override def get(implicit manifest: Manifest[InprogressOrdinary]) = ValidSession requiredFor {
-    request => application =>
-      logger.debug(s"GET request for ${request.path}")
-      Ok(template(InProgressForm(validation.fill(prepopulateEmailAddress(application))), routes.post, previousRoute))
-  }
-
   def prepopulateEmailAddress (application:InprogressOrdinary):InprogressOrdinary = {
-    application.contact match {
-      case Some(Contact(_,_,Some(ContactDetail(_,Some(emailAddress))))) => {
-        application.postalVote match {
-          case Some(PostalVote(postalVoteOption, deliveryMethod)) => {
-           deliveryMethod match {
-              case Some(PostalVoteDeliveryMethod(deliveryMethod,postalVoteMailAddress)) =>  {
-                if (!postalVoteMailAddress.isDefined) {
-                  val updatedApplication = application.copy(
-                    postalVote = Some(PostalVote(postalVoteOption, Some(PostalVoteDeliveryMethod(deliveryMethod, Some(emailAddress)))))
-                  )
-                  updatedApplication
-                }
-                else application
-              }
-              case None => {
-                val updatedApplication = application.copy(
-                  postalVote = Some(PostalVote(postalVoteOption, Some(PostalVoteDeliveryMethod(None, Some(emailAddress)))))
-                )
-                updatedApplication
-              }
-            }
-          }
-          case None => {
-            val updatedApplication = application.copy(
-              postalVote = Some(PostalVote(false, Some(PostalVoteDeliveryMethod(None,Some(emailAddress)))))
-            )
-            updatedApplication
-          }
-        }
-      }
-      case _ => application
+    val emailAddress = application.contact.flatMap( contact => contact.email ).flatMap(email => email.detail)
+    val deliveryMethod = application.postalVote.flatMap( pvote => pvote.deliveryMethod ).getOrElse(PostalVoteDeliveryMethod(None, emailAddress))
+    val newPostalVote = application.postalVote match {
+      case Some(postalVote) if postalVote.deliveryMethod.exists(_.emailAddress.isDefined) => postalVote
+      case Some(postalVote) => postalVote.copy(deliveryMethod = Some(deliveryMethod))
+      case None => PostalVote(None, Some(deliveryMethod))
     }
+    application.copy(postalVote = Some(newPostalVote))
   }
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
-    views.html.steps.postalVote(form, call, backUrl.map(_.url))
+    val newForm = form.form.value match {
+      case Some(application) => form.copy(form = form.form.fill(prepopulateEmailAddress (application)))
+      case None => form
+    }
+    views.html.steps.postalVote(newForm, call, backUrl.map(_.url))
   }
+
   def nextStep(currentState: InprogressOrdinary) = {
     ContactController.contactStep
   }

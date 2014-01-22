@@ -1,9 +1,6 @@
 package uk.gov.gds.ier.model
 
 import uk.gov.gds.common.model.LocalAuthority
-import org.joda.time.{DateTime, LocalDate}
-import com.fasterxml.jackson.annotation.JsonFormat
-import play.api.data.validation.{Invalid, Valid}
 
 case class ApiApplicationResponse (id: String,
                                    createdAt: String,
@@ -19,8 +16,8 @@ case class Contact (post: Boolean,
                     email: Option[ContactDetail]) {
   def toApiMap = {
     Map("post" -> post.toString) ++
-      phone.map(phone => phone.detail.map(detail => Map("phone" -> detail)).getOrElse(Map.empty)).getOrElse(Map.empty) ++
-      email.map(email => email.detail.map(detail => Map("email" -> detail)).getOrElse(Map.empty)).getOrElse(Map.empty)
+      phone.map(phone => if(phone.contactMe) phone.detail.map(detail => Map("phone" -> detail)).getOrElse(Map.empty) else Map.empty).getOrElse(Map.empty) ++
+      email.map(email => if(email.contactMe) email.detail.map(detail => Map("email" -> detail)).getOrElse(Map.empty) else Map.empty).getOrElse(Map.empty)
   }
 }
 
@@ -159,7 +156,8 @@ case class OrdinaryApplication(name: Option[Name],
       previousAddress.map(_.toApiMap("p")).getOrElse(Map.empty) ++
       otherAddress.map(_.toApiMap).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
-      postalVote.map(postalVote => Map("pvote" -> postalVote.postalVoteOption.toString)).getOrElse(Map.empty) ++
+      postalVote.map(postalVote => postalVote.postalVoteOption.map(
+        postalVoteOption => Map("pvote" -> postalVoteOption.toString)).getOrElse(Map.empty)).getOrElse(Map.empty) ++
       postalVote.map(postalVote => postalVote.deliveryMethod.map(
         deliveryMethod => deliveryMethod.emailAddress.map(
         emailAddress => Map("pvoteemail" -> emailAddress)).getOrElse(Map.empty)).getOrElse(Map.empty)).getOrElse(Map.empty) ++
@@ -172,7 +170,7 @@ case class OrdinaryApplication(name: Option[Name],
   }
 }
 
-case class PostalVote (postalVoteOption: Boolean, deliveryMethod: Option[PostalVoteDeliveryMethod])
+case class PostalVote (postalVoteOption: Option[Boolean], deliveryMethod: Option[PostalVoteDeliveryMethod])
 
 case class PostalVoteDeliveryMethod(deliveryMethod: Option[String], emailAddress: Option[String])
 
