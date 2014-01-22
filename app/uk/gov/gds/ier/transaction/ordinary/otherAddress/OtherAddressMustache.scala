@@ -10,46 +10,39 @@ import java.net.URL
 
 trait OtherAddressMustache extends StepMustache {
 
-  case class ModelField(
-                     id: String,
-                     name: String,
-                     value: String
-                     )
-
-  case class OtherAddressModel(
-                              postUrl: String = "",
-                              showBackUrl: Boolean,
-                              backUrl: String = "",
-                              hasOtherAddressTrue: ModelField,
-                              hasOtherAddressFalse: ModelField,
-                              globalErrors: Seq[String] = List.empty
-                              )
+  case class OtherAddressModel(question: Question,
+                               hasOtherAddress: Field,
+                               hasOtherAddressTrue: Field,
+                               hasOtherAddressFalse: Field)
 
   def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOrdinary], postUrl: String, backUrl: Option[String]): OtherAddressModel = {
-    val globalErrors = form.globalErrors
-    val application = form.value
-    val otherAddress = application.getOrElse(InprogressOrdinary()).otherAddress
     OtherAddressModel(
-        postUrl,
-        backUrl.isDefined,
-        backUrl.getOrElse(""),
-        hasOtherAddressTrue = ModelField(
-          id = keys.otherAddress.hasOtherAddress.asId("true"),
-          name = keys.otherAddress.hasOtherAddress.key,
-          value = if (otherAddress.exists(_.hasOtherAddress)) "checked" else ""
-        ),
-        hasOtherAddressFalse = ModelField(
-          id = keys.otherAddress.hasOtherAddress.asId("false"),
-          name = keys.otherAddress.hasOtherAddress.key,
-          value = if (otherAddress.exists(!_.hasOtherAddress)) "checked" else ""
-        ),
-        globalErrors.map(_.message)
+      question = Question(
+        postUrl = postUrl,
+        backUrl = backUrl.getOrElse(""),
+        number = "Question 8 of 11",
+        title = "Do you live at a second UK address where you're registered to vote?",
+        errorMessages = form.globalErrors.map(_.message)
+      ),
+      hasOtherAddressTrue = Field(
+        id = keys.otherAddress.hasOtherAddress.asId("true"),
+        name = keys.otherAddress.hasOtherAddress.key,
+        attributes = if (form(keys.otherAddress.hasOtherAddress.key).value == Some("true")) "checked=\"checked\"" else ""
+      ),
+      hasOtherAddressFalse = Field(
+        id = keys.otherAddress.hasOtherAddress.asId("false"),
+        name = keys.otherAddress.hasOtherAddress.key,
+        attributes = if (form(keys.otherAddress.hasOtherAddress.key).value == Some("false")) "checked=\"checked\"" else ""
+      ),
+      hasOtherAddress = Field(
+        classes = if (form(keys.otherAddress.key).hasErrors) "invalid" else ""
+      )
     )
   }
 
   def otherAddressMustache(form: ErrorTransformForm[InprogressOrdinary], call:Call, backUrl: Option[String]) : Html = {
     val data = transformFormStepToMustacheData(form, call.url, backUrl)
     val content = Mustache.render("ordinary/otherAddress", data)
-    MainStepTemplate(content, "Register to Vote - Do you spend part of your time living at another UK address?")
+    MainStepTemplate(content, "Register to Vote - Do you live at a second UK address where you're registered to vote?")
   }
 }
