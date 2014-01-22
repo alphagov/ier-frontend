@@ -63,7 +63,7 @@ class IerApiServiceTests
       ))
     )
 
-    service.submitApplication(None, application, None)
+    service.submitOrdinaryApplication(None, application, None)
 
   }
 
@@ -100,6 +100,6 @@ class IerApiServiceTests
       ))
     )
 
-    service.submitApplication(None, application, None)
+    service.submitOrdinaryApplication(None, application, None)
   }
 }

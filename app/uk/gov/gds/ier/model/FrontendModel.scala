@@ -87,7 +87,7 @@ case class DOB(year:Int,
 case class DateOfBirth(dob:Option[DOB],
                        noDob:Option[noDOB]) {
   def toApiMap = {
-    dob.map(_.toApiMap).getOrElse(Map.empty) ++ 
+    dob.map(_.toApiMap).getOrElse(Map.empty) ++
     noDob.map(_.toApiMap).getOrElse(Map.empty)
   }
 }
@@ -110,7 +110,7 @@ case class InprogressOrdinary (name: Option[Name] = None,
                                   contact: Option[Contact] = None,
                                   possibleAddresses: Option[PossibleAddress] = None,
                                   country: Option[Country] = None) extends InprogressApplication[InprogressOrdinary] {
-                                       
+
   def merge(other: InprogressOrdinary):InprogressOrdinary = {
     other.copy(
       name = this.name.orElse(other.name),
