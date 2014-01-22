@@ -14,6 +14,8 @@ import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{OrdinaryStep, Routes}
+import uk.gov.gds.ier.transaction.address.AddressMustache
+import uk.gov.gds.ier.logging.Logging
 
 class AddressStep @Inject ()(val serialiser: JsonSerialiser,
                              val config: Config,
@@ -21,7 +23,9 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
                              val encryptionKeys : EncryptionKeys,
                              val addressService: AddressService)
   extends OrdinaryStep
-  with AddressForms {
+  with AddressForms 
+  with AddressMustache 
+  with Logging {
 
   val validation = addressForm
   val previousRoute = Some(NinoController.get)
@@ -47,14 +51,18 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
     val possiblePostcode = form(keys.possibleAddresses.postcode).value
 
     val possible = possiblePostcode.map(PossibleAddress(possibleAddresses, _))
-    views.html.steps.address(form, call, possible, backUrl.map(_.url))
+    addressMustache(form.form, call)
   }
-
+  
   def lookup = ValidSession requiredFor {
     implicit request => application =>
       addressLookupForm.bindFromRequest().fold(
-        hasErrors => Ok(template(InProgressForm(hasErrors), routes.post, previousRoute)),
-        success => Ok(template(lookupAddress(success), routes.post, previousRoute))
+        hasErrors => {
+            Ok(template(InProgressForm(hasErrors), routes.post, previousRoute))
+        },
+        success => {
+            Ok(template(lookupAddress(success), routes.post, previousRoute))
+        }
       )
   }
 

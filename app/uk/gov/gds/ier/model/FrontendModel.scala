@@ -4,6 +4,7 @@ import uk.gov.gds.common.model.LocalAuthority
 import org.joda.time.{DateTime, LocalDate}
 import com.fasterxml.jackson.annotation.JsonFormat
 import play.api.data.validation.{Invalid, Valid}
+import play.api.libs.json.Json
 
 case class ApiApplicationResponse (id: String,
                                    createdAt: String,
@@ -179,7 +180,9 @@ case class PartialAddress(addressLine:Option[String],
                           uprn:Option[String], 
                           postcode:String, 
                           manualAddress:Option[String])
-
+//object PartialAddress {                          
+//  implicit val partialAddressFmt = Json.format[PartialAddress]
+//}
 case class Address(lineOne:Option[String], 
                    lineTwo:Option[String],
                    lineThree:Option[String],

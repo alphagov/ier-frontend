@@ -1,0 +1,70 @@
+<form action="{{addressLookUpUrl}}" method="POST" >
+    <header class="question-one">
+        <p>Question 6 of 11</p>
+        <h1>Where do you live?</h1>
+    </header>
+    
+    {{> ordinary/validationMessages }}
+    
+    <fieldset>
+    <p>If you have more than one address, just give the one where you spend most of your time.</p>
+    <label for="{{possibleAddresses.name}}" class="">Postcode</label>
+    <div class="validation-wrapper">
+		<input type="text" id="{{possibleAddresses.id}}" name="{{possibleAddresses.name}}" value="{{possibleAddresses.value}}" autocomplete="off" class="text  postcode medium validate" data-validation-name="postcode" data-validation-type="field" data-validation-rules="nonEmpty">
+     </div>
+    <button id="find-address" type="submit" class="button search validation-submit" data-validation-sources="postcode" aria-controls="found-addresses">Find address</button>
+    </fieldset>
+</form>
+
+
+<form action="{{postUrl}}" method="POST">
+    {{#listAddressSize}}
+    <div id="found-addresses" role="region" aria-live="polite" class="contains-addresses validate" data-validation-name="address" data-validation-type="fieldset" data-validation-rules="fieldOrExcuse" data-validation-children="addressSelect addressExcuse">
+    <label for="address_postcode" class="hidden">Postcode</label>
+    <input type="hidden" id="input-address-postcode" name="{{addressPostcode.name}}" value="{{possibleAddresses.value}}" class="text hidden">
+    <label for="address_uprn_select">Select your address</label>
+    <div class="validation-wrapper">
+    
+    <select id="{{addressUprnSelect.id}}" name="{{addressUprnSelect.name}}" class="lonely validate" data-validation-name="addressSelect" data-validation-type="field" data-validation-rules="nonEmpty">
+    		<option value="">{{possibleAddressesJsonListObject.size}} addresses found</option>
+    		{{#possibleAddressesJsonListObject}}
+  		<option value="{{uprn}}">{{addressLine}}</option>
+  		{{/possibleAddressesJsonListObject}}
+    </select>
+    </div>
+    <a href="#" class="toggle toggle-open">
+    <span class="visuallyhidden">Expand</span> I can't find my address in the list <span class="visuallyhidden">section</span></a>
+    <div class="optional-section" aria-hidden="true" aria-expanded="false" style="display: block;">
+    <h2 class="visuallyhidden">I can't find my address in the list</h2><label for="address_manualAddress">Enter your address</label>
+    <textarea name="{{addressManualAddress.name}}" id="{{addressManualAddress.id}}" class="small validate" maxlength="500" autocomplete="off" data-validation-name="addressExcuse" data-validation-type="field" data-validation-rules="nonEmpty"></textarea>
+    
+    </div>
+    {{/listAddressSize}}
+    {{^listAddressSize}}
+        <div id="found-addresses" role="region" aria-live="polite" aria-label="Address">
+        <a href="#" class="toggle toggle-open"><span class="visuallyhidden">Hide</span> I don't know which postcode to use <span class="visuallyhidden">section</span></a>
+        <div class="help-content" aria-hidden="false" aria-expanded="true" style="display: block;">
+          <h2 class="visuallyhidden">I don't know which postcode to use</h2>
+          <p>We need your address and postcode so that we can send your details to the right local Electoral Registration Office.</p>
+          <h3>I don't know the postcode for my address</h3>
+          <p class="postcode-finder">Look up your postcode using the <a href="http://www.postoffice.co.uk/postcode-finder" rel="external" target="_blank" class="lightbox-link" data-target="address-lightbox">Post Office's postcode finder</a>.</p>
+          <h3>I don't know which address to use</h3>
+          <p>If you're a student living away from home, you can register to vote at both your permanent home address and your term-time address.</p>
+          <p>If you're homeless and living in temporary accommodation (for example, a long term hostel), use that address.</p>
+          <p>If you're a long term patient in a psychiatric hospital, use the address of the hospital.</p>
+          <p>If you're a prisoner on long term remand, use the address of the prison.</p>
+          <h3>I can't provide an address</h3>
+          <p>If you can't provide an address, please contact your local Electoral Registration Office.</p>
+     </div>
+    </div>
+    {{/listAddressSize}}
+    
+    <input type="hidden" id="{{possibleAddresses.id}}" name="{{possibleAddresses.name}}" value="{{possibleAddresses.value}}" autocomplete="off" class="text invalid postcode medium validate" data-validation-name="postcode" data-validation-type="field" data-validation-rules="nonEmpty"></div>
+    
+    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode address" style="display: block;">Continue</button>
+
+<input type="hidden" id="{{possibleAddressesJsonList.id}}" name="{{possibleAddressesJsonList.name}}" value="{{possibleAddressesJsonList.value}}" autocomplete="off" class="text  hidden">
+  
+</form>    
+    
+   
