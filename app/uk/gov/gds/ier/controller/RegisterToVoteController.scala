@@ -25,6 +25,10 @@ class RegisterToVoteController @Inject() (val serialiser: JsonSerialiser,
     with WithEncryption
     with GovukMustache {
 
+  def index = Action {
+    Redirect(routes.RegisterToVoteController.registerToVote)
+  }
+
   def registerToVote = Action {
     Ok(RegisterToVote.ordinaryStartPage())
   }

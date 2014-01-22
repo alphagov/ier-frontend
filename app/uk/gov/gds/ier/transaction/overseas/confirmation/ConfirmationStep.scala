@@ -35,7 +35,11 @@ class ConfirmationStep @Inject() (val encryptionKeys: EncryptionKeys,
   val previousRoute = Some(PreviouslyRegisteredController.get)
 
   def template(form:InProgressForm[InprogressOverseas]) = {
-    Confirmation.confirmationPage(form, previousRoute.map(_.url))
+    Confirmation.confirmationPage(
+      form,
+      previousRoute.map(_.url).getOrElse("#"),
+      routes.post.url
+    )
   }
 
   def get = ValidSession requiredFor {
