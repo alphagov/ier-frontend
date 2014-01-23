@@ -14,5 +14,5 @@ trait StepMustache extends FormKeys {
 
   case class FieldSet(classes:String = "")
   case class Field(id:String = "", name:String = "", classes:String = "", value:String = "", attributes:String = "")
-  case class Question(postUrl:String = "", backUrl:String = "", number:String = "", title:String = "", errorMessages:Seq[String] = Seq.empty)
+  case class Question(postUrl:String = "", backUrl:String = "", showBackUrl:Boolean = true, number:String = "", title:String = "", errorMessages:Seq[String] = Seq.empty)
 }
