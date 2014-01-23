@@ -15,12 +15,14 @@ trait OtherAddressMustache extends StepMustache {
                                hasOtherAddressTrue: Field,
                                hasOtherAddressFalse: Field)
 
-  def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOrdinary], postUrl: String, backUrl: Option[String]): OtherAddressModel = {
+  def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOrdinary],
+                                      postUrl: String,
+                                      backUrl: Option[String]): OtherAddressModel = {
     OtherAddressModel(
       question = Question(
         postUrl = postUrl,
         backUrl = backUrl.getOrElse(""),
-        number = "Question 8 of 11",
+        number = "8 of 11",
         title = "Do you live at a second UK address where you're registered to vote?",
         errorMessages = form.globalErrors.map(_.message)
       ),
