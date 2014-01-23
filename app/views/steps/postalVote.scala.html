@@ -31,7 +31,7 @@
         <label>Email address</label>
         <div class="validation-wrapper">
           @text(keys.postalVote.deliveryMethod.emailAddress,
-            'type -> "email", 'class -> "text long validate", Symbol("data-validation-name") -> "emailAddress", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
+            'type -> "email", 'class -> "text long validate", Symbol("data-validation-name") -> "emailAddress", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty email")
         </div>
       </div>
       @wrapLabel(keys.postalVote.deliveryMethod.methodName, 'value -> "post", 'class -> "selectable") {
