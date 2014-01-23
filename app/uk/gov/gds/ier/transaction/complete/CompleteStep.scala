@@ -33,10 +33,4 @@ class CompleteStep @Inject() (val serialiser: JsonSerialiser,
 
       Ok(Complete.completePage(authority, refNum))
   }
-
-  def fakeComplete = Action {
-    val authority = Some(LocalAuthority("Tower Hamlets", Ero(), "00BG", "E09000030"))
-    Ok(Complete.completePage(authority, Some("123456")))
-  }
-
 }

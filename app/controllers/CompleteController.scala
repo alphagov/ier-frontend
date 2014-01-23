@@ -8,5 +8,4 @@ import uk.gov.gds.ier.transaction.complete.CompleteStep
 object CompleteController extends DelegatingController[CompleteStep] {
 
   def complete = delegate.complete
-  def fakeComplete = delegate.fakeComplete
 }

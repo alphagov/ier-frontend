@@ -9,7 +9,6 @@ GET         /register-to-vote/start                                      control
 #Complete Route
 GET         /register-to-vote/complete                                   controllers.CompleteController.complete
 GET         /register-to-vote/overseas/complete                          controllers.CompleteController.complete
-GET         /register-to-vote/complete/fake                              controllers.CompleteController.fakeComplete
 
 
 #Exit Routes
