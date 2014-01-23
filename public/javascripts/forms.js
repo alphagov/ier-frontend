@@ -520,7 +520,7 @@
         '{{/options}}' +
         '</select>' +
       '</div>' +
-      '<div class="optional-section">' +
+      '<div class="optional-section" id="cant-find-address">' +
         '<h2>{{excuseToggle}}</h2>' +
         '<label for="'+inputId+'_manualAddress">{{excuseLabel}}</label>' +
         '<textarea name="'+inputName+'.manualAddress" id="'+inputId+'_manualAddress" class="small validate" maxlength=500  autocomplete="off" ' +
