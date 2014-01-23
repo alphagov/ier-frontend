@@ -23,9 +23,9 @@ trait PostalVoteForms extends PostalVoteConstraints {
       .verifying("Please answer this question", postalVote => postalVote.isDefined),
     keys.deliveryMethod.key -> optional(postalVoteDeliveryMethodMapping)
   ) (
-    (postalVoteOption, deliveryMethod) => PostalVote(postalVoteOption.get, deliveryMethod)
+    (postalVoteOption, deliveryMethod) => PostalVote(postalVoteOption, deliveryMethod)
   ) (
-    postalVote => Some(Some(postalVote.postalVoteOption), postalVote.deliveryMethod)
+    postalVote => Some(postalVote.postalVoteOption, postalVote.deliveryMethod)
   ) verifying (validPostVoteOption)
 
   val postalVoteForm = ErrorTransformForm(
