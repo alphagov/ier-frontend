@@ -32,11 +32,17 @@ trait AddressMustache extends StepMustache with WithSerialiser with Logging{
     val possibleAddressesForm = form.value.flatMap{ application => application.possibleAddresses}
     val addressForm = form.value.flatMap{ application => application.address}
     
+    val listAddress = form(keys.possibleAddresses.jsonList.key).value match {
+        case Some("") => Nil
+        case Some(addresses) => (serialiser.fromJson[Addresses] (addresses)).addresses
+        case None => Nil
+    }
+    
     val possibleAddressesField = Field(
             name = keys.possibleAddresses.postcode.key, 
             id = keys.possibleAddresses.postcode.asId(), 
             value = form(keys.possibleAddresses.postcode.key).value.getOrElse(""),
-            classes = if (form(keys.possibleAddresses.postcode.key).hasErrors) "invalid" else "")
+            classes = if (form(keys.possibleAddresses.postcode.key).hasErrors || listAddress.isEmpty) "invalid" else "")
     val possibleAddressesJsonListField = Field(
             name = keys.possibleAddresses.jsonList.key, 
             id = keys.possibleAddresses.jsonList.asId(), 
@@ -55,11 +61,7 @@ trait AddressMustache extends StepMustache with WithSerialiser with Logging{
             id = keys.address.manualAddress.asId(), 
             value = form(keys.address.manualAddress.key).value.getOrElse(""))
             
-    val listAddress = form(keys.possibleAddresses.jsonList.key).value match {
-        case Some("") => Nil
-        case Some(addresses) => (serialiser.fromJson[Addresses] (addresses)).addresses
-        case None => Nil
-    }
+    
     
     val listAddressError = form(keys.possibleAddresses.postcode.key).value match {
         case Some(postcode) => if (postcode.trim != "" && listAddress.isEmpty && globalErrors.size == 0) List("Please enter a valid postcode") else Nil 
