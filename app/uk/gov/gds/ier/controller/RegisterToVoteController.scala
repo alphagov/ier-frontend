@@ -2,7 +2,6 @@ package uk.gov.gds.ier.controller
 
 import play.api.mvc._
 import com.google.inject.Inject
-import views._
 import controllers._
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import scala.Some
@@ -12,6 +11,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.mustache.GovukMustache
 
 class RegisterToVoteController @Inject() (val serialiser: JsonSerialiser,
                                           val config: Config,
@@ -22,16 +22,29 @@ class RegisterToVoteController @Inject() (val serialiser: JsonSerialiser,
     with WithConfig
     with Logging
     with SessionCleaner
-    with WithEncryption {
+    with WithEncryption
+    with GovukMustache {
 
   def index = Action {
-    logger.info("starting service register to vote")
-    Ok(html.start())
+    Redirect(routes.RegisterToVoteController.registerToVote)
   }
 
-  def registerToVote = NewSession requiredFor {
+  def registerToVote = Action {
+    Ok(RegisterToVote.ordinaryStartPage())
+  }
+
+  def registerToVoteStart = NewSession requiredFor {
     request =>
       Redirect(step.routes.CountryController.get)
+  }
+
+  def registerToVoteOverseas = Action {
+    Ok(RegisterToVote.overseasStartPage())
+  }
+
+  def registerToVoteOverseasStart = NewSession requiredFor {
+    request =>
+      Redirect(step.overseas.routes.PreviouslyRegisteredController.get)
   }
 }
 

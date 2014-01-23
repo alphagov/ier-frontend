@@ -33,7 +33,7 @@ class ConfirmationStep @Inject ()(val serialiser: JsonSerialiser,
     post = ConfirmationController.post,
     editGet = ConfirmationController.get,
     editPost = ConfirmationController.post
-  ) 
+  )
 
   val validation = confirmationForm
   val previousRoute = Some(ContactController.get)
@@ -46,20 +46,16 @@ class ConfirmationStep @Inject ()(val serialiser: JsonSerialiser,
     request => application =>
       val currentAddressLine = application.address.map { addressService.fillAddressLine(_) }
 
-      val previousAddressLine = if (
-        application.previousAddress.isDefined &&
-        application.previousAddress.get.movedRecently.isDefined &&
-        application.previousAddress.get.movedRecently.get == true )
-      {
-        application.previousAddress.flatMap { prev =>
+      val previousAddressLine = application.previousAddress.flatMap { prev =>
+        if (prev.movedRecently.exists(_ == true)) {
           prev.previousAddress.map { addressService.fillAddressLine(_) }
+        } else {
+          None
         }
       }
-      else {
-        None
-      }
+
       val appWithAddressLines = application.copy(
-        address = currentAddressLine, 
+        address = currentAddressLine,
         previousAddress = application.previousAddress.map{ prev =>
           prev.copy(previousAddress = previousAddressLine)
         }
@@ -78,7 +74,7 @@ class ConfirmationStep @Inject ()(val serialiser: JsonSerialiser,
           val refNum = ierApi.generateReferenceNumber(validApplication)
           val remoteClientIP = request.headers.get("X-Real-IP")
 
-          ierApi.submitApplication(remoteClientIP, validApplication, Some(refNum))
+          ierApi.submitOrdinaryApplication(remoteClientIP, validApplication, Some(refNum))
           Redirect(CompleteController.complete()).flashing(
             "refNum" -> refNum,
             "postcode" -> validApplication.address.map(_.postcode).getOrElse("")

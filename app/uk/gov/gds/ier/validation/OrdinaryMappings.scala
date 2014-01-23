@@ -18,19 +18,19 @@ import uk.gov.gds.ier.transaction.ordinary.postalVote.PostalVoteForms
 import uk.gov.gds.ier.transaction.ordinary.contact.ContactForms
 import uk.gov.gds.ier.transaction.country.CountryForms
 
-trait FormMappings 
-  extends FormKeys 
+trait OrdinaryMappings 
+  extends FormKeys
   with ErrorMessages
   with NinoForms
-  with NationalityForms 
-  with NameForms 
+  with NationalityForms
+  with NameForms
   with AddressForms
   with OtherAddressForms
   with PreviousAddressForms
   with DateOfBirthForms
-  with OpenRegisterForms 
-  with PostalVoteForms 
-  with ContactForms 
+  with OpenRegisterForms
+  with PostalVoteForms
+  with ContactForms
   with CountryForms {
     self: WithSerialiser =>
 
