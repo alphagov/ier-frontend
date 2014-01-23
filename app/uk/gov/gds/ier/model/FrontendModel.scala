@@ -16,8 +16,8 @@ case class Contact (post: Boolean,
                     email: Option[ContactDetail]) {
   def toApiMap = {
     Map("post" -> post.toString) ++
-      phone.map(phone => if(phone.contactMe) phone.detail.map(detail => Map("phone" -> detail)).getOrElse(Map.empty) else Map.empty).getOrElse(Map.empty) ++
-      email.map(email => if(email.contactMe) email.detail.map(detail => Map("email" -> detail)).getOrElse(Map.empty) else Map.empty).getOrElse(Map.empty)
+      phone.filter(_.contactMe).flatMap(_.detail).map("phone" -> _).toMap ++
+      email.filter(_.contactMe).flatMap(_.detail).map("email" -> _).toMap
   }
 }
 
