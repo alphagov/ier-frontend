@@ -4,7 +4,6 @@ import views.html.layouts.{stepsBodyEnd, head}
 import uk.gov.gds.ier.validation.FormKeys
 
 trait StepMustache extends FormKeys {
-  import org.jba.Mustache
 
   def Mustache = org.jba.Mustache
 
@@ -13,6 +12,6 @@ trait StepMustache extends FormKeys {
   }
 
   case class FieldSet(classes:String = "")
-  case class Field(id:String = "", name:String = "", classes:String = "", value:String = "", attributes:String = "")
+  case class Field(id:String = "", name:String = "", classes:String = "", wrapperClasses:String ="", value:String = "", attributes:String = "")
   case class Question(postUrl:String = "", backUrl:String = "", number:String = "", title:String = "", errorMessages:Seq[String] = Seq.empty)
 }
