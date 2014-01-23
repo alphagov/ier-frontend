@@ -42,7 +42,7 @@ trait AddressMustache extends StepMustache with WithSerialiser with Logging{
             name = keys.possibleAddresses.postcode.key, 
             id = keys.possibleAddresses.postcode.asId(), 
             value = form(keys.possibleAddresses.postcode.key).value.getOrElse(""),
-            classes = if (form(keys.possibleAddresses.postcode.key).hasErrors || listAddress.isEmpty) "invalid" else "")
+            classes = if (form(keys.possibleAddresses.postcode.key).hasErrors || (form(keys.possibleAddresses.postcode.key).value != None && listAddress.isEmpty)) "invalid" else "")
     val possibleAddressesJsonListField = Field(
             name = keys.possibleAddresses.jsonList.key, 
             id = keys.possibleAddresses.jsonList.asId(), 

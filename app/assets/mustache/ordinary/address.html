@@ -29,19 +29,28 @@
   		{{/possibleAddressesJsonListObject}}
     </select>
     </div>
-    <a href="#" class="toggle toggle-open">
-    <span class="visuallyhidden">Expand</span> I can't find my address in the list <span class="visuallyhidden">section</span></a>
-    <div class="optional-section" aria-hidden="true" aria-expanded="false" style="display: block;">
-    <h2 class="visuallyhidden">I can't find my address in the list</h2><label for="address_manualAddress">Enter your address</label>
+    
+
+    <div class="optional-section" >
+    <h2 >I can't find my address in the list</h2><label for="address_manualAddress">Enter your address</label>
     <textarea name="{{addressManualAddress.name}}" id="{{addressManualAddress.id}}" class="small validate" maxlength="500" autocomplete="off" data-validation-name="addressExcuse" data-validation-type="field" data-validation-rules="nonEmpty"></textarea>
     
     </div>
+    
+    <input type="hidden" id="{{possibleAddresses.id}}" name="{{possibleAddresses.name}}" value="{{possibleAddresses.value}}" autocomplete="off" class="text invalid postcode medium validate" data-validation-name="postcode" data-validation-type="field" data-validation-rules="nonEmpty"></div>
+    
+    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode address" style="display: block;">Continue</button>
+
+    <input type="hidden" id="{{possibleAddressesJsonList.id}}" name="{{possibleAddressesJsonList.name}}" value="{{possibleAddressesJsonList.value}}" autocomplete="off" class="text  hidden">
+  
+</form> 
+    
     {{/listAddressSize}}
     {{^listAddressSize}}
         <div id="found-addresses" role="region" aria-live="polite" aria-label="Address">
-        <a href="#" class="toggle toggle-open"><span class="visuallyhidden">Hide</span> I don't know which postcode to use <span class="visuallyhidden">section</span></a>
-        <div class="help-content" aria-hidden="false" aria-expanded="true" style="display: block;">
-          <h2 class="visuallyhidden">I don't know which postcode to use</h2>
+        
+        <div class="help-content" >
+          <h2 >I don't know which postcode to use</h2>
           <p>We need your address and postcode so that we can send your details to the right local Electoral Registration Office.</p>
           <h3>I don't know the postcode for my address</h3>
           <p class="postcode-finder">Look up your postcode using the <a href="http://www.postoffice.co.uk/postcode-finder" rel="external" target="_blank" class="lightbox-link" data-target="address-lightbox">Post Office's postcode finder</a>.</p>
@@ -55,13 +64,6 @@
      </div>
     </div>
     {{/listAddressSize}}
-    
-    <input type="hidden" id="{{possibleAddresses.id}}" name="{{possibleAddresses.name}}" value="{{possibleAddresses.value}}" autocomplete="off" class="text invalid postcode medium validate" data-validation-name="postcode" data-validation-type="field" data-validation-rules="nonEmpty"></div>
-    
-    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode address" style="display: block;">Continue</button>
 
-<input type="hidden" id="{{possibleAddressesJsonList.id}}" name="{{possibleAddressesJsonList.name}}" value="{{possibleAddressesJsonList.value}}" autocomplete="off" class="text  hidden">
-  
-</form>    
     
    
