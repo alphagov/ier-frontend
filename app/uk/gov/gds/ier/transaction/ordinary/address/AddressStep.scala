@@ -42,16 +42,7 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
   }
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
-    val possibleAddresses = form(keys.possibleAddresses.jsonList).value match {
-      case Some(possibleAddressJS) if !possibleAddressJS.isEmpty => {
-        serialiser.fromJson[Addresses](possibleAddressJS)
-      }
-      case _ => Addresses(List.empty)
-    }
-    val possiblePostcode = form(keys.possibleAddresses.postcode).value
-
-    val possible = possiblePostcode.map(PossibleAddress(possibleAddresses, _))
-    addressMustache(form.form, call)
+    transformFormStepToMustacheData(form.form, call, backUrl)
   }
   
   def lookup = ValidSession requiredFor {
