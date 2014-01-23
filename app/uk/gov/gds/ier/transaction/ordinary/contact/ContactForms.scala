@@ -23,21 +23,14 @@ trait ContactForms extends ContactConstraints {
     keys.detail.key -> optional(text)
   ) (ContactDetail.apply) (ContactDetail.unapply).verifying(detailFilled(key.detail, name))
 
-  def contactDetailMapping(key:Key, name:String) = {
-    contactMeMapping(key:Key, name:String).transform(
-      (contact) => if (contact.contactMe) contact.detail else None,
-      (detail:Option[String]) => ContactDetail(detail.isDefined, detail)
-    )
-  }
-
   lazy val postDetailMapping = mapping(
     keys.contactMe.key -> optional(boolean)
   ) (_.getOrElse(false)) (post => Some(Some(post)))
 
   lazy val contactMapping = mapping(
     keys.post.key -> postDetailMapping,
-    keys.phone.key -> contactDetailMapping(keys.contact.phone, "phone number"),
-    keys.email.key -> contactDetailMapping(keys.contact.email, "email address")
+    keys.phone.key -> optional(contactMeMapping(keys.contact.phone, "phone number")),
+    keys.email.key -> optional(contactMeMapping(keys.contact.email, "email address"))
   ) (
     Contact.apply
   ) (

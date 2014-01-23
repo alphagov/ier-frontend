@@ -63,8 +63,108 @@ class IerApiServiceTests
       ))
     )
 
-    service.submitApplication(None, application, None)
+    service.submitOrdinaryApplication(None, application, None)
 
+  }
+
+  it should "not contain the contact mail if the option is not selected" in {
+    class FakeApiClient extends IerApiClient(new MockConfig) {
+      override def post(url:String, content:String, headers: (String, String)*) : ApiResponse = {
+        if (url.contains("testUrl")) {
+          content should not include("mail")
+          successMessage
+        } else {
+          Fail("Bad Url")
+        }
+      }
+    }
+    val mockPlaces = mock[PlacesService]
+    val addressService = new AddressService(mockPlaces)
+    val mockSha = mock[ShaHashProvider]
+    val isoService = new IsoCountryService
+
+    val service = new ConcreteIerApiService(new FakeApiClient, jsonSerialiser,
+      new MockConfig, mockPlaces, addressService, mockSha, isoService)
+
+    val application = InprogressOrdinary(
+      contact = Some(Contact(false,None,Some(ContactDetail(false,Some("test@emaill.com")))))
+    )
+    service.submitApplication(None, application, None)
+  }
+
+  it should "not contain the contact phone if the option is not selected" in {
+    class FakeApiClient extends IerApiClient(new MockConfig) {
+      override def post(url:String, content:String, headers: (String, String)*) : ApiResponse = {
+        if (url.contains("testUrl")) {
+          content should not include("phone")
+          successMessage
+        } else {
+          Fail("Bad Url")
+        }
+      }
+    }
+    val mockPlaces = mock[PlacesService]
+    val addressService = new AddressService(mockPlaces)
+    val mockSha = mock[ShaHashProvider]
+    val isoService = new IsoCountryService
+
+    val service = new ConcreteIerApiService(new FakeApiClient, jsonSerialiser,
+      new MockConfig, mockPlaces, addressService, mockSha, isoService)
+
+    val application = InprogressOrdinary(
+      contact = Some(Contact(false,Some(ContactDetail(false,Some("1234567890"))),None))
+    )
+    service.submitApplication(None, application, None)
+  }
+
+  it should "contain the contact mail if the option is selected" in {
+    class FakeApiClient extends IerApiClient(new MockConfig) {
+      override def post(url:String, content:String, headers: (String, String)*) : ApiResponse = {
+        if (url.contains("testUrl")) {
+          content should include("mail")
+          successMessage
+        } else {
+          Fail("Bad Url")
+        }
+      }
+    }
+    val mockPlaces = mock[PlacesService]
+    val addressService = new AddressService(mockPlaces)
+    val mockSha = mock[ShaHashProvider]
+    val isoService = new IsoCountryService
+
+    val service = new ConcreteIerApiService(new FakeApiClient, jsonSerialiser,
+      new MockConfig, mockPlaces, addressService, mockSha, isoService)
+
+    val application = InprogressOrdinary(
+      contact = Some(Contact(false,None,Some(ContactDetail(true,Some("test@emaill.com")))))
+    )
+    service.submitApplication(None, application, None)
+  }
+
+  it should "contain the contact phone if the option is selected" in {
+    class FakeApiClient extends IerApiClient(new MockConfig) {
+      override def post(url:String, content:String, headers: (String, String)*) : ApiResponse = {
+        if (url.contains("testUrl")) {
+          content should include("phone")
+          successMessage
+        } else {
+          Fail("Bad Url")
+        }
+      }
+    }
+    val mockPlaces = mock[PlacesService]
+    val addressService = new AddressService(mockPlaces)
+    val mockSha = mock[ShaHashProvider]
+    val isoService = new IsoCountryService
+
+    val service = new ConcreteIerApiService(new FakeApiClient, jsonSerialiser,
+      new MockConfig, mockPlaces, addressService, mockSha, isoService)
+
+    val application = InprogressOrdinary(
+      contact = Some(Contact(false,Some(ContactDetail(true,Some("1234567890"))),None))
+    )
+    service.submitApplication(None, application, None)
   }
 
   it should "convert country names to ISO codes" in {
@@ -100,6 +200,6 @@ class IerApiServiceTests
       ))
     )
 
-    service.submitApplication(None, application, None)
+    service.submitOrdinaryApplication(None, application, None)
   }
 }

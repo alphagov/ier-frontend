@@ -12,6 +12,10 @@ trait CommonConstraints extends ErrorMessages {
     optional(mapping).verifying(errorMessage, _.nonEmpty).transform(_.get, Option(_))
   }
 
+  def stepRequired[A](mapping:Mapping[A]):Mapping[Option[A]] = {
+    optional(mapping).verifying("Please complete this step", _.isDefined)
+  }
+
   def default[A](mapping: Mapping[A], alternative:A):Mapping[A] = {
     optional(mapping).transform(
       opt => opt.getOrElse(alternative),
