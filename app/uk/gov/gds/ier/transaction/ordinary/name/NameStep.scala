@@ -17,7 +17,8 @@ class NameStep @Inject ()(val serialiser: JsonSerialiser,
                           val encryptionService : EncryptionService,
                           val encryptionKeys : EncryptionKeys)
   extends OrdinaryStep
-  with NameForms {
+  with NameForms
+  with NameMustache {
 
   val validation = nameForm
   val previousRoute = Some(DateOfBirthController.get)
@@ -30,8 +31,9 @@ class NameStep @Inject ()(val serialiser: JsonSerialiser,
   )
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
-    views.html.steps.name(form, call, backUrl.map(_.url))
+    nameMustache(form.form, call, backUrl.map(_.url))
   }
+
   def nextStep(currentState: InprogressOrdinary) = {
     NinoController.ninoStep
   }
