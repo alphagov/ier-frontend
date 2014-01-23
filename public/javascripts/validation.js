@@ -261,7 +261,7 @@
 
        fieldObj.$source.addClass('invalid');
        if ($validationWrapper.length) {
-         $validationWrapper.addClass('validation-wrapper-invalid');
+         $validationWrapper.addClass('invalid');
        }
      },
      invalidFields : function (invalidFields) {
@@ -281,7 +281,7 @@
 
        fieldObj.$source.removeClass('invalid');
        if ($validationWrapper.length) {
-         $validationWrapper.removeClass('validation-wrapper-invalid');
+         $validationWrapper.removeClass('invalid');
        }
      },
      validFields : function (validFields) {
