@@ -14,7 +14,7 @@ trait NinoMustache extends StepMustache {
                        noNinoReason: Field)
 
   def ninoMustache(form: ErrorTransformForm[InprogressOrdinary], postEndpoint: Call, backEndpoint:Option[Call]) : Html = {
-
+    implicit val progressForm = form
     val application:InprogressOrdinary = form.value.getOrElse(InprogressOrdinary())
 
     val data = NinoModel(
@@ -25,18 +25,17 @@ trait NinoMustache extends StepMustache {
         number = "5 of 11",
         title = "What is your National Insurance number?"
       ),
-      nino = Field(
-        name = keys.nino.nino.key,
-        id = keys.nino.nino.asId(),
-        value = application.nino.map(ninoStepObject => ninoStepObject.nino.getOrElse("")).getOrElse(""),
-        classes = if (form(keys.nino.nino.key).hasErrors) "invalid" else "",
-        wrapperClasses = if (form(keys.nino.nino.key).hasErrors) "validation-wrapper-invalid" else ""
-      ),
-      noNinoReason = Field(
-        name = keys.nino.noNinoReason.key,
-        id = keys.nino.noNinoReason.asId(),
-        value = application.nino.map(ninoStepObject => ninoStepObject.noNinoReason.getOrElse("")).getOrElse("")
-      )
+      nino = TextField(
+        key = keys.nino.nino)
+      ,
+      noNinoReason = TextField(
+        key = keys.nino.noNinoReason)
+
+//        Field(
+//        name = keys.nino.noNinoReason.key,
+//        id = keys.nino.noNinoReason.asId(),
+//        value = application.nino.map(ninoStepObject => ninoStepObject.noNinoReason.getOrElse("")).getOrElse("")
+//      )
     )
     val content = Mustache.render("ordinary/nino", data)
     MainStepTemplate(content, "Register to Vote - What is your National Insurance number?")
