@@ -30,28 +30,28 @@ trait NameMustache extends StepMustache {
     previousLastName: ModelField)
 
   object ModelTextField {
-    def apply(key: uk.gov.gds.ier.validation.Key)(implicit form: ErrorTransformForm[InprogressOrdinary]): ModelField = {
+    def apply(key: uk.gov.gds.ier.validation.Key)(implicit progressForm: ErrorTransformForm[InprogressOrdinary]): ModelField = {
       ModelField(
         id = key.asId(),
         name = key.key,
-        value = form(key.key).value.getOrElse(""),
-        invalidWrapperClass = if (form(key.key).hasErrors) "validation-wrapper-invalid" else "",
-        invalidInputClass = if (form(key.key).hasErrors) "invalid" else "")
+        value = progressForm(key.key).value.getOrElse(""),
+        invalidWrapperClass = if (progressForm(key.key).hasErrors) "validation-wrapper-invalid" else "",
+        invalidInputClass = if (progressForm(key.key).hasErrors) "invalid" else "")
     }
   }
 
   object ModelRadioField {
-    def apply(key: uk.gov.gds.ier.validation.Key, value: String)(implicit form: ErrorTransformForm[InprogressOrdinary]): ModelField = {
+    def apply(key: uk.gov.gds.ier.validation.Key, value: String)(implicit progressForm: ErrorTransformForm[InprogressOrdinary]): ModelField = {
       ModelField(
         id = key.asId(value),
         name = key.key,
-        value = if (form(key.key).value.exists(_ == value)) "checked" else "",
-        invalidWrapperClass = if (form(key.key).hasErrors) "invalid" else "")
+        value = if (progressForm(key.key).value.exists(_ == value)) "checked" else "",
+        invalidWrapperClass = if (progressForm(key.key).hasErrors) "invalid" else "")
     }
   }
 
-  def transformFormStepToMustacheData(form1: ErrorTransformForm[InprogressOrdinary], postUrl: String, backUrl: Option[String]): NameModel = {
-    implicit val form = form1
+  def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOrdinary], postUrl: String, backUrl: Option[String]): NameModel = {
+    implicit val progressForm = form
     val globalErrors = form.globalErrors
     NameModel(
       question = Question(
