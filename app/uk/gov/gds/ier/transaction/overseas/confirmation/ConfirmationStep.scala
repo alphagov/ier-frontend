@@ -7,7 +7,7 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.IerApiService
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.validation.InProgressForm
-import controllers.step.overseas.routes.OverseasConfirmationController
+import controllers.step.overseas.routes.ConfirmationController
 import controllers.step.overseas.routes.PreviouslyRegisteredController
 import controllers.routes.CompleteController
 import com.google.inject.Inject
@@ -25,10 +25,10 @@ class ConfirmationStep @Inject() (val encryptionKeys: EncryptionKeys,
   def factoryOfT() = InprogressOverseas()
 
   val routes = Routes(
-    get = OverseasConfirmationController.get,
-    post = OverseasConfirmationController.post,
-    editGet = OverseasConfirmationController.get,
-    editPost = OverseasConfirmationController.post
+    get = ConfirmationController.get,
+    post = ConfirmationController.post,
+    editGet = ConfirmationController.get,
+    editPost = ConfirmationController.post
   )
 
   val validation = confirmationForm

@@ -149,5 +149,5 @@ GET         /register-to-vote/overseas/edit/date-left-uk                 control
 POST        /register-to-vote/overseas/edit/date-left-uk                 controllers.step.overseas.DateLeftUkController.editPost
 
 #Overseas Confirmation
-GET         /register-to-vote/overseas/confirmation                      controllers.step.overseas.OverseasConfirmationController.get
-POST        /register-to-vote/overseas/confirmation                      controllers.step.overseas.OverseasConfirmationController.post
+GET         /register-to-vote/overseas/confirmation                      controllers.step.overseas.ConfirmationController.get
+POST        /register-to-vote/overseas/confirmation                      controllers.step.overseas.ConfirmationController.post
