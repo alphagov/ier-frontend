@@ -5,14 +5,38 @@ import play.api.test.Helpers._
 import org.scalatest.{Matchers, FlatSpec}
 
 class RegisterToVoteControllerTests extends FlatSpec with Matchers {
-  
-  behavior of "RegisterToVoteController.registerToVote"
 
+  behavior of "RegisterToVoteController.registerToVoteStart"
   it should "redirect to register-to-vote/country-of-residence" in {
     running(FakeApplication()) {
-      val Some(result) = route(FakeRequest(GET, "/register-to-vote"))
+      val Some(result) = route(FakeRequest(GET, "/register-to-vote/start"))
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/country-of-residence")) 
+      redirectLocation(result) should be(Some("/register-to-vote/country-of-residence"))
+    }
+  }
+
+  behavior of "RegisterToVoteController.registerToVoteOverseasStart"
+  it should "redirect to register-to-vote/country-of-residence" in {
+    running(FakeApplication()) {
+      val Some(result) = route(FakeRequest(GET, "/register-to-vote/overseas/start"))
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/previously-registered"))
+    }
+  }
+
+  behavior of "RegisterToVoteController.registerToVote"
+  it should "display the Register to Vote start page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(FakeRequest(GET, "/register-to-vote"))
+      contentAsString(result) should include("/register-to-vote/start")
+    }
+  }
+
+  behavior of "RegisterToVoteController.registerToVoteOverseas"
+  it should "display the Register to Vote start page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(FakeRequest(GET, "/register-to-vote/overseas"))
+      contentAsString(result) should include("/register-to-vote/overseas/start")
     }
   }
 }

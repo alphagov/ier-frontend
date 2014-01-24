@@ -17,9 +17,9 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
     val applicationWithNino = InprogressOrdinary(nino = Some(Nino(Some("12345"), None)))
     val applicationWithStrippedNino = InprogressOrdinary(nino = Some(Nino(Some("AB 12 34 56 D"), None)))
 
-    when(concreteIerApiServiceMock.submitApplication(None, applicationWithStrippedNino, None)).thenReturn(ApiApplicationResponse("","","","","")) //don't care about return type
-    service.submitApplication(None, applicationWithNino, None)
-    verify(concreteIerApiServiceMock).submitApplication(None, applicationWithStrippedNino, None)
+    when(concreteIerApiServiceMock.submitOrdinaryApplication(None, applicationWithStrippedNino, None)).thenReturn(ApiApplicationResponse("","","","","")) //don't care about return type
+    service.submitOrdinaryApplication(None, applicationWithNino, None)
+    verify(concreteIerApiServiceMock).submitOrdinaryApplication(None, applicationWithStrippedNino, None)
   }
 
   it should "replace a nino when generating Reference Number" in {
@@ -38,8 +38,8 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
     val applicationWithNoNinoReason = InprogressOrdinary(nino = Some(Nino(None, Some("no nino reason"))))
 
-    when(concreteIerApiServiceMock.submitApplication(None, applicationWithNoNinoReason, None)).thenReturn(ApiApplicationResponse("","","","","")) //don't care about return type
-    service.submitApplication(None, applicationWithNoNinoReason, None)
-    verify(concreteIerApiServiceMock).submitApplication(None, applicationWithNoNinoReason, None)
+    when(concreteIerApiServiceMock.submitOrdinaryApplication(None, applicationWithNoNinoReason, None)).thenReturn(ApiApplicationResponse("","","","","")) //don't care about return type
+    service.submitOrdinaryApplication(None, applicationWithNoNinoReason, None)
+    verify(concreteIerApiServiceMock).submitOrdinaryApplication(None, applicationWithNoNinoReason, None)
   }
 }

@@ -5,6 +5,7 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.serialiser.WithSerialiser
+import uk.gov.gds.ier.model.ContactDetail
 
 class ContactFormTests 
   extends FlatSpec
@@ -33,8 +34,8 @@ class ContactFormTests
         success.contact.isDefined should be(true)
         val contact = success.contact.get
         contact.post should be(true)
-        contact.phone should be(Some("1234567890"))
-        contact.email should be(Some("fake@fake.com"))
+        contact.phone should be(Some(ContactDetail(true, Some("1234567890"))))
+        contact.email should be(Some(ContactDetail(true, Some("fake@fake.com"))))
       }
     )
   }
@@ -69,7 +70,7 @@ class ContactFormTests
       success => {
         success.contact.isDefined should be(true)
         val contact = success.contact.get
-        contact.phone should be(Some("1234567890"))
+        contact.phone should be(Some(ContactDetail(true,Some("1234567890"))))
         contact.post should be(false)
         contact.email should be(None)
       }
@@ -88,7 +89,7 @@ class ContactFormTests
       success => {
         success.contact.isDefined should be(true)
         val contact = success.contact.get
-        contact.email should be(Some("fake@fake.com"))
+        contact.email should be(Some(ContactDetail(true,Some("fake@fake.com"))))
         contact.phone should be(None)
         contact.post should be(false)
       }

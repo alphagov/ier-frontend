@@ -3,12 +3,12 @@
 # ~~~~
 
 # Home page
-GET         /                                                  controllers.RegisterToVoteController.index
-GET         /register-to-vote                                  controllers.RegisterToVoteController.registerToVote
+GET         /register-to-vote                                            controllers.RegisterToVoteController.registerToVote
+GET         /register-to-vote/start                                      controllers.RegisterToVoteController.registerToVoteStart
 
 #Complete Route
 GET         /register-to-vote/complete                                   controllers.CompleteController.complete
-GET         /register-to-vote/complete/fake                              controllers.CompleteController.fakeComplete
+GET         /register-to-vote/overseas/complete                          controllers.CompleteController.complete
 
 
 #Exit Routes
@@ -20,7 +20,7 @@ GET         /register-to-vote/exit/too-young                             control
 GET         /register-to-vote/exit/no-franchise                          controllers.ExitController.noFranchise
 
 #Error Routes
-GET         /register-to-vote/error/timeout                    controllers.ErrorController.timeout
+GET         /register-to-vote/error/timeout                              controllers.ErrorController.timeout
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/template/*file                                       controllers.Template.at(path="/app/assets/govuk_template_play/assets", file)
@@ -126,6 +126,10 @@ GET         /authority/:postcode                                         control
 ## Overseas Routes
 ################################
 
+#Overseas Start page
+GET         /register-to-vote/overseas                                   controllers.RegisterToVoteController.registerToVoteOverseas
+GET         /register-to-vote/overseas/start                             controllers.RegisterToVoteController.registerToVoteOverseasStart
+
 #Previously Registered Oversesas
 GET         /register-to-vote/overseas/previously-registered             controllers.step.overseas.PreviouslyRegisteredController.get
 POST        /register-to-vote/overseas/previously-registered             controllers.step.overseas.PreviouslyRegisteredController.post
@@ -145,6 +149,5 @@ GET         /register-to-vote/overseas/edit/date-left-uk                 control
 POST        /register-to-vote/overseas/edit/date-left-uk                 controllers.step.overseas.DateLeftUkController.editPost
 
 #Overseas Confirmation
-GET         /register-to-vote/overseas/confirmation                      controllers.step.overseas.OverseasConfirmationController.get
-POST        /register-to-vote/overseas/confirmation                      controllers.step.overseas.OverseasConfirmationController.post
-
+GET         /register-to-vote/overseas/confirmation                      controllers.step.overseas.ConfirmationController.get
+POST        /register-to-vote/overseas/confirmation                      controllers.step.overseas.ConfirmationController.post

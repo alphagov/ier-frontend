@@ -6,7 +6,7 @@ import uk.gov.gds.ier.model.InprogressOrdinary
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.ordinary.confirmation.ConfirmationForms
 
-trait IerForms extends FormMappings with ConfirmationForms {
+trait IerForms extends OrdinaryMappings with ConfirmationForms {
   self: WithSerialiser =>
 
   val dobFormat = "yyyy-MM-dd"

@@ -13,8 +13,15 @@ import uk.gov.gds.ier.digest.ShaHashProvider
 import org.joda.time.DateTime
 
 abstract class IerApiService {
-  def submitApplication(ipAddress: Option[String], applicant: InprogressOrdinary, referenceNumber: Option[String]): ApiApplicationResponse
-  def generateReferenceNumber(application:InprogressOrdinary): String
+  def submitOrdinaryApplication(ipAddress: Option[String],
+                                applicant: InprogressOrdinary,
+                                referenceNumber: Option[String]): ApiApplicationResponse
+
+  def submitOverseasApplication(ip:Option[String],
+                                applicant: InprogressOverseas,
+                                refNum:Option[String]): ApiApplicationResponse
+
+  def generateReferenceNumber[T <: InprogressApplication[T]](application:T): String
 }
 
 class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
@@ -23,14 +30,28 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
                                        placesService:PlacesService,
                                        addressService: AddressService,
                                        shaHashProvider:ShaHashProvider,
-                                       isoCountryService: IsoCountryService) extends IerApiService with Logging {
+                                       isoCountryService: IsoCountryService) 
+  extends IerApiService
+     with Logging {
 
-  def submitApplication(ipAddress: Option[String], applicant: InprogressOrdinary, referenceNumber: Option[String]) = {
-    val isoCodes = applicant.nationality.map(nationality => isoCountryService.transformToIsoCode(nationality))
-    val currentAuthority = applicant.address.flatMap(address => placesService.lookupAuthority(address.postcode))
-    val previousAuthority = applicant.previousAddress.flatMap(_.previousAddress).flatMap(prevAddress => placesService.lookupAuthority(prevAddress.postcode))
+  def submitOrdinaryApplication(ipAddress: Option[String],
+                                applicant: InprogressOrdinary,
+                                referenceNumber: Option[String]) = {
+    val isoCodes = applicant.nationality map { nationality =>
+      isoCountryService.transformToIsoCode(nationality)
+    }
+    val currentAuthority = applicant.address flatMap { address =>
+      placesService.lookupAuthority(address.postcode)
+    }
+    val previousAuthority = applicant.previousAddress flatMap { prevAddress =>
+      prevAddress.previousAddress flatMap { prevAddress =>
+        placesService.lookupAuthority(prevAddress.postcode)
+      }
+    }
     val fullCurrentAddress = addressService.formFullAddress(applicant.address)
-    val fullPreviousAddress = addressService.formFullAddress(applicant.previousAddress.flatMap(_.previousAddress))
+    val fullPreviousAddress = applicant.previousAddress flatMap { prevAddress =>
+      addressService.formFullAddress(prevAddress.previousAddress)
+    }
 
     val completeApplication = OrdinaryApplication(
       name = applicant.name,
@@ -52,18 +73,41 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
 
-    apiClient.post(config.ierApiUrl, serialiser.toJson(apiApplicant), ("Authorization", "BEARER " + config.ierApiToken)) match {
+    sendApplication(apiApplicant)
+  }
+
+  def submitOverseasApplication(ip:Option[String],
+                                applicant: InprogressOverseas,
+                                refNum:Option[String]) = {
+    val completeApplication = OverseasApplication(
+      previouslyRegistered = applicant.previouslyRegistered,
+      dateLeftUk = applicant.dateLeftUk,
+      firstTimeRegistered = applicant.firstTimeRegistered
+    )
+
+    val apiApplicant = ApiApplication(completeApplication.toApiMap)
+
+    sendApplication(apiApplicant)
+  }
+
+  private def sendApplication(application: ApiApplication) = {
+    apiClient.post(config.ierApiUrl,
+                   serialiser.toJson(application),
+                   ("Authorization", "BEARER " + config.ierApiToken)) match {
       case Success(body) => serialiser.fromJson[ApiApplicationResponse](body)
       case Fail(error) => {
         logger.error("Submitting application to api failed: " + error)
         throw new ApiException(error)
       }
     }
+
   }
 
-  def generateReferenceNumber(application:InprogressOrdinary) = {
+  def generateReferenceNumber[T <: InprogressApplication[T]](application:T) = {
     val json = serialiser.toJson(application)
-    shaHashProvider.getHash(json, Some(DateTime.now.toString)).map("%02X" format _).take(3).mkString
+    val encryptedBytes = shaHashProvider.getHash(json, Some(DateTime.now.toString))
+    val encryptedHex = encryptedBytes.map{ byte => "%02X" format byte }
+    encryptedHex.take(3).mkString
   }
 }
 
