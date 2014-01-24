@@ -178,10 +178,17 @@ input.year {
   }
 }
 
-.validation-wrapper-invalid {
+/*
+  Should only apply to the div.validation-wrapper that
+  is applied around text fields etc.
+  Preferred over .validation-wrapper.invalid since older
+  browsers don't support class-chaining.
+ */
+div.invalid {
   padding-left: 10px;
   margin-left: -14px;
   border-left: solid 4px #DF3034;
+  outline:none;
 
   .optional-section &,
   .help-content & {

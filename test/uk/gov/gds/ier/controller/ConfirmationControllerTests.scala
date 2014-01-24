@@ -30,7 +30,7 @@ class ConfirmationControllerTests
               previousAddress = Some(PartialPreviousAddress(Option(false),false, None)),
               otherAddress = Some(OtherAddress(false)),
               openRegisterOptin = Some(false),
-              postalVote = Some(PostalVote(false,None)),
+              postalVote = Some(PostalVote(Some(false),None)),
               contact = Some(Contact(true, None, None)),
               possibleAddresses = None,
               country = None

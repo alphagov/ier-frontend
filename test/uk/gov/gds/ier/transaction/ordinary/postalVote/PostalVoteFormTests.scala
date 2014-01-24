@@ -28,7 +28,7 @@ class PostalVoteFormTests
     postalVoteForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
-        success.postalVote should be(Some(PostalVote(true,Some(PostalVoteDeliveryMethod(Some("post"),None)))))
+        success.postalVote should be(Some(PostalVote(Some(true),Some(PostalVoteDeliveryMethod(Some("post"),None)))))
       }
     )
   }
@@ -44,7 +44,7 @@ class PostalVoteFormTests
     postalVoteForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
-        success.postalVote should be(Some(PostalVote(true,Some(PostalVoteDeliveryMethod(Some("email"),Some("deliveryMethod.emailAddress"))))))
+        success.postalVote should be(Some(PostalVote(Some(true),Some(PostalVoteDeliveryMethod(Some("email"),Some("deliveryMethod.emailAddress"))))))
       }
     )
   }
@@ -58,7 +58,7 @@ class PostalVoteFormTests
     postalVoteForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
-        success.postalVote should be(Some(PostalVote(false,None)))
+        success.postalVote should be(Some(PostalVote(Some(false),None)))
       }
     )
   }

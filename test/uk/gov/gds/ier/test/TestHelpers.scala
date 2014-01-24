@@ -1,16 +1,13 @@
 package uk.gov.gds.ier.test
 
-import play.api.data.Form
 import play.api.test.FakeRequest
-import play.api.mvc.Cookie
 import org.joda.time.DateTime
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
+import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.security._
-import play.api.mvc.Cookie
-import uk.gov.gds.ier.session.{SessionKeys, ResultStoring, ResultHandling, RequestHandling}
-import uk.gov.gds.ier.guice.{WithConfig, WithEncryption}
+import uk.gov.gds.ier.session.{SessionKeys, ResultHandling}
+import uk.gov.gds.ier.guice.WithConfig
 import uk.gov.gds.ier.config.Config
 
 trait TestHelpers {
@@ -56,7 +53,7 @@ trait TestHelpers {
     previousAddress = Some(PartialPreviousAddress(Some(false),false, None)),
     otherAddress = Some(OtherAddress(false)),
     openRegisterOptin = Some(false),
-    postalVote = Some(PostalVote(false,None)),
+    postalVote = Some(PostalVote(Some(false),None)),
     contact = Some(Contact(true, None, None)),
     possibleAddresses = None,
     country = Some(Country("England"))

@@ -3,14 +3,14 @@
 
     {{> shared/questionHeader }}
 
+    {{> shared/validationMessages }}
+
     <label for="{{nino.id}}" class="visuallyhidden"  >
         What is your National Insurance number?
     </label>
 
-    <div class="validation-wrapper {{nino.invalidWrapperClass}}">
-        <input type="text" id="{{nino.id}}" name="{{nino.name}}" value="{{nino.value}}" autocomplete="off"
-               class="text  validate nino {{nino.invalidInputClass}}"   data-validation-name="ninoCode"
-               data-validation-type="field" data-validation-rules="nonEmpty" />
+    <div class="validation-wrapper {{nino.classes}}">
+        <input type="text" id="{{nino.id}}" name="{{nino.name}}" value="{{nino.value}}" autocomplete="off" class="text  validate nino {{nino.classes}}"   data-validation-name="ninoCode" data-validation-type="field" data-validation-rules="nonEmpty" />
     </div>
     <p>Example: QQ 12 34 56 C</p>
     <div class="help-content" id="dont-know-nino">
@@ -28,13 +28,8 @@
             <label for="{{noNinoReason.id}}" class=""  >
                 Why can't you provide a National Insurance number?
             </label>
-            <textarea name="{{noNinoReason.name}}" id="{{noNinoReason.id}}" class="small validate"
-                      data-validation-name="ninoExcuse"  data-validation-type="field"  data-validation-rules="nonEmpty"
-                      maxlength="500"  autocomplete="off">{{noNinoReason.value}}</textarea>
+            <textarea name="{{noNinoReason.name}}" id="{{noNinoReason.id}}" class="small validate" data-validation-name="ninoExcuse"  data-validation-type="field"  data-validation-rules="nonEmpty" maxlength="500"  autocomplete="off">{{noNinoReason.value}}</textarea>
         </div>
     </div>
-
-    {{> shared/validationMessages }}
-
     <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="nino">Continue</button>
 </form>
