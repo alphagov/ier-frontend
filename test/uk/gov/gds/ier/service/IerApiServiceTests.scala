@@ -89,7 +89,7 @@ class IerApiServiceTests
     val application = InprogressOrdinary(
       contact = Some(Contact(false,None,Some(ContactDetail(false,Some("test@emaill.com")))))
     )
-    service.submitApplication(None, application, None)
+    service.submitOrdinaryApplication(None, application, None)
   }
 
   it should "not contain the contact phone if the option is not selected" in {
@@ -114,7 +114,7 @@ class IerApiServiceTests
     val application = InprogressOrdinary(
       contact = Some(Contact(false,Some(ContactDetail(false,Some("1234567890"))),None))
     )
-    service.submitApplication(None, application, None)
+    service.submitOrdinaryApplication(None, application, None)
   }
 
   it should "contain the contact mail if the option is selected" in {
@@ -139,7 +139,7 @@ class IerApiServiceTests
     val application = InprogressOrdinary(
       contact = Some(Contact(false,None,Some(ContactDetail(true,Some("test@emaill.com")))))
     )
-    service.submitApplication(None, application, None)
+    service.submitOrdinaryApplication(None, application, None)
   }
 
   it should "contain the contact phone if the option is selected" in {
@@ -164,7 +164,7 @@ class IerApiServiceTests
     val application = InprogressOrdinary(
       contact = Some(Contact(false,Some(ContactDetail(true,Some("1234567890"))),None))
     )
-    service.submitApplication(None, application, None)
+    service.submitOrdinaryApplication(None, application, None)
   }
 
   it should "convert country names to ISO codes" in {
