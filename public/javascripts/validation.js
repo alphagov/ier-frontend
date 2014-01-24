@@ -247,6 +247,11 @@
         return true;
       }
     },
+    makeInvalid : function (invalidFields) {
+      this.mark.invalidFields(invalidFields);
+      this.notify(invalidFields);
+      this.events.trigger('invalid', { 'invalidFields' :  invalidFields });
+    },
     events : {
       trigger : function (evt, eData) {
         $(document).trigger('validation.' + evt, eData);
