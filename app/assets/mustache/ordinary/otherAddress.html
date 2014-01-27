@@ -9,14 +9,19 @@
               data-validation-type="fieldset"
               data-validation-rules="atLeastOneNonEmpty"
               data-validation-children="otherAddressYes otherAddressNo">
-        <label for="{{hasOtherAddressTrue.id}}" class="binary selectable">
-            <input id="{{hasOtherAddressTrue.id}}" name="{{hasOtherAddressTrue.name}}" value="true" class="radio  validate" data-validation-name="otherAddressYes" data-validation-type="field" data-validation-rules="nonEmpty" type="radio" {{{hasOtherAddressTrue.attributes}}}>
-            Yes
+        <label for="{{hasOtherAddressNone.id}}" class="selectable">
+            <input id="{{hasOtherAddressNone.id}}" name="{{hasOtherAddressNone.name}}" value="none" class="radio  validate" data-validation-name="otherAddressNo" data-validation-type="field" data-validation-rules="nonEmpty" type="radio" {{{hasOtherAddressNone.attributes}}}>
+            No
         </label>
 
-        <label for="{{hasOtherAddressFalse.id}}" class="binary selectable">
-            <input id="{{hasOtherAddressFalse.id}}" name="{{hasOtherAddressFalse.name}}" value="false" class="radio  validate" data-validation-name="otherAddressNo" data-validation-type="field" data-validation-rules="nonEmpty" type="radio" {{{hasOtherAddressFalse.attributes}}}>
-            No
+        <label for="{{hasOtherAddressStudent.id}}" class="selectable">
+            <input id="{{hasOtherAddressStudent.id}}" name="{{hasOtherAddressStudent.name}}" value="student" class="radio  validate" data-validation-name="otherAddressYes" data-validation-type="field" data-validation-rules="nonEmpty" type="radio" {{{hasOtherAddressStudent.attributes}}}>
+            Yes, I'm a student with a term-time address
+        </label>
+
+        <label for="{{hasOtherAddressHome.id}}" class="selectable">
+            <input id="{{hasOtherAddressHome.id}}" name="{{hasOtherAddressHome.name}}" value="secondHome" class="radio  validate" data-validation-name="otherAddressYes" data-validation-type="field" data-validation-rules="nonEmpty" type="radio" {{{hasOtherAddressHome.attributes}}}>
+            Yes, I have a second home
         </label>
     </fieldset>
 
