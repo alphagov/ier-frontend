@@ -34,7 +34,7 @@ trait DateOfBirthForms extends DateOfBirthConstraints {
         dateOfBirth.month.toString, 
         dateOfBirth.day.toString
       )
-  }.verifying(validDate)
+  }.verifying(validDateOverseas)
   
   
 

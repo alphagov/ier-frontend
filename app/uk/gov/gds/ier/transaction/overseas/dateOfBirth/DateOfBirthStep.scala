@@ -15,7 +15,6 @@ import controllers.step.routes.CountryController
 import controllers.step.overseas.routes.DateOfBirthController
 import controllers.step.overseas.{PreviouslyRegisteredController}
 import uk.gov.gds.ier.model.DOB
-import controllers.step.overseas.FirstTimeRegisteredController
 
 class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
                                        val config: Config,
@@ -42,12 +41,10 @@ class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
   def nextStep(currentState: InprogressOverseas) = {
     currentState.dob match {
       case Some(dob) if DateValidator.isTooYoungToRegister(dob) => {
-          println ("dob => " + dob)
         Exit(ExitController.tooYoung)
       }
       case _ => {
-          println ("first time")
-          FirstTimeRegisteredController.firstTimeStep    
+          PreviouslyRegisteredController.previouslyRegisteredStep    
       }
     }
   }

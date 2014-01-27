@@ -82,6 +82,26 @@ trait DateOfBirthConstraints extends CommonConstraints{
           "You have entered an invalid date",keys.dob.dob.day,keys.dob.dob.month,keys.dob.dob.year)
       }
   }
+    lazy val validDateOverseas = Constraint[DOB](keys.dob.key) {
+    dateOfBirth =>
+      val validDate = DateValidator.isExistingDate(dateOfBirth)
+
+      validDate match {
+        case Some(dateMidnight:DateMidnight) => {
+
+          if (!DateValidator.isExistingDateInThePast(dateMidnight)) {
+            Invalid("You have entered a date in the future",keys.dob.day,keys.dob.month,keys.dob.year)
+          } else if (DateValidator.isTooOldToBeAlive(dateMidnight)) {
+            Invalid("Please check the year you were born", keys.dob.year)
+          } else {
+            Valid
+          }
+        }
+        case None => Invalid(
+          "You have entered an invalid date",keys.dob.day,keys.dob.month,keys.dob.year)
+      }
+  }
+  
 
   lazy val ifDobEmptyRangeIsValid = Constraint[DateOfBirth](keys.noDob.key) {
     case DateOfBirth(Some(dob), _) => {

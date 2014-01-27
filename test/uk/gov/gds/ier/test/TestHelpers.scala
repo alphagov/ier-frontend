@@ -62,6 +62,7 @@ trait TestHelpers {
   lazy val completeOverseasApplication = InprogressOverseas(
     previouslyRegistered = Some(PreviouslyRegistered(true)),
     dateLeftUk = Some(Stub()),
+    dob = Some(DOB(year = 1970, month = 12, day = 12)),
     firstTimeRegistered = Some(Stub())
   )
 }
