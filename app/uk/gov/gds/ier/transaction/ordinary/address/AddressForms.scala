@@ -29,7 +29,7 @@ trait AddressForms extends AddressConstraints {
   )
 
   lazy val partialAddressMapping = mapping(
-    keys.address.key -> optional(nonEmptyText),
+    keys.addressLine.key -> optional(nonEmptyText),
     keys.uprn.key -> optional(nonEmptyText),
     keys.postcode.key -> nonEmptyText
       .verifying("Your postcode is not valid", postcode => PostcodeValidator.isValid(postcode)),
