@@ -24,6 +24,18 @@ trait DateOfBirthConstraints extends CommonConstraints{
       )
     }
   }
+  
+    lazy val dateOfBirthOverseasRequired = Constraint[InprogressOverseas](keys.dob.key) {
+    application => application.dob match {
+      case Some(dob) => Valid
+      case None => Invalid(
+        "Please enter your date of birth", 
+        keys.dob.day, 
+        keys.dob.month, 
+        keys.dob.year
+      )
+    }
+  }
 
   lazy val isOverTheMinimumAgeToVote = Constraint[DOB](keys.dob.key) {
     dateOfBirth =>

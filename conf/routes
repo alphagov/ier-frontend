@@ -129,6 +129,12 @@ GET         /authority/:postcode                                         control
 GET         /register-to-vote/overseas                                   controllers.RegisterToVoteController.registerToVoteOverseas
 GET         /register-to-vote/overseas/start                             controllers.RegisterToVoteController.registerToVoteOverseasStart
 
+#Date of Birth Oversesas
+GET         /register-to-vote/overseas/date-of-birth             controllers.step.overseas.DateOfBirthController.get
+POST        /register-to-vote/overseas/date-of-birth             controllers.step.overseas.DateOfBirthController.post
+GET         /register-to-vote/overseas/edit/date-of-birth        controllers.step.overseas.DateOfBirthController.editGet
+POST        /register-to-vote/overseas/edit/date-of-birth        controllers.step.overseas.DateOfBirthController.editPost
+
 #Previously Registered Oversesas
 GET         /register-to-vote/overseas/previously-registered             controllers.step.overseas.PreviouslyRegisteredController.get
 POST        /register-to-vote/overseas/previously-registered             controllers.step.overseas.PreviouslyRegisteredController.post

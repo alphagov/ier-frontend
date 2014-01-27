@@ -19,6 +19,7 @@ trait ConfirmationForms
     mapping(
       keys.previouslyRegistered.key -> stepRequired(previouslyRegisteredMapping),
       "dateLeftUk" -> stepRequired(stubMapping),
+      "dob" -> stepRequired(dobMapping),
       "firstTimeRegistered" -> stepRequired(stubMapping)
     ) (InprogressOverseas.apply) (InprogressOverseas.unapply)
   )

@@ -82,6 +82,7 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
     val completeApplication = OverseasApplication(
       previouslyRegistered = applicant.previouslyRegistered,
       dateLeftUk = applicant.dateLeftUk,
+      dob = applicant.dob,
       firstTimeRegistered = applicant.firstTimeRegistered
     )
 

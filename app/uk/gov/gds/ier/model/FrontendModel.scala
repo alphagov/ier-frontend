@@ -183,9 +183,7 @@ case class PartialAddress(addressLine:Option[String],
                           uprn:Option[String], 
                           postcode:String, 
                           manualAddress:Option[String])
-//object PartialAddress {                          
-//  implicit val partialAddressFmt = Json.format[PartialAddress]
-//}
+
 case class Address(lineOne:Option[String], 
                    lineTwo:Option[String],
                    lineThree:Option[String],
