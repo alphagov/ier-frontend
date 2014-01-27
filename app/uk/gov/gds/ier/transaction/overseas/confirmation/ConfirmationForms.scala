@@ -17,6 +17,8 @@ trait ConfirmationForms
 
   val confirmationForm = ErrorTransformForm(
     mapping(
+      keys.name.key -> optional(nameMapping).verifying("Please complete this step", _.isDefined),
+      keys.previousName.key -> optional(previousNameMapping).verifying("Please complete this step", _.isDefined),
       keys.previouslyRegistered.key -> stepRequired(previouslyRegisteredMapping),
       "dateLeftUk" -> stepRequired(stubMapping),
       "firstTimeRegistered" -> stepRequired(stubMapping)

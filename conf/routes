@@ -148,6 +148,18 @@ POST        /register-to-vote/overseas/date-left-uk                      control
 GET         /register-to-vote/overseas/edit/date-left-uk                 controllers.step.overseas.DateLeftUkController.editGet
 POST        /register-to-vote/overseas/edit/date-left-uk                 controllers.step.overseas.DateLeftUkController.editPost
 
+# last registered UK address
+GET         /register-to-vote/overseas/date-left-uk                      controllers.step.overseas.LastRegisteredUkAddressController.get
+GET         /register-to-vote/overseas/date-left-uk                      controllers.step.overseas.LastRegisteredUkAddressController.post
+GET         /register-to-vote/overseas/date-left-uk                      controllers.step.overseas.LastRegisteredUkAddressController.editGet
+GET         /register-to-vote/overseas/date-left-uk                      controllers.step.overseas.LastRegisteredUkAddressController.editPost
+
+#Name  (voter full name)
+GET         /register-to-vote/overseas/name                              controllers.step.overseas.NameController.get
+POST        /register-to-vote/overseas/name                              controllers.step.overseas.NameController.post
+GET         /register-to-vote/overseas/edit/name                         controllers.step.overseas.NameController.editGet
+POST        /register-to-vote/overseas/edit/name                         controllers.step.overseas.NameController.editPost
+
 #Overseas Confirmation
 GET         /register-to-vote/overseas/confirmation                      controllers.step.overseas.ConfirmationController.get
 POST        /register-to-vote/overseas/confirmation                      controllers.step.overseas.ConfirmationController.post
