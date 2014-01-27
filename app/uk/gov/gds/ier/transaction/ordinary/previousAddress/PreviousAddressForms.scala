@@ -20,7 +20,7 @@ trait PreviousAddressForms extends PreviousAddressConstraints {
     with WithSerialiser =>
 
   lazy val previousPartialAddressMapping = mapping(
-    keys.address.key -> optional(nonEmptyText),
+    keys.addressLine.key -> optional(nonEmptyText),
     keys.uprn.key -> optional(nonEmptyText),
     keys.postcode.key -> nonEmptyText,
     keys.manualAddress.key -> optional(nonEmptyText
