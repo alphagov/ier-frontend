@@ -145,7 +145,7 @@ class DateOfBirthFormTests
     )
   }
 
-  it should "error out on a date over 100 years old" in {
+  it should "error out on a date over 120 years old" in {
     val js = Json.toJson(
       Map(
         "dob.day" -> "1",
