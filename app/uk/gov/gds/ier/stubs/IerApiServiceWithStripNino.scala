@@ -16,6 +16,7 @@ class IerApiServiceWithStripNino @Inject() (ierService: ConcreteIerApiService) e
     applicant.nino match {
       case Some(Nino(None, Some(noNinoReason))) => ierService.submitOrdinaryApplication(ipAddress, applicant, referenceNumber)
       case Some(Nino(Some(nino), None)) => ierService.submitOrdinaryApplication(ipAddress, applicant.copy(nino = Some(Nino(Some("AB 12 34 56 D"), None))), referenceNumber)
+      case unexpectedNino => throw new IllegalArgumentException("Unexpected NINO: " + unexpectedNino)
     }
   }
 
@@ -37,6 +38,7 @@ class IerApiServiceWithStripNino @Inject() (ierService: ConcreteIerApiService) e
                 ordinary.copy(nino = Some(Nino(Some("AB 12 34 56 D"), None)))
             )
           }
+          case unexpectedNino => throw new IllegalArgumentException("Unexpected NINO: " + unexpectedNino)
         }
       case overseas:InprogressOverseas => {
         ierService.generateReferenceNumber[InprogressOverseas](overseas)
