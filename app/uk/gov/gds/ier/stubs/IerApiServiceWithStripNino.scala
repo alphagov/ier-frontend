@@ -8,7 +8,7 @@ import uk.gov.gds.ier.service.{ConcreteIerApiService, IerApiService, PlacesServi
 import uk.gov.gds.ier.digest.ShaHashProvider
 import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressOverseas, Nino, ApiApplicationResponse, InprogressApplication}
 
-class IerApiServiceWithStripNino @Inject() (ierService: ConcreteIerApiService, stripNinoGenerator: StripNinoGenerator = StripNinoGenerator) extends IerApiService {
+class IerApiServiceWithStripNino @Inject() (ierService: ConcreteIerApiService, stripNinoGenerator: StripNinoGenerator = new StripNinoGeneratorImpl) extends IerApiService {
 
   override def submitOrdinaryApplication(ipAddress: Option[String],
                                          applicant: InprogressOrdinary,
@@ -56,7 +56,7 @@ trait StripNinoGenerator {
  * Generate stub NINO for testing, current rules: starts with 'XX' followed by 6 random digits and letter from 'A' .. 'E'  
  * Example: XX 90 87 46 B
  */
-object StripNinoGenerator extends StripNinoGenerator {
+class StripNinoGeneratorImpl extends StripNinoGenerator {
   def generate() = {
     import scala.util.Random._
     "XX %02d %02d %02d %s".format(nextInt(99), nextInt(99), nextInt(99), ('A'.toByte + nextInt(5)).toChar)
