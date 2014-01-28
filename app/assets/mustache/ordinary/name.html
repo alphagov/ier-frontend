@@ -3,80 +3,64 @@
 
     {{> shared/validationMessages }}
 
-    <fieldset class="validate" data-validation-name="fullName" data-validation-type="association"
-              data-validation-rules="allNonEmpty" data-validation-members="firstName lastName">
+    <fieldset class="validate" data-validation-name="fullName" data-validation-type="association" data-validation-rules="allNonEmpty" data-validation-members="firstName lastName">
 
-        <label for="{{firstName.id}}" class=""  >
+        <label for="{{firstName.id}}">
             First name
         </label>
-        <div class="validation-wrapper {{firstName.invalidWrapperClass}}">
-            <input type="text" id="{{firstName.id}}" name="{{firstName.name}}" value="{{firstName.value}}" autocomplete="off"
-                   class="text first-name long validate {{firstName.invalidInputClass}}" data-validation-name="firstName" data-validation-type="field"
-                   data-validation-rules="nonEmpty" >
+        <div class="validation-wrapper {{firstName.classes}}">
+            <input type="text" id="{{firstName.id}}" name="{{firstName.name}}" value="{{firstName.value}}" autocomplete="off" class="text first-name long validate {{firstName.classes}}" data-validation-name="firstName" data-validation-type="field" data-validation-rules="nonEmpty" >
         </div>
 
-        <label for="{{middleNames.id}}" class=""  >
+        <label for="{{middleNames.id}}">
             Middle names
         </label>
-        <input type="text" id="{{middleNames.id}}" name="{{middleNames.name}}" value="{{middleNames.value}}" autocomplete="off"
-               class="text  middle-names long {{middleNames.invalidInputClass}}"  >
+        <input type="text" id="{{middleNames.id}}" name="{{middleNames.name}}" value="{{middleNames.value}}" autocomplete="off" class="text  middle-names long {{middleNames.classes}}"  >
 
-        <label for="{{lastName.id}}" class=""  >
+        <label for="{{lastName.id}}">
             Last name
         </label>
-        <div class="validation-wrapper {{lastName.invalidWrapperClass}}">
-            <input type="text" id="{{lastName.id}}" name="{{lastName.name}}" value="{{lastName.value}}" autocomplete="off"
-                   class="text  last-name long validate {{lastName.invalidInputClass}}"   data-validation-name="lastName"  data-validation-type="field"
-                   data-validation-rules="nonEmpty" >
+        <div class="validation-wrapper {{lastName.classes}}">
+            <input type="text" id="{{lastName.id}}" name="{{lastName.name}}" value="{{lastName.value}}" autocomplete="off" class="text  last-name long validate {{lastName.classes}}" data-validation-name="lastName"  data-validation-type="field" data-validation-rules="nonEmpty" >
         </div>
     </fieldset>
 
-    <fieldset class="sub-section validate {{hasPreviousName.classes}}" data-validation-name="previousQuestion" data-validation-type="fieldset"
-              data-validation-rules="atLeastOneNonEmpty" data-validation-children="previousYes previousNo">
+    <fieldset class="sub-section validate {{hasPreviousName.classes}}" data-validation-name="previousQuestion" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="previousYes previousNo">
         <legend class="label">Have you changed your name in the last 12 months?</legend>
 
         <label for="{{hasPreviousNameTrue.id}}" class="selectable binary"  >
-            <input type="radio" id="{{hasPreviousNameTrue.id}}" name="{{hasPreviousNameTrue.name}}"
-                   value="true" class="radio validate" data-validation-name="previousYes" data-validation-type="field"
-                   data-validation-rules="nonEmpty" {{hasPreviousNameTrue.value}}>
+            <input type="radio" id="{{hasPreviousNameTrue.id}}" name="{{hasPreviousNameTrue.name}}" value="true" class="radio validate" data-validation-name="previousYes" data-validation-type="field" data-validation-rules="nonEmpty" {{{hasPreviousNameTrue.attributes}}}>
             Yes<span class="visuallyhidden"> I changed my name in the last 12 months</span>
         </label>
 
         <label for="{{hasPreviousNameFalse.id}}" class="selectable binary"  >
-            <input type="radio" id="{{hasPreviousNameFalse.id}}" name="{{hasPreviousNameFalse.name}}"
-                   value="false"  class="radio  validate"   data-validation-name="previousNo"  data-validation-type="field"
-                   data-validation-rules="nonEmpty" {{hasPreviousNameFalse.value}}>
+            <input type="radio" id="{{hasPreviousNameFalse.id}}" name="{{hasPreviousNameFalse.name}}" value="false"  class="radio  validate"   data-validation-name="previousNo"  data-validation-type="field" data-validation-rules="nonEmpty" {{hasPreviousNameFalse.attributes}}>
             No<span class="visuallyhidden"> I haven't changed my name in the last 12 months</span>
         </label>
     </fieldset>
 
     <div class="optional-section optional-section-core-content " data-condition="previousName_hasPreviousName_true">
         <h2>Previous name</h2>
-        <fieldset class="validate" data-validation-name="previousName" data-validation-type="association"
-                  data-validation-rules="allNonEmpty" data-validation-members="previousFirstName previousLastName">
+        <fieldset class="validate" data-validation-name="previousName" data-validation-type="association" data-validation-rules="allNonEmpty" data-validation-members="previousFirstName previousLastName">
 
-            <label for="{{previousFirstName.id}}" class=""  >
+            <label for="{{previousFirstName.id}}">
                 <span class="visuallyhidden">Previous</span> First name
             </label>
-            <input type="text" id="{{previousFirstName.id}}" name="{{previousFirstName.name}}" value="{{previousFirstName.value}}"
-                   autocomplete="off"  class="text  first-name long validate {{previousFirstName.invalidInputClass}}"
-                   data-validation-name="previousFirstName"  data-validation-type="field"  data-validation-rules="nonEmpty" >
+            <input type="text" id="{{previousFirstName.id}}" name="{{previousFirstName.name}}" value="{{previousFirstName.value}}" autocomplete="off"  class="text  first-name long validate {{previousFirstName.classes}}" data-validation-name="previousFirstName"  data-validation-type="field"  data-validation-rules="nonEmpty" >
 
-            <label for="{{previousMiddleNames.id}}" class=""  >
+            <label for="{{previousMiddleNames.id}}">
                 <span class="visuallyhidden">Previous</span> Middle names
             </label>
-            <input type="text" id="{{previousMiddleNames.id}}" name="{{previousMiddleNames.name}}" value="{{previousMiddleNames.value}}"
-                   autocomplete="off"  class="text  middle-names long"  >
+            <input type="text" id="{{previousMiddleNames.id}}" name="{{previousMiddleNames.name}}" value="{{previousMiddleNames.value}}" autocomplete="off"  class="text  middle-names long {{previousMiddleName.classes}}"  >
 
-            <label for="{{previousLastName.id}}" class=""  >
+            <label for="{{previousLastName.id}}">
                 <span class="visuallyhidden">Previous</span> Last name
             </label>
-            <input type="text" id="{{previousLastName.id}}" name="{{previousLastName.name}}" value="{{previousLastName.value}}"
-                   autocomplete="off"  class="text  last-name long validate {{previousLastName.invalidInputClass}}"
-                   data-validation-name="previousLastName"  data-validation-type="field"  data-validation-rules="nonEmpty" >
+            <input type="text" id="{{previousLastName.id}}" name="{{previousLastName.name}}" value="{{previousLastName.value}}" autocomplete="off"  class="text  last-name long validate {{previousLastName.classes}}" data-validation-name="previousLastName"  data-validation-type="field"  data-validation-rules="nonEmpty" >
         </fieldset>
     </div>
 
-    <button id="continue" type="submit" class="button next validation-submit"
-            data-validation-sources="fullName previousQuestion previousName">Continue</button>
+    <button id="continue" type="submit" class="button next validation-submit" data-validation-sources="fullName previousQuestion previousName">
+        Continue
+    </button>
 </form>

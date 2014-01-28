@@ -1,10 +1,11 @@
 package uk.gov.gds.ier.mustache
 import play.api.templates.Html
 import views.html.layouts.{stepsBodyEnd, head}
-import uk.gov.gds.ier.validation.FormKeys
+import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys}
+import uk.gov.gds.ier.validation.{FormKeys, Key, ErrorTransformForm}
+import uk.gov.gds.ier.model.InprogressApplication
 
 trait StepMustache extends FormKeys {
-  import org.jba.Mustache
 
   def Mustache = org.jba.Mustache
 
@@ -26,6 +27,26 @@ trait StepMustache extends FormKeys {
   }
 
   case class FieldSet(classes:String = "")
-  case class Field(id:String = "", name:String = "", classes:String = "", value:String = "", attributes:String = "")
+  case class Field(id:String = "", name:String = "", classes:String ="", value:String = "", attributes:String = "")
   case class Question(postUrl:String = "", backUrl:String = "", showBackUrl:Boolean = true, number:String = "", title:String = "", errorMessages:Seq[String] = Seq.empty)
+
+  object TextField {
+    def apply[T<:InprogressApplication[T]](key: Key)(implicit progressForm: ErrorTransformForm[T]):Field = {
+      Field(
+        id = key.asId(),
+        name = key.key,
+        value = progressForm(key.key).value.getOrElse(""),
+        classes = if (progressForm(key.key).hasErrors) "invalid" else "")
+    }
+  }
+
+  object RadioField {
+    def apply[T<:InprogressApplication[T]](key: Key, value: String)(implicit progressForm: ErrorTransformForm[T]):Field = {
+      Field(
+        id = key.asId(value),
+        name = key.key,
+        attributes = if (progressForm(key.key).value.exists(_ == value)) "checked=\"checked\"" else "",
+        classes = if (progressForm(key.key).hasErrors) "invalid" else "")
+    }
+  }
 }

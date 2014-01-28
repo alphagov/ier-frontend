@@ -3,12 +3,13 @@
 # ~~~~
 
 # Home page
+GET         /                                                            controllers.RegisterToVoteController.redirectToOrdinary
 GET         /register-to-vote                                            controllers.RegisterToVoteController.registerToVote
 GET         /register-to-vote/start                                      controllers.RegisterToVoteController.registerToVoteStart
 
 #Complete Route
 GET         /register-to-vote/complete                                   controllers.CompleteController.complete
-GET         /register-to-vote/overseas/complete                          controllers.CompleteController.complete
+GET         /register-to-vote/overseas/complete                          controllers.CompleteController.overseasComplete
 
 
 #Exit Routes

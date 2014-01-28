@@ -82,7 +82,7 @@
 
             return new objTypes[obj.type](obj);
           };
-      
+
       return {
         init : function () {
           var objType,
