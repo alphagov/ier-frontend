@@ -5,7 +5,6 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import play.api.templates.Html
-import controllers.step.routes.CountryController
 import controllers.step.overseas.RegisteredAddressController
 import uk.gov.gds.ier.step.OverseaStep
 import controllers.step.overseas.routes._
@@ -31,7 +30,7 @@ class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
     editGet = DateLeftUkController.editGet,
     editPost = DateLeftUkController.editPost
   )
-  val previousRoute = Some(CountryController.get)
+  val previousRoute = Some(PreviouslyRegisteredController.get)
 
   def nextStep(currentState: InprogressOverseas) = {
     RegisteredAddressController.registeredAddressStep

@@ -8,6 +8,8 @@ import uk.gov.gds.ier.mustache.StepMustache
 
 trait DateLeftUkMustache extends StepMustache {
 
+  def monthsArray = List("January","February","March","April","May","June","July","August","September","October","November","December")
+
   case class DateLeftUkModel(question:Question,
                              dateLeftUkMonth: Field,
                              dateLeftUkYear: Field)
@@ -40,21 +42,7 @@ trait DateLeftUkMustache extends StepMustache {
   }
 
   def generateOptionsList (month:String): List[SelectOption] = {
-    val dateLeftUkMonthOptionsList = List(
-      SelectOption("01", "January"),
-      SelectOption("02", "February"),
-      SelectOption("03", "March"),
-      SelectOption("04", "April"),
-      SelectOption("05", "May"),
-      SelectOption("06", "June"),
-      SelectOption("07", "July"),
-      SelectOption("08", "August"),
-      SelectOption("09", "September"),
-      SelectOption("10", "October"),
-      SelectOption("11", "November"),
-      SelectOption("12", "December")
-    )
-
+    val dateLeftUkMonthOptionsList = monthsArray.zipWithIndex.map {case (month, index) => SelectOption((index+1).toString, month)}
     val updatedDateLeftUkMonthOptionsList = dateLeftUkMonthOptionsList.map(monthOption =>
       if (monthOption.value.equals(month))
         SelectOption(monthOption.value, monthOption.text, "selected")

@@ -15,7 +15,7 @@ trait DateLeftUkConstraints extends CommonConstraints{
     application => application.dateLeftUk match {
       case Some(dateLeftUk) => validateDateLeftUkNotOver15Years(dateLeftUk)
       case None => Invalid(
-        "Please enter the date you left the UK",
+        "Please answer this question",
         keys.dateLeftUk.month,
         keys.dateLeftUk.year
       )
