@@ -17,7 +17,6 @@ trait ContactConstraints extends CommonConstraints {
   lazy val emailIsValid = Constraint[Contact](keys.contact.key) {
     contact =>
       contact.email match {
-        case Some(ContactDetail(false, _)) => Valid
         case Some(ContactDetail(true, Some(emailAddress))) => {
           if (EmailValidator.isValid(emailAddress)) Valid
           else Invalid("Please enter a valid email address", keys.contact.email.detail)
