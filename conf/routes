@@ -149,10 +149,10 @@ GET         /register-to-vote/overseas/edit/date-left-uk                 control
 POST        /register-to-vote/overseas/edit/date-left-uk                 controllers.step.overseas.DateLeftUkController.editPost
 
 # last registered UK address
-GET         /register-to-vote/overseas/date-left-uk                      controllers.step.overseas.LastRegisteredUkAddressController.get
-GET         /register-to-vote/overseas/date-left-uk                      controllers.step.overseas.LastRegisteredUkAddressController.post
-GET         /register-to-vote/overseas/date-left-uk                      controllers.step.overseas.LastRegisteredUkAddressController.editGet
-GET         /register-to-vote/overseas/date-left-uk                      controllers.step.overseas.LastRegisteredUkAddressController.editPost
+GET         /register-to-vote/overseas/last-registered-uk-address        controllers.step.overseas.LastRegisteredUkAddressController.get
+GET         /register-to-vote/overseas/last-registered-uk-address        controllers.step.overseas.LastRegisteredUkAddressController.post
+GET         /register-to-vote/overseas/edit/last-registered-uk-address   controllers.step.overseas.LastRegisteredUkAddressController.editGet
+GET         /register-to-vote/overseas/edit/last-registered-uk-address   controllers.step.overseas.LastRegisteredUkAddressController.editPost
 
 #Name  (voter full name)
 GET         /register-to-vote/overseas/name                              controllers.step.overseas.NameController.get
