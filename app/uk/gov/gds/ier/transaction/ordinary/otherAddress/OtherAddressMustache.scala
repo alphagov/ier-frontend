@@ -2,6 +2,7 @@ package uk.gov.gds.ier.transaction.ordinary.otherAddress
 
 import uk.gov.gds.ier.validation.{FormKeys, ErrorTransformForm, InProgressForm}
 import uk.gov.gds.ier.model.{InprogressOrdinary, OtherAddress, InprogressApplication}
+import uk.gov.gds.ier.model.OtherAddress._
 import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.mustache.StepMustache
@@ -10,46 +11,65 @@ import java.net.URL
 
 trait OtherAddressMustache extends StepMustache {
 
-  case class ModelField(
-                     id: String,
-                     name: String,
-                     value: String
-                     )
+  case class OtherAddressModel(question: Question,
+                               hasOtherAddress: Field,
+                               hasOtherAddressStudent: Field,
+                               hasOtherAddressHome: Field,
+                               hasOtherAddressNone: Field)
 
-  case class OtherAddressModel(
-                              postUrl: String = "",
-                              showBackUrl: Boolean,
-                              backUrl: String = "",
-                              hasOtherAddressTrue: ModelField,
-                              hasOtherAddressFalse: ModelField,
-                              globalErrors: Seq[String] = List.empty
-                              )
-
-  def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOrdinary], postUrl: String, backUrl: Option[String]): OtherAddressModel = {
-    val globalErrors = form.globalErrors
-    val application = form.value
-    val otherAddress = application.getOrElse(InprogressOrdinary()).otherAddress
+  def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOrdinary],
+                                      postUrl: String,
+                                      backUrl: Option[String]): OtherAddressModel = {
+    val otherAddressValue = form(keys.otherAddress.hasOtherAddress.key).value
     OtherAddressModel(
-        postUrl,
-        backUrl.isDefined,
-        backUrl.getOrElse(""),
-        hasOtherAddressTrue = ModelField(
-          id = keys.otherAddress.hasOtherAddress.asId("true"),
-          name = keys.otherAddress.hasOtherAddress.key,
-          value = if (otherAddress.exists(_.hasOtherAddress)) "checked" else ""
-        ),
-        hasOtherAddressFalse = ModelField(
-          id = keys.otherAddress.hasOtherAddress.asId("false"),
-          name = keys.otherAddress.hasOtherAddress.key,
-          value = if (otherAddress.exists(!_.hasOtherAddress)) "checked" else ""
-        ),
-        globalErrors.map(_.message)
+      question = Question(
+        postUrl = postUrl,
+        backUrl = backUrl.getOrElse(""),
+        number = "8 of 11",
+        title = "Do you live at a second UK address where you're registered to vote?",
+        errorMessages = form.globalErrors.map(_.message)
+      ),
+      hasOtherAddressStudent = Field(
+        id = keys.otherAddress.hasOtherAddress.asId(StudentOtherAddress.name),
+        name = keys.otherAddress.hasOtherAddress.key,
+        attributes = if (otherAddressValue == Some(StudentOtherAddress.name)) {
+          "checked=\"checked\""
+        } else {
+          ""
+        }
+      ),
+      hasOtherAddressHome = Field(
+        id = keys.otherAddress.hasOtherAddress.asId(HomeOtherAddress.name),
+        name = keys.otherAddress.hasOtherAddress.key,
+        attributes = if (otherAddressValue == Some(HomeOtherAddress.name)) {
+          "checked=\"checked\""
+        } else {
+          ""
+        }
+      ),
+      hasOtherAddressNone = Field(
+        id = keys.otherAddress.hasOtherAddress.asId(NoOtherAddress.name),
+        name = keys.otherAddress.hasOtherAddress.key,
+        attributes = if (otherAddressValue == Some(NoOtherAddress.name)) {
+          "checked=\"checked\""
+        } else {
+          ""
+        }
+      ),
+      hasOtherAddress = Field(
+        classes = if (form(keys.otherAddress.key).hasErrors) "invalid" else ""
+      )
     )
   }
 
-  def otherAddressMustache(form: ErrorTransformForm[InprogressOrdinary], call:Call, backUrl: Option[String]) : Html = {
+  def otherAddressMustache(form: ErrorTransformForm[InprogressOrdinary],
+                           call:Call,
+                           backUrl: Option[String]) : Html = {
     val data = transformFormStepToMustacheData(form, call.url, backUrl)
     val content = Mustache.render("ordinary/otherAddress", data)
-    MainStepTemplate(content, "Register to Vote - Do you spend part of your time living at another UK address?")
+    MainStepTemplate (
+      content,
+      "Register to Vote - Do you live at a second UK address where you're registered to vote?"
+    )
   }
 }

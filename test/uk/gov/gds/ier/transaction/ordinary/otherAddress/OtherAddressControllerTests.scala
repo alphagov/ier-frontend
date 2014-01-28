@@ -26,22 +26,49 @@ class OtherAddressControllerTests
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 8")
       contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/previous-address")
-      contentAsString(result) should include("Do you live at a second UK address where you're registered to vote?")
+      contentAsString(result) should include("Do you live at a second UK address where you&#39;re registered to vote?")
       contentAsString(result) should include("/register-to-vote/other-address")
-
-      contentAsString(result) should include("<input id=\"otherAddress_hasOtherAddress_true\" name=\"otherAddress.hasOtherAddress\"")
-      contentAsString(result) should include("<input id=\"otherAddress_hasOtherAddress_false\" name=\"otherAddress.hasOtherAddress\"")
     }
   }
 
   behavior of "OtherAddressController.post"
-  it should "bind successfully and redirect to the Open Register step" in {
+  it should "bind successfully and redirect to the Open Register step (none)" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/other-address")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "otherAddress.hasOtherAddress" -> "true"
+            "otherAddress.hasOtherAddress" -> "none"
+          )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/open-register"))
+    }
+  }
+
+  it should "bind successfully and redirect to the Open Register step (second home)" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/other-address")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "otherAddress.hasOtherAddress" -> "secondHome"
+          )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/open-register"))
+    }
+  }
+
+  it should "bind successfully and redirect to the Open Register step (student)" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/other-address")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "otherAddress.hasOtherAddress" -> "student"
           )
       )
 
@@ -57,7 +84,7 @@ class OtherAddressControllerTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "otherAddress.hasOtherAddress" -> "true"
+            "otherAddress.hasOtherAddress" -> "none"
           )
       )
 
@@ -73,7 +100,7 @@ class OtherAddressControllerTests
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("Do you live at a second UK address where you're registered to vote?")
+      contentAsString(result) should include("Do you live at a second UK address where you&#39;re registered to vote?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("/register-to-vote/other-address")
     }
@@ -107,7 +134,7 @@ class OtherAddressControllerTests
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 8")
       contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/confirmation")
-      contentAsString(result) should include("Do you live at a second UK address where you're registered to vote?")
+      contentAsString(result) should include("Do you live at a second UK address where you&#39;re registered to vote?")
       contentAsString(result) should include("/register-to-vote/edit/other-address")
     }
   }
@@ -119,7 +146,7 @@ class OtherAddressControllerTests
         FakeRequest(POST, "/register-to-vote/edit/other-address")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "otherAddress.hasOtherAddress" -> "true"
+            "otherAddress.hasOtherAddress" -> "none"
           )
       )
 
@@ -128,14 +155,30 @@ class OtherAddressControllerTests
     }
   }
 
-  it should "bind successfully and redirect to the confirmation step when complete Application" in {
+  it should "bind successfully and redirect to the confirmation step when complete Application (student)" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/edit/other-address")
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "otherAddress.hasOtherAddress" -> "true"
+            "otherAddress.hasOtherAddress" -> "student"
+          )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/confirmation"))
+    }
+  }
+
+  it should "bind successfully and redirect to the confirmation step when complete Application (second home)" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/edit/other-address")
+          .withIerSession()
+          .withApplication(completeOrdinaryApplication)
+          .withFormUrlEncodedBody(
+            "otherAddress.hasOtherAddress" -> "secondHome"
           )
       )
 
@@ -151,32 +194,9 @@ class OtherAddressControllerTests
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("Do you live at a second UK address where you're registered to vote?")
+      contentAsString(result) should include("Do you live at a second UK address where you&#39;re registered to vote?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("/register-to-vote/edit/other-address")
-    }
-  }
-
-  behavior of "OtherAddressController.get with otherAddress filled as yes in in-progress application"
-  it should "display the page with has other address true radio button selected" in {
-    running(FakeApplication()) {
-      val Some(result) = route(
-        FakeRequest(GET, "/register-to-vote/other-address")
-          .withIerSession(3)
-          .withApplication(InprogressOrdinary(otherAddress = Some(OtherAddress(true))))
-      )
-
-      status(result) should be(OK)
-      contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 8")
-      contentAsString(result) should include("" +
-        "            <input id=\"otherAddress_hasOtherAddress_true\" name=\"otherAddress.hasOtherAddress\" value=\"true\"\n" +
-        "                   class=\"radio  validate\" data-validation-name=\"otherAddressYes\" data-validation-type=\"field\"\n" +
-        "                   data-validation-rules=\"nonEmpty\" type=\"radio\" checked>")
-      contentAsString(result) should include("" +
-        "            <input id=\"otherAddress_hasOtherAddress_false\" name=\"otherAddress.hasOtherAddress\" value=\"false\"\n" +
-        "                   class=\"radio  validate\" data-validation-name=\"otherAddressNo\" data-validation-type=\"field\"\n" +
-        "                   data-validation-rules=\"nonEmpty\" type=\"radio\" >")
     }
   }
 }
