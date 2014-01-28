@@ -211,12 +211,30 @@ case class PartialPreviousAddress (movedRecently:Option[Boolean],
                                    findAddress:Boolean,
                                    previousAddress:Option[PartialAddress])
 
-case class OtherAddress (hasOtherAddress:Boolean) {
+case class OtherAddress (otherAddressOption:OtherAddressOption) {
   def toApiMap = {
-    Map("oadr" -> hasOtherAddress.toString)
+    Map("oadr" -> otherAddressOption.hasOtherAddress.toString)
+  }
+}
+
+case class OtherAddressOption(hasOtherAddress:Boolean, name:String)
+
+object OtherAddress {
+  val NoOtherAddress = OtherAddressOption(false, "none")
+
+  val StudentOtherAddress = OtherAddressOption(true, "student")
+
+  val HomeOtherAddress = OtherAddressOption(true, "secondHome")
+
+  def parse(str:String):OtherAddressOption = {
+    str match {
+      case "secondHome" => HomeOtherAddress
+      case "student" => StudentOtherAddress
+      case _ => NoOtherAddress
+    }
   }
 }
 
 case class PostcodeAnywhereResponse(Items:List[Map[String,String]])
 
-case class ApiApplication(application:Map[String,String]) 
+case class ApiApplication(application:Map[String,String])
