@@ -18,8 +18,9 @@ trait ConfirmationForms
   val confirmationForm = ErrorTransformForm(
     mapping(
       keys.previouslyRegistered.key -> stepRequired(previouslyRegisteredMapping),
-      "dateLeftUk" -> stepRequired(stubMapping),
-      "firstTimeRegistered" -> stepRequired(stubMapping)
+      "dateLeftUk" -> stepRequired(dateLeftUkMapping),
+      "firstTimeRegistered" -> stepRequired(stubMapping),
+      "registeredAddress" -> stepRequired(stubMapping)
     ) (InprogressOverseas.apply) (InprogressOverseas.unapply)
   )
 }

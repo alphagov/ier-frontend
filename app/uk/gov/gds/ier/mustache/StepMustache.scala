@@ -5,7 +5,6 @@ import uk.gov.gds.ier.validation.{FormKeys, Key, ErrorTransformForm}
 import uk.gov.gds.ier.model.InprogressApplication
 
 trait StepMustache extends FormKeys {
-  import org.jba.Mustache
 
   def Mustache = org.jba.Mustache
 
@@ -27,7 +26,8 @@ trait StepMustache extends FormKeys {
   }
 
   case class FieldSet(classes:String = "")
-  case class Field(id:String = "", name:String = "", classes:String = "", value:String = "", attributes:String = "")
+  case class Field(id:String = "", name:String = "", classes:String = "", value:String = "", attributes:String = "", optionList:List[SelectOption] = List.empty)
+  case class SelectOption(value:String, text:String, selected:String = "")
   case class Question(postUrl:String = "", backUrl:String = "", showBackUrl:Boolean = true, number:String = "", title:String = "", errorMessages:Seq[String] = Seq.empty)
 
   object TextField {
@@ -47,6 +47,17 @@ trait StepMustache extends FormKeys {
         name = key.key,
         attributes = if (progressForm(key.key).value.exists(_ == value)) "checked=\"checked\"" else "",
         classes = if (progressForm(key.key).hasErrors) "invalid" else "")
+    }
+  }
+
+  object SelectField {
+    def apply[T<:InprogressApplication[T]](key: Key, optionList:List[SelectOption])(implicit progressForm: ErrorTransformForm[T]):Field = {
+      Field(
+        id = key.asId(),
+        name = key.key,
+        value = progressForm(key.key).value.getOrElse(""),
+        classes = if (progressForm(key.key).hasErrors) "invalid" else "",
+        optionList = optionList)
     }
   }
 }

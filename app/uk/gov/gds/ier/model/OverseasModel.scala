@@ -1,16 +1,20 @@
 package uk.gov.gds.ier.model
 
 case class InprogressOverseas(previouslyRegistered: Option[PreviouslyRegistered] = None,
-                              dateLeftUk: Option[Stub] = None,
-                              firstTimeRegistered: Option[Stub] = None) extends InprogressApplication[InprogressOverseas] {
+                              dateLeftUk: Option[DateLeftUk] = None,
+                              firstTimeRegistered: Option[Stub] = None,
+                              registeredAddress: Option[Stub] = None) extends InprogressApplication[InprogressOverseas] {
 
   def merge(other:InprogressOverseas) = {
-    other.copy(this.previouslyRegistered.orElse(other.previouslyRegistered))
+    other.copy(
+      previouslyRegistered = this.previouslyRegistered.orElse(other.previouslyRegistered),
+      dateLeftUk = this.dateLeftUk.orElse(other.dateLeftUk)
+    )
   }
 }
 
 case class OverseasApplication(previouslyRegistered: Option[PreviouslyRegistered],
-                               dateLeftUk: Option[Stub],
+                               dateLeftUk: Option[DateLeftUk],
                                firstTimeRegistered: Option[Stub]) extends CompleteApplication {
   def toApiMap = {
     Map.empty ++
@@ -28,5 +32,11 @@ case class PreviouslyRegistered(hasPreviouslyRegistered:Boolean) {
   def toApiMap = {
     if (hasPreviouslyRegistered) Map("povseas" -> "true")
     else Map("povseas" -> "false")
+  }
+}
+
+case class DateLeftUk (year:Int, month:Int) {
+  def toApiMap = {
+    Map("todo" -> "todo")
   }
 }
