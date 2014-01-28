@@ -69,7 +69,7 @@ trait OtherAddressMustache extends StepMustache {
     val content = Mustache.render("ordinary/otherAddress", data)
     MainStepTemplate (
       content,
-      "Register to Vote - Do you live at a second UK address where you're registered to vote?"
+      "Register to Vote - Do you also live at a second address?"
     )
   }
 }
