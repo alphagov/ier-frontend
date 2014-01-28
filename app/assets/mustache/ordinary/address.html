@@ -13,9 +13,9 @@
     </fieldset>
 </form>
 
-
+{{#listAddressSize}}
 <form action="{{question.postUrl}}" method="POST">
-    {{#listAddressSize}}
+    
     <div id="found-addresses" role="region" aria-live="polite" class="contains-addresses validate" data-validation-name="address" data-validation-type="fieldset" data-validation-rules="fieldOrExcuse" data-validation-children="addressSelect addressExcuse">
     <label for="address_postcode" class="hidden">Postcode</label>
     <input type="hidden" id="input-address-postcode" name="{{addressPostcode.name}}" value="{{possibleAddresses.value}}" class="text hidden">

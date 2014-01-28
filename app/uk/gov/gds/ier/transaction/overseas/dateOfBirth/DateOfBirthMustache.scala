@@ -16,6 +16,8 @@ trait DateOfBirthMustache extends StepMustache {
   def dateOfBirthMustache(form:ErrorTransformForm[InprogressOverseas],
                                  post: Call,
                                  back: Option[Call]): Html = {
+      
+    implicit val progressForm = form
 
     val data = DateOfBirthModel(
       question = Question(
@@ -25,23 +27,14 @@ trait DateOfBirthMustache extends StepMustache {
         number = "2 of ?",
         title = "What is your date of birth?"
       ),
-      day = Field(
-        name = keys.dob.day.key,
-        id = keys.dob.day.asId(),
-        value = form(keys.dob.day.key).value.getOrElse(""),
-        classes = if (form(keys.dob.day.key).hasErrors) "invalid" else ""
+      day = TextField(
+        key = keys.dob.day
       ),
-      month = Field(
-        name = keys.dob.month.key,
-        id = keys.dob.month.asId(),
-        value = form(keys.dob.month.key).value.getOrElse(""),
-        classes = if (form(keys.dob.month.key).hasErrors) "invalid" else ""
+      month = TextField(
+        key = keys.dob.month
       ),
-      year = Field(
-        name = keys.dob.year.key,
-        id = keys.dob.year.asId(),
-        value = form(keys.dob.year.key).value.getOrElse(""),
-        classes = if (form(keys.dob.year.key).hasErrors) "invalid" else ""
+      year = TextField(
+        key = keys.dob.year
       )
     )
     val content = Mustache.render("overseas/dateOfBirth", data)
