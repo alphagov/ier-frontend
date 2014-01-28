@@ -37,6 +37,6 @@ case class PreviouslyRegistered(hasPreviouslyRegistered:Boolean) {
 
 case class DateLeftUk (year:Int, month:Int) {
   def toApiMap = {
-    Map("todo" -> "todo")
+    Map("dlu" -> "%04d-%02d".format(year,month))
   }
 }
