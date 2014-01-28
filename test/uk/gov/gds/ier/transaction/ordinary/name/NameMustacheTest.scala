@@ -29,7 +29,7 @@ class NameMustacheTest
     val emptyApplicationForm = nameForm
     val nameModel = nameMustache.transformFormStepToMustacheData(emptyApplicationForm, "/register-to-vote/name", Some("/register-to-vote/date-of-birth"))
 
-    nameModel.question.title should be("Register to Vote - What is your full name?")
+    nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/name")
     nameModel.question.backUrl should be("/register-to-vote/date-of-birth")
 
@@ -51,7 +51,7 @@ class NameMustacheTest
         lastName = "Smith"))))
     val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, "/register-to-vote/name", Some("/register-to-vote/date-of-birth"))
 
-    nameModel.question.title should be("Register to Vote - What is your full name?")
+    nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/name")
     nameModel.question.backUrl should be("/register-to-vote/date-of-birth")
 
@@ -81,7 +81,7 @@ class NameMustacheTest
     ))
     val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, "/register-to-vote/name", Some("/register-to-vote/date-of-birth"))
 
-    nameModel.question.title should be("Register to Vote - What is your full name?")
+    nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/name")
     nameModel.question.backUrl should be("/register-to-vote/date-of-birth")
 
@@ -103,7 +103,7 @@ class NameMustacheTest
         lastName = ""))))
     val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationFormWithErrors, "/register-to-vote/name", Some("/register-to-vote/date-of-birth"))
 
-    nameModel.question.title should be("Register to Vote - What is your full name?")
+    nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/name")
     nameModel.question.backUrl should be("/register-to-vote/date-of-birth")
 
