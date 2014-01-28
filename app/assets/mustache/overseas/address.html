@@ -1,0 +1,26 @@
+<form action="{{question`.postUrl}}" method="POST" >
+    {{> shared/questionHeader }}
+
+    {{> shared/validationMessages }}
+
+    <fieldset class="validate {{previouslyRegistered.classes}}" >
+
+		<label for="{{country.id}}">
+            Country
+        </label>
+        <div class="validation-wrapper {{country.classes}}">
+            <input type="text" id="{{country.id}}" name="{{country.name}}" value="{{country.value}}" autocomplete="off" class="text country validate {{country.classes}}" data-validation-name="country" data-validation-type="field" data-validation-rules="nonEmpty" >
+        </div>
+        
+        <label for="{{firstName.id}}">
+            Address
+        </label>
+        <div class="validation-wrapper {{address.classes}}">
+            <textarea id="{{address.id}}" name="{{address.name}}" value="{{address.value}}" autocomplete="off" class="text address validate {{address.classes}}" data-validation-name="address" data-validation-type="field" data-validation-rules="nonEmpty" >
+        </div>
+
+    </fieldset>
+
+    <button type="submit" id="continue" class="button next validation-submit">Continue</button>
+
+</form>
