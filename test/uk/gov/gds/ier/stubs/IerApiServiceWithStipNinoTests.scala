@@ -9,16 +9,13 @@ import uk.gov.gds.ier.model.InprogressOrdinary
 import scala.Some
 import uk.gov.gds.ier.model.Nino
 
-class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with MockitoSugar {
-  
-  val stripNinoGeneratorMock = mock[StripNinoGenerator]
-  when(stripNinoGeneratorMock.generate).thenReturn("XX 90 87 46 B") 
+class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with MockitoSugar{
 
   it should "replace a nino when submitting Application" in {
-    val concreteIerApiServiceMock = mock[ConcreteIerApiService] 
-    val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock, stripNinoGeneratorMock)
+    val concreteIerApiServiceMock = mock[ConcreteIerApiService]
+    val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
     val applicationWithNino = InprogressOrdinary(nino = Some(Nino(Some("12345"), None)))
-    val applicationWithStrippedNino = InprogressOrdinary(nino = Some(Nino(Some("XX 90 87 46 B"), None)))
+    val applicationWithStrippedNino = InprogressOrdinary(nino = Some(Nino(Some("AB 12 34 56 D"), None)))
 
     when(concreteIerApiServiceMock.submitOrdinaryApplication(None, applicationWithStrippedNino, None)).thenReturn(ApiApplicationResponse("","","","","")) //don't care about return type
     service.submitOrdinaryApplication(None, applicationWithNino, None)
@@ -27,9 +24,9 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
 
   it should "replace a nino when generating Reference Number" in {
     val concreteIerApiServiceMock = mock[ConcreteIerApiService]
-    val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock, stripNinoGeneratorMock)
+    val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
     val applicationWithNino = InprogressOrdinary(nino = Some(Nino(Some("12345"), None)))
-    val applicationWithStrippedNino = InprogressOrdinary(nino = Some(Nino(Some("XX 90 87 46 B"), None)))
+    val applicationWithStrippedNino = InprogressOrdinary(nino = Some(Nino(Some("AB 12 34 56 D"), None)))
 
     when(concreteIerApiServiceMock.generateReferenceNumber(applicationWithStrippedNino)).thenReturn("a1b2c3d4") //don't care about return type
     service.generateReferenceNumber(applicationWithNino)
@@ -44,12 +41,5 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
     when(concreteIerApiServiceMock.submitOrdinaryApplication(None, applicationWithNoNinoReason, None)).thenReturn(ApiApplicationResponse("","","","","")) //don't care about return type
     service.submitOrdinaryApplication(None, applicationWithNoNinoReason, None)
     verify(concreteIerApiServiceMock).submitOrdinaryApplication(None, applicationWithNoNinoReason, None)
-  }
-  
-  it should "strip nino generator should always generate random number but starting with XX and validating against pattern" in {
-    val stripNinoGenerator = new StripNinoGeneratorImpl
-    stripNinoGenerator.generate() should not be stripNinoGenerator.generate() should not be stripNinoGenerator.generate()
-    stripNinoGenerator.generate() should startWith("XX")
-    stripNinoGenerator.generate() should fullyMatch regex """XX \d{2} \d{2} \d{2} [A-E]{1}"""
   }
 }
