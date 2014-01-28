@@ -47,7 +47,7 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
   }
   
   it should "strip nino generator should always generate random number but starting with XX and validating against pattern" in {
-    val stripNinoGenerator = new StripNinoGeneratorImpl
+    val stripNinoGenerator = new StripNinoGenerator
     stripNinoGenerator.generate() should not be stripNinoGenerator.generate() should not be stripNinoGenerator.generate()
     stripNinoGenerator.generate() should startWith("XX")
     stripNinoGenerator.generate() should fullyMatch regex """XX \d{2} \d{2} \d{2} [A-E]{1}"""
