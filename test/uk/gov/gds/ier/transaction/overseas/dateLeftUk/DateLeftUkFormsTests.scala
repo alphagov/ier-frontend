@@ -5,6 +5,7 @@ import org.scalatest.{Matchers, FlatSpec}
 import play.api.libs.json.{Json, JsNull}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.model.DateLeftUk
 
 class DateLeftUkFormsTests
   extends FlatSpec
@@ -79,6 +80,21 @@ class DateLeftUkFormsTests
         hasErrors.globalErrorMessages should be(Seq("Please enter the month when you left the UK"))
       },
       success => fail("Should have errored out.")
+    )
+  }
+
+  it should "bind successfully on valid year and month" in {
+    val js = Json.toJson(
+      Map(
+        "dateLeftUk.month" -> "10",
+        "dateLeftUk.year" -> "2000"
+      )
+    )
+    dateLeftUkForm.bind(js).fold(
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
+      success => {
+        success.dateLeftUk should be(Some(DateLeftUk(2000,10)))
+      }
     )
   }
 }
