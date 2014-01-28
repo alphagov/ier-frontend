@@ -51,7 +51,7 @@ trait TestHelpers {
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
     address = Some(PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)),
     previousAddress = Some(PartialPreviousAddress(Some(false),false, None)),
-    otherAddress = Some(OtherAddress(false)),
+    otherAddress = Some(OtherAddress(OtherAddress.NoOtherAddress)),
     openRegisterOptin = Some(false),
     postalVote = Some(PostalVote(Some(false),None)),
     contact = Some(Contact(true, None, None)),
