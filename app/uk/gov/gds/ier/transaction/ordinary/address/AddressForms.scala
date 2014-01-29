@@ -52,7 +52,7 @@ trait AddressForms extends AddressConstraints {
         InprogressOrdinary(address = partialAddress, possibleAddresses = possibleAddresses)
     ) (
       inprogress => Some(inprogress.address, inprogress.possibleAddresses)
-    ) verifying addressOrManualAddressDefined
+    ) verifying addressOrManualAddressDefined 
   ) 
 
   val addressLookupForm = ErrorTransformForm(
@@ -63,6 +63,16 @@ trait AddressForms extends AddressConstraints {
       postcode => InprogressOrdinary(possibleAddresses = Some(PossibleAddress(jsonList = Addresses(List.empty), postcode = postcode)))
     ) (
       inprogress => inprogress.possibleAddresses.map(_.postcode)
-    )
+    ) 
   )
+  
+  val addressSizeCheckupForm = ErrorTransformForm(
+    mapping(
+      keys.possibleAddresses.key -> optional(possibleAddressMapping)
+    ) (
+      possibleAddresses => InprogressOrdinary(possibleAddresses = possibleAddresses)
+    ) (
+      inprogress => Some(inprogress.possibleAddresses)
+    ) verifying addressLookup
+  ) 
 }

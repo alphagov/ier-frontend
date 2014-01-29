@@ -6,6 +6,7 @@ import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication}
 
 case class InProgressForm[T <: InprogressApplication[T]](form:ErrorTransformForm[T]) extends FormKeys{
 
+    
   def apply(key:Key) = {
     form(key.key)
   }
