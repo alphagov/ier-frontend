@@ -5,7 +5,6 @@ import controllers.step.overseas.NinoController
 import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.model.InprogressOverseas
 import uk.gov.gds.ier.security.EncryptionKeys
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser

@@ -9,7 +9,8 @@ object NinoController extends StubController[InprogressOverseas] {
 
   def ninoStep = {
     confirmationIf {
-      application => true // TODO
+      // stub controller always returns that it is not defined, that it contains no data
+      _ => false
     }
   }
 }

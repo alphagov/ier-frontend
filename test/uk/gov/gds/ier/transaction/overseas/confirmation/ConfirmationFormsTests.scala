@@ -23,11 +23,13 @@ class ConfirmationFormTests
     val js = JsNull
     confirmationForm.bind(js).fold(
       hasErrors => {
+        hasErrors.errorMessages("name") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("previousName") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("dateLeftUk") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("firstTimeRegistered") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("previouslyRegistered") should be(Seq("Please complete this step"))
-        hasErrors.globalErrorMessages should be(Seq("Please complete this step", "Please complete this step", "Please complete this step"))
-        hasErrors.errors.size should be(6)
+        hasErrors.globalErrorMessages.filter(_ == "Please complete this step").length should be(5)
+        hasErrors.errors.size should be(10)
       },
       success => fail("Should have errored out.")
     )
@@ -37,11 +39,13 @@ class ConfirmationFormTests
     val application = InprogressOverseas()
     confirmationForm.fillAndValidate(application).fold(
       hasErrors => {
+        hasErrors.errorMessages("name") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("previousName") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("dateLeftUk") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("firstTimeRegistered") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("previouslyRegistered") should be(Seq("Please complete this step"))
-        hasErrors.globalErrorMessages should be(Seq("Please complete this step", "Please complete this step", "Please complete this step"))
-        hasErrors.errors.size should be(6)
+        hasErrors.globalErrorMessages.filter(_ == "Please complete this step").length should be(5)
+        hasErrors.errors.size should be(10)
       },
       success => fail("Should have errored out.")
     )
