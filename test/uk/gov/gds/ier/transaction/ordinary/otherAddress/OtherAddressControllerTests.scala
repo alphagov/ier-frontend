@@ -26,7 +26,7 @@ class OtherAddressControllerTests
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 8")
       contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/previous-address")
-      contentAsString(result) should include("Do you live at a second UK address where you&#39;re registered to vote?")
+      contentAsString(result) should include("Do you also live at a second address?")
       contentAsString(result) should include("/register-to-vote/other-address")
     }
   }
@@ -100,7 +100,7 @@ class OtherAddressControllerTests
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("Do you live at a second UK address where you&#39;re registered to vote?")
+      contentAsString(result) should include("Do you also live at a second address?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("/register-to-vote/other-address")
     }
@@ -134,7 +134,7 @@ class OtherAddressControllerTests
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 8")
       contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/confirmation")
-      contentAsString(result) should include("Do you live at a second UK address where you&#39;re registered to vote?")
+      contentAsString(result) should include("Do you also live at a second address?")
       contentAsString(result) should include("/register-to-vote/edit/other-address")
     }
   }
@@ -194,7 +194,7 @@ class OtherAddressControllerTests
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("Do you live at a second UK address where you&#39;re registered to vote?")
+      contentAsString(result) should include("Do you also live at a second address?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("/register-to-vote/edit/other-address")
     }

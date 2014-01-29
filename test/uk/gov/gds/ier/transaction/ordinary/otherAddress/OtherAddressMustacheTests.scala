@@ -37,7 +37,7 @@ class OtherAddressMustacheTests
     result.question.postUrl should be("/some-post-url")
     result.question.backUrl should be("/some-back-url")
     result.question.number should be("8 of 11")
-    result.question.title should be("Do you live at a second UK address where you're registered to vote?")
+    result.question.title should be("Do you also live at a second address?")
     result.question.errorMessages should be(Seq.empty)
 
     result.hasOtherAddressHome.name should be("otherAddress.hasOtherAddress")
