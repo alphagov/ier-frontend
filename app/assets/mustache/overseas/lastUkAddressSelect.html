@@ -23,16 +23,15 @@
         </label>
         <div class="validation-wrapper">
             <select
-              id="address_uprn_select"
-              name="address.uprn"
-              class="lonely validate"
+              id="{{address.id}}"
+              name="{{address.name}}"
+              class="lonely validate {{address.classes}}"
               data-validation-name="addressSelect"
               data-validation-type="field"
               data-validation-rules="nonEmpty">
-                <option value="">55 addresses found</option>
-                <option value="27878848">
-                    Flat 1, Rosegate House, 3 Hereford Road, London
-                </option>
+              {{#address.optionList}}
+                <option value="{{value}}" {{selected}}>{{text}}</option>
+              {{/address.optionList}}
             </select>
         </div>
     </fieldset>

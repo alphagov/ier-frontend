@@ -34,8 +34,10 @@ trait StepMustache extends FormKeys {
       name:String = "",
       classes:String ="",
       value:String = "",
-      attributes:String = ""
+      attributes:String = "",
+      optionList:List[SelectOption] = List.empty
   )
+  case class SelectOption(value:String, text:String, selected:String = "")
   case class Question (
       postUrl:String = "",
       backUrl:String = "",
@@ -45,8 +47,23 @@ trait StepMustache extends FormKeys {
       errorMessages:Seq[String] = Seq.empty
   )
 
+  object SelectField {
+    def apply[T<:InprogressApplication[T]]
+        (key: Key, optionList:List[SelectOption], default:SelectOption)
+        (implicit progressForm: ErrorTransformForm[T]):Field = {
+      Field(
+        id = key.asId(),
+        name = key.key,
+        value = progressForm(key.key).value.getOrElse(""),
+        classes = if (progressForm(key.key).hasErrors) "invalid" else "",
+        optionList = default :: optionList)
+    }
+  }
+
   object TextField {
-    def apply[T<:InprogressApplication[T]](key: Key)(implicit progressForm: ErrorTransformForm[T]):Field = {
+    def apply[T<:InprogressApplication[T]]
+        (key: Key)
+        (implicit progressForm: ErrorTransformForm[T]):Field = {
       Field(
         id = key.asId(),
         name = key.key,
@@ -56,11 +73,17 @@ trait StepMustache extends FormKeys {
   }
 
   object RadioField {
-    def apply[T<:InprogressApplication[T]](key: Key, value: String)(implicit progressForm: ErrorTransformForm[T]):Field = {
+    def apply[T<:InprogressApplication[T]]
+        (key: Key, value: String)
+        (implicit progressForm: ErrorTransformForm[T]):Field = {
       Field(
         id = key.asId(value),
         name = key.key,
-        attributes = if (progressForm(key.key).value.exists(_ == value)) "checked=\"checked\"" else "",
+        attributes = if (progressForm(key.key).value.exists(_ == value)) {
+          "checked=\"checked\""
+        } else {
+          ""
+        },
         classes = if (progressForm(key.key).hasErrors) "invalid" else "")
     }
   }

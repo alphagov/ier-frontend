@@ -18,7 +18,8 @@ trait LastUkAddressMustache {
     case class SelectModel (
         question: Question,
         lookupUrl: String,
-        postcode: Field
+        postcode: Field,
+        address: Field
     )
 
     def lookupPage(
@@ -51,6 +52,9 @@ trait LastUkAddressMustache {
         postUrl: String,
         lookupUrl: String
     ) = {
+      implicit val progressForm = form.form
+      val options = List.empty
+
       val data = SelectModel(
         question = Question(
           postUrl = postUrl,
@@ -64,6 +68,14 @@ trait LastUkAddressMustache {
           id = keys.lastUkAddress.postcode.asId(),
           name = keys.lastUkAddress.postcode.key,
           value = form(keys.lastUkAddress.postcode).value.getOrElse("")
+        ),
+        address = SelectField(
+          key = keys.lastUkAddress.uprn,
+          optionList = options,
+          default = SelectOption(
+            value = "",
+            text = s"${options.size} addresses found"
+          )
         )
       )
       val content = Mustache.render("overseas/lastUkAddressSelect", data)
