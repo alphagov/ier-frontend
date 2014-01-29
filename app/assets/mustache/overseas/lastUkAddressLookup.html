@@ -1,0 +1,33 @@
+<form action="{{question.postUrl}}" method="POST">
+    {{> shared/questionHeader }}
+    {{> shared/validationMessages }}
+
+    <fieldset>
+        <p>
+            This is where your vote will be counted as an overseas voter.
+        </p>
+        <label for="{{postcode.id}}">
+            Postcode
+        </label>
+        <div class="validation-wrapper">
+            <input
+              type="text"
+              id="{{postcode.id}}"
+              name="{{postcode.name}}"
+              value="{{postcode.value}}"
+              autocomplete="off"
+              class="text postcode medium validate {{postcode.classes}}"
+              data-validation-name="postcode"
+              data-validation-type="field"
+              data-validation-rules="nonEmpty">
+        </div>
+    </fieldset>
+    <button
+      id="find-address"
+      type="submit"
+      class="button next validation-submit"
+      data-validation-sources="postcode"
+      aria-controls="found-addresses">
+        Find address
+    </button>
+</form>

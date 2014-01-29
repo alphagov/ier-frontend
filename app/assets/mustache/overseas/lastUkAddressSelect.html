@@ -1,0 +1,52 @@
+<form action="{{question.postUrl}}" method="POST">
+    {{> shared/questionHeader }}
+    {{> shared/validationMessages }}
+
+    <fieldset>
+        <p>
+            Postcode<span class="visuallyhidden">:</span>
+            <span class="postcode">{{postcode.value}}</span>
+            <a href="{{lookupUrl}}" class="change-postcode-button">
+                Change<span class="visuallyhidden"> your postcode</span>
+            </a>
+        </p>
+        <label for="{{postcode.id}}" class="hidden">Postcode</label>
+        <input
+          type="hidden"
+          id="{{postcode.id}}"
+          name="{{postcode.name}}"
+          value="{{postcode.value}}"
+          class="text hidden">
+
+        <label for="address_uprn_select">
+            <span class="visuallyhidden">Select your </span>Address
+        </label>
+        <div class="validation-wrapper">
+            <select
+              id="address_uprn_select"
+              name="address.uprn"
+              class="lonely validate"
+              data-validation-name="addressSelect"
+              data-validation-type="field"
+              data-validation-rules="nonEmpty">
+                <option value="">55 addresses found</option>
+                <option value="27878848">
+                    Flat 1, Rosegate House, 3 Hereford Road, London
+                </option>
+            </select>
+        </div>
+    </fieldset>
+
+    <a href="#">
+        I can't find my address in the list<span class="visuallyhidden"> section</span>
+    </a>
+
+    <button
+      type="submit"
+      id="continue"
+      class="button next validation-submit"
+      data-validation-sources="postcode address"
+      style="display: block;">
+        Continue
+    </button>
+</form>
