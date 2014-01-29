@@ -7,7 +7,8 @@ object LastRegisteredUkAddressController extends StubController[InprogressOverse
   val confirmationStep = ConfirmationController.confirmationStep
   val thisStepUrl = "/register-to-vote/overseas/last-registered-uk-address"
 
-  def firstTimeStep = confirmationIf { application =>
-    true // TODO
+  def firstTimeStep = confirmationIf {
+    // stub controller always returns that it is not defined, that it contains no data
+    _ => false
   }
 }

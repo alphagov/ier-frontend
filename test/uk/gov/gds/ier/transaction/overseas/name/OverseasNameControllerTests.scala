@@ -14,8 +14,9 @@ class OverseasNameControllerTests
   with Matchers
   with MockitoSugar
   with TestHelpers {
-  
-  implicit def defaultAwaitTimeout = Timeout(10, TimeUnit.MINUTES) 
+
+  // Comment out for longer timeouts, essential for debugging the test
+  // implicit def defaultAwaitTimeout = Timeout(10, TimeUnit.MINUTES)
 
   behavior of "NameController.get"
   it should "display the page" in {
@@ -66,8 +67,6 @@ class OverseasNameControllerTests
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/register-to-vote/overseas/nino"))
-      // TODO: check for presence of errors in the result, we shoul'd in first place to check for their presence, 
-      // don't base whole check just on redirect URL as it can be result also from different errors, like routing misconfiguration 
     }
   }
 
