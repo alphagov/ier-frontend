@@ -160,6 +160,12 @@ POST        /register-to-vote/overseas/name                              control
 GET         /register-to-vote/overseas/edit/name                         controllers.step.overseas.NameController.editGet
 POST        /register-to-vote/overseas/edit/name                         controllers.step.overseas.NameController.editPost
 
+# NINO (National Insurance Number)
+GET         /register-to-vote/overseas/nino                              controllers.step.overseas.NinoController.get
+POST        /register-to-vote/overseas/nino                              controllers.step.overseas.NinoController.post
+GET         /register-to-vote/overseas/edit/nino                         controllers.step.overseas.NinoController.editGet
+POST        /register-to-vote/overseas/edit/nino                         controllers.step.overseas.NinoController.editPost
+
 #Overseas Confirmation
 GET         /register-to-vote/overseas/confirmation                      controllers.step.overseas.ConfirmationController.get
 POST        /register-to-vote/overseas/confirmation                      controllers.step.overseas.ConfirmationController.post
