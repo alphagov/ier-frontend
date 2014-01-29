@@ -5,12 +5,12 @@ import uk.gov.gds.ier.model.InprogressOverseas
 import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 
 trait DateLeftUkMustache extends StepMustache {
 
-  def monthsArray = List("January","February","March","April","May","June","July","August","September","October","November","December")
-
   case class DateLeftUkModel(question:Question,
+                             dateLeftUkFieldSet: FieldSet,
                              dateLeftUkMonth: Field,
                              dateLeftUkYear: Field)
 
@@ -28,6 +28,10 @@ trait DateLeftUkMustache extends StepMustache {
         number = "5",
         title = "When did you leave the UK?"
       ) ,
+      dateLeftUkFieldSet = FieldSet(
+        classes = if (progressForm(keys.dateLeftUk.month.key).hasErrors ||
+          progressForm(keys.dateLeftUk.year.key).hasErrors) "invalid" else ""
+      ),
       dateLeftUkMonth = SelectField(
         key = keys.dateLeftUk.month,
         optionList = generateOptionsList(progressForm(keys.dateLeftUk.month.key).value.getOrElse(""))
@@ -42,7 +46,7 @@ trait DateLeftUkMustache extends StepMustache {
   }
 
   def generateOptionsList (month:String): List[SelectOption] = {
-    val dateLeftUkMonthOptionsList = monthsArray.zipWithIndex.map {case (month, index) => SelectOption((index+1).toString, month)}
+    val dateLeftUkMonthOptionsList = DateOfBirthConstants.months.map (months => SelectOption(months._1, months._2)).toList
     val updatedDateLeftUkMonthOptionsList = dateLeftUkMonthOptionsList.map(monthOption =>
       if (monthOption.value.equals(month))
         SelectOption(monthOption.value, monthOption.text, "selected")
