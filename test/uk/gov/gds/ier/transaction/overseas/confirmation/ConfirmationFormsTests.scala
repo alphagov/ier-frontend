@@ -26,8 +26,10 @@ class ConfirmationFormTests
         hasErrors.errorMessages("firstTimeRegistered") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("previouslyRegistered") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("registeredAddress") should be(Seq("Please complete this step"))
-        hasErrors.globalErrorMessages should be(Seq("Please complete this step", "Please complete this step", "Please complete this step","Please complete this step"))
-        hasErrors.errors.size should be(8)
+        hasErrors.errorMessages("dateOfBirth") should be(Seq("Please complete this step"))
+        hasErrors.globalErrorMessages should be(Seq("Please complete this step", "Please complete this step",
+          "Please complete this step","Please complete this step","Please complete this step"))
+        hasErrors.errors.size should be(10)
       },
       success => fail("Should have errored out.")
     )
@@ -41,8 +43,10 @@ class ConfirmationFormTests
         hasErrors.errorMessages("firstTimeRegistered") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("previouslyRegistered") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("registeredAddress") should be(Seq("Please complete this step"))
-        hasErrors.globalErrorMessages should be(Seq("Please complete this step", "Please complete this step", "Please complete this step","Please complete this step"))
-        hasErrors.errors.size should be(8)
+        hasErrors.errorMessages("dateOfBirth") should be(Seq("Please complete this step"))
+        hasErrors.globalErrorMessages should be(Seq("Please complete this step", "Please complete this step",
+          "Please complete this step","Please complete this step","Please complete this step"))
+        hasErrors.errors.size should be(10)
       },
       success => fail("Should have errored out.")
     )

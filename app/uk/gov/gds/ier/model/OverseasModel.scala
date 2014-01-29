@@ -3,7 +3,8 @@ package uk.gov.gds.ier.model
 case class InprogressOverseas(previouslyRegistered: Option[PreviouslyRegistered] = None,
                               dateLeftUk: Option[DateLeftUk] = None,
                               firstTimeRegistered: Option[Stub] = None,
-                              registeredAddress: Option[Stub] = None) extends InprogressApplication[InprogressOverseas] {
+                              registeredAddress: Option[Stub] = None,
+                              dateOfBirth: Option[Stub] = None) extends InprogressApplication[InprogressOverseas] {
 
   def merge(other:InprogressOverseas) = {
     other.copy(

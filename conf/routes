@@ -19,6 +19,9 @@ GET         /register-to-vote/exit/under-18                              control
 GET         /register-to-vote/exit/dont-know                             controllers.ExitController.dontKnow
 GET         /register-to-vote/exit/too-young                             controllers.ExitController.tooYoung
 GET         /register-to-vote/exit/no-franchise                          controllers.ExitController.noFranchise
+GET         /register-to-vote/exit/overseas/left-uk-over-15-years        controllers.ExitController.leftUkOver15Years
+GET         /register-to-vote/exit/overseas/too-old-when-left-uk         controllers.ExitController.tooOldWhenLeftUk
+
 
 #Error Routes
 GET         /register-to-vote/error/timeout                              controllers.ErrorController.timeout
