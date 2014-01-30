@@ -38,14 +38,32 @@ class PostalVoteFormTests
       Map(
         "postalVote.optIn" -> "true",
         "postalVote.deliveryMethod.methodName" -> "email",
-        "postalVote.deliveryMethod.emailAddress" -> "deliveryMethod.emailAddress"
+        "postalVote.deliveryMethod.emailAddress" -> "test@mail.com"
       )
     )
     postalVoteForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
-        success.postalVote should be(Some(PostalVote(Some(true),Some(PostalVoteDeliveryMethod(Some("email"),Some("deliveryMethod.emailAddress"))))))
+        success.postalVote should be(Some(PostalVote(Some(true),Some(PostalVoteDeliveryMethod(Some("email"),Some("test@mail.com"))))))
       }
+    )
+  }
+
+  it should "error out on postal vote true and delivery method email with invalid email" in {
+    val js = Json.toJson(
+      Map(
+        "postalVote.optIn" -> "true",
+        "postalVote.deliveryMethod.methodName" -> "email",
+        "postalVote.deliveryMethod.emailAddress" -> "emailAddress"
+      )
+    )
+    postalVoteForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("postalVote.deliveryMethod.emailAddress") should be(Seq("Please enter a valid email address"))
+        hasErrors.globalErrorMessages should be(Seq("Please enter a valid email address"))
+      },
+      success => fail("Should have thrown an error")
     )
   }
 
@@ -118,7 +136,7 @@ class PostalVoteFormTests
     postalVoteForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("deliveryMethod.emailAddress") should be(Seq("Please enter your email address"))
+        hasErrors.errorMessages("") should be(Seq("Please enter your email address"))
         hasErrors.globalErrorMessages should be(Seq("Please enter your email address"))
       },
       success => fail("Should have thrown an error")
