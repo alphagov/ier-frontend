@@ -34,7 +34,7 @@
         </label>
 
         <label for="{{hasPreviousNameFalse.id}}" class="selectable binary"  >
-            <input type="radio" id="{{hasPreviousNameFalse.id}}" name="{{hasPreviousNameFalse.name}}" value="false"  class="radio  validate"   data-validation-name="previousNo"  data-validation-type="field" data-validation-rules="nonEmpty" {{hasPreviousNameFalse.attributes}}>
+            <input type="radio" id="{{hasPreviousNameFalse.id}}" name="{{hasPreviousNameFalse.name}}" value="false"  class="radio  validate"   data-validation-name="previousNo"  data-validation-type="field" data-validation-rules="nonEmpty" {{{hasPreviousNameFalse.attributes}}}>
             No
         </label>
     </fieldset>
@@ -46,17 +46,21 @@
             <label for="{{previousFirstName.id}}">
                 <span class="visuallyhidden">Previous</span> First name
             </label>
-            <input type="text" id="{{previousFirstName.id}}" name="{{previousFirstName.name}}" value="{{previousFirstName.value}}" autocomplete="off"  class="text  first-name long validate {{previousFirstName.classes}}" data-validation-name="previousFirstName"  data-validation-type="field"  data-validation-rules="nonEmpty" >
+            <div class="validation-wrapper {{previousFirstName.classes}}">
+                <input type="text" id="{{previousFirstName.id}}" name="{{previousFirstName.name}}" value="{{previousFirstName.value}}" autocomplete="off"  class="text  first-name long validate {{previousFirstName.classes}}" data-validation-name="previousFirstName"  data-validation-type="field"  data-validation-rules="nonEmpty" >
+            </div>
 
             <label for="{{previousMiddleNames.id}}">
                 <span class="visuallyhidden">Previous</span> Middle names
             </label>
-            <input type="text" id="{{previousMiddleNames.id}}" name="{{previousMiddleNames.name}}" value="{{previousMiddleNames.value}}" autocomplete="off"  class="text  middle-names long {{previousMiddleName.classes}}"  >
+            <input type="text" id="{{previousMiddleNames.id}}" name="{{previousMiddleNames.name}}" value="{{previousMiddleNames.value}}" autocomplete="off"  class="text  middle-names long {{previousMiddleNames.classes}}"  >
 
             <label for="{{previousLastName.id}}">
                 <span class="visuallyhidden">Previous</span> Last name
             </label>
-            <input type="text" id="{{previousLastName.id}}" name="{{previousLastName.name}}" value="{{previousLastName.value}}" autocomplete="off"  class="text  last-name long validate {{previousLastName.classes}}" data-validation-name="previousLastName"  data-validation-type="field"  data-validation-rules="nonEmpty" >
+            <div class="validation-wrapper {{previousLastName.classes}}">
+                <input type="text" id="{{previousLastName.id}}" name="{{previousLastName.name}}" value="{{previousLastName.value}}" autocomplete="off"  class="text  last-name long validate {{previousLastName.classes}}" data-validation-name="previousLastName"  data-validation-type="field"  data-validation-rules="nonEmpty" >
+            </div>
         </fieldset>
     </div>
 
