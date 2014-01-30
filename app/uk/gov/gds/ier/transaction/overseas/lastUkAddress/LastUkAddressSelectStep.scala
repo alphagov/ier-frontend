@@ -8,7 +8,12 @@ import controllers.step.overseas.NameController
 import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.model.InprogressOverseas
+import uk.gov.gds.ier.model.{
+  InprogressOverseas,
+  PartialAddress,
+  Addresses,
+  PossibleAddress
+}
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
@@ -25,7 +30,7 @@ class LastUkAddressSelectStep @Inject() (
   with LastUkAddressMustache
   with LastUkAddressForms {
 
-  val validation = lastUkAddressForm
+  val validation = selectAddressForm
 
   val previousRoute = Some(DateLeftUkController.get)
 
@@ -44,11 +49,39 @@ class LastUkAddressSelectStep @Inject() (
       form: InProgressForm[InprogressOverseas],
       call: Call,
       backUrl: Option[Call]) = {
+
+    val storedAddresses = for(
+      jsonList <- form(keys.possibleAddresses.jsonList).value;
+      postcode <- form(keys.possibleAddresses.postcode).value
+    ) yield {
+      PossibleAddress(
+        jsonList = serialiser.fromJson[Addresses](jsonList),
+        postcode = postcode
+      )
+    }
+
+    val maybeAddresses = storedAddresses.orElse {
+      lookupAddresses(form(keys.lastUkAddress.postcode).value)
+    }
+
     LastUkAddressMustache.selectPage(
       form,
       backUrl.map(_.url).getOrElse(""),
       call.url,
-      LastUkAddressController.get.url
+      LastUkAddressController.get.url,
+      maybeAddresses
     )
+  }
+
+  private[lastUkAddress] def lookupAddresses(
+      maybePostcode:Option[String]): Option[PossibleAddress] = {
+
+    maybePostcode.map { postcode =>
+      val addresses = addressService.lookupPartialAddress(postcode)
+      PossibleAddress(
+        jsonList = Addresses(addresses),
+        postcode = postcode
+      )
+    }
   }
 }

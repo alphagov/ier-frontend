@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.overseas.lastUkAddress
 
 import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.model.InprogressOverseas
+import uk.gov.gds.ier.model.{InprogressOverseas, PossibleAddress}
 import uk.gov.gds.ier.validation.{InProgressForm, Key}
 
 trait LastUkAddressMustache {
@@ -39,7 +39,11 @@ trait LastUkAddressMustache {
           id = keys.lastUkAddress.postcode.asId(),
           name = keys.lastUkAddress.postcode.key,
           value = form(keys.lastUkAddress.postcode).value.getOrElse(""),
-          classes = if (form(keys.lastUkAddress.postcode).hasErrors) "invalid" else ""
+          classes = if (form(keys.lastUkAddress.postcode).hasErrors) {
+            "invalid"
+          } else {
+            ""
+          }
         )
       )
       val content = Mustache.render("overseas/lastUkAddressLookup", data)
@@ -50,10 +54,19 @@ trait LastUkAddressMustache {
         form: InProgressForm[InprogressOverseas],
         backUrl: String,
         postUrl: String,
-        lookupUrl: String
+        lookupUrl: String,
+        maybePossibleAddress:Option[PossibleAddress]
     ) = {
       implicit val progressForm = form.form
-      val options = List.empty
+
+      val options = maybePossibleAddress.map { possibleAddress =>
+        possibleAddress.jsonList.addresses
+      }.getOrElse(List.empty).map { address =>
+        SelectOption(
+          value = address.uprn.getOrElse(""),
+          text = address.addressLine.getOrElse("")
+        )
+      }
 
       val data = SelectModel(
         question = Question(
@@ -73,7 +86,7 @@ trait LastUkAddressMustache {
           key = keys.lastUkAddress.uprn,
           optionList = options,
           default = SelectOption(
-            value = "",
+            value = form(keys.lastUkAddress.uprn).value.getOrElse(""),
             text = s"${options.size} addresses found"
           )
         )

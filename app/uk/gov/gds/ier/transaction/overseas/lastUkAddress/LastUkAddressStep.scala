@@ -8,7 +8,12 @@ import controllers.step.overseas.NameController
 import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.model.InprogressOverseas
+import uk.gov.gds.ier.model.{
+  InprogressOverseas,
+  PartialAddress,
+  Addresses,
+  PossibleAddress
+}
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
@@ -57,9 +62,10 @@ class LastUkAddressStep @Inject() (
         Ok(template(InProgressForm(hasErrors), routes.post, previousRoute))
       },
       success => {
-      //Lookup the addresses
         val mergedApplication = success.merge(application)
-        Redirect(LastUkAddressSelectController.get) storeInSession mergedApplication
+        Redirect(
+          LastUkAddressSelectController.get
+        ) storeInSession mergedApplication
       }
     )
   }
