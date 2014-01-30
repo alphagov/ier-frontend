@@ -88,6 +88,10 @@ label.selected {
 	padding: 11px 13px 11px 45px;
 }
 
+label.single-field {
+  margin-bottom: 0;
+}
+
 textarea,
 textarea.small,
 select.lonely,
@@ -318,6 +322,7 @@ fieldset {
 .optional-section-core-content {
   padding-top: 0;
   padding-bottom: 0;
+  margin-bottom: 0;
 }
 
 .optional-section {
@@ -422,7 +427,8 @@ fieldset {
   }
 
   .help-content &,
-  .optional-section & {
+  .optional-section &,
+  #found-addresses & {
     margin-bottom: 0;
     margin-top: 0;
   }
@@ -503,6 +509,7 @@ fieldset {
 
 #found-addresses {
   @extend %contain-floats;
+  margin: 2em 0;
 
   &.contains-addresses {
     margin-top: 1em;

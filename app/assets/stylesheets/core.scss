@@ -222,6 +222,10 @@ form {
 form {
   padding-top: 2em;
   @extend %contain-floats;
+
+  &.sub-step {
+    padding-top: 0;
+  }
 }
 
 #found-addresses {
