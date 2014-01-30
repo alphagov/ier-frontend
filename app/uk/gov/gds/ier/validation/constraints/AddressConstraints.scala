@@ -18,11 +18,11 @@ trait AddressConstraints {
       }
   }
   
-  lazy val addressLookup = Constraint[InprogressOrdinary](keys.jsonList.key) {
+  lazy val addressLookup = Constraint[InprogressOrdinary](keys.possibleAddresses.key) {
       application =>
           application.possibleAddresses match {
               case Some(addresses) if (addresses.jsonList.addresses.size > 0) => Valid
-              case _ => Invalid("Please enter a valid postcode", keys.jsonList.key)
+              case _ => Invalid("Please enter a valid postcode", keys.possibleAddresses.postcode)
           }
   }
 }
