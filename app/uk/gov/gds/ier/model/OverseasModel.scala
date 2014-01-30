@@ -19,12 +19,18 @@ case class InprogressOverseas(previouslyRegistered: Option[PreviouslyRegistered]
 
 case class OverseasApplication(previouslyRegistered: Option[PreviouslyRegistered],
                                dateLeftUk: Option[DateLeftUk],
-                               firstTimeRegistered: Option[Stub]) extends CompleteApplication {
+                               firstTimeRegistered: Option[Stub],
+                               lastRegisteredToVote: Option[LastRegisteredToVote],
+                               registeredAddress: Option[Stub],
+                               dob: Option[DateOfBirth]) extends CompleteApplication {
   def toApiMap = {
     Map.empty ++
       previouslyRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
       dateLeftUk.map(_.toApiMap).getOrElse(Map.empty) ++
-      firstTimeRegistered.map(_.toApiMap).getOrElse(Map.empty)
+      firstTimeRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
+      lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
+      registeredAddress.map(_.toApiMap).getOrElse(Map.empty) ++
+      dob.map(_.toApiMap).getOrElse(Map.empty)
   }
 }
 
