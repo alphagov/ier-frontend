@@ -13,12 +13,14 @@ case class InProgressForm[T <: InprogressApplication[T]](form:ErrorTransformForm
     form.value match {
       case Some(application:InprogressOrdinary) => application.nationality.map(_.checkedNationalities).filter(_.size > 0)
       case None => None
+      case applicationOfUnknownType => throw new IllegalArgumentException(s"Application of unknown type: $applicationOfUnknownType") 
     }
   }
   def getOtherCountries = {
     form.value match {
       case Some(application:InprogressOrdinary) => application.nationality.map(_.otherCountries.filter(_.nonEmpty)).filter(_.size > 0)
       case None => None
+      case applicationOfUnknownType => throw new IllegalArgumentException(s"Application of unknown type: $applicationOfUnknownType")
     }
   }
   def nationalityIsFilled():Boolean = {
@@ -27,6 +29,7 @@ case class InProgressForm[T <: InprogressApplication[T]](form:ErrorTransformForm
         nationality =>
           nationality.british == Some(true) || nationality.irish == Some(true) || nationality.otherCountries.exists(_.nonEmpty)).exists(b => b)
       case None => false
+      case applicationOfUnknownType => throw new IllegalArgumentException(s"Application of unknown type: $applicationOfUnknownType")
     }
   }
   def hasNoNationalityReason = {
