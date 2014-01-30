@@ -54,7 +54,7 @@ trait StepMustache extends FormKeys {
   object SelectField {
     def apply[T<:InprogressApplication[T]](key: Key, optionList:List[SelectOption])(implicit progressForm: ErrorTransformForm[T]):Field = {
       Field(
-        id = key.asId(),
+        id = key.asId("select"),
         name = key.key,
         value = progressForm(key.key).value.getOrElse(""),
         classes = if (progressForm(key.key).hasErrors) "invalid" else "",
