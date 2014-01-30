@@ -1,12 +1,8 @@
 package uk.gov.gds.ier.stubs
 
 import com.google.inject.Inject
-import uk.gov.gds.ier.client.IerApiClient
-import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.service.{ConcreteIerApiService, IerApiService, PlacesService}
-import uk.gov.gds.ier.digest.ShaHashProvider
-import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressOverseas, Nino, ApiApplicationResponse, InprogressApplication}
+import uk.gov.gds.ier.service.{ConcreteIerApiService, IerApiService}
+import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressOverseas, Nino, InprogressApplication}
 
 class IerApiServiceWithStripNino @Inject() (ierService: ConcreteIerApiService, stripNinoGenerator: StripNinoGenerator = new StripNinoGenerator) extends IerApiService {
 
@@ -19,6 +15,7 @@ class IerApiServiceWithStripNino @Inject() (ierService: ConcreteIerApiService, s
           ipAddress, 
           applicant.copy(nino = Some(Nino(Some(stripNinoGenerator.generate), None))), 
           referenceNumber)
+      case unexpectedNino => throw new IllegalArgumentException("Unexpected NINO: " + unexpectedNino)
     }
   }
 
@@ -40,6 +37,7 @@ class IerApiServiceWithStripNino @Inject() (ierService: ConcreteIerApiService, s
               ordinary.copy(nino = Some(Nino(Some(stripNinoGenerator.generate), None)))
             )
           }
+          case unexpectedNino => throw new IllegalArgumentException("Unexpected NINO: " + unexpectedNino)
         }
       case overseas:InprogressOverseas => {
         ierService.generateReferenceNumber[InprogressOverseas](overseas)
