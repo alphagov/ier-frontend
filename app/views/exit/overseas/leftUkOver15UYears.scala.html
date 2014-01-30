@@ -2,11 +2,14 @@
 @import helper._
 @import uk.gov.gds.ier.form.FormHelpers._
 @import layouts._
-@main(title = Some("Sorry, you cannot register, because it has been over 15 years since you left the UK"),
+@main(title = Some("Sorry, you cannot registers because it has been over 15 years since you left the UK"),
 stylesheets = head(),
 scripts = stepsBodyEnd(),
 contentClasses = Some("exit")) {
 <header>
-    <h1>Sorry, you cannot register, because it has been over 15 years since you left the UK</h1>
+    <h1>Sorry, you cannot register because it has been over 15 years since you left the UK</h1>
 </header>
+<article>
+    <p><a href="https://www.gov.uk/voting-in-the-uk">More about voting in the UK</a></p>
+</article>
 }

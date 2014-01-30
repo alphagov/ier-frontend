@@ -2,11 +2,15 @@ package uk.gov.gds.ier.validation
 
 import uk.gov.gds.ier.transaction.overseas.previouslyRegistered.PreviouslyRegisteredForms
 import uk.gov.gds.ier.transaction.overseas.dateLeftUk.DateLeftUkForms
+import uk.gov.gds.ier.transaction.overseas.dateOfBirth.DateOfBirthForms
+import uk.gov.gds.ier.transaction.overseas.lastRegisteredToVote.LastRegisteredToVoteForms
 
 trait OverseasForms
   extends FormKeys
   with ErrorMessages
   with PreviouslyRegisteredForms
-  with DateLeftUkForms {
+  with DateLeftUkForms
+  with DateOfBirthForms
+  with LastRegisteredToVoteForms {
 
 }

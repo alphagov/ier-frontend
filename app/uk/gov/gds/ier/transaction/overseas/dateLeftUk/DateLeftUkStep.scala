@@ -41,10 +41,9 @@ class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
       case Some(dateLeftUk) if dateLeftUkOver15Years(dateLeftUk) => {
         Exit(ExitController.leftUkOver15Years)
       }
-// TODO: To be complete when DOB step is done
-//      case Some(dateLeftUk) if validateTooOldWhenLeftUk(dateLeftUk, currentState.dateOfBirth) => {
-//        Exit(ExitController.tooOldWhenLeftUk)
-//      }
+      case Some(dateLeftUk) if validateTooOldWhenLeftUk(dateLeftUk, currentState.dob, currentState.lastRegisteredToVote) => {
+        Exit(ExitController.tooOldWhenLeftUk)
+      }
       case _ => RegisteredAddressController.registeredAddressStep
     }
   }
@@ -56,18 +55,20 @@ class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
     else false
   }
 
-//  def validateTooOldWhenLeftUk(dateLeftUk:DateLeftUk, dateOfBirth:Option[DOB]):Boolean = {
-//    dateOfBirth match {
-//      case Some(DOB(year,month,day)) => {
-//        val birthDateTime = new DateTime(year,month,day)
-//        val leftUk = new DateTime().withMonthOfYear(dateLeftUk.month).withYear(dateLeftUk.year)
-//        val monthDiff = Months.monthsBetween(birthDateTime, leftUk).getMonths()
-//        if (monthDiff / 12 > 18) false
-//        else true
-//      }
-//      case _ => false
-//    }
-//  }
+  def validateTooOldWhenLeftUk(dateLeftUk:DateLeftUk, dateOfBirth:Option[DateOfBirth], lastRegisteredToVote:Option[LastRegisteredToVote]):Boolean = {
+    if (lastRegisteredToVote.exists(_.lastRegisteredType == LastRegisteredType.NotRegistered))
+      dateOfBirth match {
+        case Some(DateOfBirth(Some(DOB(year,month,day)),_)) => {
+          val birthDateTime = new DateTime(year,month,day,0,0,0,0)
+          val leftUk = new DateTime().withMonthOfYear(dateLeftUk.month).withYear(dateLeftUk.year)
+          val monthDiff = Months.monthsBetween(birthDateTime, leftUk).getMonths()
+          if (monthDiff / 12 > 18) true
+          else false
+        }
+        case _ => false
+      }
+    else false
+  }
 
   def template(form: InProgressForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
     dateLeftUkMustache(form.form, postEndpoint, backEndpoint)

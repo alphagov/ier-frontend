@@ -33,6 +33,6 @@ trait DateLeftUkForms extends DateLeftUkConstraints {
       dateLeftUk => InprogressOverseas(dateLeftUk = dateLeftUk)
     ) (
       inprogress => Some(inprogress.dateLeftUk)
-    ).verifying(validateDateLeftUk)
+    ).verifying (validateDateLeftUk)
   )
 }
