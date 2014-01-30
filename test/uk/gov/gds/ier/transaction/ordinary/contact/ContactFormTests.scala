@@ -161,4 +161,21 @@ class ContactFormTests
     )
   }
 
+  it should "error out with contactType and invalid email provided" in {
+    val js = Json.toJson(
+      Map(
+        "contact.email.contactMe" -> "true",
+        "contact.email.detail" -> "test@mail"
+      )
+    )
+    contactForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("contact.email.detail") should be(Seq("Please enter a valid email address"))
+        hasErrors.globalErrorMessages should be(Seq("Please enter a valid email address"))
+      },
+      success => fail("Should have thrown an error")
+    )
+  }
+
 }

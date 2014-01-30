@@ -94,6 +94,11 @@ trait FormKeys {
     lazy val hasPreviouslyRegistered = prependNamespace(Key("hasPreviouslyRegistered"))
     
     lazy val overseasAddress = prependNamespace(Key("overseasAddress"))
+
+    lazy val dateLeftUk = prependNamespace(Key("dateLeftUk"))
+    lazy val lastRegisteredToVote = prependNamespace(Key("lastRegisteredToVote"))
+    lazy val registeredType = prependNamespace(Key("registeredType"))
+
   }
 
   implicit class key2namespace(key:Key) extends Keys {
