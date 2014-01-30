@@ -28,7 +28,10 @@ case class OverseasApplication(previouslyRegistered: Option[PreviouslyRegistered
                                firstTimeRegistered: Option[Stub],
                                lastRegisteredToVote: Option[LastRegisteredToVote],
                                registeredAddress: Option[Stub],
-                               dob: Option[DateOfBirth]) extends CompleteApplication {
+                               dob: Option[DateOfBirth],
+                               name: Option[Stub],
+                               nino: Option[Nino],
+                               address: Option[Stub]) extends CompleteApplication {
   def toApiMap = {
     Map.empty ++
       previouslyRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
@@ -36,7 +39,10 @@ case class OverseasApplication(previouslyRegistered: Option[PreviouslyRegistered
       firstTimeRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
       lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
       registeredAddress.map(_.toApiMap).getOrElse(Map.empty) ++
-      dob.map(_.toApiMap).getOrElse(Map.empty)
+      dob.map(_.toApiMap).getOrElse(Map.empty) ++
+      name.map(_.toApiMap).getOrElse(Map.empty) ++
+      nino.map(_.toApiMap).getOrElse(Map.empty) ++
+      address.map(_.toApiMap).getOrElse(Map.empty)
   }
 }
 
