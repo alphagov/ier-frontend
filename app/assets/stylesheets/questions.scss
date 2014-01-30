@@ -68,6 +68,7 @@ label.selectable{
 label.binary {
   @include inline-block;
   margin-right: 10px;
+  margin-bottom: 0;
   width: 26%;
 
   &:last-child {
@@ -146,8 +147,6 @@ input.year {
 }
 
 .inline-fields {
-  margin-bottom: 1em;
-
   label {
     margin-bottom: 0.5em;
   }
@@ -156,9 +155,8 @@ input.year {
     margin-right: 1em;
   }
 
-  .inline-field {
+  .field-wrapper {
     @include inline-block;
-    margin-bottom: 0;
   }
 }
 
@@ -264,15 +262,23 @@ main header {
   }
 }
 
+fieldset,
+.optional-section,
+.help-content {
+  & :last-child {
+    margin-bottom: 0;
+  }
+}
+
 fieldset {
   @extend %contain-floats;
   margin-left: 0;
+}
 
-  :last-child {
-    margin-bottom: 0;
-  }
+.example {
+  margin: -0.5em 0 0;
 
-  .example {
+  fieldset & {
     margin-bottom: 0.5em;
     margin-top: -0.5em;
   }
@@ -283,6 +289,11 @@ fieldset {
   }
 }
 
+.inline-fields .example {
+  margin-bottom: 0;
+  margin-top: 0.5em;
+}
+
 .optional-section,
 .help-content {
   border-left: $grey-2 solid 4px;
@@ -290,29 +301,23 @@ fieldset {
   margin-bottom: 1em;
   clear: both;
   @extend %contain-floats;
-
-  &:last-child {
-    margin-bottom: 2em;
-  }
-
-  & :last-child {
-    margin-bottom: 0;
-  }
 }
 
 .optional-section-core-content,
 .help-content .optional-section,
 #found-addresses .optional-section {
   border-left: none;
+  padding-left: 0;
+}
+
+.help-content .optional-section,
+#found-addresses .optional-section {
   padding: 14px 0 0;
+}
 
-  & :last-child {
-    margin-bottom: 1em;
-  }
-
-  & .validation-wrapper:last-child {
-    margin-bottom: 0;
-  }
+.optional-section-core-content {
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .optional-section {
@@ -410,7 +415,7 @@ fieldset {
   display: block;
   float: left;
   clear: both;
-  margin: 1em 0 2em;
+  margin: 2em 0;
 
   fieldset & {
     margin-bottom: 0;
