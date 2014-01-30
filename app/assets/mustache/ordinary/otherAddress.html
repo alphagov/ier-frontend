@@ -9,23 +9,29 @@
               data-validation-type="fieldset"
               data-validation-rules="atLeastOneNonEmpty"
               data-validation-children="otherAddressYes otherAddressNo">
-        <label for="{{hasOtherAddressTrue.id}}" class="binary selectable">
-            <input id="{{hasOtherAddressTrue.id}}" name="{{hasOtherAddressTrue.name}}" value="true" class="radio  validate" data-validation-name="otherAddressYes" data-validation-type="field" data-validation-rules="nonEmpty" type="radio" {{{hasOtherAddressTrue.attributes}}}>
-            Yes
-        </label>
-
-        <label for="{{hasOtherAddressFalse.id}}" class="binary selectable">
-            <input id="{{hasOtherAddressFalse.id}}" name="{{hasOtherAddressFalse.name}}" value="false" class="radio  validate" data-validation-name="otherAddressNo" data-validation-type="field" data-validation-rules="nonEmpty" type="radio" {{{hasOtherAddressFalse.attributes}}}>
+        <label for="{{hasOtherAddressNone.id}}" class="selectable">
+            <input id="{{hasOtherAddressNone.id}}" name="{{hasOtherAddressNone.name}}" value="none" class="radio  validate" data-validation-name="otherAddressNo" data-validation-type="field" data-validation-rules="nonEmpty" type="radio" {{{hasOtherAddressNone.attributes}}}>
             No
         </label>
-    </fieldset>
 
-    <div class="help-content" id="other-address-help">
-        <h2>Help</h2>
-        <p>If you live at two addresses you might be able to register to vote at both. Your local Electoral Registration Office will let you know.</p>
-        <p>If you are a student living away from home, you can register to vote at both your permanent home address and your term-time address.</p>
-        <p>If you are registered to vote at two addresses, you can only vote once in any election.</p>
-    </div>
+        <label for="{{hasOtherAddressHome.id}}" class="selectable">
+            <input id="{{hasOtherAddressHome.id}}" name="{{hasOtherAddressHome.name}}" value="secondHome" class="radio  validate" data-validation-name="otherAddressYes" data-validation-type="field" data-validation-rules="nonEmpty" type="radio" {{{hasOtherAddressHome.attributes}}}>
+            Yes, I have a second home
+        </label>
+        <div id="{{hasOtherAddressHome.id}}_help" class="optional-section" data-condition="{{hasOtherAddressHome.id}}">
+          <p>You may be able to register to vote at both addresses. Your local Electoral Registration Office will look at each application and let you know.</p>
+          <p>If you're not already registered at your other address, you can do so by making a second application.</p>
+        </div>
+
+        <label for="{{hasOtherAddressStudent.id}}" class="selectable">
+            <input id="{{hasOtherAddressStudent.id}}" name="{{hasOtherAddressStudent.name}}" value="student" class="radio  validate" data-validation-name="otherAddressYes" data-validation-type="field" data-validation-rules="nonEmpty" type="radio" {{{hasOtherAddressStudent.attributes}}}>
+            Yes, I'm a student with home and term-time addresses
+        </label>
+        <div id="{{hasOtherAddressStudent.id}}_help" class="optional-section" data-condition="{{hasOtherAddressStudent.id}}">
+          <p>Students can register to vote at their home and term-time addresses.</p>
+          <p>If you're not already registered at your other address, you can do so by making a second application.</p>
+        </div>
+    </fieldset>
 
     <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="otherAddressQuestion">Continue
     </button>

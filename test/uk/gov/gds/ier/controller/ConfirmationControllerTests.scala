@@ -28,7 +28,7 @@ class ConfirmationControllerTests
               nino = Some(Nino(Some("AB 12 34 56 D"), None)),
               address = Some(PartialAddress(None, Some("12345678"), "WC2B 6SE", None)),
               previousAddress = Some(PartialPreviousAddress(Option(false),false, None)),
-              otherAddress = Some(OtherAddress(false)),
+              otherAddress = Some(OtherAddress(OtherAddress.NoOtherAddress)),
               openRegisterOptin = Some(false),
               postalVote = Some(PostalVote(Some(false),None)),
               contact = Some(Contact(true, None, None)),
