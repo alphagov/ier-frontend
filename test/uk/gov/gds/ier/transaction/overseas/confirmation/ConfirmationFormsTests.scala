@@ -30,11 +30,8 @@ class ConfirmationFormTests
         hasErrors.errorMessages("lastRegisteredToVote") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("registeredAddress") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("dateOfBirth") should be(Seq("Please complete this step"))
-        hasErrors.globalErrorMessages should be(Seq("Please complete this step", "Please complete this step",
-          "Please complete this step","Please complete this step","Please complete this step","Please complete this step"))
-        hasErrors.errors.size should be(12)
-        hasErrors.globalErrorMessages.filter(_ == "Please complete this step").length should be(5)
-        hasErrors.errors.size should be(10)
+        hasErrors.globalErrorMessages.filter(_ == "Please complete this step").length should be(8)
+        hasErrors.errors.size should be(16)
       },
       success => fail("Should have errored out.")
     )
@@ -52,11 +49,8 @@ class ConfirmationFormTests
         hasErrors.errorMessages("lastRegisteredToVote") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("registeredAddress") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("dateOfBirth") should be(Seq("Please complete this step"))
-        hasErrors.globalErrorMessages should be(Seq("Please complete this step", "Please complete this step",
-          "Please complete this step","Please complete this step","Please complete this step","Please complete this step"))
-        hasErrors.errors.size should be(12)
-        hasErrors.globalErrorMessages.filter(_ == "Please complete this step").length should be(5)
-        hasErrors.errors.size should be(10)
+        hasErrors.globalErrorMessages.filter(_ == "Please complete this step").length should be(8)
+        hasErrors.errors.size should be(16)
       },
       success => fail("Should have errored out.")
     )
