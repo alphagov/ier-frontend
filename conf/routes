@@ -19,6 +19,9 @@ GET         /register-to-vote/exit/under-18                              control
 GET         /register-to-vote/exit/dont-know                             controllers.ExitController.dontKnow
 GET         /register-to-vote/exit/too-young                             controllers.ExitController.tooYoung
 GET         /register-to-vote/exit/no-franchise                          controllers.ExitController.noFranchise
+GET         /register-to-vote/exit/overseas/left-uk-over-15-years        controllers.ExitController.leftUkOver15Years
+GET         /register-to-vote/exit/overseas/too-old-when-left-uk         controllers.ExitController.tooOldWhenLeftUk
+
 
 #Error Routes
 GET         /register-to-vote/error/timeout                              controllers.ErrorController.timeout
@@ -147,6 +150,12 @@ GET         /register-to-vote/overseas/date-left-uk                      control
 POST        /register-to-vote/overseas/date-left-uk                      controllers.step.overseas.DateLeftUkController.post
 GET         /register-to-vote/overseas/edit/date-left-uk                 controllers.step.overseas.DateLeftUkController.editGet
 POST        /register-to-vote/overseas/edit/date-left-uk                 controllers.step.overseas.DateLeftUkController.editPost
+
+#Registered Address
+GET         /register-to-vote/overseas/registered-address                controllers.step.overseas.RegisteredAddressController.get
+POST        /register-to-vote/overseas/registered-address                controllers.step.overseas.RegisteredAddressController.post
+GET         /register-to-vote/overseas/edit/registered-address           controllers.step.overseas.RegisteredAddressController.editGet
+POST        /register-to-vote/overseas/edit/registered-address           controllers.step.overseas.RegisteredAddressController.editPost
 
 # last registered UK address
 GET         /register-to-vote/overseas/last-registered-uk-address        controllers.step.overseas.LastRegisteredUkAddressController.get

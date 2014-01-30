@@ -9,6 +9,7 @@ import uk.gov.gds.ier.security._
 import uk.gov.gds.ier.session.{SessionKeys, ResultHandling}
 import uk.gov.gds.ier.guice.WithConfig
 import uk.gov.gds.ier.config.Config
+import uk.gov.gds.ier.model.LastRegisteredType.LastRegisteredType
 
 trait TestHelpers {
 
@@ -63,7 +64,13 @@ trait TestHelpers {
     name = Some(Name("John", None, "Smith")),
     previousName = Some(PreviousName(false, None)),
     previouslyRegistered = Some(PreviouslyRegistered(true)),
-    dateLeftUk = Some(Stub()),
-    firstTimeRegistered = Some(Stub())
+    dateLeftUk = Some(DateLeftUk(2000,10)),
+    firstTimeRegistered = Some(Stub()),
+    registeredAddress = Some(Stub())
+  )
+
+  def overseasApplicationWithDateOfBirthAndLastRegistration(dob:DOB, lastRegisteredType: LastRegisteredType) = InprogressOverseas(
+    dob = Some(DateOfBirth(Some(dob), None)),
+    lastRegisteredToVote = Some(LastRegisteredToVote(lastRegisteredType))
   )
 }

@@ -46,8 +46,18 @@ class ExitController @Inject() (val serialiser: JsonSerialiser,
       Ok(views.html.exit.dontKnow())
   }
 
-  def noFranchise = ClearSession requiredFor { 
+  def noFranchise = ClearSession requiredFor {
     request =>
       Ok(views.html.exit.noFranchise())
+  }
+
+  def leftUkOver15Years = ClearSession requiredFor {
+    request =>
+      Ok(views.html.exit.overseas.leftUkOver15UYears())
+  }
+
+  def tooOldWhenLeftUk = ClearSession requiredFor {
+    request =>
+      Ok(views.html.exit.overseas.tooOldWhenLeftUk())
   }
 }

@@ -1,33 +1,45 @@
 package uk.gov.gds.ier.model
 
-case class InprogressOverseas(
-  name: Option[Name] = None,
-  previousName: Option[PreviousName] = None,
-  previouslyRegistered: Option[PreviouslyRegistered] = None,
-  dateLeftUk: Option[Stub] = None,
-  firstTimeRegistered: Option[Stub] = None) extends InprogressApplication[InprogressOverseas] {
+import uk.gov.gds.ier.model.LastRegisteredType.LastRegisteredType
 
-  def merge(other: InprogressOverseas) = {
+case class InprogressOverseas(name: Option[Name] = None,
+                              previousName: Option[PreviousName] = None, 
+                              previouslyRegistered: Option[PreviouslyRegistered] = None,
+                              dateLeftUk: Option[DateLeftUk] = None,
+                              firstTimeRegistered: Option[Stub] = None,
+                              lastRegisteredToVote: Option[LastRegisteredToVote] = None,
+                              registeredAddress: Option[Stub] = None,
+                              dob: Option[DateOfBirth] = None) extends InprogressApplication[InprogressOverseas] {
+
+  def merge(other:InprogressOverseas) = {
     other.copy(
       name = this.name.orElse(other.name),
       previousName = this.previousName.orElse(other.previousName),
-      previouslyRegistered = this.previouslyRegistered.orElse(other.previouslyRegistered))
+      previouslyRegistered = this.previouslyRegistered.orElse(other.previouslyRegistered),
+      dateLeftUk = this.dateLeftUk.orElse(other.dateLeftUk)
+    )
   }
 }
 
 case class OverseasApplication(
-  name: Option[Name],
-  previousName: Option[PreviousName],
-  previouslyRegistered: Option[PreviouslyRegistered],
-  dateLeftUk: Option[Stub],
-  firstTimeRegistered: Option[Stub]) extends CompleteApplication {
+                               name: Option[Name],
+                               previousName: Option[PreviousName],
+                               previouslyRegistered: Option[PreviouslyRegistered],
+                               dateLeftUk: Option[DateLeftUk],
+                               firstTimeRegistered: Option[Stub],
+                               lastRegisteredToVote: Option[LastRegisteredToVote],
+                               registeredAddress: Option[Stub],
+                               dob: Option[DateOfBirth]) extends CompleteApplication {
   def toApiMap = {
     Map.empty ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
       previousName.map(_.toApiMap).getOrElse(Map.empty) ++
       previouslyRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
       dateLeftUk.map(_.toApiMap).getOrElse(Map.empty) ++
-      firstTimeRegistered.map(_.toApiMap).getOrElse(Map.empty)
+      firstTimeRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
+      lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
+      registeredAddress.map(_.toApiMap).getOrElse(Map.empty) ++
+      dob.map(_.toApiMap).getOrElse(Map.empty)
   }
 }
 
@@ -40,4 +52,23 @@ case class PreviouslyRegistered(hasPreviouslyRegistered: Boolean) {
     if (hasPreviouslyRegistered) Map("povseas" -> "true")
     else Map("povseas" -> "false")
   }
+}
+
+case class DateLeftUk (year:Int, month:Int) {
+  def toApiMap = {
+    Map("dlu" -> "%04d-%02d".format(year,month))
+  }
+}
+
+case class LastRegisteredToVote (lastRegisteredType:LastRegisteredType) {
+  def toApiMap = Map.empty
+}
+
+object LastRegisteredType extends Enumeration {
+  type LastRegisteredType = Value
+  val UK = Value("uk")
+  val Army = Value("army")
+  val Crown = Value("crown")
+  val Council = Value("council")
+  val NotRegistered = Value("not-registered")
 }

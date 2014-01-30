@@ -1,12 +1,12 @@
 package uk.gov.gds.ier.security
 
 import org.scalatest.{GivenWhenThen, FunSuite}
-import org.scalatest.matchers.ShouldMatchers
 import sun.security.rsa.{RSAPublicKeyImpl, RSAPrivateCrtKeyImpl}
 import java.security.{SecureRandom, KeyPair}
 import javax.crypto.KeyGenerator
+import org.scalatest.Matchers
 
-class EncryptionTests extends FunSuite with GivenWhenThen with ShouldMatchers {
+class EncryptionTests extends FunSuite with GivenWhenThen with Matchers {
 
   private val jsonToEncrypt = """{key:"value"}"""
 

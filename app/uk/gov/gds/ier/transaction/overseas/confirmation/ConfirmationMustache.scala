@@ -1,15 +1,21 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation
 
 import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.validation.{InProgressForm, Key}
+import uk.gov.gds.ier.model.InprogressOverseas
 import controllers.step.overseas._
 import uk.gov.gds.ier.model.InprogressOverseas
 import uk.gov.gds.ier.validation.Key
 import uk.gov.gds.ier.validation.InProgressForm
 import scala.Some
+import org.joda.time.{YearMonth, Months}
+import scala.util.Try
+import uk.gov.gds.ier.logging.Logging
 
 trait ConfirmationMustache {
-
-  object Confirmation extends StepMustache {
+  object Confirmation
+    extends StepMustache
+    with Logging {
 
     case class ConfirmationQuestion(content: String,
                                     title: String,
@@ -43,6 +49,21 @@ trait ConfirmationMustache {
               } else {
                 "<p>I wasn't last registered as an overseas voter</p>"
               }
+            }
+          ),
+          ConfirmationQuestion(
+            title = "Date you left the UK",
+            editLink = DateLeftUkController.dateLeftUkStep.routes.editGet.url,
+            changeName = "date you left the UK",
+            content = ifComplete(keys.dateLeftUk) {
+              val yearMonth = Try (new YearMonth (
+                form(keys.dateLeftUk.year).value.map(year => year.toInt).getOrElse(-1),
+                form(keys.dateLeftUk.month).value.map(month => month.toInt).getOrElse(-1)
+              ).toString("MMMM, yyyy")).getOrElse {
+                logger.error("error parsing the date (date-left-uk step)")
+                ""
+              }
+              "<p>"+yearMonth+"</p>"
             }
           ),
           ConfirmationQuestion(

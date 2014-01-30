@@ -20,8 +20,11 @@ trait ConfirmationForms
       keys.name.key -> optional(nameMapping).verifying("Please complete this step", _.isDefined),
       keys.previousName.key -> optional(previousNameMapping).verifying("Please complete this step", _.isDefined),
       keys.previouslyRegistered.key -> stepRequired(previouslyRegisteredMapping),
-      "dateLeftUk" -> stepRequired(stubMapping),
-      "firstTimeRegistered" -> stepRequired(stubMapping)
+      keys.dateLeftUk.key -> stepRequired(dateLeftUkMapping),
+      "firstTimeRegistered" -> stepRequired(stubMapping),
+      "lastRegisteredToVote" -> stepRequired(lastRegisteredToVoteMapping),
+      "registeredAddress" -> stepRequired(stubMapping),
+      "dateOfBirth" -> stepRequired(dobAndReasonMapping)
     ) (InprogressOverseas.apply) (InprogressOverseas.unapply)
   )
 }
