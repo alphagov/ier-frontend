@@ -14,7 +14,6 @@ import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import controllers.step.overseas.routes.{AddressController, NinoController}
 import controllers.step.overseas.{OpenRegisterController}
 import uk.gov.gds.ier.model.OverseasAddress
-import uk.gov.gds.ier.transaction.overseas.address.OverseasAddressMustache
 
 class OverseasAddressStep @Inject() (val serialiser: JsonSerialiser,
                                                 val config: Config,

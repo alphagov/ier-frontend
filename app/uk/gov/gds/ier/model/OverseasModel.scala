@@ -53,9 +53,6 @@ case class PreviouslyRegistered(hasPreviouslyRegistered:Boolean) {
   }
 }
 
-case class OverseasAddress(country: String, addressDetails: String) {
-    def toApiMap = Map("country" -> country, "addressDetails" -> addressDetails)
-}
 
 case class DateLeftUk (year:Int, month:Int) {
   def toApiMap = {
@@ -75,3 +72,8 @@ object LastRegisteredType extends Enumeration {
   val Council = Value("council")
   val NotRegistered = Value("not-registered")
 }
+
+case class OverseasAddress(country: Option[String], addressDetails: Option[String]) {
+    def toApiMap = Map("country" -> country.getOrElse(""), "addressDetails" -> addressDetails.getOrElse(""))
+}
+case class CountryWithCode(country: String, code: String) 

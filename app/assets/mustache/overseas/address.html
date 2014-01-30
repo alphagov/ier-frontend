@@ -3,20 +3,26 @@
 
     {{> shared/validationMessages }}
 
-    <fieldset class="validate {{previouslyRegistered.classes}}" >
+    <fieldset >
 
 		<label for="{{country.id}}">
             Country
         </label>
         <div class="validation-wrapper {{country.classes}}">
-            <input type="text" id="{{country.id}}" name="{{country.name}}" value="{{country.value}}" autocomplete="off" class="text country validate {{country.classes}}" data-validation-name="country" data-validation-type="field" data-validation-rules="nonEmpty" >
+        <select id="{{countrySelect.id}}" name="{{countrySelect.name}}" class="lonely validate {{countrySelect.classes}}" data-validation-name="countrySelect" data-validation-type="field" data-validation-rules="nonEmpty">
+    			<option value="">Please select your country</option>
+  				{{#countrySelect.optionList}}
+                    <option value="{{value}}" {{selected}}>{{text}}</option>
+                {{/countrySelect.optionList}}
+    		</select>
+            
         </div>
         
-        <label for="{{firstName.id}}">
+        <label for="{{address.id}}">
             Address
         </label>
         <div class="validation-wrapper {{address.classes}}">
-            <textarea id="{{address.id}}" name="{{address.name}}" value="{{address.value}}" autocomplete="off" class="text address validate {{address.classes}}" data-validation-name="address" data-validation-type="field" data-validation-rules="nonEmpty" >
+            <textarea id="{{address.id}}" name="{{address.name}}"  autocomplete="off" class="text address  {{address.classes}}" data-validation-name="address" data-validation-type="field" data-validation-rules="nonEmpty" >{{address.value}}</textarea>
         </div>
 
     </fieldset>

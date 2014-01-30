@@ -1,27 +1,41 @@
 package uk.gov.gds.ier.transaction.overseas.address
 
 import play.api.data.Forms._
-import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{InprogressOverseas, OverseasAddress}
-import uk.gov.gds.ier.validation.constraints.PreviouslyRegisteredConstraints
-import uk.gov.gds.ier.validation.constraints.AddressConstraints
+import uk.gov.gds.ier.validation.{ ErrorTransformForm, ErrorMessages, FormKeys }
+import uk.gov.gds.ier.model.{ InprogressOverseas, OverseasAddress }
+import uk.gov.gds.ier.validation.constraints.CommonConstraints
+import play.api.data.validation.{Constraint, Valid, Invalid}
 
-trait OverseasAddressForms extends AddressConstraints {
-  self: FormKeys
-  with ErrorMessages =>
+trait OverseasAddressForms extends OverseasAddressConstraints {
+    self: FormKeys with ErrorMessages =>
 
-  val overseasAddressMapping = mapping(
-    keys.country.key -> text,
-    keys.address.key -> text
-  ) (OverseasAddress.apply) (OverseasAddress.unapply)
+    lazy val addressMapping = mapping (
+            keys.country.key -> optional(nonEmptyText),
+            keys.overseasAddressDetails.key -> optional(nonEmptyText)
+    ) (OverseasAddress.apply) (OverseasAddress.unapply) 
+    
+    val addressForm = ErrorTransformForm(
+        mapping(keys.overseasAddress.key -> optional(addressMapping).verifying (countryRequired, addressDetailsRequired))//verifying("Please answer this question", _.isDefined))
+        (overseasAddress => InprogressOverseas(address = overseasAddress))(inprogressOverseas => Some(inprogressOverseas.address))
+    ) 
+}
 
-  val addressForm = ErrorTransformForm(
-    mapping (
-      keys.previouslyRegistered.key -> optional(previouslyRegisteredMapping)
-    ) (
-      prevRegistered => InprogressOverseas(previouslyRegistered = prevRegistered)
-    ) (
-      inprogress => Some(inprogress.previouslyRegistered)
-    ) verifying previouslyRegisteredFilled
-  )
+trait OverseasAddressConstraints extends CommonConstraints {
+    self: FormKeys
+    with ErrorMessages => 
+        
+    lazy val countryRequired = Constraint[Option[OverseasAddress]](keys.overseasAddress.key) {
+        optAddress => 
+            optAddress match {
+                case Some(address) if (address.country.isDefined) => Valid 
+                case _ => Invalid("Please enter the country", keys.overseasAddress.country)
+            }
+    }
+    lazy val addressDetailsRequired = Constraint[Option[OverseasAddress]](keys.overseasAddress.key) {
+        optAddress => 
+            optAddress match {
+                case Some(address) if (address.addressDetails.isDefined) => Valid 
+                case _ => Invalid("Please enter the address", keys.overseasAddress.overseasAddressDetails)
+            }
+    }
 }

@@ -22,6 +22,9 @@ trait ConfirmationForms
       "firstTimeRegistered" -> stepRequired(stubMapping),
       "lastRegisteredToVote" -> stepRequired(lastRegisteredToVoteMapping),
       "registeredAddress" -> stepRequired(stubMapping),
+      "nino" -> stepRequired(stubMapping),
+      keys.overseasAddress.key -> stepRequired(addressMapping),
+      "openRegister" -> stepRequired(stubMapping),
       "dateOfBirth" -> stepRequired(dobAndReasonMapping)
     ) (InprogressOverseas.apply) (InprogressOverseas.unapply)
   )

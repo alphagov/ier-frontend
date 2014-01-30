@@ -19,11 +19,4 @@ trait AddressConstraints {
         case _ => Invalid("Please select your address", keys.address.uprn)
       }
   }
-  
-  
-    lazy val overseasAddressCountryDefined = Constraint[Option[OverseasAddress]](keys.overseasAddress.key) {
-    overseasAddress =>
-        if (overseasAddress.isDefined) Valid
-        else Invalid("Please enter your country and address", keys.overseasAddress.country.key, keys.overseasAddress.address)
-  }
 }
