@@ -3,7 +3,6 @@ package uk.gov.gds.ier.transaction.overseas.previouslyRegistered
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import org.scalatest.{Matchers, FlatSpec}
 import play.api.libs.json.{Json, JsNull}
-import org.joda.time.DateTime
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 

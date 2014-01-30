@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.ordinary.dateOfBirth
+package uk.gov.gds.ier.transaction.overseas.dateOfBirth
 
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages, ErrorTransformForm}
@@ -56,9 +56,9 @@ trait DateOfBirthForms extends DateOfBirthConstraints {
     mapping(
       keys.dob.key -> optional(dobAndReasonMapping)
     ) (
-      dob => InprogressOrdinary(dob = dob)
+      dob => InprogressOverseas(dob = dob)
     ) (
       inprogress => Some(inprogress.dob)
-    ) verifying dateOfBirthRequired
+    ) verifying overseasDateOfBirthRequired
   )
 }
