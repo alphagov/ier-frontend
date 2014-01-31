@@ -22,7 +22,10 @@ trait ConfirmationForms
       "firstTimeRegistered" -> stepRequired(stubMapping),
       "lastRegisteredToVote" -> stepRequired(lastRegisteredToVoteMapping),
       "registeredAddress" -> stepRequired(stubMapping),
-      "dateOfBirth" -> stepRequired(dobAndReasonMapping)
+      "dateOfBirth" -> stepRequired(dobAndReasonMapping),
+      "address" -> stepRequired(stubMapping),
+      keys.openRegister.key -> stepRequired(optInMapping),
+      "waysToVote" -> stepRequired(stubMapping)
     ) (InprogressOverseas.apply) (InprogressOverseas.unapply)
   )
 }

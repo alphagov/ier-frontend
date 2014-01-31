@@ -64,7 +64,11 @@ trait TestHelpers {
     previouslyRegistered = Some(PreviouslyRegistered(true)),
     dateLeftUk = Some(DateLeftUk(2000,10)),
     firstTimeRegistered = Some(Stub()),
-    registeredAddress = Some(Stub())
+    registeredAddress = Some(Stub()),
+    dob = Some(DateOfBirth(Some(DOB(1970,10,10)), None)),
+    address = Some(Stub()),
+    openRegisterOptin = Some(true),
+    waysToVote = Some(Stub())
   )
 
   def overseasApplicationWithDateOfBirthAndLastRegistration(dob:DOB, lastRegisteredType: LastRegisteredType) = InprogressOverseas(

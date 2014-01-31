@@ -7,12 +7,22 @@ case class InprogressOverseas(previouslyRegistered: Option[PreviouslyRegistered]
                               firstTimeRegistered: Option[Stub] = None,
                               lastRegisteredToVote: Option[LastRegisteredToVote] = None,
                               registeredAddress: Option[Stub] = None,
-                              dob: Option[DateOfBirth] = None) extends InprogressApplication[InprogressOverseas] {
+                              dob: Option[DateOfBirth] = None,
+                              address: Option[Stub] = None,
+                              openRegisterOptin: Option[Boolean] = None,
+                              waysToVote: Option[Stub] = None) extends InprogressApplication[InprogressOverseas] {
 
   def merge(other:InprogressOverseas) = {
     other.copy(
       previouslyRegistered = this.previouslyRegistered.orElse(other.previouslyRegistered),
-      dateLeftUk = this.dateLeftUk.orElse(other.dateLeftUk)
+      dateLeftUk = this.dateLeftUk.orElse(other.dateLeftUk),
+      firstTimeRegistered = this.firstTimeRegistered.orElse(other.firstTimeRegistered),
+      lastRegisteredToVote = this.lastRegisteredToVote.orElse(other.lastRegisteredToVote),
+      registeredAddress = this.registeredAddress.orElse(other.registeredAddress),
+      dob = this.dob.orElse(other.dob),
+      address = this.address.orElse(other.address),
+      openRegisterOptin = this.openRegisterOptin.orElse(other.openRegisterOptin),
+      waysToVote = this.waysToVote.orElse(other.waysToVote)
     )
   }
 }
@@ -22,7 +32,10 @@ case class OverseasApplication(previouslyRegistered: Option[PreviouslyRegistered
                                firstTimeRegistered: Option[Stub],
                                lastRegisteredToVote: Option[LastRegisteredToVote],
                                registeredAddress: Option[Stub],
-                               dob: Option[DateOfBirth]) extends CompleteApplication {
+                               dob: Option[DateOfBirth],
+                               address: Option[Stub],
+                               openRegisterOptin: Option[Boolean],
+                               waysToVote: Option[Stub]) extends CompleteApplication {
   def toApiMap = {
     Map.empty ++
       previouslyRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
@@ -30,7 +43,8 @@ case class OverseasApplication(previouslyRegistered: Option[PreviouslyRegistered
       firstTimeRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
       lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
       registeredAddress.map(_.toApiMap).getOrElse(Map.empty) ++
-      dob.map(_.toApiMap).getOrElse(Map.empty)
+      dob.map(_.toApiMap).getOrElse(Map.empty) ++
+      openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty)
   }
 }
 

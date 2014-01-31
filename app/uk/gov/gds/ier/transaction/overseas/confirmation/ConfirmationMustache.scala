@@ -63,6 +63,18 @@ trait ConfirmationMustache {
               }
               "<p>"+yearMonth+"</p>"
             }
+          ),
+          ConfirmationQuestion(
+            title = "Open register",
+            editLink = OpenRegisterController.openRegisterStep.routes.editGet.url,
+            changeName = "open register",
+            content = ifComplete(keys.openRegister) {
+              if(form(keys.openRegister.optIn).value == Some("true")){
+                "<p>I want to include my details on the open register</p>"
+              }else{
+                "<p>I don’t want to include my details on the open register</p>"
+              }
+            }
           )
         ),
         backUrl = backUrl,
