@@ -13,10 +13,9 @@ trait NinoMustache extends StepMustache {
                        nino: Field,
                        noNinoReason: Field)
 
-  def ninoMustache(form: ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]) : Html = {
+  def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]) : NinoModel = {
     implicit val progressForm = form
-
-    val data = NinoModel(
+    NinoModel(
       question = Question(
         postUrl = postEndpoint.url,
         backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
@@ -25,11 +24,16 @@ trait NinoMustache extends StepMustache {
         title = "What is your National Insurance number?"
       ),
       nino = TextField(
-        key = keys.nino.nino)
-      ,
+        key = keys.nino.nino
+      ),
       noNinoReason = TextField(
-        key = keys.nino.noNinoReason)
+        key = keys.nino.noNinoReason
+      )
     )
+  }
+
+  def ninoMustache(form: ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]) : Html = {
+    val data = transformFormStepToMustacheData(form, postEndpoint, backEndpoint)
     val content = Mustache.render("overseas/nino", data)
     MainStepTemplate(content, data.question.title)
   }
