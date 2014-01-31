@@ -72,6 +72,19 @@ trait ConfirmationMustache {
                 "<p>" + form (keys.overseasAddress.country).value.getOrElse("") + "</p>" + 
                 "<p>" + form (keys.overseasAddress.overseasAddressDetails).value.getOrElse("") + "</p>"
             }
+          ),
+          ConfirmationQuestion(
+            title = "National Insurance number",
+            editLink = NinoController.ninoStep.routes.editGet.url,
+            changeName = "national insurance number",
+            content = ifComplete(keys.nino) {
+              if(form(keys.nino.nino).value.isDefined){
+                "<p>" + form(keys.nino.nino).value.getOrElse("") +"</p>"
+              } else {
+                "<p>I cannot provide my national insurance number because:</p>" +
+                "<p>" + form(keys.nino.noNinoReason).value.getOrElse("")+"</p>"
+              }
+            }
           )
         ),
         backUrl = backUrl,

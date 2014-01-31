@@ -64,7 +64,7 @@ trait TestHelpers {
     previouslyRegistered = Some(PreviouslyRegistered(true)),
     dateLeftUk = Some(DateLeftUk(2000,10)),
     firstTimeRegistered = Some(Stub()),
-    nino = Some(Stub()),
+    nino = Some(Nino(Some("AB 12 34 56 D"), None)),
     address = Some(OverseasAddress(country = Some("United Kingdom"), addressDetails = Some("some address"))),
     openRegister = Some(Stub()),
     registeredAddress = Some(Stub())
