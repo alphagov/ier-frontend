@@ -11,23 +11,22 @@ trait OpenRegisterMustache extends StepMustache {
   case class OpenRegisterModel(question:Question,
                                openRegister: Field)
 
-  def openRegisterMustache(form:ErrorTransformForm[InprogressOverseas],
-                           post: Call,
-                           back: Option[Call]): Html = {
-
+  def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint: Option[Call]) : OpenRegisterModel = {
     implicit val progressForm = form
-
-    val data = OpenRegisterModel(
+    OpenRegisterModel(
       question = Question(
-        postUrl = post.url,
-        backUrl = back.map { call => call.url }.getOrElse(""),
+        postUrl = postEndpoint.url,
+        backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "9",
         title = "Do you want to include your name and address on the open register?"
       ),
       openRegister = TextField (key = keys.openRegister.optIn)
     )
+  }
 
+  def openRegisterMustache(form:ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint: Option[Call]): Html = {
+    val data = transformFormStepToMustacheData(form, postEndpoint, backEndpoint)
     val content = Mustache.render("overseas/openRegister", data)
     MainStepTemplate(content, data.question.title)
   }
