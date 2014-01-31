@@ -44,7 +44,11 @@ trait AddressMustache extends StepMustache with WithSerialiser with Logging{
             classes = if (form(keys.possibleAddresses.postcode.key).hasErrors || (form(keys.possibleAddresses.postcode.key).value != None && listAddress.isEmpty)) "invalid" else "")
     val possibleAddressesJsonListField = TextField(key = keys.possibleAddresses.jsonList) 
     val addressPostcodeField = TextField (key = keys.address.postcode)
-    val addressUprnField = TextField(key = keys.address.uprn)  
+    val addressUprnField =  Field (
+            name = keys.address.uprn.key, 
+            id = keys.address.uprn.asId("select"), 
+            value = form(keys.address.uprn.key).value.getOrElse(""),
+            classes = if (form(keys.address.uprn.key).hasErrors) "invalid" else "")
     val addressManualAddressField = TextField(key = keys.address.manualAddress)
             
     def data = AddressModel (
