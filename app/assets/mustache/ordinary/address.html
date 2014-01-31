@@ -1,10 +1,7 @@
 <form action="{{addressLookUpUrl}}" method="POST" >
-    <header class="question-one">
-        <p>Question 6 of 11</p>
-        <h1>Where do you live?</h1>
-    </header>
-    
-    {{> ordinary/validationMessages }}
+    {{> shared/questionHeader }}
+
+    {{> shared/validationMessages }}
     
     <fieldset>
     <p>If you have more than one address, just give the one where you spend most of your time.</p>
