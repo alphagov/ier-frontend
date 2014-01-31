@@ -157,6 +157,12 @@ POST        /register-to-vote/overseas/edit/last-uk-address              control
 #Lookup Last Uk Address
 POST        /register-to-vote/overseas/last-uk-address/lookup            controllers.step.overseas.LastUkAddressController.lookup
 
+#Manual Last Uk Address
+GET         /register-to-vote/overseas/last-uk-address/manual            controllers.step.overseas.LastUkAddressManualController.get
+POST        /register-to-vote/overseas/last-uk-address/manual            controllers.step.overseas.LastUkAddressManualController.post
+GET         /register-to-vote/overseas/edit/last-uk-address/manual       controllers.step.overseas.LastUkAddressManualController.editGet
+POST        /register-to-vote/overseas/edit/last-uk-address/manual       controllers.step.overseas.LastUkAddressManualController.editPost
+
 #Select Last Uk Address
 GET         /register-to-vote/overseas/last-uk-address/select            controllers.step.overseas.LastUkAddressSelectController.get
 POST        /register-to-vote/overseas/last-uk-address/select            controllers.step.overseas.LastUkAddressSelectController.post

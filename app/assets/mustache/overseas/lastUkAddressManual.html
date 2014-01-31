@@ -4,32 +4,30 @@
 
     <fieldset>
         <p>
-            Postcode<span class="visuallyHidden">:</span>
-            <span class="postcode">E3 2FQ</span>
-            <a href="#" class="change-postcode-button">
-                Change<span class="visuallyHidden"> your postcode</span>
+            Postcode<span class="visuallyhidden">:</span>
+            <span class="postcode">{{postcode.value}}</span>
+            <a href="{{lookupUrl}}" class="change-postcode-button">
+                Change<span class="visuallyhidden"> your postcode</span>
             </a>
         </p>
-        <label for="address_postcode" class="hidden">Postcode</label>
+        <label for="{{postcode.id}}" class="hidden">Postcode</label>
         <input
           type="hidden"
-          id="input-address-postcode"
-          name="address.postcode"
-          value="E3 2FQ"
+          id="{{postcode.id}}"
+          name="{{postcode.name}}"
+          value="{{postcode.value}}"
           class="text hidden">
 
-        <label for="address_uprn_select">
-            <span class="visuallyHidden">Enter your full </span>Address
+        <label for="{{manualAddress.id}}">
+            <span class="visuallyhidden">Enter your full </span>Address
         </label>
-        <div class="validation-wrapper invalid">
+        <div class="validation-wrapper {{manualAddress.classes}}">
             <textarea
-              id="input-address-text"
-              name="address"
+              id="{{manualAddress.id}}"
+              name="{{manualAddress.name}}"
               autocomplete="off"
               autocorrect="off"
-              class="small">
-              {{manualAddress.value}}
-            </textarea>
+              class="small {{manualAddress.classes}}">{{manualAddress.value}}</textarea>
         </div>
     </fieldset>
 
@@ -37,7 +35,6 @@
       type="submit"
       id="continue"
       class="button next validation-submit"
-      data-validation-sources="postcode address"
       style="display: block;">
         Continue
     </button>

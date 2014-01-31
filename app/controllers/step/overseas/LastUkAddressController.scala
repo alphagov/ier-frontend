@@ -3,7 +3,8 @@ package controllers.step.overseas
 import uk.gov.gds.ier.guice.DelegatingController
 import uk.gov.gds.ier.transaction.overseas.lastUkAddress.{
   LastUkAddressStep, 
-  LastUkAddressSelectStep}
+  LastUkAddressSelectStep,
+  LastUkAddressManualStep}
 
 object LastUkAddressController extends DelegatingController[LastUkAddressStep] {
   def get = delegate.get
@@ -22,4 +23,13 @@ object LastUkAddressSelectController extends DelegatingController[LastUkAddressS
   def editPost = delegate.editPost
 
   def lastUkAddressSelectStep = delegate
+}
+
+object LastUkAddressManualController extends DelegatingController[LastUkAddressManualStep] {
+  def get = delegate.get
+  def post = delegate.post
+  def editGet = delegate.editGet
+  def editPost = delegate.editPost
+
+  def lastUkAddressManualStep = delegate
 }

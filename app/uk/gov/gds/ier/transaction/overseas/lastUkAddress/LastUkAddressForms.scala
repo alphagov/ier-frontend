@@ -6,15 +6,13 @@ import uk.gov.gds.ier.validation.{
   ErrorTransformForm,
   ErrorMessages,
   FormKeys,
-  PostcodeValidator
-}
+  PostcodeValidator}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model.{
   InprogressOverseas,
   PartialAddress,
   PossibleAddress,
-  Addresses
-}
+  Addresses}
 
 trait LastUkAddressForms extends LastUkAddressConstraints {
   self: FormKeys
@@ -98,6 +96,16 @@ trait LastUkAddressForms extends LastUkAddressConstraints {
         inprogress.lastUkAddress,
         inprogress.possibleAddresses
       )
+    )
+  )
+
+  val manualAddressForm = ErrorTransformForm(
+    mapping(
+      keys.lastUkAddress.key -> optional(partialAddressMapping)
+    ) (
+      lastUkAddr => InprogressOverseas(lastUkAddress = lastUkAddr)
+    ) (
+      inprogress => Some(inprogress.lastUkAddress)
     )
   )
 }

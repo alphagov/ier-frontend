@@ -2,6 +2,7 @@ package uk.gov.gds.ier.transaction.overseas.lastUkAddress
 
 import controllers.step.overseas.routes.{
   LastUkAddressController,
+  LastUkAddressManualController,
   LastUkAddressSelectController,
   DateLeftUkController}
 import controllers.step.overseas.NameController
@@ -12,8 +13,7 @@ import uk.gov.gds.ier.model.{
   InprogressOverseas,
   PartialAddress,
   Addresses,
-  PossibleAddress
-}
+  PossibleAddress}
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
@@ -80,6 +80,7 @@ class LastUkAddressSelectStep @Inject() (
       backUrl.map(_.url).getOrElse(""),
       call.url,
       LastUkAddressController.get.url,
+      LastUkAddressManualController.get.url,
       maybeAddresses
     )
   }
