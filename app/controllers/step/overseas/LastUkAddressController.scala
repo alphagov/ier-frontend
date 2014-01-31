@@ -18,6 +18,8 @@ object LastUkAddressController extends DelegatingController[LastUkAddressStep] {
 object LastUkAddressSelectController extends DelegatingController[LastUkAddressSelectStep] {
   def get = delegate.get
   def post = delegate.post
+  def editGet = delegate.editGet
+  def editPost = delegate.editPost
 
   def lastUkAddressSelectStep = delegate
 }

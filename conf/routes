@@ -160,6 +160,8 @@ POST        /register-to-vote/overseas/last-uk-address/lookup            control
 #Select Last Uk Address
 GET         /register-to-vote/overseas/last-uk-address/select            controllers.step.overseas.LastUkAddressSelectController.get
 POST        /register-to-vote/overseas/last-uk-address/select            controllers.step.overseas.LastUkAddressSelectController.post
+GET         /register-to-vote/overseas/edit/last-uk-address/select       controllers.step.overseas.LastUkAddressSelectController.editGet
+POST        /register-to-vote/overseas/edit/last-uk-address/select       controllers.step.overseas.LastUkAddressSelectController.editPost
 
 
 #Overseas Confirmation

@@ -38,7 +38,7 @@ class LastUkAddressStep @Inject() (
     get = LastUkAddressController.get,
     post = LastUkAddressController.lookup,
     editGet = LastUkAddressController.editGet,
-    editPost = LastUkAddressController.editPost
+    editPost = LastUkAddressController.lookup
   )
 
   def nextStep(currentState: InprogressOverseas) = {

@@ -37,12 +37,23 @@ class LastUkAddressSelectStep @Inject() (
   val routes = Routes(
     get = LastUkAddressSelectController.get,
     post = LastUkAddressSelectController.post,
-    editGet = LastUkAddressController.editGet,
-    editPost = LastUkAddressController.editPost
+    editGet = LastUkAddressSelectController.editGet,
+    editPost = LastUkAddressSelectController.editPost
   )
 
   def nextStep(currentState: InprogressOverseas) = {
     NameController.nameStep
+  }
+
+  override def postSuccess(currentState: InprogressOverseas) = {
+    val addressWithAddressLine = currentState.lastUkAddress.map {
+      addressService.fillAddressLine(_)
+    }
+
+    currentState.copy(
+      lastUkAddress = addressWithAddressLine,
+      possibleAddresses = None
+    )
   }
 
   def template(

@@ -59,12 +59,17 @@ trait LastUkAddressMustache {
     ) = {
       implicit val progressForm = form.form
 
+      val selectedUprn = form(keys.lastUkAddress.uprn).value
+
       val options = maybePossibleAddress.map { possibleAddress =>
         possibleAddress.jsonList.addresses
       }.getOrElse(List.empty).map { address =>
         SelectOption(
           value = address.uprn.getOrElse(""),
-          text = address.addressLine.getOrElse("")
+          text = address.addressLine.getOrElse(""),
+          selected = if (address.uprn == selectedUprn) {
+            "selected=\"selected\""
+          } else ""
         )
       }
 
@@ -86,7 +91,7 @@ trait LastUkAddressMustache {
           key = keys.lastUkAddress.uprn,
           optionList = options,
           default = SelectOption(
-            value = form(keys.lastUkAddress.uprn).value.getOrElse(""),
+            value = "",
             text = s"${options.size} addresses found"
           )
         )
