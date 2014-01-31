@@ -15,13 +15,13 @@ import controllers.step.overseas.routes.{AddressController, NinoController}
 import controllers.step.overseas.{OpenRegisterController}
 import uk.gov.gds.ier.model.OverseasAddress
 
-class OverseasAddressStep @Inject() (val serialiser: JsonSerialiser,
+class AddressStep @Inject() (val serialiser: JsonSerialiser,
                                                 val config: Config,
                                                 val encryptionService: EncryptionService,
                                                 val encryptionKeys: EncryptionKeys)
   extends OverseaStep
-  with OverseasAddressForms
-  with OverseasAddressMustache {
+  with AddressForms
+  with AddressMustache {
 
   val validation = addressForm
   val routes = Routes(

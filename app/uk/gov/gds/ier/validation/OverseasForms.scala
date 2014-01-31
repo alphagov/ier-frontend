@@ -4,7 +4,7 @@ import uk.gov.gds.ier.transaction.overseas.previouslyRegistered.PreviouslyRegist
 import uk.gov.gds.ier.transaction.overseas.dateLeftUk.DateLeftUkForms
 import uk.gov.gds.ier.transaction.overseas.dateOfBirth.DateOfBirthForms
 import uk.gov.gds.ier.transaction.overseas.lastRegisteredToVote.LastRegisteredToVoteForms
-import uk.gov.gds.ier.transaction.overseas.address.OverseasAddressForms
+import uk.gov.gds.ier.transaction.overseas.address.AddressForms
 
 trait OverseasForms
   extends FormKeys
@@ -13,6 +13,6 @@ trait OverseasForms
   with DateLeftUkForms
   with DateOfBirthForms
   with LastRegisteredToVoteForms 
-  with OverseasAddressForms {
+  with AddressForms {
 
 }

@@ -8,7 +8,7 @@ import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.model.CountryWithCode
 import uk.gov.gds.ier.validation.constants.NationalityConstants
 
-trait OverseasAddressMustache extends StepMustache {
+trait AddressMustache extends StepMustache {
 
   case class OverseasAddressModel(question:Question, countrySelect: Field, address: Field)
 

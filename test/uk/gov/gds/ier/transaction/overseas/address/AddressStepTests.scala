@@ -7,13 +7,13 @@ import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
 import org.joda.time.DateTime
 
-class OverseasAddressStepTests
+class AddressStepTests
   extends FlatSpec
   with Matchers
   with MockitoSugar
   with TestHelpers {
 
-  behavior of "OverseasAddressStep.get"
+  behavior of "AddressStep.get"
   it should "display the page" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -28,7 +28,7 @@ class OverseasAddressStepTests
     }
   }
 
-  behavior of "OverseasAddressStep.post"
+  behavior of "AddressStep.post"
   it should "bind successfully and redirect to the Open Register step if all the fields are completed in this page" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -57,7 +57,7 @@ class OverseasAddressStepTests
     }
   }
 
-  behavior of "OverseasAddressStep.editGet"
+  behavior of "AddressStep.editGet"
   it should "display the edit page" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -72,7 +72,7 @@ class OverseasAddressStepTests
     }
   }
 
-  behavior of "OverseasAddressStep.editPost"
+  behavior of "AddressStep.editPost"
   it should "bind successfully and redirect to the Open Register step if all the fiedls are entered" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -101,7 +101,7 @@ class OverseasAddressStepTests
     }
   }
 
-  behavior of "OverseasAddressStep.post when complete application"
+  behavior of "AddressStep.post when complete application"
   it should "bind successfully and redirect to the confirmation step if all the fields are entered" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -118,7 +118,7 @@ class OverseasAddressStepTests
     }
   }
 
-  behavior of "OverseasAddressStep.editPost when complete application"
+  behavior of "AddressStep.editPost when complete application"
   it should "bind successfully and redirect to the confirmation step if all the fields are entered" in {
     running(FakeApplication()) {
       val Some(result) = route(

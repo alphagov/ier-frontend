@@ -6,7 +6,7 @@ import uk.gov.gds.ier.model.{ InprogressOverseas, OverseasAddress }
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import play.api.data.validation.{Constraint, Valid, Invalid}
 
-trait OverseasAddressForms extends OverseasAddressConstraints {
+trait AddressForms extends OverseasAddressConstraints {
     self: FormKeys with ErrorMessages =>
 
     lazy val addressMapping = mapping (
