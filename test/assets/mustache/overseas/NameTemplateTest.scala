@@ -6,7 +6,7 @@ import org.scalatest.{Matchers, FlatSpec}
 import play.api.test._
 import play.api.test.Helpers._
 
-class NameTests 
+class NameTemplateTest
   extends FlatSpec
   with Matchers {
 
