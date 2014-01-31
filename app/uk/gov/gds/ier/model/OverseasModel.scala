@@ -8,6 +8,8 @@ case class InprogressOverseas(previouslyRegistered: Option[PreviouslyRegistered]
                               lastRegisteredToVote: Option[LastRegisteredToVote] = None,
                               registeredAddress: Option[Stub] = None,
                               dob: Option[DateOfBirth] = None,
+                              name: Option[Stub] = None,
+                              nino: Option[Nino] = None,
                               address: Option[Stub] = None,
                               openRegisterOptin: Option[Boolean] = None,
                               waysToVote: Option[Stub] = None) extends InprogressApplication[InprogressOverseas] {
@@ -20,6 +22,7 @@ case class InprogressOverseas(previouslyRegistered: Option[PreviouslyRegistered]
       lastRegisteredToVote = this.lastRegisteredToVote.orElse(other.lastRegisteredToVote),
       registeredAddress = this.registeredAddress.orElse(other.registeredAddress),
       dob = this.dob.orElse(other.dob),
+      nino = this.nino.orElse(other.nino),
       address = this.address.orElse(other.address),
       openRegisterOptin = this.openRegisterOptin.orElse(other.openRegisterOptin),
       waysToVote = this.waysToVote.orElse(other.waysToVote)
@@ -33,9 +36,12 @@ case class OverseasApplication(previouslyRegistered: Option[PreviouslyRegistered
                                lastRegisteredToVote: Option[LastRegisteredToVote],
                                registeredAddress: Option[Stub],
                                dob: Option[DateOfBirth],
+                               name: Option[Stub],
+                               nino: Option[Nino],
                                address: Option[Stub],
                                openRegisterOptin: Option[Boolean],
                                waysToVote: Option[Stub]) extends CompleteApplication {
+
   def toApiMap = {
     Map.empty ++
       previouslyRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
@@ -44,6 +50,9 @@ case class OverseasApplication(previouslyRegistered: Option[PreviouslyRegistered
       lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
       registeredAddress.map(_.toApiMap).getOrElse(Map.empty) ++
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
+      name.map(_.toApiMap).getOrElse(Map.empty) ++
+      nino.map(_.toApiMap).getOrElse(Map.empty) ++
+      address.map(_.toApiMap).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty)
   }
 }

@@ -6,6 +6,7 @@ import uk.gov.gds.ier.transaction.overseas.dateOfBirth.DateOfBirthForms
 import uk.gov.gds.ier.transaction.overseas.lastRegisteredToVote.LastRegisteredToVoteForms
 import uk.gov.gds.ier.transaction.overseas.openRegister.OpenRegisterForms
 import play.api.data.Forms._
+import uk.gov.gds.ier.transaction.overseas.nino.NinoForms
 
 trait OverseasForms
   extends FormKeys
@@ -14,6 +15,7 @@ trait OverseasForms
   with DateLeftUkForms
   with DateOfBirthForms
   with LastRegisteredToVoteForms
+  with NinoForms
   with OpenRegisterForms {
 
   val optInMapping = single(

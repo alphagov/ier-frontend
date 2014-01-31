@@ -7,7 +7,7 @@ object AddressController extends StubController[InprogressOverseas] {
   val confirmationStep = ConfirmationController.confirmationStep
   val thisStepUrl = "/register-to-vote/overseas/address"
 
-  def waysToVoteStep = confirmationIf { application =>
+  def addressStep = confirmationIf { application =>
     application.address.isDefined
   }
 }
