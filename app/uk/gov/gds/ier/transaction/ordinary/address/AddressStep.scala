@@ -42,7 +42,7 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
   }
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
-    transformFormStepToMustacheData(form.form, call, backUrl)
+    addressMustache(form.form, call, backUrl)
   }
   
   def lookup = ValidSession requiredFor {

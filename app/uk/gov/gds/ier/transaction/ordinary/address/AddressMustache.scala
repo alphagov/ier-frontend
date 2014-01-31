@@ -27,9 +27,7 @@ trait AddressMustache extends StepMustache with WithSerialiser with Logging{
           addressUprnSelect: Field,
           addressManualAddress: Field)
 
-  def transformFormStepToMustacheData (form:ErrorTransformForm[InprogressOrdinary], post:Call, back: Option[Call]): Html = {
-    val globalErrors = form.globalErrors 
-    println ("errors => " + globalErrors)
+  def addressMustache (form:ErrorTransformForm[InprogressOrdinary], post:Call, back: Option[Call]): Html = {
     val possibleAddressesForm = form.value.flatMap{ application => application.possibleAddresses}
     val addressForm = form.value.flatMap{ application => application.address}
     implicit val progressForm = form
@@ -46,17 +44,13 @@ trait AddressMustache extends StepMustache with WithSerialiser with Logging{
             classes = if (form(keys.possibleAddresses.postcode.key).hasErrors || (form(keys.possibleAddresses.postcode.key).value != None && listAddress.isEmpty)) "invalid" else "")
     val possibleAddressesJsonListField = TextField(key = keys.possibleAddresses.jsonList) 
     val addressPostcodeField = TextField (key = keys.address.postcode)
-    val addressUprnField =  Field (
-            name = keys.address.uprn.key, 
-            id = keys.address.uprn.asId("select"), 
-            value = form(keys.address.uprn.key).value.getOrElse(""),
-            classes = if (form(keys.address.uprn.key).hasErrors) "invalid" else "")
+    val addressUprnField = TextField(key = keys.address.uprn)  
     val addressManualAddressField = TextField(key = keys.address.manualAddress)
             
     def data = AddressModel (
             question = Question(
               postUrl = post.url, backUrl = back.map{call => call.url}.getOrElse(""),
-              errorMessages = globalErrors.map(_.message),
+              errorMessages = form.globalErrors.map(_.message),
               number = "6 of 11",
               title = "Where do you live?"
             ),
@@ -71,6 +65,6 @@ trait AddressMustache extends StepMustache with WithSerialiser with Logging{
     )
 
     val content = Mustache.render("ordinary/address", data)
-    MainStepTemplate(content, data.question.title)
+    MainStepTemplate(content, "Register to Vote - Where do you live?")
   }
 }
