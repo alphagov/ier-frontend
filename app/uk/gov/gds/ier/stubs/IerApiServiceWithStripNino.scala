@@ -3,8 +3,9 @@ package uk.gov.gds.ier.stubs
 import com.google.inject.Inject
 import uk.gov.gds.ier.service.{ConcreteIerApiService, IerApiService}
 import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressOverseas, Nino, InprogressApplication}
+import scala.util.Random
 
-class IerApiServiceWithStripNino @Inject() (ierService: ConcreteIerApiService, stripNinoGenerator: StripNinoGenerator = new StripNinoGenerator) extends IerApiService {
+class IerApiServiceWithStripNino @Inject() (ierService: ConcreteIerApiService) extends IerApiService {
 
   override def submitOrdinaryApplication(ipAddress: Option[String],
                                          applicant: InprogressOrdinary,
@@ -12,8 +13,8 @@ class IerApiServiceWithStripNino @Inject() (ierService: ConcreteIerApiService, s
     applicant.nino match {
       case Some(Nino(None, Some(noNinoReason))) => ierService.submitOrdinaryApplication(ipAddress, applicant, referenceNumber)
       case Some(Nino(Some(nino), None)) => ierService.submitOrdinaryApplication(
-          ipAddress, 
-          applicant.copy(nino = Some(Nino(Some(stripNinoGenerator.generate), None))), 
+          ipAddress,
+          applicant.copy(nino = Some(Nino(Some(randomNino()), None))),
           referenceNumber)
       case unexpectedNino => throw new IllegalArgumentException("Unexpected NINO: " + unexpectedNino)
     }
@@ -34,7 +35,7 @@ class IerApiServiceWithStripNino @Inject() (ierService: ConcreteIerApiService, s
           }
           case Some(Nino(Some(nino), None)) => {
             ierService.generateReferenceNumber[InprogressOrdinary](
-              ordinary.copy(nino = Some(Nino(Some(stripNinoGenerator.generate), None)))
+              ordinary.copy(nino = Some(Nino(Some(randomNino()), None)))
             )
           }
           case unexpectedNino => throw new IllegalArgumentException("Unexpected NINO: " + unexpectedNino)
@@ -44,15 +45,11 @@ class IerApiServiceWithStripNino @Inject() (ierService: ConcreteIerApiService, s
       }
     }
   }
-}
 
-/**
- * Generate stub NINO for testing, current rules: starts with 'XX' followed by 6 random digits and letter from 'A' .. 'E'  
- * Example: XX 90 87 46 B
- */
-class StripNinoGenerator {
-  def generate() = {
-    import scala.util.Random._
-    "XX %02d %02d %02d %s".format(nextInt(99), nextInt(99), nextInt(99), ('A'.toByte + nextInt(5)).toChar)
+  private[stubs] def randomNino() = {
+    def num = {
+      Random.nextInt(9)
+    }
+    s"XX $num$num $num$num $num$num A"
   }
 }
