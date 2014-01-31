@@ -147,6 +147,7 @@ case class OrdinaryApplication(name: Option[Name],
                                previousAuthority: Option[LocalAuthority],
                                ip: Option[String]) extends CompleteApplication {
   def toApiMap:Map[String, String] = {
+    println (nino.map(_.toApiMap).getOrElse(Map.empty))
     Map.empty ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
       previousName.map(_.toApiMap).getOrElse(Map.empty) ++
