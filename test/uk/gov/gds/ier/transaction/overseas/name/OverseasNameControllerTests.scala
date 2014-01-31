@@ -175,11 +175,10 @@ class OverseasNameControllerTests
     }
   }
 
-  ignore should "bind successfully and redirect to the confirmation step with a complete application" in {
-    // enable again when whole page chain is finished for Overseas
+  it should "bind successfully and redirect to the confirmation step with a complete application" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/name")
+        FakeRequest(POST, "/register-to-vote/overseas/edit/name")
           .withIerSession()
           .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
@@ -191,7 +190,7 @@ class OverseasNameControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/confirmation"))
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/confirmation"))
     }
   }
 
