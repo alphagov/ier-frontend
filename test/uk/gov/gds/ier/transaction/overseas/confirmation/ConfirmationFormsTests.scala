@@ -28,9 +28,13 @@ class ConfirmationFormTests
         hasErrors.errorMessages("lastRegisteredToVote") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("registeredAddress") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("dateOfBirth") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("address") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("openRegister") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("waysToVote") should be(Seq("Please complete this step"))
         hasErrors.globalErrorMessages should be(Seq("Please complete this step", "Please complete this step",
-          "Please complete this step","Please complete this step","Please complete this step","Please complete this step"))
-        hasErrors.errors.size should be(12)
+          "Please complete this step","Please complete this step","Please complete this step","Please complete this step",
+          "Please complete this step","Please complete this step","Please complete this step"))
+        hasErrors.errors.size should be(18)
       },
       success => fail("Should have errored out.")
     )
@@ -46,9 +50,13 @@ class ConfirmationFormTests
         hasErrors.errorMessages("lastRegisteredToVote") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("registeredAddress") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("dateOfBirth") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("address") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("openRegister") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("waysToVote") should be(Seq("Please complete this step"))
         hasErrors.globalErrorMessages should be(Seq("Please complete this step", "Please complete this step",
-          "Please complete this step","Please complete this step","Please complete this step","Please complete this step"))
-        hasErrors.errors.size should be(12)
+          "Please complete this step","Please complete this step","Please complete this step","Please complete this step",
+          "Please complete this step","Please complete this step","Please complete this step"))
+        hasErrors.errors.size should be(18)
       },
       success => fail("Should have errored out.")
     )
