@@ -67,6 +67,19 @@ trait ConfirmationMustache {
             }
           ),
           ConfirmationQuestion(
+            title = "National Insurance number",
+            editLink = NinoController.ninoStep.routes.editGet.url,
+            changeName = "national insurance number",
+            content = ifComplete(keys.nino) {
+              if(form(keys.nino.nino).value.isDefined){
+                "<p>" + form(keys.nino.nino).value.getOrElse("") +"</p>"
+              } else {
+                "<p>I cannot provide my national insurance number because:</p>" +
+                "<p>" + form(keys.nino.noNinoReason).value.getOrElse("")+"</p>"
+              }
+            }
+          ),
+          ConfirmationQuestion(
             title = "What is your full name?",
             editLink = NameController.nameStep.routes.editGet.url,
             changeName = "full name",

@@ -30,6 +30,9 @@ class ConfirmationFormTests
         hasErrors.errorMessages("lastRegisteredToVote") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("registeredAddress") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("dateOfBirth") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("name") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("NINO") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("address") should be(Seq("Please complete this step"))
         hasErrors.globalErrorMessages.filter(_ == "Please complete this step").length should be(8)
         hasErrors.errors.size should be(16)
       },
@@ -41,14 +44,15 @@ class ConfirmationFormTests
     val application = InprogressOverseas()
     confirmationForm.fillAndValidate(application).fold(
       hasErrors => {
-        hasErrors.errorMessages("name") should be(Seq("Please complete this step"))
-        hasErrors.errorMessages("previousName") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("dateLeftUk") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("firstTimeRegistered") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("previouslyRegistered") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("lastRegisteredToVote") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("registeredAddress") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("dateOfBirth") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("name") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("NINO") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("address") should be(Seq("Please complete this step"))
         hasErrors.globalErrorMessages.filter(_ == "Please complete this step").length should be(8)
         hasErrors.errors.size should be(16)
       },

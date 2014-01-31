@@ -9,14 +9,20 @@ case class InprogressOverseas(name: Option[Name] = None,
                               firstTimeRegistered: Option[Stub] = None,
                               lastRegisteredToVote: Option[LastRegisteredToVote] = None,
                               registeredAddress: Option[Stub] = None,
-                              dob: Option[DateOfBirth] = None) extends InprogressApplication[InprogressOverseas] {
+                              dob: Option[DateOfBirth] = None,
+                              name: Option[Stub] = None,
+                              nino: Option[Nino] = None,
+                              address: Option[Stub] = None) extends InprogressApplication[InprogressOverseas] {
 
   def merge(other:InprogressOverseas) = {
     other.copy(
       name = this.name.orElse(other.name),
       previousName = this.previousName.orElse(other.previousName),
       previouslyRegistered = this.previouslyRegistered.orElse(other.previouslyRegistered),
-      dateLeftUk = this.dateLeftUk.orElse(other.dateLeftUk)
+      dateLeftUk = this.dateLeftUk.orElse(other.dateLeftUk),
+      lastRegisteredToVote = this.lastRegisteredToVote.orElse(other.lastRegisteredToVote),
+      dob = this.dob.orElse(other.dob),
+      nino = this.nino.orElse(other.nino)
     )
   }
 }
@@ -29,7 +35,10 @@ case class OverseasApplication(
                                firstTimeRegistered: Option[Stub],
                                lastRegisteredToVote: Option[LastRegisteredToVote],
                                registeredAddress: Option[Stub],
-                               dob: Option[DateOfBirth]) extends CompleteApplication {
+                               dob: Option[DateOfBirth],
+                               name: Option[Stub],
+                               nino: Option[Nino],
+                               address: Option[Stub]) extends CompleteApplication {
   def toApiMap = {
     Map.empty ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
@@ -39,7 +48,10 @@ case class OverseasApplication(
       firstTimeRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
       lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
       registeredAddress.map(_.toApiMap).getOrElse(Map.empty) ++
-      dob.map(_.toApiMap).getOrElse(Map.empty)
+      dob.map(_.toApiMap).getOrElse(Map.empty) ++
+      name.map(_.toApiMap).getOrElse(Map.empty) ++
+      nino.map(_.toApiMap).getOrElse(Map.empty) ++
+      address.map(_.toApiMap).getOrElse(Map.empty)
   }
 }
 
