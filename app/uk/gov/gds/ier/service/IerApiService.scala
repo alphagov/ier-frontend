@@ -88,7 +88,6 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       lastRegisteredToVote = applicant.lastRegisteredToVote,
       registeredAddress = applicant.registeredAddress,
       dob = applicant.dob,
-      name = applicant.name,
       nino = applicant.nino,
       address = applicant.address
     )

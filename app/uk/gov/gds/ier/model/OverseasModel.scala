@@ -10,7 +10,6 @@ case class InprogressOverseas(name: Option[Name] = None,
                               lastRegisteredToVote: Option[LastRegisteredToVote] = None,
                               registeredAddress: Option[Stub] = None,
                               dob: Option[DateOfBirth] = None,
-                              name: Option[Stub] = None,
                               nino: Option[Nino] = None,
                               address: Option[Stub] = None) extends InprogressApplication[InprogressOverseas] {
 
@@ -36,7 +35,6 @@ case class OverseasApplication(
                                lastRegisteredToVote: Option[LastRegisteredToVote],
                                registeredAddress: Option[Stub],
                                dob: Option[DateOfBirth],
-                               name: Option[Stub],
                                nino: Option[Nino],
                                address: Option[Stub]) extends CompleteApplication {
   def toApiMap = {
@@ -49,7 +47,6 @@ case class OverseasApplication(
       lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
       registeredAddress.map(_.toApiMap).getOrElse(Map.empty) ++
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
-      name.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
       address.map(_.toApiMap).getOrElse(Map.empty)
   }
