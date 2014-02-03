@@ -22,7 +22,7 @@ class ConfirmationFormTests
     val js = JsNull
     confirmationForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(18)
+        hasErrors.errors.size should be(22)
         hasErrors.errorMessages("dateLeftUk") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("firstTimeRegistered") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("previouslyRegistered") should be(Seq("Please complete this step"))
@@ -32,9 +32,12 @@ class ConfirmationFormTests
         hasErrors.errorMessages("name") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("NINO") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("address") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("postalVote") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("contact") should be(Seq("Please complete this step"))
         hasErrors.globalErrorMessages should be(Seq("Please complete this step", "Please complete this step",
           "Please complete this step","Please complete this step","Please complete this step","Please complete this step",
-          "Please complete this step","Please complete this step","Please complete this step"))
+          "Please complete this step","Please complete this step","Please complete this step","Please complete this step",
+          "Please complete this step"))
       },
       success => fail("Should have errored out.")
     )
@@ -44,7 +47,7 @@ class ConfirmationFormTests
     val application = InprogressOverseas()
     confirmationForm.fillAndValidate(application).fold(
       hasErrors => {
-        hasErrors.errors.size should be(18)
+        hasErrors.errors.size should be(22)
         hasErrors.errorMessages("dateLeftUk") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("firstTimeRegistered") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("previouslyRegistered") should be(Seq("Please complete this step"))
@@ -54,9 +57,12 @@ class ConfirmationFormTests
         hasErrors.errorMessages("name") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("NINO") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("address") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("postalVote") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("contact") should be(Seq("Please complete this step"))
         hasErrors.globalErrorMessages should be(Seq("Please complete this step", "Please complete this step",
           "Please complete this step","Please complete this step","Please complete this step","Please complete this step",
-          "Please complete this step","Please complete this step","Please complete this step"))
+          "Please complete this step","Please complete this step","Please complete this step","Please complete this step",
+          "Please complete this step"))
       },
       success => fail("Should have errored out.")
     )
