@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.validation.constraints
 
 import uk.gov.gds.ier.validation.{EmailValidator, Key, FormKeys, ErrorMessages}
-import uk.gov.gds.ier.model.{Contact, ContactDetail}
+import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressOverseas, Contact, ContactDetail}
 import play.api.data.validation.{Invalid, Valid, Constraint}
 
 trait ContactConstraints extends CommonConstraints {
@@ -21,6 +21,30 @@ trait ContactConstraints extends CommonConstraints {
           if (EmailValidator.isValid(emailAddress)) Valid
           else Invalid("Please enter a valid email address", keys.contact.email.detail)
         }
+        case _ => Valid
+      }
+  }
+
+  lazy val formIsValidOverseas = Constraint[InprogressOverseas](keys.contact.key) {
+    application =>
+      application.contact match {
+        case Some(Contact(postOption,Some(ContactDetail(phoneOption,_)),Some(ContactDetail(emailOption,_)))) =>
+          if (!postOption && !phoneOption && !emailOption)
+            Invalid("Please answer this question", keys.contact)
+          else Valid
+        case None => Invalid("Please answer this question", keys.contact)
+        case _ => Valid
+      }
+  }
+
+  lazy val formIsValidOrdinary = Constraint[InprogressOrdinary](keys.contact.key) {
+    application =>
+      application.contact match {
+        case Some(Contact(postOption,Some(ContactDetail(phoneOption,_)),Some(ContactDetail(emailOption,_)))) =>
+          if (!postOption && !phoneOption && !emailOption)
+            Invalid("Please answer this question", keys.contact)
+          else Valid
+        case None => Invalid("Please answer this question", keys.contact)
         case _ => Valid
       }
   }

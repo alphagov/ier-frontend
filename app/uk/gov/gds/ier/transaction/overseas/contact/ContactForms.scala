@@ -35,12 +35,11 @@ trait ContactForms extends ContactConstraints {
   val contactForm = ErrorTransformForm(
     mapping(
       keys.contact.key -> optional(contactMapping)
-        .verifying("Please answer this question", _.isDefined)
     ) (
       contact => InprogressOverseas(contact = contact)
     ) (
       inprogress => Some(inprogress.contact)
-    )
+    ).verifying (formIsValidOverseas)
   )
 }
 
