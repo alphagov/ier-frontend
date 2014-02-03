@@ -57,7 +57,6 @@ GET         /register-to-vote/confirmation                               control
 POST        /register-to-vote/confirmation                               controllers.step.ordinary.ConfirmationController.post
 
 #Contact Step
-
 GET         /register-to-vote/contact                                    controllers.step.ordinary.ContactController.get
 POST        /register-to-vote/contact                                    controllers.step.ordinary.ContactController.post
 GET         /register-to-vote/edit/contact                               controllers.step.ordinary.ContactController.editGet
@@ -174,6 +173,18 @@ GET         /register-to-vote/overseas/address                           control
 POST        /register-to-vote/overseas/address                           controllers.step.overseas.AddressController.post
 GET         /register-to-vote/overseas/edit/address                      controllers.step.overseas.AddressController.editGet
 POST        /register-to-vote/overseas/edit/address                      controllers.step.overseas.AddressController.editPost
+
+#Postal Vote Step
+GET         /register-to-vote/overseas/postal-vote                       controllers.step.overseas.PostalVoteController.get
+POST        /register-to-vote/overseas/postal-vote                       controllers.step.overseas.PostalVoteController.post
+GET         /register-to-vote/overseas/edit/postal-vote                  controllers.step.overseas.PostalVoteController.editGet
+POST        /register-to-vote/overseas/edit/postal-vote                  controllers.step.overseas.PostalVoteController.editPost
+
+#Contact Step
+GET         /register-to-vote/overseas/contact                           controllers.step.overseas.ContactController.get
+POST        /register-to-vote/overseas/contact                           controllers.step.overseas.ContactController.post
+GET         /register-to-vote/overseas/edit/contact                      controllers.step.overseas.ContactController.editGet
+POST        /register-to-vote/overseas/edit/contact                      controllers.step.overseas.ContactController.editPost
 
 #Overseas Confirmation
 GET         /register-to-vote/overseas/confirmation                      controllers.step.overseas.ConfirmationController.get
