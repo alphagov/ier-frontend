@@ -31,10 +31,9 @@
       names = $source.data('validationSources');
       if (names !== null) {
         names = names.split(' ');
-      } else {
-        names = $(this.forms[formName]).$source.data('validationName');
+        return this.validate(names, $source);
       }
-      return this.validate(names);
+      return true;
     },
     getFormFromField : function ($field) {
       if ($field[0].nodeName.toLowerCase() === 'form') {
@@ -43,20 +42,6 @@
         return $field[0].form;
       } else {
         return $field.closest('form')[0];
-      }
-    },
-    forms : {
-      refs : {},
-      addName : function ($source) {
-        var name = $source.data('validationName'),
-            formName;
-
-        formName = validation.getFormFromField($source).action;
-        if (typeof this.refs[formName] !== 'undefined') {
-          this.refs[formName].push(name);
-        } else {
-          this.refs[formName] = [name];
-        }
       }
     },
     fields : (function () {
@@ -140,7 +125,6 @@
           var type = $source.data('validationType');
 
           if (type !== null) {
-            validation.forms.addName($source);
             switch (type) {
               case 'association' :
                 this.addAssociation($source);
@@ -210,7 +194,7 @@
       }
       return false;
     },
-    validate : function (names) {
+    validate : function (names, $triggerElement) {
       var _this = this,
           invalidFields = [],
           invalidField,
@@ -238,12 +222,12 @@
 
       if (invalidFields.length) {
         this.mark.invalidFields(invalidFields);
-        this.notify(invalidFields);
+        this.notify(invalidFields, $triggerElement);
         this.events.trigger('invalid', { 'invalidFields' :  invalidFields });
         return false;
       } else {
         this.unMark.validFields();
-        this.notify([]);
+        this.notify([], $triggerElement);
         return true;
       }
     },
@@ -266,7 +250,7 @@
 
         fieldObj.$source.addClass('invalid');
         if ($validationWrapper.length) {
-          $validationWrapper.addClass('validation-wrapper-invalid');
+          $validationWrapper.addClass('invalid');
         }
       },
       invalidFields : function (invalidFields) {
@@ -286,7 +270,7 @@
 
         fieldObj.$source.removeClass('invalid');
         if ($validationWrapper.length) {
-          $validationWrapper.removeClass('validation-wrapper-invalid');
+          $validationWrapper.removeClass('invalid');
         }
       },
       validFields : function (validFields) {
@@ -300,13 +284,15 @@
         });
       }
     },
-    notify : function (invalidFields) {
+    notify : function (invalidFields, $validationTrigger) {
       var _this = this,
-          $lastElement = $('form:last').children(':last'),
+          $lastElement,
           name,
           rule;
 
-      $lastElement.siblings('.validation-message').remove();
+      $('.validation-message').remove();
+      if (typeof $validationTrigger[0].form === 'undefined' || !invalidFields.length) { return; }
+      $lastElement = $($validationTrigger[0].form).find('.validation-submit').last();
       if (invalidFields.length) {
         $.each(invalidFields, function (idx, field) {
           name = invalidFields[idx].name;
