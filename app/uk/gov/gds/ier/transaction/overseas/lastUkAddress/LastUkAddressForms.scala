@@ -88,23 +88,6 @@ trait LastUkAddressForms extends LastUkAddressConstraints {
     ).verifying( addressIsRequired, uprnOrManualIfPostcode )
   )
 
-  val selectAddressForm = ErrorTransformForm(
-    mapping (
-      keys.lastUkAddress.key -> optional(partialAddressMapping),
-      keys.possibleAddresses.key -> optional(possibleAddressesMapping)
-    ) (
-      (lastUkAddr, possibleAddr) => InprogressOverseas(
-        lastUkAddress = lastUkAddr,
-        possibleAddresses = possibleAddr
-      )
-    ) (
-      inprogress => Some(
-        inprogress.lastUkAddress,
-        inprogress.possibleAddresses
-      )
-    )
-  )
-
   val manualAddressForm = ErrorTransformForm(
     mapping(
       keys.lastUkAddress.key -> optional(partialAddressMapping)
@@ -112,7 +95,7 @@ trait LastUkAddressForms extends LastUkAddressConstraints {
       lastUkAddr => InprogressOverseas(lastUkAddress = lastUkAddr)
     ) (
       inprogress => Some(inprogress.lastUkAddress)
-    )
+    ).verifying( manualAddressIsRequired )
   )
 }
 
@@ -120,6 +103,14 @@ trait LastUkAddressForms extends LastUkAddressConstraints {
 trait LastUkAddressConstraints extends CommonConstraints {
   self: FormKeys
    with ErrorMessages =>
+
+  lazy val manualAddressIsRequired = Constraint[InprogressOverseas](keys.lastUkAddress.key) {
+    inprogress =>
+      inprogress.lastUkAddress match {
+        case Some(partialAddress) if partialAddress.manualAddress.isDefined => Valid
+        case _ => Invalid("Please answer this question", keys.lastUkAddress.manualAddress)
+      }
+  }
 
   lazy val postcodeIsNotEmpty = Constraint[InprogressOverseas](keys.lastUkAddress.key) {
     inprogress =>

@@ -282,4 +282,58 @@ class LastUkAddressFormTests
       success => fail("Should have failed out")
     )
   }
+
+  behavior of "LastUkAddressForms.manualAddressForm"
+
+  it should "succeed on valid input" in {
+    val js = Json.toJson(
+      Map(
+        "lastUkAddress.manualAddress" -> "123 Fake Street entered manually",
+        "lastUkAddress.postcode" -> "SW1A1AA"
+      )
+    )
+    manualAddressForm.bind(js).fold(
+      hasErrors => fail(serialiser.toJson(hasErrors)),
+      success => {
+        success.lastUkAddress.isDefined should be(true)
+        val lastUkAddress = success.lastUkAddress.get
+        lastUkAddress.manualAddress should be(Some("123 Fake Street entered manually"))
+        lastUkAddress.postcode should be("SW1A1AA")
+      }
+    )
+  }
+
+  it should "error out on empty values for manual address" in {
+    val js =  Json.toJson(
+      Map(
+        "lastUkAddress.manualAddress" -> "",
+        "lastUkAddress.postcode" -> "SW1A 1AA"
+      )
+    )
+    manualAddressForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+        hasErrors.errorMessages("lastUkAddress.manualAddress") should be(
+          Seq("Please answer this question")
+        )
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
+  it should "error out on empty json for manual address" in {
+    val js =  JsNull
+
+    manualAddressForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+        hasErrors.errorMessages("lastUkAddress.manualAddress") should be(
+          Seq("Please answer this question")
+        )
+      },
+      success => fail("Should have errored out")
+    )
+  }
 }
