@@ -16,16 +16,12 @@ trait ContactMustache extends StepMustache {
                            contactEmailText: Field,
                            contactPhoneText: Field)
 
-  def contactMustache(form:ErrorTransformForm[InprogressOverseas],
-                         post: Call,
-                         back: Option[Call]): Html = {
-
+  def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]) : ContactModel = {
     implicit val progressForm = form
-
-    val data = ContactModel(
+    ContactModel(
       question = Question(
-        postUrl = post.url,
-        backUrl = back.map { call => call.url }.getOrElse(""),
+        postUrl = postEndpoint.url,
+        backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "12",
         title = "If we have questions about your application, how should we contact you?"
@@ -49,6 +45,10 @@ trait ContactMustache extends StepMustache {
         key = keys.contact.phone.detail
       )
     )
+  }
+
+  def contactMustache(form:ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint: Option[Call]): Html = {
+    val data = transformFormStepToMustacheData(form, postEndpoint, backEndpoint)
     val content = Mustache.render("overseas/contact", data)
     MainStepTemplate(content, data.question.title)
   }
