@@ -30,12 +30,11 @@ trait LastUkAddressMustache {
         manualAddress: Field
     )
 
-    def lookupPage(
+    def lookupData(
         form:InProgressForm[InprogressOverseas],
         backUrl: String,
         postUrl: String) = {
-
-      val data = LookupModel(
+     LookupModel(
         question = Question(
           postUrl = postUrl,
           backUrl = backUrl,
@@ -54,11 +53,21 @@ trait LastUkAddressMustache {
           }
         )
       )
-      val content = Mustache.render("overseas/lastUkAddressLookup", data)
+    }
+
+    def lookupPage(
+        form:InProgressForm[InprogressOverseas],
+        backUrl: String,
+        postUrl: String) = {
+
+      val content = Mustache.render(
+        "overseas/lastUkAddressLookup",
+        lookupData(form, backUrl, postUrl)
+      )
       MainStepTemplate(content, title)
     }
 
-    def selectPage(
+    def selectData(
         form: InProgressForm[InprogressOverseas],
         backUrl: String,
         postUrl: String,
@@ -82,7 +91,7 @@ trait LastUkAddressMustache {
         )
       }
 
-      val data = SelectModel(
+      SelectModel(
         question = Question(
           postUrl = postUrl,
           backUrl = backUrl,
@@ -99,11 +108,24 @@ trait LastUkAddressMustache {
           default = SelectOption(value = "", text = s"${options.size} addresses found")
         )
       )
-      val content = Mustache.render("overseas/lastUkAddressSelect", data)
+    }
+
+    def selectPage(
+        form: InProgressForm[InprogressOverseas],
+        backUrl: String,
+        postUrl: String,
+        lookupUrl: String,
+        manualUrl: String,
+        maybePossibleAddress:Option[PossibleAddress]) = {
+
+      val content = Mustache.render(
+        "overseas/lastUkAddressSelect",
+        selectData(form, backUrl, postUrl, lookupUrl, manualUrl, maybePossibleAddress)
+      )
       MainStepTemplate(content, title)
     }
 
-    def manualPage(
+    def manualData(
         form: InProgressForm[InprogressOverseas],
         backUrl: String,
         postUrl: String,
@@ -111,7 +133,7 @@ trait LastUkAddressMustache {
 
       implicit val progressForm = form.form
 
-      val data = ManualModel(
+      ManualModel(
         question = Question(
           postUrl = postUrl,
           backUrl = backUrl,
@@ -123,7 +145,18 @@ trait LastUkAddressMustache {
         postcode = TextField(keys.lastUkAddress.postcode),
         manualAddress = TextField(keys.lastUkAddress.manualAddress)
       )
-      val content = Mustache.render("overseas/lastUkAddressManual", data)
+    }
+
+    def manualPage(
+        form: InProgressForm[InprogressOverseas],
+        backUrl: String,
+        postUrl: String,
+        lookupUrl: String) = {
+
+      val content = Mustache.render(
+        "overseas/lastUkAddressManual",
+        manualData(form, backUrl, postUrl, lookupUrl)
+      )
       MainStepTemplate(content, title)
     }
   }
