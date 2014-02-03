@@ -12,9 +12,9 @@ trait AddressMustache extends StepMustache {
 
   case class OverseasAddressModel(question:Question, countrySelect: Field, address: Field)
 
-  def addressMustache(form:ErrorTransformForm[InprogressOverseas],
+  def transformFormStepToMustacheData(form:ErrorTransformForm[InprogressOverseas],
                                  post: Call,
-                                 back: Option[Call]): Html = {
+                                 back: Option[Call]): OverseasAddressModel = {
 	implicit val progressForm = form
 	
 	def countrySelectOptions (selectedCountry: String) = (NationalityConstants.countryNameToCodes map (
@@ -24,7 +24,7 @@ trait AddressMustache extends StepMustache {
 	  }
 	)).toList.sortWith((x, y) => x.text.compareTo(y.text) < 0)
 	
-    val data = OverseasAddressModel(
+    OverseasAddressModel(
       question = Question(
         postUrl = post.url,
         backUrl = back.map { call => call.url }.getOrElse(""),
@@ -35,7 +35,14 @@ trait AddressMustache extends StepMustache {
       countrySelect = SelectField(key = keys.overseasAddress.country, countrySelectOptions(progressForm(keys.overseasAddress.country.key).value.getOrElse(""))),
       address = TextField(key = keys.overseasAddress.overseasAddressDetails)
     )
-    val content = Mustache.render("overseas/address", data)
+  }
+  def addressMustache(form:ErrorTransformForm[InprogressOverseas],
+                                 post: Call,
+                                 back: Option[Call]): Html = {
+	val data = transformFormStepToMustacheData(form, post, back)
+	val content = Mustache.render("overseas/address", data)
     MainStepTemplate(content, data.question.title)
   }
 }
+
+//object AddressMustache extends AddressMustache

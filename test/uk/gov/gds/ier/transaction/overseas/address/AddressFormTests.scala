@@ -21,9 +21,9 @@ class AddressFormTests
     val js = JsNull
     addressForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("overseasAddress.country") should be(Seq("Please enter the country"))
+        hasErrors.errorMessages("overseasAddress.country") should be(Seq("Please select the country"))
         hasErrors.errorMessages("overseasAddress.overseasAddressDetails") should be(Seq("Please enter the address"))
-        hasErrors.globalErrorMessages should be(Seq("Please enter the country", "Please enter the address" ))
+        hasErrors.globalErrorMessages should be(Seq("Please select the country", "Please enter the address" ))
         hasErrors.errors.size should be(4)
       },
       success => fail("Should have errored out.")
@@ -39,9 +39,9 @@ class AddressFormTests
     )
     addressForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("overseasAddress.country") should be(Seq("Please enter the country"))
+        hasErrors.errorMessages("overseasAddress.country") should be(Seq("Please select the country"))
         hasErrors.errorMessages("overseasAddress.overseasAddressDetails") should be(Seq("Please enter the address"))
-        hasErrors.globalErrorMessages should be(Seq("Please enter the country", "Please enter the address" ))
+        hasErrors.globalErrorMessages should be(Seq("Please select the country", "Please enter the address" ))
         hasErrors.errors.size should be(4)
       },
       success => fail("Should have errored out.")

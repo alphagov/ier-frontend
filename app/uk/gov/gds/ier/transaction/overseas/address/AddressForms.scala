@@ -28,7 +28,7 @@ trait OverseasAddressConstraints extends CommonConstraints {
         optAddress => 
             optAddress match {
                 case Some(address) if (address.country.isDefined) => Valid 
-                case _ => Invalid("Please enter the country", keys.overseasAddress.country)
+                case _ => Invalid("Please select the country", keys.overseasAddress.country)
             }
     }
     lazy val addressDetailsRequired = Constraint[Option[OverseasAddress]](keys.overseasAddress.key) {

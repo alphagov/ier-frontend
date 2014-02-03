@@ -51,7 +51,7 @@ class AddressStepTests
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("Please enter the country")
+      contentAsString(result) should include("Please select the country")
       contentAsString(result) should include("Please enter the address")
       contentAsString(result) should include("/register-to-vote/overseas/address")
     }
@@ -95,7 +95,7 @@ class AddressStepTests
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("Please enter the country")
+      contentAsString(result) should include("Please select the country")
       contentAsString(result) should include("Please enter the address")
       contentAsString(result) should include("/register-to-vote/overseas/edit/address")
     }
