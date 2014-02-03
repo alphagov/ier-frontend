@@ -30,7 +30,7 @@ class LastUkAddressSelectStep @Inject() (
   with LastUkAddressMustache
   with LastUkAddressForms {
 
-  val validation = selectAddressForm
+  val validation = lastUkAddressForm
 
   val previousRoute = Some(DateLeftUkController.get)
 
