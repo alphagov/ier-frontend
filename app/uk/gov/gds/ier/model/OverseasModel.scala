@@ -10,7 +10,9 @@ case class InprogressOverseas(previouslyRegistered: Option[PreviouslyRegistered]
                               dob: Option[DateOfBirth] = None,
                               name: Option[Stub] = None,
                               nino: Option[Nino] = None,
-                              address: Option[Stub] = None) extends InprogressApplication[InprogressOverseas] {
+                              address: Option[Stub] = None,
+                              postalVote: Option[Stub] = None,
+                              contact: Option[Contact] = None) extends InprogressApplication[InprogressOverseas] {
 
   def merge(other:InprogressOverseas) = {
     other.copy(
@@ -18,7 +20,8 @@ case class InprogressOverseas(previouslyRegistered: Option[PreviouslyRegistered]
       dateLeftUk = this.dateLeftUk.orElse(other.dateLeftUk),
       lastRegisteredToVote = this.lastRegisteredToVote.orElse(other.lastRegisteredToVote),
       dob = this.dob.orElse(other.dob),
-      nino = this.nino.orElse(other.nino)
+      nino = this.nino.orElse(other.nino),
+      contact = this.contact.orElse(other.contact)
     )
   }
 }
@@ -31,7 +34,9 @@ case class OverseasApplication(previouslyRegistered: Option[PreviouslyRegistered
                                dob: Option[DateOfBirth],
                                name: Option[Stub],
                                nino: Option[Nino],
-                               address: Option[Stub]) extends CompleteApplication {
+                               address: Option[Stub],
+                               postalVote: Option[Stub],
+                               contact: Option[Contact]) extends CompleteApplication {
   def toApiMap = {
     Map.empty ++
       previouslyRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
@@ -42,7 +47,8 @@ case class OverseasApplication(previouslyRegistered: Option[PreviouslyRegistered
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
       name.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
-      address.map(_.toApiMap).getOrElse(Map.empty)
+      address.map(_.toApiMap).getOrElse(Map.empty) ++
+      contact.map(_.toApiMap).getOrElse(Map.empty)
   }
 }
 

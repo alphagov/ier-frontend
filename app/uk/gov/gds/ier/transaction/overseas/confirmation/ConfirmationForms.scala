@@ -25,7 +25,9 @@ trait ConfirmationForms
       "dateOfBirth" -> stepRequired(dobAndReasonMapping),
       "name" -> stepRequired(stubMapping),
       keys.nino.key -> stepRequired(ninoMapping),
-      "address" -> stepRequired(stubMapping)
+      "address" -> stepRequired(stubMapping),
+      "postalVote" -> stepRequired(stubMapping),
+      keys.contact.key -> stepRequired(contactMapping)
     ) (InprogressOverseas.apply) (InprogressOverseas.unapply)
   )
 }
