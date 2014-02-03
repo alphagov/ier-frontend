@@ -21,13 +21,16 @@ class ConfirmationFormTests
 
   it should "error out on empty json" in {
     val js = JsNull
+    val errorMessage = Seq("Please complete this step")
     confirmationForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("dateLeftUk") should be(Seq("Please complete this step"))
-        hasErrors.errorMessages("firstTimeRegistered") should be(Seq("Please complete this step"))
-        hasErrors.errorMessages("previouslyRegistered") should be(Seq("Please complete this step"))
-        hasErrors.globalErrorMessages should be(Seq("Please complete this step", "Please complete this step", "Please complete this step"))
-        hasErrors.errors.size should be(6)
+        hasErrors.errorMessages("dateLeftUk") should be(errorMessage)
+        hasErrors.errorMessages("firstTimeRegistered") should be(errorMessage)
+        hasErrors.errorMessages("name") should be(errorMessage)
+        hasErrors.errorMessages("lastUkAddress") should be(errorMessage)
+        hasErrors.errorMessages("previouslyRegistered") should be(errorMessage)
+        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(5)
+        hasErrors.errors.size should be(10)
       },
       success => fail("Should have errored out.")
     )
@@ -35,13 +38,16 @@ class ConfirmationFormTests
 
   it should "error out on empty application" in {
     val application = InprogressOverseas()
+    val errorMessage = Seq("Please complete this step")
     confirmationForm.fillAndValidate(application).fold(
       hasErrors => {
-        hasErrors.errorMessages("dateLeftUk") should be(Seq("Please complete this step"))
-        hasErrors.errorMessages("firstTimeRegistered") should be(Seq("Please complete this step"))
-        hasErrors.errorMessages("previouslyRegistered") should be(Seq("Please complete this step"))
-        hasErrors.globalErrorMessages should be(Seq("Please complete this step", "Please complete this step", "Please complete this step"))
-        hasErrors.errors.size should be(6)
+        hasErrors.errorMessages("dateLeftUk") should be(errorMessage)
+        hasErrors.errorMessages("firstTimeRegistered") should be(errorMessage)
+        hasErrors.errorMessages("name") should be(errorMessage)
+        hasErrors.errorMessages("lastUkAddress") should be(errorMessage)
+        hasErrors.errorMessages("previouslyRegistered") should be(errorMessage)
+        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(5)
+        hasErrors.errors.size should be(10)
       },
       success => fail("Should have errored out.")
     )

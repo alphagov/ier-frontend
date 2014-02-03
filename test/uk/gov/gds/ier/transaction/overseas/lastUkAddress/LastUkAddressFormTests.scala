@@ -152,8 +152,13 @@ class LastUkAddressFormTests
     )
     lastUkAddressForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("lastUkAddress.uprn") should be(Seq("Please select your address"))
+        hasErrors.errors.size should be(4)
+        hasErrors.errorMessages("lastUkAddress.uprn") should be(
+          Seq("Please select your address")
+        )
+        hasErrors.errorMessages("lastUkAddress.manualAddress") should be(
+          Seq("Please select your address")
+        )
         hasErrors.globalErrorMessages should be(Seq("Please select your address"))
       },
       success => {
