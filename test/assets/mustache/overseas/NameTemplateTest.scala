@@ -1,37 +1,20 @@
 package assets.mustache.overseas
 
-import org.jba.Mustache
 import org.jsoup.Jsoup
 import org.scalatest.{Matchers, FlatSpec}
 import play.api.test._
 import play.api.test.Helpers._
+import uk.gov.gds.ier.transaction.ordinary.name.NameMustache
 
 class NameTemplateTest
   extends FlatSpec
+  with NameMustache
   with Matchers {
-
-  case class Field(
-      id:String = "",
-      name:String = "",
-      classes:String = "",
-      value:String = "",
-      attributes:String = ""
-  )
-  case class Model(
-      firstName:Field,
-      middleNames:Field,
-      lastName:Field,
-      hasPreviousName:Field,
-      hasPreviousNameTrue:Field,
-      hasPreviousNameFalse:Field,
-      previousFirstName:Field,
-      previousMiddleNames:Field,
-      previousLastName:Field
-  )
 
   it should "properly render all properties from the model" in {
     running(FakeApplication()) {
-      val data = Model(
+      val data = new NameModel(
+        question = Question(),
         firstName = Field(
           id = "firstNameId",
           name = "firstNameName",
@@ -50,7 +33,7 @@ class NameTemplateTest
           classes = "lastNameClass",
           value = "lastNameValue"
         ),
-        hasPreviousName = Field(classes = "hasPreviousNameClass"),
+        hasPreviousName = FieldSet(classes = "hasPreviousNameClass"),
         hasPreviousNameTrue = Field(
           id = "hasPreviousTrueId",
           name = "hasPreviousTrueName",
