@@ -1,10 +1,12 @@
 package uk.gov.gds.ier.transaction.overseas.lastUkAddress
 
 import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model.{InprogressOverseas, PossibleAddress}
 import uk.gov.gds.ier.validation.{InProgressForm, Key}
 
 trait LastUkAddressMustache {
+  self: WithSerialiser =>
 
   object LastUkAddressMustache extends StepMustache {
 
@@ -20,7 +22,9 @@ trait LastUkAddressMustache {
         lookupUrl: String,
         manualUrl: String,
         postcode: Field,
-        address: Field
+        address: Field,
+        possibleJsonList: Field,
+        possiblePostcode: Field
     )
 
     case class ManualModel (
@@ -106,6 +110,14 @@ trait LastUkAddressMustache {
           key = keys.lastUkAddress.uprn,
           optionList = options,
           default = SelectOption(value = "", text = s"${options.size} addresses found")
+        ),
+        possibleJsonList = TextField(keys.possibleAddresses.jsonList).copy(
+          value = maybePossibleAddress.map { poss =>
+            serialiser.toJson(poss.jsonList)
+          }.getOrElse("")
+        ),
+        possiblePostcode = TextField(keys.possibleAddresses.postcode).copy(
+          value = form(keys.lastUkAddress.postcode).value.getOrElse("")
         )
       )
     }

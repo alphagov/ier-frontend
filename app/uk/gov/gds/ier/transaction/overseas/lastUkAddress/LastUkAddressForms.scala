@@ -29,6 +29,23 @@ trait LastUkAddressForms extends LastUkAddressConstraints {
     PartialAddress.apply
   ) (
     PartialAddress.unapply
+  ).verifying(manualAddressMaxLength, postcodeIsValid, uprnOrManualDefined)
+
+  lazy val manualPartialAddressMapping = mapping(
+    keys.postcode.key -> nonEmptyText,
+    keys.manualAddress.key -> optional(nonEmptyText)
+  ) (
+    (postcode, manualAddress) => PartialAddress(
+      addressLine = None,
+      uprn = None,
+      postcode = postcode,
+      manualAddress = manualAddress
+    )
+  ) (
+    partial => Some(
+      partial.postcode,
+      partial.manualAddress
+    )
   ).verifying(manualAddressMaxLength, postcodeIsValid)
 
   lazy val postcodeLookupMapping = mapping(
@@ -85,12 +102,12 @@ trait LastUkAddressForms extends LastUkAddressConstraints {
         inprogress.lastUkAddress,
         inprogress.possibleAddresses
       )
-    ).verifying( addressIsRequired, uprnOrManualIfPostcode )
+    ).verifying( addressIsRequired )
   )
 
   val manualAddressForm = ErrorTransformForm(
     mapping(
-      keys.lastUkAddress.key -> optional(partialAddressMapping)
+      keys.lastUkAddress.key -> optional(manualPartialAddressMapping)
     ) (
       lastUkAddr => InprogressOverseas(lastUkAddress = lastUkAddr)
     ) (
@@ -129,14 +146,15 @@ trait LastUkAddressConstraints extends CommonConstraints {
       else Invalid("Please answer this question", keys.lastUkAddress)
   }
 
-  lazy val uprnOrManualIfPostcode = Constraint[InprogressOverseas](keys.lastUkAddress.key) {
-    inprogress =>
-      inprogress.lastUkAddress match {
-        case Some(partialAddress) if partialAddress.uprn.isDefined => Valid
-        case Some(partialAddress) if partialAddress.manualAddress.isDefined => Valid
-        case None => Valid
-        case _ => Invalid("Please select your address", keys.lastUkAddress.uprn)
-      }
+  lazy val uprnOrManualDefined = Constraint[PartialAddress](keys.lastUkAddress.key) {
+    case partialAddress if partialAddress.uprn.exists(_ != "") => Valid
+    case partialAddress if partialAddress.manualAddress.exists(_ != "") => Valid
+    case _ => Invalid(
+      "Please select your address",
+      keys.lastUkAddress.uprn,
+      keys.lastUkAddress.manualAddress,
+      keys.lastUkAddress
+    )
   }
 
   lazy val manualAddressMaxLength = Constraint[PartialAddress](keys.lastUkAddress.key) {

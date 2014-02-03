@@ -77,7 +77,11 @@ trait ConfirmationMustache {
     def lastUkAddress = {
       ConfirmationQuestion(
         title = "Last UK Address",
-        editLink = routes.LastUkAddressSelectController.editGet.url,
+        editLink = if (form(keys.lastUkAddress.manualAddress).value.isDefined) {
+          routes.LastUkAddressManualController.editGet.url
+        } else {
+          routes.LastUkAddressSelectController.editGet.url
+        },
         changeName = "your last UK address",
         content = ifComplete(keys.lastUkAddress) {
           val addressLine = form(keys.lastUkAddress.addressLine).value.orElse{

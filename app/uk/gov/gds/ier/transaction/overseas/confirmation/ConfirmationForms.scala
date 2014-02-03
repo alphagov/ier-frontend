@@ -8,7 +8,7 @@ import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import uk.gov.gds.ier.transaction.overseas.previouslyRegistered.PreviouslyRegisteredForms
 import uk.gov.gds.ier.transaction.overseas.lastUkAddress.LastUkAddressForms
 
-trait ConfirmationForms 
+trait ConfirmationForms
   extends FormKeys
   with ErrorMessages
   with WithSerialiser

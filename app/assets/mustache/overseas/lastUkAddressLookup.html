@@ -16,18 +16,13 @@
               name="{{postcode.name}}"
               value="{{postcode.value}}"
               autocomplete="off"
-              class="text postcode medium validate {{postcode.classes}}"
-              data-validation-name="postcode"
-              data-validation-type="field"
-              data-validation-rules="nonEmpty">
+              class="text postcode medium validate {{postcode.classes}}">
         </div>
     </fieldset>
     <button
       id="find-address"
       type="submit"
-      class="button next validation-submit"
-      data-validation-sources="postcode"
-      aria-controls="found-addresses">
+      class="button next validation-submit">
         Find address
     </button>
 </form>

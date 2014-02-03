@@ -25,10 +25,7 @@
             <select
               id="{{address.id}}"
               name="{{address.name}}"
-              class="lonely validate {{address.classes}}"
-              data-validation-name="addressSelect"
-              data-validation-type="field"
-              data-validation-rules="nonEmpty">
+              class="lonely validate {{address.classes}}">
               {{#address.optionList}}
                 <option value="{{value}}" {{selected}}>{{text}}</option>
               {{/address.optionList}}
@@ -44,8 +41,21 @@
       type="submit"
       id="continue"
       class="button next validation-submit"
-      data-validation-sources="postcode address"
       style="display: block;">
         Continue
     </button>
+    <input
+      type="hidden"
+      id="{{possibleJsonList.id}}"
+      name="{{possibleJsonList.name}}"
+      value="{{possibleJsonList.value}}"
+      autocomplete="off"
+      class="text hidden">
+    <input
+      type="hidden"
+      id="{{possiblePostcode.id}}"
+      name="{{possiblePostcode.name}}"
+      value="{{possiblePostcode.value}}"
+      autocomplete="off"
+      class="text  hidden">
 </form>
