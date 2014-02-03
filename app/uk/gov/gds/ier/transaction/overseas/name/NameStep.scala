@@ -13,7 +13,7 @@ import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.model.InprogressOverseas
 import controllers.step.overseas.routes.NameController
-import controllers.step.overseas.routes.LastRegisteredUkAddressController
+import controllers.step.overseas.routes.RegisteredAddressController
 
 class NameStep @Inject ()(val serialiser: JsonSerialiser,
                           val config: Config,
@@ -31,7 +31,7 @@ class NameStep @Inject ()(val serialiser: JsonSerialiser,
     editGet = NameController.editGet,
     editPost = NameController.editPost
   )
-  val previousRoute = Some(LastRegisteredUkAddressController.get)
+  val previousRoute = Some(RegisteredAddressController.get)
 
   def nextStep(currentState: InprogressOverseas) = {
     NinoController.ninoStep

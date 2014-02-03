@@ -60,6 +60,40 @@ class OverseasNameFormTests
     )
   }
 
+  it should "check for too long names" in {
+    val inputDataJson = Json.toJson(
+      Map(
+        "name.firstName" -> textTooLong,
+        "name.middleNames" -> textTooLong,
+        "name.lastName" -> textTooLong,
+        "previousName.hasPreviousName" -> "true",
+        "previousName.previousName.firstName" -> textTooLong,
+        "previousName.previousName.middleNames" -> textTooLong,
+        "previousName.previousName.lastName" -> textTooLong
+      )
+    )
+    nameForm.bind(inputDataJson).fold(
+      hasErrors => {
+        hasErrors.errorsAsText should be("" +
+          "name.firstName -> First name can be no longer than 256 characters\n" +
+          "name.middleNames -> Middle names can be no longer than 256 characters\n" +
+          "name.lastName -> Last name can be no longer than 256 characters\n" +
+          "name.firstName -> First name can be no longer than 256 characters\n" +
+          "name.middleNames -> Middle names can be no longer than 256 characters\n" +
+          "name.lastName -> Last name can be no longer than 256 characters"
+        )
+        hasErrors.globalErrorsAsText should be("" +
+          "First name can be no longer than 256 characters\n" +
+          "Middle names can be no longer than 256 characters\n" +
+          "Last name can be no longer than 256 characters\n" +
+          "First name can be no longer than 256 characters\n" +
+          "Middle names can be no longer than 256 characters\n" +
+          "Last name can be no longer than 256 characters")
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
   it should "error out on missing fields" in {
     val js = Json.toJson(
       Map(
