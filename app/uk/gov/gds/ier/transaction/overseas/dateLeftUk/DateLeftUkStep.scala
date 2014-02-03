@@ -62,7 +62,7 @@ class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
           val birthDateTime = new DateTime(year,month,day,0,0,0,0)
           val leftUk = new DateTime().withMonthOfYear(dateLeftUk.month).withYear(dateLeftUk.year)
           val monthDiff = Months.monthsBetween(birthDateTime, leftUk).getMonths()
-          if (monthDiff / 12 > 18) true
+          if (monthDiff.toFloat / 12 > 18) true
           else false
         }
         case _ => false
