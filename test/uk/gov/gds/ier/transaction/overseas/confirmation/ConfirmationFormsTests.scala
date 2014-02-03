@@ -22,6 +22,8 @@ class ConfirmationFormTests
     val js = JsNull
     confirmationForm.bind(js).fold(
       hasErrors => {
+        hasErrors.errorMessages("name") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("previousName") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("dateLeftUk") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("firstTimeRegistered") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("previouslyRegistered") should be(Seq("Please complete this step"))
@@ -29,7 +31,6 @@ class ConfirmationFormTests
         hasErrors.errorMessages("registeredAddress") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("dateOfBirth") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("overseasAddress") should be(Seq("Please complete this step"))
-        hasErrors.errorMessages("name") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("NINO") should be(Seq("Please complete this step"))
         hasErrors.globalErrorMessages should be(List.fill(10)("Please complete this step"))
         hasErrors.errors.size should be(20)

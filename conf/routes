@@ -164,13 +164,13 @@ POST        /register-to-vote/overseas/address             controllers.step.over
 GET         /register-to-vote/overseas/edit/address        controllers.step.overseas.AddressController.editGet
 POST        /register-to-vote/overseas/edit/address        controllers.step.overseas.AddressController.editPost
 
-#Registered Address
+#Last Registered UK Address
 GET         /register-to-vote/overseas/registered-address                controllers.step.overseas.RegisteredAddressController.get
 POST        /register-to-vote/overseas/registered-address                controllers.step.overseas.RegisteredAddressController.post
 GET         /register-to-vote/overseas/edit/registered-address           controllers.step.overseas.RegisteredAddressController.editGet
 POST        /register-to-vote/overseas/edit/registered-address           controllers.step.overseas.RegisteredAddressController.editPost
 
-#Name Step
+#Name  (voter full name)
 GET         /register-to-vote/overseas/name                              controllers.step.overseas.NameController.get
 POST        /register-to-vote/overseas/name                              controllers.step.overseas.NameController.post
 GET         /register-to-vote/overseas/edit/name                         controllers.step.overseas.NameController.editGet

@@ -5,11 +5,13 @@ import uk.gov.gds.ier.transaction.overseas.dateLeftUk.DateLeftUkForms
 import uk.gov.gds.ier.transaction.overseas.dateOfBirth.DateOfBirthForms
 import uk.gov.gds.ier.transaction.overseas.lastRegisteredToVote.LastRegisteredToVoteForms
 import uk.gov.gds.ier.transaction.overseas.address.AddressForms
+import uk.gov.gds.ier.transaction.overseas.name.NameForms
 import uk.gov.gds.ier.transaction.overseas.nino.NinoForms
 
 trait OverseasForms
   extends FormKeys
   with ErrorMessages
+  with NameForms
   with PreviouslyRegisteredForms
   with DateLeftUkForms
   with DateOfBirthForms

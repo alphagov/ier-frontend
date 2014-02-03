@@ -80,14 +80,15 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
                                 applicant: InprogressOverseas,
                                 refNum:Option[String]) = {
     val completeApplication = OverseasApplication(
+      name = applicant.name,
+      previousName = applicant.previousName,
       previouslyRegistered = applicant.previouslyRegistered,
       dateLeftUk = applicant.dateLeftUk,
       firstTimeRegistered = applicant.firstTimeRegistered,
       lastRegisteredToVote = applicant.lastRegisteredToVote,
       registeredAddress = applicant.registeredAddress,
-      dob = applicant.dob,
       openRegister = applicant.openRegister,
-      name = applicant.name,
+      dob = applicant.dob,
       nino = applicant.nino,
       address = applicant.address
     )
