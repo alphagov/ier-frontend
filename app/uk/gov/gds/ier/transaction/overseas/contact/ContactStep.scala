@@ -32,26 +32,6 @@ class ContactStep @Inject ()(val serialiser: JsonSerialiser,
     editPost = ContactController.editPost
   )
 
-//  def prepopulateEmailAddress (application:InprogressOverseas):InprogressOverseas = {
-//
-//    val emailAddress = application.postalVote.flatMap( pvote => pvote.deliveryMethod ).flatMap(deliveryMethod => deliveryMethod.emailAddress)
-//    val emailContactDetails = application.contact.flatMap( contact => contact.email ).getOrElse(ContactDetail(false,emailAddress))
-//    val newContact = application.contact match {
-//      case Some(contact) if contact.email.exists(_.detail.isDefined) => contact
-//      case Some(contact) => contact.copy(email = Some(emailContactDetails))
-//      case None => Contact(false, None, Some(ContactDetail(false,emailAddress)))
-//    }
-//    application.copy(contact = Some(newContact))
-//  }
-
-//  def template(form:InProgressForm[InprogressOverseas], call:Call, backUrl: Option[Call]): Html = {
-//    val newForm = form.form.value match {
-//      case Some(application) => form.copy(form = form.form.fill(prepopulateEmailAddress (application)))
-//      case None => form
-//    }
-//    views.html.steps.contact(newForm, call, backUrl.map(_.url))
-//  }
-
   def template(form: InProgressForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
     contactMustache(form.form, postEndpoint, backEndpoint)
   }
