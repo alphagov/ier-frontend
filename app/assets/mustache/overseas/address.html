@@ -5,10 +5,10 @@
 
     <fieldset >
 
-		<label for="{{country.id}}">
+		<label for="{{countrySelect.id}}">
             Country
         </label>
-        <div class="validation-wrapper {{country.classes}}">
+        <div class="validation-wrapper {{countrySelect.classes}}">
         <select id="{{countrySelect.id}}" name="{{countrySelect.name}}" class="lonely validate {{countrySelect.classes}}" data-validation-name="countrySelect" data-validation-type="field" data-validation-rules="nonEmpty">
     			<option value="">Please select your country</option>
   				{{#countrySelect.optionList}}
