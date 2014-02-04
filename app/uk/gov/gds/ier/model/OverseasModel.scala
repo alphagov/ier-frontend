@@ -11,7 +11,9 @@ case class InprogressOverseas(name: Option[Name] = None,
                               registeredAddress: Option[Stub] = None,
                               dob: Option[DateOfBirth] = None,
                               nino: Option[Nino] = None,
-                              address: Option[Stub] = None) extends InprogressApplication[InprogressOverseas] {
+                              address: Option[Stub] = None,
+                              openRegisterOptin: Option[Boolean] = None,
+                              waysToVote: Option[Stub] = None) extends InprogressApplication[InprogressOverseas] {
 
   def merge(other:InprogressOverseas) = {
     other.copy(
@@ -19,9 +21,14 @@ case class InprogressOverseas(name: Option[Name] = None,
       previousName = this.previousName.orElse(other.previousName),
       previouslyRegistered = this.previouslyRegistered.orElse(other.previouslyRegistered),
       dateLeftUk = this.dateLeftUk.orElse(other.dateLeftUk),
+      firstTimeRegistered = this.firstTimeRegistered.orElse(other.firstTimeRegistered),
       lastRegisteredToVote = this.lastRegisteredToVote.orElse(other.lastRegisteredToVote),
+      registeredAddress = this.registeredAddress.orElse(other.registeredAddress),
       dob = this.dob.orElse(other.dob),
-      nino = this.nino.orElse(other.nino)
+      nino = this.nino.orElse(other.nino),
+      address = this.address.orElse(other.address),
+      openRegisterOptin = this.openRegisterOptin.orElse(other.openRegisterOptin),
+      waysToVote = this.waysToVote.orElse(other.waysToVote)
     )
   }
 }
@@ -36,7 +43,10 @@ case class OverseasApplication(
                                registeredAddress: Option[Stub],
                                dob: Option[DateOfBirth],
                                nino: Option[Nino],
-                               address: Option[Stub]) extends CompleteApplication {
+                               address: Option[Stub],
+                               openRegisterOptin: Option[Boolean],
+                               waysToVote: Option[Stub]) extends CompleteApplication {
+
   def toApiMap = {
     Map.empty ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
@@ -48,7 +58,8 @@ case class OverseasApplication(
       registeredAddress.map(_.toApiMap).getOrElse(Map.empty) ++
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
-      address.map(_.toApiMap).getOrElse(Map.empty)
+      address.map(_.toApiMap).getOrElse(Map.empty) ++
+      openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty)
   }
 }
 

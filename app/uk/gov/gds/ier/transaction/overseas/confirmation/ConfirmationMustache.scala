@@ -75,7 +75,19 @@ trait ConfirmationMustache {
                 "<p>" + form(keys.nino.nino).value.getOrElse("") +"</p>"
               } else {
                 "<p>I cannot provide my national insurance number because:</p>" +
-                "<p>" + form(keys.nino.noNinoReason).value.getOrElse("")+"</p>"
+                  "<p>" + form(keys.nino.noNinoReason).value.getOrElse("")+"</p>"
+              }
+            }
+          ),
+          ConfirmationQuestion(
+            title = "Open register",
+            editLink = OpenRegisterController.openRegisterStep.routes.editGet.url,
+            changeName = "open register",
+            content = ifComplete(keys.openRegister) {
+              if(form(keys.openRegister.optIn).value == Some("true")){
+                "<p>I want to include my details on the open register</p>"
+              }else{
+                "<p>I don’t want to include my details on the open register</p>"
               }
             }
           ),
