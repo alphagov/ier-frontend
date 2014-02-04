@@ -3,7 +3,10 @@ package uk.gov.gds.ier.transaction.overseas.confirmation
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.validation.{InProgressForm, Key}
 import uk.gov.gds.ier.model.InprogressOverseas
-import controllers.step.overseas.routes
+import controllers.step.overseas._
+import org.joda.time.{YearMonth, Months}
+import scala.util.Try
+import uk.gov.gds.ier.logging.Logging
 
 trait ConfirmationMustache {
 
@@ -31,7 +34,9 @@ trait ConfirmationMustache {
       val foo:ConfirmationModel = ConfirmationModel(
         questions = List(
           confirmation.previouslyRegistered,
-          confirmation.lastUkAddress
+          confirmation.lastUkAddress,
+          confirmation.dateLeftUk,
+          confirmation.nino
         ),
         backUrl = backUrl,
         postUrl = postUrl
@@ -47,7 +52,7 @@ trait ConfirmationMustache {
   }
 
   class ConfirmationBlocks(form:InProgressForm[InprogressOverseas])
-    extends StepMustache {
+    extends StepMustache with Logging {
 
     def ifComplete(key:Key)(confirmationHtml:String) = {
       if (form(key).hasErrors) {
@@ -88,8 +93,41 @@ trait ConfirmationMustache {
             form(keys.lastUkAddress.manualAddress).value
           }.getOrElse("")
           val postcode = form(keys.lastUkAddress.postcode).value.getOrElse("")
-
           s"<p>$addressLine</p><p>$postcode</p>"
+        }
+      )
+    }
+
+    def dateLeftUk = {
+      ConfirmationQuestion(
+        title = "Date you left the UK",
+        editLink = DateLeftUkController.dateLeftUkStep.routes.editGet.url,
+        changeName = "date you left the UK",
+        content = ifComplete(keys.dateLeftUk) {
+          val yearMonth = Try (new YearMonth (
+            form(keys.dateLeftUk.year).value.map(year => year.toInt).getOrElse(-1),
+            form(keys.dateLeftUk.month).value.map(month => month.toInt).getOrElse(-1)
+          ).toString("MMMM, yyyy")).getOrElse {
+            logger.error("error parsing the date (date-left-uk step)")
+            ""
+          }
+          "<p>"+yearMonth+"</p>"
+        }
+      )
+    }
+
+    def nino = {
+      ConfirmationQuestion(
+        title = "National Insurance number",
+        editLink = NinoController.ninoStep.routes.editGet.url,
+        changeName = "national insurance number",
+        content = ifComplete(keys.nino) {
+          if(form(keys.nino.nino).value.isDefined){
+            "<p>" + form(keys.nino.nino).value.getOrElse("") +"</p>"
+          } else {
+            "<p>I cannot provide my national insurance number because:</p>" +
+            "<p>" + form(keys.nino.noNinoReason).value.getOrElse("")+"</p>"
+          }
         }
       )
     }

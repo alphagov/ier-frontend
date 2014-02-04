@@ -9,6 +9,7 @@ import uk.gov.gds.ier.security._
 import uk.gov.gds.ier.session.{SessionKeys, ResultHandling}
 import uk.gov.gds.ier.guice.WithConfig
 import uk.gov.gds.ier.config.Config
+import uk.gov.gds.ier.model.LastRegisteredType.LastRegisteredType
 
 trait TestHelpers {
 
@@ -61,11 +62,13 @@ trait TestHelpers {
 
   lazy val completeOverseasApplication = InprogressOverseas(
     previouslyRegistered = Some(PreviouslyRegistered(true)),
-    dateLeftUk = Some(Stub()),
-    firstTimeRegistered = Some(Stub()),
     name = Some(Stub()),
     lastUkAddress = Some(
       PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)
-    )
+    ),
+    dateLeftUk = Some(DateLeftUk(2000,10)),
+    firstTimeRegistered = Some(Stub()),
+    dob = Some(DateOfBirth(Some(DOB(1988, 1, 1)), None)),
+    lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.UK))
   )
 }
