@@ -13,7 +13,9 @@ case class InprogressOverseas(name: Option[Name] = None,
                               nino: Option[Nino] = None,
                               address: Option[Stub] = None,
                               openRegisterOptin: Option[Boolean] = None,
-                              waysToVote: Option[Stub] = None) extends InprogressApplication[InprogressOverseas] {
+                              waysToVote: Option[Stub] = None,
+                              postalVote: Option[Stub] = None,
+                              contact: Option[Contact] = None) extends InprogressApplication[InprogressOverseas] {
 
   def merge(other:InprogressOverseas) = {
     other.copy(
@@ -28,7 +30,8 @@ case class InprogressOverseas(name: Option[Name] = None,
       nino = this.nino.orElse(other.nino),
       address = this.address.orElse(other.address),
       openRegisterOptin = this.openRegisterOptin.orElse(other.openRegisterOptin),
-      waysToVote = this.waysToVote.orElse(other.waysToVote)
+      waysToVote = this.waysToVote.orElse(other.waysToVote),
+      contact = this.contact.orElse(other.contact)
     )
   }
 }
@@ -45,8 +48,9 @@ case class OverseasApplication(
                                nino: Option[Nino],
                                address: Option[Stub],
                                openRegisterOptin: Option[Boolean],
-                               waysToVote: Option[Stub]) extends CompleteApplication {
-
+                               waysToVote: Option[Stub],
+                               postalVote: Option[Stub],
+                               contact: Option[Contact]) extends CompleteApplication {
   def toApiMap = {
     Map.empty ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
@@ -59,7 +63,8 @@ case class OverseasApplication(
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
       address.map(_.toApiMap).getOrElse(Map.empty) ++
-      openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty)
+      openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
+      contact.map(_.toApiMap).getOrElse(Map.empty)
   }
 }
 

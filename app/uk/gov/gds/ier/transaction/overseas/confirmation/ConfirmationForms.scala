@@ -28,7 +28,9 @@ trait ConfirmationForms
       keys.nino.key -> stepRequired(ninoMapping),
       "address" -> stepRequired(stubMapping),
       keys.openRegister.key -> stepRequired(optInMapping),
-      "waysToVote" -> stepRequired(stubMapping)
+      "waysToVote" -> stepRequired(stubMapping),
+      "postalVote" -> stepRequired(stubMapping),
+      keys.contact.key -> stepRequired(contactMapping)
     ) (InprogressOverseas.apply) (InprogressOverseas.unapply)
   )
 }
