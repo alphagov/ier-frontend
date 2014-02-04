@@ -49,7 +49,7 @@ trait ContactForms extends ContactConstraints {
       contact => InprogressOrdinary(contact = contact)
     ) (
       inprogress => Some(inprogress.contact)
-    ).verifying (formIsValidOrdinary)
+    ).verifying (atLeastOneOptionSelectedOrdinary)
   )
 }
 
