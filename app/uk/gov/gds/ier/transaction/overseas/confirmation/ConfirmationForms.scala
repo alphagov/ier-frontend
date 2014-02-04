@@ -29,7 +29,7 @@ trait ConfirmationForms
       "address" -> stepRequired(stubMapping),
       keys.openRegister.key -> stepRequired(optInMapping),
       "waysToVote" -> stepRequired(stubMapping),
-      "postalVote" -> stepRequired(stubMapping),
+      keys.postalVote.key -> stepRequired(postalVoteMapping),
       keys.contact.key -> stepRequired(contactMapping)
     ) (InprogressOverseas.apply) (InprogressOverseas.unapply)
   )

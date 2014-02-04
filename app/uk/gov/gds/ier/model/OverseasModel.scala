@@ -14,7 +14,7 @@ case class InprogressOverseas(name: Option[Name] = None,
                               address: Option[Stub] = None,
                               openRegisterOptin: Option[Boolean] = None,
                               waysToVote: Option[Stub] = None,
-                              postalVote: Option[Stub] = None,
+                              postalVote: Option[PostalVote] = None,
                               contact: Option[Contact] = None) extends InprogressApplication[InprogressOverseas] {
 
   def merge(other:InprogressOverseas) = {
@@ -31,6 +31,7 @@ case class InprogressOverseas(name: Option[Name] = None,
       address = this.address.orElse(other.address),
       openRegisterOptin = this.openRegisterOptin.orElse(other.openRegisterOptin),
       waysToVote = this.waysToVote.orElse(other.waysToVote),
+      postalVote = this.postalVote.orElse(other.postalVote),
       contact = this.contact.orElse(other.contact)
     )
   }
@@ -49,8 +50,9 @@ case class OverseasApplication(
                                address: Option[Stub],
                                openRegisterOptin: Option[Boolean],
                                waysToVote: Option[Stub],
-                               postalVote: Option[Stub],
+                               postalVote: Option[PostalVote],
                                contact: Option[Contact]) extends CompleteApplication {
+
   def toApiMap = {
     Map.empty ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
@@ -64,6 +66,11 @@ case class OverseasApplication(
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
       address.map(_.toApiMap).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
+      postalVote.map(postalVote => postalVote.postalVoteOption.map(
+        postalVoteOption => Map("pvote" -> postalVoteOption.toString)).getOrElse(Map.empty)).getOrElse(Map.empty) ++
+      postalVote.map(postalVote => postalVote.deliveryMethod.map(
+        deliveryMethod => deliveryMethod.emailAddress.map(
+          emailAddress => Map("pvoteemail" -> emailAddress)).getOrElse(Map.empty)).getOrElse(Map.empty)).getOrElse(Map.empty) ++
       contact.map(_.toApiMap).getOrElse(Map.empty)
   }
 }

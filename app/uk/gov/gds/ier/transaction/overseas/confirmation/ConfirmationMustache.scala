@@ -67,6 +67,34 @@ trait ConfirmationMustache {
             }
           ),
           ConfirmationQuestion(
+            title = "What is your full name?",
+            editLink = NameController.nameStep.routes.editGet.url,
+            changeName = "full name",
+            content = ifComplete(keys.name) {
+              List(
+                form(keys.name.firstName).value,
+                form(keys.name.middleNames).value,
+                form(keys.name.lastName).value).flatten
+                .mkString("<p>", " ", "</p>")
+            }
+          ),
+          ConfirmationQuestion(
+            title = "What is your previous name?",
+            editLink = NameController.nameStep.routes.editGet.url,
+            changeName = "previous name",
+            content = ifComplete(keys.previousName) {
+              if (form(keys.previousName.hasPreviousName).value == Some("true")) {
+                List(
+                  form(keys.previousName.previousName.firstName).value,
+                  form(keys.previousName.previousName.middleNames).value,
+                  form(keys.previousName.previousName.lastName).value).flatten
+                  .mkString("<p>", " ", "</p>")
+              } else {
+                "<p>I have not changed my name in the last 12 months</p>"
+              }
+            }
+          ),
+          ConfirmationQuestion(
             title = "National Insurance number",
             editLink = NinoController.ninoStep.routes.editGet.url,
             changeName = "national insurance number",
@@ -92,30 +120,20 @@ trait ConfirmationMustache {
             }
           ),
           ConfirmationQuestion(
-            title = "What is your full name?",
-            editLink = NameController.nameStep.routes.editGet.url,
-            changeName = "full name",
-            content = ifComplete(keys.name) {
-              List(
-                form(keys.name.firstName).value,
-                form(keys.name.middleNames).value,
-                form(keys.name.lastName).value).flatten
-                .mkString("<p>", " ", "</p>")
-            }
-          ),
-          ConfirmationQuestion(
-            title = "What is your previous name?",
-            editLink = NameController.nameStep.routes.editGet.url,
-            changeName = "previous name",
-            content = ifComplete(keys.previousName) {
-              if (form(keys.previousName.hasPreviousName).value == Some("true")) {
-                List(
-                  form(keys.previousName.previousName.firstName).value,
-                  form(keys.previousName.previousName.middleNames).value,
-                  form(keys.previousName.previousName.lastName).value).flatten
-                  .mkString("<p>", " ", "</p>")
-              } else {
-                "<p>I have not changed my name in the last 12 months</p>"
+            title = "Application form",
+            editLink = PostalVoteController.postalVoteStep.routes.editGet.url,
+            changeName = "application form",
+            content = ifComplete(keys.postalVote) {
+              val wayToVote = ""
+              if(form(keys.postalVote.optIn).value == Some("true")){
+                if(form(keys.postalVote.deliveryMethod.methodName).value == Some("email")){
+                  "<p>Please email a "+wayToVote+" vote application form to:<br/>"+
+                    form(keys.postalVote.deliveryMethod.emailAddress).value.getOrElse("")+"</p>"
+                }else{
+                  "<p>Please post me a "+wayToVote+" vote application form</p>"
+                }
+              }else{
+                "<p>I do not need a "+wayToVote+" vote application form</p>"
               }
             }
           ),

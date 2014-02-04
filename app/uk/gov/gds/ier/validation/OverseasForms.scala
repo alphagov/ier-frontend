@@ -10,6 +10,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.overseas.openRegister.OpenRegisterForms
 import uk.gov.gds.ier.transaction.overseas.name.NameForms
 import play.api.data.Forms._
+import uk.gov.gds.ier.transaction.overseas.postalVote.PostalVoteForms
 
 
 trait OverseasForms
@@ -23,6 +24,7 @@ trait OverseasForms
   with LastRegisteredToVoteForms
   with NinoForms
   with OpenRegisterForms
+  with PostalVoteForms
   with ContactForms {
 
   val optInMapping = single(
