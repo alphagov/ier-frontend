@@ -422,10 +422,6 @@ fieldset {
     margin-top: 0;
   }
 
-  #found-addresses & {
-    margin-bottom: 0;
-  }
-
   .optional-section-core-content & {
     margin-top: 1em;
   }
@@ -502,10 +498,9 @@ fieldset {
 
 #found-addresses {
   @extend %contain-floats;
-  margin-top: 1em;
-  margin-bottom: 2em;
 
   &.contains-addresses {
+    margin-top: 1em;
     margin-bottom: 0;
   }
 }

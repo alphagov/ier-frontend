@@ -24,10 +24,13 @@ trait ConfirmationForms
       "firstTimeRegistered" -> stepRequired(stubMapping),
       "lastRegisteredToVote" -> stepRequired(lastRegisteredToVoteMapping),
       "registeredAddress" -> stepRequired(stubMapping),
-      "openRegister" -> stepRequired(stubMapping),
       "dateOfBirth" -> stepRequired(dobAndReasonMapping),
       keys.nino.key -> stepRequired(ninoMapping),
-      keys.overseasAddress.key -> stepRequired(addressMapping)
+      keys.overseasAddress.key -> stepRequired(addressMapping),
+      keys.openRegister.key -> stepRequired(optInMapping),
+      "waysToVote" -> stepRequired(stubMapping),
+      "postalVote" -> stepRequired(stubMapping),
+      keys.contact.key -> stepRequired(contactMapping)
     ) (InprogressOverseas.apply) (InprogressOverseas.unapply)
   )
 }

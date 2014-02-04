@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.service
 
 import com.google.inject.Inject
-import uk.gov.gds.ier.client.{IerApiClient, ApiClient}
+import uk.gov.gds.ier.client.IerApiClient
 import uk.gov.gds.ier.model._
 
 import uk.gov.gds.ier.model.Fail
@@ -90,7 +90,11 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       openRegister = applicant.openRegister,
       dob = applicant.dob,
       nino = applicant.nino,
-      address = applicant.address
+      address = applicant.address,
+      openRegisterOptin = applicant.openRegisterOptin,
+      waysToVote = applicant.waysToVote,
+      postalVote = applicant.postalVote,
+      contact = applicant.contact
     )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)

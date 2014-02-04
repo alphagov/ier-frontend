@@ -51,6 +51,16 @@ trait StepMustache extends FormKeys {
     }
   }
 
+  object CheckboxField {
+    def apply[T<:InprogressApplication[T]](key: Key)(implicit progressForm: ErrorTransformForm[T]):Field = {
+      Field(
+        id = key.asId(),
+        name = key.key,
+        attributes = if (progressForm(key.key).value.exists(_ == "true")) "checked=\"checked\"" else "",
+        classes = if (progressForm(key.key).hasErrors) "invalid" else "")
+    }
+  }
+
   object SelectField {
     def apply[T<:InprogressApplication[T]](key: Key, optionList:List[SelectOption])(implicit progressForm: ErrorTransformForm[T]):Field = {
       Field(

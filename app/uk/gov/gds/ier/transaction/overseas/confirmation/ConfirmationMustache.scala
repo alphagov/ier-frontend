@@ -84,7 +84,19 @@ trait ConfirmationMustache {
                 "<p>" + form(keys.nino.nino).value.getOrElse("") +"</p>"
               } else {
                 "<p>I cannot provide my national insurance number because:</p>" +
-                "<p>" + form(keys.nino.noNinoReason).value.getOrElse("")+"</p>"
+                  "<p>" + form(keys.nino.noNinoReason).value.getOrElse("")+"</p>"
+              }
+            }
+          ),
+          ConfirmationQuestion(
+            title = "Open register",
+            editLink = OpenRegisterController.openRegisterStep.routes.editGet.url,
+            changeName = "open register",
+            content = ifComplete(keys.openRegister) {
+              if(form(keys.openRegister.optIn).value == Some("true")){
+                "<p>I want to include my details on the open register</p>"
+              }else{
+                "<p>I don’t want to include my details on the open register</p>"
               }
             }
           ),
@@ -114,6 +126,24 @@ trait ConfirmationMustache {
               } else {
                 "<p>I have not changed my name in the last 12 months</p>"
               }
+            }
+          ),
+          ConfirmationQuestion(
+            title = "How we should contact you",
+            editLink = ContactController.contactStep.routes.editGet.url,
+            changeName = "how we should contact you",
+            content = ifComplete(keys.contact) {
+              val contactResult = new StringBuilder
+              if(form(keys.contact.post.contactMe).value == Some("true")){
+                contactResult ++= "<p>By post</p>"
+              }
+              if(form(keys.contact.phone.contactMe).value == Some("true")){
+                contactResult ++= "<p>By phone: " + form(keys.contact.phone.detail).value.getOrElse("")+"</p>"
+              }
+              if(form(keys.contact.email.contactMe).value == Some("true")){
+                contactResult ++= "<p>By email: " + form(keys.contact.email.detail).value.getOrElse("")+"</p>"
+              }
+              contactResult.toString()
             }
           )
         ),
