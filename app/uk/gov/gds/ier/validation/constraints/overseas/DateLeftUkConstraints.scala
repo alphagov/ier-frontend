@@ -5,6 +5,7 @@ import play.api.data.validation.{Invalid, Valid, Constraint}
 import uk.gov.gds.ier.model._
 import scala.Some
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
+import org.joda.time.DateTime
 
 trait DateLeftUkConstraints extends CommonConstraints{
   self: ErrorMessages
@@ -12,8 +13,27 @@ trait DateLeftUkConstraints extends CommonConstraints{
 
   lazy val validateDateLeftUk = Constraint[InprogressOverseas](keys.dateLeftUk.key) {
     application => application.dateLeftUk match {
-      case Some(dateLeftUk) => Valid
-      case None => Invalid ("Please answer this question", keys.dateLeftUk.month, keys.dateLeftUk.year)
+      case Some(dateLeftUk) => {
+        if (dateLeftUkIsBeforeNow(dateLeftUk)) Valid
+        else Invalid ("You have entered a date in the future",
+              keys.dateLeftUk.month, keys.dateLeftUk.year)
+      }
+      case None => Invalid ("Please answer this question",
+                    keys.dateLeftUk.month, keys.dateLeftUk.year)
     }
+  }
+
+  def dateLeftUkIsBeforeNow (dateLeftUk : DateLeftUk) : Boolean = {
+    val leftUkDateTime = new DateTime()
+      .withMonthOfYear(dateLeftUk.month)
+      .withYear(dateLeftUk.year)
+
+    val nowDateTime = DateTime.now()
+
+    val nowWithoutDay = new DateTime()
+      .withMonthOfYear(nowDateTime.monthOfYear().get())
+      .withYear(nowDateTime.year().get())
+
+    leftUkDateTime.isEqual(nowWithoutDay) || leftUkDateTime.isBefore(nowWithoutDay)
   }
 }
