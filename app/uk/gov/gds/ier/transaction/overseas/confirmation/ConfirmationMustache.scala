@@ -4,6 +4,10 @@ import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.validation.{InProgressForm, Key}
 import uk.gov.gds.ier.model.InprogressOverseas
 import controllers.step.overseas._
+import uk.gov.gds.ier.model.InprogressOverseas
+import uk.gov.gds.ier.validation.Key
+import uk.gov.gds.ier.validation.InProgressForm
+import scala.Some
 import org.joda.time.{YearMonth, Months}
 import scala.util.Try
 import uk.gov.gds.ier.logging.Logging
@@ -31,18 +35,21 @@ trait ConfirmationMustache {
 
       val confirmation = new ConfirmationBlocks(form)
 
-      val foo:ConfirmationModel = ConfirmationModel(
+      val data = ConfirmationModel(
         questions = List(
           confirmation.previouslyRegistered,
           confirmation.lastUkAddress,
           confirmation.dateLeftUk,
-          confirmation.nino
+          confirmation.nino,
+          confirmation.openRegister,
+          confirmation.name,
+          confirmation.previousName
         ),
         backUrl = backUrl,
         postUrl = postUrl
       )
 
-      val content = Mustache.render("overseas/confirmation", foo)
+      val content = Mustache.render("overseas/confirmation", data)
       MainStepTemplate(
         content,
         "Confirm your details - Register to vote",
@@ -101,7 +108,7 @@ trait ConfirmationMustache {
     def dateLeftUk = {
       ConfirmationQuestion(
         title = "Date you left the UK",
-        editLink = DateLeftUkController.dateLeftUkStep.routes.editGet.url,
+        editLink = routes.DateLeftUkController.editGet.url,
         changeName = "date you left the UK",
         content = ifComplete(keys.dateLeftUk) {
           val yearMonth = Try (new YearMonth (
@@ -119,7 +126,7 @@ trait ConfirmationMustache {
     def nino = {
       ConfirmationQuestion(
         title = "National Insurance number",
-        editLink = NinoController.ninoStep.routes.editGet.url,
+        editLink = routes.NinoController.editGet.url,
         changeName = "national insurance number",
         content = ifComplete(keys.nino) {
           if(form(keys.nino.nino).value.isDefined){
@@ -127,6 +134,55 @@ trait ConfirmationMustache {
           } else {
             "<p>I cannot provide my national insurance number because:</p>" +
             "<p>" + form(keys.nino.noNinoReason).value.getOrElse("")+"</p>"
+          }
+        }
+      )
+    }
+
+    def openRegister = {
+      ConfirmationQuestion(
+        title = "Open register",
+        editLink = routes.OpenRegisterController.editGet.url,
+        changeName = "open register",
+        content = ifComplete(keys.openRegister) {
+          if(form(keys.openRegister.optIn).value == Some("true")){
+            "<p>I want to include my details on the open register</p>"
+          }else{
+            "<p>I don’t want to include my details on the open register</p>"
+          }
+        }
+      )
+    }
+
+    def name = {
+      ConfirmationQuestion(
+        title = "What is your full name?",
+        editLink = routes.NameController.editGet.url,
+        changeName = "full name",
+        content = ifComplete(keys.name) {
+          List(
+            form(keys.name.firstName).value,
+            form(keys.name.middleNames).value,
+            form(keys.name.lastName).value).flatten
+            .mkString("<p>", " ", "</p>")
+        }
+      )
+    }
+
+    def previousName = {
+      ConfirmationQuestion(
+        title = "What is your previous name?",
+        editLink = routes.NameController.editGet.url,
+        changeName = "previous name",
+        content = ifComplete(keys.previousName) {
+          if (form(keys.previousName.hasPreviousName).value == Some("true")) {
+            List(
+              form(keys.previousName.previousName.firstName).value,
+              form(keys.previousName.previousName.middleNames).value,
+              form(keys.previousName.previousName.lastName).value
+            ).flatten.mkString("<p>", " ", "</p>")
+          } else {
+            "<p>I have not changed my name in the last 12 months</p>"
           }
         }
       )

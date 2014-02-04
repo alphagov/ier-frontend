@@ -12,10 +12,11 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.step.{OrdinaryStep, Routes}
 
-class NameStep @Inject ()(val serialiser: JsonSerialiser,
-                          val config: Config,
-                          val encryptionService : EncryptionService,
-                          val encryptionKeys : EncryptionKeys)
+class NameStep @Inject ()(
+    val serialiser: JsonSerialiser,
+    val config: Config,
+    val encryptionService : EncryptionService,
+    val encryptionKeys : EncryptionKeys)
   extends OrdinaryStep
   with NameForms
   with NameMustache {

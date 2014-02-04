@@ -23,19 +23,20 @@ class ConfirmationFormTests
     val errorMessage = Seq("Please complete this step")
     confirmationForm.bind(js).fold(
       hasErrors => {
+        hasErrors.errorMessages("name") should be(errorMessage)
+        hasErrors.errorMessages("previousName") should be(errorMessage)
         hasErrors.errorMessages("dateLeftUk") should be(errorMessage)
         hasErrors.errorMessages("firstTimeRegistered") should be(errorMessage)
         hasErrors.errorMessages("previouslyRegistered") should be(errorMessage)
         hasErrors.errorMessages("lastRegisteredToVote") should be(errorMessage)
-        hasErrors.errorMessages("dateOfBirth") should be(errorMessage)
-        hasErrors.errorMessages("name") should be(errorMessage)
+        hasErrors.errorMessages("dob") should be(errorMessage)
         hasErrors.errorMessages("lastUkAddress") should be(errorMessage)
         hasErrors.errorMessages("NINO") should be(errorMessage)
         hasErrors.errorMessages("address") should be(errorMessage)
-        
-        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(9)
-        hasErrors.errors.size should be(18)
-
+        hasErrors.errorMessages("openRegister") should be(errorMessage)
+        hasErrors.errorMessages("waysToVote") should be(errorMessage)
+        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(12)
+        hasErrors.errors.size should be(24)
       },
       success => fail("Should have errored out.")
     )
@@ -46,18 +47,20 @@ class ConfirmationFormTests
     val errorMessage = Seq("Please complete this step")
     confirmationForm.fillAndValidate(application).fold(
       hasErrors => {
-        hasErrors.errorMessages("lastUkAddress") should be(errorMessage)
+        hasErrors.errorMessages("name") should be(errorMessage)
+        hasErrors.errorMessages("previousName") should be(errorMessage)
         hasErrors.errorMessages("dateLeftUk") should be(errorMessage)
         hasErrors.errorMessages("firstTimeRegistered") should be(errorMessage)
         hasErrors.errorMessages("previouslyRegistered") should be(errorMessage)
         hasErrors.errorMessages("lastRegisteredToVote") should be(errorMessage)
-        hasErrors.errorMessages("dateOfBirth") should be(errorMessage)
-        hasErrors.errorMessages("name") should be(errorMessage)
+        hasErrors.errorMessages("dob") should be(errorMessage)
+        hasErrors.errorMessages("lastUkAddress") should be(errorMessage)
         hasErrors.errorMessages("NINO") should be(errorMessage)
         hasErrors.errorMessages("address") should be(errorMessage)
-        
-        hasErrors.errors.size should be(18)
-        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(9)
+        hasErrors.errorMessages("openRegister") should be(errorMessage)
+        hasErrors.errorMessages("waysToVote") should be(errorMessage)
+        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(12)
+        hasErrors.errors.size should be(24)
       },
       success => fail("Should have errored out.")
     )

@@ -11,6 +11,8 @@ import uk.gov.gds.ier.transaction.overseas.dateLeftUk.DateLeftUkForms
 import uk.gov.gds.ier.transaction.overseas.dateOfBirth.DateOfBirthForms
 import uk.gov.gds.ier.transaction.overseas.lastRegisteredToVote.LastRegisteredToVoteForms
 import uk.gov.gds.ier.transaction.overseas.nino.NinoForms
+import uk.gov.gds.ier.transaction.overseas.name.NameForms
+import uk.gov.gds.ier.transaction.overseas.openRegister.OpenRegisterForms
 
 trait ConfirmationForms
   extends FormKeys
@@ -22,23 +24,32 @@ trait ConfirmationForms
   with LastRegisteredToVoteForms
   with NinoForms
   with LastUkAddressForms
+  with OpenRegisterForms
+  with NameForms
   with CommonConstraints {
 
   val stubMapping = mapping(
     "foo" -> text
   ) (foo => Stub()) (stub => Some("foo"))
 
+  val optInMapping = single(
+    keys.optIn.key -> boolean
+  )
+
   val confirmationForm = ErrorTransformForm(
     mapping(
+      keys.name.key -> stepRequired(nameMapping),
+      keys.previousName.key -> stepRequired(previousNameMapping),
       keys.previouslyRegistered.key -> stepRequired(previouslyRegisteredMapping),
       keys.dateLeftUk.key -> stepRequired(dateLeftUkMapping),
       "firstTimeRegistered" -> stepRequired(stubMapping),
       "lastRegisteredToVote" -> stepRequired(lastRegisteredToVoteMapping),
-      "dateOfBirth" -> stepRequired(dobAndReasonMapping),
-      "name" -> stepRequired(stubMapping),
+      keys.dob.key -> stepRequired(dobAndReasonMapping),
       keys.nino.key -> stepRequired(ninoMapping),
       keys.lastUkAddress.key -> stepRequired(partialAddressMapping),
       "address" -> stepRequired(stubMapping),
+      keys.openRegister.key -> stepRequired(optInMapping),
+      "waysToVote" -> stepRequired(stubMapping),
       keys.possibleAddresses.key -> optional(possibleAddressesMapping)
     ) (InprogressOverseas.apply) (InprogressOverseas.unapply)
   )
