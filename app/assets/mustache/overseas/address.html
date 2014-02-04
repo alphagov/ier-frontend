@@ -12,7 +12,7 @@
         <select id="{{countrySelect.id}}" name="{{countrySelect.name}}" class="lonely validate {{countrySelect.classes}}" data-validation-name="countrySelect" data-validation-type="field" data-validation-rules="nonEmpty">
     			<option value="">Please select your country</option>
   				{{#countrySelect.optionList}}
-                    <option value="{{value}}" {{selected}}>{{text}}</option>
+                    <option value="{{value}}" {{{selected}}}>{{text}}</option>
                 {{/countrySelect.optionList}}
     		</select>
             
