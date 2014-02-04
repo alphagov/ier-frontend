@@ -41,7 +41,6 @@ class AddressTemplateTest
 
       val html = Mustache.render("overseas/address", data)
       val doc = Jsoup.parse(html.toString)
-      println(doc)
 
       { //country select label
         doc.select("label[for=overseasAddressCountryId]").size() should be (1)
