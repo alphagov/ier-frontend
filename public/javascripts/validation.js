@@ -231,9 +231,9 @@
         return true;
       }
     },
-    makeInvalid : function (invalidFields) {
+    makeInvalid : function (invalidFields, $triggerElement) {
       this.mark.invalidFields(invalidFields);
-      this.notify(invalidFields);
+      this.notify(invalidFields, $triggerElement);
       this.events.trigger('invalid', { 'invalidFields' :  invalidFields });
     },
     events : {

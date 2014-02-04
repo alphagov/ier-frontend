@@ -622,7 +622,7 @@
         'name' : 'postcode',
         'rule' : 'postcode',
         '$source' : _this.$searchInput
-      }]);
+      }], _this.$searchButton);
     };
 
     _clearExistingResults = function () {
@@ -658,11 +658,11 @@
       }).
       done(function (data, status, xhrObj) {
         data.rawJSON = xhrObj.responseText;
-        _clearExistingResults();
         if (!data.addresses.length) { 
           _notifyInvalidPostcode();
           return;
         }
+        _clearExistingResults();
         _this.addLookup(data, postcode);
         _setValidation();
       }).
