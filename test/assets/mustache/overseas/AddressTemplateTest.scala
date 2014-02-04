@@ -12,9 +12,9 @@ class AddressTemplateTest
   extends FlatSpec
   with AddressMustache
   with Matchers {
-  
+
   it should "properly render all properties from the model" in {
-    
+
     running(FakeApplication()) {
       val data = OverseasAddressModel(
         question = Question(postUrl = "/register-to-vote/overseas/address",
@@ -38,29 +38,41 @@ class AddressTemplateTest
 
       val html = Mustache.render("overseas/address", data)
       val doc = Jsoup.parse(html.toString)
-      println (doc)
+      println(doc)
 
-      //country select
-      val abc = doc.select("label[for=overseasAddressCountryId]").size() 
-      abc should be (1)
-      
-      val countrySelectDiv = doc.select("div[class*=overseasAddressCountryClass]").first()
-      
-      val countrySelect = countrySelectDiv.select("select")
-//      countrySelect.attr("id") should be("overseasAddressCountryId")
-//      countrySelect.attr("name") should be("overseasAddressCountryName")
-//      countrySelect.attr("class") should include("overseasAddressCountryClass")
-//      countrySelect.attr("value") should be("United Kingdom")
+      { //country select label
+        doc.select("label[for=overseasAddressCountryId]").size() should be (1)
+      }
 
+      { // country selector wrapper
+        val e = doc.select("div[class*=overseasAddressCountryClass]").size() should be(1)
+      }
 
-      //address details
-      doc.select("label[for=overseasAddressDetailsId]").size should be (1)
+      { // country selector
+        val e = doc.select("div[class*=overseasAddressCountryClass] select").first()
+        e should not be(null)
+        e.attr("id") should be("overseasAddressCountryId")
+        e.attr("id") should be("overseasAddressCountryId")
+        e.attr("name") should be("overseasAddressCountryName")
+        e.attr("class") should include("overseasAddressCountryClass")
+      }
 
-      val addressDetailsInput = doc.select("textarea[id=overseasAddressDetailsId]").first()
-      addressDetailsInput.attr("id") should be("overseasAddressDetailsId")
-      addressDetailsInput.attr("name") should be("overseasAddressDetailsName")
-      addressDetailsInput.text should be("some address")
-      addressDetailsInput.attr("class") should include("overseasAddressDetailsClass")
+      { //address details label
+        doc.select("label[for=overseasAddressDetailsId]").size should be (1)
+      }
+
+      { //address details wrapper
+        doc.select("div[class*=overseasAddressDetailsClass]").size should be (1)
+      }
+
+      { //address details wrapper
+        val e = doc.select("textarea[id=overseasAddressDetailsId]").first()
+        e should not be(null)
+        e.attr("id") should be("overseasAddressDetailsId")
+        e.attr("name") should be("overseasAddressDetailsName")
+        e.attr("class") should include("overseasAddressDetailsClass")
+        e.text should be("some address")
+      }
     }
   }
 }
