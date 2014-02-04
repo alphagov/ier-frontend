@@ -7,16 +7,25 @@ import uk.gov.gds.ier.transaction.overseas.lastRegisteredToVote.LastRegisteredTo
 import uk.gov.gds.ier.transaction.overseas.nino.NinoForms
 import uk.gov.gds.ier.transaction.overseas.contact.ContactForms
 import uk.gov.gds.ier.serialiser.WithSerialiser
+import uk.gov.gds.ier.transaction.overseas.openRegister.OpenRegisterForms
+import uk.gov.gds.ier.transaction.overseas.name.NameForms
+import play.api.data.Forms._
+
 
 trait OverseasForms
   extends FormKeys
   with WithSerialiser
   with ErrorMessages
+  with NameForms
   with PreviouslyRegisteredForms
   with DateLeftUkForms
   with DateOfBirthForms
   with LastRegisteredToVoteForms
   with NinoForms
+  with OpenRegisterForms
   with ContactForms {
 
+  val optInMapping = single(
+    keys.optIn.key -> boolean
+  )
 }

@@ -10,10 +10,13 @@ import uk.gov.gds.ier.session.{SessionKeys, ResultHandling}
 import uk.gov.gds.ier.guice.WithConfig
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.LastRegisteredType.LastRegisteredType
+import play.api.data.FormError
 
 trait TestHelpers {
 
   val jsonSerialiser = new JsonSerialiser
+
+  lazy val textTooLong = "x" * 1000
 
   implicit class EasyGetErrorMessageError(form: ErrorTransformForm[_]) {
     def errorMessages(key:String) = form.errors(key).map(_.message)
@@ -61,14 +64,53 @@ trait TestHelpers {
   )
 
   lazy val completeOverseasApplication = InprogressOverseas(
+    name = Some(Name("John", None, "Smith")),
+    previousName = Some(PreviousName(false, None)),
     previouslyRegistered = Some(PreviouslyRegistered(true)),
     dateLeftUk = Some(DateLeftUk(2000,10)),
     firstTimeRegistered = Some(Stub()),
-    registeredAddress = Some(Stub())
+    registeredAddress = Some(Stub()),
+    nino = Some(Nino(Some("XX 12 34 56 A"), None)),
+    dob = Some(DateOfBirth(Some(DOB(1970,10,10)), None)),
+    address = Some(Stub()),
+    openRegisterOptin = Some(true),
+    waysToVote = Some(Stub())
   )
 
   def overseasApplicationWithDateOfBirthAndLastRegistration(dob:DOB, lastRegisteredType: LastRegisteredType) = InprogressOverseas(
     dob = Some(DateOfBirth(Some(dob), None)),
     lastRegisteredToVote = Some(LastRegisteredToVote(lastRegisteredType))
   )
+
+  class ErrorsOps(errors: Seq[FormError], globalErrors: Seq[FormError]) {
+    /**
+     * Transform errors to a multi line text suitable for testing.
+     * Errors order is important, test it too.
+     * Filter out all items with no key, this reduces duplicities, otherwise every(?) item is there twice
+     */
+    def errorsAsText() = {
+      errors.filter(_.key != "").map(e => e.key + " -> " + e.message).mkString("", "\n", "")
+    }
+
+    /**
+     * Transform errors to a multi line text suitable for testing.
+     * Errors order is important, test it too.
+     * Note: global errors has always empty keys, so ignore them.
+     */
+    def globalErrorsAsText() = {
+      globalErrors.map(x => x.message).mkString("", "\n", "")
+    }
+  }
+
+  implicit def formToErrorOps(form: ErrorTransformForm[InprogressOrdinary]) = {
+    new ErrorsOps(form.errors, form.globalErrors)
+  }
+
+  implicit def overseasFormToErrorOps(form: ErrorTransformForm[InprogressOverseas]) = {
+    new ErrorsOps(form.errors, form.globalErrors)
+  }
+
+
+  // Comment out for longer timeouts, essential for debugging the test
+  // implicit def defaultAwaitTimeout = Timeout(10, TimeUnit.MINUTES)
 }

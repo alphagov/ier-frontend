@@ -22,22 +22,22 @@ class ConfirmationFormTests
     val js = JsNull
     confirmationForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(22)
+        hasErrors.errors.size should be(28)
+        hasErrors.errorMessages("name") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("previousName") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("dateLeftUk") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("firstTimeRegistered") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("previouslyRegistered") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("lastRegisteredToVote") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("registeredAddress") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("dateOfBirth") should be(Seq("Please complete this step"))
-        hasErrors.errorMessages("name") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("NINO") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("address") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("openRegister") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("waysToVote") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("postalVote") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("contact") should be(Seq("Please complete this step"))
-        hasErrors.globalErrorMessages should be(Seq("Please complete this step", "Please complete this step",
-          "Please complete this step","Please complete this step","Please complete this step","Please complete this step",
-          "Please complete this step","Please complete this step","Please complete this step","Please complete this step",
-          "Please complete this step"))
+        hasErrors.globalErrorMessages.filter(_ == "Please complete this step").length should be(14)
       },
       success => fail("Should have errored out.")
     )
@@ -47,22 +47,20 @@ class ConfirmationFormTests
     val application = InprogressOverseas()
     confirmationForm.fillAndValidate(application).fold(
       hasErrors => {
-        hasErrors.errors.size should be(22)
+        hasErrors.errors.size should be(28)
         hasErrors.errorMessages("dateLeftUk") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("firstTimeRegistered") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("previouslyRegistered") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("lastRegisteredToVote") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("registeredAddress") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("dateOfBirth") should be(Seq("Please complete this step"))
-        hasErrors.errorMessages("name") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("NINO") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("address") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("openRegister") should be(Seq("Please complete this step"))
+        hasErrors.errorMessages("waysToVote") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("postalVote") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("contact") should be(Seq("Please complete this step"))
-        hasErrors.globalErrorMessages should be(Seq("Please complete this step", "Please complete this step",
-          "Please complete this step","Please complete this step","Please complete this step","Please complete this step",
-          "Please complete this step","Please complete this step","Please complete this step","Please complete this step",
-          "Please complete this step"))
+        hasErrors.globalErrorMessages.filter(_ == "Please complete this step").length should be(14)
       },
       success => fail("Should have errored out.")
     )
