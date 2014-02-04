@@ -18,16 +18,16 @@
           value="{{postcode.value}}"
           class="text hidden">
 
-        <label for="address_uprn_select">
+        <label for="{{address.id}}">
             <span class="visuallyhidden">Select your </span>Address
         </label>
-        <div class="validation-wrapper">
+        <div class="validation-wrapper {{address.classes}}">
             <select
               id="{{address.id}}"
               name="{{address.name}}"
               class="lonely validate {{address.classes}}">
               {{#address.optionList}}
-                <option value="{{value}}" {{selected}}>{{text}}</option>
+                <option value="{{value}}" {{{selected}}}>{{text}}</option>
               {{/address.optionList}}
             </select>
         </div>
