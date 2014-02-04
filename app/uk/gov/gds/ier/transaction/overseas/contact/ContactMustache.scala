@@ -8,15 +8,19 @@ import uk.gov.gds.ier.mustache.StepMustache
 
 trait ContactMustache extends StepMustache {
 
-  case class ContactModel (question:Question,
-                           contactFieldSet: FieldSet,
-                           contactEmailCheckbox: Field,
-                           contactPhoneCheckbox: Field,
-                           contactPostCheckbox: Field,
-                           contactEmailText: Field,
-                           contactPhoneText: Field)
+  case class ContactModel (
+      question:Question,
+      contactFieldSet: FieldSet,
+      contactEmailCheckbox: Field,
+      contactPhoneCheckbox: Field,
+      contactPostCheckbox: Field,
+      contactEmailText: Field,
+      contactPhoneText: Field)
 
-  def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]) : ContactModel = {
+  def transformFormStepToMustacheData(
+      form: ErrorTransformForm[InprogressOverseas],
+      postEndpoint: Call, backEndpoint:Option[Call]) : ContactModel = {
+
     implicit val progressForm = form
     ContactModel(
       question = Question(
@@ -47,7 +51,11 @@ trait ContactMustache extends StepMustache {
     )
   }
 
-  def contactMustache(form:ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint: Option[Call]): Html = {
+  def contactMustache(
+      form:ErrorTransformForm[InprogressOverseas],
+      postEndpoint: Call,
+      backEndpoint: Option[Call]): Html = {
+
     val data = transformFormStepToMustacheData(form, postEndpoint, backEndpoint)
     val content = Mustache.render("overseas/contact", data)
     MainStepTemplate(content, data.question.title)

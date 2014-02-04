@@ -22,8 +22,10 @@ class ContactControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 12")
-      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/postal-vote")
-      contentAsString(result) should include("If we have questions about your application, how should we contact you?")
+      contentAsString(result) should include(
+        "<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/postal-vote")
+      contentAsString(result) should include(
+        "If we have questions about your application, how should we contact you?")
       contentAsString(result) should include("/register-to-vote/overseas/contact")
     }
   }
@@ -51,7 +53,8 @@ class ContactControllerTests
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("If we have questions about your application, how should we contact you?")
+      contentAsString(result) should include(
+        "If we have questions about your application, how should we contact you?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("/register-to-vote/overseas/contact")
     }
@@ -67,8 +70,10 @@ class ContactControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 12")
-      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/confirmation")
-      contentAsString(result) should include("If we have questions about your application, how should we contact you?")
+      contentAsString(result) should include(
+        "<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/confirmation")
+      contentAsString(result) should include(
+        "If we have questions about your application, how should we contact you?")
       contentAsString(result) should include("/register-to-vote/overseas/edit/contact")
     }
   }
@@ -96,7 +101,8 @@ class ContactControllerTests
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("If we have questions about your application, how should we contact you?")
+      contentAsString(result) should include(
+        "If we have questions about your application, how should we contact you?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("/register-to-vote/overseas/edit/contact")
     }

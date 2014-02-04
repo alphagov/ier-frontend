@@ -25,7 +25,7 @@ trait ContactConstraints extends CommonConstraints {
       }
   }
 
-  lazy val formIsValidOverseas = Constraint[InprogressOverseas](keys.contact.key) {
+  lazy val atLeastOneOptionSelectedOverseas = Constraint[InprogressOverseas](keys.contact.key) {
     application =>
       application.contact match {
         case Some(Contact(postOption,Some(ContactDetail(phoneOption,_)),Some(ContactDetail(emailOption,_)))) =>
@@ -37,7 +37,7 @@ trait ContactConstraints extends CommonConstraints {
       }
   }
 
-  lazy val formIsValidOrdinary = Constraint[InprogressOrdinary](keys.contact.key) {
+  lazy val atLeastOneOptionSelectedOrdinary = Constraint[InprogressOrdinary](keys.contact.key) {
     application =>
       application.contact match {
         case Some(Contact(postOption,Some(ContactDetail(phoneOption,_)),Some(ContactDetail(emailOption,_)))) =>

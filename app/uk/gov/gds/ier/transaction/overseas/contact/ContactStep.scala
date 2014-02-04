@@ -14,10 +14,12 @@ import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.validation.InProgressForm
 import scala.Some
 
-class ContactStep @Inject ()(val serialiser: JsonSerialiser,
-                             val config: Config,
-                             val encryptionService : EncryptionService,
-                             val encryptionKeys : EncryptionKeys)
+class ContactStep @Inject ()(
+    val serialiser: JsonSerialiser,
+    val config: Config,
+    val encryptionService : EncryptionService,
+    val encryptionKeys : EncryptionKeys)
+
   extends OverseaStep
   with ContactForms
   with ContactMustache {
@@ -32,7 +34,11 @@ class ContactStep @Inject ()(val serialiser: JsonSerialiser,
     editPost = ContactController.editPost
   )
 
-  def template(form: InProgressForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
+  def template(
+      form: InProgressForm[InprogressOverseas],
+      postEndpoint: Call,
+      backEndpoint:Option[Call]): Html = {
+
     contactMustache(form.form, postEndpoint, backEndpoint)
   }
 

@@ -39,7 +39,7 @@ trait ContactForms extends ContactConstraints {
       contact => InprogressOverseas(contact = contact)
     ) (
       inprogress => Some(inprogress.contact)
-    ).verifying (formIsValidOverseas)
+    ).verifying (atLeastOneOptionSelectedOverseas)
   )
 }
 
