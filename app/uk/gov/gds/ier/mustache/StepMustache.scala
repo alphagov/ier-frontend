@@ -72,6 +72,23 @@ trait StepMustache extends FormKeys {
     }
   }
 
+  object CheckboxField {
+    def apply[T<:InprogressApplication[T]]
+        (key: Key, value: String)
+        (implicit progressForm: ErrorTransformForm[T]):Field = {
+      Field(
+        id = key.asId(),
+        name = key.key,
+        attributes = if (progressForm(key.key).value.exists(_ == value)) {
+          "checked=\"checked\""
+        } else {
+          ""
+        },
+        classes = if (progressForm(key.key).hasErrors) "invalid" else ""
+      )
+    }
+  }
+
   object RadioField {
     def apply[T<:InprogressApplication[T]]
         (key: Key, value: String)
@@ -84,7 +101,8 @@ trait StepMustache extends FormKeys {
         } else {
           ""
         },
-        classes = if (progressForm(key.key).hasErrors) "invalid" else "")
+        classes = if (progressForm(key.key).hasErrors) "invalid" else ""
+      )
     }
   }
 }

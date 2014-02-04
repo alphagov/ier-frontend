@@ -43,7 +43,8 @@ trait ConfirmationMustache {
           confirmation.nino,
           confirmation.openRegister,
           confirmation.name,
-          confirmation.previousName
+          confirmation.previousName,
+          confirmation.contact
         ),
         backUrl = backUrl,
         postUrl = postUrl
@@ -118,7 +119,7 @@ trait ConfirmationMustache {
             logger.error("error parsing the date (date-left-uk step)")
             ""
           }
-          "<p>"+yearMonth+"</p>"
+          s"<p>$yearMonth</p>"
         }
       )
     }
@@ -130,10 +131,10 @@ trait ConfirmationMustache {
         changeName = "national insurance number",
         content = ifComplete(keys.nino) {
           if(form(keys.nino.nino).value.isDefined){
-            "<p>" + form(keys.nino.nino).value.getOrElse("") +"</p>"
+            s"<p>${form(keys.nino.nino).value.getOrElse("")}</p>"
           } else {
             "<p>I cannot provide my national insurance number because:</p>" +
-            "<p>" + form(keys.nino.noNinoReason).value.getOrElse("")+"</p>"
+              s"<p>${form(keys.nino.noNinoReason).value.getOrElse("")}</p>"
           }
         }
       )
@@ -184,6 +185,29 @@ trait ConfirmationMustache {
           } else {
             "<p>I have not changed my name in the last 12 months</p>"
           }
+        }
+      )
+    }
+
+    def contact = {
+      ConfirmationQuestion(
+        title = "How we should contact you",
+        editLink = ContactController.contactStep.routes.editGet.url,
+        changeName = "how we should contact you",
+        content = ifComplete(keys.contact) {
+          val post = if(form(keys.contact.post.contactMe).value == Some("true")){
+            "<p>By post</p>"
+          } else ""
+
+          val phone = if(form(keys.contact.phone.contactMe).value == Some("true")){
+            s"<p>By phone: ${form(keys.contact.phone.detail).value.getOrElse("")}</p>"
+          } else ""
+
+          val email = if(form(keys.contact.email.contactMe).value == Some("true")){
+            s"<p>By email: ${form(keys.contact.email.detail).value.getOrElse("")}</p>"
+          } else ""
+
+          s"$post $phone $email"
         }
       )
     }
