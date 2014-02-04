@@ -26,7 +26,10 @@ class AddressTemplateTest
           id = "overseasAddressCountryId",
           name = "overseasAddressCountryName",
           classes = "overseasAddressCountryClass",
-          value = "United Kingdom"
+          value = "United Kingdom",
+          optionList = List(SelectOption(value = "United Kingdom", text = "United Kingdom", 
+              selected = "selected"), 
+              SelectOption(value = "France", text = "France"))
         ),
         address = Field(
           id = "overseasAddressDetailsId",
@@ -45,8 +48,8 @@ class AddressTemplateTest
       abc should be (1)
       
       val countrySelectDiv = doc.select("div[class*=overseasAddressCountryClass]").first()
-      
-      val countrySelect = countrySelectDiv.select("select")
+      println (countrySelectDiv)
+      val countrySelect = doc.select("select[id=overseasAddressCountryId]")
 //      countrySelect.attr("id") should be("overseasAddressCountryId")
 //      countrySelect.attr("name") should be("overseasAddressCountryName")
 //      countrySelect.attr("class") should include("overseasAddressCountryClass")
