@@ -15,7 +15,7 @@ trait AddressForms extends OverseasAddressConstraints {
     ) (OverseasAddress.apply) (OverseasAddress.unapply) 
     
     val addressForm = ErrorTransformForm(
-        mapping(keys.overseasAddress.key -> optional(addressMapping).verifying (countryRequired, addressDetailsRequired))//verifying("Please answer this question", _.isDefined))
+        mapping(keys.overseasAddress.key -> optional(addressMapping).verifying (countryRequired, addressDetailsRequired))
         (overseasAddress => InprogressOverseas(address = overseasAddress))(inprogressOverseas => Some(inprogressOverseas.address))
     ) 
 }

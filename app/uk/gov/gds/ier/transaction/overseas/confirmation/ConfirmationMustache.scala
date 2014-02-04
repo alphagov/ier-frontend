@@ -71,8 +71,8 @@ trait ConfirmationMustache {
             editLink = AddressController.addressStep.routes.editGet.url,
             changeName = "where do you live?",
             content = ifComplete(keys.overseasAddress) {
-                "<p>" + form (keys.overseasAddress.country).value.getOrElse("") + "</p>" + 
-                "<p>" + form (keys.overseasAddress.overseasAddressDetails).value.getOrElse("") + "</p>"
+            	"<p>" + form (keys.overseasAddress.overseasAddressDetails).value.getOrElse("") + "</p>" +
+                "<p>" + form (keys.overseasAddress.country).value.getOrElse("") + "</p>"
             }
           ),
           ConfirmationQuestion(

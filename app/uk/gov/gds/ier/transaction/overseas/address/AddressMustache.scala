@@ -20,7 +20,7 @@ trait AddressMustache extends StepMustache {
 	def countrySelectOptions (selectedCountry: String) = (NationalityConstants.countryNameToCodes map (
 	  isoCountry => {
  	       val isSelected = if (selectedCountry.equals(isoCountry._1)) "selected" else ""
-	       SelectOption(isoCountry._1, isoCountry._1, isSelected)
+	       SelectOption(isoCountry._2.displayName, isoCountry._2.displayName, isSelected)
 	  }
 	)).toList.sortWith((x, y) => x.text.compareTo(y.text) < 0)
 	
@@ -44,5 +44,3 @@ trait AddressMustache extends StepMustache {
     MainStepTemplate(content, data.question.title)
   }
 }
-
-//object AddressMustache extends AddressMustache

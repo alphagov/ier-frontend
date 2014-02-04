@@ -32,8 +32,8 @@ class ConfirmationFormTests
         hasErrors.errorMessages("dateOfBirth") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("overseasAddress") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("NINO") should be(Seq("Please complete this step"))
-        hasErrors.globalErrorMessages should be(List.fill(10)("Please complete this step"))
-        hasErrors.errors.size should be(20)
+        hasErrors.globalErrorMessages should be(List.fill(11)("Please complete this step"))
+        hasErrors.errors.size should be(22)
       },
       success => fail("Should have errored out.")
     )
@@ -52,8 +52,8 @@ class ConfirmationFormTests
         hasErrors.errorMessages("overseasAddress") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("name") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("NINO") should be(Seq("Please complete this step"))
-        hasErrors.globalErrorMessages should be(List.fill(10)("Please complete this step"))
-        hasErrors.errors.size should be(20)
+        hasErrors.globalErrorMessages should be(List.fill(11)("Please complete this step"))
+        hasErrors.errors.size should be(22)
       },
       success => fail("Should have errored out.")
     )
