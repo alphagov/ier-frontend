@@ -19,6 +19,9 @@ GET         /register-to-vote/exit/under-18                              control
 GET         /register-to-vote/exit/dont-know                             controllers.ExitController.dontKnow
 GET         /register-to-vote/exit/too-young                             controllers.ExitController.tooYoung
 GET         /register-to-vote/exit/no-franchise                          controllers.ExitController.noFranchise
+GET         /register-to-vote/exit/overseas/left-uk-over-15-years        controllers.ExitController.leftUkOver15Years
+GET         /register-to-vote/exit/overseas/too-old-when-left-uk         controllers.ExitController.tooOldWhenLeftUk
+
 
 #Error Routes
 GET         /register-to-vote/error/timeout                              controllers.ErrorController.timeout
@@ -154,6 +157,42 @@ GET         /register-to-vote/overseas/date-left-uk                      control
 POST        /register-to-vote/overseas/date-left-uk                      controllers.step.overseas.DateLeftUkController.post
 GET         /register-to-vote/overseas/edit/date-left-uk                 controllers.step.overseas.DateLeftUkController.editGet
 POST        /register-to-vote/overseas/edit/date-left-uk                 controllers.step.overseas.DateLeftUkController.editPost
+
+#Last Registered UK Address
+GET         /register-to-vote/overseas/registered-address                controllers.step.overseas.RegisteredAddressController.get
+POST        /register-to-vote/overseas/registered-address                controllers.step.overseas.RegisteredAddressController.post
+GET         /register-to-vote/overseas/edit/registered-address           controllers.step.overseas.RegisteredAddressController.editGet
+POST        /register-to-vote/overseas/edit/registered-address           controllers.step.overseas.RegisteredAddressController.editPost
+
+#Name  (voter full name)
+GET         /register-to-vote/overseas/name                              controllers.step.overseas.NameController.get
+POST        /register-to-vote/overseas/name                              controllers.step.overseas.NameController.post
+GET         /register-to-vote/overseas/edit/name                         controllers.step.overseas.NameController.editGet
+POST        /register-to-vote/overseas/edit/name                         controllers.step.overseas.NameController.editPost
+
+#Nino Step
+GET         /register-to-vote/overseas/nino                              controllers.step.overseas.NinoController.get
+POST        /register-to-vote/overseas/nino                              controllers.step.overseas.NinoController.post
+GET         /register-to-vote/overseas/edit/nino                         controllers.step.overseas.NinoController.editGet
+POST        /register-to-vote/overseas/edit/nino                         controllers.step.overseas.NinoController.editPost
+
+#Address Step
+GET         /register-to-vote/overseas/address                           controllers.step.overseas.AddressController.get
+POST        /register-to-vote/overseas/address                           controllers.step.overseas.AddressController.post
+GET         /register-to-vote/overseas/edit/address                      controllers.step.overseas.AddressController.editGet
+POST        /register-to-vote/overseas/edit/address                      controllers.step.overseas.AddressController.editPost
+
+#Open Register Step
+GET         /register-to-vote/overseas/open-register                     controllers.step.overseas.OpenRegisterController.get
+POST        /register-to-vote/overseas/open-register                     controllers.step.overseas.OpenRegisterController.post
+GET         /register-to-vote/overseas/edit/open-register                controllers.step.overseas.OpenRegisterController.editGet
+POST        /register-to-vote/overseas/edit/open-register                controllers.step.overseas.OpenRegisterController.editPost
+
+#Ways To Vote Step
+GET         /register-to-vote/overseas/ways-to-vote                      controllers.step.overseas.WaysToVoteController.get
+POST        /register-to-vote/overseas/ways-to-vote                      controllers.step.overseas.WaysToVoteController.post
+GET         /register-to-vote/overseas/edit/ways-to-vote                 controllers.step.overseas.WaysToVoteController.editGet
+POST        /register-to-vote/overseas/edit/ways-to-vote                 controllers.step.overseas.WaysToVoteController.editPost
 
 #Overseas Confirmation
 GET         /register-to-vote/overseas/confirmation                      controllers.step.overseas.ConfirmationController.get

@@ -2,13 +2,23 @@ package uk.gov.gds.ier.validation.constraints
 
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages, NinoValidator}
 import play.api.data.validation.{Valid, Invalid, Constraint}
-import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication, Nino}
+import uk.gov.gds.ier.model.{InprogressOverseas, InprogressOrdinary, InprogressApplication, Nino}
 
 trait NinoConstraints {
   self: ErrorMessages
     with FormKeys =>
 
   lazy val ninoOrNoNinoReasonDefined = Constraint[InprogressOrdinary](keys.nino.key) {
+    application =>
+      if (application.nino.isDefined) {
+        Valid
+      }
+      else {
+        Invalid("Please enter your National Insurance number", keys.nino.nino)
+      }
+  }
+
+  lazy val overseasNinoOrNoNinoReasonDefined = Constraint[InprogressOverseas](keys.nino.key) {
     application =>
       if (application.nino.isDefined) {
         Valid

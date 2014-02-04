@@ -3,9 +3,7 @@ package uk.gov.gds.ier.transaction.ordinary.dateOfBirth
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages, ErrorTransformForm}
 import uk.gov.gds.ier.validation.constraints.DateOfBirthConstraints
-import play.api.data.Form
 import play.api.data.Forms._
-import scala.Some
 import uk.gov.gds.ier.model.DateOfBirth
 import uk.gov.gds.ier.model.noDOB
 import uk.gov.gds.ier.model.DOB
