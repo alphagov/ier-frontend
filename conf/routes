@@ -88,9 +88,10 @@ GET         /register-to-vote/edit/nationality                           control
 POST        /register-to-vote/edit/nationality                           controllers.step.ordinary.NationalityController.editPost
 
 #Address Step
+POST        /register-to-vote/edit/address/lookup                             controllers.step.ordinary.AddressController.lookup
 GET         /register-to-vote/address                                    controllers.step.ordinary.AddressController.get
-POST        /register-to-vote/address                                    controllers.step.ordinary.AddressController.post
 POST        /register-to-vote/address/lookup                             controllers.step.ordinary.AddressController.lookup
+POST        /register-to-vote/address                                    controllers.step.ordinary.AddressController.post
 GET         /register-to-vote/edit/address                               controllers.step.ordinary.AddressController.editGet
 POST        /register-to-vote/edit/address                               controllers.step.ordinary.AddressController.editPost
 
