@@ -175,6 +175,18 @@ POST        /register-to-vote/overseas/address                           control
 GET         /register-to-vote/overseas/edit/address                      controllers.step.overseas.AddressController.editGet
 POST        /register-to-vote/overseas/edit/address                      controllers.step.overseas.AddressController.editPost
 
+#Open Register Step
+GET         /register-to-vote/overseas/open-register                     controllers.step.overseas.OpenRegisterController.get
+POST        /register-to-vote/overseas/open-register                     controllers.step.overseas.OpenRegisterController.post
+GET         /register-to-vote/overseas/edit/open-register                controllers.step.overseas.OpenRegisterController.editGet
+POST        /register-to-vote/overseas/edit/open-register                controllers.step.overseas.OpenRegisterController.editPost
+
+#Ways To Vote Step
+GET         /register-to-vote/overseas/ways-to-vote                      controllers.step.overseas.WaysToVoteController.get
+POST        /register-to-vote/overseas/ways-to-vote                      controllers.step.overseas.WaysToVoteController.post
+GET         /register-to-vote/overseas/edit/ways-to-vote                 controllers.step.overseas.WaysToVoteController.editGet
+POST        /register-to-vote/overseas/edit/ways-to-vote                 controllers.step.overseas.WaysToVoteController.editPost
+
 #Overseas Confirmation
 GET         /register-to-vote/overseas/confirmation                      controllers.step.overseas.ConfirmationController.get
 POST        /register-to-vote/overseas/confirmation                      controllers.step.overseas.ConfirmationController.post
