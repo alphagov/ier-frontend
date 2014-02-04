@@ -28,7 +28,7 @@ class OpenRegisterMustacheTests
     openRegisterModel.openRegister.value should be("")
   }
 
-  it should "progress form with open register marked should produce Mustache Model with open register value present" in {
+  it should "progress form with open register marked should produce Mustache Model with open register value present (true)" in {
     val partiallyFilledApplicationForm = openRegisterForm.fill(
       InprogressOverseas(
         openRegisterOptin = Some(true)
@@ -40,6 +40,21 @@ class OpenRegisterMustacheTests
     openRegisterModel.question.postUrl should be("/register-to-vote/overseas/ways-to-vote")
     openRegisterModel.question.backUrl should be("/register-to-vote/overseas/address")
 
-    openRegisterModel.openRegister.value should be("true")
+    openRegisterModel.openRegister.attributes should be("")
+  }
+
+  it should "progress form with open register marked should produce Mustache Model with open register value present (false)" in {
+    val partiallyFilledApplicationForm = openRegisterForm.fill(
+      InprogressOverseas(
+        openRegisterOptin = Some(false)
+      )
+    )
+    val openRegisterModel = openRegisterMustache.transformFormStepToMustacheData (partiallyFilledApplicationForm, WaysToVoteController.post, Some(AddressController.get))
+
+    openRegisterModel.question.title should be("Do you want to include your name and address on the open register?")
+    openRegisterModel.question.postUrl should be("/register-to-vote/overseas/ways-to-vote")
+    openRegisterModel.question.backUrl should be("/register-to-vote/overseas/address")
+
+    openRegisterModel.openRegister.attributes should be("checked=\"checked\"")
   }
 }

@@ -21,7 +21,10 @@ trait OpenRegisterMustache extends StepMustache {
         number = "9",
         title = "Do you want to include your name and address on the open register?"
       ),
-      openRegister = TextField (key = keys.openRegister.optIn)
+      openRegister = RadioField (
+        key = keys.openRegister.optIn,
+        value = "false"
+      )
     )
   }
 

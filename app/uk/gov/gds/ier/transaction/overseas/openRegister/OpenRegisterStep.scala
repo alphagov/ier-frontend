@@ -36,9 +36,7 @@ class OpenRegisterStep @Inject ()(val serialiser: JsonSerialiser,
     WaysToVoteController.waysToVoteStep
   }
 
-  def template(form: InProgressForm[InprogressOverseas],
-               postEndpoint: Call,
-               backEndpoint:Option[Call]): Html = {
+  def template(form: InProgressForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
     openRegisterMustache(form.form, postEndpoint, backEndpoint)
   }
 }
