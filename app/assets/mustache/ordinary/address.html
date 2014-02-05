@@ -7,7 +7,7 @@
     <p>If you have more than one address, just give the one where you spend most of your time.</p>
     <label for="{{possibleAddresses.name}}" class="">Postcode</label>
     <div class="validation-wrapper {{possibleAddresses.classes}}">
-		<input type="text" id="{{possibleAddresses.id}}" name="{{possibleAddresses.name}}" value="{{possibleAddresses.value}}" autocomplete="off" class="text  postcode medium validate {{possibleAddresses.classes}}" data-validation-name="postcode" data-validation-type="field" data-validation-rules="nonEmpty">
+		<input type="text" id="{{possibleAddresses.id}}" name="{{possibleAddresses.name}}" value="{{possibleAddresses.value}}" autocomplete="off" class="text  postcode medium validate {{possibleAddresses.classes}}" data-validation-name="postcode" data-validation-type="field" data-validation-rules="nonEmpty postcode">
      </div>
     <button id="find-address" type="submit" class="button search validation-submit" data-validation-sources="postcode" aria-controls="found-addresses">Find address</button>
     </fieldset>
