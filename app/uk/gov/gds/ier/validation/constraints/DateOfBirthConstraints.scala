@@ -17,9 +17,9 @@ trait DateOfBirthConstraints extends CommonConstraints{
     application => application.dob match {
       case Some(dob) => Valid
       case None => Invalid(
-        "Please enter your date of birth", 
-        keys.dob.dob.day, 
-        keys.dob.dob.month, 
+        "Please enter your date of birth",
+        keys.dob.dob.day,
+        keys.dob.dob.month,
         keys.dob.dob.year
       )
     }

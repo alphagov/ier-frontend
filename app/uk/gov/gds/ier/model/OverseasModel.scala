@@ -2,20 +2,23 @@ package uk.gov.gds.ier.model
 
 import uk.gov.gds.ier.model.LastRegisteredType.LastRegisteredType
 
-case class InprogressOverseas(name: Option[Name] = None,
-                              previousName: Option[PreviousName] = None, 
-                              previouslyRegistered: Option[PreviouslyRegistered] = None,
-                              dateLeftUk: Option[DateLeftUk] = None,
-                              firstTimeRegistered: Option[Stub] = None,
-                              lastRegisteredToVote: Option[LastRegisteredToVote] = None,
-                              registeredAddress: Option[Stub] = None,
-							  dob: Option[DateOfBirth] = None,
-                              nino: Option[Nino] = None,
-                              address: Option[OverseasAddress] = None,
-                              openRegisterOptin: Option[Boolean] = None,
-                              waysToVote: Option[Stub] = None,
-                              postalVote: Option[Stub] = None,
-                              contact: Option[Contact] = None) extends InprogressApplication[InprogressOverseas] {
+case class InprogressOverseas(
+    name: Option[Name] = None,
+    previousName: Option[PreviousName] = None,
+    previouslyRegistered: Option[PreviouslyRegistered] = None,
+    dateLeftUk: Option[DateLeftUk] = None,
+    firstTimeRegistered: Option[Stub] = None,
+    lastRegisteredToVote: Option[LastRegisteredToVote] = None,
+    dob: Option[DOB] = None,
+    nino: Option[Nino] = None,
+    lastUkAddress: Option[PartialAddress] = None,
+    address: Option[OverseasAddress] = None,
+    openRegisterOptin: Option[Boolean] = None,
+    waysToVote: Option[Stub] = None,
+    postalVote: Option[Stub] = None,
+    contact: Option[Contact] = None,
+    possibleAddresses: Option[PossibleAddress] = None)
+  extends InprogressApplication[InprogressOverseas] {
 
   def merge(other:InprogressOverseas) = {
     other.copy(
@@ -25,32 +28,35 @@ case class InprogressOverseas(name: Option[Name] = None,
       dateLeftUk = this.dateLeftUk.orElse(other.dateLeftUk),
       firstTimeRegistered = this.firstTimeRegistered.orElse(other.firstTimeRegistered),
       lastRegisteredToVote = this.lastRegisteredToVote.orElse(other.lastRegisteredToVote),
-      registeredAddress = this.registeredAddress.orElse(other.registeredAddress),
       dob = this.dob.orElse(other.dob),
       nino = this.nino.orElse(other.nino),
+      lastUkAddress = this.lastUkAddress.orElse(other.lastUkAddress),
       address = this.address.orElse(other.address),
       openRegisterOptin = this.openRegisterOptin.orElse(other.openRegisterOptin),
       waysToVote = this.waysToVote.orElse(other.waysToVote),
-      contact = this.contact.orElse(other.contact)
+      contact = this.contact.orElse(other.contact),
+      possibleAddresses = None
     )
   }
 }
 
 case class OverseasApplication(
-                               name: Option[Name],
-                               previousName: Option[PreviousName],
-                               previouslyRegistered: Option[PreviouslyRegistered],
-                               dateLeftUk: Option[DateLeftUk],
-                               firstTimeRegistered: Option[Stub],
-                               lastRegisteredToVote: Option[LastRegisteredToVote],
-                               registeredAddress: Option[Stub],
-                               dob: Option[DateOfBirth],
-                               nino: Option[Nino],
-                               address: Option[OverseasAddress],
-                               openRegisterOptin: Option[Boolean],
-                               waysToVote: Option[Stub],
-                               postalVote: Option[Stub],
-                               contact: Option[Contact]) extends CompleteApplication {
+    name: Option[Name],
+    previousName: Option[PreviousName],
+    previouslyRegistered: Option[PreviouslyRegistered],
+    dateLeftUk: Option[DateLeftUk],
+    firstTimeRegistered: Option[Stub],
+    lastRegisteredToVote: Option[LastRegisteredToVote],
+    dob: Option[DOB],
+    nino: Option[Nino],
+    address: Option[OverseasAddress],
+    lastUkAddress: Option[PartialAddress] = None,
+    openRegisterOptin: Option[Boolean],
+    waysToVote: Option[Stub],
+    postalVote: Option[Stub],
+    contact: Option[Contact])
+  extends CompleteApplication {
+
   def toApiMap = {
     Map.empty ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
@@ -58,10 +64,8 @@ case class OverseasApplication(
       previouslyRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
       dateLeftUk.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
-      address.map(_.toApiMap).getOrElse(Map.empty) ++
       firstTimeRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
       lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
-      registeredAddress.map(_.toApiMap).getOrElse(Map.empty) ++
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
       address.map(_.toApiMap).getOrElse(Map.empty) ++

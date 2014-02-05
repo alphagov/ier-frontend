@@ -68,19 +68,17 @@ trait TestHelpers {
     name = Some(Name("John", None, "Smith")),
     previousName = Some(PreviousName(false, None)),
     previouslyRegistered = Some(PreviouslyRegistered(true)),
+    lastUkAddress = Some(
+      PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)
+    ),
     dateLeftUk = Some(DateLeftUk(2000,10)),
     firstTimeRegistered = Some(Stub()),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
     address = Some(OverseasAddress(country = Some("United Kingdom"), addressDetails = Some("some address"))),
-    registeredAddress = Some(Stub()),
-    dob = Some(DateOfBirth(Some(DOB(1970,10,10)), None)),
+    lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.UK)),
+    dob = Some((DOB(1970,10,10))),
     openRegisterOptin = Some(true),
     waysToVote = Some(Stub())
-  )
-
-  def overseasApplicationWithDateOfBirthAndLastRegistration(dob:DOB, lastRegisteredType: LastRegisteredType) = InprogressOverseas(
-    dob = Some(DateOfBirth(Some(dob), None)),
-    lastRegisteredToVote = Some(LastRegisteredToVote(lastRegisteredType))
   )
 
   class ErrorsOps(errors: Seq[FormError], globalErrors: Seq[FormError]) {

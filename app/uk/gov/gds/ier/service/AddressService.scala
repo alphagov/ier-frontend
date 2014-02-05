@@ -41,8 +41,13 @@ class AddressService @Inject()(placesService: PlacesService) {
   }
 
   protected[service] def formAddressLine(address:Address):String = {
-    List(address.lineOne, address.lineTwo, address.lineThree, address.city, address.county)
-      .filterNot(line => line.map(_.replaceAllLiterally(" ","")) == Some(""))
+    List(
+      address.lineOne,
+      address.lineTwo,
+      address.lineThree,
+      address.city,
+      address.county
+    ).filterNot(line => line.map(_.replaceAllLiterally(" ","")) == Some(""))
       .flatten
       .mkString(", ")
   }

@@ -5,7 +5,7 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import play.api.templates.Html
-import controllers.step.overseas.RegisteredAddressController
+import controllers.step.overseas.LastUkAddressController
 import uk.gov.gds.ier.step.OverseaStep
 import controllers.step.overseas.routes._
 import uk.gov.gds.ier.model._
@@ -44,7 +44,7 @@ class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
       case Some(dateLeftUk) if validateTooOldWhenLeftUk(dateLeftUk, currentState.dob, currentState.lastRegisteredToVote) => {
         Exit(ExitController.tooOldWhenLeftUk)
       }
-      case _ => RegisteredAddressController.registeredAddressStep
+      case _ => LastUkAddressController.lastUkAddressStep
     }
   }
 

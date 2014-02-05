@@ -11,7 +11,10 @@ trait OpenRegisterMustache extends StepMustache {
   case class OpenRegisterModel(question:Question,
                                openRegister: Field)
 
-  def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint: Option[Call]) : OpenRegisterModel = {
+  def transformFormStepToMustacheData(
+      form: ErrorTransformForm[InprogressOverseas],
+      postEndpoint: Call,
+      backEndpoint: Option[Call]) : OpenRegisterModel = {
     implicit val progressForm = form
     OpenRegisterModel(
       question = Question(
@@ -21,14 +24,17 @@ trait OpenRegisterMustache extends StepMustache {
         number = "9",
         title = "Do you want to include your name and address on the open register?"
       ),
-      openRegister = RadioField (
+      openRegister = CheckboxField (
         key = keys.openRegister.optIn,
         value = "false"
       )
     )
   }
 
-  def openRegisterMustache(form:ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint: Option[Call]): Html = {
+  def openRegisterMustache(
+      form:ErrorTransformForm[InprogressOverseas],
+      postEndpoint: Call,
+      backEndpoint: Option[Call]): Html = {
     val data = transformFormStepToMustacheData(form, postEndpoint, backEndpoint)
     val content = Mustache.render("overseas/openRegister", data)
     MainStepTemplate(content, data.question.title)
