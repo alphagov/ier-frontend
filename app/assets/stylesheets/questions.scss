@@ -164,71 +164,11 @@ input.year {
   }
 }
 
-.validation-wrapper {
-  font-size: 19px;
-  clear: left;
-  margin-bottom: 1em;
-
-  input,
-  select {
-    margin-bottom: 0;
-  }
-
-  & .optional-section input,
-  & .help-content select {
-    margin-bottom: 1em;
-  }
-
-  & .added-country .text {
-    margin-bottom: 0;
-  }
-}
-
-/*
-  Should only apply to the div.validation-wrapper that
-  is applied around text fields etc.
-  Preferred over .validation-wrapper.invalid since older
-  browsers don't support class-chaining.
- */
-div.invalid {
-  padding-left: 10px;
-  margin-left: -14px;
-  border-left: solid 4px #DF3034;
-  outline:none;
-
-  .optional-section &,
-  .help-content & {
-    padding-left: 28px;
-    margin-left: -32px;
-  }
-
-  .optional-section-core-content & :last-child {
-    margin-bottom: 0;
-  }
-
-  @include media(tablet) {
-    padding-left: 14px;
-    margin-left: -18px;
-    
-    .optional-section &,
-    .help-content &,
-    .optional-section-core-content .optional-section & {
-      padding-left: 30px;
-      margin-left: -34px;
-    }
-
-    .optional-section-core-content & {
-      padding-left: 14px;
-      margin-left: -18px;
-    }
-  }
-}
-
 span.date {
   word-spacing: 0.25em;
 }
 
-/* Styles specific to question pages */
+/* layout styles specific to question pages */
 
 main header {
   &,
@@ -266,6 +206,8 @@ main header {
   }
 }
 
+/* field modules */
+
 fieldset,
 .optional-section,
 .help-content {
@@ -293,11 +235,6 @@ fieldset {
   }
 }
 
-.inline-fields .example {
-  margin-bottom: 0;
-  margin-top: 0.5em;
-}
-
 .optional-section,
 .help-content {
   border-left: $grey-2 solid 4px;
@@ -307,11 +244,18 @@ fieldset {
   @extend %contain-floats;
 }
 
+.optional-section {
+  h2, h3 {
+    @include bold-19;
+  }
+}
+
 /* help content for the whole page */
 .page-help-content:last-child {
   margin-bottom: 2em;
 }
 
+/* additional information blocks embedded in field modules */
 .optional-section-core-content,
 .help-content .optional-section,
 #found-addresses .optional-section {
@@ -330,11 +274,13 @@ fieldset {
   margin-bottom: 0;
 }
 
-.optional-section {
-  h2, h3 {
-    @include bold-19;
-  }
+/* example of suggested field input */
+.inline-fields .example {
+  margin-bottom: 0;
+  margin-top: 0.5em;
 }
+
+/* styles for the autocomplete dropdown */
 
 .typeahead,
 .tt-query,
@@ -420,6 +366,8 @@ fieldset {
   margin-left: 1em;
 }
 
+/* additional content toggle */
+
 .toggle {
   @include core-19;
   display: block;
@@ -489,6 +437,8 @@ fieldset {
   }
 }
 
+/* call to action buttons */
+
 .next,
 .search {
   box-sizing: border-box;
@@ -543,8 +493,70 @@ fieldset {
   }
 }
 
+/* validation styles */
+
+.validation-wrapper {
+  font-size: 19px;
+  clear: left;
+  margin-bottom: 1em;
+
+  input,
+  select {
+    margin-bottom: 0;
+  }
+
+  & .optional-section input,
+  & .help-content select {
+    margin-bottom: 1em;
+  }
+
+  & .added-country .text {
+    margin-bottom: 0;
+  }
+}
+
 .invalid {
   outline: solid 4px $mellow-red;
+}
+
+/*
+  Should only apply to the div.validation-wrapper that
+  is applied around text fields etc.
+  Preferred over .validation-wrapper.invalid since older
+  browsers don't support class-chaining.
+ */
+div.invalid {
+  padding-left: 10px;
+  margin-left: -14px;
+  border-left: solid 4px #DF3034;
+  outline:none;
+
+  .optional-section &,
+  .help-content & {
+    padding-left: 28px;
+    margin-left: -32px;
+  }
+
+  .optional-section-core-content & :last-child {
+    margin-bottom: 0;
+  }
+
+  @include media(tablet) {
+    padding-left: 14px;
+    margin-left: -18px;
+    
+    .optional-section &,
+    .help-content &,
+    .optional-section-core-content .optional-section & {
+      padding-left: 30px;
+      margin-left: -34px;
+    }
+
+    .optional-section-core-content & {
+      padding-left: 14px;
+      margin-left: -18px;
+    }
+  }
 }
 
 label.invalid,
