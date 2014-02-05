@@ -59,8 +59,10 @@ class DateLeftUkFormsTests
     dateLeftUkForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("dateLeftUk.year") should be(Seq("Please enter the year when you left the UK"))
-        hasErrors.globalErrorMessages should be(Seq("Please enter the year when you left the UK"))
+        hasErrors.errorMessages("dateLeftUk.year") should be(Seq(
+          "Please enter the year when you left the UK"))
+        hasErrors.globalErrorMessages should be(Seq(
+          "Please enter the year when you left the UK"))
       },
       success => fail("Should have errored out.")
     )
@@ -76,8 +78,28 @@ class DateLeftUkFormsTests
     dateLeftUkForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("dateLeftUk.month") should be(Seq("Please enter the month when you left the UK"))
-        hasErrors.globalErrorMessages should be(Seq("Please enter the month when you left the UK"))
+        hasErrors.errorMessages("dateLeftUk.month") should be(Seq(
+          "Please enter the month when you left the UK"))
+        hasErrors.globalErrorMessages should be(Seq(
+          "Please enter the month when you left the UK"))
+      },
+      success => fail("Should have errored out.")
+    )
+  }
+
+  it should "error out on future date" in {
+    val js = Json.toJson(
+      Map(
+        "dateLeftUk.month" -> "10",
+        "dateLeftUk.year" -> "2545"
+      )
+    )
+    dateLeftUkForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(3)
+        hasErrors.errorMessages("dateLeftUk.month") should be(Seq("You have entered a date in the future"))
+        hasErrors.errorMessages("dateLeftUk.year") should be(Seq("You have entered a date in the future"))
+        hasErrors.globalErrorMessages should be(Seq("You have entered a date in the future"))
       },
       success => fail("Should have errored out.")
     )
