@@ -4,6 +4,7 @@ import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.validation.{InProgressForm, Key}
 import uk.gov.gds.ier.model.InprogressOverseas
 import controllers.step.overseas._
+import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.model.InprogressOverseas
 import uk.gov.gds.ier.validation.Key
 import uk.gov.gds.ier.validation.InProgressForm
@@ -37,6 +38,7 @@ trait ConfirmationMustache {
 
       val data = ConfirmationModel(
         questions = List(
+          confirmation.dateOfBirth,
           confirmation.previouslyRegistered,
           confirmation.lastUkAddress,
           confirmation.dateLeftUk,
@@ -140,6 +142,16 @@ trait ConfirmationMustache {
       )
     }
 
+    def dateOfBirth = {
+      ConfirmationQuestion(
+        title = "What is your date of birth?",
+        editLink = DateOfBirthController.dateOfBirthStep.routes.editGet.url,
+        changeName = "date of birth",
+        content = ifComplete(keys.dob) {
+                "<p>" + form(keys.dob.day).value.get + " "  + DateOfBirthConstants.monthsByNumber(form(keys.dob.month).value.get) + " " + form(keys.dob.year).value.get + "</p>"
+            }  
+      )
+    }
     def openRegister = {
       ConfirmationQuestion(
         title = "Open register",

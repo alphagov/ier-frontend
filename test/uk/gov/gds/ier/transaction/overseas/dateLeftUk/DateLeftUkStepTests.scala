@@ -76,7 +76,7 @@ class DateLeftUkStepTests
         FakeRequest(POST, "/register-to-vote/overseas/date-left-uk")
           .withIerSession()
           .withApplication(completeOverseasApplication.copy(
-            dob = Some(DateOfBirth(Some(DOB(1982,10,10)), None)),
+            dob = Some(DOB(1982,10,10)),
             lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.NotRegistered))))
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
@@ -99,7 +99,7 @@ class DateLeftUkStepTests
           .withIerSession()
           .withApplication(completeOverseasApplication.copy(
             lastUkAddress = None,
-            dob = Some(DateOfBirth(Some(DOB(1983,10,10)), None)),
+            dob = Some(DOB(1983,10,10)),
             lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.NotRegistered))))
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
@@ -165,7 +165,7 @@ class DateLeftUkStepTests
         FakeRequest(POST, "/register-to-vote/overseas/edit/date-left-uk")
           .withIerSession()
           .withApplication(completeOverseasApplication.copy(
-            dob = Some(DateOfBirth(Some(DOB(1982,10,10)), None)),
+            dob = Some(DOB(1982,10,10)),
             lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.NotRegistered))))
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
@@ -188,7 +188,7 @@ class DateLeftUkStepTests
           .withIerSession()
           .withApplication(completeOverseasApplication.copy(
             lastUkAddress = None,
-            dob = Some(DateOfBirth(Some(DOB(1983,10,10)), None)),
+            dob = Some(DOB(1983,10,10)),
             lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.NotRegistered))))
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
