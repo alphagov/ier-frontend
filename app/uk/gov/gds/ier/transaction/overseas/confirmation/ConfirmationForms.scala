@@ -5,7 +5,7 @@ import uk.gov.gds.ier.model.{InprogressOverseas, Stub}
 import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, ErrorMessages, OverseasForms}
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 
-trait ConfirmationForms 
+trait ConfirmationForms
   extends FormKeys
   with ErrorMessages
   with OverseasForms
@@ -28,8 +28,8 @@ trait ConfirmationForms
       keys.nino.key -> stepRequired(ninoMapping),
       "address" -> stepRequired(stubMapping),
       keys.openRegister.key -> stepRequired(optInMapping),
-      "waysToVote" -> stepRequired(stubMapping),
-      "postalVote" -> stepRequired(stubMapping),
+      keys.waysToVote.key -> stepRequired(waysToVoteMapping),
+      "postalVote" -> stepRequired(stubMapping), // FIXME: unfinished!
       keys.contact.key -> stepRequired(contactMapping)
     ) (InprogressOverseas.apply) (InprogressOverseas.unapply)
   )

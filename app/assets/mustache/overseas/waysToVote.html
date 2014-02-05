@@ -1,0 +1,58 @@
+<form action="{{question.postUrl}}" method="POST" >
+    {{> shared/questionHeader }}
+
+    {{> shared/validationMessages }}
+
+    <fieldset class="sub-section validate {{{waysToVote.classes}}}"
+              data-validation-name="previousQuestion"
+              data-validation-type="fieldset"
+              data-validation-rules="atLeastOneNonEmpty"
+              data-validation-children="byPost byProxy inPerson">
+        <legend class="label">Have you changed your name since you left the UK?</legend>
+
+        <label for="{{{byPost.id}}}" class="selectable binary"  >
+            <input type="radio"
+                   id="{{{byPost.id}}}"
+                   name="{{{waysToVote.name}}}"
+                   value="true"
+                   class="radio validate"
+                   data-validation-name="byPost"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty" {{{byPost.attributes}}}>
+            By post
+        </label>
+
+        <label for="{{{byProxy.id}}}" class="selectable binary"  >
+            <input type="radio"
+                   id="{{{byProxy.id}}}"
+                   name="{{{waysToVote.name}}}"
+                   value="false"
+                   class="radio  validate"
+                   data-validation-name="byProxy"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty" {{{byProxy.attributes}}}>
+            By proxy (someone else voting for you)
+        </label>
+
+        <p>or</p>p>
+
+        <label for="{{{inPerson.id}}}" class="selectable binary"  >
+            <input type="radio"
+                   id="{{{inPerson.id}}}"
+                   name="{{{waysToVote.name}}}"
+                   value="false"
+                   class="radio  validate"
+                   data-validation-name="inPerson"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty" {{{inPerson.attributes}}}>
+            In the UK, at a polling station
+        </label>
+    </fieldset>
+
+    <button id="continue"
+            type="submit"
+            class="button next validation-submit"
+            data-validation-sources="fullName previousQuestion previousName">
+        Continue
+    </button>
+</form>

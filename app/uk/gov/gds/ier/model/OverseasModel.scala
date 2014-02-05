@@ -1,9 +1,10 @@
 package uk.gov.gds.ier.model
 
 import uk.gov.gds.ier.model.LastRegisteredType.LastRegisteredType
+import uk.gov.gds.ier.model.WaysToVoteType.WaysToVoteType
 
 case class InprogressOverseas(name: Option[Name] = None,
-                              previousName: Option[PreviousName] = None, 
+                              previousName: Option[PreviousName] = None,
                               previouslyRegistered: Option[PreviouslyRegistered] = None,
                               dateLeftUk: Option[DateLeftUk] = None,
                               firstTimeRegistered: Option[Stub] = None,
@@ -13,7 +14,7 @@ case class InprogressOverseas(name: Option[Name] = None,
                               nino: Option[Nino] = None,
                               address: Option[Stub] = None,
                               openRegisterOptin: Option[Boolean] = None,
-                              waysToVote: Option[Stub] = None,
+                              waysToVote: Option[WaysToVote] = None,
                               postalVote: Option[Stub] = None,
                               contact: Option[Contact] = None) extends InprogressApplication[InprogressOverseas] {
 
@@ -48,7 +49,7 @@ case class OverseasApplication(
                                nino: Option[Nino],
                                address: Option[Stub],
                                openRegisterOptin: Option[Boolean],
-                               waysToVote: Option[Stub],
+                               waysToVote: Option[WaysToVote],
                                postalVote: Option[Stub],
                                contact: Option[Contact]) extends CompleteApplication {
   def toApiMap = {
@@ -64,6 +65,7 @@ case class OverseasApplication(
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
       address.map(_.toApiMap).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
+      waysToVote.map(_.toApiMap).getOrElse(Map.empty) ++
       contact.map(_.toApiMap).getOrElse(Map.empty)
   }
 }
@@ -96,4 +98,15 @@ object LastRegisteredType extends Enumeration {
   val Crown = Value("crown")
   val Council = Value("council")
   val NotRegistered = Value("not-registered")
+}
+
+case class WaysToVote (waysToVoteType:WaysToVoteType) {
+  def toApiMap = Map.empty
+}
+
+object WaysToVoteType extends Enumeration {
+  type WaysToVoteType = Value
+  val InPerson = Value("in-person")
+  val ByPost = Value("by-post")
+  val ByProxy = Value("by-proxy")
 }
