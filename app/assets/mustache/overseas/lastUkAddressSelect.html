@@ -8,7 +8,12 @@
             Change<span class="visuallyhidden"> your postcode</span>
         </a>
     </p>
-
+  {{^hasAddresses}}
+    <div class="validation-message visible">
+        Sorry - we couldn't find any addresses for that postcode
+    </div>
+  {{/hasAddresses}}
+  {{#hasAddresses}}
     <fieldset>
         <label for="{{postcode.id}}" class="hidden">Postcode</label>
         <input
@@ -18,19 +23,10 @@
           value="{{postcode.value}}"
           class="text hidden">
 
-      {{^hasAddresses}}
-        <div class="validation-message visible">
-            Sorry - we couldn't find any addresses for that postcode
-        </div>
-      {{/hasAddresses}}
-
-      {{#hasAddresses}}
-
         <label for="{{address.id}}">
             <span class="visuallyhidden">Select your </span>Address
         </label>
         <div class="validation-wrapper {{address.classes}}">
-
             <select
               id="{{address.id}}"
               name="{{address.name}}"
@@ -40,10 +36,7 @@
               {{/address.optionList}}
             </select>
         </div>
-      {{/hasAddresses}}
-
     </fieldset>
-  {{#hasAddresses}}
     <a href="{{manualUrl}}">
         I can't find my address in the list<span class="visuallyhidden"> section</span>
     </a>
