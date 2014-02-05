@@ -5,7 +5,7 @@ import play.api.data.validation.{Invalid, Valid, Constraint}
 import uk.gov.gds.ier.model._
 import scala.Some
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
-import org.joda.time.DateTime
+import org.joda.time.{YearMonth, DateTime}
 
 trait DateLeftUkConstraints extends CommonConstraints{
   self: ErrorMessages
@@ -24,16 +24,9 @@ trait DateLeftUkConstraints extends CommonConstraints{
   }
 
   def dateLeftUkIsBeforeNow (dateLeftUk : DateLeftUk) : Boolean = {
-    val leftUkDateTime = new DateTime()
-      .withMonthOfYear(dateLeftUk.month)
-      .withYear(dateLeftUk.year)
-
+    val leftUkDateTime = new YearMonth(dateLeftUk.year, dateLeftUk.month)
     val nowDateTime = DateTime.now()
-
-    val nowWithoutDay = new DateTime()
-      .withMonthOfYear(nowDateTime.monthOfYear().get())
-      .withYear(nowDateTime.year().get())
-
+    val nowWithoutDay = new YearMonth(nowDateTime.year().get(),nowDateTime.monthOfYear().get())
     leftUkDateTime.isEqual(nowWithoutDay) || leftUkDateTime.isBefore(nowWithoutDay)
   }
 }
