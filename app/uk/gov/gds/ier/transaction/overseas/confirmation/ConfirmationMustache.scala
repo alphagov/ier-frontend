@@ -38,11 +38,11 @@ trait ConfirmationMustache {
 
       val data = ConfirmationModel(
         questions = List(
+          confirmation.dateOfBirth,
           confirmation.previouslyRegistered,
           confirmation.lastUkAddress,
           confirmation.dateLeftUk,
           confirmation.nino,
-          confirmation.dateOfBirth,
           confirmation.openRegister,
           confirmation.name,
           confirmation.previousName,

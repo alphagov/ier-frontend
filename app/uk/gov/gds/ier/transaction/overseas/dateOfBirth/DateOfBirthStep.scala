@@ -32,7 +32,7 @@ class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
     editGet = DateOfBirthController.editGet,
     editPost = DateOfBirthController.editPost
   )
-  val previousRoute = Some(CountryController.get)
+  val previousRoute = None
 
   def template(form:InProgressForm[InprogressOverseas], postEndpoint:Call, backEndpoint: Option[Call]): Html = {
     dateOfBirthMustache(form.form, postEndpoint, backEndpoint)
