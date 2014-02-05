@@ -1,22 +1,12 @@
-package uk.gov.gds.ier.transaction.ordinary.contact
+package uk.gov.gds.ier.transaction.overseas.contact
 
 import uk.gov.gds.ier.validation._
-import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.ContactConstraints
 import uk.gov.gds.ier.validation.Key
+import uk.gov.gds.ier.model.{InprogressOverseas, ContactDetail, Contact}
 import scala.Some
-import uk.gov.gds.ier.validation.Key
-import uk.gov.gds.ier.model.ContactDetail
-import scala.Some
-import uk.gov.gds.ier.model.Contact
-import uk.gov.gds.ier.validation.Key
-import uk.gov.gds.ier.model.InprogressOrdinary
-import uk.gov.gds.ier.model.ContactDetail
-import scala.Some
-import uk.gov.gds.ier.model.Contact
 
 trait ContactForms extends ContactConstraints {
   self:  FormKeys
@@ -46,10 +36,10 @@ trait ContactForms extends ContactConstraints {
     mapping(
       keys.contact.key -> optional(contactMapping)
     ) (
-      contact => InprogressOrdinary(contact = contact)
+      contact => InprogressOverseas(contact = contact)
     ) (
       inprogress => Some(inprogress.contact)
-    ).verifying (atLeastOneOptionSelectedOrdinary)
+    ).verifying (atLeastOneOptionSelectedOverseas)
   )
 }
 

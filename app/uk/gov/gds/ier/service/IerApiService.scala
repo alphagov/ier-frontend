@@ -91,7 +91,9 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       nino = applicant.nino,
       address = applicant.address,
       openRegisterOptin = applicant.openRegisterOptin,
-      waysToVote = applicant.waysToVote
+      waysToVote = applicant.waysToVote,
+      postalVote = applicant.postalVote,
+      contact = applicant.contact
     )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)

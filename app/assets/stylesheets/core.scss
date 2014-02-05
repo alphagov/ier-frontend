@@ -217,12 +217,27 @@ form {
   @include media(tablet) {
     padding: 0 2em;
   }
-
 }
 
 form {
   padding-top: 2em;
   @extend %contain-floats;
+}
+
+#found-addresses {
+  @include media(tablet) {
+    padding: 0 2em;
+
+    form & {
+      padding: 0;
+    }
+  }
+
+  form {
+    @include media(tablet) {
+      padding: 0;
+    }
+  }
 }
 
 .inner-block{

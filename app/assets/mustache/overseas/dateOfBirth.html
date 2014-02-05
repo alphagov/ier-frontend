@@ -3,18 +3,18 @@
 
     {{> shared/validationMessages }}
     
-    <fieldset class="validate" data-validation-name="dateOfBirthDate" data-validation-type="fieldset" data-validation-rules="allNonEmpty" data-validation-children="day month year">
-      <span class="column-field day">
+      <fieldset class="validate inline-fields" data-validation-name="dateOfBirthDate" data-validation-type="fieldset" data-validation-rules="allNonEmpty" data-validation-children="day month year">
+      <span class="inline-field day">
+        
 
 <label for="dob_dob_day" class="">
     Day
 </label>
 
 <input type="number" id="{{day.id}}" name="{{day.name}}" value="{{day.value}}" autocomplete="off" class="text  day {{day.classes}}" data-validation-name="day" data-validation-type="field" data-validation-rules="nonEmpty">
-
       </span>
-      <span class="column-field month">
-      
+      <span class="inline-field month">
+
 <label for="dob_dob_month" class="">
     Month
 </label>
@@ -22,7 +22,7 @@
 <input type="number" id="{{month.id}}" name="{{month.name}}" value="{{month.value}}" autocomplete="off" class="text  month {{month.classes}}" data-validation-name="month" data-validation-type="field" data-validation-rules="nonEmpty">
 
       </span>
-      <span class="column-field year">
+      <span class="inline-field year">
       
 
 <label for="dob_dob_year" class="">
@@ -35,7 +35,7 @@
       </span>
       <p class="example">For example: <span class="date">31 12 1970</span></p>
     </fieldset>
-
+      
     <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="dateOfBirth">Continue</button>
   
 </form>

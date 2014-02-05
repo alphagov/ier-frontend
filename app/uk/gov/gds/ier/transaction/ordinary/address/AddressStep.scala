@@ -6,7 +6,7 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.model.{InprogressOrdinary, PossibleAddress, Addresses, InprogressApplication}
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation._
-import play.api.data.Form
+import play.api.data.{Form, FormError}
 import play.api.mvc.{SimpleResult, Call}
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
@@ -42,7 +42,7 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
   }
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
-    transformFormStepToMustacheData(form.form, call, backUrl)
+    addressMustache(form.form, call, backUrl)
   }
   
   def lookup = ValidSession requiredFor {
@@ -52,7 +52,11 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
             Ok(template(InProgressForm(hasErrors), routes.post, previousRoute))
         },
         success => {
-            Ok(template(lookupAddress(success), routes.post, previousRoute))
+            val filledInForm = addressSizeCheckupForm.fillAndValidate(lookupAddress(success).form.get)
+            filledInForm.fold(
+                    hasErrors => Ok(template(InProgressForm(hasErrors), routes.post, previousRoute)), 
+                    successForm => Ok(template(InProgressForm(filledInForm), routes.post, previousRoute))
+            )
         }
       )
   }
@@ -60,6 +64,7 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
   def lookupAddress(success: InprogressOrdinary): InProgressForm[InprogressOrdinary] = {
     val postcode = success.possibleAddresses.get.postcode
     val addressesList = addressService.lookupPartialAddress(postcode)
+    
     val inProgressForm = InProgressForm(
       validation.fill(
         success.copy(

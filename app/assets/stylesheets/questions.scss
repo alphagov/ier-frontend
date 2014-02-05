@@ -145,16 +145,20 @@ input.year {
   width: 4.25em;
 }
 
-.column-field {
-  @include inline-block;
+.inline-fields {
   margin-bottom: 1em;
 
   label {
-    margin-bottom: 0;
+    margin-bottom: 0.5em;
   }
 
   input.text {
     margin-right: 1em;
+  }
+
+  .inline-field {
+    @include inline-block;
+    margin-bottom: 0;
   }
 }
 
@@ -270,6 +274,12 @@ fieldset {
 
   .example {
     margin-bottom: 0.5em;
+    margin-top: -0.5em;
+  }
+
+  &.inline-fields .example {
+    margin-bottom: 0;
+    margin-top: 0.5em;
   }
 }
 
@@ -412,10 +422,6 @@ fieldset {
     margin-top: 0;
   }
 
-  #found-addresses & {
-    margin-bottom: 0;
-  }
-
   .optional-section-core-content & {
     margin-top: 1em;
   }
@@ -492,10 +498,9 @@ fieldset {
 
 #found-addresses {
   @extend %contain-floats;
-  margin-top: 1em;
-  margin-bottom: 2em;
 
   &.contains-addresses {
+    margin-top: 1em;
     margin-bottom: 0;
   }
 }

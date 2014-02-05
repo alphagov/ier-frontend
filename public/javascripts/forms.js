@@ -480,8 +480,10 @@
   };
 
   PostcodeLookup = function (searchButton, inputName) {
-    var inputId = inputName.replace(/\./g, "_")
-    var _allowSubmission = function ($searchButton) {
+    var inputId = inputName.replace(/\./g, "_"),
+        _allowSubmission;
+
+    _allowSubmission = function ($searchButton) {
       var $optionalSectionContainer = $searchButton.closest('.optional-section'),
           isInOptionalSection = ($optionalSectionContainer.length > 0),
           optionalSectionIsHidden = false;
@@ -504,30 +506,38 @@
     this.$targetElement = $('#found-addresses');
     this.hasAddresses = ($('#'+inputId+'_uprn_select').length > 0);
     this.$waitMessage = $('<p id="wait-for-request">Finding address</p>');
+    this.addressIsPrevious = (this.$searchInput.siblings('label').text().indexOf('previous address') !== -1);
+    this.$searchButton.attr('aria-controls', this.$targetElement.attr('id'));
+    this.$targetElement.attr({
+      'aria-live' : 'polite',
+      'role' : 'region'
+    });
     this.fragment =
-      '<label for="'+inputId+'_postcode" class="hidden">' +
-         'Postcode' + 
-      '</label>' +
-      '<input type="hidden" id="input-address-postcode" name="'+inputName+'.postcode" value="{{postcode}}" class="text hidden">' +
-      '<label for="'+inputId+'_uprn_select">{{selectLabel}}</label>' +
-      '<div class="validation-wrapper">' +
-        '<select id="'+inputId+'_uprn_select" name="'+inputName+'.uprn" class="lonely validate" ' +
-        'data-validation-name="addressSelect" data-validation-type="field" data-validation-rules="nonEmpty"' +
-        '>' +
-        '<option value="">{{defaultOption}}</option>' +
-        '{{#options}}' +
-          '<option value="{{uprn}}">{{addressLine}}</option>' +
-        '{{/options}}' +
-        '</select>' +
-      '</div>' +
-      '<div class="optional-section" id="cant-find-address">' +
-        '<h2>{{excuseToggle}}</h2>' +
-        '<label for="'+inputId+'_manualAddress">{{excuseLabel}}</label>' +
-        '<textarea name="'+inputName+'.manualAddress" id="'+inputId+'_manualAddress" class="small validate" maxlength=500  autocomplete="off" ' +
-        'data-validation-name="addressExcuse" data-validation-type="field" data-validation-rules="nonEmpty"' +
-        '></textarea>' +
-      '</div>' +
-      '<input type="hidden" id="possibleAddresses_postcode" name="possibleAddresses.postcode" value="{{postcode}}" autocomplete="off" class="text invalid postcode medium validate" data-validation-name="postcode" data-validation-type="field" data-validation-rules="nonEmpty">';
+        '<label for="'+inputId+'_postcode" class="hidden">' +
+           'Postcode' + 
+        '</label>' +
+        '<input type="hidden" id="input-address-postcode" name="'+inputName+'.postcode" value="{{postcode}}" class="text hidden">' +
+        '<label for="'+inputId+'_uprn_select">{{selectLabel}}</label>' +
+        '<div class="validation-wrapper">' +
+          '<select id="'+inputId+'_uprn_select" name="'+inputName+'.uprn" class="lonely validate" ' +
+          'data-validation-name="addressSelect" data-validation-type="field" data-validation-rules="nonEmpty"' +
+          '>' +
+          '<option value="">{{defaultOption}}</option>' +
+          '{{#options}}' +
+            '<option value="{{uprn}}">{{addressLine}}</option>' +
+          '{{/options}}' +
+          '</select>' +
+        '</div>' +
+        '<div class="optional-section" id="cant-find-address">' +
+          '<h2>{{excuseToggle}}</h2>' +
+          '<label for="'+inputId+'_manualAddress">{{excuseLabel}}</label>' +
+          '<textarea name="'+inputName+'.manualAddress" id="'+inputId+'_manualAddress" class="small validate" maxlength=500  autocomplete="off" ' +
+          'data-validation-name="addressExcuse" data-validation-type="field" data-validation-rules="nonEmpty"' +
+          '></textarea>' +
+        '</div>' +
+        '<input type="hidden" id="possibleAddresses_postcode" name="possibleAddresses.postcode" value="{{postcode}}" />' +
+        '<input type="hidden" id="possibleAddresses_jsonList" name="possibleAddresses.jsonList" value="{{resultsJSON}}" />' +
+        '<button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode address">Continue</button>';
     this.addressIsPrevious = (this.$searchInput.siblings('label').text().indexOf('previous address') !== -1);
     this.$searchButton.attr('aria-controls', this.$targetElement.attr('id'));
     this.$targetElement.attr({
@@ -575,20 +585,26 @@
           'defaultOption' : defaultOption,
           'options' : data.addresses,
           'excuseToggle' : 'I can\'t find my address in the list',
-          'excuseLabel' : 'Enter your address'
-        };
+          'excuseLabel' : 'Enter your address',
+          'resultsJSON' : data.rawJSON
+        },
+        $results;
 
     if (this.addressIsPrevious) {
       htmlData.selectLabel = 'Select your previous address';
       htmlData.excuseToggle = 'I can\'t find my previous address in the list'; 
       htmlData.excuseLabel = 'Enter your previous address';
     }
+    // To be removed once all address pages shared the same HTML
+    $results = $(Mustache.render(this.fragment, htmlData));
+    if (!this.$targetElement.closest('.optional-section-core-content').length) {
+      $results = $('<form action="' + window.location + '" method="POST"></form>').append($results);
+    }
     this.$targetElement
-      .html(Mustache.render(this.fragment, htmlData))
+      .append($results)
       .addClass('contains-addresses');
     new OptionalInformation(this.$targetElement.find('.optional-section'));
     this.hasAddresses = true;
-    $('#continue').show();
   };
   PostcodeLookup.prototype.getAddresses = function () {
     var _this = this,
@@ -596,9 +612,44 @@
         URL = '/address/' + postcode.replace(/\s/g,''),
         $optionalInfo = this.$searchButton.closest('fieldset').find('div.help-content'),
         $addressSelect = $optionalInfo.siblings('select'),
-        fieldValidationName = this.$searchButton.data("validationSources").split(' ');
+        fieldValidationName = this.$searchButton.data("validationSources").split(' '),
+        _notifyInvalidPostcode,
+        _clearExistingResults,
+        _setValidation;
 
-    if (validation.validate(fieldValidationName) === true) {
+    _notifyInvalidPostcode = function () {
+      validation.makeInvalid([{
+        'name' : 'postcode',
+        'rule' : 'postcode',
+        '$source' : _this.$searchInput
+      }], _this.$searchButton);
+    };
+
+    _clearExistingResults = function () {
+      if (_this.$targetElement.html() !== '') {
+        validation.fields.remove('address');
+        validation.fields.remove('addressSelect');
+        validation.fields.remove('addressExcuse');
+        _this.$targetElement.html('');
+        $('#continue').remove();
+      }
+    };
+
+    _setValidation = function () {
+      _this.$targetElement.attr({
+        'data-validation-name' : 'address',
+        'data-validation-type' : 'fieldset',
+        'data-validation-rules' : 'fieldOrExcuse',
+        'data-validation-children' : 'addressSelect addressExcuse'
+      });
+      _this.$targetElement.find('.validate:not([type="hidden"])')
+        .each(function (idx, elm) {
+          validation.fields.add($(elm));
+        });
+      validation.fields.add(_this.$targetElement);
+    };
+
+    if (validation.validate(fieldValidationName, _this.$searchButton) === true) {
       this.$waitMessage.insertAfter(this.$searchButton);
       $.ajax({
         url : URL,
@@ -606,33 +657,14 @@
         timeout : 10000
       }).
       done(function (data, status, xhrObj) {
-        var $result = $('#found-addresses'),
-            $continueButton = $('#continue'),
-            validationSources = $continueButton.attr('data-validation-sources').split(' ');
-
-        _this.addLookup(data, postcode);
-        $result
-          .addClass('validate')
-          .attr({
-            'data-validation-name' : 'address',
-            'data-validation-type' : 'fieldset',
-            'data-validation-rules' : 'fieldOrExcuse',
-            'data-validation-children' : 'addressSelect addressExcuse'
-          });
-        if (validationSources[validationSources.length - 1] !== 'address') {
-          validationSources.push('address');
-        } else {
-          validation.fields.remove('address');
-          validation.fields.remove('addressSelect');
-          validation.fields.remove('addressExcuse');
+        data.rawJSON = xhrObj.responseText;
+        if (!data.addresses.length) { 
+          _notifyInvalidPostcode();
+          return;
         }
-        validation.fields.add($result);
-        $result.find('.validate:not([type="hidden"])').each(function (idx, elm) {
-          validation.fields.add($(elm));
-        });
-        $('#continue').attr('data-validation-sources', validationSources.join(' '));
-        $('#possibleAddresses_jsonList').val(xhrObj.responseText);
-        $('#possibleAddresses_postcode').val(postcode);
+        _clearExistingResults();
+        _this.addLookup(data, postcode);
+        _setValidation();
       }).
       fail(function (xhrObj, status, errorStr) {
         if (status === 'timeout' ) {
