@@ -151,11 +151,26 @@ POST        /register-to-vote/overseas/date-left-uk                      control
 GET         /register-to-vote/overseas/edit/date-left-uk                 controllers.step.overseas.DateLeftUkController.editGet
 POST        /register-to-vote/overseas/edit/date-left-uk                 controllers.step.overseas.DateLeftUkController.editPost
 
-#Last Registered UK Address
-GET         /register-to-vote/overseas/registered-address                controllers.step.overseas.RegisteredAddressController.get
-POST        /register-to-vote/overseas/registered-address                controllers.step.overseas.RegisteredAddressController.post
-GET         /register-to-vote/overseas/edit/registered-address           controllers.step.overseas.RegisteredAddressController.editGet
-POST        /register-to-vote/overseas/edit/registered-address           controllers.step.overseas.RegisteredAddressController.editPost
+#Last Uk Address
+GET         /register-to-vote/overseas/last-uk-address                   controllers.step.overseas.LastUkAddressController.get
+POST        /register-to-vote/overseas/last-uk-address                   controllers.step.overseas.LastUkAddressController.post
+GET         /register-to-vote/overseas/edit/last-uk-address              controllers.step.overseas.LastUkAddressController.editGet
+POST        /register-to-vote/overseas/edit/last-uk-address              controllers.step.overseas.LastUkAddressController.editPost
+
+#Lookup Last Uk Address
+POST        /register-to-vote/overseas/last-uk-address/lookup            controllers.step.overseas.LastUkAddressController.lookup
+
+#Manual Last Uk Address
+GET         /register-to-vote/overseas/last-uk-address/manual            controllers.step.overseas.LastUkAddressManualController.get
+POST        /register-to-vote/overseas/last-uk-address/manual            controllers.step.overseas.LastUkAddressManualController.post
+GET         /register-to-vote/overseas/edit/last-uk-address/manual       controllers.step.overseas.LastUkAddressManualController.editGet
+POST        /register-to-vote/overseas/edit/last-uk-address/manual       controllers.step.overseas.LastUkAddressManualController.editPost
+
+#Select Last Uk Address
+GET         /register-to-vote/overseas/last-uk-address/select            controllers.step.overseas.LastUkAddressSelectController.get
+POST        /register-to-vote/overseas/last-uk-address/select            controllers.step.overseas.LastUkAddressSelectController.post
+GET         /register-to-vote/overseas/edit/last-uk-address/select       controllers.step.overseas.LastUkAddressSelectController.editGet
+POST        /register-to-vote/overseas/edit/last-uk-address/select       controllers.step.overseas.LastUkAddressSelectController.editPost
 
 #Name  (voter full name)
 GET         /register-to-vote/overseas/name                              controllers.step.overseas.NameController.get

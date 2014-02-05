@@ -14,17 +14,14 @@ class ConfirmationMustacheTest
   with WithSerialiser
   with ErrorMessages
   with FormKeys
-  with TestHelpers {
+  with TestHelpers
+  with ConfirmationMustache {
 
   val serialiser = jsonSerialiser
 
-  GuiceContainer.initialize()
-
-  val confirmationMustache = new ConfirmationMustache {}
-
   "In-progress application form with filled name and previous name" should
     "generate confirmation mustache model with correctly rendered names and correct URLs" in {
-    val partiallyFilledApplicationForm = nameForm.fill(InprogressOverseas(
+    val partiallyFilledApplicationForm = confirmationForm.fill(InprogressOverseas(
       name = Some(Name(
         firstName = "John",
         middleNames = None,
@@ -37,19 +34,22 @@ class ConfirmationMustacheTest
           lastName = "Kovar"))
       ))
     ))
-    val model = confirmationMustache.Confirmation.confirmationModel(
-      InProgressForm(partiallyFilledApplicationForm),
-      "http://backUrl",
-      "http://postUrl")
 
-    filterRelevant(model, "/register-to-vote/overseas/edit/name") should be("" +
-      "<p>John Smith</p>|<p>Jan Kovar</p>")
+    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    
+    val nameModel = confirmation.name
+    nameModel.content should be("<p>John Smith</p>")
+    nameModel.editLink should be("/register-to-vote/overseas/edit/name")
+
+    val prevNameModel = confirmation.previousName
+    prevNameModel.content should be("<p>Jan Kovar</p>")
+    prevNameModel.editLink should be("/register-to-vote/overseas/edit/name")
   }
 
 
   "In-progress application form with filled name and previous name with middle names" should
     "generate confirmation mustache model with correctly rendered names and correct URLs" in {
-    val partiallyFilledApplicationForm = nameForm.fill(InprogressOverseas(
+    val partiallyFilledApplicationForm = confirmationForm.fill(InprogressOverseas(
       name = Some(Name(
         firstName = "John",
         middleNames = Some("Walker Junior"),
@@ -62,16 +62,15 @@ class ConfirmationMustacheTest
           lastName = "Kovar"))
       ))
     ))
-    val model = confirmationMustache.Confirmation.confirmationModel(
-      InProgressForm(partiallyFilledApplicationForm),
-      "http://backUrl",
-      "http://postUrl")
 
-    filterRelevant(model, "/register-to-vote/overseas/edit/name") should be("" +
-      "<p>John Walker Junior Smith</p>|<p>Jan Janko Janik Kovar</p>")
-  }
+    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    
+    val nameModel = confirmation.name
+    nameModel.content should be("<p>John Walker Junior Smith</p>")
+    nameModel.editLink should be("/register-to-vote/overseas/edit/name")
 
-  def filterRelevant(model: confirmationMustache.Confirmation.ConfirmationModel, url: String): String = {
-    model.questions.filter(_.editLink == url).map(_.content).mkString("", "|", "")
+    val prevNameModel = confirmation.previousName
+    prevNameModel.content should be("<p>Jan Janko Janik Kovar</p>")
+    prevNameModel.editLink should be("/register-to-vote/overseas/edit/name")
   }
 }

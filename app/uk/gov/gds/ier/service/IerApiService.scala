@@ -30,7 +30,7 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
                                        placesService:PlacesService,
                                        addressService: AddressService,
                                        shaHashProvider:ShaHashProvider,
-                                       isoCountryService: IsoCountryService) 
+                                       isoCountryService: IsoCountryService)
   extends IerApiService
      with Logging {
 
@@ -86,7 +86,6 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       dateLeftUk = applicant.dateLeftUk,
       firstTimeRegistered = applicant.firstTimeRegistered,
       lastRegisteredToVote = applicant.lastRegisteredToVote,
-      registeredAddress = applicant.registeredAddress,
       dob = applicant.dob,
       nino = applicant.nino,
       address = applicant.address,
@@ -111,7 +110,6 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
         throw new ApiException(error)
       }
     }
-
   }
 
   def generateReferenceNumber[T <: InprogressApplication[T]](application:T) = {
