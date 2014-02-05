@@ -1,15 +1,15 @@
 <form action="{{question.postUrl}}" method="POST">
     {{> shared/questionHeader }}
     {{> shared/validationMessages }}
+    <p>
+        Postcode<span class="visuallyhidden">:</span>
+        <span class="postcode">{{postcode.value}}</span>
+        <a href="{{lookupUrl}}" class="change-postcode-button">
+            Change<span class="visuallyhidden"> your postcode</span>
+        </a>
+    </p>
 
     <fieldset>
-        <p>
-            Postcode<span class="visuallyhidden">:</span>
-            <span class="postcode">{{postcode.value}}</span>
-            <a href="{{lookupUrl}}" class="change-postcode-button">
-                Change<span class="visuallyhidden"> your postcode</span>
-            </a>
-        </p>
         <label for="{{postcode.id}}" class="hidden">Postcode</label>
         <input
           type="hidden"
@@ -18,10 +18,19 @@
           value="{{postcode.value}}"
           class="text hidden">
 
+      {{^hasAddresses}}
+        <div class="validation-message visible">
+            Sorry - we couldn't find any addresses for that postcode
+        </div>
+      {{/hasAddresses}}
+
+      {{#hasAddresses}}
+
         <label for="{{address.id}}">
             <span class="visuallyhidden">Select your </span>Address
         </label>
         <div class="validation-wrapper {{address.classes}}">
+
             <select
               id="{{address.id}}"
               name="{{address.name}}"
@@ -31,8 +40,10 @@
               {{/address.optionList}}
             </select>
         </div>
-    </fieldset>
+      {{/hasAddresses}}
 
+    </fieldset>
+  {{#hasAddresses}}
     <a href="{{manualUrl}}">
         I can't find my address in the list<span class="visuallyhidden"> section</span>
     </a>
@@ -44,6 +55,7 @@
       style="display: block;">
         Continue
     </button>
+  {{/hasAddresses}}
     <input
       type="hidden"
       id="{{possibleJsonList.id}}"

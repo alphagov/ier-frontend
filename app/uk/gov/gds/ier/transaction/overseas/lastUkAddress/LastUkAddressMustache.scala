@@ -24,7 +24,8 @@ trait LastUkAddressMustache {
         postcode: Field,
         address: Field,
         possibleJsonList: Field,
-        possiblePostcode: Field
+        possiblePostcode: Field,
+        hasAddresses: Boolean
     )
 
     case class ManualModel (
@@ -95,22 +96,38 @@ trait LastUkAddressMustache {
         )
       }
 
+      val hasAddresses = maybePossibleAddress.exists { poss =>
+        !poss.jsonList.addresses.isEmpty
+      }
+
+      val addressSelect = SelectField(
+        key = keys.lastUkAddress.uprn,
+        optionList = options,
+        default = SelectOption(
+          value = "", 
+          text = s"${options.size} addresses found"
+        )
+      )
+      val addressSelectWithError = addressSelect.copy(
+        classes = if (!hasAddresses) {
+          "invalid" 
+        } else {
+          addressSelect.classes
+        }
+      )
+
       SelectModel(
         question = Question(
           postUrl = postUrl,
           backUrl = backUrl,
-          number = "5 or 6",
+          number = "5",
           title = title,
           errorMessages = progressForm.globalErrors.map(_.message)
         ),
         lookupUrl = lookupUrl,
         manualUrl = manualUrl,
         postcode = TextField(keys.lastUkAddress.postcode),
-        address = SelectField(
-          key = keys.lastUkAddress.uprn,
-          optionList = options,
-          default = SelectOption(value = "", text = s"${options.size} addresses found")
-        ),
+        address = addressSelectWithError,
         possibleJsonList = TextField(keys.possibleAddresses.jsonList).copy(
           value = maybePossibleAddress.map { poss =>
             serialiser.toJson(poss.jsonList)
@@ -118,7 +135,8 @@ trait LastUkAddressMustache {
         ),
         possiblePostcode = TextField(keys.possibleAddresses.postcode).copy(
           value = form(keys.lastUkAddress.postcode).value.getOrElse("")
-        )
+        ),
+        hasAddresses = hasAddresses
       )
     }
 

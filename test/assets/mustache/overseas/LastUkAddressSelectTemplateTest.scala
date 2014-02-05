@@ -53,7 +53,8 @@ class LastUkAddressSelectTemplateTest
           id = "possiblePostcodeId",
           name = "possiblePostcodeName",
           value = "possiblePostcodeValue"
-        )
+        ),
+        hasAddresses = true
       )
 
       val html = Mustache.render("overseas/lastUkAddressSelect", data)
@@ -64,7 +65,7 @@ class LastUkAddressSelectTemplateTest
       val postcodeLabel = fieldset.select("label[class=hidden]").first()
       postcodeLabel.attr("for") should be("postcodeId")
 
-      val postcodeSpan = fieldset.select("span[class=postcode]").first()
+      val postcodeSpan = doc.select("span[class=postcode]").first()
       postcodeSpan.html() should be("postcodeValue")
 
       val postcodeInput = fieldset.select("input[type=hidden]").first()
@@ -72,7 +73,7 @@ class LastUkAddressSelectTemplateTest
       postcodeInput.attr("name") should be("postcodeName")
       postcodeInput.attr("value") should be("postcodeValue")
 
-      val lookupLink = fieldset.select("a[class=change-postcode-button]").first()
+      val lookupLink = doc.select("a[class=change-postcode-button]").first()
       lookupLink.attr("href") should be("http://lookup")
 
       val manualLink = doc.select("a[href=http://manual]").first()
@@ -104,6 +105,38 @@ class LastUkAddressSelectTemplateTest
       hiddenPostcodeInput.attr("id") should be("possiblePostcodeId")
       hiddenPostcodeInput.attr("name") should be("possiblePostcodeName")
       hiddenPostcodeInput.attr("value") should be("possiblePostcodeValue")
+    }
+  }
+
+  
+  it should "should display error message if no addresses provided" in {
+    running(FakeApplication()) {
+      val data = new SelectModel(
+        question = Question(),
+        lookupUrl = "",
+        manualUrl = "",
+        postcode = Field(id = "",name = "",classes = "",value = ""),
+        address = Field(
+          id = "",
+          name = "",
+          classes = "",
+          value = "",
+          optionList = List.empty
+        ),
+        possibleJsonList = Field(id = "",name = "",value = ""),
+        possiblePostcode = Field(id = "",name = "",value = ""),
+        hasAddresses = false
+      )
+
+      val html = Mustache.render("overseas/lastUkAddressSelect", data)
+      val doc = Jsoup.parse(html.toString)
+
+      val wrapper = doc.select("div").first()
+      wrapper.html() should include(
+        "Sorry - we couldn't find any addresses for that postcode"
+      )
+      
+      doc.select("select").size should be(0)
     }
   }
 }
