@@ -8,18 +8,14 @@ import uk.gov.gds.ier.mustache.StepMustache
 
 trait DateOfBirthMustache extends StepMustache {
 
-  case class DateOfBirthModel(question:Question,
-                                       day: Field,
-                                       month: Field,
-                                       year: Field)
-
-  def dateOfBirthMustache(form:ErrorTransformForm[InprogressOverseas],
+  case class DateOfBirthModel(question:Question, day: Field, month: Field, year: Field)
+  
+  def transformFormStepToMustacheData(form:ErrorTransformForm[InprogressOverseas],
                                  post: Call,
-                                 back: Option[Call]): Html = {
-      
+                                 back: Option[Call]): DateOfBirthModel = {   
     implicit val progressForm = form
 
-    val data = DateOfBirthModel(
+    DateOfBirthModel(
       question = Question(
         postUrl = post.url,
         backUrl = back.map { call => call.url }.getOrElse(""),
@@ -37,6 +33,12 @@ trait DateOfBirthMustache extends StepMustache {
         key = keys.dob.year
       )
     )
+  }
+    def dateOfBirthMustache(form:ErrorTransformForm[InprogressOverseas],
+                                 post: Call,
+                                 back: Option[Call]): Html = {
+      
+    val data = transformFormStepToMustacheData(form, post, back)
     val content = Mustache.render("overseas/dateOfBirth", data)
     MainStepTemplate(content, data.question.title)
   }
