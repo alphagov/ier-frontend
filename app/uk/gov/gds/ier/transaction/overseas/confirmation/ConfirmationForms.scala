@@ -48,7 +48,7 @@ trait ConfirmationForms
       keys.dateLeftUk.key -> stepRequired(dateLeftUkMapping),
       "firstTimeRegistered" -> stepRequired(stubMapping),
       "lastRegisteredToVote" -> stepRequired(lastRegisteredToVoteMapping),
-      keys.dob.key -> stepRequired(dobAndReasonMapping),
+      keys.dob.key -> stepRequired(dobMapping),
       keys.nino.key -> stepRequired(ninoMapping),
       keys.overseasAddress.key -> stepRequired(addressMapping),
       keys.lastUkAddress.key -> stepRequired(partialAddressMapping),
