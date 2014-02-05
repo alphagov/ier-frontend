@@ -25,7 +25,6 @@ class ConfirmationFormTests
         hasErrors.errorMessages("name") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("previousName") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("dateLeftUk") should be(Seq("Please complete this step"))
-        hasErrors.errorMessages("dob") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("firstTimeRegistered") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("previouslyRegistered") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("lastRegisteredToVote") should be(Seq("Please complete this step"))
@@ -49,7 +48,6 @@ class ConfirmationFormTests
     confirmationForm.fillAndValidate(application).fold(
       hasErrors => {
         hasErrors.errorMessages("dateLeftUk") should be(Seq("Please complete this step"))
-        hasErrors.errorMessages("dob") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("firstTimeRegistered") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("previouslyRegistered") should be(Seq("Please complete this step"))
         hasErrors.errorMessages("lastRegisteredToVote") should be(Seq("Please complete this step"))

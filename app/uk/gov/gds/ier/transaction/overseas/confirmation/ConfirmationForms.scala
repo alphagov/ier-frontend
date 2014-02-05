@@ -24,7 +24,7 @@ trait ConfirmationForms
       "firstTimeRegistered" -> stepRequired(stubMapping),
       "lastRegisteredToVote" -> stepRequired(lastRegisteredToVoteMapping),
       "registeredAddress" -> stepRequired(stubMapping),
-      "keys.dob.key" -> stepRequired(dobMapping),
+      keys.dob.key -> stepRequired(dobMapping),
       keys.nino.key -> stepRequired(ninoMapping),
       "address" -> stepRequired(stubMapping),
       keys.openRegister.key -> stepRequired(optInMapping),
