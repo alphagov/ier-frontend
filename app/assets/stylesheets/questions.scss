@@ -307,6 +307,11 @@ fieldset {
   @extend %contain-floats;
 }
 
+/* help content for the whole page */
+.page-help-content:last-child {
+  margin-bottom: 2em;
+}
+
 .optional-section-core-content,
 .help-content .optional-section,
 #found-addresses .optional-section {
@@ -427,13 +432,20 @@ fieldset {
   }
 
   .help-content &,
-  .optional-section &,
-  #found-addresses & {
-    margin-bottom: 0;
-    margin-top: 0;
+  .optional-section & {
+    margin: 0;
   }
 
+  .contains-addresses & {
+    margin: 1em 0 2em;
+  }
+
+  /* overwrite for being in an .optional-section */
   .optional-section-core-content & {
+    margin: 2em 0;
+  }
+
+  .optional-section-core-content .contains-addresses & {
     margin-top: 1em;
   }
 }
@@ -447,6 +459,10 @@ fieldset {
   background: url("/assets/images/icon-caret-down.png") left 0.5em no-repeat;
   padding-left: 0.75em;
   margin-bottom: 0;
+
+  #found-addresses & {
+    margin-bottom: 0;
+  }
 }
 
 .help-content,
@@ -461,8 +477,15 @@ fieldset {
 .optional-section-core-content #found-addresses {
   & .toggle-closed,
   & .toggle-open {
-    background-image: url("/assets/images/icon-caret-right.png");
     padding-left: 0.75em;
+  }
+
+  & .toggle-closed {
+    background-image: url("/assets/images/icon-caret-right.png");
+  }
+
+  & .toggle-open {
+    background-image: url("/assets/images/icon-caret-down.png");
   }
 }
 
@@ -487,6 +510,11 @@ fieldset {
   @include media(mobile) {
     font-size: 19px;
   }
+
+  /* overwrite for matching :last-child */
+  #found-addresses & {
+    margin-bottom: 2em;
+  }
 }
 
 .search {
@@ -509,11 +537,9 @@ fieldset {
 
 #found-addresses {
   @extend %contain-floats;
-  margin: 2em 0;
 
   &.contains-addresses {
-    margin-top: 1em;
-    margin-bottom: 0;
+    margin-top: 2em;
   }
 }
 
