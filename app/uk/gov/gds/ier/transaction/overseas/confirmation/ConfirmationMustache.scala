@@ -147,7 +147,9 @@ trait ConfirmationMustache {
         editLink = DateOfBirthController.dateOfBirthStep.routes.editGet.url,
         changeName = "date of birth",
         content = ifComplete(keys.dob) {
-                "<p>" + form(keys.dob.day).value.get + " "  + DateOfBirthConstants.monthsByNumber(form(keys.dob.month).value.get) + " " + form(keys.dob.year).value.get + "</p>"
+                "<p>" + form(keys.dob.day).value.get + " "
+                      + DateOfBirthConstants.monthsByNumber(form(keys.dob.month).value.get) + " "
+                      + form(keys.dob.year).value.get + "</p>"
             }  
       )
     }
@@ -206,6 +208,7 @@ trait ConfirmationMustache {
         editLink = PostalVoteController.postalVoteStep.routes.editGet.url,
         changeName = "application form",
         content = ifComplete(keys.postalVote) {
+          // TODO: get proxy or postal!
           val wayToVote = ""
           if(form(keys.postalVote.optIn).value == Some("true")){
             if(form(keys.postalVote.deliveryMethod.methodName).value == Some("email")){

@@ -19,6 +19,7 @@ trait PostalVoteMustache extends StepMustache {
   def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint: Option[Call]) : PostalVoteModel = {
     implicit val progressForm = form
 
+    // TODO: get proxy or postal!
     val wayToVote = form.value.map(application => application.waysToVote.map(waysToVote => waysToVote.toString).getOrElse("")).getOrElse("")
 
     PostalVoteModel(
