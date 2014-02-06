@@ -35,7 +35,7 @@ trait WaysToVoteMustache extends StepMustache {
 
   def waysToVoteMustache(form: ErrorTransformForm[InprogressOverseas], call: Call, backUrl: Option[String]): Html = {
     val data = transformFormStepToMustacheData(form, call.url, backUrl)
-    val content = Mustache.render("ordinary/waysToVote", data)
+    val content = Mustache.render("overseas/waysToVote", data)
     MainStepTemplate(content, pageTitle)
   }
 }
