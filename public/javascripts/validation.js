@@ -731,7 +731,7 @@
       },
       'ninoCode' : {
         'nonEmpty' : 'Please enter your National Insurance number',
-        'nino' : 'Please enter a valid National Insurance number'
+        'nino' : 'Your National Insurance number is not correct'
       },
       'postalVote' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
