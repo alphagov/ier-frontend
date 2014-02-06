@@ -28,8 +28,8 @@ trait WaysToVoteMustache extends StepMustache {
         number = "12",
         title = pageTitle,
         errorMessages = form.globalErrors.map { _.message }),
-      wayToVote = CheckboxField(
-        key = keys.waysToVote)
+      // FIXME: unfinished
+      wayToVote = CheckboxField(key = keys.waysToVote, value = "")
     )
   }
 

@@ -5,7 +5,6 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import uk.gov.gds.ier.transaction.overseas.waysToVote.WaysToVoteForms
 import uk.gov.gds.ier.model.{WaysToVote, WaysToVoteType}
 
 class WaysToVoteFormTests

@@ -5,7 +5,8 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.step.{Routes, OverseaStep}
-import controllers.step.overseas.routes.{RegisteredAddressController, WaysToVoteController}
+import controllers.step.overseas.routes.WaysToVoteController
+import controllers.step.overseas.routes.OpenRegisterController
 import controllers.step.overseas.PostalVoteController
 import uk.gov.gds.ier.step.Routes
 import scala.Some
@@ -32,7 +33,7 @@ class WaysToVoteStep @Inject ()(
     editGet = WaysToVoteController.editGet,
     editPost = WaysToVoteController.editPost
   )
-  val previousRoute = Some(RegisteredAddressController.get)
+  val previousRoute = Some(OpenRegisterController.get)
 
   def nextStep(currentState: InprogressOverseas) = {
     // FIXME: unfinished!

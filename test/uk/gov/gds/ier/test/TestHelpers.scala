@@ -80,18 +80,12 @@ trait TestHelpers {
     waysToVote = Some(WaysToVote(WaysToVoteType.InPerson))
   )
 
-  def overseasApplicationWithDateOfBirthAndLastRegistration(dob:DOB, lastRegisteredType: LastRegisteredType) = InprogressOverseas(
-    dob = Some(DateOfBirth(Some(dob), None)),
-    lastRegisteredToVote = Some(LastRegisteredToVote(lastRegisteredType))
-  )
-
   lazy val emptyOverseasApplication = InprogressOverseas(
     name = None,
     previousName = None,
     previouslyRegistered = None,
     dateLeftUk = None,
     firstTimeRegistered = None,
-    registeredAddress = None,
     nino = None,
     dob = None,
     address = None,

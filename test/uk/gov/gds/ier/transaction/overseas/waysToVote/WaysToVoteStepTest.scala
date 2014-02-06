@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.transaction.overseas.waysToVote
 
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.transaction.overseas.waysToVote.WaysToVoteStep
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
 import com.google.inject.Guice
