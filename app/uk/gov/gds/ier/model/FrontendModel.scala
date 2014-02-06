@@ -183,6 +183,7 @@ case class PartialAddress(addressLine:Option[String],
                           uprn:Option[String], 
                           postcode:String, 
                           manualAddress:Option[String])
+
 case class Address(lineOne:Option[String], 
                    lineTwo:Option[String],
                    lineThree:Option[String],

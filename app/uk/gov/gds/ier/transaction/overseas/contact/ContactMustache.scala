@@ -34,13 +34,13 @@ trait ContactMustache extends StepMustache {
         classes = if (progressForm(keys.contact.key).hasErrors) "invalid" else ""
       ),
       contactEmailCheckbox = CheckboxField(
-        key = keys.contact.email.contactMe
+        key = keys.contact.email.contactMe, value = "true"
       ),
       contactPhoneCheckbox = CheckboxField(
-        key = keys.contact.phone.contactMe
+        key = keys.contact.phone.contactMe, value = "true"
       ),
       contactPostCheckbox = CheckboxField(
-        key = keys.contact.post.contactMe
+        key = keys.contact.post.contactMe, value = "true"
       ),
       contactEmailText = TextField(
         key = keys.contact.email.detail

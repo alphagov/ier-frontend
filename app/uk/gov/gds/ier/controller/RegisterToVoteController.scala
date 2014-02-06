@@ -44,7 +44,7 @@ class RegisterToVoteController @Inject() (val serialiser: JsonSerialiser,
 
   def registerToVoteOverseasStart = NewSession requiredFor {
     request =>
-      Redirect(step.overseas.routes.PreviouslyRegisteredController.get)
+      Redirect(step.overseas.routes.DateOfBirthController.get)
   }
 }
 

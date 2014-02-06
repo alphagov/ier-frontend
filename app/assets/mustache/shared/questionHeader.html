@@ -1,7 +1,10 @@
 {{#question.showBackUrl}}
 <a class="back-to-previous" href="{{question.backUrl}}">Back <span class="visuallyhidden"> to the previous question</span></a>
-{{/question.showBackUrl}}
 <header>
+{{/question.showBackUrl}}
+{{^question.showBackUrl}}
+<header class="question-one">
+{{/question.showBackUrl}}
     <p>Question {{question.number}}</p>
     <h1>{{question.title}}</h1>
 </header>

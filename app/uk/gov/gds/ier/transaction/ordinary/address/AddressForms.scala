@@ -35,7 +35,6 @@ trait AddressForms extends AddressConstraints {
       .verifying("Please enter a valid postcode", postcode => PostcodeValidator.isValid(postcode)),
     keys.manualAddress.key -> optional(nonEmptyText
       .verifying(addressMaxLengthError, _.size <= maxTextFieldLength))
-    
   ) (
     PartialAddress.apply
   ) (
@@ -48,12 +47,12 @@ trait AddressForms extends AddressConstraints {
         .verifying("Please answer this question", _.isDefined),
       keys.possibleAddresses.key -> optional(possibleAddressMapping)
     ) (
-      (partialAddress, possibleAddresses) => 
+      (partialAddress, possibleAddresses) =>
         InprogressOrdinary(address = partialAddress, possibleAddresses = possibleAddresses)
     ) (
       inprogress => Some(inprogress.address, inprogress.possibleAddresses)
-    ) verifying addressOrManualAddressDefined 
-  ) 
+    ) verifying addressOrManualAddressDefined
+  )
 
   val addressLookupForm = ErrorTransformForm(
     mapping(
