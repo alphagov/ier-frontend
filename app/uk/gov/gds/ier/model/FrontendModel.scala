@@ -153,7 +153,7 @@ case class OrdinaryApplication(name: Option[Name],
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
       nationality.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
-      address.map(_.toApiMap("c")).getOrElse(Map.empty) ++
+      address.map(_.toApiMap("reg")).getOrElse(Map.empty) ++
       previousAddress.map(_.toApiMap("p")).getOrElse(Map.empty) ++
       otherAddress.map(_.toApiMap).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
