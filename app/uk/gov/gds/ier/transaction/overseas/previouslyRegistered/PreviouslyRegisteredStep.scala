@@ -10,8 +10,7 @@ import uk.gov.gds.ier.validation.{ErrorTransformForm, InProgressForm}
 import play.api.mvc.Call
 import play.api.templates.Html
 import play.api.mvc.SimpleResult
-import controllers.step.overseas.routes.PreviouslyRegisteredController
-import controllers.step.routes.CountryController
+import controllers.step.overseas.routes.{PreviouslyRegisteredController, DateOfBirthController}
 import controllers.step.overseas.{FirstTimeRegisteredController, DateLeftUkController}
 import uk.gov.gds.ier.step.OverseaStep
 import uk.gov.gds.ier.step.Routes
@@ -31,7 +30,7 @@ class PreviouslyRegisteredStep @Inject() (val serialiser: JsonSerialiser,
     editGet = PreviouslyRegisteredController.editGet,
     editPost = PreviouslyRegisteredController.editPost
   )
-  val previousRoute = Some(CountryController.get)
+  val previousRoute = Some(DateOfBirthController.get)
 
   def nextStep(currentState: InprogressOverseas) = {
     currentState.previouslyRegistered match {

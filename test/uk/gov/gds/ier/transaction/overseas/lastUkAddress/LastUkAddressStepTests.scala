@@ -154,7 +154,7 @@ behavior of "LastUkAddressStep.editGet"
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/edit/last-uk-address")
           .withIerSession()
-          .withApplication(completeOrdinaryApplication)
+          .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
             "lastUkAddress.manualAddress" -> "123 Fake Street",
             "lastUkAddress.postcode" -> "SW1A 1AA"

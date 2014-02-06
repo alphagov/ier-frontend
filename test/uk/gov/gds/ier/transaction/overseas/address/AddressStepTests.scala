@@ -40,7 +40,7 @@ class AddressStepTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/overseas/openRegister"))
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/open-register"))
     }
   }
 
@@ -84,7 +84,7 @@ class AddressStepTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/overseas/openRegister"))
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/open-register"))
     }
   }
 

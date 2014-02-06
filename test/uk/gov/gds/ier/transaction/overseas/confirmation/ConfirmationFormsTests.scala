@@ -22,10 +22,12 @@ class ConfirmationFormTests
     val js = JsNull
     confirmationForm.bind(js).fold(
       hasErrors => {
-        List ("name", "previousName", "dateLeftUk", "firstTimeRegistered", "previouslyRegistered",
-            "lastRegisteredToVote", "dob", "lastUkAddress", "NINO", "overseasAddress",
-            "openRegister", "waysToVote", "postalVote", "contact") each { key =>
-          hasErrors.errorMessages(key) should be Seq("Please complete this step")
+        val keysToCheck = List ("name", "previousName", "dateLeftUk", "firstTimeRegistered", 
+            "previouslyRegistered", "lastRegisteredToVote", "dob", "lastUkAddress", "NINO", 
+            "overseasAddress", "openRegister", "waysToVote", "postalVote", "contact")
+            
+        keysToCheck foreach { key =>
+          hasErrors.errorMessages(key).head should be ("Please complete this step")
         }
         hasErrors.globalErrorMessages should be(List.fill(14)("Please complete this step"))
         hasErrors.errors.size should be(28)
@@ -38,10 +40,12 @@ class ConfirmationFormTests
     val application = InprogressOverseas()
     confirmationForm.fillAndValidate(application).fold(
       hasErrors => {
-        List ("name", "previousName", "dateLeftUk", "firstTimeRegistered", "previouslyRegistered",
-            "lastRegisteredToVote", "dob", "lastUkAddress", "NINO", "overseasAddress",
-            "openRegister", "waysToVote", "postalVote", "contact") each { key =>
-          hasErrors.errorMessages(key) should be Seq("Please complete this step")
+        val keysToCheck = List ("name", "previousName", "dateLeftUk", "firstTimeRegistered", 
+            "previouslyRegistered", "lastRegisteredToVote", "dob", "lastUkAddress", "NINO", 
+            "overseasAddress", "openRegister", "waysToVote", "postalVote", "contact")
+            
+        keysToCheck foreach { key =>
+          hasErrors.errorMessages(key).head should be ("Please complete this step")
         }
         hasErrors.globalErrorMessages should be(List.fill(14)("Please complete this step"))
         hasErrors.errors.size should be(28)

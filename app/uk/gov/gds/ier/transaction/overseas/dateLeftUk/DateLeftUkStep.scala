@@ -55,10 +55,10 @@ class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
     else false
   }
 
-  def validateTooOldWhenLeftUk(dateLeftUk:DateLeftUk, dateOfBirth:Option[DateOfBirth], lastRegisteredToVote:Option[LastRegisteredToVote]):Boolean = {
+  def validateTooOldWhenLeftUk(dateLeftUk:DateLeftUk, dateOfBirth:Option[DOB], lastRegisteredToVote:Option[LastRegisteredToVote]):Boolean = {
     if (lastRegisteredToVote.exists(_.lastRegisteredType == LastRegisteredType.NotRegistered))
       dateOfBirth match {
-        case Some(DateOfBirth(Some(DOB(year,month,day)),_)) => {
+        case Some(DOB(year,month,day)) => {
           val birthDateTime = new DateTime(year,month,day,0,0,0,0)
           val leftUk = new DateTime().withMonthOfYear(dateLeftUk.month).withYear(dateLeftUk.year)
           val monthDiff = Months.monthsBetween(birthDateTime, leftUk).getMonths()
