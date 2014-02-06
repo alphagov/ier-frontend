@@ -74,12 +74,26 @@ trait TestHelpers {
     dob = Some(DateOfBirth(Some(DOB(1970,10,10)), None)),
     address = Some(Stub()),
     openRegisterOptin = Some(true),
-    waysToVote = Some(Stub())
+    waysToVote = Some(WaysToVote(WaysToVoteType.InPerson))
   )
 
   def overseasApplicationWithDateOfBirthAndLastRegistration(dob:DOB, lastRegisteredType: LastRegisteredType) = InprogressOverseas(
     dob = Some(DateOfBirth(Some(dob), None)),
     lastRegisteredToVote = Some(LastRegisteredToVote(lastRegisteredType))
+  )
+
+  lazy val emptyOverseasApplication = InprogressOverseas(
+    name = None,
+    previousName = None,
+    previouslyRegistered = None,
+    dateLeftUk = None,
+    firstTimeRegistered = None,
+    registeredAddress = None,
+    nino = None,
+    dob = None,
+    address = None,
+    openRegisterOptin = None,
+    waysToVote = None
   )
 
   class ErrorsOps(errors: Seq[FormError], globalErrors: Seq[FormError]) {

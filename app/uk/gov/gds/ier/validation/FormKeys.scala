@@ -98,6 +98,7 @@ trait FormKeys {
     lazy val registeredType = prependNamespace(Key("registeredType"))
 
     lazy val waysToVote = prependNamespace(Key("waysToVote"))
+    lazy val wayType = prependNamespace(Key("wayType"))
   }
 
   implicit class key2namespace(key:Key) extends Keys {

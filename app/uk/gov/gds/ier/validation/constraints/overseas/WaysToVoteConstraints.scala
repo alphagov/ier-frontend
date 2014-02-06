@@ -9,10 +9,10 @@ trait WaysToVoteConstraints extends CommonConstraints {
   self:  FormKeys
     with ErrorMessages =>
 
-  // FIXME: unfinished! What is the error message?
-  lazy val wayNotOptional = Constraint[Option[WaysToVote]](keys.waysToVote.key) {
-    waysToVote =>
-      if (waysToVote.isDefined) Valid
-      else Invalid("Please select your preferred way to vote", keys.waysToVote)
-  }
+// TODO: refactor and move validations from forms here
+//  lazy val validWayToVoteOption = Constraint[Option[WaysToVote]](keys.waysToVote.key) {
+//    waysToVote =>
+//      if (waysToVote.isDefined) Valid
+//      else Invalid("Please select your preferred way to vote", keys.waysToVote)
+//  }
 }

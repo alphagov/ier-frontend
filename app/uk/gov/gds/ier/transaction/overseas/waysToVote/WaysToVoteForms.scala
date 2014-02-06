@@ -10,7 +10,8 @@ trait WaysToVoteForms extends WaysToVoteConstraints {
     with ErrorMessages =>
 
   lazy val waysToVoteMapping = mapping(
-    keys.waysToVote.key -> text
+    keys.wayType.key -> text.verifying("Unknown type",
+      r => WaysToVoteType.values.exists(_.toString == r))
   ) (
     wayToVoteAsString => WaysToVote(WaysToVoteType.withName(wayToVoteAsString))
   ) (
@@ -20,6 +21,7 @@ trait WaysToVoteForms extends WaysToVoteConstraints {
   val waysToVoteForm = ErrorTransformForm(
     mapping(
       keys.waysToVote.key -> optional(waysToVoteMapping)
+        .verifying("Please answer this question", waysToVote => waysToVote.isDefined)
     ) (
       waysToVote => InprogressOverseas(waysToVote = waysToVote)
     ) (
