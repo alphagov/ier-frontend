@@ -7,12 +7,13 @@
     <p>If you have more than one address, just give the one where you spend most of your time.</p>
     <label for="{{possibleAddresses.name}}" class="">Postcode</label>
     <div class="validation-wrapper {{possibleAddresses.classes}}">
-		<input type="text" id="{{possibleAddresses.id}}" name="{{possibleAddresses.name}}" value="{{possibleAddresses.value}}" autocomplete="off" class="text  postcode medium validate {{possibleAddresses.classes}}" data-validation-name="postcode" data-validation-type="field" data-validation-rules="nonEmpty">
+		<input type="text" id="{{possibleAddresses.id}}" name="{{possibleAddresses.name}}" value="{{possibleAddresses.value}}" autocomplete="off" class="text  postcode medium validate {{possibleAddresses.classes}}" data-validation-name="postcode" data-validation-type="field" data-validation-rules="nonEmpty postcode">
      </div>
     <button id="find-address" type="submit" class="button search validation-submit" data-validation-sources="postcode" aria-controls="found-addresses">Find address</button>
     </fieldset>
 </form>
 
+    
     {{#listAddressSize}}
 <form action="{{question.postUrl}}" method="POST">
 
@@ -49,7 +50,7 @@
     {{^listAddressSize}}
         <div id="found-addresses" role="region" aria-live="polite" aria-label="Address">
         
-        <div class="help-content" >
+        <div class="help-content page-help-content" >
           <h2 >I don't know which postcode to use</h2>
           <p>We need your address and postcode so that we can send your details to the right local Electoral Registration Office.</p>
           <h3>I don't know the postcode for my address</h3>

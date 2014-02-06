@@ -67,11 +67,14 @@ trait TestHelpers {
     name = Some(Name("John", None, "Smith")),
     previousName = Some(PreviousName(false, None)),
     previouslyRegistered = Some(PreviouslyRegistered(true)),
+    dob = Some(DOB(year = 1970, month = 12, day = 12)),
+    lastUkAddress = Some(
+      PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)
+    ),
     dateLeftUk = Some(DateLeftUk(2000,10)),
     firstTimeRegistered = Some(Stub()),
-    registeredAddress = Some(Stub()),
+    lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.UK)),
     nino = Some(Nino(Some("XX 12 34 56 A"), None)),
-    dob = Some(DateOfBirth(Some(DOB(1970,10,10)), None)),
     address = Some(Stub()),
     openRegisterOptin = Some(true),
     waysToVote = Some(WaysToVote(WaysToVoteType.InPerson))

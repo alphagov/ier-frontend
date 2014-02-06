@@ -13,12 +13,13 @@ import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.model.InprogressOverseas
 import controllers.step.overseas.routes.NameController
-import controllers.step.overseas.routes.RegisteredAddressController
+import controllers.step.overseas.routes.LastUkAddressController
 
-class NameStep @Inject ()(val serialiser: JsonSerialiser,
-                          val config: Config,
-                          val encryptionService : EncryptionService,
-                          val encryptionKeys : EncryptionKeys)
+class NameStep @Inject ()(
+    val serialiser: JsonSerialiser,
+    val config: Config,
+    val encryptionService : EncryptionService,
+    val encryptionKeys : EncryptionKeys)
   extends OverseaStep
   with NameForms
   with NameMustache {
@@ -31,13 +32,16 @@ class NameStep @Inject ()(val serialiser: JsonSerialiser,
     editGet = NameController.editGet,
     editPost = NameController.editPost
   )
-  val previousRoute = Some(RegisteredAddressController.get)
+  val previousRoute = Some(LastUkAddressController.get)
 
   def nextStep(currentState: InprogressOverseas) = {
     NinoController.ninoStep
   }
   
-  def template(form:InProgressForm[InprogressOverseas], call:Call, backUrl: Option[Call]): Html = {
+  def template(
+      form:InProgressForm[InprogressOverseas],
+      call:Call,
+      backUrl: Option[Call]): Html = {
     nameMustache(form.form, call, backUrl.map(_.url))
   }
 }

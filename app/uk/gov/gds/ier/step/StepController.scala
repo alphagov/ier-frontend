@@ -51,6 +51,10 @@ trait StepController [T <: InprogressApplication[T]]
   //  FalseController
   def nextStep(currentState: T):NextStep[T]
 
+  def postSuccess(currentState: T):T = {
+    currentState
+  }
+
   def goToNext(currentState: T):SimpleResult = {
     if (isStepComplete(currentState)) {
       nextStep(currentState).goToNext(currentState)
@@ -75,7 +79,7 @@ trait StepController [T <: InprogressApplication[T]]
         },
         success => {
           logger.debug(s"Form binding successful")
-          val mergedApplication = success.merge(application)
+          val mergedApplication = postSuccess(success.merge(application))
           goToNext(mergedApplication) storeInSession mergedApplication
         }
       )
