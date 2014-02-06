@@ -105,10 +105,29 @@
   };
   $.extend(ConditionalControl.prototype, new ToggleObj());
   ConditionalControl.prototype.setup = function () {
-    var contentId = this.$content.attr('id');
-
-    this.$toggle = $(document.getElementById(this.$content.data('condition')));
+    var contentId = this.$content.attr('id'),
+        _this = this,
+        _bindControlAndContentMargins;
+    
+    // if both are siblings, make controls inherit the margin-bottom of the content
+    _bindControlAndContentMargins = function () {
+      var $controlWrapper = _this.$toggle.parent('.selectable'),
+          $contentValidation = _this.$content.parent('.validation-wrapper'),
+          $control = ($controlWrapper.length) ? $controlWrapper : _this.$toggle,
+          $content = ($contentValidation.length) ? $contentValidation : _this.$content;
+ 
+      if ($control.siblings().index($content) !== -1) {
+        _this.controlAndContentAreSiblings = true;
+        _this.marginWhenContentIs = {
+          'shown' : $control.css('margin-bottom'),
+          'hidden' : $content.css('margin-bottom') 
+        };
+      }
+    };
+    // fix for having periods in id names breaking sizzle
+    this.$toggle = $(document.getElementById(this.$content.data('condition'))); 
     if (contentId) { this.$toggle.attr('aria-controls', contentId); }
+    _bindControlAndContentMargins();
   }; 
   ConditionalControl.prototype.bindEvents = function () {
     var _this = this,
@@ -129,37 +148,58 @@
       this.$content.hide();
     }
   };
+  ConditionalControl.prototype.adjustVerticalSpace = function (content) {
+    var $controlWrapper = this.$toggle.parent('.selectable'),
+        $control = ($controlWrapper.length) ? $controlWrapper : this.$toggle;
+
+    if (!this.controlAndContentAreSiblings) { return; }
+    if (content === 'hidden') {
+      $control.css('margin-bottom', this.marginWhenContentIs.hidden);
+    } else {
+      $control.css('margin-bottom', this.marginWhenContentIs.shown);
+    }
+  };
   ConditionalControl.prototype.toggle = function (selectedRadio) {
     var $postcodeSearch = this.$content.find('.postcode'),
         isPostcodeLookup = $postcodeSearch.length > 0,
-        hasAddresses = $('#found-addresses select').length > 0;
+        hasAddresses = $('#found-addresses select').length > 0,
+        _this = this,
+        _hideContent,
+        _showContent;
+
+    _hideContent = function () {
+      _this.$content.hide();
+      _this.$content.attr({
+        'aria-hidden' : true,
+        'aria-expanded' : false
+      });
+    };
+
+    _showContent = function () {
+      _this.$content.show();
+      _this.$content.attr({
+        'aria-hidden' : false,
+        'aria-expanded' : true
+      });
+    };
 
     if (selectedRadio !== undefined) {
       if (this.$toggle.attr('id') !== selectedRadio.id) {
-        this.$content.hide();
-        this.$content.attr({
-          'aria-hidden' : true,
-          'aria-expanded' : false
-        });
+        _hideContent();
+        this.adjustVerticalSpace('hidden');
         $('#continue').show();
       }
     } else {
       if (this.$toggle.is(":checked")) {
-        this.$content.show();
-        this.$content.attr({
-          'aria-hidden' : false,
-          'aria-expanded' : true
-        });
+        _showContent();
+        this.adjustVerticalSpace('shown');
         $(document).trigger('toggle.open', { '$toggle' : this.$toggle });
         if (isPostcodeLookup && !hasAddresses) {
           $('#continue').hide();
         }
       } else {
-        this.$content.hide();
-        this.$content.attr({
-          'aria-hidden' : true,
-          'aria-expanded' : true
-        });
+        _hideContent();
+        this.adjustVerticalSpace('hidden');
         $(document).trigger('toggle.closed', { '$toggle' : this.$toggle });
         $('#continue').show();
       }
