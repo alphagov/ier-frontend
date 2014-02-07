@@ -12,12 +12,15 @@ trait WaysToVoteMustache extends StepMustache {
 
   case class WaysToVoteModel(
     question: Question,
-    wayToVote: Field
+    byPost: Field,
+    byProxy: Field,
+    inPerson: Field
   )
 
-  def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOverseas],
-                                      postUrl: String,
-                                      backUrl: Option[String]): WaysToVoteModel = {
+  def transformFormStepToMustacheData(
+      form: ErrorTransformForm[InprogressOverseas],
+      postUrl: String,
+      backUrl: Option[String]): WaysToVoteModel = {
     implicit val progressForm = form
 
     WaysToVoteModel(
@@ -28,12 +31,21 @@ trait WaysToVoteMustache extends StepMustache {
         number = "12",
         title = pageTitle,
         errorMessages = form.globalErrors.map { _.message }),
-      // FIXME: unfinished
-      wayToVote = CheckboxField(key = keys.waysToVote, value = "")
+      byPost = RadioField(
+        key = keys.waysToVote.wayType,
+        value = "by-post"),
+      byProxy = RadioField(
+        key = keys.waysToVote.wayType,
+        value = "by-proxy"),
+      inPerson = RadioField(
+        key = keys.waysToVote.wayType,
+        value = "in-person")
     )
   }
 
-  def waysToVoteMustache(form: ErrorTransformForm[InprogressOverseas], call: Call, backUrl: Option[String]): Html = {
+  def waysToVoteMustache(
+      form: ErrorTransformForm[InprogressOverseas],
+      call: Call, backUrl: Option[String]): Html = {
     val data = transformFormStepToMustacheData(form, call.url, backUrl)
     val content = Mustache.render("overseas/waysToVote", data)
     MainStepTemplate(content, pageTitle)
