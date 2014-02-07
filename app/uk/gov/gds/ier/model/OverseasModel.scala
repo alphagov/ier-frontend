@@ -7,7 +7,6 @@ case class InprogressOverseas(
     previousName: Option[PreviousName] = None,
     previouslyRegistered: Option[PreviouslyRegistered] = None,
     dateLeftUk: Option[DateLeftUk] = None,
-    firstTimeRegistered: Option[Stub] = None,
     lastRegisteredToVote: Option[LastRegisteredToVote] = None,
     dob: Option[DOB] = None,
     nino: Option[Nino] = None,
@@ -26,7 +25,6 @@ case class InprogressOverseas(
       previousName = this.previousName.orElse(other.previousName),
       previouslyRegistered = this.previouslyRegistered.orElse(other.previouslyRegistered),
       dateLeftUk = this.dateLeftUk.orElse(other.dateLeftUk),
-      firstTimeRegistered = this.firstTimeRegistered.orElse(other.firstTimeRegistered),
       lastRegisteredToVote = this.lastRegisteredToVote.orElse(other.lastRegisteredToVote),
       dob = this.dob.orElse(other.dob),
       nino = this.nino.orElse(other.nino),
@@ -45,7 +43,6 @@ case class OverseasApplication(
     previousName: Option[PreviousName],
     previouslyRegistered: Option[PreviouslyRegistered],
     dateLeftUk: Option[DateLeftUk],
-    firstTimeRegistered: Option[Stub],
     lastRegisteredToVote: Option[LastRegisteredToVote],
     dob: Option[DOB],
     nino: Option[Nino],
@@ -63,7 +60,6 @@ case class OverseasApplication(
       previousName.map(_.toApiMap).getOrElse(Map.empty) ++
       previouslyRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
       dateLeftUk.map(_.toApiMap).getOrElse(Map.empty) ++
-      firstTimeRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
       lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++

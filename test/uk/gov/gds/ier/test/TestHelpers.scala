@@ -72,7 +72,6 @@ trait TestHelpers {
       PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)
     ),
     dateLeftUk = Some(DateLeftUk(2000,10)),
-    firstTimeRegistered = Some(Stub()),
     lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.UK)),
     nino = Some(Nino(Some("XX 12 34 56 A"), None)),
     address = Some(Stub()),

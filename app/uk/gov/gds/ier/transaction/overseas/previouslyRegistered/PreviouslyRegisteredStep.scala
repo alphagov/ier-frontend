@@ -11,14 +11,15 @@ import play.api.mvc.Call
 import play.api.templates.Html
 import play.api.mvc.SimpleResult
 import controllers.step.overseas.routes.{PreviouslyRegisteredController, DateOfBirthController}
-import controllers.step.overseas.{FirstTimeRegisteredController, DateLeftUkController}
+import controllers.step.overseas.{LastRegisteredToVoteController, DateLeftUkController}
 import uk.gov.gds.ier.step.OverseaStep
 import uk.gov.gds.ier.step.Routes
 
-class PreviouslyRegisteredStep @Inject() (val serialiser: JsonSerialiser,
-                                                val config: Config,
-                                                val encryptionService: EncryptionService,
-                                                val encryptionKeys: EncryptionKeys)
+class PreviouslyRegisteredStep @Inject() (
+    val serialiser: JsonSerialiser,
+    val config: Config,
+    val encryptionService: EncryptionService,
+    val encryptionKeys: EncryptionKeys)
   extends OverseaStep
   with PreviouslyRegisteredForms
   with PreviousRegisteredMustache {
@@ -34,15 +35,20 @@ class PreviouslyRegisteredStep @Inject() (val serialiser: JsonSerialiser,
 
   def nextStep(currentState: InprogressOverseas) = {
     currentState.previouslyRegistered match {
-      case Some(PreviouslyRegistered(true)) => FirstTimeRegisteredController.firstTimeStep
-      case Some(PreviouslyRegistered(false)) => DateLeftUkController.dateLeftUkStep
+      case Some(PreviouslyRegistered(false)) => {
+        LastRegisteredToVoteController.lastRegisteredToVoteStep
+      }
+      case Some(PreviouslyRegistered(true)) => {
+        DateLeftUkController.dateLeftUkStep
+      }
       case _ => this
     }
   }
 
-  def template(form: InProgressForm[InprogressOverseas],
-               postEndpoint: Call,
-               backEndpoint:Option[Call]): Html = {
+  def template(
+      form: InProgressForm[InprogressOverseas],
+      postEndpoint: Call,
+      backEndpoint:Option[Call]): Html = {
     previousRegisteredMustache(form.form, postEndpoint, backEndpoint)
   }
 }
