@@ -7,14 +7,13 @@ import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.step.OverseaStep
 import controllers.step.overseas.routes.WaysToVoteController
 import controllers.step.overseas.routes.OpenRegisterController
-import controllers.step.overseas.PostalVoteController
+import controllers.step.overseas.{ContactController, PostalVoteController}
 import uk.gov.gds.ier.step.Routes
 import scala.Some
 import uk.gov.gds.ier.model.{WaysToVoteType, InprogressOverseas}
 import uk.gov.gds.ier.validation.InProgressForm
 import play.api.mvc.Call
 import play.api.templates.Html
-import controllers.step.overseas.ConfirmationController
 
 
 class WaysToVoteStep @Inject ()(
@@ -38,7 +37,7 @@ class WaysToVoteStep @Inject ()(
 
   def nextStep(currentState: InprogressOverseas) = {
     if (currentState.waysToVote.get.waysToVoteType == WaysToVoteType.InPerson) {
-      ConfirmationController.confirmationStep
+      ContactController.contactStep
     } else {
       PostalVoteController.postalVoteStep
     }

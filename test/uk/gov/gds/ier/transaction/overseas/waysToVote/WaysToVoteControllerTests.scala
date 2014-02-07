@@ -59,7 +59,7 @@ class WaysToVoteControllerTests
   }
 
   behavior of "WaysToVoteController.post"
-  it should "redirect to Confirmation Step when submitted data indicate in-person way" in {
+  it should "redirect to Contact Step when submitted data indicate in-person way" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/ways-to-vote")
@@ -68,7 +68,7 @@ class WaysToVoteControllerTests
             "waysToVote.wayType" -> "in-person")
       )
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/overseas/confirmation"))
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/contact"))
     }
   }
 
