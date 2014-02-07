@@ -37,8 +37,9 @@ class ConfirmationFormTests
         hasErrors.errorMessages("waysToVote") should be(errorMessage)
         hasErrors.errorMessages("postalVote") should be(errorMessage)
         hasErrors.errorMessages("contact") should be(errorMessage)
-        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(14)
-        hasErrors.errors.size should be(28)
+        hasErrors.errorMessages("passport") should be(errorMessage)
+        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(15)
+        hasErrors.errors.size should be(30)
       },
       success => fail("Should have errored out.")
     )
@@ -63,8 +64,9 @@ class ConfirmationFormTests
         hasErrors.errorMessages("waysToVote") should be(errorMessage)
         hasErrors.errorMessages("postalVote") should be(errorMessage)
         hasErrors.errorMessages("contact") should be(errorMessage)
-        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(14)
-        hasErrors.errors.size should be(28)
+        hasErrors.errorMessages("passport") should be(errorMessage)
+        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(15)
+        hasErrors.errors.size should be(30)
       },
       success => fail("Should have errored out.")
     )

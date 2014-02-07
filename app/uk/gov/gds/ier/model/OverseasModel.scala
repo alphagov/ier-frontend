@@ -17,6 +17,7 @@ case class InprogressOverseas(
     waysToVote: Option[Stub] = None,
     postalVote: Option[Stub] = None,
     contact: Option[Contact] = None,
+    passport: Option[Passport] = None,
     possibleAddresses: Option[PossibleAddress] = None)
   extends InprogressApplication[InprogressOverseas] {
 
@@ -35,6 +36,7 @@ case class InprogressOverseas(
       openRegisterOptin = this.openRegisterOptin.orElse(other.openRegisterOptin),
       waysToVote = this.waysToVote.orElse(other.waysToVote),
       contact = this.contact.orElse(other.contact),
+      passport = this.passport.orElse(other.passport),
       possibleAddresses = None
     )
   }
@@ -102,3 +104,20 @@ object LastRegisteredType extends Enumeration {
   val Council = Value("council")
   val NotRegistered = Value("not-registered")
 }
+
+case class CitizenDetails(
+    dateBecameCitizen: DOB,
+    howBecameCitizen: String
+)
+case class PassportDetails(
+    passportNumber: String,
+    authority: String,
+    issueDate: DOB
+)
+
+case class Passport(
+    hasPassport: Boolean,
+    bornInsideUk: Option[Boolean],
+    details: Option[PassportDetails],
+    citizen: Option[CitizenDetails]
+)

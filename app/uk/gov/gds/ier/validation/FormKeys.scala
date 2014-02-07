@@ -98,6 +98,20 @@ trait FormKeys {
     lazy val lastRegisteredToVote = prependNamespace(Key("lastRegisteredToVote"))
     lazy val registeredType = prependNamespace(Key("registeredType"))
 
+    lazy val passportNumber = prependNamespace(Key("passportNumber"))
+    lazy val authority = prependNamespace(Key("authority"))
+    lazy val issueDate = prependNamespace(Key("issueDate"))
+
+    lazy val dateBecameCitizen = prependNamespace(Key("dateBecameCitizen"))
+    lazy val howBecameCitizen = prependNamespace(Key("howBecameCitizen"))
+
+    lazy val hasPassport = prependNamespace(Key("hasPassport"))
+    lazy val bornInsideUk = prependNamespace(Key("bornInsideUk"))
+
+    lazy val passportDetails = prependNamespace(Key("passportDetails"))
+    lazy val citizenDetails = prependNamespace(Key("citizenDetails"))
+    lazy val passport = prependNamespace(Key("passport"))
+
   }
 
   implicit class key2namespace(key:Key) extends Keys {

@@ -14,6 +14,7 @@ import uk.gov.gds.ier.transaction.overseas.nino.NinoForms
 import uk.gov.gds.ier.transaction.overseas.name.NameForms
 import uk.gov.gds.ier.transaction.overseas.openRegister.OpenRegisterForms
 import uk.gov.gds.ier.transaction.overseas.contact.ContactForms
+import uk.gov.gds.ier.transaction.overseas.passport.PassportForms
 
 trait ConfirmationForms
   extends FormKeys
@@ -28,6 +29,7 @@ trait ConfirmationForms
   with OpenRegisterForms
   with NameForms
   with ContactForms
+  with PassportForms
   with CommonConstraints {
 
   val stubMapping = mapping(
@@ -54,6 +56,7 @@ trait ConfirmationForms
       "waysToVote" -> stepRequired(stubMapping),
       "postalVote" -> stepRequired(stubMapping),
       keys.contact.key -> stepRequired(contactMapping),
+      keys.passport.key -> stepRequired(passportMapping),
       keys.possibleAddresses.key -> optional(possibleAddressesMapping)
     ) (InprogressOverseas.apply) (InprogressOverseas.unapply)
   )
