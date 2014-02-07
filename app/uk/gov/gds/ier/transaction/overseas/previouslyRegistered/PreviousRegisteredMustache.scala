@@ -8,14 +8,17 @@ import uk.gov.gds.ier.mustache.StepMustache
 
 trait PreviousRegisteredMustache extends StepMustache {
 
-  case class PreviouslyRegisteredModel(question:Question,
-                                       previouslyRegistered: FieldSet,
-                                       previouslyRegisteredTrue: Field,
-                                       previouslyRegisteredFalse: Field)
+  case class PreviouslyRegisteredModel(
+      question:Question,
+      previouslyRegistered: FieldSet,
+      previouslyRegisteredTrue: Field,
+      previouslyRegisteredFalse: Field
+  )
 
-  def previousRegisteredMustache(form:ErrorTransformForm[InprogressOverseas],
-                                 post: Call,
-                                 back: Option[Call]): Html = {
+  def previousRegisteredMustache(
+      form:ErrorTransformForm[InprogressOverseas],
+      post: Call,
+      back: Option[Call]): Html = {
     val prevRegKey = keys.previouslyRegistered.hasPreviouslyRegistered
 
     val data = PreviouslyRegisteredModel(
@@ -24,7 +27,7 @@ trait PreviousRegisteredMustache extends StepMustache {
         backUrl = back.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "2 of ?",
-        title = "Is this your first time registering as an overseas voter?"
+        title = "Was your previous registration as an overseas voter?"
       ),
       previouslyRegistered = FieldSet(
         classes = if (form(prevRegKey.key).hasErrors) "invalid" else ""

@@ -145,12 +145,6 @@ POST        /register-to-vote/overseas/previously-registered             control
 GET         /register-to-vote/overseas/edit/previously-registered        controllers.step.overseas.PreviouslyRegisteredController.editGet
 POST        /register-to-vote/overseas/edit/previously-registered        controllers.step.overseas.PreviouslyRegisteredController.editPost
 
-#First Time Registered
-GET         /register-to-vote/overseas/first-time-registered             controllers.step.overseas.FirstTimeRegisteredController.get
-POST        /register-to-vote/overseas/first-time-registered             controllers.step.overseas.FirstTimeRegisteredController.post
-GET         /register-to-vote/overseas/edit/first-time-registered        controllers.step.overseas.FirstTimeRegisteredController.editGet
-POST        /register-to-vote/overseas/edit/first-time-registered        controllers.step.overseas.FirstTimeRegisteredController.editPost
-
 #Date Left UK
 GET         /register-to-vote/overseas/date-left-uk                      controllers.step.overseas.DateLeftUkController.get
 POST        /register-to-vote/overseas/date-left-uk                      controllers.step.overseas.DateLeftUkController.post

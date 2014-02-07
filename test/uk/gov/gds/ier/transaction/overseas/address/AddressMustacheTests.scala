@@ -72,8 +72,7 @@ class AddressMustacheTest
     addressModel.countrySelect.value should be("United Kingdom")
     addressModel.address.value should be("")
 
-    addressModel.question.errorMessages.mkString(", ") should be
-      ("Please enter your address")
+    addressModel.question.errorMessages.mkString(", ") should be("Please enter your address")
   }
   
   it should "progress form with validation errors in the model if country is missing" in {
@@ -90,7 +89,6 @@ class AddressMustacheTest
     addressModel.countrySelect.value should be("")
     addressModel.address.value should be("address")
 
-    addressModel.question.errorMessages.mkString(", ") should be
-      ("Please enter your country")
+    addressModel.question.errorMessages.mkString(", ") should be("Please enter your country")
   }
 }
