@@ -238,7 +238,7 @@ trait ConfirmationMustache {
               }
               s"<p>$wayToVoteLabel</p>"
             }
-            case None => "???"
+            case None => ""
           }
         }
       )
