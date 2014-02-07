@@ -21,9 +21,9 @@ class AddressFormTests
     val js = JsNull
     addressForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("overseasAddress.country") should be(Seq("Please select the country"))
-        hasErrors.errorMessages("overseasAddress.overseasAddressDetails") should be(Seq("Please enter the address"))
-        hasErrors.globalErrorMessages should be(Seq("Please select the country", "Please enter the address" ))
+        hasErrors.errorMessages("overseasAddress.country") should be(Seq("Correspondence country is required"))
+        hasErrors.errorMessages("overseasAddress.overseasAddressDetails") should be(Seq("Correspondence address is required"))
+        hasErrors.globalErrorMessages should be(Seq("Correspondence country is required", "Correspondence address is required" ))
         hasErrors.errors.size should be(4)
       },
       success => fail("Should have errored out.")
@@ -39,15 +39,49 @@ class AddressFormTests
     )
     addressForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("overseasAddress.country") should be(Seq("Please select the country"))
-        hasErrors.errorMessages("overseasAddress.overseasAddressDetails") should be(Seq("Please enter the address"))
-        hasErrors.globalErrorMessages should be(Seq("Please select the country", "Please enter the address" ))
+        hasErrors.errorMessages("overseasAddress.country") should be(Seq("Correspondence country is required"))
+        hasErrors.errorMessages("overseasAddress.overseasAddressDetails") should be(Seq("Correspondence address is required"))
+        hasErrors.globalErrorMessages should be(Seq("Correspondence country is required", "Correspondence address is required" ))
         hasErrors.errors.size should be(4)
       },
       success => fail("Should have errored out.")
     )
   }
 
+  it should "error out on missing country" in {
+    val js = Json.toJson(
+      Map(
+        "overseasAddress.country" -> "",
+        "overseasAddress.overseasAddressDetails" -> "some address"
+      )
+    )
+    addressForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errorMessages("overseasAddress.country") should be(Seq("Correspondence country is required"))
+        hasErrors.globalErrorMessages should be(Seq("Correspondence country is required"))
+        hasErrors.errors.size should be(2)
+      },
+      success => fail("Should have errored out.")
+    )
+  }
+  
+  it should "error out on missing address" in {
+    val js = Json.toJson(
+      Map(
+        "overseasAddress.country" -> "United Kingdom",
+        "overseasAddress.addressDetails" -> ""
+      )
+    )
+    addressForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errorMessages("overseasAddress.overseasAddressDetails") should be(Seq("Correspondence address is required"))
+        hasErrors.globalErrorMessages should be(Seq("Correspondence address is required" ))
+        hasErrors.errors.size should be(2)
+      },
+      success => fail("Should have errored out.")
+    )
+  }
+  
   it should "successfully parse" in {
     val js = Json.toJson(
       Map(

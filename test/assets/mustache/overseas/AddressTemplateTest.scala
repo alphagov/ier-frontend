@@ -16,7 +16,7 @@ class AddressTemplateTest
   it should "properly render all properties from the model" in {
 
     running(FakeApplication()) {
-      val data = OverseasAddressModel(
+      val data = AddressModel(
         question = Question(postUrl = "/register-to-vote/overseas/address",
         backUrl = "/register-to-vote/overseas/nino",
         number = "11",

@@ -10,11 +10,11 @@ import uk.gov.gds.ier.validation.constants.NationalityConstants
 
 trait AddressMustache extends StepMustache {
 
-  case class OverseasAddressModel(question:Question, countrySelect: Field, address: Field)
+  case class AddressModel(question:Question, countrySelect: Field, address: Field)
 
   def transformFormStepToMustacheData(form:ErrorTransformForm[InprogressOverseas],
                                  post: Call,
-                                 back: Option[Call]): OverseasAddressModel = {
+                                 back: Option[Call]): AddressModel = {
 	implicit val progressForm = form
 	
 	def countrySelectOptions(selectedCountry: String) = (NationalityConstants.countryNameToCodes map (
@@ -24,7 +24,7 @@ trait AddressMustache extends StepMustache {
 	  }
 	)).toList.sortWith((x, y) => x.text.compareTo(y.text) < 0)
 	
-    OverseasAddressModel(
+    AddressModel(
       question = Question(
         postUrl = post.url,
         backUrl = back.map { call => call.url }.getOrElse(""),
