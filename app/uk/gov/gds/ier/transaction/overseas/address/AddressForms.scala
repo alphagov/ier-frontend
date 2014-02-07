@@ -28,14 +28,14 @@ trait OverseasAddressConstraints extends CommonConstraints {
         optAddress => 
             optAddress match {
                 case Some(address) if (!address.country.getOrElse("").trim.isEmpty) => Valid 
-                case _ => Invalid("Correspondence country is required", keys.overseasAddress.country)
+                case _ => Invalid("Please enter your country", keys.overseasAddress.country)
             }
     }
     lazy val addressDetailsRequired = Constraint[Option[OverseasAddress]](keys.overseasAddress.key) {
         optAddress => 
             optAddress match {
                 case Some(address) if (!address.addressDetails.getOrElse("").trim.isEmpty) => Valid 
-                case _ => Invalid("Correspondence address is required", keys.overseasAddress.overseasAddressDetails)
+                case _ => Invalid("Please enter your address", keys.overseasAddress.overseasAddressDetails)
             }
     }
 }

@@ -73,7 +73,7 @@ class AddressMustacheTest
     addressModel.address.value should be("")
 
     addressModel.question.errorMessages.mkString(", ") should be
-      ("Correspondence address is required")
+      ("Please enter your address")
   }
   
   it should "progress form with validation errors in the model if country is missing" in {
@@ -91,6 +91,6 @@ class AddressMustacheTest
     addressModel.address.value should be("address")
 
     addressModel.question.errorMessages.mkString(", ") should be
-      ("Correspondence country is required")
+      ("Please enter your country")
   }
 }

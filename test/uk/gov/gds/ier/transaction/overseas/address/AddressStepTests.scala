@@ -51,8 +51,8 @@ class AddressStepTests
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("Correspondence country is required")
-      contentAsString(result) should include("Correspondence address is required")
+      contentAsString(result) should include("Please enter your country")
+      contentAsString(result) should include("Please enter your address")
       contentAsString(result) should include("/register-to-vote/overseas/address")
     }
   }
@@ -95,8 +95,8 @@ class AddressStepTests
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("Correspondence country is required")
-      contentAsString(result) should include("Correspondence address is required")
+      contentAsString(result) should include("Please enter your country")
+      contentAsString(result) should include("Please enter your address")
       contentAsString(result) should include("/register-to-vote/overseas/edit/address")
     }
   }

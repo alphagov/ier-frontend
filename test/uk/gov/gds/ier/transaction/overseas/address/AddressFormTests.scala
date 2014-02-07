@@ -21,9 +21,9 @@ class AddressFormTests
     val js = JsNull
     addressForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("overseasAddress.country") should be(Seq("Correspondence country is required"))
-        hasErrors.errorMessages("overseasAddress.overseasAddressDetails") should be(Seq("Correspondence address is required"))
-        hasErrors.globalErrorMessages should be(Seq("Correspondence country is required", "Correspondence address is required" ))
+        hasErrors.errorMessages("overseasAddress.country") should be(Seq("Please enter your country"))
+        hasErrors.errorMessages("overseasAddress.overseasAddressDetails") should be(Seq("Please enter your address"))
+        hasErrors.globalErrorMessages should be(Seq("Please enter your country", "Please enter your address" ))
         hasErrors.errors.size should be(4)
       },
       success => fail("Should have errored out.")
@@ -39,9 +39,9 @@ class AddressFormTests
     )
     addressForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("overseasAddress.country") should be(Seq("Correspondence country is required"))
-        hasErrors.errorMessages("overseasAddress.overseasAddressDetails") should be(Seq("Correspondence address is required"))
-        hasErrors.globalErrorMessages should be(Seq("Correspondence country is required", "Correspondence address is required" ))
+        hasErrors.errorMessages("overseasAddress.country") should be(Seq("Please enter your country"))
+        hasErrors.errorMessages("overseasAddress.overseasAddressDetails") should be(Seq("Please enter your address"))
+        hasErrors.globalErrorMessages should be(Seq("Please enter your country", "Please enter your address" ))
         hasErrors.errors.size should be(4)
       },
       success => fail("Should have errored out.")
@@ -57,8 +57,8 @@ class AddressFormTests
     )
     addressForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("overseasAddress.country") should be(Seq("Correspondence country is required"))
-        hasErrors.globalErrorMessages should be(Seq("Correspondence country is required"))
+        hasErrors.errorMessages("overseasAddress.country") should be(Seq("Please enter your country"))
+        hasErrors.globalErrorMessages should be(Seq("Please enter your country"))
         hasErrors.errors.size should be(2)
       },
       success => fail("Should have errored out.")
@@ -74,8 +74,8 @@ class AddressFormTests
     )
     addressForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("overseasAddress.overseasAddressDetails") should be(Seq("Correspondence address is required"))
-        hasErrors.globalErrorMessages should be(Seq("Correspondence address is required" ))
+        hasErrors.errorMessages("overseasAddress.overseasAddressDetails") should be(Seq("Please enter your address"))
+        hasErrors.globalErrorMessages should be(Seq("Please enter your address" ))
         hasErrors.errors.size should be(2)
       },
       success => fail("Should have errored out.")
