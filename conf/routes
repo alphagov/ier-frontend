@@ -232,6 +232,11 @@ POST        /register-to-vote/overseas/citizen-details                   control
 GET         /register-to-vote/overseas/edit/citizen-details              controllers.step.overseas.CitizenDetailsController.editGet
 POST        /register-to-vote/overseas/edit/citizen-details              controllers.step.overseas.CitizenDetailsController.editPost
 
+#Last Registered to vote type Step
+GET         /register-to-vote/overseas/last-registered-to-vote                           controllers.step.overseas.LastRegisteredToVoteController.get
+POST        /register-to-vote/overseas/last-registered-to-vote                           controllers.step.overseas.LastRegisteredToVoteController.post
+GET         /register-to-vote/overseas/edit/last-registered-to-vote                      controllers.step.overseas.LastRegisteredToVoteController.editGet
+POST        /register-to-vote/overseas/edit/last-registered-to-vote                      controllers.step.overseas.LastRegisteredToVoteController.editPost
 
 #Overseas Confirmation
 GET         /register-to-vote/overseas/confirmation                      controllers.step.overseas.ConfirmationController.get
