@@ -2,6 +2,8 @@ package uk.gov.gds.ier.model
 
 import uk.gov.gds.ier.model.LastRegisteredType.LastRegisteredType
 import uk.gov.gds.ier.model.WaysToVoteType.WaysToVoteType
+import com.fasterxml.jackson.core.`type`.TypeReference
+import com.fasterxml.jackson.module.scala.JsonScalaEnumeration
 
 case class InprogressOverseas(
     name: Option[Name] = None,
@@ -105,9 +107,12 @@ object LastRegisteredType extends Enumeration {
   val NotRegistered = Value("not-registered")
 }
 
-case class WaysToVote (waysToVoteType: WaysToVoteType) {
+// TODO: review using of Json specific stuff here, look for alternatives
+case class WaysToVote (
+  @JsonScalaEnumeration(classOf[WaysToVoteTypeRef]) waysToVoteType: WaysToVoteType) {
 }
 
+class WaysToVoteTypeRef extends TypeReference[WaysToVoteType.type]
 object WaysToVoteType extends Enumeration {
   type WaysToVoteType = Value
   val InPerson = Value("in-person")
