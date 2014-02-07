@@ -79,7 +79,7 @@ trait StepMustache extends FormKeys {
       Field(
         id = key.asId(),
         name = key.key,
-        // TODO: I suspect value must be set for checkbox too, see radiobutton
+        value = value,
         attributes = if (progressForm(key.key).value.exists(_ == value)) {
           "checked=\"checked\""
         } else {
