@@ -106,6 +106,6 @@ object LastRegisteredType extends Enumeration {
 }
 
 case class OverseasAddress(country: Option[String], addressDetails: Option[String]) {
-    def toApiMap = Map("country" -> country.getOrElse(""), "addressDetails" -> addressDetails.getOrElse(""))
+    def toApiMap = Map("corrcountry" -> country.getOrElse(""), "corraddress" -> addressDetails.getOrElse(""))
 }
 case class CountryWithCode(country: String, code: String) 
