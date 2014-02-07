@@ -1,27 +1,34 @@
-<form action="{{question.postUrl}}" method="POST" >
+<form action="{{question.postUrl}}" method="POST" xmlns="http://www.w3.org/1999/html">
 
     {{> shared/questionHeader }}
 
     {{> shared/validationMessages }}
 
-    <fieldset class="validate" data-validation-name="postalVote" data-validation-type="fieldset"
-              data-validation-rules="atLeastOneNonEmpty" data-validation-children="postalNo postalYes">
+    <div class="question">
+        <fieldset class="validate" data-validation-name="postalVote"
+                  data-validation-type="fieldset"
+                  data-validation-rules="atLeastOneNonEmpty"
+                  data-validation-children="postalNo postalYes">
 
-        <label class="selectable binary"  >
-            <input type="radio" id="{{postalVoteOptInFalse.id}}" name="{{postalVoteOptInFalse.name}}"
-                   value="false" {{postalVoteOptInFalse.attributes}} class="radio  validate"
-                   data-validation-name="postalNo" data-validation-type="field"
-                   data-validation-rules="nonEmpty">No</input>
-        </label>
-        <label class="selectable binary"  >
-            <input type="radio" id="{{postalVoteOptInTrue.id}}" name="{{postalVoteOptInTrue.name}}"
-                   value="true" {{postalVoteOptInTrue.attributes}} class="radio  validate"
-                   data-validation-name="postalYes" data-validation-type="field"
-                   data-validation-rules="nonEmpty">Yes</input>
-        </label>
-
-    </fieldset>
-
+            <label class="selectable binary"  >
+                <input type="radio" id="{{postalVoteOptInFalse.id}}"
+                       name="{{postalVoteOptInFalse.name}}"
+                       value="false" {{postalVoteOptInFalse.attributes}}
+                       class="radio  validate" data-validation-name="postalNo"
+                       data-validation-type="field"
+                       data-validation-rules="nonEmpty">No</input>
+            </label>
+            <label class="selectable binary"  >
+                <input type="radio" id="{{postalVoteOptInTrue.id}}"
+                       name="{{postalVoteOptInTrue.name}}"
+                       value="true" {{postalVoteOptInTrue.attributes}}
+                       class="radio  validate" data-validation-name="postalYes"
+                       data-validation-type="field"
+                       data-validation-rules="nonEmpty">Yes</input>
+            </label>
+        </fieldset>
+    </div>
+    </br>
     <div class="help">
         <p>{{description.value}}</p>
     </div>
