@@ -11,7 +11,7 @@ case class InprogressOverseas(
     dob: Option[DOB] = None,
     nino: Option[Nino] = None,
     lastUkAddress: Option[PartialAddress] = None,
-    address: Option[Stub] = None,
+    address: Option[OverseasAddress] = None,
     openRegisterOptin: Option[Boolean] = None,
     waysToVote: Option[Stub] = None,
     postalVote: Option[Stub] = None,
@@ -46,7 +46,7 @@ case class OverseasApplication(
     lastRegisteredToVote: Option[LastRegisteredToVote],
     dob: Option[DOB],
     nino: Option[Nino],
-    address: Option[Stub],
+    address: Option[OverseasAddress],
     lastUkAddress: Option[PartialAddress] = None,
     openRegisterOptin: Option[Boolean],
     waysToVote: Option[Stub],
@@ -60,6 +60,7 @@ case class OverseasApplication(
       previousName.map(_.toApiMap).getOrElse(Map.empty) ++
       previouslyRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
       dateLeftUk.map(_.toApiMap).getOrElse(Map.empty) ++
+      nino.map(_.toApiMap).getOrElse(Map.empty) ++
       lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
@@ -80,6 +81,7 @@ case class PreviouslyRegistered(hasPreviouslyRegistered: Boolean) {
   }
 }
 
+
 case class DateLeftUk (year:Int, month:Int) {
   def toApiMap = {
     Map("dlu" -> "%04d-%02d".format(year,month))
@@ -98,3 +100,8 @@ object LastRegisteredType extends Enumeration {
   val Council = Value("council")
   val NotRegistered = Value("not-registered")
 }
+
+case class OverseasAddress(country: Option[String], addressDetails: Option[String]) {
+    def toApiMap = Map("corrcountry" -> country.getOrElse(""), "corraddress" -> addressDetails.getOrElse(""))
+}
+case class CountryWithCode(country: String, code: String)

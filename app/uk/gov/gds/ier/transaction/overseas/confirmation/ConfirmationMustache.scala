@@ -2,13 +2,11 @@ package uk.gov.gds.ier.transaction.overseas.confirmation
 
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.validation.{InProgressForm, Key}
-import uk.gov.gds.ier.model.InprogressOverseas
 import controllers.step.overseas._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.model.InprogressOverseas
 import uk.gov.gds.ier.validation.Key
 import uk.gov.gds.ier.validation.InProgressForm
-import scala.Some
 import org.joda.time.{YearMonth, Months}
 import scala.util.Try
 import uk.gov.gds.ier.logging.Logging
@@ -43,6 +41,7 @@ trait ConfirmationMustache {
           confirmation.lastUkAddress,
           confirmation.dateLeftUk,
           confirmation.nino,
+          confirmation.address,
           confirmation.openRegister,
           confirmation.name,
           confirmation.previousName,
@@ -64,7 +63,7 @@ trait ConfirmationMustache {
   class ConfirmationBlocks(form:InProgressForm[InprogressOverseas])
     extends StepMustache with Logging {
 
-    def ifComplete(key:Key)(confirmationHtml:String) = {
+    def ifComplete(key:Key)(confirmationHtml: => String) = {
       if (form(key).hasErrors) {
         "<div class=\"validation-message visible\">" +
           "Please complete this step" +
@@ -141,17 +140,32 @@ trait ConfirmationMustache {
         }
       )
     }
-
+    
+    def address = {
+      ConfirmationQuestion(
+        title = "Where do you live?",
+        editLink = AddressController.addressStep.routes.editGet.url,
+        changeName = "where do you live?",
+        content = ifComplete(keys.overseasAddress) {
+          "<p>" + form (keys.overseasAddress.overseasAddressDetails).value.getOrElse("") + "</p>" +
+          "<p>" + form (keys.overseasAddress.country).value.getOrElse("") + "</p>"
+        }
+      )
+    }
+    
     def dateOfBirth = {
       ConfirmationQuestion(
         title = "What is your date of birth?",
         editLink = DateOfBirthController.dateOfBirthStep.routes.editGet.url,
         changeName = "date of birth",
         content = ifComplete(keys.dob) {
-                "<p>" + form(keys.dob.day).value.get + " "  + DateOfBirthConstants.monthsByNumber(form(keys.dob.month).value.get) + " " + form(keys.dob.year).value.get + "</p>"
+                "<p>" + form(keys.dob.day).value.get + " "  + 
+                DateOfBirthConstants.monthsByNumber(form(keys.dob.month).value.get) + " " + 
+                form(keys.dob.year).value.get + "</p>"
             }  
       )
     }
+    
     def openRegister = {
       ConfirmationQuestion(
         title = "Open register",

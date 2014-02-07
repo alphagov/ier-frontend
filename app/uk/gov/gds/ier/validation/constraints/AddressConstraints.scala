@@ -4,6 +4,8 @@ import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages, NinoValidator}
 import play.api.data.validation.{Valid, Invalid, Constraint}
 import uk.gov.gds.ier.model.{InprogressOrdinary, Address, InprogressApplication, Nino}
 import uk.gov.gds.ier.model.{PartialAddress, InprogressApplication, Nino}
+import uk.gov.gds.ier.model.InprogressOverseas
+import uk.gov.gds.ier.model.OverseasAddress
 
 trait AddressConstraints {
   self: ErrorMessages

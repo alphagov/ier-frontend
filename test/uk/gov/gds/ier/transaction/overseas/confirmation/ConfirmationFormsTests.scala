@@ -20,9 +20,9 @@ class ConfirmationFormTests
 
   it should "error out on empty json" in {
     val js = JsNull
-    val errorMessage = Seq("Please complete this step")
     confirmationForm.bind(js).fold(
       hasErrors => {
+        val errorMessage = Seq("Please complete this step")
         hasErrors.errorMessages("name") should be(errorMessage)
         hasErrors.errorMessages("previousName") should be(errorMessage)
         hasErrors.errorMessages("dateLeftUk") should be(errorMessage)
@@ -31,7 +31,7 @@ class ConfirmationFormTests
         hasErrors.errorMessages("dob") should be(errorMessage)
         hasErrors.errorMessages("lastUkAddress") should be(errorMessage)
         hasErrors.errorMessages("NINO") should be(errorMessage)
-        hasErrors.errorMessages("address") should be(errorMessage)
+        hasErrors.errorMessages("overseasAddress") should be(errorMessage)
         hasErrors.errorMessages("openRegister") should be(errorMessage)
         hasErrors.errorMessages("waysToVote") should be(errorMessage)
         hasErrors.errorMessages("postalVote") should be(errorMessage)
@@ -45,9 +45,9 @@ class ConfirmationFormTests
 
   it should "error out on empty application" in {
     val application = InprogressOverseas()
-    val errorMessage = Seq("Please complete this step")
     confirmationForm.fillAndValidate(application).fold(
       hasErrors => {
+        val errorMessage = Seq("Please complete this step")
         hasErrors.errorMessages("name") should be(errorMessage)
         hasErrors.errorMessages("previousName") should be(errorMessage)
         hasErrors.errorMessages("dateLeftUk") should be(errorMessage)
@@ -56,7 +56,7 @@ class ConfirmationFormTests
         hasErrors.errorMessages("dob") should be(errorMessage)
         hasErrors.errorMessages("lastUkAddress") should be(errorMessage)
         hasErrors.errorMessages("NINO") should be(errorMessage)
-        hasErrors.errorMessages("address") should be(errorMessage)
+        hasErrors.errorMessages("overseasAddress") should be(errorMessage)
         hasErrors.errorMessages("openRegister") should be(errorMessage)
         hasErrors.errorMessages("waysToVote") should be(errorMessage)
         hasErrors.errorMessages("postalVote") should be(errorMessage)

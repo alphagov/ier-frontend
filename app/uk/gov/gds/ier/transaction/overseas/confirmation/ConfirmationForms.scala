@@ -14,6 +14,7 @@ import uk.gov.gds.ier.transaction.overseas.nino.NinoForms
 import uk.gov.gds.ier.transaction.overseas.name.NameForms
 import uk.gov.gds.ier.transaction.overseas.openRegister.OpenRegisterForms
 import uk.gov.gds.ier.transaction.overseas.contact.ContactForms
+import uk.gov.gds.ier.transaction.overseas.address.AddressForms
 
 trait ConfirmationForms
   extends FormKeys
@@ -24,6 +25,7 @@ trait ConfirmationForms
   with DateOfBirthForms
   with LastRegisteredToVoteForms
   with NinoForms
+  with AddressForms
   with LastUkAddressForms
   with OpenRegisterForms
   with NameForms
@@ -48,7 +50,7 @@ trait ConfirmationForms
       keys.dob.key -> stepRequired(dobMapping),
       keys.nino.key -> stepRequired(ninoMapping),
       keys.lastUkAddress.key -> stepRequired(partialAddressMapping),
-      "address" -> stepRequired(stubMapping),
+      keys.overseasAddress.key -> stepRequired(addressMapping),
       keys.openRegister.key -> stepRequired(optInMapping),
       "waysToVote" -> stepRequired(stubMapping),
       "postalVote" -> stepRequired(stubMapping),

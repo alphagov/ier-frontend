@@ -6,7 +6,7 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.model.{InprogressOrdinary, PossibleAddress, Addresses, InprogressApplication}
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.validation._
-import play.api.data.{Form, FormError}
+import play.api.data.Form
 import play.api.mvc.{SimpleResult, Call}
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
@@ -42,6 +42,15 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
   }
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
+    val possibleAddresses = form(keys.possibleAddresses.jsonList).value match {
+      case Some(possibleAddressJS) if !possibleAddressJS.isEmpty => {
+        serialiser.fromJson[Addresses](possibleAddressJS)
+      }
+      case _ => Addresses(List.empty)
+    }
+    val possiblePostcode = form(keys.possibleAddresses.postcode).value
+
+    val possible = possiblePostcode.map(PossibleAddress(possibleAddresses, _))
     addressMustache(form.form, call, backUrl)
   }
   
@@ -52,11 +61,7 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
             Ok(template(InProgressForm(hasErrors), routes.post, previousRoute))
         },
         success => {
-            val filledInForm = addressSizeCheckupForm.fillAndValidate(lookupAddress(success).form.get)
-            filledInForm.fold(
-                    hasErrors => Ok(template(InProgressForm(hasErrors), routes.post, previousRoute)), 
-                    successForm => Ok(template(InProgressForm(filledInForm), routes.post, previousRoute))
-            )
+            Ok(template(lookupAddress(success), routes.post, previousRoute))
         }
       )
   }
@@ -64,7 +69,6 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
   def lookupAddress(success: InprogressOrdinary): InProgressForm[InprogressOrdinary] = {
     val postcode = success.possibleAddresses.get.postcode
     val addressesList = addressService.lookupPartialAddress(postcode)
-    
     val inProgressForm = InProgressForm(
       validation.fill(
         success.copy(
