@@ -106,3 +106,5 @@ trait StepMustache extends FormKeys {
     }
   }
 }
+
+//object StepMustache extends StepMustache
