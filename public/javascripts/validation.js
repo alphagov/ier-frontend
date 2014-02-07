@@ -412,7 +412,7 @@
                     .replace(/[\s|\-]/g, "")
                     .match(/^[A-CEGHJ-PR-TW-Za-ceghj-pr-tw-z]{1}[A-CEGHJ-NPR-TW-Za-ceghj-npr-tw-z]{1}[0-9]{6}[A-DFMa-dfm]{0,1}$/);
 
-            if (match !== null) {
+            if (match === null) {
               return _getInvalidDataFromFields([this], 'nino');
             } else {
               return [];
@@ -731,7 +731,7 @@
       },
       'ninoCode' : {
         'nonEmpty' : 'Please enter your National Insurance number',
-        'nino' : 'Please enter a valid National Insurance number'
+        'nino' : 'Your National Insurance number is not correct'
       },
       'postalVote' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
