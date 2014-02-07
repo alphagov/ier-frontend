@@ -1,15 +1,13 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation
 
 import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.validation.{InProgressForm, Key}
-import uk.gov.gds.ier.model.InprogressOverseas
+import uk.gov.gds.ier.model.{WaysToVoteType, InprogressOverseas}
 import controllers.step.overseas._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
-import uk.gov.gds.ier.model.InprogressOverseas
 import uk.gov.gds.ier.validation.Key
 import uk.gov.gds.ier.validation.InProgressForm
 import scala.Some
-import org.joda.time.{YearMonth, Months}
+import org.joda.time.YearMonth
 import scala.util.Try
 import uk.gov.gds.ier.logging.Logging
 
@@ -46,7 +44,8 @@ trait ConfirmationMustache {
           confirmation.openRegister,
           confirmation.name,
           confirmation.previousName,
-          confirmation.contact
+          confirmation.contact,
+          confirmation.waysToVote
         ),
         backUrl = backUrl,
         postUrl = postUrl
@@ -149,7 +148,7 @@ trait ConfirmationMustache {
         changeName = "date of birth",
         content = ifComplete(keys.dob) {
                 "<p>" + form(keys.dob.day).value.get + " "  + DateOfBirthConstants.monthsByNumber(form(keys.dob.month).value.get) + " " + form(keys.dob.year).value.get + "</p>"
-            }  
+            }
       )
     }
     def openRegister = {
@@ -220,6 +219,27 @@ trait ConfirmationMustache {
           } else ""
 
           s"$post $phone $email"
+        }
+      )
+    }
+
+    def waysToVote = {
+      ConfirmationQuestion(
+        title = "How do you want to vote",
+        editLink = routes.WaysToVoteController.editGet.url,
+        changeName = "way to vote",
+        content = ifComplete(keys.waysToVote) {
+          form(keys.waysToVote.wayType).value match {
+            case Some(wayToVote) => {
+              val wayToVoteLabel = WaysToVoteType.withName(wayToVote) match {
+                case WaysToVoteType.ByPost => "By post"
+                case WaysToVoteType.ByProxy => "By proxy (someone else voting for you)"
+                case WaysToVoteType.InPerson => "In the UK, at a polling station"
+              }
+              s"<p>$wayToVoteLabel</p>"
+            }
+            case None => "???"
+          }
         }
       )
     }

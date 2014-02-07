@@ -105,7 +105,7 @@ object LastRegisteredType extends Enumeration {
   val NotRegistered = Value("not-registered")
 }
 
-case class WaysToVote (waysToVoteType:WaysToVoteType) {
+case class WaysToVote (waysToVoteType: WaysToVoteType) {
   def toApiMap = Map.empty
 }
 
