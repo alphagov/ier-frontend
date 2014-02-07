@@ -11,6 +11,7 @@ import uk.gov.gds.ier.guice.WithConfig
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.LastRegisteredType.LastRegisteredType
 import play.api.data.FormError
+import uk.gov.gds.ier.model.LastRegisteredType
 
 trait TestHelpers {
 
@@ -73,9 +74,9 @@ trait TestHelpers {
     ),
     dateLeftUk = Some(DateLeftUk(2000,10)),
     firstTimeRegistered = Some(Stub()),
+    nino = Some(Nino(Some("AB 12 34 56 D"), None)),
+    address = Some(OverseasAddress(country = Some("United Kingdom"), addressDetails = Some("some address"))),
     lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.UK)),
-    nino = Some(Nino(Some("XX 12 34 56 A"), None)),
-    address = Some(Stub()),
     openRegisterOptin = Some(true),
     waysToVote = Some(Stub())
   )

@@ -47,7 +47,7 @@ class NinoControllerTests
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/nino")
           .withIerSession()
-          .withApplication(completeOrdinaryApplication)
+          .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody("NINO.NINO" -> "AB 12 34 56 D")
       )
 
@@ -104,7 +104,7 @@ class NinoControllerTests
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/edit/nino")
           .withIerSession()
-          .withApplication(completeOrdinaryApplication)
+          .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody("NINO.NINO" -> "AB 12 34 56 D")
       )
 
