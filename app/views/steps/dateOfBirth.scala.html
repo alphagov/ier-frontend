@@ -10,19 +10,19 @@
     @layouts.questionHeader("What is your date of birth?", backUrl, 3)
 
     <fieldset class="validate inline-fields" data-validation-name="dateOfBirthDate" data-validation-type="fieldset" data-validation-rules="allNonEmpty" data-validation-children="day month year">
-      <span class="inline-field day">
+      <span class="day field-wrapper">
         @label(keys.dob.dob.day,
             label = "Day")
         @text(keys.dob.dob.day,
             'class -> "day validate", 'type -> "number", Symbol("data-validation-name") -> "day", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
       </span>
-      <span class="inline-field month">
+      <span class="month field-wrapper">
       @label(keys.dob.dob.month,
           label = "Month")
       @text(keys.dob.dob.month,
           'class -> "month validate", 'type -> "number", Symbol("data-validation-name") -> "month", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
       </span>
-      <span class="inline-field year">
+      <span class="year field-wrapper">
       @label(keys.dob.dob.year,
           label = "Year")
       @text(keys.dob.dob.year,
