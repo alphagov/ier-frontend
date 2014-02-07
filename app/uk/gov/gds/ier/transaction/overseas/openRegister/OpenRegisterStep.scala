@@ -39,4 +39,8 @@ class OpenRegisterStep @Inject ()(val serialiser: JsonSerialiser,
   def template(form: InProgressForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
     openRegisterMustache(form.form, postEndpoint, backEndpoint)
   }
+  
+  override def isStepComplete(currentState: InprogressOverseas) = {
+    currentState.openRegisterOptin.isDefined
+  }
 }

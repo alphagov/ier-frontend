@@ -13,7 +13,7 @@ case class InprogressOverseas(
     dob: Option[DOB] = None,
     nino: Option[Nino] = None,
     lastUkAddress: Option[PartialAddress] = None,
-    address: Option[Stub] = None,
+    address: Option[OverseasAddress] = None,
     openRegisterOptin: Option[Boolean] = None,
     waysToVote: Option[WaysToVote] = None,
     postalVote: Option[Stub] = None,
@@ -50,7 +50,7 @@ case class OverseasApplication(
     lastRegisteredToVote: Option[LastRegisteredToVote],
     dob: Option[DOB],
     nino: Option[Nino],
-    address: Option[Stub],
+    address: Option[OverseasAddress],
     lastUkAddress: Option[PartialAddress] = None,
     openRegisterOptin: Option[Boolean],
     waysToVote: Option[WaysToVote],
@@ -64,6 +64,7 @@ case class OverseasApplication(
       previousName.map(_.toApiMap).getOrElse(Map.empty) ++
       previouslyRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
       dateLeftUk.map(_.toApiMap).getOrElse(Map.empty) ++
+      nino.map(_.toApiMap).getOrElse(Map.empty) ++
       firstTimeRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
       lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
@@ -113,3 +114,8 @@ object WaysToVoteType extends Enumeration {
   val ByPost = Value("by-post")
   val ByProxy = Value("by-proxy")
 }
+
+case class OverseasAddress(country: Option[String], addressDetails: Option[String]) {
+    def toApiMap = Map("corrcountry" -> country.getOrElse(""), "corraddress" -> addressDetails.getOrElse(""))
+}
+case class CountryWithCode(country: String, code: String)

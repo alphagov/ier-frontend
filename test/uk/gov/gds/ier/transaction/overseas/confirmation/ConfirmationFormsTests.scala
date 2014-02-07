@@ -20,24 +20,16 @@ class ConfirmationFormTests
 
   it should "error out on empty json" in {
     val js = JsNull
-    val errorMessage = Seq("Please complete this step")
     confirmationForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("name") should be(errorMessage)
-        hasErrors.errorMessages("previousName") should be(errorMessage)
-        hasErrors.errorMessages("dateLeftUk") should be(errorMessage)
-        hasErrors.errorMessages("firstTimeRegistered") should be(errorMessage)
-        hasErrors.errorMessages("previouslyRegistered") should be(errorMessage)
-        hasErrors.errorMessages("lastRegisteredToVote") should be(errorMessage)
-        hasErrors.errorMessages("dob") should be(errorMessage)
-        hasErrors.errorMessages("lastUkAddress") should be(errorMessage)
-        hasErrors.errorMessages("NINO") should be(errorMessage)
-        hasErrors.errorMessages("address") should be(errorMessage)
-        hasErrors.errorMessages("openRegister") should be(errorMessage)
-        hasErrors.errorMessages("waysToVote") should be(errorMessage)
-        hasErrors.errorMessages("postalVote") should be(errorMessage)
-        hasErrors.errorMessages("contact") should be(errorMessage)
-        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(14)
+        val keysToCheck = List ("name", "previousName", "dateLeftUk", "firstTimeRegistered", 
+            "previouslyRegistered", "lastRegisteredToVote", "dob", "lastUkAddress", "NINO", 
+            "overseasAddress", "openRegister", "waysToVote", "postalVote", "contact")
+            
+        keysToCheck foreach { key =>
+          hasErrors.errorMessages(key).head should be ("Please complete this step")
+        }
+        hasErrors.globalErrorMessages should be(List.fill(14)("Please complete this step"))
         hasErrors.errors.size should be(28)
       },
       success => fail("Should have errored out.")
@@ -46,24 +38,16 @@ class ConfirmationFormTests
 
   it should "error out on empty application" in {
     val application = InprogressOverseas()
-    val errorMessage = Seq("Please complete this step")
     confirmationForm.fillAndValidate(application).fold(
       hasErrors => {
-        hasErrors.errorMessages("name") should be(errorMessage)
-        hasErrors.errorMessages("previousName") should be(errorMessage)
-        hasErrors.errorMessages("dateLeftUk") should be(errorMessage)
-        hasErrors.errorMessages("firstTimeRegistered") should be(errorMessage)
-        hasErrors.errorMessages("previouslyRegistered") should be(errorMessage)
-        hasErrors.errorMessages("lastRegisteredToVote") should be(errorMessage)
-        hasErrors.errorMessages("dob") should be(errorMessage)
-        hasErrors.errorMessages("lastUkAddress") should be(errorMessage)
-        hasErrors.errorMessages("NINO") should be(errorMessage)
-        hasErrors.errorMessages("address") should be(errorMessage)
-        hasErrors.errorMessages("openRegister") should be(errorMessage)
-        hasErrors.errorMessages("waysToVote") should be(errorMessage)
-        hasErrors.errorMessages("postalVote") should be(errorMessage)
-        hasErrors.errorMessages("contact") should be(errorMessage)
-        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(14)
+        val keysToCheck = List ("name", "previousName", "dateLeftUk", "firstTimeRegistered", 
+            "previouslyRegistered", "lastRegisteredToVote", "dob", "lastUkAddress", "NINO", 
+            "overseasAddress", "openRegister", "waysToVote", "postalVote", "contact")
+            
+        keysToCheck foreach { key =>
+          hasErrors.errorMessages(key).head should be ("Please complete this step")
+        }
+        hasErrors.globalErrorMessages should be(List.fill(14)("Please complete this step"))
         hasErrors.errors.size should be(28)
       },
       success => fail("Should have errored out.")
