@@ -214,6 +214,12 @@ POST        /register-to-vote/overseas/contact                           control
 GET         /register-to-vote/overseas/edit/contact                      controllers.step.overseas.ContactController.editGet
 POST        /register-to-vote/overseas/edit/contact                      controllers.step.overseas.ContactController.editPost
 
+#Last Registered to vote type Step
+GET         /register-to-vote/overseas/last-registered-to-vote                           controllers.step.overseas.LastRegisteredToVoteController.get
+POST        /register-to-vote/overseas/last-registered-to-vote                           controllers.step.overseas.LastRegisteredToVoteController.post
+GET         /register-to-vote/overseas/edit/last-registered-to-vote                      controllers.step.overseas.LastRegisteredToVoteController.editGet
+POST        /register-to-vote/overseas/edit/last-registered-to-vote                      controllers.step.overseas.LastRegisteredToVoteController.editPost
+
 #Overseas Confirmation
 GET         /register-to-vote/overseas/confirmation                      controllers.step.overseas.ConfirmationController.get
 POST        /register-to-vote/overseas/confirmation                      controllers.step.overseas.ConfirmationController.post
