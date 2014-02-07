@@ -6,8 +6,7 @@ import uk.gov.gds.ier.validation.constraints.DateOfBirthConstraints
 import play.api.data.Forms._
 import scala.Some
 
-//TODO: is extending DateOfBirthConstraints really correct?
-trait LastRegisteredToVoteForms extends DateOfBirthConstraints {
+trait LastRegisteredToVoteForms {
     self:  FormKeys
       with ErrorMessages =>
 
