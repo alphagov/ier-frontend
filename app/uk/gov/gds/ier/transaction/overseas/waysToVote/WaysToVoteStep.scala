@@ -36,10 +36,13 @@ class WaysToVoteStep @Inject ()(
   val previousRoute = Some(OpenRegisterController.get)
 
   def nextStep(currentState: InprogressOverseas) = {
-    if (currentState.waysToVote.get.waysToVoteType == WaysToVoteType.InPerson) {
-      ContactController.contactStep
-    } else {
-      PostalVoteController.postalVoteStep
+    currentState.waysToVote match {
+      case Some(waysToVote) if waysToVote.waysToVoteType == WaysToVoteType.InPerson => {
+        ContactController.contactStep
+      }
+      case _ => {
+        PostalVoteController.postalVoteStep
+      }
     }
   }
 
