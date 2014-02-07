@@ -77,6 +77,10 @@ trait TestHelpers {
     nino = Some(Nino(Some("XX 12 34 56 A"), None)),
     address = Some(Stub()),
     openRegisterOptin = Some(true),
+    contact = Some(Contact(
+      post = true,
+      phone = None,
+      email = None)),
     waysToVote = Some(WaysToVote(WaysToVoteType.InPerson))
   )
 
