@@ -70,7 +70,6 @@ case class OverseasApplication(
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
       address.map(_.toApiMap).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
-      waysToVote.map(_.toApiMap).getOrElse(Map.empty) ++
       contact.map(_.toApiMap).getOrElse(Map.empty)
   }
 }
@@ -106,7 +105,6 @@ object LastRegisteredType extends Enumeration {
 }
 
 case class WaysToVote (waysToVoteType: WaysToVoteType) {
-  def toApiMap = Map.empty
 }
 
 object WaysToVoteType extends Enumeration {
