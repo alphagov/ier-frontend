@@ -10,8 +10,8 @@ trait AddressForms {//extends OverseasAddressConstraints {
     self: FormKeys with ErrorMessages =>
 
     lazy val addressMapping = mapping(
-            keys.country.key -> optional(nonEmptyText).verifying("Correspondence country is required", _.isDefined),
-            keys.overseasAddressDetails.key -> optional(nonEmptyText).verifying("Corresponding address is required", _.isDefined)
+            keys.country.key -> optional(text).verifying("Correspondence country is required", _.nonEmpty),
+            keys.overseasAddressDetails.key -> optional(text).verifying("Corresponding address is required", _.nonEmpty)
             ) (OverseasAddress.apply) (OverseasAddress.unapply) 
     
     val addressForm = ErrorTransformForm(
