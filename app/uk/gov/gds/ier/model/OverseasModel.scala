@@ -1,6 +1,9 @@
 package uk.gov.gds.ier.model
 
 import uk.gov.gds.ier.model.LastRegisteredType.LastRegisteredType
+import uk.gov.gds.ier.model.WaysToVoteType.WaysToVoteType
+import com.fasterxml.jackson.core.`type`.TypeReference
+import com.fasterxml.jackson.module.scala.JsonScalaEnumeration
 
 case class InprogressOverseas(
     name: Option[Name] = None,
@@ -13,7 +16,7 @@ case class InprogressOverseas(
     lastUkAddress: Option[PartialAddress] = None,
     address: Option[OverseasAddress] = None,
     openRegisterOptin: Option[Boolean] = None,
-    waysToVote: Option[Stub] = None,
+    waysToVote: Option[WaysToVote] = None,
     postalVote: Option[Stub] = None,
     contact: Option[Contact] = None,
     possibleAddresses: Option[PossibleAddress] = None)
@@ -49,7 +52,7 @@ case class OverseasApplication(
     address: Option[OverseasAddress],
     lastUkAddress: Option[PartialAddress] = None,
     openRegisterOptin: Option[Boolean],
-    waysToVote: Option[Stub],
+    waysToVote: Option[WaysToVote],
     postalVote: Option[Stub],
     contact: Option[Contact])
   extends CompleteApplication {
@@ -81,7 +84,6 @@ case class PreviouslyRegistered(hasPreviouslyRegistered: Boolean) {
   }
 }
 
-
 case class DateLeftUk (year:Int, month:Int) {
   def toApiMap = {
     Map("dlu" -> "%04d-%02d".format(year,month))
@@ -99,6 +101,19 @@ object LastRegisteredType extends Enumeration {
   val Crown = Value("crown")
   val Council = Value("council")
   val NotRegistered = Value("not-registered")
+}
+
+// TODO: review using of Json specific stuff here, look for alternatives
+case class WaysToVote (
+  @JsonScalaEnumeration(classOf[WaysToVoteTypeRef]) waysToVoteType: WaysToVoteType) {
+}
+
+class WaysToVoteTypeRef extends TypeReference[WaysToVoteType.type]
+object WaysToVoteType extends Enumeration {
+  type WaysToVoteType = Value
+  val InPerson = Value("in-person")
+  val ByPost = Value("by-post")
+  val ByProxy = Value("by-proxy")
 }
 
 case class OverseasAddress(country: Option[String], addressDetails: Option[String]) {
