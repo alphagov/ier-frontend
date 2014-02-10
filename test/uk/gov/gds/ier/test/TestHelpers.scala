@@ -89,7 +89,6 @@ trait TestHelpers {
     previousName = None,
     previouslyRegistered = None,
     dateLeftUk = None,
-    firstTimeRegistered = None,
     nino = None,
     dob = None,
     address = None,
