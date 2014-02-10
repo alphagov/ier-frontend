@@ -9,6 +9,7 @@
   @form(postUrl) {
     
     @layouts.questionHeader("Have you moved from another UK address in the last 12 months?", backUrl, 7)
+    @validationMessages(formData)
 	
     <fieldset class="validate" data-validation-name="previousAddressQuestion" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="previousAddressYes previousAddressNo">
       @wrapLabel(keys.previousAddress.movedRecently, 'value -> "true", 'class -> "binary selectable") { 
@@ -64,7 +65,6 @@
       }
       </div>
     </div>
-    @validationMessages(formData)
     <button type="submit" id="continue" class="button next" name="previousAddress.findAddress" value="false">Continue</button>
 
     @text(keys.possibleAddresses.postcode, 'class -> "hidden", 'type -> "hidden")

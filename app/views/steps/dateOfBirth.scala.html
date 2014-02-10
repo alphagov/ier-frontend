@@ -8,6 +8,7 @@
 @main(title = Some("Register to Vote - What is your Date Of Birth?"), stylesheets = head(), scripts = stepsBodyEnd()) {
   @form(postUrl, 'class -> "validate", Symbol("data-validation-name") -> "dateOfBirth", Symbol("data-validation-type") -> "association", Symbol("data-validation-rules") -> "fieldsetOrExcuse", Symbol("data-validation-members") -> "dateOfBirthDate dateOfBirthExcuse") {
     @layouts.questionHeader("What is your date of birth?", backUrl, 3)
+    @validationMessages(formData)
 
     <fieldset class="validate inline-fields" data-validation-name="dateOfBirthDate" data-validation-type="fieldset" data-validation-rules="allNonEmpty" data-validation-children="day month year">
       <span class="day field-wrapper">
@@ -75,7 +76,6 @@
         </fieldset>
       </div>
     </div>
-    @validationMessages(formData)
     <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="dateOfBirth">Continue</button>
   }
 }
