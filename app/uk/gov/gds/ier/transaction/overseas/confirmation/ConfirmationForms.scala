@@ -56,7 +56,7 @@ trait ConfirmationForms
       keys.lastUkAddress.key -> stepRequired(partialAddressMapping),
       keys.overseasAddress.key -> stepRequired(addressMapping),
       keys.openRegister.key -> stepRequired(optInMapping),
-      "waysToVote" -> stepRequired(waysToVoteMapping),
+      keys.waysToVote.key -> stepRequired(waysToVoteMapping),
       keys.postalOrProxyVote.key -> stepRequired(postalOrProxyVoteMapping),
       keys.contact.key -> stepRequired(contactMapping),
       keys.possibleAddresses.key -> optional(possibleAddressesMapping)

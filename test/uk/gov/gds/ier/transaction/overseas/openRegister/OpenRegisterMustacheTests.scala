@@ -25,7 +25,8 @@ class OpenRegisterMustacheTests
     openRegisterModel.question.postUrl should be("/register-to-vote/overseas/ways-to-vote")
     openRegisterModel.question.backUrl should be("/register-to-vote/overseas/address")
 
-    openRegisterModel.openRegister.value should be("")
+    openRegisterModel.openRegister.value should be("false")
+    // value=false is part of a selectable UI widget, the 'empty model' is a bit a misnomer
   }
 
   it should "progress form with open register marked should produce Mustache Model with open register value present (true)" in {

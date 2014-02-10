@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.validation
 
-import play.api.data.{Field, Form}
 import play.api.templates.Html
+import scala.Some
 
 case class Key(key:String) {
   def asId(value:String = "") = List(key.replace(".", "_"), value.replace(" ", "_")).filter(_.nonEmpty).mkString("_")
@@ -94,15 +94,14 @@ trait FormKeys {
 
     lazy val previouslyRegistered = prependNamespace(Key("previouslyRegistered"))
     lazy val hasPreviouslyRegistered = prependNamespace(Key("hasPreviouslyRegistered"))
-    
+
     lazy val overseasAddress = prependNamespace(Key("overseasAddress"))
+    lazy val overseasAddressDetails = prependNamespace(Key("overseasAddressDetails"))
 
     lazy val lastUkAddress = prependNamespace(Key("lastUkAddress"))
     lazy val dateLeftUk = prependNamespace(Key("dateLeftUk"))
     lazy val lastRegisteredToVote = prependNamespace(Key("lastRegisteredToVote"))
     lazy val registeredType = prependNamespace(Key("registeredType"))
-
-    lazy val overseasAddressDetails = prependNamespace(Key("overseasAddressDetails"))
 
     lazy val waysToVote = prependNamespace(Key("waysToVote"))
     lazy val wayType = prependNamespace(Key("wayType"))

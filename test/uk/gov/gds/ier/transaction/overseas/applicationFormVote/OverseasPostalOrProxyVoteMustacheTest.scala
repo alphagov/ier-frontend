@@ -39,11 +39,11 @@ class OverseasPostalOrProxyVoteMustacheTest
     postalOrProxyVoteModel.voteType.value should be("postal")
 
     postalOrProxyVoteModel.voteFieldSet.classes should be("")
-    postalOrProxyVoteModel.voteOptInTrue.value should be("")
-    postalOrProxyVoteModel.voteOptInFalse.value should be("")
+    postalOrProxyVoteModel.voteOptInTrue.value should be("true")
+    postalOrProxyVoteModel.voteOptInFalse.value should be("false")
     postalOrProxyVoteModel.voteDeliveryMethodFieldSet.classes should be("")
-    postalOrProxyVoteModel.voteDeliveryMethodEmail.value should be("")
-    postalOrProxyVoteModel.voteDeliveryMethodPost.value should be("")
+    postalOrProxyVoteModel.voteDeliveryMethodEmail.value should be("email")
+    postalOrProxyVoteModel.voteDeliveryMethodPost.value should be("post")
     postalOrProxyVoteModel.voteEmailAddress.value should be("")
   }
 
