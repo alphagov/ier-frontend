@@ -1,6 +1,9 @@
 package uk.gov.gds.ier.model
 
 import uk.gov.gds.ier.model.LastRegisteredType.LastRegisteredType
+import uk.gov.gds.ier.model.WaysToVoteType.WaysToVoteType
+import com.fasterxml.jackson.core.`type`.TypeReference
+import com.fasterxml.jackson.module.scala.JsonScalaEnumeration
 
 case class InprogressOverseas(
     name: Option[Name] = None,
@@ -13,7 +16,7 @@ case class InprogressOverseas(
     lastUkAddress: Option[PartialAddress] = None,
     address: Option[OverseasAddress] = None,
     openRegisterOptin: Option[Boolean] = None,
-    waysToVote: Option[Stub] = None,
+    waysToVote: Option[WaysToVote] = None,
     postalVote: Option[Stub] = None,
     contact: Option[Contact] = None,
     passport: Option[Passport] = None,
@@ -51,7 +54,7 @@ case class OverseasApplication(
     address: Option[OverseasAddress],
     lastUkAddress: Option[PartialAddress] = None,
     openRegisterOptin: Option[Boolean],
-    waysToVote: Option[Stub],
+    waysToVote: Option[WaysToVote],
     postalVote: Option[Stub],
     contact: Option[Contact])
   extends CompleteApplication {
@@ -82,7 +85,6 @@ case class PreviouslyRegistered(hasPreviouslyRegistered: Boolean) {
     else Map("povseas" -> "false")
   }
 }
-
 
 case class DateLeftUk (year:Int, month:Int) {
   def toApiMap = {
@@ -123,7 +125,23 @@ case class Passport(
 case class OverseasAddress(
     country: Option[String],
     addressDetails: Option[String]) {
-  def toApiMap = Map("corrcountry" -> country.getOrElse(""), "corraddress" -> addressDetails.getOrElse(""))
+  def toApiMap = Map(
+    "corrcountry" -> country.getOrElse(""),
+    "corraddress" -> addressDetails.getOrElse("")
+  )
+}
+
+// TODO: review using of Json specific stuff here, look for alternatives
+case class WaysToVote (
+  @JsonScalaEnumeration(classOf[WaysToVoteTypeRef]) waysToVoteType: WaysToVoteType) {
+}
+
+class WaysToVoteTypeRef extends TypeReference[WaysToVoteType.type]
+object WaysToVoteType extends Enumeration {
+  type WaysToVoteType = Value
+  val InPerson = Value("in-person")
+  val ByPost = Value("by-post")
+  val ByProxy = Value("by-proxy")
 }
 
 case class CountryWithCode(
