@@ -34,7 +34,6 @@ trait ConfirmationForms
   with NameForms
   with ContactForms
   with PassportForms
-  with ConfirmationConstraints
   with CommonConstraints {
 
   val stubMapping = mapping(
