@@ -57,7 +57,7 @@
         </div>
         <div>
           <h3>Nationality</h3>
-          <div class="data-wrap"> 
+          <div class="data-wrap">
             @validationSwitch(formData(keys.nationality)) {
               @if(formData.nationalityIsFilled()) {
                   <p>
@@ -87,7 +87,7 @@
         </div>
         <div>
           <h3>Address</h3>
-          <div class="data-wrap"> 
+          <div class="data-wrap">
             @validationSwitch(formData(keys.address)) {
               @if(formData(keys.address.addressLine).value.isDefined) {
                 @formData(keys.address.addressLine).value.map { addressLine =>
@@ -105,9 +105,24 @@
           </div>
           <a href="@AddressController.editGet" class="change">Change<span class="visuallyhidden"> address</span></a>
         </div>
+
+        <div>
+          <h3>Second address</h3>
+          <div class="data-wrap">
+            @validationSwitch(formData(keys.otherAddress)) {
+              @if(formData(keys.otherAddress.hasOtherAddress).value == Some("true")) {
+                  <p>I have a second address</p>
+                }else{
+                  <p>I don't have a second address</p>
+                }
+              }
+          </div>
+          <a href="@OtherAddressController.editGet" class="change">Change<span class="visuallyhidden"> second address</span></a>
+        </div>
+
         <div>
           <h3>Previous address</h3>
-          <div class="data-wrap"> 
+          <div class="data-wrap">
           @validationSwitch(formData(keys.previousAddress)) {
             @if(formData(keys.previousAddress.movedRecently).value == Some("true")) {
               @if(formData(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
@@ -129,22 +144,10 @@
           </div>
           <a href="@PreviousAddressController.editGet" class="change">Change<span class="visuallyhidden"> previous address</span></a>
         </div>
-        <div>
-          <h3>Second address</h3>
-          <div class="data-wrap"> 
-          @validationSwitch(formData(keys.otherAddress)) {
-            @if(formData(keys.otherAddress.hasOtherAddress).value == Some("true")){
-                <p>I have a second address</p>
-            }else{
-                <p>I don't have a second address</p>
-            }
-          }
-          </div>
-          <a href="@OtherAddressController.editGet" class="change">Change<span class="visuallyhidden"> second address</span></a>
-        </div>
+
         <div>
           <h3>Open register</h3>
-          <div class="data-wrap"> 
+          <div class="data-wrap">
           @validationSwitch(formData(keys.openRegister)) {
             @if(formData(keys.openRegister.optIn).value == Some("true")){
               <p>I want to include my details on the open register</p>
@@ -157,7 +160,7 @@
         </div>
         <div>
           <h3>Postal vote</h3>
-          <div class="data-wrap"> 
+          <div class="data-wrap">
           @validationSwitch(formData(keys.postalVote)) {
             @if(formData(keys.postalVote.optIn).value == Some("true")){
               <p>
