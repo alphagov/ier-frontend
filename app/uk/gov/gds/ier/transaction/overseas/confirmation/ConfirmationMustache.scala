@@ -221,15 +221,18 @@ trait ConfirmationMustache {
     def postalVote = {
       ConfirmationQuestion(
         title = "Application form",
-        editLink = PostalVoteController.postalVoteStep.routes.editGet.url,
+        editLink = form(keys.postalOrProxyVote.voteType).value match {
+            case Some("postal") =>  PostalVoteController.postalVoteStep.routes.editGet.url
+            case Some("proxy") =>   ProxyVoteController.proxyVoteStep.routes.editGet.url
+            case _ => throw new IllegalArgumentException()
+        },
         changeName = "application form",
-        content = ifComplete(keys.postalVote) {
-          // TODO: get proxy or postal!
-          val wayToVote = ""
-          if(form(keys.postalVote.optIn).value == Some("true")){
-            if(form(keys.postalVote.deliveryMethod.methodName).value == Some("email")){
+        content = ifComplete(keys.postalOrProxyVote) {
+          val wayToVote = form(keys.postalOrProxyVote.voteType).value.getOrElse("")
+          if(form(keys.postalOrProxyVote.optIn).value == Some("true")){
+            if(form(keys.postalOrProxyVote.deliveryMethod.methodName).value == Some("email")){
               "<p>Please email a "+wayToVote+" vote application form to:<br/>"+
-                form(keys.postalVote.deliveryMethod.emailAddress).value.getOrElse("")+"</p>"
+                form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value.getOrElse("")+"</p>"
             }else{
               "<p>Please post me a "+wayToVote+" vote application form</p>"
             }
