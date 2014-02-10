@@ -63,7 +63,7 @@ class CitizenDetailsTemplateTest
       val html = Mustache.render("overseas/citizenDetails", data)
       val doc = Jsoup.parse(html.toString)
 
-      val docFieldset = doc.select("fieldset").first()
+      val docFieldset = doc.select("form").first()
       val hasPassportLabel = docFieldset.select("label[for=hasPassportId]").first()
       hasPassportLabel.attr("for") should be ("hasPassportId")
 

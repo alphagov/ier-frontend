@@ -114,11 +114,6 @@ class PassportDetailsTemplateTest
       authorityInput.attr("value") should be("authorityValue")
       authorityInput.attr("class") should include("authorityClasses")
 
-      docFieldset
-        .select("label[for=issueDateId]")
-        .first()
-        .attr("for") should be ("issueDateId")
-
       val issueDateFieldset = doc.select("fieldset[id=issueDateId").first()
       issueDateFieldset.attr("id") should be("issueDateId")
       issueDateFieldset.attr("class") should include("issueDateClasses")

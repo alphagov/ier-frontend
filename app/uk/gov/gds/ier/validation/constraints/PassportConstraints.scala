@@ -17,7 +17,8 @@ trait PassportConstraints extends CommonConstraints{
         keys.passport.citizenDetails.howBecameCitizen,
         keys.passport.citizenDetails.dateBecameCitizen.day,
         keys.passport.citizenDetails.dateBecameCitizen.month,
-        keys.passport.citizenDetails.dateBecameCitizen.year
+        keys.passport.citizenDetails.dateBecameCitizen.year,
+        keys.passport.citizenDetails.dateBecameCitizen
       )
     }
   }

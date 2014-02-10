@@ -144,7 +144,7 @@ trait PassportMustache extends StepMustache {
           backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
           errorMessages = form.globalErrors.map{ _.message },
           number = "7",
-          title = "When did you become a British citizen?"
+          title = "When and how did you become a British citizen?"
         ),
         hasPassport =      TextField(keys.passport.hasPassport),
         bornInUk =         TextField(keys.passport.bornInsideUk),

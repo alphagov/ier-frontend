@@ -2,9 +2,6 @@
 
   {{> shared/questionHeader }}
   {{> shared/validationMessages }}
-
-    <fieldset>
-
         <label
           for="{{hasPassport.id}}"
           class="visuallyhidden">Do you have a British Passport?</label>
@@ -26,7 +23,9 @@
         <fieldset
           id="{{citizenDate.id}}"
           class="validate inline-fields {{citizenDate.classes}}">
-
+            <legend class="label">
+                Date you become a British citizen
+            </legend>
             <span class="field-wrapper day">
                 <label for="{{citizenDateDay.id}}" class="">Day</label>
                 <input
@@ -65,7 +64,7 @@
             </p>
         </fieldset>
 
-        <label for="{{howBecameCitizen.id}}">
+        <label for="{{howBecameCitizen.id}}" class="sub-section">
             How did you become a British Citizen?
         </label>
         <div class="validation-wrapper {{howBecameCitizen.classes}}">
@@ -78,10 +77,8 @@
               class="text long validate {{howBecameCitizen.classes}}">
         </div>
         <p class="example">
-            For example: Naturalisation
+            For example: Born in the UK, Naturalisation, Adoption
         </p>
-
-    </fieldset>
 
     <button
       id="continue"
