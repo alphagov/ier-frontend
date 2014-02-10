@@ -20,6 +20,7 @@
   @form(postUrl, 'class -> "validate", Symbol("data-validation-name") -> "nationality", Symbol("data-validation-type") -> "association", Symbol("data-validation-rules") -> "fieldsetOrExcuse", Symbol("data-validation-members") -> "country nationalityExcuse") {
 
     @layouts.questionHeader("What is your nationality?", backUrl, 2)
+    @validationMessages(formData)
     <p>If you have dual nationality, select all options that are relevant to you.</p>
     <fieldset class="validate" data-validation-name="country" data-validation-type="fieldset" data-validation-rules="atLeastOneChecked checkedOtherHasValue" data-validation-children="british irish other otherCountries">
       @check(keys.nationality.british, label = "British", value = "true", inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "british", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
@@ -56,7 +57,6 @@
         @textArea(keys.nationality.noNationalityReason, Map('class -> "small validate", 'maxlength -> "500", Symbol("data-validation-name") -> "nationalityExcuse", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       </div>
     </div>
-    @validationMessages(formData)
     <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="nationality">Continue</button>
     }
 }

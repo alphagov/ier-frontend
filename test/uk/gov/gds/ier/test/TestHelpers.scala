@@ -77,7 +77,23 @@ trait TestHelpers {
     address = Some(OverseasAddress(country = Some("United Kingdom"), addressDetails = Some("some address"))),
     lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.UK)),
     openRegisterOptin = Some(true),
-    waysToVote = Some(Stub())
+    contact = Some(Contact(
+      post = true,
+      phone = None,
+      email = None)),
+    waysToVote = Some(WaysToVote(WaysToVoteType.InPerson))
+  )
+
+  lazy val emptyOverseasApplication = InprogressOverseas(
+    name = None,
+    previousName = None,
+    previouslyRegistered = None,
+    dateLeftUk = None,
+    nino = None,
+    dob = None,
+    address = None,
+    openRegisterOptin = None,
+    waysToVote = None
   )
 
   class ErrorsOps(errors: Seq[FormError], globalErrors: Seq[FormError]) {

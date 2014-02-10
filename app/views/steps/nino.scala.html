@@ -8,6 +8,7 @@
   @form(postUrl, 'class -> "validate", Symbol("data-validation-name") -> "nino", Symbol("data-validation-type") ->"association", Symbol("data-validation-rules") -> "fieldsetOrExcuse", Symbol("data-validation-members") -> "ninoCode ninoExcuse") {
   
     @layouts.questionHeader("What is your National Insurance number?", backUrl, 5)
+    @validationMessages(formData)
     @label(keys.nino.nino, "What is your National Insurance number?", 'class -> "visuallyhidden")
     <div class="validation-wrapper">
       @text(keys.nino.nino, 'class -> "validate nino", Symbol("data-validation-name") -> "ninoCode", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
@@ -27,7 +28,6 @@
         @textArea(keys.nino.noNinoReason, Map('class -> "small validate", 'maxlength -> "500", Symbol("data-validation-name") -> "ninoExcuse", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
       </div>
     </div>
-    @validationMessages(formData)
     <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="nino">Continue</button>
   }
 }

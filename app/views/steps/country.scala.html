@@ -7,6 +7,7 @@
 @main(title = Some("Register to Vote - Where do you live?"), stylesheets = head(), scripts = stepsBodyEnd()) {
   @form(postUrl) {
     @layouts.questionHeader("Where do you live?", backUrl, 1)
+    @validationMessages(formData)
 
     <fieldset class="validate" data-validation-name="country",  data-validation-type="fieldset",  data-validation-rules="atLeastOneNonEmpty", data-validation-children="england scotland wales northernIreland britishIslands abroad">
       @wrapLabel(keys.country.residence, 'value -> "England", 'class -> "selectable") {
@@ -30,7 +31,6 @@
         Isle of Man or the Channel Islands
       }
     </fieldset>
-    @validationMessages(formData)
     <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="country">Continue</button>
   }
 }
