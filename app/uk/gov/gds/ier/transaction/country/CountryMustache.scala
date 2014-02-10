@@ -7,18 +7,22 @@ import uk.gov.gds.ier.model.{InprogressOrdinary, Country}
 import uk.gov.gds.ier.mustache.StepMustache
 
 trait CountryMustache extends StepMustache {
-  case class CountryModel(postUrl:String = "",
-                          countries:FieldSet,
-                          england:Field,
-                          scotland:Field,
-                          wales:Field,
-                          northIreland:Field,
-                          channelIslands:Field,
-                          globalErrors:Seq[String] = List.empty )
+  case class CountryModel(
+      postUrl:String = "",
+      countries:FieldSet,
+      england:Field,
+      scotland:Field,
+      wales:Field,
+      northIreland:Field,
+      channelIslands:Field,
+      globalErrors:Seq[String] = List.empty
+  )
 
-  def transformFormStepToMustacheData (form:ErrorTransformForm[InprogressOrdinary], postUrl:String):CountryModel = {
+  def transformFormStepToMustacheData(
+      form:ErrorTransformForm[InprogressOrdinary],
+      postUrl:String):CountryModel = {
+
     val globalErrors = form.globalErrors
-
     def makeRadio(country:String) = {
       Field(
         id = keys.country.residence.asId(country),

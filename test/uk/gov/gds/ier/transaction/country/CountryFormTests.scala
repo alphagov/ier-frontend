@@ -33,10 +33,10 @@ class CountryFormTests
     )
   }
 
-  it should "successfully bind a valid country choice (Channel Islands)" in {
+  it should "successfully bind a valid country choice (British Islands)" in {
     val js = Json.toJson(
       Map(
-        "country.residence" -> "Channel Islands"
+        "country.residence" -> "British Islands"
       )
     )
     countryForm.bind(js).fold(
@@ -44,23 +44,7 @@ class CountryFormTests
       success => {
         success.country.isDefined should be(true)
         val country = success.country.get
-        country.country should be("Channel Islands")
-      }
-    )
-  }
-
-  it should "successfully bind a valid country choice (Isle Of Man)" in {
-    val js = Json.toJson(
-      Map(
-        "country.residence" -> "Isle Of Man"
-      )
-    )
-    countryForm.bind(js).fold(
-      hasErrors => fail(hasErrors.prettyPrint.mkString),
-      success => {
-        success.country.isDefined should be(true)
-        val country = success.country.get
-        country.country should be("Isle Of Man")
+        country.country should be("British Islands")
       }
     )
   }

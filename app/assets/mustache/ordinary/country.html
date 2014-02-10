@@ -6,38 +6,87 @@
 
     {{> ordinary/validationMessages }}
 
-    <fieldset class="validate {{countries.classes}}" data-validation-name="country"  data-validation-type="fieldset"  data-validation-rules="atLeastOneNonEmpty"
-              data-validation-children="england scotland wales northernIreland britishIslands abroad">
+    <fieldset
+      class="validate {{countries.classes}}"
+      data-validation-name="country"
+      data-validation-type="fieldset"
+      data-validation-rules="atLeastOneNonEmpty"
+      data-validation-children="england scotland wales northernIreland britishIslands abroad">
 
-        <label for="{{england.id}}" class="selectable"  >
-            <input type="radio" id="{{england.id}}" name="{{england.name}}" value="England"  class="radio  validate" {{{england.attributes}}}
-                   data-validation-name="england" data-validation-type="field" data-validation-rules="nonEmpty">
+        <label for="{{england.id}}"
+          class="selectable">
+            <input
+              type="radio"
+              id="{{england.id}}"
+              name="{{england.name}}"
+              value="England"
+              class="radio  validate"
+              {{{england.attributes}}}
+              data-validation-name="england"
+              data-validation-type="field"
+              data-validation-rules="nonEmpty">
             England
         </label>
-        <label for="{{scotland.id}}" class="selectable"  >
-            <input type="radio" id="{{scotland.id}}" name="{{scotland.name}}" value="Scotland"  class="radio  validate" {{{scotland.attributes}}}
-                   data-validation-name="scotland" data-validation-type="field" data-validation-rules="nonEmpty">
+        <label for="{{scotland.id}}" class="selectable">
+            <input
+              type="radio"
+              id="{{scotland.id}}"
+              name="{{scotland.name}}"
+              value="Scotland"
+              class="radio  validate"
+              {{{scotland.attributes}}}
+              data-validation-name="scotland"
+              data-validation-type="field"
+              data-validation-rules="nonEmpty">
             Scotland
         </label>
-        <label for="{{wales.id}}" class="selectable"  >
-            <input type="radio" id="{{wales.id}}" name="{{wales.name}}" value="Wales"  class="radio  validate" {{{wales.attributes}}}
-                   data-validation-name="wales" data-validation-type="field" data-validation-rules="nonEmpty">
+        <label for="{{wales.id}}" class="selectable">
+            <input
+              type="radio"
+              id="{{wales.id}}"
+              name="{{wales.name}}"
+              value="Wales"
+              class="radio  validate"
+              {{{wales.attributes}}}
+              data-validation-name="wales"
+              data-validation-type="field"
+              data-validation-rules="nonEmpty">
             Wales
         </label>
-        <label for="{{northIreland.id}}" class="selectable"  >
-            <input type="radio" id="{{northIreland.id}}" name="{{northIreland.name}}" value="Northern Ireland"  class="radio  validate" {{{northIreland.attributes}}}
-                   data-validation-name="northernIreland" data-validation-type="field" data-validation-rules="nonEmpty">
+        <label for="{{northIreland.id}}" class="selectable">
+            <input
+              type="radio"
+              id="{{northIreland.id}}"
+              name="{{northIreland.name}}"
+              value="Northern Ireland"
+              class="radio  validate"
+              {{{northIreland.attributes}}}
+              data-validation-name="northernIreland"
+              data-validation-type="field"
+              data-validation-rules="nonEmpty">
             Northern Ireland
         </label>
-
-
-        <label for="{{channelIslands.id}}" class="selectable"  >
-            <input type="radio" id="{{channelIslands.id}}" name="{{channelIslands.name}}" value="British Islands"  class="radio  validate" {{{channelIslands.attributes}}}
-                   data-validation-name="britishIslands" data-validation-type="field" data-validation-rules="nonEmpty">
+        <label for="{{channelIslands.id}}" class="selectable">
+            <input
+              type="radio"
+              id="{{channelIslands.id}}"
+              name="{{channelIslands.name}}"
+              value="British Islands"
+              class="radio  validate"
+              {{{channelIslands.attributes}}}
+              data-validation-name="britishIslands"
+              data-validation-type="field"
+              data-validation-rules="nonEmpty">
             Channel Islands or Isle of Man
         </label>
     </fieldset>
 
-    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="country">Continue</button>
+    <button
+      type="submit"
+      id="continue"
+      class="button next validation-submit"
+      data-validation-sources="country">
+        Continue
+    </button>
 
 </form>

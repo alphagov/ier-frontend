@@ -11,8 +11,7 @@ trait CountryConstraints {
     "Scotland",
     "Wales",
     "Northern Ireland",
-    "Channel Islands",
-    "Isle Of Man",
+    "British Islands",
     "Abroad")
 
   lazy val isValidCountryConstraint = Constraint[Country](keys.country.residence.key) { 

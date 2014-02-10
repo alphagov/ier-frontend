@@ -44,7 +44,7 @@ class CountryStep @Inject ()(val serialiser: JsonSerialiser,
     currentState.country match {
       case Some(Country("Northern Ireland")) => Exit(ExitController.northernIreland)
       case Some(Country("Scotland")) => Exit(ExitController.scotland)
-      case Some(Country("Channel Islands")) => Exit(ExitController.channelIslands)
+      case Some(Country("British Islands")) => Exit(ExitController.britishIslands)
       case _ => NationalityController.nationalityStep
     }
   }
