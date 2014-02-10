@@ -33,7 +33,10 @@ class CountryStep @Inject ()(val serialiser: JsonSerialiser,
     editPost = CountryController.editPost
   )
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
+  def template(
+      form:InProgressForm[InprogressOrdinary],
+      call:Call,
+      backUrl: Option[Call]): Html = {
     countryMustache(form.form, call)
   }
 
@@ -41,6 +44,7 @@ class CountryStep @Inject ()(val serialiser: JsonSerialiser,
     currentState.country match {
       case Some(Country("Northern Ireland")) => Exit(ExitController.northernIreland)
       case Some(Country("Scotland")) => Exit(ExitController.scotland)
+      case Some(Country("Channel Islands")) => Exit(ExitController.channelIslands)
       case _ => NationalityController.nationalityStep
     }
   }

@@ -13,6 +13,7 @@ GET         /register-to-vote/overseas/complete                          control
 
 
 #Exit Routes
+GET         /register-to-vote/exit/channel-islands                       controllers.ExitController.channelIslands
 GET         /register-to-vote/exit/scotland                              controllers.ExitController.scotland
 GET         /register-to-vote/exit/northern-ireland                      controllers.ExitController.northernIreland
 GET         /register-to-vote/exit/under-18                              controllers.ExitController.under18

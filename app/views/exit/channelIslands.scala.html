@@ -1,0 +1,15 @@
+@()
+@import helper._
+@import uk.gov.gds.ier.form.FormHelpers._
+@import layouts._
+@main(title = Some("Register to Vote - Channel Islands"), stylesheets = head(), scripts = stepsBodyEnd(), contentClasses = Some("exit")) {
+  <header>
+    <h1>Registering to Vote from the Channel Islands</h1>
+  </header>
+  <article>
+    <p>You can't register as a UK resident if you live in the Channel Islands.</p>
+    <p>Instead you can <a href="@controllers.routes.RegisterToVoteController.registerToVoteOverseasStart()">Register to vote as an Overseas Voter</a>.</p>
+    <p><a href="https://www.gov.uk/voting-in-the-uk">More about voting in the UK</a>.</p>
+  </article>
+}
+

@@ -6,6 +6,7 @@ import uk.gov.gds.ier.controller.{ExitController => GuicedController}
 object ExitController extends DelegatingController[GuicedController] {
   def scotland = delegate.scotland
   def northernIreland = delegate.northernIreland
+  def channelIslands = delegate.channelIslands
   def under18 = delegate.under18
   def tooYoung = delegate.tooYoung
   def dontKnow = delegate.dontKnow

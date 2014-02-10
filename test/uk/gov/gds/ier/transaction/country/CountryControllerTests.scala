@@ -62,6 +62,21 @@ class CountryControllerTests
     }
   }
 
+  it should "bind successfully on Channel Islands and redirect to the exit page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/country-of-residence")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+          "country.residence" -> "Channel Islands"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/exit/channel-islands"))
+    }
+  }
+
   it should "bind successfully on Scotland and redirect to the exit page" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -134,6 +149,21 @@ class CountryControllerTests
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/register-to-vote/exit/northern-ireland"))
+    }
+  }
+
+  it should "bind successfully on Channel Islands and redirect to the exit page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/edit/country-of-residence")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+          "country.residence" -> "Channel Islands"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/exit/channel-islands"))
     }
   }
 

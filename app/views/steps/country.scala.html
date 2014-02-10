@@ -9,7 +9,7 @@
     @layouts.questionHeader("Where do you live?", backUrl, 1)
     @validationMessages(formData)
 
-    <fieldset class="validate" data-validation-name="country",  data-validation-type="fieldset",  data-validation-rules="atLeastOneNonEmpty", data-validation-children="england scotland wales northernIreland britishIslands abroad">
+    <fieldset class="validate" data-validation-name="country",  data-validation-type="fieldset",  data-validation-rules="atLeastOneNonEmpty", data-validation-children="england scotland wales northernIreland isleOfMan channelIslands abroad">
       @wrapLabel(keys.country.residence, 'value -> "England", 'class -> "selectable") {
         @radio(keys.country.residence, "England", 'class -> "validate", Symbol("data-validation-name") -> "england", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
         England
@@ -26,9 +26,13 @@
         @radio(keys.country.residence, "Northern Ireland", 'class -> "validate", Symbol("data-validation-name") -> "northernIreland", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
         Northern Ireland
       }
-      @wrapLabel(keys.country.residence, 'value -> "British Islands", 'class -> "selectable") {
-        @radio(keys.country.residence, "British Islands", 'class -> "validate", Symbol("data-validation-name") -> "britishIslands", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
-        Isle of Man or the Channel Islands
+      @wrapLabel(keys.country.residence, 'value -> "Isle Of Man", 'class -> "selectable") {
+        @radio(keys.country.residence, "Isle Of Man", 'class -> "validate", Symbol("data-validation-name") -> "IsleOfMan", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
+        Isle of Man
+      }
+      @wrapLabel(keys.country.residence, 'value -> "Channel Islands", 'class -> "selectable") {
+        @radio(keys.country.residence, "Channel Islands", 'class -> "validate", Symbol("data-validation-name") -> "channelIslands", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
+        The Channel Islands
       }
     </fieldset>
     <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="country">Continue</button>
