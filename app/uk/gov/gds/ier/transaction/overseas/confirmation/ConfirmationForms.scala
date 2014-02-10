@@ -1,7 +1,9 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation
 
 import play.api.data.Forms._
-import uk.gov.gds.ier.model.{InprogressOverseas, Stub}
+import uk.gov.gds.ier.validation._
+import play.api.data.validation.{Invalid, Valid, Constraint}
+import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, ErrorMessages}
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
@@ -32,6 +34,7 @@ trait ConfirmationForms
   with NameForms
   with ContactForms
   with PassportForms
+  with ConfirmationConstraints
   with CommonConstraints {
 
   val stubMapping = mapping(
