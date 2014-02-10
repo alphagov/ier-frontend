@@ -7,6 +7,7 @@
 @main(title = Some("Register to Vote - Do you want your name and address listed on the open register?"), stylesheets = head(), scripts = stepsBodyEnd()) {
   @form(postUrl) {
     @layouts.questionHeader("Do you want your name and address listed on the open register?", backUrl, 9)
+    @validationMessages(formData)
 
     <p>The open register is an extract of the electoral register, but is not used for elections. It can be bought by any person, company or organisation. For example, it is used by businesses and charities to confirm name and address details.</p>
     <p>Your decision does not affect your right to vote or your credit score.</p>
@@ -26,7 +27,6 @@
       <p>The open register is an extract of the electoral register, but is not used for elections. It can be bought by any person, company or organisation. For example, it is used by businesses and charities to confirm name and address details.</p>
       <p>Your name and address will be included in the open register unless you ask for them to be removed. Removing your details from the open register does not affect your right to vote.</p>
     </div>
-    @validationMessages(formData)
     <button type="submit" id="continue" class="button next">Continue</button> 
     
   }

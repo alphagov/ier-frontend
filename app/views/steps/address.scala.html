@@ -9,9 +9,11 @@
     stylesheets = head(), 
     scripts = stepsBodyEnd()) {
 
+
   @form(postUrl.copy(url = postUrl.url + "/lookup" )) {
 
         @layouts.questionHeader("Where do you live?", backUrl, 6)
+        @validationMessages(formData)
 
         <fieldset>
             <p>This is the address where you will be registered to vote.</p>
@@ -64,7 +66,6 @@
       }
 
     </div>
-    @validationMessages(formData)
     <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode">Continue</button>
     @text(keys.possibleAddresses.postcode,
       'class -> "hidden", 'type -> "hidden")
