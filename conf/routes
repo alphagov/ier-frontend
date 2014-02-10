@@ -145,12 +145,6 @@ POST        /register-to-vote/overseas/previously-registered             control
 GET         /register-to-vote/overseas/edit/previously-registered        controllers.step.overseas.PreviouslyRegisteredController.editGet
 POST        /register-to-vote/overseas/edit/previously-registered        controllers.step.overseas.PreviouslyRegisteredController.editPost
 
-#First Time Registered
-GET         /register-to-vote/overseas/first-time-registered             controllers.step.overseas.FirstTimeRegisteredController.get
-POST        /register-to-vote/overseas/first-time-registered             controllers.step.overseas.FirstTimeRegisteredController.post
-GET         /register-to-vote/overseas/edit/first-time-registered        controllers.step.overseas.FirstTimeRegisteredController.editGet
-POST        /register-to-vote/overseas/edit/first-time-registered        controllers.step.overseas.FirstTimeRegisteredController.editPost
-
 #Date Left UK
 GET         /register-to-vote/overseas/date-left-uk                      controllers.step.overseas.DateLeftUkController.get
 POST        /register-to-vote/overseas/date-left-uk                      controllers.step.overseas.DateLeftUkController.post
@@ -219,6 +213,12 @@ GET         /register-to-vote/overseas/contact                           control
 POST        /register-to-vote/overseas/contact                           controllers.step.overseas.ContactController.post
 GET         /register-to-vote/overseas/edit/contact                      controllers.step.overseas.ContactController.editGet
 POST        /register-to-vote/overseas/edit/contact                      controllers.step.overseas.ContactController.editPost
+
+#Last Registered to vote type Step
+GET         /register-to-vote/overseas/last-registered-to-vote                           controllers.step.overseas.LastRegisteredToVoteController.get
+POST        /register-to-vote/overseas/last-registered-to-vote                           controllers.step.overseas.LastRegisteredToVoteController.post
+GET         /register-to-vote/overseas/edit/last-registered-to-vote                      controllers.step.overseas.LastRegisteredToVoteController.editGet
+POST        /register-to-vote/overseas/edit/last-registered-to-vote                      controllers.step.overseas.LastRegisteredToVoteController.editPost
 
 #Overseas Confirmation
 GET         /register-to-vote/overseas/confirmation                      controllers.step.overseas.ConfirmationController.get
