@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.model
 
 import uk.gov.gds.ier.model.LastRegisteredType.LastRegisteredType
+import uk.gov.gds.ier.model.WaysToVoteType.WaysToVoteType
 
 case class InprogressOverseas(
     name: Option[Name] = None,
@@ -13,8 +14,8 @@ case class InprogressOverseas(
     lastUkAddress: Option[PartialAddress] = None,
     address: Option[OverseasAddress] = None,
     openRegisterOptin: Option[Boolean] = None,
-    waysToVote: Option[Stub] = None,
-    postalVote: Option[PostalVote] = None,
+    waysToVote: Option[WaysToVote] = None,
+    postalOrProxyVote: Option[PostalOrProxyVote] = None,
     contact: Option[Contact] = None,
     possibleAddresses: Option[PossibleAddress] = None)
   extends InprogressApplication[InprogressOverseas] {
@@ -32,7 +33,7 @@ case class InprogressOverseas(
       address = this.address.orElse(other.address),
       openRegisterOptin = this.openRegisterOptin.orElse(other.openRegisterOptin),
       waysToVote = this.waysToVote.orElse(other.waysToVote),
-      postalVote = this.postalVote.orElse(other.postalVote),
+      postalOrProxyVote = this.postalOrProxyVote.orElse(other.postalOrProxyVote),
       contact = this.contact.orElse(other.contact),
       possibleAddresses = None
     )
@@ -50,8 +51,8 @@ case class OverseasApplication(
     address: Option[OverseasAddress],
     lastUkAddress: Option[PartialAddress] = None,
     openRegisterOptin: Option[Boolean],
-    waysToVote: Option[Stub],
-    postalVote: Option[PostalVote],
+    waysToVote: Option[WaysToVote],
+    postalOrProxyVote: Option[PostalOrProxyVote],
     contact: Option[Contact])
   extends CompleteApplication {
 
@@ -67,11 +68,13 @@ case class OverseasApplication(
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
       address.map(_.toApiMap).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
-      postalVote.map(postalVote => postalVote.postalVoteOption.map(
-        postalVoteOption => Map("pvote" -> postalVoteOption.toString)).getOrElse(Map.empty)).getOrElse(Map.empty) ++
-      postalVote.map(postalVote => postalVote.deliveryMethod.map(
+      postalOrProxyVote.map(postalOrProxyVote => postalOrProxyVote.postalVoteOption.map(
+        postalVoteOption => Map(postalOrProxyVote.apiVoteKey -> postalVoteOption.toString))
+          .getOrElse(Map.empty)).getOrElse(Map.empty) ++
+      postalOrProxyVote.map(postalOrProxyVote => postalOrProxyVote.deliveryMethod.map(
         deliveryMethod => deliveryMethod.emailAddress.map(
-          emailAddress => Map("pvoteemail" -> emailAddress)).getOrElse(Map.empty)).getOrElse(Map.empty)).getOrElse(Map.empty) ++
+          emailAddress => Map(postalOrProxyVote.apiEmailKey -> emailAddress)).getOrElse(Map.empty))
+            .getOrElse(Map.empty)).getOrElse(Map.empty) ++
       contact.map(_.toApiMap).getOrElse(Map.empty)
   }
 }
@@ -107,7 +110,40 @@ object LastRegisteredType extends Enumeration {
   val NotRegistered = Value("not-registered")
 }
 
+case class WaysToVote (waysToVoteType: WaysToVoteType) {
+}
+
+object WaysToVoteType extends Enumeration {
+  type WaysToVoteType = Value
+  val InPerson = Value("in-person")
+  val ByPost = Value("by-post")
+  val ByProxy = Value("by-proxy")
+}
+
 case class OverseasAddress(country: Option[String], addressDetails: Option[String]) {
     def toApiMap = Map("corrcountry" -> country.getOrElse(""), "corraddress" -> addressDetails.getOrElse(""))
 }
 case class CountryWithCode(country: String, code: String)
+
+case class PostalOrProxyVote (
+    typeVote: String,
+    postalVoteOption: Option[Boolean],
+    deliveryMethod: Option[PostalVoteDeliveryMethod]) {
+
+  def apiVoteKey = {
+    typeVote match {
+      case "postal" => "pvote"
+      case "proxy" => "proxyvote"
+      case _ => throw new IllegalArgumentException()
+    }
+  }
+
+  def apiEmailKey = {
+    typeVote match {
+      case "postal" => "pvoteemail"
+      case "proxy" => "proxyvoteemail"
+      case _ => throw new IllegalArgumentException()
+    }
+  }
+}
+

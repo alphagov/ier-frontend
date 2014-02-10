@@ -77,7 +77,7 @@ trait TestHelpers {
     address = Some(OverseasAddress(country = Some("United Kingdom"), addressDetails = Some("some address"))),
     lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.UK)),
     openRegisterOptin = Some(true),
-    waysToVote = Some(Stub())
+    waysToVote = Some(WaysToVote(WaysToVoteType.ByPost))
   )
 
   class ErrorsOps(errors: Seq[FormError], globalErrors: Seq[FormError]) {
