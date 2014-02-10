@@ -11,9 +11,6 @@ import uk.gov.gds.ier.model.InprogressOverseas
 
 /**
  * Unit test to test form to Mustache model transformation.
- *
- * Testing Mustache html text rendering requires running application, it is not easily unit testable,
- * so method {@link NameMustache#nameMustache()} is tested as a part of MustacheControllerTest.
  */
 class OverseasNameMustacheTest
   extends FlatSpec
@@ -28,7 +25,7 @@ class OverseasNameMustacheTest
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = nameForm
-    val nameModel = nameMustache.transformFormStepToMustacheData(emptyApplicationForm, 
+    val nameModel = nameMustache.transformFormStepToMustacheData(emptyApplicationForm,
         "/register-to-vote/overseas/name", Some("/register-to-vote/overseas/last-registered-uk-address"))
 
     nameModel.question.title should be("Register to Vote - What is your full name?")
@@ -38,8 +35,8 @@ class OverseasNameMustacheTest
     nameModel.firstName.value should be("")
     nameModel.middleNames.value should be("")
     nameModel.lastName.value should be("")
-    nameModel.hasPreviousNameTrue.value should be("")
-    nameModel.hasPreviousNameFalse.value should be("")
+    nameModel.hasPreviousNameTrue.value should be("true")
+    nameModel.hasPreviousNameFalse.value should be("false")
     nameModel.previousFirstName.value should be("")
     nameModel.previousMiddleNames.value should be("")
     nameModel.previousLastName.value should be("")
@@ -51,7 +48,7 @@ class OverseasNameMustacheTest
         firstName = "John",
         middleNames = None,
         lastName = "Smith"))))
-    val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, 
+    val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm,
         "/register-to-vote/overseas/name", Some("/register-to-vote/overseas/last-registered-uk-address"))
 
     nameModel.question.title should be("Register to Vote - What is your full name?")
@@ -61,8 +58,8 @@ class OverseasNameMustacheTest
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
     nameModel.lastName.value should be("Smith")
-    nameModel.hasPreviousNameTrue.value should be("")
-    nameModel.hasPreviousNameFalse.value should be("")
+    nameModel.hasPreviousNameTrue.value should be("true")
+    nameModel.hasPreviousNameFalse.value should be("false")
     nameModel.previousFirstName.value should be("")
     nameModel.previousMiddleNames.value should be("")
     nameModel.previousLastName.value should be("")
@@ -82,7 +79,7 @@ class OverseasNameMustacheTest
           lastName = "Kovar"))
       ))
     ))
-    val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, 
+    val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm,
         "/register-to-vote/overseas/name", Some("/register-to-vote/overseas/last-registered-uk-address"))
 
     nameModel.question.title should be("Register to Vote - What is your full name?")
@@ -105,7 +102,7 @@ class OverseasNameMustacheTest
         firstName = "John",
         middleNames = None,
         lastName = ""))))
-    val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationFormWithErrors, 
+    val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationFormWithErrors,
         "/register-to-vote/overseas/name", Some("/register-to-vote/overseas/last-registered-uk-address"))
 
     nameModel.question.title should be("Register to Vote - What is your full name?")
@@ -115,8 +112,8 @@ class OverseasNameMustacheTest
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
     nameModel.lastName.value should be("")
-    nameModel.hasPreviousNameTrue.value should be("")
-    nameModel.hasPreviousNameFalse.value should be("")
+    nameModel.hasPreviousNameTrue.value should be("true")
+    nameModel.hasPreviousNameFalse.value should be("false")
     nameModel.previousFirstName.value should be("")
     nameModel.previousMiddleNames.value should be("")
     nameModel.previousLastName.value should be("")

@@ -34,7 +34,8 @@ trait DateLeftUkMustache extends StepMustache {
       ),
       dateLeftUkMonth = SelectField(
         key = keys.dateLeftUk.month,
-        optionList = generateOptionsList(progressForm(keys.dateLeftUk.month.key).value.getOrElse(""))
+        optionList = generateOptionsList(progressForm(keys.dateLeftUk.month.key).value.getOrElse("")),
+        default = SelectOption(text = "Month", value = "")
       ),
       dateLeftUkYear = TextField(
         key = keys.dateLeftUk.year
@@ -46,12 +47,14 @@ trait DateLeftUkMustache extends StepMustache {
   }
 
   def generateOptionsList (month:String): List[SelectOption] = {
-    val dateLeftUkMonthOptionsList = DateOfBirthConstants.months.map (months => SelectOption(months._1, months._2)).toList
-    val updatedDateLeftUkMonthOptionsList = dateLeftUkMonthOptionsList.map(monthOption =>
+    val dateLeftUkMonthOptionsList = DateOfBirthConstants.months.map {
+      months => SelectOption(months._1, months._2)
+    }.toList
+    val updatedDateLeftUkMonthOptionsList = dateLeftUkMonthOptionsList.map { monthOption =>
       if (monthOption.value.equals(month))
         SelectOption(monthOption.value, monthOption.text, "selected")
       else monthOption
-    )
+    }
     updatedDateLeftUkMonthOptionsList
   }
 }

@@ -14,7 +14,6 @@ class ConfirmationControllerTests
 
   it should "display no errors with a full inprogress application" in {
     running(FakeApplication()) {
-      println("Fake Places" + new Config().fakePlaces.toString)
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/confirmation")
           .withIerSession(3)

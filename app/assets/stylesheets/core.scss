@@ -207,7 +207,7 @@ main .visible { // assumes default state is block
 
 article,
 form {
-  padding: 0 14px 2em 14px;
+  padding: 0 14px;
   max-width: 36em;
 
   @include ie(6) {
@@ -222,21 +222,22 @@ form {
 form {
   padding-top: 2em;
   @extend %contain-floats;
+
+  &.sub-step {
+    padding-top: 0;
+  }
 }
 
 #found-addresses {
+  padding: 0 14px;
+
   @include media(tablet) {
     padding: 0 2em;
-
-    form & {
-      padding: 0;
-    }
   }
 
+  form &,
   form {
-    @include media(tablet) {
-      padding: 0;
-    }
+    padding: 0;
   }
 }
 
@@ -261,7 +262,8 @@ form {
   }
 }
 
-.sub-section {
+.sub-section,
+.optional-section-core-content {
   margin-top: 2em;
 }
 

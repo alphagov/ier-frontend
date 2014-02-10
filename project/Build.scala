@@ -8,6 +8,7 @@ import net.litola.SassCompiler
 import de.johoop.jacoco4sbt.JacocoPlugin._
 import org.jba.sbt.plugin.MustachePlugin
 import org.jba.sbt.plugin.MustachePlugin._
+import org.scalastyle.sbt.ScalastylePlugin
 
 object ApplicationBuild extends IERBuild {
 
@@ -34,6 +35,7 @@ object ApplicationBuild extends IERBuild {
     .settings(Jacoco.jacocoSettings:_*)
     .settings(Mustache.mustacheSettings:_*)
     .settings(javaOptions in Test += "-Dconfig.file=conf/test.conf")
+    .settings(StyleChecker.settings:_*)
 }
 
 abstract class IERBuild extends Build {
@@ -43,6 +45,14 @@ abstract class IERBuild extends Build {
       "GDS maven repo snapshots" at "http://alphagov.github.com/maven/snapshots",
       "GDS maven repo releases" at "http://alphagov.github.com/maven/releases"
     )
+  )
+}
+
+object StyleChecker {
+  import org.scalastyle.sbt.PluginKeys._
+
+  val settings = ScalastylePlugin.Settings ++ Seq(
+    scalastyle <<= scalastyle dependsOn (compile in Compile)
   )
 }
 

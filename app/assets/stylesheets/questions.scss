@@ -68,6 +68,7 @@ label.selectable{
 label.binary {
   @include inline-block;
   margin-right: 10px;
+  margin-bottom: 0;
   width: 26%;
 
   &:last-child {
@@ -85,6 +86,10 @@ label.selected {
 	border: 1px solid #555;
 	background: #fff;
 	padding: 11px 13px 11px 45px;
+}
+
+label.single-field {
+  margin-bottom: 0;
 }
 
 textarea,
@@ -146,8 +151,6 @@ input.year {
 }
 
 .inline-fields {
-  margin-bottom: 1em;
-
   label {
     margin-bottom: 0.5em;
   }
@@ -156,69 +159,8 @@ input.year {
     margin-right: 1em;
   }
 
-  .inline-field {
+  .field-wrapper {
     @include inline-block;
-    margin-bottom: 0;
-  }
-}
-
-.validation-wrapper {
-  font-size: 19px;
-  clear: left;
-  margin-bottom: 1em;
-
-  input,
-  select {
-    margin-bottom: 0;
-  }
-
-  & .optional-section input,
-  & .help-content select {
-    margin-bottom: 1em;
-  }
-
-  & .added-country .text {
-    margin-bottom: 0;
-  }
-}
-
-/*
-  Should only apply to the div.validation-wrapper that
-  is applied around text fields etc.
-  Preferred over .validation-wrapper.invalid since older
-  browsers don't support class-chaining.
- */
-div.invalid {
-  padding-left: 10px;
-  margin-left: -14px;
-  border-left: solid 4px #DF3034;
-  outline:none;
-
-  .optional-section &,
-  .help-content & {
-    padding-left: 28px;
-    margin-left: -32px;
-  }
-
-  .optional-section-core-content & :last-child {
-    margin-bottom: 0;
-  }
-
-  @include media(tablet) {
-    padding-left: 14px;
-    margin-left: -18px;
-    
-    .optional-section &,
-    .help-content &,
-    .optional-section-core-content .optional-section & {
-      padding-left: 30px;
-      margin-left: -34px;
-    }
-
-    .optional-section-core-content & {
-      padding-left: 14px;
-      margin-left: -18px;
-    }
   }
 }
 
@@ -226,7 +168,7 @@ span.date {
   word-spacing: 0.25em;
 }
 
-/* Styles specific to question pages */
+/* layout styles specific to question pages */
 
 main header {
   &,
@@ -264,15 +206,25 @@ main header {
   }
 }
 
+/* field modules */
+
+fieldset,
+.optional-section,
+.help-content {
+  & :last-child {
+    margin-bottom: 0;
+  }
+}
+
 fieldset {
   @extend %contain-floats;
   margin-left: 0;
+}
 
-  :last-child {
-    margin-bottom: 0;
-  }
+.example {
+  margin: -0.5em 0 0;
 
-  .example {
+  fieldset & {
     margin-bottom: 0.5em;
     margin-top: -0.5em;
   }
@@ -290,29 +242,6 @@ fieldset {
   margin-bottom: 1em;
   clear: both;
   @extend %contain-floats;
-
-  &:last-child {
-    margin-bottom: 2em;
-  }
-
-  & :last-child {
-    margin-bottom: 0;
-  }
-}
-
-.optional-section-core-content,
-.help-content .optional-section,
-#found-addresses .optional-section {
-  border-left: none;
-  padding: 14px 0 0;
-
-  & :last-child {
-    margin-bottom: 1em;
-  }
-
-  & .validation-wrapper:last-child {
-    margin-bottom: 0;
-  }
 }
 
 .optional-section {
@@ -320,6 +249,38 @@ fieldset {
     @include bold-19;
   }
 }
+
+/* help content for the whole page */
+.page-help-content:last-child {
+  margin-bottom: 2em;
+}
+
+/* additional information blocks embedded in field modules */
+.optional-section-core-content,
+.help-content .optional-section,
+#found-addresses .optional-section {
+  border-left: none;
+  padding-left: 0;
+}
+
+.help-content .optional-section,
+#found-addresses .optional-section {
+  padding: 14px 0 0;
+}
+
+.optional-section-core-content {
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+/* example of suggested field input */
+.inline-fields .example {
+  margin-bottom: 0;
+  margin-top: 0.5em;
+}
+
+/* styles for the autocomplete dropdown */
 
 .typeahead,
 .tt-query,
@@ -405,12 +366,14 @@ fieldset {
   margin-left: 1em;
 }
 
+/* additional content toggle */
+
 .toggle {
   @include core-19;
   display: block;
   float: left;
   clear: both;
-  margin: 1em 0 2em;
+  margin: 2em 0;
 
   fieldset & {
     margin-bottom: 0;
@@ -418,11 +381,19 @@ fieldset {
 
   .help-content &,
   .optional-section & {
-    margin-bottom: 0;
-    margin-top: 0;
+    margin: 0;
   }
 
+  .contains-addresses & {
+    margin: 1em 0 2em;
+  }
+
+  /* overwrite for being in an .optional-section */
   .optional-section-core-content & {
+    margin: 2em 0;
+  }
+
+  .optional-section-core-content .contains-addresses & {
     margin-top: 1em;
   }
 }
@@ -436,6 +407,10 @@ fieldset {
   background: url("/assets/images/icon-caret-down.png") left 0.5em no-repeat;
   padding-left: 0.75em;
   margin-bottom: 0;
+
+  #found-addresses & {
+    margin-bottom: 0;
+  }
 }
 
 .help-content,
@@ -450,10 +425,19 @@ fieldset {
 .optional-section-core-content #found-addresses {
   & .toggle-closed,
   & .toggle-open {
-    background-image: url("/assets/images/icon-caret-right.png");
     padding-left: 0.75em;
   }
+
+  & .toggle-closed {
+    background-image: url("/assets/images/icon-caret-right.png");
+  }
+
+  & .toggle-open {
+    background-image: url("/assets/images/icon-caret-down.png");
+  }
 }
+
+/* call to action buttons */
 
 .next,
 .search {
@@ -475,6 +459,11 @@ fieldset {
 
   @include media(mobile) {
     font-size: 19px;
+  }
+
+  /* overwrite for matching :last-child */
+  #found-addresses & {
+    margin-bottom: 2em;
   }
 }
 
@@ -500,13 +489,74 @@ fieldset {
   @extend %contain-floats;
 
   &.contains-addresses {
-    margin-top: 1em;
+    margin-top: 2em;
+  }
+}
+
+/* validation styles */
+
+.validation-wrapper {
+  font-size: 19px;
+  clear: left;
+  margin-bottom: 1em;
+
+  input,
+  select {
+    margin-bottom: 0;
+  }
+
+  & .optional-section input,
+  & .help-content select {
+    margin-bottom: 1em;
+  }
+
+  & .added-country .text {
     margin-bottom: 0;
   }
 }
 
 .invalid {
   outline: solid 4px $mellow-red;
+}
+
+/*
+  Should only apply to the div.validation-wrapper that
+  is applied around text fields etc.
+  Preferred over .validation-wrapper.invalid since older
+  browsers don't support class-chaining.
+ */
+div.invalid {
+  padding-left: 10px;
+  margin-left: -14px;
+  border-left: solid 4px #DF3034;
+  outline:none;
+
+  .optional-section &,
+  .help-content & {
+    padding-left: 28px;
+    margin-left: -32px;
+  }
+
+  .optional-section-core-content & :last-child {
+    margin-bottom: 0;
+  }
+
+  @include media(tablet) {
+    padding-left: 14px;
+    margin-left: -18px;
+    
+    .optional-section &,
+    .help-content &,
+    .optional-section-core-content .optional-section & {
+      padding-left: 30px;
+      margin-left: -34px;
+    }
+
+    .optional-section-core-content & {
+      padding-left: 14px;
+      margin-left: -18px;
+    }
+  }
 }
 
 label.invalid,

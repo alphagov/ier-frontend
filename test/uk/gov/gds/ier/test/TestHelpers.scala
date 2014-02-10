@@ -11,6 +11,7 @@ import uk.gov.gds.ier.guice.WithConfig
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.LastRegisteredType.LastRegisteredType
 import play.api.data.FormError
+import uk.gov.gds.ier.model.LastRegisteredType
 
 trait TestHelpers {
 
@@ -67,19 +68,32 @@ trait TestHelpers {
     name = Some(Name("John", None, "Smith")),
     previousName = Some(PreviousName(false, None)),
     previouslyRegistered = Some(PreviouslyRegistered(true)),
+    dob = Some(DOB(year = 1970, month = 12, day = 12)),
+    lastUkAddress = Some(
+      PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)
+    ),
     dateLeftUk = Some(DateLeftUk(2000,10)),
-    firstTimeRegistered = Some(Stub()),
-    registeredAddress = Some(Stub()),
-    nino = Some(Nino(Some("XX 12 34 56 A"), None)),
-    dob = Some(DateOfBirth(Some(DOB(1970,10,10)), None)),
-    address = Some(Stub()),
+    nino = Some(Nino(Some("AB 12 34 56 D"), None)),
+    address = Some(OverseasAddress(country = Some("United Kingdom"), addressDetails = Some("some address"))),
+    lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.UK)),
     openRegisterOptin = Some(true),
-    waysToVote = Some(Stub())
+    contact = Some(Contact(
+      post = true,
+      phone = None,
+      email = None)),
+    waysToVote = Some(WaysToVote(WaysToVoteType.InPerson))
   )
 
-  def overseasApplicationWithDateOfBirthAndLastRegistration(dob:DOB, lastRegisteredType: LastRegisteredType) = InprogressOverseas(
-    dob = Some(DateOfBirth(Some(dob), None)),
-    lastRegisteredToVote = Some(LastRegisteredToVote(lastRegisteredType))
+  lazy val emptyOverseasApplication = InprogressOverseas(
+    name = None,
+    previousName = None,
+    previouslyRegistered = None,
+    dateLeftUk = None,
+    nino = None,
+    dob = None,
+    address = None,
+    openRegisterOptin = None,
+    waysToVote = None
   )
 
   class ErrorsOps(errors: Seq[FormError], globalErrors: Seq[FormError]) {
