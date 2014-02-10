@@ -14,8 +14,9 @@ import uk.gov.gds.ier.transaction.overseas.nino.NinoForms
 import uk.gov.gds.ier.transaction.overseas.name.NameForms
 import uk.gov.gds.ier.transaction.overseas.openRegister.OpenRegisterForms
 import uk.gov.gds.ier.transaction.overseas.contact.ContactForms
-import uk.gov.gds.ier.transaction.overseas.postalVote.PostalVoteForms
 import uk.gov.gds.ier.transaction.overseas.address.AddressForms
+import uk.gov.gds.ier.transaction.overseas.waysToVote.WaysToVoteForms
+import uk.gov.gds.ier.transaction.overseas.applicationFormVote.PostalOrProxyVoteForms
 
 trait ConfirmationForms
   extends FormKeys
@@ -30,7 +31,8 @@ trait ConfirmationForms
   with LastUkAddressForms
   with OpenRegisterForms
   with NameForms
-  with PostalVoteForms
+  with WaysToVoteForms
+  with PostalOrProxyVoteForms
   with ContactForms
   with CommonConstraints {
 
@@ -54,8 +56,8 @@ trait ConfirmationForms
       keys.lastUkAddress.key -> stepRequired(partialAddressMapping),
       keys.overseasAddress.key -> stepRequired(addressMapping),
       keys.openRegister.key -> stepRequired(optInMapping),
-      "waysToVote" -> stepRequired(stubMapping),
-      keys.postalVote.key -> stepRequired(postalVoteMapping),
+      "waysToVote" -> stepRequired(waysToVoteMapping),
+      keys.postalOrProxyVote.key -> stepRequired(postalOrProxyVoteMapping),
       keys.contact.key -> stepRequired(contactMapping),
       keys.possibleAddresses.key -> optional(possibleAddressesMapping)
     ) (InprogressOverseas.apply) (InprogressOverseas.unapply)
