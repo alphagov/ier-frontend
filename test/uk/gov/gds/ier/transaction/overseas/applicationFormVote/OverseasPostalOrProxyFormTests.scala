@@ -93,7 +93,7 @@ class OverseasPostalOrProxyFormTests
         hasErrors.errors.size should be(4)
         hasErrors.errorMessages("postalOrProxyVote.optIn") should be(Seq("Please answer this question"))
         hasErrors.errorMessages("postalOrProxyVote.voteType") should be(Seq("error.required"))
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question", "error.required"))
+        hasErrors.globalErrorMessages should be(Seq("error.required", "Please answer this question"))
       },
       success => fail("Should have thrown an error")
     )
