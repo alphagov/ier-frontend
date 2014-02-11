@@ -56,23 +56,6 @@
       $(document).trigger('toggle.closed', { '$toggle' : this.$toggle });
     }
   };
-  ToggleObj.prototype.setup = function () {
-    var contentId = this.$content.attr('id');
-
-    this.$heading = this.$content.find("h1,h2,h3,h4").first();
-    this.$toggle = $('<a href="#" class="toggle toggle-closed"><span class="visuallyhidden">Show</span> ' + this.$heading.text() + ' <span class="visuallyhidden">section</span></a>');
-    if (contentId) { this.$toggle.attr('aria-controls', contentId); }
-    this.$toggle.insertBefore(this.$content);
-    this.setInitialState();
-  };
-  ToggleObj.prototype.bindEvents = function () {
-    var _this = this;
-
-    this.$toggle.on('click', function () {
-      _this.toggle();
-      return false;
-    });
-  };
   ToggleObj.prototype.setInitialState = function () {
     if (this.$content.hasClass(this.toggleClass)) {
       this.$toggle.addClass('toggle-open');
@@ -656,7 +639,7 @@
     this.$targetElement
       .append($results)
       .addClass('contains-addresses');
-    new OptionalInformation(this.$targetElement.find('.optional-section'));
+    new OptionalInformation(this.$targetElement.find('.optional-section'), 'optional-section');
     this.hasAddresses = true;
   };
   PostcodeLookup.prototype.getAddresses = function () {
