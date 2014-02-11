@@ -7,7 +7,7 @@ import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.step.OverseaStep
 import controllers.step.overseas.routes.WaysToVoteController
 import controllers.step.overseas.routes.OpenRegisterController
-import controllers.step.overseas.{ContactController, PostalVoteController}
+import controllers.step.overseas.{ProxyVoteController, ContactController, PostalVoteController}
 import uk.gov.gds.ier.step.Routes
 import scala.Some
 import uk.gov.gds.ier.model.{WaysToVoteType, InprogressOverseas}
@@ -40,9 +40,13 @@ class WaysToVoteStep @Inject ()(
       case Some(waysToVote) if waysToVote.waysToVoteType == WaysToVoteType.InPerson => {
         ContactController.contactStep
       }
-      case _ => {
+      case Some(waysToVote) if waysToVote.waysToVoteType == WaysToVoteType.ByPost => {
         PostalVoteController.postalVoteStep
       }
+      case Some(waysToVote) if waysToVote.waysToVoteType == WaysToVoteType.ByProxy => {
+        ProxyVoteController.proxyVoteStep
+      }
+      case _ => throw new IllegalArgumentException("unknown next step")
     }
   }
 

@@ -90,7 +90,7 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       address = applicant.address,
       openRegisterOptin = applicant.openRegisterOptin,
       waysToVote = applicant.waysToVote,
-      postalVote = applicant.postalVote,
+      postalOrProxyVote = applicant.postalOrProxyVote,
       contact = applicant.contact
     )
 

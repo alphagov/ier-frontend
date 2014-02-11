@@ -1,14 +1,14 @@
 package controllers.step.overseas
 
 import uk.gov.gds.ier.guice.DelegatingController
-import uk.gov.gds.ier.transaction.overseas.applicationFormVote.PostalVoteStep
+import uk.gov.gds.ier.transaction.overseas.applicationFormVote.ProxyVoteStep
 
-object PostalVoteController extends DelegatingController[PostalVoteStep] {
+object ProxyVoteController extends DelegatingController[ProxyVoteStep] {
   
   def get = delegate.get
   def post = delegate.post
   def editGet = delegate.editGet
   def editPost = delegate.editPost
 
-  def postalVoteStep = delegate
+  def proxyVoteStep = delegate
 }

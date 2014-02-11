@@ -9,7 +9,6 @@ import uk.gov.gds.ier.security._
 import uk.gov.gds.ier.session.{SessionKeys, ResultHandling}
 import uk.gov.gds.ier.guice.WithConfig
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.model.LastRegisteredType.LastRegisteredType
 import play.api.data.FormError
 import uk.gov.gds.ier.model.LastRegisteredType
 
@@ -77,11 +76,12 @@ trait TestHelpers {
     address = Some(OverseasAddress(country = Some("United Kingdom"), addressDetails = Some("some address"))),
     lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.UK)),
     openRegisterOptin = Some(true),
+    waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
+    postalOrProxyVote = Some(PostalOrProxyVote("postal",Some(true),Some(PostalVoteDeliveryMethod(Some("post"),None)))),
     contact = Some(Contact(
       post = true,
       phone = None,
-      email = None)),
-    waysToVote = Some(WaysToVote(WaysToVoteType.InPerson))
+      email = None))
   )
 
   lazy val emptyOverseasApplication = InprogressOverseas(

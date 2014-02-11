@@ -54,7 +54,7 @@ class WaysToVoteControllerTests
             "waysToVote.wayType" -> "by-proxy")
       )
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/overseas/postal-vote"))
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/proxy-vote"))
     }
   }
 

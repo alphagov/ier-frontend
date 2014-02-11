@@ -28,6 +28,7 @@ trait StepMustache extends FormKeys {
     )(content)
   }
 
+  case class Text(value:String = "")
   case class FieldSet (classes:String = "")
   case class Field (
       id:String = "",
@@ -37,6 +38,7 @@ trait StepMustache extends FormKeys {
       attributes:String = "",
       optionList:List[SelectOption] = List.empty
   )
+
   case class SelectOption(value:String, text:String, selected:String = "")
   case class Question (
       postUrl:String = "",

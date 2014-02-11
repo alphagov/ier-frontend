@@ -7,6 +7,7 @@
 @main(title = Some("Register to Vote - Tell us how to contact you"), stylesheets = head(), scripts = stepsBodyEnd()) {
   @form(postUrl) {
     @layouts.questionHeader("If we have questions about your application, how should we contact you?", backUrl, 11)
+    @validationMessages(formData)
 
     <fieldset class="validate" data-validation-name="contact" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="post phoneOption emailOption">
       @check(keys.contact.email.contactMe,
@@ -39,7 +40,6 @@
           inputAttributes = Map('class -> "validate", Symbol("data-validation-name") -> "post", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty"))
     </fieldset>
     <p class="footnote">If you give us an email address we can send you a confirmation of your application.</p>
-    @validationMessages(formData)
     <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="contact phoneNumber emailAddress">Continue</button>
   }
 }

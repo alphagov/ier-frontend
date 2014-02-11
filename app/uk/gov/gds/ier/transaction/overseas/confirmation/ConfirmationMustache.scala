@@ -2,7 +2,6 @@ package uk.gov.gds.ier.transaction.overseas.confirmation
 
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.model.{WaysToVoteType, InprogressOverseas}
-import uk.gov.gds.ier.validation.{InProgressForm, Key}
 import controllers.step.overseas._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.validation.Key
@@ -47,6 +46,9 @@ trait ConfirmationMustache {
           confirmation.previousName,
           confirmation.contact,
           confirmation.waysToVote
+          confirmation.waysToVote,
+          confirmation.postalVote,
+          confirmation.contact
         ) ++ confirmation.passport.toList,
         backUrl = backUrl,
         postUrl = postUrl
@@ -213,6 +215,31 @@ trait ConfirmationMustache {
             ).flatten.mkString("<p>", " ", "</p>")
           } else {
             "<p>I have not changed my name in the last 12 months</p>"
+          }
+        }
+      )
+    }
+
+    def postalVote = {
+      ConfirmationQuestion(
+        title = "Application form",
+        editLink = form(keys.postalOrProxyVote.voteType).value match {
+            case Some("postal") =>  PostalVoteController.postalVoteStep.routes.editGet.url
+            case Some("proxy") =>   ProxyVoteController.proxyVoteStep.routes.editGet.url
+            case _ => throw new IllegalArgumentException()
+        },
+        changeName = "application form",
+        content = ifComplete(keys.postalOrProxyVote) {
+          val wayToVote = form(keys.postalOrProxyVote.voteType).value.getOrElse("")
+          if(form(keys.postalOrProxyVote.optIn).value == Some("true")){
+            if(form(keys.postalOrProxyVote.deliveryMethod.methodName).value == Some("email")){
+              "<p>Please email a "+wayToVote+" vote application form to:<br/>"+
+                form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value.getOrElse("")+"</p>"
+            }else{
+              "<p>Please post me a "+wayToVote+" vote application form</p>"
+            }
+          }else{
+            "<p>I do not need a "+wayToVote+" vote application form</p>"
           }
         }
       )

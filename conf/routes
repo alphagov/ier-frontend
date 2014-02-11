@@ -202,6 +202,12 @@ POST        /register-to-vote/overseas/ways-to-vote                      control
 GET         /register-to-vote/overseas/edit/ways-to-vote                 controllers.step.overseas.WaysToVoteController.editGet
 POST        /register-to-vote/overseas/edit/ways-to-vote                 controllers.step.overseas.WaysToVoteController.editPost
 
+#Proxy Vote Step
+GET         /register-to-vote/overseas/proxy-vote                       controllers.step.overseas.ProxyVoteController.get
+POST        /register-to-vote/overseas/proxy-vote                       controllers.step.overseas.ProxyVoteController.post
+GET         /register-to-vote/overseas/edit/proxy-vote                  controllers.step.overseas.ProxyVoteController.editGet
+POST        /register-to-vote/overseas/edit/proxy-vote                  controllers.step.overseas.ProxyVoteController.editPost
+
 #Postal Vote Step
 GET         /register-to-vote/overseas/postal-vote                       controllers.step.overseas.PostalVoteController.get
 POST        /register-to-vote/overseas/postal-vote                       controllers.step.overseas.PostalVoteController.post
