@@ -18,13 +18,14 @@
       monitorRadios;
 
   // Base contructor for content associated with a 'toggle' element that controls its visiblity
-  ToggleObj = function (elm) {
+  ToggleObj = function (elm, toggleClass) {
     if (elm) {
       this.$content = $(elm);
       this.toggleActions = {
         'hidden': 'Expand',
         'visible': 'Hide'
       };
+      this.toggleClass = toggleClass + '-open';
       this.setup();
       this.bindEvents();
     }
@@ -42,13 +43,13 @@
   };
   ToggleObj.prototype.toggle = function () {
     if (this.$content.css("display") === "none") {
-      this.$content.show();
+      this.$content.addClass(this.toggleClass);
       this.setAccessibilityAPI('visible');
       this.$toggle.removeClass("toggle-closed");
       this.$toggle.addClass("toggle-open");
       $(document).trigger('toggle.open', { '$toggle' : this.$toggle });
     } else {
-      this.$content.hide();
+      this.$content.removeClass(this.toggleClass);
       this.setAccessibilityAPI('hidden');
       this.$toggle.removeClass("toggle-open");
       this.$toggle.addClass("toggle-closed");
@@ -59,9 +60,10 @@
     var contentId = this.$content.attr('id');
 
     this.$heading = this.$content.find("h1,h2,h3,h4").first();
-    this.$toggle = $('<a href="#" class="toggle"><span class="visuallyhidden">Show</span> ' + this.$heading.text() + ' <span class="visuallyhidden">section</span></a>');
+    this.$toggle = $('<a href="#" class="toggle toggle-closed"><span class="visuallyhidden">Show</span> ' + this.$heading.text() + ' <span class="visuallyhidden">section</span></a>');
     if (contentId) { this.$toggle.attr('aria-controls', contentId); }
     this.$toggle.insertBefore(this.$content);
+    this.setInitialState();
   };
   ToggleObj.prototype.bindEvents = function () {
     var _this = this;
@@ -70,6 +72,13 @@
       _this.toggle();
       return false;
     });
+  };
+  ToggleObj.prototype.setInitialState = function () {
+    if (this.$content.hasClass(this.toggleClass)) {
+      this.$toggle.addClass('toggle-open');
+      this.$toggle.removeClass('toggle-closed');
+      this.setAccessibilityAPI('visible');
+    }
   };
 
   // Constructor for controlling the display of content that is additional to the main block
@@ -83,10 +92,11 @@
         headingText;
 
     this.$heading = this.$content.find("h1,h2,h3,h4").first();
-    this.$toggle = $('<a href="#" class="toggle"><span class="visuallyhidden">Show</span> ' + this.$heading.text() + ' <span class="visuallyhidden">section</span></a>');
+    this.$toggle = $('<a href="#" class="toggle toggle-closed"><span class="visuallyhidden">Show</span> ' + this.$heading.text() + ' <span class="visuallyhidden">section</span></a>');
     if (contentId) { this.$toggle.attr('aria-controls', contentId); }
     this.$toggle.insertBefore(this.$content);
     this.$heading.addClass("visuallyhidden");
+    this.setInitialState();
   };
   OptionalInformation.prototype.bindEvents = function () {
     var _this = this;
@@ -95,7 +105,6 @@
       _this.toggle();
       return false;
     });
-    this.$toggle.trigger('click');
   };
 
   // Contructor for controlling parts of a form based on the state of one of its elements (ie. radio button)
@@ -106,6 +115,7 @@
   $.extend(ConditionalControl.prototype, new ToggleObj());
   ConditionalControl.prototype.setup = function () {
     var contentId = this.$content.attr('id'),
+        loadedState = 'hidden',
         _this = this,
         _bindControlAndContentMargins;
     
@@ -128,6 +138,10 @@
     this.$toggle = $(document.getElementById(this.$content.data('condition'))); 
     if (contentId) { this.$toggle.attr('aria-controls', contentId); }
     _bindControlAndContentMargins();
+    if (this.$content.hasClass(this.toggleClass)) {
+      loadedState = 'shown';
+    }
+    this.adjustVerticalSpace(loadedState);
   }; 
   ConditionalControl.prototype.bindEvents = function () {
     var _this = this,
@@ -141,11 +155,10 @@
         _this.toggle(data.selectedRadio);
       });
     }
-    this.$toggle.trigger("change");
   };
   ConditionalControl.prototype.clearContent = function (controlId) {
     if (controlId !== this.$toggle.attr('id')) {
-      this.$content.hide();
+      this.$content.removeClass(this.toggleClass);
     }
   };
   ConditionalControl.prototype.adjustVerticalSpace = function (content) {
@@ -168,7 +181,7 @@
         _showContent;
 
     _hideContent = function () {
-      _this.$content.hide();
+      _this.$content.removeClass(_this.toggleClass);
       _this.$content.attr({
         'aria-hidden' : true,
         'aria-expanded' : false
@@ -176,7 +189,7 @@
     };
 
     _showContent = function () {
-      _this.$content.show();
+      _this.$content.addClass(_this.toggleClass);
       _this.$content.attr({
         'aria-hidden' : false,
         'aria-expanded' : true
