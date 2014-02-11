@@ -127,11 +127,15 @@ class PassportFormTests
 
         passport.hasPassport should be(true)
         passport.bornInsideUk should be(Some(true))
-        passport.details.map(_.passportNumber) should be(Some("12345"))
-        passport.details.map(_.authority) should be(Some("London"))
-        passport.details.map(_.issueDate.day) should be(Some(1))
-        passport.details.map(_.issueDate.month) should be(Some(12))
-        passport.details.map(_.issueDate.year) should be(Some(1990))
+
+        passport.details.isDefined should be(true)
+        val Some(details) = passport.details
+
+        details.passportNumber should be("12345")
+        details.authority should be("London")
+        details.issueDate.day should be(1)
+        details.issueDate.month should be(12)
+        details.issueDate.year should be(1990)
       }
     )
   }
@@ -279,10 +283,14 @@ class PassportFormTests
 
         passport.hasPassport should be(true)
         passport.bornInsideUk should be(Some(true))
-        passport.citizen.map(_.howBecameCitizen) should be(Some("Naturalisation"))
-        passport.citizen.map(_.dateBecameCitizen.day) should be(Some(1))
-        passport.citizen.map(_.dateBecameCitizen.month) should be(Some(12))
-        passport.citizen.map(_.dateBecameCitizen.year) should be(Some(1990))
+
+        passport.citizen.isDefined should be(true)
+        val Some(citizen) = passport.citizen
+
+        citizen.howBecameCitizen should be("Naturalisation")
+        citizen.dateBecameCitizen.day should be(1)
+        citizen.dateBecameCitizen.month should be(12)
+        citizen.dateBecameCitizen.year should be(1990)
       }
     )
   }
@@ -361,5 +369,4 @@ class PassportFormTests
       success => fail("Should have errored out")
     )
   }
-
 }
