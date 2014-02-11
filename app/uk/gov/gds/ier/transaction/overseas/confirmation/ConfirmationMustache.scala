@@ -45,7 +45,6 @@ trait ConfirmationMustache {
           confirmation.name,
           confirmation.previousName,
           confirmation.contact,
-          confirmation.waysToVote
           confirmation.waysToVote,
           confirmation.postalVote,
           confirmation.contact
@@ -269,11 +268,18 @@ trait ConfirmationMustache {
     }
 
     def passport:Option[ConfirmationQuestion] = {
+      val isRenewer = Some("true")
+      val notRenewer = Some("false")
+      val hasPassport = Some("true")
+      val noPassport = Some("false")
+      val bornInUk = Some("true")
+      val notBornInUk = Some("false")
+      val notBornBefore1983 = Some(false)
 
       val jan1st1983 = new LocalDate()
-      .withYear(1983)
-      .withMonthOfYear(1)
-      .withDayOfMonth(1)
+        .withYear(1983)
+        .withMonthOfYear(1)
+        .withDayOfMonth(1)
 
       val dob = for(
         day <- form(keys.dob.day).value;
@@ -286,32 +292,27 @@ trait ConfirmationMustache {
           .withDayOfMonth(day.toInt)
       }
 
-      val isBefore1983 = dob map { dateOfBirth =>
+      val before1983 = dob map { dateOfBirth =>
         dateOfBirth.isBefore(jan1st1983)
       }
 
-      val isRenewer = form(keys.previouslyRegistered.hasPreviouslyRegistered).value
-      val hasPassport = form(keys.passport.hasPassport).value
-      val bornInUk = form(keys.passport.bornInsideUk).value
+      val renewer = form(keys.previouslyRegistered.hasPreviouslyRegistered).value
+      val passport = form(keys.passport.hasPassport).value
+      val birth = form(keys.passport.bornInsideUk).value
 
-      isRenewer match {
-        case Some("true") => None
-        case Some("false") => {
-          (hasPassport, bornInUk, isBefore1983) match {
-            case (Some("true"), _, _) => Some(passportDetails)
-            case (Some("false"), Some("false"), _) => Some(citizenDetails)
-            case (Some("false"), Some("true"), Some(false)) => Some(citizenDetails)
-            case _ => Some(
-              ConfirmationQuestion(
-                title = "British Passport Details",
-                editLink = routes.PassportCheckController.editGet.url,
-                changeName = "your passport details",
-                content = completeThisStepMessage
-              )
-            )
-          }
-        }
-        case _ => None
+      (renewer, passport, birth, before1983) match {
+        case (`isRenewer`, _, _, _) => None
+        case (`notRenewer`, `hasPassport`, _, _) => Some(passportDetails)
+        case (`notRenewer`, `noPassport`, `notBornInUk`, _) => Some(citizenDetails)
+        case (`notRenewer`, `noPassport`, `bornInUk`, `notBornBefore1983`) => Some(citizenDetails)
+        case _ => Some(
+          ConfirmationQuestion(
+            title = "British Passport Details",
+            editLink = routes.PassportCheckController.editGet.url,
+            changeName = "your passport details",
+            content = completeThisStepMessage
+          )
+        )
       }
     }
 
