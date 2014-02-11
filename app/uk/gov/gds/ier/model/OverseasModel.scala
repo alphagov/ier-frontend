@@ -17,7 +17,7 @@ case class InprogressOverseas(
     address: Option[OverseasAddress] = None,
     openRegisterOptin: Option[Boolean] = None,
     waysToVote: Option[WaysToVote] = None,
-    postalVote: Option[Stub] = None,
+    postalOrProxyVote: Option[PostalOrProxyVote] = None,
     contact: Option[Contact] = None,
     possibleAddresses: Option[PossibleAddress] = None)
   extends InprogressApplication[InprogressOverseas] {
@@ -35,6 +35,7 @@ case class InprogressOverseas(
       address = this.address.orElse(other.address),
       openRegisterOptin = this.openRegisterOptin.orElse(other.openRegisterOptin),
       waysToVote = this.waysToVote.orElse(other.waysToVote),
+      postalOrProxyVote = this.postalOrProxyVote.orElse(other.postalOrProxyVote),
       contact = this.contact.orElse(other.contact),
       possibleAddresses = None
     )
@@ -53,7 +54,7 @@ case class OverseasApplication(
     lastUkAddress: Option[PartialAddress] = None,
     openRegisterOptin: Option[Boolean],
     waysToVote: Option[WaysToVote],
-    postalVote: Option[Stub],
+    postalOrProxyVote: Option[PostalOrProxyVote],
     contact: Option[Contact])
   extends CompleteApplication {
 
@@ -69,6 +70,13 @@ case class OverseasApplication(
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
       address.map(_.toApiMap).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
+      postalOrProxyVote.map(postalOrProxyVote => postalOrProxyVote.postalVoteOption.map(
+        postalVoteOption => Map(postalOrProxyVote.apiVoteKey -> postalVoteOption.toString))
+          .getOrElse(Map.empty)).getOrElse(Map.empty) ++
+      postalOrProxyVote.map(postalOrProxyVote => postalOrProxyVote.deliveryMethod.map(
+        deliveryMethod => deliveryMethod.emailAddress.map(
+          emailAddress => Map(postalOrProxyVote.apiEmailKey -> emailAddress)).getOrElse(Map.empty))
+            .getOrElse(Map.empty)).getOrElse(Map.empty) ++
       contact.map(_.toApiMap).getOrElse(Map.empty)
   }
 }
@@ -83,6 +91,7 @@ case class PreviouslyRegistered(hasPreviouslyRegistered: Boolean) {
     else Map("povseas" -> "false")
   }
 }
+
 
 case class DateLeftUk (year:Int, month:Int) {
   def toApiMap = {
@@ -115,8 +124,30 @@ object WaysToVoteType extends Enumeration {
   val ByPost = Value("by-post")
   val ByProxy = Value("by-proxy")
 }
-
 case class OverseasAddress(country: Option[String], addressDetails: Option[String]) {
     def toApiMap = Map("corrcountry" -> country.getOrElse(""), "corraddress" -> addressDetails.getOrElse(""))
 }
 case class CountryWithCode(country: String, code: String)
+
+case class PostalOrProxyVote (
+    typeVote: String,
+    postalVoteOption: Option[Boolean],
+    deliveryMethod: Option[PostalVoteDeliveryMethod]) {
+
+  def apiVoteKey = {
+    typeVote match {
+      case "postal" => "pvote"
+      case "proxy" => "proxyvote"
+      case _ => throw new IllegalArgumentException()
+    }
+  }
+
+  def apiEmailKey = {
+    typeVote match {
+      case "postal" => "pvoteemail"
+      case "proxy" => "proxyvoteemail"
+      case _ => throw new IllegalArgumentException()
+    }
+  }
+}
+

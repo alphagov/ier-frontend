@@ -736,6 +736,9 @@
       'postalVote' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
+      'waysToVote' : {
+        'atLeastOneNonEmpty' : 'Please answer this question'
+      },
       'deliveryMethod' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
