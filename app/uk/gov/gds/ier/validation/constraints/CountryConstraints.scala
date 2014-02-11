@@ -6,10 +6,17 @@ import uk.gov.gds.ier.validation.FormKeys
 
 trait CountryConstraints {
   self: FormKeys =>
-  
+  lazy val validCountries = List(
+    "England",
+    "Scotland",
+    "Wales",
+    "Northern Ireland",
+    "British Islands",
+    "Abroad")
+
   lazy val isValidCountryConstraint = Constraint[Country](keys.country.residence.key) { 
     country =>
-      if (List("England", "Scotland", "Wales", "Northern Ireland", "British Islands", "Abroad") contains country.country) Valid
+      if (validCountries contains country.country) Valid
       else Invalid("This is not a valid country", keys.country.residence)
   }
   lazy val countryIsFilledConstraint = Constraint[InprogressOrdinary](keys.country.residence.key) {

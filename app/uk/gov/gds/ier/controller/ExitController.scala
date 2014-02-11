@@ -31,6 +31,11 @@ class ExitController @Inject() (val serialiser: JsonSerialiser,
       Ok(views.html.exit.northernIreland())
   }
 
+  def britishIslands = ClearSession requiredFor {
+    request =>
+      Ok(views.html.exit.britishIslands())
+  }
+
   def under18 = ClearSession requiredFor {
     request =>
       Ok(views.html.exit.under18())
