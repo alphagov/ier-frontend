@@ -19,6 +19,7 @@ case class InprogressOverseas(
     waysToVote: Option[WaysToVote] = None,
     postalOrProxyVote: Option[PostalOrProxyVote] = None,
     contact: Option[Contact] = None,
+    passport: Option[Passport] = None,
     possibleAddresses: Option[PossibleAddress] = None)
   extends InprogressApplication[InprogressOverseas] {
 
@@ -37,6 +38,7 @@ case class InprogressOverseas(
       waysToVote = this.waysToVote.orElse(other.waysToVote),
       postalOrProxyVote = this.postalOrProxyVote.orElse(other.postalOrProxyVote),
       contact = this.contact.orElse(other.contact),
+      passport = this.passport.orElse(other.passport),
       possibleAddresses = None
     )
   }
@@ -112,6 +114,32 @@ object LastRegisteredType extends Enumeration {
   val NotRegistered = Value("not-registered")
 }
 
+case class CitizenDetails(
+    dateBecameCitizen: DOB,
+    howBecameCitizen: String
+)
+case class PassportDetails(
+    passportNumber: String,
+    authority: String,
+    issueDate: DOB
+)
+
+case class Passport(
+    hasPassport: Boolean,
+    bornInsideUk: Option[Boolean],
+    details: Option[PassportDetails],
+    citizen: Option[CitizenDetails]
+)
+
+case class OverseasAddress(
+    country: Option[String],
+    addressDetails: Option[String]) {
+  def toApiMap = Map(
+    "corrcountry" -> country.getOrElse(""),
+    "corraddress" -> addressDetails.getOrElse("")
+  )
+}
+
 // TODO: review using of Json specific stuff here, look for alternatives
 case class WaysToVote (
   @JsonScalaEnumeration(classOf[WaysToVoteTypeRef]) waysToVoteType: WaysToVoteType) {
@@ -124,10 +152,11 @@ object WaysToVoteType extends Enumeration {
   val ByPost = Value("by-post")
   val ByProxy = Value("by-proxy")
 }
-case class OverseasAddress(country: Option[String], addressDetails: Option[String]) {
-    def toApiMap = Map("corrcountry" -> country.getOrElse(""), "corraddress" -> addressDetails.getOrElse(""))
-}
-case class CountryWithCode(country: String, code: String)
+
+case class CountryWithCode(
+    country: String,
+    code: String
+)
 
 case class PostalOrProxyVote (
     typeVote: String,
@@ -150,4 +179,3 @@ case class PostalOrProxyVote (
     }
   }
 }
-

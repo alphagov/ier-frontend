@@ -6,8 +6,7 @@ import controllers.step.overseas._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.validation.Key
 import uk.gov.gds.ier.validation.InProgressForm
-import scala.Some
-import org.joda.time.YearMonth
+import org.joda.time.{YearMonth, Months, LocalDate}
 import scala.util.Try
 import uk.gov.gds.ier.logging.Logging
 
@@ -45,10 +44,11 @@ trait ConfirmationMustache {
           confirmation.openRegister,
           confirmation.name,
           confirmation.previousName,
+          confirmation.contact,
           confirmation.waysToVote,
           confirmation.postalVote,
           confirmation.contact
-        ),
+        ) ++ confirmation.passport.toList,
         backUrl = backUrl,
         postUrl = postUrl
       )
@@ -65,11 +65,13 @@ trait ConfirmationMustache {
   class ConfirmationBlocks(form:InProgressForm[InprogressOverseas])
     extends StepMustache with Logging {
 
+    val completeThisStepMessage = "<div class=\"validation-message visible\">" +
+      "Please complete this step" +
+      "</div>"
+
     def ifComplete(key:Key)(confirmationHtml: => String) = {
       if (form(key).hasErrors) {
-        "<div class=\"validation-message visible\">" +
-          "Please complete this step" +
-          "</div>"
+        completeThisStepMessage
       } else {
         confirmationHtml
       }
@@ -262,6 +264,118 @@ trait ConfirmationMustache {
 
           s"$post $phone $email"
         }
+      )
+    }
+
+    def passport:Option[ConfirmationQuestion] = {
+      val isRenewer = Some("true")
+      val notRenewer = Some("false")
+      val hasPassport = Some("true")
+      val noPassport = Some("false")
+      val bornInUk = Some("true")
+      val notBornInUk = Some("false")
+      val notBornBefore1983 = Some(false)
+
+      val jan1st1983 = new LocalDate()
+        .withYear(1983)
+        .withMonthOfYear(1)
+        .withDayOfMonth(1)
+
+      val dob = for(
+        day <- form(keys.dob.day).value;
+        month <- form(keys.dob.month).value;
+        year <- form(keys.dob.year).value
+      ) yield {
+        new LocalDate()
+          .withYear(year.toInt)
+          .withMonthOfYear(month.toInt)
+          .withDayOfMonth(day.toInt)
+      }
+
+      val before1983 = dob map { dateOfBirth =>
+        dateOfBirth.isBefore(jan1st1983)
+      }
+
+      val renewer = form(keys.previouslyRegistered.hasPreviouslyRegistered).value
+      val passport = form(keys.passport.hasPassport).value
+      val birth = form(keys.passport.bornInsideUk).value
+
+      (renewer, passport, birth, before1983) match {
+        case (`isRenewer`, _, _, _) => None
+        case (`notRenewer`, `hasPassport`, _, _) => Some(passportDetails)
+        case (`notRenewer`, `noPassport`, `notBornInUk`, _) => Some(citizenDetails)
+        case (`notRenewer`, `noPassport`, `bornInUk`, `notBornBefore1983`) => Some(citizenDetails)
+        case _ => Some(
+          ConfirmationQuestion(
+            title = "British Passport Details",
+            editLink = routes.PassportCheckController.editGet.url,
+            changeName = "your passport details",
+            content = completeThisStepMessage
+          )
+        )
+      }
+    }
+
+    def citizenDetails = {
+      val howBecameCitizen = form(keys.passport.citizenDetails.howBecameCitizen).value
+      val dateBecameCitizen = for (
+        day <- form(keys.passport.citizenDetails.dateBecameCitizen.day).value;
+        month <- form(keys.passport.citizenDetails.dateBecameCitizen.month).value;
+        year <- form(keys.passport.citizenDetails.dateBecameCitizen.year).value
+      ) yield s"$day $month $year"
+
+      val citizenContent = for (
+        how <- howBecameCitizen;
+        date <- dateBecameCitizen
+      ) yield {
+        s"<p>How you became a citizen: $how</p>"+
+          s"<p>Date you became a citizen: $date</p>"
+      }
+
+      val route = if(form(keys.passport).hasErrors) {
+        routes.PassportCheckController.editGet
+      } else {
+        routes.CitizenDetailsController.editGet
+      }
+
+      ConfirmationQuestion(
+        title = "British Citizenship Details",
+        editLink = route.url,
+        changeName = "your citizenship details",
+        content = ifComplete(keys.passport) { citizenContent.getOrElse(completeThisStepMessage) }
+      )
+    }
+
+    def passportDetails = {
+      val passportNumber = form(keys.passport.passportDetails.passportNumber).value
+      val authority = form(keys.passport.passportDetails.authority).value
+      val issueDate = for(
+        day <- form(keys.passport.passportDetails.issueDate.day).value;
+        month <- form(keys.passport.passportDetails.issueDate.month).value;
+        year <- form(keys.passport.passportDetails.issueDate.year).value
+      ) yield s"$day $month $year"
+
+      val passportContent = for(
+        num <- passportNumber;
+        auth <- authority;
+        date <- issueDate
+      ) yield {
+        s"<p>Passport Number: $num</p>" +
+          s"<p>Authority: $auth</p>" +
+          s"<p>Issue Date: $date</p>"
+      }
+
+      val route = if(form(keys.passport).hasErrors) {
+        routes.PassportCheckController.editGet
+      } else {
+        routes.PassportDetailsController.editGet
+      }
+
+      ConfirmationQuestion(
+        title = "British Passport Details",
+        editLink = route.url,
+        changeName = "your passport details",
+        content = ifComplete(keys.passport) { passportContent.getOrElse(completeThisStepMessage) }
       )
     }
 

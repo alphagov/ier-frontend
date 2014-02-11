@@ -1,7 +1,9 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation
 
 import play.api.data.Forms._
-import uk.gov.gds.ier.model.{InprogressOverseas, Stub}
+import uk.gov.gds.ier.validation._
+import play.api.data.validation.{Invalid, Valid, Constraint}
+import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, ErrorMessages}
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
@@ -14,6 +16,8 @@ import uk.gov.gds.ier.transaction.overseas.nino.NinoForms
 import uk.gov.gds.ier.transaction.overseas.name.NameForms
 import uk.gov.gds.ier.transaction.overseas.openRegister.OpenRegisterForms
 import uk.gov.gds.ier.transaction.overseas.contact.ContactForms
+import uk.gov.gds.ier.transaction.overseas.passport.PassportForms
+import uk.gov.gds.ier.transaction.overseas.waysToVote.WaysToVoteForms
 import uk.gov.gds.ier.transaction.overseas.address.AddressForms
 import uk.gov.gds.ier.transaction.overseas.waysToVote.WaysToVoteForms
 import uk.gov.gds.ier.transaction.overseas.applicationFormVote.PostalOrProxyVoteForms
@@ -31,6 +35,7 @@ trait ConfirmationForms
   with LastUkAddressForms
   with OpenRegisterForms
   with NameForms
+  with PassportForms
   with WaysToVoteForms
   with PostalOrProxyVoteForms
   with ContactForms
@@ -59,6 +64,7 @@ trait ConfirmationForms
       keys.waysToVote.key -> stepRequired(waysToVoteMapping),
       keys.postalOrProxyVote.key -> stepRequired(postalOrProxyVoteMapping),
       keys.contact.key -> stepRequired(contactMapping),
+      keys.passport.key -> stepRequired(passportMapping),
       keys.possibleAddresses.key -> optional(possibleAddressesMapping)
     ) (InprogressOverseas.apply) (InprogressOverseas.unapply)
   )
