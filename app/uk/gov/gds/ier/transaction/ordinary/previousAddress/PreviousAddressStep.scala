@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
-import controllers.step.ordinary.OtherAddressController
-import controllers.step.ordinary.routes.{PreviousAddressController, AddressController}
+import controllers.step.ordinary.OpenRegisterController
+import controllers.step.ordinary.routes.{PreviousAddressController, OtherAddressController}
 import com.google.inject.Inject
 import uk.gov.gds.ier.model.{InprogressOrdinary, Addresses, PossibleAddress}
 import uk.gov.gds.ier.transaction.ordinary.address.AddressForms
@@ -26,7 +26,7 @@ class PreviousAddressStep @Inject ()(val serialiser: JsonSerialiser,
   with PreviousAddressForms {
 
   val validation = previousAddressForm
-  val previousRoute = Some(AddressController.get)
+  val previousRoute = Some(OtherAddressController.get)
 
   val routes = Routes(
     get = PreviousAddressController.get,
@@ -69,7 +69,7 @@ class PreviousAddressStep @Inject ()(val serialiser: JsonSerialiser,
     views.html.steps.previousAddress(form, call, possible, backUrl.map(_.url))
   }
   def nextStep(currentState: InprogressOrdinary) = {
-    OtherAddressController.otherAddressStep
+    OpenRegisterController.openRegisterStep
   }
 
   def lookupAddress(success: InprogressOrdinary): InProgressForm[InprogressOrdinary] = {

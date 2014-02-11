@@ -25,7 +25,7 @@ trait OtherAddressMustache extends StepMustache {
       question = Question(
         postUrl = postUrl,
         backUrl = backUrl.getOrElse(""),
-        number = "8 of 11",
+        number = "7 of 11",
         title = "Do you also live at a second address?",
         errorMessages = form.globalErrors.map(_.message)
       ),

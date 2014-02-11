@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.address
 
 import controllers.step.ordinary.routes.{AddressController, NinoController}
-import controllers.step.ordinary.PreviousAddressController
+import controllers.step.ordinary.{OtherAddressController, PreviousAddressController}
 import com.google.inject.Inject
 import uk.gov.gds.ier.model.{InprogressOrdinary, PossibleAddress, Addresses, InprogressApplication}
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
@@ -23,8 +23,8 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
                              val encryptionKeys : EncryptionKeys,
                              val addressService: AddressService)
   extends OrdinaryStep
-  with AddressForms 
-  with AddressMustache 
+  with AddressForms
+  with AddressMustache
   with Logging {
 
   val validation = addressForm
@@ -38,7 +38,7 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
-    PreviousAddressController.previousAddressStep
+    OtherAddressController.otherAddressStep
   }
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
@@ -53,7 +53,7 @@ class AddressStep @Inject ()(val serialiser: JsonSerialiser,
     val possible = possiblePostcode.map(PossibleAddress(possibleAddresses, _))
     addressMustache(form.form, call, backUrl)
   }
-  
+
   def lookup = ValidSession requiredFor {
     implicit request => application =>
       addressLookupForm.bindFromRequest().fold(

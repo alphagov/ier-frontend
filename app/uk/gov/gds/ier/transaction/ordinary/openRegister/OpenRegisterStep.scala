@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.openRegister
 
 import controllers.step.ordinary.PostalVoteController
-import controllers.step.ordinary.routes.{OpenRegisterController, OtherAddressController}
+import controllers.step.ordinary.routes.{OpenRegisterController, PreviousAddressController}
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
@@ -20,7 +20,7 @@ class OpenRegisterStep @Inject ()(val serialiser: JsonSerialiser,
   with OpenRegisterForms {
 
   val validation = openRegisterForm
-  val previousRoute = Some(OtherAddressController.get)
+  val previousRoute = Some(PreviousAddressController.get)
 
   val routes = Routes(
     get = OpenRegisterController.get,

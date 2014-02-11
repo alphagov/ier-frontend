@@ -5,22 +5,22 @@
 @import uk.gov.gds.ier.form.FormHelpers._
 @import uk.gov.gds.ier.form.FieldHelpers._
 
-@main(title = Some("Register to Vote - Have you moved within the last 12 months?"), stylesheets = head(), scripts = stepsBodyEnd()) {
+@main(title = Some("Register to Vote - Have you moved out within the last 12 months?"), stylesheets = head(), scripts = stepsBodyEnd()) {
   @form(postUrl) {
-    
-    @layouts.questionHeader("Have you moved from another UK address in the last 12 months?", backUrl, 7)
+
+    @layouts.questionHeader("Have you moved out from another UK address in the last 12 months?", backUrl, 8)
     @validationMessages(formData)
-	
+
     <fieldset class="validate" data-validation-name="previousAddressQuestion" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="previousAddressYes previousAddressNo">
-      @wrapLabel(keys.previousAddress.movedRecently, 'value -> "true", 'class -> "binary selectable") { 
-        @radio(keys.previousAddress.movedRecently, "true", 
+      @wrapLabel(keys.previousAddress.movedRecently, 'value -> "true", 'class -> "binary selectable") {
+        @radio(keys.previousAddress.movedRecently, "true",
           'class -> "binary validate", Symbol("data-validation-name") -> "previousAddressYes", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
-        Yes<span class="visuallyhidden"> I moved from another Uk address in the last 12 months</span>
+        Yes<span class="visuallyhidden"> I moved out from another Uk address in the last 12 months</span>
       }
-      @wrapLabel(keys.previousAddress.movedRecently, 'value -> "false", 'class -> "binary selectable") { 
-        @radio(keys.previousAddress.movedRecently, "false", 
+      @wrapLabel(keys.previousAddress.movedRecently, 'value -> "false", 'class -> "binary selectable") {
+        @radio(keys.previousAddress.movedRecently, "false",
           'class -> "binary validate", Symbol("data-validation-name") -> "previousAddressNo", Symbol("data-validation-type") -> "field", Symbol("data-validation-rules") -> "nonEmpty")
-        No<span class="visuallyhidden"> I haven't moved from another Uk address in the last 12 months</span>
+        No<span class="visuallyhidden"> I haven't moved out from another Uk address in the last 12 months</span>
       }
     </fieldset>
     <div class="optional-section optional-section-core-content @classIf(formData(keys.previousAddress.movedRecently).value == Some("true"), "visible")" data-condition="@keys.previousAddress.movedRecently.asId("true")" id="previous-address">
@@ -29,25 +29,25 @@
         <div class="validation-wrapper">
           @text(keys.previousAddress.previousAddress.postcode,
             'class -> "postcode medium validate",
-            Symbol("data-validation-name") -> "postcode", 
-            Symbol("data-validation-type") -> "field", 
+            Symbol("data-validation-name") -> "postcode",
+            Symbol("data-validation-type") -> "field",
             Symbol("data-validation-rules") -> "nonEmpty")
         </div>
         <button id="find-previous-address" class="button search validation-submit" data-validation-sources="postcode" name="previousAddress.findAddress" value="true">Find address</button>
       </fieldset>
       <div id="found-addresses" role="region" aria-live="polite" aria-label="Previous address">
       @if(possibleAddress.isDefined && formData(keys.previousAddress.movedRecently).value == Some("true")) {
-        @defining(possibleAddress.get) { possible => 
+        @defining(possibleAddress.get) { possible =>
           @label(keys.previousAddress.previousAddress.postcode, "Postcode", 'class -> "hidden")
           @text(keys.previousAddress.previousAddress.postcode,
             'class -> "hidden", 'type -> "hidden", 'value -> possible.postcode)
           @select(keys.previousAddress.previousAddress.uprn, "Select your address",
-            "" -> { if(possible.jsonList.addresses.length == 1) "1 address found" else s"${possible.jsonList.addresses.length} addresses found" } :: 
+            "" -> { if(possible.jsonList.addresses.length == 1) "1 address found" else s"${possible.jsonList.addresses.length} addresses found" } ::
               possible.jsonList.addresses.map(s=> s.uprn.getOrElse("") -> s.addressLine.getOrElse("")),
             inputAttributes = Map(
-              'class -> "lonely validate", 
-              Symbol("data-validation-name") -> "addressSelect", 
-              Symbol("data-validation-type") -> "field", 
+              'class -> "lonely validate",
+              Symbol("data-validation-name") -> "addressSelect",
+              Symbol("data-validation-type") -> "field",
               Symbol("data-validation-rules") -> "nonEmpty"))
 
         <div class="optional-section" id="cant-find-address">
@@ -59,7 +59,7 @@
       } else {
         <div class="help-content page-help-content" id="dont-know-postcode">
           <h3>I don't know the postcode for my previous address</h3>
-          <p>We need your previous address and postcode so we can let the right Electoral Registration Office know you've moved.</p>
+          <p>We need your previous address and postcode so we can let the right Electoral Registration Office know you've moved out.</p>
           <p class="postcode-finder">Look up the postcode using the <a href="http://www.postoffice.co.uk/postcode-finder" rel="external" target="_blank" class="lightbox-link" data-target="address-lightbox">Post Office's postcode finder</a>.</p>
         </div>
       }
