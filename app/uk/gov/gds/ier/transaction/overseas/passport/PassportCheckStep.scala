@@ -24,6 +24,7 @@ class PassportCheckStep @Inject ()(
     val encryptionService : EncryptionService,
     val encryptionKeys : EncryptionKeys)
   extends OverseaStep
+  with PassportHelperConstants
   with PassportForms
   with PassportMustache {
 
@@ -43,7 +44,7 @@ class PassportCheckStep @Inject ()(
       .withMonthOfYear(1)
       .withDayOfMonth(1)
 
-    val isBefore1983 = currentState.dob map { case DOB(year, month, day) =>
+    val before1983 = currentState.dob map { case DOB(year, month, day) =>
       val dateOfBirth = new LocalDate()
         .withYear(year)
         .withMonthOfYear(month)
@@ -51,15 +52,16 @@ class PassportCheckStep @Inject ()(
       dateOfBirth.isBefore(jan1st1983)
     }
 
-    val hasPassport = currentState.passport map { passport => passport.hasPassport }
+    val passport = currentState.passport map { passport => passport.hasPassport }
 
     val bornInUk = currentState.passport flatMap { passport => passport.bornInsideUk }
 
-    (hasPassport, bornInUk, isBefore1983) match {
-      case (Some(true), _, _) => PassportDetailsController.passportDetailsStep
-      case (Some(false), Some(false), _) => CitizenDetailsController.citizenDetailsStep
-      case (Some(false), Some(true), Some(false)) => CitizenDetailsController.citizenDetailsStep
-      case (Some(false), Some(true), Some(true)) => NameController.nameStep
+    (passport, bornInUk, before1983) match {
+      case (`hasPassport`, _, _) => passportDetailsStep
+      case (`noPassport`, `notBornInUk`, _) => citizenDetailsStep
+      case (`noPassport`, `wasBornInUk`, `notBornBefore1983`) => citizenDetailsStep
+      case (`noPassport`, `wasBornInUk`, `wasBornBefore1983`) => nameStep
+      case _ => this
     }
   }
 
@@ -75,3 +77,16 @@ class PassportCheckStep @Inject ()(
   }
 }
 
+private[passport] trait PassportHelperConstants {
+  
+  //Constants needed for the nextStep method
+  private[passport] val hasPassport = Some(true)
+  private[passport] val noPassport = Some(false)
+  private[passport] val wasBornInUk = Some(true)
+  private[passport] val notBornInUk = Some(false)
+  private[passport] val wasBornBefore1983 = Some(true)
+  private[passport] val notBornBefore1983 = Some(false)
+  private[passport] lazy val passportDetailsStep = PassportDetailsController.passportDetailsStep
+  private[passport] lazy val citizenDetailsStep = CitizenDetailsController.citizenDetailsStep
+  private[passport] lazy val nameStep = NameController.nameStep
+}
