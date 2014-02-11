@@ -73,10 +73,12 @@ trait FormKeys {
     lazy val hasOtherAddress = prependNamespace(Key("hasOtherAddress"))
     lazy val openRegister = prependNamespace(Key("openRegister"))
     lazy val postalVote = prependNamespace(Key("postalVote"))
+    lazy val postalOrProxyVote = prependNamespace(Key("postalOrProxyVote"))
     lazy val optIn = prependNamespace(Key("optIn"))
     lazy val deliveryMethod = prependNamespace(Key("deliveryMethod"))
     lazy val methodName = prependNamespace(Key("methodName"))
     lazy val emailAddress = prependNamespace(Key("emailAddress"))
+    lazy val voteType = prependNamespace(Key("voteType"))
 
     lazy val contact = prependNamespace(Key("contact"))
     lazy val contactType = prependNamespace(Key("contactType"))
@@ -100,6 +102,20 @@ trait FormKeys {
     lazy val dateLeftUk = prependNamespace(Key("dateLeftUk"))
     lazy val lastRegisteredToVote = prependNamespace(Key("lastRegisteredToVote"))
     lazy val registeredType = prependNamespace(Key("registeredType"))
+
+    lazy val passportNumber = prependNamespace(Key("passportNumber"))
+    lazy val authority = prependNamespace(Key("authority"))
+    lazy val issueDate = prependNamespace(Key("issueDate"))
+
+    lazy val dateBecameCitizen = prependNamespace(Key("dateBecameCitizen"))
+    lazy val howBecameCitizen = prependNamespace(Key("howBecameCitizen"))
+
+    lazy val hasPassport = prependNamespace(Key("hasPassport"))
+    lazy val bornInsideUk = prependNamespace(Key("bornInsideUk"))
+
+    lazy val passportDetails = prependNamespace(Key("passportDetails"))
+    lazy val citizenDetails = prependNamespace(Key("citizenDetails"))
+    lazy val passport = prependNamespace(Key("passport"))
 
     lazy val waysToVote = prependNamespace(Key("waysToVote"))
     lazy val wayType = prependNamespace(Key("wayType"))

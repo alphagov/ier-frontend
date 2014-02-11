@@ -12,7 +12,7 @@ import uk.gov.gds.ier.model.OtherAddress._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 
-class OtherAddressMustacheTests 
+class OtherAddressMustacheTests
   extends FlatSpec
   with Matchers
   with MockitoSugar
@@ -36,7 +36,7 @@ class OtherAddressMustacheTests
     )
     result.question.postUrl should be("/some-post-url")
     result.question.backUrl should be("/some-back-url")
-    result.question.number should be("8 of 11")
+    result.question.number should be("7 of 11")
     result.question.title should be("Do you also live at a second address?")
     result.question.errorMessages should be(Seq.empty)
 

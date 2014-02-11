@@ -43,7 +43,7 @@ class AddressControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/previous-address"))
+      redirectLocation(result) should be(Some("/register-to-vote/other-address"))
     }
   }
 
@@ -59,7 +59,7 @@ class AddressControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/previous-address"))
+      redirectLocation(result) should be(Some("/register-to-vote/other-address"))
     }
   }
 
@@ -122,7 +122,7 @@ behavior of "AddressController.editGet"
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/previous-address"))
+      redirectLocation(result) should be(Some("/register-to-vote/other-address"))
     }
   }
 
@@ -138,7 +138,7 @@ behavior of "AddressController.editGet"
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/previous-address"))
+      redirectLocation(result) should be(Some("/register-to-vote/other-address"))
     }
   }
 

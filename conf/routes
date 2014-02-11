@@ -203,6 +203,12 @@ POST        /register-to-vote/overseas/ways-to-vote                      control
 GET         /register-to-vote/overseas/edit/ways-to-vote                 controllers.step.overseas.WaysToVoteController.editGet
 POST        /register-to-vote/overseas/edit/ways-to-vote                 controllers.step.overseas.WaysToVoteController.editPost
 
+#Proxy Vote Step
+GET         /register-to-vote/overseas/proxy-vote                       controllers.step.overseas.ProxyVoteController.get
+POST        /register-to-vote/overseas/proxy-vote                       controllers.step.overseas.ProxyVoteController.post
+GET         /register-to-vote/overseas/edit/proxy-vote                  controllers.step.overseas.ProxyVoteController.editGet
+POST        /register-to-vote/overseas/edit/proxy-vote                  controllers.step.overseas.ProxyVoteController.editPost
+
 #Postal Vote Step
 GET         /register-to-vote/overseas/postal-vote                       controllers.step.overseas.PostalVoteController.get
 POST        /register-to-vote/overseas/postal-vote                       controllers.step.overseas.PostalVoteController.post
@@ -214,6 +220,24 @@ GET         /register-to-vote/overseas/contact                           control
 POST        /register-to-vote/overseas/contact                           controllers.step.overseas.ContactController.post
 GET         /register-to-vote/overseas/edit/contact                      controllers.step.overseas.ContactController.editGet
 POST        /register-to-vote/overseas/edit/contact                      controllers.step.overseas.ContactController.editPost
+
+#Passport check Step
+GET         /register-to-vote/overseas/passport                          controllers.step.overseas.PassportCheckController.get
+POST        /register-to-vote/overseas/passport                          controllers.step.overseas.PassportCheckController.post
+GET         /register-to-vote/overseas/edit/passport                     controllers.step.overseas.PassportCheckController.editGet
+POST        /register-to-vote/overseas/edit/passport                     controllers.step.overseas.PassportCheckController.editPost
+
+#Passport details Step
+GET         /register-to-vote/overseas/passport-details                  controllers.step.overseas.PassportDetailsController.get
+POST        /register-to-vote/overseas/passport-details                  controllers.step.overseas.PassportDetailsController.post
+GET         /register-to-vote/overseas/edit/passport-details             controllers.step.overseas.PassportDetailsController.editGet
+POST        /register-to-vote/overseas/edit/passport-details             controllers.step.overseas.PassportDetailsController.editPost
+
+#Citizen details Step
+GET         /register-to-vote/overseas/citizen-details                   controllers.step.overseas.CitizenDetailsController.get
+POST        /register-to-vote/overseas/citizen-details                   controllers.step.overseas.CitizenDetailsController.post
+GET         /register-to-vote/overseas/edit/citizen-details              controllers.step.overseas.CitizenDetailsController.editGet
+POST        /register-to-vote/overseas/edit/citizen-details              controllers.step.overseas.CitizenDetailsController.editPost
 
 #Last Registered to vote type Step
 GET         /register-to-vote/overseas/last-registered-to-vote                           controllers.step.overseas.LastRegisteredToVoteController.get
