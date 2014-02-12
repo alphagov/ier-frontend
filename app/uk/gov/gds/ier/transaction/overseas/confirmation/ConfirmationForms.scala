@@ -55,7 +55,7 @@ trait ConfirmationForms
       keys.previousName.key -> stepRequired(previousNameMapping),
       keys.previouslyRegistered.key -> stepRequired(previouslyRegisteredMapping),
       keys.dateLeftUk.key -> stepRequired(dateLeftUkMapping),
-      "lastRegisteredToVote" -> stepRequired(lastRegisteredToVoteMapping),
+      "lastRegisteredToVote" -> optional(lastRegisteredToVoteMapping),
       keys.dob.key -> stepRequired(dobMapping),
       keys.nino.key -> stepRequired(ninoMapping),
       keys.lastUkAddress.key -> stepRequired(partialAddressMapping),
@@ -64,7 +64,7 @@ trait ConfirmationForms
       keys.waysToVote.key -> stepRequired(waysToVoteMapping),
       keys.postalOrProxyVote.key -> stepRequired(postalOrProxyVoteMapping),
       keys.contact.key -> stepRequired(contactMapping),
-      keys.passport.key -> stepRequired(passportMapping),
+      keys.passport.key -> optional(passportMapping),
       keys.possibleAddresses.key -> optional(possibleAddressesMapping)
     ) (InprogressOverseas.apply) (InprogressOverseas.unapply)
   )
