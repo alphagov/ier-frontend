@@ -739,6 +739,9 @@
       'waysToVote' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
+      'corrAddress' : {
+        'allNonEmpty' : 'Please answer this question'
+      },
       'deliveryMethod' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
