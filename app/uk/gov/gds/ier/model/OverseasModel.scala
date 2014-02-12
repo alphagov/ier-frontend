@@ -4,6 +4,7 @@ import uk.gov.gds.ier.model.LastRegisteredType.LastRegisteredType
 import uk.gov.gds.ier.model.WaysToVoteType.WaysToVoteType
 import com.fasterxml.jackson.core.`type`.TypeReference
 import com.fasterxml.jackson.module.scala.JsonScalaEnumeration
+import uk.gov.gds.common.model.LocalAuthority
 
 case class InprogressOverseas(
     name: Option[Name] = None,
@@ -53,11 +54,13 @@ case class OverseasApplication(
     dob: Option[DOB],
     nino: Option[Nino],
     address: Option[OverseasAddress],
-    lastUkAddress: Option[PartialAddress] = None,
+    lastUkAddress: Option[Address] = None,
     openRegisterOptin: Option[Boolean],
     waysToVote: Option[WaysToVote],
     postalOrProxyVote: Option[PostalOrProxyVote],
-    contact: Option[Contact])
+    contact: Option[Contact],
+    referenceNumber: Option[String],
+    authority: Option[LocalAuthority])
   extends CompleteApplication {
 
   def toApiMap = {
@@ -71,6 +74,7 @@ case class OverseasApplication(
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
       address.map(_.toApiMap).getOrElse(Map.empty) ++
+      lastUkAddress.map(_.toApiMap("reg")).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
       postalOrProxyVote.map(postalOrProxyVote => postalOrProxyVote.postalVoteOption.map(
         postalVoteOption => Map(postalOrProxyVote.apiVoteKey -> postalVoteOption.toString))
@@ -79,7 +83,10 @@ case class OverseasApplication(
         deliveryMethod => deliveryMethod.emailAddress.map(
           emailAddress => Map(postalOrProxyVote.apiEmailKey -> emailAddress)).getOrElse(Map.empty))
             .getOrElse(Map.empty)).getOrElse(Map.empty) ++
-      contact.map(_.toApiMap).getOrElse(Map.empty)
+      contact.map(_.toApiMap).getOrElse(Map.empty) ++
+      referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
+      authority.map(auth => Map("gssCode" -> auth.gssId)).getOrElse(Map.empty)  ++
+      Map("applicationType" -> "overseas")
   }
 }
 
