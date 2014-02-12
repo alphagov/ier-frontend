@@ -3,6 +3,7 @@ package uk.gov.gds.ier.transaction.overseas.waysToVote
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.model.InprogressOverseas
 import com.google.inject.Guice
 import play.api.test.FakeRequest
 
@@ -24,14 +25,12 @@ class WaysToVoteStepTests
   val waysToVoteStep = injector.getInstance(classOf[WaysToVoteStep])
 
   it should "indicate WaysToVote step not complete on empty current state of application" in {
-    val currentState = emptyOverseasApplication
-    val isComplete = waysToVoteStep.isStepComplete(currentState)
+    val isComplete = waysToVoteStep.isStepComplete(InprogressOverseas())
     isComplete should be(false)
   }
 
   it should "indicate WaysToVote step IS complete on complete current state of application" in {
-    val currentState = completeOverseasApplication
-    val isComplete = waysToVoteStep.isStepComplete(currentState)
+    val isComplete = waysToVoteStep.isStepComplete(InprogressOverseas())
     isComplete should be(true)
   }
 
@@ -39,10 +38,9 @@ class WaysToVoteStepTests
     implicit val request = FakeRequest().withFormUrlEncodedBody(
       "waysToVote.wayType" -> "in-person"
     )
-    val currentState = emptyOverseasApplication
     val currentStateAfterBinding = waysToVoteStep.validation.bindFromRequest().fold(
       hasErrors => { fail("internal test error") },
-      success => { success.merge(currentState) }
+      success => { success.merge(InprogressOverseas()) }
     )
     val isComplete = waysToVoteStep.isStepComplete(currentStateAfterBinding)
     isComplete should be(true)
@@ -52,14 +50,13 @@ class WaysToVoteStepTests
     implicit val request = FakeRequest().withFormUrlEncodedBody(
       "waysToVote.wayType" -> "foofoo"
     )
-    val currentState = emptyOverseasApplication
     val currentStateAfterBinding = waysToVoteStep.validation.bindFromRequest().fold(
       formWithErrors => {
         formWithErrors.errorsAsText should be("" +
           "waysToVote.wayType -> Unknown type")
         formWithErrors.globalErrorsAsText should be("" +
           "Unknown type")
-        currentState
+        InprogressOverseas()
       },
       formWithSuccess => { fail("validation was supposed to find some errors") }
     )
