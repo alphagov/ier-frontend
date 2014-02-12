@@ -739,6 +739,9 @@
       'waysToVote' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
+      'previouslyRegistered' : {
+        'atLeastOneNonEmpty' : 'Please answer this question'
+      },
       'correspondenceAddress' : {
         'allNonEmpty' : 'Please answer this question'
       },
