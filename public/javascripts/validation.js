@@ -739,7 +739,7 @@
       'waysToVote' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
-      'corrAddress' : {
+      'correspondenceAddress' : {
         'allNonEmpty' : 'Please answer this question'
       },
       'deliveryMethod' : {

@@ -1,13 +1,13 @@
-<form action="{{question.postUrl}}" method="POST" data-validation-name="corrAddress"
+<form action="{{question.postUrl}}" method="POST" data-validation-name="correspondenceAddress"
       data-validation-type="association" class="validate"
-      data-validation-members="corrAddressFieldSet"
+      data-validation-members="correspondenceAddressFieldSet"
       data-validation-rules="allNonEmpty">
 
     {{> shared/questionHeader }}
 
     {{> shared/validationMessages }}
 
-    <fieldset class="validate inline-fields" data-validation-name="corrAddressFieldSet"
+    <fieldset class="validate inline-fields" data-validation-name="correspondenceAddressFieldSet"
               data-validation-type="fieldset" data-validation-rules="allNonEmpty"
               data-validation-children="countrySelect address">
 
@@ -43,6 +43,6 @@
 
     <button type="submit" id="continue"
             class="button next validation-submit"
-            data-validation-sources="corrAddress">Continue</button>
+            data-validation-sources="correspondenceAddress">Continue</button>
 
 </form>
