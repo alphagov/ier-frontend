@@ -9,12 +9,11 @@ trait WaysToVoteForms {
     with ErrorMessages =>
 
   lazy val waysToVoteMapping = mapping(
-    keys.wayType.key -> text.verifying("Unknown type",
-      r => WaysToVoteType.values.exists(_.toString == r))
+    keys.wayType.key -> text.verifying("Unknown type", r => WaysToVoteType.isValid(r))
   ) (
-    wayToVoteAsString => WaysToVote(WaysToVoteType.withName(wayToVoteAsString))
+    wayToVoteAsString => WaysToVote(WaysToVoteType.parse(wayToVoteAsString))
   ) (
-    wayToVoteAsObj => Some(wayToVoteAsObj.waysToVoteType.toString)
+    wayToVoteAsObj => Some(wayToVoteAsObj.waysToVoteType.name)
   )
 
   val waysToVoteForm = ErrorTransformForm(
