@@ -133,10 +133,18 @@ case class Passport(
 
 case class OverseasAddress(
     country: Option[String],
-    addressDetails: Option[String]) {
+    addressLine1: Option[String],
+    addressLine2: Option[String],
+    addressLine3: Option[String],
+    addressLine4: Option[String],
+    addressLine5: Option[String]) {
   def toApiMap = Map(
     "corrcountry" -> country.getOrElse(""),
-    "corraddress" -> addressDetails.getOrElse("")
+    "corraddressline1" -> addressLine1.getOrElse(""),
+    "corraddressline2" -> addressLine2.getOrElse(""),
+    "corraddressline3" -> addressLine3.getOrElse(""),
+    "corraddressline4" -> addressLine4.getOrElse(""),
+    "corraddressline5" -> addressLine5.getOrElse("")
   )
 }
 

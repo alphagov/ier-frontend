@@ -34,7 +34,7 @@ class AddressStep @Inject() (val serialiser: JsonSerialiser,
 
   def nextStep(currentState: InprogressOverseas) = {
     currentState.address match {
-      case Some(OverseasAddress(country, address)) => OpenRegisterController.openRegisterStep
+      case Some(OverseasAddress(_, _, _, _, _,_)) => OpenRegisterController.openRegisterStep
       case _ => this
     }
   }
