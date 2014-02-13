@@ -71,29 +71,23 @@ trait TestHelpers {
     lastUkAddress = Some(
       PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)
     ),
-    dateLeftUk = Some(DateLeftUk(2000,10)),
+    dateLeftUk = Some(DateLeft(2000,10)),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
     address = Some(OverseasAddress(country = Some("United Kingdom"), addressDetails = Some("some address"))),
     lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.UK)),
     openRegisterOptin = Some(true),
     waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
-    postalOrProxyVote = Some(PostalOrProxyVote(WaysToVoteType.ByPost,Some(true),Some(PostalVoteDeliveryMethod(Some("post"),None)))),
+    postalOrProxyVote = Some(PostalOrProxyVote(
+      WaysToVoteType.ByPost,
+      Some(true),
+      Some(PostalVoteDeliveryMethod(Some("post"),None))
+    )),
     contact = Some(Contact(
       post = true,
       phone = None,
-      email = None))
-  )
-
-  lazy val emptyOverseasApplication = InprogressOverseas(
-    name = None,
-    previousName = None,
-    previouslyRegistered = None,
-    dateLeftUk = None,
-    nino = None,
-    dob = None,
-    address = None,
-    openRegisterOptin = None,
-    waysToVote = None
+      email = None
+    )),
+    dateLeftSpecial = Some(DateLeftSpecial(DateLeft(1990, 1), LastRegisteredType.UK))
   )
 
   class ErrorsOps(errors: Seq[FormError], globalErrors: Seq[FormError]) {

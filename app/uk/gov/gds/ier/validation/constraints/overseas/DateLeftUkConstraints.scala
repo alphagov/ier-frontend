@@ -23,7 +23,7 @@ trait DateLeftUkConstraints extends CommonConstraints{
     }
   }
 
-  def dateLeftUkIsBeforeNow (dateLeftUk : DateLeftUk) : Boolean = {
+  def dateLeftUkIsBeforeNow (dateLeftUk : DateLeft) : Boolean = {
     val leftUkDateTime = new YearMonth(dateLeftUk.year, dateLeftUk.month)
     val nowDateTime = DateTime.now()
     val nowWithoutDay = new YearMonth(nowDateTime.year().get(),nowDateTime.monthOfYear().get())

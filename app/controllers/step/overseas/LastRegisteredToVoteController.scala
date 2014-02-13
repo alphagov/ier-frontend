@@ -1,13 +1,13 @@
 package controllers.step.overseas
 
-import uk.gov.gds.ier.stubs.StubController
-import uk.gov.gds.ier.model.InprogressOverseas
+import uk.gov.gds.ier.guice.DelegatingController
+import uk.gov.gds.ier.transaction.overseas.lastRegisteredToVote.LastRegisteredToVoteStep
 
-object LastRegisteredToVoteController extends StubController[InprogressOverseas] {
-  val confirmationStep = ConfirmationController.confirmationStep
-  val thisStepUrl = "/register-to-vote/overseas/last-registered-to-vote"
+object LastRegisteredToVoteController extends DelegatingController[LastRegisteredToVoteStep] {
+  def get = delegate.get
+  def post = delegate.post
+  def editGet = delegate.editGet
+  def editPost = delegate.editPost
 
-  def lastRegisteredToVoteStep = confirmationIf { application =>
-    application.lastRegisteredToVote.isDefined
-  }
+  def lastRegisteredToVoteStep = delegate
 }

@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation
 
 import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.model.{WaysToVoteType, InprogressOverseas}
+import uk.gov.gds.ier.model.{WaysToVoteType, InprogressOverseas, LastRegisteredType}
 import controllers.step.overseas._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.validation.Key
@@ -79,17 +79,36 @@ trait ConfirmationMustache {
     }
 
     def previouslyRegistered = {
+      val renewer = form(keys.previouslyRegistered.hasPreviouslyRegistered).value == Some("true")
+      val prevRegType = Try {
+        form(keys.lastRegisteredToVote.registeredType).value.map { regType =>
+          LastRegisteredType.parse(regType)
+        }
+      }.getOrElse(None)
+
+      val iWas = "I was last registered as"
+
+      val previouslyRegisteredContent = (renewer, prevRegType) match {
+        case (true, _) => "an overseas voter"
+        case (_, Some(LastRegisteredType.UK)) => s"<p>$iWas a UK resident</p>"
+        case (_, Some(LastRegisteredType.Army)) => s"<p>$iWas a member of the armed forces</p>"
+        case (_, Some(LastRegisteredType.Crown)) => s"<p>$iWas a Crown servant</p>"
+        case (_, Some(LastRegisteredType.Council)) => s"<p>$iWas a British council employee</p>"
+        case (_, Some(LastRegisteredType.NotRegistered)) => "<p>I have never been registered</p>"
+        case _ => completeThisStepMessage
+      }
+
+      val editCall = if(prevRegType.isDefined) {
+        routes.LastRegisteredToVoteController.editGet
+      } else {
+        routes.PreviouslyRegisteredController.editGet
+      }
+
       Some(ConfirmationQuestion(
         title = "Previously Registered",
-        editLink = routes.PreviouslyRegisteredController.editGet.url,
+        editLink = editCall.url,
         changeName = "previously registered",
-        content = ifComplete(keys.previouslyRegistered) {
-          if (form(keys.previouslyRegistered.hasPreviouslyRegistered).value == Some("true")) {
-            "<p>I was last registered as an overseas voter</p>"
-          } else {
-            "<p>I wasn't last registered as an overseas voter</p>"
-          }
-        }
+        content = previouslyRegisteredContent
       ))
     }
 
