@@ -1,5 +1,6 @@
 <form action="{{question.postUrl}}" method="POST"  data-validation-name="dateOfBirth" 
-  data-validation-type="association" class="validate" data-validation-members="dateOfBirthDate">
+  data-validation-type="association" class="validate" data-validation-members="dateOfBirthDate"
+  data-validation-rules="allNonEmpty">
     {{> shared/questionHeader }}
 
     {{> shared/validationMessages }}
