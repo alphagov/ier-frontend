@@ -8,6 +8,7 @@ import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, ErrorMessages}
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import uk.gov.gds.ier.transaction.overseas.lastUkAddress.LastUkAddressForms
 import uk.gov.gds.ier.transaction.overseas.previouslyRegistered.PreviouslyRegisteredForms
+import uk.gov.gds.ier.transaction.overseas.dateLeftSpecial.DateLeftSpecialForms
 import uk.gov.gds.ier.transaction.overseas.dateLeftUk.DateLeftUkForms
 import uk.gov.gds.ier.transaction.overseas.dateOfBirth.DateOfBirthForms
 import uk.gov.gds.ier.transaction.overseas.lastRegisteredToVote.LastRegisteredToVoteForms
@@ -26,6 +27,7 @@ trait ConfirmationForms
   with ErrorMessages
   with WithSerialiser
   with PreviouslyRegisteredForms
+  with DateLeftSpecialForms
   with DateLeftUkForms
   with DateOfBirthForms
   with LastRegisteredToVoteForms
@@ -53,6 +55,7 @@ trait ConfirmationForms
       keys.name.key -> stepRequired(nameMapping),
       keys.previousName.key -> stepRequired(previousNameMapping),
       keys.previouslyRegistered.key -> stepRequired(previouslyRegisteredMapping),
+      keys.dateLeftSpecial.key -> stepRequired(dateLeftSpecialMapping),
       keys.dateLeftUk.key -> stepRequired(dateLeftUkMapping),
       "lastRegisteredToVote" -> optional(lastRegisteredToVoteMapping),
       keys.dob.key -> stepRequired(dobMapping),

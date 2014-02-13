@@ -1,0 +1,164 @@
+package uk.gov.gds.ier.transaction.overseas.lastRegisteredToVote
+
+import uk.gov.gds.ier.serialiser.WithSerialiser
+import org.scalatest.{Matchers, FlatSpec}
+import play.api.libs.json.{Json, JsNull}
+import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.model.LastRegisteredType
+
+class LastRegisteredToVoteFormTests
+  extends FlatSpec
+  with Matchers
+  with TestHelpers
+  with LastRegisteredToVoteForms
+  with WithSerialiser
+  with ErrorMessages
+  with FormKeys {
+
+  val serialiser = jsonSerialiser
+
+  it should "error out on empty json" in {
+    val js = JsNull
+    lastRegisteredToVoteForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errorMessages("lastRegisteredToVote.registeredType") should be(
+          Seq("Please answer this question")
+        )
+        hasErrors.errorMessages("lastRegisteredToVote") should be(
+          Seq("Please answer this question")
+        )
+        hasErrors.errors.size should be(3)
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+      },
+      success => fail("Should have errored out.")
+    )
+  }
+
+  it should "error out on missing values" in {
+    val js = Json.toJson(
+      Map(
+        "lastRegisteredToVote.registeredType" -> ""
+      )
+    )
+    lastRegisteredToVoteForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errorMessages("lastRegisteredToVote.registeredType") should be(
+          Seq("Please answer this question")
+        )
+        hasErrors.errorMessages("lastRegisteredToVote") should be(
+          Seq("Please answer this question")
+        )
+        hasErrors.errors.size should be(3)
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+      },
+      success => fail("Should have errored out.")
+    )
+  }
+
+  it should "error out on nonsense values" in {
+    val js = Json.toJson(
+      Map(
+        "lastRegisteredToVote.registeredType" -> "blarghh"
+      )
+    )
+    lastRegisteredToVoteForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errorMessages("lastRegisteredToVote.registeredType") should be(
+          Seq("blarghh is not a valid registration type")
+        )
+        hasErrors.errorMessages("lastRegisteredToVote") should be(
+          Seq("blarghh is not a valid registration type")
+        )
+        hasErrors.errors.size should be(3)
+        hasErrors.globalErrorMessages should be(Seq("blarghh is not a valid registration type"))
+      },
+      success => fail("Should have errored out.")
+    )
+  }
+
+  it should "bind successfully to army" in {
+    val js = Json.toJson(
+      Map(
+        "lastRegisteredToVote.registeredType" -> "army"
+      )
+    )
+    lastRegisteredToVoteForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(", ")),
+      success => {
+        success.lastRegisteredToVote.isDefined should be(true)
+        val Some(lastRegisteredToVote) = success.lastRegisteredToVote
+
+        lastRegisteredToVote.lastRegisteredType should be(LastRegisteredType.Army)
+      }
+    )
+  }
+
+  it should "bind successfully to crown" in {
+    val js = Json.toJson(
+      Map(
+        "lastRegisteredToVote.registeredType" -> "crown"
+      )
+    )
+    lastRegisteredToVoteForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(", ")),
+      success => {
+        success.lastRegisteredToVote.isDefined should be(true)
+        val Some(lastRegisteredToVote) = success.lastRegisteredToVote
+
+        lastRegisteredToVote.lastRegisteredType should be(LastRegisteredType.Crown)
+      }
+    )
+  }
+
+  it should "bind successfully to council" in {
+    val js = Json.toJson(
+      Map(
+        "lastRegisteredToVote.registeredType" -> "council"
+      )
+    )
+    lastRegisteredToVoteForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(", ")),
+      success => {
+        success.lastRegisteredToVote.isDefined should be(true)
+        val Some(lastRegisteredToVote) = success.lastRegisteredToVote
+
+        lastRegisteredToVote.lastRegisteredType should be(LastRegisteredType.Council)
+      }
+    )
+  }
+
+  it should "bind successfully to uk" in {
+    val js = Json.toJson(
+      Map(
+        "lastRegisteredToVote.registeredType" -> "uk"
+      )
+    )
+    lastRegisteredToVoteForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(", ")),
+      success => {
+        success.lastRegisteredToVote.isDefined should be(true)
+        val Some(lastRegisteredToVote) = success.lastRegisteredToVote
+
+        lastRegisteredToVote.lastRegisteredType should be(LastRegisteredType.UK)
+      }
+    )
+  }
+
+  it should "bind successfully to not-registered" in {
+    val js = Json.toJson(
+      Map(
+        "lastRegisteredToVote.registeredType" -> "not-registered"
+      )
+    )
+    lastRegisteredToVoteForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(", ")),
+      success => {
+        success.lastRegisteredToVote.isDefined should be(true)
+        val Some(lastRegisteredToVote) = success.lastRegisteredToVote
+
+        lastRegisteredToVote.lastRegisteredType should be(LastRegisteredType.NotRegistered)
+      }
+    )
+  }
+}

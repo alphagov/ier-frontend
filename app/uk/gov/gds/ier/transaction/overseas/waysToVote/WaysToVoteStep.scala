@@ -36,16 +36,10 @@ class WaysToVoteStep @Inject ()(
   val previousRoute = Some(OpenRegisterController.get)
 
   def nextStep(currentState: InprogressOverseas) = {
-    currentState.waysToVote match {
-      case Some(waysToVote) if waysToVote.waysToVoteType == WaysToVoteType.InPerson => {
-        ContactController.contactStep
-      }
-      case Some(waysToVote) if waysToVote.waysToVoteType == WaysToVoteType.ByPost => {
-        PostalVoteController.postalVoteStep
-      }
-      case Some(waysToVote) if waysToVote.waysToVoteType == WaysToVoteType.ByProxy => {
-        ProxyVoteController.proxyVoteStep
-      }
+    currentState.waysToVote.map(_.waysToVoteType) match {
+      case Some(WaysToVoteType.InPerson) => ContactController.contactStep
+      case Some(WaysToVoteType.ByPost) => PostalVoteController.postalVoteStep
+      case Some(WaysToVoteType.ByProxy) => ProxyVoteController.proxyVoteStep
       case _ => throw new IllegalArgumentException("unknown next step")
     }
   }
