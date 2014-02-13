@@ -19,10 +19,11 @@ trait LastRegisteredToVoteConstraints {
     }
   }
 
-  lazy val registeredTypeIsValid = Constraint[String](keys.lastRegisteredToVote.key) {
-    str => LastRegisteredType.isValid(str) match {
-      case true => Valid
-      case false => Invalid(
+  lazy val registeredTypeIsValid = Constraint[String](keys.lastRegisteredToVote.key) { str =>
+    if (LastRegisteredType.isValid(str)) {
+      Valid
+    } else {
+      Invalid(
         s"$str is not a valid registration type",
         keys.lastRegisteredToVote.registeredType,
         keys.lastRegisteredToVote
