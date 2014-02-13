@@ -1,15 +1,25 @@
-<form action="{{question.postUrl}}" method="POST" >
+<form action="{{question.postUrl}}" method="POST" data-validation-name="correspondenceAddress"
+      data-validation-type="association" class="validate"
+      data-validation-members="correspondenceAddressFieldSet"
+      data-validation-rules="allNonEmpty">
+
     {{> shared/questionHeader }}
 
     {{> shared/validationMessages }}
 
-    <fieldset >
+    <fieldset class="validate inline-fields" data-validation-name="correspondenceAddressFieldSet"
+              data-validation-type="fieldset" data-validation-rules="allNonEmpty"
+              data-validation-children="countrySelect address">
 
 		<label for="{{countrySelect.id}}">
             Country
         </label>
         <div class="validation-wrapper {{countrySelect.classes}}">
-        <select id="{{countrySelect.id}}" name="{{countrySelect.name}}" class="lonely validate {{countrySelect.classes}}" data-validation-name="countrySelect" data-validation-type="field" data-validation-rules="nonEmpty">
+        <select id="{{countrySelect.id}}" name="{{countrySelect.name}}"
+                class="lonely validate {{countrySelect.classes}}"
+                data-validation-name="countrySelect"
+                data-validation-type="field"
+                data-validation-rules="nonEmpty">
   				{{#countrySelect.optionList}}
                     <option value="{{value}}" {{{selected}}}>{{text}}</option>
                 {{/countrySelect.optionList}}
@@ -21,11 +31,18 @@
             Address
         </label>
         <div class="validation-wrapper {{address.classes}}">
-            <textarea id="{{address.id}}" name="{{address.name}}"  autocomplete="off" class="text address  {{address.classes}}" data-validation-name="address" data-validation-type="field" data-validation-rules="nonEmpty" cols = "36" >{{address.value}}</textarea>
+            <textarea id="{{address.id}}" name="{{address.name}}"
+                      autocomplete="off" class="text address  {{address.classes}}"
+                      data-validation-name="address"
+                      data-validation-type="field"
+                      data-validation-rules="nonEmpty"
+                      cols = "36" >{{address.value}}</textarea>
         </div>
 
     </fieldset>
 
-    <button type="submit" id="continue" class="button next validation-submit">Continue</button>
+    <button type="submit" id="continue"
+            class="button next validation-submit"
+            data-validation-sources="correspondenceAddress">Continue</button>
 
 </form>
