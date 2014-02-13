@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.model
 
 import scala.util.Try
+import uk.gov.gds.ier.model.LastRegisteredType.LastRegisteredType
 import uk.gov.gds.ier.model.WaysToVoteType.WaysToVoteType
 import com.fasterxml.jackson.core.`type`.TypeReference
 import com.fasterxml.jackson.module.scala.JsonScalaEnumeration
@@ -114,31 +115,20 @@ case class LastRegisteredToVote (lastRegisteredType:LastRegisteredType) {
   def toApiMap = Map.empty
 }
 
-sealed case class LastRegisteredType(name:String)
+sealed case class LastRegisteredType
 
 object LastRegisteredType {
-  val UK = LastRegisteredType("uk")
-  val Army = LastRegisteredType("army")
-  val Crown = LastRegisteredType("crown")
-  val Council = LastRegisteredType("council")
-  val NotRegistered = LastRegisteredType("not-registered")
-
   def isValid(str:String) = {
     Try {
-      parse(str)
+      LastRegisteredType.withName(str)
     }.isSuccess
   }
-
-  def parse(str:String) = {
-    str match {
-      case "uk" => UK
-      case "army" => Army
-      case "crown" => Crown
-      case "council" => Council
-      case "not-registered" => NotRegistered
-      case _ => throw new IllegalArgumentException(s"$str not a valid LastRegisteredType")
-    }
-  }
+  type LastRegisteredType = Value
+  val UK = Value("uk")
+  val Army = Value("army")
+  val Crown = Value("crown")
+  val Council = Value("council")
+  val NotRegistered = Value("not-registered")
 }
 
 case class CitizenDetails(

@@ -13,10 +13,10 @@ trait LastRegisteredToVoteForms extends LastRegisteredToVoteConstraints {
     keys.registeredType.key -> text.verifying(registeredTypeIsValid)
   ) (
     registeredTypeParam => LastRegisteredToVote(
-      LastRegisteredType.withName(registeredTypeParam)
+      LastRegisteredType.parse(registeredTypeParam)
     )
   ) (
-    registeredTypeObj => Some(registeredTypeObj.lastRegisteredType.toString)
+    registeredTypeObj => Some(registeredTypeObj.lastRegisteredType.name)
   )
 
   val lastRegisteredToVoteForm = ErrorTransformForm(

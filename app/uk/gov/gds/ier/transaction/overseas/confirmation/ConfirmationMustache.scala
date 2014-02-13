@@ -81,7 +81,7 @@ trait ConfirmationMustache {
       val renewer = form(keys.previouslyRegistered.hasPreviouslyRegistered).value == Some("true")
       val prevRegType = Try {
         form(keys.lastRegisteredToVote.registeredType).value.map { regType =>
-          LastRegisteredType.withName(regType)
+          LastRegisteredType.parse(regType)
         }
       }.getOrElse(None)
 

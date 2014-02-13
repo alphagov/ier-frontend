@@ -42,23 +42,23 @@ trait LastRegisteredToVoteMustache {
         ),
         ukResident = RadioField(
           key = keys.lastRegisteredToVote.registeredType,
-          value = LastRegisteredType.UK.toString
+          value = LastRegisteredType.UK.name
         ),
         armedForces = RadioField(
           key = keys.lastRegisteredToVote.registeredType,
-          value = LastRegisteredType.Army.toString
+          value = LastRegisteredType.Army.name
         ),
         crownServant = RadioField(
           key = keys.lastRegisteredToVote.registeredType,
-          value = LastRegisteredType.Crown.toString
+          value = LastRegisteredType.Crown.name
         ),
         britishCouncil = RadioField(
           key = keys.lastRegisteredToVote.registeredType,
-          value = LastRegisteredType.Council.toString
+          value = LastRegisteredType.Council.name
         ),
         notRegistered = RadioField(
           key = keys.lastRegisteredToVote.registeredType,
-          value = LastRegisteredType.NotRegistered.toString
+          value = LastRegisteredType.NotRegistered.name
         )
       )
     }
