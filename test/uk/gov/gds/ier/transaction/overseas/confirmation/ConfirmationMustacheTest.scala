@@ -165,4 +165,15 @@ class ConfirmationMustacheTest
     val Some(nameModel) = confirmation.waysToVote
     nameModel.content should be("<p>In the UK, at a polling station</p>")
   }
+
+  behavior of "ConfirmationBlocks.postalVote"
+
+  it should "return none (waysToVote not answered)" in {
+    val partialApplication = confirmationForm
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(partialApplication))
+    val model = confirmation.postalVote
+
+    model.isDefined should be(false)
+  }
 }

@@ -221,28 +221,40 @@ trait ConfirmationMustache {
     }
 
     def postalVote = {
-      Some(ConfirmationQuestion(
-        title = "Application form",
-        editLink = form(keys.postalOrProxyVote.voteType).value match {
-            case Some("postal") =>  PostalVoteController.postalVoteStep.routes.editGet.url
-            case Some("proxy") =>   ProxyVoteController.proxyVoteStep.routes.editGet.url
-            case _ => throw new IllegalArgumentException()
-        },
-        changeName = "application form",
-        content = ifComplete(keys.postalOrProxyVote) {
-          val wayToVote = form(keys.postalOrProxyVote.voteType).value.getOrElse("")
-          if(form(keys.postalOrProxyVote.optIn).value == Some("true")){
-            if(form(keys.postalOrProxyVote.deliveryMethod.methodName).value == Some("email")){
-              "<p>Please email a "+wayToVote+" vote application form to:<br/>"+
-                form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value.getOrElse("")+"</p>"
-            }else{
-              "<p>Please post me a "+wayToVote+" vote application form</p>"
+      val way = form(keys.postalOrProxyVote.voteType).value.map{ way => WaysToVoteType.parse(way) }
+      val prettyWayName = way match {
+        case WaysToVoteType.ByPost => "postal vote"
+        case WaysToVoteType.ByProxy => "proxy vote"
+        case _ => ""
+      }
+      val myEmail = form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value.getOrElse("")
+      val deliveryMethod = form(keys.postalOrProxyVote.deliveryMethod.methodName).value
+      val emailMe = form(keys.postalOrProxyVote.deliveryMethod.methodName).value == Some("email")
+      val optIn = form(keys.postalOrProxyVote.optIn).value == Some("true")
+
+      way.map { wayToVote =>
+        ConfirmationQuestion(
+          title = "Application form",
+          editLink = wayToVote match {
+            case WaysToVoteType.ByPost => routes.PostalVoteController.editGet.url
+            case WaysToVoteType.ByProxy => routes.ProxyVoteController.editGet.url
+            case _ => routes.WaysToVoteController.editGet.url
+          },
+          changeName = wayToVote match {
+            case WaysToVoteType.ByPost => "your postal vote form"
+            case WaysToVoteType.ByProxy => "your proxy vote form"
+            case _ => "your method of voting"
+          },
+          content = ifComplete(keys.postalOrProxyVote) {
+            (optIn, emailMe) match {
+              case (true, true) => s"<p>Please email a ${prettyWayName} application form to:" +
+                "<br/>$myEmail</p>"
+              case (true, false) => s"<p>Please post me a ${prettyWayName} application form</p>"
+              case (false, _) => s"<p>I do not need a ${prettyWayName} application form</p>"
             }
-          }else{
-            "<p>I do not need a "+wayToVote+" vote application form</p>"
           }
-        }
-      ))
+        )
+      }
     }
 
     def contact = {
@@ -381,21 +393,18 @@ trait ConfirmationMustache {
     }
 
     def waysToVote = {
+      val way = form(keys.waysToVote.wayType).value.map{ way => WaysToVoteType.parse(way) }
+
       Some(ConfirmationQuestion(
         title = "How do you want to vote",
         editLink = routes.WaysToVoteController.editGet.url,
         changeName = "way to vote",
         content = ifComplete(keys.waysToVote) {
-          form(keys.waysToVote.wayType).value match {
-            case Some(wayToVote) => {
-              val wayToVoteLabel = WaysToVoteType.withName(wayToVote) match {
-                case WaysToVoteType.ByPost => "By post"
-                case WaysToVoteType.ByProxy => "By proxy (someone else voting for you)"
-                case WaysToVoteType.InPerson => "In the UK, at a polling station"
-              }
-              s"<p>$wayToVoteLabel</p>"
-            }
-            case None => ""
+           way match {
+            case Some(WaysToVoteType.ByPost) => "<p>By post</p>"
+            case Some(WaysToVoteType.ByProxy) => "<p>By proxy (someone else voting for you)</p>"
+            case Some(WaysToVoteType.InPerson) => "<p>In the UK, at a polling station</p>"
+            case _ => ""
           }
         }
       ))

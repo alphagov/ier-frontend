@@ -1,9 +1,7 @@
 package uk.gov.gds.ier.model
 
 import uk.gov.gds.ier.model.LastRegisteredType.LastRegisteredType
-import uk.gov.gds.ier.model.WaysToVoteType.WaysToVoteType
-import com.fasterxml.jackson.core.`type`.TypeReference
-import com.fasterxml.jackson.module.scala.JsonScalaEnumeration
+import scala.util.Try
 
 case class InprogressOverseas(
     name: Option[Name] = None,
@@ -72,13 +70,7 @@ case class OverseasApplication(
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
       address.map(_.toApiMap).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
-      postalOrProxyVote.map(postalOrProxyVote => postalOrProxyVote.postalVoteOption.map(
-        postalVoteOption => Map(postalOrProxyVote.apiVoteKey -> postalVoteOption.toString))
-          .getOrElse(Map.empty)).getOrElse(Map.empty) ++
-      postalOrProxyVote.map(postalOrProxyVote => postalOrProxyVote.deliveryMethod.map(
-        deliveryMethod => deliveryMethod.emailAddress.map(
-          emailAddress => Map(postalOrProxyVote.apiEmailKey -> emailAddress)).getOrElse(Map.empty))
-            .getOrElse(Map.empty)).getOrElse(Map.empty) ++
+      postalOrProxyVote.map(_.toApiMap).getOrElse(Map.empty) ++
       contact.map(_.toApiMap).getOrElse(Map.empty)
   }
 }
@@ -140,17 +132,24 @@ case class OverseasAddress(
   )
 }
 
-// TODO: review using of Json specific stuff here, look for alternatives
-case class WaysToVote (
-  @JsonScalaEnumeration(classOf[WaysToVoteTypeRef]) waysToVoteType: WaysToVoteType) {
-}
+case class WaysToVote (waysToVoteType: WaysToVoteType)
 
-class WaysToVoteTypeRef extends TypeReference[WaysToVoteType.type]
-object WaysToVoteType extends Enumeration {
-  type WaysToVoteType = Value
-  val InPerson = Value("in-person")
-  val ByPost = Value("by-post")
-  val ByProxy = Value("by-proxy")
+sealed case class WaysToVoteType(name:String)
+object WaysToVoteType {
+  val InPerson = WaysToVoteType("in-person")
+  val ByPost = WaysToVoteType("by-post")
+  val ByProxy = WaysToVoteType("by-proxy")
+
+  def parse(str: String) = {
+    str match {
+      case "in-person" => InPerson
+      case "by-proxy" => ByProxy
+      case "by-post" => ByPost
+    }
+  }
+  def isValid(str: String) = {
+    Try{ parse(str) }.isSuccess
+  }
 }
 
 case class CountryWithCode(
@@ -159,23 +158,27 @@ case class CountryWithCode(
 )
 
 case class PostalOrProxyVote (
-    typeVote: String,
+    typeVote: WaysToVoteType,
     postalVoteOption: Option[Boolean],
     deliveryMethod: Option[PostalVoteDeliveryMethod]) {
 
-  def apiVoteKey = {
-    typeVote match {
-      case "postal" => "pvote"
-      case "proxy" => "proxyvote"
-      case _ => throw new IllegalArgumentException()
+  def toApiMap = {
+    val voteMap = postalVoteOption match {
+      case Some(pvote) => typeVote match {
+        case WaysToVoteType.ByPost => Map("pvote" -> pvote.toString)
+        case WaysToVoteType.ByProxy => Map("proxyvote" -> pvote.toString)
+        case _ => Map.empty
+      }
+      case _ => Map.empty
     }
-  }
-
-  def apiEmailKey = {
-    typeVote match {
-      case "postal" => "pvoteemail"
-      case "proxy" => "proxyvoteemail"
-      case _ => throw new IllegalArgumentException()
+    val emailMap = deliveryMethod.flatMap(_.emailAddress) match {
+      case Some(email) => typeVote match {
+        case WaysToVoteType.ByPost => Map("pvoteemail" -> email)
+        case WaysToVoteType.ByProxy => Map("proxyvoteemail" -> email)
+        case _ => Map.empty
+      }
+      case _ => Map.empty
     }
+    voteMap ++ emailMap
   }
 }
