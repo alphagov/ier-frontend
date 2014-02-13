@@ -86,14 +86,14 @@ trait ConfirmationMustache {
         }
       }.getOrElse(None)
 
-      val iAm = "I was last registered as"
+      val iWas = "I was last registered as"
 
       val previouslyRegisteredContent = (renewer, prevRegType) match {
         case (true, _) => "an overseas voter"
-        case (_, Some(LastRegisteredType.UK)) => s"<p>$iAm a UK resident</p>"
-        case (_, Some(LastRegisteredType.Army)) => s"<p>$iAm a member of the armed forces</p>"
-        case (_, Some(LastRegisteredType.Crown)) => s"<p>$iAm a Crown servant</p>"
-        case (_, Some(LastRegisteredType.Council)) => s"<p>$iAm a British council employee</p>"
+        case (_, Some(LastRegisteredType.UK)) => s"<p>$iWas a UK resident</p>"
+        case (_, Some(LastRegisteredType.Army)) => s"<p>$iWas a member of the armed forces</p>"
+        case (_, Some(LastRegisteredType.Crown)) => s"<p>$iWas a Crown servant</p>"
+        case (_, Some(LastRegisteredType.Council)) => s"<p>$iWas a British council employee</p>"
         case (_, Some(LastRegisteredType.NotRegistered)) => "<p>I have never been registered</p>"
         case _ => completeThisStepMessage
       }
