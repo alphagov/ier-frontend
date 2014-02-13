@@ -77,7 +77,7 @@ trait TestHelpers {
     lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.UK)),
     openRegisterOptin = Some(true),
     waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
-    postalOrProxyVote = Some(PostalOrProxyVote("postal",Some(true),Some(PostalVoteDeliveryMethod(Some("post"),None)))),
+    postalOrProxyVote = Some(PostalOrProxyVote(WaysToVoteType.ByPost,Some(true),Some(PostalVoteDeliveryMethod(Some("post"),None)))),
     contact = Some(Contact(
       post = true,
       phone = None,

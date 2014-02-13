@@ -35,4 +35,11 @@ trait PostalOrProxyVoteConstraints {
     }
   }
 
+  lazy val questionIsRequired = Constraint[InprogressOverseas](keys.postalOrProxyVote.key) {
+    application => application.postalOrProxyVote match {
+      case Some(p) => Valid
+      case None => Invalid("Please answer this question", keys.postalOrProxyVote.optIn)
+    }
+  }
+
 }
