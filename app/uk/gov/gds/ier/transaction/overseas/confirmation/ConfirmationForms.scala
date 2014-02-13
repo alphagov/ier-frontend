@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation
 
 import play.api.data.Forms._
-import uk.gov.gds.ier.validation._
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.serialiser.WithSerialiser
@@ -17,10 +16,10 @@ import uk.gov.gds.ier.transaction.overseas.name.NameForms
 import uk.gov.gds.ier.transaction.overseas.openRegister.OpenRegisterForms
 import uk.gov.gds.ier.transaction.overseas.contact.ContactForms
 import uk.gov.gds.ier.transaction.overseas.passport.PassportForms
-import uk.gov.gds.ier.transaction.overseas.waysToVote.WaysToVoteForms
 import uk.gov.gds.ier.transaction.overseas.address.AddressForms
 import uk.gov.gds.ier.transaction.overseas.waysToVote.WaysToVoteForms
 import uk.gov.gds.ier.transaction.overseas.applicationFormVote.PostalOrProxyVoteForms
+import scala.collection.mutable
 
 trait ConfirmationForms
   extends FormKeys
@@ -66,6 +65,45 @@ trait ConfirmationForms
       keys.contact.key -> stepRequired(contactMapping),
       keys.passport.key -> optional(passportMapping),
       keys.possibleAddresses.key -> optional(possibleAddressesMapping)
-    ) (InprogressOverseas.apply) (InprogressOverseas.unapply)
+    )
+    (InprogressOverseas.apply)
+    (InprogressOverseas.unapply)
+    verifying (validateOverseasRenewerApplication)
   )
+
+  lazy val validateOverseasRenewerApplication = Constraint[InprogressOverseas]("validateOverseasRenewerApplication") {
+    application =>
+
+      val validationErrors = mutable.MutableList[String]()
+
+      if (application.dob.isDefined)
+        validationErrors += keys.dob.key
+      if (application.previouslyRegistered.exists(_.hasPreviouslyRegistered == true))
+        validationErrors += keys.previouslyRegistered.key
+      if (application.dateLeftUk.isDefined)
+        validationErrors += keys.dateLeftUk.key
+      if (application.lastUkAddress.isDefined)
+        validationErrors += keys.lastUkAddress.key
+      if (application.name.isDefined)
+        validationErrors +=  keys.name.key
+      if (application.previousName.isDefined)
+        validationErrors += keys.previousName.key
+      if (application.nino.isDefined)
+        validationErrors +=   keys.nino.key
+      if (application.address.isDefined)
+        validationErrors +=  keys.address.key
+      if (application.openRegisterOptin.isDefined)
+        validationErrors += keys.openRegister.key
+      if (application.waysToVote.isDefined)
+        validationErrors += keys.waysToVote.key
+      if (application.postalOrProxyVote.isDefined)
+        validationErrors += keys.postalOrProxyVote.key
+      if (application.contact.isDefined)
+        validationErrors += keys.contact.key
+
+      if (validationErrors.size > 0)
+        Valid
+      else
+        Invalid ("Please complete this step", validationErrors)
+  }
 }
