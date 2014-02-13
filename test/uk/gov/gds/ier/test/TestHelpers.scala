@@ -78,7 +78,7 @@ trait TestHelpers {
     openRegisterOptin = Some(true),
     waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
     postalOrProxyVote = Some(PostalOrProxyVote(
-      "postal",
+      WaysToVoteType.ByPost,
       Some(true),
       Some(PostalVoteDeliveryMethod(Some("post"),None))
     )),

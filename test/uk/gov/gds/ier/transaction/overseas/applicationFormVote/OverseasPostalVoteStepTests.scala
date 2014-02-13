@@ -40,7 +40,7 @@ class OverseasPostalVoteStepTests
             "postalOrProxyVote.optIn" -> "true",
             "postalOrProxyVote.deliveryMethod.methodName" -> "email",
             "postalOrProxyVote.deliveryMethod.emailAddress" -> "mail@test.co.uk",
-            "postalOrProxyVote.voteType" -> "postal"
+            "postalOrProxyVote.voteType" -> "by-post"
           )
       )
 
@@ -91,7 +91,7 @@ class OverseasPostalVoteStepTests
             "postalOrProxyVote.optIn" -> "true",
             "postalOrProxyVote.deliveryMethod.methodName" -> "email",
             "postalOrProxyVote.deliveryMethod.emailAddress" -> "mail@test.co.uk",
-            "postalOrProxyVote.voteType" -> "postal"
+            "postalOrProxyVote.voteType" -> "by-post"
         )
       )
 
