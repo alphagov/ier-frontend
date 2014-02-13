@@ -79,6 +79,12 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
   def submitOverseasApplication(ip:Option[String],
                                 applicant: InprogressOverseas,
                                 refNum:Option[String]) = {
+
+    val fullLastUkRegAddress = addressService.formFullAddress(applicant.lastUkAddress)
+    val currentAuthority = applicant.lastUkAddress flatMap { address =>
+      placesService.lookupAuthority(address.postcode)
+    }
+
     val completeApplication = OverseasApplication(
       name = applicant.name,
       previousName = applicant.previousName,
@@ -87,16 +93,36 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       lastRegisteredToVote = applicant.lastRegisteredToVote,
       dob = applicant.dob,
       nino = applicant.nino,
+      lastUkAddress = fullLastUkRegAddress,
       address = applicant.address,
       openRegisterOptin = applicant.openRegisterOptin,
       waysToVote = applicant.waysToVote,
       postalOrProxyVote = applicant.postalOrProxyVote,
-      contact = applicant.contact
+      contact = applicant.contact,
+      referenceNumber = refNum,
+      authority = currentAuthority
     )
 
-    val apiApplicant = ApiApplication(completeApplication.toApiMap)
+    if (checkOverseasRenewer(completeApplication)) {
+      val apiApplicant = ApiApplication(completeApplication.toApiMap)
+      sendApplication(apiApplicant)
+    }
+    else throw new ApiException("Application not completed!")
+  }
 
-    sendApplication(apiApplicant)
+  private def checkOverseasRenewer(application: OverseasApplication): Boolean = {
+    application.dob.isDefined &&
+    application.previouslyRegistered.exists(_.hasPreviouslyRegistered == true) &&
+    application.dateLeftUk.isDefined &&
+    application.lastUkAddress.isDefined &&
+    application.name.isDefined &&
+    application.previousName.isDefined &&
+    application.nino.isDefined &&
+    application.address.isDefined &&
+    application.openRegisterOptin.isDefined &&
+    application.waysToVote.isDefined &&
+    application.postalOrProxyVote.isDefined &&
+    application.contact.isDefined
   }
 
   private def sendApplication(application: ApiApplication) = {
