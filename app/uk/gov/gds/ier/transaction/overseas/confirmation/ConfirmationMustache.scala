@@ -98,9 +98,10 @@ trait ConfirmationMustache {
         case _ => completeThisStepMessage
       }
 
-      val editCall = prevRegType.isDefined match {
-        case true => routes.LastRegisteredToVoteController.editGet
-        case _ => routes.PreviouslyRegisteredController.editGet
+      val editCall = if(prevRegType.isDefined) {
+        routes.LastRegisteredToVoteController.editGet
+      } else {
+        routes.PreviouslyRegisteredController.editGet
       }
 
       Some(ConfirmationQuestion(
