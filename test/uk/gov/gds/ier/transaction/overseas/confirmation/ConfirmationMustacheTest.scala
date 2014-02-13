@@ -42,11 +42,11 @@ class ConfirmationMustacheTest
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
-    val nameModel = confirmation.name
+    val Some(nameModel) = confirmation.name
     nameModel.content should be("<p>John Smith</p>")
     nameModel.editLink should be("/register-to-vote/overseas/edit/name")
 
-    val prevNameModel = confirmation.previousName
+    val Some(prevNameModel) = confirmation.previousName
     prevNameModel.content should be("<p>Jan Kovar</p>")
     prevNameModel.editLink should be("/register-to-vote/overseas/edit/name")
   }
@@ -70,11 +70,11 @@ class ConfirmationMustacheTest
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
-    val nameModel = confirmation.name
+    val Some(nameModel) = confirmation.name
     nameModel.content should be("<p>John Walker Junior Smith</p>")
     nameModel.editLink should be("/register-to-vote/overseas/edit/name")
 
-    val prevNameModel = confirmation.previousName
+    val Some(prevNameModel) = confirmation.previousName
     prevNameModel.content should be("<p>Jan Janko Janik Kovar</p>")
     prevNameModel.editLink should be("/register-to-vote/overseas/edit/name")
   }
@@ -144,7 +144,7 @@ class ConfirmationMustacheTest
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
       waysToVote = Some(WaysToVote(WaysToVoteType.ByPost))))
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
-    val nameModel = confirmation.waysToVote
+    val Some(nameModel) = confirmation.waysToVote
     nameModel.content should be("<p>By post</p>")
   }
 
@@ -153,7 +153,7 @@ class ConfirmationMustacheTest
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
       waysToVote = Some(WaysToVote(WaysToVoteType.ByProxy))))
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
-    val nameModel = confirmation.waysToVote
+    val Some(nameModel) = confirmation.waysToVote
     nameModel.content should be("<p>By proxy (someone else voting for you)</p>")
   }
 
@@ -162,7 +162,7 @@ class ConfirmationMustacheTest
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
       waysToVote = Some(WaysToVote(WaysToVoteType.InPerson))))
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
-    val nameModel = confirmation.waysToVote
+    val Some(nameModel) = confirmation.waysToVote
     nameModel.content should be("<p>In the UK, at a polling station</p>")
   }
 }

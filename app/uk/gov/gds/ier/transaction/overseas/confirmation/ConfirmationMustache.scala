@@ -47,8 +47,9 @@ trait ConfirmationMustache {
           confirmation.contact,
           confirmation.waysToVote,
           confirmation.postalVote,
-          confirmation.contact
-        ) ++ confirmation.passport.toList,
+          confirmation.contact,
+          confirmation.passport
+        ).flatten,
         backUrl = backUrl,
         postUrl = postUrl
       )
@@ -78,7 +79,7 @@ trait ConfirmationMustache {
     }
 
     def previouslyRegistered = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "Previously Registered",
         editLink = routes.PreviouslyRegisteredController.editGet.url,
         changeName = "previously registered",
@@ -89,11 +90,11 @@ trait ConfirmationMustache {
             "<p>I wasn't last registered as an overseas voter</p>"
           }
         }
-      )
+      ))
     }
 
     def lastUkAddress = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "Last UK Address",
         editLink = if (form(keys.lastUkAddress.manualAddress).value.isDefined) {
           routes.LastUkAddressManualController.editGet.url
@@ -108,11 +109,11 @@ trait ConfirmationMustache {
           val postcode = form(keys.lastUkAddress.postcode).value.getOrElse("")
           s"<p>$addressLine</p><p>$postcode</p>"
         }
-      )
+      ))
     }
 
     def dateLeftUk = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "Date you left the UK",
         editLink = routes.DateLeftUkController.editGet.url,
         changeName = "date you left the UK",
@@ -126,11 +127,11 @@ trait ConfirmationMustache {
           }
           s"<p>$yearMonth</p>"
         }
-      )
+      ))
     }
 
     def nino = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "National Insurance number",
         editLink = routes.NinoController.editGet.url,
         changeName = "national insurance number",
@@ -142,11 +143,11 @@ trait ConfirmationMustache {
               s"<p>${form(keys.nino.noNinoReason).value.getOrElse("")}</p>"
           }
         }
-      )
+      ))
     }
 
     def address = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "Where do you live?",
         editLink = AddressController.addressStep.routes.editGet.url,
         changeName = "where do you live?",
@@ -154,11 +155,11 @@ trait ConfirmationMustache {
           "<p>" + form (keys.overseasAddress.overseasAddressDetails).value.getOrElse("") + "</p>" +
           "<p>" + form (keys.overseasAddress.country).value.getOrElse("") + "</p>"
         }
-      )
+      ))
     }
 
     def dateOfBirth = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "What is your date of birth?",
         editLink = DateOfBirthController.dateOfBirthStep.routes.editGet.url,
         changeName = "date of birth",
@@ -167,11 +168,11 @@ trait ConfirmationMustache {
                 DateOfBirthConstants.monthsByNumber(form(keys.dob.month).value.get) + " " +
                 form(keys.dob.year).value.get + "</p>"
             }
-      )
+      ))
     }
 
     def openRegister = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "Open register",
         editLink = routes.OpenRegisterController.editGet.url,
         changeName = "open register",
@@ -182,11 +183,11 @@ trait ConfirmationMustache {
             "<p>I don’t want to include my details on the open register</p>"
           }
         }
-      )
+      ))
     }
 
     def name = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "What is your full name?",
         editLink = routes.NameController.editGet.url,
         changeName = "full name",
@@ -197,11 +198,11 @@ trait ConfirmationMustache {
             form(keys.name.lastName).value).flatten
             .mkString("<p>", " ", "</p>")
         }
-      )
+      ))
     }
 
     def previousName = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "What is your previous name?",
         editLink = routes.NameController.editGet.url,
         changeName = "previous name",
@@ -216,11 +217,11 @@ trait ConfirmationMustache {
             "<p>I have not changed my name in the last 12 months</p>"
           }
         }
-      )
+      ))
     }
 
     def postalVote = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "Application form",
         editLink = form(keys.postalOrProxyVote.voteType).value match {
             case Some("postal") =>  PostalVoteController.postalVoteStep.routes.editGet.url
@@ -241,11 +242,11 @@ trait ConfirmationMustache {
             "<p>I do not need a "+wayToVote+" vote application form</p>"
           }
         }
-      )
+      ))
     }
 
     def contact = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "How we should contact you",
         editLink = ContactController.contactStep.routes.editGet.url,
         changeName = "how we should contact you",
@@ -264,10 +265,10 @@ trait ConfirmationMustache {
 
           s"$post $phone $email"
         }
-      )
+      ))
     }
 
-    def passport:Option[ConfirmationQuestion] = {
+    def passport = {
       val isRenewer = Some("true")
       val notRenewer = Some("false")
       val hasPassport = Some("true")
@@ -302,9 +303,9 @@ trait ConfirmationMustache {
 
       (renewer, passport, birth, before1983) match {
         case (`isRenewer`, _, _, _) => None
-        case (`notRenewer`, `hasPassport`, _, _) => Some(passportDetails)
-        case (`notRenewer`, `noPassport`, `notBornInUk`, _) => Some(citizenDetails)
-        case (`notRenewer`, `noPassport`, `bornInUk`, `notBornBefore1983`) => Some(citizenDetails)
+        case (`notRenewer`, `hasPassport`, _, _) => passportDetails
+        case (`notRenewer`, `noPassport`, `notBornInUk`, _) => citizenDetails
+        case (`notRenewer`, `noPassport`, `bornInUk`, `notBornBefore1983`) => citizenDetails
         case _ => Some(
           ConfirmationQuestion(
             title = "British Passport Details",
@@ -338,12 +339,12 @@ trait ConfirmationMustache {
         routes.CitizenDetailsController.editGet
       }
 
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "British Citizenship Details",
         editLink = route.url,
         changeName = "your citizenship details",
         content = ifComplete(keys.passport) { citizenContent.getOrElse(completeThisStepMessage) }
-      )
+      ))
     }
 
     def passportDetails = {
@@ -371,16 +372,16 @@ trait ConfirmationMustache {
         routes.PassportDetailsController.editGet
       }
 
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "British Passport Details",
         editLink = route.url,
         changeName = "your passport details",
         content = ifComplete(keys.passport) { passportContent.getOrElse(completeThisStepMessage) }
-      )
+      ))
     }
 
     def waysToVote = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "How do you want to vote",
         editLink = routes.WaysToVoteController.editGet.url,
         changeName = "way to vote",
@@ -397,7 +398,7 @@ trait ConfirmationMustache {
             case None => ""
           }
         }
-      )
+      ))
     }
   }
 }
