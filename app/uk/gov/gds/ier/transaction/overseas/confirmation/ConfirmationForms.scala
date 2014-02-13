@@ -55,7 +55,7 @@ trait ConfirmationForms
       keys.name.key -> stepRequired(nameMapping),
       keys.previousName.key -> stepRequired(previousNameMapping),
       keys.previouslyRegistered.key -> stepRequired(previouslyRegisteredMapping),
-      keys.dateLeftSpecial.key -> stepRequired(dateLeftSpecialMapping),
+      keys.dateLeftSpecial.key -> optional(dateLeftSpecialMapping),
       keys.dateLeftUk.key -> stepRequired(dateLeftUkMapping),
       "lastRegisteredToVote" -> optional(lastRegisteredToVoteMapping),
       keys.dob.key -> stepRequired(dobMapping),
