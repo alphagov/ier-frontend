@@ -21,6 +21,7 @@ import uk.gov.gds.ier.transaction.overseas.address.AddressForms
 import uk.gov.gds.ier.transaction.overseas.waysToVote.WaysToVoteForms
 import uk.gov.gds.ier.transaction.overseas.applicationFormVote.PostalOrProxyVoteForms
 import scala.collection.mutable
+import uk.gov.gds.ier.transaction.overseas.parentsAddress.ParentsAddressForms
 
 trait ConfirmationForms
   extends FormKeys
@@ -34,6 +35,7 @@ trait ConfirmationForms
   with NinoForms
   with AddressForms
   with LastUkAddressForms
+  with ParentsAddressForms
   with OpenRegisterForms
   with NameForms
   with PassportForms
@@ -61,6 +63,7 @@ trait ConfirmationForms
       keys.dob.key -> optional(dobMapping),
       keys.nino.key -> optional(ninoMapping),
       keys.lastUkAddress.key -> optional(partialAddressMapping),
+      keys.parentsAddress.key -> optional(parentsPartialAddressMapping),
       keys.overseasAddress.key -> optional(addressMapping),
       keys.openRegister.key -> optional(optInMapping),
       keys.waysToVote.key -> optional(waysToVoteMapping),
