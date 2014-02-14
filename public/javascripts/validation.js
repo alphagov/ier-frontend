@@ -288,7 +288,9 @@
       var _this = this,
           $lastElement,
           name,
-          rule;
+          rule,
+          element,
+          $label;
 
       $('.validation-message').remove();
       if (typeof $validationTrigger[0].form === 'undefined' || !invalidFields.length) { return; }
@@ -297,7 +299,15 @@
         $.each(invalidFields, function (idx, field) {
           name = invalidFields[idx].name;
           rule = invalidFields[idx].rule;
+          element = invalidFields[idx].$source[0];
+          $label = $(element.form).find('label[for="' + element.id + '"]');
+
           if ((typeof _this.messages[name] !== 'undefined') && (typeof _this.messages[name][rule] !== 'undefined')) {
+            // add label validation message
+            if ($label.length) {
+              $label.append('<span class="validation-message">' + _this.messages[name][rule] + '</span>');
+            }
+            // add page validation message
             $('<div class="validation-message visible">' + _this.messages[name][rule] + '</div>').insertBefore($lastElement);
           }
         });
