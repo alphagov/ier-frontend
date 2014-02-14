@@ -9,6 +9,8 @@ case class InprogressOverseas(
     previouslyRegistered: Option[PreviouslyRegistered] = None,
     dateLeftSpecial: Option[DateLeftSpecial] = None,
     dateLeftUk: Option[DateLeft] = None,
+    parentName: Option[ParentName] = None,
+    parentPreviousName: Option[ParentPreviousName] = None,
     lastRegisteredToVote: Option[LastRegisteredToVote] = None,
     dob: Option[DOB] = None,
     nino: Option[Nino] = None,
@@ -29,6 +31,8 @@ case class InprogressOverseas(
       previouslyRegistered = this.previouslyRegistered.orElse(other.previouslyRegistered),
       dateLeftSpecial = this.dateLeftSpecial.orElse(other.dateLeftSpecial),
       dateLeftUk = this.dateLeftUk.orElse(other.dateLeftUk),
+      parentName = this.parentName.orElse(other.parentName),
+      parentPreviousName = this.parentPreviousName.orElse(other.parentPreviousName),
       lastRegisteredToVote = this.lastRegisteredToVote.orElse(other.lastRegisteredToVote),
       dob = this.dob.orElse(other.dob),
       nino = this.nino.orElse(other.nino),
@@ -50,6 +54,8 @@ case class OverseasApplication(
     previouslyRegistered: Option[PreviouslyRegistered],
     dateLeftUk: Option[DateLeft],
     dateLeftSpecial: Option[DateLeftSpecial],
+    parentName: Option[ParentName],
+    parentPreviousName: Option[ParentPreviousName],
     lastRegisteredToVote: Option[LastRegisteredToVote],
     dob: Option[DOB],
     nino: Option[Nino],
@@ -70,6 +76,8 @@ case class OverseasApplication(
       previouslyRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
       dateLeftUk.map(_.toApiMap()).getOrElse(Map.empty) ++
       dateLeftSpecial.map(_.toApiMap).getOrElse(Map.empty) ++
+      parentName.map(_.toApiMap("pgfn", "pgmn", "pgln")).getOrElse(Map.empty) ++
+      parentPreviousName.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
       lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
@@ -185,11 +193,6 @@ object WaysToVoteType {
   }
 }
 
-case class CountryWithCode(
-    country: String,
-    code: String
-)
-
 case class PostalOrProxyVote (
     typeVote: WaysToVoteType,
     postalVoteOption: Option[Boolean],
@@ -213,5 +216,23 @@ case class PostalOrProxyVote (
       case _ => Map.empty
     }
     voteMap ++ emailMap
+  }
+}
+case class CountryWithCode(country: String, code: String) 
+
+
+case class ParentName(firstName:String,
+                middleNames:Option[String],
+                lastName:String) {
+  def toApiMap(fnKey:String, mnKey:String, lnKey:String):Map[String,String] = {
+    Map(fnKey -> firstName, lnKey -> lastName) ++ middleNames.map(mn => Map(mnKey -> mn)).getOrElse(Map.empty)
+  }
+}
+
+case class ParentPreviousName(hasPreviousName:Boolean,
+                        previousName:Option[ParentName]) {
+  def toApiMap:Map[String,String] = {
+    previousName.map(pn => pn.toApiMap("pgrfn", "pgrmn", "pgrln")).getOrElse(Map.empty) ++ 
+    Map("pgnc" -> hasPreviousName.toString)
   }
 }

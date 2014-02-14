@@ -6,6 +6,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import play.api.templates.Html
 import controllers.step.overseas.LastUkAddressController
+import controllers.step.overseas.ParentNameController
 import uk.gov.gds.ier.step.OverseaStep
 import controllers.step.overseas.routes._
 import uk.gov.gds.ier.model._
@@ -17,6 +18,7 @@ import uk.gov.gds.ier.validation.InProgressForm
 import scala.Some
 import org.joda.time.{Months, DateTime}
 import controllers.routes.ExitController
+import uk.gov.gds.ier.validation.DateValidator
 
 
 class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
@@ -43,6 +45,10 @@ class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
       }
       case Some(dateLeftUk) if validateTooOldWhenLeftUk(dateLeftUk, currentState.dob, currentState.lastRegisteredToVote) => {
         Exit(ExitController.tooOldWhenLeftUk)
+      }
+      case Some(dateLeftUk) if (!dateLeftUkOver15Years(dateLeftUk) && 
+          DateValidator.isLessEighteen(currentState.dob)) => {
+        ParentNameController.parentNameStep
       }
       case _ => LastUkAddressController.lastUkAddressStep
     }

@@ -40,6 +40,16 @@ object DateValidator {
       case ex: Exception => false
     }
   }
+  
+  def isLessEighteen(dateOfBirth: Option[DOB]) = {
+    try {
+      if (dateOfBirth.isDefined)
+    	parseToDateMidnight(dateOfBirth.get).plusYears(18).isAfter(DateTime.now.toDateMidnight)
+      else false
+    } catch {
+      case ex: Exception => false
+    }
+  }
 
   private def parseToDateMidnight(dateOfBirth: DOB) = {
     new DateMidnight(

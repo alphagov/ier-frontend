@@ -14,6 +14,7 @@ import uk.gov.gds.ier.transaction.overseas.dateOfBirth.DateOfBirthForms
 import uk.gov.gds.ier.transaction.overseas.lastRegisteredToVote.LastRegisteredToVoteForms
 import uk.gov.gds.ier.transaction.overseas.nino.NinoForms
 import uk.gov.gds.ier.transaction.overseas.name.NameForms
+import uk.gov.gds.ier.transaction.overseas.parentName.ParentNameForms
 import uk.gov.gds.ier.transaction.overseas.openRegister.OpenRegisterForms
 import uk.gov.gds.ier.transaction.overseas.contact.ContactForms
 import uk.gov.gds.ier.transaction.overseas.passport.PassportForms
@@ -29,6 +30,7 @@ trait ConfirmationForms
   with PreviouslyRegisteredForms
   with DateLeftSpecialForms
   with DateLeftUkForms
+  with ParentNameForms
   with DateOfBirthForms
   with LastRegisteredToVoteForms
   with NinoForms
@@ -57,6 +59,8 @@ trait ConfirmationForms
       keys.previouslyRegistered.key -> optional(previouslyRegisteredMapping),
       keys.dateLeftSpecial.key -> optional(dateLeftSpecialMapping),
       keys.dateLeftUk.key -> optional(dateLeftUkMapping),
+      keys.parentName.key -> optional(parentNameMapping),
+      keys.parentPreviousName.key -> optional(parentPrevNameMapping),
       "lastRegisteredToVote" -> optional(lastRegisteredToVoteMapping),
       keys.dob.key -> optional(dobMapping),
       keys.nino.key -> optional(ninoMapping),

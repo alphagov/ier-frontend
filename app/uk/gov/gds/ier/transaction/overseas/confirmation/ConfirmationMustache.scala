@@ -39,6 +39,8 @@ trait ConfirmationMustache {
           confirmation.previouslyRegistered,
           confirmation.lastUkAddress,
           confirmation.dateLeftUk,
+          confirmation.parentName,
+          confirmation.parentPreviousName,
           confirmation.nino,
           confirmation.address,
           confirmation.openRegister,
@@ -234,6 +236,40 @@ trait ConfirmationMustache {
             ).flatten.mkString("<p>", " ", "</p>")
           } else {
             "<p>I have not changed my name in the last 12 months</p>"
+          }
+        }
+      ))
+    }
+    
+    def parentName = {
+      Some(ConfirmationQuestion(
+        title = "Parent or guardian's name",
+        editLink = routes.ParentNameController.editGet.url,
+        changeName = "full name",
+        content = ifComplete(keys.parentName) {
+          List(
+            form(keys.parentName.firstName).value,
+            form(keys.parentName.middleNames).value,
+            form(keys.parentName.lastName).value).flatten
+            .mkString("<p>", " ", "</p>")
+        }
+      ))
+    }
+
+    def parentPreviousName = {
+      Some(ConfirmationQuestion(
+        title = "Parent or guardian's previous name",
+        editLink = routes.ParentNameController.editGet.url,
+        changeName = "previous name",
+        content = ifComplete(keys.parentPreviousName) {
+          if (form(keys.parentPreviousName.hasPreviousName).value == Some("true")) {
+            List(
+              form(keys.parentPreviousName.previousName.firstName).value,
+              form(keys.parentPreviousName.previousName.middleNames).value,
+              form(keys.parentPreviousName.previousName.lastName).value
+            ).flatten.mkString("<p>", " ", "</p>")
+          } else {
+            "<p>They haven't changed their name since they left the UK</p>"
           }
         }
       ))

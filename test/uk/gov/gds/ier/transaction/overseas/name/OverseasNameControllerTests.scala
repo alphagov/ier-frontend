@@ -27,7 +27,7 @@ class OverseasNameControllerTests
       contentAsString(result) should include("Question 4")
       contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/last-uk-address")
       contentAsString(result) should include("What is your full name?")
-      contentAsString(result) should include("Have you changed your name in the last 12 months?")
+      contentAsString(result) should include("Have you changed your name since you left the UK?")
       contentAsString(result) should include("<form action=\"/register-to-vote/overseas/name\"")
     }
   }
@@ -95,7 +95,7 @@ class OverseasNameControllerTests
       status(result) should be(OK)
       contentAsString(result) should include("What is your full name?")
       contentAsString(result) should include("Please enter your full name")
-      contentAsString(result) should include("Have you changed your name in the last 12 months?")
+      contentAsString(result) should include("Have you changed your name since you left the UK?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("<form action=\"/register-to-vote/overseas/name\"")
     }
