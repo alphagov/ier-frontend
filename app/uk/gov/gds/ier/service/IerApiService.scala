@@ -89,6 +89,7 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       name = applicant.name,
       previousName = applicant.previousName,
       previouslyRegistered = applicant.previouslyRegistered,
+      dateLeftSpecial = applicant.dateLeftSpecial,
       dateLeftUk = applicant.dateLeftUk,
       lastRegisteredToVote = applicant.lastRegisteredToVote,
       dob = applicant.dob,
@@ -103,27 +104,11 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       authority = currentAuthority
     )
 
-    if (checkOverseasRenewer(completeApplication)) {
-      val apiApplicant = ApiApplication(completeApplication.toApiMap)
-      sendApplication(apiApplicant)
-    }
-    else throw new ApiException("Application not completed!")
+    val apiApplicant = ApiApplication(completeApplication.toApiMap)
+    sendApplication(apiApplicant)
   }
 
-  private def checkOverseasRenewer(application: OverseasApplication): Boolean = {
-    application.dob.isDefined &&
-    application.previouslyRegistered.exists(_.hasPreviouslyRegistered == true) &&
-    application.dateLeftUk.isDefined &&
-    application.lastUkAddress.isDefined &&
-    application.name.isDefined &&
-    application.previousName.isDefined &&
-    application.nino.isDefined &&
-    application.address.isDefined &&
-    application.openRegisterOptin.isDefined &&
-    application.waysToVote.isDefined &&
-    application.postalOrProxyVote.isDefined &&
-    application.contact.isDefined
-  }
+
 
   private def sendApplication(application: ApiApplication) = {
     apiClient.post(config.ierApiUrl,

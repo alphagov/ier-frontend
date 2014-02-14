@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.overseas.dateLeftUk
 
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{DateLeftUk, InprogressOverseas}
+import uk.gov.gds.ier.model.{DateLeft, InprogressOverseas}
 import uk.gov.gds.ier.validation.constraints.overseas.DateLeftUkConstraints
 
 trait DateLeftUkForms extends DateLeftUkConstraints {
@@ -17,7 +17,7 @@ trait DateLeftUkForms extends DateLeftUkConstraints {
       .verifying("Please enter the year when you left the UK", _.nonEmpty)
       .verifying("The year you provided is invalid", day => day.isEmpty || day.matches("\\d+"))
   ) {
-    (month, year) => DateLeftUk(year.toInt, month.toInt)
+    (month, year) => DateLeft(year.toInt, month.toInt)
   } {
     dateLeftUk =>
       Some(

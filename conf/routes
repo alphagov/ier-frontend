@@ -245,6 +245,25 @@ POST        /register-to-vote/overseas/last-registered-to-vote                  
 GET         /register-to-vote/overseas/edit/last-registered-to-vote                      controllers.step.overseas.LastRegisteredToVoteController.editGet
 POST        /register-to-vote/overseas/edit/last-registered-to-vote                      controllers.step.overseas.LastRegisteredToVoteController.editPost
 
+#Date Left Army
+GET         /register-to-vote/overseas/date-left-army                      controllers.step.overseas.DateLeftArmyController.get
+POST        /register-to-vote/overseas/date-left-army                      controllers.step.overseas.DateLeftArmyController.post
+GET         /register-to-vote/overseas/edit/date-left-army                 controllers.step.overseas.DateLeftArmyController.editGet
+POST        /register-to-vote/overseas/edit/date-left-army                 controllers.step.overseas.DateLeftArmyController.editPost
+
+#Date Left Council
+GET         /register-to-vote/overseas/date-left-council                      controllers.step.overseas.DateLeftCouncilController.get
+POST        /register-to-vote/overseas/date-left-council                      controllers.step.overseas.DateLeftCouncilController.post
+GET         /register-to-vote/overseas/edit/date-left-council                 controllers.step.overseas.DateLeftCouncilController.editGet
+POST        /register-to-vote/overseas/edit/date-left-council                 controllers.step.overseas.DateLeftCouncilController.editPost
+
+#Date Left Crown
+GET         /register-to-vote/overseas/date-left-crown                      controllers.step.overseas.DateLeftCrownController.get
+POST        /register-to-vote/overseas/date-left-crown                      controllers.step.overseas.DateLeftCrownController.post
+GET         /register-to-vote/overseas/edit/date-left-crown                 controllers.step.overseas.DateLeftCrownController.editGet
+POST        /register-to-vote/overseas/edit/date-left-crown                 controllers.step.overseas.DateLeftCrownController.editPost
+
+
 #Overseas Confirmation
 GET         /register-to-vote/overseas/confirmation                      controllers.step.overseas.ConfirmationController.get
 POST        /register-to-vote/overseas/confirmation                      controllers.step.overseas.ConfirmationController.post
