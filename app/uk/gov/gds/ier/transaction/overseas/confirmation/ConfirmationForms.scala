@@ -52,20 +52,20 @@ trait ConfirmationForms
 
   val confirmationForm = ErrorTransformForm(
     mapping(
-      keys.name.key -> stepRequired(nameMapping),
-      keys.previousName.key -> stepRequired(previousNameMapping),
-      keys.previouslyRegistered.key -> stepRequired(previouslyRegisteredMapping),
+      keys.name.key -> optional(nameMapping),
+      keys.previousName.key -> optional(previousNameMapping),
+      keys.previouslyRegistered.key -> optional(previouslyRegisteredMapping),
       keys.dateLeftSpecial.key -> optional(dateLeftSpecialMapping),
-      keys.dateLeftUk.key -> stepRequired(dateLeftUkMapping),
+      keys.dateLeftUk.key -> optional(dateLeftUkMapping),
       "lastRegisteredToVote" -> optional(lastRegisteredToVoteMapping),
-      keys.dob.key -> stepRequired(dobMapping),
-      keys.nino.key -> stepRequired(ninoMapping),
-      keys.lastUkAddress.key -> stepRequired(partialAddressMapping),
-      keys.overseasAddress.key -> stepRequired(addressMapping),
-      keys.openRegister.key -> stepRequired(optInMapping),
-      keys.waysToVote.key -> stepRequired(waysToVoteMapping),
-      keys.postalOrProxyVote.key -> stepRequired(postalOrProxyVoteMapping),
-      keys.contact.key -> stepRequired(contactMapping),
+      keys.dob.key -> optional(dobMapping),
+      keys.nino.key -> optional(ninoMapping),
+      keys.lastUkAddress.key -> optional(partialAddressMapping),
+      keys.overseasAddress.key -> optional(addressMapping),
+      keys.openRegister.key -> optional(optInMapping),
+      keys.waysToVote.key -> optional(waysToVoteMapping),
+      keys.postalOrProxyVote.key -> optional(postalOrProxyVoteMapping),
+      keys.contact.key -> optional(contactMapping),
       keys.passport.key -> optional(passportMapping),
       keys.possibleAddresses.key -> optional(possibleAddressesMapping)
     )
@@ -77,36 +77,36 @@ trait ConfirmationForms
   lazy val validateOverseasRenewerApplication = Constraint[InprogressOverseas]("validateOverseasRenewerApplication") {
     application =>
 
-      val validationErrors = mutable.MutableList[String]()
+      val validationErrors = Seq (
+          if (!application.dob.isDefined)
+            Some(keys.dob) else None,
+          if (!application.previouslyRegistered.exists(_.hasPreviouslyRegistered == true))
+            Some(keys.previouslyRegistered) else None,
+          if (!application.dateLeftUk.isDefined)
+            Some(keys.dateLeftUk) else None,
+          if (!application.lastUkAddress.isDefined)
+            Some(keys.lastUkAddress) else None,
+          if (!application.name.isDefined)
+            Some(keys.name) else None,
+          if (!application.previousName.isDefined)
+            Some(keys.previousName) else None,
+          if (!application.nino.isDefined)
+            Some(keys.nino) else None,
+          if (!application.address.isDefined)
+            Some(keys.overseasAddress) else None,
+          if (!application.openRegisterOptin.isDefined)
+            Some(keys.openRegister) else None,
+          if (!application.waysToVote.isDefined)
+            Some(keys.waysToVote) else None,
+          if (!application.postalOrProxyVote.isDefined)
+            Some(keys.postalOrProxyVote) else None,
+          if (!application.contact.isDefined)
+            Some(keys.contact) else None
+        ).flatten
 
-      if (application.dob.isDefined)
-        validationErrors += keys.dob.key
-      if (application.previouslyRegistered.exists(_.hasPreviouslyRegistered == true))
-        validationErrors += keys.previouslyRegistered.key
-      if (application.dateLeftUk.isDefined)
-        validationErrors += keys.dateLeftUk.key
-      if (application.lastUkAddress.isDefined)
-        validationErrors += keys.lastUkAddress.key
-      if (application.name.isDefined)
-        validationErrors +=  keys.name.key
-      if (application.previousName.isDefined)
-        validationErrors += keys.previousName.key
-      if (application.nino.isDefined)
-        validationErrors +=   keys.nino.key
-      if (application.address.isDefined)
-        validationErrors +=  keys.address.key
-      if (application.openRegisterOptin.isDefined)
-        validationErrors += keys.openRegister.key
-      if (application.waysToVote.isDefined)
-        validationErrors += keys.waysToVote.key
-      if (application.postalOrProxyVote.isDefined)
-        validationErrors += keys.postalOrProxyVote.key
-      if (application.contact.isDefined)
-        validationErrors += keys.contact.key
-
-      if (validationErrors.size > 0)
+      if (validationErrors.size == 0)
         Valid
       else
-        Invalid ("Please complete this step", validationErrors)
+        Invalid ("Please complete this step", validationErrors:_*)
   }
 }
