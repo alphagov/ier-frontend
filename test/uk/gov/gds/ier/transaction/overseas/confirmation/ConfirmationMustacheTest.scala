@@ -79,6 +79,62 @@ class ConfirmationMustacheTest
     prevNameModel.editLink should be("/register-to-vote/overseas/edit/name")
   }
 
+  "In-progress application form with filled parent name and parent previous name" should
+    "generate confirmation mustache model with correctly rendered parent names and correct URLs" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
+      parentName = Some(ParentName(
+        firstName = "John",
+        middleNames = None,
+        lastName = "Smith")),
+      parentPreviousName = Some(ParentPreviousName(
+        hasPreviousName = true,
+        previousName = Some(ParentName(
+          firstName = "Jan",
+          middleNames = None,
+          lastName = "Kovar"))
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+
+    val Some(nameModel) = confirmation.parentName
+    nameModel.content should be("<p>John Smith</p>")
+    nameModel.editLink should be("/register-to-vote/overseas/edit/parent-name")
+
+    val Some(prevNameModel) = confirmation.parentPreviousName
+    prevNameModel.content should be("<p>Jan Kovar</p>")
+    prevNameModel.editLink should be("/register-to-vote/overseas/edit/parent-name")
+  }
+
+
+  "In-progress application form with filled parent name and parent previous name with middle names" should
+    "generate confirmation mustache model with correctly rendered parent names and correct URLs" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
+      parentName = Some(ParentName(
+        firstName = "John",
+        middleNames = Some("Walker Junior"),
+        lastName = "Smith")),
+      parentPreviousName = Some(ParentPreviousName(
+        hasPreviousName = true,
+        previousName = Some(ParentName(
+          firstName = "Jan",
+          middleNames = Some("Janko Janik"),
+          lastName = "Kovar"))
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+
+    val Some(parentNameModel) = confirmation.parentName
+    parentNameModel.content should be("<p>John Walker Junior Smith</p>")
+    parentNameModel.editLink should be("/register-to-vote/overseas/edit/parent-name")
+
+    val Some(parentPrevNameModel) = confirmation.parentPreviousName
+    parentPrevNameModel.content should be("<p>Jan Janko Janik Kovar</p>")
+    parentPrevNameModel.editLink should be("/register-to-vote/overseas/edit/parent-name")
+  }
+  
+  
   behavior of "ConfirmationBlocks.passport"
 
   it should "return 'complete this' message if not a renewer" in {
