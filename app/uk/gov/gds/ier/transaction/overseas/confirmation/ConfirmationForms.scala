@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation
 
 import play.api.data.Forms._
-import uk.gov.gds.ier.validation._
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.serialiser.WithSerialiser
@@ -18,10 +17,10 @@ import uk.gov.gds.ier.transaction.overseas.name.NameForms
 import uk.gov.gds.ier.transaction.overseas.openRegister.OpenRegisterForms
 import uk.gov.gds.ier.transaction.overseas.contact.ContactForms
 import uk.gov.gds.ier.transaction.overseas.passport.PassportForms
-import uk.gov.gds.ier.transaction.overseas.waysToVote.WaysToVoteForms
 import uk.gov.gds.ier.transaction.overseas.address.AddressForms
 import uk.gov.gds.ier.transaction.overseas.waysToVote.WaysToVoteForms
 import uk.gov.gds.ier.transaction.overseas.applicationFormVote.PostalOrProxyVoteForms
+import scala.collection.mutable
 
 trait ConfirmationForms
   extends FormKeys
@@ -53,22 +52,61 @@ trait ConfirmationForms
 
   val confirmationForm = ErrorTransformForm(
     mapping(
-      keys.name.key -> stepRequired(nameMapping),
-      keys.previousName.key -> stepRequired(previousNameMapping),
-      keys.previouslyRegistered.key -> stepRequired(previouslyRegisteredMapping),
-      keys.dateLeftSpecial.key -> stepRequired(dateLeftSpecialMapping),
-      keys.dateLeftUk.key -> stepRequired(dateLeftUkMapping),
-      "lastRegisteredToVote" -> stepRequired(lastRegisteredToVoteMapping),
-      keys.dob.key -> stepRequired(dobMapping),
-      keys.nino.key -> stepRequired(ninoMapping),
-      keys.lastUkAddress.key -> stepRequired(partialAddressMapping),
-      keys.overseasAddress.key -> stepRequired(addressMapping),
-      keys.openRegister.key -> stepRequired(optInMapping),
-      keys.waysToVote.key -> stepRequired(waysToVoteMapping),
-      keys.postalOrProxyVote.key -> stepRequired(postalOrProxyVoteMapping),
-      keys.contact.key -> stepRequired(contactMapping),
-      keys.passport.key -> stepRequired(passportMapping),
+      keys.name.key -> optional(nameMapping),
+      keys.previousName.key -> optional(previousNameMapping),
+      keys.previouslyRegistered.key -> optional(previouslyRegisteredMapping),
+      keys.dateLeftSpecial.key -> optional(dateLeftSpecialMapping),
+      keys.dateLeftUk.key -> optional(dateLeftUkMapping),
+      "lastRegisteredToVote" -> optional(lastRegisteredToVoteMapping),
+      keys.dob.key -> optional(dobMapping),
+      keys.nino.key -> optional(ninoMapping),
+      keys.lastUkAddress.key -> optional(partialAddressMapping),
+      keys.overseasAddress.key -> optional(addressMapping),
+      keys.openRegister.key -> optional(optInMapping),
+      keys.waysToVote.key -> optional(waysToVoteMapping),
+      keys.postalOrProxyVote.key -> optional(postalOrProxyVoteMapping),
+      keys.contact.key -> optional(contactMapping),
+      keys.passport.key -> optional(passportMapping),
       keys.possibleAddresses.key -> optional(possibleAddressesMapping)
-    ) (InprogressOverseas.apply) (InprogressOverseas.unapply)
+    )
+    (InprogressOverseas.apply)
+    (InprogressOverseas.unapply)
+    verifying (validateOverseasRenewerApplication)
   )
+
+  lazy val validateOverseasRenewerApplication = Constraint[InprogressOverseas]("validateOverseasRenewerApplication") {
+    application =>
+
+      val validationErrors = Seq (
+          if (!application.dob.isDefined)
+            Some(keys.dob) else None,
+          if (!application.previouslyRegistered.exists(_.hasPreviouslyRegistered == true))
+            Some(keys.previouslyRegistered) else None,
+          if (!application.dateLeftUk.isDefined)
+            Some(keys.dateLeftUk) else None,
+          if (!application.lastUkAddress.isDefined)
+            Some(keys.lastUkAddress) else None,
+          if (!application.name.isDefined)
+            Some(keys.name) else None,
+          if (!application.previousName.isDefined)
+            Some(keys.previousName) else None,
+          if (!application.nino.isDefined)
+            Some(keys.nino) else None,
+          if (!application.address.isDefined)
+            Some(keys.overseasAddress) else None,
+          if (!application.openRegisterOptin.isDefined)
+            Some(keys.openRegister) else None,
+          if (!application.waysToVote.isDefined)
+            Some(keys.waysToVote) else None,
+          if (!application.postalOrProxyVote.isDefined)
+            Some(keys.postalOrProxyVote) else None,
+          if (!application.contact.isDefined)
+            Some(keys.contact) else None
+        ).flatten
+
+      if (validationErrors.size == 0)
+        Valid
+      else
+        Invalid ("Please complete this step", validationErrors:_*)
+  }
 }

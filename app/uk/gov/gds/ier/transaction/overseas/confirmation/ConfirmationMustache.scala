@@ -89,7 +89,7 @@ trait ConfirmationMustache {
       val iWas = "I was last registered as"
 
       val previouslyRegisteredContent = (renewer, prevRegType) match {
-        case (true, _) => "an overseas voter"
+        case (true, _) => s"<p>$iWas an overseas voter</p>"
         case (_, Some(LastRegisteredType.UK)) => s"<p>$iWas a UK resident</p>"
         case (_, Some(LastRegisteredType.Army)) => s"<p>$iWas a member of the armed forces</p>"
         case (_, Some(LastRegisteredType.Crown)) => s"<p>$iWas a Crown servant</p>"
@@ -242,8 +242,8 @@ trait ConfirmationMustache {
     def postalVote = {
       val way = form(keys.postalOrProxyVote.voteType).value.map{ way => WaysToVoteType.parse(way) }
       val prettyWayName = way match {
-        case WaysToVoteType.ByPost => "postal vote"
-        case WaysToVoteType.ByProxy => "proxy vote"
+        case Some(WaysToVoteType.ByPost) => "postal vote"
+        case Some(WaysToVoteType.ByProxy) => "proxy vote"
         case _ => ""
       }
       val myEmail = form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value.getOrElse("")

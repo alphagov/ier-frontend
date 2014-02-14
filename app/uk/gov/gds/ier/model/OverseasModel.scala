@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.model
 
+import uk.gov.gds.common.model.LocalAuthority
 import scala.util.Try
 
 case class InprogressOverseas(
@@ -53,11 +54,13 @@ case class OverseasApplication(
     dob: Option[DOB],
     nino: Option[Nino],
     address: Option[OverseasAddress],
-    lastUkAddress: Option[PartialAddress] = None,
+    lastUkAddress: Option[Address] = None,
     openRegisterOptin: Option[Boolean],
     waysToVote: Option[WaysToVote],
     postalOrProxyVote: Option[PostalOrProxyVote],
-    contact: Option[Contact])
+    contact: Option[Contact],
+    referenceNumber: Option[String],
+    authority: Option[LocalAuthority])
   extends CompleteApplication {
 
   def toApiMap = {
@@ -72,9 +75,13 @@ case class OverseasApplication(
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
       address.map(_.toApiMap).getOrElse(Map.empty) ++
+      lastUkAddress.map(_.toApiMap("reg")).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
       postalOrProxyVote.map(_.toApiMap).getOrElse(Map.empty) ++
-      contact.map(_.toApiMap).getOrElse(Map.empty)
+      contact.map(_.toApiMap).getOrElse(Map.empty) ++
+      referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
+      authority.map(auth => Map("gssCode" -> auth.gssId)).getOrElse(Map.empty)  ++
+      Map("applicationType" -> "overseas")
   }
 }
 
