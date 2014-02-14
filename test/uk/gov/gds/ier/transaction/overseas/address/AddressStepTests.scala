@@ -36,7 +36,7 @@ class AddressStepTests
           .withIerSession()
           .withFormUrlEncodedBody(
           "overseasAddress.country" -> "United Kingdom",
-          "overseasAddress.overseasAddressDetails" -> "some street, some borough, postcode")
+          "overseasAddress.addressLine1" -> "some street, some borough, postcode")
       )
 
       status(result) should be(SEE_OTHER)
@@ -80,7 +80,7 @@ class AddressStepTests
           .withIerSession()
           .withFormUrlEncodedBody(
           "overseasAddress.country" -> "United Kingdom",
-          "overseasAddress.overseasAddressDetails" -> "some street, some borough, postcode")
+          "overseasAddress.addressLine1" -> "some street, some borough, postcode")
       )
 
       status(result) should be(SEE_OTHER)
@@ -110,7 +110,7 @@ class AddressStepTests
           .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
           "overseasAddress.country" -> "United Kingdom",
-          "overseasAddress.overseasAddressDetails" -> "some street, some borough, postcode")
+          "overseasAddress.addressLine1" -> "some street, some borough, postcode")
       )
 
       status(result) should be(SEE_OTHER)
@@ -127,7 +127,7 @@ class AddressStepTests
           .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
           "overseasAddress.country" -> "United Kingdom",
-          "overseasAddress.overseasAddressDetails" -> "some street, some borough, postcode")
+          "overseasAddress.addressLine1" -> "some street, some borough, postcode")
       )
 
       status(result) should be(SEE_OTHER)
