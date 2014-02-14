@@ -5,7 +5,6 @@ import org.scalatest.{Matchers, FlatSpec}
 import play.api.libs.json.{Json, JsNull}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.DateLeftUk
 
 class DateLeftUkFormsTests
   extends FlatSpec
@@ -115,7 +114,11 @@ class DateLeftUkFormsTests
     dateLeftUkForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
-        success.dateLeftUk should be(Some(DateLeftUk(2000,10)))
+        success.dateLeftUk.isDefined should be(true)
+        val Some(dateLeft) = success.dateLeftUk
+
+        dateLeft.year should be(2000)
+        dateLeft.month should be(10)
       }
     )
   }

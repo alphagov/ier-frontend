@@ -1,15 +1,14 @@
 package uk.gov.gds.ier.model
 
-import uk.gov.gds.ier.model.LastRegisteredType.LastRegisteredType
-import uk.gov.gds.ier.model.WaysToVoteType.WaysToVoteType
-import com.fasterxml.jackson.core.`type`.TypeReference
-import com.fasterxml.jackson.module.scala.JsonScalaEnumeration
+import uk.gov.gds.common.model.LocalAuthority
+import scala.util.Try
 
 case class InprogressOverseas(
     name: Option[Name] = None,
     previousName: Option[PreviousName] = None,
     previouslyRegistered: Option[PreviouslyRegistered] = None,
-    dateLeftUk: Option[DateLeftUk] = None,
+    dateLeftSpecial: Option[DateLeftSpecial] = None,
+    dateLeftUk: Option[DateLeft] = None,
     lastRegisteredToVote: Option[LastRegisteredToVote] = None,
     dob: Option[DOB] = None,
     nino: Option[Nino] = None,
@@ -28,6 +27,7 @@ case class InprogressOverseas(
       name = this.name.orElse(other.name),
       previousName = this.previousName.orElse(other.previousName),
       previouslyRegistered = this.previouslyRegistered.orElse(other.previouslyRegistered),
+      dateLeftSpecial = this.dateLeftSpecial.orElse(other.dateLeftSpecial),
       dateLeftUk = this.dateLeftUk.orElse(other.dateLeftUk),
       lastRegisteredToVote = this.lastRegisteredToVote.orElse(other.lastRegisteredToVote),
       dob = this.dob.orElse(other.dob),
@@ -48,38 +48,44 @@ case class OverseasApplication(
     name: Option[Name],
     previousName: Option[PreviousName],
     previouslyRegistered: Option[PreviouslyRegistered],
-    dateLeftUk: Option[DateLeftUk],
+    dateLeftUk: Option[DateLeft],
+    dateLeftSpecial: Option[DateLeftSpecial],
     lastRegisteredToVote: Option[LastRegisteredToVote],
     dob: Option[DOB],
     nino: Option[Nino],
     address: Option[OverseasAddress],
-    lastUkAddress: Option[PartialAddress] = None,
+    lastUkAddress: Option[Address] = None,
     openRegisterOptin: Option[Boolean],
     waysToVote: Option[WaysToVote],
     postalOrProxyVote: Option[PostalOrProxyVote],
-    contact: Option[Contact])
+    passport: Option[Passport],
+    contact: Option[Contact],
+    referenceNumber: Option[String],
+    authority: Option[LocalAuthority],
+    ip: Option[String])
   extends CompleteApplication {
 
   def toApiMap = {
     Map.empty ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
       previousName.map(_.toApiMap).getOrElse(Map.empty) ++
-      previouslyRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
-      dateLeftUk.map(_.toApiMap).getOrElse(Map.empty) ++
+      previouslyRegistered.map(_.toApiMap(lastRegisteredToVote)).getOrElse(Map.empty) ++
+      dateLeftUk.map(_.toApiMap()).getOrElse(Map.empty) ++
+      dateLeftSpecial.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
-      lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
-      dob.map(_.toApiMap).getOrElse(Map.empty) ++
+      lastUkAddress.map(_.toApiMap("reg")).getOrElse(Map.empty) ++
+      dob.map(_.toApiMap("dob")).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
       address.map(_.toApiMap).getOrElse(Map.empty) ++
+      lastUkAddress.map(_.toApiMap("reg")).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
-      postalOrProxyVote.map(postalOrProxyVote => postalOrProxyVote.postalVoteOption.map(
-        postalVoteOption => Map(postalOrProxyVote.apiVoteKey -> postalVoteOption.toString))
-          .getOrElse(Map.empty)).getOrElse(Map.empty) ++
-      postalOrProxyVote.map(postalOrProxyVote => postalOrProxyVote.deliveryMethod.map(
-        deliveryMethod => deliveryMethod.emailAddress.map(
-          emailAddress => Map(postalOrProxyVote.apiEmailKey -> emailAddress)).getOrElse(Map.empty))
-            .getOrElse(Map.empty)).getOrElse(Map.empty) ++
-      contact.map(_.toApiMap).getOrElse(Map.empty)
+      postalOrProxyVote.map(_.toApiMap).getOrElse(Map.empty) ++
+      passport.map(_.toApiMap).getOrElse(Map.empty) ++
+      contact.map(_.toApiMap).getOrElse(Map.empty) ++
+      referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
+      authority.map(auth => Map("gssCode" -> auth.gssId)).getOrElse(Map.empty) ++
+      ip.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty) ++
+      Map("applicationType" -> "overseas")
   }
 }
 
@@ -88,48 +94,86 @@ case class Stub() {
 }
 
 case class PreviouslyRegistered(hasPreviouslyRegistered: Boolean) {
-  def toApiMap = {
-    if (hasPreviouslyRegistered) Map("povseas" -> "true")
-    else Map("povseas" -> "false")
+  def toApiMap(lastReg: Option[LastRegisteredToVote]) = {
+    if (hasPreviouslyRegistered) Map("lastcategory" -> "overseas")
+    else lastReg.map(_.toApiMap).getOrElse(Map.empty)
   }
 }
 
-
-case class DateLeftUk (year:Int, month:Int) {
+case class DateLeftSpecial (date:DateLeft, registeredType:LastRegisteredType) {
   def toApiMap = {
-    Map("dlu" -> "%04d-%02d".format(year,month))
+    date.toApiMap("dcs")
+  }
+}
+
+case class DateLeft (year:Int, month:Int) {
+  def toApiMap(key:String = "leftuk") = {
+    Map(key -> "%04d-%02d".format(year,month))
   }
 }
 
 case class LastRegisteredToVote (lastRegisteredType:LastRegisteredType) {
-  def toApiMap = Map.empty
+  def toApiMap = Map("lastcategory" -> lastRegisteredType.name)
 }
 
-object LastRegisteredType extends Enumeration {
-  type LastRegisteredType = Value
-  val UK = Value("uk")
-  val Army = Value("army")
-  val Crown = Value("crown")
-  val Council = Value("council")
-  val NotRegistered = Value("not-registered")
+sealed case class LastRegisteredType(name:String)
+
+object LastRegisteredType {
+  val Ordinary = LastRegisteredType("ordinary")
+  val Forces = LastRegisteredType("forces")
+  val Crown = LastRegisteredType("crown")
+  val Council = LastRegisteredType("council")
+  val NotRegistered = LastRegisteredType("not-registered")
+
+  def isValid(str:String) = {
+    Try {
+      parse(str)
+    }.isSuccess
+  }
+
+  def parse(str:String) = {
+    str match {
+      case "ordinary" => Ordinary
+      case "forces" => Forces
+      case "crown" => Crown
+      case "council" => Council
+      case "not-registered" => NotRegistered
+      case _ => throw new IllegalArgumentException(s"$str not a valid LastRegisteredType")
+    }
+  }
 }
 
 case class CitizenDetails(
     dateBecameCitizen: DOB,
-    howBecameCitizen: String
-)
+    howBecameCitizen: String) {
+  def toApiMap = {
+    dateBecameCitizen.toApiMap("dbritcrit") ++
+      Map("hbritcit" -> howBecameCitizen)
+  }
+}
 case class PassportDetails(
     passportNumber: String,
     authority: String,
-    issueDate: DOB
-)
+    issueDate: DOB) {
+  def toApiMap = {
+    Map(
+      "passno" -> passportNumber,
+      "passloc" -> authority
+    ) ++ issueDate.toApiMap("passdate")
+  }
+}
 
 case class Passport(
     hasPassport: Boolean,
     bornInsideUk: Option[Boolean],
     details: Option[PassportDetails],
-    citizen: Option[CitizenDetails]
-)
+    citizen: Option[CitizenDetails]) {
+  def toApiMap = {
+    Map("bpass" -> hasPassport.toString) ++
+      details.map(_.toApiMap).getOrElse(Map.empty) ++
+      citizen.map(_.toApiMap).getOrElse(Map.empty)
+  }
+}
 
 case class OverseasAddress(
     country: Option[String],
@@ -140,17 +184,24 @@ case class OverseasAddress(
   )
 }
 
-// TODO: review using of Json specific stuff here, look for alternatives
-case class WaysToVote (
-  @JsonScalaEnumeration(classOf[WaysToVoteTypeRef]) waysToVoteType: WaysToVoteType) {
-}
+case class WaysToVote (waysToVoteType: WaysToVoteType)
 
-class WaysToVoteTypeRef extends TypeReference[WaysToVoteType.type]
-object WaysToVoteType extends Enumeration {
-  type WaysToVoteType = Value
-  val InPerson = Value("in-person")
-  val ByPost = Value("by-post")
-  val ByProxy = Value("by-proxy")
+sealed case class WaysToVoteType(name:String)
+object WaysToVoteType {
+  val InPerson = WaysToVoteType("in-person")
+  val ByPost = WaysToVoteType("by-post")
+  val ByProxy = WaysToVoteType("by-proxy")
+
+  def parse(str: String) = {
+    str match {
+      case "in-person" => InPerson
+      case "by-proxy" => ByProxy
+      case "by-post" => ByPost
+    }
+  }
+  def isValid(str: String) = {
+    Try{ parse(str) }.isSuccess
+  }
 }
 
 case class CountryWithCode(
@@ -159,23 +210,27 @@ case class CountryWithCode(
 )
 
 case class PostalOrProxyVote (
-    typeVote: String,
+    typeVote: WaysToVoteType,
     postalVoteOption: Option[Boolean],
     deliveryMethod: Option[PostalVoteDeliveryMethod]) {
 
-  def apiVoteKey = {
-    typeVote match {
-      case "postal" => "pvote"
-      case "proxy" => "proxyvote"
-      case _ => throw new IllegalArgumentException()
+  def toApiMap = {
+    val voteMap = postalVoteOption match {
+      case Some(pvote) => typeVote match {
+        case WaysToVoteType.ByPost => Map("pvote" -> pvote.toString)
+        case WaysToVoteType.ByProxy => Map("proxyvote" -> pvote.toString)
+        case _ => Map.empty
+      }
+      case _ => Map.empty
     }
-  }
-
-  def apiEmailKey = {
-    typeVote match {
-      case "postal" => "pvoteemail"
-      case "proxy" => "proxyvoteemail"
-      case _ => throw new IllegalArgumentException()
+    val emailMap = deliveryMethod.flatMap(_.emailAddress) match {
+      case Some(email) => typeVote match {
+        case WaysToVoteType.ByPost => Map("pvoteemail" -> email)
+        case WaysToVoteType.ByProxy => Map("proxyvoteemail" -> email)
+        case _ => Map.empty
+      }
+      case _ => Map.empty
     }
+    voteMap ++ emailMap
   }
 }

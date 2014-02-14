@@ -1,7 +1,11 @@
 package uk.gov.gds.ier.transaction.overseas.applicationFormVote
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{PostalOrProxyVote, InprogressOverseas, PostalVoteDeliveryMethod}
+import uk.gov.gds.ier.model.{
+  PostalOrProxyVote,
+  InprogressOverseas,
+  PostalVoteDeliveryMethod,
+  WaysToVoteType}
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.overseas.PostalOrProxyVoteConstraints
 
@@ -19,24 +23,32 @@ trait PostalOrProxyVoteForms extends PostalOrProxyVoteConstraints {
   ) verifying (validDeliveryMethod)
 
   lazy val postalOrProxyVoteMapping = mapping(
-    keys.voteType.key -> text,
+    keys.voteType.key -> text.verifying("Unknown type", r => WaysToVoteType.isValid(r)),
     keys.optIn.key -> optional(boolean)
       .verifying("Please answer this question", postalVote => postalVote.isDefined),
     keys.deliveryMethod.key -> optional(voteDeliveryMethodMapping)
   ) (
-    (voteType, postalVoteOption, deliveryMethod) => PostalOrProxyVote(voteType, postalVoteOption, deliveryMethod)
+    (voteType, postalVoteOption, deliveryMethod) => PostalOrProxyVote(
+      WaysToVoteType.parse(voteType),
+      postalVoteOption,
+      deliveryMethod
+    )
   ) (
-    postalVote => Some(postalVote.typeVote, postalVote.postalVoteOption, postalVote.deliveryMethod)
+    postalVote => Some(
+      postalVote.typeVote.name,
+      postalVote.postalVoteOption,
+      postalVote.deliveryMethod
+    )
   ) verifying (validVoteOption)
 
   val postalOrProxyVoteForm = ErrorTransformForm(
     mapping(
-      keys.postalOrProxyVote.key -> postalOrProxyVoteMapping
+      keys.postalOrProxyVote.key -> optional(postalOrProxyVoteMapping)
     ) (
-        postalVote => InprogressOverseas (postalOrProxyVote = Some(postalVote))
+        postalVote => InprogressOverseas (postalOrProxyVote = postalVote)
     ) (
-        inprogress =>  inprogress.postalOrProxyVote
-    )
+        inprogress => Some(inprogress.postalOrProxyVote)
+    ) verifying questionIsRequired
   )
 }
 
