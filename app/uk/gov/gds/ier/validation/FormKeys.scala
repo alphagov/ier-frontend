@@ -121,6 +121,9 @@ trait FormKeys {
     lazy val wayType = prependNamespace(Key("wayType"))
 
     lazy val dateLeftSpecial = prependNamespace(Key("dateLeftSpecial"))
+
+    lazy val parentsAddress = prependNamespace(Key("parentsAddress"))
+
   }
 
   implicit class key2namespace(key:Key) extends Keys {

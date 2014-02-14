@@ -38,6 +38,7 @@ trait ConfirmationMustache {
           confirmation.dateOfBirth,
           confirmation.previouslyRegistered,
           confirmation.lastUkAddress,
+          confirmation.parentsAddress,
           confirmation.dateLeftUk,
           confirmation.nino,
           confirmation.address,
@@ -126,6 +127,25 @@ trait ConfirmationMustache {
             form(keys.lastUkAddress.manualAddress).value
           }.getOrElse("")
           val postcode = form(keys.lastUkAddress.postcode).value.getOrElse("")
+          s"<p>$addressLine</p><p>$postcode</p>"
+        }
+      ))
+    }
+
+    def parentsAddress = {
+      Some(ConfirmationQuestion(
+        title = "Parents Last UK Address",
+        editLink = if (form(keys.parentsAddress.manualAddress).value.isDefined) {
+          routes.ParentsAddressManualController.editGet.url
+        } else {
+          routes.ParentsAddressSelectController.editGet.url
+        },
+        changeName = "your parents' last UK address",
+        content = ifComplete(keys.parentsAddress) {
+          val addressLine = form(keys.parentsAddress.addressLine).value.orElse{
+            form(keys.parentsAddress.manualAddress).value
+          }.getOrElse("")
+          val postcode = form(keys.parentsAddress.postcode).value.getOrElse("")
           s"<p>$addressLine</p><p>$postcode</p>"
         }
       ))

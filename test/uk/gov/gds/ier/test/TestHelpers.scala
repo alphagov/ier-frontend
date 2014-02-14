@@ -71,6 +71,9 @@ trait TestHelpers {
     lastUkAddress = Some(
       PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)
     ),
+    parentsAddress = Some(
+      PartialAddress(Some("124 Fake Street, Fakerton"), Some("123456700"), "WR26NJ", None)
+    ),
     dateLeftUk = Some(DateLeft(2000,10)),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
     address = Some(OverseasAddress(country = Some("United Kingdom"), addressDetails = Some("some address"))),
@@ -87,7 +90,8 @@ trait TestHelpers {
       phone = None,
       email = None
     )),
-    dateLeftSpecial = Some(DateLeftSpecial(DateLeft(1990, 1), LastRegisteredType.UK))
+    dateLeftSpecial = Some(DateLeftSpecial(DateLeft(1990, 1), LastRegisteredType.UK)),
+    passport = Some(Passport(false,Some(true),None,None))
   )
 
   class ErrorsOps(errors: Seq[FormError], globalErrors: Seq[FormError]) {
