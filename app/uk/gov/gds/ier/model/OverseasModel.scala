@@ -61,7 +61,8 @@ case class OverseasApplication(
     passport: Option[Passport],
     contact: Option[Contact],
     referenceNumber: Option[String],
-    authority: Option[LocalAuthority])
+    authority: Option[LocalAuthority],
+    ip: Option[String])
   extends CompleteApplication {
 
   def toApiMap = {
@@ -79,14 +80,11 @@ case class OverseasApplication(
       lastUkAddress.map(_.toApiMap("reg")).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
       postalOrProxyVote.map(_.toApiMap).getOrElse(Map.empty) ++
-<<<<<<< HEAD
       passport.map(_.toApiMap).getOrElse(Map.empty) ++
       contact.map(_.toApiMap).getOrElse(Map.empty) ++
-=======
-      contact.map(_.toApiMap).getOrElse(Map.empty) ++
       referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
-      authority.map(auth => Map("gssCode" -> auth.gssId)).getOrElse(Map.empty)  ++
->>>>>>> 5ff3a3cc8e4908692bae8712fd5d664eb7ac2f50
+      authority.map(auth => Map("gssCode" -> auth.gssId)).getOrElse(Map.empty) ++
+      ip.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty) ++
       Map("applicationType" -> "overseas")
   }
 }

@@ -102,7 +102,8 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       passport = applicant.passport,
       contact = applicant.contact,
       referenceNumber = refNum,
-      authority = currentAuthority
+      authority = currentAuthority,
+      ip = ip
     )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)

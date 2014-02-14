@@ -96,56 +96,57 @@ class OrdinaryApplicationTests
 
     val apiMap = application.toApiMap
 
+    val expected = Map(
+      "fn" -> "John",
+      "mn" -> "James",
+      "ln" -> "Smith",
+      "applicationType" -> "ordinary",
+      "pfn" -> "James",
+      "pmn" -> "John",
+      "pln" -> "Smith",
+      "dob" -> "1980-12-01",
+      "nino" -> "XX 12 34 56 D",
+      "nat" -> "GB, IE",
+      "oadr" -> "false",
+      "regproperty" -> "The (fake) Manor House",
+      "regstreet" -> "123 Fake Street",
+      "reglocality" -> "North Fake",
+      "regtown" -> "Fakerton",
+      "regarea" -> "Fakesbury",
+      "reguprn" -> "12345",
+      "regpostcode" -> "XX12 34XX",
+      "pproperty" -> "The (fake) Cottage",
+      "pstreet" -> "321 Fake Street",
+      "plocality" -> "South Fake",
+      "ptown" -> "Fakererly",
+      "parea" -> "Fakesborough",
+      "puprn" -> "54321",
+      "ppostcode" -> "XX34 21XX",
+      "pvote" -> "true",
+      "pvoteemail" -> "postal@vote.com",
+      "opnreg" -> "false",
+      "post" -> "true",
+      "email" -> "test@email.com",
+      "phone" -> "01234 5678910",
+      "refNum" -> "12345678910",
+      "ip" -> "256.256.256.256",
+      "gssCode" -> "E09000007",
+      "pgssCode" -> "E09000032"
+    )
 
-    apiMap.get("fn") should be(Some("John"))
-    apiMap.get("mn") should be(Some("James"))
-    apiMap.get("ln") should be(Some("Smith"))
+    val notExpected = List(
+      "nodobReason",
+      "agerange",
+      "nonino",
+      "nonat"
+    )
 
-    apiMap.get("applicationType") should be(Some("ordinary"))
+    apiMap should be(expected)
 
-    apiMap.get("pfn") should be(Some("James"))
-    apiMap.get("pmn") should be(Some("John"))
-    apiMap.get("pln") should be(Some("Smith"))
-    
-    apiMap.get("dob") should be(Some("1980-12-01"))
-    apiMap.get("nodobReason") should be(None)
-    apiMap.get("agerange") should be(None)
+    for(key <- notExpected) {
+      apiMap.keys should not contain(key)
+    }
 
-    apiMap.get("nino") should be(Some("XX 12 34 56 D"))
-    apiMap.get("nonino") should be(None)
-
-    apiMap.get("nat") should be(Some("GB, IE"))
-    apiMap.get("nonat") should be(None)
-
-    apiMap.get("oadr") should be(Some("false"))
-
-    apiMap.get("regproperty") should be(Some("The (fake) Manor House"))
-    apiMap.get("regstreet") should be(Some("123 Fake Street"))
-    apiMap.get("reglocality") should be(Some("North Fake"))
-    apiMap.get("regtown") should be(Some("Fakerton"))
-    apiMap.get("regarea") should be(Some("Fakesbury"))
-    apiMap.get("reguprn") should be(Some("12345"))
-    apiMap.get("regpostcode") should be(Some("XX12 34XX"))
-
-    apiMap.get("pproperty") should be(Some("The (fake) Cottage"))
-    apiMap.get("pstreet") should be(Some("321 Fake Street"))
-    apiMap.get("plocality") should be(Some("South Fake"))
-    apiMap.get("ptown") should be(Some("Fakererly"))
-    apiMap.get("parea") should be(Some("Fakesborough"))
-    apiMap.get("puprn") should be(Some("54321"))
-    apiMap.get("ppostcode") should be(Some("XX34 21XX"))
-
-    apiMap.get("pvote") should be(Some("true"))
-    apiMap.get("pvoteemail") should be(Some("postal@vote.com"))
-
-    apiMap.get("opnreg") should be(Some("false"))
-
-    apiMap.get("email") should be(Some("test@email.com"))
-    apiMap.get("phone") should be(Some("01234 5678910"))
-
-    apiMap.get("refNum") should be(Some("12345678910"))
-    apiMap.get("ip") should be(Some("256.256.256.256"))
-    apiMap.get("gssCode") should be(Some("E09000007"))
-    apiMap.get("pgssCode") should be(Some("E09000032"))
+    apiMap.keys.size should be(35)
   }
 }

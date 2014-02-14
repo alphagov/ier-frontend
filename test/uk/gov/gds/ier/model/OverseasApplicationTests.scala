@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.model
 
+import uk.gov.gds.common.model.LocalAuthority
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.test.TestHelpers
 import org.scalatest.{Matchers, FlatSpec}
@@ -93,66 +94,77 @@ class OverseasApplicationTests
           contactMe = true,
           detail = Some("test@email.com")
         ))
+      )),
+      referenceNumber = Some("12345678910"),
+      ip = Some("256.256.256.256"),
+      authority = Some(LocalAuthority(
+        name = "Camden Borough Council",
+        opcsId = "00AG",
+        gssId = "E09000007"
       ))
     )
 
     val apiMap = application.toApiMap
 
-    apiMap.get("fn") should be(Some("John"))
-    apiMap.get("mn") should be(Some("James"))
-    apiMap.get("ln") should be(Some("Smith"))
+    val expected = Map(
+      "fn" -> "John",
+      "mn" -> "James",
+      "ln" -> "Smith",
+      "applicationType" -> "overseas",
+      "pfn" -> "James",
+      "pmn" -> "John",
+      "pln" -> "Smith",
+      "dob" -> "1980-12-01",
+      "nino" -> "XX 12 34 56 D",
+      "regproperty" -> "The (fake) Manor House",
+      "regstreet" -> "123 Fake Street",
+      "reglocality" -> "North Fake",
+      "regtown" -> "Fakerton",
+      "regarea" -> "Fakesbury",
+      "reguprn" -> "12345",
+      "regpostcode" -> "XX12 34XX",
+      "corraddress" -> "123 Rue de Fake, Saint-Fake",
+      "corrcountry" -> "France",
+      "lastcategory" -> "ordinary",
+      "leftuk" -> "1990-01",
+      "bpass" -> "true",
+      "passno" -> "123456789",
+      "passloc" -> "Uk border office",
+      "passdate" -> "2000-12-01",
+      "pvote" -> "true",
+      "opnreg" -> "true",
+      "post" -> "true",
+      "email" -> "test@email.com",
+      "phone" -> "01234 5678910",
+      "refNum" -> "12345678910",
+      "ip" -> "256.256.256.256",
+      "gssCode" -> "E09000007"
+    )
 
-    apiMap.get("applicationType") should be(Some("overseas"))
+    val notExpected = List(
+      "nonino",
+      "dcs",
+      "pgfn",
+      "pgmn",
+      "pgln",
+      "pgnc",
+      "pgrfn",
+      "pgrmn",
+      "pgrln",
+      "dbritcit",
+      "hbritcit",
+      "proxyvote",
+      "pvoteemail",
+      "proxyvoteemail"
+    )
 
-    apiMap.get("pfn") should be(Some("James"))
-    apiMap.get("pmn") should be(Some("John"))
-    apiMap.get("pln") should be(Some("Smith"))
-    
-    apiMap.get("dob") should be(Some("1980-12-01"))
+    apiMap should be(expected)
 
-    apiMap.get("nino") should be(Some("XX 12 34 56 D"))
-    apiMap.get("nonino") should be(None)
+    for(key <- notExpected) {
+      apiMap.keys should not contain(key)
+    }
 
-    apiMap.get("regproperty") should be(Some("The (fake) Manor House"))
-    apiMap.get("regstreet") should be(Some("123 Fake Street"))
-    apiMap.get("reglocality") should be(Some("North Fake"))
-    apiMap.get("regtown") should be(Some("Fakerton"))
-    apiMap.get("regarea") should be(Some("Fakesbury"))
-    apiMap.get("reguprn") should be(Some("12345"))
-    apiMap.get("regpostcode") should be(Some("XX12 34XX"))
-
-    apiMap.get("corraddress") should be(Some("123 Rue de Fake, Saint-Fake"))
-    apiMap.get("corrcountry") should be(Some("France"))
-
-    apiMap.get("lastcategory") should be(Some("ordinary"))
-
-    apiMap.get("leftuk") should be(Some("1990-01"))
-    apiMap.get("dcs") should be(None)
-
-    apiMap.get("pgfn") should be(None)
-    apiMap.get("pgmn") should be(None)
-    apiMap.get("pgln") should be(None)
-    apiMap.get("pgnc") should be(None)
-    apiMap.get("pgrfn") should be(None)
-    apiMap.get("pgrmn") should be(None)
-    apiMap.get("pgrln") should be(None)
-
-    apiMap.get("bpass") should be(Some("true"))
-    apiMap.get("passno") should be(Some("123456789"))
-    apiMap.get("passloc") should be(Some("Uk border office"))
-    apiMap.get("passdate") should be(Some("2000-12-01"))
-    apiMap.get("dbritcit") should be(None)
-    apiMap.get("hbritcit") should be(None)
-
-    apiMap.get("pvote") should be(Some("true"))
-    apiMap.get("proxyvote") should be(None)
-    apiMap.get("pvoteemail") should be(None)
-    apiMap.get("proxyvoteemail") should be(None)
-
-    apiMap.get("opnreg") should be(Some("true"))
-
-    apiMap.get("email") should be(Some("test@email.com"))
-    apiMap.get("phone") should be(Some("01234 5678910"))
+    apiMap.keys.size should be(32)
   }
 
   it should "generate expected renewer payload" in {
@@ -217,63 +229,74 @@ class OverseasApplicationTests
           contactMe = true,
           detail = Some("test@email.com")
         ))
+      )),
+      referenceNumber = Some("12345678910"),
+      ip = Some("256.256.256.256"),
+      authority = Some(LocalAuthority(
+        name = "Camden Borough Council",
+        opcsId = "00AG",
+        gssId = "E09000007"
       ))
     )
 
     val apiMap = application.toApiMap
 
-    apiMap.get("fn") should be(Some("John"))
-    apiMap.get("mn") should be(Some("James"))
-    apiMap.get("ln") should be(Some("Smith"))
+    val expected = Map(
+      "fn" -> "John",
+      "mn" -> "James",
+      "ln" -> "Smith",
+      "applicationType" -> "overseas",
+      "pfn" -> "James",
+      "pmn" -> "John",
+      "pln" -> "Smith",
+      "dob" -> "1980-12-01",
+      "nino" -> "XX 12 34 56 D",
+      "regproperty" -> "The (fake) Manor House",
+      "regstreet" -> "123 Fake Street",
+      "reglocality" -> "North Fake",
+      "regtown" -> "Fakerton",
+      "regarea" -> "Fakesbury",
+      "reguprn" -> "12345",
+      "regpostcode" -> "XX12 34XX",
+      "corraddress" -> "123 Rue de Fake, Saint-Fake",
+      "corrcountry" -> "France",
+      "lastcategory" -> "overseas",
+      "leftuk" -> "1990-01",
+      "opnreg" -> "true",
+      "post" -> "true",
+      "email" -> "test@email.com",
+      "phone" -> "01234 5678910",
+      "refNum" -> "12345678910",
+      "ip" -> "256.256.256.256",
+      "gssCode" -> "E09000007"
+    )
 
-    apiMap.get("applicationType") should be(Some("overseas"))
-    
-    apiMap.get("pfn") should be(Some("James"))
-    apiMap.get("pmn") should be(Some("John"))
-    apiMap.get("pln") should be(Some("Smith"))
-    
-    apiMap.get("dob") should be(Some("1980-12-01"))
+    val notExpected = List(
+      "nonino",
+      "dcs",
+      "pgfn",
+      "pgmn",
+      "pgln",
+      "pgnc",
+      "pgrfn",
+      "pgrmn",
+      "pgrln",
+      "bpass",
+      "passno",
+      "passloc",
+      "passdate",
+      "dbritcit",
+      "hbritcit",
+      "pvote",
+      "proxyvote",
+      "pvoteemail",
+      "proxyvoteemail"
+    )
 
-    apiMap.get("nino") should be(Some("XX 12 34 56 D"))
-    apiMap.get("nonino") should be(None)
-
-    apiMap.get("regproperty") should be(Some("The (fake) Manor House"))
-    apiMap.get("regstreet") should be(Some("123 Fake Street"))
-    apiMap.get("reglocality") should be(Some("North Fake"))
-    apiMap.get("regtown") should be(Some("Fakerton"))
-    apiMap.get("regarea") should be(Some("Fakesbury"))
-    apiMap.get("reguprn") should be(Some("12345"))
-    apiMap.get("regpostcode") should be(Some("XX12 34XX"))
-    
-    apiMap.get("corraddress") should be(Some("123 Rue de Fake, Saint-Fake"))
-    apiMap.get("corrcountry") should be(Some("France"))
-
-    apiMap.get("lastcategory") should be(Some("overseas"))
-    
-    apiMap.get("leftuk") should be(Some("1990-01"))
-    apiMap.get("dcs") should be(None)
-
-    apiMap.get("pgfn") should be(None)
-    apiMap.get("pgmn") should be(None)
-    apiMap.get("pgln") should be(None)
-    apiMap.get("pgnc") should be(None)
-    apiMap.get("pgrfn") should be(None)
-    apiMap.get("pgrmn") should be(None)
-    apiMap.get("pgrln") should be(None)
-
-    apiMap.get("bpass") should be(None)
-    apiMap.get("passno") should be(None)
-    apiMap.get("passloc") should be(None)
-    apiMap.get("passdate") should be(None)
-    apiMap.get("dbritcit") should be(None)
-    apiMap.get("hbritcit") should be(None)
-    apiMap.get("pvote") should be(None)
-    apiMap.get("proxyvote") should be(None)
-
-    apiMap.get("pvoteemail") should be(None)
-    apiMap.get("proxyvoteemail") should be(None)
-    apiMap.get("opnreg") should be(Some("true"))
-    apiMap.get("email") should be(Some("test@email.com"))
-    apiMap.get("phone") should be(Some("01234 5678910"))
+    apiMap should be(expected)
+    for (key <- notExpected) {
+      apiMap.keys should not contain(key)
+    }
+    apiMap.keys.size should be(27)
   }
 }
