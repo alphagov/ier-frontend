@@ -80,7 +80,7 @@ class LastRegisteredToVoteFormTests
   it should "bind successfully to army" in {
     val js = Json.toJson(
       Map(
-        "lastRegisteredToVote.registeredType" -> "army"
+        "lastRegisteredToVote.registeredType" -> "forces"
       )
     )
     lastRegisteredToVoteForm.bind(js).fold(
@@ -89,7 +89,7 @@ class LastRegisteredToVoteFormTests
         success.lastRegisteredToVote.isDefined should be(true)
         val Some(lastRegisteredToVote) = success.lastRegisteredToVote
 
-        lastRegisteredToVote.lastRegisteredType should be(LastRegisteredType.Army)
+        lastRegisteredToVote.lastRegisteredType should be(LastRegisteredType.Forces)
       }
     )
   }
@@ -131,7 +131,7 @@ class LastRegisteredToVoteFormTests
   it should "bind successfully to uk" in {
     val js = Json.toJson(
       Map(
-        "lastRegisteredToVote.registeredType" -> "uk"
+        "lastRegisteredToVote.registeredType" -> "ordinary"
       )
     )
     lastRegisteredToVoteForm.bind(js).fold(
@@ -140,7 +140,7 @@ class LastRegisteredToVoteFormTests
         success.lastRegisteredToVote.isDefined should be(true)
         val Some(lastRegisteredToVote) = success.lastRegisteredToVote
 
-        lastRegisteredToVote.lastRegisteredType should be(LastRegisteredType.UK)
+        lastRegisteredToVote.lastRegisteredType should be(LastRegisteredType.Ordinary)
       }
     )
   }
