@@ -103,7 +103,7 @@ class OverseasApplicationTests
     apiMap.get("ln") should be(Some("Smith"))
 
     apiMap.get("applicationType") should be(Some("overseas"))
-    
+
     apiMap.get("pfn") should be(Some("James"))
     apiMap.get("pmn") should be(Some("John"))
     apiMap.get("pln") should be(Some("Smith"))
@@ -120,12 +120,12 @@ class OverseasApplicationTests
     apiMap.get("regarea") should be(Some("Fakesbury"))
     apiMap.get("reguprn") should be(Some("12345"))
     apiMap.get("regpostcode") should be(Some("XX12 34XX"))
-    
+
     apiMap.get("corraddress") should be(Some("123 Rue de Fake, Saint-Fake"))
     apiMap.get("corrcountry") should be(Some("France"))
 
     apiMap.get("lastcategory") should be(Some("ordinary"))
-    
+
     apiMap.get("leftuk") should be(Some("1990-01"))
     apiMap.get("dcs") should be(None)
 
@@ -143,12 +143,14 @@ class OverseasApplicationTests
     apiMap.get("passdate") should be(Some("2000-12-01"))
     apiMap.get("dbritcit") should be(None)
     apiMap.get("hbritcit") should be(None)
+
     apiMap.get("pvote") should be(Some("true"))
     apiMap.get("proxyvote") should be(None)
-
     apiMap.get("pvoteemail") should be(None)
     apiMap.get("proxyvoteemail") should be(None)
+
     apiMap.get("opnreg") should be(Some("true"))
+
     apiMap.get("email") should be(Some("test@email.com"))
     apiMap.get("phone") should be(Some("01234 5678910"))
   }
