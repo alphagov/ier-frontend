@@ -64,7 +64,7 @@ class LastRegisteredToVoteStepTests
         FakeRequest(POST, "/register-to-vote/overseas/last-registered-to-vote")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "lastRegisteredToVote.registeredType" -> "army"
+            "lastRegisteredToVote.registeredType" -> "forces"
           )
       )
 
@@ -110,7 +110,7 @@ class LastRegisteredToVoteStepTests
         FakeRequest(POST, "/register-to-vote/overseas/last-registered-to-vote")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "lastRegisteredToVote.registeredType" -> "uk"
+            "lastRegisteredToVote.registeredType" -> "ordinary"
           )
       )
 
@@ -141,7 +141,7 @@ class LastRegisteredToVoteStepTests
           .withIerSession()
           .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
-            "lastRegisteredToVote.registeredType" -> "uk"
+            "lastRegisteredToVote.registeredType" -> "ordinary"
           )
       )
 
@@ -157,11 +157,12 @@ class LastRegisteredToVoteStepTests
           .withIerSession()
           .withApplication(
             completeOverseasApplication.copy(
-              dateLeftSpecial = Some(DateLeftSpecial(DateLeft(1990, 12), LastRegisteredType.UK))
+              dateLeftSpecial = Some(DateLeftSpecial(
+                  DateLeft(1990, 12), LastRegisteredType.Ordinary))
             )
           )
           .withFormUrlEncodedBody(
-            "lastRegisteredToVote.registeredType" -> "army"
+            "lastRegisteredToVote.registeredType" -> "forces"
           )
       )
 
@@ -177,7 +178,8 @@ class LastRegisteredToVoteStepTests
           .withIerSession()
           .withApplication(
             completeOverseasApplication.copy(
-              dateLeftSpecial = Some(DateLeftSpecial(DateLeft(1990, 12), LastRegisteredType.UK))
+              dateLeftSpecial = Some(DateLeftSpecial(
+                  DateLeft(1990, 12), LastRegisteredType.Ordinary))
             )
           )
           .withFormUrlEncodedBody(
@@ -197,7 +199,8 @@ class LastRegisteredToVoteStepTests
           .withIerSession()
           .withApplication(
             completeOverseasApplication.copy(
-              dateLeftSpecial = Some(DateLeftSpecial(DateLeft(1990, 12), LastRegisteredType.UK))
+              dateLeftSpecial = Some(DateLeftSpecial(
+                  DateLeft(1990, 12), LastRegisteredType.Ordinary))
             )
           )
           .withFormUrlEncodedBody(
@@ -219,12 +222,12 @@ class LastRegisteredToVoteStepTests
             completeOverseasApplication.copy(
               dateLeftSpecial = Some(DateLeftSpecial(
                   DateLeft(1990, 12),
-                  LastRegisteredType.Army)),
+                  LastRegisteredType.Forces)),
               dateLeftUk = None
             )
           )
           .withFormUrlEncodedBody(
-            "lastRegisteredToVote.registeredType" -> "uk"
+            "lastRegisteredToVote.registeredType" -> "ordinary"
           )
       )
 
@@ -287,7 +290,7 @@ class LastRegisteredToVoteStepTests
         FakeRequest(POST, "/register-to-vote/overseas/edit/last-registered-to-vote")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "lastRegisteredToVote.registeredType" -> "army"
+            "lastRegisteredToVote.registeredType" -> "forces"
           )
       )
 
@@ -333,7 +336,7 @@ class LastRegisteredToVoteStepTests
         FakeRequest(POST, "/register-to-vote/overseas/edit/last-registered-to-vote")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "lastRegisteredToVote.registeredType" -> "uk"
+            "lastRegisteredToVote.registeredType" -> "ordinary"
           )
       )
 

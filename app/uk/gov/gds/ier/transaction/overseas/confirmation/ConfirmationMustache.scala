@@ -90,8 +90,8 @@ trait ConfirmationMustache {
 
       val previouslyRegisteredContent = (renewer, prevRegType) match {
         case (true, _) => "an overseas voter"
-        case (_, Some(LastRegisteredType.UK)) => s"<p>$iWas a UK resident</p>"
-        case (_, Some(LastRegisteredType.Army)) => s"<p>$iWas a member of the armed forces</p>"
+        case (_, Some(LastRegisteredType.Ordinary)) => s"<p>$iWas a UK resident</p>"
+        case (_, Some(LastRegisteredType.Forces)) => s"<p>$iWas a member of the armed forces</p>"
         case (_, Some(LastRegisteredType.Crown)) => s"<p>$iWas a Crown servant</p>"
         case (_, Some(LastRegisteredType.Council)) => s"<p>$iWas a British council employee</p>"
         case (_, Some(LastRegisteredType.NotRegistered)) => "<p>I have never been registered</p>"

@@ -53,10 +53,11 @@ case class OverseasApplication(
     dob: Option[DOB],
     nino: Option[Nino],
     address: Option[OverseasAddress],
-    lastUkAddress: Option[PartialAddress] = None,
+    lastUkAddress: Option[Address] = None,
     openRegisterOptin: Option[Boolean],
     waysToVote: Option[WaysToVote],
     postalOrProxyVote: Option[PostalOrProxyVote],
+    passport: Option[Passport],
     contact: Option[Contact])
   extends CompleteApplication {
 
@@ -64,17 +65,19 @@ case class OverseasApplication(
     Map.empty ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
       previousName.map(_.toApiMap).getOrElse(Map.empty) ++
-      previouslyRegistered.map(_.toApiMap).getOrElse(Map.empty) ++
+      previouslyRegistered.map(_.toApiMap(lastRegisteredToVote)).getOrElse(Map.empty) ++
       dateLeftUk.map(_.toApiMap()).getOrElse(Map.empty) ++
       dateLeftSpecial.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
-      lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
-      dob.map(_.toApiMap).getOrElse(Map.empty) ++
+      lastUkAddress.map(_.toApiMap("reg")).getOrElse(Map.empty) ++
+      dob.map(_.toApiMap("dob")).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
       address.map(_.toApiMap).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
       postalOrProxyVote.map(_.toApiMap).getOrElse(Map.empty) ++
-      contact.map(_.toApiMap).getOrElse(Map.empty)
+      passport.map(_.toApiMap).getOrElse(Map.empty) ++
+      contact.map(_.toApiMap).getOrElse(Map.empty) ++
+      Map("applicationType" -> "overseas")
   }
 }
 
@@ -83,9 +86,9 @@ case class Stub() {
 }
 
 case class PreviouslyRegistered(hasPreviouslyRegistered: Boolean) {
-  def toApiMap = {
-    if (hasPreviouslyRegistered) Map("povseas" -> "true")
-    else Map("povseas" -> "false")
+  def toApiMap(lastReg: Option[LastRegisteredToVote]) = {
+    if (hasPreviouslyRegistered) Map("lastcategory" -> "overseas")
+    else lastReg.map(_.toApiMap).getOrElse(Map.empty)
   }
 }
 
@@ -96,20 +99,20 @@ case class DateLeftSpecial (date:DateLeft, registeredType:LastRegisteredType) {
 }
 
 case class DateLeft (year:Int, month:Int) {
-  def toApiMap(key:String = "leftUk") = {
+  def toApiMap(key:String = "leftuk") = {
     Map(key -> "%04d-%02d".format(year,month))
   }
 }
 
 case class LastRegisteredToVote (lastRegisteredType:LastRegisteredType) {
-  def toApiMap = Map.empty
+  def toApiMap = Map("lastcategory" -> lastRegisteredType.name)
 }
 
 sealed case class LastRegisteredType(name:String)
 
 object LastRegisteredType {
-  val UK = LastRegisteredType("uk")
-  val Army = LastRegisteredType("army")
+  val Ordinary = LastRegisteredType("ordinary")
+  val Forces = LastRegisteredType("forces")
   val Crown = LastRegisteredType("crown")
   val Council = LastRegisteredType("council")
   val NotRegistered = LastRegisteredType("not-registered")
@@ -122,8 +125,8 @@ object LastRegisteredType {
 
   def parse(str:String) = {
     str match {
-      case "uk" => UK
-      case "army" => Army
+      case "ordinary" => Ordinary
+      case "forces" => Forces
       case "crown" => Crown
       case "council" => Council
       case "not-registered" => NotRegistered
@@ -134,20 +137,35 @@ object LastRegisteredType {
 
 case class CitizenDetails(
     dateBecameCitizen: DOB,
-    howBecameCitizen: String
-)
+    howBecameCitizen: String) {
+  def toApiMap = {
+    dateBecameCitizen.toApiMap("dbritcrit") ++
+      Map("hbritcit" -> howBecameCitizen)
+  }
+}
 case class PassportDetails(
     passportNumber: String,
     authority: String,
-    issueDate: DOB
-)
+    issueDate: DOB) {
+  def toApiMap = {
+    Map(
+      "passno" -> passportNumber,
+      "passloc" -> authority
+    ) ++ issueDate.toApiMap("passdate")
+  }
+}
 
 case class Passport(
     hasPassport: Boolean,
     bornInsideUk: Option[Boolean],
     details: Option[PassportDetails],
-    citizen: Option[CitizenDetails]
-)
+    citizen: Option[CitizenDetails]) {
+  def toApiMap = {
+    Map("bpass" -> hasPassport.toString) ++
+      details.map(_.toApiMap).getOrElse(Map.empty) ++
+      citizen.map(_.toApiMap).getOrElse(Map.empty)
+  }
+}
 
 case class OverseasAddress(
     country: Option[String],
