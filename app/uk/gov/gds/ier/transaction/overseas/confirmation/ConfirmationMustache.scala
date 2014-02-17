@@ -6,51 +6,60 @@ import controllers.step.overseas._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.validation.Key
 import uk.gov.gds.ier.validation.InProgressForm
-import org.joda.time.{YearMonth, Months, LocalDate}
+import org.joda.time.{YearMonth, Years, LocalDate}
 import scala.util.Try
 import uk.gov.gds.ier.logging.Logging
 
 trait ConfirmationMustache {
 
   case class ConfirmationQuestion(
-      content:String,
-      title:String,
-      editLink:String,
-      changeName:String
+      content: String,
+      title: String,
+      editLink: String,
+      changeName: String
   )
 
   case class ConfirmationModel(
-      questions:List[ConfirmationQuestion],
+      applicantDetails: List[ConfirmationQuestion],
+      parentDetails: List[ConfirmationQuestion],
+      displayParentBlock: Boolean,
       backUrl: String,
       postUrl: String
   )
 
   object Confirmation extends StepMustache {
     def confirmationPage(
-        form:InProgressForm[InprogressOverseas],
+        form: InProgressForm[InprogressOverseas],
         backUrl: String,
         postUrl: String) = {
 
       val confirmation = new ConfirmationBlocks(form)
 
+      val parentData = List(
+        confirmation.parentsAddress
+      ).flatten
+
+      val applicantData = List(
+        confirmation.dateOfBirth,
+        confirmation.previouslyRegistered,
+        confirmation.lastUkAddress,
+        confirmation.dateLeftUk,
+        confirmation.nino,
+        confirmation.address,
+        confirmation.openRegister,
+        confirmation.name,
+        confirmation.previousName,
+        confirmation.contact,
+        confirmation.waysToVote,
+        confirmation.postalVote,
+        confirmation.contact,
+        confirmation.passport
+      ).flatten
+
       val data = ConfirmationModel(
-        questions = List(
-          confirmation.dateOfBirth,
-          confirmation.previouslyRegistered,
-          confirmation.lastUkAddress,
-          confirmation.parentsAddress,
-          confirmation.dateLeftUk,
-          confirmation.nino,
-          confirmation.address,
-          confirmation.openRegister,
-          confirmation.name,
-          confirmation.previousName,
-          confirmation.contact,
-          confirmation.waysToVote,
-          confirmation.postalVote,
-          confirmation.contact,
-          confirmation.passport
-        ).flatten,
+        parentDetails = parentData,
+        applicantDetails = applicantData,
+        displayParentBlock = !parentData.isEmpty,
         backUrl = backUrl,
         postUrl = postUrl
       )
@@ -133,22 +142,47 @@ trait ConfirmationMustache {
     }
 
     def parentsAddress = {
-      Some(ConfirmationQuestion(
-        title = "Parents Last UK Address",
-        editLink = if (form(keys.parentsAddress.manualAddress).value.isDefined) {
-          routes.ParentsAddressManualController.editGet.url
-        } else {
-          routes.ParentsAddressSelectController.editGet.url
-        },
-        changeName = "your parents' last UK address",
-        content = ifComplete(keys.parentsAddress) {
-          val addressLine = form(keys.parentsAddress.addressLine).value.orElse{
-            form(keys.parentsAddress.manualAddress).value
-          }.getOrElse("")
-          val postcode = form(keys.parentsAddress.postcode).value.getOrElse("")
-          s"<p>$addressLine</p><p>$postcode</p>"
-        }
-      ))
+      val dateLeft = for(
+        month <- form(keys.dateLeftUk.month).value;
+        year <- form(keys.dateLeftUk.year).value
+      ) yield {
+        new YearMonth().withYear(year.toInt).withMonthOfYear(month.toInt)
+      }
+      val dob = for(
+        day <- form(keys.dob.day).value;
+        month <- form(keys.dob.month).value;
+        year <- form(keys.dob.year).value
+      ) yield {
+        new YearMonth().withYear(year.toInt).withMonthOfYear(month.toInt)
+      }
+      val ageWhenLeft = for(
+        whenLeft <- dateLeft;
+        dateOfBirth <- dob
+      ) yield {
+        Years.yearsBetween(dateOfBirth, whenLeft).getYears()
+      }
+      if (ageWhenLeft.exists(_ < 18)) {
+        Some(ConfirmationQuestion(
+          title = "Parents Last UK Address",
+          editLink = if (form(keys.parentsAddress.manualAddress).value.isDefined) {
+            routes.ParentsAddressManualController.editGet.url
+          } else if (form(keys.parentsAddress.uprn).value.isDefined) {
+            routes.ParentsAddressSelectController.editGet.url
+          } else {
+            routes.ParentsAddressController.editGet.url
+          },
+          changeName = "your parents' last UK address",
+          content = ifComplete(keys.parentsAddress) {
+            val addressLine = form(keys.parentsAddress.addressLine).value.orElse{
+              form(keys.parentsAddress.manualAddress).value
+            }.getOrElse("")
+            val postcode = form(keys.parentsAddress.postcode).value.getOrElse("")
+            s"<p>$addressLine</p><p>$postcode</p>"
+          }
+        ))
+      } else {
+        None
+      }
     }
 
     def dateLeftUk = {
