@@ -80,7 +80,7 @@ trait TestHelpers {
       addressLine3 = None,
       addressLine4 = None,
       addressLine5 = None)),
-    lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.UK)),
+    lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.Ordinary)),
     openRegisterOptin = Some(true),
     waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
     postalOrProxyVote = Some(PostalOrProxyVote(
@@ -88,12 +88,14 @@ trait TestHelpers {
       Some(true),
       Some(PostalVoteDeliveryMethod(Some("post"),None))
     )),
+    passport = Some(Passport(
+      true, None, Some(PassportDetails("123456", "UK border office", DOB(2000, 12, 1))), None)),
     contact = Some(Contact(
       post = true,
       phone = None,
       email = None
     )),
-    dateLeftSpecial = Some(DateLeftSpecial(DateLeft(1990, 1), LastRegisteredType.UK))
+    dateLeftSpecial = Some(DateLeftSpecial(DateLeft(1990, 1), LastRegisteredType.Ordinary))
   )
 
   class ErrorsOps(errors: Seq[FormError], globalErrors: Seq[FormError]) {

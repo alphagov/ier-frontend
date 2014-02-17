@@ -10,7 +10,7 @@ trait DateLeftSpecialForms {
   ) (
     foo => DateLeftSpecial(
       DateLeft(1990, 1),
-      LastRegisteredType.UK
+      LastRegisteredType.Ordinary
     )
   ) (
     dateLeftSpecial => Some("foo")

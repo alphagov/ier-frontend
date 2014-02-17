@@ -9,7 +9,7 @@ object DateLeftArmyController extends StubController[InprogressOverseas] {
   
   def dateLeftArmyStep = confirmationIf { application =>
     application.dateLeftSpecial.exists {
-      _.registeredType == LastRegisteredType.Army
+      _.registeredType == LastRegisteredType.Forces
     }
   }
 }

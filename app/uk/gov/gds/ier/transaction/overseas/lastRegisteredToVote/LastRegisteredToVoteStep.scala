@@ -37,8 +37,8 @@ class LastRegisteredToVoteStep @Inject() (
 
   def nextStep(currentState: InprogressOverseas) = {
     currentState.lastRegisteredToVote.map(_.lastRegisteredType) match {
-      case Some(LastRegisteredType.UK) => DateLeftUkController.dateLeftUkStep
-      case Some(LastRegisteredType.Army) => DateLeftArmyController.dateLeftArmyStep
+      case Some(LastRegisteredType.Ordinary) => DateLeftUkController.dateLeftUkStep
+      case Some(LastRegisteredType.Forces) => DateLeftArmyController.dateLeftArmyStep
       case Some(LastRegisteredType.Crown) => DateLeftCrownController.dateLeftCrownStep
       case Some(LastRegisteredType.Council) => DateLeftCouncilController.dateLeftCouncilStep
       case Some(LastRegisteredType.NotRegistered) => DateLeftUkController.dateLeftUkStep
