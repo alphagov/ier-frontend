@@ -9,6 +9,11 @@ import uk.gov.gds.ier.validation.InProgressForm
 import org.joda.time.{YearMonth, Months, LocalDate}
 import scala.util.Try
 import uk.gov.gds.ier.logging.Logging
+import uk.gov.gds.ier.validation.DateValidator
+import uk.gov.gds.ier.model.DOB
+import uk.gov.gds.ier.model.DateLeft
+import uk.gov.gds.ier.transaction.overseas.dateLeftUk.DateLeftUkStep
+import play.api.Logger
 
 trait ConfirmationMustache {
 
@@ -242,27 +247,47 @@ trait ConfirmationMustache {
     }
     
     def parentName = {
-      Some(ConfirmationQuestion(
+      val dob = for(
+        day <- form(keys.dob.day).value;
+        month <- form(keys.dob.month).value;
+        year <- form(keys.dob.year).value
+      ) yield new DOB(year.toInt, month.toInt, day.toInt)
+      
+      val dobLessThanEighteenOpt = dob map (DateValidator.isLessEighteen(_))
+
+      val dateLeftUk = for (
+          month <- form(keys.dateLeftUk.month).value;
+          year <- form(keys.dateLeftUk.year).value
+      ) yield DateLeft(year.toInt, month.toInt)
+      
+      val leftUkLessThanFifteenYearsOpt = dateLeftUk map (!DateValidator.dateLeftUkOver15Years(_))
+      
+      for (dobLessThanEighteen <- dobLessThanEighteenOpt;
+           leftUkLessThanFifteenYears <- leftUkLessThanFifteenYearsOpt;
+           if (dobLessThanEighteen && leftUkLessThanFifteenYears)
+      ) yield ConfirmationQuestion(
         title = "Parent or guardian's name",
         editLink = routes.ParentNameController.editGet.url,
         changeName = "full name",
         content = ifComplete(keys.parentName) {
-          List(
-            form(keys.parentName.firstName).value,
-            form(keys.parentName.middleNames).value,
-            form(keys.parentName.lastName).value).flatten
-            .mkString("<p>", " ", "</p>")
+        List(
+          form(keys.parentName.firstName).value,
+          form(keys.parentName.middleNames).value,
+          form(keys.parentName.lastName).value).flatten
+          .mkString("<p>", " ", "</p>")
         }
-      ))
+      )
     }
 
     def parentPreviousName = {
-      Some(ConfirmationQuestion(
+      for (
+          hasPreviousName <- form(keys.parentPreviousName.hasPreviousName).value
+      ) yield ConfirmationQuestion(
         title = "Parent or guardian's previous name",
         editLink = routes.ParentNameController.editGet.url,
         changeName = "previous name",
         content = ifComplete(keys.parentPreviousName) {
-          if (form(keys.parentPreviousName.hasPreviousName).value == Some("true")) {
+          if (hasPreviousName.toBoolean) {
             List(
               form(keys.parentPreviousName.previousName.firstName).value,
               form(keys.parentPreviousName.previousName.middleNames).value,
@@ -272,7 +297,7 @@ trait ConfirmationMustache {
             "<p>They haven't changed their name since they left the UK</p>"
           }
         }
-      ))
+      )
     }
 
     def postalVote = {

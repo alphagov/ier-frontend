@@ -40,25 +40,19 @@ class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
 
   def nextStep(currentState: InprogressOverseas) = {
     currentState.dateLeftUk match {
-      case Some(dateLeftUk) if dateLeftUkOver15Years(dateLeftUk) => {
+      case Some(dateLeftUk) if DateValidator.dateLeftUkOver15Years(dateLeftUk) => {
         Exit(ExitController.leftUkOver15Years)
       }
       case Some(dateLeftUk) if validateTooOldWhenLeftUk(dateLeftUk, currentState.dob, currentState.lastRegisteredToVote) => {
         Exit(ExitController.tooOldWhenLeftUk)
       }
-      case Some(dateLeftUk) if (!dateLeftUkOver15Years(dateLeftUk) && 
-          DateValidator.isLessEighteen(currentState.dob)) => {
+      case Some(dateLeftUk) if (!DateValidator.dateLeftUkOver15Years(dateLeftUk) &&
+          currentState.dob.isDefined &&
+          DateValidator.isLessEighteen(currentState.dob.get)) => {
         ParentNameController.parentNameStep
       }
       case _ => LastUkAddressController.lastUkAddressStep
     }
-  }
-
-  def dateLeftUkOver15Years(dateLeftUk:DateLeft):Boolean = {
-    val leftUk = new DateTime().withMonthOfYear(dateLeftUk.month).withYear(dateLeftUk.year)
-    val monthDiff = Months.monthsBetween(leftUk, DateTime.now()).getMonths()
-    if (monthDiff >= 15 * 12) true
-    else false
   }
 
   def validateTooOldWhenLeftUk(dateLeftUk:DateLeft, dateOfBirth:Option[DOB], lastRegisteredToVote:Option[LastRegisteredToVote]):Boolean = {

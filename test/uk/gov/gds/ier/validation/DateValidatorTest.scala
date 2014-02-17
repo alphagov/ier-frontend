@@ -67,11 +67,11 @@ class DateValidatorTest
   
   it should "return true for a date less than 18 years ago" in {
     val lessThan18years = DateTime.now.toDateMidnight.minusYears(18).plusDays(1)
-    DateValidator.isLessEighteen(Some(getDateOfBirth(lessThan18years))) should be(true)
+    DateValidator.isLessEighteen(getDateOfBirth(lessThan18years)) should be(true)
   }
   it should "return false for a date more than 18 years ago" in {
     val lessThan18years = DateTime.now.toDateMidnight.minusYears(18).minusDays(1)
-    DateValidator.isLessEighteen(Some(getDateOfBirth(lessThan18years))) should be(false)
+    DateValidator.isLessEighteen(getDateOfBirth(lessThan18years)) should be(false)
   }
 
   private def getDateOfBirth(date: DateMidnight) = DOB(date.getYear, date.getMonthOfYear, date.getDayOfMonth)
