@@ -2,18 +2,12 @@
 
   {{> shared/questionHeader }}
   {{> shared/validationMessages }}
-        <label
-          for="{{hasPassport.id}}"
-          class="visuallyhidden">Do you have a British Passport?</label>
         <input
           type="hidden"
           id="{{hasPassport.id}}"
           name="{{hasPassport.name}}"
           value="{{hasPassport.value}}">
 
-        <label
-          for="{{bornInUk.id}}"
-          class="visuallyhidden">Were you born inside the UK?</label>
         <input
           type="hidden"
           id="{{bornInUk.id}}"
