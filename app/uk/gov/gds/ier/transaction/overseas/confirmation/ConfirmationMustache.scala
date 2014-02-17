@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation
 
+import uk.gov.gds.ier.form.OverseasFormImplicits
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.model.{WaysToVoteType, InprogressOverseas, LastRegisteredType}
 import controllers.step.overseas._
@@ -64,7 +65,7 @@ trait ConfirmationMustache {
   }
 
   class ConfirmationBlocks(form:InProgressForm[InprogressOverseas])
-    extends StepMustache with Logging {
+    extends StepMustache with Logging with OverseasFormImplicits {
 
     val completeThisStepMessage = "<div class=\"validation-message visible\">" +
       "Please complete this step" +
@@ -320,31 +321,11 @@ trait ConfirmationMustache {
       val notBornInUk = Some("false")
       val notBornBefore1983 = Some(false)
 
-      val jan1st1983 = new LocalDate()
-        .withYear(1983)
-        .withMonthOfYear(1)
-        .withDayOfMonth(1)
-
-      val dob = for(
-        day <- form(keys.dob.day).value;
-        month <- form(keys.dob.month).value;
-        year <- form(keys.dob.year).value
-      ) yield {
-        new LocalDate()
-          .withYear(year.toInt)
-          .withMonthOfYear(month.toInt)
-          .withDayOfMonth(day.toInt)
-      }
-
-      val before1983 = dob map { dateOfBirth =>
-        dateOfBirth.isBefore(jan1st1983)
-      }
-
       val renewer = form(keys.previouslyRegistered.hasPreviouslyRegistered).value
       val passport = form(keys.passport.hasPassport).value
       val birth = form(keys.passport.bornInsideUk).value
 
-      (renewer, passport, birth, before1983) match {
+      (renewer, passport, birth, form.bornBefore1983) match {
         case (`isRenewer`, _, _, _) => None
         case (`notRenewer`, `hasPassport`, _, _) => passportDetails
         case (`notRenewer`, `noPassport`, `notBornInUk`, _) => citizenDetails
@@ -362,11 +343,9 @@ trait ConfirmationMustache {
 
     def citizenDetails = {
       val howBecameCitizen = form(keys.passport.citizenDetails.howBecameCitizen).value
-      val dateBecameCitizen = for (
-        day <- form(keys.passport.citizenDetails.dateBecameCitizen.day).value;
-        month <- form(keys.passport.citizenDetails.dateBecameCitizen.month).value;
-        year <- form(keys.passport.citizenDetails.dateBecameCitizen.year).value
-      ) yield s"$day $month $year"
+      val dateBecameCitizen = form.dateBecameCitizen.map { date =>
+        s"${date.getDayOfMonth} ${date.getMonthOfYear} ${date.getYear}"
+      }
 
       val citizenContent = for (
         how <- howBecameCitizen;
