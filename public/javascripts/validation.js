@@ -18,9 +18,13 @@
       this.events.bind('validate', function (e, eData) {
         return _this.handler(eData.$source);
       });
-      $(document).on('click', '.validation-submit', function (e) {
-        return _this.handler($(e.target));
-      });
+      $(document)
+        .on('click', '.validation-submit', function (e) {
+          return _this.handler($(e.target));
+        })
+        .on('click', '.validation-message a', function (e) {
+          return _this.goToControl($(e.target));
+        });
     },
     handler : function ($source) {
       var formName = validation.getFormFromField($source).action,
@@ -284,8 +288,21 @@
         });
       }
     },
+    messageField : function ($field, message) {
+      var $label = $field.parent('label'), // base assumption: label relationship as implied by parentage 
+          field = $field[0]
+
+      if (!$label.length) { // if label not parent use for attribute for relationship binding
+        $label = $(field.form).find('label[for="' + field.id + '"]');
+        if (!$label.length) {
+          return;
+        }
+      }
+      $label.append('<span class="validation-message">' + message + '</span>');
+    },
     notify : function (invalidFields, $validationTrigger) {
-      var _this = this,
+      var message = Mustache.compile('<div class="validation-message visible">{{#block}}{{message}}{{/block}}</div>'),
+          _this = this,
           $lastElement,
           name,
           rule,
@@ -297,21 +314,41 @@
       $lastElement = $($validationTrigger[0].form).find('.validation-submit').last();
       if (invalidFields.length) {
         $.each(invalidFields, function (idx, field) {
-          name = invalidFields[idx].name;
-          rule = invalidFields[idx].rule;
-          element = invalidFields[idx].$source[0];
-          $label = $(element.form).find('label[for="' + element.id + '"]');
+          var messageData = {};
 
+          name = field.name;
+          rule = field.rule;
+          // only show messages if we have some defined
           if ((typeof _this.messages[name] !== 'undefined') && (typeof _this.messages[name][rule] !== 'undefined')) {
-            // add label validation message
-            if ($label.length) {
-              $label.append('<span class="validation-message">' + _this.messages[name][rule] + '</span>');
+            messageData.message = _this.messages[name][rule];
+            // if the field is a form control, add a message to its label and link to it
+            if (field.$source && field.$source[0].id) {
+              _this.messageField(field.$source, _this.messages[name][rule]);
+              messageData.block = function () {
+                return function (message, render) {
+                  return '<a href="#' + field.$source[0].id + '">' + render(message) + '</a>';
+                };
+              };
+            } else { // render the message as plain text
+              messageData.block = function () {
+                return function (message, render) {
+                  return render(message);
+                };
+              };
             }
             // add page validation message
-            $('<div class="validation-message visible">' + _this.messages[name][rule] + '</div>').insertBefore($lastElement);
+            $(message(messageData)).insertBefore($lastElement);
           }
         });
       }
+    },
+    goToControl : function ($messageLink) {
+      var relatedFormControl = document.getElementById($messageLink.attr('href').split('#')[1]);
+
+      if (relatedFormControl !== null) {
+        relatedFormControl.focus();
+      }
+      return false;
     },
     rules : (function () {
       var _fieldType,
@@ -689,12 +726,14 @@
         'allNonEmpty' : 'Please enter your name'
       },
       'firstName' : {
+        'nonEmpty' : 'Please enter your first name',
         'smallText' : 'First name can be no longer than 256 characters'
       },
       'middleName' : {
         'smallText' : 'Middle name can be no longer than 256 characters'
       },
       'lastName' : {
+        'nonEmpty' : 'Please enter your last name',
         'smallText' : 'Last name can be no longer than 256 characters'
       },
       'previousQuestion' : {
