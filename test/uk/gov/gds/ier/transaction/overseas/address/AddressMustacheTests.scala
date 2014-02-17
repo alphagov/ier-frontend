@@ -95,9 +95,9 @@ class AddressMustacheTest
     val uncompletedFormWithErrors = addressForm.fillAndValidate(InprogressOverseas(
       address = Some(OverseasAddress(
         country = None,
-        addressLine1 = Some("some address line 1"),
-        addressLine2 = None,
-        addressLine3 = None,
+        addressLine1 = Some("Francisco de Quevedo 34"),
+        addressLine2 = Some("08191 Rubí"),
+        addressLine3 = Some("Barcelona"),
         addressLine4 = None,
         addressLine5 = None))))
 
@@ -109,7 +109,9 @@ class AddressMustacheTest
     addressModel.question.backUrl should be(backCall.url)
 
     addressModel.countrySelect.value should be("")
-    addressModel.addressLine1.value should be("some address line 1")
+    addressModel.addressLine1.value should be("Francisco de Quevedo 34")
+    addressModel.addressLine2.value should be("08191 Rubí")
+    addressModel.addressLine3.value should be("Barcelona")
 
     addressModel.question.errorMessages.mkString(", ") should be("" +
       "Please enter your country")
