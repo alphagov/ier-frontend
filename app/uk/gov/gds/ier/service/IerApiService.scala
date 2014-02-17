@@ -79,6 +79,12 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
   def submitOverseasApplication(ip:Option[String],
                                 applicant: InprogressOverseas,
                                 refNum:Option[String]) = {
+
+    val fullLastUkRegAddress = addressService.formFullAddress(applicant.lastUkAddress)
+    val currentAuthority = applicant.lastUkAddress flatMap { address =>
+      placesService.lookupAuthority(address.postcode)
+    }
+
     val completeApplication = OverseasApplication(
       name = applicant.name,
       previousName = applicant.previousName,
@@ -88,17 +94,23 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       lastRegisteredToVote = applicant.lastRegisteredToVote,
       dob = applicant.dob,
       nino = applicant.nino,
+      lastUkAddress = fullLastUkRegAddress,
       address = applicant.address,
       openRegisterOptin = applicant.openRegisterOptin,
       waysToVote = applicant.waysToVote,
       postalOrProxyVote = applicant.postalOrProxyVote,
-      contact = applicant.contact
+      passport = applicant.passport,
+      contact = applicant.contact,
+      referenceNumber = refNum,
+      authority = currentAuthority,
+      ip = ip
     )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
-
     sendApplication(apiApplicant)
   }
+
+
 
   private def sendApplication(application: ApiApplication) = {
     apiClient.post(config.ierApiUrl,

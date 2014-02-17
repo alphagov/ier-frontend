@@ -76,15 +76,15 @@ case class noDOB(reason:Option[String],
 case class DOB(year:Int,
                month:Int,
                day:Int) {
-  def toApiMap = {
-    Map("dob" -> (year + "-" + "%02d".format(month) + "-" + "%02d".format(day)))
+  def toApiMap(key:String) = {
+    Map(key -> (year + "-" + "%02d".format(month) + "-" + "%02d".format(day)))
   }
 }
 
 case class DateOfBirth(dob:Option[DOB],
                        noDob:Option[noDOB]) {
   def toApiMap = {
-    dob.map(_.toApiMap).getOrElse(Map.empty) ++
+    dob.map(_.toApiMap("dob")).getOrElse(Map.empty) ++
     noDob.map(_.toApiMap).getOrElse(Map.empty)
   }
 }
