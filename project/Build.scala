@@ -35,6 +35,7 @@ object ApplicationBuild extends IERBuild {
     .settings(Jacoco.jacocoSettings:_*)
     .settings(Mustache.mustacheSettings:_*)
     .settings(javaOptions in Test += "-Dconfig.file=conf/test.conf")
+    .settings(javaOptions in Test += "-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005")
     .settings(StyleChecker.settings:_*)
     .settings(watchSources ~= { _.filterNot(_.isDirectory) })
 }

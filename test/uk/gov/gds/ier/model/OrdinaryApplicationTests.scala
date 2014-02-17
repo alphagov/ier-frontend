@@ -2,12 +2,13 @@ package uk.gov.gds.ier.model
 
 import uk.gov.gds.common.model.LocalAuthority
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{TestHelpers, CustomMatchers}
 import org.scalatest.{Matchers, FlatSpec}
 
 class OrdinaryApplicationTests
   extends FlatSpec
   with Matchers
+  with CustomMatchers
   with TestHelpers {
 
   it should "generate the expected payload" in {
@@ -107,7 +108,7 @@ class OrdinaryApplicationTests
       "dob" -> "1980-12-01",
       "nino" -> "XX 12 34 56 D",
       "nat" -> "GB, IE",
-      "oadr" -> "false",
+      "oadr" -> "none",
       "regproperty" -> "The (fake) Manor House",
       "regstreet" -> "123 Fake Street",
       "reglocality" -> "North Fake",
@@ -141,7 +142,7 @@ class OrdinaryApplicationTests
       "nonat"
     )
 
-    apiMap should be(expected)
+    apiMap should matchMap(expected)
 
     for(key <- notExpected) {
       apiMap.keys should not contain(key)

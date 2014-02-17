@@ -2,13 +2,14 @@ package uk.gov.gds.ier.model
 
 import uk.gov.gds.common.model.LocalAuthority
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{TestHelpers, CustomMatchers}
 import org.scalatest.{Matchers, FlatSpec}
 
 class OverseasApplicationTests
   extends FlatSpec
   with Matchers
-  with TestHelpers {
+  with TestHelpers
+  with CustomMatchers {
 
   it should "generate expected new voter payload" in {
     val application = OverseasApplication(
@@ -158,7 +159,7 @@ class OverseasApplicationTests
       "proxyvoteemail"
     )
 
-    apiMap should be(expected)
+    apiMap should matchMap(expected)
 
     for(key <- notExpected) {
       apiMap.keys should not contain(key)
@@ -293,7 +294,7 @@ class OverseasApplicationTests
       "proxyvoteemail"
     )
 
-    apiMap should be(expected)
+    apiMap should matchMap(expected)
     for (key <- notExpected) {
       apiMap.keys should not contain(key)
     }
