@@ -173,26 +173,15 @@ trait ConfirmationMustache {
         content = ifComplete(keys.overseasAddress) {
 
           val result:StringBuilder = new StringBuilder
-//          val addressLine1 = form (keys.overseasAddress.addressLine1).value.getOrElse("")
-//          val addressLine2 = form (keys.overseasAddress.addressLine2).value.getOrElse("")
-//          val addressLine3 = form (keys.overseasAddress.addressLine3).value.getOrElse("")
-//          val addressLine4 = form (keys.overseasAddress.addressLine4).value.getOrElse("")
-//          val addressLine5 = form (keys.overseasAddress.addressLine5).value.getOrElse("")
           result.append ("<p>")
-
-          result.append (form (keys.overseasAddress.addressLine1).value.filter(addressLine => !addressLine.isEmpty).mkString("","","<br/>"))
-          result.append (form (keys.overseasAddress.addressLine2).value.filter(addressLine => !addressLine.isEmpty).mkString("","","<br/>"))
-          result.append (form (keys.overseasAddress.addressLine3).value.filter(addressLine => !addressLine.isEmpty).mkString("","","<br/>"))
-          result.append (form (keys.overseasAddress.addressLine4).value.filter(addressLine => !addressLine.isEmpty).mkString("","","<br/>"))
-          result.append (form (keys.overseasAddress.addressLine5).value.filter(addressLine => !addressLine.isEmpty).mkString("","","<br/>"))
-
-
-
-//          if (!addressLine1.isEmpty) result.append (addressLine1 + "<br/>")
-//          if (!addressLine2.isEmpty) result.append (addressLine2 + "<br/>")
-//          if (!addressLine3.isEmpty) result.append (addressLine3 + "<br/>")
-//          if (!addressLine4.isEmpty) result.append (addressLine4 + "<br/>")
-//          if (!addressLine5.isEmpty) result.append (addressLine5 + "<br/>")
+          result.append (
+            List (
+              form(keys.overseasAddress.addressLine1).value,
+              form(keys.overseasAddress.addressLine2).value,
+              form(keys.overseasAddress.addressLine3).value,
+              form(keys.overseasAddress.addressLine4).value,
+              form(keys.overseasAddress.addressLine5).value)
+            .filter(!_.getOrElse("").isEmpty).map(_.get).mkString("","<br/>",""))
           result.append ("</p>")
           result.append ("<p>" + form (keys.overseasAddress.country).value.getOrElse("") + "</p>")
           result.toString()
