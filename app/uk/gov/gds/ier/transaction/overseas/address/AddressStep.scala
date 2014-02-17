@@ -33,10 +33,7 @@ class AddressStep @Inject() (val serialiser: JsonSerialiser,
   val previousRoute = Some(NinoController.get)
 
   def nextStep(currentState: InprogressOverseas) = {
-    currentState.address match {
-      case Some(OverseasAddress(_, _, _, _, _,_)) => OpenRegisterController.openRegisterStep
-      case _ => this
-    }
+    OpenRegisterController.openRegisterStep
   }
 
   def template(form: InProgressForm[InprogressOverseas],
