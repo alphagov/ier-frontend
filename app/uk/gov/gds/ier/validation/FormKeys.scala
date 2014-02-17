@@ -96,7 +96,11 @@ trait FormKeys {
     lazy val hasPreviouslyRegistered = prependNamespace(Key("hasPreviouslyRegistered"))
 
     lazy val overseasAddress = prependNamespace(Key("overseasAddress"))
-    lazy val overseasAddressDetails = prependNamespace(Key("overseasAddressDetails"))
+    lazy val addressLine1 = prependNamespace(Key("addressLine1"))
+    lazy val addressLine2 = prependNamespace(Key("addressLine2"))
+    lazy val addressLine3 = prependNamespace(Key("addressLine3"))
+    lazy val addressLine4 = prependNamespace(Key("addressLine4"))
+    lazy val addressLine5 = prependNamespace(Key("addressLine5"))
 
     lazy val lastUkAddress = prependNamespace(Key("lastUkAddress"))
     lazy val dateLeftUk = prependNamespace(Key("dateLeftUk"))

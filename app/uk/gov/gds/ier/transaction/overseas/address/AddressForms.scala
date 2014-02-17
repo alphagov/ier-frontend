@@ -11,8 +11,13 @@ trait AddressForms extends OverseasAddressConstraints {
 
     lazy val addressMapping = mapping (
             keys.country.key -> optional(nonEmptyText),
-            keys.overseasAddressDetails.key -> optional(nonEmptyText)
-    ) (OverseasAddress.apply) (OverseasAddress.unapply) 
+            keys.addressLine1.key -> optional(nonEmptyText),
+            keys.addressLine2.key -> optional(nonEmptyText),
+            keys.addressLine3.key -> optional(nonEmptyText),
+            keys.addressLine4.key -> optional(nonEmptyText),
+            keys.addressLine5.key -> optional(nonEmptyText)
+
+  ) (OverseasAddress.apply) (OverseasAddress.unapply)
     
     val addressForm = ErrorTransformForm(
         mapping(keys.overseasAddress.key -> optional(addressMapping).verifying (countryRequired, addressDetailsRequired))
@@ -34,8 +39,12 @@ trait OverseasAddressConstraints extends CommonConstraints {
     lazy val addressDetailsRequired = Constraint[Option[OverseasAddress]](keys.overseasAddress.key) {
         optAddress => 
             optAddress match {
-                case Some(address) if (!address.addressDetails.getOrElse("").trim.isEmpty) => Valid 
-                case _ => Invalid("Please enter your address", keys.overseasAddress.overseasAddressDetails)
+                case Some(address) if (!address.addressLine1.getOrElse("").trim.isEmpty ||
+                                       !address.addressLine2.getOrElse("").trim.isEmpty ||
+                                       !address.addressLine3.getOrElse("").trim.isEmpty ||
+                                       !address.addressLine4.getOrElse("").trim.isEmpty ||
+                                       !address.addressLine5.getOrElse("").trim.isEmpty) => Valid
+                case _ => Invalid("Please enter your address", keys.overseasAddress.addressLine1)
             }
     }
 }

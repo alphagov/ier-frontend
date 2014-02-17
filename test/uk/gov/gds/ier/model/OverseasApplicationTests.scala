@@ -48,7 +48,11 @@ class OverseasApplicationTests
       )),
       address = Some(OverseasAddress(
         country = Some("France"),
-        addressDetails = Some("123 Rue de Fake, Saint-Fake")
+        addressLine1 = Some("123 Rue de Fake, Saint-Fake"),
+        addressLine2 = None,
+        addressLine3 = None,
+        addressLine4 = None,
+        addressLine5 = None
       )),
       lastUkAddress = Some(Address(
         lineOne = Some("The (fake) Manor House"),
@@ -124,7 +128,7 @@ class OverseasApplicationTests
       "regarea" -> "Fakesbury",
       "reguprn" -> "12345",
       "regpostcode" -> "XX12 34XX",
-      "corraddress" -> "123 Rue de Fake, Saint-Fake",
+      "corraddressline1" -> "123 Rue de Fake, Saint-Fake",
       "corrcountry" -> "France",
       "lastcategory" -> "ordinary",
       "leftuk" -> "1990-01",
@@ -203,7 +207,11 @@ class OverseasApplicationTests
       )),
       address = Some(OverseasAddress(
         country = Some("France"),
-        addressDetails = Some("123 Rue de Fake, Saint-Fake")
+        addressLine1 = Some("123 Rue de Fake, Saint-Fake"),
+        addressLine2 = None,
+        addressLine3 = None,
+        addressLine4 = None,
+        addressLine5 = None
       )),
       lastUkAddress = Some(Address(
         lineOne = Some("The (fake) Manor House"),
@@ -259,7 +267,7 @@ class OverseasApplicationTests
       "regarea" -> "Fakesbury",
       "reguprn" -> "12345",
       "regpostcode" -> "XX12 34XX",
-      "corraddress" -> "123 Rue de Fake, Saint-Fake",
+      "corraddressline1" -> "123 Rue de Fake, Saint-Fake",
       "corrcountry" -> "France",
       "lastcategory" -> "overseas",
       "leftuk" -> "1990-01",
