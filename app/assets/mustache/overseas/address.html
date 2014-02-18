@@ -1,48 +1,91 @@
-<form action="{{question.postUrl}}" method="POST" data-validation-name="correspondenceAddress"
-      data-validation-type="association" class="validate"
-      data-validation-members="correspondenceAddressFieldSet"
-      data-validation-rules="allNonEmpty">
+<form action="{{question.postUrl}}" method="POST">
 
     {{> shared/questionHeader }}
 
     {{> shared/validationMessages }}
 
-    <fieldset class="validate inline-fields" data-validation-name="correspondenceAddressFieldSet"
-              data-validation-type="fieldset" data-validation-rules="allNonEmpty"
-              data-validation-children="countrySelect address">
+    <label for="{{countrySelect.id}}">
+        Country
+    </label>
 
-		<label for="{{countrySelect.id}}">
-            Country
-        </label>
-        <div class="validation-wrapper {{countrySelect.classes}}">
+    <div class="validation-wrapper {{countrySelect.classes}}">
+
         <select id="{{countrySelect.id}}" name="{{countrySelect.name}}"
-                class="lonely validate {{countrySelect.classes}}"
-                data-validation-name="countrySelect"
-                data-validation-type="field"
-                data-validation-rules="nonEmpty">
-  				{{#countrySelect.optionList}}
-                    <option value="{{value}}" {{{selected}}}>{{text}}</option>
-                {{/countrySelect.optionList}}
-    		</select>
-            
-        </div>
-        
-        <label for="{{address.id}}">
+            class="lonely validate {{countrySelect.classes}}"
+            data-validation-name="countrySelect"
+            data-validation-type="field"
+            data-validation-rules="nonEmpty">
+            {{#countrySelect.optionList}}
+                <option value="{{value}}" {{{selected}}}>{{text}}</option>
+            {{/countrySelect.optionList}}
+        </select>
+
+    </div>
+
+    <fieldset class="validate"
+              data-validation-name="correspondenceAddressLinesFieldSet"
+              data-validation-type="fieldset"
+              data-validation-rules="atLeastOneNonEmpty"
+              data-validation-children="addressLine1 addressLine2 addressLine3 addressLine4 addressLine5">
+        <label>
             Address
         </label>
-        <div class="validation-wrapper {{address.classes}}">
-            <textarea id="{{address.id}}" name="{{address.name}}"
-                      autocomplete="off" class="text address  {{address.classes}}"
-                      data-validation-name="address"
-                      data-validation-type="field"
-                      data-validation-rules="nonEmpty"
-                      cols = "36" >{{address.value}}</textarea>
-        </div>
 
+            <div class="validation-wrapper ">
+                <input type="text" id="{{addressLine1.id}}"
+                       name="{{addressLine1.name}}"
+                       value="{{addressLine1.value}}"
+                       autocomplete="off"
+                       class="text long validate"
+                       data-validation-name="addressLine1"
+                       data-validation-type="field"
+                       data-validation-rules="nonEmpty" >
+
+            </div>
+            <div class="validation-wrapper ">
+                <input type="text" id="{{addressLine2.id}}"
+                       name="{{addressLine2.name}}"
+                       value="{{addressLine2.value}}"
+                       autocomplete="off"
+                       class="text long validate"
+                       data-validation-name="addressLine2"
+                       data-validation-type="field"
+                       data-validation-rules="nonEmpty" >
+            </div>
+            <div class="validation-wrapper ">
+                <input type="text" id="{{addressLine3.id}}"
+                       name="{{addressLine3.name}}"
+                       value="{{addressLine3.value}}"
+                       autocomplete="off"
+                       class="text long validate"
+                       data-validation-name="addressLine3"
+                       data-validation-type="field"
+                       data-validation-rules="nonEmpty" >
+            </div>
+            <div class="validation-wrapper ">
+                <input type="text" id="{{addressLine4.id}}"
+                       name="{{addressLine4.name}}"
+                       value="{{addressLine4.value}}"
+                       autocomplete="off"
+                       class="text long validate"
+                       data-validation-name="addressLine4"
+                       data-validation-type="field"
+                       data-validation-rules="nonEmpty" >
+            </div>
+            <div class="validation-wrapper ">
+                <input type="text" id="{{addressLine5.id}}"
+                       name="{{addressLine5.name}}"
+                       value="{{addressLine5.value}}"
+                       autocomplete="off"
+                       class="text long validate"
+                       data-validation-name="addressLine5"
+                       data-validation-type="field"
+                       data-validation-rules="nonEmpty" >
+            </div>
     </fieldset>
 
     <button type="submit" id="continue"
             class="button next validation-submit"
-            data-validation-sources="correspondenceAddress">Continue</button>
+            data-validation-sources="countrySelect correspondenceAddressLinesFieldSet">Continue</button>
 
 </form>

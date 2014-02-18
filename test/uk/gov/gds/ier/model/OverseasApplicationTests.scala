@@ -2,13 +2,14 @@ package uk.gov.gds.ier.model
 
 import uk.gov.gds.common.model.LocalAuthority
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{TestHelpers, CustomMatchers}
 import org.scalatest.{Matchers, FlatSpec}
 
 class OverseasApplicationTests
   extends FlatSpec
   with Matchers
-  with TestHelpers {
+  with TestHelpers
+  with CustomMatchers {
 
   it should "generate expected new voter payload" in {
     val application = OverseasApplication(
@@ -47,7 +48,11 @@ class OverseasApplicationTests
       )),
       address = Some(OverseasAddress(
         country = Some("France"),
-        addressDetails = Some("123 Rue de Fake, Saint-Fake")
+        addressLine1 = Some("123 Rue de Fake, Saint-Fake"),
+        addressLine2 = None,
+        addressLine3 = None,
+        addressLine4 = None,
+        addressLine5 = None
       )),
       lastUkAddress = Some(Address(
         lineOne = Some("The (fake) Manor House"),
@@ -123,7 +128,7 @@ class OverseasApplicationTests
       "regarea" -> "Fakesbury",
       "reguprn" -> "12345",
       "regpostcode" -> "XX12 34XX",
-      "corraddress" -> "123 Rue de Fake, Saint-Fake",
+      "corraddressline1" -> "123 Rue de Fake, Saint-Fake",
       "corrcountry" -> "France",
       "lastcategory" -> "ordinary",
       "leftuk" -> "1990-01",
@@ -158,7 +163,7 @@ class OverseasApplicationTests
       "proxyvoteemail"
     )
 
-    apiMap should be(expected)
+    apiMap should matchMap(expected)
 
     for(key <- notExpected) {
       apiMap.keys should not contain(key)
@@ -202,7 +207,11 @@ class OverseasApplicationTests
       )),
       address = Some(OverseasAddress(
         country = Some("France"),
-        addressDetails = Some("123 Rue de Fake, Saint-Fake")
+        addressLine1 = Some("123 Rue de Fake, Saint-Fake"),
+        addressLine2 = None,
+        addressLine3 = None,
+        addressLine4 = None,
+        addressLine5 = None
       )),
       lastUkAddress = Some(Address(
         lineOne = Some("The (fake) Manor House"),
@@ -258,7 +267,7 @@ class OverseasApplicationTests
       "regarea" -> "Fakesbury",
       "reguprn" -> "12345",
       "regpostcode" -> "XX12 34XX",
-      "corraddress" -> "123 Rue de Fake, Saint-Fake",
+      "corraddressline1" -> "123 Rue de Fake, Saint-Fake",
       "corrcountry" -> "France",
       "lastcategory" -> "overseas",
       "leftuk" -> "1990-01",
@@ -293,7 +302,7 @@ class OverseasApplicationTests
       "proxyvoteemail"
     )
 
-    apiMap should be(expected)
+    apiMap should matchMap(expected)
     for (key <- notExpected) {
       apiMap.keys should not contain(key)
     }

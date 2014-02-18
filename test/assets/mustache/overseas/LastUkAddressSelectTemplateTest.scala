@@ -62,9 +62,6 @@ class LastUkAddressSelectTemplateTest
 
       val fieldset = doc.select("fieldset").first()
 
-      val postcodeLabel = fieldset.select("label[class=hidden]").first()
-      postcodeLabel.attr("for") should be("postcodeId")
-
       val postcodeSpan = doc.select("span[class=postcode]").first()
       postcodeSpan.html() should be("postcodeValue")
 

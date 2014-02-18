@@ -171,8 +171,20 @@ trait ConfirmationMustache {
         editLink = AddressController.addressStep.routes.editGet.url,
         changeName = "where do you live?",
         content = ifComplete(keys.overseasAddress) {
-          "<p>" + form (keys.overseasAddress.overseasAddressDetails).value.getOrElse("") + "</p>" +
-          "<p>" + form (keys.overseasAddress.country).value.getOrElse("") + "</p>"
+
+          val result:StringBuilder = new StringBuilder
+          result.append ("<p>")
+          result.append (
+            List (
+              form(keys.overseasAddress.addressLine1).value,
+              form(keys.overseasAddress.addressLine2).value,
+              form(keys.overseasAddress.addressLine3).value,
+              form(keys.overseasAddress.addressLine4).value,
+              form(keys.overseasAddress.addressLine5).value)
+            .filter(!_.getOrElse("").isEmpty).map(_.get).mkString("","<br/>",""))
+          result.append ("</p>")
+          result.append ("<p>" + form (keys.overseasAddress.country).value.getOrElse("") + "</p>")
+          result.toString()
         }
       ))
     }

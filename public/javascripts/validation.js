@@ -742,8 +742,11 @@
       'previouslyRegistered' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
-      'correspondenceAddress' : {
-        'allNonEmpty' : 'Please answer this question'
+      'countrySelect' : {
+        'nonEmpty' : 'Please select your country'
+      },
+      'correspondenceAddressLinesFieldSet' : {
+        'atLeastOneNonEmpty' : 'Please enter your address'
       },
       'deliveryMethod' : {
         'atLeastOneNonEmpty' : 'Please answer this question'

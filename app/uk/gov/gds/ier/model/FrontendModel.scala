@@ -213,7 +213,7 @@ case class PartialPreviousAddress (movedRecently:Option[Boolean],
 
 case class OtherAddress (otherAddressOption:OtherAddressOption) {
   def toApiMap = {
-    Map("oadr" -> otherAddressOption.hasOtherAddress.toString)
+    Map("oadr" -> otherAddressOption.name)
   }
 }
 

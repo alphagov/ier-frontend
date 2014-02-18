@@ -31,11 +31,30 @@ class AddressTemplateTest
               selected = "selected=\"selected\""), 
               SelectOption(value = "France", text = "France"))
         ),
-        address = Field(
-          id = "overseasAddressDetailsId",
-          name = "overseasAddressDetailsName",
-          classes = "overseasAddressDetailsClass",
-          value = "some address"
+        addressLine1 = Field(
+          id = "addressLine1Id",
+          name = "addressLine1Name",
+          value = "some address line 1"
+        ),
+        addressLine2 = Field(
+          id = "addressLine2Id",
+          name = "addressLine2Name",
+          value = "some address line 2"
+        ),
+        addressLine3 = Field(
+          id = "addressLine3Id",
+          name = "addressLine3Name",
+          value = "some address line 3"
+        ),
+        addressLine4 = Field(
+          id = "addressLine4Id",
+          name = "addressLine4Name",
+          value = "some address line 4"
+        ),
+        addressLine5 = Field(
+          id = "addressLine5Id",
+          name = "addressLine5Name",
+          value = "some address line 5"
         )
       )
 
@@ -66,21 +85,44 @@ class AddressTemplateTest
        e.attr("value") should be("United Kingdom")
       }
 
-      { //address details label
-        doc.select("label[for=overseasAddressDetailsId]").size should be (1)
-      }
-
-      { //address details wrapper
-        doc.select("div[class*=overseasAddressDetailsClass]").size should be (1)
-      }
-
-      { //address details wrapper
-        val e = doc.select("textarea[id=overseasAddressDetailsId]").first()
+      { //address details line 1 wrapper
+        val e = doc.select("input[id=addressLine1Id]").first()
         e should not be(null)
-        e.attr("id") should be("overseasAddressDetailsId")
-        e.attr("name") should be("overseasAddressDetailsName")
-        e.attr("class") should include("overseasAddressDetailsClass")
-        e.text should be("some address")
+        e.attr("id") should be("addressLine1Id")
+        e.attr("name") should be("addressLine1Name")
+        e.attr("value") should be("some address line 1")
+      }
+
+      { //address details line 2 wrapper
+      val e = doc.select("input[id=addressLine2Id]").first()
+        e should not be(null)
+        e.attr("id") should be("addressLine2Id")
+        e.attr("name") should be("addressLine2Name")
+        e.attr("value") should be("some address line 2")
+      }
+
+      { //address details line 3 wrapper
+      val e = doc.select("input[id=addressLine3Id]").first()
+        e should not be(null)
+        e.attr("id") should be("addressLine3Id")
+        e.attr("name") should be("addressLine3Name")
+        e.attr("value") should be("some address line 3")
+      }
+
+      { //address details line 4 wrapper
+      val e = doc.select("input[id=addressLine4Id]").first()
+        e should not be(null)
+        e.attr("id") should be("addressLine4Id")
+        e.attr("name") should be("addressLine4Name")
+        e.attr("value") should be("some address line 4")
+      }
+
+      { //address details line 5 wrapper
+      val e = doc.select("input[id=addressLine5Id]").first()
+        e should not be(null)
+        e.attr("id") should be("addressLine5Id")
+        e.attr("name") should be("addressLine5Name")
+        e.attr("value") should be("some address line 5")
       }
     }
   }
