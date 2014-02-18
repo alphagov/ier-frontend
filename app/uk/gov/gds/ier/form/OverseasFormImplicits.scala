@@ -1,9 +1,9 @@
 package uk.gov.gds.ier.form
 
-import org.joda.time.LocalDate
+import org.joda.time.{LocalDate, YearMonth, Years}
 import uk.gov.gds.ier.validation.FormKeys
-import uk.gov.gds.ier.model.InprogressOverseas
 import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.model.{InprogressOverseas, ApplicationType, LastRegisteredType}
 
 trait OverseasFormImplicits {
   self: FormKeys => 
@@ -43,6 +43,46 @@ trait OverseasFormImplicits {
       dateOfBirth map { dob =>
         dob isBefore jan1st1983
       }
+    }
+  }
+
+  implicit class OverseasImprovedApplication(application: InprogressOverseas) {
+    def identifyApplication:ApplicationType = {
+      val dateOfBirth = application.dob.map { dob =>
+        new YearMonth().withYear(dob.year).withMonthOfYear(dob.month)
+      }
+      val whenLeft = application.dateLeftUk.map { dateLeft =>
+        new YearMonth().withYear(dateLeft.year).withMonthOfYear(dateLeft.month)
+      }
+      val previouslyRegistered = application.previouslyRegistered.map(_.hasPreviouslyRegistered)
+      val lastRegistered = application.lastRegisteredToVote.map(_.lastRegisteredType)
+
+      identifyOverseasApplication(dateOfBirth, whenLeft, previouslyRegistered, lastRegistered)
+    }
+  }
+
+  private def identifyOverseasApplication(
+      dob:Option[YearMonth],
+      dateLeft:Option[YearMonth],
+      previouslyRegistered: Option[Boolean],
+      lastRegistered: Option[LastRegisteredType]):ApplicationType = {
+
+    val under18WhenLeft = for(dateOfBirth <- dob; whenLeft <- dateLeft) yield {
+      Years.yearsBetween(dateOfBirth, whenLeft).getYears() < 18
+    }
+
+    if (previouslyRegistered.exists(_ == true)) {
+      ApplicationType.RenewerVoter
+    } else if (lastRegistered.exists(_ == LastRegisteredType.Ordinary)) {
+      ApplicationType.NewVoter
+    } else if (lastRegistered.exists(_ == LastRegisteredType.Forces)
+        || lastRegistered.exists(_ == LastRegisteredType.Crown)
+        || lastRegistered.exists(_ == LastRegisteredType.Council)){
+      ApplicationType.SpecialVoter
+    } else if (under18WhenLeft.exists(_ == true)) {
+      ApplicationType.YoungVoter
+    } else {
+      ApplicationType.DontKnow
     }
   }
 }

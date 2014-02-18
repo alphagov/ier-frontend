@@ -19,6 +19,9 @@ case class InprogressOverseas(
     postalOrProxyVote: Option[PostalOrProxyVote] = None,
     contact: Option[Contact] = None,
     passport: Option[Passport] = None,
+    parentsName: Option[Stub] = None,
+    parentsPreviousName: Option[Stub] = None,
+    parentsAddress: Option[Stub] = None,
     possibleAddresses: Option[PossibleAddress] = None)
   extends InprogressApplication[InprogressOverseas] {
 
@@ -54,7 +57,7 @@ case class OverseasApplication(
     dob: Option[DOB],
     nino: Option[Nino],
     address: Option[OverseasAddress],
-    lastUkAddress: Option[Address] = None,
+    lastUkAddress: Option[Address],
     openRegisterOptin: Option[Boolean],
     waysToVote: Option[WaysToVote],
     postalOrProxyVote: Option[PostalOrProxyVote],
@@ -240,4 +243,13 @@ case class PostalOrProxyVote (
     }
     voteMap ++ emailMap
   }
+}
+
+sealed abstract class ApplicationType
+object ApplicationType {
+  case object YoungVoter extends ApplicationType
+  case object NewVoter extends ApplicationType
+  case object SpecialVoter extends ApplicationType
+  case object RenewerVoter extends ApplicationType
+  case object DontKnow extends ApplicationType
 }
