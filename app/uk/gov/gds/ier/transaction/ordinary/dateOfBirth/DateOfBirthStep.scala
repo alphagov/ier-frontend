@@ -6,7 +6,7 @@ import controllers.routes.ExitController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import play.api.mvc.{SimpleResult, Call}
-import uk.gov.gds.ier.model.{InprogressOrdinary, DateOfBirth, noDOB}
+import uk.gov.gds.ier.model.{InprogressOverseas, InprogressOrdinary, DateOfBirth, noDOB}
 import play.api.templates.Html
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
@@ -20,7 +20,8 @@ class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
                                        val encryptionService : EncryptionService,
                                        val encryptionKeys : EncryptionKeys)
   extends OrdinaryStep
-  with DateOfBirthForms {
+  with DateOfBirthForms
+  with DateOfBirthMustache{
 
   val validation = dateOfBirthForm
   val previousRoute = Some(NationalityController.get)
@@ -32,8 +33,11 @@ class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
     editPost = DateOfBirthController.editPost
   ) 
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
-    views.html.steps.dateOfBirth(form, call, backUrl.map(_.url))
+  def template(
+      form:InProgressForm[InprogressOrdinary],
+      postEndpoint:Call,
+      backEndpoint: Option[Call]): Html = {
+    dateOfBirthMustache(form.form, postEndpoint, backEndpoint)
   }
 
   def nextStep(currentState: InprogressOrdinary) = {
