@@ -88,7 +88,7 @@ class NationalityControllerTests
 
       status(result) should be(OK)
       contentAsString(result) should include("What is your nationality?")
-      contentAsString(result) should include("Please select your Nationality")
+      contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("/register-to-vote/nationality")
     }
   }
@@ -202,7 +202,7 @@ class NationalityControllerTests
 
       status(result) should be(OK)
       contentAsString(result) should include("What is your nationality?")
-      contentAsString(result) should include("Please select your Nationality")
+      contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("/register-to-vote/edit/nationality")
     }
   }

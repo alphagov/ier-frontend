@@ -119,8 +119,8 @@ class NationalityFormTests
     val js = JsNull
     nationalityForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("nationality") should be(Seq("Please select your Nationality"))
-        hasErrors.globalErrorMessages should be(Seq("Please select your Nationality"))
+        hasErrors.errorMessages("nationality") should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
         hasErrors.errors.size should be(2)
       },
       success => fail("Should have errored out.")

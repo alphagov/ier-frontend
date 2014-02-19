@@ -48,17 +48,41 @@
                  data-validation-type="field"
                  data-validation-rules="atLeastOneCountry">
 
-                <label for="nationality_otherCountries[0]" class=""  >
+                <label for="{{otherCountriesHead.id}}" class=""  >
                     Which country?
                 </label>
-                <input type="text" id="nationality_otherCountries[0]"
-                       name="nationality.otherCountries[0]" value=""
-                       autocomplete="off"  class="text  country-autocomplete long"  >
-                <p class="duplication-intro" style="">
+                <input type="text" id="{{otherCountriesHead.id}}"
+                       name="{{otherCountriesHead.name}}"
+                       value="{{otherCountriesHead.value}}"
+                       autocomplete="off"
+                       class="text  country-autocomplete long"  >
+
+                <p class="duplication-intro"
+                   style="{{#moreThanOneOtherCountry}}display: none{{/moreThanOneOtherCountry}}">
                     If you have dual nationality
                     <a class="duplicate-control-initial"
-                     href="#" data-field="nationality_otherCountries[0]">add another country</a>.
+                     href="#" data-field="{{otherCountriesHead.id}}">add another country</a>.
                 </p>
+
+                {{#otherCountriesTail}}
+                    <div class="added-country">
+                        <label for="nationality_otherCountries[{{index}}]" class="country-label"  >
+                            Country {{index}}
+                        </label>
+                        <a href="#" class="remove-field"
+                           data-field="nationality_otherCountries[{{index}}]">
+                            Remove<span class="visuallyhidden"> Country</span>
+                        </a>
+                        <input type="text" id="nationality_otherCountries[{{index}}]"
+                               name="nationality.otherCountries[{{index}}]" value="{{countryName}}"
+                               autocomplete="off"  class="text  country-autocomplete long"  >
+                    </div>
+                {{/otherCountriesTail}}
+
+                {{#moreThanOneOtherCountry}}
+                    <a class="duplicate-control" href="#">Add another country</a>
+                {{/moreThanOneOtherCountry}}
+
             </div>
         </div>
     </fieldset>
@@ -74,17 +98,17 @@
             in person).</p>
         <div class="optional-section" id="nationality-provision">
             <h3>I can't provide my nationality</h3>
-            <label for="nationality_noNationalityReason" class=""  >
+            <label for="{{noNationalityReason.id}}" class=""  >
                 Why can't you provide your nationality?
             </label>
-            <textarea name="nationality.noNationalityReason"
-                      id="nationality_noNationalityReason"
+            <textarea name="{{noNationalityReason.name}}"
+                      id="{{noNationalityReason.id}}"
                       class=" small validate"
                       data-validation-name="nationalityExcuse"
                       data-validation-type="field"
                       data-validation-rules="nonEmpty"
                       maxlength="500"
-                      autocomplete="off" ></textarea>
+                      autocomplete="off" >{{noNationalityReason.value}}</textarea>
         </div>
     </div>
     <button type="submit" id="continue"

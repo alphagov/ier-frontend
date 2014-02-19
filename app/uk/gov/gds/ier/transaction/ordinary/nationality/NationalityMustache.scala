@@ -9,21 +9,33 @@ import uk.gov.gds.ier.mustache.StepMustache
 
 trait NationalityMustache extends StepMustache {
 
+  case class CountryItem (
+      index:String = "",
+      countryName:String = ""
+  )
+
   case class NationalityModel(
       question:Question,
       britishOption: Field,
       irishOption: Field,
-      hasOtherCountryOption: Field
+      hasOtherCountryOption: Field,
+      otherCountriesHead: Field,
+      otherCountriesTail: List[CountryItem] = List.empty,
+      moreThanOneOtherCountry: Boolean,
+      noNationalityReason: Field
   )
 
-  def nationalityMustache(
+  def transformFormStepToMustacheData(
       form: ErrorTransformForm[InprogressOrdinary],
       postEndpoint: Call,
-      backEndpoint:Option[Call]) : Html = {
+      backEndpoint:Option[Call]) : NationalityModel = {
 
     implicit val progressForm = form
 
-    val data = NationalityModel(
+    val application:InprogressOrdinary = form.value.getOrElse(InprogressOrdinary())
+    val otherCountriesList = application.nationality.map(_.otherCountries).getOrElse(List.empty)
+
+    NationalityModel(
       question = Question(
         postUrl = postEndpoint.url,
         backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
@@ -42,9 +54,34 @@ trait NationalityMustache extends StepMustache {
       hasOtherCountryOption = CheckboxField(
         key = keys.nationality.hasOtherCountry,
         value = "true"
+      ),
+      otherCountriesHead =  Field(
+        id = keys.nationality.otherCountries.asId() + "[0]",
+        name = keys.nationality.otherCountries.key + "[0]",
+        value = if (!otherCountriesList.isEmpty) otherCountriesList.head else "",
+        classes = if (progressForm(keys.nationality.otherCountries.key).hasErrors) "invalid" else ""
+      ),
+
+      otherCountriesTail =
+        if (!otherCountriesList.isEmpty) createMustacheCountryList(otherCountriesList.tail)
+        else List.empty,
+      moreThanOneOtherCountry = otherCountriesList.size > 1,
+      noNationalityReason= TextField(
+        key = keys.nationality.noNationalityReason
       )
     )
+  }
+
+  def nationalityMustache(
+      form: ErrorTransformForm[InprogressOrdinary],
+      postEndpoint: Call,
+      backEndpoint:Option[Call]) : Html = {
+    val data = transformFormStepToMustacheData(form, postEndpoint, backEndpoint)
     val content = Mustache.render("ordinary/nationality", data)
     MainStepTemplate(content, "Register to Vote - " + data.question.title)
+  }
+
+  def createMustacheCountryList (otherCountriesTail:List[String]) : List[CountryItem] = {
+    otherCountriesTail.zipWithIndex.map{case (item, i) => CountryItem((i+2).toString,item)}
   }
 }

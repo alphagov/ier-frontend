@@ -22,7 +22,7 @@ trait NationalityConstraints {
       if (nationality.british == Some(true) || nationality.irish == Some(true)) Valid
       else if (nationality.otherCountries.exists(_.nonEmpty) && nationality.hasOtherCountry.exists(b => b)) Valid
       else if (nationality.noNationalityReason.isDefined) Valid
-      else Invalid("Please select your Nationality", keys.nationality)
+      else Invalid("Please answer this question", keys.nationality)
   }
 
   lazy val otherCountry0IsValid = otherCountryIsValid(0)
