@@ -127,6 +127,8 @@ trait FormKeys {
     lazy val dateLeftSpecial = prependNamespace(Key("dateLeftSpecial"))
 
     lazy val statement = prependNamespace(Key("statement"))
+    lazy val forcesMember = prependNamespace(Key("forcesMember"))
+    lazy val partnerForcesMember = prependNamespace(Key("partnerForcesMember"))
     lazy val service = prependNamespace(Key("service"))
     lazy val rank = prependNamespace(Key("rank"))
     lazy val contactAddress = prependNamespace(Key("contactAddress"))
