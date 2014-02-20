@@ -2,8 +2,12 @@ package uk.gov.gds.ier.stubs
 
 import com.google.inject.Inject
 import uk.gov.gds.ier.service.{ConcreteIerApiService, IerApiService}
-import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressOverseas, Nino, InprogressApplication}
+import uk.gov.gds.ier.model._
 import scala.util.Random
+import uk.gov.gds.ier.model.InprogressOverseas
+import uk.gov.gds.ier.model.InprogressOrdinary
+import scala.Some
+import uk.gov.gds.ier.model.Nino
 
 class IerApiServiceWithStripNino @Inject() (ierService: ConcreteIerApiService) extends IerApiService {
 
@@ -20,10 +24,30 @@ class IerApiServiceWithStripNino @Inject() (ierService: ConcreteIerApiService) e
     }
   }
 
+  override def submitForcesApplication(ipAddress: Option[String],
+                                         applicant: InprogressForces,
+                                         referenceNumber: Option[String]) = {
+    applicant.nino match {
+      case Some(Nino(None, Some(noNinoReason))) => ierService.submitForcesApplication(ipAddress, applicant, referenceNumber)
+      case Some(Nino(Some(nino), None)) => ierService.submitForcesApplication(
+        ipAddress,
+        applicant.copy(nino = Some(Nino(Some(randomNino()), None))),
+        referenceNumber)
+      case unexpectedNino => throw new IllegalArgumentException("Unexpected NINO: " + unexpectedNino)
+    }
+  }
+
   override def submitOverseasApplication(ipAddress: Option[String],
                                          applicant: InprogressOverseas,
                                          referenceNumber: Option[String]) = {
-    ierService.submitOverseasApplication(ipAddress, applicant, referenceNumber)
+    applicant.nino match {
+      case Some(Nino(None, Some(noNinoReason))) => ierService.submitOverseasApplication(ipAddress, applicant, referenceNumber)
+      case Some(Nino(Some(nino), None)) => ierService.submitOverseasApplication(
+        ipAddress,
+        applicant.copy(nino = Some(Nino(Some(randomNino()), None))),
+        referenceNumber)
+      case unexpectedNino => throw new IllegalArgumentException("Unexpected NINO: " + unexpectedNino)
+    }
   }
 
   override def generateReferenceNumber[T <: InprogressApplication[T]](application: T) = {
