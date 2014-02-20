@@ -33,15 +33,18 @@ trait NameForms extends NameConstraints {
   ) (
     PreviousName.unapply
   ) verifying prevNameFilledIfHasPrevIsTrue
-
-  val nameForm = ErrorTransformForm(
-    mapping(
+  
+  lazy val overseasNameMapping = mapping(
       keys.name.key -> optional(nameMapping).verifying(nameNotOptional),
       keys.previousName.key -> required(optional(previousNameMapping), "Please answer this question")
-    ) (
+    )(
       (name, previousName) => InprogressOverseas(name = name, previousName = previousName)
     ) (
       inprogress => Some(inprogress.name, inprogress.previousName)
     )
-  )
+
+  val nameForm = ErrorTransformForm(
+    overseasNameMapping
+    ) 
+  
 }

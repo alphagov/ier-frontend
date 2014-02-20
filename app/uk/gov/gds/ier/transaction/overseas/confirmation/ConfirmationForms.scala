@@ -54,12 +54,17 @@ trait ConfirmationForms
 
   val confirmationForm = ErrorTransformForm(
     mapping(
-      keys.name.key -> optional(nameMapping),
-      keys.previousName.key -> optional(previousNameMapping),
+      keys.overseasName.key -> optional(overseasNameMapping),
+//      keys.name.key -> optional(nameMapping),
+//      keys.previousName.key -> optional(previousNameMapping),
       keys.previouslyRegistered.key -> optional(previouslyRegisteredMapping),
       keys.dateLeftSpecial.key -> optional(dateLeftSpecialMapping),
       keys.dateLeftUk.key -> optional(dateLeftUkMapping),
       keys.lastRegisteredToVote.key -> optional(lastRegisteredToVoteMapping),
+      
+      "parentsName" -> optional(stubMapping),
+      "parentsPreviousName" -> optional(stubMapping),
+      "parentsAddress" -> optional(stubMapping),
       keys.dob.key -> optional(dobMapping),
       keys.nino.key -> optional(ninoMapping),
       keys.lastUkAddress.key -> optional(partialAddressMapping),
@@ -69,9 +74,6 @@ trait ConfirmationForms
       keys.postalOrProxyVote.key -> optional(postalOrProxyVoteMapping),
       keys.contact.key -> optional(contactMapping),
       keys.passport.key -> optional(passportMapping),
-      "parentsName" -> optional(stubMapping),
-      "parentsPreviousName" -> optional(stubMapping),
-      "parentsAddress" -> optional(stubMapping),
       keys.possibleAddresses.key -> optional(possibleAddressesMapping)
     )
     (InprogressOverseas.apply)
@@ -92,26 +94,30 @@ trait ConfirmationForms
   }
 
   lazy val validateBaseSetRequired = Constraint[InprogressOverseas]("validateBaseSet") {
-    application => Invalid("Base set criteria not met")
+    application => Invalid("Base set criteria not met", keys.name)
   }
 
   lazy val validateYoungVoter = Constraint[InprogressOverseas]("validateYoungVoter") { app =>
     val errorKeys = List(
+      if (app.dob.isDefined) None else Some(keys.dob),
+      if (!app.previouslyRegistered.exists(_.hasPreviouslyRegistered == false))
+        Some(keys.previouslyRegistered) else None,
+      if (app.lastRegisteredToVote.isDefined) None else Some(keys.lastRegisteredToVote),  
+      if (app.dateLeftUk.isDefined) None else Some(keys.dateLeftUk),
+      if (app.parentName.isDefined) None else Some(keys.parentName),
+      if (app.parentPreviousName.isDefined) None else Some(keys.parentPreviousName),
+      if (app.parentsAddress.isDefined) None else Some(Key("parentsAddress")),
+      if (app.passport.isDefined) None else Some(keys.passport),
       if (app.name.isDefined) None else Some(keys.name),
       if (app.previousName.isDefined) None else Some(keys.previousName),
-      if (app.previouslyRegistered.isDefined) None else Some(keys.previouslyRegistered),
-      if (app.dateLeftUk.isDefined) None else Some(keys.dateLeftUk),
-      if (app.dob.isDefined) None else Some(keys.dob),
       if (app.nino.isDefined) None else Some(keys.nino),
       if (app.address.isDefined) None else Some(keys.overseasAddress),
       if (app.openRegisterOptin.isDefined) None else Some(keys.openRegister),
       if (app.waysToVote.isDefined) None else Some(keys.waysToVote),
       if (app.postalOrProxyVote.isDefined) None else Some(keys.postalOrProxyVote),
-      if (app.contact.isDefined) None else Some(keys.contact),
-      if (app.passport.isDefined) None else Some(keys.passport),
-      if (app.parentsName.isDefined) None else Some(Key("parentsName")),
-      if (app.parentsPreviousName.isDefined) None else Some(Key("parentsPreviousName")),
-      if (app.parentsAddress.isDefined) None else Some(Key("parentsAddress"))
+      if (app.contact.isDefined) None else Some(keys.contact)
+//      if (app.parentsName.isDefined) None else Some(Key("parentsName")),
+//      if (app.parentsPreviousName.isDefined) None else Some(Key("parentsPreviousName")),
 
     ).flatten
     if (errorKeys.size == 0) {
@@ -123,18 +129,21 @@ trait ConfirmationForms
 
   lazy val validateSpecialVoter = Constraint[InprogressOverseas]("validateSpecialVoter") { app =>
     val errorKeys = List(
+      if (app.dob.isDefined) None else Some(keys.dob),
+      if (!app.previouslyRegistered.exists(_.hasPreviouslyRegistered == false))
+        Some(keys.previouslyRegistered) else None,
+      if (app.lastRegisteredToVote.isDefined) None else Some(keys.lastRegisteredToVote),
+      if (app.dateLeftSpecial.isDefined) None else Some(keys.dateLeftSpecial),
+      if (app.lastUkAddress.isDefined) None else Some(keys.lastUkAddress),
+      if (app.passport.isDefined) None else Some(keys.passport),
       if (app.name.isDefined) None else Some(keys.name),
       if (app.previousName.isDefined) None else Some(keys.previousName),
-      if (app.previouslyRegistered.isDefined) None else Some(keys.previouslyRegistered),
-      if (app.dateLeftSpecial.isDefined) None else Some(keys.dateLeftSpecial),
-      if (app.dob.isDefined) None else Some(keys.dob),
       if (app.nino.isDefined) None else Some(keys.nino),
       if (app.address.isDefined) None else Some(keys.overseasAddress),
       if (app.openRegisterOptin.isDefined) None else Some(keys.openRegister),
       if (app.waysToVote.isDefined) None else Some(keys.waysToVote),
       if (app.postalOrProxyVote.isDefined) None else Some(keys.postalOrProxyVote),
-      if (app.contact.isDefined) None else Some(keys.contact),
-      if (app.passport.isDefined) None else Some(keys.passport)
+      if (app.contact.isDefined) None else Some(keys.contact)
     ).flatten
     if (errorKeys.size == 0) {
       Valid
@@ -145,18 +154,20 @@ trait ConfirmationForms
 
   lazy val validateNewVoter = Constraint[InprogressOverseas]("validateNewVoter") { app =>
     val errorKeys = List(
+      if (app.dob.isDefined) None else Some(keys.dob),
+      if (!app.previouslyRegistered.exists(_.hasPreviouslyRegistered == false))
+        Some(keys.previouslyRegistered) else None,
+      if (app.dateLeftUk.isDefined) None else Some(keys.dateLeftUk),
+      if (app.lastUkAddress.isDefined) None else Some(keys.lastUkAddress),
+      if (app.passport.isDefined) None else Some(keys.passport),
       if (app.name.isDefined) None else Some(keys.name),
       if (app.previousName.isDefined) None else Some(keys.previousName),
-      if (app.previouslyRegistered.isDefined) None else Some(keys.previouslyRegistered),
-      if (app.dateLeftUk.isDefined) None else Some(keys.dateLeftUk),
-      if (app.dob.isDefined) None else Some(keys.dob),
       if (app.nino.isDefined) None else Some(keys.nino),
       if (app.address.isDefined) None else Some(keys.overseasAddress),
       if (app.openRegisterOptin.isDefined) None else Some(keys.openRegister),
       if (app.waysToVote.isDefined) None else Some(keys.waysToVote),
       if (app.postalOrProxyVote.isDefined) None else Some(keys.postalOrProxyVote),
-      if (app.contact.isDefined) None else Some(keys.contact),
-      if (app.passport.isDefined) None else Some(keys.passport)
+      if (app.contact.isDefined) None else Some(keys.contact)
     ).flatten
     if (errorKeys.size == 0) {
       Valid
