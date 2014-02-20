@@ -707,8 +707,11 @@
             for (i = 0, j = memberFields.length; i < j; i++) {
               var fieldObj = memberFields[i],
                   method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty',
-                  isFilledFailedRules = fieldObj[method]();
+                  isFilledFailedRules = [];
 
+              if ($.inArray(method, fieldObj.rules) !== -1) {
+                isFilledFailedRules = fieldObj[method]();
+              }
               if (_fieldIsShowing(fieldObj) && isFilledFailedRules.length) {
                 oneEmpty = true;
                 memberFields.push(this)
