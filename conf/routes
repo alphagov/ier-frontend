@@ -267,3 +267,103 @@ POST        /register-to-vote/overseas/edit/date-left-crown                 cont
 #Overseas Confirmation
 GET         /register-to-vote/overseas/confirmation                      controllers.step.overseas.ConfirmationController.get
 POST        /register-to-vote/overseas/confirmation                      controllers.step.overseas.ConfirmationController.post
+
+
+################################
+## Forces Routes
+################################
+
+#Forces Start page
+GET         /register-to-vote/forces                                    controllers.RegisterToVoteController.registerToVoteForces
+GET         /register-to-vote/forces/start                              controllers.RegisterToVoteController.registerToVoteForcesStart
+
+#Statement Step
+GET         /register-to-vote/forces/statement                          controllers.step.forces.StatementController.get
+POST        /register-to-vote/forces/statement                          controllers.step.forces.StatementController.post
+GET         /register-to-vote/forces/edit/statement                     controllers.step.forces.StatementController.editGet
+POST        /register-to-vote/forces/edit/statement                     controllers.step.forces.StatementController.editPost
+
+#Address Step
+POST        /register-to-vote/forces/edit/address/lookup                controllers.step.forces.AddressController.lookup
+GET         /register-to-vote/forces/address                            controllers.step.forces.AddressController.get
+POST        /register-to-vote/forces/address/lookup                     controllers.step.forces.AddressController.lookup
+POST        /register-to-vote/forces/address                            controllers.step.forces.AddressController.post
+GET         /register-to-vote/forces/edit/address                       controllers.step.forces.AddressController.editGet
+POST        /register-to-vote/forces/edit/address                       controllers.step.forces.AddressController.editPost
+
+#Nationality Step
+GET         /register-to-vote/forces/nationality                        controllers.step.forces.NationalityController.get
+POST        /register-to-vote/forces/nationality                        controllers.step.forces.NationalityController.post
+GET         /register-to-vote/forces/edit/nationality                   controllers.step.forces.NationalityController.editGet
+POST        /register-to-vote/forces/edit/nationality                   controllers.step.forces.NationalityController.editPost
+
+#Date of Birth Step
+GET         /register-to-vote/forces/date-of-birth                      controllers.step.forces.DateOfBirthController.get
+POST        /register-to-vote/forces/date-of-birth                      controllers.step.forces.DateOfBirthController.post
+GET         /register-to-vote/forces/edit/date-of-birth                 controllers.step.forces.DateOfBirthController.editGet
+POST        /register-to-vote/forces/edit/date-of-birth                 controllers.step.forces.DateOfBirthController.editPost
+
+#Name Step
+GET         /register-to-vote/forces/name                               controllers.step.forces.NameController.get
+POST        /register-to-vote/forces/name                               controllers.step.forces.NameController.post
+GET         /register-to-vote/forces/edit/name                          controllers.step.forces.NameController.editGet
+POST        /register-to-vote/forces/edit/name                          controllers.step.forces.NameController.editPost
+
+#Nino Step
+GET         /register-to-vote/forces/nino                               controllers.step.forces.NinoController.get
+POST        /register-to-vote/forces/nino                               controllers.step.forces.NinoController.post
+GET         /register-to-vote/forces/edit/nino                          controllers.step.forces.NinoController.editGet
+POST        /register-to-vote/forces/edit/nino                          controllers.step.forces.NinoController.editPost
+
+#Service Step
+GET         /register-to-vote/forces/service                            controllers.step.forces.ServiceController.get
+POST        /register-to-vote/forces/service                            controllers.step.forces.ServiceController.post
+GET         /register-to-vote/forces/edit/service                       controllers.step.forces.ServiceController.editGet
+POST        /register-to-vote/forces/edit/service                       controllers.step.forces.ServiceController.editPost
+
+#Rank Step
+GET         /register-to-vote/forces/rank                               controllers.step.forces.RankController.get
+POST        /register-to-vote/forces/rank                               controllers.step.forces.RankController.post
+GET         /register-to-vote/forces/edit/rank                          controllers.step.forces.RankController.editGet
+POST        /register-to-vote/forces/edit/rank                          controllers.step.forces.RankController.editPost
+
+#Contact Address Step
+GET         /register-to-vote/forces/contact-address                    controllers.step.forces.ContactAddressController.get
+POST        /register-to-vote/forces/contact-address                    controllers.step.forces.ContactAddressController.post
+GET         /register-to-vote/forces/edit/contact-address               controllers.step.forces.ContactAddressController.editGet
+POST        /register-to-vote/forces/edit/contact-address               controllers.step.forces.ContactAddressController.editPost
+
+#Open Register Step
+GET         /register-to-vote/forces/open-register                     controllers.step.forces.OpenRegisterController.get
+POST        /register-to-vote/forces/open-register                     controllers.step.forces.OpenRegisterController.post
+GET         /register-to-vote/forces/edit/open-register                controllers.step.forces.OpenRegisterController.editGet
+POST        /register-to-vote/forces/edit/open-register                controllers.step.forces.OpenRegisterController.editPost
+
+#Ways To Vote Step
+GET         /register-to-vote/forces/ways-to-vote                      controllers.step.forces.WaysToVoteController.get
+POST        /register-to-vote/forces/ways-to-vote                      controllers.step.forces.WaysToVoteController.post
+GET         /register-to-vote/forces/edit/ways-to-vote                 controllers.step.forces.WaysToVoteController.editGet
+POST        /register-to-vote/forces/edit/ways-to-vote                 controllers.step.forces.WaysToVoteController.editPost
+
+#Proxy Vote Step
+GET         /register-to-vote/forces/proxy-vote                       controllers.step.forces.ProxyVoteController.get
+POST        /register-to-vote/forces/proxy-vote                       controllers.step.forces.ProxyVoteController.post
+GET         /register-to-vote/forces/edit/proxy-vote                  controllers.step.forces.ProxyVoteController.editGet
+POST        /register-to-vote/forces/edit/proxy-vote                  controllers.step.forces.ProxyVoteController.editPost
+
+#Postal Vote Step
+GET         /register-to-vote/forces/postal-vote                       controllers.step.forces.PostalVoteController.get
+POST        /register-to-vote/forces/postal-vote                       controllers.step.forces.PostalVoteController.post
+GET         /register-to-vote/forces/edit/postal-vote                  controllers.step.forces.PostalVoteController.editGet
+POST        /register-to-vote/forces/edit/postal-vote                  controllers.step.forces.PostalVoteController.editPost
+
+#Contact Step
+GET         /register-to-vote/forces/contact                           controllers.step.forces.ContactController.get
+POST        /register-to-vote/forces/contact                           controllers.step.forces.ContactController.post
+GET         /register-to-vote/forces/edit/contact                      controllers.step.forces.ContactController.editGet
+POST        /register-to-vote/forces/edit/contact                      controllers.step.forces.ContactController.editPost
+
+
+#Forces Confirmation
+GET         /register-to-vote/forces/confirmation                      controllers.step.forces.ConfirmationController.get
+POST        /register-to-vote/forces/confirmation                      controllers.step.forces.ConfirmationController.post
