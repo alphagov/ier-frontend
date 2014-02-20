@@ -8,6 +8,8 @@ object AddressController extends StubController[InprogressForces] {
   val thisStepUrl = "/register-to-vote/forces/address"
 
   def lookup = fakeAction
+  def editLookup = fakeAction
+
   def addressStep = confirmationIf { application =>
     application.address.isDefined
   }
