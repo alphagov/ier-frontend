@@ -37,6 +37,19 @@ class IerApiServiceWithStripNino @Inject() (ierService: ConcreteIerApiService) e
     }
   }
 
+  override def submitCrownApplication(ipAddress: Option[String],
+                                       applicant: InprogressCrown,
+                                       referenceNumber: Option[String]) = {
+    applicant.nino match {
+      case Some(Nino(None, Some(noNinoReason))) => ierService.submitCrownApplication(ipAddress, applicant, referenceNumber)
+      case Some(Nino(Some(nino), None)) => ierService.submitCrownApplication(
+        ipAddress,
+        applicant.copy(nino = Some(Nino(Some(randomNino()), None))),
+        referenceNumber)
+      case unexpectedNino => throw new IllegalArgumentException("Unexpected NINO: " + unexpectedNino)
+    }
+  }
+
   override def submitOverseasApplication(ipAddress: Option[String],
                                          applicant: InprogressOverseas,
                                          referenceNumber: Option[String]) = {

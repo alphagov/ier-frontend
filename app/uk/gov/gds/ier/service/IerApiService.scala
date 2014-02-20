@@ -27,6 +27,10 @@ abstract class IerApiService {
                                applicant: InprogressForces,
                                refNum:Option[String]): ApiApplicationResponse
 
+  def submitCrownApplication (ip:Option[String],
+                               applicant: InprogressCrown,
+                               refNum:Option[String]): ApiApplicationResponse
+
   def generateReferenceNumber[T <: InprogressApplication[T]](application:T): String
 }
 
@@ -129,6 +133,33 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       nino = None,
       service = None,
       rank = None,
+      contactAddress = None,
+      openRegisterOptin = None,
+      postalOrProxyVote = None,
+      contact = None,
+      referenceNumber = None,
+      authority = None,
+      ip = None
+    )
+
+    val apiApplicant = ApiApplication(completeApplication.toApiMap)
+
+    sendApplication(apiApplicant)
+  }
+
+  def submitCrownApplication(
+      ipAddress: Option[String],
+      applicant: InprogressCrown,
+      referenceNumber: Option[String]) = {
+
+    val completeApplication = CrownApplication(
+      statement = None,
+      address = None,
+      nationality = None,
+      dob = None,
+      name = None,
+      job = None,
+      nino = None,
       contactAddress = None,
       openRegisterOptin = None,
       postalOrProxyVote = None,
