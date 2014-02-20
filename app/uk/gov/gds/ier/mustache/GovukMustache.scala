@@ -79,6 +79,20 @@ trait GovukMustache {
       )
     }
 
+    def forcesStartPage() = {
+      MainStepTemplate(
+        content = Mustache.render(
+          "govuk/registerToVoteForces",
+          govukUrls(RegisterToVoteController.registerToVoteForcesStart.url)
+        ),
+        title = "Register to Vote (Armed Forces) - GOV.UK",
+        insideHeader = Govuk.search(),
+        related = Govuk.related(),
+        scripts = Govuk.scripts(),
+        header = Govuk.stylesheets()
+      )
+    }
+
     def ordinaryStartPage() = {
       MainStepTemplate(
         content = Mustache.render(
