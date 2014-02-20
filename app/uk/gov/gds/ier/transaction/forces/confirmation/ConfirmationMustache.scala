@@ -39,7 +39,7 @@ trait ConfirmationMustache {
           confirmation.nino,
           confirmation.service,
           confirmation.rank,
-          confirmation.UKRegistrationaddress,
+          confirmation.address,
           confirmation.contactAddress,
           confirmation.openRegister,
           confirmation.waysToVote,
@@ -163,7 +163,7 @@ trait ConfirmationMustache {
       ))
     }
 
-    def UKRegistrationaddress = {
+    def address = {
       Some(ConfirmationQuestion(
         title = "UK registration address",
         editLink = routes.AddressController.editGet.url,
