@@ -36,25 +36,25 @@ trait ParentNameMustache extends StepMustache {
         title = pageTitle,
         errorMessages = form.globalErrors.map { _.message }),
       firstName = TextField(
-        key = keys.parentName.firstName),
+        key = keys.overseasParentName.parentName.firstName),
       middleNames = TextField(
-        key = keys.parentName.middleNames),
+        key = keys.overseasParentName.parentName.middleNames),
       lastName = TextField(
-        key = keys.parentName.lastName),
+        key = keys.overseasParentName.parentName.lastName),
       hasPreviousName = FieldSet(
-        classes = if (form(keys.parentPreviousName.key).hasErrors) "invalid" else ""
+        classes = if (form(keys.overseasParentName.parentPreviousName.key).hasErrors) "invalid" else ""
       ),
       hasPreviousNameTrue = RadioField(
-        key = keys.parentPreviousName.hasPreviousName, value = "true"),
+        key = keys.overseasParentName.parentPreviousName.hasPreviousName, value = "true"),
       hasPreviousNameFalse = RadioField(
-        key = keys.parentPreviousName.hasPreviousName, value = "false"),
+        key = keys.overseasParentName.parentPreviousName.hasPreviousName, value = "false"),
 
       previousFirstName = TextField(
-        key = keys.parentPreviousName.previousName.firstName),
+        key = keys.overseasParentName.parentPreviousName.previousName.firstName),
       previousMiddleNames = TextField(
-        key = keys.parentPreviousName.previousName.middleNames),
+        key = keys.overseasParentName.parentPreviousName.previousName.middleNames),
       previousLastName = TextField(
-        key = keys.parentPreviousName.previousName.lastName)
+        key = keys.overseasParentName.parentPreviousName.previousName.lastName)
     )
   }
 

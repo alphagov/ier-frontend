@@ -22,6 +22,7 @@ GET         /register-to-vote/exit/too-young                             control
 GET         /register-to-vote/exit/no-franchise                          controllers.ExitController.noFranchise
 GET         /register-to-vote/exit/overseas/left-uk-over-15-years        controllers.ExitController.leftUkOver15Years
 GET         /register-to-vote/exit/overseas/too-old-when-left-uk         controllers.ExitController.tooOldWhenLeftUk
+GET         /register-to-vote/exit/overseas/left-service-over-15-years        controllers.ExitController.leftSpecialOver15Years
 
 
 #Error Routes

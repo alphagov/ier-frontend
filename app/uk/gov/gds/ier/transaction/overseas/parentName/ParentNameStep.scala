@@ -10,11 +10,10 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.OverseaStep
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.validation._
-import uk.gov.gds.ier.model.InprogressOverseas
+import uk.gov.gds.ier.model.{InprogressOverseas, ParentPreviousName, OverseasParentName}
 import controllers.step.overseas.routes.ParentNameController
 import controllers.step.overseas.routes.DateLeftUkController
 import controllers.step.overseas.LastUkAddressController
-import uk.gov.gds.ier.model.ParentPreviousName
 
 class ParentNameStep @Inject ()(
     val serialiser: JsonSerialiser,
@@ -40,10 +39,17 @@ class ParentNameStep @Inject ()(
   }
   
   override def postSuccess(currentState: InprogressOverseas):InprogressOverseas = {
-    if (currentState.parentPreviousName.isDefined && !currentState.parentPreviousName.get.hasPreviousName) {
-      currentState.copy(parentPreviousName = Some(ParentPreviousName(false, None)))
+    currentState.overseasParentName match {
+      case Some(OverseasParentName(optParentName, Some(parentPreviousName))) 
+        if (!parentPreviousName.hasPreviousName) => 
+          currentState.copy(overseasParentName = 
+            Some(OverseasParentName(optParentName, Some(ParentPreviousName(false, None)))))
+      case _ => currentState
     }
-    else currentState
+//    if (currentState.parentPreviousName.isDefined && !currentState.parentPreviousName.get.hasPreviousName) {
+//      currentState.copy(parentPreviousName = Some(ParentPreviousName(false, None)))
+//    }
+//    else currentState
   }
   
   def template(

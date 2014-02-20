@@ -1,10 +1,9 @@
 package uk.gov.gds.ier.transaction.overseas.name
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{InprogressOverseas, Name, PreviousName}
+import uk.gov.gds.ier.model.{InprogressOverseas, Name, PreviousName, OverseasName}
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.NameConstraints
-import uk.gov.gds.ier.model.OverseasName
 
 trait NameForms extends NameConstraints {
   self:  FormKeys
@@ -37,8 +36,8 @@ trait NameForms extends NameConstraints {
   
   lazy val overseasNameMapping = mapping(
       keys.name.key -> optional(nameMapping).verifying(nameNotOptional),
-      keys.previousName.key -> optional(previousNameMapping)
-//      keys.previousName.key -> required(optional(previousNameMapping), "Please answer this question")
+      keys.previousName.key -> required(optional(previousNameMapping), "Please answer this question")
+//      keys.previousName.key -> optional(previousNameMapping)
     )(OverseasName.apply)(OverseasName.unapply)
 //    ((name: Option[Name], previousName: Option[PreviousName])) 
     
@@ -46,8 +45,8 @@ trait NameForms extends NameConstraints {
 
   val nameForm = ErrorTransformForm(
     overseasNameMapping.transform[InprogressOverseas](
-    overseasName => InprogressOverseas(overseasName = Some(overseasName)), 
-    inprogress => inprogress.overseasName.get)
+      overseasName => InprogressOverseas(overseasName = Some(overseasName)), 
+      inprogress => inprogress.overseasName.get)
     )
 //    (
 //      (name, previousName) => InprogressOverseas(name = name, previousName = previousName)

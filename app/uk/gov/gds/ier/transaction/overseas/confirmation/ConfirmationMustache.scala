@@ -44,7 +44,6 @@ trait ConfirmationMustache {
           confirmation.dateOfBirth,
           confirmation.previouslyRegistered,
           confirmation.lastUkAddress,
-          confirmation.dateLeftUk,
           confirmation.parentName,
           confirmation.parentPreviousName,
           confirmation.nino,
@@ -138,6 +137,22 @@ trait ConfirmationMustache {
         }
       ))
     }
+    
+    def dateLeft = {
+      val prevRegType = Try {
+        form(keys.lastRegisteredToVote.registeredType).value.map { regType =>
+          LastRegisteredType.parse(regType)
+        }
+      }.getOrElse(None)
+
+      prevRegType match {
+        case Some(LastRegisteredType.Ordinary) => dateLeftUk
+        case Some(LastRegisteredType.Forces) => dateLeftArmy
+        case Some(LastRegisteredType.Crown) => dateLeftCrown
+        case Some(LastRegisteredType.Council) => dateLeftCouncil
+        case Some(LastRegisteredType.NotRegistered) => dateLeftUk
+      }
+    }
 
     def dateLeftUk = {
       Some(ConfirmationQuestion(
@@ -157,6 +172,60 @@ trait ConfirmationMustache {
       ))
     }
 
+    def dateLeftArmy = {
+      Some(ConfirmationQuestion(
+        title = "Date you cease to be a member of the armed forces",
+        editLink = routes.DateLeftArmyController.editGet.url,
+        changeName = "date you cease to be a member of the armed forces",
+        content = ifComplete(keys.dateLeftSpecial) {
+          val yearMonth = Try (new YearMonth (
+            form(keys.dateLeftSpecial.year).value.map(year => year.toInt).getOrElse(-1),
+            form(keys.dateLeftSpecial.month).value.map(month => month.toInt).getOrElse(-1)
+          ).toString("MMMM, yyyy")).getOrElse {
+            logger.error("error parsing the date (date-left-army step)")
+            ""
+          }
+          s"<p>$yearMonth</p>"
+        }
+      ))
+    }    
+    
+    def dateLeftCrown = {
+      Some(ConfirmationQuestion(
+        title = "Date you cease to be a Crown Servant",
+        editLink = routes.DateLeftCrownController.editGet.url,
+        changeName = "date you cease to be a Crown Servant",
+        content = ifComplete(keys.dateLeftSpecial) {
+          val yearMonth = Try (new YearMonth (
+            form(keys.dateLeftSpecial.year).value.map(year => year.toInt).getOrElse(-1),
+            form(keys.dateLeftSpecial.month).value.map(month => month.toInt).getOrElse(-1)
+          ).toString("MMMM, yyyy")).getOrElse {
+            logger.error("error parsing the date (date-left-crown step)")
+            ""
+          }
+          s"<p>$yearMonth</p>"
+        }
+      ))
+    }
+    
+    def dateLeftCouncil = {
+      Some(ConfirmationQuestion(
+        title = "Date you cease to be a British Council employee?",
+        editLink = routes.DateLeftCrownController.editGet.url,
+        changeName = "date you cease to be a British Council employee?",
+        content = ifComplete(keys.dateLeftSpecial) {
+          val yearMonth = Try (new YearMonth (
+            form(keys.dateLeftSpecial.year).value.map(year => year.toInt).getOrElse(-1),
+            form(keys.dateLeftSpecial.month).value.map(month => month.toInt).getOrElse(-1)
+          ).toString("MMMM, yyyy")).getOrElse {
+            logger.error("error parsing the date (date-left-council step)")
+            ""
+          }
+          s"<p>$yearMonth</p>"
+        }
+      ))
+    }
+    
     def nino = {
       Some(ConfirmationQuestion(
         title = "National Insurance number",

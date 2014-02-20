@@ -15,7 +15,6 @@ import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.InprogressOverseas
 import uk.gov.gds.ier.step.Exit
 import uk.gov.gds.ier.validation.InProgressForm
-import scala.Some
 import org.joda.time.{Months, DateTime}
 import controllers.routes.ExitController
 import uk.gov.gds.ier.validation.DateValidator

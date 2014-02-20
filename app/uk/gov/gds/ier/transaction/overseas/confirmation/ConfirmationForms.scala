@@ -60,10 +60,11 @@ trait ConfirmationForms
 //      keys.name.key -> optional(nameMapping),
 //      keys.previousName.key -> optional(previousNameMapping),
       keys.previouslyRegistered.key -> optional(previouslyRegisteredMapping),
-      keys.dateLeftSpecial.key -> optional(dateLeftSpecialMapping),
+      keys.dateLeftSpecial.key -> optional(dateLeftSpecialTypeMapping),
       keys.dateLeftUk.key -> optional(dateLeftUkMapping),
-      keys.parentName.key -> optional(parentNameMapping),
-      keys.parentPreviousName.key -> optional(parentPrevNameMapping),
+      keys.overseasParentName.key -> optional(overseasParentNameMapping),
+//      keys.parentName.key -> optional(parentNameMapping),
+//      keys.parentPreviousName.key -> optional(parentPrevNameMapping),
       "parentsAddress" -> optional(stubMapping),
       keys.lastRegisteredToVote.key -> optional(lastRegisteredToVoteMapping),
       keys.dob.key -> optional(dobMapping),
@@ -105,8 +106,20 @@ trait ConfirmationForms
         Some(keys.previouslyRegistered) else None,
       if (app.lastRegisteredToVote.isDefined) None else Some(keys.lastRegisteredToVote),  
       if (app.dateLeftUk.isDefined) None else Some(keys.dateLeftUk),
-      if (app.parentName.isDefined) None else Some(keys.parentName),
-      if (app.parentPreviousName.isDefined) None else Some(keys.parentPreviousName),
+      app.overseasParentName.map { overseasParentName => 
+        overseasParentName.name match { 
+          case Some(name) => None
+          case None => Some(keys.parentName)
+        }
+      },
+      app.overseasParentName.map { overseasParentName => 
+        overseasParentName.previousName match { 
+          case Some(previousName) => None
+          case None => Some(keys.parentPreviousName)
+        }
+      },
+//      if (app.parentName.isDefined) None else Some(keys.parentName),
+//      if (app.parentPreviousName.isDefined) None else Some(keys.parentPreviousName),
       if (app.parentsAddress.isDefined) None else Some(Key("parentsAddress")),
       if (app.passport.isDefined) None else Some(keys.passport),
       app.overseasName.map { overseasName => 

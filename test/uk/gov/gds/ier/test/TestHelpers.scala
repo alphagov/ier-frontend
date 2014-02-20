@@ -97,7 +97,7 @@ trait TestHelpers {
       phone = None,
       email = None
     )),
-    dateLeftSpecial = Some(DateLeftSpecial(DateLeft(1990, 1), LastRegisteredType.Ordinary))
+    dateLeftSpecial = Some(DateLeftSpecial(DateLeft(1990, 1)))
   )
 
   class ErrorsOps(errors: Seq[FormError], globalErrors: Seq[FormError]) {

@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.overseas.parentName
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{InprogressOverseas, ParentName, ParentPreviousName}
+import uk.gov.gds.ier.model.{InprogressOverseas, ParentName, ParentPreviousName, OverseasParentName}
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.ParentNameConstraints
 
@@ -28,17 +28,37 @@ trait ParentNameForms extends ParentNameConstraints {
     parentPreviousFirstNameNotEmpty, parentPreviousLastNameNotEmpty,
     parentPrevFirstNameNotTooLong, parentPrevMiddleNamesNotTooLong, parentPrevLastNameNotTooLong)
   
-
-  val parentNameForm = ErrorTransformForm(
-      mapping(
+    
+  lazy val overseasParentNameMapping = mapping(
     keys.parentName.key -> optional(parentNameMapping).verifying(parentNameNotOptional),
     keys.parentPreviousName.key -> required(optional(parentPrevNameMapping).verifying(parentPreviousNameNotOptionalIfHasPreviousIsTrue), "Please answer this question")   
-  ) 
-  (  
-    (name, previousName) => InprogressOverseas(parentName = name, parentPreviousName = previousName)
-  ) 
-  (
-    inprogress => Some(inprogress.parentName, inprogress.parentPreviousName)
-  ) verifying (parentPrevNameOptionCheck)
-  )
+  )   (OverseasParentName.apply)(OverseasParentName.unapply) 
+//  ((name, previousName) => InprogressOverseas(overseasParentName = Some(OverseasParentName(name, previousName)))) (inprogress => inprogress.overseasParentName map (pName => (pName.name, pName.previousName)))
+
+  
+  val parentNameForm = ErrorTransformForm(
+      mapping(keys.overseasParentName.key -> overseasParentNameMapping)
+      (overseasParentName => InprogressOverseas(overseasParentName = Some(overseasParentName)))
+      (inprogress => inprogress.overseasParentName)
+      )
+//      overseasParentNameMapping(
+//      overseasParentName => InprogressOverseas(overseasParentName = Some(overseasParentName)), 
+//      inprogress => inprogress.overseasParentName
+//    )
+//    overseasParentNameMapping.transform[InprogressOverseas](
+//      overseasParentName => InprogressOverseas(overseasParentName = Some(overseasParentName)), 
+//      inprogress => inprogress.overseasParentName.get)
+//    )
+//  val parentNameForm = ErrorTransformForm(
+//      mapping(
+//    keys.parentName.key -> optional(parentNameMapping).verifying(parentNameNotOptional),
+//    keys.parentPreviousName.key -> required(optional(parentPrevNameMapping).verifying(parentPreviousNameNotOptionalIfHasPreviousIsTrue), "Please answer this question")   
+//  ) 
+//  (  
+//    (name, previousName) => InprogressOverseas(parentName = name, parentPreviousName = previousName)
+//  ) 
+//  (
+//    inprogress => Some(inprogress.parentName, inprogress.parentPreviousName)
+//  ) verifying (parentPrevNameOptionCheck)
+//  )
 }
