@@ -64,9 +64,6 @@ class OverseasApplicationTests
         uprn = Some("12345")
       )),
       openRegisterOptin = Some(true),
-      waysToVote = Some(WaysToVote(
-        waysToVoteType = WaysToVoteType.ByPost
-      )),
       postalOrProxyVote = Some(PostalOrProxyVote(
         typeVote = WaysToVoteType.ByPost,
         postalVoteOption = Some(true),
@@ -223,9 +220,6 @@ class OverseasApplicationTests
         uprn = Some("12345")
       )),
       openRegisterOptin = Some(true),
-      waysToVote = Some(WaysToVote(
-        waysToVoteType = WaysToVoteType.InPerson
-      )),
       postalOrProxyVote = None,
       passport = None,
       contact = Some(Contact(
