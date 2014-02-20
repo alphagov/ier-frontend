@@ -14,6 +14,7 @@ trait DateOfBirthMustache extends StepMustache {
       month: Field,
       year: Field,
       noDobReason: Field,
+      rangeFieldSet: FieldSet,
       rangeUnder18: Field,
       rangeOver70: Field,
       range18to70: Field,
@@ -45,6 +46,9 @@ trait DateOfBirthMustache extends StepMustache {
       ),
       noDobReason = TextField(
         key = keys.dob.noDob.reason
+      ),
+      rangeFieldSet = FieldSet (
+        classes = if (form(keys.dob.noDob.range.key).hasErrors) "invalid" else ""
       ),
       rangeUnder18 = RadioField(
         key = keys.dob.noDob.range,

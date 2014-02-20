@@ -44,6 +44,9 @@ class DateOfBirthTemplateTest
           classes = "noDobReasonClass",
           value = "noDobReasonValue"
         ),
+        rangeFieldSet = FieldSet(
+          classes = ""
+        ),
         range18to70 = Field(
           id = "range18to70Id",
           name = "range18to70Name",

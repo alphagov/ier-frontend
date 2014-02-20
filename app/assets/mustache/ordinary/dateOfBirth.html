@@ -74,7 +74,7 @@
                       data-validation-rules="nonEmpty"
                       autocomplete="off" >{{noDobReason.value}}</textarea>
 
-            <fieldset class="validate" data-validation-name="excuseAgeAttempt"
+            <fieldset class="validate {{rangeFieldSet.classes}}" data-validation-name="excuseAgeAttempt"
                       data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty"
                       data-validation-children="excuseUnder18 excuse18to70 excuseOver70 excuseDontKnow">
 
