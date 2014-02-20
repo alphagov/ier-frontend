@@ -50,6 +50,25 @@ class DateLeftUkStepTests
       redirectLocation(result) should be(Some("/register-to-vote/overseas/last-uk-address"))
     }
   }
+  
+    it should "bind successfully and redirect to the ParentName step if the application's age is less than 18 and has left uk less than 15 years" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/overseas/date-left-uk")
+          .withIerSession()
+          .withApplication(completeOverseasApplication.copy(
+            dob = Some(DOB(1997,10,10)),
+            parentName = None, parentPreviousName = None))
+          .withFormUrlEncodedBody(
+          "dateLeftUk.month" -> "10",
+          "dateLeftUk.year" -> "2010"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/parent-name"))
+    }
+  }
 
   it should "bind successfully and exit if it's been over 15 years when the user left the UK" in {
     running(FakeApplication()) {

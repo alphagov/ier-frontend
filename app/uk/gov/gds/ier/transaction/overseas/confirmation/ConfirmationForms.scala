@@ -16,6 +16,7 @@ import uk.gov.gds.ier.transaction.overseas.dateOfBirth.DateOfBirthForms
 import uk.gov.gds.ier.transaction.overseas.lastRegisteredToVote.LastRegisteredToVoteForms
 import uk.gov.gds.ier.transaction.overseas.nino.NinoForms
 import uk.gov.gds.ier.transaction.overseas.name.NameForms
+import uk.gov.gds.ier.transaction.overseas.parentName.ParentNameForms
 import uk.gov.gds.ier.transaction.overseas.openRegister.OpenRegisterForms
 import uk.gov.gds.ier.transaction.overseas.contact.ContactForms
 import uk.gov.gds.ier.transaction.overseas.passport.PassportForms
@@ -30,6 +31,7 @@ trait ConfirmationForms
   with PreviouslyRegisteredForms
   with DateLeftSpecialForms
   with DateLeftUkForms
+  with ParentNameForms
   with DateOfBirthForms
   with LastRegisteredToVoteForms
   with NinoForms
@@ -60,11 +62,10 @@ trait ConfirmationForms
       keys.previouslyRegistered.key -> optional(previouslyRegisteredMapping),
       keys.dateLeftSpecial.key -> optional(dateLeftSpecialMapping),
       keys.dateLeftUk.key -> optional(dateLeftUkMapping),
-      keys.lastRegisteredToVote.key -> optional(lastRegisteredToVoteMapping),
-      
-      "parentsName" -> optional(stubMapping),
-      "parentsPreviousName" -> optional(stubMapping),
+      keys.parentName.key -> optional(parentNameMapping),
+      keys.parentPreviousName.key -> optional(parentPrevNameMapping),
       "parentsAddress" -> optional(stubMapping),
+      keys.lastRegisteredToVote.key -> optional(lastRegisteredToVoteMapping),
       keys.dob.key -> optional(dobMapping),
       keys.nino.key -> optional(ninoMapping),
       keys.lastUkAddress.key -> optional(partialAddressMapping),
@@ -108,8 +109,18 @@ trait ConfirmationForms
       if (app.parentPreviousName.isDefined) None else Some(keys.parentPreviousName),
       if (app.parentsAddress.isDefined) None else Some(Key("parentsAddress")),
       if (app.passport.isDefined) None else Some(keys.passport),
-      if (app.name.isDefined) None else Some(keys.name),
-      if (app.previousName.isDefined) None else Some(keys.previousName),
+      app.overseasName.map { overseasName => 
+        overseasName.name match { 
+          case Some(name) => None
+          case None => Some(keys.name)
+        }
+      },
+      app.overseasName.map { overseasName => 
+        overseasName.previousName match { 
+          case Some(previousName) => None
+          case None => Some(keys.previousName)
+        }
+      },
       if (app.nino.isDefined) None else Some(keys.nino),
       if (app.address.isDefined) None else Some(keys.overseasAddress),
       if (app.openRegisterOptin.isDefined) None else Some(keys.openRegister),
@@ -136,8 +147,18 @@ trait ConfirmationForms
       if (app.dateLeftSpecial.isDefined) None else Some(keys.dateLeftSpecial),
       if (app.lastUkAddress.isDefined) None else Some(keys.lastUkAddress),
       if (app.passport.isDefined) None else Some(keys.passport),
-      if (app.name.isDefined) None else Some(keys.name),
-      if (app.previousName.isDefined) None else Some(keys.previousName),
+      app.overseasName.map { overseasName => 
+        overseasName.name match { 
+          case Some(name) => None
+          case None => Some(keys.name)
+        }
+      },
+      app.overseasName.map { overseasName => 
+        overseasName.previousName match { 
+          case Some(previousName) => None
+          case None => Some(keys.previousName)
+        }
+      },
       if (app.nino.isDefined) None else Some(keys.nino),
       if (app.address.isDefined) None else Some(keys.overseasAddress),
       if (app.openRegisterOptin.isDefined) None else Some(keys.openRegister),
@@ -160,8 +181,18 @@ trait ConfirmationForms
       if (app.dateLeftUk.isDefined) None else Some(keys.dateLeftUk),
       if (app.lastUkAddress.isDefined) None else Some(keys.lastUkAddress),
       if (app.passport.isDefined) None else Some(keys.passport),
-      if (app.name.isDefined) None else Some(keys.name),
-      if (app.previousName.isDefined) None else Some(keys.previousName),
+      app.overseasName.map { overseasName => 
+        overseasName.name match { 
+          case Some(name) => None
+          case None => Some(keys.name)
+        }
+      },
+      app.overseasName.map { overseasName => 
+        overseasName.previousName match { 
+          case Some(previousName) => None
+          case None => Some(keys.previousName)
+        }
+      },
       if (app.nino.isDefined) None else Some(keys.nino),
       if (app.address.isDefined) None else Some(keys.overseasAddress),
       if (app.openRegisterOptin.isDefined) None else Some(keys.openRegister),
@@ -183,8 +214,18 @@ trait ConfirmationForms
         Some(keys.previouslyRegistered) else None,
       if (app.dateLeftUk.isDefined) None else Some(keys.dateLeftUk),
       if (app.lastUkAddress.isDefined) None else Some(keys.lastUkAddress),
-      if (app.name.isDefined) None else Some(keys.name),
-      if (app.previousName.isDefined) None else Some(keys.previousName),
+      app.overseasName.map { overseasName => 
+        overseasName.name match { 
+          case Some(name) => None
+          case None => Some(keys.name)
+        }
+      },
+      app.overseasName.map { overseasName => 
+        overseasName.previousName match { 
+          case Some(previousName) => None
+          case None => Some(keys.previousName)
+        }
+      },
       if (app.nino.isDefined) None else Some(keys.nino),
       if (app.address.isDefined) None else Some(keys.overseasAddress),
       if (app.openRegisterOptin.isDefined) None else Some(keys.openRegister),

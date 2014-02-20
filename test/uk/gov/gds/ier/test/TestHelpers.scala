@@ -72,6 +72,8 @@ trait TestHelpers {
       PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)
     ),
     dateLeftUk = Some(DateLeft(2000,10)),
+    parentName = Some(ParentName("john", None, "Smith")),
+    parentPreviousName = Some(ParentPreviousName(true, Some(ParentName("Tom", None, "Smith")))),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
     address = Some(OverseasAddress(
       country = Some("United Kingdom"),
