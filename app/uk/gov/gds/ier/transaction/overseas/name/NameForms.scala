@@ -3,9 +3,9 @@ package uk.gov.gds.ier.transaction.overseas.name
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.{InprogressOverseas, Name, PreviousName, OverseasName}
 import play.api.data.Forms._
-import uk.gov.gds.ier.validation.constraints.NameConstraints
+import uk.gov.gds.ier.validation.constraints.OverseasNameConstraints
 
-trait NameForms extends NameConstraints {
+trait NameForms extends OverseasNameConstraints {
   self:  FormKeys
     with ErrorMessages =>
 
@@ -43,11 +43,12 @@ trait NameForms extends NameConstraints {
     
 //    ((name, previousName) => InprogressOverseas(overseasName = Some(OverseasName(name, previousName))))
 
+    
   val nameForm = ErrorTransformForm(
-    overseasNameMapping.transform[InprogressOverseas](
-      overseasName => InprogressOverseas(overseasName = Some(overseasName)), 
-      inprogress => inprogress.overseasName.get)
-    )
+      mapping(keys.overseasName.key -> overseasNameMapping)
+      (overseasName => InprogressOverseas(overseasName = Some(overseasName)))
+      (inprogress => inprogress.overseasName)
+  )  
 //    (
 //      (name, previousName) => InprogressOverseas(name = name, previousName = previousName)
 //    ) (

@@ -41,11 +41,11 @@ class ParentNameControllerTests
         FakeRequest(POST, "/register-to-vote/overseas/parent-name")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "parentName.firstName" -> "John",
-            "parentName.lastName" -> "Smith",
-            "parentPreviousName.hasPreviousName" -> "true",
-            "parentPreviousName.previousName.firstName" -> "John",
-            "parentPreviousName.previousName.lastName" -> "Smith")
+            "overseasParentName.parentName.firstName" -> "John",
+            "overseasParentName.parentName.lastName" -> "Smith",
+            "overseasParentName.parentPreviousName.hasPreviousName" -> "true",
+            "overseasParentName.parentPreviousName.previousName.firstName" -> "John",
+            "overseasParentName.parentPreviousName.previousName.lastName" -> "Smith")
       )
 
       status(result) should be(SEE_OTHER)
@@ -59,9 +59,9 @@ class ParentNameControllerTests
         FakeRequest(POST, "/register-to-vote/overseas/parent-name")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "parentName.firstName" -> "John",
-            "parentName.lastName" -> "Smith",
-            "parentPreviousName.hasPreviousName" -> "false")
+            "overseasParentName.parentName.firstName" -> "John",
+            "overseasParentName.parentName.lastName" -> "Smith",
+            "overseasParentName.parentPreviousName.hasPreviousName" -> "false")
       )
 
       status(result) should be(SEE_OTHER)
@@ -76,11 +76,11 @@ class ParentNameControllerTests
           .withIerSession()
           .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
-            "parentName.firstName" -> "John",
-            "parentName.lastName" -> "Smith",
-            "parentPreviousName.hasPreviousName" -> "true",
-            "parentPreviousName.previousName.firstName" -> "John",
-            "parentPreviousName.previousName.lastName" -> "Smith")
+            "overseasParentName.parentName.firstName" -> "John",
+            "overseasParentName.parentName.lastName" -> "Smith",
+            "overseasParentName.parentPreviousName.hasPreviousName" -> "true",
+            "overseasParentName.parentPreviousName.previousName.firstName" -> "John",
+            "overseasParentName.parentPreviousName.previousName.lastName" -> "Smith")
       )
 
       status(result) should be(SEE_OTHER)
@@ -110,7 +110,7 @@ class ParentNameControllerTests
         FakeRequest(POST, "/register-to-vote/overseas/date-left-uk")
           .withIerSession()
           .withApplication(completeOverseasApplication.copy(dob = Some(DOB(1997,10,10)),
-              parentName = None, parentPreviousName = None))
+              overseasParentName = None))
           .withFormUrlEncodedBody(
             "dateLeftUk.month" -> "12",
             "dateLeftUk.year" -> "2010")
@@ -145,11 +145,11 @@ class ParentNameControllerTests
         FakeRequest(POST, "/register-to-vote/overseas/edit/parent-name")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "parentName.firstName" -> "John",
-            "parentName.lastName" -> "Smith",
-            "parentPreviousName.hasPreviousName" -> "true",
-            "parentPreviousName.previousName.firstName" -> "John",
-            "parentPreviousName.previousName.lastName" -> "Smith")
+            "overseasParentName.parentName.firstName" -> "John",
+            "overseasParentName.parentName.lastName" -> "Smith",
+            "overseasParentName.parentPreviousName.hasPreviousName" -> "true",
+            "overseasParentName.parentPreviousName.previousName.firstName" -> "John",
+            "overseasParentName.parentPreviousName.previousName.lastName" -> "Smith")
       )
 
       status(result) should be(SEE_OTHER)
@@ -163,9 +163,9 @@ class ParentNameControllerTests
         FakeRequest(POST, "/register-to-vote/overseas/edit/parent-name")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "parentName.firstName" -> "John",
-            "parentName.lastName" -> "Smith",
-            "parentPreviousName.hasPreviousName" -> "false")
+            "overseasParentName.parentName.firstName" -> "John",
+            "overseasParentName.parentName.lastName" -> "Smith",
+            "overseasParentName.parentPreviousName.hasPreviousName" -> "false")
       )
 
       status(result) should be(SEE_OTHER)
@@ -180,11 +180,11 @@ class ParentNameControllerTests
           .withIerSession()
           .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
-            "parentName.firstName" -> "John",
-            "parentName.lastName" -> "Smith",
-            "parentPreviousName.hasPreviousName" -> "true",
-            "parentPreviousName.previousName.firstName" -> "John",
-            "parentPreviousName.previousName.lastName" -> "Smith")
+            "overseasParentName.parentName.firstName" -> "John",
+            "overseasParentName.parentName.lastName" -> "Smith",
+            "overseasParentName.parentPreviousName.hasPreviousName" -> "true",
+            "overseasParentName.parentPreviousName.previousName.firstName" -> "John",
+            "overseasParentName.parentPreviousName.previousName.lastName" -> "Smith")
       )
 
       status(result) should be(SEE_OTHER)

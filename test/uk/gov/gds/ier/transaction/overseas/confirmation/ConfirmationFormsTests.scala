@@ -55,8 +55,8 @@ class ConfirmationFormTests
     confirmationForm.fillAndValidate(youngVoter).fold(
       hasErrors => {
         val errorMessage = Seq("Please complete this step")
-        hasErrors.errorMessages("name") should be(errorMessage)
-        hasErrors.errorMessages("previousName") should be(errorMessage)
+        hasErrors.errorMessages("overseasName.name") should be(errorMessage)
+        hasErrors.errorMessages("overseasName.previousName") should be(errorMessage)
 //        hasErrors.errorMessages("parentsAddress") should be(errorMessage)
 //        hasErrors.errorMessages("parentsName") should be(errorMessage)
 //        hasErrors.errorMessages("parentsPreviousName") should be(errorMessage)
@@ -69,7 +69,7 @@ class ConfirmationFormTests
         hasErrors.errorMessages("contact") should be(errorMessage)
         hasErrors.errorMessages("passport") should be(errorMessage)
         hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(1)
-        hasErrors.errors.size should be(11)
+        hasErrors.errors.size should be(13)
       },
       success => fail("Should have errored out.")
     )
@@ -87,8 +87,8 @@ class ConfirmationFormTests
     confirmationForm.fillAndValidate(newVoter).fold(
       hasErrors => {
         val errorMessage = Seq("Please complete this step")
-        hasErrors.errorMessages("name") should be(errorMessage)
-        hasErrors.errorMessages("previousName") should be(errorMessage)
+        hasErrors.errorMessages("overseasName.name") should be(errorMessage)
+        hasErrors.errorMessages("overseasName.previousName") should be(errorMessage)
         hasErrors.errorMessages("previouslyRegistered") should be(errorMessage)
         hasErrors.errorMessages("dob") should be(errorMessage)
         hasErrors.errorMessages("lastUkAddress") should be(errorMessage)
@@ -119,8 +119,8 @@ class ConfirmationFormTests
     confirmationForm.fillAndValidate(specialVoter).fold(
       hasErrors => {
         val errorMessage = Seq("Please complete this step")
-        hasErrors.errorMessages("name") should be(errorMessage)
-        hasErrors.errorMessages("previousName") should be(errorMessage)
+        hasErrors.errorMessages("overseasName.name") should be(errorMessage)
+        hasErrors.errorMessages("overseasName.previousName") should be(errorMessage)
         hasErrors.errorMessages("previouslyRegistered") should be(errorMessage)
         hasErrors.errorMessages("dob") should be(errorMessage)
         hasErrors.errorMessages("lastUkAddress") should be(errorMessage)
@@ -149,8 +149,8 @@ class ConfirmationFormTests
     confirmationForm.fillAndValidate(specialVoter).fold(
       hasErrors => {
         val errorMessage = Seq("Please complete this step")
-        hasErrors.errorMessages("name") should be(errorMessage)
-        hasErrors.errorMessages("previousName") should be(errorMessage)
+        hasErrors.errorMessages("overseasName.name") should be(errorMessage)
+        hasErrors.errorMessages("overseasName.previousName") should be(errorMessage)
         hasErrors.errorMessages("dob") should be(errorMessage)
         hasErrors.errorMessages("dateLeftUk") should be(errorMessage)
         hasErrors.errorMessages("NINO") should be(errorMessage)
@@ -161,7 +161,7 @@ class ConfirmationFormTests
         hasErrors.errorMessages("postalOrProxyVote") should be(errorMessage)
         hasErrors.errorMessages("contact") should be(errorMessage)
         hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(1)
-        hasErrors.errors.size should be(14)
+        hasErrors.errors.size should be(12)
       },
       success => fail("Should have errored out.")
     )

@@ -64,16 +64,19 @@ trait TestHelpers {
   )
 
   lazy val completeOverseasApplication = InprogressOverseas(
-    name = Some(Name("John", None, "Smith")),
-    previousName = Some(PreviousName(false, None)),
+    overseasName = Some(OverseasName(
+        Some(Name("John", None, "Smith")),
+        Some(PreviousName(false, None)))),
     previouslyRegistered = Some(PreviouslyRegistered(true)),
     dob = Some(DOB(year = 1970, month = 12, day = 12)),
     lastUkAddress = Some(
       PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)
     ),
     dateLeftUk = Some(DateLeft(2000,10)),
-    parentName = Some(ParentName("john", None, "Smith")),
-    parentPreviousName = Some(ParentPreviousName(true, Some(ParentName("Tom", None, "Smith")))),
+    overseasParentName = Some(OverseasParentName(
+        Some(ParentName("john", None, "Smith")),
+        Some(ParentPreviousName(true, Some(ParentName("Tom", None, "Smith"))))
+    )),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
     address = Some(OverseasAddress(
       country = Some("United Kingdom"),

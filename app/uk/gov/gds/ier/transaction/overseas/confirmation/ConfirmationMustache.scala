@@ -299,11 +299,11 @@ trait ConfirmationMustache {
         title = "What is your full name?",
         editLink = routes.NameController.editGet.url,
         changeName = "full name",
-        content = ifComplete(keys.name) {
+        content = ifComplete(keys.overseasName.name) {
           List(
-            form(keys.name.firstName).value,
-            form(keys.name.middleNames).value,
-            form(keys.name.lastName).value).flatten
+            form(keys.overseasName.name.firstName).value,
+            form(keys.overseasName.name.middleNames).value,
+            form(keys.overseasName.name.lastName).value).flatten
             .mkString("<p>", " ", "</p>")
         }
       ))
@@ -314,12 +314,12 @@ trait ConfirmationMustache {
         title = "What is your previous name?",
         editLink = routes.NameController.editGet.url,
         changeName = "previous name",
-        content = ifComplete(keys.previousName) {
-          if (form(keys.previousName.hasPreviousName).value == Some("true")) {
+        content = ifComplete(keys.overseasName.previousName) {
+          if (form(keys.overseasName.previousName.hasPreviousName).value == Some("true")) {
             List(
-              form(keys.previousName.previousName.firstName).value,
-              form(keys.previousName.previousName.middleNames).value,
-              form(keys.previousName.previousName.lastName).value
+              form(keys.overseasName.previousName.previousName.firstName).value,
+              form(keys.overseasName.previousName.previousName.middleNames).value,
+              form(keys.overseasName.previousName.previousName.lastName).value
             ).flatten.mkString("<p>", " ", "</p>")
           } else {
             "<p>I have not changed my name in the last 12 months</p>"
@@ -351,11 +351,11 @@ trait ConfirmationMustache {
         title = "Parent or guardian's name",
         editLink = routes.ParentNameController.editGet.url,
         changeName = "full name",
-        content = ifComplete(keys.parentName) {
+        content = ifComplete(keys.overseasParentName.parentName) {
         List(
-          form(keys.parentName.firstName).value,
-          form(keys.parentName.middleNames).value,
-          form(keys.parentName.lastName).value).flatten
+          form(keys.overseasParentName.parentName.firstName).value,
+          form(keys.overseasParentName.parentName.middleNames).value,
+          form(keys.overseasParentName.parentName.lastName).value).flatten
           .mkString("<p>", " ", "</p>")
         }
       )
@@ -363,17 +363,17 @@ trait ConfirmationMustache {
 
     def parentPreviousName = {
       for (
-          hasPreviousName <- form(keys.parentPreviousName.hasPreviousName).value
+          hasPreviousName <- form(keys.overseasParentName.parentPreviousName.hasPreviousName).value
       ) yield ConfirmationQuestion(
         title = "Parent or guardian's previous name",
         editLink = routes.ParentNameController.editGet.url,
         changeName = "previous name",
-        content = ifComplete(keys.parentPreviousName) {
+        content = ifComplete(keys.overseasParentName.parentPreviousName) {
           if (hasPreviousName.toBoolean) {
             List(
-              form(keys.parentPreviousName.previousName.firstName).value,
-              form(keys.parentPreviousName.previousName.middleNames).value,
-              form(keys.parentPreviousName.previousName.lastName).value
+              form(keys.overseasParentName.parentPreviousName.previousName.firstName).value,
+              form(keys.overseasParentName.parentPreviousName.previousName.middleNames).value,
+              form(keys.overseasParentName.parentPreviousName.previousName.lastName).value
             ).flatten.mkString("<p>", " ", "</p>")
           } else {
             "<p>They haven't changed their name since they left the UK</p>"

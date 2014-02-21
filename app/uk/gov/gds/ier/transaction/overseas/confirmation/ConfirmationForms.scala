@@ -85,7 +85,6 @@ trait ConfirmationForms
 
   lazy val validateOverseas = Constraint[InprogressOverseas]("validateOverseas") { application =>
     import uk.gov.gds.ier.model.ApplicationType._
-
     application.identifyApplication match {
       case YoungVoter => validateYoungVoter(application)
       case NewVoter => validateNewVoter(application)
@@ -109,30 +108,26 @@ trait ConfirmationForms
       app.overseasParentName.map { overseasParentName => 
         overseasParentName.name match { 
           case Some(name) => None
-          case None => Some(keys.parentName)
+          case None => Some(keys.overseasParentName.parentName)
         }
       },
       app.overseasParentName.map { overseasParentName => 
         overseasParentName.previousName match { 
           case Some(previousName) => None
-          case None => Some(keys.parentPreviousName)
+          case None => Some(keys.overseasParentName.parentPreviousName)
         }
       },
 //      if (app.parentName.isDefined) None else Some(keys.parentName),
 //      if (app.parentPreviousName.isDefined) None else Some(keys.parentPreviousName),
       if (app.parentsAddress.isDefined) None else Some(Key("parentsAddress")),
       if (app.passport.isDefined) None else Some(keys.passport),
-      app.overseasName.map { overseasName => 
-        overseasName.name match { 
-          case Some(name) => None
-          case None => Some(keys.name)
-        }
+      app.overseasName match {
+        case Some(overseasName) if (overseasName.name.isDefined) => None 
+        case _ => Some(keys.overseasName.name)
       },
-      app.overseasName.map { overseasName => 
-        overseasName.previousName match { 
-          case Some(previousName) => None
-          case None => Some(keys.previousName)
-        }
+      app.overseasName match {
+        case Some(overseasName) if (overseasName.previousName.isDefined) => None 
+        case _ => Some(keys.overseasName.previousName)
       },
       if (app.nino.isDefined) None else Some(keys.nino),
       if (app.address.isDefined) None else Some(keys.overseasAddress),
@@ -160,17 +155,13 @@ trait ConfirmationForms
       if (app.dateLeftSpecial.isDefined) None else Some(keys.dateLeftSpecial),
       if (app.lastUkAddress.isDefined) None else Some(keys.lastUkAddress),
       if (app.passport.isDefined) None else Some(keys.passport),
-      app.overseasName.map { overseasName => 
-        overseasName.name match { 
-          case Some(name) => None
-          case None => Some(keys.name)
-        }
+      app.overseasName match {
+        case Some(overseasName) if (overseasName.name.isDefined) => None 
+        case _ => Some(keys.overseasName.name)
       },
-      app.overseasName.map { overseasName => 
-        overseasName.previousName match { 
-          case Some(previousName) => None
-          case None => Some(keys.previousName)
-        }
+      app.overseasName match {
+        case Some(overseasName) if (overseasName.previousName.isDefined) => None 
+        case _ => Some(keys.overseasName.previousName)
       },
       if (app.nino.isDefined) None else Some(keys.nino),
       if (app.address.isDefined) None else Some(keys.overseasAddress),
@@ -194,17 +185,13 @@ trait ConfirmationForms
       if (app.dateLeftUk.isDefined) None else Some(keys.dateLeftUk),
       if (app.lastUkAddress.isDefined) None else Some(keys.lastUkAddress),
       if (app.passport.isDefined) None else Some(keys.passport),
-      app.overseasName.map { overseasName => 
-        overseasName.name match { 
-          case Some(name) => None
-          case None => Some(keys.name)
-        }
+      app.overseasName match {
+        case Some(overseasName) if (overseasName.name.isDefined) => None 
+        case _ => Some(keys.overseasName.name)
       },
-      app.overseasName.map { overseasName => 
-        overseasName.previousName match { 
-          case Some(previousName) => None
-          case None => Some(keys.previousName)
-        }
+      app.overseasName match {
+        case Some(overseasName) if (overseasName.previousName.isDefined) => None 
+        case _ => Some(keys.overseasName.previousName)
       },
       if (app.nino.isDefined) None else Some(keys.nino),
       if (app.address.isDefined) None else Some(keys.overseasAddress),
@@ -227,17 +214,13 @@ trait ConfirmationForms
         Some(keys.previouslyRegistered) else None,
       if (app.dateLeftUk.isDefined) None else Some(keys.dateLeftUk),
       if (app.lastUkAddress.isDefined) None else Some(keys.lastUkAddress),
-      app.overseasName.map { overseasName => 
-        overseasName.name match { 
-          case Some(name) => None
-          case None => Some(keys.name)
-        }
+      app.overseasName match {
+        case Some(overseasName) if (overseasName.name.isDefined) => None 
+        case _ => Some(keys.overseasName.name)
       },
-      app.overseasName.map { overseasName => 
-        overseasName.previousName match { 
-          case Some(previousName) => None
-          case None => Some(keys.previousName)
-        }
+      app.overseasName match {
+        case Some(overseasName) if (overseasName.previousName.isDefined) => None 
+        case _ => Some(keys.overseasName.previousName)
       },
       if (app.nino.isDefined) None else Some(keys.nino),
       if (app.address.isDefined) None else Some(keys.overseasAddress),

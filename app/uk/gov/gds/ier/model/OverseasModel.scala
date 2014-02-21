@@ -60,7 +60,7 @@ case class OverseasApplication(
     previouslyRegistered: Option[PreviouslyRegistered],
     dateLeftUk: Option[DateLeft],
     dateLeftSpecial: Option[DateLeftSpecial],
-    overseasParentName: Option[OverseasParentName],
+    overseasParentName: Option[OverseasParentName] = None,
 //    parentName: Option[ParentName],
 //    parentPreviousName: Option[ParentPreviousName],
     lastRegisteredToVote: Option[LastRegisteredToVote],
@@ -258,8 +258,8 @@ case class PostalOrProxyVote (
 
 case class CountryWithCode(country: String, code: String) 
 
-case class OverseasName(name: Option[Name], previousName: Option[PreviousName])
-case class OverseasParentName(name: Option[ParentName], previousName: Option[ParentPreviousName])
+case class OverseasName(name: Option[Name], previousName: Option[PreviousName] = None)
+case class OverseasParentName(name: Option[ParentName], previousName: Option[ParentPreviousName] = None)
 
 case class ParentName(firstName:String,
                 middleNames:Option[String],

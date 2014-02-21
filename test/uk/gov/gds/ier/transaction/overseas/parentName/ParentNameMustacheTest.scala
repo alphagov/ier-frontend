@@ -3,13 +3,8 @@ package uk.gov.gds.ier.transaction.overseas.parentName
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.Name
-import uk.gov.gds.ier.model.InprogressOrdinary
-import uk.gov.gds.ier.model.PreviousName
-import scala.Some
-import uk.gov.gds.ier.model.InprogressOverseas
-import uk.gov.gds.ier.model.ParentName
-import uk.gov.gds.ier.model.ParentPreviousName
+import uk.gov.gds.ier.model.{Name, OverseasParentName, PreviousName, InprogressOverseas, 
+  ParentName, ParentPreviousName}
 
 /**
  * Unit test to test form to Mustache model transformation.
@@ -49,11 +44,11 @@ class ParentNameMustacheTest
 
   it should "progress form with filled applicant parent name with hasPrevious should produce Mustache Model with name values present" in {
     val partiallyFilledApplicationForm = parentNameForm.fill(InprogressOverseas(
-      parentName = Some(ParentName(
+      overseasParentName = Some(OverseasParentName(name = Some(ParentName(
         firstName = "John",
         middleNames = None,
         lastName = "Smith")),
-      parentPreviousName = Some(ParentPreviousName(false, None))))
+      previousName = Some(ParentPreviousName(false, None))))))
     val nameModel = parentNameMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, 
         "/register-to-vote/overseas/parent-name", Some("/register-to-vote/overseas/last-registered-uk-address"))
 
@@ -74,17 +69,17 @@ class ParentNameMustacheTest
 
   it should "progress form with filled applicant name and previous should produce Mustache Model with name and previous name values present" in {
     val partiallyFilledApplicationForm = parentNameForm.fill(InprogressOverseas(
-      parentName = Some(ParentName(
+      overseasParentName = Some(OverseasParentName(name = Some(ParentName(
         firstName = "John",
         middleNames = None,
         lastName = "Smith")),
-      parentPreviousName = Some(ParentPreviousName(
+      previousName = Some(ParentPreviousName(
         hasPreviousName = true,
         previousName = Some(ParentName(
           firstName = "Jan",
           middleNames = None,
           lastName = "Kovar"))
-      ))
+      ))))
     ))
     val nameModel = parentNameMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, 
         "/register-to-vote/overseas/parent-name", Some("/register-to-vote/overseas/last-registered-uk-address"))
@@ -106,10 +101,10 @@ class ParentNameMustacheTest
 
   it should "progress form with validation errors should produce Model with error list present" in {
     val partiallyFilledApplicationFormWithErrors = parentNameForm.fillAndValidate(InprogressOverseas(
-      parentName = Some(ParentName(
+      overseasParentName = Some(OverseasParentName(name = Some(ParentName(
         firstName = "John",
         middleNames = None,
-        lastName = ""))))
+        lastName = ""))))))
     val nameModel = parentNameMustache.transformFormStepToMustacheData(partiallyFilledApplicationFormWithErrors, 
         "/register-to-vote/overseas/parent-name", Some("/register-to-vote/overseas/last-registered-uk-address"))
 

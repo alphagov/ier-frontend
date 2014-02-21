@@ -20,13 +20,13 @@ class ParentNameFormTests
   
   it should "bind successfully" in {
     val data = Map(
-        "parentName.firstName" -> "firstname",
-        "parentName.middleNames" -> "middlenames",
-        "parentName.lastName" -> "lastname",
-        "parentPreviousName.hasPreviousName" -> "true",
-        "parentPreviousName.previousName.firstName" -> "firstname",
-        "parentPreviousName.previousName.middleNames" -> "middlenames",
-        "parentPreviousName.previousName.lastName" -> "lastname"
+        "overseasParentName.parentName.firstName" -> "firstname",
+        "overseasParentName.parentName.middleNames" -> "middlenames",
+        "overseasParentName.parentName.lastName" -> "lastname",
+        "overseasParentName.parentPreviousName.hasPreviousName" -> "true",
+        "overseasParentName.parentPreviousName.previousName.firstName" -> "firstname",
+        "overseasParentName.parentPreviousName.previousName.middleNames" -> "middlenames",
+        "overseasParentName.parentPreviousName.previousName.lastName" -> "lastname"
     )
     
     parentNameForm.bind(data).fold(
@@ -34,14 +34,14 @@ class ParentNameFormTests
           fail(formWithErrors.prettyPrint.mkString(", "))
         },
         success => {
-          success.parentName.isDefined should be(true)
-          val Some(parentName) = success.parentName
+          success.overseasParentName.get.name.isDefined should be(true)
+          val Some(parentName) = success.overseasParentName.get.name
           parentName.firstName should be("firstname")
           parentName.middleNames should be(Some("middlenames"))
           parentName.lastName should be("lastname")
           
-          success.parentPreviousName.isDefined should be(true)
-          val Some(parentPreviousName) = success.parentPreviousName
+          success.overseasParentName.get.previousName.isDefined should be(true)
+          val Some(parentPreviousName) = success.overseasParentName.get.previousName
           parentPreviousName.hasPreviousName should be(true)
           parentPreviousName.previousName.isDefined should be(true)
           
@@ -56,21 +56,21 @@ class ParentNameFormTests
   
   it should "error out if empty form is submitted" in {
     val data = Map(
-        "parentName.firstName" -> "",
-        "parentName.middleNames" -> "",
-        "parentName.lastName" -> "",
-        "parentPreviousName.hasPreviousName" -> "",
-        "parentPreviousName.previousName.firstName" -> "",
-        "parentPreviousName.previousName.middleNames" -> "",
-        "parentPreviousName.previousName.lastName" -> ""
+        "overseasParentName.parentName.firstName" -> "",
+        "overseasParentName.parentName.middleNames" -> "",
+        "overseasParentName.parentName.lastName" -> "",
+        "overseasParentName.parentPreviousName.hasPreviousName" -> "",
+        "overseasParentName.parentPreviousName.previousName.firstName" -> "",
+        "overseasParentName.parentPreviousName.previousName.middleNames" -> "",
+        "overseasParentName.parentPreviousName.previousName.lastName" -> ""
     )
     parentNameForm.bind(data).fold(
         formWithErrors => {
           formWithErrors.errors.size == 6
-          formWithErrors.errorMessages("parentName").head should be("Please enter their full name")
-          formWithErrors.errorMessages("parentName.lastName").head should be("Please enter their full name")
-          formWithErrors.errorMessages("parentName.firstName").head should be("Please enter their full name")
-          formWithErrors.errorMessages("parentPreviousName").head should be("Please answer this question")
+          formWithErrors.errorMessages("overseasParentName.parentName").head should be("Please enter their full name")
+          formWithErrors.errorMessages("overseasParentName.parentName.lastName").head should be("Please enter their full name")
+          formWithErrors.errorMessages("overseasParentName.parentName.firstName").head should be("Please enter their full name")
+          formWithErrors.errorMessages("overseasParentName.parentPreviousName").head should be("Please answer this question")
           formWithErrors.globalErrorMessages should be (Seq("Please enter their full name", 
               "Please answer this question"))
         },
@@ -83,13 +83,13 @@ class ParentNameFormTests
   it should "describe all missing fields" in {
     val data = 
       Map(
-        "parentName.firstName" -> "",
-        "parentName.middleNames" -> "joe",
-        "parentName.lastName" -> "",
-        "parentPreviousName.hasPreviousName" -> "true",
-        "parentPreviousName.previousName.firstName" -> "",
-        "parentPreviousName.previousName.middleNames" -> "Joe",
-        "parentPreviousName.previousName.lastName" -> ""
+        "overseasParentName.parentName.firstName" -> "",
+        "overseasParentName.parentName.middleNames" -> "joe",
+        "overseasParentName.parentName.lastName" -> "",
+        "overseasParentName.parentPreviousName.hasPreviousName" -> "true",
+        "overseasParentName.parentPreviousName.previousName.firstName" -> "",
+        "overseasParentName.parentPreviousName.previousName.middleNames" -> "Joe",
+        "overseasParentName.parentPreviousName.previousName.lastName" -> ""
       )
       
     parentNameForm.bind(data).fold(
@@ -101,10 +101,10 @@ class ParentNameFormTests
           "Please enter their previous first name",
           "Please enter their previous last name"))
         
-        formWithErrors.errorMessages("parentName.firstName").head should be("Please enter their first name")
-        formWithErrors.errorMessages("parentName.lastName").head should be("Please enter their last name")
-        formWithErrors.errorMessages("parentPreviousName.previousName.firstName").head should be("Please enter their previous first name")
-        formWithErrors.errorMessages("parentPreviousName.previousName.lastName").head should be("Please enter their previous last name")
+        formWithErrors.errorMessages("overseasParentName.parentName.firstName").head should be("Please enter their first name")
+        formWithErrors.errorMessages("overseasParentName.parentName.lastName").head should be("Please enter their last name")
+        formWithErrors.errorMessages("overseasParentName.parentPreviousName.previousName.firstName").head should be("Please enter their previous first name")
+        formWithErrors.errorMessages("overseasParentName.parentPreviousName.previousName.lastName").head should be("Please enter their previous last name")
       },
       success => fail("Should have errored out")
     )
@@ -113,23 +113,23 @@ class ParentNameFormTests
   it should "check for too long names" in {
     val data = 
       Map(
-        "parentName.firstName" -> textTooLong,
-        "parentName.middleNames" -> textTooLong,
-        "parentName.lastName" -> textTooLong,
-        "parentPreviousName.hasPreviousName" -> "true",
-        "parentPreviousName.previousName.firstName" -> textTooLong,
-        "parentPreviousName.previousName.middleNames" -> textTooLong,
-        "parentPreviousName.previousName.lastName" -> textTooLong
+        "overseasParentName.parentName.firstName" -> textTooLong,
+        "overseasParentName.parentName.middleNames" -> textTooLong,
+        "overseasParentName.parentName.lastName" -> textTooLong,
+        "overseasParentName.parentPreviousName.hasPreviousName" -> "true",
+        "overseasParentName.parentPreviousName.previousName.firstName" -> textTooLong,
+        "overseasParentName.parentPreviousName.previousName.middleNames" -> textTooLong,
+        "overseasParentName.parentPreviousName.previousName.lastName" -> textTooLong
       )
     
     parentNameForm.bind(data).fold(
       formWithErrors => {
-        formWithErrors.errorMessages("parentName.firstName").head should be ("First name can be no longer than 256 characters")
-        formWithErrors.errorMessages("parentName.middleNames").head should be ("Middle names can be no longer than 256 characters")
-        formWithErrors.errorMessages("parentName.lastName").head should be ("Last name can be no longer than 256 characters")
-        formWithErrors.errorMessages("parentPreviousName.previousName.firstName").head should be ("First name can be no longer than 256 characters")
-        formWithErrors.errorMessages("parentPreviousName.previousName.middleNames").head should be ("Middle names can be no longer than 256 characters")
-        formWithErrors.errorMessages("parentPreviousName.previousName.lastName").head should be ("Last name can be no longer than 256 characters")
+        formWithErrors.errorMessages("overseasParentName.parentName.firstName").head should be ("First name can be no longer than 256 characters")
+        formWithErrors.errorMessages("overseasParentName.parentName.middleNames").head should be ("Middle names can be no longer than 256 characters")
+        formWithErrors.errorMessages("overseasParentName.parentName.lastName").head should be ("Last name can be no longer than 256 characters")
+        formWithErrors.errorMessages("overseasParentName.parentPreviousName.previousName.firstName").head should be ("First name can be no longer than 256 characters")
+        formWithErrors.errorMessages("overseasParentName.parentPreviousName.previousName.middleNames").head should be ("Middle names can be no longer than 256 characters")
+        formWithErrors.errorMessages("overseasParentName.parentPreviousName.previousName.lastName").head should be ("Last name can be no longer than 256 characters")
         formWithErrors.globalErrorMessages should be (Seq(
           "First name can be no longer than 256 characters",
           "Middle names can be no longer than 256 characters",
@@ -145,19 +145,19 @@ class ParentNameFormTests
   it should "error out on a missing field" in {
     val data = 
       Map(
-        "parentName.firstName" -> "john",
-        "parentName.middleNames" -> "joe",
-        "parentName.lastName" -> "",
-        "parentPreviousName.hasPreviousName" -> "true",
-        "parentPreviousName.previousName.firstName" -> "john",
-        "parentPreviousName.previousName.middleNames" -> "Joe",
-        "parentPreviousName.previousName.lastName" -> ""
+        "overseasParentName.parentName.firstName" -> "john",
+        "overseasParentName.parentName.middleNames" -> "joe",
+        "overseasParentName.parentName.lastName" -> "",
+        "overseasParentName.parentPreviousName.hasPreviousName" -> "true",
+        "overseasParentName.parentPreviousName.previousName.firstName" -> "john",
+        "overseasParentName.parentPreviousName.previousName.middleNames" -> "Joe",
+        "overseasParentName.parentPreviousName.previousName.lastName" -> ""
       )
     parentNameForm.bind(data).fold(
       formWithErrors => {
         formWithErrors.errors.size should be(4)
-        formWithErrors.errorMessages("parentName.lastName").head should be("Please enter their last name")
-        formWithErrors.errorMessages("parentPreviousName.previousName.lastName").head should be("Please enter their previous last name")
+        formWithErrors.errorMessages("overseasParentName.parentName.lastName").head should be("Please enter their last name")
+        formWithErrors.errorMessages("overseasParentName.parentPreviousName.previousName.lastName").head should be("Please enter their previous last name")
         formWithErrors.globalErrorMessages should be(Seq("Please enter their last name","Please enter their previous last name"))
       },
       success => fail("Should have errored out")
@@ -167,28 +167,28 @@ class ParentNameFormTests
   it should "successfully bind with no previous name" in {
     val data = 
       Map(
-        "parentName.firstName" -> "John",
-        "parentName.middleNames" -> "joe",
-        "parentName.lastName" -> "Smith",
-        "parentPreviousName.previousName.hasPreviousName" -> "false",
-        "parentPreviousName.previousName.firstName" -> "",
-        "parentPreviousName.previousName.middleNames" -> "",
-        "parentPreviousName.previousName.lastName" -> ""
+        "overseasParentName.parentName.firstName" -> "John",
+        "overseasParentName.parentName.middleNames" -> "joe",
+        "overseasParentName.parentName.lastName" -> "Smith",
+        "overseasParentName.parentPreviousName.previousName.hasPreviousName" -> "false",
+        "overseasParentName.parentPreviousName.previousName.firstName" -> "",
+        "overseasParentName.parentPreviousName.previousName.middleNames" -> "",
+        "overseasParentName.parentPreviousName.previousName.lastName" -> ""
       )
     parentNameForm.bind(data).fold(
       formWithErrors => {
         fail(serialiser.toJson(formWithErrors.prettyPrint))
       },
       success => {
-        success.parentName.isDefined should be(true)
-        val parentName = success.parentName.get
+        success.overseasParentName.get.name.isDefined should be(true)
+        val parentName = success.overseasParentName.get.name.get
         parentName.firstName should be("John")
         parentName.lastName should be("Smith")
         parentName.middleNames should be(Some("joe"))
 
-        success.parentPreviousName.isDefined should be(true)
-        success.parentPreviousName.get.previousName.isDefined should be(true)
-        success.parentPreviousName.get.hasPreviousName should be(false)
+        success.overseasParentName.get.previousName.isDefined should be(true)
+        success.overseasParentName.get.previousName.get.previousName.isDefined should be(true)
+        success.overseasParentName.get.previousName.get.hasPreviousName should be(false)
       }
     )
   }
