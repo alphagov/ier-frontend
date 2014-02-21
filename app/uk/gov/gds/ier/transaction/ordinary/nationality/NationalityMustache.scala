@@ -58,7 +58,10 @@ trait NationalityMustache extends StepMustache {
       otherCountriesHead =  Field(
         id = keys.nationality.otherCountries.asId() + "[0]",
         name = keys.nationality.otherCountries.key + "[0]",
-        value = if (!otherCountriesList.isEmpty) otherCountriesList.head else "",
+        value = otherCountriesList match {
+          case Nil => ""
+          case headCountry :: tailCountries => headCountry
+        },
         classes = if (progressForm(keys.nationality.otherCountries.key).hasErrors) "invalid" else ""
       ),
 
