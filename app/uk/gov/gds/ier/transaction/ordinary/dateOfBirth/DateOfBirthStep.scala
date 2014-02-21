@@ -5,15 +5,14 @@ import controllers.step.ordinary.routes.{DateOfBirthController, NationalityContr
 import controllers.routes.ExitController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import play.api.mvc.{SimpleResult, Call}
-import uk.gov.gds.ier.model.{InprogressOverseas, InprogressOrdinary, DateOfBirth, noDOB}
+import play.api.mvc.Call
+import uk.gov.gds.ier.model.{InprogressOrdinary, DateOfBirth, noDOB}
 import play.api.templates.Html
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.step.{OrdinaryStep, Routes, Exit}
-import uk.gov.gds.ier.transaction.ordinary.name.NameStep
 
 class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
                                        val config: Config,

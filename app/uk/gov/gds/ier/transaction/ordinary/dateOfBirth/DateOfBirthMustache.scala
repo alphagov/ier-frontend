@@ -30,7 +30,7 @@ trait DateOfBirthMustache extends StepMustache {
     DateOfBirthModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map { call => call.url }.getOrElse(""),
+        backUrl = back.map (_.url).getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "3 of 11",
         title = "What is your date of birth?"
