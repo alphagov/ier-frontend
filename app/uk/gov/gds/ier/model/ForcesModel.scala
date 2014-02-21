@@ -79,6 +79,7 @@ case class ForcesApplication(
 }
 
 case class Statement(
+    memberForcesFlag: Option[Boolean],
     partnerForcesFlag: Option[Boolean]) {
   def toApiMap =
     partnerForcesFlag.map(partnerForcesFlag => Map("saf" -> partnerForcesFlag.toString)).getOrElse(Map.empty)
