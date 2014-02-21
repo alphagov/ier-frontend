@@ -2,15 +2,15 @@ package uk.gov.gds.ier.transaction.forces.address
 
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.model.{InprogressOverseas, PossibleAddress}
-import uk.gov.gds.ier.validation.{InProgressForm, Key}
+import uk.gov.gds.ier.model.{InprogressForces, PossibleAddress}
+import uk.gov.gds.ier.validation.InProgressForm
 
 trait AddressMustache {
   self: WithSerialiser =>
 
-  object LastUkAddressMustache extends StepMustache {
+  object AddressMustache extends StepMustache {
 
-    val title = "What was the UK address where you were last registered to vote?"
+    val title = "What is your UK address?"
 
     case class LookupModel (
         question: Question,
@@ -36,22 +36,22 @@ trait AddressMustache {
     )
 
     def lookupData(
-        form:InProgressForm[InprogressOverseas],
+        form:InProgressForm[InprogressForces],
         backUrl: String,
         postUrl: String) = {
      LookupModel(
         question = Question(
           postUrl = postUrl,
           backUrl = backUrl,
-          number = "5 or 6",
+          number = "2",
           title = title,
           errorMessages = form.form.globalErrors.map(_.message)
         ),
         postcode = Field(
-          id = keys.lastUkAddress.postcode.asId(),
-          name = keys.lastUkAddress.postcode.key,
-          value = form(keys.lastUkAddress.postcode).value.getOrElse(""),
-          classes = if (form(keys.lastUkAddress.postcode).hasErrors) {
+          id = keys.address.postcode.asId(),
+          name = keys.address.postcode.key,
+          value = form(keys.address.postcode).value.getOrElse(""),
+          classes = if (form(keys.address.postcode).hasErrors) {
             "invalid"
           } else {
             ""
@@ -61,19 +61,19 @@ trait AddressMustache {
     }
 
     def lookupPage(
-        form:InProgressForm[InprogressOverseas],
+        form:InProgressForm[InprogressForces],
         backUrl: String,
         postUrl: String) = {
 
       val content = Mustache.render(
-        "overseas/lastUkAddressLookup",
+        "forces/addressLookup",
         lookupData(form, backUrl, postUrl)
       )
       MainStepTemplate(content, title)
     }
 
     def selectData(
-        form: InProgressForm[InprogressOverseas],
+        form: InProgressForm[InprogressForces],
         backUrl: String,
         postUrl: String,
         lookupUrl: String,
@@ -82,7 +82,7 @@ trait AddressMustache {
 
       implicit val progressForm = form.form
 
-      val selectedUprn = form(keys.lastUkAddress.uprn).value
+      val selectedUprn = form(keys.address.uprn).value
 
       val options = maybePossibleAddress.map { possibleAddress =>
         possibleAddress.jsonList.addresses
@@ -101,7 +101,7 @@ trait AddressMustache {
       }
 
       val addressSelect = SelectField(
-        key = keys.lastUkAddress.uprn,
+        key = keys.address.uprn,
         optionList = options,
         default = SelectOption(
           value = "", 
@@ -120,13 +120,13 @@ trait AddressMustache {
         question = Question(
           postUrl = postUrl,
           backUrl = backUrl,
-          number = "5",
+          number = "2",
           title = title,
           errorMessages = progressForm.globalErrors.map(_.message)
         ),
         lookupUrl = lookupUrl,
         manualUrl = manualUrl,
-        postcode = TextField(keys.lastUkAddress.postcode),
+        postcode = TextField(keys.address.postcode),
         address = addressSelectWithError,
         possibleJsonList = TextField(keys.possibleAddresses.jsonList).copy(
           value = maybePossibleAddress.map { poss =>
@@ -134,14 +134,14 @@ trait AddressMustache {
           }.getOrElse("")
         ),
         possiblePostcode = TextField(keys.possibleAddresses.postcode).copy(
-          value = form(keys.lastUkAddress.postcode).value.getOrElse("")
+          value = form(keys.address.postcode).value.getOrElse("")
         ),
         hasAddresses = hasAddresses
       )
     }
 
     def selectPage(
-        form: InProgressForm[InprogressOverseas],
+        form: InProgressForm[InprogressForces],
         backUrl: String,
         postUrl: String,
         lookupUrl: String,
@@ -149,14 +149,14 @@ trait AddressMustache {
         maybePossibleAddress:Option[PossibleAddress]) = {
 
       val content = Mustache.render(
-        "overseas/lastUkAddressSelect",
+        "forces/addressSelect",
         selectData(form, backUrl, postUrl, lookupUrl, manualUrl, maybePossibleAddress)
       )
       MainStepTemplate(content, title)
     }
 
     def manualData(
-        form: InProgressForm[InprogressOverseas],
+        form: InProgressForm[InprogressForces],
         backUrl: String,
         postUrl: String,
         lookupUrl: String) = {
@@ -167,24 +167,24 @@ trait AddressMustache {
         question = Question(
           postUrl = postUrl,
           backUrl = backUrl,
-          number = "5 or 6",
+          number = "2",
           title = title,
           errorMessages = progressForm.globalErrors.map(_.message)
         ),
         lookupUrl = lookupUrl,
-        postcode = TextField(keys.lastUkAddress.postcode),
-        manualAddress = TextField(keys.lastUkAddress.manualAddress)
+        postcode = TextField(keys.address.postcode),
+        manualAddress = TextField(keys.address.manualAddress)
       )
     }
 
     def manualPage(
-        form: InProgressForm[InprogressOverseas],
+        form: InProgressForm[InprogressForces],
         backUrl: String,
         postUrl: String,
         lookupUrl: String) = {
 
       val content = Mustache.render(
-        "overseas/lastUkAddressManual",
+        "forces/addressManual",
         manualData(form, backUrl, postUrl, lookupUrl)
       )
       MainStepTemplate(content, title)

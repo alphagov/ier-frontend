@@ -6,18 +6,15 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, ErrorMessages}
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import uk.gov.gds.ier.transaction.forces.statement.StatementForms
+import uk.gov.gds.ier.transaction.forces.address.AddressForms
 
 trait ConfirmationForms
   extends FormKeys
   with ErrorMessages
   with WithSerialiser
   with StatementForms
+  with AddressForms
   with CommonConstraints {
-
-  val stubAddressMapping = mapping(
-    "foo" -> text
-  ) (foo => PartialAddress (addressLine = None, uprn = None,
-    postcode = "", manualAddress = None )) (stub => Some("foo"))
 
   val stubNationalityMapping = mapping(
     "foo" -> text
@@ -77,7 +74,7 @@ trait ConfirmationForms
   val confirmationForm = ErrorTransformForm(
     mapping(
       keys.statement.key -> optional(statementMapping),
-      keys.address.key -> optional(stubAddressMapping),
+      keys.address.key -> optional(partialAddressMapping),
       keys.nationality.key -> optional(stubNationalityMapping),
       keys.dob.key -> optional(stubDateOfBirthMapping),
       keys.name.key -> optional(stubNameMapping),

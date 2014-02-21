@@ -1,34 +1,36 @@
 package uk.gov.gds.ier.transaction.forces.address
 
 import controllers.step.forces.routes._
+import controllers.step.forces.NationalityController
 import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.InprogressForces
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
+import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{ForcesStep, Routes}
 import uk.gov.gds.ier.validation.InProgressForm
-import controllers.step.forces.NationalityController
 
-class AddressManualStep @Inject() (
+class AddressStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
-    val encryptionKeys: EncryptionKeys)
+    val encryptionKeys: EncryptionKeys,
+    val addressService: AddressService)
   extends ForcesStep
   with AddressMustache
   with AddressForms {
 
-  val validation = manualAddressForm
+  val validation = addressForm
 
   val previousRoute = Some(StatementController.get)
 
   val routes = Routes(
-    get = AddressManualController.get,
-    post = AddressManualController.post,
-    editGet = AddressManualController.editGet,
-    editPost = AddressManualController.editPost
+    get = AddressController.get,
+    post = AddressController.lookup,
+    editGet = AddressController.editGet,
+    editPost = AddressController.lookup
   )
 
   def nextStep(currentState: InprogressForces) = {
@@ -39,11 +41,24 @@ class AddressManualStep @Inject() (
       form: InProgressForm[InprogressForces],
       call: Call,
       backUrl: Option[Call]) = {
-    AddressMustache.manualPage(
+    AddressMustache.lookupPage(
       form,
       backUrl.map(_.url).getOrElse(""),
-      call.url,
-      AddressController.get.url
+      call.url
+    )
+  }
+
+  def lookup = ValidSession requiredFor { implicit request => application =>
+    lookupAddressForm.bindFromRequest().fold(
+      hasErrors => {
+        Ok(template(InProgressForm(hasErrors), routes.post, previousRoute))
+      },
+      success => {
+        val mergedApplication = success.merge(application)
+        Redirect(
+          AddressSelectController.get
+        ) storeInSession mergedApplication
+      }
     )
   }
 }

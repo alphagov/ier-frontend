@@ -1,22 +1,18 @@
 package uk.gov.gds.ier.transaction.forces.address
 
-import controllers.step.overseas.routes.{
-  LastUkAddressController,
-  LastUkAddressManualController,
-  LastUkAddressSelectController,
-  DateLeftUkController}
-import controllers.step.overseas.NameController
+import controllers.step.forces.routes._
+import controllers.step.forces.NationalityController
 import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{
-  InprogressOverseas,
+  InprogressForces,
   Addresses,
   PossibleAddress}
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
-import uk.gov.gds.ier.step.{OverseaStep, Routes}
+import uk.gov.gds.ier.step.{ForcesStep, Routes}
 import uk.gov.gds.ier.validation.InProgressForm
 
 class AddressSelectStep @Inject() (
@@ -25,38 +21,38 @@ class AddressSelectStep @Inject() (
     val encryptionService: EncryptionService,
     val encryptionKeys: EncryptionKeys,
     val addressService: AddressService)
-  extends OverseaStep
+  extends ForcesStep
   with AddressMustache
-  with LastUkAddressForms {
+  with AddressForms {
 
-  val validation = lastUkAddressForm
+  val validation = addressForm
 
-  val previousRoute = Some(DateLeftUkController.get)
+  val previousRoute = Some(StatementController.get)
 
   val routes = Routes(
-    get = LastUkAddressSelectController.get,
-    post = LastUkAddressSelectController.post,
-    editGet = LastUkAddressSelectController.editGet,
-    editPost = LastUkAddressSelectController.editPost
+    get = AddressSelectController.get,
+    post = AddressSelectController.post,
+    editGet = AddressSelectController.editGet,
+    editPost = AddressSelectController.editPost
   )
 
-  def nextStep(currentState: InprogressOverseas) = {
-    NameController.nameStep
+  def nextStep(currentState: InprogressForces) = {
+    NationalityController.nationalityStep
   }
 
-  override def postSuccess(currentState: InprogressOverseas) = {
-    val addressWithAddressLine = currentState.lastUkAddress.map {
+  override def postSuccess(currentState: InprogressForces) = {
+    val addressWithAddressLine = currentState.address.map {
       addressService.fillAddressLine(_)
     }
 
     currentState.copy(
-      lastUkAddress = addressWithAddressLine,
+      address = addressWithAddressLine,
       possibleAddresses = None
     )
   }
 
   def template(
-      form: InProgressForm[InprogressOverseas],
+      form: InProgressForm[InprogressForces],
       call: Call,
       backUrl: Option[Call]) = {
 
@@ -71,20 +67,20 @@ class AddressSelectStep @Inject() (
     }
 
     val maybeAddresses = storedAddresses.orElse {
-      lookupAddresses(form(keys.lastUkAddress.postcode).value)
+      lookupAddresses(form(keys.address.postcode).value)
     }
 
-    LastUkAddressMustache.selectPage(
+    AddressMustache.selectPage(
       form,
       backUrl.map(_.url).getOrElse(""),
       call.url,
-      LastUkAddressController.get.url,
-      LastUkAddressManualController.get.url,
+      AddressController.get.url,
+      AddressManualController.get.url,
       maybeAddresses
     )
   }
 
-  private[lastUkAddress] def lookupAddresses(
+  private[address] def lookupAddresses(
       maybePostcode:Option[String]): Option[PossibleAddress] = {
 
     maybePostcode.map { postcode =>
