@@ -103,6 +103,34 @@ trait TestHelpers {
     dateLeftSpecial = Some(DateLeftSpecial(DateLeft(1990, 1)))
   )
 
+
+  lazy val completeForcesApplication = InprogressForces(
+    statement = Some(Statement(memberForcesFlag = Some(true), None)),
+    address = Some(PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)),
+    nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
+    dob = Some(DateOfBirth(Some(DOB(1988, 1, 1)), None)),
+    name = Some(Name("John", None, "Smith")),
+    nino = Some(Nino(Some("AB 12 34 56 D"), None)),
+    service = Some(Service(Some("special services"), None)),
+    rank = Some(Rank(Some("1234567"), Some("rank 1"))),
+    contactAddress = Some(ContactAddress(
+      country = Some("United Kingdom"),
+      addressLine1 = Some("some address line 1"),
+      addressLine2 = None,
+      addressLine3 = None,
+      addressLine4 = None,
+      addressLine5 = None)),
+    openRegisterOptin = Some(true),
+    waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
+    postalOrProxyVote = Some(PostalOrProxyVote(
+      WaysToVoteType.ByPost,
+      Some(true),
+      Some(PostalVoteDeliveryMethod(Some("post"),None))
+    )),
+    contact = Some(Contact(true, None, None)),
+    possibleAddresses = None
+  )
+
   class ErrorsOps(errors: Seq[FormError], globalErrors: Seq[FormError]) {
     /**
      * Transform errors to a multi line text suitable for testing.

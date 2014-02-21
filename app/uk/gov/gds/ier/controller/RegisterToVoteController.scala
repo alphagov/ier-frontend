@@ -46,5 +46,23 @@ class RegisterToVoteController @Inject() (val serialiser: JsonSerialiser,
     request =>
       Redirect(step.overseas.routes.DateOfBirthController.get)
   }
+
+  def registerToVoteForces = Action {
+    Ok(RegisterToVote.forcesStartPage())
+  }
+
+  def registerToVoteForcesStart = NewSession requiredFor {
+    request =>
+      Redirect(step.forces.routes.StatementController.get)
+  }
+
+  def registerToVoteCrown = Action {
+    Ok(RegisterToVote.crownStartPage())
+  }
+
+  def registerToVoteCrownStart = NewSession requiredFor {
+    request =>
+      Redirect(step.crown.routes.StatementController.get)
+  }
 }
 
