@@ -271,7 +271,7 @@ trait ConfirmationMustache {
         title = "What is your date of birth?",
         editLink = DateOfBirthController.dateOfBirthStep.routes.editGet.url,
         changeName = "date of birth",
-        content = ifComplete(keys.dob) {
+        content = ifComplete(keys.dob.day) {
                 "<p>" + form(keys.dob.day).value.get + " "  +
                 DateOfBirthConstants.monthsByNumber(form(keys.dob.month).value.get) + " " +
                 form(keys.dob.year).value.get + "</p>"

@@ -57,14 +57,10 @@ trait ConfirmationForms
   val confirmationForm = ErrorTransformForm(
     mapping(
       keys.overseasName.key -> optional(overseasNameMapping),
-//      keys.name.key -> optional(nameMapping),
-//      keys.previousName.key -> optional(previousNameMapping),
       keys.previouslyRegistered.key -> optional(previouslyRegisteredMapping),
       keys.dateLeftSpecial.key -> optional(dateLeftSpecialTypeMapping),
       keys.dateLeftUk.key -> optional(dateLeftUkMapping),
       keys.overseasParentName.key -> optional(overseasParentNameMapping),
-//      keys.parentName.key -> optional(parentNameMapping),
-//      keys.parentPreviousName.key -> optional(parentPrevNameMapping),
       "parentsAddress" -> optional(stubMapping),
       keys.lastRegisteredToVote.key -> optional(lastRegisteredToVoteMapping),
       keys.dob.key -> optional(dobMapping),
