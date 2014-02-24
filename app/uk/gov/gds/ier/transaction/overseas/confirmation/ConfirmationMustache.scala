@@ -151,6 +151,7 @@ trait ConfirmationMustache {
         case Some(LastRegisteredType.Crown) => dateLeftCrown
         case Some(LastRegisteredType.Council) => dateLeftCouncil
         case Some(LastRegisteredType.NotRegistered) => dateLeftUk
+        case _ => None
       }
     }
 
