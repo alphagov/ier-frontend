@@ -484,7 +484,7 @@
                 maxLen = 256;
 
             if (entry.length > maxLen) {
-              return _getInvalidDataFromFields([this], 'largeText');
+              return _getInvalidDataFromFields([this], 'smallText');
             } else {
               return [];
             }
@@ -696,9 +696,10 @@
             }
           },
           'allNonEmpty' : function () {
-            var oneEmpty = false,
-                memberFields = validation.fields.getNames(this.members),
+            var memberFields = validation.fields.getNames(this.members),
                 _fieldIsShowing,
+                failedRules,
+                isFilledFailedRules = [],
                 i,j;
 
             _fieldIsShowing = function (fieldObj) {
@@ -706,18 +707,43 @@
             };
             for (i = 0, j = memberFields.length; i < j; i++) {
               var fieldObj = memberFields[i],
-                  method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty',
-                  isFilledFailedRules = [];
+                  method = (fieldObj.type === 'field') ? 'nonEmpty' : 'allNonEmpty';
 
               if ($.inArray(method, fieldObj.rules) !== -1) {
-                isFilledFailedRules = fieldObj[method]();
+                failedRules = fieldObj[method]();
+                if (failedRules.length) {
+                  $.merge(isFilledFailedRules, failedRules);
+                }
               }
-              if (_fieldIsShowing(fieldObj) && isFilledFailedRules.length) {
-                oneEmpty = true;
-                memberFields.push(this)
-                return _getInvalidDataFromFields(memberFields, 'allNonEmpty');
-              }
+            }
+            if (_fieldIsShowing(fieldObj) && isFilledFailedRules.length) {
+              isFilledFailedRules.push(this)
+              return _getInvalidDataFromFields(isFilledFailedRules, 'allNonEmpty');
+            }
+            return [];
+          },
+          'allValid' : function () {
+            var memberFields = validation.fields.getNames(this.members),
+                memberFailedRules = [],
+                fieldObj,
+                failedRules,
+                _fieldIsShowing,
+                i,j;
+
+            _fieldIsShowing = function (fieldObj) {
+              return !fieldObj.$source.is(':hidden');
             };
+            for (i = 0, j = memberFields.length; i < j; i++) {
+              fieldObj = memberFields[i];
+
+              failedRules = validation.applyRules(fieldObj);
+              if (failedRules.length) {
+                $.merge(memberFailedRules, failedRules);
+              }
+            }
+            if (_fieldIsShowing(fieldObj)) {
+              return memberFailedRules;
+            }
             return [];
           }
         }
