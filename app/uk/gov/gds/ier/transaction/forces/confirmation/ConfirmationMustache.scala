@@ -123,15 +123,13 @@ trait ConfirmationMustache {
         title = "Nationality",
         editLink = routes.NationalityController.editGet.url,
         changeName = "nationality",
-        content = ifComplete(keys.dob) {
-          if (form(keys.dob.day).value.isDefined &&
-            form(keys.dob.month).value.isDefined &&
-            form(keys.dob.year).value.isDefined) {
-            "<p>" + form(keys.dob.day).value.get + " "  +
-              DateOfBirthConstants.monthsByNumber(form(keys.dob.month).value.get) + " " +
-              form(keys.dob.year).value.get + "</p>"
+        content = ifComplete(keys.nationality) {
+          if(form.nationalityIsFilled()) {
+            "<p>I am " + form.confirmationNationalityString + "</p>"
+          }else{
+            "<p>I cannot provide my nationality because:</p>" +
+            "<p>" + form(keys.nationality.noNationalityReason).value.getOrElse("") + "</p>"
           }
-          else "<p/>"
         }
       ))
     }
