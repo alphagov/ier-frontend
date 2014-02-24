@@ -17,7 +17,8 @@ class OpenRegisterStep @Inject ()(val serialiser: JsonSerialiser,
                                         val encryptionService : EncryptionService,
                                         val encryptionKeys : EncryptionKeys)
   extends OrdinaryStep
-  with OpenRegisterForms {
+  with OpenRegisterForms 
+  with OpenRegisterMustache {
 
   val validation = openRegisterForm
   val previousRoute = Some(PreviousAddressController.get)
@@ -30,7 +31,7 @@ class OpenRegisterStep @Inject ()(val serialiser: JsonSerialiser,
   )
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
-    views.html.steps.openRegister(form, call, backUrl.map (_.url))
+    openRegisterMustache(form.form, call, backUrl)
   }
   def nextStep(currentState: InprogressOrdinary) = {
     PostalVoteController.postalVoteStep
