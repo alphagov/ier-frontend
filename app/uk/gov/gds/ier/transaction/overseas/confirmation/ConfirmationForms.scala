@@ -101,11 +101,14 @@ trait ConfirmationForms
         Some(keys.previouslyRegistered) else None,
       if (app.lastRegisteredToVote.isDefined) None else Some(keys.lastRegisteredToVote),
       if (app.dateLeftUk.isDefined) None else Some(keys.dateLeftUk),
-      if (app.overseasParentName.flatMap(_.previousName).isDefined) None else Some(keys.overseasParentName.parentPreviousName),
-      if (app.overseasParentName.flatMap(_.name).isDefined) None else Some(keys.overseasParentName.parentName),
+      if (app.overseasParentName.flatMap(_.previousName).isDefined) None
+        else Some(keys.overseasParentName.parentPreviousName),
+      if (app.overseasParentName.flatMap(_.name).isDefined) None
+        else Some(keys.overseasParentName.parentName),
       if (app.parentsAddress.isDefined) None else Some(Key("parentsAddress")),
       if (app.passport.isDefined) None else Some(keys.passport),
-      if (app.overseasName.flatMap(_.previousName).isDefined) None else Some(keys.overseasName.previousName),
+      if (app.overseasName.flatMap(_.previousName).isDefined) None
+        else Some(keys.overseasName.previousName),
       if (app.overseasName.flatMap(_.name).isDefined) None else Some(keys.overseasName.name),
       if (app.nino.isDefined) None else Some(keys.nino),
       if (app.address.isDefined) None else Some(keys.overseasAddress),
@@ -113,9 +116,6 @@ trait ConfirmationForms
       if (app.waysToVote.isDefined) None else Some(keys.waysToVote),
       if (app.postalOrProxyVote.isDefined) None else Some(keys.postalOrProxyVote),
       if (app.contact.isDefined) None else Some(keys.contact)
-//      if (app.parentsName.isDefined) None else Some(Key("parentsName")),
-//      if (app.parentsPreviousName.isDefined) None else Some(Key("parentsPreviousName")),
-
     ).flatten
     if (errorKeys.size == 0) {
       Valid

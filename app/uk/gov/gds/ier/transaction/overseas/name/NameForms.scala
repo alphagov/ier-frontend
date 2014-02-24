@@ -9,7 +9,7 @@ trait NameForms extends OverseasNameConstraints {
   self:  FormKeys
     with ErrorMessages =>
 
-  private lazy val generalNameMapping = mapping(
+  private lazy val nameMapping = mapping(
     keys.firstName.key -> required(text, "Please enter your first name"),
     keys.middleNames.key -> optional(nonEmptyText),
     keys.lastName.key -> required(text, "Please enter your last name")
@@ -17,17 +17,11 @@ trait NameForms extends OverseasNameConstraints {
     Name.apply
   ) (
     Name.unapply
-  )
-
-  private lazy val prevNameMapping = generalNameMapping verifying(
-    firstNameNotTooLong, middleNamesNotTooLong, lastNameNotTooLong)
-
-  lazy val nameMapping = generalNameMapping verifying(
-    firstNameNotTooLong, middleNamesNotTooLong, lastNameNotTooLong)
+  ).verifying(firstNameNotTooLong, middleNamesNotTooLong, lastNameNotTooLong)
 
   lazy val previousNameMapping = mapping(
     keys.hasPreviousName.key -> boolean,
-    keys.previousName.key -> optional(prevNameMapping)
+    keys.previousName.key -> optional(nameMapping)
   ) (
     PreviousName.apply
   ) (
@@ -35,24 +29,13 @@ trait NameForms extends OverseasNameConstraints {
   ) verifying prevNameFilledIfHasPrevIsTrue
   
   lazy val overseasNameMapping = mapping(
-      keys.name.key -> optional(nameMapping).verifying(nameNotOptional),
-      keys.previousName.key -> required(optional(previousNameMapping), "Please answer this question")
-//      keys.previousName.key -> optional(previousNameMapping)
-    )(OverseasName.apply)(OverseasName.unapply)
-//    ((name: Option[Name], previousName: Option[PreviousName])) 
-    
-//    ((name, previousName) => InprogressOverseas(overseasName = Some(OverseasName(name, previousName))))
+    keys.name.key -> optional(nameMapping).verifying(nameNotOptional),
+    keys.previousName.key -> required(optional(previousNameMapping), "Please answer this question")
+  )(OverseasName.apply)(OverseasName.unapply)
 
-    
   val nameForm = ErrorTransformForm(
-      mapping(keys.overseasName.key -> overseasNameMapping)
-      (overseasName => InprogressOverseas(overseasName = Some(overseasName)))
-      (inprogress => inprogress.overseasName)
-  )  
-//    (
-//      (name, previousName) => InprogressOverseas(name = name, previousName = previousName)
-//    ) (
-//      inprogress => Some(inprogress.name, inprogress.previousName)
-//    )
-  
+    mapping(keys.overseasName.key -> overseasNameMapping)
+    (overseasName => InprogressOverseas(overseasName = Some(overseasName)))
+    (inprogress => inprogress.overseasName)
+  )
 }
