@@ -5,7 +5,6 @@ import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.libs.json.{Json, JsNull}
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.transaction.forces.statement.StatementForms
 
 class StatementFormTests
   extends FlatSpec
