@@ -739,6 +739,15 @@
       'waysToVote' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
+      'previouslyRegistered' : {
+        'atLeastOneNonEmpty' : 'Please answer this question'
+      },
+      'countrySelect' : {
+        'nonEmpty' : 'Please select your country'
+      },
+      'correspondenceAddressLinesFieldSet' : {
+        'atLeastOneNonEmpty' : 'Please enter your address'
+      },
       'deliveryMethod' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
@@ -753,6 +762,9 @@
         'fieldOrExcuse' : 'Please select an address'
       },
       'previousAddressQuestion' : {
+        'atLeastOneNonEmpty' : 'Please answer this question'
+      },
+      'statement' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
       }
     }

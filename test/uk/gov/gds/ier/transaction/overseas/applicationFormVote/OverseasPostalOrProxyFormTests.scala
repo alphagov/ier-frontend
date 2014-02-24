@@ -5,7 +5,7 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{PostalOrProxyVote, PostalVoteDeliveryMethod, PostalVote}
+import uk.gov.gds.ier.model.{PostalOrProxyVote, PostalVoteDeliveryMethod, PostalVote, WaysToVoteType}
 
 class OverseasPostalOrProxyFormTests
   extends FlatSpec
@@ -23,13 +23,21 @@ class OverseasPostalOrProxyFormTests
       Map(
         "postalOrProxyVote.optIn" -> "true",
         "postalOrProxyVote.deliveryMethod.methodName" -> "post",
-        "postalOrProxyVote.voteType" -> "postal"
+        "postalOrProxyVote.voteType" -> "by-post"
       )
     )
     postalOrProxyVoteForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
-        success.postalOrProxyVote should be(Some(PostalOrProxyVote("postal", Some(true),Some(PostalVoteDeliveryMethod(Some("post"),None)))))
+        success.postalOrProxyVote.isDefined should be(true)
+        val Some(postalOrProxy) = success.postalOrProxyVote
+        postalOrProxy.typeVote should be(WaysToVoteType.ByPost)
+        postalOrProxy.postalVoteOption should be(Some(true))
+
+        postalOrProxy.deliveryMethod.isDefined should be(true)
+        val Some(deliveryMethod) = postalOrProxy.deliveryMethod
+        deliveryMethod.deliveryMethod should be(Some("post"))
+        deliveryMethod.emailAddress should be(None)
       }
     )
   }
@@ -40,13 +48,21 @@ class OverseasPostalOrProxyFormTests
         "postalOrProxyVote.optIn" -> "true",
         "postalOrProxyVote.deliveryMethod.methodName" -> "email",
         "postalOrProxyVote.deliveryMethod.emailAddress" -> "test@mail.com",
-        "postalOrProxyVote.voteType" -> "postal"
+        "postalOrProxyVote.voteType" -> "by-post"
       )
     )
     postalOrProxyVoteForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
-        success.postalOrProxyVote should be(Some(PostalOrProxyVote("postal", Some(true),Some(PostalVoteDeliveryMethod(Some("email"),Some("test@mail.com"))))))
+        success.postalOrProxyVote.isDefined should be(true)
+        val Some(postalOrProxy) = success.postalOrProxyVote
+        postalOrProxy.typeVote should be(WaysToVoteType.ByPost)
+        postalOrProxy.postalVoteOption should be(Some(true))
+
+        postalOrProxy.deliveryMethod.isDefined should be(true)
+        val Some(deliveryMethod) = postalOrProxy.deliveryMethod
+        deliveryMethod.deliveryMethod should be(Some("email"))
+        deliveryMethod.emailAddress should be(Some("test@mail.com"))
       }
     )
   }
@@ -57,7 +73,7 @@ class OverseasPostalOrProxyFormTests
         "postalOrProxyVote.optIn" -> "true",
         "postalOrProxyVote.deliveryMethod.methodName" -> "email",
         "postalOrProxyVote.deliveryMethod.emailAddress" -> "emailAddress",
-        "postalOrProxyVote.voteType" -> "postal"
+        "postalOrProxyVote.voteType" -> "by-post"
       )
     )
     postalOrProxyVoteForm.bind(js).fold(
@@ -74,13 +90,18 @@ class OverseasPostalOrProxyFormTests
     val js = Json.toJson(
       Map(
         "postalOrProxyVote.optIn" -> "false",
-        "postalOrProxyVote.voteType" -> "postal"
+        "postalOrProxyVote.voteType" -> "by-post"
       )
     )
     postalOrProxyVoteForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
-        success.postalOrProxyVote should be(Some(PostalOrProxyVote("postal", Some(false),None)))
+        success.postalOrProxyVote.isDefined should be(true)
+        val Some(postalOrProxy) = success.postalOrProxyVote
+        postalOrProxy.typeVote should be(WaysToVoteType.ByPost)
+        postalOrProxy.postalVoteOption should be(Some(false))
+
+        postalOrProxy.deliveryMethod.isDefined should be(false)
       }
     )
   }
@@ -90,10 +111,9 @@ class OverseasPostalOrProxyFormTests
 
     postalOrProxyVoteForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(4)
+        hasErrors.errors.size should be(2)
         hasErrors.errorMessages("postalOrProxyVote.optIn") should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("postalOrProxyVote.voteType") should be(Seq("error.required"))
-        hasErrors.globalErrorMessages should be(Seq("error.required", "Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
       },
       success => fail("Should have thrown an error")
     )
@@ -120,7 +140,7 @@ class OverseasPostalOrProxyFormTests
     val js = Json.toJson(
       Map(
         "postalOrProxyVote.optIn" -> "true",
-        "postalOrProxyVote.voteType" -> "postal"
+        "postalOrProxyVote.voteType" -> "by-post"
       )
     )
     postalOrProxyVoteForm.bind(js).fold(
@@ -138,7 +158,7 @@ class OverseasPostalOrProxyFormTests
       Map(
         "postalOrProxyVote.optIn" -> "true",
         "postalOrProxyVote.deliveryMethod.methodName" -> "email",
-        "postalOrProxyVote.voteType" -> "postal"
+        "postalOrProxyVote.voteType" -> "by-post"
       )
     )
     postalOrProxyVoteForm.bind(js).fold(

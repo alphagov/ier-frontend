@@ -22,7 +22,7 @@ class AddressFormTests
     addressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errorMessages("overseasAddress.country") should be(Seq("Please enter your country"))
-        hasErrors.errorMessages("overseasAddress.overseasAddressDetails") should be(Seq("Please enter your address"))
+        hasErrors.errorMessages("overseasAddress.addressLine1") should be(Seq("Please enter your address"))
         hasErrors.globalErrorMessages should be(Seq("Please enter your country", "Please enter your address" ))
         hasErrors.errors.size should be(4)
       },
@@ -34,13 +34,13 @@ class AddressFormTests
     val js = Json.toJson(
       Map(
         "overseasAddress.country" -> "",
-        "overseasAddress.addressDetails" -> ""
+        "overseasAddress.addressLine1" -> ""
       )
     )
     addressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errorMessages("overseasAddress.country") should be(Seq("Please enter your country"))
-        hasErrors.errorMessages("overseasAddress.overseasAddressDetails") should be(Seq("Please enter your address"))
+        hasErrors.errorMessages("overseasAddress.addressLine1") should be(Seq("Please enter your address"))
         hasErrors.globalErrorMessages should be(Seq("Please enter your country", "Please enter your address" ))
         hasErrors.errors.size should be(4)
       },
@@ -52,7 +52,7 @@ class AddressFormTests
     val js = Json.toJson(
       Map(
         "overseasAddress.country" -> "",
-        "overseasAddress.overseasAddressDetails" -> "some address"
+        "overseasAddress.addressLine1" -> "some address"
       )
     )
     addressForm.bind(js).fold(
@@ -69,12 +69,12 @@ class AddressFormTests
     val js = Json.toJson(
       Map(
         "overseasAddress.country" -> "United Kingdom",
-        "overseasAddress.addressDetails" -> ""
+        "overseasAddress.addressLine1" -> ""
       )
     )
     addressForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("overseasAddress.overseasAddressDetails") should be(Seq("Please enter your address"))
+        hasErrors.errorMessages("overseasAddress.addressLine1") should be(Seq("Please enter your address"))
         hasErrors.globalErrorMessages should be(Seq("Please enter your address" ))
         hasErrors.errors.size should be(2)
       },
@@ -86,7 +86,7 @@ class AddressFormTests
     val js = Json.toJson(
       Map(
         "overseasAddress.country" -> "United Kingdom",
-        "overseasAddress.overseasAddressDetails" -> "some address"
+        "overseasAddress.addressLine1" -> "some address"
       )
     )
     addressForm.bind(js).fold(

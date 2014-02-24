@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation
 
 import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.model.{WaysToVoteType, InprogressOverseas}
+import uk.gov.gds.ier.model.{WaysToVoteType, InprogressOverseas, LastRegisteredType}
 import controllers.step.overseas._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.validation.Key
@@ -47,8 +47,9 @@ trait ConfirmationMustache {
           confirmation.contact,
           confirmation.waysToVote,
           confirmation.postalVote,
-          confirmation.contact
-        ) ++ confirmation.passport.toList,
+          confirmation.contact,
+          confirmation.passport
+        ).flatten,
         backUrl = backUrl,
         postUrl = postUrl
       )
@@ -78,22 +79,41 @@ trait ConfirmationMustache {
     }
 
     def previouslyRegistered = {
-      ConfirmationQuestion(
-        title = "Previously Registered",
-        editLink = routes.PreviouslyRegisteredController.editGet.url,
-        changeName = "previously registered",
-        content = ifComplete(keys.previouslyRegistered) {
-          if (form(keys.previouslyRegistered.hasPreviouslyRegistered).value == Some("true")) {
-            "<p>I was last registered as an overseas voter</p>"
-          } else {
-            "<p>I wasn't last registered as an overseas voter</p>"
-          }
+      val renewer = form(keys.previouslyRegistered.hasPreviouslyRegistered).value == Some("true")
+      val prevRegType = Try {
+        form(keys.lastRegisteredToVote.registeredType).value.map { regType =>
+          LastRegisteredType.parse(regType)
         }
-      )
+      }.getOrElse(None)
+
+      val iWas = "I was last registered as"
+
+      val previouslyRegisteredContent = (renewer, prevRegType) match {
+        case (true, _) => s"<p>$iWas an overseas voter</p>"
+        case (_, Some(LastRegisteredType.Ordinary)) => s"<p>$iWas a UK resident</p>"
+        case (_, Some(LastRegisteredType.Forces)) => s"<p>$iWas a member of the armed forces</p>"
+        case (_, Some(LastRegisteredType.Crown)) => s"<p>$iWas a Crown servant</p>"
+        case (_, Some(LastRegisteredType.Council)) => s"<p>$iWas a British council employee</p>"
+        case (_, Some(LastRegisteredType.NotRegistered)) => "<p>I have never been registered</p>"
+        case _ => completeThisStepMessage
+      }
+
+      val editCall = if(prevRegType.isDefined) {
+        routes.LastRegisteredToVoteController.editGet
+      } else {
+        routes.PreviouslyRegisteredController.editGet
+      }
+
+      Some(ConfirmationQuestion(
+        title = "Previously Registered",
+        editLink = editCall.url,
+        changeName = "previously registered",
+        content = previouslyRegisteredContent
+      ))
     }
 
     def lastUkAddress = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "Last UK Address",
         editLink = if (form(keys.lastUkAddress.manualAddress).value.isDefined) {
           routes.LastUkAddressManualController.editGet.url
@@ -108,11 +128,11 @@ trait ConfirmationMustache {
           val postcode = form(keys.lastUkAddress.postcode).value.getOrElse("")
           s"<p>$addressLine</p><p>$postcode</p>"
         }
-      )
+      ))
     }
 
     def dateLeftUk = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "Date you left the UK",
         editLink = routes.DateLeftUkController.editGet.url,
         changeName = "date you left the UK",
@@ -126,11 +146,11 @@ trait ConfirmationMustache {
           }
           s"<p>$yearMonth</p>"
         }
-      )
+      ))
     }
 
     def nino = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "National Insurance number",
         editLink = routes.NinoController.editGet.url,
         changeName = "national insurance number",
@@ -142,23 +162,35 @@ trait ConfirmationMustache {
               s"<p>${form(keys.nino.noNinoReason).value.getOrElse("")}</p>"
           }
         }
-      )
+      ))
     }
 
     def address = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "Where do you live?",
         editLink = AddressController.addressStep.routes.editGet.url,
         changeName = "where do you live?",
         content = ifComplete(keys.overseasAddress) {
-          "<p>" + form (keys.overseasAddress.overseasAddressDetails).value.getOrElse("") + "</p>" +
-          "<p>" + form (keys.overseasAddress.country).value.getOrElse("") + "</p>"
+
+          val result:StringBuilder = new StringBuilder
+          result.append ("<p>")
+          result.append (
+            List (
+              form(keys.overseasAddress.addressLine1).value,
+              form(keys.overseasAddress.addressLine2).value,
+              form(keys.overseasAddress.addressLine3).value,
+              form(keys.overseasAddress.addressLine4).value,
+              form(keys.overseasAddress.addressLine5).value)
+            .filter(!_.getOrElse("").isEmpty).map(_.get).mkString("","<br/>",""))
+          result.append ("</p>")
+          result.append ("<p>" + form (keys.overseasAddress.country).value.getOrElse("") + "</p>")
+          result.toString()
         }
-      )
+      ))
     }
 
     def dateOfBirth = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "What is your date of birth?",
         editLink = DateOfBirthController.dateOfBirthStep.routes.editGet.url,
         changeName = "date of birth",
@@ -167,11 +199,11 @@ trait ConfirmationMustache {
                 DateOfBirthConstants.monthsByNumber(form(keys.dob.month).value.get) + " " +
                 form(keys.dob.year).value.get + "</p>"
             }
-      )
+      ))
     }
 
     def openRegister = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "Open register",
         editLink = routes.OpenRegisterController.editGet.url,
         changeName = "open register",
@@ -182,11 +214,11 @@ trait ConfirmationMustache {
             "<p>I don’t want to include my details on the open register</p>"
           }
         }
-      )
+      ))
     }
 
     def name = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "What is your full name?",
         editLink = routes.NameController.editGet.url,
         changeName = "full name",
@@ -197,11 +229,11 @@ trait ConfirmationMustache {
             form(keys.name.lastName).value).flatten
             .mkString("<p>", " ", "</p>")
         }
-      )
+      ))
     }
 
     def previousName = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "What is your previous name?",
         editLink = routes.NameController.editGet.url,
         changeName = "previous name",
@@ -216,36 +248,48 @@ trait ConfirmationMustache {
             "<p>I have not changed my name in the last 12 months</p>"
           }
         }
-      )
+      ))
     }
 
     def postalVote = {
-      ConfirmationQuestion(
-        title = "Application form",
-        editLink = form(keys.postalOrProxyVote.voteType).value match {
-            case Some("postal") =>  PostalVoteController.postalVoteStep.routes.editGet.url
-            case Some("proxy") =>   ProxyVoteController.proxyVoteStep.routes.editGet.url
-            case _ => throw new IllegalArgumentException()
-        },
-        changeName = "application form",
-        content = ifComplete(keys.postalOrProxyVote) {
-          val wayToVote = form(keys.postalOrProxyVote.voteType).value.getOrElse("")
-          if(form(keys.postalOrProxyVote.optIn).value == Some("true")){
-            if(form(keys.postalOrProxyVote.deliveryMethod.methodName).value == Some("email")){
-              "<p>Please email a "+wayToVote+" vote application form to:<br/>"+
-                form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value.getOrElse("")+"</p>"
-            }else{
-              "<p>Please post me a "+wayToVote+" vote application form</p>"
+      val way = form(keys.postalOrProxyVote.voteType).value.map{ way => WaysToVoteType.parse(way) }
+      val prettyWayName = way match {
+        case Some(WaysToVoteType.ByPost) => "postal vote"
+        case Some(WaysToVoteType.ByProxy) => "proxy vote"
+        case _ => ""
+      }
+      val myEmail = form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value.getOrElse("")
+      val deliveryMethod = form(keys.postalOrProxyVote.deliveryMethod.methodName).value
+      val emailMe = form(keys.postalOrProxyVote.deliveryMethod.methodName).value == Some("email")
+      val optIn = form(keys.postalOrProxyVote.optIn).value == Some("true")
+
+      way.map { wayToVote =>
+        ConfirmationQuestion(
+          title = "Application form",
+          editLink = wayToVote match {
+            case WaysToVoteType.ByPost => routes.PostalVoteController.editGet.url
+            case WaysToVoteType.ByProxy => routes.ProxyVoteController.editGet.url
+            case _ => routes.WaysToVoteController.editGet.url
+          },
+          changeName = wayToVote match {
+            case WaysToVoteType.ByPost => "your postal vote form"
+            case WaysToVoteType.ByProxy => "your proxy vote form"
+            case _ => "your method of voting"
+          },
+          content = ifComplete(keys.postalOrProxyVote) {
+            (optIn, emailMe) match {
+              case (true, true) => s"<p>Please email a ${prettyWayName} application form to:" +
+                "<br/>$myEmail</p>"
+              case (true, false) => s"<p>Please post me a ${prettyWayName} application form</p>"
+              case (false, _) => s"<p>I do not need a ${prettyWayName} application form</p>"
             }
-          }else{
-            "<p>I do not need a "+wayToVote+" vote application form</p>"
           }
-        }
-      )
+        )
+      }
     }
 
     def contact = {
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "How we should contact you",
         editLink = ContactController.contactStep.routes.editGet.url,
         changeName = "how we should contact you",
@@ -264,10 +308,10 @@ trait ConfirmationMustache {
 
           s"$post $phone $email"
         }
-      )
+      ))
     }
 
-    def passport:Option[ConfirmationQuestion] = {
+    def passport = {
       val isRenewer = Some("true")
       val notRenewer = Some("false")
       val hasPassport = Some("true")
@@ -302,9 +346,9 @@ trait ConfirmationMustache {
 
       (renewer, passport, birth, before1983) match {
         case (`isRenewer`, _, _, _) => None
-        case (`notRenewer`, `hasPassport`, _, _) => Some(passportDetails)
-        case (`notRenewer`, `noPassport`, `notBornInUk`, _) => Some(citizenDetails)
-        case (`notRenewer`, `noPassport`, `bornInUk`, `notBornBefore1983`) => Some(citizenDetails)
+        case (`notRenewer`, `hasPassport`, _, _) => passportDetails
+        case (`notRenewer`, `noPassport`, `notBornInUk`, _) => citizenDetails
+        case (`notRenewer`, `noPassport`, `bornInUk`, `notBornBefore1983`) => citizenDetails
         case _ => Some(
           ConfirmationQuestion(
             title = "British Passport Details",
@@ -338,12 +382,12 @@ trait ConfirmationMustache {
         routes.CitizenDetailsController.editGet
       }
 
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "British Citizenship Details",
         editLink = route.url,
         changeName = "your citizenship details",
         content = ifComplete(keys.passport) { citizenContent.getOrElse(completeThisStepMessage) }
-      )
+      ))
     }
 
     def passportDetails = {
@@ -371,33 +415,30 @@ trait ConfirmationMustache {
         routes.PassportDetailsController.editGet
       }
 
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "British Passport Details",
         editLink = route.url,
         changeName = "your passport details",
         content = ifComplete(keys.passport) { passportContent.getOrElse(completeThisStepMessage) }
-      )
+      ))
     }
 
     def waysToVote = {
-      ConfirmationQuestion(
+      val way = form(keys.waysToVote.wayType).value.map{ way => WaysToVoteType.parse(way) }
+
+      Some(ConfirmationQuestion(
         title = "How do you want to vote",
         editLink = routes.WaysToVoteController.editGet.url,
         changeName = "way to vote",
         content = ifComplete(keys.waysToVote) {
-          form(keys.waysToVote.wayType).value match {
-            case Some(wayToVote) => {
-              val wayToVoteLabel = WaysToVoteType.withName(wayToVote) match {
-                case WaysToVoteType.ByPost => "By post"
-                case WaysToVoteType.ByProxy => "By proxy (someone else voting for you)"
-                case WaysToVoteType.InPerson => "In the UK, at a polling station"
-              }
-              s"<p>$wayToVoteLabel</p>"
-            }
-            case None => ""
+           way match {
+            case Some(WaysToVoteType.ByPost) => "<p>By post</p>"
+            case Some(WaysToVoteType.ByProxy) => "<p>By proxy (someone else voting for you)</p>"
+            case Some(WaysToVoteType.InPerson) => "<p>In the UK, at a polling station</p>"
+            case _ => ""
           }
         }
-      )
+      ))
     }
   }
 }

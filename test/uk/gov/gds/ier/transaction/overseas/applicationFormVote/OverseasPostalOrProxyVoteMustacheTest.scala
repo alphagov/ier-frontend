@@ -5,7 +5,11 @@ import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
 import scala.Some
 import controllers.step.overseas.routes._
-import uk.gov.gds.ier.model.{PostalVoteDeliveryMethod, PostalOrProxyVote, InprogressOverseas}
+import uk.gov.gds.ier.model.{
+  PostalVoteDeliveryMethod,
+  PostalOrProxyVote,
+  InprogressOverseas,
+  WaysToVoteType}
 
 
 class OverseasPostalOrProxyVoteMustacheTest
@@ -24,7 +28,7 @@ class OverseasPostalOrProxyVoteMustacheTest
       emptyApplicationForm,
       PostalVoteController.post,
       Some(WaysToVoteController.get),
-      "postal")
+      WaysToVoteType.ByPost)
 
     postalOrProxyVoteModel.question.title should be(
       "Do you want us to send you a postal vote application form?")
@@ -36,7 +40,7 @@ class OverseasPostalOrProxyVoteMustacheTest
     postalOrProxyVoteModel.description.value should be(
       "If this is your first time using a postal vote,"+
       " or your details have changed, you need to sign and return an application form.")
-    postalOrProxyVoteModel.voteType.value should be("postal")
+    postalOrProxyVoteModel.voteType.value should be("by-post")
 
     postalOrProxyVoteModel.voteFieldSet.classes should be("")
     postalOrProxyVoteModel.voteOptInTrue.value should be("true")
@@ -50,7 +54,7 @@ class OverseasPostalOrProxyVoteMustacheTest
   it should "progress form with filled applicant postal vote should produce Mustache Model with values present" in {
     val partiallyFilledApplicationForm = postalOrProxyVoteForm.fill(InprogressOverseas(
       postalOrProxyVote = Some ( PostalOrProxyVote (
-        typeVote = "postal",
+        typeVote = WaysToVoteType.ByPost,
         postalVoteOption = Some(true),
         deliveryMethod = Some (PostalVoteDeliveryMethod(
           deliveryMethod = Some("email"),
@@ -60,7 +64,7 @@ class OverseasPostalOrProxyVoteMustacheTest
       partiallyFilledApplicationForm,
       PostalVoteController.post,
       Some(WaysToVoteController.get),
-      "postal")
+      WaysToVoteType.ByPost)
 
     postalOrProxyVoteModel.question.title should be(
       "Do you want us to send you a postal vote application form?")
@@ -72,7 +76,7 @@ class OverseasPostalOrProxyVoteMustacheTest
     postalOrProxyVoteModel.description.value should be(
       "If this is your first time using a postal vote,"+
         " or your details have changed, you need to sign and return an application form.")
-    postalOrProxyVoteModel.voteType.value should be("postal")
+    postalOrProxyVoteModel.voteType.value should be("by-post")
 
     postalOrProxyVoteModel.voteFieldSet.classes should be("")
     postalOrProxyVoteModel.voteOptInTrue.attributes should be("checked=\"checked\"")
@@ -87,7 +91,7 @@ class OverseasPostalOrProxyVoteMustacheTest
   it should "progress form with validation errors should produce Model with error list present" in {
     val partiallyFilledApplicationFormWithErrors = postalOrProxyVoteForm.fillAndValidate(InprogressOverseas(
       postalOrProxyVote = Some ( PostalOrProxyVote (
-        typeVote = "postal",
+        typeVote = WaysToVoteType.ByPost,
         postalVoteOption = Some(true),
         deliveryMethod = Some (PostalVoteDeliveryMethod(
           deliveryMethod = Some("email"),
@@ -97,7 +101,7 @@ class OverseasPostalOrProxyVoteMustacheTest
       partiallyFilledApplicationFormWithErrors,
       PostalVoteController.post,
       Some(WaysToVoteController.get),
-      "postal")
+      WaysToVoteType.ByPost)
 
     postalOrProxyVoteModel.question.title should be(
       "Do you want us to send you a postal vote application form?")
@@ -109,7 +113,7 @@ class OverseasPostalOrProxyVoteMustacheTest
     postalOrProxyVoteModel.description.value should be(
       "If this is your first time using a postal vote,"+
         " or your details have changed, you need to sign and return an application form.")
-    postalOrProxyVoteModel.voteType.value should be("postal")
+    postalOrProxyVoteModel.voteType.value should be("by-post")
 
     postalOrProxyVoteModel.voteFieldSet.classes should be("")
     postalOrProxyVoteModel.voteOptInTrue.attributes should be("checked=\"checked\"")

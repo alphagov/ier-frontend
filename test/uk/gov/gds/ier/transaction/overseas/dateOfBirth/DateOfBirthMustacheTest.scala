@@ -29,10 +29,10 @@ class DateOfBirthMustacheTest
     val emptyApplicationForm = dateOfBirthForm
     
     val dateOfBirthModel = dateOfBirthMustache.transformFormStepToMustacheData(emptyApplicationForm, 
-        new Call("POST", "/register-to-vote/date-of-birth"), None)
+        new Call("POST", "/register-to-vote/overseas/date-of-birth"), None)
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
-    dateOfBirthModel.question.postUrl should be("/register-to-vote/date-of-birth")
+    dateOfBirthModel.question.postUrl should be("/register-to-vote/overseas/date-of-birth")
     dateOfBirthModel.question.backUrl should be("")
 
     dateOfBirthModel.day.value should be("")
@@ -45,10 +45,10 @@ class DateOfBirthMustacheTest
       dob = Some(DOB(day=12, month= 12, year = 1980))))
       
     val dateOfBirthModel = dateOfBirthMustache.transformFormStepToMustacheData(filledForm,
-        new Call("POST", "/register-to-vote/date-of-birth"), None)
+        new Call("POST", "/register-to-vote/overseas/date-of-birth"), None)
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
-    dateOfBirthModel.question.postUrl should be("/register-to-vote/date-of-birth")
+    dateOfBirthModel.question.postUrl should be("/register-to-vote/overseas/date-of-birth")
     dateOfBirthModel.question.backUrl should be("")
 
     dateOfBirthModel.day.value should be("12")

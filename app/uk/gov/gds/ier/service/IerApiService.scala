@@ -11,6 +11,7 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.digest.ShaHashProvider
 import org.joda.time.DateTime
+import uk.gov.gds.common.model.LocalAuthority
 
 abstract class IerApiService {
   def submitOrdinaryApplication(ipAddress: Option[String],
@@ -20,6 +21,15 @@ abstract class IerApiService {
   def submitOverseasApplication(ip:Option[String],
                                 applicant: InprogressOverseas,
                                 refNum:Option[String]): ApiApplicationResponse
+
+
+  def submitForcesApplication (ip:Option[String],
+                               applicant: InprogressForces,
+                               refNum:Option[String]): ApiApplicationResponse
+
+  def submitCrownApplication (ip:Option[String],
+                               applicant: InprogressCrown,
+                               refNum:Option[String]): ApiApplicationResponse
 
   def generateReferenceNumber[T <: InprogressApplication[T]](application:T): String
 }
@@ -79,19 +89,100 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
   def submitOverseasApplication(ip:Option[String],
                                 applicant: InprogressOverseas,
                                 refNum:Option[String]) = {
+
+    val fullLastUkRegAddress = addressService.formFullAddress(applicant.lastUkAddress)
+    val currentAuthority = applicant.lastUkAddress flatMap { address =>
+      placesService.lookupAuthority(address.postcode)
+    }
+
     val completeApplication = OverseasApplication(
       name = applicant.name,
       previousName = applicant.previousName,
       previouslyRegistered = applicant.previouslyRegistered,
+      dateLeftSpecial = applicant.dateLeftSpecial,
       dateLeftUk = applicant.dateLeftUk,
       lastRegisteredToVote = applicant.lastRegisteredToVote,
       dob = applicant.dob,
       nino = applicant.nino,
+      lastUkAddress = fullLastUkRegAddress,
       address = applicant.address,
       openRegisterOptin = applicant.openRegisterOptin,
-      waysToVote = applicant.waysToVote,
       postalOrProxyVote = applicant.postalOrProxyVote,
-      contact = applicant.contact
+      passport = applicant.passport,
+      contact = applicant.contact,
+      referenceNumber = refNum,
+      authority = currentAuthority,
+      ip = ip
+    )
+
+    val apiApplicant = ApiApplication(completeApplication.toApiMap)
+    sendApplication(apiApplicant)
+  }
+
+  def submitForcesApplication(
+      ipAddress: Option[String],
+      applicant: InprogressForces,
+      referenceNumber: Option[String]) = {
+
+    val isoCodes = applicant.nationality map { nationality =>
+      isoCountryService.transformToIsoCode(nationality)
+    }
+    val currentAuthority = applicant.address flatMap { address =>
+      placesService.lookupAuthority(address.postcode)
+    }
+    val fullCurrentAddress = addressService.formFullAddress(applicant.address)
+
+    val completeApplication = ForcesApplication(
+      statement = applicant.statement,
+      address = fullCurrentAddress,
+      nationality = isoCodes,
+      dob = applicant.dob,
+      name = applicant.name,
+      nino = applicant.nino,
+      service = applicant.service,
+      rank = applicant.rank,
+      contactAddress = applicant.contactAddress,
+      openRegisterOptin = applicant.openRegisterOptin,
+      postalOrProxyVote = applicant.postalOrProxyVote,
+      contact = applicant.contact,
+      referenceNumber = referenceNumber,
+      authority = currentAuthority,
+      ip = ipAddress
+    )
+
+    val apiApplicant = ApiApplication(completeApplication.toApiMap)
+
+    sendApplication(apiApplicant)
+  }
+
+  def submitCrownApplication(
+      ipAddress: Option[String],
+      applicant: InprogressCrown,
+      referenceNumber: Option[String]) = {
+
+    val isoCodes = applicant.nationality map { nationality =>
+      isoCountryService.transformToIsoCode(nationality)
+    }
+    val currentAuthority = applicant.address flatMap { address =>
+      placesService.lookupAuthority(address.postcode)
+    }
+    val fullCurrentAddress = addressService.formFullAddress(applicant.address)
+
+    val completeApplication = CrownApplication(
+      statement = applicant.statement,
+      address = fullCurrentAddress,
+      nationality = isoCodes,
+      dob = applicant.dob,
+      name = applicant.name,
+      job = applicant.job,
+      nino = applicant.nino,
+      contactAddress = applicant.contactAddress,
+      openRegisterOptin = applicant.openRegisterOptin,
+      postalOrProxyVote = applicant.postalOrProxyVote,
+      contact = applicant.contact,
+      referenceNumber = referenceNumber,
+      authority = currentAuthority,
+      ip = ipAddress
     )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
