@@ -763,6 +763,9 @@
       },
       'previousAddressQuestion' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
+      },
+      'statement' : {
+        'atLeastOneNonEmpty' : 'Please answer this question'
       }
     }
   };

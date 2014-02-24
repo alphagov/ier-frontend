@@ -18,9 +18,11 @@ trait ConfirmationMustache {
   )
 
   case class ConfirmationModel(
-      questions:List[ConfirmationQuestion],
-      backUrl: String,
-      postUrl: String
+    applicantDetails: List[ConfirmationQuestion],
+    partnerDetails: List[ConfirmationQuestion],
+    displayPartnerBlock: Boolean,
+    backUrl: String,
+    postUrl: String
   )
 
   object Confirmation extends StepMustache {
@@ -31,21 +33,30 @@ trait ConfirmationMustache {
 
       val confirmation = new ConfirmationBlocks(form)
 
+      val partnerData = List(
+        confirmation.partnerService,
+        confirmation.partnerRank
+      ).flatten
+
+      val applicantData = List(
+        confirmation.name,
+        confirmation.dateOfBirth,
+        confirmation.nationality,
+        confirmation.nino,
+        confirmation.service,
+        confirmation.rank,
+        confirmation.address,
+        confirmation.contactAddress,
+        confirmation.openRegister,
+        confirmation.waysToVote,
+        confirmation.postalVote,
+        confirmation.contact
+      ).flatten
+
       val data = ConfirmationModel(
-        questions = List(
-          confirmation.name,
-          confirmation.dateOfBirth,
-          confirmation.nationality,
-          confirmation.nino,
-          confirmation.service,
-          confirmation.rank,
-          confirmation.address,
-          confirmation.contactAddress,
-          confirmation.openRegister,
-          confirmation.waysToVote,
-          confirmation.postalVote,
-          confirmation.contact
-        ).flatten,
+        partnerDetails = partnerData,
+        applicantDetails = applicantData,
+        displayPartnerBlock = !partnerData.isEmpty,
         backUrl = backUrl,
         postUrl = postUrl
       )
@@ -154,9 +165,31 @@ trait ConfirmationMustache {
 
     def rank = {
       Some(ConfirmationQuestion(
-        title = "Rank",
+        title = "Service number and rank",
         editLink = routes.RankController.editGet.url,
-        changeName = "rank",
+        changeName = "service number and rank",
+        content = ifComplete(keys.rank) {
+          ""
+        }
+      ))
+    }
+
+    def partnerService = {
+      Some(ConfirmationQuestion(
+        title = "Service",
+        editLink = routes.ServiceController.editGet.url,
+        changeName = "service",
+        content = ifComplete(keys.service) {
+          ""
+        }
+      ))
+    }
+
+    def partnerRank = {
+      Some(ConfirmationQuestion(
+        title = "Service number and rank",
+        editLink = routes.RankController.editGet.url,
+        changeName = "service number and rank",
         content = ifComplete(keys.rank) {
           ""
         }

@@ -124,22 +124,30 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       applicant: InprogressForces,
       referenceNumber: Option[String]) = {
 
+    val isoCodes = applicant.nationality map { nationality =>
+      isoCountryService.transformToIsoCode(nationality)
+    }
+    val currentAuthority = applicant.address flatMap { address =>
+      placesService.lookupAuthority(address.postcode)
+    }
+    val fullCurrentAddress = addressService.formFullAddress(applicant.address)
+
     val completeApplication = ForcesApplication(
-      statement = None,
-      address = None,
-      nationality = None,
-      dob = None,
-      name = None,
-      nino = None,
-      service = None,
-      rank = None,
-      contactAddress = None,
-      openRegisterOptin = None,
-      postalOrProxyVote = None,
-      contact = None,
-      referenceNumber = None,
-      authority = None,
-      ip = None
+      statement = applicant.statement,
+      address = fullCurrentAddress,
+      nationality = isoCodes,
+      dob = applicant.dob,
+      name = applicant.name,
+      nino = applicant.nino,
+      service = applicant.service,
+      rank = applicant.rank,
+      contactAddress = applicant.contactAddress,
+      openRegisterOptin = applicant.openRegisterOptin,
+      postalOrProxyVote = applicant.postalOrProxyVote,
+      contact = applicant.contact,
+      referenceNumber = referenceNumber,
+      authority = currentAuthority,
+      ip = ipAddress
     )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
@@ -152,21 +160,29 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       applicant: InprogressCrown,
       referenceNumber: Option[String]) = {
 
+    val isoCodes = applicant.nationality map { nationality =>
+      isoCountryService.transformToIsoCode(nationality)
+    }
+    val currentAuthority = applicant.address flatMap { address =>
+      placesService.lookupAuthority(address.postcode)
+    }
+    val fullCurrentAddress = addressService.formFullAddress(applicant.address)
+
     val completeApplication = CrownApplication(
-      statement = None,
-      address = None,
-      nationality = None,
-      dob = None,
-      name = None,
-      job = None,
-      nino = None,
-      contactAddress = None,
-      openRegisterOptin = None,
-      postalOrProxyVote = None,
-      contact = None,
-      referenceNumber = None,
-      authority = None,
-      ip = None
+      statement = applicant.statement,
+      address = fullCurrentAddress,
+      nationality = isoCodes,
+      dob = applicant.dob,
+      name = applicant.name,
+      job = applicant.job,
+      nino = applicant.nino,
+      contactAddress = applicant.contactAddress,
+      openRegisterOptin = applicant.openRegisterOptin,
+      postalOrProxyVote = applicant.postalOrProxyVote,
+      contact = applicant.contact,
+      referenceNumber = referenceNumber,
+      authority = currentAuthority,
+      ip = ipAddress
     )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
