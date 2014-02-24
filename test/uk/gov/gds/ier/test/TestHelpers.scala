@@ -12,13 +12,20 @@ import uk.gov.gds.ier.config.Config
 import play.api.data.FormError
 import uk.gov.gds.ier.model.LastRegisteredType
 
-trait TestHelpers {
+trait TestHelpers extends CustomMatchers {
 
   val jsonSerialiser = new JsonSerialiser
 
   lazy val textTooLong = "x" * 1000
 
   implicit class EasyGetErrorMessageError(form: ErrorTransformForm[_]) {
+    def keyedErrorsAsMap = {
+      form.errors.filterNot( error =>
+        error.key == ""
+      ).map( error =>
+        error.key -> this.errorMessages(error.key)
+      ).toMap
+    }
     def errorMessages(key:String) = form.errors(key).map(_.message)
     def globalErrorMessages = form.globalErrors.map(_.message)
     def prettyPrint = form.errors.map(error => s"${error.key} -> ${error.message}")
