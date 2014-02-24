@@ -23,42 +23,21 @@ trait ParentNameForms extends ParentNameConstraints {
   lazy val parentPrevNameMapping = mapping(
     keys.hasPreviousName.key -> boolean,
     keys.previousName.key -> optional(generalNameMapping)
-  ) (PreviousName.apply) (PreviousName.unapply) verifying
-  (
+  ) (PreviousName.apply) (PreviousName.unapply) verifying (
     parentPreviousFirstNameNotEmpty, parentPreviousLastNameNotEmpty,
-    parentPrevFirstNameNotTooLong, parentPrevMiddleNamesNotTooLong, parentPrevLastNameNotTooLong)
+    parentPrevFirstNameNotTooLong, parentPrevMiddleNamesNotTooLong, parentPrevLastNameNotTooLong
+  )
   
     
   lazy val overseasParentNameMapping = mapping(
     keys.parentName.key -> optional(parentNameMapping).verifying(parentNameNotOptional),
     keys.parentPreviousName.key -> required(optional(parentPrevNameMapping).verifying(parentPreviousNameNotOptionalIfHasPreviousIsTrue), "Please answer this question")
-  )   (OverseasName.apply)(OverseasName.unapply)
-//  ((name, previousName) => InprogressOverseas(overseasParentName = Some(OverseasParentName(name, previousName)))) (inprogress => inprogress.overseasParentName map (pName => (pName.name, pName.previousName)))
+  ) (OverseasName.apply) (OverseasName.unapply)
 
   
   val parentNameForm = ErrorTransformForm(
-      mapping(keys.overseasParentName.key -> overseasParentNameMapping)
-      (overseasParentName => InprogressOverseas(overseasParentName = Some(overseasParentName)))
-      (inprogress => inprogress.overseasParentName)
-      )
-//      overseasParentNameMapping(
-//      overseasParentName => InprogressOverseas(overseasParentName = Some(overseasParentName)), 
-//      inprogress => inprogress.overseasParentName
-//    )
-//    overseasParentNameMapping.transform[InprogressOverseas](
-//      overseasParentName => InprogressOverseas(overseasParentName = Some(overseasParentName)), 
-//      inprogress => inprogress.overseasParentName.get)
-//    )
-//  val parentNameForm = ErrorTransformForm(
-//      mapping(
-//    keys.parentName.key -> optional(parentNameMapping).verifying(parentNameNotOptional),
-//    keys.parentPreviousName.key -> required(optional(parentPrevNameMapping).verifying(parentPreviousNameNotOptionalIfHasPreviousIsTrue), "Please answer this question")   
-//  ) 
-//  (  
-//    (name, previousName) => InprogressOverseas(parentName = name, parentPreviousName = previousName)
-//  ) 
-//  (
-//    inprogress => Some(inprogress.parentName, inprogress.parentPreviousName)
-//  ) verifying (parentPrevNameOptionCheck)
-//  )
+    mapping(keys.overseasParentName.key -> overseasParentNameMapping)
+    (overseasParentName => InprogressOverseas(overseasParentName = Some(overseasParentName)))
+    (inprogress => inprogress.overseasParentName)
+  )
 }

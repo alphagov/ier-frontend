@@ -47,10 +47,6 @@ class ParentNameStep @Inject ()(
           )
       case _ => currentState
     }
-//    if (currentState.parentPreviousName.isDefined && !currentState.parentPreviousName.get.hasPreviousName) {
-//      currentState.copy(parentPreviousName = Some(ParentPreviousName(false, None)))
-//    }
-//    else currentState
   }
   
   def template(
