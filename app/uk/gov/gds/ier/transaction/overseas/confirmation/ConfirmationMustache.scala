@@ -330,57 +330,61 @@ trait ConfirmationMustache {
     }
     
     def parentName = {
-      val dob = for(
-        day <- form(keys.dob.day).value;
-        month <- form(keys.dob.month).value;
-        year <- form(keys.dob.year).value
-      ) yield new DOB(year.toInt, month.toInt, day.toInt)
-      
-      val dobLessThanEighteenOpt = dob map (DateValidator.isLessEighteen(_))
+      val under18 = Some(true)
+      val withLimit = Some(true)
 
-      val dateLeftUk = for (
-          month <- form(keys.dateLeftUk.month).value;
-          year <- form(keys.dateLeftUk.year).value
-      ) yield DateLeft(year.toInt, month.toInt)
-      
-      val leftUkLessThanFifteenYearsOpt = dateLeftUk map (!DateValidator.dateLeftUkOver15Years(_))
-      
-      for (dobLessThanEighteen <- dobLessThanEighteenOpt;
-           leftUkLessThanFifteenYears <- leftUkLessThanFifteenYearsOpt;
-           if (dobLessThanEighteen && leftUkLessThanFifteenYears)
-      ) yield ConfirmationQuestion(
-        title = "Parent or guardian's name",
-        editLink = routes.ParentNameController.editGet.url,
-        changeName = "full name",
-        content = ifComplete(keys.overseasParentName.parentName) {
-        List(
-          form(keys.overseasParentName.parentName.firstName).value,
-          form(keys.overseasParentName.parentName.middleNames).value,
-          form(keys.overseasParentName.parentName.lastName).value).flatten
-          .mkString("<p>", " ", "</p>")
+      (form.under18WhenLeft, form.within15YearLimit) match {
+        case (`under18`, `withLimit`) => {
+          Some(ConfirmationQuestion(
+            title = "Parent or guardian's name",
+            editLink = routes.ParentNameController.editGet.url,
+            changeName = "full name",
+            content = ifComplete(keys.overseasParentName.parentName) {
+              List(
+                form(keys.overseasParentName.parentName.firstName).value,
+                form(keys.overseasParentName.parentName.middleNames).value,
+                form(keys.overseasParentName.parentName.lastName).value).flatten
+                .mkString("<p>", " ", "</p>")
+            }
+          ))
         }
-      )
+        case _ => None
+      }
     }
 
     def parentPreviousName = {
-      for (
-          hasPreviousName <- form(keys.overseasParentName.parentPreviousName.hasPreviousName).value
-      ) yield ConfirmationQuestion(
-        title = "Parent or guardian's previous name",
-        editLink = routes.ParentNameController.editGet.url,
-        changeName = "previous name",
-        content = ifComplete(keys.overseasParentName.parentPreviousName) {
-          if (hasPreviousName.toBoolean) {
-            List(
-              form(keys.overseasParentName.parentPreviousName.previousName.firstName).value,
-              form(keys.overseasParentName.parentPreviousName.previousName.middleNames).value,
-              form(keys.overseasParentName.parentPreviousName.previousName.lastName).value
-            ).flatten.mkString("<p>", " ", "</p>")
-          } else {
-            "<p>They haven't changed their name since they left the UK</p>"
-          }
+      val hasPreviousName = Some("true")
+      val under18 = Some(true)
+      val withLimit = Some(true)
+      val previousName = form(keys.overseasParentName.parentPreviousName.hasPreviousName).value
+
+      (form.under18WhenLeft, form.within15YearLimit, previousName) match {
+        case (`under18`, `withLimit`, `hasPreviousName`) => {
+          Some(ConfirmationQuestion(
+            title = "Parent or guardian's previous name",
+            editLink = routes.ParentNameController.editGet.url,
+            changeName = "previous name",
+            content = ifComplete(keys.overseasParentName.parentPreviousName) {
+              List(
+                form(keys.overseasParentName.parentPreviousName.previousName.firstName).value,
+                form(keys.overseasParentName.parentPreviousName.previousName.middleNames).value,
+                form(keys.overseasParentName.parentPreviousName.previousName.lastName).value
+              ).flatten.mkString("<p>", " ", "</p>")
+            }
+          ))
         }
-      )
+        case (`under18`, `withLimit`, _) => {
+          Some(ConfirmationQuestion(
+            title = "Parent or guardian's previous name",
+            editLink = routes.ParentNameController.editGet.url,
+            changeName = "previous name",
+            content = ifComplete(keys.overseasParentName.parentPreviousName) {
+              "<p>They haven't changed their name since they left the UK</p>"
+            }
+          ))
+        }
+        case _ => None
+      }
     }
 
     def postalVote = {

@@ -32,47 +32,15 @@ trait ParentNameConstraints extends CommonConstraints {
         }
         else Invalid("Please answer this quesiton", keys.overseasParentName.parentPreviousName.hasPreviousName)
     }
-    
-//  lazy val parentNameNotOptional = Constraint[InprogressOverseas](keys.parentName.key) {
-//    application =>
-//      if (application.parentName.isDefined) Valid
-//      else Invalid("Please enter their full name", 
-//            keys.parentName.firstName, keys.parentName.lastName, keys.parentName)
-//  }
- 
-    
+
+
   lazy val parentPrevNameOptionCheck = Constraint[InprogressOverseas] (keys.overseasParentName.parentPreviousName.key) {
     application =>
       if (application.overseasParentName.isDefined && application.overseasParentName.get.previousName.isDefined) Valid
       else Invalid("Please answer this question", keys.overseasParentName.parentPreviousName)
   }
-  
-//  lazy val parentNameNotEmpty = Constraint[ParentName](keys.parentName.key) {
-//    name =>
-//      if (name.firstName.trim.isEmpty() && name.lastName.trim.isEmpty()) 
-//        Invalid("Please enter their full name",
-//            keys.parentName.firstName, keys.parentName.lastName, keys.parentName)
-//      else Valid
-//  }
-  
-//  lazy val parentPreviousNameNotEmpty = Constraint[ParentPreviousName](keys.parentPreviousName.key) {
-//    name =>
-//      if (name.firstName.trim.isEmpty() && name.lastName.trim.isEmpty()) 
-//        Invalid("Please enter their full name",
-//            keys.parentName.firstName, keys.parentName.lastName, keys.parentName)
-//      else Valid
-//  }
-  
-  def parentFirstNameNotEmpty = Constraint[Name](keys.overseasParentName.parentName.firstName.key) {
+   def parentFirstNameNotEmpty = Constraint[Name](keys.overseasParentName.parentName.firstName.key) {
     name =>
-//      name match {
-//        case ParentName("", None, "") => Invalid("please enter their full name", keys.parentName)
-//        case ParentName("", Some(_), "") => Invalid("please enter their first name", keys.parentName.firstName) ++
-//          Invalid("please enter their last name", keys.parentName.lastName)
-//        case ParentName("", Some(_), _) => Invalid("please enter their first name", keys.parentName.firstName)
-//        case ParentName(_, Some(_), "") => Invalid("please enter their last name", keys.parentName.lastName)
-//        case _ => Valid
-//      }
       if (name.firstName.trim.isEmpty()) Invalid("Please enter their first name",
           keys.overseasParentName.parentName.firstName)
       else Valid
@@ -98,20 +66,6 @@ trait ParentNameConstraints extends CommonConstraints {
   
   def parentPreviousFirstNameNotEmpty = Constraint[PreviousName](keys.overseasParentName.parentPreviousName.previousName.firstName.key) {
     name =>
-//      name match {
-//        case ParentPreviousName(false, _) => Valid
-//        case ParentPreviousName(true, None) => Invalid("Please enter their previous name", 
-//            keys.parentPreviousName.previousName.firstName, 
-//            keys.parentPreviousName.previousName.lastName)
-//        case ParentPreviousName(true, Some(ParentName("", Some(_), ""))) => 
-//          Invalid("Please enter their previous first name", keys.parentPreviousName.previousName.firstName) ++ 
-//          Invalid("Please enter their previous last name", keys.parentPreviousName.previousName.lastName)
-//        case ParentPreviousName(true, Some(ParentName("", Some(_), _))) =>
-//          Invalid("Please enter their previous first name", keys.parentPreviousName.previousName.firstName)
-//        case ParentPreviousName(true, Some(ParentName(_, Some(_), ""))) =>
-//          Invalid("Please enter their previous last name", keys.parentPreviousName.previousName.lastName)
-//        case ParentPreviousName(true, Some(ParentName(_, _, _))) => Valid
-//      }
       if (name.hasPreviousName) {
         if (name.previousName.isDefined && name.previousName.get.firstName.trim.isEmpty()) Invalid("Please enter their previous first name", keys.overseasParentName.parentPreviousName.previousName.firstName)
         else Valid

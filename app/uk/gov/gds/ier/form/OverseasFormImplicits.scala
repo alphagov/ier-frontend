@@ -3,7 +3,7 @@ package uk.gov.gds.ier.form
 import org.joda.time.{LocalDate, YearMonth, Years}
 import uk.gov.gds.ier.validation.FormKeys
 import uk.gov.gds.ier.validation.InProgressForm
-import uk.gov.gds.ier.model.{InprogressOverseas, ApplicationType, LastRegisteredType}
+import uk.gov.gds.ier.model.{DateLeft, InprogressOverseas, ApplicationType, LastRegisteredType}
 
 trait OverseasFormImplicits {
   self: FormKeys => 
@@ -28,6 +28,22 @@ trait OverseasFormImplicits {
       }
     }
 
+    def dateLeftUk = {
+      for (
+        month <- form(keys.dateLeftUk.month).value;
+        year <- form(keys.dateLeftUk.year).value
+      ) yield {
+        new YearMonth().withYear(year.toInt).withMonthOfYear(month.toInt)
+      }
+    }
+
+    def within15YearLimit = {
+      val eighteenYearsAgo = new YearMonth().minusYears(15)
+      dateLeftUk map { date =>
+        date isAfter eighteenYearsAgo
+      }
+    }
+
     def dateBecameCitizen = for (
       day <- form(keys.passport.citizenDetails.dateBecameCitizen.day).value;
       month <- form(keys.passport.citizenDetails.dateBecameCitizen.month).value;
@@ -42,6 +58,19 @@ trait OverseasFormImplicits {
     def bornBefore1983 = {
       dateOfBirth map { dob =>
         dob isBefore jan1st1983
+      }
+    }
+
+    def isUnder18 = {
+      val eigthteenYearsAgo = new LocalDate().minusYears(18)
+      dateOfBirth map { dob =>
+        dob isAfter eigthteenYearsAgo
+      }
+    }
+
+    def under18WhenLeft = {
+      for(dob <- dateOfBirth; whenLeft <- dateLeftUk) yield {
+        Years.yearsBetween(new YearMonth(dob), whenLeft).getYears() < 18
       }
     }
   }
