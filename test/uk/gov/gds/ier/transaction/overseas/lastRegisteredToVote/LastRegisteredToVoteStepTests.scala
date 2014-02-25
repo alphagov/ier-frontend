@@ -22,9 +22,6 @@ class LastRegisteredToVoteStepTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include(
-          "<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/previously-registered"
-      )
       contentAsString(result) should include("How were you last registered to vote?")
       contentAsString(result) should include("/register-to-vote/overseas/last-registered-to-vote")
     }
@@ -246,9 +243,6 @@ class LastRegisteredToVoteStepTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include(
-        "<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/confirmation"
-      )
       contentAsString(result) should include("How were you last registered to vote?")
       contentAsString(result) should include(
         "/register-to-vote/overseas/edit/last-registered-to-vote"
