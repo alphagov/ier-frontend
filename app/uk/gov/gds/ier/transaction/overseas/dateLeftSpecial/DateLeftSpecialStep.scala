@@ -17,8 +17,6 @@ import uk.gov.gds.ier.step.Exit
 import uk.gov.gds.ier.validation.InProgressForm
 import org.joda.time.{Months, DateTime}
 import controllers.routes.ExitController
-import uk.gov.gds.ier.transaction.overseas.dateLeftSpecial.DateLeftSpecialMustache
-
 
 class DateLeftArmyStep @Inject() (
     val serialiser: JsonSerialiser,

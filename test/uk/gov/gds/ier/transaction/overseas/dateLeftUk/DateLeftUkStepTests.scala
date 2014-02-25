@@ -5,8 +5,12 @@ import org.scalatest.mock.MockitoSugar
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.{LastRegisteredToVote, LastRegisteredType, DOB, DateOfBirth, 
-  OverseasParentName}
+import uk.gov.gds.ier.model.{
+  LastRegisteredToVote,
+  LastRegisteredType,
+  DOB,
+  DateOfBirth,
+  OverseasName}
 import uk.gov.gds.ier.model.LastRegisteredType._
 import play.api.test.FakeApplication
 import scala.Some
@@ -59,7 +63,7 @@ class DateLeftUkStepTests
           .withIerSession()
           .withApplication(completeOverseasApplication.copy(
             dob = Some(DOB(1997,10,10)),
-            overseasParentName = Some(OverseasParentName(name = None, previousName = None))))
+            overseasParentName = Some(OverseasName(name = None, previousName = None))))
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
           "dateLeftUk.year" -> "2010"

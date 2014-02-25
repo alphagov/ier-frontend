@@ -8,7 +8,7 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 
 trait ParentNameMustache extends StepMustache {
 
-  val pageTitle = "Register to Vote - Parent or guardian's registration details"
+  val pageTitle = "Parent or guardian's registration details"
 
   case class ParentNameModel(
     question: Question,

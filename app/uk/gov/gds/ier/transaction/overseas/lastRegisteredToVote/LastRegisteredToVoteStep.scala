@@ -13,6 +13,7 @@ import controllers.step.overseas.routes.LastRegisteredToVoteController
 import controllers.step.overseas.routes.PreviouslyRegisteredController
 import controllers.step.overseas.DateLeftUkController
 import controllers.step.overseas.{DateLeftArmyController, DateLeftCrownController, DateLeftCouncilController}
+import uk.gov.gds.ier.model.DateLeft
 
 class LastRegisteredToVoteStep @Inject() (
     val serialiser: JsonSerialiser,
@@ -42,6 +43,10 @@ class LastRegisteredToVoteStep @Inject() (
       case Some(LastRegisteredType.NotRegistered) => DateLeftUkController.dateLeftUkStep
       case _ => this
     }
+  }
+  
+  override def postSuccess(currentState: InprogressOverseas):InprogressOverseas = {
+    currentState.copy (dateLeftUk = None, dateLeftSpecial = None)
   }
 
   def template(

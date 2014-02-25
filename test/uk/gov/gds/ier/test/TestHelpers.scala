@@ -12,13 +12,20 @@ import uk.gov.gds.ier.config.Config
 import play.api.data.FormError
 import uk.gov.gds.ier.model.LastRegisteredType
 
-trait TestHelpers {
+trait TestHelpers extends CustomMatchers {
 
   val jsonSerialiser = new JsonSerialiser
 
   lazy val textTooLong = "x" * 1000
 
   implicit class EasyGetErrorMessageError(form: ErrorTransformForm[_]) {
+    def keyedErrorsAsMap = {
+      form.errors.filterNot( error =>
+        error.key == ""
+      ).map( error =>
+        error.key -> this.errorMessages(error.key)
+      ).toMap
+    }
     def errorMessages(key:String) = form.errors(key).map(_.message)
     def globalErrorMessages = form.globalErrors.map(_.message)
     def prettyPrint = form.errors.map(error => s"${error.key} -> ${error.message}")
@@ -73,9 +80,9 @@ trait TestHelpers {
       PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)
     ),
     dateLeftUk = Some(DateLeft(2000,10)),
-    overseasParentName = Some(OverseasParentName(
-        Some(ParentName("john", None, "Smith")),
-        Some(ParentPreviousName(true, Some(ParentName("Tom", None, "Smith"))))
+    overseasParentName = Some(OverseasName(
+        Some(Name("john", None, "Smith")),
+        Some(PreviousName(true, Some(Name("Tom", None, "Smith"))))
     )),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
     address = Some(OverseasAddress(

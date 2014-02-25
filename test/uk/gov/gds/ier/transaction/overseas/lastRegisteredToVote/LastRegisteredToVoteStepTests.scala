@@ -134,7 +134,7 @@ class LastRegisteredToVoteStepTests
     }
   }
 
-  it should "redirect to confirmation with a complete application" in {
+  it should "redirect to date left uk if the restered type is changed to ordinary" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/last-registered-to-vote")
@@ -146,7 +146,7 @@ class LastRegisteredToVoteStepTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/overseas/confirmation"))
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/date-left-uk"))
     }
   }
 
