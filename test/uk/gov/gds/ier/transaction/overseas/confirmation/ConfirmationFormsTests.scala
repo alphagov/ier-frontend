@@ -157,17 +157,20 @@ class ConfirmationFormTests
     confirmationForm.fillAndValidate(specialVoter).fold(
       hasErrors => {
         val errorMessage = Seq("Please complete this step")
-        hasErrors.errorMessages("overseasName.name") should be(errorMessage)
-        hasErrors.errorMessages("overseasName.previousName") should be(errorMessage)
-        hasErrors.errorMessages("dob") should be(errorMessage)
-        hasErrors.errorMessages("dateLeftUk") should be(errorMessage)
-        hasErrors.errorMessages("NINO") should be(errorMessage)
-        hasErrors.errorMessages("overseasAddress") should be(errorMessage)
-        hasErrors.errorMessages("lastUkAddress") should be(errorMessage)
-        hasErrors.errorMessages("openRegister") should be(errorMessage)
-        hasErrors.errorMessages("waysToVote") should be(errorMessage)
-        hasErrors.errorMessages("postalOrProxyVote") should be(errorMessage)
-        hasErrors.errorMessages("contact") should be(errorMessage)
+
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "overseasName.name" -> errorMessage,
+          "overseasName.previousName" -> errorMessage,
+          "dob" -> errorMessage,
+          "dateLeftUk" -> errorMessage,
+          "NINO" -> errorMessage,
+          "overseasAddress" -> errorMessage,
+          "lastUkAddress" -> errorMessage,
+          "openRegister" -> errorMessage,
+          "waysToVote" -> errorMessage,
+          "postalOrProxyVote" -> errorMessage,
+          "contact" -> errorMessage
+        ))
         hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(1)
         hasErrors.errors.size should be(12)
       },
