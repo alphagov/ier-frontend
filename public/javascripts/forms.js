@@ -15,7 +15,29 @@
       Autocomplete,
       autocompletes,
       PostcodeLookup,
-      monitorRadios;
+      monitorRadios,
+      BackButton;
+
+  BackButton = function (elm) {
+    if (elm) {
+      this.$header = $(elm);
+      this.setup();
+      this.bindEvents();
+    }
+  };
+  BackButton.prototype.setup = function () {
+    var linkFragment = '<a class="back-to-previous" href="#">' +
+      'Back <span class="visuallyhidden"> to the previous question</span></a>'
+    this.$header.before(linkFragment);
+    this.$header.removeClass('no-back-link');
+    this.$link = $('a.back-to-previous');
+  };
+  BackButton.prototype.bindEvents = function () {
+    this.$link.on("click", function(e) {
+      e.preventDefault();
+      root.history.back();
+    });
+  };
 
   // Base contructor for content associated with a 'toggle' element that controls its visiblity
   ToggleObj = function (elm) {
@@ -745,4 +767,5 @@
   GOVUK.registerToVote.autocompletes = autocompletes;
   GOVUK.registerToVote.monitorRadios = monitorRadios;
   GOVUK.registerToVote.PostcodeLookup = PostcodeLookup;
+  GOVUK.registerToVote.BackButton = BackButton;
 }.call(this));

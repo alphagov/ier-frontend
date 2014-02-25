@@ -193,7 +193,8 @@ main header {
     }
   }
 
-  &.question-one p {
+  &.question-one p,
+  &.no-back-link p {
     padding-left: 0;
   }
 

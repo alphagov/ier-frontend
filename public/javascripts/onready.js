@@ -5,6 +5,9 @@
       $ = root.jQuery,
       GOVUK = root.GOVUK;
 
+  $('header.no-back-link').each(function (idx, elm) {
+    new GOVUK.registerToVote.BackButton(elm);
+  });
   $('.help-content').each(function (idx, elm) {
     new GOVUK.registerToVote.OptionalInformation(elm);
   });
