@@ -139,18 +139,21 @@ trait ConfirmationMustache {
     }
     
     def dateLeft = {
+      val wasRegisteredOverseas = Some("true")
+      val prevOverseas = form(keys.previouslyRegistered.hasPreviouslyRegistered).value
       val prevRegType = Try {
         form(keys.lastRegisteredToVote.registeredType).value.map { regType =>
           LastRegisteredType.parse(regType)
         }
       }.getOrElse(None)
 
-      prevRegType match {
-        case Some(LastRegisteredType.Ordinary) => dateLeftUk
-        case Some(LastRegisteredType.Forces) => dateLeftArmy
-        case Some(LastRegisteredType.Crown) => dateLeftCrown
-        case Some(LastRegisteredType.Council) => dateLeftCouncil
-        case Some(LastRegisteredType.NotRegistered) => dateLeftUk
+      (prevRegType, prevOverseas) match {
+        case (_, `wasRegisteredOverseas`) => dateLeftUk
+        case (Some(LastRegisteredType.Ordinary), _) => dateLeftUk
+        case (Some(LastRegisteredType.Forces), _) => dateLeftArmy
+        case (Some(LastRegisteredType.Crown), _) => dateLeftCrown
+        case (Some(LastRegisteredType.Council), _) => dateLeftCouncil
+        case (Some(LastRegisteredType.NotRegistered), _) => dateLeftUk
         case _ => None
       }
     }
