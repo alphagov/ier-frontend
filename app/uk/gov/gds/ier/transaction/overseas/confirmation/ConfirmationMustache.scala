@@ -41,21 +41,21 @@ trait ConfirmationMustache {
 
       val data = ConfirmationModel(
         questions = List(
-          confirmation.dateOfBirth,
           confirmation.previouslyRegistered,
+          confirmation.dateLeft,
           confirmation.lastUkAddress,
-          confirmation.parentName,
-          confirmation.parentPreviousName,
+          confirmation.passport,
+          confirmation.name,
+          confirmation.previousName,
+          confirmation.dateOfBirth,
           confirmation.nino,
           confirmation.address,
           confirmation.openRegister,
-          confirmation.name,
-          confirmation.previousName,
-          confirmation.contact,
           confirmation.waysToVote,
-          confirmation.postalVote,
+          confirmation.postalOrProxyVote,
           confirmation.contact,
-          confirmation.passport
+          confirmation.parentName,
+          confirmation.parentPreviousName
         ).flatten,
         backUrl = backUrl,
         postUrl = postUrl
@@ -382,7 +382,7 @@ trait ConfirmationMustache {
       )
     }
 
-    def postalVote = {
+    def postalOrProxyVote = {
       val way = form(keys.postalOrProxyVote.voteType).value.map{ way => WaysToVoteType.parse(way) }
       val prettyWayName = way match {
         case Some(WaysToVoteType.ByPost) => "postal vote"

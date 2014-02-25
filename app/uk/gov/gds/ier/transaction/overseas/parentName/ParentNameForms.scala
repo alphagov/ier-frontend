@@ -33,7 +33,6 @@ trait ParentNameForms extends ParentNameConstraints {
     keys.parentName.key -> optional(parentNameMapping).verifying(parentNameNotOptional),
     keys.parentPreviousName.key -> required(optional(parentPrevNameMapping).verifying(parentPreviousNameNotOptionalIfHasPreviousIsTrue), "Please answer this question")   
   )   (OverseasParentName.apply)(OverseasParentName.unapply) 
-//  ((name, previousName) => InprogressOverseas(overseasParentName = Some(OverseasParentName(name, previousName)))) (inprogress => inprogress.overseasParentName map (pName => (pName.name, pName.previousName)))
 
   
   val parentNameForm = ErrorTransformForm(
@@ -41,24 +40,4 @@ trait ParentNameForms extends ParentNameConstraints {
       (overseasParentName => InprogressOverseas(overseasParentName = Some(overseasParentName)))
       (inprogress => inprogress.overseasParentName)
       )
-//      overseasParentNameMapping(
-//      overseasParentName => InprogressOverseas(overseasParentName = Some(overseasParentName)), 
-//      inprogress => inprogress.overseasParentName
-//    )
-//    overseasParentNameMapping.transform[InprogressOverseas](
-//      overseasParentName => InprogressOverseas(overseasParentName = Some(overseasParentName)), 
-//      inprogress => inprogress.overseasParentName.get)
-//    )
-//  val parentNameForm = ErrorTransformForm(
-//      mapping(
-//    keys.parentName.key -> optional(parentNameMapping).verifying(parentNameNotOptional),
-//    keys.parentPreviousName.key -> required(optional(parentPrevNameMapping).verifying(parentPreviousNameNotOptionalIfHasPreviousIsTrue), "Please answer this question")   
-//  ) 
-//  (  
-//    (name, previousName) => InprogressOverseas(parentName = name, parentPreviousName = previousName)
-//  ) 
-//  (
-//    inprogress => Some(inprogress.parentName, inprogress.parentPreviousName)
-//  ) verifying (parentPrevNameOptionCheck)
-//  )
 }

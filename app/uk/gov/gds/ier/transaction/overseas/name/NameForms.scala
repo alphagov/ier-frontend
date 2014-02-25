@@ -37,11 +37,7 @@ trait NameForms extends OverseasNameConstraints {
   lazy val overseasNameMapping = mapping(
       keys.name.key -> optional(nameMapping).verifying(nameNotOptional),
       keys.previousName.key -> required(optional(previousNameMapping), "Please answer this question")
-//      keys.previousName.key -> optional(previousNameMapping)
     )(OverseasName.apply)(OverseasName.unapply)
-//    ((name: Option[Name], previousName: Option[PreviousName])) 
-    
-//    ((name, previousName) => InprogressOverseas(overseasName = Some(OverseasName(name, previousName))))
 
     
   val nameForm = ErrorTransformForm(
@@ -49,10 +45,4 @@ trait NameForms extends OverseasNameConstraints {
       (overseasName => InprogressOverseas(overseasName = Some(overseasName)))
       (inprogress => inprogress.overseasName)
   )  
-//    (
-//      (name, previousName) => InprogressOverseas(name = name, previousName = previousName)
-//    ) (
-//      inprogress => Some(inprogress.name, inprogress.previousName)
-//    )
-  
 }
