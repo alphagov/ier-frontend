@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.ordinary.address
 
 import controllers.step.ordinary.routes.{
   AddressController,
-  AddressSelectController,
+  AddressManualController,
   NinoController}
 import controllers.step.ordinary.OtherAddressController
 import com.google.inject.Inject
@@ -19,24 +19,24 @@ import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{OrdinaryStep, Routes}
 import uk.gov.gds.ier.validation.InProgressForm
 
-class AddressStep @Inject() (
+class AddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
-    val encryptionKeys: EncryptionKeys,
-    val addressService: AddressService)
+    val encryptionKeys: EncryptionKeys)
   extends OrdinaryStep
   with AddressMustache
   with AddressForms {
 
-  val validation = addressForm
+  val validation = manualAddressForm
+
   val previousRoute = Some(NinoController.get)
 
   val routes = Routes(
-    get = AddressController.get,
-    post = AddressController.lookup,
-    editGet = AddressController.editGet,
-    editPost = AddressController.lookup
+    get = AddressManualController.get,
+    post = AddressManualController.post,
+    editGet = AddressManualController.editGet,
+    editPost = AddressManualController.editPost
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
@@ -47,24 +47,11 @@ class AddressStep @Inject() (
       form: InProgressForm[InprogressOrdinary],
       call: Call,
       backUrl: Option[Call]) = {
-    AddressMustache.lookupPage(
+    AddressMustache.manualPage(
       form,
       backUrl.map(_.url).getOrElse(""),
-      call.url
-    )
-  }
-
-  def lookup = ValidSession requiredFor { implicit request => application =>
-    lookupAddressForm.bindFromRequest().fold(
-      hasErrors => {
-        Ok(template(InProgressForm(hasErrors), routes.post, previousRoute))
-      },
-      success => {
-        val mergedApplication = success.merge(application)
-        Redirect(
-          AddressSelectController.get
-        ) storeInSession mergedApplication
-      }
+      call.url,
+      AddressController.get.url
     )
   }
 }
