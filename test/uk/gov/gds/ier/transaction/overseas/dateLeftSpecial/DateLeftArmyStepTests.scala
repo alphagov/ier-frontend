@@ -27,9 +27,6 @@ class DateLeftArmyStepTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 6")
-      contentAsString(result) should include(
-        "<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/last-registered-to-vote"
-      )
       contentAsString(result) should include("When did you cease to be a member of the armed forces?")
       contentAsString(result) should include("/register-to-vote/overseas/date-left-army")
     }
@@ -94,9 +91,6 @@ class DateLeftArmyStepTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("When did you cease to be a member of the armed forces?")
-      contentAsString(result) should include(
-        "<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/confirmation"
-      )
       contentAsString(result) should include("/register-to-vote/overseas/edit/date-left-army")
     }
   }
