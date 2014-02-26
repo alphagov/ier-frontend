@@ -13,19 +13,20 @@ class OverseasApplicationTests
 
   it should "generate expected new voter payload" in {
     val application = OverseasApplication(
-      name = Some(Name(
-        firstName = "John",
-        middleNames = Some("James"),
-        lastName = "Smith"
-      )),
-      previousName = Some(PreviousName(
-        hasPreviousName = true,
-        previousName = Some(Name(
-          firstName = "James",
-          middleNames = Some("John"),
-          lastName = "Smith"
-        ))
-      )),
+      overseasName = Some(OverseasName(
+          Some(Name(
+            firstName = "John",
+            middleNames = Some("James"),
+            lastName = "Smith"
+          )),
+          Some(PreviousName(
+            hasPreviousName = true,
+            previousName = Some(Name(
+              firstName = "James",
+              middleNames = Some("John"),
+              lastName = "Smith"
+          ))))
+      )), 
       previouslyRegistered = Some(PreviouslyRegistered(
         hasPreviouslyRegistered = false
       )),
@@ -171,19 +172,20 @@ class OverseasApplicationTests
 
   it should "generate expected renewer payload" in {
     val application = OverseasApplication(
-      name = Some(Name(
-        firstName = "John",
-        middleNames = Some("James"),
-        lastName = "Smith"
-      )),
-      previousName = Some(PreviousName(
-        hasPreviousName = true,
-        previousName = Some(Name(
-          firstName = "James",
-          middleNames = Some("John"),
-          lastName = "Smith"
-        ))
-      )),
+      overseasName = Some(OverseasName(
+          Some(Name(
+            firstName = "John",
+            middleNames = Some("James"),
+            lastName = "Smith"
+          )),
+          Some(PreviousName(
+            hasPreviousName = true,
+            previousName = Some(Name(
+              firstName = "James",
+              middleNames = Some("John"),
+              lastName = "Smith"
+          ))))
+      )), 
       previouslyRegistered = Some(PreviouslyRegistered(
         hasPreviouslyRegistered = true
       )),

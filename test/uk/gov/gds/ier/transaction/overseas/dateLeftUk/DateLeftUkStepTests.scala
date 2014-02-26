@@ -5,7 +5,12 @@ import org.scalatest.mock.MockitoSugar
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.{LastRegisteredToVote, LastRegisteredType, DOB, DateOfBirth}
+import uk.gov.gds.ier.model.{
+  LastRegisteredToVote,
+  LastRegisteredType,
+  DOB,
+  DateOfBirth,
+  OverseasName}
 import uk.gov.gds.ier.model.LastRegisteredType._
 import play.api.test.FakeApplication
 import scala.Some
@@ -48,6 +53,25 @@ class DateLeftUkStepTests
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/register-to-vote/overseas/last-uk-address"))
+    }
+  }
+  
+    it should "bind successfully and redirect to the ParentName step if the application's age is less than 18 and has left uk less than 15 years" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/overseas/date-left-uk")
+          .withIerSession()
+          .withApplication(completeOverseasApplication.copy(
+            dob = Some(DOB(1997,10,10)),
+            overseasParentName = Some(OverseasName(name = None, previousName = None))))
+          .withFormUrlEncodedBody(
+          "dateLeftUk.month" -> "10",
+          "dateLeftUk.year" -> "2010"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/parent-name"))
     }
   }
 

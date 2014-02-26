@@ -22,6 +22,7 @@ GET         /register-to-vote/exit/too-young                             control
 GET         /register-to-vote/exit/no-franchise                          controllers.ExitController.noFranchise
 GET         /register-to-vote/exit/overseas/left-uk-over-15-years        controllers.ExitController.leftUkOver15Years
 GET         /register-to-vote/exit/overseas/too-old-when-left-uk         controllers.ExitController.tooOldWhenLeftUk
+GET         /register-to-vote/exit/overseas/left-service-over-15-years        controllers.ExitController.leftSpecialOver15Years
 
 
 #Error Routes
@@ -151,6 +152,12 @@ GET         /register-to-vote/overseas/date-left-uk                      control
 POST        /register-to-vote/overseas/date-left-uk                      controllers.step.overseas.DateLeftUkController.post
 GET         /register-to-vote/overseas/edit/date-left-uk                 controllers.step.overseas.DateLeftUkController.editGet
 POST        /register-to-vote/overseas/edit/date-left-uk                 controllers.step.overseas.DateLeftUkController.editPost
+
+#Parent Name
+GET         /register-to-vote/overseas/parent-name                      controllers.step.overseas.ParentNameController.get
+POST        /register-to-vote/overseas/parent-name                      controllers.step.overseas.ParentNameController.post
+GET         /register-to-vote/overseas/edit/parent-name                 controllers.step.overseas.ParentNameController.editGet
+POST        /register-to-vote/overseas/edit/parent-name                 controllers.step.overseas.ParentNameController.editPost
 
 #Last Uk Address
 GET         /register-to-vote/overseas/last-uk-address                   controllers.step.overseas.LastUkAddressController.get
