@@ -245,7 +245,7 @@ class PassportCheckControllerTests
   it should "bind successfully and redirect to the confirmation step with complete Application" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/edit/open-register")
+        FakeRequest(POST, "/register-to-vote/overseas/edit/passport")
           .withIerSession()
           .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
@@ -256,17 +256,6 @@ class PassportCheckControllerTests
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/register-to-vote/overseas/confirmation"))
-    }
-  }
-
-  it should "not display any errors because we are evil dark patterny" in {
-    running(FakeApplication()) {
-      val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/edit/open-register").withIerSession()
-      )
-
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/overseas/ways-to-vote"))
     }
   }
 }
