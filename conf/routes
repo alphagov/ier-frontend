@@ -96,10 +96,31 @@ GET         /register-to-vote/edit/address                               control
 POST        /register-to-vote/edit/address                               controllers.step.ordinary.AddressController.editPost
 
 #Previous Address Step
-GET         /register-to-vote/previous-address                           controllers.step.ordinary.PreviousAddressController.get
-POST        /register-to-vote/previous-address                           controllers.step.ordinary.PreviousAddressController.post
-GET         /register-to-vote/edit/previous-address                      controllers.step.ordinary.PreviousAddressController.editGet
-POST        /register-to-vote/edit/previous-address                      controllers.step.ordinary.PreviousAddressController.editPost
+GET         /register-to-vote/previous-address                           controllers.step.ordinary.PreviousAddressFirstController.get
+POST        /register-to-vote/previous-address                           controllers.step.ordinary.PreviousAddressFirstController.post
+GET         /register-to-vote/edit/previous-address                      controllers.step.ordinary.PreviousAddressFirstController.editGet
+POST        /register-to-vote/edit/previous-address                      controllers.step.ordinary.PreviousAddressFirstController.editPost
+
+#Previous Address Step - postcode entry (if there is a previous address)
+GET         /register-to-vote/previous-address/postcode                  controllers.step.ordinary.PreviousAddressPostcodeController.get
+POST        /register-to-vote/previous-address/postcode                  controllers.step.ordinary.PreviousAddressPostcodeController.post
+GET         /register-to-vote/edit/previous-address/postcode             controllers.step.ordinary.PreviousAddressPostcodeController.editGet
+POST        /register-to-vote/edit/previous-address/postcode             controllers.step.ordinary.PreviousAddressPostcodeController.editPost
+
+#Previous Address Step - postcode lookup
+POST        /register-to-vote/previous-address/lookup                    controllers.step.ordinary.PreviousAddressPostcodeController.lookup
+
+#Previous Address Step - selection from postcode
+GET         /register-to-vote/previous-address/select                    controllers.step.ordinary.PreviousAddressSelectController.get
+POST        /register-to-vote/previous-address/select                    controllers.step.ordinary.PreviousAddressSelectController.post
+GET         /register-to-vote/edit/previous-address/select               controllers.step.ordinary.PreviousAddressSelectController.editGet
+POST        /register-to-vote/edit/previous-address/select               controllers.step.ordinary.PreviousAddressSelectController.editPost
+
+#Previous Address Step - manual address
+GET         /register-to-vote/previous-address/manual                    controllers.step.ordinary.PreviousAddressManualController.get
+POST        /register-to-vote/previous-address/manual                    controllers.step.ordinary.PreviousAddressManualController.post
+GET         /register-to-vote/edit/previous-address/manual               controllers.step.ordinary.PreviousAddressManualController.editGet
+POST        /register-to-vote/edit/previous-address/manual               controllers.step.ordinary.PreviousAddressManualController.editPost
 
 #Name Step
 GET         /register-to-vote/name                                       controllers.step.ordinary.NameController.get
