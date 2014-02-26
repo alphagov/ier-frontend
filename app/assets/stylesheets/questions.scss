@@ -193,7 +193,8 @@ main header {
     }
   }
 
-  &.question-one p {
+  &.question-one p,
+  &.no-back-link p {
     padding-left: 0;
   }
 
@@ -250,6 +251,16 @@ fieldset {
   }
 }
 
+/* Display of help/optional sections */
+.js-enabled .optional-section,
+.js-enabled .help-content {
+  display: none;
+}
+
+.js-enabled .optional-section-open,
+.js-enabled .help-content-open {
+  display: block;
+}
 /* help content for the whole page */
 .page-help-content:last-child {
   margin-bottom: 2em;

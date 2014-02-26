@@ -22,7 +22,8 @@ trait NationalityMustache extends StepMustache {
       otherCountriesHead: Field,
       otherCountriesTail: List[CountryItem] = List.empty,
       moreThanOneOtherCountry: Boolean,
-      noNationalityReason: Field
+      noNationalityReason: Field,
+      noNationalityReasonShowFlag: Text
   )
 
   def transformFormStepToMustacheData(
@@ -71,6 +72,9 @@ trait NationalityMustache extends StepMustache {
       moreThanOneOtherCountry = otherCountriesList.size > 1,
       noNationalityReason= TextField(
         key = keys.nationality.noNationalityReason
+      ),
+      noNationalityReasonShowFlag = Text (
+        value = progressForm(keys.nationality.noNationalityReason.key).value.map(noNationalityReason => "-open").getOrElse("")
       )
     )
   }

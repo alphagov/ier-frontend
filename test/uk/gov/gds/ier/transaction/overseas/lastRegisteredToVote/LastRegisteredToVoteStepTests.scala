@@ -22,9 +22,6 @@ class LastRegisteredToVoteStepTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include(
-          "<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/previously-registered"
-      )
       contentAsString(result) should include("How were you last registered to vote?")
       contentAsString(result) should include("/register-to-vote/overseas/last-registered-to-vote")
     }
@@ -134,7 +131,7 @@ class LastRegisteredToVoteStepTests
     }
   }
 
-  it should "redirect to confirmation with a complete application" in {
+  it should "redirect to date left uk if the restered type is changed to ordinary" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/last-registered-to-vote")
@@ -146,7 +143,7 @@ class LastRegisteredToVoteStepTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/overseas/confirmation"))
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/date-left-uk"))
     }
   }
 
@@ -157,8 +154,8 @@ class LastRegisteredToVoteStepTests
           .withIerSession()
           .withApplication(
             completeOverseasApplication.copy(
-              dateLeftSpecial = Some(DateLeftSpecial(
-                  DateLeft(1990, 12), LastRegisteredType.Ordinary))
+              dateLeftUk = Some(DateLeft(2010, 12)),
+              dateLeftSpecial = None
             )
           )
           .withFormUrlEncodedBody(
@@ -178,8 +175,8 @@ class LastRegisteredToVoteStepTests
           .withIerSession()
           .withApplication(
             completeOverseasApplication.copy(
-              dateLeftSpecial = Some(DateLeftSpecial(
-                  DateLeft(1990, 12), LastRegisteredType.Ordinary))
+              dateLeftUk = Some(DateLeft(2010, 12)),
+              dateLeftSpecial = None
             )
           )
           .withFormUrlEncodedBody(
@@ -199,8 +196,8 @@ class LastRegisteredToVoteStepTests
           .withIerSession()
           .withApplication(
             completeOverseasApplication.copy(
-              dateLeftSpecial = Some(DateLeftSpecial(
-                  DateLeft(1990, 12), LastRegisteredType.Ordinary))
+              dateLeftUk = Some(DateLeft(2010, 12)),
+              dateLeftSpecial = None
             )
           )
           .withFormUrlEncodedBody(
@@ -213,16 +210,14 @@ class LastRegisteredToVoteStepTests
     }
   }
 
-  it should "redirect to date left special with different answer (army -> uk)" in {
+  it should "redirect to date left uk with different answer (army -> uk)" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/last-registered-to-vote")
           .withIerSession()
           .withApplication(
             completeOverseasApplication.copy(
-              dateLeftSpecial = Some(DateLeftSpecial(
-                  DateLeft(1990, 12),
-                  LastRegisteredType.Forces)),
+              dateLeftSpecial = Some(DateLeftSpecial(DateLeft(2010, 12))),
               dateLeftUk = None
             )
           )
@@ -246,9 +241,6 @@ class LastRegisteredToVoteStepTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include(
-        "<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/confirmation"
-      )
       contentAsString(result) should include("How were you last registered to vote?")
       contentAsString(result) should include(
         "/register-to-vote/overseas/edit/last-registered-to-vote"

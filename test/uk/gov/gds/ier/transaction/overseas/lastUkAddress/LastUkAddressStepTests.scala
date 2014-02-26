@@ -109,9 +109,6 @@ behavior of "LastUkAddressStep.editGet"
         "What was the UK address where you were last registered to vote?"
       )
       contentAsString(result) should include("Question 5 or 6")
-      contentAsString(result) should include(
-        "<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/confirmation"
-      )
       contentAsString(result) should include("/register-to-vote/overseas/last-uk-address/lookup")
     }
   }

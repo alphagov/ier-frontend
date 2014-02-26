@@ -15,6 +15,7 @@ trait NameConstraints extends CommonConstraints {
       if (name.isDefined) Valid
       else Invalid("Please enter your full name", keys.name.firstName, keys.name.lastName)
   }
+  
   lazy val firstNameNotTooLong = fieldNotTooLong[Name](keys.name.firstName,
     firstNameMaxLengthError) {
     name => name.firstName
