@@ -107,9 +107,6 @@ behavior of "ParentsAddressStep.editGet"
         "What was your parent or guardian&#39;s last UK address?"
       )
       contentAsString(result) should include("Question 7")
-      contentAsString(result) should include(
-        "<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/confirmation"
-      )
       contentAsString(result) should include("/register-to-vote/overseas/parents-address/lookup")
     }
   }
