@@ -23,8 +23,6 @@ class OverseasProxyVoteStepTests
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 11")
       contentAsString(result) should include(
-        "<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/ways-to-vote")
-      contentAsString(result) should include(
         "Do you want us to send you a proxy vote application form?")
       contentAsString(result) should include("/register-to-vote/overseas/proxy-vote")
     }
@@ -73,8 +71,6 @@ class OverseasProxyVoteStepTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 11")
-      contentAsString(result) should include(
-        "<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/confirmation")
       contentAsString(result) should include(
         "Do you want us to send you a proxy vote application form?")
       contentAsString(result) should include("/register-to-vote/overseas/edit/proxy-vote")
