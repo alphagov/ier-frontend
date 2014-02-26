@@ -18,7 +18,7 @@ class ContactTemplateTest
         question = Question(postUrl = "/whatever-url",
         backUrl = "",
         number = "1",
-        title = "nationality title"
+        title = "contact title"
         ),
         contactFieldSet = FieldSet(
           classes = ""
