@@ -22,7 +22,8 @@ class PostalVoteStep @Inject ()(val serialiser: JsonSerialiser,
                                       val encryptionService : EncryptionService,
                                       val encryptionKeys : EncryptionKeys)
   extends OrdinaryStep
-  with PostalVoteForms {
+  with PostalVoteForms 
+  with PostalVoteMustache {
 
   val validation = postalVoteForm
   val previousRoute = Some(OpenRegisterController.get)
@@ -50,7 +51,8 @@ class PostalVoteStep @Inject ()(val serialiser: JsonSerialiser,
       case Some(application) => form.copy(form = form.form.fill(prepopulateEmailAddress (application)))
       case None => form
     }
-    views.html.steps.postalVote(newForm, call, backUrl.map(_.url))
+    postalVoteMustache(newForm.form, call, backUrl.map(_.url))
+//    views.html.steps.postalVote(newForm, call, backUrl.map(_.url))
   }
 
   def nextStep(currentState: InprogressOrdinary) = {

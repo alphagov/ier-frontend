@@ -1,0 +1,74 @@
+<form action="{{question.postUrl" method="POST">
+    
+   {{> shared/questionHeader }}
+
+   {{> shared/validationMessages }}
+
+    <p>Most people vote in person at a polling station. But if you prefer to vote by post, we can send you an application form.</p>
+    <fieldset class="validate" data-validation-name="postalVote" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="postalNo postalYes">
+      
+
+<label for="postalVote_optIn_false" class="selectable">
+    
+    <input type="radio" id="postalVote_optIn_false" name="postalVote.optIn" value="false" class="radio  validate" data-validation-name="postalNo" data-validation-type="field" data-validation-rules="nonEmpty">
+
+        No, I prefer to vote in person
+</label>
+
+<label for="postalVote_optIn_true" class="selectable">
+
+    <input type="radio" id="postalVote_optIn_true" name="postalVote.optIn" value="true" class="radio  validate" data-validation-name="postalYes" data-validation-type="field" data-validation-rules="nonEmpty">
+
+        Yes, send me a postal vote application form
+      
+</label>
+
+    </fieldset>
+    <fieldset class="optional-section optional-section-core-content sub-section validate" data-condition="postalVote_optIn_true" data-validation-name="deliveryMethod" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="deliveryMethodEmail deliveryMethodPost" aria-hidden="true" aria-expanded="false" style="display: none;">
+      <p>How should we send you the form?</p>
+
+<label for="postalVote_deliveryMethod_methodName_email" class="selectable" style="margin-bottom: 16px;">
+
+    <input type="radio" id="postalVote_deliveryMethod_methodName_email" name="postalVote.deliveryMethod.methodName" value="email" class="radio  validate" data-validation-name="deliveryMethodEmail" data-validation-type="field" data-validation-rules="nonEmpty">
+
+        Email it to me
+      
+</label>
+
+
+      <div class="optional-section" data-condition="postalVote_deliveryMethod_methodName_email" aria-hidden="true" aria-expanded="false" style="display: none;">
+        <label>Email address</label>
+        <div class="validation-wrapper">
+          
+
+
+<input type="email" id="postalVote_deliveryMethod_emailAddress" name="postalVote.deliveryMethod.emailAddress" value="" autocomplete="off" class="text  text long validate" data-validation-name="emailAddress" data-validation-type="field" data-validation-rules="nonEmpty">
+
+
+        </div>
+      </div>
+      
+
+<label for="postalVote_deliveryMethod_methodName_post" class="selectable">
+    
+        
+
+
+    <input type="radio" id="postalVote_deliveryMethod_methodName_post" name="postalVote.deliveryMethod.methodName" value="post" class="radio  validate" data-validation-name="deliveryMethodPost" data-validation-type="field" data-validation-rules="nonEmpty">
+
+
+        Post it to me
+      
+</label>
+
+
+      </fieldset>
+      <a href="#" class="toggle toggle-closed"><span class="visuallyhidden">Expand</span> What is a postal vote? <span class="visuallyhidden">section</span></a><div class="help-content" aria-hidden="true" aria-expanded="false" style="display: none;">
+        <h2 class="visuallyhidden">What is a postal vote?</h2>
+        <p>With a postal vote, your ballot paper is sent to an address that you choose. You mark your vote and then return your ballot paper in the post.</p>
+        <p>Anyone can apply for a postal vote and you don't need to give a reason.</p>
+        <p>If you are not sure whether you want a postal vote, you can complete your registration now and then apply for a postal vote later.</p>
+      </div>
+      <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postalVote deliveryMethod emailAddress">Continue</button>
+    
+</form>
