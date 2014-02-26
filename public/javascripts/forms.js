@@ -27,7 +27,7 @@
   };
   BackButton.prototype.setup = function () {
     var linkFragment = '<a class="back-to-previous" href="#">' +
-      'Back <span class="visuallyhidden"> to the previous question</span></a>'
+      'Back <span class="visuallyhidden"> to the previous question</span></a>';
     this.$header.before(linkFragment);
     this.$header.removeClass('no-back-link');
     this.$link = $('a.back-to-previous');
@@ -36,6 +36,7 @@
     this.$link.on("click", function(e) {
       e.preventDefault();
       root.history.back();
+      return false;
     });
   };
 
