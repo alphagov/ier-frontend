@@ -31,9 +31,6 @@ class DateLeftUkStepTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 5")
-      contentAsString(result) should include(
-        "<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/previously-registered"
-      )
       contentAsString(result) should include("When did you leave the UK?")
       contentAsString(result) should include("/register-to-vote/overseas/date-left-uk")
     }
@@ -159,9 +156,6 @@ class DateLeftUkStepTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("When did you leave the UK?")
-      contentAsString(result) should include(
-        "<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/confirmation"
-      )
       contentAsString(result) should include("/register-to-vote/overseas/edit/date-left-uk")
     }
   }

@@ -9,11 +9,11 @@ case class InprogressOverseas(
     dateLeftSpecial: Option[DateLeftSpecial] = None,
     dateLeftUk: Option[DateLeft] = None,
     overseasParentName: Option[OverseasName] = None,
-    parentsAddress: Option[Stub] = None,
     lastRegisteredToVote: Option[LastRegisteredToVote] = None,
     dob: Option[DOB] = None,
     nino: Option[Nino] = None,
     lastUkAddress: Option[PartialAddress] = None,
+    parentsAddress: Option[PartialAddress] = None,
     address: Option[OverseasAddress] = None,
     openRegisterOptin: Option[Boolean] = None,
     waysToVote: Option[WaysToVote] = None,
@@ -34,6 +34,7 @@ case class InprogressOverseas(
       dob = this.dob.orElse(other.dob),
       nino = this.nino.orElse(other.nino),
       lastUkAddress = this.lastUkAddress.orElse(other.lastUkAddress),
+      parentsAddress = this.parentsAddress.orElse(other.parentsAddress),
       address = this.address.orElse(other.address),
       openRegisterOptin = this.openRegisterOptin.orElse(other.openRegisterOptin),
       waysToVote = this.waysToVote.orElse(other.waysToVote),
@@ -55,7 +56,8 @@ case class OverseasApplication(
     dob: Option[DOB],
     nino: Option[Nino],
     address: Option[OverseasAddress],
-    lastUkAddress: Option[Address],
+    lastUkAddress: Option[Address] = None,
+    parentsAddress: Option[Address] = None,
     openRegisterOptin: Option[Boolean],
     postalOrProxyVote: Option[PostalOrProxyVote],
     passport: Option[Passport],
@@ -77,6 +79,7 @@ case class OverseasApplication(
       dob.map(_.toApiMap("dob")).getOrElse(Map.empty) ++
       address.map(_.toApiMap).getOrElse(Map.empty) ++
       lastUkAddress.map(_.toApiMap("reg")).getOrElse(Map.empty) ++
+      parentsAddress.map(_.toApiMap("reg")).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
       postalOrProxyVote.map(_.toApiMap).getOrElse(Map.empty) ++
       passport.map(_.toApiMap).getOrElse(Map.empty) ++

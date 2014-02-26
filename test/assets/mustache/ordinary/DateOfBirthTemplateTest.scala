@@ -70,6 +70,9 @@ class DateOfBirthTemplateTest
           name = "rangeUnder18Name",
           classes = "rangeUnder18Class",
           attributes = "foo=\"foo\""
+        ),
+        noDobReasonShowFlag = Text(
+          value = "noDobReasonShowFlag"
         )
       )
 
