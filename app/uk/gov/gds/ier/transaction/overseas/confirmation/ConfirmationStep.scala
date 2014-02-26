@@ -36,7 +36,7 @@ class ConfirmationStep @Inject() (val encryptionKeys: EncryptionKeys,
 
   def template(form:InProgressForm[InprogressOverseas]) = {
     Confirmation.confirmationPage(
-      form,
+      form.form,
       previousRoute.map(_.url).getOrElse("#"),
       routes.post.url
     )

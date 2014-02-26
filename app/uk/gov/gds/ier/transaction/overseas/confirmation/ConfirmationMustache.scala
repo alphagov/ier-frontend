@@ -2,17 +2,18 @@ package uk.gov.gds.ier.transaction.overseas.confirmation
 
 import uk.gov.gds.ier.form.OverseasFormImplicits
 import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.model.{WaysToVoteType, InprogressOverseas, LastRegisteredType}
+import uk.gov.gds.ier.model.{
+  WaysToVoteType,
+  InprogressOverseas,
+  LastRegisteredType,
+  DOB,
+  DateLeft}
 import controllers.step.overseas._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
-import uk.gov.gds.ier.validation.Key
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.{Key, ErrorTransformForm, DateValidator}
 import org.joda.time.{YearMonth, Years, LocalDate}
 import scala.util.Try
 import uk.gov.gds.ier.logging.Logging
-import uk.gov.gds.ier.validation.DateValidator
-import uk.gov.gds.ier.model.DOB
-import uk.gov.gds.ier.model.DateLeft
 import uk.gov.gds.ier.transaction.overseas.dateLeftUk.DateLeftUkStep
 import play.api.Logger
 
@@ -35,7 +36,7 @@ trait ConfirmationMustache {
 
   object Confirmation extends StepMustache {
     def confirmationPage(
-        form: InProgressForm[InprogressOverseas],
+        form: ErrorTransformForm[InprogressOverseas],
         backUrl: String,
         postUrl: String) = {
 
@@ -80,7 +81,7 @@ trait ConfirmationMustache {
     }
   }
 
-  class ConfirmationBlocks(form:InProgressForm[InprogressOverseas])
+  class ConfirmationBlocks(form:ErrorTransformForm[InprogressOverseas])
     extends StepMustache with Logging with OverseasFormImplicits {
 
     val completeThisStepMessage = "<div class=\"validation-message visible\">" +
@@ -96,17 +97,13 @@ trait ConfirmationMustache {
     }
 
     def previouslyRegistered = {
-      val renewer = form(keys.previouslyRegistered.hasPreviouslyRegistered).value == Some("true")
-      val prevRegType = Try {
-        form(keys.lastRegisteredToVote.registeredType).value.map { regType =>
-          LastRegisteredType.parse(regType)
-        }
-      }.getOrElse(None)
+      val renewer = form.previouslyRegisteredOverseas
+      val prevRegType = form.lastRegisteredType
 
       val iWas = "I was last registered as"
 
       val previouslyRegisteredContent = (renewer, prevRegType) match {
-        case (true, _) => s"<p>$iWas an overseas voter</p>"
+        case (Some(true), _) => s"<p>$iWas an overseas voter</p>"
         case (_, Some(LastRegisteredType.Ordinary)) => s"<p>$iWas a UK resident</p>"
         case (_, Some(LastRegisteredType.Forces)) => s"<p>$iWas a member of the armed forces</p>"
         case (_, Some(LastRegisteredType.Crown)) => s"<p>$iWas a Crown servant</p>"

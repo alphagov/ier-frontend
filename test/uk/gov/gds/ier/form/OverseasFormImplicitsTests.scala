@@ -6,73 +6,67 @@ import org.joda.time.DateTime
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.transaction.overseas.confirmation.ConfirmationForms
 
 class OverseasFormImplicitsTests
   extends FlatSpec
   with Matchers
   with FormKeys
   with TestHelpers
-  with OverseasFormImplicits {
+  with OverseasFormImplicits
+  with ConfirmationForms {
 
   val serialiser = jsonSerialiser
 
-  behavior of "OverseasFormImplicits.identifyApplication"
+  behavior of "OverseasFormImplicits.InprogressOverseas.identifyApplication"
   it should "properly identify a young voter" in {
-    //young voter:
-    //Under 18 when left uk
-    //Never registered before
-    //Never registered overseas before
-    val twentyYearsAgo = new DateTime().minusYears(20).getYear
-    val fiveYearsAgo = new DateTime().minusYears(5).getYear
-
-    val youngVoter = InprogressOverseas(
-      dob = Some(DOB(year = twentyYearsAgo, month = 12, day = 1)),
-      dateLeftUk = Some(DateLeft(year = fiveYearsAgo, month = 1))
-    )
-
+    val youngVoter = incompleteYoungApplication
     youngVoter.identifyApplication should be(ApplicationType.YoungVoter)
   }
 
   it should "properly identify a new voter whose been registered in uk" in {
-    //new voter:
-    //Never registered or registered as uk resident
-    //never registered overseas before
-    val newVoter = InprogressOverseas(
-      previouslyRegistered = Some(PreviouslyRegistered(hasPreviouslyRegistered = false)),
-      lastRegisteredToVote = Some(LastRegisteredToVote(
-        lastRegisteredType = LastRegisteredType.Ordinary
-      ))
-    )
-
+    val newVoter = incompleteNewApplication
     newVoter.identifyApplication should be(ApplicationType.NewVoter)
   }
 
   it should "properly identify a renewer voter" in {
-    //renewer voter:
-    //registered as overseas previously
-    val renewerVoter = InprogressOverseas(
-      previouslyRegistered = Some(PreviouslyRegistered(hasPreviouslyRegistered = true))
-    )
-
+    val renewerVoter = incompleteRenewerApplication
     renewerVoter.identifyApplication should be(ApplicationType.RenewerVoter)
   }
 
   it should "properly identify a special voter" in {
-    //special voter:
-    //registered as a forces / crown / council voter previously
-    val specialVoter = InprogressOverseas(
-      previouslyRegistered = Some(PreviouslyRegistered(hasPreviouslyRegistered = false)),
-      lastRegisteredToVote = Some(LastRegisteredToVote(
-        lastRegisteredType = LastRegisteredType.Forces
-      ))
-    )
-
+    val specialVoter = incompleteSpecialApplication
     specialVoter.identifyApplication should be(ApplicationType.SpecialVoter)
   }
 
   it should "properly identify a DontKnow case" in {
     val dunno = InprogressOverseas()
-
     dunno.identifyApplication should be(ApplicationType.DontKnow)
+  }
+
+  behavior of "OverseasFormImplicits.InProgressForm[InprogressOverseas].identifyApplication"
+  it should "properly identify a young voter" in {
+    val youngVoterForm = confirmationForm.fillAndValidate(incompleteYoungApplication)
+    youngVoterForm.identifyApplication should be(ApplicationType.YoungVoter)
+  }
+
+  it should "properly identify a new voter whose been registered in uk" in {
+    val newVoterForm = confirmationForm.fillAndValidate(incompleteNewApplication)
+    newVoterForm.identifyApplication should be(ApplicationType.NewVoter)
+  }
+
+  it should "properly identify a renewer voter" in {
+    val renewerVoterForm = confirmationForm.fillAndValidate(incompleteRenewerApplication)
+    renewerVoterForm.identifyApplication should be(ApplicationType.RenewerVoter)
+  }
+
+  it should "properly identify a special voter" in {
+    val specialVoterForm = confirmationForm.fillAndValidate(incompleteSpecialApplication)
+    specialVoterForm.identifyApplication should be(ApplicationType.SpecialVoter)
+  }
+
+  it should "properly identify a DontKnow case" in {
+    val dunnoForm = confirmationForm.fillAndValidate(InprogressOverseas())
+    dunnoForm.identifyApplication should be(ApplicationType.DontKnow)
   }
 }
