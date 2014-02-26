@@ -12,7 +12,7 @@ import uk.gov.gds.ier.config.Config
 import play.api.data.FormError
 import uk.gov.gds.ier.model.LastRegisteredType
 
-trait TestHelpers extends CustomMatchers {
+trait TestHelpers extends CustomMatchers with OverseasApplications {
 
   val jsonSerialiser = new JsonSerialiser
 
@@ -70,46 +70,7 @@ trait TestHelpers extends CustomMatchers {
     country = Some(Country("England"))
   )
 
-  lazy val completeOverseasApplication = InprogressOverseas(
-    overseasName = Some(OverseasName(
-        Some(Name("John", None, "Smith")),
-        Some(PreviousName(false, None)))),
-    previouslyRegistered = Some(PreviouslyRegistered(true)),
-    dob = Some(DOB(year = 1970, month = 12, day = 12)),
-    lastUkAddress = Some(
-      PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)
-    ),
-    dateLeftUk = Some(DateLeft(2000,10)),
-    overseasParentName = Some(OverseasName(
-        Some(Name("john", None, "Smith")),
-        Some(PreviousName(true, Some(Name("Tom", None, "Smith"))))
-    )),
-    nino = Some(Nino(Some("AB 12 34 56 D"), None)),
-    address = Some(OverseasAddress(
-      country = Some("United Kingdom"),
-      addressLine1 = Some("some address line 1"),
-      addressLine2 = None,
-      addressLine3 = None,
-      addressLine4 = None,
-      addressLine5 = None)),
-    lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.Ordinary)),
-    openRegisterOptin = Some(true),
-    waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
-    postalOrProxyVote = Some(PostalOrProxyVote(
-      WaysToVoteType.ByPost,
-      Some(true),
-      Some(PostalVoteDeliveryMethod(Some("post"),None))
-    )),
-    passport = Some(Passport(
-      true, None, Some(PassportDetails("123456", "UK border office", DOB(2000, 12, 1))), None)),
-    contact = Some(Contact(
-      post = true,
-      phone = None,
-      email = None
-    )),
-    dateLeftSpecial = Some(DateLeftSpecial(DateLeft(1990, 1)))
-  )
-
+  
 
   lazy val completeForcesApplication = InprogressForces(
     statement = Some(Statement(memberForcesFlag = Some(true), None)),

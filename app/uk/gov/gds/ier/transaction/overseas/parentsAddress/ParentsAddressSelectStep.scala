@@ -1,66 +1,52 @@
-package uk.gov.gds.ier.transaction.overseas.lastUkAddress
+package uk.gov.gds.ier.transaction.overseas.parentsAddress
 
-import controllers.step.overseas.routes.{
-  LastUkAddressController,
-  LastUkAddressManualController,
-  LastUkAddressSelectController,
-  DateLeftUkController}
-import controllers.step.overseas.{
-  NameController,
-  PassportCheckController}
+import controllers.step.overseas.routes._
+import controllers.step.overseas.PassportCheckController
 import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{
   InprogressOverseas,
-  PartialAddress,
   Addresses,
-  PossibleAddress,
-  ApplicationType}
+  PossibleAddress}
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.validation.InProgressForm
-import uk.gov.gds.ier.form.OverseasFormImplicits
 
-class LastUkAddressSelectStep @Inject() (
+class ParentsAddressSelectStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
     val encryptionKeys: EncryptionKeys,
     val addressService: AddressService)
   extends OverseaStep
-  with LastUkAddressMustache
-  with LastUkAddressForms
-  with OverseasFormImplicits {
+  with ParentsAddressMustache
+  with ParentsAddressForms {
 
-  val validation = lastUkAddressForm
+  val validation = parentsAddressForm
 
   val previousRoute = Some(DateLeftUkController.get)
 
   val routes = Routes(
-    get = LastUkAddressSelectController.get,
-    post = LastUkAddressSelectController.post,
-    editGet = LastUkAddressSelectController.editGet,
-    editPost = LastUkAddressSelectController.editPost
+    get = ParentsAddressSelectController.get,
+    post = ParentsAddressSelectController.post,
+    editGet = ParentsAddressSelectController.editGet,
+    editPost = ParentsAddressSelectController.editPost
   )
 
   def nextStep(currentState: InprogressOverseas) = {
-    currentState.identifyApplication match {
-      case ApplicationType.RenewerVoter => NameController.nameStep
-      case ApplicationType.DontKnow => this
-      case _ => PassportCheckController.passportCheckStep
-    }
+    PassportCheckController.passportCheckStep
   }
 
   override def postSuccess(currentState: InprogressOverseas) = {
-    val addressWithAddressLine = currentState.lastUkAddress.map {
+    val addressWithAddressLine = currentState.parentsAddress.map {
       addressService.fillAddressLine(_)
     }
 
     currentState.copy(
-      lastUkAddress = addressWithAddressLine,
+      parentsAddress = addressWithAddressLine,
       possibleAddresses = None
     )
   }
@@ -81,20 +67,20 @@ class LastUkAddressSelectStep @Inject() (
     }
 
     val maybeAddresses = storedAddresses.orElse {
-      lookupAddresses(form(keys.lastUkAddress.postcode).value)
+      lookupAddresses(form(keys.parentsAddress.postcode).value)
     }
 
-    LastUkAddressMustache.selectPage(
+    ParentsAddressMustache.selectPage(
       form,
       backUrl.map(_.url).getOrElse(""),
       call.url,
-      LastUkAddressController.get.url,
-      LastUkAddressManualController.get.url,
+      ParentsAddressController.get.url,
+      ParentsAddressManualController.get.url,
       maybeAddresses
     )
   }
 
-  private[lastUkAddress] def lookupAddresses(
+  private[parentsAddress] def lookupAddresses(
       maybePostcode:Option[String]): Option[PossibleAddress] = {
 
     maybePostcode.map { postcode =>

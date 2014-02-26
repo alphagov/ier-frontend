@@ -45,12 +45,7 @@ class ConfirmationFormTests
   behavior of "ConfirmationForms.validateYoungVoter"
 
   it should "error out on missing young voter fields" in {
-    val twentyYearsAgo = new DateTime().minusYears(20).getYear
-    val fiveYearsAgo = new DateTime().minusYears(5).getYear
-    val youngVoter = InprogressOverseas(
-      dob = Some(DOB(year = twentyYearsAgo, month = 12, day = 1)),
-      dateLeftUk = Some(DateLeft(year = fiveYearsAgo, month = 1))
-    )
+    val youngVoter = incompleteYoungApplication
 
     confirmationForm.fillAndValidate(youngVoter).fold(
       hasErrors => {
@@ -81,11 +76,7 @@ class ConfirmationFormTests
   behavior of "ConfirmationForm.validateNewVoter"
 
   it should "error out on missing new voter fields" in {
-    val newVoter = InprogressOverseas(
-      lastRegisteredToVote = Some(LastRegisteredToVote(
-        lastRegisteredType = LastRegisteredType.Ordinary
-      ))
-    )
+    val newVoter = incompleteNewApplication
 
     confirmationForm.fillAndValidate(newVoter).fold(
       hasErrors => {
@@ -115,11 +106,7 @@ class ConfirmationFormTests
   behavior of "ConfirmationForm.validateSpecialVoter"
 
   it should "error out on missing new voter fields" in {
-    val specialVoter = InprogressOverseas(
-      lastRegisteredToVote = Some(LastRegisteredToVote(
-        lastRegisteredType = LastRegisteredType.Forces
-      ))
-    )
+    val specialVoter = incompleteSpecialApplication
 
     confirmationForm.fillAndValidate(specialVoter).fold(
       hasErrors => {
@@ -150,11 +137,9 @@ class ConfirmationFormTests
   behavior of "ConfirmationForm.validateRenewerVoter"
 
   it should "error out on missing new voter fields" in {
-    val specialVoter = InprogressOverseas(
-      previouslyRegistered = Some(PreviouslyRegistered(true))
-    )
+    val renewerVoter = incompleteRenewerApplication
 
-    confirmationForm.fillAndValidate(specialVoter).fold(
+    confirmationForm.fillAndValidate(renewerVoter).fold(
       hasErrors => {
         val errorMessage = Seq("Please complete this step")
 

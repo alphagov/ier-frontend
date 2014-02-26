@@ -180,6 +180,28 @@ POST        /register-to-vote/overseas/last-uk-address/select            control
 GET         /register-to-vote/overseas/edit/last-uk-address/select       controllers.step.overseas.LastUkAddressSelectController.editGet
 POST        /register-to-vote/overseas/edit/last-uk-address/select       controllers.step.overseas.LastUkAddressSelectController.editPost
 
+#Parents Address
+GET         /register-to-vote/overseas/parents-address                   controllers.step.overseas.ParentsAddressController.get
+POST        /register-to-vote/overseas/parents-address                   controllers.step.overseas.ParentsAddressController.post
+GET         /register-to-vote/overseas/edit/parents-address              controllers.step.overseas.ParentsAddressController.editGet
+POST        /register-to-vote/overseas/edit/parents-address              controllers.step.overseas.ParentsAddressController.editPost
+
+#Lookup Parents Address
+POST        /register-to-vote/overseas/parents-address/lookup            controllers.step.overseas.ParentsAddressController.lookup
+
+#Manual Parents Address
+GET         /register-to-vote/overseas/parents-address/manual            controllers.step.overseas.ParentsAddressManualController.get
+POST        /register-to-vote/overseas/parents-address/manual            controllers.step.overseas.ParentsAddressManualController.post
+GET         /register-to-vote/overseas/edit/parents-address/manual       controllers.step.overseas.ParentsAddressManualController.editGet
+POST        /register-to-vote/overseas/edit/parents-address/manual       controllers.step.overseas.ParentsAddressManualController.editPost
+
+#Select Parents Address
+GET         /register-to-vote/overseas/parents-address/select            controllers.step.overseas.ParentsAddressSelectController.get
+POST        /register-to-vote/overseas/parents-address/select            controllers.step.overseas.ParentsAddressSelectController.post
+GET         /register-to-vote/overseas/edit/parents-address/select       controllers.step.overseas.ParentsAddressSelectController.editGet
+POST        /register-to-vote/overseas/edit/parents-address/select       controllers.step.overseas.ParentsAddressSelectController.editPost
+
+
 #Name  (voter full name)
 GET         /register-to-vote/overseas/name                              controllers.step.overseas.NameController.get
 POST        /register-to-vote/overseas/name                              controllers.step.overseas.NameController.post
