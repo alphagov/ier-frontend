@@ -22,7 +22,6 @@ class NinoControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 7")
-      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/name")
       contentAsString(result) should include("What is your National Insurance number?")
       contentAsString(result) should include("/register-to-vote/overseas/nino")
     }
@@ -79,7 +78,6 @@ class NinoControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 7")
-      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/confirmation")
       contentAsString(result) should include("What is your National Insurance number?")
       contentAsString(result) should include("/register-to-vote/overseas/edit/nino")
     }

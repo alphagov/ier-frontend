@@ -22,7 +22,6 @@ class AddressStepTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/nino")
       contentAsString(result) should include("Where do you live?")
       contentAsString(result) should include("/register-to-vote/overseas/address")
     }
@@ -67,7 +66,6 @@ class AddressStepTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Where do you live?")
-      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/confirmation")
       contentAsString(result) should include("/register-to-vote/overseas/edit/address")
     }
   }
