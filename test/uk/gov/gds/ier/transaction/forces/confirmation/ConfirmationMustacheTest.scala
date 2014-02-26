@@ -23,6 +23,55 @@ class ConfirmationMustacheTest
 
   val serialiser = jsonSerialiser
 
+  "In-progress application form without a forces partner (member = true)" should
+    "generate confirmation mustache model without forces partner block" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
+      statement = Some(Statement(
+        memberForcesFlag = Some(true),
+        partnerForcesFlag = None
+      ))
+    ))
+
+    val displayPartnerBlock = Confirmation.displayPartnerBlock(
+      form = InProgressForm(partiallyFilledApplicationForm)
+    )
+
+    displayPartnerBlock should be (false)
+  }
+
+  "In-progress application form without a forces partner (member and partner = true)" should
+    "generate confirmation mustache model without forces partner block" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
+      statement = Some(Statement(
+        memberForcesFlag = Some(true),
+        partnerForcesFlag = Some(true)
+      ))
+    ))
+
+    val displayPartnerBlock = Confirmation.displayPartnerBlock(
+      form = InProgressForm(partiallyFilledApplicationForm)
+    )
+
+    displayPartnerBlock should be (false)
+  }
+
+  "In-progress application form with a forces partner" should
+    "generate confirmation mustache model with forces partner block" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
+      statement = Some(Statement(
+        memberForcesFlag = None,
+        partnerForcesFlag = Some(true)
+      ))
+    ))
+
+    val displayPartnerBlock = Confirmation.displayPartnerBlock(
+      form = InProgressForm(partiallyFilledApplicationForm)
+    )
+
+    displayPartnerBlock should be (true)
+  }
+
+
   "In-progress application form with filled name" should
     "generate confirmation mustache model with correctly rendered names and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(

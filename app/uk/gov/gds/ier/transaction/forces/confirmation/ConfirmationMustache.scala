@@ -27,6 +27,7 @@ trait ConfirmationMustache {
   )
 
   object Confirmation extends StepMustache {
+
     def confirmationPage(
         form:InProgressForm[InprogressForces],
         backUrl: String,
@@ -67,20 +68,11 @@ trait ConfirmationMustache {
         confirmation.contact
       ).flatten
 
-      val displayPartnerBlock =  (
-        form(keys.statement.partnerForcesMember).value,
-        form(keys.statement.forcesMember).value
-      ) match {
-        case (Some("true"), Some("false")) => true
-        case (Some("true"), None) => true
-        case _ => false
-      }
-
       val data = ConfirmationModel(
         partnerDetails = partnerData,
         applicantDetails = applicantData,
         completeApplicantDetails = completeApplicantData,
-        displayPartnerBlock = displayPartnerBlock,
+        displayPartnerBlock = displayPartnerBlock(form),
         backUrl = backUrl,
         postUrl = postUrl
       )
@@ -92,6 +84,18 @@ trait ConfirmationMustache {
         contentClasses = Some("confirmation")
       )
     }
+
+    def displayPartnerBlock (form:InProgressForm[InprogressForces]): Boolean = {
+      (
+        form(keys.statement.partnerForcesMember).value,
+        form(keys.statement.forcesMember).value
+      ) match {
+        case (Some("true"), Some("false")) => true
+        case (Some("true"), None) => true
+        case _ => false
+      }
+    }
+
   }
 
   class ConfirmationBlocks(form:InProgressForm[InprogressForces])

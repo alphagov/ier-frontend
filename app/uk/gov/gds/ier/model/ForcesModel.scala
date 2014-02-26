@@ -83,14 +83,15 @@ case class Statement(
     memberForcesFlag: Option[Boolean],
     partnerForcesFlag: Option[Boolean]) {
   def toApiMap =
-    partnerForcesFlag.map(partnerForcesFlag => Map("saf" -> partnerForcesFlag.toString)).getOrElse(Map.empty)
+    partnerForcesFlag.map(partnerForcesFlag => Map("saf" -> partnerForcesFlag.toString))
+      .getOrElse( Map("saf" -> "false"))
 }
 
 case class Service(
     serviceName: Option[ServiceType],
     regiment: Option[String]) {
   def toApiMap =
-    serviceName.map(serviceName => Map("serv" -> serviceName.toString)).getOrElse(Map.empty) ++
+    serviceName.map(serviceName => Map("serv" -> serviceName.name)).getOrElse(Map.empty) ++
     regiment.map(regiment => Map("reg" -> regiment.toString)).getOrElse(Map.empty)
 }
 
