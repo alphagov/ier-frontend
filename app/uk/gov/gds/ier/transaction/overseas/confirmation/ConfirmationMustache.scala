@@ -188,16 +188,17 @@ trait ConfirmationMustache {
       ) yield {
         Years.yearsBetween(dateOfBirth, whenLeft).getYears()
       }
+      val editCall = if (form(keys.parentsAddress.manualAddress).value.isDefined) {
+        routes.ParentsAddressManualController.editGet
+      } else if (form(keys.parentsAddress.uprn).value.isDefined) {
+        routes.ParentsAddressSelectController.editGet
+      } else {
+        routes.ParentsAddressController.editGet
+      }
       if (ageWhenLeft.exists(_ < 18)) {
         Some(ConfirmationQuestion(
           title = "Parents Last UK Address",
-          editLink = if (form(keys.parentsAddress.manualAddress).value.isDefined) {
-            routes.ParentsAddressManualController.editGet.url
-          } else if (form(keys.parentsAddress.uprn).value.isDefined) {
-            routes.ParentsAddressSelectController.editGet.url
-          } else {
-            routes.ParentsAddressController.editGet.url
-          },
+          editLink = editCall.url,
           changeName = "your parents' last UK address",
           content = ifComplete(keys.parentsAddress) {
             val addressLine = form(keys.parentsAddress.addressLine).value.orElse{
