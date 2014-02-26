@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.forces.confirmation
 
 import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.model.{InprogressForces, WaysToVoteType}
+import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressForces, WaysToVoteType}
 import controllers.step.forces._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.validation.Key
@@ -49,7 +49,7 @@ trait ConfirmationMustache {
         confirmation.contactAddress,
         confirmation.openRegister,
         confirmation.waysToVote,
-        confirmation.postalVote,
+        confirmation.postalOrProxyVote,
         confirmation.contact
       ).flatten
 
@@ -106,14 +106,25 @@ trait ConfirmationMustache {
         editLink = routes.DateOfBirthController.editGet.url,
         changeName = "date of birth",
         content = ifComplete(keys.dob) {
-          if (form(keys.dob.day).value.isDefined &&
-            form(keys.dob.month).value.isDefined &&
-            form(keys.dob.year).value.isDefined) {
-            "<p>" + form(keys.dob.day).value.get + " "  +
-              DateOfBirthConstants.monthsByNumber(form(keys.dob.month).value.get) + " " +
-              form(keys.dob.year).value.get + "</p>"
-          }
-          else "<p/>"
+         if (form(keys.dob.dob.day).value.isDefined) {
+            val day = form(keys.dob.dob.day).value.getOrElse("")
+            val month = DateOfBirthConstants.monthsByNumber(form(keys.dob.dob.month).value.get)
+            val year = form(keys.dob.dob.year).value.getOrElse("")
+            "<p>" + day + " " + month + " " + year + "</p>"
+         } else {
+            val excuseReason = if (form(keys.dob.noDob.reason).value.isDefined) {
+                "<p>You are unable to provide your date of birth because: " +
+                  form(keys.dob.noDob.reason).value.getOrElse("") + "</p>"
+              }
+            val ageRange = form(keys.dob.noDob.range).value match {
+              case Some("under18") => "<p>I am roughly under 18</p>"
+              case Some("18to70") => "<p>I am over 18 years old</p>"
+              case Some("over70") => "<p>I am over 70 years old</p>"
+              case Some("dontKnow") => "<p>I don't know my age</p>"
+              case _ => ""
+            }
+            excuseReason + ageRange
+         }
         }
       ))
     }
@@ -123,15 +134,13 @@ trait ConfirmationMustache {
         title = "Nationality",
         editLink = routes.NationalityController.editGet.url,
         changeName = "nationality",
-        content = ifComplete(keys.dob) {
-          if (form(keys.dob.day).value.isDefined &&
-            form(keys.dob.month).value.isDefined &&
-            form(keys.dob.year).value.isDefined) {
-            "<p>" + form(keys.dob.day).value.get + " "  +
-              DateOfBirthConstants.monthsByNumber(form(keys.dob.month).value.get) + " " +
-              form(keys.dob.year).value.get + "</p>"
+        content = ifComplete(keys.nationality) {
+          if (nationalityIsFilled) {
+            "<p>I am " + confirmationNationalityString + "</p>"
+          } else {
+            "<p>I cannot provide my nationality because:</p><p>"+
+              form(keys.nationality.noNationalityReason).value.getOrElse("") + "</p>"
           }
-          else "<p/>"
         }
       ))
     }
@@ -158,7 +167,19 @@ trait ConfirmationMustache {
         editLink = routes.ServiceController.editGet.url,
         changeName = "service",
         content = ifComplete(keys.service) {
-           ""
+           val serviceName = form(keys.service.serviceName).value match {
+             case Some("navy") => "Royal Navy"
+             case Some("army") => "Army"
+             case Some("air") => "Royal Airforce"
+             case _ => ""
+           }
+           val memberOf = "<p>I am a member of the "+serviceName+"</p>"
+           val regiment = form(keys.service.serviceName).value match {
+             case Some(regiment) => s"<p>Regiment: ${form(keys.service.regiment).value}</p>"
+             case None => ""
+           }
+
+           memberOf + regiment
         }
       ))
     }
@@ -169,7 +190,16 @@ trait ConfirmationMustache {
         editLink = routes.RankController.editGet.url,
         changeName = "service number and rank",
         content = ifComplete(keys.rank) {
-          ""
+
+          val serviceNumber = form(keys.rank.serviceNumber).value match {
+            case Some(serviceNumber) => s"<p>Service number: ${form(keys.rank.serviceNumber).value}</p>"
+            case None => ""
+          }
+          val rank = form(keys.rank.rank).value match {
+            case Some(rank) => s"<p>Rank: ${form(keys.rank.rank).value}</p>"
+            case None => ""
+          }
+          serviceNumber + rank
         }
       ))
     }
@@ -268,7 +298,7 @@ trait ConfirmationMustache {
       ))
     }
 
-    def postalVote = {
+    def postalOrProxyVote = {
       val way = form(keys.postalOrProxyVote.voteType).value.map{ way => WaysToVoteType.parse(way) }
       val prettyWayName = way match {
         case Some(WaysToVoteType.ByPost) => "postal vote"
@@ -276,7 +306,6 @@ trait ConfirmationMustache {
         case _ => ""
       }
       val myEmail = form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value.getOrElse("")
-      val deliveryMethod = form(keys.postalOrProxyVote.deliveryMethod.methodName).value
       val emailMe = form(keys.postalOrProxyVote.deliveryMethod.methodName).value == Some("email")
       val optIn = form(keys.postalOrProxyVote.optIn).value == Some("true")
 
@@ -296,7 +325,7 @@ trait ConfirmationMustache {
           content = ifComplete(keys.postalOrProxyVote) {
             (optIn, emailMe) match {
               case (true, true) => s"<p>Please email a ${prettyWayName} application form to:" +
-                "<br/>$myEmail</p>"
+                s"<br/>${myEmail}</p>"
               case (true, false) => s"<p>Please post me a ${prettyWayName} application form</p>"
               case (false, _) => s"<p>I do not need a ${prettyWayName} application form</p>"
             }
@@ -328,6 +357,35 @@ trait ConfirmationMustache {
       ))
     }
 
+    def getNationalities = {
+      form.form.value match {
+        case Some(application:InprogressForces) => application.nationality.map(_.checkedNationalities).filter(_.size > 0)
+        case None => None
+        case applicationOfUnknownType => throw new IllegalArgumentException(s"Application of unknown type: $applicationOfUnknownType")
+      }
+    }
+    def getOtherCountries = {
+      form.form.value match {
+        case Some(application:InprogressForces) => application.nationality.map(_.otherCountries.filter(_.nonEmpty)).filter(_.size > 0)
+        case None => None
+        case applicationOfUnknownType => throw new IllegalArgumentException(s"Application of unknown type: $applicationOfUnknownType")
+      }
+    }
 
+    def confirmationNationalityString = {
+      val allCountries = getNationalities.getOrElse(List.empty) ++ getOtherCountries.getOrElse(List.empty)
+      val nationalityString = List(allCountries.dropRight(1).mkString(", "), allCountries.takeRight(1).mkString("")).filter(_.nonEmpty)
+      s"a citizen of ${nationalityString.mkString(" and ")}"
+    }
+
+    def nationalityIsFilled:Boolean = {
+      form.form.value match {
+        case Some(application:InprogressForces) => application.nationality.map(
+          nationality =>
+            nationality.british == Some(true) || nationality.irish == Some(true) || nationality.otherCountries.exists(_.nonEmpty)).exists(b => b)
+        case None => false
+        case applicationOfUnknownType => throw new IllegalArgumentException(s"Application of unknown type: $applicationOfUnknownType")
+      }
+    }
   }
 }

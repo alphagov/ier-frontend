@@ -46,7 +46,7 @@ trait ConfirmationMustache {
           confirmation.previousName,
           confirmation.contact,
           confirmation.waysToVote,
-          confirmation.postalVote,
+          confirmation.postalOrProxyVote,
           confirmation.contact,
           confirmation.passport
         ).flatten,
@@ -251,7 +251,7 @@ trait ConfirmationMustache {
       ))
     }
 
-    def postalVote = {
+    def postalOrProxyVote = {
       val way = form(keys.postalOrProxyVote.voteType).value.map{ way => WaysToVoteType.parse(way) }
       val prettyWayName = way match {
         case Some(WaysToVoteType.ByPost) => "postal vote"
@@ -259,7 +259,6 @@ trait ConfirmationMustache {
         case _ => ""
       }
       val myEmail = form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value.getOrElse("")
-      val deliveryMethod = form(keys.postalOrProxyVote.deliveryMethod.methodName).value
       val emailMe = form(keys.postalOrProxyVote.deliveryMethod.methodName).value == Some("email")
       val optIn = form(keys.postalOrProxyVote.optIn).value == Some("true")
 
@@ -279,7 +278,7 @@ trait ConfirmationMustache {
           content = ifComplete(keys.postalOrProxyVote) {
             (optIn, emailMe) match {
               case (true, true) => s"<p>Please email a ${prettyWayName} application form to:" +
-                "<br/>$myEmail</p>"
+                s"<br/>${myEmail}</p>"
               case (true, false) => s"<p>Please post me a ${prettyWayName} application form</p>"
               case (false, _) => s"<p>I do not need a ${prettyWayName} application form</p>"
             }

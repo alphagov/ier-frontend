@@ -172,7 +172,7 @@ class ConfirmationMustacheTest
     val partialApplication = confirmationForm
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partialApplication))
-    val model = confirmation.postalVote
+    val model = confirmation.postalOrProxyVote
 
     model.isDefined should be(false)
   }

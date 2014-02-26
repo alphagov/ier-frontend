@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.model
 
 import uk.gov.gds.common.model.LocalAuthority
+import scala.util.Try
 
 case class InprogressForces(
     statement: Option[Statement] = None,
@@ -86,7 +87,7 @@ case class Statement(
 }
 
 case class Service(
-    serviceName: Option[String],
+    serviceName: Option[ServiceType],
     regiment: Option[String]) {
   def toApiMap =
     serviceName.map(serviceName => Map("serv" -> serviceName.toString)).getOrElse(Map.empty) ++
@@ -99,4 +100,27 @@ case class Rank(
   def toApiMap =
     serviceNumber.map(serviceNumber => Map("servno" -> serviceNumber.toString)).getOrElse(Map.empty) ++
     rank.map(rank => Map("rank" -> rank.toString)).getOrElse(Map.empty)
+}
+
+sealed case class ServiceType(name:String)
+
+object ServiceType {
+  val RoyalNavy = ServiceType("navy")
+  val BritishArmy = ServiceType("army")
+  val RoyalAirForce = ServiceType("air")
+
+  def isValid(str:String) = {
+    Try {
+      parse(str)
+    }.isSuccess
+  }
+
+  def parse(str:String) = {
+    str match {
+      case "navy" => RoyalNavy
+      case "army" => BritishArmy
+      case "air" => RoyalAirForce
+      case _ => throw new IllegalArgumentException(s"$str not a valid ServiceType")
+    }
+  }
 }
