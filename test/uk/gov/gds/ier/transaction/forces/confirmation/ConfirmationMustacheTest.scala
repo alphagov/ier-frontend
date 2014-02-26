@@ -202,23 +202,55 @@ class ConfirmationMustacheTest
     ninoModel.editLink should be("/register-to-vote/forces/edit/nino")
   }
 
-//  "In-progress application form with valid service" should
-//    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
-//    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
-//      service = Some(Service(
-//        serviceName = Some(ServiceType.BritishArmy),
-//        regiment = Some("regiment")
-//      ))
-//    ))
-//
-//    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
-//
-//    val Some(serviceModel) = confirmation.service
-//    serviceModel.content should be("<p></p>")
-//    serviceModel.editLink should be("/register-to-vote/forces/edit/service")
-//  }
-//
-//  behavior of "ConfirmationBlocks.rank"
+  "In-progress application form with valid service and regiment" should
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
+      service = Some(Service(
+        serviceName = Some(ServiceType.BritishArmy),
+        regiment = Some("regiment")
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+
+    val Some(serviceModel) = confirmation.service
+    serviceModel.content should be("<p>I am a member of the Army</p><p>Regiment: regiment</p>")
+    serviceModel.editLink should be("/register-to-vote/forces/edit/service")
+  }
+
+  "In-progress application form with valid service (no regiment)" should
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
+      service = Some(Service(
+        serviceName = Some(ServiceType.RoyalAirForce),
+        regiment = None
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+
+    val Some(serviceModel) = confirmation.service
+    serviceModel.content should be("<p>I am a member of the Royal Airforce</p>")
+    serviceModel.editLink should be("/register-to-vote/forces/edit/service")
+  }
+
+  behavior of "ConfirmationBlocks.rank"
+  "In-progress application form with a valid rank" should
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
+      rank = Some(Rank(
+        serviceNumber = Some("123456"),
+        rank = Some("Captain")
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+
+    val Some(rankModel) = confirmation.rank
+    rankModel.content should be("<p>Service number: 123456</p><p>Rank: Captain</p>")
+    rankModel.editLink should be("/register-to-vote/forces/edit/rank")
+  }
+
 
   "In-progress application form with valid UK address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {

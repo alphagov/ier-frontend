@@ -20,6 +20,7 @@ trait ConfirmationMustache {
   case class ConfirmationModel(
     applicantDetails: List[ConfirmationQuestion],
     partnerDetails: List[ConfirmationQuestion],
+    completeApplicantDetails: List[ConfirmationQuestion],
     displayPartnerBlock: Boolean,
     backUrl: String,
     postUrl: String
@@ -34,11 +35,24 @@ trait ConfirmationMustache {
       val confirmation = new ConfirmationBlocks(form)
 
       val partnerData = List(
-        confirmation.partnerService,
-        confirmation.partnerRank
+        confirmation.service,
+        confirmation.rank
       ).flatten
 
       val applicantData = List(
+        confirmation.name,
+        confirmation.dateOfBirth,
+        confirmation.nationality,
+        confirmation.nino,
+        confirmation.address,
+        confirmation.contactAddress,
+        confirmation.openRegister,
+        confirmation.waysToVote,
+        confirmation.postalOrProxyVote,
+        confirmation.contact
+      ).flatten
+
+      val completeApplicantData = List(
         confirmation.name,
         confirmation.dateOfBirth,
         confirmation.nationality,
@@ -53,10 +67,20 @@ trait ConfirmationMustache {
         confirmation.contact
       ).flatten
 
+      val displayPartnerBlock =  (
+        form(keys.statement.partnerForcesMember).value,
+        form(keys.statement.forcesMember).value
+      ) match {
+        case (Some("true"), Some("false")) => true
+        case (Some("true"), None) => true
+        case _ => false
+      }
+
       val data = ConfirmationModel(
         partnerDetails = partnerData,
         applicantDetails = applicantData,
-        displayPartnerBlock = !partnerData.isEmpty,
+        completeApplicantDetails = completeApplicantData,
+        displayPartnerBlock = displayPartnerBlock,
         backUrl = backUrl,
         postUrl = postUrl
       )
@@ -174,8 +198,8 @@ trait ConfirmationMustache {
              case _ => ""
            }
            val memberOf = "<p>I am a member of the "+serviceName+"</p>"
-           val regiment = form(keys.service.serviceName).value match {
-             case Some(regiment) => s"<p>Regiment: ${form(keys.service.regiment).value}</p>"
+           val regiment = form(keys.service.regiment).value match {
+             case Some(regiment) => s"<p>Regiment: ${regiment}</p>"
              case None => ""
            }
 
@@ -192,36 +216,14 @@ trait ConfirmationMustache {
         content = ifComplete(keys.rank) {
 
           val serviceNumber = form(keys.rank.serviceNumber).value match {
-            case Some(serviceNumber) => s"<p>Service number: ${form(keys.rank.serviceNumber).value}</p>"
+            case Some(serviceNumber) => s"<p>Service number: ${serviceNumber}</p>"
             case None => ""
           }
           val rank = form(keys.rank.rank).value match {
-            case Some(rank) => s"<p>Rank: ${form(keys.rank.rank).value}</p>"
+            case Some(rank) => s"<p>Rank: ${rank}</p>"
             case None => ""
           }
           serviceNumber + rank
-        }
-      ))
-    }
-
-    def partnerService = {
-      Some(ConfirmationQuestion(
-        title = "Service",
-        editLink = routes.ServiceController.editGet.url,
-        changeName = "service",
-        content = ifComplete(keys.service) {
-          ""
-        }
-      ))
-    }
-
-    def partnerRank = {
-      Some(ConfirmationQuestion(
-        title = "Service number and rank",
-        editLink = routes.RankController.editGet.url,
-        changeName = "service number and rank",
-        content = ifComplete(keys.rank) {
-          ""
         }
       ))
     }
