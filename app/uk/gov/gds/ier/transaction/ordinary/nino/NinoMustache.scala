@@ -9,13 +9,19 @@ import uk.gov.gds.ier.mustache.StepMustache
 
 trait NinoMustache extends StepMustache {
 
-  case class NinoModel(question:Question,
-                       nino: Field,
-                       noNinoReason: Field)
+  case class NinoModel (
+      question:Question,
+      nino: Field,
+      noNinoReason: Field,
+      noNinoReasonShowFlag: Text
+  )
 
-  def ninoMustache(form: ErrorTransformForm[InprogressOrdinary], postEndpoint: Call, backEndpoint:Option[Call]) : Html = {
+  def ninoMustache(
+      form: ErrorTransformForm[InprogressOrdinary],
+      postEndpoint: Call,
+      backEndpoint:Option[Call]) : Html = {
+
     implicit val progressForm = form
-    val application:InprogressOrdinary = form.value.getOrElse(InprogressOrdinary())
 
     val data = NinoModel(
       question = Question(
@@ -26,16 +32,14 @@ trait NinoMustache extends StepMustache {
         title = "What is your National Insurance number?"
       ),
       nino = TextField(
-        key = keys.nino.nino)
-      ,
+        key = keys.nino.nino
+      ),
       noNinoReason = TextField(
-        key = keys.nino.noNinoReason)
-
-//        Field(
-//        name = keys.nino.noNinoReason.key,
-//        id = keys.nino.noNinoReason.asId(),
-//        value = application.nino.map(ninoStepObject => ninoStepObject.noNinoReason.getOrElse("")).getOrElse("")
-//      )
+        key = keys.nino.noNinoReason
+      ),
+      noNinoReasonShowFlag = Text (
+        value = progressForm(keys.nino.noNinoReason.key).value.map(noNinoReason => "-open").getOrElse("")
+      )
     )
     val content = Mustache.render("ordinary/nino", data)
     MainStepTemplate(content, "Register to Vote - What is your National Insurance number?")

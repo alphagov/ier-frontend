@@ -6,6 +6,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import play.api.templates.Html
 import controllers.step.overseas.LastUkAddressController
+import controllers.step.overseas.ParentNameController
 import uk.gov.gds.ier.step.OverseaStep
 import controllers.step.overseas.routes._
 import uk.gov.gds.ier.model._
@@ -14,9 +15,9 @@ import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.InprogressOverseas
 import uk.gov.gds.ier.step.Exit
 import uk.gov.gds.ier.validation.InProgressForm
-import scala.Some
 import org.joda.time.{Months, DateTime}
 import controllers.routes.ExitController
+import uk.gov.gds.ier.validation.DateValidator
 
 
 class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
@@ -38,21 +39,19 @@ class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
 
   def nextStep(currentState: InprogressOverseas) = {
     currentState.dateLeftUk match {
-      case Some(dateLeftUk) if dateLeftUkOver15Years(dateLeftUk) => {
+      case Some(dateLeftUk) if DateValidator.dateLeftUkOver15Years(dateLeftUk) => {
         Exit(ExitController.leftUkOver15Years)
       }
       case Some(dateLeftUk) if validateTooOldWhenLeftUk(dateLeftUk, currentState.dob, currentState.lastRegisteredToVote) => {
         Exit(ExitController.tooOldWhenLeftUk)
       }
+      case Some(dateLeftUk) if (!DateValidator.dateLeftUkOver15Years(dateLeftUk) &&
+          currentState.dob.isDefined &&
+          DateValidator.isLessEighteen(currentState.dob.get)) => {
+        ParentNameController.parentNameStep
+      }
       case _ => LastUkAddressController.lastUkAddressStep
     }
-  }
-
-  def dateLeftUkOver15Years(dateLeftUk:DateLeft):Boolean = {
-    val leftUk = new DateTime().withMonthOfYear(dateLeftUk.month).withYear(dateLeftUk.year)
-    val monthDiff = Months.monthsBetween(leftUk, DateTime.now()).getMonths()
-    if (monthDiff >= 15 * 12) true
-    else false
   }
 
   def validateTooOldWhenLeftUk(dateLeftUk:DateLeft, dateOfBirth:Option[DOB], lastRegisteredToVote:Option[LastRegisteredToVote]):Boolean = {
