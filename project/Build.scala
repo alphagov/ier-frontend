@@ -34,7 +34,17 @@ object ApplicationBuild extends IERBuild {
     .settings(Sass.sassSettings:_*)
     .settings(Jacoco.jacocoSettings:_*)
     .settings(Mustache.mustacheSettings:_*)
-    .settings(javaOptions in Test += "-Dconfig.file=conf/test.conf")
+    .settings(javaOptions in Test ++= Seq(
+      "-XX:MaxPermSize=512M",
+      "-Xms256M",
+      "-Xmx512M",
+      "-Xss1M",
+      "-XX:+CMSClassUnloadingEnabled",
+      "-XX:+UseConcMarkSweepGC",
+      "-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005",
+      "-Dconfig.file=conf/test.conf"
+    ))
+    .settings(testOptions in Test += Tests.Argument("-oF"))
     .settings(StyleChecker.settings:_*)
     .settings(watchSources ~= { _.filterNot(_.isDirectory) })
 }

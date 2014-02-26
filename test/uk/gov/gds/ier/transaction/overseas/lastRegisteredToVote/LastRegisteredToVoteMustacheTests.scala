@@ -28,12 +28,12 @@ class LastRegisteredToVoteMustacheTests
     model.question.backUrl should be("http://backUrl")
 
     model.ukResident.name should be("lastRegisteredToVote.registeredType")
-    model.ukResident.id should be("lastRegisteredToVote_registeredType_uk")
-    model.ukResident.value should be("uk")
+    model.ukResident.id should be("lastRegisteredToVote_registeredType_ordinary")
+    model.ukResident.value should be("ordinary")
 
     model.armedForces.name should be("lastRegisteredToVote.registeredType")
-    model.armedForces.id should be("lastRegisteredToVote_registeredType_army")
-    model.armedForces.value should be("army")
+    model.armedForces.id should be("lastRegisteredToVote_registeredType_forces")
+    model.armedForces.value should be("forces")
 
     model.crownServant.name should be("lastRegisteredToVote.registeredType")
     model.crownServant.id should be("lastRegisteredToVote_registeredType_crown")
@@ -57,7 +57,7 @@ class LastRegisteredToVoteMustacheTests
   }
   
   it should "mark ukResident as checked (uk)" in {
-    val data = Map("lastRegisteredToVote.registeredType" -> "uk")
+    val data = Map("lastRegisteredToVote.registeredType" -> "ordinary")
     val form = lastRegisteredToVoteForm.bind(data)
 
     val model = LastRegisteredToVoteMustache.lastRegisteredData(
@@ -75,7 +75,7 @@ class LastRegisteredToVoteMustacheTests
   }
   
   it should "mark armedForces as checked (army)" in {
-    val data = Map("lastRegisteredToVote.registeredType" -> "army")
+    val data = Map("lastRegisteredToVote.registeredType" -> "forces")
     val form = lastRegisteredToVoteForm.bind(data)
 
     val model = LastRegisteredToVoteMustache.lastRegisteredData(

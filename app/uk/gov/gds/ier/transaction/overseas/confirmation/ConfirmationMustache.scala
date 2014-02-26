@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation
 
+import uk.gov.gds.ier.form.OverseasFormImplicits
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.model.{WaysToVoteType, InprogressOverseas, LastRegisteredType}
 import controllers.step.overseas._
@@ -9,6 +10,11 @@ import uk.gov.gds.ier.validation.InProgressForm
 import org.joda.time.{YearMonth, Years, LocalDate}
 import scala.util.Try
 import uk.gov.gds.ier.logging.Logging
+import uk.gov.gds.ier.validation.DateValidator
+import uk.gov.gds.ier.model.DOB
+import uk.gov.gds.ier.model.DateLeft
+import uk.gov.gds.ier.transaction.overseas.dateLeftUk.DateLeftUkStep
+import play.api.Logger
 
 trait ConfirmationMustache {
 
@@ -36,24 +42,25 @@ trait ConfirmationMustache {
       val confirmation = new ConfirmationBlocks(form)
 
       val parentData = List(
+        confirmation.parentName,
+        confirmation.parentPreviousName,
         confirmation.parentsAddress
       ).flatten
 
       val applicantData = List(
-        confirmation.dateOfBirth,
         confirmation.previouslyRegistered,
+        confirmation.dateLeft,
         confirmation.lastUkAddress,
-        confirmation.dateLeftUk,
+        confirmation.passport,
+        confirmation.name,
+        confirmation.previousName,
+        confirmation.dateOfBirth,
         confirmation.nino,
         confirmation.address,
         confirmation.openRegister,
-        confirmation.name,
-        confirmation.previousName,
-        confirmation.contact,
         confirmation.waysToVote,
-        confirmation.postalVote,
-        confirmation.contact,
-        confirmation.passport
+        confirmation.postalOrProxyVote,
+        confirmation.contact
       ).flatten
 
       val data = ConfirmationModel(
@@ -74,7 +81,7 @@ trait ConfirmationMustache {
   }
 
   class ConfirmationBlocks(form:InProgressForm[InprogressOverseas])
-    extends StepMustache with Logging {
+    extends StepMustache with Logging with OverseasFormImplicits {
 
     val completeThisStepMessage = "<div class=\"validation-message visible\">" +
       "Please complete this step" +
@@ -100,8 +107,8 @@ trait ConfirmationMustache {
 
       val previouslyRegisteredContent = (renewer, prevRegType) match {
         case (true, _) => s"<p>$iWas an overseas voter</p>"
-        case (_, Some(LastRegisteredType.UK)) => s"<p>$iWas a UK resident</p>"
-        case (_, Some(LastRegisteredType.Army)) => s"<p>$iWas a member of the armed forces</p>"
+        case (_, Some(LastRegisteredType.Ordinary)) => s"<p>$iWas a UK resident</p>"
+        case (_, Some(LastRegisteredType.Forces)) => s"<p>$iWas a member of the armed forces</p>"
         case (_, Some(LastRegisteredType.Crown)) => s"<p>$iWas a Crown servant</p>"
         case (_, Some(LastRegisteredType.Council)) => s"<p>$iWas a British council employee</p>"
         case (_, Some(LastRegisteredType.NotRegistered)) => "<p>I have never been registered</p>"
@@ -139,6 +146,26 @@ trait ConfirmationMustache {
           s"<p>$addressLine</p><p>$postcode</p>"
         }
       ))
+    }
+    
+    def dateLeft = {
+      val wasRegisteredOverseas = Some("true")
+      val prevOverseas = form(keys.previouslyRegistered.hasPreviouslyRegistered).value
+      val prevRegType = Try {
+        form(keys.lastRegisteredToVote.registeredType).value.map { regType =>
+          LastRegisteredType.parse(regType)
+        }
+      }.getOrElse(None)
+
+      (prevRegType, prevOverseas) match {
+        case (_, `wasRegisteredOverseas`) => dateLeftUk
+        case (Some(LastRegisteredType.Ordinary), _) => dateLeftUk
+        case (Some(LastRegisteredType.Forces), _) => dateLeftArmy
+        case (Some(LastRegisteredType.Crown), _) => dateLeftCrown
+        case (Some(LastRegisteredType.Council), _) => dateLeftCouncil
+        case (Some(LastRegisteredType.NotRegistered), _) => dateLeftUk
+        case _ => None
+      }
     }
 
     def parentsAddress = {
@@ -203,6 +230,60 @@ trait ConfirmationMustache {
       ))
     }
 
+    def dateLeftArmy = {
+      Some(ConfirmationQuestion(
+        title = "Date you cease to be a member of the armed forces",
+        editLink = routes.DateLeftArmyController.editGet.url,
+        changeName = "date you cease to be a member of the armed forces",
+        content = ifComplete(keys.dateLeftSpecial) {
+          val yearMonth = Try (new YearMonth (
+            form(keys.dateLeftSpecial.year).value.map(year => year.toInt).getOrElse(-1),
+            form(keys.dateLeftSpecial.month).value.map(month => month.toInt).getOrElse(-1)
+          ).toString("MMMM, yyyy")).getOrElse {
+            logger.error("error parsing the date (date-left-army step)")
+            ""
+          }
+          s"<p>$yearMonth</p>"
+        }
+      ))
+    }    
+    
+    def dateLeftCrown = {
+      Some(ConfirmationQuestion(
+        title = "Date you cease to be a Crown Servant",
+        editLink = routes.DateLeftCrownController.editGet.url,
+        changeName = "date you cease to be a Crown Servant",
+        content = ifComplete(keys.dateLeftSpecial) {
+          val yearMonth = Try (new YearMonth (
+            form(keys.dateLeftSpecial.year).value.map(year => year.toInt).getOrElse(-1),
+            form(keys.dateLeftSpecial.month).value.map(month => month.toInt).getOrElse(-1)
+          ).toString("MMMM, yyyy")).getOrElse {
+            logger.error("error parsing the date (date-left-crown step)")
+            ""
+          }
+          s"<p>$yearMonth</p>"
+        }
+      ))
+    }
+    
+    def dateLeftCouncil = {
+      Some(ConfirmationQuestion(
+        title = "Date you cease to be a British Council employee?",
+        editLink = routes.DateLeftCrownController.editGet.url,
+        changeName = "date you cease to be a British Council employee?",
+        content = ifComplete(keys.dateLeftSpecial) {
+          val yearMonth = Try (new YearMonth (
+            form(keys.dateLeftSpecial.year).value.map(year => year.toInt).getOrElse(-1),
+            form(keys.dateLeftSpecial.month).value.map(month => month.toInt).getOrElse(-1)
+          ).toString("MMMM, yyyy")).getOrElse {
+            logger.error("error parsing the date (date-left-council step)")
+            ""
+          }
+          s"<p>$yearMonth</p>"
+        }
+      ))
+    }
+    
     def nino = {
       Some(ConfirmationQuestion(
         title = "National Insurance number",
@@ -225,8 +306,20 @@ trait ConfirmationMustache {
         editLink = AddressController.addressStep.routes.editGet.url,
         changeName = "where do you live?",
         content = ifComplete(keys.overseasAddress) {
-          "<p>" + form (keys.overseasAddress.overseasAddressDetails).value.getOrElse("") + "</p>" +
-          "<p>" + form (keys.overseasAddress.country).value.getOrElse("") + "</p>"
+
+          val result:StringBuilder = new StringBuilder
+          result.append ("<p>")
+          result.append (
+            List (
+              form(keys.overseasAddress.addressLine1).value,
+              form(keys.overseasAddress.addressLine2).value,
+              form(keys.overseasAddress.addressLine3).value,
+              form(keys.overseasAddress.addressLine4).value,
+              form(keys.overseasAddress.addressLine5).value)
+            .filter(!_.getOrElse("").isEmpty).map(_.get).mkString("","<br/>",""))
+          result.append ("</p>")
+          result.append ("<p>" + form (keys.overseasAddress.country).value.getOrElse("") + "</p>")
+          result.toString()
         }
       ))
     }
@@ -264,11 +357,11 @@ trait ConfirmationMustache {
         title = "What is your full name?",
         editLink = routes.NameController.editGet.url,
         changeName = "full name",
-        content = ifComplete(keys.name) {
+        content = ifComplete(keys.overseasName.name) {
           List(
-            form(keys.name.firstName).value,
-            form(keys.name.middleNames).value,
-            form(keys.name.lastName).value).flatten
+            form(keys.overseasName.name.firstName).value,
+            form(keys.overseasName.name.middleNames).value,
+            form(keys.overseasName.name.lastName).value).flatten
             .mkString("<p>", " ", "</p>")
         }
       ))
@@ -279,12 +372,12 @@ trait ConfirmationMustache {
         title = "What is your previous name?",
         editLink = routes.NameController.editGet.url,
         changeName = "previous name",
-        content = ifComplete(keys.previousName) {
-          if (form(keys.previousName.hasPreviousName).value == Some("true")) {
+        content = ifComplete(keys.overseasName.previousName) {
+          if (form(keys.overseasName.previousName.hasPreviousName).value == Some("true")) {
             List(
-              form(keys.previousName.previousName.firstName).value,
-              form(keys.previousName.previousName.middleNames).value,
-              form(keys.previousName.previousName.lastName).value
+              form(keys.overseasName.previousName.previousName.firstName).value,
+              form(keys.overseasName.previousName.previousName.middleNames).value,
+              form(keys.overseasName.previousName.previousName.lastName).value
             ).flatten.mkString("<p>", " ", "</p>")
           } else {
             "<p>I have not changed my name in the last 12 months</p>"
@@ -292,8 +385,66 @@ trait ConfirmationMustache {
         }
       ))
     }
+    
+    def parentName = {
+      val under18 = Some(true)
+      val withLimit = Some(true)
 
-    def postalVote = {
+      (form.under18WhenLeft, form.within15YearLimit) match {
+        case (`under18`, `withLimit`) => {
+          Some(ConfirmationQuestion(
+            title = "Parent or guardian's name",
+            editLink = routes.ParentNameController.editGet.url,
+            changeName = "full name",
+            content = ifComplete(keys.overseasParentName.parentName) {
+              List(
+                form(keys.overseasParentName.parentName.firstName).value,
+                form(keys.overseasParentName.parentName.middleNames).value,
+                form(keys.overseasParentName.parentName.lastName).value).flatten
+                .mkString("<p>", " ", "</p>")
+            }
+          ))
+        }
+        case _ => None
+      }
+    }
+
+    def parentPreviousName = {
+      val hasPreviousName = Some("true")
+      val under18 = Some(true)
+      val withLimit = Some(true)
+      val previousName = form(keys.overseasParentName.parentPreviousName.hasPreviousName).value
+
+      (form.under18WhenLeft, form.within15YearLimit, previousName) match {
+        case (`under18`, `withLimit`, `hasPreviousName`) => {
+          Some(ConfirmationQuestion(
+            title = "Parent or guardian's previous name",
+            editLink = routes.ParentNameController.editGet.url,
+            changeName = "previous name",
+            content = ifComplete(keys.overseasParentName.parentPreviousName) {
+              List(
+                form(keys.overseasParentName.parentPreviousName.previousName.firstName).value,
+                form(keys.overseasParentName.parentPreviousName.previousName.middleNames).value,
+                form(keys.overseasParentName.parentPreviousName.previousName.lastName).value
+              ).flatten.mkString("<p>", " ", "</p>")
+            }
+          ))
+        }
+        case (`under18`, `withLimit`, _) => {
+          Some(ConfirmationQuestion(
+            title = "Parent or guardian's previous name",
+            editLink = routes.ParentNameController.editGet.url,
+            changeName = "previous name",
+            content = ifComplete(keys.overseasParentName.parentPreviousName) {
+              "<p>They haven't changed their name since they left the UK</p>"
+            }
+          ))
+        }
+        case _ => None
+      }
+    }
+
+    def postalOrProxyVote = {
       val way = form(keys.postalOrProxyVote.voteType).value.map{ way => WaysToVoteType.parse(way) }
       val prettyWayName = way match {
         case Some(WaysToVoteType.ByPost) => "postal vote"
@@ -362,31 +513,11 @@ trait ConfirmationMustache {
       val notBornInUk = Some("false")
       val notBornBefore1983 = Some(false)
 
-      val jan1st1983 = new LocalDate()
-        .withYear(1983)
-        .withMonthOfYear(1)
-        .withDayOfMonth(1)
-
-      val dob = for(
-        day <- form(keys.dob.day).value;
-        month <- form(keys.dob.month).value;
-        year <- form(keys.dob.year).value
-      ) yield {
-        new LocalDate()
-          .withYear(year.toInt)
-          .withMonthOfYear(month.toInt)
-          .withDayOfMonth(day.toInt)
-      }
-
-      val before1983 = dob map { dateOfBirth =>
-        dateOfBirth.isBefore(jan1st1983)
-      }
-
       val renewer = form(keys.previouslyRegistered.hasPreviouslyRegistered).value
       val passport = form(keys.passport.hasPassport).value
       val birth = form(keys.passport.bornInsideUk).value
 
-      (renewer, passport, birth, before1983) match {
+      (renewer, passport, birth, form.bornBefore1983) match {
         case (`isRenewer`, _, _, _) => None
         case (`notRenewer`, `hasPassport`, _, _) => passportDetails
         case (`notRenewer`, `noPassport`, `notBornInUk`, _) => citizenDetails
@@ -404,11 +535,9 @@ trait ConfirmationMustache {
 
     def citizenDetails = {
       val howBecameCitizen = form(keys.passport.citizenDetails.howBecameCitizen).value
-      val dateBecameCitizen = for (
-        day <- form(keys.passport.citizenDetails.dateBecameCitizen.day).value;
-        month <- form(keys.passport.citizenDetails.dateBecameCitizen.month).value;
-        year <- form(keys.passport.citizenDetails.dateBecameCitizen.year).value
-      ) yield s"$day $month $year"
+      val dateBecameCitizen = form.dateBecameCitizen.map { date =>
+        s"${date.getDayOfMonth} ${date.getMonthOfYear} ${date.getYear}"
+      }
 
       val citizenContent = for (
         how <- howBecameCitizen;

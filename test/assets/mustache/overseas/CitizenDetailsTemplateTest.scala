@@ -64,18 +64,11 @@ class CitizenDetailsTemplateTest
       val doc = Jsoup.parse(html.toString)
 
       val docFieldset = doc.select("form").first()
-      val hasPassportLabel = docFieldset.select("label[for=hasPassportId]").first()
-      hasPassportLabel.attr("for") should be ("hasPassportId")
 
       val hasPassport = doc.select("input[id=hasPassportId]").first()
       hasPassport.attr("id") should be("hasPassportId")
       hasPassport.attr("name") should be("hasPassportName")
       hasPassport.attr("value") should be("hasPassportValue")
-
-      docFieldset
-        .select("label[for=bornInUkId]")
-        .first()
-        .attr("for") should be ("bornInUkId")
 
       val bornInUk = doc.select("input[id=bornInUkId]").first()
       bornInUk.attr("id") should be("bornInUkId")

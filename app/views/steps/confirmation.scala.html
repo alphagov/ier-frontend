@@ -46,10 +46,22 @@
             @validationSwitch(formData(keys.dob)) {
               @if(formData(keys.dob.dob.day).value.isDefined) {
                 <p> @formData(keys.dob.dob.day).value.getOrElse("") @formData(keys.dob.dob.month).value.map(month => monthsByNumber(month)).getOrElse("") @formData(keys.dob.dob.year).value.getOrElse("")</p>
-              }
-              @if(formData(keys.dob.noDob.reason).value.isDefined) {
-                <p>I cannot provide my date of birth because @formData(keys.dob.noDob.reason).value.getOrElse("") </p>
-                <p>I am roughly @formData(keys.dob.noDob.range).value.getOrElse("") </p>
+              } else {
+                @if(formData(keys.dob.noDob.reason).value.isDefined) {
+                    <p>I cannot provide my date of birth because @formData(keys.dob.noDob.reason).value.getOrElse("") </p>
+                    @if(formData(keys.dob.noDob.range).value.getOrElse("").equals("under18")) {
+                        <p>I am roughly under 18 </p>
+                    }
+                    @if(formData(keys.dob.noDob.range).value.getOrElse("").equals("18to70")) {
+                        <p>I am roughly between 18 and 70 </p>
+                    }
+                    @if(formData(keys.dob.noDob.range).value.getOrElse("").equals("over70")) {
+                        <p>I am roughly over 70 </p>
+                    }
+                    @if(formData(keys.dob.noDob.range).value.getOrElse("").equals("dontKnow")) {
+                        <p>I don't know my age</p>
+                    }
+                }
               }
             }
           </div>

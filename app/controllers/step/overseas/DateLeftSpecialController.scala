@@ -1,37 +1,33 @@
 package controllers.step.overseas
 
-import uk.gov.gds.ier.stubs.StubController
-import uk.gov.gds.ier.model.{InprogressOverseas, DateLeftSpecial, LastRegisteredType}
+import uk.gov.gds.ier.model.{InprogressOverseas, DateLeftSpecial}
+import uk.gov.gds.ier.guice.DelegatingController
+import uk.gov.gds.ier.transaction.overseas.dateLeftSpecial.{DateLeftArmyStep, DateLeftCrownStep, 
+  DateLeftCouncilStep}
 
-object DateLeftArmyController extends StubController[InprogressOverseas] {
-  val confirmationStep = ConfirmationController.confirmationStep
-  val thisStepUrl = "/register-to-vote/overseas/date-left-army"
-  
-  def dateLeftArmyStep = confirmationIf { application =>
-    application.dateLeftSpecial.exists {
-      _.registeredType == LastRegisteredType.Army
-    }
-  }
+object DateLeftArmyController extends DelegatingController[DateLeftArmyStep] {
+  def get = delegate.get
+  def post = delegate.post
+  def editGet = delegate.editGet
+  def editPost = delegate.editPost
+
+  def dateLeftArmyStep = delegate
 }
 
-object DateLeftCrownController extends StubController[InprogressOverseas] {
-  val confirmationStep = ConfirmationController.confirmationStep
-  val thisStepUrl = "/register-to-vote/overseas/date-left-crown"
-  
-  def dateLeftCrownStep = confirmationIf { application =>
-    application.dateLeftSpecial.exists {
-      _.registeredType == LastRegisteredType.Crown
-    }
-  }
+object DateLeftCrownController  extends DelegatingController[DateLeftCrownStep] {
+  def get = delegate.get
+  def post = delegate.post
+  def editGet = delegate.editGet
+  def editPost = delegate.editPost
+
+  def dateLeftCrownStep = delegate
 }
 
-object DateLeftCouncilController extends StubController[InprogressOverseas] {
-  val confirmationStep = ConfirmationController.confirmationStep
-  val thisStepUrl = "/register-to-vote/overseas/date-left-council"
-  
-  def dateLeftCouncilStep = confirmationIf { application =>
-    application.dateLeftSpecial.exists {
-      _.registeredType == LastRegisteredType.Council
-    }
-  }
+object DateLeftCouncilController  extends DelegatingController[DateLeftCouncilStep] {
+  def get = delegate.get
+  def post = delegate.post
+  def editGet = delegate.editGet
+  def editPost = delegate.editPost
+
+  def dateLeftCouncilStep = delegate
 }

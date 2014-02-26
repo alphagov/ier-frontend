@@ -25,8 +25,10 @@ case class Country (country: String)
 
 case class PreviousName(hasPreviousName:Boolean,
                         previousName:Option[Name]) {
-  def toApiMap:Map[String,String] = {
-    Map() ++ previousName.map(pn => pn.toApiMap("pfn", "pmn", "pln")).getOrElse(Map.empty)
+  def toApiMap(prefix:String = "p"):Map[String,String] = {
+    Map() ++ previousName.map(pn =>
+      pn.toApiMap(prefix + "fn", prefix + "mn", prefix + "ln")
+    ).getOrElse(Map.empty)
   }
 }
 
@@ -76,15 +78,15 @@ case class noDOB(reason:Option[String],
 case class DOB(year:Int,
                month:Int,
                day:Int) {
-  def toApiMap = {
-    Map("dob" -> (year + "-" + "%02d".format(month) + "-" + "%02d".format(day)))
+  def toApiMap(key:String) = {
+    Map(key -> (year + "-" + "%02d".format(month) + "-" + "%02d".format(day)))
   }
 }
 
 case class DateOfBirth(dob:Option[DOB],
                        noDob:Option[noDOB]) {
   def toApiMap = {
-    dob.map(_.toApiMap).getOrElse(Map.empty) ++
+    dob.map(_.toApiMap("dob")).getOrElse(Map.empty) ++
     noDob.map(_.toApiMap).getOrElse(Map.empty)
   }
 }
@@ -149,7 +151,7 @@ case class OrdinaryApplication(name: Option[Name],
   def toApiMap:Map[String, String] = {
     Map.empty ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
-      previousName.map(_.toApiMap).getOrElse(Map.empty) ++
+      previousName.map(_.toApiMap("p")).getOrElse(Map.empty) ++
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
       nationality.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
@@ -213,7 +215,7 @@ case class PartialPreviousAddress (movedRecently:Option[Boolean],
 
 case class OtherAddress (otherAddressOption:OtherAddressOption) {
   def toApiMap = {
-    Map("oadr" -> otherAddressOption.hasOtherAddress.toString)
+    Map("oadr" -> otherAddressOption.name)
   }
 }
 

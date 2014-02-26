@@ -65,4 +65,9 @@ class ExitController @Inject() (val serialiser: JsonSerialiser,
     request =>
       Ok(views.html.exit.overseas.tooOldWhenLeftUk())
   }
+  
+  def leftSpecialOver15Years = ClearSession requiredFor {
+    request =>
+      Ok(views.html.exit.overseas.leftServiceOver15Years())
+  } 
 }

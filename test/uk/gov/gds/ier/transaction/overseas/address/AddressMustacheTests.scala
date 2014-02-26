@@ -39,13 +39,22 @@ class AddressMustacheTest
     addressModel.question.backUrl should be(backCall.url)
 
     addressModel.countrySelect.value should be("")
-    addressModel.address.value should be("")
+    addressModel.addressLine1.value should be("")
+    addressModel.addressLine2.value should be("")
+    addressModel.addressLine3.value should be("")
+    addressModel.addressLine4.value should be("")
+    addressModel.addressLine5.value should be("")
   }
 
   it should "fully filled form should produce Mustache Model" in {
     val filledApplicationForm = addressForm.fill(InprogressOverseas(
-      address = Some(OverseasAddress(country = Some("United Kingdom"),
-      addressDetails = Some("some address")))))
+      address = Some(OverseasAddress(
+        country = Some("United Kingdom"),
+        addressLine1 = Some("some address line 1"),
+        addressLine2 = None,
+        addressLine3 = None,
+        addressLine4 = None,
+        addressLine5 = None))))
 
     val addressModel = addressMustache.transformFormStepToMustacheData(filledApplicationForm,
         postCall, Some(backCall))
@@ -55,12 +64,18 @@ class AddressMustacheTest
     addressModel.question.backUrl should be(backCall.url)
 
     addressModel.countrySelect.value should be("United Kingdom")
-    addressModel.address.value should be("some address")
+    addressModel.addressLine1.value should be("some address line 1")
   }
 
   it should "progress form with validation errors in the model if address is missing" in {
     val uncompletedFormWithErrors = addressForm.fillAndValidate(InprogressOverseas(
-      address = Some(OverseasAddress(country = Some("United Kingdom"), addressDetails = None))))
+      address = Some(OverseasAddress(
+        country = Some("United Kingdom"),
+        addressLine1 = None,
+        addressLine2 = None,
+        addressLine3 = None,
+        addressLine4 = None,
+        addressLine5 = None))))
 
     val addressModel = addressMustache.transformFormStepToMustacheData(uncompletedFormWithErrors,
         postCall, Some(backCall))
@@ -70,7 +85,7 @@ class AddressMustacheTest
     addressModel.question.backUrl should be(backCall.url)
 
     addressModel.countrySelect.value should be("United Kingdom")
-    addressModel.address.value should be("")
+    addressModel.addressLine1.value should be("")
 
     addressModel.question.errorMessages.mkString(", ") should be("" +
       "Please enter your address")
@@ -78,7 +93,13 @@ class AddressMustacheTest
 
   it should "progress form with validation errors in the model if country is missing" in {
     val uncompletedFormWithErrors = addressForm.fillAndValidate(InprogressOverseas(
-      address = Some(OverseasAddress(country = None, addressDetails = Some("address")))))
+      address = Some(OverseasAddress(
+        country = None,
+        addressLine1 = Some("Francisco de Quevedo 34"),
+        addressLine2 = Some("08191 Rubí"),
+        addressLine3 = Some("Barcelona"),
+        addressLine4 = None,
+        addressLine5 = None))))
 
     val addressModel = addressMustache.transformFormStepToMustacheData(uncompletedFormWithErrors,
         postCall, Some(backCall))
@@ -88,7 +109,9 @@ class AddressMustacheTest
     addressModel.question.backUrl should be(backCall.url)
 
     addressModel.countrySelect.value should be("")
-    addressModel.address.value should be("address")
+    addressModel.addressLine1.value should be("Francisco de Quevedo 34")
+    addressModel.addressLine2.value should be("08191 Rubí")
+    addressModel.addressLine3.value should be("Barcelona")
 
     addressModel.question.errorMessages.mkString(", ") should be("" +
       "Please enter your country")

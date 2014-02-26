@@ -1,10 +1,12 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation
 
+import org.joda.time.{YearMonth, Years}
 import play.api.data.Forms._
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import uk.gov.gds.ier.model._
+import uk.gov.gds.ier.form.OverseasFormImplicits
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, ErrorMessages}
+import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, Key, ErrorMessages}
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import uk.gov.gds.ier.transaction.overseas.lastUkAddress.LastUkAddressForms
 import uk.gov.gds.ier.transaction.overseas.previouslyRegistered.PreviouslyRegisteredForms
@@ -14,13 +16,13 @@ import uk.gov.gds.ier.transaction.overseas.dateOfBirth.DateOfBirthForms
 import uk.gov.gds.ier.transaction.overseas.lastRegisteredToVote.LastRegisteredToVoteForms
 import uk.gov.gds.ier.transaction.overseas.nino.NinoForms
 import uk.gov.gds.ier.transaction.overseas.name.NameForms
+import uk.gov.gds.ier.transaction.overseas.parentName.ParentNameForms
 import uk.gov.gds.ier.transaction.overseas.openRegister.OpenRegisterForms
 import uk.gov.gds.ier.transaction.overseas.contact.ContactForms
 import uk.gov.gds.ier.transaction.overseas.passport.PassportForms
 import uk.gov.gds.ier.transaction.overseas.address.AddressForms
 import uk.gov.gds.ier.transaction.overseas.waysToVote.WaysToVoteForms
 import uk.gov.gds.ier.transaction.overseas.applicationFormVote.PostalOrProxyVoteForms
-import scala.collection.mutable
 import uk.gov.gds.ier.transaction.overseas.parentsAddress.ParentsAddressForms
 
 trait ConfirmationForms
@@ -30,6 +32,7 @@ trait ConfirmationForms
   with PreviouslyRegisteredForms
   with DateLeftSpecialForms
   with DateLeftUkForms
+  with ParentNameForms
   with DateOfBirthForms
   with LastRegisteredToVoteForms
   with NinoForms
@@ -42,6 +45,7 @@ trait ConfirmationForms
   with WaysToVoteForms
   with PostalOrProxyVoteForms
   with ContactForms
+  with OverseasFormImplicits
   with CommonConstraints {
 
   val stubMapping = mapping(
@@ -54,12 +58,12 @@ trait ConfirmationForms
 
   val confirmationForm = ErrorTransformForm(
     mapping(
-      keys.name.key -> optional(nameMapping),
-      keys.previousName.key -> optional(previousNameMapping),
+      keys.overseasName.key -> optional(overseasNameMapping),
       keys.previouslyRegistered.key -> optional(previouslyRegisteredMapping),
-      keys.dateLeftSpecial.key -> optional(dateLeftSpecialMapping),
+      keys.dateLeftSpecial.key -> optional(dateLeftSpecialTypeMapping),
       keys.dateLeftUk.key -> optional(dateLeftUkMapping),
-      "lastRegisteredToVote" -> optional(lastRegisteredToVoteMapping),
+      keys.overseasParentName.key -> optional(overseasParentNameMapping),
+      keys.lastRegisteredToVote.key -> optional(lastRegisteredToVoteMapping),
       keys.dob.key -> optional(dobMapping),
       keys.nino.key -> optional(ninoMapping),
       keys.lastUkAddress.key -> optional(partialAddressMapping),
@@ -74,42 +78,123 @@ trait ConfirmationForms
     )
     (InprogressOverseas.apply)
     (InprogressOverseas.unapply)
-    verifying (validateOverseasRenewerApplication)
+    verifying (validateOverseas)
   )
 
-  lazy val validateOverseasRenewerApplication = Constraint[InprogressOverseas]("validateOverseasRenewerApplication") {
-    application =>
+  lazy val validateOverseas = Constraint[InprogressOverseas]("validateOverseas") { application =>
+    import uk.gov.gds.ier.model.ApplicationType._
+    application.identifyApplication match {
+      case YoungVoter => validateYoungVoter(application)
+      case NewVoter => validateNewVoter(application)
+      case RenewerVoter => validateRenewerVoter(application)
+      case SpecialVoter => validateSpecialVoter(application)
+      case DontKnow => validateBaseSetRequired(application)
+    }
+  }
 
-      val validationErrors = Seq (
-          if (!application.dob.isDefined)
-            Some(keys.dob) else None,
-          if (!application.previouslyRegistered.exists(_.hasPreviouslyRegistered == true))
-            Some(keys.previouslyRegistered) else None,
-          if (!application.dateLeftUk.isDefined)
-            Some(keys.dateLeftUk) else None,
-          if (!application.lastUkAddress.isDefined)
-            Some(keys.lastUkAddress) else None,
-          if (!application.name.isDefined)
-            Some(keys.name) else None,
-          if (!application.previousName.isDefined)
-            Some(keys.previousName) else None,
-          if (!application.nino.isDefined)
-            Some(keys.nino) else None,
-          if (!application.address.isDefined)
-            Some(keys.overseasAddress) else None,
-          if (!application.openRegisterOptin.isDefined)
-            Some(keys.openRegister) else None,
-          if (!application.waysToVote.isDefined)
-            Some(keys.waysToVote) else None,
-          if (!application.postalOrProxyVote.isDefined)
-            Some(keys.postalOrProxyVote) else None,
-          if (!application.contact.isDefined)
-            Some(keys.contact) else None
-        ).flatten
+  lazy val validateBaseSetRequired = Constraint[InprogressOverseas]("validateBaseSet") {
+    application => Invalid("Base set criteria not met", keys.name)
+  }
 
-      if (validationErrors.size == 0)
-        Valid
-      else
-        Invalid ("Please complete this step", validationErrors:_*)
+  lazy val validateYoungVoter = Constraint[InprogressOverseas]("validateYoungVoter") { app =>
+    val errorKeys = List(
+      if (app.dob.isDefined) None else Some(keys.dob),
+      if (!app.previouslyRegistered.exists(_.hasPreviouslyRegistered == false))
+        Some(keys.previouslyRegistered) else None,
+      if (app.lastRegisteredToVote.isDefined) None else Some(keys.lastRegisteredToVote),
+      if (app.dateLeftUk.isDefined) None else Some(keys.dateLeftUk),
+      if (app.overseasParentName.flatMap(_.previousName).isDefined) None
+        else Some(keys.overseasParentName.parentPreviousName),
+      if (app.overseasParentName.flatMap(_.name).isDefined) None
+        else Some(keys.overseasParentName.parentName),
+      if (app.parentsAddress.isDefined) None else Some(Key("parentsAddress")),
+      if (app.passport.isDefined) None else Some(keys.passport),
+      if (app.overseasName.flatMap(_.previousName).isDefined) None
+        else Some(keys.overseasName.previousName),
+      if (app.overseasName.flatMap(_.name).isDefined) None else Some(keys.overseasName.name),
+      if (app.nino.isDefined) None else Some(keys.nino),
+      if (app.address.isDefined) None else Some(keys.overseasAddress),
+      if (app.openRegisterOptin.isDefined) None else Some(keys.openRegister),
+      if (app.waysToVote.isDefined) None else Some(keys.waysToVote),
+      if (app.postalOrProxyVote.isDefined) None else Some(keys.postalOrProxyVote),
+      if (app.contact.isDefined) None else Some(keys.contact)
+    ).flatten
+    if (errorKeys.size == 0) {
+      Valid
+    } else {
+      Invalid ("Please complete this step", errorKeys:_*)
+    }
+  }
+
+  lazy val validateSpecialVoter = Constraint[InprogressOverseas]("validateSpecialVoter") { app =>
+    val errorKeys = List(
+      if (app.dob.isDefined) None else Some(keys.dob),
+      if (!app.previouslyRegistered.exists(_.hasPreviouslyRegistered == false))
+        Some(keys.previouslyRegistered) else None,
+      if (app.lastRegisteredToVote.isDefined) None else Some(keys.lastRegisteredToVote),
+      if (app.dateLeftSpecial.isDefined) None else Some(keys.dateLeftSpecial),
+      if (app.lastUkAddress.isDefined) None else Some(keys.lastUkAddress),
+      if (app.passport.isDefined) None else Some(keys.passport),
+      if (app.overseasName.flatMap(_.previousName).isDefined) None else Some(keys.overseasName.previousName),
+      if (app.overseasName.flatMap(_.name).isDefined) None else Some(keys.overseasName.name),
+      if (app.nino.isDefined) None else Some(keys.nino),
+      if (app.address.isDefined) None else Some(keys.overseasAddress),
+      if (app.openRegisterOptin.isDefined) None else Some(keys.openRegister),
+      if (app.waysToVote.isDefined) None else Some(keys.waysToVote),
+      if (app.postalOrProxyVote.isDefined) None else Some(keys.postalOrProxyVote),
+      if (app.contact.isDefined) None else Some(keys.contact)
+    ).flatten
+    if (errorKeys.size == 0) {
+      Valid
+    } else {
+      Invalid ("Please complete this step", errorKeys:_*)
+    }
+  }
+
+  lazy val validateNewVoter = Constraint[InprogressOverseas]("validateNewVoter") { app =>
+    val errorKeys = List(
+      if (app.dob.isDefined) None else Some(keys.dob),
+      if (!app.previouslyRegistered.exists(_.hasPreviouslyRegistered == false))
+        Some(keys.previouslyRegistered) else None,
+      if (app.dateLeftUk.isDefined) None else Some(keys.dateLeftUk),
+      if (app.lastUkAddress.isDefined) None else Some(keys.lastUkAddress),
+      if (app.passport.isDefined) None else Some(keys.passport),
+      if (app.overseasName.flatMap(_.previousName).isDefined) None else Some(keys.overseasName.previousName),
+      if (app.overseasName.flatMap(_.name).isDefined) None else Some(keys.overseasName.name),
+      if (app.nino.isDefined) None else Some(keys.nino),
+      if (app.address.isDefined) None else Some(keys.overseasAddress),
+      if (app.openRegisterOptin.isDefined) None else Some(keys.openRegister),
+      if (app.waysToVote.isDefined) None else Some(keys.waysToVote),
+      if (app.postalOrProxyVote.isDefined) None else Some(keys.postalOrProxyVote),
+      if (app.contact.isDefined) None else Some(keys.contact)
+    ).flatten
+    if (errorKeys.size == 0) {
+      Valid
+    } else {
+      Invalid ("Please complete this step", errorKeys:_*)
+    }
+  }
+
+  lazy val validateRenewerVoter = Constraint[InprogressOverseas]("validateRenewerVoter") { app =>
+    val validationErrors = Seq (
+      if (app.dob.isDefined) None else Some(keys.dob),
+      if (!app.previouslyRegistered.exists(_.hasPreviouslyRegistered == true))
+        Some(keys.previouslyRegistered) else None,
+      if (app.dateLeftUk.isDefined) None else Some(keys.dateLeftUk),
+      if (app.lastUkAddress.isDefined) None else Some(keys.lastUkAddress),
+      if (app.overseasName.flatMap(_.previousName).isDefined) None else Some(keys.overseasName.previousName),
+      if (app.overseasName.flatMap(_.name).isDefined) None else Some(keys.overseasName.name),
+      if (app.nino.isDefined) None else Some(keys.nino),
+      if (app.address.isDefined) None else Some(keys.overseasAddress),
+      if (app.openRegisterOptin.isDefined) None else Some(keys.openRegister),
+      if (app.waysToVote.isDefined) None else Some(keys.waysToVote),
+      if (app.postalOrProxyVote.isDefined) None else Some(keys.postalOrProxyVote),
+      if (app.contact.isDefined) None else Some(keys.contact)
+    ).flatten
+
+    if (validationErrors.size == 0)
+      Valid
+    else
+      Invalid ("Please complete this step", validationErrors:_*)
   }
 }

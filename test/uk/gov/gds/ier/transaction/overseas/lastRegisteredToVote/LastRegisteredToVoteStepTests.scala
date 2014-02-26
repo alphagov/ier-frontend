@@ -64,7 +64,7 @@ class LastRegisteredToVoteStepTests
         FakeRequest(POST, "/register-to-vote/overseas/last-registered-to-vote")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "lastRegisteredToVote.registeredType" -> "army"
+            "lastRegisteredToVote.registeredType" -> "forces"
           )
       )
 
@@ -110,7 +110,7 @@ class LastRegisteredToVoteStepTests
         FakeRequest(POST, "/register-to-vote/overseas/last-registered-to-vote")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "lastRegisteredToVote.registeredType" -> "uk"
+            "lastRegisteredToVote.registeredType" -> "ordinary"
           )
       )
 
@@ -134,19 +134,19 @@ class LastRegisteredToVoteStepTests
     }
   }
 
-  it should "redirect to confirmation with a complete application" in {
+  it should "redirect to date left uk if the restered type is changed to ordinary" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/last-registered-to-vote")
           .withIerSession()
           .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
-            "lastRegisteredToVote.registeredType" -> "uk"
+            "lastRegisteredToVote.registeredType" -> "ordinary"
           )
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/overseas/confirmation"))
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/date-left-uk"))
     }
   }
 
@@ -157,11 +157,12 @@ class LastRegisteredToVoteStepTests
           .withIerSession()
           .withApplication(
             completeOverseasApplication.copy(
-              dateLeftSpecial = Some(DateLeftSpecial(DateLeft(1990, 12), LastRegisteredType.UK))
+              dateLeftUk = Some(DateLeft(2010, 12)),
+              dateLeftSpecial = None
             )
           )
           .withFormUrlEncodedBody(
-            "lastRegisteredToVote.registeredType" -> "army"
+            "lastRegisteredToVote.registeredType" -> "forces"
           )
       )
 
@@ -177,7 +178,8 @@ class LastRegisteredToVoteStepTests
           .withIerSession()
           .withApplication(
             completeOverseasApplication.copy(
-              dateLeftSpecial = Some(DateLeftSpecial(DateLeft(1990, 12), LastRegisteredType.UK))
+              dateLeftUk = Some(DateLeft(2010, 12)),
+              dateLeftSpecial = None
             )
           )
           .withFormUrlEncodedBody(
@@ -197,7 +199,8 @@ class LastRegisteredToVoteStepTests
           .withIerSession()
           .withApplication(
             completeOverseasApplication.copy(
-              dateLeftSpecial = Some(DateLeftSpecial(DateLeft(1990, 12), LastRegisteredType.UK))
+              dateLeftUk = Some(DateLeft(2010, 12)),
+              dateLeftSpecial = None
             )
           )
           .withFormUrlEncodedBody(
@@ -210,21 +213,19 @@ class LastRegisteredToVoteStepTests
     }
   }
 
-  it should "redirect to date left special with different answer (army -> uk)" in {
+  it should "redirect to date left uk with different answer (army -> uk)" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/last-registered-to-vote")
           .withIerSession()
           .withApplication(
             completeOverseasApplication.copy(
-              dateLeftSpecial = Some(DateLeftSpecial(
-                  DateLeft(1990, 12),
-                  LastRegisteredType.Army)),
+              dateLeftSpecial = Some(DateLeftSpecial(DateLeft(2010, 12))),
               dateLeftUk = None
             )
           )
           .withFormUrlEncodedBody(
-            "lastRegisteredToVote.registeredType" -> "uk"
+            "lastRegisteredToVote.registeredType" -> "ordinary"
           )
       )
 
@@ -287,7 +288,7 @@ class LastRegisteredToVoteStepTests
         FakeRequest(POST, "/register-to-vote/overseas/edit/last-registered-to-vote")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "lastRegisteredToVote.registeredType" -> "army"
+            "lastRegisteredToVote.registeredType" -> "forces"
           )
       )
 
@@ -333,7 +334,7 @@ class LastRegisteredToVoteStepTests
         FakeRequest(POST, "/register-to-vote/overseas/edit/last-registered-to-vote")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "lastRegisteredToVote.registeredType" -> "uk"
+            "lastRegisteredToVote.registeredType" -> "ordinary"
           )
       )
 
