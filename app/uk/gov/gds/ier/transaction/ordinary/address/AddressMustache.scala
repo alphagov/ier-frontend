@@ -43,7 +43,7 @@ trait AddressMustache {
         question = Question(
           postUrl = postUrl,
           backUrl = backUrl,
-          number = "5 or 6",
+          number = "6 of 11",
           title = title,
           errorMessages = form.form.globalErrors.map(_.message)
         ),
