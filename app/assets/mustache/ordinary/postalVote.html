@@ -24,12 +24,15 @@
 </label>
 
     </fieldset>
-    <fieldset class="optional-section optional-section-core-content sub-section validate" data-condition="{{postCheckboxYes.id}}" data-validation-name="deliveryMethod" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" data-validation-children="deliveryMethodEmail deliveryMethodPost">
+    <fieldset class="optional-section optional-section-core-content sub-section validate {{deliveryMethodValid}}" 
+    data-condition="{{postCheckboxYes.id}}" data-validation-name="deliveryMethod" 
+    data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" 
+    data-validation-children="deliveryMethodEmail deliveryMethodPost">
       <p>How should we send you the form?</p>
 
 <label for="{{deliveryByEmail.id}}" class="selectable" style="margin-bottom: 16px;">
 
-    <input type="radio" id="{{deliveryByEmail.id}}" name="{{deliveryByEmail.name}}" value="email" class="radio  validate {{deliveryByEmail.classes}}" data-validation-name="deliveryMethodEmail" data-validation-type="field" data-validation-rules="nonEmpty" {{deliveryByEmail.attributes}}>
+    <input type="radio" id="{{deliveryByEmail.id}}" name="{{deliveryByEmail.name}}" value="email" class="radio  validate" data-validation-name="deliveryMethodEmail" data-validation-type="field" data-validation-rules="nonEmpty" {{deliveryByEmail.attributes}}>
 
         Email it to me
       
@@ -38,7 +41,7 @@
 
       <div class="optional-section" data-condition="{{deliveryByEmail.id}}">
         <label>Email address</label>
-        <div class="validation-wrapper">
+        <div class="validation-wrapper {{emailField.classes}}">
           
 
 
@@ -54,7 +57,7 @@
         
 
 
-    <input type="radio" id="{{deliveryByPost.id}}" name="{{deliveryByPost.name}}" value="post" class="radio  validate {{deliveryByPost.classes}}" data-validation-name="deliveryMethodPost" data-validation-type="field" data-validation-rules="nonEmpty" {{deliveryByPost.attributes}}>
+    <input type="radio" id="{{deliveryByPost.id}}" name="{{deliveryByPost.name}}" value="post" class="radio  validate" data-validation-name="deliveryMethodPost" data-validation-type="field" data-validation-rules="nonEmpty" {{deliveryByPost.attributes}}>
 
 
         Post it to me

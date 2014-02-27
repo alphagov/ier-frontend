@@ -14,7 +14,8 @@ trait PostalVoteMustache extends StepMustache {
     postCheckboxNo: Field,
     deliveryByEmail: Field,
     deliveryByPost: Field,
-    emailField: Field
+    emailField: Field,
+    deliveryMethodValid: String
   )
 
   def transformFormStepToMustacheData(
@@ -22,6 +23,9 @@ trait PostalVoteMustache extends StepMustache {
       postUrl: Call,
       backUrl: Option[Call]): PostalVoteModel = {
     implicit val progressForm = form
+    
+    val deliveryMethodValidation = 
+      if (form(keys.postalVote.deliveryMethod.methodName.key).hasErrors) "invalid" else ""
 
     PostalVoteModel(
       question = Question(
@@ -44,7 +48,8 @@ trait PostalVoteMustache extends StepMustache {
         key = keys.postalVote.deliveryMethod.methodName,
         value = "post"),
       emailField = TextField(
-        key = keys.postalVote.deliveryMethod.emailAddress)
+        key = keys.postalVote.deliveryMethod.emailAddress),
+      deliveryMethodValid = deliveryMethodValidation
     )
   }
 
