@@ -22,13 +22,26 @@ li {
   @include core-19;
 }
 
-p {
+p,
+a {
   margin: 0 0 1em;
   clear: both;
+}
 
-  &.footnote {
-    margin-top: 2em;
+a {
+  display: block;
+  @include core-19;
+
+  p &,
+  ol &,
+  ul & {
+    display: inline;
+    margin: 0;
   }
+}
+
+p.footnote {
+  margin-top: 2em;
 }
 
 ul,li {
@@ -157,7 +170,7 @@ main .visible { // assumes default state is block
 
 /* get started buttons */
 .get-started {
-  margin:1.5em 0;
+  margin:1.5em 0 0;
   
   .destination {
     @include core-14;
