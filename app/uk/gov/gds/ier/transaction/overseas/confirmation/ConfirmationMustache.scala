@@ -9,6 +9,7 @@ import uk.gov.gds.ier.model.{
   DOB,
   DateLeft}
 import controllers.step.overseas._
+import controllers.routes.RegisterToVoteController
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.validation.{Key, ErrorTransformForm, DateValidator}
 import org.joda.time.{YearMonth, Years, LocalDate}
@@ -21,6 +22,10 @@ import uk.gov.gds.ier.transaction.overseas.confirmation.blocks.{
   ConfirmationBlocks}
 
 trait ConfirmationMustache {
+
+  case class ErrorModel(
+      startUrl: String
+  )
 
   case class ConfirmationModel(
       applicantDetails: List[ConfirmationQuestion],
@@ -48,7 +53,13 @@ trait ConfirmationMustache {
         postUrl = postUrl
       )
 
-      val content = Mustache.render("overseas/confirmation", data)
+      val content = if (applicantData.isEmpty) {
+        Mustache.render("overseas/confirmationError",
+          ErrorModel(startUrl = RegisterToVoteController.registerToVoteOverseasStart.url)
+        )
+      } else {
+        Mustache.render("overseas/confirmation", data)
+      }
       MainStepTemplate(
         content,
         "Confirm your details - Register to vote",
