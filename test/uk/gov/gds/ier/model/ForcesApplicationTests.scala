@@ -116,7 +116,7 @@ class ForcesApplicationTests
       "corraddressline2" -> "Riyadh 12622 11564",
       "saf" -> "false",
       "rank" -> "Captain",
-      "serv" -> "air",
+      "serv" -> "Royal Air Force",
       "servno" -> "1234567",
       "pvote" -> "true",
       "opnreg" -> "false",

@@ -206,9 +206,9 @@ trait ConfirmationMustache {
         changeName = "service",
         content = ifComplete(keys.service) {
            val serviceName = form(keys.service.serviceName).value match {
-             case Some("navy") => "Royal Navy"
-             case Some("army") => "Army"
-             case Some("air") => "Royal Airforce"
+             case Some("Royal Navy") => "Royal Navy"
+             case Some("British Army") => "Army"
+             case Some("Royal Air Force") => "Royal Airforce"
              case _ => ""
            }
            val memberOf = "<p>I am a member of the "+serviceName+"</p>"

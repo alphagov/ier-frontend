@@ -106,9 +106,9 @@ case class Rank(
 sealed case class ServiceType(name:String)
 
 object ServiceType {
-  val RoyalNavy = ServiceType("navy")
-  val BritishArmy = ServiceType("army")
-  val RoyalAirForce = ServiceType("air")
+  val RoyalNavy = ServiceType("Royal Navy")
+  val BritishArmy = ServiceType("British Army")
+  val RoyalAirForce = ServiceType("Royal Air Force")
 
   def isValid(str:String) = {
     Try {
@@ -118,9 +118,9 @@ object ServiceType {
 
   def parse(str:String) = {
     str match {
-      case "navy" => RoyalNavy
-      case "army" => BritishArmy
-      case "air" => RoyalAirForce
+      case "Royal Navy" => RoyalNavy
+      case "British Army" => BritishArmy
+      case "Royal Air Force" => RoyalAirForce
       case _ => throw new IllegalArgumentException(s"$str not a valid ServiceType")
     }
   }
