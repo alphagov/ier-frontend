@@ -1,63 +1,47 @@
-package uk.gov.gds.ier.transaction.overseas.lastUkAddress
+package uk.gov.gds.ier.transaction.overseas.parentsAddress
 
-import controllers.step.overseas.routes.{
-  LastUkAddressController,
-  LastUkAddressSelectController,
-  DateLeftUkController}
-import controllers.step.overseas.{
-  NameController,
-  PassportCheckController}
+import controllers.step.overseas.routes._
+import controllers.step.overseas.PassportCheckController
 import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.model.{
-  InprogressOverseas,
-  PartialAddress,
-  Addresses,
-  PossibleAddress,
-  ApplicationType}
+import uk.gov.gds.ier.model.InprogressOverseas
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.validation.InProgressForm
-import uk.gov.gds.ier.form.OverseasFormImplicits
 
-class LastUkAddressStep @Inject() (
+class ParentsAddressStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
     val encryptionKeys: EncryptionKeys,
     val addressService: AddressService)
   extends OverseaStep
-  with LastUkAddressMustache
-  with LastUkAddressForms
-  with OverseasFormImplicits {
+  with ParentsAddressMustache
+  with ParentsAddressForms {
 
-  val validation = lastUkAddressForm
+  val validation = parentsAddressForm
 
   val previousRoute = Some(DateLeftUkController.get)
 
   val routes = Routes(
-    get = LastUkAddressController.get,
-    post = LastUkAddressController.lookup,
-    editGet = LastUkAddressController.editGet,
-    editPost = LastUkAddressController.lookup
+    get = ParentsAddressController.get,
+    post = ParentsAddressController.lookup,
+    editGet = ParentsAddressController.editGet,
+    editPost = ParentsAddressController.lookup
   )
 
   def nextStep(currentState: InprogressOverseas) = {
-    currentState.identifyApplication match {
-      case ApplicationType.RenewerVoter => NameController.nameStep
-      case ApplicationType.DontKnow => this
-      case _ => PassportCheckController.passportCheckStep
-    }
+    PassportCheckController.passportCheckStep
   }
 
   def template(
       form: InProgressForm[InprogressOverseas],
       call: Call,
       backUrl: Option[Call]) = {
-    LastUkAddressMustache.lookupPage(
+    ParentsAddressMustache.lookupPage(
       form,
       backUrl.map(_.url).getOrElse(""),
       call.url
@@ -65,14 +49,14 @@ class LastUkAddressStep @Inject() (
   }
 
   def lookup = ValidSession requiredFor { implicit request => application =>
-    lookupAddressForm.bindFromRequest().fold(
+    parentsLookupAddressForm.bindFromRequest().fold(
       hasErrors => {
         Ok(template(InProgressForm(hasErrors), routes.post, previousRoute))
       },
       success => {
         val mergedApplication = success.merge(application)
         Redirect(
-          LastUkAddressSelectController.get
+          ParentsAddressSelectController.get
         ) storeInSession mergedApplication
       }
     )
