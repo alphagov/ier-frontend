@@ -53,13 +53,8 @@ trait ConfirmationMustache {
         postUrl = postUrl
       )
 
-      val content = if (applicantData.isEmpty) {
-        Mustache.render("overseas/confirmationError",
-          ErrorModel(startUrl = RegisterToVoteController.registerToVoteOverseasStart.url)
-        )
-      } else {
-        Mustache.render("overseas/confirmation", data)
-      }
+      val content = Mustache.render("overseas/confirmation", data)
+
       MainStepTemplate(
         content,
         "Confirm your details - Register to vote",

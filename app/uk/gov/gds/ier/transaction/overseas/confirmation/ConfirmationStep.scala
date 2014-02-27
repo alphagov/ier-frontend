@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation
 
-import uk.gov.gds.ier.model.InprogressOverseas
+import uk.gov.gds.ier.model.{InprogressOverseas, ApplicationType}
 import uk.gov.gds.ier.step.ConfirmationStepController
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
@@ -12,6 +12,7 @@ import controllers.step.overseas.routes.PreviouslyRegisteredController
 import controllers.routes.CompleteController
 import com.google.inject.Inject
 import uk.gov.gds.ier.step.Routes
+import uk.gov.gds.ier.mustache.ErrorPageMustache
 
 class ConfirmationStep @Inject() (val encryptionKeys: EncryptionKeys,
                                   val encryptionService: EncryptionService,
@@ -20,6 +21,7 @@ class ConfirmationStep @Inject() (val encryptionKeys: EncryptionKeys,
                                   ierApi: IerApiService)
   extends ConfirmationStepController[InprogressOverseas]
   with ConfirmationForms
+  with ErrorPageMustache
   with ConfirmationMustache {
 
   def factoryOfT() = InprogressOverseas()
@@ -44,7 +46,10 @@ class ConfirmationStep @Inject() (val encryptionKeys: EncryptionKeys,
 
   def get = ValidSession requiredFor {
     request => application =>
-      Ok(template(InProgressForm(validation.fillAndValidate(application))))
+      application.identifyApplication match {
+        case ApplicationType.DontKnow => NotFound(ErrorPage.NotFound(request.path))
+        case _ => Ok(template(InProgressForm(validation.fillAndValidate(application))))
+      }
   }
 
   def post = ValidSession requiredFor {
