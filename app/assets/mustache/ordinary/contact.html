@@ -17,7 +17,7 @@
             <label for="{{contactEmailText.id}}" class=""  >
                 Email address
             </label>
-            <div class="validation-wrapper">
+            <div class="validation-wrapper {{contactEmailText.classes}}">
                 <input type="email" id="{{contactEmailText.id}}" name="{{contactEmailText.name}}" value="{{contactEmailText.value}}"
                        autocomplete="off"  class="text  long validate {{contactEmailText.classes}}" data-validation-name="emailAddress"
                        data-validation-type="field"  data-validation-rules="nonEmpty" >
@@ -34,7 +34,7 @@
             <label for="{{contactPhoneText.id}}" class=""  >
                 Phone number
             </label>
-            <div class="validation-wrapper">
+            <div class="validation-wrapper {{contactPhoneText.classes}}">
                 <input type="tel" id="{{contactPhoneText.id}}" name="{{contactPhoneText.name}}" value="{{contactPhoneText.value}}"
                        autocomplete="off"  class="text  validate {{contactPhoneText.classes}}" data-validation-name="phoneNumber"
                        data-validation-type="field"  data-validation-rules="nonEmpty" >
