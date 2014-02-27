@@ -40,19 +40,19 @@ trait ConfirmationForms
 
   val confirmationForm = ErrorTransformForm(
     mapping(
-      keys.statement.key -> optional(statementMapping),
-      keys.address.key -> optional(partialAddressMapping),
-      keys.nationality.key -> optional(nationalityMapping),
-      keys.dob.key -> optional(dobAndReasonMapping),
-      keys.name.key -> optional(nameMapping),
-      keys.nino.key -> optional(ninoMapping),
-      keys.service.key -> optional(serviceMapping),
-      keys.rank.key -> optional(rankMapping),
-      keys.contactAddress.key -> optional(contactAddressMapping),
-      keys.openRegister.key -> optional(openRegisterOptInMapping),
-      keys.waysToVote.key -> optional(waysToVoteMapping),
-      keys.postalOrProxyVote.key -> optional(postalOrProxyVoteMapping),
-      keys.contact.key -> optional(contactMapping),
+      keys.statement.key -> stepRequired(statementMapping),
+      keys.address.key -> stepRequired(partialAddressMapping),
+      keys.nationality.key -> stepRequired(nationalityMapping),
+      keys.dob.key -> stepRequired(dobAndReasonMapping),
+      keys.name.key -> stepRequired(nameMapping),
+      keys.nino.key -> stepRequired(ninoMapping),
+      keys.service.key -> stepRequired(serviceMapping),
+      keys.rank.key -> stepRequired(rankMapping),
+      keys.contactAddress.key -> stepRequired(contactAddressMapping),
+      keys.openRegister.key -> stepRequired(openRegisterOptInMapping),
+      keys.waysToVote.key -> stepRequired(waysToVoteMapping),
+      keys.postalOrProxyVote.key -> stepRequired(postalOrProxyVoteMapping),
+      keys.contact.key -> stepRequired(contactMapping),
       keys.possibleAddresses.key -> optional(possibleAddressMapping)
     )
     (InprogressForces.apply)
