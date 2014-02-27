@@ -54,6 +54,14 @@ class PostalVoteStep @Inject ()(val serialiser: JsonSerialiser,
     postalVoteMustache(newForm.form, call, backUrl)
   }
 
+ override def postSuccess(currentState: InprogressOrdinary):InprogressOrdinary = {
+    currentState.postalVote match {
+      case Some(PostalVote(Some(false), _)) =>
+          currentState.copy(postalVote = Some(PostalVote(Some(false), None)))
+      case _ => currentState
+    }
+  }  
+  
   def nextStep(currentState: InprogressOrdinary) = {
     ContactController.contactStep
   }
