@@ -51,8 +51,7 @@ class PostalVoteStep @Inject ()(val serialiser: JsonSerialiser,
       case Some(application) => form.copy(form = form.form.fill(prepopulateEmailAddress (application)))
       case None => form
     }
-    postalVoteMustache(newForm.form, call, backUrl.map(_.url))
-//    views.html.steps.postalVote(newForm, call, backUrl.map(_.url))
+    postalVoteMustache(newForm.form, call, backUrl)
   }
 
   def nextStep(currentState: InprogressOrdinary) = {

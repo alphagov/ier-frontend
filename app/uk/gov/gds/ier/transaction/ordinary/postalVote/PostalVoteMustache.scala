@@ -8,42 +8,51 @@ import play.api.templates.Html
 
 trait PostalVoteMustache extends StepMustache {
 
-  val pageTitle = "Do you want to apply for a postal vote?"
-
   case class PostalVoteModel(
     question: Question,
-    byPostYes: Field,
-    byPostNo: Field
+    postCheckboxYes: Field,
+    postCheckboxNo: Field,
+    deliveryByEmail: Field,
+    deliveryByPost: Field,
+    emailField: Field
   )
 
   def transformFormStepToMustacheData(
       form: ErrorTransformForm[InprogressOrdinary],
-      postUrl: String,
-      backUrl: Option[String]): PostalVoteModel = {
+      postUrl: Call,
+      backUrl: Option[Call]): PostalVoteModel = {
     implicit val progressForm = form
 
     PostalVoteModel(
       question = Question(
-        postUrl = postUrl,
-        backUrl = backUrl.getOrElse(""),
+        postUrl = postUrl.url,
+        backUrl = backUrl.map { call => call.url }.getOrElse(""),
         showBackUrl = backUrl.isDefined,
         number = "10",
-        title = pageTitle,
+        title = "Do you want to apply for a postal vote?",
         errorMessages = form.globalErrors.map { _.message }),
-      byPostYes = RadioField(
-        key = keys.postalVote,
-        value = "by-post-yes"),
-      byPostNo = RadioField(
-        key = keys.postalVote,
-        value = "by-post-no")
+      postCheckboxYes = RadioField(
+        key = keys.postalVote.optIn,
+        value = "true"),
+      postCheckboxNo = RadioField(
+        key = keys.postalVote.optIn,
+        value = "false"),
+      deliveryByEmail = RadioField(
+        key = keys.postalVote.deliveryMethod.methodName,
+        value = "email"),
+      deliveryByPost = RadioField(
+        key = keys.postalVote.deliveryMethod.methodName,
+        value = "post"),
+      emailField = TextField(
+        key = keys.postalVote.deliveryMethod.emailAddress)
     )
   }
 
   def postalVoteMustache(
       form: ErrorTransformForm[InprogressOrdinary],
-      call: Call, backUrl: Option[String]): Html = {
-    val data = transformFormStepToMustacheData(form, call.url, backUrl)
+      call: Call, backUrl: Option[Call]): Html = {
+    val data = transformFormStepToMustacheData(form, call, backUrl)
     val content = Mustache.render("ordinary/postalVote", data)
-    MainStepTemplate(content, pageTitle)
+    MainStepTemplate(content, data.question.title)
   }
 }
