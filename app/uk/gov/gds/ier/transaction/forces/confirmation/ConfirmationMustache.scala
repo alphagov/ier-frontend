@@ -86,12 +86,16 @@ trait ConfirmationMustache {
     }
 
     def displayPartnerBlock (form:InProgressForm[InprogressForces]): Boolean = {
+
+      val isForcesPartner = Some("true")
+      val isNotForcesMember = Some("false")
+
       (
         form(keys.statement.partnerForcesMember).value,
         form(keys.statement.forcesMember).value
       ) match {
-        case (Some("true"), Some("false")) => true
-        case (Some("true"), None) => true
+        case (`isForcesPartner`, `isNotForcesMember`) => true
+        case (`isForcesPartner`, None) => true
         case _ => false
       }
     }
@@ -330,8 +334,8 @@ trait ConfirmationMustache {
           },
           content = ifComplete(keys.postalOrProxyVote) {
             (optIn, emailMe) match {
-              case (true, true) => s"<p>Please email a ${prettyWayName} application form to:" +
-                s"<br/>${myEmail}</p>"
+              case (true, true) => s"<p>Please email a ${prettyWayName} application form to:</p>" +
+                s"<p>${myEmail}</p>"
               case (true, false) => s"<p>Please post me a ${prettyWayName} application form</p>"
               case (false, _) => s"<p>I do not need a ${prettyWayName} application form</p>"
             }
