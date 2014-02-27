@@ -144,7 +144,8 @@ class ConfirmationMustacheTest
 
   "In-progress application form with british nationality" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
-    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
+
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(completeForcesApplication.copy(
       nationality = Some(PartialNationality(
         british = Some(true),
         irish = None,
@@ -152,7 +153,7 @@ class ConfirmationMustacheTest
         otherCountries = List.empty,
         noNationalityReason = None
       ))
-    ))
+    ) )
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
@@ -163,7 +164,7 @@ class ConfirmationMustacheTest
 
   "In-progress application form with irish nationality" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
-    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(completeForcesApplication.copy(
       nationality = Some(PartialNationality(
         british = None,
         irish = Some(true),
@@ -182,7 +183,7 @@ class ConfirmationMustacheTest
 
   "In-progress application form with other nationality" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
-    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(completeForcesApplication.copy(
       nationality = Some(PartialNationality(
         british = None,
         irish = None,
@@ -373,7 +374,7 @@ class ConfirmationMustacheTest
   "In-progress application form without open register flag" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
-      openRegisterOptin = None
+      openRegisterOptin = Some(false)
     ))
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
@@ -456,7 +457,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
     val Some(postalOrProxyVoteModel) = confirmation.postalOrProxyVote
-    postalOrProxyVoteModel.content should be("<p>Please email a postal vote application form to:<br/>antoine@gds.com</p>")
+    postalOrProxyVoteModel.content should be("<p>Please email a postal vote application form to:</p><p>antoine@gds.com</p>")
     postalOrProxyVoteModel.editLink should be("/register-to-vote/forces/edit/postal-vote")
   }
 
@@ -496,7 +497,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
     val Some(postalOrProxyVoteModel) = confirmation.postalOrProxyVote
-    postalOrProxyVoteModel.content should be("<p>Please email a proxy vote application form to:<br/>antoine@gds.com</p>")
+    postalOrProxyVoteModel.content should be("<p>Please email a proxy vote application form to:</p><p>antoine@gds.com</p>")
     postalOrProxyVoteModel.editLink should be("/register-to-vote/forces/edit/proxy-vote")
   }
 
