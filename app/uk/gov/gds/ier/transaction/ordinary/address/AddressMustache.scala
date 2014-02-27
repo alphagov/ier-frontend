@@ -104,13 +104,13 @@ trait AddressMustache {
         key = keys.address.uprn,
         optionList = options,
         default = SelectOption(
-          value = "", 
+          value = "",
           text = s"${options.size} addresses found"
         )
       )
       val addressSelectWithError = addressSelect.copy(
         classes = if (!hasAddresses) {
-          "invalid" 
+          "invalid"
         } else {
           addressSelect.classes
         }
@@ -120,7 +120,7 @@ trait AddressMustache {
         question = Question(
           postUrl = postUrl,
           backUrl = backUrl,
-          number = "5",
+          number = "6 of 11",
           title = title,
           errorMessages = progressForm.globalErrors.map(_.message)
         ),
@@ -167,7 +167,7 @@ trait AddressMustache {
         question = Question(
           postUrl = postUrl,
           backUrl = backUrl,
-          number = "5 or 6",
+          number = "6 of 11",
           title = title,
           errorMessages = progressForm.globalErrors.map(_.message)
         ),
