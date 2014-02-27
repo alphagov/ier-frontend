@@ -15,9 +15,9 @@ trait ParentsAddressBlocks {
     }
 
     ConfirmationQuestion(
-      title = "Parents Last UK Address",
+      title = "Parent's or guardian's last UK address",
       editLink = editCall.url,
-      changeName = "your parents' last UK address",
+      changeName = "your parent's or guardian's last UK address",
       content = ifComplete(keys.parentsAddress) {
         val addressLine = form(keys.parentsAddress.addressLine).value.orElse{
           form(keys.parentsAddress.manualAddress).value

@@ -13,7 +13,7 @@ trait ParentNameBlocks {
     ).flatten.mkString(" ")
 
     ConfirmationQuestion(
-      title = "Parent or guardian's name",
+      title = "Parent's or guardian's name",
       editLink = routes.ParentNameController.editGet.url,
       changeName = "full name",
       content = ifComplete(keys.overseasParentName.parentName) {
@@ -35,7 +35,7 @@ trait ParentNameBlocks {
       case _ => "They haven't changed their name since they left the UK"
     }
     ConfirmationQuestion(
-      title = "Parent or guardian's previous name",
+      title = "Parent's or guardian's previous name",
       editLink = routes.ParentNameController.editGet.url,
       changeName = "previous name",
       content = ifComplete(keys.overseasParentName.parentPreviousName) {
