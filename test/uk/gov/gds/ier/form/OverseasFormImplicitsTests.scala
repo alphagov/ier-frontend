@@ -34,8 +34,18 @@ class OverseasFormImplicitsTests
     renewerVoter.identifyApplication should be(ApplicationType.RenewerVoter)
   }
 
-  it should "properly identify a special voter" in {
-    val specialVoter = incompleteSpecialApplication
+  it should "properly identify a forces voter" in {
+    val specialVoter = incompleteForcesApplication
+    specialVoter.identifyApplication should be(ApplicationType.SpecialVoter)
+  }
+
+  it should "properly identify a crown voter" in {
+    val specialVoter = incompleteCrownApplication
+    specialVoter.identifyApplication should be(ApplicationType.SpecialVoter)
+  }
+
+  it should "properly identify a council voter" in {
+    val specialVoter = incompleteCouncilApplication
     specialVoter.identifyApplication should be(ApplicationType.SpecialVoter)
   }
 
@@ -60,8 +70,18 @@ class OverseasFormImplicitsTests
     renewerVoterForm.identifyApplication should be(ApplicationType.RenewerVoter)
   }
 
-  it should "properly identify a special voter" in {
-    val specialVoterForm = confirmationForm.fillAndValidate(incompleteSpecialApplication)
+  it should "properly identify a forces voter" in {
+    val specialVoterForm = confirmationForm.fillAndValidate(incompleteForcesApplication)
+    specialVoterForm.identifyApplication should be(ApplicationType.SpecialVoter)
+  }
+
+  it should "properly identify a council voter" in {
+    val specialVoterForm = confirmationForm.fillAndValidate(incompleteCouncilApplication)
+    specialVoterForm.identifyApplication should be(ApplicationType.SpecialVoter)
+  }
+
+  it should "properly identify a crown voter" in {
+    val specialVoterForm = confirmationForm.fillAndValidate(incompleteCrownApplication)
     specialVoterForm.identifyApplication should be(ApplicationType.SpecialVoter)
   }
 

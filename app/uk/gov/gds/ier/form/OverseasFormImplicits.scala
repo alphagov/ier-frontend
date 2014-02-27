@@ -30,6 +30,15 @@ trait OverseasFormImplicits {
       }
     }
 
+    def dateLeftSpecial = {
+      for (
+        month <- form(keys.dateLeftSpecial.month).value;
+        year <- form(keys.dateLeftSpecial.year).value
+      ) yield {
+        new YearMonth().withYear(year.toInt).withMonthOfYear(month.toInt)
+      }
+    }
+
     def dateLeftUk = {
       for (
         month <- form(keys.dateLeftUk.month).value;
@@ -40,9 +49,9 @@ trait OverseasFormImplicits {
     }
 
     def within15YearLimit = {
-      val eighteenYearsAgo = new YearMonth().minusYears(15)
+      val fifteenYearsAgo = new YearMonth().minusYears(15)
       dateLeftUk map { date =>
-        date isAfter eighteenYearsAgo
+        date isAfter fifteenYearsAgo
       }
     }
 
@@ -60,13 +69,6 @@ trait OverseasFormImplicits {
     def bornBefore1983 = {
       dateOfBirth map { dob =>
         dob isBefore jan1st1983
-      }
-    }
-
-    def isUnder18 = {
-      val eigthteenYearsAgo = new LocalDate().minusYears(18)
-      dateOfBirth map { dob =>
-        dob isAfter eigthteenYearsAgo
       }
     }
 

@@ -139,7 +139,7 @@ class LastUkAddressStepTests
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
           .withIerSession()
-          .withApplication(incompleteSpecialApplication)
+          .withApplication(incompleteForcesApplication)
           .withFormUrlEncodedBody(
             "lastUkAddress.uprn" -> "123456789",
             "lastUkAddress.postcode" -> "SW1A 1AA"
@@ -156,7 +156,7 @@ class LastUkAddressStepTests
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
           .withIerSession()
-          .withApplication(incompleteSpecialApplication)
+          .withApplication(incompleteForcesApplication)
           .withFormUrlEncodedBody(
             "lastUkAddress.manualAddress" -> "123 Fake Street",
             "lastUkAddress.postcode" -> "SW1A 1AA"
@@ -325,7 +325,7 @@ behavior of "LastUkAddressStep.editGet"
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
           .withIerSession()
-          .withApplication(incompleteSpecialApplication)
+          .withApplication(incompleteForcesApplication)
           .withFormUrlEncodedBody(
             "lastUkAddress.uprn" -> "123456789",
             "lastUkAddress.postcode" -> "SW1A 1AA"
@@ -342,7 +342,7 @@ behavior of "LastUkAddressStep.editGet"
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
           .withIerSession()
-          .withApplication(incompleteSpecialApplication)
+          .withApplication(incompleteForcesApplication)
           .withFormUrlEncodedBody(
             "lastUkAddress.manualAddress" -> "123 Fake Street",
             "lastUkAddress.postcode" -> "SW1A 1AA"
