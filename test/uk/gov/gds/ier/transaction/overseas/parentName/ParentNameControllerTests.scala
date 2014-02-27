@@ -48,11 +48,11 @@ class ParentNameControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/overseas/last-uk-address"))
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/parents-address"))
     }
   }
 
-  it should "bind successfully with no previous name and redirect to last uk address step" in {
+  it should "bind successfully with no previous name and redirect to parents address step" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/parent-name")
@@ -64,7 +64,7 @@ class ParentNameControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/overseas/last-uk-address"))
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/parents-address"))
     }
   }
 
@@ -137,7 +137,7 @@ class ParentNameControllerTests
   }
 
   behavior of "ParentNameController.editPost"
-  it should "bind successfully and redirect to the last uk address step" in {
+  it should "bind successfully and redirect to the parents address step" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/edit/parent-name")
@@ -151,11 +151,11 @@ class ParentNameControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/overseas/last-uk-address"))
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/parents-address"))
     }
   }
 
-  it should "bind successfully with no previous name and redirect to last uk address step" in {
+  it should "bind successfully with no previous name and redirect to parents address step" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/edit/parent-name")
@@ -167,7 +167,7 @@ class ParentNameControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/overseas/last-uk-address"))
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/parents-address"))
     }
   }
 
