@@ -13,7 +13,7 @@ import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.model.{InprogressOverseas, PreviousName, OverseasName}
 import controllers.step.overseas.routes.ParentNameController
 import controllers.step.overseas.routes.DateLeftUkController
-import controllers.step.overseas.LastUkAddressController
+import controllers.step.overseas.ParentsAddressController
 
 class ParentNameStep @Inject ()(
     val serialiser: JsonSerialiser,
@@ -35,7 +35,7 @@ class ParentNameStep @Inject ()(
   val previousRoute = Some(DateLeftUkController.get)
 
   def nextStep(currentState: InprogressOverseas) = {
-    LastUkAddressController.lastUkAddressStep
+    ParentsAddressController.parentsAddressStep
   }
   
   override def postSuccess(currentState: InprogressOverseas):InprogressOverseas = {

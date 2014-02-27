@@ -3,27 +3,33 @@
   <header>
     <h1>Check your answers before sending your application.</h1>
   </header>
+
+  {{#displayParentBlock}}
+    <h2>Your Parent's or Guardian's details</h2>
+  {{/displayParentBlock}}
+
   {{#parentDetails}}
-  <h2>Your Parent's or Guardian's details</h2>
-  <div>
-    <h3>{{title}}</h3>
-    <div class="data-wrap">
-      {{{content}}}
-    </div>
-    <a href="{{editLink}}" class="change">Change<span class="visuallyhidden"> {{changeName}}</span></a>
-  </div>
+      <div>
+        <h3>{{title}}</h3>
+        <div class="data-wrap">
+          {{{content}}}
+        </div>
+        <a href="{{editLink}}" class="change">Change<span class="visuallyhidden"> {{changeName}}</span></a>
+      </div>
   {{/parentDetails}}
+
   {{#displayParentBlock}}
     <h2>Your details</h2>
   {{/displayParentBlock}}
+
   {{#applicantDetails}}
-  <div>
-    <h3>{{title}}</h3>
-    <div class="data-wrap">
-      {{{content}}}
-    </div>
-    <a href="{{editLink}}" class="change">Change<span class="visuallyhidden"> {{changeName}}</span></a>
-  </div>
+      <div>
+        <h3>{{title}}</h3>
+        <div class="data-wrap">
+          {{{content}}}
+        </div>
+        <a href="{{editLink}}" class="change">Change<span class="visuallyhidden"> {{changeName}}</span></a>
+      </div>
   {{/applicantDetails}}
   <div class="help-notice">
     <p>I understand that: </p>
