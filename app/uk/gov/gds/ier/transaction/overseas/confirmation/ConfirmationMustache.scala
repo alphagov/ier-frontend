@@ -7,7 +7,7 @@ import controllers.step.overseas._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.validation.Key
 import uk.gov.gds.ier.validation.InProgressForm
-import org.joda.time.{YearMonth, Months, LocalDate}
+import org.joda.time.{YearMonth, Years, LocalDate}
 import scala.util.Try
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.DateValidator
@@ -19,44 +19,54 @@ import play.api.Logger
 trait ConfirmationMustache {
 
   case class ConfirmationQuestion(
-      content:String,
-      title:String,
-      editLink:String,
-      changeName:String
+      content: String,
+      title: String,
+      editLink: String,
+      changeName: String
   )
 
   case class ConfirmationModel(
-      questions:List[ConfirmationQuestion],
+      applicantDetails: List[ConfirmationQuestion],
+      parentDetails: List[ConfirmationQuestion],
+      displayParentBlock: Boolean,
       backUrl: String,
       postUrl: String
   )
 
   object Confirmation extends StepMustache {
     def confirmationPage(
-        form:InProgressForm[InprogressOverseas],
+        form: InProgressForm[InprogressOverseas],
         backUrl: String,
         postUrl: String) = {
 
       val confirmation = new ConfirmationBlocks(form)
 
+      val parentData = List(
+        confirmation.parentName,
+        confirmation.parentPreviousName,
+        confirmation.parentsAddress
+      ).flatten
+
+      val applicantData = List(
+        confirmation.previouslyRegistered,
+        confirmation.dateLeft,
+        confirmation.lastUkAddress,
+        confirmation.passport,
+        confirmation.name,
+        confirmation.previousName,
+        confirmation.dateOfBirth,
+        confirmation.nino,
+        confirmation.address,
+        confirmation.openRegister,
+        confirmation.waysToVote,
+        confirmation.postalOrProxyVote,
+        confirmation.contact
+      ).flatten
+
       val data = ConfirmationModel(
-        questions = List(
-          confirmation.previouslyRegistered,
-          confirmation.dateLeft,
-          confirmation.lastUkAddress,
-          confirmation.passport,
-          confirmation.name,
-          confirmation.previousName,
-          confirmation.dateOfBirth,
-          confirmation.nino,
-          confirmation.address,
-          confirmation.openRegister,
-          confirmation.waysToVote,
-          confirmation.postalOrProxyVote,
-          confirmation.contact,
-          confirmation.parentName,
-          confirmation.parentPreviousName
-        ).flatten,
+        parentDetails = parentData,
+        applicantDetails = applicantData,
+        displayParentBlock = !parentData.isEmpty,
         backUrl = backUrl,
         postUrl = postUrl
       )
@@ -155,6 +165,51 @@ trait ConfirmationMustache {
         case (Some(LastRegisteredType.Council), _) => dateLeftCouncil
         case (Some(LastRegisteredType.NotRegistered), _) => dateLeftUk
         case _ => None
+      }
+    }
+
+    def parentsAddress = {
+      val dateLeft = for(
+        month <- form(keys.dateLeftUk.month).value;
+        year <- form(keys.dateLeftUk.year).value
+      ) yield {
+        new YearMonth().withYear(year.toInt).withMonthOfYear(month.toInt)
+      }
+      val dob = for(
+        day <- form(keys.dob.day).value;
+        month <- form(keys.dob.month).value;
+        year <- form(keys.dob.year).value
+      ) yield {
+        new YearMonth().withYear(year.toInt).withMonthOfYear(month.toInt)
+      }
+      val ageWhenLeft = for(
+        whenLeft <- dateLeft;
+        dateOfBirth <- dob
+      ) yield {
+        Years.yearsBetween(dateOfBirth, whenLeft).getYears()
+      }
+      val editCall = if (form(keys.parentsAddress.manualAddress).value.isDefined) {
+        routes.ParentsAddressManualController.editGet
+      } else if (form(keys.parentsAddress.uprn).value.isDefined) {
+        routes.ParentsAddressSelectController.editGet
+      } else {
+        routes.ParentsAddressController.editGet
+      }
+      if (ageWhenLeft.exists(_ < 18)) {
+        Some(ConfirmationQuestion(
+          title = "Parents Last UK Address",
+          editLink = editCall.url,
+          changeName = "your parents' last UK address",
+          content = ifComplete(keys.parentsAddress) {
+            val addressLine = form(keys.parentsAddress.addressLine).value.orElse{
+              form(keys.parentsAddress.manualAddress).value
+            }.getOrElse("")
+            val postcode = form(keys.parentsAddress.postcode).value.getOrElse("")
+            s"<p>$addressLine</p><p>$postcode</p>"
+          }
+        ))
+      } else {
+        None
       }
     }
 

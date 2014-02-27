@@ -95,6 +95,11 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       placesService.lookupAuthority(address.postcode)
     }
 
+    val fullParentRegAddress = addressService.formFullAddress(applicant.parentsAddress)
+    val currentAuthorityParents = applicant.parentsAddress flatMap { address =>
+      placesService.lookupAuthority(address.postcode)
+    }
+
     val completeApplication = OverseasApplication(
       overseasName = applicant.overseasName,
       previouslyRegistered = applicant.previouslyRegistered,
@@ -104,14 +109,14 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       lastRegisteredToVote = applicant.lastRegisteredToVote,
       dob = applicant.dob,
       nino = applicant.nino,
-      lastUkAddress = fullLastUkRegAddress,
+      lastUkAddress = Some(fullLastUkRegAddress.getOrElse(fullParentRegAddress.get)),
       address = applicant.address,
       openRegisterOptin = applicant.openRegisterOptin,
       postalOrProxyVote = applicant.postalOrProxyVote,
       passport = applicant.passport,
       contact = applicant.contact,
       referenceNumber = refNum,
-      authority = currentAuthority,
+      authority = Some(currentAuthority.getOrElse(currentAuthorityParents.get)),
       ip = ip
     )
 

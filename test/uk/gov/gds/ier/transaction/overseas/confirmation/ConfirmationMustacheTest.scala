@@ -10,8 +10,8 @@ import uk.gov.gds.ier.model.InprogressOverseas
 import uk.gov.gds.ier.model.Name
 import uk.gov.gds.ier.validation.InProgressForm
 import uk.gov.gds.ier.model.PreviousName
-import scala.Some
 import uk.gov.gds.ier.model.WaysToVote
+import org.joda.time.DateTime
 
 class ConfirmationMustacheTest
   extends FlatSpec
@@ -303,5 +303,129 @@ class ConfirmationMustacheTest
     val model = confirmation.postalOrProxyVote
 
     model.isDefined should be(false)
+  }
+
+  behavior of "ConfirmationBlocks.parentsAddress"
+  it should "return none (over 18)" in {
+    val twentyFiveYearsAgo = new DateTime().minusYears(25).getYear()
+    val fiveYearsAgo = new DateTime().minusYears(5).getYear()
+
+    val partialApplication = confirmationForm.fillAndValidate(
+      InprogressOverseas(
+        dob = Some(DOB(year = twentyFiveYearsAgo, month = 1, day = 1)),
+        dateLeftUk = Some(DateLeft(year = fiveYearsAgo, month = 1))
+      )
+    )
+    val confirmation = new ConfirmationBlocks(InProgressForm(partialApplication))
+    val model = confirmation.parentsAddress
+
+    model.isDefined should be(false)
+  }
+
+  it should "return none (age not answered)" in {
+    val fiveYearsAgo = new DateTime().minusYears(5).getYear()
+
+    val partialApplication = confirmationForm.fillAndValidate(
+      InprogressOverseas(
+        dob = None,
+        dateLeftUk = Some(DateLeft(year = fiveYearsAgo, month = 1))
+      )
+    )
+    val confirmation = new ConfirmationBlocks(InProgressForm(partialApplication))
+    val model = confirmation.parentsAddress
+
+    model.isDefined should be(false)
+  }
+
+  it should "return none (date left not answered)" in {
+    val fifteenYearsAgo = new DateTime().minusYears(15).getYear()
+
+    val partialApplication = confirmationForm.fillAndValidate(
+      InprogressOverseas(
+        dob = Some(DOB(year = fifteenYearsAgo, month = 1, day = 1)),
+        dateLeftUk = None
+      )
+    )
+    val confirmation = new ConfirmationBlocks(InProgressForm(partialApplication))
+    val model = confirmation.parentsAddress
+
+    model.isDefined should be(false)
+  }
+
+  it should "return parents address" in {
+    val twentyYearsAgo = new DateTime().minusYears(20).getYear()
+    val fiveYearsAgo = new DateTime().minusYears(5).getYear()
+
+    val partialApplication = confirmationForm.fillAndValidate(
+      InprogressOverseas(
+        dob = Some(DOB(year = twentyYearsAgo, month = 1, day = 1)),
+        dateLeftUk = Some(DateLeft(year = fiveYearsAgo, month = 1)),
+        parentsAddress = Some(PartialAddress(
+          addressLine = Some("123 Fake Street"),
+          postcode = "AB12 34DC",
+          uprn = Some("12345678"),
+          manualAddress = None
+        ))
+      )
+    )
+    val confirmation = new ConfirmationBlocks(InProgressForm(partialApplication))
+    val Some(model) = confirmation.parentsAddress
+
+    model.title should be("Parents Last UK Address")
+    model.editLink should be("/register-to-vote/overseas/edit/parents-address/select")
+    model.changeName should be("your parents' last UK address")
+    model.content should be("<p>123 Fake Street</p><p>AB12 34DC</p>")
+  }
+
+  it should "return parents manual address" in {
+    val twentyYearsAgo = new DateTime().minusYears(20).getYear()
+    val fiveYearsAgo = new DateTime().minusYears(5).getYear()
+
+    val partialApplication = confirmationForm.fillAndValidate(
+      InprogressOverseas(
+        dob = Some(DOB(year = twentyYearsAgo, month = 1, day = 1)),
+        dateLeftUk = Some(DateLeft(year = fiveYearsAgo, month = 1)),
+        parentsAddress = Some(PartialAddress(
+          addressLine = None,
+          postcode = "AB12 34DC",
+          uprn = None,
+          manualAddress = Some("123 Manual Street")
+        ))
+      )
+    )
+    val confirmation = new ConfirmationBlocks(InProgressForm(partialApplication))
+    val Some(model) = confirmation.parentsAddress
+
+    model.title should be("Parents Last UK Address")
+    model.editLink should be("/register-to-vote/overseas/edit/parents-address/manual")
+    model.changeName should be("your parents' last UK address")
+    model.content should be("<p>123 Manual Street</p><p>AB12 34DC</p>")
+  }
+
+  it should "return 'complete this step'" in {
+    val twentyYearsAgo = new DateTime().minusYears(20).getYear()
+    val fiveYearsAgo = new DateTime().minusYears(5).getYear()
+
+    val partialApplication = confirmationForm.fillAndValidate(
+      InprogressOverseas(
+        dob = Some(DOB(year = twentyYearsAgo, month = 1, day = 1)),
+        dateLeftUk = Some(DateLeft(year = fiveYearsAgo, month = 1)),
+        parentsAddress = Some(PartialAddress(
+          addressLine = None,
+          postcode = "AB12 34DC",
+          uprn = None,
+          manualAddress = None
+        ))
+      )
+    )
+    val confirmation = new ConfirmationBlocks(InProgressForm(partialApplication))
+    val Some(model) = confirmation.parentsAddress
+
+    model.title should be("Parents Last UK Address")
+    model.editLink should be("/register-to-vote/overseas/edit/parents-address")
+    model.changeName should be("your parents' last UK address")
+    model.content should be(
+      "<div class=\"validation-message visible\">Please complete this step</div>"
+    )
   }
 }
