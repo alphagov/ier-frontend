@@ -1,12 +1,14 @@
 package uk.gov.gds.ier.transaction.forces.confirmation
 
 import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressForces, WaysToVoteType}
+import uk.gov.gds.ier.model.WaysToVoteType
 import controllers.step.forces._
-import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
-import uk.gov.gds.ier.validation.Key
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
 import uk.gov.gds.ier.logging.Logging
+import uk.gov.gds.ier.validation.Key
+import uk.gov.gds.ier.model.InprogressForces
+import uk.gov.gds.ier.validation.InProgressForm
+import scala.Some
 
 trait ConfirmationMustache {
 
@@ -133,30 +135,34 @@ trait ConfirmationMustache {
     }
 
     def dateOfBirth = {
+
+      val dobContent =
+        if (form(keys.dob.dob.day).value.isDefined) {
+          val day = form(keys.dob.dob.day).value.getOrElse("")
+          val month = DateOfBirthConstants.monthsByNumber(form(keys.dob.dob.month).value.get)
+          val year = form(keys.dob.dob.year).value.getOrElse("")
+          "<p>" + day + " " + month + " " + year + "</p>"
+        } else {
+          val excuseReason = if (form(keys.dob.noDob.reason).value.isDefined) {
+            "<p>You are unable to provide your date of birth because: " +
+              form(keys.dob.noDob.reason).value.getOrElse("") + "</p>"
+          }
+          val ageRange = form(keys.dob.noDob.range).value match {
+            case Some("under18") => "<p>I am roughly under 18</p>"
+            case Some("18to70") => "<p>I am over 18 years old</p>"
+            case Some("over70") => "<p>I am over 70 years old</p>"
+            case Some("dontKnow") => "<p>I don't know my age</p>"
+            case _ => ""
+          }
+          excuseReason + ageRange
+        }
+
       Some(ConfirmationQuestion(
         title = "Date of birth",
         editLink = routes.DateOfBirthController.editGet.url,
         changeName = "date of birth",
         content = ifComplete(keys.dob) {
-         if (form(keys.dob.dob.day).value.isDefined) {
-            val day = form(keys.dob.dob.day).value.getOrElse("")
-            val month = DateOfBirthConstants.monthsByNumber(form(keys.dob.dob.month).value.get)
-            val year = form(keys.dob.dob.year).value.getOrElse("")
-            "<p>" + day + " " + month + " " + year + "</p>"
-         } else {
-            val excuseReason = if (form(keys.dob.noDob.reason).value.isDefined) {
-                "<p>You are unable to provide your date of birth because: " +
-                  form(keys.dob.noDob.reason).value.getOrElse("") + "</p>"
-              }
-            val ageRange = form(keys.dob.noDob.range).value match {
-              case Some("under18") => "<p>I am roughly under 18</p>"
-              case Some("18to70") => "<p>I am over 18 years old</p>"
-              case Some("over70") => "<p>I am over 70 years old</p>"
-              case Some("dontKnow") => "<p>I don't know my age</p>"
-              case _ => ""
-            }
-            excuseReason + ageRange
-         }
+          dobContent
         }
       ))
     }
@@ -368,34 +374,34 @@ trait ConfirmationMustache {
     }
 
     def getNationalities = {
-      form.form.value match {
-        case Some(application:InprogressForces) => application.nationality.map(_.checkedNationalities).filter(_.size > 0)
-        case None => None
-        case applicationOfUnknownType => throw new IllegalArgumentException(s"Application of unknown type: $applicationOfUnknownType")
-      }
-    }
-    def getOtherCountries = {
-      form.form.value match {
-        case Some(application:InprogressForces) => application.nationality.map(_.otherCountries.filter(_.nonEmpty)).filter(_.size > 0)
-        case None => None
-        case applicationOfUnknownType => throw new IllegalArgumentException(s"Application of unknown type: $applicationOfUnknownType")
-      }
+      val british = form(keys.nationality.british).value
+      val irish =form(keys.nationality.irish).value
+      british.toList.filter(_ == "true").map(brit => "United Kingdom") ++
+      irish.toList.filter(_ == "true").map(isIrish => "Ireland")
     }
 
     def confirmationNationalityString = {
-      val allCountries = getNationalities.getOrElse(List.empty) ++ getOtherCountries.getOrElse(List.empty)
-      val nationalityString = List(allCountries.dropRight(1).mkString(", "), allCountries.takeRight(1).mkString("")).filter(_.nonEmpty)
+      val allCountries = getNationalities ++ obtainOtherCountriesList
+      val nationalityString = List(allCountries.dropRight(1).mkString(", "),
+        allCountries.takeRight(1).mkString("")).filter(_.nonEmpty)
       s"a citizen of ${nationalityString.mkString(" and ")}"
     }
 
     def nationalityIsFilled:Boolean = {
-      form.form.value match {
-        case Some(application:InprogressForces) => application.nationality.map(
-          nationality =>
-            nationality.british == Some(true) || nationality.irish == Some(true) || nationality.otherCountries.exists(_.nonEmpty)).exists(b => b)
-        case None => false
-        case applicationOfUnknownType => throw new IllegalArgumentException(s"Application of unknown type: $applicationOfUnknownType")
-      }
+      val british = form(keys.nationality.british).value.getOrElse("false").toBoolean
+      val irish = form(keys.nationality.irish).value.getOrElse("false").toBoolean
+      val otherCountries = obtainOtherCountriesList
+      (british || irish || !otherCountries.isEmpty)
     }
+
+    def obtainOtherCountriesList:List[String] = {
+      (
+        for (i <- 0 until NationalityConstants.numberMaxOfOtherCountries
+             if form(otherCountriesKey(i)).value.isDefined)
+        yield form(otherCountriesKey(i)).value.get
+      ).toList
+    }
+
+    def otherCountriesKey(i:Int) = keys.nationality.otherCountries.key + "["+i+"]"
   }
 }
