@@ -1,22 +1,9 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation
 
-import uk.gov.gds.ier.form.OverseasFormImplicits
 import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.model.{
-  WaysToVoteType,
-  InprogressOverseas,
-  LastRegisteredType,
-  DOB,
-  DateLeft}
-import controllers.step.overseas._
-import controllers.routes.RegisterToVoteController
-import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
-import uk.gov.gds.ier.validation.{Key, ErrorTransformForm, DateValidator}
-import org.joda.time.{YearMonth, Years, LocalDate}
-import scala.util.Try
-import uk.gov.gds.ier.logging.Logging
-import uk.gov.gds.ier.transaction.overseas.dateLeftUk.DateLeftUkStep
-import play.api.Logger
+import uk.gov.gds.ier.model.InprogressOverseas
+
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.overseas.confirmation.blocks.{
   ConfirmationQuestion,
   ConfirmationBlocks}

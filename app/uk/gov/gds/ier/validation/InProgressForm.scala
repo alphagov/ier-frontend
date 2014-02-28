@@ -7,6 +7,10 @@ case class InProgressForm[T <: InprogressApplication[T]](form:ErrorTransformForm
   def apply(key:Key) = {
     form(key.key)
   }
+
+  def apply(key:String) = {
+    form(key)
+  }
   def getNationalities = {
     form.value match {
       case Some(application:InprogressOrdinary) => application.nationality.map(_.checkedNationalities).filter(_.size > 0)
