@@ -39,11 +39,11 @@
   };
 
   // Contructor for controlling parts of a form based on the state of one of its elements (ie. radio button)
-  // Uses ToggleObj for its base prototype
+  // Uses GOVUK.registerToVote.ToggleObj for its base prototype
   ConditionalControl = function () {
-    ToggleObj.apply(this, arguments);
+    GOVUK.registerToVote.ToggleObj.apply(this, arguments);
   };
-  $.extend(ConditionalControl.prototype, new ToggleObj());
+  $.extend(ConditionalControl.prototype, new GOVUK.registerToVote.ToggleObj());
   ConditionalControl.prototype.setup = function () {
     var contentId = this.$content.attr('id'),
         loadedState = 'hidden',
@@ -587,7 +587,7 @@
     this.$targetElement
       .append($results)
       .addClass('contains-addresses');
-    new OptionalInformation(this.$targetElement.find('.optional-section'), 'optional-section');
+    new GOVUK.registerToVote.OptionalInformation(this.$targetElement.find('.optional-section'), 'optional-section');
     this.hasAddresses = true;
   };
   PostcodeLookup.prototype.getAddresses = function () {
@@ -682,7 +682,6 @@
     });
   }());
 
-  GOVUK.registerToVote.OptionalInformation = OptionalInformation;
   GOVUK.registerToVote.ConditionalControl = ConditionalControl;
   GOVUK.registerToVote.DuplicateField = DuplicateField;
   GOVUK.registerToVote.MarkSelected = MarkSelected;

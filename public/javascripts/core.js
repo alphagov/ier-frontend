@@ -85,6 +85,7 @@ window.GOVUK.registerToVote = {};
     });
   };
 
+  GOVUK.registerToVote.ToggleObj = ToggleObj;
   GOVUK.registerToVote.OptionalInformation = OptionalInformation;
 
   // header search toggle
