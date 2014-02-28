@@ -166,4 +166,29 @@ class NationalityMustacheTest
 
     nationalityModel.question.errorMessages.mkString(", ") should be("Please answer this question")
   }
+
+  it should "progress form with excuse should produce Mustache Model with values present" in {
+    val partiallyFilledApplicationForm = nationalityForm.fill(InprogressForces(
+      nationality = Some(PartialNationality(
+        british = None,
+        irish = None,
+        hasOtherCountry = None,
+        otherCountries = List.empty,
+        noNationalityReason = Some("no nationality fake excuse")))))
+
+    val nationalityModel = nationalityMustache.transformFormStepToMustacheData(
+      partiallyFilledApplicationForm, NationalityController.post, Some(AddressController.get))
+
+    nationalityModel.question.title should be("What is your nationality?")
+    nationalityModel.question.postUrl should be("/register-to-vote/forces/nationality")
+    nationalityModel.question.backUrl should be("/register-to-vote/forces/address")
+
+    nationalityModel.britishOption.attributes should be("")
+    nationalityModel.irishOption.attributes should be("")
+    nationalityModel.hasOtherCountryOption.attributes should be("")
+    nationalityModel.otherCountriesHead.value should be("")
+    nationalityModel.otherCountriesTail.isEmpty should be(true)
+    nationalityModel.moreThanOneOtherCountry should be(false)
+    nationalityModel.noNationalityReason.value should be("no nationality fake excuse")
+  }
 }

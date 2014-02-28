@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.validation
 
-import uk.gov.gds.ier.model.{InprogressForces, InprogressOrdinary, InprogressApplication}
+import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication}
 
 case class InProgressForm[T <: InprogressApplication[T]](form:ErrorTransformForm[T]) extends FormKeys{
 
@@ -14,7 +14,6 @@ case class InProgressForm[T <: InprogressApplication[T]](form:ErrorTransformForm
   def getNationalities = {
     form.value match {
       case Some(application:InprogressOrdinary) => application.nationality.map(_.checkedNationalities).filter(_.size > 0)
-      case Some(application:InprogressForces) => application.nationality.map(_.checkedNationalities).filter(_.size > 0)
       case None => None
       case applicationOfUnknownType => throw new IllegalArgumentException(s"Application of unknown type: $applicationOfUnknownType") 
     }
@@ -22,7 +21,6 @@ case class InProgressForm[T <: InprogressApplication[T]](form:ErrorTransformForm
   def getOtherCountries = {
     form.value match {
       case Some(application:InprogressOrdinary) => application.nationality.map(_.otherCountries.filter(_.nonEmpty)).filter(_.size > 0)
-      case Some(application:InprogressForces) => application.nationality.map(_.otherCountries.filter(_.nonEmpty)).filter(_.size > 0)
       case None => None
       case applicationOfUnknownType => throw new IllegalArgumentException(s"Application of unknown type: $applicationOfUnknownType")
     }
@@ -30,9 +28,6 @@ case class InProgressForm[T <: InprogressApplication[T]](form:ErrorTransformForm
   def nationalityIsFilled():Boolean = {
     form.value match {
       case Some(application:InprogressOrdinary) => application.nationality.map(
-        nationality =>
-          nationality.british == Some(true) || nationality.irish == Some(true) || nationality.otherCountries.exists(_.nonEmpty)).exists(b => b)
-      case Some(application:InprogressForces) => application.nationality.map(
         nationality =>
           nationality.british == Some(true) || nationality.irish == Some(true) || nationality.otherCountries.exists(_.nonEmpty)).exists(b => b)
       case None => false
