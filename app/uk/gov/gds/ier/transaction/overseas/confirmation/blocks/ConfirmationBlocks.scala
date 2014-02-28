@@ -77,6 +77,7 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
     List(
       previouslyRegistered,
       dateLeftUk,
+      passport,
       name,
       previousName,
       dateOfBirth,

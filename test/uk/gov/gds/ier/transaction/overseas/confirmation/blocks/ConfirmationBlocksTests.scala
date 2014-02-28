@@ -35,6 +35,7 @@ class ConfirmationBlocksTests
       List(
         blocks.previouslyRegistered,
         blocks.dateLeftUk,
+        blocks.passport,
         blocks.name,
         blocks.previousName,
         blocks.dateOfBirth,

@@ -45,9 +45,9 @@ class ParentsAddressBlocksTests
     val confirmation = new ConfirmationBlocks(partialApplication)
     val model = confirmation.parentsAddress
 
-    model.title should be("Parents Last UK Address")
+    model.title should be("Parent's or guardian's last UK address")
     model.editLink should be("/register-to-vote/overseas/edit/parents-address/select")
-    model.changeName should be("your parents' last UK address")
+    model.changeName should be("your parent's or guardian's last UK address")
     model.content should be("<p>123 Fake Street</p><p>AB12 34DC</p>")
   }
 
@@ -70,9 +70,9 @@ class ParentsAddressBlocksTests
     val confirmation = new ConfirmationBlocks(partialApplication)
     val model = confirmation.parentsAddress
 
-    model.title should be("Parents Last UK Address")
+    model.title should be("Parent's or guardian's last UK address")
     model.editLink should be("/register-to-vote/overseas/edit/parents-address/manual")
-    model.changeName should be("your parents' last UK address")
+    model.changeName should be("your parent's or guardian's last UK address")
     model.content should be("<p>123 Manual Street</p><p>AB12 34DC</p>")
   }
 
@@ -91,9 +91,9 @@ class ParentsAddressBlocksTests
     val confirmation = new ConfirmationBlocks(partialApplication)
     val model = confirmation.parentsAddress
 
-    model.title should be("Parents Last UK Address")
+    model.title should be("Parent's or guardian's last UK address")
     model.editLink should be("/register-to-vote/overseas/edit/parents-address")
-    model.changeName should be("your parents' last UK address")
+    model.changeName should be("your parent's or guardian's last UK address")
     model.content should be(
       "<div class=\"validation-message visible\">Please complete this step</div>"
     )
