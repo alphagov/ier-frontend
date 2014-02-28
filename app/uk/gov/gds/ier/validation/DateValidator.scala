@@ -52,7 +52,9 @@ object DateValidator {
   
   def isLessEighteen(dateOfBirth: DOB) = {
     try {
-    	parseToDateMidnight(dateOfBirth).plusYears(18).isAfter(DateTime.now.toDateMidnight)
+      val eighteenYearsAgo = DateTime.now.minusYears(18).toDateMidnight
+    	val dob = parseToDateMidnight(dateOfBirth)
+      dob.isAfter(eighteenYearsAgo) || dob.isEqual(eighteenYearsAgo)
     } catch {
       case ex: Exception => false
     }
