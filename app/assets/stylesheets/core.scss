@@ -23,21 +23,14 @@ li {
 }
 
 p,
-a {
+a.paragraph {
   margin: 0 0 1em;
   clear: both;
 }
 
-a {
+a.paragraph {
   display: block;
   @include core-19;
-
-  p &,
-  ol &,
-  ul & {
-    display: inline;
-    margin: 0;
-  }
 }
 
 p.footnote {
@@ -79,12 +72,12 @@ h1 {
 
 h2 {
   @include bold-24;
-  margin-bottom: 1em;
+  margin: 1em 0 0.75em;
 }
 
 h3 {
   @include bold-19;
-  margin-bottom: 1em;
+  margin: 1.2em 0 0.4em;
 }
 
 input,
