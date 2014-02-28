@@ -1,12 +1,14 @@
 package uk.gov.gds.ier.transaction.forces.confirmation
 
 import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.model.{InprogressForces, WaysToVoteType}
+import uk.gov.gds.ier.model.WaysToVoteType
 import controllers.step.forces._
-import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
-import uk.gov.gds.ier.validation.Key
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
 import uk.gov.gds.ier.logging.Logging
+import uk.gov.gds.ier.validation.Key
+import uk.gov.gds.ier.model.InprogressForces
+import uk.gov.gds.ier.validation.InProgressForm
+import scala.Some
 
 trait ConfirmationMustache {
 
@@ -20,12 +22,14 @@ trait ConfirmationMustache {
   case class ConfirmationModel(
     applicantDetails: List[ConfirmationQuestion],
     partnerDetails: List[ConfirmationQuestion],
+    completeApplicantDetails: List[ConfirmationQuestion],
     displayPartnerBlock: Boolean,
     backUrl: String,
     postUrl: String
   )
 
   object Confirmation extends StepMustache {
+
     def confirmationPage(
         form:InProgressForm[InprogressForces],
         backUrl: String,
@@ -34,11 +38,24 @@ trait ConfirmationMustache {
       val confirmation = new ConfirmationBlocks(form)
 
       val partnerData = List(
-        confirmation.partnerService,
-        confirmation.partnerRank
+        confirmation.service,
+        confirmation.rank
       ).flatten
 
       val applicantData = List(
+        confirmation.name,
+        confirmation.dateOfBirth,
+        confirmation.nationality,
+        confirmation.nino,
+        confirmation.address,
+        confirmation.contactAddress,
+        confirmation.openRegister,
+        confirmation.waysToVote,
+        confirmation.postalOrProxyVote,
+        confirmation.contact
+      ).flatten
+
+      val completeApplicantData = List(
         confirmation.name,
         confirmation.dateOfBirth,
         confirmation.nationality,
@@ -49,14 +66,15 @@ trait ConfirmationMustache {
         confirmation.contactAddress,
         confirmation.openRegister,
         confirmation.waysToVote,
-        confirmation.postalVote,
+        confirmation.postalOrProxyVote,
         confirmation.contact
       ).flatten
 
       val data = ConfirmationModel(
         partnerDetails = partnerData,
         applicantDetails = applicantData,
-        displayPartnerBlock = !partnerData.isEmpty,
+        completeApplicantDetails = completeApplicantData,
+        displayPartnerBlock = displayPartnerBlock(form),
         backUrl = backUrl,
         postUrl = postUrl
       )
@@ -68,6 +86,22 @@ trait ConfirmationMustache {
         contentClasses = Some("confirmation")
       )
     }
+
+    def displayPartnerBlock (form:InProgressForm[InprogressForces]): Boolean = {
+
+      val isForcesPartner = Some("true")
+      val isNotForcesMember = Some("false")
+
+      (
+        form(keys.statement.partnerForcesMember).value,
+        form(keys.statement.forcesMember).value
+      ) match {
+        case (`isForcesPartner`, `isNotForcesMember`) => true
+        case (`isForcesPartner`, None) => true
+        case _ => false
+      }
+    }
+
   }
 
   class ConfirmationBlocks(form:InProgressForm[InprogressForces])
@@ -101,19 +135,34 @@ trait ConfirmationMustache {
     }
 
     def dateOfBirth = {
+
+      val dobContent =
+        if (form(keys.dob.dob.day).value.isDefined) {
+          val day = form(keys.dob.dob.day).value.getOrElse("")
+          val month = DateOfBirthConstants.monthsByNumber(form(keys.dob.dob.month).value.get)
+          val year = form(keys.dob.dob.year).value.getOrElse("")
+          "<p>" + day + " " + month + " " + year + "</p>"
+        } else {
+          val excuseReason = if (form(keys.dob.noDob.reason).value.isDefined) {
+            "<p>You are unable to provide your date of birth because: " +
+              form(keys.dob.noDob.reason).value.getOrElse("") + "</p>"
+          }
+          val ageRange = form(keys.dob.noDob.range).value match {
+            case Some("under18") => "<p>I am roughly under 18</p>"
+            case Some("18to70") => "<p>I am over 18 years old</p>"
+            case Some("over70") => "<p>I am over 70 years old</p>"
+            case Some("dontKnow") => "<p>I don't know my age</p>"
+            case _ => ""
+          }
+          excuseReason + ageRange
+        }
+
       Some(ConfirmationQuestion(
         title = "Date of birth",
         editLink = routes.DateOfBirthController.editGet.url,
         changeName = "date of birth",
         content = ifComplete(keys.dob) {
-          if (form(keys.dob.day).value.isDefined &&
-            form(keys.dob.month).value.isDefined &&
-            form(keys.dob.year).value.isDefined) {
-            "<p>" + form(keys.dob.day).value.get + " "  +
-              DateOfBirthConstants.monthsByNumber(form(keys.dob.month).value.get) + " " +
-              form(keys.dob.year).value.get + "</p>"
-          }
-          else "<p/>"
+          dobContent
         }
       ))
     }
@@ -123,15 +172,13 @@ trait ConfirmationMustache {
         title = "Nationality",
         editLink = routes.NationalityController.editGet.url,
         changeName = "nationality",
-        content = ifComplete(keys.dob) {
-          if (form(keys.dob.day).value.isDefined &&
-            form(keys.dob.month).value.isDefined &&
-            form(keys.dob.year).value.isDefined) {
-            "<p>" + form(keys.dob.day).value.get + " "  +
-              DateOfBirthConstants.monthsByNumber(form(keys.dob.month).value.get) + " " +
-              form(keys.dob.year).value.get + "</p>"
+        content = ifComplete(keys.nationality) {
+          if (nationalityIsFilled) {
+            "<p>I am " + confirmationNationalityString + "</p>"
+          } else {
+            "<p>I cannot provide my nationality because:</p><p>"+
+              form(keys.nationality.noNationalityReason).value.getOrElse("") + "</p>"
           }
-          else "<p/>"
         }
       ))
     }
@@ -158,7 +205,19 @@ trait ConfirmationMustache {
         editLink = routes.ServiceController.editGet.url,
         changeName = "service",
         content = ifComplete(keys.service) {
-           ""
+           val serviceName = form(keys.service.serviceName).value match {
+             case Some("Royal Navy") => "Royal Navy"
+             case Some("British Army") => "Army"
+             case Some("Royal Air Force") => "Royal Airforce"
+             case _ => ""
+           }
+           val memberOf = "<p>I am a member of the "+serviceName+"</p>"
+           val regiment = form(keys.service.regiment).value match {
+             case Some(regiment) => s"<p>Regiment: ${regiment}</p>"
+             case None => ""
+           }
+
+           memberOf + regiment
         }
       ))
     }
@@ -169,29 +228,16 @@ trait ConfirmationMustache {
         editLink = routes.RankController.editGet.url,
         changeName = "service number and rank",
         content = ifComplete(keys.rank) {
-          ""
-        }
-      ))
-    }
 
-    def partnerService = {
-      Some(ConfirmationQuestion(
-        title = "Service",
-        editLink = routes.ServiceController.editGet.url,
-        changeName = "service",
-        content = ifComplete(keys.service) {
-          ""
-        }
-      ))
-    }
-
-    def partnerRank = {
-      Some(ConfirmationQuestion(
-        title = "Service number and rank",
-        editLink = routes.RankController.editGet.url,
-        changeName = "service number and rank",
-        content = ifComplete(keys.rank) {
-          ""
+          val serviceNumber = form(keys.rank.serviceNumber).value match {
+            case Some(serviceNumber) => s"<p>Service number: ${serviceNumber}</p>"
+            case None => ""
+          }
+          val rank = form(keys.rank.rank).value match {
+            case Some(rank) => s"<p>Rank: ${rank}</p>"
+            case None => ""
+          }
+          serviceNumber + rank
         }
       ))
     }
@@ -268,7 +314,7 @@ trait ConfirmationMustache {
       ))
     }
 
-    def postalVote = {
+    def postalOrProxyVote = {
       val way = form(keys.postalOrProxyVote.voteType).value.map{ way => WaysToVoteType.parse(way) }
       val prettyWayName = way match {
         case Some(WaysToVoteType.ByPost) => "postal vote"
@@ -276,7 +322,6 @@ trait ConfirmationMustache {
         case _ => ""
       }
       val myEmail = form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value.getOrElse("")
-      val deliveryMethod = form(keys.postalOrProxyVote.deliveryMethod.methodName).value
       val emailMe = form(keys.postalOrProxyVote.deliveryMethod.methodName).value == Some("email")
       val optIn = form(keys.postalOrProxyVote.optIn).value == Some("true")
 
@@ -295,8 +340,8 @@ trait ConfirmationMustache {
           },
           content = ifComplete(keys.postalOrProxyVote) {
             (optIn, emailMe) match {
-              case (true, true) => s"<p>Please email a ${prettyWayName} application form to:" +
-                "<br/>$myEmail</p>"
+              case (true, true) => s"<p>Please email a ${prettyWayName} application form to:</p>" +
+                s"<p>${myEmail}</p>"
               case (true, false) => s"<p>Please post me a ${prettyWayName} application form</p>"
               case (false, _) => s"<p>I do not need a ${prettyWayName} application form</p>"
             }
@@ -328,6 +373,35 @@ trait ConfirmationMustache {
       ))
     }
 
+    def getNationalities = {
+      val british = form(keys.nationality.british).value
+      val irish =form(keys.nationality.irish).value
+      british.toList.filter(_ == "true").map(brit => "United Kingdom") ++
+      irish.toList.filter(_ == "true").map(isIrish => "Ireland")
+    }
 
+    def confirmationNationalityString = {
+      val allCountries = getNationalities ++ obtainOtherCountriesList
+      val nationalityString = List(allCountries.dropRight(1).mkString(", "),
+        allCountries.takeRight(1).mkString("")).filter(_.nonEmpty)
+      s"a citizen of ${nationalityString.mkString(" and ")}"
+    }
+
+    def nationalityIsFilled:Boolean = {
+      val british = form(keys.nationality.british).value.getOrElse("false").toBoolean
+      val irish = form(keys.nationality.irish).value.getOrElse("false").toBoolean
+      val otherCountries = obtainOtherCountriesList
+      (british || irish || !otherCountries.isEmpty)
+    }
+
+    def obtainOtherCountriesList:List[String] = {
+      (
+        for (i <- 0 until NationalityConstants.numberMaxOfOtherCountries
+             if form(otherCountriesKey(i)).value.isDefined)
+        yield form(otherCountriesKey(i)).value.get
+      ).toList
+    }
+
+    def otherCountriesKey(i:Int) = keys.nationality.otherCountries.key + "["+i+"]"
   }
 }
