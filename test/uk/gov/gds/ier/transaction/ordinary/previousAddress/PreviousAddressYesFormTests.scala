@@ -215,14 +215,10 @@ class PreviousAddressYesFormTests
     )
     selectAddressForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(4)
-        hasErrors.errorMessages("previousAddress.uprn") should be(
-          Seq("Please select your address")
-        )
-        hasErrors.errorMessages("previousAddress.manualAddress") should be(
-          Seq("Please select your address")
-        )
-        hasErrors.globalErrorMessages should be(Seq("Please select your address"))
+        hasErrors.errorsAsTextAll should be("" +
+          " -> Please answer this question\n" +
+          "previousAddress -> Please answer this question")
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
       },
       success => {
         fail("Should have errored out")

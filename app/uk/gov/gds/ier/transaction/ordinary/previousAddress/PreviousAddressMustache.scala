@@ -8,7 +8,7 @@ import uk.gov.gds.ier.validation.{InProgressForm, Key}
 trait PreviousAddressMustache {
   self: WithSerialiser =>
 
-  object PreviousAddressMustache extends StepMustache {  // FIXME: why object?
+  object PreviousAddressMustache extends StepMustache {
 
     val title = "Have you moved out from another UK address in the last 12 months?"
     val questionNumber = "8 of 11"
@@ -123,14 +123,14 @@ trait PreviousAddressMustache {
         manualUrl = manualUrl,
         postcode = TextField(keys.previousAddress.postcode),
         address = addressSelectWithError,  // this is model data for <select>
-        // FIXME: should be HiddenField
-        possibleJsonList = TextField(keys.possibleAddresses.jsonList).copy(
+        possibleJsonList = HiddenField(
+          key = keys.possibleAddresses.jsonList,
           value = maybePossibleAddress.map { poss =>
             serialiser.toJson(poss.jsonList)
           }.getOrElse("")
         ),
-        // FIXME: should be HiddenField
-        possiblePostcode = TextField(keys.possibleAddresses.postcode).copy(
+        possiblePostcode = HiddenField(
+          key = keys.possibleAddresses.postcode,
           value = form(keys.previousAddress.postcode).value.getOrElse("")
         ),
         hasAddresses = hasAddresses

@@ -90,7 +90,7 @@ class PreviousAddressSelectStep @Inject() (
     )
   }
 
-  private def lookupAddresses(  // FIXME:should be (?) private[uk.gov.gds.ier.transaction.ordinary.previousAddress]
+  private def lookupAddresses(
       maybePostcode:Option[String]): Option[PossibleAddress] = {
 
     maybePostcode.map { postcode =>
