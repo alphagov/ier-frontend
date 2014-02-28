@@ -19,3 +19,5 @@ addSbtPlugin("de.johoop" % "jacoco4sbt" % "2.1.2")
 addSbtPlugin("org.jba" % "play2-plugins-mustache" % "1.1.3") // play 2.2
 
 addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "0.3.2")
+
+addSbtPlugin("no.arktekk.sbt" % "aether-deploy" % "0.11")

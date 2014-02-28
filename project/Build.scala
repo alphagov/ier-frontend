@@ -9,6 +9,7 @@ import de.johoop.jacoco4sbt.JacocoPlugin._
 import org.jba.sbt.plugin.MustachePlugin
 import org.jba.sbt.plugin.MustachePlugin._
 import org.scalastyle.sbt.ScalastylePlugin
+import aether.Aether._
 
 object ApplicationBuild extends IERBuild {
 
@@ -47,6 +48,8 @@ object ApplicationBuild extends IERBuild {
     .settings(testOptions in Test += Tests.Argument("-oF"))
     .settings(StyleChecker.settings:_*)
     .settings(watchSources ~= { _.filterNot(_.isDirectory) })
+    .settings(credentials += Credentials(Path.userHome / ".sbt/credentials"))
+    .settings(organization := "uk.gov.gds")
     .settings(publishMavenStyle := true)
     .settings(publishTo := {
         val nexus = "https://ci.ertp.alphagov.co.uk/nexus/content/repositories/"
@@ -56,6 +59,7 @@ object ApplicationBuild extends IERBuild {
           Some("IER Nexus Releases" at nexus + "releases")
       }
     )
+    .settings(aetherSettings: _*)
 
 }
 
