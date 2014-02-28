@@ -6,7 +6,9 @@ trait DateOfBirthBlocks {
   self: ConfirmationBlock =>
 
   def dateOfBirth = {
-    val dob = form.dateOfBirth getOrElse ""
+    val dob = form.dateOfBirth map { dob => 
+      dob.toString("d M yyyy")
+    } getOrElse ""
 
     ConfirmationQuestion(
       title = "What is your date of birth?",
