@@ -5,14 +5,18 @@
       $ = root.jQuery,
       GOVUK = root.GOVUK;
 
+  $('header.no-back-link').each(function (idx, elm) {
+    new GOVUK.registerToVote.BackButton(elm);
+  });
   $('.help-content').each(function (idx, elm) {
-    new GOVUK.registerToVote.OptionalInformation(elm);
+    new GOVUK.registerToVote.OptionalInformation(elm, 'help-content');
   });
   $('.optional-section, .optional-section-binary').each(function (idx, elm) {
+    var toggleClass = 'optional-section'
     if ($(elm).data('condition') !== undefined) {
-      new GOVUK.registerToVote.ConditionalControl(elm);
+      new GOVUK.registerToVote.ConditionalControl(elm, toggleClass);
     } else {
-      new GOVUK.registerToVote.OptionalInformation(elm);
+      new GOVUK.registerToVote.OptionalInformation(elm, toggleClass);
     }
   });
   $('.duplicate-control-initial').each(function (idx, elm) {

@@ -25,8 +25,6 @@ class OtherAddressControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 7")
-      contentAsString(result) should include(
-        "<a class=\"back-to-previous\" href=\"/register-to-vote/address")
       contentAsString(result) should include("Do you also live at a second address?")
     }
   }
@@ -133,8 +131,6 @@ class OtherAddressControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 7")
-      contentAsString(result) should include(
-        "<a class=\"back-to-previous\" href=\"/register-to-vote/confirmation")
       contentAsString(result) should include("Do you also live at a second address?")
       contentAsString(result) should include("/register-to-vote/edit/other-address")
     }

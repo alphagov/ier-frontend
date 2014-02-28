@@ -107,9 +107,6 @@ behavior of "AddressStep.editGet"
         "What is your UK address?"
       )
       contentAsString(result) should include("Question 2")
-      contentAsString(result) should include(
-        "<a class=\"back-to-previous\" href=\"/register-to-vote/forces/confirmation"
-      )
       contentAsString(result) should include("/register-to-vote/forces/address/lookup")
     }
   }

@@ -1,0 +1,119 @@
+<form action="{{question.postUrl}}" method="POST"
+      data-validation-name="nationality" data-validation-type="association"
+      data-validation-rules="fieldsetOrExcuse" class="validate"
+      data-validation-members="country nationalityExcuse">
+
+    {{> shared/questionHeader }}
+
+    {{> shared/validationMessages }}
+
+    <p>If you have dual nationality, select all options that are relevant to you.</p>
+
+    <fieldset class="validate" data-validation-name="country"
+              data-validation-type="fieldset"
+              data-validation-rules="atLeastOneChecked checkedOtherHasValue"
+              data-validation-children="british irish other otherCountries">
+
+        <label class="selectable"  >
+            <input type="checkbox" id="{{britishOption.id}}"
+                   name="{{britishOption.name}}" value="true"
+                   class=" validate"
+                   data-validation-name="british"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty"
+                   {{{britishOption.attributes}}}>British
+        </label>
+        <label class="selectable"  >
+            <input type="checkbox" id="{{irishOption.id}}"
+                   name="{{irishOption.name}}" value="true"
+                   class=" validate"
+                   data-validation-name="irish"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty"
+                   {{{irishOption.attributes}}}>Irish
+        </label>
+        <label class="selectable"  >
+            <input type="checkbox" id="{{hasOtherCountryOption.id}}"
+                   name="{{hasOtherCountryOption.name}}" value="true"
+                   class=" validate"
+                   data-validation-name="other"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty"
+                   {{{hasOtherCountryOption.attributes}}}>Citizen of another country
+        </label>
+        <div class="validation-wrapper">
+            <div id="add-countries" class="optional-section validate"
+                 data-condition="{{hasOtherCountryOption.id}}"
+                 data-validation-name="otherCountries"
+                 data-validation-type="field"
+                 data-validation-rules="atLeastOneCountry">
+
+                <label for="{{otherCountriesHead.id}}" class=""  >
+                    Which country?
+                </label>
+                <input type="text" id="{{otherCountriesHead.id}}"
+                       name="{{otherCountriesHead.name}}"
+                       value="{{otherCountriesHead.value}}"
+                       autocomplete="off"
+                       class="text  country-autocomplete long"  >
+
+                <p class="duplication-intro"
+                   style="{{#moreThanOneOtherCountry}}display: none{{/moreThanOneOtherCountry}}">
+                    If you have dual nationality
+                    <a class="duplicate-control-initial"
+                     href="#" data-field="{{otherCountriesHead.id}}">add another country</a>.
+                </p>
+
+                {{#otherCountriesTail}}
+                    <div class="added-country">
+                        <label for="nationality_otherCountries[{{index}}]" class="country-label"  >
+                            Country {{index}}
+                        </label>
+                        <a href="#" class="remove-field"
+                           data-field="nationality_otherCountries[{{index}}]">
+                            Remove<span class="visuallyhidden"> Country</span>
+                        </a>
+                        <input type="text" id="nationality_otherCountries[{{index}}]"
+                               name="nationality.otherCountries[{{index}}]" value="{{countryName}}"
+                               autocomplete="off"  class="text  country-autocomplete long"  >
+                    </div>
+                {{/otherCountriesTail}}
+
+                {{#moreThanOneOtherCountry}}
+                    <a class="duplicate-control" href="#">Add another country</a>
+                {{/moreThanOneOtherCountry}}
+
+            </div>
+        </div>
+    </fieldset>
+    <div class="help-content help-content{{noNationalityReasonShowFlag.value}}"
+         id="nationality-help">
+        <h2>I don't know my nationality</h2>
+        <p>We need to know your nationality so we can work out which
+            elections you're entitled to vote in.</p>
+        <p>If you're not sure about your nationality, try to find out
+            from an official document like a passport or national ID card.</p>
+        <p>If you can’t confirm your nationality, you'll need to explain
+            why. And after you've applied, you'll be asked to prove your
+            identity by sending documents in the post (or providing them
+            in person).</p>
+        <div class="optional-section optional-section{{noNationalityReasonShowFlag.value}}"
+             id="nationality-provision">
+            <h3>I can't provide my nationality</h3>
+            <label for="{{noNationalityReason.id}}" class=""  >
+                Why can't you provide your nationality?
+            </label>
+            <textarea name="{{noNationalityReason.name}}"
+                      id="{{noNationalityReason.id}}"
+                      class=" small validate"
+                      data-validation-name="nationalityExcuse"
+                      data-validation-type="field"
+                      data-validation-rules="nonEmpty"
+                      maxlength="500"
+                      autocomplete="off" >{{noNationalityReason.value}}</textarea>
+        </div>
+    </div>
+    <button type="submit" id="continue"
+            class="button next validation-submit"
+            data-validation-sources="nationality">Continue</button>
+</form>

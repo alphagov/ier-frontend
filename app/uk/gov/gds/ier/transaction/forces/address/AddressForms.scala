@@ -170,3 +170,4 @@ trait AddressConstraints extends CommonConstraints {
     case _ => Invalid("Your postcode is not valid", keys.address.postcode)
   }
 }
+

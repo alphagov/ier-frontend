@@ -17,7 +17,7 @@ object ApplicationBuild extends IERBuild {
 
   val appDependencies = Seq(
     "uk.gov.gds" %% "govuk-guice-utils" % "0.2-SNAPSHOT",
-    "uk.gov.gds" %% "gds-scala-utils" % "0.7.6-SNAPSHOT",
+    "uk.gov.gds" %% "gds-scala-utils" % "0.7.6-SNAPSHOT" exclude("com.google.code.findbugs", "jsr305"),
     "joda-time" % "joda-time" % "2.1",
     "org.bouncycastle" % "bcpg-jdk16" % "1.46",
     anorm,
@@ -34,20 +34,32 @@ object ApplicationBuild extends IERBuild {
     .settings(Sass.sassSettings:_*)
     .settings(Jacoco.jacocoSettings:_*)
     .settings(Mustache.mustacheSettings:_*)
-    .settings(javaOptions in Test += "-Dconfig.file=conf/test.conf")
-    .settings(javaOptions in Test += "-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005")
+    .settings(javaOptions in Test ++= Seq(
+      "-XX:MaxPermSize=512M",
+      "-Xms256M",
+      "-Xmx512M",
+      "-Xss1M",
+      "-XX:+CMSClassUnloadingEnabled",
+      "-XX:+UseConcMarkSweepGC",
+      "-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005",
+      "-Dconfig.file=conf/test.conf"
+    ))
+    .settings(testOptions in Test += Tests.Argument("-oF"))
     .settings(StyleChecker.settings:_*)
     .settings(watchSources ~= { _.filterNot(_.isDirectory) })
+    .settings(publishMavenStyle := true)
+    .settings(publishTo := {
+        val nexus = "https://ci.ertp.alphagov.co.uk/nexus/content/repositories/"
+        if (version.value.trim.endsWith("SNAPSHOT"))
+          Some("IER Nexus Snapshots" at nexus + "snapshots")
+        else
+          Some("IER Nexus Releases" at nexus + "releases")
+      }
+    )
+
 }
 
 abstract class IERBuild extends Build {
-  override def settings = super.settings ++ Seq(
-    resolvers ++= Seq(
-      Resolver.defaultLocal,
-      "GDS maven repo snapshots" at "http://alphagov.github.com/maven/snapshots",
-      "GDS maven repo releases" at "http://alphagov.github.com/maven/releases"
-    )
-  )
 }
 
 object StyleChecker {

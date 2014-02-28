@@ -13,4 +13,5 @@ object ExitController extends DelegatingController[GuicedController] {
   def noFranchise = delegate.noFranchise
   def leftUkOver15Years = delegate.leftUkOver15Years
   def tooOldWhenLeftUk = delegate.tooOldWhenLeftUk
+  def leftSpecialOver15Years = delegate.leftSpecialOver15Years
 }

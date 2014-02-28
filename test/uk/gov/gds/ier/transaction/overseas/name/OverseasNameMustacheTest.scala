@@ -3,10 +3,7 @@ package uk.gov.gds.ier.transaction.overseas.name
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.Name
-import uk.gov.gds.ier.model.InprogressOrdinary
-import uk.gov.gds.ier.model.PreviousName
-import scala.Some
+import uk.gov.gds.ier.model.{Name, PreviousName, InprogressOrdinary, OverseasName}
 import uk.gov.gds.ier.model.InprogressOverseas
 
 /**
@@ -44,10 +41,10 @@ class OverseasNameMustacheTest
 
   it should "progress form with filled applicant name should produce Mustache Model with name values present" in {
     val partiallyFilledApplicationForm = nameForm.fill(InprogressOverseas(
-      name = Some(Name(
+      overseasName = Some(OverseasName(name = Some(Name(
         firstName = "John",
         middleNames = None,
-        lastName = "Smith"))))
+        lastName = "Smith"))))))
     val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm,
         "/register-to-vote/overseas/name", Some("/register-to-vote/overseas/last-registered-uk-address"))
 
@@ -67,7 +64,7 @@ class OverseasNameMustacheTest
 
   it should "progress form with filled applicant name and previous should produce Mustache Model with name and previous name values present" in {
     val partiallyFilledApplicationForm = nameForm.fill(InprogressOverseas(
-      name = Some(Name(
+      overseasName = Some(OverseasName(name = Some(Name(
         firstName = "John",
         middleNames = None,
         lastName = "Smith")),
@@ -77,7 +74,7 @@ class OverseasNameMustacheTest
           firstName = "Jan",
           middleNames = None,
           lastName = "Kovar"))
-      ))
+      ))))
     ))
     val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm,
         "/register-to-vote/overseas/name", Some("/register-to-vote/overseas/last-registered-uk-address"))
@@ -98,10 +95,10 @@ class OverseasNameMustacheTest
 
   it should "progress form with validation errors should produce Model with error list present" in {
     val partiallyFilledApplicationFormWithErrors = nameForm.fillAndValidate(InprogressOverseas(
-      name = Some(Name(
+      overseasName = Some(OverseasName(name = Some(Name(
         firstName = "John",
         middleNames = None,
-        lastName = ""))))
+        lastName = ""))))))
     val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationFormWithErrors,
         "/register-to-vote/overseas/name", Some("/register-to-vote/overseas/last-registered-uk-address"))
 

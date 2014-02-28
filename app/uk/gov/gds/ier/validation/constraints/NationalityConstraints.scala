@@ -2,10 +2,10 @@ package uk.gov.gds.ier.validation.constraints
 
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import uk.gov.gds.ier.model.PartialNationality
-import uk.gov.gds.ier.validation.{Key, FormKeys, ErrorMessages}
-import scala.collection.immutable.HashMap
+import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 
 import uk.gov.gds.ier.validation.constants.NationalityConstants._
+import scala.Some
 
 trait NationalityConstraints {
   self: ErrorMessages
@@ -13,7 +13,7 @@ trait NationalityConstraints {
 
   lazy val notTooManyNationalities = Constraint[PartialNationality](keys.nationality.key) {
     nationality =>
-      if (nationality.otherCountries.size <= 3) Valid
+      if (nationality.otherCountries.size <= numberMaxOfOtherCountries) Valid
       else Invalid("You can specifiy no more than five countries", keys.nationality)
   }
 
@@ -22,7 +22,7 @@ trait NationalityConstraints {
       if (nationality.british == Some(true) || nationality.irish == Some(true)) Valid
       else if (nationality.otherCountries.exists(_.nonEmpty) && nationality.hasOtherCountry.exists(b => b)) Valid
       else if (nationality.noNationalityReason.isDefined) Valid
-      else Invalid("Please select your Nationality", keys.nationality)
+      else Invalid("Please answer this question", keys.nationality)
   }
 
   lazy val otherCountry0IsValid = otherCountryIsValid(0)
@@ -39,3 +39,5 @@ trait NationalityConstraints {
   }
 
 }
+
+
