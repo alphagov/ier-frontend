@@ -17,7 +17,7 @@ object ApplicationBuild extends IERBuild {
 
   val appDependencies = Seq(
     "uk.gov.gds" %% "govuk-guice-utils" % "0.2-SNAPSHOT",
-    "uk.gov.gds" %% "gds-scala-utils" % "0.7.6-SNAPSHOT",
+    "uk.gov.gds" %% "gds-scala-utils" % "0.7.6-SNAPSHOT" exclude("com.google.code.findbugs", "jsr305"),
     "joda-time" % "joda-time" % "2.1",
     "org.bouncycastle" % "bcpg-jdk16" % "1.46",
     anorm,
@@ -50,13 +50,6 @@ object ApplicationBuild extends IERBuild {
 }
 
 abstract class IERBuild extends Build {
-  override def settings = super.settings ++ Seq(
-    resolvers ++= Seq(
-      Resolver.defaultLocal,
-      "GDS maven repo snapshots" at "http://alphagov.github.com/maven/snapshots",
-      "GDS maven repo releases" at "http://alphagov.github.com/maven/releases"
-    )
-  )
 }
 
 object StyleChecker {
