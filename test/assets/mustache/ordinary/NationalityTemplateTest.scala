@@ -46,6 +46,9 @@ class NationalityTemplateTest
           id = "noNationalityReasonId",
           name = "noNationalityReasonName",
           value = "noNationalityReasonValue"
+        ),
+        noNationalityReasonShowFlag = Text (
+          value = "noNationalityReasonShowFlag"
         )
       )
 

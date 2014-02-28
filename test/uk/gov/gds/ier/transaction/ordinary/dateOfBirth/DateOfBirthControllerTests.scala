@@ -25,7 +25,6 @@ class DateOfBirthControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 3")
-      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/nationality")
       contentAsString(result) should include("What is your date of birth?")
       contentAsString(result) should include("/register-to-vote/date-of-birth")
     }
@@ -151,7 +150,6 @@ class DateOfBirthControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 3")
-      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/confirmation")
       contentAsString(result) should include("What is your date of birth?")
       contentAsString(result) should include("/register-to-vote/edit/date-of-birth")
     }

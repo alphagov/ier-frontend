@@ -36,31 +36,31 @@ trait NameMustache extends StepMustache {
         title = pageTitle,
         errorMessages = form.globalErrors.map { _.message }),
       firstName = TextField(
-        key = keys.name.firstName),
+        key = keys.overseasName.name.firstName),
       middleNames = TextField(
-        key = keys.name.middleNames),
+        key = keys.overseasName.name.middleNames),
       lastName = TextField(
-        key = keys.name.lastName),
+        key = keys.overseasName.name.lastName),
       hasPreviousName = FieldSet(
-        classes = if (form(keys.previousName.key).hasErrors) "invalid" else ""
+        classes = if (form(keys.overseasName.previousName.key).hasErrors) "invalid" else ""
       ),
       hasPreviousNameTrue = RadioField(
-        key = keys.previousName.hasPreviousName, value = "true"),
+        key = keys.overseasName.previousName.hasPreviousName, value = "true"),
       hasPreviousNameFalse = RadioField(
-        key = keys.previousName.hasPreviousName, value = "false"),
+        key = keys.overseasName.previousName.hasPreviousName, value = "false"),
 
       previousFirstName = TextField(
-        key = keys.previousName.previousName.firstName),
+        key = keys.overseasName.previousName.previousName.firstName),
       previousMiddleNames = TextField(
-        key = keys.previousName.previousName.middleNames),
+        key = keys.overseasName.previousName.previousName.middleNames),
       previousLastName = TextField(
-        key = keys.previousName.previousName.lastName)
+        key = keys.overseasName.previousName.previousName.lastName)
     )
   }
 
   def nameMustache(form: ErrorTransformForm[InprogressOverseas], call: Call, backUrl: Option[String]): Html = {
     val data = transformFormStepToMustacheData(form, call.url, backUrl)
-    val content = Mustache.render("ordinary/name", data)
+    val content = Mustache.render("overseas/name", data)
     MainStepTemplate(content, pageTitle)
   }
 }

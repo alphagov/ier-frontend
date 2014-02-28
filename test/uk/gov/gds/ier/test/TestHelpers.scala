@@ -12,13 +12,20 @@ import uk.gov.gds.ier.config.Config
 import play.api.data.FormError
 import uk.gov.gds.ier.model.LastRegisteredType
 
-trait TestHelpers {
+trait TestHelpers extends CustomMatchers with OverseasApplications {
 
   val jsonSerialiser = new JsonSerialiser
 
   lazy val textTooLong = "x" * 1000
 
   implicit class EasyGetErrorMessageError(form: ErrorTransformForm[_]) {
+    def keyedErrorsAsMap = {
+      form.errors.filterNot( error =>
+        error.key == ""
+      ).map( error =>
+        error.key -> this.errorMessages(error.key)
+      ).toMap
+    }
     def errorMessages(key:String) = form.errors(key).map(_.message)
     def globalErrorMessages = form.globalErrors.map(_.message)
     def prettyPrint = form.errors.map(error => s"${error.key} -> ${error.message}")
@@ -63,41 +70,7 @@ trait TestHelpers {
     country = Some(Country("England"))
   )
 
-  lazy val completeOverseasApplication = InprogressOverseas(
-    name = Some(Name("John", None, "Smith")),
-    previousName = Some(PreviousName(false, None)),
-    previouslyRegistered = Some(PreviouslyRegistered(true)),
-    dob = Some(DOB(year = 1970, month = 12, day = 12)),
-    lastUkAddress = Some(
-      PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)
-    ),
-    dateLeftUk = Some(DateLeft(2000,10)),
-    nino = Some(Nino(Some("AB 12 34 56 D"), None)),
-    address = Some(OverseasAddress(
-      country = Some("United Kingdom"),
-      addressLine1 = Some("some address line 1"),
-      addressLine2 = None,
-      addressLine3 = None,
-      addressLine4 = None,
-      addressLine5 = None)),
-    lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.Ordinary)),
-    openRegisterOptin = Some(true),
-    waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
-    postalOrProxyVote = Some(PostalOrProxyVote(
-      WaysToVoteType.ByPost,
-      Some(true),
-      Some(PostalVoteDeliveryMethod(Some("post"),None))
-    )),
-    passport = Some(Passport(
-      true, None, Some(PassportDetails("123456", "UK border office", DOB(2000, 12, 1))), None)),
-    contact = Some(Contact(
-      post = true,
-      phone = None,
-      email = None
-    )),
-    dateLeftSpecial = Some(DateLeftSpecial(DateLeft(1990, 1), LastRegisteredType.Ordinary))
-  )
-
+  
 
   lazy val completeForcesApplication = InprogressForces(
     statement = Some(Statement(memberForcesFlag = Some(true), None)),

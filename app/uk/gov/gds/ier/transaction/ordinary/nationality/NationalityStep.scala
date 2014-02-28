@@ -42,15 +42,18 @@ class NationalityStep @Inject ()(val serialiser: JsonSerialiser,
   }
 
   def nextStep(currentState: InprogressOrdinary) = {
-    val franchises = currentState.nationality match {
-      case Some(nationality) => isoCountryService.getFranchises(nationality)
-      case None => List.empty
-    }
+    if (currentState.nationality.flatMap(_.noNationalityReason) == None) {
+      val franchises = currentState.nationality match {
+        case Some(nationality) => isoCountryService.getFranchises(nationality)
+        case None => List.empty
+      }
 
-    franchises match {
-      case Nil => Exit(ExitController.noFranchise)
-      case list => DateOfBirthController.dateOfBirthStep
+      franchises match {
+        case Nil => Exit(ExitController.noFranchise)
+        case list => DateOfBirthController.dateOfBirthStep
+      }
     }
+    else DateOfBirthController.dateOfBirthStep
   }
 }
 
