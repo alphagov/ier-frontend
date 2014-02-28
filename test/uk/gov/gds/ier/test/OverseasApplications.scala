@@ -63,9 +63,21 @@ trait OverseasApplications {
     ))
   )
 
-  val incompleteSpecialApplication = InprogressOverseas(
+  val incompleteForcesApplication = InprogressOverseas(
     lastRegisteredToVote = Some(LastRegisteredToVote(
       lastRegisteredType = LastRegisteredType.Forces
+    ))
+  )
+
+  val incompleteCrownApplication = InprogressOverseas(
+    lastRegisteredToVote = Some(LastRegisteredToVote(
+      lastRegisteredType = LastRegisteredType.Crown
+    ))
+  )
+
+  val incompleteCouncilApplication = InprogressOverseas(
+    lastRegisteredToVote = Some(LastRegisteredToVote(
+      lastRegisteredType = LastRegisteredType.Council
     ))
   )
 
