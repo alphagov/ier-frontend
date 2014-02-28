@@ -4,6 +4,8 @@ import scala.collection.immutable.HashMap
 
 object NationalityConstants {
 
+  def numberMaxOfOtherCountries = 3
+
   type Franchise = String
   object Franchise {
     def apply(str:String) = {
