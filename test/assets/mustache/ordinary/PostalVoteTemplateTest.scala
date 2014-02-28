@@ -21,58 +21,60 @@ class PostalVoteTemplateTest
         title = "postal vote title"
         ),
         postCheckboxYes = Field(
-          id = "postalVote_optIn_true",
-          name = "postalVote.OptIn",
+          id = "postCheckboxYesId",
+          name = "postCheckboxYesName",
           attributes = "foo=\"foo\""
         ),
         postCheckboxNo = Field(
-          id = "postalVote_optIn_false",
-          name = "postalVote.OptIn",
+          id = "postCheckboxNoId",
+          name = "postCheckboxNoName",
           attributes = ""
         ),
         deliveryByEmail = Field(
-          id = "postalVote_deliveryMethod_methodName_email",
-          name = "postalVote.deliveryMethod.methodName",
-          value = "email",
+          id = "deliveryByEmailId",
+          name = "deliveryByEmailName",
+          value = "deliveryByEmailValue",
           attributes = "foo=\"foo\""
         ),
         deliveryByPost = Field(
-          id = "postalVote_deliveryMethod_methodName_post",
-          name = "postalVote.deliveryMethod.methodName",
-          value = "post",
+          id = "deliveryByPostId",
+          name = "deliveryByPostName",
+          value = "deliveryByPostValue",
           attributes = ""
         ),
         emailField = Field(
-          id = "postalVote_deliveryMethod_emailAddress",
-          name = "postalVote.deliveryMethod.emailAddress",
+          id = "emailFieldId",
+          name = "emailFieldName",
           value = "test@test.com"
-        )
+        ),
+        deliveryMethodValid = "valid"
       )
 
       val html = Mustache.render("ordinary/postalVote", data)
       val doc = Jsoup.parse(html.toString)
 
-      val postCheckboxYesInput = doc.select("input[id=postalVote_optIn_true]").first()
-      postCheckboxYesInput.attr("id") should be("postalVote_optIn_true")
-      postCheckboxYesInput.attr("name") should be("postalVote.OptIn")
+      val postCheckboxYesInput = doc.select("input[id=postCheckboxYesId]").first()
+      postCheckboxYesInput.attr("id") should be("postCheckboxYesId")
+      postCheckboxYesInput.attr("name") should be("postCheckboxYesName")
       postCheckboxYesInput.attr("foo") should include("foo")
 
-      val postCheckboxNoInput = doc.select("input[id=postalVote_optIn_false]").first()
-      postCheckboxNoInput.attr("id") should be("postalVote_optIn_false")
-      postCheckboxNoInput.attr("name") should be("postalVote.OptIn")
+      val postCheckboxNoInput = doc.select("input[id=postCheckboxNoId]").first()
+      postCheckboxNoInput.attr("id") should be("postCheckboxNoId")
+      postCheckboxNoInput.attr("name") should be("postCheckboxNoName")
       
-      val deliveryByEmailInput = doc.select("input[id=postalVote_deliveryMethod_methodName_email]").first()
-      deliveryByEmailInput.attr("id") should be("postalVote_deliveryMethod_methodName_email")
-      deliveryByEmailInput.attr("name") should be("postalVote.deliveryMethod.methodName")
+      val deliveryByEmailInput = doc.select("input[id=deliveryByEmailId]").first()
+      deliveryByEmailInput.attr("id") should be("deliveryByEmailId")
+      deliveryByEmailInput.attr("name") should be("deliveryByEmailName")
+      deliveryByEmailInput.attr("value") should include("deliveryByEmailValue")
       deliveryByEmailInput.attr("foo") should include("foo")
       
-      val deliveryByPostInput = doc.select("input[id=postalVote_deliveryMethod_methodName_post]").first()
-      deliveryByPostInput.attr("id") should be("postalVote_deliveryMethod_methodName_post")
-      deliveryByPostInput.attr("name") should be("postalVote.deliveryMethod.methodName")
+      val deliveryByPostInput = doc.select("input[id=deliveryByPostId]").first()
+      deliveryByPostInput.attr("id") should be("deliveryByPostId")
+      deliveryByPostInput.attr("name") should be("deliveryByPostName")
       
-      val emailFieldInput = doc.select("input[id=postalVote_deliveryMethod_emailAddress]").first()
-      emailFieldInput.attr("id") should be("postalVote_deliveryMethod_emailAddress")
-      emailFieldInput.attr("name") should be("postalVote.deliveryMethod.emailAddress")
+      val emailFieldInput = doc.select("input[id=emailFieldId]").first()
+      emailFieldInput.attr("id") should be("emailFieldId")
+      emailFieldInput.attr("name") should be("emailFieldName")
       emailFieldInput.attr("value") should be("test@test.com")
     }
   }

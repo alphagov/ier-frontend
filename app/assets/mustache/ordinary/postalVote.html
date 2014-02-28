@@ -31,7 +31,7 @@
       <p>How should we send you the form?</p>
 
 <label for="{{deliveryByEmail.id}}" class="selectable" style="margin-bottom: 16px;">
-    <input type="radio" id="{{deliveryByEmail.id}}" name="{{deliveryByEmail.name}}" value="email" class="radio  
+    <input type="radio" id="{{deliveryByEmail.id}}" name="{{deliveryByEmail.name}}" value="{{deliveryByEmail.value}}" class="radio  
       validate" data-validation-name="deliveryMethodEmail" data-validation-type="field" 
       data-validation-rules="nonEmpty" {{deliveryByEmail.attributes}}>
         Email it to me
@@ -48,7 +48,7 @@
       </div>
       
 <label for="{{deliveryByPost.id}}" class="selectable">
-    <input type="radio" id="{{deliveryByPost.id}}" name="{{deliveryByPost.name}}" value="post" class="radio  
+    <input type="radio" id="{{deliveryByPost.id}}" name="{{deliveryByPost.name}}" value="{{deliveryByPost.value}]" class="radio  
       validate" data-validation-name="deliveryMethodPost" data-validation-type="field" 
       data-validation-rules="nonEmpty" {{deliveryByPost.attributes}}>
         Post it to me
