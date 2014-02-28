@@ -105,8 +105,66 @@ class ConfirmationFormTests
 
   behavior of "ConfirmationForm.validateSpecialVoter"
 
-  it should "error out on missing new voter fields" in {
-    val specialVoter = incompleteSpecialApplication
+  it should "error out on missing crown voter fields" in {
+    val specialVoter = incompleteCrownApplication
+
+    confirmationForm.fillAndValidate(specialVoter).fold(
+      hasErrors => {
+        val errorMessage = Seq("Please complete this step")
+
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "overseasName.name" -> errorMessage,
+          "overseasName.previousName" -> errorMessage,
+          "previouslyRegistered" -> errorMessage,
+          "dob" -> errorMessage,
+          "lastUkAddress" -> errorMessage,
+          "dateLeftSpecial" -> errorMessage,
+          "NINO" -> errorMessage,
+          "overseasAddress" -> errorMessage,
+          "openRegister" -> errorMessage,
+          "waysToVote" -> errorMessage,
+          "postalOrProxyVote" -> errorMessage,
+          "contact" -> errorMessage,
+          "passport" -> errorMessage
+        ))
+        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(1)
+        hasErrors.errors.size should be(14)
+      },
+      success => fail("Should have errored out.")
+    )
+  }
+
+  it should "error out on missing council voter fields" in {
+    val specialVoter = incompleteCouncilApplication
+
+    confirmationForm.fillAndValidate(specialVoter).fold(
+      hasErrors => {
+        val errorMessage = Seq("Please complete this step")
+
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "overseasName.name" -> errorMessage,
+          "overseasName.previousName" -> errorMessage,
+          "previouslyRegistered" -> errorMessage,
+          "dob" -> errorMessage,
+          "lastUkAddress" -> errorMessage,
+          "dateLeftSpecial" -> errorMessage,
+          "NINO" -> errorMessage,
+          "overseasAddress" -> errorMessage,
+          "openRegister" -> errorMessage,
+          "waysToVote" -> errorMessage,
+          "postalOrProxyVote" -> errorMessage,
+          "contact" -> errorMessage,
+          "passport" -> errorMessage
+        ))
+        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(1)
+        hasErrors.errors.size should be(14)
+      },
+      success => fail("Should have errored out.")
+    )
+  }
+
+  it should "error out on missing force voter fields" in {
+    val specialVoter = incompleteForcesApplication
 
     confirmationForm.fillAndValidate(specialVoter).fold(
       hasErrors => {
