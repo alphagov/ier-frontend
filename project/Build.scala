@@ -17,7 +17,7 @@ object ApplicationBuild extends IERBuild {
 
   val appDependencies = Seq(
     "uk.gov.gds" %% "govuk-guice-utils" % "0.2-SNAPSHOT",
-    "uk.gov.gds" %% "gds-scala-utils" % "0.7.6-SNAPSHOT",
+    "uk.gov.gds" %% "gds-scala-utils" % "0.7.6-SNAPSHOT" exclude("com.google.code.findbugs", "jsr305"),
     "joda-time" % "joda-time" % "2.1",
     "org.bouncycastle" % "bcpg-jdk16" % "1.46",
     anorm,
@@ -47,16 +47,19 @@ object ApplicationBuild extends IERBuild {
     .settings(testOptions in Test += Tests.Argument("-oF"))
     .settings(StyleChecker.settings:_*)
     .settings(watchSources ~= { _.filterNot(_.isDirectory) })
+    .settings(publishMavenStyle := true)
+    .settings(publishTo := {
+        val nexus = "https://ci.ertp.alphagov.co.uk/nexus/content/repositories/"
+        if (version.value.trim.endsWith("SNAPSHOT"))
+          Some("IER Nexus Snapshots" at nexus + "snapshots")
+        else
+          Some("IER Nexus Releases" at nexus + "releases")
+      }
+    )
+
 }
 
 abstract class IERBuild extends Build {
-  override def settings = super.settings ++ Seq(
-    resolvers ++= Seq(
-      Resolver.defaultLocal,
-      "GDS maven repo snapshots" at "http://alphagov.github.com/maven/snapshots",
-      "GDS maven repo releases" at "http://alphagov.github.com/maven/releases"
-    )
-  )
 }
 
 object StyleChecker {
