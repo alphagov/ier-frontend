@@ -22,7 +22,7 @@ class PreviousAddressPostcodeStep @Inject() (
   with PreviousAddressMustache
   with PreviousAddressForms {
 
-  val validation = previousAddressForm
+  val validation = postcodeAddressForm
 
   val previousRoute = Some(PreviousAddressFirstController.get)
 
@@ -34,14 +34,15 @@ class PreviousAddressPostcodeStep @Inject() (
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
-    OpenRegisterController.openRegisterStep
+    //OpenRegisterController.openRegisterStep
+    controllers.step.ordinary.PreviousAddressSelectController.previousAddressSelectStep
   }
 
   def template(
       form: InProgressForm[InprogressOrdinary],
       call: Call,
       backUrl: Option[Call]) = {
-    PreviousAddressMustache.lookupPage(
+    PreviousAddressMustache.postcodePage(
       form,
       backUrl.map(_.url).getOrElse(""),
       call.url
@@ -49,7 +50,7 @@ class PreviousAddressPostcodeStep @Inject() (
   }
 
   def lookup = ValidSession requiredFor { implicit request => application =>
-    lookupAddressForm.bindFromRequest().fold(
+    postcodeAddressForm.bindFromRequest().fold(
       hasErrors => {
         Ok(template(InProgressForm(hasErrors), routes.post, previousRoute))
       },

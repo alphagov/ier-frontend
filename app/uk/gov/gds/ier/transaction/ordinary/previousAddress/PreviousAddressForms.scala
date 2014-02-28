@@ -2,11 +2,7 @@ package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
 import play.api.data.Forms._
 import play.api.data.validation.{Invalid, Valid, Constraint}
-import uk.gov.gds.ier.validation.{
-  ErrorTransformForm,
-  ErrorMessages,
-  FormKeys,
-  PostcodeValidator}
+import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
@@ -15,6 +11,13 @@ import uk.gov.gds.ier.model.PartialAddress
 import uk.gov.gds.ier.model.PossibleAddress
 import scala.Some
 import uk.gov.gds.ier.transaction.ordinary.address.AddressForms
+import uk.gov.gds.ier.model.Addresses
+import uk.gov.gds.ier.model.PartialAddress
+import uk.gov.gds.ier.model.InprogressOrdinary
+import scala.Some
+import uk.gov.gds.ier.model.PartialPreviousAddress
+import uk.gov.gds.ier.model.InprogressOverseas
+import uk.gov.gds.ier.model.PossibleAddress
 
 trait PreviousAddressForms extends PreviousAddressConstraints {
   self: FormKeys
@@ -23,16 +26,12 @@ trait PreviousAddressForms extends PreviousAddressConstraints {
 
   lazy val partialPreviousAddressMapping = mapping(
     keys.movedRecently.key -> optional(boolean),
-    keys.findAddress.key -> boolean, // FIXME: now redundant, remove
     keys.previousAddress.key -> optional(partialAddressMappingNew)
   ) (
     PartialPreviousAddress.apply
   ) (
     PartialPreviousAddress.unapply
   )
-
-  /** used in confirmation form */
-  lazy val previousAddressMapping = partialPreviousAddressMapping // FIXME: probably wrong
 
   //TODO: remove when AddressForm is updated with new definition, then reuse here too
   lazy val partialAddressMappingNew = mapping(
@@ -46,7 +45,7 @@ trait PreviousAddressForms extends PreviousAddressConstraints {
     PartialAddress.unapply
   ).verifying(manualAddressMaxLength, postcodeIsValid, uprnOrManualDefined)
 
-  lazy val manualPreviousPartialAddressMapping = mapping(
+  lazy val manualPartialPreviousAddressMapping = mapping(
     keys.postcode.key -> nonEmptyText,
     keys.manualAddress.key -> optional(nonEmptyText)
   ) (
@@ -67,8 +66,7 @@ trait PreviousAddressForms extends PreviousAddressConstraints {
     keys.postcode.key -> nonEmptyText
   ) (
     postcode => PartialPreviousAddress(
-      movedRecently = Some(true), // ???
-      findAddress = false,  // FIXME: unused, remove
+      movedRecently = Some(true),
       previousAddress = Some(PartialAddress(
         addressLine = None,
         uprn = None,
@@ -95,7 +93,7 @@ trait PreviousAddressForms extends PreviousAddressConstraints {
     )
   )
 
-  val lookupAddressForm = ErrorTransformForm(
+  val postcodeAddressForm = ErrorTransformForm(
     mapping (
       keys.previousAddress.key -> optional(postcodeLookupMapping)
     ) (
@@ -107,31 +105,32 @@ trait PreviousAddressForms extends PreviousAddressConstraints {
     ).verifying( postcodeIsNotEmpty )
   )
 
-  val previousAddressForm = ErrorTransformForm(
+  val selectAddressForm = ErrorTransformForm(
     mapping (
-      keys.previousAddress.key -> optional(partialPreviousAddressMapping),
+      keys.previousAddress.key -> optional(partialAddressMappingNew),
       keys.possibleAddresses.key -> optional(possibleAddressesMapping)
     ) (
       (previousAddress, possibleAddr) => InprogressOrdinary(
-        previousAddress = previousAddress,
+        previousAddress = Some(PartialPreviousAddress(
+          movedRecently = Some(true),
+          previousAddress = previousAddress
+        )),
         possibleAddresses = possibleAddr
       )
     ) (
       inprogress => Some(
-        inprogress.previousAddress,
-        inprogress.possibleAddresses
-      )
-    ).verifying( addressIsRequired )
+        inprogress.previousAddress.flatMap(_.previousAddress),
+        inprogress.possibleAddresses)
+    ).verifying( selectedAddressIsRequired )
   )
 
   val manualAddressForm = ErrorTransformForm(
     mapping(
-      keys.previousAddress.key -> optional(manualPreviousPartialAddressMapping)
+      keys.previousAddress.key -> optional(manualPartialPreviousAddressMapping)
     ) (
       previousAddress => InprogressOrdinary(
         previousAddress = Some(PartialPreviousAddress(
-          movedRecently = Some(true), // ???
-          findAddress = false,  // FIXME: unused, remove
+          movedRecently = Some(true),
           previousAddress = previousAddress
       )))
     ) (
@@ -149,8 +148,28 @@ trait PreviousAddressConstraints extends CommonConstraints {
     inprogress =>
       inprogress.previousAddress match {
         case Some(partialAddress) if partialAddress.previousAddress
-          .map(_.manualAddress).isDefined => Valid  // FIXME: not sure with the map!
-        case _ => Invalid("Please answer this question", keys.previousAddress.manualAddress)
+          .flatMap(_.manualAddress).isDefined && partialAddress
+          .previousAddress.exists(_.postcode != "") => {
+          Valid
+        }
+        case _ => {
+          Invalid("Please answer this question", keys.previousAddress.manualAddress)
+        }
+      }
+  }
+
+  lazy val selectedAddressIsRequired = Constraint[InprogressOrdinary](keys.previousAddress.key) {
+    inprogress =>
+      inprogress.previousAddress match {
+        case Some(partialAddress)
+          if partialAddress.previousAddress.exists(_.postcode != "")
+          && (partialAddress.previousAddress.flatMap(_.uprn).isDefined
+          ||  partialAddress.previousAddress.flatMap(_.manualAddress).isDefined) => {
+          Valid
+        }
+        case _ => {
+          Invalid("Please answer this question", keys.previousAddress)
+        }
       }
   }
 
@@ -161,15 +180,13 @@ trait PreviousAddressConstraints extends CommonConstraints {
           .previousAddress.exists(_.postcode == "") => {  // FIXME: not sure with the options handling!
           Invalid("Please enter your postcode", keys.previousAddress.postcode)
         }
-        case None => Invalid("Please enter your postcode", keys.previousAddress.postcode)
-        case _ => Valid
+        case None => {
+          Invalid("Please enter your postcode", keys.previousAddress.postcode)
+        }
+        case _ => {
+          Valid
+        }
       }
-  }
-
-  lazy val addressIsRequired = Constraint[InprogressOrdinary](keys.previousAddress.key) {
-    inprogress =>
-      if (inprogress.previousAddress.isDefined) Valid
-      else Invalid("Please answer this question", keys.previousAddress)
   }
 
   lazy val uprnOrManualDefined = Constraint[PartialAddress](keys.previousAddress.key) {
@@ -192,13 +209,17 @@ trait PreviousAddressConstraints extends CommonConstraints {
 
   lazy val postcodeIsValid = Constraint[PartialAddress](keys.previousAddress.key) {
     case PartialAddress(_, _, postcode, _)
-      if PostcodeValidator.isValid(postcode) => Valid
-    case _ => Invalid("Your postcode is not valid", keys.previousAddress.postcode)
+      if PostcodeValidator.isValid(postcode) => {
+      Valid
+    }
+    case _ => {
+      Invalid("Your postcode is not valid", keys.previousAddress.postcode)
+    }
   }
 
   // FIXME: re-use postcodeIsValid
   lazy val postcodeIsValidForPPA = Constraint[PartialPreviousAddress](keys.previousAddress.key) {
-    case PartialPreviousAddress(Some(true), false, Some(PartialAddress(_, _, postcode, _)))
+    case PartialPreviousAddress(Some(true), Some(PartialAddress(_, _, postcode, _)))
       if PostcodeValidator.isValid(postcode) => Valid
     case _ => Invalid("Your postcode is not valid", keys.previousAddress.postcode)
   }

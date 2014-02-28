@@ -13,7 +13,7 @@ trait PreviousAddressMustache {
     val title = "Have you moved out from another UK address in the last 12 months?"
     val questionNumber = "8 of 11"
 
-    case class LookupModel (
+    case class PostcodeModel (
         question: Question,
         postcode: Field
     )
@@ -36,11 +36,12 @@ trait PreviousAddressMustache {
         manualAddress: Field
     )
 
-    def lookupData(
+    def postcodeData(
         form:InProgressForm[InprogressOrdinary],
         backUrl: String,
         postUrl: String) = {
-     LookupModel(
+      implicit val progressForm = form.form
+      val modelData = PostcodeModel(
         question = Question(
           postUrl = postUrl,
           backUrl = backUrl,
@@ -48,27 +49,20 @@ trait PreviousAddressMustache {
           title = title,
           errorMessages = form.form.globalErrors.map(_.message)
         ),
-        postcode = Field(
-          id = keys.lastUkAddress.postcode.asId(),
-          name = keys.lastUkAddress.postcode.key,
-          value = form(keys.lastUkAddress.postcode).value.getOrElse(""),
-          classes = if (form(keys.lastUkAddress.postcode).hasErrors) {
-            "invalid"
-          } else {
-            ""
-          }
-        )
+        postcode = TextField(keys.previousAddress.postcode)
       )
+      println(modelData)
+      modelData
     }
 
-    def lookupPage(
+    def postcodePage(
         form: InProgressForm[InprogressOrdinary],
         backUrl: String,
         postUrl: String) = {
 
       val content = Mustache.render(
-        "ordinary/previousAddressLookup",
-        lookupData(form, backUrl, postUrl)
+        "ordinary/previousAddressPostcode",
+        postcodeData(form, backUrl, postUrl)
       )
       MainStepTemplate(content, title)
     }
@@ -83,7 +77,7 @@ trait PreviousAddressMustache {
 
       implicit val progressForm = form.form
 
-      val selectedUprn = form(keys.lastUkAddress.uprn).value
+      val selectedUprn = form(keys.previousAddress.previousAddress.uprn).value
 
       val options = maybePossibleAddress.map { possibleAddress =>
         possibleAddress.jsonList.addresses
@@ -102,7 +96,7 @@ trait PreviousAddressMustache {
       }
 
       val addressSelect = SelectField(
-        key = keys.lastUkAddress.uprn,
+        key = keys.previousAddress.uprn,
         optionList = options,
         default = SelectOption(
           value = "",
@@ -127,15 +121,17 @@ trait PreviousAddressMustache {
         ),
         lookupUrl = lookupUrl,
         manualUrl = manualUrl,
-        postcode = TextField(keys.lastUkAddress.postcode),
-        address = addressSelectWithError,
+        postcode = TextField(keys.previousAddress.postcode),
+        address = addressSelectWithError,  // this is model data for <select>
+        // FIXME: should be HiddenField
         possibleJsonList = TextField(keys.possibleAddresses.jsonList).copy(
           value = maybePossibleAddress.map { poss =>
             serialiser.toJson(poss.jsonList)
           }.getOrElse("")
         ),
+        // FIXME: should be HiddenField
         possiblePostcode = TextField(keys.possibleAddresses.postcode).copy(
-          value = form(keys.lastUkAddress.postcode).value.getOrElse("")
+          value = form(keys.previousAddress.postcode).value.getOrElse("")
         ),
         hasAddresses = hasAddresses
       )
@@ -173,8 +169,8 @@ trait PreviousAddressMustache {
           errorMessages = progressForm.globalErrors.map(_.message)
         ),
         lookupUrl = lookupUrl,
-        postcode = TextField(keys.lastUkAddress.postcode),
-        manualAddress = TextField(keys.lastUkAddress.manualAddress)
+        postcode = TextField(keys.previousAddress.postcode),
+        manualAddress = TextField(keys.previousAddress.manualAddress)
       )
     }
 

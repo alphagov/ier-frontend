@@ -30,7 +30,7 @@ class PreviousAddressSelectStep @Inject() (
   with PreviousAddressMustache
   with PreviousAddressForms {
 
-  val validation = previousAddressForm
+  val validation = selectAddressForm
 
   val previousRoute = Some(PreviousAddressPostcodeController.get)
 
@@ -46,7 +46,7 @@ class PreviousAddressSelectStep @Inject() (
   }
 
   override def postSuccess(currentState: InprogressOrdinary) = {
-    val address = currentState.previousAddress.map(_.previousAddress.get)
+    val address = currentState.previousAddress.flatMap(_.previousAddress)
     val addressWithAddressLine = address.map {
       addressService.fillAddressLine(_)
     }
@@ -54,7 +54,6 @@ class PreviousAddressSelectStep @Inject() (
     currentState.copy(
       previousAddress = Some(PartialPreviousAddress(
         movedRecently = Some(true),
-        findAddress = false, // FIXME: remove, unused
         addressWithAddressLine
       )),
       possibleAddresses = None
@@ -77,7 +76,8 @@ class PreviousAddressSelectStep @Inject() (
     }
 
     val maybeAddresses = storedAddresses.orElse {
-      lookupAddresses(form(keys.lastUkAddress.postcode).value)
+      val postcode = form(keys.previousAddress.postcode).value
+      lookupAddresses(postcode)
     }
 
     PreviousAddressMustache.selectPage(

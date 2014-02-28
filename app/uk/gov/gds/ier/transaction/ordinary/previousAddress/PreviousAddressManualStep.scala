@@ -48,7 +48,7 @@ class PreviousAddressManualStep @Inject() (
       form,
       backUrl.map(_.url).getOrElse(""),
       call.url,
-      PreviousAddressManualController.get.url  // FIXME: not sure
+      PreviousAddressPostcodeController.lookup.url
     )
   }
 }

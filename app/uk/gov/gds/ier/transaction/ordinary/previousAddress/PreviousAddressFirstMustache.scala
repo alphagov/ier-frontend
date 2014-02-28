@@ -11,7 +11,7 @@ trait PreviousAddressFirstMustache extends StepMustache {
   val title = "Have you moved out from another UK address in the last 12 months?"
   val questionNumber = "8 of 11"
 
-  case class PreviousAddressModel(
+  case class PreviousAddressFirstModel(
     question: Question,
     previousYes: Field,
     previousNo: Field
@@ -20,10 +20,10 @@ trait PreviousAddressFirstMustache extends StepMustache {
   def transformFormStepToMustacheData(
     form: ErrorTransformForm[InprogressOrdinary],
     postUrl: String,
-    backUrl: Option[String]): PreviousAddressModel = {
+    backUrl: Option[String]): PreviousAddressFirstModel = {
     implicit val progressForm = form
 
-    PreviousAddressModel(
+    PreviousAddressFirstModel(
       question = Question(
         postUrl = postUrl,
         backUrl = backUrl.getOrElse(""),
@@ -32,10 +32,10 @@ trait PreviousAddressFirstMustache extends StepMustache {
         title = title,
         errorMessages = form.globalErrors.map { _.message }),
       previousYes = RadioField(
-        key = keys.previousAddress.hasOtherAddress,  // FIXME: check key
+        key = keys.previousAddress.movedRecently,
         value = "true"),
       previousNo = RadioField(
-        key = keys.previousAddress.hasOtherAddress,
+        key = keys.previousAddress.movedRecently,
         value = "false")
     )
   }
