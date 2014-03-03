@@ -25,7 +25,6 @@ class NationalityControllerTests
       contentType(result) should be(Some("text/html"))
 
       contentAsString(result) should include("Question 2")
-      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/country-of-residence")
       contentAsString(result) should include("What is your nationality?")
       contentAsString(result) should include("/register-to-vote/nationality")
     }
@@ -139,7 +138,6 @@ class NationalityControllerTests
       contentType(result) should be(Some("text/html"))
 
       contentAsString(result) should include("Question 2")
-      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/confirmation")
       contentAsString(result) should include("What is your nationality?")
       contentAsString(result) should include("/register-to-vote/edit/nationality")
     }

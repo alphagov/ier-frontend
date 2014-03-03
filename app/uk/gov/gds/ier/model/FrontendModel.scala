@@ -25,8 +25,10 @@ case class Country (country: String)
 
 case class PreviousName(hasPreviousName:Boolean,
                         previousName:Option[Name]) {
-  def toApiMap:Map[String,String] = {
-    Map() ++ previousName.map(pn => pn.toApiMap("pfn", "pmn", "pln")).getOrElse(Map.empty)
+  def toApiMap(prefix:String = "p"):Map[String,String] = {
+    Map() ++ previousName.map(pn =>
+      pn.toApiMap(prefix + "fn", prefix + "mn", prefix + "ln")
+    ).getOrElse(Map.empty)
   }
 }
 
@@ -149,7 +151,7 @@ case class OrdinaryApplication(name: Option[Name],
   def toApiMap:Map[String, String] = {
     Map.empty ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
-      previousName.map(_.toApiMap).getOrElse(Map.empty) ++
+      previousName.map(_.toApiMap("p")).getOrElse(Map.empty) ++
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
       nationality.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++

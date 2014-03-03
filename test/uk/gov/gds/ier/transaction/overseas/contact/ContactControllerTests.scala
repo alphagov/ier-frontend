@@ -23,8 +23,6 @@ class ContactControllerTests
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 12")
       contentAsString(result) should include(
-        "<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/ways-to-vote")
-      contentAsString(result) should include(
         "If we have questions about your application, how should we contact you?")
       contentAsString(result) should include("/register-to-vote/overseas/contact")
     }
@@ -37,7 +35,7 @@ class ContactControllerTests
         FakeRequest(POST, "/register-to-vote/overseas/contact")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "contact.contactType" -> "phone",
+            "contact.contactType" -> "phone", 
             "contact.phone" -> "01234 123 456")
       )
 
@@ -70,8 +68,6 @@ class ContactControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 12")
-      contentAsString(result) should include(
-        "<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/confirmation")
       contentAsString(result) should include(
         "If we have questions about your application, how should we contact you?")
       contentAsString(result) should include("/register-to-vote/overseas/edit/contact")

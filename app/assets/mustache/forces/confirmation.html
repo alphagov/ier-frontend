@@ -1,38 +1,55 @@
 <article>
-  <a id="continue" class="back-to-previous" href="{{backUrl}}" title="Back to the previous question">Back</a>
+  <a id="continue" class="back-to-previous"
+     href="{{backUrl}}"
+     title="Back to the previous question">Back</a>
   <header>
     <h1>Check your answers before sending your application</h1>
   </header>
 
     {{#displayPartnerBlock}}
         <h2>Your partner's details</h2>
-    {{/displayPartnerBlock}}
-
-    {{#partnerDetails}}
-        <div>
-            <h3>{{title}}</h3>
-            <div class="data-wrap">
-                {{{content}}}
+        {{#partnerDetails}}
+            <div>
+                <h3>{{title}}</h3>
+                <div class="data-wrap">
+                    {{{content}}}
+                </div>
+                <a href="{{editLink}}" class="change">
+                    Change<span class="visuallyhidden"> {{changeName}}</span>
+                </a>
             </div>
-            <a href="{{editLink}}" class="change">Change<span class="visuallyhidden"> {{changeName}}</span></a>
-        </div>
-    {{/partnerDetails}}
+        {{/partnerDetails}}
 
-    {{#displayPartnerBlock}}
         <h2>Your details</h2>
+        {{#applicantDetails}}
+            <div>
+                <h3>{{title}}</h3>
+                <div class="data-wrap">
+                    {{{content}}}
+                </div>
+                <a href="{{editLink}}" class="change">
+                    Change<span class="visuallyhidden"> {{changeName}}</span>
+                </a>
+            </div>
+        {{/applicantDetails}}
     {{/displayPartnerBlock}}
 
-    {{#applicantDetails}}
+    {{^displayPartnerBlock}}
+        {{#completeApplicantDetails}}
         <div>
             <h3>{{title}}</h3>
             <div class="data-wrap">
                 {{{content}}}
             </div>
-            <a href="{{editLink}}" class="change">Change<span class="visuallyhidden"> {{changeName}}</span></a>
+            <a href="{{editLink}}" class="change">
+                Change<span class="visuallyhidden"> {{changeName}}</span>
+            </a>
         </div>
-    {{/applicantDetails}}
+        {{/completeApplicantDetails}}
+    {{/displayPartnerBlock}}
 
-  <div class="help-notice">
+
+    <div class="help-notice">
     <p>I understand that: </p>
     <p>The information I provide through this application will be used to change my details on the electoral register.</p>
     <p>If I knowingly give false information through this application, I could be fined up to £5,000 or go to prison for up to a year.</p>

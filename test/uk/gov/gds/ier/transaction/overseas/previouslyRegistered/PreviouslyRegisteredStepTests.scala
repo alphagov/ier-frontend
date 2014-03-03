@@ -23,7 +23,6 @@ class PreviouslyRegisteredStepTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 2")
-      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/date-of-birth")
       contentAsString(result) should include("Was your previous registration as an overseas voter?")
       contentAsString(result) should include("/register-to-vote/overseas/previously-registered")
     }
@@ -81,7 +80,6 @@ class PreviouslyRegisteredStepTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Was your previous registration as an overseas voter?")
-      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/confirmation")
       contentAsString(result) should include("/register-to-vote/overseas/edit/previously-registered")
     }
   }
