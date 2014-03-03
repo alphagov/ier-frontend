@@ -22,13 +22,19 @@ li {
   @include core-19;
 }
 
-p {
+p,
+a.paragraph {
   margin: 0 0 1em;
   clear: both;
+}
 
-  &.footnote {
-    margin-top: 2em;
-  }
+a.paragraph {
+  display: block;
+  @include core-19;
+}
+
+p.footnote {
+  margin-top: 2em;
 }
 
 ul,li {
@@ -66,12 +72,12 @@ h1 {
 
 h2 {
   @include bold-24;
-  margin-bottom: 1em;
+  margin: 1em 0 0.75em;
 }
 
 h3 {
   @include bold-19;
-  margin-bottom: 1em;
+  margin: 1.2em 0 0.4em;
 }
 
 input,
@@ -157,7 +163,7 @@ main .visible { // assumes default state is block
 
 /* get started buttons */
 .get-started {
-  margin:1.5em 0;
+  margin:1.5em 0 0;
   
   .destination {
     @include core-14;
