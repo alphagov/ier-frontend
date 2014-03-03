@@ -38,34 +38,37 @@ class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
   val previousRoute = Some(PreviouslyRegisteredController.get)
 
   def nextStep(currentState: InprogressOverseas) = {
-    currentState.dateLeftUk match {
-      case Some(dateLeftUk) if DateValidator.dateLeftUkOver15Years(dateLeftUk) => {
+    
+    val notRegistered = currentState.lastRegisteredToVote match {
+	  case Some(LastRegisteredToVote(LastRegisteredType.NotRegistered)) => true
+	  case _ => false
+	}
+    
+     (currentState.dateLeftUk, currentState.dob, notRegistered) match {
+      case (Some(dateLeftUk), Some(dateOfBirth), _) if DateValidator.dateLeftUkOver15Years(dateLeftUk) => {
         Exit(ExitController.leftUkOver15Years)
       }
-      case Some(dateLeftUk) if validateTooOldWhenLeftUk(dateLeftUk, currentState.dob, currentState.lastRegisteredToVote) => {
-        Exit(ExitController.tooOldWhenLeftUk)
+      case (Some(dateLeftUk), Some(dateOfBirth), true) 
+        if (validateTooOldWhenLeftUk(dateLeftUk, dateOfBirth))=> {
+          Exit(ExitController.tooOldWhenLeftUk)
       }
-      case Some(dateLeftUk) if (!DateValidator.dateLeftUkOver15Years(dateLeftUk) &&
+      case (Some(dateLeftUk), Some(dateOfBirth), true) 
+        if (!DateValidator.dateLeftUkOver15Years(dateLeftUk) &&
           currentState.dob.isDefined &&
-          DateValidator.isLessEighteen(currentState.dob.get)) => {
+          !validateTooOldWhenLeftUk(dateLeftUk, dateOfBirth)) => {
         ParentNameController.parentNameStep
       }
-      case _ => LastUkAddressController.lastUkAddressStep
+      case _ => {
+        LastUkAddressController.lastUkAddressStep
+      }
     }
   }
 
-  def validateTooOldWhenLeftUk(dateLeftUk:DateLeft, dateOfBirth:Option[DOB], lastRegisteredToVote:Option[LastRegisteredToVote]):Boolean = {
-    if (lastRegisteredToVote.exists(_.lastRegisteredType == LastRegisteredType.NotRegistered))
-      dateOfBirth match {
-        case Some(DOB(year,month,day)) => {
-          val birthDateTime = new DateTime(year,month,day,0,0,0,0)
-          val leftUk = new DateTime().withMonthOfYear(dateLeftUk.month).withYear(dateLeftUk.year)
-          val monthDiff = Months.monthsBetween(birthDateTime, leftUk).getMonths()
-          if (monthDiff.toFloat / 12 > 18) true
-          else false
-        }
-        case _ => false
-      }
+  def validateTooOldWhenLeftUk(dateLeftUk:DateLeft, dateOfBirth:DOB):Boolean = {
+    val birthDateTime = new DateTime(dateOfBirth.year, dateOfBirth.month, dateOfBirth.day,0,0,0,0)
+    val leftUk = new DateTime().withMonthOfYear(dateLeftUk.month).withYear(dateLeftUk.year)
+    val monthDiff = Months.monthsBetween(birthDateTime, leftUk).getMonths()
+    if (monthDiff.toFloat / 12 > 18) true
     else false
   }
 
