@@ -69,10 +69,6 @@ class PreviousAddressFirstTemplateTest
       }
 
       { // page
-        val a = doc.select("a[class=back-to-previous]").first()
-        a should not be(null)
-        a.attr("href") should be ("http://some.server/back_url")
-
         val f = doc.select("form").first() // there should be only one form in the template
         f should not be(null)
         f.attr("action") should be ("http://some.server/post_url")

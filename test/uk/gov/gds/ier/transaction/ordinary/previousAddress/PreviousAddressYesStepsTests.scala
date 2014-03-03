@@ -124,10 +124,7 @@ class PreviousAddressYesStepsTests
         "Have you moved out from another UK address in the last 12 months?"
       )
       contentAsString(result) should include("Question 8 of 11")
-      contentAsString(result) should include(
-        "<a class=\"back-to-previous\" href=\"/register-to-vote/confirmation"
-      )
-      contentAsString(result) should include("/register-to-vote/previous-address/lookup")
+      contentAsString(result) should include("<form action=\"/register-to-vote/previous-address/lookup\"")
     }
   }
 
