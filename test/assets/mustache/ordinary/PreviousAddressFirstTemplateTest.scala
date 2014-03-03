@@ -46,9 +46,8 @@ class PreviousAddressFirstTemplateTest
 
       { // YES option
         doc.select("label[for=previousAddress_movedRecently_true]").size() should be(1)
-        doc.select("input#previousAddress_movedRecently_true").size() should be(1)
         val r = doc.select("input#previousAddress_movedRecently_true").first()
-        r.attr("id") should be("previousAddress_movedRecently_true")
+        r should not be(null)
         r.attr("name") should be("previousAddress.movedRecently")
         r.attr("value") should be("true")
         r.attr("class") should include("previousYesClass")
@@ -58,8 +57,8 @@ class PreviousAddressFirstTemplateTest
 
       { // NO option
         doc.select("label[for=previousAddress_movedRecently_false]").size() should be(1)
-        doc.select("input#previousAddress_movedRecently_false").size() should be(1)
         val r = doc.select("input#previousAddress_movedRecently_false").first()
+        r should not be(null)
         r.attr("id") should be("previousAddress_movedRecently_false")
         r.attr("name") should be("previousAddress.movedRecently")
         r.attr("value") should be("false")

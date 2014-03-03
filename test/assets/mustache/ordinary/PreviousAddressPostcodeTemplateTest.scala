@@ -42,16 +42,19 @@ class PreviousAddressPostcodeTemplateTest
       val doc = Jsoup.parse(html.toString)
 
       val fieldset = doc.select("fieldset").first()
+      fieldset should not be (null)
 
       val label = fieldset.select("label").first()
+      label should not be (null)
       label.attr("for") should be("previousAddress_postcode")
 
       val divWrapper = fieldset.select("div").first()
+      divWrapper should not be (null)
       divWrapper.attr("class") should include("postcodeClass1")
       divWrapper.attr("class") should include("postcodeClass2")
 
-      val input = divWrapper.select("input").first()
-      input.attr("id") should be("previousAddress_postcode")
+      val input = divWrapper.select("input#previousAddress_postcode").first()
+      input should not be (null)
       input.attr("name") should be("previousAddress.postcode")
       input.attr("value") should be("WR26NJ")
       input.attr("class") should include("postcodeClass1")

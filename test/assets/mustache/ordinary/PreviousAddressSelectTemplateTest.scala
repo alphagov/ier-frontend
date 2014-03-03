@@ -77,6 +77,7 @@ class PreviousAddressSelectTemplateTest
       val fieldset = doc.select("fieldset").first()
 
       val postcodeSpan = doc.select("span[class=postcode]").first()
+      postcodeSpan should not be (null)
       postcodeSpan.html() should be("WR26NJ")
 
       val postcodeInput = fieldset.select("input#previousAddress_postcode").first()
@@ -86,6 +87,7 @@ class PreviousAddressSelectTemplateTest
       postcodeInput.attr("value") should be("WR26NJ")
 
       val lookupLink = doc.select("a[class=change-postcode-button]").first()
+      lookupLink should not be (null)
       lookupLink.attr("href") should be("http://localhost/previousAddress/select")
 
       val manualLink = doc.select("a[href=http://localhost/previousAddress/manual]").first()
@@ -96,6 +98,7 @@ class PreviousAddressSelectTemplateTest
       addressLabel.attr("for") should be("previousAddress_uprn")
 
       val addressDiv = fieldset.select("div").first()
+      addressDiv should not be(null)
       addressDiv.attr("class") should include("addressSelectorClass1")
       addressDiv.attr("class") should include("addressSelectorClass2")
 
