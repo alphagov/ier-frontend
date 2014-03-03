@@ -1,14 +1,16 @@
 package uk.gov.gds.ier.form
 
 import org.joda.time.{LocalDate, YearMonth, Years}
-import uk.gov.gds.ier.validation.FormKeys
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, Key}
 import uk.gov.gds.ier.model.{DateLeft, InprogressOverseas, ApplicationType, LastRegisteredType}
+import scala.util.Try
 
 trait OverseasFormImplicits {
   self: FormKeys => 
   
-  implicit class OverseasImprovedForm(form:InProgressForm[InprogressOverseas]) {
+  implicit class OverseasImprovedForm(form:ErrorTransformForm[InprogressOverseas]) {
+
+    def apply(key:Key) = form(key.key)
 
     private val jan1st1983 = new LocalDate()
       .withYear(1983)
@@ -28,6 +30,15 @@ trait OverseasFormImplicits {
       }
     }
 
+    def dateLeftSpecial = {
+      for (
+        month <- form(keys.dateLeftSpecial.month).value;
+        year <- form(keys.dateLeftSpecial.year).value
+      ) yield {
+        new YearMonth().withYear(year.toInt).withMonthOfYear(month.toInt)
+      }
+    }
+
     def dateLeftUk = {
       for (
         month <- form(keys.dateLeftUk.month).value;
@@ -38,9 +49,9 @@ trait OverseasFormImplicits {
     }
 
     def within15YearLimit = {
-      val eighteenYearsAgo = new YearMonth().minusYears(15)
+      val fifteenYearsAgo = new YearMonth().minusYears(15)
       dateLeftUk map { date =>
-        date isAfter eighteenYearsAgo
+        date isAfter fifteenYearsAgo
       }
     }
 
@@ -61,17 +72,31 @@ trait OverseasFormImplicits {
       }
     }
 
-    def isUnder18 = {
-      val eigthteenYearsAgo = new LocalDate().minusYears(18)
-      dateOfBirth map { dob =>
-        dob isAfter eigthteenYearsAgo
-      }
+    def previouslyRegisteredOverseas = {
+      form(keys.previouslyRegistered.hasPreviouslyRegistered).value.map { _ == "true" }
     }
 
     def under18WhenLeft = {
       for(dob <- dateOfBirth; whenLeft <- dateLeftUk) yield {
         Years.yearsBetween(new YearMonth(dob), whenLeft).getYears() < 18
       }
+    }
+
+    def lastRegisteredType = {
+      Try {
+        form(keys.lastRegisteredToVote.registeredType).value.map { regType =>
+          LastRegisteredType.parse(regType)
+        }
+      }.getOrElse(None)
+    }
+
+    def identifyApplication:ApplicationType = {
+      identifyOverseasApplication(
+        dateOfBirth map { dateTime => new YearMonth(dateTime) },
+        dateLeftUk,
+        previouslyRegisteredOverseas,
+        lastRegisteredType
+      )
     }
   }
 
