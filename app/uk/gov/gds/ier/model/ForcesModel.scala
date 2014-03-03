@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.model
 
 import uk.gov.gds.common.model.LocalAuthority
+import scala.util.Try
 
 case class InprogressForces(
     statement: Option[Statement] = None,
@@ -82,14 +83,15 @@ case class Statement(
     memberForcesFlag: Option[Boolean],
     partnerForcesFlag: Option[Boolean]) {
   def toApiMap =
-    partnerForcesFlag.map(partnerForcesFlag => Map("saf" -> partnerForcesFlag.toString)).getOrElse(Map.empty)
+    partnerForcesFlag.map(partnerForcesFlag => Map("saf" -> partnerForcesFlag.toString))
+      .getOrElse( Map("saf" -> "false"))
 }
 
 case class Service(
-    serviceName: Option[String],
+    serviceName: Option[ServiceType],
     regiment: Option[String]) {
   def toApiMap =
-    serviceName.map(serviceName => Map("serv" -> serviceName.toString)).getOrElse(Map.empty) ++
+    serviceName.map(serviceName => Map("serv" -> serviceName.name)).getOrElse(Map.empty) ++
     regiment.map(regiment => Map("reg" -> regiment.toString)).getOrElse(Map.empty)
 }
 
@@ -99,4 +101,27 @@ case class Rank(
   def toApiMap =
     serviceNumber.map(serviceNumber => Map("servno" -> serviceNumber.toString)).getOrElse(Map.empty) ++
     rank.map(rank => Map("rank" -> rank.toString)).getOrElse(Map.empty)
+}
+
+sealed case class ServiceType(name:String)
+
+object ServiceType {
+  val RoyalNavy = ServiceType("Royal Navy")
+  val BritishArmy = ServiceType("British Army")
+  val RoyalAirForce = ServiceType("Royal Air Force")
+
+  def isValid(str:String) = {
+    Try {
+      parse(str)
+    }.isSuccess
+  }
+
+  def parse(str:String) = {
+    str match {
+      case "Royal Navy" => RoyalNavy
+      case "British Army" => BritishArmy
+      case "Royal Air Force" => RoyalAirForce
+      case _ => throw new IllegalArgumentException(s"$str not a valid ServiceType")
+    }
+  }
 }

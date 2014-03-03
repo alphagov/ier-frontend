@@ -7,6 +7,8 @@ import org.scalatest.junit.JUnitRunner
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.model.PostalVote
+import uk.gov.gds.ier.model.PostalVoteDeliveryMethod
 
 class PostalVoteControllerTests
   extends FlatSpec
@@ -24,7 +26,6 @@ class PostalVoteControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 10")
-      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/open-register")
       contentAsString(result) should include("Do you want to apply for a postal vote?")
       contentAsString(result) should include("/register-to-vote/postal-vote")
     }
@@ -104,7 +105,6 @@ class PostalVoteControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 10")
-      contentAsString(result) should include("<a class=\"back-to-previous\" href=\"/register-to-vote/confirmation")
       contentAsString(result) should include("Do you want to apply for a postal vote?")
       contentAsString(result) should include("/register-to-vote/edit/postal-vote")
     }
@@ -143,7 +143,7 @@ class PostalVoteControllerTests
       redirectLocation(result) should be(Some("/register-to-vote/confirmation"))
     }
   }
-
+  
   it should "display any errors on unsuccessful bind" in {
     running(FakeApplication()) {
       val Some(result) = route(
