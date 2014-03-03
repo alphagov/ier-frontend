@@ -52,28 +52,43 @@ class ContactTemplateTest
 
       val html = Mustache.render("ordinary/contact", data)
       val doc = Jsoup.parse(html.toString)
+      
+      // page
+      val f = doc.select("form").first() 
+      f should not be(null)
+      f.attr("action") should be ("/whatever-url")
 
-      val emailCheckBox = doc.select("input[id=contact_email_contactMe]").first()
+      val h = doc.select("header").first() 
+      h should not be(null)
+      h.text should include ("1")
+      h.text should include ("contact title")
+
+      val emailCheckBox = doc.select("input#contact_email_contactMe").first()
+      emailCheckBox should not be (null)
       emailCheckBox.attr("id") should be("contact_email_contactMe")
       emailCheckBox.attr("name") should be("contact.email.contactMe")
       emailCheckBox.attr("value") should be("true")
 
-      val phoneCheckBox = doc.select("input[id=contact_phone_contactMe]").first()
+      val phoneCheckBox = doc.select("input#contact_phone_contactMe").first()
+      phoneCheckBox should not be (null)
       phoneCheckBox.attr("id") should be("contact_phone_contactMe")
       phoneCheckBox.attr("name") should be("contact.phone.contactMe")
       phoneCheckBox.attr("value") should be("true")
       
-      val postCheckBox = doc.select("input[id=contact_post_contactMe]").first()
+      val postCheckBox = doc.select("input#contact_post_contactMe").first()
+      postCheckBox should not be (null)
       postCheckBox.attr("id") should be("contact_post_contactMe")
       postCheckBox.attr("name") should be("contact.post.contactMe")
       postCheckBox.attr("value") should be("true")
       
-      val emailField = doc.select("input[id=contact_email_detail]").first()
+      val emailField = doc.select("input#contact_email_detail").first()
+      emailField should not be (null)
       emailField.attr("id") should be("contact_email_detail")
       emailField.attr("name") should be("contact.email.detail")
       emailField.attr("value") should be("test@test.com")
       
-      val phoneField = doc.select("input[id=contact_phone_detail]").first()
+      val phoneField = doc.select("input#contact_phone_detail").first()
+      phoneField should not be (null)
       phoneField.attr("id") should be("contact_phone_detail")
       phoneField.attr("name") should be("contact.phone.detail")
       phoneField.attr("value") should be("123456")
