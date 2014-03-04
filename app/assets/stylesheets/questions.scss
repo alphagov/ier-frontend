@@ -249,6 +249,9 @@ fieldset {
   h2, h3 {
     @include bold-19;
   }
+  h2 {
+    margin-bottom: 1em;
+  }
 }
 
 /* Display of help/optional sections */
