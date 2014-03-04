@@ -8,9 +8,6 @@
   $('header.no-back-link').each(function (idx, elm) {
     new GOVUK.registerToVote.BackButton(elm);
   });
-  $('.help-content').each(function (idx, elm) {
-    new GOVUK.registerToVote.OptionalInformation(elm, 'help-content');
-  });
   $('.optional-section, .optional-section-binary').each(function (idx, elm) {
     var toggleClass = 'optional-section'
     if ($(elm).data('condition') !== undefined) {

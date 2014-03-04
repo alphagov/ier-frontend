@@ -99,13 +99,14 @@
 
   .change {
     @include button($grey-3);
+    overflow: hidden;
     position: absolute;
     top: 0;
     right: 0;
     margin-top: 1em;
 
     @include media(tablet) {
-      position: static;
+      position: relative;
       float: right;
       margin-top: 0;
     }
