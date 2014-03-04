@@ -21,7 +21,8 @@ class ContactStep @Inject ()(val serialiser: JsonSerialiser,
                              val encryptionService : EncryptionService,
                              val encryptionKeys : EncryptionKeys)
   extends OrdinaryStep
-  with ContactForms {
+  with ContactForms 
+  with ContactMustache {
 
   val validation = contactForm
   val previousRoute = Some(PostalVoteController.get)
@@ -45,12 +46,13 @@ class ContactStep @Inject ()(val serialiser: JsonSerialiser,
     application.copy(contact = Some(newContact))
   }
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, 
+      backEndpoint:Option[Call]): Html = {
     val newForm = form.form.value match {
       case Some(application) => form.copy(form = form.form.fill(prepopulateEmailAddress (application)))
       case None => form
     }
-    views.html.steps.contact(newForm, call, backUrl.map(_.url))
+    contactMustache(newForm.form, call, backEndpoint)
   }
 
   def nextStep(currentState: InprogressOrdinary) = {
