@@ -9,6 +9,8 @@ import uk.gov.gds.ier.model.{PreviousName, Name, InprogressOrdinary}
 import akka.util.Timeout
 import java.util.concurrent.TimeUnit
 import uk.gov.gds.ier.model.DOB
+import uk.gov.gds.ier.model.LastRegisteredToVote
+import uk.gov.gds.ier.model.LastRegisteredType
 
 class ParentNameControllerTests
   extends FlatSpec
@@ -99,24 +101,6 @@ class ParentNameControllerTests
       contentAsString(result) should include("Have they changed their name since they left the UK?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("<form action=\"/register-to-vote/overseas/parent-name\"")
-    }
-  }
-
-  behavior of "Completing a prior step when this question is incomplete"
-  it should "stop on this page" in {
-    running(FakeApplication()) {
-      val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/date-left-uk")
-          .withIerSession()
-          .withApplication(completeOverseasApplication.copy(dob = Some(DOB(1997,10,10)),
-              overseasParentName = None))
-          .withFormUrlEncodedBody(
-            "dateLeftUk.month" -> "12",
-            "dateLeftUk.year" -> "2010")
-      )
-
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/overseas/parent-name"))
     }
   }
 
