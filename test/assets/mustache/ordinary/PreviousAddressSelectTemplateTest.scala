@@ -58,8 +58,10 @@ class PreviousAddressSelectTemplateTest
           name = "possibleAddresses.jsonList",
           classes = "not-used-it-is-hidden-field",
           value = "{\"addresses\":[" +
-            "{\"addressLine\":\"2 The Cottages, Moseley Road, Hallow, Worcester, Worcestershire\",\"uprn\":\"26742666\",\"postcode\":\"WR2 6NJ\",\"manualAddress\":null}," +
-            "{\"addressLine\":\"Beaumont, Moseley Road, Hallow, Worcester, Worcestershire\",\"uprn\":\"26742627\",\"postcode\":\"WR2 6NJ\",\"manualAddress\":null}" +
+            "{\"addressLine\":\"2 The Cottages, Moseley Road, Hallow, Worcester, Worcestershire\"," +
+            "\"uprn\":\"26742666\",\"postcode\":\"WR2 6NJ\",\"manualAddress\":null}," +
+            "{\"addressLine\":\"Beaumont, Moseley Road, Hallow, Worcester, Worcestershire\"," +
+            "\"uprn\":\"26742627\",\"postcode\":\"WR2 6NJ\",\"manualAddress\":null}" +
             "]}"
         ),
         possiblePostcode = Field(
@@ -127,8 +129,10 @@ class PreviousAddressSelectTemplateTest
       hiddenJsonListInput.attr("type") should be("hidden")
       hiddenJsonListInput.attr("name") should be("possibleAddresses.jsonList")
       hiddenJsonListInput.attr("value") should be("{\"addresses\":[" +
-        "{\"addressLine\":\"2 The Cottages, Moseley Road, Hallow, Worcester, Worcestershire\",\"uprn\":\"26742666\",\"postcode\":\"WR2 6NJ\",\"manualAddress\":null}," +
-        "{\"addressLine\":\"Beaumont, Moseley Road, Hallow, Worcester, Worcestershire\",\"uprn\":\"26742627\",\"postcode\":\"WR2 6NJ\",\"manualAddress\":null}" +
+        "{\"addressLine\":\"2 The Cottages, Moseley Road, Hallow, Worcester, Worcestershire\"," +
+        "\"uprn\":\"26742666\",\"postcode\":\"WR2 6NJ\",\"manualAddress\":null}," +
+        "{\"addressLine\":\"Beaumont, Moseley Road, Hallow, Worcester, Worcestershire\"," +
+        "\"uprn\":\"26742627\",\"postcode\":\"WR2 6NJ\",\"manualAddress\":null}" +
         "]}")
 
       val hiddenPostcodeInput = doc.select("input#possibleAddresses_postcode").first()
