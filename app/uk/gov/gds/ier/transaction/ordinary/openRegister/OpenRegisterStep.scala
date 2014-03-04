@@ -1,11 +1,11 @@
 package uk.gov.gds.ier.transaction.ordinary.openRegister
 
 import controllers.step.ordinary.PostalVoteController
-import controllers.step.ordinary.routes.{OpenRegisterController, PreviousAddressController}
+import controllers.step.ordinary.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
-import play.api.mvc.{SimpleResult, Call}
+import play.api.mvc.Call
 import uk.gov.gds.ier.model.InprogressOrdinary
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
@@ -21,7 +21,7 @@ class OpenRegisterStep @Inject ()(val serialiser: JsonSerialiser,
   with OpenRegisterMustache {
 
   val validation = openRegisterForm
-  val previousRoute = Some(PreviousAddressController.get)
+  val previousRoute = Some(PreviousAddressFirstController.get)
 
   val routes = Routes(
     get = OpenRegisterController.get,

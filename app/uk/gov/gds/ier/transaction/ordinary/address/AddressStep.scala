@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.address
 
 import controllers.step.ordinary.routes.{AddressController, NinoController}
-import controllers.step.ordinary.{OtherAddressController, PreviousAddressController}
+import controllers.step.ordinary.OtherAddressController
 import com.google.inject.Inject
 import uk.gov.gds.ier.model.{InprogressOrdinary, PossibleAddress, Addresses, InprogressApplication}
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}

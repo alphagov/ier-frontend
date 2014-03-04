@@ -20,7 +20,9 @@ class OpenRegisterMustacheTests
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = openRegisterForm
     val openRegisterModel = openRegisterMustache.transformFormStepToMustacheData (
-        emptyApplicationForm, PostalVoteController.post, Some(PreviousAddressController.get))
+      emptyApplicationForm,
+      PostalVoteController.post,
+      Some(PreviousAddressFirstController.get))
 
     openRegisterModel.question.title should be(
         "Do you want to include your name and address on the open register?")
@@ -38,7 +40,9 @@ class OpenRegisterMustacheTests
       )
     )
     val openRegisterModel = openRegisterMustache.transformFormStepToMustacheData (
-        partiallyFilledApplicationForm, PostalVoteController.post, Some(PreviousAddressController.get))
+      partiallyFilledApplicationForm,
+      PostalVoteController.post,
+      Some(PreviousAddressFirstController.get))
 
     openRegisterModel.question.title should be(
         "Do you want to include your name and address on the open register?")
@@ -56,7 +60,9 @@ class OpenRegisterMustacheTests
       )
     )
     val openRegisterModel = openRegisterMustache.transformFormStepToMustacheData (
-      partiallyFilledApplicationForm, PostalVoteController.post, Some(PreviousAddressController.get))
+      partiallyFilledApplicationForm,
+      PostalVoteController.post,
+      Some(PreviousAddressFirstController.get))
 
     openRegisterModel.question.title should be(
         "Do you want to include your name and address on the open register?")
