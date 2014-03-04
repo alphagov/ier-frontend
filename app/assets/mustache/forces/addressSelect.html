@@ -2,11 +2,11 @@
     {{> shared/questionHeader }}
     {{> shared/validationMessages }}
     <p>
-        <label class="above">Postcode</label>
-        <div>
-            <span><b>{{postcode.value}}</b></span>
-            <a href="{{lookupUrl}}">Change</a>
-        </div>
+        Postcode<span class="visuallyhidden">:</span>
+        <span class="postcode">{{postcode.value}}</span>
+        <a href="{{lookupUrl}}" class="change-postcode-button">
+            Change<span class="visuallyhidden"> your postcode</span>
+        </a>
     </p>
   {{^hasAddresses}}
     <div class="validation-message visible">
