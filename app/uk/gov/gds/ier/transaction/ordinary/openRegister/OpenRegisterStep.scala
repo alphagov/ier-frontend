@@ -1,11 +1,11 @@
 package uk.gov.gds.ier.transaction.ordinary.openRegister
 
 import controllers.step.ordinary.PostalVoteController
-import controllers.step.ordinary.routes.{OpenRegisterController, PreviousAddressController}
+import controllers.step.ordinary.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
-import play.api.mvc.{SimpleResult, Call}
+import play.api.mvc.Call
 import uk.gov.gds.ier.model.InprogressOrdinary
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
@@ -17,10 +17,11 @@ class OpenRegisterStep @Inject ()(val serialiser: JsonSerialiser,
                                         val encryptionService : EncryptionService,
                                         val encryptionKeys : EncryptionKeys)
   extends OrdinaryStep
-  with OpenRegisterForms {
+  with OpenRegisterForms 
+  with OpenRegisterMustache {
 
   val validation = openRegisterForm
-  val previousRoute = Some(PreviousAddressController.get)
+  val previousRoute = Some(PreviousAddressFirstController.get)
 
   val routes = Routes(
     get = OpenRegisterController.get,
@@ -30,7 +31,7 @@ class OpenRegisterStep @Inject ()(val serialiser: JsonSerialiser,
   )
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
-    views.html.steps.openRegister(form, call, backUrl.map (_.url))
+    openRegisterMustache(form.form, call, backUrl)
   }
   def nextStep(currentState: InprogressOrdinary) = {
     PostalVoteController.postalVoteStep

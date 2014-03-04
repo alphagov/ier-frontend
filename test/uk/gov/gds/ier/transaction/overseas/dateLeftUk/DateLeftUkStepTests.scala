@@ -53,14 +53,16 @@ class DateLeftUkStepTests
     }
   }
   
-    it should "bind successfully and redirect to the ParentName step if the application's age is less than 18 and has left uk less than 15 years" in {
+    it should "bind successfully and redirect to the ParentName step if the application's age was " +
+      "less than 18 when he left uk and has left uk less than 15 years" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/date-left-uk")
           .withIerSession()
           .withApplication(completeOverseasApplication.copy(
             dob = Some(DOB(1997,10,10)),
-            overseasParentName = Some(OverseasName(name = None, previousName = None))))
+            lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.NotRegistered)),
+            overseasParentName = None))
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
           "dateLeftUk.year" -> "2010"
@@ -77,6 +79,8 @@ class DateLeftUkStepTests
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/date-left-uk")
           .withIerSession()
+          .withApplication(completeOverseasApplication.copy(
+            dob = Some(DOB(1997,10,10))))
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
           "dateLeftUk.year" -> "1998"
@@ -112,19 +116,19 @@ class DateLeftUkStepTests
     }
   }
 
-  it should "bind successfully and redirect the Registered Address step if he/she was not too" +
-    "old (<=18) when he/she left the UK and was never registered before" in {
+  it should "bind successfully and redirect the Registered Address step if the applicant age was " +
+    "over 18 when left the uk, and left uk less than 15 years, and has registered before" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/date-left-uk")
           .withIerSession()
           .withApplication(completeOverseasApplication.copy(
             lastUkAddress = None,
-            dob = Some(DOB(1983,10,10)),
-            lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.NotRegistered))))
+            dob = Some(DOB(1982,10,10)),
+            lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.Crown))))
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
-          "dateLeftUk.year" -> "2001"
+          "dateLeftUk.year" -> "2002"
         )
       )
 
@@ -198,19 +202,19 @@ class DateLeftUkStepTests
     }
   }
 
-  it should "bind successfully and redirect the Registered Address step if he/she was not too" +
-    "old (<=18) when he/she left the UK and was never registered before" in {
+  it should "bind successfully and redirect the Registered Address step if the applicant age was" +
+    "over 18 when left uk and he has registered before" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/edit/date-left-uk")
           .withIerSession()
           .withApplication(completeOverseasApplication.copy(
             lastUkAddress = None,
-            dob = Some(DOB(1983,10,10)),
-            lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.NotRegistered))))
+            dob = Some(DOB(1982,10,10)),
+            lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.Crown))))
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
-          "dateLeftUk.year" -> "2001"
+          "dateLeftUk.year" -> "2002"
         )
       )
 
@@ -224,6 +228,8 @@ class DateLeftUkStepTests
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/edit/date-left-uk")
           .withIerSession()
+          .withApplication(completeOverseasApplication.copy(
+            dob = Some(DOB(1982,10,10))))
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
           "dateLeftUk.year" -> "1998"
