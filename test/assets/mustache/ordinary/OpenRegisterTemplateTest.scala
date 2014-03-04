@@ -30,7 +30,8 @@ class OpenRegisterTemplateTest
       val html = Mustache.render("ordinary/openRegister", data)
       val doc = Jsoup.parse(html.toString)
 
-      val openRegisterInput = doc.select("input[id=openRegister_optIn]").first()
+      val openRegisterInput = doc.select("input#openRegister_optIn").first()
+      openRegisterInput should not be(null)
       openRegisterInput.attr("id") should be("openRegister_optIn")
       openRegisterInput.attr("name") should be("openRegister.optIn")
       openRegisterInput.attr("value") should be("false")
