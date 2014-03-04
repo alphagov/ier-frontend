@@ -44,23 +44,19 @@ class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
 	  case _ => false
 	}
     
-     (currentState.dateLeftUk, currentState.dob, notRegistered) match {
-      case (Some(dateLeftUk), Some(dateOfBirth), _) if DateValidator.dateLeftUkOver15Years(dateLeftUk) => {
-        Exit(ExitController.leftUkOver15Years)
-      }
+    (currentState.dateLeftUk, currentState.dob, notRegistered) match {
+      case (Some(dateLeftUk), Some(dateOfBirth), _) 
+        if DateValidator.dateLeftUkOver15Years(dateLeftUk) => 
+          Exit(ExitController.leftUkOver15Years)
       case (Some(dateLeftUk), Some(dateOfBirth), true) 
-        if (validateTooOldWhenLeftUk(dateLeftUk, dateOfBirth))=> {
+        if (validateTooOldWhenLeftUk(dateLeftUk, dateOfBirth)) => 
           Exit(ExitController.tooOldWhenLeftUk)
-      }
       case (Some(dateLeftUk), Some(dateOfBirth), true) 
         if (!DateValidator.dateLeftUkOver15Years(dateLeftUk) &&
           currentState.dob.isDefined &&
-          !validateTooOldWhenLeftUk(dateLeftUk, dateOfBirth)) => {
-        ParentNameController.parentNameStep
-      }
-      case _ => {
-        LastUkAddressController.lastUkAddressStep
-      }
+          !validateTooOldWhenLeftUk(dateLeftUk, dateOfBirth)) => 
+          ParentNameController.parentNameStep
+      case _ => LastUkAddressController.lastUkAddressStep
     }
   }
 
