@@ -397,7 +397,8 @@ trait ConfirmationMustache {
     def obtainOtherCountriesList:List[String] = {
       (
         for (i <- 0 until NationalityConstants.numberMaxOfOtherCountries
-             if form(otherCountriesKey(i)).value.isDefined)
+             if (form(otherCountriesKey(i)).value.isDefined)
+               && !form(otherCountriesKey(i)).value.get.isEmpty)
         yield form(otherCountriesKey(i)).value.get
       ).toList
     }
