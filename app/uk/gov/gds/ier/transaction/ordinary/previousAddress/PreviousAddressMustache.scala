@@ -79,21 +79,16 @@ trait PreviousAddressMustache {
 
       val selectedUprn = form(keys.previousAddress.previousAddress.uprn).value
 
-      val options = maybePossibleAddress.map { possibleAddress =>
-        possibleAddress.jsonList.addresses
-      }.getOrElse(List.empty).map { address =>
-        SelectOption(
+      val options = for (address <- maybePossibleAddress.map(_.jsonList.addresses).toList.flatten)
+      yield SelectOption(
           value = address.uprn.getOrElse(""),
           text = address.addressLine.getOrElse(""),
           selected = if (address.uprn == selectedUprn) {
             "selected=\"selected\""
           } else ""
         )
-      }
 
-      val hasAddresses = maybePossibleAddress.exists { poss =>
-        !poss.jsonList.addresses.isEmpty
-      }
+      val hasAddresses = maybePossibleAddress.exists(!_.jsonList.addresses.isEmpty)
 
       val addressSelect = SelectField(
         key = keys.previousAddress.uprn,
