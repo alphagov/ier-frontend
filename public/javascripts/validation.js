@@ -307,7 +307,26 @@
           name,
           rule,
           element,
-          $label;
+          $label,
+          idToLinkTo,
+          _getFirstChild;
+
+      _getFirstChild = function (field) {
+        var group = _this.fields.getNames([field.name])[0],
+            firstChildName,
+            firstChild;
+ 
+        if (group.type === 'association') {
+          firstChildName = group.members[0];
+        } else {
+          firstChildName = group.children[0];
+        }
+        firstChild = _this.fields.getNames([firstChildName])[0];
+        if (firstChild.type !== 'field') {
+          firstChild = _getFirstChild(field);
+        }
+        return firstChild;
+      };
 
       $('.validation-message').remove();
       if (typeof $validationTrigger[0].form === 'undefined' || !invalidFields.length) { return; }
@@ -323,19 +342,16 @@
             messageData.message = _this.messages[name][rule];
             // if the field is a form control, add a message to its label and link to it
             if (field.$source && field.$source[0].id) {
+              idToLinkTo = field.$source[0].id;
               _this.messageField(field.$source, _this.messages[name][rule]);
-              messageData.block = function () {
-                return function (message, render) {
-                  return '<a href="#' + field.$source[0].id + '">' + render(message) + '</a>';
-                };
-              };
-            } else { // render the message as plain text
-              messageData.block = function () {
-                return function (message, render) {
-                  return render(message);
-                };
-              };
+            } else {
+              idToLinkTo = _getFirstChild(field).$source[0].id; 
             }
+            messageData.block = function () {
+              return function (message, render) {
+                return '<a href="#' + idToLinkTo + '">' + render(message) + '</a>';
+              };
+            };
             // add page validation message
             $(message(messageData)).insertBefore($lastElement);
           }
@@ -559,6 +575,8 @@
           'allNonEmpty' : function () {
             var childFields = validation.fields.getNames(this.children),
                 childFailedRules = [],
+                fieldsThatNeedInput = 0,
+                emptyFields = 0,
                 rulesToReport,
                 _fieldIsShowing,
                 fieldsetObj,
@@ -567,18 +585,23 @@
             _fieldIsShowing = function (fieldObj) {
               return !fieldObj.$source.is(':hidden');
             };
-            if (this.$source.is(':hidden')) { return []; }
+            if (!_fieldIsShowing(this)) { return []; }
+            // validate against the nonEmpty rules of children
             for (i = 0, j = childFields.length; i < j; i++) {
               var fieldObj = childFields[i],
                   method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty',
-                  isFilledFailedRules = fieldObj[method]();
+                  isFilledFailedRules;
 
+              if ($.inArray(method, fieldObj.rules) === -1) { continue; }
+              fieldsThatNeedInput++;
+              isFilledFailedRules = fieldObj[method]();
               if (_fieldIsShowing(fieldObj) && isFilledFailedRules.length) {
+                emptyFields++;
                 $.merge(childFailedRules, isFilledFailedRules);
               }
             }
             if (childFailedRules.length) {
-              if (childFailedRules.length < childFields.length) {
+              if (emptyFields < fieldsThatNeedInput) {
                 // message for each child field
                 rulesToReport = childFailedRules;
                 fieldsetObj = {
@@ -697,30 +720,51 @@
           },
           'allNonEmpty' : function () {
             var memberFields = validation.fields.getNames(this.members),
+                memberFailedRules = [],
+                fieldsThatNeedInput = 0,
+                emptyFields = 0,
+                rulesToReport,
                 _fieldIsShowing,
-                failedRules,
-                isFilledFailedRules = [],
+                fieldsetObj,
                 i,j;
 
             _fieldIsShowing = function (fieldObj) {
               return !fieldObj.$source.is(':hidden');
             };
+            // validate against the nonEmpty rules of children
             for (i = 0, j = memberFields.length; i < j; i++) {
               var fieldObj = memberFields[i],
-                  method = (fieldObj.type === 'field') ? 'nonEmpty' : 'allNonEmpty';
+                  method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty',
+                  isFilledFailedRules;
 
-              if ($.inArray(method, fieldObj.rules) !== -1) {
-                failedRules = fieldObj[method]();
-                if (failedRules.length) {
-                  $.merge(isFilledFailedRules, failedRules);
-                }
+              if ($.inArray(method, fieldObj.rules) === -1) { continue; }
+              fieldsThatNeedInput++;
+              isFilledFailedRules = fieldObj[method]();
+              if (_fieldIsShowing(fieldObj) && isFilledFailedRules.length) {
+                emptyFields++;
+                $.merge(memberFailedRules, isFilledFailedRules);
               }
             }
-            if (_fieldIsShowing(fieldObj) && isFilledFailedRules.length) {
-              isFilledFailedRules.push(this)
-              return _getInvalidDataFromFields(isFilledFailedRules, 'allNonEmpty');
+            if (memberFailedRules.length) {
+              if (emptyFields < fieldsThatNeedInput) {
+                // message for each child field
+                rulesToReport = memberFailedRules;
+                fieldsetObj = {
+                  'name' : this.name,
+                  '$source' : this.$source
+                };
+              } else { // message from the fieldset level
+                rulesToReport = _getInvalidDataFromFields(memberFailedRules, 'allNonEmpty');
+                fieldsetObj = {
+                  'name' : this.name,
+                  'rule' : 'allNonEmpty'
+                };
+              }
+              rulesToReport.push(fieldsetObj);
+              return rulesToReport;
+            } else {
+              return [];
             }
-            return [];
           },
           'allValid' : function () {
             var memberFields = validation.fields.getNames(this.members),
