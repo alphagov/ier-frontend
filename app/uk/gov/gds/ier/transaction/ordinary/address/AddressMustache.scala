@@ -96,9 +96,7 @@ trait AddressMustache {
         )
       }
 
-      val hasAddresses = maybePossibleAddress.exists { poss =>
-        !poss.jsonList.addresses.isEmpty
-      }
+      val hasAddresses = maybePossibleAddress.exists (!_.jsonList.addresses.isEmpty)
 
       val addressSelect = SelectField(
         key = keys.address.uprn,
