@@ -19,14 +19,14 @@ class DateOfBirthControllerTests
   it should "display the page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(GET, "/register-to-vote/date-of-birth").withIerSession()
+        FakeRequest(GET, "/register-to-vote/forces/date-of-birth").withIerSession()
       )
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 3")
       contentAsString(result) should include("What is your date of birth?")
-      contentAsString(result) should include("/register-to-vote/date-of-birth")
+      contentAsString(result) should include("/register-to-vote/forces/date-of-birth")
     }
   }
 
@@ -34,7 +34,7 @@ class DateOfBirthControllerTests
   it should "bind successfully and redirect to the Name step" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/date-of-birth")
+        FakeRequest(POST, "/register-to-vote/forces/date-of-birth")
           .withIerSession()
           .withFormUrlEncodedBody(
           "dob.dob.day" -> "1",
@@ -43,14 +43,14 @@ class DateOfBirthControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/name"))
+      redirectLocation(result) should be(Some("/register-to-vote/forces/name"))
     }
   }
 
   it should "bind successfully and redirect to the confirmation step when all complete" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/date-of-birth")
+        FakeRequest(POST, "/register-to-vote/forces/date-of-birth")
           .withIerSession()
           .withApplication(completeForcesApplication)
           .withFormUrlEncodedBody(
@@ -60,7 +60,7 @@ class DateOfBirthControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/confirmation"))
+      redirectLocation(result) should be(Some("/register-to-vote/forces/confirmation"))
     }
   }
 
@@ -68,7 +68,7 @@ class DateOfBirthControllerTests
   it should "bind successfully and redirect too young exit page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/date-of-birth")
+        FakeRequest(POST, "/register-to-vote/forces/date-of-birth")
           .withIerSession()
           .withFormUrlEncodedBody(
           "dob.dob.day" -> "1",
@@ -84,7 +84,7 @@ class DateOfBirthControllerTests
   it should "bind successfully and push to under18 exit page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/date-of-birth")
+        FakeRequest(POST, "/register-to-vote/forces/date-of-birth")
           .withIerSession()
           .withFormUrlEncodedBody(
           "dob.noDob.reason" -> "I was never born",
@@ -98,7 +98,7 @@ class DateOfBirthControllerTests
   it should "bind successfully and push to dont-know exit page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/date-of-birth")
+        FakeRequest(POST, "/register-to-vote/forces/date-of-birth")
           .withIerSession()
           .withFormUrlEncodedBody(
           "dob.noDob.reason" -> "I was never born",
@@ -113,13 +113,13 @@ class DateOfBirthControllerTests
   it should "display any errors on unsuccessful bind" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/date-of-birth").withIerSession()
+        FakeRequest(POST, "/register-to-vote/forces/date-of-birth").withIerSession()
       )
 
       status(result) should be(OK)
       contentAsString(result) should include("What is your date of birth?")
       contentAsString(result) should include("Please enter your date of birth")
-      contentAsString(result) should include("/register-to-vote/date-of-birth")
+      contentAsString(result) should include("/register-to-vote/forces/date-of-birth")
     }
   }
 
@@ -127,16 +127,16 @@ class DateOfBirthControllerTests
   it should "stop on this page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/country-of-residence")
+        FakeRequest(POST, "/register-to-vote/forces/nationality")
           .withIerSession()
           .withApplication(completeForcesApplication.copy(dob = None))
           .withFormUrlEncodedBody(
-          "country.residence" -> "England"
+          "nationality.british" -> "true"
         )
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/date-of-birth"))
+      redirectLocation(result) should be(Some("/register-to-vote/forces/date-of-birth"))
     }
   }
 
@@ -144,14 +144,14 @@ class DateOfBirthControllerTests
   it should "display the page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(GET, "/register-to-vote/edit/date-of-birth").withIerSession()
+        FakeRequest(GET, "/register-to-vote/forces/edit/date-of-birth").withIerSession()
       )
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 3")
       contentAsString(result) should include("What is your date of birth?")
-      contentAsString(result) should include("/register-to-vote/edit/date-of-birth")
+      contentAsString(result) should include("/register-to-vote/forces/edit/date-of-birth")
     }
   }
 
@@ -159,7 +159,7 @@ class DateOfBirthControllerTests
   it should "bind successfully and redirect to the Name step" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/date-of-birth")
+        FakeRequest(POST, "/register-to-vote/forces/edit/date-of-birth")
           .withIerSession()
           .withFormUrlEncodedBody(
           "dob.dob.day" -> "1",
@@ -168,14 +168,14 @@ class DateOfBirthControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/name"))
+      redirectLocation(result) should be(Some("/register-to-vote/forces/name"))
     }
   }
 
   it should "bind successfully and redirect to the confirmation step when all complete" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/date-of-birth")
+        FakeRequest(POST, "/register-to-vote/forces/edit/date-of-birth")
           .withIerSession()
           .withApplication(completeForcesApplication)
           .withFormUrlEncodedBody(
@@ -185,14 +185,14 @@ class DateOfBirthControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/confirmation"))
+      redirectLocation(result) should be(Some("/register-to-vote/forces/confirmation"))
     }
   }
 
   it should "bind successfully and redirect too young exit page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/date-of-birth")
+        FakeRequest(POST, "/register-to-vote/forces/edit/date-of-birth")
           .withIerSession()
           .withFormUrlEncodedBody(
           "dob.dob.day" -> "1",
@@ -208,7 +208,7 @@ class DateOfBirthControllerTests
   it should "bind successfully and push to under18 exit page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/date-of-birth")
+        FakeRequest(POST, "/register-to-vote/forces/edit/date-of-birth")
           .withIerSession()
           .withFormUrlEncodedBody(
           "dob.noDob.reason" -> "I was never born",
@@ -222,7 +222,7 @@ class DateOfBirthControllerTests
   it should "bind successfully and push to dont-know exit page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/date-of-birth")
+        FakeRequest(POST, "/register-to-vote/forces/edit/date-of-birth")
           .withIerSession()
           .withFormUrlEncodedBody(
           "dob.noDob.reason" -> "I was never born",
@@ -237,13 +237,13 @@ class DateOfBirthControllerTests
   it should "display any errors on unsuccessful bind" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/date-of-birth").withIerSession()
+        FakeRequest(POST, "/register-to-vote/forces/edit/date-of-birth").withIerSession()
       )
 
       status(result) should be(OK)
       contentAsString(result) should include("What is your date of birth?")
       contentAsString(result) should include("Please enter your date of birth")
-      contentAsString(result) should include("/register-to-vote/edit/date-of-birth")
+      contentAsString(result) should include("/register-to-vote/forces/edit/date-of-birth")
     }
   }
 }
