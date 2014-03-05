@@ -1,13 +1,14 @@
 package controllers.step.forces
 
-import uk.gov.gds.ier.stubs.StubController
-import uk.gov.gds.ier.model.InprogressForces
+import uk.gov.gds.ier.guice.DelegatingController
+import uk.gov.gds.ier.transaction.forces.nino.NinoStep
 
-object NinoController extends StubController[InprogressForces] {
-  val confirmationStep = ConfirmationController.confirmationStep
-  val thisStepUrl = "/register-to-vote/forces/nino"
+object NinoController extends DelegatingController[NinoStep] {
 
-  def ninoStep = confirmationIf { application =>
-    application.nino.isDefined
+  def get = delegate.get
+  def post = delegate.post
+  def editGet = delegate.editGet
+  def editPost = delegate.editPost
+
+  def ninoStep = delegate
   }
-}
