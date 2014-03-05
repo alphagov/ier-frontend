@@ -34,7 +34,7 @@ class OpenRegisterStep @Inject ()(val serialiser: JsonSerialiser,
     openRegisterMustache(form.form, call, backUrl)
   }
   def nextStep(currentState: InprogressForces) = {
-    PostalVoteController.postalVoteStep
+    WaysToVoteController.waysToVoteStep
   }
   override def isStepComplete(currentState: InprogressForces) = {
     currentState.openRegisterOptin.isDefined

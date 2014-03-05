@@ -21,7 +21,7 @@ class OpenRegisterMustacheTests
     val emptyApplicationForm = openRegisterForm
     val openRegisterModel = openRegisterMustache.transformFormStepToMustacheData (
       emptyApplicationForm,
-      PostalVoteController.post,
+      OpenRegisterController.post,
       Some(ContactAddressController.get))
 
     openRegisterModel.question.title should be(
@@ -41,7 +41,7 @@ class OpenRegisterMustacheTests
     )
     val openRegisterModel = openRegisterMustache.transformFormStepToMustacheData (
       partiallyFilledApplicationForm,
-      PostalVoteController.post,
+      OpenRegisterController.post,
       Some(ContactAddressController.get))
 
     openRegisterModel.question.title should be(
@@ -61,7 +61,7 @@ class OpenRegisterMustacheTests
     )
     val openRegisterModel = openRegisterMustache.transformFormStepToMustacheData (
       partiallyFilledApplicationForm,
-      PostalVoteController.post,
+      OpenRegisterController.post,
       Some(ContactAddressController.get))
 
     openRegisterModel.question.title should be(
