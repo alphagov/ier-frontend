@@ -16,14 +16,14 @@ trait ConfirmationForms extends OrdinaryMappings {
       keys.nationality.key -> optional(nationalityMapping).verifying("Please complete this step", _.isDefined),
       keys.nino.key -> optional(ninoMapping).verifying("Please complete this step", _.isDefined),
       keys.address.key -> optional(partialAddressMapping).verifying("Please complete this step", _.isDefined),
-      keys.previousAddress.key -> optional(previousAddressMapping).verifying("Please complete this step", _.isDefined),
+      keys.previousAddress.key -> optional(partialPreviousAddressMapping).verifying("Please complete this step", _.isDefined),
       keys.otherAddress.key -> optional(otherAddressMapping).verifying("Please complete this step", _.isDefined),
       keys.openRegister.key -> optional(optInMapping).verifying("Please complete this step", _.isDefined),
       keys.postalVote.key -> optional(postalVoteMapping).verifying("Please complete this step", _.isDefined),
       keys.contact.key -> optional(contactMapping).verifying("Please complete this step", _.isDefined),
       keys.possibleAddresses.key -> optional(possibleAddressesMapping),
       keys.country.key -> optional(countryMapping)
-      
+
     ) (InprogressOrdinary.apply) (InprogressOrdinary.unapply)
   )
 

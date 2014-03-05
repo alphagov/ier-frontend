@@ -22,6 +22,7 @@ GET         /register-to-vote/exit/too-young                             control
 GET         /register-to-vote/exit/no-franchise                          controllers.ExitController.noFranchise
 GET         /register-to-vote/exit/overseas/left-uk-over-15-years        controllers.ExitController.leftUkOver15Years
 GET         /register-to-vote/exit/overseas/too-old-when-left-uk         controllers.ExitController.tooOldWhenLeftUk
+GET         /register-to-vote/exit/overseas/left-service-over-15-years        controllers.ExitController.leftSpecialOver15Years
 
 
 #Error Routes
@@ -109,10 +110,31 @@ GET         /register-to-vote/edit/address/select                        control
 POST        /register-to-vote/edit/address/select                        controllers.step.ordinary.AddressSelectController.editPost
 
 #Previous Address Step
-GET         /register-to-vote/previous-address                           controllers.step.ordinary.PreviousAddressController.get
-POST        /register-to-vote/previous-address                           controllers.step.ordinary.PreviousAddressController.post
-GET         /register-to-vote/edit/previous-address                      controllers.step.ordinary.PreviousAddressController.editGet
-POST        /register-to-vote/edit/previous-address                      controllers.step.ordinary.PreviousAddressController.editPost
+GET         /register-to-vote/previous-address                           controllers.step.ordinary.PreviousAddressFirstController.get
+POST        /register-to-vote/previous-address                           controllers.step.ordinary.PreviousAddressFirstController.post
+GET         /register-to-vote/edit/previous-address                      controllers.step.ordinary.PreviousAddressFirstController.editGet
+POST        /register-to-vote/edit/previous-address                      controllers.step.ordinary.PreviousAddressFirstController.editPost
+
+#Previous Address Step - postcode entry (if there is a previous address)
+GET         /register-to-vote/previous-address/postcode                  controllers.step.ordinary.PreviousAddressPostcodeController.get
+POST        /register-to-vote/previous-address/postcode                  controllers.step.ordinary.PreviousAddressPostcodeController.post
+GET         /register-to-vote/edit/previous-address/postcode             controllers.step.ordinary.PreviousAddressPostcodeController.editGet
+POST        /register-to-vote/edit/previous-address/postcode             controllers.step.ordinary.PreviousAddressPostcodeController.editPost
+
+#Previous Address Step - postcode lookup
+POST        /register-to-vote/previous-address/lookup                    controllers.step.ordinary.PreviousAddressPostcodeController.lookup
+
+#Previous Address Step - selection from postcode
+GET         /register-to-vote/previous-address/select                    controllers.step.ordinary.PreviousAddressSelectController.get
+POST        /register-to-vote/previous-address/select                    controllers.step.ordinary.PreviousAddressSelectController.post
+GET         /register-to-vote/edit/previous-address/select               controllers.step.ordinary.PreviousAddressSelectController.editGet
+POST        /register-to-vote/edit/previous-address/select               controllers.step.ordinary.PreviousAddressSelectController.editPost
+
+#Previous Address Step - manual address
+GET         /register-to-vote/previous-address/manual                    controllers.step.ordinary.PreviousAddressManualController.get
+POST        /register-to-vote/previous-address/manual                    controllers.step.ordinary.PreviousAddressManualController.post
+GET         /register-to-vote/edit/previous-address/manual               controllers.step.ordinary.PreviousAddressManualController.editGet
+POST        /register-to-vote/edit/previous-address/manual               controllers.step.ordinary.PreviousAddressManualController.editPost
 
 #Name Step
 GET         /register-to-vote/name                                       controllers.step.ordinary.NameController.get
@@ -165,6 +187,12 @@ POST        /register-to-vote/overseas/date-left-uk                      control
 GET         /register-to-vote/overseas/edit/date-left-uk                 controllers.step.overseas.DateLeftUkController.editGet
 POST        /register-to-vote/overseas/edit/date-left-uk                 controllers.step.overseas.DateLeftUkController.editPost
 
+#Parent Name
+GET         /register-to-vote/overseas/parent-name                      controllers.step.overseas.ParentNameController.get
+POST        /register-to-vote/overseas/parent-name                      controllers.step.overseas.ParentNameController.post
+GET         /register-to-vote/overseas/edit/parent-name                 controllers.step.overseas.ParentNameController.editGet
+POST        /register-to-vote/overseas/edit/parent-name                 controllers.step.overseas.ParentNameController.editPost
+
 #Last Uk Address
 GET         /register-to-vote/overseas/last-uk-address                   controllers.step.overseas.LastUkAddressController.get
 POST        /register-to-vote/overseas/last-uk-address                   controllers.step.overseas.LastUkAddressController.post
@@ -185,6 +213,28 @@ GET         /register-to-vote/overseas/last-uk-address/select            control
 POST        /register-to-vote/overseas/last-uk-address/select            controllers.step.overseas.LastUkAddressSelectController.post
 GET         /register-to-vote/overseas/edit/last-uk-address/select       controllers.step.overseas.LastUkAddressSelectController.editGet
 POST        /register-to-vote/overseas/edit/last-uk-address/select       controllers.step.overseas.LastUkAddressSelectController.editPost
+
+#Parents Address
+GET         /register-to-vote/overseas/parents-address                   controllers.step.overseas.ParentsAddressController.get
+POST        /register-to-vote/overseas/parents-address                   controllers.step.overseas.ParentsAddressController.post
+GET         /register-to-vote/overseas/edit/parents-address              controllers.step.overseas.ParentsAddressController.editGet
+POST        /register-to-vote/overseas/edit/parents-address              controllers.step.overseas.ParentsAddressController.editPost
+
+#Lookup Parents Address
+POST        /register-to-vote/overseas/parents-address/lookup            controllers.step.overseas.ParentsAddressController.lookup
+
+#Manual Parents Address
+GET         /register-to-vote/overseas/parents-address/manual            controllers.step.overseas.ParentsAddressManualController.get
+POST        /register-to-vote/overseas/parents-address/manual            controllers.step.overseas.ParentsAddressManualController.post
+GET         /register-to-vote/overseas/edit/parents-address/manual       controllers.step.overseas.ParentsAddressManualController.editGet
+POST        /register-to-vote/overseas/edit/parents-address/manual       controllers.step.overseas.ParentsAddressManualController.editPost
+
+#Select Parents Address
+GET         /register-to-vote/overseas/parents-address/select            controllers.step.overseas.ParentsAddressSelectController.get
+POST        /register-to-vote/overseas/parents-address/select            controllers.step.overseas.ParentsAddressSelectController.post
+GET         /register-to-vote/overseas/edit/parents-address/select       controllers.step.overseas.ParentsAddressSelectController.editGet
+POST        /register-to-vote/overseas/edit/parents-address/select       controllers.step.overseas.ParentsAddressSelectController.editPost
+
 
 #Name  (voter full name)
 GET         /register-to-vote/overseas/name                              controllers.step.overseas.NameController.get

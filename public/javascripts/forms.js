@@ -7,105 +7,46 @@
       countries = GOVUK.registerToVote.countries,
       validation = GOVUK.registerToVote.validation,
       ENTER = 13,
-      ToggleObj,
-      OptionalInformation,
       ConditionalControl,
       DuplicateField,
       MarkSelected,
       Autocomplete,
       autocompletes,
       PostcodeLookup,
-      monitorRadios;
+      monitorRadios,
+      BackButton;
 
-  // Base contructor for content associated with a 'toggle' element that controls its visiblity
-  ToggleObj = function (elm) {
+  BackButton = function (elm) {
     if (elm) {
-      this.$content = $(elm);
-      this.toggleActions = {
-        'hidden': 'Expand',
-        'visible': 'Hide'
-      };
+      this.$header = $(elm);
       this.setup();
       this.bindEvents();
     }
   };
-  ToggleObj.prototype.setAccessibilityAPI = function (state) {
-    if (state === 'hidden') {
-      this.$content.attr('aria-hidden', true);
-      this.$content.attr('aria-expanded', false);
-      this.$toggle.find('span.visuallyhidden').eq(0).text(this.toggleActions.hidden);
-    } else {
-      this.$content.attr('aria-hidden', false);
-      this.$content.attr('aria-expanded', true);
-      this.$toggle.find('span.visuallyhidden').eq(0).text(this.toggleActions.visible);
-    }
+  BackButton.prototype.setup = function () {
+    var linkFragment = '<a class="back-to-previous" href="#">' +
+      'Back <span class="visuallyhidden"> to the previous question</span></a>';
+    this.$header.before(linkFragment);
+    this.$header.removeClass('no-back-link');
+    this.$link = $('a.back-to-previous');
   };
-  ToggleObj.prototype.toggle = function () {
-    if (this.$content.css("display") === "none") {
-      this.$content.show();
-      this.setAccessibilityAPI('visible');
-      this.$toggle.removeClass("toggle-closed");
-      this.$toggle.addClass("toggle-open");
-      $(document).trigger('toggle.open', { '$toggle' : this.$toggle });
-    } else {
-      this.$content.hide();
-      this.setAccessibilityAPI('hidden');
-      this.$toggle.removeClass("toggle-open");
-      this.$toggle.addClass("toggle-closed");
-      $(document).trigger('toggle.closed', { '$toggle' : this.$toggle });
-    }
-  };
-  ToggleObj.prototype.setup = function () {
-    var contentId = this.$content.attr('id');
-
-    this.$heading = this.$content.find("h1,h2,h3,h4").first();
-    this.$toggle = $('<a href="#" class="toggle"><span class="visuallyhidden">Show</span> ' + this.$heading.text() + ' <span class="visuallyhidden">section</span></a>');
-    if (contentId) { this.$toggle.attr('aria-controls', contentId); }
-    this.$toggle.insertBefore(this.$content);
-  };
-  ToggleObj.prototype.bindEvents = function () {
-    var _this = this;
-
-    this.$toggle.on('click', function () {
-      _this.toggle();
+  BackButton.prototype.bindEvents = function () {
+    this.$link.on("click", function(e) {
+      e.preventDefault();
+      root.history.back();
       return false;
     });
-  };
-
-  // Constructor for controlling the display of content that is additional to the main block
-  // Uses ToggleObj for its base prototype
-  OptionalInformation = function () {
-    ToggleObj.apply(this, arguments);
-  };
-  $.extend(OptionalInformation.prototype, new ToggleObj());
-  OptionalInformation.prototype.setup = function () {
-    var contentId = this.$content.attr('id'),
-        headingText;
-
-    this.$heading = this.$content.find("h1,h2,h3,h4").first();
-    this.$toggle = $('<a href="#" class="toggle"><span class="visuallyhidden">Show</span> ' + this.$heading.text() + ' <span class="visuallyhidden">section</span></a>');
-    if (contentId) { this.$toggle.attr('aria-controls', contentId); }
-    this.$toggle.insertBefore(this.$content);
-    this.$heading.addClass("visuallyhidden");
-  };
-  OptionalInformation.prototype.bindEvents = function () {
-    var _this = this;
-
-    this.$toggle.on('click', function () {
-      _this.toggle();
-      return false;
-    });
-    this.$toggle.trigger('click');
   };
 
   // Contructor for controlling parts of a form based on the state of one of its elements (ie. radio button)
-  // Uses ToggleObj for its base prototype
+  // Uses GOVUK.registerToVote.ToggleObj for its base prototype
   ConditionalControl = function () {
-    ToggleObj.apply(this, arguments);
+    GOVUK.registerToVote.ToggleObj.apply(this, arguments);
   };
-  $.extend(ConditionalControl.prototype, new ToggleObj());
+  $.extend(ConditionalControl.prototype, new GOVUK.registerToVote.ToggleObj());
   ConditionalControl.prototype.setup = function () {
     var contentId = this.$content.attr('id'),
+        loadedState = 'hidden',
         _this = this,
         _bindControlAndContentMargins;
     
@@ -128,6 +69,10 @@
     this.$toggle = $(document.getElementById(this.$content.data('condition'))); 
     if (contentId) { this.$toggle.attr('aria-controls', contentId); }
     _bindControlAndContentMargins();
+    if (this.$content.hasClass(this.toggleClass)) {
+      loadedState = 'shown';
+    }
+    this.adjustVerticalSpace(loadedState);
   }; 
   ConditionalControl.prototype.bindEvents = function () {
     var _this = this,
@@ -141,11 +86,10 @@
         _this.toggle(data.selectedRadio);
       });
     }
-    this.$toggle.trigger("change");
   };
   ConditionalControl.prototype.clearContent = function (controlId) {
     if (controlId !== this.$toggle.attr('id')) {
-      this.$content.hide();
+      this.$content.removeClass(this.toggleClass);
     }
   };
   ConditionalControl.prototype.adjustVerticalSpace = function (content) {
@@ -168,7 +112,7 @@
         _showContent;
 
     _hideContent = function () {
-      _this.$content.hide();
+      _this.$content.removeClass(_this.toggleClass);
       _this.$content.attr({
         'aria-hidden' : true,
         'aria-expanded' : false
@@ -176,7 +120,7 @@
     };
 
     _showContent = function () {
-      _this.$content.show();
+      _this.$content.addClass(_this.toggleClass);
       _this.$content.attr({
         'aria-hidden' : false,
         'aria-expanded' : true
@@ -643,7 +587,7 @@
     this.$targetElement
       .append($results)
       .addClass('contains-addresses');
-    new OptionalInformation(this.$targetElement.find('.optional-section'));
+    new GOVUK.registerToVote.OptionalInformation(this.$targetElement.find('.optional-section'), 'optional-section');
     this.hasAddresses = true;
   };
   PostcodeLookup.prototype.getAddresses = function () {
@@ -738,11 +682,11 @@
     });
   }());
 
-  GOVUK.registerToVote.OptionalInformation = OptionalInformation;
   GOVUK.registerToVote.ConditionalControl = ConditionalControl;
   GOVUK.registerToVote.DuplicateField = DuplicateField;
   GOVUK.registerToVote.MarkSelected = MarkSelected;
   GOVUK.registerToVote.autocompletes = autocompletes;
   GOVUK.registerToVote.monitorRadios = monitorRadios;
   GOVUK.registerToVote.PostcodeLookup = PostcodeLookup;
+  GOVUK.registerToVote.BackButton = BackButton;
 }.call(this));

@@ -25,8 +25,10 @@ case class Country (country: String)
 
 case class PreviousName(hasPreviousName:Boolean,
                         previousName:Option[Name]) {
-  def toApiMap:Map[String,String] = {
-    Map() ++ previousName.map(pn => pn.toApiMap("pfn", "pmn", "pln")).getOrElse(Map.empty)
+  def toApiMap(prefix:String = "p"):Map[String,String] = {
+    Map() ++ previousName.map(pn =>
+      pn.toApiMap(prefix + "fn", prefix + "mn", prefix + "ln")
+    ).getOrElse(Map.empty)
   }
 }
 
@@ -39,7 +41,7 @@ case class Name(firstName:String,
 }
 
 case class IsoNationality(countryIsos:List[String] = List.empty,
-                          noNationalityReason:Option[String] = None) { 
+                          noNationalityReason:Option[String] = None) {
   def toApiMap = {
     val natMap = if (countryIsos.isEmpty) Map.empty else Map("nat" -> countryIsos.mkString(", "))
     val noNatMap = noNationalityReason.map(nat => Map("nonat" -> nat)).getOrElse(Map.empty)
@@ -149,7 +151,7 @@ case class OrdinaryApplication(name: Option[Name],
   def toApiMap:Map[String, String] = {
     Map.empty ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
-      previousName.map(_.toApiMap).getOrElse(Map.empty) ++
+      previousName.map(_.toApiMap("p")).getOrElse(Map.empty) ++
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
       nationality.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
@@ -179,12 +181,12 @@ case class PossibleAddress(jsonList:Addresses, postcode: String)
 
 case class Addresses(addresses:List[PartialAddress])
 
-case class PartialAddress(addressLine:Option[String], 
-                          uprn:Option[String], 
-                          postcode:String, 
+case class PartialAddress(addressLine:Option[String],
+                          uprn:Option[String],
+                          postcode:String,
                           manualAddress:Option[String])
 
-case class Address(lineOne:Option[String], 
+case class Address(lineOne:Option[String],
                    lineTwo:Option[String],
                    lineThree:Option[String],
                    city:Option[String],
@@ -207,9 +209,9 @@ case class Address(lineOne:Option[String],
   }
 }
 
-case class PartialPreviousAddress (movedRecently:Option[Boolean],
-                                   findAddress:Boolean,
-                                   previousAddress:Option[PartialAddress])
+case class PartialPreviousAddress (
+  movedRecently:Option[Boolean],
+  previousAddress:Option[PartialAddress])
 
 case class OtherAddress (otherAddressOption:OtherAddressOption) {
   def toApiMap = {

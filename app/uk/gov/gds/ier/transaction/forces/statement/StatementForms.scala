@@ -28,7 +28,7 @@ trait StatementForms extends StatementConstraints {
       statement => InprogressForces(statement = statement)
     ) (
       inprogress => Some(inprogress.statement)
-    ).verifying (atLeastOneOptionSelected)
+    ).verifying (atLeastOneStatementSelected)
   )
 }
 
@@ -37,7 +37,7 @@ trait StatementConstraints {
   self: ErrorMessages
     with FormKeys =>
 
-  lazy val atLeastOneOptionSelected = Constraint[InprogressForces](keys.statement.key) {
+  lazy val atLeastOneStatementSelected = Constraint[InprogressForces](keys.statement.key) {
     application =>
       application.statement match {
         case None => Invalid("Please answer this question", keys.statement)

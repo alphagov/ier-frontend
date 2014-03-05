@@ -5,7 +5,12 @@ import org.scalatest.mock.MockitoSugar
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.{LastRegisteredToVote, LastRegisteredType, DOB, DateOfBirth}
+import uk.gov.gds.ier.model.{
+  LastRegisteredToVote,
+  LastRegisteredType,
+  DOB,
+  DateOfBirth,
+  OverseasName}
 import uk.gov.gds.ier.model.LastRegisteredType._
 import play.api.test.FakeApplication
 import scala.Some
@@ -26,9 +31,6 @@ class DateLeftUkStepTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 5")
-      contentAsString(result) should include(
-        "<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/previously-registered"
-      )
       contentAsString(result) should include("When did you leave the UK?")
       contentAsString(result) should include("/register-to-vote/overseas/date-left-uk")
     }
@@ -50,12 +52,35 @@ class DateLeftUkStepTests
       redirectLocation(result) should be(Some("/register-to-vote/overseas/last-uk-address"))
     }
   }
+  
+    it should "bind successfully and redirect to the ParentName step if the application's age was " +
+      "less than 18 when he left uk and has left uk less than 15 years" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/overseas/date-left-uk")
+          .withIerSession()
+          .withApplication(completeOverseasApplication.copy(
+            dob = Some(DOB(1997,10,10)),
+            lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.NotRegistered)),
+            overseasParentName = None))
+          .withFormUrlEncodedBody(
+          "dateLeftUk.month" -> "10",
+          "dateLeftUk.year" -> "2010"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/parent-name"))
+    }
+  }
 
   it should "bind successfully and exit if it's been over 15 years when the user left the UK" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/date-left-uk")
           .withIerSession()
+          .withApplication(completeOverseasApplication.copy(
+            dob = Some(DOB(1997,10,10))))
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
           "dateLeftUk.year" -> "1998"
@@ -91,19 +116,19 @@ class DateLeftUkStepTests
     }
   }
 
-  it should "bind successfully and redirect the Registered Address step if he/she was not too" +
-    "old (<=18) when he/she left the UK and was never registered before" in {
+  it should "bind successfully and redirect the Registered Address step if the applicant age was " +
+    "over 18 when left the uk, and left uk less than 15 years, and has registered before" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/date-left-uk")
           .withIerSession()
           .withApplication(completeOverseasApplication.copy(
             lastUkAddress = None,
-            dob = Some(DOB(1983,10,10)),
-            lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.NotRegistered))))
+            dob = Some(DOB(1982,10,10)),
+            lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.Crown))))
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
-          "dateLeftUk.year" -> "2001"
+          "dateLeftUk.year" -> "2002"
         )
       )
 
@@ -135,9 +160,6 @@ class DateLeftUkStepTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("When did you leave the UK?")
-      contentAsString(result) should include(
-        "<a class=\"back-to-previous\" href=\"/register-to-vote/overseas/confirmation"
-      )
       contentAsString(result) should include("/register-to-vote/overseas/edit/date-left-uk")
     }
   }
@@ -180,19 +202,19 @@ class DateLeftUkStepTests
     }
   }
 
-  it should "bind successfully and redirect the Registered Address step if he/she was not too" +
-    "old (<=18) when he/she left the UK and was never registered before" in {
+  it should "bind successfully and redirect the Registered Address step if the applicant age was" +
+    "over 18 when left uk and he has registered before" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/edit/date-left-uk")
           .withIerSession()
           .withApplication(completeOverseasApplication.copy(
             lastUkAddress = None,
-            dob = Some(DOB(1983,10,10)),
-            lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.NotRegistered))))
+            dob = Some(DOB(1982,10,10)),
+            lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.Crown))))
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
-          "dateLeftUk.year" -> "2001"
+          "dateLeftUk.year" -> "2002"
         )
       )
 
@@ -206,6 +228,8 @@ class DateLeftUkStepTests
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/edit/date-left-uk")
           .withIerSession()
+          .withApplication(completeOverseasApplication.copy(
+            dob = Some(DOB(1982,10,10))))
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
           "dateLeftUk.year" -> "1998"

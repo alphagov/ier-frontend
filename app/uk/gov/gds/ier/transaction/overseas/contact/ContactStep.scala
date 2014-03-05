@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.overseas.contact
 
-import controllers.step.overseas.routes.{ContactController, PostalVoteController}
+import controllers.step.overseas.routes.{ContactController, WaysToVoteController}
 import controllers.step.overseas.ConfirmationController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
@@ -25,7 +25,7 @@ class ContactStep @Inject ()(
   with ContactMustache {
 
   val validation = contactForm
-  val previousRoute = Some(PostalVoteController.get)
+  val previousRoute = Some(WaysToVoteController.get)
 
   val routes = Routes(
     get = ContactController.get,

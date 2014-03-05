@@ -193,7 +193,8 @@ main header {
     }
   }
 
-  &.question-one p {
+  &.question-one p,
+  &.no-back-link p {
     padding-left: 0;
   }
 
@@ -248,8 +249,21 @@ fieldset {
   h2, h3 {
     @include bold-19;
   }
+  h2 {
+    margin-bottom: 1em;
+  }
 }
 
+/* Display of help/optional sections */
+.js-enabled .optional-section,
+.js-enabled .help-content {
+  display: none;
+}
+
+.js-enabled .optional-section-open,
+.js-enabled .help-content-open {
+  display: block;
+}
 /* help content for the whole page */
 .page-help-content:last-child {
   margin-bottom: 2em;
@@ -635,5 +649,23 @@ fieldset.invalid {
   @include media(tablet) {
     padding-left: 14px;
     margin-left: -18px;
+  }
+
+  /* messages added to label text */
+  label & {
+    display: block;
+    position: absolute;
+    left: -9999em;
+    top: -9999em;
+  }
+
+  a {
+    color: $mellow-red;
+    text-decoration: none;
+
+    &:focus,
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }

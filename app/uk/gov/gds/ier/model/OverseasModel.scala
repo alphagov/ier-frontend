@@ -4,15 +4,16 @@ import uk.gov.gds.common.model.LocalAuthority
 import scala.util.Try
 
 case class InprogressOverseas(
-    name: Option[Name] = None,
-    previousName: Option[PreviousName] = None,
+    overseasName: Option[OverseasName] = None,
     previouslyRegistered: Option[PreviouslyRegistered] = None,
     dateLeftSpecial: Option[DateLeftSpecial] = None,
     dateLeftUk: Option[DateLeft] = None,
+    overseasParentName: Option[OverseasName] = None,
     lastRegisteredToVote: Option[LastRegisteredToVote] = None,
     dob: Option[DOB] = None,
     nino: Option[Nino] = None,
     lastUkAddress: Option[PartialAddress] = None,
+    parentsAddress: Option[PartialAddress] = None,
     address: Option[OverseasAddress] = None,
     openRegisterOptin: Option[Boolean] = None,
     waysToVote: Option[WaysToVote] = None,
@@ -24,15 +25,16 @@ case class InprogressOverseas(
 
   def merge(other:InprogressOverseas) = {
     other.copy(
-      name = this.name.orElse(other.name),
-      previousName = this.previousName.orElse(other.previousName),
+      overseasName = this.overseasName.orElse(other.overseasName),
       previouslyRegistered = this.previouslyRegistered.orElse(other.previouslyRegistered),
       dateLeftSpecial = this.dateLeftSpecial.orElse(other.dateLeftSpecial),
       dateLeftUk = this.dateLeftUk.orElse(other.dateLeftUk),
+      overseasParentName = this.overseasParentName.orElse(other.overseasParentName),
       lastRegisteredToVote = this.lastRegisteredToVote.orElse(other.lastRegisteredToVote),
       dob = this.dob.orElse(other.dob),
       nino = this.nino.orElse(other.nino),
       lastUkAddress = this.lastUkAddress.orElse(other.lastUkAddress),
+      parentsAddress = this.parentsAddress.orElse(other.parentsAddress),
       address = this.address.orElse(other.address),
       openRegisterOptin = this.openRegisterOptin.orElse(other.openRegisterOptin),
       waysToVote = this.waysToVote.orElse(other.waysToVote),
@@ -45,16 +47,17 @@ case class InprogressOverseas(
 }
 
 case class OverseasApplication(
-    name: Option[Name],
-    previousName: Option[PreviousName],
+    overseasName: Option[OverseasName],
     previouslyRegistered: Option[PreviouslyRegistered],
     dateLeftUk: Option[DateLeft],
     dateLeftSpecial: Option[DateLeftSpecial],
+    overseasParentName: Option[OverseasName] = None,
     lastRegisteredToVote: Option[LastRegisteredToVote],
     dob: Option[DOB],
     nino: Option[Nino],
     address: Option[OverseasAddress],
     lastUkAddress: Option[Address] = None,
+    parentsAddress: Option[Address] = None,
     openRegisterOptin: Option[Boolean],
     postalOrProxyVote: Option[PostalOrProxyVote],
     passport: Option[Passport],
@@ -66,16 +69,17 @@ case class OverseasApplication(
 
   def toApiMap = {
     Map.empty ++
-      name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
-      previousName.map(_.toApiMap).getOrElse(Map.empty) ++
+      overseasName.map(_.toApiMap("p")).getOrElse(Map.empty) ++
       previouslyRegistered.map(_.toApiMap(lastRegisteredToVote)).getOrElse(Map.empty) ++
       dateLeftUk.map(_.toApiMap()).getOrElse(Map.empty) ++
       dateLeftSpecial.map(_.toApiMap).getOrElse(Map.empty) ++
+      overseasParentName.map(_.toApiMap("pg")).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
       lastUkAddress.map(_.toApiMap("reg")).getOrElse(Map.empty) ++
       dob.map(_.toApiMap("dob")).getOrElse(Map.empty) ++
       address.map(_.toApiMap).getOrElse(Map.empty) ++
       lastUkAddress.map(_.toApiMap("reg")).getOrElse(Map.empty) ++
+      parentsAddress.map(_.toApiMap("reg")).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
       postalOrProxyVote.map(_.toApiMap).getOrElse(Map.empty) ++
       passport.map(_.toApiMap).getOrElse(Map.empty) ++
@@ -94,7 +98,7 @@ case class PreviouslyRegistered(hasPreviouslyRegistered: Boolean) {
   }
 }
 
-case class DateLeftSpecial (date:DateLeft, registeredType:LastRegisteredType) {
+case class DateLeftSpecial (date:DateLeft) {
   def toApiMap = {
     date.toApiMap("dcs")
   }
@@ -183,4 +187,38 @@ case class OverseasAddress(
     addressLine3.map(addressLine => Map("corraddressline3" -> addressLine.toString)).getOrElse(Map.empty) ++
     addressLine4.map(addressLine => Map("corraddressline4" -> addressLine.toString)).getOrElse(Map.empty) ++
     addressLine5.map(addressLine => Map("corraddressline5" -> addressLine.toString)).getOrElse(Map.empty)
+}
+
+case class OverseasName(
+    name: Option[Name],
+    previousName: Option[PreviousName] = None) {
+  def toApiMap(prevPrefix:String) = {
+    name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
+      previousName.map(_.toApiMap(prevPrefix)).getOrElse(Map.empty)
+  }
+}
+
+case class ParentName(firstName:String,
+                middleNames:Option[String],
+                lastName:String) {
+  def toApiMap(fnKey:String, mnKey:String, lnKey:String):Map[String,String] = {
+    Map(fnKey -> firstName, lnKey -> lastName) ++ middleNames.map(mn => Map(mnKey -> mn)).getOrElse(Map.empty)
+  }
+}
+
+case class ParentPreviousName(hasPreviousName:Boolean,
+                        previousName:Option[ParentName]) {
+  def toApiMap:Map[String,String] = {
+    previousName.map(pn => pn.toApiMap("pgrfn", "pgrmn", "pgrln")).getOrElse(Map.empty) ++ 
+    Map("pgnc" -> hasPreviousName.toString)
+  }
+}
+
+sealed abstract class ApplicationType
+object ApplicationType {
+  case object YoungVoter extends ApplicationType
+  case object NewVoter extends ApplicationType
+  case object SpecialVoter extends ApplicationType
+  case object RenewerVoter extends ApplicationType
+  case object DontKnow extends ApplicationType
 }

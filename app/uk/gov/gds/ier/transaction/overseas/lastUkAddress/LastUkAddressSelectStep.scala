@@ -5,7 +5,9 @@ import controllers.step.overseas.routes.{
   LastUkAddressManualController,
   LastUkAddressSelectController,
   DateLeftUkController}
-import controllers.step.overseas.NameController
+import controllers.step.overseas.{
+  NameController,
+  PassportCheckController}
 import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
@@ -13,12 +15,14 @@ import uk.gov.gds.ier.model.{
   InprogressOverseas,
   PartialAddress,
   Addresses,
-  PossibleAddress}
+  PossibleAddress,
+  ApplicationType}
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.form.OverseasFormImplicits
 
 class LastUkAddressSelectStep @Inject() (
     val serialiser: JsonSerialiser,
@@ -28,7 +32,8 @@ class LastUkAddressSelectStep @Inject() (
     val addressService: AddressService)
   extends OverseaStep
   with LastUkAddressMustache
-  with LastUkAddressForms {
+  with LastUkAddressForms
+  with OverseasFormImplicits {
 
   val validation = lastUkAddressForm
 
@@ -42,7 +47,11 @@ class LastUkAddressSelectStep @Inject() (
   )
 
   def nextStep(currentState: InprogressOverseas) = {
-    NameController.nameStep
+    currentState.identifyApplication match {
+      case ApplicationType.RenewerVoter => NameController.nameStep
+      case ApplicationType.DontKnow => this
+      case _ => PassportCheckController.passportCheckStep
+    }
   }
 
   override def postSuccess(currentState: InprogressOverseas) = {

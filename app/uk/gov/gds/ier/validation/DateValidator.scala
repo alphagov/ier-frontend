@@ -2,6 +2,8 @@ package uk.gov.gds.ier.validation
 
 import uk.gov.gds.ier.model.DOB
 import org.joda.time.{DateTime, DateMidnight}
+import org.joda.time.Months
+import uk.gov.gds.ier.model.DateLeft
 
 object DateValidator {
 
@@ -36,6 +38,23 @@ object DateValidator {
   def isTooYoungToRegister(dateOfBirth: DOB) = {
     try {
       parseToDateMidnight(dateOfBirth).plusYears(minimumAge).isAfter(DateTime.now.toDateMidnight)
+    } catch {
+      case ex: Exception => false
+    }
+  }
+  
+  def dateLeftUkOver15Years(dateLeftUk:DateLeft):Boolean = {
+    val leftUk = new DateTime().withMonthOfYear(dateLeftUk.month).withYear(dateLeftUk.year)
+    val monthDiff = Months.monthsBetween(leftUk, DateTime.now()).getMonths()
+    if (monthDiff >= 15 * 12) true
+    else false
+  }
+  
+  def isLessEighteen(dateOfBirth: DOB) = {
+    try {
+      val eighteenYearsAgo = DateTime.now.minusYears(18).toDateMidnight
+    	val dob = parseToDateMidnight(dateOfBirth)
+      dob.isAfter(eighteenYearsAgo) || dob.isEqual(eighteenYearsAgo)
     } catch {
       case ex: Exception => false
     }

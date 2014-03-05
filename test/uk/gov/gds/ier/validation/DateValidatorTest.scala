@@ -64,6 +64,15 @@ class DateValidatorTest
     val almost16YearsAgo = DateTime.now.toDateMidnight.minusYears(16).plusDays(1)
     DateValidator.isTooYoungToRegister(getDateOfBirth(almost16YearsAgo)) should be(true)
   }
+  
+  it should "return true for a date less than 18 years ago" in {
+    val lessThan18years = DateTime.now.toDateMidnight.minusYears(18).plusDays(1)
+    DateValidator.isLessEighteen(getDateOfBirth(lessThan18years)) should be(true)
+  }
+  it should "return false for a date more than 18 years ago" in {
+    val lessThan18years = DateTime.now.toDateMidnight.minusYears(18).minusDays(1)
+    DateValidator.isLessEighteen(getDateOfBirth(lessThan18years)) should be(false)
+  }
 
   private def getDateOfBirth(date: DateMidnight) = DOB(date.getYear, date.getMonthOfYear, date.getDayOfMonth)
 }

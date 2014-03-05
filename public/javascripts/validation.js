@@ -18,9 +18,13 @@
       this.events.bind('validate', function (e, eData) {
         return _this.handler(eData.$source);
       });
-      $(document).on('click', '.validation-submit', function (e) {
-        return _this.handler($(e.target));
-      });
+      $(document)
+        .on('click', '.validation-submit', function (e) {
+          return _this.handler($(e.target));
+        })
+        .on('click', '.validation-message a', function (e) {
+          return _this.goToControl($(e.target));
+        });
     },
     handler : function ($source) {
       var formName = validation.getFormFromField($source).action,
@@ -284,24 +288,83 @@
         });
       }
     },
+    messageField : function ($field, message) {
+      var $label = $field.parent('label'), // base assumption: label relationship as implied by parentage 
+          field = $field[0]
+
+      if (!$label.length) { // if label not parent use for attribute for relationship binding
+        $label = $(field.form).find('label[for="' + field.id + '"]');
+        if (!$label.length) {
+          return;
+        }
+      }
+      $label.append('<span class="validation-message">' + message + '</span>');
+    },
     notify : function (invalidFields, $validationTrigger) {
-      var _this = this,
+      var message = Mustache.compile('<div class="validation-message visible">{{#block}}{{message}}{{/block}}</div>'),
+          _this = this,
           $lastElement,
           name,
-          rule;
+          rule,
+          element,
+          $label,
+          idToLinkTo,
+          _getFirstChild;
+
+      _getFirstChild = function (field) {
+        var group = _this.fields.getNames([field.name])[0],
+            firstChildName,
+            firstChild;
+ 
+        if (group.type === 'association') {
+          firstChildName = group.members[0];
+        } else {
+          firstChildName = group.children[0];
+        }
+        firstChild = _this.fields.getNames([firstChildName])[0];
+        if (firstChild.type !== 'field') {
+          firstChild = _getFirstChild(field);
+        }
+        return firstChild;
+      };
 
       $('.validation-message').remove();
       if (typeof $validationTrigger[0].form === 'undefined' || !invalidFields.length) { return; }
       $lastElement = $($validationTrigger[0].form).find('.validation-submit').last();
       if (invalidFields.length) {
         $.each(invalidFields, function (idx, field) {
-          name = invalidFields[idx].name;
-          rule = invalidFields[idx].rule;
+          var messageData = {};
+
+          name = field.name;
+          rule = field.rule;
+          // only show messages if we have some defined
           if ((typeof _this.messages[name] !== 'undefined') && (typeof _this.messages[name][rule] !== 'undefined')) {
-            $('<div class="validation-message visible">' + _this.messages[name][rule] + '</div>').insertBefore($lastElement);
+            messageData.message = _this.messages[name][rule];
+            // if the field is a form control, add a message to its label and link to it
+            if (field.$source && field.$source[0].id) {
+              idToLinkTo = field.$source[0].id;
+              _this.messageField(field.$source, _this.messages[name][rule]);
+            } else {
+              idToLinkTo = _getFirstChild(field).$source[0].id; 
+            }
+            messageData.block = function () {
+              return function (message, render) {
+                return '<a href="#' + idToLinkTo + '">' + render(message) + '</a>';
+              };
+            };
+            // add page validation message
+            $(message(messageData)).insertBefore($lastElement);
           }
         });
       }
+    },
+    goToControl : function ($messageLink) {
+      var relatedFormControl = document.getElementById($messageLink.attr('href').split('#')[1]);
+
+      if (relatedFormControl !== null) {
+        relatedFormControl.focus();
+      }
+      return false;
     },
     rules : (function () {
       var _fieldType,
@@ -437,7 +500,7 @@
                 maxLen = 256;
 
             if (entry.length > maxLen) {
-              return _getInvalidDataFromFields([this], 'largeText');
+              return _getInvalidDataFromFields([this], 'smallText');
             } else {
               return [];
             }
@@ -512,6 +575,8 @@
           'allNonEmpty' : function () {
             var childFields = validation.fields.getNames(this.children),
                 childFailedRules = [],
+                fieldsThatNeedInput = 0,
+                emptyFields = 0,
                 rulesToReport,
                 _fieldIsShowing,
                 fieldsetObj,
@@ -520,18 +585,23 @@
             _fieldIsShowing = function (fieldObj) {
               return !fieldObj.$source.is(':hidden');
             };
-            if (this.$source.is(':hidden')) { return []; }
+            if (!_fieldIsShowing(this)) { return []; }
+            // validate against the nonEmpty rules of children
             for (i = 0, j = childFields.length; i < j; i++) {
               var fieldObj = childFields[i],
                   method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty',
-                  isFilledFailedRules = fieldObj[method]();
+                  isFilledFailedRules;
 
+              if ($.inArray(method, fieldObj.rules) === -1) { continue; }
+              fieldsThatNeedInput++;
+              isFilledFailedRules = fieldObj[method]();
               if (_fieldIsShowing(fieldObj) && isFilledFailedRules.length) {
+                emptyFields++;
                 $.merge(childFailedRules, isFilledFailedRules);
               }
             }
             if (childFailedRules.length) {
-              if (childFailedRules.length < childFields.length) {
+              if (emptyFields < fieldsThatNeedInput) {
                 // message for each child field
                 rulesToReport = childFailedRules;
                 fieldsetObj = {
@@ -649,8 +719,58 @@
             }
           },
           'allNonEmpty' : function () {
-            var oneEmpty = false,
-                memberFields = validation.fields.getNames(this.members),
+            var memberFields = validation.fields.getNames(this.members),
+                memberFailedRules = [],
+                fieldsThatNeedInput = 0,
+                emptyFields = 0,
+                rulesToReport,
+                _fieldIsShowing,
+                fieldsetObj,
+                i,j;
+
+            _fieldIsShowing = function (fieldObj) {
+              return !fieldObj.$source.is(':hidden');
+            };
+            // validate against the nonEmpty rules of children
+            for (i = 0, j = memberFields.length; i < j; i++) {
+              var fieldObj = memberFields[i],
+                  method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty',
+                  isFilledFailedRules;
+
+              if ($.inArray(method, fieldObj.rules) === -1) { continue; }
+              fieldsThatNeedInput++;
+              isFilledFailedRules = fieldObj[method]();
+              if (_fieldIsShowing(fieldObj) && isFilledFailedRules.length) {
+                emptyFields++;
+                $.merge(memberFailedRules, isFilledFailedRules);
+              }
+            }
+            if (memberFailedRules.length) {
+              if (emptyFields < fieldsThatNeedInput) {
+                // message for each child field
+                rulesToReport = memberFailedRules;
+                fieldsetObj = {
+                  'name' : this.name,
+                  '$source' : this.$source
+                };
+              } else { // message from the fieldset level
+                rulesToReport = _getInvalidDataFromFields(memberFailedRules, 'allNonEmpty');
+                fieldsetObj = {
+                  'name' : this.name,
+                  'rule' : 'allNonEmpty'
+                };
+              }
+              rulesToReport.push(fieldsetObj);
+              return rulesToReport;
+            } else {
+              return [];
+            }
+          },
+          'allValid' : function () {
+            var memberFields = validation.fields.getNames(this.members),
+                memberFailedRules = [],
+                fieldObj,
+                failedRules,
                 _fieldIsShowing,
                 i,j;
 
@@ -658,16 +778,16 @@
               return !fieldObj.$source.is(':hidden');
             };
             for (i = 0, j = memberFields.length; i < j; i++) {
-              var fieldObj = memberFields[i],
-                  method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty',
-                  isFilledFailedRules = fieldObj[method]();
+              fieldObj = memberFields[i];
 
-              if (_fieldIsShowing(fieldObj) && isFilledFailedRules.length) {
-                oneEmpty = true;
-                memberFields.push(this)
-                return _getInvalidDataFromFields(memberFields, 'allNonEmpty');
+              failedRules = validation.applyRules(fieldObj);
+              if (failedRules.length) {
+                $.merge(memberFailedRules, failedRules);
               }
-            };
+            }
+            if (_fieldIsShowing(fieldObj)) {
+              return memberFailedRules;
+            }
             return [];
           }
         }
@@ -679,12 +799,14 @@
         'allNonEmpty' : 'Please enter your name'
       },
       'firstName' : {
+        'nonEmpty' : 'Please enter your first name',
         'smallText' : 'First name can be no longer than 256 characters'
       },
       'middleName' : {
         'smallText' : 'Middle name can be no longer than 256 characters'
       },
       'lastName' : {
+        'nonEmpty' : 'Please enter your last name',
         'smallText' : 'Last name can be no longer than 256 characters'
       },
       'previousQuestion' : {
