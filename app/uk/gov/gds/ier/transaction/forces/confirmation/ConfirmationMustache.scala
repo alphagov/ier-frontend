@@ -38,7 +38,7 @@ trait ConfirmationMustache {
       val confirmation = new ConfirmationBlocks(form)
 
       val partnerData = List(
-        confirmation.service,
+        confirmation.service(true),
         confirmation.rank
       ).flatten
 
@@ -60,7 +60,7 @@ trait ConfirmationMustache {
         confirmation.dateOfBirth,
         confirmation.nationality,
         confirmation.nino,
-        confirmation.service,
+        confirmation.service(false),
         confirmation.rank,
         confirmation.address,
         confirmation.contactAddress,
@@ -199,7 +199,7 @@ trait ConfirmationMustache {
       ))
     }
 
-    def service = {
+    def service(isPartner:Boolean) = {
       Some(ConfirmationQuestion(
         title = "Service",
         editLink = routes.ServiceController.editGet.url,
@@ -211,7 +211,11 @@ trait ConfirmationMustache {
              case Some("Royal Air Force") => "Royal Airforce"
              case _ => ""
            }
-           val memberOf = "<p>I am a member of the "+serviceName+"</p>"
+
+           val memberOf = if (isPartner)
+                            "<p>Your partner is a member of the "+serviceName+"</p>"
+                          else
+                            "<p>I am a member of the "+serviceName+"</p>"
            val regiment = form(keys.service.regiment).value match {
              case Some(regiment) => s"<p>Regiment: ${regiment}</p>"
              case None => ""
