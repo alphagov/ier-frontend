@@ -26,8 +26,8 @@ trait NinoMustache extends StepMustache {
     val data = NinoModel(
       question = Question(
         postUrl = postEndpoint.url,
-        backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
-        errorMessages = form.globalErrors.map{ _.message },
+        backUrl = backEndpoint.map(_.url).getOrElse(""),
+        errorMessages = form.globalErrors.map(_.message),
         number = "6",
         title = "What is your National Insurance number?"
       ),
@@ -38,8 +38,7 @@ trait NinoMustache extends StepMustache {
         key = keys.nino.noNinoReason
       ),
       noNinoReasonShowFlag = Text (
-        value = progressForm(keys.nino.noNinoReason.key).value.map(
-          noNinoReason => "-open").getOrElse("")
+        value = progressForm(keys.nino.noNinoReason.key).value.fold("")(noNinoReason => "-open")
       )
     )
     val content = Mustache.render("forces/nino", data)
