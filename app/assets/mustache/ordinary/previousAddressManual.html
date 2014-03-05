@@ -1,0 +1,39 @@
+<form action="{{question.postUrl}}" method="POST">
+    {{> shared/questionHeader }}
+    {{> shared/validationMessages }}
+
+    <fieldset>
+        <p>
+            Postcode<span class="visuallyhidden">:</span>
+            <span class="postcode">{{postcode.value}}</span>
+            <a href="{{lookupUrl}}" class="change-postcode-button">
+                Change<span class="visuallyhidden"> your postcode</span>
+            </a>
+        </p>
+        <input
+          type="hidden"
+          id="{{postcode.id}}"
+          name="{{postcode.name}}"
+          value="{{postcode.value}}"
+          class="text hidden">
+
+        <label for="{{manualAddress.id}}">
+            <span class="visuallyhidden">Enter your full </span>Address
+        </label>
+        <div class="validation-wrapper {{manualAddress.classes}}">
+            <textarea
+              id="{{manualAddress.id}}"
+              name="{{manualAddress.name}}"
+              autocomplete="off"
+              autocorrect="off"
+              class="small {{manualAddress.classes}}">{{manualAddress.value}}</textarea>
+        </div>
+    </fieldset>
+
+    <button
+      type="submit"
+      id="continue"
+      class="button next">
+        Continue
+    </button>
+</form>

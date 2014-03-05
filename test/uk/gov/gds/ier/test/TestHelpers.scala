@@ -61,7 +61,7 @@ trait TestHelpers extends CustomMatchers with OverseasApplications {
     nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
     address = Some(PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)),
-    previousAddress = Some(PartialPreviousAddress(Some(false),false, None)),
+    previousAddress = Some(PartialPreviousAddress(Some(false), None)),
     otherAddress = Some(OtherAddress(OtherAddress.NoOtherAddress)),
     openRegisterOptin = Some(false),
     postalVote = Some(PostalVote(Some(false),None)),
@@ -107,6 +107,10 @@ trait TestHelpers extends CustomMatchers with OverseasApplications {
      */
     def errorsAsText() = {
       errors.filter(_.key != "").map(e => e.key + " -> " + e.message).mkString("", "\n", "")
+    }
+
+    def errorsAsTextAll() = {
+      errors.map(e => e.key + " -> " + e.message).mkString("", "\n", "")
     }
 
     /**
