@@ -28,7 +28,7 @@ trait NameMustache extends StepMustache {
         showBackUrl = backUrl.isDefined,
         number = "5",
         title = pageTitle,
-        errorMessages = form.globalErrors.map { _.message }),
+        errorMessages = form.globalErrors.map ( _.message )),
       firstName = TextField(
         key = keys.name.firstName),
       middleNames = TextField(
