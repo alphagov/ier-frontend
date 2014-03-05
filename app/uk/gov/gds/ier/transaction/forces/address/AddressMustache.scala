@@ -128,12 +128,14 @@ trait AddressMustache {
         manualUrl = manualUrl,
         postcode = TextField(keys.address.postcode),
         address = addressSelectWithError,
-        possibleJsonList = TextField(keys.possibleAddresses.jsonList).copy(
+        possibleJsonList = HiddenField(
+          key = keys.possibleAddresses.jsonList,
           value = maybePossibleAddress.map { poss =>
             serialiser.toJson(poss.jsonList)
           }.getOrElse("")
         ),
-        possiblePostcode = TextField(keys.possibleAddresses.postcode).copy(
+        possiblePostcode = HiddenField(
+          key = keys.possibleAddresses.postcode,
           value = form(keys.address.postcode).value.getOrElse("")
         ),
         hasAddresses = hasAddresses
