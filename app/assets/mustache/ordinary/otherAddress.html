@@ -8,14 +8,14 @@
               data-validation-name="otherAddressQuestion"
               data-validation-type="fieldset"
               data-validation-rules="atLeastOneNonEmpty"
-              data-validation-children="otherAddressYes otherAddressNo">
+              data-validation-children="otherAddressNo otherAddressYesTwoHomes otherAddressYesStudent">
         <label for="{{hasOtherAddressNone.id}}" class="selectable">
             <input id="{{hasOtherAddressNone.id}}" name="{{hasOtherAddressNone.name}}" value="none" class="radio  validate" data-validation-name="otherAddressNo" data-validation-type="field" data-validation-rules="nonEmpty" type="radio" {{{hasOtherAddressNone.attributes}}}>
             No
         </label>
 
         <label for="{{hasOtherAddressHome.id}}" class="selectable">
-            <input id="{{hasOtherAddressHome.id}}" name="{{hasOtherAddressHome.name}}" value="secondHome" class="radio  validate" data-validation-name="otherAddressYes" data-validation-type="field" data-validation-rules="nonEmpty" type="radio" {{{hasOtherAddressHome.attributes}}}>
+            <input id="{{hasOtherAddressHome.id}}" name="{{hasOtherAddressHome.name}}" value="secondHome" class="radio  validate" data-validation-name="otherAddressYesTwoHomes" data-validation-type="field" data-validation-rules="nonEmpty" type="radio" {{{hasOtherAddressHome.attributes}}}>
             Yes, I spend time living at two homes
         </label>
         <div id="{{hasOtherAddressHome.id}}_help" class="optional-section" data-condition="{{hasOtherAddressHome.id}}">
@@ -24,7 +24,7 @@
         </div>
 
         <label for="{{hasOtherAddressStudent.id}}" class="selectable">
-            <input id="{{hasOtherAddressStudent.id}}" name="{{hasOtherAddressStudent.name}}" value="student" class="radio  validate" data-validation-name="otherAddressYes" data-validation-type="field" data-validation-rules="nonEmpty" type="radio" {{{hasOtherAddressStudent.attributes}}}>
+            <input id="{{hasOtherAddressStudent.id}}" name="{{hasOtherAddressStudent.name}}" value="student" class="radio  validate" data-validation-name="otherAddressYesStudent" data-validation-type="field" data-validation-rules="nonEmpty" type="radio" {{{hasOtherAddressStudent.attributes}}}>
             Yes, I'm a student with home and term-time addresses
         </label>
         <div id="{{hasOtherAddressStudent.id}}_help" class="optional-section" data-condition="{{hasOtherAddressStudent.id}}">
