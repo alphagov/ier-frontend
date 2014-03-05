@@ -61,51 +61,60 @@ class AddressSelectTemplateTest
       val doc = Jsoup.parse(html.toString)
 
       val fieldset = doc.select("fieldset").first()
+      fieldset should not be(null)
 
       val postcodeSpan = doc.select("span[class=postcode]").first()
+      postcodeSpan should not be(null)
       postcodeSpan.html() should be("postcodeValue")
 
-      val postcodeInput = fieldset.select("input[type=hidden]").first()
-      postcodeInput.attr("id") should be("postcodeId")
+      val postcodeInput = fieldset.select("input#postcodeId").first()
+      postcodeInput should not be(null)
+      postcodeInput.attr("type") should be("hidden")
       postcodeInput.attr("name") should be("postcodeName")
       postcodeInput.attr("value") should be("postcodeValue")
 
-      val lookupLink = doc.select("a[class=change-postcode-button]").first()
-      lookupLink.attr("href") should be("http://lookup")
+      val changePostcodeLink = doc.select("a[class=change-postcode-button]").first()
+      changePostcodeLink should not be(null)
+      changePostcodeLink.attr("href") should be("http://lookup")
 
       val manualLink = doc.select("a[href=http://manual]").first()
+      manualLink should not be(null)
       manualLink.attr("href") should be("http://manual")
 
       val addressLabel = fieldset.select("label[for=addressId]").first()
+      addressLabel should not be(null)
       addressLabel.attr("for") should be("addressId")
 
       val addressDiv = fieldset.select("div").first()
+      addressDiv should not be(null)
       addressDiv.attr("class") should include("addressClasses")
 
-      val addressSelect = fieldset.select("select").first()
-      addressSelect.attr("id") should be("addressId")
+      val addressSelect = fieldset.select("select#addressId").first()
+      addressSelect should not be(null)
       addressSelect.attr("name") should be("addressName")
       addressSelect.attr("class") should include("addressClasses")
 
-      val option = addressSelect.children().select("option").first()
-      option.attr("value") should be("optionValue")
-      option.attr("foo") should be("foo")
-      option.html() should be("optionText")
+      val firstAddressInSelect = addressSelect.children().select("option").first()
+      firstAddressInSelect should not be(null)
+      firstAddressInSelect.attr("value") should be("optionValue")
+      firstAddressInSelect.attr("foo") should be("foo")
+      firstAddressInSelect.html() should be("optionText")
 
-      val hiddenJsonListInput = doc.select("input[type=hidden]").get(1)
-      val hiddenPostcodeInput = doc.select("input[type=hidden]").get(2)
-
-      hiddenJsonListInput.attr("id") should be("possibleJsonId")
+      val hiddenJsonListInput = doc.select("input#possibleJsonId").first()
+      hiddenJsonListInput should not be(null)
+      hiddenJsonListInput.attr("type") should be("hidden")
       hiddenJsonListInput.attr("name") should be("possibleJsonName")
       hiddenJsonListInput.attr("value") should be("possibleJsonValue")
 
-      hiddenPostcodeInput.attr("id") should be("possiblePostcodeId")
+      val hiddenPostcodeInput = doc.select("input#possiblePostcodeId").first()
+      hiddenPostcodeInput should not be(null)
+      hiddenPostcodeInput.attr("type") should be("hidden")
       hiddenPostcodeInput.attr("name") should be("possiblePostcodeName")
       hiddenPostcodeInput.attr("value") should be("possiblePostcodeValue")
     }
   }
 
-  
+
   it should "should display error message if no addresses provided" in {
     running(FakeApplication()) {
       val data = new SelectModel(
@@ -132,7 +141,7 @@ class AddressSelectTemplateTest
       wrapper.html() should include(
         "Sorry - we couldn't find any addresses for that postcode"
       )
-      
+
       doc.select("select").size should be(0)
     }
   }

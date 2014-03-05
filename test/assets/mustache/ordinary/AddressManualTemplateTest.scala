@@ -42,28 +42,34 @@ class AddressManualTemplateTest
       val doc = Jsoup.parse(html.toString)
 
       val fieldset = doc.select("fieldset").first()
+      fieldset should not be(null)
 
       val postcodeSpan = fieldset.select("span[class=postcode]").first()
+      postcodeSpan should not be(null)
       postcodeSpan.html() should be("postcodeValue")
 
-      val postcodeInput = fieldset.select("input[type=hidden]").first()
-      postcodeInput.attr("id") should be("postcodeId")
+      val postcodeInput = fieldset.select("input#postcodeId").first()
+      postcodeInput should not be(null)
+      postcodeInput.attr("type") should be("hidden")
       postcodeInput.attr("name") should be("postcodeName")
       postcodeInput.attr("value") should be("postcodeValue")
 
       val manualLabel = fieldset.select("label[for=manualId]")
+      manualLabel should not be(null)
       manualLabel.attr("for") should be("manualId")
 
       val divWrapper = fieldset.select("div").first()
+      divWrapper should not be(null)
       divWrapper.attr("class") should include("manualClasses")
 
-      val manualText = divWrapper.select("textarea").first()
-      manualText.attr("id") should be("manualId")
+      val manualText = divWrapper.select("textarea#manualId").first()
+      manualText should not be(null)
       manualText.attr("name") should be("manualName")
       manualText.attr("class") should include("manualClasses")
 
-      val lookupChangeLink = fieldset.select("a").first()
-      lookupChangeLink.attr("href") should be("http://lookup")
+      val postcodeChangeLink = fieldset.select("a").first()
+      postcodeChangeLink should not be(null)
+      postcodeChangeLink.attr("href") should be("http://lookup")
     }
   }
 }

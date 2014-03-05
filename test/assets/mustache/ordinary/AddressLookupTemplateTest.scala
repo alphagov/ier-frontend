@@ -35,18 +35,21 @@ class AddressLookupTemplateTest
       val doc = Jsoup.parse(html.toString)
 
       val fieldset = doc.select("fieldset").first()
+      fieldset should not be(null)
 
-      val label = fieldset.select("label").first()
-      label.attr("for") should be("postcodeId")
+      val postcodeLabel = fieldset.select("label").first()
+      postcodeLabel should not be(null)
+      postcodeLabel.attr("for") should be("postcodeId")
 
       val divWrapper = fieldset.select("div").first()
+      divWrapper should not be(null)
       divWrapper.attr("class") should include("postcodeClasses")
-      
-      val input = divWrapper.select("input").first()
-      input.attr("id") should be("postcodeId")
-      input.attr("name") should be("postcodeName")
-      input.attr("value") should be("postcodeValue")
-      input.attr("class") should include("postcodeClasses")
+
+      val postcodeInput = divWrapper.select("input#postcodeId").first()
+      postcodeInput should not be(null)
+      postcodeInput.attr("name") should be("postcodeName")
+      postcodeInput.attr("value") should be("postcodeValue")
+      postcodeInput.attr("class") should include("postcodeClasses")
     }
   }
 }

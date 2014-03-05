@@ -30,7 +30,8 @@ class AddressStepTests
   }
 
   behavior of "AddressStep.post"
-  it should "bind successfully and redirect to the Other Address step" in {
+  it should "redirect to the next step (Other Address) when selected address is provided" in {
+    // test that select address step is skipped, from postcode page directly to the next step
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/address")
@@ -46,7 +47,8 @@ class AddressStepTests
     }
   }
 
-  it should "bind successfully and redirect to the Other Address step with a manual address" in {
+  it should "redirect to the next step (Other Address) when manual address is provided" in {
+    // test that manual address step is skipped, from postcode page directly to the next step
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/address")
@@ -79,7 +81,7 @@ class AddressStepTests
     }
   }
 
-  it should "display any errors on unsuccessful bind" in {
+  it should "display any errors on unsuccessful bind and stay on postcode page" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/address").withIerSession()
@@ -88,11 +90,12 @@ class AddressStepTests
       status(result) should be(OK)
       contentAsString(result) should include("Where do you live?")
       contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/address")
+      contentAsString(result) should include("<form action=\"/register-to-vote/address/lookup\"")
+      // postcode page is a rare page where post action is different from page URL
     }
   }
 
-behavior of "AddressStep.editGet"
+  behavior of "AddressStep.editGet"
   it should "display the page" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -103,7 +106,7 @@ behavior of "AddressStep.editGet"
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Where do you live?")
       contentAsString(result) should include("Question 6")
-      contentAsString(result) should include("/register-to-vote/address/lookup")
+      contentAsString(result) should include("<form action=\"/register-to-vote/address/lookup\"")
     }
   }
 
@@ -166,7 +169,7 @@ behavior of "AddressStep.editGet"
       status(result) should be(OK)
       contentAsString(result) should include("Where do you live?")
       contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/address/lookup")
+      contentAsString(result) should include("<form action=\"/register-to-vote/address/lookup\"")
     }
   }
 
