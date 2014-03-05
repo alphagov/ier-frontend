@@ -1,13 +1,14 @@
 package controllers.step.forces
 
-import uk.gov.gds.ier.stubs.StubController
-import uk.gov.gds.ier.model.InprogressForces
+import uk.gov.gds.ier.guice.DelegatingController
+import uk.gov.gds.ier.transaction.forces.openRegister.OpenRegisterStep
 
-object OpenRegisterController extends StubController[InprogressForces] {
-  val confirmationStep = ConfirmationController.confirmationStep
-  val thisStepUrl = "/register-to-vote/forces/open-register"
+object OpenRegisterController extends DelegatingController[OpenRegisterStep] {
+  
+  def get = delegate.get
+  def post = delegate.post
+  def editGet = delegate.editGet
+  def editPost = delegate.editPost
 
-  def openRegisterStep = confirmationIf { application =>
-    application.openRegisterOptin.isDefined
-  }
+  def openRegisterStep = delegate
 }
