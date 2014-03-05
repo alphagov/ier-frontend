@@ -76,7 +76,7 @@ class DateOfBirthTemplateTest
         )
       )
 
-      val html = Mustache.render("ordinary/dateOfBirth", data)
+      val html = Mustache.render("forces/dateOfBirth", data)
       val doc = Jsoup.parse(html.toString)
 
       doc.select("label[for=dayId]").first().attr("for") should be("dayId")

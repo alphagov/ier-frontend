@@ -79,7 +79,7 @@ trait DateOfBirthMustache extends StepMustache {
         back: Option[Call]): Html = {
       
     val data = transformFormStepToMustacheData(form, post, back)
-    val content = Mustache.render("ordinary/dateOfBirth", data)
-    MainStepTemplate(content, "Register to Vote - " + data.question.title)
+    val content = Mustache.render("forces/dateOfBirth", data)
+    MainStepTemplate(content, data.question.title)
   }
 }
