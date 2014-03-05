@@ -21,6 +21,7 @@
    * Since this is being run in a browser and the results should populate to an HTML page, require the HTML-specific Jasmine code, injecting the same reference.
    */
   jasmineRequire.html(jasmine);
+  jasmineRequire.console(jasmineRequire, jasmine);
 
   /**
    * Create the Jasmine environment. This is used to run all specs in a project.
@@ -130,10 +131,18 @@
     timer: new jasmine.Timer()
   });
 
+  window.consoleReporter = new jasmine.ConsoleReporter({
+    'print' : function (message) {
+      console.log(message);
+    },
+    'showColors' : true 
+  });
+
   /**
    * The `jsApiReporter` also receives spec results, and is used by any environment that needs to extract the results  from JavaScript.
    */
   env.addReporter(jasmineInterface.jsApiReporter);
+  env.addReporter(window.consoleReporter);
   env.addReporter(htmlReporter);
 
   /**

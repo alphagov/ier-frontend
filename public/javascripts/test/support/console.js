@@ -49,6 +49,12 @@ getJasmineRequireObj().ConsoleReporter = function() {
       failureCount,
       failedSpecs = [],
       pendingCount,
+      statuses = {
+        stopped : "stopped",
+        running : "running",
+        fail    : "fail",
+        success : "success"
+      },
       ansi = {
         green: '\x1B[32m',
         red: '\x1B[31m',
@@ -60,12 +66,14 @@ getJasmineRequireObj().ConsoleReporter = function() {
       specCount = 0;
       failureCount = 0;
       pendingCount = 0;
+      this.status = statuses.running;
       print("Started");
       printNewline();
       timer.start();
     };
 
     this.jasmineDone = function() {
+      this.status = (failureCount > 0) ? statuses.fail : statuses.success;
       printNewline();
       for (var i = 0; i < failedSpecs.length; i++) {
         specFailureDetails(failedSpecs[i]);
@@ -83,9 +91,10 @@ getJasmineRequireObj().ConsoleReporter = function() {
 
       printNewline();
       var seconds = timer.elapsed() / 1000;
-      print("Finished in " + seconds + " " + plural("second", seconds));
+      print("Time elapsed " + seconds + " " + plural("second", seconds));
 
       printNewline();
+      print("ConsoleReporter finished");
 
       onComplete(failureCount === 0);
     };
@@ -95,19 +104,19 @@ getJasmineRequireObj().ConsoleReporter = function() {
 
       if (result.status == "pending") {
         pendingCount++;
-        print(colored("yellow", "*"));
+        print(colored("yellow", "Pending"));
         return;
       }
 
       if (result.status == "passed") {
-        print(colored("green", '.'));
+        print(colored("green", 'Passed'));
         return;
       }
 
       if (result.status == "failed") {
         failureCount++;
         failedSpecs.push(result);
-        print(colored("red", 'F'));
+        print(colored("red", 'Failed'));
       }
     };
 
