@@ -24,7 +24,7 @@ class AddressStepTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Where do you live?")
-      contentAsString(result) should include("Question 5 or 6")
+      contentAsString(result) should include("Question 6")
       contentAsString(result) should include("/register-to-vote/address")
     }
   }
@@ -102,7 +102,7 @@ behavior of "AddressStep.editGet"
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Where do you live?")
-      contentAsString(result) should include("Question 5 or 6")
+      contentAsString(result) should include("Question 6")
       contentAsString(result) should include("/register-to-vote/address/lookup")
     }
   }
