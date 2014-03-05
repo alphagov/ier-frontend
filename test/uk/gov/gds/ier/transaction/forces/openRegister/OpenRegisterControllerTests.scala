@@ -30,7 +30,7 @@ class OpenRegisterControllerTests
   }
 
   behavior of "OpenRegisterController.post"
-  it should "bind successfully and redirect to the Previous Name step" in {
+  it should "bind successfully and redirect to the Ways to Vote step" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/forces/open-register")
@@ -39,7 +39,7 @@ class OpenRegisterControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/forces/postal-vote"))
+      redirectLocation(result) should be(Some("/register-to-vote/forces/ways-to-vote"))
     }
   }
 
@@ -64,7 +64,7 @@ class OpenRegisterControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/forces/postal-vote"))
+      redirectLocation(result) should be(Some("/register-to-vote/forces/ways-to-vote"))
     }
   }
 
@@ -114,7 +114,7 @@ class OpenRegisterControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/forces/postal-vote"))
+      redirectLocation(result) should be(Some("/register-to-vote/forces/ways-to-vote"))
     }
   }
 
@@ -139,7 +139,7 @@ class OpenRegisterControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/forces/postal-vote"))
+      redirectLocation(result) should be(Some("/register-to-vote/forces/ways-to-vote"))
     }
   }
 }
