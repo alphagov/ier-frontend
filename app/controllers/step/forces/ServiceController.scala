@@ -1,13 +1,13 @@
 package controllers.step.forces
 
-import uk.gov.gds.ier.stubs.StubController
-import uk.gov.gds.ier.model.InprogressForces
+import uk.gov.gds.ier.guice.DelegatingController
+import uk.gov.gds.ier.transaction.forces.service.ServiceStep
 
-object ServiceController extends StubController[InprogressForces] {
-  val confirmationStep = ConfirmationController.confirmationStep
-  val thisStepUrl = "/register-to-vote/forces/service"
+object ServiceController extends DelegatingController[ServiceStep] {
+  def get = delegate.get
+  def post = delegate.post
+  def editGet = delegate.editGet
+  def editPost = delegate.editPost
 
-  def serviceStep = confirmationIf { application =>
-    application.service.isDefined
-  }
+  def serviceStep = delegate
 }

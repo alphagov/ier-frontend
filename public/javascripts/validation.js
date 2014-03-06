@@ -888,6 +888,12 @@
       },
       'statement' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
+      },
+      'service' : {
+        'atLeastOneNonEmpty' : 'Please answer this question'
+      },
+      'regiment' : {
+        'nonEmpty' : 'Please enter the regiment or corps'
       }
     }
   };
