@@ -145,6 +145,9 @@ trait FormKeys {
     lazy val job = prependNamespace(Key("job"))
     lazy val serviceName = prependNamespace(Key("serviceName"))
     lazy val regiment = prependNamespace(Key("regiment"))
+
+    lazy val addressType = prependNamespace(Key("addressType"))
+    lazy val ukAddressLine = prependNamespace(Key("ukAddressLine"))
   }
 
   implicit class key2namespace(key:Key) extends Keys {

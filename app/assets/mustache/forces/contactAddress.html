@@ -1,0 +1,143 @@
+<form action="{{question.postUrl}}" method="POST" >
+
+    {{> shared/questionHeader }}
+
+    {{> shared/validationMessages }}
+
+    <fieldset class="validate {{contactAddressFieldSet.classes}}"
+              data-validation-name="contactAddress"
+              data-validation-type="fieldset"
+              data-validation-rules="atLeastOneNonEmpty"
+              data-validation-children="ukAddressOption BFPOAddressOption otherAddressOption">
+
+        <label class="selectable"  >
+            <input type="radio"
+                   id="{{ukAddressOption.id}}"
+                   name="{{ukAddressOption.name}}"
+                   value="ukAddressOption"
+                   class="radio validate {{ukAddressOption.classes}}"
+                   data-validation-name="ukAddressOption"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty"
+            {{{ukAddressOption.attributes}}}>
+            {{{ukAddressLineText.value}}}
+            <input type="hidden"
+                    id="{{ukAddressLineText.id}}"
+                    name="{{ukAddressLineText.name}}"
+                    value="{{{ukAddressLineText.value}}}">
+        </label>
+
+        <label class="selectable"  >
+            <input type="radio"
+                   id="{{BFPOAddressOption.id}}"
+                   name="{{BFPOAddressOption.name}}"
+                   value="BFPOAddressOption"
+                   class="radio validate {{BFPOAddressOption.classes}}"
+                   data-validation-name="BFPOAddressOption"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty"
+            {{{BFPOAddressOption.attributes}}}>
+            BFPO address
+        </label>
+
+        <div class="optional-section"
+             data-condition="{{BFPOAddressOption.id}}">
+
+            <fieldset class="validate"
+                      data-validation-name="correspondenceAddressLinesFieldSet"
+                      data-validation-type="fieldset"
+                      data-validation-rules="atLeastOneNonEmpty"
+                      data-validation-children=
+                              "BFPOAddressTextLine1 BFPOAddressTextLine2 BFPOAddressTextLine3 BFPOAddressTextLine4 BFPOAddressTextLine5">
+
+                <label for="{{BFPOAddressTextLine1.id}}">
+                    Address
+                </label>
+                <div class="validation-wrapper">
+                    <input type="text" id="{{BFPOAddressTextLine1.id}}"
+                           name="{{BFPOAddressTextLine1.name}}"
+                           value="{{BFPOAddressTextLine1.value}}"
+                           autocomplete="off"
+                           class="text long validate"
+                           data-validation-name="BFPOAddressTextLine1"
+                           data-validation-type="field"
+                           data-validation-rules="nonEmpty" >
+                </div>
+                <div class="validation-wrapper">
+                    <input type="text" id="{{BFPOAddressTextLine2.id}}"
+                           name="{{BFPOAddressTextLine2.name}}"
+                           value="{{BFPOAddressTextLine2.value}}"
+                           autocomplete="off"
+                           class="text long validate"
+                           data-validation-name="BFPOAddressTextLine2"
+                           data-validation-type="field"
+                           data-validation-rules="nonEmpty" >
+                </div>
+                <div class="validation-wrapper">
+                    <input type="text" id="{{BFPOAddressTextLine3.id}}"
+                           name="{{BFPOAddressTextLine3.name}}"
+                           value="{{BFPOAddressTextLine3.value}}"
+                           autocomplete="off"
+                           class="text long validate"
+                           data-validation-name="BFPOAddressTextLine3"
+                           data-validation-type="field"
+                           data-validation-rules="nonEmpty" >
+                </div>
+                <div class="validation-wrapper">
+                    <input type="text" id="{{BFPOAddressTextLine4.id}}"
+                           name="{{BFPOAddressTextLine4.name}}"
+                           value="{{BFPOAddressTextLine4.value}}"
+                           autocomplete="off"
+                           class="text long validate"
+                           data-validation-name="BFPOAddressTextLine4"
+                           data-validation-type="field"
+                           data-validation-rules="nonEmpty" >
+                </div>
+                <div class="validation-wrapper">
+                    <input type="text" id="{{BFPOAddressTextLine5.id}}"
+                           name="{{BFPOAddressTextLine5.name}}"
+                           value="{{BFPOAddressTextLine5.value}}"
+                           autocomplete="off"
+                           class="text long validate"
+                           data-validation-name="BFPOAddressTextLine5"
+                           data-validation-type="field"
+                           data-validation-rules="nonEmpty" >
+                </div>
+            </fieldset>
+
+            <label for="{{BFPOAddressTextBFPO.id}}">
+                BFPO
+            </label>
+            <div class="validation-wrapper">
+                <input type="text" id="{{BFPOAddressTextBFPO.id}}"
+                       name="{{BFPOAddressTextBFPO.name}}"
+                       value="{{BFPOAddressTextBFPO.value}}"
+                       autocomplete="off"
+                       class="text medium validate {{BFPOAddressTextBFPO.classes}}"
+                       data-validation-name="BFPOAddressTextBFPO"
+                       data-validation-type="field"
+                       data-validation-rules="nonEmpty" >
+            </div>
+        </div>
+
+
+        <label class="selectable"  >
+            <input type="radio"
+                   id="{{otherAddressOption.id}}"
+                   name="{{otherAddressOption.name}}"
+                   value="otherAddressOption"
+                   class="radio validate {{otherAddressOption.classes}}"
+                   data-validation-name="otherAddressOption"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty"
+            {{{otherAddressOption.attributes}}}>
+            otherAddressOption
+        </label>
+
+    </fieldset>
+
+    <button type="submit" id="continue"
+            class="button next validation-submit"
+            data-validation-sources="contactAddress">
+        Continue</button>
+</form>
