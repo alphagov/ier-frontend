@@ -27,7 +27,7 @@ class PreviousAddressYesFormTests
       )
     )
 
-    postcodeAddressForm.bind(js).fold(
+    postcodeAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.previousAddress.isDefined should be(true)
@@ -49,7 +49,7 @@ class PreviousAddressYesFormTests
       "previousAddress.postcode" -> "")
     )
 
-    postcodeAddressForm.bind(js).fold(
+    postcodeAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.errorMessages("previousAddress.postcode") should be(
@@ -63,7 +63,7 @@ class PreviousAddressYesFormTests
   it should "fail out on empty input" in {
     val js = JsNull
 
-    postcodeAddressForm.bind(js).fold(
+    postcodeAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.errorMessages("previousAddress.postcode") should be(
@@ -77,7 +77,7 @@ class PreviousAddressYesFormTests
   it should "fail out on missing values in the input" in {
     val js = Json.toJson(Map("" -> ""))
 
-    postcodeAddressForm.bind(js).fold(
+    postcodeAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.errorMessages("previousAddress.postcode") should be(
@@ -98,7 +98,7 @@ class PreviousAddressYesFormTests
         "previousAddress.postcode" -> "SW1A1AA"
       )
     )
-    selectAddressForm.bind(js).fold(
+    selectAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors)),
       success => {
         success.previousAddress.isDefined should be(true)
@@ -118,7 +118,7 @@ class PreviousAddressYesFormTests
         "previousAddress.postcode" -> "SW1A1AA"
       )
     )
-    selectAddressForm.bind(js).fold(
+    selectAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors)),
       success => {
         success.previousAddress.isDefined should be(true)
@@ -134,7 +134,7 @@ class PreviousAddressYesFormTests
   it should "error out on empty input" in {
     val js = JsNull
 
-    selectAddressForm.bind(js).fold(
+    selectAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
@@ -152,7 +152,7 @@ class PreviousAddressYesFormTests
         "previousAddress.postcode" -> ""
       )
     )
-    selectAddressForm.bind(js).fold(
+    selectAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
@@ -177,7 +177,7 @@ class PreviousAddressYesFormTests
         "possibleAddresses.postcode" -> "SW1A 1AA"
       )
     )
-    selectAddressForm.bind(js).fold(
+    selectAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.previousAddress.isDefined should be(true)
@@ -213,12 +213,14 @@ class PreviousAddressYesFormTests
         "possibleAddresses.postcode" -> "SW1A 1AA"
       )
     )
-    selectAddressForm.bind(js).fold(
+    selectAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
         hasErrors.errorsAsTextAll should be("" +
-          " -> Please answer this question\n" +
-          "previousAddress -> Please answer this question")
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+          " -> Please select your address\n" +
+          "previousAddress.uprn -> Please select your address\n" +
+          "previousAddress.manualAddress -> Please select your address\n" +
+          "previousAddress -> Please select your address")
+        hasErrors.globalErrorMessages should be(Seq("Please select your address"))
       },
       success => {
         fail("Should have errored out")
@@ -243,7 +245,7 @@ class PreviousAddressYesFormTests
         "possibleAddresses.postcode" -> "SW1A 1AA"
       )
     )
-    selectAddressForm.bind(js).fold(
+    selectAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => fail("Should not fail"),
       success => {
         success.previousAddress.isDefined should be(true)
@@ -272,7 +274,7 @@ class PreviousAddressYesFormTests
         "possibleAddresses.postcode" -> ""
       )
     )
-    selectAddressForm.bind(js).fold(
+    selectAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.previousAddress.isDefined should be(true)
@@ -298,7 +300,7 @@ class PreviousAddressYesFormTests
         "previousAddress.postcode" -> ""
       )
     )
-    manualAddressForm.bind(js).fold(
+    manualAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
         hasErrors.errorsAsTextAll should be("" +
           " -> Please answer this question\n" +
@@ -316,7 +318,7 @@ class PreviousAddressYesFormTests
         "previousAddress.postcode" -> "SW1A1AA"
       )
     )
-    manualAddressForm.bind(js).fold(
+    manualAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
         fail(hasErrors.errorsAsTextAll)
       },
@@ -338,7 +340,7 @@ class PreviousAddressYesFormTests
         "previousAddress.postcode" -> "SW1A1AA"
       )
     )
-    manualAddressForm.bind(js).fold(
+    manualAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
@@ -357,7 +359,7 @@ class PreviousAddressYesFormTests
         "previousAddress.postcode" -> ""
       )
     )
-    manualAddressForm.bind(js).fold(
+    manualAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
         // empty postcode does not have user friendly message
@@ -378,7 +380,7 @@ class PreviousAddressYesFormTests
         "previousAddress.postcode" -> "3463463534"
       )
     )
-    manualAddressForm.bind(js).fold(
+    manualAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.globalErrorMessages should be(Seq("Your postcode is not valid"))
@@ -393,7 +395,7 @@ class PreviousAddressYesFormTests
   it should "error out on empty json for manual address" in {
     val js =  JsNull
 
-    manualAddressForm.bind(js).fold(
+    manualAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))

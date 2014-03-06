@@ -33,7 +33,7 @@
           names;
 
       names = $source.data('validationSources');
-      if (names !== null) {
+      if (names && names !== null) {
         names = names.split(' ');
         return this.validate(names, $source);
       }
