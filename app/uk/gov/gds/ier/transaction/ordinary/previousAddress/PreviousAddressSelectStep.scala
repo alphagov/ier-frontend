@@ -30,7 +30,7 @@ class PreviousAddressSelectStep @Inject() (
   with PreviousAddressMustache
   with PreviousAddressForms {
 
-  val validation = selectAddressForm
+  val validation = selectAddressFormForPreviousAddress
 
   val previousRoute = Some(PreviousAddressPostcodeController.get)
 

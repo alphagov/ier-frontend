@@ -8,13 +8,13 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
 
-class AddressControllerTests
+class AddressStepTests
   extends FlatSpec
   with Matchers
   with MockitoSugar
   with TestHelpers {
 
-  behavior of "AddressController.get"
+  behavior of "AddressStep.get"
   it should "display the page" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -29,8 +29,9 @@ class AddressControllerTests
     }
   }
 
-  behavior of "AddressController.post"
-  it should "bind successfully and redirect to the Previous Address step" in {
+  behavior of "AddressStep.post"
+  it should "redirect to the next step (Other Address) when selected address is provided" in {
+    // test that select address step is skipped, from postcode page directly to the next step
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/address")
@@ -46,7 +47,8 @@ class AddressControllerTests
     }
   }
 
-  it should "bind successfully and redirect to the Previous Address step with a manual address" in {
+  it should "redirect to the next step (Other Address) when manual address is provided" in {
+    // test that manual address step is skipped, from postcode page directly to the next step
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/address")
@@ -79,7 +81,7 @@ class AddressControllerTests
     }
   }
 
-  it should "display any errors on unsuccessful bind" in {
+  it should "display any errors on unsuccessful bind and stay on postcode page" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/address").withIerSession()
@@ -88,11 +90,12 @@ class AddressControllerTests
       status(result) should be(OK)
       contentAsString(result) should include("Where do you live?")
       contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/address")
+      contentAsString(result) should include("<form action=\"/register-to-vote/address/lookup\"")
+      // postcode page is a rare page where post action is different from page URL
     }
   }
 
-behavior of "AddressController.editGet"
+  behavior of "AddressStep.editGet"
   it should "display the page" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -103,12 +106,12 @@ behavior of "AddressController.editGet"
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Where do you live?")
       contentAsString(result) should include("Question 6")
-      contentAsString(result) should include("/register-to-vote/edit/address")
+      contentAsString(result) should include("<form action=\"/register-to-vote/address/lookup\"")
     }
   }
 
-  behavior of "AddressController.editPost"
-  it should "bind successfully and redirect to the Previous Address step" in {
+  behavior of "AddressStep.editPost"
+  it should "bind successfully and redirect to the Other Address step" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/edit/address")
@@ -124,7 +127,7 @@ behavior of "AddressController.editGet"
     }
   }
 
-  it should "bind successfully and redirect to the Previous Address step with a manual address" in {
+  it should "bind successfully and redirect to the Other Address step with a manual address" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/edit/address")
@@ -166,7 +169,7 @@ behavior of "AddressController.editGet"
       status(result) should be(OK)
       contentAsString(result) should include("Where do you live?")
       contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/edit/address")
+      contentAsString(result) should include("<form action=\"/register-to-vote/address/lookup\"")
     }
   }
 
@@ -178,8 +181,8 @@ behavior of "AddressController.editGet"
           .withIerSession()
           .withApplication(completeOrdinaryApplication.copy(address = None))
           .withFormUrlEncodedBody(
-          "country.residence" -> "England"
-        )
+            "country.residence" -> "England"
+          )
       )
 
       status(result) should be(SEE_OTHER)

@@ -1,0 +1,67 @@
+<form action="{{question.postUrl}}" method="POST">
+    {{> shared/questionHeader }}
+    {{> shared/validationMessages }}
+
+    <fieldset>
+        <p>
+            If you have more than one address, just give the one
+            where you spend most of your time.
+        </p>
+        <label for="{{postcode.id}}">
+            Postcode
+        </label>
+        <div class="validation-wrapper {{postcode.classes}}">
+            <input
+              type="text"
+              id="{{postcode.id}}"
+              name="{{postcode.name}}"
+              value="{{postcode.value}}"
+              autocomplete="off"
+              class="text postcode medium validate {{postcode.classes}}">
+        </div>
+    </fieldset>
+    <button
+      id="find-last-uk-address"
+      type="submit"
+      class="button next">
+        Find address
+    </button>
+    <div class="help-content page-help-content" >
+        <h2 >I don't know which postcode to use</h2>
+        <p>
+            We need your address and postcode so that we can
+            send your details to the right local Electoral Registration Office.
+        </p>
+        <h3>I don't know the postcode for my address</h3>
+        <p class="postcode-finder">
+            Look up your postcode using the
+            <a
+              href="http://www.postoffice.co.uk/postcode-finder"
+              rel="external"
+              target="_blank"
+              class="lightbox-link"
+              data-target="address-lightbox">
+                Post Office's postcode finder
+            </a>.
+        </p>
+        <h3>I don't know which address to use</h3>
+        <p>
+            If you're a student living away from home, you can register to vote
+            at both your permanent home address and your term-time address.
+        </p>
+        <p>
+            If you're homeless and living in temporary accommodation
+            (for example, a long term hostel), use that address.
+        </p>
+        <p>
+            If you're a long term patient in a psychiatric hospital,
+            use the address of the hospital.
+        </p>
+        <p>If you're a prisoner on long term remand, use the address of the prison.</p>
+        <h3>I can't provide an address</h3>
+        <p>
+            If you can't provide an address, please contact your local
+            Electoral Registration Office.
+        </p>
+    </div>
+</form>

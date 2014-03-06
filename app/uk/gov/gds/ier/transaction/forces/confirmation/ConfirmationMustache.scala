@@ -249,7 +249,11 @@ trait ConfirmationMustache {
     def address = {
       Some(ConfirmationQuestion(
         title = "UK registration address",
-        editLink = routes.AddressController.editGet.url,
+        editLink = if (form(keys.address.manualAddress).value.isDefined) {
+          routes.AddressManualController.editGet.url
+        } else {
+          routes.AddressSelectController.editGet.url
+        },
         changeName = "your UK registration address",
         content = ifComplete(keys.address) {
           val addressLine = form(keys.address.addressLine).value.orElse{
@@ -304,7 +308,7 @@ trait ConfirmationMustache {
       val way = form(keys.waysToVote.wayType).value.map{ way => WaysToVoteType.parse(way) }
 
       Some(ConfirmationQuestion(
-        title = "Voting",
+        title = "How you want to vote",
         editLink = routes.WaysToVoteController.editGet.url,
         changeName = "voting",
         content = ifComplete(keys.waysToVote) {

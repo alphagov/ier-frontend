@@ -19,7 +19,7 @@ class WaysToVoteFormTests
   val serialiser = jsonSerialiser
 
   it should "error out on empty input" in {
-    val emptyRequest = JsNull
+    val emptyRequest = Map.empty[String, String]
     waysToVoteForm.bind(emptyRequest).fold(
       formWithErrors => {
         formWithErrors.errorsAsText should be("" +
