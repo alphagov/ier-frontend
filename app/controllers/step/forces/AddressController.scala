@@ -1,16 +1,35 @@
 package controllers.step.forces
 
-import uk.gov.gds.ier.stubs.StubController
-import uk.gov.gds.ier.model.InprogressForces
+import uk.gov.gds.ier.guice.DelegatingController
+import uk.gov.gds.ier.transaction.forces.address.{
+  AddressStep,
+  AddressSelectStep,
+  AddressManualStep}
 
-object AddressController extends StubController[InprogressForces] {
-  val confirmationStep = ConfirmationController.confirmationStep
-  val thisStepUrl = "/register-to-vote/forces/address"
+object AddressController extends DelegatingController[AddressStep] {
+  def get = delegate.get
+  def post = delegate.post
+  def editGet = delegate.editGet
+  def editPost = delegate.editPost
+  def lookup = delegate.lookup
 
-  def lookup = fakeAction
-  def editLookup = fakeAction
+  def addressStep = delegate
+}
 
-  def addressStep = confirmationIf { application =>
-    application.address.isDefined
-  }
+object AddressSelectController extends DelegatingController[AddressSelectStep] {
+  def get = delegate.get
+  def post = delegate.post
+  def editGet = delegate.editGet
+  def editPost = delegate.editPost
+
+  def addressSelectStep = delegate
+}
+
+object AddressManualController extends DelegatingController[AddressManualStep] {
+  def get = delegate.get
+  def post = delegate.post
+  def editGet = delegate.editGet
+  def editPost = delegate.editPost
+
+  def addressManualStep = delegate
 }
