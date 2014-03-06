@@ -25,7 +25,7 @@ class AddressStepTests
         "What is your UK address?"
       )
       contentAsString(result) should include("Question 2")
-      contentAsString(result) should include("/register-to-vote/forces/address")
+      contentAsString(result) should include("<form action=\"/register-to-vote/forces/address/lookup\"")
     }
   }
 
@@ -90,7 +90,8 @@ class AddressStepTests
         "What is your UK address?"
       )
       contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/forces/address")
+      contentAsString(result) should include("<form action=\"/register-to-vote/forces/address/lookup\"")
+
     }
   }
 
@@ -107,7 +108,8 @@ behavior of "AddressStep.editGet"
         "What is your UK address?"
       )
       contentAsString(result) should include("Question 2")
-      contentAsString(result) should include("/register-to-vote/forces/address/lookup")
+      contentAsString(result) should include("<form action=\"/register-to-vote/forces/address/lookup\"")
+
     }
   }
 
@@ -172,7 +174,8 @@ behavior of "AddressStep.editGet"
         "What is your UK address?"
       )
       contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/forces/address/lookup")
+      contentAsString(result) should include("<form action=\"/register-to-vote/forces/address/lookup\"")
+
     }
   }
 

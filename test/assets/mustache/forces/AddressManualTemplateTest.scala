@@ -57,7 +57,8 @@ class AddressManualTemplateTest
       val divWrapper = fieldset.select("div").first()
       divWrapper.attr("class") should include("manualClasses")
 
-      val manualText = divWrapper.select("textarea").first()
+      val manualText = divWrapper.select("textarea#manualId").first()
+      manualText should not be(null)
       manualText.attr("id") should be("manualId")
       manualText.attr("name") should be("manualName")
       manualText.attr("class") should include("manualClasses")

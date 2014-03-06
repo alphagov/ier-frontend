@@ -41,12 +41,13 @@ class AddressLookupTemplateTest
 
       val divWrapper = fieldset.select("div").first()
       divWrapper.attr("class") should include("postcodeClasses")
-      
-      val input = divWrapper.select("input").first()
-      input.attr("id") should be("postcodeId")
-      input.attr("name") should be("postcodeName")
-      input.attr("value") should be("postcodeValue")
-      input.attr("class") should include("postcodeClasses")
+
+      val postcodeInput = divWrapper.select("input#postcodeId").first()
+      postcodeInput should not be(null)
+      postcodeInput.attr("id") should be("postcodeId")
+      postcodeInput.attr("name") should be("postcodeName")
+      postcodeInput.attr("value") should be("postcodeValue")
+      postcodeInput.attr("class") should include("postcodeClasses")
     }
   }
 }
