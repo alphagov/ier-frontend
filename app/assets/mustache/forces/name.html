@@ -1,0 +1,54 @@
+<form action="{{question.postUrl}}" method="POST" >
+    {{> shared/questionHeader }}
+
+    {{> shared/validationMessages }}
+
+    <fieldset class="validate" data-validation-name="fullName"
+              data-validation-type="association"
+              data-validation-rules="allNonEmpty"
+              data-validation-members="firstName lastName">
+
+        <label for="{{firstName.id}}">
+            First name
+        </label>
+        <div class="validation-wrapper {{firstName.classes}}">
+            <input type="text" id="{{firstName.id}}"
+                   name="{{firstName.name}}"
+                   value="{{firstName.value}}"
+                   autocomplete="off"
+                   class="text first-name long validate {{firstName.classes}}"
+                   data-validation-name="firstName"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty" >
+        </div>
+
+        <label for="{{middleNames.id}}">
+            Middle names
+        </label>
+        <input type="text" id="{{middleNames.id}}"
+               name="{{middleNames.name}}"
+               value="{{middleNames.value}}"
+               autocomplete="off"
+               class="text  middle-names long {{middleNames.classes}}"  >
+
+        <label for="{{lastName.id}}">
+            Last name
+        </label>
+        <div class="validation-wrapper {{lastName.classes}}">
+            <input type="text" id="{{lastName.id}}"
+                   name="{{lastName.name}}"
+                   value="{{lastName.value}}"
+                   autocomplete="off"
+                   class="text  last-name long validate {{lastName.classes}}"
+                   data-validation-name="lastName"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty" >
+        </div>
+    </fieldset>
+
+    <button id="continue" type="submit"
+            class="button next validation-submit"
+            data-validation-sources="fullName">
+        Continue
+    </button>
+</form>

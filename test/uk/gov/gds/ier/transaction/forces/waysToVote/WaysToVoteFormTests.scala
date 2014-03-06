@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.overseas.waysToVote
+package uk.gov.gds.ier.transaction.forces.waysToVote
 
 import play.api.libs.json.{JsNull, Json}
 import org.scalatest.{Matchers, FlatSpec}
@@ -6,6 +6,8 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.{WaysToVote, WaysToVoteType}
+import play.api.libs.json.JsSuccess
+import play.api.i18n.Lang
 
 class WaysToVoteFormTests
   extends FlatSpec
@@ -22,10 +24,8 @@ class WaysToVoteFormTests
     val emptyRequest = Map.empty[String, String]
     waysToVoteForm.bind(emptyRequest).fold(
       formWithErrors => {
-        formWithErrors.errorsAsText should be("" +
-          "waysToVote -> Please answer this question")
-        formWithErrors.globalErrorsAsText should be("" +
-          "Please answer this question")
+        formWithErrors.errors("waysToVote").head.message should be ("Please answer this question")
+        formWithErrors.globalErrorMessages should be (Seq("Please answer this question"))
       },
       formWithSuccess => fail("Should have thrown an error")
     )
@@ -84,10 +84,8 @@ class WaysToVoteFormTests
     )
     waysToVoteForm.bind(request).fold(
       formWithErrors => {
-        formWithErrors.errorsAsText should be("" +
-          "waysToVote.wayType -> Unknown type")
-        formWithErrors.globalErrorsAsText should be("" +
-          "Unknown type")
+        formWithErrors.errors("waysToVote.wayType").head.message should be ("Unknown type")
+        formWithErrors.globalErrorMessages should be (Seq("Unknown type"))
       },
       formWithSuccess => fail("Should have thrown an error")
     )

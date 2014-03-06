@@ -1,0 +1,34 @@
+<form action="{{question.postUrl}}" method="POST">
+    {{> shared/questionHeader }}
+    {{> shared/validationMessages }}
+
+    <fieldset>
+        <label for="{{postcode.id}}">
+            Postcode
+        </label>
+        <div class="validation-wrapper {{postcode.classes}}">
+            <input
+              type="text"
+              id="{{postcode.id}}"
+              name="{{postcode.name}}"
+              value="{{postcode.value}}"
+              autocomplete="off"
+              class="text postcode medium validate {{postcode.classes}}">
+        </div>
+    </fieldset>
+    <button
+      id="find-last-uk-address"
+      type="submit"
+      class="button next">
+        Find address
+    </button>
+
+    <div class="help-content" id="address-help">
+        <h2>I don't know what address to use</h2>
+        <p>If you live in service accommodation in the UK (family or single living),
+            use that address.</p>
+        <p>If you do not have a UK address, give the address you would be living at
+            if <span class="you-or-your-partner">you</span> were not in the armed forces,
+            or your last UK address.</p>
+    </div>
+</form>

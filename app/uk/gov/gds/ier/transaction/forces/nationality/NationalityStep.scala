@@ -1,7 +1,8 @@
 package uk.gov.gds.ier.transaction.forces.nationality
 
-import controllers.step.forces.routes._
+import controllers.step.forces.routes.AddressController
 import controllers.step.forces.DateOfBirthController
+import controllers.step.forces.routes.NationalityController
 import controllers.routes.ExitController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser

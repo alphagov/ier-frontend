@@ -245,7 +245,11 @@ trait ConfirmationMustache {
     def address = {
       Some(ConfirmationQuestion(
         title = "UK registration address",
-        editLink = routes.AddressController.editGet.url,
+        editLink = if (form(keys.address.manualAddress).value.isDefined) {
+          routes.AddressManualController.editGet.url
+        } else {
+          routes.AddressSelectController.editGet.url
+        },
         changeName = "your UK registration address",
         content = ifComplete(keys.address) {
           val addressLine = form(keys.address.addressLine).value.orElse{
