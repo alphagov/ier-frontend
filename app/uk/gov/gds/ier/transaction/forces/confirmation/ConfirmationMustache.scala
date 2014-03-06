@@ -207,8 +207,8 @@ trait ConfirmationMustache {
         content = ifComplete(keys.service) {
            val serviceName = form(keys.service.serviceName).value match {
              case Some("Royal Navy") => "Royal Navy"
-             case Some("British Army") => "Army"
-             case Some("Royal Air Force") => "Royal Airforce"
+             case Some("British Army") => "British Army"
+             case Some("Royal Air Force") => "Royal Air Force"
              case _ => ""
            }
 
