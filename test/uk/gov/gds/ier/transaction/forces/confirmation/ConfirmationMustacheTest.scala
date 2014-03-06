@@ -264,7 +264,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
     val Some(serviceModel) = confirmation.service(false)
-    serviceModel.content should be("<p>I am a member of the Army</p><p>Regiment: regiment</p>")
+    serviceModel.content should be("<p>I am a member of the British Army</p><p>Regiment: regiment</p>")
     serviceModel.editLink should be("/register-to-vote/forces/edit/service")
   }
 
@@ -280,7 +280,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
     val Some(serviceModel) = confirmation.service(false)
-    serviceModel.content should be("<p>I am a member of the Royal Airforce</p>")
+    serviceModel.content should be("<p>I am a member of the Royal Air Force</p>")
     serviceModel.editLink should be("/register-to-vote/forces/edit/service")
   }
 

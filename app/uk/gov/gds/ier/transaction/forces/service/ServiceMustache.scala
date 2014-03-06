@@ -29,14 +29,15 @@ trait ServiceMustache extends StepMustache {
       Field(
         id = keys.service.serviceName.asId(serviceName),
         name = keys.service.serviceName.key,
-        attributes = if (progressForm(keys.service.serviceName.key).value == Some(serviceName)) "checked=\"checked\"" else ""
+        attributes = if (progressForm(keys.service.serviceName.key).value == Some(serviceName))
+          "checked=\"checked\"" else ""
       )
     }
 
     ServiceModel(
       question = Question(
         postUrl = postEndpoint.url,
-        backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
+        backUrl = backEndpoint.fold("")(_.url),
         errorMessages = form.globalErrors.map{ _.message },
         number = "7",
         title = if (displayPartnerSentence(progressForm.value))
@@ -54,7 +55,7 @@ trait ServiceMustache extends StepMustache {
         key = keys.service.regiment
       ),
       regimentShowFlag = Text (
-        value = progressForm(keys.service.regiment.key).value.map(regiment => "-open").getOrElse("")
+        value = progressForm(keys.service.regiment.key).value.fold("")(_ => "-open")
       )
     )
   }
