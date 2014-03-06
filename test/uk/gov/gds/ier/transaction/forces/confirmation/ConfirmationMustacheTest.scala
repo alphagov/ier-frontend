@@ -317,7 +317,7 @@ class ConfirmationMustacheTest
 
     val Some(addressModel) = confirmation.address
     addressModel.content should be("<p>123 Fake Street</p><p>AB12 3CD</p>")
-    addressModel.editLink should be("/register-to-vote/forces/edit/address")
+    addressModel.editLink should be("/register-to-vote/forces/edit/address/select")
   }
 
   "In-progress application form with valid UK manual address" should
@@ -335,7 +335,7 @@ class ConfirmationMustacheTest
 
     val Some(addressModel) = confirmation.address
     addressModel.content should be("<p>my totally fake manual address, 123</p><p>AB12 3CD</p>")
-    addressModel.editLink should be("/register-to-vote/forces/edit/address")
+    addressModel.editLink should be("/register-to-vote/forces/edit/address/manual")
   }
 
   "In-progress application form with valid contact address" should

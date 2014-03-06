@@ -53,7 +53,7 @@ trait ConfirmationForms
       keys.waysToVote.key -> stepRequired(waysToVoteMapping),
       keys.postalOrProxyVote.key -> stepRequired(postalOrProxyVoteMapping),
       keys.contact.key -> stepRequired(contactMapping),
-      keys.possibleAddresses.key -> optional(possibleAddressMapping)
+      keys.possibleAddresses.key -> optional(possibleAddressesMapping)
     )
     (InprogressForces.apply)
     (InprogressForces.unapply)
