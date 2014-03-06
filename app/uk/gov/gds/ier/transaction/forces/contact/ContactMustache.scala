@@ -57,7 +57,7 @@ trait ContactMustache extends StepMustache {
       backEndpoint: Option[Call]): Html = {
 
     val data = transformFormStepToMustacheData(form, postEndpoint, backEndpoint)
-    val content = Mustache.render("overseas/contact", data)
+    val content = Mustache.render("forces/contact", data)
     MainStepTemplate(content, data.question.title)
   }
 }
