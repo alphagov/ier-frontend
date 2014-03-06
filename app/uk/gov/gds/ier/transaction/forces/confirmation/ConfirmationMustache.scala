@@ -304,7 +304,7 @@ trait ConfirmationMustache {
       val way = form(keys.waysToVote.wayType).value.map{ way => WaysToVoteType.parse(way) }
 
       Some(ConfirmationQuestion(
-        title = "Voting",
+        title = "How you want to vote",
         editLink = routes.WaysToVoteController.editGet.url,
         changeName = "voting",
         content = ifComplete(keys.waysToVote) {
