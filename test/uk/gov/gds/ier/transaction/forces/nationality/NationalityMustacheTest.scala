@@ -5,7 +5,6 @@ import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
 import scala.Some
 import controllers.step.forces.routes._
-import controllers.step.routes._
 import uk.gov.gds.ier.model.{PartialNationality, InprogressForces}
 
 class NationalityMustacheTest

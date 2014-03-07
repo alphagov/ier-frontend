@@ -88,13 +88,26 @@ POST        /register-to-vote/nationality                                control
 GET         /register-to-vote/edit/nationality                           controllers.step.ordinary.NationalityController.editGet
 POST        /register-to-vote/edit/nationality                           controllers.step.ordinary.NationalityController.editPost
 
-#Address Step
-POST        /register-to-vote/edit/address/lookup                        controllers.step.ordinary.AddressController.editLookup
+#Address
 GET         /register-to-vote/address                                    controllers.step.ordinary.AddressController.get
-POST        /register-to-vote/address/lookup                             controllers.step.ordinary.AddressController.lookup
 POST        /register-to-vote/address                                    controllers.step.ordinary.AddressController.post
 GET         /register-to-vote/edit/address                               controllers.step.ordinary.AddressController.editGet
 POST        /register-to-vote/edit/address                               controllers.step.ordinary.AddressController.editPost
+
+#Lookup Address
+POST        /register-to-vote/address/lookup                             controllers.step.ordinary.AddressController.lookup
+
+#Manual Address
+GET         /register-to-vote/address/manual                             controllers.step.ordinary.AddressManualController.get
+POST        /register-to-vote/address/manual                             controllers.step.ordinary.AddressManualController.post
+GET         /register-to-vote/edit/address/manual                        controllers.step.ordinary.AddressManualController.editGet
+POST        /register-to-vote/edit/address/manual                        controllers.step.ordinary.AddressManualController.editPost
+
+#Select Address
+GET         /register-to-vote/address/select                             controllers.step.ordinary.AddressSelectController.get
+POST        /register-to-vote/address/select                             controllers.step.ordinary.AddressSelectController.post
+GET         /register-to-vote/edit/address/select                        controllers.step.ordinary.AddressSelectController.editGet
+POST        /register-to-vote/edit/address/select                        controllers.step.ordinary.AddressSelectController.editPost
 
 #Previous Address Step
 GET         /register-to-vote/previous-address                           controllers.step.ordinary.PreviousAddressFirstController.get
@@ -334,12 +347,25 @@ GET         /register-to-vote/forces/edit/statement                     controll
 POST        /register-to-vote/forces/edit/statement                     controllers.step.forces.StatementController.editPost
 
 #Address Step
-POST        /register-to-vote/forces/edit/address/lookup                controllers.step.forces.AddressController.editLookup
 GET         /register-to-vote/forces/address                            controllers.step.forces.AddressController.get
-POST        /register-to-vote/forces/address/lookup                     controllers.step.forces.AddressController.lookup
 POST        /register-to-vote/forces/address                            controllers.step.forces.AddressController.post
 GET         /register-to-vote/forces/edit/address                       controllers.step.forces.AddressController.editGet
 POST        /register-to-vote/forces/edit/address                       controllers.step.forces.AddressController.editPost
+
+#Lookup Address Step
+POST        /register-to-vote/forces/address/lookup                     controllers.step.forces.AddressController.lookup
+
+#Manual Address Step
+GET         /register-to-vote/forces/address/manual                     controllers.step.forces.AddressManualController.get
+POST        /register-to-vote/forces/address/manual                     controllers.step.forces.AddressManualController.post
+GET         /register-to-vote/forces/edit/address/manual                controllers.step.forces.AddressManualController.editGet
+POST        /register-to-vote/forces/edit/address/manual                controllers.step.forces.AddressManualController.editPost
+
+#Select Address Step
+GET         /register-to-vote/forces/address/select                     controllers.step.forces.AddressSelectController.get
+POST        /register-to-vote/forces/address/select                     controllers.step.forces.AddressSelectController.post
+GET         /register-to-vote/forces/edit/address/select                controllers.step.forces.AddressSelectController.editGet
+POST        /register-to-vote/forces/edit/address/select                controllers.step.forces.AddressSelectController.editPost
 
 #Nationality Step
 GET         /register-to-vote/forces/nationality                        controllers.step.forces.NationalityController.get

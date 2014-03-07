@@ -263,8 +263,8 @@ class ConfirmationMustacheTest
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
-    val Some(serviceModel) = confirmation.service
-    serviceModel.content should be("<p>I am a member of the Army</p><p>Regiment: regiment</p>")
+    val Some(serviceModel) = confirmation.service(false)
+    serviceModel.content should be("<p>I am a member of the British Army</p><p>Regiment: regiment</p>")
     serviceModel.editLink should be("/register-to-vote/forces/edit/service")
   }
 
@@ -279,8 +279,8 @@ class ConfirmationMustacheTest
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
-    val Some(serviceModel) = confirmation.service
-    serviceModel.content should be("<p>I am a member of the Royal Airforce</p>")
+    val Some(serviceModel) = confirmation.service(false)
+    serviceModel.content should be("<p>I am a member of the Royal Air Force</p>")
     serviceModel.editLink should be("/register-to-vote/forces/edit/service")
   }
 
@@ -317,7 +317,7 @@ class ConfirmationMustacheTest
 
     val Some(addressModel) = confirmation.address
     addressModel.content should be("<p>123 Fake Street</p><p>AB12 3CD</p>")
-    addressModel.editLink should be("/register-to-vote/forces/edit/address")
+    addressModel.editLink should be("/register-to-vote/forces/edit/address/select")
   }
 
   "In-progress application form with valid UK manual address" should
@@ -335,7 +335,7 @@ class ConfirmationMustacheTest
 
     val Some(addressModel) = confirmation.address
     addressModel.content should be("<p>my totally fake manual address, 123</p><p>AB12 3CD</p>")
-    addressModel.editLink should be("/register-to-vote/forces/edit/address")
+    addressModel.editLink should be("/register-to-vote/forces/edit/address/manual")
   }
 
   "In-progress application form with valid contact address" should

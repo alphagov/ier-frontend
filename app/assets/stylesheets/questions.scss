@@ -150,6 +150,10 @@ input.year {
   width: 4.25em;
 }
 
+input.postcode {
+  text-transform: uppercase;
+}
+
 .inline-fields {
   label {
     margin-bottom: 0.5em;
