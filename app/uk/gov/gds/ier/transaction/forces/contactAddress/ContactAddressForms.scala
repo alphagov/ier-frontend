@@ -24,8 +24,8 @@ trait ContactAddressForms extends ContactAddressConstraints {
     
     val contactAddressForm = ErrorTransformForm(
         mapping(
-          keys.contactAddress.key -> optional(contactAddressMapping).verifying (countryRequired, addressDetailsRequired)
-        )(
+          keys.contactAddress.key -> optional(contactAddressMapping) //.verifying (countryRequired, addressDetailsRequired)
+    )(
           contactAddress => InprogressForces(contactAddress = contactAddress)
         )(
           inprogressForces => Some(inprogressForces.contactAddress)
@@ -37,22 +37,22 @@ trait ContactAddressConstraints extends CommonConstraints {
     self: FormKeys
     with ErrorMessages => 
         
-    lazy val countryRequired = Constraint[Option[ContactAddress]](keys.contactAddress.key) {
-        optAddress => 
-            optAddress match {
-                case Some(address) if (!address.country.getOrElse("").trim.isEmpty) => Valid 
-                case _ => Invalid("Please enter your country", keys.contactAddress.country)
-            }
-    }
-    lazy val addressDetailsRequired = Constraint[Option[ContactAddress]](keys.contactAddress.key) {
-        optAddress => 
-            optAddress match {
-                case Some(address) if (!address.addressLine1.getOrElse("").trim.isEmpty ||
-                                       !address.addressLine2.getOrElse("").trim.isEmpty ||
-                                       !address.addressLine3.getOrElse("").trim.isEmpty ||
-                                       !address.addressLine4.getOrElse("").trim.isEmpty ||
-                                       !address.addressLine5.getOrElse("").trim.isEmpty) => Valid
-                case _ => Invalid("Please enter your address", keys.contactAddress.addressLine1)
-            }
-    }
+//    lazy val countryRequired = Constraint[Option[ContactAddress]](keys.contactAddress.key) {
+//        optAddress =>
+//            optAddress match {
+//                case Some(address) if (!address.country.getOrElse("").trim.isEmpty) => Valid
+//                case _ => Invalid("Please enter your country", keys.contactAddress.country)
+//            }
+//    }
+//    lazy val addressDetailsRequired = Constraint[Option[ContactAddress]](keys.contactAddress.key) {
+//        optAddress =>
+//            optAddress match {
+//                case Some(address) if (!address.addressLine1.getOrElse("").trim.isEmpty ||
+//                                       !address.addressLine2.getOrElse("").trim.isEmpty ||
+//                                       !address.addressLine3.getOrElse("").trim.isEmpty ||
+//                                       !address.addressLine4.getOrElse("").trim.isEmpty ||
+//                                       !address.addressLine5.getOrElse("").trim.isEmpty) => Valid
+//                case _ => Invalid("Please enter your address", keys.contactAddress.addressLine1)
+//            }
+//    }
 }

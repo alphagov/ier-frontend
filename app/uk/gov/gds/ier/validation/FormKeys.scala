@@ -148,6 +148,8 @@ trait FormKeys {
 
     lazy val addressType = prependNamespace(Key("addressType"))
     lazy val ukAddressLine = prependNamespace(Key("ukAddressLine"))
+    lazy val ukAddress = prependNamespace(Key("ukAddress"))
+    lazy val bfpoAddress = prependNamespace(Key("bfpoAddress"))
   }
 
   implicit class key2namespace(key:Key) extends Keys {
