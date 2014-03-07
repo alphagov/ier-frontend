@@ -40,12 +40,6 @@ trait ContactAddressMustache extends StepMustache {
   case class UKContactAddressModel(
       ukAddressOption: Field,
       ukAddressLineText: Field
-//      ukAddressLine1: Field,
-//      ukAddressLine2: Field,
-//      ukAddressLine3: Field,
-//      ukAddressLine4: Field,
-//      ukAddressLine5: Field,
-//      ukAddressPostcode: Field
   )
   
   def transformFormStepToMustacheData(
@@ -61,36 +55,6 @@ trait ContactAddressMustache extends StepMustache {
 
     val ukAddressToBeShown = extractUkAddressText(ukAddress, form)
 
-
-//    val adaptedAddressList: List[String] =
-//        if (ukAddress.isDefined) {
-//          val addressLine = ukAddress.get.addressLine
-//          if (addressLine.isDefined)  {
-//            splitAddressLineIntoList(addressLine)
-//          }
-//          else List.empty
-//        }
-//        else List.empty
-
-
-//    val ukAddressLine1 = if (adaptedAddressList.size > 0) Some(adaptedAddressList(0))
-//                         else form(keys.contactAddress.ukContactAddress.addressLine1.key).value
-//
-//    val ukAddressLine2 = if (adaptedAddressList.size > 1) Some(adaptedAddressList(1))
-//                         else form(keys.contactAddress.ukContactAddress.addressLine2.key).value
-//
-//    val ukAddressLine3 = if (adaptedAddressList.size > 2) Some(adaptedAddressList(2))
-//                         else form(keys.contactAddress.ukContactAddress.addressLine3.key).value
-//
-//    val ukAddressLine4 = if (adaptedAddressList.size > 3) Some(adaptedAddressList(3))
-//                         else form(keys.contactAddress.ukContactAddress.addressLine4.key).value
-//
-//    val ukAddressLine5 = if (adaptedAddressList.size > 4) Some(adaptedAddressList(4))
-//                         else form(keys.contactAddress.ukContactAddress.addressLine5.key).value
-//
-//    val ukAddressPostcode = if (ukAddress.isDefined) Some(ukAddress.get.postcode)
-//                            else form(keys.contactAddress.ukContactAddress.postcode.key).value
-
     val ukContactAddressModel = UKContactAddressModel(
       ukAddressOption = RadioField(
         key = keys.contactAddress.contactAddressType,
@@ -100,32 +64,6 @@ trait ContactAddressMustache extends StepMustache {
         key = keys.contactAddress.ukAddressTextLine,
         value =  ukAddressToBeShown.getOrElse("")
       )
-//      ,
-//
-//      ukAddressLine1 = HiddenField(
-//        key = keys.contactAddress.ukContactAddress.addressLine1,
-//        value =  ukAddressLine1.getOrElse("")
-//      ),
-//      ukAddressLine2 = HiddenField(
-//        key = keys.contactAddress.ukContactAddress.addressLine2,
-//        value =  ukAddressLine2.getOrElse("")
-//      ),
-//      ukAddressLine3 = HiddenField(
-//        key = keys.contactAddress.ukContactAddress.addressLine3,
-//        value =  ukAddressLine3.getOrElse("")
-//      ),
-//      ukAddressLine4 = HiddenField(
-//        key = keys.contactAddress.ukContactAddress.addressLine4,
-//        value =  ukAddressLine4.getOrElse("")
-//      ),
-//      ukAddressLine5 = HiddenField(
-//        key = keys.contactAddress.ukContactAddress.addressLine5,
-//        value =  ukAddressLine5.getOrElse("")
-//      ),
-//      ukAddressPostcode = HiddenField(
-//        key = keys.contactAddress.ukContactAddress.postcode,
-//        value =  ukAddressPostcode.getOrElse("")
-//      )
     )
 
     val bfpoContactAddressModel = BFPOContactAddressModel (
@@ -209,49 +147,6 @@ trait ContactAddressMustache extends StepMustache {
     }
     else form(keys.contactAddress.ukAddressLine.key).value
   }
-
-
-//  private def extractUkAddressLine(application: Option[InprogressForces], form: ErrorTransformForm[InprogressForces], lineFormKey: String): Option[String] = {
-//    if (application.isDefined) {
-//      val ukAddress = application.get.address
-//        if (ukAddress.isDefined) {
-//          val addressLine = ukAddress.get.addressLine
-//          if (addressLine.isDefined)  {
-//            application.copy(contactAddress =
-//              Some(updateContactAddressWithAdressLines(addressLine, application.contactAddress.get))
-//            )
-//          }
-//          else application
-//        }
-//        else None
-//
-//    }
-//    else form(lineFormKey).value
-//  }
-
-//  private def updateContactAddressWithAdressLines(addressLine: Option[String], currentContactAddress: ContactAddress): ContactAddress = {
-//    val adaptedAddressList: List[String] = splitAddressLineIntoList(addressLine)
-//    currentContactAddress.copy(
-//      addressLine1 = if (adaptedAddressList.size > 0) Some(adaptedAddressList(0)) else None,
-//      addressLine2 = if (adaptedAddressList.size > 1) Some(adaptedAddressList(1)) else None,
-//      addressLine3 = if (adaptedAddressList.size > 2) Some(adaptedAddressList(2)) else None,
-//      addressLine4 = if (adaptedAddressList.size > 3) Some(adaptedAddressList(3)) else None,
-//      addressLine5 = if (adaptedAddressList.size > 4) Some(adaptedAddressList(4)) else None
-//    )
-//  }
-
-//  private def splitAddressLineIntoList(addressLine: Option[String]): List[String] = {
-//    val addressList = addressLine.get.split(",").toList
-//    val adaptedAddressList =
-//      if (addressList.size > 5) {
-//        val firstAddressLineList = (for (i <- 0 until addressList.size - 4) yield addressList(i))
-//        val firstAddressLine = firstAddressLineList.mkString(",")
-//        val restOfList: List[String] = (for (i <- addressList.size - 4 until addressList.size) yield addressList(i)).toList
-//        firstAddressLine :: restOfList
-//      }
-//      else addressList
-//    adaptedAddressList
-//  }
 
   def contactAddressMustache(
         form:ErrorTransformForm[InprogressForces],

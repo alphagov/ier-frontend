@@ -60,7 +60,7 @@ trait ContactAddressConstraints extends CommonConstraints {
             case Some("other") => validateOtherAddressRequired (otherContactAddress)
             case _ => Valid
           }
-        case None => Invalid ("Please answer the question", keys.contactAddress.contactAddressType)
+        case None => Invalid ("Please answer this question", keys.contactAddress.contactAddressType)
       }
   }
 

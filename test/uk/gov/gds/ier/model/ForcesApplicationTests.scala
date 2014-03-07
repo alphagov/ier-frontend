@@ -55,13 +55,11 @@ class ForcesApplicationTests
         serviceNumber = Some("1234567"),
         rank = Some("Captain")
       )),
-      contactAddress = Some (ContactAddress(
-        country = Some("Saudi Arabia"),
-        addressLine1 = Some("Harithah Ibn Uday, Al Wizarat"),
-        addressLine2 = Some("Riyadh 12622 11564"),
-        addressLine3 = None,
-        addressLine4 = None,
-        addressLine5 = None
+      contactAddress = Some (PossibleContactAddresses(
+        contactAddressType = Some("uk"),
+        ukAddressLine = Some("my uk address, london"),
+        bfpoContactAddress = None,
+        otherContactAddress = None
       )),
       openRegisterOptin = Some(false),
       postalOrProxyVote = Some(PostalOrProxyVote(
