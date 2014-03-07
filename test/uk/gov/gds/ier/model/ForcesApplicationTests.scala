@@ -109,9 +109,13 @@ class ForcesApplicationTests
       "regarea" -> "Fakesbury",
       "reguprn" -> "12345",
       "regpostcode" -> "XX12 34XX",
-      "corrcountry" -> "Saudi Arabia",
-      "corraddressline1" -> "Harithah Ibn Uday, Al Wizarat",
-      "corraddressline2" -> "Riyadh 12622 11564",
+      "corrcountry" -> "uk",
+      "corrpostcode" -> "XX12 34XX",
+      "corraddressline1" -> "The (fake) Manor House",
+      "corraddressline2" -> "123 Fake Street",
+      "corraddressline3" -> "North Fake",
+      "corraddressline4" -> "Fakerton",
+      "corraddressline5" -> "Fakesbury",
       "saf" -> "false",
       "rank" -> "Captain",
       "serv" -> "Royal Air Force",
@@ -137,6 +141,6 @@ class ForcesApplicationTests
       apiMap.keys should not contain(key)
     }
 
-    apiMap.keys.size should be(29)
+    apiMap.keys.size should be(33)
   }
 }

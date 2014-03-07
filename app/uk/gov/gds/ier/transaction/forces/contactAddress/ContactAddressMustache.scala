@@ -137,7 +137,10 @@ trait ContactAddressMustache extends StepMustache {
   }
 
 
-  private def extractUkAddressText(address: Option[PartialAddress], form: ErrorTransformForm[InprogressForces]): Option[String] = {
+  private def extractUkAddressText(
+      address: Option[PartialAddress],
+      form: ErrorTransformForm[InprogressForces]): Option[String] = {
+
     if (address.isDefined) {
       val addressLine = address.map(_.addressLine).getOrElse(None)
       addressLine match {
