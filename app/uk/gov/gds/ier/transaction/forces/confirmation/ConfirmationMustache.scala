@@ -268,6 +268,8 @@ trait ConfirmationMustache {
         changeName = "polling card address",
         content = ifComplete(keys.contactAddress) {
 
+          val test = form(keys.contactAddress.contactAddressType).value
+
           val addressTypeKey = form(keys.contactAddress.contactAddressType).value match {
             case Some("uk") => keys.ukContactAddress
             case Some("bfpo") => keys.bfpoContactAddress

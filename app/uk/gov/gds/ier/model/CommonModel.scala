@@ -78,14 +78,15 @@ case class ContactAddress(
 }
 
 case class PossibleContactAddresses(
-  contactAddressType: String,
+  contactAddressType: Option[String],
+  ukAddressLine: Option[String],
   bfpoContactAddress: Option[ContactAddress],
   otherContactAddress: Option[ContactAddress] ) {
 
   def toApiMap = contactAddressType match {
-    case "uk" => Map.empty
-    case "bfpo" => bfpoContactAddress.get.toApiMap
-    case "other" => otherContactAddress.get.toApiMap
+    case Some("uk") => Map.empty
+    case Some("bfpo") => bfpoContactAddress.get.toApiMap
+    case Some("other") => otherContactAddress.get.toApiMap
     case _ => throw new IllegalArgumentException
   }
 

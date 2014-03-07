@@ -2,10 +2,6 @@ package uk.gov.gds.ier.validation
 
 import play.api.templates.Html
 import scala.Some
-import play.api.data.Forms._
-import uk.gov.gds.ier.validation.Key
-import uk.gov.gds.ier.validation.InProgressForm
-import scala.Some
 
 case class Key(key:String) {
   def asId(value:String = "") = List(key.replace(".", "_"), value.replace(" ", "_")).filter(_.nonEmpty).mkString("_")

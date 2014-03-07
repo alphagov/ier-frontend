@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.forces.contactAddress
 
 import play.api.data.Forms._
-import uk.gov.gds.ier.validation.{Key, ErrorTransformForm, ErrorMessages, FormKeys}
+import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.{PossibleContactAddresses, ContactAddress, InprogressForces}
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import play.api.data.validation.{Invalid, Valid, Constraint}
@@ -24,7 +24,8 @@ trait ContactAddressForms extends ContactAddressConstraints {
   )
 
   lazy val possibleContactAddressesMapping = mapping (
-    keys.contactAddressType.key -> required(text, "Please answer this question"),
+    keys.contactAddressType.key -> optional(nonEmptyText),
+    keys.ukAddressLine.key -> optional(nonEmptyText),
     keys.bfpoContactAddress.key -> optional(contactAddressMapping),
     keys.otherContactAddress.key -> optional(contactAddressMapping)
 
@@ -32,16 +33,16 @@ trait ContactAddressForms extends ContactAddressConstraints {
     PossibleContactAddresses.apply
   ) (
     PossibleContactAddresses.unapply
-  ) verifying contactAddressRequired
+  )
 
   val contactAddressForm = ErrorTransformForm(
     mapping(
-        keys.contactAddress.key -> optional(possibleContactAddressesMapping) //.verifying (countryRequired, addressDetailsRequired)
+        keys.contactAddress.key -> optional(possibleContactAddressesMapping)
     )(
       contactAddress => InprogressForces(contactAddress = contactAddress)
     )(
       inprogressForces => Some(inprogressForces.contactAddress)
-    )
+    ).verifying (contactAddressRequired)
   )
 }
 
@@ -49,17 +50,17 @@ trait ContactAddressConstraints extends CommonConstraints {
     self: FormKeys
     with ErrorMessages =>
 
-  lazy val contactAddressRequired = Constraint[PossibleContactAddresses](keys.contactAddress.key) {
-    contactAddress =>
+  lazy val contactAddressRequired = Constraint[InprogressForces](keys.contactAddress.key) {
+    application =>
 
-      contactAddress match {
-        case Some(PossibleContactAddresses(contactAddressType,bfpoContactAddress,otherContactAddress)) =>
+      application.contactAddress match {
+        case Some(PossibleContactAddresses(contactAddressType,_,bfpoContactAddress,otherContactAddress)) =>
           contactAddressType match {
-            case "bfpo" => validateBFPOAddressRequired (bfpoContactAddress)
-            case "other" => validateOtherAddressRequired (bfpoContactAddress)
+            case Some("bfpo") => validateBFPOAddressRequired (bfpoContactAddress)
+            case Some("other") => validateOtherAddressRequired (otherContactAddress)
             case _ => Valid
           }
-        case None => throw new IllegalArgumentException
+        case None => Invalid ("Please answer the question", keys.contactAddress.contactAddressType)
       }
   }
 

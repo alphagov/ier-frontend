@@ -903,6 +903,9 @@
       },
       'otherAddressCountry' : {
         'nonEmpty' : 'Please enter the country'
+      },
+      'contactAddress' :{
+        'atLeastOneNonEmpty' : 'Please answer this question'
       }
     }
   };

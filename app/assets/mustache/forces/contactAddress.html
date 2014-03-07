@@ -21,10 +21,10 @@
                    data-validation-rules="nonEmpty"
             {{{ukAddress.ukAddressOption.attributes}}}>
             {{{ukAddress.ukAddressLineText.value}}}
-            <!--<input type="hidden"-->
-                    <!--id="{{ukAddress.ukAddressLineText.id}}"-->
-                    <!--name="{{ukAddress.ukAddressLineText.name}}"-->
-                    <!--value="{{{ukAddress.ukAddressLineText.value}}}">-->
+            <input type="hidden"
+                    id="{{ukAddress.ukAddressLineText.id}}"
+                    name="{{ukAddress.ukAddressLineText.name}}"
+                    value="{{{ukAddress.ukAddressLineText.value}}}">
 
             <!--<input type="hidden"-->
                    <!--id="{{ukAddress.ukAddressLine1.id}}"-->
@@ -88,7 +88,7 @@
                            name="{{bfpoAddress.BFPOAddressLine1.name}}"
                            value="{{bfpoAddress.BFPOAddressLine1.value}}"
                            autocomplete="off"
-                           class="text long validate"
+                           class="text long validate {{bfpoAddress.BFPOAddressLine1.classes}}"
                            data-validation-name="BFPOAddressLine1"
                            data-validation-type="field"
                            data-validation-rules="nonEmpty" >
@@ -184,7 +184,7 @@
                            name="{{otherAddress.otherAddressLine1.name}}"
                            value="{{otherAddress.otherAddressLine1.value}}"
                            autocomplete="off"
-                           class="text long validate"
+                           class="text long validate {{otherAddress.otherAddressLine1.classes}}"
                            data-validation-name="otherAddressLine1"
                            data-validation-type="field"
                            data-validation-rules="nonEmpty" >
