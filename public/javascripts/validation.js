@@ -889,6 +889,9 @@
       'statement' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
+      'serviceNumberAndRank' : {
+        'allNonEmpty' : 'Please answer this question'
+      }
       'service' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
