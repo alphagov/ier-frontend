@@ -11,6 +11,7 @@ trait AddressMustache {
   object AddressMustache extends StepMustache {
 
     val title = "Where do you live?"
+    val questionNumber = "6 of 11"
 
     case class LookupModel (
         question: Question,
@@ -32,7 +33,10 @@ trait AddressMustache {
         question: Question,
         lookupUrl: String,
         postcode: Field,
-        manualAddress: Field
+        maLineOne: Field,
+        maLineTwo: Field,
+        maLineThree: Field,
+        maCity: Field
     )
 
     def lookupData(
@@ -43,7 +47,7 @@ trait AddressMustache {
         question = Question(
           postUrl = postUrl,
           backUrl = backUrl,
-          number = "6 of 11",
+          number = questionNumber,
           title = title,
           errorMessages = form.form.globalErrors.map(_.message)
         ),
@@ -118,7 +122,7 @@ trait AddressMustache {
         question = Question(
           postUrl = postUrl,
           backUrl = backUrl,
-          number = "6 of 11",
+          number = questionNumber,
           title = title,
           errorMessages = progressForm.globalErrors.map(_.message)
         ),
@@ -165,13 +169,16 @@ trait AddressMustache {
         question = Question(
           postUrl = postUrl,
           backUrl = backUrl,
-          number = "6 of 11",
+          number = questionNumber,
           title = title,
           errorMessages = progressForm.globalErrors.map(_.message)
         ),
         lookupUrl = lookupUrl,
         postcode = TextField(keys.address.postcode),
-        manualAddress = TextField(keys.address.manualAddress)
+        maLineOne = TextField(keys.address.manualAddress.lineOne),
+        maLineTwo = TextField(keys.address.manualAddress.lineTwo),
+        maLineThree = TextField(keys.address.manualAddress.lineThree),
+        maCity = TextField(keys.address.manualAddress.city)
       )
     }
 

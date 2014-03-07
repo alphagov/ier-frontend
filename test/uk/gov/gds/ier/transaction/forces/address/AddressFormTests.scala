@@ -5,7 +5,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import play.api.libs.json.{Json, JsNull}
-import uk.gov.gds.ier.model.{Addresses, PartialAddress}
+import uk.gov.gds.ier.model.{PartialManualAddress, Addresses, PartialAddress}
 
 class AddressFormTests
   extends FlatSpec
@@ -41,7 +41,10 @@ class AddressFormTests
   it should "successfully bind a valid manual input address" in {
     val js = Json.toJson(
       Map(
-        "address.manualAddress" -> "123 Fake Street entered manually",
+        "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "address.manualAddress.lineTwo" -> "Moseley Road",
+        "address.manualAddress.lineThree" -> "Hallow",
+        "address.manualAddress.city" -> "Worcester",
         "address.postcode" -> "SW1A1AA"
       )
     )
@@ -50,7 +53,11 @@ class AddressFormTests
       success => {
         success.address.isDefined should be(true)
         val address = success.address.get
-        address.manualAddress should be(Some("123 Fake Street entered manually"))
+        address.manualAddress should be(Some(PartialManualAddress(
+          lineOne = Some("Unit 4, Elgar Business Centre"),
+          lineTwo = Some("Moseley Road"),
+          lineThree = Some("Hallow"),
+          city = Some("Worcester"))))
         address.postcode should be("SW1A1AA")
       }
     )
@@ -105,7 +112,7 @@ class AddressFormTests
   }
 
   it should "successfully bind possible Address list" in {
-    val possibleAddress = PartialAddress(addressLine = Some("123 Fake Street"), 
+    val possibleAddress = PartialAddress(addressLine = Some("123 Fake Street"),
                                          uprn = Some("12345678"),
                                          postcode = "AB12 3CD",
                                          manualAddress = None)
@@ -177,7 +184,10 @@ class AddressFormTests
     val possibleAddressJS = serialiser.toJson(Addresses(List(possibleAddress)))
     val js = Json.toJson(
       Map(
-        "address.manualAddress" -> "1428 Elm Street",
+        "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "address.manualAddress.lineTwo" -> "Moseley Road",
+        "address.manualAddress.lineThree" -> "Hallow",
+        "address.manualAddress.city" -> "Worcester",
         "address.postcode" -> "SW1A 1AA",
         "possibleAddresses.jsonList" -> possibleAddressJS,
         "possibleAddresses.postcode" -> "SW1A 1AA"
@@ -192,7 +202,11 @@ class AddressFormTests
         success.possibleAddresses.isDefined should be(true)
         val Some(possibleAddresses) = success.possibleAddresses
 
-        address.manualAddress should be(Some("1428 Elm Street"))
+        address.manualAddress should be(Some(PartialManualAddress(
+          lineOne = Some("Unit 4, Elgar Business Centre"),
+          lineTwo = Some("Moseley Road"),
+          lineThree = Some("Hallow"),
+          city = Some("Worcester"))))
         address.postcode should be("SW1A 1AA")
 
         possibleAddresses.jsonList.addresses should be(List(possibleAddress))
@@ -293,7 +307,10 @@ class AddressFormTests
   it should "succeed on valid input" in {
     val js = Json.toJson(
       Map(
-        "address.manualAddress" -> "123 Fake Street entered manually",
+        "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "address.manualAddress.lineTwo" -> "Moseley Road",
+        "address.manualAddress.lineThree" -> "Hallow",
+        "address.manualAddress.city" -> "Worcester",
         "address.postcode" -> "SW1A1AA"
       )
     )
@@ -302,7 +319,11 @@ class AddressFormTests
       success => {
         success.address.isDefined should be(true)
         val address = success.address.get
-        address.manualAddress should be(Some("123 Fake Street entered manually"))
+        address.manualAddress should be(Some(PartialManualAddress(
+          lineOne = Some("Unit 4, Elgar Business Centre"),
+          lineTwo = Some("Moseley Road"),
+          lineThree = Some("Hallow"),
+          city = Some("Worcester"))))
         address.postcode should be("SW1A1AA")
       }
     )
@@ -311,7 +332,10 @@ class AddressFormTests
   it should "error out on empty values for manual address" in {
     val js =  Json.toJson(
       Map(
-        "address.manualAddress" -> "",
+        "address.manualAddress.lineOne" -> "",
+        "address.manualAddress.lineTwo" -> "",
+        "address.manualAddress.lineThree" -> "",
+        "address.manualAddress.city" -> "",
         "address.postcode" -> "SW1A 1AA"
       )
     )

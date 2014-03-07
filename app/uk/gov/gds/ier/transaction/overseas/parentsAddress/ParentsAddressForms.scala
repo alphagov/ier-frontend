@@ -12,6 +12,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model.{
   InprogressOverseas,
   PartialAddress,
+  PartialManualAddress,
   PossibleAddress,
   Addresses}
 
@@ -20,20 +21,34 @@ trait ParentsAddressForms extends ParentsAddressConstraints {
   with ErrorMessages
   with WithSerialiser =>
 
+  // address mapping for select address page - the address part
   lazy val parentsPartialAddressMapping = mapping(
     keys.addressLine.key -> optional(nonEmptyText),
     keys.uprn.key -> optional(nonEmptyText),
     keys.postcode.key -> nonEmptyText,
-    keys.manualAddress.key -> optional(nonEmptyText)
+    keys.manualAddress.key -> optional(parentsManualPartialAddressLinesMapping)
   ) (
     PartialAddress.apply
   ) (
     PartialAddress.unapply
-  ).verifying(parentsManualAddressMaxLength, parentsPostcodeIsValid, parentsUprnOrManualDefined)
+  ).verifying(parentsPostcodeIsValid, parentsUprnOrManualDefined)
 
+  // address mapping for manual address - the address individual lines part
+  lazy val parentsManualPartialAddressLinesMapping = mapping(
+    keys.lineOne.key -> optional(nonEmptyText),
+    keys.lineTwo.key -> optional(text),
+    keys.lineThree.key -> optional(text),
+    keys.city.key -> optional(nonEmptyText)
+  ) (
+    PartialManualAddress.apply
+  ) (
+    PartialManualAddress.unapply
+  )
+
+  // address mapping for manual address - the address parent wrapper part
   lazy val parentsManualPartialAddressMapping = mapping(
     keys.postcode.key -> nonEmptyText,
-    keys.manualAddress.key -> optional(nonEmptyText)
+    keys.manualAddress.key -> optional(parentsManualPartialAddressLinesMapping)
   ) (
     (postcode, manualAddress) => PartialAddress(
       addressLine = None,
@@ -46,7 +61,7 @@ trait ParentsAddressForms extends ParentsAddressConstraints {
       partial.postcode,
       partial.manualAddress
     )
-  ).verifying(parentsManualAddressMaxLength, parentsPostcodeIsValid)
+  ).verifying(parentsPostcodeIsValid)
 
   lazy val parentsPostcodeLookupMapping = mapping(
     keys.postcode.key -> nonEmptyText
@@ -157,12 +172,12 @@ trait ParentsAddressConstraints extends CommonConstraints {
     )
   }
 
-  lazy val parentsManualAddressMaxLength = Constraint[PartialAddress](keys.parentsAddress.key) {
-    case PartialAddress(_, _, _, Some(manualAddress))
-      if manualAddress.size <= maxExplanationFieldLength => Valid
-    case PartialAddress(_, _, _, None) => Valid
-    case _ => Invalid(addressMaxLengthError, keys.parentsAddress.manualAddress)
-  }
+//  lazy val parentsManualAddressMaxLength = Constraint[PartialAddress](keys.parentsAddress.key) {
+//    case PartialAddress(_, _, _, Some(manualAddress))
+//      if manualAddress.size <= maxExplanationFieldLength => Valid
+//    case PartialAddress(_, _, _, None) => Valid
+//    case _ => Invalid(addressMaxLengthError, keys.parentsAddress.manualAddress)
+//  }
 
   lazy val parentsPostcodeIsValid = Constraint[PartialAddress](keys.parentsAddress.key) {
     case PartialAddress(_, _, postcode, _)

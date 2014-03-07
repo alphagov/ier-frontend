@@ -17,16 +17,42 @@
           value="{{postcode.value}}"
           class="text hidden">
 
-        <label for="{{manualAddress.id}}">
-            <span class="visuallyhidden">Enter your full </span>Address
-        </label>
-        <div class="validation-wrapper {{manualAddress.classes}}">
-            <textarea
-              id="{{manualAddress.id}}"
-              name="{{manualAddress.name}}"
-              autocomplete="off"
-              autocorrect="off"
-              class="small {{manualAddress.classes}}">{{manualAddress.value}}</textarea>
+        <label for="{{{maLineOne.id}}}" class="visuallyhidden">Address line one</label>
+        <div class="validation-wrapper {{{maLineOne.classes}}}">
+            <input type="text"
+                   id="{{{maLineOne.id}}}"
+                   name="{{{maLineOne.name}}}"
+                   value="{{maLineOne.value}}"
+                   class="text first-name long validate {{{maLineOne.classes}}}"
+                   data-validation-name="manualAddressLineOne"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty"
+                   >
+        </div>
+        <div class="validation-wrapper {{{maLineTwo.classes}}}">
+            <input type="text"
+                   id="{{{maLineTwo.id}}}"
+                   name="{{{maLineTwo.name}}}"
+                   value="{{maLineTwo.value}}"
+                   class="text first-name long validate {{{maLineTwo.classes}}}"
+                   >
+        </div>
+        <div class="validation-wrapper {{{maLineThree.classes}}}">
+            <input type="text"
+                   id="{{{maLineThree.id}}}"
+                   name="{{{maLineThree.name}}}"
+                   value="{{maLineThree.value}}"
+                   class="text first-name long validate {{{maLineThree.classes}}}"
+                   >
+        </div>
+        <label for="{{{maCity.id}}}">Town or City</label>
+        <div class="validation-wrapper {{{maCity.classes}}}">
+            <input type="text"
+                   id="{{{maCity.id}}}"
+                   name="{{{maCity.name}}}"
+                   value="{{maCity.value}}"
+                   class="text first-name long {{{maCity.classes}}}"
+                   >
         </div>
     </fieldset>
 

@@ -52,7 +52,10 @@ class OverseasParentsAddressStepTests
         FakeRequest(POST, "/register-to-vote/overseas/parents-address")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "parentsAddress.manualAddress" -> "123 Fake Street",
+            "parentsAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "parentsAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "parentsAddress.manualAddress.lineThree" -> "Hallow",
+            "parentsAddress.manualAddress.city" -> "Worcester",
             "parentsAddress.postcode" -> "SW1A 1AA"
         )
       )
@@ -69,7 +72,10 @@ class OverseasParentsAddressStepTests
           .withIerSession()
           .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
-            "parentsAddress.manualAddress" -> "123 Fake Street",
+            "parentsAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "parentsAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "parentsAddress.manualAddress.lineThree" -> "Hallow",
+            "parentsAddress.manualAddress.city" -> "Worcester",
             "parentsAddress.postcode" -> "SW1A 1AA"
           )
       )
@@ -134,7 +140,10 @@ behavior of "ParentsAddressStep.editGet"
         FakeRequest(POST, "/register-to-vote/overseas/edit/parents-address")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "parentsAddress.manualAddress" -> "123 Fake Street",
+            "parentsAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "parentsAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "parentsAddress.manualAddress.lineThree" -> "Hallow",
+            "parentsAddress.manualAddress.city" -> "Worcester",
             "parentsAddress.postcode" -> "SW1A 1AA"
         )
       )
@@ -151,7 +160,10 @@ behavior of "ParentsAddressStep.editGet"
           .withIerSession()
           .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
-            "parentsAddress.manualAddress" -> "123 Fake Street",
+            "parentsAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "parentsAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "parentsAddress.manualAddress.lineThree" -> "Hallow",
+            "parentsAddress.manualAddress.city" -> "Worcester",
             "parentsAddress.postcode" -> "SW1A 1AA"
           )
       )
@@ -177,7 +189,7 @@ behavior of "ParentsAddressStep.editGet"
   }
 
   behavior of "Completing a prior step when this question is incomplete"
-  ignore should "stop on this page" in {
+  it should "stop on this page" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/previously-registered")

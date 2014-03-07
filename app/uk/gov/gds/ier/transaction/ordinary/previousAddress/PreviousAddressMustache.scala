@@ -33,7 +33,10 @@ trait PreviousAddressMustache {
         question: Question,
         lookupUrl: String,
         postcode: Field,
-        manualAddress: Field
+        maLineOne: Field,
+        maLineTwo: Field,
+        maLineThree: Field,
+        maCity: Field
     )
 
     def postcodeData(
@@ -165,7 +168,10 @@ trait PreviousAddressMustache {
         ),
         lookupUrl = lookupUrl,
         postcode = TextField(keys.previousAddress.postcode),
-        manualAddress = TextField(keys.previousAddress.manualAddress)
+        maLineOne = TextField(keys.previousAddress.manualAddress.lineOne),
+        maLineTwo = TextField(keys.previousAddress.manualAddress.lineTwo),
+        maLineThree = TextField(keys.previousAddress.manualAddress.lineThree),
+        maCity = TextField(keys.previousAddress.manualAddress.city)
       )
     }
 
