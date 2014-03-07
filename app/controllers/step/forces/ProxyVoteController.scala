@@ -1,13 +1,14 @@
 package controllers.step.forces
 
-import uk.gov.gds.ier.stubs.StubController
-import uk.gov.gds.ier.model.InprogressForces
+import uk.gov.gds.ier.guice.DelegatingController
+import uk.gov.gds.ier.transaction.forces.applicationFormVote.ProxyVoteStep
 
-object ProxyVoteController extends StubController[InprogressForces] {
-  val confirmationStep = ConfirmationController.confirmationStep
-  val thisStepUrl = "/register-to-vote/forces/proxy-vote"
+object ProxyVoteController extends DelegatingController[ProxyVoteStep] {
+  
+  def get = delegate.get
+  def post = delegate.post
+  def editGet = delegate.editGet
+  def editPost = delegate.editPost
 
-  def proxyVoteStep = confirmationIf { application =>
-    application.postalOrProxyVote.isDefined
-  }
+  def proxyVoteStep = delegate
 }
