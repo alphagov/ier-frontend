@@ -5,8 +5,10 @@ import play.api.data.Forms._
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.model.InprogressForces
 import scala.Some
+import uk.gov.gds.ier.validation.constraints.{DateOfBirthConstraints, CommonConstraints}
+import play.api.data.validation.{Invalid, Valid, Constraint}
 
-trait RankForms {
+trait RankForms extends RankConstraints {
   self:  FormKeys
     with ErrorMessages =>
 
@@ -17,7 +19,7 @@ trait RankForms {
     (serviceNumber, rank) => Rank(serviceNumber, rank)
   ) (
     rank => Some(rank.serviceNumber, rank.rank)
-  )
+  ) verifying  serviceNumberAndRankRequired
 
   val rankForm = ErrorTransformForm(
     mapping(
@@ -26,7 +28,31 @@ trait RankForms {
       rank => InprogressForces(rank = rank)
     ) (
       inprogressApplication => Some(inprogressApplication.rank)
-    )
+    ) verifying rankObjectRequired
   )
 }
+trait RankConstraints {
+  self: ErrorMessages
+    with FormKeys =>
 
+  lazy val rankObjectRequired = Constraint[InprogressForces](keys.rank.key) {
+    application => application.rank match {
+      case Some(rank) => Valid
+      case None => Invalid(
+        "Please answer this question",
+        keys.rank.rank,
+        keys.rank.serviceNumber
+      )
+    }
+  }
+
+  lazy val serviceNumberAndRankRequired = Constraint[Rank](keys.rank.key) {
+    rank => rank match {
+      case Rank(Some(serviceNumber), None) =>
+        Invalid("Please answer this question",keys.rank.rank)
+      case Rank(None, Some(rank)) =>
+        Invalid("Please answer this question",keys.rank.serviceNumber)
+      case _ => Valid
+    }
+  }
+}

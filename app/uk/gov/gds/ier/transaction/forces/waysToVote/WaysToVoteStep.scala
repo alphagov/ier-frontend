@@ -9,7 +9,6 @@ import controllers.step.forces.routes.WaysToVoteController
 import controllers.step.forces.routes.OpenRegisterController
 import controllers.step.forces.{ProxyVoteController, ContactController, PostalVoteController}
 import uk.gov.gds.ier.step.Routes
-import scala.Some
 import uk.gov.gds.ier.model.{WaysToVoteType, InprogressForces}
 import uk.gov.gds.ier.validation.InProgressForm
 import play.api.mvc.Call
