@@ -2,6 +2,10 @@ package uk.gov.gds.ier.validation
 
 import play.api.templates.Html
 import scala.Some
+import play.api.data.Forms._
+import uk.gov.gds.ier.validation.Key
+import uk.gov.gds.ier.validation.InProgressForm
+import scala.Some
 
 case class Key(key:String) {
   def asId(value:String = "") = List(key.replace(".", "_"), value.replace(" ", "_")).filter(_.nonEmpty).mkString("_")
@@ -150,6 +154,11 @@ trait FormKeys {
     lazy val ukAddressLine = prependNamespace(Key("ukAddressLine"))
     lazy val ukAddress = prependNamespace(Key("ukAddress"))
     lazy val bfpoAddress = prependNamespace(Key("bfpoAddress"))
+    lazy val contactAddressType = prependNamespace(Key("contactAddressType"))
+    lazy val ukAddressTextLine = prependNamespace(Key("ukAddressTextLine"))
+    lazy val ukContactAddress = prependNamespace(Key("ukContactAddress"))
+    lazy val bfpoContactAddress = prependNamespace(Key("bfpoContactAddress"))
+    lazy val otherContactAddress = prependNamespace(Key("otherContactAddress"))
   }
 
   implicit class key2namespace(key:Key) extends Keys {

@@ -49,8 +49,8 @@ trait ConfirmationForms
   val stubContactAddressMapping = mapping(
     "foo" -> text
   ) (foo => ContactAddress (country = None, addressLine1 = None, addressLine2 = None,
-    addressLine3 = None, addressLine4 = None, addressLine5 = None, addressType = None,
-    postcode = None, ukAddressLine = None)) (stub => Some("foo"))
+    addressLine3 = None, addressLine4 = None, addressLine5 = None,
+    postcode = None)) (stub => Some("foo"))
 
   val stubOpenRegisterMapping = mapping(
     "foo" -> text
