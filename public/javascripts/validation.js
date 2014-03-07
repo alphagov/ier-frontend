@@ -891,7 +891,7 @@
       },
       'serviceNumberAndRank' : {
         'allNonEmpty' : 'Please answer this question'
-      }
+      },
       'service' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
