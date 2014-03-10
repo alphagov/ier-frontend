@@ -77,15 +77,38 @@ case class CrownApplication(
 
 
 case class CrownStatement(
-    partnerCrownFlag: Option[Boolean],
-    britishCouncilFlag: Option[Boolean],
-    partnerBritishCouncilFlag: Option[Boolean]) {
+    crownMember: Option[Boolean],
+    partnerCrownMember: Option[Boolean],
+    britishCouncilMember: Option[Boolean],
+    partnerBritishCouncilMember: Option[Boolean]) {
 
   def toApiMap =
-    partnerCrownFlag.map(partnerCrownFlag => Map("scrwn" -> partnerCrownFlag.toString)).getOrElse(Map.empty) ++
-    britishCouncilFlag.map(britishCouncilFlag => Map("bc" -> britishCouncilFlag.toString)).getOrElse(Map.empty) ++
-    partnerBritishCouncilFlag.map(partnerBritishCouncilFlag => Map("sbc" -> partnerBritishCouncilFlag.toString)).getOrElse(Map.empty)
+    isCrownPartner ++ isBritishCouncilPartner ++
+      britishCouncilMember.map(britishCouncilFlag => Map("bc" -> britishCouncilFlag.toString)).getOrElse(Map.empty)
 
+  def isCrownPartner: Map[String, String] = {
+    val isCrownPartner = Some(true)
+    val isNotCrownMember = Some(false)
+    val result = ( partnerCrownMember, crownMember ) match {
+      case (`isCrownPartner`, `isNotCrownMember`) => true
+      case (`isCrownPartner`, None) => true
+      case _ => false
+    }
+    if (result) Map("scrwn" -> "true")
+    else Map("scrwn" -> "false")
+  }
+
+  def isBritishCouncilPartner: Map[String, String] = {
+    val isBritishCouncilPartner = Some(true)
+    val isNotBritishCouncilMember = Some(false)
+    val result = ( partnerBritishCouncilMember, britishCouncilMember ) match {
+      case (`isBritishCouncilPartner`, `isNotBritishCouncilMember`) => true
+      case (`isBritishCouncilPartner`, None) => true
+      case _ => false
+    }
+    if (result) Map("sbc" -> "true")
+    else Map("sbc" -> "false")
+  }
 }
 
 case class Job(
