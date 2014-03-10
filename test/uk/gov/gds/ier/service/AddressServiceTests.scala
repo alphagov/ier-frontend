@@ -67,7 +67,7 @@ class AddressServiceTests extends FlatSpec
       lineOne = Some("123 Fake Street"),
       lineTwo = None,
       lineThree = None,
-      city = None,
+      city = Some("Fakerton"),
       county = None,
       uprn = None,
       postcode = "AB12 3CD"

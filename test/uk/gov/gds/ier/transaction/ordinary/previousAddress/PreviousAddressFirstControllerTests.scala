@@ -72,7 +72,10 @@ class PreviousAddressFirstControllerTests
           FakeRequest(POST, "/register-to-vote/previous-address/manual")
             .withIerSession()
             .withFormUrlEncodedBody(
-              "previousAddress.manualAddress" -> "123 Fake Street",
+              "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+              "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+              "previousAddress.manualAddress.lineThree" -> "Hallow",
+              "previousAddress.manualAddress.city" -> "Worcester",
               "previousAddress.postcode" -> "SW1A 1AA"
           )
         )
@@ -174,9 +177,11 @@ class PreviousAddressFirstControllerTests
           FakeRequest(POST, "/register-to-vote/edit/previous-address/select")
             .withIerSession()
             .withFormUrlEncodedBody(
-            "previousAddress.movedRecently" -> "true",
-            "previousAddress.manualAddress" -> "123 Fake Street",
-            "previousAddress.postcode" -> "SW1A 1AA"
+              "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+              "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+              "previousAddress.manualAddress.lineThree" -> "Hallow",
+              "previousAddress.manualAddress.city" -> "Worcester",
+              "previousAddress.postcode" -> "SW1A 1AA"
           )
         )
 

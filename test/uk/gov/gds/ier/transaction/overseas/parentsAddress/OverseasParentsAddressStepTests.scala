@@ -5,6 +5,12 @@ import org.scalatest.mock.MockitoSugar
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.model._
+import uk.gov.gds.ier.model.OverseasName
+import play.api.test.FakeApplication
+import uk.gov.gds.ier.model.DOB
+import uk.gov.gds.ier.model.LastRegisteredToVote
+import scala.Some
 
 class OverseasParentsAddressStepTests
   extends FlatSpec
@@ -192,12 +198,17 @@ behavior of "ParentsAddressStep.editGet"
   it should "stop on this page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/previously-registered")
+        FakeRequest(POST, "/register-to-vote/overseas/edit/parent-name")
           .withIerSession()
-          .withApplication(completeOverseasApplication.copy(parentsAddress = None))
+          .withApplication(completeOverseasApplication.copy(
+            parentsAddress = None
+          ))
           .withFormUrlEncodedBody(
-            "previouslyRegistered.hasPreviouslyRegistered" -> "true"
-          )
+            "overseasParentName.parentName.firstName" -> "John",
+            "overseasParentName.parentName.lastName" -> "Smith",
+            "overseasParentName.parentPreviousName.hasPreviousName" -> "true",
+            "overseasParentName.parentPreviousName.previousName.firstName" -> "John",
+            "overseasParentName.parentPreviousName.previousName.lastName" -> "Smith")
       )
 
       status(result) should be(SEE_OTHER)

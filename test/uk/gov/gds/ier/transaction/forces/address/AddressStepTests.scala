@@ -52,7 +52,10 @@ class AddressStepTests
         FakeRequest(POST, "/register-to-vote/forces/address")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "address.manualAddress" -> "123 Fake Street",
+            "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "address.manualAddress.lineTwo" -> "Moseley Road",
+            "address.manualAddress.lineThree" -> "Hallow",
+            "address.manualAddress.city" -> "Worcester",
             "address.postcode" -> "SW1A 1AA"
         )
       )
@@ -69,7 +72,10 @@ class AddressStepTests
           .withIerSession()
           .withApplication(completeForcesApplication)
           .withFormUrlEncodedBody(
-            "address.manualAddress" -> "123 Fake Street",
+            "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "address.manualAddress.lineTwo" -> "Moseley Road",
+            "address.manualAddress.lineThree" -> "Hallow",
+            "address.manualAddress.city" -> "Worcester",
             "address.postcode" -> "SW1A 1AA"
           )
       )
@@ -136,7 +142,10 @@ behavior of "AddressStep.editGet"
         FakeRequest(POST, "/register-to-vote/forces/edit/address")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "address.manualAddress" -> "123 Fake Street",
+            "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "address.manualAddress.lineTwo" -> "Moseley Road",
+            "address.manualAddress.lineThree" -> "Hallow",
+            "address.manualAddress.city" -> "Worcester",
             "address.postcode" -> "SW1A 1AA"
         )
       )
@@ -153,7 +162,10 @@ behavior of "AddressStep.editGet"
           .withIerSession()
           .withApplication(completeForcesApplication)
           .withFormUrlEncodedBody(
-            "address.manualAddress" -> "123 Fake Street",
+            "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "address.manualAddress.lineTwo" -> "Moseley Road",
+            "address.manualAddress.lineThree" -> "Hallow",
+            "address.manualAddress.city" -> "Worcester",
             "address.postcode" -> "SW1A 1AA"
           )
       )
@@ -180,7 +192,7 @@ behavior of "AddressStep.editGet"
   }
 
   behavior of "Completing a prior step when this question is incomplete"
-  ignore should "stop on this page" in {
+  it should "stop on this page" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/forces/statement")

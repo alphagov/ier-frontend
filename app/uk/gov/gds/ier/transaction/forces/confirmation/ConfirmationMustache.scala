@@ -5,10 +5,10 @@ import uk.gov.gds.ier.model.WaysToVoteType
 import controllers.step.forces._
 import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
 import uk.gov.gds.ier.logging.Logging
-import uk.gov.gds.ier.validation.Key
+import uk.gov.gds.ier.validation.{FormKeys, Key, InProgressForm}
 import uk.gov.gds.ier.model.InprogressForces
-import uk.gov.gds.ier.validation.InProgressForm
 import scala.Some
+import uk.gov.gds.ier.form.AddressHelpers
 
 trait ConfirmationMustache {
 
@@ -105,7 +105,7 @@ trait ConfirmationMustache {
   }
 
   class ConfirmationBlocks(form:InProgressForm[InprogressForces])
-    extends StepMustache with Logging {
+    extends StepMustache with AddressHelpers with Logging {
 
     val completeThisStepMessage = "<div class=\"validation-message visible\">" +
       "Please complete this step" +
@@ -249,7 +249,7 @@ trait ConfirmationMustache {
     def address = {
       Some(ConfirmationQuestion(
         title = "UK registration address",
-        editLink = if (form(keys.address.manualAddress).value.isDefined) {
+        editLink = if (isManualAdressDefined(form, keys.address.manualAddress)) {
           routes.AddressManualController.editGet.url
         } else {
           routes.AddressSelectController.editGet.url
@@ -257,7 +257,7 @@ trait ConfirmationMustache {
         changeName = "your UK registration address",
         content = ifComplete(keys.address) {
           val addressLine = form(keys.address.addressLine).value.orElse{
-            form(keys.address.manualAddress).value
+            manualAddressToOneLine(form, keys.address.manualAddress)
           }.getOrElse("")
           val postcode = form(keys.address.postcode).value.getOrElse("")
           s"<p>$addressLine</p><p>$postcode</p>"
@@ -412,5 +412,10 @@ trait ConfirmationMustache {
     }
 
     def otherCountriesKey(i:Int) = keys.nationality.otherCountries.key + "["+i+"]"
+
+    def isManualAdressDefined(form: InProgressForm[InprogressForces], manualAddressKey: Key) = {
+      // is checking by just line one enough?
+      form(manualAddressKey.lineOne).value.isDefined
+    }
   }
 }

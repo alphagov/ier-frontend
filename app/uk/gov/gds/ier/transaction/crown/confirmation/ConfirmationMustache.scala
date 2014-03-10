@@ -7,6 +7,7 @@ import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.validation.Key
 import uk.gov.gds.ier.validation.InProgressForm
 import uk.gov.gds.ier.logging.Logging
+import uk.gov.gds.ier.form.AddressHelpers
 
 trait ConfirmationMustache {
 
@@ -60,7 +61,7 @@ trait ConfirmationMustache {
   }
 
   class ConfirmationBlocks(form:InProgressForm[InprogressCrown])
-    extends StepMustache with Logging {
+    extends StepMustache with AddressHelpers with Logging {
 
     val completeThisStepMessage = "<div class=\"validation-message visible\">" +
       "Please complete this step" +
@@ -170,7 +171,7 @@ trait ConfirmationMustache {
         changeName = "your UK registration address",
         content = ifComplete(keys.address) {
           val addressLine = form(keys.address.addressLine).value.orElse{
-            form(keys.address.manualAddress).value
+            manualAddressToOneLine(form, keys.address.manualAddress)
           }.getOrElse("")
           val postcode = form(keys.address.postcode).value.getOrElse("")
           s"<p>$addressLine</p><p>$postcode</p>"
