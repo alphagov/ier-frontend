@@ -15,19 +15,31 @@ trait CountryMustache extends StepMustache {
       wales:Field,
       northIreland:Field,
       channelIslands:Field,
+      livingAbroad:Field,
+      origin:FieldSet,
+      englandOrigin:Field,
+      scotlandOrigin:Field,
+      walesOrigin:Field,
+      northIrelandOrigin:Field,
+      channelIslandsOrigin:Field,
       globalErrors:Seq[String] = List.empty
   )
 
   def transformFormStepToMustacheData(
-      form:ErrorTransformForm[InprogressOrdinary],
+      implicit form:ErrorTransformForm[InprogressOrdinary],
       postUrl:String):CountryModel = {
 
     val globalErrors = form.globalErrors
-    def makeRadio(country:String) = {
+    def makeCountry(country:String) = {
+      val isChecked = if (form(keys.country.residence.key).value == Some(country)) {
+        "checked=\"checked\""
+      } else {
+        ""
+      }
       Field(
         id = keys.country.residence.asId(country),
         name = keys.country.residence.key,
-        attributes = if (form(keys.country.residence.key).value == Some(country)) "checked=\"checked\"" else ""
+        attributes = isChecked
       )
     }
 
@@ -37,11 +49,20 @@ trait CountryMustache extends StepMustache {
 
     CountryModel(postUrl,
       countries = countriesFieldSet,
-      england = makeRadio("England"),
-      scotland = makeRadio("Scotland"),
-      wales = makeRadio("Wales"),
-      northIreland = makeRadio("Northern Ireland"),
-      channelIslands = makeRadio("British Islands"),
+      england = RadioField(keys.country.residence, "England"),
+      scotland = RadioField(keys.country.residence, "Scotland"),
+      wales = RadioField(keys.country.residence, "Wales"),
+      northIreland = RadioField(keys.country.residence, "Northern Ireland"),
+      channelIslands = RadioField(keys.country.residence, "British Islands"),
+      livingAbroad = RadioField(keys.country.residence, "Abroad"),
+      origin = FieldSet(
+        if (form(keys.country.origin.key).hasErrors) "invalid" else ""
+      ),
+      englandOrigin = RadioField(keys.country.origin, "England"),
+      scotlandOrigin = RadioField(keys.country.origin, "Scotland"),
+      walesOrigin = RadioField(keys.country.origin, "Wales"),
+      northIrelandOrigin = RadioField(keys.country.origin, "Northern Ireland"),
+      channelIslandsOrigin = RadioField(keys.country.origin, "British Islands"),
       globalErrors.map(_.message)
     )
   }

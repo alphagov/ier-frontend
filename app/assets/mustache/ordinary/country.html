@@ -79,7 +79,94 @@
               data-validation-rules="nonEmpty">
             Channel Islands or Isle of Man
         </label>
+        <p>or</p>
+        <label for="{{livingAbroad.id}}" class="selectable">
+            <input
+              type="radio"
+              id="{{livingAbroad.id}}"
+              name="{{livingAbroad.name}}"
+              value="{{livingAbroad.value}}"
+              class="radio validate"
+              {{{livingAbroad.attributes}}}
+              data-validation-name="livingAbroad"
+              data-validation-type="field"
+              data-validation-rules="nonEmpty">
+            I am a British citizen living abroad
+        </label>
     </fieldset>
+    
+    <div
+      class="optional-section sub-section validate"
+      data-condition="{{livingAbroad.id}}">
+        <fieldset class="{{origin.classes}}">
+            <label for="{{englandOrigin.id}}"
+              class="selectable">
+                <input
+                  type="radio"
+                  id="{{englandOrigin.id}}"
+                  name="{{englandOrigin.name}}"
+                  value="England"
+                  class="radio  validate"
+                  {{{englandOrigin.attributes}}}
+                  data-validation-name="englandOrigin"
+                  data-validation-type="field"
+                  data-validation-rules="nonEmpty">
+                England
+            </label>
+            <label for="{{scotlandOrigin.id}}" class="selectable">
+                <input
+                  type="radio"
+                  id="{{scotlandOrigin.id}}"
+                  name="{{scotlandOrigin.name}}"
+                  value="Scotland"
+                  class="radio  validate"
+                  {{{scotlandOrigin.attributes}}}
+                  data-validation-name="scotlandOrigin"
+                  data-validation-type="field"
+                  data-validation-rules="nonEmpty">
+                Scotland
+            </label>
+            <label for="{{walesOrigin.id}}" class="selectable">
+                <input
+                  type="radio"
+                  id="{{walesOrigin.id}}"
+                  name="{{walesOrigin.name}}"
+                  value="Wales"
+                  class="radio  validate"
+                  {{{walesOrigin.attributes}}}
+                  data-validation-name="walesOrigin"
+                  data-validation-type="field"
+                  data-validation-rules="nonEmpty">
+                Wales
+            </label>
+            <label for="{{northIrelandOrigin.id}}" class="selectable">
+                <input
+                  type="radio"
+                  id="{{northIrelandOrigin.id}}"
+                  name="{{northIrelandOrigin.name}}"
+                  value="Northern Ireland"
+                  class="radio  validate"
+                  {{{northIrelandOrigin.attributes}}}
+                  data-validation-name="northernIreland"
+                  data-validation-type="field"
+                  data-validation-rules="nonEmpty">
+                Northern Ireland
+            </label>
+            <label for="{{channelIslandsOrigin.id}}" class="selectable">
+                <input
+                  type="radio"
+                  id="{{channelIslandsOrigin.id}}"
+                  name="{{channelIslandsOrigin.name}}"
+                  value="British Islands"
+                  class="radio  validate"
+                  {{{channelIslandsOrigin.attributes}}}
+                  data-validation-name="britishIslandsOrigin"
+                  data-validation-type="field"
+                  data-validation-rules="nonEmpty">
+                Channel IslandsOrigin or Isle of Man
+            </label>
+        </fieldset>
+    </div>
 
     <button
       type="submit"
