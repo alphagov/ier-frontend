@@ -94,11 +94,11 @@
             I am a British citizen living abroad
         </label>
     </fieldset>
-    
-    <div
-      class="optional-section sub-section validate"
-      data-condition="{{livingAbroad.id}}">
-        <fieldset class="{{origin.classes}}">
+
+    <fieldset class="{{origin.classes}}">
+        <div
+          class="optional-section sub-section validate"
+          data-condition="{{livingAbroad.id}}">
             <label for="{{englandOrigin.id}}"
               class="selectable">
                 <input
@@ -163,10 +163,10 @@
                   data-validation-name="britishIslandsOrigin"
                   data-validation-type="field"
                   data-validation-rules="nonEmpty">
-                Channel IslandsOrigin or Isle of Man
+                Channel Islands or Isle of Man
             </label>
-        </fieldset>
-    </div>
+        </div>
+    </fieldset>
 
     <button
       type="submit"
