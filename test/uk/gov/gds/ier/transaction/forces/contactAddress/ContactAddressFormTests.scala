@@ -22,8 +22,7 @@ class ContactAddressFormTests
     val emptyRequest = Map.empty[String, String]
     contactAddressForm.bind(emptyRequest).fold(
       formWithErrors => {
-        formWithErrors.errors("contactAddress.contactAddressType").head.message should be
-          "Please answer this question"
+        formWithErrors.errors("contactAddress.contactAddressType").head.message should be ("Please answer this question")
         formWithErrors.globalErrorMessages should be (Seq("Please answer this question"))
       },
       formWithSuccess => fail("Should have thrown an error")

@@ -123,7 +123,7 @@ trait ContactAddressMustache extends StepMustache {
       question = Question(
         postUrl = post.url,
         backUrl = back.map (_.url).getOrElse(""),
-        errorMessages = form.globalErrors.map{ _.message },
+        errorMessages = form.globalErrors.map( _.message ),
         number = "9",
         title = "Where should we write to you about your registration?"
       ),
@@ -142,7 +142,7 @@ trait ContactAddressMustache extends StepMustache {
       form: ErrorTransformForm[InprogressForces]): Option[String] = {
 
     if (address.isDefined) {
-      val addressLine = address.map(_.addressLine).getOrElse(None)
+      val addressLine = address.flatMap(_.addressLine)
       addressLine match {
         case None => address.get.manualAddress
         case _ => addressLine

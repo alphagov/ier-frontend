@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.forces.contactAddress
 
 import play.api.data.Forms._
-import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
+import uk.gov.gds.ier.validation.{Key, ErrorTransformForm, ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.{PossibleContactAddresses, ContactAddress, InprogressForces}
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import play.api.data.validation.{Invalid, Valid, Constraint}
@@ -67,16 +67,20 @@ trait ContactAddressConstraints extends CommonConstraints {
     def validateBFPOAddressRequired (bfpoContactAddress: Option[ContactAddress]) = {
       bfpoContactAddress match {
         case Some(contactAddress) => {
-          val errorKeys = List(
-            if (contactAddress.addressLine1.getOrElse("").trim.isEmpty &&
-                contactAddress.addressLine2.getOrElse("").trim.isEmpty &&
-                contactAddress.addressLine3.getOrElse("").trim.isEmpty &&
-                contactAddress.addressLine4.getOrElse("").trim.isEmpty &&
-                contactAddress.addressLine5.getOrElse("").trim.isEmpty)
-              Some(keys.contactAddress.bfpoContactAddress.addressLine1) else None,
-           if (contactAddress.postcode.getOrElse("").trim.isEmpty)
-             Some(keys.contactAddress.bfpoContactAddress.postcode) else None
-          ).flatten
+
+          val addressLine1Key:Option[Key] =
+            if (List(contactAddress.addressLine1,
+              contactAddress.addressLine2,
+              contactAddress.addressLine3,
+              contactAddress.addressLine4,
+              contactAddress.addressLine5).forall(_.getOrElse("").trim.isEmpty))
+              Some(keys.contactAddress.bfpoContactAddress.addressLine1) else None
+
+          val postcodeKey:Option[Key] =
+            if (contactAddress.postcode.getOrElse("").trim.isEmpty)
+              Some(keys.contactAddress.bfpoContactAddress.postcode) else None
+
+          val errorKeys = List(addressLine1Key, postcodeKey).flatten
 
           if (errorKeys.size == 0) {
             Valid
@@ -95,18 +99,24 @@ trait ContactAddressConstraints extends CommonConstraints {
   def validateOtherAddressRequired (otherContactAddress: Option[ContactAddress]) = {
     otherContactAddress match {
       case Some(contactAddress) => {
-        val errorKeys = List(
-          if (contactAddress.addressLine1.getOrElse("").trim.isEmpty &&
-            contactAddress.addressLine2.getOrElse("").trim.isEmpty &&
-            contactAddress.addressLine3.getOrElse("").trim.isEmpty &&
-            contactAddress.addressLine4.getOrElse("").trim.isEmpty &&
-            contactAddress.addressLine5.getOrElse("").trim.isEmpty)
-            Some(keys.contactAddress.otherContactAddress.addressLine1) else None,
+
+        val addressLine1Key:Option[Key] =
+          if (List(contactAddress.addressLine1,
+            contactAddress.addressLine2,
+            contactAddress.addressLine3,
+            contactAddress.addressLine4,
+            contactAddress.addressLine5).forall(_.getOrElse("").trim.isEmpty))
+            Some(keys.contactAddress.otherContactAddress.addressLine1) else None
+
+        val postcodeKey:Option[Key] =
           if (contactAddress.postcode.getOrElse("").trim.isEmpty)
-            Some(keys.contactAddress.otherContactAddress.postcode) else None,
+          Some(keys.contactAddress.otherContactAddress.postcode) else None
+
+        val countryKey:Option[Key] =
           if (contactAddress.country.getOrElse("").trim.isEmpty)
-            Some(keys.contactAddress.otherContactAddress.country) else None
-        ).flatten
+          Some(keys.contactAddress.otherContactAddress.country) else None
+
+        val errorKeys = List(addressLine1Key,postcodeKey,countryKey).flatten
 
         if (errorKeys.size == 0) {
           Valid
