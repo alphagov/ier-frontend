@@ -531,12 +531,6 @@ span.postcode {
   }
 }
 
-select.address-results {
-  @include media(tablet) {
-    max-width: 14em;
-  }
-}
-
 /* validation styles */
 
 .validation-wrapper {
