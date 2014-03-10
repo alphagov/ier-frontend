@@ -13,6 +13,9 @@ import uk.gov.gds.ier.model.{WaysToVoteType, InprogressForces}
 import uk.gov.gds.ier.validation.InProgressForm
 import play.api.mvc.Call
 import play.api.templates.Html
+import play.api.mvc.SimpleResult
+import uk.gov.gds.ier.step.NextStep
+import uk.gov.gds.ier.model.WaysToVote
 
 
 class WaysToVoteStep @Inject ()(
@@ -26,7 +29,7 @@ class WaysToVoteStep @Inject ()(
 
   val validation = waysToVoteForm
 
-  val routes = Routes(
+  val routes: Routes = Routes(
     get = WaysToVoteController.get,
     post = WaysToVoteController.post,
     editGet = WaysToVoteController.editGet,
@@ -34,12 +37,26 @@ class WaysToVoteStep @Inject ()(
   )
   val previousRoute = Some(OpenRegisterController.get)
 
-  def nextStep(currentState: InprogressForces) = {
+  def nextStep(currentState: InprogressForces): ForcesStep = {
     currentState.waysToVote.map(_.waysToVoteType) match {
       case Some(WaysToVoteType.InPerson) => ContactController.contactStep
       case Some(WaysToVoteType.ByPost) => PostalVoteController.postalVoteStep
       case Some(WaysToVoteType.ByProxy) => ProxyVoteController.proxyVoteStep
       case _ => throw new IllegalArgumentException("unknown next step")
+    }
+  }
+  
+  override def goToNext(currentState: InprogressForces):SimpleResult = { 
+    currentState.waysToVote match {
+      case None => Redirect(routes.get)
+      case Some(waysToVote) => {
+        currentState.postalOrProxyVote match {
+          case Some(postalOrProxyVote) 
+            if (postalOrProxyVote.typeVote != waysToVote.waysToVoteType) => 
+              Redirect(nextStep(currentState).routes.get)
+          case _ => nextStep(currentState).goToNext(currentState) 
+        }
+      }
     }
   }
 

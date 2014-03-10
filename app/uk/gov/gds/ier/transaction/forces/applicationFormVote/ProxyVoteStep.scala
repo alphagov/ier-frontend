@@ -2,7 +2,6 @@ package uk.gov.gds.ier.transaction.forces.applicationFormVote
 
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.step.{Routes, ForcesStep}
@@ -13,6 +12,7 @@ import uk.gov.gds.ier.model.{InprogressForces, WaysToVoteType}
 import play.api.mvc.Call
 import play.api.templates.Html
 import controllers.step.forces.ContactController
+import play.api.mvc.SimpleResult
 
 class ProxyVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
