@@ -52,7 +52,8 @@ class WaysToVoteStep @Inject ()(
       case Some(waysToVote) => {
         currentState.postalOrProxyVote match {
           case Some(postalOrProxyVote) 
-            if (postalOrProxyVote.typeVote != waysToVote.waysToVoteType) => 
+            if (postalOrProxyVote.typeVote != waysToVote.waysToVoteType &&
+                waysToVote.waysToVoteType != WaysToVoteType.InPerson) => 
               Redirect(nextStep(currentState).routes.get)
           case _ => nextStep(currentState).goToNext(currentState) 
         }
