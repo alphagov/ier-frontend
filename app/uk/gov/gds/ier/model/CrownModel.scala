@@ -84,7 +84,8 @@ case class CrownStatement(
 
   def toApiMap =
     isCrownPartner ++ isBritishCouncilPartner ++
-      britishCouncilMember.map(britishCouncilFlag => Map("bc" -> britishCouncilFlag.toString)).getOrElse(Map.empty)
+      britishCouncilMember.map(britishCouncilFlag =>
+        Map("bc" -> britishCouncilFlag.toString)).getOrElse(Map("bc" -> "false"))
 
   def isCrownPartner: Map[String, String] = {
     val isCrownPartner = Some(true)
