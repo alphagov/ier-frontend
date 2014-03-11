@@ -59,7 +59,7 @@ class ConfirmationStep @Inject() (val encryptionKeys: EncryptionKeys,
           Ok(template(InProgressForm(hasErrors)))
         },
         validApplication => {
-          val refNum = ierApi.generateReferenceNumber(validApplication)
+          val refNum = ierApi.generateOverseasReferenceNumber(validApplication)
           val remoteClientIP = request.headers.get("X-Real-IP")
 
           ierApi.submitOverseasApplication(remoteClientIP, validApplication, Some(refNum))
