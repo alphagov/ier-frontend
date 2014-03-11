@@ -31,10 +31,9 @@ trait CountryMustache extends StepMustache {
 
     val globalErrors = form.globalErrors
     def makeCountry(country:String) = {
-      val isChecked = if (form(keys.country.residence.key).value == Some(country)) {
-        "checked=\"checked\""
-      } else {
-        ""
+      val isChecked = form(keys.country.residence.key).value match {
+        case Some(`country`) => "checked=\"checked\""
+        case _ => ""
       }
       Field(
         id = keys.country.residence.asId(country),

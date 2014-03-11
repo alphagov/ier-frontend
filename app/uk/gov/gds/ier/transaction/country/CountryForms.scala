@@ -18,8 +18,8 @@ trait CountryForms extends CountryConstraints {
     case (Some("Abroad"), origin) => Country(origin.getOrElse(""), true)
     case (residence, _) => Country(residence.getOrElse(""), false)
   } {
-    case Country(country, true) => Some(Some("Abroad"), Some(country.country))
-    case Country(country, false) => Some(Some(country.country), None)
+    case Country(country, true) => Some(Some("Abroad"), Some(country))
+    case Country(country, false) => Some(Some(country), None)
   }.verifying(isValidCountryConstraint, ifAbroadOriginFilled)
 
   val countryForm = ErrorTransformForm(
