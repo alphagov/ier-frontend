@@ -351,7 +351,11 @@ class ConfirmationMustacheTest
         addressLine = None,
         uprn = None,
         postcode = "AB12 3CD",
-        manualAddress = Some("my totally fake manual address, 123")
+        manualAddress = Some(PartialManualAddress(
+          lineOne = Some("Unit 4, Elgar Business Centre"),
+          lineTwo = Some("Moseley Road"),
+          lineThree = Some("Hallow"),
+          city = Some("Worcester")))
       )),
       contactAddress = Some (PossibleContactAddresses(
         contactAddressType = Some("uk"),
@@ -364,7 +368,9 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
     val Some(contactAddressModel) = confirmation.contactAddress
-    contactAddressModel.content should be("<p>my totally fake manual address, 123</p><p>AB12 3CD</p>")
+    contactAddressModel.content should be(
+      "<p>Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester</p>" +
+      "<p>AB12 3CD</p>")
     contactAddressModel.editLink should be("/register-to-vote/forces/edit/contact-address")
   }
 

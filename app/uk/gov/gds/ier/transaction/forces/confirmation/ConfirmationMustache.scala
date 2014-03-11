@@ -284,7 +284,7 @@ trait ConfirmationMustache {
           if (addressTypeKey.equals(keys.ukContactAddress)) {
             ifComplete(keys.address) {
               val addressLine = form(keys.address.addressLine).value.orElse{
-                form(keys.address.manualAddress).value
+                manualAddressToOneLine(form, keys.address.manualAddress)
               }.getOrElse("")
               val postcode = form(keys.address.postcode).value.getOrElse("")
               s"<p>$addressLine</p><p>$postcode</p>"

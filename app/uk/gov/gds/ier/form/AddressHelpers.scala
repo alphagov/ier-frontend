@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.form
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, Key, InProgressForm}
-import uk.gov.gds.ier.model.InprogressForces
+import uk.gov.gds.ier.model.PartialManualAddress
 
 trait AddressHelpers extends FormKeys {
 
@@ -25,5 +25,16 @@ trait AddressHelpers extends FormKeys {
       form: InProgressForm[_],
       manualAddressKey: Key): Option[String] = {
     manualAddressToOneLine(form.form, manualAddressKey)
+  }
+
+  def manualAddressToOneLine(
+      manualAddress: PartialManualAddress): Option[String] = {
+    val maLines = List (
+      manualAddress.lineOne,
+      manualAddress.lineTwo,
+      manualAddress.lineThree,
+      manualAddress.city
+    ).flatten
+    if (maLines == Nil) return None else Some(maLines.mkString(", "))
   }
 }
