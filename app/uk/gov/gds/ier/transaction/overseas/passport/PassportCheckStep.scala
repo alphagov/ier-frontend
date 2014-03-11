@@ -4,8 +4,7 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
-import controllers.step.overseas.routes._
+import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.model.{InprogressOverseas, DOB}
 import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
@@ -21,8 +20,7 @@ import org.joda.time.LocalDate
 class PassportCheckStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService,
-    val encryptionKeys : EncryptionKeys)
+    val encryptionService : EncryptionService)
   extends OverseaStep
   with PassportHelperConstants
   with PassportForms

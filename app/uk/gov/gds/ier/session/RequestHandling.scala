@@ -10,11 +10,11 @@ trait RequestHandling {
         def getToken = for {
             cookie <- request.cookies.get(sessionTokenKey)
             sessionTokenKeyCookie <- request.cookies.get(sessionTokenCookieKeyParam)
-        } yield encryptionService.decrypt(cookie.value, sessionTokenKeyCookie.value, encryptionKeys.cookies.getPrivate)
+        } yield encryptionService.decrypt(cookie.value)
 
         def getApplication[T](implicit manifest: Manifest[T]): Option[T] = for {
             cookie <- request.cookies.get(sessionPayloadKey)
             payloadKeyCookie <- request.cookies.get(payloadCookieKeyParam)
-        } yield serialiser.fromJson[T](encryptionService.decrypt(cookie.value, payloadKeyCookie.value, encryptionKeys.cookies.getPrivate))
+        } yield serialiser.fromJson[T](encryptionService.decrypt(cookie.value))
     }
 }

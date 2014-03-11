@@ -2,7 +2,7 @@ package uk.gov.gds.ier.session
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
-import play.api.mvc.{Cookie, Controller}
+import play.api.mvc.Controller
 import uk.gov.gds.ier.client.ApiResults
 import play.api.test._
 import play.api.test.Helpers._
@@ -15,6 +15,8 @@ import play.api.test.FakeApplication
 import play.api.mvc.Cookie
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.config.Config
+
 
 class SessionHandlingTests extends FlatSpec with Matchers {
 
@@ -32,8 +34,8 @@ class SessionHandlingTests extends FlatSpec with Matchers {
         def factoryOfT() = FakeInprogress("")
         val serialiser = jsonSerialiser
         val config = new MockConfig
-        val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
-        val encryptionKeys = new EncryptionKeys(new Base64EncodingService)
+        val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService, new Config))
+
 
         def index() = NewSession requiredFor {
           request =>
@@ -49,7 +51,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
       cookies(result).get("sessionKey") should not be None
       val Some(cookie) = cookies(result).get("sessionKey")
-      val decryptedInfo = controller.encryptionService.decrypt(cookie.value,  cookies(result).get("sessionTokenCookieKey").get.value, controller.encryptionKeys.cookies.getPrivate)
+      val decryptedInfo = controller.encryptionService.decrypt(cookie.value)
       val tokenDate = DateTime.parse(decryptedInfo)
       tokenDate.getDayOfMonth should be(DateTime.now.getDayOfMonth)
       tokenDate.getMonthOfYear should be(DateTime.now.getMonthOfYear)
@@ -66,8 +68,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
         def factoryOfT() = FakeInprogress("")
         val serialiser = jsonSerialiser
         val config = new MockConfig
-        val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
-        val encryptionKeys = new EncryptionKeys(new Base64EncodingService)
+        val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService, new Config))
 
         def index() = ValidSession requiredFor {
           request => application =>
@@ -88,8 +89,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
         def factoryOfT() = FakeInprogress("")
         val serialiser = jsonSerialiser
         val config = new MockConfig
-        val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
-        val encryptionKeys = new EncryptionKeys(new Base64EncodingService)
+        val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService, new Config))
 
         def index() = NewSession requiredFor {
           request =>
@@ -110,14 +110,13 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       cookies(result).get("sessionKey") should not be None
       val Some(initialToken) = cookies(result).get("sessionKey")
       val tokenKey = cookies(result).get("sessionTokenCookieKey").get.value
-      val initialTokendecryptedInfo = controller.encryptionService.decrypt(initialToken.value, tokenKey, controller.encryptionKeys.cookies.getPrivate)
+      val initialTokendecryptedInfo = controller.encryptionService.decrypt(initialToken.value)
       val initialTokenDate = DateTime.parse(initialTokendecryptedInfo)
 
       val nextResult = controller.nextStep()(FakeRequest().withCookies(initialToken, Cookie("sessionTokenCookieKey", tokenKey)))
       status(nextResult) should be(OK)
       val Some(newToken) = cookies(nextResult).get("sessionKey")
-      val tokenKey2 = cookies(nextResult).get("sessionTokenCookieKey").get.value
-      val newTokendecryptedInfo = controller.encryptionService.decrypt(newToken.value, tokenKey2, controller.encryptionKeys.cookies.getPrivate)
+      val newTokendecryptedInfo = controller.encryptionService.decrypt(newToken.value)
       val nextTokenDate = DateTime.parse(newTokendecryptedInfo)
 
       nextTokenDate should not be initialTokenDate
@@ -136,8 +135,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
         def factoryOfT() = FakeInprogress("")
         val serialiser = jsonSerialiser
         val config = new MockConfig
-        val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
-        val encryptionKeys = new EncryptionKeys(new Base64EncodingService)
+        val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService, new Config))
 
         def index() = ValidSession requiredFor {
           request => application =>
@@ -147,17 +145,16 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
       val controller = new TestController()
 
-      val (encryptedSessionTokenValue, sessionTokenCookieKey) = controller.encryptionService.encrypt(DateTime.now.minusMinutes(20).toString(), controller.encryptionKeys.cookies.getPublic)
+      val encryptedSessionTokenValue = controller.encryptionService.encrypt(DateTime.now.minusMinutes(20).toString())
 
-      val result = controller.index()(FakeRequest().withCookies(Cookie("sessionKey", encryptedSessionTokenValue), Cookie("sessionTokenCookieKey",sessionTokenCookieKey)))
+      val result = controller.index()(FakeRequest().withCookies(Cookie("sessionKey", encryptedSessionTokenValue)))
 
       status(result) should be(SEE_OTHER)
 
       cookies(result).get("sessionKey") should not be None
       val Some(token) = cookies(result).get("sessionKey")
-      val tokenKey = cookies(result).get("sessionTokenCookieKey").get.value
 
-      val decryptedInfo = controller.encryptionService.decrypt(token.value, tokenKey, controller.encryptionKeys.cookies.getPrivate)
+      val decryptedInfo = controller.encryptionService.decrypt(token.value)
 
       val tokenDate = DateTime.parse(decryptedInfo)
       tokenDate.getDayOfMonth should be(DateTime.now.getDayOfMonth)
@@ -176,8 +173,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
         def factoryOfT() = FakeInprogress("")
         val serialiser = jsonSerialiser
         val config = new MockConfig
-        val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
-        val encryptionKeys = new EncryptionKeys(new Base64EncodingService)
+        val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService, new Config))
 
 
         def index() = ValidSession requiredFor {
@@ -187,16 +183,15 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       }
 
       val controller = new TestController()
-      val (encryptedSessionTokenValue, sessionTokenCookieKey) = controller.encryptionService.encrypt(DateTime.now.minusMinutes(19).toString(), controller.encryptionKeys.cookies.getPublic)
-      val result = controller.index()(FakeRequest().withCookies(Cookie("sessionKey",encryptedSessionTokenValue), Cookie("sessionTokenCookieKey",sessionTokenCookieKey)))
+      val encryptedSessionTokenValue = controller.encryptionService.encrypt(DateTime.now.minusMinutes(19).toString())
+      val result = controller.index()(FakeRequest().withCookies(Cookie("sessionKey",encryptedSessionTokenValue)))
 
       status(result) should be(OK)
 
       cookies(result).get("sessionKey") should not be None
       val Some(token) = cookies(result).get("sessionKey")
-      val tokenKey = cookies(result).get("sessionTokenCookieKey").get.value
 
-      val decryptedInfo = controller.encryptionService.decrypt(token.value, tokenKey, controller.encryptionKeys.cookies.getPrivate)
+      val decryptedInfo = controller.encryptionService.decrypt(token.value)
 
       val tokenDate = DateTime.parse(decryptedInfo)
       tokenDate.getDayOfMonth should be(DateTime.now.getDayOfMonth)
@@ -213,8 +208,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       class TestController extends SessionCleaner with Controller with WithSerialiser with WithConfig with ApiResults with WithEncryption {
         val serialiser = jsonSerialiser
         val config = new MockConfig
-        val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
-        val encryptionKeys = new EncryptionKeys(new Base64EncodingService)
+        val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService, new Config))
 
         def noSessionTest() = ClearSession requiredFor {
           request =>

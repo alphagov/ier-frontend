@@ -2,7 +2,6 @@ package uk.gov.gds.ier.config
 
 import com.google.inject.Singleton
 import uk.gov.gds.ier.logging.Logging
-import scala.collection.JavaConversions._
 
 @Singleton
 class Config extends Logging {
@@ -22,8 +21,7 @@ class Config extends Logging {
   def revision = configuration.getString("gds.GitCommit", "unknown")
   def branch = configuration.getString("gds.GitBranch", "unknown")
 
-  def cookiesRsaPublicKey = configuration.getString("ier.cookies.Rsa.PublicKey")
-  def cookiesRsaPrivateKey = configuration.getString("ier.cookies.Rsa.PrivateKey")
+  def cookiesAesKey = configuration.getString("ier.cookies.aes.encryptionKey")
   def cookiesSecured = configuration.getBoolean("ier.cookies.secured", false)
 
   def logConfiguration() = {

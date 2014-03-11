@@ -13,17 +13,15 @@ trait ResultStoring extends ResultHandling {
 
   implicit class InProgressResultStoring(result:Result) extends SessionKeys {
     def storeInSession[B <: InprogressApplication[B]](application:B) = {
-      val (encryptedSessionPayloadValue, payloadCookieKey) = encryptionService.encrypt(serialiser.toJson(application), encryptionKeys.cookies.getPublic)
+      val encryptedSessionPayloadValue = encryptionService.encrypt(serialiser.toJson(application))
       result.withCookies(
-        createSecureCookie(sessionPayloadKey, encryptedSessionPayloadValue.filter(_ >= ' ')),
-        createSecureCookie(payloadCookieKeyParam, payloadCookieKey.filter(_ >= ' ')))
+        createSecureCookie(sessionPayloadKey, encryptedSessionPayloadValue.filter(_ >= ' ')))
     }
 
     def refreshSession() = {
-      val (encryptedSessionTokenValue, sessionTokenCookieKey) = encryptionService.encrypt(DateTime.now.toString(), encryptionKeys.cookies.getPublic)
+      val encryptedSessionTokenValue = encryptionService.encrypt(DateTime.now.toString())
       result.withCookies(
-        createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')),
-        createSecureCookie(sessionTokenCookieKeyParam, sessionTokenCookieKey.filter(_ >= ' ')))
+        createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')))
     }
   }
 }

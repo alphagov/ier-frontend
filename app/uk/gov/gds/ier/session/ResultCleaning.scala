@@ -17,10 +17,9 @@ trait ResultCleaning extends ResultHandling {
     }
 
     def withFreshSession() = {
-      val (encryptedSessionTokenValue, sessionTokenCookieKey) = encryptionService.encrypt(DateTime.now.toString(), encryptionKeys.cookies.getPublic)
+      val encryptedSessionTokenValue = encryptionService.encrypt(DateTime.now.toString())
       result.withCookies(
-        createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')),
-        createSecureCookie(sessionTokenCookieKeyParam, sessionTokenCookieKey.filter(_ >= ' ')))
+        createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')))
         .discardingCookies(DiscardingCookie(sessionPayloadKey))
     }
   }

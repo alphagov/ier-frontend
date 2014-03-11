@@ -34,23 +34,20 @@ trait TestHelpers extends CustomMatchers with OverseasApplications {
   implicit class FakeRequestWithOurSessionCookies[A](request: FakeRequest[A]) extends ResultHandling with WithConfig with SessionKeys {
     val config = new Config
     val serialiser = jsonSerialiser
-    val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
-    val encryptionKeys = new EncryptionKeys(new Base64EncodingService)
+    val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService, new Config))
 
     def withIerSession(timeSinceInteraction:Int = 1) = {
-      val (encryptedSessionTokenValue, sessionTokenCookieKey) = encryptionService.encrypt(DateTime.now.minusMinutes(timeSinceInteraction).toString(), encryptionKeys.cookies.getPublic)
+      val encryptedSessionTokenValue = encryptionService.encrypt(DateTime.now.minusMinutes(timeSinceInteraction).toString())
       request.withCookies(
-        createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')),
-        createSecureCookie(sessionTokenCookieKeyParam, sessionTokenCookieKey.filter(_ >= ' ')))
+        createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')))
     }
 
     def withInvalidSession() = withIerSession(6)
 
     def withApplication[T <: InprogressApplication[T]](application: T) = {
-      val (encryptedSessionPayloadValue, payloadCookieKey) = encryptionService.encrypt(serialiser.toJson(application), encryptionKeys.cookies.getPublic)
+      val encryptedSessionPayloadValue = encryptionService.encrypt(serialiser.toJson(application))
       request.withCookies(
-        createSecureCookie(sessionPayloadKey, encryptedSessionPayloadValue.filter(_ >= ' ')),
-        createSecureCookie(payloadCookieKeyParam, payloadCookieKey.filter(_ >= ' ')))
+        createSecureCookie(sessionPayloadKey, encryptedSessionPayloadValue.filter(_ >= ' ')))
     }
   }
 

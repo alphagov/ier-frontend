@@ -8,15 +8,10 @@ import play.api.templates.Html
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.test._
 import play.api.test.Helpers._
-import play.api.mvc.Call
-import uk.gov.gds.ier.validation.{ErrorTransformForm, InProgressForm}
-import play.api.test.FakeApplication
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.security._
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
-import uk.gov.gds.ier.validation.InProgressForm
-import scala.Some
-import play.api.test.FakeApplication
 import uk.gov.gds.ier.validation.InProgressForm
 import scala.Some
 import uk.gov.gds.ier.model.InprogressOrdinary
@@ -25,8 +20,9 @@ import play.api.mvc.Call
 import uk.gov.gds.ier.model.Name
 import uk.gov.gds.ier.model.PossibleAddress
 import play.api.test.FakeApplication
-import uk.gov.gds.ier.model.Address
 import uk.gov.gds.ier.controller.MockConfig
+import uk.gov.gds.ier.config.Config
+
 
 class StepControllerTests
   extends FlatSpec
@@ -39,21 +35,21 @@ class StepControllerTests
     def goToNext(currentState: T) = Redirect(url)
   }
 
-  val testEncryptionKeys = new EncryptionKeys(new Base64EncodingService)
-  val testEncryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService), new RsaEncryptionService(new Base64EncodingService))
+  val testEncryptionService = new EncryptionService (
+    new AesEncryptionService(new Base64EncodingService, new Config))
 
   val mockConfig = new MockConfig
 
   def createController(form: ErrorTransformForm[InprogressOrdinary], 
-                       theNextStep: NextStep[InprogressOrdinary] = Url("/next-step")) = new OrdinaryStep
-                                                                                     with WithSerialiser
-                                                                                     with WithConfig
-                                                                                     with WithEncryption {
+                       theNextStep: NextStep[InprogressOrdinary] = Url("/next-step"))
+                              = new OrdinaryStep
+                                with WithSerialiser
+                                with WithConfig
+                                with WithEncryption {
 
     val serialiser = jsonSerialiser
     val config = mockConfig
     val encryptionService = testEncryptionService
-    val encryptionKeys = testEncryptionKeys
 
     val routes = Routes(
       get = Call("GET","/get"),
@@ -162,7 +158,7 @@ class StepControllerTests
       cookies(result).get("application") match {
         case Some(cookie) => {
           val cookieKey = cookies(result).get("payloadCookieKey").get.value
-          val decryptedInfo = testEncryptionService.decrypt(cookie.value, cookieKey, testEncryptionKeys.cookies.getPrivate)
+          val decryptedInfo = testEncryptionService.decrypt(cookie.value)
           val application = jsonSerialiser.fromJson[InprogressOrdinary](decryptedInfo)
           application.possibleAddresses should be(None)
         }
