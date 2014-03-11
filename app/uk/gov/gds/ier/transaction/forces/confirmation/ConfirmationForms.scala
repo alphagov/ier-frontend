@@ -51,7 +51,7 @@ trait ConfirmationForms
       keys.contactAddress.key -> stepRequired(possibleContactAddressesMapping),
       keys.openRegister.key -> stepRequired(openRegisterOptInMapping),
       keys.waysToVote.key -> stepRequired(waysToVoteMapping),
-      keys.postalOrProxyVote.key -> stepRequired(postalOrProxyVoteMapping),
+      keys.postalOrProxyVote.key -> optional(postalOrProxyVoteMapping),
       keys.contact.key -> stepRequired(contactMapping),
       keys.possibleAddresses.key -> optional(possibleAddressesMapping)
     )
