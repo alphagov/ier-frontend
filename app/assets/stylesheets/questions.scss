@@ -150,6 +150,10 @@ input.year {
   width: 4.25em;
 }
 
+input.postcode {
+  text-transform: uppercase;
+}
+
 .inline-fields {
   label {
     margin-bottom: 0.5em;
@@ -427,6 +431,10 @@ fieldset {
   }
 }
 
+.toggle-form-footer {
+  margin-top: 0;
+}
+
 .help-content,
 .optional-section {
   & .toggle-closed,
@@ -491,6 +499,22 @@ fieldset {
   @include media(mobile) {
     font-size: 19px;
   }
+}
+
+input.postcode {
+  text-transform: uppercase;
+}
+
+span.postcode {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-right: 0.5em;
+}
+
+.postcode-prefix {
+  display: block;
+  line-height: (25 / 19);
+  margin-bottom: 0.5em;
 }
 
 #wait-for-request {

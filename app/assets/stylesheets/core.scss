@@ -163,7 +163,7 @@ main .visible { // assumes default state is block
 
 /* get started buttons */
 .get-started {
-  margin:1.5em 0 0;
+  margin:1.5em 0 1.5em;
   
   .destination {
     @include core-14;
