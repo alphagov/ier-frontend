@@ -175,13 +175,6 @@ trait AddressConstraints extends CommonConstraints {
     )
   }
 
-//  lazy val manualAddressMaxLength = Constraint[PartialAddress](keys.address.key) {
-//    case PartialAddress(_, _, _, Some(manualAddress))
-//      if manualAddress.size <= maxExplanationFieldLength => Valid
-//    case PartialAddress(_, _, _, None) => Valid
-//    case _ => Invalid(addressMaxLengthError, keys.address.manualAddress)
-//  }
-
   lazy val postcodeIsValid = Constraint[PartialAddress](keys.address.key) {
     case PartialAddress(_, _, postcode, _)
       if PostcodeValidator.isValid(postcode) => Valid
