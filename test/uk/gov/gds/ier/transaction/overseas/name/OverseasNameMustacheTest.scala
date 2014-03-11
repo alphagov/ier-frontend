@@ -25,7 +25,7 @@ class OverseasNameMustacheTest
     val nameModel = nameMustache.transformFormStepToMustacheData(emptyApplicationForm,
         "/register-to-vote/overseas/name", Some("/register-to-vote/overseas/last-registered-uk-address"))
 
-    nameModel.question.title should be("Register to Vote - What is your full name?")
+    nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/overseas/name")
     nameModel.question.backUrl should be("/register-to-vote/overseas/last-registered-uk-address")
 
@@ -48,7 +48,7 @@ class OverseasNameMustacheTest
     val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm,
         "/register-to-vote/overseas/name", Some("/register-to-vote/overseas/last-registered-uk-address"))
 
-    nameModel.question.title should be("Register to Vote - What is your full name?")
+    nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/overseas/name")
     nameModel.question.backUrl should be("/register-to-vote/overseas/last-registered-uk-address")
 
@@ -79,7 +79,7 @@ class OverseasNameMustacheTest
     val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm,
         "/register-to-vote/overseas/name", Some("/register-to-vote/overseas/last-registered-uk-address"))
 
-    nameModel.question.title should be("Register to Vote - What is your full name?")
+    nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/overseas/name")
     nameModel.question.backUrl should be("/register-to-vote/overseas/last-registered-uk-address")
 
@@ -102,7 +102,7 @@ class OverseasNameMustacheTest
     val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationFormWithErrors,
         "/register-to-vote/overseas/name", Some("/register-to-vote/overseas/last-registered-uk-address"))
 
-    nameModel.question.title should be("Register to Vote - What is your full name?")
+    nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/overseas/name")
     nameModel.question.backUrl should be("/register-to-vote/overseas/last-registered-uk-address")
 
