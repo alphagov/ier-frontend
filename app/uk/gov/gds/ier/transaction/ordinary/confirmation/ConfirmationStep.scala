@@ -71,7 +71,7 @@ class ConfirmationStep @Inject ()(val serialiser: JsonSerialiser,
           Ok(template(InProgressForm(hasErrors)))
         },
         validApplication => {
-          val refNum = ierApi.generateReferenceNumber(validApplication)
+          val refNum = ierApi.generateOrdinaryReferenceNumber(validApplication)
           val remoteClientIP = request.headers.get("X-Real-IP")
 
           ierApi.submitOrdinaryApplication(remoteClientIP, validApplication, Some(refNum))

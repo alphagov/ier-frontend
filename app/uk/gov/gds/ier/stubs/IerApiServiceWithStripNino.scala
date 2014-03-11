@@ -63,23 +63,60 @@ class IerApiServiceWithStripNino @Inject() (ierService: ConcreteIerApiService) e
     }
   }
 
-  override def generateReferenceNumber[T <: InprogressApplication[T]](application: T) = {
-    application match {
-      case ordinary:InprogressOrdinary =>
-        ordinary.nino match {
-          case Some(Nino(None, Some(noNinoReason))) => {
-            ierService.generateReferenceNumber[InprogressOrdinary](ordinary)
-          }
-          case Some(Nino(Some(nino), None)) => {
-            ierService.generateReferenceNumber[InprogressOrdinary](
-              ordinary.copy(nino = Some(Nino(Some(randomNino()), None)))
-            )
-          }
-          case unexpectedNino => throw new IllegalArgumentException("Unexpected NINO: " + unexpectedNino)
-        }
-      case overseas:InprogressOverseas => {
-        ierService.generateReferenceNumber[InprogressOverseas](overseas)
+
+  override def generateOrdinaryReferenceNumber(application: InprogressOrdinary): String = {
+    application.nino match {
+      case Some(Nino(None, Some(noNinoReason))) => {
+        ierService.generateOrdinaryReferenceNumber(application)
       }
+      case Some(Nino(Some(nino), None)) => {
+        ierService.generateOrdinaryReferenceNumber(
+          application.copy(nino = Some(Nino(Some(randomNino()), None)))
+        )
+      }
+      case unexpectedNino => throw new IllegalArgumentException("Unexpected NINO: " + unexpectedNino)
+    }
+  }
+
+  override def generateOverseasReferenceNumber(application: InprogressOverseas): String = {
+    application.nino match {
+      case Some(Nino(None, Some(noNinoReason))) => {
+        ierService.generateOverseasReferenceNumber(application)
+      }
+      case Some(Nino(Some(nino), None)) => {
+        ierService.generateOverseasReferenceNumber(
+          application.copy(nino = Some(Nino(Some(randomNino()), None)))
+        )
+      }
+      case unexpectedNino => throw new IllegalArgumentException("Unexpected NINO: " + unexpectedNino)
+    }
+  }
+
+  override def generateForcesReferenceNumber(application: InprogressForces): String = {
+    application.nino match {
+      case Some(Nino(None, Some(noNinoReason))) => {
+        ierService.generateForcesReferenceNumber(application)
+      }
+      case Some(Nino(Some(nino), None)) => {
+        ierService.generateForcesReferenceNumber(
+          application.copy(nino = Some(Nino(Some(randomNino()), None)))
+        )
+      }
+      case unexpectedNino => throw new IllegalArgumentException("Unexpected NINO: " + unexpectedNino)
+    }
+  }
+
+  override def generateCrownReferenceNumber(application: InprogressCrown): String = {
+    application.nino match {
+      case Some(Nino(None, Some(noNinoReason))) => {
+        ierService.generateCrownReferenceNumber(application)
+      }
+      case Some(Nino(Some(nino), None)) => {
+        ierService.generateCrownReferenceNumber(
+          application.copy(nino = Some(Nino(Some(randomNino()), None)))
+        )
+      }
+      case unexpectedNino => throw new IllegalArgumentException("Unexpected NINO: " + unexpectedNino)
     }
   }
 
