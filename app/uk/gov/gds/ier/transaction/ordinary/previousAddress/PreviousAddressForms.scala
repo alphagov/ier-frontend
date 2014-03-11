@@ -49,7 +49,7 @@ trait PreviousAddressForms extends PreviousAddressConstraints {
     PartialManualAddress.apply
   ) (
     PartialManualAddress.unapply
-  )
+  ).verifying(lineOneIsRequredForPreviousAddress, cityIsRequiredForPreviousAddress)
 
   lazy val partialPreviousAddressMappingForPreviousAddress = mapping(
     keys.movedRecently.key -> optional(boolean),
@@ -235,5 +235,17 @@ trait PreviousAddressConstraints extends CommonConstraints {
     case PartialPreviousAddress(Some(true), Some(PartialAddress(_, _, postcode, _)))
       if PostcodeValidator.isValid(postcode) => Valid
     case _ => Invalid("Your postcode is not valid", keys.previousAddress.postcode)
+  }
+
+  lazy val lineOneIsRequredForPreviousAddress = Constraint[PartialManualAddress](
+      keys.previousAddress.manualAddress.key) {
+    case PartialManualAddress(Some(_), _, _, _) => Valid
+    case _ => Invalid(lineOneIsRequiredError, keys.previousAddress.manualAddress.lineOne)
+  }
+
+  lazy val cityIsRequiredForPreviousAddress = Constraint[PartialManualAddress](
+      keys.previousAddress.manualAddress.key) {
+    case PartialManualAddress(_, _, _, Some(_)) => Valid
+    case _ => Invalid(cityIsRequiredError, keys.previousAddress.manualAddress.city)
   }
 }

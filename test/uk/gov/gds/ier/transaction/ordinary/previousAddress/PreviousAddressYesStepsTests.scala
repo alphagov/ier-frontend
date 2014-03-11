@@ -151,7 +151,7 @@ class PreviousAddressYesStepsTests
     }
   }
 
-  it should "bind successfully and redirect to the next step with a manual address" in {
+  it should "bind successfully manual address and redirect to the next step" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/edit/previous-address/manual")

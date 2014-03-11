@@ -5,7 +5,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import play.api.libs.json.{Json, JsNull}
-import uk.gov.gds.ier.model.{PartialManualAddress, Addresses, PartialAddress}
+import uk.gov.gds.ier.model.{PartialPreviousAddress, PartialManualAddress, Addresses, PartialAddress}
 
 class PreviousAddressYesFormTests
   extends FlatSpec
@@ -379,7 +379,10 @@ class PreviousAddressYesFormTests
   it should "error out on empty value in postcode for manual address" in {
     val js =  Json.toJson(
       Map(
-        "previousAddress.manualAddress" -> "123 Fake Street entered manually",
+        "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+        "previousAddress.manualAddress.lineThree" -> "Hallow",
+        "previousAddress.manualAddress.city" -> "Worcester",
         "previousAddress.postcode" -> ""
       )
     )
@@ -400,7 +403,10 @@ class PreviousAddressYesFormTests
   it should "error out on incorrect value in postcode for manual address" in {
     val js =  Json.toJson(
       Map(
-        "previousAddress.manualAddress" -> "123 Fake Street entered manually",
+        "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+        "previousAddress.manualAddress.lineThree" -> "Hallow",
+        "previousAddress.manualAddress.city" -> "Worcester",
         "previousAddress.postcode" -> "3463463534"
       )
     )
@@ -428,6 +434,80 @@ class PreviousAddressYesFormTests
         )
       },
       success => fail("Should have errored out")
+    )
+  }
+
+  it should "error out on empty city for manual address" in {
+    val js =  Json.toJson(
+      Map(
+        "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+        "previousAddress.manualAddress.lineThree" -> "Hallow",
+        "previousAddress.manualAddress.city" -> "",
+        "previousAddress.postcode" -> "SW1A 1AA"
+      )
+    )
+    manualAddressFormForPreviousAddress.bind(js).fold(
+      hasErrors => {
+        hasErrors.errorsAsTextAll should be("" +
+          s" -> $cityIsRequiredError\n" +
+          s"previousAddress.manualAddress.city -> $cityIsRequiredError")
+        hasErrors.globalErrorsAsText() should be(cityIsRequiredError)
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
+  it should "error out on empty lineOne for manual address" in {
+    val js =  Json.toJson(
+      Map(
+        "previousAddress.manualAddress.lineOne" -> "",
+        "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+        "previousAddress.manualAddress.lineThree" -> "Hallow",
+        "previousAddress.manualAddress.city" -> "Worcester",
+        "previousAddress.postcode" -> "SW1A 1AA"
+      )
+    )
+    manualAddressFormForPreviousAddress.bind(js).fold(
+      hasErrors => {
+        hasErrors.errorsAsTextAll should be("" +
+          s" -> $lineOneIsRequiredError\n" +
+          s"previousAddress.manualAddress.lineOne -> $lineOneIsRequiredError")
+        hasErrors.globalErrorsAsText() should be(lineOneIsRequiredError)
+      },
+      success => fail("Should have errored out")
+
+    )
+  }
+
+  it should "not error out on empty lineTwo and lineThree for manual address" in {
+    val js =  Json.toJson(
+      Map(
+        "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "previousAddress.manualAddress.lineTwo" -> "",
+        "previousAddress.manualAddress.lineThree" -> "",
+        "previousAddress.manualAddress.city" -> "Worcester",
+        "previousAddress.postcode" -> "SW1A 1AA"
+      )
+    )
+    manualAddressFormForPreviousAddress.bind(js).fold(
+      hasErrors => fail(serialiser.toJson(hasErrors)),
+      success => {
+        success.previousAddress should be(Some(PartialPreviousAddress(
+          movedRecently = Some(true),
+          previousAddress = Some(PartialAddress(
+            addressLine = None,
+            uprn = None,
+            postcode = "SW1A 1AA",
+            manualAddress = Some(PartialManualAddress(
+              lineOne = Some("Unit 4, Elgar Business Centre"),
+              lineTwo = None,
+              lineThree = None,
+              city = Some("Worcester")
+            ))
+          ))
+        )))
+      }
     )
   }
 }

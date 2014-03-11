@@ -367,4 +367,72 @@ class AddressFormTests
       success => fail("Should have errored out")
     )
   }
+
+  it should "error out on empty city for manual address" in {
+    val js =  Json.toJson(
+      Map(
+        "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "address.manualAddress.lineTwo" -> "Moseley Road",
+        "address.manualAddress.lineThree" -> "Hallow",
+        "address.manualAddress.city" -> "",
+        "address.postcode" -> "SW1A 1AA"
+      )
+    )
+    manualAddressForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errorsAsTextAll should be("" +
+          s" -> $cityIsRequiredError\n" +
+          s"address.manualAddress.city -> $cityIsRequiredError")
+        hasErrors.globalErrorsAsText() should be(cityIsRequiredError)
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
+  it should "error out on empty lineOne for manual address" in {
+    val js =  Json.toJson(
+      Map(
+        "address.manualAddress.lineOne" -> "",
+        "address.manualAddress.lineTwo" -> "Moseley Road",
+        "address.manualAddress.lineThree" -> "Hallow",
+        "address.manualAddress.city" -> "Worcester",
+        "address.postcode" -> "SW1A 1AA"
+      )
+    )
+    manualAddressForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errorsAsTextAll should be("" +
+          s" -> $lineOneIsRequiredError\n" +
+          s"address.manualAddress.lineOne -> $lineOneIsRequiredError")
+        hasErrors.globalErrorsAsText() should be(lineOneIsRequiredError)
+      },
+      success => fail("Should have errored out")
+
+    )
+  }
+
+  it should "not error out on empty lineTwo and lineThree for manual address" in {
+    val js =  Json.toJson(
+      Map(
+        "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "address.manualAddress.lineTwo" -> "",
+        "address.manualAddress.lineThree" -> "",
+        "address.manualAddress.city" -> "Worcester",
+        "address.postcode" -> "SW1A 1AA"
+      )
+    )
+    manualAddressForm.bind(js).fold(
+      hasErrors => fail(serialiser.toJson(hasErrors)),
+      success => {
+        success.address.isDefined should be(true)
+        val address = success.address.get
+        address.manualAddress should be(Some(PartialManualAddress(
+          lineOne = Some("Unit 4, Elgar Business Centre"),
+          lineTwo = None,
+          lineThree = None,
+          city = Some("Worcester"))))
+        address.postcode should be("SW1A 1AA")
+      }
+    )
+  }
 }

@@ -15,6 +15,12 @@ import uk.gov.gds.ier.model.{
   PartialManualAddress,
   PossibleAddress,
   Addresses}
+import uk.gov.gds.ier.model.Addresses
+import uk.gov.gds.ier.model.PartialAddress
+import uk.gov.gds.ier.model.PartialManualAddress
+import uk.gov.gds.ier.model.PossibleAddress
+import uk.gov.gds.ier.model.InprogressOrdinary
+import scala.Some
 
 trait AddressForms extends AddressConstraints {
   self: FormKeys
@@ -43,7 +49,7 @@ trait AddressForms extends AddressConstraints {
     PartialManualAddress.apply
   ) (
     PartialManualAddress.unapply
-  )
+  ).verifying(lineOneIsRequired, cityIsRequired)
 
   // address mapping for manual address - the address parent wrapper part
   lazy val manualPartialAddressMapping = mapping(
@@ -179,5 +185,17 @@ trait AddressConstraints extends CommonConstraints {
     case PartialAddress(_, _, postcode, _)
       if PostcodeValidator.isValid(postcode) => Valid
     case _ => Invalid("Your postcode is not valid", keys.address.postcode)
+  }
+
+  lazy val lineOneIsRequired = Constraint[PartialManualAddress](
+      keys.address.manualAddress.key) {
+    case PartialManualAddress(Some(_), _, _, _) => Valid
+    case _ => Invalid(lineOneIsRequiredError, keys.address.manualAddress.lineOne)
+  }
+
+  lazy val cityIsRequired = Constraint[PartialManualAddress](
+      keys.address.manualAddress.key) {
+    case PartialManualAddress(_, _, _, Some(_)) => Valid
+    case _ => Invalid(cityIsRequiredError, keys.address.manualAddress.city)
   }
 }

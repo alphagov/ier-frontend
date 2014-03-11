@@ -43,7 +43,7 @@ trait ParentsAddressForms extends ParentsAddressConstraints {
     PartialManualAddress.apply
   ) (
     PartialManualAddress.unapply
-  )
+  ).verifying(lineOneIsRequiredForParentsAddress, cityIsRequiredForParentsAddress)
 
   // address mapping for manual address - the address parent wrapper part
   lazy val parentsManualPartialAddressMapping = mapping(
@@ -172,16 +172,21 @@ trait ParentsAddressConstraints extends CommonConstraints {
     )
   }
 
-//  lazy val parentsManualAddressMaxLength = Constraint[PartialAddress](keys.parentsAddress.key) {
-//    case PartialAddress(_, _, _, Some(manualAddress))
-//      if manualAddress.size <= maxExplanationFieldLength => Valid
-//    case PartialAddress(_, _, _, None) => Valid
-//    case _ => Invalid(addressMaxLengthError, keys.parentsAddress.manualAddress)
-//  }
-
   lazy val parentsPostcodeIsValid = Constraint[PartialAddress](keys.parentsAddress.key) {
     case PartialAddress(_, _, postcode, _)
       if PostcodeValidator.isValid(postcode) => Valid
     case _ => Invalid("Your postcode is not valid", keys.parentsAddress.postcode)
+  }
+
+  lazy val lineOneIsRequiredForParentsAddress = Constraint[PartialManualAddress](
+    keys.address.manualAddress.key) {
+    case PartialManualAddress(Some(_), _, _, _) => Valid
+    case _ => Invalid(lineOneIsRequiredError, keys.address.manualAddress.lineOne)
+  }
+
+  lazy val cityIsRequiredForParentsAddress = Constraint[PartialManualAddress](
+    keys.address.manualAddress.key) {
+    case PartialManualAddress(_, _, _, Some(_)) => Valid
+    case _ => Invalid(cityIsRequiredError, keys.address.manualAddress.city)
   }
 }
