@@ -51,7 +51,6 @@ trait ConfirmationMustache {
         confirmation.contactAddress,
         confirmation.openRegister,
         confirmation.waysToVote,
-//        confirmation.postalOrProxyVote,
         confirmation.contact
       ).flatten
 
@@ -66,7 +65,6 @@ trait ConfirmationMustache {
         confirmation.contactAddress,
         confirmation.openRegister,
         confirmation.waysToVote,
-//        confirmation.postalOrProxyVote,
         confirmation.contact
       ).flatten
 
@@ -333,7 +331,7 @@ trait ConfirmationMustache {
       val prettyWayName = way match {
         case Some(WaysToVoteType.ByPost) => "a postal vote"
         case Some(WaysToVoteType.ByProxy) => "a proxy vote"
-        case Some(WaysToVoteType.InPerson) => "an"
+        case _ => "an"
       }
       val myEmail = form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value.getOrElse("")
       val emailMe = form(keys.postalOrProxyVote.deliveryMethod.methodName).value == Some("email")
@@ -341,8 +339,7 @@ trait ConfirmationMustache {
       
       val generatedContent = 
         if (form(keys.waysToVote).hasErrors || 
-            (way.isDefined && way.get != WaysToVoteType.InPerson && 
-                form(keys.postalOrProxyVote).hasErrors)) {
+            (way.exists(_ == WaysToVoteType.InPerson) && form(keys.postalOrProxyVote).hasErrors)) {
         	completeThisStepMessage
         } 
         else {
