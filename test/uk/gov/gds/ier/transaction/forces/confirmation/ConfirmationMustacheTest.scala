@@ -395,7 +395,6 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
     val Some(model) = confirmation.waysToVote
     model.content should include("I want to vote in person, at a polling station")
-    model.content should include("I do not need an application form")
     model.editLink should be("/register-to-vote/forces/edit/ways-to-vote")
   }
 

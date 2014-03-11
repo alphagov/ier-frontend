@@ -335,7 +335,7 @@ trait ConfirmationMustache {
       }
       val myEmail = form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value.getOrElse("")
       val emailMe = form(keys.postalOrProxyVote.deliveryMethod.methodName).value == Some("email")
-      val optIn = form(keys.postalOrProxyVote.optIn).value == Some("true")
+      val optIn = form(keys.postalOrProxyVote.optIn).value
       
       val generatedContent = 
         if (form(keys.waysToVote).hasErrors || 
@@ -351,10 +351,11 @@ trait ConfirmationMustache {
           }
           
            val postalOrProxyVote = (optIn, emailMe) match {
-              case (true, true) => s"<p>Send an application form to:</p>" +
+              case (Some("true"), true) => s"<p>Send an application form to:</p>" +
                 s"<p>${myEmail}</p>"
-              case (true, false) => s"<p>Send me an application form in the post</p>"
-              case (false, _) => s"<p>I do not need ${prettyWayName} application form</p>"
+              case (Some("true"), false) => s"<p>Send me an application form in the post</p>"
+              case (Some("false"), _) => s"<p>I do not need ${prettyWayName} application form</p>"
+              case (_, _) => ""
             }
           ways + postalOrProxyVote
         }
