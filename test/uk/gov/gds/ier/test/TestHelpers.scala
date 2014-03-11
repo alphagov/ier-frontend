@@ -64,7 +64,7 @@ trait TestHelpers extends CustomMatchers with OverseasApplications {
     postalVote = Some(PostalVote(Some(false),None)),
     contact = Some(Contact(true, None, None)),
     possibleAddresses = None,
-    country = Some(Country("England"))
+    country = Some(Country("England", false))
   )
 
   

@@ -31,12 +31,4 @@ class RegisterToVoteControllerTests extends FlatSpec with Matchers {
       contentAsString(result) should include("/register-to-vote/start")
     }
   }
-
-  behavior of "RegisterToVoteController.registerToVoteOverseas"
-  it should "display the Register to Vote start page" in {
-    running(FakeApplication()) {
-      val Some(result) = route(FakeRequest(GET, "/register-to-vote/overseas"))
-      contentAsString(result) should include("/register-to-vote/overseas/start")
-    }
-  }
 }

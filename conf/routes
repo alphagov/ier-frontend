@@ -166,7 +166,6 @@ GET         /authority/:postcode                                         control
 ################################
 
 #Overseas Start page
-GET         /register-to-vote/overseas                                   controllers.RegisterToVoteController.registerToVoteOverseas
 GET         /register-to-vote/overseas/start                             controllers.RegisterToVoteController.registerToVoteOverseasStart
 
 #Date of Birth Oversesas
