@@ -16,6 +16,7 @@ import play.api.templates.Html
 import play.api.mvc.SimpleResult
 import uk.gov.gds.ier.step.NextStep
 import uk.gov.gds.ier.model.WaysToVote
+import uk.gov.gds.ier.model.PostalOrProxyVote
 
 
 class WaysToVoteStep @Inject ()(
@@ -60,7 +61,16 @@ class WaysToVoteStep @Inject ()(
       }
     }
   }
-
+  
+  override def postSuccess(currentState: InprogressForces):InprogressForces = {
+    if (currentState.waysToVote == Some(WaysToVote(WaysToVoteType.InPerson)))
+        currentState.copy(postalOrProxyVote = 
+          Some(PostalOrProxyVote(typeVote = WaysToVoteType.InPerson, 
+              postalVoteOption = None, 
+              deliveryMethod = None)))
+    else currentState
+  }
+  
   def template(form:InProgressForm[InprogressForces], call:Call, backUrl: Option[Call]): Html = {
     waysToVoteMustache(form.form, call, backUrl.map(_.url))
   }
