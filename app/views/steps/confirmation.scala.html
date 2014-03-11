@@ -111,7 +111,7 @@
                 }
               }
               @formData(keys.address.postcode).value.map { postcode =>
-              <p>@postcode</p>
+              <p>@postcode.toUpperCase</p>
               }
             }
           </div>

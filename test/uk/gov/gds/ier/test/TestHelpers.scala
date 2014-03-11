@@ -81,13 +81,12 @@ trait TestHelpers extends CustomMatchers with OverseasApplications {
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
     service = Some(Service(Some(ServiceType.RoyalAirForce), None)),
     rank = Some(Rank(Some("1234567"), Some("rank 1"))),
-    contactAddress = Some(ContactAddress(
-      country = Some("United Kingdom"),
-      addressLine1 = Some("some address line 1"),
-      addressLine2 = None,
-      addressLine3 = None,
-      addressLine4 = None,
-      addressLine5 = None)),
+    contactAddress = Some (PossibleContactAddresses(
+      contactAddressType = Some("uk"),
+      ukAddressLine = Some("my uk address, london"),
+      bfpoContactAddress = None,
+      otherContactAddress = None
+    )),
     openRegisterOptin = Some(true),
     waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
     postalOrProxyVote = Some(PostalOrProxyVote(
