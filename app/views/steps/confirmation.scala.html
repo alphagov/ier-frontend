@@ -106,7 +106,7 @@
                 <p>@addressLine</p>
                 }
               } else {
-                @formData(keys.address.manualAddress).value.map { addressLine =>
+                @formData.manualAddressToOneLine(keys.address.manualAddress).map { addressLine =>
                 <p>@addressLine</p>
                 }
               }
@@ -142,7 +142,7 @@
                 <p>@addressLine</p>
                 }
               } else {
-                @formData(keys.previousAddress.previousAddress.manualAddress).value.map { addressLine =>
+                @formData.manualAddressToOneLine(keys.previousAddress.previousAddress.manualAddress).map { addressLine =>
                 <p>@addressLine</p>
                 }
               }
