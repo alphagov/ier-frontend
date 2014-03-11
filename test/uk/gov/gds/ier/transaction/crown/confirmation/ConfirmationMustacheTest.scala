@@ -376,6 +376,7 @@ class ConfirmationMustacheTest
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       contactAddress = Some(ContactAddress(
         country = Some ("Italy"),
+        postcode = None,
         addressLine1 = Some("Via Venezia, 18"),
         addressLine2 = Some("00184 Rome"),
         addressLine3 = None,

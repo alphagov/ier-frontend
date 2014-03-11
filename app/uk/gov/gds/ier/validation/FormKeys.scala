@@ -147,11 +147,19 @@ trait FormKeys {
     lazy val govDepartment = prependNamespace(Key("govDepartment"))
     lazy val serviceName = prependNamespace(Key("serviceName"))
     lazy val regiment = prependNamespace(Key("regiment"))
-
     lazy val crownMember = prependNamespace(Key("crownMember"))
     lazy val partnerCrownMember = prependNamespace(Key("partnerCrownMember"))
     lazy val britishCouncilMember = prependNamespace(Key("britishCouncilMember"))
     lazy val partnerBritishCouncilMember = prependNamespace(Key("partnerBritishCouncilMember"))
+    lazy val addressType = prependNamespace(Key("addressType"))
+    lazy val ukAddressLine = prependNamespace(Key("ukAddressLine"))
+    lazy val ukAddress = prependNamespace(Key("ukAddress"))
+    lazy val bfpoAddress = prependNamespace(Key("bfpoAddress"))
+    lazy val contactAddressType = prependNamespace(Key("contactAddressType"))
+    lazy val ukAddressTextLine = prependNamespace(Key("ukAddressTextLine"))
+    lazy val ukContactAddress = prependNamespace(Key("ukContactAddress"))
+    lazy val bfpoContactAddress = prependNamespace(Key("bfpoContactAddress"))
+    lazy val otherContactAddress = prependNamespace(Key("otherContactAddress"))
   }
 
   implicit class key2namespace(key:Key) extends Keys {

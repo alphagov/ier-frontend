@@ -13,7 +13,7 @@ case class InprogressForces(
     nino: Option[Nino] = None,
     service: Option[Service] = None,
     rank: Option[Rank] = None,
-    contactAddress: Option[ContactAddress] = None,
+    contactAddress: Option[PossibleContactAddresses] = None,
     openRegisterOptin: Option[Boolean] = None,
     waysToVote: Option[WaysToVote] = None,
     postalOrProxyVote: Option[PostalOrProxyVote] = None,
@@ -50,7 +50,7 @@ case class ForcesApplication(
     nino: Option[Nino],
     service: Option[Service],
     rank: Option[Rank],
-    contactAddress: Option[ContactAddress],
+    contactAddress: Option[PossibleContactAddresses],
     openRegisterOptin: Option[Boolean],
     postalOrProxyVote: Option[PostalOrProxyVote],
     contact: Option[Contact],
@@ -60,6 +60,13 @@ case class ForcesApplication(
   extends CompleteApplication {
 
   def toApiMap = {
+
+    val mapContactAddress =
+      if (contactAddress.isDefined && contactAddress.map(_.contactAddressType.exists(value => value.equals("uk"))).get)
+        contactAddress.map(_.toApiMapFromUkAddress(address)).getOrElse(Map.empty)
+      else
+        contactAddress.map(_.toApiMap).getOrElse(Map.empty)
+
     Map.empty ++
       statement.map(_.toApiMap).getOrElse(Map.empty) ++
       address.map(_.toApiMap("reg")).getOrElse(Map.empty) ++
@@ -69,7 +76,7 @@ case class ForcesApplication(
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
       service.map(_.toApiMap).getOrElse(Map.empty) ++
       rank.map(_.toApiMap).getOrElse(Map.empty) ++
-      contactAddress.map(_.toApiMap).getOrElse(Map.empty) ++
+      mapContactAddress  ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
       postalOrProxyVote.map(_.toApiMap).getOrElse(Map.empty) ++
       contact.map(_.toApiMap).getOrElse(Map.empty) ++

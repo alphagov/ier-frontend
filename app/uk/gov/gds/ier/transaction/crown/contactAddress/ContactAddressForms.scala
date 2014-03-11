@@ -11,6 +11,7 @@ trait ContactAddressForms extends ContactAddressConstraints {
 
     lazy val contactAddressMapping = mapping (
             keys.country.key -> optional(nonEmptyText),
+            keys.postcode.key -> optional(nonEmptyText),
             keys.addressLine1.key -> optional(nonEmptyText),
             keys.addressLine2.key -> optional(nonEmptyText),
             keys.addressLine3.key -> optional(nonEmptyText),

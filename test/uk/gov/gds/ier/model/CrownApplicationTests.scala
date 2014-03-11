@@ -55,6 +55,7 @@ class CrownApplicationTests
       )),
       contactAddress = Some (ContactAddress(
         country = Some("Saudi Arabia"),
+        postcode = Some("12345678"),
         addressLine1 = Some("Harithah Ibn Uday, Al Wizarat"),
         addressLine2 = Some("Riyadh 12622 11564"),
         addressLine3 = None,
@@ -110,6 +111,7 @@ class CrownApplicationTests
       "reguprn" -> "12345",
       "regpostcode" -> "XX12 34XX",
       "corrcountry" -> "Saudi Arabia",
+      "corrpostcode" -> "12345678",
       "corraddressline1" -> "Harithah Ibn Uday, Al Wizarat",
       "corraddressline2" -> "Riyadh 12622 11564",
       "scrwn" -> "false",
@@ -138,6 +140,6 @@ class CrownApplicationTests
       apiMap.keys should not contain(key)
     }
 
-    apiMap.keys.size should be(30)
+    apiMap.keys.size should be(31)
   }
 }

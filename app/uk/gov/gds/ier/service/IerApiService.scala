@@ -31,7 +31,10 @@ abstract class IerApiService {
                                applicant: InprogressCrown,
                                refNum:Option[String]): ApiApplicationResponse
 
-  def generateReferenceNumber[T <: InprogressApplication[T]](application:T): String
+  def generateOrdinaryReferenceNumber(application: InprogressOrdinary): String
+  def generateOverseasReferenceNumber(application: InprogressOverseas): String
+  def generateForcesReferenceNumber(application: InprogressForces): String
+  def generateCrownReferenceNumber(application: InprogressCrown): String
 }
 
 class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
@@ -207,7 +210,23 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
     }
   }
 
-  def generateReferenceNumber[T <: InprogressApplication[T]](application:T) = {
+  def generateOrdinaryReferenceNumber(application: InprogressOrdinary): String = {
+    generateReferenceNumber(application)
+  }
+
+  def generateOverseasReferenceNumber(application: InprogressOverseas): String = {
+    generateReferenceNumber(application)
+  }
+
+  def generateForcesReferenceNumber(application: InprogressForces): String = {
+    generateReferenceNumber(application)
+  }
+
+  def generateCrownReferenceNumber(application: InprogressCrown): String = {
+    generateReferenceNumber(application)
+  }
+
+  private def generateReferenceNumber[T <: InprogressApplication[T]](application:T) = {
     val json = serialiser.toJson(application)
     val encryptedBytes = shaHashProvider.getHash(json, Some(DateTime.now.toString))
     val encryptedHex = encryptedBytes.map{ byte => "%02X" format byte }

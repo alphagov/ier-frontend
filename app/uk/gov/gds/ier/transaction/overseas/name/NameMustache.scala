@@ -8,7 +8,7 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 
 trait NameMustache extends StepMustache {
 
-  val pageTitle = "Register to Vote - What is your full name?"
+  val pageTitle = "What is your full name?"
 
   case class NameModel(
     question: Question,

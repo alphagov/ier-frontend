@@ -889,6 +889,24 @@
       'statement' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
+      'BFPOAddressLinesFieldSet' : {
+        'atLeastOneNonEmpty' : 'Please enter the address'
+      },
+      'BFPOAddressPostcode' : {
+        'nonEmpty' : 'Please enter the postcode'
+      },
+      'otherAddressLinesFieldSet' : {
+         'atLeastOneNonEmpty' : 'Please enter the address'
+      },
+      'otherAddressPostcode' : {
+        'nonEmpty' : 'Please enter the postcode'
+      },
+      'otherAddressCountry' : {
+        'nonEmpty' : 'Please enter the country'
+      },
+      'contactAddress' :{
+        'atLeastOneNonEmpty' : 'Please answer this question'
+      },
       'serviceNumberAndRank' : {
         'allNonEmpty' : 'Please answer this question'
       },
