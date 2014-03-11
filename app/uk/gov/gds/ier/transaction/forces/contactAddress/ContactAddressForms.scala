@@ -1,55 +1,135 @@
 package uk.gov.gds.ier.transaction.forces.contactAddress
 
 import play.api.data.Forms._
-import uk.gov.gds.ier.validation.{ ErrorTransformForm, ErrorMessages, FormKeys }
-import uk.gov.gds.ier.model.{ContactAddress, InprogressForces}
+import uk.gov.gds.ier.validation.{Key, ErrorTransformForm, ErrorMessages, FormKeys}
+import uk.gov.gds.ier.model.{PossibleContactAddresses, ContactAddress, InprogressForces}
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
-import play.api.data.validation.{Constraint, Valid, Invalid}
+import play.api.data.validation.{Invalid, Valid, Constraint}
 
 trait ContactAddressForms extends ContactAddressConstraints {
     self: FormKeys with ErrorMessages =>
 
-    lazy val contactAddressMapping = mapping (
-            keys.country.key -> optional(nonEmptyText),
-            keys.addressLine1.key -> optional(nonEmptyText),
-            keys.addressLine2.key -> optional(nonEmptyText),
-            keys.addressLine3.key -> optional(nonEmptyText),
-            keys.addressLine4.key -> optional(nonEmptyText),
-            keys.addressLine5.key -> optional(nonEmptyText)
+  private lazy val contactAddressMapping = mapping(
+    keys.country.key -> optional(nonEmptyText),
+    keys.postcode.key -> optional(nonEmptyText),
+    keys.addressLine1.key -> optional(nonEmptyText),
+    keys.addressLine2.key -> optional(nonEmptyText),
+    keys.addressLine3.key -> optional(nonEmptyText),
+    keys.addressLine4.key -> optional(nonEmptyText),
+    keys.addressLine5.key -> optional(nonEmptyText)
+  ) (
+    ContactAddress.apply
+  ) (
+    ContactAddress.unapply
+  )
 
-  ) (ContactAddress.apply) (ContactAddress.unapply)
-    
-    val contactAddressForm = ErrorTransformForm(
-        mapping(
-          keys.contactAddress.key -> optional(contactAddressMapping).verifying (countryRequired, addressDetailsRequired)
-        )(
-          contactAddress => InprogressForces(contactAddress = contactAddress)
-        )(
-          inprogressForces => Some(inprogressForces.contactAddress)
-        )
-    ) 
+  lazy val possibleContactAddressesMapping = mapping (
+    keys.contactAddressType.key -> optional(nonEmptyText),
+    keys.ukAddressLine.key -> optional(nonEmptyText),
+    keys.bfpoContactAddress.key -> optional(contactAddressMapping),
+    keys.otherContactAddress.key -> optional(contactAddressMapping)
+
+  ) (
+    PossibleContactAddresses.apply
+  ) (
+    PossibleContactAddresses.unapply
+  )
+
+  val contactAddressForm = ErrorTransformForm(
+    mapping(
+        keys.contactAddress.key -> optional(possibleContactAddressesMapping)
+    )(
+      contactAddress => InprogressForces(contactAddress = contactAddress)
+    )(
+      inprogressForces => Some(inprogressForces.contactAddress)
+    ).verifying (contactAddressRequired)
+  )
 }
 
 trait ContactAddressConstraints extends CommonConstraints {
     self: FormKeys
-    with ErrorMessages => 
-        
-    lazy val countryRequired = Constraint[Option[ContactAddress]](keys.contactAddress.key) {
-        optAddress => 
-            optAddress match {
-                case Some(address) if (!address.country.getOrElse("").trim.isEmpty) => Valid 
-                case _ => Invalid("Please enter your country", keys.contactAddress.country)
-            }
+    with ErrorMessages =>
+
+  lazy val contactAddressRequired = Constraint[InprogressForces](keys.contactAddress.key) {
+    application =>
+
+      application.contactAddress match {
+        case Some(PossibleContactAddresses(contactAddressType,_,bfpoContactAddress,otherContactAddress)) =>
+          contactAddressType match {
+            case Some("bfpo") => validateBFPOAddressRequired (bfpoContactAddress)
+            case Some("other") => validateOtherAddressRequired (otherContactAddress)
+            case _ => Valid
+          }
+        case None => Invalid ("Please answer this question", keys.contactAddress.contactAddressType)
+      }
+  }
+
+    def validateBFPOAddressRequired (bfpoContactAddress: Option[ContactAddress]) = {
+      bfpoContactAddress match {
+        case Some(contactAddress) => {
+
+          val addressLine1Key:Option[Key] =
+            if (List(contactAddress.addressLine1,
+              contactAddress.addressLine2,
+              contactAddress.addressLine3,
+              contactAddress.addressLine4,
+              contactAddress.addressLine5).forall(_.getOrElse("").trim.isEmpty))
+              Some(keys.contactAddress.bfpoContactAddress.addressLine1) else None
+
+          val postcodeKey:Option[Key] =
+            if (contactAddress.postcode.getOrElse("").trim.isEmpty)
+              Some(keys.contactAddress.bfpoContactAddress.postcode) else None
+
+          val errorKeys = List(addressLine1Key, postcodeKey).flatten
+
+          if (errorKeys.size == 0) {
+            Valid
+          } else {
+            Invalid ("Please enter the address", errorKeys:_*)
+          }
+        }
+
+        case None =>  Invalid (
+          "Please enter the address",
+          keys.contactAddress.bfpoContactAddress.addressLine1,
+          keys.contactAddress.bfpoContactAddress.postcode)
+      }
     }
-    lazy val addressDetailsRequired = Constraint[Option[ContactAddress]](keys.contactAddress.key) {
-        optAddress => 
-            optAddress match {
-                case Some(address) if (!address.addressLine1.getOrElse("").trim.isEmpty ||
-                                       !address.addressLine2.getOrElse("").trim.isEmpty ||
-                                       !address.addressLine3.getOrElse("").trim.isEmpty ||
-                                       !address.addressLine4.getOrElse("").trim.isEmpty ||
-                                       !address.addressLine5.getOrElse("").trim.isEmpty) => Valid
-                case _ => Invalid("Please enter your address", keys.contactAddress.addressLine1)
-            }
+
+  def validateOtherAddressRequired (otherContactAddress: Option[ContactAddress]) = {
+    otherContactAddress match {
+      case Some(contactAddress) => {
+
+        val addressLine1Key:Option[Key] =
+          if (List(contactAddress.addressLine1,
+            contactAddress.addressLine2,
+            contactAddress.addressLine3,
+            contactAddress.addressLine4,
+            contactAddress.addressLine5).forall(_.getOrElse("").trim.isEmpty))
+            Some(keys.contactAddress.otherContactAddress.addressLine1) else None
+
+        val postcodeKey:Option[Key] =
+          if (contactAddress.postcode.getOrElse("").trim.isEmpty)
+          Some(keys.contactAddress.otherContactAddress.postcode) else None
+
+        val countryKey:Option[Key] =
+          if (contactAddress.country.getOrElse("").trim.isEmpty)
+          Some(keys.contactAddress.otherContactAddress.country) else None
+
+        val errorKeys = List(addressLine1Key,postcodeKey,countryKey).flatten
+
+        if (errorKeys.size == 0) {
+          Valid
+        } else {
+          Invalid ("Please enter the address", errorKeys:_*)
+        }
+      }
+
+      case None =>  Invalid (
+        "Please enter the address",
+        keys.contactAddress.otherContactAddress.addressLine1,
+        keys.contactAddress.otherContactAddress.postcode,
+        keys.contactAddress.otherContactAddress.country)
     }
+  }
 }
