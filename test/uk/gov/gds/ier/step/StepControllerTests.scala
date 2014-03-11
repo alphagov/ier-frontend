@@ -157,7 +157,6 @@ class StepControllerTests
 
       cookies(result).get("application") match {
         case Some(cookie) => {
-          val cookieKey = cookies(result).get("payloadCookieKey").get.value
           val decryptedInfo = testEncryptionService.decrypt(cookie.value)
           val application = jsonSerialiser.fromJson[InprogressOrdinary](decryptedInfo)
           application.possibleAddresses should be(None)
