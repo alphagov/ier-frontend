@@ -55,7 +55,7 @@ class ConfirmationStep @Inject() (
           Ok(template(InProgressForm(hasErrors)))
         },
         validApplication => {
-          val refNum = ierApi.generateReferenceNumber(validApplication)
+          val refNum = ierApi.generateForcesReferenceNumber(validApplication)
           val remoteClientIP = request.headers.get("X-Real-IP")
 
           ierApi.submitForcesApplication(remoteClientIP, validApplication, Some(refNum))
