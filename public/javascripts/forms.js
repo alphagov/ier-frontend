@@ -73,6 +73,10 @@
       loadedState = 'shown';
     }
     this.adjustVerticalSpace(loadedState);
+    // deal with controls that are selected onload
+    if (this.$toggle.is(':checked')) {
+      this.toggle();
+    }
   }; 
   ConditionalControl.prototype.bindEvents = function () {
     var _this = this,
@@ -127,6 +131,14 @@
       });
     };
 
+    /* 
+      Every time a change is detected in a group of radio buttons the following will happen:
+
+      1. this method will be called with no parameter (from a change event on the selected radio)
+      2. this method will be called with the selectedRadio parameter (from a change event on the group)
+
+      We use 2. to close our content if the selected radio is not ours.
+    */
     if (selectedRadio !== undefined) {
       if (this.$toggle.attr('id') !== selectedRadio.id) {
         _hideContent();

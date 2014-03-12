@@ -67,7 +67,7 @@ trait TestHelpers extends CustomMatchers with OverseasApplications {
     postalVote = Some(PostalVote(Some(false),None)),
     contact = Some(Contact(true, None, None)),
     possibleAddresses = None,
-    country = Some(Country("England"))
+    country = Some(Country("England", false))
   )
 
   
@@ -78,6 +78,7 @@ trait TestHelpers extends CustomMatchers with OverseasApplications {
     nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
     dob = Some(DateOfBirth(Some(DOB(1988, 1, 1)), None)),
     name = Some(Name("John", None, "Smith")),
+    previousName = Some(PreviousName(true, Some(Name("George", None, "Smith")))),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
     service = Some(Service(Some(ServiceType.RoyalAirForce), None)),
     rank = Some(Rank(Some("1234567"), Some("rank 1"))),
@@ -130,6 +131,9 @@ trait TestHelpers extends CustomMatchers with OverseasApplications {
     new ErrorsOps(form.errors, form.globalErrors)
   }
 
+  implicit def forcesFormToErrorOps(form: ErrorTransformForm[InprogressForces]) = {
+    new ErrorsOps(form.errors, form.globalErrors)
+  }
 
   // Comment out for longer timeouts, essential for debugging the test
   // implicit def defaultAwaitTimeout = Timeout(10, TimeUnit.MINUTES)

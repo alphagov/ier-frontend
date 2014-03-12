@@ -13,11 +13,13 @@ import uk.gov.gds.ier.step.{OrdinaryStep, Routes, Exit}
 import controllers.step.ordinary.NationalityController
 import controllers.step.routes.CountryController
 import controllers.routes.ExitController
+import controllers.routes.RegisterToVoteController
 
-class CountryStep @Inject ()(val serialiser: JsonSerialiser,
-                             val config:Config,
-                             val encryptionService : EncryptionService,
-                             val encryptionKeys : EncryptionKeys)
+class CountryStep @Inject ()(
+    val serialiser: JsonSerialiser,
+    val config:Config,
+    val encryptionService : EncryptionService,
+    val encryptionKeys : EncryptionKeys)
   extends OrdinaryStep
   with CountryConstraints
   with CountryForms
@@ -42,9 +44,10 @@ class CountryStep @Inject ()(val serialiser: JsonSerialiser,
 
   def nextStep(currentState: InprogressOrdinary) = {
     currentState.country match {
-      case Some(Country("Northern Ireland")) => Exit(ExitController.northernIreland)
-      case Some(Country("Scotland")) => Exit(ExitController.scotland)
-      case Some(Country("British Islands")) => Exit(ExitController.britishIslands)
+      case Some(Country("Northern Ireland", _)) => Exit(ExitController.northernIreland)
+      case Some(Country("Scotland", _)) => Exit(ExitController.scotland)
+      case Some(Country("British Islands", _)) => Exit(ExitController.britishIslands)
+      case Some(Country(_, true)) => Exit(RegisterToVoteController.registerToVoteOverseasStart)
       case _ => NationalityController.nationalityStep
     }
   }

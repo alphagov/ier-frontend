@@ -22,7 +22,7 @@ trait DateOfBirthMustache extends StepMustache {
         errorMessages = form.globalErrors.map{ _.message },
         number = "1",
         title = "What is your date of birth?",
-        showBackUrl = false
+        showBackUrl = true
       ),
       day = TextField(
         key = keys.dob.day
