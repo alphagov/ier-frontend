@@ -6,6 +6,7 @@ import scala.util.Try
 case class InprogressForces(
     statement: Option[Statement] = None,
     address: Option[PartialAddress] = None,
+    previousAddress: Option[PartialPreviousAddress] = None,
     nationality: Option[PartialNationality] = None,
     dob: Option[DateOfBirth] = None,
     name: Option[Name] = None,
@@ -24,6 +25,7 @@ case class InprogressForces(
     other.copy(
       statement = this.statement.orElse(other.statement),
       address = this.address.orElse(other.address),
+      previousAddress = this.previousAddress.orElse(other.previousAddress),
       nationality = this.nationality.orElse(other.nationality),
       dob = this.dob.orElse(other.dob),
       name = this.name.orElse(other.name),
@@ -43,6 +45,7 @@ case class InprogressForces(
 case class ForcesApplication(
     statement: Option[Statement],
     address: Option[Address],
+    previousAddress: Option[Address],
     nationality: Option[IsoNationality],
     dob: Option[DateOfBirth],
     name: Option[Name],
@@ -69,6 +72,7 @@ case class ForcesApplication(
     Map.empty ++
       statement.map(_.toApiMap).getOrElse(Map.empty) ++
       address.map(_.toApiMap("reg")).getOrElse(Map.empty) ++
+      previousAddress.map(_.toApiMap("p")).getOrElse(Map.empty) ++
       nationality.map(_.toApiMap).getOrElse(Map.empty) ++
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
