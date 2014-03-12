@@ -27,20 +27,23 @@ trait PostalOrProxyVoteForms extends PostalOrProxyVoteForcesConstraints {
     keys.voteType.key -> text.verifying("Unknown type", r => WaysToVoteType.isValid(r)),
     keys.optIn.key -> optional(boolean)
       .verifying("Please answer this question", postalVote => postalVote.isDefined),
-    keys.deliveryMethod.key -> optional(voteDeliveryMethodMapping)
+    keys.deliveryMethod.key -> optional(voteDeliveryMethodMapping),
+    keys.forceToRedirect.key -> boolean
   ) (
-    (voteType, postalVoteOption, deliveryMethod) => PostalOrProxyVote(
-      WaysToVoteType.parse(voteType),
+    (voteType, postalVoteOption, deliveryMethod, force) => PostalOrProxyVote(
+    		WaysToVoteType.parse(voteType),
       postalVoteOption,
-      deliveryMethod
+      deliveryMethod,
+      force
     )
   ) (
     postalVote => Some(
       postalVote.typeVote.name,
       postalVote.postalVoteOption,
-      postalVote.deliveryMethod
+      postalVote.deliveryMethod,
+      postalVote.forceRedirectToPostal
     )
-  ) verifying (validVoteOption)
+  ) verifying (validVoteOption, forceMustBeFalse)
 
   val postalOrProxyVoteForm = ErrorTransformForm(
     mapping(
@@ -56,7 +59,13 @@ trait PostalOrProxyVoteForms extends PostalOrProxyVoteForcesConstraints {
 trait PostalOrProxyVoteForcesConstraints extends PostalOrProxyVoteConstraints {
   self: ErrorMessages
     with FormKeys =>
-
+      
+  lazy val forceMustBeFalse = Constraint[PostalOrProxyVote](keys.forceToRedirect.key) {
+    pvote => 
+      if (!pvote.forceRedirectToPostal) Valid 
+      else Invalid("", keys.forceToRedirect)
+  }
+      
   lazy val questionIsRequiredForces = Constraint[InprogressForces](keys.postalOrProxyVote.key) {
     application => application.postalOrProxyVote match {
       case Some(p) => Valid

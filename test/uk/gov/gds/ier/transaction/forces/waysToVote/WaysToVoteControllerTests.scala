@@ -98,7 +98,8 @@ class WaysToVoteControllerTests
     }
   }
 
-  it should "bind successfully and redirect to the confirmation step with a complete application" in {
+  it should "bind successfully and redirect to the postal vote step with a complete application" +
+    "no matter the user changes in the ways to vote step or not" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/forces/edit/ways-to-vote")
@@ -109,7 +110,7 @@ class WaysToVoteControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/forces/confirmation"))
+      redirectLocation(result) should be(Some("/register-to-vote/forces/postal-vote"))
     }
   }
 

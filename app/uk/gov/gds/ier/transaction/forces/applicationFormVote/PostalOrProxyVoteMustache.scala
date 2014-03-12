@@ -18,7 +18,8 @@ trait PostalOrProxyVoteMustache extends StepMustache {
       voteDeliveryMethodEmail: Field,
       voteDeliveryMethodPost: Field,
       voteEmailAddress: Field,
-      voteType: Field)
+      voteType: Field,
+      forceRedirectToPostal: Field)
 
   def transformFormStepToMustacheData (
       form: ErrorTransformForm[InprogressForces],
@@ -77,6 +78,11 @@ trait PostalOrProxyVoteMustache extends StepMustache {
         id = keys.postalOrProxyVote.voteType.asId(),
         name = keys.postalOrProxyVote.voteType.key,
         value = wayToVote.name
+      ),
+      forceRedirectToPostal =  Field(
+        id = keys.forceToRedirect.asId(),
+        name = keys.forceToRedirect.key,
+        value = form(keys.forceToRedirect.key).value.getOrElse("false")
       )
     )
   }

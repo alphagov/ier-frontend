@@ -47,20 +47,19 @@ class WaysToVoteStep @Inject ()(
     }
   }
   
-  override def goToNext(currentState: InprogressForces):SimpleResult = { 
-    currentState.waysToVote match {
-      case None => Redirect(routes.get)
-      case Some(waysToVote) => {
-        currentState.postalOrProxyVote match {
-          case Some(postalOrProxyVote) 
-            if (postalOrProxyVote.typeVote != waysToVote.waysToVoteType &&
-                waysToVote.waysToVoteType != WaysToVoteType.InPerson) => 
-              Redirect(nextStep(currentState).routes.get)
-          case _ => nextStep(currentState).goToNext(currentState) 
-        }
-      }
-    }
-  }
+//  override def goToNext(currentState: InprogressForces):SimpleResult = {
+//    currentState.waysToVote match {
+//      case None => Redirect(routes.get)
+//      case Some(waysToVote) => {
+//        currentState.postalOrProxyVote match {
+//          case Some(postalOrProxyVote)
+//            if (postalOrProxyVote.forceRedirectToPostal == true) =>
+//              Redirect(nextStep(currentState).routes.get)
+//          case _ => nextStep(currentState).goToNext(currentState)
+//        }
+//      }
+//    }
+//  }
   
   override def postSuccess(currentState: InprogressForces):InprogressForces = {
     if (currentState.waysToVote == Some(WaysToVote(WaysToVoteType.InPerson)))
@@ -68,7 +67,7 @@ class WaysToVoteStep @Inject ()(
           Some(PostalOrProxyVote(typeVote = WaysToVoteType.InPerson, 
               postalVoteOption = None, 
               deliveryMethod = None)))
-    else currentState
+    else currentState.copy(postalOrProxyVote = currentState.postalOrProxyVote.map(_.copy(forceRedirectToPostal = true)))
   }
   
   def template(form:InProgressForm[InprogressForces], call:Call, backUrl: Option[Call]): Html = {

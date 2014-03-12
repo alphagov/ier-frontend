@@ -62,6 +62,11 @@ class PostalOrProxyVoteTemplateTest
           id = "voteTypeId",
           name = "voteTypeName",
           value = "voteTypeValue"
+        ),
+        forceRedirectToPostal =  Field(
+          id = "redirectId",
+          name = "redirectName",
+          value = "redirectValue"
         )
       )
 
@@ -108,6 +113,11 @@ class PostalOrProxyVoteTemplateTest
       voteTypeInput.attr("name") should be("voteTypeName")
       voteTypeInput.attr("value") should be ("voteTypeValue")
 
+      val redirectInput = doc.select("input#redirectId").first()
+      redirectInput should not be (null)
+      redirectInput.attr("id") should be("redirectId")
+      redirectInput.attr("name") should be("redirectName")
+      redirectInput.attr("value") should be ("redirectValue")
     }
   }
 }
