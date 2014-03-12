@@ -80,6 +80,6 @@ trait DateOfBirthMustache extends StepMustache {
       
     val data = transformFormStepToMustacheData(form, post, back)
     val content = Mustache.render("ordinary/dateOfBirth", data)
-    MainStepTemplate(content, "Register to Vote - " + data.question.title)
+    MainStepTemplate(content, data.question.title)
   }
 }

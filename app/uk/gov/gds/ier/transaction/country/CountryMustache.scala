@@ -69,6 +69,6 @@ trait CountryMustache extends StepMustache {
   def countryMustache(form: ErrorTransformForm[InprogressOrdinary], call:Call):Html = {
     val data = transformFormStepToMustacheData(form,call.url)
     val content = Mustache.render("ordinary/country", data)
-    MainStepTemplate(content, "Register to Vote - Where do you live?")
+    MainStepTemplate(content, "Where do you live?")
   }
 }

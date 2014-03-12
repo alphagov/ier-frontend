@@ -42,6 +42,6 @@ trait NinoMustache extends StepMustache {
       )
     )
     val content = Mustache.render("ordinary/nino", data)
-    MainStepTemplate(content, "Register to Vote - What is your National Insurance number?")
+    MainStepTemplate(content, data.question.title)
   }
 }
