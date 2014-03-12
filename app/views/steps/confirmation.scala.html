@@ -72,7 +72,7 @@
             @validationSwitch(formData(keys.nationality)) {
               @if(formData.nationalityIsFilled()) {
                   <p>
-                    I am @formData.confirmationNationalityString
+                    @formData.confirmationNationalityString
                   </p>
               }else{
                   <p>I cannot provide my nationality because:</p>
