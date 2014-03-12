@@ -19,4 +19,22 @@ class EncryptionTests extends FunSuite with GivenWhenThen with Matchers with Moc
         decrypt(encryptionOutput, encryptionIV) should be(jsonToEncrypt)
   }
 
+  test("encrypt with AES returns message different than original") {
+    val (encryptionOutput, encryptionIV) =
+      new EncryptionService(new Base64EncodingService, mockedConfig).
+        encrypt(jsonToEncrypt)
+    jsonToEncrypt should not be(encryptionOutput)
+  }
+
+  test("encrypt twice with AES returns different encrypted content") {
+    val (encryptionOutput1, encryptionIV1) =
+      new EncryptionService(new Base64EncodingService, mockedConfig).
+        encrypt(jsonToEncrypt)
+    val (encryptionOutput2, encryptionIV2) =
+      new EncryptionService(new Base64EncodingService, mockedConfig).
+        encrypt(jsonToEncrypt)
+    encryptionOutput1 should not be (encryptionOutput2)
+    encryptionIV1 should not be (encryptionIV2)
+  }
+
 }
