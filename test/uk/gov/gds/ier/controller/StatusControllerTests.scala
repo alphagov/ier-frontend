@@ -71,6 +71,5 @@ class MockConfig extends Config {
   override def branch = "master"
 
   override def sessionTimeout = 20
-  override def cookiesAesKey = "QWVzS2V5QmVpbmdTb21lU3RyaW5nT2ZMZW5ndGgyNTY="
-
+  override def cookiesAesKey = "J1gs7djvi9/ecFHj0gNRbHHWIreobplsWmXnZiM2reo="
 }

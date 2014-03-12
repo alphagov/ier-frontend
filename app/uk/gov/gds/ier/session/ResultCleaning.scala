@@ -10,16 +10,21 @@ trait ResultCleaning extends ResultHandling {
 
   implicit class InProgressResultCleaning(result:Result) extends SessionKeys {
     def emptySession()(implicit request: play.api.mvc.Request[_]) = {
-      val requestCookies = DiscardingCookie(sessionPayloadKey) ::
-        DiscardingCookie(sessionTokenKey) :: Nil
-
+      val requestCookies =
+        DiscardingCookie(sessionPayloadKey) ::
+        DiscardingCookie(sessionPayloadKeyIV) ::
+        DiscardingCookie(sessionTokenKey) ::
+        DiscardingCookie(sessionTokenKeyIV) ::
+        Nil
       result.discardingCookies(requestCookies: _*)
     }
 
     def withFreshSession() = {
-      val encryptedSessionTokenValue = encryptionService.encrypt(DateTime.now.toString())
+      val (encryptedSessionTokenValue, encryptedSessionTokenIVValue) =
+        encryptionService.encrypt(DateTime.now.toString())
       result.withCookies(
-        createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')))
+        createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')),
+        createSecureCookie(sessionTokenKeyIV, encryptedSessionTokenIVValue))
         .discardingCookies(DiscardingCookie(sessionPayloadKey))
     }
   }

@@ -8,11 +8,12 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.security._
 import uk.gov.gds.ier.session.{SessionKeys, ResultHandling}
 import uk.gov.gds.ier.guice.WithConfig
-import uk.gov.gds.ier.config.Config
 import play.api.data.FormError
-import uk.gov.gds.ier.model.LastRegisteredType
+import uk.gov.gds.ier.controller.MockConfig
 
-trait TestHelpers extends CustomMatchers with OverseasApplications {
+trait TestHelpers
+  extends CustomMatchers
+    with OverseasApplications {
 
   val jsonSerialiser = new JsonSerialiser
 
@@ -31,23 +32,30 @@ trait TestHelpers extends CustomMatchers with OverseasApplications {
     def prettyPrint = form.errors.map(error => s"${error.key} -> ${error.message}")
   }
 
-  implicit class FakeRequestWithOurSessionCookies[A](request: FakeRequest[A]) extends ResultHandling with WithConfig with SessionKeys {
-    val config = new Config
+  implicit class FakeRequestWithOurSessionCookies[A](request: FakeRequest[A])
+    extends ResultHandling with WithConfig with SessionKeys {
+
+    val config = new MockConfig
+
     val serialiser = jsonSerialiser
-    val encryptionService = new EncryptionService (new AesEncryptionService(new Base64EncodingService, new Config))
+    val encryptionService = new EncryptionService (new Base64EncodingService, config)
 
     def withIerSession(timeSinceInteraction:Int = 1) = {
-      val encryptedSessionTokenValue = encryptionService.encrypt(DateTime.now.minusMinutes(timeSinceInteraction).toString())
+      val (encryptedSessionTokenValue, encryptedSessionTokenIVValue) =
+        encryptionService.encrypt(DateTime.now.minusMinutes(timeSinceInteraction).toString())
       request.withCookies(
-        createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')))
+        createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')),
+        createSecureCookie(sessionTokenKeyIV, encryptedSessionTokenIVValue))
     }
 
     def withInvalidSession() = withIerSession(6)
 
     def withApplication[T <: InprogressApplication[T]](application: T) = {
-      val encryptedSessionPayloadValue = encryptionService.encrypt(serialiser.toJson(application))
+      val (encryptedSessionPayloadValue, encryptedSessionPayloadIVValue) =
+        encryptionService.encrypt(serialiser.toJson(application))
       request.withCookies(
-        createSecureCookie(sessionPayloadKey, encryptedSessionPayloadValue.filter(_ >= ' ')))
+        createSecureCookie(sessionPayloadKey, encryptedSessionPayloadValue.filter(_ >= ' ')),
+        createSecureCookie(sessionPayloadKeyIV, encryptedSessionPayloadIVValue))
     }
   }
 

@@ -35,10 +35,10 @@ class StepControllerTests
     def goToNext(currentState: T) = Redirect(url)
   }
 
-  val testEncryptionService = new EncryptionService (
-    new AesEncryptionService(new Base64EncodingService, new Config))
-
   val mockConfig = new MockConfig
+
+  val testEncryptionService =
+    new EncryptionService(new Base64EncodingService, mockConfig)
 
   def createController(form: ErrorTransformForm[InprogressOrdinary], 
                        theNextStep: NextStep[InprogressOrdinary] = Url("/next-step"))
@@ -157,7 +157,8 @@ class StepControllerTests
 
       cookies(result).get("application") match {
         case Some(cookie) => {
-          val decryptedInfo = testEncryptionService.decrypt(cookie.value)
+          val cookieIV = cookies(result).get("applicationIV")
+          val decryptedInfo = testEncryptionService.decrypt(cookie.value, cookieIV.get.value)
           val application = jsonSerialiser.fromJson[InprogressOrdinary](decryptedInfo)
           application.possibleAddresses should be(None)
         }
