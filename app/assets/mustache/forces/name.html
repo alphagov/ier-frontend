@@ -46,9 +46,88 @@
         </div>
     </fieldset>
 
+    <fieldset class="sub-section validate {{hasPreviousName.classes}}"
+              data-validation-name="previousQuestion"
+              data-validation-type="fieldset"
+              data-validation-rules="atLeastOneNonEmpty"
+              data-validation-children="previousYes previousNo">
+        <legend class="label">Have you changed your name in the last 12 months?</legend>
+
+        <label for="{{hasPreviousNameTrue.id}}" class="selectable binary"  >
+            <input type="radio" id="{{hasPreviousNameTrue.id}}"
+                   name="{{hasPreviousNameTrue.name}}"
+                   value="true" class="radio validate"
+                   data-validation-name="previousYes"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty"
+            {{{hasPreviousNameTrue.attributes}}}>
+            Yes
+        </label>
+
+        <label for="{{hasPreviousNameFalse.id}}" class="selectable binary"  >
+            <input type="radio" id="{{hasPreviousNameFalse.id}}"
+                   name="{{hasPreviousNameFalse.name}}"
+                   value="false"
+                   class="radio  validate"
+                   data-validation-name="previousNo"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty"
+            {{{hasPreviousNameFalse.attributes}}}>
+            No
+        </label>
+    </fieldset>
+
+    <div class="optional-section optional-section-core-content "
+         data-condition="previousName_hasPreviousName_true">
+        <h2>Your previous name</h2>
+        <fieldset class="validate" data-validation-name="previousName"
+                  data-validation-type="association"
+                  data-validation-rules="allNonEmpty"
+                  data-validation-members="previousFirstName previousLastName">
+
+            <label for="{{previousFirstName.id}}">
+                <span class="visuallyhidden">Previous</span> First name
+            </label>
+            <div class="validation-wrapper {{previousFirstName.classes}}">
+                <input type="text" id="{{previousFirstName.id}}"
+                       name="{{previousFirstName.name}}"
+                       value="{{previousFirstName.value}}"
+                       autocomplete="off"
+                       class="text  first-name long validate {{previousFirstName.classes}}"
+                       data-validation-name="previousFirstName"
+                       data-validation-type="field"
+                       data-validation-rules="nonEmpty" >
+            </div>
+
+            <label for="{{previousMiddleNames.id}}">
+                <span class="visuallyhidden">Previous</span> Middle names
+            </label>
+            <input type="text" id="{{previousMiddleNames.id}}"
+                   name="{{previousMiddleNames.name}}"
+                   value="{{previousMiddleNames.value}}"
+                   autocomplete="off"
+                   class="text  middle-names long {{previousMiddleNames.classes}}"  >
+
+            <label for="{{previousLastName.id}}">
+                <span class="visuallyhidden">Previous</span> Last name
+            </label>
+            <div class="validation-wrapper {{previousLastName.classes}}">
+                <input type="text" id="{{previousLastName.id}}"
+                       name="{{previousLastName.name}}"
+                       value="{{previousLastName.value}}"
+                       autocomplete="off"
+                       class="text  last-name long validate {{previousLastName.classes}}"
+                       data-validation-name="previousLastName"
+                       data-validation-type="field"
+                       data-validation-rules="nonEmpty" >
+            </div>
+        </fieldset>
+    </div>
+
+
     <button id="continue" type="submit"
             class="button next validation-submit"
-            data-validation-sources="fullName">
+            data-validation-sources="fullName previousQuestion previousName">
         Continue
     </button>
 </form>

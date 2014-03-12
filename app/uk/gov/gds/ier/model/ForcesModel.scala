@@ -9,6 +9,7 @@ case class InprogressForces(
     nationality: Option[PartialNationality] = None,
     dob: Option[DateOfBirth] = None,
     name: Option[Name] = None,
+    previousName: Option[PreviousName] = None,
     nino: Option[Nino] = None,
     service: Option[Service] = None,
     rank: Option[Rank] = None,
@@ -27,6 +28,7 @@ case class InprogressForces(
       nationality = this.nationality.orElse(other.nationality),
       dob = this.dob.orElse(other.dob),
       name = this.name.orElse(other.name),
+      previousName = this.previousName.orElse(other.previousName),
       nino = this.nino.orElse(other.nino),
       service = this.service.orElse(other.service),
       rank = this.rank.orElse(other.rank),
@@ -46,6 +48,7 @@ case class ForcesApplication(
     nationality: Option[IsoNationality],
     dob: Option[DateOfBirth],
     name: Option[Name],
+    previousName: Option[PreviousName],
     nino: Option[Nino],
     service: Option[Service],
     rank: Option[Rank],
@@ -72,6 +75,7 @@ case class ForcesApplication(
       nationality.map(_.toApiMap).getOrElse(Map.empty) ++
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
+      previousName.map(_.toApiMap("p")).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
       service.map(_.toApiMap).getOrElse(Map.empty) ++
       rank.map(_.toApiMap).getOrElse(Map.empty) ++
