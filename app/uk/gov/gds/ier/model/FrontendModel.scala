@@ -21,7 +21,7 @@ case class Contact (post: Boolean,
   }
 }
 
-case class Country (country: String)
+case class Country (country: String, abroad: Boolean)
 
 case class PreviousName(hasPreviousName:Boolean,
                         previousName:Option[Name]) {
