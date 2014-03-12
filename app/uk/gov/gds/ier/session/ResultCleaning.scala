@@ -24,8 +24,12 @@ trait ResultCleaning extends ResultHandling {
         encryptionService.encrypt(DateTime.now.toString())
       result.withCookies(
         createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')),
-        createSecureCookie(sessionTokenKeyIV, encryptedSessionTokenIVValue))
-        .discardingCookies(DiscardingCookie(sessionPayloadKey))
+        createSecureCookie(sessionTokenKeyIV, encryptedSessionTokenIVValue.filter(_ >= ' '))
+      )
+      .discardingCookies(
+        DiscardingCookie(sessionPayloadKey),
+        DiscardingCookie(sessionPayloadKeyIV)
+      )
     }
   }
 }

@@ -45,7 +45,7 @@ trait TestHelpers
         encryptionService.encrypt(DateTime.now.minusMinutes(timeSinceInteraction).toString())
       request.withCookies(
         createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')),
-        createSecureCookie(sessionTokenKeyIV, encryptedSessionTokenIVValue))
+        createSecureCookie(sessionTokenKeyIV, encryptedSessionTokenIVValue.filter(_ >= ' ')))
     }
 
     def withInvalidSession() = withIerSession(6)
@@ -55,7 +55,7 @@ trait TestHelpers
         encryptionService.encrypt(serialiser.toJson(application))
       request.withCookies(
         createSecureCookie(sessionPayloadKey, encryptedSessionPayloadValue.filter(_ >= ' ')),
-        createSecureCookie(sessionPayloadKeyIV, encryptedSessionPayloadIVValue))
+        createSecureCookie(sessionPayloadKeyIV, encryptedSessionPayloadIVValue.filter(_ >= ' ')))
     }
   }
 

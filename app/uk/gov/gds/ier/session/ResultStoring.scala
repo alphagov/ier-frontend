@@ -17,7 +17,7 @@ trait ResultStoring extends ResultHandling {
         encryptionService.encrypt(serialiser.toJson(application))
       result.withCookies(
         createSecureCookie(sessionPayloadKey, encryptedSessionPayloadValue.filter(_ >= ' ')),
-        createSecureCookie(sessionPayloadKeyIV, encryptedSessionPayloadIVValue))
+        createSecureCookie(sessionPayloadKeyIV, encryptedSessionPayloadIVValue.filter(_ >= ' ')))
     }
 
     def refreshSession() = {
@@ -25,7 +25,7 @@ trait ResultStoring extends ResultHandling {
         encryptionService.encrypt(DateTime.now.toString())
       result.withCookies(
         createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')),
-        createSecureCookie(sessionTokenKeyIV, encryptedSessionTokenIVValue))
+        createSecureCookie(sessionTokenKeyIV, encryptedSessionTokenIVValue.filter(_ >= ' ')))
     }
   }
 }
