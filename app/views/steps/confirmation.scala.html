@@ -115,7 +115,11 @@
               }
             }
           </div>
-          <a href="@AddressController.editGet" class="change">Change<span class="visuallyhidden"> address</span></a>
+          @if(formData.isManualAddressDefined(keys.address.manualAddress)) {
+            <a href="@AddressManualController.editGet" class="change">Change<span class="visuallyhidden"> address</span></a>
+          } else {
+            <a href="@AddressSelectController.editGet" class="change">Change<span class="visuallyhidden"> address</span></a>
+          }
         </div>
 
         <div>

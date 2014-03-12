@@ -51,4 +51,8 @@ case class InProgressForm[T <: InprogressApplication[T]](form:ErrorTransformForm
   def manualAddressToOneLine(manualAddressKey: Key): Option[String] = {
     manualAddressToOneLine(this, manualAddressKey)
   }
+
+  def isManualAddressDefined(manualAddressKey: Key): Boolean = {
+    isManualAddressDefined(this, manualAddressKey)
+  }
 }

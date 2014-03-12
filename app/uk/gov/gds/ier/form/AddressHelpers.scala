@@ -8,6 +8,8 @@ trait AddressHelpers extends FormKeys {
   /**
    * Concatenate manual address, using comas, as one line of text or return None.
    * Wrap as Option to allow eventual further chaining.
+   * @param form source of data
+   * @param manualAddressKey example: keys.lastUkAddress.manualAddress
    */
   def manualAddressToOneLine(
       form: ErrorTransformForm[_],
@@ -36,5 +38,19 @@ trait AddressHelpers extends FormKeys {
       manualAddress.city
     ).flatten
     if (maLines == Nil) return None else Some(maLines.mkString(", "))
+  }
+
+  /**
+   * Check if manual address is defined in form data
+   * @param form source of data
+   * @param manualAddressKey example: keys.lastUkAddress.manualAddress
+   */
+  def isManualAdressDefined(form: ErrorTransformForm[_], manualAddressKey: Key): Boolean = {
+    // is checking by just line one enough?
+    form(manualAddressKey.lineOne.key).value.isDefined
+  }
+
+  def isManualAddressDefined(form: InProgressForm[_], manualAddressKey: Key): Boolean = {
+    isManualAdressDefined(form.form, manualAddressKey)
   }
 }

@@ -249,7 +249,7 @@ trait ConfirmationMustache {
     def address = {
       Some(ConfirmationQuestion(
         title = "UK registration address",
-        editLink = if (isManualAdressDefined(form, keys.address.manualAddress)) {
+        editLink = if (isManualAddressDefined(form, keys.address.manualAddress)) {
           routes.AddressManualController.editGet.url
         } else {
           routes.AddressSelectController.editGet.url
@@ -436,10 +436,5 @@ trait ConfirmationMustache {
     }
 
     def otherCountriesKey(i:Int) = keys.nationality.otherCountries.key + "["+i+"]"
-
-    def isManualAdressDefined(form: InProgressForm[InprogressForces], manualAddressKey: Key) = {
-      // is checking by just line one enough?
-      form(manualAddressKey.lineOne).value.isDefined
-    }
   }
 }
