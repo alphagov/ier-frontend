@@ -46,16 +46,15 @@
                data-validation-rules="nonEmpty" >
       </span>
 
-        <p class="example">For example: <span class="date">31 12 1970</span></p>
+        <p class="example">For example: <span class="date">31 3 1970</span></p>
     </fieldset>
 
     <div class="help-content help-content{{noDobReasonShowFlag.value}}" id="date-of-birth-help">
-        <h3>Help</h3>
-        <p>If you don’t know your exact date of birth, use the one you put on official documents
+        <h3>Help with date of birth</h3>
+        <p>If you don't know your exact date of birth, use the one you put on official documents 
             (for example, your passport or driving licence).</p>
-        <p>If you can’t provide your date of birth, you'll need to explain why. And after
-            you've applied, you'll be asked to prove your identity by sending documents in
-            the post (or providing them in person).</p>
+        <p>If you can't provide your date of birth you'll have to send copies of identity documents 
+            through the post.</p>
 
         <div class="optional-section validate optional-section{{noDobReasonShowFlag.value}}"
              id="no-date-of-birth"
@@ -79,7 +78,7 @@
                       data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty"
                       data-validation-children="excuseUnder18 excuse18to70 excuseOver70 excuseDontKnow">
 
-                <p>How old are you?</p>
+                <p>What age group do you belong to?</p>
                 <label for="{{rangeUnder18.id}}" class="selectable"  >
                     <input type="radio" id="{{rangeUnder18.id}}" name="{{rangeUnder18.name}}"
                            value="under18"  class="radio  validate"
@@ -114,7 +113,7 @@
                            data-validation-type="field"
                            data-validation-rules="nonEmpty"
                            {{{rangeDontKnow.attributes}}}>
-                    I don't know<span class="visuallyhidden"> how old I am</span>
+                    Don't know<span class="visuallyhidden"> the age group I belong to</span>
                 </label>
             </fieldset>
         </div>
