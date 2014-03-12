@@ -54,7 +54,6 @@ trait PreviousAddressMustache {
         ),
         postcode = TextField(keys.previousAddress.postcode)
       )
-      println(modelData)
       modelData
     }
 
