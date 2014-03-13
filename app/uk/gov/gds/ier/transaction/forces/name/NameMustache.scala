@@ -14,7 +14,13 @@ trait NameMustache extends StepMustache {
     question: Question,
     firstName: Field,
     middleNames: Field,
-    lastName: Field)
+    lastName: Field,
+    hasPreviousName: FieldSet,
+    hasPreviousNameTrue: Field,
+    hasPreviousNameFalse: Field,
+    previousFirstName: Field,
+    previousMiddleNames: Field,
+    previousLastName: Field)
 
     def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressForces],
                                         postUrl: String, 
@@ -34,7 +40,20 @@ trait NameMustache extends StepMustache {
       middleNames = TextField(
         key = keys.name.middleNames),
       lastName = TextField(
-        key = keys.name.lastName)
+        key = keys.name.lastName),hasPreviousName = FieldSet(
+        classes = if (form(keys.previousName.key).hasErrors) "invalid" else ""
+      ),
+      hasPreviousNameTrue = RadioField(
+        key = keys.previousName.hasPreviousName, value = "true"),
+      hasPreviousNameFalse = RadioField(
+        key = keys.previousName.hasPreviousName, value = "false"),
+
+      previousFirstName = TextField(
+        key = keys.previousName.previousName.firstName),
+      previousMiddleNames = TextField(
+        key = keys.previousName.previousName.middleNames),
+      previousLastName = TextField(
+        key = keys.previousName.previousName.lastName)
     )
   }
 

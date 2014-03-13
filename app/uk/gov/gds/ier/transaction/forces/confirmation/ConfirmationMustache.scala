@@ -2,13 +2,13 @@ package uk.gov.gds.ier.transaction.forces.confirmation
 
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.model.WaysToVoteType
-import controllers.step.forces._
 import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.Key
 import uk.gov.gds.ier.model.InprogressForces
 import uk.gov.gds.ier.validation.InProgressForm
 import scala.Some
+import controllers.step.forces.routes
 
 trait ConfirmationMustache {
 
@@ -44,6 +44,7 @@ trait ConfirmationMustache {
 
       val applicantData = List(
         confirmation.name,
+        confirmation.previousName,
         confirmation.dateOfBirth,
         confirmation.nationality,
         confirmation.nino,
@@ -58,6 +59,7 @@ trait ConfirmationMustache {
 
       val completeApplicantData = List(
         confirmation.name,
+        confirmation.previousName,
         confirmation.dateOfBirth,
         confirmation.nationality,
         confirmation.nino,
@@ -132,6 +134,28 @@ trait ConfirmationMustache {
             form(keys.name.middleNames).value,
             form(keys.name.lastName).value).flatten
             .mkString("<p>", " ", "</p>")
+        }
+      ))
+    }
+
+    def previousName = {
+      val havePreviousName = form(keys.previousName.hasPreviousName).value
+      val prevNameStr =  havePreviousName match {
+        case Some("true") => {
+          List(
+            form(keys.previousName.previousName.firstName).value,
+            form(keys.previousName.previousName.middleNames).value,
+            form(keys.previousName.previousName.lastName).value
+          ).flatten.mkString(" ")
+        }
+        case _ => "I have not changed my name in the last 12 months"
+      }
+      Some(ConfirmationQuestion(
+        title = "What is your previous name?",
+        editLink = routes.NameController.editGet.url,
+        changeName = "previous name",
+        content = ifComplete(keys.previousName) {
+          s"<p>$prevNameStr</p>"
         }
       ))
     }
@@ -274,18 +298,22 @@ trait ConfirmationMustache {
         changeName = "your UK previous registration address",
         content = ifComplete(keys.previousAddress) {
           if(form(keys.previousAddress.movedRecently).value == Some("true")) {
-            if(form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
+            val address = if(form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
               form(keys.previousAddress.previousAddress.addressLine).value.map(
                 addressLine => "<p>" + addressLine + "</p>"
               ).getOrElse("")
             } else {
               form(keys.previousAddress.previousAddress.manualAddress).value.map(
-                addressLine => "<p>" + addressLine + "</p>"
+                manualAddress => "<p>" + manualAddress + "</p>"
               ).getOrElse("")
             }
-            form(keys.previousAddress.previousAddress.postcode).value.map(
+
+            val postcode = form(keys.previousAddress.previousAddress.postcode).value.map(
               postcode => "<p>" + postcode + "</p>"
             ).getOrElse("")
+
+            address + postcode
+
           } else {
             "<p>I have not moved in the last 12 months</p>"
           }
@@ -299,8 +327,6 @@ trait ConfirmationMustache {
         editLink = routes.ContactAddressController.editGet.url,
         changeName = "polling card address",
         content = ifComplete(keys.contactAddress) {
-
-          val test = form(keys.contactAddress.contactAddressType).value
 
           val addressTypeKey = form(keys.contactAddress.contactAddressType).value match {
             case Some("uk") => keys.ukContactAddress
