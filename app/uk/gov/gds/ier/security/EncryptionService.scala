@@ -5,6 +5,7 @@ import javax.crypto.spec.{IvParameterSpec, SecretKeySpec}
 import com.google.inject.Inject
 import uk.gov.gds.ier.config.Config
 import java.security.SecureRandom
+import org.joda.time.DateTime
 
 class EncryptionService @Inject ()(base64EncodingService:Base64EncodingService, config:Config) {
 
@@ -39,6 +40,7 @@ class EncryptionService @Inject ()(base64EncodingService:Base64EncodingService, 
     private def generateInitializationVector: Array[Byte] = {
       val bytes = Array.ofDim[Byte](16)
       val rnd = new SecureRandom()
+      rnd.setSeed(DateTime.now.getMillis())
       rnd.nextBytes(bytes)
       bytes
     }
