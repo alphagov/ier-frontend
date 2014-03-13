@@ -25,7 +25,7 @@ trait RankMustache extends StepMustache {
         postUrl = post.url,
         backUrl = back.map (_.url).getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
-        number = "8",
+        number = "9",
         title = if (displayPartnerSentence(progressForm.value))
           "What is your partner's service number?"
         else

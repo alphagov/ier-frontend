@@ -21,7 +21,7 @@ class ServiceControllerTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 7")
+      contentAsString(result) should include("Question 8")
       contentAsString(result) should include("Which of the services are you in?")
       contentAsString(result) should include("/register-to-vote/forces/service")
     }

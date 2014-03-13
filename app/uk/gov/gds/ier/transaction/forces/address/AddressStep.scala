@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.forces.address
 
 import controllers.step.forces.routes._
-import controllers.step.forces.NationalityController
+import controllers.step.forces.PreviousAddressFirstController
 import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
@@ -34,7 +34,7 @@ class AddressStep @Inject() (
   )
 
   def nextStep(currentState: InprogressForces) = {
-    NationalityController.nationalityStep
+    PreviousAddressFirstController.previousAddressFirstStep
   }
 
   def template(

@@ -75,6 +75,7 @@ trait TestHelpers extends CustomMatchers with OverseasApplications {
   lazy val completeForcesApplication = InprogressForces(
     statement = Some(Statement(memberForcesFlag = Some(true), None)),
     address = Some(PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)),
+    previousAddress = Some(PartialPreviousAddress(Some(false), None)),
     nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
     dob = Some(DateOfBirth(Some(DOB(1988, 1, 1)), None)),
     name = Some(Name("John", None, "Smith")),
@@ -130,6 +131,9 @@ trait TestHelpers extends CustomMatchers with OverseasApplications {
     new ErrorsOps(form.errors, form.globalErrors)
   }
 
+  implicit def forcesFormToErrorOps(form: ErrorTransformForm[InprogressForces]) = {
+    new ErrorsOps(form.errors, form.globalErrors)
+  }
 
   // Comment out for longer timeouts, essential for debugging the test
   // implicit def defaultAwaitTimeout = Timeout(10, TimeUnit.MINUTES)

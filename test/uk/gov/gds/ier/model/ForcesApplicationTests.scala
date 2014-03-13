@@ -26,6 +26,15 @@ class ForcesApplicationTests
         postcode = "XX12 34XX",
         uprn = Some("12345")
       )),
+      previousAddress = Some(Address(
+        lineOne = Some("The (fake) Cottage"),
+        lineTwo = Some("321 Fake Street"),
+        lineThree = Some("South Fake"),
+        city = Some("Fakererly"),
+        county = Some("Fakesborough"),
+        postcode = "XX34 21XX",
+        uprn = Some("54321")
+      )),
       nationality = Some(IsoNationality(
         countryIsos = List("GB", "IE"),
         noNationalityReason = None
@@ -109,6 +118,13 @@ class ForcesApplicationTests
       "regarea" -> "Fakesbury",
       "reguprn" -> "12345",
       "regpostcode" -> "XX12 34XX",
+      "pproperty" -> "The (fake) Cottage",
+      "pstreet" -> "321 Fake Street",
+      "plocality" -> "South Fake",
+      "ptown" -> "Fakererly",
+      "parea" -> "Fakesborough",
+      "puprn" -> "54321",
+      "ppostcode" -> "XX34 21XX",
       "corrcountry" -> "uk",
       "corrpostcode" -> "XX12 34XX",
       "corraddressline1" -> "The (fake) Manor House",
@@ -141,6 +157,6 @@ class ForcesApplicationTests
       apiMap.keys should not contain(key)
     }
 
-    apiMap.keys.size should be(33)
+    apiMap.keys.size should be(40)
   }
 }

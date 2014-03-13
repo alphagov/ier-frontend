@@ -37,7 +37,7 @@ class PreviousAddressFirstStep @Inject ()(
     if (currentState.previousAddress.flatMap(_.movedRecently) == Some(true)) {
       controllers.step.forces.PreviousAddressPostcodeController.previousPostcodeAddressStep
     } else {
-      controllers.step.forces.OpenRegisterController.openRegisterStep
+      controllers.step.forces.NationalityController.nationalityStep
     }
   }
 
