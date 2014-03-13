@@ -1,24 +1,20 @@
 package uk.gov.gds.ier.transaction.overseas.address
 
 import com.google.inject.Inject
-import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
-import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
+import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
-import uk.gov.gds.ier.model.{PreviouslyRegistered, InprogressOverseas}
-import uk.gov.gds.ier.validation.{ErrorTransformForm, InProgressForm}
+import uk.gov.gds.ier.security.EncryptionService
+import uk.gov.gds.ier.model.InprogressOverseas
+import uk.gov.gds.ier.validation.InProgressForm
 import play.api.mvc.Call
 import play.api.templates.Html
-import play.api.mvc.SimpleResult
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import controllers.step.overseas.routes.{AddressController, NinoController}
-import controllers.step.overseas.{OpenRegisterController}
-import uk.gov.gds.ier.model.OverseasAddress
+import controllers.step.overseas.OpenRegisterController
 
 class AddressStep @Inject() (val serialiser: JsonSerialiser,
                                                 val config: Config,
-                                                val encryptionService: EncryptionService,
-                                                val encryptionKeys: EncryptionKeys)
+                                                val encryptionService: EncryptionService)
   extends OverseaStep
   with AddressForms
   with AddressMustache {

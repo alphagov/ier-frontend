@@ -43,6 +43,14 @@ class ForcesApplicationTests
         middleNames = Some("James"),
         lastName = "Smith"
       )),
+      previousName = Some(PreviousName(
+        hasPreviousName = true,
+        previousName = Some(Name(
+          firstName = "George",
+          middleNames = Some("Jeffrey"),
+          lastName = "Smith"
+        ))
+      )),
       nino = Some(Nino(
         nino = Some("XX 12 34 56 D"),
         noNinoReason = None
@@ -99,6 +107,9 @@ class ForcesApplicationTests
       "fn" -> "John",
       "mn" -> "James",
       "ln" -> "Smith",
+      "pfn" -> "George",
+      "pmn" -> "Jeffrey",
+      "pln" -> "Smith",
       "dob" -> "1980-12-01",
       "nino" -> "XX 12 34 56 D",
       "nat" -> "GB, IE",
@@ -141,6 +152,6 @@ class ForcesApplicationTests
       apiMap.keys should not contain(key)
     }
 
-    apiMap.keys.size should be(33)
+    apiMap.keys.size should be(36)
   }
 }

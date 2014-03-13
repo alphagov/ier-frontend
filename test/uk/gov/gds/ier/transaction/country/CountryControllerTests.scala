@@ -92,6 +92,101 @@ class CountryControllerTests
     }
   }
 
+  it should "bind successfully on Abroad + Wales and redirect to the overseas" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/country-of-residence")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "country.residence" -> "Abroad",
+            "country.origin" -> "Wales"
+          )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/start"))
+    }
+  }
+
+  it should "bind successfully on Abroad + England and redirect to the overseas" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/country-of-residence")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "country.residence" -> "Abroad",
+            "country.origin" -> "England"
+          )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/start"))
+    }
+  }
+
+  it should "bind successfully on Abroad + NIreland and redirect to the exit page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/country-of-residence")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "country.residence" -> "Abroad",
+            "country.origin" -> "Northern Ireland"
+          )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/exit/northern-ireland"))
+    }
+  }
+
+  it should "bind successfully on Abroad + British Islands and redirect to the exit page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/country-of-residence")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "country.residence" -> "Abroad",
+            "country.origin" -> "British Islands"
+          )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/exit/british-islands"))
+    }
+  }
+
+  it should "bind successfully on Abroad + Scotland and redirect to the exit page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/country-of-residence")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "country.residence" -> "Abroad",
+            "country.origin" -> "Scotland"
+          )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/exit/scotland"))
+    }
+  }
+
+  it should "require the origin question answered when abroad" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/country-of-residence")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "country.residence" -> "Abroad"
+          )
+      )
+
+      status(result) should be(OK)
+      contentAsString(result) should include("Please answer this question")
+    }
+  }
+
   it should "display any errors on unsuccessful bind" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -166,6 +261,102 @@ class CountryControllerTests
       redirectLocation(result) should be(Some("/register-to-vote/exit/british-islands"))
     }
   }
+
+  it should "bind successfully on Abroad + Wales and redirect to the overseas" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/edit/country-of-residence")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "country.residence" -> "Abroad",
+            "country.origin" -> "Wales"
+          )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/start"))
+    }
+  }
+
+  it should "bind successfully on Abroad + England and redirect to the overseas" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/edit/country-of-residence")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "country.residence" -> "Abroad",
+            "country.origin" -> "England"
+          )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/start"))
+    }
+  }
+
+  it should "bind successfully on Abroad + NIreland and redirect to the exit page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/edit/country-of-residence")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "country.residence" -> "Abroad",
+            "country.origin" -> "Northern Ireland"
+          )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/exit/northern-ireland"))
+    }
+  }
+
+  it should "bind successfully on Abroad + British Islands and redirect to the exit page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/edit/country-of-residence")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "country.residence" -> "Abroad",
+            "country.origin" -> "British Islands"
+          )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/exit/british-islands"))
+    }
+  }
+
+  it should "bind successfully on Abroad + Scotland and redirect to the exit page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/edit/country-of-residence")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "country.residence" -> "Abroad",
+            "country.origin" -> "Scotland"
+          )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/exit/scotland"))
+    }
+  }
+
+  it should "require the origin question answered when abroad" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/edit/country-of-residence")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "country.residence" -> "Abroad"
+          )
+      )
+
+      status(result) should be(OK)
+      contentAsString(result) should include("Please answer this question")
+    }
+  }
+
 
   it should "bind successfully on Scotland and redirect to the exit page" in {
     running(FakeApplication()) {

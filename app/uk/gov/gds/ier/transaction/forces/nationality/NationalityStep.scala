@@ -11,7 +11,7 @@ import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.service.IsoCountryService
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.model.InprogressForces
 import uk.gov.gds.ier.step.{ForcesStep, Routes, Exit}
 
@@ -19,8 +19,7 @@ class NationalityStep @Inject ()(
     val serialiser: JsonSerialiser,
     val isoCountryService: IsoCountryService,
     val config: Config,
-    val encryptionService : EncryptionService,
-    val encryptionKeys : EncryptionKeys)
+    val encryptionService : EncryptionService)
   extends ForcesStep
     with NationalityForms
     with NationalityMustache {

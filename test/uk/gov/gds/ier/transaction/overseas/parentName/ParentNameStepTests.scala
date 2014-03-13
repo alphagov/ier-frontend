@@ -4,11 +4,10 @@ import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 import org.specs2.mock.Mockito
 
-import com.google.inject.Singleton
 
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{Name,PreviousName, OverseasName}
-import uk.gov.gds.ier.security.{EncryptionKeys,EncryptionService}
+import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.test.TestHelpers
 
@@ -18,10 +17,9 @@ class ParentNameStepTests extends FlatSpec with TestHelpers with Matchers with M
     val mockedJsonSerialiser = mock[JsonSerialiser]
     val mockedConfig = mock[Config]
     val mockedEncryptionService = mock[EncryptionService]
-    val mockedEncryptionKeys = mock[EncryptionKeys]
 
     val parentNameStep = new ParentNameStep(mockedJsonSerialiser, mockedConfig,
-        mockedEncryptionService, mockedEncryptionKeys)
+        mockedEncryptionService)
 
     val currentState = completeOverseasApplication.copy(overseasParentName = Some(OverseasName(
         name = None, previousName =

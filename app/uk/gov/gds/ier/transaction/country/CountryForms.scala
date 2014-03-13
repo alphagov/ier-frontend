@@ -12,16 +12,19 @@ trait CountryForms extends CountryConstraints {
     with ErrorMessages =>
   
   lazy val countryMapping = mapping(
-    keys.residence.key -> optional(text).verifying("Please answer this question", _.isDefined)
-  ) (
-    country => Country(country.get)
-  ) (
-    country => Some(Some(country.country))
-  ) verifying isValidCountryConstraint
+    keys.residence.key -> optional(text).verifying("Please answer this question", _.isDefined),
+    keys.origin.key -> optional(text)
+  ) {
+    case (Some("Abroad"), origin) => Country(origin.getOrElse(""), true)
+    case (residence, _) => Country(residence.getOrElse(""), false)
+  } {
+    case Country(country, true) => Some(Some("Abroad"), Some(country))
+    case Country(country, false) => Some(Some(country), None)
+  }.verifying(isValidCountryConstraint, ifAbroadOriginFilled)
 
   val countryForm = ErrorTransformForm(
     mapping(
-      keys.country.key -> optional(countryMapping) 
+      keys.country.key -> optional(countryMapping)
     ) (
       country => InprogressOrdinary(country = country)
     ) (

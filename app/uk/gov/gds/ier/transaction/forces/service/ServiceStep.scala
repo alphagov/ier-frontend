@@ -8,7 +8,7 @@ import play.api.templates.Html
 import controllers.step.forces.routes._
 
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.security.EncryptionService
 import play.api.mvc.Call
 import uk.gov.gds.ier.step.{ForcesStep, Routes}
 import uk.gov.gds.ier.validation.InProgressForm
@@ -16,8 +16,7 @@ import uk.gov.gds.ier.validation.InProgressForm
 class ServiceStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService,
-    val encryptionKeys : EncryptionKeys)
+    val encryptionService : EncryptionService)
 
   extends ForcesStep
     with ServiceForms

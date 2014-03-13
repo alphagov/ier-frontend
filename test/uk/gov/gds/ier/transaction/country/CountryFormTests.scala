@@ -20,7 +20,8 @@ class CountryFormTests
   it should "successfully bind a valid country choice (Abroad)" in {
     val js = Json.toJson(
       Map(
-        "country.residence" -> "Abroad"
+        "country.residence" -> "Abroad",
+        "country.origin" -> "England"
       )
     )
     countryForm.bind(js).fold(
@@ -28,7 +29,8 @@ class CountryFormTests
       success => {
         success.country.isDefined should be(true)
         val country = success.country.get
-        country.country should be("Abroad")
+        country.country should be("England")
+        country.abroad should be(true)
       }
     )
   }
@@ -44,6 +46,7 @@ class CountryFormTests
       success => {
         success.country.isDefined should be(true)
         val country = success.country.get
+        country.abroad should be(false)
         country.country should be("British Islands")
       }
     )
@@ -61,6 +64,7 @@ class CountryFormTests
         success.country.isDefined should be(true)
         val country = success.country.get
         country.country should be("Northern Ireland")
+        country.abroad should be(false)
       }
     )
   }
@@ -77,6 +81,7 @@ class CountryFormTests
         success.country.isDefined should be(true)
         val country = success.country.get
         country.country should be("Wales")
+        country.abroad should be(false)
       }
     )
   }
@@ -93,6 +98,7 @@ class CountryFormTests
         success.country.isDefined should be(true)
         val country = success.country.get
         country.country should be("Scotland")
+        country.abroad should be(false)
       }
     )
   }
@@ -109,6 +115,7 @@ class CountryFormTests
         success.country.isDefined should be(true)
         val country = success.country.get
         country.country should be("England")
+        country.abroad should be(false)
       }
     )
   }
@@ -129,6 +136,21 @@ class CountryFormTests
     )
   }
 
+  it should "error out on missing origin when abroad" in {
+    val js = Json.toJson(
+      Map(
+        "country.residence" -> "Abroad"
+      )
+    )
+    countryForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("country.origin") should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+      },
+      success => fail("Should have errored out")
+    )
+  }
   it should "error out on empty json" in {
     val js = JsNull
 

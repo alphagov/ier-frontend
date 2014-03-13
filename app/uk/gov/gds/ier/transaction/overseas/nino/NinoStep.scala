@@ -7,7 +7,7 @@ import play.api.mvc.Call
 import play.api.templates.Html
 
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{Routes, OverseaStep}
 import controllers.step.overseas.routes._
 import uk.gov.gds.ier.model.InprogressOverseas
@@ -15,8 +15,7 @@ import controllers.step.overseas.AddressController
 
 class NinoStep @Inject ()(val serialiser: JsonSerialiser,
                           val config: Config,
-                          val encryptionService : EncryptionService,
-                          val encryptionKeys : EncryptionKeys)
+                          val encryptionService : EncryptionService)
   extends OverseaStep
   with NinoForms
   with NinoMustache {
