@@ -90,25 +90,21 @@ case class CrownStatement(
   def isCrownPartner: Map[String, String] = {
     val isCrownPartner = Some(true)
     val isNotCrownMember = Some(false)
-    val result = ( partnerCrownMember, crownMember ) match {
-      case (`isCrownPartner`, `isNotCrownMember`) => true
-      case (`isCrownPartner`, None) => true
-      case _ => false
+    ( partnerCrownMember, crownMember ) match {
+      case (`isCrownPartner`, `isNotCrownMember`) =>  Map("scrwn" -> "true")
+      case (`isCrownPartner`, None) =>  Map("scrwn" -> "true")
+      case _ => Map("scrwn" -> "false")
     }
-    if (result) Map("scrwn" -> "true")
-    else Map("scrwn" -> "false")
   }
 
   def isBritishCouncilPartner: Map[String, String] = {
     val isBritishCouncilPartner = Some(true)
     val isNotBritishCouncilMember = Some(false)
-    val result = ( partnerBritishCouncilMember, britishCouncilMember ) match {
-      case (`isBritishCouncilPartner`, `isNotBritishCouncilMember`) => true
-      case (`isBritishCouncilPartner`, None) => true
-      case _ => false
+    ( partnerBritishCouncilMember, britishCouncilMember ) match {
+      case (`isBritishCouncilPartner`, `isNotBritishCouncilMember`) => Map("sbc" -> "true")
+      case (`isBritishCouncilPartner`, None) => Map("sbc" -> "true")
+      case _ => Map("sbc" -> "false")
     }
-    if (result) Map("sbc" -> "true")
-    else Map("sbc" -> "false")
   }
 }
 

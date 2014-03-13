@@ -268,7 +268,7 @@ trait ConfirmationMustache {
               form(keys.contactAddress.addressLine3).value,
               form(keys.contactAddress.addressLine4).value,
               form(keys.contactAddress.addressLine5).value)
-              .filter(!_.getOrElse("").isEmpty).map(_.get).mkString("","<br/>",""))
+              .filter(!_.getOrElse("").isEmpty).mkString("","<br/>",""))
           result.append ("</p>")
           result.append ("<p>" + form (keys.contactAddress.country).value.getOrElse("") + "</p>")
           result.toString()

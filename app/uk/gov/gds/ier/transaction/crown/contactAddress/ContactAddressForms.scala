@@ -45,11 +45,12 @@ trait ContactAddressConstraints extends CommonConstraints {
     lazy val addressDetailsRequired = Constraint[Option[ContactAddress]](keys.contactAddress.key) {
         optAddress => 
             optAddress match {
-                case Some(address) if (!address.addressLine1.getOrElse("").trim.isEmpty ||
-                                       !address.addressLine2.getOrElse("").trim.isEmpty ||
-                                       !address.addressLine3.getOrElse("").trim.isEmpty ||
-                                       !address.addressLine4.getOrElse("").trim.isEmpty ||
-                                       !address.addressLine5.getOrElse("").trim.isEmpty) => Valid
+                case Some(address) if (List(
+                          address.addressLine1,
+                          address.addressLine2,
+                          address.addressLine3,
+                          address.addressLine4,
+                          address.addressLine5).exists(_.getOrElse("").trim.isEmpty)) => Valid
                 case _ => Invalid("Please enter your address", keys.contactAddress.addressLine1)
             }
     }
