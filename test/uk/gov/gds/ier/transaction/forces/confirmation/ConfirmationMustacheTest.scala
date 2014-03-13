@@ -338,6 +338,65 @@ class ConfirmationMustacheTest
     addressModel.editLink should be("/register-to-vote/forces/edit/address/manual")
   }
 
+
+  "In-progress application form with valid previous UK address" should
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
+      previousAddress = Some(PartialPreviousAddress(
+        movedRecently = Some(true),
+        previousAddress = Some(PartialAddress(
+          addressLine = Some("123 Fake Street"),
+          uprn = Some("12345678"),
+          postcode = "AB12 3CD",
+          manualAddress = None
+        ))
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+
+    val Some(previousAddressModel) = confirmation.previousAddress
+    previousAddressModel.content should be("<p>123 Fake Street</p><p>AB12 3CD</p>")
+    previousAddressModel.editLink should be("/register-to-vote/forces/edit/previous-address")
+  }
+
+  "In-progress application form with valid previous UK manual address" should
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
+      previousAddress = Some(PartialPreviousAddress(
+        movedRecently = Some(true),
+        previousAddress = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "AB12 3CD",
+          manualAddress = Some("my totally fake manual address, 123")
+        ))
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+
+    val Some(previousAddressModel) = confirmation.previousAddress
+    previousAddressModel.content should be("<p>my totally fake manual address, 123</p><p>AB12 3CD</p>")
+    previousAddressModel.editLink should be("/register-to-vote/forces/edit/previous-address")
+  }
+
+  "In-progress application form without previous UK address" should
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
+      previousAddress = Some(PartialPreviousAddress(
+        movedRecently = Some(false),
+        previousAddress = None
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+
+    val Some(previousAddressModel) = confirmation.previousAddress
+    previousAddressModel.content should be("<p>I have not moved in the last 12 months</p>")
+    previousAddressModel.editLink should be("/register-to-vote/forces/edit/previous-address")
+  }
+
   "In-progress application form with valid contact address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(

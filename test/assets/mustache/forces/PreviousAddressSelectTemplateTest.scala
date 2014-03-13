@@ -1,4 +1,4 @@
-package assets.mustache.ordinary
+package assets.mustache.forces
 
 import org.jsoup.Jsoup
 import org.scalatest.{Matchers, FlatSpec}
@@ -6,7 +6,7 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressMustache
+import uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressMustache
 
 /**
  * This test is also a good example how select from list of addresses for postcode looks like,
@@ -73,7 +73,7 @@ class PreviousAddressSelectTemplateTest
         hasAddresses = true
       )
 
-      val html = Mustache.render("ordinary/previousAddressSelect", data)
+      val html = Mustache.render("forces/previousAddressSelect", data)
       val doc = Jsoup.parse(html.toString)
 
       val fieldset = doc.select("fieldset").first()
@@ -163,7 +163,7 @@ class PreviousAddressSelectTemplateTest
         hasAddresses = false
       )
 
-      val html = Mustache.render("ordinary/previousAddressSelect", data)
+      val html = Mustache.render("forces/previousAddressSelect", data)
       val doc = Jsoup.parse(html.toString)
 
       val wrapper = doc.select("div").first()

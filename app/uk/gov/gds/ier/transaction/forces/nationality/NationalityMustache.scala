@@ -41,7 +41,7 @@ trait NationalityMustache extends StepMustache {
         postUrl = postEndpoint.url,
         backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
-        number = "3",
+        number = "4",
         title = "What is your nationality?"
       ),
       britishOption = CheckboxField(

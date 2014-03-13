@@ -33,7 +33,7 @@ trait DateOfBirthMustache extends StepMustache {
         postUrl = post.url,
         backUrl = back.map (_.url).getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
-        number = "3 of 11",
+        number = "5",
         title = "What is your date of birth?"
       ),
       day = TextField(

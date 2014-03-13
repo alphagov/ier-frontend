@@ -49,6 +49,7 @@ trait ConfirmationMustache {
         confirmation.nationality,
         confirmation.nino,
         confirmation.address,
+        confirmation.previousAddress,
         confirmation.contactAddress,
         confirmation.openRegister,
         confirmation.waysToVote,
@@ -65,6 +66,7 @@ trait ConfirmationMustache {
         confirmation.service(false),
         confirmation.rank,
         confirmation.address,
+        confirmation.previousAddress,
         confirmation.contactAddress,
         confirmation.openRegister,
         confirmation.waysToVote,
@@ -285,6 +287,36 @@ trait ConfirmationMustache {
           }.getOrElse("")
           val postcode = form(keys.address.postcode).value.getOrElse("")
           s"<p>$addressLine</p><p>$postcode</p>"
+        }
+      ))
+    }
+
+    def previousAddress = {
+      Some(ConfirmationQuestion(
+        title = "UK previous registration address",
+        editLink = routes.PreviousAddressFirstController.editGet.url,
+        changeName = "your UK previous registration address",
+        content = ifComplete(keys.previousAddress) {
+          if(form(keys.previousAddress.movedRecently).value == Some("true")) {
+            val address = if(form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
+              form(keys.previousAddress.previousAddress.addressLine).value.map(
+                addressLine => "<p>" + addressLine + "</p>"
+              ).getOrElse("")
+            } else {
+              form(keys.previousAddress.previousAddress.manualAddress).value.map(
+                manualAddress => "<p>" + manualAddress + "</p>"
+              ).getOrElse("")
+            }
+
+            val postcode = form(keys.previousAddress.previousAddress.postcode).value.map(
+              postcode => "<p>" + postcode + "</p>"
+            ).getOrElse("")
+
+            address + postcode
+
+          } else {
+            "<p>I have not moved in the last 12 months</p>"
+          }
         }
       ))
     }

@@ -39,7 +39,7 @@ trait PostalOrProxyVoteMustache extends StepMustache {
         postUrl = postEndpoint.url,
         backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
-        number = "11",
+        number = "13",
         title = "Do you want us to send you a "+wayToVoteName+" vote application form?"
       ),
       description = Text (

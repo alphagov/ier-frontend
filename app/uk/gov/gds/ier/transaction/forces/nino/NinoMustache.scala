@@ -28,7 +28,7 @@ trait NinoMustache extends StepMustache {
         postUrl = postEndpoint.url,
         backUrl = backEndpoint.map(_.url).getOrElse(""),
         errorMessages = form.globalErrors.map(_.message),
-        number = "6",
+        number = "7",
         title = "What is your National Insurance number?"
       ),
       nino = TextField(
