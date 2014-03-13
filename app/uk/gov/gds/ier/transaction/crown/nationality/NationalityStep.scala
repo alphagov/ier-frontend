@@ -1,8 +1,7 @@
 package uk.gov.gds.ier.transaction.crown.nationality
 
-import controllers.step.crown.routes.AddressController
+import controllers.step.crown.routes.{AddressController,NationalityController}
 import controllers.step.crown.DateOfBirthController
-import controllers.step.crown.routes.NationalityController
 import controllers.routes.ExitController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
@@ -11,7 +10,7 @@ import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.service.IsoCountryService
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.model.InprogressCrown
 import uk.gov.gds.ier.step.{CrownStep, Routes, Exit}
 
@@ -19,8 +18,7 @@ class NationalityStep @Inject ()(
     val serialiser: JsonSerialiser,
     val isoCountryService: IsoCountryService,
     val config: Config,
-    val encryptionService : EncryptionService,
-    val encryptionKeys : EncryptionKeys)
+    val encryptionService : EncryptionService)
   extends CrownStep
     with NationalityForms
     with NationalityMustache {
