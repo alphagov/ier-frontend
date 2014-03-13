@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.forces.previousAddress
 import controllers.step.forces.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.ForcesStep
@@ -20,7 +20,6 @@ import uk.gov.gds.ier.model.PartialPreviousAddress
 class PreviousAddressSelectStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionKeys : EncryptionKeys,
     val encryptionService: EncryptionService,
     val addressService: AddressService)
   extends ForcesStep
