@@ -5,93 +5,52 @@ import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, ErrorMessages}
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
+import uk.gov.gds.ier.transaction.crown.statement.StatementForms
+import uk.gov.gds.ier.transaction.crown.nationality.NationalityForms
+import uk.gov.gds.ier.transaction.crown.dateOfBirth.DateOfBirthForms
+import uk.gov.gds.ier.transaction.crown.name.NameForms
+import uk.gov.gds.ier.transaction.crown.nino.NinoForms
+import uk.gov.gds.ier.transaction.crown.address.AddressForms
+import uk.gov.gds.ier.transaction.crown.contactAddress.ContactAddressForms
+import uk.gov.gds.ier.transaction.crown.openRegister.OpenRegisterForms
+import uk.gov.gds.ier.transaction.crown.waysToVote.WaysToVoteForms
+import uk.gov.gds.ier.transaction.crown.applicationFormVote.PostalOrProxyVoteForms
+import uk.gov.gds.ier.transaction.crown.contact.ContactForms
+import uk.gov.gds.ier.transaction.crown.job.JobForms
 
 trait ConfirmationForms
   extends FormKeys
   with ErrorMessages
   with WithSerialiser
+  with StatementForms
+  with AddressForms
+  with NationalityForms
+  with DateOfBirthForms
+  with NameForms
+  with NinoForms
+  with JobForms
+  with ContactAddressForms
+  with OpenRegisterForms
+  with WaysToVoteForms
+  with PostalOrProxyVoteForms
+  with ContactForms
   with CommonConstraints {
-
-  val stubMapping = mapping(
-    "foo" -> text
-  ) (foo => Stub()) (stub => Some("foo"))
-
-  val stubStatementMapping = mapping(
-    "foo" -> text
-  ) (foo => CrownStatement(partnerCrownFlag = None, britishCouncilFlag = None, partnerBritishCouncilFlag = None)) (stub => Some("foo"))
-
-  val stubAddressMapping = mapping(
-    "foo" -> text
-  ) (foo => PartialAddress (addressLine = None, uprn = None,
-    postcode = "", manualAddress = None )) (stub => Some("foo"))
-
-  val stubNationalityMapping = mapping(
-    "foo" -> text
-  ) (foo => PartialNationality (british = None, irish = None, hasOtherCountry = None,
-    otherCountries = List.empty, noNationalityReason = None )) (stub => Some("foo"))
-
-  val stubDateOfBirthMapping = mapping(
-    "foo" -> text
-  ) (foo => DateOfBirth (dob = None, noDob = None)) (stub => Some("foo"))
-
-  val stubNameMapping = mapping(
-    "foo" -> text
-  ) (foo => Name (firstName = "", middleNames = None, lastName = "")) (stub => Some("foo"))
-
-  val stubNinoMapping = mapping(
-    "foo" -> text
-  ) (foo => Nino (nino = None, noNinoReason = None)) (stub => Some("foo"))
-
-  val stubJobMapping = mapping(
-    "foo" -> text
-  ) (foo => Job (jobTitle = None, govDepartment = None)) (stub => Some("foo"))
-
-  val stubContactAddressMapping = mapping(
-    "foo" -> text
-  ) (foo => ContactAddress (country = None, addressLine1 = None, addressLine2 = None,
-    addressLine3 = None, addressLine4 = None, addressLine5 = None,
-    postcode = None)) (stub => Some("foo"))
-
-  val stubOpenRegisterMapping = mapping(
-    "foo" -> text
-  ) (foo => false) (stub => Some("foo"))
-
-  val stubWaysToVoteMapping = mapping(
-    "foo" -> text
-  ) (foo => WaysToVote(WaysToVoteType.ByPost)) (stub => Some("foo"))
-
-  val stubPostalOrProxyVoteMapping = mapping(
-    "foo" -> text
-  ) (foo => PostalOrProxyVote(WaysToVoteType.ByPost,postalVoteOption = None,
-    deliveryMethod = None)) (stub => Some("foo"))
-
-  val stubContactMapping = mapping(
-    "foo" -> text
-  ) (foo => Contact(post = false, phone = None, email = None)) (stub => Some("foo"))
-
-  val stubPossibleAddressMapping = mapping(
-    "foo" -> text
-  ) (foo => PossibleAddress(Addresses(List.empty),"")) (stub => Some("foo"))
-
-  val optInMapping = single(
-    keys.optIn.key -> boolean
-  )
 
   val confirmationForm = ErrorTransformForm(
     mapping(
-      keys.statement.key -> optional(stubStatementMapping),
-      keys.address.key -> optional(stubAddressMapping),
-      keys.nationality.key -> optional(stubNationalityMapping),
-      keys.dob.key -> optional(stubDateOfBirthMapping),
-      keys.name.key -> optional(stubNameMapping),
-      keys.job.key -> optional(stubJobMapping),
-      keys.nino.key -> optional(stubNinoMapping),
-      keys.contactAddress.key -> optional(stubContactAddressMapping),
-      keys.openRegister.key -> optional(stubOpenRegisterMapping),
-      keys.waysToVote.key -> optional(stubWaysToVoteMapping),
-      keys.postalOrProxyVote.key -> optional(stubPostalOrProxyVoteMapping),
-      keys.contact.key -> optional(stubContactMapping),
-      keys.possibleAddresses.key -> optional(stubPossibleAddressMapping)
+      keys.statement.key -> stepRequired(statementMapping),
+      keys.address.key -> stepRequired(partialAddressMapping),
+      keys.nationality.key -> stepRequired(nationalityMapping),
+      keys.dob.key -> stepRequired(dobAndReasonMapping),
+      keys.name.key -> stepRequired(nameMapping),
+      keys.job.key -> stepRequired(jobMapping),
+      keys.nino.key -> stepRequired(ninoMapping),
+      keys.contactAddress.key -> stepRequired(contactAddressMapping),
+      keys.openRegister.key -> stepRequired(openRegisterOptInMapping),
+      keys.waysToVote.key -> stepRequired(waysToVoteMapping),
+      keys.postalOrProxyVote.key -> optional(postalOrProxyVoteMapping),
+      keys.contact.key -> stepRequired(contactMapping),
+      keys.possibleAddresses.key -> optional(possibleAddressesMapping)
     )
     (InprogressCrown.apply)
     (InprogressCrown.unapply)

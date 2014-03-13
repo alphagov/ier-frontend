@@ -459,12 +459,25 @@ GET         /register-to-vote/crown/edit/statement                     controlle
 POST        /register-to-vote/crown/edit/statement                     controllers.step.crown.StatementController.editPost
 
 #Address Step
-POST        /register-to-vote/crown/edit/address/lookup                controllers.step.crown.AddressController.editLookup
 GET         /register-to-vote/crown/address                            controllers.step.crown.AddressController.get
-POST        /register-to-vote/crown/address/lookup                     controllers.step.crown.AddressController.lookup
 POST        /register-to-vote/crown/address                            controllers.step.crown.AddressController.post
 GET         /register-to-vote/crown/edit/address                       controllers.step.crown.AddressController.editGet
 POST        /register-to-vote/crown/edit/address                       controllers.step.crown.AddressController.editPost
+
+#Lookup Address Step
+POST        /register-to-vote/crown/address/lookup                     controllers.step.crown.AddressController.lookup
+
+#Manual Address Step
+GET         /register-to-vote/crown/address/manual                     controllers.step.crown.AddressManualController.get
+POST        /register-to-vote/crown/address/manual                     controllers.step.crown.AddressManualController.post
+GET         /register-to-vote/crown/edit/address/manual                controllers.step.crown.AddressManualController.editGet
+POST        /register-to-vote/crown/edit/address/manual                controllers.step.crown.AddressManualController.editPost
+
+#Select Address Step
+GET         /register-to-vote/crown/address/select                     controllers.step.crown.AddressSelectController.get
+POST        /register-to-vote/crown/address/select                     controllers.step.crown.AddressSelectController.post
+GET         /register-to-vote/crown/edit/address/select                controllers.step.crown.AddressSelectController.editGet
+POST        /register-to-vote/crown/edit/address/select                controllers.step.crown.AddressSelectController.editPost
 
 #Nationality Step
 GET         /register-to-vote/crown/nationality                        controllers.step.crown.NationalityController.get

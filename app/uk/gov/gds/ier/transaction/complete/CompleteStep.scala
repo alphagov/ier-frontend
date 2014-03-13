@@ -4,17 +4,15 @@ import play.api.mvc._
 import com.google.inject.Inject
 import uk.gov.gds.ier.service.PlacesService
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
-import uk.gov.gds.common.model.{Ero, LocalAuthority}
 import uk.gov.gds.ier.session.SessionCleaner
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.security.EncryptionService
 
 class CompleteStep @Inject() (val serialiser: JsonSerialiser,
                               placesService:PlacesService,
                               val config: Config,
-                              val encryptionService : EncryptionService,
-                              val encryptionKeys : EncryptionKeys)
+                              val encryptionService : EncryptionService)
     extends Controller
     with SessionCleaner
     with WithSerialiser
