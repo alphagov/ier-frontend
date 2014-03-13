@@ -44,6 +44,7 @@ trait ConfirmationMustache {
 
       val applicantData = List(
         confirmation.name,
+        confirmation.previousName,
         confirmation.dateOfBirth,
         confirmation.nationality,
         confirmation.nino,
@@ -57,6 +58,7 @@ trait ConfirmationMustache {
 
       val completeApplicantData = List(
         confirmation.name,
+        confirmation.previousName,
         confirmation.dateOfBirth,
         confirmation.nationality,
         confirmation.nino,
@@ -142,6 +144,28 @@ trait ConfirmationMustache {
             form(keys.name.middleNames).value,
             form(keys.name.lastName).value).flatten
             .mkString("<p>", " ", "</p>")
+        }
+      ))
+    }
+
+    def previousName = {
+      val havePreviousName = form(keys.previousName.hasPreviousName).value
+      val prevNameStr =  havePreviousName match {
+        case Some("true") => {
+          List(
+            form(keys.previousName.previousName.firstName).value,
+            form(keys.previousName.previousName.middleNames).value,
+            form(keys.previousName.previousName.lastName).value
+          ).flatten.mkString(" ")
+        }
+        case _ => "I have not changed my name in the last 12 months"
+      }
+      Some(ConfirmationQuestion(
+        title = "What is your previous name?",
+        editLink = routes.NameController.editGet.url,
+        changeName = "previous name",
+        content = ifComplete(keys.previousName) {
+          s"<p>$prevNameStr</p>"
         }
       ))
     }
