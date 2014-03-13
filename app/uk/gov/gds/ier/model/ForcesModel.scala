@@ -2,6 +2,7 @@ package uk.gov.gds.ier.model
 
 import uk.gov.gds.common.model.LocalAuthority
 import scala.util.Try
+import uk.gov.gds.ier.validation.InProgressForm
 
 case class InprogressForces(
     statement: Option[Statement] = None,
@@ -94,8 +95,19 @@ case class Statement(
     memberForcesFlag: Option[Boolean],
     partnerForcesFlag: Option[Boolean]) {
   def toApiMap =
-    partnerForcesFlag.map(partnerForcesFlag => Map("saf" -> partnerForcesFlag.toString))
-      .getOrElse( Map("saf" -> "false"))
+    if (isPartner) Map("saf" -> "true")
+    else Map("saf" -> "false")
+
+  def isPartner: Boolean = {
+    val isForcesPartner = Some(true)
+    val isNotForcesMember = Some(false)
+    ( partnerForcesFlag, memberForcesFlag ) match {
+      case (`isForcesPartner`, `isNotForcesMember`) => true
+      case (`isForcesPartner`, None) => true
+      case _ => false
+    }
+  }
+
 }
 
 case class Service(
