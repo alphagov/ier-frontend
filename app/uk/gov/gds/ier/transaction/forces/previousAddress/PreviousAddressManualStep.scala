@@ -4,7 +4,7 @@ import controllers.step.forces.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.ForcesStep
 import play.api.mvc.Call
@@ -16,7 +16,6 @@ import controllers.step.forces.NationalityController
 class PreviousAddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionKeys : EncryptionKeys,
     val encryptionService: EncryptionService)
   extends ForcesStep
   with PreviousAddressMustache
