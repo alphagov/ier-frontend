@@ -16,7 +16,7 @@ class IsoCountryService
   }
 
   def transformToIsoCode(nationality:PartialNationality):IsoNationality = {
-    val nationalities = nationality.checkedNationalities ++ nationality.otherCountries
+    val nationalities = nationality.isoCheckedNationalities ++ nationality.otherCountries
     val isoCountries = nationalities.flatMap{
       country => countryNameToCodes.get(country.toLowerCase)
     }
@@ -25,7 +25,7 @@ class IsoCountryService
   }
 
   def getFranchises(nationality:PartialNationality):List[Franchise] = {
-    val nationalities = nationality.checkedNationalities ++ nationality.otherCountries
+    val nationalities = nationality.isoCheckedNationalities ++ nationality.otherCountries
     val isoCodes = nationalities.flatMap{
       country => countryNameToCodes.get(country.toLowerCase)
     }

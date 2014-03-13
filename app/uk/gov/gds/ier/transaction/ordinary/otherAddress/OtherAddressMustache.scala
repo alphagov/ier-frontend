@@ -67,9 +67,6 @@ trait OtherAddressMustache extends StepMustache {
                            backUrl: Option[String]) : Html = {
     val data = transformFormStepToMustacheData(form, call.url, backUrl)
     val content = Mustache.render("ordinary/otherAddress", data)
-    MainStepTemplate (
-      content,
-      "Register to Vote - Do you also live at a second address?"
-    )
+    MainStepTemplate(content, data.question.title)
   }
 }
