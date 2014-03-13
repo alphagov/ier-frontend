@@ -1,11 +1,10 @@
 package uk.gov.gds.ier.transaction.overseas.lastRegisteredToVote
 
 import com.google.inject.Inject
-import play.api.templates.Html
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{InprogressOverseas, LastRegisteredType}
-import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.validation.InProgressForm
@@ -13,13 +12,11 @@ import controllers.step.overseas.routes.LastRegisteredToVoteController
 import controllers.step.overseas.routes.PreviouslyRegisteredController
 import controllers.step.overseas.DateLeftUkController
 import controllers.step.overseas.{DateLeftArmyController, DateLeftCrownController, DateLeftCouncilController}
-import uk.gov.gds.ier.model.DateLeft
 
 class LastRegisteredToVoteStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService: EncryptionService,
-    val encryptionKeys: EncryptionKeys)
+    val encryptionService: EncryptionService)
   extends OverseaStep
   with LastRegisteredToVoteForms
   with LastRegisteredToVoteMustache {

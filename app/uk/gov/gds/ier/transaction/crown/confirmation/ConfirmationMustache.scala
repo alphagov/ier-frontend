@@ -1,30 +1,37 @@
 package uk.gov.gds.ier.transaction.crown.confirmation
 
 import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.model.{InprogressCrown, WaysToVoteType}
+import uk.gov.gds.ier.model.WaysToVoteType
 import controllers.step.crown._
-import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
+import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
+import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.Key
+import uk.gov.gds.ier.model.InprogressCrown
 import uk.gov.gds.ier.validation.InProgressForm
+import scala.Some
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.form.AddressHelpers
 
 trait ConfirmationMustache {
 
   case class ConfirmationQuestion(
-      content:String,
-      title:String,
-      editLink:String,
-      changeName:String
+     content:String,
+     title:String,
+     editLink:String,
+     changeName:String
   )
 
   case class ConfirmationModel(
-      questions:List[ConfirmationQuestion],
+      applicantDetails: List[ConfirmationQuestion],
+      partnerDetails: List[ConfirmationQuestion],
+      completeApplicantDetails: List[ConfirmationQuestion],
+      displayPartnerBlock: Boolean,
       backUrl: String,
       postUrl: String
   )
 
   object Confirmation extends StepMustache {
+
     def confirmationPage(
         form:InProgressForm[InprogressCrown],
         backUrl: String,
@@ -32,21 +39,44 @@ trait ConfirmationMustache {
 
       val confirmation = new ConfirmationBlocks(form)
 
+      val partnerData = List(
+        confirmation.jobTitle,
+        confirmation.govDepartment
+      ).flatten
+
+      val applicantData = List(
+        confirmation.name,
+        confirmation.dateOfBirth,
+        confirmation.nationality,
+        confirmation.nino,
+        confirmation.address,
+        confirmation.contactAddress,
+        confirmation.openRegister,
+        confirmation.waysToVote,
+        confirmation.postalOrProxyVote,
+        confirmation.contact
+      ).flatten
+
+      val completeApplicantData = List(
+        confirmation.name,
+        confirmation.dateOfBirth,
+        confirmation.nationality,
+        confirmation.nino,
+        confirmation.jobTitle,
+        confirmation.govDepartment,
+        confirmation.address,
+        confirmation.contactAddress,
+        confirmation.openRegister,
+        confirmation.waysToVote,
+        confirmation.postalOrProxyVote,
+        confirmation.contact
+      ).flatten
+
       val data = ConfirmationModel(
-        questions = List(
-          confirmation.name,
-          confirmation.jobTitle,
-          confirmation.department,
-          confirmation.dateOfBirth,
-          confirmation.nationality,
-          confirmation.nino,
-          confirmation.UKRegistrationaddress,
-          confirmation.contactAddress,
-          confirmation.openRegister,
-          confirmation.waysToVote,
-          confirmation.postalVote,
-          confirmation.contact
-        ).flatten,
+        partnerDetails = partnerData,
+        applicantDetails = applicantData,
+        completeApplicantDetails = completeApplicantData,
+        displayPartnerBlock = displayPartnerBlock(form),
         backUrl = backUrl,
         postUrl = postUrl
       )
@@ -58,6 +88,34 @@ trait ConfirmationMustache {
         contentClasses = Some("confirmation")
       )
     }
+
+    def displayPartnerBlock (form:InProgressForm[InprogressCrown]): Boolean = {
+
+      val isPartner = Some("true")
+      val isNotMember = Some("false")
+
+      val displayCrownPartner = (
+        form(keys.statement.partnerCrownMember).value,
+        form(keys.statement.crownMember).value
+      ) match {
+        case (`isPartner`, `isNotMember`) => true
+        case (`isPartner`, None) => true
+        case _ => false
+      }
+
+      val displayBritisthCouncilPartner = (
+        form(keys.statement.partnerBritishCouncilMember).value,
+        form(keys.statement.britishCouncilMember).value
+        ) match {
+        case (`isPartner`, `isNotMember`) => true
+        case (`isPartner`, None) => true
+        case _ => false
+      }
+
+      (displayCrownPartner || displayBritisthCouncilPartner)
+
+    }
+
   }
 
   class ConfirmationBlocks(form:InProgressForm[InprogressCrown])
@@ -91,19 +149,34 @@ trait ConfirmationMustache {
     }
 
     def dateOfBirth = {
+
+      val dobContent =
+        if (form(keys.dob.dob.day).value.isDefined) {
+          val day = form(keys.dob.dob.day).value.getOrElse("")
+          val month = DateOfBirthConstants.monthsByNumber(form(keys.dob.dob.month).value.get)
+          val year = form(keys.dob.dob.year).value.getOrElse("")
+          "<p>" + day + " " + month + " " + year + "</p>"
+        } else {
+          val excuseReason = if (form(keys.dob.noDob.reason).value.isDefined) {
+            "<p>You are unable to provide your date of birth because: " +
+              form(keys.dob.noDob.reason).value.getOrElse("") + "</p>"
+          }
+          val ageRange = form(keys.dob.noDob.range).value match {
+            case Some("under18") => "<p>I am roughly under 18</p>"
+            case Some("18to70") => "<p>I am over 18 years old</p>"
+            case Some("over70") => "<p>I am over 70 years old</p>"
+            case Some("dontKnow") => "<p>I don't know my age</p>"
+            case _ => ""
+          }
+          excuseReason + ageRange
+        }
+
       Some(ConfirmationQuestion(
         title = "Date of birth",
         editLink = routes.DateOfBirthController.editGet.url,
         changeName = "date of birth",
         content = ifComplete(keys.dob) {
-          if (form(keys.dob.day).value.isDefined &&
-            form(keys.dob.month).value.isDefined &&
-            form(keys.dob.year).value.isDefined) {
-            "<p>" + form(keys.dob.day).value.get + " "  +
-              DateOfBirthConstants.monthsByNumber(form(keys.dob.month).value.get) + " " +
-              form(keys.dob.year).value.get + "</p>"
-          }
-          else "<p/>"
+          dobContent
         }
       ))
     }
@@ -113,15 +186,13 @@ trait ConfirmationMustache {
         title = "Nationality",
         editLink = routes.NationalityController.editGet.url,
         changeName = "nationality",
-        content = ifComplete(keys.dob) {
-          if (form(keys.dob.day).value.isDefined &&
-            form(keys.dob.month).value.isDefined &&
-            form(keys.dob.year).value.isDefined) {
-            "<p>" + form(keys.dob.day).value.get + " "  +
-              DateOfBirthConstants.monthsByNumber(form(keys.dob.month).value.get) + " " +
-              form(keys.dob.year).value.get + "</p>"
+        content = ifComplete(keys.nationality) {
+          if (nationalityIsFilled) {
+            "<p>I am " + confirmationNationalityString + "</p>"
+          } else {
+            "<p>I cannot provide my nationality because:</p><p>"+
+              form(keys.nationality.noNationalityReason).value.getOrElse("") + "</p>"
           }
-          else "<p/>"
         }
       ))
     }
@@ -147,27 +218,33 @@ trait ConfirmationMustache {
         title = "Job title",
         editLink = routes.JobController.editGet.url,
         changeName = "job title",
-        content = ifComplete(keys.service) {
-           ""
+        content = ifComplete(keys.job) {
+            "<p>"+form(keys.job.jobTitle).value.getOrElse("")+"</p>"
         }
       ))
     }
 
-    def department = {
+    def govDepartment = {
       Some(ConfirmationQuestion(
         title = "Department",
         editLink = routes.JobController.editGet.url,
         changeName = "department",
-        content = ifComplete(keys.rank) {
-          ""
+        content = ifComplete(keys.job) {
+          "<p>"+form(keys.job.govDepartment).value.getOrElse("")+"</p>"
         }
       ))
     }
 
-    def UKRegistrationaddress = {
+    def address = {
       Some(ConfirmationQuestion(
         title = "UK registration address",
-        editLink = routes.AddressController.editGet.url,
+        editLink = if (form(keys.address.addressLine).value.isDefined) {
+          routes.AddressSelectController.editGet.url
+        } else if (isManualAddressDefined(form, keys.address.manualAddress)) {
+          routes.AddressManualController.editGet.url
+        } else {
+          routes.AddressController.editGet.url
+        },
         changeName = "your UK registration address",
         content = ifComplete(keys.address) {
           val addressLine = form(keys.address.addressLine).value.orElse{
@@ -195,7 +272,7 @@ trait ConfirmationMustache {
               form(keys.contactAddress.addressLine3).value,
               form(keys.contactAddress.addressLine4).value,
               form(keys.contactAddress.addressLine5).value)
-            .filter(!_.getOrElse("").isEmpty).map(_.get).mkString("","<br/>",""))
+              .filter(!_.getOrElse("").isEmpty).map(_.get).mkString("","<br/>",""))
           result.append ("</p>")
           result.append ("<p>" + form (keys.contactAddress.country).value.getOrElse("") + "</p>")
           result.toString()
@@ -222,7 +299,7 @@ trait ConfirmationMustache {
       val way = form(keys.waysToVote.wayType).value.map{ way => WaysToVoteType.parse(way) }
 
       Some(ConfirmationQuestion(
-        title = "Voting",
+        title = "How you want to vote",
         editLink = routes.WaysToVoteController.editGet.url,
         changeName = "voting",
         content = ifComplete(keys.waysToVote) {
@@ -236,7 +313,7 @@ trait ConfirmationMustache {
       ))
     }
 
-    def postalVote = {
+    def postalOrProxyVote = {
       val way = form(keys.postalOrProxyVote.voteType).value.map{ way => WaysToVoteType.parse(way) }
       val prettyWayName = way match {
         case Some(WaysToVoteType.ByPost) => "postal vote"
@@ -244,7 +321,6 @@ trait ConfirmationMustache {
         case _ => ""
       }
       val myEmail = form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value.getOrElse("")
-      val deliveryMethod = form(keys.postalOrProxyVote.deliveryMethod.methodName).value
       val emailMe = form(keys.postalOrProxyVote.deliveryMethod.methodName).value == Some("email")
       val optIn = form(keys.postalOrProxyVote.optIn).value == Some("true")
 
@@ -263,8 +339,8 @@ trait ConfirmationMustache {
           },
           content = ifComplete(keys.postalOrProxyVote) {
             (optIn, emailMe) match {
-              case (true, true) => s"<p>Please email a ${prettyWayName} application form to:" +
-                "<br/>$myEmail</p>"
+              case (true, true) => s"<p>Please email a ${prettyWayName} application form to:</p>" +
+                s"<p>${myEmail}</p>"
               case (true, false) => s"<p>Please post me a ${prettyWayName} application form</p>"
               case (false, _) => s"<p>I do not need a ${prettyWayName} application form</p>"
             }
@@ -296,6 +372,36 @@ trait ConfirmationMustache {
       ))
     }
 
+    def getNationalities = {
+      val british = form(keys.nationality.british).value
+      val irish =form(keys.nationality.irish).value
+      british.toList.filter(_ == "true").map(brit => "United Kingdom") ++
+        irish.toList.filter(_ == "true").map(isIrish => "Ireland")
+    }
 
+    def confirmationNationalityString = {
+      val allCountries = getNationalities ++ obtainOtherCountriesList
+      val nationalityString = List(allCountries.dropRight(1).mkString(", "),
+        allCountries.takeRight(1).mkString("")).filter(_.nonEmpty)
+      s"a citizen of ${nationalityString.mkString(" and ")}"
+    }
+
+    def nationalityIsFilled:Boolean = {
+      val british = form(keys.nationality.british).value.getOrElse("false").toBoolean
+      val irish = form(keys.nationality.irish).value.getOrElse("false").toBoolean
+      val otherCountries = obtainOtherCountriesList
+      (british || irish || !otherCountries.isEmpty)
+    }
+
+    def obtainOtherCountriesList:List[String] = {
+      (
+        for (i <- 0 until NationalityConstants.numberMaxOfOtherCountries
+             if (form(otherCountriesKey(i)).value.isDefined)
+               && !form(otherCountriesKey(i)).value.get.isEmpty)
+        yield form(otherCountriesKey(i)).value.get
+        ).toList
+    }
+
+    def otherCountriesKey(i:Int) = keys.nationality.otherCountries.key + "["+i+"]"
   }
 }

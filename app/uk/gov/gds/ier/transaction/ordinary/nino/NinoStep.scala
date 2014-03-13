@@ -10,13 +10,12 @@ import uk.gov.gds.ier.model.InprogressOrdinary
 import play.api.templates.Html
 
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{OrdinaryStep, Routes}
 
 class NinoStep @Inject ()(val serialiser: JsonSerialiser,
                           val config: Config,
-                          val encryptionService : EncryptionService,
-                          val encryptionKeys : EncryptionKeys)
+                          val encryptionService : EncryptionService)
   extends OrdinaryStep
   with NinoForms
   with NinoMustache {

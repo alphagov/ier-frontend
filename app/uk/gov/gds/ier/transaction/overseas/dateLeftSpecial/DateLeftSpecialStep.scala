@@ -3,11 +3,10 @@ package uk.gov.gds.ier.transaction.overseas.dateLeftSpecial
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.security.EncryptionService
 import play.api.templates.Html
 import controllers.step.overseas.LastUkAddressController
 import uk.gov.gds.ier.step.OverseaStep
-import controllers.step.overseas.routes._
 import uk.gov.gds.ier.model._
 import play.api.mvc.Call
 import controllers.step.overseas.routes._
@@ -21,8 +20,7 @@ import controllers.routes.ExitController
 class DateLeftArmyStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService: EncryptionService,
-    val encryptionKeys: EncryptionKeys) extends DateLeftSpecialStep {
+    val encryptionService: EncryptionService) extends DateLeftSpecialStep {
   
  val routes = Routes(
     get = DateLeftArmyController.get,
@@ -38,8 +36,7 @@ class DateLeftArmyStep @Inject() (
 class DateLeftCrownStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService: EncryptionService,
-    val encryptionKeys: EncryptionKeys) extends DateLeftSpecialStep {
+    val encryptionService: EncryptionService) extends DateLeftSpecialStep {
  
  val routes = Routes(
     get = DateLeftCrownController.get,
@@ -56,8 +53,7 @@ class DateLeftCrownStep @Inject() (
 class DateLeftCouncilStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService: EncryptionService,
-    val encryptionKeys: EncryptionKeys) extends DateLeftSpecialStep {
+    val encryptionService: EncryptionService) extends DateLeftSpecialStep {
 
  val routes = Routes(
     get = DateLeftCouncilController.get,

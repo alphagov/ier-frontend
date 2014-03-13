@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.forces.address
 
 import controllers.step.forces.routes._
-import controllers.step.forces.NationalityController
+import controllers.step.forces.PreviousAddressFirstController
 import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
@@ -9,7 +9,7 @@ import uk.gov.gds.ier.model.{
   InprogressForces,
   Addresses,
   PossibleAddress}
-import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{ForcesStep, Routes}
@@ -19,7 +19,6 @@ class AddressSelectStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
-    val encryptionKeys: EncryptionKeys,
     val addressService: AddressService)
   extends ForcesStep
   with AddressMustache
@@ -37,7 +36,7 @@ class AddressSelectStep @Inject() (
   )
 
   def nextStep(currentState: InprogressForces) = {
-    NationalityController.nationalityStep
+    PreviousAddressFirstController.previousAddressFirstStep
   }
 
   override def postSuccess(currentState: InprogressForces) = {

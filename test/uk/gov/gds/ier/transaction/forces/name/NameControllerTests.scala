@@ -21,7 +21,7 @@ class NameControllerTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 5")
+      contentAsString(result) should include("Question 6")
       contentAsString(result) should include("What is your full name?")
       contentAsString(result) should include("Have you changed your name in the last 12 months?")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/name\"")
@@ -119,15 +119,15 @@ class NameControllerTests
   it should "display the page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(GET, "/register-to-vote/edit/name").withIerSession()
+        FakeRequest(GET, "/register-to-vote/forces/edit/name").withIerSession()
       )
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 4")
+      contentAsString(result) should include("Question 6")
       contentAsString(result) should include("What is your full name?")
       contentAsString(result) should include("Have you changed your name in the last 12 months?")
-      contentAsString(result) should include("<form action=\"/register-to-vote/edit/name\"")
+      contentAsString(result) should include("<form action=\"/register-to-vote/forces/edit/name\"")
     }
   }
 

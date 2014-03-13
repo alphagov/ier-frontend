@@ -125,7 +125,7 @@ trait ContactAddressMustache extends StepMustache with AddressHelpers {
         postUrl = post.url,
         backUrl = back.map (_.url).getOrElse(""),
         errorMessages = form.globalErrors.map( _.message ),
-        number = "9",
+        number = "10",
         title = "Where should we write to you about your registration?"
       ),
       contactAddressFieldSet = FieldSet (

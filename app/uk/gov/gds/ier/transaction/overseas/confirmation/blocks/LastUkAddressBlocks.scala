@@ -9,7 +9,7 @@ trait LastUkAddressBlocks extends AddressHelpers {
   def lastUkAddress = {
     ConfirmationQuestion(
       title = "Last UK Address",
-      editLink = if (isManualAdressDefined(form, keys.lastUkAddress.manualAddress)) {
+      editLink = if (isManualAddressDefined(form, keys.lastUkAddress.manualAddress)) {
         routes.LastUkAddressManualController.editGet.url
       } else {
         routes.LastUkAddressSelectController.editGet.url

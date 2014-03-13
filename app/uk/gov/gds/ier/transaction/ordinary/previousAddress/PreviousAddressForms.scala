@@ -4,19 +4,12 @@ import play.api.data.Forms._
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
-import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
-import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.model.Addresses
-import uk.gov.gds.ier.model.PartialAddress
-import uk.gov.gds.ier.model.PossibleAddress
-import scala.Some
-import uk.gov.gds.ier.transaction.ordinary.address.AddressForms
+import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model.Addresses
 import uk.gov.gds.ier.model.PartialAddress
 import uk.gov.gds.ier.model.InprogressOrdinary
 import scala.Some
 import uk.gov.gds.ier.model.PartialPreviousAddress
-import uk.gov.gds.ier.model.InprogressOverseas
 import uk.gov.gds.ier.model.PossibleAddress
 import uk.gov.gds.ier.model.PartialManualAddress
 

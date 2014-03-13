@@ -11,13 +11,12 @@ import play.api.templates.Html
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{ForcesStep, Routes, Exit}
 
 class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
                                        val config: Config,
-                                       val encryptionService : EncryptionService,
-                                       val encryptionKeys : EncryptionKeys)
+                                       val encryptionService : EncryptionService)
   extends ForcesStep
   with DateOfBirthForms
   with DateOfBirthMustache{
