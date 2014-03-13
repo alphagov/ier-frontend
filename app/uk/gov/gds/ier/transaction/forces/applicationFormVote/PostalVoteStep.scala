@@ -12,7 +12,6 @@ import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.{InprogressForces, WaysToVoteType}
 import uk.gov.gds.ier.validation.InProgressForm
-import play.api.mvc.SimpleResult
 
 class PostalVoteStep @Inject ()(
     val serialiser: JsonSerialiser,

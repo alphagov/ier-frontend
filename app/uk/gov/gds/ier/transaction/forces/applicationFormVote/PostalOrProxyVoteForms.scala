@@ -5,10 +5,6 @@ import uk.gov.gds.ier.model._
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.overseas.PostalOrProxyVoteConstraints
 import play.api.data.validation.{Invalid, Valid, Constraint}
-import uk.gov.gds.ier.model.PostalOrProxyVote
-import uk.gov.gds.ier.model.PostalVoteDeliveryMethod
-import uk.gov.gds.ier.model.InprogressForces
-import scala.Some
 
 trait PostalOrProxyVoteForms extends PostalOrProxyVoteForcesConstraints {
   self:  FormKeys
@@ -28,22 +24,22 @@ trait PostalOrProxyVoteForms extends PostalOrProxyVoteForcesConstraints {
     keys.optIn.key -> optional(boolean)
       .verifying("Please answer this question", postalVote => postalVote.isDefined),
     keys.deliveryMethod.key -> optional(voteDeliveryMethodMapping),
-    keys.forceToRedirect.key -> boolean
+    keys.forceToRedirect.key -> optional(boolean).verifying(forceMustBeFalse)
   ) (
     (voteType, postalVoteOption, deliveryMethod, force) => PostalOrProxyVote(
-    		WaysToVoteType.parse(voteType),
+      WaysToVoteType.parse(voteType),
       postalVoteOption,
       deliveryMethod,
-      force
+      force.getOrElse(false)
     )
   ) (
     postalVote => Some(
       postalVote.typeVote.name,
       postalVote.postalVoteOption,
       postalVote.deliveryMethod,
-      postalVote.forceRedirectToPostal
+      Some(postalVote.forceRedirectToPostal)
     )
-  ) verifying (validVoteOption, forceMustBeFalse)
+  ) verifying (validVoteOption)
 
   val postalOrProxyVoteForm = ErrorTransformForm(
     mapping(
@@ -60,16 +56,15 @@ trait PostalOrProxyVoteForcesConstraints extends PostalOrProxyVoteConstraints {
   self: ErrorMessages
     with FormKeys =>
       
-  lazy val forceMustBeFalse = Constraint[PostalOrProxyVote](keys.forceToRedirect.key) {
-    pvote => 
-      if (!pvote.forceRedirectToPostal) Valid 
-      else Invalid("", keys.forceToRedirect)
+  lazy val forceMustBeFalse = Constraint[Option[Boolean]](keys.forceToRedirect.key) {
+    case Some(true) => Invalid("", keys.forceToRedirect) 
+    case _ => Valid
   }
       
   lazy val questionIsRequiredForces = Constraint[InprogressForces](keys.postalOrProxyVote.key) {
-    application => application.postalOrProxyVote match {
-      case Some(p) => Valid
+    _.postalOrProxyVote match {
       case None => Invalid("Please answer this question", keys.postalOrProxyVote.optIn)
+      case _ => Valid
     }
   }
 

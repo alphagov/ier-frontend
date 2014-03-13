@@ -12,7 +12,6 @@ import uk.gov.gds.ier.model.{InprogressForces, WaysToVoteType}
 import play.api.mvc.Call
 import play.api.templates.Html
 import controllers.step.forces.ContactController
-import play.api.mvc.SimpleResult
 
 class ProxyVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
