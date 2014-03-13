@@ -1,46 +1,46 @@
-package uk.gov.gds.ier.transaction.forces.address
+package uk.gov.gds.ier.transaction.forces.previousAddress
 
 import controllers.step.forces.routes._
-import controllers.step.forces.PreviousAddressFirstController
 import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.InprogressForces
-import uk.gov.gds.ier.security.EncryptionService
+import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{ForcesStep, Routes}
 import uk.gov.gds.ier.validation.InProgressForm
 
-class AddressStep @Inject() (
+class PreviousAddressPostcodeStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
+    val encryptionKeys : EncryptionKeys,
     val encryptionService: EncryptionService,
     val addressService: AddressService)
   extends ForcesStep
-  with AddressMustache
-  with AddressForms {
+  with PreviousAddressMustache
+  with PreviousAddressForms {
 
-  val validation = addressForm
+  val validation = postcodeAddressFormForPreviousAddress
 
-  val previousRoute = Some(StatementController.get)
+  val previousRoute = Some(PreviousAddressFirstController.get)
 
   val routes = Routes(
-    get = AddressController.get,
-    post = AddressController.lookup,
-    editGet = AddressController.editGet,
-    editPost = AddressController.lookup
+    get = PreviousAddressPostcodeController.get,
+    post = PreviousAddressPostcodeController.lookup,
+    editGet = PreviousAddressPostcodeController.editGet,
+    editPost = PreviousAddressPostcodeController.lookup
   )
 
   def nextStep(currentState: InprogressForces) = {
-    PreviousAddressFirstController.previousAddressFirstStep
+    controllers.step.forces.PreviousAddressSelectController.previousAddressSelectStep
   }
 
   def template(
       form: InProgressForm[InprogressForces],
       call: Call,
       backUrl: Option[Call]) = {
-    AddressMustache.lookupPage(
+    PreviousAddressMustache.postcodePage(
       form,
       backUrl.map(_.url).getOrElse(""),
       call.url
@@ -48,14 +48,14 @@ class AddressStep @Inject() (
   }
 
   def lookup = ValidSession requiredFor { implicit request => application =>
-    lookupAddressForm.bindFromRequest().fold(
+    validation.bindFromRequest().fold(
       hasErrors => {
         Ok(template(InProgressForm(hasErrors), routes.post, previousRoute))
       },
       success => {
         val mergedApplication = success.merge(application)
         Redirect(
-          AddressSelectController.get
+          PreviousAddressSelectController.get
         ) storeInSession mergedApplication
       }
     )
