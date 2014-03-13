@@ -20,7 +20,6 @@ object ApplicationBuild extends IERBuild {
     "uk.gov.gds" %% "govuk-guice-utils" % "0.2-SNAPSHOT",
     "uk.gov.gds" %% "gds-scala-utils" % "0.7.6-SNAPSHOT" exclude("com.google.code.findbugs", "jsr305"),
     "joda-time" % "joda-time" % "2.1",
-    "org.bouncycastle" % "bcpg-jdk16" % "1.46",
     anorm,
     new ModuleID("org.codehaus.janino", "janino", "2.6.1"),
     "org.scalatest" % "scalatest_2.10" % "2.0" % "test",
