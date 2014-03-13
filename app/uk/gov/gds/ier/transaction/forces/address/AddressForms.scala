@@ -9,14 +9,9 @@ import uk.gov.gds.ier.validation.{
   PostcodeValidator}
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.model.Addresses
-import uk.gov.gds.ier.model.PartialAddress
-import uk.gov.gds.ier.model.PossibleAddress
 import uk.gov.gds.ier.model.InprogressForces
 import scala.Some
 import uk.gov.gds.ier.model.{
-  InprogressOrdinary,
   PartialAddress,
   PartialManualAddress,
   PossibleAddress,
