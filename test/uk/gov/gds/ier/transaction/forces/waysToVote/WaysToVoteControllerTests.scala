@@ -143,4 +143,18 @@ class WaysToVoteControllerTests
       contentAsString(result) should include("Please answer this question")
     }
   }
+  
+  behavior of "OpenRegisterController.post"
+  it should "bypass the waysToVote and redirect to Contact Step when submitted data indicate in-person way" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/forces/ways-to-vote")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "waysToVote.wayType" -> "in-person")
+      )
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/forces/contact"))
+    }
+  }
 }
