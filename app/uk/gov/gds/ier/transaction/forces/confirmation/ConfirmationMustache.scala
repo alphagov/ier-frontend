@@ -341,29 +341,22 @@ trait ConfirmationMustache {
             case Some(WaysToVoteType.ByProxy) => "<p>I want to vote by proxy (someone else voting for me)</p>"
             case Some(WaysToVoteType.InPerson) => "<p>I want to vote in person, at a polling station</p>"
             case _ => ""
-          }
+      }
       val postalOrProxyVote = (optIn, emailMe) match {
               case (Some("true"), true) => s"<p>Send an application form to:</p>" +
                 s"<p>${myEmail}</p>"
               case (Some("true"), false) => s"<p>Send me an application form in the post</p>"
               case (Some("false"), _) => s"<p>I do not need ${prettyWayName} application form</p>"
               case (_, _) => ""
-            }
-      val generatedContent = 
-        if (form(keys.waysToVote).hasErrors || 
-            (way.exists(_ == WaysToVoteType.InPerson) && form(keys.postalOrProxyVote).hasErrors)) {
-        	completeThisStepMessage
-        } 
-        else {
-          ways + postalOrProxyVote
-        }
-      
+      }
       
       Some(ConfirmationQuestion(
         title = "Voting options",
         editLink = routes.WaysToVoteController.editGet.url,
         changeName = "voting",
-        content = generatedContent 
+        content = ifComplete(keys.waysToVote) {
+        	ways + postalOrProxyVote
+        } 
       ))
     }
 

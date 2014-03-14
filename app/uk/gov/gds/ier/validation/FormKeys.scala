@@ -132,6 +132,7 @@ trait FormKeys {
 
     lazy val waysToVote = prependNamespace(Key("waysToVote"))
     lazy val wayType = prependNamespace(Key("wayType"))
+    lazy val waysToVoteAndPostalProxy = prependNamespace(Key("waysToVoteAndPostalProxy"))
 
     lazy val dateLeftSpecial = prependNamespace(Key("dateLeftSpecial"))
 

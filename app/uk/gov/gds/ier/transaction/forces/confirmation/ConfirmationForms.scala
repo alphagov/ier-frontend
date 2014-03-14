@@ -43,41 +43,59 @@ trait ConfirmationForms
 
   val confirmationForm = ErrorTransformForm(
     mapping(
-      keys.statement.key -> stepRequired(statementMapping),
-      keys.address.key -> stepRequired(partialAddressMapping),
-      keys.nationality.key -> stepRequired(nationalityMapping),
-      keys.dob.key -> stepRequired(dobAndReasonMapping),
-      keys.name.key -> stepRequired(nameMapping),
-      keys.nino.key -> stepRequired(ninoMapping),
-      keys.service.key -> stepRequired(serviceMapping),
-      keys.rank.key -> stepRequired(rankMapping),
-      keys.contactAddress.key -> stepRequired(possibleContactAddressesMapping),
-      keys.openRegister.key -> stepRequired(openRegisterOptInMapping),
-      keys.waysToVote.key -> stepRequired(waysToVoteMapping),
+      keys.statement.key -> optional(statementMapping),
+      keys.address.key -> optional(partialAddressMapping),
+      keys.nationality.key -> optional(nationalityMapping),
+      keys.dob.key -> optional(dobAndReasonMapping),
+      keys.name.key -> optional(nameMapping),
+      keys.nino.key -> optional(ninoMapping),
+      keys.service.key -> optional(serviceMapping),
+      keys.rank.key -> optional(rankMapping),
+      keys.contactAddress.key -> optional(possibleContactAddressesMapping),
+      keys.openRegister.key -> optional(openRegisterOptInMapping),
+      keys.waysToVote.key -> optional(waysToVoteMapping),
       keys.postalOrProxyVote.key -> optional(postalOrProxyVoteMapping),
-      keys.contact.key -> stepRequired(contactMapping),
+      keys.contact.key -> optional(contactMapping),
       keys.possibleAddresses.key -> optional(possibleAddressesMapping)
     )
     (InprogressForces.apply)
     (InprogressForces.unapply)
-    verifying validateWaysToVoteAndPostalProxy
+    verifying (validateForces)
   )
   
-  lazy val validateWaysToVoteAndPostalProxy = 
-    Constraint[InprogressForces]("validateWaysToVoteAndPostalProxy") { 
-    application => application.waysToVote match {
-      case None => Invalid("Please complete this step", keys.waysToVote)
+  lazy val validateForces = Constraint[InprogressForces]("validateForces") { app =>
+    val validateWaysToVote = app.waysToVote match {
+      case None => Some(keys.waysToVote)
       case Some(waysToVote) => { 
         waysToVote  match {
-          case WaysToVoteType.InPerson => Valid
+          case WaysToVote(WaysToVoteType.InPerson) => None
           case _ => {
-            application.postalOrProxyVote match {
-              case None => Invalid("Please complete this step", keys.waysToVote)
-              case _ => Valid
+            app.postalOrProxyVote match {
+              case None => Some(keys.waysToVote)
+              case Some(vote) => None
             }
           }
         }
       }
+    }
+    val errorKeys = List(
+      if (app.statement.isDefined) None else Some(keys.statement),
+      if (app.address.isDefined) None else Some(keys.address),
+      if (app.nationality.isDefined) None else Some(keys.nationality),
+      if (app.dob.isDefined) None else Some(keys.dob),
+      if (app.name.isDefined) None else Some(keys.name),
+      if (app.nino.isDefined) None else Some(keys.nino),
+      if (app.service.isDefined) None else Some(keys.service),
+      if (app.rank.isDefined) None else Some(keys.rank),
+      if (app.contactAddress.isDefined) None else Some(keys.contactAddress),
+      if (app.openRegisterOptin.isDefined) None else Some(keys.openRegister),
+      validateWaysToVote,
+      if (app.contact.isDefined) None else Some(keys.contact)
+    ).flatten
+    if (errorKeys.size == 0) {
+      Valid
+    } else {
+      Invalid ("Please complete this step", errorKeys:_*)
     }
   }
 }
