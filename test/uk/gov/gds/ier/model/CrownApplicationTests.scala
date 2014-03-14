@@ -151,6 +151,6 @@ class CrownApplicationTests
       apiMap.keys should not contain(key)
     }
 
-    apiMap.keys.size should be(34)
+    apiMap.keys.size should be(37)
   }
 }
