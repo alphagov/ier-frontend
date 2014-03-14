@@ -22,7 +22,7 @@ class NationalityControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
 
-      contentAsString(result) should include("Question 3")
+      contentAsString(result) should include("Question 4")
       contentAsString(result) should include("What is your nationality?")
       contentAsString(result) should include("/register-to-vote/forces/nationality")
     }
@@ -108,23 +108,23 @@ class NationalityControllerTests
     }
   }
 
-//  behavior of "Completing a prior step when this question is incomplete"
-//  it should "stop on this page" in {
-//    running(FakeApplication()) {
-//      val Some(result) = route(
-//        FakeRequest(POST, "/register-to-vote/forces/address")
-//          .withIerSession()
-//          .withApplication(completeForcesApplication.copy(nationality = None))
-//          .withFormUrlEncodedBody(
-//          "address.uprn" -> "123456789",
-//          "address.postcode" -> "SW1A 1AA"
-//        )
-//      )
-//
-//      status(result) should be(SEE_OTHER)
-//      redirectLocation(result) should be(Some("/register-to-vote/forces/nationality"))
-//    }
-//  }
+  behavior of "Completing a prior step when this question is incomplete"
+  it should "stop on this page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/forces/previous-address/select")
+          .withIerSession()
+          .withApplication(completeForcesApplication.copy(nationality = None))
+          .withFormUrlEncodedBody(
+          "previousAddress.uprn" -> "123456789",
+          "previousAddress.postcode" -> "SW1A 1AA"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/forces/nationality"))
+    }
+  }
 
   behavior of "NationalityController.editGet"
   it should "display the page" in {
@@ -136,7 +136,7 @@ class NationalityControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
 
-      contentAsString(result) should include("Question 3")
+      contentAsString(result) should include("Question 4")
       contentAsString(result) should include("What is your nationality?")
       contentAsString(result) should include("/register-to-vote/forces/edit/nationality")
     }

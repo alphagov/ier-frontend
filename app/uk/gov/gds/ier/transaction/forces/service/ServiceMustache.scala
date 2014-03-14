@@ -39,7 +39,7 @@ trait ServiceMustache extends StepMustache {
         postUrl = postEndpoint.url,
         backUrl = backEndpoint.fold("")(_.url),
         errorMessages = form.globalErrors.map{ _.message },
-        number = "7",
+        number = "8",
         title = if (displayPartnerSentence(progressForm.value))
                   "Which of the services is your partner in?"
                 else

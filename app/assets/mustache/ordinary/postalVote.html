@@ -20,7 +20,7 @@
     <input type="radio" id="{{postCheckboxYes.id}}" name="{{postCheckboxYes.name}}" value="true" 
       class="radio  validate {{postCheckboxYes.classes}}" data-validation-name="postalYes" 
       data-validation-type="field" data-validation-rules="nonEmpty" {{postCheckboxYes.attributes}}>
-        Yes, send me a postal vote application form
+        Yes, I want a postal vote
 </label>
 
     </fieldset>
@@ -28,7 +28,7 @@
       data-condition="{{postCheckboxYes.id}}" data-validation-name="deliveryMethod" 
       data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" 
       data-validation-children="deliveryMethodEmail deliveryMethodPost">
-      <p>How should we send you the form?</p>
+      <p>You'll need to sign and return a postal vote application form. How should we send you the form?</p>
 
 <label for="{{deliveryByEmail.id}}" class="selectable" style="margin-bottom: 16px;">
     <input type="radio" id="{{deliveryByEmail.id}}" name="{{deliveryByEmail.name}}" value="{{deliveryByEmail.value}}" class="radio  
@@ -58,11 +58,17 @@
       
       <div class="help-content">
         <h2>What is a postal vote?</h2>
-        <p>With a postal vote, your ballot paper is sent to an address that you choose. You mark your vote and 
-          then return your ballot paper in the post.</p>
-        <p>Anyone can apply for a postal vote and you don't need to give a reason.</p>
-        <p>If you are not sure whether you want a postal vote, you can complete your registration now and then 
-          apply for a postal vote later.</p>
+        <p>
+          We'll send your ballot paper to the address you choose. Then you fill it in and return it 
+          by post.
+        </p>
+        <p>
+          Anyone can apply for a postal vote. You don't need to give a reason.
+        </p>
+        <p>
+          If you're not sure whether you want a postal vote, you can complete your registration now
+          and apply for a postal vote later.
+        </p>
       </div>
       <button type="submit" id="continue" class="button next validation-submit" 
         data-validation-sources="postalVote deliveryMethod emailAddress">Continue</button>

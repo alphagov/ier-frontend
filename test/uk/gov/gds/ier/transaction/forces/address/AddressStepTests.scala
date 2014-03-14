@@ -42,7 +42,7 @@ class AddressStepTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/forces/nationality"))
+      redirectLocation(result) should be(Some("/register-to-vote/forces/previous-address"))
     }
   }
 
@@ -58,7 +58,7 @@ class AddressStepTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/forces/nationality"))
+      redirectLocation(result) should be(Some("/register-to-vote/forces/previous-address"))
     }
   }
 
@@ -126,7 +126,7 @@ behavior of "AddressStep.editGet"
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/forces/nationality"))
+      redirectLocation(result) should be(Some("/register-to-vote/forces/previous-address"))
     }
   }
 
@@ -142,7 +142,7 @@ behavior of "AddressStep.editGet"
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/forces/nationality"))
+      redirectLocation(result) should be(Some("/register-to-vote/forces/previous-address"))
     }
   }
 

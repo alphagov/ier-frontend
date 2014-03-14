@@ -366,6 +366,34 @@ POST        /register-to-vote/forces/address/select                     controll
 GET         /register-to-vote/forces/edit/address/select                controllers.step.forces.AddressSelectController.editGet
 POST        /register-to-vote/forces/edit/address/select                controllers.step.forces.AddressSelectController.editPost
 
+#Previous Address Step
+GET         /register-to-vote/forces/previous-address                   controllers.step.forces.PreviousAddressFirstController.get
+POST        /register-to-vote/forces/previous-address                   controllers.step.forces.PreviousAddressFirstController.post
+GET         /register-to-vote/forces/edit/previous-address              controllers.step.forces.PreviousAddressFirstController.editGet
+POST        /register-to-vote/forces/edit/previous-address              controllers.step.forces.PreviousAddressFirstController.editPost
+
+#Previous Address Step - postcode entry (if there is a previous address)
+GET         /register-to-vote/forces/previous-address/postcode          controllers.step.forces.PreviousAddressPostcodeController.get
+POST        /register-to-vote/forces/previous-address/postcode          controllers.step.forces.PreviousAddressPostcodeController.post
+GET         /register-to-vote/forces/edit/previous-address/postcode     controllers.step.forces.PreviousAddressPostcodeController.editGet
+POST        /register-to-vote/forces/edit/previous-address/postcode     controllers.step.forces.PreviousAddressPostcodeController.editPost
+
+#Previous Address Step - postcode lookup
+POST        /register-to-vote/forces/previous-address/lookup            controllers.step.forces.PreviousAddressPostcodeController.lookup
+
+#Previous Address Step - selection from postcode
+GET         /register-to-vote/forces/previous-address/select            controllers.step.forces.PreviousAddressSelectController.get
+POST        /register-to-vote/forces/previous-address/select            controllers.step.forces.PreviousAddressSelectController.post
+GET         /register-to-vote/forces/edit/previous-address/select       controllers.step.forces.PreviousAddressSelectController.editGet
+POST        /register-to-vote/forces/edit/previous-address/select       controllers.step.forces.PreviousAddressSelectController.editPost
+
+#Previous Address Step - manual address
+GET         /register-to-vote/forces/previous-address/manual            controllers.step.forces.PreviousAddressManualController.get
+POST        /register-to-vote/forces/previous-address/manual            controllers.step.forces.PreviousAddressManualController.post
+GET         /register-to-vote/forces/edit/previous-address/manual       controllers.step.forces.PreviousAddressManualController.editGet
+POST        /register-to-vote/forces/edit/previous-address/manual       controllers.step.forces.PreviousAddressManualController.editPost
+
+
 #Nationality Step
 GET         /register-to-vote/forces/nationality                        controllers.step.forces.NationalityController.get
 POST        /register-to-vote/forces/nationality                        controllers.step.forces.NationalityController.post

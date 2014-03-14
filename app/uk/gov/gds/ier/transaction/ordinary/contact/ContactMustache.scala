@@ -28,7 +28,7 @@ trait ContactMustache extends StepMustache {
         backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "11",
-        title = "If we have questions about your application, how should we contact you?"
+        title = "If we have questions about your application, what's the best way to contact you?"
       ),
       contactFieldSet = FieldSet(
         classes = if (progressForm(keys.contact.key).hasErrors) "invalid" else ""

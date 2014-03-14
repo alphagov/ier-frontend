@@ -19,7 +19,7 @@ trait StepMustache extends FormKeys {
       contentClasses:Option[String] = None
   ) = {
     views.html.layouts.main (
-      title = Some(title),
+      title = Some(s"$title - GOV.UK"),
       stylesheets = header,
       scripts = scripts,
       insideHeader = insideHeader,

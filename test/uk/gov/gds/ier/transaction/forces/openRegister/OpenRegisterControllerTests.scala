@@ -23,7 +23,7 @@ class OpenRegisterControllerTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 10")
+      contentAsString(result) should include("Question 11")
       contentAsString(result) should include("Do you want to include your name and address on the open register?")
       contentAsString(result) should include("/register-to-vote/forces/open-register")
     }
@@ -68,26 +68,22 @@ class OpenRegisterControllerTests
     }
   }
 
-  /*
-   * To be included when the contact address step is implemented.
-   */
-  
-//  behavior of "Completing a prior step when this question is incomplete"
-//  it should "stop on this page" in {
-//    running(FakeApplication()) {
-//      val Some(result) = route(
-//        FakeRequest(POST, "/register-to-vote/forces/contact-address")
-//          .withIerSession()
-//          .withApplication(completeForcesApplication.copy(openRegisterOptin = None))
-//          .withFormUrlEncodedBody(
-//          "contactAddressType" -> "registered"
-//        )
-//      )
-//
-//      status(result) should be(SEE_OTHER)
-//      redirectLocation(result) should be(Some("/register-to-vote/forces/open-register"))
-//    }
-//  }
+  behavior of "Completing a prior step when this question is incomplete"
+  it should "stop on this page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/forces/contact-address")
+          .withIerSession()
+          .withApplication(completeForcesApplication.copy(openRegisterOptin = None))
+          .withFormUrlEncodedBody(
+          "contactAddress.contactAddressType" -> "uk"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/forces/open-register"))
+    }
+  }
 
   behavior of "OpenRegisterController.editGet"
   it should "display the page" in {
@@ -98,7 +94,7 @@ class OpenRegisterControllerTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 10")
+      contentAsString(result) should include("Question 11")
       contentAsString(result) should include("Do you want to include your name and address on the open register?")
       contentAsString(result) should include("/register-to-vote/forces/edit/open-register")
     }

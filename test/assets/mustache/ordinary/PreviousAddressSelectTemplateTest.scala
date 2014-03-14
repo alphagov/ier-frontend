@@ -73,7 +73,7 @@ class PreviousAddressSelectTemplateTest
         hasAddresses = true
       )
 
-      val html = Mustache.render("overseas/lastUkAddressSelect", data)
+      val html = Mustache.render("ordinary/previousAddressSelect", data)
       val doc = Jsoup.parse(html.toString)
 
       val fieldset = doc.select("fieldset").first()
@@ -163,7 +163,7 @@ class PreviousAddressSelectTemplateTest
         hasAddresses = false
       )
 
-      val html = Mustache.render("overseas/lastUkAddressSelect", data)
+      val html = Mustache.render("ordinary/previousAddressSelect", data)
       val doc = Jsoup.parse(html.toString)
 
       val wrapper = doc.select("div").first()
