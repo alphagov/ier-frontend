@@ -36,8 +36,8 @@ class ConfirmationFormTests
         hasErrors.errorMessages("openRegister") should be(errorMessage)
         hasErrors.errorMessages("waysToVote") should be(errorMessage)
         hasErrors.errorMessages("contact") should be(errorMessage)
-        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(1)
-        hasErrors.errors.size should be(13)
+        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(12)
+        hasErrors.errors.size should be(24)
       },
       success => fail("Should have errored out.")
     )
@@ -60,8 +60,8 @@ class ConfirmationFormTests
         hasErrors.errorMessages("openRegister") should be(errorMessage)
         hasErrors.errorMessages("waysToVote") should be(errorMessage)
         hasErrors.errorMessages("contact") should be(errorMessage)
-        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(1)
-        hasErrors.errors.size should be(13)
+        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(12)
+        hasErrors.errors.size should be(24)
       },
       success => fail("Should have errored out.")
     )
@@ -70,27 +70,6 @@ class ConfirmationFormTests
   it should "error out on waysToVote when waysToVote form is empty" in {
     val errorMessage = Seq("Please complete this step")
     confirmationForm.fillAndValidate(completeForcesApplication.copy(waysToVote = None, 
-        postalOrProxyVote = None)).fold (
-            hasErrors => {
-              hasErrors.errorMessages(keys.waysToVote.key) should be(errorMessage)
-            },
-            success => fail("Should have errored out")
-        )
-  }
-  it should "error out on waysToVote when voting by post but postal vote step is imcompleted" in {
-    val errorMessage = Seq("Please complete this step")
-    confirmationForm.fillAndValidate(completeForcesApplication.copy(
-        waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)), 
-        postalOrProxyVote = None)).fold (
-            hasErrors => {
-              hasErrors.errorMessages(keys.waysToVote.key) should be(errorMessage)
-            },
-            success => fail("Should have errored out")
-        )
-  }
-  it should "error out on waysToVote when voting by proxy but postal vote step is imcompleted" in {
-    val errorMessage = Seq("Please complete this step")
-    confirmationForm.fillAndValidate(completeForcesApplication.copy(waysToVote = Some(WaysToVote(WaysToVoteType.ByProxy)), 
         postalOrProxyVote = None)).fold (
             hasErrors => {
               hasErrors.errorMessages(keys.waysToVote.key) should be(errorMessage)
