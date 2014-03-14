@@ -5,7 +5,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import play.api.libs.json.{Json, JsNull}
-import uk.gov.gds.ier.model.{Addresses, Address, PartialAddress}
+import uk.gov.gds.ier.model.{PartialManualAddress, Addresses, Address, PartialAddress}
 
 class LastUkAddressFormTests
   extends FlatSpec
@@ -41,7 +41,10 @@ class LastUkAddressFormTests
   it should "successfully bind a valid manual input address" in {
     val js = Json.toJson(
       Map(
-        "lastUkAddress.manualAddress" -> "123 Fake Street entered manually",
+        "lastUkAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "lastUkAddress.manualAddress.lineTwo" -> "Moseley Road",
+        "lastUkAddress.manualAddress.lineThree" -> "Hallow",
+        "lastUkAddress.manualAddress.city" -> "Worcester",
         "lastUkAddress.postcode" -> "SW1A1AA"
       )
     )
@@ -50,7 +53,11 @@ class LastUkAddressFormTests
       success => {
         success.lastUkAddress.isDefined should be(true)
         val lastUkAddress = success.lastUkAddress.get
-        lastUkAddress.manualAddress should be(Some("123 Fake Street entered manually"))
+        lastUkAddress.manualAddress should be(Some(PartialManualAddress(
+          lineOne = Some("Unit 4, Elgar Business Centre"),
+          lineTwo = Some("Moseley Road"),
+          lineThree = Some("Hallow"),
+          city = Some("Worcester"))))
         lastUkAddress.postcode should be("SW1A1AA")
       }
     )
@@ -105,7 +112,7 @@ class LastUkAddressFormTests
   }
 
   it should "successfully bind possible Address list" in {
-    val possibleAddress = PartialAddress(addressLine = Some("123 Fake Street"), 
+    val possibleAddress = PartialAddress(addressLine = Some("123 Fake Street"),
                                          uprn = Some("12345678"),
                                          postcode = "AB12 3CD",
                                          manualAddress = None)
@@ -177,7 +184,10 @@ class LastUkAddressFormTests
     val possibleAddressJS = serialiser.toJson(Addresses(List(possibleAddress)))
     val js = Json.toJson(
       Map(
-        "lastUkAddress.manualAddress" -> "1428 Elm Street",
+        "lastUkAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "lastUkAddress.manualAddress.lineTwo" -> "Moseley Road",
+        "lastUkAddress.manualAddress.lineThree" -> "Hallow",
+        "lastUkAddress.manualAddress.city" -> "Worcester",
         "lastUkAddress.postcode" -> "SW1A 1AA",
         "possibleAddresses.jsonList" -> possibleAddressJS,
         "possibleAddresses.postcode" -> "SW1A 1AA"
@@ -192,7 +202,11 @@ class LastUkAddressFormTests
         success.possibleAddresses.isDefined should be(true)
         val Some(possibleAddresses) = success.possibleAddresses
 
-        lastUkAddress.manualAddress should be(Some("1428 Elm Street"))
+        lastUkAddress.manualAddress should be(Some(PartialManualAddress(
+          lineOne = Some("Unit 4, Elgar Business Centre"),
+          lineTwo = Some("Moseley Road"),
+          lineThree = Some("Hallow"),
+          city = Some("Worcester"))))
         lastUkAddress.postcode should be("SW1A 1AA")
 
         possibleAddresses.jsonList.addresses should be(List(possibleAddress))
@@ -293,7 +307,10 @@ class LastUkAddressFormTests
   it should "succeed on valid input" in {
     val js = Json.toJson(
       Map(
-        "lastUkAddress.manualAddress" -> "123 Fake Street entered manually",
+        "lastUkAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "lastUkAddress.manualAddress.lineTwo" -> "Moseley Road",
+        "lastUkAddress.manualAddress.lineThree" -> "Hallow",
+        "lastUkAddress.manualAddress.city" -> "Worcester",
         "lastUkAddress.postcode" -> "SW1A1AA"
       )
     )
@@ -302,7 +319,11 @@ class LastUkAddressFormTests
       success => {
         success.lastUkAddress.isDefined should be(true)
         val lastUkAddress = success.lastUkAddress.get
-        lastUkAddress.manualAddress should be(Some("123 Fake Street entered manually"))
+        lastUkAddress.manualAddress should be(Some(PartialManualAddress(
+          lineOne = Some("Unit 4, Elgar Business Centre"),
+          lineTwo = Some("Moseley Road"),
+          lineThree = Some("Hallow"),
+          city = Some("Worcester"))))
         lastUkAddress.postcode should be("SW1A1AA")
       }
     )
@@ -311,7 +332,10 @@ class LastUkAddressFormTests
   it should "error out on empty values for manual address" in {
     val js =  Json.toJson(
       Map(
-        "lastUkAddress.manualAddress" -> "",
+        "lastUkAddress.manualAddress.lineOne" -> "",
+        "lastUkAddress.manualAddress.lineTwo" -> "",
+        "lastUkAddress.manualAddress.lineThree" -> "",
+        "lastUkAddress.manualAddress.city" -> "",
         "lastUkAddress.postcode" -> "SW1A 1AA"
       )
     )

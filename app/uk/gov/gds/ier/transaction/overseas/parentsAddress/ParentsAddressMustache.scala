@@ -11,7 +11,7 @@ trait ParentsAddressMustache {
   object ParentsAddressMustache extends StepMustache {
 
     val title = "What was your parent or guardian's last UK address?"
-    val number = "7"
+    val questionNumber = "7"
 
     case class LookupModel (
         question: Question,
@@ -33,7 +33,10 @@ trait ParentsAddressMustache {
         question: Question,
         lookupUrl: String,
         postcode: Field,
-        manualAddress: Field
+        maLineOne: Field,
+        maLineTwo: Field,
+        maCity: Field,
+        maCounty: Field
     )
 
     def lookupData(
@@ -44,7 +47,7 @@ trait ParentsAddressMustache {
         question = Question(
           postUrl = postUrl,
           backUrl = backUrl,
-          number = number,
+          number = questionNumber,
           title = title,
           errorMessages = form.form.globalErrors.map(_.message)
         ),
@@ -105,13 +108,13 @@ trait ParentsAddressMustache {
         key = keys.parentsAddress.uprn,
         optionList = options,
         default = SelectOption(
-          value = "", 
+          value = "",
           text = s"${options.size} addresses found"
         )
       )
       val addressSelectWithError = addressSelect.copy(
         classes = if (!hasAddresses) {
-          "invalid" 
+          "invalid"
         } else {
           addressSelect.classes
         }
@@ -121,7 +124,7 @@ trait ParentsAddressMustache {
         question = Question(
           postUrl = postUrl,
           backUrl = backUrl,
-          number = number,
+          number = questionNumber,
           title = title,
           errorMessages = progressForm.globalErrors.map(_.message)
         ),
@@ -168,13 +171,16 @@ trait ParentsAddressMustache {
         question = Question(
           postUrl = postUrl,
           backUrl = backUrl,
-          number = "5 or 6",
+          number = questionNumber,
           title = title,
           errorMessages = progressForm.globalErrors.map(_.message)
         ),
         lookupUrl = lookupUrl,
         postcode = TextField(keys.parentsAddress.postcode),
-        manualAddress = TextField(keys.parentsAddress.manualAddress)
+        maLineOne = TextField(keys.parentsAddress.manualAddress.lineOne),
+        maLineTwo = TextField(keys.parentsAddress.manualAddress.lineTwo),
+        maCity = TextField(keys.parentsAddress.manualAddress.city),
+        maCounty = TextField(keys.parentsAddress.manualAddress.country)
       )
     }
 

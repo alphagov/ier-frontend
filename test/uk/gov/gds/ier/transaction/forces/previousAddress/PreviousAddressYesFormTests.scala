@@ -5,7 +5,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import play.api.libs.json.{Json, JsNull}
-import uk.gov.gds.ier.model.{Addresses, PartialAddress}
+import uk.gov.gds.ier.model.{PartialManualAddress, Addresses, PartialAddress}
 
 class PreviousAddressYesFormTests
   extends FlatSpec
@@ -114,7 +114,10 @@ class PreviousAddressYesFormTests
   it should "successfully bind a valid manual input address" in {
     val js = Json.toJson(
       Map(
-        "previousAddress.manualAddress" -> "123 Fake Street entered manually",
+        "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+        "previousAddress.manualAddress.lineThree" -> "Hallow",
+        "previousAddress.manualAddress.city" -> "Worcester",
         "previousAddress.postcode" -> "SW1A1AA"
       )
     )
@@ -125,7 +128,14 @@ class PreviousAddressYesFormTests
         val partialPreviousAddress = success.previousAddress.get
         partialPreviousAddress.previousAddress.isDefined should be(true)
         val previousAddress = partialPreviousAddress.previousAddress.get
-        previousAddress.manualAddress should be(Some("123 Fake Street entered manually"))
+        previousAddress.manualAddress should be(Some(
+          PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")
+          ))
+        )
         previousAddress.postcode should be("SW1A1AA")
       }
     )
@@ -238,7 +248,10 @@ class PreviousAddressYesFormTests
     val possibleAddressJS = serialiser.toJson(Addresses(List(possibleAddress)))
     val js = Json.toJson(
       Map(
-        "previousAddress.manualAddress" -> "1428 Elm Street",
+        "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+        "previousAddress.manualAddress.lineThree" -> "Hallow",
+        "previousAddress.manualAddress.city" -> "Worcester",
         "previousAddress.postcode" -> "SW1A 1AA",
         // no previousAddress.uprn here means no address selected
         "possibleAddresses.jsonList" -> possibleAddressJS,
@@ -257,7 +270,14 @@ class PreviousAddressYesFormTests
         partialPreviousAddress.previousAddress.isDefined should be(true)
         val previousAddress = partialPreviousAddress.previousAddress.get
 
-        previousAddress.manualAddress should be(Some("1428 Elm Street"))
+        previousAddress.manualAddress should be(Some(
+          PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")
+          ))
+        )
         previousAddress.postcode should be("SW1A 1AA")
 
         possibleAddresses.jsonList.addresses should be(List(possibleAddress))
@@ -314,7 +334,10 @@ class PreviousAddressYesFormTests
   it should "succeed on valid input" in {
     val js = Json.toJson(
       Map(
-        "previousAddress.manualAddress" -> "123 Fake Street entered manually",
+        "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+        "previousAddress.manualAddress.lineThree" -> "Hallow",
+        "previousAddress.manualAddress.city" -> "Worcester",
         "previousAddress.postcode" -> "SW1A1AA"
       )
     )
@@ -327,7 +350,14 @@ class PreviousAddressYesFormTests
         val partialPreviousAddress = success.previousAddress.get
         partialPreviousAddress.previousAddress.isDefined should be(true)
         val previousAddress = partialPreviousAddress.previousAddress.get
-        previousAddress.manualAddress should be(Some("123 Fake Street entered manually"))
+        previousAddress.manualAddress should be(Some(
+          PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")
+          ))
+        )
         previousAddress.postcode should be("SW1A1AA")
       }
     )
@@ -355,7 +385,10 @@ class PreviousAddressYesFormTests
   it should "error out on empty value in postcode for manual address" in {
     val js =  Json.toJson(
       Map(
-        "previousAddress.manualAddress" -> "123 Fake Street entered manually",
+        "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+        "previousAddress.manualAddress.lineThree" -> "Hallow",
+        "previousAddress.manualAddress.city" -> "Worcester",
         "previousAddress.postcode" -> ""
       )
     )
@@ -376,7 +409,10 @@ class PreviousAddressYesFormTests
   it should "error out on incorrect value in postcode for manual address" in {
     val js =  Json.toJson(
       Map(
-        "previousAddress.manualAddress" -> "123 Fake Street entered manually",
+        "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+        "previousAddress.manualAddress.lineThree" -> "Hallow",
+        "previousAddress.manualAddress.city" -> "Worcester",
         "previousAddress.postcode" -> "3463463534"
       )
     )

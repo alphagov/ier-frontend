@@ -75,7 +75,7 @@ trait TestHelpers
     country = Some(Country("England", false))
   )
 
-  
+
 
   lazy val completeForcesApplication = InprogressForces(
     statement = Some(Statement(memberForcesFlag = Some(true), None)),
