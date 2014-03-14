@@ -8,7 +8,6 @@ import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import play.api.templates.Html
-import uk.gov.gds.ier.guice.DelegatingController
 
 trait NextStep[T] {
   def goToNext(currentState:T):SimpleResult
@@ -30,6 +29,10 @@ trait StepController [T <: InprogressApplication[T]]
   val confirmationRoute: Call
   val previousRoute:Option[Call]
   def template(form: InProgressForm[T], call: Call, backUrl: Option[Call]):Html
+
+  def templateWithApplication(form: InProgressForm[T], call: Call, backUrl: Option[Call]):T => Html = {
+    application:T => template(form, call, backUrl)
+  }
 
   //Returns true if this step is currently complete
   def isStepComplete(currentState: T):Boolean = {
@@ -66,7 +69,7 @@ trait StepController [T <: InprogressApplication[T]]
   def get(implicit manifest: Manifest[T]) = ValidSession requiredFor {
     request => application =>
       logger.debug(s"GET request for ${request.path}")
-      Ok(template(InProgressForm(validation.fill(application)), routes.post, previousRoute))
+      Ok(templateWithApplication(InProgressForm(validation.fill(application)), routes.post, previousRoute)(application))
   }
 
   def postMethod(postCall:Call, backUrl:Option[Call])(implicit manifest: Manifest[T]) = ValidSession requiredFor {
@@ -75,7 +78,7 @@ trait StepController [T <: InprogressApplication[T]]
       validation.bindFromRequest().fold(
         hasErrors => {
           logger.debug(s"Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
-          Ok(template(InProgressForm(hasErrors), postCall, backUrl)) storeInSession application
+          Ok(templateWithApplication(InProgressForm(hasErrors), postCall, backUrl)(application)) storeInSession application
         },
         success => {
           logger.debug(s"Form binding successful")
@@ -92,6 +95,6 @@ trait StepController [T <: InprogressApplication[T]]
   def editGet(implicit manifest: Manifest[T]) = ValidSession requiredFor {
     request => application =>
       logger.debug(s"GET edit request for ${request.path}")
-      Ok(template(InProgressForm(validation.fill(application)), routes.editPost, Some(confirmationRoute)))
+      Ok(templateWithApplication(InProgressForm(validation.fill(application)), routes.editPost, Some(confirmationRoute))(application))
   }
 }
