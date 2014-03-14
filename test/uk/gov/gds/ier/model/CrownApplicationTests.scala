@@ -45,6 +45,14 @@ class CrownApplicationTests
         middleNames = Some("James"),
         lastName = "Smith"
       )),
+      previousName = Some(PreviousName(
+        hasPreviousName = true,
+        previousName = Some(Name(
+          firstName = "George",
+          middleNames = Some("Jeffrey"),
+          lastName = "Smith"
+        ))
+      )),
       nino = Some(Nino(
         nino = Some("XX 12 34 56 D"),
         noNinoReason = None
@@ -97,6 +105,9 @@ class CrownApplicationTests
       "fn" -> "John",
       "mn" -> "James",
       "ln" -> "Smith",
+      "pfn" -> "George",
+      "pmn" -> "Jeffrey",
+      "pln" -> "Smith",
       "dob" -> "1980-12-01",
       "nino" -> "XX 12 34 56 D",
       "nat" -> "GB, IE",

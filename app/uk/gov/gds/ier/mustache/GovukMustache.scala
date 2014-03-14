@@ -69,7 +69,7 @@ trait GovukMustache {
           "govuk/registerToVoteForces",
           govukUrls(RegisterToVoteController.registerToVoteForcesStart.url)
         ),
-        title = "Register to Vote (Armed Forces) - GOV.UK",
+        title = "Register to Vote (Armed Forces)",
         insideHeader = Govuk.search(),
         related = Govuk.related(),
         scripts = Govuk.scripts(),
@@ -83,7 +83,7 @@ trait GovukMustache {
           "govuk/registerToVoteCrown",
           govukUrls(RegisterToVoteController.registerToVoteCrownStart.url)
         ),
-        title = "Register to Vote (Crown Servant or British Council) - GOV.UK",
+        title = "Register to Vote (Crown Servant or British Council)",
         insideHeader = Govuk.search(),
         related = Govuk.related(),
         scripts = Govuk.scripts(),
@@ -97,7 +97,7 @@ trait GovukMustache {
           "govuk/registerToVoteOrdinary",
           govukUrls(RegisterToVoteController.registerToVoteStart.url)
         ),
-        title = "Register to Vote - GOV.UK",
+        title = "Register to Vote",
         insideHeader = Govuk.search(),
         related = Govuk.related(),
         scripts = Govuk.scripts(),

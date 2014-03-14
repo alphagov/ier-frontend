@@ -8,6 +8,7 @@ case class InprogressCrown(
     nationality: Option[PartialNationality] = None,
     dob: Option[DateOfBirth] = None,
     name: Option[Name] = None,
+    previousName: Option[PreviousName] = None,
     job: Option[Job] = None,
     nino: Option[Nino] = None,
     contactAddress: Option[PossibleContactAddresses] = None,
@@ -25,6 +26,7 @@ case class InprogressCrown(
       nationality = this.nationality.orElse(other.nationality),
       dob = this.dob.orElse(other.dob),
       name = this.name.orElse(other.name),
+      previousName = this.previousName.orElse(other.previousName),
       job = this.job.orElse(other.job),
       nino = this.nino.orElse(other.nino),
       contactAddress = this.contactAddress.orElse(other.contactAddress),
@@ -43,6 +45,7 @@ case class CrownApplication(
     nationality: Option[IsoNationality],
     dob: Option[DateOfBirth],
     name: Option[Name],
+    previousName: Option[PreviousName],
     job: Option[Job],
     nino: Option[Nino],
     contactAddress: Option[PossibleContactAddresses],
@@ -68,6 +71,7 @@ case class CrownApplication(
       nationality.map(_.toApiMap).getOrElse(Map.empty) ++
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
+      previousName.map(_.toApiMap("p")).getOrElse(Map.empty) ++
       job.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
       mapContactAddress ++
