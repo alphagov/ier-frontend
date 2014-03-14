@@ -32,10 +32,9 @@ class JobTemplateTest
       val html = Mustache.render("crown/job", data)
       val doc = Jsoup.parse(html.toString)
 
-      doc
-        .select("label[for=jobTitleId]")
-        .first()
-        .attr("for") should be("jobTitleId")
+      val jobTitleLabel = doc.select("label[for=jobTitleId]").first()
+      jobTitleLabel should not be(null)
+      jobTitleLabel.attr("for") should be("jobTitleId")
 
       val jobTitleDiv = doc.select("div[class*=jobTitleClass]").first()
       jobTitleDiv.attr("class") should include("jobTitleClass")
@@ -46,10 +45,9 @@ class JobTemplateTest
       jobTitleInput.attr("class") should include("jobTitleClass")
 
 
-      doc
-        .select("label[for=govDepartmentId]")
-        .first()
-        .attr("for") should be("govDepartmentId")
+      val govDepartmentLabel = doc.select("label[for=govDepartmentId]").first()
+      govDepartmentLabel should not be(null)
+      govDepartmentLabel.attr("for") should be("govDepartmentId")
 
       val govDepartmentDiv = doc.select("div[class*=govDepartmentClass]").first()
       govDepartmentDiv.attr("class") should include("govDepartmentClass")

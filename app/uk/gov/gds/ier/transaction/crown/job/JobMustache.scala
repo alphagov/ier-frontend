@@ -53,12 +53,16 @@ trait JobMustache extends StepMustache {
   }
 
   private def displayPartnerSentence (application:InprogressCrown): Boolean = {
-      application.statement match {
-        case Some(CrownStatement(Some(false), Some(true),_,_)) => true
-        case Some(CrownStatement(None, Some(true),_,_)) => true
-        case Some(CrownStatement(_,_,Some(false), Some(true))) => true
-        case Some(CrownStatement(_,_,None, Some(true))) => true
-        case _ => false
-      }
+    val statement = application.statement
+    if (!statement.isDefined) {
+      false
+    }
+    else if (statement.get.crownMember == Some(true) ||
+             statement.get.britishCouncilMember == Some(true)) {
+      false
+    }
+    else {
+      true
+    }
   }
 }
