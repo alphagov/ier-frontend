@@ -23,7 +23,7 @@ class AddressStepTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Where do you live?")
+      contentAsString(result) should include("What is your address?")
       contentAsString(result) should include("Question 6")
       contentAsString(result) should include("/register-to-vote/address")
     }
@@ -94,7 +94,7 @@ class AddressStepTests
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("Where do you live?")
+      contentAsString(result) should include("What is your address?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("<form action=\"/register-to-vote/address/lookup\"")
       // postcode page is a rare page where post action is different from page URL
@@ -110,7 +110,7 @@ class AddressStepTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Where do you live?")
+      contentAsString(result) should include("What is your address?")
       contentAsString(result) should include("Question 6")
       contentAsString(result) should include("<form action=\"/register-to-vote/address/lookup\"")
     }
@@ -179,7 +179,7 @@ class AddressStepTests
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("Where do you live?")
+      contentAsString(result) should include("What is your address?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("<form action=\"/register-to-vote/address/lookup\"")
     }

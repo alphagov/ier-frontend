@@ -134,13 +134,22 @@ class ConfirmationMustacheTest
     displayPartnerBlock should be (true)
   }
 
-  "In-progress application form with filled name" should
+  "In-progress application form with filled name and previous name" should
     "generate confirmation mustache model with correctly rendered names and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       name = Some(Name(
         firstName = "John",
         middleNames = None,
-        lastName = "Smith"))
+        lastName = "Smith"
+      )),
+      previousName = Some(PreviousName(
+        hasPreviousName = true,
+        previousName = Some(Name(
+          firstName = "Jan",
+          middleNames = None,
+          lastName = "Kovar"
+        ))
+      ))
     ))
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
@@ -149,15 +158,27 @@ class ConfirmationMustacheTest
     nameModel.content should be("<p>John Smith</p>")
     nameModel.editLink should be("/register-to-vote/crown/edit/name")
 
+    val Some(prevNameModel) = confirmation.previousName
+    prevNameModel.content should be("<p>Jan Kovar</p>")
+    prevNameModel.editLink should be("/register-to-vote/crown/edit/name")
   }
 
-  "In-progress application form with filled name with middle names" should
+  "In-progress application form with filled name and previous name with middle names" should
     "generate confirmation mustache model with correctly rendered names and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       name = Some(Name(
         firstName = "John",
         middleNames = Some("Walker Junior"),
-        lastName = "Smith"))
+        lastName = "Smith"
+      )),
+      previousName = Some(PreviousName(
+        hasPreviousName = true,
+        previousName = Some(Name(
+          firstName = "Jan",
+          middleNames = Some("Janko Janik"),
+          lastName = "Kovar"
+        ))
+      ))
     ))
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
@@ -165,6 +186,10 @@ class ConfirmationMustacheTest
     val Some(nameModel) = confirmation.name
     nameModel.content should be("<p>John Walker Junior Smith</p>")
     nameModel.editLink should be("/register-to-vote/crown/edit/name")
+
+    val Some(prevNameModel) = confirmation.previousName
+    prevNameModel.content should be("<p>Jan Janko Janik Kovar</p>")
+    prevNameModel.editLink should be("/register-to-vote/crown/edit/name")
   }
 
   "In-progress application form with filled date of birth" should

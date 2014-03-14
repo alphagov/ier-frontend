@@ -116,6 +116,7 @@ trait TestHelpers
     nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
     dob = Some(DateOfBirth(Some(DOB(1988, 1, 1)), None)),
     name = Some(Name("John", None, "Smith")),
+    previousName = Some(PreviousName(true, Some(Name("George", None, "Smith")))),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
     job = Some(Job(Some("job title"), Some("MoJ"))),
     contactAddress = Some(ContactAddress(

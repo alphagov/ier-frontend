@@ -43,9 +43,26 @@ case class InProgressForm[T <: InprogressApplication[T]](form:ErrorTransformForm
     form(keys.nationality.nationalities.key).value.exists(_.contains(thisNationality))
   }
   def confirmationNationalityString = {
-    val allCountries = getNationalities.getOrElse(List.empty) ++ getOtherCountries.getOrElse(List.empty)
-    val nationalityString = List(allCountries.dropRight(1).mkString(", "), allCountries.takeRight(1).mkString("")).filter(_.nonEmpty)
-    s"a citizen of ${nationalityString.mkString(" and ")}"
+    def concatCommaEndInAnd(
+        list:List[String],
+        prepend:String = "",
+        append:String = "") = {
+      List(
+        list.dropRight(1).mkString(", "),
+        list.takeRight(1).mkString("")
+      ).filter(_.nonEmpty).mkString(prepend, " and ", append)
+    }
+
+    val localNationalities = getNationalities.getOrElse(List.empty)
+    val foreignNationalities = getOtherCountries.map { foreignList =>
+      concatCommaEndInAnd(prepend = "a citizen of ", list = foreignList)
+    }.toList
+
+    val nationalityString = concatCommaEndInAnd(
+      prepend = "I am ",
+      list = localNationalities ++ foreignNationalities
+    )
+    nationalityString
   }
 
   def manualAddressToOneLine(manualAddressKey: Key): Option[String] = {

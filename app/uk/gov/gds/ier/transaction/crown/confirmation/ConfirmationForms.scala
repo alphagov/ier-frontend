@@ -43,6 +43,7 @@ trait ConfirmationForms
       keys.nationality.key -> stepRequired(nationalityMapping),
       keys.dob.key -> stepRequired(dobAndReasonMapping),
       keys.name.key -> stepRequired(nameMapping),
+      keys.previousName.key -> stepRequired(previousNameMapping),
       keys.job.key -> stepRequired(jobMapping),
       keys.nino.key -> stepRequired(ninoMapping),
       keys.contactAddress.key -> stepRequired(contactAddressMapping),

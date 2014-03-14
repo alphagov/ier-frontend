@@ -10,7 +10,7 @@ trait AddressMustache {
 
   object AddressMustache extends StepMustache {
 
-    val title = "Where do you live?"
+    val title = "What is your address?"
     val questionNumber = "6 of 11"
 
     case class LookupModel (

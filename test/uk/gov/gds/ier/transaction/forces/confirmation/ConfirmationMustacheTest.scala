@@ -72,13 +72,22 @@ class ConfirmationMustacheTest
   }
 
 
-  "In-progress application form with filled name" should
+  "In-progress application form with filled name and previous name" should
     "generate confirmation mustache model with correctly rendered names and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
-      name = Some(Name(
-        firstName = "John",
-        middleNames = None,
-        lastName = "Smith"))
+        name = Some(Name(
+          firstName = "John",
+          middleNames = None,
+          lastName = "Smith"
+        )),
+        previousName = Some(PreviousName(
+          hasPreviousName = true,
+          previousName = Some(Name(
+            firstName = "Jan",
+            middleNames = None,
+            lastName = "Kovar"
+        ))
+      ))
     ))
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
@@ -87,15 +96,27 @@ class ConfirmationMustacheTest
     nameModel.content should be("<p>John Smith</p>")
     nameModel.editLink should be("/register-to-vote/forces/edit/name")
 
+    val Some(prevNameModel) = confirmation.previousName
+    prevNameModel.content should be("<p>Jan Kovar</p>")
+    prevNameModel.editLink should be("/register-to-vote/forces/edit/name")
   }
 
-  "In-progress application form with filled name with middle names" should
+  "In-progress application form with filled name and previous name with middle names" should
     "generate confirmation mustache model with correctly rendered names and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
-      name = Some(Name(
-        firstName = "John",
-        middleNames = Some("Walker Junior"),
-        lastName = "Smith"))
+        name = Some(Name(
+          firstName = "John",
+          middleNames = Some("Walker Junior"),
+          lastName = "Smith"
+        )),
+        previousName = Some(PreviousName(
+          hasPreviousName = true,
+          previousName = Some(Name(
+            firstName = "Jan",
+            middleNames = Some("Janko Janik"),
+            lastName = "Kovar"
+        ))
+      ))
     ))
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
@@ -103,6 +124,10 @@ class ConfirmationMustacheTest
     val Some(nameModel) = confirmation.name
     nameModel.content should be("<p>John Walker Junior Smith</p>")
     nameModel.editLink should be("/register-to-vote/forces/edit/name")
+
+    val Some(prevNameModel) = confirmation.previousName
+    prevNameModel.content should be("<p>Jan Janko Janik Kovar</p>")
+    prevNameModel.editLink should be("/register-to-vote/forces/edit/name")
   }
 
   "In-progress application form with filled date of birth" should
@@ -158,7 +183,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
     val Some(nationalityModel) = confirmation.nationality
-    nationalityModel.content should be("<p>I am a citizen of United Kingdom</p>")
+    nationalityModel.content should be("<p>I am British</p>")
     nationalityModel.editLink should be("/register-to-vote/forces/edit/nationality")
   }
 
@@ -177,7 +202,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
     val Some(nationalityModel) = confirmation.nationality
-    nationalityModel.content should be("<p>I am a citizen of Ireland</p>")
+    nationalityModel.content should be("<p>I am Irish</p>")
     nationalityModel.editLink should be("/register-to-vote/forces/edit/nationality")
   }
 
@@ -665,5 +690,145 @@ class ConfirmationMustacheTest
     val Some(contactModel) = confirmation.contact
     contactModel.content should be("<p>By post</p>  ")
     contactModel.editLink should be("/register-to-vote/forces/edit/contact")
+  }
+
+  behavior of "InProgressForm.confirmationNationalityString"
+
+  it should "handle just irish checked" in {
+    val form = confirmationForm.fillAndValidate(InprogressForces(
+      nationality = Some(PartialNationality(
+        british = None,
+        irish = Some(true),
+        hasOtherCountry = None,
+        otherCountries = List.empty,
+        noNationalityReason = None
+      ))
+    ))
+    val confirmation = new ConfirmationBlocks(InProgressForm(form))
+    confirmation.confirmationNationalityString should be("I am Irish")
+  }
+
+  it should "handle just british checked" in {
+    val form = confirmationForm.fillAndValidate(InprogressForces(
+      nationality = Some(PartialNationality(
+        british = Some(true),
+        irish = None,
+        hasOtherCountry = None,
+        otherCountries = List.empty,
+        noNationalityReason = None
+      ))
+    ))
+    val confirmation = new ConfirmationBlocks(InProgressForm(form))
+    confirmation.confirmationNationalityString should be("I am British")
+  }
+
+  it should "handle british and irish checked" in {
+    val form = confirmationForm.fillAndValidate(InprogressForces(
+      nationality = Some(PartialNationality(
+        british = Some(true),
+        irish = Some(true),
+        hasOtherCountry = None,
+        otherCountries = List.empty,
+        noNationalityReason = None
+      ))
+    ))
+    val confirmation = new ConfirmationBlocks(InProgressForm(form))
+    confirmation.confirmationNationalityString should be("I am British and Irish")
+  }
+
+  it should "handle british, irish and an other nationality checked" in {
+    val form = confirmationForm.fillAndValidate(InprogressForces(
+      nationality = Some(PartialNationality(
+        british = Some(true),
+        irish = Some(true),
+        hasOtherCountry = Some(true),
+        otherCountries = List("New Zealand"),
+        noNationalityReason = None
+      ))
+    ))
+    val confirmation = new ConfirmationBlocks(InProgressForm(form))
+    confirmation.confirmationNationalityString should be(
+      "I am British, Irish and a citizen of New Zealand"
+    )
+  }
+
+  it should "handle british, irish and two other nationalities checked" in {
+    val form = confirmationForm.fillAndValidate(InprogressForces(
+      nationality = Some(PartialNationality(
+        british = Some(true),
+        irish = Some(true),
+        hasOtherCountry = Some(true),
+        otherCountries = List("New Zealand", "India"),
+        noNationalityReason = None
+      ))
+    ))
+    val confirmation = new ConfirmationBlocks(InProgressForm(form))
+    confirmation.confirmationNationalityString should be(
+      "I am British, Irish and a citizen of New Zealand and India"
+    )
+  }
+
+  it should "handle british, irish and three other nationalities checked" in {
+    val form = confirmationForm.fillAndValidate(InprogressForces(
+      nationality = Some(PartialNationality(
+        british = Some(true),
+        irish = Some(true),
+        hasOtherCountry = Some(true),
+        otherCountries = List("New Zealand", "India", "Japan"),
+        noNationalityReason = None
+      ))
+    ))
+    val confirmation = new ConfirmationBlocks(InProgressForm(form))
+    confirmation.confirmationNationalityString should be(
+      "I am British, Irish and a citizen of New Zealand, India and Japan"
+    )
+  }
+
+  it should "handle an other nationality checked" in {
+    val form = confirmationForm.fillAndValidate(InprogressForces(
+      nationality = Some(PartialNationality(
+        british = None,
+        irish = None,
+        hasOtherCountry = Some(true),
+        otherCountries = List("New Zealand"),
+        noNationalityReason = None
+      ))
+    ))
+    val confirmation = new ConfirmationBlocks(InProgressForm(form))
+    confirmation.confirmationNationalityString should be(
+      "I am a citizen of New Zealand"
+    )
+  }
+
+  it should "handle an three other nationalities checked" in {
+    val form = confirmationForm.fillAndValidate(InprogressForces(
+      nationality = Some(PartialNationality(
+        british = None,
+        irish = None,
+        hasOtherCountry = Some(true),
+        otherCountries = List("New Zealand", "India", "Japan"),
+        noNationalityReason = None
+      ))
+    ))
+    val confirmation = new ConfirmationBlocks(InProgressForm(form))
+    confirmation.confirmationNationalityString should be(
+      "I am a citizen of New Zealand, India and Japan"
+    )
+  }
+
+  it should "handle two other nationalities checked" in {
+    val form = confirmationForm.fillAndValidate(InprogressForces(
+      nationality = Some(PartialNationality(
+        british = None,
+        irish = None,
+        hasOtherCountry = Some(true),
+        otherCountries = List("New Zealand", "India"),
+        noNationalityReason = None
+      ))
+    ))
+    val confirmation = new ConfirmationBlocks(InProgressForm(form))
+    confirmation.confirmationNationalityString should be(
+      "I am a citizen of New Zealand and India"
+    )
   }
 }

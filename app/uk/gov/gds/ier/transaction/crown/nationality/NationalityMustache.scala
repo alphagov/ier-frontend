@@ -1,7 +1,7 @@
-package uk.gov.gds.ier.transaction.ordinary.nationality
+package uk.gov.gds.ier.transaction.crown.nationality
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.model.InprogressOrdinary
+import uk.gov.gds.ier.model.InprogressCrown
 import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.mustache.StepMustache
@@ -27,13 +27,13 @@ trait NationalityMustache extends StepMustache {
   )
 
   def transformFormStepToMustacheData(
-      form: ErrorTransformForm[InprogressOrdinary],
+      form: ErrorTransformForm[InprogressCrown],
       postEndpoint: Call,
       backEndpoint:Option[Call]) : NationalityModel = {
 
     implicit val progressForm = form
 
-    val application:InprogressOrdinary = form.value.getOrElse(InprogressOrdinary())
+    val application:InprogressCrown = form.value.getOrElse(InprogressCrown())
     val otherCountriesList = application.nationality.map(_.otherCountries).getOrElse(List.empty)
 
     NationalityModel(
@@ -41,7 +41,7 @@ trait NationalityMustache extends StepMustache {
         postUrl = postEndpoint.url,
         backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
-        number = "2 of 11",
+        number = "3",
         title = "What is your nationality?"
       ),
       britishOption = CheckboxField(
@@ -80,11 +80,11 @@ trait NationalityMustache extends StepMustache {
   }
 
   def nationalityMustache(
-      form: ErrorTransformForm[InprogressOrdinary],
+      form: ErrorTransformForm[InprogressCrown],
       postEndpoint: Call,
       backEndpoint:Option[Call]) : Html = {
     val data = transformFormStepToMustacheData(form, postEndpoint, backEndpoint)
-    val content = Mustache.render("ordinary/nationality", data)
+    val content = Mustache.render("crown/nationality", data)
     MainStepTemplate(content, data.question.title)
   }
 
