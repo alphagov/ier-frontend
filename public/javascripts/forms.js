@@ -90,11 +90,6 @@
       });
     }
   };
-  ConditionalControl.prototype.clearContent = function (controlId) {
-    if (controlId !== this.$toggle.attr('id')) {
-      this.$content.removeClass(this.toggleClass);
-    }
-  };
   ConditionalControl.prototype.adjustVerticalSpace = function (content) {
     var $controlWrapper = this.$toggle.parent('.selectable'),
         $control = ($controlWrapper.length) ? $controlWrapper : this.$toggle;
