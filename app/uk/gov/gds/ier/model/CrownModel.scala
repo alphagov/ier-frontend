@@ -55,6 +55,13 @@ case class CrownApplication(
   extends CompleteApplication {
 
   def toApiMap = {
+
+    val mapContactAddress =
+      if (contactAddress.isDefined && contactAddress.map(_.contactAddressType.exists(value => value.equals("uk"))).get)
+        contactAddress.map(_.toApiMapFromUkAddress(address)).getOrElse(Map.empty)
+      else
+        contactAddress.map(_.toApiMap).getOrElse(Map.empty)
+
     Map.empty ++
       statement.map(_.toApiMap).getOrElse(Map.empty) ++
       address.map(_.toApiMap("reg")).getOrElse(Map.empty) ++
@@ -63,7 +70,7 @@ case class CrownApplication(
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
       job.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
-      contactAddress.map(_.toApiMap).getOrElse(Map.empty) ++
+      mapContactAddress ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
       postalOrProxyVote.map(_.toApiMap).getOrElse(Map.empty) ++
       contact.map(_.toApiMap).getOrElse(Map.empty) ++

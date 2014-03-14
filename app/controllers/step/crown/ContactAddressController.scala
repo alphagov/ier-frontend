@@ -1,6 +1,7 @@
 package controllers.step.crown
 
 import uk.gov.gds.ier.guice.DelegatingController
+import uk.gov.gds.ier.transaction.crown.contactAddress.ContactAddressStep
 
 object ContactAddressController extends DelegatingController[ContactAddressStep] {
 

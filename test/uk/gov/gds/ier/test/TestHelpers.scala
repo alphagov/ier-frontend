@@ -118,14 +118,12 @@ trait TestHelpers
     name = Some(Name("John", None, "Smith")),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
     job = Some(Job(Some("job title"), Some("MoJ"))),
-    contactAddress = Some(ContactAddress(
-      country = Some("United Kingdom"),
-      postcode = None,
-      addressLine1 = Some("some address line 1"),
-      addressLine2 = None,
-      addressLine3 = None,
-      addressLine4 = None,
-      addressLine5 = None)),
+    contactAddress = Some (PossibleContactAddresses(
+      contactAddressType = Some("uk"),
+      ukAddressLine = Some("my uk address, london"),
+      bfpoContactAddress = None,
+      otherContactAddress = None
+    )),
     openRegisterOptin = Some(true),
     waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
     postalOrProxyVote = Some(PostalOrProxyVote(

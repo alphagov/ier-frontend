@@ -16,14 +16,14 @@ class ContactAddressControllerTests
   it should "display the page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(GET, "/register-to-vote/forces/contact-address").withIerSession()
+        FakeRequest(GET, "/register-to-vote/crown/contact-address").withIerSession()
       )
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 10")
+      contentAsString(result) should include("Question 8")
       contentAsString(result) should include("Where should we write to you about your registration?")
-      contentAsString(result) should include("/register-to-vote/forces/contact-address")
+      contentAsString(result) should include("/register-to-vote/crown/contact-address")
     }
   }
 
@@ -31,7 +31,7 @@ class ContactAddressControllerTests
   it should "bind successfully and redirect to the next step" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/forces/contact-address")
+        FakeRequest(POST, "/register-to-vote/crown/contact-address")
           .withIerSession()
           .withFormUrlEncodedBody(
             "contactAddress.contactAddressType" -> "uk"
@@ -39,76 +39,75 @@ class ContactAddressControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/forces/open-register"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/open-register"))
     }
   }
 
   it should "bind successfully and redirect to the confirmation step when all complete" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/forces/contact-address")
+        FakeRequest(POST, "/register-to-vote/crown/contact-address")
           .withIerSession()
-          .withApplication(completeForcesApplication)
+          .withApplication(completeCrownApplication)
           .withFormUrlEncodedBody(
           "contactAddress.contactAddressType" -> "uk"
         )
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/forces/confirmation"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/confirmation"))
     }
   }
 
   it should "display any errors on unsuccessful bind" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/forces/contact-address").withIerSession()
+        FakeRequest(POST, "/register-to-vote/crown/contact-address").withIerSession()
       )
 
       status(result) should be(OK)
       contentAsString(result) should include("Where should we write to you about your registration?")
       contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/forces/contact-address")
+      contentAsString(result) should include("/register-to-vote/crown/contact-address")
     }
   }
 
-  behavior of "Completing a prior step when this question is incomplete"
-  it should "stop on this page" in {
-    running(FakeApplication()) {
-      val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/forces/rank")
-          .withIerSession()
-          .withApplication(completeForcesApplication.copy(contactAddress = None))
-          .withFormUrlEncodedBody(
-          "rank.serviceNumber" -> "12345",
-          "rank.rank" -> "Captain"
-        )
-      )
-
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/forces/contact-address"))
-    }
-  }
+//  behavior of "Completing a prior step when this question is incomplete"
+//  it should "stop on this page" in {
+//    running(FakeApplication()) {
+//      val Some(result) = route(
+//        FakeRequest(POST, "/register-to-vote/crown/nino")
+//          .withIerSession()
+//          .withApplication(completeCrownApplication.copy(contactAddress = None))
+//          .withFormUrlEncodedBody(
+//          "NINO.NINO" -> "AB 12 34 56 D"
+//        )
+//      )
+//
+//      status(result) should be(SEE_OTHER)
+//      redirectLocation(result) should be(Some("/register-to-vote/crown/contact-address"))
+//    }
+//  }
 
   behavior of "ContactAddressController.editGet"
   it should "display the page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(GET, "/register-to-vote/forces/edit/contact-address").withIerSession()
+        FakeRequest(GET, "/register-to-vote/crown/edit/contact-address").withIerSession()
       )
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 10")
+      contentAsString(result) should include("Question 8")
       contentAsString(result) should include("Where should we write to you about your registration?")
-      contentAsString(result) should include("/register-to-vote/forces/edit/contact-address")    }
+      contentAsString(result) should include("/register-to-vote/crown/edit/contact-address")    }
   }
 
   behavior of "ContactAddressController.editPost"
   it should "bind successfully and redirect to the next step" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/forces/edit/contact-address")
+        FakeRequest(POST, "/register-to-vote/crown/edit/contact-address")
           .withIerSession()
           .withFormUrlEncodedBody(
           "contactAddress.contactAddressType" -> "uk"
@@ -116,36 +115,36 @@ class ContactAddressControllerTests
         )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/forces/open-register"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/open-register"))
     }
   }
 
   it should "bind successfully and redirect to the confirmation step when all complete" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/forces/edit/contact-address")
+        FakeRequest(POST, "/register-to-vote/crown/edit/contact-address")
           .withIerSession()
-          .withApplication(completeForcesApplication)
+          .withApplication(completeCrownApplication)
           .withFormUrlEncodedBody(
           "contactAddress.contactAddressType" -> "uk"
         )
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/forces/confirmation"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/confirmation"))
     }
   }
 
   it should "display any errors on unsuccessful bind" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/forces/edit/contact-address").withIerSession()
+        FakeRequest(POST, "/register-to-vote/crown/edit/contact-address").withIerSession()
       )
 
       status(result) should be(OK)
       contentAsString(result) should include("Where should we write to you about your registration?")
       contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/forces/edit/contact-address")
+      contentAsString(result) should include("/register-to-vote/crown/edit/contact-address")
     }
   }
 }

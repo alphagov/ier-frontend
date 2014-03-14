@@ -259,19 +259,41 @@ trait ConfirmationMustache {
         changeName = "polling card address",
         content = ifComplete(keys.contactAddress) {
 
-          val result:StringBuilder = new StringBuilder
-          result.append ("<p>")
-          result.append (
-            List (
-              form(keys.contactAddress.addressLine1).value,
-              form(keys.contactAddress.addressLine2).value,
-              form(keys.contactAddress.addressLine3).value,
-              form(keys.contactAddress.addressLine4).value,
-              form(keys.contactAddress.addressLine5).value)
-              .filter(!_.getOrElse("").isEmpty).map(_.get).mkString("","<br/>",""))
-          result.append ("</p>")
-          result.append ("<p>" + form (keys.contactAddress.country).value.getOrElse("") + "</p>")
-          result.toString()
+          val addressTypeKey = form(keys.contactAddress.contactAddressType).value match {
+            case Some("uk") => keys.ukContactAddress
+            case Some("bfpo") => keys.bfpoContactAddress
+            case Some("other") => keys.otherContactAddress
+            case _ => throw new IllegalArgumentException
+          }
+
+          if (addressTypeKey.equals(keys.ukContactAddress)) {
+            ifComplete(keys.address) {
+              val addressLine = form(keys.address.addressLine).value.orElse{
+                form(keys.address.manualAddress).value
+              }.getOrElse("")
+              val postcode = form(keys.address.postcode).value.getOrElse("")
+              s"<p>$addressLine</p><p>$postcode</p>"
+            }
+          }
+          else {
+            val contactAddressKey = keys.contactAddress.prependNamespace(addressTypeKey)
+            val result:StringBuilder = new StringBuilder
+            result.append ("<p>")
+            result.append (
+              List (
+                form(contactAddressKey.prependNamespace(keys.addressLine1)).value,
+                form(contactAddressKey.prependNamespace(keys.addressLine2)).value,
+                form(contactAddressKey.prependNamespace(keys.addressLine3)).value,
+                form(contactAddressKey.prependNamespace(keys.addressLine4)).value,
+                form(contactAddressKey.prependNamespace(keys.addressLine5)).value)
+                .filter(!_.getOrElse("").isEmpty).map(_.get).mkString("","<br/>",""))
+            result.append ("</p>")
+            result.append ("<p>" +
+              form (contactAddressKey.prependNamespace(keys.postcode)).value.getOrElse("") + "</p>")
+            result.append ("<p>" +
+              form (contactAddressKey.prependNamespace(keys.country)).value.getOrElse("") + "</p>")
+            result.toString()
+          }
         }
       ))
     }
