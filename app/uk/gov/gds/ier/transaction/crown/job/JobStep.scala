@@ -30,11 +30,18 @@ class JobStep @Inject ()(
     editPost = JobController.editPost
   )
 
+
   def template(
+    form: InProgressForm[InprogressCrown],
+    call: Call,
+    backUrl:Option[Call]): Html = Html.empty
+
+  override def templateWithApplication(
       form:InProgressForm[InprogressCrown],
       call:Call,
-      backUrl: Option[Call]): Html = {
-    jobMustache(form.form, call, backUrl)
+      backUrl: Option[Call]) = {
+    application:InprogressCrown =>
+      jobMustache(application, form.form, call, backUrl)
   }
 
   def nextStep(currentState: InprogressCrown) = {

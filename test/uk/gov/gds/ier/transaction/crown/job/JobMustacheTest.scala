@@ -19,7 +19,9 @@ class JobMustacheTest
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = jobForm
+    val emptyApplication = InprogressCrown()
     val jobModel = jobMustache.transformFormStepToMustacheData(
+      emptyApplication,
       emptyApplicationForm,
       JobController.post,
       Some(NinoController.get))
@@ -34,14 +36,18 @@ class JobMustacheTest
   }
 
   it should "progress form with filled applicant name should produce Mustache Model with name values present" in {
-    val partiallyFilledApplicationForm = jobForm.fill(InprogressCrown(
+
+    val partiallyFilledApplication = InprogressCrown(
       job = Some(Job(
         jobTitle = Some("Doctor"),
         govDepartment = Some("Fake Dept")
       ))
-    ))
+    )
+
+    val partiallyFilledApplicationForm = jobForm.fill(partiallyFilledApplication)
 
     val jobModel = jobMustache.transformFormStepToMustacheData(
+      partiallyFilledApplication,
       partiallyFilledApplicationForm,
       JobController.post,
       Some(NinoController.get))

@@ -14,6 +14,7 @@ trait JobMustache extends StepMustache {
      govDepartment: Field)
 
   def transformFormStepToMustacheData(
+     application: InprogressCrown,
      form:ErrorTransformForm[InprogressCrown],
      post: Call,
      back: Option[Call]): JobModel = {
@@ -26,7 +27,7 @@ trait JobMustache extends StepMustache {
         backUrl = back.map (_.url).getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "6",
-        title = if (displayPartnerSentence(progressForm.value))
+        title = if (displayPartnerSentence(application))
           "What is your partner's role?"
         else
           "What is your role?"
@@ -41,25 +42,23 @@ trait JobMustache extends StepMustache {
   }
 
   def jobMustache(
+       application: InprogressCrown,
        form:ErrorTransformForm[InprogressCrown],
        post: Call,
        back: Option[Call]): Html = {
 
-    val data = transformFormStepToMustacheData(form, post, back)
+    val data = transformFormStepToMustacheData(application, form, post, back)
     val content = Mustache.render("crown/job", data)
     MainStepTemplate(content, data.question.title)
   }
 
-  private def displayPartnerSentence (application:Option[InprogressCrown]): Boolean = {
-    if (application.isDefined) {
-      application.get.statement match {
+  private def displayPartnerSentence (application:InprogressCrown): Boolean = {
+      application.statement match {
         case Some(CrownStatement(Some(false), Some(true),_,_)) => true
         case Some(CrownStatement(None, Some(true),_,_)) => true
         case Some(CrownStatement(_,_,Some(false), Some(true))) => true
         case Some(CrownStatement(_,_,None, Some(true))) => true
         case _ => false
       }
-    }
-    else false
   }
 }
