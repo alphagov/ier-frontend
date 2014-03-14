@@ -351,13 +351,9 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
     val Some(jobTitleModel) = confirmation.jobTitle
-    val Some(govDepartmentModel) = confirmation.govDepartment
 
-    jobTitleModel.content should be("<p>some job title</p>")
+    jobTitleModel.content should be("<p>some job title</p><p>MoJ</p>")
     jobTitleModel.editLink should be("/register-to-vote/crown/edit/job-title")
-
-    govDepartmentModel.content should be("<p>MoJ</p>")
-    govDepartmentModel.editLink should be("/register-to-vote/crown/edit/job-title")
   }
 
   "In-progress application form with valid UK address" should
