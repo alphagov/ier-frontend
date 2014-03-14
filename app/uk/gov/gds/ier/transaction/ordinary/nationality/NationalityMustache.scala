@@ -85,7 +85,7 @@ trait NationalityMustache extends StepMustache {
       backEndpoint:Option[Call]) : Html = {
     val data = transformFormStepToMustacheData(form, postEndpoint, backEndpoint)
     val content = Mustache.render("ordinary/nationality", data)
-    MainStepTemplate(content, "Register to Vote - " + data.question.title)
+    MainStepTemplate(content, data.question.title)
   }
 
   def createMustacheCountryList (otherCountriesTail:List[String]) : List[CountryItem] = {

@@ -200,7 +200,7 @@ trait ConfirmationMustache {
         changeName = "nationality",
         content = ifComplete(keys.nationality) {
           if (nationalityIsFilled) {
-            "<p>I am " + confirmationNationalityString + "</p>"
+            "<p>" + confirmationNationalityString + "</p>"
           } else {
             "<p>I cannot provide my nationality because:</p><p>"+
               form(keys.nationality.noNationalityReason).value.getOrElse("") + "</p>"
@@ -459,18 +459,40 @@ trait ConfirmationMustache {
       ))
     }
 
-    def getNationalities = {
+    def getNationalities:List[String] = {
       val british = form(keys.nationality.british).value
       val irish =form(keys.nationality.irish).value
-      british.toList.filter(_ == "true").map(brit => "United Kingdom") ++
-      irish.toList.filter(_ == "true").map(isIrish => "Ireland")
+      british.toList.filter(_ == "true").map(brit => "British") ++
+      irish.toList.filter(_ == "true").map(isIrish => "Irish")
     }
 
     def confirmationNationalityString = {
-      val allCountries = getNationalities ++ obtainOtherCountriesList
-      val nationalityString = List(allCountries.dropRight(1).mkString(", "),
-        allCountries.takeRight(1).mkString("")).filter(_.nonEmpty)
-      s"a citizen of ${nationalityString.mkString(" and ")}"
+      def concatCommaEndInAnd(
+          list:List[String],
+          prepend:String = "",
+          append:String = "") = {
+        val filteredList = list.filter(_.nonEmpty)
+        val str = List(
+          filteredList.dropRight(1).mkString(", "),
+          filteredList.takeRight(1).mkString("")
+        ).filter(_.nonEmpty).mkString(" and ")
+        str match {
+          case "" => ""
+          case content => s"$prepend$content$append"
+        }
+      }
+
+      val localNationalities = getNationalities
+      val foreignNationalities = concatCommaEndInAnd(
+        prepend = "a citizen of ",
+        list = obtainOtherCountriesList
+      )
+
+      val nationalityString = concatCommaEndInAnd(
+        prepend = "I am ",
+        list = localNationalities :+ foreignNationalities
+      )
+      nationalityString
     }
 
     def nationalityIsFilled:Boolean = {
