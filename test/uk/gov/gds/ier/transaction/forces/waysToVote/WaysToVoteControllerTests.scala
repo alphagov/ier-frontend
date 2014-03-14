@@ -145,13 +145,14 @@ class WaysToVoteControllerTests
   }
   
   behavior of "OpenRegisterController.post"
-  it should "bypass the waysToVote and redirect to Contact Step when submitted data indicate in-person way" in {
+  it should "bypass the waysToVote and postalOrProxy step and redirect to Contact Step when " +
+    "completing the open register step" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/forces/ways-to-vote")
+        FakeRequest(POST, "/register-to-vote/forces/open-register")
           .withIerSession()
-          .withFormUrlEncodedBody(
-            "waysToVote.wayType" -> "in-person")
+          .withApplication(completeForcesApplication.copy(contact = None))
+          .withFormUrlEncodedBody("openRegister.optIn" -> "true")
       )
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/register-to-vote/forces/contact"))

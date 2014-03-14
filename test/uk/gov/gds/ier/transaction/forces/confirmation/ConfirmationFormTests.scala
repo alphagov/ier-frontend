@@ -6,6 +6,7 @@ import org.scalatest.{Matchers, FlatSpec}
 import play.api.libs.json.JsNull
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.model._
 
 class ConfirmationFormTests
   extends FlatSpec
@@ -64,5 +65,51 @@ class ConfirmationFormTests
       },
       success => fail("Should have errored out.")
     )
+  }
+  
+  it should "error out on waysToVote when waysToVote form is empty" in {
+    val errorMessage = Seq("Please complete this step")
+    confirmationForm.fillAndValidate(completeForcesApplication.copy(waysToVote = None, 
+        postalOrProxyVote = None)).fold (
+            hasErrors => {
+              hasErrors.errorMessages(keys.waysToVote.key) should be(errorMessage)
+            },
+            success => fail("Should have errored out")
+        )
+  }
+  it should "error out on waysToVote when voting by post but postal vote step is imcompleted" in {
+    val errorMessage = Seq("Please complete this step")
+    confirmationForm.fillAndValidate(completeForcesApplication.copy(
+        waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)), 
+        postalOrProxyVote = None)).fold (
+            hasErrors => {
+              hasErrors.errorMessages(keys.waysToVote.key) should be(errorMessage)
+            },
+            success => fail("Should have errored out")
+        )
+  }
+  it should "error out on waysToVote when voting by proxy but postal vote step is imcompleted" in {
+    val errorMessage = Seq("Please complete this step")
+    confirmationForm.fillAndValidate(completeForcesApplication.copy(waysToVote = Some(WaysToVote(WaysToVoteType.ByProxy)), 
+        postalOrProxyVote = None)).fold (
+            hasErrors => {
+              hasErrors.errorMessages(keys.waysToVote.key) should be(errorMessage)
+            },
+            success => fail("Should have errored out")
+        )
+  }
+  it should "bind successfully if the waysToVote is either post or proxy and the postal vote step is" + 
+    "filled in as well" in {
+    val errorMessage = Seq("Please complete this step")
+    confirmationForm.fillAndValidate(completeForcesApplication.copy(
+        waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)), 
+        postalOrProxyVote = Some(PostalOrProxyVote(WaysToVoteType.ByPost,Some(true),
+          Some(PostalVoteDeliveryMethod(Some("post"),None)))))).fold (
+            hasErrors => fail("the form should be valid"),
+            success => {
+              success.postalOrProxyVote.isDefined
+              success.waysToVote.isDefined
+            }
+        )
   }
 }

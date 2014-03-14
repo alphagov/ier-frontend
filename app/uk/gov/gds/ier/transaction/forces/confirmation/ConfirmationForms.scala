@@ -18,6 +18,9 @@ import uk.gov.gds.ier.transaction.forces.openRegister.OpenRegisterForms
 import uk.gov.gds.ier.transaction.forces.waysToVote.WaysToVoteForms
 import uk.gov.gds.ier.transaction.forces.applicationFormVote.PostalOrProxyVoteForms
 import uk.gov.gds.ier.transaction.forces.contact.ContactForms
+import play.api.data.validation.Constraint
+import play.api.data.validation.Invalid
+import play.api.data.validation.Valid
 
 trait ConfirmationForms
   extends FormKeys
@@ -57,5 +60,24 @@ trait ConfirmationForms
     )
     (InprogressForces.apply)
     (InprogressForces.unapply)
+    verifying validateWaysToVoteAndPostalProxy
   )
+  
+  lazy val validateWaysToVoteAndPostalProxy = 
+    Constraint[InprogressForces]("validateWaysToVoteAndPostalProxy") { 
+    application => application.waysToVote match {
+      case None => Invalid("Please complete this step", keys.waysToVote)
+      case Some(waysToVote) => { 
+        waysToVote  match {
+          case WaysToVoteType.InPerson => Valid
+          case _ => {
+            application.postalOrProxyVote match {
+              case None => Invalid("Please complete this step", keys.waysToVote)
+              case _ => Valid
+            }
+          }
+        }
+      }
+    }
+  }
 }
