@@ -24,11 +24,10 @@
     }
   };
   BackButton.prototype.setup = function () {
-    var linkFragment = '<a class="back-to-previous" href="#">' +
-      'Back <span class="visuallyhidden"> to the previous question</span></a>';
-    this.$header.before(linkFragment);
+    this.$link = $('<a class="back-to-previous" href="#">' +
+      'Back <span class="visuallyhidden"> to the previous question</span></a>');
+    this.$header.before(this.$link);
     this.$header.removeClass('no-back-link');
-    this.$link = $('a.back-to-previous');
   };
   BackButton.prototype.bindEvents = function () {
     this.$link.on("click", function(e) {
