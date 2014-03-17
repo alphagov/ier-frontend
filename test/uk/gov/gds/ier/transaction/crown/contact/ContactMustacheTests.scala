@@ -22,9 +22,13 @@ class ContactMustacheTests
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = contactForm
-    val contactModel = contactMustache.transformFormStepToMustacheData (emptyApplicationForm, ContactController.post, Some(PostalVoteController.get))
+    val contactModel = contactMustache.transformFormStepToMustacheData (
+      emptyApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get))
 
-    contactModel.question.title should be("If we have questions about your application, how should we contact you?")
+    contactModel.question.title should be(
+      "If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/crown/contact")
     contactModel.question.backUrl should be("/register-to-vote/crown/postal-vote")
 
@@ -48,9 +52,13 @@ class ContactMustacheTests
       )
     )
 
-    val contactModel = contactMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, ContactController.post, Some(PostalVoteController.get))
+    val contactModel = contactMustache.transformFormStepToMustacheData(
+      partiallyFilledApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get))
 
-    contactModel.question.title should be("If we have questions about your application, how should we contact you?")
+    contactModel.question.title should be(
+      "If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/crown/contact")
     contactModel.question.backUrl should be("/register-to-vote/crown/postal-vote")
 
@@ -74,9 +82,13 @@ class ContactMustacheTests
       )
     )
 
-    val contactModel = contactMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, ContactController.post, Some(PostalVoteController.get))
+    val contactModel = contactMustache.transformFormStepToMustacheData(
+      partiallyFilledApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get))
 
-    contactModel.question.title should be("If we have questions about your application, how should we contact you?")
+    contactModel.question.title should be(
+      "If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/crown/contact")
     contactModel.question.backUrl should be("/register-to-vote/crown/postal-vote")
 
@@ -100,9 +112,13 @@ class ContactMustacheTests
       )
     )
 
-    val contactModel = contactMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, ContactController.post, Some(PostalVoteController.get))
+    val contactModel = contactMustache.transformFormStepToMustacheData(
+      partiallyFilledApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get))
 
-    contactModel.question.title should be("If we have questions about your application, how should we contact you?")
+    contactModel.question.title should be(
+      "If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/crown/contact")
     contactModel.question.backUrl should be("/register-to-vote/crown/postal-vote")
 
@@ -125,9 +141,13 @@ class ContactMustacheTests
         )
       )
     )
-    val contactModel = contactMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, ContactController.post, Some(PostalVoteController.get))
+    val contactModel = contactMustache.transformFormStepToMustacheData(
+      partiallyFilledApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get))
 
-    contactModel.question.title should be("If we have questions about your application, how should we contact you?")
+    contactModel.question.title should be(
+      "If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/crown/contact")
     contactModel.question.backUrl should be("/register-to-vote/crown/postal-vote")
 
@@ -137,6 +157,7 @@ class ContactMustacheTests
     contactModel.contactPhoneText.value should be("")
     contactModel.contactPostCheckbox.attributes should be("")
 
-    contactModel.question.errorMessages.mkString(", ") should be("Please enter your phone number")
+    contactModel.question.errorMessages.mkString(", ") should be(
+      "Please enter your phone number")
   }
 }
