@@ -105,15 +105,6 @@ case class ErrorTransformForm[T](private val form:Form[T]) {
   def globalErrorMessages = this.globalErrors.map(_.message)
 
   def prettyPrint = this.errors.map(error => s"${error.key} -> ${error.message}")
-
-//  FIXME: unfinished
-//  def manualAddressToOneLine(manualAddressKey: Key): Option[String] = {
-//    manualAddressToOneLine(this, manualAddressKey)
-//  }
-//
-//  def isManualAddressDefined(manualAddressKey: Key): Boolean = {
-//    isManualAddressDefined(this, manualAddressKey)
-//  }
 }
 
 object ErrorTransformForm {
