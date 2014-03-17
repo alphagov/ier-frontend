@@ -30,7 +30,6 @@ class DateLeftUkStepTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 5")
       contentAsString(result) should include("When did you leave the UK?")
       contentAsString(result) should include("/register-to-vote/overseas/date-left-uk")
     }
@@ -52,7 +51,7 @@ class DateLeftUkStepTests
       redirectLocation(result) should be(Some("/register-to-vote/overseas/last-uk-address"))
     }
   }
-  
+
     it should "bind successfully and redirect to the ParentName step if the application's age was " +
       "less than 18 when he left uk and has left uk less than 15 years" in {
     running(FakeApplication()) {

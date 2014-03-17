@@ -11,7 +11,7 @@ trait ParentsAddressMustache {
   object ParentsAddressMustache extends StepMustache {
 
     val title = "What was your parent or guardian's last UK address?"
-    val questionNumber = "7"
+    val questionNumber = ""
 
     case class LookupModel (
         question: Question,

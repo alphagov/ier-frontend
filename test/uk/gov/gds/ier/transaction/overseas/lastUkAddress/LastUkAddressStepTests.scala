@@ -26,7 +26,6 @@ class LastUkAddressStepTests
       contentAsString(result) should include(
         "What was the UK address where you were last registered to vote?"
       )
-      contentAsString(result) should include("Question 5 or 6")
       contentAsString(result) should include("/register-to-vote/overseas/last-uk-address")
     }
   }
@@ -227,7 +226,6 @@ behavior of "LastUkAddressStep.editGet"
       contentAsString(result) should include(
         "What was the UK address where you were last registered to vote?"
       )
-      contentAsString(result) should include("Question 5 or 6")
       contentAsString(result) should include("/register-to-vote/overseas/last-uk-address/lookup")
     }
   }

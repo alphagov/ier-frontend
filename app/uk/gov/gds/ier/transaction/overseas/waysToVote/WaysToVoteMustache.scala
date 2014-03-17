@@ -28,7 +28,7 @@ trait WaysToVoteMustache extends StepMustache {
         postUrl = postUrl,
         backUrl = backUrl.getOrElse(""),
         showBackUrl = backUrl.isDefined,
-        number = "12",
+        number = "",
         title = pageTitle,
         errorMessages = form.globalErrors.map { _.message }),
       byPost = RadioField(

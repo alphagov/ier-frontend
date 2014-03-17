@@ -22,7 +22,6 @@ class PreviouslyRegisteredStepTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 2")
       contentAsString(result) should include("Was your previous registration as an overseas voter?")
       contentAsString(result) should include("/register-to-vote/overseas/previously-registered")
     }
