@@ -5,8 +5,11 @@ import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.model.{PartialAddress, InprogressCrown}
+import uk.gov.gds.ier.form.AddressHelpers
 
-trait ContactAddressMustache extends StepMustache {
+trait ContactAddressMustache
+  extends StepMustache
+    with AddressHelpers {
 
   case class ContactAddressModel(
       question:Question,
@@ -144,7 +147,13 @@ trait ContactAddressMustache extends StepMustache {
     if (address.isDefined) {
       val addressLine = address.flatMap(_.addressLine)
       addressLine match {
-        case None => address.get.manualAddress
+        case None => {
+          val manualAddress = address.get.manualAddress
+          if (manualAddress.isDefined)
+            manualAddressToOneLine(manualAddress.get)
+          else
+            Some("")
+        }
         case _ => addressLine
       }
     }
