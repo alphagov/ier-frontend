@@ -107,10 +107,10 @@ trait TestHelpers
 
   lazy val completeCrownApplication = InprogressCrown(
     statement = Some(CrownStatement(
-      crownMember = Some(true),
-      partnerCrownMember = None,
-      britishCouncilMember = None,
-      partnerBritishCouncilMember = None
+      crownServant = true,
+      crownPartner = false,
+      councilEmployee = false,
+      councilPartner = false
     )),
     address = Some(PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)),
     nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),

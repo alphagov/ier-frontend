@@ -10,14 +10,83 @@ class CrownApplicationTests
   with CustomMatchers
   with TestHelpers {
 
+  behavior of "InprogressCrown.displayPartner"
+
+  it should "return false when statement is incomplete" in {
+    val application = InprogressCrown(statement = None)
+    application.displayPartner should be (false)
+  }
+
+  it should "return false when crownServant & crownPartner = true" in {
+    val application = InprogressCrown(
+      statement = Some(CrownStatement(
+        crownServant = true,
+        crownPartner = true,
+        councilEmployee = false,
+        councilPartner = false
+      ))
+    )
+    application.displayPartner should be (false)
+  }
+
+  it should "return false when crownServant = true" in {
+    val application = InprogressCrown(
+      statement = Some(CrownStatement(
+        crownServant = true,
+        crownPartner = false,
+        councilEmployee = false,
+        councilPartner = false
+      ))
+    )
+    application.displayPartner should be (false)
+  }
+
+  it should "return false when councilEmployee & councilPartner = true" in {
+    val application = InprogressCrown(
+      statement = Some(CrownStatement(
+        crownServant = false,
+        crownPartner = false,
+        councilEmployee = true,
+        councilPartner = true
+      ))
+    )
+    application.displayPartner should be (false)
+  }
+
+  it should "return true when councilPartner = true" in {
+    val application = InprogressCrown(
+      statement = Some(CrownStatement(
+        crownServant = false,
+        crownPartner = false,
+        councilEmployee = false,
+        councilPartner = true
+      ))
+    )
+    application.displayPartner should be (true)
+  }
+
+  it should "return false when councilEmployee = true" in {
+    val application = InprogressCrown(
+      statement = Some(CrownStatement(
+        crownServant = false,
+        crownPartner = false,
+        councilEmployee = true,
+        councilPartner = false
+      ))
+    )
+    application.displayPartner should be (false)
+  }
+
+  behavior of "CrownApplication.toApi"
+
   it should "generate the expected payload" in {
     lazy val application = CrownApplication(
 
       statement = Some(CrownStatement(
-        crownMember = Some(true),
-        partnerCrownMember = None,
-        britishCouncilMember = None,
-        partnerBritishCouncilMember = None
+        crownServant = true,
+        crownPartner = false,
+        councilEmployee = false,
+        councilPartner = false
       )),
       address = Some(Address(
         lineOne = Some("The (fake) Manor House"),
@@ -125,6 +194,7 @@ class CrownApplicationTests
       "corraddressline3" -> "North Fake",
       "corraddressline4" -> "Fakerton",
       "corraddressline5" -> "Fakesbury",
+      "crwn" -> "true",
       "scrwn" -> "false",
       "bc" -> "false",
       "sbc" -> "false",
@@ -151,6 +221,6 @@ class CrownApplicationTests
       apiMap.keys should not contain(key)
     }
 
-    apiMap.keys.size should be(37)
+    apiMap.keys.size should be(38)
   }
 }

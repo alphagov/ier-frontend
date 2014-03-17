@@ -20,18 +20,18 @@ class StatementFormTests
   it should "successfully bind flag of member to a valid form" in {
     val js = Json.toJson(
       Map(
-        "statement.crownMember" -> "true"
+        "statement.crownServant" -> "true"
       )
     )
     statementForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.statement.isDefined should be(true)
-        val statement = success.statement.get
-        statement.crownMember should be(Some(true))
-        statement.partnerCrownMember should be(None)
-        statement.britishCouncilMember should be(None)
-        statement.partnerBritishCouncilMember should be(None)
+        val Some(statement) = success.statement
+        statement.crownServant should be(true)
+        statement.crownPartner should be(false)
+        statement.councilEmployee should be(false)
+        statement.councilPartner should be(false)
       }
     )
   }
@@ -39,18 +39,18 @@ class StatementFormTests
   it should "successfully bind flag of partner to a valid form" in {
     val js = Json.toJson(
       Map(
-        "statement.partnerCrownMember" -> "true"
+        "statement.crownPartner" -> "true"
       )
     )
     statementForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.statement.isDefined should be(true)
-        val statement = success.statement.get
-        statement.crownMember should be(None)
-        statement.partnerCrownMember should be(Some(true))
-        statement.britishCouncilMember should be(None)
-        statement.partnerBritishCouncilMember should be(None)
+        val Some(statement) = success.statement
+        statement.crownServant should be(false)
+        statement.crownPartner should be(true)
+        statement.councilEmployee should be(false)
+        statement.councilPartner should be(false)
       }
     )
   }
@@ -58,19 +58,19 @@ class StatementFormTests
   it should "successfully bind member and partner to a valid form" in {
     val js = Json.toJson(
       Map(
-        "statement.crownMember" -> "true",
-        "statement.partnerBritishCouncilMember" -> "true"
+        "statement.crownServant" -> "true",
+        "statement.councilPartner" -> "true"
       )
     )
     statementForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         success.statement.isDefined should be(true)
-        val statement = success.statement.get
-        statement.crownMember should be(Some(true))
-        statement.partnerCrownMember should be(None)
-        statement.britishCouncilMember should be(None)
-        statement.partnerBritishCouncilMember should be(Some(true))
+        val Some(statement) = success.statement
+        statement.crownServant should be(true)
+        statement.crownPartner should be(false)
+        statement.councilEmployee should be(false)
+        statement.councilPartner should be(true)
       }
     )
   }
@@ -91,10 +91,10 @@ class StatementFormTests
   it should "error out on missing values" in {
     val js = Json.toJson(
       Map(
-        "statement.crownMember" -> "",
-        "statement.partnerCrownMember" -> "",
-        "statement.britishCouncilMember" -> "",
-        "statement.partnerBritishCouncilMember" -> ""
+        "statement.crownServant" -> "",
+        "statement.crownPartner" -> "",
+        "statement.councilEmployee" -> "",
+        "statement.councilPartner" -> ""
       )
     )
     statementForm.bind(js).fold(

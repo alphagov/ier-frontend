@@ -150,10 +150,12 @@ trait FormKeys {
     lazy val govDepartment = prependNamespace(Key("govDepartment"))
     lazy val serviceName = prependNamespace(Key("serviceName"))
     lazy val regiment = prependNamespace(Key("regiment"))
-    lazy val crownMember = prependNamespace(Key("crownMember"))
-    lazy val partnerCrownMember = prependNamespace(Key("partnerCrownMember"))
-    lazy val britishCouncilMember = prependNamespace(Key("britishCouncilMember"))
-    lazy val partnerBritishCouncilMember = prependNamespace(Key("partnerBritishCouncilMember"))
+    
+    lazy val crownServant = prependNamespace(Key("crownServant"))
+    lazy val crownPartner = prependNamespace(Key("crownPartner"))
+    lazy val councilEmployee = prependNamespace(Key("councilEmployee"))
+    lazy val councilPartner = prependNamespace(Key("councilPartner"))
+    
     lazy val addressType = prependNamespace(Key("addressType"))
     lazy val ukAddressLine = prependNamespace(Key("ukAddressLine"))
     lazy val ukAddress = prependNamespace(Key("ukAddress"))

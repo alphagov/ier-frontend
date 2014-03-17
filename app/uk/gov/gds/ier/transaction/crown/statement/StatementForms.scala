@@ -13,10 +13,10 @@ trait StatementForms extends StatementConstraints {
     with ErrorMessages =>
 
   lazy val statementMapping = mapping(
-    keys.crownMember.key -> optional(boolean),
-    keys.partnerCrownMember.key -> optional(boolean),
-    keys.britishCouncilMember.key -> optional(boolean),
-    keys.partnerBritishCouncilMember.key -> optional(boolean)
+    keys.crownServant.key -> boolean,
+    keys.crownPartner.key -> boolean,
+    keys.councilEmployee.key -> boolean,
+    keys.councilPartner.key -> boolean
 
   ) (
     CrownStatement.apply

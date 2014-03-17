@@ -27,10 +27,10 @@ class ConfirmationMustacheTest
     "generate confirmation mustache model without partner block" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       statement = Some(CrownStatement(
-        crownMember = Some(true),
-        partnerCrownMember = None,
-        britishCouncilMember = None,
-        partnerBritishCouncilMember = None
+        crownServant = true,
+        crownPartner = false,
+        councilEmployee = false,
+        councilPartner = false
       ))
     ))
 
@@ -45,10 +45,10 @@ class ConfirmationMustacheTest
     "generate confirmation mustache model without partner block" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       statement = Some(CrownStatement(
-        crownMember = Some(true),
-        partnerCrownMember = Some(true),
-        britishCouncilMember = None,
-        partnerBritishCouncilMember = None
+        crownServant = true,
+        crownPartner = true,
+        councilEmployee = false,
+        councilPartner = false
       ))
     ))
 
@@ -63,10 +63,10 @@ class ConfirmationMustacheTest
     "generate confirmation mustache model with partner block" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       statement = Some(CrownStatement(
-        crownMember = None,
-        partnerCrownMember = Some(true),
-        britishCouncilMember = None,
-        partnerBritishCouncilMember = None
+        crownServant = false,
+        crownPartner = true,
+        councilEmployee = false,
+        councilPartner = false
       ))
     ))
 
@@ -84,10 +84,10 @@ class ConfirmationMustacheTest
     "generate confirmation mustache model without partner block" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       statement = Some(CrownStatement(
-        crownMember = None,
-        partnerCrownMember = None,
-        britishCouncilMember = Some(true),
-        partnerBritishCouncilMember = None
+        crownServant = false,
+        crownPartner = false,
+        councilEmployee = true,
+        councilPartner = false
       ))
     ))
 
@@ -102,10 +102,10 @@ class ConfirmationMustacheTest
     "generate confirmation mustache model without partner block" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       statement = Some(CrownStatement(
-        crownMember = None,
-        partnerCrownMember = None,
-        britishCouncilMember = Some(true),
-        partnerBritishCouncilMember = Some(true)
+        crownServant = false,
+        crownPartner = false,
+        councilEmployee = true,
+        councilPartner = true
       ))
     ))
 
@@ -120,10 +120,10 @@ class ConfirmationMustacheTest
     "generate confirmation mustache model with partner block" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       statement = Some(CrownStatement(
-        crownMember = None,
-        partnerCrownMember = None,
-        britishCouncilMember = None,
-        partnerBritishCouncilMember = Some(true)
+        crownServant = false,
+        crownPartner = false,
+        councilEmployee = false,
+        councilPartner = true
       ))
     ))
 
