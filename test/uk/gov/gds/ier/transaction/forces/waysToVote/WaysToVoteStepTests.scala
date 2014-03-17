@@ -5,7 +5,7 @@ import org.scalatest.Matchers
 import org.specs2.mock.Mockito
 import com.google.inject.Singleton
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.security.{EncryptionKeys,EncryptionService}
+import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.model.{WaysToVote, WaysToVoteType, PostalOrProxyVote, PostalVoteDeliveryMethod} 
@@ -17,10 +17,9 @@ class WaysToVoteStepTests extends FlatSpec with TestHelpers with Matchers with M
     val mockedJsonSerialiser = mock[JsonSerialiser]
     val mockedConfig = mock[Config]
     val mockedEncryptionService = mock[EncryptionService]
-    val mockedEncryptionKeys = mock[EncryptionKeys]
 
     val waysToVoteStep = new WaysToVoteStep(mockedJsonSerialiser, mockedConfig,
-        mockedEncryptionService, mockedEncryptionKeys)
+        mockedEncryptionService)
 
     val currentState = completeForcesApplication.copy(waysToVote = Some(WaysToVote(
         WaysToVoteType.InPerson)), 
@@ -42,10 +41,9 @@ class WaysToVoteStepTests extends FlatSpec with TestHelpers with Matchers with M
     val mockedJsonSerialiser = mock[JsonSerialiser]
     val mockedConfig = mock[Config]
     val mockedEncryptionService = mock[EncryptionService]
-    val mockedEncryptionKeys = mock[EncryptionKeys]
 
     val waysToVoteStep = new WaysToVoteStep(mockedJsonSerialiser, mockedConfig,
-        mockedEncryptionService, mockedEncryptionKeys)
+        mockedEncryptionService)
 
     val currentState = completeForcesApplication.copy(waysToVote = Some(WaysToVote(
         WaysToVoteType.ByPost)), 
