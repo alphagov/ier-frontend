@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.forces.waysToVote
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.ForcesStep
 import controllers.step.forces.routes.{WaysToVoteController, OpenRegisterController}
 import controllers.step.forces.{ProxyVoteController, ContactController, PostalVoteController}
@@ -20,8 +20,7 @@ import uk.gov.gds.ier.model.{WaysToVote,PostalOrProxyVote}
 class WaysToVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService,
-    val encryptionKeys : EncryptionKeys)
+    val encryptionService : EncryptionService)
   extends ForcesStep
   with WaysToVoteForms
   with WaysToVoteMustache {

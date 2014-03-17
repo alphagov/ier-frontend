@@ -2,13 +2,16 @@ package uk.gov.gds.ier.model
 
 import uk.gov.gds.common.model.LocalAuthority
 import scala.util.Try
+import uk.gov.gds.ier.validation.InProgressForm
 
 case class InprogressForces(
     statement: Option[Statement] = None,
     address: Option[PartialAddress] = None,
+    previousAddress: Option[PartialPreviousAddress] = None,
     nationality: Option[PartialNationality] = None,
     dob: Option[DateOfBirth] = None,
     name: Option[Name] = None,
+    previousName: Option[PreviousName] = None,
     nino: Option[Nino] = None,
     service: Option[Service] = None,
     rank: Option[Rank] = None,
@@ -24,9 +27,11 @@ case class InprogressForces(
     other.copy(
       statement = this.statement.orElse(other.statement),
       address = this.address.orElse(other.address),
+      previousAddress = this.previousAddress.orElse(other.previousAddress),
       nationality = this.nationality.orElse(other.nationality),
       dob = this.dob.orElse(other.dob),
       name = this.name.orElse(other.name),
+      previousName = this.previousName.orElse(other.previousName),
       nino = this.nino.orElse(other.nino),
       service = this.service.orElse(other.service),
       rank = this.rank.orElse(other.rank),
@@ -43,9 +48,11 @@ case class InprogressForces(
 case class ForcesApplication(
     statement: Option[Statement],
     address: Option[Address],
+    previousAddress: Option[Address],
     nationality: Option[IsoNationality],
     dob: Option[DateOfBirth],
     name: Option[Name],
+    previousName: Option[PreviousName],
     nino: Option[Nino],
     service: Option[Service],
     rank: Option[Rank],
@@ -69,9 +76,11 @@ case class ForcesApplication(
     Map.empty ++
       statement.map(_.toApiMap).getOrElse(Map.empty) ++
       address.map(_.toApiMap("reg")).getOrElse(Map.empty) ++
+      previousAddress.map(_.toApiMap("p")).getOrElse(Map.empty) ++
       nationality.map(_.toApiMap).getOrElse(Map.empty) ++
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
+      previousName.map(_.toApiMap("p")).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
       service.map(_.toApiMap).getOrElse(Map.empty) ++
       rank.map(_.toApiMap).getOrElse(Map.empty) ++
@@ -90,8 +99,19 @@ case class Statement(
     memberForcesFlag: Option[Boolean],
     partnerForcesFlag: Option[Boolean]) {
   def toApiMap =
-    partnerForcesFlag.map(partnerForcesFlag => Map("saf" -> partnerForcesFlag.toString))
-      .getOrElse( Map("saf" -> "false"))
+    if (isPartner) Map("saf" -> "true")
+    else Map("saf" -> "false")
+
+  def isPartner: Boolean = {
+    val isForcesPartner = Some(true)
+    val isNotForcesMember = Some(false)
+    ( partnerForcesFlag, memberForcesFlag ) match {
+      case (`isForcesPartner`, `isNotForcesMember`) => true
+      case (`isForcesPartner`, None) => true
+      case _ => false
+    }
+  }
+
 }
 
 case class Service(

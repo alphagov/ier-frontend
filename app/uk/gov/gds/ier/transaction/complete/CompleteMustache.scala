@@ -22,7 +22,7 @@ trait CompleteMustache {
       )
       MainStepTemplate(
         content = Mustache.render("complete", data),
-        title = "Application Complete - GOV.UK",
+        title = "Application Complete",
         insideHeader = Govuk.search(),
         scripts = Govuk.scripts(),
         header = Govuk.stylesheets(),

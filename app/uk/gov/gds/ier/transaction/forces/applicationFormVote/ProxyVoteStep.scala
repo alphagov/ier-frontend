@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.forces.applicationFormVote
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{Routes, ForcesStep}
 import controllers.step.forces.routes._
 import scala.Some
@@ -16,8 +16,7 @@ import controllers.step.forces.ContactController
 class ProxyVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService,
-    val encryptionKeys : EncryptionKeys)
+    val encryptionService : EncryptionService)
 
   extends ForcesStep
   with PostalOrProxyVoteForms

@@ -5,17 +5,16 @@ import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.InprogressForces
-import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.{ForcesStep, Routes}
 import uk.gov.gds.ier.validation.InProgressForm
-import controllers.step.forces.NationalityController
+import controllers.step.forces.PreviousAddressFirstController
 
 class AddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService: EncryptionService,
-    val encryptionKeys: EncryptionKeys)
+    val encryptionService: EncryptionService)
   extends ForcesStep
   with AddressMustache
   with AddressForms {
@@ -32,7 +31,7 @@ class AddressManualStep @Inject() (
   )
 
   def nextStep(currentState: InprogressForces) = {
-    NationalityController.nationalityStep
+    PreviousAddressFirstController.previousAddressFirstStep
   }
 
   def template(

@@ -1,13 +1,14 @@
 package controllers.step.crown
 
-import uk.gov.gds.ier.stubs.StubController
-import uk.gov.gds.ier.model.InprogressCrown
+import uk.gov.gds.ier.guice.DelegatingController
+import uk.gov.gds.ier.transaction.crown.job.JobStep
 
-object JobController extends StubController[InprogressCrown] {
-  val confirmationStep = ConfirmationController.confirmationStep
-  val thisStepUrl = "/register-to-vote/crown/job-title"
+object JobController extends DelegatingController[JobStep] {
 
-  def jobStep = confirmationIf { application =>
-    application.job.isDefined
-  }
+  def get = delegate.get
+  def post = delegate.post
+  def editGet = delegate.editGet
+  def editPost = delegate.editPost
+
+  def jobStep = delegate
 }

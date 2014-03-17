@@ -140,12 +140,23 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
     }
     val fullCurrentAddress = addressService.formFullAddress(applicant.address)
 
+    val previousAuthority = applicant.previousAddress flatMap { prevAddress =>
+      prevAddress.previousAddress flatMap { prevAddress =>
+        placesService.lookupAuthority(prevAddress.postcode)
+      }
+    }
+    val fullPreviousAddress = applicant.previousAddress flatMap { prevAddress =>
+      addressService.formFullAddress(prevAddress.previousAddress)
+    }
+
     val completeApplication = ForcesApplication(
       statement = applicant.statement,
       address = fullCurrentAddress,
+      previousAddress = fullPreviousAddress,
       nationality = isoCodes,
       dob = applicant.dob,
       name = applicant.name,
+      previousName = applicant.previousName,
       nino = applicant.nino,
       service = applicant.service,
       rank = applicant.rank,
@@ -182,6 +193,7 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       nationality = isoCodes,
       dob = applicant.dob,
       name = applicant.name,
+      previousName = applicant.previousName,
       job = applicant.job,
       nino = applicant.nino,
       contactAddress = applicant.contactAddress,

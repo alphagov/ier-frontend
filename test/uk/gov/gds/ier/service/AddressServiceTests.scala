@@ -5,7 +5,7 @@ import uk.gov.gds.ier.test.TestHelpers
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.mockito.{Matchers => MockitoMatchers}
-import uk.gov.gds.ier.model.{Address, PartialAddress}
+import uk.gov.gds.ier.model.{PartialManualAddress, Address, PartialAddress}
 
 class AddressServiceTests extends FlatSpec
   with Matchers
@@ -59,13 +59,15 @@ class AddressServiceTests extends FlatSpec
       addressLine = None,
       uprn = None,
       postcode = "AB12 3CD",
-      manualAddress = Some("123 Fake Street")
+      manualAddress = Some(PartialManualAddress(
+        lineOne = Some("123 Fake Street"),
+        city = Some("Fakerton")))
     )
     val address = Address(
       lineOne = Some("123 Fake Street"),
       lineTwo = None,
       lineThree = None,
-      city = None,
+      city = Some("Fakerton"),
       county = None,
       uprn = None,
       postcode = "AB12 3CD"

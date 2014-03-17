@@ -41,6 +41,7 @@ label.selectable{
 	background: #F0F0F0;
 	padding: 12px 14px 12px 46px;
 	margin: 0 0 1em 0;
+  overflow: hidden;
   cursor: pointer;
   @include ie(6) {
     zoom: 1;
@@ -51,6 +52,10 @@ label.selectable{
     left: 14px;
     top: 0.65em;
     margin-right: 10px;
+  }
+
+  .visuallyhidden { /* line-height is breaking layout in firefox */
+    line-height: 0;
   }
 
   @include media(tablet) {

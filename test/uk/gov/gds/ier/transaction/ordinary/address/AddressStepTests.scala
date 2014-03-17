@@ -23,7 +23,7 @@ class AddressStepTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Where do you live?")
+      contentAsString(result) should include("What is your address?")
       contentAsString(result) should include("Question 6")
       contentAsString(result) should include("/register-to-vote/address")
     }
@@ -54,7 +54,10 @@ class AddressStepTests
         FakeRequest(POST, "/register-to-vote/address")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "address.manualAddress" -> "123 Fake Street",
+            "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "address.manualAddress.lineTwo" -> "Moseley Road",
+            "address.manualAddress.lineThree" -> "Hallow",
+            "address.manualAddress.city" -> "Worcester",
             "address.postcode" -> "SW1A 1AA"
         )
       )
@@ -71,7 +74,10 @@ class AddressStepTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "address.manualAddress" -> "123 Fake Street",
+            "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "address.manualAddress.lineTwo" -> "Moseley Road",
+            "address.manualAddress.lineThree" -> "Hallow",
+            "address.manualAddress.city" -> "Worcester",
             "address.postcode" -> "SW1A 1AA"
           )
       )
@@ -88,7 +94,7 @@ class AddressStepTests
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("Where do you live?")
+      contentAsString(result) should include("What is your address?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("<form action=\"/register-to-vote/address/lookup\"")
       // postcode page is a rare page where post action is different from page URL
@@ -104,7 +110,7 @@ class AddressStepTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Where do you live?")
+      contentAsString(result) should include("What is your address?")
       contentAsString(result) should include("Question 6")
       contentAsString(result) should include("<form action=\"/register-to-vote/address/lookup\"")
     }
@@ -133,7 +139,10 @@ class AddressStepTests
         FakeRequest(POST, "/register-to-vote/edit/address")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "address.manualAddress" -> "123 Fake Street",
+            "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "address.manualAddress.lineTwo" -> "Moseley Road",
+            "address.manualAddress.lineThree" -> "Hallow",
+            "address.manualAddress.city" -> "Worcester",
             "address.postcode" -> "SW1A 1AA"
         )
       )
@@ -150,7 +159,10 @@ class AddressStepTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "address.manualAddress" -> "123 Fake Street",
+            "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "address.manualAddress.lineTwo" -> "Moseley Road",
+            "address.manualAddress.lineThree" -> "Hallow",
+            "address.manualAddress.city" -> "Worcester",
             "address.postcode" -> "SW1A 1AA"
           )
       )
@@ -167,7 +179,7 @@ class AddressStepTests
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("Where do you live?")
+      contentAsString(result) should include("What is your address?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("<form action=\"/register-to-vote/address/lookup\"")
     }

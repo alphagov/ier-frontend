@@ -1,12 +1,5 @@
 package uk.gov.gds.ier.security
 
-import java.security._
-import javax.crypto.{SecretKey, BadPaddingException, Cipher, KeyGenerator}
-import javax.crypto.spec.{SecretKeySpec, IvParameterSpec}
-import org.bouncycastle.jce.provider.BouncyCastleProvider
-import sun.security.rsa.{RSAPublicKeyImpl, RSAPrivateCrtKeyImpl}
-import uk.gov.gds.ier.config.Config
-import com.google.inject.Inject
 
 class Base64EncodingService {
 

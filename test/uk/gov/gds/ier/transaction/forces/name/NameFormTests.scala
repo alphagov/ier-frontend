@@ -17,14 +17,16 @@ class NameFormTests
 
   val serialiser = jsonSerialiser
 
+
   it should "error out on empty json" in {
     val js = JsNull
     nameForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(3)
+        hasErrors.errors.size should be(5)
         hasErrors.errorMessages("name.lastName") should be(Seq("Please enter your full name"))
         hasErrors.errorMessages("name.firstName") should be(Seq("Please enter your full name"))
-        hasErrors.globalErrorMessages should be(Seq("Please enter your full name"))
+        hasErrors.errorMessages("previousName") should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("Please enter your full name", "Please answer this question"))
       },
       success => fail("Should have errored out")
     )
@@ -35,17 +37,59 @@ class NameFormTests
       Map(
         "name.firstName" -> "",
         "name.middleNames" -> "joe",
-        "name.lastName" -> ""
+        "name.lastName" -> "",
+        "previousName.hasPreviousName" -> "true",
+        "previousName.previousName.firstName" -> "",
+        "previousName.previousName.middleNames" -> "Joe",
+        "previousName.previousName.lastName" -> ""
       )
     )
     nameForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(4)
+        hasErrors.errors.size should be(8)
         hasErrors.globalErrorMessages should be(Seq(
+          "Please enter your first name",
+          "Please enter your last name",
           "Please enter your first name",
           "Please enter your last name"))
         hasErrors.errorMessages("name.firstName") should be(Seq("Please enter your first name"))
         hasErrors.errorMessages("name.lastName") should be(Seq("Please enter your last name"))
+        hasErrors.errorMessages("previousName.previousName.firstName") should be(Seq("Please enter your first name"))
+        hasErrors.errorMessages("previousName.previousName.lastName") should be(Seq("Please enter your last name"))
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
+  it should "check for too long names" in {
+    val inputDataJson = Json.toJson(
+      Map(
+        "name.firstName" -> textTooLong,
+        "name.middleNames" -> textTooLong,
+        "name.lastName" -> textTooLong,
+        "previousName.hasPreviousName" -> "true",
+        "previousName.previousName.firstName" -> textTooLong,
+        "previousName.previousName.middleNames" -> textTooLong,
+        "previousName.previousName.lastName" -> textTooLong
+      )
+    )
+    nameForm.bind(inputDataJson).fold(
+      hasErrors => {
+        hasErrors.errorsAsText should be("" +
+          "name.firstName -> First name can be no longer than 256 characters\n" +
+          "name.middleNames -> Middle names can be no longer than 256 characters\n" +
+          "name.lastName -> Last name can be no longer than 256 characters\n" +
+          "name.firstName -> First name can be no longer than 256 characters\n" +
+          "name.middleNames -> Middle names can be no longer than 256 characters\n" +
+          "name.lastName -> Last name can be no longer than 256 characters"
+        )
+        hasErrors.globalErrorsAsText should be("" +
+          "First name can be no longer than 256 characters\n" +
+          "Middle names can be no longer than 256 characters\n" +
+          "Last name can be no longer than 256 characters\n" +
+          "First name can be no longer than 256 characters\n" +
+          "Middle names can be no longer than 256 characters\n" +
+          "Last name can be no longer than 256 characters")
       },
       success => fail("Should have errored out")
     )
@@ -54,16 +98,23 @@ class NameFormTests
   it should "error out on missing fields" in {
     val js = Json.toJson(
       Map(
-        "name.middleNames" -> "joe"
+        "name.middleNames" -> "joe",
+        "previousName.hasPreviousName" -> "true",
+        "previousName.previousName.middleNames" -> "joe"
       )
     )
     nameForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(4)
+        hasErrors.errors.size should be(8)
         hasErrors.errorMessages("name.firstName") should be(Seq("Please enter your first name"))
         hasErrors.errorMessages("name.lastName") should be(Seq("Please enter your last name"))
+        hasErrors.errorMessages("previousName.previousName.firstName") should be(Seq("Please enter your first name"))
+        hasErrors.errorMessages("previousName.previousName.lastName") should be(Seq("Please enter your last name"))
+
 
         hasErrors.globalErrorMessages should be(Seq(
+          "Please enter your first name",
+          "Please enter your last name",
           "Please enter your first name",
           "Please enter your last name"))
       },
@@ -75,14 +126,18 @@ class NameFormTests
     val js = Json.toJson(
       Map(
         "name.firstName" -> "john",
-        "name.middleNames" -> "joe"
+        "name.middleNames" -> "joe",
+        "previousName.hasPreviousName" -> "true",
+        "previousName.previousName.middleNames" -> "joe",
+        "previousName.previousName.firstName" -> "john"
       )
     )
     nameForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(2)
+        hasErrors.errors.size should be(4)
         hasErrors.errorMessages("name.lastName") should be(Seq("Please enter your last name"))
-        hasErrors.globalErrorMessages should be(Seq("Please enter your last name"))
+        hasErrors.errorMessages("previousName.previousName.lastName") should be(Seq("Please enter your last name"))
+        hasErrors.globalErrorMessages should be(Seq("Please enter your last name","Please enter your last name"))
       },
       success => fail("Should have errored out")
     )
@@ -93,7 +148,8 @@ class NameFormTests
       Map(
         "name.firstName" -> "John",
         "name.middleNames" -> "joe",
-        "name.lastName" -> "Smith"
+        "name.lastName" -> "Smith",
+        "previousName.hasPreviousName" -> "false"
       )
     )
     nameForm.bind(js).fold(
@@ -107,6 +163,10 @@ class NameFormTests
         name.lastName should be("Smith")
         name.middleNames should be(Some("joe"))
 
+        success.previousName.isDefined should be(true)
+        val previousName = success.previousName.get
+        previousName.previousName.isDefined should be(false)
+        previousName.hasPreviousName should be(false)
       }
     )
   }
@@ -115,7 +175,11 @@ class NameFormTests
       Map(
         "name.firstName" -> "John",
         "name.middleNames" -> "joe",
-        "name.lastName" -> "Smith"
+        "name.lastName" -> "Smith",
+        "previousName.hasPreviousName" -> "true",
+        "previousName.previousName.firstName" -> "Jonny",
+        "previousName.previousName.middleNames" -> "Joe",
+        "previousName.previousName.lastName" -> "Bloggs"
       )
     )
     nameForm.bind(js).fold(
@@ -125,10 +189,17 @@ class NameFormTests
       success => {
         success.name.isDefined should be(true)
         val name = success.name.get
+
         name.firstName should be("John")
         name.lastName should be("Smith")
         name.middleNames should be(Some("joe"))
 
+        success.previousName.isDefined should be(true)
+        success.previousName.get.hasPreviousName should be(true)
+        val previousName = success.previousName.get
+        previousName.previousName.get.firstName should be("Jonny")
+        previousName.previousName.get.middleNames should be(Some("Joe"))
+        previousName.previousName.get.lastName should be("Bloggs")
       }
     )
   }

@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.forces.confirmation
 
 import uk.gov.gds.ier.model.InprogressForces
 import uk.gov.gds.ier.step.ConfirmationStepController
-import uk.gov.gds.ier.security.{EncryptionKeys, EncryptionService}
+import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.IerApiService
 import uk.gov.gds.ier.config.Config
@@ -15,7 +15,6 @@ import uk.gov.gds.ier.step.Routes
 
 
 class ConfirmationStep @Inject() (
-    val encryptionKeys: EncryptionKeys,
     val encryptionService: EncryptionService,
     val config: Config,
     val serialiser: JsonSerialiser,

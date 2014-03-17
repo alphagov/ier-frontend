@@ -5,7 +5,6 @@ import play.api.data.Forms._
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.model.InprogressForces
 import scala.Some
-import uk.gov.gds.ier.validation.constraints.{DateOfBirthConstraints, CommonConstraints}
 import play.api.data.validation.{Invalid, Valid, Constraint}
 
 trait RankForms extends RankConstraints {

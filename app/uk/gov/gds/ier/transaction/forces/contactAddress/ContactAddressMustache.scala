@@ -5,8 +5,9 @@ import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.model.{PartialAddress, InprogressForces}
+import uk.gov.gds.ier.form.AddressHelpers
 
-trait ContactAddressMustache extends StepMustache {
+trait ContactAddressMustache extends StepMustache with AddressHelpers {
 
   case class ContactAddressModel(
       question:Question,
@@ -41,7 +42,7 @@ trait ContactAddressMustache extends StepMustache {
       ukAddressOption: Field,
       ukAddressLineText: Field
   )
-  
+
   def transformFormStepToMustacheData(
       form:ErrorTransformForm[InprogressForces],
       post: Call,
@@ -124,7 +125,7 @@ trait ContactAddressMustache extends StepMustache {
         postUrl = post.url,
         backUrl = back.map (_.url).getOrElse(""),
         errorMessages = form.globalErrors.map( _.message ),
-        number = "9",
+        number = "10",
         title = "Where should we write to you about your registration?"
       ),
       contactAddressFieldSet = FieldSet (
@@ -144,7 +145,7 @@ trait ContactAddressMustache extends StepMustache {
     if (address.isDefined) {
       val addressLine = address.flatMap(_.addressLine)
       addressLine match {
-        case None => address.get.manualAddress
+        case None => address.get.manualAddress.flatMap(manualAddressToOneLine(_))
         case _ => addressLine
       }
     }
@@ -155,7 +156,7 @@ trait ContactAddressMustache extends StepMustache {
         form:ErrorTransformForm[InprogressForces],
         post: Call,
         back: Option[Call]): Html = {
-      
+
     val data = transformFormStepToMustacheData(form, post, back)
     val content = Mustache.render("forces/contactAddress", data)
     MainStepTemplate(content, data.question.title)

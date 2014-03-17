@@ -15,9 +15,8 @@
       <article>
         <a id="continue" class="back-to-previous" href=@backUrl.getOrElse("") title="Back to the previous question">Back</a>
         <header>
-          <h1>Register to vote</h1>
+          <h1>Check your answers before sending your application</h1>
         </header>
-        <p>Check your answers before sending your application.</p>
         <div>
           <h3>Name</h3>
           <div class="data-wrap">
@@ -73,7 +72,7 @@
             @validationSwitch(formData(keys.nationality)) {
               @if(formData.nationalityIsFilled()) {
                   <p>
-                    I am @formData.confirmationNationalityString
+                    @formData.confirmationNationalityString
                   </p>
               }else{
                   <p>I cannot provide my nationality because:</p>
@@ -106,7 +105,7 @@
                 <p>@addressLine</p>
                 }
               } else {
-                @formData(keys.address.manualAddress).value.map { addressLine =>
+                @formData.manualAddressToOneLine(keys.address.manualAddress).map { addressLine =>
                 <p>@addressLine</p>
                 }
               }
@@ -115,7 +114,11 @@
               }
             }
           </div>
-          <a href="@AddressController.editGet" class="change">Change<span class="visuallyhidden"> address</span></a>
+          @if(formData.isManualAddressDefined(keys.address.manualAddress)) {
+            <a href="@AddressManualController.editGet" class="change">Change<span class="visuallyhidden"> address</span></a>
+          } else {
+            <a href="@AddressSelectController.editGet" class="change">Change<span class="visuallyhidden"> address</span></a>
+          }
         </div>
 
         <div>
@@ -142,7 +145,7 @@
                 <p>@addressLine</p>
                 }
               } else {
-                @formData(keys.previousAddress.previousAddress.manualAddress).value.map { addressLine =>
+                @formData.manualAddressToOneLine(keys.previousAddress.previousAddress.manualAddress).map { addressLine =>
                 <p>@addressLine</p>
                 }
               }

@@ -1,8 +1,10 @@
 package uk.gov.gds.ier.validation
 
 import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication}
+import uk.gov.gds.ier.form.AddressHelpers
 
-case class InProgressForm[T <: InprogressApplication[T]](form:ErrorTransformForm[T]) extends FormKeys{
+case class InProgressForm[T <: InprogressApplication[T]](form:ErrorTransformForm[T])
+  extends FormKeys with AddressHelpers {
 
   def apply(key:Key) = {
     form(key.key)
@@ -15,7 +17,7 @@ case class InProgressForm[T <: InprogressApplication[T]](form:ErrorTransformForm
     form.value match {
       case Some(application:InprogressOrdinary) => application.nationality.map(_.checkedNationalities).filter(_.size > 0)
       case None => None
-      case applicationOfUnknownType => throw new IllegalArgumentException(s"Application of unknown type: $applicationOfUnknownType") 
+      case applicationOfUnknownType => throw new IllegalArgumentException(s"Application of unknown type: $applicationOfUnknownType")
     }
   }
   def getOtherCountries = {
@@ -41,8 +43,33 @@ case class InProgressForm[T <: InprogressApplication[T]](form:ErrorTransformForm
     form(keys.nationality.nationalities.key).value.exists(_.contains(thisNationality))
   }
   def confirmationNationalityString = {
-    val allCountries = getNationalities.getOrElse(List.empty) ++ getOtherCountries.getOrElse(List.empty)
-    val nationalityString = List(allCountries.dropRight(1).mkString(", "), allCountries.takeRight(1).mkString("")).filter(_.nonEmpty)
-    s"a citizen of ${nationalityString.mkString(" and ")}"
+    def concatCommaEndInAnd(
+        list:List[String],
+        prepend:String = "",
+        append:String = "") = {
+      List(
+        list.dropRight(1).mkString(", "),
+        list.takeRight(1).mkString("")
+      ).filter(_.nonEmpty).mkString(prepend, " and ", append)
+    }
+
+    val localNationalities = getNationalities.getOrElse(List.empty)
+    val foreignNationalities = getOtherCountries.map { foreignList =>
+      concatCommaEndInAnd(prepend = "a citizen of ", list = foreignList)
+    }.toList
+
+    val nationalityString = concatCommaEndInAnd(
+      prepend = "I am ",
+      list = localNationalities ++ foreignNationalities
+    )
+    nationalityString
+  }
+
+  def manualAddressToOneLine(manualAddressKey: Key): Option[String] = {
+    manualAddressToOneLine(this, manualAddressKey)
+  }
+
+  def isManualAddressDefined(manualAddressKey: Key): Boolean = {
+    isManualAddressDefined(this, manualAddressKey)
   }
 }

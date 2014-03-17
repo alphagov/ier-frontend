@@ -6,7 +6,11 @@ import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import controllers.step.forces.routes._
 import uk.gov.gds.ier.validation.InProgressForm
-import uk.gov.gds.ier.model.{Addresses, PossibleAddress, PartialAddress, InprogressForces}
+import uk.gov.gds.ier.model._
+import uk.gov.gds.ier.model.PartialAddress
+import uk.gov.gds.ier.model.InprogressForces
+import uk.gov.gds.ier.validation.InProgressForm
+import scala.Some
 
 class AddressMustacheTest
   extends FlatSpec
@@ -76,7 +80,11 @@ class AddressMustacheTest
 
     addressModel.lookupUrl should be ("/register-to-vote/forces/address")
     addressModel.postcode.value should be ("")
-    addressModel.manualAddress.value should be ("")
+    addressModel.maLineOne.value should be ("")
+    addressModel.maLineTwo.value should be ("")
+    addressModel.maLineThree.value should be ("")
+    addressModel.maCity.value should be ("")
+
   }
 
 
@@ -143,7 +151,11 @@ class AddressMustacheTest
         addressLine = None,
         uprn = None,
         postcode = "WR26NJ",
-        manualAddress = Some("fake manual address")
+        manualAddress = Some(PartialManualAddress(
+          lineOne = Some("Unit 4, Elgar Business Centre"),
+          lineTwo = Some("Moseley Road"),
+          lineThree = Some("Hallow"),
+          city = Some("Worcester")))
       )),
       possibleAddresses = None
     ))
@@ -160,8 +172,9 @@ class AddressMustacheTest
 
     addressModel.lookupUrl should be ("/register-to-vote/forces/address")
     addressModel.postcode.value should be ("WR26NJ")
-    addressModel.manualAddress.value should be ("fake manual address")
-
+    addressModel.maLineOne.value should be ("Unit 4, Elgar Business Centre")
+    addressModel.maLineTwo.value should be ("Moseley Road")
+    addressModel.maLineThree.value should be ("Hallow")
+    addressModel.maCity.value should be ("Worcester")
   }
-
 }

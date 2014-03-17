@@ -55,8 +55,14 @@ case class PartialNationality (british:Option[Boolean] = None,
                                hasOtherCountry:Option[Boolean] = None,
                                otherCountries:List[String] = List.empty,
                                noNationalityReason:Option[String] = None) {
-  def checkedNationalities = british.toList.filter(_ == true).map(brit => "United Kingdom") ++
+  def checkedNationalities = {
+    british.toList.filter(_ == true).map(brit => "British") ++
+    irish.toList.filter(_ == true).map(isIrish => "Irish")
+  }
+  def isoCheckedNationalities = {
+    british.toList.filter(_ == true).map(brit => "United Kingdom") ++
     irish.toList.filter(_ == true).map(isIrish => "Ireland")
+  }
 }
 
 case class Nino(nino:Option[String],
@@ -181,10 +187,17 @@ case class PossibleAddress(jsonList:Addresses, postcode: String)
 
 case class Addresses(addresses:List[PartialAddress])
 
-case class PartialAddress(addressLine:Option[String],
-                          uprn:Option[String],
-                          postcode:String,
-                          manualAddress:Option[String])
+case class PartialAddress(
+    addressLine: Option[String],
+    uprn: Option[String],
+    postcode: String,
+    manualAddress: Option[PartialManualAddress])
+
+case class PartialManualAddress(
+    lineOne: Option[String] = None,
+    lineTwo: Option[String] = None,
+    lineThree: Option[String] = None,
+    city: Option[String] = None)
 
 case class Address(lineOne:Option[String],
                    lineTwo:Option[String],

@@ -2,13 +2,13 @@ package uk.gov.gds.ier.transaction.forces.confirmation
 
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.model.WaysToVoteType
-import controllers.step.forces._
 import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
 import uk.gov.gds.ier.logging.Logging
-import uk.gov.gds.ier.validation.Key
+import uk.gov.gds.ier.validation.{FormKeys, Key, InProgressForm}
 import uk.gov.gds.ier.model.InprogressForces
-import uk.gov.gds.ier.validation.InProgressForm
 import scala.Some
+import controllers.step.forces.routes
+import uk.gov.gds.ier.form.AddressHelpers
 
 trait ConfirmationMustache {
 
@@ -44,10 +44,12 @@ trait ConfirmationMustache {
 
       val applicantData = List(
         confirmation.name,
+        confirmation.previousName,
         confirmation.dateOfBirth,
         confirmation.nationality,
         confirmation.nino,
         confirmation.address,
+        confirmation.previousAddress,
         confirmation.contactAddress,
         confirmation.openRegister,
         confirmation.waysToVote,
@@ -56,12 +58,14 @@ trait ConfirmationMustache {
 
       val completeApplicantData = List(
         confirmation.name,
+        confirmation.previousName,
         confirmation.dateOfBirth,
         confirmation.nationality,
         confirmation.nino,
         confirmation.service(false),
         confirmation.rank,
         confirmation.address,
+        confirmation.previousAddress,
         confirmation.contactAddress,
         confirmation.openRegister,
         confirmation.waysToVote,
@@ -103,7 +107,7 @@ trait ConfirmationMustache {
   }
 
   class ConfirmationBlocks(form:InProgressForm[InprogressForces])
-    extends StepMustache with Logging {
+    extends StepMustache with AddressHelpers with Logging {
 
     val completeThisStepMessage = "<div class=\"validation-message visible\">" +
       "Please complete this step" +
@@ -128,6 +132,28 @@ trait ConfirmationMustache {
             form(keys.name.middleNames).value,
             form(keys.name.lastName).value).flatten
             .mkString("<p>", " ", "</p>")
+        }
+      ))
+    }
+
+    def previousName = {
+      val havePreviousName = form(keys.previousName.hasPreviousName).value
+      val prevNameStr =  havePreviousName match {
+        case Some("true") => {
+          List(
+            form(keys.previousName.previousName.firstName).value,
+            form(keys.previousName.previousName.middleNames).value,
+            form(keys.previousName.previousName.lastName).value
+          ).flatten.mkString(" ")
+        }
+        case _ => "I have not changed my name in the last 12 months"
+      }
+      Some(ConfirmationQuestion(
+        title = "What is your previous name?",
+        editLink = routes.NameController.editGet.url,
+        changeName = "previous name",
+        content = ifComplete(keys.previousName) {
+          s"<p>$prevNameStr</p>"
         }
       ))
     }
@@ -172,7 +198,7 @@ trait ConfirmationMustache {
         changeName = "nationality",
         content = ifComplete(keys.nationality) {
           if (nationalityIsFilled) {
-            "<p>I am " + confirmationNationalityString + "</p>"
+            "<p>" + confirmationNationalityString + "</p>"
           } else {
             "<p>I cannot provide my nationality because:</p><p>"+
               form(keys.nationality.noNationalityReason).value.getOrElse("") + "</p>"
@@ -247,7 +273,7 @@ trait ConfirmationMustache {
     def address = {
       Some(ConfirmationQuestion(
         title = "UK registration address",
-        editLink = if (form(keys.address.manualAddress).value.isDefined) {
+        editLink = if (isManualAddressDefined(form, keys.address.manualAddress)) {
           routes.AddressManualController.editGet.url
         } else {
           routes.AddressSelectController.editGet.url
@@ -255,10 +281,40 @@ trait ConfirmationMustache {
         changeName = "your UK registration address",
         content = ifComplete(keys.address) {
           val addressLine = form(keys.address.addressLine).value.orElse{
-            form(keys.address.manualAddress).value
+            manualAddressToOneLine(form, keys.address.manualAddress)
           }.getOrElse("")
           val postcode = form(keys.address.postcode).value.getOrElse("")
           s"<p>$addressLine</p><p>$postcode</p>"
+        }
+      ))
+    }
+
+    def previousAddress = {
+      Some(ConfirmationQuestion(
+        title = "UK previous registration address",
+        editLink = routes.PreviousAddressFirstController.editGet.url,
+        changeName = "your UK previous registration address",
+        content = ifComplete(keys.previousAddress) {
+          if(form(keys.previousAddress.movedRecently).value == Some("true")) {
+            val address = if(form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
+              form(keys.previousAddress.previousAddress.addressLine).value.map(
+                addressLine => "<p>" + addressLine + "</p>"
+              ).getOrElse("")
+            } else {
+              manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress).map(
+                addressLine => "<p>" + addressLine + "</p>"
+              ).getOrElse("")
+            }
+
+            val postcode = form(keys.previousAddress.previousAddress.postcode).value.map(
+              postcode => "<p>" + postcode + "</p>"
+            ).getOrElse("")
+
+            address + postcode
+
+          } else {
+            "<p>I have not moved in the last 12 months</p>"
+          }
         }
       ))
     }
@@ -270,8 +326,6 @@ trait ConfirmationMustache {
         changeName = "polling card address",
         content = ifComplete(keys.contactAddress) {
 
-          val test = form(keys.contactAddress.contactAddressType).value
-
           val addressTypeKey = form(keys.contactAddress.contactAddressType).value match {
             case Some("uk") => keys.ukContactAddress
             case Some("bfpo") => keys.bfpoContactAddress
@@ -282,7 +336,7 @@ trait ConfirmationMustache {
           if (addressTypeKey.equals(keys.ukContactAddress)) {
             ifComplete(keys.address) {
               val addressLine = form(keys.address.addressLine).value.orElse{
-                form(keys.address.manualAddress).value
+                manualAddressToOneLine(form, keys.address.manualAddress)
               }.getOrElse("")
               val postcode = form(keys.address.postcode).value.getOrElse("")
               s"<p>$addressLine</p><p>$postcode</p>"
@@ -385,18 +439,40 @@ trait ConfirmationMustache {
       ))
     }
 
-    def getNationalities = {
+    def getNationalities:List[String] = {
       val british = form(keys.nationality.british).value
       val irish =form(keys.nationality.irish).value
-      british.toList.filter(_ == "true").map(brit => "United Kingdom") ++
-      irish.toList.filter(_ == "true").map(isIrish => "Ireland")
+      british.toList.filter(_ == "true").map(brit => "British") ++
+      irish.toList.filter(_ == "true").map(isIrish => "Irish")
     }
 
     def confirmationNationalityString = {
-      val allCountries = getNationalities ++ obtainOtherCountriesList
-      val nationalityString = List(allCountries.dropRight(1).mkString(", "),
-        allCountries.takeRight(1).mkString("")).filter(_.nonEmpty)
-      s"a citizen of ${nationalityString.mkString(" and ")}"
+      def concatCommaEndInAnd(
+          list:List[String],
+          prepend:String = "",
+          append:String = "") = {
+        val filteredList = list.filter(_.nonEmpty)
+        val str = List(
+          filteredList.dropRight(1).mkString(", "),
+          filteredList.takeRight(1).mkString("")
+        ).filter(_.nonEmpty).mkString(" and ")
+        str match {
+          case "" => ""
+          case content => s"$prepend$content$append"
+        }
+      }
+
+      val localNationalities = getNationalities
+      val foreignNationalities = concatCommaEndInAnd(
+        prepend = "a citizen of ",
+        list = obtainOtherCountriesList
+      )
+
+      val nationalityString = concatCommaEndInAnd(
+        prepend = "I am ",
+        list = localNationalities :+ foreignNationalities
+      )
+      nationalityString
     }
 
     def nationalityIsFilled:Boolean = {
