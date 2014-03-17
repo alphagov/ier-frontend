@@ -116,7 +116,9 @@ trait ConfirmationForms
       if (app.address.isDefined) None else Some(keys.overseasAddress),
       if (app.openRegisterOptin.isDefined) None else Some(keys.openRegister),
       if (app.waysToVote.isDefined) None else Some(keys.waysToVote),
-      if (app.postalOrProxyVote.isDefined) None else Some(keys.postalOrProxyVote),
+      if (validatePostalOrProxyVote(app.waysToVote, app.postalOrProxyVote))
+        None
+      else Some(keys.postalOrProxyVote),
       if (app.contact.isDefined) None else Some(keys.contact)
     ).flatten
     if (errorKeys.size == 0) {
@@ -141,7 +143,9 @@ trait ConfirmationForms
       if (app.address.isDefined) None else Some(keys.overseasAddress),
       if (app.openRegisterOptin.isDefined) None else Some(keys.openRegister),
       if (app.waysToVote.isDefined) None else Some(keys.waysToVote),
-      if (app.postalOrProxyVote.isDefined) None else Some(keys.postalOrProxyVote),
+      if (validatePostalOrProxyVote(app.waysToVote, app.postalOrProxyVote))
+        None
+      else Some(keys.postalOrProxyVote),
       if (app.contact.isDefined) None else Some(keys.contact)
     ).flatten
     if (errorKeys.size == 0) {
@@ -165,7 +169,9 @@ trait ConfirmationForms
       if (app.address.isDefined) None else Some(keys.overseasAddress),
       if (app.openRegisterOptin.isDefined) None else Some(keys.openRegister),
       if (app.waysToVote.isDefined) None else Some(keys.waysToVote),
-      if (app.postalOrProxyVote.isDefined) None else Some(keys.postalOrProxyVote),
+      if (validatePostalOrProxyVote(app.waysToVote, app.postalOrProxyVote))
+        None
+      else Some(keys.postalOrProxyVote),
       if (app.contact.isDefined) None else Some(keys.contact)
     ).flatten
     if (errorKeys.size == 0) {
@@ -188,7 +194,9 @@ trait ConfirmationForms
       if (app.address.isDefined) None else Some(keys.overseasAddress),
       if (app.openRegisterOptin.isDefined) None else Some(keys.openRegister),
       if (app.waysToVote.isDefined) None else Some(keys.waysToVote),
-      if (app.postalOrProxyVote.isDefined) None else Some(keys.postalOrProxyVote),
+      if (validatePostalOrProxyVote(app.waysToVote, app.postalOrProxyVote))
+        None
+      else Some(keys.postalOrProxyVote),
       if (app.contact.isDefined) None else Some(keys.contact)
     ).flatten
 
@@ -196,5 +204,18 @@ trait ConfirmationForms
       Valid
     else
       Invalid ("Please complete this step", validationErrors:_*)
+  }
+
+
+  private def validatePostalOrProxyVote (
+      waysToVote: Option[WaysToVote],
+      postalOrProxyVote: Option[PostalOrProxyVote]): Boolean = {
+    waysToVote match {
+      case None  => true
+      case Some(WaysToVote(WaysToVoteType.InPerson)) if (!postalOrProxyVote.isDefined)  => true
+      case Some(WaysToVote(WaysToVoteType.ByPost)) if (postalOrProxyVote.isDefined)  => true
+      case Some(WaysToVote(WaysToVoteType.ByProxy)) if (postalOrProxyVote.isDefined) => true
+      case _ => false
+    }
   }
 }

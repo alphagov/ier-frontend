@@ -62,12 +62,11 @@ class ConfirmationFormTests
           "overseasAddress" -> errorMessage,
           "openRegister" -> errorMessage,
           "waysToVote" -> errorMessage,
-          "postalOrProxyVote" -> errorMessage,
           "contact" -> errorMessage,
           "passport" -> errorMessage
         ))
         hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(1)
-        hasErrors.errors.size should be(15)
+        hasErrors.errors.size should be(14)
       },
       success => fail("Should have errored out.")
     )
@@ -92,12 +91,11 @@ class ConfirmationFormTests
           "overseasAddress" -> errorMessage,
           "openRegister" -> errorMessage,
           "waysToVote" -> errorMessage,
-          "postalOrProxyVote" -> errorMessage,
           "contact" -> errorMessage,
           "passport" -> errorMessage
         ))
         hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(1)
-        hasErrors.errors.size should be(14)
+        hasErrors.errors.size should be(13)
       },
       success => fail("Should have errored out.")
     )
@@ -123,12 +121,11 @@ class ConfirmationFormTests
           "overseasAddress" -> errorMessage,
           "openRegister" -> errorMessage,
           "waysToVote" -> errorMessage,
-          "postalOrProxyVote" -> errorMessage,
           "contact" -> errorMessage,
           "passport" -> errorMessage
         ))
         hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(1)
-        hasErrors.errors.size should be(14)
+        hasErrors.errors.size should be(13)
       },
       success => fail("Should have errored out.")
     )
@@ -152,12 +149,11 @@ class ConfirmationFormTests
           "overseasAddress" -> errorMessage,
           "openRegister" -> errorMessage,
           "waysToVote" -> errorMessage,
-          "postalOrProxyVote" -> errorMessage,
           "contact" -> errorMessage,
           "passport" -> errorMessage
         ))
         hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(1)
-        hasErrors.errors.size should be(14)
+        hasErrors.errors.size should be(13)
       },
       success => fail("Should have errored out.")
     )
@@ -181,12 +177,11 @@ class ConfirmationFormTests
           "overseasAddress" -> errorMessage,
           "openRegister" -> errorMessage,
           "waysToVote" -> errorMessage,
-          "postalOrProxyVote" -> errorMessage,
           "contact" -> errorMessage,
           "passport" -> errorMessage
         ))
         hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(1)
-        hasErrors.errors.size should be(14)
+        hasErrors.errors.size should be(13)
       },
       success => fail("Should have errored out.")
     )
@@ -211,11 +206,10 @@ class ConfirmationFormTests
           "lastUkAddress" -> errorMessage,
           "openRegister" -> errorMessage,
           "waysToVote" -> errorMessage,
-          "postalOrProxyVote" -> errorMessage,
           "contact" -> errorMessage
         ))
         hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(1)
-        hasErrors.errors.size should be(12)
+        hasErrors.errors.size should be(11)
       },
       success => fail("Should have errored out.")
     )
