@@ -1,13 +1,14 @@
 package controllers.step.crown
 
-import uk.gov.gds.ier.stubs.StubController
-import uk.gov.gds.ier.model.InprogressCrown
+import uk.gov.gds.ier.guice.DelegatingController
+import uk.gov.gds.ier.transaction.crown.dateOfBirth.DateOfBirthStep
 
-object DateOfBirthController extends StubController[InprogressCrown] {
-  val confirmationStep = ConfirmationController.confirmationStep
-  val thisStepUrl = "/register-to-vote/crown/date-of-birth"
+object DateOfBirthController extends DelegatingController[DateOfBirthStep] {
+  
+  def get = delegate.get
+  def post = delegate.post
+  def editGet = delegate.editGet
+  def editPost = delegate.editPost
 
-  def dateOfBirthStep = confirmationIf { application =>
-    application.dob.isDefined
-  }
+  def dateOfBirthStep = delegate
 }
