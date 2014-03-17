@@ -1,0 +1,62 @@
+<form action="{{question.postUrl}}" method="POST" >
+
+    {{> shared/questionHeader }}
+
+    {{> shared/validationMessages }}
+
+    <label for="{{crown.id}}">
+        Crown servant
+    </label>
+
+    <fieldset id="{{crown.id}}" class="{{crown.classes}}">
+        <label class="selectable" for="{{crownServant.id}}">
+            <input
+              id="{{crownServant.id}}"
+              type="checkbox"
+              name="{{crownServant.name}}"
+              class="{{crownServant.classes}}"
+              value="{{crownServant.value}}"
+              {{{crownServant.attributes}}}>
+            I am a Crown servant
+        </label>
+        <label class="selectable" for="{{crownPartner.id}}">
+            <input
+              id="{{crownPartner.id}}"
+              type="checkbox"
+              name="{{crownPartner.name}}"
+              class="{{crownPartner.classes}}"
+              value="{{crownPartner.value}}"
+              {{{crownPartner.attributes}}}>
+            I am the wife, husband or civil partner of a Crown servant
+        </label>
+    </fieldset>
+
+    <label for="{{council.id}}">
+        British Council
+    </label>
+
+    <fieldset id="{{council.id}}" class="{{council.classes}}">
+        <label class="selectable" for="{{councilEmployee.id}}">
+            <input
+              id="{{councilEmployee.id}}"
+              type="checkbox"
+              name="{{councilEmployee.name}}"
+              class="{{councilEmployee.classes}}"
+              value="{{councilEmployee.value}}"
+              {{{councilEmployee.attributes}}}>
+            I am a British Council employee
+        </label>
+        <label class="selectable" for="{{councilPartner.id}}">
+            <input
+              id="{{councilPartner.id}}"
+              type="checkbox"
+              name="{{councilPartner.name}}"
+              class="{{councilPartner.classes}}"
+              value="{{councilPartner.value}}"
+              {{{councilPartner.attributes}}}>
+            I am the wife, husband or civil partner of a British Council employee
+        </label>
+    </fieldset>
+
+    <button type="submit" id="continue" class="button next">Continue</button>
+</form>
