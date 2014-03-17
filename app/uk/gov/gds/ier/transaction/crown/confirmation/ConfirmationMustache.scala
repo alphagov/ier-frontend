@@ -40,8 +40,7 @@ trait ConfirmationMustache {
       val confirmation = new ConfirmationBlocks(form)
 
       val partnerData = List(
-        confirmation.jobTitle,
-        confirmation.govDepartment
+        confirmation.jobTitle
       ).flatten
 
       val applicantData = List(
@@ -65,7 +64,6 @@ trait ConfirmationMustache {
         confirmation.nationality,
         confirmation.nino,
         confirmation.jobTitle,
-        confirmation.govDepartment,
         confirmation.address,
         confirmation.contactAddress,
         confirmation.openRegister,
@@ -243,18 +241,8 @@ trait ConfirmationMustache {
         editLink = routes.JobController.editGet.url,
         changeName = "job title",
         content = ifComplete(keys.job) {
-            "<p>"+form(keys.job.jobTitle).value.getOrElse("")+"</p>"
-        }
-      ))
-    }
-
-    def govDepartment = {
-      Some(ConfirmationQuestion(
-        title = "Department",
-        editLink = routes.JobController.editGet.url,
-        changeName = "department",
-        content = ifComplete(keys.job) {
-          "<p>"+form(keys.job.govDepartment).value.getOrElse("")+"</p>"
+            "<p>"+form(keys.job.jobTitle).value.getOrElse("")+"</p>" +
+            "<p>"+form(keys.job.govDepartment).value.getOrElse("")+"</p>"
         }
       ))
     }
