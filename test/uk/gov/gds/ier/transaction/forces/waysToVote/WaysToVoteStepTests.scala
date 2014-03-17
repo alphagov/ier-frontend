@@ -33,8 +33,7 @@ class WaysToVoteStepTests extends FlatSpec with TestHelpers with Matchers with M
       )))
 
     val transferedState = waysToVoteStep.postSuccess(currentState)
-    transferedState.postalOrProxyVote should be (Some(PostalOrProxyVote(
-        typeVote = WaysToVoteType.InPerson, postalVoteOption = None, deliveryMethod = None)))
+    transferedState.postalOrProxyVote should be (None)
   }
   
   it should "set forceRedirectToPostal to true if the user wants to edit the page" in {
@@ -58,8 +57,5 @@ class WaysToVoteStepTests extends FlatSpec with TestHelpers with Matchers with M
 
     val transferedState = waysToVoteStep.postSuccess(currentState)
     transferedState.postalOrProxyVote.exists(_.forceRedirectToPostal == true) should be (true)
-//    transferedState.postalOrProxyVote should be (Some(PostalOrProxyVote(
-//        typeVote = WaysToVoteType.ByPost, postalVoteOption = None, deliveryMethod = None)))
-
   }
 }

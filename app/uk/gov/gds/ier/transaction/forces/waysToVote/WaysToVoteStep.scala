@@ -45,11 +45,8 @@ class WaysToVoteStep @Inject ()(
   }
   
   override def postSuccess(currentState: InprogressForces):InprogressForces = {
-    if (currentState.waysToVote == Some(WaysToVote(WaysToVoteType.InPerson)))
-        currentState.copy(postalOrProxyVote = 
-          Some(PostalOrProxyVote(typeVote = WaysToVoteType.InPerson, 
-              postalVoteOption = None, 
-              deliveryMethod = None)))
+    if (currentState.waysToVote == Some(WaysToVote(WaysToVoteType.InPerson))) 
+        currentState.copy(postalOrProxyVote = None)
     else currentState.copy(postalOrProxyVote = currentState.postalOrProxyVote.map(_.copy(forceRedirectToPostal = true)))
   }
   
