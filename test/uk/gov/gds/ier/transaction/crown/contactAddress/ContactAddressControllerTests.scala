@@ -72,22 +72,22 @@ class ContactAddressControllerTests
     }
   }
 
-//  behavior of "Completing a prior step when this question is incomplete"
-//  it should "stop on this page" in {
-//    running(FakeApplication()) {
-//      val Some(result) = route(
-//        FakeRequest(POST, "/register-to-vote/crown/nino")
-//          .withIerSession()
-//          .withApplication(completeCrownApplication.copy(contactAddress = None))
-//          .withFormUrlEncodedBody(
-//          "NINO.NINO" -> "AB 12 34 56 D"
-//        )
-//      )
-//
-//      status(result) should be(SEE_OTHER)
-//      redirectLocation(result) should be(Some("/register-to-vote/crown/contact-address"))
-//    }
-//  }
+  behavior of "Completing a prior step when this question is incomplete"
+  it should "stop on this page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/crown/nino")
+          .withIerSession()
+          .withApplication(completeCrownApplication.copy(contactAddress = None))
+          .withFormUrlEncodedBody(
+          "NINO.NINO" -> "AB 12 34 56 D"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/crown/contact-address"))
+    }
+  }
 
   behavior of "ContactAddressController.editGet"
   it should "display the page" in {

@@ -301,22 +301,18 @@ trait ConfirmationMustache {
           }
           else {
             val contactAddressKey = keys.contactAddress.prependNamespace(addressTypeKey)
-            val result:StringBuilder = new StringBuilder
-            result.append ("<p>")
-            result.append (
-              List (
+            val addressLines = List (
                 form(contactAddressKey.prependNamespace(keys.addressLine1)).value,
                 form(contactAddressKey.prependNamespace(keys.addressLine2)).value,
                 form(contactAddressKey.prependNamespace(keys.addressLine3)).value,
                 form(contactAddressKey.prependNamespace(keys.addressLine4)).value,
                 form(contactAddressKey.prependNamespace(keys.addressLine5)).value)
-                .filter(!_.getOrElse("").isEmpty).map(_.get).mkString("","<br/>",""))
-            result.append ("</p>")
-            result.append ("<p>" +
-              form (contactAddressKey.prependNamespace(keys.postcode)).value.getOrElse("") + "</p>")
-            result.append ("<p>" +
-              form (contactAddressKey.prependNamespace(keys.country)).value.getOrElse("") + "</p>")
-            result.toString()
+                .filter(!_.getOrElse("").isEmpty).map(_.get).mkString("","<br/>","")
+
+            val postcode = form (contactAddressKey.prependNamespace(keys.postcode)).value.getOrElse("")
+            val country = form (contactAddressKey.prependNamespace(keys.country)).value.getOrElse("")
+
+            "<p>" + addressLines + "</p><p>" + postcode + "</p><p>" + country +  "</p>"
           }
         }
       ))
