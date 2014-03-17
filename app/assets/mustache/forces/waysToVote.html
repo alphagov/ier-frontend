@@ -3,7 +3,7 @@
 
     {{> shared/validationMessages }}
 
-    <fieldset class="sub-section validate {{{waysToVote.classes}}}"
+    <fieldset class="sub-section validate {{waysToVote.classes}}"
               data-validation-name="waysToVote"
               data-validation-type="fieldset"
               data-validation-rules="atLeastOneNonEmpty"
@@ -11,12 +11,12 @@
         <legend class="label">Have you changed your name since you left the UK?</legend>
 
         <p>
-        <label for="{{{byPost.id}}}" class="selectable binary"  >
+        <label for="{{byPost.id}}" class="selectable binary"  >
             <input type="radio"
-                   id="{{{byPost.id}}}"
-                   name="{{{byPost.name}}}"
-                   value="{{{byPost.value}}}"
-                   class="radio validate {{{byPost.classes}}}"
+                   id="{{byPost.id}}"
+                   name="{{byPost.name}}"
+                   value="{{byPost.value}}"
+                   class="radio validate {{byPost.classes}}"
                    data-validation-name="byPost"
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"
@@ -26,12 +26,12 @@
         </p>
 
         <p>
-        <label for="{{{byProxy.id}}}" class="selectable binary"  >
+        <label for="{{byProxy.id}}" class="selectable binary"  >
             <input type="radio"
-                   id="{{{byProxy.id}}}"
-                   name="{{{byProxy.name}}}"
-                   value="{{{byProxy.value}}}"
-                   class="radio  validate {{{byProxy.classes}}}"
+                   id="{{byProxy.id}}"
+                   name="{{byProxy.name}}"
+                   value="{{byProxy.value}}"
+                   class="radio  validate {{byProxy.classes}}"
                    data-validation-name="byProxy"
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"
@@ -43,12 +43,12 @@
         <p>or</p>
 
         <p>
-        <label for="{{{inPerson.id}}}" class="selectable binary"  >
+        <label for="{{inPerson.id}}" class="selectable binary"  >
             <input type="radio"
-                   id="{{{inPerson.id}}}"
-                   name="{{{inPerson.name}}}"
-                   value="{{{inPerson.value}}}"
-                   class="radio  validate {{{inPerson.classes}}}"
+                   id="{{inPerson.id}}"
+                   name="{{inPerson.name}}"
+                   value="{{inPerson.value}}"
+                   class="radio  validate {{inPerson.classes}}"
                    data-validation-name="inPerson"
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"

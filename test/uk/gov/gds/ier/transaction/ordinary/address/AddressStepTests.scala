@@ -54,7 +54,10 @@ class AddressStepTests
         FakeRequest(POST, "/register-to-vote/address")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "address.manualAddress" -> "123 Fake Street",
+            "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "address.manualAddress.lineTwo" -> "Moseley Road",
+            "address.manualAddress.lineThree" -> "Hallow",
+            "address.manualAddress.city" -> "Worcester",
             "address.postcode" -> "SW1A 1AA"
         )
       )
@@ -71,7 +74,10 @@ class AddressStepTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "address.manualAddress" -> "123 Fake Street",
+            "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "address.manualAddress.lineTwo" -> "Moseley Road",
+            "address.manualAddress.lineThree" -> "Hallow",
+            "address.manualAddress.city" -> "Worcester",
             "address.postcode" -> "SW1A 1AA"
           )
       )
@@ -133,7 +139,10 @@ class AddressStepTests
         FakeRequest(POST, "/register-to-vote/edit/address")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "address.manualAddress" -> "123 Fake Street",
+            "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "address.manualAddress.lineTwo" -> "Moseley Road",
+            "address.manualAddress.lineThree" -> "Hallow",
+            "address.manualAddress.city" -> "Worcester",
             "address.postcode" -> "SW1A 1AA"
         )
       )
@@ -150,7 +159,10 @@ class AddressStepTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "address.manualAddress" -> "123 Fake Street",
+            "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "address.manualAddress.lineTwo" -> "Moseley Road",
+            "address.manualAddress.lineThree" -> "Hallow",
+            "address.manualAddress.city" -> "Worcester",
             "address.postcode" -> "SW1A 1AA"
           )
       )

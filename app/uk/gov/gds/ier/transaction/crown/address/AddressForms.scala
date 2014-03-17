@@ -9,31 +9,46 @@ import uk.gov.gds.ier.validation.{
   PostcodeValidator}
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.model.{
-  InprogressCrown,
-  PartialAddress,
-  PossibleAddress,
-  Addresses}
+import uk.gov.gds.ier.model._
+import uk.gov.gds.ier.model.Addresses
+import uk.gov.gds.ier.model.PartialAddress
+import uk.gov.gds.ier.model.InprogressCrown
+import uk.gov.gds.ier.model.PossibleAddress
+import scala.Some
 
 trait AddressForms extends AddressConstraints {
   self: FormKeys
   with ErrorMessages
   with WithSerialiser =>
 
+  // address mapping for select address page - the address part
   lazy val partialAddressMapping = mapping(
     keys.addressLine.key -> optional(nonEmptyText),
     keys.uprn.key -> optional(nonEmptyText),
     keys.postcode.key -> nonEmptyText,
-    keys.manualAddress.key -> optional(nonEmptyText)
+    keys.manualAddress.key -> optional(manualPartialAddressLinesMapping)
   ) (
     PartialAddress.apply
   ) (
     PartialAddress.unapply
-  ).verifying(manualAddressMaxLength, postcodeIsValid, uprnOrManualDefined)
+  ).verifying(postcodeIsValid, uprnOrManualDefined)
 
+  // address mapping for manual address - the address individual lines part
+  lazy val manualPartialAddressLinesMapping = mapping(
+    keys.lineOne.key -> optional(nonEmptyText),
+    keys.lineTwo.key -> optional(text),
+    keys.lineThree.key -> optional(text),
+    keys.city.key -> optional(nonEmptyText)
+  ) (
+    PartialManualAddress.apply
+  ) (
+    PartialManualAddress.unapply
+  ).verifying(lineOneIsRequired, cityIsRequired)
+
+  // address mapping for manual address - the address parent wrapper part
   lazy val manualPartialAddressMapping = mapping(
     keys.postcode.key -> nonEmptyText,
-    keys.manualAddress.key -> optional(nonEmptyText)
+    keys.manualAddress.key -> optional(manualPartialAddressLinesMapping)
   ) (
     (postcode, manualAddress) => PartialAddress(
       addressLine = None,
@@ -46,7 +61,7 @@ trait AddressForms extends AddressConstraints {
       partial.postcode,
       partial.manualAddress
     )
-  ).verifying(manualAddressMaxLength, postcodeIsValid)
+  ).verifying(postcodeIsValid)
 
   lazy val postcodeLookupMapping = mapping(
     keys.postcode.key -> nonEmptyText
@@ -157,17 +172,22 @@ trait AddressConstraints extends CommonConstraints {
     )
   }
 
-  lazy val manualAddressMaxLength = Constraint[PartialAddress](keys.address.key) {
-    case PartialAddress(_, _, _, Some(manualAddress))
-      if manualAddress.size <= maxExplanationFieldLength => Valid
-    case PartialAddress(_, _, _, None) => Valid
-    case _ => Invalid(addressMaxLengthError, keys.address.manualAddress)
-  }
-
   lazy val postcodeIsValid = Constraint[PartialAddress](keys.address.key) {
     case PartialAddress(_, _, postcode, _)
       if PostcodeValidator.isValid(postcode) => Valid
     case _ => Invalid("Your postcode is not valid", keys.address.postcode)
+  }
+
+  lazy val lineOneIsRequired = Constraint[PartialManualAddress](
+    keys.address.manualAddress.key) {
+    case PartialManualAddress(Some(_), _, _, _) => Valid
+    case _ => Invalid(lineOneIsRequiredError, keys.address.manualAddress.lineOne)
+  }
+
+  lazy val cityIsRequired = Constraint[PartialManualAddress](
+    keys.address.manualAddress.key) {
+    case PartialManualAddress(_, _, _, Some(_)) => Valid
+    case _ => Invalid(cityIsRequiredError, keys.address.manualAddress.city)
   }
 }
 

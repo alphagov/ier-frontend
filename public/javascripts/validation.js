@@ -915,6 +915,15 @@
       },
       'regiment' : {
         'nonEmpty' : 'Please enter the regiment or corps'
+      },
+      'job' : {
+        'allNonEmpty' : 'Please answer this question'
+      },
+      'jobTitle' : {
+        'nonEmpty' : 'Please enter the job title or rank'
+      },
+      'govDepartment' : {
+        'nonEmpty' : 'Please enter the government department, agency or body'
       }
     }
   };

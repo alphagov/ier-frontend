@@ -4,11 +4,11 @@ import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.model.WaysToVoteType
 import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
 import uk.gov.gds.ier.logging.Logging
-import uk.gov.gds.ier.validation.Key
+import uk.gov.gds.ier.validation.{FormKeys, Key, InProgressForm}
 import uk.gov.gds.ier.model.InprogressForces
-import uk.gov.gds.ier.validation.InProgressForm
 import scala.Some
 import controllers.step.forces.routes
+import uk.gov.gds.ier.form.AddressHelpers
 
 trait ConfirmationMustache {
 
@@ -109,7 +109,7 @@ trait ConfirmationMustache {
   }
 
   class ConfirmationBlocks(form:InProgressForm[InprogressForces])
-    extends StepMustache with Logging {
+    extends StepMustache with AddressHelpers with Logging {
 
     val completeThisStepMessage = "<div class=\"validation-message visible\">" +
       "Please complete this step" +
@@ -275,7 +275,7 @@ trait ConfirmationMustache {
     def address = {
       Some(ConfirmationQuestion(
         title = "UK registration address",
-        editLink = if (form(keys.address.manualAddress).value.isDefined) {
+        editLink = if (isManualAddressDefined(form, keys.address.manualAddress)) {
           routes.AddressManualController.editGet.url
         } else {
           routes.AddressSelectController.editGet.url
@@ -283,7 +283,7 @@ trait ConfirmationMustache {
         changeName = "your UK registration address",
         content = ifComplete(keys.address) {
           val addressLine = form(keys.address.addressLine).value.orElse{
-            form(keys.address.manualAddress).value
+            manualAddressToOneLine(form, keys.address.manualAddress)
           }.getOrElse("")
           val postcode = form(keys.address.postcode).value.getOrElse("")
           s"<p>$addressLine</p><p>$postcode</p>"
@@ -303,8 +303,8 @@ trait ConfirmationMustache {
                 addressLine => "<p>" + addressLine + "</p>"
               ).getOrElse("")
             } else {
-              form(keys.previousAddress.previousAddress.manualAddress).value.map(
-                manualAddress => "<p>" + manualAddress + "</p>"
+              manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress).map(
+                addressLine => "<p>" + addressLine + "</p>"
               ).getOrElse("")
             }
 
@@ -338,7 +338,7 @@ trait ConfirmationMustache {
           if (addressTypeKey.equals(keys.ukContactAddress)) {
             ifComplete(keys.address) {
               val addressLine = form(keys.address.addressLine).value.orElse{
-                form(keys.address.manualAddress).value
+                manualAddressToOneLine(form, keys.address.manualAddress)
               }.getOrElse("")
               val postcode = form(keys.address.postcode).value.getOrElse("")
               s"<p>$addressLine</p><p>$postcode</p>"

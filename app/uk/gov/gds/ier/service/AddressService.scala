@@ -13,10 +13,10 @@ class AddressService @Inject()(placesService: PlacesService) {
       }
       case PartialAddress(_, None, postcode, Some(manualAddress)) => {
         Some(Address(
-          lineOne = Some(manualAddress),
-          lineTwo = None,
-          lineThree = None,
-          city = None,
+          lineOne = manualAddress.lineOne,
+          lineTwo = manualAddress.lineTwo,
+          lineThree = manualAddress.lineThree,
+          city = manualAddress.city,
           county = None,
           uprn = None,
           postcode = postcode))
