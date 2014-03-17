@@ -9,6 +9,8 @@ import uk.gov.gds.ier.validation.Key
 import uk.gov.gds.ier.model.InprogressCrown
 import uk.gov.gds.ier.validation.InProgressForm
 import scala.Some
+import uk.gov.gds.ier.logging.Logging
+import uk.gov.gds.ier.form.AddressHelpers
 
 trait ConfirmationMustache {
 
@@ -38,8 +40,7 @@ trait ConfirmationMustache {
       val confirmation = new ConfirmationBlocks(form)
 
       val partnerData = List(
-        confirmation.jobTitle,
-        confirmation.govDepartment
+        confirmation.jobTitle
       ).flatten
 
       val applicantData = List(
@@ -63,7 +64,6 @@ trait ConfirmationMustache {
         confirmation.nationality,
         confirmation.nino,
         confirmation.jobTitle,
-        confirmation.govDepartment,
         confirmation.address,
         confirmation.contactAddress,
         confirmation.openRegister,
@@ -119,7 +119,7 @@ trait ConfirmationMustache {
   }
 
   class ConfirmationBlocks(form:InProgressForm[InprogressCrown])
-    extends StepMustache with Logging {
+    extends StepMustache with AddressHelpers with Logging {
 
     val completeThisStepMessage = "<div class=\"validation-message visible\">" +
       "Please complete this step" +
@@ -241,18 +241,8 @@ trait ConfirmationMustache {
         editLink = routes.JobController.editGet.url,
         changeName = "job title",
         content = ifComplete(keys.job) {
-            "<p>"+form(keys.job.jobTitle).value.getOrElse("")+"</p>"
-        }
-      ))
-    }
-
-    def govDepartment = {
-      Some(ConfirmationQuestion(
-        title = "Department",
-        editLink = routes.JobController.editGet.url,
-        changeName = "department",
-        content = ifComplete(keys.job) {
-          "<p>"+form(keys.job.govDepartment).value.getOrElse("")+"</p>"
+            "<p>"+form(keys.job.jobTitle).value.getOrElse("")+"</p>" +
+            "<p>"+form(keys.job.govDepartment).value.getOrElse("")+"</p>"
         }
       ))
     }
@@ -260,15 +250,17 @@ trait ConfirmationMustache {
     def address = {
       Some(ConfirmationQuestion(
         title = "UK registration address",
-        editLink = if (form(keys.address.manualAddress).value.isDefined) {
+        editLink = if (form(keys.address.addressLine).value.isDefined) {
+          routes.AddressSelectController.editGet.url
+        } else if (isManualAddressDefined(form, keys.address.manualAddress)) {
           routes.AddressManualController.editGet.url
         } else {
-          routes.AddressSelectController.editGet.url
+          routes.AddressController.editGet.url
         },
         changeName = "your UK registration address",
         content = ifComplete(keys.address) {
           val addressLine = form(keys.address.addressLine).value.orElse{
-            form(keys.address.manualAddress).value
+            manualAddressToOneLine(form, keys.address.manualAddress)
           }.getOrElse("")
           val postcode = form(keys.address.postcode).value.getOrElse("")
           s"<p>$addressLine</p><p>$postcode</p>"

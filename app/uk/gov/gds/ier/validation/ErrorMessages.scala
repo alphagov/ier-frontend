@@ -1,5 +1,8 @@
 package uk.gov.gds.ier.validation
 
+import play.api.data.validation.{Invalid, Valid, Constraint}
+import uk.gov.gds.ier.model.PartialManualAddress
+
 trait ErrorMessages {
   lazy val maxTextFieldLength = 256
   lazy val maxExplanationFieldLength = 500
@@ -15,4 +18,7 @@ trait ErrorMessages {
   lazy val noNationalityReasonMaxLengthError = s"Reason for not providing nationality must be described in up to $maxTextFieldLength characters"
   lazy val addressMaxLengthError = s"Address information should be no longer than $maxTextFieldLength characters"
   lazy val noNinoReasonMaxLengthError = s"Reason for not providing National Insurance number must be described in up to $maxTextFieldLength characters"
+
+  lazy val lineOneIsRequiredError = s"At leats one address line is required"
+  lazy val cityIsRequiredError = s"Postal town or city is required"
 }

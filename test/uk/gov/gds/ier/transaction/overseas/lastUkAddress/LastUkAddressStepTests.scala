@@ -56,7 +56,10 @@ class LastUkAddressStepTests
           .withIerSession()
           .withApplication(incompleteRenewerApplication)
           .withFormUrlEncodedBody(
-            "lastUkAddress.manualAddress" -> "123 Fake Street",
+            "lastUkAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "lastUkAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "lastUkAddress.manualAddress.lineThree" -> "Hallow",
+            "lastUkAddress.manualAddress.city" -> "Worcester",
             "lastUkAddress.postcode" -> "SW1A 1AA"
         )
       )
@@ -90,7 +93,10 @@ class LastUkAddressStepTests
           .withIerSession()
           .withApplication(incompleteYoungApplication)
           .withFormUrlEncodedBody(
-            "lastUkAddress.manualAddress" -> "123 Fake Street",
+            "lastUkAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "lastUkAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "lastUkAddress.manualAddress.lineThree" -> "Hallow",
+            "lastUkAddress.manualAddress.city" -> "Worcester",
             "lastUkAddress.postcode" -> "SW1A 1AA"
         )
       )
@@ -124,7 +130,10 @@ class LastUkAddressStepTests
           .withIerSession()
           .withApplication(incompleteNewApplication)
           .withFormUrlEncodedBody(
-            "lastUkAddress.manualAddress" -> "123 Fake Street",
+            "lastUkAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "lastUkAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "lastUkAddress.manualAddress.lineThree" -> "Hallow",
+            "lastUkAddress.manualAddress.city" -> "Worcester",
             "lastUkAddress.postcode" -> "SW1A 1AA"
         )
       )
@@ -158,7 +167,10 @@ class LastUkAddressStepTests
           .withIerSession()
           .withApplication(incompleteForcesApplication)
           .withFormUrlEncodedBody(
-            "lastUkAddress.manualAddress" -> "123 Fake Street",
+            "lastUkAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "lastUkAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "lastUkAddress.manualAddress.lineThree" -> "Hallow",
+            "lastUkAddress.manualAddress.city" -> "Worcester",
             "lastUkAddress.postcode" -> "SW1A 1AA"
         )
       )
@@ -175,7 +187,10 @@ class LastUkAddressStepTests
           .withIerSession()
           .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
-            "lastUkAddress.manualAddress" -> "123 Fake Street",
+            "lastUkAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "lastUkAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "lastUkAddress.manualAddress.lineThree" -> "Hallow",
+            "lastUkAddress.manualAddress.city" -> "Worcester",
             "lastUkAddress.postcode" -> "SW1A 1AA"
           )
       )
@@ -242,7 +257,10 @@ behavior of "LastUkAddressStep.editGet"
           .withIerSession()
           .withApplication(incompleteRenewerApplication)
           .withFormUrlEncodedBody(
-            "lastUkAddress.manualAddress" -> "123 Fake Street",
+            "lastUkAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "lastUkAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "lastUkAddress.manualAddress.lineThree" -> "Hallow",
+            "lastUkAddress.manualAddress.city" -> "Worcester",
             "lastUkAddress.postcode" -> "SW1A 1AA"
         )
       )
@@ -276,7 +294,10 @@ behavior of "LastUkAddressStep.editGet"
           .withIerSession()
           .withApplication(incompleteYoungApplication)
           .withFormUrlEncodedBody(
-            "lastUkAddress.manualAddress" -> "123 Fake Street",
+            "lastUkAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "lastUkAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "lastUkAddress.manualAddress.lineThree" -> "Hallow",
+            "lastUkAddress.manualAddress.city" -> "Worcester",
             "lastUkAddress.postcode" -> "SW1A 1AA"
         )
       )
@@ -310,7 +331,10 @@ behavior of "LastUkAddressStep.editGet"
           .withIerSession()
           .withApplication(incompleteNewApplication)
           .withFormUrlEncodedBody(
-            "lastUkAddress.manualAddress" -> "123 Fake Street",
+            "lastUkAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "lastUkAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "lastUkAddress.manualAddress.lineThree" -> "Hallow",
+            "lastUkAddress.manualAddress.city" -> "Worcester",
             "lastUkAddress.postcode" -> "SW1A 1AA"
         )
       )
@@ -344,7 +368,10 @@ behavior of "LastUkAddressStep.editGet"
           .withIerSession()
           .withApplication(incompleteForcesApplication)
           .withFormUrlEncodedBody(
-            "lastUkAddress.manualAddress" -> "123 Fake Street",
+            "lastUkAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "lastUkAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "lastUkAddress.manualAddress.lineThree" -> "Hallow",
+            "lastUkAddress.manualAddress.city" -> "Worcester",
             "lastUkAddress.postcode" -> "SW1A 1AA"
         )
       )
@@ -361,7 +388,10 @@ behavior of "LastUkAddressStep.editGet"
           .withIerSession()
           .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
-            "lastUkAddress.manualAddress" -> "123 Fake Street",
+            "lastUkAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "lastUkAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "lastUkAddress.manualAddress.lineThree" -> "Hallow",
+            "lastUkAddress.manualAddress.city" -> "Worcester",
             "lastUkAddress.postcode" -> "SW1A 1AA"
           )
       )
@@ -387,7 +417,7 @@ behavior of "LastUkAddressStep.editGet"
   }
 
   behavior of "Completing a prior step when this question is incomplete"
-  ignore should "stop on this page" in {
+  it should "stop on this page" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/previously-registered")

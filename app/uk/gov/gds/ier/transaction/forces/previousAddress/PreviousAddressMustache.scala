@@ -30,11 +30,14 @@ trait PreviousAddressMustache {
     )
 
     case class ManualModel (
-        question: Question,
-        lookupUrl: String,
-        postcode: Field,
-        manualAddress: Field
-    )
+      question: Question,
+      lookupUrl: String,
+      postcode: Field,
+      maLineOne: Field,
+      maLineTwo: Field,
+      maLineThree: Field,
+      maCity: Field
+      )
 
     def postcodeData(
         form:InProgressForm[InprogressForces],
@@ -51,7 +54,6 @@ trait PreviousAddressMustache {
         ),
         postcode = TextField(keys.previousAddress.postcode)
       )
-      println(modelData)
       modelData
     }
 
@@ -165,7 +167,10 @@ trait PreviousAddressMustache {
         ),
         lookupUrl = lookupUrl,
         postcode = TextField(keys.previousAddress.postcode),
-        manualAddress = TextField(keys.previousAddress.manualAddress)
+        maLineOne = TextField(keys.previousAddress.manualAddress.lineOne),
+        maLineTwo = TextField(keys.previousAddress.manualAddress.lineTwo),
+        maLineThree = TextField(keys.previousAddress.manualAddress.lineThree),
+        maCity = TextField(keys.previousAddress.manualAddress.city)
       )
     }
 

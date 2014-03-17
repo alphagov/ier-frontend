@@ -351,23 +351,26 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
     val Some(jobTitleModel) = confirmation.jobTitle
-    val Some(govDepartmentModel) = confirmation.govDepartment
 
-    jobTitleModel.content should be("<p>some job title</p>")
+    jobTitleModel.content should be("<p>some job title</p><p>MoJ</p>")
     jobTitleModel.editLink should be("/register-to-vote/crown/edit/job-title")
-
-    govDepartmentModel.content should be("<p>MoJ</p>")
-    govDepartmentModel.editLink should be("/register-to-vote/crown/edit/job-title")
   }
 
   "In-progress application form with valid UK address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    // this test also (unintentionally?) test that if both selected and manual address are present
+    // in application user is redirected to edit the selected address rather that the manual one
+    // because edit link should take user to the displayed variant, that is selected address
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       address = Some(PartialAddress(
         addressLine = Some("123 Fake Street"),
         uprn = Some("12345678"),
         postcode = "AB12 3CD",
-        manualAddress = None
+        manualAddress = Some(PartialManualAddress(
+          lineOne = Some("Unit 4, Elgar Business Centre"),
+          lineTwo = Some("Moseley Road"),
+          lineThree = Some("Hallow"),
+          city = Some("Worcester")))
       ))
     ))
 
@@ -385,14 +388,20 @@ class ConfirmationMustacheTest
         addressLine = None,
         uprn = None,
         postcode = "AB12 3CD",
-        manualAddress = Some("my totally fake manual address, 123")
+        manualAddress = Some(PartialManualAddress(
+          lineOne = Some("Unit 4, Elgar Business Centre"),
+          lineTwo = Some("Moseley Road"),
+          lineThree = Some("Hallow"),
+          city = Some("Worcester")))
       ))
     ))
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
     val Some(addressModel) = confirmation.address
-    addressModel.content should be("<p>my totally fake manual address, 123</p><p>AB12 3CD</p>")
+    addressModel.content should be("" +
+      "<p>Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester</p>" +
+      "<p>AB12 3CD</p>")
     addressModel.editLink should be("/register-to-vote/crown/edit/address/manual")
   }
 
