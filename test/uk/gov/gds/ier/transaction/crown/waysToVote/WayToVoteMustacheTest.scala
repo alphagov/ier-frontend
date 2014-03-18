@@ -44,7 +44,7 @@ class WayToVoteMustacheTest
 
   it should "produce valid model with checked in-person when application has in-person filled" in {
     val emptyApplicationForm = waysToVoteForm.fill(InprogressCrown(
-      waysToVote = Some(WaysToVote(WaysToVoteType.InPerson)))
+           waysToVote = Some(WaysToVote(WaysToVoteType.InPerson)))
     )
     val model = waysToVoteMustache.transformFormStepToMustacheData(
       emptyApplicationForm,
