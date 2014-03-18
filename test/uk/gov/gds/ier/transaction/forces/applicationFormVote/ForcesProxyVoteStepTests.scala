@@ -109,5 +109,4 @@ class ForcesProxyVoteStepTests
       contentAsString(result) should include("/register-to-vote/forces/edit/proxy-vote")
     }
   }
-
 }
