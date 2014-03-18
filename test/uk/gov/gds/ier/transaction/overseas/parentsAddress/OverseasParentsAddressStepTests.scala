@@ -30,7 +30,6 @@ class OverseasParentsAddressStepTests
       contentAsString(result) should include(
         "What was your parent or guardian&#39;s last UK address?"
       )
-      contentAsString(result) should include("Question 7")
       contentAsString(result) should include("/register-to-vote/overseas/parents-address")
     }
   }
@@ -118,7 +117,6 @@ behavior of "ParentsAddressStep.editGet"
       contentAsString(result) should include(
         "What was your parent or guardian&#39;s last UK address?"
       )
-      contentAsString(result) should include("Question 7")
       contentAsString(result) should include("/register-to-vote/overseas/parents-address/lookup")
     }
   }

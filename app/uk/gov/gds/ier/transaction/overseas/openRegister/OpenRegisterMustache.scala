@@ -21,7 +21,7 @@ trait OpenRegisterMustache extends StepMustache {
         postUrl = postEndpoint.url,
         backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
-        number = "9",
+        number = "",
         title = "Do you want to include your name and address on the open register?"
       ),
       openRegister = CheckboxField (

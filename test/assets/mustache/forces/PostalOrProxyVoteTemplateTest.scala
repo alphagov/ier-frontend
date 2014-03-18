@@ -107,7 +107,6 @@ class PostalOrProxyVoteTemplateTest
       voteTypeInput.attr("id") should be("voteTypeId")
       voteTypeInput.attr("name") should be("voteTypeName")
       voteTypeInput.attr("value") should be ("voteTypeValue")
-
     }
   }
 }

@@ -12,7 +12,7 @@ trait DateLeftSpecialMustache extends StepMustache {
   case class DateLeftSpecialModel(question:Question,
                              dateLeftSpecialFieldSet: FieldSet,
                              dateLeftSpecialMonth: Field,
-                             dateLeftSpecialYear: Field, 
+                             dateLeftSpecialYear: Field,
                              service: String)
 
   def dateLeftSpecialMustache(form:ErrorTransformForm[InprogressOverseas],
@@ -26,7 +26,7 @@ trait DateLeftSpecialMustache extends StepMustache {
         postUrl = post.url,
         backUrl = back.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
-        number = "6",
+        number = "",
         title = "When did you cease to be a " + service + "?"
       ) ,
       dateLeftSpecialFieldSet = FieldSet(

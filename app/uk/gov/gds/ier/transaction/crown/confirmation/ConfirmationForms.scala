@@ -46,7 +46,7 @@ trait ConfirmationForms
       keys.previousName.key -> stepRequired(previousNameMapping),
       keys.job.key -> stepRequired(jobMapping),
       keys.nino.key -> stepRequired(ninoMapping),
-      keys.contactAddress.key -> stepRequired(contactAddressMapping),
+      keys.contactAddress.key -> stepRequired(possibleContactAddressesMapping),
       keys.openRegister.key -> stepRequired(openRegisterOptInMapping),
       keys.waysToVote.key -> stepRequired(waysToVoteMapping),
       keys.postalOrProxyVote.key -> optional(postalOrProxyVoteMapping),

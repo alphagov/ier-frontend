@@ -11,7 +11,7 @@ case class InprogressCrown(
     previousName: Option[PreviousName] = None,
     job: Option[Job] = None,
     nino: Option[Nino] = None,
-    contactAddress: Option[ContactAddress] = None,
+    contactAddress: Option[PossibleContactAddresses] = None,
     openRegisterOptin: Option[Boolean] = None,
     waysToVote: Option[WaysToVote] = None,
     postalOrProxyVote: Option[PostalOrProxyVote] = None,
@@ -48,7 +48,7 @@ case class CrownApplication(
     previousName: Option[PreviousName],
     job: Option[Job],
     nino: Option[Nino],
-    contactAddress: Option[ContactAddress],
+    contactAddress: Option[PossibleContactAddresses],
     openRegisterOptin: Option[Boolean],
     postalOrProxyVote: Option[PostalOrProxyVote],
     contact: Option[Contact],
@@ -58,6 +58,7 @@ case class CrownApplication(
   extends CompleteApplication {
 
   def toApiMap = {
+
     Map.empty ++
       statement.map(_.toApiMap).getOrElse(Map.empty) ++
       address.map(_.toApiMap("reg")).getOrElse(Map.empty) ++
@@ -67,7 +68,7 @@ case class CrownApplication(
       previousName.map(_.toApiMap("p")).getOrElse(Map.empty) ++
       job.map(_.toApiMap).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
-      contactAddress.map(_.toApiMap).getOrElse(Map.empty) ++
+      contactAddress.map(_.toApiMap(address)).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
       postalOrProxyVote.map(_.toApiMap).getOrElse(Map.empty) ++
       contact.map(_.toApiMap).getOrElse(Map.empty) ++

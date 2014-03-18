@@ -61,14 +61,11 @@ class CrownApplicationTests
         jobTitle = Some("my job title"),
         govDepartment = Some("MoJ")
       )),
-      contactAddress = Some (ContactAddress(
-        country = Some("Saudi Arabia"),
-        postcode = Some("12345678"),
-        addressLine1 = Some("Harithah Ibn Uday, Al Wizarat"),
-        addressLine2 = Some("Riyadh 12622 11564"),
-        addressLine3 = None,
-        addressLine4 = None,
-        addressLine5 = None
+      contactAddress = Some (PossibleContactAddresses(
+        contactAddressType = Some("uk"),
+        ukAddressLine = Some("my uk address, london"),
+        bfpoContactAddress = None,
+        otherContactAddress = None
       )),
       openRegisterOptin = Some(false),
       postalOrProxyVote = Some(PostalOrProxyVote(
@@ -121,10 +118,13 @@ class CrownApplicationTests
       "regarea" -> "Fakesbury",
       "reguprn" -> "12345",
       "regpostcode" -> "XX12 34XX",
-      "corrcountry" -> "Saudi Arabia",
-      "corrpostcode" -> "12345678",
-      "corraddressline1" -> "Harithah Ibn Uday, Al Wizarat",
-      "corraddressline2" -> "Riyadh 12622 11564",
+      "corrcountry" -> "uk",
+      "corrpostcode" -> "XX12 34XX",
+      "corraddressline1" -> "The (fake) Manor House",
+      "corraddressline2" -> "123 Fake Street",
+      "corraddressline3" -> "North Fake",
+      "corraddressline4" -> "Fakerton",
+      "corraddressline5" -> "Fakesbury",
       "scrwn" -> "false",
       "bc" -> "false",
       "sbc" -> "false",
@@ -151,6 +151,6 @@ class CrownApplicationTests
       apiMap.keys should not contain(key)
     }
 
-    apiMap.keys.size should be(34)
+    apiMap.keys.size should be(37)
   }
 }

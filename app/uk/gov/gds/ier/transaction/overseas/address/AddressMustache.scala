@@ -23,23 +23,23 @@ trait AddressMustache extends StepMustache {
                                  post: Call,
                                  back: Option[Call]): AddressModel = {
 	implicit val progressForm = form
-	
+
 	def countrySelectOptions(selectedCountry: String) = (NationalityConstants.countryNameToCodes map (
 	  isoCountry => {
  	       val isSelected = if (selectedCountry.equals(isoCountry._2.displayName)) "selected" else ""
 	       SelectOption(isoCountry._2.displayName, isoCountry._2.displayName, isSelected)
 	  }
 	)).toList.sortWith((x, y) => x.text.compareTo(y.text) < 0)
-	
+
     AddressModel(
       question = Question(
         postUrl = post.url,
         backUrl = back.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
-        number = "11",
+        number = "",
         title = "Where do you live?"
       ),
-      countrySelect = SelectField(key = keys.overseasAddress.country, 
+      countrySelect = SelectField(key = keys.overseasAddress.country,
           optionList = countrySelectOptions(
               progressForm(keys.overseasAddress.country.key).value.getOrElse("")),
           default = SelectOption("", "Please select your country")),
