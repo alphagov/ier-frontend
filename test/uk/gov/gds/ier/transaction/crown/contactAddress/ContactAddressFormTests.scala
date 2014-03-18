@@ -82,6 +82,27 @@ class ContactAddressFormTests
     )
   }
 
+  it should "error out on missing bfpo postcode" in {
+    val request = Json.toJson(
+      Map(
+        "contactAddress.contactAddressType" -> "bfpo",
+        "contactAddress.bfpoContactAddress.addressLine1" -> "address line 1",
+        "contactAddress.bfpoContactAddress.addressLine2" -> "address line 2, 456 - 457",
+        "contactAddress.bfpoContactAddress.addressLine3" -> "London"
+      )
+    )
+    contactAddressForm.bind(request).fold(
+      formWithErrors => {
+        formWithErrors.errorMessages("contactAddress.bfpoContactAddress.postcode") should be(
+          Seq("Please enter the address"))
+        formWithErrors.globalErrorMessages should be (Seq("Please enter the address"))
+        formWithErrors.errors.size should be(2)
+
+      },
+      formWithSuccess => fail("Should have thrown an error")
+    )
+  }
+
   it should "bind successfully on other address" in {
     val request = Json.toJson(
       Map(
@@ -113,6 +134,26 @@ class ContactAddressFormTests
           ))
         )
       }
+    )
+  }
+
+  it should "error out on missing address lines (other address)" in {
+    val request = Json.toJson(
+      Map(
+        "contactAddress.contactAddressType" -> "other",
+        "contactAddress.otherContactAddress.postcode" -> "08191",
+        "contactAddress.otherContactAddress.country" -> "Spain"
+      )
+    )
+    contactAddressForm.bind(request).fold(
+      formWithErrors => {
+        formWithErrors.errorMessages("contactAddress.otherContactAddress.addressLine1") should be(
+          Seq("Please enter the address"))
+        formWithErrors.globalErrorMessages should be (Seq("Please enter the address"))
+        formWithErrors.errors.size should be(2)
+
+      },
+      formWithSuccess => fail("Should have thrown an error")
     )
   }
 
