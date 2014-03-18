@@ -45,7 +45,6 @@ class WaysToVoteControllerTests
 
   behavior of "WaysToVoteController.post"
   it should "redirect to postal vote step when submitted data indicate by-proxy way" in {
-    // proxy voting is handled by the same controller as postal vote, hence same next step URL
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/forces/ways-to-vote")
@@ -99,7 +98,8 @@ class WaysToVoteControllerTests
     }
   }
 
-  it should "bind successfully and redirect to the confirmation step with a complete application" in {
+  it should "bind successfully and redirect to the postal vote step with a complete application" +
+    "no matter the user changes in the ways to vote step or not" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/forces/edit/ways-to-vote")
@@ -110,7 +110,7 @@ class WaysToVoteControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/forces/confirmation"))
+      redirectLocation(result) should be(Some("/register-to-vote/forces/postal-vote"))
     }
   }
 
@@ -141,6 +141,21 @@ class WaysToVoteControllerTests
       contentAsString(result) should include("How do you want to vote?")
 
       contentAsString(result) should include("Please answer this question")
+    }
+  }
+  
+  behavior of "OpenRegisterController.post"
+  it should "bypass the waysToVote and postalOrProxy step and redirect to Contact Step when " +
+    "completing the open register step" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/forces/open-register")
+          .withIerSession()
+          .withApplication(completeForcesApplication.copy(contact = None))
+          .withFormUrlEncodedBody("openRegister.optIn" -> "true")
+      )
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/forces/contact"))
     }
   }
 }
