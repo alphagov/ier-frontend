@@ -84,14 +84,16 @@ case class PossibleContactAddresses(
   bfpoContactAddress: Option[ContactAddress],
   otherContactAddress: Option[ContactAddress] ) {
 
-  def toApiMap = contactAddressType match {
-    case Some("uk") => Map.empty
-    case Some("bfpo") => bfpoContactAddress.get.toApiMap
-    case Some("other") => otherContactAddress.get.toApiMap
-    case _ => throw new IllegalArgumentException
+  def toApiMap (address: Option[Address]) = {
+    contactAddressType match {
+      case Some("uk") => toApiMapFromUkAddress(address)
+      case Some("bfpo") => bfpoContactAddress.get.toApiMap
+      case Some("other") => otherContactAddress.get.toApiMap
+      case _ => throw new IllegalArgumentException
+    }
   }
 
-  def toApiMapFromUkAddress (address: Option[Address]) = {
+  private def toApiMapFromUkAddress (address: Option[Address]) = {
     if (address.isDefined) {
       val ukAddress = address.get
       Map("corrcountry" -> "uk") ++

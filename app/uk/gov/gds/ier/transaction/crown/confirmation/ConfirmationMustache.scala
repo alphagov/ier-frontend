@@ -53,7 +53,6 @@ trait ConfirmationMustache {
         confirmation.contactAddress,
         confirmation.openRegister,
         confirmation.waysToVote,
-        confirmation.postalOrProxyVote,
         confirmation.contact
       ).flatten
 
@@ -68,7 +67,6 @@ trait ConfirmationMustache {
         confirmation.contactAddress,
         confirmation.openRegister,
         confirmation.waysToVote,
-        confirmation.postalOrProxyVote,
         confirmation.contact
       ).flatten
 
@@ -275,19 +273,37 @@ trait ConfirmationMustache {
         changeName = "polling card address",
         content = ifComplete(keys.contactAddress) {
 
-          val result:StringBuilder = new StringBuilder
-          result.append ("<p>")
-          result.append (
-            List (
-              form(keys.contactAddress.addressLine1).value,
-              form(keys.contactAddress.addressLine2).value,
-              form(keys.contactAddress.addressLine3).value,
-              form(keys.contactAddress.addressLine4).value,
-              form(keys.contactAddress.addressLine5).value)
-              .filter(!_.getOrElse("").isEmpty).map(_.get).mkString("","<br/>",""))
-          result.append ("</p>")
-          result.append ("<p>" + form (keys.contactAddress.country).value.getOrElse("") + "</p>")
-          result.toString()
+          val addressTypeKey = form(keys.contactAddress.contactAddressType).value match {
+            case Some("uk") => keys.ukContactAddress
+            case Some("bfpo") => keys.bfpoContactAddress
+            case Some("other") => keys.otherContactAddress
+            case _ => throw new IllegalArgumentException
+          }
+
+          if (addressTypeKey.equals(keys.ukContactAddress)) {
+            ifComplete(keys.address) {
+              val addressLine = form(keys.address.addressLine).value.orElse{
+                manualAddressToOneLine(form, keys.address.manualAddress)
+              }.getOrElse("")
+              val postcode = form(keys.address.postcode).value.getOrElse("")
+              s"<p>$addressLine</p><p>$postcode</p>"
+            }
+          }
+          else {
+            val contactAddressKey = keys.contactAddress.prependNamespace(addressTypeKey)
+            val addressLines = List (
+                form(contactAddressKey.prependNamespace(keys.addressLine1)).value,
+                form(contactAddressKey.prependNamespace(keys.addressLine2)).value,
+                form(contactAddressKey.prependNamespace(keys.addressLine3)).value,
+                form(contactAddressKey.prependNamespace(keys.addressLine4)).value,
+                form(contactAddressKey.prependNamespace(keys.addressLine5)).value)
+                .filter(!_.getOrElse("").isEmpty).map(_.get).mkString("","<br/>","")
+
+            val postcode = form (contactAddressKey.prependNamespace(keys.postcode)).value.getOrElse("")
+            val country = form (contactAddressKey.prependNamespace(keys.country)).value.getOrElse("")
+
+            "<p>" + addressLines + "</p><p>" + postcode + "</p><p>" + country +  "</p>"
+          }
         }
       ))
     }
@@ -308,57 +324,39 @@ trait ConfirmationMustache {
     }
 
     def waysToVote = {
-      val way = form(keys.waysToVote.wayType).value.map{ way => WaysToVoteType.parse(way) }
-
-      Some(ConfirmationQuestion(
-        title = "How you want to vote",
-        editLink = routes.WaysToVoteController.editGet.url,
-        changeName = "voting",
-        content = ifComplete(keys.waysToVote) {
-          way match {
-            case Some(WaysToVoteType.ByPost) => "<p>By post</p>"
-            case Some(WaysToVoteType.ByProxy) => "<p>By proxy (someone else voting for you)</p>"
-            case Some(WaysToVoteType.InPerson) => "<p>In the UK, at a polling station</p>"
-            case _ => ""
-          }
-        }
-      ))
-    }
-
-    def postalOrProxyVote = {
-      val way = form(keys.postalOrProxyVote.voteType).value.map{ way => WaysToVoteType.parse(way) }
+      val way = form(keys.waysToVote.wayType).value.map(WaysToVoteType.parse(_))
       val prettyWayName = way match {
-        case Some(WaysToVoteType.ByPost) => "postal vote"
-        case Some(WaysToVoteType.ByProxy) => "proxy vote"
-        case _ => ""
+        case Some(WaysToVoteType.ByPost) => "a postal vote"
+        case Some(WaysToVoteType.ByProxy) => "a proxy vote"
+        case _ => "an"
       }
       val myEmail = form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value.getOrElse("")
       val emailMe = form(keys.postalOrProxyVote.deliveryMethod.methodName).value == Some("email")
-      val optIn = form(keys.postalOrProxyVote.optIn).value == Some("true")
-
-      way.map { wayToVote =>
-        ConfirmationQuestion(
-          title = "Application form",
-          editLink = wayToVote match {
-            case WaysToVoteType.ByPost => routes.PostalVoteController.editGet.url
-            case WaysToVoteType.ByProxy => routes.ProxyVoteController.editGet.url
-            case _ => routes.WaysToVoteController.editGet.url
-          },
-          changeName = wayToVote match {
-            case WaysToVoteType.ByPost => "your postal vote form"
-            case WaysToVoteType.ByProxy => "your proxy vote form"
-            case _ => "your method of voting"
-          },
-          content = ifComplete(keys.postalOrProxyVote) {
-            (optIn, emailMe) match {
-              case (true, true) => s"<p>Please email a ${prettyWayName} application form to:</p>" +
-                s"<p>${myEmail}</p>"
-              case (true, false) => s"<p>Please post me a ${prettyWayName} application form</p>"
-              case (false, _) => s"<p>I do not need a ${prettyWayName} application form</p>"
-            }
-          }
-        )
+      val optIn = form(keys.postalOrProxyVote.optIn).value
+      val ways = way match {
+        case Some(WaysToVoteType.ByPost) => "<p>I want to vote by post</p>"
+        case Some(WaysToVoteType.ByProxy) => "<p>I want to vote by proxy (someone else voting for me)</p>"
+        case Some(WaysToVoteType.InPerson) => "<p>I want to vote in person, at a polling station</p>"
+        case _ => ""
       }
+      val postalOrProxyVote = (optIn, emailMe) match {
+        case (Some("true"), true) => s"<p>Send an application form to:</p>" +
+          s"<p>${myEmail}</p>"
+        case (Some("true"), false) => s"<p>Send me an application form in the post</p>"
+        case (Some("false"), _) => s"<p>I do not need ${prettyWayName} application form</p>"
+        case (_, _) => ""
+      }
+
+      Some(ConfirmationQuestion(
+        title = "Voting options",
+        editLink = routes.WaysToVoteController.editGet.url,
+        changeName = "voting",
+        content = if (form(keys.waysToVote).hasErrors ||
+          (way.exists(_ == WaysToVoteType.InPerson) && form(keys.postalOrProxyVote).hasErrors)) {
+          completeThisStepMessage
+        }
+        else ways + postalOrProxyVote
+      ))
     }
 
     def contact = {
