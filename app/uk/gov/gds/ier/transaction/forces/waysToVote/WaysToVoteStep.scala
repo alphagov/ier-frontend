@@ -5,14 +5,16 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.ForcesStep
-import controllers.step.forces.routes.WaysToVoteController
-import controllers.step.forces.routes.OpenRegisterController
+import controllers.step.forces.routes.{WaysToVoteController, OpenRegisterController}
 import controllers.step.forces.{ProxyVoteController, ContactController, PostalVoteController}
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.{WaysToVoteType, InprogressForces}
 import uk.gov.gds.ier.validation.InProgressForm
 import play.api.mvc.Call
 import play.api.templates.Html
+import play.api.mvc.SimpleResult
+import uk.gov.gds.ier.step.NextStep
+import uk.gov.gds.ier.model.{WaysToVote,PostalOrProxyVote}
 
 
 class WaysToVoteStep @Inject ()(
@@ -25,7 +27,7 @@ class WaysToVoteStep @Inject ()(
 
   val validation = waysToVoteForm
 
-  val routes = Routes(
+  val routes: Routes = Routes(
     get = WaysToVoteController.get,
     post = WaysToVoteController.post,
     editGet = WaysToVoteController.editGet,
@@ -33,7 +35,7 @@ class WaysToVoteStep @Inject ()(
   )
   val previousRoute = Some(OpenRegisterController.get)
 
-  def nextStep(currentState: InprogressForces) = {
+  def nextStep(currentState: InprogressForces): ForcesStep = {
     currentState.waysToVote.map(_.waysToVoteType) match {
       case Some(WaysToVoteType.InPerson) => ContactController.contactStep
       case Some(WaysToVoteType.ByPost) => PostalVoteController.postalVoteStep
@@ -41,7 +43,13 @@ class WaysToVoteStep @Inject ()(
       case _ => throw new IllegalArgumentException("unknown next step")
     }
   }
-
+  
+  override def postSuccess(currentState: InprogressForces):InprogressForces = {
+    if (currentState.waysToVote == Some(WaysToVote(WaysToVoteType.InPerson))) 
+        currentState.copy(postalOrProxyVote = None)
+    else currentState.copy(postalOrProxyVote = currentState.postalOrProxyVote.map(_.copy(forceRedirectToPostal = true)))
+  }
+  
   def template(form:InProgressForm[InprogressForces], call:Call, backUrl: Option[Call]): Html = {
     waysToVoteMustache(form.form, call, backUrl.map(_.url))
   }

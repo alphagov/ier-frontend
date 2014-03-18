@@ -30,11 +30,11 @@ trait PostalOrProxyVoteConstraints {
       if (postalVote.postalVoteOption == Some(true) &&
         !postalVote.deliveryMethod.isDefined)
         Invalid("Please answer this question", keys.postalOrProxyVote.deliveryMethod.methodName)
-      else
+      else 
         Valid
     }
   }
-
+  
   lazy val questionIsRequired = Constraint[InprogressOverseas](keys.postalOrProxyVote.key) {
     application => application.postalOrProxyVote match {
       case Some(p) => Valid
