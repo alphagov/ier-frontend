@@ -132,6 +132,7 @@ trait FormKeys {
 
     lazy val waysToVote = prependNamespace(Key("waysToVote"))
     lazy val wayType = prependNamespace(Key("wayType"))
+    lazy val waysToVoteAndPostalProxy = prependNamespace(Key("waysToVoteAndPostalProxy"))
 
     lazy val dateLeftSpecial = prependNamespace(Key("dateLeftSpecial"))
 
@@ -162,6 +163,8 @@ trait FormKeys {
     lazy val ukContactAddress = prependNamespace(Key("ukContactAddress"))
     lazy val bfpoContactAddress = prependNamespace(Key("bfpoContactAddress"))
     lazy val otherContactAddress = prependNamespace(Key("otherContactAddress"))
+    
+    lazy val forceToRedirect = prependNamespace(Key("forceToRedirect"))
   }
 
   implicit class key2namespace(key:Key) extends Keys {

@@ -5,6 +5,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.transaction.forces.applicationFormVote._
 
 class ForcesPostalVoteStepTests
   extends FlatSpec
@@ -109,5 +110,4 @@ class ForcesPostalVoteStepTests
       contentAsString(result) should include("/register-to-vote/forces/edit/postal-vote")
     }
   }
-
 }
