@@ -45,15 +45,20 @@ class WaysToVoteStep @Inject ()(
 
   override def postSuccess(currentState: InprogressOverseas):InprogressOverseas = {
     if (currentState.waysToVote == Some(WaysToVote(WaysToVoteType.InPerson)))
-      currentState.copy(
-        postalOrProxyVote = Some(PostalOrProxyVote(
-          typeVote = WaysToVoteType.InPerson,
-          postalVoteOption = None,
-          deliveryMethod = None
-        ))
-      )
+      cleanPostalOrProxyVoteOptions(currentState)
     else
       currentState
+  }
+
+
+  private def cleanPostalOrProxyVoteOptions(currentState: InprogressOverseas): InprogressOverseas = {
+    currentState.copy(
+      postalOrProxyVote = Some(PostalOrProxyVote(
+        typeVote = WaysToVoteType.InPerson,
+        postalVoteOption = None,
+        deliveryMethod = None
+      ))
+    )
   }
 
   def template(form:InProgressForm[InprogressOverseas], call:Call, backUrl: Option[Call]): Html = {
