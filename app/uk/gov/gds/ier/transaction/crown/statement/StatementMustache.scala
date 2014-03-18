@@ -45,4 +45,13 @@ trait StatementMustache extends StepMustache {
       councilPartner = CheckboxField(keys.statement.councilPartner, "true")
     )
   }
+
+  def statementMustache(
+      form:ErrorTransformForm[InprogressCrown],
+      postEndpoint: Call,
+      backEndpoint: Option[Call]): Html = {
+    val data = statementData(form, postEndpoint, backEndpoint)
+    val content = Mustache.render("crown/statement", data)
+    MainStepTemplate(content, data.question.title)
+  }
 }

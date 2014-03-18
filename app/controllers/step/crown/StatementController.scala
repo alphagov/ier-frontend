@@ -1,13 +1,13 @@
 package controllers.step.crown
 
-import uk.gov.gds.ier.stubs.StubController
-import uk.gov.gds.ier.model.InprogressCrown
+import uk.gov.gds.ier.guice.DelegatingController
+import uk.gov.gds.ier.transaction.crown.statement.StatementStep
 
-object StatementController extends StubController[InprogressCrown] {
-  val confirmationStep = ConfirmationController.confirmationStep
-  val thisStepUrl = "/register-to-vote/crown/statement"
+object StatementController extends DelegatingController[StatementStep] {
+  def get = delegate.get
+  def post = delegate.post
+  def editGet = delegate.editGet
+  def editPost = delegate.editPost
 
-  def statementStep = confirmationIf { application =>
-    application.statement.isDefined
-  }
+  def statementStep = delegate
 }

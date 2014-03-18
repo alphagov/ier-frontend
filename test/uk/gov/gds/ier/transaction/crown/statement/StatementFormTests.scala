@@ -88,6 +88,55 @@ class StatementFormTests
     )
   }
 
+  it should "error out on two me answers selected" in {
+    val js = Json.toJson(
+      Map(
+        "statement.crownServant" -> "true",
+        "statement.councilEmployee" -> "true"
+      )
+    )
+    statementForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(3)
+        hasErrors.globalErrorMessages should be(
+          Seq("Please select only one of these answers")
+        )
+        hasErrors.errorMessages("statement.crownServant") should be(
+          Seq("Please select only one of these answers")
+        )
+        hasErrors.errorMessages("statement.councilEmployee") should be(
+          Seq("Please select only one of these answers")
+        )
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
+
+  it should "error out on two partner answers selected" in {
+    val js = Json.toJson(
+      Map(
+        "statement.crownPartner" -> "true",
+        "statement.councilPartner" -> "true"
+      )
+    )
+    statementForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(3)
+        hasErrors.globalErrorMessages should be(
+          Seq("Please select only one of these answers")
+        )
+        hasErrors.errorMessages("statement.crownPartner") should be(
+          Seq("Please select only one of these answers")
+        )
+        hasErrors.errorMessages("statement.councilPartner") should be(
+          Seq("Please select only one of these answers")
+        )
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
   it should "error out on missing values" in {
     val js = Json.toJson(
       Map(

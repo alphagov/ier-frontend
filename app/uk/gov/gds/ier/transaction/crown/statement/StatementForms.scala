@@ -17,7 +17,6 @@ trait StatementForms extends StatementConstraints {
     keys.crownPartner.key -> boolean,
     keys.councilEmployee.key -> boolean,
     keys.councilPartner.key -> boolean
-
   ) (
     CrownStatement.apply
   ) (
@@ -31,7 +30,11 @@ trait StatementForms extends StatementConstraints {
       statement => InprogressCrown (statement = statement)
     ) (
       inprogress => Some(inprogress.statement)
-    ).verifying (atLeastOneStatementSelected)
+    ).verifying(
+      atLeastOneStatementSelected,
+      partnerCantBeBoth,
+      youCantBeBoth
+    )
   )
 }
 
@@ -39,6 +42,30 @@ trait StatementForms extends StatementConstraints {
 trait StatementConstraints {
   self: ErrorMessages
     with FormKeys =>
+
+  lazy val partnerCantBeBoth = Constraint[InprogressCrown](keys.statement.key) {
+    application =>
+      application.statement match {
+        case Some(CrownStatement(_, true, _, true)) => Invalid(
+          "Please select only one of these answers",
+          keys.statement.crownPartner,
+          keys.statement.councilPartner
+        )
+        case _ => Valid
+      }
+  }
+
+  lazy val youCantBeBoth = Constraint[InprogressCrown](keys.statement.key) {
+    application =>
+      application.statement match {
+        case Some(CrownStatement(true, _, true, _)) => Invalid(
+          "Please select only one of these answers",
+          keys.statement.crownServant,
+          keys.statement.councilEmployee
+        )
+        case _ => Valid
+      }
+  }
 
   lazy val atLeastOneStatementSelected = Constraint[InprogressCrown](keys.statement.key) {
     application =>
