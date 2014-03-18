@@ -4,7 +4,6 @@ import controllers.step.forces.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import play.api.templates.Html
-
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.ForcesStep
