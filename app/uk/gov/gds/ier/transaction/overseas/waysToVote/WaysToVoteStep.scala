@@ -53,11 +53,7 @@ class WaysToVoteStep @Inject ()(
 
   private def cleanPostalOrProxyVoteOptions(currentState: InprogressOverseas): InprogressOverseas = {
     currentState.copy(
-      postalOrProxyVote = Some(PostalOrProxyVote(
-        typeVote = WaysToVoteType.InPerson,
-        postalVoteOption = None,
-        deliveryMethod = None
-      ))
+      postalOrProxyVote = None
     )
   }
 
