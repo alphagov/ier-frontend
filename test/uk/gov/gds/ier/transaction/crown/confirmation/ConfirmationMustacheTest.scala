@@ -408,21 +408,29 @@ class ConfirmationMustacheTest
   "In-progress application form with valid contact address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
-      contactAddress = Some(ContactAddress(
-        country = Some ("Italy"),
-        postcode = None,
-        addressLine1 = Some("Via Venezia, 18"),
-        addressLine2 = Some("00184 Rome"),
-        addressLine3 = None,
-        addressLine4 = None,
-        addressLine5 = None
+      address = Some(PartialAddress(
+        addressLine = None,
+        uprn = None,
+        postcode = "AB12 3CD",
+        manualAddress = Some(PartialManualAddress(
+          lineOne = Some("my totally fake manual address"),
+          lineTwo = Some("123"),
+          lineThree = None,
+          city = Some("Fakebury")
+        ))
+      )),
+      contactAddress = Some (PossibleContactAddresses(
+        contactAddressType = Some("uk"),
+        ukAddressLine = Some("my uk address, london"),
+        bfpoContactAddress = None,
+        otherContactAddress = None
       ))
     ))
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
     val Some(contactAddressModel) = confirmation.contactAddress
-    contactAddressModel.content should be("<p>Via Venezia, 18<br/>00184 Rome</p><p>Italy</p>")
+    contactAddressModel.content should be("<p>my totally fake manual address, 123, Fakebury</p><p>AB12 3CD</p>")
     contactAddressModel.editLink should be("/register-to-vote/crown/edit/contact-address")
   }
 
