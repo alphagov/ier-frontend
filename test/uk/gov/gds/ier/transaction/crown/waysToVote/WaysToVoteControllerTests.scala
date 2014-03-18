@@ -98,7 +98,7 @@ class WaysToVoteControllerTests
     }
   }
 
-  it should "bind successfully and redirect to the postal vote step with a complete application" +
+  it should "bind successfully and redirect to the postal vote step with a complete application " +
     "no matter the user changes in the ways to vote step or not" in {
     running(FakeApplication()) {
       val Some(result) = route(
