@@ -461,22 +461,13 @@ class ConfirmationMustacheTest
   }
 
 
-  "application form with filled way to vote as by-post" should
-    "generate confirmation mustache model with correctly rendered way to vote type" in {
-    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
-      waysToVote = Some(WaysToVote(WaysToVoteType.ByPost))))
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
-    val Some(nameModel) = confirmation.waysToVote
-    nameModel.content should be("<p>By post</p>")
-  }
-
   "application form with filled way to vote as by-proxy" should
     "generate confirmation mustache model with correctly rendered way to vote type" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       waysToVote = Some(WaysToVote(WaysToVoteType.ByProxy))))
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
     val Some(nameModel) = confirmation.waysToVote
-    nameModel.content should be("<p>By proxy (someone else voting for you)</p>")
+    nameModel.content should be("<p>I want to vote by proxy (someone else voting for me)</p>")
   }
 
   "application form with filled way to vote as in-person" should
@@ -484,22 +475,16 @@ class ConfirmationMustacheTest
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       waysToVote = Some(WaysToVote(WaysToVoteType.InPerson))))
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
-    val Some(nameModel) = confirmation.waysToVote
-    nameModel.content should be("<p>In the UK, at a polling station</p>")
+    val Some(model) = confirmation.waysToVote
+    model.content should include("I want to vote in person, at a polling station")
+    model.editLink should be("/register-to-vote/crown/edit/ways-to-vote")
   }
 
-  it should "return none (waysToVote not answered)" in {
-    val partialApplication = confirmationForm
-
-    val confirmation = new ConfirmationBlocks(InProgressForm(partialApplication))
-    val model = confirmation.postalOrProxyVote
-
-    model.isDefined should be(false)
-  }
 
   "In-progress application form with postal vote (by post)" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+      waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
       postalOrProxyVote = Some(PostalOrProxyVote(
         typeVote = WaysToVoteType.ByPost,
         postalVoteOption = Some(true),
@@ -512,34 +497,38 @@ class ConfirmationMustacheTest
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
-    val Some(postalOrProxyVoteModel) = confirmation.postalOrProxyVote
-    postalOrProxyVoteModel.content should be("<p>Please post me a postal vote application form</p>")
-    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/postal-vote")
+    val Some(postalOrProxyVoteModel) = confirmation.waysToVote
+    postalOrProxyVoteModel.content should include("<p>I want to vote by post</p>")
+    postalOrProxyVoteModel.content should include("Send me an application form in the post")
+    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/ways-to-vote")
   }
 
   "In-progress application form with postal vote (by email)" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+      waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
       postalOrProxyVote = Some(PostalOrProxyVote(
         typeVote = WaysToVoteType.ByPost,
         postalVoteOption = Some(true),
         deliveryMethod = Some(PostalVoteDeliveryMethod(
           deliveryMethod = Some("email"),
-          emailAddress = Some("antoine@gds.com")
+          emailAddress = Some("test@test.com")
         ))
       ))
     ))
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
-    val Some(postalOrProxyVoteModel) = confirmation.postalOrProxyVote
-    postalOrProxyVoteModel.content should be("<p>Please email a postal vote application form to:</p><p>antoine@gds.com</p>")
-    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/postal-vote")
+    val Some(postalOrProxyVoteModel) = confirmation.waysToVote
+    postalOrProxyVoteModel.content should include("Send an application form to")
+    postalOrProxyVoteModel.content should include("test@test.com")
+    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/ways-to-vote")
   }
 
   "In-progress application form with proxy vote (by post)" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+      waysToVote = Some(WaysToVote(WaysToVoteType.ByProxy)),
       postalOrProxyVote = Some(PostalOrProxyVote(
         typeVote = WaysToVoteType.ByProxy,
         postalVoteOption = Some(true),
@@ -552,34 +541,39 @@ class ConfirmationMustacheTest
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
-    val Some(postalOrProxyVoteModel) = confirmation.postalOrProxyVote
-    postalOrProxyVoteModel.content should be("<p>Please post me a proxy vote application form</p>")
-    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/proxy-vote")
+    val Some(postalOrProxyVoteModel) = confirmation.waysToVote
+    postalOrProxyVoteModel.content should include("I want to vote by proxy (someone else voting for me)")
+    postalOrProxyVoteModel.content should include("Send me an application form in the post")
+    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/ways-to-vote")
   }
 
   "In-progress application form with proxy vote (by email)" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+      waysToVote = Some(WaysToVote(WaysToVoteType.ByProxy)),
       postalOrProxyVote = Some(PostalOrProxyVote(
         typeVote = WaysToVoteType.ByProxy,
         postalVoteOption = Some(true),
         deliveryMethod = Some(PostalVoteDeliveryMethod(
           deliveryMethod = Some("email"),
-          emailAddress = Some("antoine@gds.com")
+          emailAddress = Some("test@test.com")
         ))
       ))
     ))
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
-    val Some(postalOrProxyVoteModel) = confirmation.postalOrProxyVote
-    postalOrProxyVoteModel.content should be("<p>Please email a proxy vote application form to:</p><p>antoine@gds.com</p>")
-    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/proxy-vote")
+    val Some(postalOrProxyVoteModel) = confirmation.waysToVote
+    postalOrProxyVoteModel.content should include("I want to vote by proxy (someone else voting for me)")
+    postalOrProxyVoteModel.content should include("Send an application form to")
+    postalOrProxyVoteModel.content should include("test@test.com")
+    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/ways-to-vote")
   }
 
   "In-progress application form without applying for postal vote" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+      waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
       postalOrProxyVote = Some(PostalOrProxyVote(
         typeVote = WaysToVoteType.ByPost,
         postalVoteOption = Some(false),
@@ -589,14 +583,16 @@ class ConfirmationMustacheTest
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
-    val Some(postalOrProxyVoteModel) = confirmation.postalOrProxyVote
-    postalOrProxyVoteModel.content should be("<p>I do not need a postal vote application form</p>")
-    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/postal-vote")
+    val Some(postalOrProxyVoteModel) = confirmation.waysToVote
+    postalOrProxyVoteModel.content should include("I want to vote by post")
+    postalOrProxyVoteModel.content should include("I do not need a postal vote application form")
+    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/ways-to-vote")
   }
 
   "In-progress application form without applying for proxy vote" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+      waysToVote = Some(WaysToVote(WaysToVoteType.ByProxy)),
       postalOrProxyVote = Some(PostalOrProxyVote(
         typeVote = WaysToVoteType.ByProxy,
         postalVoteOption = Some(false),
@@ -606,9 +602,10 @@ class ConfirmationMustacheTest
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
-    val Some(postalOrProxyVoteModel) = confirmation.postalOrProxyVote
-    postalOrProxyVoteModel.content should be("<p>I do not need a proxy vote application form</p>")
-    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/proxy-vote")
+    val Some(postalOrProxyVoteModel) = confirmation.waysToVote
+    postalOrProxyVoteModel.content should include("I want to vote by proxy")
+    postalOrProxyVoteModel.content should include("I do not need a proxy vote application form")
+    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/ways-to-vote")
   }
 
   "In-progress application form with email contact" should
