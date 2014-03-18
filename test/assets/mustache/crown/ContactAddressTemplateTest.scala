@@ -140,7 +140,7 @@ class ContactAddressTemplateTest
       {
         doc.select("input#ukAddressOptionId").size() should be(1)
         val r = doc.select("input#ukAddressOptionId").first()
-        r.attr("id") should be("ukAddressOptionId")
+        r should not be(null)
         r.attr("name") should be("ukAddressOptionName")
         r.attr("foo") should be("foo")
       }
@@ -148,7 +148,7 @@ class ContactAddressTemplateTest
       {
         doc.select("input#BFPOAddressOptionId").size() should be(1)
         val r = doc.select("input#BFPOAddressOptionId").first()
-        r.attr("id") should be("BFPOAddressOptionId")
+        r should not be(null)
         r.attr("name") should be("BFPOAddressOptionName")
         r.attr("foo") should be("foo")
       }
@@ -156,7 +156,7 @@ class ContactAddressTemplateTest
       {
         doc.select("input#BFPOAddressLine1Id").size() should be(1)
         val r = doc.select("input#BFPOAddressLine1Id").first()
-        r.attr("id") should be("BFPOAddressLine1Id")
+        r should not be(null)
         r.attr("name") should be("BFPOAddressLine1Name")
         r.attr("class") should include ("BFPOAddressLine1Class")
         r.attr("value") should be("BFPOAddressLine1Value")
@@ -165,7 +165,7 @@ class ContactAddressTemplateTest
       {
         doc.select("input#BFPOAddressLine2Id").size() should be(1)
         val r = doc.select("input#BFPOAddressLine2Id").first()
-        r.attr("id") should be("BFPOAddressLine2Id")
+        r should not be(null)
         r.attr("name") should be("BFPOAddressLine2Name")
         r.attr("value") should be("BFPOAddressLine2Value")
       }
@@ -173,7 +173,7 @@ class ContactAddressTemplateTest
       {
         doc.select("input#BFPOAddressLine3Id").size() should be(1)
         val r = doc.select("input#BFPOAddressLine3Id").first()
-        r.attr("id") should be("BFPOAddressLine3Id")
+        r should not be(null)
         r.attr("name") should be("BFPOAddressLine3Name")
         r.attr("value") should be("BFPOAddressLine3Value")
       }
@@ -181,7 +181,7 @@ class ContactAddressTemplateTest
       {
         doc.select("input#BFPOAddressLine4Id").size() should be(1)
         val r = doc.select("input#BFPOAddressLine4Id").first()
-        r.attr("id") should be("BFPOAddressLine4Id")
+        r should not be(null)
         r.attr("name") should be("BFPOAddressLine4Name")
         r.attr("value") should be("BFPOAddressLine4Value")
       }
@@ -189,7 +189,7 @@ class ContactAddressTemplateTest
       {
         doc.select("input#BFPOAddressLine5Id").size() should be(1)
         val r = doc.select("input#BFPOAddressLine5Id").first()
-        r.attr("id") should be("BFPOAddressLine5Id")
+        r should not be(null)
         r.attr("name") should be("BFPOAddressLine5Name")
         r.attr("value") should be("BFPOAddressLine5Value")
       }
@@ -197,7 +197,7 @@ class ContactAddressTemplateTest
       {
         doc.select("input#BFPOAddressPostcodeId").size() should be(1)
         val r = doc.select("input#BFPOAddressPostcodeId").first()
-        r.attr("id") should be("BFPOAddressPostcodeId")
+        r should not be(null)
         r.attr("name") should be("BFPOAddressPostcodeName")
         r.attr("class") should include ("BFPOAddressPostcodeClass")
         r.attr("value") should be("BFPOAddressPostcodeValue")
@@ -206,7 +206,7 @@ class ContactAddressTemplateTest
       {
         doc.select("input#otherAddressOptionId").size() should be(1)
         val r = doc.select("input#otherAddressOptionId").first()
-        r.attr("id") should be("otherAddressOptionId")
+        r should not be(null)
         r.attr("name") should be("otherAddressOptionName")
         r.attr("foo") should be("foo")
       }
@@ -214,7 +214,7 @@ class ContactAddressTemplateTest
       {
         doc.select("input#otherAddressLine1Id").size() should be(1)
         val r = doc.select("input#otherAddressLine1Id").first()
-        r.attr("id") should be("otherAddressLine1Id")
+        r should not be(null)
         r.attr("name") should be("otherAddressLine1Name")
         r.attr("class") should include ("otherAddressLine1Class")
         r.attr("value") should be("otherAddressLine1Value")
@@ -223,7 +223,7 @@ class ContactAddressTemplateTest
       {
         doc.select("input#otherAddressLine2Id").size() should be(1)
         val r = doc.select("input#otherAddressLine2Id").first()
-        r.attr("id") should be("otherAddressLine2Id")
+        r should not be(null)
         r.attr("name") should be("otherAddressLine2Name")
         r.attr("value") should be("otherAddressLine2Value")
       }
@@ -231,7 +231,7 @@ class ContactAddressTemplateTest
       {
         doc.select("input#otherAddressLine3Id").size() should be(1)
         val r = doc.select("input#otherAddressLine3Id").first()
-        r.attr("id") should be("otherAddressLine3Id")
+        r should not be(null)
         r.attr("name") should be("otherAddressLine3Name")
         r.attr("value") should be("otherAddressLine3Value")
       }
@@ -239,7 +239,7 @@ class ContactAddressTemplateTest
       {
         doc.select("input#otherAddressLine4Id").size() should be(1)
         val r = doc.select("input#otherAddressLine4Id").first()
-        r.attr("id") should be("otherAddressLine4Id")
+        r should not be(null)
         r.attr("name") should be("otherAddressLine4Name")
         r.attr("value") should be("otherAddressLine4Value")
       }
@@ -247,7 +247,7 @@ class ContactAddressTemplateTest
       {
         doc.select("input#otherAddressLine5Id").size() should be(1)
         val r = doc.select("input#otherAddressLine5Id").first()
-        r.attr("id") should be("otherAddressLine5Id")
+        r should not be(null)
         r.attr("name") should be("otherAddressLine5Name")
         r.attr("value") should be("otherAddressLine5Value")
       }
@@ -255,7 +255,7 @@ class ContactAddressTemplateTest
       {
         doc.select("input#otherAddressPostcodeId").size() should be(1)
         val r = doc.select("input#otherAddressPostcodeId").first()
-        r.attr("id") should be("otherAddressPostcodeId")
+        r should not be(null)
         r.attr("name") should be("otherAddressPostcodeName")
         r.attr("class") should include ("otherAddressPostcodeClass")
         r.attr("value") should be("otherAddressPostcodeValue")
@@ -264,7 +264,7 @@ class ContactAddressTemplateTest
       {
         doc.select("input#otherAddressCountryId").size() should be(1)
         val r = doc.select("input#otherAddressCountryId").first()
-        r.attr("id") should be("otherAddressCountryId")
+        r should not be(null)
         r.attr("name") should be("otherAddressCountryName")
         r.attr("class") should include ("otherAddressCountryClass")
         r.attr("value") should be("otherAddressCountryValue")

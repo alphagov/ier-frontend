@@ -22,8 +22,11 @@ class ContactAddressFormTests
     val emptyRequest = Map.empty[String, String]
     contactAddressForm.bind(emptyRequest).fold(
       formWithErrors => {
-        formWithErrors.errors("contactAddress.contactAddressType").head.message should be ("Please answer this question")
+        formWithErrors.errorMessages("contactAddress.contactAddressType") should be(
+          Seq("Please answer this question"))
         formWithErrors.globalErrorMessages should be (Seq("Please answer this question"))
+        formWithErrors.errors.size should be(2)
+
       },
       formWithSuccess => fail("Should have thrown an error")
     )
@@ -61,18 +64,18 @@ class ContactAddressFormTests
         formWithSuccess.contactAddress.isDefined should be(true)
         formWithSuccess.contactAddress should be(
           Some(PossibleContactAddresses(
-            Some("bfpo"),
-            None,
-            Some(ContactAddress(
-              None,
-              Some("BFPO90-987 XXZ"),
-              Some("address line 1"),
-              Some("address line 2, 456 - 457"),
-              Some("London"),
-              None,
-              None
+            contactAddressType = Some("bfpo"),
+            ukAddressLine = None,
+            bfpoContactAddress = Some(ContactAddress(
+              country = None,
+              postcode = Some("BFPO90-987 XXZ"),
+              addressLine1 = Some("address line 1"),
+              addressLine2 = Some("address line 2, 456 - 457"),
+              addressLine3 = Some("London"),
+              addressLine4 = None,
+              addressLine5 = None
             )),
-            None
+            otherContactAddress = None
           ))
         )
       }
@@ -95,17 +98,17 @@ class ContactAddressFormTests
         formWithSuccess.contactAddress.isDefined should be(true)
         formWithSuccess.contactAddress should be(
           Some(PossibleContactAddresses(
-            Some("other"),
-            None,
-            None,
-            Some(ContactAddress(
-              Some("Spain"),
-              Some("08191"),
-              Some("Francisco de quevedo 54"),
-              Some("Rubí"),
-              None,
-              None,
-              None
+            contactAddressType = Some("other"),
+            ukAddressLine = None,
+            bfpoContactAddress = None,
+            otherContactAddress = Some(ContactAddress(
+              country = Some("Spain"),
+              postcode = Some("08191"),
+              addressLine1 = Some("Francisco de quevedo 54"),
+              addressLine2 = Some("Rubí"),
+              addressLine3 = None,
+              addressLine4 = None,
+              addressLine5 = None
             ))
           ))
         )
