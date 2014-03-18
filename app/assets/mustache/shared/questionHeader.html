@@ -4,6 +4,11 @@
 {{^question.showBackUrl}}
 <header class="question-one">
 {{/question.showBackUrl}}
+    {{#question.number}}
     <p>Question {{question.number}}</p>
+    {{/question.number}}
+    {{^question.number}}
+    <br/>
+    {{/question.number}}
     <h1>{{question.title}}</h1>
 </header>

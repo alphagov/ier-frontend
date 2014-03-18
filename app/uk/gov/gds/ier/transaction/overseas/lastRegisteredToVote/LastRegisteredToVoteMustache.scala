@@ -32,7 +32,7 @@ trait LastRegisteredToVoteMustache {
           postUrl = postEndpoint.url,
           backUrl = backEndpoint.map(_.url).getOrElse(""),
           errorMessages = form.globalErrors.map{ _.message },
-          number = "?",
+          number = "",
           title = "How were you last registered to vote?"
         ),
         registeredType = Field(

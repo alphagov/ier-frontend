@@ -25,7 +25,7 @@ trait DateLeftUkMustache extends StepMustache {
         postUrl = post.url,
         backUrl = back.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
-        number = "5",
+        number = "",
         title = "When did you leave the UK?"
       ) ,
       dateLeftUkFieldSet = FieldSet(
