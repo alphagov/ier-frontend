@@ -33,7 +33,7 @@ class AddressStep @Inject() (
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    NationalityController.nationalityStep
+    controllers.step.crown.PreviousAddressFirstController.previousAddressFirstStep
   }
 
   def template(
