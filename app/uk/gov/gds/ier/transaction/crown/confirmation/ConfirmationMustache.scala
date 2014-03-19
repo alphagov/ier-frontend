@@ -33,7 +33,6 @@ trait ConfirmationMustache {
   object Confirmation extends StepMustache {
 
     def confirmationPage(
-        application: InprogressCrown,
         form:InProgressForm[InprogressCrown],
         backUrl: String,
         postUrl: String) = {
@@ -77,7 +76,7 @@ trait ConfirmationMustache {
         partnerDetails = partnerData,
         applicantDetails = applicantData,
         completeApplicantDetails = completeApplicantData,
-        displayPartnerBlock = application.displayPartner,
+        displayPartnerBlock = displayPartnerBlock(form),
         backUrl = backUrl,
         postUrl = postUrl
       )
@@ -88,6 +87,33 @@ trait ConfirmationMustache {
         "Confirm your details - Register to vote",
         contentClasses = Some("confirmation")
       )
+    }
+
+    def displayPartnerBlock (form:InProgressForm[InprogressCrown]): Boolean = {
+
+      val isPartner = Some("true")
+      val isNotMember = Some("false")
+
+      val displayCrownPartner = (
+        form(keys.statement.crownPartner).value,
+        form(keys.statement.crownServant).value
+      ) match {
+        case (`isPartner`, `isNotMember`) => true
+        case (`isPartner`, None) => true
+        case _ => false
+      }
+
+      val displayBritisthCouncilPartner = (
+        form(keys.statement.councilPartner).value,
+        form(keys.statement.councilEmployee).value
+        ) match {
+        case (`isPartner`, `isNotMember`) => true
+        case (`isPartner`, None) => true
+        case _ => false
+      }
+
+      (displayCrownPartner || displayBritisthCouncilPartner)
+
     }
 
   }

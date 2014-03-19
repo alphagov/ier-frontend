@@ -12,8 +12,6 @@ import controllers.step.crown.routes.StatementController
 import controllers.routes.CompleteController
 import com.google.inject.Inject
 import uk.gov.gds.ier.step.Routes
-import play.api.templates.Html
-import play.api.mvc.Call
 
 
 class ConfirmationStep @Inject() (
@@ -37,28 +35,24 @@ class ConfirmationStep @Inject() (
   val validation = confirmationForm
   val previousRoute = Some(StatementController.get)
 
-  override def templateWithApplication(form:InProgressForm[InprogressCrown]) = {
-    application:InprogressCrown =>
-      Confirmation.confirmationPage(
-        application,
-        form,
-        previousRoute.map(_.url).getOrElse("#"),
-        routes.post.url
-      )
+  def template(form:InProgressForm[InprogressCrown]) = {
+    Confirmation.confirmationPage(
+      form,
+      previousRoute.map(_.url).getOrElse("#"),
+      routes.post.url
+    )
   }
-
-  def template(form:InProgressForm[InprogressCrown]) = Html.empty
 
   def get = ValidSession requiredFor {
     request => application =>
-      Ok(templateWithApplication(InProgressForm(validation.fillAndValidate(application)))(application))
+      Ok(template(InProgressForm(validation.fillAndValidate(application))))
   }
 
   def post = ValidSession requiredFor {
     request => application =>
       validation.fillAndValidate(application).fold(
         hasErrors => {
-          Ok(templateWithApplication(InProgressForm(hasErrors))(application))
+          Ok(template(InProgressForm(hasErrors)))
         },
         validApplication => {
           val refNum = ierApi.generateCrownReferenceNumber(validApplication)
