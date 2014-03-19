@@ -191,20 +191,20 @@ behavior of "AddressStep.editGet"
     }
   }
 
-//  behavior of "Completing a prior step when this question is incomplete"
-//  it should "stop on this page" in {
-//    running(FakeApplication()) {
-//      val Some(result) = route(
-//        FakeRequest(POST, "/register-to-vote/crown/statement")
-//          .withIerSession()
-//          .withApplication(completeCrownApplication.copy(address = None))
-//          .withFormUrlEncodedBody(
-//            "statement.crownMember" -> "true"
-//          )
-//      )
-//
-//      status(result) should be(SEE_OTHER)
-//      redirectLocation(result) should be(Some("/register-to-vote/crown/address"))
-//    }
-//  }
+  behavior of "Completing a prior step when this question is incomplete"
+  ignore should "stop on this page" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/crown/statement")
+          .withIerSession()
+          .withApplication(completeCrownApplication.copy(address = None))
+          .withFormUrlEncodedBody(
+            "statement.crownMember" -> "true"
+          )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/crown/address"))
+    }
+  }
 }
