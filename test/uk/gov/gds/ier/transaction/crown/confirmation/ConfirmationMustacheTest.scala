@@ -25,54 +25,51 @@ class ConfirmationMustacheTest
 
   "In-progress application form without a crown or council partner" should
     "generate confirmation mustache model without partner block" in {
-    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+
+    val application = InprogressCrown(
       statement = Some(CrownStatement(
         crownServant = true,
         crownPartner = false,
         councilEmployee = false,
         councilPartner = false
       ))
-    ))
-
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
     )
+
+    val displayPartnerBlock = application.displayPartner
 
     displayPartnerBlock should be (false)
   }
 
   "In-progress application form without a crown or council partner (member and partner = true)" should
     "generate confirmation mustache model without partner block" in {
-    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+
+    val application = InprogressCrown(
       statement = Some(CrownStatement(
         crownServant = true,
         crownPartner = true,
         councilEmployee = false,
         councilPartner = false
       ))
-    ))
-
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
     )
+
+    val displayPartnerBlock = application.displayPartner
 
     displayPartnerBlock should be (false)
   }
 
   "In-progress application form with a crown partner" should
     "generate confirmation mustache model with partner block" in {
-    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+
+    val application = InprogressCrown(
       statement = Some(CrownStatement(
         crownServant = false,
         crownPartner = true,
         councilEmployee = false,
         councilPartner = false
       ))
-    ))
-
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
     )
+
+    val displayPartnerBlock = application.displayPartner
 
     displayPartnerBlock should be (true)
   }
@@ -82,56 +79,87 @@ class ConfirmationMustacheTest
 
   "In-progress application form without a crown or council partner (BC member)" should
     "generate confirmation mustache model without partner block" in {
-    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+
+    val application = InprogressCrown(
       statement = Some(CrownStatement(
         crownServant = false,
         crownPartner = false,
         councilEmployee = true,
         councilPartner = false
       ))
-    ))
-
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
     )
+
+    val displayPartnerBlock = application.displayPartner
 
     displayPartnerBlock should be (false)
   }
 
   "In-progress application form without a crown or council partner (BC member and partner = true)" should
     "generate confirmation mustache model without partner block" in {
-    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+
+    val application = InprogressCrown(
       statement = Some(CrownStatement(
         crownServant = false,
         crownPartner = false,
         councilEmployee = true,
         councilPartner = true
       ))
-    ))
-
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
     )
+
+    val displayPartnerBlock = application.displayPartner
 
     displayPartnerBlock should be (false)
   }
 
   "In-progress application form with a BC partner" should
     "generate confirmation mustache model with partner block" in {
-    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+
+    val application = InprogressCrown(
       statement = Some(CrownStatement(
         crownServant = false,
         crownPartner = false,
         councilEmployee = false,
         councilPartner = true
       ))
-    ))
-
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
     )
 
+    val displayPartnerBlock = application.displayPartner
+
     displayPartnerBlock should be (true)
+  }
+
+  "In-progress application form with a crown member and BC partner" should
+    "generate confirmation mustache model with partner block" in {
+
+    val application = InprogressCrown(
+      statement = Some(CrownStatement(
+        crownServant = true,
+        crownPartner = false,
+        councilEmployee = false,
+        councilPartner = true
+      ))
+    )
+
+    val displayPartnerBlock = application.displayPartner
+
+    displayPartnerBlock should be (false)
+  }
+
+  "In-progress application form with a crown partner and BC member" should
+    "generate confirmation mustache model with partner block" in {
+
+    val application = InprogressCrown(
+      statement = Some(CrownStatement(
+        crownServant = false,
+        crownPartner = true,
+        councilEmployee = true,
+        councilPartner = false
+      ))
+    )
+
+    val displayPartnerBlock = application.displayPartner
+
+    displayPartnerBlock should be (false)
   }
 
   "In-progress application form with filled name and previous name" should
