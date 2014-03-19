@@ -24,7 +24,6 @@ trait ConfirmationMustache {
   case class ConfirmationModel(
       applicantDetails: List[ConfirmationQuestion],
       partnerDetails: List[ConfirmationQuestion],
-      completeApplicantDetails: List[ConfirmationQuestion],
       displayPartnerBlock: Boolean,
       backUrl: String,
       postUrl: String
@@ -32,7 +31,7 @@ trait ConfirmationMustache {
 
   object Confirmation extends StepMustache {
 
-    def confirmationPage(
+    def confirmationData(
         form:InProgressForm[InprogressCrown],
         backUrl: String,
         postUrl: String) = {
@@ -40,7 +39,7 @@ trait ConfirmationMustache {
       val confirmation = new ConfirmationBlocks(form)
 
       val partnerData = List(
-        confirmation.jobTitle
+        confirmation.partnerJobTitle
       ).flatten
 
       val applicantData = List(
@@ -49,6 +48,7 @@ trait ConfirmationMustache {
         confirmation.dateOfBirth,
         confirmation.nationality,
         confirmation.nino,
+        confirmation.applicantJobTitle,
         confirmation.address,
         confirmation.contactAddress,
         confirmation.openRegister,
@@ -57,65 +57,29 @@ trait ConfirmationMustache {
         confirmation.contact
       ).flatten
 
-      val completeApplicantData = List(
-        confirmation.name,
-        confirmation.previousName,
-        confirmation.dateOfBirth,
-        confirmation.nationality,
-        confirmation.nino,
-        confirmation.jobTitle,
-        confirmation.address,
-        confirmation.contactAddress,
-        confirmation.openRegister,
-        confirmation.waysToVote,
-        confirmation.postalOrProxyVote,
-        confirmation.contact
-      ).flatten
-
-      val data = ConfirmationModel(
+      ConfirmationModel(
         partnerDetails = partnerData,
         applicantDetails = applicantData,
-        completeApplicantDetails = completeApplicantData,
-        displayPartnerBlock = displayPartnerBlock(form),
+        displayPartnerBlock = !partnerData.isEmpty,
         backUrl = backUrl,
         postUrl = postUrl
       )
+    }
 
+    def confirmationPage(
+        form:InProgressForm[InprogressCrown],
+        backUrl: String,
+        postUrl: String) = {
+
+      val data = confirmationData(form, backUrl, postUrl)
       val content = Mustache.render("crown/confirmation", data)
+
       MainStepTemplate(
         content,
         "Confirm your details - Register to vote",
         contentClasses = Some("confirmation")
       )
     }
-
-    def displayPartnerBlock (form:InProgressForm[InprogressCrown]): Boolean = {
-
-      val isPartner = Some("true")
-      val isNotMember = Some("false")
-
-      val displayCrownPartner = (
-        form(keys.statement.crownPartner).value,
-        form(keys.statement.crownServant).value
-      ) match {
-        case (`isPartner`, `isNotMember`) => true
-        case (`isPartner`, None) => true
-        case _ => false
-      }
-
-      val displayBritisthCouncilPartner = (
-        form(keys.statement.councilPartner).value,
-        form(keys.statement.councilEmployee).value
-        ) match {
-        case (`isPartner`, `isNotMember`) => true
-        case (`isPartner`, None) => true
-        case _ => false
-      }
-
-      (displayCrownPartner || displayBritisthCouncilPartner)
-
-    }
-
   }
 
   class ConfirmationBlocks(form:InProgressForm[InprogressCrown])
@@ -235,8 +199,24 @@ trait ConfirmationMustache {
       ))
     }
 
+    def applicantJobTitle : Option[ConfirmationQuestion] = {
+      if (!displayPartnerBlock(form)) {
+        Some(jobTitle)
+      } else {
+        None
+      }
+    }
+
+    def partnerJobTitle : Option[ConfirmationQuestion] = {
+      if (displayPartnerBlock(form)) {
+        Some(jobTitle)
+      } else {
+        None
+      }
+    }
+
     def jobTitle = {
-      Some(ConfirmationQuestion(
+      ConfirmationQuestion(
         title = "Job title",
         editLink = routes.JobController.editGet.url,
         changeName = "job title",
@@ -244,7 +224,7 @@ trait ConfirmationMustache {
             "<p>"+form(keys.job.jobTitle).value.getOrElse("")+"</p>" +
             "<p>"+form(keys.job.govDepartment).value.getOrElse("")+"</p>"
         }
-      ))
+      )
     }
 
     def address = {
@@ -433,5 +413,31 @@ trait ConfirmationMustache {
     }
 
     def otherCountriesKey(i:Int) = keys.nationality.otherCountries.key + "["+i+"]"
+
+    def displayPartnerBlock (form:InProgressForm[InprogressCrown]): Boolean = {
+
+      val isPartner = Some("true")
+      val isNotMember = Some("false")
+
+      val displayCrownPartner = (
+        form(keys.statement.crownPartner).value,
+        form(keys.statement.crownServant).value
+      ) match {
+        case (`isPartner`, `isNotMember`) => true
+        case (`isPartner`, None) => true
+        case _ => false
+      }
+
+      val displayBritisthCouncilPartner = (
+        form(keys.statement.councilPartner).value,
+        form(keys.statement.councilEmployee).value
+        ) match {
+        case (`isPartner`, `isNotMember`) => true
+        case (`isPartner`, None) => true
+        case _ => false
+      }
+
+      (displayCrownPartner || displayBritisthCouncilPartner)
+    }
   }
 }
