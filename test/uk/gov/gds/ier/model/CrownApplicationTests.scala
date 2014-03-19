@@ -28,6 +28,15 @@ class CrownApplicationTests
         postcode = "XX12 34XX",
         uprn = Some("12345")
       )),
+      previousAddress = Some(Address(
+        lineOne = Some("Fake House 2"),
+        lineTwo = Some("222 Fake Street"),
+        lineThree = Some("South Fake 2"),
+        city = Some("Fakerton 2"),
+        county = Some("Fakesbury 2"),
+        postcode = "SW12 34AB",
+        uprn = Some("12345")
+      )),
       nationality = Some(IsoNationality(
         countryIsos = List("GB", "IE"),
         noNationalityReason = None
@@ -118,6 +127,13 @@ class CrownApplicationTests
       "regarea" -> "Fakesbury",
       "reguprn" -> "12345",
       "regpostcode" -> "XX12 34XX",
+      "pproperty" -> "Fake House 2",
+      "pstreet" -> "222 Fake Street",
+      "plocality" -> "South Fake 2",
+      "ptown" -> "Fakerton 2",
+      "parea" -> "Fakesbury 2",
+      "puprn" -> "12345",
+      "ppostcode" -> "SW12 34AB",
       "corrcountry" -> "uk",
       "corrpostcode" -> "XX12 34XX",
       "corraddressline1" -> "The (fake) Manor House",
@@ -150,7 +166,5 @@ class CrownApplicationTests
     for(key <- notExpected) {
       apiMap.keys should not contain(key)
     }
-
-    apiMap.keys.size should be(37)
   }
 }
