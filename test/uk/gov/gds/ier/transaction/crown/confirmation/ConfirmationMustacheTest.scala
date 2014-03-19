@@ -524,6 +524,57 @@ class ConfirmationMustacheTest
     jobTitleModel.content should include("Please complete this step")
   }
 
+  it should "prefer applicant when conflicting answers (crownServant & councilPartner)" in {
+
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      statement = Some(CrownStatement(
+        crownServant = true,
+        crownPartner = false,
+        councilEmployee = false,
+        councilPartner = true
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    confirmation.applicantJobTitle.isDefined should be(true)
+    confirmation.partnerJobTitle should be(None)
+
+    val displayPartnerBlock = Confirmation.confirmationData(
+      form = InProgressForm(application),
+      backUrl = "http://backUrl",
+      postUrl = "http://postUrl"
+    ).displayPartnerBlock
+
+    displayPartnerBlock should be(false)
+  }
+
+  it should "prefer applicant when conflicting answers (crownPartner & councilEmployee)" in {
+
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      statement = Some(CrownStatement(
+        crownServant = false,
+        crownPartner = true,
+        councilEmployee = true,
+        councilPartner = false
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    confirmation.applicantJobTitle.isDefined should be(true)
+    confirmation.partnerJobTitle should be(None)
+
+    val displayPartnerBlock = Confirmation.confirmationData(
+      form = InProgressForm(application),
+      backUrl = "http://backUrl",
+      postUrl = "http://postUrl"
+    ).displayPartnerBlock
+
+    displayPartnerBlock should be(false)
+  }
+
+
   "In-progress application form with valid UK address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     // this test also (unintentionally?) test that if both selected and manual address are present

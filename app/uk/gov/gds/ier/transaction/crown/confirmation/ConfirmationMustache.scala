@@ -200,7 +200,7 @@ trait ConfirmationMustache {
     }
 
     def applicantJobTitle : Option[ConfirmationQuestion] = {
-      if (!displayPartnerBlock(form)) {
+      if (!displayPartnerBlock) {
         Some(jobTitle)
       } else {
         None
@@ -208,7 +208,7 @@ trait ConfirmationMustache {
     }
 
     def partnerJobTitle : Option[ConfirmationQuestion] = {
-      if (displayPartnerBlock(form)) {
+      if (displayPartnerBlock) {
         Some(jobTitle)
       } else {
         None
@@ -414,30 +414,14 @@ trait ConfirmationMustache {
 
     def otherCountriesKey(i:Int) = keys.nationality.otherCountries.key + "["+i+"]"
 
-    def displayPartnerBlock (form:InProgressForm[InprogressCrown]): Boolean = {
+    def displayPartnerBlock:Boolean = {
 
-      val isPartner = Some("true")
-      val isNotMember = Some("false")
+      val crownPartner = form(keys.statement.crownPartner).value == Some("true")
+      val crownServant = form(keys.statement.crownServant).value == Some("true")
+      val councilEmployee = form(keys.statement.councilEmployee).value == Some("true")
+      val councilPartner = form(keys.statement.councilPartner).value == Some("true")
 
-      val displayCrownPartner = (
-        form(keys.statement.crownPartner).value,
-        form(keys.statement.crownServant).value
-      ) match {
-        case (`isPartner`, `isNotMember`) => true
-        case (`isPartner`, None) => true
-        case _ => false
-      }
-
-      val displayBritisthCouncilPartner = (
-        form(keys.statement.councilPartner).value,
-        form(keys.statement.councilEmployee).value
-        ) match {
-        case (`isPartner`, `isNotMember`) => true
-        case (`isPartner`, None) => true
-        case _ => false
-      }
-
-      (displayCrownPartner || displayBritisthCouncilPartner)
+      (crownPartner || councilPartner) && !(crownServant || councilEmployee)
     }
   }
 }
