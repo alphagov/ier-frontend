@@ -35,14 +35,14 @@
     </div>
 
     <fieldset class="optional-section optional-section-core-content sub-section validate {{voteDeliveryMethodFieldSet.classes}}"
-              data-condition="postalOrProxyVote_optIn_true"
+              data-condition="{{voteOptInTrue.id}}"
               data-validation-name="deliveryMethod"
               data-validation-type="fieldset"
               data-validation-rules="atLeastOneNonEmpty"
               data-validation-children="deliveryMethodEmail deliveryMethodPost">
-        <p>
-            <strong>How should we send you the form?</strong>
-        </p>
+              
+        <h2>How should we send you the form?</h2>
+        
         <label for="{{voteDeliveryMethodEmail.id}}" class="selectable"  >
             <input type="radio" id="{{voteDeliveryMethodEmail.id}}"
                    name="{{voteDeliveryMethodEmail.name}}"
@@ -54,7 +54,7 @@
         </label>
 
         <div class="optional-section"
-             data-condition="postalOrProxyVote_deliveryMethod_methodName_email">
+             data-condition="{{voteDeliveryMethodEmail.id}}">
 
             <label>Email address</label>
             <div class="validation-wrapper {{voteEmailAddress.classes}}">

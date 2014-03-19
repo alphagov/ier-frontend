@@ -27,21 +27,18 @@ class WaysToVoteTemplateTest
         byPost = Field(
           id = "waysToVote_wayType_by-post",
           name = "waysToVote.wayType",
-          classes = "byPostClass byPostClass2",
           value = "by-post",
           attributes = "checked=\"checked1\""
         ),
         byProxy = Field(
           id = "waysToVote_wayType_by-proxy",
           name = "waysToVote.wayType",
-          classes = "byProxyClass byProxyClass2",
           value = "by-proxy",
           attributes = "checked=\"checked2\""
         ),
         inPerson = Field(
           id = "waysToVote_wayType_in-person",
           name = "waysToVote.wayType",
-          classes = "inPersonClass inPersonClass2",
           value = "in-person",
           attributes = "checked=\"checked3\""
         )
@@ -57,8 +54,6 @@ class WaysToVoteTemplateTest
         r.attr("id") should be("waysToVote_wayType_by-post")
         r.attr("name") should be("waysToVote.wayType")
         r.attr("value") should be("by-post")
-        r.attr("class") should include("byPostClass")
-        r.attr("class") should include("byPostClass2")
         r.attr("checked") should be("checked1")
       }
 
@@ -69,8 +64,6 @@ class WaysToVoteTemplateTest
         r.attr("id") should be("waysToVote_wayType_by-proxy")
         r.attr("name") should be("waysToVote.wayType")
         r.attr("value") should be("by-proxy")
-        r.attr("class") should include("byProxyClass")
-        r.attr("class") should include("byProxyClass2")
         r.attr("checked") should be("checked2")
       }
 
@@ -81,8 +74,6 @@ class WaysToVoteTemplateTest
         r.attr("id") should be("waysToVote_wayType_in-person")
         r.attr("name") should be("waysToVote.wayType")
         r.attr("value") should be("in-person")
-        r.attr("class") should include("inPersonClass")
-        r.attr("class") should include("inPersonClass2")
         r.attr("checked") should be("checked3")
       }
 

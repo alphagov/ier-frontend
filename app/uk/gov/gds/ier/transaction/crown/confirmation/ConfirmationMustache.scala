@@ -355,7 +355,9 @@ trait ConfirmationMustache {
           (way.exists(_ == WaysToVoteType.InPerson) && form(keys.postalOrProxyVote).hasErrors)) {
           completeThisStepMessage
         }
-        else ways + postalOrProxyVote
+        else { 
+          ways + postalOrProxyVote
+        }
       ))
     }
 
