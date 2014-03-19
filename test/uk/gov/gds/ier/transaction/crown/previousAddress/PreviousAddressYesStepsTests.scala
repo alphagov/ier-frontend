@@ -24,7 +24,6 @@ class PreviousAddressYesStepsTests
       contentAsString(result) should include(
         "Have you moved out from another UK address in the last 12 months?"
       )
-      //contentAsString(result) should include("Question 3")
       contentAsString(result) should include("<form action=\"/register-to-vote/crown/previous-address/lookup\"")
     }
   }
@@ -128,7 +127,6 @@ class PreviousAddressYesStepsTests
       contentAsString(result) should include(
         "Have you moved out from another UK address in the last 12 months?"
       )
-      contentAsString(result) should include("Question 3")
       contentAsString(result) should include("<form action=\"/register-to-vote/crown/previous-address/lookup\"")
     }
   }
