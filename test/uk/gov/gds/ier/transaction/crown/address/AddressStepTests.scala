@@ -81,7 +81,7 @@ class AddressStepTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/crown/previous-address"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/confirmation"))
     }
   }
 
@@ -171,7 +171,7 @@ behavior of "AddressStep.editGet"
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/crown/previous-address"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/confirmation"))
     }
   }
 

@@ -39,6 +39,12 @@ case class InprogressCrown(
       possibleAddresses = None
     )
   }
+
+  def displayPartner:Boolean = {
+    statement.map { p =>
+      (p.crownPartner || p.councilPartner) && !(p.crownServant || p.councilEmployee)
+    } == Some(true)
+  }
 }
 
 case class CrownApplication(
@@ -83,37 +89,19 @@ case class CrownApplication(
   }
 }
 
-
-
 case class CrownStatement(
-    crownMember: Option[Boolean],
-    partnerCrownMember: Option[Boolean],
-    britishCouncilMember: Option[Boolean],
-    partnerBritishCouncilMember: Option[Boolean]) {
+    crownServant: Boolean,
+    crownPartner: Boolean,
+    councilEmployee: Boolean,
+    councilPartner: Boolean) {
 
-  def toApiMap =
-    isCrownPartner ++ isBritishCouncilPartner ++
-      britishCouncilMember.map(britishCouncilFlag =>
-        Map("bc" -> britishCouncilFlag.toString)).getOrElse(Map("bc" -> "false"))
-
-  def isCrownPartner: Map[String, String] = {
-    val isCrownPartner = Some(true)
-    val isNotCrownMember = Some(false)
-    ( partnerCrownMember, crownMember ) match {
-      case (`isCrownPartner`, `isNotCrownMember`) =>  Map("scrwn" -> "true")
-      case (`isCrownPartner`, None) =>  Map("scrwn" -> "true")
-      case _ => Map("scrwn" -> "false")
-    }
-  }
-
-  def isBritishCouncilPartner: Map[String, String] = {
-    val isBritishCouncilPartner = Some(true)
-    val isNotBritishCouncilMember = Some(false)
-    ( partnerBritishCouncilMember, britishCouncilMember ) match {
-      case (`isBritishCouncilPartner`, `isNotBritishCouncilMember`) => Map("sbc" -> "true")
-      case (`isBritishCouncilPartner`, None) => Map("sbc" -> "true")
-      case _ => Map("sbc" -> "false")
-    }
+  def toApiMap = {
+    Map(
+      "crwn" -> crownServant.toString,
+      "scrwn" -> crownPartner.toString,
+      "bc" -> councilEmployee.toString,
+      "sbc" -> councilPartner.toString
+    )
   }
 }
 

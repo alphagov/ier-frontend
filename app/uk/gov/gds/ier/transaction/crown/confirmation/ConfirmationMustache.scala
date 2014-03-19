@@ -97,8 +97,8 @@ trait ConfirmationMustache {
       val isNotMember = Some("false")
 
       val displayCrownPartner = (
-        form(keys.statement.partnerCrownMember).value,
-        form(keys.statement.crownMember).value
+        form(keys.statement.crownPartner).value,
+        form(keys.statement.crownServant).value
       ) match {
         case (`isPartner`, `isNotMember`) => true
         case (`isPartner`, None) => true
@@ -106,8 +106,8 @@ trait ConfirmationMustache {
       }
 
       val displayBritisthCouncilPartner = (
-        form(keys.statement.partnerBritishCouncilMember).value,
-        form(keys.statement.britishCouncilMember).value
+        form(keys.statement.councilPartner).value,
+        form(keys.statement.councilEmployee).value
         ) match {
         case (`isPartner`, `isNotMember`) => true
         case (`isPartner`, None) => true
