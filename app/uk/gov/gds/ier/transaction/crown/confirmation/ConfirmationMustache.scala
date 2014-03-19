@@ -11,7 +11,6 @@ import uk.gov.gds.ier.validation.InProgressForm
 import scala.Some
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.form.AddressHelpers
-import controllers.step.forces.routes
 
 trait ConfirmationMustache {
 
