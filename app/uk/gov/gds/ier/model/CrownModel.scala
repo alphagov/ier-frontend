@@ -5,6 +5,7 @@ import uk.gov.gds.common.model.LocalAuthority
 case class InprogressCrown(
     statement: Option[CrownStatement] = None,
     address: Option[PartialAddress] = None,
+    previousAddress: Option[PartialPreviousAddress] = None,
     nationality: Option[PartialNationality] = None,
     dob: Option[DateOfBirth] = None,
     name: Option[Name] = None,
