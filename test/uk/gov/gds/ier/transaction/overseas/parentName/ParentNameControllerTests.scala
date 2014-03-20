@@ -25,10 +25,9 @@ class ParentNameControllerTests
         FakeRequest(GET, "/register-to-vote/overseas/parent-name").withIerSession()
       )
 
-      
+
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 6")
       contentAsString(result) should include("Parent or guardian's registration details")
       contentAsString(result) should include("Have they changed their name since they left the UK?")
       contentAsString(result) should include("<form action=\"/register-to-vote/overseas/parent-name\"")
@@ -113,7 +112,6 @@ class ParentNameControllerTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 6")
       contentAsString(result) should include("Parent or guardian's registration details")
       contentAsString(result) should include("Have they changed their name since they left the UK?")
       contentAsString(result) should include("<form action=\"/register-to-vote/overseas/edit/parent-name\"")
@@ -187,5 +185,5 @@ class ParentNameControllerTests
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("<form action=\"/register-to-vote/overseas/edit/parent-name\"")
     }
-  }  
+  }
 }

@@ -52,7 +52,7 @@ trait PassportMustache extends StepMustache {
           postUrl = postEndpoint.url,
           backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
           errorMessages = form.globalErrors.map{ _.message },
-          number = "7",
+          number = "",
           title = "Do you have a British Passport?"
         ),
         hasPassport = Field(

@@ -27,7 +27,7 @@ trait JobMustache extends StepMustache {
         backUrl = back.map (_.url).getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "6",
-        title = if (displayPartnerSentence(application))
+        title = if (application.displayPartner)
           "What is your partner's role?"
         else
           "What is your role?"
@@ -50,14 +50,5 @@ trait JobMustache extends StepMustache {
     val data = transformFormStepToMustacheData(application, form, post, back)
     val content = Mustache.render("crown/job", data)
     MainStepTemplate(content, data.question.title)
-  }
-
-  private def displayPartnerSentence (application:InprogressCrown): Boolean = {
-    application.statement match {
-      case None => false
-      case Some(userIs) if userIs.crownMember==Some(true) ||
-        userIs.britishCouncilMember==Some(true) => false
-      case _ => true
-    }
   }
 }

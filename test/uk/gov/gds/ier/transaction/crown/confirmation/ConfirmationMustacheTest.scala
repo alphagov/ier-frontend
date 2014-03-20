@@ -27,16 +27,18 @@ class ConfirmationMustacheTest
     "generate confirmation mustache model without partner block" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       statement = Some(CrownStatement(
-        crownMember = Some(true),
-        partnerCrownMember = None,
-        britishCouncilMember = None,
-        partnerBritishCouncilMember = None
+        crownServant = true,
+        crownPartner = false,
+        councilEmployee = false,
+        councilPartner = false
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
-    )
+    val displayPartnerBlock = Confirmation.confirmationData(
+      form = InProgressForm(partiallyFilledApplicationForm),
+      backUrl = "http://backUrl",
+      postUrl = "http://postUrl"
+    ).displayPartnerBlock
 
     displayPartnerBlock should be (false)
   }
@@ -45,16 +47,18 @@ class ConfirmationMustacheTest
     "generate confirmation mustache model without partner block" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       statement = Some(CrownStatement(
-        crownMember = Some(true),
-        partnerCrownMember = Some(true),
-        britishCouncilMember = None,
-        partnerBritishCouncilMember = None
+        crownServant = true,
+        crownPartner = true,
+        councilEmployee = false,
+        councilPartner = false
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
-    )
+    val displayPartnerBlock = Confirmation.confirmationData(
+      form = InProgressForm(partiallyFilledApplicationForm),
+      backUrl = "http://backUrl",
+      postUrl = "http://postUrl"
+    ).displayPartnerBlock
 
     displayPartnerBlock should be (false)
   }
@@ -63,16 +67,18 @@ class ConfirmationMustacheTest
     "generate confirmation mustache model with partner block" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       statement = Some(CrownStatement(
-        crownMember = None,
-        partnerCrownMember = Some(true),
-        britishCouncilMember = None,
-        partnerBritishCouncilMember = None
+        crownServant = false,
+        crownPartner = true,
+        councilEmployee = false,
+        councilPartner = false
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
-    )
+    val displayPartnerBlock = Confirmation.confirmationData(
+      form = InProgressForm(partiallyFilledApplicationForm),
+      backUrl = "http://backUrl",
+      postUrl = "http://postUrl"
+    ).displayPartnerBlock
 
     displayPartnerBlock should be (true)
   }
@@ -84,16 +90,18 @@ class ConfirmationMustacheTest
     "generate confirmation mustache model without partner block" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       statement = Some(CrownStatement(
-        crownMember = None,
-        partnerCrownMember = None,
-        britishCouncilMember = Some(true),
-        partnerBritishCouncilMember = None
+        crownServant = false,
+        crownPartner = false,
+        councilEmployee = true,
+        councilPartner = false
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
-    )
+    val displayPartnerBlock = Confirmation.confirmationData(
+      form = InProgressForm(partiallyFilledApplicationForm),
+      backUrl = "http://backUrl",
+      postUrl = "http://postUrl"
+    ).displayPartnerBlock
 
     displayPartnerBlock should be (false)
   }
@@ -102,16 +110,18 @@ class ConfirmationMustacheTest
     "generate confirmation mustache model without partner block" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       statement = Some(CrownStatement(
-        crownMember = None,
-        partnerCrownMember = None,
-        britishCouncilMember = Some(true),
-        partnerBritishCouncilMember = Some(true)
+        crownServant = false,
+        crownPartner = false,
+        councilEmployee = true,
+        councilPartner = true
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
-    )
+    val displayPartnerBlock = Confirmation.confirmationData(
+      form = InProgressForm(partiallyFilledApplicationForm),
+      backUrl = "http://backUrl",
+      postUrl = "http://postUrl"
+    ).displayPartnerBlock
 
     displayPartnerBlock should be (false)
   }
@@ -120,16 +130,18 @@ class ConfirmationMustacheTest
     "generate confirmation mustache model with partner block" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       statement = Some(CrownStatement(
-        crownMember = None,
-        partnerCrownMember = None,
-        britishCouncilMember = None,
-        partnerBritishCouncilMember = Some(true)
+        crownServant = false,
+        crownPartner = false,
+        councilEmployee = false,
+        councilPartner = true
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
-    )
+    val displayPartnerBlock = Confirmation.confirmationData(
+      form = InProgressForm(partiallyFilledApplicationForm),
+      backUrl = "http://backUrl",
+      postUrl = "http://postUrl"
+    ).displayPartnerBlock
 
     displayPartnerBlock should be (true)
   }
@@ -350,11 +362,218 @@ class ConfirmationMustacheTest
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
-    val Some(jobTitleModel) = confirmation.jobTitle
+    val jobTitleModel = confirmation.jobTitle
 
     jobTitleModel.content should be("<p>some job title</p><p>MoJ</p>")
     jobTitleModel.editLink should be("/register-to-vote/crown/edit/job-title")
   }
+
+  behavior of "ConfirmationBlocks.partnerJobTitle"
+
+  it should "return jobTitle if displayPartnerBlock = true (councilPartner)" in {
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      job = Some(Job(
+        jobTitle = Some("some job title"),
+        govDepartment = Some("department")
+      )),
+      statement = Some(CrownStatement(
+        crownServant = false,
+        crownPartner = false,
+        councilEmployee = false,
+        councilPartner = true
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    val Some(jobTitleModel) = confirmation.partnerJobTitle
+
+    jobTitleModel.content should be("<p>some job title</p><p>department</p>")
+  }
+
+  it should "return jobTitle if displayPartnerBlock = true (crownPartner)" in {
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      job = Some(Job(
+        jobTitle = Some("some job title"),
+        govDepartment = Some("department")
+      )),
+      statement = Some(CrownStatement(
+        crownServant = false,
+        crownPartner = true,
+        councilEmployee = false,
+        councilPartner = false
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    val Some(jobTitleModel) = confirmation.partnerJobTitle
+
+    jobTitleModel.content should be("<p>some job title</p><p>department</p>")
+  }
+
+  it should "return None if displayPartnerBlock = false (crownServant)" in {
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      job = None,
+      statement = Some(CrownStatement(
+        crownServant = true,
+        crownPartner = false,
+        councilEmployee = false,
+        councilPartner = false
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    confirmation.partnerJobTitle should be(None)
+  }
+
+  it should "return completethis jobTitle if displayPartnerBlock = true (crownPartner)" in {
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      job = None,
+      statement = Some(CrownStatement(
+        crownServant = false,
+        crownPartner = true,
+        councilEmployee = false,
+        councilPartner = false
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    val Some(jobTitleModel) = confirmation.partnerJobTitle
+
+    jobTitleModel.content should include("Please complete this step")
+  }
+
+  behavior of "ConfirmationBlocks.applicantJobTitle"
+
+  it should "return jobTitle if displayPartnerBlock = false (councilEmployee)" in {
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      job = Some(Job(
+        jobTitle = Some("some job title"),
+        govDepartment = Some("department")
+      )),
+      statement = Some(CrownStatement(
+        crownServant = false,
+        crownPartner = false,
+        councilEmployee = true,
+        councilPartner = false
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    val Some(jobTitleModel) = confirmation.applicantJobTitle
+
+    jobTitleModel.content should be("<p>some job title</p><p>department</p>")
+  }
+
+  it should "return jobTitle if displayPartnerBlock = false (crownServant)" in {
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      job = Some(Job(
+        jobTitle = Some("some job title"),
+        govDepartment = Some("department")
+      )),
+      statement = Some(CrownStatement(
+        crownServant = true,
+        crownPartner = false,
+        councilEmployee = false,
+        councilPartner = false
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    val Some(jobTitleModel) = confirmation.applicantJobTitle
+
+    jobTitleModel.content should be("<p>some job title</p><p>department</p>")
+  }
+
+  it should "return None if displayPartnerBlock = true (crownServant)" in {
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      job = None,
+      statement = Some(CrownStatement(
+        crownServant = false,
+        crownPartner = true,
+        councilEmployee = false,
+        councilPartner = false
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    confirmation.applicantJobTitle should be(None)
+  }
+
+  it should "return completethis jobTitle if displayPartnerBlock = false (crownServant)" in {
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      job = None,
+      statement = Some(CrownStatement(
+        crownServant = true,
+        crownPartner = false,
+        councilEmployee = false,
+        councilPartner = false
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    val Some(jobTitleModel) = confirmation.applicantJobTitle
+
+    jobTitleModel.content should include("Please complete this step")
+  }
+
+  it should "prefer applicant when conflicting answers (crownServant & councilPartner)" in {
+
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      statement = Some(CrownStatement(
+        crownServant = true,
+        crownPartner = false,
+        councilEmployee = false,
+        councilPartner = true
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    confirmation.applicantJobTitle.isDefined should be(true)
+    confirmation.partnerJobTitle should be(None)
+
+    val displayPartnerBlock = Confirmation.confirmationData(
+      form = InProgressForm(application),
+      backUrl = "http://backUrl",
+      postUrl = "http://postUrl"
+    ).displayPartnerBlock
+
+    displayPartnerBlock should be(false)
+  }
+
+  it should "prefer applicant when conflicting answers (crownPartner & councilEmployee)" in {
+
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      statement = Some(CrownStatement(
+        crownServant = false,
+        crownPartner = true,
+        councilEmployee = true,
+        councilPartner = false
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    confirmation.applicantJobTitle.isDefined should be(true)
+    confirmation.partnerJobTitle should be(None)
+
+    val displayPartnerBlock = Confirmation.confirmationData(
+      form = InProgressForm(application),
+      backUrl = "http://backUrl",
+      postUrl = "http://postUrl"
+    ).displayPartnerBlock
+
+    displayPartnerBlock should be(false)
+  }
+
 
   "In-progress application form with valid UK address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {

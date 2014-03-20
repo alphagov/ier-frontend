@@ -11,7 +11,7 @@ trait LastUkAddressMustache {
   object LastUkAddressMustache extends StepMustache {
 
     val title = "What was the UK address where you were last registered to vote?"
-    val questionNumber = "5 or 6"
+    val questionNumber = ""
 
     case class LookupModel (
         question: Question,

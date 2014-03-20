@@ -22,8 +22,8 @@ trait NameMustache extends StepMustache {
     previousMiddleNames: Field,
     previousLastName: Field)
 
-    def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOverseas], 
-                                        postUrl: String, 
+    def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOverseas],
+                                        postUrl: String,
                                         backUrl: Option[String]): NameModel = {
     implicit val progressForm = form
 
@@ -32,7 +32,7 @@ trait NameMustache extends StepMustache {
         postUrl = postUrl,
         backUrl = backUrl.getOrElse(""),
         showBackUrl = backUrl.isDefined,
-        number = "4 of 11",
+        number = "",
         title = pageTitle,
         errorMessages = form.globalErrors.map { _.message }),
       firstName = TextField(

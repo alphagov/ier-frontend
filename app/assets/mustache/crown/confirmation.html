@@ -1,41 +1,14 @@
 <article>
-  <a id="continue" class="back-to-previous"
-     href="{{backUrl}}"
-     title="Back to the previous question">Back</a>
-  <header>
-    <h1>Check your answers before sending your application</h1>
-  </header>
+    <a id="continue" class="back-to-previous"
+       href="{{backUrl}}"
+       title="Back to the previous question">Back</a>
+    <header>
+        <h1>Check your answers before sending your application</h1>
+    </header>
 
-    {{#displayPartnerBlock}}
-        <h2>Your partner's details</h2>
-        {{#partnerDetails}}
-            <div>
-                <h3>{{title}}</h3>
-                <div class="data-wrap">
-                    {{{content}}}
-                </div>
-                <a href="{{editLink}}" class="change">
-                    Change<span class="visuallyhidden"> {{changeName}}</span>
-                </a>
-            </div>
-        {{/partnerDetails}}
-
-        <h2>Your details</h2>
-        {{#applicantDetails}}
-            <div>
-                <h3>{{title}}</h3>
-                <div class="data-wrap">
-                    {{{content}}}
-                </div>
-                <a href="{{editLink}}" class="change">
-                    Change<span class="visuallyhidden"> {{changeName}}</span>
-                </a>
-            </div>
-        {{/applicantDetails}}
-    {{/displayPartnerBlock}}
-
-    {{^displayPartnerBlock}}
-        {{#completeApplicantDetails}}
+  {{#displayPartnerBlock}}
+    <h2>Your partner's details</h2>
+  {{#partnerDetails}}
         <div>
             <h3>{{title}}</h3>
             <div class="data-wrap">
@@ -45,17 +18,29 @@
                 Change<span class="visuallyhidden"> {{changeName}}</span>
             </a>
         </div>
-        {{/completeApplicantDetails}}
-    {{/displayPartnerBlock}}
+  {{/partnerDetails}}
 
+    <h2>Your details</h2>
+  {{/displayPartnerBlock}}
+  {{#applicantDetails}}
+    <div>
+        <h3>{{title}}</h3>
+        <div class="data-wrap">
+            {{{content}}}
+        </div>
+        <a href="{{editLink}}" class="change">
+            Change<span class="visuallyhidden"> {{changeName}}</span>
+        </a>
+    </div>
+  {{/applicantDetails}}
 
     <div class="help-notice">
-    <p>I understand that: </p>
-    <p>The information I provide through this application will be used to change my details on the electoral register.</p>
-    <p>If I knowingly give false information through this application, I could be fined up to £5,000 or go to prison for up to a year.</p>
-    <p>My local electoral registration office may ask the Home Office to check my immigration status.</p>
-  </div>
+        <p>I understand that: </p>
+        <p>The information I provide through this application will be used to change my details on the electoral register.</p>
+        <p>If I knowingly give false information through this application, I could be fined up to £5,000 or go to prison for up to a year.</p>
+        <p>My local electoral registration office may ask the Home Office to check my immigration status.</p>
+    </div>
 </article>
 <form action="{{postUrl}}" method="POST">
-  <input id="continue" type="submit" class="button next" value="I accept - send my application">
+    <input id="continue" type="submit" class="button next" value="I accept - send my application">
 </form>

@@ -9,8 +9,7 @@
               data-validation-rules="atLeastOneNonEmpty"
               data-validation-children="byPost byProxy inPerson">
 
-        <p>
-        <label for="{{byPost.id}}" class="selectable binary"  >
+        <label for="{{byPost.id}}" class="selectable"  >
             <input type="radio"
                    id="{{byPost.id}}"
                    name="{{byPost.name}}"
@@ -22,10 +21,8 @@
                    {{{byPost.attributes}}}>
             By post
         </label>
-        </p>
 
-        <p>
-        <label for="{{byProxy.id}}" class="selectable binary"  >
+        <label for="{{byProxy.id}}" class="selectable"  >
             <input type="radio"
                    id="{{byProxy.id}}"
                    name="{{byProxy.name}}"
@@ -37,12 +34,10 @@
                    {{{byProxy.attributes}}}>
             By proxy (someone else voting for you)
         </label>
-        </p>
 
         <p>or</p>
 
-        <p>
-        <label for="{{inPerson.id}}" class="selectable binary"  >
+        <label for="{{inPerson.id}}" class="selectable"  >
             <input type="radio"
                    id="{{inPerson.id}}"
                    name="{{inPerson.name}}"
@@ -54,7 +49,6 @@
                    {{{inPerson.attributes}}}>
             In the UK, at a polling station
         </label>
-        </p>
 
     </fieldset>
 

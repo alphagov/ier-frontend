@@ -24,7 +24,7 @@ textarea,
 .search,
 .next {
   display: block;
-} 
+}
 
 label {
   margin-bottom: 0.5em;
@@ -45,6 +45,10 @@ label.selectable{
   cursor: pointer;
   @include ie(6) {
     zoom: 1;
+  }
+
+  div.invalid & {
+    outline: solid 4px $mellow-red;
   }
 
   input {
@@ -539,6 +543,7 @@ span.postcode {
 /* validation styles */
 
 .validation-wrapper {
+  @extend %contain-floats;
   font-size: 19px;
   clear: left;
   margin-bottom: 1em;

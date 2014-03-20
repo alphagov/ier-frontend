@@ -22,7 +22,6 @@ class PassportCheckControllerTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 7")
       contentAsString(result) should include("Do you have a British Passport?")
       contentAsString(result) should include("/register-to-vote/overseas/passport")
     }
@@ -145,7 +144,6 @@ class PassportCheckControllerTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 7")
       contentAsString(result) should include("Do you have a British Passport?")
       contentAsString(result) should include("/register-to-vote/overseas/edit/passport")
     }

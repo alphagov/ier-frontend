@@ -26,7 +26,7 @@ trait PreviousRegisteredMustache extends StepMustache {
         postUrl = post.url,
         backUrl = back.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
-        number = "2 of ?",
+        number = "",
         title = "Was your previous registration as an overseas voter?"
       ),
       previouslyRegistered = FieldSet(
