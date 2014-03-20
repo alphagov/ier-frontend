@@ -54,7 +54,7 @@ trait ContactAddressMustache
 
     val application = progressForm.value
 
-    val ukAddress = application.map(_.address).getOrElse(None)
+    val ukAddress = application.flatMap(_.address)
 
     val ukAddressToBeShown = extractUkAddressText(ukAddress, form)
 
@@ -143,26 +143,13 @@ trait ContactAddressMustache
   private def extractUkAddressText(
       lastUkAddress: Option[LastUkAddress],
       form: ErrorTransformForm[InprogressCrown]): Option[String] = {
+      val address = lastUkAddress flatMap { _.address }
 
-    if (lastUkAddress.isDefined) {
-      val address = lastUkAddress.get.address
-      if (address.isDefined) {
-        val addressLine = address.flatMap(_.addressLine)
-        addressLine match {
-          case None => {
-            val manualAddress = address.get.manualAddress
-            if (manualAddress.isDefined)
-              manualAddressToOneLine(manualAddress.get)
-            else
-              Some("")
-          }
-          case _ => addressLine
-        }
-      }
-      else form(keys.contactAddress.ukAddressLine.key).value
-    }
-    else form(keys.contactAddress.ukAddressLine.key).value
+      val addressLine = address flatMap { _.addressLine }
+      val manualAddress = address flatMap { _.manualAddress } flatMap manualAddressToOneLine
+      val addressFromForm = form(keys.contactAddress.ukAddressLine.key).value
 
+      addressLine orElse manualAddress orElse addressFromForm
   }
 
   def contactAddressMustache(
