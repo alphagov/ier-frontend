@@ -513,6 +513,33 @@ POST        /register-to-vote/crown/address/select                     controlle
 GET         /register-to-vote/crown/edit/address/select                controllers.step.crown.AddressSelectController.editGet
 POST        /register-to-vote/crown/edit/address/select                controllers.step.crown.AddressSelectController.editPost
 
+#Previous Address Step
+GET         /register-to-vote/crown/previous-address                   controllers.step.crown.PreviousAddressFirstController.get
+POST        /register-to-vote/crown/previous-address                   controllers.step.crown.PreviousAddressFirstController.post
+GET         /register-to-vote/crown/edit/previous-address              controllers.step.crown.PreviousAddressFirstController.editGet
+POST        /register-to-vote/crown/edit/previous-address              controllers.step.crown.PreviousAddressFirstController.editPost
+
+#Previous Address Step - postcode entry (if there is a previous address)
+GET         /register-to-vote/crown/previous-address/postcode          controllers.step.crown.PreviousAddressPostcodeController.get
+POST        /register-to-vote/crown/previous-address/postcode          controllers.step.crown.PreviousAddressPostcodeController.post
+GET         /register-to-vote/crown/edit/previous-address/postcode     controllers.step.crown.PreviousAddressPostcodeController.editGet
+POST        /register-to-vote/crown/edit/previous-address/postcode     controllers.step.crown.PreviousAddressPostcodeController.editPost
+
+#Previous Address Step - postcode lookup
+POST        /register-to-vote/crown/previous-address/lookup            controllers.step.crown.PreviousAddressPostcodeController.lookup
+
+#Previous Address Step - selection from postcode
+GET         /register-to-vote/crown/previous-address/select            controllers.step.crown.PreviousAddressSelectController.get
+POST        /register-to-vote/crown/previous-address/select            controllers.step.crown.PreviousAddressSelectController.post
+GET         /register-to-vote/crown/edit/previous-address/select       controllers.step.crown.PreviousAddressSelectController.editGet
+POST        /register-to-vote/crown/edit/previous-address/select       controllers.step.crown.PreviousAddressSelectController.editPost
+
+#Previous Address Step - manual address
+GET         /register-to-vote/crown/previous-address/manual            controllers.step.crown.PreviousAddressManualController.get
+POST        /register-to-vote/crown/previous-address/manual            controllers.step.crown.PreviousAddressManualController.post
+GET         /register-to-vote/crown/edit/previous-address/manual       controllers.step.crown.PreviousAddressManualController.editGet
+POST        /register-to-vote/crown/edit/previous-address/manual       controllers.step.crown.PreviousAddressManualController.editPost
+
 #Nationality Step
 GET         /register-to-vote/crown/nationality                        controllers.step.crown.NationalityController.get
 POST        /register-to-vote/crown/nationality                        controllers.step.crown.NationalityController.post

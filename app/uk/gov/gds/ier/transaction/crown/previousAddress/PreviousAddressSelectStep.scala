@@ -1,49 +1,56 @@
-package uk.gov.gds.ier.transaction.crown.address
+package uk.gov.gds.ier.transaction.crown.previousAddress
 
 import controllers.step.crown.routes._
 import com.google.inject.Inject
-import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.model.{LastUkAddress, InprogressCrown, Addresses, PossibleAddress}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
-import uk.gov.gds.ier.step.{CrownStep, Routes}
+import uk.gov.gds.ier.step.CrownStep
+import controllers.step.crown.NationalityController
+import uk.gov.gds.ier.model.Addresses
+import play.api.mvc.Call
+import uk.gov.gds.ier.step.Routes
+import uk.gov.gds.ier.model.PossibleAddress
+import uk.gov.gds.ier.model.InprogressCrown
 import uk.gov.gds.ier.validation.InProgressForm
+import scala.Some
+import uk.gov.gds.ier.model.PartialPreviousAddress
 
-class AddressSelectStep @Inject() (
+class PreviousAddressSelectStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService)
   extends CrownStep
-  with AddressMustache
-  with AddressForms {
+  with PreviousAddressMustache
+  with PreviousAddressForms {
 
-  val validation = addressForm
+  val validation = selectAddressFormForPreviousAddress
 
-  val previousRoute = Some(StatementController.get)
+  val previousRoute = Some(PreviousAddressPostcodeController.get)
 
   val routes = Routes(
-    get = AddressSelectController.get,
-    post = AddressSelectController.post,
-    editGet = AddressSelectController.editGet,
-    editPost = AddressSelectController.editPost
+    get = PreviousAddressSelectController.get,
+    post = PreviousAddressSelectController.post,
+    editGet = PreviousAddressSelectController.editGet,
+    editPost = PreviousAddressSelectController.editPost
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    controllers.step.crown.PreviousAddressFirstController.previousAddressFirstStep
+    NationalityController.nationalityStep
   }
 
   override def postSuccess(currentState: InprogressCrown) = {
-
-    val address = currentState.address.flatMap {_.address}
-    val addressWithAddressLine =  address.map (address => addressService.fillAddressLine(address))
+    val address = currentState.previousAddress.flatMap(_.previousAddress)
+    val addressWithAddressLine = address.map {
+      addressService.fillAddressLine(_)
+    }
 
     currentState.copy(
-      address = Some(LastUkAddress(
-        hasUkAddress = currentState.address.flatMap {_.hasUkAddress},
-        address = addressWithAddressLine
+      previousAddress = Some(PartialPreviousAddress(
+        movedRecently = Some(true),
+        addressWithAddressLine
       )),
       possibleAddresses = None
     )
@@ -65,20 +72,21 @@ class AddressSelectStep @Inject() (
     }
 
     val maybeAddresses = storedAddresses.orElse {
-      lookupAddresses(form(keys.address.postcode).value)
+      val postcode = form(keys.previousAddress.postcode).value
+      lookupAddresses(postcode)
     }
 
-    AddressMustache.selectPage(
+    PreviousAddressMustache.selectPage(
       form,
       backUrl.map(_.url).getOrElse(""),
       call.url,
-      AddressController.get.url,
-      AddressManualController.get.url,
+      PreviousAddressPostcodeController.get.url,
+      PreviousAddressManualController.get.url,
       maybeAddresses
     )
   }
 
-  private[address] def lookupAddresses(
+  private def lookupAddresses(
       maybePostcode:Option[String]): Option[PossibleAddress] = {
 
     maybePostcode.map { postcode =>

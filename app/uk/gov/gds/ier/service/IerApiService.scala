@@ -197,9 +197,14 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
     else None
 
 
+    val fullPreviousAddress = applicant.previousAddress flatMap { prevAddress =>
+      addressService.formFullAddress(prevAddress.previousAddress)
+    }
+
     val completeApplication = CrownApplication(
       statement = applicant.statement,
       address = fullCurrentAddress,
+      previousAddress = fullPreviousAddress,
       nationality = isoCodes,
       dob = applicant.dob,
       name = applicant.name,

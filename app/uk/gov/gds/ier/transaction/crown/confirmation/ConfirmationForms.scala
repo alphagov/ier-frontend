@@ -17,6 +17,7 @@ import uk.gov.gds.ier.transaction.crown.waysToVote.WaysToVoteForms
 import uk.gov.gds.ier.transaction.crown.applicationFormVote.PostalOrProxyVoteForms
 import uk.gov.gds.ier.transaction.crown.contact.ContactForms
 import uk.gov.gds.ier.transaction.crown.job.JobForms
+import uk.gov.gds.ier.transaction.crown.previousAddress.PreviousAddressForms
 
 trait ConfirmationForms
   extends FormKeys
@@ -24,6 +25,7 @@ trait ConfirmationForms
   with WithSerialiser
   with StatementForms
   with AddressForms
+  with PreviousAddressForms
   with NationalityForms
   with DateOfBirthForms
   with NameForms
@@ -40,6 +42,7 @@ trait ConfirmationForms
     mapping(
       keys.statement.key -> stepRequired(statementMapping),
       keys.address.key -> stepRequired(lastUkAddressMapping),
+      keys.previousAddress.key -> stepRequired(partialPreviousAddressMappingForPreviousAddress),
       keys.nationality.key -> stepRequired(nationalityMapping),
       keys.dob.key -> stepRequired(dobAndReasonMapping),
       keys.name.key -> stepRequired(nameMapping),
