@@ -24,7 +24,7 @@ class PreviousAddressControllerTests
       contentAsString(result) should include(
         "<form action=\"/register-to-vote/crown/previous-address\"")
       contentAsString(result) should include("" +
-        "Have you moved out from another UK address in the last 12 months?")
+        "Have you moved from another UK address in the last 12 months?")
     }
   }
 
@@ -90,7 +90,7 @@ class PreviousAddressControllerTests
 
       status(result) should be(OK)
       contentAsString(result) should include("" +
-        "Have you moved out from another UK address in the last 12 months?")
+        "Have you moved from another UK address in the last 12 months?")
       contentAsString(result) should include("" +
         "Please answer this question")
       contentAsString(result) should include("" +
@@ -126,7 +126,7 @@ class PreviousAddressControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("" +
-        "Have you moved out from another UK address in the last 12 months?")
+        "Have you moved from another UK address in the last 12 months?")
       contentAsString(result) should include("" +
         "<form action=\"/register-to-vote/crown/edit/previous-address\"")
     }
@@ -196,7 +196,7 @@ class PreviousAddressControllerTests
 
       status(result) should be(OK)
       contentAsString(result) should include("" +
-        "Have you moved out from another UK address in the last 12 months?")
+        "Have you moved from another UK address in the last 12 months?")
       contentAsString(result) should include("" +
         "Please answer this question")
       contentAsString(result) should include("" +
@@ -212,7 +212,7 @@ class PreviousAddressControllerTests
 
       status(result) should be(OK)
       contentAsString(result) should include("" +
-        "Have you moved out from another UK address in the last 12 months?")
+        "Have you moved from another UK address in the last 12 months?")
       contentAsString(result) should include("" +
         "Please answer this question")
       contentAsString(result) should include("" +
