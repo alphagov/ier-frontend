@@ -5,11 +5,9 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.OverseaStep
-import controllers.step.overseas.routes.WaysToVoteController
-import controllers.step.overseas.routes.OpenRegisterController
+import controllers.step.overseas.routes.{WaysToVoteController,OpenRegisterController}
 import controllers.step.overseas.{ProxyVoteController, ContactController, PostalVoteController}
 import uk.gov.gds.ier.step.Routes
-import scala.Some
 import uk.gov.gds.ier.model.{PostalOrProxyVote, WaysToVote, WaysToVoteType, InprogressOverseas}
 import uk.gov.gds.ier.validation.InProgressForm
 import play.api.mvc.Call
@@ -44,17 +42,9 @@ class WaysToVoteStep @Inject ()(
   }
 
   override def postSuccess(currentState: InprogressOverseas):InprogressOverseas = {
-    if (currentState.waysToVote == Some(WaysToVote(WaysToVoteType.InPerson)))
-      cleanPostalOrProxyVoteOptions(currentState)
-    else
-      currentState
-  }
-
-
-  private def cleanPostalOrProxyVoteOptions(currentState: InprogressOverseas): InprogressOverseas = {
-    currentState.copy(
-      postalOrProxyVote = None
-    )
+	if (currentState.waysToVote == Some(WaysToVote(WaysToVoteType.InPerson))) 
+	  currentState.copy(postalOrProxyVote = None)
+	else currentState.copy(postalOrProxyVote = currentState.postalOrProxyVote.map(_.copy(forceRedirectToPostal = true)))
   }
 
   def template(form:InProgressForm[InprogressOverseas], call:Call, backUrl: Option[Call]): Html = {

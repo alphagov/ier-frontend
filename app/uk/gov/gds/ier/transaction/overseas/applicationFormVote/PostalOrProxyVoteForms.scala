@@ -1,15 +1,12 @@
 package uk.gov.gds.ier.transaction.overseas.applicationFormVote
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{
-  PostalOrProxyVote,
-  InprogressOverseas,
-  PostalVoteDeliveryMethod,
-  WaysToVoteType}
+import uk.gov.gds.ier.model._
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.overseas.PostalOrProxyVoteConstraints
+import play.api.data.validation.{Invalid, Valid, Constraint}
 
-trait PostalOrProxyVoteForms extends PostalOrProxyVoteConstraints {
+trait PostalOrProxyVoteForms extends PostalOrProxyVoteOverseasConstraints {
   self:  FormKeys
     with ErrorMessages =>
 
@@ -26,18 +23,21 @@ trait PostalOrProxyVoteForms extends PostalOrProxyVoteConstraints {
     keys.voteType.key -> text.verifying("Unknown type", r => WaysToVoteType.isValid(r)),
     keys.optIn.key -> optional(boolean)
       .verifying("Please answer this question", postalVote => postalVote.isDefined),
-    keys.deliveryMethod.key -> optional(voteDeliveryMethodMapping)
+    keys.deliveryMethod.key -> optional(voteDeliveryMethodMapping),
+    keys.forceToRedirect.key -> optional(boolean).verifying(forceMustBeFalse)
   ) (
-    (voteType, postalVoteOption, deliveryMethod) => PostalOrProxyVote(
+    (voteType, postalVoteOption, deliveryMethod, force) => PostalOrProxyVote(
       WaysToVoteType.parse(voteType),
       postalVoteOption,
-      deliveryMethod
+      deliveryMethod,
+      force.getOrElse(false)
     )
   ) (
     postalVote => Some(
       postalVote.typeVote.name,
       postalVote.postalVoteOption,
-      postalVote.deliveryMethod
+      postalVote.deliveryMethod,
+      Some(postalVote.forceRedirectToPostal)
     )
   ) verifying (validVoteOption)
 
@@ -48,7 +48,24 @@ trait PostalOrProxyVoteForms extends PostalOrProxyVoteConstraints {
         postalVote => InprogressOverseas (postalOrProxyVote = postalVote)
     ) (
         inprogress => Some(inprogress.postalOrProxyVote)
-    ) verifying questionIsRequired
+    ) verifying questionIsRequiredOverseas
   )
 }
 
+trait PostalOrProxyVoteOverseasConstraints extends PostalOrProxyVoteConstraints {
+	  self: ErrorMessages
+	    with FormKeys =>
+	      
+	  lazy val forceMustBeFalse = Constraint[Option[Boolean]](keys.forceToRedirect.key) {
+	    case Some(true) => Invalid("", keys.forceToRedirect) 
+	    case _ => Valid
+	  }
+	      
+	  lazy val questionIsRequiredOverseas = Constraint[InprogressOverseas](keys.postalOrProxyVote.key) {
+	    _.postalOrProxyVote match {
+	      case None => Invalid("Please answer this question", keys.postalOrProxyVote.optIn)
+	      case _ => Valid
+	    }
+	  }
+
+	}
