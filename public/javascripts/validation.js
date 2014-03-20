@@ -56,7 +56,7 @@
 
             for (prop in props) {
               if (props.hasOwnProperty(prop)) {
-                this[prop] = props[prop];       
+                this[prop] = props[prop];
               }
             };
           },
@@ -181,7 +181,7 @@
         var rule = fieldObj.rules[i];
 
         failedRules = fieldObj[rule]();
-        if (failedRules.length) { 
+        if (failedRules.length) {
           break;
         }
       }
@@ -289,7 +289,7 @@
       }
     },
     messageField : function ($field, message) {
-      var $label = $field.parent('label'), // base assumption: label relationship as implied by parentage 
+      var $label = $field.parent('label'), // base assumption: label relationship as implied by parentage
           field = $field[0]
 
       if (!$label.length) { // if label not parent use for attribute for relationship binding
@@ -315,7 +315,7 @@
         var group = _this.fields.getNames([field.name])[0],
             firstChildName,
             firstChild;
- 
+
         if (group.type === 'association') {
           firstChildName = group.members[0];
         } else {
@@ -345,7 +345,7 @@
               idToLinkTo = field.$source[0].id;
               _this.messageField(field.$source, _this.messages[name][rule]);
             } else {
-              idToLinkTo = _getFirstChild(field).$source[0].id; 
+              idToLinkTo = _getFirstChild(field).$source[0].id;
             }
             messageData.block = function () {
               return function (message, render) {
@@ -376,7 +376,7 @@
 
       _fieldType = function ($field) {
         var type = $field[0].nodeName.toLowerCase();
-        
+
         return (type === 'input') ? $field[0].type : type;
       };
       _selectValue = function ($field) {
@@ -393,7 +393,7 @@
           if ((elm.name === radioName) && elm.checked) { $selectedRadio = $(elm); }
         });
 
-        return ($selectedRadio) ? $selectedRadio.val() : ''; 
+        return ($selectedRadio) ? $selectedRadio.val() : '';
       };
       _getFieldValue = function ($field) {
         switch (_fieldType($field)) {
@@ -450,7 +450,7 @@
           },
           'telephone' : function () {
             var entry = _getFieldValue(this.$source);
-            
+
             if (entry.replace(/[\s|\-]/g, "").match(/^\+?\d+$/) === null) {
               return _getInvalidDataFromFields([this], 'telephone');
             } else {
@@ -883,7 +883,7 @@
       'address' : {
         'fieldOrExcuse' : 'Please select an address'
       },
-      'previousAddressQuestion' : {
+      'previousAddress' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
       'statement' : {

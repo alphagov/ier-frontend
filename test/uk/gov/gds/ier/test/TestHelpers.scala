@@ -112,7 +112,9 @@ trait TestHelpers
       councilEmployee = false,
       councilPartner = false
     )),
-    address = Some(PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)),
+    address = Some(PartialAddress(
+      Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)),
+    previousAddress = Some(PartialPreviousAddress(Some(false), None)),
     nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
     dob = Some(DateOfBirth(Some(DOB(1988, 1, 1)), None)),
     name = Some(Name("John", None, "Smith")),
