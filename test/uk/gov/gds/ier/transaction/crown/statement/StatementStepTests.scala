@@ -39,7 +39,7 @@ class StatementStepTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/crown/address"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/address/first"))
     }
   }
 
@@ -52,7 +52,7 @@ class StatementStepTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/crown/address"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/address/first"))
     }
   }
 
@@ -65,7 +65,7 @@ class StatementStepTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/crown/address"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/address/first"))
     }
   }
 
@@ -78,7 +78,7 @@ class StatementStepTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/crown/address"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/address/first"))
     }
   }
 

@@ -1,0 +1,45 @@
+<form action="{{question.postUrl}}" method="POST" >
+    {{> shared/questionHeader }}
+    {{> shared/validationMessages }}
+
+    <fieldset class="validate {{previousAddress.classes}}"
+              data-validation-name="previousAddress"
+              data-validation-type="fieldset"
+              data-validation-rules="atLeastOneNonEmpty"
+              data-validation-children="hasAddressYes hasAddressNo">
+
+        <p>
+        <label for="{{hasAddressYes.id}}" class="selectable binary"  >
+            <input type="radio"
+                   id="{{hasAddressYes.id}}"
+                   name="{{hasAddressYes.name}}"
+                   value="{{hasAddressYes.value}}"
+                   class="radio validate {{hasAddressYes.classes}}"
+                   data-validation-name="hasAddressYes"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty"
+                   {{{hasAddressYes.attributes}}}>
+            Yes
+        </label>
+        <label for="{{hasAddressNo.id}}" class="selectable binary"  >
+            <input type="radio"
+                   id="{{hasAddressNo.id}}"
+                   name="{{hasAddressNo.name}}"
+                   value="{{hasAddressNo.value}}"
+                   class="radio  validate {{hasAddressNo.classes}}"
+                   data-validation-name="hasAddressNo"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty"
+                   {{{hasAddressNo.attributes}}}>
+            No
+        </label>
+        </p>
+    </fieldset>
+
+    <button id="continue"
+            type="submit"
+            class="button next validation-submit"
+            data-validation-sources="hasAddressNo">
+        Continue
+    </button>
+</form>

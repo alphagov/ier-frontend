@@ -31,9 +31,14 @@ class AddressFormTests
       hasErrors => fail(serialiser.toJson(hasErrors)),
       success => {
         success.address.isDefined should be(true)
-        val address = success.address.get
-        address.uprn should be(Some("12345678"))
-        address.postcode should be("SW1A1AA")
+        val lastUkAddress = success.address
+        lastUkAddress.isDefined should be(true)
+        if (lastUkAddress.isDefined) {
+          val address = lastUkAddress.get.address
+          address.isDefined should be(true)
+          address.get.uprn should be(Some("12345678"))
+          address.get.postcode should be("SW1A1AA")
+        }
       }
     )
   }
@@ -51,17 +56,27 @@ class AddressFormTests
     addressForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors)),
       success => {
+
         success.address.isDefined should be(true)
-        val address = success.address.get
-        address.manualAddress should be(Some(
-          PartialManualAddress(
-            lineOne = Some("Unit 4, Elgar Business Centre"),
-            lineTwo = Some("Moseley Road"),
-            lineThree = Some("Hallow"),
-            city = Some("Worcester")
-          ))
-        )
-        address.postcode should be("SW1A1AA")
+        val lastUkAddress = success.address
+        lastUkAddress.isDefined should be(true)
+        if (lastUkAddress.isDefined) {
+
+          val address = lastUkAddress.get.address
+          address.isDefined should be(true)
+
+          address.get.manualAddress should be(Some(
+            PartialManualAddress(
+              lineOne = Some("Unit 4, Elgar Business Centre"),
+              lineTwo = Some("Moseley Road"),
+              lineThree = Some("Hallow"),
+              city = Some("Worcester")
+            ))
+          )
+          address.get.postcode should be("SW1A1AA")
+
+        }
+
       }
     )
   }
@@ -137,8 +152,15 @@ class AddressFormTests
         success.possibleAddresses.isDefined should be(true)
         val Some(possibleAddresses) = success.possibleAddresses
 
-        address.uprn should be(Some("12345678"))
-        address.postcode should be("SW1A 1AA")
+        success.address.isDefined should be(true)
+        val lastUkAddress = success.address
+        lastUkAddress.isDefined should be(true)
+        if (lastUkAddress.isDefined) {
+          val address = lastUkAddress.get.address
+          address.isDefined should be(true)
+          address.get.uprn should be(Some("12345678"))
+          address.get.postcode should be("SW1A 1AA")
+        }
 
         possibleAddresses.jsonList.addresses should be(List(possibleAddress))
       }
@@ -205,15 +227,25 @@ class AddressFormTests
         success.possibleAddresses.isDefined should be(true)
         val Some(possibleAddresses) = success.possibleAddresses
 
-        address.manualAddress should be(Some(
-          PartialManualAddress(
-            lineOne = Some("Unit 4, Elgar Business Centre"),
-            lineTwo = Some("Moseley Road"),
-            lineThree = Some("Hallow"),
-            city = Some("Worcester")
-          ))
-        )
-        address.postcode should be("SW1A 1AA")
+        success.address.isDefined should be(true)
+        val lastUkAddress = success.address
+        lastUkAddress.isDefined should be(true)
+        if (lastUkAddress.isDefined) {
+
+          val address = lastUkAddress.get.address
+          address.isDefined should be(true)
+
+          address.get.manualAddress should be(Some(
+            PartialManualAddress(
+              lineOne = Some("Unit 4, Elgar Business Centre"),
+              lineTwo = Some("Moseley Road"),
+              lineThree = Some("Hallow"),
+              city = Some("Worcester")
+            ))
+          )
+          address.get.postcode should be("SW1A 1AA")
+
+        }
 
         possibleAddresses.jsonList.addresses should be(List(possibleAddress))
       }
@@ -237,8 +269,16 @@ class AddressFormTests
 
         success.possibleAddresses.isDefined should be(false)
 
-        address.uprn should be(Some("87654321"))
-        address.postcode should be("SW1A 1AA")
+        success.address.isDefined should be(true)
+        val lastUkAddress = success.address
+        lastUkAddress.isDefined should be(true)
+        if (lastUkAddress.isDefined) {
+          val address = lastUkAddress.get.address
+          address.isDefined should be(true)
+          address.get.uprn should be(Some("87654321"))
+          address.get.postcode should be("SW1A 1AA")
+        }
+
       }
     )
   }
@@ -255,13 +295,19 @@ class AddressFormTests
     lookupAddressForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
-        success.address.isDefined should be(true)
-        val Some(address) = success.address
 
-        address.postcode should be("SW1A 1AA")
-        address.uprn should be(None)
-        address.manualAddress should be(None)
-        address.addressLine should be (None)
+        success.address.isDefined should be(true)
+        val lastUkAddress = success.address
+        lastUkAddress.isDefined should be(true)
+        if (lastUkAddress.isDefined) {
+          val address = lastUkAddress.get.address
+          address.isDefined should be(true)
+          address.get.postcode should be("SW1A 1AA")
+          address.get.uprn should be(None)
+          address.get.manualAddress should be(None)
+          address.get.addressLine should be (None)
+        }
+
       }
     )
   }
@@ -324,16 +370,24 @@ class AddressFormTests
       hasErrors => fail(hasErrors.errorsAsTextAll),
       success => {
         success.address.isDefined should be(true)
-        val address = success.address.get
-        address.manualAddress should be(Some(
-          PartialManualAddress(
-            lineOne = Some("Unit 4, Elgar Business Centre"),
-            lineTwo = Some("Moseley Road"),
-            lineThree = Some("Hallow"),
-            city = Some("Worcester")
-          ))
-        )
-        address.postcode should be("SW1A1AA")
+        val lastUkAddress = success.address
+        lastUkAddress.isDefined should be(true)
+        if (lastUkAddress.isDefined) {
+
+          val address = lastUkAddress.get.address
+          address.isDefined should be(true)
+
+          address.get.manualAddress should be(Some(
+            PartialManualAddress(
+              lineOne = Some("Unit 4, Elgar Business Centre"),
+              lineTwo = Some("Moseley Road"),
+              lineThree = Some("Hallow"),
+              city = Some("Worcester")
+            ))
+          )
+          address.get.postcode should be("SW1A1AA")
+
+        }
       }
     )
   }

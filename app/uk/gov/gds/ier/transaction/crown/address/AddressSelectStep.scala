@@ -5,10 +5,7 @@ import controllers.step.crown.NationalityController
 import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.model.{
-  InprogressCrown,
-  Addresses,
-  PossibleAddress}
+import uk.gov.gds.ier.model.{LastUkAddress, InprogressCrown, Addresses, PossibleAddress}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
@@ -41,11 +38,14 @@ class AddressSelectStep @Inject() (
 
   override def postSuccess(currentState: InprogressCrown) = {
     val addressWithAddressLine = currentState.address.map {
-      addressService.fillAddressLine(_)
+      address => addressService.fillAddressLine(address.address.get)
     }
 
     currentState.copy(
-      address = addressWithAddressLine,
+      address = Some(LastUkAddress(
+        hasUkAddress = currentState.address.get.hasUkAddress,
+        address = addressWithAddressLine
+      )),
       possibleAddresses = None
     )
   }

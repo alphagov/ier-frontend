@@ -4,7 +4,7 @@ import uk.gov.gds.common.model.LocalAuthority
 
 case class InprogressCrown(
     statement: Option[CrownStatement] = None,
-    address: Option[PartialAddress] = None,
+    address: Option[LastUkAddress] = None,
     nationality: Option[PartialNationality] = None,
     dob: Option[DateOfBirth] = None,
     name: Option[Name] = None,
@@ -109,3 +109,8 @@ case class Job(
     jobTitle.map(jobTitle => Map("role" -> jobTitle.toString)).getOrElse(Map.empty) ++
     govDepartment.map(govDepartment => Map("dept" -> govDepartment.toString)).getOrElse(Map.empty)
 }
+
+case class LastUkAddress(
+    hasUkAddress:Option[Boolean],
+    address:Option[PartialAddress]
+)
