@@ -2,13 +2,12 @@
     {{> shared/questionHeader }}
     {{> shared/validationMessages }}
 
-    <fieldset class="validate {{previousAddress.classes}}"
-              data-validation-name="previousAddress"
+    <fieldset class="validate"
+              data-validation-name="hasUkAddress"
               data-validation-type="fieldset"
               data-validation-rules="atLeastOneNonEmpty"
               data-validation-children="hasAddressYes hasAddressNo">
 
-        <p>
         <label for="{{hasAddressYes.id}}" class="selectable binary"  >
             <input type="radio"
                    id="{{hasAddressYes.id}}"
@@ -33,13 +32,12 @@
                    {{{hasAddressNo.attributes}}}>
             No
         </label>
-        </p>
     </fieldset>
 
     <button id="continue"
             type="submit"
             class="button next validation-submit"
-            data-validation-sources="hasAddressNo">
+            data-validation-sources="hasUkAddress">
         Continue
     </button>
 </form>

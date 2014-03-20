@@ -37,13 +37,13 @@ class AddressSelectStep @Inject() (
   }
 
   override def postSuccess(currentState: InprogressCrown) = {
-    val addressWithAddressLine = currentState.address.map {
-      address => addressService.fillAddressLine(address.address.get)
-    }
+
+    val address = currentState.address.flatMap {_.address}
+    val addressWithAddressLine =  address.map (address => addressService.fillAddressLine(address))
 
     currentState.copy(
       address = Some(LastUkAddress(
-        hasUkAddress = currentState.address.get.hasUkAddress,
+        hasUkAddress = currentState.address.flatMap {_.hasUkAddress},
         address = addressWithAddressLine
       )),
       possibleAddresses = None
