@@ -332,11 +332,7 @@ trait ConfirmationMustache {
         title = "Voting options",
         editLink = routes.WaysToVoteController.editGet.url,
         changeName = "voting",
-        content = if (form(keys.waysToVote).hasErrors ||
-          (way.exists(_ == WaysToVoteType.InPerson) && form(keys.postalOrProxyVote).hasErrors)) {
-          completeThisStepMessage
-        }
-        else { 
+        content = ifComplete(keys.waysToVote) {
           ways + postalOrProxyVote
         }
       ))

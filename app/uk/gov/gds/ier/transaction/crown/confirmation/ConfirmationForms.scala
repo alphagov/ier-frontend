@@ -1,9 +1,10 @@
 package uk.gov.gds.ier.transaction.crown.confirmation
 
 import play.api.data.Forms._
+import play.api.data.validation.{Invalid, Valid, Constraint}
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, ErrorMessages}
+import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, ErrorMessages, Key}
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import uk.gov.gds.ier.transaction.crown.statement.StatementForms
 import uk.gov.gds.ier.transaction.crown.nationality.NationalityForms
@@ -34,26 +35,83 @@ trait ConfirmationForms
   with WaysToVoteForms
   with PostalOrProxyVoteForms
   with ContactForms
-  with CommonConstraints {
+  with CommonConstraints
+  with ConfirmationConstraints {
 
   val confirmationForm = ErrorTransformForm(
     mapping(
-      keys.statement.key -> stepRequired(statementMapping),
-      keys.address.key -> stepRequired(partialAddressMapping),
-      keys.nationality.key -> stepRequired(nationalityMapping),
-      keys.dob.key -> stepRequired(dobAndReasonMapping),
-      keys.name.key -> stepRequired(nameMapping),
-      keys.previousName.key -> stepRequired(previousNameMapping),
-      keys.job.key -> stepRequired(jobMapping),
-      keys.nino.key -> stepRequired(ninoMapping),
-      keys.contactAddress.key -> stepRequired(possibleContactAddressesMapping),
-      keys.openRegister.key -> stepRequired(openRegisterOptInMapping),
-      keys.waysToVote.key -> stepRequired(waysToVoteMapping),
+      keys.statement.key -> optional(statementMapping),
+      keys.address.key -> optional(partialAddressMapping),
+      keys.nationality.key -> optional(nationalityMapping),
+      keys.dob.key -> optional(dobAndReasonMapping),
+      keys.name.key -> optional(nameMapping),
+      keys.previousName.key -> optional(previousNameMapping),
+      keys.job.key -> optional(jobMapping),
+      keys.nino.key -> optional(ninoMapping),
+      keys.contactAddress.key -> optional(possibleContactAddressesMapping),
+      keys.openRegister.key -> optional(openRegisterOptInMapping),
+      keys.waysToVote.key -> optional(waysToVoteMapping),
       keys.postalOrProxyVote.key -> optional(postalOrProxyVoteMapping),
-      keys.contact.key -> stepRequired(contactMapping),
+      keys.contact.key -> optional(contactMapping),
       keys.possibleAddresses.key -> optional(possibleAddressesMapping)
+    ) (
+      InprogressCrown.apply
+    ) (
+      InprogressCrown.unapply
+    ).verifying (
+      statementStepRequired,
+      addressStepRequired,
+      nationalityStepRequired,
+      dobStepRequired,
+      nameStepRequired,
+      previousNameStepRequired,
+      jobStepRequired,
+      ninoStepRequired,
+      contactAddressStepRequired,
+      openRegisterOptinStepRequired,
+      contactStepRequired,
+      waysToVoteStepRequired
     )
-    (InprogressCrown.apply)
-    (InprogressCrown.unapply)
   )
+}
+
+trait ConfirmationConstraints {
+  self: FormKeys
+    with ErrorMessages =>
+
+  val statementStepRequired = requireThis(keys.statement) { _.statement }
+  val addressStepRequired = requireThis(keys.address) { _.address }
+  val nationalityStepRequired = requireThis(keys.nationality) { _.nationality }
+  val dobStepRequired = requireThis(keys.dob) { _.dob }
+  val nameStepRequired = requireThis(keys.name) { _.name }
+  val previousNameStepRequired = requireThis(keys.previousName) { _.previousName }
+  val jobStepRequired = requireThis(keys.job) { _.job }
+  val ninoStepRequired = requireThis(keys.nino) { _.nino }
+  val contactAddressStepRequired = requireThis(keys.contactAddress) { _.contactAddress }
+  val openRegisterOptinStepRequired = requireThis(keys.openRegister) { _.openRegisterOptin }
+  val contactStepRequired = requireThis(keys.contact) { _.contact }
+
+  def requireThis[T](key:Key)(extractT:InprogressCrown => Option[T]) = {
+    Constraint[InprogressCrown](s"${key.name}required") { application =>
+      extractT(application) match {
+        case Some(_) => Valid
+        case None => Invalid("Please complete this step", key)
+      }
+    }
+  }
+
+  val waysToVoteStepRequired = Constraint[InprogressCrown]("waysToVoteRequired") {
+    application =>
+      import uk.gov.gds.ier.model.WaysToVoteType._
+
+    val waysToVote = application.waysToVote.map { _.waysToVoteType }
+    val postalOrProxy = application.postalOrProxyVote
+
+    waysToVote match {
+      case Some(InPerson) => Valid
+      case Some(ByPost) if postalOrProxy.isDefined => Valid
+      case Some(ByProxy) if postalOrProxy.isDefined => Valid
+      case _ => Invalid("Please complete this step", keys.waysToVote)
+    }
+  }
 }
