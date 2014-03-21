@@ -15,7 +15,8 @@ trait AddressMustache {
 
     case class LookupModel (
         question: Question,
-        postcode: Field
+        postcode: Field,
+        hasUkAddress: Field
     )
 
     case class SelectModel (
@@ -60,6 +61,11 @@ trait AddressMustache {
           } else {
             ""
           }
+        ),
+        hasUkAddress = Field(
+          id = keys.hasUkAddress.asId(),
+          name = keys.hasUkAddress.key,
+          value = form(keys.hasUkAddress).value.getOrElse("")
         )
       )
     }

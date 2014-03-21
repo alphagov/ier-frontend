@@ -486,6 +486,12 @@ POST        /register-to-vote/crown/statement                          controlle
 GET         /register-to-vote/crown/edit/statement                     controllers.step.crown.StatementController.editGet
 POST        /register-to-vote/crown/edit/statement                     controllers.step.crown.StatementController.editPost
 
+#First Address Step
+GET         /register-to-vote/crown/address/first                      controllers.step.crown.AddressFirstController.get
+POST        /register-to-vote/crown/address/first                      controllers.step.crown.AddressFirstController.post
+GET         /register-to-vote/crown/edit/address/first                 controllers.step.crown.AddressFirstController.editGet
+POST        /register-to-vote/crown/edit/address/first                 controllers.step.crown.AddressFirstController.editPost
+
 #Address Step
 GET         /register-to-vote/crown/address                            controllers.step.crown.AddressController.get
 POST        /register-to-vote/crown/address                            controllers.step.crown.AddressController.post
