@@ -45,7 +45,10 @@ trait AddressMustache {
         form:InProgressForm[InprogressCrown],
         backUrl: String,
         postUrl: String) = {
-     LookupModel(
+
+      implicit val progressForm = form.form
+
+      LookupModel(
         question = Question(
           postUrl = postUrl,
           backUrl = backUrl,
@@ -63,9 +66,8 @@ trait AddressMustache {
             ""
           }
         ),
-        hasUkAddress = Field(
-          id = keys.hasUkAddress.asId(),
-          name = keys.hasUkAddress.key,
+        hasUkAddress = HiddenField(
+          key = keys.hasUkAddress,
           value = form(keys.hasUkAddress).value.getOrElse("")
         )
       )
@@ -150,11 +152,10 @@ trait AddressMustache {
           value = form(keys.address.postcode).value.getOrElse("")
         ),
         hasAddresses = hasAddresses,
-        hasUkAddress = Field(
-          id = keys.hasUkAddress.asId(),
-          name = keys.hasUkAddress.key,
+        hasUkAddress = HiddenField(
+          key = keys.hasUkAddress,
           value = form(keys.hasUkAddress).value.getOrElse("")
-        )
+        )      
       )
     }
 
@@ -195,11 +196,10 @@ trait AddressMustache {
         maLineTwo = TextField(keys.address.manualAddress.lineTwo),
         maLineThree = TextField(keys.address.manualAddress.lineThree),
         maCity = TextField(keys.address.manualAddress.city),
-        hasUkAddress = Field(
-          id = keys.hasUkAddress.asId(),
-          name = keys.hasUkAddress.key,
+        hasUkAddress = HiddenField(
+          key = keys.hasUkAddress,
           value = form(keys.hasUkAddress).value.getOrElse("")
-        )
+        )       
       )
     }
 
