@@ -97,7 +97,8 @@ class WaysToVoteControllerTests
     }
   }
 
-  it should "bind successfully and redirect to the confirmation step with a complete application" in {
+  it should "bind successfully and redirect to the postal vote step with a complete application " +
+    "no matter the user changes in the ways to vote step or not" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/edit/ways-to-vote")
@@ -108,7 +109,7 @@ class WaysToVoteControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/overseas/confirmation"))
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/postal-vote"))
     }
   }
 
@@ -137,6 +138,21 @@ class WaysToVoteControllerTests
       contentAsString(result) should include("How do you want to vote?")
 
       contentAsString(result) should include("Please answer this question")
+    }
+  }
+  
+  behavior of "OpenRegisterController.post"
+  it should "bypass the waysToVote and postalOrProxy step and redirect to Contact Step when " +
+    "completing the open register step" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/overseas/open-register")
+          .withIerSession()
+          .withApplication(completeCrownApplication.copy(contact = None))
+          .withFormUrlEncodedBody("openRegister.optIn" -> "true")
+      )
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/contact"))
     }
   }
 }

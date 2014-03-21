@@ -46,8 +46,9 @@ trait ConfirmationForms
   with PostalOrProxyVoteForms
   with ContactForms
   with OverseasFormImplicits
-  with CommonConstraints {
-
+  with CommonConstraints 
+  with ConfirmationConstraints {
+  
   val stubMapping = mapping(
     "foo" -> text
   ) (foo => Stub()) (stub => Some("foo"))
@@ -219,3 +220,46 @@ trait ConfirmationForms
     }
   }
 }
+
+trait ConfirmationConstraints {
+  self: FormKeys
+    with ErrorMessages =>
+
+  val statementStepRequired = requireThis(keys.statement) { _.statement }
+  val addressStepRequired = requireThis(keys.address) { _.address }
+  val previousAddressStepRequired = requireThis(keys.previousAddress) { _.previousAddress }
+  val nationalityStepRequired = requireThis(keys.nationality) { _.nationality }
+  val dobStepRequired = requireThis(keys.dob) { _.dob }
+  val nameStepRequired = requireThis(keys.name) { _.name }
+  val previousNameStepRequired = requireThis(keys.previousName) { _.previousName }
+  val jobStepRequired = requireThis(keys.job) { _.job }
+  val ninoStepRequired = requireThis(keys.nino) { _.nino }
+  val contactAddressStepRequired = requireThis(keys.contactAddress) { _.contactAddress }
+  val openRegisterOptinStepRequired = requireThis(keys.openRegister) { _.openRegisterOptin }
+  val contactStepRequired = requireThis(keys.contact) { _.contact }
+
+  def requireThis[T](key:Key)(extractT:InprogressCrown => Option[T]) = {
+    Constraint[InprogressCrown](s"${key.name}required") { application =>
+      extractT(application) match {
+        case Some(_) => Valid
+        case None => Invalid("Please complete this step", key)
+      }
+    }
+  }
+
+  val waysToVoteStepRequired = Constraint[InprogressCrown]("waysToVoteRequired") {
+    application =>
+      import uk.gov.gds.ier.model.WaysToVoteType._
+
+    val waysToVote = application.waysToVote.map { _.waysToVoteType }
+    val postalOrProxy = application.postalOrProxyVote
+
+    waysToVote match {
+      case Some(InPerson) => Valid
+      case Some(ByPost) if postalOrProxy.isDefined => Valid
+      case Some(ByProxy) if postalOrProxy.isDefined => Valid
+      case _ => Invalid("Please complete this step", keys.waysToVote)
+    }
+  }
+}
+

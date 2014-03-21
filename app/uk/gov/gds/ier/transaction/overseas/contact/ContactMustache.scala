@@ -18,6 +18,7 @@ trait ContactMustache extends StepMustache {
       contactPhoneText: Field)
 
   def transformFormStepToMustacheData(
+      application: InprogressOverseas,
       form: ErrorTransformForm[InprogressOverseas],
       postEndpoint: Call, backEndpoint:Option[Call]) : ContactModel = {
 
@@ -52,11 +53,12 @@ trait ContactMustache extends StepMustache {
   }
 
   def contactMustache(
+      application: InprogressOverseas,
       form:ErrorTransformForm[InprogressOverseas],
       postEndpoint: Call,
       backEndpoint: Option[Call]): Html = {
 
-    val data = transformFormStepToMustacheData(form, postEndpoint, backEndpoint)
+    val data = transformFormStepToMustacheData(application, form, postEndpoint, backEndpoint)
     val content = Mustache.render("overseas/contact", data)
     MainStepTemplate(content, data.question.title)
   }

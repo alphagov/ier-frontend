@@ -183,13 +183,28 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       isoCountryService.transformToIsoCode(nationality)
     }
     val currentAuthority = applicant.address flatMap { address =>
-      placesService.lookupAuthority(address.postcode)
+      if (address.address.isDefined) {
+        val realAddress = address.address.get
+        placesService.lookupAuthority(realAddress.postcode)
+      }
+      else None
     }
-    val fullCurrentAddress = addressService.formFullAddress(applicant.address)
+
+    val lastUkAddress = applicant.address
+    val fullCurrentAddress = if (lastUkAddress.isDefined) {
+      addressService.formFullAddress(lastUkAddress.get.address)
+    }
+    else None
+
+
+    val fullPreviousAddress = applicant.previousAddress flatMap { prevAddress =>
+      addressService.formFullAddress(prevAddress.previousAddress)
+    }
 
     val completeApplication = CrownApplication(
       statement = applicant.statement,
       address = fullCurrentAddress,
+      previousAddress = fullPreviousAddress,
       nationality = isoCodes,
       dob = applicant.dob,
       name = applicant.name,

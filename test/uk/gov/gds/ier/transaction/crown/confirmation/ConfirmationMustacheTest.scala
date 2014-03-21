@@ -34,9 +34,11 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
-    )
+    val displayPartnerBlock = Confirmation.confirmationData(
+      form = InProgressForm(partiallyFilledApplicationForm),
+      backUrl = "http://backUrl",
+      postUrl = "http://postUrl"
+    ).displayPartnerBlock
 
     displayPartnerBlock should be (false)
   }
@@ -52,9 +54,11 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
-    )
+    val displayPartnerBlock = Confirmation.confirmationData(
+      form = InProgressForm(partiallyFilledApplicationForm),
+      backUrl = "http://backUrl",
+      postUrl = "http://postUrl"
+    ).displayPartnerBlock
 
     displayPartnerBlock should be (false)
   }
@@ -70,9 +74,11 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
-    )
+    val displayPartnerBlock = Confirmation.confirmationData(
+      form = InProgressForm(partiallyFilledApplicationForm),
+      backUrl = "http://backUrl",
+      postUrl = "http://postUrl"
+    ).displayPartnerBlock
 
     displayPartnerBlock should be (true)
   }
@@ -91,9 +97,11 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
-    )
+    val displayPartnerBlock = Confirmation.confirmationData(
+      form = InProgressForm(partiallyFilledApplicationForm),
+      backUrl = "http://backUrl",
+      postUrl = "http://postUrl"
+    ).displayPartnerBlock
 
     displayPartnerBlock should be (false)
   }
@@ -109,9 +117,11 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
-    )
+    val displayPartnerBlock = Confirmation.confirmationData(
+      form = InProgressForm(partiallyFilledApplicationForm),
+      backUrl = "http://backUrl",
+      postUrl = "http://postUrl"
+    ).displayPartnerBlock
 
     displayPartnerBlock should be (false)
   }
@@ -127,9 +137,11 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
-    )
+    val displayPartnerBlock = Confirmation.confirmationData(
+      form = InProgressForm(partiallyFilledApplicationForm),
+      backUrl = "http://backUrl",
+      postUrl = "http://postUrl"
+    ).displayPartnerBlock
 
     displayPartnerBlock should be (true)
   }
@@ -350,11 +362,218 @@ class ConfirmationMustacheTest
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
-    val Some(jobTitleModel) = confirmation.jobTitle
+    val jobTitleModel = confirmation.jobTitle
 
     jobTitleModel.content should be("<p>some job title</p><p>MoJ</p>")
     jobTitleModel.editLink should be("/register-to-vote/crown/edit/job-title")
   }
+
+  behavior of "ConfirmationBlocks.partnerJobTitle"
+
+  it should "return jobTitle if displayPartnerBlock = true (councilPartner)" in {
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      job = Some(Job(
+        jobTitle = Some("some job title"),
+        govDepartment = Some("department")
+      )),
+      statement = Some(CrownStatement(
+        crownServant = false,
+        crownPartner = false,
+        councilEmployee = false,
+        councilPartner = true
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    val Some(jobTitleModel) = confirmation.partnerJobTitle
+
+    jobTitleModel.content should be("<p>some job title</p><p>department</p>")
+  }
+
+  it should "return jobTitle if displayPartnerBlock = true (crownPartner)" in {
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      job = Some(Job(
+        jobTitle = Some("some job title"),
+        govDepartment = Some("department")
+      )),
+      statement = Some(CrownStatement(
+        crownServant = false,
+        crownPartner = true,
+        councilEmployee = false,
+        councilPartner = false
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    val Some(jobTitleModel) = confirmation.partnerJobTitle
+
+    jobTitleModel.content should be("<p>some job title</p><p>department</p>")
+  }
+
+  it should "return None if displayPartnerBlock = false (crownServant)" in {
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      job = None,
+      statement = Some(CrownStatement(
+        crownServant = true,
+        crownPartner = false,
+        councilEmployee = false,
+        councilPartner = false
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    confirmation.partnerJobTitle should be(None)
+  }
+
+  it should "return completethis jobTitle if displayPartnerBlock = true (crownPartner)" in {
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      job = None,
+      statement = Some(CrownStatement(
+        crownServant = false,
+        crownPartner = true,
+        councilEmployee = false,
+        councilPartner = false
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    val Some(jobTitleModel) = confirmation.partnerJobTitle
+
+    jobTitleModel.content should include("Please complete this step")
+  }
+
+  behavior of "ConfirmationBlocks.applicantJobTitle"
+
+  it should "return jobTitle if displayPartnerBlock = false (councilEmployee)" in {
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      job = Some(Job(
+        jobTitle = Some("some job title"),
+        govDepartment = Some("department")
+      )),
+      statement = Some(CrownStatement(
+        crownServant = false,
+        crownPartner = false,
+        councilEmployee = true,
+        councilPartner = false
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    val Some(jobTitleModel) = confirmation.applicantJobTitle
+
+    jobTitleModel.content should be("<p>some job title</p><p>department</p>")
+  }
+
+  it should "return jobTitle if displayPartnerBlock = false (crownServant)" in {
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      job = Some(Job(
+        jobTitle = Some("some job title"),
+        govDepartment = Some("department")
+      )),
+      statement = Some(CrownStatement(
+        crownServant = true,
+        crownPartner = false,
+        councilEmployee = false,
+        councilPartner = false
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    val Some(jobTitleModel) = confirmation.applicantJobTitle
+
+    jobTitleModel.content should be("<p>some job title</p><p>department</p>")
+  }
+
+  it should "return None if displayPartnerBlock = true (crownServant)" in {
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      job = None,
+      statement = Some(CrownStatement(
+        crownServant = false,
+        crownPartner = true,
+        councilEmployee = false,
+        councilPartner = false
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    confirmation.applicantJobTitle should be(None)
+  }
+
+  it should "return completethis jobTitle if displayPartnerBlock = false (crownServant)" in {
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      job = None,
+      statement = Some(CrownStatement(
+        crownServant = true,
+        crownPartner = false,
+        councilEmployee = false,
+        councilPartner = false
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    val Some(jobTitleModel) = confirmation.applicantJobTitle
+
+    jobTitleModel.content should include("Please complete this step")
+  }
+
+  it should "prefer applicant when conflicting answers (crownServant & councilPartner)" in {
+
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      statement = Some(CrownStatement(
+        crownServant = true,
+        crownPartner = false,
+        councilEmployee = false,
+        councilPartner = true
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    confirmation.applicantJobTitle.isDefined should be(true)
+    confirmation.partnerJobTitle should be(None)
+
+    val displayPartnerBlock = Confirmation.confirmationData(
+      form = InProgressForm(application),
+      backUrl = "http://backUrl",
+      postUrl = "http://postUrl"
+    ).displayPartnerBlock
+
+    displayPartnerBlock should be(false)
+  }
+
+  it should "prefer applicant when conflicting answers (crownPartner & councilEmployee)" in {
+
+    val application = confirmationForm.fillAndValidate(InprogressCrown(
+      statement = Some(CrownStatement(
+        crownServant = false,
+        crownPartner = true,
+        councilEmployee = true,
+        councilPartner = false
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(application))
+
+    confirmation.applicantJobTitle.isDefined should be(true)
+    confirmation.partnerJobTitle should be(None)
+
+    val displayPartnerBlock = Confirmation.confirmationData(
+      form = InProgressForm(application),
+      backUrl = "http://backUrl",
+      postUrl = "http://postUrl"
+    ).displayPartnerBlock
+
+    displayPartnerBlock should be(false)
+  }
+
 
   "In-progress application form with valid UK address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
@@ -362,15 +581,19 @@ class ConfirmationMustacheTest
     // in application user is redirected to edit the selected address rather that the manual one
     // because edit link should take user to the displayed variant, that is selected address
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
-      address = Some(PartialAddress(
-        addressLine = Some("123 Fake Street"),
-        uprn = Some("12345678"),
-        postcode = "AB12 3CD",
-        manualAddress = Some(PartialManualAddress(
-          lineOne = Some("Unit 4, Elgar Business Centre"),
-          lineTwo = Some("Moseley Road"),
-          lineThree = Some("Hallow"),
-          city = Some("Worcester")))
+
+      address = Some(LastUkAddress(
+        hasUkAddress = Some(true),
+        address = Some(PartialAddress(
+          addressLine = Some("123 Fake Street"),
+          uprn = Some("12345678"),
+          postcode = "AB12 3CD",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")))
+        ))
       ))
     ))
 
@@ -384,15 +607,18 @@ class ConfirmationMustacheTest
   "In-progress application form with valid UK manual address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
-      address = Some(PartialAddress(
-        addressLine = None,
-        uprn = None,
-        postcode = "AB12 3CD",
-        manualAddress = Some(PartialManualAddress(
-          lineOne = Some("Unit 4, Elgar Business Centre"),
-          lineTwo = Some("Moseley Road"),
-          lineThree = Some("Hallow"),
-          city = Some("Worcester")))
+      address = Some(LastUkAddress(
+        hasUkAddress = Some(true),
+        address = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "AB12 3CD",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")))
+        ))
       ))
     ))
 
@@ -408,15 +634,18 @@ class ConfirmationMustacheTest
   "In-progress application form with valid contact address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
-      address = Some(PartialAddress(
-        addressLine = None,
-        uprn = None,
-        postcode = "AB12 3CD",
-        manualAddress = Some(PartialManualAddress(
-          lineOne = Some("my totally fake manual address"),
-          lineTwo = Some("123"),
-          lineThree = None,
-          city = Some("Fakebury")
+      address = Some(LastUkAddress(
+        hasUkAddress = Some(true),
+        address = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "AB12 3CD",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("my totally fake manual address"),
+            lineTwo = Some("123"),
+            lineThree = None,
+            city = Some("Fakebury")
+          ))
         ))
       )),
       contactAddress = Some (PossibleContactAddresses(
@@ -461,22 +690,23 @@ class ConfirmationMustacheTest
   }
 
 
-  "application form with filled way to vote as by-post" should
-    "generate confirmation mustache model with correctly rendered way to vote type" in {
-    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
-      waysToVote = Some(WaysToVote(WaysToVoteType.ByPost))))
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
-    val Some(nameModel) = confirmation.waysToVote
-    nameModel.content should be("<p>By post</p>")
-  }
-
   "application form with filled way to vote as by-proxy" should
     "generate confirmation mustache model with correctly rendered way to vote type" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
-      waysToVote = Some(WaysToVote(WaysToVoteType.ByProxy))))
+      waysToVote = Some(WaysToVote(WaysToVoteType.ByProxy)),
+      postalOrProxyVote = Some(PostalOrProxyVote(
+        typeVote = WaysToVoteType.ByProxy,
+        postalVoteOption = Some(true),
+        deliveryMethod = Some(PostalVoteDeliveryMethod(
+          deliveryMethod = Some("post"),
+          emailAddress = None
+        ))
+      ))
+    ))
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
-    val Some(nameModel) = confirmation.waysToVote
-    nameModel.content should be("<p>By proxy (someone else voting for you)</p>")
+    val Some(model) = confirmation.waysToVote
+    model.content should include("I want to vote by proxy (someone else voting for me)")
+    model.editLink should be("/register-to-vote/crown/edit/ways-to-vote")
   }
 
   "application form with filled way to vote as in-person" should
@@ -484,22 +714,16 @@ class ConfirmationMustacheTest
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       waysToVote = Some(WaysToVote(WaysToVoteType.InPerson))))
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
-    val Some(nameModel) = confirmation.waysToVote
-    nameModel.content should be("<p>In the UK, at a polling station</p>")
+    val Some(model) = confirmation.waysToVote
+    model.content should include("I want to vote in person, at a polling station")
+    model.editLink should be("/register-to-vote/crown/edit/ways-to-vote")
   }
 
-  it should "return none (waysToVote not answered)" in {
-    val partialApplication = confirmationForm
-
-    val confirmation = new ConfirmationBlocks(InProgressForm(partialApplication))
-    val model = confirmation.postalOrProxyVote
-
-    model.isDefined should be(false)
-  }
 
   "In-progress application form with postal vote (by post)" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+      waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
       postalOrProxyVote = Some(PostalOrProxyVote(
         typeVote = WaysToVoteType.ByPost,
         postalVoteOption = Some(true),
@@ -512,34 +736,38 @@ class ConfirmationMustacheTest
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
-    val Some(postalOrProxyVoteModel) = confirmation.postalOrProxyVote
-    postalOrProxyVoteModel.content should be("<p>Please post me a postal vote application form</p>")
-    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/postal-vote")
+    val Some(postalOrProxyVoteModel) = confirmation.waysToVote
+    postalOrProxyVoteModel.content should include("<p>I want to vote by post</p>")
+    postalOrProxyVoteModel.content should include("Send me an application form in the post")
+    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/ways-to-vote")
   }
 
   "In-progress application form with postal vote (by email)" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+      waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
       postalOrProxyVote = Some(PostalOrProxyVote(
         typeVote = WaysToVoteType.ByPost,
         postalVoteOption = Some(true),
         deliveryMethod = Some(PostalVoteDeliveryMethod(
           deliveryMethod = Some("email"),
-          emailAddress = Some("antoine@gds.com")
+          emailAddress = Some("test@test.com")
         ))
       ))
     ))
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
-    val Some(postalOrProxyVoteModel) = confirmation.postalOrProxyVote
-    postalOrProxyVoteModel.content should be("<p>Please email a postal vote application form to:</p><p>antoine@gds.com</p>")
-    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/postal-vote")
+    val Some(postalOrProxyVoteModel) = confirmation.waysToVote
+    postalOrProxyVoteModel.content should include("Send an application form to")
+    postalOrProxyVoteModel.content should include("test@test.com")
+    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/ways-to-vote")
   }
 
   "In-progress application form with proxy vote (by post)" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+      waysToVote = Some(WaysToVote(WaysToVoteType.ByProxy)),
       postalOrProxyVote = Some(PostalOrProxyVote(
         typeVote = WaysToVoteType.ByProxy,
         postalVoteOption = Some(true),
@@ -552,34 +780,39 @@ class ConfirmationMustacheTest
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
-    val Some(postalOrProxyVoteModel) = confirmation.postalOrProxyVote
-    postalOrProxyVoteModel.content should be("<p>Please post me a proxy vote application form</p>")
-    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/proxy-vote")
+    val Some(postalOrProxyVoteModel) = confirmation.waysToVote
+    postalOrProxyVoteModel.content should include("I want to vote by proxy (someone else voting for me)")
+    postalOrProxyVoteModel.content should include("Send me an application form in the post")
+    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/ways-to-vote")
   }
 
   "In-progress application form with proxy vote (by email)" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+      waysToVote = Some(WaysToVote(WaysToVoteType.ByProxy)),
       postalOrProxyVote = Some(PostalOrProxyVote(
         typeVote = WaysToVoteType.ByProxy,
         postalVoteOption = Some(true),
         deliveryMethod = Some(PostalVoteDeliveryMethod(
           deliveryMethod = Some("email"),
-          emailAddress = Some("antoine@gds.com")
+          emailAddress = Some("test@test.com")
         ))
       ))
     ))
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
-    val Some(postalOrProxyVoteModel) = confirmation.postalOrProxyVote
-    postalOrProxyVoteModel.content should be("<p>Please email a proxy vote application form to:</p><p>antoine@gds.com</p>")
-    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/proxy-vote")
+    val Some(postalOrProxyVoteModel) = confirmation.waysToVote
+    postalOrProxyVoteModel.content should include("I want to vote by proxy (someone else voting for me)")
+    postalOrProxyVoteModel.content should include("Send an application form to")
+    postalOrProxyVoteModel.content should include("test@test.com")
+    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/ways-to-vote")
   }
 
   "In-progress application form without applying for postal vote" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+      waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
       postalOrProxyVote = Some(PostalOrProxyVote(
         typeVote = WaysToVoteType.ByPost,
         postalVoteOption = Some(false),
@@ -589,14 +822,16 @@ class ConfirmationMustacheTest
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
-    val Some(postalOrProxyVoteModel) = confirmation.postalOrProxyVote
-    postalOrProxyVoteModel.content should be("<p>I do not need a postal vote application form</p>")
-    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/postal-vote")
+    val Some(postalOrProxyVoteModel) = confirmation.waysToVote
+    postalOrProxyVoteModel.content should include("I want to vote by post")
+    postalOrProxyVoteModel.content should include("I do not need a postal vote application form")
+    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/ways-to-vote")
   }
 
   "In-progress application form without applying for proxy vote" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+      waysToVote = Some(WaysToVote(WaysToVoteType.ByProxy)),
       postalOrProxyVote = Some(PostalOrProxyVote(
         typeVote = WaysToVoteType.ByProxy,
         postalVoteOption = Some(false),
@@ -606,9 +841,10 @@ class ConfirmationMustacheTest
 
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
-    val Some(postalOrProxyVoteModel) = confirmation.postalOrProxyVote
-    postalOrProxyVoteModel.content should be("<p>I do not need a proxy vote application form</p>")
-    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/proxy-vote")
+    val Some(postalOrProxyVoteModel) = confirmation.waysToVote
+    postalOrProxyVoteModel.content should include("I want to vote by proxy")
+    postalOrProxyVoteModel.content should include("I do not need a proxy vote application form")
+    postalOrProxyVoteModel.editLink should be("/register-to-vote/crown/edit/ways-to-vote")
   }
 
   "In-progress application form with email contact" should

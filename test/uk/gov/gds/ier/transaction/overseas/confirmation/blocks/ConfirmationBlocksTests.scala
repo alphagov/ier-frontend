@@ -43,7 +43,6 @@ class ConfirmationBlocksTests
         blocks.address,
         blocks.openRegister,
         blocks.waysToVote,
-        blocks.postalOrProxyVote,
         blocks.contact
       )
     )
@@ -66,7 +65,6 @@ class ConfirmationBlocksTests
         blocks.address,
         blocks.openRegister,
         blocks.waysToVote,
-        blocks.postalOrProxyVote,
         blocks.contact
       )
     )
@@ -88,7 +86,6 @@ class ConfirmationBlocksTests
         blocks.address,
         blocks.openRegister,
         blocks.waysToVote,
-        blocks.postalOrProxyVote,
         blocks.contact
       )
     )
@@ -111,7 +108,6 @@ class ConfirmationBlocksTests
         blocks.address,
         blocks.openRegister,
         blocks.waysToVote,
-        blocks.postalOrProxyVote,
         blocks.contact
       )
     )
@@ -134,7 +130,6 @@ class ConfirmationBlocksTests
         blocks.address,
         blocks.openRegister,
         blocks.waysToVote,
-        blocks.postalOrProxyVote,
         blocks.contact
       )
     )
@@ -157,7 +152,6 @@ class ConfirmationBlocksTests
         blocks.address,
         blocks.openRegister,
         blocks.waysToVote,
-        blocks.postalOrProxyVote,
         blocks.contact
       )
     )

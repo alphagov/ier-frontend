@@ -4,7 +4,8 @@ import uk.gov.gds.common.model.LocalAuthority
 
 case class InprogressCrown(
     statement: Option[CrownStatement] = None,
-    address: Option[PartialAddress] = None,
+    address: Option[LastUkAddress] = None,
+    previousAddress: Option[PartialPreviousAddress] = None,
     nationality: Option[PartialNationality] = None,
     dob: Option[DateOfBirth] = None,
     name: Option[Name] = None,
@@ -23,6 +24,7 @@ case class InprogressCrown(
     other.copy(
       statement = this.statement.orElse(other.statement),
       address = this.address.orElse(other.address),
+      previousAddress = this.previousAddress.orElse(other.previousAddress),
       nationality = this.nationality.orElse(other.nationality),
       dob = this.dob.orElse(other.dob),
       name = this.name.orElse(other.name),
@@ -48,6 +50,7 @@ case class InprogressCrown(
 case class CrownApplication(
     statement: Option[CrownStatement],
     address: Option[Address],
+    previousAddress: Option[Address],
     nationality: Option[IsoNationality],
     dob: Option[DateOfBirth],
     name: Option[Name],
@@ -68,6 +71,7 @@ case class CrownApplication(
     Map.empty ++
       statement.map(_.toApiMap).getOrElse(Map.empty) ++
       address.map(_.toApiMap("reg")).getOrElse(Map.empty) ++
+      previousAddress.map(_.toApiMap("p")).getOrElse(Map.empty) ++
       nationality.map(_.toApiMap).getOrElse(Map.empty) ++
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
@@ -109,3 +113,8 @@ case class Job(
     jobTitle.map(jobTitle => Map("role" -> jobTitle.toString)).getOrElse(Map.empty) ++
     govDepartment.map(govDepartment => Map("dept" -> govDepartment.toString)).getOrElse(Map.empty)
 }
+
+case class LastUkAddress(
+    hasUkAddress:Option[Boolean],
+    address:Option[PartialAddress]
+)

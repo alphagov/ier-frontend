@@ -24,7 +24,6 @@ trait ConfirmationMustache {
   case class ConfirmationModel(
       applicantDetails: List[ConfirmationQuestion],
       partnerDetails: List[ConfirmationQuestion],
-      completeApplicantDetails: List[ConfirmationQuestion],
       displayPartnerBlock: Boolean,
       backUrl: String,
       postUrl: String
@@ -32,7 +31,7 @@ trait ConfirmationMustache {
 
   object Confirmation extends StepMustache {
 
-    def confirmationPage(
+    def confirmationData(
         form:InProgressForm[InprogressCrown],
         backUrl: String,
         postUrl: String) = {
@@ -40,7 +39,7 @@ trait ConfirmationMustache {
       val confirmation = new ConfirmationBlocks(form)
 
       val partnerData = List(
-        confirmation.jobTitle
+        confirmation.partnerJobTitle
       ).flatten
 
       val applicantData = List(
@@ -49,73 +48,38 @@ trait ConfirmationMustache {
         confirmation.dateOfBirth,
         confirmation.nationality,
         confirmation.nino,
+        confirmation.applicantJobTitle,
         confirmation.address,
+        confirmation.previousAddress,
         confirmation.contactAddress,
         confirmation.openRegister,
         confirmation.waysToVote,
-        confirmation.postalOrProxyVote,
         confirmation.contact
       ).flatten
 
-      val completeApplicantData = List(
-        confirmation.name,
-        confirmation.previousName,
-        confirmation.dateOfBirth,
-        confirmation.nationality,
-        confirmation.nino,
-        confirmation.jobTitle,
-        confirmation.address,
-        confirmation.contactAddress,
-        confirmation.openRegister,
-        confirmation.waysToVote,
-        confirmation.postalOrProxyVote,
-        confirmation.contact
-      ).flatten
-
-      val data = ConfirmationModel(
+      ConfirmationModel(
         partnerDetails = partnerData,
         applicantDetails = applicantData,
-        completeApplicantDetails = completeApplicantData,
-        displayPartnerBlock = displayPartnerBlock(form),
+        displayPartnerBlock = !partnerData.isEmpty,
         backUrl = backUrl,
         postUrl = postUrl
       )
+    }
 
+    def confirmationPage(
+        form:InProgressForm[InprogressCrown],
+        backUrl: String,
+        postUrl: String) = {
+
+      val data = confirmationData(form, backUrl, postUrl)
       val content = Mustache.render("crown/confirmation", data)
+
       MainStepTemplate(
         content,
         "Confirm your details - Register to vote",
         contentClasses = Some("confirmation")
       )
     }
-
-    def displayPartnerBlock (form:InProgressForm[InprogressCrown]): Boolean = {
-
-      val isPartner = Some("true")
-      val isNotMember = Some("false")
-
-      val displayCrownPartner = (
-        form(keys.statement.crownPartner).value,
-        form(keys.statement.crownServant).value
-      ) match {
-        case (`isPartner`, `isNotMember`) => true
-        case (`isPartner`, None) => true
-        case _ => false
-      }
-
-      val displayBritisthCouncilPartner = (
-        form(keys.statement.councilPartner).value,
-        form(keys.statement.councilEmployee).value
-        ) match {
-        case (`isPartner`, `isNotMember`) => true
-        case (`isPartner`, None) => true
-        case _ => false
-      }
-
-      (displayCrownPartner || displayBritisthCouncilPartner)
-
-    }
-
   }
 
   class ConfirmationBlocks(form:InProgressForm[InprogressCrown])
@@ -235,8 +199,24 @@ trait ConfirmationMustache {
       ))
     }
 
+    def applicantJobTitle : Option[ConfirmationQuestion] = {
+      if (!displayPartnerBlock) {
+        Some(jobTitle)
+      } else {
+        None
+      }
+    }
+
+    def partnerJobTitle : Option[ConfirmationQuestion] = {
+      if (displayPartnerBlock) {
+        Some(jobTitle)
+      } else {
+        None
+      }
+    }
+
     def jobTitle = {
-      Some(ConfirmationQuestion(
+      ConfirmationQuestion(
         title = "Job title",
         editLink = routes.JobController.editGet.url,
         changeName = "job title",
@@ -244,26 +224,56 @@ trait ConfirmationMustache {
             "<p>"+form(keys.job.jobTitle).value.getOrElse("")+"</p>" +
             "<p>"+form(keys.job.govDepartment).value.getOrElse("")+"</p>"
         }
-      ))
+      )
     }
 
     def address = {
       Some(ConfirmationQuestion(
         title = "UK registration address",
-        editLink = if (form(keys.address.addressLine).value.isDefined) {
+        editLink = if (form(keys.address.address.addressLine).value.isDefined) {
           routes.AddressSelectController.editGet.url
-        } else if (isManualAddressDefined(form, keys.address.manualAddress)) {
+        } else if (isManualAddressDefined(form, keys.address.address.manualAddress)) {
           routes.AddressManualController.editGet.url
         } else {
           routes.AddressController.editGet.url
         },
         changeName = "your UK registration address",
         content = ifComplete(keys.address) {
-          val addressLine = form(keys.address.addressLine).value.orElse{
-            manualAddressToOneLine(form, keys.address.manualAddress)
+          val addressLine = form(keys.address.address.addressLine).value.orElse{
+            manualAddressToOneLine(form, keys.address.address.manualAddress)
           }.getOrElse("")
-          val postcode = form(keys.address.postcode).value.getOrElse("")
+          val postcode = form(keys.address.address.postcode).value.getOrElse("")
           s"<p>$addressLine</p><p>$postcode</p>"
+        }
+      ))
+    }
+
+    def previousAddress = {
+      Some(ConfirmationQuestion(
+        title = "UK previous registration address",
+        editLink = routes.PreviousAddressFirstController.editGet.url,
+        changeName = "your UK previous registration address",
+        content = ifComplete(keys.previousAddress) {
+          if(form(keys.previousAddress.movedRecently).value == Some("true")) {
+            val address = if(form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
+              form(keys.previousAddress.previousAddress.addressLine).value.map(
+                addressLine => "<p>" + addressLine + "</p>"
+              ).getOrElse("")
+            } else {
+              manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress).map(
+                addressLine => "<p>" + addressLine + "</p>"
+              ).getOrElse("")
+            }
+
+            val postcode = form(keys.previousAddress.previousAddress.postcode).value.map(
+              postcode => "<p>" + postcode + "</p>"
+            ).getOrElse("")
+
+            address + postcode
+
+          } else {
+            "<p>I have not moved in the last 12 months</p>"
+          }
         }
       ))
     }
@@ -284,10 +294,10 @@ trait ConfirmationMustache {
 
           if (addressTypeKey.equals(keys.ukContactAddress)) {
             ifComplete(keys.address) {
-              val addressLine = form(keys.address.addressLine).value.orElse{
-                manualAddressToOneLine(form, keys.address.manualAddress)
+              val addressLine = form(keys.address.address.addressLine).value.orElse{
+                manualAddressToOneLine(form, keys.address.address.manualAddress)
               }.getOrElse("")
-              val postcode = form(keys.address.postcode).value.getOrElse("")
+              val postcode = form(keys.address.address.postcode).value.getOrElse("")
               s"<p>$addressLine</p><p>$postcode</p>"
             }
           }
@@ -326,57 +336,37 @@ trait ConfirmationMustache {
     }
 
     def waysToVote = {
-      val way = form(keys.waysToVote.wayType).value.map{ way => WaysToVoteType.parse(way) }
-
-      Some(ConfirmationQuestion(
-        title = "How you want to vote",
-        editLink = routes.WaysToVoteController.editGet.url,
-        changeName = "voting",
-        content = ifComplete(keys.waysToVote) {
-          way match {
-            case Some(WaysToVoteType.ByPost) => "<p>By post</p>"
-            case Some(WaysToVoteType.ByProxy) => "<p>By proxy (someone else voting for you)</p>"
-            case Some(WaysToVoteType.InPerson) => "<p>In the UK, at a polling station</p>"
-            case _ => ""
-          }
-        }
-      ))
-    }
-
-    def postalOrProxyVote = {
-      val way = form(keys.postalOrProxyVote.voteType).value.map{ way => WaysToVoteType.parse(way) }
+      val way = form(keys.waysToVote.wayType).value.map(WaysToVoteType.parse(_))
       val prettyWayName = way match {
-        case Some(WaysToVoteType.ByPost) => "postal vote"
-        case Some(WaysToVoteType.ByProxy) => "proxy vote"
-        case _ => ""
+        case Some(WaysToVoteType.ByPost) => "a postal vote"
+        case Some(WaysToVoteType.ByProxy) => "a proxy vote"
+        case _ => "an"
       }
       val myEmail = form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value.getOrElse("")
       val emailMe = form(keys.postalOrProxyVote.deliveryMethod.methodName).value == Some("email")
-      val optIn = form(keys.postalOrProxyVote.optIn).value == Some("true")
-
-      way.map { wayToVote =>
-        ConfirmationQuestion(
-          title = "Application form",
-          editLink = wayToVote match {
-            case WaysToVoteType.ByPost => routes.PostalVoteController.editGet.url
-            case WaysToVoteType.ByProxy => routes.ProxyVoteController.editGet.url
-            case _ => routes.WaysToVoteController.editGet.url
-          },
-          changeName = wayToVote match {
-            case WaysToVoteType.ByPost => "your postal vote form"
-            case WaysToVoteType.ByProxy => "your proxy vote form"
-            case _ => "your method of voting"
-          },
-          content = ifComplete(keys.postalOrProxyVote) {
-            (optIn, emailMe) match {
-              case (true, true) => s"<p>Please email a ${prettyWayName} application form to:</p>" +
-                s"<p>${myEmail}</p>"
-              case (true, false) => s"<p>Please post me a ${prettyWayName} application form</p>"
-              case (false, _) => s"<p>I do not need a ${prettyWayName} application form</p>"
-            }
-          }
-        )
+      val optIn = form(keys.postalOrProxyVote.optIn).value
+      val ways = way match {
+        case Some(WaysToVoteType.ByPost) => "<p>I want to vote by post</p>"
+        case Some(WaysToVoteType.ByProxy) => "<p>I want to vote by proxy (someone else voting for me)</p>"
+        case Some(WaysToVoteType.InPerson) => "<p>I want to vote in person, at a polling station</p>"
+        case _ => ""
       }
+      val postalOrProxyVote = (optIn, emailMe) match {
+        case (Some("true"), true) => s"<p>Send an application form to:</p>" +
+          s"<p>${myEmail}</p>"
+        case (Some("true"), false) => s"<p>Send me an application form in the post</p>"
+        case (Some("false"), _) => s"<p>I do not need ${prettyWayName} application form</p>"
+        case (_, _) => ""
+      }
+
+      Some(ConfirmationQuestion(
+        title = "Voting options",
+        editLink = routes.WaysToVoteController.editGet.url,
+        changeName = "voting",
+        content = ifComplete(keys.waysToVote) {
+          ways + postalOrProxyVote
+        }
+      ))
     }
 
     def contact = {
@@ -433,5 +423,15 @@ trait ConfirmationMustache {
     }
 
     def otherCountriesKey(i:Int) = keys.nationality.otherCountries.key + "["+i+"]"
+
+    def displayPartnerBlock:Boolean = {
+
+      val crownPartner = form(keys.statement.crownPartner).value == Some("true")
+      val crownServant = form(keys.statement.crownServant).value == Some("true")
+      val councilEmployee = form(keys.statement.councilEmployee).value == Some("true")
+      val councilPartner = form(keys.statement.councilPartner).value == Some("true")
+
+      (crownPartner || councilPartner) && !(crownServant || councilEmployee)
+    }
   }
 }

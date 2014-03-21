@@ -28,19 +28,40 @@ class WaysToVoteBlocksTests
   "application form with filled way to vote as by-post" should
     "generate confirmation mustache model with correctly rendered way to vote type" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
-      waysToVote = Some(WaysToVote(WaysToVoteType.ByPost))))
+      waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
+      postalOrProxyVote = Some(PostalOrProxyVote(
+        typeVote = WaysToVoteType.ByPost,
+        postalVoteOption = Some(true),
+        deliveryMethod = Some(PostalVoteDeliveryMethod(
+          deliveryMethod = Some("post"),
+          emailAddress = None
+        ))
+      ))
+    ))
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
-    val nameModel = confirmation.waysToVote
-    nameModel.content should be("<p>By post</p>")
+    val model = confirmation.waysToVote
+    model.content should include("<p>I want to vote by post</p>")
+    model.content should include("Send me an application form in the post")
+    model.editLink should be("/register-to-vote/overseas/edit/ways-to-vote")
   }
 
   "application form with filled way to vote as by-proxy" should
     "generate confirmation mustache model with correctly rendered way to vote type" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
-      waysToVote = Some(WaysToVote(WaysToVoteType.ByProxy))))
+      waysToVote = Some(WaysToVote(WaysToVoteType.ByProxy)),
+      postalOrProxyVote = Some(PostalOrProxyVote(
+        typeVote = WaysToVoteType.ByProxy,
+        postalVoteOption = Some(true),
+        deliveryMethod = Some(PostalVoteDeliveryMethod(
+          deliveryMethod = Some("post"),
+          emailAddress = None
+        ))
+      ))
+    ))
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
-    val nameModel = confirmation.waysToVote
-    nameModel.content should be("<p>By proxy (someone else voting for you)</p>")
+    val model = confirmation.waysToVote
+    model.content should include("I want to vote by proxy (someone else voting for me)")
+    model.editLink should be("/register-to-vote/overseas/edit/ways-to-vote")
   }
 
   "application form with filled way to vote as in-person" should
@@ -48,7 +69,8 @@ class WaysToVoteBlocksTests
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
       waysToVote = Some(WaysToVote(WaysToVoteType.InPerson))))
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
-    val nameModel = confirmation.waysToVote
-    nameModel.content should be("<p>In the UK, at a polling station</p>")
+    val model = confirmation.waysToVote
+    model.content should include("I want to vote in person, at a polling station")
+    model.editLink should be("/register-to-vote/overseas/edit/ways-to-vote")
   }
 }

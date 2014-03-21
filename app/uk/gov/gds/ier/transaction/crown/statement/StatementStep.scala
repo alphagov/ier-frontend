@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.crown.statement
 
 import com.google.inject.Inject
 import controllers.step.crown.routes.StatementController
-import controllers.step.crown.AddressController
+import controllers.step.crown.AddressFirstController
 import play.api.mvc.Call
 import uk.gov.gds.ier.model.InprogressCrown
 import uk.gov.gds.ier.step.{CrownStep, Routes}
@@ -37,6 +37,6 @@ class StatementStep @Inject ()(
   }
 
   def nextStep(currentState: InprogressCrown) = {
-    AddressController.addressStep
+    AddressFirstController.addressFirstStep
   }
 }
