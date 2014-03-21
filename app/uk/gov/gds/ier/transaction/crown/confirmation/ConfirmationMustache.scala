@@ -230,19 +230,19 @@ trait ConfirmationMustache {
     def address = {
       Some(ConfirmationQuestion(
         title = "UK registration address",
-        editLink = if (form(keys.address.addressLine).value.isDefined) {
+        editLink = if (form(keys.address.address.addressLine).value.isDefined) {
           routes.AddressSelectController.editGet.url
-        } else if (isManualAddressDefined(form, keys.address.manualAddress)) {
+        } else if (isManualAddressDefined(form, keys.address.address.manualAddress)) {
           routes.AddressManualController.editGet.url
         } else {
           routes.AddressController.editGet.url
         },
         changeName = "your UK registration address",
         content = ifComplete(keys.address) {
-          val addressLine = form(keys.address.addressLine).value.orElse{
-            manualAddressToOneLine(form, keys.address.manualAddress)
+          val addressLine = form(keys.address.address.addressLine).value.orElse{
+            manualAddressToOneLine(form, keys.address.address.manualAddress)
           }.getOrElse("")
-          val postcode = form(keys.address.postcode).value.getOrElse("")
+          val postcode = form(keys.address.address.postcode).value.getOrElse("")
           s"<p>$addressLine</p><p>$postcode</p>"
         }
       ))
@@ -294,10 +294,10 @@ trait ConfirmationMustache {
 
           if (addressTypeKey.equals(keys.ukContactAddress)) {
             ifComplete(keys.address) {
-              val addressLine = form(keys.address.addressLine).value.orElse{
-                manualAddressToOneLine(form, keys.address.manualAddress)
+              val addressLine = form(keys.address.address.addressLine).value.orElse{
+                manualAddressToOneLine(form, keys.address.address.manualAddress)
               }.getOrElse("")
-              val postcode = form(keys.address.postcode).value.getOrElse("")
+              val postcode = form(keys.address.address.postcode).value.getOrElse("")
               s"<p>$addressLine</p><p>$postcode</p>"
             }
           }

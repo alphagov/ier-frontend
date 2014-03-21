@@ -88,11 +88,14 @@ class AddressMustacheTest
 
   it should "progress form with valid values should produce Mustache Model with values present (lookupData)" in {
     val partiallyFilledApplicationForm = addressForm.fill(InprogressCrown(
-      address = Some(PartialAddress(
-        addressLine = Some("Fake street 123"),
-        uprn = Some("1234567"),
-        postcode = "WR26NJ",
-        manualAddress = None
+      address = Some(LastUkAddress(
+        hasUkAddress = Some(true),
+        address = Some(PartialAddress(
+          addressLine = Some("Fake street 123"),
+          uprn = Some("1234567"),
+          postcode = "WR26NJ",
+          manualAddress = None
+        ))
       ))
     ))
 
@@ -112,11 +115,14 @@ class AddressMustacheTest
   it should "progress form with valid values should produce Mustache Model with values present (selectData)" in {
 
     val partiallyFilledApplicationForm = addressForm.fill(InprogressCrown(
-      address = Some(PartialAddress(
-        addressLine = Some("Fake street 123"),
-        uprn = Some("1234567"),
-        postcode = "WR26NJ",
-        manualAddress = None
+      address = Some(LastUkAddress(
+        hasUkAddress = Some(true),
+        address = Some(PartialAddress(
+          addressLine = Some("Fake street 123"),
+          uprn = Some("1234567"),
+          postcode = "WR26NJ",
+          manualAddress = None
+        ))
       )),
       possibleAddresses = None
     ))
@@ -145,15 +151,18 @@ class AddressMustacheTest
   it should "progress form with valid values should produce Mustache Model with values present (manualData)" in {
 
     val partiallyFilledApplicationForm = addressForm.fill(InprogressCrown(
-      address = Some(PartialAddress(
-        addressLine = None,
-        uprn = None,
-        postcode = "WR26NJ",
-        manualAddress = Some(PartialManualAddress(
-          lineOne = Some("Unit 4, Elgar Business Centre"),
-          lineTwo = Some("Moseley Road"),
-          lineThree = Some("Hallow"),
-          city = Some("Worcester")))
+      address = Some(LastUkAddress(
+        hasUkAddress = Some(true),
+        address = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "WR26NJ",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")))
+        ))
       )),
       possibleAddresses = None
     ))

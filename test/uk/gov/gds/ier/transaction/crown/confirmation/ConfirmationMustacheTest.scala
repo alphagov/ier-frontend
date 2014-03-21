@@ -581,15 +581,19 @@ class ConfirmationMustacheTest
     // in application user is redirected to edit the selected address rather that the manual one
     // because edit link should take user to the displayed variant, that is selected address
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
-      address = Some(PartialAddress(
-        addressLine = Some("123 Fake Street"),
-        uprn = Some("12345678"),
-        postcode = "AB12 3CD",
-        manualAddress = Some(PartialManualAddress(
-          lineOne = Some("Unit 4, Elgar Business Centre"),
-          lineTwo = Some("Moseley Road"),
-          lineThree = Some("Hallow"),
-          city = Some("Worcester")))
+
+      address = Some(LastUkAddress(
+        hasUkAddress = Some(true),
+        address = Some(PartialAddress(
+          addressLine = Some("123 Fake Street"),
+          uprn = Some("12345678"),
+          postcode = "AB12 3CD",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")))
+        ))
       ))
     ))
 
@@ -603,15 +607,18 @@ class ConfirmationMustacheTest
   "In-progress application form with valid UK manual address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
-      address = Some(PartialAddress(
-        addressLine = None,
-        uprn = None,
-        postcode = "AB12 3CD",
-        manualAddress = Some(PartialManualAddress(
-          lineOne = Some("Unit 4, Elgar Business Centre"),
-          lineTwo = Some("Moseley Road"),
-          lineThree = Some("Hallow"),
-          city = Some("Worcester")))
+      address = Some(LastUkAddress(
+        hasUkAddress = Some(true),
+        address = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "AB12 3CD",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")))
+        ))
       ))
     ))
 
@@ -627,15 +634,18 @@ class ConfirmationMustacheTest
   "In-progress application form with valid contact address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
-      address = Some(PartialAddress(
-        addressLine = None,
-        uprn = None,
-        postcode = "AB12 3CD",
-        manualAddress = Some(PartialManualAddress(
-          lineOne = Some("my totally fake manual address"),
-          lineTwo = Some("123"),
-          lineThree = None,
-          city = Some("Fakebury")
+      address = Some(LastUkAddress(
+        hasUkAddress = Some(true),
+        address = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "AB12 3CD",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("my totally fake manual address"),
+            lineTwo = Some("123"),
+            lineThree = None,
+            city = Some("Fakebury")
+          ))
         ))
       )),
       contactAddress = Some (PossibleContactAddresses(
@@ -683,10 +693,20 @@ class ConfirmationMustacheTest
   "application form with filled way to vote as by-proxy" should
     "generate confirmation mustache model with correctly rendered way to vote type" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
-      waysToVote = Some(WaysToVote(WaysToVoteType.ByProxy))))
+      waysToVote = Some(WaysToVote(WaysToVoteType.ByProxy)),
+      postalOrProxyVote = Some(PostalOrProxyVote(
+        typeVote = WaysToVoteType.ByProxy,
+        postalVoteOption = Some(true),
+        deliveryMethod = Some(PostalVoteDeliveryMethod(
+          deliveryMethod = Some("post"),
+          emailAddress = None
+        ))
+      ))
+    ))
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
-    val Some(nameModel) = confirmation.waysToVote
-    nameModel.content should be("<p>I want to vote by proxy (someone else voting for me)</p>")
+    val Some(model) = confirmation.waysToVote
+    model.content should include("I want to vote by proxy (someone else voting for me)")
+    model.editLink should be("/register-to-vote/crown/edit/ways-to-vote")
   }
 
   "application form with filled way to vote as in-person" should

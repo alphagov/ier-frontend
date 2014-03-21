@@ -28,6 +28,11 @@ class AddressLookupTemplateTest
           name = "postcodeName",
           classes = "postcodeClasses",
           value = "postcodeValue"
+        ),
+        hasUkAddress = Field(
+          id = "hasUkAddressId",
+          name = "hasUkAddressName",
+          value = "hasUkAddressValue"
         )
       )
 
@@ -44,10 +49,14 @@ class AddressLookupTemplateTest
 
       val postcodeInput = divWrapper.select("input#postcodeId").first()
       postcodeInput should not be(null)
-      postcodeInput.attr("id") should be("postcodeId")
       postcodeInput.attr("name") should be("postcodeName")
       postcodeInput.attr("value") should be("postcodeValue")
       postcodeInput.attr("class") should include("postcodeClasses")
+
+      val hasUkAddressInput = doc.select("input[id=hasUkAddressId]").first()
+      hasUkAddressInput should not be(null)
+      hasUkAddressInput.attr("name") should be("hasUkAddressName")
+      hasUkAddressInput.attr("value") should be("hasUkAddressValue")
     }
   }
 }

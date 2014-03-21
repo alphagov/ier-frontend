@@ -43,8 +43,8 @@ trait ConfirmationForms
   val confirmationForm = ErrorTransformForm(
     mapping(
       keys.statement.key -> optional(statementMapping),
-      keys.address.key -> optional(partialAddressMapping),
-      keys.previousAddress.key -> stepRequired(partialPreviousAddressMappingForPreviousAddress),
+      keys.address.key -> optional(lastUkAddressMapping),
+      keys.previousAddress.key -> optional(partialPreviousAddressMappingForPreviousAddress),
       keys.nationality.key -> optional(nationalityMapping),
       keys.dob.key -> optional(dobAndReasonMapping),
       keys.name.key -> optional(nameMapping),
@@ -64,6 +64,7 @@ trait ConfirmationForms
     ).verifying (
       statementStepRequired,
       addressStepRequired,
+      previousAddressStepRequired,
       nationalityStepRequired,
       dobStepRequired,
       nameStepRequired,
@@ -84,6 +85,7 @@ trait ConfirmationConstraints {
 
   val statementStepRequired = requireThis(keys.statement) { _.statement }
   val addressStepRequired = requireThis(keys.address) { _.address }
+  val previousAddressStepRequired = requireThis(keys.previousAddress) { _.previousAddress }
   val nationalityStepRequired = requireThis(keys.nationality) { _.nationality }
   val dobStepRequired = requireThis(keys.dob) { _.dob }
   val nameStepRequired = requireThis(keys.name) { _.name }

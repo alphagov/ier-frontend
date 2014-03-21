@@ -924,7 +924,11 @@
       },
       'govDepartment' : {
         'nonEmpty' : 'Please enter the government department, agency or body'
+      },
+      'hasUkAddress' : {
+         'atLeastOneNonEmpty' : 'Please answer this question'
       }
+
     }
   };
 
