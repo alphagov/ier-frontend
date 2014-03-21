@@ -10,7 +10,6 @@ trait AddressMustache {
 
   object AddressMustache extends StepMustache {
 
-    val title = "What is your UK address?"
     val questionNumber = "2"
 
     case class LookupModel (
@@ -27,7 +26,8 @@ trait AddressMustache {
         address: Field,
         possibleJsonList: Field,
         possiblePostcode: Field,
-        hasAddresses: Boolean
+        hasAddresses: Boolean,
+        hasUkAddress: Field
     )
 
     case class ManualModel (
@@ -37,7 +37,8 @@ trait AddressMustache {
       maLineOne: Field,
       maLineTwo: Field,
       maLineThree: Field,
-      maCity: Field
+      maCity: Field,
+      hasUkAddress: Field
     )
 
     def lookupData(
@@ -49,7 +50,7 @@ trait AddressMustache {
           postUrl = postUrl,
           backUrl = backUrl,
           number = questionNumber,
-          title = title,
+          title = showAddressPageTitle(form(keys.hasUkAddress).value),
           errorMessages = form.form.globalErrors.map(_.message)
         ),
         postcode = Field(
@@ -79,7 +80,7 @@ trait AddressMustache {
         "crown/addressLookup",
         lookupData(form, backUrl, postUrl)
       )
-      MainStepTemplate(content, title)
+      MainStepTemplate(content, showAddressPageTitle(form(keys.hasUkAddress).value))
     }
 
     def selectData(
@@ -131,7 +132,7 @@ trait AddressMustache {
           postUrl = postUrl,
           backUrl = backUrl,
           number = questionNumber,
-          title = title,
+          title = showAddressPageTitle(form(keys.hasUkAddress).value),
           errorMessages = progressForm.globalErrors.map(_.message)
         ),
         lookupUrl = lookupUrl,
@@ -148,7 +149,12 @@ trait AddressMustache {
           key = keys.possibleAddresses.postcode,
           value = form(keys.address.postcode).value.getOrElse("")
         ),
-        hasAddresses = hasAddresses
+        hasAddresses = hasAddresses,
+        hasUkAddress = Field(
+          id = keys.hasUkAddress.asId(),
+          name = keys.hasUkAddress.key,
+          value = form(keys.hasUkAddress).value.getOrElse("")
+        )
       )
     }
 
@@ -164,7 +170,7 @@ trait AddressMustache {
         "crown/addressSelect",
         selectData(form, backUrl, postUrl, lookupUrl, manualUrl, maybePossibleAddress)
       )
-      MainStepTemplate(content, title)
+      MainStepTemplate(content, showAddressPageTitle(form(keys.hasUkAddress).value))
     }
 
     def manualData(
@@ -180,7 +186,7 @@ trait AddressMustache {
           postUrl = postUrl,
           backUrl = backUrl,
           number = questionNumber,
-          title = title,
+          title = showAddressPageTitle(form(keys.hasUkAddress).value),
           errorMessages = progressForm.globalErrors.map(_.message)
         ),
         lookupUrl = lookupUrl,
@@ -188,7 +194,12 @@ trait AddressMustache {
         maLineOne = TextField(keys.address.manualAddress.lineOne),
         maLineTwo = TextField(keys.address.manualAddress.lineTwo),
         maLineThree = TextField(keys.address.manualAddress.lineThree),
-        maCity = TextField(keys.address.manualAddress.city)
+        maCity = TextField(keys.address.manualAddress.city),
+        hasUkAddress = Field(
+          id = keys.hasUkAddress.asId(),
+          name = keys.hasUkAddress.key,
+          value = form(keys.hasUkAddress).value.getOrElse("")
+        )
       )
     }
 
@@ -202,7 +213,14 @@ trait AddressMustache {
         "crown/addressManual",
         manualData(form, backUrl, postUrl, lookupUrl)
       )
-      MainStepTemplate(content, title)
+      MainStepTemplate(content, showAddressPageTitle(form(keys.hasUkAddress).value))
+    }
+
+    private def showAddressPageTitle (hasUkAddress: Option[String]): String = {
+      hasUkAddress match {
+        case Some(hasUkAddress) if (hasUkAddress.toBoolean) => "What is your UK address?"
+        case _ => "What is your last UK address?"
+      }
     }
   }
 }
