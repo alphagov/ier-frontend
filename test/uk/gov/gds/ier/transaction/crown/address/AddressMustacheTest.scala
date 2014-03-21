@@ -69,12 +69,12 @@ class AddressMustacheTest
     val addressModel = AddressMustache.manualData(
       emptyApplicationForm,
       "/register-to-vote/crown/statement",
-      "/register-to-vote/crown/address/select",
+      "/register-to-vote/crown/address/manual",
       "/register-to-vote/crown/address")
 
     addressModel.question.title should be("What is your last UK address?")
     addressModel.question.backUrl should be("/register-to-vote/crown/statement")
-    addressModel.question.postUrl should be("/register-to-vote/crown/address/select")
+    addressModel.question.postUrl should be("/register-to-vote/crown/address/manual")
 
     addressModel.lookupUrl should be ("/register-to-vote/crown/address")
     addressModel.postcode.value should be ("")
@@ -86,7 +86,8 @@ class AddressMustacheTest
   }
 
 
-  it should "progress form with valid values should produce Mustache Model with values present (lookupData) - lastUkAddress = true" in {
+  it should "progress form with valid values should produce Mustache Model with values present"+
+    " (lookupData) - lastUkAddress = true" in {
     val partiallyFilledApplicationForm = addressForm.fill(InprogressCrown(
       address = Some(LastUkAddress(
         hasUkAddress = Some(true),
@@ -112,7 +113,8 @@ class AddressMustacheTest
 
   }
 
-  it should "progress form with valid values should produce Mustache Model with values present (lookupData) - lastUkAddress = false" in {
+  it should "progress form with valid values should produce Mustache Model with values present "+
+    "(lookupData) - lastUkAddress = false" in {
     val partiallyFilledApplicationForm = addressForm.fill(InprogressCrown(
       address = Some(LastUkAddress(
         hasUkAddress = Some(false),
@@ -138,7 +140,8 @@ class AddressMustacheTest
 
   }
 
-  it should "progress form with valid values should produce Mustache Model with values present (selectData) - lastUkAddress = true" in {
+  it should "progress form with valid values should produce Mustache Model with values present "+
+    "(selectData) - lastUkAddress = true" in {
 
     val partiallyFilledApplicationForm = addressForm.fill(InprogressCrown(
       address = Some(LastUkAddress(
@@ -174,7 +177,8 @@ class AddressMustacheTest
 
   }
 
-  it should "progress form with valid values should produce Mustache Model with values present (selectData) - lastUkAddress = false" in {
+  it should "progress form with valid values should produce Mustache Model with values present "+
+    "(selectData) - lastUkAddress = false" in {
 
     val partiallyFilledApplicationForm = addressForm.fill(InprogressCrown(
       address = Some(LastUkAddress(
@@ -210,7 +214,8 @@ class AddressMustacheTest
 
   }
 
-  it should "progress form with valid values should produce Mustache Model with values present (manualData) - lastUkAddress = true" in {
+  it should "progress form with valid values should produce Mustache Model with values present "+
+    "(manualData) - lastUkAddress = true" in {
 
     val partiallyFilledApplicationForm = addressForm.fill(InprogressCrown(
       address = Some(LastUkAddress(
@@ -232,12 +237,12 @@ class AddressMustacheTest
     val addressModel = AddressMustache.manualData(
       InProgressForm(partiallyFilledApplicationForm),
       "/register-to-vote/crown/statement",
-      "/register-to-vote/crown/address/select",
+      "/register-to-vote/crown/address/manual",
       "/register-to-vote/crown/address")
 
     addressModel.question.title should be("What is your UK address?")
     addressModel.question.backUrl should be("/register-to-vote/crown/statement")
-    addressModel.question.postUrl should be("/register-to-vote/crown/address/select")
+    addressModel.question.postUrl should be("/register-to-vote/crown/address/manual")
 
     addressModel.lookupUrl should be ("/register-to-vote/crown/address")
     addressModel.postcode.value should be ("WR26NJ")
@@ -247,7 +252,8 @@ class AddressMustacheTest
     addressModel.maCity.value should be ("Worcester")
   }
 
-  it should "progress form with valid values should produce Mustache Model with values present (manualData) - lastUkAddress = false" in {
+  it should "progress form with valid values should produce Mustache Model with values present "+
+    "(manualData) - lastUkAddress = false" in {
 
     val partiallyFilledApplicationForm = addressForm.fill(InprogressCrown(
       address = Some(LastUkAddress(
@@ -269,12 +275,12 @@ class AddressMustacheTest
     val addressModel = AddressMustache.manualData(
       InProgressForm(partiallyFilledApplicationForm),
       "/register-to-vote/crown/statement",
-      "/register-to-vote/crown/address/select",
+      "/register-to-vote/crown/address/manual",
       "/register-to-vote/crown/address")
 
     addressModel.question.title should be("What is your last UK address?")
     addressModel.question.backUrl should be("/register-to-vote/crown/statement")
-    addressModel.question.postUrl should be("/register-to-vote/crown/address/select")
+    addressModel.question.postUrl should be("/register-to-vote/crown/address/manual")
 
     addressModel.lookupUrl should be ("/register-to-vote/crown/address")
     addressModel.postcode.value should be ("WR26NJ")

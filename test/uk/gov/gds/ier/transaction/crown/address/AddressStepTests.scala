@@ -5,6 +5,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.model.LastUkAddress
 
 class AddressStepTests
   extends FlatSpec
@@ -13,7 +14,7 @@ class AddressStepTests
   with TestHelpers {
 
   behavior of "AddressStep.get"
-  it should "display the page" in {
+  it should "display the page with last uk address (None value)" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/crown/address").withIerSession()
@@ -23,6 +24,52 @@ class AddressStepTests
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include(
         "What is your last UK address?"
+      )
+      contentAsString(result) should include("Question 2")
+      contentAsString(result) should include("<form action=\"/register-to-vote/crown/address/lookup\"")
+    }
+  }
+
+  it should "display the page with last uk address (false value)" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(GET, "/register-to-vote/crown/address")
+          .withApplication(completeCrownApplication.copy(
+            address = Some(LastUkAddress(
+              hasUkAddress = Some(false),
+              address = None
+            ))
+          ))
+          .withIerSession()
+      )
+
+      status(result) should be(OK)
+      contentType(result) should be(Some("text/html"))
+      contentAsString(result) should include(
+        "What is your last UK address?"
+      )
+      contentAsString(result) should include("Question 2")
+      contentAsString(result) should include("<form action=\"/register-to-vote/crown/address/lookup\"")
+    }
+  }
+
+  it should "display the page with current uk address" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(GET, "/register-to-vote/crown/address")
+          .withApplication(completeCrownApplication.copy(
+          address = Some(LastUkAddress(
+            hasUkAddress = Some(true),
+            address = None
+          ))
+        ))
+        .withIerSession()
+      )
+
+      status(result) should be(OK)
+      contentType(result) should be(Some("text/html"))
+      contentAsString(result) should include(
+        "What is your UK address?"
       )
       contentAsString(result) should include("Question 2")
       contentAsString(result) should include("<form action=\"/register-to-vote/crown/address/lookup\"")
