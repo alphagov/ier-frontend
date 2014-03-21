@@ -12,13 +12,16 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.model.InprogressOrdinary
 import uk.gov.gds.ier.step.{ConfirmationStepController, Routes}
 
-class ConfirmationStep @Inject ()(val serialiser: JsonSerialiser,
-                                  ierApi: IerApiService,
-                                  addressService: AddressService,
-                                  val config: Config,
-                                  val encryptionService : EncryptionService)
+class ConfirmationStep @Inject ()(
+    val serialiser: JsonSerialiser,
+    ierApi: IerApiService,
+    addressService: AddressService,
+    val config: Config,
+    val encryptionService : EncryptionService)
+
   extends ConfirmationStepController[InprogressOrdinary]
-  with ConfirmationForms {
+    with ConfirmationForms
+    with ConfirmationMustache{
 
   def factoryOfT() = InprogressOrdinary()
 
@@ -33,7 +36,11 @@ class ConfirmationStep @Inject ()(val serialiser: JsonSerialiser,
   val previousRoute = Some(ContactController.get)
 
   def template(form:InProgressForm[InprogressOrdinary]): Html = {
-    views.html.steps.confirmation(form, previousRoute.map(_.url))
+    Confirmation.confirmationPage(
+      form,
+      previousRoute.map(_.url).getOrElse("#"),
+      routes.post.url
+    )
   }
 
   def get = ValidSession requiredFor {
