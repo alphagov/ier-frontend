@@ -575,7 +575,7 @@ class ConfirmationMustacheTest
   }
 
 
-  "In-progress application form with valid UK address" should
+  "In-progress application form with valid UK address (hasUkAddress = true)" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     // this test also (unintentionally?) test that if both selected and manual address are present
     // in application user is redirected to edit the selected address rather that the manual one
@@ -600,11 +600,68 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
     val Some(addressModel) = confirmation.address
+    addressModel.title should be("What is your UK address?")
     addressModel.content should be("<p>123 Fake Street</p><p>AB12 3CD</p>")
-    addressModel.editLink should be("/register-to-vote/crown/edit/address/select")
+    addressModel.editLink should be("/register-to-vote/crown/edit/address/first")
   }
 
-  "In-progress application form with valid UK manual address" should
+  "In-progress application form with valid UK address (hasUkAddress = false)" should
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+
+      address = Some(LastUkAddress(
+        hasUkAddress = Some(false),
+        address = Some(PartialAddress(
+          addressLine = Some("123 Fake Street"),
+          uprn = Some("12345678"),
+          postcode = "AB12 3CD",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")))
+        ))
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+
+    val Some(addressModel) = confirmation.address
+    addressModel.title should be("What is your last UK address?")
+    addressModel.content should be("<p>123 Fake Street</p><p>AB12 3CD</p>")
+    addressModel.editLink should be("/register-to-vote/crown/edit/address/first")
+  }
+
+  "In-progress application form with valid UK address (hasUkAddress = None)" should
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+
+      address = Some(LastUkAddress(
+        hasUkAddress = None,
+        address = Some(PartialAddress(
+          addressLine = Some("123 Fake Street"),
+          uprn = Some("12345678"),
+          postcode = "AB12 3CD",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")))
+        ))
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+
+    val Some(addressModel) = confirmation.address
+    addressModel.title should be("What is your last UK address?")
+    addressModel.content should be("<p>123 Fake Street</p><p>AB12 3CD</p>")
+    addressModel.editLink should be("/register-to-vote/crown/edit/address/first")
+  }
+
+  "In-progress application form with valid UK manual address (hasUkAddress = true)" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       address = Some(LastUkAddress(
@@ -625,10 +682,67 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
 
     val Some(addressModel) = confirmation.address
+    addressModel.title should be("What is your UK address?")
     addressModel.content should be("" +
       "<p>Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester</p>" +
       "<p>AB12 3CD</p>")
-    addressModel.editLink should be("/register-to-vote/crown/edit/address/manual")
+    addressModel.editLink should be("/register-to-vote/crown/edit/address/first")
+  }
+
+  "In-progress application form with valid UK manual address (hasUkAddress = false)" should
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+      address = Some(LastUkAddress(
+        hasUkAddress = Some(false),
+        address = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "AB12 3CD",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")))
+        ))
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+
+    val Some(addressModel) = confirmation.address
+    addressModel.title should be("What is your last UK address?")
+    addressModel.content should be("" +
+      "<p>Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester</p>" +
+      "<p>AB12 3CD</p>")
+    addressModel.editLink should be("/register-to-vote/crown/edit/address/first")
+  }
+
+  "In-progress application form with valid UK manual address (hasUkAddress = None)" should
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+      address = Some(LastUkAddress(
+        hasUkAddress = None,
+        address = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "AB12 3CD",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")))
+        ))
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+
+    val Some(addressModel) = confirmation.address
+    addressModel.title should be("What is your last UK address?")
+    addressModel.content should be("" +
+      "<p>Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester</p>" +
+      "<p>AB12 3CD</p>")
+    addressModel.editLink should be("/register-to-vote/crown/edit/address/first")
   }
 
   "In-progress application form with valid contact address" should
