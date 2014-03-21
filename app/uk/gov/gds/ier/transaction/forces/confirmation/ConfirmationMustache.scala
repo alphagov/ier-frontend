@@ -2,6 +2,7 @@ package uk.gov.gds.ier.transaction.forces.confirmation
 
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.model.WaysToVoteType
+import uk.gov.gds.ier.model.MovedHouseOption
 import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.{FormKeys, Key, InProgressForm}
@@ -295,7 +296,11 @@ trait ConfirmationMustache {
         editLink = routes.PreviousAddressFirstController.editGet.url,
         changeName = "your UK previous registration address",
         content = ifComplete(keys.previousAddress) {
-          if(form(keys.previousAddress.movedRecently).value == Some("true")) {
+          val moved = form(keys.previousAddress.movedRecently).value.map { str =>
+            MovedHouseOption.parse(str).hasPreviousAddress
+          }.getOrElse(false)
+
+          if(moved) {
             val address = if(form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
               form(keys.previousAddress.previousAddress.addressLine).value.map(
                 addressLine => "<p>" + addressLine + "</p>"

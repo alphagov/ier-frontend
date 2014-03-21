@@ -210,7 +210,7 @@ class PreviousAddressYesStepsTests
           .withIerSession()
           .withApplication(completeCrownApplication.copy(previousAddress = None))
           .withFormUrlEncodedBody(
-            "previousAddress.movedRecently" -> "true"
+            "previousAddress.movedRecently" -> "yes"
           )
       )
 
