@@ -22,7 +22,9 @@ class ContactMustacheTests
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = contactForm
+    val emptyApplication = InprogressCrown()
     val contactModel = contactMustache.transformFormStepToMustacheData (
+      emptyApplication,
       emptyApplicationForm,
       ContactController.post,
       Some(PostalVoteController.get))
@@ -40,7 +42,7 @@ class ContactMustacheTests
   }
 
   it should "progress form with filled email should produce Mustache Model with email value present" in {
-    val partiallyFilledApplicationForm = contactForm.fill(
+    val partiallyFilledApplication = 
       InprogressCrown(
         contact = Some(
           Contact(
@@ -50,9 +52,10 @@ class ContactMustacheTests
           )
         )
       )
-    )
+    val partiallyFilledApplicationForm = contactForm.fill(partiallyFilledApplication)
 
     val contactModel = contactMustache.transformFormStepToMustacheData(
+      partiallyFilledApplication,
       partiallyFilledApplicationForm,
       ContactController.post,
       Some(PostalVoteController.get))
@@ -70,7 +73,7 @@ class ContactMustacheTests
   }
 
   it should "progress form with filled phone should produce Mustache Model with phone value present" in {
-    val partiallyFilledApplicationForm = contactForm.fill(
+    val partiallyFilledApplication = 
       InprogressCrown(
         contact = Some(
           Contact(
@@ -80,9 +83,10 @@ class ContactMustacheTests
           )
         )
       )
-    )
+    val partiallyFilledApplicationForm = contactForm.fill(partiallyFilledApplication)
 
     val contactModel = contactMustache.transformFormStepToMustacheData(
+      partiallyFilledApplication,
       partiallyFilledApplicationForm,
       ContactController.post,
       Some(PostalVoteController.get))
@@ -100,7 +104,7 @@ class ContactMustacheTests
   }
 
   it should "progress form with filled phone and post option should produce Mustache Model with phone and post values present" in {
-    val partiallyFilledApplicationForm = contactForm.fill(
+    val partiallyFilledApplication = 
       InprogressCrown(
         contact = Some(
           Contact(
@@ -110,9 +114,10 @@ class ContactMustacheTests
           )
         )
       )
-    )
+    val partiallyFilledApplicationForm = contactForm.fill(partiallyFilledApplication)
 
     val contactModel = contactMustache.transformFormStepToMustacheData(
+      partiallyFilledApplication,
       partiallyFilledApplicationForm,
       ContactController.post,
       Some(PostalVoteController.get))
@@ -130,7 +135,7 @@ class ContactMustacheTests
   }
 
   it should "progress form with validation errors should produce Model with error list present" in {
-    val partiallyFilledApplicationForm = contactForm.fillAndValidate(
+    val partiallyFilledApplication = 
       InprogressCrown(
         contact = Some(
           Contact(
@@ -140,8 +145,10 @@ class ContactMustacheTests
           )
         )
       )
-    )
+    val partiallyFilledApplicationForm = contactForm.fillAndValidate(partiallyFilledApplication)
+    
     val contactModel = contactMustache.transformFormStepToMustacheData(
+      partiallyFilledApplication,
       partiallyFilledApplicationForm,
       ContactController.post,
       Some(PostalVoteController.get))
