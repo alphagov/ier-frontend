@@ -48,7 +48,7 @@ trait WaysToVoteBlocks {
       case (`contactMe`, `dontEmailMe`) => {
         s"<p>Please post me a ${prettyWayName} application form</p>"
       }
-      case (`dontContactMe`, _) => s"<p>I do not need a ${prettyWayName} application form</p>"
+      case (_, _) => s"<p>I do not need a ${prettyWayName} application form</p>"
     }
 
     wayToVote match {
