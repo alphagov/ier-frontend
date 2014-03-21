@@ -10,7 +10,7 @@ trait PreviousAddressMustache {
 
   object PreviousAddressMustache extends StepMustache {
 
-    val title = "Have you moved out from another UK address in the last 12 months?"
+    val title = "Have you moved from another UK address in the last 12 months?"
     val questionNumber = "8 of 11"
 
     case class PostcodeModel (
