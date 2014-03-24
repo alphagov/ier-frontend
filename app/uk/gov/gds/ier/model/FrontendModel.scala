@@ -223,7 +223,7 @@ case class Address(lineOne:Option[String],
 }
 
 case class PartialPreviousAddress (
-  movedRecently:Option[Boolean],
+  movedRecently:Option[MovedHouseOption],
   previousAddress:Option[PartialAddress])
 
 case class OtherAddress (otherAddressOption:OtherAddressOption) {

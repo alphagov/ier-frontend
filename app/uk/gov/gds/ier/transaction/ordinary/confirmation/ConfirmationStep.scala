@@ -48,7 +48,7 @@ class ConfirmationStep @Inject ()(
       val currentAddressLine = application.address.map { addressService.fillAddressLine(_) }
 
       val previousAddressLine = application.previousAddress.flatMap { prev =>
-        if (prev.movedRecently.exists(_ == true)) {
+        if (prev.movedRecently.exists(_.hasPreviousAddress == true)) {
           prev.previousAddress.map { addressService.fillAddressLine(_) }
         } else {
           None

@@ -54,7 +54,12 @@ class AddressSelectTemplateTest
           name = "possiblePostcodeName",
           value = "possiblePostcodeValue"
         ),
-        hasAddresses = true
+        hasAddresses = true,
+        hasUkAddress = Field(
+          id = "hasUkAddressId",
+          name = "hasUkAddressName",
+          value = "hasUkAddressValue"
+        )
       )
 
       val html = Mustache.render("crown/addressSelect", data)
@@ -102,6 +107,11 @@ class AddressSelectTemplateTest
       hiddenPostcodeInput.attr("id") should be("possiblePostcodeId")
       hiddenPostcodeInput.attr("name") should be("possiblePostcodeName")
       hiddenPostcodeInput.attr("value") should be("possiblePostcodeValue")
+
+      val hasUkAddressInput = doc.select("input[id=hasUkAddressId]").first()
+      hasUkAddressInput should not be(null)
+      hasUkAddressInput.attr("name") should be("hasUkAddressName")
+      hasUkAddressInput.attr("value") should be("hasUkAddressValue")
     }
   }
 
@@ -122,7 +132,12 @@ class AddressSelectTemplateTest
         ),
         possibleJsonList = Field(id = "",name = "",value = ""),
         possiblePostcode = Field(id = "",name = "",value = ""),
-        hasAddresses = false
+        hasAddresses = false,
+        hasUkAddress = Field(
+          id = "hasUkAddressId",
+          name = "hasUkAddressName",
+          value = "hasUkAddressValue"
+        )
       )
 
       val html = Mustache.render("crown/addressSelect", data)
