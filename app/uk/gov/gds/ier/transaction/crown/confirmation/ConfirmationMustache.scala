@@ -230,13 +230,13 @@ trait ConfirmationMustache {
     def address = {
 
       val addressTitle = form(keys.address.hasUkAddress).value match {
-        case Some(hasUkAddress) if (hasUkAddress.toBoolean) => "What is your UK address?"
-        case _ => "What is your last UK address?"
+        case Some(hasUkAddress) if (hasUkAddress.toBoolean) => "Your UK address"
+        case _ => "Your last UK address"
       }
 
       val addressChangeName = form(keys.address.hasUkAddress).value match {
-        case Some(hasUkAddress) if (hasUkAddress.toBoolean) => "your UK registration address"
-        case _ => "your last UK registration address"
+        case Some(hasUkAddress) if (hasUkAddress.toBoolean) => "your UK address"
+        case _ => "your last UK address"
       }
 
       Some(ConfirmationQuestion(
