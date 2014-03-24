@@ -222,7 +222,7 @@ trait ConfirmationMustache {
         editLink = routes.PreviousAddressFirstController.editGet.url,
         changeName = "your previous address",
         content = ifComplete(keys.previousAddress) {
-          if(form(keys.previousAddress.movedRecently).value == Some("true")) {
+          if(form(keys.previousAddress.movedRecently).value == Some("yes")) {
             val address = if(form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
               form(keys.previousAddress.previousAddress.addressLine).value.map(
                 addressLine => "<p>" + addressLine + "</p>"
