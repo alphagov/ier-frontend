@@ -36,7 +36,12 @@ class AddressSelectStep @Inject() (
     currentState.address match {
       case Some(LastUkAddress(Some(hasUkAddress),_))
         if (hasUkAddress) => PreviousAddressFirstController.previousAddressFirstStep
-      case _ => NationalityController.nationalityStep
+      case _ => {
+        currentState.copy(
+          previousAddress = None
+        )
+        NationalityController.nationalityStep
+      }
     }
   }
 

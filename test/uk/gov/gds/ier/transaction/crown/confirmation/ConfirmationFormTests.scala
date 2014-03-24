@@ -141,7 +141,7 @@ class ConfirmationFormTests
         Some(PartialAddress(
           Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None))
       )),
-      previousAddress = Some(PartialPreviousAddress(Some(false), None))
+      previousAddress = Some(PartialPreviousAddress(Some(MovedHouseOption.NotMoved), None))
     )
     confirmationForm.fillAndValidate(application).hasErrors should be(false)
   }
