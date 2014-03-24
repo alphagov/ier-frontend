@@ -30,7 +30,7 @@ trait PostalOrProxyVoteForms extends PostalOrProxyVoteOverseasConstraints {
       WaysToVoteType.parse(voteType),
       postalVoteOption,
       deliveryMethod,
-      force.getOrElse(false)
+      false
     )
   ) (
     postalVote => Some(
