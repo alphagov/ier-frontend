@@ -36,7 +36,7 @@ class PreviousAddressFirstControllerTests
         FakeRequest(POST, "/register-to-vote/forces/previous-address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.movedRecently" -> "true",
+            "previousAddress.movedRecently" -> "yes",
             "previousAddress.uprn" -> "123456789",
             "previousAddress.postcode" -> "SW1A 1AA"
           )
@@ -141,7 +141,7 @@ class PreviousAddressFirstControllerTests
         FakeRequest(POST, "/register-to-vote/forces/edit/previous-address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.movedRecently" -> "true",
+            "previousAddress.movedRecently" -> "yes",
             "previousAddress.uprn" -> "123456789",
             "previousAddress.postcode" -> "SW1A 1AA"
           )
@@ -159,7 +159,7 @@ class PreviousAddressFirstControllerTests
           .withIerSession()
           .withApplication(completeForcesApplication)
           .withFormUrlEncodedBody(
-            "previousAddress.movedRecently" -> "true",
+            "previousAddress.movedRecently" -> "yes",
             "previousAddress.uprn" -> "123456789",
             "previousAddress.postcode" -> "SW1A 1AA"
           )
@@ -176,7 +176,7 @@ class PreviousAddressFirstControllerTests
           FakeRequest(POST, "/register-to-vote/forces/edit/previous-address/select")
             .withIerSession()
             .withFormUrlEncodedBody(
-            "previousAddress.movedRecently" -> "true",
+            "previousAddress.movedRecently" -> "yes",
             "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
             "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
             "previousAddress.manualAddress.lineThree" -> "Hallow",

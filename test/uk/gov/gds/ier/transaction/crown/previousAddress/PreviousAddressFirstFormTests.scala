@@ -6,6 +6,7 @@ import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.libs.json.{JsNull, Json}
 import uk.gov.gds.ier.transaction.crown.address.AddressForms
+import uk.gov.gds.ier.model.MovedHouseOption
 
 class PreviousAddressFirstFormTests
   extends FlatSpec
@@ -50,7 +51,7 @@ class PreviousAddressFirstFormTests
   it should "successfully bind when user has previous address" in {
     val js = Json.toJson(
       Map(
-        "previousAddress.movedRecently" -> "true"
+        "previousAddress.movedRecently" -> "yes"
       )
     )
     previousAddressFirstForm.bind(js).fold(
@@ -58,7 +59,7 @@ class PreviousAddressFirstFormTests
         fail("Binding failed with " + hasErrors.errorsAsTextAll)
       },
       success => {
-        success.previousAddress.flatMap(_.movedRecently) should be(Some(true))
+        success.previousAddress.flatMap(_.movedRecently) should be(Some(MovedHouseOption.Yes))
       }
     )
   }
@@ -66,7 +67,7 @@ class PreviousAddressFirstFormTests
   it should "successfully bind when user does not has previous address" in {
     val js = Json.toJson(
       Map(
-        "previousAddress.movedRecently" -> "false"
+        "previousAddress.movedRecently" -> "no"
       )
     )
     previousAddressFirstForm.bind(js).fold(
@@ -74,7 +75,7 @@ class PreviousAddressFirstFormTests
         fail("Binding failed with " + hasErrors.errorsAsTextAll)
       },
       success => {
-        success.previousAddress.flatMap(_.movedRecently) should be(Some(false))
+        success.previousAddress.flatMap(_.movedRecently) should be(Some(MovedHouseOption.NotMoved))
       }
     )
   }

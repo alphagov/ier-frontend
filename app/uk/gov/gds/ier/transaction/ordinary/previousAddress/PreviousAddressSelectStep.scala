@@ -42,16 +42,14 @@ class PreviousAddressSelectStep @Inject() (
   }
 
   override def postSuccess(currentState: InprogressOrdinary) = {
-    val address = currentState.previousAddress.flatMap(_.previousAddress)
-    val addressWithAddressLine = address.map {
-      addressService.fillAddressLine(_)
+    val addressWithLineFilled = currentState.previousAddress.map { prev =>
+      prev.copy(
+        previousAddress = prev.previousAddress.map(addressService.fillAddressLine)
+      )
     }
 
     currentState.copy(
-      previousAddress = Some(PartialPreviousAddress(
-        movedRecently = Some(true),
-        addressWithAddressLine
-      )),
+      previousAddress = addressWithLineFilled,
       possibleAddresses = None
     )
   }

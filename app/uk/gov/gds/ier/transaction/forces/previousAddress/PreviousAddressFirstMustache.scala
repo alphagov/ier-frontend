@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.forces.previousAddress
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.model.InprogressForces
+import uk.gov.gds.ier.model.{InprogressForces, MovedHouseOption}
 import uk.gov.gds.ier.mustache.StepMustache
 import play.api.templates.Html
 
@@ -33,10 +33,10 @@ trait PreviousAddressFirstMustache extends StepMustache {
         errorMessages = form.globalErrors.map { _.message }),
       previousYes = RadioField(
         key = keys.previousAddress.movedRecently,
-        value = "true"),
+        value = MovedHouseOption.Yes.name),
       previousNo = RadioField(
         key = keys.previousAddress.movedRecently,
-        value = "false")
+        value = MovedHouseOption.NotMoved.name)
     )
   }
 

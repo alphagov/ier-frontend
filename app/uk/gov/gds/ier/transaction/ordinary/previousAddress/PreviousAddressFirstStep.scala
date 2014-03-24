@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
 import controllers.step.ordinary.routes._
 import com.google.inject.Inject
-import uk.gov.gds.ier.model.InprogressOrdinary
+import uk.gov.gds.ier.model.{InprogressOrdinary, MovedHouseOption}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
 import play.api.mvc.Call
@@ -33,7 +33,7 @@ class PreviousAddressFirstStep @Inject ()(
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
-    if (currentState.previousAddress.flatMap(_.movedRecently) == Some(true)) {
+    if (currentState.previousAddress.flatMap(_.movedRecently) == Some(MovedHouseOption.Yes)) {
       controllers.step.ordinary.PreviousAddressPostcodeController.previousPostcodeAddressStep
     } else {
       controllers.step.ordinary.OpenRegisterController.openRegisterStep
