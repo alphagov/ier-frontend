@@ -2,6 +2,7 @@ package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
 import uk.gov.gds.ier.validation._
 import play.api.data.Forms._
+import play.api.data.validation.{Constraint, Invalid, Valid}
 import uk.gov.gds.ier.model.MovedHouseOption
 
 trait CommonForms {
@@ -13,6 +14,14 @@ trait CommonForms {
   ).transform[MovedHouseOption](
     str => MovedHouseOption.parse(str),
     option => option.name
+  ).verifying(
+    movedHouseUkAbroadOrNoOnly
   )
 
+  lazy val movedHouseUkAbroadOrNoOnly = Constraint[MovedHouseOption]("movedHouse") {
+    case MovedHouseOption.MovedFromUk => Valid
+    case MovedHouseOption.MovedFromAbroad => Valid
+    case MovedHouseOption.NotMoved => Valid
+    case _ => Invalid("Not a valid option")
+  }
 }

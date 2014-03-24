@@ -25,19 +25,26 @@ class PreviousAddressFirstTemplateTest
           number = "123",
           title = "Page title ABC"
         ),
-        previousYes = Field(
-          id = "previousYesId",
-          name = "previousYesName",
-          classes = "previousYesClass previousYesClass2",
-          value = "true",
-          attributes = "checked=\"checked1\""
+        previousYesUk = Field(
+          id = "previousYesUkId",
+          name = "previousYesUkName",
+          classes = "previousYesUkClasses",
+          value = "previousYesUkValue",
+          attributes = "foo=\"foo\""
+        ),
+        previousYesAbroad = Field(
+          id = "previousYesAbroadId",
+          name = "previousYesAbroadName",
+          classes = "previousYesAbroadClasses",
+          value = "previousYesAbroadValue",
+          attributes = "foo=\"foo\""
         ),
         previousNo = Field(
-          id = "previousNoId",
-          name = "previousNoName",
-          classes = "previousNoClass previousNoClass2",
-          value = "false",
-          attributes = "checked=\"checked2\""
+          id = "previousAddressNoId",
+          name = "previousAddressNoName",
+          classes = "previousAddressNoClasses",
+          value = "previousAddressNoValue",
+          attributes = "foo=\"foo\""
         )
       )
 
@@ -45,22 +52,31 @@ class PreviousAddressFirstTemplateTest
       val doc = Jsoup.parse(html.toString)
 
       { // YES option
-        doc.select("label[for=previousYesId]").size() should be(1)
-        val r = doc.select("input#previousYesId").first()
+        doc.select("label[for=previousYesUkId]").size() should be(1)
+        val r = doc.select("input#previousYesUkId").first()
         r should not be(null)
-        r.attr("name") should be("previousYesName")
-        r.attr("value") should be("true")
-        r.attr("checked") should be("checked1")
+        r.attr("name") should be("previousYesUkName")
+        r.attr("value") should be("previousYesUkValue")
+        r.attr("foo") should be("foo")
+      }
+
+      { // YES option
+        doc.select("label[for=previousYesAbroadId]").size() should be(1)
+        val r = doc.select("input#previousYesAbroadId").first()
+        r should not be(null)
+        r.attr("name") should be("previousYesAbroadName")
+        r.attr("value") should be("previousYesAbroadValue")
+        r.attr("foo") should be("foo")
       }
 
       { // NO option
-        doc.select("label[for=previousNoId]").size() should be(1)
-        val r = doc.select("input#previousNoId").first()
+        doc.select("label[for=previousAddressNoId]").size() should be(1)
+        val r = doc.select("input#previousAddressNoId").first()
         r should not be(null)
-        r.attr("id") should be("previousNoId")
-        r.attr("name") should be("previousNoName")
-        r.attr("value") should be("false")
-        r.attr("checked") should be("checked2")
+        r.attr("id") should be("previousAddressNoId")
+        r.attr("name") should be("previousAddressNoName")
+        r.attr("value") should be("previousAddressNoValue")
+        r.attr("foo") should be("foo")
       }
 
       { // page

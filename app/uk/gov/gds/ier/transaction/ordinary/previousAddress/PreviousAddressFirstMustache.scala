@@ -13,7 +13,8 @@ trait PreviousAddressFirstMustache extends StepMustache {
 
   case class PreviousAddressFirstModel(
     question: Question,
-    previousYes: Field,
+    previousYesUk: Field,
+    previousYesAbroad: Field,
     previousNo: Field
   )
 
@@ -31,12 +32,18 @@ trait PreviousAddressFirstMustache extends StepMustache {
         number = questionNumber,
         title = title,
         errorMessages = form.globalErrors.map { _.message }),
-      previousYes = RadioField(
+      previousYesUk = RadioField(
         key = keys.previousAddress.movedRecently,
-        value = MovedHouseOption.Yes.name),
+        value = MovedHouseOption.MovedFromUk.name
+      ),
+      previousYesAbroad = RadioField(
+        key = keys.previousAddress.movedRecently,
+        value = MovedHouseOption.MovedFromAbroad.name
+      ),
       previousNo = RadioField(
         key = keys.previousAddress.movedRecently,
-        value = MovedHouseOption.NotMoved.name)
+        value = MovedHouseOption.NotMoved.name
+      )
     )
   }
 

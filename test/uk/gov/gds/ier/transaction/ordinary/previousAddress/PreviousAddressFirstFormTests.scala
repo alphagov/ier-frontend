@@ -48,10 +48,10 @@ class PreviousAddressFirstFormTests
     )
   }
 
-  it should "successfully bind when user has previous address" in {
+  it should "successfully bind when user has previous address (from uk)" in {
     val js = Json.toJson(
       Map(
-        "previousAddress.movedRecently" -> "yes"
+        "previousAddress.movedRecently" -> "from-uk"
       )
     )
     previousAddressFirstForm.bind(js).fold(
@@ -59,7 +59,23 @@ class PreviousAddressFirstFormTests
         fail("Binding failed with " + hasErrors.errorsAsTextAll)
       },
       success => {
-        success.previousAddress.flatMap(_.movedRecently) should be(Some(MovedHouseOption.Yes))
+        success.previousAddress.flatMap(_.movedRecently) should be(Some(MovedHouseOption.MovedFromUk))
+      }
+    )
+  }
+
+  it should "successfully bind when user has previous address (from abroad)" in {
+    val js = Json.toJson(
+      Map(
+        "previousAddress.movedRecently" -> "from-abroad"
+      )
+    )
+    previousAddressFirstForm.bind(js).fold(
+      hasErrors => {
+        fail("Binding failed with " + hasErrors.errorsAsTextAll)
+      },
+      success => {
+        success.previousAddress.flatMap(_.movedRecently) should be(Some(MovedHouseOption.MovedFromAbroad))
       }
     )
   }

@@ -6,21 +6,8 @@
               data-validation-name="previousAddress"
               data-validation-type="fieldset"
               data-validation-rules="atLeastOneNonEmpty"
-              data-validation-children="previousYes previousNo">
-
-        <label for="{{previousYes.id}}" class="selectable binary"  >
-            <input type="radio"
-                   id="{{previousYes.id}}"
-                   name="{{previousYes.name}}"
-                   value="{{previousYes.value}}"
-                   class="radio validate"
-                   data-validation-name="previousYes"
-                   data-validation-type="field"
-                   data-validation-rules="nonEmpty"
-                   {{{previousYes.attributes}}}>
-            Yes
-        </label>
-        <label for="{{previousNo.id}}" class="selectable binary"  >
+              data-validation-children="previousYesUk previousYesAbroad previousNo">
+        <label for="{{previousNo.id}}" class="selectable"  >
             <input type="radio"
                    id="{{previousNo.id}}"
                    name="{{previousNo.name}}"
@@ -31,6 +18,32 @@
                    data-validation-rules="nonEmpty"
                    {{{previousNo.attributes}}}>
             No
+        </label>
+
+        <label for="{{previousYesUk.id}}" class="selectable"  >
+            <input type="radio"
+                   id="{{previousYesUk.id}}"
+                   name="{{previousYesUk.name}}"
+                   value="{{previousYesUk.value}}"
+                   class="radio validate"
+                   data-validation-name="previousYesUk"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty"
+                   {{{previousYesUk.attributes}}}>
+            Yes, from a UK address
+        </label>
+
+        <label for="{{previousYesAbroad.id}}" class="selectable"  >
+            <input type="radio"
+                   id="{{previousYesAbroad.id}}"
+                   name="{{previousYesAbroad.name}}"
+                   value="{{previousYesAbroad.value}}"
+                   class="radio validate"
+                   data-validation-name="previousYesAbroad"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty"
+                   {{{previousYesAbroad.attributes}}}>
+            Yes, from abroad
         </label>
     </fieldset>
 
