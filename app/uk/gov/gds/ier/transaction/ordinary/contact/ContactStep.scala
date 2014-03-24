@@ -46,12 +46,15 @@ class ContactStep @Inject ()(val serialiser: JsonSerialiser,
   }
 
   def template(form:InProgressForm[InprogressOrdinary], call:Call, 
-      backEndpoint:Option[Call]): Html = {
-    val newForm = form.form.value match {
-      case Some(application) => form.copy(form = form.form.fill(prepopulateEmailAddress (application)))
-      case None => form
-    }
-    contactMustache(newForm.form, call, backEndpoint)
+      backEndpoint:Option[Call]): Html = Html.empty
+
+  override def templateWithApplication(
+      form: InProgressForm[InprogressOrdinary],
+      call: Call,
+      backUrl: Option[Call]):InprogressOrdinary => Html = {
+    application:InprogressOrdinary =>
+      val newForm = form.copy(form = form.form.fill(prepopulateEmailAddress (application)))
+      contactMustache(newForm.form, call, backUrl)
   }
 
   def nextStep(currentState: InprogressOrdinary) = {

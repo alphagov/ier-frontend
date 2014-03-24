@@ -27,13 +27,13 @@ trait NationalityMustache extends StepMustache {
   )
 
   def transformFormStepToMustacheData(
+      application:InprogressForces,
       form: ErrorTransformForm[InprogressForces],
       postEndpoint: Call,
       backEndpoint:Option[Call]) : NationalityModel = {
 
     implicit val progressForm = form
 
-    val application:InprogressForces = form.value.getOrElse(InprogressForces())
     val otherCountriesList = application.nationality.map(_.otherCountries).getOrElse(List.empty)
 
     NationalityModel(
@@ -80,10 +80,11 @@ trait NationalityMustache extends StepMustache {
   }
 
   def nationalityMustache(
+      application:InprogressForces,
       form: ErrorTransformForm[InprogressForces],
       postEndpoint: Call,
       backEndpoint:Option[Call]) : Html = {
-    val data = transformFormStepToMustacheData(form, postEndpoint, backEndpoint)
+    val data = transformFormStepToMustacheData(application, form, postEndpoint, backEndpoint)
     val content = Mustache.render("forces/nationality", data)
     MainStepTemplate(content, data.question.title)
   }

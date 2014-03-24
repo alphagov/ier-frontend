@@ -45,12 +45,15 @@ class PostalVoteStep @Inject ()(val serialiser: JsonSerialiser,
     application.copy(postalVote = Some(newPostalVote))
   }
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
-    val newForm = form.form.value match {
-      case Some(application) => form.copy(form = form.form.fill(prepopulateEmailAddress (application)))
-      case None => form
-    }
-    postalVoteMustache(newForm.form, call, backUrl)
+  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = Html.empty
+
+  override def templateWithApplication(
+      form: InProgressForm[InprogressOrdinary],
+      call: Call,
+      backUrl: Option[Call]):InprogressOrdinary => Html = {
+    application:InprogressOrdinary =>
+      val newForm = form.copy(form = form.form.fill(prepopulateEmailAddress (application)))
+      postalVoteMustache(newForm.form, call, backUrl)
   }
 
  override def postSuccess(currentState: InprogressOrdinary):InprogressOrdinary = {

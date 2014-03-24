@@ -37,8 +37,15 @@ class NationalityStep @Inject ()(
   def template(
       form: InProgressForm[InprogressForces],
       postEndpoint: Call,
-      backEndpoint:Option[Call]): Html = {
-    nationalityMustache(form.form, postEndpoint, backEndpoint)
+      backEndpoint:Option[Call]): Html = Html.empty
+
+  override def templateWithApplication(
+      form: InProgressForm[InprogressForces],
+      call: Call,
+      backUrl: Option[Call]):InprogressForces => Html = {
+    application:InprogressForces =>
+      nationalityMustache(application, form.form, call, backUrl)
+
   }
 
   def nextStep(currentState: InprogressForces) = {

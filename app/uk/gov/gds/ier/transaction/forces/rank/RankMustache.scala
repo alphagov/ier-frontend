@@ -14,6 +14,7 @@ trait RankMustache extends StepMustache {
      rank: Field)
 
   def transformFormStepToMustacheData(
+     application: InprogressForces,
      form:ErrorTransformForm[InprogressForces],
      post: Call,
      back: Option[Call]): RankModel = {
@@ -26,7 +27,7 @@ trait RankMustache extends StepMustache {
         backUrl = back.map (_.url).getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "9",
-        title = if (displayPartnerSentence(progressForm.value))
+        title = if (displayPartnerSentence(application))
           "What is your partner's service number?"
         else
           "What is your service number?"
@@ -41,23 +42,21 @@ trait RankMustache extends StepMustache {
   }
 
   def rankMustache(
+       application: InprogressForces,
        form:ErrorTransformForm[InprogressForces],
        post: Call,
        back: Option[Call]): Html = {
 
-    val data = transformFormStepToMustacheData(form, post, back)
+    val data = transformFormStepToMustacheData(application, form, post, back)
     val content = Mustache.render("forces/rank", data)
     MainStepTemplate(content, data.question.title)
   }
 
-  private def displayPartnerSentence (application:Option[InprogressForces]): Boolean = {
-    if (application.isDefined) {
-      application.get.statement match {
-        case Some(Statement(Some(false), Some(true))) => true
-        case Some(Statement(None, Some(true))) => true
-        case _ => false
-      }
+  private def displayPartnerSentence (application:InprogressForces): Boolean = {
+    application.statement match {
+      case Some(Statement(Some(false), Some(true))) => true
+      case Some(Statement(None, Some(true))) => true
+      case _ => false
     }
-    else false
   }
 }

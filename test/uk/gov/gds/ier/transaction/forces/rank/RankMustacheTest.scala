@@ -18,8 +18,10 @@ class RankMustacheTest
   val rankMustache = new RankMustache {}
 
   it should "empty progress form should produce empty Model" in {
+    val emptyApplication = InprogressForces()
     val emptyApplicationForm = rankForm
     val rankModel = rankMustache.transformFormStepToMustacheData(
+      emptyApplication,
       emptyApplicationForm,
       RankController.post,
       Some(ContactAddressController.get))
@@ -34,14 +36,17 @@ class RankMustacheTest
   }
 
   it should "progress form with filled applicant name should produce Mustache Model with name values present" in {
-    val partiallyFilledApplicationForm = rankForm.fill(InprogressForces(
+    val partiallyFilledApplication = InprogressForces(
       rank = Some(Rank(
         serviceNumber = Some("123456"),
         rank = Some("Captain")
       ))
-    ))
+    )
+
+    val partiallyFilledApplicationForm = rankForm.fill(partiallyFilledApplication)
 
     val rankModel = rankMustache.transformFormStepToMustacheData(
+      partiallyFilledApplication,
       partiallyFilledApplicationForm,
       RankController.post,
       Some(ContactAddressController.get))
