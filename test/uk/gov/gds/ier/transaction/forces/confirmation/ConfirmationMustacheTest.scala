@@ -374,7 +374,7 @@ class ConfirmationMustacheTest
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
       previousAddress = Some(PartialPreviousAddress(
-        movedRecently = Some(true),
+        movedRecently = Some(MovedHouseOption.Yes),
         previousAddress = Some(PartialAddress(
           addressLine = Some("123 Fake Street"),
           uprn = Some("12345678"),
@@ -395,7 +395,7 @@ class ConfirmationMustacheTest
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
       previousAddress = Some(PartialPreviousAddress(
-        movedRecently = Some(true),
+        movedRecently = Some(MovedHouseOption.Yes),
         previousAddress = Some(PartialAddress(
           addressLine = None,
           uprn = None,
@@ -422,7 +422,7 @@ class ConfirmationMustacheTest
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
       previousAddress = Some(PartialPreviousAddress(
-        movedRecently = Some(false),
+        movedRecently = Some(MovedHouseOption.NotMoved),
         previousAddress = None
       ))
     ))

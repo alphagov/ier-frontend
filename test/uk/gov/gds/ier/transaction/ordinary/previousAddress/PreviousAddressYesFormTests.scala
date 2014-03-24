@@ -5,7 +5,12 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import play.api.libs.json.{Json, JsNull}
-import uk.gov.gds.ier.model.{PartialPreviousAddress, PartialManualAddress, Addresses, PartialAddress}
+import uk.gov.gds.ier.model.{PartialPreviousAddress,
+  PartialManualAddress,
+  Addresses,
+  PartialAddress,
+  MovedHouseOption
+}
 
 class PreviousAddressYesFormTests
   extends FlatSpec
@@ -470,9 +475,9 @@ class PreviousAddressYesFormTests
     )
     manualAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
-        hasErrors.errorsAsTextAll should be("" +
-          s" -> $lineOneIsRequiredError\n" +
-          s"previousAddress.manualAddress.lineOne -> $lineOneIsRequiredError")
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousAddress.manualAddress.lineOne" -> Seq(s"$lineOneIsRequiredError")
+        ))
         hasErrors.globalErrorsAsText() should be(lineOneIsRequiredError)
       },
       success => fail("Should have errored out")
@@ -493,20 +498,12 @@ class PreviousAddressYesFormTests
     manualAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors)),
       success => {
-        success.previousAddress should be(Some(PartialPreviousAddress(
-          movedRecently = Some(true),
-          previousAddress = Some(PartialAddress(
-            addressLine = None,
-            uprn = None,
-            postcode = "SW1A 1AA",
-            manualAddress = Some(PartialManualAddress(
-              lineOne = Some("Unit 4, Elgar Business Centre"),
-              lineTwo = None,
-              lineThree = None,
-              city = Some("Worcester")
-            ))
-          ))
-        )))
+        val prevAddress = success.previousAddress.flatMap{ _.previousAddress }
+        val manualAddress = prevAddress.flatMap{ _.manualAddress }
+
+        manualAddress.isDefined should be(true)
+        manualAddress.flatMap{ _.lineTwo } should be(None)
+        manualAddress.flatMap{ _.lineThree } should be(None)
       }
     )
   }

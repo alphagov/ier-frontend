@@ -66,7 +66,7 @@ trait TestHelpers
     nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
     address = Some(PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)),
-    previousAddress = Some(PartialPreviousAddress(Some(false), None)),
+    previousAddress = Some(PartialPreviousAddress(Some(MovedHouseOption.NotMoved), None)),
     otherAddress = Some(OtherAddress(OtherAddress.NoOtherAddress)),
     openRegisterOptin = Some(false),
     postalVote = Some(PostalVote(Some(false),None)),
@@ -80,7 +80,7 @@ trait TestHelpers
   lazy val completeForcesApplication = InprogressForces(
     statement = Some(Statement(memberForcesFlag = Some(true), None)),
     address = Some(PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)),
-    previousAddress = Some(PartialPreviousAddress(Some(false), None)),
+    previousAddress = Some(PartialPreviousAddress(Some(MovedHouseOption.NotMoved), None)),
     nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
     dob = Some(DateOfBirth(Some(DOB(1988, 1, 1)), None)),
     name = Some(Name("John", None, "Smith")),
@@ -117,7 +117,7 @@ trait TestHelpers
       Some(PartialAddress(
         Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None))
     )),
-    previousAddress = Some(PartialPreviousAddress(Some(false), None)),
+    previousAddress = Some(PartialPreviousAddress(Some(MovedHouseOption.NotMoved), None)),
     nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
     dob = Some(DateOfBirth(Some(DOB(1988, 1, 1)), None)),
     name = Some(Name("John", None, "Smith")),

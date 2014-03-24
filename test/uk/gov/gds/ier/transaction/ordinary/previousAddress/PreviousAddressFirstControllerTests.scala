@@ -38,7 +38,7 @@ class PreviousAddressFirstControllerTests
         FakeRequest(POST, "/register-to-vote/previous-address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.movedRecently" -> "true",
+            "previousAddress.movedRecently" -> "yes",
             "previousAddress.uprn" -> "123456789",
             "previousAddress.postcode" -> "SW1A 1AA"
           )
@@ -142,7 +142,7 @@ class PreviousAddressFirstControllerTests
         FakeRequest(POST, "/register-to-vote/edit/previous-address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.movedRecently" -> "true",
+            "previousAddress.movedRecently" -> "yes",
             "previousAddress.uprn" -> "123456789",
             "previousAddress.postcode" -> "SW1A 1AA"
           )
@@ -160,7 +160,7 @@ class PreviousAddressFirstControllerTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "previousAddress.movedRecently" -> "true",
+            "previousAddress.movedRecently" -> "yes",
             "previousAddress.uprn" -> "123456789",
             "previousAddress.postcode" -> "SW1A 1AA"
           )

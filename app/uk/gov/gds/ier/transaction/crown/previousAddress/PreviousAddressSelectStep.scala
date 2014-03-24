@@ -14,8 +14,8 @@ import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.PossibleAddress
 import uk.gov.gds.ier.model.InprogressCrown
 import uk.gov.gds.ier.validation.InProgressForm
-import scala.Some
 import uk.gov.gds.ier.model.PartialPreviousAddress
+import uk.gov.gds.ier.model.MovedHouseOption
 
 class PreviousAddressSelectStep @Inject() (
     val serialiser: JsonSerialiser,
@@ -49,7 +49,7 @@ class PreviousAddressSelectStep @Inject() (
 
     currentState.copy(
       previousAddress = Some(PartialPreviousAddress(
-        movedRecently = Some(true),
+        movedRecently = Some(MovedHouseOption.Yes),
         addressWithAddressLine
       )),
       possibleAddresses = None

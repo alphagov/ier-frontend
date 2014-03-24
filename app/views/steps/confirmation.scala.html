@@ -139,7 +139,7 @@
           <h3>Previous address</h3>
           <div class="data-wrap">
           @validationSwitch(formData(keys.previousAddress)) {
-            @if(formData(keys.previousAddress.movedRecently).value == Some("true")) {
+            @if(formData(keys.previousAddress.movedRecently).value == Some("yes")) {
               @if(formData(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
                 @formData(keys.previousAddress.previousAddress.addressLine).value.map { addressLine =>
                 <p>@addressLine</p>
