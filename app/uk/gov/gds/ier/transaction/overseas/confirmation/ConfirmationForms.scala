@@ -48,10 +48,6 @@ trait ConfirmationForms
   with OverseasFormImplicits
   with CommonConstraints {
 
-  val stubMapping = mapping(
-    "foo" -> text
-  ) (foo => Stub()) (stub => Some("foo"))
-
   val optInMapping = single(
     keys.optIn.key -> boolean
   )
