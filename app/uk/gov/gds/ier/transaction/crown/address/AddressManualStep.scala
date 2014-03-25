@@ -4,12 +4,12 @@ import controllers.step.crown.routes._
 import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.model.InprogressCrown
+import uk.gov.gds.ier.model.{LastUkAddress, InprogressCrown}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.{CrownStep, Routes}
 import uk.gov.gds.ier.validation.InProgressForm
-import controllers.step.crown.NationalityController
+import controllers.step.crown.{PreviousAddressFirstController, NationalityController}
 
 class AddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
@@ -31,7 +31,16 @@ class AddressManualStep @Inject() (
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    controllers.step.crown.PreviousAddressFirstController.previousAddressFirstStep
+    currentState.address match {
+      case Some(LastUkAddress(Some(hasUkAddress),_))
+        if (hasUkAddress) => PreviousAddressFirstController.previousAddressFirstStep
+      case _ => {
+        currentState.copy(
+          previousAddress = None
+        )
+        NationalityController.nationalityStep
+      }
+    }
   }
 
   def template(

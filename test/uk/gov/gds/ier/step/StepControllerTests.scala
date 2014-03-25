@@ -40,29 +40,31 @@ class StepControllerTests
   val testEncryptionService =
     new EncryptionService(new Base64EncodingService, mockConfig)
 
-  def createController(form: ErrorTransformForm[InprogressOrdinary], 
-                       theNextStep: NextStep[InprogressOrdinary] = Url("/next-step"))
-                              = new OrdinaryStep
-                                with WithSerialiser
-                                with WithConfig
-                                with WithEncryption {
+  def createController(
+      form: ErrorTransformForm[InprogressOrdinary],
+      theNextStep: NextStep[InprogressOrdinary] = Url("/next-step")) = {
+    new OrdinaryStep
+      with WithSerialiser
+      with WithConfig
+      with WithEncryption {
 
-    val serialiser = jsonSerialiser
-    val config = mockConfig
-    val encryptionService = testEncryptionService
+      val serialiser = jsonSerialiser
+      val config = mockConfig
+      val encryptionService = testEncryptionService
 
-    val routes = Routes(
-      get = Call("GET","/get"),
-      post = Call("POST","/post"),
-      editGet = Call("GET","/editGet"),
-      editPost = Call("POST","/editPost")
-    )
+      val routes = Routes(
+        get = Call("GET","/get"),
+        post = Call("POST","/post"),
+        editGet = Call("GET","/editGet"),
+        editPost = Call("POST","/editPost")
+      )
 
-    def nextStep(currentState: InprogressOrdinary) = theNextStep
+      def nextStep(currentState: InprogressOrdinary) = theNextStep
 
-    val previousRoute: Option[Call] = Some(mockPreviousCall)
-    val validation = form
-    def template(form: InProgressForm[InprogressOrdinary], call: Call, backUrl: Option[Call]):Html = Html("This is the template.")
+      val previousRoute: Option[Call] = Some(mockPreviousCall)
+      val validation = form
+      def template(form: InProgressForm[InprogressOrdinary], call: Call, backUrl: Option[Call]):Html = Html("This is the template.")
+    }
   }
 
   behavior of "StepController.get"
@@ -165,5 +167,122 @@ class StepControllerTests
         case _ => fail("Should have been able to deserialise")
       }
     }
+  }
+
+  def sessionBindingControllerSetup() = {
+    val form = ErrorTransformForm(
+      mapping(
+        "foo" -> optional(text),
+        "bar" -> optional(text)
+      ) (
+        FooBar.apply
+      ) (
+        FooBar.unapply
+      ) verifying (
+        "I will always fail",
+        foo => false
+      )
+    )
+
+    new StepController[FooBar]
+        with WithSerialiser
+        with WithConfig
+        with WithEncryption {
+
+      def factoryOfT = FooBar(None, None)
+      val confirmationRoute = Call("GET", "/confirmation")
+
+      val serialiser = jsonSerialiser
+      val config = mockConfig
+      val encryptionService = testEncryptionService
+
+      val routes = Routes(
+        get = Call("GET","/get"),
+        post = Call("POST","/post"),
+        editGet = Call("GET","/editGet"),
+        editPost = Call("POST","/editPost")
+      )
+
+      def nextStep(currentState: FooBar) = {
+        Url("/next-step")
+      }
+
+      val previousRoute: Option[Call] = Some(Call("GET", "/prev-step"))
+      val validation = form
+      def template(
+          form: InProgressForm[FooBar],
+          call: Call,
+          backUrl: Option[Call]):Html = {
+        val foo = form.form("foo").value
+        val bar = form.form("bar").value
+
+        Html(s"Foo is $foo, Bar is $bar")
+      }
+    }
+  }
+
+  it should "bind information from the request" in {
+    running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
+      val controller = sessionBindingControllerSetup()
+      val postMethod = controller.post
+
+      val requestOnlyFoo = FakeRequest("POST", "/")
+        .withIerSession()
+        .withFormUrlEncodedBody("foo" -> "im foo")
+      val resultOnlyFoo = postMethod(requestOnlyFoo)
+
+      status(resultOnlyFoo) should be (OK)
+      contentAsString(resultOnlyFoo) should be("Foo is Some(im foo), Bar is None")
+    }
+  }
+
+  it should "bind information from both session and request" in {
+    running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
+      val controller = sessionBindingControllerSetup()
+      val postMethod = controller.post
+
+      val requestWithBoth = FakeRequest("POST", "/")
+        .withIerSession()
+        .withApplication(FooBar(bar = Some("this is bar")))
+        .withFormUrlEncodedBody("foo" -> "this is foo")
+
+      val resultWithBoth = postMethod(requestWithBoth)
+
+      status(resultWithBoth) should be(OK)
+      contentAsString(resultWithBoth) should be(
+        "Foo is Some(this is foo), Bar is Some(this is bar)"
+      )
+    }
+  }
+
+  it should "bind and prefer information from the request over the session" in {
+    running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
+      val controller = sessionBindingControllerSetup()
+      val postMethod = controller.post
+
+      val requestOverrideFoo = FakeRequest("POST", "/")
+        .withIerSession()
+        .withApplication(FooBar(foo = Some("this was foo")))
+        .withFormUrlEncodedBody("foo" -> "this is new foo")
+
+      val resultOverrideFoo = postMethod(requestOverrideFoo)
+
+      status(resultOverrideFoo) should be(OK)
+      contentAsString(resultOverrideFoo) should be(
+        "Foo is Some(this is new foo), Bar is None"
+      )
+    }
+  }
+}
+
+case class FooBar(
+    foo: Option[String] = None,
+    bar: Option[String] = None
+) extends InprogressApplication[FooBar] {
+  def merge(other: FooBar) = {
+    this.copy(
+      foo = foo orElse other.foo,
+      bar = bar orElse other.bar
+    )
   }
 }

@@ -23,7 +23,7 @@ class AddressStepTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include(
-        "What is your last UK address?"
+        "What was your last UK address?"
       )
       contentAsString(result) should include("Question 2")
       contentAsString(result) should include("<form action=\"/register-to-vote/crown/address/lookup\"")
@@ -46,7 +46,7 @@ class AddressStepTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include(
-        "What is your last UK address?"
+        "What was your last UK address?"
       )
       contentAsString(result) should include("Question 2")
       contentAsString(result) should include("<form action=\"/register-to-vote/crown/address/lookup\"")
@@ -140,7 +140,7 @@ class AddressStepTests
 
       status(result) should be(OK)
       contentAsString(result) should include(
-        "What is your last UK address?"
+        "What was your last UK address?"
       )
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("<form action=\"/register-to-vote/crown/address/lookup\"")
@@ -158,7 +158,7 @@ behavior of "AddressStep.editGet"
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include(
-        "What is your last UK address?"
+        "What was your last UK address?"
       )
       contentAsString(result) should include("Question 2")
       contentAsString(result) should include("<form action=\"/register-to-vote/crown/address/lookup\"")
@@ -230,7 +230,7 @@ behavior of "AddressStep.editGet"
 
       status(result) should be(OK)
       contentAsString(result) should include(
-        "What is your last UK address?"
+        "What was your last UK address?"
       )
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("<form action=\"/register-to-vote/crown/address/lookup\"")
