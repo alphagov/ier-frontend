@@ -28,7 +28,9 @@ class CompleteStep @Inject() (val serialiser: JsonSerialiser,
         case None => None
       }
       val refNum = request.flash.get("refNum")
+      val hasOtherAddress = request.flash.get("hasOtherAddress").map(_.toBoolean).getOrElse(false)
+      val backToStartUrl = request.flash.get("backToStartUrl").getOrElse("")
 
-      Ok(Complete.completePage(authority, refNum))
+      Ok(Complete.completePage(authority, refNum, hasOtherAddress, backToStartUrl))
   }
 }
