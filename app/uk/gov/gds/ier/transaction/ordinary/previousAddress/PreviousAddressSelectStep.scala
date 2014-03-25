@@ -10,6 +10,7 @@ import uk.gov.gds.ier.step.OrdinaryStep
 import controllers.step.ordinary.OpenRegisterController
 import uk.gov.gds.ier.model.Addresses
 import play.api.mvc.Call
+import play.api.templates.Html
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.PossibleAddress
 import uk.gov.gds.ier.model.InprogressOrdinary
@@ -57,7 +58,12 @@ class PreviousAddressSelectStep @Inject() (
   def template(
       form: ErrorTransformForm[InprogressOrdinary],
       call: Call,
-      backUrl: Option[Call]) = {
+      backUrl: Option[Call]) = Html.empty
+
+  override def templateWithApplication(
+      form: ErrorTransformForm[InprogressOrdinary],
+      call: Call,
+      backUrl: Option[Call]) = { application =>
 
     val storedAddresses = for(
       jsonList <- form(keys.possibleAddresses.jsonList).value;
@@ -75,6 +81,7 @@ class PreviousAddressSelectStep @Inject() (
     }
 
     PreviousAddressMustache.selectPage(
+      application.previousAddress.flatMap(_.movedRecently),
       form,
       backUrl.map(_.url).getOrElse(""),
       call.url,

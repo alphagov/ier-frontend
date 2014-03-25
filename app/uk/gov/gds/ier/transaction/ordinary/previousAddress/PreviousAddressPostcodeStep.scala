@@ -3,6 +3,7 @@ package uk.gov.gds.ier.transaction.ordinary.previousAddress
 import controllers.step.ordinary.routes._
 import com.google.inject.Inject
 import play.api.mvc.Call
+import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.InprogressOrdinary
 import uk.gov.gds.ier.security.EncryptionService
@@ -32,15 +33,20 @@ class PreviousAddressPostcodeStep @Inject() (
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
-    //OpenRegisterController.openRegisterStep
     controllers.step.ordinary.PreviousAddressSelectController.previousAddressSelectStep
   }
 
   def template(
       form: ErrorTransformForm[InprogressOrdinary],
       call: Call,
-      backUrl: Option[Call]) = {
+      backUrl: Option[Call]) = Html.empty
+
+  override def templateWithApplication(
+      form: ErrorTransformForm[InprogressOrdinary],
+      call: Call,
+      backUrl: Option[Call]) = { application =>
     PreviousAddressMustache.postcodePage(
+      application.previousAddress.flatMap(_.movedRecently),
       form,
       backUrl.map(_.url).getOrElse(""),
       call.url

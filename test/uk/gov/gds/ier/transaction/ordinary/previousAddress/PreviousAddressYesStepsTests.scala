@@ -5,7 +5,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.PartialPreviousAddress
+import uk.gov.gds.ier.model.{PartialPreviousAddress, MovedHouseOption}
 
 class PreviousAddressYesStepsTests
   extends FlatSpec
@@ -23,10 +23,29 @@ class PreviousAddressYesStepsTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include(
-        "Have you moved from another UK address in the last 12 months?"
+        "What was your previous address?"
       )
       contentAsString(result) should include("Question 8 of 11")
       contentAsString(result) should include("<form action=\"/register-to-vote/previous-address/lookup\"")
+    }
+  }
+
+  it should "react to your answer on the PreviousAddressFirst step" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(GET, "/register-to-vote/previous-address/postcode")
+          .withIerSession()
+          .withApplication(completeOrdinaryApplication.copy(
+            previousAddress = Some(
+              PartialPreviousAddress(Some(MovedHouseOption.MovedFromAbroad), None)
+            )
+          ))
+      )
+
+      status(result) should be(OK)
+      contentAsString(result) should include(
+        "What was your last UK address before moving abroad?"
+      )
     }
   }
 
@@ -53,7 +72,7 @@ class PreviousAddressYesStepsTests
 
       status(result) should be(OK)
       contentAsString(result) should include(
-        "Have you moved from another UK address in the last 12 months?"
+        "What was your previous address?"
       )
       contentAsString(result) should include("Please enter your postcode")
       contentAsString(result) should include("/register-to-vote/previous-address/lookup")
@@ -127,7 +146,7 @@ class PreviousAddressYesStepsTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include(
-        "Have you moved from another UK address in the last 12 months?"
+        "What was your previous address?"
       )
       contentAsString(result) should include("Question 8 of 11")
       contentAsString(result) should include("<form action=\"/register-to-vote/previous-address/lookup\"")
@@ -198,7 +217,7 @@ class PreviousAddressYesStepsTests
 
       status(result) should be(OK)
       contentAsString(result) should include(
-        "Have you moved from another UK address in the last 12 months?"
+        "What was your previous address?"
       )
       contentAsString(result) should include("Please enter your postcode")
       contentAsString(result) should include("/register-to-vote/previous-address/lookup")

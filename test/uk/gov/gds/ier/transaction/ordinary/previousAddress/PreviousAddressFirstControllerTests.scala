@@ -198,7 +198,7 @@ class PreviousAddressFirstControllerTests
 
       status(result) should be(OK)
       contentAsString(result) should include("" +
-        "Have you moved from another UK address in the last 12 months?")
+        "What was your previous address?")
       contentAsString(result) should include("" +
         "Please answer this question")
       contentAsString(result) should include("" +
@@ -214,7 +214,7 @@ class PreviousAddressFirstControllerTests
 
       status(result) should be(OK)
       contentAsString(result) should include("" +
-        "Have you moved from another UK address in the last 12 months?")
+        "What was your previous address?")
       contentAsString(result) should include("" +
         "Please answer this question")
       contentAsString(result) should include("" +

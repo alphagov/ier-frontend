@@ -2,15 +2,14 @@ package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.model.{InprogressOrdinary, PossibleAddress}
 import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.model.{InprogressOrdinary, PossibleAddress, MovedHouseOption}
 
 trait PreviousAddressMustache {
   self: WithSerialiser =>
 
   object PreviousAddressMustache extends StepMustache {
 
-    val title = "Have you moved from another UK address in the last 12 months?"
     val questionNumber = "8 of 11"
 
     case class PostcodeModel (
@@ -40,10 +39,12 @@ trait PreviousAddressMustache {
     )
 
     def postcodeData(
+        title: String,
         form: ErrorTransformForm[InprogressOrdinary],
         backUrl: String,
         postUrl: String) = {
       implicit val progressForm = form
+
       val modelData = PostcodeModel(
         question = Question(
           postUrl = postUrl,
@@ -58,18 +59,25 @@ trait PreviousAddressMustache {
     }
 
     def postcodePage(
+        movedHouse: Option[MovedHouseOption],
         form: ErrorTransformForm[InprogressOrdinary],
         backUrl: String,
         postUrl: String) = {
+      import MovedHouseOption._
+      val title = movedHouse match {
+        case Some(MovedFromAbroad) => "What was your last UK address before moving abroad?"
+        case _ => "What was your previous address?"
+      }
 
       val content = Mustache.render(
         "ordinary/previousAddressPostcode",
-        postcodeData(form, backUrl, postUrl)
+        postcodeData(title, form, backUrl, postUrl)
       )
       MainStepTemplate(content, title)
     }
 
     def selectData(
+        title: String,
         form: ErrorTransformForm[InprogressOrdinary],
         backUrl: String,
         postUrl: String,
@@ -135,19 +143,28 @@ trait PreviousAddressMustache {
     }
 
     def selectPage(
+        movedHouse: Option[MovedHouseOption],
         form: ErrorTransformForm[InprogressOrdinary],
         backUrl: String,
         postUrl: String,
         lookupUrl: String,
         manualUrl: String,
         maybePossibleAddress:Option[PossibleAddress]) = {
+      import MovedHouseOption._
+      val title = movedHouse match {
+        case Some(MovedFromAbroad) => "What was your last UK address before moving abroad?"
+        case _ => "What was your previous address?"
+      }
 
-      val data = selectData(form, backUrl, postUrl, lookupUrl, manualUrl, maybePossibleAddress)
-      val content = Mustache.render("ordinary/previousAddressSelect", data)
+      val content = Mustache.render(
+        "ordinary/previousAddressSelect",
+        selectData(title, form, backUrl, postUrl, lookupUrl, manualUrl, maybePossibleAddress)
+      )
       MainStepTemplate(content, title)
     }
 
     def manualData(
+        title: String,
         form: ErrorTransformForm[InprogressOrdinary],
         backUrl: String,
         postUrl: String,
@@ -173,14 +190,20 @@ trait PreviousAddressMustache {
     }
 
     def manualPage(
+        movedHouse: Option[MovedHouseOption],
         form: ErrorTransformForm[InprogressOrdinary],
         backUrl: String,
         postUrl: String,
         lookupUrl: String) = {
+      import MovedHouseOption._
+      val title = movedHouse match {
+        case Some(MovedFromAbroad) => "What was your last UK address before moving abroad?"
+        case _ => "What was your previous address?"
+      }
 
       val content = Mustache.render(
         "ordinary/previousAddressManual",
-        manualData(form, backUrl, postUrl, lookupUrl)
+        manualData(title, form, backUrl, postUrl, lookupUrl)
       )
       MainStepTemplate(content, title)
     }

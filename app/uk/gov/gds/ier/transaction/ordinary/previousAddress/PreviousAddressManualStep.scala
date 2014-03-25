@@ -8,6 +8,7 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.OrdinaryStep
 import play.api.mvc.Call
+import play.api.templates.Html
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
@@ -39,8 +40,14 @@ class PreviousAddressManualStep @Inject() (
   def template(
       form: ErrorTransformForm[InprogressOrdinary],
       call: Call,
-      backUrl: Option[Call]) = {
+      backUrl: Option[Call]) = Html.empty
+    
+  override def templateWithApplication(
+      form: ErrorTransformForm[InprogressOrdinary],
+      call: Call,
+      backUrl: Option[Call]) = { application =>
     PreviousAddressMustache.manualPage(
+      application.previousAddress.flatMap(_.movedRecently),
       form,
       backUrl.map(_.url).getOrElse(""),
       call.url,
