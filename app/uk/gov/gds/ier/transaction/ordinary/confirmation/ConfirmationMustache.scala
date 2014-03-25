@@ -351,12 +351,13 @@ trait ConfirmationMustache {
     }
 
     def obtainOtherCountriesList:List[String] = {
-      (
+      val otherCountries = (
         for (i <- 0 until NationalityConstants.numberMaxOfOtherCountries
              if (form(otherCountriesKey(i)).value.isDefined)
                && !form(otherCountriesKey(i)).value.get.isEmpty)
         yield form(otherCountriesKey(i)).value.get
-      ).toList
+      )
+      otherCountries.toList
     }
 
     def otherCountriesKey(i:Int) = keys.nationality.otherCountries.key + "["+i+"]"
