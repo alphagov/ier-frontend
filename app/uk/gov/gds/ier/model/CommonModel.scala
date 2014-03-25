@@ -2,10 +2,6 @@ package uk.gov.gds.ier.model
 
 import scala.util.Try
 
-case class Stub() {
-  def toApiMap = Map.empty
-}
-
 case class WaysToVote (waysToVoteType: WaysToVoteType)
 
 sealed case class WaysToVoteType(name:String)

@@ -2,6 +2,7 @@ package uk.gov.gds.ier.transaction.crown.confirmation
 
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.model.WaysToVoteType
+import uk.gov.gds.ier.model.MovedHouseOption
 import controllers.step.crown._
 import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
 import uk.gov.gds.ier.logging.Logging
@@ -228,16 +229,21 @@ trait ConfirmationMustache {
     }
 
     def address = {
+
+      val addressTitle = form(keys.address.hasUkAddress).value match {
+        case Some(hasUkAddress) if (hasUkAddress.toBoolean) => "Your UK address"
+        case _ => "Your last UK address"
+      }
+
+      val addressChangeName = form(keys.address.hasUkAddress).value match {
+        case Some(hasUkAddress) if (hasUkAddress.toBoolean) => "your UK address"
+        case _ => "your last UK address"
+      }
+
       Some(ConfirmationQuestion(
-        title = "UK registration address",
-        editLink = if (form(keys.address.address.addressLine).value.isDefined) {
-          routes.AddressSelectController.editGet.url
-        } else if (isManualAddressDefined(form, keys.address.address.manualAddress)) {
-          routes.AddressManualController.editGet.url
-        } else {
-          routes.AddressController.editGet.url
-        },
-        changeName = "your UK registration address",
+        title = addressTitle,
+        editLink = routes.AddressFirstController.editGet.url,
+        changeName = addressChangeName,
         content = ifComplete(keys.address) {
           val addressLine = form(keys.address.address.addressLine).value.orElse{
             manualAddressToOneLine(form, keys.address.address.manualAddress)
@@ -249,33 +255,48 @@ trait ConfirmationMustache {
     }
 
     def previousAddress = {
-      Some(ConfirmationQuestion(
-        title = "UK previous registration address",
-        editLink = routes.PreviousAddressFirstController.editGet.url,
-        changeName = "your UK previous registration address",
-        content = ifComplete(keys.previousAddress) {
-          if(form(keys.previousAddress.movedRecently).value == Some("true")) {
-            val address = if(form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
-              form(keys.previousAddress.previousAddress.addressLine).value.map(
-                addressLine => "<p>" + addressLine + "</p>"
-              ).getOrElse("")
-            } else {
-              manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress).map(
-                addressLine => "<p>" + addressLine + "</p>"
-              ).getOrElse("")
-            }
-
-            val postcode = form(keys.previousAddress.previousAddress.postcode).value.map(
-              postcode => "<p>" + postcode + "</p>"
-            ).getOrElse("")
-
-            address + postcode
-
-          } else {
-            "<p>I have not moved in the last 12 months</p>"
-          }
+      val hasCurrentUkAddress =
+        form(keys.address.hasUkAddress).value match {
+          case Some(hasUkAddress) if (hasUkAddress.toBoolean) => true
+          case _ => false
         }
-      ))
+
+      if (hasCurrentUkAddress) {
+        Some(ConfirmationQuestion(
+          title = "Your previous UK address",
+          editLink = routes.PreviousAddressFirstController.editGet.url,
+          changeName = "your previous UK address",
+          content = ifComplete(keys.previousAddress) {
+            val moved = form(keys.previousAddress.movedRecently).value.map { str =>
+              MovedHouseOption.parse(str).hasPreviousAddress
+            }.getOrElse(false)
+
+            if(moved) {
+              val address = if(form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
+                form(keys.previousAddress.previousAddress.addressLine).value.map(
+                  addressLine => "<p>" + addressLine + "</p>"
+                ).getOrElse("")
+              } else {
+                manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress).map(
+                  addressLine => "<p>" + addressLine + "</p>"
+                ).getOrElse("")
+              }
+
+              val postcode = form(keys.previousAddress.previousAddress.postcode).value.map(
+                postcode => "<p>" + postcode + "</p>"
+              ).getOrElse("")
+
+              address + postcode
+
+            } else {
+              "<p>I have not moved in the last 12 months</p>"
+            }
+          }
+        ))
+      }
+      else {
+        None
+      }
     }
 
     def contactAddress = {

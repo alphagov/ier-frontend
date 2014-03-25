@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.transaction.crown.address
 
 import controllers.step.crown.routes._
+import controllers.step.crown.{PreviousAddressFirstController, NationalityController}
 import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
@@ -32,7 +33,15 @@ class AddressSelectStep @Inject() (
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    controllers.step.crown.PreviousAddressFirstController.previousAddressFirstStep
+
+    val hasUkAddress = Some(true)
+
+    currentState.address match {
+      case Some(LastUkAddress(`hasUkAddress`,_))
+          => PreviousAddressFirstController.previousAddressFirstStep
+      case _
+          => NationalityController.nationalityStep
+    }
   }
 
   override def postSuccess(currentState: InprogressCrown) = {

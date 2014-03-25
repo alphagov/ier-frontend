@@ -11,6 +11,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.model.InprogressOrdinary
 import uk.gov.gds.ier.step.{ConfirmationStepController, Routes}
+import controllers.routes.RegisterToVoteController
 
 class ConfirmationStep @Inject ()(val serialiser: JsonSerialiser,
                                   ierApi: IerApiService,
@@ -41,7 +42,7 @@ class ConfirmationStep @Inject ()(val serialiser: JsonSerialiser,
       val currentAddressLine = application.address.map { addressService.fillAddressLine(_) }
 
       val previousAddressLine = application.previousAddress.flatMap { prev =>
-        if (prev.movedRecently.exists(_ == true)) {
+        if (prev.movedRecently.exists(_.hasPreviousAddress == true)) {
           prev.previousAddress.map { addressService.fillAddressLine(_) }
         } else {
           None
@@ -71,7 +72,10 @@ class ConfirmationStep @Inject ()(val serialiser: JsonSerialiser,
           ierApi.submitOrdinaryApplication(remoteClientIP, validApplication, Some(refNum))
           Redirect(CompleteController.complete()).flashing(
             "refNum" -> refNum,
-            "postcode" -> validApplication.address.map(_.postcode).getOrElse("")
+            "postcode" -> validApplication.address.map(_.postcode).getOrElse(""),
+            "hasOtherAddress" -> validApplication.otherAddress.map(
+              _.otherAddressOption.hasOtherAddress.toString).getOrElse(""),
+            "backToStartUrl" -> RegisterToVoteController.registerToVoteStart.url.toString
           )
         }
       )

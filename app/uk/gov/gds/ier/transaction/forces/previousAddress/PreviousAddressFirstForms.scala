@@ -7,14 +7,16 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import play.api.data.validation.{Invalid, Valid, Constraint}
 
-trait PreviousAddressFirstForms extends PreviousAddressFirstConstraints {
+trait PreviousAddressFirstForms
+    extends PreviousAddressFirstConstraints
+    with CommonForms {
   self: FormKeys
     with ErrorMessages
     with WithSerialiser =>
 
   val previousAddressFirstForm = ErrorTransformForm(
     mapping (
-      keys.previousAddress.movedRecently.key -> optional(boolean)
+      keys.previousAddress.movedRecently.key -> optional(movedHouseMapping)
     ) (
       previousAddressYesNo => InprogressForces(
         previousAddress = Some(PartialPreviousAddress(

@@ -25,7 +25,7 @@ class PreviousAddressFirstControllerTests
       contentAsString(result) should include(
         "<form action=\"/register-to-vote/forces/previous-address\"")
       contentAsString(result) should include("" +
-        "Have you moved out from another UK address in the last 12 months?")
+        "Have you moved from another UK address in the last 12 months?")
     }
   }
 
@@ -36,7 +36,7 @@ class PreviousAddressFirstControllerTests
         FakeRequest(POST, "/register-to-vote/forces/previous-address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.movedRecently" -> "true",
+            "previousAddress.movedRecently" -> "yes",
             "previousAddress.uprn" -> "123456789",
             "previousAddress.postcode" -> "SW1A 1AA"
           )
@@ -91,7 +91,7 @@ class PreviousAddressFirstControllerTests
 
       status(result) should be(OK)
       contentAsString(result) should include("" +
-        "Have you moved out from another UK address in the last 12 months?")
+        "Have you moved from another UK address in the last 12 months?")
       contentAsString(result) should include("" +
         "Please answer this question")
       contentAsString(result) should include("" +
@@ -128,7 +128,7 @@ class PreviousAddressFirstControllerTests
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 3")
       contentAsString(result) should include("" +
-        "Have you moved out from another UK address in the last 12 months?")
+        "Have you moved from another UK address in the last 12 months?")
       contentAsString(result) should include("" +
         "<form action=\"/register-to-vote/forces/edit/previous-address\"")
     }
@@ -141,7 +141,7 @@ class PreviousAddressFirstControllerTests
         FakeRequest(POST, "/register-to-vote/forces/edit/previous-address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.movedRecently" -> "true",
+            "previousAddress.movedRecently" -> "yes",
             "previousAddress.uprn" -> "123456789",
             "previousAddress.postcode" -> "SW1A 1AA"
           )
@@ -159,7 +159,7 @@ class PreviousAddressFirstControllerTests
           .withIerSession()
           .withApplication(completeForcesApplication)
           .withFormUrlEncodedBody(
-            "previousAddress.movedRecently" -> "true",
+            "previousAddress.movedRecently" -> "yes",
             "previousAddress.uprn" -> "123456789",
             "previousAddress.postcode" -> "SW1A 1AA"
           )
@@ -176,7 +176,7 @@ class PreviousAddressFirstControllerTests
           FakeRequest(POST, "/register-to-vote/forces/edit/previous-address/select")
             .withIerSession()
             .withFormUrlEncodedBody(
-            "previousAddress.movedRecently" -> "true",
+            "previousAddress.movedRecently" -> "yes",
             "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
             "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
             "previousAddress.manualAddress.lineThree" -> "Hallow",
@@ -198,7 +198,7 @@ class PreviousAddressFirstControllerTests
 
       status(result) should be(OK)
       contentAsString(result) should include("" +
-        "Have you moved out from another UK address in the last 12 months?")
+        "Have you moved from another UK address in the last 12 months?")
       contentAsString(result) should include("" +
         "Please answer this question")
       contentAsString(result) should include("" +
@@ -214,7 +214,7 @@ class PreviousAddressFirstControllerTests
 
       status(result) should be(OK)
       contentAsString(result) should include("" +
-        "Have you moved out from another UK address in the last 12 months?")
+        "Have you moved from another UK address in the last 12 months?")
       contentAsString(result) should include("" +
         "Please answer this question")
       contentAsString(result) should include("" +

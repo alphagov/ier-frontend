@@ -8,15 +8,16 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model.Addresses
 import uk.gov.gds.ier.model.PartialAddress
 import uk.gov.gds.ier.model.InprogressOrdinary
-import scala.Some
+import uk.gov.gds.ier.model.MovedHouseOption
 import uk.gov.gds.ier.model.PartialPreviousAddress
 import uk.gov.gds.ier.model.PossibleAddress
 import uk.gov.gds.ier.model.PartialManualAddress
 
-trait PreviousAddressForms extends PreviousAddressConstraints {
+trait PreviousAddressForms extends PreviousAddressConstraints with CommonForms {
   self: FormKeys
   with ErrorMessages
   with WithSerialiser =>
+
 
   // address mapping for select address page - the address part
   lazy val partialAddressMappingForPreviousAddress = mapping(
@@ -45,7 +46,7 @@ trait PreviousAddressForms extends PreviousAddressConstraints {
   ).verifying(lineOneIsRequredForPreviousAddress, cityIsRequiredForPreviousAddress)
 
   lazy val partialPreviousAddressMappingForPreviousAddress = mapping(
-    keys.movedRecently.key -> optional(boolean),
+    keys.movedRecently.key -> optional(movedHouseMapping),
     keys.previousAddress.key -> optional(partialAddressMappingForPreviousAddress)
   ) (
     PartialPreviousAddress.apply
@@ -75,7 +76,7 @@ trait PreviousAddressForms extends PreviousAddressConstraints {
     keys.postcode.key -> nonEmptyText
   ) (
     postcode => PartialPreviousAddress(
-      movedRecently = Some(true),
+      movedRecently = Some(MovedHouseOption.Yes),
       previousAddress = Some(PartialAddress(
         addressLine = None,
         uprn = None,
@@ -121,7 +122,7 @@ trait PreviousAddressForms extends PreviousAddressConstraints {
     ) (
       (previousAddress, possibleAddr) => InprogressOrdinary(
         previousAddress = Some(PartialPreviousAddress(
-          movedRecently = Some(true),
+          movedRecently = Some(MovedHouseOption.Yes),
           previousAddress = previousAddress
         )),
         possibleAddresses = possibleAddr
@@ -139,7 +140,7 @@ trait PreviousAddressForms extends PreviousAddressConstraints {
     ) (
       previousAddress => InprogressOrdinary(
         previousAddress = Some(PartialPreviousAddress(
-          movedRecently = Some(true),
+          movedRecently = Some(MovedHouseOption.Yes),
           previousAddress = previousAddress
       )))
     ) (
@@ -225,7 +226,7 @@ trait PreviousAddressConstraints extends CommonConstraints {
    * containing the postcode.
    */
   lazy val postcodeIsValidForlookupForPreviousAddress = Constraint[PartialPreviousAddress](keys.previousAddress.key) {
-    case PartialPreviousAddress(Some(true), Some(PartialAddress(_, _, postcode, _)))
+    case PartialPreviousAddress(Some(MovedHouseOption.Yes), Some(PartialAddress(_, _, postcode, _)))
       if PostcodeValidator.isValid(postcode) => Valid
     case _ => Invalid("Your postcode is not valid", keys.previousAddress.postcode)
   }

@@ -7,18 +7,26 @@ trait CompleteMustache {
 
   object Complete extends StepMustache with GovukMustache {
 
-    case class CompleteModel(authorityUrl: String,
-                             authorityName: String,
-                             refNumber: Option[String])
+    case class CompleteModel(
+        authorityUrl: String,
+        authorityName: String,
+        refNumber: Option[String],
+        hasOtherAddress: Boolean,
+        backToStartUrl: String)
 
-    def completePage(authority: Option[LocalAuthority],
-                     refNumber: Option[String]) = {
+    def completePage(
+        authority: Option[LocalAuthority],
+        refNumber: Option[String],
+        hasOtherAddress: Boolean,
+        backToStartUrl: String) = {
       val data = CompleteModel(
         authorityUrl = "#",
         authorityName = authority map {
           auth => auth.name + " electoral registration office"
         } getOrElse "your local electoral registration office",
-        refNumber = refNumber
+        refNumber = refNumber,
+        hasOtherAddress = hasOtherAddress,
+        backToStartUrl = backToStartUrl
       )
       MainStepTemplate(
         content = Mustache.render("complete", data),
