@@ -326,10 +326,8 @@ trait ConfirmationMustache {
           filteredList.dropRight(1).mkString(", "),
           filteredList.takeRight(1).mkString("")
         ).filter(_.nonEmpty).mkString(" and ")
-        str match {
-          case "" => ""
-          case content => s"$prepend$content$append"
-        }
+
+        if (str.isEmpty) "" else s"$prepend$str$append"
       }
 
       val localNationalities = getNationalities
@@ -353,12 +351,13 @@ trait ConfirmationMustache {
     }
 
     def obtainOtherCountriesList:List[String] = {
-      (
+      val otherCountries = (
         for (i <- 0 until NationalityConstants.numberMaxOfOtherCountries
              if (form(otherCountriesKey(i)).value.isDefined)
                && !form(otherCountriesKey(i)).value.get.isEmpty)
         yield form(otherCountriesKey(i)).value.get
-      ).toList
+      )
+      otherCountries.toList
     }
 
     def otherCountriesKey(i:Int) = keys.nationality.otherCountries.key + "["+i+"]"
