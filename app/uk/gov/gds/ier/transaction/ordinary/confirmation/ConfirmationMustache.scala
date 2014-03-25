@@ -326,10 +326,8 @@ trait ConfirmationMustache {
           filteredList.dropRight(1).mkString(", "),
           filteredList.takeRight(1).mkString("")
         ).filter(_.nonEmpty).mkString(" and ")
-        str match {
-          case "" => ""
-          case content => s"$prepend$content$append"
-        }
+
+        if (str.isEmpty) "" else s"$prepend$str$append"
       }
 
       val localNationalities = getNationalities
