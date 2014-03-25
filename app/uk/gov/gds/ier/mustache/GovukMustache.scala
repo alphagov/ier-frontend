@@ -57,10 +57,10 @@ trait GovukMustache {
                          registerCrownServantUrl:String)
 
     def govukUrls(start:String) = GovukUrls(
-      start,
-      RegisterToVoteController.registerToVote.url,
-      "#",
-      "#"
+      startUrl = start,
+      registerToVoteUrl = RegisterToVoteController.registerToVote.url,
+      registerArmedForcesUrl = RegisterToVoteController.registerToVoteForces.url,
+      registerCrownServantUrl = RegisterToVoteController.registerToVoteCrown.url
     )
 
     def forcesStartPage() = {

@@ -219,7 +219,7 @@ trait AddressMustache {
     private def showAddressPageTitle (hasUkAddress: Option[String]): String = {
       hasUkAddress match {
         case Some(hasUkAddress) if (hasUkAddress.toBoolean) => "What is your UK address?"
-        case _ => "What is your last UK address?"
+        case _ => "What was your last UK address?"
       }
     }
   }

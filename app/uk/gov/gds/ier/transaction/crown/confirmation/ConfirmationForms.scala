@@ -85,7 +85,6 @@ trait ConfirmationConstraints {
 
   val statementStepRequired = requireThis(keys.statement) { _.statement }
   val addressStepRequired = requireThis(keys.address) { _.address }
-  val previousAddressStepRequired = requireThis(keys.previousAddress) { _.previousAddress }
   val nationalityStepRequired = requireThis(keys.nationality) { _.nationality }
   val dobStepRequired = requireThis(keys.dob) { _.dob }
   val nameStepRequired = requireThis(keys.name) { _.name }
@@ -103,6 +102,20 @@ trait ConfirmationConstraints {
         case None => Invalid("Please complete this step", key)
       }
     }
+  }
+
+  val previousAddressStepRequired = Constraint[InprogressCrown]("previousAddressStepRequired") {
+    application =>
+      application.address match {
+        case Some(LastUkAddress(Some(hasUkAddress), _))
+          if (hasUkAddress) => {
+            application.previousAddress match {
+              case Some(_) => Valid
+              case None => Invalid("Please complete this step", keys.previousAddress)
+            }
+          }
+        case _ => Valid
+      }
   }
 
   val waysToVoteStepRequired = Constraint[InprogressCrown]("waysToVoteRequired") {

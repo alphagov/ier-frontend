@@ -33,7 +33,7 @@ class AddressMustacheTest
       "/register-to-vote/crown/statement",
       "/register-to-vote/crown/address/lookup")
 
-    addressModel.question.title should be("What is your last UK address?")
+    addressModel.question.title should be("What was your last UK address?")
     addressModel.question.postUrl should be("/register-to-vote/crown/address/lookup")
     addressModel.question.backUrl should be("/register-to-vote/crown/statement")
 
@@ -51,7 +51,7 @@ class AddressMustacheTest
       "/register-to-vote/crown/address/manual",
       None)
 
-    addressModel.question.title should be("What is your last UK address?")
+    addressModel.question.title should be("What was your last UK address?")
     addressModel.question.backUrl should be("/register-to-vote/crown/statement")
     addressModel.question.postUrl should be("/register-to-vote/crown/address/select")
 
@@ -72,7 +72,7 @@ class AddressMustacheTest
       "/register-to-vote/crown/address/manual",
       "/register-to-vote/crown/address")
 
-    addressModel.question.title should be("What is your last UK address?")
+    addressModel.question.title should be("What was your last UK address?")
     addressModel.question.backUrl should be("/register-to-vote/crown/statement")
     addressModel.question.postUrl should be("/register-to-vote/crown/address/manual")
 
@@ -132,7 +132,7 @@ class AddressMustacheTest
       "/register-to-vote/crown/statement",
       "/register-to-vote/crown/address/lookup")
 
-    addressModel.question.title should be("What is your last UK address?")
+    addressModel.question.title should be("What was your last UK address?")
     addressModel.question.postUrl should be("/register-to-vote/crown/address/lookup")
     addressModel.question.backUrl should be("/register-to-vote/crown/statement")
 
@@ -201,7 +201,7 @@ class AddressMustacheTest
       "/register-to-vote/crown/address/manual",
       None)
 
-    addressModel.question.title should be("What is your last UK address?")
+    addressModel.question.title should be("What was your last UK address?")
     addressModel.question.backUrl should be("/register-to-vote/crown/statement")
     addressModel.question.postUrl should be("/register-to-vote/crown/address/select")
 
@@ -278,7 +278,7 @@ class AddressMustacheTest
       "/register-to-vote/crown/address/manual",
       "/register-to-vote/crown/address")
 
-    addressModel.question.title should be("What is your last UK address?")
+    addressModel.question.title should be("What was your last UK address?")
     addressModel.question.backUrl should be("/register-to-vote/crown/statement")
     addressModel.question.postUrl should be("/register-to-vote/crown/address/manual")
 

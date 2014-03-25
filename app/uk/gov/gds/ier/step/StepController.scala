@@ -75,7 +75,11 @@ trait StepController [T <: InprogressApplication[T]]
   def postMethod(postCall:Call, backUrl:Option[Call])(implicit manifest: Manifest[T]) = ValidSession requiredFor {
     implicit request => application =>
       logger.debug(s"POST request for ${request.path}")
-      validation.bindFromRequest().fold(
+
+      val dataFromApplication = validation.fill(application).data
+      val dataFromRequest = validation.bindFromRequest().data
+
+      validation.bind(dataFromApplication ++ dataFromRequest).fold(
         hasErrors => {
           logger.debug(s"Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
           Ok(templateWithApplication(InProgressForm(hasErrors), postCall, backUrl)(application)) storeInSession application
