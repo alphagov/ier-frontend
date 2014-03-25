@@ -76,7 +76,7 @@ trait PreviousAddressForms extends PreviousAddressConstraints with CommonForms {
     keys.postcode.key -> nonEmptyText
   ) (
     postcode => PartialPreviousAddress(
-      movedRecently = Some(MovedHouseOption.MovedFromUk),
+      movedRecently = Some(MovedHouseOption.Yes),
       previousAddress = Some(PartialAddress(
         addressLine = None,
         uprn = None,
@@ -122,7 +122,7 @@ trait PreviousAddressForms extends PreviousAddressConstraints with CommonForms {
     ) (
       (previousAddress, possibleAddr) => InprogressOrdinary(
         previousAddress = Some(PartialPreviousAddress(
-          movedRecently = Some(MovedHouseOption.MovedFromUk),
+          movedRecently = Some(MovedHouseOption.Yes),
           previousAddress = previousAddress
         )),
         possibleAddresses = possibleAddr
@@ -140,7 +140,7 @@ trait PreviousAddressForms extends PreviousAddressConstraints with CommonForms {
     ) (
       previousAddress => InprogressOrdinary(
         previousAddress = Some(PartialPreviousAddress(
-          movedRecently = Some(MovedHouseOption.MovedFromUk),
+          movedRecently = Some(MovedHouseOption.Yes),
           previousAddress = previousAddress
       )))
     ) (
@@ -226,7 +226,7 @@ trait PreviousAddressConstraints extends CommonConstraints {
    * containing the postcode.
    */
   lazy val postcodeIsValidForlookupForPreviousAddress = Constraint[PartialPreviousAddress](keys.previousAddress.key) {
-    case PartialPreviousAddress(Some(MovedHouseOption.MovedFromUk), Some(PartialAddress(_, _, postcode, _)))
+    case PartialPreviousAddress(Some(MovedHouseOption.Yes), Some(PartialAddress(_, _, postcode, _)))
       if PostcodeValidator.isValid(postcode) => Valid
     case _ => Invalid("Your postcode is not valid", keys.previousAddress.postcode)
   }
