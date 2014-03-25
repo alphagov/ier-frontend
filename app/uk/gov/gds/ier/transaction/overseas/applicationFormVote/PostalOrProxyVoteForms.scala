@@ -19,12 +19,14 @@ trait PostalOrProxyVoteForms extends PostalOrProxyVoteOverseasConstraints {
     PostalVoteDeliveryMethod.unapply
   ) verifying (validDeliveryMethod)
 
+  val forceRedirect = boolean.verifying( "fails if true", _ == false)
+  
   lazy val postalOrProxyVoteMapping = mapping(
     keys.voteType.key -> text.verifying("Unknown type", r => WaysToVoteType.isValid(r)),
     keys.optIn.key -> optional(boolean)
       .verifying("Please answer this question", postalVote => postalVote.isDefined),
     keys.deliveryMethod.key -> optional(voteDeliveryMethodMapping),
-    keys.forceToRedirect.key -> optional(boolean).verifying(forceMustBeFalse)
+    keys.forceToRedirect.key -> optional(forceRedirect)
   ) (
     (voteType, postalVoteOption, deliveryMethod, force) => PostalOrProxyVote(
       WaysToVoteType.parse(voteType),
@@ -55,11 +57,6 @@ trait PostalOrProxyVoteForms extends PostalOrProxyVoteOverseasConstraints {
 trait PostalOrProxyVoteOverseasConstraints extends PostalOrProxyVoteConstraints {
 	  self: ErrorMessages
 	    with FormKeys =>
-	      
-	  lazy val forceMustBeFalse = Constraint[Option[Boolean]](keys.forceToRedirect.key) {
-	    case Some(true) => Invalid("", keys.forceToRedirect) 
-	    case _ => Valid
-	  }
 	      
 	  lazy val questionIsRequiredOverseas = Constraint[InprogressOverseas](keys.postalOrProxyVote.key) {
 	    _.postalOrProxyVote match {
