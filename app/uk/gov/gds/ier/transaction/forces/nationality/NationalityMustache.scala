@@ -5,6 +5,7 @@ import uk.gov.gds.ier.model.InprogressForces
 import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.validation.constants.NationalityConstants
 
 
 trait NationalityMustache extends StepMustache {
@@ -34,7 +35,7 @@ trait NationalityMustache extends StepMustache {
 
     implicit val progressForm = form
 
-    val otherCountriesList = application.nationality.map(_.otherCountries).getOrElse(List.empty)
+    val otherCountriesList = obtainOtherCountriesList(progressForm)
 
     NationalityModel(
       question = Question(
@@ -92,4 +93,15 @@ trait NationalityMustache extends StepMustache {
   def createMustacheCountryList (otherCountriesTail:List[String]) : List[CountryItem] = {
     otherCountriesTail.zipWithIndex.map{case (item, i) => CountryItem((i+2).toString,item)}
   }
+
+  def obtainOtherCountriesList(form: ErrorTransformForm[InprogressForces]):List[String] = {
+    (
+      for (i <- 0 until NationalityConstants.numberMaxOfOtherCountries
+           if (form(otherCountriesKey(i)).value.isDefined)
+             && !form(otherCountriesKey(i)).value.get.isEmpty)
+      yield form(otherCountriesKey(i)).value.get
+      ).toList
+  }
+
+  def otherCountriesKey(i:Int) = keys.nationality.otherCountries.key + "["+i+"]"
 }
