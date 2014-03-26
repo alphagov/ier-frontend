@@ -8,7 +8,7 @@ case class InprogressOverseas(
     previouslyRegistered: Option[PreviouslyRegistered] = None,
     dateLeftSpecial: Option[DateLeftSpecial] = None,
     dateLeftUk: Option[DateLeft] = None,
-    overseasParentName: Option[OverseasName] = None,
+    overseasParentName: Option[OverseasParentName] = None,
     lastRegisteredToVote: Option[LastRegisteredToVote] = None,
     dob: Option[DOB] = None,
     nino: Option[Nino] = None,
@@ -51,7 +51,7 @@ case class OverseasApplication(
     previouslyRegistered: Option[PreviouslyRegistered],
     dateLeftUk: Option[DateLeft],
     dateLeftSpecial: Option[DateLeftSpecial],
-    overseasParentName: Option[OverseasName] = None,
+    overseasParentName: Option[OverseasParentName] = None,
     lastRegisteredToVote: Option[LastRegisteredToVote],
     dob: Option[DOB],
     nino: Option[Nino],
@@ -73,7 +73,7 @@ case class OverseasApplication(
       previouslyRegistered.map(_.toApiMap(lastRegisteredToVote)).getOrElse(Map.empty) ++
       dateLeftUk.map(_.toApiMap()).getOrElse(Map.empty) ++
       dateLeftSpecial.map(_.toApiMap).getOrElse(Map.empty) ++
-      overseasParentName.map(_.toApiMap("pg")).getOrElse(Map.empty) ++
+      overseasParentName.map(_.toApiMap("pgr")).getOrElse(Map.empty) ++
       nino.map(_.toApiMap).getOrElse(Map.empty) ++
       lastUkAddress.map(_.toApiMap("reg")).getOrElse(Map.empty) ++
       dob.map(_.toApiMap("dob")).getOrElse(Map.empty) ++
@@ -198,19 +198,12 @@ case class OverseasName(
   }
 }
 
-case class ParentName(firstName:String,
-                middleNames:Option[String],
-                lastName:String) {
-  def toApiMap(fnKey:String, mnKey:String, lnKey:String):Map[String,String] = {
-    Map(fnKey -> firstName, lnKey -> lastName) ++ middleNames.map(mn => Map(mnKey -> mn)).getOrElse(Map.empty)
-  }
-}
-
-case class ParentPreviousName(hasPreviousName:Boolean,
-                        previousName:Option[ParentName]) {
-  def toApiMap:Map[String,String] = {
-    previousName.map(pn => pn.toApiMap("pgrfn", "pgrmn", "pgrln")).getOrElse(Map.empty) ++ 
-    Map("pgnc" -> hasPreviousName.toString)
+case class OverseasParentName(
+   name: Option[Name],
+   previousName: Option[PreviousName] = None) {
+  def toApiMap(prevPrefix:String) = {
+    name.map(_.toApiMap("pgfn", "pgmn", "pgln")).getOrElse(Map.empty) ++
+    previousName.map(_.toApiMap(prevPrefix)).getOrElse(Map.empty)
   }
 }
 

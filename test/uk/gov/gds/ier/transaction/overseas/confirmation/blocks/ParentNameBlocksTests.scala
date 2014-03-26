@@ -2,15 +2,13 @@ package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
-import org.joda.time.DateTime
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.{
   InprogressOverseas,
   Name,
-  PreviousName,
-  WaysToVote}
+  PreviousName}
 import uk.gov.gds.ier.transaction.overseas.confirmation.ConfirmationForms
 import org.joda.time.DateTime
 
@@ -53,7 +51,7 @@ class ParentNameBlocksTests
 
   it should "correctly render parent names and previous names and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
-      overseasParentName = Some(OverseasName(
+      overseasParentName = Some(OverseasParentName(
         name = Some(Name(
           firstName = "John",
           middleNames = None,
@@ -82,7 +80,7 @@ class ParentNameBlocksTests
 
   it should "correctly render parent names and previous names with middle names" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
-      overseasParentName = Some(OverseasName(
+      overseasParentName = Some(OverseasParentName(
         name = Some(Name(
           firstName = "John",
           middleNames = Some("Walker Junior"),
@@ -115,7 +113,7 @@ class ParentNameBlocksTests
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
       dob = Some(DOB(twentyYearsAgo, 10, 10)),
       dateLeftUk = Some(DateLeft(fourteenYearsAgo, 10)),
-      overseasParentName = Some(OverseasName(
+      overseasParentName = Some(OverseasParentName(
         name = Some(Name(
           firstName = "John",
           middleNames = Some("Walker Junior"),

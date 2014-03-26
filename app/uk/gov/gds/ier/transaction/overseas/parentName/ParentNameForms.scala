@@ -1,9 +1,13 @@
 package uk.gov.gds.ier.transaction.overseas.parentName
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{InprogressOverseas, Name, PreviousName, OverseasName}
+import uk.gov.gds.ier.model._
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.ParentNameConstraints
+import uk.gov.gds.ier.model.InprogressOverseas
+import uk.gov.gds.ier.model.Name
+import uk.gov.gds.ier.model.PreviousName
+import scala.Some
 
 trait ParentNameForms extends ParentNameConstraints {
   self:  FormKeys
@@ -32,7 +36,7 @@ trait ParentNameForms extends ParentNameConstraints {
   lazy val overseasParentNameMapping = mapping(
     keys.parentName.key -> optional(parentNameMapping).verifying(parentNameNotOptional),
     keys.parentPreviousName.key -> required(optional(parentPrevNameMapping).verifying(parentPreviousNameNotOptionalIfHasPreviousIsTrue), "Please answer this question")
-  ) (OverseasName.apply) (OverseasName.unapply)
+  ) (OverseasParentName.apply) (OverseasParentName.unapply)
 
   
   val parentNameForm = ErrorTransformForm(

@@ -18,7 +18,7 @@ trait OverseasApplications {
       PartialAddress(Some("124 Fake Street, Fakerton"), Some("123456700"), "WR26NJ", None)
     ),
     dateLeftUk = Some(DateLeft(2000,10)),
-    overseasParentName = Some(OverseasName(
+    overseasParentName = Some(OverseasParentName(
         Some(Name("john", None, "Smith")),
         Some(PreviousName(true, Some(Name("Tom", None, "Smith"))))
     )),
