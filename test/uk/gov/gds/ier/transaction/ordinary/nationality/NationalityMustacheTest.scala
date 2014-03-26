@@ -20,8 +20,10 @@ class NationalityMustacheTest
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = nationalityForm
+    val emptyApplication = InprogressOrdinary()
     val nationalityModel = nationalityMustache.transformFormStepToMustacheData(
-      emptyApplicationForm, NationalityController.post, Some(CountryController.get))
+      emptyApplication, emptyApplicationForm,
+      NationalityController.post, Some(CountryController.get))
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
@@ -39,16 +41,21 @@ class NationalityMustacheTest
   }
 
   it should "progress form with british option should produce Mustache Model with values present" in {
-    val partiallyFilledApplicationForm = nationalityForm.fill(InprogressOrdinary(
+
+    val partiallyFilledApplication = InprogressOrdinary(
       nationality = Some(PartialNationality(
         british = Some(true),
         irish = None,
         hasOtherCountry = None,
         otherCountries = List.empty,
-        noNationalityReason = None))))
+        noNationalityReason = None))
+    )
+
+    val partiallyFilledApplicationForm = nationalityForm.fill(partiallyFilledApplication)
 
     val nationalityModel = nationalityMustache.transformFormStepToMustacheData(
-      partiallyFilledApplicationForm, NationalityController.post, Some(CountryController.get))
+      partiallyFilledApplication, partiallyFilledApplicationForm,
+      NationalityController.post, Some(CountryController.get))
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
@@ -64,16 +71,21 @@ class NationalityMustacheTest
   }
 
   it should "progress form with irish option should produce Mustache Model with values present" in {
-    val partiallyFilledApplicationForm = nationalityForm.fill(InprogressOrdinary(
+
+    val partiallyFilledApplication = InprogressOrdinary(
       nationality = Some(PartialNationality(
         british = None,
         irish = Some(true),
         hasOtherCountry = None,
         otherCountries = List.empty,
-        noNationalityReason = None))))
+        noNationalityReason = None))
+    )
+
+    val partiallyFilledApplicationForm = nationalityForm.fill(partiallyFilledApplication)
 
     val nationalityModel = nationalityMustache.transformFormStepToMustacheData(
-      partiallyFilledApplicationForm, NationalityController.post, Some(CountryController.get))
+      partiallyFilledApplication, partiallyFilledApplicationForm,
+      NationalityController.post, Some(CountryController.get))
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
@@ -89,16 +101,20 @@ class NationalityMustacheTest
   }
 
   it should "progress form with other countries option should produce Mustache Model with values present" in {
-    val partiallyFilledApplicationForm = nationalityForm.fill(InprogressOrdinary(
+
+    val partiallyFilledApplication = InprogressOrdinary(
       nationality = Some(PartialNationality(
         british = None,
         irish = None,
         hasOtherCountry = Some(true),
         otherCountries = List("Spain", "France"),
-        noNationalityReason = None))))
+        noNationalityReason = None)))
+
+    val partiallyFilledApplicationForm = nationalityForm.fill(partiallyFilledApplication)
 
     val nationalityModel = nationalityMustache.transformFormStepToMustacheData(
-      partiallyFilledApplicationForm, NationalityController.post, Some(CountryController.get))
+      partiallyFilledApplication, partiallyFilledApplicationForm,
+      NationalityController.post, Some(CountryController.get))
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
@@ -115,16 +131,20 @@ class NationalityMustacheTest
   }
 
   it should "progress form with other countries and british option should produce Mustache Model with values present" in {
-    val partiallyFilledApplicationForm = nationalityForm.fill(InprogressOrdinary(
+
+    val partiallyFilledApplication = InprogressOrdinary(
       nationality = Some(PartialNationality(
         british = Some(true),
         irish = None,
         hasOtherCountry = Some(true),
         otherCountries = List("Spain", "France"),
-        noNationalityReason = None))))
+        noNationalityReason = None)))
+
+    val partiallyFilledApplicationForm = nationalityForm.fill(partiallyFilledApplication)
 
     val nationalityModel = nationalityMustache.transformFormStepToMustacheData(
-      partiallyFilledApplicationForm, NationalityController.post, Some(CountryController.get))
+      partiallyFilledApplication, partiallyFilledApplicationForm,
+      NationalityController.post, Some(CountryController.get))
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
@@ -141,16 +161,20 @@ class NationalityMustacheTest
   }
 
   it should "progress form with validation errors should produce Model with error list present" in {
-    val partiallyFilledApplicationForm = nationalityForm.fillAndValidate(InprogressOrdinary(
+
+    val partiallyFilledApplication = InprogressOrdinary(
       nationality = Some(PartialNationality(
         british = None,
         irish = None,
         hasOtherCountry = None,
         otherCountries = List.empty,
-        noNationalityReason = None))))
+        noNationalityReason = None)))
+
+    val partiallyFilledApplicationForm = nationalityForm.fillAndValidate(partiallyFilledApplication)
 
     val nationalityModel = nationalityMustache.transformFormStepToMustacheData(
-      partiallyFilledApplicationForm, NationalityController.post, Some(CountryController.get))
+      partiallyFilledApplication, partiallyFilledApplicationForm,
+      NationalityController.post, Some(CountryController.get))
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")

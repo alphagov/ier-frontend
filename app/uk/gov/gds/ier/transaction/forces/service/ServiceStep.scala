@@ -35,9 +35,14 @@ class ServiceStep @Inject ()(
   def template(
       form: InProgressForm[InprogressForces],
       postEndpoint: Call,
-      backEndpoint:Option[Call]): Html = {
+      backEndpoint:Option[Call]): Html = Html.empty
 
-    serviceMustache(form.form, postEndpoint, backEndpoint)
+  override def templateWithApplication(
+      form: InProgressForm[InprogressForces],
+      call: Call,
+      backUrl: Option[Call]):InprogressForces => Html = {
+    application:InprogressForces =>
+      serviceMustache(application, form.form, call, backUrl)
   }
 
   override def postSuccess(currentState: InprogressForces):InprogressForces = {

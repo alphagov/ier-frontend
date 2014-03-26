@@ -19,6 +19,7 @@ trait ServiceMustache extends StepMustache {
   )
 
   def transformFormStepToMustacheData(
+      application: InprogressForces,
       form: ErrorTransformForm[InprogressForces],
       postEndpoint: Call,
       backEndpoint:Option[Call]) : ServiceModel = {
@@ -40,7 +41,7 @@ trait ServiceMustache extends StepMustache {
         backUrl = backEndpoint.fold("")(_.url),
         errorMessages = form.globalErrors.map{ _.message },
         number = "8",
-        title = if (displayPartnerSentence(progressForm.value))
+        title = if (displayPartnerSentence(application))
                   "Which of the services is your partner in?"
                 else
                   "Which of the services are you in?"
@@ -61,23 +62,21 @@ trait ServiceMustache extends StepMustache {
   }
 
   def serviceMustache(
+      application: InprogressForces,
       form:ErrorTransformForm[InprogressForces],
       postEndpoint: Call,
       backEndpoint: Option[Call]): Html = {
 
-    val data = transformFormStepToMustacheData(form, postEndpoint, backEndpoint)
+    val data = transformFormStepToMustacheData(application, form, postEndpoint, backEndpoint)
     val content = Mustache.render("forces/service", data)
     MainStepTemplate(content, data.question.title)
   }
 
-  private def displayPartnerSentence (application:Option[InprogressForces]): Boolean = {
-    if (application.isDefined) {
-      application.get.statement match {
-        case Some(Statement(Some(false), Some(true))) => true
-        case Some(Statement(None, Some(true))) => true
-        case _ => false
-      }
+  private def displayPartnerSentence (application:InprogressForces): Boolean = {
+    application.statement match {
+      case Some(Statement(Some(false), Some(true))) => true
+      case Some(Statement(None, Some(true))) => true
+      case _ => false
     }
-    else false
   }
 }

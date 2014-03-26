@@ -50,12 +50,15 @@ class ContactStep @Inject ()(
   }
 
   def template(form:InProgressForm[InprogressForces], call:Call, 
-      backEndpoint:Option[Call]): Html = {
-    val newForm = form.form.value match {
-      case Some(application) => form.copy(form = form.form.fill(prepopulateEmailAddress (application)))
-      case None => form
-    }
-    contactMustache(newForm.form, call, backEndpoint)
+      backEndpoint:Option[Call]): Html = Html.empty
+
+  override def templateWithApplication(
+      form: InProgressForm[InprogressForces],
+      call: Call,
+      backUrl: Option[Call]):InprogressForces => Html = {
+    application:InprogressForces =>
+      val newForm = form.copy(form = form.form.fill(prepopulateEmailAddress (application)))
+      contactMustache(newForm.form, call, backUrl)
   }
 
   def nextStep(currentState: InprogressForces) = {

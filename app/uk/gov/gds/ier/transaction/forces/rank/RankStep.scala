@@ -33,8 +33,14 @@ class RankStep @Inject ()(
   def template(
       form:InProgressForm[InprogressForces],
       call:Call,
-      backUrl: Option[Call]): Html = {
-    rankMustache(form.form, call, backUrl)
+      backUrl: Option[Call]): Html = Html.empty
+
+  override def templateWithApplication(
+      form: InProgressForm[InprogressForces],
+      call: Call,
+      backUrl: Option[Call]):InprogressForces => Html = {
+    application:InprogressForces =>
+      rankMustache(application, form.form, call, backUrl)
   }
 
   def nextStep(currentState: InprogressForces) = {

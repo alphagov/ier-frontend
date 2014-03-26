@@ -19,10 +19,12 @@ class ServiceMustacheTest
   val serviceMustache = new ServiceMustache {}
 
   it should "empty progress form should produce empty Model" in {
+    val emptyApplication = InprogressForces()
     val emptyApplicationForm = serviceForm
     
     val serviceModel = serviceMustache.transformFormStepToMustacheData(
-      emptyApplicationForm, ServiceController.post, Some(NinoController.get))
+      emptyApplication, emptyApplicationForm,
+      ServiceController.post, Some(NinoController.get))
 
     serviceModel.question.title should be("Which of the services are you in?")
     serviceModel.question.postUrl should be("/register-to-vote/forces/service")
@@ -37,15 +39,18 @@ class ServiceMustacheTest
   }
 
   it should "fully filled applicant statement should produce Mustache Model with statement values present" in {
-    val filledForm = serviceForm.fillAndValidate(InprogressForces(
+
+    val filledApp = InprogressForces(
       service = Some(Service(
         serviceName = Some(ServiceType.BritishArmy),
         regiment = Some("my regiment")
       ))
-    ))
+    )
+
+    val filledForm = serviceForm.fillAndValidate(filledApp)
 
     val serviceModel = serviceMustache.transformFormStepToMustacheData(
-      filledForm, ServiceController.post, Some(NinoController.get))
+      filledApp, filledForm, ServiceController.post, Some(NinoController.get))
 
     serviceModel.question.title should be("Which of the services are you in?")
     serviceModel.question.postUrl should be("/register-to-vote/forces/service")

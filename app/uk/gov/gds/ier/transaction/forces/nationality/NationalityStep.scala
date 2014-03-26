@@ -42,7 +42,6 @@ class NationalityStep @Inject ()(
   }
 
   def nextStep(currentState: InprogressForces) = {
-
     if (currentState.nationality.flatMap(_.noNationalityReason) == None) {
       val franchises = currentState.nationality match {
         case Some(nationality) => isoCountryService.getFranchises(nationality)
