@@ -85,7 +85,6 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
       address,
       openRegister,
       waysToVote,
-      postalOrProxyVote,
       contact
     )
   }
@@ -103,7 +102,6 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
       address,
       openRegister,
       waysToVote,
-      postalOrProxyVote,
       contact
     )
   }
@@ -120,7 +118,6 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
       address,
       openRegister,
       waysToVote,
-      postalOrProxyVote,
       contact
     )
   }
@@ -138,7 +135,6 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
       address,
       openRegister,
       waysToVote,
-      postalOrProxyVote,
       contact
     )
   }

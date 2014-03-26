@@ -5,11 +5,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.ContactConstraints
 import play.api.data.validation.{Invalid, Valid, Constraint}
-import uk.gov.gds.ier.validation.Key
-import uk.gov.gds.ier.model.InprogressForces
-import uk.gov.gds.ier.model.ContactDetail
-import scala.Some
-import uk.gov.gds.ier.model.Contact
+import uk.gov.gds.ier.model._
 
 trait ContactForms extends ContactForcesConstraints {
   self:  FormKeys
