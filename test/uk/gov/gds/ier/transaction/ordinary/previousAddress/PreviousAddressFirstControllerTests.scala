@@ -27,7 +27,7 @@ class PreviousAddressFirstControllerTests
       contentAsString(result) should include(
         "<form action=\"/register-to-vote/previous-address\"")
       contentAsString(result) should include("" +
-        "Have you moved from another UK address in the last 12 months?")
+        "Have you moved out of another address in the last 12 months?")
     }
   }
 
@@ -93,7 +93,7 @@ class PreviousAddressFirstControllerTests
 
       status(result) should be(OK)
       contentAsString(result) should include("" +
-        "Have you moved from another UK address in the last 12 months?")
+        "Have you moved out of another address in the last 12 months?")
       contentAsString(result) should include("" +
         "Please answer this question")
       contentAsString(result) should include("" +
@@ -129,7 +129,7 @@ class PreviousAddressFirstControllerTests
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 8")
       contentAsString(result) should include("" +
-        "Have you moved from another UK address in the last 12 months?")
+        "Have you moved out of another address in the last 12 months?")
       contentAsString(result) should include("" +
         "<form action=\"/register-to-vote/edit/previous-address\"")
     }
