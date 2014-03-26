@@ -344,10 +344,10 @@ trait ConfirmationMustache {
     }
 
     def nationalityIsFilled:Boolean = {
-      val british = form(keys.nationality.british).value.getOrElse("false").toBoolean
-      val irish = form(keys.nationality.irish).value.getOrElse("false").toBoolean
+      val isBritish = form(keys.nationality.british).value.getOrElse("false").toBoolean
+      val isIrish = form(keys.nationality.irish).value.getOrElse("false").toBoolean
       val otherCountries = obtainOtherCountriesList
-      (british || irish || !otherCountries.isEmpty)
+      (isBritish || isIrish || !otherCountries.isEmpty)
     }
 
     def obtainOtherCountriesList:List[String] = {
