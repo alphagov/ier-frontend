@@ -82,7 +82,7 @@ class ConfirmationStep @Inject ()(
             "postcode" -> validApplication.address.map(_.postcode).getOrElse(""),
             "hasOtherAddress" -> validApplication.otherAddress.map(
               _.otherAddressOption.hasOtherAddress.toString).getOrElse(""),
-            "backToStartUrl" -> RegisterToVoteController.registerToVoteStart.url.toString
+            "backToStartUrl" -> RegisterToVoteController.registerToVote.url.toString
           )
         }
       )
