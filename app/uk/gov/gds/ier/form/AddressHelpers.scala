@@ -24,12 +24,6 @@ trait AddressHelpers extends FormKeys {
   }
 
   def manualAddressToOneLine(
-      form: InProgressForm[_],
-      manualAddressKey: Key): Option[String] = {
-    manualAddressToOneLine(form.form, manualAddressKey)
-  }
-
-  def manualAddressToOneLine(
       manualAddress: PartialManualAddress): Option[String] = {
     val maLines = List (
       manualAddress.lineOne,
@@ -48,9 +42,5 @@ trait AddressHelpers extends FormKeys {
   def isManualAddressDefined(form: ErrorTransformForm[_], manualAddressKey: Key): Boolean = {
     // is checking by just line one enough?
     form(manualAddressKey.lineOne.key).value.isDefined
-  }
-
-  def isManualAddressDefined(form: InProgressForm[_], manualAddressKey: Key): Boolean = {
-    isManualAddressDefined(form.form, manualAddressKey)
   }
 }

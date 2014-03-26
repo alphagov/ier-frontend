@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.overseas.parentsAddress
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model.{InprogressOverseas, PossibleAddress}
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 
 trait ParentsAddressMustache {
   self: WithSerialiser =>
@@ -40,7 +40,7 @@ trait ParentsAddressMustache {
     )
 
     def lookupData(
-        form:InProgressForm[InprogressOverseas],
+        form: ErrorTransformForm[InprogressOverseas],
         backUrl: String,
         postUrl: String) = {
      LookupModel(
@@ -49,7 +49,7 @@ trait ParentsAddressMustache {
           backUrl = backUrl,
           number = questionNumber,
           title = title,
-          errorMessages = form.form.globalErrors.map(_.message)
+          errorMessages = form.globalErrors.map(_.message)
         ),
         postcode = Field(
           id = keys.parentsAddress.postcode.asId(),
@@ -65,7 +65,7 @@ trait ParentsAddressMustache {
     }
 
     def lookupPage(
-        form:InProgressForm[InprogressOverseas],
+        form: ErrorTransformForm[InprogressOverseas],
         backUrl: String,
         postUrl: String) = {
 
@@ -77,14 +77,14 @@ trait ParentsAddressMustache {
     }
 
     def selectData(
-        form: InProgressForm[InprogressOverseas],
+        form: ErrorTransformForm[InprogressOverseas],
         backUrl: String,
         postUrl: String,
         lookupUrl: String,
         manualUrl: String,
         maybePossibleAddress:Option[PossibleAddress]) = {
 
-      implicit val progressForm = form.form
+      implicit val progressForm = form
 
       val selectedUprn = form(keys.parentsAddress.uprn).value
 
@@ -145,7 +145,7 @@ trait ParentsAddressMustache {
     }
 
     def selectPage(
-        form: InProgressForm[InprogressOverseas],
+        form: ErrorTransformForm[InprogressOverseas],
         backUrl: String,
         postUrl: String,
         lookupUrl: String,
@@ -160,12 +160,12 @@ trait ParentsAddressMustache {
     }
 
     def manualData(
-        form: InProgressForm[InprogressOverseas],
+        form: ErrorTransformForm[InprogressOverseas],
         backUrl: String,
         postUrl: String,
         lookupUrl: String) = {
 
-      implicit val progressForm = form.form
+      implicit val progressForm = form
 
       ManualModel(
         question = Question(
@@ -185,7 +185,7 @@ trait ParentsAddressMustache {
     }
 
     def manualPage(
-        form: InProgressForm[InprogressOverseas],
+        form: ErrorTransformForm[InprogressOverseas],
         backUrl: String,
         postUrl: String,
         lookupUrl: String) = {

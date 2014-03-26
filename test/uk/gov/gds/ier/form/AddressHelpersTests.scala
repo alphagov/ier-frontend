@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.form
 
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{ErrorMessages, ErrorTransformForm, InProgressForm, FormKeys}
+import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.model.{InprogressOrdinary, PartialManualAddress, PartialAddress, InprogressForces}
 import uk.gov.gds.ier.transaction.forces.confirmation.ConfirmationForms
@@ -44,7 +44,7 @@ with Matchers {
     // local variable names matter!
     // if you try to rename 'result' to 'manualAddress' Scala compiler implodes with internal error
     val result = manualAddressToOneLine(
-      InProgressForm(partiallyFilledForm),
+      partiallyFilledForm,
       keys.address.manualAddress)
     result should be(Some("Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester"))
   }
@@ -63,7 +63,7 @@ with Matchers {
       ))
     ))
     val result = manualAddressToOneLine(
-      InProgressForm(partiallyFilledForm),
+      partiallyFilledForm,
       keys.address.manualAddress)
     result should be(Some("123 Fake Street"))
   }
@@ -82,7 +82,7 @@ with Matchers {
       ))
     ))
     val result = manualAddressToOneLine(
-      InProgressForm(partiallyFilledForm),
+      partiallyFilledForm,
       keys.address.manualAddress)
     result should be(None)
   }
@@ -104,7 +104,7 @@ with Matchers {
       ))
     ))
     val result = manualAddressToOneLine(
-      InProgressForm(partiallyFilledForm),
+      partiallyFilledForm,
       keys.address.manualAddress)
     result should be(Some("Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester"))
   }
@@ -123,7 +123,7 @@ with Matchers {
       ))
     ))
     val result = manualAddressToOneLine(
-      InProgressForm(partiallyFilledForm),
+      partiallyFilledForm,
       keys.address.manualAddress)
     result should be(Some("123 Fake Street"))
   }
@@ -142,7 +142,7 @@ with Matchers {
       ))
     ))
     val result = manualAddressToOneLine(
-      InProgressForm(partiallyFilledForm),
+      partiallyFilledForm,
       keys.address.manualAddress)
     result should be(None)
   }

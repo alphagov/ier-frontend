@@ -11,7 +11,7 @@ import controllers.step.forces.ContactController
 import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.{InprogressForces, WaysToVoteType}
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 
 class PostalVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
@@ -32,8 +32,8 @@ class PostalVoteStep @Inject ()(
     editPost = PostalVoteController.editPost
   )
 
-  def template(form: InProgressForm[InprogressForces], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
-    postalOrProxyVoteMustache(form.form, postEndpoint, backEndpoint, WaysToVoteType.ByPost)
+  def template(form: ErrorTransformForm[InprogressForces], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
+    postalOrProxyVoteMustache(form, postEndpoint, backEndpoint, WaysToVoteType.ByPost)
   }
 
   def nextStep(currentState: InprogressForces) = {

@@ -7,7 +7,7 @@ import uk.gov.gds.ier.model.{InprogressOverseas, LastRegisteredType}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.overseas.routes.LastRegisteredToVoteController
 import controllers.step.overseas.routes.PreviouslyRegisteredController
 import controllers.step.overseas.DateLeftUkController
@@ -41,15 +41,15 @@ class LastRegisteredToVoteStep @Inject() (
       case _ => this
     }
   }
-  
+
   override val onSuccess = TransformApplication { currentState =>
     currentState.copy (dateLeftUk = None, dateLeftSpecial = None)
   } andThen GoToNextIncompleteStep()
 
   def template(
-      form: InProgressForm[InprogressOverseas],
+      form: ErrorTransformForm[InprogressOverseas],
       postEndpoint: Call,
       backEndpoint:Option[Call]) = {
-    LastRegisteredToVoteMustache.lastRegisteredPage(form.form, postEndpoint, backEndpoint)
+    LastRegisteredToVoteMustache.lastRegisteredPage(form, postEndpoint, backEndpoint)
   }
 }

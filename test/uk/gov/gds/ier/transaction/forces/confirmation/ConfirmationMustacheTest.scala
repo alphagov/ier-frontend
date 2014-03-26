@@ -7,7 +7,7 @@ import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.InprogressForces
 import uk.gov.gds.ier.model.Name
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 import uk.gov.gds.ier.model.WaysToVote
 
@@ -33,7 +33,7 @@ class ConfirmationMustacheTest
     ))
 
     val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
+      form = partiallyFilledApplicationForm
     )
 
     displayPartnerBlock should be (false)
@@ -49,7 +49,7 @@ class ConfirmationMustacheTest
     ))
 
     val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
+      form = partiallyFilledApplicationForm
     )
 
     displayPartnerBlock should be (false)
@@ -65,7 +65,7 @@ class ConfirmationMustacheTest
     ))
 
     val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = InProgressForm(partiallyFilledApplicationForm)
+      form = partiallyFilledApplicationForm
     )
 
     displayPartnerBlock should be (true)
@@ -90,7 +90,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(nameModel) = confirmation.name
     nameModel.content should be("<p>John Smith</p>")
@@ -119,7 +119,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(nameModel) = confirmation.name
     nameModel.content should be("<p>John Walker Junior Smith</p>")
@@ -142,7 +142,7 @@ class ConfirmationMustacheTest
         noDob = None))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(dateOfBirthModel) = confirmation.dateOfBirth
     dateOfBirthModel.content should be("<p>22 January 1978</p>")
@@ -160,7 +160,7 @@ class ConfirmationMustacheTest
         ))))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(dateOfBirthModel) = confirmation.dateOfBirth
     dateOfBirthModel.content should be("<p>You are unable to provide your date of birth because: I have no idea!</p><p>I am over 18 years old</p>")
@@ -180,7 +180,7 @@ class ConfirmationMustacheTest
       ))
     ) )
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(nationalityModel) = confirmation.nationality
     nationalityModel.content should be("<p>I am British</p>")
@@ -199,7 +199,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(nationalityModel) = confirmation.nationality
     nationalityModel.content should be("<p>I am Irish</p>")
@@ -218,7 +218,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(nationalityModel) = confirmation.nationality
     nationalityModel.content should be("<p>I am a citizen of Spain, France and Germany</p>")
@@ -237,7 +237,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(nationalityModel) = confirmation.nationality
     nationalityModel.content should be("<p>I cannot provide my nationality because:</p><p>I'm from Mars</p>")
@@ -253,7 +253,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(ninoModel) = confirmation.nino
     ninoModel.content should be("<p>AB123456C</p>")
@@ -269,7 +269,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(ninoModel) = confirmation.nino
     ninoModel.content should be("<p>I cannot provide my national insurance number because:</p>"+
@@ -286,7 +286,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(serviceModel) = confirmation.service(false)
     serviceModel.content should be("<p>I am a member of the British Army</p><p>Regiment: regiment</p>")
@@ -302,7 +302,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(serviceModel) = confirmation.service(false)
     serviceModel.content should be("<p>I am a member of the Royal Air Force</p>")
@@ -319,7 +319,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(rankModel) = confirmation.rank
     rankModel.content should be("<p>Service number: 123456</p><p>Rank: Captain</p>")
@@ -338,7 +338,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(addressModel) = confirmation.address
     addressModel.content should be("<p>123 Fake Street</p><p>AB12 3CD</p>")
@@ -360,7 +360,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(addressModel) = confirmation.address
     addressModel.content should be("" +
@@ -384,7 +384,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(previousAddressModel) = confirmation.previousAddress
     previousAddressModel.content should be("<p>123 Fake Street</p><p>AB12 3CD</p>")
@@ -409,7 +409,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(previousAddressModel) = confirmation.previousAddress
     previousAddressModel.content should be("" +
@@ -427,7 +427,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(previousAddressModel) = confirmation.previousAddress
     previousAddressModel.content should be("<p>I have not moved in the last 12 months</p>")
@@ -455,7 +455,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(contactAddressModel) = confirmation.contactAddress
     contactAddressModel.content should be(
@@ -470,7 +470,7 @@ class ConfirmationMustacheTest
       openRegisterOptin = Some(true)
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(openRegisterModel) = confirmation.openRegister
     openRegisterModel.content should be("<p>I want to include my details on the open register</p>")
@@ -483,7 +483,7 @@ class ConfirmationMustacheTest
       openRegisterOptin = Some(false)
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(openRegisterModel) = confirmation.openRegister
     openRegisterModel.content should be("<p>I don’t want to include my details on the open register</p>")
@@ -494,7 +494,7 @@ class ConfirmationMustacheTest
     "generate confirmation mustache model with correctly rendered way to vote type" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
       waysToVote = Some(WaysToVote(WaysToVoteType.InPerson))))
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
     val Some(model) = confirmation.waysToVote
     model.content should include("I want to vote in person, at a polling station")
     model.editLink should be("/register-to-vote/forces/edit/ways-to-vote")
@@ -515,7 +515,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(postalOrProxyVoteModel) = confirmation.waysToVote
     postalOrProxyVoteModel.content should include("<p>I want to vote by post</p>")
@@ -537,7 +537,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(postalOrProxyVoteModel) = confirmation.waysToVote
     postalOrProxyVoteModel.content should include("Send an application form to")
@@ -559,7 +559,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(postalOrProxyVoteModel) = confirmation.waysToVote
     postalOrProxyVoteModel.content should include("I want to vote by proxy (someone else voting for me)")
@@ -581,7 +581,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(postalOrProxyVoteModel) = confirmation.waysToVote
     postalOrProxyVoteModel.content should include("I want to vote by proxy (someone else voting for me)")
@@ -601,7 +601,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(postalOrProxyVoteModel) = confirmation.waysToVote
     postalOrProxyVoteModel.content should include("I want to vote by post")
@@ -620,7 +620,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(postalOrProxyVoteModel) = confirmation.waysToVote
     postalOrProxyVoteModel.content should include("I want to vote by proxy")
@@ -638,7 +638,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(contactModel) = confirmation.contact
     contactModel.content should be("  <p>By email: antoine@gds.com</p>")
@@ -655,7 +655,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(contactModel) = confirmation.contact
     contactModel.content should be(" <p>By phone: +44 5678 907 546 ext. 3567-098</p> ")
@@ -672,7 +672,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(InProgressForm(partiallyFilledApplicationForm))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(contactModel) = confirmation.contact
     contactModel.content should be("<p>By post</p>  ")
@@ -691,7 +691,7 @@ class ConfirmationMustacheTest
         noNationalityReason = None
       ))
     ))
-    val confirmation = new ConfirmationBlocks(InProgressForm(form))
+    val confirmation = new ConfirmationBlocks(form)
     confirmation.confirmationNationalityString should be("I am Irish")
   }
 
@@ -705,7 +705,7 @@ class ConfirmationMustacheTest
         noNationalityReason = None
       ))
     ))
-    val confirmation = new ConfirmationBlocks(InProgressForm(form))
+    val confirmation = new ConfirmationBlocks(form)
     confirmation.confirmationNationalityString should be("I am British")
   }
 
@@ -719,7 +719,7 @@ class ConfirmationMustacheTest
         noNationalityReason = None
       ))
     ))
-    val confirmation = new ConfirmationBlocks(InProgressForm(form))
+    val confirmation = new ConfirmationBlocks(form)
     confirmation.confirmationNationalityString should be("I am British and Irish")
   }
 
@@ -733,7 +733,7 @@ class ConfirmationMustacheTest
         noNationalityReason = None
       ))
     ))
-    val confirmation = new ConfirmationBlocks(InProgressForm(form))
+    val confirmation = new ConfirmationBlocks(form)
     confirmation.confirmationNationalityString should be(
       "I am British, Irish and a citizen of New Zealand"
     )
@@ -749,7 +749,7 @@ class ConfirmationMustacheTest
         noNationalityReason = None
       ))
     ))
-    val confirmation = new ConfirmationBlocks(InProgressForm(form))
+    val confirmation = new ConfirmationBlocks(form)
     confirmation.confirmationNationalityString should be(
       "I am British, Irish and a citizen of New Zealand and India"
     )
@@ -765,7 +765,7 @@ class ConfirmationMustacheTest
         noNationalityReason = None
       ))
     ))
-    val confirmation = new ConfirmationBlocks(InProgressForm(form))
+    val confirmation = new ConfirmationBlocks(form)
     confirmation.confirmationNationalityString should be(
       "I am British, Irish and a citizen of New Zealand, India and Japan"
     )
@@ -781,7 +781,7 @@ class ConfirmationMustacheTest
         noNationalityReason = None
       ))
     ))
-    val confirmation = new ConfirmationBlocks(InProgressForm(form))
+    val confirmation = new ConfirmationBlocks(form)
     confirmation.confirmationNationalityString should be(
       "I am a citizen of New Zealand"
     )
@@ -797,7 +797,7 @@ class ConfirmationMustacheTest
         noNationalityReason = None
       ))
     ))
-    val confirmation = new ConfirmationBlocks(InProgressForm(form))
+    val confirmation = new ConfirmationBlocks(form)
     confirmation.confirmationNationalityString should be(
       "I am a citizen of New Zealand, India and Japan"
     )
@@ -813,7 +813,7 @@ class ConfirmationMustacheTest
         noNationalityReason = None
       ))
     ))
-    val confirmation = new ConfirmationBlocks(InProgressForm(form))
+    val confirmation = new ConfirmationBlocks(form)
     confirmation.confirmationNationalityString should be(
       "I am a citizen of New Zealand and India"
     )

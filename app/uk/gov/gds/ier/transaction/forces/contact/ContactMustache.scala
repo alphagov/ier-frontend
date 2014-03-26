@@ -52,7 +52,7 @@ trait ContactMustache extends StepMustache {
   }
 
   def contactMustache(
-      form:ErrorTransformForm[InprogressForces],
+      form: ErrorTransformForm[InprogressForces],
       postEndpoint: Call,
       backEndpoint: Option[Call]): Html = {
 

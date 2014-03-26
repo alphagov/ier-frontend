@@ -13,14 +13,14 @@ import uk.gov.gds.ier.step.OrdinaryStep
 import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.InprogressOrdinary
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 
 class ContactStep @Inject ()(val serialiser: JsonSerialiser,
                              val config: Config,
                              val encryptionService : EncryptionService)
   extends OrdinaryStep
-  with ContactForms 
+  with ContactForms
   with ContactMustache {
 
   val validation = contactForm
@@ -45,16 +45,16 @@ class ContactStep @Inject ()(val serialiser: JsonSerialiser,
     application.copy(contact = Some(newContact))
   }
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call, 
+  def template(form:ErrorTransformForm[InprogressOrdinary], call:Call,
       backEndpoint:Option[Call]): Html = Html.empty
 
   override def templateWithApplication(
-      form: InProgressForm[InprogressOrdinary],
+      form: ErrorTransformForm[InprogressOrdinary],
       call: Call,
       backUrl: Option[Call]):InprogressOrdinary => Html = {
     application:InprogressOrdinary =>
-      val newForm = form.copy(form = form.form.fill(prepopulateEmailAddress (application)))
-      contactMustache(newForm.form, call, backUrl)
+      val newForm = form.fill(prepopulateEmailAddress(application))
+      contactMustache(newForm, call, backUrl)
   }
 
   def nextStep(currentState: InprogressOrdinary) = {

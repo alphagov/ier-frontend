@@ -13,7 +13,7 @@ import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.PossibleAddress
 import uk.gov.gds.ier.model.InprogressOrdinary
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 import uk.gov.gds.ier.model.PartialPreviousAddress
 
@@ -55,7 +55,7 @@ class PreviousAddressSelectStep @Inject() (
   } andThen GoToNextIncompleteStep()
 
   def template(
-      form: InProgressForm[InprogressOrdinary],
+      form: ErrorTransformForm[InprogressOrdinary],
       call: Call,
       backUrl: Option[Call]) = {
 

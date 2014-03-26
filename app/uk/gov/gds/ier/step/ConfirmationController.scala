@@ -20,7 +20,7 @@ trait ConfirmationStepController[T <: InprogressApplication[T]]
   with WithEncryption {
 
   val validation: ErrorTransformForm[T]
-  def template(form:InProgressForm[T]): Html
+  def template(form: ErrorTransformForm[T]): Html
   def get:Action[AnyContent]
   def post:Action[AnyContent]
 

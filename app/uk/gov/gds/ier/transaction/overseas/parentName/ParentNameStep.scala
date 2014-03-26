@@ -35,7 +35,7 @@ class ParentNameStep @Inject ()(
   def nextStep(currentState: InprogressOverseas) = {
     ParentsAddressController.parentsAddressStep
   }
-  
+
   def resetParentName = TransformApplication { currentState =>
     currentState.overseasParentName match {
       case Some(OverseasParentName(optParentName, Some(parentPreviousName)))
@@ -46,12 +46,13 @@ class ParentNameStep @Inject ()(
       case _ => currentState
     }
   }
+
   override val onSuccess = resetParentName andThen GoToNextIncompleteStep()
-  
+
   def template(
-      form:InProgressForm[InprogressOverseas],
+      form: ErrorTransformForm[InprogressOverseas],
       call:Call,
       backUrl: Option[Call]): Html = {
-    parentNameMustache(form.form, call, backUrl.map(_.url))
+    parentNameMustache(form, call, backUrl.map(_.url))
   }
 }

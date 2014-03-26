@@ -16,7 +16,7 @@ class OpenRegisterStep @Inject ()(val serialiser: JsonSerialiser,
                                         val config: Config,
                                         val encryptionService : EncryptionService)
   extends ForcesStep
-  with OpenRegisterForms 
+  with OpenRegisterForms
   with OpenRegisterMustache {
 
   val validation = openRegisterForm
@@ -29,8 +29,8 @@ class OpenRegisterStep @Inject ()(val serialiser: JsonSerialiser,
     editPost = OpenRegisterController.editPost
   )
 
-  def template(form:InProgressForm[InprogressForces], call:Call, backUrl: Option[Call]): Html = {
-    openRegisterMustache(form.form, call, backUrl)
+  def template(form: ErrorTransformForm[InprogressForces], call:Call, backUrl: Option[Call]): Html = {
+    openRegisterMustache(form, call, backUrl)
   }
   def nextStep(currentState: InprogressForces) = {
     WaysToVoteController.waysToVoteStep

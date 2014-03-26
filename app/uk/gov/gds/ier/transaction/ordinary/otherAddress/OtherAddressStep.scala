@@ -30,8 +30,8 @@ class OtherAddressStep @Inject ()(val serialiser: JsonSerialiser,
     editPost = OtherAddressController.editPost
   )
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
-    otherAddressMustache(form.form, call, backUrl.map(_.url))
+  def template(form: ErrorTransformForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
+    otherAddressMustache(form, call, backUrl.map(_.url))
   }
   def nextStep(currentState: InprogressOrdinary) = {
     PreviousAddressFirstController.previousAddressFirstStep

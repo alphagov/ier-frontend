@@ -5,7 +5,7 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.model.{PreviouslyRegistered, InprogressOverseas}
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.mvc.Call
 import play.api.templates.Html
 import controllers.step.overseas.routes.{PreviouslyRegisteredController, DateOfBirthController}
@@ -43,9 +43,9 @@ class PreviouslyRegisteredStep @Inject() (
   }
 
   def template(
-      form: InProgressForm[InprogressOverseas],
+      form: ErrorTransformForm[InprogressOverseas],
       postEndpoint: Call,
       backEndpoint:Option[Call]): Html = {
-    previousRegisteredMustache(form.form, postEndpoint, backEndpoint)
+    previousRegisteredMustache(form, postEndpoint, backEndpoint)
   }
 }

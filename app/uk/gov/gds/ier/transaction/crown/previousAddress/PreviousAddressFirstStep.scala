@@ -40,9 +40,9 @@ class PreviousAddressFirstStep @Inject ()(
     }
   }
 
-  def template(form: InProgressForm[InprogressCrown], call:Call, backUrl: Option[Call]): Html = {
+  def template(form: ErrorTransformForm[InprogressCrown], call:Call, backUrl: Option[Call]): Html = {
     previousAddressFirstStepMustache(
-      form.form,
+      form,
       call.url,
       backUrl.map(_.url)
     )

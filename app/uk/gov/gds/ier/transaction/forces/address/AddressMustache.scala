@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.forces.address
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model.{InprogressForces, PossibleAddress}
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 
 trait AddressMustache {
   self: WithSerialiser =>
@@ -40,7 +40,7 @@ trait AddressMustache {
     )
 
     def lookupData(
-        form:InProgressForm[InprogressForces],
+        form: ErrorTransformForm[InprogressForces],
         backUrl: String,
         postUrl: String) = {
      LookupModel(
@@ -49,7 +49,7 @@ trait AddressMustache {
           backUrl = backUrl,
           number = questionNumber,
           title = title,
-          errorMessages = form.form.globalErrors.map(_.message)
+          errorMessages = form.globalErrors.map(_.message)
         ),
         postcode = Field(
           id = keys.address.postcode.asId(),
@@ -65,7 +65,7 @@ trait AddressMustache {
     }
 
     def lookupPage(
-        form:InProgressForm[InprogressForces],
+        form: ErrorTransformForm[InprogressForces],
         backUrl: String,
         postUrl: String) = {
 
@@ -77,14 +77,14 @@ trait AddressMustache {
     }
 
     def selectData(
-        form: InProgressForm[InprogressForces],
+        form: ErrorTransformForm[InprogressForces],
         backUrl: String,
         postUrl: String,
         lookupUrl: String,
         manualUrl: String,
         maybePossibleAddress:Option[PossibleAddress]) = {
 
-      implicit val progressForm = form.form
+      implicit val progressForm = form
 
       val selectedUprn = form(keys.address.uprn).value
 
@@ -147,7 +147,7 @@ trait AddressMustache {
     }
 
     def selectPage(
-        form: InProgressForm[InprogressForces],
+        form: ErrorTransformForm[InprogressForces],
         backUrl: String,
         postUrl: String,
         lookupUrl: String,
@@ -162,12 +162,12 @@ trait AddressMustache {
     }
 
     def manualData(
-        form: InProgressForm[InprogressForces],
+        form: ErrorTransformForm[InprogressForces],
         backUrl: String,
         postUrl: String,
         lookupUrl: String) = {
 
-      implicit val progressForm = form.form
+      implicit val progressForm = form
 
       ManualModel(
         question = Question(
@@ -187,7 +187,7 @@ trait AddressMustache {
     }
 
     def manualPage(
-        form: InProgressForm[InprogressForces],
+        form: ErrorTransformForm[InprogressForces],
         backUrl: String,
         postUrl: String,
         lookupUrl: String) = {

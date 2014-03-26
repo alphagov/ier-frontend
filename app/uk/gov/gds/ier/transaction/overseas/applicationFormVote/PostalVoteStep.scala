@@ -12,7 +12,7 @@ import controllers.step.overseas.ContactController
 import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.{InprogressOverseas, WaysToVoteType}
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 
 class PostalVoteStep @Inject ()(
@@ -34,8 +34,8 @@ class PostalVoteStep @Inject ()(
     editPost = PostalVoteController.editPost
   )
 
-  def template(form: InProgressForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
-    postalOrProxyVoteMustache(form.form, postEndpoint, backEndpoint, WaysToVoteType.ByPost)
+  def template(form: ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
+    postalOrProxyVoteMustache(form, postEndpoint, backEndpoint, WaysToVoteType.ByPost)
   }
 
   def nextStep(currentState: InprogressOverseas) = {

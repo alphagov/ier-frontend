@@ -43,11 +43,11 @@ trait FormKeys {
     lazy val firstName = prependNamespace(Key("firstName"))
     lazy val middleNames = prependNamespace(Key("middleNames"))
     lazy val lastName = prependNamespace(Key("lastName"))
-    
+
     lazy val parentNameFormEntries = prependNamespace(Key("parentNameFormEntries"))
     lazy val parentName = prependNamespace(Key("parentName"))
     lazy val parentPreviousName = prependNamespace(Key("parentPreviousName"))
-    
+
     lazy val overseasName = prependNamespace(Key("overseasName"))
     lazy val overseasParentName = prependNamespace(Key("overseasParentName"))
 
@@ -150,12 +150,12 @@ trait FormKeys {
     lazy val govDepartment = prependNamespace(Key("govDepartment"))
     lazy val serviceName = prependNamespace(Key("serviceName"))
     lazy val regiment = prependNamespace(Key("regiment"))
-    
+
     lazy val crownServant = prependNamespace(Key("crownServant"))
     lazy val crownPartner = prependNamespace(Key("crownPartner"))
     lazy val councilEmployee = prependNamespace(Key("councilEmployee"))
     lazy val councilPartner = prependNamespace(Key("councilPartner"))
-    
+
     lazy val addressType = prependNamespace(Key("addressType"))
     lazy val ukAddressLine = prependNamespace(Key("ukAddressLine"))
     lazy val ukAddress = prependNamespace(Key("ukAddress"))
@@ -165,7 +165,7 @@ trait FormKeys {
     lazy val ukContactAddress = prependNamespace(Key("ukContactAddress"))
     lazy val bfpoContactAddress = prependNamespace(Key("bfpoContactAddress"))
     lazy val otherContactAddress = prependNamespace(Key("otherContactAddress"))
-    
+
     lazy val forceToRedirect = prependNamespace(Key("forceToRedirect"))
 
     lazy val hasUkAddress =  prependNamespace(Key("hasUkAddress"))
@@ -174,7 +174,7 @@ trait FormKeys {
   implicit class key2namespace(key:Key) extends Keys {
     override lazy val namespace = key.key
   }
-  implicit class keys2Traversal(key:Key)(implicit formData:InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary]) {
+  implicit class keys2Traversal(key:Key)(implicit formData:ErrorTransformForm[uk.gov.gds.ier.model.InprogressOrdinary]) {
     def each(from:Int = 0)(block: (String, Int) => Html):Html = {
       val field = formData(key.item(from))
       field.value match {

@@ -9,7 +9,7 @@ import uk.gov.gds.ier.model.InprogressOverseas
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 
 class ParentsAddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
@@ -35,7 +35,7 @@ class ParentsAddressManualStep @Inject() (
   }
 
   def template(
-      form: InProgressForm[InprogressOverseas],
+      form: ErrorTransformForm[InprogressOverseas],
       call: Call,
       backUrl: Option[Call]) = {
     ParentsAddressMustache.manualPage(

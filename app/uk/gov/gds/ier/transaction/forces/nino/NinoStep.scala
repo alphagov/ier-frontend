@@ -31,10 +31,10 @@ class NinoStep @Inject ()(val serialiser: JsonSerialiser,
   )
 
   def template(
-      form: InProgressForm[InprogressForces],
+      form: ErrorTransformForm[InprogressForces],
       postEndpoint: Call,
       backEndpoint:Option[Call]): Html = {
-    ninoMustache(form.form, postEndpoint, backEndpoint)
+    ninoMustache(form, postEndpoint, backEndpoint)
   }
   def nextStep(currentState: InprogressForces) = {
     ServiceController.serviceStep

@@ -34,10 +34,10 @@ class NationalityStep @Inject ()(
   )
 
   def template(
-      form: InProgressForm[InprogressCrown],
+      form: ErrorTransformForm[InprogressCrown],
       postEndpoint: Call,
       backEndpoint:Option[Call]): Html = {
-    nationalityMustache(form.form, postEndpoint, backEndpoint)
+    nationalityMustache(form, postEndpoint, backEndpoint)
   }
 
   def nextStep(currentState: InprogressCrown) = {

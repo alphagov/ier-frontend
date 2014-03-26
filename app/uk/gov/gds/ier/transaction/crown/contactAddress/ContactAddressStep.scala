@@ -31,10 +31,10 @@ class ContactAddressStep @Inject ()(
   )
 
   def template(
-      form:InProgressForm[InprogressCrown],
+      form: ErrorTransformForm[InprogressCrown],
       postEndpoint:Call,
       backEndpoint: Option[Call]): Html = {
-    contactAddressMustache(form.form, postEndpoint, backEndpoint)
+    contactAddressMustache(form, postEndpoint, backEndpoint)
   }
 
   def nextStep(currentState: InprogressCrown) = {

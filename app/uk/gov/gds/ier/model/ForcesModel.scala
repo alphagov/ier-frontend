@@ -2,7 +2,7 @@ package uk.gov.gds.ier.model
 
 import uk.gov.gds.common.model.LocalAuthority
 import scala.util.Try
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 
 case class InprogressForces(
     statement: Option[Statement] = None,

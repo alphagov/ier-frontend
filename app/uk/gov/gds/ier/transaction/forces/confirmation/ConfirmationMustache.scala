@@ -5,7 +5,7 @@ import uk.gov.gds.ier.model.WaysToVoteType
 import uk.gov.gds.ier.model.MovedHouseOption
 import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
 import uk.gov.gds.ier.logging.Logging
-import uk.gov.gds.ier.validation.{FormKeys, Key, InProgressForm}
+import uk.gov.gds.ier.validation.{ErrorTransformForm, Key}
 import uk.gov.gds.ier.model.InprogressForces
 import scala.Some
 import controllers.step.forces.routes
@@ -32,7 +32,7 @@ trait ConfirmationMustache {
   object Confirmation extends StepMustache {
 
     def confirmationPage(
-        form:InProgressForm[InprogressForces],
+        form: ErrorTransformForm[InprogressForces],
         backUrl: String,
         postUrl: String) = {
 
@@ -90,7 +90,7 @@ trait ConfirmationMustache {
       )
     }
 
-    def displayPartnerBlock (form:InProgressForm[InprogressForces]): Boolean = {
+    def displayPartnerBlock (form: ErrorTransformForm[InprogressForces]): Boolean = {
 
       val isForcesPartner = Some("true")
       val isNotForcesMember = Some("false")
@@ -107,7 +107,7 @@ trait ConfirmationMustache {
 
   }
 
-  class ConfirmationBlocks(form:InProgressForm[InprogressForces])
+  class ConfirmationBlocks(form: ErrorTransformForm[InprogressForces])
     extends StepMustache with AddressHelpers with Logging {
 
     val completeThisStepMessage = "<div class=\"validation-message visible\">" +
@@ -408,12 +408,12 @@ trait ConfirmationMustache {
               case (Some("false"), _) => s"<p>I do not need ${prettyWayName} application form</p>"
               case (_, _) => ""
       }
-      
+
       Some(ConfirmationQuestion(
         title = "Voting options",
         editLink = routes.WaysToVoteController.editGet.url,
         changeName = "voting",
-        content = if (form(keys.waysToVote).hasErrors || 
+        content = if (form(keys.waysToVote).hasErrors ||
              (way.exists(_ == WaysToVoteType.InPerson) && form(keys.postalOrProxyVote).hasErrors)) {
            completeThisStepMessage
          }

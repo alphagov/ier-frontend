@@ -14,7 +14,7 @@ import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.InprogressOverseas
 import uk.gov.gds.ier.step.GoTo
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import org.joda.time.{Months, DateTime}
 import controllers.routes.ExitController
 import uk.gov.gds.ier.validation.DateValidator
@@ -37,23 +37,23 @@ class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
   val previousRoute = Some(PreviouslyRegisteredController.get)
 
   def nextStep(currentState: InprogressOverseas) = {
-    
+
     val notRegistered = currentState.lastRegisteredToVote match {
 	  case Some(LastRegisteredToVote(LastRegisteredType.NotRegistered)) => true
 	  case _ => false
 	}
-    
+
     (currentState.dateLeftUk, currentState.dob, notRegistered) match {
-      case (Some(dateLeftUk), Some(dateOfBirth), _) 
-        if DateValidator.dateLeftUkOver15Years(dateLeftUk) => 
+      case (Some(dateLeftUk), Some(dateOfBirth), _)
+        if DateValidator.dateLeftUkOver15Years(dateLeftUk) =>
           GoTo(ExitController.leftUkOver15Years)
-      case (Some(dateLeftUk), Some(dateOfBirth), true) 
-        if (validateTooOldWhenLeftUk(dateLeftUk, dateOfBirth)) => 
+      case (Some(dateLeftUk), Some(dateOfBirth), true)
+        if (validateTooOldWhenLeftUk(dateLeftUk, dateOfBirth)) =>
           GoTo(ExitController.tooOldWhenLeftUk)
-      case (Some(dateLeftUk), Some(dateOfBirth), true) 
+      case (Some(dateLeftUk), Some(dateOfBirth), true)
         if (!DateValidator.dateLeftUkOver15Years(dateLeftUk) &&
           currentState.dob.isDefined &&
-          !validateTooOldWhenLeftUk(dateLeftUk, dateOfBirth)) => 
+          !validateTooOldWhenLeftUk(dateLeftUk, dateOfBirth)) =>
           ParentNameController.parentNameStep
       case _ => LastUkAddressController.lastUkAddressStep
     }
@@ -67,7 +67,7 @@ class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
     else false
   }
 
-  def template(form: InProgressForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
-    dateLeftUkMustache(form.form, postEndpoint, backEndpoint)
+  def template(form: ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
+    dateLeftUkMustache(form, postEndpoint, backEndpoint)
   }
 }

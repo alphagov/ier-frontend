@@ -9,7 +9,7 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{CrownStep, Routes}
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 
 class PreviousAddressPostcodeStep @Inject() (
     val serialiser: JsonSerialiser,
@@ -36,7 +36,7 @@ class PreviousAddressPostcodeStep @Inject() (
   }
 
   def template(
-      form: InProgressForm[InprogressCrown],
+      form: ErrorTransformForm[InprogressCrown],
       call: Call,
       backUrl: Option[Call]) = {
     PreviousAddressMustache.postcodePage(
@@ -49,7 +49,7 @@ class PreviousAddressPostcodeStep @Inject() (
   def lookup = ValidSession requiredFor { implicit request => application =>
     validation.bindFromRequest().fold(
       hasErrors => {
-        Ok(template(InProgressForm(hasErrors), routes.post, previousRoute))
+        Ok(template(hasErrors, routes.post, previousRoute))
       },
       success => {
         val mergedApplication = success.merge(application)

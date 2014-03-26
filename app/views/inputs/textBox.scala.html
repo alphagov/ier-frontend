@@ -1,4 +1,4 @@
-@(id:uk.gov.gds.ier.validation.Key, attributes:(Symbol,String)*)(implicit formData:uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary])
+@(id:uk.gov.gds.ier.validation.Key, attributes:(Symbol,String)*)(implicit formData:uk.gov.gds.ier.validation.ErrorTransformForm[uk.gov.gds.ier.model.InprogressOrdinary])
 @import uk.gov.gds.ier.form.FieldHelpers._
 @inputType = @{ attributes.toMap.get('type).getOrElse("text") }
 @defining(formData(id)) { field =>

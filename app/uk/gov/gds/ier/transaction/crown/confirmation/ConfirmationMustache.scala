@@ -6,9 +6,8 @@ import uk.gov.gds.ier.model.MovedHouseOption
 import controllers.step.crown._
 import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
 import uk.gov.gds.ier.logging.Logging
-import uk.gov.gds.ier.validation.Key
+import uk.gov.gds.ier.validation.{ErrorTransformForm, Key, InProgressForm}
 import uk.gov.gds.ier.model.InprogressCrown
-import uk.gov.gds.ier.validation.InProgressForm
 import scala.Some
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.form.AddressHelpers
@@ -33,7 +32,7 @@ trait ConfirmationMustache {
   object Confirmation extends StepMustache {
 
     def confirmationData(
-        form:InProgressForm[InprogressCrown],
+        form: ErrorTransformForm[InprogressCrown],
         backUrl: String,
         postUrl: String) = {
 
@@ -68,7 +67,7 @@ trait ConfirmationMustache {
     }
 
     def confirmationPage(
-        form:InProgressForm[InprogressCrown],
+        form: ErrorTransformForm[InprogressCrown],
         backUrl: String,
         postUrl: String) = {
 
@@ -83,7 +82,7 @@ trait ConfirmationMustache {
     }
   }
 
-  class ConfirmationBlocks(form:InProgressForm[InprogressCrown])
+  class ConfirmationBlocks(form: ErrorTransformForm[InprogressCrown])
     extends StepMustache with AddressHelpers with Logging {
 
     val completeThisStepMessage = "<div class=\"validation-message visible\">" +

@@ -5,7 +5,7 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.model.InprogressOverseas
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
@@ -32,9 +32,9 @@ class AddressStep @Inject() (val serialiser: JsonSerialiser,
     OpenRegisterController.openRegisterStep
   }
 
-  def template(form: InProgressForm[InprogressOverseas],
+  def template(form: ErrorTransformForm[InprogressOverseas],
                postEndpoint: Call,
                backEndpoint:Option[Call]): Html = {
-    addressMustache(form.form, postEndpoint, backEndpoint)
+    addressMustache(form, postEndpoint, backEndpoint)
   }
 }

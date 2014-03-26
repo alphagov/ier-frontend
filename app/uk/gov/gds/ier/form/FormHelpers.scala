@@ -21,7 +21,7 @@ object FormHelpers extends FormKeys {
   lazy val textArea = views.html.inputs.textArea
   lazy val wrapLabel = views.html.inputs.wrapLabel
   def label(id:uk.gov.gds.ier.validation.Key, label:String, attributes:(Symbol,String)*)
-           (implicit formData: uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary]) = {
+           (implicit formData: uk.gov.gds.ier.validation.ErrorTransformForm[uk.gov.gds.ier.model.InprogressOrdinary]) = {
     views.html.inputs.wrapLabel(id, attributes:_*)(Html(label))(formData)
   }
 

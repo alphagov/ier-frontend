@@ -1,15 +1,15 @@
 package uk.gov.gds.ier.transaction.forces.address
 
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{InProgressForm, FormKeys, ErrorMessages}
+import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import controllers.step.forces.routes._
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.model.PartialAddress
 import uk.gov.gds.ier.model.InprogressForces
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 
 class AddressMustacheTest
@@ -29,7 +29,7 @@ class AddressMustacheTest
 
   it should "empty progress form should produce empty Model (lookupData)" in {
 
-    val emptyApplicationForm =  InProgressForm(addressForm)
+    val emptyApplicationForm =  addressForm
     val addressModel = AddressMustache.lookupData(
       emptyApplicationForm,
       "/register-to-vote/forces/statement",
@@ -44,7 +44,7 @@ class AddressMustacheTest
 
   it should "empty progress form should produce empty Model (selectData)" in {
 
-    val emptyApplicationForm =  InProgressForm(addressForm)
+    val emptyApplicationForm =  addressForm
     val addressModel = AddressMustache.selectData(
       emptyApplicationForm,
       "/register-to-vote/forces/statement",
@@ -67,7 +67,7 @@ class AddressMustacheTest
 
   it should "empty progress form should produce empty Model (manualData)" in {
 
-    val emptyApplicationForm =  InProgressForm(addressForm)
+    val emptyApplicationForm =  addressForm
     val addressModel = AddressMustache.manualData(
       emptyApplicationForm,
       "/register-to-vote/forces/statement",
@@ -99,7 +99,7 @@ class AddressMustacheTest
     ))
 
     val addressModel = AddressMustache.lookupData(
-      InProgressForm(partiallyFilledApplicationForm),
+      partiallyFilledApplicationForm,
       "/register-to-vote/forces/statement",
       "/register-to-vote/forces/address/lookup")
 
@@ -124,7 +124,7 @@ class AddressMustacheTest
     ))
 
     val addressModel = AddressMustache.selectData(
-      InProgressForm(partiallyFilledApplicationForm),
+      partiallyFilledApplicationForm,
       "/register-to-vote/forces/statement",
       "/register-to-vote/forces/address/select",
       "/register-to-vote/forces/address",
@@ -161,7 +161,7 @@ class AddressMustacheTest
     ))
 
     val addressModel = AddressMustache.manualData(
-      InProgressForm(partiallyFilledApplicationForm),
+      partiallyFilledApplicationForm,
       "/register-to-vote/forces/statement",
       "/register-to-vote/forces/address/select",
       "/register-to-vote/forces/address")

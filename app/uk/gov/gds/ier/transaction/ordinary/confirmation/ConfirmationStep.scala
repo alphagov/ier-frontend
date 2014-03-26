@@ -36,7 +36,7 @@ class ConfirmationStep @Inject ()(
   val validation = confirmationForm
   val previousRoute = Some(ContactController.get)
 
-  def template(form:InProgressForm[InprogressOrdinary]): Html = {
+  def template(form: ErrorTransformForm[InprogressOrdinary]): Html = {
     Confirmation.confirmationPage(
       form,
       previousRoute.map(_.url).getOrElse("#"),
@@ -63,14 +63,14 @@ class ConfirmationStep @Inject ()(
         }
       )
 
-      Ok(template(InProgressForm(validation.fillAndValidate(appWithAddressLines))))
+      Ok(template(validation.fillAndValidate(appWithAddressLines)))
   }
 
   def post = ValidSession requiredFor {
     request => application =>
       validation.fillAndValidate(application).fold(
         hasErrors => {
-          Ok(template(InProgressForm(hasErrors)))
+          Ok(template(hasErrors))
         },
         validApplication => {
           val refNum = ierApi.generateOrdinaryReferenceNumber(validApplication)

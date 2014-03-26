@@ -17,7 +17,7 @@ class OpenRegisterStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService)
   extends CrownStep
-  with OpenRegisterForms 
+  with OpenRegisterForms
   with OpenRegisterMustache {
 
   val validation = openRegisterForm
@@ -30,8 +30,8 @@ class OpenRegisterStep @Inject ()(
     editPost = OpenRegisterController.editPost
   )
 
-  def template(form:InProgressForm[InprogressCrown], call:Call, backUrl: Option[Call]): Html = {
-    openRegisterMustache(form.form, call, backUrl)
+  def template(form: ErrorTransformForm[InprogressCrown], call:Call, backUrl: Option[Call]): Html = {
+    openRegisterMustache(form, call, backUrl)
   }
   def nextStep(currentState: InprogressCrown) = {
     WaysToVoteController.waysToVoteStep

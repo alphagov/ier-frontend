@@ -32,10 +32,10 @@ class NinoStep @Inject ()(
   )
 
   def template(
-      form: InProgressForm[InprogressCrown],
+      form: ErrorTransformForm[InprogressCrown],
       postEndpoint: Call,
       backEndpoint:Option[Call]): Html = {
-    ninoMustache(form.form, postEndpoint, backEndpoint)
+    ninoMustache(form, postEndpoint, backEndpoint)
   }
   def nextStep(currentState: InprogressCrown) = {
     ContactAddressController.contactAddressStep
