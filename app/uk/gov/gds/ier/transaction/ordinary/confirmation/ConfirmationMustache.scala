@@ -4,7 +4,7 @@ import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.{Key, InProgressForm}
-import uk.gov.gds.ier.model.InprogressOrdinary
+import uk.gov.gds.ier.model.{OtherAddress, InprogressOrdinary}
 import scala.Some
 import controllers.step.ordinary.routes
 import uk.gov.gds.ier.form.AddressHelpers
@@ -206,11 +206,11 @@ trait ConfirmationMustache {
         changeName = "second address",
         content =
           ifComplete(keys.otherAddress) {
-            if(form(keys.otherAddress.hasOtherAddress).value == Some("true")) {
-              "<p>I have a second address</p>"
-            }
-            else {
-              "<p>I don't have a second address</p>"
+            form(keys.otherAddress.hasOtherAddress).value match {
+              case Some(secAddrType)
+                if OtherAddress.parse(secAddrType) != OtherAddress.NoOtherAddress =>
+                  "<p>I have a second address</p>"
+              case _ => "<p>I don't have a second address</p>"
             }
           }
       ))
