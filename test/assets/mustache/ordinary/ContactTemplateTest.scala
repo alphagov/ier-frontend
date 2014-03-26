@@ -24,28 +24,28 @@ class ContactTemplateTest
           classes = ""
         ),
         contactEmailCheckbox = Field(
-          id = "contact_email_contactMe",
-          name = "contact.email.contactMe",
+          id = "contactEmailCheckboxId",
+          name = "contactEmailCheckboxName",
           value = "true"
         ),
         contactPhoneCheckbox = Field(
-          id = "contact_phone_contactMe",
-          name = "contact.phone.contactMe",
+          id = "contactPhoneCheckboxId",
+          name = "contactPhoneCheckboxName",
           value = "true"
         ),
         contactPostCheckbox = Field(
-          id = "contact_post_contactMe",
-          name = "contact.post.contactMe",
+          id = "contactPostCheckboxId",
+          name = "contactPostCheckboxName",
           value = "true"
         ),
         contactEmailText = Field(
-          id = "contact_email_detail",
-          name = "contact.email.detail",
+          id = "contactEmailTextId",
+          name = "contactEmailTextName",
           value = "test@test.com"
         ),
         contactPhoneText = Field(
-          id = "contact_phone_detail",
-          name = "contact.phone.detail",
+          id = "contactPhoneTextId",
+          name = "contactPhoneTextName",
           value = "123456"
         )
       )
@@ -63,34 +63,34 @@ class ContactTemplateTest
       h.text should include ("1")
       h.text should include ("contact title")
 
-      val emailCheckBox = doc.select("input#contact_email_contactMe").first()
+      val emailCheckBox = doc.select("input#contactEmailCheckboxId").first()
       emailCheckBox should not be (null)
-      emailCheckBox.attr("id") should be("contact_email_contactMe")
-      emailCheckBox.attr("name") should be("contact.email.contactMe")
+      emailCheckBox.attr("id") should be("contactEmailCheckboxId")
+      emailCheckBox.attr("name") should be("contactEmailCheckboxName")
       emailCheckBox.attr("value") should be("true")
 
-      val phoneCheckBox = doc.select("input#contact_phone_contactMe").first()
+      val phoneCheckBox = doc.select("input#contactPhoneCheckboxId").first()
       phoneCheckBox should not be (null)
-      phoneCheckBox.attr("id") should be("contact_phone_contactMe")
-      phoneCheckBox.attr("name") should be("contact.phone.contactMe")
+      phoneCheckBox.attr("id") should be("contactPhoneCheckboxId")
+      phoneCheckBox.attr("name") should be("contactPhoneCheckboxName")
       phoneCheckBox.attr("value") should be("true")
       
-      val postCheckBox = doc.select("input#contact_post_contactMe").first()
+      val postCheckBox = doc.select("input#contactPostCheckboxId").first()
       postCheckBox should not be (null)
-      postCheckBox.attr("id") should be("contact_post_contactMe")
-      postCheckBox.attr("name") should be("contact.post.contactMe")
+      postCheckBox.attr("id") should be("contactPostCheckboxId")
+      postCheckBox.attr("name") should be("contactPostCheckboxName")
       postCheckBox.attr("value") should be("true")
       
-      val emailField = doc.select("input#contact_email_detail").first()
+      val emailField = doc.select("input#contactEmailTextId").first()
       emailField should not be (null)
-      emailField.attr("id") should be("contact_email_detail")
-      emailField.attr("name") should be("contact.email.detail")
+      emailField.attr("id") should be("contactEmailTextId")
+      emailField.attr("name") should be("contactEmailTextName")
       emailField.attr("value") should be("test@test.com")
       
-      val phoneField = doc.select("input#contact_phone_detail").first()
+      val phoneField = doc.select("input#contactPhoneTextId").first()
       phoneField should not be (null)
-      phoneField.attr("id") should be("contact_phone_detail")
-      phoneField.attr("name") should be("contact.phone.detail")
+      phoneField.attr("id") should be("contactPhoneTextId")
+      phoneField.attr("name") should be("contactPhoneTextName")
       phoneField.attr("value") should be("123456")
     }
   }

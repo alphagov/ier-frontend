@@ -31,8 +31,8 @@ class PreviousAddressPostcodeTemplateTest
           title = "Page title ABC"
         ),
         postcode = Field(
-          id = "previousAddress_postcode",
-          name = "previousAddress.postcode",
+          id = "postcodeId",
+          name = "postcodeName",
           classes = "postcodeClass1 postcodeClass2",
           value = "WR26NJ"
         )
@@ -46,16 +46,16 @@ class PreviousAddressPostcodeTemplateTest
 
       val label = fieldset.select("label").first()
       label should not be (null)
-      label.attr("for") should be("previousAddress_postcode")
+      label.attr("for") should be("postcodeId")
 
       val divWrapper = fieldset.select("div").first()
       divWrapper should not be (null)
       divWrapper.attr("class") should include("postcodeClass1")
       divWrapper.attr("class") should include("postcodeClass2")
 
-      val input = divWrapper.select("input#previousAddress_postcode").first()
+      val input = divWrapper.select("input#postcodeId").first()
       input should not be (null)
-      input.attr("name") should be("previousAddress.postcode")
+      input.attr("name") should be("postcodeName")
       input.attr("value") should be("WR26NJ")
       input.attr("class") should include("postcodeClass1")
       input.attr("class") should include("postcodeClass2")
