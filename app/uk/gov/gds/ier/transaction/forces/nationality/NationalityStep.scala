@@ -37,19 +37,11 @@ class NationalityStep @Inject ()(
   def template(
       form: InProgressForm[InprogressForces],
       postEndpoint: Call,
-      backEndpoint:Option[Call]): Html = Html.empty
-
-  override def templateWithApplication(
-      form: InProgressForm[InprogressForces],
-      call: Call,
-      backUrl: Option[Call]):InprogressForces => Html = {
-    application:InprogressForces =>
-      nationalityMustache(application, form.form, call, backUrl)
-
+      backEndpoint:Option[Call]): Html = {
+    nationalityMustache(form.form, postEndpoint, backEndpoint)
   }
 
   def nextStep(currentState: InprogressForces) = {
-
     if (currentState.nationality.flatMap(_.noNationalityReason) == None) {
       val franchises = currentState.nationality match {
         case Some(nationality) => isoCountryService.getFranchises(nationality)
