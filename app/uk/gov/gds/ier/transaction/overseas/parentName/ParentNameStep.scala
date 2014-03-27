@@ -9,7 +9,7 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.OverseaStep
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.validation._
-import uk.gov.gds.ier.model.{InprogressOverseas, PreviousName, OverseasName}
+import uk.gov.gds.ier.model.{OverseasParentName, InprogressOverseas, PreviousName, OverseasName}
 import controllers.step.overseas.routes.ParentNameController
 import controllers.step.overseas.routes.DateLeftUkController
 import controllers.step.overseas.ParentsAddressController
@@ -38,10 +38,10 @@ class ParentNameStep @Inject ()(
   
   override def postSuccess(currentState: InprogressOverseas):InprogressOverseas = {
     currentState.overseasParentName match {
-      case Some(OverseasName(optParentName, Some(parentPreviousName)))
+      case Some(OverseasParentName(optParentName, Some(parentPreviousName)))
         if (!parentPreviousName.hasPreviousName) =>
           currentState.copy(
-            overseasParentName = Some(OverseasName(optParentName, Some(PreviousName(false, None))))
+            overseasParentName = Some(OverseasParentName(optParentName, Some(PreviousName(false, None))))
           )
       case _ => currentState
     }
