@@ -29,12 +29,12 @@ trait DateLeftUkMustache extends StepMustache {
         title = "When did you leave the UK?"
       ) ,
       dateLeftUkFieldSet = FieldSet(
-        classes = if (progressForm(keys.dateLeftUk.month.key).hasErrors ||
-          progressForm(keys.dateLeftUk.year.key).hasErrors) "invalid" else ""
+        classes = if (progressForm(keys.dateLeftUk.month).hasErrors ||
+          progressForm(keys.dateLeftUk.year).hasErrors) "invalid" else ""
       ),
       dateLeftUkMonth = SelectField(
         key = keys.dateLeftUk.month,
-        optionList = generateOptionsList(progressForm(keys.dateLeftUk.month.key).value.getOrElse("")),
+        optionList = generateOptionsList(progressForm(keys.dateLeftUk.month).value.getOrElse("")),
         default = SelectOption(text = "Month", value = "")
       ),
       dateLeftUkYear = TextField(

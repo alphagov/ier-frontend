@@ -129,7 +129,7 @@ trait ContactAddressMustache extends StepMustache with AddressHelpers {
         title = "Where should we write to you about your registration?"
       ),
       contactAddressFieldSet = FieldSet (
-        classes = if (form(keys.contactAddress.key).hasErrors) "invalid" else ""
+        classes = if (form(keys.contactAddress).hasErrors) "invalid" else ""
       ),
       ukAddress = ukContactAddressModel,
       bfpoAddress = bfpoContactAddressModel,
@@ -149,7 +149,7 @@ trait ContactAddressMustache extends StepMustache with AddressHelpers {
         case _ => addressLine
       }
     }
-    else form(keys.contactAddress.ukAddressLine.key).value
+    else form(keys.contactAddress.ukAddressLine).value
   }
 
   def contactAddressMustache(

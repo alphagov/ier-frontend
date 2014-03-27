@@ -23,9 +23,9 @@ trait PostalVoteMustache extends StepMustache {
       postUrl: Call,
       backUrl: Option[Call]): PostalVoteModel = {
     implicit val progressForm = form
-    
-    val deliveryMethodValidation = 
-      if (form(keys.postalVote.deliveryMethod.methodName.key).hasErrors) "invalid" else ""
+
+    val deliveryMethodValidation =
+      if (form(keys.postalVote.deliveryMethod.methodName).hasErrors) "invalid" else ""
 
     PostalVoteModel(
       question = Question(

@@ -41,7 +41,7 @@ trait AddressMustache extends StepMustache {
       ),
       countrySelect = SelectField(key = keys.overseasAddress.country,
           optionList = countrySelectOptions(
-              progressForm(keys.overseasAddress.country.key).value.getOrElse("")),
+              progressForm(keys.overseasAddress.country).value.getOrElse("")),
           default = SelectOption("", "Please select your country")),
       addressLine1 = TextField(key = keys.overseasAddress.addressLine1),
       addressLine2 = TextField(key = keys.overseasAddress.addressLine2),

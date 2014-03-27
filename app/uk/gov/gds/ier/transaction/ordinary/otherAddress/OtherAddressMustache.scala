@@ -20,7 +20,7 @@ trait OtherAddressMustache extends StepMustache {
   def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOrdinary],
                                       postUrl: String,
                                       backUrl: Option[String]): OtherAddressModel = {
-    val otherAddressValue = form(keys.otherAddress.hasOtherAddress.key).value
+    val otherAddressValue = form(keys.otherAddress.hasOtherAddress).value
     OtherAddressModel(
       question = Question(
         postUrl = postUrl,
@@ -57,7 +57,7 @@ trait OtherAddressMustache extends StepMustache {
         }
       ),
       hasOtherAddress = Field(
-        classes = if (form(keys.otherAddress.key).hasErrors) "invalid" else ""
+        classes = if (form(keys.otherAddress).hasErrors) "invalid" else ""
       )
     )
   }

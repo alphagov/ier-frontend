@@ -44,7 +44,7 @@ trait ContactAddressMustache
       ukAddressOption: Field,
       ukAddressLineText: Field
   )
-  
+
   def transformFormStepToMustacheData(
       form:ErrorTransformForm[InprogressCrown],
       post: Call,
@@ -131,7 +131,7 @@ trait ContactAddressMustache
         title = "Where should we write to you about your registration?"
       ),
       contactAddressFieldSet = FieldSet (
-        classes = if (form(keys.contactAddress.key).hasErrors) "invalid" else ""
+        classes = if (form(keys.contactAddress).hasErrors) "invalid" else ""
       ),
       ukAddress = ukContactAddressModel,
       bfpoAddress = bfpoContactAddressModel,
@@ -147,7 +147,7 @@ trait ContactAddressMustache
 
       val addressLine = address flatMap { _.addressLine }
       val manualAddress = address flatMap { _.manualAddress } flatMap manualAddressToOneLine
-      val addressFromForm = form(keys.contactAddress.ukAddressLine.key).value
+      val addressFromForm = form(keys.contactAddress.ukAddressLine).value
 
       addressLine orElse manualAddress orElse addressFromForm
   }
@@ -156,7 +156,7 @@ trait ContactAddressMustache
         form:ErrorTransformForm[InprogressCrown],
         post: Call,
         back: Option[Call]): Html = {
-      
+
     val data = transformFormStepToMustacheData(form, post, back)
     val content = Mustache.render("crown/contactAddress", data)
     MainStepTemplate(content, data.question.title)

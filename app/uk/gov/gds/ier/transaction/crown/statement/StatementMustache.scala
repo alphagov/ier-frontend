@@ -33,13 +33,13 @@ trait StatementMustache extends StepMustache {
       ),
       crown = Field(
         id = "crown" + keys.statement.key,
-        classes = if (form(keys.statement.key).hasErrors) "invalid" else ""
+        classes = if (form(keys.statement).hasErrors) "invalid" else ""
       ),
       crownServant = CheckboxField(keys.statement.crownServant, "true"),
       crownPartner = CheckboxField(keys.statement.crownPartner, "true"),
       council = Field(
         id = "council" + keys.statement.key,
-        classes = if (form(keys.statement.key).hasErrors) "invalid" else ""
+        classes = if (form(keys.statement).hasErrors) "invalid" else ""
       ),
       councilEmployee = CheckboxField(keys.statement.councilEmployee, "true"),
       councilPartner = CheckboxField(keys.statement.councilPartner, "true")

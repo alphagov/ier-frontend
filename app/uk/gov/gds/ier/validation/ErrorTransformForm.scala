@@ -15,10 +15,6 @@ case class ErrorTransformForm[T](private val form:Form[T]) {
   // FIXME: make private
   lazy val value : Option[T] = form.value
 
-  // FIXME: remove this variant
-  def apply(key : String) : Field = {
-    transformedForm.apply(key)
-  }
   def apply(key : Key) = {
     transformedForm(key.key)
   }
@@ -52,7 +48,7 @@ case class ErrorTransformForm[T](private val form:Form[T]) {
   def globalErrors : Seq[FormError] = {
     transformedForm.globalErrors
   }
-  def forField[R](key : String)(handler : Field => R) : R = {
+  def forField[R](key : Key)(handler : Field => R) : R = {
     handler(this(key))
   }
   def hasErrors : scala.Boolean = {

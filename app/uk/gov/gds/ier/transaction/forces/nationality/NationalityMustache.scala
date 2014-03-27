@@ -63,7 +63,7 @@ trait NationalityMustache extends StepMustache {
           case Nil => ""
           case headCountry :: tailCountries => headCountry
         },
-        classes = if (progressForm(keys.nationality.otherCountries.key).hasErrors) "invalid" else ""
+        classes = if (progressForm(keys.nationality.otherCountries).hasErrors) "invalid" else ""
       ),
 
       otherCountriesTail =
@@ -74,7 +74,7 @@ trait NationalityMustache extends StepMustache {
         key = keys.nationality.noNationalityReason
       ),
       noNationalityReasonShowFlag = Text (
-        value = progressForm(keys.nationality.noNationalityReason.key).value.map(noNationalityReason => "-open").getOrElse("")
+        value = progressForm(keys.nationality.noNationalityReason).value.map(noNationalityReason => "-open").getOrElse("")
       )
     )
   }

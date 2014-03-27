@@ -36,7 +36,7 @@ trait LastRegisteredToVoteMustache {
           title = "How were you last registered to vote?"
         ),
         registeredType = Field(
-          classes = if(form(keys.lastRegisteredToVote.registeredType.key).hasErrors) {
+          classes = if(form(keys.lastRegisteredToVote.registeredType).hasErrors) {
             "invalid"
           } else ""
         ),

@@ -38,7 +38,7 @@ trait NinoMustache extends StepMustache {
         key = keys.nino.noNinoReason
       ),
       noNinoReasonShowFlag = Text (
-        value = progressForm(keys.nino.noNinoReason.key).value.map(noNinoReason => "-open").getOrElse("")
+        value = progressForm(keys.nino.noNinoReason).value.map(noNinoReason => "-open").getOrElse("")
       )
     )
     val content = Mustache.render("ordinary/nino", data)

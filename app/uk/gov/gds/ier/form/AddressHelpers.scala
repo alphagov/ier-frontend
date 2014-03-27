@@ -15,10 +15,10 @@ trait AddressHelpers extends FormKeys {
       form: ErrorTransformForm[_],
       manualAddressKey: Key): Option[String] = {
     val maLines = List (
-      form(manualAddressKey.lineOne.key).value,
-      form(manualAddressKey.lineTwo.key).value,
-      form(manualAddressKey.lineThree.key).value,
-      form(manualAddressKey.city.key).value
+      form(manualAddressKey.lineOne).value,
+      form(manualAddressKey.lineTwo).value,
+      form(manualAddressKey.lineThree).value,
+      form(manualAddressKey.city).value
     ).flatten
     if (maLines == Nil) return None else Some(maLines.mkString(", "))
   }
@@ -41,6 +41,6 @@ trait AddressHelpers extends FormKeys {
    */
   def isManualAddressDefined(form: ErrorTransformForm[_], manualAddressKey: Key): Boolean = {
     // is checking by just line one enough?
-    form(manualAddressKey.lineOne.key).value.isDefined
+    form(manualAddressKey.lineOne).value.isDefined
   }
 }

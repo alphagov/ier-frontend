@@ -24,17 +24,17 @@ class ParentNameBlocksTests
   val serialiser = jsonSerialiser
 
   behavior of "confirmationBlocks.parentName"
-  
+
   it should "return 'complete this' (age > 18, leftuk < 15 years, and step incomplete)" in {
     val twentyYearsAgo = new DateTime().minusYears(20).getYear
     val fourteenYearsAgo = new DateTime().minusYears(14).getYear
-    
+
     val partialApplication = confirmationForm.fillAndValidate(InprogressOverseas(
       dob = Some(DOB(twentyYearsAgo, 10, 10)),
       dateLeftUk = Some(DateLeft(fourteenYearsAgo, 10))
     ))
 
-    partialApplication(keys.overseasParentName.parentName.key).hasErrors should be (true)
+    partialApplication(keys.overseasParentName.parentName).hasErrors should be (true)
 
     val confirmation = new ConfirmationBlocks(partialApplication)
     val parentNameModel = confirmation.parentName
@@ -109,7 +109,7 @@ class ParentNameBlocksTests
   it should "correctly render parent names" in {
     val twentyYearsAgo = new DateTime().minusYears(20).getYear
     val fourteenYearsAgo = new DateTime().minusYears(14).getYear
-    
+
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
       dob = Some(DOB(twentyYearsAgo, 10, 10)),
       dateLeftUk = Some(DateLeft(fourteenYearsAgo, 10)),

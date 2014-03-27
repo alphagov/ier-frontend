@@ -8,11 +8,10 @@ import play.api.templates.Html
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.test._
 import play.api.test.Helpers._
-import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.validation.{Key, FormKeys, ErrorTransformForm}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.security._
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
-import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 import uk.gov.gds.ier.model.InprogressOrdinary
 import play.api.mvc.Results.Redirect
@@ -28,6 +27,7 @@ class StepControllerTests
   extends FlatSpec
   with Matchers
   with MockitoSugar
+  with FormKeys
   with TestHelpers {
 
   val mockPreviousCall = mock[Call]
@@ -36,6 +36,11 @@ class StepControllerTests
 
   val testEncryptionService =
     new EncryptionService(new Base64EncodingService, mockConfig)
+
+  lazy val testKeys = new Keys{
+    lazy val foo = prependNamespace(Key("foo"))
+    lazy val bar = prependNamespace(Key("bar"))
+  }
 
   def createController(
       form: ErrorTransformForm[InprogressOrdinary],
@@ -210,8 +215,8 @@ class StepControllerTests
           form: ErrorTransformForm[FooBar],
           call: Call,
           backUrl: Option[Call]):Html = {
-        val foo = form("foo").value
-        val bar = form("bar").value
+        val foo = form(testKeys.foo).value
+        val bar = form(testKeys.bar).value
 
         Html(s"Foo is $foo, Bar is $bar")
       }

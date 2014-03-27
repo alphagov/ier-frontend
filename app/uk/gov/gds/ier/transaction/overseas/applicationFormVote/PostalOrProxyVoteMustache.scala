@@ -47,7 +47,7 @@ trait PostalOrProxyVoteMustache extends StepMustache {
           +" vote, or your details have changed, you need to sign and return an application form."
       ),
       voteFieldSet = FieldSet(
-        classes = if (progressForm(keys.postalOrProxyVote.optIn.key).hasErrors)
+        classes = if (progressForm(keys.postalOrProxyVote.optIn).hasErrors)
           "invalid" else ""
       ),
       voteOptInTrue = RadioField (
@@ -59,7 +59,7 @@ trait PostalOrProxyVoteMustache extends StepMustache {
         value = "false"
       ),
       voteDeliveryMethodFieldSet = FieldSet(
-        classes = if (progressForm(keys.postalOrProxyVote.deliveryMethod.methodName.key).hasErrors)
+        classes = if (progressForm(keys.postalOrProxyVote.deliveryMethod.methodName).hasErrors)
           "invalid" else ""
       ),
       voteDeliveryMethodEmail = RadioField (

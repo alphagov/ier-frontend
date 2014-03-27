@@ -31,7 +31,7 @@ trait ContactMustache extends StepMustache {
         title = "If we have questions about your application, how should we contact you?"
       ),
       contactFieldSet = FieldSet(
-        classes = if (progressForm(keys.contact.key).hasErrors) "invalid" else ""
+        classes = if (progressForm(keys.contact).hasErrors) "invalid" else ""
       ),
       contactEmailCheckbox = CheckboxField(
         key = keys.contact.email.contactMe, value = "true"

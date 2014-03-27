@@ -56,7 +56,7 @@ trait PassportMustache extends StepMustache {
           title = "Do you have a British Passport?"
         ),
         hasPassport = Field(
-          classes = if (form(keys.passport.hasPassport.key).hasErrors) {
+          classes = if (form(keys.passport.hasPassport).hasErrors) {
             "invalid"
           } else ""
         ),
@@ -69,7 +69,7 @@ trait PassportMustache extends StepMustache {
           value = "false"
         ),
         bornInUk = Field(
-          classes = if (form(keys.passport.bornInsideUk.key).hasErrors) {
+          classes = if (form(keys.passport.bornInsideUk).hasErrors) {
             "invalid"
           } else ""
         ),
@@ -116,7 +116,7 @@ trait PassportMustache extends StepMustache {
         issueDateYear =  TextField(keys.passport.passportDetails.issueDate.year),
         issueDate = Field(
           id = keys.passport.passportDetails.issueDate.asId(),
-          classes = if (form(keys.passport.passportDetails.issueDate.key).hasErrors) {
+          classes = if (form(keys.passport.passportDetails.issueDate).hasErrors) {
             "invalid"
           } else ""
         )
@@ -154,7 +154,7 @@ trait PassportMustache extends StepMustache {
         citizenDateYear =  TextField(keys.passport.citizenDetails.dateBecameCitizen.year),
         citizenDate = Field(
           id = keys.passport.citizenDetails.dateBecameCitizen.asId(),
-          classes = if (form(keys.passport.citizenDetails.dateBecameCitizen.key).hasErrors) {
+          classes = if (form(keys.passport.citizenDetails.dateBecameCitizen).hasErrors) {
             "invalid"
           } else ""
         )
