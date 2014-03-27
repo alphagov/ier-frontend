@@ -101,5 +101,5 @@ trait NationalityMustache extends StepMustache {
       ).toList
   }
 
-  def otherCountriesKey(i:Int) = keys.nationality.otherCountries.key + "["+i+"]"
+  def otherCountriesKey(i:Int) = keys.nationality.otherCountries.item(i)
 }

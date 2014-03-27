@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.forces.service
 
-import uk.gov.gds.ier.validation.{InProgressForm, ErrorTransformForm}
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.mustache.StepMustache

@@ -36,9 +36,9 @@ trait IerForms extends OrdinaryMappings with ConfirmationForms {
     }
   }
 
-  object InProgress {
-    def apply(application:InprogressOrdinary):InProgressForm[InprogressOrdinary] = {
-      InProgressForm(confirmationForm.fill(application))
-    }
-  }
+//  object InProgress {
+//    def apply(application:InprogressOrdinary):InProgressForm[InprogressOrdinary] = {
+//      InProgressForm(confirmationForm.fill(application))
+//    }
+//  }
 }

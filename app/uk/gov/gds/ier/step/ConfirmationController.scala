@@ -6,7 +6,7 @@ import play.api.mvc.{AnyContent, Action, Controller}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
-import uk.gov.gds.ier.validation.{InProgressForm, ErrorTransformForm}
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.templates.Html
 
 

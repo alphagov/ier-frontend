@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.form
 
-import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, Key, InProgressForm}
+import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, Key}
 import uk.gov.gds.ier.model.PartialManualAddress
 
 trait AddressHelpers extends FormKeys {

@@ -1,8 +1,8 @@
-@(formData:uk.gov.gds.ier.validation.InProgressForm[uk.gov.gds.ier.model.InprogressOrdinary])
+@(formData:uk.gov.gds.ier.validation.ErrorTransformForm[uk.gov.gds.ier.model.InprogressOrdinary])
 @import uk.gov.gds.ier.form.FormHelpers._
 @message(error: FormError) = {
     <div class="validation-message visible">@error.message</div>
 }
-@for(error <- formData.form.globalErrors) {
+@for(error <- formData.globalErrors) {
     @message(error)
 }

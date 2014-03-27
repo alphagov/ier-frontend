@@ -1,13 +1,11 @@
 package uk.gov.gds.ier.transaction.ordinary.otherAddress
 
-import uk.gov.gds.ier.validation.{FormKeys, ErrorTransformForm, InProgressForm}
-import uk.gov.gds.ier.model.{InprogressOrdinary, OtherAddress, InprogressApplication}
+import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.model.InprogressOrdinary
 import uk.gov.gds.ier.model.OtherAddress._
 import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.mustache.StepMustache
-import java.net.URL
-
 
 trait OtherAddressMustache extends StepMustache {
 

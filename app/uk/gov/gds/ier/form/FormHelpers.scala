@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.form
 
 import play.api.data.{Field, Form}
-import uk.gov.gds.ier.validation.{InProgressForm, FormKeys}
+import uk.gov.gds.ier.validation.FormKeys
 import play.api.templates.{Template3, Html}
 
 object FormHelpers extends FormKeys {

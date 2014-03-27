@@ -6,7 +6,7 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.IerApiService
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.validation.{ErrorTransformForm, InProgressForm}
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.crown.routes.ConfirmationController
 import controllers.step.crown.routes.StatementController
 import controllers.routes.CompleteController
