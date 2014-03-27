@@ -150,7 +150,7 @@ class PreviousAddressYesFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("previousAddress") should be(Seq("Please answer this question"))
+        hasErrors.errorMessages("previousAddress.uprn") should be(Seq("Please answer this question"))
       },
       success => fail("Should have errored out")
     )
@@ -168,7 +168,7 @@ class PreviousAddressYesFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("previousAddress") should be(Seq("Please answer this question"))
+        hasErrors.errorMessages("previousAddress.uprn") should be(Seq("Please answer this question"))
       },
       success => fail("Should have errored out")
     )
@@ -227,12 +227,8 @@ class PreviousAddressYesFormTests
     )
     selectAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
-        hasErrors.errorsAsTextAll should be("" +
-          " -> Please select your address\n" +
-          "previousAddress.uprn -> Please select your address\n" +
-          "previousAddress.manualAddress -> Please select your address\n" +
-          "previousAddress -> Please select your address")
-        hasErrors.globalErrorMessages should be(Seq("Please select your address"))
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+        hasErrors.errorMessages("previousAddress.uprn") should be(Seq("Please answer this question"))
       },
       success => {
         fail("Should have errored out")
