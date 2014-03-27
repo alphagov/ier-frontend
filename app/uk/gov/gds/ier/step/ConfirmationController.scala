@@ -12,14 +12,13 @@ import play.api.templates.Html
 
 trait ConfirmationStepController[T <: InprogressApplication[T]]
   extends SessionHandling[T]
-  with NextStep[T]
+  with Step[T]
   with Controller
   with Logging
   with WithSerialiser
   with WithConfig
   with WithEncryption {
 
-  val routes: Routes
   val validation: ErrorTransformForm[T]
   def template(form:InProgressForm[T]): Html
   def get:Action[AnyContent]
@@ -28,4 +27,7 @@ trait ConfirmationStepController[T <: InprogressApplication[T]]
   def goToNext(currentState: T) = {
     Redirect(routes.get)
   }
+
+  def nextStep(currentState: T) = this
+  def isStepComplete(currentState: T) = false
 }

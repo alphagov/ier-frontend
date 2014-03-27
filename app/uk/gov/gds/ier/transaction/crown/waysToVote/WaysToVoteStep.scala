@@ -13,7 +13,7 @@ import uk.gov.gds.ier.validation.InProgressForm
 import play.api.mvc.Call
 import play.api.templates.Html
 import play.api.mvc.SimpleResult
-import uk.gov.gds.ier.step.NextStep
+import uk.gov.gds.ier.step.Step
 import uk.gov.gds.ier.model.{WaysToVote,PostalOrProxyVote}
 
 

@@ -31,9 +31,6 @@ class StepControllerTests
   with TestHelpers {
 
   val mockPreviousCall = mock[Call]
-  case class Url[T](url:String) extends NextStep[T] {
-    def goToNext(currentState: T) = Redirect(url)
-  }
 
   val mockConfig = new MockConfig
 
@@ -42,7 +39,7 @@ class StepControllerTests
 
   def createController(
       form: ErrorTransformForm[InprogressOrdinary],
-      theNextStep: NextStep[InprogressOrdinary] = Url("/next-step")) = {
+      theNextStep: Step[InprogressOrdinary] = Exit(Call("GET","/next-step"))) = {
     new OrdinaryStep
       with WithSerialiser
       with WithConfig
@@ -204,7 +201,7 @@ class StepControllerTests
       )
 
       def nextStep(currentState: FooBar) = {
-        Url("/next-step")
+        Exit(Call("GET","/next-step"))
       }
 
       val previousRoute: Option[Call] = Some(Call("GET", "/prev-step"))
