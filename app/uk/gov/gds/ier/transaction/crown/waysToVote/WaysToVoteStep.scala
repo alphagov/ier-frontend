@@ -36,7 +36,11 @@ class WaysToVoteStep @Inject ()(
   val previousRoute = Some(OpenRegisterController.get)
 
   override val onSuccess = TransformApplication { application =>
-    postSuccess(application)
+    if (application.waysToVote == Some(WaysToVote(WaysToVoteType.InPerson))) {
+        application.copy(postalOrProxyVote = None)
+    } else {
+      application
+    }
   } and BranchOn (_.waysToVote) {
     case Some(WaysToVote(WaysToVoteType.InPerson)) => SkipStepIfComplete()
     case _ => AlwaysGoToNextStep()
@@ -50,13 +54,7 @@ class WaysToVoteStep @Inject ()(
       case _ => throw new IllegalArgumentException("unknown next step")
     }
   }
-  
-  override def postSuccess(currentState: InprogressCrown):InprogressCrown = {
-    if (currentState.waysToVote == Some(WaysToVote(WaysToVoteType.InPerson))) 
-        currentState.copy(postalOrProxyVote = None)
-    else currentState
-  }
-  
+
   def template(form:InProgressForm[InprogressCrown], call:Call, backUrl: Option[Call]): Html = {
     waysToVoteMustache(form.form, call, backUrl.map(_.url))
   }
