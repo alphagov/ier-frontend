@@ -12,7 +12,7 @@ import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{CrownStep, Routes, Exit}
+import uk.gov.gds.ier.step.{CrownStep, Routes, GoTo}
 
 class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
                                        val config: Config,
@@ -41,15 +41,15 @@ class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
   def nextStep(currentState: InprogressCrown) = {
     currentState.dob match {
       case Some(DateOfBirth(Some(dob), _)) if DateValidator.isTooYoungToRegister(dob) => {
-        Exit(ExitController.tooYoung)
+        GoTo(ExitController.tooYoung)
       }
       case Some(DateOfBirth(_, Some(noDOB(Some(reason), Some(range))))) 
         if range == DateOfBirthConstants.under18 => {
-          Exit(ExitController.under18)
+          GoTo(ExitController.under18)
       }
       case Some(DateOfBirth(_, Some(noDOB(Some(reason), Some(range))))) 
         if range == DateOfBirthConstants.dontKnow => {
-          Exit(ExitController.dontKnow)
+          GoTo(ExitController.dontKnow)
       }
       case _ => NameController.nameStep    
     }

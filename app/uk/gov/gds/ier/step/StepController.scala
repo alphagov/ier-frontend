@@ -8,7 +8,6 @@ import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import play.api.templates.Html
-import play.api.mvc.Results
 
 trait Step[T] {
   val routes: Routes
@@ -24,29 +23,10 @@ trait Step[T] {
   def nextStep(currentState: T):Step[T]
 }
 
-object TransformApplication extends Results {
-
-  def apply[T](transform:T=>T): (T, Step[T]) => (T, SimpleResult) = {
-    (application, nextStep) => {
-      val transformedApplication = transform(application)
-      val result = goToNext(transformedApplication, nextStep)
-      (transformedApplication, result)
-    }
-  }
-
-  def goToNext[T] (currentState: T, step: Step[T]):SimpleResult = {
-    if (step.isStepComplete(currentState)) {
-      val nextStep = step.nextStep(currentState)
-      goToNext(currentState, nextStep)
-    } else {
-      Redirect(step.routes.get)
-    }
-  }
-}
-
 trait StepController [T <: InprogressApplication[T]]
   extends SessionHandling[T]
   with Step[T]
+  with FlowController[T]
   with Controller
   with ErrorMessages
   with FormKeys
@@ -60,9 +40,7 @@ trait StepController [T <: InprogressApplication[T]]
   val previousRoute:Option[Call]
   def template(form: InProgressForm[T], call: Call, backUrl: Option[Call]):Html
 
-  val onSuccess: (T, Step[T]) => (T, SimpleResult) = TransformApplication {
-    application:T => postSuccess(application)
-  }
+  val onSuccess: FlowControl = TransformApplication { application:T => postSuccess(application) } and SkipStepIfComplete()
 
   def templateWithApplication(form: InProgressForm[T], call: Call, backUrl: Option[Call]):T => Html = {
     application:T => template(form, call, backUrl)
@@ -106,7 +84,7 @@ trait StepController [T <: InprogressApplication[T]]
         success => {
           logger.debug(s"Form binding successful")
           val (mergedApplication, result) = onSuccess(success.merge(application), this)
-          result storeInSession mergedApplication
+          Redirect(result.routes.get) storeInSession mergedApplication
         }
       )
   }

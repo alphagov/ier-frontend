@@ -39,7 +39,7 @@ class StepControllerTests
 
   def createController(
       form: ErrorTransformForm[InprogressOrdinary],
-      theNextStep: Step[InprogressOrdinary] = Exit(Call("GET","/next-step"))) = {
+      theNextStep: Step[InprogressOrdinary] = GoTo(Call("GET","/next-step"))) = {
     new OrdinaryStep
       with WithSerialiser
       with WithConfig
@@ -201,7 +201,7 @@ class StepControllerTests
       )
 
       def nextStep(currentState: FooBar) = {
-        Exit(Call("GET","/next-step"))
+        GoTo(Call("GET","/next-step"))
       }
 
       val previousRoute: Option[Call] = Some(Call("GET", "/prev-step"))

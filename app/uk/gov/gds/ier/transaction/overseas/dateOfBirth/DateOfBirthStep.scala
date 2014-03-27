@@ -9,7 +9,7 @@ import play.api.templates.Html
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{OverseaStep, Routes, Exit}
+import uk.gov.gds.ier.step.{OverseaStep, Routes, GoTo}
 import controllers.step.overseas.routes.DateOfBirthController
 import controllers.step.overseas.PreviouslyRegisteredController
 
@@ -37,7 +37,7 @@ class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
   def nextStep(currentState: InprogressOverseas) = {
     currentState.dob match {
       case Some(dob) if DateValidator.isTooYoungToRegister(dob) => {
-        Exit(ExitController.tooYoung)
+        GoTo(ExitController.tooYoung)
       }
       case _ => {
           PreviouslyRegisteredController.previouslyRegisteredStep    
