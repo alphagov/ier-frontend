@@ -55,11 +55,11 @@ class NameTests
     apiNameMap should matchMap(expected)
   }
 
-  it should "generate the expected truncated payload with a reaaally long first,last and middle names" in {
+  it should "generate the expected truncated payload with a long first,last and middle names" in {
     val name = Name(
-      firstName = "A" * 256,
-      middleNames = Some("B" * 256),
-      lastName = "C" * 256
+      firstName = "A" * (NameConstants.firstNameMaxLength +1),
+      middleNames = Some("B" * (NameConstants.middleNamesMaxLength + 1)),
+      lastName = "C" * (NameConstants.lastNameMaxLength + 1)
     )
     val apiNameMap = name.toApiMap("fn", "mn", "ln")
     val expected = Map(
