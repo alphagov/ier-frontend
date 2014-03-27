@@ -158,4 +158,17 @@ class WaysToVoteControllerTests
       redirectLocation(result) should be(Some("/register-to-vote/forces/contact"))
     }
   }
+
+  it should "bypass Contact step if application complete and WaysToVote = InPerson" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/forces/ways-to-vote")
+          .withIerSession()
+          .withApplication(completeForcesApplication)
+          .withFormUrlEncodedBody("waysToVote.wayType" -> "in-person")
+      )
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/forces/confirmation"))
+    }
+  }
 }

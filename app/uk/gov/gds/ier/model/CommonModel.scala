@@ -28,10 +28,9 @@ case class CountryWithCode(
                             )
 
 case class PostalOrProxyVote (
-                               typeVote: WaysToVoteType,
-                               postalVoteOption: Option[Boolean],
-                               deliveryMethod: Option[PostalVoteDeliveryMethod],
-                               forceRedirectToPostal: Boolean = false) {
+    typeVote: WaysToVoteType,
+    postalVoteOption: Option[Boolean],
+    deliveryMethod: Option[PostalVoteDeliveryMethod]) {
 
   def toApiMap = {
     val voteMap = postalVoteOption match {

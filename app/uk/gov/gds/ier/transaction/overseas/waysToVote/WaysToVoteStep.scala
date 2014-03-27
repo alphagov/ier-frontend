@@ -32,6 +32,13 @@ class WaysToVoteStep @Inject ()(
   )
   val previousRoute = Some(OpenRegisterController.get)
 
+  override val onSuccess = TransformApplication { application =>
+    postSuccess(application)
+  } and BranchOn (_.waysToVote) {
+    case Some(WaysToVote(WaysToVoteType.InPerson)) => SkipStepIfComplete()
+    case _ => AlwaysGoToNextStep()
+  }
+
   def nextStep(currentState: InprogressOverseas) = {
     currentState.waysToVote.map(_.waysToVoteType) match {
       case Some(WaysToVoteType.InPerson) => ContactController.contactStep
@@ -42,9 +49,9 @@ class WaysToVoteStep @Inject ()(
   }
 
   override def postSuccess(currentState: InprogressOverseas):InprogressOverseas = {
-	if (currentState.waysToVote == Some(WaysToVote(WaysToVoteType.InPerson))) 
-	  currentState.copy(postalOrProxyVote = None)
-	else currentState.copy(postalOrProxyVote = currentState.postalOrProxyVote.map(_.copy(forceRedirectToPostal = true)))
+    if (currentState.waysToVote == Some(WaysToVote(WaysToVoteType.InPerson)))
+      currentState.copy(postalOrProxyVote = None)
+    else currentState
   }
 
   def template(form:InProgressForm[InprogressOverseas], call:Call, backUrl: Option[Call]): Html = {

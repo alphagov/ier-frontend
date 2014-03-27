@@ -25,21 +25,18 @@ trait PostalOrProxyVoteForms extends PostalOrProxyVoteOverseasConstraints {
     keys.voteType.key -> text.verifying("Unknown type", r => WaysToVoteType.isValid(r)),
     keys.optIn.key -> optional(boolean)
       .verifying("Please answer this question", postalVote => postalVote.isDefined),
-    keys.deliveryMethod.key -> optional(voteDeliveryMethodMapping),
-    keys.forceToRedirect.key -> optional(forceRedirect)
+    keys.deliveryMethod.key -> optional(voteDeliveryMethodMapping)
   ) (
-    (voteType, postalVoteOption, deliveryMethod, force) => PostalOrProxyVote(
+    (voteType, postalVoteOption, deliveryMethod) => PostalOrProxyVote(
       WaysToVoteType.parse(voteType),
       postalVoteOption,
-      deliveryMethod,
-      false
+      deliveryMethod
     )
   ) (
     postalVote => Some(
       postalVote.typeVote.name,
       postalVote.postalVoteOption,
-      postalVote.deliveryMethod,
-      Some(postalVote.forceRedirectToPostal)
+      postalVote.deliveryMethod
     )
   ) verifying (validVoteOption)
 

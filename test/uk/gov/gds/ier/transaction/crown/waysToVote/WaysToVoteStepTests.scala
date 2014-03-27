@@ -35,27 +35,4 @@ class WaysToVoteStepTests extends FlatSpec with TestHelpers with Matchers with M
     val transferedState = waysToVoteStep.postSuccess(currentState)
     transferedState.postalOrProxyVote should be (None)
   }
-  
-  it should "set forceRedirectToPostal to true if the user wants to edit the page" in {
-    val mockedJsonSerialiser = mock[JsonSerialiser]
-    val mockedConfig = mock[Config]
-    val mockedEncryptionService = mock[EncryptionService]
-
-    val waysToVoteStep = new WaysToVoteStep(mockedJsonSerialiser, mockedConfig,
-        mockedEncryptionService)
-
-    val currentState = completeCrownApplication.copy(waysToVote = Some(WaysToVote(
-        WaysToVoteType.ByPost)), 
-        postalOrProxyVote = Some(PostalOrProxyVote(
-        typeVote = WaysToVoteType.ByPost,
-        postalVoteOption = Some(true),
-        deliveryMethod = Some(PostalVoteDeliveryMethod(
-          deliveryMethod = Some("post"),
-          emailAddress = None
-        ))
-      )))
-
-    val transferedState = waysToVoteStep.postSuccess(currentState)
-    transferedState.postalOrProxyVote.exists(_.forceRedirectToPostal == true) should be (true)
-  }
 }
