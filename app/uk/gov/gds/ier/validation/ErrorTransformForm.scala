@@ -12,7 +12,6 @@ case class ErrorTransformForm[T](private val form:Form[T]) {
   lazy val data : Map[String, String] = form.data
   lazy val errors : Seq[FormError] = transformedForm.errors
 
-  // FIXME: make private
   lazy val value : Option[T] = form.value
 
   def apply(key : Key) = {
