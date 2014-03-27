@@ -15,13 +15,13 @@ case class ErrorTransformForm[T](private val form:Form[T]) {
   // FIXME: make private
   lazy val value : Option[T] = form.value
 
+  // FIXME: remove this variant
   def apply(key : String) : Field = {
     transformedForm.apply(key)
   }
   def apply(key : Key) = {
-    form(key.key)
+    transformedForm(key.key)
   }
-
 
   def bind(data : scala.Predef.Map[scala.Predef.String, scala.Predef.String]) : ErrorTransformForm[T] = {
     this.copy(form.bind(data))
