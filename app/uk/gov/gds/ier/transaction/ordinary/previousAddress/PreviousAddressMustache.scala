@@ -142,10 +142,8 @@ trait PreviousAddressMustache {
         manualUrl: String,
         maybePossibleAddress:Option[PossibleAddress]) = {
 
-      val content = Mustache.render(
-        "ordinary/previousAddressSelect",
-        selectData(form, backUrl, postUrl, lookupUrl, manualUrl, maybePossibleAddress)
-      )
+      val data = selectData(form, backUrl, postUrl, lookupUrl, manualUrl, maybePossibleAddress)
+      val content = Mustache.render("ordinary/previousAddressSelect", data)
       MainStepTemplate(content, title)
     }
 
