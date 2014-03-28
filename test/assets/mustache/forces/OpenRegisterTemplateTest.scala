@@ -21,8 +21,8 @@ class OpenRegisterTemplateTest
         title = "open register title"
         ),
         openRegister = Field(
-          id = "openRegister_optIn",
-          name = "openRegister.optIn",
+          id = "openRegisterid",
+          name = "openRegisterName",
           value = "false"
         )
       )
@@ -30,10 +30,10 @@ class OpenRegisterTemplateTest
       val html = Mustache.render("forces/openRegister", data)
       val doc = Jsoup.parse(html.toString)
 
-      val openRegisterInput = doc.select("input#openRegister_optIn").first()
+      val openRegisterInput = doc.select("input#openRegisterid").first()
       openRegisterInput should not be(null)
-      openRegisterInput.attr("id") should be("openRegister_optIn")
-      openRegisterInput.attr("name") should be("openRegister.optIn")
+      openRegisterInput.attr("id") should be("openRegisterid")
+      openRegisterInput.attr("name") should be("openRegisterName")
       openRegisterInput.attr("value") should be("false")
     }
   }

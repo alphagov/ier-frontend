@@ -30,14 +30,14 @@ class PreviousAddressSelectTemplateTest
         lookupUrl = "http://localhost/previousAddress/select",
         manualUrl = "http://localhost/previousAddress/manual",
         postcode = Field(
-          id = "previousAddress_postcode",
-          name = "previousAddress.postcode",
+          id = "postcodeId",
+          name = "postcodeName",
           classes = "not-used-it-is-hidden-field",
           value = "WR26NJ"
         ),
         address = Field(
-          id = "previousAddress_uprn",
-          name = "previousAddress.uprn",
+          id = "addressId",
+          name = "addressName",
           classes = "addressSelectorClass1 addressSelectorClass2",
           value = "26742627",
           optionList = List(
@@ -54,8 +54,8 @@ class PreviousAddressSelectTemplateTest
           )
         ),
         possibleJsonList = Field(
-          id = "possibleAddresses_jsonList",
-          name = "possibleAddresses.jsonList",
+          id = "possibleJsonListId",
+          name = "possibleJsonListName",
           classes = "not-used-it-is-hidden-field",
           value = "{\"addresses\":[" +
             "{\"addressLine\":\"2 The Cottages, Moseley Road, Hallow, Worcester, Worcestershire\"," +
@@ -65,8 +65,8 @@ class PreviousAddressSelectTemplateTest
             "]}"
         ),
         possiblePostcode = Field(
-          id = "possibleAddresses_postcode",
-          name = "possibleAddresses.postcode",
+          id = "possiblePostcodeId",
+          name = "possiblePostcodeName",
           classes = "not-used-it-is-hidden-field",
           value = "WR26NJ"
         ),
@@ -82,10 +82,10 @@ class PreviousAddressSelectTemplateTest
       postcodeSpan should not be (null)
       postcodeSpan.html() should be("WR26NJ")
 
-      val postcodeInput = fieldset.select("input#previousAddress_postcode").first()
+      val postcodeInput = fieldset.select("input#postcodeId").first()
       postcodeInput should not be(null)
       postcodeInput.attr("type") should be("hidden")
-      postcodeInput.attr("name") should be("previousAddress.postcode")
+      postcodeInput.attr("name") should be("postcodeName")
       postcodeInput.attr("value") should be("WR26NJ")
 
       val lookupLink = doc.select("a[class=change-postcode-button]").first()
@@ -95,18 +95,18 @@ class PreviousAddressSelectTemplateTest
       val manualLink = doc.select("a[href=http://localhost/previousAddress/manual]").first()
       manualLink should not be(null)
 
-      val addressLabel = fieldset.select("label[for=previousAddress_uprn]").first()
+      val addressLabel = fieldset.select("label[for=addressId]").first()
       addressLabel should not be(null)
-      addressLabel.attr("for") should be("previousAddress_uprn")
+      addressLabel.attr("for") should be("addressId")
 
       val addressDiv = fieldset.select("div").first()
       addressDiv should not be(null)
       addressDiv.attr("class") should include("addressSelectorClass1")
       addressDiv.attr("class") should include("addressSelectorClass2")
 
-      val addressSelect = fieldset.select("select#previousAddress_uprn").first()
+      val addressSelect = fieldset.select("select#addressId").first()
       addressSelect should not be(null)
-      addressSelect.attr("name") should be("previousAddress.uprn")
+      addressSelect.attr("name") should be("addressName")
       addressSelect.attr("class") should include("addressSelectorClass1")
       addressSelect.attr("class") should include("addressSelectorClass2")
 
@@ -124,10 +124,10 @@ class PreviousAddressSelectTemplateTest
       secondAddressFromList.html() should be("" +
         "2 The Cottages, Moseley Road, Hallow, Worcester, Worcestershire")
 
-      val hiddenJsonListInput = doc.select("input#possibleAddresses_jsonList").first()
+      val hiddenJsonListInput = doc.select("input#possibleJsonListId").first()
       hiddenJsonListInput should not be(null)
       hiddenJsonListInput.attr("type") should be("hidden")
-      hiddenJsonListInput.attr("name") should be("possibleAddresses.jsonList")
+      hiddenJsonListInput.attr("name") should be("possibleJsonListName")
       hiddenJsonListInput.attr("value") should be("{\"addresses\":[" +
         "{\"addressLine\":\"2 The Cottages, Moseley Road, Hallow, Worcester, Worcestershire\"," +
         "\"uprn\":\"26742666\",\"postcode\":\"WR2 6NJ\",\"manualAddress\":null}," +
@@ -135,10 +135,10 @@ class PreviousAddressSelectTemplateTest
         "\"uprn\":\"26742627\",\"postcode\":\"WR2 6NJ\",\"manualAddress\":null}" +
         "]}")
 
-      val hiddenPostcodeInput = doc.select("input#possibleAddresses_postcode").first()
+      val hiddenPostcodeInput = doc.select("input#possiblePostcodeId").first()
       hiddenPostcodeInput should not be(null)
       hiddenPostcodeInput.attr("type") should be("hidden")
-      hiddenPostcodeInput.attr("name") should be("possibleAddresses.postcode")
+      hiddenPostcodeInput.attr("name") should be("possiblePostcodeName")
       hiddenPostcodeInput.attr("value") should be("WR26NJ")
     }
   }

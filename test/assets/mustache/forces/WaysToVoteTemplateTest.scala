@@ -25,24 +25,24 @@ class WaysToVoteTemplateTest
           title = "Page title ABC"
         ),
         byPost = Field(
-          id = "waysToVote_wayType_by-post",
-          name = "waysToVote.wayType",
+          id = "byPostId",
+          name = "byPostName",
           classes = "byPostClass byPostClass2",
-          value = "by-post",
+          value = "byPostValue",
           attributes = "checked=\"checked1\""
         ),
         byProxy = Field(
-          id = "waysToVote_wayType_by-proxy",
-          name = "waysToVote.wayType",
+          id = "byProxyId",
+          name = "byProxyName",
           classes = "byProxyClass byProxyClass2",
-          value = "by-proxy",
+          value = "byProxyValue",
           attributes = "checked=\"checked2\""
         ),
         inPerson = Field(
-          id = "waysToVote_wayType_in-person",
-          name = "waysToVote.wayType",
+          id = "inPersonId",
+          name = "inPersonName",
           classes = "inPersonClass inPersonClass2",
-          value = "in-person",
+          value = "inPersonValue",
           attributes = "checked=\"checked3\""
         )
       )
@@ -51,36 +51,36 @@ class WaysToVoteTemplateTest
       val doc = Jsoup.parse(html.toString)
 
       { // by post option
-        doc.select("label[for=waysToVote_wayType_by-post]").size() should be(1)
-        doc.select("input#waysToVote_wayType_by-post").size() should be(1)
-        val r = doc.select("input#waysToVote_wayType_by-post").first()
-        r.attr("id") should be("waysToVote_wayType_by-post")
-        r.attr("name") should be("waysToVote.wayType")
-        r.attr("value") should be("by-post")
+        doc.select("label[for=byPostId]").size() should be(1)
+        doc.select("input#byPostId").size() should be(1)
+        val r = doc.select("input#byPostId").first()
+        r.attr("id") should be("byPostId")
+        r.attr("name") should be("byPostName")
+        r.attr("value") should be("byPostValue")
         r.attr("class") should include("byPostClass")
         r.attr("class") should include("byPostClass2")
         r.attr("checked") should be("checked1")
       }
 
       { // by proxy option
-        doc.select("label[for=waysToVote_wayType_by-proxy]").size() should be(1)
-        doc.select("input#waysToVote_wayType_by-proxy").size() should be(1)
-        val r = doc.select("input#waysToVote_wayType_by-proxy").first()
-        r.attr("id") should be("waysToVote_wayType_by-proxy")
-        r.attr("name") should be("waysToVote.wayType")
-        r.attr("value") should be("by-proxy")
+        doc.select("label[for=byProxyId]").size() should be(1)
+        doc.select("input#byProxyId").size() should be(1)
+        val r = doc.select("input#byProxyId").first()
+        r.attr("id") should be("byProxyId")
+        r.attr("name") should be("byProxyName")
+        r.attr("value") should be("byProxyValue")
         r.attr("class") should include("byProxyClass")
         r.attr("class") should include("byProxyClass2")
         r.attr("checked") should be("checked2")
       }
 
       { // in person option, aka 'In the UK, at a polling station'
-        doc.select("label[for=waysToVote_wayType_in-person]").size() should be(1)
-        doc.select("input#waysToVote_wayType_in-person").size() should be(1)
-        val r = doc.select("input#waysToVote_wayType_in-person").first()
-        r.attr("id") should be("waysToVote_wayType_in-person")
-        r.attr("name") should be("waysToVote.wayType")
-        r.attr("value") should be("in-person")
+        doc.select("label[for=inPersonId]").size() should be(1)
+        doc.select("input#inPersonId").size() should be(1)
+        val r = doc.select("input#inPersonId").first()
+        r.attr("id") should be("inPersonId")
+        r.attr("name") should be("inPersonName")
+        r.attr("value") should be("inPersonValue")
         r.attr("class") should include("inPersonClass")
         r.attr("class") should include("inPersonClass2")
         r.attr("checked") should be("checked3")
