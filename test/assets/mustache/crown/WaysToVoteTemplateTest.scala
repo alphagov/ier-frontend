@@ -26,19 +26,19 @@ class WaysToVoteTemplateTest
         ),
         byPost = Field(
           id = "byPostId",
-          name = "waysToVoteType",
+          name = "byPostName",
           value = "byPostValue",
           attributes = "checked=\"checked1\""
         ),
         byProxy = Field(
           id = "byProxyId",
-          name = "waysToVoteType",
+          name = "byProxyName",
           value = "byProxyValue",
           attributes = "checked=\"checked2\""
         ),
         inPerson = Field(
           id = "inPersonId",
-          name = "waysToVoteType",
+          name = "inPersonName",
           value = "inPersonValue",
           attributes = "checked=\"checked3\""
         )
@@ -52,7 +52,7 @@ class WaysToVoteTemplateTest
         doc.select("input#byPostId").size() should be(1)
         val r = doc.select("input#byPostId").first()
         r.attr("id") should be("byPostId")
-        r.attr("name") should be("waysToVoteType")
+        r.attr("name") should be("byPostName")
         r.attr("value") should be("byPostValue")
         r.attr("checked") should be("checked1")
       }
@@ -62,7 +62,7 @@ class WaysToVoteTemplateTest
         doc.select("input#byProxyId").size() should be(1)
         val r = doc.select("input#byProxyId").first()
         r.attr("id") should be("byProxyId")
-        r.attr("name") should be("waysToVoteType")
+        r.attr("name") should be("byProxyName")
         r.attr("value") should be("byProxyValue")
         r.attr("checked") should be("checked2")
       }
@@ -72,7 +72,7 @@ class WaysToVoteTemplateTest
         doc.select("input#inPersonId").size() should be(1)
         val r = doc.select("input#inPersonId").first()
         r.attr("id") should be("inPersonId")
-        r.attr("name") should be("waysToVoteType")
+        r.attr("name") should be("inPersonName")
         r.attr("value") should be("inPersonValue")
         r.attr("checked") should be("checked3")
       }
