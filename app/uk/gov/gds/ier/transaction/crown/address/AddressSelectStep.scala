@@ -44,19 +44,18 @@ class AddressSelectStep @Inject() (
     }
   }
 
-  override def postSuccess(currentState: InprogressCrown) = {
-
-    val address = currentState.address.flatMap {_.address}
+  override val onSuccess = TransformApplication { application => 
+    val address = application.address.flatMap {_.address}
     val addressWithAddressLine =  address.map (address => addressService.fillAddressLine(address))
 
-    currentState.copy(
+    application.copy(
       address = Some(LastUkAddress(
-        hasUkAddress = currentState.address.flatMap {_.hasUkAddress},
+        hasUkAddress = application.address.flatMap {_.hasUkAddress},
         address = addressWithAddressLine
       )),
       possibleAddresses = None
     )
-  }
+  } and SkipStepIfComplete()
 
   def template(
       form: InProgressForm[InprogressCrown],

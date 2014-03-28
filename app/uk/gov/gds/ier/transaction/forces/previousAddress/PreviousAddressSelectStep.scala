@@ -41,7 +41,7 @@ class PreviousAddressSelectStep @Inject() (
     NationalityController.nationalityStep
   }
 
-  override def postSuccess(currentState: InprogressForces) = {
+  override val onSuccess = TransformApplication { currentState =>
     val address = currentState.previousAddress.flatMap(_.previousAddress)
     val addressWithAddressLine = address.map {
       addressService.fillAddressLine(_)
@@ -54,7 +54,7 @@ class PreviousAddressSelectStep @Inject() (
       )),
       possibleAddresses = None
     )
-  }
+  } and SkipStepIfComplete()
 
   def template(
       form: InProgressForm[InprogressForces],

@@ -45,7 +45,7 @@ class ServiceStep @Inject ()(
       serviceMustache(application, form.form, call, backUrl)
   }
 
-  override def postSuccess(currentState: InprogressForces):InprogressForces = {
+  override val onSuccess = TransformApplication { currentState =>
     currentState.service match {
       case Some(Service(Some(ServiceType.RoyalNavy),_))  =>
         currentState.copy(service = Some(Service(Some(ServiceType.RoyalNavy), None)))
@@ -53,7 +53,7 @@ class ServiceStep @Inject ()(
         currentState.copy(service = Some(Service(Some(ServiceType.RoyalAirForce), None)))
       case _ =>  currentState
     }
-  }
+  } and SkipStepIfComplete()
 
   def nextStep(currentState: InprogressForces) = {
     RankController.rankStep

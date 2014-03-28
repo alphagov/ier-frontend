@@ -42,9 +42,9 @@ class LastRegisteredToVoteStep @Inject() (
     }
   }
   
-  override def postSuccess(currentState: InprogressOverseas):InprogressOverseas = {
+  override val onSuccess = TransformApplication { currentState =>
     currentState.copy (dateLeftUk = None, dateLeftSpecial = None)
-  }
+  } and SkipStepIfComplete()
 
   def template(
       form: InProgressForm[InprogressOverseas],
