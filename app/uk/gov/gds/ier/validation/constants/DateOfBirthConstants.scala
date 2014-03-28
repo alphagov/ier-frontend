@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.validation.constants
 
-import org.joda.time.DateTime
+import org.joda.time.{LocalDate, DateTime}
 
 object DateOfBirthConstants {
   lazy val days = (1 to 31).toSeq.map(i => (i.toString, i.toString))
@@ -39,4 +39,9 @@ object DateOfBirthConstants {
     over70,
     dontKnow
   )
+
+  lazy val jan1st1983 = new LocalDate()
+    .withYear(1983)
+    .withMonthOfYear(1)
+    .withDayOfMonth(1)
 }

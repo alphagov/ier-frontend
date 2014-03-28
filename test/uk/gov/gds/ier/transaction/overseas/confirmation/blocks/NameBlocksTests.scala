@@ -44,11 +44,11 @@ class NameBlocksTests
 
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
-    val nameModel = confirmation.name
+    val Some(nameModel) = confirmation.name
     nameModel.content should be("<p>John Smith</p>")
     nameModel.editLink should be("/register-to-vote/overseas/edit/name")
 
-    val prevNameModel = confirmation.previousName
+    val Some(prevNameModel) = confirmation.previousName
     prevNameModel.content should be("<p>Jan Kovar</p>")
     prevNameModel.editLink should be("/register-to-vote/overseas/edit/name")
   }
@@ -72,11 +72,11 @@ class NameBlocksTests
 
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
-    val nameModel = confirmation.name
+    val Some(nameModel) = confirmation.name
     nameModel.content should be("<p>John Walker Junior Smith</p>")
     nameModel.editLink should be("/register-to-vote/overseas/edit/name")
 
-    val prevNameModel = confirmation.previousName
+    val Some(prevNameModel) = confirmation.previousName
     prevNameModel.content should be("<p>Jan Janko Janik Kovar</p>")
     prevNameModel.editLink should be("/register-to-vote/overseas/edit/name")
   }

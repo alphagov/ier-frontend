@@ -6,7 +6,7 @@ trait AddressBlocks {
   self: ConfirmationBlock =>
 
   def address = {
-    ConfirmationQuestion(
+    Some(ConfirmationQuestion(
       title = "Where do you live?",
       editLink = routes.AddressController.editGet.url,
       changeName = "where do you live?",
@@ -26,6 +26,6 @@ trait AddressBlocks {
         result.append ("<p>" + form (keys.overseasAddress.country).value.getOrElse("") + "</p>")
         result.toString()
       }
-    )
+    ))
   }
 }

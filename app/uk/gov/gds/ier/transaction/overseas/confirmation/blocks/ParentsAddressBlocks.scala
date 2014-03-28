@@ -15,7 +15,7 @@ trait ParentsAddressBlocks extends AddressHelpers {
       routes.ParentsAddressController.editGet
     }
 
-    ConfirmationQuestion(
+    Some(ConfirmationQuestion(
       title = "Parent's or guardian's last UK address",
       editLink = editCall.url,
       changeName = "your parent's or guardian's last UK address",
@@ -26,6 +26,6 @@ trait ParentsAddressBlocks extends AddressHelpers {
         val postcode = form(keys.parentsAddress.postcode).value.getOrElse("")
         s"<p>$addressLine</p><p>$postcode</p>"
       }
-    )
+    ))
   }
 }

@@ -29,11 +29,11 @@ trait PreviouslyRegisteredBlocks {
       routes.PreviouslyRegisteredController.editGet
     }
 
-    ConfirmationQuestion(
+    Some(ConfirmationQuestion(
       title = "Previously Registered",
       editLink = editCall.url,
       changeName = "previously registered",
       content = previouslyRegisteredContent
-    )
+    ))
   }
 }

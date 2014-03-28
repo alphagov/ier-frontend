@@ -31,14 +31,14 @@ trait WaysToVoteBlocks {
         case (_, _) => ""
       }
 
-      ConfirmationQuestion(
+      Some(ConfirmationQuestion(
         title = "Voting options",
         editLink = routes.WaysToVoteController.editGet.url,
         changeName = "voting",
         content = ifComplete(keys.waysToVote) {
           ways + postalOrProxyVote
         }
-      )
+      ))
   }  
 }
 

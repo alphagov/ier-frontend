@@ -44,7 +44,7 @@ class ConfirmationBlocksTests
         blocks.openRegister,
         blocks.waysToVote,
         blocks.contact
-      )
+      ).flatten
     )
   }
 
@@ -66,7 +66,7 @@ class ConfirmationBlocksTests
         blocks.openRegister,
         blocks.waysToVote,
         blocks.contact
-      )
+      ).flatten
     )
   }
 
@@ -87,7 +87,7 @@ class ConfirmationBlocksTests
         blocks.openRegister,
         blocks.waysToVote,
         blocks.contact
-      )
+      ).flatten
     )
   }
 
@@ -109,7 +109,7 @@ class ConfirmationBlocksTests
         blocks.openRegister,
         blocks.waysToVote,
         blocks.contact
-      )
+      ).flatten
     )
   }
 
@@ -131,7 +131,7 @@ class ConfirmationBlocksTests
         blocks.openRegister,
         blocks.waysToVote,
         blocks.contact
-      )
+      ).flatten
     )
   }
 
@@ -153,7 +153,7 @@ class ConfirmationBlocksTests
         blocks.openRegister,
         blocks.waysToVote,
         blocks.contact
-      )
+      ).flatten
     )
   }
 }

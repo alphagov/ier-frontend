@@ -4,6 +4,7 @@ import org.joda.time.{LocalDate, YearMonth, Years}
 import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, Key}
 import uk.gov.gds.ier.model.{DateLeft, InprogressOverseas, ApplicationType, LastRegisteredType}
 import scala.util.Try
+import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 
 trait OverseasFormImplicits {
   self: FormKeys => 
@@ -11,11 +12,6 @@ trait OverseasFormImplicits {
   implicit class OverseasImprovedForm(form:ErrorTransformForm[InprogressOverseas]) {
 
     def apply(key:Key) = form(key.key)
-
-    private val jan1st1983 = new LocalDate()
-      .withYear(1983)
-      .withMonthOfYear(1)
-      .withDayOfMonth(1)
 
     def dateOfBirth = {
       for(
@@ -68,7 +64,7 @@ trait OverseasFormImplicits {
 
     def bornBefore1983 = {
       dateOfBirth map { dob =>
-        dob isBefore jan1st1983
+        dob isBefore DateOfBirthConstants.jan1st1983
       }
     }
 
