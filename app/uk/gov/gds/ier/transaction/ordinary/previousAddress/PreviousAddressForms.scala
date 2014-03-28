@@ -31,7 +31,7 @@ trait PreviousAddressForms extends PreviousAddressConstraints with CommonForms {
     PartialManualAddress.unapply
   ).verifying(lineOneIsRequredForPreviousAddress, cityIsRequiredForPreviousAddress)
 
-  // address mapping for select address page - the address part
+  // unified address mapping for all pages
   lazy val partialAddressMappingForPreviousAddress = mapping(
     keys.addressLine.key -> optional(nonEmptyText),
     keys.uprn.key -> optional(nonEmptyText),
@@ -67,6 +67,7 @@ trait PreviousAddressForms extends PreviousAddressConstraints with CommonForms {
     )
   )
 
+  /** root validator - postcode page */
   val postcodeAddressFormForPreviousAddress = ErrorTransformForm(
     mapping (
       keys.previousAddress.key -> optional(partialAddressMappingForPreviousAddress)
@@ -78,10 +79,11 @@ trait PreviousAddressForms extends PreviousAddressConstraints with CommonForms {
         ))
       )
     ) (
-      inprogress => Some(inprogress.previousAddress.map(pa => pa.previousAddress).getOrElse(None))
+      inprogress => inprogress.previousAddress.map(_.previousAddress)
     ).verifying( postcodeIsNotEmptyForPreviousAddress )
   )
 
+  /** root validator - select page */
   val selectAddressFormForPreviousAddress = ErrorTransformForm(
     mapping (
       keys.previousAddress.key -> optional(partialAddressMappingForPreviousAddress),
@@ -101,6 +103,7 @@ trait PreviousAddressForms extends PreviousAddressConstraints with CommonForms {
     ).verifying( selectedAddressIsRequiredForPreviousAddress )
   )
 
+  /** root validator - manual address */
   val manualAddressFormForPreviousAddress = ErrorTransformForm(
     mapping(
       keys.previousAddress.key -> optional(partialAddressMappingForPreviousAddress)
@@ -112,7 +115,7 @@ trait PreviousAddressForms extends PreviousAddressConstraints with CommonForms {
         ))
       )
     ) (
-      inprogress => Some(inprogress.previousAddress.map(pa => pa.previousAddress).getOrElse(None))
+      inprogress => inprogress.previousAddress.map(_.previousAddress)
     ).verifying( manualAddressIsRequiredForPreviousAddress )
   )
 }
