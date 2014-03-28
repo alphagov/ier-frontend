@@ -53,25 +53,7 @@ trait ContactCrownConstraints extends ContactConstraints {
 
   lazy val atLeastOneOptionSelected = Constraint[InprogressCrown](keys.contact.key) {
     application =>
-      application.contact match {
-        case Some(Contact(postOption,Some(ContactDetail(phoneOption,_)),Some(ContactDetail(emailOption,_)))) =>
-          if (!postOption && !phoneOption && !emailOption)
-            Invalid("Please answer this question", keys.contact)
-          else Valid
-
-        case Some(Contact(postOption,Some(ContactDetail(phoneOption,_)),None)) =>
-          if (!postOption && !phoneOption)
-            Invalid("Please answer this question", keys.contact)
-          else Valid
-
-        case Some(Contact(postOption,None,Some(ContactDetail(emailOption,_)))) =>
-          if (!postOption && !emailOption)
-            Invalid("Please answer this question", keys.contact)
-          else Valid
-
-        case None => Invalid("Please answer this question", keys.contact)
-        case _ => Valid
-      }
+      atLeastOneContactOptionSelected (application.contact)
   }
 }
 
