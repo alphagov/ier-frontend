@@ -40,8 +40,8 @@ class ContactControllerTests
         FakeRequest(POST, "/register-to-vote/forces/contact")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "contact.contactType" -> "phone", 
-            "contact.phone" -> "01234 123 456")
+            "contact.phone.contactMe" -> "true",
+            "contact.phone.detail" -> "01234 123 456")
       )
 
       status(result) should be(SEE_OTHER)
@@ -86,8 +86,8 @@ class ContactControllerTests
         FakeRequest(POST, "/register-to-vote/forces/edit/contact")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "contact.contactType" -> "phone",
-            "contact.phone" -> "01234 123 456")
+            "contact.phone.contactMe" -> "true",
+            "contact.phone.detail" -> "01234 123 456")
       )
 
       status(result) should be(SEE_OTHER)
