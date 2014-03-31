@@ -40,11 +40,11 @@ class ParentNameBlocksTests
     val parentNameModel = confirmation.parentName
     val parentPreviousNameModel = confirmation.parentPreviousName
 
-    val nameModel = parentNameModel
+    val Some(nameModel) = parentNameModel
     nameModel.content should include ("Please complete this step")
     nameModel.editLink should be ("/register-to-vote/overseas/edit/parent-name")
 
-    val previousNameModel = parentPreviousNameModel
+    val Some(previousNameModel) = parentPreviousNameModel
     previousNameModel.content should include ("Please complete this step")
     previousNameModel.editLink should be ("/register-to-vote/overseas/edit/parent-name")
   }
@@ -68,11 +68,11 @@ class ParentNameBlocksTests
 
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
-    val nameModel = confirmation.parentName
+    val Some(nameModel) = confirmation.parentName
     nameModel.content should be("<p>John Smith</p>")
     nameModel.editLink should be("/register-to-vote/overseas/edit/parent-name")
 
-    val prevNameModel = confirmation.parentPreviousName
+    val Some(prevNameModel) = confirmation.parentPreviousName
     prevNameModel.content should be("<p>Jan Kovar</p>")
     prevNameModel.editLink should be("/register-to-vote/overseas/edit/parent-name")
   }
@@ -97,11 +97,11 @@ class ParentNameBlocksTests
 
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
-    val parentNameModel = confirmation.parentName
+    val Some(parentNameModel) = confirmation.parentName
     parentNameModel.content should be("<p>John Walker Junior Smith</p>")
     parentNameModel.editLink should be("/register-to-vote/overseas/edit/parent-name")
 
-    val parentPrevNameModel = confirmation.parentPreviousName
+    val Some(parentPrevNameModel) = confirmation.parentPreviousName
     parentPrevNameModel.content should be("<p>Jan Janko Janik Kovar</p>")
     parentPrevNameModel.editLink should be("/register-to-vote/overseas/edit/parent-name")
   }
@@ -127,11 +127,11 @@ class ParentNameBlocksTests
 
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
-    val parentNameModel = confirmation.parentName
+    val Some(parentNameModel) = confirmation.parentName
     parentNameModel.content should be("<p>John Walker Junior Smith</p>")
     parentNameModel.editLink should be("/register-to-vote/overseas/edit/parent-name")
 
-    val parentPrevNameModel = confirmation.parentPreviousName
+    val Some(parentPrevNameModel) = confirmation.parentPreviousName
     parentPrevNameModel.content should be("<p>They haven't changed their name since they left the UK</p>")
     parentPrevNameModel.editLink should be("/register-to-vote/overseas/edit/parent-name")
   }

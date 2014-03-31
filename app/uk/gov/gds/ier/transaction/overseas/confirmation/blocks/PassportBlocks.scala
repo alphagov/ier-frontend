@@ -10,6 +10,7 @@ trait PassportBlocks {
   private val bornInUk = Some("true")
   private val notBornInUk = Some("false")
   private val notBornBefore1983 = Some(false)
+  private val bornBefore1983 = Some(true)
 
   def passport = {
     val passport = form(keys.passport.hasPassport).value
@@ -19,12 +20,13 @@ trait PassportBlocks {
       case (`hasPassport`, _, _) => passportDetails
       case (`noPassport`, `notBornInUk`, _) => citizenDetails
       case (`noPassport`, `bornInUk`, `notBornBefore1983`) => citizenDetails
-      case _ => ConfirmationQuestion(
+      case (`noPassport`, `bornInUk`, `bornBefore1983`) => None
+      case _ => Some(ConfirmationQuestion(
         title = "British Passport Details",
         editLink = routes.PassportCheckController.editGet.url,
         changeName = "your passport details",
         content = completeThisStepMessage
-      )
+      ))
     }
   }
 
@@ -48,12 +50,12 @@ trait PassportBlocks {
       routes.CitizenDetailsController.editGet
     }
 
-    ConfirmationQuestion(
+    Some(ConfirmationQuestion(
       title = "British Citizenship Details",
       editLink = route.url,
       changeName = "your citizenship details",
       content = ifComplete(keys.passport) { citizenContent.getOrElse(completeThisStepMessage) }
-    )
+    ))
   }
 
   def passportDetails = {
@@ -81,11 +83,11 @@ trait PassportBlocks {
       routes.PassportDetailsController.editGet
     }
 
-    ConfirmationQuestion(
+    Some(ConfirmationQuestion(
       title = "British Passport Details",
       editLink = route.url,
       changeName = "your passport details",
       content = ifComplete(keys.passport) { passportContent.getOrElse(completeThisStepMessage) }
-    )
+    ))
   }
 }

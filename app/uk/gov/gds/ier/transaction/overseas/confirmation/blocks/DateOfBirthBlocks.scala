@@ -10,13 +10,13 @@ trait DateOfBirthBlocks {
       dob.toString("d M yyyy")
     } getOrElse ""
 
-    ConfirmationQuestion(
+    Some(ConfirmationQuestion(
       title = "What is your date of birth?",
       editLink = routes.DateOfBirthController.editGet.url,
       changeName = "date of birth",
       content = ifComplete(keys.dob) {
         s"<p>$dob</p>"
       }
-    )
+    ))
   }
 }

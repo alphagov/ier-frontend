@@ -7,7 +7,7 @@ trait LastUkAddressBlocks extends AddressHelpers {
   self: ConfirmationBlock =>
 
   def lastUkAddress = {
-    ConfirmationQuestion(
+    Some(ConfirmationQuestion(
       title = "Last UK Address",
       editLink = if (isManualAddressDefined(form, keys.lastUkAddress.manualAddress)) {
         routes.LastUkAddressManualController.editGet.url
@@ -22,6 +22,6 @@ trait LastUkAddressBlocks extends AddressHelpers {
         val postcode = form(keys.lastUkAddress.postcode).value.getOrElse("")
         s"<p>$addressLine</p><p>$postcode</p>"
       }
-    )
+    ))
   }
 }

@@ -16,6 +16,7 @@ import controllers.step.overseas.PassportDetailsController
 import controllers.step.overseas.CitizenDetailsController
 import controllers.step.overseas.NameController
 import org.joda.time.LocalDate
+import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 
 class PassportCheckStep @Inject ()(
     val serialiser: JsonSerialiser,
@@ -37,17 +38,13 @@ class PassportCheckStep @Inject ()(
   )
 
   def nextStep(currentState: InprogressOverseas) = {
-    val jan1st1983 = new LocalDate()
-      .withYear(1983)
-      .withMonthOfYear(1)
-      .withDayOfMonth(1)
 
     val before1983 = currentState.dob map { case DOB(year, month, day) =>
       val dateOfBirth = new LocalDate()
         .withYear(year)
         .withMonthOfYear(month)
         .withDayOfMonth(day)
-      dateOfBirth.isBefore(jan1st1983)
+      dateOfBirth.isBefore(DateOfBirthConstants.jan1st1983)
     }
 
     val passport = currentState.passport map { passport => passport.hasPassport }

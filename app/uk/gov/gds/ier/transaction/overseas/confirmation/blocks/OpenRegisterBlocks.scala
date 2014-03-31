@@ -6,7 +6,7 @@ trait OpenRegisterBlocks {
   self: ConfirmationBlock =>
 
   def openRegister = {
-    ConfirmationQuestion(
+    Some(ConfirmationQuestion(
       title = "Open register",
       editLink = routes.OpenRegisterController.editGet.url,
       changeName = "open register",
@@ -17,6 +17,6 @@ trait OpenRegisterBlocks {
           "<p>I don’t want to include my details on the open register</p>"
         }
       }
-    )
+    ))
   }
 }

@@ -6,8 +6,6 @@ import uk.gov.gds.ier.model.ApplicationType._
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.{ErrorTransformForm, Key}
-import controllers.step.overseas.routes
-import scala.util.Try
 
 case class ConfirmationQuestion(
     content: String,
@@ -58,7 +56,7 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
         parentName,
         parentPreviousName,
         parentsAddress
-      )
+      ).flatten
       case _ => List.empty
     }
   }
@@ -86,7 +84,7 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
       openRegister,
       waysToVote,
       contact
-    )
+    ).flatten
   }
 
   def newVoterBlocks() = {
@@ -103,7 +101,7 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
       openRegister,
       waysToVote,
       contact
-    )
+    ).flatten
   }
 
   def renewerVoterBlocks() = {
@@ -119,7 +117,7 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
       openRegister,
       waysToVote,
       contact
-    )
+    ).flatten
   }
 
   def specialVoterBlocks() = {
@@ -136,7 +134,7 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
       openRegister,
       waysToVote,
       contact
-    )
+    ).flatten
   }
 }
 
