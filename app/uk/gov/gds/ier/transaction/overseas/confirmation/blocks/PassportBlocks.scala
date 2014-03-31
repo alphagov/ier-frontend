@@ -25,7 +25,7 @@ trait PassportBlocks {
           title = "British Passport Details",
           editLink = routes.PassportCheckController.editGet.url,
           changeName = "your passport details",
-          content = "I was born in the UK but I don't have a British passport"
+          content = "<p>I was born in the UK but I don't have a British passport</p>"
         )
       }
       case _ => ConfirmationQuestion(
