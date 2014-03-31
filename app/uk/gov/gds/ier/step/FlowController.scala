@@ -16,12 +16,15 @@ trait FlowController[T] {
 
     def apply(): FlowControl = {
       case (currentState, step) => {
-        if (step.isStepComplete(currentState)) {
-          val nextStep = step.nextStep(currentState)
-          this.apply()(currentState, nextStep)
-        } else {
-          (currentState, GoTo(step.routes.get))
-        }
+        (currentState, getNextStep(currentState, step))
+      }
+    }
+
+    def getNextStep(app:T, step:Step[T]):Step[T] = {
+      if (step.isStepComplete(app)) {
+        getNextStep(app, step.nextStep(app))
+      } else {
+        GoTo(step.routes.get)
       }
     }
   }
