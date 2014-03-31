@@ -20,7 +20,14 @@ trait PassportBlocks {
       case (`hasPassport`, _, _) => passportDetails
       case (`noPassport`, `notBornInUk`, _) => citizenDetails
       case (`noPassport`, `bornInUk`, `notBornBefore1983`) => citizenDetails
-      //case (`noPassport`, `bornInUk`, `bornBefore1983`) => None
+      case (`noPassport`, `bornInUk`, `bornBefore1983`) => {
+        ConfirmationQuestion(
+          title = "British Passport Details",
+          editLink = routes.PassportCheckController.editGet.url,
+          changeName = "your passport details",
+          content = "I was born in the UK but I don't have a British passport"
+        )
+      }
       case _ => ConfirmationQuestion(
         title = "British Passport Details",
         editLink = routes.PassportCheckController.editGet.url,
@@ -90,4 +97,6 @@ trait PassportBlocks {
       content = ifComplete(keys.passport) { passportContent.getOrElse(completeThisStepMessage) }
     )
   }
+
+
 }
