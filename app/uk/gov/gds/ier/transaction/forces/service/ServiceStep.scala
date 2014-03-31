@@ -53,7 +53,7 @@ class ServiceStep @Inject ()(
         currentState.copy(service = Some(Service(Some(ServiceType.RoyalAirForce), None)))
       case _ =>  currentState
     }
-  } andThen SkipStepIfComplete()
+  } andThen GoToNextIncompleteStep()
 
   def nextStep(currentState: InprogressForces) = {
     RankController.rankStep

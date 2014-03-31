@@ -48,7 +48,7 @@ class AddressSelectStep @Inject() (
       address = addressWithAddressLine,
       possibleAddresses = None
     )
-  } andThen SkipStepIfComplete()
+  } andThen GoToNextIncompleteStep()
 
   def template(
       form: InProgressForm[InprogressForces],

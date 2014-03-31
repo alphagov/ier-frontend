@@ -46,7 +46,7 @@ class ParentNameStep @Inject ()(
       case _ => currentState
     }
   }
-  override val onSuccess = resetParentName andThen SkipStepIfComplete()
+  override val onSuccess = resetParentName andThen GoToNextIncompleteStep()
   
   def template(
       form:InProgressForm[InprogressOverseas],

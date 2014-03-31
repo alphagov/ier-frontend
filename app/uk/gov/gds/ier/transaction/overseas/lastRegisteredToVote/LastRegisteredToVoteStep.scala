@@ -44,7 +44,7 @@ class LastRegisteredToVoteStep @Inject() (
   
   override val onSuccess = TransformApplication { currentState =>
     currentState.copy (dateLeftUk = None, dateLeftSpecial = None)
-  } andThen SkipStepIfComplete()
+  } andThen GoToNextIncompleteStep()
 
   def template(
       form: InProgressForm[InprogressOverseas],

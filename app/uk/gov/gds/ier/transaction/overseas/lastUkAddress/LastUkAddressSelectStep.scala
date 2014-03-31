@@ -61,7 +61,7 @@ class LastUkAddressSelectStep @Inject() (
       lastUkAddress = addressWithAddressLine,
       possibleAddresses = None
     )
-  } andThen SkipStepIfComplete()
+  } andThen GoToNextIncompleteStep()
 
   def template(
       form: InProgressForm[InprogressOverseas],

@@ -40,7 +40,7 @@ trait StepController [T <: InprogressApplication[T]]
   val previousRoute:Option[Call]
   def template(form: InProgressForm[T], call: Call, backUrl: Option[Call]):Html
 
-  val onSuccess: FlowControl = TransformApplication { application => application} andThen SkipStepIfComplete()
+  val onSuccess: FlowControl = TransformApplication { application => application} andThen GoToNextIncompleteStep()
 
   def templateWithApplication(form: InProgressForm[T], call: Call, backUrl: Option[Call]):T => Html = {
     application:T => template(form, call, backUrl)

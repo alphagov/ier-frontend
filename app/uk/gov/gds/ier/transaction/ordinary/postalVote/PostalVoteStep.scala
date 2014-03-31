@@ -64,7 +64,7 @@ class PostalVoteStep @Inject ()(val serialiser: JsonSerialiser,
     }
   }      
  
- override val onSuccess = resetPostalVote andThen SkipStepIfComplete()
+ override val onSuccess = resetPostalVote andThen GoToNextIncompleteStep()
   
   def nextStep(currentState: InprogressOrdinary) = {
     ContactController.contactStep

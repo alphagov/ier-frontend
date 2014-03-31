@@ -42,8 +42,8 @@ class WaysToVoteStep @Inject ()(
       application
     }
   } andThen BranchOn (_.waysToVote) {
-    case Some(WaysToVote(WaysToVoteType.InPerson)) => SkipStepIfComplete()
-    case _ => AlwaysGoToNextStep()
+    case Some(WaysToVote(WaysToVoteType.InPerson)) => GoToNextIncompleteStep()
+    case _ => GoToNextStep()
   }
 
   def nextStep(currentState: InprogressCrown) = {
