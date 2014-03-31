@@ -4,12 +4,6 @@ trait FlowController[T] {
   type ApplicationStep = (T, Step[T])
   type FlowControl = ApplicationStep => ApplicationStep
 
-  implicit class FlowControlComposition (first: FlowControl) {
-    def and(second: FlowControl): FlowControl = {
-      appStep => second(first(appStep))
-    }
-  }
-
   object AlwaysGoToNextStep {
     def apply(): FlowControl = {
       case (currentState, step) => {

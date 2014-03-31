@@ -41,7 +41,7 @@ class WaysToVoteStep @Inject ()(
     } else {
       application
     }
-  } and BranchOn (_.waysToVote) {
+  } andThen BranchOn (_.waysToVote) {
     case Some(WaysToVote(WaysToVoteType.InPerson)) => SkipStepIfComplete()
     case _ => AlwaysGoToNextStep()
   }

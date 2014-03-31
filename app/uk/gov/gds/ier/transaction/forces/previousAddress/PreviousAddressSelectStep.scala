@@ -54,7 +54,7 @@ class PreviousAddressSelectStep @Inject() (
       )),
       possibleAddresses = None
     )
-  } and SkipStepIfComplete()
+  } andThen SkipStepIfComplete()
 
   def template(
       form: InProgressForm[InprogressForces],
