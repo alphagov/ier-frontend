@@ -218,15 +218,14 @@ trait ConfirmationMustache {
     }
 
     def previousAddress = {
-      val address = if(form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
-        form(keys.previousAddress.previousAddress.addressLine).value.map(
-          addressLine => "<p>" + addressLine + "</p>"
-        ).getOrElse("")
-      } else {
-        manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress).map(
-          addressLine => "<p>" + addressLine + "</p>"
-        ).getOrElse("")
-      }
+      val addressLine = form(keys.previousAddress.previousAddress.addressLine).value
+      val manualAddress = manualAddressToOneLine(
+        form,
+        keys.previousAddress.previousAddress.manualAddress
+      )
+      val address = { addressLine orElse manualAddress }.map( line =>
+        "<p>" + line + "</p>"
+      ).getOrElse("")
 
       val postcode = form(keys.previousAddress.previousAddress.postcode).value.map(
         postcode => "<p>" + postcode + "</p>"
