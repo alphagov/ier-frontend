@@ -25,8 +25,8 @@ class ParentNameStepTests extends FlatSpec with TestHelpers with Matchers with M
         name = None, previousName =
       Some(PreviousName(false, Some(Name("john", None, "smith")))))))
 
-    val transferedState = parentNameStep.postSuccess(currentState)
-    transferedState.overseasParentName.get.previousName.isDefined should be (true)
-    transferedState.overseasParentName.get.previousName.get.previousName should be (None)
+    val transferedState = parentNameStep.resetParentName.apply(currentState, parentNameStep)
+    transferedState._1.overseasParentName.get.previousName.isDefined should be (true)
+    transferedState._1.overseasParentName.get.previousName.get.previousName should be (None)
   }
 }

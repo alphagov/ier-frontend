@@ -13,7 +13,7 @@ import uk.gov.gds.ier.validation.InProgressForm
 import play.api.mvc.Call
 import play.api.templates.Html
 import play.api.mvc.SimpleResult
-import uk.gov.gds.ier.step.NextStep
+import uk.gov.gds.ier.step.Step
 import uk.gov.gds.ier.model.{WaysToVote,PostalOrProxyVote}
 
 
@@ -35,6 +35,17 @@ class WaysToVoteStep @Inject ()(
   )
   val previousRoute = Some(OpenRegisterController.get)
 
+  override val onSuccess = TransformApplication { application =>
+    if (application.waysToVote == Some(WaysToVote(WaysToVoteType.InPerson))) {
+        application.copy(postalOrProxyVote = None)
+    } else {
+      application
+    }
+  } andThen BranchOn (_.waysToVote) {
+    case Some(WaysToVote(WaysToVoteType.InPerson)) => GoToNextIncompleteStep()
+    case _ => GoToNextStep()
+  }
+
   def nextStep(currentState: InprogressCrown) = {
     currentState.waysToVote.map(_.waysToVoteType) match {
       case Some(WaysToVoteType.InPerson) => ContactController.contactStep
@@ -43,13 +54,7 @@ class WaysToVoteStep @Inject ()(
       case _ => throw new IllegalArgumentException("unknown next step")
     }
   }
-  
-  override def postSuccess(currentState: InprogressCrown):InprogressCrown = {
-    if (currentState.waysToVote == Some(WaysToVote(WaysToVoteType.InPerson))) 
-        currentState.copy(postalOrProxyVote = None)
-    else currentState.copy(postalOrProxyVote = currentState.postalOrProxyVote.map(_.copy(forceRedirectToPostal = true)))
-  }
-  
+
   def template(form:InProgressForm[InprogressCrown], call:Call, backUrl: Option[Call]): Html = {
     waysToVoteMustache(form.form, call, backUrl.map(_.url))
   }

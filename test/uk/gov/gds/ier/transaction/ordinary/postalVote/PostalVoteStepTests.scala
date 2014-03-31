@@ -23,8 +23,8 @@ class PostalVoteStepTests extends FlatSpec with TestHelpers with Matchers with M
         postalVoteOption = Some(false), deliveryMethod =
       Some(PostalVoteDeliveryMethod(Some("email"), Some("test@test.com"))))))
 
-    val transferedState = postalVoteStep.postSuccess(currentState)
-    transferedState.postalVote.get.deliveryMethod should be (None)
-    transferedState.postalVote.get.postalVoteOption should be (Some(false))
+    val transferedState = postalVoteStep.resetPostalVote.apply(currentState, postalVoteStep)
+    transferedState._1.postalVote.get.deliveryMethod should be (None)
+    transferedState._1.postalVote.get.postalVoteOption should be (Some(false))
   }
 }

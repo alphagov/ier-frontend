@@ -12,7 +12,7 @@ import uk.gov.gds.ier.service.IsoCountryService
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.model.InprogressCrown
-import uk.gov.gds.ier.step.{CrownStep, Routes, Exit}
+import uk.gov.gds.ier.step.{CrownStep, Routes, GoTo}
 
 class NationalityStep @Inject ()(
     val serialiser: JsonSerialiser,
@@ -49,7 +49,7 @@ class NationalityStep @Inject ()(
       }
 
       franchises match {
-        case Nil => Exit(ExitController.noFranchise)
+        case Nil => GoTo(ExitController.noFranchise)
         case list => DateOfBirthController.dateOfBirthStep
       }
     }

@@ -13,7 +13,7 @@ import uk.gov.gds.ier.model._
 import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.InprogressOverseas
-import uk.gov.gds.ier.step.Exit
+import uk.gov.gds.ier.step.GoTo
 import uk.gov.gds.ier.validation.InProgressForm
 import org.joda.time.{Months, DateTime}
 import controllers.routes.ExitController
@@ -46,10 +46,10 @@ class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
     (currentState.dateLeftUk, currentState.dob, notRegistered) match {
       case (Some(dateLeftUk), Some(dateOfBirth), _) 
         if DateValidator.dateLeftUkOver15Years(dateLeftUk) => 
-          Exit(ExitController.leftUkOver15Years)
+          GoTo(ExitController.leftUkOver15Years)
       case (Some(dateLeftUk), Some(dateOfBirth), true) 
         if (validateTooOldWhenLeftUk(dateLeftUk, dateOfBirth)) => 
-          Exit(ExitController.tooOldWhenLeftUk)
+          GoTo(ExitController.tooOldWhenLeftUk)
       case (Some(dateLeftUk), Some(dateOfBirth), true) 
         if (!DateValidator.dateLeftUkOver15Years(dateLeftUk) &&
           currentState.dob.isDefined &&

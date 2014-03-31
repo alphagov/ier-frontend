@@ -12,7 +12,7 @@ import play.api.mvc.Call
 import controllers.step.overseas.routes._
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.InprogressOverseas
-import uk.gov.gds.ier.step.Exit
+import uk.gov.gds.ier.step.GoTo
 import uk.gov.gds.ier.validation.InProgressForm
 import org.joda.time.{Months, DateTime}
 import controllers.routes.ExitController
@@ -79,7 +79,7 @@ abstract class DateLeftSpecialStep
   def nextStep(currentState: InprogressOverseas) = {
     currentState.dateLeftSpecial match {
       case Some(dateLeftSpecial) if dateLeftUkOver15Years(dateLeftSpecial.date) => {
-        Exit(ExitController.leftSpecialOver15Years)
+        GoTo(ExitController.leftSpecialOver15Years)
       }
       case _ => LastUkAddressController.lastUkAddressStep
     }

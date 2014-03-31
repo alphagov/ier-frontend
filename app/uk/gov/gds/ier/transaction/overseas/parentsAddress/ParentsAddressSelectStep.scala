@@ -39,7 +39,7 @@ class ParentsAddressSelectStep @Inject() (
     PassportCheckController.passportCheckStep
   }
 
-  override def postSuccess(currentState: InprogressOverseas) = {
+  override val onSuccess = TransformApplication { currentState =>
     val addressWithAddressLine = currentState.parentsAddress.map {
       addressService.fillAddressLine(_)
     }
@@ -48,7 +48,7 @@ class ParentsAddressSelectStep @Inject() (
       parentsAddress = addressWithAddressLine,
       possibleAddresses = None
     )
-  }
+  } andThen GoToNextIncompleteStep()
 
   def template(
       form: InProgressForm[InprogressOverseas],

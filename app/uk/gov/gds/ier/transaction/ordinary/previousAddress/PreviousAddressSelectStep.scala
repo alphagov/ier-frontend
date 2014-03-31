@@ -41,7 +41,7 @@ class PreviousAddressSelectStep @Inject() (
     OpenRegisterController.openRegisterStep
   }
 
-  override def postSuccess(currentState: InprogressOrdinary) = {
+  override val onSuccess = TransformApplication { currentState =>
     val addressWithLineFilled = currentState.previousAddress.map { prev =>
       prev.copy(
         previousAddress = prev.previousAddress.map(addressService.fillAddressLine)
@@ -52,7 +52,7 @@ class PreviousAddressSelectStep @Inject() (
       previousAddress = addressWithLineFilled,
       possibleAddresses = None
     )
-  }
+  } andThen GoToNextIncompleteStep()
 
   def template(
       form: InProgressForm[InprogressOrdinary],

@@ -9,13 +9,24 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import play.api.templates.Html
 
-trait NextStep[T] {
-  def goToNext(currentState:T):SimpleResult
+trait Step[T] {
+  val routes: Routes
+
+  //Returns true if this step is currently complete
+  def isStepComplete (currentState: T):Boolean
+  //Inspects the current state of the application and determines which step should be next
+  //e.g.
+  //if (currentState.foo == true)
+  //  TrueController
+  //else
+  //  FalseController
+  def nextStep(currentState: T):Step[T]
 }
 
 trait StepController [T <: InprogressApplication[T]]
   extends SessionHandling[T]
-  with NextStep[T]
+  with Step[T]
+  with FlowController[T]
   with Controller
   with ErrorMessages
   with FormKeys
@@ -24,18 +35,18 @@ trait StepController [T <: InprogressApplication[T]]
     with WithConfig
     with WithEncryption =>
 
-  val routes: Routes
   val validation: ErrorTransformForm[T]
   val confirmationRoute: Call
   val previousRoute:Option[Call]
   def template(form: InProgressForm[T], call: Call, backUrl: Option[Call]):Html
 
+  val onSuccess: FlowControl = TransformApplication { application => application} andThen GoToNextIncompleteStep()
+
   def templateWithApplication(form: InProgressForm[T], call: Call, backUrl: Option[Call]):T => Html = {
     application:T => template(form, call, backUrl)
   }
 
-  //Returns true if this step is currently complete
-  def isStepComplete(currentState: T):Boolean = {
+  def isStepComplete (currentState: T):Boolean = {
     val filledForm = validation.fillAndValidate(currentState)
     filledForm.fold(
       error => {
@@ -45,25 +56,6 @@ trait StepController [T <: InprogressApplication[T]]
         true
       }
     )
-  }
-  //Inspects the current state of the application and determines which step should be next
-  //e.g.
-  //if (currentState.foo == true)
-  //  TrueController
-  //else
-  //  FalseController
-  def nextStep(currentState: T):NextStep[T]
-
-  def postSuccess(currentState: T):T = {
-    currentState
-  }
-
-  def goToNext(currentState: T):SimpleResult = {
-    if (isStepComplete(currentState)) {
-      nextStep(currentState).goToNext(currentState)
-    } else {
-      Redirect(routes.get)
-    }
   }
 
   def get(implicit manifest: Manifest[T]) = ValidSession requiredFor {
@@ -86,8 +78,8 @@ trait StepController [T <: InprogressApplication[T]]
         },
         success => {
           logger.debug(s"Form binding successful")
-          val mergedApplication = postSuccess(success.merge(application))
-          goToNext(mergedApplication) storeInSession mergedApplication
+          val (mergedApplication, result) = onSuccess(success.merge(application), this)
+          Redirect(result.routes.get) storeInSession mergedApplication
         }
       )
   }

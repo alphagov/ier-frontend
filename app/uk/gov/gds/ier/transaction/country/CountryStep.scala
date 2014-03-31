@@ -9,7 +9,7 @@ import uk.gov.gds.ier.model.{InprogressOrdinary, Country}
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{OrdinaryStep, Routes, Exit}
+import uk.gov.gds.ier.step.{OrdinaryStep, Routes, GoTo}
 import controllers.step.ordinary.NationalityController
 import controllers.step.routes.CountryController
 import controllers.routes.ExitController
@@ -43,10 +43,10 @@ class CountryStep @Inject ()(
 
   def nextStep(currentState: InprogressOrdinary) = {
     currentState.country match {
-      case Some(Country("Northern Ireland", _)) => Exit(ExitController.northernIreland)
-      case Some(Country("Scotland", _)) => Exit(ExitController.scotland)
-      case Some(Country("British Islands", _)) => Exit(ExitController.britishIslands)
-      case Some(Country(_, true)) => Exit(RegisterToVoteController.registerToVoteOverseasStart)
+      case Some(Country("Northern Ireland", _)) => GoTo(ExitController.northernIreland)
+      case Some(Country("Scotland", _)) => GoTo(ExitController.scotland)
+      case Some(Country("British Islands", _)) => GoTo(ExitController.britishIslands)
+      case Some(Country(_, true)) => GoTo(RegisterToVoteController.registerToVoteOverseasStart)
       case _ => NationalityController.nationalityStep
     }
   }

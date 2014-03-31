@@ -36,7 +36,7 @@ class ParentNameStep @Inject ()(
     ParentsAddressController.parentsAddressStep
   }
   
-  override def postSuccess(currentState: InprogressOverseas):InprogressOverseas = {
+  def resetParentName = TransformApplication { currentState =>
     currentState.overseasParentName match {
       case Some(OverseasParentName(optParentName, Some(parentPreviousName)))
         if (!parentPreviousName.hasPreviousName) =>
@@ -46,6 +46,7 @@ class ParentNameStep @Inject ()(
       case _ => currentState
     }
   }
+  override val onSuccess = resetParentName andThen GoToNextIncompleteStep()
   
   def template(
       form:InProgressForm[InprogressOverseas],

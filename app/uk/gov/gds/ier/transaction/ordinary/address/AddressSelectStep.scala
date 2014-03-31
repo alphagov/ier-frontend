@@ -42,7 +42,7 @@ class AddressSelectStep @Inject() (
     OtherAddressController.otherAddressStep
   }
 
-  override def postSuccess(currentState: InprogressOrdinary) = {
+  override val onSuccess = TransformApplication { currentState =>
     val addressWithAddressLine = currentState.address.map {
       addressService.fillAddressLine(_)
     }
@@ -51,7 +51,7 @@ class AddressSelectStep @Inject() (
       address = addressWithAddressLine,
       possibleAddresses = None
     )
-  }
+  } andThen GoToNextIncompleteStep()
 
   def template(
       form: InProgressForm[InprogressOrdinary],
