@@ -56,7 +56,7 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
         parentName,
         parentPreviousName,
         parentsAddress
-      ).flatten
+      )
       case _ => List.empty
     }
   }
@@ -84,7 +84,7 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
       openRegister,
       waysToVote,
       contact
-    ).flatten
+    )
   }
 
   def newVoterBlocks() = {
@@ -101,7 +101,7 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
       openRegister,
       waysToVote,
       contact
-    ).flatten
+    )
   }
 
   def renewerVoterBlocks() = {
@@ -117,7 +117,7 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
       openRegister,
       waysToVote,
       contact
-    ).flatten
+    )
   }
 
   def specialVoterBlocks() = {
@@ -134,7 +134,7 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
       openRegister,
       waysToVote,
       contact
-    ).flatten
+    )
   }
 }
 

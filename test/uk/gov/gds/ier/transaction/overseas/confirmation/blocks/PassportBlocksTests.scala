@@ -35,7 +35,7 @@ class PassportBlocksTests
     val confirmation = new ConfirmationBlocks(partialApplication)
     val passportModel = confirmation.passport
 
-    val Some(model) = passportModel
+    val model = passportModel
     model.content should include("Please complete this step")
     model.editLink should be("/register-to-vote/overseas/edit/passport")
   }
@@ -49,7 +49,7 @@ class PassportBlocksTests
     val confirmation = new ConfirmationBlocks(partialApplication)
     val passportModel = confirmation.passport
 
-    val Some(model) = passportModel
+    val model = passportModel
     model.content should include("Please complete this step")
     model.editLink should be("/register-to-vote/overseas/edit/passport-details")
   }
@@ -63,7 +63,7 @@ class PassportBlocksTests
     val confirmation = new ConfirmationBlocks(partialApplication)
     val passportModel = confirmation.passport
 
-    val Some(model) = passportModel
+    val model = passportModel
     model.content should include("Please complete this step")
     model.editLink should be("/register-to-vote/overseas/edit/citizen-details")
   }

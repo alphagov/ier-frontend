@@ -12,14 +12,14 @@ trait ParentNameBlocks {
       form(keys.overseasParentName.parentName.lastName).value
     ).flatten.mkString(" ")
 
-    Some(ConfirmationQuestion(
+    ConfirmationQuestion(
       title = "Parent's or guardian's name",
       editLink = routes.ParentNameController.editGet.url,
       changeName = "full name",
       content = ifComplete(keys.overseasParentName.parentName) {
         s"<p>$nameStr</p>"
       }
-    ))
+    )
   }
 
   def parentPreviousName = {
@@ -34,14 +34,14 @@ trait ParentNameBlocks {
       }
       case _ => "They haven't changed their name since they left the UK"
     }
-    Some(ConfirmationQuestion(
+    ConfirmationQuestion(
       title = "Parent's or guardian's previous name",
       editLink = routes.ParentNameController.editGet.url,
       changeName = "previous name",
       content = ifComplete(keys.overseasParentName.parentPreviousName) {
         s"<p>$prevNameStr</p>"
       }
-    ))
+    )
   }
   
   private val under18 = Some(true)

@@ -20,13 +20,13 @@ trait PassportBlocks {
       case (`hasPassport`, _, _) => passportDetails
       case (`noPassport`, `notBornInUk`, _) => citizenDetails
       case (`noPassport`, `bornInUk`, `notBornBefore1983`) => citizenDetails
-      case (`noPassport`, `bornInUk`, `bornBefore1983`) => None
-      case _ => Some(ConfirmationQuestion(
+      //case (`noPassport`, `bornInUk`, `bornBefore1983`) => None
+      case _ => ConfirmationQuestion(
         title = "British Passport Details",
         editLink = routes.PassportCheckController.editGet.url,
         changeName = "your passport details",
         content = completeThisStepMessage
-      ))
+      )
     }
   }
 
@@ -50,12 +50,12 @@ trait PassportBlocks {
       routes.CitizenDetailsController.editGet
     }
 
-    Some(ConfirmationQuestion(
+    ConfirmationQuestion(
       title = "British Citizenship Details",
       editLink = route.url,
       changeName = "your citizenship details",
       content = ifComplete(keys.passport) { citizenContent.getOrElse(completeThisStepMessage) }
-    ))
+    )
   }
 
   def passportDetails = {
@@ -83,11 +83,11 @@ trait PassportBlocks {
       routes.PassportDetailsController.editGet
     }
 
-    Some(ConfirmationQuestion(
+    ConfirmationQuestion(
       title = "British Passport Details",
       editLink = route.url,
       changeName = "your passport details",
       content = ifComplete(keys.passport) { passportContent.getOrElse(completeThisStepMessage) }
-    ))
+    )
   }
 }

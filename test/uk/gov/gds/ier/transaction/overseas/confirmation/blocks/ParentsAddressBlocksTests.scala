@@ -43,7 +43,7 @@ class ParentsAddressBlocksTests
       )
     )
     val confirmation = new ConfirmationBlocks(partialApplication)
-    val Some(model) = confirmation.parentsAddress
+    val model = confirmation.parentsAddress
 
     model.title should be("Parent's or guardian's last UK address")
     model.editLink should be("/register-to-vote/overseas/edit/parents-address/select")
@@ -72,7 +72,7 @@ class ParentsAddressBlocksTests
       )
     )
     val confirmation = new ConfirmationBlocks(partialApplication)
-    val Some(model) = confirmation.parentsAddress
+    val model = confirmation.parentsAddress
 
     model.title should be("Parent's or guardian's last UK address")
     model.editLink should be("/register-to-vote/overseas/edit/parents-address/manual")
@@ -95,7 +95,7 @@ class ParentsAddressBlocksTests
       )
     )
     val confirmation = new ConfirmationBlocks(partialApplication)
-    val Some(model) = confirmation.parentsAddress
+    val model = confirmation.parentsAddress
 
     model.title should be("Parent's or guardian's last UK address")
     model.editLink should be("/register-to-vote/overseas/edit/parents-address")
