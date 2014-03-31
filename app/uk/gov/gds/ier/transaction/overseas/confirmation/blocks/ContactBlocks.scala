@@ -18,13 +18,13 @@ trait ContactBlocks {
   } else ""
 
   def contact = {
-    Some(ConfirmationQuestion(
+    ConfirmationQuestion(
       title = "How we should contact you",
       editLink = routes.ContactController.editGet.url,
       changeName = "how we should contact you",
       content = ifComplete(keys.contact) {
         s"$post $phone $email"
       }
-    ))
+    )
   }
 }

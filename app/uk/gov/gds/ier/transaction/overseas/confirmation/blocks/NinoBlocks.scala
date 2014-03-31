@@ -6,7 +6,7 @@ trait NinoBlocks {
   self: ConfirmationBlock =>
 
   def nino = {
-    Some(ConfirmationQuestion(
+    ConfirmationQuestion(
       title = "National Insurance number",
       editLink = routes.NinoController.editGet.url,
       changeName = "national insurance number",
@@ -18,7 +18,7 @@ trait NinoBlocks {
             s"<p>${form(keys.nino.noNinoReason).value.getOrElse("")}</p>"
         }
       }
-    ))
+    )
   }
 
 }

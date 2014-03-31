@@ -39,7 +39,7 @@ class WaysToVoteBlocksTests
       ))
     ))
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
-    val Some(model) = confirmation.waysToVote
+    val model = confirmation.waysToVote
     model.content should include("<p>I want to vote by post</p>")
     model.content should include("Send me an application form in the post")
     model.editLink should be("/register-to-vote/overseas/edit/ways-to-vote")
@@ -59,7 +59,7 @@ class WaysToVoteBlocksTests
       ))
     ))
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
-    val Some(model) = confirmation.waysToVote
+    val model = confirmation.waysToVote
     model.content should include("I want to vote by proxy (someone else voting for me)")
     model.editLink should be("/register-to-vote/overseas/edit/ways-to-vote")
   }
@@ -69,7 +69,7 @@ class WaysToVoteBlocksTests
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
       waysToVote = Some(WaysToVote(WaysToVoteType.InPerson))))
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
-    val Some(model) = confirmation.waysToVote
+    val model = confirmation.waysToVote
     model.content should include("I want to vote in person, at a polling station")
     model.editLink should be("/register-to-vote/overseas/edit/ways-to-vote")
   }

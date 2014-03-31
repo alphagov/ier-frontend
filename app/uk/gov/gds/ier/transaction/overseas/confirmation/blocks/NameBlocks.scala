@@ -12,14 +12,14 @@ trait NameBlocks {
       form(keys.overseasName.name.lastName).value
     ).flatten.mkString(" ")
 
-    Some(ConfirmationQuestion(
+    ConfirmationQuestion(
       title = "What is your full name?",
       editLink = routes.NameController.editGet.url,
       changeName = "full name",
       content = ifComplete(keys.overseasName.name) {
         s"<p>$nameStr</p>"
       }
-    ))
+    )
   }
 
   def previousName = {
@@ -34,14 +34,14 @@ trait NameBlocks {
       }
       case _ => "I have not changed my name in the last 12 months"
     }
-    Some(ConfirmationQuestion(
+    ConfirmationQuestion(
       title = "What is your previous name?",
       editLink = routes.NameController.editGet.url,
       changeName = "previous name",
       content = ifComplete(keys.overseasName.previousName) {
         s"<p>$prevNameStr</p>"
       }
-    ))
+    )
   }
 
   private val hasPreviousName = Some("true")
