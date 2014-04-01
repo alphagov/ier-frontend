@@ -27,7 +27,7 @@ class PreviousAddressSelectStep @Inject() (
   with PreviousAddressMustache
   with PreviousAddressForms {
 
-  val validation = selectAddressFormForPreviousAddress
+  val validation = selectStepForm
 
   val previousRoute = Some(PreviousAddressPostcodeController.get)
 
@@ -76,7 +76,7 @@ class PreviousAddressSelectStep @Inject() (
     }
 
     val maybeAddresses = storedAddresses.orElse {
-      val postcode = form(keys.previousAddress.postcode).value
+      val postcode = form(keys.previousAddress.previousAddress.postcode).value
       lookupAddresses(postcode)
     }
 

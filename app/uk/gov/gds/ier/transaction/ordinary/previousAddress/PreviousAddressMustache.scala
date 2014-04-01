@@ -53,7 +53,7 @@ trait PreviousAddressMustache {
           title = title,
           errorMessages = form.globalErrors.map(_.message)
         ),
-        postcode = TextField(keys.previousAddress.postcode)
+        postcode = TextField(keys.previousAddress.previousAddress.postcode)
       )
       modelData
     }
@@ -101,7 +101,7 @@ trait PreviousAddressMustache {
       val hasAddresses = maybePossibleAddress.exists(!_.jsonList.addresses.isEmpty)
 
       val addressSelect = SelectField(
-        key = keys.previousAddress.uprn,
+        key = keys.previousAddress.previousAddress.uprn,
         optionList = options,
         default = SelectOption(
           value = "",
@@ -126,7 +126,7 @@ trait PreviousAddressMustache {
         ),
         lookupUrl = lookupUrl,
         manualUrl = manualUrl,
-        postcode = TextField(keys.previousAddress.postcode),
+        postcode = TextField(keys.previousAddress.previousAddress.postcode),
         address = addressSelectWithError,  // this is model data for <select>
         possibleJsonList = HiddenField(
           key = keys.possibleAddresses.jsonList,
@@ -136,7 +136,7 @@ trait PreviousAddressMustache {
         ),
         possiblePostcode = HiddenField(
           key = keys.possibleAddresses.postcode,
-          value = form(keys.previousAddress.postcode).value.getOrElse("")
+          value = form(keys.previousAddress.previousAddress.postcode).value.getOrElse("")
         ),
         hasAddresses = hasAddresses
       )
@@ -181,11 +181,11 @@ trait PreviousAddressMustache {
           errorMessages = progressForm.globalErrors.map(_.message)
         ),
         lookupUrl = lookupUrl,
-        postcode = TextField(keys.previousAddress.postcode),
-        maLineOne = TextField(keys.previousAddress.manualAddress.lineOne),
-        maLineTwo = TextField(keys.previousAddress.manualAddress.lineTwo),
-        maLineThree = TextField(keys.previousAddress.manualAddress.lineThree),
-        maCity = TextField(keys.previousAddress.manualAddress.city)
+        postcode = TextField(keys.previousAddress.previousAddress.postcode),
+        maLineOne = TextField(keys.previousAddress.previousAddress.manualAddress.lineOne),
+        maLineTwo = TextField(keys.previousAddress.previousAddress.manualAddress.lineTwo),
+        maLineThree = TextField(keys.previousAddress.previousAddress.manualAddress.lineThree),
+        maCity = TextField(keys.previousAddress.previousAddress.manualAddress.city)
       )
     }
 

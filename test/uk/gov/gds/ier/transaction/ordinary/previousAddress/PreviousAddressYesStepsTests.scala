@@ -55,7 +55,7 @@ class PreviousAddressYesStepsTests
         FakeRequest(POST, "/register-to-vote/previous-address/postcode")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -87,8 +87,8 @@ class PreviousAddressYesStepsTests
         FakeRequest(POST, "/register-to-vote/previous-address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.uprn" -> "123456789",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.uprn" -> "123456789",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -103,11 +103,11 @@ class PreviousAddressYesStepsTests
         FakeRequest(POST, "/register-to-vote/previous-address/manual")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-            "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
-            "previousAddress.manualAddress.lineThree" -> "Hallow",
-            "previousAddress.manualAddress.city" -> "Worcester",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
+            "previousAddress.previousAddress.manualAddress.city" -> "Worcester",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
         )
       )
 
@@ -123,11 +123,11 @@ class PreviousAddressYesStepsTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-            "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
-            "previousAddress.manualAddress.lineThree" -> "Hallow",
-            "previousAddress.manualAddress.city" -> "Worcester",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
+            "previousAddress.previousAddress.manualAddress.city" -> "Worcester",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -160,8 +160,8 @@ class PreviousAddressYesStepsTests
         FakeRequest(POST, "/register-to-vote/edit/previous-address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.uprn" -> "123456789",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.uprn" -> "123456789",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -176,11 +176,11 @@ class PreviousAddressYesStepsTests
         FakeRequest(POST, "/register-to-vote/edit/previous-address/manual")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-            "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
-            "previousAddress.manualAddress.lineThree" -> "Hallow",
-            "previousAddress.manualAddress.city" -> "Worcester",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
+            "previousAddress.previousAddress.manualAddress.city" -> "Worcester",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
         )
       )
 
@@ -196,11 +196,11 @@ class PreviousAddressYesStepsTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-            "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
-            "previousAddress.manualAddress.lineThree" -> "Hallow",
-            "previousAddress.manualAddress.city" -> "Worcester",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
+            "previousAddress.previousAddress.manualAddress.city" -> "Worcester",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )
 

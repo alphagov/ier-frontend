@@ -24,9 +24,9 @@ class PreviousAddressFirstFormTests
     val js = JsNull
     previousAddressFirstForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("previousAddress.movedRecently") should be(Seq("Please answer this question"))
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errors.size should be(2)
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousAddress.movedRecently" -> Seq("Please answer this question")
+        ))
       },
       success => fail("Should have errored out.")
     )
@@ -40,9 +40,9 @@ class PreviousAddressFirstFormTests
     )
     previousAddressFirstForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("previousAddress.movedRecently") should be(Seq("Please answer this question"))
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errors.size should be(2)
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousAddress.movedRecently" -> Seq("Please answer this question")
+        ))
       },
       success => fail("Should have errored out.")
     )

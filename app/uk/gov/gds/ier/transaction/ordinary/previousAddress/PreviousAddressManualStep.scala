@@ -22,7 +22,7 @@ class PreviousAddressManualStep @Inject() (
   with PreviousAddressMustache
   with PreviousAddressForms {
 
-  val validation = manualAddressFormForPreviousAddress
+  val validation = manualStepForm
 
   val previousRoute = Some(PreviousAddressSelectController.get)
 
