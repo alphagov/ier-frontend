@@ -59,10 +59,11 @@ trait PostalOrProxyVoteMustache extends StepMustache {
         value = "false"
       ),
       voteDeliveryMethodFieldSet = FieldSet(
-        classes =
+        classes = {
           if (progressForm(keys.postalOrProxyVote.deliveryMethod.methodName).hasErrors)
             "invalid"
           else ""
+        }
       ),
       voteDeliveryMethodEmail = RadioField (
         key = keys.postalOrProxyVote.deliveryMethod.methodName,

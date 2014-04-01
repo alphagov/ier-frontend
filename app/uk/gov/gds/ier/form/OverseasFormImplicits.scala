@@ -11,8 +11,6 @@ trait OverseasFormImplicits {
 
   implicit class OverseasImprovedForm(form:ErrorTransformForm[InprogressOverseas]) {
 
-    def apply(key:Key) = form(key)
-
     def dateOfBirth = {
       for(
         day <- form(keys.dob.day).value;
