@@ -49,8 +49,6 @@ class PreviousAddressFirstTemplateTest
         r should not be(null)
         r.attr("name") should be("previousYesName")
         r.attr("value") should be("true")
-        r.attr("class") should include("previousYesClass")
-        r.attr("class") should include("previousYesClass2")
         r.attr("checked") should be("checked1")
       }
 
@@ -61,8 +59,6 @@ class PreviousAddressFirstTemplateTest
         r.attr("id") should be("previousNoId")
         r.attr("name") should be("previousNoName")
         r.attr("value") should be("false")
-        r.attr("class") should include("previousNoClass")
-        r.attr("class") should include("previousNoClass2")
         r.attr("checked") should be("checked2")
       }
 
