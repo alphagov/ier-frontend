@@ -1433,5 +1433,202 @@ describe("Autocomplete", function () {
         expect(eventCalled).toBe(true);
       });
     });
+
+    describe("onMoveTo method", function () {
+      it("Should set the aria-activedescendant attribute to the suggestion the cursor is on", function () {
+        var $input = $("<input type='text' value='France' />"),
+            AutocompleteMock = {
+              '$input' : $input
+            },
+            countryObj = {
+              value: "Albania" 
+            },
+            evtObj = {};
+
+        GOVUK.registerToVote.Autocomplete.prototype.events.onMoveTo.apply(AutocompleteMock, [evtObj, countryObj]);
+        expect($input.attr('aria-activedescendant')).toEqual('Albania');
+      });
+    });
+
+    describe("onEnter method", function () {
+      it("Should hide the menu when enter is pressed", function () {
+        var AutocompleteMock = {
+              'menuIsShowing' : true,
+              '$menu' : $('<div />')
+            },
+            evtObj = {};
+
+        GOVUK.registerToVote.Autocomplete.prototype.events.onEnter.call(AutocompleteMock, evtObj);
+        expect(AutocompleteMock.$menu.css('display')).toEqual('none');
+      });
+    });
+
+    describe("onUpdate method", function () {
+      it("Should update the status element", function () {
+        var AutocompleteMock = {
+              "updateStatus" : jasmine.createSpy("AutocompleteMock.updateStatus")
+            };
+
+        GOVUK.registerToVote.Autocomplete.prototype.events.onUpdate.call(AutocompleteMock);
+        expect(AutocompleteMock.updateStatus).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe("getAutocompleteObj method", function () {
+    it("Should call the existingObj method of GOVUK.registerToVote.autocompletes to get an Autocomplete instance", function () {
+      var cachedAutocompletes = GOVUK.registerToVote.autocompletes,
+          $input = {};
+
+      GOVUK.registerToVote.autocompletes = {
+        "existingObj" : jasmine.createSpy("GOVUK.registerToVote.autocompletes.existingObj")
+      };
+      GOVUK.registerToVote.Autocomplete.prototype.getAutocompleteObj.call(GOVUK.registerToVote.autocompletes, $input);
+      expect(GOVUK.registerToVote.autocompletes.existingObj).toHaveBeenCalledWith($input);
+      GOVUK.registerToVote.autocompletes = cachedAutocompletes;
+    });
+  });
+});
+
+describe("autocompletes", function () {
+  var instanceMock,
+      autoCompleteMock,
+      $input;
+
+  describe("existingId method", function () {
+    it("Should get an id if an instance has been created for the textbox sent in", function () {
+      var instanceId;
+
+      autocompletesMock = {
+        'cache' : { 'field_1' : {} }
+      };
+      $input = $("<input type='text' id='field_1' />");
+      instanceId = GOVUK.registerToVote.autocompletes.existingId.call(autocompletesMock, $input);
+      expect(instanceId).toEqual('field_1');
+    });
+
+    it("Should return false if no instance exists", function () {
+      var instanceId;
+      
+      autocompletesMock = {
+        'cache' : {}
+      };
+      $input = $("<input type='text' id='field_1' />");
+      instanceId = GOVUK.registerToVote.autocompletes.existingId.call(autocompletesMock, $input);
+      expect(instanceId).toEqual(false);
+    });
+  });
+
+  describe("existingObj method", function () {
+    it("Should get an instance if an one has been created for the textbox sent in", function () {
+      var instance;
+
+      instanceMock = {};
+      autocompletesMock = {
+        'cache' : { 'field_1' : instanceMock }
+      };
+      $input = $("<input type='text' id='field_1' />");
+      instance = GOVUK.registerToVote.autocompletes.existingObj.call(autocompletesMock, $input);
+      expect(instance).toBe(instanceMock);
+    });
+  });
+
+  describe("createEvent method", function () {
+    var createdEvent;
+
+    beforeEach(function () {
+      instanceMock = {
+        'events' : {
+          'onInitialized' : jasmine.createSpy('instanceMock.events.onInitialized'),
+          'onMenuOpen' : jasmine.createSpy('instanceMock.events.onMenuOpen'),
+          'onMenuClosed' : jasmine.createSpy('instanceMock.events.onMenuClosed'),
+          'onMoveTo' : jasmine.createSpy('instanceMock.events.onMoveTo'),
+          'onUpdate' : jasmine.createSpy('instanceMock.events.onUpdate'),
+        }
+      };
+      spyOn(GOVUK.registerToVote, "Autocomplete").and.callFake(
+        function () {
+          return instanceMock;
+        }
+      );
+      $input = $("<input type='text' id='field_1' />");
+      GOVUK.registerToVote.autocompletes.add($input);
+    });
+
+    afterEach(function () {
+      GOVUK.registerToVote.autocompletes.remove($input);
+    });
+
+    it("Can create an object with a trigger method that calls 'onInitialized' on the instance for the textbox you send it", function () {
+      createdEvent = GOVUK.registerToVote.autocompletes.createEvent('initialized');
+      createdEvent.trigger({ 'target' : $input[0] });
+      expect(instanceMock.events.onInitialized).toHaveBeenCalled();
+    });
+
+    it("Can create an object with a trigger method that calls 'onMenuOpen' on the instance for the textbox you send it", function () {
+      createdEvent = GOVUK.registerToVote.autocompletes.createEvent('opened');
+      createdEvent.trigger({ 'target' : $input[0] });
+      expect(instanceMock.events.onMenuOpen).toHaveBeenCalled();
+    });
+
+    it("Can create an object with a trigger method that calls 'onMenuClosed' on the instance for the textbox you send it", function () {
+      createdEvent = GOVUK.registerToVote.autocompletes.createEvent('closed');
+      createdEvent.trigger({ 'target' : $input[0] });
+      expect(instanceMock.events.onMenuClosed).toHaveBeenCalled();
+    });
+
+    it("Can create an object with a trigger method calls 'onMoveTo' on the instance for the textbox you send it", function () {
+      createdEvent = GOVUK.registerToVote.autocompletes.createEvent('movedto');
+      createdEvent.trigger({ 'target' : $input[0] });
+      expect(instanceMock.events.onMoveTo).toHaveBeenCalled();
+    });
+
+    it("Can create an object with a trigger method that calls 'onUpdate' on the instance for the textbox you send it", function () {
+      createdEvent = GOVUK.registerToVote.autocompletes.createEvent('updated');
+      createdEvent.trigger({ 'target' : $input[0] });
+      expect(instanceMock.events.onUpdate).toHaveBeenCalled();
+    });
+  });
+
+  describe("add method", function () {
+    beforeEach(function () {
+      $input = $("<input type='text' id='field_1' />");
+    });
+
+    it("Should do nothing for a textbox with an autocomplete", function () {
+      var cache = {};
+
+      autocompletesMock = {
+        'cache' : cache,
+        'existingId' : function () { return 'field_1'; }
+      };
+      GOVUK.registerToVote.autocompletes.add.call(autocompletesMock, $input);
+      expect(autocompletesMock.cache).toBe(cache);
+    });
+
+    it("Should create an instance for a textbox without an autocomplete", function () {
+      var cache = {};
+
+      autocompletesMock = {
+        'cache' : cache,
+        'existingId' : function () { return false; }
+      };
+      GOVUK.registerToVote.autocompletes.add.call(autocompletesMock, $input);
+      expect(autocompletesMock.cache.field_1).toBeDefined();
+    });
+  });
+
+  describe("remove method", function () {
+    it("Should remove the instance created for the sent textbox", function () {
+      $input = $("<input type='text' id='field_1' />");
+      autocompletesMock = {
+        'cache' : { 'field_1' : {} },
+        'existingId' : function () { return 'field_1'; }
+      };
+      spyOn($input, 'typeahead');
+      GOVUK.registerToVote.autocompletes.remove.call(autocompletesMock, $input);
+      expect(autocompletesMock.cache.field_1).not.toBeDefined();
+      expect($input.typeahead).toHaveBeenCalledWith('destroy');
+    });
   });
 });

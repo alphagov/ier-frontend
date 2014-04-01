@@ -403,7 +403,7 @@
     }
   };
   Autocomplete.prototype.getAutocompleteObj = function ($input) {
-    return autocompletes.existingObj($input);
+    return GOVUK.registerToVote.autocompletes.existingObj($input);
   };
 
   // Object to control all autocompletes in the page
@@ -416,9 +416,6 @@
       'closed' : 'onMenuClosed',
       'movedto' : 'onMoveTo',
       'updated' : 'onUpdate'
-    },
-    setCurrentInput : function ($input) {
-      this.$currentInput = $input;
     },
     existingId : function ($input) {
       var inputId = $input.attr('id');
@@ -449,7 +446,7 @@
       var existingId = this.existingId($input);
 
       if (!existingId) {
-        this.cache[$input.attr('id')] = new Autocomplete($input);
+        this.cache[$input.attr('id')] = new GOVUK.registerToVote.Autocomplete($input);
       }
     },
     remove : function ($input) {
