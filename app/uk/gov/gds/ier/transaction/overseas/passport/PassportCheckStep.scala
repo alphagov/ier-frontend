@@ -8,7 +8,7 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.model.{InprogressOverseas, DOB}
 import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.step.OverseaStep
 import controllers.step.overseas.routes.LastUkAddressController
 import controllers.step.overseas.routes.PassportCheckController
@@ -61,11 +61,11 @@ class PassportCheckStep @Inject ()(
   }
 
   def template(
-      form: InProgressForm[InprogressOverseas],
+      form: ErrorTransformForm[InprogressOverseas],
       postEndpoint: Call,
       backEndpoint:Option[Call]): Html = {
     PassportMustache.passportCheckPage(
-      form.form,
+      form,
       postEndpoint,
       backEndpoint
     )
@@ -73,7 +73,7 @@ class PassportCheckStep @Inject ()(
 }
 
 private[passport] trait PassportHelperConstants {
-  
+
   //Constants needed for the nextStep method
   private[passport] val hasPassport = Some(true)
   private[passport] val noPassport = Some(false)

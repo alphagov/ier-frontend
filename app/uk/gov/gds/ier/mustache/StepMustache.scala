@@ -56,8 +56,8 @@ trait StepMustache extends FormKeys {
       Field(
         id = key.asId(),
         name = key.key,
-        value = progressForm(key.key).value.getOrElse(""),
-        classes = if (progressForm(key.key).hasErrors) "invalid" else "",
+        value = progressForm(key).value.getOrElse(""),
+        classes = if (progressForm(key).hasErrors) "invalid" else "",
         optionList = default :: optionList)
     }
   }
@@ -69,8 +69,8 @@ trait StepMustache extends FormKeys {
       Field(
         id = key.asId(),
         name = key.key,
-        value = progressForm(key.key).value.getOrElse(""),
-        classes = if (progressForm(key.key).hasErrors) "invalid" else "")
+        value = progressForm(key).value.getOrElse(""),
+        classes = if (progressForm(key).hasErrors) "invalid" else "")
     }
   }
 
@@ -97,12 +97,12 @@ trait StepMustache extends FormKeys {
         id = key.asId(),
         name = key.key,
         value = value,
-        attributes = if (progressForm(key.key).value.exists(_ == value)) {
+        attributes = if (progressForm(key).value.exists(_ == value)) {
           "checked=\"checked\""
         } else {
           ""
         },
-        classes = if (progressForm(key.key).hasErrors) "invalid" else ""
+        classes = if (progressForm(key).hasErrors) "invalid" else ""
       )
     }
   }
@@ -115,12 +115,12 @@ trait StepMustache extends FormKeys {
         id = key.asId(value),
         name = key.key,
         value = value,
-        attributes = if (progressForm(key.key).value.exists(_ == value)) {
+        attributes = if (progressForm(key).value.exists(_ == value)) {
           "checked=\"checked\""
         } else {
           ""
         },
-        classes = if (progressForm(key.key).hasErrors) "invalid" else ""
+        classes = if (progressForm(key).hasErrors) "invalid" else ""
       )
     }
   }

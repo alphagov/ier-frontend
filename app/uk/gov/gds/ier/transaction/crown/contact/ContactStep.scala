@@ -11,7 +11,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import play.api.mvc.Call
 import uk.gov.gds.ier.step.{CrownStep, Routes}
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 
 class ContactStep @Inject ()(
     val serialiser: JsonSerialiser,
@@ -34,14 +34,14 @@ class ContactStep @Inject ()(
 
   def prepopulateEmailAddress (application:InprogressCrown):InprogressCrown = {
 
-    val emailAddress = 
+    val emailAddress =
       (for (voteOption <- application.postalOrProxyVote;
     	deliveryMethod <- voteOption.deliveryMethod)
         yield deliveryMethod.emailAddress).flatten
-     
+
     val emailContactDetails = application.contact.flatMap( contact => contact.email )
       .getOrElse(ContactDetail(false,emailAddress))
-    
+
     val newContact = application.contact match {
       case Some(contact) if contact.email.exists(_.detail.isDefined) => contact
       case Some(contact) => contact.copy(email = Some(emailContactDetails))
@@ -49,23 +49,23 @@ class ContactStep @Inject ()(
     }
     application.copy(contact = Some(newContact))
   }
-  
+
   def template(
-      form: InProgressForm[InprogressCrown],
+      form: ErrorTransformForm[InprogressCrown],
       postEndpoint: Call,
       backEndpoint:Option[Call]): Html = Html.empty
 
   override def templateWithApplication(
-      form:InProgressForm[InprogressCrown],
+      form: ErrorTransformForm[InprogressCrown],
       call:Call,
       backUrl: Option[Call]) = {
     application:InprogressCrown =>
 
-    val newForm = form.form.fill(prepopulateEmailAddress (application))
+    val newForm = form.fill(prepopulateEmailAddress (application))
 
     contactMustache(application, newForm, call, backUrl)
   }
-  
+
   def nextStep(currentState: InprogressCrown) = {
     ConfirmationController.confirmationStep
   }

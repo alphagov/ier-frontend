@@ -30,12 +30,12 @@ trait DateLeftSpecialMustache extends StepMustache {
         title = "When did you cease to be a " + service + "?"
       ) ,
       dateLeftSpecialFieldSet = FieldSet(
-        classes = if (progressForm(keys.dateLeftSpecial.month.key).hasErrors ||
-          progressForm(keys.dateLeftSpecial.year.key).hasErrors) "invalid" else ""
+        classes = if (progressForm(keys.dateLeftSpecial.month).hasErrors ||
+          progressForm(keys.dateLeftSpecial.year).hasErrors) "invalid" else ""
       ),
       dateLeftSpecialMonth = SelectField(
         key = keys.dateLeftSpecial.month,
-        optionList = generateOptionsList(progressForm(keys.dateLeftSpecial.month.key).value.getOrElse("")),
+        optionList = generateOptionsList(progressForm(keys.dateLeftSpecial.month).value.getOrElse("")),
         default = SelectOption(text = "Month", value = "")
       ),
       dateLeftSpecialYear = TextField(

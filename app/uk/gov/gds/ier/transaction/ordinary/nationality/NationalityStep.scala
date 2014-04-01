@@ -34,16 +34,16 @@ class NationalityStep @Inject ()(val serialiser: JsonSerialiser,
   )
 
   def template(
-      form: InProgressForm[InprogressOrdinary],
+      form: ErrorTransformForm[InprogressOrdinary],
       postEndpoint: Call,
       backEndpoint:Option[Call]): Html = Html.empty
 
   override def templateWithApplication(
-      form: InProgressForm[InprogressOrdinary],
+      form: ErrorTransformForm[InprogressOrdinary],
       call: Call,
       backUrl: Option[Call]):InprogressOrdinary => Html = {
     application:InprogressOrdinary =>
-      nationalityMustache(application, form.form, call, backUrl)
+      nationalityMustache(application, form, call, backUrl)
   }
 
   def nextStep(currentState: InprogressOrdinary) = {

@@ -16,7 +16,7 @@ import uk.gov.gds.ier.model.{
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.form.OverseasFormImplicits
 
 class LastUkAddressManualStep @Inject() (
@@ -48,7 +48,7 @@ class LastUkAddressManualStep @Inject() (
   }
 
   def template(
-      form: InProgressForm[InprogressOverseas],
+      form: ErrorTransformForm[InprogressOverseas],
       call: Call,
       backUrl: Option[Call]) = {
     LastUkAddressMustache.manualPage(

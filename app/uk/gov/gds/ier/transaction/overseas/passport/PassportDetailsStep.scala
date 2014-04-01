@@ -8,7 +8,7 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.model.InprogressOverseas
 import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.step.OverseaStep
 import controllers.step.overseas.routes.PassportDetailsController
 import controllers.step.overseas.routes.PassportCheckController
@@ -37,11 +37,11 @@ class PassportDetailsStep @Inject ()(
   }
 
   def template(
-      form: InProgressForm[InprogressOverseas],
+      form: ErrorTransformForm[InprogressOverseas],
       postEndpoint: Call,
       backEndpoint:Option[Call]): Html = {
     PassportMustache.passportDetailsPage(
-      form.form,
+      form,
       postEndpoint,
       backEndpoint
     )

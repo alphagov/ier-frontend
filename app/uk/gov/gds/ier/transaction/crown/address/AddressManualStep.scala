@@ -8,7 +8,7 @@ import uk.gov.gds.ier.model.{LastUkAddress, InprogressCrown}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.{CrownStep, Routes}
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.crown.{PreviousAddressFirstController, NationalityController}
 
 class AddressManualStep @Inject() (
@@ -44,7 +44,7 @@ class AddressManualStep @Inject() (
   }
 
   def template(
-      form: InProgressForm[InprogressCrown],
+      form: ErrorTransformForm[InprogressCrown],
       call: Call,
       backUrl: Option[Call]) = {
     AddressMustache.manualPage(

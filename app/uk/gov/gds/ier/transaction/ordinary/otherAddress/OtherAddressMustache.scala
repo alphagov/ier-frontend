@@ -1,13 +1,11 @@
 package uk.gov.gds.ier.transaction.ordinary.otherAddress
 
-import uk.gov.gds.ier.validation.{FormKeys, ErrorTransformForm, InProgressForm}
-import uk.gov.gds.ier.model.{InprogressOrdinary, OtherAddress, InprogressApplication}
+import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.model.InprogressOrdinary
 import uk.gov.gds.ier.model.OtherAddress._
 import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.mustache.StepMustache
-import java.net.URL
-
 
 trait OtherAddressMustache extends StepMustache {
 
@@ -20,7 +18,7 @@ trait OtherAddressMustache extends StepMustache {
   def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOrdinary],
                                       postUrl: String,
                                       backUrl: Option[String]): OtherAddressModel = {
-    val otherAddressValue = form(keys.otherAddress.hasOtherAddress.key).value
+    val otherAddressValue = form(keys.otherAddress.hasOtherAddress).value
     OtherAddressModel(
       question = Question(
         postUrl = postUrl,
@@ -57,7 +55,7 @@ trait OtherAddressMustache extends StepMustache {
         }
       ),
       hasOtherAddress = Field(
-        classes = if (form(keys.otherAddress.key).hasErrors) "invalid" else ""
+        classes = if (form(keys.otherAddress).hasErrors) "invalid" else ""
       )
     )
   }

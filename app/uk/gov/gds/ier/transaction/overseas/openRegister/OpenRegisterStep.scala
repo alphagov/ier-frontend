@@ -10,7 +10,7 @@ import controllers.step.overseas.routes._
 import uk.gov.gds.ier.model.InprogressOverseas
 import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 import controllers.step.overseas.WaysToVoteController
 
@@ -35,10 +35,10 @@ class OpenRegisterStep @Inject ()(val serialiser: JsonSerialiser,
     WaysToVoteController.waysToVoteStep
   }
 
-  def template(form: InProgressForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
-    openRegisterMustache(form.form, postEndpoint, backEndpoint)
+  def template(form: ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
+    openRegisterMustache(form, postEndpoint, backEndpoint)
   }
-  
+
   override def isStepComplete(currentState: InprogressOverseas) = {
     currentState.openRegisterOptin.isDefined
   }

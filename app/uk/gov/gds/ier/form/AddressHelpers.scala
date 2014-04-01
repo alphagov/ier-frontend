@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.form
 
-import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, Key, InProgressForm}
+import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, Key}
 import uk.gov.gds.ier.model.PartialManualAddress
 
 trait AddressHelpers extends FormKeys {
@@ -15,18 +15,12 @@ trait AddressHelpers extends FormKeys {
       form: ErrorTransformForm[_],
       manualAddressKey: Key): Option[String] = {
     val maLines = List (
-      form(manualAddressKey.lineOne.key).value,
-      form(manualAddressKey.lineTwo.key).value,
-      form(manualAddressKey.lineThree.key).value,
-      form(manualAddressKey.city.key).value
+      form(manualAddressKey.lineOne).value,
+      form(manualAddressKey.lineTwo).value,
+      form(manualAddressKey.lineThree).value,
+      form(manualAddressKey.city).value
     ).flatten
     if (maLines == Nil) return None else Some(maLines.mkString(", "))
-  }
-
-  def manualAddressToOneLine(
-      form: InProgressForm[_],
-      manualAddressKey: Key): Option[String] = {
-    manualAddressToOneLine(form.form, manualAddressKey)
   }
 
   def manualAddressToOneLine(
@@ -47,10 +41,6 @@ trait AddressHelpers extends FormKeys {
    */
   def isManualAddressDefined(form: ErrorTransformForm[_], manualAddressKey: Key): Boolean = {
     // is checking by just line one enough?
-    form(manualAddressKey.lineOne.key).value.isDefined
-  }
-
-  def isManualAddressDefined(form: InProgressForm[_], manualAddressKey: Key): Boolean = {
-    isManualAddressDefined(form.form, manualAddressKey)
+    form(manualAddressKey.lineOne).value.isDefined
   }
 }

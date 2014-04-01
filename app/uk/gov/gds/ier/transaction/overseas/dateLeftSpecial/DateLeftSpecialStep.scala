@@ -11,9 +11,9 @@ import uk.gov.gds.ier.model._
 import play.api.mvc.Call
 import controllers.step.overseas.routes._
 import uk.gov.gds.ier.step.Routes
-import uk.gov.gds.ier.model.InprogressOverseas
 import uk.gov.gds.ier.step.GoTo
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.model.InprogressOverseas
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import org.joda.time.{Months, DateTime}
 import controllers.routes.ExitController
 
@@ -21,15 +21,15 @@ class DateLeftArmyStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService) extends DateLeftSpecialStep {
-  
+
  val routes = Routes(
     get = DateLeftArmyController.get,
     post = DateLeftArmyController.post,
     editGet = DateLeftArmyController.editGet,
     editPost = DateLeftArmyController.editPost
-  ) 
- def template(form: InProgressForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
-    dateLeftSpecialMustache(form.form, postEndpoint, backEndpoint, "member of the armed forces")
+  )
+ def template(form: ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
+    dateLeftSpecialMustache(form, postEndpoint, backEndpoint, "member of the armed forces")
   }
 }
 
@@ -37,16 +37,16 @@ class DateLeftCrownStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService) extends DateLeftSpecialStep {
- 
+
  val routes = Routes(
     get = DateLeftCrownController.get,
     post = DateLeftCrownController.post,
     editGet = DateLeftCrownController.editGet,
     editPost = DateLeftCrownController.editPost
  )
-  
- def template(form: InProgressForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
-    dateLeftSpecialMustache(form.form, postEndpoint, backEndpoint, "Crown Servant")
+
+ def template(form: ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
+    dateLeftSpecialMustache(form, postEndpoint, backEndpoint, "Crown Servant")
   }
 }
 
@@ -60,9 +60,9 @@ class DateLeftCouncilStep @Inject() (
     post = DateLeftCouncilController.post,
     editGet = DateLeftCouncilController.editGet,
     editPost = DateLeftCouncilController.editPost
- )  
- def template(form: InProgressForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
-    dateLeftSpecialMustache(form.form, postEndpoint, backEndpoint, "British Council employee")
+ )
+ def template(form: ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
+    dateLeftSpecialMustache(form, postEndpoint, backEndpoint, "British Council employee")
   }
 }
 
@@ -73,7 +73,7 @@ abstract class DateLeftSpecialStep
     with DateLeftSpecialMustache {
 
   val validation = dateLeftSpecialForm
-  
+
   val previousRoute = Some(LastRegisteredToVoteController.get)
 
   def nextStep(currentState: InprogressOverseas) = {

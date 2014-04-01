@@ -10,7 +10,7 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 
 class ParentsAddressStep @Inject() (
     val serialiser: JsonSerialiser,
@@ -37,7 +37,7 @@ class ParentsAddressStep @Inject() (
   }
 
   def template(
-      form: InProgressForm[InprogressOverseas],
+      form: ErrorTransformForm[InprogressOverseas],
       call: Call,
       backUrl: Option[Call]) = {
     ParentsAddressMustache.lookupPage(
@@ -50,7 +50,7 @@ class ParentsAddressStep @Inject() (
   def lookup = ValidSession requiredFor { implicit request => application =>
     parentsLookupAddressForm.bindFromRequest().fold(
       hasErrors => {
-        Ok(template(InProgressForm(hasErrors), routes.post, previousRoute))
+        Ok(template(hasErrors, routes.post, previousRoute))
       },
       success => {
         val mergedApplication = success.merge(application)

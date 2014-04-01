@@ -6,7 +6,7 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.IerApiService
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.crown.routes.ConfirmationController
 import controllers.step.crown.routes.StatementController
 import controllers.routes.CompleteController
@@ -35,7 +35,7 @@ class ConfirmationStep @Inject() (
   val validation = confirmationForm
   val previousRoute = Some(StatementController.get)
 
-  def template(form:InProgressForm[InprogressCrown]) = {
+  def template(form: ErrorTransformForm[InprogressCrown]) = {
     Confirmation.confirmationPage(
       form,
       previousRoute.map(_.url).getOrElse("#"),
@@ -45,14 +45,14 @@ class ConfirmationStep @Inject() (
 
   def get = ValidSession requiredFor {
     request => application =>
-      Ok(template(InProgressForm(validation.fillAndValidate(application))))
+      Ok(template(validation.fillAndValidate(application)))
   }
 
   def post = ValidSession requiredFor {
     request => application =>
       validation.fillAndValidate(application).fold(
         hasErrors => {
-          Ok(template(InProgressForm(hasErrors)))
+          Ok(template(hasErrors))
         },
         validApplication => {
           val refNum = ierApi.generateCrownReferenceNumber(validApplication)

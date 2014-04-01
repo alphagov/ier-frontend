@@ -30,8 +30,8 @@ class NameStep @Inject ()(
     editPost = NameController.editPost
   )
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
-    nameMustache(form.form, call, backUrl.map(_.url))
+  def template(form: ErrorTransformForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
+    nameMustache(form, call, backUrl.map(_.url))
   }
 
   def nextStep(currentState: InprogressOrdinary) = {

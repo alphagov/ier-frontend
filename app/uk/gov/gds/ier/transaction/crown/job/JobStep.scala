@@ -32,16 +32,16 @@ class JobStep @Inject ()(
 
 
   def template(
-    form: InProgressForm[InprogressCrown],
+    form: ErrorTransformForm[InprogressCrown],
     call: Call,
     backUrl:Option[Call]): Html = Html.empty
 
   override def templateWithApplication(
-      form:InProgressForm[InprogressCrown],
+      form: ErrorTransformForm[InprogressCrown],
       call:Call,
       backUrl: Option[Call]) = {
     application:InprogressCrown =>
-      jobMustache(application, form.form, call, backUrl)
+      jobMustache(application, form, call, backUrl)
   }
 
   def nextStep(currentState: InprogressCrown) = {

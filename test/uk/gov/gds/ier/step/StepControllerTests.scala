@@ -8,11 +8,10 @@ import play.api.templates.Html
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.test._
 import play.api.test.Helpers._
-import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.validation.{Key, FormKeys, ErrorTransformForm}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.security._
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
-import uk.gov.gds.ier.validation.InProgressForm
 import scala.Some
 import uk.gov.gds.ier.model.InprogressOrdinary
 import play.api.mvc.Results.Redirect
@@ -28,6 +27,7 @@ class StepControllerTests
   extends FlatSpec
   with Matchers
   with MockitoSugar
+  with FormKeys
   with TestHelpers {
 
   val mockPreviousCall = mock[Call]
@@ -36,6 +36,11 @@ class StepControllerTests
 
   val testEncryptionService =
     new EncryptionService(new Base64EncodingService, mockConfig)
+
+  lazy val testKeys = new Keys{
+    lazy val foo = prependNamespace(Key("foo"))
+    lazy val bar = prependNamespace(Key("bar"))
+  }
 
   def createController(
       form: ErrorTransformForm[InprogressOrdinary],
@@ -60,7 +65,7 @@ class StepControllerTests
 
       val previousRoute: Option[Call] = Some(mockPreviousCall)
       val validation = form
-      def template(form: InProgressForm[InprogressOrdinary], call: Call, backUrl: Option[Call]):Html = Html("This is the template.")
+      def template(form: ErrorTransformForm[InprogressOrdinary], call: Call, backUrl: Option[Call]):Html = Html("This is the template.")
     }
   }
 
@@ -131,9 +136,9 @@ class StepControllerTests
 
   it should "not allow possibleAddresses in to the session, we don't want to store those, ever!" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      val possibleAddress = PartialAddress(addressLine = Some("123 Fake Street"), 
+      val possibleAddress = PartialAddress(addressLine = Some("123 Fake Street"),
                                            uprn = Some("12345678"),
-                                           postcode = "AB12 3CD", 
+                                           postcode = "AB12 3CD",
                                            manualAddress = None)
       val form = ErrorTransformForm(
         mapping("foo" -> text.verifying("I will always pass", foo => true))
@@ -207,11 +212,11 @@ class StepControllerTests
       val previousRoute: Option[Call] = Some(Call("GET", "/prev-step"))
       val validation = form
       def template(
-          form: InProgressForm[FooBar],
+          form: ErrorTransformForm[FooBar],
           call: Call,
           backUrl: Option[Call]):Html = {
-        val foo = form.form("foo").value
-        val bar = form.form("bar").value
+        val foo = form(testKeys.foo).value
+        val bar = form(testKeys.bar).value
 
         Html(s"Foo is $foo, Bar is $bar")
       }

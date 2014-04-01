@@ -11,7 +11,12 @@ case class ErrorTransformForm[T](private val form:Form[T]) {
   lazy val mapping : Mapping[T] = form.mapping
   lazy val data : Map[String, String] = form.data
   lazy val errors : Seq[FormError] = transformedForm.errors
+
   lazy val value : Option[T] = form.value
+
+  def apply(key : Key) = {
+    transformedForm(key.key)
+  }
 
   def bind(data : scala.Predef.Map[scala.Predef.String, scala.Predef.String]) : ErrorTransformForm[T] = {
     this.copy(form.bind(data))
@@ -36,16 +41,13 @@ case class ErrorTransformForm[T](private val form:Form[T]) {
     case Some(v) if transformedForm.errors.isEmpty => success(v)
     case _ => hasErrors(this)
   }
-  def apply(key : String) : Field = {
-    transformedForm.apply(key)
-  }
   def globalError : Option[FormError] = {
     transformedForm.globalError
   }
   def globalErrors : Seq[FormError] = {
     transformedForm.globalErrors
   }
-  def forField[R](key : String)(handler : Field => R) : R = {
+  def forField[R](key : Key)(handler : Field => R) : R = {
     handler(this(key))
   }
   def hasErrors : scala.Boolean = {

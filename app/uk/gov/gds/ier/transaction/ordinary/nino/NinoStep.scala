@@ -30,8 +30,8 @@ class NinoStep @Inject ()(val serialiser: JsonSerialiser,
     editPost = NinoController.editPost
   )
 
-  def template(form: InProgressForm[InprogressOrdinary], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
-    ninoMustache(form.form, postEndpoint, backEndpoint)
+  def template(form: ErrorTransformForm[InprogressOrdinary], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
+    ninoMustache(form, postEndpoint, backEndpoint)
   }
   def nextStep(currentState: InprogressOrdinary) = {
     AddressController.addressStep

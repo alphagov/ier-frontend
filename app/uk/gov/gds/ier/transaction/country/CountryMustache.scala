@@ -31,7 +31,7 @@ trait CountryMustache extends StepMustache {
 
     val globalErrors = form.globalErrors
     def makeCountry(country:String) = {
-      val isChecked = form(keys.country.residence.key).value match {
+      val isChecked = form(keys.country.residence).value match {
         case Some(`country`) => "checked=\"checked\""
         case _ => ""
       }
@@ -43,7 +43,7 @@ trait CountryMustache extends StepMustache {
     }
 
     val countriesFieldSet = FieldSet(
-      if (form(keys.country.residence.key).hasErrors) "invalid" else ""
+      if (form(keys.country.residence).hasErrors) "invalid" else ""
     )
 
     CountryModel(postUrl,
@@ -55,7 +55,7 @@ trait CountryMustache extends StepMustache {
       channelIslands = RadioField(keys.country.residence, "British Islands"),
       livingAbroad = RadioField(keys.country.residence, "Abroad"),
       origin = FieldSet(
-        if (form(keys.country.origin.key).hasErrors) "invalid" else ""
+        if (form(keys.country.origin).hasErrors) "invalid" else ""
       ),
       englandOrigin = RadioField(keys.country.origin, "England"),
       scotlandOrigin = RadioField(keys.country.origin, "Scotland"),

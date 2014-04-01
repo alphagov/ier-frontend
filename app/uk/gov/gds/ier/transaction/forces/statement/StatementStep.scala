@@ -11,7 +11,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import play.api.mvc.Call
 import uk.gov.gds.ier.step.{ForcesStep, Routes}
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 
 class StatementStep @Inject ()(
     val serialiser: JsonSerialiser,
@@ -33,11 +33,11 @@ class StatementStep @Inject ()(
   )
 
   def template(
-      form: InProgressForm[InprogressForces],
+      form: ErrorTransformForm[InprogressForces],
       postEndpoint: Call,
       backEndpoint:Option[Call]): Html = {
 
-    statementMustache(form.form, postEndpoint, backEndpoint)
+    statementMustache(form, postEndpoint, backEndpoint)
   }
 
   def nextStep(currentState: InprogressForces) = {

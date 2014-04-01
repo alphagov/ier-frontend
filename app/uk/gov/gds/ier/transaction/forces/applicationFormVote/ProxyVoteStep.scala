@@ -7,7 +7,7 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{Routes, ForcesStep}
 import controllers.step.forces.routes._
 import scala.Some
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.model.{InprogressForces, WaysToVoteType}
 import play.api.mvc.Call
 import play.api.templates.Html
@@ -32,8 +32,8 @@ class ProxyVoteStep @Inject ()(
     editPost = ProxyVoteController.editPost
   )
 
-  def template(form: InProgressForm[InprogressForces], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
-    postalOrProxyVoteMustache(form.form, postEndpoint, backEndpoint, WaysToVoteType.ByProxy)
+  def template(form: ErrorTransformForm[InprogressForces], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
+    postalOrProxyVoteMustache(form, postEndpoint, backEndpoint, WaysToVoteType.ByProxy)
   }
 
   def nextStep(currentState: InprogressForces) = {

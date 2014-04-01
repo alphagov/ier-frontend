@@ -35,11 +35,11 @@ class NameStep @Inject ()(
   def nextStep(currentState: InprogressOverseas) = {
     NinoController.ninoStep
   }
-  
+
   def template(
-      form:InProgressForm[InprogressOverseas],
+      form: ErrorTransformForm[InprogressOverseas],
       call:Call,
       backUrl: Option[Call]): Html = {
-    nameMustache(form.form, call, backUrl.map(_.url))
+    nameMustache(form, call, backUrl.map(_.url))
   }
 }

@@ -9,7 +9,7 @@ import uk.gov.gds.ier.step.{CrownStep, Routes}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 
 class StatementStep @Inject ()(
     val serialiser:JsonSerialiser,
@@ -30,10 +30,10 @@ class StatementStep @Inject ()(
   )
 
   def template(
-      form: InProgressForm[InprogressCrown],
+      form: ErrorTransformForm[InprogressCrown],
       postEndpoint: Call,
       backEndpoint: Option[Call]) = {
-    statementMustache(form.form, postEndpoint, backEndpoint)
+    statementMustache(form, postEndpoint, backEndpoint)
   }
 
   def nextStep(currentState: InprogressCrown) = {

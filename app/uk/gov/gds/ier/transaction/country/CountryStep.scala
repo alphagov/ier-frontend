@@ -35,10 +35,10 @@ class CountryStep @Inject ()(
   )
 
   def template(
-      form:InProgressForm[InprogressOrdinary],
+      form: ErrorTransformForm[InprogressOrdinary],
       call:Call,
       backUrl: Option[Call]): Html = {
-    countryMustache(form.form, call)
+    countryMustache(form, call)
   }
 
   def nextStep(currentState: InprogressOrdinary) = {

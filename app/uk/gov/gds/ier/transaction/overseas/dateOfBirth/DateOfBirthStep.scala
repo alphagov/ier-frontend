@@ -17,11 +17,11 @@ class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
                                        val config: Config,
                                        val encryptionService : EncryptionService)
   extends OverseaStep
-  with DateOfBirthForms 
+  with DateOfBirthForms
   with DateOfBirthMustache {
 
   val validation = dateOfBirthForm
-  
+
   val routes = Routes(
     get = DateOfBirthController.get,
     post = DateOfBirthController.post,
@@ -30,8 +30,8 @@ class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
   )
   val previousRoute = None
 
-  def template(form:InProgressForm[InprogressOverseas], postEndpoint:Call, backEndpoint: Option[Call]): Html = {
-    dateOfBirthMustache(form.form, postEndpoint, backEndpoint)
+  def template(form: ErrorTransformForm[InprogressOverseas], postEndpoint:Call, backEndpoint: Option[Call]): Html = {
+    dateOfBirthMustache(form, postEndpoint, backEndpoint)
   }
 
   def nextStep(currentState: InprogressOverseas) = {
@@ -40,7 +40,7 @@ class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
         GoTo(ExitController.tooYoung)
       }
       case _ => {
-          PreviouslyRegisteredController.previouslyRegisteredStep    
+          PreviouslyRegisteredController.previouslyRegisteredStep
       }
     }
   }

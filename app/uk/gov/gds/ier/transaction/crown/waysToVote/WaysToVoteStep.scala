@@ -9,12 +9,10 @@ import controllers.step.crown.routes.{WaysToVoteController, OpenRegisterControll
 import controllers.step.crown.{ProxyVoteController, ContactController, PostalVoteController}
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.{WaysToVoteType, InprogressCrown}
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.mvc.Call
 import play.api.templates.Html
-import play.api.mvc.SimpleResult
-import uk.gov.gds.ier.step.Step
-import uk.gov.gds.ier.model.{WaysToVote,PostalOrProxyVote}
+import uk.gov.gds.ier.model.WaysToVote
 
 
 class WaysToVoteStep @Inject ()(
@@ -55,7 +53,7 @@ class WaysToVoteStep @Inject ()(
     }
   }
 
-  def template(form:InProgressForm[InprogressCrown], call:Call, backUrl: Option[Call]): Html = {
-    waysToVoteMustache(form.form, call, backUrl.map(_.url))
+  def template(form: ErrorTransformForm[InprogressCrown], call:Call, backUrl: Option[Call]): Html = {
+    waysToVoteMustache(form, call, backUrl.map(_.url))
   }
 }

@@ -14,14 +14,14 @@ import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.PostalVote
 import uk.gov.gds.ier.model.InprogressOrdinary
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 
 class PostalVoteStep @Inject ()(val serialiser: JsonSerialiser,
                                       val config: Config,
                                       val encryptionService : EncryptionService)
   extends OrdinaryStep
-  with PostalVoteForms 
+  with PostalVoteForms
   with PostalVoteMustache {
 
   val validation = postalVoteForm
@@ -45,30 +45,29 @@ class PostalVoteStep @Inject ()(val serialiser: JsonSerialiser,
     application.copy(postalVote = Some(newPostalVote))
   }
 
-  def template(form:InProgressForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = Html.empty
+  def template(form:ErrorTransformForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = Html.empty
 
   override def templateWithApplication(
-      form: InProgressForm[InprogressOrdinary],
+      form: ErrorTransformForm[InprogressOrdinary],
       call: Call,
       backUrl: Option[Call]):InprogressOrdinary => Html = {
     application:InprogressOrdinary =>
-      val newForm = form.copy(form = form.form.fill(prepopulateEmailAddress (application)))
-      postalVoteMustache(newForm.form, call, backUrl)
+      val newForm = form.fill(prepopulateEmailAddress(application))
+      postalVoteMustache(newForm, call, backUrl)
   }
 
- def resetPostalVote = TransformApplication { currentState =>
+  def resetPostalVote = TransformApplication { currentState =>
     currentState.postalVote match {
       case Some(PostalVote(Some(false), _)) =>
           currentState.copy(postalVote = Some(PostalVote(Some(false), None)))
       case _ => currentState
     }
-  }      
- 
- override val onSuccess = resetPostalVote andThen GoToNextIncompleteStep()
-  
+  }
+
+  override val onSuccess = resetPostalVote andThen GoToNextIncompleteStep()
+
   def nextStep(currentState: InprogressOrdinary) = {
     ContactController.contactStep
   }
-
 }
 

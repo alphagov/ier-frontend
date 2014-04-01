@@ -42,7 +42,7 @@ trait ParentNameMustache extends StepMustache {
       lastName = TextField(
         key = keys.overseasParentName.parentName.lastName),
       hasPreviousName = FieldSet(
-        classes = if (form(keys.overseasParentName.parentPreviousName.key).hasErrors) "invalid" else ""
+        classes = if (form(keys.overseasParentName.parentPreviousName).hasErrors) "invalid" else ""
       ),
       hasPreviousNameTrue = RadioField(
         key = keys.overseasParentName.parentPreviousName.hasPreviousName, value = "true"),

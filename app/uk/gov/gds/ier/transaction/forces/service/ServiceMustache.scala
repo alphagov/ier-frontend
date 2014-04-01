@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.forces.service
 
-import uk.gov.gds.ier.validation.{InProgressForm, ErrorTransformForm}
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.mustache.StepMustache
@@ -30,7 +30,7 @@ trait ServiceMustache extends StepMustache {
       Field(
         id = keys.service.serviceName.asId(serviceName),
         name = keys.service.serviceName.key,
-        attributes = if (progressForm(keys.service.serviceName.key).value == Some(serviceName))
+        attributes = if (progressForm(keys.service.serviceName).value == Some(serviceName))
           "checked=\"checked\"" else ""
       )
     }
@@ -47,7 +47,7 @@ trait ServiceMustache extends StepMustache {
                   "Which of the services are you in?"
       ),
       serviceFieldSet = FieldSet(
-        classes = if (progressForm(keys.service.key).hasErrors) "invalid" else ""
+        classes = if (progressForm(keys.service).hasErrors) "invalid" else ""
       ),
       royalNavy = makeRadio("Royal Navy"),
       britishArmy = makeRadio("British Army"),
@@ -56,7 +56,7 @@ trait ServiceMustache extends StepMustache {
         key = keys.service.regiment
       ),
       regimentShowFlag = Text (
-        value = progressForm(keys.service.regiment.key).value.fold("")(_ => "-open")
+        value = progressForm(keys.service.regiment).value.fold("")(_ => "-open")
       )
     )
   }

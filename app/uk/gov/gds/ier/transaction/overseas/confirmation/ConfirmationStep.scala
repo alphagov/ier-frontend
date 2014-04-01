@@ -6,7 +6,7 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.IerApiService
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.overseas.routes.ConfirmationController
 import controllers.step.overseas.routes.PreviouslyRegisteredController
 import controllers.routes.CompleteController
@@ -35,9 +35,9 @@ class ConfirmationStep @Inject() (val encryptionService: EncryptionService,
   val validation = confirmationForm
   val previousRoute = Some(PreviouslyRegisteredController.get)
 
-  def template(form:InProgressForm[InprogressOverseas]) = {
+  def template(form: ErrorTransformForm[InprogressOverseas]) = {
     Confirmation.confirmationPage(
-      form.form,
+      form,
       previousRoute.map(_.url).getOrElse("#"),
       routes.post.url
     )
@@ -47,7 +47,7 @@ class ConfirmationStep @Inject() (val encryptionService: EncryptionService,
     request => application =>
       application.identifyApplication match {
         case ApplicationType.DontKnow => NotFound(ErrorPage.NotFound(request.path))
-        case _ => Ok(template(InProgressForm(validation.fillAndValidate(application))))
+        case _ => Ok(template(validation.fillAndValidate(application)))
       }
   }
 
@@ -55,7 +55,7 @@ class ConfirmationStep @Inject() (val encryptionService: EncryptionService,
     request => application =>
       validation.fillAndValidate(application).fold(
         hasErrors => {
-          Ok(template(InProgressForm(hasErrors)))
+          Ok(template(hasErrors))
         },
         validApplication => {
           val refNum = ierApi.generateOverseasReferenceNumber(validApplication)

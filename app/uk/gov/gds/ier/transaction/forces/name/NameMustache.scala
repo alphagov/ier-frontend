@@ -23,7 +23,7 @@ trait NameMustache extends StepMustache {
     previousLastName: Field)
 
     def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressForces],
-                                        postUrl: String, 
+                                        postUrl: String,
                                         backUrl: Option[String]): NameModel = {
     implicit val progressForm = form
 
@@ -41,7 +41,7 @@ trait NameMustache extends StepMustache {
         key = keys.name.middleNames),
       lastName = TextField(
         key = keys.name.lastName),hasPreviousName = FieldSet(
-        classes = if (form(keys.previousName.key).hasErrors) "invalid" else ""
+        classes = if (form(keys.previousName).hasErrors) "invalid" else ""
       ),
       hasPreviousNameTrue = RadioField(
         key = keys.previousName.hasPreviousName, value = "true"),

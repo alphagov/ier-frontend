@@ -31,7 +31,7 @@ trait StatementMustache extends StepMustache {
         showBackUrl = false
       ),
       statementFieldSet = FieldSet(
-        classes = if (progressForm(keys.contact.key).hasErrors) "invalid" else ""
+        classes = if (progressForm(keys.contact).hasErrors) "invalid" else ""
       ),
       statementMemberForcesCheckbox = CheckboxField(
         key = keys.statement.forcesMember, value = "true"

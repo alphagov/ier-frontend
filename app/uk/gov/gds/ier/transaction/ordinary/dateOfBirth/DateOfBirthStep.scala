@@ -29,13 +29,13 @@ class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
     post = DateOfBirthController.post,
     editGet = DateOfBirthController.editGet,
     editPost = DateOfBirthController.editPost
-  ) 
+  )
 
   def template(
-      form:InProgressForm[InprogressOrdinary],
+      form: ErrorTransformForm[InprogressOrdinary],
       postEndpoint:Call,
       backEndpoint: Option[Call]): Html = {
-    dateOfBirthMustache(form.form, postEndpoint, backEndpoint)
+    dateOfBirthMustache(form, postEndpoint, backEndpoint)
   }
 
   def nextStep(currentState: InprogressOrdinary) = {
@@ -49,7 +49,7 @@ class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
       case Some(DateOfBirth(_, Some(noDOB(Some(reason), Some(range))))) if range == DateOfBirthConstants.dontKnow => {
         GoTo(ExitController.dontKnow)
       }
-      case _ => NameController.nameStep    
+      case _ => NameController.nameStep
     }
   }
 }

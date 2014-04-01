@@ -7,11 +7,9 @@ import scala.util.Try
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 
 trait OverseasFormImplicits {
-  self: FormKeys => 
-  
-  implicit class OverseasImprovedForm(form:ErrorTransformForm[InprogressOverseas]) {
+  self: FormKeys =>
 
-    def apply(key:Key) = form(key.key)
+  implicit class OverseasImprovedForm(form:ErrorTransformForm[InprogressOverseas]) {
 
     def dateOfBirth = {
       for(

@@ -21,7 +21,7 @@ trait DateOfBirthMustache extends StepMustache {
       rangeDontKnow: Field,
       noDobReasonShowFlag: Text
   )
-  
+
   def transformFormStepToMustacheData(
       form:ErrorTransformForm[InprogressOrdinary],
       post: Call,
@@ -49,7 +49,7 @@ trait DateOfBirthMustache extends StepMustache {
         key = keys.dob.noDob.reason
       ),
       rangeFieldSet = FieldSet (
-        classes = if (form(keys.dob.noDob.range.key).hasErrors) "invalid" else ""
+        classes = if (form(keys.dob.noDob.range).hasErrors) "invalid" else ""
       ),
       rangeUnder18 = RadioField(
         key = keys.dob.noDob.range,
@@ -68,7 +68,7 @@ trait DateOfBirthMustache extends StepMustache {
         value = "dontKnow"
       ),
       noDobReasonShowFlag = Text (
-        value = progressForm(keys.dob.noDob.reason.key).value.map(noDobReason => "-open").getOrElse("")
+        value = progressForm(keys.dob.noDob.reason).value.map(noDobReason => "-open").getOrElse("")
       )
     )
   }
@@ -77,7 +77,7 @@ trait DateOfBirthMustache extends StepMustache {
         form:ErrorTransformForm[InprogressOrdinary],
         post: Call,
         back: Option[Call]): Html = {
-      
+
     val data = transformFormStepToMustacheData(form, post, back)
     val content = Mustache.render("ordinary/dateOfBirth", data)
     MainStepTemplate(content, data.question.title)

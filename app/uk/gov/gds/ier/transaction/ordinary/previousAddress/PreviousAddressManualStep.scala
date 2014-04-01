@@ -9,7 +9,7 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.OrdinaryStep
 import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 import controllers.step.ordinary.OpenRegisterController
 
@@ -37,7 +37,7 @@ class PreviousAddressManualStep @Inject() (
   }
 
   def template(
-      form: InProgressForm[InprogressOrdinary],
+      form: ErrorTransformForm[InprogressOrdinary],
       call: Call,
       backUrl: Option[Call]) = {
     PreviousAddressMustache.manualPage(

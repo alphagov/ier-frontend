@@ -8,7 +8,7 @@ import uk.gov.gds.ier.model.InprogressForces
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.{ForcesStep, Routes}
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.forces.PreviousAddressFirstController
 
 class AddressManualStep @Inject() (
@@ -35,7 +35,7 @@ class AddressManualStep @Inject() (
   }
 
   def template(
-      form: InProgressForm[InprogressForces],
+      form: ErrorTransformForm[InprogressForces],
       call: Call,
       backUrl: Option[Call]) = {
     AddressMustache.manualPage(

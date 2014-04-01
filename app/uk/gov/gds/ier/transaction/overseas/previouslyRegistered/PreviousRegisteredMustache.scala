@@ -30,17 +30,17 @@ trait PreviousRegisteredMustache extends StepMustache {
         title = "Was your previous registration as an overseas voter?"
       ),
       previouslyRegistered = FieldSet(
-        classes = if (form(prevRegKey.key).hasErrors) "invalid" else ""
+        classes = if (form(prevRegKey).hasErrors) "invalid" else ""
       ),
       previouslyRegisteredTrue = Field(
         name = prevRegKey.key,
         id = prevRegKey.asId("true"),
-        attributes = if (form(prevRegKey.key).value == Some("true")) "checked=\"checked\"" else ""
+        attributes = if (form(prevRegKey).value == Some("true")) "checked=\"checked\"" else ""
       ),
       previouslyRegisteredFalse = Field(
         name = prevRegKey.key,
         id = prevRegKey.asId("false"),
-        attributes = if (form(prevRegKey.key).value == Some("false")) "checked=\"checked\"" else ""
+        attributes = if (form(prevRegKey).value == Some("false")) "checked=\"checked\"" else ""
       )
     )
     val content = Mustache.render("overseas/previouslyRegistered", data)

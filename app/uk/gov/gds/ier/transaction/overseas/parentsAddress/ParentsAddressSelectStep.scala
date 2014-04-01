@@ -13,7 +13,7 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
-import uk.gov.gds.ier.validation.InProgressForm
+import uk.gov.gds.ier.validation.ErrorTransformForm
 
 class ParentsAddressSelectStep @Inject() (
     val serialiser: JsonSerialiser,
@@ -51,7 +51,7 @@ class ParentsAddressSelectStep @Inject() (
   } andThen GoToNextIncompleteStep()
 
   def template(
-      form: InProgressForm[InprogressOverseas],
+      form: ErrorTransformForm[InprogressOverseas],
       call: Call,
       backUrl: Option[Call]) = {
 
