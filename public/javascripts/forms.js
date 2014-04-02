@@ -5,7 +5,6 @@
       $ = root.jQuery,
       GOVUK = root.GOVUK,
       countries = GOVUK.registerToVote.countries,
-      validation = GOVUK.registerToVote.validation,
       ENTER = 13,
       ConditionalControl,
       DuplicateField,
@@ -488,6 +487,7 @@
     this.$searchButton.attr('aria-controls', this.$targetElement.attr('id'));
     this.$targetElement.attr({
       'aria-live' : 'polite',
+      'aria-busy' : 'false',
       'role' : 'region'
     });
     this.fragment =
@@ -516,29 +516,12 @@
         '<input type="hidden" id="possibleAddresses_postcode" name="possibleAddresses.postcode" value="{{postcode}}" />' +
         '<input type="hidden" id="possibleAddresses_jsonList" name="possibleAddresses.jsonList" value="{{resultsJSON}}" />' +
         '<button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode address">Continue</button>';
-    this.addressIsPrevious = (this.$searchInput.siblings('label').text().indexOf('previous address') !== -1);
-    this.$searchButton.attr('aria-controls', this.$targetElement.attr('id'));
-    this.$targetElement.attr({
-      'aria-live' : 'polite',
-      'role' : 'region'
-    });
 
     if (!_allowSubmission.apply(this, [this.$searchButton])) {
       $('#continue').hide();
     }
 
     this.bindEvents();
-    $(document).bind('toggle.open', function (e, data) {
-      var $select;
-
-      if (data.$toggle.text() === "I can't find my address in the list") {
-        data.$toggle.remove();
-        $select = $('#'+inputId+'_uprn_select');
-        $select.siblings('label[for="'+inputId+'_uprn_select"]').remove();
-        $select.remove();
-        $('#'+inputId).focus();
-      }
-    });
   };
   PostcodeLookup.prototype.bindEvents = function () {
     var _this = this;
@@ -586,10 +569,9 @@
   };
   PostcodeLookup.prototype.getAddresses = function () {
     var _this = this,
+        validation = GOVUK.registerToVote.validation,
         postcode = this.$searchInput.val(),
         URL = '/address/' + postcode.replace(/\s/g,''),
-        $optionalInfo = this.$searchButton.closest('fieldset').find('div.help-content'),
-        $addressSelect = $optionalInfo.siblings('select'),
         fieldValidationName = this.$searchButton.data("validationSources").split(' '),
         _notifyInvalidPostcode,
         _clearExistingResults,
@@ -629,6 +611,7 @@
 
     if (validation.validate(fieldValidationName, _this.$searchButton) === true) {
       this.$waitMessage.insertAfter(this.$searchButton);
+      this.$targetElement.attr('aria-busy', 'true');
       $.ajax({
         url : URL,
         dataType : 'json',
@@ -653,6 +636,7 @@
       }).
       always(function () {
         _this.$waitMessage.remove();
+        _this.$targetElement.attr('aria-busy', 'false');
       });
     }
   };

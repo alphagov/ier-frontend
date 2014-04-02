@@ -1,7 +1,7 @@
 describe("BackButton", function () {
 
-  describe("Creating an instance", function () {
-    it("Should have the right interface", function () {
+  describe("Constructor", function () {
+    it("Should produce an instance with the correct interface", function () {
       var backButton = new GOVUK.registerToVote.BackButton();
 
       expect(backButton.setup).toBeDefined();
@@ -72,8 +72,8 @@ describe("ToggleObj", function () {
   GOVUK.registerToVote.ToggleObj.prototype.setup = function () {};
   GOVUK.registerToVote.ToggleObj.prototype.bindEvents = function () {};
 
-  describe("Creating an instance", function () {
-    it("Should have the right interface", function () {
+  describe("Constructor", function () {
+    it("Should produce an instance with the correct interface", function () {
       var elm = document.createElement('div'),
           toggleObj = new GOVUK.registerToVote.ToggleObj(elm, 'optional-section');
 
@@ -199,13 +199,13 @@ describe("ToggleObj", function () {
 });
 
 describe("ConditionalControl", function () {
-  describe("Creating an instance", function () {
+  describe("Constructor", function () {
     var elm;
     beforeEach(function () {
      elm = $('<div></div>');
     });
 
-    it("Should have the right interface", function () {
+    it("Should produce an instance with the correct interface", function () {
       var control = new GOVUK.registerToVote.ConditionalControl(elm, 'optional-section');
 
       expect(control.setup).toBeDefined();
@@ -523,7 +523,7 @@ describe("DuplicateField", function () {
         "className" : "country-label"
       };
 
-  describe("Creating an instance", function () {
+  describe("Constructor", function () {
     var duplicateFieldMock
 
     beforeEach(function () {
@@ -541,7 +541,7 @@ describe("DuplicateField", function () {
       $(".duplication-intro").remove();
     });
 
-    it("Should have the right interface", function () {
+    it("Should produce an instance with the correct interface", function () {
       var duplicateField;
 
       duplicateField = new GOVUK.registerToVote.DuplicateField(duplicateFieldMock.find("a")[0], copyClass, labelObj);
@@ -1098,7 +1098,7 @@ describe("monitorRadios", function () {
 });
 
 describe("MarkSelected", function () {
-  describe("Creating an instance", function () {
+  describe("Constructor", function () {
     var $radioLabel,
         $checkboxLabel;
 
@@ -1124,7 +1124,7 @@ describe("MarkSelected", function () {
       expect(function () { createInstance($checkboxLabel) }).not.toThrow();
     });
 
-    it("Should have the right interface", function () {
+    it("Should produce an instance with the correct interface", function () {
       var selectable;
 
       selectable = new GOVUK.registerToVote.MarkSelected($radioLabel);
@@ -1295,14 +1295,14 @@ describe("MarkSelected", function () {
 });
 
 describe("Autocomplete", function () {
-  describe("Creating an instance", function () {
+  describe("Constructor", function () {
     var $input;
 
     beforeEach(function () {
       $input = $("<input type='text' id='field_1' name='field_1' />");
     });
 
-    it("Should have the right interface", function () {
+    it("Should produce an instance with the correct interface", function () {
       var autocomplete;
 
       autocomplete = new GOVUK.registerToVote.Autocomplete($input);
@@ -1629,6 +1629,541 @@ describe("autocompletes", function () {
       GOVUK.registerToVote.autocompletes.remove.call(autocompletesMock, $input);
       expect(autocompletesMock.cache.field_1).not.toBeDefined();
       expect($input.typeahead).toHaveBeenCalledWith('destroy');
+    });
+  });
+});
+
+describe("PostcodeLookup", function () {
+  var $container,
+      $targetElement,
+      $searchButton,
+      $searchInput,
+      resultsTemplate = 
+        '<label for="address_postcode" class="hidden">' +
+           'Postcode' +
+        '</label>' +
+        '<input type="hidden" id="input-address-postcode" name="address.postcode" value="{{postcode}}" class="text hidden">' +
+        '<label for="address_uprn_select">{{selectLabel}}</label>' +
+        '<div class="validation-wrapper">' +
+          '<select id="address_uprn_select" name="address.uprn" class="lonely validate" ' +
+          'data-validation-name="addressSelect" data-validation-type="field" data-validation-rules="nonEmpty"' +
+          '>' +
+          '<option value="">{{defaultOption}}</option>' +
+          '{{#options}}' +
+            '<option value="{{uprn}}">{{addressLine}}</option>' +
+          '{{/options}}' +
+          '</select>' +
+        '</div>' +
+        '<div class="optional-section" id="cant-find-address">' +
+          '<h2>{{excuseToggle}}</h2>' +
+          '<label for="address_manualAddress">{{excuseLabel}}</label>' +
+          '<textarea name="address.manualAddress" id="address_manualAddress" class="small validate" maxlength=500  autocomplete="off" ' +
+          'data-validation-name="addressExcuse" data-validation-type="field" data-validation-rules="nonEmpty"' +
+          '></textarea>' +
+        '</div>' +
+        '<input type="hidden" id="possibleAddresses_postcode" name="possibleAddresses.postcode" value="{{postcode}}" />' +
+        '<input type="hidden" id="possibleAddresses_jsonList" name="possibleAddresses.jsonList" value="{{resultsJSON}}" />' +
+        '<button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode address">Continue</button>',
+      addressData = [ 
+        {
+          addressLine: "Pool House, Elgar Business Centre, Moseley Road, Hallow, Worcester, Worcestershire",
+          uprn: "26742626",
+          postcode: "WR2 6NJ",
+          manualAddress: null
+        },
+        {
+          addressLine: "Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester, Worcestershire",
+          uprn: "52489478",
+          postcode: "WR2 6NJ",
+          manualAddress: null
+        }
+      ],
+      templateData = {
+        'postcode' : 'WR2 6NJ',
+        'selectLabel' : 'Select your address',
+        'defaultOption' : '2 addresses found',
+        'options' : addressData,
+        'excuseToggle' : "I can't find my address in the list",
+        'excuseLabel' : 'Enter your address',
+        'resultsJSON' : '{"addresses":[]}'
+      },
+      defaultResultsHTML;
+
+  beforeEach(function () {
+    defaultResultsHTML = Mustache.render(resultsTemplate, templateData);
+    $container = $(
+      "<fieldset>" +
+        "<input type='text' id='postcode_name' class='postcode' />" +
+        "<button type='submit' id='find-address' data-validation-sources='postcode'>Find address</button>" +
+      "</fieldset>"
+    );
+    $targetElement = $("<div id='found-addresses' />");
+    $submitButton = $("<button id='continue'>Continue</button>");
+    $searchInput = $container.find('#postcode_name');
+    $searchButton = $container.find('#find-address');
+    $(document.body).append($container);
+    $(document.body).append($targetElement);
+    $(document.body).append($submitButton);
+  });
+
+  afterEach(function () {
+    $container.remove();
+    $targetElement.remove();
+    $submitButton.remove();
+  });
+
+  describe("Constructor", function () {
+    it("Should produce an instance with the correct interface", function () {
+      var postcodeLookup = new GOVUK.registerToVote.PostcodeLookup($searchButton, 'address');
+
+      expect(postcodeLookup.bindEvents).toBeDefined();
+      expect(postcodeLookup.onTimeout).toBeDefined();
+      expect(postcodeLookup.onError).toBeDefined();
+      expect(postcodeLookup.addLookup).toBeDefined();
+      expect(postcodeLookup.getAddresses).toBeDefined();
+    });
+
+    it("Should add the correct ARIA attributes to the 'Find address' button & the element the results are added to", function () {
+      var postcodeLookup = new GOVUK.registerToVote.PostcodeLookup($searchButton, 'address');
+
+      expect($searchButton.attr('aria-controls')).toEqual('found-addresses');
+      expect($targetElement.attr('aria-live')).toEqual('polite');
+      expect($targetElement.attr('aria-busy')).toEqual('false');
+      expect($targetElement.attr('role')).toEqual('region');
+    });
+
+    it("Should hide the page submit button if the lookup is in an optional section that is visible", function () {
+      var postcodeLookup;
+
+      $container.wrap("<div class='optional-section' />");
+      postcodeLookup = new GOVUK.registerToVote.PostcodeLookup($searchButton, 'address');
+
+      expect($submitButton.css('display')).toEqual('none');
+    });
+
+    it("Should call the bindEvents method", function () {
+      var postcodeLookupMock = {
+        'bindEvents' : jasmine.createSpy('postcodeLookupMock.bindEvents')
+      };
+
+      GOVUK.registerToVote.PostcodeLookup.apply(postcodeLookupMock, [$searchButton, 'address']);
+
+      expect(postcodeLookupMock.bindEvents).toHaveBeenCalled();
+    });
+
+    it("Should mark the type of address (previous or not)", function () {
+      var postcodeLookup;
+
+      $("<label for='postcode_name'>previous address</label>").insertBefore($searchInput);
+      postcodeLookup = new GOVUK.registerToVote.PostcodeLookup($searchButton, 'address');
+
+      expect(postcodeLookup.addressIsPrevious).toEqual(true);
+    });
+  });
+
+  describe("bindEvents method", function () {
+    it("Should add a click event to the 'Find address' button", function () {
+      var postcodeLookup,
+          eventCalled,
+          elementEventCalledOn;
+
+      spyOn($.fn, "on").and.callFake(
+        function (evt, callback) {
+          eventCalled = evt;
+          elementEventCalledOn = this[0];
+          return this;
+        }
+      );
+      var postcodeLookup = new GOVUK.registerToVote.PostcodeLookup($searchButton, 'address');
+
+      expect(eventCalled).toEqual('click');
+      expect(elementEventCalledOn).toBe($searchButton[0]);
+    });
+  });
+
+  describe("addLookup method", function () {
+    var postcodeLookupMock,
+        previousAddressTemplateData = {
+          'postcode' : 'WR2 6NJ',
+          'selectLabel' : 'Select your previous address',
+          'defaultOption' : '2 addresses found',
+          'options' : addressData,
+          'excuseToggle' : "I can't find my previous address in the list",
+          'excuseLabel' : 'Enter your previous address',
+          'resultsJSON' : '{"addresses":[]}'
+        },
+        previousAddressResultsHTML = Mustache.render(resultsTemplate, previousAddressTemplateData),
+        $result;
+
+    beforeEach(function () {
+      $targetElement = $("<div id='found-addresses' />");
+      postcodeLookupMock = {
+        'addressIsPrevious' : false,
+        'fragment' : resultsTemplate,
+        '$targetElement' : $targetElement,
+        'hasAddress' : false
+      };
+      $(document.body).append($targetElement); 
+    });
+
+    afterEach(function () {
+      $targetElement.remove();
+    });
+
+    it("Should add 'contains-addresses' to the div that the new HTML is added to", function () {
+      var data = {
+        "addresses" : addressData,
+        "rawJSON" : '{"addresses":[]}' 
+      },
+      $addressHTMLDefault = $(
+        '<div>' +
+          '<form action="' + window.location + '" method="POST">' +
+            defaultResultsHTML +
+          '</form>' +
+        '</div>'
+      );
+
+      GOVUK.registerToVote.OptionalInformation = function () {};
+      GOVUK.registerToVote.PostcodeLookup.prototype.addLookup.apply(postcodeLookupMock, [data, 'WR2 6NJ']);
+
+      expect(postcodeLookupMock.$targetElement.hasClass('contains-addresses')).toEqual(true);
+    });
+
+    it("Should call GOVUK.registerToVote.OptionalInformation on any optional content in the new HTML", function () {
+      var data = {
+        "addresses" : addressData,
+        "rawJSON" : '{"addresses":[]}' 
+      },
+      $addressHTMLDefault = $(
+        '<div>' +
+          '<form action="' + window.location + '" method="POST">' +
+            defaultResultsHTML +
+          '</form>' +
+        '</div>'
+      );
+
+      spyOn(GOVUK.registerToVote, "OptionalInformation");
+      GOVUK.registerToVote.PostcodeLookup.prototype.addLookup.apply(postcodeLookupMock, [data, 'WR2 6NJ']);
+
+      expect(GOVUK.registerToVote.OptionalInformation).toHaveBeenCalled();
+    });
+
+    it("Should set the 'hasAddresses' property to true", function () {
+      var data = {
+        "addresses" : addressData,
+        "rawJSON" : '{"addresses":[]}' 
+      },
+      $addressHTMLDefault = $(
+        '<div>' +
+          '<form action="' + window.location + '" method="POST">' +
+            defaultResultsHTML +
+          '</form>' +
+        '</div>'
+      );
+
+      GOVUK.registerToVote.OptionalInformation = function () {};
+      GOVUK.registerToVote.PostcodeLookup.prototype.addLookup.apply(postcodeLookupMock, [data, 'WR2 6NJ']);
+
+      expect(postcodeLookupMock.hasAddresses).toEqual(true);
+    });
+
+    it("Should add the correct HTML to the targeted div if it's not in any optional sections", function () {
+      var data = {
+        "addresses" : addressData,
+        "rawJSON" : '{"addresses":[]}' 
+      },
+      $addressHTMLDefault = $(
+        '<div>' +
+          '<form action="' + window.location + '" method="POST">' +
+            defaultResultsHTML +
+          '</form>' +
+        '</div>'
+      );
+
+      GOVUK.registerToVote.OptionalInformation = function () {};
+      GOVUK.registerToVote.PostcodeLookup.prototype.addLookup.apply(postcodeLookupMock, [data, 'WR2 6NJ']);
+
+      expect(postcodeLookupMock.$targetElement.html()).toEqual($addressHTMLDefault.html());
+    });
+
+    it("Should add the correct HTML to the targeted div in the only optional section on the page", function () {
+      var data = {
+        "addresses" : addressData,
+        "rawJSON" : '{"addresses":[]}' 
+      },
+      $addressHTMLDefault = $(
+        '<div>' +
+            defaultResultsHTML +
+        '</div>'
+      );
+
+      $targetElement.wrap('<div class="optional-section-core-content" />');
+      GOVUK.registerToVote.OptionalInformation = function () {};
+      GOVUK.registerToVote.PostcodeLookup.prototype.addLookup.apply(postcodeLookupMock, [data, 'WR2 6NJ']);
+
+      expect(postcodeLookupMock.$targetElement.html()).toEqual($addressHTMLDefault.html());
+    });
+
+    it("Should add the correct HTML to the targeted div if the 'addressIsPrevious' property is set", function () {
+      var data = {
+        "addresses" : addressData,
+        "rawJSON" : '{"addresses":[]}' 
+      },
+      $addressHTMLPrevious = $(
+        '<div>' +
+          '<form action="' + window.location + '" method="POST">' +
+            previousAddressResultsHTML +
+          '</form>' +
+        '</div>'
+      );
+
+      postcodeLookupMock.addressIsPrevious = true;
+      GOVUK.registerToVote.OptionalInformation = function () {};
+      GOVUK.registerToVote.PostcodeLookup.prototype.addLookup.apply(postcodeLookupMock, [data, 'WR2 6NJ']);
+
+      expect(postcodeLookupMock.$targetElement.html()).toEqual($addressHTMLPrevious.html());
+    });
+  });
+
+  describe("getAddresses method", function () {
+    var cachedValidation = GOVUK.registerToVote.validation,
+        cachedAjax = $.ajax,
+        postcodeLookupMock,
+        mockAjax;
+
+    mockAjax = function (methodName, substitute) {
+      var mock = {},
+          callbacks = ['done', 'fail', 'always'],
+          i, j;
+
+      for (i = 0, j = callbacks.length; i < j; i++) {
+        callback = callbacks[i]
+        mock[callback] = (callback === methodName) ? substitute : function () { return this; };
+      }
+      return function () { return mock; };
+    };
+
+    beforeEach(function () {
+      postcodeLookupMock = {
+        "$searchInput" : $searchInput,
+        "$searchButton" : $searchButton,
+        "$targetElement" : $targetElement,
+        "$waitMessage" : $('<p id="wait-for-request">Finding address</p>')
+      };
+    });
+
+    afterEach(function () {
+      $.ajax = cachedAjax;
+      postcodeLookupMock.$waitMessage.remove();
+      postcodeLookupMock.$targetElement.html();
+    });
+    
+    it("Should do nothing if the postcode field is invalid", function () {
+      GOVUK.registerToVote.validation.validate = jasmine.createSpy("GOVUK.registerToVote.validation.validate").and.callFake(
+        function () {
+          return false;
+        }
+      );
+      spyOn($, "ajax");
+      GOVUK.registerToVote.PostcodeLookup.prototype.getAddresses.call(postcodeLookupMock);     
+
+      expect(GOVUK.registerToVote.validation.validate).toHaveBeenCalled();
+      expect($.ajax).not.toHaveBeenCalled();
+    });
+
+    it("Should add the progress indictator and set aria-busy to true if the field is valid", function () {
+      var onDone;
+
+      GOVUK.registerToVote.validation.validate = function () { return true; };
+      $.ajax = mockAjax('done',
+        function (callback) {
+          onDone = callback;
+          return this;
+        }
+      );
+      GOVUK.registerToVote.PostcodeLookup.prototype.getAddresses.call(postcodeLookupMock);     
+
+      expect(document.getElementById('wait-for-request')).not.toEqual(null);
+      expect($targetElement.attr('aria-busy')).toEqual('true');
+    });
+
+    it("Should use $.ajax to make a GET request to /address if the postcode field is valid", function () {
+      var onDone;
+
+      GOVUK.registerToVote.validation.validate = function () { return true; };
+      postcodeLookupMock.$searchInput.val('WR2 6NJ');
+      spyOn($, "ajax").and.callFake(
+        mockAjax('done',
+          function (callback) {
+            onDone = callback;
+            return this;
+          }
+        )
+      );
+      GOVUK.registerToVote.PostcodeLookup.prototype.getAddresses.call(postcodeLookupMock);
+
+      expect($.ajax).toHaveBeenCalledWith({
+        'url' : '/address/WR26NJ',
+        'dataType' : 'json',
+        'timeout' : 10000
+      });
+    });
+
+    describe("done method set on $.ajax", function () {
+      var addressData = { "addresses" : [
+        {
+          addressLine: "Pool House, Elgar Business Centre, Moseley Road, Hallow, Worcester, Worcestershire",
+          uprn: "26742626",
+          postcode: "WR2 6NJ",
+          manualAddress: null
+        }
+      ]};
+
+      it("Should mark the postcode as invalid if an empty results set is returned", function () {
+        var onDone;
+
+        GOVUK.registerToVote.validation.validate = function () { return true; };
+        spyOn(GOVUK.registerToVote.validation, "makeInvalid");
+        $.ajax = mockAjax('done',
+          function (callback) {
+            onDone = callback;
+            return this;
+          }
+        );
+        GOVUK.registerToVote.PostcodeLookup.prototype.getAddresses.call(postcodeLookupMock);     
+        onDone({ "addresses" : [] }, "", { "responseText" : "" });
+
+        expect(GOVUK.registerToVote.validation.makeInvalid).toHaveBeenCalledWith(
+          [{
+            'name' : 'postcode',
+            'rule' : 'postcode',
+            '$source' : postcodeLookupMock.$searchInput
+          }], postcodeLookupMock.$searchButton
+        );
+      });
+
+      it("Should remove any existing HTML from the results div & the continue button if results are returned", function () {
+        var onDone,
+            cachedAdd = GOVUK.registerToVote.validation.fields.add;
+
+        GOVUK.registerToVote.validation.validate = function () { return true; };
+        spyOn(GOVUK.registerToVote.validation, "makeInvalid");
+        $.ajax = mockAjax('done',
+          function (callback) {
+            onDone = callback;
+            return this;
+          }
+        );
+        postcodeLookupMock.$targetElement.append("<p>Existing results</p>");
+        postcodeLookupMock.addLookup = function () {};
+        GOVUK.registerToVote.validation.fields.add = function () {};
+        spyOn(GOVUK.registerToVote.validation.fields, "remove");
+        GOVUK.registerToVote.PostcodeLookup.prototype.getAddresses.call(postcodeLookupMock);     
+        onDone(addressData, "", { "responseText" : "" });
+
+        expect(GOVUK.registerToVote.validation.fields.remove).toHaveBeenCalledWith('address');
+        expect(GOVUK.registerToVote.validation.fields.remove).toHaveBeenCalledWith('addressSelect');
+        expect(GOVUK.registerToVote.validation.fields.remove).toHaveBeenCalledWith('addressExcuse');
+        expect(postcodeLookupMock.$targetElement.html()).toEqual('');
+        expect(document.getElementById('continue')).toEqual(null);
+
+        GOVUK.registerToVote.validation.fields.add = cachedAdd;
+      });
+
+      it("Should call the addLookup method with the response data to add the new HTML", function () {
+        var onDone;
+
+        GOVUK.registerToVote.validation.validate = function () { return true; };
+        postcodeLookupMock.$searchInput.val('WR2 6NJ');
+        $.ajax = mockAjax('done',
+          function (callback) {
+            onDone = callback;
+            return this;
+          }
+        );
+        postcodeLookupMock.addLookup = jasmine.createSpy("postcodeLookupMock.addLookup");
+        GOVUK.registerToVote.PostcodeLookup.prototype.getAddresses.call(postcodeLookupMock);     
+        onDone(addressData, "", { "responseText" : "" });
+
+        expect(postcodeLookupMock.addLookup).toHaveBeenCalledWith(addressData, "WR2 6NJ");
+      });
+
+      it("Should set validation on the new HTML", function () {
+        var onDone;
+
+        GOVUK.registerToVote.validation.validate = function () { return true; };
+        $.ajax = mockAjax('done',
+          function (callback) {
+            onDone = callback;
+            return this;
+          }
+        );
+        postcodeLookupMock.addLookup = function () {};
+        GOVUK.registerToVote.validation.fields.add = jasmine.createSpy("GOVUK.registerToVote.validation.fields.add");
+        GOVUK.registerToVote.PostcodeLookup.prototype.getAddresses.call(postcodeLookupMock);     
+        onDone(addressData, "", { "responseText" : "" });
+
+        expect(postcodeLookupMock.$targetElement.attr('data-validation-name')).toEqual('address');
+        expect(postcodeLookupMock.$targetElement.attr('data-validation-type')).toEqual('fieldset');
+        expect(postcodeLookupMock.$targetElement.attr('data-validation-rules')).toEqual('fieldOrExcuse');
+        expect(postcodeLookupMock.$targetElement.attr('data-validation-children')).toEqual('addressSelect addressExcuse');
+        expect(GOVUK.registerToVote.validation.fields.add).toHaveBeenCalledWith(postcodeLookupMock.$targetElement);
+      });
+    });
+
+    describe("always method set on $.ajax", function () {
+      it("Should remove the progress indictator and set aria-busy to false", function () {
+        var onAlways;
+
+        GOVUK.registerToVote.validation.validate = function () { return true; };
+        $.ajax = mockAjax('always',
+          function (callback) {
+            onAlways = callback;
+            return this;
+          }
+        );
+        GOVUK.registerToVote.PostcodeLookup.prototype.getAddresses.call(postcodeLookupMock);     
+        onAlways();
+
+        expect(document.getElementById('wait-for-request')).toEqual(null);
+        expect(postcodeLookupMock.$targetElement.attr('aria-busy')).toEqual('false');
+      });
+    });
+
+    describe("fail method set on $.ajax", function () {
+      it("Should call onTimeout if the request fails by being longer than 10000ms", function () {
+        var onFail;
+
+        GOVUK.registerToVote.validation.validate = function () { return true; };
+        $.ajax = mockAjax('fail',
+          function (callback) {
+            onFail = callback;
+            return this;
+          }
+        );
+        postcodeLookupMock.onTimeout = jasmine.createSpy("postcodeLookupMock.onTimeout");
+        GOVUK.registerToVote.PostcodeLookup.prototype.getAddresses.call(postcodeLookupMock);     
+        onFail({}, 'timeout', '');
+
+        expect(postcodeLookupMock.onTimeout).toHaveBeenCalled();
+      });
+
+      it("Should call onError if the request fails for a reason other than being too long", function () {
+        var onFail;
+
+        GOVUK.registerToVote.validation.validate = function () { return true; };
+        $.ajax = mockAjax('fail',
+          function (callback) {
+            onFail = callback;
+            return this;
+          }
+        );
+        postcodeLookupMock.onError = jasmine.createSpy("postcodeLookupMock.onError");
+        GOVUK.registerToVote.PostcodeLookup.prototype.getAddresses.call(postcodeLookupMock);     
+        onFail({}, 'error', '');
+
+        expect(postcodeLookupMock.onError).toHaveBeenCalled();
+      });
     });
   });
 });
