@@ -22,7 +22,7 @@ class PreviousAddressYesStepsTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include(
-        "Have you moved from another UK address in the last 12 months?"
+        "What was your previous UK address?"
       )
       contentAsString(result) should include("Question 3")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/previous-address/lookup\"")
@@ -52,7 +52,7 @@ class PreviousAddressYesStepsTests
 
       status(result) should be(OK)
       contentAsString(result) should include(
-        "Have you moved from another UK address in the last 12 months?"
+        "What was your previous UK address?"
       )
       contentAsString(result) should include("Please enter your postcode")
       contentAsString(result) should include("/register-to-vote/forces/previous-address/lookup")
@@ -126,7 +126,7 @@ class PreviousAddressYesStepsTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include(
-        "Have you moved from another UK address in the last 12 months?"
+        "What was your previous UK address?"
       )
       contentAsString(result) should include("Question 3")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/previous-address/lookup\"")
@@ -197,7 +197,7 @@ class PreviousAddressYesStepsTests
 
       status(result) should be(OK)
       contentAsString(result) should include(
-        "Have you moved from another UK address in the last 12 months?"
+        "What was your previous UK address?"
       )
       contentAsString(result) should include("Please enter your postcode")
       contentAsString(result) should include("/register-to-vote/forces/previous-address/lookup")

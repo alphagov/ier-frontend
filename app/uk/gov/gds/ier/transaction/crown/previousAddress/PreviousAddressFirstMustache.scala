@@ -8,7 +8,7 @@ import play.api.templates.Html
 
 trait PreviousAddressFirstMustache extends StepMustache {
 
-  val title = "Have you moved from another UK address in the last 12 months?"
+  val title = "Have you changed your UK address in the last 12 months?"
   val questionNumber = ""
 
   case class PreviousAddressFirstModel(
