@@ -5,7 +5,7 @@ import com.google.inject.Inject
 import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.model.InprogressOrdinary
+import uk.gov.gds.ier.model.{MovedHouseOption, InprogressOrdinary}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
@@ -39,14 +39,8 @@ class PreviousAddressPostcodeStep @Inject() (
   def template(
       form: ErrorTransformForm[InprogressOrdinary],
       call: Call,
-      backUrl: Option[Call]) = Html.empty
-
-  override def templateWithApplication(
-      form: ErrorTransformForm[InprogressOrdinary],
-      call: Call,
-      backUrl: Option[Call]) = { application =>
+      backUrl: Option[Call]) = {
     PreviousAddressMustache.postcodePage(
-      application.previousAddress.flatMap(_.movedRecently),
       form,
       backUrl.map(_.url).getOrElse(""),
       call.url

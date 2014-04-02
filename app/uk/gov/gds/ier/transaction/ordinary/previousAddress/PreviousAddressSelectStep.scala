@@ -58,12 +58,7 @@ class PreviousAddressSelectStep @Inject() (
   def template(
       form: ErrorTransformForm[InprogressOrdinary],
       call: Call,
-      backUrl: Option[Call]) = Html.empty
-
-  override def templateWithApplication(
-      form: ErrorTransformForm[InprogressOrdinary],
-      call: Call,
-      backUrl: Option[Call]) = { application =>
+      backUrl: Option[Call]) = {
 
     val storedAddresses = for(
       jsonList <- form(keys.possibleAddresses.jsonList).value;
@@ -81,7 +76,6 @@ class PreviousAddressSelectStep @Inject() (
     }
 
     PreviousAddressMustache.selectPage(
-      application.previousAddress.flatMap(_.movedRecently),
       form,
       backUrl.map(_.url).getOrElse(""),
       call.url,

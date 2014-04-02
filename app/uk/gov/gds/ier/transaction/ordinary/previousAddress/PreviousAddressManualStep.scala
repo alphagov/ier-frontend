@@ -40,14 +40,8 @@ class PreviousAddressManualStep @Inject() (
   def template(
       form: ErrorTransformForm[InprogressOrdinary],
       call: Call,
-      backUrl: Option[Call]) = Html.empty
-    
-  override def templateWithApplication(
-      form: ErrorTransformForm[InprogressOrdinary],
-      call: Call,
-      backUrl: Option[Call]) = { application =>
+      backUrl: Option[Call]) = {
     PreviousAddressMustache.manualPage(
-      application.previousAddress.flatMap(_.movedRecently),
       form,
       backUrl.map(_.url).getOrElse(""),
       call.url,

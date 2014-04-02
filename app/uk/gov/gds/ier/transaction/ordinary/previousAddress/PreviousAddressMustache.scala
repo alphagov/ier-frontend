@@ -59,13 +59,14 @@ trait PreviousAddressMustache {
     }
 
     def postcodePage(
-        movedHouse: Option[MovedHouseOption],
         form: ErrorTransformForm[InprogressOrdinary],
         backUrl: String,
         postUrl: String) = {
-      import MovedHouseOption._
-      val title = movedHouse match {
-        case Some(MovedFromAbroad) => "What was your last UK address before moving abroad?"
+      val movedRecently = form(keys.previousAddress.movedRecently).value.map {
+        str => MovedHouseOption.parse(str)
+      }
+      val title = movedRecently match {
+        case Some(MovedHouseOption.MovedFromAbroad) => "What was your last UK address before moving abroad?"
         case _ => "What was your previous address?"
       }
 
@@ -143,16 +144,17 @@ trait PreviousAddressMustache {
     }
 
     def selectPage(
-        movedHouse: Option[MovedHouseOption],
         form: ErrorTransformForm[InprogressOrdinary],
         backUrl: String,
         postUrl: String,
         lookupUrl: String,
         manualUrl: String,
         maybePossibleAddress:Option[PossibleAddress]) = {
-      import MovedHouseOption._
-      val title = movedHouse match {
-        case Some(MovedFromAbroad) => "What was your last UK address before moving abroad?"
+      val movedRecently = form(keys.previousAddress.movedRecently).value.map {
+        str => MovedHouseOption.parse(str)
+      }
+      val title = movedRecently match {
+        case Some(MovedHouseOption.MovedFromAbroad) => "What was your last UK address before moving abroad?"
         case _ => "What was your previous address?"
       }
 
@@ -190,14 +192,15 @@ trait PreviousAddressMustache {
     }
 
     def manualPage(
-        movedHouse: Option[MovedHouseOption],
         form: ErrorTransformForm[InprogressOrdinary],
         backUrl: String,
         postUrl: String,
         lookupUrl: String) = {
-      import MovedHouseOption._
-      val title = movedHouse match {
-        case Some(MovedFromAbroad) => "What was your last UK address before moving abroad?"
+      val movedRecently = form(keys.previousAddress.movedRecently).value.map {
+        str => MovedHouseOption.parse(str)
+      }
+      val title = movedRecently match {
+        case Some(MovedHouseOption.MovedFromAbroad) => "What was your last UK address before moving abroad?"
         case _ => "What was your previous address?"
       }
 
