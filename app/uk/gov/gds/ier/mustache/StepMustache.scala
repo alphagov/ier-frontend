@@ -1,11 +1,12 @@
 package uk.gov.gds.ier.mustache
+
 import play.api.templates.Html
 import views.html.layouts.{stepsBodyEnd, head}
 import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys}
 import uk.gov.gds.ier.validation.{FormKeys, Key, ErrorTransformForm}
 import uk.gov.gds.ier.step.InprogressApplication
 
-trait StepMustache extends FormKeys {
+trait StepMustache extends StepModels {
 
   def Mustache = org.jba.Mustache
 
@@ -28,6 +29,12 @@ trait StepMustache extends FormKeys {
     )(content)
   }
 
+}
+
+object StepModels extends StepModels
+
+trait StepModels extends FormKeys {
+  
   case class Text(value:String = "")
   case class FieldSet (classes:String = "")
   case class Field (
