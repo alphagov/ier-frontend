@@ -8,6 +8,7 @@ import uk.gov.gds.ier.logging.Logging
 import scala.Some
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.step.InprogressApplication
+import uk.gov.gds.ier.step.StatsdWrapper
 
 abstract class SessionHandling[T <: InprogressApplication[T]]
   extends ResultStoring
@@ -18,7 +19,8 @@ abstract class SessionHandling[T <: InprogressApplication[T]]
     with Controller
     with Logging
     with WithConfig
-    with WithEncryption =>
+    with WithEncryption
+    with StatsdWrapper =>
 
   def factoryOfT():T
 

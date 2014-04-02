@@ -29,6 +29,7 @@ trait StepController [T <: InprogressApplication[T]]
   with Controller
   with ErrorMessages
   with FormKeys
+  with StatsdWrapper
   with Logging {
   self: WithSerialiser
     with WithConfig
@@ -58,7 +59,8 @@ trait StepController [T <: InprogressApplication[T]]
   }
 
   def get(implicit manifest: Manifest[T]) = ValidSession requiredFor {
-    request => application =>
+    implicit request => application =>
+      statsDTime {
       logger.debug(s"GET request for ${request.path}")
       Ok(templateWithApplication(validation.fill(application), routes.post, previousRoute)(application))
   }
