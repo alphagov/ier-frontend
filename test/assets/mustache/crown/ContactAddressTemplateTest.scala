@@ -257,7 +257,6 @@ class ContactAddressTemplateTest
         val r = doc.select("input#otherAddressPostcodeId").first()
         r should not be(null)
         r.attr("name") should be("otherAddressPostcodeName")
-        r.attr("class") should include ("otherAddressPostcodeClass")
         r.attr("value") should be("otherAddressPostcodeValue")
       }
 
