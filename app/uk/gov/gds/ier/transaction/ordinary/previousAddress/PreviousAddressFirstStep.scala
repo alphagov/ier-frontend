@@ -1,6 +1,8 @@
 package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
 import controllers.step.ordinary.routes._
+import controllers.step.ordinary.PreviousAddressPostcodeController._
+import controllers.step.ordinary.OpenRegisterController._
 import com.google.inject.Inject
 import uk.gov.gds.ier.model.{InprogressOrdinary, MovedHouseOption}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
@@ -33,14 +35,18 @@ class PreviousAddressFirstStep @Inject ()(
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
-    if (currentState.previousAddress.flatMap(_.movedRecently) == Some(MovedHouseOption.Yes)) {
-      controllers.step.ordinary.PreviousAddressPostcodeController.previousPostcodeAddressStep
-    } else {
-      controllers.step.ordinary.OpenRegisterController.openRegisterStep
+    currentState.previousAddress.flatMap(_.movedRecently) match {
+      case Some(MovedHouseOption.MovedFromAbroad) => previousPostcodeAddressStep
+      case Some(MovedHouseOption.MovedFromUk) => previousPostcodeAddressStep
+      case Some(MovedHouseOption.NotMoved) => openRegisterStep
+      case _ => this
     }
   }
 
-  def template(form: ErrorTransformForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
+  def template(
+      form: ErrorTransformForm[InprogressOrdinary],
+      call:Call,
+      backUrl: Option[Call]): Html = {
     previousAddressFirstStepMustache(
       form,
       call.url,

@@ -1,7 +1,9 @@
 package uk.gov.gds.ier.model
 
 sealed case class MovedHouseOption(hasPreviousAddress:Boolean, name:String)
-object MovedHouseOption {
+object MovedHouseOption extends ModelMapping {
+  import playMappings._
+
   val Yes = MovedHouseOption(true, "yes")
   val MovedFromUk = MovedHouseOption(true, "from-uk")
   val MovedFromAbroad = MovedHouseOption(true, "from-abroad")
@@ -22,5 +24,21 @@ object MovedHouseOption {
       case NotMoved.`name` => NotMoved
       case _ => DontKnow
     }
+  }
+
+  lazy val mapping = text.verifying(
+    str => MovedHouseOption.isValid(str)
+  ).transform[MovedHouseOption](
+    str => MovedHouseOption.parse(str),
+    option => option.name
+  ).verifying(
+    movedHouseUkAbroadOrNoOnly
+  )
+
+  lazy val movedHouseUkAbroadOrNoOnly = Constraint[MovedHouseOption]("movedHouse") {
+    case MovedHouseOption.MovedFromUk => Valid
+    case MovedHouseOption.MovedFromAbroad => Valid
+    case MovedHouseOption.NotMoved => Valid
+    case _ => Invalid("Not a valid option")
   }
 }

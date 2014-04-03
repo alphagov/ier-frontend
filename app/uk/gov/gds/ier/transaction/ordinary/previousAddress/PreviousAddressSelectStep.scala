@@ -10,6 +10,7 @@ import uk.gov.gds.ier.step.OrdinaryStep
 import controllers.step.ordinary.OpenRegisterController
 import uk.gov.gds.ier.model.Addresses
 import play.api.mvc.Call
+import play.api.templates.Html
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.PossibleAddress
 import uk.gov.gds.ier.model.InprogressOrdinary
@@ -26,7 +27,7 @@ class PreviousAddressSelectStep @Inject() (
   with PreviousAddressMustache
   with PreviousAddressForms {
 
-  val validation = selectAddressFormForPreviousAddress
+  val validation = selectStepForm
 
   val previousRoute = Some(PreviousAddressPostcodeController.get)
 
@@ -70,7 +71,7 @@ class PreviousAddressSelectStep @Inject() (
     }
 
     val maybeAddresses = storedAddresses.orElse {
-      val postcode = form(keys.previousAddress.postcode).value
+      val postcode = form(keys.previousAddress.previousAddress.postcode).value
       lookupAddresses(postcode)
     }
 

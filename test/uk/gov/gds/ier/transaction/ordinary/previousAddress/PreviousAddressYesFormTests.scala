@@ -28,12 +28,12 @@ class PreviousAddressYesFormTests
   it should "succeed on valid postcode" in {
     val js = Json.toJson(
       Map(
-        "previousAddress.postcode" -> "SW1A 1AA"
+        "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
       )
     )
 
-    postcodeAddressFormForPreviousAddress.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
+    postcodeStepForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(",")),
       success => {
         success.previousAddress.isDefined should be(true)
         val Some(partialPreviousAddress) = success.previousAddress
@@ -51,15 +51,15 @@ class PreviousAddressYesFormTests
 
   it should "fail out on no postcode" in {
     val js = Json.toJson(Map(
-      "previousAddress.postcode" -> "")
+      "previousAddress.previousAddress.postcode" -> "")
     )
 
-    postcodeAddressFormForPreviousAddress.bind(js).fold(
+    postcodeStepForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("previousAddress.postcode") should be(
-          Seq("Please enter your postcode")
-        )
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousAddress.previousAddress.postcode" -> Seq("Please enter your postcode")
+        ))
       },
       success => fail("Should have failed out")
     )
@@ -68,12 +68,12 @@ class PreviousAddressYesFormTests
   it should "fail out on empty input" in {
     val js = JsNull
 
-    postcodeAddressFormForPreviousAddress.bind(js).fold(
+    postcodeStepForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("previousAddress.postcode") should be(
-          Seq("Please enter your postcode")
-        )
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousAddress.previousAddress.postcode" -> Seq("Please enter your postcode")
+        ))
       },
       success => fail("Should have failed out")
     )
@@ -82,12 +82,12 @@ class PreviousAddressYesFormTests
   it should "fail out on missing values in the input" in {
     val js = Json.toJson(Map("" -> ""))
 
-    postcodeAddressFormForPreviousAddress.bind(js).fold(
+    postcodeStepForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("previousAddress.postcode") should be(
-          Seq("Please enter your postcode")
-        )
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousAddress.previousAddress.postcode" -> Seq("Please enter your postcode")
+        ))
       },
       success => fail("Should have failed out")
     )
@@ -99,12 +99,12 @@ class PreviousAddressYesFormTests
   it should "successfully bind a valid address" in {
     val js = Json.toJson(
       Map(
-        "previousAddress.uprn" -> "12345678",
-        "previousAddress.postcode" -> "SW1A1AA"
+        "previousAddress.previousAddress.uprn" -> "12345678",
+        "previousAddress.previousAddress.postcode" -> "SW1A1AA"
       )
     )
-    selectAddressFormForPreviousAddress.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors)),
+    selectStepForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(",")),
       success => {
         success.previousAddress.isDefined should be(true)
         val partialPreviousAddress = success.previousAddress.get
@@ -119,15 +119,15 @@ class PreviousAddressYesFormTests
   it should "successfully bind a valid manual input address" in {
     val js = Json.toJson(
       Map(
-        "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-        "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
-        "previousAddress.manualAddress.lineThree" -> "Hallow",
-        "previousAddress.manualAddress.city" -> "Worcester",
-        "previousAddress.postcode" -> "SW1A1AA"
+        "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+        "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
+        "previousAddress.previousAddress.manualAddress.city" -> "Worcester",
+        "previousAddress.previousAddress.postcode" -> "SW1A1AA"
       )
     )
-    selectAddressFormForPreviousAddress.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors)),
+    selectStepForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(",")),
       success => {
         success.previousAddress.isDefined should be(true)
         val partialPreviousAddress = success.previousAddress.get
@@ -146,11 +146,13 @@ class PreviousAddressYesFormTests
   it should "error out on empty input" in {
     val js = JsNull
 
-    selectAddressFormForPreviousAddress.bind(js).fold(
+    selectStepForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("previousAddress.uprn") should be(Seq("Please answer this question"))
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousAddress.previousAddress.uprn" -> Seq("Please answer this question")
+        ))
       },
       success => fail("Should have errored out")
     )
@@ -160,15 +162,17 @@ class PreviousAddressYesFormTests
   it should "error out on empty input values" in {
     val js =  Json.toJson(
       Map(
-        "previousAddress.address" -> "",
-        "previousAddress.postcode" -> ""
+        "previousAddress.previousAddress.address" -> "",
+        "previousAddress.previousAddress.postcode" -> ""
       )
     )
-    selectAddressFormForPreviousAddress.bind(js).fold(
+    selectStepForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("previousAddress.uprn") should be(Seq("Please answer this question"))
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousAddress.previousAddress.uprn" -> Seq("Please answer this question")
+        ))
       },
       success => fail("Should have errored out")
     )
@@ -183,14 +187,14 @@ class PreviousAddressYesFormTests
     val possibleAddressJS = serialiser.toJson(Addresses(List(possibleAddress)))
     val js = Json.toJson(
       Map(
-        "previousAddress.uprn" -> "12345678",
-        "previousAddress.postcode" -> "SW1A 1AA",
+        "previousAddress.previousAddress.uprn" -> "12345678",
+        "previousAddress.previousAddress.postcode" -> "SW1A 1AA",
         "possibleAddresses.jsonList" -> possibleAddressJS,
         "possibleAddresses.postcode" -> "SW1A 1AA"
       )
     )
-    selectAddressFormForPreviousAddress.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
+    selectStepForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(",")),
       success => {
         success.previousAddress.isDefined should be(true)
         val Some(partialPreviousAddress) = success.previousAddress
@@ -225,10 +229,12 @@ class PreviousAddressYesFormTests
         "possibleAddresses.postcode" -> "SW1A 1AA"
       )
     )
-    selectAddressFormForPreviousAddress.bind(js).fold(
+    selectStepForm.bind(js).fold(
       hasErrors => {
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("previousAddress.uprn") should be(Seq("Please answer this question"))
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousAddress.previousAddress.uprn" -> Seq("Please answer this question")
+        ))
       },
       success => {
         fail("Should have errored out")
@@ -246,18 +252,18 @@ class PreviousAddressYesFormTests
     val possibleAddressJS = serialiser.toJson(Addresses(List(possibleAddress)))
     val js = Json.toJson(
       Map(
-        "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-        "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
-        "previousAddress.manualAddress.lineThree" -> "Hallow",
-        "previousAddress.manualAddress.city" -> "Worcester",
-        "previousAddress.postcode" -> "SW1A 1AA",
+        "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+        "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
+        "previousAddress.previousAddress.manualAddress.city" -> "Worcester",
+        "previousAddress.previousAddress.postcode" -> "SW1A 1AA",
         // no previousAddress.uprn here means no address selected
         "possibleAddresses.jsonList" -> possibleAddressJS,
         "possibleAddresses.postcode" -> "SW1A 1AA"
       )
     )
-    selectAddressFormForPreviousAddress.bind(js).fold(
-      hasErrors => fail("Should not fail"),
+    selectStepForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(",")),
       success => {
         success.previousAddress.isDefined should be(true)
         val Some(partialPreviousAddress) = success.previousAddress
@@ -283,14 +289,14 @@ class PreviousAddressYesFormTests
   it should "not error out with empty text" in {
     val js = Json.toJson(
       Map(
-        "previousAddress.uprn" -> "87654321",
-        "previousAddress.postcode" -> "SW1A 1AA",
+        "previousAddress.previousAddress.uprn" -> "87654321",
+        "previousAddress.previousAddress.postcode" -> "SW1A 1AA",
         "possibleAddresses.jsonList" -> "",
         "possibleAddresses.postcode" -> ""
       )
     )
-    selectAddressFormForPreviousAddress.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
+    selectStepForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(",")),
       success => {
         success.previousAddress.isDefined should be(true)
         val Some(partialPreviousAddress) = success.previousAddress
@@ -311,16 +317,15 @@ class PreviousAddressYesFormTests
   it should "error out on empty values in manual address" in {
     val js =  Json.toJson(
       Map(
-        "previousAddress.manualAddress" -> "",
-        "previousAddress.postcode" -> ""
+        "previousAddress.previousAddress.manualAddress" -> "",
+        "previousAddress.previousAddress.postcode" -> ""
       )
     )
-    manualAddressFormForPreviousAddress.bind(js).fold(
+    manualStepForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorsAsTextAll should be("" +
-          " -> Please answer this question\n" +
-          "previousAddress.manualAddress -> Please answer this question")
-        hasErrors.globalErrorsAsText should be("Please answer this question")
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousAddress.previousAddress.manualAddress" -> Seq("Please answer this question")
+        ))
       },
       success => fail("Should have errored out")
     )
@@ -329,14 +334,14 @@ class PreviousAddressYesFormTests
   it should "succeed on valid input" in {
     val js = Json.toJson(
       Map(
-        "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-        "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
-        "previousAddress.manualAddress.lineThree" -> "Hallow",
-        "previousAddress.manualAddress.city" -> "Worcester",
-        "previousAddress.postcode" -> "SW1A1AA"
+        "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+        "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
+        "previousAddress.previousAddress.manualAddress.city" -> "Worcester",
+        "previousAddress.previousAddress.postcode" -> "SW1A1AA"
       )
     )
-    manualAddressFormForPreviousAddress.bind(js).fold(
+    manualStepForm.bind(js).fold(
       hasErrors => {
         fail(hasErrors.errorsAsTextAll)
       },
@@ -365,13 +370,11 @@ class PreviousAddressYesFormTests
         "previousAddress.postcode" -> "SW1A1AA"
       )
     )
-    manualAddressFormForPreviousAddress.bind(js).fold(
+    manualStepForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("previousAddress.manualAddress") should be(
-          Seq("Please answer this question")
-        )
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousAddress.previousAddress.manualAddress" -> Seq("Please answer this question")
+        ))
       },
       success => fail("Should have errored out")
     )
@@ -380,22 +383,22 @@ class PreviousAddressYesFormTests
   it should "error out on empty value in postcode for manual address" in {
     val js =  Json.toJson(
       Map(
-        "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-        "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
-        "previousAddress.manualAddress.lineThree" -> "Hallow",
-        "previousAddress.manualAddress.city" -> "Worcester",
-        "previousAddress.postcode" -> ""
+        "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+        "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
+        "previousAddress.previousAddress.manualAddress.city" -> "Worcester",
+        "previousAddress.previousAddress.postcode" -> ""
       )
     )
-    manualAddressFormForPreviousAddress.bind(js).fold(
+    manualStepForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
         // empty postcode does not have user friendly message
         // we assume UI guarantees it is present from previous step
         hasErrors.globalErrorMessages should be(Seq("error.required"))
-        hasErrors.errorMessages("previousAddress.postcode") should be(
-          Seq("error.required")
-        )
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousAddress.previousAddress.postcode" -> Seq("error.required")
+        ))
       },
       success => fail("Should have errored out")
     )
@@ -404,20 +407,19 @@ class PreviousAddressYesFormTests
   it should "error out on incorrect value in postcode for manual address" in {
     val js =  Json.toJson(
       Map(
-        "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-        "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
-        "previousAddress.manualAddress.lineThree" -> "Hallow",
-        "previousAddress.manualAddress.city" -> "Worcester",
-        "previousAddress.postcode" -> "3463463534"
+        "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+        "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
+        "previousAddress.previousAddress.manualAddress.city" -> "Worcester",
+        "previousAddress.previousAddress.postcode" -> "3463463534"
       )
     )
-    manualAddressFormForPreviousAddress.bind(js).fold(
+    manualStepForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Your postcode is not valid"))
-        hasErrors.errorMessages("previousAddress.postcode") should be(
-          Seq("Your postcode is not valid")
-        )
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousAddress.previousAddress.postcode" -> Seq("Your postcode is not valid")
+        ))
       },
       success => fail("Should have errored out")
     )
@@ -426,13 +428,11 @@ class PreviousAddressYesFormTests
   it should "error out on empty json for manual address" in {
     val js =  JsNull
 
-    manualAddressFormForPreviousAddress.bind(js).fold(
+    manualStepForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("previousAddress.manualAddress") should be(
-          Seq("Please answer this question")
-        )
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousAddress.previousAddress.manualAddress" -> Seq("Please answer this question")
+        ))
       },
       success => fail("Should have errored out")
     )
@@ -441,19 +441,18 @@ class PreviousAddressYesFormTests
   it should "error out on empty city for manual address" in {
     val js =  Json.toJson(
       Map(
-        "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-        "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
-        "previousAddress.manualAddress.lineThree" -> "Hallow",
-        "previousAddress.manualAddress.city" -> "",
-        "previousAddress.postcode" -> "SW1A 1AA"
+        "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+        "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
+        "previousAddress.previousAddress.manualAddress.city" -> "",
+        "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
       )
     )
-    manualAddressFormForPreviousAddress.bind(js).fold(
+    manualStepForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorsAsTextAll should be("" +
-          s" -> $cityIsRequiredError\n" +
-          s"previousAddress.manualAddress.city -> $cityIsRequiredError")
-        hasErrors.globalErrorsAsText() should be(cityIsRequiredError)
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousAddress.previousAddress.manualAddress.city" -> Seq(cityIsRequiredError)
+        ))
       },
       success => fail("Should have errored out")
     )
@@ -462,17 +461,17 @@ class PreviousAddressYesFormTests
   it should "error out on empty lineOne for manual address" in {
     val js =  Json.toJson(
       Map(
-        "previousAddress.manualAddress.lineOne" -> "",
-        "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
-        "previousAddress.manualAddress.lineThree" -> "Hallow",
-        "previousAddress.manualAddress.city" -> "Worcester",
-        "previousAddress.postcode" -> "SW1A 1AA"
+        "previousAddress.previousAddress.manualAddress.lineOne" -> "",
+        "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+        "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
+        "previousAddress.previousAddress.manualAddress.city" -> "Worcester",
+        "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
       )
     )
-    manualAddressFormForPreviousAddress.bind(js).fold(
+    manualStepForm.bind(js).fold(
       hasErrors => {
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.manualAddress.lineOne" -> Seq(s"$lineOneIsRequiredError")
+          "previousAddress.previousAddress.manualAddress.lineOne" -> Seq(lineOneIsRequiredError)
         ))
         hasErrors.globalErrorsAsText() should be(lineOneIsRequiredError)
       },
@@ -484,15 +483,15 @@ class PreviousAddressYesFormTests
   it should "not error out on empty lineTwo and lineThree for manual address" in {
     val js =  Json.toJson(
       Map(
-        "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-        "previousAddress.manualAddress.lineTwo" -> "",
-        "previousAddress.manualAddress.lineThree" -> "",
-        "previousAddress.manualAddress.city" -> "Worcester",
-        "previousAddress.postcode" -> "SW1A 1AA"
+        "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+        "previousAddress.previousAddress.manualAddress.lineTwo" -> "",
+        "previousAddress.previousAddress.manualAddress.lineThree" -> "",
+        "previousAddress.previousAddress.manualAddress.city" -> "Worcester",
+        "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
       )
     )
-    manualAddressFormForPreviousAddress.bind(js).fold(
-      hasErrors => fail(serialiser.toJson(hasErrors)),
+    manualStepForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(",")),
       success => {
         val prevAddress = success.previousAddress.flatMap{ _.previousAddress }
         val manualAddress = prevAddress.flatMap{ _.manualAddress }

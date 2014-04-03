@@ -5,7 +5,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.PartialPreviousAddress
+import uk.gov.gds.ier.model.{PartialPreviousAddress, MovedHouseOption}
 
 class PreviousAddressYesStepsTests
   extends FlatSpec
@@ -23,10 +23,29 @@ class PreviousAddressYesStepsTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include(
-        "Have you moved from another UK address in the last 12 months?"
+        "What was your previous address?"
       )
       contentAsString(result) should include("Question 8 of 11")
       contentAsString(result) should include("<form action=\"/register-to-vote/previous-address/lookup\"")
+    }
+  }
+
+  it should "react to your answer on the PreviousAddressFirst step" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(GET, "/register-to-vote/previous-address/postcode")
+          .withIerSession()
+          .withApplication(completeOrdinaryApplication.copy(
+            previousAddress = Some(
+              PartialPreviousAddress(Some(MovedHouseOption.MovedFromAbroad), None)
+            )
+          ))
+      )
+
+      status(result) should be(OK)
+      contentAsString(result) should include(
+        "What was your last UK address before moving abroad?"
+      )
     }
   }
 
@@ -36,7 +55,7 @@ class PreviousAddressYesStepsTests
         FakeRequest(POST, "/register-to-vote/previous-address/postcode")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -53,7 +72,7 @@ class PreviousAddressYesStepsTests
 
       status(result) should be(OK)
       contentAsString(result) should include(
-        "Have you moved from another UK address in the last 12 months?"
+        "What was your previous address?"
       )
       contentAsString(result) should include("Please enter your postcode")
       contentAsString(result) should include("/register-to-vote/previous-address/lookup")
@@ -68,8 +87,8 @@ class PreviousAddressYesStepsTests
         FakeRequest(POST, "/register-to-vote/previous-address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.uprn" -> "123456789",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.uprn" -> "123456789",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -84,11 +103,11 @@ class PreviousAddressYesStepsTests
         FakeRequest(POST, "/register-to-vote/previous-address/manual")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-            "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
-            "previousAddress.manualAddress.lineThree" -> "Hallow",
-            "previousAddress.manualAddress.city" -> "Worcester",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
+            "previousAddress.previousAddress.manualAddress.city" -> "Worcester",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
         )
       )
 
@@ -104,11 +123,11 @@ class PreviousAddressYesStepsTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-            "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
-            "previousAddress.manualAddress.lineThree" -> "Hallow",
-            "previousAddress.manualAddress.city" -> "Worcester",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
+            "previousAddress.previousAddress.manualAddress.city" -> "Worcester",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -127,7 +146,7 @@ class PreviousAddressYesStepsTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include(
-        "Have you moved from another UK address in the last 12 months?"
+        "What was your previous address?"
       )
       contentAsString(result) should include("Question 8 of 11")
       contentAsString(result) should include("<form action=\"/register-to-vote/previous-address/lookup\"")
@@ -141,8 +160,8 @@ class PreviousAddressYesStepsTests
         FakeRequest(POST, "/register-to-vote/edit/previous-address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.uprn" -> "123456789",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.uprn" -> "123456789",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -157,11 +176,11 @@ class PreviousAddressYesStepsTests
         FakeRequest(POST, "/register-to-vote/edit/previous-address/manual")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-            "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
-            "previousAddress.manualAddress.lineThree" -> "Hallow",
-            "previousAddress.manualAddress.city" -> "Worcester",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
+            "previousAddress.previousAddress.manualAddress.city" -> "Worcester",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
         )
       )
 
@@ -177,11 +196,11 @@ class PreviousAddressYesStepsTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-            "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
-            "previousAddress.manualAddress.lineThree" -> "Hallow",
-            "previousAddress.manualAddress.city" -> "Worcester",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
+            "previousAddress.previousAddress.manualAddress.city" -> "Worcester",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -198,7 +217,7 @@ class PreviousAddressYesStepsTests
 
       status(result) should be(OK)
       contentAsString(result) should include(
-        "Have you moved from another UK address in the last 12 months?"
+        "What was your previous address?"
       )
       contentAsString(result) should include("Please enter your postcode")
       contentAsString(result) should include("/register-to-vote/previous-address/lookup")
@@ -213,7 +232,7 @@ class PreviousAddressYesStepsTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication.copy(previousAddress = None))
           .withFormUrlEncodedBody(
-            "previousAddress.movedRecently" -> "yes"
+            "previousAddress.movedRecently" -> "from-uk"
           )
       )
 

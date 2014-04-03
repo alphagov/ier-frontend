@@ -27,7 +27,7 @@ class PreviousAddressFirstControllerTests
       contentAsString(result) should include(
         "<form action=\"/register-to-vote/previous-address\"")
       contentAsString(result) should include("" +
-        "Have you moved from another UK address in the last 12 months?")
+        "Have you moved out of another address in the last 12 months?")
     }
   }
 
@@ -38,9 +38,9 @@ class PreviousAddressFirstControllerTests
         FakeRequest(POST, "/register-to-vote/previous-address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.movedRecently" -> "yes",
-            "previousAddress.uprn" -> "123456789",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.movedRecently" -> "yes",
+            "previousAddress.previousAddress.uprn" -> "123456789",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -56,8 +56,8 @@ class PreviousAddressFirstControllerTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "previousAddress.uprn" -> "123456789",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.uprn" -> "123456789",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -72,11 +72,11 @@ class PreviousAddressFirstControllerTests
           FakeRequest(POST, "/register-to-vote/previous-address/manual")
             .withIerSession()
             .withFormUrlEncodedBody(
-              "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-              "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
-              "previousAddress.manualAddress.lineThree" -> "Hallow",
-              "previousAddress.manualAddress.city" -> "Worcester",
-              "previousAddress.postcode" -> "SW1A 1AA"
+              "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+              "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+              "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
+              "previousAddress.previousAddress.manualAddress.city" -> "Worcester",
+              "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
         )
 
@@ -93,7 +93,7 @@ class PreviousAddressFirstControllerTests
 
       status(result) should be(OK)
       contentAsString(result) should include("" +
-        "Have you moved from another UK address in the last 12 months?")
+        "Have you moved out of another address in the last 12 months?")
       contentAsString(result) should include("" +
         "Please answer this question")
       contentAsString(result) should include("" +
@@ -129,7 +129,7 @@ class PreviousAddressFirstControllerTests
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 8")
       contentAsString(result) should include("" +
-        "Have you moved from another UK address in the last 12 months?")
+        "Have you moved out of another address in the last 12 months?")
       contentAsString(result) should include("" +
         "<form action=\"/register-to-vote/edit/previous-address\"")
     }
@@ -142,9 +142,9 @@ class PreviousAddressFirstControllerTests
         FakeRequest(POST, "/register-to-vote/edit/previous-address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.movedRecently" -> "yes",
-            "previousAddress.uprn" -> "123456789",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.movedRecently" -> "yes",
+            "previousAddress.previousAddress.uprn" -> "123456789",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -160,9 +160,9 @@ class PreviousAddressFirstControllerTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "previousAddress.movedRecently" -> "yes",
-            "previousAddress.uprn" -> "123456789",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.movedRecently" -> "yes",
+            "previousAddress.previousAddress.uprn" -> "123456789",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -177,11 +177,11 @@ class PreviousAddressFirstControllerTests
           FakeRequest(POST, "/register-to-vote/edit/previous-address/select")
             .withIerSession()
             .withFormUrlEncodedBody(
-              "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-              "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
-              "previousAddress.manualAddress.lineThree" -> "Hallow",
-              "previousAddress.manualAddress.city" -> "Worcester",
-              "previousAddress.postcode" -> "SW1A 1AA"
+              "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+              "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+              "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
+              "previousAddress.previousAddress.manualAddress.city" -> "Worcester",
+              "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
         )
 
@@ -198,7 +198,7 @@ class PreviousAddressFirstControllerTests
 
       status(result) should be(OK)
       contentAsString(result) should include("" +
-        "Have you moved from another UK address in the last 12 months?")
+        "What was your previous address?")
       contentAsString(result) should include("" +
         "Please answer this question")
       contentAsString(result) should include("" +
@@ -214,7 +214,7 @@ class PreviousAddressFirstControllerTests
 
       status(result) should be(OK)
       contentAsString(result) should include("" +
-        "Have you moved from another UK address in the last 12 months?")
+        "What was your previous address?")
       contentAsString(result) should include("" +
         "Please answer this question")
       contentAsString(result) should include("" +

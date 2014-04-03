@@ -8,6 +8,7 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.OrdinaryStep
 import play.api.mvc.Call
+import play.api.templates.Html
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
@@ -21,7 +22,7 @@ class PreviousAddressManualStep @Inject() (
   with PreviousAddressMustache
   with PreviousAddressForms {
 
-  val validation = manualAddressFormForPreviousAddress
+  val validation = manualStepForm
 
   val previousRoute = Some(PreviousAddressSelectController.get)
 

@@ -211,18 +211,6 @@ case class PossibleAddress(jsonList:Addresses, postcode: String)
 
 case class Addresses(addresses:List[PartialAddress])
 
-case class PartialAddress(
-    addressLine: Option[String],
-    uprn: Option[String],
-    postcode: String,
-    manualAddress: Option[PartialManualAddress])
-
-case class PartialManualAddress(
-    lineOne: Option[String] = None,
-    lineTwo: Option[String] = None,
-    lineThree: Option[String] = None,
-    city: Option[String] = None)
-
 case class Address(lineOne:Option[String],
                    lineTwo:Option[String],
                    lineThree:Option[String],
@@ -246,9 +234,7 @@ case class Address(lineOne:Option[String],
   }
 }
 
-case class PartialPreviousAddress (
-  movedRecently:Option[MovedHouseOption],
-  previousAddress:Option[PartialAddress])
+
 
 case class OtherAddress (otherAddressOption:OtherAddressOption) {
   def toApiMap = {

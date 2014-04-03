@@ -16,16 +16,13 @@ trait PreviousAddressFirstForms
 
   val previousAddressFirstForm = ErrorTransformForm(
     mapping (
-      keys.previousAddress.movedRecently.key -> optional(movedHouseMapping)
+      keys.previousAddress.key -> optional(PartialPreviousAddress.mapping)
     ) (
       previousAddressYesNo => InprogressOrdinary(
-        previousAddress = Some(PartialPreviousAddress(
-          movedRecently = previousAddressYesNo,
-          previousAddress = None
-        ))
+        previousAddress = previousAddressYesNo
       )
     ) (
-      inprogress => Some(inprogress.previousAddress.flatMap(_.movedRecently))
+      inprogress => Some(inprogress.previousAddress)
     ).verifying( previousAddressYesNoIsNotEmpty )
   )
 }
@@ -37,12 +34,11 @@ trait PreviousAddressFirstConstraints extends CommonConstraints {
   lazy val previousAddressYesNoIsNotEmpty = Constraint[InprogressOrdinary](
     keys.previousAddress.movedRecently.key) {
     inprogress => inprogress.previousAddress match {
-      case Some(PartialPreviousAddress(Some(_), _)) => {
-        Valid
-      }
-      case _ => {
-        Invalid("Please answer this question", keys.previousAddress.movedRecently)
-      }
+      case Some(PartialPreviousAddress(Some(_), _)) => Valid
+      case _ => Invalid(
+        "Please answer this question",
+        keys.previousAddress.movedRecently
+      )
     }
   }
 }

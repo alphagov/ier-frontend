@@ -48,6 +48,42 @@ class PreviousAddressFirstFormTests
     )
   }
 
+  it should "fail on invalid moved house value (from abroad)" in {
+    val js = Json.toJson(
+      Map(
+        "previousAddress.movedRecently" -> "from-abroad"
+      )
+    )
+    previousAddressFirstForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousAddress.movedRecently" -> Seq("Not a valid option")
+        ))
+      },
+      success => {
+        fail("Should have errored out")
+      }
+    )
+  }
+
+  it should "fail on invalid moved house value (from uk)" in {
+    val js = Json.toJson(
+      Map(
+        "previousAddress.movedRecently" -> "from-uk"
+      )
+    )
+    previousAddressFirstForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousAddress.movedRecently" -> Seq("Not a valid option")
+        ))
+      },
+      success => {
+        fail("Should have errored out")
+      }
+    )
+  }
+
   it should "successfully bind when user has previous address" in {
     val js = Json.toJson(
       Map(

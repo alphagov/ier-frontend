@@ -5,6 +5,7 @@ import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthCon
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.{Key, ErrorTransformForm}
 import uk.gov.gds.ier.model.{OtherAddress, InprogressOrdinary}
+import uk.gov.gds.ier.model.{OtherAddress, InprogressOrdinary, MovedHouseOption}
 import scala.Some
 import controllers.step.ordinary.routes
 import uk.gov.gds.ier.form.AddressHelpers
@@ -217,28 +218,30 @@ trait ConfirmationMustache {
     }
 
     def previousAddress = {
+      val addressLine = form(keys.previousAddress.previousAddress.addressLine).value
+      val manualAddress = manualAddressToOneLine(
+        form,
+        keys.previousAddress.previousAddress.manualAddress
+      )
+      val address = { addressLine orElse manualAddress }.map( line =>
+        "<p>" + line + "</p>"
+      ).getOrElse("")
+
+      val postcode = form(keys.previousAddress.previousAddress.postcode).value.map(
+        postcode => "<p>" + postcode + "</p>"
+      ).getOrElse("")
+
+      val movedHouse = form(keys.previousAddress.movedRecently).value.map {
+        MovedHouseOption.parse(_)
+      }
+
       Some(ConfirmationQuestion(
         title = "Previous address",
         editLink = routes.PreviousAddressFirstController.editGet.url,
         changeName = "your previous address",
         content = ifComplete(keys.previousAddress) {
-          if(form(keys.previousAddress.movedRecently).value == Some("yes")) {
-            val address = if(form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
-              form(keys.previousAddress.previousAddress.addressLine).value.map(
-                addressLine => "<p>" + addressLine + "</p>"
-              ).getOrElse("")
-            } else {
-              manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress).map(
-                addressLine => "<p>" + addressLine + "</p>"
-              ).getOrElse("")
-            }
-
-            val postcode = form(keys.previousAddress.previousAddress.postcode).value.map(
-              postcode => "<p>" + postcode + "</p>"
-            ).getOrElse("")
-
+          if(movedHouse.exists(_.hasPreviousAddress)) {
             address + postcode
-
           } else {
             "<p>I have not moved in the last 12 months</p>"
           }

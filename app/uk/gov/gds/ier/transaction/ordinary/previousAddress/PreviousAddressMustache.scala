@@ -2,15 +2,14 @@ package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.model.{InprogressOrdinary, PossibleAddress}
 import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.model.{InprogressOrdinary, PossibleAddress, MovedHouseOption}
 
 trait PreviousAddressMustache {
   self: WithSerialiser =>
 
   object PreviousAddressMustache extends StepMustache {
 
-    val title = "Have you moved from another UK address in the last 12 months?"
     val questionNumber = "8 of 11"
 
     case class PostcodeModel (
@@ -40,10 +39,12 @@ trait PreviousAddressMustache {
     )
 
     def postcodeData(
+        title: String,
         form: ErrorTransformForm[InprogressOrdinary],
         backUrl: String,
         postUrl: String) = {
       implicit val progressForm = form
+
       val modelData = PostcodeModel(
         question = Question(
           postUrl = postUrl,
@@ -52,7 +53,7 @@ trait PreviousAddressMustache {
           title = title,
           errorMessages = form.globalErrors.map(_.message)
         ),
-        postcode = TextField(keys.previousAddress.postcode)
+        postcode = TextField(keys.previousAddress.previousAddress.postcode)
       )
       modelData
     }
@@ -61,15 +62,23 @@ trait PreviousAddressMustache {
         form: ErrorTransformForm[InprogressOrdinary],
         backUrl: String,
         postUrl: String) = {
+      val movedRecently = form(keys.previousAddress.movedRecently).value.map {
+        str => MovedHouseOption.parse(str)
+      }
+      val title = movedRecently match {
+        case Some(MovedHouseOption.MovedFromAbroad) => "What was your last UK address before moving abroad?"
+        case _ => "What was your previous address?"
+      }
 
       val content = Mustache.render(
         "ordinary/previousAddressPostcode",
-        postcodeData(form, backUrl, postUrl)
+        postcodeData(title, form, backUrl, postUrl)
       )
       MainStepTemplate(content, title)
     }
 
     def selectData(
+        title: String,
         form: ErrorTransformForm[InprogressOrdinary],
         backUrl: String,
         postUrl: String,
@@ -93,7 +102,7 @@ trait PreviousAddressMustache {
       val hasAddresses = maybePossibleAddress.exists(!_.jsonList.addresses.isEmpty)
 
       val addressSelect = SelectField(
-        key = keys.previousAddress.uprn,
+        key = keys.previousAddress.previousAddress.uprn,
         optionList = options,
         default = SelectOption(
           value = "",
@@ -118,7 +127,7 @@ trait PreviousAddressMustache {
         ),
         lookupUrl = lookupUrl,
         manualUrl = manualUrl,
-        postcode = TextField(keys.previousAddress.postcode),
+        postcode = TextField(keys.previousAddress.previousAddress.postcode),
         address = addressSelectWithError,  // this is model data for <select>
         possibleJsonList = HiddenField(
           key = keys.possibleAddresses.jsonList,
@@ -128,7 +137,7 @@ trait PreviousAddressMustache {
         ),
         possiblePostcode = HiddenField(
           key = keys.possibleAddresses.postcode,
-          value = form(keys.previousAddress.postcode).value.getOrElse("")
+          value = form(keys.previousAddress.previousAddress.postcode).value.getOrElse("")
         ),
         hasAddresses = hasAddresses
       )
@@ -141,13 +150,23 @@ trait PreviousAddressMustache {
         lookupUrl: String,
         manualUrl: String,
         maybePossibleAddress:Option[PossibleAddress]) = {
+      val movedRecently = form(keys.previousAddress.movedRecently).value.map {
+        str => MovedHouseOption.parse(str)
+      }
+      val title = movedRecently match {
+        case Some(MovedHouseOption.MovedFromAbroad) => "What was your last UK address before moving abroad?"
+        case _ => "What was your previous address?"
+      }
 
-      val data = selectData(form, backUrl, postUrl, lookupUrl, manualUrl, maybePossibleAddress)
-      val content = Mustache.render("ordinary/previousAddressSelect", data)
+      val content = Mustache.render(
+        "ordinary/previousAddressSelect",
+        selectData(title, form, backUrl, postUrl, lookupUrl, manualUrl, maybePossibleAddress)
+      )
       MainStepTemplate(content, title)
     }
 
     def manualData(
+        title: String,
         form: ErrorTransformForm[InprogressOrdinary],
         backUrl: String,
         postUrl: String,
@@ -164,11 +183,11 @@ trait PreviousAddressMustache {
           errorMessages = progressForm.globalErrors.map(_.message)
         ),
         lookupUrl = lookupUrl,
-        postcode = TextField(keys.previousAddress.postcode),
-        maLineOne = TextField(keys.previousAddress.manualAddress.lineOne),
-        maLineTwo = TextField(keys.previousAddress.manualAddress.lineTwo),
-        maLineThree = TextField(keys.previousAddress.manualAddress.lineThree),
-        maCity = TextField(keys.previousAddress.manualAddress.city)
+        postcode = TextField(keys.previousAddress.previousAddress.postcode),
+        maLineOne = TextField(keys.previousAddress.previousAddress.manualAddress.lineOne),
+        maLineTwo = TextField(keys.previousAddress.previousAddress.manualAddress.lineTwo),
+        maLineThree = TextField(keys.previousAddress.previousAddress.manualAddress.lineThree),
+        maCity = TextField(keys.previousAddress.previousAddress.manualAddress.city)
       )
     }
 
@@ -177,10 +196,17 @@ trait PreviousAddressMustache {
         backUrl: String,
         postUrl: String,
         lookupUrl: String) = {
+      val movedRecently = form(keys.previousAddress.movedRecently).value.map {
+        str => MovedHouseOption.parse(str)
+      }
+      val title = movedRecently match {
+        case Some(MovedHouseOption.MovedFromAbroad) => "What was your last UK address before moving abroad?"
+        case _ => "What was your previous address?"
+      }
 
       val content = Mustache.render(
         "ordinary/previousAddressManual",
-        manualData(form, backUrl, postUrl, lookupUrl)
+        manualData(title, form, backUrl, postUrl, lookupUrl)
       )
       MainStepTemplate(content, title)
     }
