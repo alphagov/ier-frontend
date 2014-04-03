@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.step
 
 import uk.gov.gds.ier.session.SessionHandling
-import play.api.mvc.{SimpleResult, Call, Controller}
+import play.api.mvc.{Call, Controller}
 import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, ErrorMessages}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.serialiser.WithSerialiser
@@ -61,28 +61,31 @@ trait StepController [T <: InprogressApplication[T]]
   def get(implicit manifest: Manifest[T]) = ValidSession requiredFor {
     implicit request => application =>
       statsDTime {
-      logger.debug(s"GET request for ${request.path}")
-      Ok(templateWithApplication(validation.fill(application), routes.post, previousRoute)(application))
+        logger.debug(s"GET request for ${request.path}")
+        Ok(templateWithApplication(validation.fill(application), routes.post, previousRoute)(application))
+      }
   }
 
   def postMethod(postCall:Call, backUrl:Option[Call])(implicit manifest: Manifest[T]) = ValidSession requiredFor {
     implicit request => application =>
-      logger.debug(s"POST request for ${request.path}")
+      statsDTime {
+        logger.debug(s"POST request for ${request.path}")
 
-      val dataFromApplication = validation.fill(application).data
-      val dataFromRequest = validation.bindFromRequest().data
+        val dataFromApplication = validation.fill(application).data
+        val dataFromRequest = validation.bindFromRequest().data
 
-      validation.bind(dataFromApplication ++ dataFromRequest).fold(
-        hasErrors => {
-          logger.debug(s"Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
-          Ok(templateWithApplication(hasErrors, postCall, backUrl)(application)) storeInSession application
-        },
-        success => {
-          logger.debug(s"Form binding successful")
-          val (mergedApplication, result) = onSuccess(success.merge(application), this)
-          Redirect(result.routes.get) storeInSession mergedApplication
-        }
-      )
+        validation.bind(dataFromApplication ++ dataFromRequest).fold(
+          hasErrors => {
+            logger.debug(s"Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
+            Ok(templateWithApplication(hasErrors, postCall, backUrl)(application)) storeInSession application
+          },
+          success => {
+            logger.debug(s"Form binding successful")
+            val (mergedApplication, result) = onSuccess(success.merge(application), this)
+            Redirect(result.routes.get) storeInSession mergedApplication
+          }
+        )
+      }
   }
 
   def post(implicit manifest: Manifest[T]) = postMethod(routes.post, previousRoute)
@@ -90,8 +93,10 @@ trait StepController [T <: InprogressApplication[T]]
   def editPost(implicit manifest: Manifest[T]) = postMethod(routes.editPost, Some(confirmationRoute))
 
   def editGet(implicit manifest: Manifest[T]) = ValidSession requiredFor {
-    request => application =>
-      logger.debug(s"GET edit request for ${request.path}")
-      Ok(templateWithApplication(validation.fill(application), routes.editPost, Some(confirmationRoute))(application))
+    implicit request => application =>
+      statsDTime {
+        logger.debug(s"GET edit request for ${request.path}")
+        Ok(templateWithApplication(validation.fill(application), routes.editPost, Some(confirmationRoute))(application))
+      }
   }
 }

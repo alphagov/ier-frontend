@@ -2,10 +2,8 @@ package uk.gov.gds.ier.step
 
 import org.joda.time.DateTime
 import play.api.mvc._
-import uk.gov.gds.ier.model.InprogressApplication
-
-//import uk.gov.gds.stats.StatsdClient
-import uk.gov.gds.common.logging.Logging
+import uk.gov.gds.ier.client.StatsdClient
+import uk.gov.gds.ier.logging.Logging
 
 trait StatsdWrapper extends Logging {
 
@@ -17,7 +15,7 @@ trait StatsdWrapper extends Logging {
     val timeTakenMs = DateTime.now.minus(start.getMillis).getMillis
 
     logger.info("Time taken to process request with method %s and path %s was %d".format(request.method, request.path, timeTakenMs))
-    //StatsdClient.timing("HttpRequestProcessingTime", timeTakenMs)
+    StatsdClient.timing("HttpRequestProcessingTime", timeTakenMs)
 
     response
   }
