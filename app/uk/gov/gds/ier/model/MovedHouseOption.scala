@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.model
 
 sealed case class MovedHouseOption(hasPreviousAddress:Boolean, name:String)
+
 object MovedHouseOption extends ModelMapping {
   import playMappings._
 

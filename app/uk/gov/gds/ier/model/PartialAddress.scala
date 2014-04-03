@@ -4,20 +4,22 @@ case class PartialAddress(
     addressLine: Option[String],
     uprn: Option[String],
     postcode: String,
-    manualAddress: Option[PartialManualAddress]
-)
+    manualAddress: Option[PartialManualAddress])
 
-object PartialAddress extends ModelMapping {
-  import playMappings._
+case class PartialManualAddress(
+    lineOne: Option[String] = None,
+    lineTwo: Option[String] = None,
+    lineThree: Option[String] = None,
+    city: Option[String] = None)
 
-  lazy val mapping = playMappings.mapping(
-    keys.addressLine.key -> optional(nonEmptyText),
-    keys.uprn.key -> optional(nonEmptyText),
-    keys.postcode.key -> nonEmptyText,
-    keys.manualAddress.key -> optional(PartialManualAddress.mapping)
-  ) (
-    PartialAddress.apply
-  ) (
-    PartialAddress.unapply
-  )
-}
+case class PartialPreviousAddress (
+    movedRecently:Option[MovedHouseOption],
+    previousAddress:Option[PartialAddress])
+
+
+
+
+
+
+
+
