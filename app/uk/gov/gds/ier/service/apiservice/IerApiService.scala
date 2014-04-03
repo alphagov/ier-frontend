@@ -1,8 +1,7 @@
 package uk.gov.gds.ier.service.apiservice
 
 import com.google.inject.Inject
-import uk.gov.gds.ier.client.IerApiClient
-import uk.gov.gds.ier.model._
+import uk.gov.gds.ier.client.{StatsdClient, IerApiClient}
 
 import uk.gov.gds.ier.model.Fail
 import uk.gov.gds.ier.model.Success
@@ -231,11 +230,17 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
   }
 
   private def sendApplication(application: ApiApplication) = {
+    val start = new DateTime()
+    val applicationType = application.application.get("applicationType").getOrElse("")
     apiClient.post(config.ierApiUrl,
                    serialiser.toJson(application),
                    ("Authorization", "BEARER " + config.ierApiToken)) match {
-      case Success(body) => serialiser.fromJson[IerApiApplicationResponse](body)
+      case Success(body) => {
+        sendStatsdAPITiming(start, "submission." + applicationType + ".OK")
+        serialiser.fromJson[IerApiApplicationResponse](body)
+      }
       case Fail(error) => {
+        sendStatsdAPITiming(start, "submission." + applicationType + ".Error")
         logger.error("Submitting application to api failed: " + error)
         throw new ApiException(error)
       }
@@ -263,6 +268,11 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
     val encryptedBytes = shaHashProvider.getHash(json, Some(DateTime.now.toString))
     val encryptedHex = encryptedBytes.map{ byte => "%02X" format byte }
     encryptedHex.take(3).mkString
+  }
+
+  private def sendStatsdAPITiming (start: DateTime, metricName: String) = {
+    val timeTakenMs = DateTime.now.minus(start.getMillis).getMillis
+    StatsdClient.timing(metricName, timeTakenMs)
   }
 }
 
