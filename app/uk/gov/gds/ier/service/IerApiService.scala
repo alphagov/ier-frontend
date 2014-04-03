@@ -16,20 +16,20 @@ import uk.gov.gds.common.model.LocalAuthority
 abstract class IerApiService {
   def submitOrdinaryApplication(ipAddress: Option[String],
                                 applicant: InprogressOrdinary,
-                                referenceNumber: Option[String]): ApiApplicationResponse
+                                referenceNumber: Option[String]): IerApiApplicationResponse
 
   def submitOverseasApplication(ip:Option[String],
                                 applicant: InprogressOverseas,
-                                refNum:Option[String]): ApiApplicationResponse
+                                refNum:Option[String]): IerApiApplicationResponse
 
 
   def submitForcesApplication (ip:Option[String],
                                applicant: InprogressForces,
-                               refNum:Option[String]): ApiApplicationResponse
+                               refNum:Option[String]): IerApiApplicationResponse
 
   def submitCrownApplication (ip:Option[String],
                                applicant: InprogressCrown,
-                               refNum:Option[String]): ApiApplicationResponse
+                               refNum:Option[String]): IerApiApplicationResponse
 
   def generateOrdinaryReferenceNumber(application: InprogressOrdinary): String
   def generateOverseasReferenceNumber(application: InprogressOverseas): String
@@ -229,7 +229,7 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
     apiClient.post(config.ierApiUrl,
                    serialiser.toJson(application),
                    ("Authorization", "BEARER " + config.ierApiToken)) match {
-      case Success(body) => serialiser.fromJson[ApiApplicationResponse](body)
+      case Success(body) => serialiser.fromJson[IerApiApplicationResponse](body)
       case Fail(error) => {
         logger.error("Submitting application to api failed: " + error)
         throw new ApiException(error)

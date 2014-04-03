@@ -2,7 +2,7 @@ package uk.gov.gds.ier.stubs
 
 import org.scalatest.{FlatSpec, Matchers}
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.service.ConcreteIerApiService
+import uk.gov.gds.ier.service.{IerApiApplicationResponse, ConcreteIerApiService}
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.mockito.AdditionalMatchers
@@ -26,7 +26,7 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
         isNot(applicationWithNino),
         MockitoMatchers.eq(None)
       )
-    ).thenReturn(ApiApplicationResponse("","","","","")) //don't care about return type
+    ).thenReturn(IerApiApplicationResponse("","","","","")) //don't care about return type
     service.submitOrdinaryApplication(None, applicationWithNino, None)
     verify(concreteIerApiServiceMock).submitOrdinaryApplication(
       MockitoMatchers.eq(None),
@@ -46,7 +46,7 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
         isNot(applicationWithNino),
         MockitoMatchers.eq(None)
       )
-    ).thenReturn(ApiApplicationResponse("","","","","")) //don't care about return type
+    ).thenReturn(IerApiApplicationResponse("","","","","")) //don't care about return type
     service.submitOverseasApplication(None, applicationWithNino, None)
     verify(concreteIerApiServiceMock).submitOverseasApplication(
       MockitoMatchers.eq(None),
@@ -66,7 +66,7 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
         isNot(applicationWithNino),
         MockitoMatchers.eq(None)
       )
-    ).thenReturn(ApiApplicationResponse("","","","","")) //don't care about return type
+    ).thenReturn(IerApiApplicationResponse("","","","","")) //don't care about return type
     service.submitForcesApplication(None, applicationWithNino, None)
     verify(concreteIerApiServiceMock).submitForcesApplication(
       MockitoMatchers.eq(None),
@@ -86,7 +86,7 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
         isNot(applicationWithNino),
         MockitoMatchers.eq(None)
       )
-    ).thenReturn(ApiApplicationResponse("","","","","")) //don't care about return type
+    ).thenReturn(IerApiApplicationResponse("","","","","")) //don't care about return type
     service.submitCrownApplication(None, applicationWithNino, None)
     verify(concreteIerApiServiceMock).submitCrownApplication(
       MockitoMatchers.eq(None),
@@ -115,7 +115,7 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
 
     when(concreteIerApiServiceMock.submitOrdinaryApplication(
       None, applicationWithNoNinoReason, None))
-      .thenReturn(ApiApplicationResponse("","","","","")) //don't care about return type
+      .thenReturn(IerApiApplicationResponse("","","","","")) //don't care about return type
     service.submitOrdinaryApplication(None, applicationWithNoNinoReason, None)
     verify(concreteIerApiServiceMock).submitOrdinaryApplication(
       None, applicationWithNoNinoReason, None)
@@ -141,7 +141,7 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
 
     when(concreteIerApiServiceMock.submitOverseasApplication(
       None, applicationWithNoNinoReason, None))
-      .thenReturn(ApiApplicationResponse("","","","","")) //don't care about return type
+      .thenReturn(IerApiApplicationResponse("","","","","")) //don't care about return type
     service.submitOverseasApplication(None, applicationWithNoNinoReason, None)
     verify(concreteIerApiServiceMock).submitOverseasApplication(
       None, applicationWithNoNinoReason, None)
@@ -167,7 +167,7 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
 
     when(concreteIerApiServiceMock.submitForcesApplication(
       None, applicationWithNoNinoReason, None))
-      .thenReturn(ApiApplicationResponse("","","","","")) //don't care about return type
+      .thenReturn(IerApiApplicationResponse("","","","","")) //don't care about return type
     service.submitForcesApplication(None, applicationWithNoNinoReason, None)
     verify(concreteIerApiServiceMock).submitForcesApplication(
       None, applicationWithNoNinoReason, None)
@@ -194,7 +194,7 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
 
     when(concreteIerApiServiceMock.submitCrownApplication(
       None, applicationWithNoNinoReason, None))
-      .thenReturn(ApiApplicationResponse("","","","","")) //don't care about return type
+      .thenReturn(IerApiApplicationResponse("","","","","")) //don't care about return type
     service.submitCrownApplication(None, applicationWithNoNinoReason, None)
     verify(concreteIerApiServiceMock).submitCrownApplication(
       None, applicationWithNoNinoReason, None)

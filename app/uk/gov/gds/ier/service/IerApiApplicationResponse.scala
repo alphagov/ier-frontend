@@ -1,6 +1,6 @@
-package uk.gov.gds.ier.model
+package uk.gov.gds.ier.service
 
-case class ApiApplicationResponse (id: String,
+case class IerApiApplicationResponse (id: String,
                                    createdAt: String,
                                    status: String,
                                    source: String,
