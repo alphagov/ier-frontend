@@ -157,4 +157,37 @@ class ContactAddressFormTests
     )
   }
 
+  it should "bind successfully on other address without a postcode" in {
+    val request = Json.toJson(
+      Map(
+        "contactAddress.contactAddressType" -> "other",
+        "contactAddress.otherContactAddress.addressLine1" -> "Francisco de quevedo 54",
+        "contactAddress.otherContactAddress.addressLine2" -> "Rubí",
+        "contactAddress.otherContactAddress.country" -> "Spain"
+      )
+    )
+    contactAddressForm.bind(request).fold(
+      formWithErrors => fail(serialiser.toJson(formWithErrors.prettyPrint)),
+      formWithSuccess => {
+        formWithSuccess.contactAddress.isDefined should be(true)
+        formWithSuccess.contactAddress should be(
+          Some(PossibleContactAddresses(
+            contactAddressType = Some("other"),
+            ukAddressLine = None,
+            bfpoContactAddress = None,
+            otherContactAddress = Some(ContactAddress(
+              country = Some("Spain"),
+              postcode = None,
+              addressLine1 = Some("Francisco de quevedo 54"),
+              addressLine2 = Some("Rubí"),
+              addressLine3 = None,
+              addressLine4 = None,
+              addressLine5 = None
+            ))
+          ))
+        )
+      }
+    )
+  }
+
 }
