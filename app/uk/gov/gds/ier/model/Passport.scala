@@ -13,15 +13,4 @@ case class Passport(
   }
 }
 
-case class PassportDetails(
-    passportNumber: String,
-    authority: String,
-    issueDate: DOB) {
 
-  def toApiMap = {
-    Map(
-      "passno" -> passportNumber,
-      "passloc" -> authority
-    ) ++ issueDate.toApiMap("passdate")
-  }
-}
