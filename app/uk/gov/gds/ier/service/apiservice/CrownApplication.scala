@@ -1,6 +1,18 @@
-package uk.gov.gds.ier.model
+package uk.gov.gds.ier.service.apiservice
 
 import uk.gov.gds.common.model.LocalAuthority
+import uk.gov.gds.ier.model._
+import uk.gov.gds.ier.model.DateOfBirth
+import uk.gov.gds.ier.model.CrownStatement
+import uk.gov.gds.ier.model.IsoNationality
+import uk.gov.gds.ier.model.PostalOrProxyVote
+import uk.gov.gds.ier.model.PossibleContactAddresses
+import uk.gov.gds.ier.model.Name
+import uk.gov.gds.ier.model.PreviousName
+import uk.gov.gds.ier.model.Job
+import uk.gov.gds.ier.model.Nino
+import uk.gov.gds.ier.model.Address
+import uk.gov.gds.ier.model.Contact
 
 case class CrownApplication(
     statement: Option[CrownStatement],

@@ -4,6 +4,7 @@ import uk.gov.gds.common.model.LocalAuthority
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.test.{TestHelpers, CustomMatchers}
 import org.scalatest.{Matchers, FlatSpec}
+import uk.gov.gds.ier.service.apiservice.OverseasApplication
 
 class OverseasApplicationTests
   extends FlatSpec
