@@ -5,13 +5,14 @@ import controllers.routes.CompleteController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
-import uk.gov.gds.ier.service.{AddressService, IerApiService}
+import uk.gov.gds.ier.service.{AddressService}
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.model.InprogressOrdinary
 import uk.gov.gds.ier.step.{ConfirmationStepController, Routes}
 import controllers.routes.RegisterToVoteController
+import uk.gov.gds.ier.service.apiservice.IerApiService
 
 class ConfirmationStep @Inject ()(
     val serialiser: JsonSerialiser,

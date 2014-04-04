@@ -7,7 +7,7 @@ import java.util.UUID
 import org.joda.time.DateTime
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.client.IerApiClient
-import uk.gov.gds.ier.service.IerApiApplicationResponse
+import uk.gov.gds.ier.service.apiservice.IerApiApplicationResponse
 
 @Singleton
 class IerStubApiClient @Inject() (config: Config, serialiser: JsonSerialiser) extends IerApiClient(config) {

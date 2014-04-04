@@ -2,7 +2,6 @@ package uk.gov.gds.ier.stubs
 
 import org.scalatest.{FlatSpec, Matchers}
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.service.{IerApiApplicationResponse, ConcreteIerApiService}
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.mockito.AdditionalMatchers
@@ -10,6 +9,7 @@ import org.mockito.{Matchers => MockitoMatchers}
 import uk.gov.gds.ier.model.InprogressOrdinary
 import scala.Some
 import uk.gov.gds.ier.model.Nino
+import uk.gov.gds.ier.service.apiservice.{IerApiApplicationResponse, ConcreteIerApiService}
 
 class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with MockitoSugar {
 

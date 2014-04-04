@@ -4,7 +4,6 @@ import uk.gov.gds.ier.model.InprogressForces
 import uk.gov.gds.ier.step.ConfirmationStepController
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.service.IerApiService
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.forces.routes.ConfirmationController
@@ -12,6 +11,7 @@ import controllers.step.forces.routes.StatementController
 import controllers.routes.CompleteController
 import com.google.inject.Inject
 import uk.gov.gds.ier.step.Routes
+import uk.gov.gds.ier.service.apiservice.IerApiService
 
 
 class ConfirmationStep @Inject() (

@@ -2,7 +2,7 @@ import uk.gov.gds.ier.client._
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.DynamicGlobal
 import uk.gov.gds.ier.logging.Logging
-import uk.gov.gds.ier.service.{ConcreteIerApiService, IerApiService}
+import uk.gov.gds.ier.service.apiservice.{ConcreteIerApiService, IerApiService}
 import uk.gov.gds.ier.stubs.{PlacesStubApiClient, IerStubApiClient, IerApiServiceWithStripNino}
 
 object Global extends DynamicGlobal with Logging {

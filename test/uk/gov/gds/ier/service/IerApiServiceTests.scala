@@ -13,6 +13,7 @@ import uk.gov.gds.ier.model.InprogressOrdinary
 import uk.gov.gds.ier.model.Success
 import uk.gov.gds.ier.model.Fail
 import scala.Some
+import uk.gov.gds.ier.service.apiservice.ConcreteIerApiService
 
 class IerApiServiceTests
   extends FlatSpec

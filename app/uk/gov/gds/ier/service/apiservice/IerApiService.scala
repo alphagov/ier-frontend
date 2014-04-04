@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.service
+package uk.gov.gds.ier.service.apiservice
 
 import com.google.inject.Inject
 import uk.gov.gds.ier.client.IerApiClient
@@ -11,7 +11,7 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.digest.ShaHashProvider
 import org.joda.time.DateTime
-import uk.gov.gds.common.model.LocalAuthority
+import uk.gov.gds.ier.service._
 
 abstract class IerApiService {
   def submitOrdinaryApplication(ipAddress: Option[String],
