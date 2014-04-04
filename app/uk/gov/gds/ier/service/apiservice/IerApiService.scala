@@ -230,18 +230,17 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
   }
 
   private def sendApplication(application: ApiApplication) = {
-    val start = new DateTime()
     val applicationType = application.application.get("applicationType").getOrElse("")
     apiClient.post(config.ierApiUrl,
                    serialiser.toJson(application),
                    ("Authorization", "BEARER " + config.ierApiToken)) match {
-      case Success(body) => {
-        sendStatsdAPITiming(start, "submission." + applicationType + ".OK")
+      case (Success(body),timeTakenMs) => {
+        StatsdClient.timing("submission." + applicationType + ".OK", timeTakenMs)
         serialiser.fromJson[IerApiApplicationResponse](body)
       }
-      case Fail(error) => {
-        sendStatsdAPITiming(start, "submission." + applicationType + ".Error")
+      case (Fail(error),timeTakenMs) => {
         logger.error("Submitting application to api failed: " + error)
+        StatsdClient.timing("submission." + applicationType + ".Error", timeTakenMs)
         throw new ApiException(error)
       }
     }
@@ -268,11 +267,6 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
     val encryptedBytes = shaHashProvider.getHash(json, Some(DateTime.now.toString))
     val encryptedHex = encryptedBytes.map{ byte => "%02X" format byte }
     encryptedHex.take(3).mkString
-  }
-
-  private def sendStatsdAPITiming (start: DateTime, metricName: String) = {
-    val timeTakenMs = DateTime.now.minus(start.getMillis).getMillis
-    StatsdClient.timing(metricName, timeTakenMs)
   }
 }
 

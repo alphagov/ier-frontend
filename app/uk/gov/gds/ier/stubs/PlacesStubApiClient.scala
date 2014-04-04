@@ -9,11 +9,13 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.client.PlacesApiClient
 
 @Singleton
-class PlacesStubApiClient @Inject() (config: Config, serialiser: JsonSerialiser) extends PlacesApiClient(config) {
+class PlacesStubApiClient @Inject() (
+    config: Config,
+    serialiser: JsonSerialiser) extends PlacesApiClient(config) {
 
-  override def get(url: String) : ApiResponse = {
+  override def get(url: String) : (ApiResponse, Long) = {
     if (url.startsWith(config.placesUrl + "/address?postcode=")) {
-      Success("""[
+      (Success("""[
             {
               "uprn": 10000001,
               "lineOne": "GDS",
@@ -25,13 +27,13 @@ class PlacesStubApiClient @Inject() (config: Config, serialiser: JsonSerialiser)
               "county": "Greater London",
               "postcode": "WC2B 6SE"
             }
-          ]""")
+          ]"""), 0)
     }
     else if (url.startsWith(config.placesUrl + "/authority?postcode=")) {
-      Success("{\"name\":\"Camden Borough Council\",\"ero\":{\"telephoneNumber\":\"\"},\"opcsId\":\"00AG\",\"gssId\":\"E09000007\"}")
+      (Success("{\"name\":\"Camden Borough Council\",\"ero\":{\"telephoneNumber\":\"\"},\"opcsId\":\"00AG\",\"gssId\":\"E09000007\"}"), 0)
     }
     else {
-      Fail("Bad postcode")
+      (Fail("Bad postcode"), 0)
     }
   }
 }

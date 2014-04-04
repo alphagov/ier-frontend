@@ -5,15 +5,17 @@ import play.api.libs.ws.WS
 import scala.concurrent.duration._
 import scala.concurrent.Await
 import play.api.http._
-import uk.gov.gds.ier.config.Config
-import com.google.inject.Inject
 import uk.gov.gds.ier.guice.WithConfig
+import org.joda.time.DateTime
 import uk.gov.gds.ier.logging.Logging
 
 trait ApiClient extends Logging {
   self:WithConfig =>
 
-  def get(url: String) : ApiResponse = timeThis(s"apiClient.get url:$url") {
+  def get(url: String) : (ApiResponse, Long) = {
+
+    val start = new DateTime()
+
     try {
         val result = Await.result(
           WS.url(url).get(),
@@ -21,23 +23,34 @@ trait ApiClient extends Logging {
         )
         result.status match {
           case Status.OK => {
-            logger.info(s"apiClient.get url:$url result:200")
-            Success(result.body)
+            val timeTakenMs = DateTime.now.minus(start.getMillis).getMillis
+            logger.info(s"apiClient.get url:$url result:200 timeTakenMs:$timeTakenMs")
+            (Success(result.body), timeTakenMs)
           }
           case status => {
-            logger.info(s"apiClient.get url:$url result:$status reason:${result.body}")
-            Fail(result.body)
+            val timeTakenMs = DateTime.now.minus(start.getMillis).getMillis
+            logger.info(
+              s"apiClient.get url:$url result:$status timeTakenMs:$timeTakenMs reason:${result.body}")
+            (Fail(result.body), timeTakenMs)
           }
         }
     } catch {
       case e:Exception => {
-        logger.error(s"apiClient.get url:$url exception:${e.getStackTraceString}")
-        Fail(e.getMessage)
+        val timeTakenMs = DateTime.now.minus(start.getMillis).getMillis
+        logger.error(
+          s"apiClient.get url:$url timeTakenMs:$timeTakenMs exception:${e.getStackTraceString}")
+        (Fail(e.getMessage), timeTakenMs)
       }
     }
   }
 
-  def post(url:String, content:String, headers: (String, String)*) : ApiResponse = timeThis(s"apiClient.post url:$url") {
+  def post(
+      url:String,
+      content:String,
+      headers: (String, String)*) : (ApiResponse, Long) = {
+
+    val start = new DateTime()
+
     try {
       val result = Await.result(
         WS.url(url)
@@ -48,22 +61,27 @@ trait ApiClient extends Logging {
       )
       result.status match {
         case Status.OK => {
-          logger.info(s"apiClient.post url:$url result:200")
-          Success(result.body)
+          val timeTakenMs = DateTime.now.minus(start.getMillis).getMillis
+          logger.info(s"apiClient.post url:$url result:200 timeTakenMs:$timeTakenMs")
+          (Success(result.body), timeTakenMs)
         }
         case Status.NO_CONTENT => {
-          logger.info(s"apiClient.post url:$url result:204")
-          Success("")
+          val timeTakenMs = DateTime.now.minus(start.getMillis).getMillis
+          logger.info(s"apiClient.post url:$url result:204 timeTakenMs:$timeTakenMs")
+          (Success(""), timeTakenMs)
         }
         case status => {
-          logger.info(s"apiClient.post url:$url result:$status")
-          Fail(result.body)
+          val timeTakenMs = DateTime.now.minus(start.getMillis).getMillis
+          logger.info(s"apiClient.post url:$url result:$status timeTakenMs:$timeTakenMs")
+          (Fail(result.body), timeTakenMs)
         }
       }
     } catch {
       case e:Exception => {
-        logger.error(s"apiClient.post url:$url exception:${e.getStackTraceString}")
-        Fail(e.getMessage)
+        val timeTakenMs = DateTime.now.minus(start.getMillis).getMillis
+        logger.error(
+          s"apiClient.post url:$url timeTakenMs:$timeTakenMs exception:${e.getStackTraceString}")
+        (Fail(e.getMessage), timeTakenMs)
       }
     }
   }

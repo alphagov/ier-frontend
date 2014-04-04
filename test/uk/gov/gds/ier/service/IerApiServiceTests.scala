@@ -38,12 +38,12 @@ class IerApiServiceTests
 
   it should "contain the application type field" in {
     class FakeApiClient extends IerApiClient(new MockConfig) {
-      override def post(url:String, content:String, headers: (String, String)*) : ApiResponse = {
+      override def post(url:String, content:String, headers: (String, String)*) : (ApiResponse, Long) = {
         if (url.contains("testUrl")) {
           content should include("applicationType\":\"ordinary\"")
-          successMessage
+          (successMessage,0)
         } else {
-          Fail("Bad Url")
+          (Fail("Bad Url"),0)
         }
       }
     }
@@ -70,12 +70,12 @@ class IerApiServiceTests
 
   it should "not contain the contact mail if the option is not selected" in {
     class FakeApiClient extends IerApiClient(new MockConfig) {
-      override def post(url:String, content:String, headers: (String, String)*) : ApiResponse = {
+      override def post(url:String, content:String, headers: (String, String)*) : (ApiResponse, Long) = {
         if (url.contains("testUrl")) {
           content should not include("mail")
-          successMessage
+          (successMessage,0)
         } else {
-          Fail("Bad Url")
+          (Fail("Bad Url"),0)
         }
       }
     }
@@ -95,12 +95,12 @@ class IerApiServiceTests
 
   it should "not contain the contact phone if the option is not selected" in {
     class FakeApiClient extends IerApiClient(new MockConfig) {
-      override def post(url:String, content:String, headers: (String, String)*) : ApiResponse = {
+      override def post(url:String, content:String, headers: (String, String)*) : (ApiResponse, Long) = {
         if (url.contains("testUrl")) {
           content should not include("phone")
-          successMessage
+          (successMessage,0)
         } else {
-          Fail("Bad Url")
+          (Fail("Bad Url"),0)
         }
       }
     }
@@ -120,12 +120,12 @@ class IerApiServiceTests
 
   it should "contain the contact mail if the option is selected" in {
     class FakeApiClient extends IerApiClient(new MockConfig) {
-      override def post(url:String, content:String, headers: (String, String)*) : ApiResponse = {
+      override def post(url:String, content:String, headers: (String, String)*) : (ApiResponse, Long) = {
         if (url.contains("testUrl")) {
           content should include("mail")
-          successMessage
+          (successMessage,0)
         } else {
-          Fail("Bad Url")
+          (Fail("Bad Url"),0)
         }
       }
     }
@@ -145,12 +145,12 @@ class IerApiServiceTests
 
   it should "contain the contact phone if the option is selected" in {
     class FakeApiClient extends IerApiClient(new MockConfig) {
-      override def post(url:String, content:String, headers: (String, String)*) : ApiResponse = {
+      override def post(url:String, content:String, headers: (String, String)*) : (ApiResponse, Long) = {
         if (url.contains("testUrl")) {
           content should include("phone")
-          successMessage
+          (successMessage,0)
         } else {
-          Fail("Bad Url")
+          (Fail("Bad Url"),0)
         }
       }
     }
@@ -170,7 +170,7 @@ class IerApiServiceTests
 
   it should "convert country names to ISO codes" in {
     class FakeApiClient extends IerApiClient(new MockConfig) {
-      override def post(url:String, content:String, headers: (String, String)*) : ApiResponse = {
+      override def post(url:String, content:String, headers: (String, String)*) : (ApiResponse, Long) = {
         if (url.contains("testUrl")) {
           content should include("GB")
           content should not include("British")
@@ -178,9 +178,9 @@ class IerApiServiceTests
           content should not include("Irish")
           content should include("FR")
           content should not include("France")
-          successMessage
+          (successMessage,0)
         } else {
-          Fail("Bad Url")
+          (Fail("Bad Url"),0)
         }
       }
     }
