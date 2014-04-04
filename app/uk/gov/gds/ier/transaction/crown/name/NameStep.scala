@@ -30,10 +30,6 @@ class NameStep @Inject ()(
     editPost = NameController.editPost
   )
 
-  def template(form: ErrorTransformForm[InprogressCrown], call:Call, backUrl: Option[Call]): Html = {
-    Html.empty
-  }
-
   def nextStep(currentState: InprogressCrown) = {
     JobController.jobStep
   }
