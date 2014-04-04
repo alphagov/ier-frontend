@@ -6,7 +6,8 @@ import play.api.libs.json.{Json, JsNull}
 import org.joda.time.DateTime
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{DOB, DateOfBirth, InprogressForces}
+import uk.gov.gds.ier.model.{DOB, DateOfBirth}
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class DateOfBirthFormTests 
   extends FlatSpec

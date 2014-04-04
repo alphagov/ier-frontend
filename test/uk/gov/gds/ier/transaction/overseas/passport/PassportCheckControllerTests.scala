@@ -5,7 +5,8 @@ import org.scalatest.mock.MockitoSugar
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.{InprogressOverseas, DOB}
+import uk.gov.gds.ier.model.{DOB}
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class PassportCheckControllerTests
   extends FlatSpec

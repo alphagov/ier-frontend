@@ -12,10 +12,10 @@ import play.api.mvc.Call
 import controllers.step.overseas.routes._
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.step.GoTo
-import uk.gov.gds.ier.model.InprogressOverseas
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import org.joda.time.{Months, DateTime}
 import controllers.routes.ExitController
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class DateLeftArmyStep @Inject() (
     val serialiser: JsonSerialiser,

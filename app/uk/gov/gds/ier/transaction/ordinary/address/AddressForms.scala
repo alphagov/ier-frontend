@@ -10,7 +10,6 @@ import uk.gov.gds.ier.validation.{
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model.{
-  InprogressOrdinary,
   PartialAddress,
   PartialManualAddress,
   PossibleAddress,
@@ -19,8 +18,8 @@ import uk.gov.gds.ier.model.Addresses
 import uk.gov.gds.ier.model.PartialAddress
 import uk.gov.gds.ier.model.PartialManualAddress
 import uk.gov.gds.ier.model.PossibleAddress
-import uk.gov.gds.ier.model.InprogressOrdinary
 import scala.Some
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 trait AddressForms extends AddressConstraints {
   self: FormKeys

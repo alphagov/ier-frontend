@@ -1,8 +1,9 @@
 package uk.gov.gds.ier.validation.constraints
 
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.model.{PreviouslyRegistered, InprogressOverseas}
+import uk.gov.gds.ier.model.{PreviouslyRegistered}
 import play.api.data.validation.{Valid, Constraint, Invalid}
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait PreviouslyRegisteredConstraints {
   self: ErrorMessages

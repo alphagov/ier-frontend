@@ -9,10 +9,10 @@ import uk.gov.gds.ier.service.{AddressService}
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.model.InprogressOrdinary
 import uk.gov.gds.ier.step.{ConfirmationStepController, Routes}
 import controllers.routes.RegisterToVoteController
 import uk.gov.gds.ier.service.apiservice.IerApiService
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 class ConfirmationStep @Inject ()(
     val serialiser: JsonSerialiser,

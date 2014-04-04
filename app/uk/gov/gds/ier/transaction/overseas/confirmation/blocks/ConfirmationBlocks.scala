@@ -1,11 +1,11 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
 import uk.gov.gds.ier.form.OverseasFormImplicits
-import uk.gov.gds.ier.model.InprogressOverseas
 import uk.gov.gds.ier.model.ApplicationType._
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.{ErrorTransformForm, Key}
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 case class ConfirmationQuestion(
     content: String,

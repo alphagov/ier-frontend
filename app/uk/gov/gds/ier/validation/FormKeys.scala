@@ -2,6 +2,7 @@ package uk.gov.gds.ier.validation
 
 import play.api.templates.Html
 import scala.Some
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 case class Key(key:String) {
   def asId(value:String = "") = List(key.replace(".", "_"), value.replace(" ", "_")).filter(_.nonEmpty).mkString("_")
@@ -174,7 +175,7 @@ trait FormKeys {
   implicit class key2namespace(key:Key) extends Keys {
     override lazy val namespace = key.key
   }
-  implicit class keys2Traversal(key:Key)(implicit formData:ErrorTransformForm[uk.gov.gds.ier.model.InprogressOrdinary]) {
+  implicit class keys2Traversal(key:Key)(implicit formData:ErrorTransformForm[InprogressOrdinary]) {
     def each(from:Int = 0)(block: (String, Int) => Html):Html = {
       val field = formData(key.item(from))
       field.value match {

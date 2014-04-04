@@ -10,6 +10,7 @@ import uk.gov.gds.ier.model.DateOfBirth
 import uk.gov.gds.ier.model.noDOB
 import uk.gov.gds.ier.model.DOB
 import scala.Some
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait DateOfBirthForms extends DateOfBirthConstraints {
     self:  FormKeys

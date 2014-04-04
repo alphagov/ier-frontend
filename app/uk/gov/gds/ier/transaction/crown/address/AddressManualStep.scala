@@ -4,12 +4,13 @@ import controllers.step.crown.routes._
 import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.model.{LastUkAddress, InprogressCrown}
+import uk.gov.gds.ier.model.{LastUkAddress}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.{CrownStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.crown.{PreviousAddressFirstController, NationalityController}
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 class AddressManualStep @Inject() (
     val serialiser: JsonSerialiser,

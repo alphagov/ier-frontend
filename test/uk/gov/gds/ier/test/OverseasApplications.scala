@@ -2,6 +2,7 @@ package uk.gov.gds.ier.test
 
 import org.joda.time.DateTime
 import uk.gov.gds.ier.model._
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait OverseasApplications {
 

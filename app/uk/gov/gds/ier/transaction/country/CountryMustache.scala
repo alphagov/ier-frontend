@@ -3,8 +3,9 @@ package uk.gov.gds.ier.transaction.country
 import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.model.{InprogressOrdinary, Country}
+import uk.gov.gds.ier.model.{Country}
 import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 trait CountryMustache extends StepMustache {
   case class CountryModel(

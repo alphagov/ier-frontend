@@ -2,10 +2,11 @@ package uk.gov.gds.ier.transaction.ordinary.otherAddress
 
 import uk.gov.gds.ier.validation.constraints.OtherAddressConstraints
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication, OtherAddress, OtherAddressOption}
+import uk.gov.gds.ier.model.{OtherAddress, OtherAddressOption}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.Form
 import play.api.data.Forms._
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 trait OtherAddressForms extends OtherAddressConstraints {
   self:  FormKeys

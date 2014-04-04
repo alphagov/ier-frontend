@@ -7,12 +7,12 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.{
-  InprogressOverseas,
   Name,
   PreviousName,
   WaysToVote}
 import uk.gov.gds.ier.transaction.overseas.confirmation.ConfirmationForms
 import org.joda.time.DateTime
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class PassportBlocksTests
   extends FlatSpec

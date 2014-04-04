@@ -5,6 +5,7 @@ import uk.gov.gds.ier.model._
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.overseas.PostalOrProxyVoteConstraints
 import play.api.data.validation.{Invalid, Valid, Constraint}
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait PostalOrProxyVoteForms extends PostalOrProxyVoteOverseasConstraints {
   self:  FormKeys

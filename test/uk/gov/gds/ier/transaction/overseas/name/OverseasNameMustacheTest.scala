@@ -3,8 +3,8 @@ package uk.gov.gds.ier.transaction.overseas.name
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.{Name, PreviousName, InprogressOrdinary, OverseasName}
-import uk.gov.gds.ier.model.InprogressOverseas
+import uk.gov.gds.ier.model.{Name, PreviousName, OverseasName}
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 /**
  * Unit test to test form to Mustache model transformation.

@@ -2,9 +2,9 @@ package uk.gov.gds.ier.validation
 
 import play.api.data.Form
 import play.api.data.Forms._
-import uk.gov.gds.ier.model.InprogressOrdinary
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.ordinary.confirmation.ConfirmationForms
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 trait IerForms extends OrdinaryMappings with ConfirmationForms {
   self: WithSerialiser =>

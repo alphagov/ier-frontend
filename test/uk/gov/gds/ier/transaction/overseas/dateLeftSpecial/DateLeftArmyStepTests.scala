@@ -9,7 +9,7 @@ import uk.gov.gds.ier.model.{LastRegisteredToVote, LastRegisteredType, DOB, Date
 import uk.gov.gds.ier.model.LastRegisteredType._
 import play.api.test.FakeApplication
 import scala.Some
-import uk.gov.gds.ier.model.InprogressOverseas
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class DateLeftArmyStepTests
   extends FlatSpec

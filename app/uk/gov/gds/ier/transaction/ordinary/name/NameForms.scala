@@ -1,10 +1,11 @@
 package uk.gov.gds.ier.transaction.ordinary.name
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication, Name, PreviousName}
+import uk.gov.gds.ier.model.{Name, PreviousName}
 import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.NameConstraints
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 trait NameForms extends NameConstraints {
   self:  FormKeys

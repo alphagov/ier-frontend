@@ -6,8 +6,9 @@ import uk.gov.gds.ier.test.TestHelpers
 import scala.Some
 import controllers.step.ordinary.routes._
 import controllers.step.routes._
-import uk.gov.gds.ier.model.{PostalVote, InprogressOrdinary}
+import uk.gov.gds.ier.model.{PostalVote}
 import uk.gov.gds.ier.model.PostalVoteDeliveryMethod
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 class PostalVoteMustacheTest
   extends FlatSpec

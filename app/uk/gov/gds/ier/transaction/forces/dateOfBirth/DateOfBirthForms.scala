@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.transaction.forces.dateOfBirth
 
-import uk.gov.gds.ier.model.InprogressForces
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages, ErrorTransformForm}
 import uk.gov.gds.ier.validation.constraints.DateOfBirthConstraints
 import play.api.data.Forms._
@@ -9,6 +8,7 @@ import uk.gov.gds.ier.model.noDOB
 import uk.gov.gds.ier.model.DOB
 import scala.Some
 import play.api.data.validation.{Invalid, Valid, Constraint}
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 trait DateOfBirthForms extends DateOfBirthForcesConstraints {
     self:  FormKeys

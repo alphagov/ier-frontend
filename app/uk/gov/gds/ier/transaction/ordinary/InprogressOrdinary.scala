@@ -1,4 +1,15 @@
-package uk.gov.gds.ier.model
+package uk.gov.gds.ier.transaction.ordinary
+
+import uk.gov.gds.ier.step.InprogressApplication
+import uk.gov.gds.ier.model._
+import uk.gov.gds.ier.model.DateOfBirth
+import uk.gov.gds.ier.model.PartialNationality
+import uk.gov.gds.ier.model.PostalVote
+import uk.gov.gds.ier.model.Name
+import uk.gov.gds.ier.model.PossibleAddress
+import uk.gov.gds.ier.model.PreviousName
+import uk.gov.gds.ier.model.Nino
+import uk.gov.gds.ier.model.Contact
 
 case class InprogressOrdinary (
     name: Option[Name] = None,

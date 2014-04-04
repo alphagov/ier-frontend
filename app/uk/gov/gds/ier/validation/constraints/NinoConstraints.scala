@@ -2,7 +2,9 @@ package uk.gov.gds.ier.validation.constraints
 
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages, NinoValidator}
 import play.api.data.validation.{Valid, Invalid, Constraint}
-import uk.gov.gds.ier.model.{InprogressOverseas, InprogressOrdinary, InprogressApplication, Nino}
+import uk.gov.gds.ier.model.{Nino}
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait NinoConstraints {
   self: ErrorMessages

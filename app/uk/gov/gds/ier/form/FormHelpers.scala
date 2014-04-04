@@ -3,6 +3,7 @@ package uk.gov.gds.ier.form
 import play.api.data.{Field, Form}
 import uk.gov.gds.ier.validation.FormKeys
 import play.api.templates.{Template3, Html}
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 object FormHelpers extends FormKeys {
   implicit val basicRenderer = FormRenderer.basicRenderer
@@ -21,7 +22,7 @@ object FormHelpers extends FormKeys {
   lazy val textArea = views.html.inputs.textArea
   lazy val wrapLabel = views.html.inputs.wrapLabel
   def label(id:uk.gov.gds.ier.validation.Key, label:String, attributes:(Symbol,String)*)
-           (implicit formData: uk.gov.gds.ier.validation.ErrorTransformForm[uk.gov.gds.ier.model.InprogressOrdinary]) = {
+           (implicit formData: uk.gov.gds.ier.validation.ErrorTransformForm[InprogressOrdinary]) = {
     views.html.inputs.wrapLabel(id, attributes:_*)(Html(label))(formData)
   }
 

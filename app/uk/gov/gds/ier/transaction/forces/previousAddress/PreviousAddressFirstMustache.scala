@@ -1,9 +1,10 @@
 package uk.gov.gds.ier.transaction.forces.previousAddress
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.model.{InprogressForces, MovedHouseOption}
+import uk.gov.gds.ier.model.{MovedHouseOption}
 import uk.gov.gds.ier.mustache.StepMustache
 import play.api.templates.Html
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 
 trait PreviousAddressFirstMustache extends StepMustache {

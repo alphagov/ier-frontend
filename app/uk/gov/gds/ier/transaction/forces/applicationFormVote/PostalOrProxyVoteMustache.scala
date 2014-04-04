@@ -1,10 +1,11 @@
 package uk.gov.gds.ier.transaction.forces.applicationFormVote
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.model.{InprogressForces, WaysToVoteType}
+import uk.gov.gds.ier.model.{WaysToVoteType}
 import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 trait PostalOrProxyVoteMustache extends StepMustache {
 

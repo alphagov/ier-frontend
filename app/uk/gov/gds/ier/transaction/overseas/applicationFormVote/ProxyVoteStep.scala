@@ -9,10 +9,11 @@ import uk.gov.gds.ier.step.{Routes, OverseaStep}
 import controllers.step.overseas.routes._
 import scala.Some
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.model.{InprogressOverseas, WaysToVoteType}
+import uk.gov.gds.ier.model.{WaysToVoteType}
 import play.api.mvc.Call
 import play.api.templates.Html
 import controllers.step.overseas.ContactController
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class ProxyVoteStep @Inject ()(
     val serialiser: JsonSerialiser,

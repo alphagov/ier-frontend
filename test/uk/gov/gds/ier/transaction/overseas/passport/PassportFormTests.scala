@@ -5,7 +5,7 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.InprogressOverseas
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class PassportFormTests
   extends FlatSpec

@@ -8,9 +8,9 @@ import controllers.step.forces.routes._
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.model.PartialAddress
-import uk.gov.gds.ier.model.InprogressForces
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class AddressMustacheTest
   extends FlatSpec

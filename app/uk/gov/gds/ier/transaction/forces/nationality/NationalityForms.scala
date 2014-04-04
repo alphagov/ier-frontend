@@ -1,9 +1,10 @@
 package uk.gov.gds.ier.transaction.forces.nationality
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{InprogressForces, PartialNationality}
+import uk.gov.gds.ier.model.{PartialNationality}
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.NationalityConstraints
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 trait NationalityForms extends NationalityConstraints {
   self:  FormKeys

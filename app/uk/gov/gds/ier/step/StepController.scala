@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.step
 
-import uk.gov.gds.ier.model.InprogressApplication
 import uk.gov.gds.ier.session.SessionHandling
 import play.api.mvc.{SimpleResult, Call, Controller}
 import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, ErrorMessages}

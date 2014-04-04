@@ -2,9 +2,10 @@ package uk.gov.gds.ier.transaction.crown.contactAddress
 
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.{Key, ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{PossibleContactAddresses, ContactAddress, InprogressCrown}
+import uk.gov.gds.ier.model.{PossibleContactAddresses, ContactAddress}
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import play.api.data.validation.{Constraint, Valid, Invalid}
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 trait ContactAddressForms extends ContactAddressConstraints {
     self: FormKeys with ErrorMessages =>

@@ -1,10 +1,10 @@
 package uk.gov.gds.ier.transaction.crown.statement
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.model.InprogressCrown
 import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 trait StatementMustache extends StepMustache {
 

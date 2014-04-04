@@ -8,10 +8,11 @@ import uk.gov.gds.ier.step.{Routes, ForcesStep}
 import controllers.step.forces.routes._
 import scala.Some
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.model.{InprogressForces, WaysToVoteType}
+import uk.gov.gds.ier.model.{WaysToVoteType}
 import play.api.mvc.Call
 import play.api.templates.Html
 import controllers.step.forces.ContactController
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class ProxyVoteStep @Inject ()(
     val serialiser: JsonSerialiser,

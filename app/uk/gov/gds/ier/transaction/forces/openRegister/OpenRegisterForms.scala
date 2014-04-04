@@ -1,8 +1,8 @@
 package uk.gov.gds.ier.transaction.forces.openRegister
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.InprogressForces
 import play.api.data.Forms._
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 trait OpenRegisterForms {
   self:  FormKeys

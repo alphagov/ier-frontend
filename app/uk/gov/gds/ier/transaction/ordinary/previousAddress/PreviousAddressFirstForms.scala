@@ -1,11 +1,12 @@
 package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
 import play.api.data.Forms._
-import uk.gov.gds.ier.model.{PartialAddress, InprogressOrdinary, PartialPreviousAddress}
+import uk.gov.gds.ier.model.{PartialAddress, PartialPreviousAddress}
 import uk.gov.gds.ier.validation.{PostcodeValidator, ErrorMessages, FormKeys, ErrorTransformForm}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import play.api.data.validation.{Invalid, Valid, Constraint}
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 trait PreviousAddressFirstForms
     extends PreviousAddressFirstConstraints

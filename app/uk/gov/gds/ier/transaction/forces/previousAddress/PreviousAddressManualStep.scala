@@ -12,6 +12,7 @@ import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 import controllers.step.forces.NationalityController
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class PreviousAddressManualStep @Inject() (
     val serialiser: JsonSerialiser,

@@ -4,8 +4,9 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.model.{LastUkAddress, PartialAddress, InprogressCrown}
+import uk.gov.gds.ier.model.{LastUkAddress, PartialAddress}
 import uk.gov.gds.ier.form.AddressHelpers
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 trait ContactAddressMustache
   extends StepMustache

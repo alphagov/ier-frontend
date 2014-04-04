@@ -3,9 +3,9 @@ package uk.gov.gds.ier.transaction.forces.rank
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
 import play.api.data.Forms._
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.model.InprogressForces
 import scala.Some
 import play.api.data.validation.{Invalid, Valid, Constraint}
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 trait RankForms extends RankConstraints {
   self:  FormKeys

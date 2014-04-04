@@ -1,10 +1,10 @@
 package uk.gov.gds.ier.transaction.forces.contact
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.model.InprogressForces
 import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 trait ContactMustache extends StepMustache {
 

@@ -12,9 +12,9 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.model.Addresses
 import uk.gov.gds.ier.model.PartialAddress
-import uk.gov.gds.ier.model.InprogressCrown
 import uk.gov.gds.ier.model.PossibleAddress
 import scala.Some
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 trait AddressForms extends AddressConstraints {
   self: FormKeys

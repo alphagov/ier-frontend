@@ -8,8 +8,8 @@ import controllers.step.forces.routes._
 import uk.gov.gds.ier.model.{
   PostalVoteDeliveryMethod,
   PostalOrProxyVote,
-  InprogressForces,
   WaysToVoteType}
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 
 class ForcesPostalOrProxyVoteMustacheTest

@@ -4,11 +4,11 @@ import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
 import uk.gov.gds.ier.validation.constraints.PassportConstraints
 import play.api.data.Forms._
 import uk.gov.gds.ier.model.{
-  InprogressOverseas,
   Passport,
   PassportDetails,
   CitizenDetails,
   DOB}
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait PassportForms extends PassportConstraints {
   self:  FormKeys

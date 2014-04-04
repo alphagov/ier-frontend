@@ -6,10 +6,10 @@ import uk.gov.gds.ier.model.MovedHouseOption
 import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.{ErrorTransformForm, Key}
-import uk.gov.gds.ier.model.InprogressForces
 import scala.Some
 import controllers.step.forces.routes
 import uk.gov.gds.ier.form.AddressHelpers
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 trait ConfirmationMustache {
 

@@ -1,12 +1,12 @@
 package uk.gov.gds.ier.transaction.forces.confirmation
 
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.model.InprogressForces
 import org.scalatest.{Matchers, FlatSpec}
 import play.api.libs.json.JsNull
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model._
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class ConfirmationFormTests
   extends FlatSpec

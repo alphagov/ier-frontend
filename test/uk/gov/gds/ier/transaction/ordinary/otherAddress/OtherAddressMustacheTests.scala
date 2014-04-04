@@ -7,10 +7,11 @@ import org.scalatest.junit.JUnitRunner
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.{OtherAddress, InprogressOrdinary}
+import uk.gov.gds.ier.model.{OtherAddress}
 import uk.gov.gds.ier.model.OtherAddress._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 class OtherAddressMustacheTests
   extends FlatSpec

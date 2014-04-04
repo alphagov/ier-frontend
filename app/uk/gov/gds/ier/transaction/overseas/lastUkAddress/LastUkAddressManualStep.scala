@@ -11,13 +11,13 @@ import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{
-  InprogressOverseas,
   ApplicationType}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.form.OverseasFormImplicits
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class LastUkAddressManualStep @Inject() (
     val serialiser: JsonSerialiser,

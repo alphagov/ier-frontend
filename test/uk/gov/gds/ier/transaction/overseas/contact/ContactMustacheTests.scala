@@ -4,9 +4,10 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
 import scala.Some
-import uk.gov.gds.ier.model.{ContactDetail, Contact, InprogressOverseas}
+import uk.gov.gds.ier.model.{ContactDetail, Contact}
 import controllers.step.overseas.routes._
 import uk.gov.gds.ier.serialiser.WithSerialiser
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class ContactMustacheTests
   extends FlatSpec

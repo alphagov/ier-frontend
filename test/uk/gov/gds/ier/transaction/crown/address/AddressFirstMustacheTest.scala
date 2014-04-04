@@ -5,8 +5,8 @@ import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.model.InprogressCrown
 import scala.Some
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 class AddressFirstMustacheTest
   extends FlatSpec

@@ -1,11 +1,12 @@
 package uk.gov.gds.ier.transaction.country
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressApplication, Country}
+import uk.gov.gds.ier.model.{Country}
 import uk.gov.gds.ier.validation.constraints.CountryConstraints
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.Form
 import play.api.data.Forms._
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 trait CountryForms extends CountryConstraints {
   self:  FormKeys

@@ -6,6 +6,7 @@ import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 trait PreviousAddressForms
     extends PreviousAddressConstraints

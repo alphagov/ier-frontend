@@ -10,6 +10,11 @@ import uk.gov.gds.ier.session.{SessionKeys, ResultHandling}
 import uk.gov.gds.ier.guice.WithConfig
 import play.api.data.FormError
 import uk.gov.gds.ier.controller.MockConfig
+import uk.gov.gds.ier.step.InprogressApplication
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait TestHelpers
   extends CustomMatchers

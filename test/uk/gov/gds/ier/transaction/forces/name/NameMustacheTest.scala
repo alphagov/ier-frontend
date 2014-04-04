@@ -6,6 +6,7 @@ import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.model.Name
 import scala.Some
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class NameMustacheTest
   extends FlatSpec

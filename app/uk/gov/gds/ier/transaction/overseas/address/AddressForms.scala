@@ -2,9 +2,10 @@ package uk.gov.gds.ier.transaction.overseas.address
 
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.{ ErrorTransformForm, ErrorMessages, FormKeys }
-import uk.gov.gds.ier.model.{ InprogressOverseas, OverseasAddress }
+import uk.gov.gds.ier.model.{ OverseasAddress }
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import play.api.data.validation.{Constraint, Valid, Invalid}
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait AddressForms extends OverseasAddressConstraints {
     self: FormKeys with ErrorMessages =>

@@ -12,8 +12,8 @@ import play.api.templates.Html
 import uk.gov.gds.ier.service.IsoCountryService
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.model.InprogressForces
 import uk.gov.gds.ier.step.{ForcesStep, Routes, GoTo}
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class NationalityStep @Inject ()(
     val serialiser: JsonSerialiser,

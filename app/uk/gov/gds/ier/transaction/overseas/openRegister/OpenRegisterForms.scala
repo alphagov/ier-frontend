@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.overseas.openRegister
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
 import play.api.data.Forms._
-import uk.gov.gds.ier.model.InprogressOverseas
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait OpenRegisterForms {
   self:  FormKeys

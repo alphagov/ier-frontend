@@ -19,6 +19,7 @@ import uk.gov.gds.ier.transaction.crown.applicationFormVote.PostalOrProxyVoteFor
 import uk.gov.gds.ier.transaction.crown.contact.ContactForms
 import uk.gov.gds.ier.transaction.crown.job.JobForms
 import uk.gov.gds.ier.transaction.crown.previousAddress.PreviousAddressForms
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 trait ConfirmationForms
   extends FormKeys

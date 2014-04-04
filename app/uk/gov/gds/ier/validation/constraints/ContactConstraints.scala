@@ -1,8 +1,10 @@
 package uk.gov.gds.ier.validation.constraints
 
 import uk.gov.gds.ier.validation.{EmailValidator, Key, FormKeys, ErrorMessages}
-import uk.gov.gds.ier.model.{InprogressOrdinary, InprogressOverseas, Contact, ContactDetail}
+import uk.gov.gds.ier.model.{Contact, ContactDetail}
 import play.api.data.validation.{Invalid, Valid, Constraint}
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait ContactConstraints extends CommonConstraints {
   self:  FormKeys

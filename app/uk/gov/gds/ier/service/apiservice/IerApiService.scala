@@ -12,6 +12,11 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.digest.ShaHashProvider
 import org.joda.time.DateTime
 import uk.gov.gds.ier.service._
+import uk.gov.gds.ier.step.InprogressApplication
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 abstract class IerApiService {
   def submitOrdinaryApplication(ipAddress: Option[String],

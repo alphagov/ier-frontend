@@ -5,12 +5,12 @@ import controllers.step.crown.routes.{ContactAddressController, NinoController}
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import play.api.mvc.Call
-import uk.gov.gds.ier.model.InprogressCrown
 import play.api.templates.Html
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{CrownStep, Routes}
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 class ContactAddressStep @Inject ()(
     val serialiser: JsonSerialiser,

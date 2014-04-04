@@ -4,7 +4,6 @@ import controllers.routes.ExitController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import play.api.mvc.Call
-import uk.gov.gds.ier.model.InprogressOverseas
 import play.api.templates.Html
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.config.Config
@@ -12,6 +11,7 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{OverseaStep, Routes, GoTo}
 import controllers.step.overseas.routes.DateOfBirthController
 import controllers.step.overseas.PreviouslyRegisteredController
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
                                        val config: Config,

@@ -5,12 +5,12 @@ import controllers.step.overseas.PassportCheckController
 import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.model.InprogressOverseas
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class ParentsAddressStep @Inject() (
     val serialiser: JsonSerialiser,

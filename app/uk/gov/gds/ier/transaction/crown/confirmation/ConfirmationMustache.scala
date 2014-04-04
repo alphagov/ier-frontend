@@ -7,10 +7,10 @@ import controllers.step.crown._
 import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.{ErrorTransformForm, Key}
-import uk.gov.gds.ier.model.InprogressCrown
 import scala.Some
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.form.AddressHelpers
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 trait ConfirmationMustache {
 

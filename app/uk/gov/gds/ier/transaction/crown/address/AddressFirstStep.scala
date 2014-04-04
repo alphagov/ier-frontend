@@ -2,7 +2,6 @@ package uk.gov.gds.ier.transaction.crown.address
 
 import controllers.step.crown.routes._
 import com.google.inject.Inject
-import uk.gov.gds.ier.model.InprogressCrown
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
 import play.api.mvc.Call
@@ -12,6 +11,7 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.service.AddressService
 
 import uk.gov.gds.ier.step.{Routes, CrownStep}
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 class AddressFirstStep @Inject ()(
     val serialiser: JsonSerialiser,

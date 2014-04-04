@@ -9,13 +9,13 @@ import uk.gov.gds.ier.validation.{
   PostcodeValidator}
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.model.InprogressForces
 import scala.Some
 import uk.gov.gds.ier.model.{
   PartialAddress,
   PartialManualAddress,
   PossibleAddress,
   Addresses}
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 trait AddressForms extends AddressConstraints {
   self: FormKeys

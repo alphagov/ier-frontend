@@ -1,9 +1,9 @@
 package uk.gov.gds.ier.transaction.crown.address
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.model.InprogressCrown
 import uk.gov.gds.ier.mustache.StepMustache
 import play.api.templates.Html
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 
 trait AddressFirstMustache extends StepMustache {

@@ -7,12 +7,12 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.OverseaStep
 import controllers.step.overseas.routes._
-import uk.gov.gds.ier.model.InprogressOverseas
 import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 import controllers.step.overseas.WaysToVoteController
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class OpenRegisterStep @Inject ()(val serialiser: JsonSerialiser,
                                         val config: Config,

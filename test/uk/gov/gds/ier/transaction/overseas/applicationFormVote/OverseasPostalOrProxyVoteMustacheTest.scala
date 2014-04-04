@@ -8,8 +8,8 @@ import controllers.step.overseas.routes._
 import uk.gov.gds.ier.model.{
   PostalVoteDeliveryMethod,
   PostalOrProxyVote,
-  InprogressOverseas,
   WaysToVoteType}
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 
 class OverseasPostalOrProxyVoteMustacheTest
