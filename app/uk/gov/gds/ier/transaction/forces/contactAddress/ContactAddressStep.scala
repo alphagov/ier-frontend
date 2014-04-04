@@ -30,12 +30,19 @@ class ContactAddressStep @Inject ()(
     editPost = ContactAddressController.editPost
   )
 
-  def template(
+  override def templateWithApplication(
       form: ErrorTransformForm[InprogressForces],
       postEndpoint:Call,
-      backEndpoint: Option[Call]): Html = {
-    contactAddressMustache(form, postEndpoint, backEndpoint)
+      backEndpoint: Option[Call]) = {
+    application: InprogressForces => {
+      contactAddressMustache(form, postEndpoint, backEndpoint, application)
+    }
   }
+
+  override def template(
+    form: ErrorTransformForm[InprogressForces],
+    postEndpoint: Call,
+    backEndpoint:Option[Call]): Html = Html.empty
 
   def nextStep(currentState: InprogressForces) = {
     OpenRegisterController.openRegisterStep
