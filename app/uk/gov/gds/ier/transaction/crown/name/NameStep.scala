@@ -9,14 +9,14 @@ import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{CrownStep, Routes}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.step.{CrownStepWithNewMustache, Routes}
 
 class NameStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService)
-  extends CrownStep
+  extends CrownStepWithNewMustache
   with NameForms
   with NameMustache {
 
@@ -29,10 +29,6 @@ class NameStep @Inject ()(
     editGet = NameController.editGet,
     editPost = NameController.editPost
   )
-
-  def template(form: ErrorTransformForm[InprogressCrown], call:Call, backUrl: Option[Call]): Html = {
-    nameMustache(form, call, backUrl.map(_.url))
-  }
 
   def nextStep(currentState: InprogressCrown) = {
     JobController.jobStep

@@ -21,6 +21,7 @@ class CountryStep @Inject ()(
     val config:Config,
     val encryptionService : EncryptionService)
   extends OrdinaryStep
+  with uk.gov.gds.ier.stubs.StubTemplate[InprogressOrdinary]
   with CountryConstraints
   with CountryForms
   with CountryMustache {
