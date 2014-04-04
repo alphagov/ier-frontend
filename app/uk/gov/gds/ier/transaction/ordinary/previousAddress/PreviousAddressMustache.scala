@@ -3,7 +3,8 @@ package uk.gov.gds.ier.transaction.ordinary.previousAddress
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.model.{InprogressOrdinary, PossibleAddress, MovedHouseOption}
+import uk.gov.gds.ier.model.{PossibleAddress, MovedHouseOption}
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 trait PreviousAddressMustache {
   self: WithSerialiser =>

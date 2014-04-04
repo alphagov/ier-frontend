@@ -14,7 +14,7 @@ import scala.Some
 import play.api.test.FakeApplication
 import play.api.mvc.Cookie
 import uk.gov.gds.ier.logging.Logging
-import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.step.InprogressApplication
 
 
 class SessionHandlingTests extends FlatSpec with Matchers {

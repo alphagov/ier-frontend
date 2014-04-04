@@ -8,9 +8,9 @@ import scala.Some
 import play.api.mvc.Call
 import uk.gov.gds.ier.model.DateOfBirth
 import play.api.mvc.Call
-import uk.gov.gds.ier.model.InprogressCrown
 import uk.gov.gds.ier.model.DOB
 import scala.Some
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 /**
  * Unit test to test form to Mustache model transformation.

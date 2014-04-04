@@ -2,8 +2,9 @@ package uk.gov.gds.ier.transaction.overseas.dateLeftUk
 
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{DateLeft, InprogressOverseas}
+import uk.gov.gds.ier.model.{DateLeft}
 import uk.gov.gds.ier.validation.constraints.overseas.DateLeftUkConstraints
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait DateLeftUkForms extends DateLeftUkConstraints {
   self: FormKeys

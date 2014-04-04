@@ -8,8 +8,8 @@ import controllers.step.crown.routes._
 import uk.gov.gds.ier.model.{
   PostalVoteDeliveryMethod,
   PostalOrProxyVote,
-  InprogressCrown,
   WaysToVoteType}
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 
 class CrownPostalOrProxyVoteMustacheTest

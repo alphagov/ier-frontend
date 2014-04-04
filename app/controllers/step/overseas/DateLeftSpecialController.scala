@@ -1,6 +1,6 @@
 package controllers.step.overseas
 
-import uk.gov.gds.ier.model.{InprogressOverseas, DateLeftSpecial}
+import uk.gov.gds.ier.model.{DateLeftSpecial}
 import uk.gov.gds.ier.guice.DelegatingController
 import uk.gov.gds.ier.transaction.overseas.dateLeftSpecial.{DateLeftArmyStep, DateLeftCrownStep, 
   DateLeftCouncilStep}

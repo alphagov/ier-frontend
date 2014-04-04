@@ -2,7 +2,8 @@ package uk.gov.gds.ier.transaction.crown.waysToVote
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
 import play.api.data.Forms._
-import uk.gov.gds.ier.model.{WaysToVoteType, WaysToVote, InprogressCrown}
+import uk.gov.gds.ier.model.{WaysToVoteType, WaysToVote}
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 trait WaysToVoteForms {
   self:  FormKeys

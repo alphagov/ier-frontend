@@ -1,10 +1,9 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation
 
-import uk.gov.gds.ier.model.{InprogressOverseas, ApplicationType}
+import uk.gov.gds.ier.model.{ApplicationType}
 import uk.gov.gds.ier.step.ConfirmationStepController
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.service.IerApiService
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.overseas.routes.ConfirmationController
@@ -13,6 +12,8 @@ import controllers.routes.CompleteController
 import com.google.inject.Inject
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.mustache.ErrorPageMustache
+import uk.gov.gds.ier.service.apiservice.IerApiService
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class ConfirmationStep @Inject() (val encryptionService: EncryptionService,
                                   val config: Config,

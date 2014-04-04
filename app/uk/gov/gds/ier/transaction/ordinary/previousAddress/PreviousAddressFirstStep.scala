@@ -4,7 +4,7 @@ import controllers.step.ordinary.routes._
 import controllers.step.ordinary.PreviousAddressPostcodeController._
 import controllers.step.ordinary.OpenRegisterController._
 import com.google.inject.Inject
-import uk.gov.gds.ier.model.{InprogressOrdinary, MovedHouseOption}
+import uk.gov.gds.ier.model.{MovedHouseOption}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
 import play.api.mvc.Call
@@ -14,6 +14,7 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.service.AddressService
 
 import uk.gov.gds.ier.step.{Routes, OrdinaryStep}
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 class PreviousAddressFirstStep @Inject ()(
     val serialiser: JsonSerialiser,

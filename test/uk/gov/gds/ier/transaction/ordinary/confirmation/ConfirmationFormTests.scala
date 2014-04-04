@@ -6,6 +6,7 @@ import play.api.libs.json.JsNull
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model._
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 class ConfirmationFormTests
   extends FlatSpec

@@ -1,9 +1,10 @@
 package uk.gov.gds.ier.transaction.overseas.name
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{InprogressOverseas, Name, PreviousName, OverseasName}
+import uk.gov.gds.ier.model.{Name, PreviousName, OverseasName}
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.OverseasNameConstraints
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait NameForms extends OverseasNameConstraints {
   self:  FormKeys

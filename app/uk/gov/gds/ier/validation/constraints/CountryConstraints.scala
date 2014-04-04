@@ -1,8 +1,9 @@
 package uk.gov.gds.ier.validation.constraints
 
 import play.api.data.validation.{Invalid, Valid, Constraint}
-import uk.gov.gds.ier.model.{InprogressOrdinary, Country, InprogressApplication}
+import uk.gov.gds.ier.model.{Country}
 import uk.gov.gds.ier.validation.FormKeys
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 trait CountryConstraints {
   self: FormKeys =>

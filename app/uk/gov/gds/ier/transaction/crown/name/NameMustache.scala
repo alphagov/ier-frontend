@@ -2,9 +2,9 @@ package uk.gov.gds.ier.transaction.crown.name
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.templates.Html
-import uk.gov.gds.ier.model.InprogressCrown
 import play.api.mvc.Call
 import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 trait NameMustache extends StepMustache {
 

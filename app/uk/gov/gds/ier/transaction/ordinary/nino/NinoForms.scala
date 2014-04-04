@@ -3,7 +3,8 @@ package uk.gov.gds.ier.transaction.ordinary.nino
 import uk.gov.gds.ier.validation._
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.NinoConstraints
-import uk.gov.gds.ier.model.{Nino, InprogressOrdinary}
+import uk.gov.gds.ier.model.{Nino}
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 trait NinoForms extends NinoConstraints {
   self:  FormKeys

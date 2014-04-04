@@ -2,8 +2,9 @@ package uk.gov.gds.ier.transaction.forces.address
 
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.model.{InprogressForces, PossibleAddress}
+import uk.gov.gds.ier.model.{PossibleAddress}
 import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 trait AddressMustache {
   self: WithSerialiser =>

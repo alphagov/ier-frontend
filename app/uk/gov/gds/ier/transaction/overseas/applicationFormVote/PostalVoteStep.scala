@@ -11,9 +11,10 @@ import uk.gov.gds.ier.step.OverseaStep
 import controllers.step.overseas.ContactController
 import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
-import uk.gov.gds.ier.model.{InprogressOverseas, WaysToVoteType}
+import uk.gov.gds.ier.model.{WaysToVoteType}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class PostalVoteStep @Inject ()(
     val serialiser: JsonSerialiser,

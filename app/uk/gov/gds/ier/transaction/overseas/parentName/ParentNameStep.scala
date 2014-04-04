@@ -9,10 +9,11 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.OverseaStep
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.validation._
-import uk.gov.gds.ier.model.{OverseasParentName, InprogressOverseas, PreviousName, OverseasName}
+import uk.gov.gds.ier.model.{OverseasParentName, PreviousName, OverseasName}
 import controllers.step.overseas.routes.ParentNameController
 import controllers.step.overseas.routes.DateLeftUkController
 import controllers.step.overseas.ParentsAddressController
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class ParentNameStep @Inject ()(
     val serialiser: JsonSerialiser,

@@ -6,6 +6,7 @@ import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.model.PostalVote
 import scala.Some
 import uk.gov.gds.ier.model.PostalVoteDeliveryMethod
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait PostalOrProxyVoteConstraints {
   self: ErrorMessages

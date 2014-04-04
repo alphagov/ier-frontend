@@ -12,10 +12,10 @@ import uk.gov.gds.ier.model.Addresses
 import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.PossibleAddress
-import uk.gov.gds.ier.model.InprogressForces
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.model.PartialPreviousAddress
 import uk.gov.gds.ier.model.MovedHouseOption
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class PreviousAddressSelectStep @Inject() (
     val serialiser: JsonSerialiser,

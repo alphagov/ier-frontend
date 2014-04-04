@@ -5,11 +5,11 @@ import uk.gov.gds.ier.model._
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.InprogressCrown
 import uk.gov.gds.ier.model.Name
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 import uk.gov.gds.ier.model.WaysToVote
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 class ConfirmationMustacheTest
   extends FlatSpec

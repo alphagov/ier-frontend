@@ -3,9 +3,10 @@ package uk.gov.gds.ier.transaction.crown.job
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.{Job, InprogressCrown}
+import uk.gov.gds.ier.model.{Job}
 import scala.Some
 import controllers.step.crown.routes._
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 class JobMustacheTest
   extends FlatSpec

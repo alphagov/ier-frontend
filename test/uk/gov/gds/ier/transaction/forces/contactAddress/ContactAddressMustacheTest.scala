@@ -5,7 +5,8 @@ import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
 import scala.Some
 import controllers.step.forces.routes.{OpenRegisterController, ContactAddressController}
-import uk.gov.gds.ier.model.{PartialAddress, PossibleContactAddresses, ContactAddress, InprogressForces}
+import uk.gov.gds.ier.model.{PartialAddress, PossibleContactAddresses, ContactAddress}
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class ContactAddressMustacheTest
   extends FlatSpec

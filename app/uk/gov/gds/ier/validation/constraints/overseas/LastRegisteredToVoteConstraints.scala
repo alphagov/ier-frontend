@@ -3,6 +3,7 @@ package uk.gov.gds.ier.validation.constraints.overseas
 import uk.gov.gds.ier.validation._
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import uk.gov.gds.ier.model._
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait LastRegisteredToVoteConstraints {
   self: ErrorMessages

@@ -2,8 +2,9 @@ package uk.gov.gds.ier.transaction.ordinary.address
 
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.model.{InprogressOrdinary, PossibleAddress}
+import uk.gov.gds.ier.model.{PossibleAddress}
 import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 trait AddressMustache {
   self: WithSerialiser =>

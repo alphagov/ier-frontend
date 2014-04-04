@@ -3,9 +3,9 @@ package uk.gov.gds.ier.transaction.crown.job
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
 import play.api.data.Forms._
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.model.InprogressCrown
 import scala.Some
 import play.api.data.validation.{Invalid, Valid, Constraint}
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 trait JobForms extends JobConstraints {
   self:  FormKeys

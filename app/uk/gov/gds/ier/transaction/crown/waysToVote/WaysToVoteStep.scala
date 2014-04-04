@@ -8,11 +8,12 @@ import uk.gov.gds.ier.step.CrownStep
 import controllers.step.crown.routes.{WaysToVoteController, OpenRegisterController}
 import controllers.step.crown.{ProxyVoteController, ContactController, PostalVoteController}
 import uk.gov.gds.ier.step.Routes
-import uk.gov.gds.ier.model.{WaysToVoteType, InprogressCrown}
+import uk.gov.gds.ier.model.{WaysToVoteType}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.model.WaysToVote
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 
 class WaysToVoteStep @Inject ()(

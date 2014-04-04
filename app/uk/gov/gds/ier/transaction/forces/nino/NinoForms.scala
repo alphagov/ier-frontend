@@ -3,8 +3,9 @@ package uk.gov.gds.ier.transaction.forces.nino
 import uk.gov.gds.ier.validation._
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.NinoConstraints
-import uk.gov.gds.ier.model.{Nino, InprogressForces}
+import uk.gov.gds.ier.model.{Nino}
 import play.api.data.validation.{Invalid, Valid, Constraint}
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 trait NinoForms extends NinoForcesConstraints {
   self:  FormKeys

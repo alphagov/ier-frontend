@@ -2,9 +2,10 @@ package uk.gov.gds.ier.transaction.forces.rank
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.templates.Html
-import uk.gov.gds.ier.model.{Statement, InprogressForces}
+import uk.gov.gds.ier.model.{Statement}
 import play.api.mvc.Call
 import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 trait RankMustache extends StepMustache {
 

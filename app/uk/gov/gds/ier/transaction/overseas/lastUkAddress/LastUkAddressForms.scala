@@ -10,11 +10,11 @@ import uk.gov.gds.ier.validation.{
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model.{
-  InprogressOverseas,
   PartialAddress,
   PartialManualAddress,
   PossibleAddress,
   Addresses}
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait LastUkAddressForms extends LastUkAddressConstraints {
   self: FormKeys

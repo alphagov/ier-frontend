@@ -3,7 +3,8 @@ package uk.gov.gds.ier.transaction.ordinary.confirmation
 import uk.gov.gds.ier.validation.{OrdinaryMappings, ErrorTransformForm}
 import play.api.data.Forms._
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.model.{PartialPreviousAddress, InprogressOrdinary}
+import uk.gov.gds.ier.model.{PartialPreviousAddress}
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 trait ConfirmationForms extends OrdinaryMappings {
   self: WithSerialiser =>

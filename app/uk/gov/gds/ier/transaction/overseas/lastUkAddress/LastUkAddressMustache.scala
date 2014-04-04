@@ -2,8 +2,9 @@ package uk.gov.gds.ier.transaction.overseas.lastUkAddress
 
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.model.{InprogressOverseas, PossibleAddress}
+import uk.gov.gds.ier.model.{PossibleAddress}
 import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait LastUkAddressMustache {
   self: WithSerialiser =>

@@ -1,12 +1,12 @@
 package uk.gov.gds.ier.transaction.overseas.address
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.model.InprogressOverseas
 import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.model.CountryWithCode
 import uk.gov.gds.ier.validation.constants.NationalityConstants
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait AddressMustache extends StepMustache {
 

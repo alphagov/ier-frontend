@@ -24,6 +24,7 @@ import uk.gov.gds.ier.transaction.overseas.address.AddressForms
 import uk.gov.gds.ier.transaction.overseas.waysToVote.WaysToVoteForms
 import uk.gov.gds.ier.transaction.overseas.applicationFormVote.PostalOrProxyVoteForms
 import uk.gov.gds.ier.transaction.overseas.parentsAddress.ParentsAddressForms
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait ConfirmationForms
   extends FormKeys

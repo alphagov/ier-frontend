@@ -8,6 +8,8 @@ import org.joda.time.DateMidnight
 import uk.gov.gds.ier.model.DateOfBirth
 import uk.gov.gds.ier.model.DOB
 import scala.Some
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait DateOfBirthConstraints extends CommonConstraints{
   self: ErrorMessages

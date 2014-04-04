@@ -1,10 +1,10 @@
 package uk.gov.gds.ier.transaction.ordinary.nationality
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.model.InprogressOrdinary
 import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 
 trait NationalityMustache extends StepMustache {

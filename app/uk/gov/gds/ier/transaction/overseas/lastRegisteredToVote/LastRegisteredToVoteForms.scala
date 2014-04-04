@@ -4,6 +4,7 @@ import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages, ErrorTransformForm}
 import uk.gov.gds.ier.validation.constraints.overseas.LastRegisteredToVoteConstraints
 import play.api.data.Forms._
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait LastRegisteredToVoteForms extends LastRegisteredToVoteConstraints {
   self: FormKeys 

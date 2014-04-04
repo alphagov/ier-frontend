@@ -5,7 +5,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.{PreviousName, Name, InprogressOrdinary}
+import uk.gov.gds.ier.model.{PreviousName, Name}
 import akka.util.Timeout
 import java.util.concurrent.TimeUnit
 import uk.gov.gds.ier.model.DOB

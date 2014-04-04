@@ -6,10 +6,10 @@ import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.ContactConstraints
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import uk.gov.gds.ier.validation.Key
-import uk.gov.gds.ier.model.InprogressCrown
 import uk.gov.gds.ier.model.ContactDetail
 import scala.Some
 import uk.gov.gds.ier.model.Contact
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 trait ContactForms extends ContactCrownConstraints {
   self:  FormKeys

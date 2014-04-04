@@ -1,9 +1,10 @@
 package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.model.{InprogressOrdinary, MovedHouseOption}
+import uk.gov.gds.ier.model.{MovedHouseOption}
 import uk.gov.gds.ier.mustache.StepMustache
 import play.api.templates.Html
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 
 trait PreviousAddressFirstMustache extends StepMustache {

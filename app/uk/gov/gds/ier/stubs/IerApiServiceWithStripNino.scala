@@ -1,13 +1,15 @@
 package uk.gov.gds.ier.stubs
 
 import com.google.inject.Inject
-import uk.gov.gds.ier.service.{ConcreteIerApiService, IerApiService}
 import uk.gov.gds.ier.model._
 import scala.util.Random
-import uk.gov.gds.ier.model.InprogressOverseas
-import uk.gov.gds.ier.model.InprogressOrdinary
 import scala.Some
 import uk.gov.gds.ier.model.Nino
+import uk.gov.gds.ier.service.apiservice.{ConcreteIerApiService, IerApiService}
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class IerApiServiceWithStripNino @Inject() (ierService: ConcreteIerApiService) extends IerApiService {
 

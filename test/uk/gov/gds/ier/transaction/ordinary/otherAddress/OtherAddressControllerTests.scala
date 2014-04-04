@@ -7,7 +7,7 @@ import org.scalatest.junit.JUnitRunner
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.{OtherAddress, InprogressOrdinary}
+import uk.gov.gds.ier.model.{OtherAddress}
 
 class OtherAddressControllerTests
   extends FlatSpec

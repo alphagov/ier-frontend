@@ -4,10 +4,10 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.mvc._
 import controllers.routes
 import org.joda.time.DateTime
-import uk.gov.gds.ier.model.InprogressApplication
 import uk.gov.gds.ier.logging.Logging
 import scala.Some
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
+import uk.gov.gds.ier.step.InprogressApplication
 
 abstract class SessionHandling[T <: InprogressApplication[T]]
   extends ResultStoring

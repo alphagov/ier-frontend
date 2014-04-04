@@ -19,6 +19,7 @@ import uk.gov.gds.ier.transaction.forces.waysToVote.WaysToVoteForms
 import uk.gov.gds.ier.transaction.forces.applicationFormVote.PostalOrProxyVoteForms
 import uk.gov.gds.ier.transaction.forces.contact.ContactForms
 import uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressForms
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 trait ConfirmationForms
   extends FormKeys

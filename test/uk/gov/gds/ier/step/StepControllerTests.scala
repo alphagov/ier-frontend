@@ -13,7 +13,6 @@ import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.security._
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import scala.Some
-import uk.gov.gds.ier.model.InprogressOrdinary
 import play.api.mvc.Results.Redirect
 import play.api.mvc.Call
 import uk.gov.gds.ier.model.Name
@@ -21,6 +20,7 @@ import uk.gov.gds.ier.model.PossibleAddress
 import play.api.test.FakeApplication
 import uk.gov.gds.ier.controller.MockConfig
 import uk.gov.gds.ier.config.Config
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 
 class StepControllerTests

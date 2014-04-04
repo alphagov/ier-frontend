@@ -13,10 +13,10 @@ import uk.gov.gds.ier.model.ContactDetail
 import scala.Some
 import uk.gov.gds.ier.model.Contact
 import uk.gov.gds.ier.validation.Key
-import uk.gov.gds.ier.model.InprogressOrdinary
 import uk.gov.gds.ier.model.ContactDetail
 import scala.Some
 import uk.gov.gds.ier.model.Contact
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 trait ContactForms extends ContactConstraints {
   self:  FormKeys

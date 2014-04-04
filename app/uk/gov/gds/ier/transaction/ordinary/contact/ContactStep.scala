@@ -12,9 +12,9 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.OrdinaryStep
 import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
-import uk.gov.gds.ier.model.InprogressOrdinary
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 class ContactStep @Inject ()(val serialiser: JsonSerialiser,
                              val config: Config,

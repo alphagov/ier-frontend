@@ -2,9 +2,10 @@ package uk.gov.gds.ier.form
 
 import org.joda.time.{LocalDate, YearMonth, Years}
 import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, Key}
-import uk.gov.gds.ier.model.{DateLeft, InprogressOverseas, ApplicationType, LastRegisteredType}
+import uk.gov.gds.ier.model.{DateLeft, ApplicationType, LastRegisteredType}
 import scala.util.Try
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait OverseasFormImplicits {
   self: FormKeys =>

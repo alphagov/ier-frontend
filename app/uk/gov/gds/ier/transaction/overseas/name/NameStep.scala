@@ -10,9 +10,9 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.OverseaStep
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.validation._
-import uk.gov.gds.ier.model.InprogressOverseas
 import controllers.step.overseas.routes.NameController
 import controllers.step.overseas.routes.LastUkAddressController
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class NameStep @Inject ()(
     val serialiser: JsonSerialiser,

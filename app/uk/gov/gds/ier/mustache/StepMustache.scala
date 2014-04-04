@@ -3,7 +3,7 @@ import play.api.templates.Html
 import views.html.layouts.{stepsBodyEnd, head}
 import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys}
 import uk.gov.gds.ier.validation.{FormKeys, Key, ErrorTransformForm}
-import uk.gov.gds.ier.model.InprogressApplication
+import uk.gov.gds.ier.step.InprogressApplication
 
 trait StepMustache extends FormKeys {
 

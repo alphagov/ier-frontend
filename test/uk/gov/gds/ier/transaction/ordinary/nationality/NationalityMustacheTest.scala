@@ -6,7 +6,8 @@ import uk.gov.gds.ier.test.TestHelpers
 import scala.Some
 import controllers.step.ordinary.routes._
 import controllers.step.routes._
-import uk.gov.gds.ier.model.{PartialNationality, InprogressOrdinary}
+import uk.gov.gds.ier.model.{PartialNationality}
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 class NationalityMustacheTest
   extends FlatSpec

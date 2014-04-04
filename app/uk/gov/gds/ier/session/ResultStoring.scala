@@ -1,10 +1,10 @@
 package uk.gov.gds.ier.session
 
 import play.api.mvc.Result
-import uk.gov.gds.ier.model.InprogressApplication
 import org.joda.time.DateTime
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.serialiser.WithSerialiser
+import uk.gov.gds.ier.step.InprogressApplication
 
 trait ResultStoring extends ResultHandling {
   self: WithConfig

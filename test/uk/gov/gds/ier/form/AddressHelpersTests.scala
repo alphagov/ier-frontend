@@ -3,11 +3,13 @@ package uk.gov.gds.ier.form
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.{InprogressOrdinary, PartialManualAddress, PartialAddress, InprogressForces}
+import uk.gov.gds.ier.model.{PartialManualAddress, PartialAddress}
 import uk.gov.gds.ier.transaction.forces.confirmation.ConfirmationForms
 import play.api.data.Form
 import uk.gov.gds.ier.transaction.ordinary.address.AddressForms
 import uk.gov.gds.ier.serialiser.WithSerialiser
+import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 /**
  * Test AddressHelpers utility class against multiple forms

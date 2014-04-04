@@ -3,9 +3,9 @@ package uk.gov.gds.ier.transaction.forces.service
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
 import play.api.data.Forms._
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.model.InprogressForces
 import scala.Some
 import play.api.data.validation.{Invalid, Valid, Constraint}
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 trait ServiceForms extends ServiceConstraints {
   self:  FormKeys

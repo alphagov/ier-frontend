@@ -4,8 +4,8 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
 import scala.Some
-import uk.gov.gds.ier.model.InprogressForces
 import controllers.step.forces.routes._
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class OpenRegisterMustacheTests
   extends FlatSpec

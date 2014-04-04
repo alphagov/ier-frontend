@@ -6,6 +6,7 @@ import uk.gov.gds.ier.model._
 import scala.Some
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import org.joda.time.{YearMonth, DateTime}
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait DateLeftUkConstraints extends CommonConstraints{
   self: ErrorMessages

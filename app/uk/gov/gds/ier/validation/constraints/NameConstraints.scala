@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.validation.constraints
 
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages, Key}
-import uk.gov.gds.ier.model.{Name, PreviousName, InprogressApplication}
+import uk.gov.gds.ier.model.{Name, PreviousName}
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import play.api.data.Mapping
 import play.api.data.Forms._

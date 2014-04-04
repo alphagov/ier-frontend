@@ -5,9 +5,9 @@ import uk.gov.gds.ier.transaction.overseas.name.{NameMustache, NameForms}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.model.InprogressOverseas
 import scala.Some
 import uk.gov.gds.ier.model.WaysToVote
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 /**
  * Unit test to test form to Mustache model transformation.

@@ -4,9 +4,9 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.model.Name
-import uk.gov.gds.ier.model.InprogressOrdinary
 import uk.gov.gds.ier.model.PreviousName
 import scala.Some
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 /**
  * Unit test to test form to Mustache model transformation.

@@ -1,12 +1,12 @@
 package uk.gov.gds.ier.validation.constraints
 
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages, Key}
-import uk.gov.gds.ier.model.{Name, PreviousName, InprogressOverseas}
+import uk.gov.gds.ier.model.{Name, PreviousName}
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import play.api.data.Mapping
 import play.api.data.Forms._
-import uk.gov.gds.ier.model.InprogressOverseas
 import play.api.Logger
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait ParentNameConstraints extends CommonConstraints {
   self:  FormKeys

@@ -8,10 +8,11 @@ import uk.gov.gds.ier.step.OverseaStep
 import controllers.step.overseas.routes.{WaysToVoteController,OpenRegisterController}
 import controllers.step.overseas.{ProxyVoteController, ContactController, PostalVoteController}
 import uk.gov.gds.ier.step.Routes
-import uk.gov.gds.ier.model.{PostalOrProxyVote, WaysToVote, WaysToVoteType, InprogressOverseas}
+import uk.gov.gds.ier.model.{PostalOrProxyVote, WaysToVote, WaysToVoteType}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.mvc.Call
 import play.api.templates.Html
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 
 class WaysToVoteStep @Inject ()(

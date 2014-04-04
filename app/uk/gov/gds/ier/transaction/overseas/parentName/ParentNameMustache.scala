@@ -2,9 +2,9 @@ package uk.gov.gds.ier.transaction.overseas.parentName
 
 import play.api.mvc.Call
 import play.api.templates.Html
-import uk.gov.gds.ier.model.InprogressOverseas
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait ParentNameMustache extends StepMustache {
 
