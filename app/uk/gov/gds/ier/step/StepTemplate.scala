@@ -6,6 +6,7 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 trait StepTemplate[T] extends MustacheModel with MustacheTemplateFactories[T] {
 
   type Call = play.api.mvc.Call
+  val Call = play.api.mvc.Call
   type Html = play.api.templates.Html
   type MustacheTemplate[T] = uk.gov.gds.ier.mustache.MustacheTemplate[T]
   type MustacheRenderer[T] = uk.gov.gds.ier.mustache.MustacheRenderer[T]

@@ -22,14 +22,16 @@ class AddressFirstMustacheTest
     with WithSerialiser =>
 
   val serialiser = jsonSerialiser
-  val addressFirstMustache = new AddressFirstMustache {}
-
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = addressFirstForm
 
-    val addressFirstModel = addressFirstMustache.transformFormStepToMustacheData(
-      emptyApplicationForm, "url-string-1", Some("url-string-2"))
+    val addressFirstModel = mustache.data(
+      emptyApplicationForm,
+      Call("GET","url-string-1"),
+      Some(Call("POST","url-string-2")),
+      InprogressCrown()
+    ).asInstanceOf[AddressFirstModel]
 
     addressFirstModel.question.title should be("Do you have a UK address?")
     addressFirstModel.question.postUrl should be("url-string-1")
@@ -49,8 +51,12 @@ class AddressFirstMustacheTest
       ))
     ))
 
-    val addressFirstModel = addressFirstMustache.transformFormStepToMustacheData(
-      partiallyFilledApplicationForm, "url-string-1", Some("url-string-2"))
+    val addressFirstModel = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("GET","url-string-1"),
+      Some(Call("POST","url-string-2")),
+      InprogressCrown()
+    ).asInstanceOf[AddressFirstModel]
 
     addressFirstModel.question.title should be("Do you have a UK address?")
     addressFirstModel.question.postUrl should be("url-string-1")
