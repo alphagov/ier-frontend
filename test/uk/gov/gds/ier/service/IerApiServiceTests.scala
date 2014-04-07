@@ -34,7 +34,7 @@ class IerApiServiceTests
       "source" : "web",
       "gssCode" : "ab12346"
     }
-  """)
+  """, 0)
 
   it should "contain the application type field" in {
     class FakeApiClient extends IerApiClient(new MockConfig) {
@@ -43,7 +43,7 @@ class IerApiServiceTests
           content should include("applicationType\":\"ordinary\"")
           successMessage
         } else {
-          Fail("Bad Url")
+          Fail("Bad Url",0)
         }
       }
     }
@@ -75,7 +75,7 @@ class IerApiServiceTests
           content should not include("mail")
           successMessage
         } else {
-          Fail("Bad Url")
+          Fail("Bad Url",0)
         }
       }
     }
@@ -100,7 +100,7 @@ class IerApiServiceTests
           content should not include("phone")
           successMessage
         } else {
-          Fail("Bad Url")
+          Fail("Bad Url",0)
         }
       }
     }
@@ -125,7 +125,7 @@ class IerApiServiceTests
           content should include("mail")
           successMessage
         } else {
-          Fail("Bad Url")
+          Fail("Bad Url",0)
         }
       }
     }
@@ -150,7 +150,7 @@ class IerApiServiceTests
           content should include("phone")
           successMessage
         } else {
-          Fail("Bad Url")
+          Fail("Bad Url",0)
         }
       }
     }
@@ -180,7 +180,7 @@ class IerApiServiceTests
           content should not include("France")
           successMessage
         } else {
-          Fail("Bad Url")
+          Fail("Bad Url",0)
         }
       }
     }

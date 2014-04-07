@@ -1,8 +1,7 @@
 package uk.gov.gds.ier.service.apiservice
 
 import com.google.inject.Inject
-import uk.gov.gds.ier.client.IerApiClient
-import uk.gov.gds.ier.model._
+import uk.gov.gds.ier.client.{StatsdClient, IerApiClient}
 
 import uk.gov.gds.ier.model.Fail
 import uk.gov.gds.ier.model.Success
@@ -231,12 +230,17 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
   }
 
   private def sendApplication(application: ApiApplication) = {
+    val applicationType = application.application.get("applicationType").getOrElse("")
     apiClient.post(config.ierApiUrl,
                    serialiser.toJson(application),
                    ("Authorization", "BEARER " + config.ierApiToken)) match {
-      case Success(body) => serialiser.fromJson[IerApiApplicationResponse](body)
-      case Fail(error) => {
+      case Success(body,timeTakenMs) => {
+        StatsdClient.timing("submission." + applicationType + ".OK", timeTakenMs)
+        serialiser.fromJson[IerApiApplicationResponse](body)
+      }
+      case Fail(error,timeTakenMs) => {
         logger.error("Submitting application to api failed: " + error)
+        StatsdClient.timing("submission." + applicationType + ".Error", timeTakenMs)
         throw new ApiException(error)
       }
     }

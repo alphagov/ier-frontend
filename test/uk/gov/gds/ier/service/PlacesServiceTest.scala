@@ -1,10 +1,9 @@
 package uk.gov.gds.ier.service
 
-import uk.gov.gds.ier.client.{PlacesApiClient, ApiClient}
-import uk.gov.gds.ier.model.{Fail, Success, ApiResponse, Address}
+import uk.gov.gds.ier.client.PlacesApiClient
+import uk.gov.gds.ier.model.{Fail, Success, ApiResponse}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.guice.WithConfig
 import org.scalatest.{Matchers, FlatSpec}
 
 class PlacesServiceTest extends FlatSpec with Matchers {
@@ -30,9 +29,9 @@ class PlacesServiceTest extends FlatSpec with Matchers {
               "uprn": 12345678,
               "postcode": "AB12 3CD"
             }
-          ]""")
+          ]""", 0)
         } else {
-          Fail("Bad postcode")
+          Fail("Bad postcode", 0)
         }
       }
     }
@@ -54,8 +53,8 @@ class PlacesServiceTest extends FlatSpec with Matchers {
     class FakeApiClient extends PlacesApiClient(new MockConfig) {
       override def get(url: String) : ApiResponse = {
         if (url.contains("status")) {
-          Success("""{ "status" : "up" }""")
-        } else Fail("I'm not really places")
+          Success("""{ "status" : "up" }""", 0)
+        } else Fail("I'm not really places", 0)
       }
     }
     val service = new PlacesService(new FakeApiClient, new JsonSerialiser, new MockConfig)
@@ -65,8 +64,8 @@ class PlacesServiceTest extends FlatSpec with Matchers {
     class FakeApiClient extends PlacesApiClient(new MockConfig) {
       override def get(url: String) : ApiResponse = {
         if (url.contains("status")) {
-          Success("""{ "status" : "down" }""")
-        } else Fail("I'm not really places")
+          Success("""{ "status" : "down" }""", 0)
+        } else Fail("I'm not really places", 0)
       }
     }
     val service = new PlacesService(new FakeApiClient, new JsonSerialiser, new MockConfig)
@@ -75,7 +74,7 @@ class PlacesServiceTest extends FlatSpec with Matchers {
   it should "return true if places doesn't respond" in {
     class FakeApiClient extends PlacesApiClient(new MockConfig) {
       override def get(url: String) : ApiResponse = {
-        Fail("I'm not really places")
+        Fail("I'm not really places", 0)
       }
     }
     val service = new PlacesService(new FakeApiClient, new JsonSerialiser, new MockConfig)
