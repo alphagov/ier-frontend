@@ -192,9 +192,9 @@
   DuplicateField.prototype.makeField = function (fieldNum, fieldValue) {
     var _this = this,
         $container = this.$label.parent(),
-        fragment = '<label for="{% id %}" class="{% labelClass %}">{% labelText %}</label>' +
-                    '<a href="#" class="remove-field">Remove<span class="visuallyhidden"> {% labelText %}</span></a>' +
-                    '<input type="text" id="{% id %}" name="{% name %}" class="text country-autocomplete long" value="{% value %}" Autocomplete="off" />',
+        fragment = '<label for="{{ id }}" class="{{ labelClass }}">{{ labelText }}</label>' +
+                    '<a href="#" class="remove-field">Remove<span class="visuallyhidden"> {{ labelText }}</span></a>' +
+                    '<input type="text" id="{{ id }}" name="{{ name }}" class="text country-autocomplete long" value="{{ value }}" Autocomplete="off" />',
         wrapperDiv = document.createElement('div'),
         options = {
           'id' : this.getFieldId(fieldNum),
@@ -204,13 +204,8 @@
           'value' : (fieldValue !== undefined) ? fieldValue : ""
         };
 
-    fragment = fragment.replace(/{%\s([a-zA-Z]+)\s%}/g, function () {
-      var attribute = arguments[1];
-      return options[attribute];
-    });
-
     wrapperDiv.className = this.copyClass;
-    return $(wrapperDiv).html(fragment);
+    return $(wrapperDiv).html(Mustache.render(fragment, options));
   };
   DuplicateField.prototype.getFieldId = function (idx) {
     return this.idPattern.replace(/\[\d+\]/, '[' + idx + ']');
