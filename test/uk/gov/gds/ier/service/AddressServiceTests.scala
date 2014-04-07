@@ -15,7 +15,7 @@ class AddressServiceTests extends FlatSpec
   behavior of "AddressService.formFullAddress"
 
   it should "perform a lookup against places when a uprn is provided" in {
-    val mockPlaces = mock[PlacesService]
+    val mockPlaces = mock[LocateService]
     val service = new AddressService(mockPlaces)
     val partial = PartialAddress(
       addressLine = None,
@@ -29,7 +29,7 @@ class AddressServiceTests extends FlatSpec
   }
 
   it should "pick the correct address out of the returned list" in {
-    val mockPlaces = mock[PlacesService]
+    val mockPlaces = mock[LocateService]
     val service = new AddressService(mockPlaces)
     val partial = PartialAddress(
       addressLine = None,
@@ -53,7 +53,7 @@ class AddressServiceTests extends FlatSpec
   }
 
   it should "provide a manual address formed when no uprn provided" in {
-    val mockPlaces = mock[PlacesService]
+    val mockPlaces = mock[LocateService]
     val service = new AddressService(mockPlaces)
     val partial = PartialAddress(
       addressLine = None,
@@ -78,7 +78,7 @@ class AddressServiceTests extends FlatSpec
   }
 
   it should "return none if no partial provided" in {
-    val mockPlaces = mock[PlacesService]
+    val mockPlaces = mock[LocateService]
     val service = new AddressService(mockPlaces)
 
     service.formFullAddress(None) should be(None)
@@ -88,7 +88,7 @@ class AddressServiceTests extends FlatSpec
   behavior of "AddressService.formAddressLine"
 
   it should "combine the 3 lines correctly" in {
-    val mockPlaces = mock[PlacesService]
+    val mockPlaces = mock[LocateService]
     val service = new AddressService(mockPlaces)
 
     val address = Address(
@@ -106,7 +106,7 @@ class AddressServiceTests extends FlatSpec
   }
 
   it should "filter out Nones" in {
-    val mockPlaces = mock[PlacesService]
+    val mockPlaces = mock[LocateService]
     val service = new AddressService(mockPlaces)
 
     val address = Address(
@@ -125,7 +125,7 @@ class AddressServiceTests extends FlatSpec
 
 
   it should "filter out empty strings" in {
-    val mockPlaces = mock[PlacesService]
+    val mockPlaces = mock[LocateService]
     val service = new AddressService(mockPlaces)
 
     val address = Address(

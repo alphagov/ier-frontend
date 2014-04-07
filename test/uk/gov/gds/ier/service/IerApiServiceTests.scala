@@ -48,7 +48,8 @@ class IerApiServiceTests
       }
     }
     val mockPlaces = mock[PlacesService]
-    val addressService = new AddressService(mockPlaces)
+    val mockLocateService = mock[LocateService]
+    val addressService = new AddressService(mockLocateService)
     val mockSha = mock[ShaHashProvider]
     val isoService = new IsoCountryService
 
@@ -80,7 +81,8 @@ class IerApiServiceTests
       }
     }
     val mockPlaces = mock[PlacesService]
-    val addressService = new AddressService(mockPlaces)
+    val mockLocateService = mock[LocateService]
+    val addressService = new AddressService(mockLocateService)
     val mockSha = mock[ShaHashProvider]
     val isoService = new IsoCountryService
 
@@ -105,7 +107,8 @@ class IerApiServiceTests
       }
     }
     val mockPlaces = mock[PlacesService]
-    val addressService = new AddressService(mockPlaces)
+    val mockLocateService = mock[LocateService]
+    val addressService = new AddressService(mockLocateService)
     val mockSha = mock[ShaHashProvider]
     val isoService = new IsoCountryService
 
@@ -130,7 +133,8 @@ class IerApiServiceTests
       }
     }
     val mockPlaces = mock[PlacesService]
-    val addressService = new AddressService(mockPlaces)
+    val mockLocateService = mock[LocateService]
+    val addressService = new AddressService(mockLocateService)
     val mockSha = mock[ShaHashProvider]
     val isoService = new IsoCountryService
 
@@ -155,7 +159,8 @@ class IerApiServiceTests
       }
     }
     val mockPlaces = mock[PlacesService]
-    val addressService = new AddressService(mockPlaces)
+    val mockLocateService = mock[LocateService]
+    val addressService = new AddressService(mockLocateService)
     val mockSha = mock[ShaHashProvider]
     val isoService = new IsoCountryService
 
@@ -185,7 +190,8 @@ class IerApiServiceTests
       }
     }
     val mockPlaces = mock[PlacesService]
-    val addressService = new AddressService(mockPlaces)
+    val mockLocateService = mock[LocateService]
+    val addressService = new AddressService(mockLocateService)
     val mockSha = mock[ShaHashProvider]
     val isoService = new IsoCountryService
 
