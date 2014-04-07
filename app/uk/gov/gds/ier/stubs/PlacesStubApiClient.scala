@@ -13,9 +13,9 @@ class PlacesStubApiClient @Inject() (
     config: Config,
     serialiser: JsonSerialiser) extends PlacesApiClient(config) {
 
-  override def get(url: String) : (ApiResponse, Long) = {
+  override def get(url: String): ApiResponse = {
     if (url.startsWith(config.placesUrl + "/address?postcode=")) {
-      (Success("""[
+      Success("""[
             {
               "uprn": 10000001,
               "lineOne": "GDS",
@@ -27,13 +27,13 @@ class PlacesStubApiClient @Inject() (
               "county": "Greater London",
               "postcode": "WC2B 6SE"
             }
-          ]"""), 0)
+          ]""", 0)
     }
     else if (url.startsWith(config.placesUrl + "/authority?postcode=")) {
-      (Success("{\"name\":\"Camden Borough Council\",\"ero\":{\"telephoneNumber\":\"\"},\"opcsId\":\"00AG\",\"gssId\":\"E09000007\"}"), 0)
+      Success("{\"name\":\"Camden Borough Council\",\"ero\":{\"telephoneNumber\":\"\"},\"opcsId\":\"00AG\",\"gssId\":\"E09000007\"}", 0)
     }
     else {
-      (Fail("Bad postcode"), 0)
+      Fail("Bad postcode", 0)
     }
   }
 }

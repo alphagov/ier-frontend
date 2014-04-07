@@ -10,7 +10,7 @@ class JsonSerialiserTests extends Specification {
     "be able to serialise a simple class" in {
       val jsonSerialiser = new JsonSerialiser()
 
-      val jsonString = JsonSerializer.toJson(Success("bar"))
+      val jsonString = JsonSerializer.toJson(Success("bar",0))
       jsonString must contain("bar")
 
       val mightbeFoo = JsonSerializer.fromJson[Success](jsonString)

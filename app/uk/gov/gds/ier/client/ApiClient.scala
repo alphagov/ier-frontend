@@ -12,10 +12,9 @@ import uk.gov.gds.ier.logging.Logging
 trait ApiClient extends Logging {
   self:WithConfig =>
 
-  def get(url: String) : (ApiResponse, Long) = {
+  def get(url: String) : ApiResponse = {
 
     val start = new DateTime()
-
     try {
         val result = Await.result(
           WS.url(url).get(),
@@ -25,13 +24,13 @@ trait ApiClient extends Logging {
           case Status.OK => {
             val timeTakenMs = DateTime.now.minus(start.getMillis).getMillis
             logger.info(s"apiClient.get url:$url result:200 timeTakenMs:$timeTakenMs")
-            (Success(result.body), timeTakenMs)
+            Success(result.body, timeTakenMs)
           }
           case status => {
             val timeTakenMs = DateTime.now.minus(start.getMillis).getMillis
             logger.info(
               s"apiClient.get url:$url result:$status timeTakenMs:$timeTakenMs reason:${result.body}")
-            (Fail(result.body), timeTakenMs)
+            Fail(result.body, timeTakenMs)
           }
         }
     } catch {
@@ -39,7 +38,7 @@ trait ApiClient extends Logging {
         val timeTakenMs = DateTime.now.minus(start.getMillis).getMillis
         logger.error(
           s"apiClient.get url:$url timeTakenMs:$timeTakenMs exception:${e.getStackTraceString}")
-        (Fail(e.getMessage), timeTakenMs)
+        Fail(e.getMessage, timeTakenMs)
       }
     }
   }
@@ -47,10 +46,9 @@ trait ApiClient extends Logging {
   def post(
       url:String,
       content:String,
-      headers: (String, String)*) : (ApiResponse, Long) = {
+      headers: (String, String)*) : ApiResponse = {
 
     val start = new DateTime()
-
     try {
       val result = Await.result(
         WS.url(url)
@@ -63,17 +61,17 @@ trait ApiClient extends Logging {
         case Status.OK => {
           val timeTakenMs = DateTime.now.minus(start.getMillis).getMillis
           logger.info(s"apiClient.post url:$url result:200 timeTakenMs:$timeTakenMs")
-          (Success(result.body), timeTakenMs)
+          Success(result.body, timeTakenMs)
         }
         case Status.NO_CONTENT => {
           val timeTakenMs = DateTime.now.minus(start.getMillis).getMillis
           logger.info(s"apiClient.post url:$url result:204 timeTakenMs:$timeTakenMs")
-          (Success(""), timeTakenMs)
+          Success("", timeTakenMs)
         }
         case status => {
           val timeTakenMs = DateTime.now.minus(start.getMillis).getMillis
           logger.info(s"apiClient.post url:$url result:$status timeTakenMs:$timeTakenMs")
-          (Fail(result.body), timeTakenMs)
+          Fail(result.body, timeTakenMs)
         }
       }
     } catch {
@@ -81,7 +79,7 @@ trait ApiClient extends Logging {
         val timeTakenMs = DateTime.now.minus(start.getMillis).getMillis
         logger.error(
           s"apiClient.post url:$url timeTakenMs:$timeTakenMs exception:${e.getStackTraceString}")
-        (Fail(e.getMessage), timeTakenMs)
+        Fail(e.getMessage, timeTakenMs)
       }
     }
   }

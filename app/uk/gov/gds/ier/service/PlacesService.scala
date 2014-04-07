@@ -22,7 +22,7 @@ class PlacesService @Inject() (apiClient: PlacesApiClient, serialiser: JsonSeria
   def lookupAddress(postcode: String) : List[Address] = {
     val result = apiClient.get((config.placesUrl + "/address?postcode=%s").format(postcode.replaceAllLiterally(" ","").toLowerCase))
     result match {
-      case (Success(body), _) => {
+      case Success(body, _) => {
         serialiser.fromJson[List[GovUkAddress]](body).map(pa => {
           Address(
             Option(pa.lineOne),
@@ -34,27 +34,27 @@ class PlacesService @Inject() (apiClient: PlacesApiClient, serialiser: JsonSeria
             pa.postcode)
         })
       }
-      case (Fail(error),_) => throw new PostcodeLookupFailedException(error)
+      case Fail(error,_) => throw new PostcodeLookupFailedException(error)
     }
   }
 
   def lookupAuthority(postcode:String) : Option[LocalAuthority] = {
     val result = apiClient.get((config.placesUrl + "/authority?postcode=%s").format(postcode.replaceAllLiterally(" ","").toLowerCase))
     result match {
-      case (Success(body),_) => Some(serialiser.fromJson[LocalAuthority](body))
-      case (Fail(error),_) => None
+      case Success(body,_) => Some(serialiser.fromJson[LocalAuthority](body))
+      case Fail(error,_) => None
     }
   }
 
   def beaconFire:Boolean = {
     apiClient.get(config.placesUrl + "/status") match {
-      case (Success(body),_) => {
+      case Success(body,_) => {
         serialiser.fromJson[Map[String,String]](body).get("status") match {
           case Some("up") => true
           case _ => false
         }
       }
-      case (Fail(error),_) => {
+      case Fail(error,_) => {
         false
       }
     }

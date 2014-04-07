@@ -234,11 +234,11 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
     apiClient.post(config.ierApiUrl,
                    serialiser.toJson(application),
                    ("Authorization", "BEARER " + config.ierApiToken)) match {
-      case (Success(body),timeTakenMs) => {
+      case Success(body,timeTakenMs) => {
         StatsdClient.timing("submission." + applicationType + ".OK", timeTakenMs)
         serialiser.fromJson[IerApiApplicationResponse](body)
       }
-      case (Fail(error),timeTakenMs) => {
+      case Fail(error,timeTakenMs) => {
         logger.error("Submitting application to api failed: " + error)
         StatsdClient.timing("submission." + applicationType + ".Error", timeTakenMs)
         throw new ApiException(error)

@@ -14,11 +14,11 @@ class IerStubApiClient @Inject() (
     config: Config,
     serialiser: JsonSerialiser) extends IerApiClient(config) {
 
-  override def post(url:String, content:String,headers: (String, String)*): (ApiResponse, Long) = {
+  override def post(url:String, content:String,headers: (String, String)*): ApiResponse = {
     if (url.contains("/citizen/application")) {
-      (Success(serialiser.toJson(
+      Success(serialiser.toJson(
         IerApiApplicationResponse(UUID.randomUUID().toString,
-        DateTime.now().toString, "success", "web", "fake-gsscode"))),0)
+        DateTime.now().toString, "success", "web", "fake-gsscode")),0)
     } else {
       super.get(url)
     }
