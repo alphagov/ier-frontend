@@ -3,7 +3,6 @@ package uk.gov.gds.ier.transaction.crown.openRegister
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
-import scala.Some
 import controllers.step.crown.routes._
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
@@ -13,16 +12,17 @@ class OpenRegisterMustacheTests
   with OpenRegisterForms
   with ErrorMessages
   with FormKeys
-  with TestHelpers {
-
-  val openRegisterMustache = new OpenRegisterMustache {}
+  with TestHelpers 
+  with OpenRegisterMustache {
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = openRegisterForm
-    val openRegisterModel = openRegisterMustache.transformFormStepToMustacheData (
+    val openRegisterModel = mustache.data(
       emptyApplicationForm,
       OpenRegisterController.post,
-      Some(ContactAddressController.get))
+      Some(ContactAddressController.get),
+      InprogressCrown()
+    ).data.asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be(
         "Do you want to include your name and address on the open register?")
@@ -39,10 +39,12 @@ class OpenRegisterMustacheTests
         openRegisterOptin = Some(true)
       )
     )
-    val openRegisterModel = openRegisterMustache.transformFormStepToMustacheData (
+    val openRegisterModel = mustache.data(
       partiallyFilledApplicationForm,
       OpenRegisterController.post,
-      Some(ContactAddressController.get))
+      Some(ContactAddressController.get),
+      InprogressCrown()
+    ).data.asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be(
         "Do you want to include your name and address on the open register?")
@@ -59,10 +61,12 @@ class OpenRegisterMustacheTests
         openRegisterOptin = Some(false)
       )
     )
-    val openRegisterModel = openRegisterMustache.transformFormStepToMustacheData (
+    val openRegisterModel = mustache.data(
       partiallyFilledApplicationForm,
       OpenRegisterController.post,
-      Some(ContactAddressController.get))
+      Some(ContactAddressController.get),
+      InprogressCrown()
+    ).data.asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be(
         "Do you want to include your name and address on the open register?")
