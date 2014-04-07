@@ -94,9 +94,6 @@ POST        /register-to-vote/address                                    control
 GET         /register-to-vote/edit/address                               controllers.step.ordinary.AddressController.editGet
 POST        /register-to-vote/edit/address                               controllers.step.ordinary.AddressController.editPost
 
-#Lookup Address
-POST        /register-to-vote/address/lookup                             controllers.step.ordinary.AddressController.lookup
-
 #Manual Address
 GET         /register-to-vote/address/manual                             controllers.step.ordinary.AddressManualController.get
 POST        /register-to-vote/address/manual                             controllers.step.ordinary.AddressManualController.post
