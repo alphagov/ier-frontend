@@ -12,13 +12,14 @@ import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{CrownStep, Routes, GoTo}
+import uk.gov.gds.ier.step.{CrownStepWithNewMustache, Routes, GoTo}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
-class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
-                                       val config: Config,
-                                       val encryptionService : EncryptionService)
-  extends CrownStep
+class DateOfBirthStep @Inject ()(
+    val serialiser: JsonSerialiser,
+    val config: Config,
+    val encryptionService : EncryptionService
+) extends CrownStepWithNewMustache
   with DateOfBirthForms
   with DateOfBirthMustache{
 
@@ -31,13 +32,6 @@ class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
     editGet = DateOfBirthController.editGet,
     editPost = DateOfBirthController.editPost
   )
-
-  def template(
-      form: ErrorTransformForm[InprogressCrown],
-      postEndpoint:Call,
-      backEndpoint: Option[Call]): Html = {
-    dateOfBirthMustache(form, postEndpoint, backEndpoint)
-  }
 
   def nextStep(currentState: InprogressCrown) = {
     currentState.dob match {
