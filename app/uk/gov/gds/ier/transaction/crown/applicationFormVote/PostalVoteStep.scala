@@ -6,7 +6,7 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.CrownStep
+import uk.gov.gds.ier.step.CrownStepWithNewMustache
 import controllers.step.crown.ContactController
 import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
@@ -19,9 +19,11 @@ class PostalVoteStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService)
 
-  extends CrownStep
+  extends CrownStepWithNewMustache
   with PostalOrProxyVoteForms
   with PostalOrProxyVoteMustache {
+
+  val wayToVote = WaysToVoteType.ByPost
 
   val validation = postalOrProxyVoteForm
   val previousRoute = Some(WaysToVoteController.get)
@@ -32,13 +34,6 @@ class PostalVoteStep @Inject ()(
     editGet = PostalVoteController.editGet,
     editPost = PostalVoteController.editPost
   )
-
-  def template(
-      form: ErrorTransformForm[InprogressCrown],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]): Html = {
-    postalOrProxyVoteMustache(form, postEndpoint, backEndpoint, WaysToVoteType.ByPost)
-  }
 
   def nextStep(currentState: InprogressCrown) = {
     ContactController.contactStep
