@@ -22,7 +22,6 @@ import uk.gov.gds.ier.controller.MockConfig
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
-
 class StepControllerTests
   extends FlatSpec
   with Matchers
@@ -187,6 +186,7 @@ class StepControllerTests
     )
 
     new StepController[FooBar]
+        with TestTemplate[FooBar]
         with WithSerialiser
         with WithConfig
         with WithEncryption {
@@ -286,5 +286,34 @@ case class FooBar(
       foo = foo orElse other.foo,
       bar = bar orElse other.bar
     )
+  }
+}
+
+trait TestTemplate[T <: InprogressApplication[T]] extends StepTemplate[T] {
+  self: StepController[T] =>
+  val mustache = {
+    new MustacheTemplate[T] {
+      val data = (
+        form:ErrorTransformForm[T],
+        postUrl:Call,
+        backUrl:Option[Call],
+        application:T
+      ) => {
+        application
+      }
+      val mustachePath: String = ""
+      val title: String = ""
+      val _this = this
+      override def apply(
+        form:ErrorTransformForm[T],
+        postUrl:Call,
+        backUrl:Option[Call],
+        application:T
+      ):MustacheRenderer[T] = {
+        new MustacheRenderer[T](_this, form, postUrl, backUrl, application) {
+          override def html = templateWithApplication(form, postUrl, backUrl)(application)
+        }
+      }
+    }
   }
 }

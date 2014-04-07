@@ -1,12 +1,11 @@
 package uk.gov.gds.ier.step
 
 import uk.gov.gds.ier.session.SessionHandling
-import play.api.mvc.{Call, Controller}
+import play.api.mvc.Controller
 import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, ErrorMessages}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
-import play.api.templates.Html
 
 trait Step[T] {
   val routes: Routes
@@ -33,11 +32,12 @@ trait StepController [T <: InprogressApplication[T]]
   with Logging {
   self: WithSerialiser
     with WithConfig
-    with WithEncryption =>
+    with WithEncryption
+    with StepTemplate[T] =>
 
   val validation: ErrorTransformForm[T]
   val confirmationRoute: Call
-  val previousRoute:Option[Call]
+  val previousRoute: Option[Call]
   def template(form: ErrorTransformForm[T], call: Call, backUrl: Option[Call]):Html
 
   val onSuccess: FlowControl = TransformApplication { application => application} andThen GoToNextIncompleteStep()
@@ -62,7 +62,7 @@ trait StepController [T <: InprogressApplication[T]]
     implicit request => application =>
       statsDTime {
         logger.debug(s"GET request for ${request.path}")
-        Ok(templateWithApplication(validation.fill(application), routes.post, previousRoute)(application))
+        Ok(mustache(validation.fill(application), routes.post, previousRoute, application).html)
       }
   }
 
@@ -77,7 +77,7 @@ trait StepController [T <: InprogressApplication[T]]
         validation.bind(dataFromApplication ++ dataFromRequest).fold(
           hasErrors => {
             logger.debug(s"Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
-            Ok(templateWithApplication(hasErrors, postCall, backUrl)(application)) storeInSession application
+            Ok(mustache(hasErrors, postCall, backUrl, application).html) storeInSession application
           },
           success => {
             logger.debug(s"Form binding successful")
@@ -96,7 +96,7 @@ trait StepController [T <: InprogressApplication[T]]
     implicit request => application =>
       statsDTime {
         logger.debug(s"GET edit request for ${request.path}")
-        Ok(templateWithApplication(validation.fill(application), routes.editPost, Some(confirmationRoute))(application))
+        Ok(mustache(validation.fill(application), routes.editPost, Some(confirmationRoute), application).html)
       }
   }
 }
