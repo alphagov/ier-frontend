@@ -31,7 +31,7 @@ class AddressFirstMustacheTest
       Call("GET","url-string-1"),
       Some(Call("POST","url-string-2")),
       InprogressCrown()
-    ).asInstanceOf[AddressFirstModel]
+    ).data.asInstanceOf[AddressFirstModel]
 
     addressFirstModel.question.title should be("Do you have a UK address?")
     addressFirstModel.question.postUrl should be("url-string-1")
@@ -56,7 +56,7 @@ class AddressFirstMustacheTest
       Call("GET","url-string-1"),
       Some(Call("POST","url-string-2")),
       InprogressCrown()
-    ).asInstanceOf[AddressFirstModel]
+    ).data.asInstanceOf[AddressFirstModel]
 
     addressFirstModel.question.title should be("Do you have a UK address?")
     addressFirstModel.question.postUrl should be("url-string-1")

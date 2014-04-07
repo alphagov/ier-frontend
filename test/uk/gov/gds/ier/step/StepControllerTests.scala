@@ -299,7 +299,7 @@ trait TestTemplate[T <: InprogressApplication[T]] extends StepTemplate[T] {
         backUrl:Option[Call],
         application:T
       ) => {
-        application
+        MustacheData(application, "Faked")
       }
       val mustachePath: String = ""
       val title: String = ""

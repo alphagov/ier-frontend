@@ -26,7 +26,7 @@ class NameMustacheTest
       Call("GET", "/register-to-vote/crown/name"),
       Some(Call("POST", "/register-to-vote/crown/date-of-birth")),
       InprogressCrown()
-    ).asInstanceOf[nameMustache.NameModel]
+    ).data.asInstanceOf[nameMustache.NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/crown/name")
@@ -55,7 +55,7 @@ class NameMustacheTest
       Call("GET", "/register-to-vote/crown/name"),
       Some(Call("POST", "/register-to-vote/crown/date-of-birth")),
       InprogressCrown()
-    ).asInstanceOf[nameMustache.NameModel]
+    ).data.asInstanceOf[nameMustache.NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/crown/name")
@@ -92,7 +92,7 @@ class NameMustacheTest
       Call("GET", "/register-to-vote/crown/name"),
       Some(Call("POST", "/register-to-vote/crown/date-of-birth")),
       InprogressCrown()
-    ).asInstanceOf[nameMustache.NameModel]
+    ).data.asInstanceOf[nameMustache.NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/crown/name")
@@ -121,7 +121,7 @@ class NameMustacheTest
       Call("GET", "/register-to-vote/crown/name"),
       Some(Call("POST", "/register-to-vote/crown/date-of-birth")),
       InprogressCrown()
-    ).asInstanceOf[nameMustache.NameModel]
+    ).data.asInstanceOf[nameMustache.NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/crown/name")
