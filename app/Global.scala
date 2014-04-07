@@ -1,12 +1,11 @@
 import play.api.mvc.EssentialAction
-import scala.concurrent.ExecutionContext
 import uk.gov.gds.ier.client._
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.DynamicGlobal
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.service.{ConcreteIerApiService, IerApiService}
 import uk.gov.gds.ier.stubs.{PlacesStubApiClient, IerStubApiClient, IerApiServiceWithStripNino}
-import ExecutionContext.Implicits.global
+import play.api.libs.concurrent.Execution.Implicits._
 
 object Global extends DynamicGlobal with Logging {
 
