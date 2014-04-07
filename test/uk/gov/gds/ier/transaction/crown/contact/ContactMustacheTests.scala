@@ -3,8 +3,11 @@ package uk.gov.gds.ier.transaction.crown.contact
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
-import scala.Some
-import uk.gov.gds.ier.model.{ContactDetail, Contact}
+import uk.gov.gds.ier.model.{ContactDetail,
+  Contact,
+  PostalOrProxyVote,
+  PostalVoteDeliveryMethod,
+  WaysToVoteType}
 import controllers.step.crown.routes._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
@@ -13,22 +16,22 @@ class ContactMustacheTests
   extends FlatSpec
   with Matchers
   with ContactForms
+  with ContactMustache
   with ErrorMessages
   with FormKeys
   with TestHelpers
   with WithSerialiser {
 
   val serialiser = jsonSerialiser
-  val contactMustache = new ContactMustache {}
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = contactForm
-    val emptyApplication = InprogressCrown()
-    val contactModel = contactMustache.transformFormStepToMustacheData (
-      emptyApplication,
+    val contactModel = mustache.data(
       emptyApplicationForm,
       ContactController.post,
-      Some(PostalVoteController.get))
+      Some(PostalVoteController.get),
+      InprogressCrown()
+    ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
       "If we have questions about your application, how should we contact you?")
@@ -37,6 +40,39 @@ class ContactMustacheTests
 
     contactModel.contactEmailCheckbox.attributes should be("")
     contactModel.contactEmailText.value should be("")
+    contactModel.contactPhoneCheckbox.attributes should be("")
+    contactModel.contactPhoneText.value should be("")
+    contactModel.contactPostCheckbox.attributes should be("")
+  }
+
+  it should "prepopulate the email address from postal vote step" in {
+    val partiallyFilledApplication = 
+      InprogressCrown(
+        postalOrProxyVote = Some(PostalOrProxyVote(
+          typeVote = WaysToVoteType.ByProxy,
+          postalVoteOption = Some(true),
+          deliveryMethod = Some(PostalVoteDeliveryMethod(
+            deliveryMethod = Some("email"),
+            emailAddress = Some("my@email.com")
+          ))
+        ))
+      )
+    val partiallyFilledApplicationForm = contactForm.fill(partiallyFilledApplication)
+
+    val contactModel = mustache.data(
+      partiallyFilledApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get),
+      InprogressCrown()
+    ).data.asInstanceOf[ContactModel]
+
+    contactModel.question.title should be(
+      "If we have questions about your application, how should we contact you?")
+    contactModel.question.postUrl should be("/register-to-vote/crown/contact")
+    contactModel.question.backUrl should be("/register-to-vote/crown/postal-vote")
+
+    contactModel.contactEmailCheckbox.attributes should be("")
+    contactModel.contactEmailText.value should be("my@email.com")
     contactModel.contactPhoneCheckbox.attributes should be("")
     contactModel.contactPhoneText.value should be("")
     contactModel.contactPostCheckbox.attributes should be("")
@@ -55,11 +91,12 @@ class ContactMustacheTests
       )
     val partiallyFilledApplicationForm = contactForm.fill(partiallyFilledApplication)
 
-    val contactModel = contactMustache.transformFormStepToMustacheData(
-      partiallyFilledApplication,
+    val contactModel = mustache.data(
       partiallyFilledApplicationForm,
       ContactController.post,
-      Some(PostalVoteController.get))
+      Some(PostalVoteController.get),
+      InprogressCrown()
+    ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
       "If we have questions about your application, how should we contact you?")
@@ -86,11 +123,12 @@ class ContactMustacheTests
       )
     val partiallyFilledApplicationForm = contactForm.fill(partiallyFilledApplication)
 
-    val contactModel = contactMustache.transformFormStepToMustacheData(
-      partiallyFilledApplication,
+    val contactModel = mustache.data(
       partiallyFilledApplicationForm,
       ContactController.post,
-      Some(PostalVoteController.get))
+      Some(PostalVoteController.get),
+      InprogressCrown()
+    ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
       "If we have questions about your application, how should we contact you?")
@@ -117,11 +155,12 @@ class ContactMustacheTests
       )
     val partiallyFilledApplicationForm = contactForm.fill(partiallyFilledApplication)
 
-    val contactModel = contactMustache.transformFormStepToMustacheData(
-      partiallyFilledApplication,
+    val contactModel = mustache.data(
       partiallyFilledApplicationForm,
       ContactController.post,
-      Some(PostalVoteController.get))
+      Some(PostalVoteController.get),
+      InprogressCrown()
+    ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
       "If we have questions about your application, how should we contact you?")
@@ -148,11 +187,12 @@ class ContactMustacheTests
       )
     val partiallyFilledApplicationForm = contactForm.fillAndValidate(partiallyFilledApplication)
     
-    val contactModel = contactMustache.transformFormStepToMustacheData(
-      partiallyFilledApplication,
+    val contactModel = mustache.data(
       partiallyFilledApplicationForm,
       ContactController.post,
-      Some(PostalVoteController.get))
+      Some(PostalVoteController.get),
+      InprogressCrown()
+    ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
       "If we have questions about your application, how should we contact you?")
