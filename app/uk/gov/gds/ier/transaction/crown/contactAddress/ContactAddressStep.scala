@@ -9,14 +9,14 @@ import play.api.templates.Html
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{CrownStep, Routes}
+import uk.gov.gds.ier.step.{CrownStepWithNewMustache, Routes}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 class ContactAddressStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService)
-  extends CrownStep
+  extends CrownStepWithNewMustache
     with ContactAddressForms
     with ContactAddressMustache{
 
@@ -29,13 +29,6 @@ class ContactAddressStep @Inject ()(
     editGet = ContactAddressController.editGet,
     editPost = ContactAddressController.editPost
   )
-
-  def template(
-      form: ErrorTransformForm[InprogressCrown],
-      postEndpoint:Call,
-      backEndpoint: Option[Call]): Html = {
-    contactAddressMustache(form, postEndpoint, backEndpoint)
-  }
 
   def nextStep(currentState: InprogressCrown) = {
     OpenRegisterController.openRegisterStep
