@@ -9,14 +9,14 @@ import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{CrownStep, Routes}
+import uk.gov.gds.ier.step.{CrownStepWithNewMustache, Routes}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 class JobStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService)
-  extends CrownStep
+  extends CrownStepWithNewMustache
   with JobForms
   with JobMustache {
 
@@ -29,20 +29,6 @@ class JobStep @Inject ()(
     editGet = JobController.editGet,
     editPost = JobController.editPost
   )
-
-
-  def template(
-    form: ErrorTransformForm[InprogressCrown],
-    call: Call,
-    backUrl:Option[Call]): Html = Html.empty
-
-  override def templateWithApplication(
-      form: ErrorTransformForm[InprogressCrown],
-      call:Call,
-      backUrl: Option[Call]) = {
-    application:InprogressCrown =>
-      jobMustache(application, form, call, backUrl)
-  }
 
   def nextStep(currentState: InprogressCrown) = {
     NinoController.ninoStep
