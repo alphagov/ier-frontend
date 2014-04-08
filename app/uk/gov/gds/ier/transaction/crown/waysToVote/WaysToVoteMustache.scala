@@ -1,12 +1,10 @@
 package uk.gov.gds.ier.transaction.crown.waysToVote
 
-import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
-trait WaysToVoteMustache extends StepMustache {
+trait WaysToVoteMustache extends StepTemplate[InprogressCrown] {
 
   val pageTitle = "How do you want to vote?"
 
@@ -17,17 +15,14 @@ trait WaysToVoteMustache extends StepMustache {
     inPerson: Field
   )
 
-  def transformFormStepToMustacheData(
-      form: ErrorTransformForm[InprogressCrown],
-      postUrl: String,
-      backUrl: Option[String]): WaysToVoteModel = {
+  val mustache = MustacheTemplate("crown/waysToVote") { (form, post, back) =>
     implicit val progressForm = form
 
-    WaysToVoteModel(
+    val data = WaysToVoteModel(
       question = Question(
-        postUrl = postUrl,
-        backUrl = backUrl.getOrElse(""),
-        showBackUrl = backUrl.isDefined,
+        postUrl = post.url,
+        backUrl = back.map { _.url }.getOrElse(""),
+        showBackUrl = back.isDefined,
         number = "12",
         title = pageTitle,
         errorMessages = form.globalErrors.map { _.message }),
@@ -41,13 +36,8 @@ trait WaysToVoteMustache extends StepMustache {
         key = keys.waysToVote.wayType,
         value = "in-person")
     )
-  }
 
-  def waysToVoteMustache(
-      form: ErrorTransformForm[InprogressCrown],
-      call: Call, backUrl: Option[String]): Html = {
-    val data = transformFormStepToMustacheData(form, call.url, backUrl)
-    val content = Mustache.render("crown/waysToVote", data)
-    MainStepTemplate(content, pageTitle)
+    MustacheData(data, pageTitle)
   }
 }
+

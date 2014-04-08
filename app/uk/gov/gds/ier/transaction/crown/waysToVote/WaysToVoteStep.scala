@@ -4,7 +4,7 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.CrownStep
+import uk.gov.gds.ier.step.CrownStepWithNewMustache
 import controllers.step.crown.routes.{WaysToVoteController, OpenRegisterController}
 import controllers.step.crown.{ProxyVoteController, ContactController, PostalVoteController}
 import uk.gov.gds.ier.step.Routes
@@ -20,7 +20,7 @@ class WaysToVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService)
-  extends CrownStep
+  extends CrownStepWithNewMustache
   with WaysToVoteForms
   with WaysToVoteMustache {
 
@@ -53,8 +53,5 @@ class WaysToVoteStep @Inject ()(
       case _ => throw new IllegalArgumentException("unknown next step")
     }
   }
-
-  def template(form: ErrorTransformForm[InprogressCrown], call:Call, backUrl: Option[Call]): Html = {
-    waysToVoteMustache(form, call, backUrl.map(_.url))
-  }
 }
+

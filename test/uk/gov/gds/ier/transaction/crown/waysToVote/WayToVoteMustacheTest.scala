@@ -4,8 +4,6 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.model._
-import scala.Some
-import uk.gov.gds.ier.model.WaysToVote
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 /**
@@ -17,17 +15,17 @@ class WayToVoteMustacheTest
   with WaysToVoteForms
   with ErrorMessages
   with FormKeys
-  with TestHelpers {
-
-  // tested transformer
-  val waysToVoteMustache = new WaysToVoteMustache {}
+  with TestHelpers
+  with WaysToVoteMustache {
 
   it should "produce valid empty model when application is empty" in {
     val emptyApplicationForm = waysToVoteForm
-    val model = waysToVoteMustache.transformFormStepToMustacheData(
+    val model = mustache.data(
       emptyApplicationForm,
-      "/register-to-vote/crown/ways-to-vote",
-      Some("/register-to-vote/crown/open-register"))
+      Call("POST", "/register-to-vote/crown/ways-to-vote"),
+      Some(Call("GET", "/register-to-vote/crown/open-register")),
+      InprogressCrown()
+    ).data.asInstanceOf[WaysToVoteModel]
 
     model.question.title should be("How do you want to vote?")
     model.question.postUrl should be("/register-to-vote/crown/ways-to-vote")
@@ -46,10 +44,12 @@ class WayToVoteMustacheTest
     val emptyApplicationForm = waysToVoteForm.fill(InprogressCrown(
            waysToVote = Some(WaysToVote(WaysToVoteType.InPerson)))
     )
-    val model = waysToVoteMustache.transformFormStepToMustacheData(
+    val model = mustache.data(
       emptyApplicationForm,
-      "/register-to-vote/crown/ways-to-vote",
-      Some("/register-to-vote/crown/open-register"))
+      Call("POST", "/register-to-vote/crown/ways-to-vote"),
+      Some(Call("GET", "/register-to-vote/crown/open-register")),
+      InprogressCrown()
+    ).data.asInstanceOf[WaysToVoteModel]
 
     model.question.title should be("How do you want to vote?")
     model.question.postUrl should be("/register-to-vote/crown/ways-to-vote")
