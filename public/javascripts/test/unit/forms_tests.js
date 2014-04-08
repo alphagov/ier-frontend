@@ -1293,3 +1293,145 @@ describe("MarkSelected", function () {
     });
   });
 });
+
+describe("Autocomplete", function () {
+  describe("Creating an instance", function () {
+    var $input;
+
+    beforeEach(function () {
+      $input = $("<input type='text' id='field_1' name='field_1' />");
+    });
+
+    it("Should have the right interface", function () {
+      var autocomplete;
+
+      autocomplete = new GOVUK.registerToVote.Autocomplete($input);
+      expect(autocomplete.getMenuId).toBeDefined();
+      expect(autocomplete.compiledStatusText).toBeDefined();
+      expect(autocomplete.compiledTemplate).toBeDefined();
+      expect(autocomplete.updateStatus).toBeDefined();
+      expect(autocomplete.events).toBeDefined();
+      expect(autocomplete.getAutocompleteObj).toBeDefined();
+    });
+
+    it("Should initialize the textbox as a typeahead instance", function () {
+      var autocomplete;
+
+      spyOn($.fn, "typeahead");
+      autocomplete = new GOVUK.registerToVote.Autocomplete($input);
+      expect($.fn.typeahead).toHaveBeenCalled();
+    });
+  });
+
+  describe("getMenuId method", function () {
+    it("Should return the correct menu id", function () {
+      var menuId = GOVUK.registerToVote.Autocomplete.prototype.getMenuId();
+
+      expect(menuId).toEqual(GOVUK.registerToVote.Autocomplete.menuIdPrefix + '-1');
+    });
+
+    it("Should return a different menu id when called again", function () {
+      var menuId = GOVUK.registerToVote.Autocomplete.prototype.getMenuId();
+
+      expect(menuId).toEqual(GOVUK.registerToVote.Autocomplete.menuIdPrefix + '-2');
+    });
+  });
+
+  describe("updateStatus method", function () {
+    var AutocompleteMock,
+        statusTextOneSuggestion = '1 result is available, use up and down arrow keys to navigate.',
+        statusTextTwoSuggestions = '2 results are available, use up and down arrow keys to navigate.';
+
+    beforeEach(function () {
+      AutocompleteMock = {
+        "$status" : $("<p>Default text</p>"),
+        "compiledStatusText" : GOVUK.registerToVote.Autocomplete.prototype.compiledStatusText
+      };
+    });
+
+    it("Should update to the correct status text for 1 result", function () {
+      GOVUK.registerToVote.Autocomplete.prototype.updateStatus.call(AutocompleteMock, ['Angola']);
+      expect(AutocompleteMock.$status.text()).toEqual(statusTextOneSuggestion);
+    });
+
+    it("Should update to the correct status text for 2 results", function () {
+      GOVUK.registerToVote.Autocomplete.prototype.updateStatus.call(AutocompleteMock, ['Angola', 'Argentina']);
+      expect(AutocompleteMock.$status.text()).toEqual(statusTextTwoSuggestions);
+    });
+
+    it("Should not update the status text for 0 results", function () {
+      GOVUK.registerToVote.Autocomplete.prototype.updateStatus.call(AutocompleteMock, []);
+      expect(AutocompleteMock.$status.text()).toEqual('Default text');
+    });
+  });
+
+  describe("events property", function () {
+    describe("onInitialized method", function () {
+      var elementMock,
+          AutocompleteMock;
+
+      beforeEach(function () {
+        elementMock = $(
+          "<div>" +
+            "<input type='text' value='France' />" +
+            "<div class='tt-dropdown-menu'></div>" +
+          "</div>"
+        );
+        AutocompleteMock = {
+          "getAutocompleteObj" : function () {
+            return {};
+          },
+          "$input" : elementMock.find('input'),
+          "getMenuId" : function () {
+            return "menu-id"
+          }
+        };
+      });
+
+      it("Should set up the status text correctly", function () {
+        GOVUK.registerToVote.Autocomplete.prototype.events.onInitialized.call(AutocompleteMock, {
+          'target' : AutocompleteMock.$input
+        });
+        expect(AutocompleteMock.$status).toBeDefined();
+        expect(AutocompleteMock.$status.attr('role')).toEqual('status');
+        expect(AutocompleteMock.$status.attr('aria-live')).toEqual('polite');
+        expect(AutocompleteMock.$status.attr('class')).toEqual('typeahead-status visuallyhidden');
+        expect(AutocompleteMock.$input.next()[0]).toEqual(AutocompleteMock.$status[0]);
+      });
+
+      it("Should add the correct ARIA attributes to the textbox", function () {
+        GOVUK.registerToVote.Autocomplete.prototype.events.onInitialized.call(AutocompleteMock, {
+          'target' : AutocompleteMock.$input
+        });
+        
+        expect(AutocompleteMock.$input.attr('aria-autocomplete')).toEqual('list');
+        expect(AutocompleteMock.$input.attr('aria-haspopup')).toEqual('menu-id');
+      });
+
+      it("Should set up the menu element", function () {
+        GOVUK.registerToVote.Autocomplete.prototype.events.onInitialized.call(AutocompleteMock, {
+          'target' : AutocompleteMock.$input
+        });
+        
+        expect(AutocompleteMock.$menu).toBeDefined();
+        expect(AutocompleteMock.$menu.attr('id')).toEqual('menu-id');
+      });
+
+      it("Should set a keydown event on the textbox", function () {
+        var eventCalled = false;
+
+        spyOn($.fn, "on").and.callFake(
+          function (evt, callback) {
+            if ((this[0] === AutocompleteMock.$input[0]) && (evt === 'keydown')) {
+              eventCalled = true;
+            }
+          }
+        );
+        GOVUK.registerToVote.Autocomplete.prototype.events.onInitialized.call(AutocompleteMock, {
+          'target' : AutocompleteMock.$input
+        });
+        expect(eventCalled).toBe(true);
+      });
+    });
+  });
+});

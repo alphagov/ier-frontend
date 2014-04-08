@@ -333,10 +333,10 @@
 
     return function () {
       id = id + 1;
-      return this.menuIdPrefix + '-' + id;
+      return Autocomplete.menuIdPrefix + '-' + id;
     };
   }());
-  Autocomplete.prototype.menuIdPrefix = 'typeahead-suggestions';
+  Autocomplete.menuIdPrefix = 'typeahead-suggestions';
   Autocomplete.prototype.compiledStatusText = Mustache.compile('{{results}} {{#describe}}{{results}}{{/describe}} available, use up and down arrow keys to navigate.');
   Autocomplete.prototype.compiledTemplate = Mustache.compile('<p role="presentation" id="{{name}}">{{value}}</p>');
   Autocomplete.prototype.updateStatus = function (suggestions) {
@@ -690,6 +690,7 @@
   GOVUK.registerToVote.ConditionalControl = ConditionalControl;
   GOVUK.registerToVote.DuplicateField = DuplicateField;
   GOVUK.registerToVote.MarkSelected = MarkSelected;
+  GOVUK.registerToVote.Autocomplete = Autocomplete;
   GOVUK.registerToVote.autocompletes = autocompletes;
   GOVUK.registerToVote.monitorRadios = monitorRadios;
   GOVUK.registerToVote.PostcodeLookup = PostcodeLookup;
