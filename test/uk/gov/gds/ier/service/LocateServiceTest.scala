@@ -47,33 +47,33 @@ class LocateServiceTest extends FlatSpec with Matchers {
     addresses(0).postcode should be("AB12 3CD")
   }
 
-  behavior of "PlacesService.beaconFire"
-  it should "return true if places is up" in {
+  behavior of "LocateService.beaconFire"
+  it should "return true if locate api is up" in {
     class FakeApiClient extends LocateApiClient(new MockConfig) {
       override def get(url: String, header: (String, String)*) : ApiResponse = {
         if (url.contains("status")) {
           Success("""{ "status" : "up" }""", 200)
-        } else Fail("I'm not really places", 200)
+        } else Fail("I'm not really locate", 200)
       }
     }
     val service = new LocateService(new FakeApiClient, new JsonSerialiser, new MockConfig)
     service.beaconFire should be(true)
   }
-  it should "return false if places is down" in {
+  it should "return false if locate api is down" in {
     class FakeApiClient extends LocateApiClient(new MockConfig) {
       override def get(url: String, header: (String, String)*) : ApiResponse = {
         if (url.contains("status")) {
           Success("""{ "status" : "down" }""", 200)
-        } else Fail("I'm not really places", 200)
+        } else Fail("I'm not really locate", 200)
       }
     }
     val service = new LocateService(new FakeApiClient, new JsonSerialiser, new MockConfig)
     service.beaconFire should be(false)
   }
-  it should "return true if places doesn't respond" in {
+  it should "return true if locate api doesn't respond" in {
     class FakeApiClient extends LocateApiClient(new MockConfig) {
       override def get(url: String, header: (String, String)*) : ApiResponse = {
-        Fail("I'm not really places", 200)
+        Fail("I'm not really locate", 200)
       }
     }
     val service = new LocateService(new FakeApiClient, new JsonSerialiser, new MockConfig)

@@ -15,12 +15,13 @@ import java.net.ConnectException
 import uk.gov.gds.ier.model.LocateAddress
 import play.api.libs.json.Json
 import play.api.libs.ws.WS
+import play.api.Logger
 
 class LocateService @Inject() (apiClient: LocateApiClient, serialiser: JsonSerialiser, config:Config) extends Logging {
 
-  val partialLocateUrl = config.locateUrl
-  val partialAddressLookupUrl = config.locateUrl + "?residentialOnly=false"
-  val authorizationToken = config.locateApiAuthorizationToken
+  lazy val partialLocateUrl = config.locateUrl
+  lazy val partialAddressLookupUrl = config.locateUrl + "?residentialOnly=false"
+  lazy val authorizationToken = config.locateApiAuthorizationToken
 
 
   def lookupAddress(partialAddress: PartialAddress):Option[Address] = {
@@ -53,10 +54,14 @@ class LocateService @Inject() (apiClient: LocateApiClient, serialiser: JsonSeria
       case Success(body, _) => {
         serialiser.fromJson[Map[String,String]](body).get("status") match {
           case Some("up") => true
-          case _ => false
+          case _ => {
+            Logger.error("The locate api is not available")
+            false
+          }
         }
       }
       case Fail(error, _) => {
+        Logger.error(error)
         false
       }
     }
