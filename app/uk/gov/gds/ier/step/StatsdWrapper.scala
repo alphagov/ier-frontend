@@ -13,7 +13,7 @@ trait StatsdWrapper extends Logging {
     val response = block
     val timeTakenMs = DateTime.now.minus(start.getMillis).getMillis
 
-    logger.trace("Time taken to process request with method %s and path %s was %d".format(request.method, request.path, timeTakenMs))
+    logger.info("Time taken to process request with method %s and path %s was %d".format(request.method, request.path, timeTakenMs))
     val metricPageName = request.path.substring(1).replace('/','.') + "." + request.method
     StatsdClient.timing(metricPageName, timeTakenMs)
 
