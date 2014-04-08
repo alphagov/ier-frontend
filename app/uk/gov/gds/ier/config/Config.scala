@@ -28,7 +28,7 @@ class Config extends Logging {
   def logConfiguration() = {
     logger.debug(s"apiTimeout:$apiTimeout")
     logger.debug(s"placesUrl:$placesUrl")
-    logger.debug(s"locateUrl:locateUrl")
+    logger.debug(s"locateUrl:$locateUrl")
     logger.debug(s"fakeIer:$fakeIer")
     logger.debug(s"fakePlaces:$fakePlaces")
     logger.debug(s"ierApiUrl:$ierApiUrl")
