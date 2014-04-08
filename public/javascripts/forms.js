@@ -665,22 +665,30 @@
   };
 
   monitorRadios = (function () {
-    var radioGroups = [];
+    var monitor;
 
-    return (function (elm) {
+    monitor = function (elm) {
       var groupName = elm.name,
           $fieldset = $(elm).closest('fieldset');
 
-      if ($.inArray(groupName, radioGroups) === -1) {
-        radioGroups.push(groupName);
-        $fieldset.on('change', function (e) {
+      if ($.inArray(groupName, monitor.radioGroups) === -1) {
+        monitor.radioGroups.push(groupName);
+        // older browsers can not detect change events on radio buttons attach a click also
+        $fieldset.on('click change', function (e) {
           var target = e.target;
           if (target.type && target.type === 'radio') {
-            $(document).trigger('radio:' + target.name, { "selectedRadio" : target });
+            $(document).trigger('radio:' + target.name,
+              { 
+                "selectedRadio" : target,
+                "fieldset" : this
+              }
+            );
           }
         });
       }
-    });
+    };
+    monitor.radioGroups = [];
+    return monitor;
   }());
 
   GOVUK.registerToVote.ConditionalControl = ConditionalControl;
