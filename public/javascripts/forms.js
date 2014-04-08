@@ -5,7 +5,6 @@
       $ = root.jQuery,
       GOVUK = root.GOVUK,
       countries = GOVUK.registerToVote.countries,
-      validation = GOVUK.registerToVote.validation,
       ENTER = 13,
       ConditionalControl,
       DuplicateField,
@@ -24,11 +23,10 @@
     }
   };
   BackButton.prototype.setup = function () {
-    var linkFragment = '<a class="back-to-previous" href="#">' +
-      'Back <span class="visuallyhidden"> to the previous question</span></a>';
-    this.$header.before(linkFragment);
+    this.$link = $('<a class="back-to-previous" href="#">' +
+      'Back <span class="visuallyhidden"> to the previous question</span></a>');
+    this.$header.before(this.$link);
     this.$header.removeClass('no-back-link');
-    this.$link = $('a.back-to-previous');
   };
   BackButton.prototype.bindEvents = function () {
     this.$link.on("click", function(e) {
@@ -87,13 +85,8 @@
     });
     if (this.$toggle.attr('type') === 'radio') {
       $(document).on('radio:' + toggleName, function (e, data) {
-        _this.toggle(data.selectedRadio);
+        _this.toggle(data.selectedControl);
       });
-    }
-  };
-  ConditionalControl.prototype.clearContent = function (controlId) {
-    if (controlId !== this.$toggle.attr('id')) {
-      this.$content.removeClass(this.toggleClass);
     }
   };
   ConditionalControl.prototype.adjustVerticalSpace = function (content) {
@@ -107,7 +100,7 @@
       $control.css('margin-bottom', this.marginWhenContentIs.shown);
     }
   };
-  ConditionalControl.prototype.toggle = function (selectedRadio) {
+  ConditionalControl.prototype.toggle = function (selectedControl) {
     var $postcodeSearch = this.$content.find('.postcode'),
         isPostcodeLookup = $postcodeSearch.length > 0,
         hasAddresses = $('#found-addresses select').length > 0,
@@ -135,12 +128,12 @@
       Every time a change is detected in a group of radio buttons the following will happen:
 
       1. this method will be called with no parameter (from a change event on the selected radio)
-      2. this method will be called with the selectedRadio parameter (from a change event on the group)
+      2. this method will be called with the selectedControl parameter (from a change event on the group)
 
       We use 2. to close our content if the selected radio is not ours.
     */
-    if (selectedRadio !== undefined) {
-      if (this.$toggle.attr('id') !== selectedRadio.id) {
+    if (selectedControl !== undefined) {
+      if (this.$toggle.attr('id') !== selectedControl.id) {
         _hideContent();
         this.adjustVerticalSpace('hidden');
         $('#continue').show();
@@ -198,9 +191,9 @@
   DuplicateField.prototype.makeField = function (fieldNum, fieldValue) {
     var _this = this,
         $container = this.$label.parent(),
-        fragment = '<label for="{% id %}" class="{% labelClass %}">{% labelText %}</label>' +
-                    '<a href="#" class="remove-field">Remove<span class="visuallyhidden"> {% labelText %}</span></a>' +
-                    '<input type="text" id="{% id %}" name="{% name %}" class="text country-autocomplete long" value="{% value %}" Autocomplete="off" />',
+        fragment = '<label for="{{ id }}" class="{{ labelClass }}">{{ labelText }}</label>' +
+                    '<a href="#" class="remove-field">Remove<span class="visuallyhidden"> {{ labelText }}</span></a>' +
+                    '<input type="text" id="{{ id }}" name="{{ name }}" class="text country-autocomplete long" value="{{ value }}" Autocomplete="off" />',
         wrapperDiv = document.createElement('div'),
         options = {
           'id' : this.getFieldId(fieldNum),
@@ -210,13 +203,8 @@
           'value' : (fieldValue !== undefined) ? fieldValue : ""
         };
 
-    fragment = fragment.replace(/{%\s([a-zA-Z]+)\s%}/g, function () {
-      var attribute = arguments[1];
-      return options[attribute];
-    });
-
     wrapperDiv.className = this.copyClass;
-    return $(wrapperDiv).html(fragment);
+    return $(wrapperDiv).html(Mustache.render(fragment, options));
   };
   DuplicateField.prototype.getFieldId = function (idx) {
     return this.idPattern.replace(/\[\d+\]/, '[' + idx + ']');
@@ -292,17 +280,23 @@
   //
   //  ie. radio:address.address
   MarkSelected = function (elm) {
-    var _this = this;
+    var _this = this,
+        controlType,
+        isMonitored;
 
     this.$label = $(elm);
     this.$control = this.$label.find('input[type=radio], input[type=checkbox]');
-    if (this.$control.attr('type') === 'radio') {
+    controlType = this.$control.attr('type');
+    if (controlType === 'radio') {
       $(document).on('radio:' + this.$control.attr('name'), function (e, data) {
-        _this.toggle(data.selectedRadio);
+        _this.toggle(data);
       });
-    } else {
-      this.$label.on('click', function () {
-        _this.toggle();
+    }
+    if (controlType === 'checkbox') {
+      this.$control.on('click', function () {
+        _this.toggle({
+          'selectedControl' : _this.$control
+        });
       });
     }
     if (this.$control.is(':checked')) {
@@ -310,23 +304,13 @@
     }
   };
 
-  MarkSelected.prototype.toggle = function (selectedRadio) {
+  MarkSelected.prototype.toggle = function (eventData) {
     var isChecked = this.$control.is(':checked');
 
-    // called by a change on a radio group
-    if (selectedRadio !== undefined) {
-      $(selectedRadio).closest('fieldset').find('input[type=radio]').each(function (idx, elm) {
-        if (elm.name === selectedRadio.name) {
-          $(elm).parent('label').removeClass('selected');
-        }
-      })
-      $(selectedRadio).parent('label').addClass('selected');
-    } else { // called from a control selection
-      if (isChecked) {
-        this.$label.addClass('selected');
-      } else {
-        this.$label.removeClass('selected');
-      }
+    if (isChecked) {
+      this.$label.addClass('selected');
+    } else {
+      this.$label.removeClass('selected');
     }
   };
 
@@ -348,10 +332,10 @@
 
     return function () {
       id = id + 1;
-      return this.menuIdPrefix + '-' + id;
+      return Autocomplete.menuIdPrefix + '-' + id;
     };
   }());
-  Autocomplete.prototype.menuIdPrefix = 'typeahead-suggestions';
+  Autocomplete.menuIdPrefix = 'typeahead-suggestions';
   Autocomplete.prototype.compiledStatusText = Mustache.compile('{{results}} {{#describe}}{{results}}{{/describe}} available, use up and down arrow keys to navigate.');
   Autocomplete.prototype.compiledTemplate = Mustache.compile('<p role="presentation" id="{{name}}">{{value}}</p>');
   Autocomplete.prototype.updateStatus = function (suggestions) {
@@ -418,7 +402,7 @@
     }
   };
   Autocomplete.prototype.getAutocompleteObj = function ($input) {
-    return autocompletes.existingObj($input);
+    return GOVUK.registerToVote.autocompletes.existingObj($input);
   };
 
   // Object to control all autocompletes in the page
@@ -431,9 +415,6 @@
       'closed' : 'onMenuClosed',
       'movedto' : 'onMoveTo',
       'updated' : 'onUpdate'
-    },
-    setCurrentInput : function ($input) {
-      this.$currentInput = $input;
     },
     existingId : function ($input) {
       var inputId = $input.attr('id');
@@ -464,7 +445,7 @@
       var existingId = this.existingId($input);
 
       if (!existingId) {
-        this.cache[$input.attr('id')] = new Autocomplete($input);
+        this.cache[$input.attr('id')] = new GOVUK.registerToVote.Autocomplete($input);
       }
     },
     remove : function ($input) {
@@ -506,6 +487,7 @@
     this.$searchButton.attr('aria-controls', this.$targetElement.attr('id'));
     this.$targetElement.attr({
       'aria-live' : 'polite',
+      'aria-busy' : 'false',
       'role' : 'region'
     });
     this.fragment =
@@ -534,29 +516,12 @@
         '<input type="hidden" id="possibleAddresses_postcode" name="possibleAddresses.postcode" value="{{postcode}}" />' +
         '<input type="hidden" id="possibleAddresses_jsonList" name="possibleAddresses.jsonList" value="{{resultsJSON}}" />' +
         '<button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode address">Continue</button>';
-    this.addressIsPrevious = (this.$searchInput.siblings('label').text().indexOf('previous address') !== -1);
-    this.$searchButton.attr('aria-controls', this.$targetElement.attr('id'));
-    this.$targetElement.attr({
-      'aria-live' : 'polite',
-      'role' : 'region'
-    });
 
     if (!_allowSubmission.apply(this, [this.$searchButton])) {
       $('#continue').hide();
     }
 
     this.bindEvents();
-    $(document).bind('toggle.open', function (e, data) {
-      var $select;
-
-      if (data.$toggle.text() === "I can't find my address in the list") {
-        data.$toggle.remove();
-        $select = $('#'+inputId+'_uprn_select');
-        $select.siblings('label[for="'+inputId+'_uprn_select"]').remove();
-        $select.remove();
-        $('#'+inputId).focus();
-      }
-    });
   };
   PostcodeLookup.prototype.bindEvents = function () {
     var _this = this;
@@ -604,10 +569,9 @@
   };
   PostcodeLookup.prototype.getAddresses = function () {
     var _this = this,
+        validation = GOVUK.registerToVote.validation,
         postcode = this.$searchInput.val(),
         URL = '/address/' + postcode.replace(/\s/g,''),
-        $optionalInfo = this.$searchButton.closest('fieldset').find('div.help-content'),
-        $addressSelect = $optionalInfo.siblings('select'),
         fieldValidationName = this.$searchButton.data("validationSources").split(' '),
         _notifyInvalidPostcode,
         _clearExistingResults,
@@ -647,6 +611,7 @@
 
     if (validation.validate(fieldValidationName, _this.$searchButton) === true) {
       this.$waitMessage.insertAfter(this.$searchButton);
+      this.$targetElement.attr('aria-busy', 'true');
       $.ajax({
         url : URL,
         dataType : 'json',
@@ -671,32 +636,42 @@
       }).
       always(function () {
         _this.$waitMessage.remove();
+        _this.$targetElement.attr('aria-busy', 'false');
       });
     }
   };
 
   monitorRadios = (function () {
-    var radioGroups = [];
+    var monitor;
 
-    return (function (elm) {
+    monitor = function (elm) {
       var groupName = elm.name,
           $fieldset = $(elm).closest('fieldset');
 
-      if ($.inArray(groupName, radioGroups) === -1) {
-        radioGroups.push(groupName);
-        $fieldset.on('change', function (e) {
+      if ($.inArray(groupName, monitor.radioGroups) === -1) {
+        monitor.radioGroups.push(groupName);
+        // older browsers can not detect change events on radio buttons attach a click also
+        $fieldset.on('click change', function (e) {
           var target = e.target;
           if (target.type && target.type === 'radio') {
-            $(document).trigger('radio:' + target.name, { "selectedRadio" : target });
+            $(document).trigger('radio:' + target.name,
+              { 
+                "selectedControl" : target,
+                "fieldset" : this
+              }
+            );
           }
         });
       }
-    });
+    };
+    monitor.radioGroups = [];
+    return monitor;
   }());
 
   GOVUK.registerToVote.ConditionalControl = ConditionalControl;
   GOVUK.registerToVote.DuplicateField = DuplicateField;
   GOVUK.registerToVote.MarkSelected = MarkSelected;
+  GOVUK.registerToVote.Autocomplete = Autocomplete;
   GOVUK.registerToVote.autocompletes = autocompletes;
   GOVUK.registerToVote.monitorRadios = monitorRadios;
   GOVUK.registerToVote.PostcodeLookup = PostcodeLookup;
