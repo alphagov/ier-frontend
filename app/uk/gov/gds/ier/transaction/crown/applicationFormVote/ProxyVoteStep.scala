@@ -4,7 +4,7 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{Routes, CrownStepWithNewMustache}
+import uk.gov.gds.ier.step.{Routes, CrownStep}
 import controllers.step.crown.routes._
 import scala.Some
 import uk.gov.gds.ier.validation.ErrorTransformForm
@@ -19,7 +19,7 @@ class ProxyVoteStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService)
 
-  extends CrownStepWithNewMustache
+  extends CrownStep
   with PostalOrProxyVoteForms
   with PostalOrProxyVoteMustache {
 

@@ -11,7 +11,7 @@ import play.api.templates.Html
 import uk.gov.gds.ier.service.IsoCountryService
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{CrownStepWithNewMustache, Routes, GoTo}
+import uk.gov.gds.ier.step.{CrownStep, Routes, GoTo}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 class NationalityStep @Inject ()(
@@ -19,7 +19,7 @@ class NationalityStep @Inject ()(
     val isoCountryService: IsoCountryService,
     val config: Config,
     val encryptionService : EncryptionService)
-  extends CrownStepWithNewMustache
+  extends CrownStep
     with NationalityForms
     with NationalityMustache {
 

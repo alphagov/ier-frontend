@@ -10,7 +10,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.service.AddressService
 
-import uk.gov.gds.ier.step.{Routes, CrownStepWithNewMustache}
+import uk.gov.gds.ier.step.{Routes, CrownStep}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 class AddressFirstStep @Inject ()(
@@ -18,7 +18,7 @@ class AddressFirstStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService,
     val addressService: AddressService)
-  extends CrownStepWithNewMustache
+  extends CrownStep
   with AddressFirstMustache
   with AddressFirstForms {
 

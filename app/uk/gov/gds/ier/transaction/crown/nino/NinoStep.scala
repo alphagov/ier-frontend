@@ -7,14 +7,14 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{CrownStepWithNewMustache, Routes}
+import uk.gov.gds.ier.step.{CrownStep, Routes}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 class NinoStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService)
-  extends CrownStepWithNewMustache
+  extends CrownStep
   with NinoForms
   with NinoMustache {
 

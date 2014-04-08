@@ -6,7 +6,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
-import uk.gov.gds.ier.step.CrownStepWithNewMustache
+import uk.gov.gds.ier.step.CrownStep
 import controllers.step.crown.NationalityController
 import uk.gov.gds.ier.model.Addresses
 import play.api.mvc.Call
@@ -22,7 +22,7 @@ class PreviousAddressSelectStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService
-) extends CrownStepWithNewMustache
+) extends CrownStep
   with PreviousAddressSelectMustache
   with PreviousAddressForms
   with WithAddressService {

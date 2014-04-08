@@ -10,7 +10,7 @@ import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import play.api.mvc.Call
-import uk.gov.gds.ier.step.{CrownStepWithNewMustache, Routes}
+import uk.gov.gds.ier.step.{CrownStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
@@ -19,7 +19,7 @@ class ContactStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService)
 
-  extends CrownStepWithNewMustache
+  extends CrownStep
   with ContactForms
   with ContactMustache {
 
