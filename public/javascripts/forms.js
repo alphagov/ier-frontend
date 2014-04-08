@@ -86,7 +86,7 @@
     });
     if (this.$toggle.attr('type') === 'radio') {
       $(document).on('radio:' + toggleName, function (e, data) {
-        _this.toggle(data.selectedRadio);
+        _this.toggle(data.selectedControl);
       });
     }
   };
@@ -101,7 +101,7 @@
       $control.css('margin-bottom', this.marginWhenContentIs.shown);
     }
   };
-  ConditionalControl.prototype.toggle = function (selectedRadio) {
+  ConditionalControl.prototype.toggle = function (selectedControl) {
     var $postcodeSearch = this.$content.find('.postcode'),
         isPostcodeLookup = $postcodeSearch.length > 0,
         hasAddresses = $('#found-addresses select').length > 0,
@@ -129,12 +129,12 @@
       Every time a change is detected in a group of radio buttons the following will happen:
 
       1. this method will be called with no parameter (from a change event on the selected radio)
-      2. this method will be called with the selectedRadio parameter (from a change event on the group)
+      2. this method will be called with the selectedControl parameter (from a change event on the group)
 
       We use 2. to close our content if the selected radio is not ours.
     */
-    if (selectedRadio !== undefined) {
-      if (this.$toggle.attr('id') !== selectedRadio.id) {
+    if (selectedControl !== undefined) {
+      if (this.$toggle.attr('id') !== selectedControl.id) {
         _hideContent();
         this.adjustVerticalSpace('hidden');
         $('#continue').show();
@@ -281,17 +281,23 @@
   //
   //  ie. radio:address.address
   MarkSelected = function (elm) {
-    var _this = this;
+    var _this = this,
+        controlType,
+        isMonitored;
 
     this.$label = $(elm);
     this.$control = this.$label.find('input[type=radio], input[type=checkbox]');
-    if (this.$control.attr('type') === 'radio') {
+    controlType = this.$control.attr('type');
+    if (controlType === 'radio') {
       $(document).on('radio:' + this.$control.attr('name'), function (e, data) {
-        _this.toggle(data.selectedRadio);
+        _this.toggle(data);
       });
-    } else {
-      this.$label.on('click', function () {
-        _this.toggle();
+    }
+    if (controlType === 'checkbox') {
+      this.$control.on('click', function () {
+        _this.toggle({
+          'selectedControl' : _this.$control
+        });
       });
     }
     if (this.$control.is(':checked')) {
@@ -299,23 +305,13 @@
     }
   };
 
-  MarkSelected.prototype.toggle = function (selectedRadio) {
+  MarkSelected.prototype.toggle = function (eventData) {
     var isChecked = this.$control.is(':checked');
 
-    // called by a change on a radio group
-    if (selectedRadio !== undefined) {
-      $(selectedRadio).closest('fieldset').find('input[type=radio]').each(function (idx, elm) {
-        if (elm.name === selectedRadio.name) {
-          $(elm).parent('label').removeClass('selected');
-        }
-      })
-      $(selectedRadio).parent('label').addClass('selected');
-    } else { // called from a control selection
-      if (isChecked) {
-        this.$label.addClass('selected');
-      } else {
-        this.$label.removeClass('selected');
-      }
+    if (isChecked) {
+      this.$label.addClass('selected');
+    } else {
+      this.$label.removeClass('selected');
     }
   };
 
@@ -679,7 +675,7 @@
           if (target.type && target.type === 'radio') {
             $(document).trigger('radio:' + target.name,
               { 
-                "selectedRadio" : target,
+                "selectedControl" : target,
                 "fieldset" : this
               }
             );

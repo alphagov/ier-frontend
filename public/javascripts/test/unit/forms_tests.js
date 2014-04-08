@@ -355,7 +355,7 @@ describe("ConditionalControl", function () {
     it("Custom event should call the toggle method", function () {
       var onCustom,
           evtStub = {},
-          evtDataStub = { 'selectedRadio' : conditionalControlMock.$toggle };
+          evtDataStub = { 'selectedControl' : conditionalControlMock.$toggle };
 
       spyOn(conditionalControlMock, "toggle");
       // stub the event binding and store the callback
@@ -438,7 +438,7 @@ describe("ConditionalControl", function () {
     });
 
     it("Should hide the content if called from a radio being selected that is not the toggle control", function () {
-      var selectedRadio = $("<input type='radio' id='mock2' />")[0],
+      var selectedControl = $("<input type='radio' id='mock2' />")[0],
           showCalledWith;
 
       spyOn($.fn, "show")
@@ -451,7 +451,7 @@ describe("ConditionalControl", function () {
       conditionalControlMock.$content.addClass(conditionalControlMock.toggleClass);
 
       // if a radio input is sent in as the 1st parameter, the method has been called from a radio selection
-      GOVUK.registerToVote.ConditionalControl.prototype.toggle.call(conditionalControlMock, selectedRadio); 
+      GOVUK.registerToVote.ConditionalControl.prototype.toggle.call(conditionalControlMock, selectedControl); 
       // hiding content
       expect(conditionalControlMock.adjustVerticalSpace).toHaveBeenCalledWith("hidden");
       expect($.fn.show).toHaveBeenCalled();
@@ -822,13 +822,21 @@ describe("DuplicateField", function () {
     });
 
     it("Should shift focus to the original textbox if only one duplicate is left", function () {
-      var $container = $(containerWithOneDuplicate);
+      var $container = $(containerWithOneDuplicate),
+          focusCalledOn;
 
+      spyOn($.fn, 'focus').and.callFake(
+        function () {
+          focusCalledOn = this[0];
+          return this;
+        }
+      );
       $(document.body).append($container);
       setUpMock(duplicateFieldMock, $container);
 
       GOVUK.registerToVote.DuplicateField.prototype.removeDuplicate.call(duplicateFieldMock, "field[1]");
-      expect($container.find("input:first").is(":focus")).toBe(true);
+      expect($.fn.focus).toHaveBeenCalled();
+      expect(focusCalledOn).toEqual($container.find('input:first')[0]);
     });
   });
 
@@ -893,6 +901,123 @@ describe("DuplicateField", function () {
   });
 });
 
+describe("MarkSelected", function () {
+  describe("Creating an instance", function () {
+    var $radioLabel,
+        $checkboxLabel;
+
+    beforeEach(function () {
+      $radioLabel = $(
+        "<label for='field_1'>" +
+          "<input type='radio' id='field_1' name='field_1' />" +
+        "</label>"
+      );
+      $checkboxLabel = $(
+        "<label for='field_1'>" +
+          "<input type='checkbox' id='field_1' name='field_1' />" +
+        "</label>"
+      );
+    });
+
+    it("Should work with both radios and checkboxes", function () {
+      var createInstance = function ($elm) {
+            return new GOVUK.registerToVote.MarkSelected($elm);
+          };
+
+      expect(function () { createInstance($radioLabel) }).not.toThrow();
+      expect(function () { createInstance($checkboxLabel) }).not.toThrow();
+    });
+
+    it("Should have the right interface", function () {
+      var selectable;
+
+      selectable = new GOVUK.registerToVote.MarkSelected($radioLabel);
+      expect(selectable.toggle).toBeDefined();
+    });
+
+    it("Should add a custom event to the document if selectable contains a radio", function () {
+      var selectable,
+          eventBound,
+          elementBoundTo;
+
+      spyOn($.fn, "on").and.callFake(
+        function (evt, callback) {
+          eventBound = evt;
+          elementBoundTo = this[0];
+          return this;
+        }
+      );
+      selectable = new GOVUK.registerToVote.MarkSelected($radioLabel);
+      expect(elementBoundTo).toBe(document);
+      expect(eventBound).toBe("radio:" + $radioLabel.find("input").attr("name"));
+    });
+
+    it("The custom event should call the toggle method", function () {
+      var inputName = $radioLabel.find("input").attr("name"),
+          eventName = "radio:" + inputName,
+          selectable,
+          eventCallback;
+
+      spyOn($.fn, "on").and.callFake(
+        function (evt, callback) {
+          if ((evt === eventName) && (this[0] === document)) {
+            eventCallback = callback;
+          }
+          return this;
+        }
+      );
+      selectable = new GOVUK.registerToVote.MarkSelected($radioLabel);
+      spyOn(selectable, "toggle");
+      eventCallback(eventName, { "selectedRadio" : $radioLabel });
+      expect(selectable.toggle).toHaveBeenCalled();
+    });
+
+    it("Should add a click event to the selectable if it contains a checkbox", function () {
+      var selectable,
+          eventBound,
+          elementBoundTo;
+
+      spyOn($.fn, "on").and.callFake(
+        function (evt, callback) {
+          eventBound = evt;
+          elementBoundTo = this[0];
+          return this;
+        }
+      );
+      selectable = new GOVUK.registerToVote.MarkSelected($checkboxLabel);
+      expect(elementBoundTo).toBe($checkboxLabel.find('input')[0]);
+      expect(eventBound).toBe("click");
+    });
+
+    it("Click event should call the toggle method", function () {
+      var selectable,
+          evtCallback,
+          control = $checkboxLabel.find('input')[0];
+
+      spyOn($.fn, "on").and.callFake(
+        function (evt, callback) {
+          if (evt === 'click' && this[0] === control) {
+            evtCallback = callback;
+          }
+          return this;
+        }
+      );
+      selectable = new GOVUK.registerToVote.MarkSelected($checkboxLabel);
+      spyOn(selectable, "toggle");
+      evtCallback();
+      expect(selectable.toggle).toHaveBeenCalled();
+    });
+
+    it("Should add a class to the selectable if it is already chosen", function () {
+      var selectedRadio;
+
+      $radioLabel.find("input").attr("checked", true);
+      selectable = new GOVUK.registerToVote.MarkSelected($radioLabel);
+      expect($radioLabel.hasClass("selected")).toBe(true);
+    });
+  });
+});
+
 describe("monitorRadios", function () {
   var $radioGroup;
 
@@ -947,7 +1072,7 @@ describe("monitorRadios", function () {
     expect($.fn.trigger).toHaveBeenCalled();
     expect(evtSet).toBe("radio:" + radio.name);
     expect(dataSent).toEqual({
-      "selectedRadio" : radio,
+      "selectedControl" : radio,
       "fieldset" : $radioGroup[0]
     });
   });
@@ -1039,7 +1164,7 @@ describe("MarkSelected", function () {
       );
       selectable = new GOVUK.registerToVote.MarkSelected($radioLabel);
       spyOn(selectable, "toggle");
-      eventCallback(eventName, { "selectedRadio" : $radioLabel });
+      eventCallback(eventName, { "selectedControl" : $radioLabel });
       expect(selectable.toggle).toHaveBeenCalled();
     });
 
@@ -1056,7 +1181,7 @@ describe("MarkSelected", function () {
         }
       );
       selectable = new GOVUK.registerToVote.MarkSelected($checkboxLabel);
-      expect(elementBoundTo).toBe($checkboxLabel[0]);
+      expect(elementBoundTo).toEqual($checkboxLabel.find('input')[0]);
       expect(eventBound).toBe("click");
     });
 
@@ -1073,12 +1198,12 @@ describe("MarkSelected", function () {
         }
       );
       selectable = new GOVUK.registerToVote.MarkSelected($checkboxLabel);
-      expect(elementBoundTo).toBe($checkboxLabel[0]);
+      expect(elementBoundTo).toBe($checkboxLabel.find('input')[0]);
       expect(eventBound).toBe("click");
     });
 
     it("Should add a class to the selectable if it is already chosen", function () {
-      var selectedRadio;
+      var selectedControl;
 
       $radioLabel.find("input").attr("checked", true);
       selectable = new GOVUK.registerToVote.MarkSelected($radioLabel);
@@ -1089,41 +1214,82 @@ describe("MarkSelected", function () {
   describe("toggle method", function () {
     var $radioFieldset,
         $checkboxFieldset,
-        $radioLabel,
-        $checkboxLabel,
-        markSelectedMock;
+        MarkSelectedMock,
+        eventDataMock;
 
     beforeEach(function () {
-      $radioFieldset =
-        "<label for='field_1'>" +
-          "<input type='radio' id='field_1' name='field_1' />" +
-        "</label>" +
-        "<label for='field_2'>" +
-          "<input type='radio' id='field_2' name='field_2' />" +
-        "</label>"
+      $radioFieldset = $(
+        "<fieldset>" +
+          "<label for='field_1'>" +
+            "<input type='radio' id='field_1' name='field_1' />" +
+          "</label>" +
+          "<label for='field_2'>" +
+            "<input type='radio' id='field_2' name='field_2' />" +
+          "</label>" +
+          "<label for='field_3'>" +
+            "<input type='radio' id='field_3' name='field_3' />" +
+          "</label>" +
+        "</fieldset>"
       );
       $checkboxFieldset = $(
-        "<label for='field_1'>" +
-          "<input type='checkbox' id='field_1' name='field_1' />" +
-        "</label>" +
-        "<label for='field_2'>" +
-          "<input type='checkbox' id='field_2' name='field_2' />" +
-        "</label>"
+        "<fieldset>" +
+          "<label for='field_1'>" +
+            "<input type='checkbox' id='field_1' name='field_1' />" +
+          "</label>" +
+          "<label for='field_2'>" +
+            "<input type='checkbox' id='field_2' name='field_2' />" +
+          "</label>" +
+        "</fieldset>"
       );
-      $radioLabel = $radioFieldset.find('#field_1');
-      $checkboxLabel = $checkboxFieldset.find('#field_1');
     });
     
-    it("Should add a class to a radio if called by a click which deselects it", function () {
-      markSelectedMock = {
-        "$control" : $radioLabel.find("input"),
-        "$label" : $radioLabel
+    it("Should add the 'selected' class to a radio if called by a click which selects it", function () {
+      var $control = $radioFieldset.find('#field_1'),
+          $label = $control.parent('label');
+
+      $control.attr('checked', true);
+      MarkSelectedMock = {
+        "$control" : $control,
+        "$label" : $label
       };
-      $radioLabel
-        .addClass("selected")
-      expect($radioLabel.hasClass("selected")).toBe(true);
-      GOVUK.registerToVote.MarkSelected.prototype.toggle.call(markSelectedMock);
-      expect($radioLabel.hasClass("selected")).toBe(false);
+      eventDataMock = {
+        "selectedControl" : $control[0],
+        "fieldset" : $radioFieldset
+      };
+      GOVUK.registerToVote.MarkSelected.prototype.toggle.call(MarkSelectedMock, eventDataMock);
+      expect($label.hasClass("selected")).toBe(true);
+    });
+
+    it("Should add the 'selected' class to a checkbox if it sent in as checked", function () {
+      var $control = $checkboxFieldset.find('#field_1'),
+          $label = $control.parent('label');
+
+      MarkSelectedMock = {
+        "$control" : $control,
+        "$label" : $label
+      };
+      eventDataMock = {
+        "selectedControl" : $control[0]
+      };
+      $control.attr('checked', true);
+      GOVUK.registerToVote.MarkSelected.prototype.toggle.call(MarkSelectedMock, eventDataMock);
+      expect($label.hasClass('selected')).toEqual(true);
+    });
+
+    it("Should remove the 'selected' class from a checkbox if it sent in as not checked", function () {
+      var $control = $checkboxFieldset.find('#field_1'),
+          $label = $control.parent('label');
+
+      MarkSelectedMock = {
+        "$control" : $control,
+        "$label" : $label
+      };
+      eventDataMock = {
+        "selectedControl" : $control[0]
+      };
+      $control.attr('checked', false);
+      GOVUK.registerToVote.MarkSelected.prototype.toggle.call(MarkSelectedMock, eventDataMock);
+      expect($label.hasClass('selected')).toEqual(false);
     });
   });
 });
