@@ -6,7 +6,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.step.CrownStep
+import uk.gov.gds.ier.step.CrownStepWithNewMustache
 import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.validation.ErrorTransformForm
@@ -18,8 +18,8 @@ class PreviousAddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService)
-  extends CrownStep
-  with PreviousAddressMustache
+  extends CrownStepWithNewMustache
+  with PreviousAddressManualMustache
   with PreviousAddressForms {
 
   val validation = manualAddressFormForPreviousAddress
@@ -35,17 +35,5 @@ class PreviousAddressManualStep @Inject() (
 
   def nextStep(currentState: InprogressCrown) = {
     NationalityController.nationalityStep
-  }
-
-  def template(
-      form: ErrorTransformForm[InprogressCrown],
-      call: Call,
-      backUrl: Option[Call]) = {
-    PreviousAddressMustache.manualPage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url,
-      PreviousAddressPostcodeController.get.url
-    )
   }
 }
