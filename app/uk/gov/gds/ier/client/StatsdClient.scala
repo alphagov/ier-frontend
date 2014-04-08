@@ -5,7 +5,10 @@ import java.net.InetAddress
 
 object StatsdClient {
 
-  def timing(statName: String, timeInMs: Long) = Statsd.timing(fullStatPath(statName), timeInMs)
+  def timing(statName: String, timeInMs: Long) = {
+    if (!statName.contains("assets"))
+      Statsd.timing(fullStatPath(statName), timeInMs)
+  }
 
   private def fullStatPath(statName: String) =
     "%s.%s".format(InetAddress.getLocalHost.getHostName, statName)
