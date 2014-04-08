@@ -12,12 +12,11 @@ import uk.gov.gds.ier.logging.Logging
 trait ApiClient extends Logging {
   self:WithConfig =>
 
-  def get(url: String) : ApiResponse = {
-
-    val start = new DateTime()
+  def get(url: String, headers: (String, String)*) : ApiResponse = {
+	val start = new DateTime()
     try {
         val result = Await.result(
-          WS.url(url).get(),
+          WS.url(url).withHeaders(headers:_*).get(),
           config.apiTimeout seconds
         )
         result.status match {

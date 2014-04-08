@@ -14,30 +14,6 @@ import uk.gov.gds.ier.logging.Logging
 
 class PlacesService @Inject() (apiClient: PlacesApiClient, serialiser: JsonSerialiser, config:Config) extends Logging {
  
-  def lookupAddress(partialAddress: PartialAddress):Option[Address] = {
-    val listOfAddresses = lookupAddress(partialAddress.postcode)
-    listOfAddresses.find(address => address.uprn == partialAddress.uprn)
-  }
-
-  def lookupAddress(postcode: String) : List[Address] = {
-    val result = apiClient.get((config.placesUrl + "/address?postcode=%s").format(postcode.replaceAllLiterally(" ","").toLowerCase))
-    result match {
-      case Success(body, _) => {
-        serialiser.fromJson[List[GovUkAddress]](body).map(pa => {
-          Address(
-            Option(pa.lineOne),
-            Option(pa.lineTwo),
-            Option(List(pa.lineThree, pa.lineFour, pa.lineFive).filter(!_.isEmpty).mkString(", ")),
-            Option(pa.city),
-            Option(pa.county),
-            pa.uprn,
-            pa.postcode)
-        })
-      }
-      case Fail(error,_) => throw new PostcodeLookupFailedException(error)
-    }
-  }
-
   def lookupAuthority(postcode:String) : Option[LocalAuthority] = {
     val result = apiClient.get((config.placesUrl + "/authority?postcode=%s").format(postcode.replaceAllLiterally(" ","").toLowerCase))
     result match {
