@@ -15,7 +15,7 @@ import uk.gov.gds.ier.model.{
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
-import uk.gov.gds.ier.step.{GoTo, OrdinaryStep, Routes}
+import uk.gov.gds.ier.step.{GoTo, OrdinaryStepWithNewMustache, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import controllers.routes.ExitController
@@ -24,9 +24,9 @@ class AddressSelectStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
-    val addressService: AddressService)
-  extends OrdinaryStep
-  with AddressMustache
+    val addressService: AddressService
+) extends OrdinaryStepWithNewMustache
+  with AddressSelectMustache
   with AddressForms {
 
   val validation = addressForm
@@ -40,10 +40,10 @@ class AddressSelectStep @Inject() (
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
-      currentState.address.map(_.postcode) match {
-        case Some(postcode) if postcode.toUpperCase.startsWith("BT") => GoTo (ExitController.northernIreland)
-        case _ => OtherAddressController.otherAddressStep
-      }
+    currentState.address.map(_.postcode) match {
+      case Some(postcode) if postcode.toUpperCase.startsWith("BT") => GoTo (ExitController.northernIreland)
+      case _ => OtherAddressController.otherAddressStep
+    }
   }
 
   override val onSuccess = TransformApplication { currentState =>
@@ -56,45 +56,4 @@ class AddressSelectStep @Inject() (
       possibleAddresses = None
     )
   } andThen GoToNextIncompleteStep()
-
-  def template(
-      form: ErrorTransformForm[InprogressOrdinary],
-      call: Call,
-      backUrl: Option[Call]) = {
-
-    val storedAddresses = for(
-      jsonList <- form(keys.possibleAddresses.jsonList).value;
-      postcode <- form(keys.possibleAddresses.postcode).value
-    ) yield {
-      PossibleAddress(
-        jsonList = serialiser.fromJson[Addresses](jsonList),
-        postcode = postcode
-      )
-    }
-
-    val maybeAddresses = storedAddresses.orElse {
-      lookupAddresses(form(keys.address.postcode).value)
-    }
-
-    AddressMustache.selectPage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url,
-      AddressController.get.url,
-      AddressManualController.get.url,
-      maybeAddresses
-    )
-  }
-
-  private[address] def lookupAddresses(
-      maybePostcode:Option[String]): Option[PossibleAddress] = {
-
-    maybePostcode.map { postcode =>
-      val addresses = addressService.lookupPartialAddress(postcode)
-      PossibleAddress(
-        jsonList = Addresses(addresses),
-        postcode = postcode
-      )
-    }
-  }
 }

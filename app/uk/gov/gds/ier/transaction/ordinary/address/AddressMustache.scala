@@ -19,17 +19,6 @@ trait AddressMustache {
         postcode: Field
     )
 
-    case class SelectModel (
-        question: Question,
-        lookupUrl: String,
-        manualUrl: String,
-        postcode: Field,
-        address: Field,
-        possibleJsonList: Field,
-        possiblePostcode: Field,
-        hasAddresses: Boolean
-    )
-
     def lookupData(
         form: ErrorTransformForm[InprogressOrdinary],
         backUrl: String,
@@ -63,87 +52,6 @@ trait AddressMustache {
       val content = Mustache.render(
         "ordinary/addressLookup",
         lookupData(form, backUrl, postUrl)
-      )
-      MainStepTemplate(content, title)
-    }
-
-    def selectData(
-        form: ErrorTransformForm[InprogressOrdinary],
-        backUrl: String,
-        postUrl: String,
-        lookupUrl: String,
-        manualUrl: String,
-        maybePossibleAddress:Option[PossibleAddress]) = {
-
-      implicit val progressForm = form
-
-      val selectedUprn = form(keys.address.uprn).value
-
-      val options = maybePossibleAddress.map { possibleAddress =>
-        possibleAddress.jsonList.addresses
-      }.getOrElse(List.empty).map { address =>
-        SelectOption(
-          value = address.uprn.getOrElse(""),
-          text = address.addressLine.getOrElse(""),
-          selected = if (address.uprn == selectedUprn) {
-            "selected=\"selected\""
-          } else ""
-        )
-      }
-
-      val hasAddresses = maybePossibleAddress.exists (!_.jsonList.addresses.isEmpty)
-
-      val addressSelect = SelectField(
-        key = keys.address.uprn,
-        optionList = options,
-        default = SelectOption(
-          value = "",
-          text = s"${options.size} addresses found"
-        )
-      )
-      val addressSelectWithError = addressSelect.copy(
-        classes = if (!hasAddresses) {
-          "invalid"
-        } else {
-          addressSelect.classes
-        }
-      )
-
-      SelectModel(
-        question = Question(
-          postUrl = postUrl,
-          backUrl = backUrl,
-          number = questionNumber,
-          title = title,
-          errorMessages = progressForm.globalErrors.map(_.message)
-        ),
-        lookupUrl = lookupUrl,
-        manualUrl = manualUrl,
-        postcode = TextField(keys.address.postcode),
-        address = addressSelectWithError,
-        possibleJsonList = TextField(keys.possibleAddresses.jsonList).copy(
-          value = maybePossibleAddress.map { poss =>
-            serialiser.toJson(poss.jsonList)
-          }.getOrElse("")
-        ),
-        possiblePostcode = TextField(keys.possibleAddresses.postcode).copy(
-          value = form(keys.address.postcode).value.getOrElse("")
-        ),
-        hasAddresses = hasAddresses
-      )
-    }
-
-    def selectPage(
-        form: ErrorTransformForm[InprogressOrdinary],
-        backUrl: String,
-        postUrl: String,
-        lookupUrl: String,
-        manualUrl: String,
-        maybePossibleAddress:Option[PossibleAddress]) = {
-
-      val content = Mustache.render(
-        "ordinary/addressSelect",
-        selectData(form, backUrl, postUrl, lookupUrl, manualUrl, maybePossibleAddress)
       )
       MainStepTemplate(content, title)
     }
