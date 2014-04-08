@@ -20,6 +20,7 @@ class LocateService @Inject() (apiClient: LocateApiClient, serialiser: JsonSeria
 
   val partialLocateUrl = config.locateUrl
   val partialAddressLookupUrl = config.locateUrl + "?residentialOnly=false"
+  val authorizationToken = config.locateApiAuthorizationToken
 
 
   def lookupAddress(partialAddress: PartialAddress):Option[Address] = {
@@ -29,7 +30,7 @@ class LocateService @Inject() (apiClient: LocateApiClient, serialiser: JsonSeria
 
   def lookupAddress(postcode: String) : List[Address] = {
     val result = apiClient.get((partialAddressLookupUrl + "&postcode=%s").format(postcode.replaceAllLiterally(" ","").toLowerCase),
-        ("Authorization", "Me6ZGsSKqkVLNLS9fzYBvrGCQF4"))
+        ("Authorization", authorizationToken))
     result match {
       case Success(body, _) => {
         serialiser.fromJson[List[LocateAddress]](body).map(pa => {
