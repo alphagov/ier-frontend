@@ -30,16 +30,6 @@ trait AddressMustache {
         hasAddresses: Boolean
     )
 
-    case class ManualModel (
-        question: Question,
-        lookupUrl: String,
-        postcode: Field,
-        maLineOne: Field,
-        maLineTwo: Field,
-        maLineThree: Field,
-        maCity: Field
-    )
-
     def lookupData(
         form: ErrorTransformForm[InprogressOrdinary],
         backUrl: String,
@@ -154,44 +144,6 @@ trait AddressMustache {
       val content = Mustache.render(
         "ordinary/addressSelect",
         selectData(form, backUrl, postUrl, lookupUrl, manualUrl, maybePossibleAddress)
-      )
-      MainStepTemplate(content, title)
-    }
-
-    def manualData(
-        form: ErrorTransformForm[InprogressOrdinary],
-        backUrl: String,
-        postUrl: String,
-        lookupUrl: String) = {
-
-      implicit val progressForm = form
-
-      ManualModel(
-        question = Question(
-          postUrl = postUrl,
-          backUrl = backUrl,
-          number = questionNumber,
-          title = title,
-          errorMessages = progressForm.globalErrors.map(_.message)
-        ),
-        lookupUrl = lookupUrl,
-        postcode = TextField(keys.address.postcode),
-        maLineOne = TextField(keys.address.manualAddress.lineOne),
-        maLineTwo = TextField(keys.address.manualAddress.lineTwo),
-        maLineThree = TextField(keys.address.manualAddress.lineThree),
-        maCity = TextField(keys.address.manualAddress.city)
-      )
-    }
-
-    def manualPage(
-        form: ErrorTransformForm[InprogressOrdinary],
-        backUrl: String,
-        postUrl: String,
-        lookupUrl: String) = {
-
-      val content = Mustache.render(
-        "ordinary/addressManual",
-        manualData(form, backUrl, postUrl, lookupUrl)
       )
       MainStepTemplate(content, title)
     }

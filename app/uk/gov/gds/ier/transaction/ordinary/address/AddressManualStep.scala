@@ -10,7 +10,7 @@ import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.step.{GoTo, OrdinaryStep, Routes}
+import uk.gov.gds.ier.step.{GoTo, OrdinaryStepWithNewMustache, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import controllers.routes.ExitController
@@ -19,8 +19,8 @@ class AddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService)
-  extends OrdinaryStep
-  with AddressMustache
+  extends OrdinaryStepWithNewMustache
+  with AddressManualMustache
   with AddressForms {
 
   val validation = manualAddressForm
@@ -39,17 +39,5 @@ class AddressManualStep @Inject() (
       case Some(postcode) if postcode.toUpperCase.startsWith("BT") => GoTo (ExitController.northernIreland)
       case _ => OtherAddressController.otherAddressStep
     }
-  }
-
-  def template(
-      form: ErrorTransformForm[InprogressOrdinary],
-      call: Call,
-      backUrl: Option[Call]) = {
-    AddressMustache.manualPage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url,
-      AddressController.get.url
-    )
   }
 }
