@@ -14,11 +14,6 @@ trait PreviousAddressMustache {
     val title = "What was your previous UK address?"
     val questionNumber = ""
 
-    case class PostcodeModel (
-        question: Question,
-        postcode: Field
-    )
-
     case class ManualModel (
       question: Question,
       lookupUrl: String,
@@ -28,36 +23,6 @@ trait PreviousAddressMustache {
       maLineThree: Field,
       maCity: Field
       )
-
-    def postcodeData(
-        form: ErrorTransformForm[InprogressCrown],
-        backUrl: String,
-        postUrl: String) = {
-      implicit val progressForm = form
-      val modelData = PostcodeModel(
-        question = Question(
-          postUrl = postUrl,
-          backUrl = backUrl,
-          number = questionNumber,
-          title = title,
-          errorMessages = form.globalErrors.map(_.message)
-        ),
-        postcode = TextField(keys.previousAddress.postcode)
-      )
-      modelData
-    }
-
-    def postcodePage(
-        form: ErrorTransformForm[InprogressCrown],
-        backUrl: String,
-        postUrl: String) = {
-
-      val content = Mustache.render(
-        "crown/previousAddressPostcode",
-        postcodeData(form, backUrl, postUrl)
-      )
-      MainStepTemplate(content, title)
-    }
 
     def manualData(
         form: ErrorTransformForm[InprogressCrown],

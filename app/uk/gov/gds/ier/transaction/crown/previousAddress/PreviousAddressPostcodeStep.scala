@@ -7,7 +7,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
-import uk.gov.gds.ier.step.{CrownStep, Routes}
+import uk.gov.gds.ier.step.{CrownStepWithNewMustache, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
@@ -16,8 +16,8 @@ class PreviousAddressPostcodeStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService)
-  extends CrownStep
-  with PreviousAddressMustache
+  extends CrownStepWithNewMustache
+  with PreviousAddressPostcodeMustache
   with PreviousAddressForms {
 
   val validation = postcodeAddressFormForPreviousAddress
@@ -33,17 +33,6 @@ class PreviousAddressPostcodeStep @Inject() (
 
   def nextStep(currentState: InprogressCrown) = {
     controllers.step.crown.PreviousAddressSelectController.previousAddressSelectStep
-  }
-
-  def template(
-      form: ErrorTransformForm[InprogressCrown],
-      call: Call,
-      backUrl: Option[Call]) = {
-    PreviousAddressMustache.postcodePage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url
-    )
   }
 
   def lookup = ValidSession requiredFor { implicit request => application =>
