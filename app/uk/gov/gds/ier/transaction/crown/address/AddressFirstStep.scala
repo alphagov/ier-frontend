@@ -39,17 +39,5 @@ class AddressFirstStep @Inject ()(
       controllers.step.crown.AddressController.addressStep
     }
   }
-
-  def template(
-      form: ErrorTransformForm[InprogressCrown],
-      call:Call,
-      backUrl: Option[Call]): Html = {
-
-    addressFirstStepMustache(
-      form,
-      call.url,
-      backUrl.map(_.url)
-    )
-  }
 }
 

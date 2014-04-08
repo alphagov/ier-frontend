@@ -2,22 +2,27 @@ package assets.mustache.crown
 
 import org.jsoup.Jsoup
 import org.scalatest.{Matchers, FlatSpec}
+import org.scalatest.mock.MockitoSugar
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.transaction.crown.address.AddressMustache
+import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.transaction.crown.address.{AddressSelectMustache, WithAddressService}
 
 class AddressSelectTemplateTest
   extends FlatSpec
-  with AddressMustache
+  with AddressSelectMustache
+  with StepMustache
   with Matchers
+  with MockitoSugar
   with WithSerialiser
+  with WithAddressService
   with TestHelpers {
 
+  val addressService = mock[AddressService]
   val serialiser = jsonSerialiser
-
-  import AddressMustache._
 
   it should "properly render" in {
     running(FakeApplication()) {

@@ -53,8 +53,5 @@ class WaysToVoteStep @Inject ()(
       case _ => throw new IllegalArgumentException("unknown next step")
     }
   }
-
-  def template(form: ErrorTransformForm[InprogressCrown], call:Call, backUrl: Option[Call]): Html = {
-    waysToVoteMustache(form, call, backUrl.map(_.url))
-  }
 }
+

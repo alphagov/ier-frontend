@@ -1,12 +1,10 @@
 package uk.gov.gds.ier.transaction.crown.statement
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
-trait StatementMustache extends StepMustache {
+trait StatementMustache extends StepTemplate[InprogressCrown] {
 
   case class StatementModel(
       question: Question,
@@ -18,18 +16,18 @@ trait StatementMustache extends StepMustache {
       councilPartner: Field
   )
 
-  def statementData(
-      form: ErrorTransformForm[InprogressCrown],
-      postEndpoint: Call,
-      backEndpoint: Option[Call]) = {
+  val title = "Which of these statements applies to you?"
+
+  val mustache = MustacheTemplate("crown/statement") { (form, post, back) =>
     implicit val progressForm = form
-    StatementModel(
+    
+    val data = StatementModel(
       question = Question(
-        postUrl = postEndpoint.url,
-        backUrl = backEndpoint.map { _.url }.getOrElse(""),
+        postUrl = post.url,
+        backUrl = back.map { _.url }.getOrElse(""),
         errorMessages = form.globalErrors.map { _.message },
         number = "1",
-        title = "Which of these statements applies to you?"
+        title = title
       ),
       crown = Field(
         id = "crown" + keys.statement.key,
@@ -44,14 +42,8 @@ trait StatementMustache extends StepMustache {
       councilEmployee = CheckboxField(keys.statement.councilEmployee, "true"),
       councilPartner = CheckboxField(keys.statement.councilPartner, "true")
     )
-  }
 
-  def statementMustache(
-      form:ErrorTransformForm[InprogressCrown],
-      postEndpoint: Call,
-      backEndpoint: Option[Call]): Html = {
-    val data = statementData(form, postEndpoint, backEndpoint)
-    val content = Mustache.render("crown/statement", data)
-    MainStepTemplate(content, data.question.title)
+    MustacheData(data, title)
   }
 }
+

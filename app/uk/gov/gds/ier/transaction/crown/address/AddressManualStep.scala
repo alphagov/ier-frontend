@@ -17,7 +17,7 @@ class AddressManualStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService)
   extends CrownStep
-  with AddressMustache
+  with AddressManualMustache
   with AddressForms {
 
   val validation = manualAddressForm
@@ -42,17 +42,5 @@ class AddressManualStep @Inject() (
         NationalityController.nationalityStep
       }
     }
-  }
-
-  def template(
-      form: ErrorTransformForm[InprogressCrown],
-      call: Call,
-      backUrl: Option[Call]) = {
-    AddressMustache.manualPage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url,
-      AddressController.get.url
-    )
   }
 }

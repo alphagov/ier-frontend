@@ -23,6 +23,8 @@ class ProxyVoteStep @Inject ()(
   with PostalOrProxyVoteForms
   with PostalOrProxyVoteMustache {
 
+  val wayToVote = WaysToVoteType.ByProxy
+
   val validation = postalOrProxyVoteForm
   val previousRoute = Some(WaysToVoteController.get)
 
@@ -32,13 +34,6 @@ class ProxyVoteStep @Inject ()(
     editGet = ProxyVoteController.editGet,
     editPost = ProxyVoteController.editPost
   )
-
-  def template(
-      form: ErrorTransformForm[InprogressCrown],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]): Html = {
-    postalOrProxyVoteMustache(form, postEndpoint, backEndpoint, WaysToVoteType.ByProxy)
-  }
 
   def nextStep(currentState: InprogressCrown) = {
     ContactController.contactStep

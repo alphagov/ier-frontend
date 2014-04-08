@@ -19,8 +19,9 @@ class AddressSelectStep @Inject() (
     val encryptionService: EncryptionService,
     val addressService: AddressService)
   extends CrownStep
-  with AddressMustache
-  with AddressForms {
+  with AddressSelectMustache
+  with AddressForms
+  with WithAddressService {
 
   val validation = addressForm
 
@@ -57,45 +58,4 @@ class AddressSelectStep @Inject() (
       possibleAddresses = None
     )
   } andThen GoToNextIncompleteStep()
-
-  def template(
-      form: ErrorTransformForm[InprogressCrown],
-      call: Call,
-      backUrl: Option[Call]) = {
-
-    val storedAddresses = for(
-      jsonList <- form(keys.possibleAddresses.jsonList).value;
-      postcode <- form(keys.possibleAddresses.postcode).value
-    ) yield {
-      PossibleAddress(
-        jsonList = serialiser.fromJson[Addresses](jsonList),
-        postcode = postcode
-      )
-    }
-
-    val maybeAddresses = storedAddresses.orElse {
-      lookupAddresses(form(keys.address.postcode).value)
-    }
-
-    AddressMustache.selectPage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url,
-      AddressController.get.url,
-      AddressManualController.get.url,
-      maybeAddresses
-    )
-  }
-
-  private[address] def lookupAddresses(
-      maybePostcode:Option[String]): Option[PossibleAddress] = {
-
-    maybePostcode.map { postcode =>
-      val addresses = addressService.lookupPartialAddress(postcode)
-      PossibleAddress(
-        jsonList = Addresses(addresses),
-        postcode = postcode
-      )
-    }
-  }
 }

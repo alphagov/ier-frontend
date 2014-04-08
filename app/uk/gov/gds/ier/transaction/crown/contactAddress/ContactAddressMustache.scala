@@ -1,15 +1,13 @@
 package uk.gov.gds.ier.transaction.crown.contactAddress
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.model.{LastUkAddress, PartialAddress}
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 trait ContactAddressMustache
-  extends StepMustache
+  extends StepTemplate[InprogressCrown]
     with AddressHelpers {
 
   case class ContactAddressModel(
@@ -46,18 +44,12 @@ trait ContactAddressMustache
       ukAddressLineText: Field
   )
 
-  def transformFormStepToMustacheData(
-      form:ErrorTransformForm[InprogressCrown],
-      post: Call,
-      back: Option[Call]): ContactAddressModel = {
+  val mustache = MustacheTemplate("crown/contactAddress") {
+    (form, post, back, application) =>
 
     implicit val progressForm = form
 
-    val application = progressForm.value
-
-    val ukAddress = application.flatMap(_.address)
-
-    val ukAddressToBeShown = extractUkAddressText(ukAddress, form)
+    val ukAddressToBeShown = extractUkAddressText(application.address, form)
 
     val ukContactAddressModel = UKContactAddressModel(
       ukAddressOption = RadioField(
@@ -123,13 +115,15 @@ trait ContactAddressMustache
       )
     )
 
-    ContactAddressModel(
+    val title = "Where should we write to you about your registration?"
+
+    val data = ContactAddressModel(
       question = Question(
         postUrl = post.url,
         backUrl = back.map (_.url).getOrElse(""),
         errorMessages = form.globalErrors.map( _.message ),
         number = "8",
-        title = "Where should we write to you about your registration?"
+        title = title
       ),
       contactAddressFieldSet = FieldSet (
         classes = if (form(keys.contactAddress).hasErrors) "invalid" else ""
@@ -138,6 +132,8 @@ trait ContactAddressMustache
       bfpoAddress = bfpoContactAddressModel,
       otherAddress = otherContactAddressModel
     )
+
+    MustacheData(data, title)
   }
 
 
@@ -151,15 +147,5 @@ trait ContactAddressMustache
       val addressFromForm = form(keys.contactAddress.ukAddressLine).value
 
       addressLine orElse manualAddress orElse addressFromForm
-  }
-
-  def contactAddressMustache(
-        form:ErrorTransformForm[InprogressCrown],
-        post: Call,
-        back: Option[Call]): Html = {
-
-    val data = transformFormStepToMustacheData(form, post, back)
-    val content = Mustache.render("crown/contactAddress", data)
-    MainStepTemplate(content, data.question.title)
   }
 }

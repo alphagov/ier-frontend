@@ -7,11 +7,11 @@ import uk.gov.gds.ier.validation.constraints.ContactConstraints
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import uk.gov.gds.ier.validation.Key
 import uk.gov.gds.ier.model.ContactDetail
-import scala.Some
 import uk.gov.gds.ier.model.Contact
+import uk.gov.gds.ier.transaction.crown.applicationFormVote.PostalOrProxyVoteForms
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
-trait ContactForms extends ContactCrownConstraints {
+trait ContactForms extends ContactCrownConstraints with PostalOrProxyVoteForms {
   self:  FormKeys
     with ErrorMessages
     with WithSerialiser =>
@@ -37,11 +37,18 @@ trait ContactForms extends ContactCrownConstraints {
 
   val contactForm = ErrorTransformForm(
     mapping(
-      keys.contact.key -> optional(contactMapping)
+      keys.contact.key -> optional(contactMapping),
+      keys.postalOrProxyVote.key -> optional(postalOrProxyVoteMapping)
     ) (
-      contact => InprogressCrown(contact = contact)
+      (contact, postalVote) => InprogressCrown(
+        postalOrProxyVote = postalVote,
+        contact = contact
+      )
     ) (
-      inprogress => Some(inprogress.contact)
+      inprogress => Some(
+        inprogress.contact,
+        inprogress.postalOrProxyVote
+      )
     ).verifying (atLeastOneOptionSelected)
   )
 }

@@ -33,13 +33,6 @@ class NationalityStep @Inject ()(
     editPost = NationalityController.editPost
   )
 
-  def template(
-      form: ErrorTransformForm[InprogressCrown],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]): Html = {
-    nationalityMustache(form, postEndpoint, backEndpoint)
-  }
-
   def nextStep(currentState: InprogressCrown) = {
 
     if (currentState.nationality.flatMap(_.noNationalityReason) == None) {

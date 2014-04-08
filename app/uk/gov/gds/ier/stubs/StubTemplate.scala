@@ -19,7 +19,7 @@ trait StubTemplate[T <: InprogressApplication[T]] extends StepTemplate[T] {
           backUrl:Option[Call],
           application:T
       ) => {
-        StubModel("foo")
+        MustacheData(StubModel("foo"), "foo")
       }
       val mustachePath: String = ""
       val title: String = ""

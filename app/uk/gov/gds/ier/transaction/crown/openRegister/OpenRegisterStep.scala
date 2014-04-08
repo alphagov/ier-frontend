@@ -30,9 +30,6 @@ class OpenRegisterStep @Inject ()(
     editPost = OpenRegisterController.editPost
   )
 
-  def template(form: ErrorTransformForm[InprogressCrown], call:Call, backUrl: Option[Call]): Html = {
-    openRegisterMustache(form, call, backUrl)
-  }
   def nextStep(currentState: InprogressCrown) = {
     WaysToVoteController.waysToVoteStep
   }

@@ -12,28 +12,24 @@ import uk.gov.gds.ier.model.DOB
 import scala.Some
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
-/**
- * Unit test to test form to Mustache model transformation.
- *
- * Testing Mustache html text rendering requires running application, it is not easily unit testable,
- * so method {@link NameMustache#nameMustache()} is tested as a part of MustacheControllerTest.
- */
 class DateOfBirthMustacheTest
   extends FlatSpec
   with Matchers
   with DateOfBirthForms
   with ErrorMessages
   with FormKeys
-  with TestHelpers {
-
-  // tested unit
-  val dateOfBirthMustache = new DateOfBirthMustache {}
+  with TestHelpers 
+  with DateOfBirthMustache {
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = dateOfBirthForm
     
-    val dateOfBirthModel = dateOfBirthMustache.transformFormStepToMustacheData(emptyApplicationForm, 
-        new Call("POST", "/register-to-vote/date-of-birth"), None)
+    val dateOfBirthModel = mustache.data(
+        emptyApplicationForm, 
+        Call("POST", "/register-to-vote/date-of-birth"),
+        None,
+        InprogressCrown()
+    ).data.asInstanceOf[DateOfBirthModel]
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/date-of-birth")
@@ -48,8 +44,12 @@ class DateOfBirthMustacheTest
     val filledForm = dateOfBirthForm.fillAndValidate(InprogressCrown(
       dob = Some(DateOfBirth(Some(DOB(day=12, month= 12, year = 1980)), None))))
       
-    val dateOfBirthModel = dateOfBirthMustache.transformFormStepToMustacheData(filledForm,
-        new Call("POST", "/register-to-vote/date-of-birth"), None)
+    val dateOfBirthModel = mustache.data(
+        filledForm,
+        Call("POST", "/register-to-vote/date-of-birth"),
+        None,
+        InprogressCrown()
+    ).data.asInstanceOf[DateOfBirthModel]
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/date-of-birth")
@@ -64,8 +64,12 @@ class DateOfBirthMustacheTest
     val filledForm = dateOfBirthForm.fillAndValidate(InprogressCrown(
       dob = Some(DateOfBirth(None, Some(noDOB(Some("dunno my birthday... ???"), Some("18to70")))))))
 
-    val dateOfBirthModel = dateOfBirthMustache.transformFormStepToMustacheData(filledForm,
-      new Call("POST", "/register-to-vote/date-of-birth"), None)
+    val dateOfBirthModel = mustache.data(
+        filledForm,
+        Call("POST", "/register-to-vote/date-of-birth"),
+        None,
+        InprogressCrown()
+    ).data.asInstanceOf[DateOfBirthModel]
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/date-of-birth")

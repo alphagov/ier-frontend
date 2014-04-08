@@ -1,37 +1,34 @@
 package uk.gov.gds.ier.transaction.crown.job
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.templates.Html
 import uk.gov.gds.ier.model.{CrownStatement, Statement}
-import play.api.mvc.Call
-import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
-trait JobMustache extends StepMustache {
+trait JobMustache extends StepTemplate[InprogressCrown] {
 
   case class JobModel(
      question:Question,
      jobTitle: Field,
      govDepartment: Field)
 
-  def transformFormStepToMustacheData(
-     application: InprogressCrown,
-     form:ErrorTransformForm[InprogressCrown],
-     post: Call,
-     back: Option[Call]): JobModel = {
+  val mustache = MustacheTemplate("crown/job") { (form, post, back, application) =>
 
     implicit val progressForm = form
 
-    JobModel(
+    val title = if (application.displayPartner) {
+      "What is your partner's role?"
+    } else {
+      "What is your role?"
+    }
+
+    val data = JobModel(
       question = Question(
         postUrl = post.url,
         backUrl = back.map (_.url).getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "6",
-        title = if (application.displayPartner)
-          "What is your partner's role?"
-        else
-          "What is your role?"
+        title = title
       ),
       jobTitle = TextField(
         key = keys.job.jobTitle
@@ -40,16 +37,7 @@ trait JobMustache extends StepMustache {
         key = keys.job.govDepartment
       )
     )
-  }
 
-  def jobMustache(
-       application: InprogressCrown,
-       form:ErrorTransformForm[InprogressCrown],
-       post: Call,
-       back: Option[Call]): Html = {
-
-    val data = transformFormStepToMustacheData(application, form, post, back)
-    val content = Mustache.render("crown/job", data)
-    MainStepTemplate(content, data.question.title)
+    MustacheData(data, title)
   }
 }

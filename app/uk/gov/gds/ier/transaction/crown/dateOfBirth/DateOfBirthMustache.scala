@@ -1,12 +1,10 @@
 package uk.gov.gds.ier.transaction.crown.dateOfBirth
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
-trait DateOfBirthMustache extends StepMustache {
+trait DateOfBirthMustache extends StepTemplate[InprogressCrown] {
 
   case class DateOfBirthModel(
       question:Question,
@@ -22,19 +20,18 @@ trait DateOfBirthMustache extends StepMustache {
       noDobReasonShowFlag: Text
   )
 
-  def transformFormStepToMustacheData(
-      form:ErrorTransformForm[InprogressCrown],
-      post: Call,
-      back: Option[Call]): DateOfBirthModel = {
+  val mustache = MustacheTemplate("crown/dateOfBirth") { (form, post, back) =>
     implicit val progressForm = form
 
-    DateOfBirthModel(
+    val title = "What is your date of birth?"
+
+    val data = DateOfBirthModel(
       question = Question(
         postUrl = post.url,
         backUrl = back.map (_.url).getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "5",
-        title = "What is your date of birth?"
+        title = title
       ),
       day = TextField(
         key = keys.dob.dob.day
@@ -71,15 +68,8 @@ trait DateOfBirthMustache extends StepMustache {
         value = progressForm(keys.dob.noDob.reason).value.map(noDobReason => "-open").getOrElse("")
       )
     )
-  }
 
-  def dateOfBirthMustache(
-        form:ErrorTransformForm[InprogressCrown],
-        post: Call,
-        back: Option[Call]): Html = {
-
-    val data = transformFormStepToMustacheData(form, post, back)
-    val content = Mustache.render("crown/dateOfBirth", data)
-    MainStepTemplate(content, data.question.title)
+    MustacheData(data, title)
   }
 }
+

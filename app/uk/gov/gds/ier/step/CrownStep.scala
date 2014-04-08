@@ -10,16 +10,6 @@ import play.api.templates.Html
 
 trait CrownStep
   extends StepController[InprogressCrown]
-  with StubTemplate[InprogressCrown]
-  with WithSerialiser
-  with WithConfig
-  with WithEncryption {
-    def factoryOfT() = InprogressCrown()
-    val confirmationRoute = controllers.step.crown.routes.ConfirmationController.get
-}
-
-trait CrownStepWithNewMustache
-  extends StepController[InprogressCrown]
   with WithSerialiser
   with WithConfig
   with WithEncryption { self: StepTemplate[InprogressCrown] =>

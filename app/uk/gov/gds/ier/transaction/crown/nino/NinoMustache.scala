@@ -3,11 +3,11 @@ package uk.gov.gds.ier.transaction.crown.nino
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.mvc.Call
 import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 
-trait NinoMustache extends StepMustache {
+trait NinoMustache extends StepTemplate[InprogressCrown] {
 
   case class NinoModel (
       question:Question,
@@ -16,12 +16,11 @@ trait NinoMustache extends StepMustache {
       noNinoReasonShowFlag: Text
   )
 
-  def ninoMustache(
-      form: ErrorTransformForm[InprogressCrown],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]) : Html = {
+  val mustache = MustacheTemplate("crown/nino") { (form, postEndpoint, backEndpoint) =>
 
     implicit val progressForm = form
+
+    val title = "What is your National Insurance number?"
 
     val data = NinoModel(
       question = Question(
@@ -29,7 +28,7 @@ trait NinoMustache extends StepMustache {
         backUrl = backEndpoint.map(_.url).getOrElse(""),
         errorMessages = form.globalErrors.map(_.message),
         number = "7",
-        title = "What is your National Insurance number?"
+        title = title
       ),
       nino = TextField(
         key = keys.nino.nino
@@ -41,7 +40,6 @@ trait NinoMustache extends StepMustache {
         value = progressForm(keys.nino.noNinoReason).value.fold("")(noNinoReason => "-open")
       )
     )
-    val content = Mustache.render("crown/nino", data)
-    MainStepTemplate(content, data.question.title)
+    MustacheData(data, title)
   }
 }

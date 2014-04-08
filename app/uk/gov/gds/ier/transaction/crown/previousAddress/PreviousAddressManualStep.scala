@@ -19,7 +19,7 @@ class PreviousAddressManualStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService)
   extends CrownStep
-  with PreviousAddressMustache
+  with PreviousAddressManualMustache
   with PreviousAddressForms {
 
   val validation = manualAddressFormForPreviousAddress
@@ -35,17 +35,5 @@ class PreviousAddressManualStep @Inject() (
 
   def nextStep(currentState: InprogressCrown) = {
     NationalityController.nationalityStep
-  }
-
-  def template(
-      form: ErrorTransformForm[InprogressCrown],
-      call: Call,
-      backUrl: Option[Call]) = {
-    PreviousAddressMustache.manualPage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url,
-      PreviousAddressPostcodeController.get.url
-    )
   }
 }

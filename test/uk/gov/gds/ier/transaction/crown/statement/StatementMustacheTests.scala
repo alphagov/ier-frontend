@@ -2,6 +2,7 @@ package uk.gov.gds.ier.transaction.crown.statement
 
 import org.scalatest.{Matchers, FlatSpec}
 import play.api.mvc.Call
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.test.TestHelpers
 
@@ -16,11 +17,12 @@ class StatementMustacheTests
 
   it should "render without any user input correctly" in {
     val application = statementForm
-    val model = statementData(
+    val model = mustache.data(
       application,
       Call("POST", "http://postUrl"),
-      Option(Call("GET", "http://backUrl"))
-    )
+      Option(Call("GET", "http://backUrl")),
+      InprogressCrown()
+    ).data.asInstanceOf[StatementModel]
 
     model.question.postUrl should be("http://postUrl")
     model.question.backUrl should be("http://backUrl")
@@ -68,11 +70,12 @@ class StatementMustacheTests
         "statement.councilPartner" -> "false"
       )
     )
-    val model = statementData(
+    val model = mustache.data(
       application,
       Call("POST", "http://postUrl"),
-      Option(Call("GET", "http://backUrl"))
-    )
+      Option(Call("GET", "http://backUrl")),
+      InprogressCrown()
+    ).data.asInstanceOf[StatementModel]
 
     model.crownServant.attributes should be("checked=\"checked\"")
     model.crownPartner.attributes should be("")
@@ -89,11 +92,12 @@ class StatementMustacheTests
         "statement.councilPartner" -> "false"
       )
     )
-    val model = statementData(
+    val model = mustache.data(
       application,
       Call("POST", "http://postUrl"),
-      Option(Call("GET", "http://backUrl"))
-    )
+      Option(Call("GET", "http://backUrl")),
+      InprogressCrown()
+    ).data.asInstanceOf[StatementModel]
 
     model.crownServant.attributes should be("")
     model.crownPartner.attributes should be("checked=\"checked\"")
@@ -110,11 +114,12 @@ class StatementMustacheTests
         "statement.councilPartner" -> "false"
       )
     )
-    val model = statementData(
+    val model = mustache.data(
       application,
       Call("POST", "http://postUrl"),
-      Option(Call("GET", "http://backUrl"))
-    )
+      Option(Call("GET", "http://backUrl")),
+      InprogressCrown()
+    ).data.asInstanceOf[StatementModel]
 
     model.crownServant.attributes should be("")
     model.crownPartner.attributes should be("")
@@ -131,11 +136,12 @@ class StatementMustacheTests
         "statement.councilPartner" -> "true"
       )
     )
-    val model = statementData(
+    val model = mustache.data(
       application,
       Call("POST", "http://postUrl"),
-      Option(Call("GET", "http://backUrl"))
-    )
+      Option(Call("GET", "http://backUrl")),
+      InprogressCrown()
+    ).data.asInstanceOf[StatementModel]
 
     model.crownServant.attributes should be("")
     model.crownPartner.attributes should be("")

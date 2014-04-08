@@ -40,13 +40,5 @@ class PreviousAddressFirstStep @Inject ()(
       controllers.step.crown.NationalityController.nationalityStep
     }
   }
-
-  def template(form: ErrorTransformForm[InprogressCrown], call:Call, backUrl: Option[Call]): Html = {
-    previousAddressFirstStepMustache(
-      form,
-      call.url,
-      backUrl.map(_.url)
-    )
-  }
 }
 

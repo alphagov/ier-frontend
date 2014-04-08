@@ -29,13 +29,6 @@ class StatementStep @Inject ()(
     editPost = StatementController.editPost
   )
 
-  def template(
-      form: ErrorTransformForm[InprogressCrown],
-      postEndpoint: Call,
-      backEndpoint: Option[Call]) = {
-    statementMustache(form, postEndpoint, backEndpoint)
-  }
-
   def nextStep(currentState: InprogressCrown) = {
     AddressFirstController.addressFirstStep
   }

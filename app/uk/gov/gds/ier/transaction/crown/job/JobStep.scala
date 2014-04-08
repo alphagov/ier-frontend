@@ -30,20 +30,6 @@ class JobStep @Inject ()(
     editPost = JobController.editPost
   )
 
-
-  def template(
-    form: ErrorTransformForm[InprogressCrown],
-    call: Call,
-    backUrl:Option[Call]): Html = Html.empty
-
-  override def templateWithApplication(
-      form: ErrorTransformForm[InprogressCrown],
-      call:Call,
-      backUrl: Option[Call]) = {
-    application:InprogressCrown =>
-      jobMustache(application, form, call, backUrl)
-  }
-
   def nextStep(currentState: InprogressCrown) = {
     NinoController.ninoStep
   }

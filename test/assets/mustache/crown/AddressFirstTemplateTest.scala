@@ -5,10 +5,11 @@ import org.scalatest.{Matchers, FlatSpec}
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.crown.address.AddressFirstMustache
-
+import uk.gov.gds.ier.mustache.StepMustache
 
 class AddressFirstTemplateTest
   extends FlatSpec
+  with StepMustache
   with AddressFirstMustache
   with Matchers {
 

@@ -4,10 +4,11 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.templates.Html
 import play.api.mvc.Call
 
+case class MustacheData(data: Any, title:String)
+
 trait MustacheTemplate[T] {
   val mustachePath: String
-  val title: String
-  val data: (ErrorTransformForm[T],Call,Option[Call],T) => Any
+  val data: (ErrorTransformForm[T],Call,Option[Call],T) => MustacheData
 
   def apply(
       form:ErrorTransformForm[T],
@@ -20,56 +21,55 @@ trait MustacheTemplate[T] {
 }
 
 trait MustacheTemplateFactories[T] {
-  object MustacheTemplate {
-    def apply (
-        title: String,
-        mustachePath: String,
-        data: (ErrorTransformForm[T], Call, Option[Call], T) => Any
+  class MustacheTemplateMaker[T](name:String) {
+    def apply(
+        data: (ErrorTransformForm[T], Call, Option[Call], T) => MustacheData
+    ): MustacheTemplate[T] = {
+      makeMustacheTemplate(name, data)
+    }
+
+    def apply(
+        data: (ErrorTransformForm[T], Call, Option[Call]) => MustacheData
+    ): MustacheTemplate[T] = {
+      makeMustacheTemplate(
+        name,
+        (form, post, back, application) => data(form, post, back)
+      )
+    }
+
+    def apply(
+        data: (ErrorTransformForm[T], Call) => MustacheData
+    ): MustacheTemplate[T] = {
+      makeMustacheTemplate(
+        name,
+        (form, post, back, application) => data(form, post)
+      )
+    }
+
+    def apply(
+        data: (ErrorTransformForm[T]) => MustacheData
     ) : MustacheTemplate[T] = {
-      val _title = title
+      makeMustacheTemplate(
+        name,
+        (form, post, back, application) => data(form)
+      )
+    }
+
+    private def makeMustacheTemplate(
+        mustachePath:String,
+        data: (ErrorTransformForm[T], Call, Option[Call], T) => MustacheData
+    ) : MustacheTemplate[T] = {
       val _mustachePath = mustachePath
       val _data = data
       new MustacheTemplate[T] {
         val mustachePath = _mustachePath
-        val title = _title
         val data = _data
       }
     }
-  
-    def apply (
-        title: String,
-        mustachePath: String,
-        data: (ErrorTransformForm[T]) => Any
-    ) : MustacheTemplate[T] = {
-      this.apply(
-        title = title,
-        mustachePath = mustachePath,
-        data = (form, post, back, application) => data(form)
-      )
-    }
-  
-    def apply (
-        title: String,
-        mustachePath: String,
-        data: (ErrorTransformForm[T], Call, Option[Call]) => Any
-    ) : MustacheTemplate[T] = {
-      this.apply(
-        title = title,
-        mustachePath = mustachePath,
-        data = (form, post, back, application) => data(form, post, back)
-      )
-    }
-  
-    def apply (
-        title: String,
-        mustachePath: String,
-        data: (ErrorTransformForm[T], Call) => Any
-    ) : MustacheTemplate[T] = {
-      this.apply(
-        title = title,
-        mustachePath = mustachePath,
-        data = (form, post, back, application) => data(form, post)
-      )
+  }
+  object MustacheTemplate {
+    def apply(mustachePath:String):MustacheTemplateMaker[T] = {
+      new MustacheTemplateMaker[T](mustachePath)
     }
   }
 }

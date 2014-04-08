@@ -41,12 +41,12 @@ trait MustacheModel extends FormKeys {
 
   object TextField {
     def apply[T<:InprogressApplication[T]]
-        (key: Key)
+        (key: Key, default:Option[String] = None)
         (implicit progressForm: ErrorTransformForm[T]):Field = {
       Field(
         id = key.asId(),
         name = key.key,
-        value = progressForm(key).value.getOrElse(""),
+        value = progressForm(key).value.orElse(default).getOrElse(""),
         classes = if (progressForm(key).hasErrors) "invalid" else "")
     }
   }

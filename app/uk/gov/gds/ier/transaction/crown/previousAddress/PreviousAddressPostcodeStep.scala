@@ -17,7 +17,7 @@ class PreviousAddressPostcodeStep @Inject() (
     val encryptionService: EncryptionService,
     val addressService: AddressService)
   extends CrownStep
-  with PreviousAddressMustache
+  with PreviousAddressPostcodeMustache
   with PreviousAddressForms {
 
   val validation = postcodeAddressFormForPreviousAddress
@@ -33,17 +33,6 @@ class PreviousAddressPostcodeStep @Inject() (
 
   def nextStep(currentState: InprogressCrown) = {
     controllers.step.crown.PreviousAddressSelectController.previousAddressSelectStep
-  }
-
-  def template(
-      form: ErrorTransformForm[InprogressCrown],
-      call: Call,
-      backUrl: Option[Call]) = {
-    PreviousAddressMustache.postcodePage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url
-    )
   }
 
   def lookup = ValidSession requiredFor { implicit request => application =>

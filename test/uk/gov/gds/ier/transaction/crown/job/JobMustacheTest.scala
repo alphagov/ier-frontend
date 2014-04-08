@@ -14,18 +14,18 @@ class JobMustacheTest
   with JobForms
   with ErrorMessages
   with FormKeys
-  with TestHelpers {
-
-  val jobMustache = new JobMustache {}
+  with TestHelpers
+  with JobMustache {
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = jobForm
     val emptyApplication = InprogressCrown()
-    val jobModel = jobMustache.transformFormStepToMustacheData(
-      emptyApplication,
+    val jobModel = mustache.data(
       emptyApplicationForm,
       JobController.post,
-      Some(NinoController.get))
+      Some(NinoController.get),
+      emptyApplication
+    ).data.asInstanceOf[JobModel]
 
     jobModel.question.title should be("What is your role?")
     jobModel.question.postUrl should be("/register-to-vote/crown/job-title")
@@ -47,11 +47,12 @@ class JobMustacheTest
 
     val partiallyFilledApplicationForm = jobForm.fill(partiallyFilledApplication)
 
-    val jobModel = jobMustache.transformFormStepToMustacheData(
-      partiallyFilledApplication,
+    val jobModel = mustache.data(
       partiallyFilledApplicationForm,
       JobController.post,
-      Some(NinoController.get))
+      Some(NinoController.get),
+      partiallyFilledApplication
+    ).data.asInstanceOf[JobModel]
 
     jobModel.question.title should be("What is your role?")
     jobModel.question.postUrl should be("/register-to-vote/crown/job-title")
