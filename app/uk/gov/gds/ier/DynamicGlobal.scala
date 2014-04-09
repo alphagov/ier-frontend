@@ -20,7 +20,6 @@ trait DynamicGlobal
 
   override def onStart(app: Application) {
     super.onStart(app)
-    new Config().logConfiguration()
     GuiceContainer.initialize(List(new AbstractModule() {
       @Override
       protected def configure() {
