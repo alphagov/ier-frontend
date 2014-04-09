@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.overseas.lastRegisteredToVote
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
-import play.api.mvc.Call
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class LastRegisteredToVoteMustacheTests
   extends FlatSpec
@@ -17,11 +17,12 @@ class LastRegisteredToVoteMustacheTests
   it should "produce empty model (empty input)" in {
     val form = lastRegisteredToVoteForm
 
-    val model = LastRegisteredToVoteMustache.lastRegisteredData(
+    val model = mustache.data(
       form,
       Call("GET", "http://postUrl"),
-      Some(Call("GET", "http://backUrl"))
-    )
+      Some(Call("GET", "http://backUrl")),
+      InprogressOverseas()
+    ).data.asInstanceOf[LastRegisteredModel]
 
     model.question.title should be("How were you last registered to vote?")
     model.question.postUrl should be("http://postUrl")
@@ -60,11 +61,12 @@ class LastRegisteredToVoteMustacheTests
     val data = Map("lastRegisteredToVote.registeredType" -> "ordinary")
     val form = lastRegisteredToVoteForm.bind(data)
 
-    val model = LastRegisteredToVoteMustache.lastRegisteredData(
+    val model = mustache.data(
       form,
       Call("GET", "http://postUrl"),
-      Some(Call("GET", "http://backUrl"))
-    )
+      Some(Call("GET", "http://backUrl")),
+      InprogressOverseas()
+    ).data.asInstanceOf[LastRegisteredModel]
 
     model.registeredType.classes should be("")
     model.ukResident.attributes should be("""checked="checked"""")
@@ -78,11 +80,12 @@ class LastRegisteredToVoteMustacheTests
     val data = Map("lastRegisteredToVote.registeredType" -> "forces")
     val form = lastRegisteredToVoteForm.bind(data)
 
-    val model = LastRegisteredToVoteMustache.lastRegisteredData(
+    val model = mustache.data(
       form,
       Call("GET", "http://postUrl"),
-      Some(Call("GET", "http://backUrl"))
-    )
+      Some(Call("GET", "http://backUrl")),
+      InprogressOverseas()
+    ).data.asInstanceOf[LastRegisteredModel]
 
     model.registeredType.classes should be("")
     model.armedForces.attributes should be("""checked="checked"""")
@@ -96,11 +99,12 @@ class LastRegisteredToVoteMustacheTests
     val data = Map("lastRegisteredToVote.registeredType" -> "crown")
     val form = lastRegisteredToVoteForm.bind(data)
 
-    val model = LastRegisteredToVoteMustache.lastRegisteredData(
+    val model = mustache.data(
       form,
       Call("GET", "http://postUrl"),
-      Some(Call("GET", "http://backUrl"))
-    )
+      Some(Call("GET", "http://backUrl")),
+      InprogressOverseas()
+    ).data.asInstanceOf[LastRegisteredModel]
 
     model.registeredType.classes should be("")
     model.ukResident.attributes should be("")
@@ -114,11 +118,12 @@ class LastRegisteredToVoteMustacheTests
     val data = Map("lastRegisteredToVote.registeredType" -> "council")
     val form = lastRegisteredToVoteForm.bind(data)
 
-    val model = LastRegisteredToVoteMustache.lastRegisteredData(
+    val model = mustache.data(
       form,
       Call("GET", "http://postUrl"),
-      Some(Call("GET", "http://backUrl"))
-    )
+      Some(Call("GET", "http://backUrl")),
+      InprogressOverseas()
+    ).data.asInstanceOf[LastRegisteredModel]
 
     model.registeredType.classes should be("")
     model.ukResident.attributes should be("")
@@ -132,11 +137,12 @@ class LastRegisteredToVoteMustacheTests
     val data = Map("lastRegisteredToVote.registeredType" -> "not-registered")
     val form = lastRegisteredToVoteForm.bind(data)
 
-    val model = LastRegisteredToVoteMustache.lastRegisteredData(
+    val model = mustache.data(
       form,
       Call("GET", "http://postUrl"),
-      Some(Call("GET", "http://backUrl"))
-    )
+      Some(Call("GET", "http://backUrl")),
+      InprogressOverseas()
+    ).data.asInstanceOf[LastRegisteredModel]
 
     model.registeredType.classes should be("")
     model.ukResident.attributes should be("")
@@ -150,11 +156,12 @@ class LastRegisteredToVoteMustacheTests
     val data = Map("lastRegisteredToVote.registeredType" -> "blargh")
     val form = lastRegisteredToVoteForm.bind(data)
 
-    val model = LastRegisteredToVoteMustache.lastRegisteredData(
+    val model = mustache.data(
       form,
       Call("GET", "http://postUrl"),
-      Some(Call("GET", "http://backUrl"))
-    )
+      Some(Call("GET", "http://backUrl")),
+      InprogressOverseas()
+    ).data.asInstanceOf[LastRegisteredModel]
 
     model.question.errorMessages should be(Seq("blargh is not a valid registration type"))
 
@@ -170,11 +177,12 @@ class LastRegisteredToVoteMustacheTests
     val data = Map("lastRegisteredToVote.registeredType" -> "")
     val form = lastRegisteredToVoteForm.bind(data)
 
-    val model = LastRegisteredToVoteMustache.lastRegisteredData(
+    val model = mustache.data(
       form,
       Call("GET", "http://postUrl"),
-      Some(Call("GET", "http://backUrl"))
-    )
+      Some(Call("GET", "http://backUrl")),
+      InprogressOverseas()
+    ).data.asInstanceOf[LastRegisteredModel]
 
     model.question.errorMessages should be(Seq("Please answer this question"))
 
