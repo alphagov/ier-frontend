@@ -7,19 +7,18 @@ import controllers.routes.ExitController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
-import play.api.mvc.Call
-import play.api.templates.Html
 import uk.gov.gds.ier.service.IsoCountryService
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{OrdinaryStep, Routes, GoTo}
+import uk.gov.gds.ier.step.{OrdinaryStepWithNewMustache, Routes, GoTo}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
-class NationalityStep @Inject ()(val serialiser: JsonSerialiser,
-                                       val isoCountryService: IsoCountryService,
-                                       val config: Config,
-                                       val encryptionService : EncryptionService)
-  extends OrdinaryStep
+class NationalityStep @Inject ()(
+    val serialiser: JsonSerialiser,
+    val isoCountryService: IsoCountryService,
+    val config: Config,
+    val encryptionService : EncryptionService
+) extends OrdinaryStepWithNewMustache
   with NationalityForms
   with NationalityMustache {
 
@@ -32,19 +31,6 @@ class NationalityStep @Inject ()(val serialiser: JsonSerialiser,
     editGet = NationalityController.editGet,
     editPost = NationalityController.editPost
   )
-
-  def template(
-      form: ErrorTransformForm[InprogressOrdinary],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]): Html = Html.empty
-
-  override def templateWithApplication(
-      form: ErrorTransformForm[InprogressOrdinary],
-      call: Call,
-      backUrl: Option[Call]):InprogressOrdinary => Html = {
-    application:InprogressOrdinary =>
-      nationalityMustache(application, form, call, backUrl)
-  }
 
   def nextStep(currentState: InprogressOrdinary) = {
     if (currentState.nationality.flatMap(_.noNationalityReason) == None) {
