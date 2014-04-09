@@ -3,11 +3,11 @@ package uk.gov.gds.ier.transaction.overseas.parentName
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model._
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.model.OverseasParentName
 import uk.gov.gds.ier.model.Name
 import uk.gov.gds.ier.model.PreviousName
 import scala.Some
-import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 /**
  * Unit test to test form to Mustache model transformation.
@@ -19,16 +19,19 @@ class ParentNameMustacheTest
   extends FlatSpec
   with Matchers
   with ParentNameForms
+  with ParentNameMustache
   with ErrorMessages
   with FormKeys
   with TestHelpers {
 
-  val parentNameMustache = new ParentNameMustache {}
-
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = parentNameForm
-    val nameModel = parentNameMustache.transformFormStepToMustacheData(emptyApplicationForm, 
-        "/register-to-vote/overseas/parent-name", Some("/register-to-vote/overseas/last-registered-uk-address"))
+    val nameModel = mustache.data(
+      emptyApplicationForm,
+      new Call("POST","/register-to-vote/overseas/parent-name"),
+      Some(new Call("GET","/register-to-vote/overseas/last-registered-uk-address")),
+      InprogressOverseas()
+    ).data.asInstanceOf[ParentNameModel]
 
     nameModel.question.title should be("Parent or guardian's registration details")
     nameModel.question.postUrl should be("/register-to-vote/overseas/parent-name")
@@ -52,8 +55,13 @@ class ParentNameMustacheTest
         middleNames = None,
         lastName = "Smith")),
       previousName = Some(PreviousName(false, None))))))
-    val nameModel = parentNameMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, 
-        "/register-to-vote/overseas/parent-name", Some("/register-to-vote/overseas/last-registered-uk-address"))
+
+    val nameModel = mustache.data(
+      partiallyFilledApplicationForm,
+      new Call("POST","/register-to-vote/overseas/parent-name"),
+      Some(new Call("GET","/register-to-vote/overseas/last-registered-uk-address")),
+      InprogressOverseas()
+    ).data.asInstanceOf[ParentNameModel]
 
     nameModel.question.title should be("Parent or guardian's registration details")
     nameModel.question.postUrl should be("/register-to-vote/overseas/parent-name")
@@ -84,8 +92,13 @@ class ParentNameMustacheTest
           lastName = "Kovar"))
       ))))
     ))
-    val nameModel = parentNameMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, 
-        "/register-to-vote/overseas/parent-name", Some("/register-to-vote/overseas/last-registered-uk-address"))
+
+    val nameModel = mustache.data(
+      partiallyFilledApplicationForm,
+      new Call("POST","/register-to-vote/overseas/parent-name"),
+      Some(new Call("GET","/register-to-vote/overseas/last-registered-uk-address")),
+      InprogressOverseas()
+    ).data.asInstanceOf[ParentNameModel]
 
     nameModel.question.title should be("Parent or guardian's registration details")
     nameModel.question.postUrl should be("/register-to-vote/overseas/parent-name")
@@ -108,8 +121,13 @@ class ParentNameMustacheTest
         firstName = "John",
         middleNames = None,
         lastName = ""))))))
-    val nameModel = parentNameMustache.transformFormStepToMustacheData(partiallyFilledApplicationFormWithErrors, 
-        "/register-to-vote/overseas/parent-name", Some("/register-to-vote/overseas/last-registered-uk-address"))
+
+    val nameModel = mustache.data(
+      partiallyFilledApplicationFormWithErrors,
+      new Call("POST","/register-to-vote/overseas/parent-name"),
+      Some(new Call("GET","/register-to-vote/overseas/last-registered-uk-address")),
+      InprogressOverseas()
+    ).data.asInstanceOf[ParentNameModel]
 
     nameModel.question.title should be("Parent or guardian's registration details")
     nameModel.question.postUrl should be("/register-to-vote/overseas/parent-name")

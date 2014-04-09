@@ -1,14 +1,11 @@
 package uk.gov.gds.ier.transaction.overseas.parentName
 
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.step.StepTemplate
 
-trait ParentNameMustache extends StepMustache {
+trait ParentNameMustache extends StepTemplate[InprogressOverseas] {
 
-  val pageTitle = "Parent or guardian's registration details"
+  val title = "Parent or guardian's registration details"
 
   case class ParentNameModel(
     question: Question,
@@ -20,20 +17,20 @@ trait ParentNameMustache extends StepMustache {
     hasPreviousNameFalse: Field,
     previousFirstName: Field,
     previousMiddleNames: Field,
-    previousLastName: Field)
+    previousLastName: Field
+  )
 
-    def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOverseas],
-                                        postUrl: String,
-                                        backUrl: Option[String]): ParentNameModel = {
+  val mustache = MustacheTemplate("overseas/parentName") { (form, post, back) =>
+
     implicit val progressForm = form
 
-    ParentNameModel(
+    val data = ParentNameModel(
       question = Question(
-        postUrl = postUrl,
-        backUrl = backUrl.getOrElse(""),
-        showBackUrl = backUrl.isDefined,
+        postUrl = post.url,
+        backUrl = back.map { call => call.url }.getOrElse(""),
+        showBackUrl = back.isDefined,
         number = "",
-        title = pageTitle,
+        title = title,
         errorMessages = form.globalErrors.map { _.message }),
       firstName = TextField(
         key = keys.overseasParentName.parentName.firstName),
@@ -56,11 +53,6 @@ trait ParentNameMustache extends StepMustache {
       previousLastName = TextField(
         key = keys.overseasParentName.parentPreviousName.previousName.lastName)
     )
-  }
-
-  def parentNameMustache(form: ErrorTransformForm[InprogressOverseas], call: Call, backUrl: Option[String]): Html = {
-    val data = transformFormStepToMustacheData(form, call.url, backUrl)
-    val content = Mustache.render("overseas/parentName", data)
-    MainStepTemplate(content, pageTitle)
+    MustacheData(data, title)
   }
 }
