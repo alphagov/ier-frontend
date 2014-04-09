@@ -4,16 +4,11 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import play.api.templates.Html
 import controllers.step.overseas.LastUkAddressController
 import controllers.step.overseas.ParentNameController
-import uk.gov.gds.ier.step.OverseaStep
+import uk.gov.gds.ier.step.{OverseaStepWithNewMustache, Routes, GoTo}
 import controllers.step.overseas.routes._
 import uk.gov.gds.ier.model._
-import play.api.mvc.Call
-import uk.gov.gds.ier.step.Routes
-import uk.gov.gds.ier.step.GoTo
-import uk.gov.gds.ier.validation.ErrorTransformForm
 import org.joda.time.{Months, DateTime}
 import controllers.routes.ExitController
 import uk.gov.gds.ier.validation.DateValidator
@@ -23,7 +18,7 @@ import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
                                 val config: Config,
                                 val encryptionService: EncryptionService)
-  extends OverseaStep
+  extends OverseaStepWithNewMustache
     with DateLeftUkForms
     with DateLeftUkMustache {
 
@@ -65,9 +60,5 @@ class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
     val monthDiff = Months.monthsBetween(birthDateTime, leftUk).getMonths()
     if (monthDiff.toFloat / 12 > 18) true
     else false
-  }
-
-  def template(form: ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
-    dateLeftUkMustache(form, postEndpoint, backEndpoint)
   }
 }

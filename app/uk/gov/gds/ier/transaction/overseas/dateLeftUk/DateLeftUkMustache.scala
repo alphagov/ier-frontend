@@ -1,22 +1,21 @@
 package uk.gov.gds.ier.transaction.overseas.dateLeftUk
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.step.StepTemplate
 
-trait DateLeftUkMustache extends StepMustache {
+trait DateLeftUkMustache extends StepTemplate[InprogressOverseas] {
 
-  case class DateLeftUkModel(question:Question,
-                             dateLeftUkFieldSet: FieldSet,
-                             dateLeftUkMonth: Field,
-                             dateLeftUkYear: Field)
+  val title = "When did you leave the UK?"
 
-  def dateLeftUkMustache(form:ErrorTransformForm[InprogressOverseas],
-                         post: Call,
-                         back: Option[Call]): Html = {
+  case class DateLeftUkModel(
+      question:Question,
+      dateLeftUkFieldSet: FieldSet,
+      dateLeftUkMonth: Field,
+      dateLeftUkYear: Field
+  )
+
+  val mustache = MustacheTemplate("overseas/dateLeftUk") { (form, post, back) =>
 
     implicit val progressForm = form
 
@@ -26,7 +25,7 @@ trait DateLeftUkMustache extends StepMustache {
         backUrl = back.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "",
-        title = "When did you leave the UK?"
+        title = title
       ) ,
       dateLeftUkFieldSet = FieldSet(
         classes = if (progressForm(keys.dateLeftUk.month).hasErrors ||
@@ -40,10 +39,9 @@ trait DateLeftUkMustache extends StepMustache {
       dateLeftUkYear = TextField(
         key = keys.dateLeftUk.year
       )
-
     )
-    val content = Mustache.render("overseas/dateLeftUk", data)
-    MainStepTemplate(content, data.question.title)
+
+    MustacheData(data, title)
   }
 
   def generateOptionsList (month:String): List[SelectOption] = {
