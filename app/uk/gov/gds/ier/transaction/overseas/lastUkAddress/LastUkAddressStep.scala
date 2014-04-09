@@ -16,6 +16,7 @@ import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{OverseaStepWithNewMustache, Routes}
 import uk.gov.gds.ier.form.OverseasFormImplicits
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.transaction.crown.address.WithAddressService
 
 class LastUkAddressStep @Inject() (
     val serialiser: JsonSerialiser,
@@ -23,9 +24,10 @@ class LastUkAddressStep @Inject() (
     val encryptionService: EncryptionService,
     val addressService: AddressService)
   extends OverseaStepWithNewMustache
-  with LastUkAddressManualMustache
+  with LastUkAddressLookupMustache
   with LastUkAddressForms
-  with OverseasFormImplicits {
+  with OverseasFormImplicits
+  with WithAddressService {
 
   val validation = lastUkAddressForm
 

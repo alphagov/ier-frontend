@@ -10,11 +10,12 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.ApplicationType
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.serialiser.JsonSerialiser
+import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{OverseaStepWithNewMustache, Routes}
 import uk.gov.gds.ier.form.OverseasFormImplicits
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.transaction.crown.address.WithAddressService
 
 class LastUkAddressSelectStep @Inject() (
     val serialiser: JsonSerialiser,
@@ -22,9 +23,11 @@ class LastUkAddressSelectStep @Inject() (
     val encryptionService: EncryptionService,
     val addressService: AddressService)
   extends OverseaStepWithNewMustache
-  with LastUkAddressManualMustache
+  with LastUkAddressSelectMustache
   with LastUkAddressForms
-  with OverseasFormImplicits {
+  with OverseasFormImplicits
+  with WithSerialiser
+  with WithAddressService {
 
   val validation = lastUkAddressForm
 
