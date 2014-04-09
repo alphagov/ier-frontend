@@ -5,6 +5,7 @@ import play.api.test._
 import play.api.test.Helpers._
 import org.jsoup.Jsoup
 import uk.gov.gds.ier.transaction.forces.statement.StatementMustache
+import org.jba.Mustache
 
 class StatementTemplateTest
   extends FlatSpec

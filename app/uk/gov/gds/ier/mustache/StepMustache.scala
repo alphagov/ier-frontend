@@ -3,7 +3,6 @@ package uk.gov.gds.ier.mustache
 import play.api.templates.Html
 import views.html.layouts.{stepsBodyEnd, head}
 import uk.gov.gds.ier.validation.{FormKeys, Key, ErrorTransformForm}
-import uk.gov.gds.ier.step.InprogressApplication
 
 trait StepMustache extends MustacheModel {
 

@@ -5,8 +5,9 @@ import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.step.StepTemplate
 
-trait StatementMustache extends StepMustache {
+trait StatementMustache extends StepTemplate[InprogressForces] {
 
   case class StatementModel (
       question:Question,
@@ -42,13 +43,12 @@ trait StatementMustache extends StepMustache {
     )
   }
 
-  def statementMustache(
-      form:ErrorTransformForm[InprogressForces],
-      postEndpoint: Call,
-      backEndpoint: Option[Call]): Html = {
+  val mustache = MustacheTemplate("forces/statement") { (form, postUrl, backUrl) =>
+    implicit val progressForm = form
 
-    val data = transformFormStepToMustacheData(form, postEndpoint, backEndpoint)
-    val content = Mustache.render("forces/statement", data)
-    MainStepTemplate(content, data.question.title)
+    val data = transformFormStepToMustacheData(form, postUrl, backUrl)
+    val title = data.question.title
+
+    MustacheData(data, title)
   }
 }

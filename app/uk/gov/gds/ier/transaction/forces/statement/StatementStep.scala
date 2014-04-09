@@ -10,7 +10,7 @@ import controllers.step.forces.routes._
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import play.api.mvc.Call
-import uk.gov.gds.ier.step.{ForcesStep, Routes}
+import uk.gov.gds.ier.step.{ForcesStepWithNewMustache, ForcesStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
@@ -18,8 +18,7 @@ class StatementStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService)
-
-  extends ForcesStep
+  extends ForcesStepWithNewMustache
     with StatementForms
     with StatementMustache {
 
@@ -32,14 +31,6 @@ class StatementStep @Inject ()(
     editGet = StatementController.editGet,
     editPost = StatementController.editPost
   )
-
-  def template(
-      form: ErrorTransformForm[InprogressForces],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]): Html = {
-
-    statementMustache(form, postEndpoint, backEndpoint)
-  }
 
   def nextStep(currentState: InprogressForces) = {
     AddressController.addressStep
