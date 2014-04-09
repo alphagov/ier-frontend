@@ -6,19 +6,10 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.ContactConstraints
-import uk.gov.gds.ier.validation.Key
-import scala.Some
-import uk.gov.gds.ier.validation.Key
-import uk.gov.gds.ier.model.ContactDetail
-import scala.Some
-import uk.gov.gds.ier.model.Contact
-import uk.gov.gds.ier.validation.Key
-import uk.gov.gds.ier.model.ContactDetail
-import scala.Some
-import uk.gov.gds.ier.model.Contact
+import uk.gov.gds.ier.transaction.ordinary.postalVote.PostalVoteForms
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
-trait ContactForms extends ContactConstraints {
+trait ContactForms extends ContactConstraints with PostalVoteForms {
   self:  FormKeys
     with ErrorMessages
     with WithSerialiser =>
@@ -26,7 +17,9 @@ trait ContactForms extends ContactConstraints {
   def contactMeMapping(key:Key, name:String) = mapping(
     keys.contactMe.key -> boolean,
     keys.detail.key -> optional(text)
-  ) (ContactDetail.apply) (ContactDetail.unapply).verifying(detailFilled(key.detail, name))
+  ) (ContactDetail.apply) (ContactDetail.unapply).verifying(
+    detailFilled(key.detail, name)
+  )
 
   lazy val postDetailMapping = mapping(
     keys.contactMe.key -> optional(boolean)
@@ -44,11 +37,18 @@ trait ContactForms extends ContactConstraints {
 
   val contactForm = ErrorTransformForm(
     mapping(
-      keys.contact.key -> optional(contactMapping)
+      keys.contact.key -> optional(contactMapping),
+      keys.postalVote.key -> optional(postalVoteMapping)
     ) (
-      contact => InprogressOrdinary(contact = contact)
+      (contact, postalVote) => InprogressOrdinary(
+        postalVote = postalVote,
+        contact = contact
+      )
     ) (
-      inprogress => Some(inprogress.contact)
+      inprogress => Some(
+        inprogress.contact,
+        inprogress.postalVote
+      )
     ).verifying (atLeastOneOptionSelectedOrdinary)
   )
 }
