@@ -1,27 +1,30 @@
 package uk.gov.gds.ier.transaction.overseas.dateOfBirth
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.step.StepTemplate
 
-trait DateOfBirthMustache extends StepMustache {
+trait DateOfBirthMustache extends StepTemplate[InprogressOverseas] {
 
-  case class DateOfBirthModel(question:Question, day: Field, month: Field, year: Field)
+  val title = "What is your date of birth?"
 
-  def transformFormStepToMustacheData(form:ErrorTransformForm[InprogressOverseas],
-                                 post: Call,
-                                 back: Option[Call]): DateOfBirthModel = {
+  case class DateOfBirthModel(
+      question:Question,
+      day: Field,
+      month: Field,
+      year: Field
+  )
+
+  val mustache = MustacheTemplate("overseas/dateOfBirth") { (form, post, back) =>
+
     implicit val progressForm = form
 
-    DateOfBirthModel(
+    val data = DateOfBirthModel(
       question = Question(
         postUrl = post.url,
         backUrl = back.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "",
-        title = "What is your date of birth?",
+        title = title,
         showBackUrl = true
       ),
       day = TextField(
@@ -34,13 +37,6 @@ trait DateOfBirthMustache extends StepMustache {
         key = keys.dob.year
       )
     )
-  }
-    def dateOfBirthMustache(form:ErrorTransformForm[InprogressOverseas],
-                                 post: Call,
-                                 back: Option[Call]): Html = {
-
-    val data = transformFormStepToMustacheData(form, post, back)
-    val content = Mustache.render("overseas/dateOfBirth", data)
-    MainStepTemplate(content, data.question.title)
+    MustacheData(data, title)
   }
 }
