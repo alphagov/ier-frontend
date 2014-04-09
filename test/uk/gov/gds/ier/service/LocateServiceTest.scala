@@ -11,6 +11,7 @@ class LocateServiceTest extends FlatSpec with Matchers {
 
   class MockConfig extends Config {
     override def locateUrl = "http://locate/addresses"
+    override def locateApiAuthorizationToken = "abc"
   }
 
   behavior of "LocateService.lookupAddress"
