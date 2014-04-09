@@ -9,13 +9,14 @@ import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{OrdinaryStep, Routes}
+import uk.gov.gds.ier.step.{OrdinaryStepWithNewMustache, Routes}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
-class OpenRegisterStep @Inject ()(val serialiser: JsonSerialiser,
-                                        val config: Config,
-                                        val encryptionService : EncryptionService)
-  extends OrdinaryStep
+class OpenRegisterStep @Inject ()(
+    val serialiser: JsonSerialiser,
+    val config: Config,
+    val encryptionService : EncryptionService
+) extends OrdinaryStepWithNewMustache
   with OpenRegisterForms
   with OpenRegisterMustache {
 
@@ -29,9 +30,6 @@ class OpenRegisterStep @Inject ()(val serialiser: JsonSerialiser,
     editPost = OpenRegisterController.editPost
   )
 
-  def template(form: ErrorTransformForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
-    openRegisterMustache(form, call, backUrl)
-  }
   def nextStep(currentState: InprogressOrdinary) = {
     PostalVoteController.postalVoteStep
   }
