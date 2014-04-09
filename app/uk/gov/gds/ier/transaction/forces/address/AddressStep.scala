@@ -8,7 +8,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
-import uk.gov.gds.ier.step.{ForcesStep, Routes}
+import uk.gov.gds.ier.step.{ForcesStepWithNewMustache, ForcesStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
@@ -17,8 +17,8 @@ class AddressStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService)
-  extends ForcesStep
-  with AddressMustache
+  extends ForcesStepWithNewMustache
+  with AddressLookupMustache
   with AddressForms {
 
   val validation = addressForm
@@ -36,21 +36,10 @@ class AddressStep @Inject() (
     PreviousAddressFirstController.previousAddressFirstStep
   }
 
-  def template(
-      form: ErrorTransformForm[InprogressForces],
-      call: Call,
-      backUrl: Option[Call]) = {
-    AddressMustache.lookupPage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url
-    )
-  }
-
   def lookup = ValidSession requiredFor { implicit request => application =>
     lookupAddressForm.bindFromRequest().fold(
       hasErrors => {
-        Ok(template(hasErrors, routes.post, previousRoute))
+        Ok(mustache(hasErrors, routes.post, previousRoute, application).html)
       },
       success => {
         val mergedApplication = success.merge(application)

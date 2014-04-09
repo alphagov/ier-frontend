@@ -6,17 +6,18 @@ import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.step.{ForcesStep, Routes}
+import uk.gov.gds.ier.step.{ForcesStepWithNewMustache, ForcesStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.forces.PreviousAddressFirstController
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+
 
 class AddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService)
-  extends ForcesStep
-  with AddressMustache
+  extends ForcesStepWithNewMustache
+  with AddressManualMustache
   with AddressForms {
 
   val validation = manualAddressForm
@@ -32,17 +33,5 @@ class AddressManualStep @Inject() (
 
   def nextStep(currentState: InprogressForces) = {
     PreviousAddressFirstController.previousAddressFirstStep
-  }
-
-  def template(
-      form: ErrorTransformForm[InprogressForces],
-      call: Call,
-      backUrl: Option[Call]) = {
-    AddressMustache.manualPage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url,
-      AddressController.get.url
-    )
   }
 }

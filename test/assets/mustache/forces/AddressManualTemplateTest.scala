@@ -6,18 +6,17 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.transaction.forces.address.AddressMustache
+import uk.gov.gds.ier.transaction.forces.address.AddressManualMustache
+import org.jba.Mustache
 
 class AddressManualTemplateTest
   extends FlatSpec
-  with AddressMustache
+  with AddressManualMustache
   with Matchers
   with WithSerialiser
   with TestHelpers {
 
   val serialiser = jsonSerialiser
-
-  import AddressMustache._
 
   it should "properly render" in {
     running(FakeApplication()) {
