@@ -23,16 +23,18 @@ trait AddressForms extends AddressConstraints {
   with WithSerialiser =>
 
   // address mapping for select address page - the address part
-  lazy val partialAddressMapping = mapping(
-    keys.addressLine.key -> optional(nonEmptyText),
-    keys.uprn.key -> optional(nonEmptyText),
-    keys.postcode.key -> nonEmptyText,
-    keys.manualAddress.key -> optional(manualPartialAddressLinesMapping)
-  ) (
-    PartialAddress.apply
-  ) (
-    PartialAddress.unapply
-  ).verifying(postcodeIsValid, uprnOrManualDefined)
+    lazy val partialAddressMapping = 
+      PartialAddress.mapping.verifying(postcodeIsValid, uprnOrManualDefined)
+//  lazy val partialAddressMapping = mapping(
+//    keys.addressLine.key -> optional(nonEmptyText),
+//    keys.uprn.key -> optional(nonEmptyText),
+//    keys.postcode.key -> nonEmptyText,
+//    keys.manualAddress.key -> optional(manualPartialAddressLinesMapping)
+//  ) (
+//    PartialAddress.apply
+//  ) (
+//    PartialAddress.unapply
+//  ).verifying(postcodeIsValid, uprnOrManualDefined)
 
   // address mapping for manual address - the address individual lines part
   lazy val manualPartialAddressLinesMapping = mapping(
@@ -174,7 +176,7 @@ trait AddressConstraints extends CommonConstraints {
   }
 
   lazy val postcodeIsValid = Constraint[PartialAddress](keys.address.key) {
-    case PartialAddress(_, _, postcode, _)
+    case PartialAddress(_, _, postcode, _, _)
       if PostcodeValidator.isValid(postcode) => Valid
     case _ => Invalid("Your postcode is not valid", keys.address.postcode)
   }

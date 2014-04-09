@@ -7,11 +7,11 @@ class AddressService @Inject()(locateService: LocateService) {
 
   def formFullAddress(partial:Option[PartialAddress]):Option[Address] = {
     partial flatMap {
-      case PartialAddress(_, Some(uprn), postcode, _) => {
+      case PartialAddress(_, Some(uprn), postcode, _, _) => {
         val listOfAddresses = locateService.lookupAddress(postcode)
         listOfAddresses.find(address => address.uprn == Some(uprn))
       }
-      case PartialAddress(_, None, postcode, Some(manualAddress)) => {
+      case PartialAddress(_, None, postcode, Some(manualAddress), Some(gssCode)) => {
         Some(Address(
           lineOne = manualAddress.lineOne,
           lineTwo = manualAddress.lineTwo,
@@ -30,7 +30,8 @@ class AddressService @Inject()(locateService: LocateService) {
         addressLine = Some(formAddressLine(address)),
         uprn = address.uprn,
         postcode = address.postcode,
-        None
+        None,
+        gssCode = address.gssCode
       )
     }
   }

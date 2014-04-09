@@ -16,18 +16,21 @@ trait PreviousAddressForms
   with WithSerialiser =>
 
   // address mapping for select address page - the address part
-  lazy val partialAddressMappingForPreviousAddress = mapping(
-    keys.addressLine.key -> optional(nonEmptyText),
-    keys.uprn.key -> optional(nonEmptyText),
-    keys.postcode.key -> nonEmptyText,
-    keys.manualAddress.key -> optional(manualPartialAddressLinesMappingForPreviousAddress)
-  ) (
-    PartialAddress.apply
-  ) (
-    PartialAddress.unapply
-  ).verifying(
-      postcodeIsValidForPreviousAddress,
-      uprnOrManualDefinedForPreviousAddress)
+    lazy val partialAddressMappingForPreviousAddress = 
+      PartialAddress.mapping.verifying(
+        postcodeIsValidForPreviousAddress, uprnOrManualDefinedForPreviousAddress)
+//  lazy val partialAddressMappingForPreviousAddress = mapping(
+//    keys.addressLine.key -> optional(nonEmptyText),
+//    keys.uprn.key -> optional(nonEmptyText),
+//    keys.postcode.key -> nonEmptyText,
+//    keys.manualAddress.key -> optional(manualPartialAddressLinesMappingForPreviousAddress)
+//  ) (
+//    PartialAddress.apply
+//  ) (
+//    PartialAddress.unapply
+//  ).verifying(
+//      postcodeIsValidForPreviousAddress,
+//      uprnOrManualDefinedForPreviousAddress)
 
   // address mapping for manual address - the address individual lines part
   lazy val manualPartialAddressLinesMappingForPreviousAddress = mapping(
@@ -208,7 +211,7 @@ trait PreviousAddressConstraints extends CommonConstraints {
   }
 
   lazy val postcodeIsValidForPreviousAddress = Constraint[PartialAddress](keys.previousAddress.key) {
-    case PartialAddress(_, _, postcode, _)
+    case PartialAddress(_, _, postcode, _, _)
       if PostcodeValidator.isValid(postcode) => {
       Valid
     }
@@ -223,7 +226,7 @@ trait PreviousAddressConstraints extends CommonConstraints {
    * containing the postcode.
    */
   lazy val postcodeIsValidForlookupForPreviousAddress = Constraint[PartialPreviousAddress](keys.previousAddress.key) {
-    case PartialPreviousAddress(Some(MovedHouseOption.Yes), Some(PartialAddress(_, _, postcode, _)))
+    case PartialPreviousAddress(Some(MovedHouseOption.Yes), Some(PartialAddress(_, _, postcode, _, _)))
       if PostcodeValidator.isValid(postcode) => Valid
     case _ => Invalid("Your postcode is not valid", keys.previousAddress.postcode)
   }
