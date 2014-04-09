@@ -6,6 +6,8 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.model.LastUkAddress
+import akka.util.Timeout
+import java.util.concurrent.TimeUnit
 
 class AddressStepTests
   extends FlatSpec
@@ -127,6 +129,7 @@ class AddressStepTests
           )
       )
 
+      implicit def defaultAwaitTimeout = Timeout(10, TimeUnit.SECONDS)
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/register-to-vote/crown/confirmation"))
     }

@@ -13,6 +13,7 @@ class Config extends Logging {
   def locateApiAuthorizationToken = configuration.getString("locate.api.authorization.token")
   def fakeIer = configuration.getBoolean("ier.fake")
   def fakePlaces = configuration.getBoolean("places.fake")
+  def fakeLocate = configuration.getBoolean("locate.fake")
   def ierApiUrl = configuration.getString("ier.api.url")
   def ierApiToken = configuration.getString("ier.api.token")
   def stripNino = configuration.getBoolean("ier.nino.strip", false)
