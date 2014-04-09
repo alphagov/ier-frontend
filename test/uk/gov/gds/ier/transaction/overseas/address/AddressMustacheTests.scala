@@ -18,21 +18,22 @@ class AddressMustacheTest
   extends FlatSpec
   with Matchers
   with AddressForms
+  with AddressMustache
   with ErrorMessages
   with FormKeys
   with TestHelpers {
 
-  // tested unit
-  val addressMustache = new AddressMustache {}
-
-  val title = "Where do you live?"
   val postCall = new Call("POST", "/register-to-vote/overseas/address")
   val backCall = new Call("POST", "/register-to-vote/overseas/nino")
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = addressForm
-    val addressModel = addressMustache.transformFormStepToMustacheData(emptyApplicationForm,
-        postCall, Some(backCall))
+    val addressModel = mustache.data(
+       emptyApplicationForm,
+       postCall,
+       Some(backCall),
+       InprogressOverseas()
+     ).data.asInstanceOf[AddressModel]
 
     addressModel.question.title should be(title)
     addressModel.question.postUrl should be(postCall.url)
@@ -56,8 +57,12 @@ class AddressMustacheTest
         addressLine4 = None,
         addressLine5 = None))))
 
-    val addressModel = addressMustache.transformFormStepToMustacheData(filledApplicationForm,
-        postCall, Some(backCall))
+    val addressModel = mustache.data(
+      filledApplicationForm,
+      postCall,
+      Some(backCall),
+      InprogressOverseas()
+    ).data.asInstanceOf[AddressModel]
 
     addressModel.question.title should be(title)
     addressModel.question.postUrl should be(postCall.url)
@@ -77,8 +82,12 @@ class AddressMustacheTest
         addressLine4 = None,
         addressLine5 = None))))
 
-    val addressModel = addressMustache.transformFormStepToMustacheData(uncompletedFormWithErrors,
-        postCall, Some(backCall))
+    val addressModel = mustache.data(
+      uncompletedFormWithErrors,
+      postCall,
+      Some(backCall),
+      InprogressOverseas()
+    ).data.asInstanceOf[AddressModel]
 
     addressModel.question.title should be(title)
     addressModel.question.postUrl should be(postCall.url)
@@ -101,8 +110,13 @@ class AddressMustacheTest
         addressLine4 = None,
         addressLine5 = None))))
 
-    val addressModel = addressMustache.transformFormStepToMustacheData(uncompletedFormWithErrors,
-        postCall, Some(backCall))
+    val addressModel = mustache.data(
+      uncompletedFormWithErrors,
+      postCall,
+      Some(backCall),
+      InprogressOverseas()
+    ).data.asInstanceOf[AddressModel]
+
 
     addressModel.question.title should be(title)
     addressModel.question.postUrl should be(postCall.url)

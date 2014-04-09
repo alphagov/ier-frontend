@@ -7,9 +7,11 @@ import org.jsoup.Jsoup
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.overseas.address.AddressMustache
 import play.api.mvc.Call
+import uk.gov.gds.ier.mustache.StepMustache
 
 class AddressTemplateTest
   extends FlatSpec
+  with StepMustache
   with AddressMustache
   with Matchers {
 

@@ -4,18 +4,16 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.step.{OverseaStep, Routes}
+import uk.gov.gds.ier.step.{OverseaStepWithNewMustache, Routes}
 import controllers.step.overseas.routes.{AddressController, NinoController}
 import controllers.step.overseas.OpenRegisterController
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
-class AddressStep @Inject() (val serialiser: JsonSerialiser,
-                                                val config: Config,
-                                                val encryptionService: EncryptionService)
-  extends OverseaStep
+class AddressStep @Inject() (
+    val serialiser: JsonSerialiser,
+    val config: Config,
+    val encryptionService: EncryptionService)
+  extends OverseaStepWithNewMustache
   with AddressForms
   with AddressMustache {
 
@@ -30,11 +28,5 @@ class AddressStep @Inject() (val serialiser: JsonSerialiser,
 
   def nextStep(currentState: InprogressOverseas) = {
     OpenRegisterController.openRegisterStep
-  }
-
-  def template(form: ErrorTransformForm[InprogressOverseas],
-               postEndpoint: Call,
-               backEndpoint:Option[Call]): Html = {
-    addressMustache(form, postEndpoint, backEndpoint)
   }
 }
