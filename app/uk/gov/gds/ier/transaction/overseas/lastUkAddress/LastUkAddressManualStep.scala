@@ -1,21 +1,17 @@
 package uk.gov.gds.ier.transaction.overseas.lastUkAddress
 
 import controllers.step.overseas.routes.{
-  LastUkAddressController,
   LastUkAddressManualController,
   DateLeftUkController}
 import controllers.step.overseas.{
   NameController,
   PassportCheckController}
 import com.google.inject.Inject
-import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.model.{
-  ApplicationType}
+import uk.gov.gds.ier.model.ApplicationType
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.step.{OverseaStep, Routes}
-import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.step.{OverseaStepWithNewMustache, Routes}
 import uk.gov.gds.ier.form.OverseasFormImplicits
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
@@ -23,8 +19,8 @@ class LastUkAddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService)
-  extends OverseaStep
-  with LastUkAddressMustache
+  extends OverseaStepWithNewMustache
+  with LastUkAddressManualMustache
   with LastUkAddressForms
   with OverseasFormImplicits {
 
@@ -45,17 +41,5 @@ class LastUkAddressManualStep @Inject() (
       case ApplicationType.DontKnow => this
       case _ => PassportCheckController.passportCheckStep
     }
-  }
-
-  def template(
-      form: ErrorTransformForm[InprogressOverseas],
-      call: Call,
-      backUrl: Option[Call]) = {
-    LastUkAddressMustache.manualPage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url,
-      LastUkAddressController.get.url
-    )
   }
 }
