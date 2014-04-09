@@ -2,27 +2,27 @@ package uk.gov.gds.ier.transaction.ordinary.otherAddress
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.model.OtherAddress._
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
-trait OtherAddressMustache extends StepMustache {
+trait OtherAddressMustache extends StepTemplate[InprogressOrdinary] {
 
-  case class OtherAddressModel(question: Question,
-                               hasOtherAddress: Field,
-                               hasOtherAddressStudent: Field,
-                               hasOtherAddressHome: Field,
-                               hasOtherAddressNone: Field)
+  case class OtherAddressModel(
+      question: Question,
+      hasOtherAddress: Field,
+      hasOtherAddressStudent: Field,
+      hasOtherAddressHome: Field,
+      hasOtherAddressNone: Field
+  )
 
-  def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOrdinary],
-                                      postUrl: String,
-                                      backUrl: Option[String]): OtherAddressModel = {
+  val mustache = MustacheTemplate("ordinary/otherAddress") {
+    (form, post, back) =>
+
     val otherAddressValue = form(keys.otherAddress.hasOtherAddress).value
-    OtherAddressModel(
+    val data = OtherAddressModel(
       question = Question(
-        postUrl = postUrl,
-        backUrl = backUrl.getOrElse(""),
+        postUrl = post.url,
+        backUrl = back.map(_.url).getOrElse(""),
         number = "7 of 11",
         title = "Do you also live at a second address?",
         errorMessages = form.globalErrors.map(_.message)
@@ -58,13 +58,8 @@ trait OtherAddressMustache extends StepMustache {
         classes = if (form(keys.otherAddress).hasErrors) "invalid" else ""
       )
     )
-  }
 
-  def otherAddressMustache(form: ErrorTransformForm[InprogressOrdinary],
-                           call:Call,
-                           backUrl: Option[String]) : Html = {
-    val data = transformFormStepToMustacheData(form, call.url, backUrl)
-    val content = Mustache.render("ordinary/otherAddress", data)
-    MainStepTemplate(content, data.question.title)
+    MustacheData(data, data.question.title)
   }
 }
+

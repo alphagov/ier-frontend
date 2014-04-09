@@ -9,14 +9,15 @@ import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.Routes
-import uk.gov.gds.ier.step.OrdinaryStep
+import uk.gov.gds.ier.step.OrdinaryStepWithNewMustache
 import controllers.step.ordinary.PreviousAddressFirstController
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
-class OtherAddressStep @Inject ()(val serialiser: JsonSerialiser,
-                                        val config: Config,
-                                        val encryptionService : EncryptionService)
-  extends OrdinaryStep
+class OtherAddressStep @Inject ()(
+    val serialiser: JsonSerialiser,
+    val config: Config,
+    val encryptionService : EncryptionService
+) extends OrdinaryStepWithNewMustache
   with OtherAddressForms
   with OtherAddressMustache {
 
@@ -30,9 +31,6 @@ class OtherAddressStep @Inject ()(val serialiser: JsonSerialiser,
     editPost = OtherAddressController.editPost
   )
 
-  def template(form: ErrorTransformForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
-    otherAddressMustache(form, call, backUrl.map(_.url))
-  }
   def nextStep(currentState: InprogressOrdinary) = {
     PreviousAddressFirstController.previousAddressFirstStep
   }
