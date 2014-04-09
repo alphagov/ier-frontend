@@ -1,14 +1,11 @@
 package uk.gov.gds.ier.transaction.overseas.name
 
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.step.StepTemplate
 
-trait NameMustache extends StepMustache {
+trait NameMustache extends StepTemplate[InprogressOverseas] {
 
-  val pageTitle = "What is your full name?"
+  val title = "What is your full name?"
 
   case class NameModel(
     question: Question,
@@ -20,20 +17,20 @@ trait NameMustache extends StepMustache {
     hasPreviousNameFalse: Field,
     previousFirstName: Field,
     previousMiddleNames: Field,
-    previousLastName: Field)
+    previousLastName: Field
+  )
 
-    def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOverseas],
-                                        postUrl: String,
-                                        backUrl: Option[String]): NameModel = {
+  val mustache = MustacheTemplate("overseas/name") { (form, post, back) =>
+
     implicit val progressForm = form
 
-    NameModel(
+    val data = NameModel(
       question = Question(
-        postUrl = postUrl,
-        backUrl = backUrl.getOrElse(""),
-        showBackUrl = backUrl.isDefined,
+        postUrl = post.url,
+        backUrl = back.map{ _.url }.getOrElse(""),
+        showBackUrl = back.isDefined,
         number = "",
-        title = pageTitle,
+        title = title,
         errorMessages = form.globalErrors.map { _.message }),
       firstName = TextField(
         key = keys.overseasName.name.firstName),
@@ -56,11 +53,6 @@ trait NameMustache extends StepMustache {
       previousLastName = TextField(
         key = keys.overseasName.previousName.previousName.lastName)
     )
-  }
-
-  def nameMustache(form: ErrorTransformForm[InprogressOverseas], call: Call, backUrl: Option[String]): Html = {
-    val data = transformFormStepToMustacheData(form, call.url, backUrl)
-    val content = Mustache.render("overseas/name", data)
-    MainStepTemplate(content, pageTitle)
+    MustacheData(data, title)
   }
 }
