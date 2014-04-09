@@ -13,7 +13,7 @@ class PlacesStubApiClient @Inject() (
     config: Config,
     serialiser: JsonSerialiser) extends PlacesApiClient(config) {
 
-  override def get(url: String, headers: (String, String)*) : ApiResponse = {
+  override def get(url: String): ApiResponse = {
     if (url.startsWith(config.placesUrl + "/address?postcode=")) {
       Success("""[
             {
