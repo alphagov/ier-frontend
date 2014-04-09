@@ -1,12 +1,11 @@
 package uk.gov.gds.ier.transaction.overseas.contact
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.step.StepTemplate
 
-trait ContactMustache extends StepMustache {
+trait ContactMustache extends StepTemplate[InprogressOverseas] {
+
+  val title = "If we have questions about your application, how should we contact you?"
 
   case class ContactModel (
       question:Question,
@@ -15,21 +14,21 @@ trait ContactMustache extends StepMustache {
       contactPhoneCheckbox: Field,
       contactPostCheckbox: Field,
       contactEmailText: Field,
-      contactPhoneText: Field)
+      contactPhoneText: Field
+  )
 
-  def transformFormStepToMustacheData(
-      application: InprogressOverseas,
-      form: ErrorTransformForm[InprogressOverseas],
-      postEndpoint: Call, backEndpoint:Option[Call]) : ContactModel = {
+  val mustache = MustacheTemplate("overseas/contact") { (form, post, back) =>
 
     implicit val progressForm = form
-    ContactModel(
+    val emailAddress = form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value
+
+    val data = ContactModel(
       question = Question(
-        postUrl = postEndpoint.url,
-        backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
+        postUrl = post.url,
+        backUrl = back.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "",
-        title = "If we have questions about your application, how should we contact you?"
+        title = title
       ),
       contactFieldSet = FieldSet(
         classes = if (progressForm(keys.contact).hasErrors) "invalid" else ""
@@ -44,22 +43,13 @@ trait ContactMustache extends StepMustache {
         key = keys.contact.post.contactMe, value = "true"
       ),
       contactEmailText = TextField(
-        key = keys.contact.email.detail
+        key = keys.contact.email.detail,
+        default = emailAddress
       ),
       contactPhoneText = TextField(
         key = keys.contact.phone.detail
       )
     )
-  }
-
-  def contactMustache(
-      application: InprogressOverseas,
-      form:ErrorTransformForm[InprogressOverseas],
-      postEndpoint: Call,
-      backEndpoint: Option[Call]): Html = {
-
-    val data = transformFormStepToMustacheData(application, form, postEndpoint, backEndpoint)
-    val content = Mustache.render("overseas/contact", data)
-    MainStepTemplate(content, data.question.title)
+    MustacheData(data, title)
   }
 }

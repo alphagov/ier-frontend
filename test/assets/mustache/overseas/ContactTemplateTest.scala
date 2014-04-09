@@ -1,26 +1,15 @@
 package assets.mustache.overseas
 
-import org.jba.Mustache
 import org.scalatest.{Matchers, FlatSpec}
 import play.api.test._
 import play.api.test.Helpers._
 import org.jsoup.Jsoup
+import uk.gov.gds.ier.mustache.StepMustache
 
 class ContactTemplateTest
   extends FlatSpec
-with Matchers {
-
-  case class Field(
-    id:String = "",
-    name:String = "",
-    classes:String = "",
-    value:String = "",
-    attributes:String = ""
-  )
-
-  case class FieldSet(
-    classes:String = ""
-  )
+  with StepMustache
+  with Matchers {
 
   case class Model(
     contactFieldSet: FieldSet,
