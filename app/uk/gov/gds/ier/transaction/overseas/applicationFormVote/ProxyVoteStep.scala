@@ -5,13 +5,10 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{Routes, OverseaStep}
+import uk.gov.gds.ier.step.{OverseaStepWithNewMustache, Routes}
 import controllers.step.overseas.routes._
 import scala.Some
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.model.{WaysToVoteType}
-import play.api.mvc.Call
-import play.api.templates.Html
+import uk.gov.gds.ier.model.WaysToVoteType
 import controllers.step.overseas.ContactController
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
@@ -20,9 +17,11 @@ class ProxyVoteStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService)
 
-  extends OverseaStep
+  extends OverseaStepWithNewMustache
   with PostalOrProxyVoteForms
   with PostalOrProxyVoteMustache {
+
+  val wayToVote = WaysToVoteType.ByProxy
 
   val validation = postalOrProxyVoteForm
   val previousRoute = Some(WaysToVoteController.get)
@@ -33,10 +32,6 @@ class ProxyVoteStep @Inject ()(
     editGet = ProxyVoteController.editGet,
     editPost = ProxyVoteController.editPost
   )
-
-  def template(form: ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
-    postalOrProxyVoteMustache(form, postEndpoint, backEndpoint, WaysToVoteType.ByProxy)
-  }
 
   def nextStep(currentState: InprogressOverseas) = {
     ContactController.contactStep

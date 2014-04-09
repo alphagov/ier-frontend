@@ -7,13 +7,18 @@ import play.api.test.Helpers._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.transaction.overseas.applicationFormVote.PostalOrProxyVoteMustache
+import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.model.WaysToVoteType
 
 class PostalOrProxyVoteTemplateTest
   extends FlatSpec
+  with StepMustache
   with PostalOrProxyVoteMustache
   with Matchers
   with WithSerialiser
   with TestHelpers {
+
+  val wayToVote = WaysToVoteType.ByPost
 
   val serialiser = jsonSerialiser
 
