@@ -6,18 +6,19 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressMustache
+import uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressManualMustache
+import org.jba.Mustache
+import uk.gov.gds.ier.mustache.StepMustache
 
 class PreviousAddressManualTemplateTest
   extends FlatSpec
-  with PreviousAddressMustache
+  with PreviousAddressManualMustache
+  with StepMustache
   with Matchers
   with WithSerialiser
   with TestHelpers {
 
   val serialiser = jsonSerialiser
-
-  import PreviousAddressMustache._
 
   it should "properly render all properties from the model" in {
     running(FakeApplication()) {

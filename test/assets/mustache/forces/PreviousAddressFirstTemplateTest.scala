@@ -5,6 +5,8 @@ import org.scalatest.{Matchers, FlatSpec}
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressFirstMustache
+import org.jba.Mustache
+import uk.gov.gds.ier.mustache.StepMustache
 
 /**
  * Test rendering of Mustache template from given model
@@ -12,6 +14,7 @@ import uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressFirstMus
 class PreviousAddressFirstTemplateTest
   extends FlatSpec
   with PreviousAddressFirstMustache
+  with StepMustache
   with Matchers {
 
   it should "properly render all properties from the model" in {
