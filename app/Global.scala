@@ -13,7 +13,6 @@ object Global extends DynamicGlobal with Logging {
   override def bindings = {
     binder =>
       val config = new Config
-      config.logConfiguration()
       if (config.fakeIer) {
         logger.debug("Binding IerStubApiClient")
         binder.bind(classOf[IerApiClient]).to(classOf[IerStubApiClient])
