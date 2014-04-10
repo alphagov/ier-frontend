@@ -11,7 +11,7 @@ class AddressService @Inject()(locateService: LocateService) {
         val listOfAddresses = locateService.lookupAddress(postcode)
         listOfAddresses.find(address => address.uprn == Some(uprn))
       }
-      case PartialAddress(_, None, postcode, Some(manualAddress), Some(gssCode)) => {
+      case PartialAddress(_, None, postcode, Some(manualAddress), gssCode) => {
         Some(Address(
           lineOne = manualAddress.lineOne,
           lineTwo = manualAddress.lineTwo,
@@ -19,7 +19,8 @@ class AddressService @Inject()(locateService: LocateService) {
           city = manualAddress.city,
           county = None,
           uprn = None,
-          postcode = postcode))
+          postcode = postcode,
+          gssCode = gssCode))
       }
     }
   }

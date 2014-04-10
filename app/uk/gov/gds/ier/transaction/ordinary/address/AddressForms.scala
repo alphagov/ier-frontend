@@ -29,28 +29,10 @@ trait AddressForms extends AddressConstraints {
   // address mapping for select address page - the address part
     lazy val partialAddressMapping = 
       PartialAddress.mapping.verifying(postcodeIsValid, uprnOrManualDefined)
-//  lazy val partialAddressMapping = mapping(
-//    keys.addressLine.key -> optional(nonEmptyText),
-//    keys.uprn.key -> optional(nonEmptyText),
-//    keys.postcode.key -> nonEmptyText,
-//    keys.manualAddress.key -> optional(manualPartialAddressLinesMapping)
-//  ) (
-//    PartialAddress.apply
-//  ) (
-//    PartialAddress.unapply
-//  ).verifying(postcodeIsValid, uprnOrManualDefined)
 
   // address mapping for manual address - the address individual lines part
-  lazy val manualPartialAddressLinesMapping = mapping(
-    keys.lineOne.key -> optional(nonEmptyText),
-    keys.lineTwo.key -> optional(text),
-    keys.lineThree.key -> optional(text),
-    keys.city.key -> optional(nonEmptyText)
-  ) (
-    PartialManualAddress.apply
-  ) (
-    PartialManualAddress.unapply
-  ).verifying(lineOneIsRequired, cityIsRequired)
+    lazy val manualPartialAddressLinesMapping = 
+        PartialManualAddress.mapping.verifying(lineOneIsRequired, cityIsRequired)
 
   // address mapping for manual address - the address parent wrapper part
   lazy val manualPartialAddressMapping = mapping(
