@@ -43,7 +43,7 @@ object ApplicationBuild extends IERBuild {
       "-XX:+CMSClassUnloadingEnabled",
       "-XX:+UseConcMarkSweepGC",
       "-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005",
-      "-Dconfig.file=conf/test.conf"
+      "-Dconfig.resource=test.conf"
     ))
     .settings(testOptions in Test += Tests.Argument("-oF"))
     .settings(StyleChecker.settings:_*)
