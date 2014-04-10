@@ -2,13 +2,9 @@ package uk.gov.gds.ier.transaction.overseas.passport
 
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import play.api.mvc.Call
-import uk.gov.gds.ier.step.Routes
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.step.OverseaStep
+import uk.gov.gds.ier.step.{OverseaStepWithNewMustache, Routes}
 import controllers.step.overseas.routes.PassportDetailsController
 import controllers.step.overseas.routes.PassportCheckController
 import controllers.step.overseas.NameController
@@ -18,9 +14,9 @@ class PassportDetailsStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService)
-  extends OverseaStep
+  extends OverseaStepWithNewMustache
   with PassportForms
-  with PassportMustache {
+  with PassportDetailsMustache {
 
   val validation = passportDetailsForm
   val previousRoute = Some(PassportCheckController.get)
@@ -34,17 +30,6 @@ class PassportDetailsStep @Inject ()(
 
   def nextStep(currentState: InprogressOverseas) = {
     NameController.nameStep
-  }
-
-  def template(
-      form: ErrorTransformForm[InprogressOverseas],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]): Html = {
-    PassportMustache.passportDetailsPage(
-      form,
-      postEndpoint,
-      backEndpoint
-    )
   }
 }
 

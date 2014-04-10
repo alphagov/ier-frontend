@@ -7,9 +7,8 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.model.{DOB}
 import play.api.mvc.Call
-import uk.gov.gds.ier.step.Routes
+import uk.gov.gds.ier.step.{OverseaStepWithNewMustache, Routes, OverseaStep}
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.step.OverseaStep
 import controllers.step.overseas.routes.LastUkAddressController
 import controllers.step.overseas.routes.PassportCheckController
 import controllers.step.overseas.PassportDetailsController
@@ -23,10 +22,10 @@ class PassportCheckStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService)
-  extends OverseaStep
+  extends OverseaStepWithNewMustache
   with PassportHelperConstants
   with PassportForms
-  with PassportMustache {
+  with PassportCheckMustache {
 
   val validation = passportCheckForm
   val previousRoute = Some(LastUkAddressController.get)
@@ -59,17 +58,6 @@ class PassportCheckStep @Inject ()(
       case (`noPassport`, `wasBornInUk`, `wasBornBefore1983`) => nameStep
       case _ => this
     }
-  }
-
-  def template(
-      form: ErrorTransformForm[InprogressOverseas],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]): Html = {
-    PassportMustache.passportCheckPage(
-      form,
-      postEndpoint,
-      backEndpoint
-    )
   }
 }
 
