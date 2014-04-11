@@ -10,13 +10,14 @@ import play.api.templates.Html
 
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{ForcesStep, Routes}
+import uk.gov.gds.ier.step.{ForcesStepWithNewMustache, ForcesStep, Routes}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
-class NinoStep @Inject ()(val serialiser: JsonSerialiser,
-                          val config: Config,
-                          val encryptionService : EncryptionService)
-  extends ForcesStep
+class NinoStep @Inject ()(
+    val serialiser: JsonSerialiser,
+    val config: Config,
+    val encryptionService : EncryptionService)
+  extends ForcesStepWithNewMustache
   with NinoForms
   with NinoMustache {
 
@@ -30,12 +31,6 @@ class NinoStep @Inject ()(val serialiser: JsonSerialiser,
     editPost = NinoController.editPost
   )
 
-  def template(
-      form: ErrorTransformForm[InprogressForces],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]): Html = {
-    ninoMustache(form, postEndpoint, backEndpoint)
-  }
   def nextStep(currentState: InprogressForces) = {
     ServiceController.serviceStep
   }
