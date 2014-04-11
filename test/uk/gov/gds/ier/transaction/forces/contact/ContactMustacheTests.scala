@@ -1,10 +1,10 @@
 package uk.gov.gds.ier.transaction.forces.contact
 
+import scala.Some
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
-import scala.Some
-import uk.gov.gds.ier.model.{ContactDetail, Contact}
+import uk.gov.gds.ier.model._
 import controllers.step.forces.routes._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.forces.InprogressForces
@@ -13,17 +13,22 @@ class ContactMustacheTests
   extends FlatSpec
   with Matchers
   with ContactForms
+  with ContactMustache
   with ErrorMessages
   with FormKeys
   with TestHelpers
   with WithSerialiser {
 
   val serialiser = jsonSerialiser
-  val contactMustache = new ContactMustache {}
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = contactForm
-    val contactModel = contactMustache.transformFormStepToMustacheData (emptyApplicationForm, ContactController.post, Some(PostalVoteController.get))
+    val contactModel = mustache.data(
+      emptyApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get),
+      InprogressForces()
+    ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/forces/contact")
@@ -37,7 +42,7 @@ class ContactMustacheTests
   }
 
   it should "progress form with filled email should produce Mustache Model with email value present" in {
-    val partiallyFilledApplicationForm = contactForm.fill(
+    val partiallyFilledApplication =
       InprogressForces(
         contact = Some(
           Contact(
@@ -47,9 +52,14 @@ class ContactMustacheTests
           )
         )
       )
-    )
+    val partiallyFilledApplicationForm = contactForm.fill(partiallyFilledApplication)
 
-    val contactModel = contactMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, ContactController.post, Some(PostalVoteController.get))
+    val contactModel = mustache.data(
+      partiallyFilledApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get),
+      InprogressForces()
+    ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/forces/contact")
@@ -63,7 +73,7 @@ class ContactMustacheTests
   }
 
   it should "progress form with filled phone should produce Mustache Model with phone value present" in {
-    val partiallyFilledApplicationForm = contactForm.fill(
+    val partiallyFilledApplication =
       InprogressForces(
         contact = Some(
           Contact(
@@ -73,9 +83,14 @@ class ContactMustacheTests
           )
         )
       )
-    )
+    val partiallyFilledApplicationForm = contactForm.fill(partiallyFilledApplication)
 
-    val contactModel = contactMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, ContactController.post, Some(PostalVoteController.get))
+    val contactModel = mustache.data(
+      partiallyFilledApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get),
+      InprogressForces()
+    ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/forces/contact")
@@ -89,7 +104,7 @@ class ContactMustacheTests
   }
 
   it should "progress form with filled phone and post option should produce Mustache Model with phone and post values present" in {
-    val partiallyFilledApplicationForm = contactForm.fill(
+    val partiallyFilledApplication =
       InprogressForces(
         contact = Some(
           Contact(
@@ -99,9 +114,14 @@ class ContactMustacheTests
           )
         )
       )
-    )
+    val partiallyFilledApplicationForm = contactForm.fill(partiallyFilledApplication)
 
-    val contactModel = contactMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, ContactController.post, Some(PostalVoteController.get))
+    val contactModel = mustache.data(
+      partiallyFilledApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get),
+      InprogressForces()
+    ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/forces/contact")
@@ -115,7 +135,7 @@ class ContactMustacheTests
   }
 
   it should "progress form with validation errors should produce Model with error list present" in {
-    val partiallyFilledApplicationForm = contactForm.fillAndValidate(
+    val partiallyFilledApplication =
       InprogressForces(
         contact = Some(
           Contact(
@@ -125,8 +145,14 @@ class ContactMustacheTests
           )
         )
       )
-    )
-    val contactModel = contactMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, ContactController.post, Some(PostalVoteController.get))
+    val partiallyFilledApplicationForm = contactForm.fillAndValidate(partiallyFilledApplication)
+
+    val contactModel = mustache.data(
+      partiallyFilledApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get),
+      InprogressForces()
+    ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/forces/contact")

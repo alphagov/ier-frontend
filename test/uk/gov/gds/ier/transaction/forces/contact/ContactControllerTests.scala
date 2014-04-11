@@ -109,36 +109,4 @@ class ContactControllerTests
     }
   }
 
-    it should "prepopulate the email address for the contact step if it is filled in the postal step" +
-    "when submitting the form successfully" in {
-    val mockedJsonSerialiser = mock[JsonSerialiser]
-    val mockedConfig = mock[Config]
-    val mockedEncryptionService = mock[EncryptionService]
-
-    val postalVoteStep = new ContactStep(mockedJsonSerialiser, mockedConfig,
-        mockedEncryptionService)
-
-    val currentState = completeForcesApplication.copy(
-        postalOrProxyVote = Some(
-            PostalOrProxyVote(
-                typeVote = WaysToVoteType.ByPost, 
-                postalVoteOption = Some(true),
-                deliveryMethod = Some(
-                    PostalVoteDeliveryMethod(
-                    		deliveryMethod = Some("email"),
-                    		emailAddress = Some("test@test.com")
-                    )
-                )
-            )
-        ),
-        contact = None)
-
-    val transferedState = postalVoteStep.prepopulateEmailAddress(currentState)
-    transferedState.contact should not be (None)
-    transferedState.contact.get.email should not be (None)
-    transferedState.contact.get.email.get.detail should not be (None)
-    transferedState.contact.get.email.get.detail.get should be ("test@test.com")
-  }
-
-  
 }
