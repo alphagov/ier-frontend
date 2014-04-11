@@ -5,9 +5,11 @@ import org.scalatest.{Matchers, FlatSpec}
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.overseas.openRegister.OpenRegisterMustache
+import uk.gov.gds.ier.mustache.StepMustache
 
 class OpenRegisterTemplateTest
   extends FlatSpec
+  with StepMustache
   with OpenRegisterMustache
   with Matchers {
 

@@ -1,25 +1,26 @@
 package uk.gov.gds.ier.transaction.overseas.dateLeftSpecial
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.step.StepTemplate
 
-trait DateLeftSpecialMustache extends StepMustache {
+trait DateLeftSpecialMustache extends StepTemplate[InprogressOverseas] {
 
-  case class DateLeftSpecialModel(question:Question,
-                             dateLeftSpecialFieldSet: FieldSet,
-                             dateLeftSpecialMonth: Field,
-                             dateLeftSpecialYear: Field,
-                             service: String)
+  val service:String
 
-  def dateLeftSpecialMustache(form:ErrorTransformForm[InprogressOverseas],
-                         post: Call,
-                         back: Option[Call], service: String): Html = {
+  case class DateLeftSpecialModel(
+      question:Question,
+      dateLeftSpecialFieldSet: FieldSet,
+      dateLeftSpecialMonth: Field,
+      dateLeftSpecialYear: Field,
+      service: String
+  )
+
+  val mustache = MustacheTemplate("overseas/dateLeftService") { (form, post, back) =>
 
     implicit val progressForm = form
+
+    val title = "When did you cease to be a " + service + "?"
 
     val data = DateLeftSpecialModel(
       question = Question(
@@ -27,7 +28,7 @@ trait DateLeftSpecialMustache extends StepMustache {
         backUrl = back.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "",
-        title = "When did you cease to be a " + service + "?"
+        title = title
       ) ,
       dateLeftSpecialFieldSet = FieldSet(
         classes = if (progressForm(keys.dateLeftSpecial.month).hasErrors ||
@@ -43,8 +44,8 @@ trait DateLeftSpecialMustache extends StepMustache {
       ),
       service = service
     )
-    val content = Mustache.render("overseas/dateLeftService", data)
-    MainStepTemplate(content, data.question.title)
+
+    MustacheData(data, title)
   }
 
   def generateOptionsList (month:String): List[SelectOption] = {

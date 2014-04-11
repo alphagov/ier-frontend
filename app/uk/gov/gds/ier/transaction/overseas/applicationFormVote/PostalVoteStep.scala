@@ -3,16 +3,12 @@ package uk.gov.gds.ier.transaction.overseas.applicationFormVote
 import controllers.step.overseas.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import play.api.templates.Html
 
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.OverseaStep
+import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import controllers.step.overseas.ContactController
-import play.api.mvc.Call
-import uk.gov.gds.ier.step.Routes
-import uk.gov.gds.ier.model.{WaysToVoteType}
-import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.model.WaysToVoteType
 import scala.Some
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
@@ -25,6 +21,8 @@ class PostalVoteStep @Inject ()(
   with PostalOrProxyVoteForms
   with PostalOrProxyVoteMustache {
 
+  val wayToVote = WaysToVoteType.ByPost
+
   val validation = postalOrProxyVoteForm
   val previousRoute = Some(WaysToVoteController.get)
 
@@ -34,10 +32,6 @@ class PostalVoteStep @Inject ()(
     editGet = PostalVoteController.editGet,
     editPost = PostalVoteController.editPost
   )
-
-  def template(form: ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
-    postalOrProxyVoteMustache(form, postEndpoint, backEndpoint, WaysToVoteType.ByPost)
-  }
 
   def nextStep(currentState: InprogressOverseas) = {
     ContactController.contactStep

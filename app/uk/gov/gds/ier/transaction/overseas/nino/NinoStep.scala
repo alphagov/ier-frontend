@@ -2,13 +2,10 @@ package uk.gov.gds.ier.transaction.overseas.nino
 
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.validation._
-import play.api.mvc.Call
-import play.api.templates.Html
 
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{Routes, OverseaStep}
+import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import controllers.step.overseas.routes._
 import controllers.step.overseas.AddressController
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
@@ -30,9 +27,6 @@ class NinoStep @Inject ()(val serialiser: JsonSerialiser,
     editPost = NinoController.editPost
   )
 
-  def template(form: ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
-    ninoMustache(form, postEndpoint, backEndpoint)
-  }
   def nextStep(currentState: InprogressOverseas) = {
     AddressController.addressStep
   }

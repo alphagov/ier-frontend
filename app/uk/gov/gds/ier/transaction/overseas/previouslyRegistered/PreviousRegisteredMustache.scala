@@ -1,12 +1,11 @@
 package uk.gov.gds.ier.transaction.overseas.previouslyRegistered
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.step.StepTemplate
 
-trait PreviousRegisteredMustache extends StepMustache {
+trait PreviousRegisteredMustache extends StepTemplate[InprogressOverseas] {
+
+  val title = "Was your previous registration as an overseas voter?"
 
   case class PreviouslyRegisteredModel(
       question:Question,
@@ -15,10 +14,10 @@ trait PreviousRegisteredMustache extends StepMustache {
       previouslyRegisteredFalse: Field
   )
 
-  def previousRegisteredMustache(
-      form:ErrorTransformForm[InprogressOverseas],
-      post: Call,
-      back: Option[Call]): Html = {
+  val mustache = MustacheTemplate("overseas/previouslyRegistered") { (form, post, back) =>
+
+    implicit val progressForm = form
+
     val prevRegKey = keys.previouslyRegistered.hasPreviouslyRegistered
 
     val data = PreviouslyRegisteredModel(
@@ -27,7 +26,7 @@ trait PreviousRegisteredMustache extends StepMustache {
         backUrl = back.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "",
-        title = "Was your previous registration as an overseas voter?"
+        title = title
       ),
       previouslyRegistered = FieldSet(
         classes = if (form(prevRegKey).hasErrors) "invalid" else ""
@@ -43,7 +42,6 @@ trait PreviousRegisteredMustache extends StepMustache {
         attributes = if (form(prevRegKey).value == Some("false")) "checked=\"checked\"" else ""
       )
     )
-    val content = Mustache.render("overseas/previouslyRegistered", data)
-    MainStepTemplate(content, data.question.title)
+    MustacheData(data, title)
   }
 }

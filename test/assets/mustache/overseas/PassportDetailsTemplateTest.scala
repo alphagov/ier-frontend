@@ -4,11 +4,13 @@ import org.jsoup.Jsoup
 import org.scalatest.{Matchers, FlatSpec}
 import play.api.test._
 import play.api.test.Helpers._
-import uk.gov.gds.ier.transaction.overseas.passport.PassportMustache
+import uk.gov.gds.ier.transaction.overseas.passport.PassportDetailsMustache
+import uk.gov.gds.ier.mustache.StepMustache
 
 class PassportDetailsTemplateTest
   extends FlatSpec
-  with PassportMustache
+  with PassportDetailsMustache
+  with StepMustache
   with Matchers {
 
   val data = new PassportDetailsModel(

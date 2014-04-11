@@ -13,22 +13,22 @@ class ContactMustacheTests
   extends FlatSpec
   with Matchers
   with ContactForms
+  with ContactMustache
   with ErrorMessages
   with FormKeys
   with TestHelpers
   with WithSerialiser {
 
   val serialiser = jsonSerialiser
-  val contactMustache = new ContactMustache {}
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = contactForm
-    val emptyApplication = InprogressOverseas()
-    val contactModel = contactMustache.transformFormStepToMustacheData (
-        emptyApplication,
-        emptyApplicationForm, 
-        ContactController.post, 
-        Some(PostalVoteController.get))
+    val contactModel = mustache.data(
+      emptyApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get),
+      InprogressOverseas()
+    ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/overseas/contact")
@@ -54,11 +54,12 @@ class ContactMustacheTests
       )
     val partiallyFilledApplicationForm = contactForm.fill(partiallyFilledApplication)
 
-    val contactModel = contactMustache.transformFormStepToMustacheData(
-        partiallyFilledApplication,
-        partiallyFilledApplicationForm, 
-        ContactController.post, 
-        Some(PostalVoteController.get))
+    val contactModel = mustache.data(
+      partiallyFilledApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get),
+      InprogressOverseas()
+    ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/overseas/contact")
@@ -84,11 +85,12 @@ class ContactMustacheTests
       )
     val partiallyFilledApplicationForm = contactForm.fill(partiallyFilledApplication)
 
-    val contactModel = contactMustache.transformFormStepToMustacheData(
-        partiallyFilledApplication,
-        partiallyFilledApplicationForm, 
-        ContactController.post, 
-        Some(PostalVoteController.get))
+    val contactModel = mustache.data(
+      partiallyFilledApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get),
+      InprogressOverseas()
+    ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/overseas/contact")
@@ -114,11 +116,12 @@ class ContactMustacheTests
       )
     val partiallyFilledApplicationForm = contactForm.fill(partiallyFilledApplication)
 
-    val contactModel = contactMustache.transformFormStepToMustacheData(
-        partiallyFilledApplication,
-        partiallyFilledApplicationForm, 
-        ContactController.post, 
-        Some(PostalVoteController.get))
+    val contactModel = mustache.data(
+      partiallyFilledApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get),
+      InprogressOverseas()
+    ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/overseas/contact")
@@ -143,12 +146,13 @@ class ContactMustacheTests
         )
       )
     val partiallyFilledApplicationForm = contactForm.fillAndValidate(partiallyFilledApplication)
-    
-    val contactModel = contactMustache.transformFormStepToMustacheData(
-        partiallyFilledApplication,
-        partiallyFilledApplicationForm, 
-        ContactController.post, 
-        Some(PostalVoteController.get))
+
+    val contactModel = mustache.data(
+      partiallyFilledApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get),
+      InprogressOverseas()
+    ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/overseas/contact")

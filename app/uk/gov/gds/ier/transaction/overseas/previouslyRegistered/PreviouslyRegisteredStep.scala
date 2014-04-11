@@ -4,14 +4,10 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.model.{PreviouslyRegistered}
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
+import uk.gov.gds.ier.model.PreviouslyRegistered
 import controllers.step.overseas.routes.{PreviouslyRegisteredController, DateOfBirthController}
 import controllers.step.overseas.{LastRegisteredToVoteController, DateLeftUkController}
-import uk.gov.gds.ier.step.OverseaStep
-import uk.gov.gds.ier.step.Routes
+import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class PreviouslyRegisteredStep @Inject() (
@@ -41,12 +37,5 @@ class PreviouslyRegisteredStep @Inject() (
       }
       case _ => this
     }
-  }
-
-  def template(
-      form: ErrorTransformForm[InprogressOverseas],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]): Html = {
-    previousRegisteredMustache(form, postEndpoint, backEndpoint)
   }
 }

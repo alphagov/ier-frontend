@@ -1,27 +1,30 @@
 package uk.gov.gds.ier.transaction.overseas.nino
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.step.StepTemplate
 
 
-trait NinoMustache extends StepMustache {
+trait NinoMustache extends StepTemplate[InprogressOverseas] {
 
-  case class NinoModel(question:Question,
-                       nino: Field,
-                       noNinoReason: Field)
+  val title = "What is your National Insurance number?"
 
-  def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]) : NinoModel = {
+  case class NinoModel(
+      question:Question,
+      nino: Field,
+      noNinoReason: Field
+  )
+
+  val mustache = MustacheTemplate("overseas/nino") { (form, post, back) =>
+
     implicit val progressForm = form
-    NinoModel(
+
+    val data = NinoModel(
       question = Question(
-        postUrl = postEndpoint.url,
-        backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
+        postUrl = post.url,
+        backUrl = back.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "",
-        title = "What is your National Insurance number?"
+        title = title
       ),
       nino = TextField(
         key = keys.nino.nino
@@ -30,11 +33,6 @@ trait NinoMustache extends StepMustache {
         key = keys.nino.noNinoReason
       )
     )
-  }
-
-  def ninoMustache(form: ErrorTransformForm[InprogressOverseas], postEndpoint: Call, backEndpoint:Option[Call]) : Html = {
-    val data = transformFormStepToMustacheData(form, postEndpoint, backEndpoint)
-    val content = Mustache.render("overseas/nino", data)
-    MainStepTemplate(content, data.question.title)
+    MustacheData(data, title)
   }
 }

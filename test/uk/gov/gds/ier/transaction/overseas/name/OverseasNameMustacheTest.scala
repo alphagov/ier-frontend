@@ -6,24 +6,23 @@ import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.model.{Name, PreviousName, OverseasName}
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
-/**
- * Unit test to test form to Mustache model transformation.
- */
 class OverseasNameMustacheTest
   extends FlatSpec
   with Matchers
   with NameForms
+  with NameMustache
   with ErrorMessages
   with FormKeys
   with TestHelpers {
 
-  // tested unit
-  val nameMustache = new NameMustache {}
-
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = nameForm
-    val nameModel = nameMustache.transformFormStepToMustacheData(emptyApplicationForm,
-        "/register-to-vote/overseas/name", Some("/register-to-vote/overseas/last-registered-uk-address"))
+    val nameModel = mustache.data(
+      emptyApplicationForm,
+      new Call("POST", "/register-to-vote/overseas/name"),
+      Some(new Call("GET", "/register-to-vote/overseas/last-registered-uk-address")),
+      InprogressOverseas()
+    ).data.asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/overseas/name")
@@ -45,8 +44,13 @@ class OverseasNameMustacheTest
         firstName = "John",
         middleNames = None,
         lastName = "Smith"))))))
-    val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm,
-        "/register-to-vote/overseas/name", Some("/register-to-vote/overseas/last-registered-uk-address"))
+
+    val nameModel = mustache.data(
+      partiallyFilledApplicationForm,
+      new Call("POST", "/register-to-vote/overseas/name"),
+      Some(new Call("GET", "/register-to-vote/overseas/last-registered-uk-address")),
+        InprogressOverseas()
+      ).data.asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/overseas/name")
@@ -76,8 +80,13 @@ class OverseasNameMustacheTest
           lastName = "Kovar"))
       ))))
     ))
-    val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm,
-        "/register-to-vote/overseas/name", Some("/register-to-vote/overseas/last-registered-uk-address"))
+
+    val nameModel = mustache.data(
+      partiallyFilledApplicationForm,
+      new Call("POST", "/register-to-vote/overseas/name"),
+      Some(new Call("GET", "/register-to-vote/overseas/last-registered-uk-address")),
+      InprogressOverseas()
+    ).data.asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/overseas/name")
@@ -99,8 +108,13 @@ class OverseasNameMustacheTest
         firstName = "John",
         middleNames = None,
         lastName = ""))))))
-    val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationFormWithErrors,
-        "/register-to-vote/overseas/name", Some("/register-to-vote/overseas/last-registered-uk-address"))
+
+    val nameModel = mustache.data(
+      partiallyFilledApplicationFormWithErrors,
+      new Call("POST", "/register-to-vote/overseas/name"),
+      Some(new Call("GET", "/register-to-vote/overseas/last-registered-uk-address")),
+      InprogressOverseas()
+    ).data.asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/overseas/name")
@@ -115,6 +129,7 @@ class OverseasNameMustacheTest
     nameModel.previousMiddleNames.value should be("")
     nameModel.previousLastName.value should be("")
 
-    nameModel.question.errorMessages.mkString(", ") should be("Please enter your last name, Please answer this question")
+    nameModel.question.errorMessages.mkString(", ") should be(
+      "Please enter your last name, Please answer this question")
   }
 }
