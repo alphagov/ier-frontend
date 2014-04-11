@@ -10,8 +10,7 @@ import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 trait ContactForms extends ContactConstraints {
   self:  FormKeys
-    with ErrorMessages
-    with WithSerialiser =>
+    with ErrorMessages =>
 
   val contactForm = ErrorTransformForm(
     mapping(

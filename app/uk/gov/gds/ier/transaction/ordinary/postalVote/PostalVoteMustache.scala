@@ -1,12 +1,10 @@
 package uk.gov.gds.ier.transaction.ordinary.postalVote
 
-import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
-trait PostalVoteMustache extends StepMustache {
+trait PostalVoteMustache extends StepTemplate[InprogressOrdinary] {
 
   case class PostalVoteModel(
     question: Question,
@@ -18,16 +16,15 @@ trait PostalVoteMustache extends StepMustache {
     deliveryMethodValid: String
   )
 
-  def transformFormStepToMustacheData(
-      form: ErrorTransformForm[InprogressOrdinary],
-      postUrl: Call,
-      backUrl: Option[Call]): PostalVoteModel = {
+  val mustache = MustacheTemplate("ordinary/postalVote") {
+    (form, postUrl, backUrl) =>
+
     implicit val progressForm = form
 
     val deliveryMethodValidation =
       if (form(keys.postalVote.deliveryMethod.methodName).hasErrors) "invalid" else ""
 
-    PostalVoteModel(
+    val data = PostalVoteModel(
       question = Question(
         postUrl = postUrl.url,
         backUrl = backUrl.map { call => call.url }.getOrElse(""),
@@ -51,13 +48,8 @@ trait PostalVoteMustache extends StepMustache {
         key = keys.postalVote.deliveryMethod.emailAddress),
       deliveryMethodValid = deliveryMethodValidation
     )
-  }
 
-  def postalVoteMustache(
-      form: ErrorTransformForm[InprogressOrdinary],
-      call: Call, backUrl: Option[Call]): Html = {
-    val data = transformFormStepToMustacheData(form, call, backUrl)
-    val content = Mustache.render("ordinary/postalVote", data)
-    MainStepTemplate(content, data.question.title)
+    MustacheData(data, data.question.title)
   }
 }
+
