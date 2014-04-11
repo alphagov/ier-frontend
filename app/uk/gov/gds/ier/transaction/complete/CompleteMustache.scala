@@ -20,7 +20,7 @@ trait CompleteMustache {
         hasOtherAddress: Boolean,
         backToStartUrl: String) = {
       val data = CompleteModel(
-        authorityUrl = "#",
+        authorityUrl = "#", // TODO: authority URL is not provided from Places Service
         authorityName = authority map {
           auth => auth.name + " electoral registration office"
         } getOrElse "your local electoral registration office",
