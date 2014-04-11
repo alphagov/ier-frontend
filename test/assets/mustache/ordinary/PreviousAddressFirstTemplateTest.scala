@@ -4,6 +4,7 @@ import org.jsoup.Jsoup
 import org.scalatest.{Matchers, FlatSpec}
 import play.api.test._
 import play.api.test.Helpers._
+import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.overseas.waysToVote.WaysToVoteMustache
 import uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressFirstMustache
 
@@ -12,6 +13,7 @@ import uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressFirstM
  */
 class PreviousAddressFirstTemplateTest
   extends FlatSpec
+  with StepMustache
   with PreviousAddressFirstMustache
   with Matchers {
 
