@@ -4,24 +4,23 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{Routes, ForcesStep}
+import uk.gov.gds.ier.step.{ForcesStepWithNewMustache, Routes}
 import controllers.step.forces.routes._
 import scala.Some
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.model.{WaysToVoteType}
-import play.api.mvc.Call
-import play.api.templates.Html
 import controllers.step.forces.ContactController
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.model.WaysToVoteType
 
 class ProxyVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService)
 
-  extends ForcesStep
+  extends ForcesStepWithNewMustache
   with PostalOrProxyVoteForms
   with PostalOrProxyVoteMustache {
+
+  val wayToVote = WaysToVoteType.ByProxy
 
   val validation = postalOrProxyVoteForm
   val previousRoute = Some(WaysToVoteController.get)
@@ -32,10 +31,6 @@ class ProxyVoteStep @Inject ()(
     editGet = ProxyVoteController.editGet,
     editPost = ProxyVoteController.editPost
   )
-
-  def template(form: ErrorTransformForm[InprogressForces], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
-    postalOrProxyVoteMustache(form, postEndpoint, backEndpoint, WaysToVoteType.ByProxy)
-  }
 
   def nextStep(currentState: InprogressForces) = {
     ContactController.contactStep

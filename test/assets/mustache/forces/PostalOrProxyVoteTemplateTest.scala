@@ -7,6 +7,8 @@ import play.api.test.Helpers._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.transaction.forces.applicationFormVote.PostalOrProxyVoteMustache
+import org.jba.Mustache
+import uk.gov.gds.ier.model.WaysToVoteType
 
 class PostalOrProxyVoteTemplateTest
   extends FlatSpec
@@ -16,6 +18,7 @@ class PostalOrProxyVoteTemplateTest
   with TestHelpers {
 
   val serialiser = jsonSerialiser
+  val wayToVote = WaysToVoteType.ByPost
 
   it should "properly render" in {
     running(FakeApplication()) {
