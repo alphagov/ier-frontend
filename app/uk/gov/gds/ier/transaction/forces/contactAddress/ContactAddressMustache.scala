@@ -47,13 +47,12 @@ trait ContactAddressMustache extends StepMustache with AddressHelpers {
   def transformFormStepToMustacheData(
       form:ErrorTransformForm[InprogressForces],
       post: Call,
-      back: Option[Call]): ContactAddressModel = {
+      back: Option[Call],
+      application: InprogressForces): ContactAddressModel = {
 
     implicit val progressForm = form
 
-    val application = progressForm.value
-
-    val ukAddress = application.map(_.address).getOrElse(None)
+    val ukAddress = application.address
 
     val ukAddressToBeShown = extractUkAddressText(ukAddress, form)
 
@@ -156,9 +155,9 @@ trait ContactAddressMustache extends StepMustache with AddressHelpers {
   def contactAddressMustache(
         form:ErrorTransformForm[InprogressForces],
         post: Call,
-        back: Option[Call]): Html = {
-
-    val data = transformFormStepToMustacheData(form, post, back)
+        back: Option[Call],
+        application: InprogressForces): Html = {
+    val data = transformFormStepToMustacheData(form, post, back, application)
     val content = Mustache.render("forces/contactAddress", data)
     MainStepTemplate(content, data.question.title)
   }

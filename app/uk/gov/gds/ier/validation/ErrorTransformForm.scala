@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.validation
 
-import uk.gov.gds.ier.model.KeyForError
 import play.api.data.{Mapping, Field, FormError, Form}
 import play.api.libs.json.JsValue
 import play.api.i18n.Lang
@@ -12,7 +11,7 @@ case class ErrorTransformForm[T](private val form:Form[T]) {
   lazy val data : Map[String, String] = form.data
   lazy val errors : Seq[FormError] = transformedForm.errors
 
-  lazy val value : Option[T] = form.value
+  private lazy val value : Option[T] = form.value
 
   def apply(key : Key) = {
     transformedForm(key.key)

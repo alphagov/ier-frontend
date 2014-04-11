@@ -24,7 +24,8 @@ class ContactAddressMustacheTest
     val contactAddressModel = contactAddressMustache.transformFormStepToMustacheData(
         emptyApplicationForm,
         ContactAddressController.post,
-        Some(OpenRegisterController.get))
+        Some(OpenRegisterController.get),
+        InprogressForces())
 
     contactAddressModel.question.title should be("Where should we write to you about your registration?")
     contactAddressModel.question.postUrl should be("/register-to-vote/forces/contact-address")
@@ -65,7 +66,8 @@ class ContactAddressMustacheTest
     val contactAddressModel = contactAddressMustache.transformFormStepToMustacheData(
       filledForm,
       ContactAddressController.post,
-      Some(OpenRegisterController.get))
+      Some(OpenRegisterController.get),
+      InprogressForces())
 
     contactAddressModel.question.title should be("Where should we write to you about your registration?")
     contactAddressModel.question.postUrl should be("/register-to-vote/forces/contact-address")
@@ -113,7 +115,8 @@ class ContactAddressMustacheTest
     val contactAddressModel = contactAddressMustache.transformFormStepToMustacheData(
       filledForm,
       ContactAddressController.post,
-      Some(OpenRegisterController.get))
+      Some(OpenRegisterController.get),
+      InprogressForces())
 
     contactAddressModel.question.title should be("Where should we write to you about your registration?")
     contactAddressModel.question.postUrl should be("/register-to-vote/forces/contact-address")
@@ -161,7 +164,8 @@ class ContactAddressMustacheTest
     val contactAddressModel = contactAddressMustache.transformFormStepToMustacheData(
       filledForm,
       ContactAddressController.post,
-      Some(OpenRegisterController.get))
+      Some(OpenRegisterController.get),
+      InprogressForces())
 
     contactAddressModel.question.title should be("Where should we write to you about your registration?")
     contactAddressModel.question.postUrl should be("/register-to-vote/forces/contact-address")
