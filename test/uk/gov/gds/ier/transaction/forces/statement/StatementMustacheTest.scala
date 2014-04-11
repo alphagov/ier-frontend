@@ -12,9 +12,10 @@ import uk.gov.gds.ier.transaction.forces.InprogressForces
 class StatementMustacheTest
   extends FlatSpec
   with Matchers
-  with StatementForms
   with ErrorMessages
   with FormKeys
+  with StatementMustache
+  with StatementForms
   with TestHelpers {
 
   val statementMustache = new StatementMustache {}
@@ -22,8 +23,12 @@ class StatementMustacheTest
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = statementForm
     
-    val statementhModel = statementMustache.transformFormStepToMustacheData(
-      emptyApplicationForm, StatementController.get, None)
+    val statementhModel =mustache.data(
+      emptyApplicationForm,
+      Call("POST", "/register-to-vote/forces/statement"),
+      None,
+      InprogressForces()
+    ).data.asInstanceOf[StatementModel]
 
     statementhModel.question.title should be("Which of these statements applies to you?")
     statementhModel.question.postUrl should be("/register-to-vote/forces/statement")
@@ -38,8 +43,12 @@ class StatementMustacheTest
     val filledForm = statementForm.fillAndValidate(InprogressForces(
       statement = Some(Statement(memberForcesFlag = Some(true), partnerForcesFlag = Some(true)))))
       
-    val statementModel = statementMustache.transformFormStepToMustacheData(
-      filledForm, StatementController.get, None)
+    val statementModel = mustache.data(
+      filledForm,
+      Call("POST", "/register-to-vote/forces/statement"),
+      None,
+      InprogressForces()
+    ).data.asInstanceOf[StatementModel]
 
     statementModel.question.title should be("Which of these statements applies to you?")
     statementModel.question.postUrl should be("/register-to-vote/forces/statement")

@@ -1,9 +1,5 @@
 package uk.gov.gds.ier.transaction.forces.statement
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.step.StepTemplate
 
@@ -16,19 +12,17 @@ trait StatementMustache extends StepTemplate[InprogressForces] {
       statementPartnerForcesCheckbox: Field
   )
 
-  def transformFormStepToMustacheData(
-      form: ErrorTransformForm[InprogressForces],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]) : StatementModel = {
-
+  val mustache = MustacheTemplate("forces/statement") { (form, postEndpoint, backEndpoint) =>
     implicit val progressForm = form
-    StatementModel(
+
+    val title = "Which of these statements applies to you?"
+    val data = StatementModel(
       question = Question(
         postUrl = postEndpoint.url,
         backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "1",
-        title = "Which of these statements applies to you?",
+        title = title,
         showBackUrl = false
       ),
       statementFieldSet = FieldSet(
@@ -41,13 +35,6 @@ trait StatementMustache extends StepTemplate[InprogressForces] {
         key = keys.statement.partnerForcesMember, value = "true"
       )
     )
-  }
-
-  val mustache = MustacheTemplate("forces/statement") { (form, postUrl, backUrl) =>
-    implicit val progressForm = form
-
-    val data = transformFormStepToMustacheData(form, postUrl, backUrl)
-    val title = data.question.title
 
     MustacheData(data, title)
   }
