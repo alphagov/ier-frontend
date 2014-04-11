@@ -1,200 +1,135 @@
 package assets.mustache.forces
 
-import org.jsoup.Jsoup
+import uk.gov.gds.ier.transaction.forces.name._
+import uk.gov.gds.ier.transaction.forces.InprogressForces
 import org.scalatest.{Matchers, FlatSpec}
-import play.api.test._
-import play.api.test.Helpers._
-import uk.gov.gds.ier.transaction.forces.name.NameMustache
+import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
+import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.model.{Name, PreviousName}
 
 class NameTemplateTest
   extends FlatSpec
+  with Matchers
+  with NameForms
   with NameMustache
-  with Matchers {
+  with ErrorMessages
+  with FormKeys
+  with TestHelpers {
 
-  it should "properly render all properties from the model" in {
-    running(FakeApplication()) {
-      val data = new NameModel(
-        question = Question(),
-        firstName = Field(
-          id = "firstNameId",
-          name = "firstNameName",
-          classes = "firstNameClass",
-          value = "firstNameValue"
-        ),
-        middleNames = Field(
-          id = "middleNameId",
-          name = "middleNameName",
-          classes = "middleNameClass",
-          value = "middleNameValue"
-        ),
-        lastName = Field(
-          id = "lastNameId",
-          name = "lastNameName",
-          classes = "lastNameClass",
-          value = "lastNameValue"
-        ),
-        hasPreviousName = FieldSet(classes = "hasPreviousNameClass"),
-        hasPreviousNameTrue = Field(
-          id = "hasPreviousTrueId",
-          name = "hasPreviousTrueName",
-          attributes = "foo=\"foo\""
-        ),
-        hasPreviousNameFalse = Field(
-          id = "hasPreviousFalseId",
-          name = "hasPreviousFalseName",
-          attributes = "foo=\"foo\""
-        ),
-        previousFirstName = Field(
-          id = "previousFirstNameId",
-          name = "previousFirstNameName",
-          classes = "previousFirstNameClass",
-          value = "previousFirstNameValue"
-        ),
-        previousMiddleNames = Field(
-          id = "previousMiddleNameId",
-          name = "previousMiddleNameName",
-          classes = "previousMiddleNameClass",
-          value = "previousMiddleNameValue"
-        ),
-        previousLastName =  Field(
-          id = "previousLastNameId",
-          name = "previousLastNameName",
-          classes = "previousLastNameClass",
-          value = "previousLastNameValue"
-        )
-      )
+  it should "empty progress form should produce empty Model" in {
+    val emptyApplicationForm = nameForm
+    val nameModel = mustache.data(
+      emptyApplicationForm,
+      new Call("POST", "/register-to-vote/forces/name"),
+      Some(new Call("GET", "/register-to-vote/forces/date-of-birth")),
+      InprogressForces()
+    ).data.asInstanceOf[NameModel]
 
-      val html = Mustache.render("forces/name", data)
-      val doc = Jsoup.parse(html.toString)
+    nameModel.question.title should be("What is your full name?")
+    nameModel.question.postUrl should be("/register-to-vote/forces/name")
+    nameModel.question.backUrl should be("/register-to-vote/forces/date-of-birth")
 
-      //First Name
-      doc
-        .select("label[for=firstNameId]")
-        .first()
-        .attr("for") should be("firstNameId")
+    nameModel.firstName.value should be("")
+    nameModel.middleNames.value should be("")
+    nameModel.lastName.value should be("")
+    nameModel.hasPreviousNameTrue.value should be("true")
+    nameModel.hasPreviousNameFalse.value should be("false")
+    nameModel.previousFirstName.value should be("")
+    nameModel.previousMiddleNames.value should be("")
+    nameModel.previousLastName.value should be("")
+  }
 
-      val firstNameDiv = doc.select("div[class*=firstNameClass]").first()
-      firstNameDiv.attr("class") should include("firstNameClass")
-      val firstNameInput = firstNameDiv.select("input").first()
-      firstNameInput.attr("id") should be("firstNameId")
-      firstNameInput.attr("name") should be("firstNameName")
-      firstNameInput.attr("value") should be("firstNameValue")
-      firstNameInput.attr("class") should include("firstNameClass")
+  it should "progress form with filled applicant name should produce Mustache Model with name values present" in {
+    val partiallyFilledApplicationForm = nameForm.fill(InprogressForces(
+      name = Some(Name(
+        firstName = "John",
+        middleNames = None,
+        lastName = "Smith"))))
 
+    val nameModel = mustache.data(
+      partiallyFilledApplicationForm,
+      new Call("POST", "/register-to-vote/forces/name"),
+      Some(new Call("GET", "/register-to-vote/forces/date-of-birth")),
+      InprogressForces()
+    ).data.asInstanceOf[NameModel]
 
-      //Middle Name
-      doc
-        .select("label[for=middleNameId]")
-        .first()
-        .attr("for") should be("middleNameId")
+    nameModel.question.title should be("What is your full name?")
+    nameModel.question.postUrl should be("/register-to-vote/forces/name")
+    nameModel.question.backUrl should be("/register-to-vote/forces/date-of-birth")
 
-      val middleNameInput = doc.select("input[id=middleNameId]").first()
-      middleNameInput.attr("id") should be("middleNameId")
-      middleNameInput.attr("name") should be("middleNameName")
-      middleNameInput.attr("value") should be("middleNameValue")
-      middleNameInput.attr("class") should include("middleNameClass")
+    nameModel.firstName.value should be("John")
+    nameModel.middleNames.value should be("")
+    nameModel.lastName.value should be("Smith")
+    nameModel.hasPreviousNameTrue.value should be("true")
+    nameModel.hasPreviousNameFalse.value should be("false")
+    nameModel.previousFirstName.value should be("")
+    nameModel.previousMiddleNames.value should be("")
+    nameModel.previousLastName.value should be("")
+  }
 
+  it should "progress form with filled applicant name and previous should produce Mustache Model with name and previous name values present" in {
+    val partiallyFilledApplicationForm = nameForm.fill(InprogressForces(
+      name = Some(Name(
+        firstName = "John",
+        middleNames = None,
+        lastName = "Smith")),
+      previousName = Some(PreviousName(
+        hasPreviousName = true,
+        previousName = Some(Name(
+          firstName = "Jan",
+          middleNames = None,
+          lastName = "Kovar"))))
+    ))
 
-      //Last Name
-      doc
-        .select("label[for=lastNameId]")
-        .first()
-        .attr("for") should be("lastNameId")
+    val nameModel = mustache.data(
+      partiallyFilledApplicationForm,
+      new Call("POST", "/register-to-vote/forces/name"),
+      Some(new Call("GET", "/register-to-vote/forces/date-of-birth")),
+      InprogressForces()
+    ).data.asInstanceOf[NameModel]
 
-      val lastNameDiv = doc.select("div[class*=lastNameClass]").first()
-      lastNameDiv.attr("class") should include("lastNameClass")
-      val lastNameInput = lastNameDiv.select("input").first()
-      lastNameInput.attr("id") should be("lastNameId")
-      lastNameInput.attr("name") should be("lastNameName")
-      lastNameInput.attr("value") should be("lastNameValue")
-      lastNameInput.attr("class") should include("lastNameClass")
+    nameModel.question.title should be("What is your full name?")
+    nameModel.question.postUrl should be("/register-to-vote/forces/name")
+    nameModel.question.backUrl should be("/register-to-vote/forces/date-of-birth")
 
+    nameModel.firstName.value should be("John")
+    nameModel.middleNames.value should be("")
+    nameModel.lastName.value should be("Smith")
+    nameModel.hasPreviousNameTrue.attributes should be("checked=\"checked\"")
+    nameModel.hasPreviousNameFalse.attributes should be("")
+    nameModel.previousFirstName.value should be("Jan")
+    nameModel.previousMiddleNames.value should be("")
+    nameModel.previousLastName.value should be("Kovar")
+  }
 
+  it should "progress form with validation errors should produce Model with error list present" in {
+    val partiallyFilledApplicationFormWithErrors = nameForm.fillAndValidate(InprogressForces(
+      name = Some(Name(
+        firstName = "John",
+        middleNames = None,
+        lastName = ""))))
 
-      //Previous First Name
-      doc
-        .select("label[for=previousFirstNameId]")
-        .first()
-        .attr("for") should be("previousFirstNameId")
+    val nameModel = mustache.data(
+      partiallyFilledApplicationFormWithErrors,
+      new Call("POST", "/register-to-vote/forces/name"),
+      Some(new Call("GET", "/register-to-vote/forces/date-of-birth")),
+      InprogressForces()
+    ).data.asInstanceOf[NameModel]
 
-      val previousFirstNameDiv = doc
-        .select("div[class*=previousFirstNameClass]")
-        .first()
-      previousFirstNameDiv
-        .attr("class") should include("previousFirstNameClass")
+    nameModel.question.title should be("What is your full name?")
+    nameModel.question.postUrl should be("/register-to-vote/forces/name")
+    nameModel.question.backUrl should be("/register-to-vote/forces/date-of-birth")
 
-      val previousFirstNameInput =
-        previousFirstNameDiv.select("input").first()
+    nameModel.firstName.value should be("John")
+    nameModel.middleNames.value should be("")
+    nameModel.lastName.value should be("")
+    nameModel.hasPreviousNameTrue.value should be("true")
+    nameModel.hasPreviousNameFalse.value should be("false")
+    nameModel.previousFirstName.value should be("")
+    nameModel.previousMiddleNames.value should be("")
+    nameModel.previousLastName.value should be("")
 
-      previousFirstNameInput.attr("id") should be("previousFirstNameId")
-      previousFirstNameInput.attr("name") should be("previousFirstNameName")
-      previousFirstNameInput.attr("value") should be("previousFirstNameValue")
-      previousFirstNameInput
-        .attr("class") should include("previousFirstNameClass")
-
-
-      //Previous Middle Name
-      doc
-        .select("label[for=previousMiddleNameId]")
-        .first()
-        .attr("for") should be("previousMiddleNameId")
-
-      val previousMiddleNameInput = doc
-        .select("input[id=previousMiddleNameId]").first()
-      previousMiddleNameInput
-        .attr("id") should be("previousMiddleNameId")
-      previousMiddleNameInput
-        .attr("name") should be("previousMiddleNameName")
-      previousMiddleNameInput
-        .attr("value") should be("previousMiddleNameValue")
-      previousMiddleNameInput
-        .attr("class") should include("previousMiddleNameClass")
-
-
-      //Previous Last Name
-      doc
-        .select("label[for=previousLastNameId]")
-        .first()
-        .attr("for") should be("previousLastNameId")
-
-      val previousLastNameDiv =
-        doc.select("div[class*=previousLastNameClass]").first()
-      previousLastNameDiv
-        .attr("class") should include("previousLastNameClass")
-      val previousLastNameInput = previousLastNameDiv.select("input").first()
-      previousLastNameInput
-        .attr("id") should be("previousLastNameId")
-      previousLastNameInput
-        .attr("name") should be("previousLastNameName")
-      previousLastNameInput
-        .attr("value") should be("previousLastNameValue")
-      previousLastNameInput
-        .attr("class") should include("previousLastNameClass")
-
-      //Has Previous Name
-      val hasPreviousFieldset =
-        doc.select("fieldset[class*=hasPreviousNameClass").first()
-      hasPreviousFieldset.attr("class") should include("hasPreviousNameClass")
-
-      val hasPreviousTrueLabel =
-        hasPreviousFieldset.select("label[for=hasPreviousTrueId]").first()
-      hasPreviousTrueLabel.attr("for") should be("hasPreviousTrueId")
-
-      val hasPreviousTrueInput = hasPreviousTrueLabel.select("input").first()
-      hasPreviousTrueInput.attr("id") should be("hasPreviousTrueId")
-      hasPreviousTrueInput.attr("name") should be("hasPreviousTrueName")
-      hasPreviousTrueInput.attr("foo") should be("foo")
-
-
-      val hasPreviousFalseLabel =
-        hasPreviousFieldset.select("label[for=hasPreviousFalseId]").first()
-      hasPreviousFalseLabel.attr("for") should be("hasPreviousFalseId")
-
-      val hasPreviousFalseInput = hasPreviousFalseLabel.select("input").first()
-      hasPreviousFalseInput.attr("id") should be("hasPreviousFalseId")
-      hasPreviousFalseInput.attr("name") should be("hasPreviousFalseName")
-      hasPreviousFalseInput.attr("foo") should be("foo")
-
-    }
+    nameModel.question.errorMessages.mkString(", ") should be(
+      "Please enter your last name, Please answer this question")
   }
 }
