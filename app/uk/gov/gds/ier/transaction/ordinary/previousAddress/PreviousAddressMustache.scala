@@ -126,51 +126,5 @@ trait PreviousAddressMustache {
       )
       MainStepTemplate(content, title)
     }
-
-    def manualData(
-        title: String,
-        form: ErrorTransformForm[InprogressOrdinary],
-        backUrl: String,
-        postUrl: String,
-        lookupUrl: String) = {
-
-      implicit val progressForm = form
-
-      ManualModel(
-        question = Question(
-          postUrl = postUrl,
-          backUrl = backUrl,
-          number = questionNumber,
-          title = title,
-          errorMessages = progressForm.globalErrors.map(_.message)
-        ),
-        lookupUrl = lookupUrl,
-        postcode = TextField(keys.previousAddress.previousAddress.postcode),
-        maLineOne = TextField(keys.previousAddress.previousAddress.manualAddress.lineOne),
-        maLineTwo = TextField(keys.previousAddress.previousAddress.manualAddress.lineTwo),
-        maLineThree = TextField(keys.previousAddress.previousAddress.manualAddress.lineThree),
-        maCity = TextField(keys.previousAddress.previousAddress.manualAddress.city)
-      )
-    }
-
-    def manualPage(
-        form: ErrorTransformForm[InprogressOrdinary],
-        backUrl: String,
-        postUrl: String,
-        lookupUrl: String) = {
-      val movedRecently = form(keys.previousAddress.movedRecently).value.map {
-        str => MovedHouseOption.parse(str)
-      }
-      val title = movedRecently match {
-        case Some(MovedHouseOption.MovedFromAbroad) => "What was your last UK address before moving abroad?"
-        case _ => "What was your previous address?"
-      }
-
-      val content = Mustache.render(
-        "ordinary/previousAddressManual",
-        manualData(title, form, backUrl, postUrl, lookupUrl)
-      )
-      MainStepTemplate(content, title)
-    }
   }
 }
