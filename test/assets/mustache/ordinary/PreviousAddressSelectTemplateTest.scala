@@ -2,11 +2,14 @@ package assets.mustache.ordinary
 
 import org.jsoup.Jsoup
 import org.scalatest.{Matchers, FlatSpec}
+import org.scalatest.mock.MockitoSugar
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.serialiser.WithSerialiser
+import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressMustache
+import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressSelectMustache
 
 /**
  * This test is also a good example how select from list of addresses for postcode looks like,
@@ -14,14 +17,15 @@ import uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressMustac
  */
 class PreviousAddressSelectTemplateTest
   extends FlatSpec
-  with PreviousAddressMustache
+  with PreviousAddressSelectMustache
+  with StepMustache
+  with MockitoSugar
   with Matchers
   with WithSerialiser
   with TestHelpers {
 
   val serialiser = jsonSerialiser
-
-  import PreviousAddressMustache._
+  val addressService = mock[AddressService]
 
   it should "properly render all properties from the model" in {
     running(FakeApplication()) {
