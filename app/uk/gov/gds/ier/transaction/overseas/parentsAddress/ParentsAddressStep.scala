@@ -9,7 +9,6 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
-import uk.gov.gds.ier.transaction.crown.address.WithAddressService
 import controllers.routes.ExitController
 
 class ParentsAddressStep @Inject() (
