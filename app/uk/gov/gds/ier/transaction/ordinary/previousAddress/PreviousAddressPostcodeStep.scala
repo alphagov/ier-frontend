@@ -9,7 +9,7 @@ import uk.gov.gds.ier.model.{MovedHouseOption}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
-import uk.gov.gds.ier.step.{OrdinaryStep, Routes}
+import uk.gov.gds.ier.step.{OrdinaryStepWithNewMustache, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
@@ -18,8 +18,8 @@ class PreviousAddressPostcodeStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService)
-  extends OrdinaryStep
-  with PreviousAddressMustache
+  extends OrdinaryStepWithNewMustache
+  with PreviousAddressPostcodeMustache
   with PreviousAddressForms {
 
   val validation = postcodeStepForm
@@ -37,24 +37,13 @@ class PreviousAddressPostcodeStep @Inject() (
     controllers.step.ordinary.PreviousAddressSelectController.previousAddressSelectStep
   }
 
-  def template(
-      form: ErrorTransformForm[InprogressOrdinary],
-      call: Call,
-      backUrl: Option[Call]) = {
-    PreviousAddressMustache.postcodePage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url
-    )
-  }
-
   def lookup = ValidSession requiredFor { implicit request => application =>
     val dataFromApplication = validation.fill(application).data
     val dataFromRequest = validation.bindFromRequest().data
 
     validation.bind(dataFromApplication ++ dataFromRequest).fold(
       hasErrors => {
-        Ok(template(hasErrors, routes.post, previousRoute))
+        Ok(mustache(hasErrors, routes.post, previousRoute, application).html)
       },
       success => {
         val mergedApplication = success.merge(application)

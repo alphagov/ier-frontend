@@ -39,45 +39,6 @@ trait PreviousAddressMustache {
         maCity: Field
     )
 
-    def postcodeData(
-        title: String,
-        form: ErrorTransformForm[InprogressOrdinary],
-        backUrl: String,
-        postUrl: String) = {
-      implicit val progressForm = form
-
-      val modelData = PostcodeModel(
-        question = Question(
-          postUrl = postUrl,
-          backUrl = backUrl,
-          number = questionNumber,
-          title = title,
-          errorMessages = form.globalErrors.map(_.message)
-        ),
-        postcode = TextField(keys.previousAddress.previousAddress.postcode)
-      )
-      modelData
-    }
-
-    def postcodePage(
-        form: ErrorTransformForm[InprogressOrdinary],
-        backUrl: String,
-        postUrl: String) = {
-      val movedRecently = form(keys.previousAddress.movedRecently).value.map {
-        str => MovedHouseOption.parse(str)
-      }
-      val title = movedRecently match {
-        case Some(MovedHouseOption.MovedFromAbroad) => "What was your last UK address before moving abroad?"
-        case _ => "What was your previous address?"
-      }
-
-      val content = Mustache.render(
-        "ordinary/previousAddressPostcode",
-        postcodeData(title, form, backUrl, postUrl)
-      )
-      MainStepTemplate(content, title)
-    }
-
     def selectData(
         title: String,
         form: ErrorTransformForm[InprogressOrdinary],
