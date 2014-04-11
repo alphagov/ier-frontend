@@ -19,30 +19,10 @@ trait PreviousAddressForms
     lazy val partialAddressMappingForPreviousAddress = 
       PartialAddress.mapping.verifying(
         postcodeIsValidForPreviousAddress, uprnOrManualDefinedForPreviousAddress)
-//  lazy val partialAddressMappingForPreviousAddress = mapping(
-//    keys.addressLine.key -> optional(nonEmptyText),
-//    keys.uprn.key -> optional(nonEmptyText),
-//    keys.postcode.key -> nonEmptyText,
-//    keys.manualAddress.key -> optional(manualPartialAddressLinesMappingForPreviousAddress)
-//  ) (
-//    PartialAddress.apply
-//  ) (
-//    PartialAddress.unapply
-//  ).verifying(
-//      postcodeIsValidForPreviousAddress,
-//      uprnOrManualDefinedForPreviousAddress)
 
   // address mapping for manual address - the address individual lines part
-  lazy val manualPartialAddressLinesMappingForPreviousAddress = mapping(
-    keys.lineOne.key -> optional(nonEmptyText),
-    keys.lineTwo.key -> optional(text),
-    keys.lineThree.key -> optional(text),
-    keys.city.key -> optional(nonEmptyText)
-  ) (
-    PartialManualAddress.apply
-  ) (
-    PartialManualAddress.unapply
-  ).verifying(lineOneIsRequredForPreviousAddress, cityIsRequiredForPreviousAddress)
+  lazy val manualPartialAddressLinesMappingForPreviousAddress = PartialManualAddress.mapping
+    .verifying(lineOneIsRequredForPreviousAddress, cityIsRequiredForPreviousAddress)
 
   lazy val partialPreviousAddressMappingForPreviousAddress = mapping(
     keys.movedRecently.key -> optional(movedHouseMapping),

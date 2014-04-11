@@ -24,28 +24,10 @@ trait ParentsAddressForms extends ParentsAddressConstraints {
   // address mapping for select address page - the address part
     lazy val parentsPartialAddressMapping = 
       PartialAddress.mapping.verifying(parentsPostcodeIsValid, parentsUprnOrManualDefined)
-//  lazy val parentsPartialAddressMapping = mapping(
-//    keys.addressLine.key -> optional(nonEmptyText),
-//    keys.uprn.key -> optional(nonEmptyText),
-//    keys.postcode.key -> nonEmptyText,
-//    keys.manualAddress.key -> optional(parentsManualPartialAddressLinesMapping)
-//  ) (
-//    PartialAddress.apply
-//  ) (
-//    PartialAddress.unapply
-//  ).verifying(parentsPostcodeIsValid, parentsUprnOrManualDefined)
 
   // address mapping for manual address - the address individual lines part
-  lazy val parentsManualPartialAddressLinesMapping = mapping(
-    keys.lineOne.key -> optional(nonEmptyText),
-    keys.lineTwo.key -> optional(text),
-    keys.lineThree.key -> optional(text),
-    keys.city.key -> optional(nonEmptyText)
-  ) (
-    PartialManualAddress.apply
-  ) (
-    PartialManualAddress.unapply
-  ).verifying(lineOneIsRequiredForParentsAddress, cityIsRequiredForParentsAddress)
+  lazy val parentsManualPartialAddressLinesMapping = PartialManualAddress.mapping
+    .verifying(lineOneIsRequiredForParentsAddress, cityIsRequiredForParentsAddress)
 
   // address mapping for manual address - the address parent wrapper part
   lazy val parentsManualPartialAddressMapping = mapping(
