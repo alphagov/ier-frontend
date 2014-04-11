@@ -10,7 +10,7 @@ import controllers.step.forces.routes._
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import play.api.mvc.Call
-import uk.gov.gds.ier.step.{ForcesStep, Routes}
+import uk.gov.gds.ier.step.{ForcesStepWithNewMustache, ForcesStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
@@ -19,7 +19,7 @@ class ServiceStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService)
 
-  extends ForcesStep
+  extends ForcesStepWithNewMustache
     with ServiceForms
     with ServiceMustache {
 
@@ -32,19 +32,6 @@ class ServiceStep @Inject ()(
     editGet = ServiceController.editGet,
     editPost = ServiceController.editPost
   )
-
-  def template(
-      form: ErrorTransformForm[InprogressForces],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]): Html = Html.empty
-
-  override def templateWithApplication(
-      form: ErrorTransformForm[InprogressForces],
-      call: Call,
-      backUrl: Option[Call]):InprogressForces => Html = {
-    application:InprogressForces =>
-      serviceMustache(application, form, call, backUrl)
-  }
 
   override val onSuccess = TransformApplication { currentState =>
     currentState.service match {
