@@ -6,7 +6,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import controllers.step.overseas.LastUkAddressController
 import controllers.step.overseas.ParentNameController
-import uk.gov.gds.ier.step.{OverseaStepWithNewMustache, Routes, GoTo}
+import uk.gov.gds.ier.step.{OverseaStep, Routes, GoTo}
 import controllers.step.overseas.routes._
 import uk.gov.gds.ier.model._
 import org.joda.time.{Months, DateTime}
@@ -18,7 +18,7 @@ import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
                                 val config: Config,
                                 val encryptionService: EncryptionService)
-  extends OverseaStepWithNewMustache
+  extends OverseaStep
     with DateLeftUkForms
     with DateLeftUkMustache {
 

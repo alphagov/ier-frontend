@@ -9,16 +9,6 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 
 trait OverseaStep
   extends StepController[InprogressOverseas]
-  with StubTemplate[InprogressOverseas]
-  with WithSerialiser
-  with WithConfig
-  with WithEncryption {
-    def factoryOfT() = InprogressOverseas()
-    val confirmationRoute = controllers.step.overseas.routes.ConfirmationController.get
-}
-
-trait OverseaStepWithNewMustache
-  extends StepController[InprogressOverseas]
   with WithSerialiser
   with WithConfig
   with WithEncryption { self: StepTemplate[InprogressOverseas] =>

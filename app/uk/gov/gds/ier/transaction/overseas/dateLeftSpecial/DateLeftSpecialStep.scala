@@ -5,7 +5,7 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import controllers.step.overseas.LastUkAddressController
-import uk.gov.gds.ier.step.{OverseaStepWithNewMustache, Routes, GoTo}
+import uk.gov.gds.ier.step.{OverseaStep, Routes, GoTo}
 import uk.gov.gds.ier.model._
 import controllers.step.overseas.routes._
 import org.joda.time.{Months, DateTime}
@@ -59,7 +59,7 @@ class DateLeftCouncilStep @Inject() (
 
 
 abstract class DateLeftSpecialStep
-  extends OverseaStepWithNewMustache
+  extends OverseaStep
     with DateLeftSpecialForms
     with DateLeftSpecialMustache {
 

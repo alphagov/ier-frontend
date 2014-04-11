@@ -5,7 +5,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.LastRegisteredType
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.step.{OverseaStepWithNewMustache, Routes}
+import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import controllers.step.overseas.routes.LastRegisteredToVoteController
 import controllers.step.overseas.routes.PreviouslyRegisteredController
 import controllers.step.overseas.DateLeftUkController
@@ -16,7 +16,7 @@ class LastRegisteredToVoteStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService)
-  extends OverseaStepWithNewMustache
+  extends OverseaStep
   with LastRegisteredToVoteForms
   with LastRegisteredToVoteMustache {
 

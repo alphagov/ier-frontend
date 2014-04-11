@@ -7,14 +7,14 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.model.PreviouslyRegistered
 import controllers.step.overseas.routes.{PreviouslyRegisteredController, DateOfBirthController}
 import controllers.step.overseas.{LastRegisteredToVoteController, DateLeftUkController}
-import uk.gov.gds.ier.step.{OverseaStepWithNewMustache, Routes}
+import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class PreviouslyRegisteredStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService)
-  extends OverseaStepWithNewMustache
+  extends OverseaStep
   with PreviouslyRegisteredForms
   with PreviousRegisteredMustache {
 

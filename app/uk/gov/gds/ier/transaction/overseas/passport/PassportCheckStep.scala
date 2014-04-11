@@ -7,7 +7,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.model.{DOB}
 import play.api.mvc.Call
-import uk.gov.gds.ier.step.{OverseaStepWithNewMustache, Routes, OverseaStep}
+import uk.gov.gds.ier.step.{Routes, OverseaStep}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.overseas.routes.LastUkAddressController
 import controllers.step.overseas.routes.PassportCheckController
@@ -22,7 +22,7 @@ class PassportCheckStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService)
-  extends OverseaStepWithNewMustache
+  extends OverseaStep
   with PassportHelperConstants
   with PassportForms
   with PassportCheckMustache {

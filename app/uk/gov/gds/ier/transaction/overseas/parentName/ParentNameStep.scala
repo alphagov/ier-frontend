@@ -4,7 +4,7 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.step.{OverseaStepWithNewMustache, Routes}
+import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.model.{OverseasParentName, PreviousName}
 import controllers.step.overseas.routes.ParentNameController
 import controllers.step.overseas.routes.DateLeftUkController
@@ -15,7 +15,7 @@ class ParentNameStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService)
-  extends OverseaStepWithNewMustache
+  extends OverseaStep
   with ParentNameForms
   with ParentNameMustache {
 

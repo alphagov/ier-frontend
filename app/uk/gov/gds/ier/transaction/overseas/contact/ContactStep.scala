@@ -7,7 +7,7 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{OverseaStepWithNewMustache, Routes}
+import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class ContactStep @Inject ()(
@@ -15,7 +15,7 @@ class ContactStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService)
 
-  extends OverseaStepWithNewMustache
+  extends OverseaStep
   with ContactForms
   with ContactMustache {
 

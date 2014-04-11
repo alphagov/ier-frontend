@@ -7,7 +7,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.service.AddressService
-import uk.gov.gds.ier.step.{OverseaStepWithNewMustache, Routes}
+import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.transaction.crown.address.WithAddressService
 
@@ -16,7 +16,7 @@ class ParentsAddressSelectStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService)
-  extends OverseaStepWithNewMustache
+  extends OverseaStep
   with ParentsAddressSelectMustache
   with ParentsAddressForms
   with WithSerialiser
