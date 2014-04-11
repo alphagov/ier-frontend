@@ -71,11 +71,10 @@ class LastUkAddressStepTests
   it should "redirect a renewer to the Northern Ireland Exit page if the postcode starts with BT" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
+        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/lookup")
           .withIerSession()
           .withApplication(incompleteRenewerApplication)
           .withFormUrlEncodedBody(
-            "lastUkAddress.uprn" -> "123456789",
             "lastUkAddress.postcode" -> "BT1A 1AA"
           )
       )
@@ -121,7 +120,6 @@ class LastUkAddressStepTests
       redirectLocation(result) should be(Some("/register-to-vote/overseas/passport"))
     }
   }
-
   it should "bind successfully and redirect a new voter to the Passport step" in {
     running(FakeApplication()) {
       val Some(result) = route(

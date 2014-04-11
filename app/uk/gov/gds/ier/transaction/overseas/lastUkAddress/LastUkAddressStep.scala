@@ -13,7 +13,7 @@ import uk.gov.gds.ier.model.ApplicationType
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
-import uk.gov.gds.ier.step.{OverseaStep, Routes, GoTo}
+import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.form.OverseasFormImplicits
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
@@ -43,15 +43,10 @@ class LastUkAddressStep @Inject() (
   )
 
   def nextStep(currentState: InprogressOverseas) = {
-    val optAddress = currentState.lastUkAddress 
-    if (optAddress.exists(_.postcode.toUpperCase.startsWith("BT"))) 
-      GoTo (ExitController.northernIreland)
-    else {
-      currentState.identifyApplication match {
-        case ApplicationType.RenewerVoter => NameController.nameStep
-        case ApplicationType.DontKnow => this
-        case _ => PassportCheckController.passportCheckStep
-      }
+    currentState.identifyApplication match {
+      case ApplicationType.RenewerVoter => NameController.nameStep
+      case ApplicationType.DontKnow => this
+      case _ => PassportCheckController.passportCheckStep
     }
   }
 
@@ -61,10 +56,15 @@ class LastUkAddressStep @Inject() (
         Ok(mustache(hasErrors, routes.post, previousRoute, application).html)
       },
       success => {
-        val mergedApplication = success.merge(application)
-        Redirect(
-          LastUkAddressSelectController.get
-        ) storeInSession mergedApplication
+        val optAddress = success.lastUkAddress 
+        if (optAddress.exists(_.postcode.toUpperCase.startsWith("BT"))) 
+          Redirect (ExitController.northernIreland)
+        else {
+          val mergedApplication = success.merge(application)
+          Redirect(
+            LastUkAddressSelectController.get
+          ) storeInSession mergedApplication
+        }
       }
     )
   }
