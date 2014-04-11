@@ -21,6 +21,8 @@ trait PostalVoteMustache extends StepTemplate[InprogressOrdinary] {
 
     implicit val progressForm = form
 
+    val emailAddress = form(keys.contact.email.detail).value
+
     val deliveryMethodValidation =
       if (form(keys.postalVote.deliveryMethod.methodName).hasErrors) "invalid" else ""
 
@@ -45,7 +47,9 @@ trait PostalVoteMustache extends StepTemplate[InprogressOrdinary] {
         key = keys.postalVote.deliveryMethod.methodName,
         value = "post"),
       emailField = TextField(
-        key = keys.postalVote.deliveryMethod.emailAddress),
+        key = keys.postalVote.deliveryMethod.emailAddress,
+        default = emailAddress
+      ),
       deliveryMethodValid = deliveryMethodValidation
     )
 

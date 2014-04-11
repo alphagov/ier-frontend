@@ -9,7 +9,7 @@ import play.api.templates.Html
 
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.OrdinaryStepWithNewMustache
+import uk.gov.gds.ier.step.OrdinaryStep
 import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.PostalVote
@@ -21,7 +21,7 @@ class PostalVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService
-) extends OrdinaryStepWithNewMustache
+) extends OrdinaryStep
   with PostalVoteForms
   with PostalVoteMustache {
 

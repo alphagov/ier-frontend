@@ -11,16 +11,6 @@ import play.api.templates.Html
 
 trait OrdinaryStep
   extends StepController[InprogressOrdinary]
-  with StubTemplate[InprogressOrdinary]
-  with WithSerialiser
-  with WithConfig
-  with WithEncryption {
-  def factoryOfT() = InprogressOrdinary()
-  val confirmationRoute = ConfirmationController.get
-}
-
-trait OrdinaryStepWithNewMustache
-  extends StepController[InprogressOrdinary]
   with WithSerialiser
   with WithConfig
   with WithEncryption { self: StepTemplate[InprogressOrdinary] =>

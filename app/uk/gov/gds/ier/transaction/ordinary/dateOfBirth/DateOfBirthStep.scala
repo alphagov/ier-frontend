@@ -12,14 +12,14 @@ import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{OrdinaryStepWithNewMustache, Routes, GoTo}
+import uk.gov.gds.ier.step.{OrdinaryStep, Routes, GoTo}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 class DateOfBirthStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService
-) extends OrdinaryStepWithNewMustache
+) extends OrdinaryStep
   with DateOfBirthForms
   with DateOfBirthMustache{
 

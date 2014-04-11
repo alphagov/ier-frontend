@@ -10,7 +10,7 @@ import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.service.IsoCountryService
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{OrdinaryStepWithNewMustache, Routes, GoTo}
+import uk.gov.gds.ier.step.{OrdinaryStep, Routes, GoTo}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 class NationalityStep @Inject ()(
@@ -18,7 +18,7 @@ class NationalityStep @Inject ()(
     val isoCountryService: IsoCountryService,
     val config: Config,
     val encryptionService : EncryptionService
-) extends OrdinaryStepWithNewMustache
+) extends OrdinaryStep
   with NationalityForms
   with NationalityMustache {
 

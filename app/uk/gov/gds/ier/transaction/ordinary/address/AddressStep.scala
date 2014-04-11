@@ -10,7 +10,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
-import uk.gov.gds.ier.step.{GoTo, OrdinaryStepWithNewMustache, Routes}
+import uk.gov.gds.ier.step.{GoTo, OrdinaryStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import controllers.routes.ExitController
@@ -20,7 +20,7 @@ class AddressStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService)
-  extends OrdinaryStepWithNewMustache
+  extends OrdinaryStep
   with AddressMustache
   with AddressForms {
 
