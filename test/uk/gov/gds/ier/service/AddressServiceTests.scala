@@ -145,4 +145,32 @@ class AddressServiceTests extends FlatSpec
       "1A Fake Flat, Fakerton, Fakesbury"
     )
   }
+  
+  it should "return the PartialAddress with gssCode after partial address lookup" in {
+    val mockLocate = mock[LocateService]
+    val service = new AddressService(mockLocate)
+
+    val partial = PartialAddress(
+      addressLine = None,
+      uprn = Some("12345678"),
+      postcode = "AB12 3CD",
+      manualAddress = None)
+      
+    val address = Address(
+      lineOne = Some("1A Fake Flat"),
+      lineTwo = Some(""),
+      lineThree = Some(""),
+      city = Some("Fakerton"),
+      county = Some("Fakesbury"),
+      uprn = Some("12345678"),
+      postcode = "AB12 3CD",
+      gssCode = Some("gss"))
+      
+    when(mockLocate.lookupAddress(partial)).thenReturn(Some(address))
+
+    val result = partial.copy (addressLine = Some("1A Fake Flat, Fakerton, Fakesbury"),
+        gssCode = Some("gss"))
+    
+    service.fillAddressLine(partial) should be(result)
+  }
 }

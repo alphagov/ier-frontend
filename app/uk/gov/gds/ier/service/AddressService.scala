@@ -38,8 +38,10 @@ class AddressService @Inject()(locateService: LocateService) {
   }
 
   def fillAddressLine(partial:PartialAddress):PartialAddress = {
-    val line = locateService.lookupAddress(partial) map formAddressLine
-    partial.copy(addressLine = line)
+    val address = locateService.lookupAddress(partial) 
+    val line = address map formAddressLine
+    
+    partial.copy(addressLine = line, gssCode = address.flatMap(_.gssCode))
   }
 
   protected[service] def formAddressLine(address:Address):String = {
