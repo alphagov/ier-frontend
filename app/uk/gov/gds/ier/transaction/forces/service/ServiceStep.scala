@@ -4,14 +4,10 @@ import controllers.step.forces.RankController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.model._
-import play.api.templates.Html
 import controllers.step.forces.routes._
-
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import play.api.mvc.Call
-import uk.gov.gds.ier.step.{ForcesStepWithNewMustache, ForcesStep, Routes}
-import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.step.{ForcesStepWithNewMustache, Routes}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class ServiceStep @Inject ()(

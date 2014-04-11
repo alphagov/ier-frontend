@@ -1,13 +1,12 @@
 package uk.gov.gds.ier.transaction.forces.service
 
+import scala.Some
+import controllers.step.forces.routes._
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.{ServiceType, Service}
-import scala.Some
-import controllers.step.forces.routes._
+import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.transaction.forces.InprogressForces
-
 
 class ServiceMustacheTest
   extends FlatSpec
@@ -15,21 +14,21 @@ class ServiceMustacheTest
   with ServiceForms
   with ErrorMessages
   with FormKeys
-  with TestHelpers {
-
-  val serviceMustache = new ServiceMustache {}
+  with TestHelpers
+  with ServiceMustache {
 
   it should "empty progress form should produce empty Model" in {
-    val emptyApplication = InprogressForces()
     val emptyApplicationForm = serviceForm
     
-    val serviceModel = serviceMustache.transformFormStepToMustacheData(
-      emptyApplication, emptyApplicationForm,
-      ServiceController.post, Some(NinoController.get))
+    val serviceModel = mustache.data(
+      emptyApplicationForm,
+      Call("POST", "/register-to-vote/forces/service"),
+      None,
+      InprogressForces()
+    ).data.asInstanceOf[ServiceModel]
 
     serviceModel.question.title should be("Which of the services are you in?")
     serviceModel.question.postUrl should be("/register-to-vote/forces/service")
-    serviceModel.question.backUrl should be("/register-to-vote/forces/nino")
 
     serviceModel.serviceFieldSet.classes should be("")
     serviceModel.royalNavy.attributes should be("")
@@ -50,12 +49,15 @@ class ServiceMustacheTest
 
     val filledForm = serviceForm.fillAndValidate(filledApp)
 
-    val serviceModel = serviceMustache.transformFormStepToMustacheData(
-      filledApp, filledForm, ServiceController.post, Some(NinoController.get))
+    val serviceModel = mustache.data(
+      filledForm,
+      Call("POST", "/register-to-vote/forces/service"),
+      None,
+      filledApp
+    ).data.asInstanceOf[ServiceModel]
 
     serviceModel.question.title should be("Which of the services are you in?")
     serviceModel.question.postUrl should be("/register-to-vote/forces/service")
-    serviceModel.question.backUrl should be("/register-to-vote/forces/nino")
 
     serviceModel.serviceFieldSet.classes should be("")
     serviceModel.royalNavy.attributes should be("")
