@@ -7,8 +7,9 @@ import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.model.{PartialAddress}
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.step.StepTemplate
 
-trait ContactAddressMustache extends StepMustache with AddressHelpers {
+trait ContactAddressMustache extends StepTemplate[InprogressForces] with AddressHelpers {
 
   case class ContactAddressModel(
       question:Question,
@@ -44,11 +45,8 @@ trait ContactAddressMustache extends StepMustache with AddressHelpers {
       ukAddressLineText: Field
   )
 
-  def transformFormStepToMustacheData(
-      form:ErrorTransformForm[InprogressForces],
-      post: Call,
-      back: Option[Call],
-      application: InprogressForces): ContactAddressModel = {
+
+  val mustache =  MustacheTemplate("forces/contactAddress") { (form, postUrl, backUrl, application) =>
 
     implicit val progressForm = form
 
@@ -120,13 +118,15 @@ trait ContactAddressMustache extends StepMustache with AddressHelpers {
       )
     )
 
-    ContactAddressModel(
+  val title = "Where should we write to you about your registration?"
+
+    val data = ContactAddressModel(
       question = Question(
-        postUrl = post.url,
-        backUrl = back.map (_.url).getOrElse(""),
+        postUrl = postUrl.url,
+        backUrl = backUrl.map (_.url).getOrElse(""),
         errorMessages = form.globalErrors.map( _.message ),
         number = "10",
-        title = "Where should we write to you about your registration?"
+        title = title
       ),
       contactAddressFieldSet = FieldSet (
         classes = if (form(keys.contactAddress).hasErrors) "invalid" else ""
@@ -135,6 +135,8 @@ trait ContactAddressMustache extends StepMustache with AddressHelpers {
       bfpoAddress = bfpoContactAddressModel,
       otherAddress = otherContactAddressModel
     )
+
+    MustacheData(data, title)
   }
 
 
@@ -152,13 +154,4 @@ trait ContactAddressMustache extends StepMustache with AddressHelpers {
     else form(keys.contactAddress.ukAddressLine).value
   }
 
-  def contactAddressMustache(
-        form:ErrorTransformForm[InprogressForces],
-        post: Call,
-        back: Option[Call],
-        application: InprogressForces): Html = {
-    val data = transformFormStepToMustacheData(form, post, back, application)
-    val content = Mustache.render("forces/contactAddress", data)
-    MainStepTemplate(content, data.question.title)
-  }
 }

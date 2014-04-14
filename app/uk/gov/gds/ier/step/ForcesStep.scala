@@ -9,16 +9,6 @@ import play.api.templates.Html
 
 trait ForcesStep
   extends StepController[InprogressForces]
-  with StubTemplate[InprogressForces]
-  with WithSerialiser
-  with WithConfig
-  with WithEncryption {
-    def factoryOfT() = InprogressForces()
-    val confirmationRoute = controllers.step.forces.routes.ConfirmationController.get
-}
-
-trait ForcesStepWithNewMustache
-  extends StepController[InprogressForces]
   with WithSerialiser
   with WithConfig
   with WithEncryption { self: StepTemplate[InprogressForces] =>

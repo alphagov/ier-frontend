@@ -11,7 +11,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.service.AddressService
 
-import uk.gov.gds.ier.step.{ForcesStepWithNewMustache, Routes, ForcesStep}
+import uk.gov.gds.ier.step.{ForcesStep, Routes}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class PreviousAddressFirstStep @Inject ()(
@@ -19,7 +19,7 @@ class PreviousAddressFirstStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService,
     val addressService: AddressService)
-  extends ForcesStepWithNewMustache
+  extends ForcesStep
   with PreviousAddressFirstMustache
   with PreviousAddressFirstForms {
 

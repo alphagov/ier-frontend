@@ -5,7 +5,7 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{ForcesStepWithNewMustache, Routes}
+import uk.gov.gds.ier.step.{ForcesStep, Routes}
 import controllers.step.forces.ContactController
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.model.WaysToVoteType
@@ -15,7 +15,7 @@ class PostalVoteStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService)
 
-  extends ForcesStepWithNewMustache
+  extends ForcesStep
   with PostalOrProxyVoteForms
   with PostalOrProxyVoteMustache {
 

@@ -12,7 +12,7 @@ import play.api.templates.Html
 import uk.gov.gds.ier.service.IsoCountryService
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{ForcesStepWithNewMustache, ForcesStep, Routes, GoTo}
+import uk.gov.gds.ier.step.{ForcesStep, Routes, GoTo}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class NationalityStep @Inject ()(
@@ -20,7 +20,7 @@ class NationalityStep @Inject ()(
     val isoCountryService: IsoCountryService,
     val config: Config,
     val encryptionService : EncryptionService)
-  extends ForcesStepWithNewMustache
+  extends ForcesStep
     with NationalityForms
     with NationalityMustache {
 

@@ -10,14 +10,14 @@ import play.api.templates.Html
 
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{ForcesStepWithNewMustache, ForcesStep, Routes}
+import uk.gov.gds.ier.step.{ForcesStep, Routes}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class NinoStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService)
-  extends ForcesStepWithNewMustache
+  extends ForcesStep
   with NinoForms
   with NinoMustache {
 

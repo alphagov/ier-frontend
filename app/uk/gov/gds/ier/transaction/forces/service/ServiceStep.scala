@@ -7,7 +7,7 @@ import uk.gov.gds.ier.model._
 import controllers.step.forces.routes._
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{ForcesStepWithNewMustache, Routes}
+import uk.gov.gds.ier.step.{ForcesStep, Routes}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class ServiceStep @Inject ()(
@@ -15,7 +15,7 @@ class ServiceStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService)
 
-  extends ForcesStepWithNewMustache
+  extends ForcesStep
     with ServiceForms
     with ServiceMustache {
 
