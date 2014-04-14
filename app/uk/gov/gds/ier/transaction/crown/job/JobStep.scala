@@ -32,11 +32,10 @@ class JobStep @Inject ()(
   )
 
   override val onSuccess = {
-    GoToNextStep() // FIXME: unfinished
+    GoToNextStep()
   }
 
   def nextStep(currentState: InprogressCrown) = {
     DeclarationPdfController.declarationPdfStep
-    //NinoController.ninoStep  // FIXME: not sure
   }
 }
