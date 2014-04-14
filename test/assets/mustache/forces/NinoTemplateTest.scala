@@ -5,6 +5,8 @@ import play.api.test._
 import org.jsoup.Jsoup
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.forces.nino.NinoMustache
+import org.jba.Mustache
+
 
 class NinoTemplateTest
   extends FlatSpec

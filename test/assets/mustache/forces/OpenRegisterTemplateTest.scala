@@ -5,6 +5,7 @@ import play.api.test._
 import org.jsoup.Jsoup
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.forces.openRegister.OpenRegisterMustache
+import org.jba.Mustache
 
 class OpenRegisterTemplateTest
   extends FlatSpec

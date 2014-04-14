@@ -18,7 +18,6 @@ class StatementStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService)
-
   extends ForcesStep
     with StatementForms
     with StatementMustache {
@@ -32,14 +31,6 @@ class StatementStep @Inject ()(
     editGet = StatementController.editGet,
     editPost = StatementController.editPost
   )
-
-  def template(
-      form: ErrorTransformForm[InprogressForces],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]): Html = {
-
-    statementMustache(form, postEndpoint, backEndpoint)
-  }
 
   def nextStep(currentState: InprogressForces) = {
     AddressController.addressStep

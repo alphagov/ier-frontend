@@ -14,22 +14,22 @@ class RankMustacheTest
   with RankForms
   with ErrorMessages
   with FormKeys
-  with TestHelpers {
+  with TestHelpers
+  with RankMustache {
 
-  val rankMustache = new RankMustache {}
 
   it should "empty progress form should produce empty Model" in {
-    val emptyApplication = InprogressForces()
     val emptyApplicationForm = rankForm
-    val rankModel = rankMustache.transformFormStepToMustacheData(
-      emptyApplication,
+
+    val rankModel = mustache.data(
       emptyApplicationForm,
-      RankController.post,
-      Some(ContactAddressController.get))
+      Call("POST", "/register-to-vote/forces/rank"),
+      None,
+      InprogressForces()
+    ).data.asInstanceOf[RankModel]
 
     rankModel.question.title should be("What is your service number?")
     rankModel.question.postUrl should be("/register-to-vote/forces/rank")
-    rankModel.question.backUrl should be("/register-to-vote/forces/contact-address")
 
     rankModel.serviceNumber.value should be("")
     rankModel.rank.value should be("")
@@ -46,18 +46,17 @@ class RankMustacheTest
 
     val partiallyFilledApplicationForm = rankForm.fill(partiallyFilledApplication)
 
-    val rankModel = rankMustache.transformFormStepToMustacheData(
-      partiallyFilledApplication,
+    val rankModel =  mustache.data(
       partiallyFilledApplicationForm,
-      RankController.post,
-      Some(ContactAddressController.get))
+      Call("POST", "/register-to-vote/forces/rank"),
+      None,
+      partiallyFilledApplication
+    ).data.asInstanceOf[RankModel]
 
     rankModel.question.title should be("What is your service number?")
     rankModel.question.postUrl should be("/register-to-vote/forces/rank")
-    rankModel.question.backUrl should be("/register-to-vote/forces/contact-address")
 
     rankModel.serviceNumber.value should be("123456")
     rankModel.rank.value should be("Captain")
-
   }
 }

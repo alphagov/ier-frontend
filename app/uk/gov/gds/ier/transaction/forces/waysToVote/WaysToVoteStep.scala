@@ -4,16 +4,14 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.ForcesStep
+import uk.gov.gds.ier.step.{ForcesStep, Routes, Step}
 import controllers.step.forces.routes.{WaysToVoteController, OpenRegisterController}
 import controllers.step.forces.{ProxyVoteController, ContactController, PostalVoteController}
-import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.{WaysToVoteType}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.mvc.Call
 import play.api.templates.Html
 import play.api.mvc.SimpleResult
-import uk.gov.gds.ier.step.Step
 import uk.gov.gds.ier.model.{WaysToVote,PostalOrProxyVote}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
@@ -47,16 +45,12 @@ class WaysToVoteStep @Inject ()(
     case _ => GoToNextStep()
   }
 
-  def nextStep(currentState: InprogressForces): ForcesStep = {
+  def nextStep(currentState: InprogressForces) = {
     currentState.waysToVote.map(_.waysToVoteType) match {
       case Some(WaysToVoteType.InPerson) => ContactController.contactStep
       case Some(WaysToVoteType.ByPost) => PostalVoteController.postalVoteStep
       case Some(WaysToVoteType.ByProxy) => ProxyVoteController.proxyVoteStep
       case _ => throw new IllegalArgumentException("unknown next step")
     }
-  }
-
-  def template(form: ErrorTransformForm[InprogressForces], call:Call, backUrl: Option[Call]): Html = {
-    waysToVoteMustache(form, call, backUrl.map(_.url))
   }
 }

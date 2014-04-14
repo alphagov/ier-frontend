@@ -4,17 +4,15 @@ import controllers.step.forces.WaysToVoteController
 import controllers.step.forces.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.validation._
-import play.api.mvc.Call
-import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{ForcesStep, Routes}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
-class OpenRegisterStep @Inject ()(val serialiser: JsonSerialiser,
-                                        val config: Config,
-                                        val encryptionService : EncryptionService)
+class OpenRegisterStep @Inject ()(
+    val serialiser: JsonSerialiser,
+    val config: Config,
+    val encryptionService : EncryptionService)
   extends ForcesStep
   with OpenRegisterForms
   with OpenRegisterMustache {
@@ -29,9 +27,6 @@ class OpenRegisterStep @Inject ()(val serialiser: JsonSerialiser,
     editPost = OpenRegisterController.editPost
   )
 
-  def template(form: ErrorTransformForm[InprogressForces], call:Call, backUrl: Option[Call]): Html = {
-    openRegisterMustache(form, call, backUrl)
-  }
   def nextStep(currentState: InprogressForces) = {
     WaysToVoteController.waysToVoteStep
   }

@@ -1,14 +1,12 @@
 package uk.gov.gds.ier.transaction.forces.nationality
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.validation.constants.NationalityConstants
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 
-trait NationalityMustache extends StepMustache {
+trait NationalityMustache extends StepTemplate[InprogressForces] {
 
   case class CountryItem (
       index:String = "",
@@ -27,22 +25,20 @@ trait NationalityMustache extends StepMustache {
       noNationalityReasonShowFlag: Text
   )
 
-  def transformFormStepToMustacheData(
-      form: ErrorTransformForm[InprogressForces],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]) : NationalityModel = {
-
+  val mustache = MustacheTemplate("forces/nationality") { (form, postUrl, backUrl) =>
     implicit val progressForm = form
 
-    val otherCountriesList = obtainOtherCountriesList(progressForm)
+    val otherCountriesList =  obtainOtherCountriesList(progressForm)
 
-    NationalityModel(
+    val title = "What is your nationality?"
+
+    val data = NationalityModel(
       question = Question(
-        postUrl = postEndpoint.url,
-        backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
+        postUrl = postUrl.url,
+        backUrl = backUrl.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "4",
-        title = "What is your nationality?"
+        title = title
       ),
       britishOption = CheckboxField(
         key = keys.nationality.british,
@@ -77,15 +73,8 @@ trait NationalityMustache extends StepMustache {
         value = progressForm(keys.nationality.noNationalityReason).value.map(noNationalityReason => "-open").getOrElse("")
       )
     )
-  }
 
-  def nationalityMustache(
-      form: ErrorTransformForm[InprogressForces],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]) : Html = {
-    val data = transformFormStepToMustacheData(form, postEndpoint, backEndpoint)
-    val content = Mustache.render("forces/nationality", data)
-    MainStepTemplate(content, data.question.title)
+    MustacheData(data, title)
   }
 
   def createMustacheCountryList (otherCountriesTail:List[String]) : List[CountryItem] = {

@@ -18,7 +18,7 @@ class AddressStep @Inject() (
     val encryptionService: EncryptionService,
     val addressService: AddressService)
   extends ForcesStep
-  with AddressMustache
+  with AddressLookupMustache
   with AddressForms {
 
   val validation = addressForm
@@ -36,21 +36,10 @@ class AddressStep @Inject() (
     PreviousAddressFirstController.previousAddressFirstStep
   }
 
-  def template(
-      form: ErrorTransformForm[InprogressForces],
-      call: Call,
-      backUrl: Option[Call]) = {
-    AddressMustache.lookupPage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url
-    )
-  }
-
   def lookup = ValidSession requiredFor { implicit request => application =>
     lookupAddressForm.bindFromRequest().fold(
       hasErrors => {
-        Ok(template(hasErrors, routes.post, previousRoute))
+        Ok(mustache(hasErrors, routes.post, previousRoute, application).html)
       },
       success => {
         val mergedApplication = success.merge(application)

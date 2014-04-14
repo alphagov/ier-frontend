@@ -12,20 +12,20 @@ class ContactAddressMustacheTest
   extends FlatSpec
   with Matchers
   with ContactAddressForms
+  with ContactAddressMustache
   with ErrorMessages
   with FormKeys
   with TestHelpers {
 
-  val contactAddressMustache = new ContactAddressMustache {}
-
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = contactAddressForm
 
-    val contactAddressModel = contactAddressMustache.transformFormStepToMustacheData(
-        emptyApplicationForm,
-        ContactAddressController.post,
-        Some(OpenRegisterController.get),
-        InprogressForces())
+    val contactAddressModel = mustache.data(
+      emptyApplicationForm,
+      ContactAddressController.post,
+      Some(OpenRegisterController.get),
+      InprogressForces()
+    ).data.asInstanceOf[ContactAddressModel]
 
     contactAddressModel.question.title should be("Where should we write to you about your registration?")
     contactAddressModel.question.postUrl should be("/register-to-vote/forces/contact-address")
@@ -63,11 +63,12 @@ class ContactAddressMustacheTest
       ))
     ))
 
-    val contactAddressModel = contactAddressMustache.transformFormStepToMustacheData(
+    val contactAddressModel = mustache.data(
       filledForm,
       ContactAddressController.post,
       Some(OpenRegisterController.get),
-      InprogressForces())
+      InprogressForces()
+    ).data.asInstanceOf[ContactAddressModel]
 
     contactAddressModel.question.title should be("Where should we write to you about your registration?")
     contactAddressModel.question.postUrl should be("/register-to-vote/forces/contact-address")
@@ -112,11 +113,12 @@ class ContactAddressMustacheTest
       ))
     ))
 
-    val contactAddressModel = contactAddressMustache.transformFormStepToMustacheData(
+    val contactAddressModel = mustache.data(
       filledForm,
       ContactAddressController.post,
       Some(OpenRegisterController.get),
-      InprogressForces())
+      InprogressForces()
+    ).data.asInstanceOf[ContactAddressModel]
 
     contactAddressModel.question.title should be("Where should we write to you about your registration?")
     contactAddressModel.question.postUrl should be("/register-to-vote/forces/contact-address")
@@ -161,11 +163,12 @@ class ContactAddressMustacheTest
       ))
     ))
 
-    val contactAddressModel = contactAddressMustache.transformFormStepToMustacheData(
+    val contactAddressModel = mustache.data(
       filledForm,
       ContactAddressController.post,
       Some(OpenRegisterController.get),
-      InprogressForces())
+      InprogressForces()
+    ).data.asInstanceOf[ContactAddressModel]
 
     contactAddressModel.question.title should be("Where should we write to you about your registration?")
     contactAddressModel.question.postUrl should be("/register-to-vote/forces/contact-address")

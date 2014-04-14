@@ -34,13 +34,6 @@ class NationalityStep @Inject ()(
     editPost = NationalityController.editPost
   )
 
-  def template(
-      form: ErrorTransformForm[InprogressForces],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]): Html = {
-    nationalityMustache(form, postEndpoint, backEndpoint)
-  }
-
   def nextStep(currentState: InprogressForces) = {
     if (currentState.nationality.flatMap(_.noNationalityReason) == None) {
       val franchises = currentState.nationality match {

@@ -4,11 +4,13 @@ import org.scalatest.{Matchers, FlatSpec}
 import play.api.test._
 import org.jsoup.Jsoup
 import play.api.test.Helpers._
+import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.forces.dateOfBirth.DateOfBirthMustache
 
 class DateOfBirthTemplateTest
   extends FlatSpec
   with DateOfBirthMustache
+  with StepMustache
   with Matchers {
 
   it should "properly render all properties from the model" in {
