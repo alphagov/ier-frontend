@@ -45,6 +45,7 @@ class StepControllerTests
       form: ErrorTransformForm[InprogressOrdinary],
       theNextStep: Step[InprogressOrdinary] = GoTo(Call("GET","/next-step"))) = {
     new OrdinaryStep
+      with TestTemplate[InprogressOrdinary]
       with WithSerialiser
       with WithConfig
       with WithEncryption {
@@ -64,7 +65,7 @@ class StepControllerTests
 
       val previousRoute: Option[Call] = Some(mockPreviousCall)
       val validation = form
-      def template(form: ErrorTransformForm[InprogressOrdinary], call: Call, backUrl: Option[Call]):Html = Html("This is the template.")
+      override def template(form: ErrorTransformForm[InprogressOrdinary], call: Call, backUrl: Option[Call]):Html = Html("This is the template.")
     }
   }
 

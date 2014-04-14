@@ -4,7 +4,10 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
 import scala.Some
-import uk.gov.gds.ier.model.{ContactDetail, Contact}
+import uk.gov.gds.ier.model.{ContactDetail,
+  Contact,
+  PostalVote,
+  PostalVoteDeliveryMethod}
 import controllers.step.ordinary.routes._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
@@ -13,21 +16,26 @@ class ContactMustacheTests
   extends FlatSpec
   with Matchers
   with ContactForms
+  with ContactMustache
   with ErrorMessages
   with FormKeys
   with TestHelpers
   with WithSerialiser {
 
   val serialiser = jsonSerialiser
-  val contactMustache = new ContactMustache {}
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = contactForm
-    val contactModel = contactMustache.transformFormStepToMustacheData (emptyApplicationForm,
-        ContactController.post, Some(PostalVoteController.get))
+    val contactModel = mustache.data(
+      emptyApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get),
+      InprogressOrdinary()
+    ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be (
-        "If we have questions about your application, what's the best way to contact you?")
+      "If we have questions about your application, what's the best way to contact you?"
+    )
     contactModel.question.postUrl should be("/register-to-vote/contact")
     contactModel.question.backUrl should be("/register-to-vote/postal-vote")
 
@@ -51,11 +59,16 @@ class ContactMustacheTests
       )
     )
 
-    val contactModel = contactMustache.transformFormStepToMustacheData(
-        partiallyFilledApplicationForm, ContactController.post, Some(PostalVoteController.get))
+    val contactModel = mustache.data(
+      partiallyFilledApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get),
+      InprogressOrdinary()
+    ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
-        "If we have questions about your application, what's the best way to contact you?")
+      "If we have questions about your application, what's the best way to contact you?"
+    )
     contactModel.question.postUrl should be("/register-to-vote/contact")
     contactModel.question.backUrl should be("/register-to-vote/postal-vote")
 
@@ -79,11 +92,16 @@ class ContactMustacheTests
       )
     )
 
-    val contactModel = contactMustache.transformFormStepToMustacheData(
-        partiallyFilledApplicationForm, ContactController.post, Some(PostalVoteController.get))
+    val contactModel = mustache.data(
+      partiallyFilledApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get),
+      InprogressOrdinary()
+    ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
-        "If we have questions about your application, what's the best way to contact you?")
+      "If we have questions about your application, what's the best way to contact you?"
+    )
     contactModel.question.postUrl should be("/register-to-vote/contact")
     contactModel.question.backUrl should be("/register-to-vote/postal-vote")
 
@@ -107,11 +125,16 @@ class ContactMustacheTests
       )
     )
 
-    val contactModel = contactMustache.transformFormStepToMustacheData(
-        partiallyFilledApplicationForm, ContactController.post, Some(PostalVoteController.get))
+    val contactModel = mustache.data(
+      partiallyFilledApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get),
+      InprogressOrdinary()
+    ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
-        "If we have questions about your application, what's the best way to contact you?")
+      "If we have questions about your application, what's the best way to contact you?"
+    )
     contactModel.question.postUrl should be("/register-to-vote/contact")
     contactModel.question.backUrl should be("/register-to-vote/postal-vote")
 
@@ -134,11 +157,17 @@ class ContactMustacheTests
         )
       )
     )
-    val contactModel = contactMustache.transformFormStepToMustacheData(
-        partiallyFilledApplicationForm, ContactController.post, Some(PostalVoteController.get))
+
+    val contactModel = mustache.data(
+      partiallyFilledApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get),
+      InprogressOrdinary()
+    ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
-        "If we have questions about your application, what's the best way to contact you?")
+      "If we have questions about your application, what's the best way to contact you?"
+    )
     contactModel.question.postUrl should be("/register-to-vote/contact")
     contactModel.question.backUrl should be("/register-to-vote/postal-vote")
 
@@ -148,6 +177,42 @@ class ContactMustacheTests
     contactModel.contactPhoneText.value should be("")
     contactModel.contactPostCheckbox.attributes should be("")
 
-    contactModel.question.errorMessages.mkString(", ") should be("Please enter your phone number")
+    contactModel.question.errorMessages.mkString(", ") should be(
+      "Please enter your phone number"
+    )
+  }
+
+  it should "pre-fill the email address from the postal vote question" in {
+    val partiallyFilledApplicationForm = contactForm.fillAndValidate(
+      InprogressOrdinary(
+        contact = None,
+        postalVote = Some(PostalVote(
+          postalVoteOption = Some(true),
+          deliveryMethod = Some(PostalVoteDeliveryMethod(
+            deliveryMethod = Some("email"),
+            emailAddress = Some("my@email.com")
+          ))
+        ))
+      )
+    )
+
+    val contactModel = mustache.data(
+      partiallyFilledApplicationForm,
+      ContactController.post,
+      Some(PostalVoteController.get),
+      InprogressOrdinary()
+    ).data.asInstanceOf[ContactModel]
+
+    contactModel.question.title should be(
+      "If we have questions about your application, what's the best way to contact you?"
+    )
+    contactModel.question.postUrl should be("/register-to-vote/contact")
+    contactModel.question.backUrl should be("/register-to-vote/postal-vote")
+
+    contactModel.contactEmailCheckbox.attributes should be("")
+    contactModel.contactEmailText.value should be("my@email.com")
+    contactModel.contactPhoneCheckbox.attributes should be("")
+    contactModel.contactPhoneText.value should be("")
+    contactModel.contactPostCheckbox.attributes should be("")
   }
 }

@@ -16,6 +16,42 @@ trait ContactConstraints extends CommonConstraints {
     }
   }
 
+  lazy val emailProvidedIfEmailSelected = Constraint[InprogressOrdinary](
+    keys.contact.email.key
+  ) { application =>
+    application.contact.flatMap(_.email) match {
+      case Some(ContactDetail(true, None)) => Invalid(
+        "Please enter your email address",
+        keys.contact.email.detail
+      )
+      case _ => Valid
+    }
+  }
+
+  lazy val numberProvidedIfPhoneSelected = Constraint[InprogressOrdinary](
+    keys.contact.phone.key
+  ) { application =>
+    application.contact.flatMap(_.phone) match {
+      case Some(ContactDetail(true, None)) => Invalid(
+        "Please enter your phone number",
+        keys.contact.phone.detail
+      )
+      case _ => Valid
+    }
+  }
+
+  lazy val emailIsValidIfProvided = Constraint[InprogressOrdinary](
+    keys.contact.key
+  ) { application =>
+    application.contact.flatMap(_.email) match {
+      case Some(ContactDetail(true, Some(emailAddress)))
+        if !EmailValidator.isValid(emailAddress) => {
+        Invalid("Please enter a valid email address", keys.contact.email.detail)
+      }
+      case _ => Valid
+    }
+  }
+
   lazy val emailIsValid = Constraint[Contact](keys.contact.key) {
     contact =>
       contact.email match {

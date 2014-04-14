@@ -1,13 +1,11 @@
 package uk.gov.gds.ier.transaction.country
 
-import play.api.mvc.Call
-import play.api.templates.Html
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.model.{Country}
-import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
-trait CountryMustache extends StepMustache {
+trait CountryMustache extends StepTemplate[InprogressOrdinary] {
   case class CountryModel(
       postUrl:String = "",
       countries:FieldSet,
@@ -26,10 +24,8 @@ trait CountryMustache extends StepMustache {
       globalErrors:Seq[String] = List.empty
   )
 
-  def transformFormStepToMustacheData(
-      implicit form:ErrorTransformForm[InprogressOrdinary],
-      postUrl:String):CountryModel = {
-
+  val mustache = MustacheTemplate("ordinary/country") { (form, post) =>
+    implicit val progressForm = form
     val globalErrors = form.globalErrors
     def makeCountry(country:String) = {
       val isChecked = form(keys.country.residence).value match {
@@ -47,7 +43,8 @@ trait CountryMustache extends StepMustache {
       if (form(keys.country.residence).hasErrors) "invalid" else ""
     )
 
-    CountryModel(postUrl,
+    val data = CountryModel(
+      postUrl = post.url,
       countries = countriesFieldSet,
       england = RadioField(keys.country.residence, "England"),
       scotland = RadioField(keys.country.residence, "Scotland"),
@@ -65,11 +62,7 @@ trait CountryMustache extends StepMustache {
       channelIslandsOrigin = RadioField(keys.country.origin, "British Islands"),
       globalErrors.map(_.message)
     )
-  }
 
-  def countryMustache(form: ErrorTransformForm[InprogressOrdinary], call:Call):Html = {
-    val data = transformFormStepToMustacheData(form,call.url)
-    val content = Mustache.render("ordinary/country", data)
-    MainStepTemplate(content, "Where do you live?")
+    MustacheData(data, "Where do you live?")
   }
 }

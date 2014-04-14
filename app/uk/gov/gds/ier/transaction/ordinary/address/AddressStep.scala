@@ -44,15 +44,4 @@ class AddressStep @Inject() (
   override val onSuccess = {
      GoToNextStep()
   }
-
-  def template(
-      form: ErrorTransformForm[InprogressOrdinary],
-      call: Call,
-      backUrl: Option[Call]) = {
-    AddressMustache.lookupPage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url
-    )
-  }
 }

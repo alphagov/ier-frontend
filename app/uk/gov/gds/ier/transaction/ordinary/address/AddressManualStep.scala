@@ -20,7 +20,7 @@ class AddressManualStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService)
   extends OrdinaryStep
-  with AddressMustache
+  with AddressManualMustache
   with AddressForms {
 
   val validation = manualAddressForm
@@ -39,17 +39,5 @@ class AddressManualStep @Inject() (
       case Some(postcode) if postcode.toUpperCase.startsWith("BT") => GoTo (ExitController.northernIreland)
       case _ => OtherAddressController.otherAddressStep
     }
-  }
-
-  def template(
-      form: ErrorTransformForm[InprogressOrdinary],
-      call: Call,
-      backUrl: Option[Call]) = {
-    AddressMustache.manualPage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url,
-      AddressController.get.url
-    )
   }
 }

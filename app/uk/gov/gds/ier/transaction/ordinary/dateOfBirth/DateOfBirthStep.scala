@@ -15,10 +15,11 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{OrdinaryStep, Routes, GoTo}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
-class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
-                                       val config: Config,
-                                       val encryptionService : EncryptionService)
-  extends OrdinaryStep
+class DateOfBirthStep @Inject ()(
+    val serialiser: JsonSerialiser,
+    val config: Config,
+    val encryptionService : EncryptionService
+) extends OrdinaryStep
   with DateOfBirthForms
   with DateOfBirthMustache{
 
@@ -31,13 +32,6 @@ class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
     editGet = DateOfBirthController.editGet,
     editPost = DateOfBirthController.editPost
   )
-
-  def template(
-      form: ErrorTransformForm[InprogressOrdinary],
-      postEndpoint:Call,
-      backEndpoint: Option[Call]): Html = {
-    dateOfBirthMustache(form, postEndpoint, backEndpoint)
-  }
 
   def nextStep(currentState: InprogressOrdinary) = {
     currentState.dob match {

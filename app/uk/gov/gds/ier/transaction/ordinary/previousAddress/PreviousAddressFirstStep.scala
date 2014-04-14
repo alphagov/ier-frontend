@@ -43,16 +43,5 @@ class PreviousAddressFirstStep @Inject ()(
       case _ => this
     }
   }
-
-  def template(
-      form: ErrorTransformForm[InprogressOrdinary],
-      call:Call,
-      backUrl: Option[Call]): Html = {
-    previousAddressFirstStepMustache(
-      form,
-      call.url,
-      backUrl.map(_.url)
-    )
-  }
 }
 

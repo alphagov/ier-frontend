@@ -2,12 +2,11 @@ package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.model.{MovedHouseOption}
-import uk.gov.gds.ier.mustache.StepMustache
-import play.api.templates.Html
+import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 
-trait PreviousAddressFirstMustache extends StepMustache {
+trait PreviousAddressFirstMustache extends StepTemplate[InprogressOrdinary] {
 
   val title = "Have you moved out of another address in the last 12 months?"
   val questionNumber = "8 of 11"
@@ -19,17 +18,16 @@ trait PreviousAddressFirstMustache extends StepMustache {
     previousNo: Field
   )
 
-  def transformFormStepToMustacheData(
-    form: ErrorTransformForm[InprogressOrdinary],
-    postUrl: String,
-    backUrl: Option[String]): PreviousAddressFirstModel = {
+  val mustache = MustacheTemplate("ordinary/previousAddressFirst") {
+    (form, post, back) =>
+
     implicit val progressForm = form
 
-    PreviousAddressFirstModel(
+    val data = PreviousAddressFirstModel(
       question = Question(
-        postUrl = postUrl,
-        backUrl = backUrl.getOrElse(""),
-        showBackUrl = backUrl.isDefined,
+        postUrl = post.url,
+        backUrl = back.map(_.url).getOrElse(""),
+        showBackUrl = back.isDefined,
         number = questionNumber,
         title = title,
         errorMessages = form.globalErrors.map { _.message }),
@@ -46,15 +44,8 @@ trait PreviousAddressFirstMustache extends StepMustache {
         value = MovedHouseOption.NotMoved.name
       )
     )
-  }
 
-  def previousAddressFirstStepMustache(
-    form:ErrorTransformForm[InprogressOrdinary],
-    postUrl: String,
-    backUrl: Option[String]
-  ): Html = {
-    val data = transformFormStepToMustacheData(form, postUrl, backUrl)
-    val content = Mustache.render("ordinary/previousAddressFirst", data)
-    MainStepTemplate(content, title)
+    MustacheData(data, title)
   }
 }
+

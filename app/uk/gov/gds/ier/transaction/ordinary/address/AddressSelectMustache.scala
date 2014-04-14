@@ -1,24 +1,20 @@
-package uk.gov.gds.ier.transaction.crown.address
+package uk.gov.gds.ier.transaction.ordinary.address
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
+import controllers.step.ordinary.routes.{AddressController, AddressManualController}
 import uk.gov.gds.ier.step.StepTemplate
-import uk.gov.gds.ier.transaction.crown.InprogressCrown
-import controllers.step.crown.routes.{AddressController, AddressManualController}
+import uk.gov.gds.ier.serialiser.JsonSerialiser
+import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.model.{PossibleAddress, Addresses}
-import uk.gov.gds.ier.serialiser.WithSerialiser
+import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
-trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
-    self:WithAddressService
-    with WithSerialiser =>
+trait AddressSelectMustache extends StepTemplate[InprogressOrdinary] {
+  val serialiser:JsonSerialiser
+  val addressService:AddressService
 
-  private def pageTitle(hasUkAddress: Option[String]): String = {
-    hasUkAddress match {
-      case Some(hasUkAddress) if (hasUkAddress.toBoolean) => "What is your UK address?"
-      case _ => "What was your last UK address?"
-    }
-  }
+  val title = "What is your address?"
+  val questionNumber = "6 of 11"
 
-  val questionNumber = "2"
   case class SelectModel (
       question: Question,
       lookupUrl: String,
@@ -27,14 +23,13 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
       address: Field,
       possibleJsonList: Field,
       possiblePostcode: Field,
-      hasAddresses: Boolean,
-      hasUkAddress: Field
+      hasAddresses: Boolean
   )
 
-  val mustache = MustacheTemplate("crown/addressSelect") { (form, postUrl, backUrl) =>
+  val mustache = MustacheTemplate("ordinary/addressSelect") {
+    (form, post, back) =>
+
     implicit val progressForm = form
-  
-    val title = pageTitle(form(keys.hasUkAddress).value)
 
     val selectedUprn = form(keys.address.uprn).value
     val postcode = form(keys.address.postcode).value.orElse {
@@ -43,7 +38,7 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
 
     val storedAddresses = for(
       jsonList <- form(keys.possibleAddresses.jsonList).value;
-      postcode <- form(keys.possibleAddresses.postcode).value
+      postcode <- postcode
     ) yield {
       PossibleAddress(
         jsonList = serialiser.fromJson[Addresses](jsonList),
@@ -71,9 +66,7 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
       )
     }
 
-    val hasAddresses = possibleAddresses.exists { poss =>
-      !poss.jsonList.addresses.isEmpty
-    }
+    val hasAddresses = possibleAddresses.exists (!_.jsonList.addresses.isEmpty)
 
     val addressSelect = SelectField(
       key = keys.address.uprn,
@@ -93,8 +86,8 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
 
     val data = SelectModel(
       question = Question(
-        postUrl = postUrl.url,
-        backUrl = backUrl.map{ _.url }.getOrElse(""),
+        postUrl = post.url,
+        backUrl = back.map( _.url ).getOrElse(""),
         number = questionNumber,
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)
@@ -103,24 +96,17 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
       manualUrl = AddressManualController.get.url,
       postcode = TextField(keys.address.postcode, default = postcode),
       address = addressSelectWithError,
-      possibleJsonList = HiddenField(
-        key = keys.possibleAddresses.jsonList,
+      possibleJsonList = TextField(keys.possibleAddresses.jsonList).copy(
         value = possibleAddresses.map { poss =>
           serialiser.toJson(poss.jsonList)
         }.getOrElse("")
       ),
-      possiblePostcode = HiddenField(
-        key = keys.possibleAddresses.postcode,
+      possiblePostcode = TextField(keys.possibleAddresses.postcode).copy(
         value = form(keys.address.postcode).value.getOrElse("")
       ),
-      hasAddresses = hasAddresses,
-      hasUkAddress = HiddenField(
-        key = keys.hasUkAddress,
-        value = form(keys.hasUkAddress).value.getOrElse("")
-      )
+      hasAddresses = hasAddresses
     )
 
     MustacheData(data, title)
   }
 }
-

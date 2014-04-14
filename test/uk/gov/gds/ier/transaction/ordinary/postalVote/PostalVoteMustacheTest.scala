@@ -16,14 +16,17 @@ class PostalVoteMustacheTest
   with PostalVoteForms
   with ErrorMessages
   with FormKeys
-  with TestHelpers {
-
-  val postalVoteMustache = new PostalVoteMustache {}
+  with TestHelpers
+  with PostalVoteMustache {
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = postalVoteForm
-    val postalVoteModel = postalVoteMustache.transformFormStepToMustacheData(
-      emptyApplicationForm, PostalVoteController.post, Some(ContactController.get))
+    val postalVoteModel = mustache.data(
+      emptyApplicationForm,
+      PostalVoteController.post,
+      Some(ContactController.get),
+      InprogressOrdinary()
+    ).data.asInstanceOf[PostalVoteModel]
 
     postalVoteModel.question.title should be("Do you want to apply for a postal vote?")
     postalVoteModel.question.postUrl should be("/register-to-vote/postal-vote")
@@ -43,8 +46,12 @@ class PostalVoteMustacheTest
         postalVoteOption = Some(false),
         deliveryMethod = None))))
 
-    val postalVoteModel = postalVoteMustache.transformFormStepToMustacheData(
-      partiallyFilledApplicationForm, PostalVoteController.post, Some(ContactController.get))
+    val postalVoteModel = mustache.data(
+      partiallyFilledApplicationForm,
+      PostalVoteController.post,
+      Some(ContactController.get),
+      InprogressOrdinary()
+    ).data.asInstanceOf[PostalVoteModel]
 
     postalVoteModel.question.title should be("Do you want to apply for a postal vote?")
     postalVoteModel.question.postUrl should be("/register-to-vote/postal-vote")
@@ -64,8 +71,12 @@ class PostalVoteMustacheTest
         postalVoteOption = Some(true),
         deliveryMethod = Some(PostalVoteDeliveryMethod(deliveryMethod = Some("post"), None))))))
 
-    val postalVoteModel = postalVoteMustache.transformFormStepToMustacheData(
-      partiallyFilledApplicationForm, PostalVoteController.post, Some(ContactController.get))
+    val postalVoteModel = mustache.data(
+      partiallyFilledApplicationForm,
+      PostalVoteController.post,
+      Some(ContactController.get),
+      InprogressOrdinary()
+    ).data.asInstanceOf[PostalVoteModel]
 
     postalVoteModel.question.title should be("Do you want to apply for a postal vote?")
     postalVoteModel.question.postUrl should be("/register-to-vote/postal-vote")
@@ -86,8 +97,12 @@ class PostalVoteMustacheTest
         deliveryMethod = Some(PostalVoteDeliveryMethod(deliveryMethod = Some("email"), 
             emailAddress = Some("test@test.com")))))))
 
-    val postalVoteModel = postalVoteMustache.transformFormStepToMustacheData(
-      partiallyFilledApplicationForm, PostalVoteController.post, Some(ContactController.get))
+    val postalVoteModel = mustache.data(
+      partiallyFilledApplicationForm,
+      PostalVoteController.post,
+      Some(ContactController.get),
+      InprogressOrdinary()
+    ).data.asInstanceOf[PostalVoteModel]
 
     postalVoteModel.question.title should be("Do you want to apply for a postal vote?")
     postalVoteModel.question.postUrl should be("/register-to-vote/postal-vote")

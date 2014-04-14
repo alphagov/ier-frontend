@@ -19,7 +19,7 @@ class PreviousAddressPostcodeStep @Inject() (
     val encryptionService: EncryptionService,
     val addressService: AddressService)
   extends OrdinaryStep
-  with PreviousAddressMustache
+  with PreviousAddressPostcodeMustache
   with PreviousAddressForms {
 
   val validation = postcodeStepForm
@@ -37,24 +37,13 @@ class PreviousAddressPostcodeStep @Inject() (
     controllers.step.ordinary.PreviousAddressSelectController.previousAddressSelectStep
   }
 
-  def template(
-      form: ErrorTransformForm[InprogressOrdinary],
-      call: Call,
-      backUrl: Option[Call]) = {
-    PreviousAddressMustache.postcodePage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url
-    )
-  }
-
   def lookup = ValidSession requiredFor { implicit request => application =>
     val dataFromApplication = validation.fill(application).data
     val dataFromRequest = validation.bindFromRequest().data
 
     validation.bind(dataFromApplication ++ dataFromRequest).fold(
       hasErrors => {
-        Ok(template(hasErrors, routes.post, previousRoute))
+        Ok(mustache(hasErrors, routes.post, previousRoute, application).html)
       },
       success => {
         val mergedApplication = success.merge(application)

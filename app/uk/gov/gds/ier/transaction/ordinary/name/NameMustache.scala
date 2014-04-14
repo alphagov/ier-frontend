@@ -1,12 +1,10 @@
 package uk.gov.gds.ier.transaction.ordinary.name
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.templates.Html
-import play.api.mvc.Call
-import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
-trait NameMustache extends StepMustache {
+trait NameMustache extends StepTemplate[InprogressOrdinary] {
 
   val pageTitle = "What is your full name?"
 
@@ -22,16 +20,14 @@ trait NameMustache extends StepMustache {
     previousMiddleNames: Field,
     previousLastName: Field)
 
-    def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressOrdinary],
-                                        postUrl: String,
-                                        backUrl: Option[String]): NameModel = {
+  val mustache = MustacheTemplate("ordinary/name") { (form, post, back) =>
     implicit val progressForm = form
 
-    NameModel(
+    val data = NameModel(
       question = Question(
-        postUrl = postUrl,
-        backUrl = backUrl.getOrElse(""),
-        showBackUrl = backUrl.isDefined,
+        postUrl = post.url,
+        backUrl = back.map(_.url).getOrElse(""),
+        showBackUrl = back.isDefined,
         number = "4 of 11",
         title = pageTitle,
         errorMessages = form.globalErrors.map { _.message }),
@@ -56,11 +52,8 @@ trait NameMustache extends StepMustache {
       previousLastName = TextField(
         key = keys.previousName.previousName.lastName)
     )
-  }
 
-  def nameMustache(form: ErrorTransformForm[InprogressOrdinary], call: Call, backUrl: Option[String]): Html = {
-    val data = transformFormStepToMustacheData(form, call.url, backUrl)
-    val content = Mustache.render("ordinary/name", data)
-    MainStepTemplate(content, pageTitle)
+    MustacheData(data, pageTitle)
   }
 }
+

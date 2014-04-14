@@ -20,7 +20,7 @@ class PreviousAddressManualStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService)
   extends OrdinaryStep
-  with PreviousAddressMustache
+  with PreviousAddressManualMustache
   with PreviousAddressForms {
 
   val validation = manualStepForm
@@ -36,17 +36,5 @@ class PreviousAddressManualStep @Inject() (
 
   def nextStep(currentState: InprogressOrdinary) = {
     OpenRegisterController.openRegisterStep
-  }
-
-  def template(
-      form: ErrorTransformForm[InprogressOrdinary],
-      call: Call,
-      backUrl: Option[Call]) = {
-    PreviousAddressMustache.manualPage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url,
-      PreviousAddressPostcodeController.get.url
-    )
   }
 }

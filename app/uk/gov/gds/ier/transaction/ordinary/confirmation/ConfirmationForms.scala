@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.ordinary.confirmation
 import uk.gov.gds.ier.validation.{OrdinaryMappings, ErrorTransformForm}
 import play.api.data.Forms._
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.model.{PartialPreviousAddress}
+import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 trait ConfirmationForms extends OrdinaryMappings {
@@ -20,8 +20,8 @@ trait ConfirmationForms extends OrdinaryMappings {
       keys.previousAddress.key -> optional(PartialPreviousAddress.mapping).verifying("Please complete this step", _.isDefined),
       keys.otherAddress.key -> optional(otherAddressMapping).verifying("Please complete this step", _.isDefined),
       keys.openRegister.key -> optional(optInMapping).verifying("Please complete this step", _.isDefined),
-      keys.postalVote.key -> optional(postalVoteMapping).verifying("Please complete this step", _.isDefined),
-      keys.contact.key -> optional(contactMapping).verifying("Please complete this step", _.isDefined),
+      keys.postalVote.key -> optional(PostalVote.mapping).verifying("Please complete this step", _.isDefined),
+      keys.contact.key -> optional(Contact.mapping).verifying("Please complete this step", _.isDefined),
       keys.possibleAddresses.key -> optional(possibleAddressesMapping),
       keys.country.key -> optional(countryMapping)
 

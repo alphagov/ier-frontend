@@ -15,16 +15,18 @@ class NationalityMustacheTest
   with NationalityForms
   with ErrorMessages
   with FormKeys
-  with TestHelpers {
-
-  val nationalityMustache = new NationalityMustache {}
+  with TestHelpers
+  with NationalityMustache {
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = nationalityForm
     val emptyApplication = InprogressOrdinary()
-    val nationalityModel = nationalityMustache.transformFormStepToMustacheData(
-      emptyApplication, emptyApplicationForm,
-      NationalityController.post, Some(CountryController.get))
+    val nationalityModel = mustache.data(
+      emptyApplicationForm,
+      NationalityController.post,
+      Some(CountryController.get),
+      emptyApplication
+    ).data.asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
@@ -54,9 +56,12 @@ class NationalityMustacheTest
 
     val partiallyFilledApplicationForm = nationalityForm.fill(partiallyFilledApplication)
 
-    val nationalityModel = nationalityMustache.transformFormStepToMustacheData(
-      partiallyFilledApplication, partiallyFilledApplicationForm,
-      NationalityController.post, Some(CountryController.get))
+    val nationalityModel = mustache.data(
+      partiallyFilledApplicationForm,
+      NationalityController.post,
+      Some(CountryController.get),
+      partiallyFilledApplication
+    ).data.asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
@@ -84,9 +89,12 @@ class NationalityMustacheTest
 
     val partiallyFilledApplicationForm = nationalityForm.fill(partiallyFilledApplication)
 
-    val nationalityModel = nationalityMustache.transformFormStepToMustacheData(
-      partiallyFilledApplication, partiallyFilledApplicationForm,
-      NationalityController.post, Some(CountryController.get))
+    val nationalityModel = mustache.data(
+      partiallyFilledApplicationForm,
+      NationalityController.post,
+      Some(CountryController.get),
+      partiallyFilledApplication
+    ).data.asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
@@ -113,9 +121,12 @@ class NationalityMustacheTest
 
     val partiallyFilledApplicationForm = nationalityForm.fill(partiallyFilledApplication)
 
-    val nationalityModel = nationalityMustache.transformFormStepToMustacheData(
-      partiallyFilledApplication, partiallyFilledApplicationForm,
-      NationalityController.post, Some(CountryController.get))
+    val nationalityModel = mustache.data(
+      partiallyFilledApplicationForm,
+      NationalityController.post,
+      Some(CountryController.get),
+      partiallyFilledApplication
+    ).data.asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
@@ -143,9 +154,12 @@ class NationalityMustacheTest
 
     val partiallyFilledApplicationForm = nationalityForm.fill(partiallyFilledApplication)
 
-    val nationalityModel = nationalityMustache.transformFormStepToMustacheData(
-      partiallyFilledApplication, partiallyFilledApplicationForm,
-      NationalityController.post, Some(CountryController.get))
+    val nationalityModel = mustache.data(
+      partiallyFilledApplicationForm,
+      NationalityController.post,
+      Some(CountryController.get),
+      partiallyFilledApplication
+    ).data.asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
@@ -173,9 +187,12 @@ class NationalityMustacheTest
 
     val partiallyFilledApplicationForm = nationalityForm.fillAndValidate(partiallyFilledApplication)
 
-    val nationalityModel = nationalityMustache.transformFormStepToMustacheData(
-      partiallyFilledApplication, partiallyFilledApplicationForm,
-      NationalityController.post, Some(CountryController.get))
+    val nationalityModel = mustache.data(
+      partiallyFilledApplicationForm,
+      NationalityController.post,
+      Some(CountryController.get),
+      partiallyFilledApplication
+    ).data.asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
