@@ -27,7 +27,8 @@ class LocateServiceTest extends FlatSpec with Matchers {
               "town": "Fakerton",
               "locality": "Fakesbury",
               "uprn": 12345678,
-              "postcode": "AB12 3CD"
+              "postcode": "AB12 3CD",
+              "gssCode": "abc"
             }
           ]""", 0)
         } else {
@@ -46,6 +47,7 @@ class LocateServiceTest extends FlatSpec with Matchers {
     addresses(0).county should be(Some("123 Fake Street"))
     addresses(0).uprn should be(Some("12345678"))
     addresses(0).postcode should be("AB12 3CD")
+    addresses(0).gssCode should be (Some("abc"))
   }
 
   behavior of "LocateService.beaconFire"

@@ -42,7 +42,8 @@ class LocateService @Inject() (apiClient: LocateApiClient, serialiser: JsonSeria
             city = pa.town,
             county = pa.area,
             uprn = pa.uprn,
-            postcode = pa.postcode)
+            postcode = pa.postcode,
+            gssCode = pa.gssCode)
         })
       }
       case Fail(error, _) => throw new PostcodeLookupFailedException(error)

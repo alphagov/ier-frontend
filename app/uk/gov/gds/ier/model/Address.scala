@@ -9,7 +9,8 @@ case class Address(
     city:Option[String],
     county:Option[String],
     uprn:Option[String],
-    postcode:String) {
+    postcode:String,
+    gssCode: Option[String] = None) {
 
   def prettyAddressLine = {
     val addressLine = lineOne ++: lineTwo ++: lineThree ++: List(postcode)
