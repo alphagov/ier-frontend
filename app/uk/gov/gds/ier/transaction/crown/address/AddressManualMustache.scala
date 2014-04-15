@@ -9,7 +9,7 @@ trait AddressManualMustache extends StepTemplate[InprogressCrown] {
 
   private def pageTitle(hasUkAddress: Option[String]): String = {
     hasUkAddress match {
-      case Some(hasUkAddress) if (hasUkAddress.toBoolean) => "What is your UK address?"
+      case Some(hasUkAddress) if (!hasUkAddress.isEmpty && hasUkAddress.toBoolean) => "What is your UK address?"
       case _ => "What was your last UK address?"
     }
   }
@@ -27,7 +27,7 @@ trait AddressManualMustache extends StepTemplate[InprogressCrown] {
     hasUkAddress: Field
   )
 
-  val mustache = MustacheTemplate("crown/addressLookup") { (form, postUrl, backUrl) =>
+  val mustache = MustacheTemplate("crown/addressManual") { (form, postUrl, backUrl) =>
     implicit val progressForm = form
   
     val title = pageTitle(form(keys.hasUkAddress).value)

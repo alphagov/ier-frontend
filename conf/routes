@@ -486,9 +486,6 @@ POST        /register-to-vote/crown/address                            controlle
 GET         /register-to-vote/crown/edit/address                       controllers.step.crown.AddressController.editGet
 POST        /register-to-vote/crown/edit/address                       controllers.step.crown.AddressController.editPost
 
-#Lookup Address Step
-POST        /register-to-vote/crown/address/lookup                     controllers.step.crown.AddressController.lookup
-
 #Manual Address Step
 GET         /register-to-vote/crown/address/manual                     controllers.step.crown.AddressManualController.get
 POST        /register-to-vote/crown/address/manual                     controllers.step.crown.AddressManualController.post

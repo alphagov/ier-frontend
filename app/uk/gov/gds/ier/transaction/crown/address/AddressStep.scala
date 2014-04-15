@@ -21,32 +21,22 @@ class AddressStep @Inject() (
   with AddressLookupMustache
   with AddressForms {
 
-  val validation = addressForm
-
+  val validation = lookupAddressForm
   val previousRoute = Some(StatementController.get)
 
   val routes = Routes(
     get = AddressController.get,
-    post = AddressController.lookup,
+    post = AddressController.post,
     editGet = AddressController.editGet,
-    editPost = AddressController.lookup
+    editPost = AddressController.editPost
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    controllers.step.crown.PreviousAddressFirstController.previousAddressFirstStep
+    controllers.step.crown.AddressSelectController.addressSelectStep
   }
 
-  def lookup = ValidSession requiredFor { implicit request => application =>
-    lookupAddressForm.bindFromRequest().fold(
-      hasErrors => {
-        Ok(mustache(hasErrors, routes.post, previousRoute, application).html)
-      },
-      success => {
-        val mergedApplication = success.merge(application)
-        Redirect(
-          AddressSelectController.get
-        ) storeInSession mergedApplication
-      }
-    )
+  override val onSuccess = {
+    GoToNextStep()
   }
+
 }
