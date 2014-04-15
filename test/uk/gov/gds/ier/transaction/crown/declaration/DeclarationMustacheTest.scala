@@ -8,7 +8,7 @@ import uk.gov.gds.ier.service.PlacesService
 import uk.gov.gds.common.model.{Ero, LocalAuthority}
 import org.specs2.mock.Mockito
 import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
-import uk.gov.gds.ier.model.{PartialAddress, LastUkAddress}
+import uk.gov.gds.ier.model.{Job, PartialAddress, LastUkAddress}
 
 class DeclarationMustacheTest
   extends FlatSpec
@@ -30,10 +30,10 @@ class DeclarationMustacheTest
     val emptyApplicationForm = declarationPdfForm
     val emptyApplication = InprogressCrown()
     val model: DeclarationPdfModel = mustache.data(
-      emptyApplicationForm,
+      declarationPdfForm.fill(inprogressApplicationWithPostcode("WR26NJ")),
       DeclarationPdfController.post,
       Some(NinoController.get),
-      inprogressApplicationWithPostcode("WR26NJ")
+      emptyApplication
     ).data.asInstanceOf[DeclarationPdfModel]
 
     model.question.title should be("Download your service declaration form")
@@ -41,7 +41,6 @@ class DeclarationMustacheTest
     model.question.backUrl should be("/register-to-vote/crown/nino")
 
     model.authorityName should be("Haringey Borough Council electoral registration office")
-    model.authorityUrl should be("")
     model.showAuthorityUrl should be(false)
   }
 

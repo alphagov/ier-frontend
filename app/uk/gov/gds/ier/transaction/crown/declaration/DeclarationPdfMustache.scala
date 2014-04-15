@@ -5,6 +5,8 @@ import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import controllers.step.crown.routes.DeclarationPdfController
 import uk.gov.gds.common.model.LocalAuthority
 import uk.gov.gds.ier.serialiser.WithSerialiser
+import uk.gov.gds.ier.validation.ErrorTransformForm
+import play.api.mvc.Call
 
 trait DeclarationPdfMustache extends StepTemplate[InprogressCrown] {
   self: WithPlacesService with WithSerialiser =>
@@ -13,15 +15,15 @@ trait DeclarationPdfMustache extends StepTemplate[InprogressCrown] {
     question: Question,
     declarationPdfUrl: String,
     showAuthorityUrl: Boolean,
-    authorityUrl: String,
     authorityName: String
   )
 
   val pageTitle = "Download your service declaration form"
 
-  val mustache = MustacheTemplate("crown/declarationPdf") { (form, postUrl, backUrl, application) =>
+  val mustache = MustacheTemplate("crown/declarationPdf") { (form : ErrorTransformForm[InprogressCrown], postUrl: Call, backUrl: Option[Call]) =>
 
-    val postcode = application.address flatMap {_.address} map {_.postcode}
+    //val postcode = application.address flatMap {_.address} map {_.postcode}
+    val postcode = form(keys.address.address.postcode).value
     val authorityDetails : Option[LocalAuthority] = postcode match {
       case Some("") => None
       case Some(postCode) => placesService.lookupAuthority(postCode)
@@ -40,7 +42,6 @@ trait DeclarationPdfMustache extends StepTemplate[InprogressCrown] {
       ),
       declarationPdfUrl = DeclarationPdfController.download.url,
       showAuthorityUrl = false,
-      authorityUrl = "", //TODO: service providing authority URL is supposedly soon to be ready
       authorityName = authorityDetails map {
         auth => auth.name + " electoral registration office"
       } getOrElse "your local electoral registration office"

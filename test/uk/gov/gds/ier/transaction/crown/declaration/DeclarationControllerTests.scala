@@ -5,6 +5,8 @@ import org.scalatest.mock.MockitoSugar
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.model.{PartialAddress, LastUkAddress}
 
 class DeclarationControllerTests
   extends FlatSpec
@@ -36,10 +38,22 @@ class DeclarationControllerTests
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/crown/declaration-pdf")
           .withIerSession()
+          .withApplication(inprogressApplicationWithPostcode("WR26NJ"))
       )
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/register-to-vote/crown/nino"))
     }
+  }
+
+  private def inprogressApplicationWithPostcode(postcode: String) = {
+    InprogressCrown().copy(
+      address = Some(LastUkAddress(
+        hasUkAddress = Some(true),
+        address = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          manualAddress = None,
+          postcode = postcode)))))
   }
 }

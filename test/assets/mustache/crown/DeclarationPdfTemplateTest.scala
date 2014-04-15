@@ -27,41 +27,6 @@ class DeclarationPdfTemplateTest
   val placesService = mock[PlacesService]
   val serialiser = mock[JsonSerialiser]
 
-  it should "properly render all properties from the model with election authority URL" in {
-    running(FakeApplication()) {
-      val data = DeclarationPdfModel(
-        question = Question(
-          postUrl = "http://some.server/post_url",
-          title = "Page title ABC"
-        ),
-        declarationPdfUrl = "http://test/pdf_download",
-        showAuthorityUrl = true,
-        authorityUrl = "http://voting.haringey.gov.uk/register-to-vote/index.html?electionContact",
-        authorityName = "Haringey Borough Council"
-      )
-
-      val templateName = mustache.asInstanceOf[MustacheTemplate[InprogressCrown]].mustachePath
-      val html = Mustache.render(templateName, data)
-      val renderedContent = html.toString
-      val doc = Jsoup.parse(renderedContent)
-
-      renderedContent should include ("http://test/pdf_download")
-      renderedContent should include (
-        "http://voting.haringey.gov.uk/register-to-vote/index.html?electionContact")
-      renderedContent should include ("Haringey Borough Council")
-
-      { // page
-        val f = doc.select("form").first() // there should be only one form in the template
-        f should not be(null)
-        f.attr("action") should be ("http://some.server/post_url")
-
-        val h = doc.select("header").first() // there should be only one header in the template
-        h should not be(null)
-        h.text should include ("Page title ABC")
-      }
-    }
-  }
-
   it should "properly render all properties from the model with just election authority URL" in {
     running(FakeApplication()) {
       val data = DeclarationPdfModel(
@@ -71,7 +36,6 @@ class DeclarationPdfTemplateTest
         ),
         declarationPdfUrl = "http://test/pdf_download",
         showAuthorityUrl = false,
-        authorityUrl = "",
         authorityName = "Haringey Borough Council"
       )
 
@@ -83,15 +47,13 @@ class DeclarationPdfTemplateTest
       renderedContent should include ("http://test/pdf_download")
       renderedContent should include ("Haringey Borough Council")
 
-      { // page
       val f = doc.select("form").first() // there should be only one form in the template
-        f should not be(null)
-        f.attr("action") should be ("http://some.server/post_url")
+      f should not be(null)
+      f.attr("action") should be ("http://some.server/post_url")
 
-        val h = doc.select("header").first() // there should be only one header in the template
-        h should not be(null)
-        h.text should include ("Page title ABC")
-      }
+      val h = doc.select("header").first() // there should be only one header in the template
+      h should not be(null)
+      h.text should include ("Page title ABC")
     }
   }
 }
