@@ -15,7 +15,7 @@ trait ContactMustache extends StepTemplate[InprogressOrdinary] {
       contactEmailText: Field,
       contactPhoneText: Field)
 
-  val mustache = MustacheTemplate("ordinary/contact") { (form, post, back) =>
+  val mustache = MustacheTemplate("ordinary/contact") { (form, post) =>
     implicit val progressForm = form
     val title = "If we have questions about your application," +
                 " what's the best way to contact you?"
@@ -25,7 +25,6 @@ trait ContactMustache extends StepTemplate[InprogressOrdinary] {
     val data = ContactModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map { _.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "11",
         title = title

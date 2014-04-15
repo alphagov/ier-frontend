@@ -26,12 +26,10 @@ class AddressManualMustacheTests
     val addressModel = mustache.data(
       emptyApplicationForm,
       Call("POST", "/register-to-vote/forces/address/manual"),
-      Some(Call("GET", "/register-to-vote/forces/statement")),
       InprogressForces()
     ).data.asInstanceOf[ManualModel]
 
     addressModel.question.title should be("What is your UK address?")
-    addressModel.question.backUrl should be("/register-to-vote/forces/statement")
     addressModel.question.postUrl should be("/register-to-vote/forces/address/manual")
 
     addressModel.lookupUrl should be ("/register-to-vote/forces/address")
@@ -62,12 +60,10 @@ class AddressManualMustacheTests
     val addressModel = mustache.data(
       partiallyFilledApplicationForm,
       Call("POST", "/register-to-vote/forces/address/manual"),
-      Some(Call("GET", "/register-to-vote/forces/statement")),
       InprogressForces()
     ).data.asInstanceOf[ManualModel]
 
     addressModel.question.title should be("What is your UK address?")
-    addressModel.question.backUrl should be("/register-to-vote/forces/statement")
     addressModel.question.postUrl should be("/register-to-vote/forces/address/manual")
 
     addressModel.lookupUrl should be ("/register-to-vote/forces/address")

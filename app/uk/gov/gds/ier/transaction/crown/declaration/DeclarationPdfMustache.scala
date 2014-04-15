@@ -20,7 +20,7 @@ trait DeclarationPdfMustache extends StepTemplate[InprogressCrown] {
 
   val pageTitle = "Download your service declaration form"
 
-  val mustache = MustacheTemplate("crown/declarationPdf") { (form : ErrorTransformForm[InprogressCrown], postUrl: Call, backUrl: Option[Call]) =>
+  val mustache = MustacheTemplate("crown/declarationPdf") { (form, postUrl) =>
 
     //val postcode = application.address flatMap {_.address} map {_.postcode}
     val postcode = form(keys.address.address.postcode).value
@@ -34,8 +34,6 @@ trait DeclarationPdfMustache extends StepTemplate[InprogressCrown] {
     val data = DeclarationPdfModel(
       question = Question(
         postUrl = postUrl.url,
-        backUrl = backUrl.map(_.url).getOrElse(""),
-        showBackUrl = backUrl.isDefined,
         number = "7",
         title = pageTitle,
         errorMessages = form.globalErrors.map ( _.message )

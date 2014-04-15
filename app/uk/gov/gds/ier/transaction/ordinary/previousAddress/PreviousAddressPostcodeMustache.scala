@@ -12,7 +12,7 @@ trait PreviousAddressPostcodeMustache extends StepTemplate[InprogressOrdinary] {
   )
 
   val mustache = MustacheTemplate("ordinary/previousAddressPostcode") {
-    (form, post, back) =>
+    (form, post) =>
     implicit val progressForm = form
 
     val movedRecently = form(keys.previousAddress.movedRecently).value.map {
@@ -29,7 +29,6 @@ trait PreviousAddressPostcodeMustache extends StepTemplate[InprogressOrdinary] {
     val modelData = PostcodeModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map(_.url).getOrElse(""),
         number = "8 of 11",
         title = title,
         errorMessages = form.globalErrors.map(_.message)

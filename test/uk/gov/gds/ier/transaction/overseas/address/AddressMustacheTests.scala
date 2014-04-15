@@ -24,20 +24,17 @@ class AddressMustacheTest
   with TestHelpers {
 
   val postCall = new Call("POST", "/register-to-vote/overseas/address")
-  val backCall = new Call("POST", "/register-to-vote/overseas/nino")
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = addressForm
     val addressModel = mustache.data(
        emptyApplicationForm,
        postCall,
-       Some(backCall),
        InprogressOverseas()
      ).data.asInstanceOf[AddressModel]
 
     addressModel.question.title should be(title)
     addressModel.question.postUrl should be(postCall.url)
-    addressModel.question.backUrl should be(backCall.url)
 
     addressModel.countrySelect.value should be("")
     addressModel.addressLine1.value should be("")
@@ -60,13 +57,11 @@ class AddressMustacheTest
     val addressModel = mustache.data(
       filledApplicationForm,
       postCall,
-      Some(backCall),
       InprogressOverseas()
     ).data.asInstanceOf[AddressModel]
 
     addressModel.question.title should be(title)
     addressModel.question.postUrl should be(postCall.url)
-    addressModel.question.backUrl should be(backCall.url)
 
     addressModel.countrySelect.value should be("United Kingdom")
     addressModel.addressLine1.value should be("some address line 1")
@@ -85,13 +80,11 @@ class AddressMustacheTest
     val addressModel = mustache.data(
       uncompletedFormWithErrors,
       postCall,
-      Some(backCall),
       InprogressOverseas()
     ).data.asInstanceOf[AddressModel]
 
     addressModel.question.title should be(title)
     addressModel.question.postUrl should be(postCall.url)
-    addressModel.question.backUrl should be(backCall.url)
 
     addressModel.countrySelect.value should be("United Kingdom")
     addressModel.addressLine1.value should be("")
@@ -113,14 +106,12 @@ class AddressMustacheTest
     val addressModel = mustache.data(
       uncompletedFormWithErrors,
       postCall,
-      Some(backCall),
       InprogressOverseas()
     ).data.asInstanceOf[AddressModel]
 
 
     addressModel.question.title should be(title)
     addressModel.question.postUrl should be(postCall.url)
-    addressModel.question.backUrl should be(backCall.url)
 
     addressModel.countrySelect.value should be("")
     addressModel.addressLine1.value should be("Francisco de Quevedo 34")

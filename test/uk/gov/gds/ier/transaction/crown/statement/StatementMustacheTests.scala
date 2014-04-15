@@ -20,12 +20,10 @@ class StatementMustacheTests
     val model = mustache.data(
       application,
       Call("POST", "http://postUrl"),
-      Option(Call("GET", "http://backUrl")),
       InprogressCrown()
     ).data.asInstanceOf[StatementModel]
 
     model.question.postUrl should be("http://postUrl")
-    model.question.backUrl should be("http://backUrl")
     model.question.errorMessages should be (Seq.empty)
     model.question.number should be("1")
     model.question.title should be("Which of these statements applies to you?")
@@ -73,7 +71,6 @@ class StatementMustacheTests
     val model = mustache.data(
       application,
       Call("POST", "http://postUrl"),
-      Option(Call("GET", "http://backUrl")),
       InprogressCrown()
     ).data.asInstanceOf[StatementModel]
 
@@ -95,7 +92,6 @@ class StatementMustacheTests
     val model = mustache.data(
       application,
       Call("POST", "http://postUrl"),
-      Option(Call("GET", "http://backUrl")),
       InprogressCrown()
     ).data.asInstanceOf[StatementModel]
 
@@ -117,7 +113,6 @@ class StatementMustacheTests
     val model = mustache.data(
       application,
       Call("POST", "http://postUrl"),
-      Option(Call("GET", "http://backUrl")),
       InprogressCrown()
     ).data.asInstanceOf[StatementModel]
 
@@ -139,7 +134,6 @@ class StatementMustacheTests
     val model = mustache.data(
       application,
       Call("POST", "http://postUrl"),
-      Option(Call("GET", "http://backUrl")),
       InprogressCrown()
     ).data.asInstanceOf[StatementModel]
 

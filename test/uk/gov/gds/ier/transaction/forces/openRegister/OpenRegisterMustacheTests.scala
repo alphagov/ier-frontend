@@ -21,7 +21,6 @@ class OpenRegisterMustacheTests
     val openRegisterModel = mustache.data(
       emptyApplicationForm,
       OpenRegisterController.post,
-      Some(ContactAddressController.get),
       InprogressForces()
     ).data.asInstanceOf[OpenRegisterModel]
 
@@ -42,7 +41,6 @@ class OpenRegisterMustacheTests
     val openRegisterModel = mustache.data(
       partiallyFilledApplicationForm,
       OpenRegisterController.post,
-      Some(ContactAddressController.get),
       InprogressForces()
     ).data.asInstanceOf[OpenRegisterModel]
 
@@ -63,7 +61,6 @@ class OpenRegisterMustacheTests
     val openRegisterModel = mustache.data(
       partiallyFilledApplicationForm,
       OpenRegisterController.post,
-      Some(ContactAddressController.get),
       InprogressForces()
     ).data.asInstanceOf[OpenRegisterModel]
 

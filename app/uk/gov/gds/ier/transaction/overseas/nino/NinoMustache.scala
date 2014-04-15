@@ -14,16 +14,14 @@ trait NinoMustache extends StepTemplate[InprogressOverseas] {
       noNinoReason: Field
   )
 
-  val mustache = MustacheTemplate("overseas/nino") { (form, post, back) =>
+  val mustache = MustacheTemplate("overseas/nino") { (form, post) =>
 
     implicit val progressForm = form
 
     val data = NinoModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
-        number = "",
         title = title
       ),
       nino = TextField(

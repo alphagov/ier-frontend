@@ -12,18 +12,16 @@ trait StatementMustache extends StepTemplate[InprogressForces] {
       statementPartnerForcesCheckbox: Field
   )
 
-  val mustache = MustacheTemplate("forces/statement") { (form, postEndpoint, backEndpoint) =>
+  val mustache = MustacheTemplate("forces/statement") { (form, postEndpoint) =>
     implicit val progressForm = form
 
     val title = "Which of these statements applies to you?"
     val data = StatementModel(
       question = Question(
         postUrl = postEndpoint.url,
-        backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "1",
-        title = title,
-        showBackUrl = false
+        title = title
       ),
       statementFieldSet = FieldSet(
         classes = if (progressForm(keys.contact).hasErrors) "invalid" else ""

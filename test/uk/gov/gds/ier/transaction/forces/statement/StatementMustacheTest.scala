@@ -26,7 +26,6 @@ class StatementMustacheTest
     val statementhModel =mustache.data(
       emptyApplicationForm,
       Call("POST", "/register-to-vote/forces/statement"),
-      None,
       InprogressForces()
     ).data.asInstanceOf[StatementModel]
 
@@ -46,7 +45,6 @@ class StatementMustacheTest
     val statementModel = mustache.data(
       filledForm,
       Call("POST", "/register-to-vote/forces/statement"),
-      None,
       InprogressForces()
     ).data.asInstanceOf[StatementModel]
 

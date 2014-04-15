@@ -28,7 +28,6 @@ class DateOfBirthMustacheTest
     val dateOfBirthModel = mustache.data(
       emptyApplicationForm,
       new Call("POST", "/register-to-vote/overseas/date-of-birth"),
-      None,
       InprogressOverseas()
     ).data.asInstanceOf[DateOfBirthModel]
 
@@ -48,7 +47,6 @@ class DateOfBirthMustacheTest
     val dateOfBirthModel = mustache.data(
       filledForm,
       new Call("POST", "/register-to-vote/overseas/date-of-birth"),
-      None,
       InprogressOverseas()
     ).data.asInstanceOf[DateOfBirthModel]
 

@@ -7,7 +7,6 @@ import uk.gov.gds.ier.step.StepTemplate
 trait AddressMustache extends StepTemplate[InprogressOverseas] {
 
   val title = "Where do you live?"
-  val questionNumber = ""
 
   case class AddressModel(
       question:Question,
@@ -19,16 +18,13 @@ trait AddressMustache extends StepTemplate[InprogressOverseas] {
       addressLine5: Field
   )
 
-  val mustache = MustacheTemplate("overseas/address") { (form, post, back) =>
+  val mustache = MustacheTemplate("overseas/address") { (form, post) =>
 
     implicit val progressForm = form
 
     val data = AddressModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map { _.url }.getOrElse(""),
-        showBackUrl = back.isDefined,
-        number = questionNumber,
         title = title,
         errorMessages = form.globalErrors.map { _.message }
       ),

@@ -29,13 +29,11 @@ class AddressFirstMustacheTest
     val addressFirstModel = mustache.data(
       emptyApplicationForm,
       Call("GET","url-string-1"),
-      Some(Call("POST","url-string-2")),
       InprogressCrown()
     ).data.asInstanceOf[AddressFirstModel]
 
     addressFirstModel.question.title should be("Do you have a UK address?")
     addressFirstModel.question.postUrl should be("url-string-1")
-    addressFirstModel.question.backUrl should be("url-string-2")
 
     addressFirstModel.hasAddressNo.attributes should be("")
     addressFirstModel.hasAddressYes.attributes should be("")
@@ -54,13 +52,11 @@ class AddressFirstMustacheTest
     val addressFirstModel = mustache.data(
       partiallyFilledApplicationForm,
       Call("GET","url-string-1"),
-      Some(Call("POST","url-string-2")),
       InprogressCrown()
     ).data.asInstanceOf[AddressFirstModel]
 
     addressFirstModel.question.title should be("Do you have a UK address?")
     addressFirstModel.question.postUrl should be("url-string-1")
-    addressFirstModel.question.backUrl should be("url-string-2")
 
     addressFirstModel.hasAddressNo.attributes should be("")
     addressFirstModel.hasAddressYes.attributes should be("checked=\"checked\"")

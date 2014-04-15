@@ -14,15 +14,13 @@ trait WaysToVoteMustache extends StepTemplate[InprogressOverseas] {
     inPerson: Field
   )
 
-  val mustache = MustacheTemplate("overseas/waysToVote") { (form, post, back) =>
+  val mustache = MustacheTemplate("overseas/waysToVote") { (form, post) =>
 
     implicit val progressForm = form
 
     val data = WaysToVoteModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map { call => call.url }.getOrElse(""),
-        showBackUrl = back.isDefined,
         number = "",
         title = title,
         errorMessages = form.globalErrors.map { _.message }),

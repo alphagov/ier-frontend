@@ -27,7 +27,7 @@ trait PreviousAddressSelectMustache
   )
 
   val mustache = MustacheTemplate("crown/previousAddressSelect") {
-    (form, post, back, application) =>
+    (form, post, application) =>
 
     implicit val progressForm = form
 
@@ -87,7 +87,6 @@ trait PreviousAddressSelectMustache
     val data = SelectModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map { _.url } getOrElse(""),
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),

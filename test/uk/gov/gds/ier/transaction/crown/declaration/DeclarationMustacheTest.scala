@@ -32,13 +32,11 @@ class DeclarationMustacheTest
     val model: DeclarationPdfModel = mustache.data(
       declarationPdfForm.fill(inprogressApplicationWithPostcode("WR26NJ")),
       DeclarationPdfController.post,
-      Some(NinoController.get),
       emptyApplication
     ).data.asInstanceOf[DeclarationPdfModel]
 
     model.question.title should be("Download your service declaration form")
     model.question.postUrl should be("/register-to-vote/crown/declaration-pdf")
-    model.question.backUrl should be("/register-to-vote/crown/nino")
 
     model.authorityName should be("Haringey Borough Council electoral registration office")
     model.showAuthorityUrl should be(false)

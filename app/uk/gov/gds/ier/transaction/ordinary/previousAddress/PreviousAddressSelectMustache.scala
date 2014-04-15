@@ -26,7 +26,7 @@ trait PreviousAddressSelectMustache extends StepTemplate[InprogressOrdinary] {
   )
 
   val mustache = MustacheTemplate("ordinary/previousAddressSelect") {
-    (form, post, back) =>
+    (form, post) =>
     implicit val progressForm = form
 
     val movedRecently = form(keys.previousAddress.movedRecently).value.map {
@@ -91,7 +91,6 @@ trait PreviousAddressSelectMustache extends StepTemplate[InprogressOrdinary] {
     val modelData = SelectModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map(_.url).getOrElse(""),
         number = "8 of 11",
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)

@@ -20,14 +20,12 @@ trait NameMustache extends StepTemplate[InprogressOrdinary] {
     previousMiddleNames: Field,
     previousLastName: Field)
 
-  val mustache = MustacheTemplate("ordinary/name") { (form, post, back) =>
+  val mustache = MustacheTemplate("ordinary/name") { (form, post) =>
     implicit val progressForm = form
 
     val data = NameModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map(_.url).getOrElse(""),
-        showBackUrl = back.isDefined,
         number = "4 of 11",
         title = pageTitle,
         errorMessages = form.globalErrors.map { _.message }),

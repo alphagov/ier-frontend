@@ -15,12 +15,11 @@ trait PreviousAddressPostcodeMustache
     )
 
   val mustache = MustacheTemplate("forces/previousAddressPostcode") {
-    (form, post, back) =>
+    (form, post) =>
     implicit val progressForm = form
     val modelData = PostcodeModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map { _.url }.getOrElse(""),
         number = questionNumber,
         title = title,
         errorMessages = form.globalErrors.map(_.message)

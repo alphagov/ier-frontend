@@ -29,7 +29,6 @@ class ContactMustacheTests
     val contactModel = mustache.data(
       emptyApplicationForm,
       ContactController.post,
-      Some(PostalVoteController.get),
       InprogressOrdinary()
     ).data.asInstanceOf[ContactModel]
 
@@ -37,7 +36,6 @@ class ContactMustacheTests
       "If we have questions about your application, what's the best way to contact you?"
     )
     contactModel.question.postUrl should be("/register-to-vote/contact")
-    contactModel.question.backUrl should be("/register-to-vote/postal-vote")
 
     contactModel.contactEmailCheckbox.attributes should be("")
     contactModel.contactEmailText.value should be("")
@@ -62,7 +60,6 @@ class ContactMustacheTests
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
       ContactController.post,
-      Some(PostalVoteController.get),
       InprogressOrdinary()
     ).data.asInstanceOf[ContactModel]
 
@@ -70,7 +67,6 @@ class ContactMustacheTests
       "If we have questions about your application, what's the best way to contact you?"
     )
     contactModel.question.postUrl should be("/register-to-vote/contact")
-    contactModel.question.backUrl should be("/register-to-vote/postal-vote")
 
     contactModel.contactEmailCheckbox.attributes should be("checked=\"checked\"")
     contactModel.contactEmailText.value should be("my@email.com")
@@ -95,7 +91,6 @@ class ContactMustacheTests
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
       ContactController.post,
-      Some(PostalVoteController.get),
       InprogressOrdinary()
     ).data.asInstanceOf[ContactModel]
 
@@ -103,7 +98,6 @@ class ContactMustacheTests
       "If we have questions about your application, what's the best way to contact you?"
     )
     contactModel.question.postUrl should be("/register-to-vote/contact")
-    contactModel.question.backUrl should be("/register-to-vote/postal-vote")
 
     contactModel.contactEmailCheckbox.attributes should be("")
     contactModel.contactEmailText.value should be("")
@@ -128,7 +122,6 @@ class ContactMustacheTests
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
       ContactController.post,
-      Some(PostalVoteController.get),
       InprogressOrdinary()
     ).data.asInstanceOf[ContactModel]
 
@@ -136,7 +129,6 @@ class ContactMustacheTests
       "If we have questions about your application, what's the best way to contact you?"
     )
     contactModel.question.postUrl should be("/register-to-vote/contact")
-    contactModel.question.backUrl should be("/register-to-vote/postal-vote")
 
     contactModel.contactEmailCheckbox.attributes should be("")
     contactModel.contactEmailText.value should be("")
@@ -161,7 +153,6 @@ class ContactMustacheTests
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
       ContactController.post,
-      Some(PostalVoteController.get),
       InprogressOrdinary()
     ).data.asInstanceOf[ContactModel]
 
@@ -169,7 +160,6 @@ class ContactMustacheTests
       "If we have questions about your application, what's the best way to contact you?"
     )
     contactModel.question.postUrl should be("/register-to-vote/contact")
-    contactModel.question.backUrl should be("/register-to-vote/postal-vote")
 
     contactModel.contactEmailCheckbox.attributes should be("")
     contactModel.contactEmailText.value should be("")
@@ -199,7 +189,6 @@ class ContactMustacheTests
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
       ContactController.post,
-      Some(PostalVoteController.get),
       InprogressOrdinary()
     ).data.asInstanceOf[ContactModel]
 
@@ -207,7 +196,6 @@ class ContactMustacheTests
       "If we have questions about your application, what's the best way to contact you?"
     )
     contactModel.question.postUrl should be("/register-to-vote/contact")
-    contactModel.question.backUrl should be("/register-to-vote/postal-vote")
 
     contactModel.contactEmailCheckbox.attributes should be("")
     contactModel.contactEmailText.value should be("my@email.com")

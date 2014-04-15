@@ -39,5 +39,4 @@ class AddressStep @Inject() (
   override val onSuccess = {
     GoToNextStep()
   }
-
 }

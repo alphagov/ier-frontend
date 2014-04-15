@@ -25,7 +25,7 @@ trait NationalityMustache extends StepTemplate[InprogressOrdinary] {
   )
 
   val mustache = MustacheTemplate("ordinary/nationality") {
-    (form, postEndpoint, backEndpoint, application) =>
+    (form, postEndpoint, application) =>
 
     implicit val progressForm = form
 
@@ -38,7 +38,6 @@ trait NationalityMustache extends StepTemplate[InprogressOrdinary] {
     val data = NationalityModel(
       question = Question(
         postUrl = postEndpoint.url,
-        backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "2 of 11",
         title = title

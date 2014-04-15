@@ -24,7 +24,7 @@ trait ServiceMustache extends StepTemplate[InprogressForces] {
     }
   }
 
-  val mustache = MustacheTemplate("forces/service") { (form, postUrl, backUrl, application) =>
+  val mustache = MustacheTemplate("forces/service") { (form, postUrl, application) =>
     implicit val progressForm = form
 
     def makeRadio(serviceName:String) = {
@@ -44,7 +44,6 @@ trait ServiceMustache extends StepTemplate[InprogressForces] {
     val data = ServiceModel(
       question = Question(
         postUrl = postUrl.url,
-        backUrl = backUrl.map(_.url).getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "8",
         title = title

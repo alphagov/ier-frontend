@@ -15,18 +15,16 @@ trait DateLeftUkMustache extends StepTemplate[InprogressOverseas] {
       dateLeftUkYear: Field
   )
 
-  val mustache = MustacheTemplate("overseas/dateLeftUk") { (form, post, back) =>
+  val mustache = MustacheTemplate("overseas/dateLeftUk") { (form, post) =>
 
     implicit val progressForm = form
 
     val data = DateLeftUkModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
-        number = "",
         title = title
-      ) ,
+      ),
       dateLeftUkFieldSet = FieldSet(
         classes = if (progressForm(keys.dateLeftUk.month).hasErrors ||
           progressForm(keys.dateLeftUk.year).hasErrors) "invalid" else ""

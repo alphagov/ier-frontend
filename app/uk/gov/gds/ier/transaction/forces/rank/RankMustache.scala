@@ -19,7 +19,7 @@ trait RankMustache extends  StepTemplate[InprogressForces] {
     }
   }
 
-  val mustache = MustacheTemplate("forces/rank") { (form, postUrl, backUrl, application) =>
+  val mustache = MustacheTemplate("forces/rank") { (form, postUrl, application) =>
     implicit val progressForm = form
 
     val title = if (displayPartnerSentence(application))
@@ -30,7 +30,6 @@ trait RankMustache extends  StepTemplate[InprogressForces] {
     val data = RankModel(
       question = Question(
         postUrl = postUrl.url,
-        backUrl = backUrl.map (_.url).getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "9",
         title = title

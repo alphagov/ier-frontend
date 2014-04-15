@@ -27,18 +27,14 @@ class AddressLookupMustacheTest
     val addressModel = mustache.data(
       emptyApplicationForm,
       Call("POST", "/register-to-vote/crown/address/lookup"),
-      Some(Call("GET", "/register-to-vote/crown/statement")),
       InprogressCrown()
     ).data.asInstanceOf[LookupModel]
 
     addressModel.question.title should be("What was your last UK address?")
     addressModel.question.postUrl should be("/register-to-vote/crown/address/lookup")
-    addressModel.question.backUrl should be("/register-to-vote/crown/statement")
 
     addressModel.postcode.value should be ("")
   }
-
-  
 
   it should "progress form with valid values should produce Mustache Model with values present"+
     " (lookupData) - lastUkAddress = true" in {
@@ -57,13 +53,11 @@ class AddressLookupMustacheTest
     val addressModel = mustache.data(
       partiallyFilledApplicationForm,
       Call("POST", "/register-to-vote/crown/address/lookup"),
-      Some(Call("GET", "/register-to-vote/crown/statement")),
       InprogressCrown()
     ).data.asInstanceOf[LookupModel]
 
     addressModel.question.title should be("What is your UK address?")
     addressModel.question.postUrl should be("/register-to-vote/crown/address/lookup")
-    addressModel.question.backUrl should be("/register-to-vote/crown/statement")
 
     addressModel.postcode.value should be ("WR26NJ")
 
@@ -86,13 +80,11 @@ class AddressLookupMustacheTest
     val addressModel = mustache.data(
       partiallyFilledApplicationForm,
       Call("POST", "/register-to-vote/crown/address/lookup"),
-      Some(Call("GET", "/register-to-vote/crown/statement")),
       InprogressCrown()
     ).data.asInstanceOf[LookupModel]
 
     addressModel.question.title should be("What was your last UK address?")
     addressModel.question.postUrl should be("/register-to-vote/crown/address/lookup")
-    addressModel.question.backUrl should be("/register-to-vote/crown/statement")
 
     addressModel.postcode.value should be ("WR26NJ")
 

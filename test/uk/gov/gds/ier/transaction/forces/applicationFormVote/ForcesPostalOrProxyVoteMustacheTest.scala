@@ -28,7 +28,6 @@ class ForcesPostalOrProxyVoteMustacheTest
     val postalOrProxyVoteModel = mustache.data(
       emptyApplicationForm,
       PostalVoteController.post,
-      Some(WaysToVoteController.get),
       InprogressForces()
     ).data.asInstanceOf[PostalOrProxyVoteModel]
 
@@ -61,7 +60,6 @@ class ForcesPostalOrProxyVoteMustacheTest
     val postalOrProxyVoteModel = mustache.data(
       partiallyFilledApplicationForm,
       PostalVoteController.post,
-      Some(WaysToVoteController.get),
       InprogressForces()
     ).data.asInstanceOf[PostalOrProxyVoteModel]
 
@@ -95,7 +93,6 @@ class ForcesPostalOrProxyVoteMustacheTest
     val postalOrProxyVoteModel = mustache.data(
       partiallyFilledApplicationFormWithErrors,
       PostalVoteController.post,
-      Some(WaysToVoteController.get),
       InprogressForces()
     ).data.asInstanceOf[PostalOrProxyVoteModel]
 

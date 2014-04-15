@@ -14,14 +14,12 @@ trait WaysToVoteMustache extends StepTemplate[InprogressForces] {
     inPerson: Field
   )
 
-  val mustache = MustacheTemplate("forces/waysToVote") { (form, post, back) =>
+  val mustache = MustacheTemplate("forces/waysToVote") { (form, post) =>
     implicit val progressForm = form
 
     val data = WaysToVoteModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map { _.url }.getOrElse(""),
-        showBackUrl = back.isDefined,
         number = "12",
         title = pageTitle,
         errorMessages = form.globalErrors.map { _.message }),

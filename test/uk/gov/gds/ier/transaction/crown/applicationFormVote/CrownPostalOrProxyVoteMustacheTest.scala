@@ -28,7 +28,6 @@ class CrownPostalOrProxyVoteMustacheTest
     val postalOrProxyVoteModel = mustache.data(
       emptyApplicationForm,
       PostalVoteController.post,
-      Some(WaysToVoteController.get),
       InprogressCrown()
     ).data.asInstanceOf[PostalOrProxyVoteModel]
 
@@ -36,8 +35,6 @@ class CrownPostalOrProxyVoteMustacheTest
       "Do you want us to send you a postal vote application form?")
     postalOrProxyVoteModel.question.postUrl should be(
       "/register-to-vote/crown/postal-vote")
-    postalOrProxyVoteModel.question.backUrl should be(
-      "/register-to-vote/crown/ways-to-vote")
 
     postalOrProxyVoteModel.description.value should be(
       "If this is your first time using a postal vote,"+
@@ -65,7 +62,6 @@ class CrownPostalOrProxyVoteMustacheTest
     val postalOrProxyVoteModel = mustache.data(
       partiallyFilledApplicationForm,
       PostalVoteController.post,
-      Some(WaysToVoteController.get),
       InprogressCrown()
     ).data.asInstanceOf[PostalOrProxyVoteModel]
 
@@ -73,8 +69,6 @@ class CrownPostalOrProxyVoteMustacheTest
       "Do you want us to send you a postal vote application form?")
     postalOrProxyVoteModel.question.postUrl should be(
       "/register-to-vote/crown/postal-vote")
-    postalOrProxyVoteModel.question.backUrl should be(
-      "/register-to-vote/crown/ways-to-vote")
 
     postalOrProxyVoteModel.description.value should be(
       "If this is your first time using a postal vote,"+
@@ -103,7 +97,6 @@ class CrownPostalOrProxyVoteMustacheTest
     val postalOrProxyVoteModel = mustache.data(
       partiallyFilledApplicationFormWithErrors,
       PostalVoteController.post,
-      Some(WaysToVoteController.get),
       InprogressCrown()
     ).data.asInstanceOf[PostalOrProxyVoteModel]
 
@@ -111,8 +104,6 @@ class CrownPostalOrProxyVoteMustacheTest
       "Do you want us to send you a postal vote application form?")
     postalOrProxyVoteModel.question.postUrl should be(
       "/register-to-vote/crown/postal-vote")
-    postalOrProxyVoteModel.question.backUrl should be(
-      "/register-to-vote/crown/ways-to-vote")
 
     postalOrProxyVoteModel.description.value should be(
       "If this is your first time using a postal vote,"+

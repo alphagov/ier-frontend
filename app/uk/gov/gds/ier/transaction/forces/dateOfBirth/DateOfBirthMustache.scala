@@ -20,7 +20,7 @@ trait DateOfBirthMustache extends StepTemplate[InprogressForces] {
       noDobReasonShowFlag: Text
   )
 
-  val mustache = MustacheTemplate("forces/dateOfBirth") { (form, post, back) =>
+  val mustache = MustacheTemplate("forces/dateOfBirth") { (form, post) =>
     implicit val progressForm = form
 
     val title = "What is your date of birth?"
@@ -28,7 +28,6 @@ trait DateOfBirthMustache extends StepTemplate[InprogressForces] {
     val data = DateOfBirthModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map (_.url).getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "5",
         title = title

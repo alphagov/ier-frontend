@@ -18,12 +18,11 @@ trait AddressMustache extends StepTemplate[InprogressOrdinary] {
   )
 
   val mustache = MustacheTemplate("ordinary/addressLookup") {
-    (form, post, back) =>
+    (form, post) =>
 
     val data = LookupModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map(_.url).getOrElse(""),
         number = questionNumber,
         title = title,
         errorMessages = form.globalErrors.map(_.message)

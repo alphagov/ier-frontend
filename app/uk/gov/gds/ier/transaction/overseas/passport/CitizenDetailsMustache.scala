@@ -18,14 +18,13 @@ trait CitizenDetailsMustache extends StepTemplate[InprogressOverseas] {
       citizenDateYear: Field
   )
 
-  val mustache = MustacheTemplate("overseas/citizenDetails") { (form, post, back) =>
+  val mustache = MustacheTemplate("overseas/citizenDetails") { (form, post) =>
 
     implicit val progressForm = form
 
     val data = CitizenDetailsModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "7",
         title = title

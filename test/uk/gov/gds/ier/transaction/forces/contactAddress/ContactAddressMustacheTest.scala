@@ -23,13 +23,11 @@ class ContactAddressMustacheTest
     val contactAddressModel = mustache.data(
       emptyApplicationForm,
       ContactAddressController.post,
-      Some(OpenRegisterController.get),
       InprogressForces()
     ).data.asInstanceOf[ContactAddressModel]
 
     contactAddressModel.question.title should be("Where should we write to you about your registration?")
     contactAddressModel.question.postUrl should be("/register-to-vote/forces/contact-address")
-    contactAddressModel.question.backUrl should be("/register-to-vote/forces/open-register")
 
     contactAddressModel.otherAddress.otherAddressOption.attributes should be("")
     contactAddressModel.otherAddress.otherAddressLine1.value should be("")
@@ -66,13 +64,11 @@ class ContactAddressMustacheTest
     val contactAddressModel = mustache.data(
       filledForm,
       ContactAddressController.post,
-      Some(OpenRegisterController.get),
       InprogressForces()
     ).data.asInstanceOf[ContactAddressModel]
 
     contactAddressModel.question.title should be("Where should we write to you about your registration?")
     contactAddressModel.question.postUrl should be("/register-to-vote/forces/contact-address")
-    contactAddressModel.question.backUrl should be("/register-to-vote/forces/open-register")
 
     contactAddressModel.otherAddress.otherAddressOption.attributes should be("")
     contactAddressModel.otherAddress.otherAddressLine1.value should be("")
@@ -116,13 +112,11 @@ class ContactAddressMustacheTest
     val contactAddressModel = mustache.data(
       filledForm,
       ContactAddressController.post,
-      Some(OpenRegisterController.get),
       InprogressForces()
     ).data.asInstanceOf[ContactAddressModel]
 
     contactAddressModel.question.title should be("Where should we write to you about your registration?")
     contactAddressModel.question.postUrl should be("/register-to-vote/forces/contact-address")
-    contactAddressModel.question.backUrl should be("/register-to-vote/forces/open-register")
 
     contactAddressModel.otherAddress.otherAddressOption.attributes should be("")
     contactAddressModel.otherAddress.otherAddressLine1.value should be("")
@@ -166,13 +160,11 @@ class ContactAddressMustacheTest
     val contactAddressModel = mustache.data(
       filledForm,
       ContactAddressController.post,
-      Some(OpenRegisterController.get),
       InprogressForces()
     ).data.asInstanceOf[ContactAddressModel]
 
     contactAddressModel.question.title should be("Where should we write to you about your registration?")
     contactAddressModel.question.postUrl should be("/register-to-vote/forces/contact-address")
-    contactAddressModel.question.backUrl should be("/register-to-vote/forces/open-register")
 
     contactAddressModel.otherAddress.otherAddressOption.attributes should be("checked=\"checked\"")
     contactAddressModel.otherAddress.otherAddressLine1.value should be("Address line 1")

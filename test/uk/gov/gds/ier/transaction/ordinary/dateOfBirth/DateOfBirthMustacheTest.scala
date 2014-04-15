@@ -27,7 +27,6 @@ class DateOfBirthMustacheTest
     val dateOfBirthModel = mustache.data(
         emptyApplicationForm,
         Call("POST", "/register-to-vote/date-of-birth"),
-        None,
         InprogressOrdinary()
     ).data.asInstanceOf[DateOfBirthModel]
 
@@ -47,7 +46,6 @@ class DateOfBirthMustacheTest
     val dateOfBirthModel = mustache.data(
         filledForm,
         Call("POST", "/register-to-vote/date-of-birth"),
-        None,
         InprogressOrdinary()
     ).data.asInstanceOf[DateOfBirthModel]
 
@@ -67,7 +65,6 @@ class DateOfBirthMustacheTest
     val dateOfBirthModel = mustache.data(
         filledForm,
         Call("POST", "/register-to-vote/date-of-birth"),
-        None,
         InprogressOrdinary()
     ).data.asInstanceOf[DateOfBirthModel]
 

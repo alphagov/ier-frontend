@@ -19,14 +19,13 @@ trait PreviousAddressManualMustache extends StepTemplate[InprogressForces] {
     maCity: Field)
 
   val mustache = MustacheTemplate("forces/previousAddressManual") {
-    (form, postUrl, backUrl) =>
+    (form, postUrl) =>
 
     implicit val progressForm = form
 
     val data = ManualModel(
       question = Question(
         postUrl = postUrl.url,
-        backUrl = backUrl.map { _.url }.getOrElse(""),
         number = questionNumber,
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)

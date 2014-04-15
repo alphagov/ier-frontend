@@ -13,7 +13,7 @@ trait NinoMustache extends StepTemplate[InprogressForces] {
       noNinoReasonShowFlag: Text
   )
 
-  val mustache = MustacheTemplate("forces/nino") { (form, postEndpoint, backEndpoint) =>
+  val mustache = MustacheTemplate("forces/nino") { (form, postEndpoint) =>
 
     implicit val progressForm = form
 
@@ -22,7 +22,6 @@ trait NinoMustache extends StepTemplate[InprogressForces] {
     val data = NinoModel(
       question = Question(
         postUrl = postEndpoint.url,
-        backUrl = backEndpoint.map(_.url).getOrElse(""),
         errorMessages = form.globalErrors.map(_.message),
         number = "7",
         title = title

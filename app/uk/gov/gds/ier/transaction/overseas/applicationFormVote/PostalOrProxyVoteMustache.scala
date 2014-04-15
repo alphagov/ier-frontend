@@ -21,7 +21,7 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressOverseas] {
       voteType: Field
   )
 
-  val mustache = MustacheTemplate("overseas/postalOrProxyVote") { (form, post, back) =>
+  val mustache = MustacheTemplate("overseas/postalOrProxyVote") { (form, post) =>
 
     implicit val progressForm = form
 
@@ -36,9 +36,7 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressOverseas] {
     val data = PostalOrProxyVoteModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
-        number = "",
         title = title
       ),
       description = Text (

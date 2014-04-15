@@ -23,13 +23,11 @@ class JobMustacheTest
     val jobModel = mustache.data(
       emptyApplicationForm,
       JobController.post,
-      Some(NinoController.get),
       emptyApplication
     ).data.asInstanceOf[JobModel]
 
     jobModel.question.title should be("What is your role?")
     jobModel.question.postUrl should be("/register-to-vote/crown/job-title")
-    jobModel.question.backUrl should be("/register-to-vote/crown/nino")
 
     jobModel.jobTitle.value should be("")
     jobModel.govDepartment.value should be("")
@@ -50,13 +48,11 @@ class JobMustacheTest
     val jobModel = mustache.data(
       partiallyFilledApplicationForm,
       JobController.post,
-      Some(NinoController.get),
       partiallyFilledApplication
     ).data.asInstanceOf[JobModel]
 
     jobModel.question.title should be("What is your role?")
     jobModel.question.postUrl should be("/register-to-vote/crown/job-title")
-    jobModel.question.backUrl should be("/register-to-vote/crown/nino")
 
     jobModel.jobTitle.value should be("Doctor")
     jobModel.govDepartment.value should be("Fake Dept")

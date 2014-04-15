@@ -20,7 +20,7 @@ trait AddressLookupMustache extends StepTemplate[InprogressCrown] {
       hasUkAddress: Field
   )
 
-  val mustache = MustacheTemplate("crown/addressLookup") { (form, postUrl, backUrl) =>
+  val mustache = MustacheTemplate("crown/addressLookup") { (form, postUrl) =>
     implicit val progressForm = form
   
     val title = pageTitle(form(keys.hasUkAddress).value)
@@ -28,7 +28,6 @@ trait AddressLookupMustache extends StepTemplate[InprogressCrown] {
     val data = LookupModel(
       question = Question(
         postUrl = postUrl.url,
-        backUrl = backUrl.map{ _.url }.getOrElse(""),
         number = questionNumber,
         title = title,
         errorMessages = form.globalErrors.map(_.message)

@@ -29,14 +29,12 @@ class ContactMustacheTests
     val contactModel = mustache.data(
       emptyApplicationForm,
       ContactController.post,
-      Some(PostalVoteController.get),
       InprogressCrown()
     ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
       "If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/crown/contact")
-    contactModel.question.backUrl should be("/register-to-vote/crown/postal-vote")
 
     contactModel.contactEmailCheckbox.attributes should be("")
     contactModel.contactEmailText.value should be("")
@@ -62,14 +60,12 @@ class ContactMustacheTests
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
       ContactController.post,
-      Some(PostalVoteController.get),
       InprogressCrown()
     ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
       "If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/crown/contact")
-    contactModel.question.backUrl should be("/register-to-vote/crown/postal-vote")
 
     contactModel.contactEmailCheckbox.attributes should be("")
     contactModel.contactEmailText.value should be("my@email.com")
@@ -94,14 +90,12 @@ class ContactMustacheTests
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
       ContactController.post,
-      Some(PostalVoteController.get),
       InprogressCrown()
     ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
       "If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/crown/contact")
-    contactModel.question.backUrl should be("/register-to-vote/crown/postal-vote")
 
     contactModel.contactEmailCheckbox.attributes should be("checked=\"checked\"")
     contactModel.contactEmailText.value should be("my@email.com")
@@ -126,14 +120,12 @@ class ContactMustacheTests
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
       ContactController.post,
-      Some(PostalVoteController.get),
       InprogressCrown()
     ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
       "If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/crown/contact")
-    contactModel.question.backUrl should be("/register-to-vote/crown/postal-vote")
 
     contactModel.contactEmailCheckbox.attributes should be("")
     contactModel.contactEmailText.value should be("")
@@ -158,14 +150,12 @@ class ContactMustacheTests
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
       ContactController.post,
-      Some(PostalVoteController.get),
       InprogressCrown()
     ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
       "If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/crown/contact")
-    contactModel.question.backUrl should be("/register-to-vote/crown/postal-vote")
 
     contactModel.contactEmailCheckbox.attributes should be("")
     contactModel.contactEmailText.value should be("")
@@ -190,14 +180,12 @@ class ContactMustacheTests
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
       ContactController.post,
-      Some(PostalVoteController.get),
       InprogressCrown()
     ).data.asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
       "If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/crown/contact")
-    contactModel.question.backUrl should be("/register-to-vote/crown/postal-vote")
 
     contactModel.contactEmailCheckbox.attributes should be("")
     contactModel.contactEmailText.value should be("")

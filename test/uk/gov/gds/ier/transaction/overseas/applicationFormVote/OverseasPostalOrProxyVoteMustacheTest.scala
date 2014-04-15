@@ -29,7 +29,6 @@ class OverseasPostalOrProxyVoteMustacheTest
     val postalOrProxyVoteModel = mustache.data(
       emptyApplicationForm,
       PostalVoteController.post,
-      Some(WaysToVoteController.get),
       InprogressOverseas()
     ).data.asInstanceOf[PostalOrProxyVoteModel]
 
@@ -37,8 +36,6 @@ class OverseasPostalOrProxyVoteMustacheTest
       "Do you want us to send you a postal vote application form?")
     postalOrProxyVoteModel.question.postUrl should be(
       "/register-to-vote/overseas/postal-vote")
-    postalOrProxyVoteModel.question.backUrl should be(
-      "/register-to-vote/overseas/ways-to-vote")
 
     postalOrProxyVoteModel.description.value should be(
       "If this is your first time using a postal vote,"+
@@ -66,7 +63,6 @@ class OverseasPostalOrProxyVoteMustacheTest
     val postalOrProxyVoteModel = mustache.data(
       partiallyFilledApplicationForm,
       PostalVoteController.post,
-      Some(WaysToVoteController.get),
       InprogressOverseas()
     ).data.asInstanceOf[PostalOrProxyVoteModel]
 
@@ -74,8 +70,6 @@ class OverseasPostalOrProxyVoteMustacheTest
       "Do you want us to send you a postal vote application form?")
     postalOrProxyVoteModel.question.postUrl should be(
       "/register-to-vote/overseas/postal-vote")
-    postalOrProxyVoteModel.question.backUrl should be(
-      "/register-to-vote/overseas/ways-to-vote")
 
     postalOrProxyVoteModel.description.value should be(
       "If this is your first time using a postal vote,"+
@@ -104,7 +98,6 @@ class OverseasPostalOrProxyVoteMustacheTest
     val postalOrProxyVoteModel = mustache.data(
       partiallyFilledApplicationFormWithErrors,
       PostalVoteController.post,
-      Some(WaysToVoteController.get),
       InprogressOverseas()
     ).data.asInstanceOf[PostalOrProxyVoteModel]
 
@@ -112,8 +105,6 @@ class OverseasPostalOrProxyVoteMustacheTest
       "Do you want us to send you a postal vote application form?")
     postalOrProxyVoteModel.question.postUrl should be(
       "/register-to-vote/overseas/postal-vote")
-    postalOrProxyVoteModel.question.backUrl should be(
-      "/register-to-vote/overseas/ways-to-vote")
 
     postalOrProxyVoteModel.description.value should be(
       "If this is your first time using a postal vote,"+
