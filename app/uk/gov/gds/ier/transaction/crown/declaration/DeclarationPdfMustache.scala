@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.crown.declaration
 
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
-import controllers.step.crown.routes.DeclarationPdfController
+import controllers.step.crown.routes.DeclarationPdfDownloadController
 import uk.gov.gds.common.model.LocalAuthority
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.validation.ErrorTransformForm
@@ -40,7 +40,7 @@ trait DeclarationPdfMustache extends StepTemplate[InprogressCrown] {
         title = pageTitle,
         errorMessages = form.globalErrors.map ( _.message )
       ),
-      declarationPdfUrl = DeclarationPdfController.download.url,
+      declarationPdfUrl = DeclarationPdfDownloadController.download.url,
       showAuthorityUrl = false,
       authorityName = authorityDetails map {
         auth => auth.name + " electoral registration office"

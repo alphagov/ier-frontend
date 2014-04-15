@@ -566,7 +566,7 @@ GET         /register-to-vote/crown/declaration-pdf                    controlle
 POST        /register-to-vote/crown/declaration-pdf                    controllers.step.crown.DeclarationPdfController.post
 GET         /register-to-vote/crown/edit/declaration-pdf               controllers.step.crown.DeclarationPdfController.editGet
 POST        /register-to-vote/crown/edit/declaration-pdf               controllers.step.crown.DeclarationPdfController.editPost
-GET         /register-to-vote/crown/declaration-pdf-download           controllers.step.crown.DeclarationPdfController.download
+GET         /register-to-vote/crown/declaration-pdf-download           controllers.step.crown.DeclarationPdfDownloadController.download
 
 #Nino Step
 GET         /register-to-vote/crown/nino                               controllers.step.crown.NinoController.get

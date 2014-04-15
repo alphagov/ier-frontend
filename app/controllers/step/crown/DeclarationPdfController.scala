@@ -15,20 +15,4 @@ object DeclarationPdfController extends DelegatingController[DeclarationPdfStep]
   def editPost = delegate.editPost
 
   def declarationPdfStep = delegate
-
-  def download = Action {
-    val pdfOutsideFileUrl = Assets.at("pdf/crown-servant-declaration-blank.pdf").url
-    val pdfFileUrl = getClass.getResource("/public/pdf/crown-servant-declaration-blank.pdf")
-    val pdfFile = new File(pdfFileUrl.toURI)
-    val fileContent: Enumerator[Array[Byte]] = Enumerator.fromFile(pdfFile)
-
-    SimpleResult(
-      header = ResponseHeader(200,
-        Map(
-          CONTENT_LENGTH -> pdfFile.length.toString,
-          CONTENT_DISPOSITION -> "attachment; filename=\"crown-servant-declaration.pdf\""
-        )),
-      body = fileContent
-    )
-  }
 }
