@@ -20,7 +20,7 @@ import play.api.Logger
 class LocateService @Inject() (apiClient: LocateApiClient, serialiser: JsonSerialiser, config:Config) extends Logging {
 
   lazy val partialLocateUrl = config.locateUrl
-  lazy val partialAddressLookupUrl = config.locateUrl + "?residentialOnly=false"
+  lazy val partialAddressLookupUrl = config.locateUrl + "?residentialOnly=true"
   lazy val authorizationToken = config.locateApiAuthorizationToken
 
 
