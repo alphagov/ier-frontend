@@ -37,13 +37,8 @@ trait StepController [T <: InprogressApplication[T]]
   val validation: ErrorTransformForm[T]
   val confirmationRoute: Call
   val previousRoute: Option[Call]
-  def template(form: ErrorTransformForm[T], call: Call, backUrl: Option[Call]):Html
 
   val onSuccess: FlowControl = TransformApplication { application => application} andThen GoToNextIncompleteStep()
-
-  def templateWithApplication(form: ErrorTransformForm[T], call: Call, backUrl: Option[Call]):T => Html = {
-    application:T => template(form, call, backUrl)
-  }
 
   def isStepComplete (currentState: T):Boolean = {
     val filledForm = validation.fillAndValidate(currentState)
