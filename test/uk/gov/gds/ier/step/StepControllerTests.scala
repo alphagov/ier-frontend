@@ -65,7 +65,14 @@ class StepControllerTests
 
       val previousRoute: Option[Call] = Some(mockPreviousCall)
       val validation = form
-      override def template(form: ErrorTransformForm[InprogressOrdinary], call: Call, backUrl: Option[Call]):Html = Html("This is the template.")
+
+      def template(
+          form: ErrorTransformForm[InprogressOrdinary],
+          call: Call,
+          backUrl: Option[Call]):Html = {
+        Html(s"This is the template.")
+      }
+
     }
   }
 
@@ -292,6 +299,11 @@ case class FooBar(
 
 trait TestTemplate[T <: InprogressApplication[T]] extends StepTemplate[T] {
   self: StepController[T] =>
+  def template(
+    form: ErrorTransformForm[T],
+    call: Call,
+    backUrl: Option[Call]):Html
+
   val mustache = {
     new MustacheTemplate[T] {
       val data = (
@@ -312,7 +324,7 @@ trait TestTemplate[T <: InprogressApplication[T]] extends StepTemplate[T] {
         application:T
       ):MustacheRenderer[T] = {
         new MustacheRenderer[T](_this, form, postUrl, backUrl, application) {
-          override def html = templateWithApplication(form, postUrl, backUrl)(application)
+          override def html = template(form, postUrl, backUrl)
         }
       }
     }

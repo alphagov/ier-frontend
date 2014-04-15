@@ -39,7 +39,7 @@ class ParentsAddressStep @Inject() (
   def lookup = ValidSession requiredFor { implicit request => application =>
     parentsLookupAddressForm.bindFromRequest().fold(
       hasErrors => {
-        Ok(template(hasErrors, routes.post, previousRoute))
+        Ok(mustache(hasErrors, routes.post, previousRoute, application).html)
       },
       success => {
         val mergedApplication = success.merge(application)
