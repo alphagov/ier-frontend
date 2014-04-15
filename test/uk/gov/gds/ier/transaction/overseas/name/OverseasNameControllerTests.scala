@@ -104,7 +104,7 @@ class OverseasNameControllerTests
     // enable again when whole page chain is finished for Overseas
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
+        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/select")
           .withIerSession()
           .withApplication(completeOverseasApplication.copy(overseasName = None))
           .withFormUrlEncodedBody(

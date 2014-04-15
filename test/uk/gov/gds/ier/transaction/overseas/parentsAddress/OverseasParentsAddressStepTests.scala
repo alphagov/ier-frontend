@@ -38,7 +38,7 @@ class OverseasParentsAddressStepTests
   it should "bind successfully and redirect to the Name step" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/parents-address")
+        FakeRequest(POST, "/register-to-vote/overseas/parents-address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
             "parentsAddress.uprn" -> "123456789",
@@ -54,7 +54,7 @@ class OverseasParentsAddressStepTests
   it should "redirect to the Northern Ireland Exit page if the postcode starts with BT" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/parents-address/lookup")
+        FakeRequest(POST, "/register-to-vote/overseas/parents-address")
           .withIerSession()
           .withApplication(incompleteYoungApplication.copy (parentsAddress = None))
           .withFormUrlEncodedBody(
@@ -70,7 +70,7 @@ class OverseasParentsAddressStepTests
   it should "bind successfully and redirect to the Name step with a manual address" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/parents-address")
+        FakeRequest(POST, "/register-to-vote/overseas/parents-address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
             "parentsAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
@@ -89,7 +89,7 @@ class OverseasParentsAddressStepTests
   it should "bind successfully and redirect to confirmation if all other steps are complete" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/parents-address")
+        FakeRequest(POST, "/register-to-vote/overseas/parents-address/select")
           .withIerSession()
           .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
@@ -116,7 +116,7 @@ class OverseasParentsAddressStepTests
       contentAsString(result) should include(
         "What was your parent or guardian&#39;s last UK address?"
       )
-      contentAsString(result) should include("Please answer this question")
+      contentAsString(result) should include("Please enter your postcode")
       contentAsString(result) should include("/register-to-vote/overseas/parents-address")
     }
   }
@@ -125,7 +125,7 @@ behavior of "ParentsAddressStep.editGet"
   it should "display the page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(GET, "/register-to-vote/overseas/edit/parents-address").withIerSession()
+        FakeRequest(GET, "/register-to-vote/overseas/edit/parents-address/select").withIerSession()
       )
 
       status(result) should be(OK)
@@ -133,7 +133,7 @@ behavior of "ParentsAddressStep.editGet"
       contentAsString(result) should include(
         "What was your parent or guardian&#39;s last UK address?"
       )
-      contentAsString(result) should include("/register-to-vote/overseas/parents-address/lookup")
+      contentAsString(result) should include("/register-to-vote/overseas/parents-address")
     }
   }
 
@@ -141,7 +141,7 @@ behavior of "ParentsAddressStep.editGet"
   it should "bind successfully and redirect to the Previous Address step" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/edit/parents-address")
+        FakeRequest(POST, "/register-to-vote/overseas/edit/parents-address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
             "parentsAddress.uprn" -> "123456789",
@@ -157,7 +157,7 @@ behavior of "ParentsAddressStep.editGet"
   it should "bind successfully and redirect to the Name step with a manual address" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/edit/parents-address")
+        FakeRequest(POST, "/register-to-vote/overseas/edit/parents-address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
             "parentsAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
@@ -176,7 +176,7 @@ behavior of "ParentsAddressStep.editGet"
   it should "bind successfully and redirect to confirmation if all other steps are complete" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/edit/parents-address")
+        FakeRequest(POST, "/register-to-vote/overseas/edit/parents-address/select")
           .withIerSession()
           .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
@@ -196,7 +196,7 @@ behavior of "ParentsAddressStep.editGet"
   it should "display any errors on unsuccessful bind" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/edit/parents-address").withIerSession()
+        FakeRequest(POST, "/register-to-vote/overseas/edit/parents-address/select").withIerSession()
       )
 
       status(result) should be(OK)
@@ -204,7 +204,7 @@ behavior of "ParentsAddressStep.editGet"
         "What was your parent or guardian&#39;s last UK address?"
       )
       contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/overseas/parents-address/lookup")
+      contentAsString(result) should include("/register-to-vote/overseas/parents-address")
     }
   }
 

@@ -195,9 +195,6 @@ POST        /register-to-vote/overseas/last-uk-address                   control
 GET         /register-to-vote/overseas/edit/last-uk-address              controllers.step.overseas.LastUkAddressController.editGet
 POST        /register-to-vote/overseas/edit/last-uk-address              controllers.step.overseas.LastUkAddressController.editPost
 
-#Lookup Last Uk Address
-POST        /register-to-vote/overseas/last-uk-address/lookup            controllers.step.overseas.LastUkAddressController.lookup
-
 #Manual Last Uk Address
 GET         /register-to-vote/overseas/last-uk-address/manual            controllers.step.overseas.LastUkAddressManualController.get
 POST        /register-to-vote/overseas/last-uk-address/manual            controllers.step.overseas.LastUkAddressManualController.post
@@ -215,9 +212,6 @@ GET         /register-to-vote/overseas/parents-address                   control
 POST        /register-to-vote/overseas/parents-address                   controllers.step.overseas.ParentsAddressController.post
 GET         /register-to-vote/overseas/edit/parents-address              controllers.step.overseas.ParentsAddressController.editGet
 POST        /register-to-vote/overseas/edit/parents-address              controllers.step.overseas.ParentsAddressController.editPost
-
-#Lookup Parents Address
-POST        /register-to-vote/overseas/parents-address/lookup            controllers.step.overseas.ParentsAddressController.lookup
 
 #Manual Parents Address
 GET         /register-to-vote/overseas/parents-address/manual            controllers.step.overseas.ParentsAddressManualController.get
