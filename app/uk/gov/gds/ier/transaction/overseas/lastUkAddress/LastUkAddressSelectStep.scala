@@ -11,11 +11,10 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.ApplicationType
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
-import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.service.{AddressService, WithAddressService}
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.form.OverseasFormImplicits
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
-import uk.gov.gds.ier.transaction.crown.address.WithAddressService
 
 class LastUkAddressSelectStep @Inject() (
     val serialiser: JsonSerialiser,

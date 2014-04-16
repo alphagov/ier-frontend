@@ -5,6 +5,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model.{PossibleAddress, Addresses}
 import controllers.step.forces.routes.{PreviousAddressManualController, PreviousAddressPostcodeController}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.service.WithAddressService
 
 trait PreviousAddressSelectMustache
   extends StepTemplate[InprogressForces] {

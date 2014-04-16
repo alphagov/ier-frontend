@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.overseas.lastUkAddress
 
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.transaction.crown.address.WithAddressService
+import uk.gov.gds.ier.service.WithAddressService
 import controllers.step.overseas.routes._
 import uk.gov.gds.ier.model.Addresses
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas

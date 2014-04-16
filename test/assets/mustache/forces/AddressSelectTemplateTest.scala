@@ -1,6 +1,6 @@
 package assets.mustache.forces
 
-import uk.gov.gds.ier.transaction.forces.address.{AddressSelectMustache, WithAddressService}
+import uk.gov.gds.ier.transaction.forces.address.AddressSelectMustache
 import org.jsoup.Jsoup
 import org.scalatest.{Matchers, FlatSpec}
 import play.api.test._
@@ -9,7 +9,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.mustache.StepMustache
 import org.scalatest.mock.MockitoSugar
-import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.service.{AddressService, WithAddressService}
 
 class AddressSelectTemplateTest
   extends FlatSpec

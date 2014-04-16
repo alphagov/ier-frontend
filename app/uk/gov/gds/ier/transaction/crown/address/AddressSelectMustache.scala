@@ -6,6 +6,7 @@ import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import controllers.step.crown.routes.{AddressController, AddressManualController}
 import uk.gov.gds.ier.model.{PossibleAddress, Addresses}
 import uk.gov.gds.ier.serialiser.WithSerialiser
+import uk.gov.gds.ier.service.WithAddressService
 
 trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
     self:WithAddressService

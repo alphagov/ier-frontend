@@ -5,6 +5,7 @@ import controllers.step.forces.routes.{AddressController, AddressManualControlle
 import uk.gov.gds.ier.model.{PossibleAddress, Addresses}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.service.WithAddressService
 
 trait AddressSelectMustache extends StepTemplate[InprogressForces] {
     self:WithAddressService

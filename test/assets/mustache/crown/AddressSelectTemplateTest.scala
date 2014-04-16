@@ -8,8 +8,8 @@ import play.api.test.Helpers._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.service.AddressService
-import uk.gov.gds.ier.transaction.crown.address.{AddressSelectMustache, WithAddressService}
+import uk.gov.gds.ier.service.{AddressService, WithAddressService}
+import uk.gov.gds.ier.transaction.crown.address.AddressSelectMustache
 
 class AddressSelectTemplateTest
   extends FlatSpec

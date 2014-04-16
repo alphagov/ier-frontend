@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.crown.previousAddress
+package uk.gov.gds.ier.service
 
 import uk.gov.gds.ier.service.AddressService
 
