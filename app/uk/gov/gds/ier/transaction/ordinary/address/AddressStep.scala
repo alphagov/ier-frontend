@@ -38,8 +38,6 @@ class AddressStep @Inject() (
     val optAddress = currentState.address 
     if (optAddress.exists(_.postcode.toUpperCase.startsWith("BT"))) 
       GoTo (ExitController.northernIreland)
-    else if (optAddress.exists(_.gssCode.exists(_.startsWith("S")))) 
-      GoTo (ExitController.scotland)
     else AddressSelectController.addressSelectStep
   }
 

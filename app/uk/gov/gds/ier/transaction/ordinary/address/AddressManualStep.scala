@@ -14,11 +14,13 @@ import uk.gov.gds.ier.step.{GoTo, OrdinaryStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import controllers.routes.ExitController
+import uk.gov.gds.ier.service.AddressService
 
 class AddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService: EncryptionService)
+    val encryptionService: EncryptionService,
+    val addressService: AddressService)
   extends OrdinaryStep
   with AddressManualMustache
   with AddressForms {
