@@ -703,3 +703,9 @@ fieldset.invalid {
     }
   }
 }
+
+/* Styles for content specific to pages without JavaScript enabled */
+
+.js-enabled #alt-continue {
+  display: none;
+}
