@@ -30,7 +30,7 @@ class OverseasParentsAddressStepTests
       contentAsString(result) should include(
         "What was your parent or guardian&#39;s last UK address?"
       )
-      contentAsString(result) should include("/register-to-vote/overseas/parents-address")
+      contentAsString(result) should include("action=\"/register-to-vote/overseas/parents-address\"")
     }
   }
 
@@ -117,7 +117,7 @@ class OverseasParentsAddressStepTests
         "What was your parent or guardian&#39;s last UK address?"
       )
       contentAsString(result) should include("Please enter your postcode")
-      contentAsString(result) should include("/register-to-vote/overseas/parents-address")
+      contentAsString(result) should include("action=\"/register-to-vote/overseas/parents-address\"")
     }
   }
 
@@ -133,7 +133,7 @@ behavior of "ParentsAddressStep.editGet"
       contentAsString(result) should include(
         "What was your parent or guardian&#39;s last UK address?"
       )
-      contentAsString(result) should include("/register-to-vote/overseas/parents-address")
+      contentAsString(result) should include("action=\"/register-to-vote/overseas/edit/parents-address/select\"")
     }
   }
 
@@ -204,7 +204,7 @@ behavior of "ParentsAddressStep.editGet"
         "What was your parent or guardian&#39;s last UK address?"
       )
       contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/overseas/parents-address")
+      contentAsString(result) should include("action=\"/register-to-vote/overseas/edit/parents-address/select\"")
     }
   }
 
