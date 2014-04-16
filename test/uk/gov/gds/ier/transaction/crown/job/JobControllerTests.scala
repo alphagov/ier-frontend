@@ -39,13 +39,14 @@ class JobControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/crown/nino"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/declaration-pdf"))
     }
   }
 
 
 
-  it should "bind successfully and redirect to the confirmation step with a complete application" in {
+  it should "bind successfully and redirect always to the declaration download step even with " +
+    "a complete application" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/crown/job-title")
@@ -57,7 +58,7 @@ class JobControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/crown/confirmation"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/declaration-pdf"))
     }
   }
 
@@ -101,11 +102,12 @@ class JobControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/crown/nino"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/declaration-pdf"))
     }
   }
 
-  it should "bind successfully and redirect to the confirmation step with a complete application" in {
+  it should "bind successfully and redirect always to declaration form download even with " +
+    "a complete application" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/crown/edit/job-title")
@@ -117,7 +119,7 @@ class JobControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/crown/confirmation"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/declaration-pdf"))
     }
   }
 
