@@ -45,4 +45,8 @@ object DeclarationPdfDownloadController extends Controller with HeaderNames with
     logger.info("Successfully prepared streaming out " + pdfFileName)
     result
   }
+
+  def fileSizeWithUnit = {
+    (fileContentLength / 1024) + "KB"
+  }
 }

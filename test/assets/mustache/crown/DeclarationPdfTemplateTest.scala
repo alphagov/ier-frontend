@@ -36,7 +36,8 @@ class DeclarationPdfTemplateTest
         ),
         declarationPdfUrl = "http://test/pdf_download",
         showAuthorityUrl = false,
-        authorityName = "Haringey Borough Council"
+        authorityName = "Haringey Borough Council",
+        pdfFileSize = "999KB"
       )
 
       val templateName = mustache.asInstanceOf[MustacheTemplate[InprogressCrown]].mustachePath
@@ -46,6 +47,7 @@ class DeclarationPdfTemplateTest
 
       renderedContent should include ("http://test/pdf_download")
       renderedContent should include ("Haringey Borough Council")
+      renderedContent should include ("999KB")
 
       val f = doc.select("form").first() // there should be only one form in the template
       f should not be(null)
