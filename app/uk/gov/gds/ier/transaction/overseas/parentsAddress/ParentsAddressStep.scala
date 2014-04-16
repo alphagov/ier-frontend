@@ -10,6 +10,7 @@ import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.transaction.crown.address.WithAddressService
+import controllers.routes.ExitController
 
 class ParentsAddressStep @Inject() (
     val serialiser: JsonSerialiser,
@@ -42,10 +43,15 @@ class ParentsAddressStep @Inject() (
         Ok(mustache(hasErrors, routes.post, previousRoute, application).html)
       },
       success => {
-        val mergedApplication = success.merge(application)
-        Redirect(
-          ParentsAddressSelectController.get
-        ) storeInSession mergedApplication
+        val optAddress = success.parentsAddress 
+        if (optAddress.exists(_.postcode.toUpperCase.startsWith("BT"))) 
+          Redirect (ExitController.northernIreland)
+        else {
+          val mergedApplication = success.merge(application)
+          Redirect(
+            ParentsAddressSelectController.get
+          ) storeInSession mergedApplication
+        }
       }
     )
   }

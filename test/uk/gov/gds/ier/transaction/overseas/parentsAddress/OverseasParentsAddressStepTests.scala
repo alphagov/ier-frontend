@@ -51,6 +51,22 @@ class OverseasParentsAddressStepTests
     }
   }
 
+  it should "redirect to the Northern Ireland Exit page if the postcode starts with BT" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/overseas/parents-address/lookup")
+          .withIerSession()
+          .withApplication(incompleteYoungApplication.copy (parentsAddress = None))
+          .withFormUrlEncodedBody(
+            "parentsAddress.uprn" -> "123456789",
+            "parentsAddress.postcode" -> "BT1A 1AA"
+          )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/exit/northern-ireland"))
+    }
+  }
   it should "bind successfully and redirect to the Name step with a manual address" in {
     running(FakeApplication()) {
       val Some(result) = route(

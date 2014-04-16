@@ -14,8 +14,10 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
+import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.form.OverseasFormImplicits
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import controllers.routes.ExitController
 import uk.gov.gds.ier.transaction.crown.address.WithAddressService
 
 class LastUkAddressStep @Inject() (
@@ -54,10 +56,15 @@ class LastUkAddressStep @Inject() (
         Ok(mustache(hasErrors, routes.post, previousRoute, application).html)
       },
       success => {
-        val mergedApplication = success.merge(application)
-        Redirect(
-          LastUkAddressSelectController.get
-        ) storeInSession mergedApplication
+        val optAddress = success.lastUkAddress 
+        if (optAddress.exists(_.postcode.toUpperCase.startsWith("BT"))) 
+          Redirect (ExitController.northernIreland)
+        else {
+          val mergedApplication = success.merge(application)
+          Redirect(
+            LastUkAddressSelectController.get
+          ) storeInSession mergedApplication
+        }
       }
     )
   }
