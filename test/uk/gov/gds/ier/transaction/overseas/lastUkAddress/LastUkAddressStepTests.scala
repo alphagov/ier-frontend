@@ -414,6 +414,21 @@ behavior of "LastUkAddressStep.editGet"
     }
   }
 
+  it should "display errors when posting empty form on a edit manual page" in {
+    running(FakeApplication()) { 
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/overseas/edit/last-uk-address/manual").withIerSession()
+      )
+
+      status(result) should be(OK)
+      contentAsString(result) should include(
+        "What was the UK address where you were last registered to vote?"
+      )
+      contentAsString(result) should include("Please answer this question")
+      contentAsString(result) should include("/register-to-vote/overseas/edit/last-uk-address/manual")
+    }
+  }
+  
   behavior of "Completing a prior step when this question is incomplete"
   it should "stop on this page" in {
     running(FakeApplication()) {
