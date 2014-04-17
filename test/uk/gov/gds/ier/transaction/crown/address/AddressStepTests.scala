@@ -96,6 +96,21 @@ class AddressStepTests
     }
   }
 
+  it should "redirect exit page for Northern Ireland when a postcode starts with BT" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/crown/address")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+          "address.postcode" -> "BT15EQ"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/exit/northern-ireland"))
+    }
+  }
+
   it should "bind successfully and redirect to the next step with a manual address" in {
     running(FakeApplication()) {
       val Some(result) = route(

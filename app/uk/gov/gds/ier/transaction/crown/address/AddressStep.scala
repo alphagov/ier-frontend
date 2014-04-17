@@ -1,16 +1,14 @@
 package uk.gov.gds.ier.transaction.crown.address
 
 import controllers.step.crown.routes._
-import controllers.step.crown.NationalityController
 import com.google.inject.Inject
-import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
-import uk.gov.gds.ier.step.{CrownStep, Routes}
-import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.step.{GoTo, CrownStep, Routes}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import controllers.routes.ExitController
 
 class AddressStep @Inject() (
     val serialiser: JsonSerialiser,
@@ -32,7 +30,10 @@ class AddressStep @Inject() (
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    controllers.step.crown.AddressSelectController.addressSelectStep
+    currentState.address.map(_.address) match {
+      case Some(address) if address.exists(_.postcode.trim.toUpperCase.startsWith("BT")) => GoTo (ExitController.northernIreland)
+      case _ => controllers.step.crown.AddressSelectController.addressSelectStep
+    }
   }
 
   override val onSuccess = {
