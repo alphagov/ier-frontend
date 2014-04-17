@@ -162,7 +162,7 @@ trait AddressConstraints extends CommonConstraints {
         case Some(lastUkAddress) => {
           if (lastUkAddress.address.isDefined) {
             val postcode = lastUkAddress.address.get.postcode
-            if (postcode == "") Invalid("Pleased enter your postcode", keys.address.postcode)
+            if (postcode == "") Invalid("Please enter your postcode", keys.address.postcode)
             else Valid
           }
           else Invalid("Please enter your postcode", keys.address.postcode)
