@@ -36,9 +36,19 @@ class AddressStep @Inject() (
 
   def nextStep(currentState: InprogressOrdinary) = {
     val optAddress = currentState.address 
+    
     if (optAddress.exists(_.postcode.toUpperCase.startsWith("BT"))) 
       GoTo (ExitController.northernIreland)
-    else AddressSelectController.addressSelectStep
+    else {
+      val isScotland = optAddress.exists { add =>
+        addressService.lookupPartialAddress(add.postcode).head.gssCode.exists(_.startsWith("S"))
+      }
+      if (isScotland) 
+        GoTo (ExitController.scotland)
+      else {
+        AddressSelectController.addressSelectStep
+      }
+    }
   }
 
   override val onSuccess = {

@@ -9,6 +9,9 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.step.GoTo
+import controllers.routes.ExitController
+import org.mockito.Mockito._
 
 class AddressControllerTests extends FlatSpec with TestHelpers with Matchers with Mockito {
 
@@ -26,5 +29,26 @@ class AddressControllerTests extends FlatSpec with TestHelpers with Matchers wit
     				"BTabc", None, None)))
 
     val transferedState = addressStep.nextStep(currentState)
+  }
+  
+  it should "redirect to Scotland exit page if the gssCode starts with S" in {
+    val mockedJsonSerialiser = mock[JsonSerialiser]
+    val mockedConfig = mock[Config]
+    val mockedEncryptionService = mock[EncryptionService]
+    val mockedAddressService = mock[AddressService]
+
+    val addressStep = new AddressStep(mockedJsonSerialiser, mockedConfig,
+        mockedEncryptionService, mockedAddressService)
+    
+    val postcode = "EH1 1AA"
+    val addresses = List(PartialAddress(None, None, postcode = postcode, None, gssCode = Some("S1")), 
+        PartialAddress(None, None, postcode = postcode, None, gssCode = Some("S2")))
+      
+    when (mockedAddressService.lookupPartialAddress(postcode)).thenReturn(addresses) 
+    val currentState = completeOrdinaryApplication.copy(
+    		address = Some(PartialAddress(None, None, postcode, None, None)))
+
+    val transferedState = addressStep.nextStep(currentState)
+    transferedState should be (GoTo(ExitController.scotland))
   }
 }
