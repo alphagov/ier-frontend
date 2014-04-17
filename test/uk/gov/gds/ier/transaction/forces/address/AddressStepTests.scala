@@ -175,6 +175,7 @@ behavior of "AddressStep.editGet"
     }
   }
 
+  // this url is unreachable from the confirmation page
   it should "display any errors on unsuccessful bind" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -187,6 +188,38 @@ behavior of "AddressStep.editGet"
       )
       contentAsString(result) should include("Please enter your postcode")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/edit/address\"")
+
+    }
+  }
+
+  it should "display any errors on unsuccessful bind (select)" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/forces/edit/address/select").withIerSession()
+      )
+
+      status(result) should be(OK)
+      contentAsString(result) should include(
+        "What is your UK address?"
+      )
+      contentAsString(result) should include("Please answer this question")
+      contentAsString(result) should include("<form action=\"/register-to-vote/forces/edit/address/select\"")
+
+    }
+  }
+
+  it should "display any errors on unsuccessful bind (manual)" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/forces/edit/address/manual").withIerSession()
+      )
+
+      status(result) should be(OK)
+      contentAsString(result) should include(
+        "What is your UK address?"
+      )
+      contentAsString(result) should include("Please answer this question")
+      contentAsString(result) should include("<form action=\"/register-to-vote/forces/edit/address/manual\"")
 
     }
   }
