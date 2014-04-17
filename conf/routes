@@ -339,9 +339,6 @@ POST        /register-to-vote/forces/address                            controll
 GET         /register-to-vote/forces/edit/address                       controllers.step.forces.AddressController.editGet
 POST        /register-to-vote/forces/edit/address                       controllers.step.forces.AddressController.editPost
 
-#Lookup Address Step
-POST        /register-to-vote/forces/address/lookup                     controllers.step.forces.AddressController.lookup
-
 #Manual Address Step
 GET         /register-to-vote/forces/address/manual                     controllers.step.forces.AddressManualController.get
 POST        /register-to-vote/forces/address/manual                     controllers.step.forces.AddressManualController.post
