@@ -6,6 +6,7 @@ import uk.gov.gds.ier.model.{PossibleAddress, Addresses}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.crown.routes.{PreviousAddressManualController, PreviousAddressPostcodeController}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.service.WithAddressService
 
 trait PreviousAddressSelectMustache
   extends StepTemplate[InprogressCrown] {

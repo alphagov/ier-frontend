@@ -1,16 +1,16 @@
 package uk.gov.gds.ier.transaction.overseas.parentsAddress
 
 import controllers.step.overseas.routes._
-import controllers.step.overseas.PassportCheckController
+import controllers.step.overseas.{PassportCheckController, ParentsAddressSelectController}
 import com.google.inject.Inject
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.service.{AddressService, WithAddressService}
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
-import uk.gov.gds.ier.transaction.crown.address.WithAddressService
 import controllers.routes.ExitController
+import uk.gov.gds.ier.step.GoTo
 
 class ParentsAddressStep @Inject() (
     val serialiser: JsonSerialiser,
@@ -22,37 +22,28 @@ class ParentsAddressStep @Inject() (
   with ParentsAddressForms
   with WithAddressService {
 
-  val validation = parentsAddressForm
+  val validation = parentsLookupAddressForm
 
   val previousRoute = Some(DateLeftUkController.get)
 
   val routes = Routes(
     get = ParentsAddressController.get,
-    post = ParentsAddressController.lookup,
+    post = ParentsAddressController.post,
     editGet = ParentsAddressController.editGet,
-    editPost = ParentsAddressController.lookup
+    editPost = ParentsAddressController.editPost
   )
 
   def nextStep(currentState: InprogressOverseas) = {
-    PassportCheckController.passportCheckStep
-  }
-
-  def lookup = ValidSession requiredFor { implicit request => application =>
-    parentsLookupAddressForm.bindFromRequest().fold(
-      hasErrors => {
-        Ok(mustache(hasErrors, routes.post, previousRoute, application).html)
-      },
-      success => {
-        val optAddress = success.parentsAddress 
-        if (optAddress.exists(_.postcode.toUpperCase.startsWith("BT"))) 
-          Redirect (ExitController.northernIreland)
+    
+    currentState.parentsAddress.map(_.postcode) match {
+      case Some(postcode) => {
+        if (postcode.trim.toUpperCase.startsWith("BT")) 
+          GoTo (ExitController.northernIreland)
         else {
-          val mergedApplication = success.merge(application)
-          Redirect(
-            ParentsAddressSelectController.get
-          ) storeInSession mergedApplication
-        }
+          ParentsAddressSelectController.parentsAddressSelectStep
+        } 
       }
-    )
+      case _ => this 
+    }
   }
 }

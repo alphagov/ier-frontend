@@ -6,13 +6,10 @@ import org.scalatest.mock.MockitoSugar
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.service.{AddressService, WithAddressService}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.transaction.crown.previousAddress.{
-  PreviousAddressSelectMustache,
-  WithAddressService
-}
+import uk.gov.gds.ier.transaction.crown.previousAddress.PreviousAddressSelectMustache
 
 /**
  * This test is also a good example how select from list of addresses for postcode looks like,
