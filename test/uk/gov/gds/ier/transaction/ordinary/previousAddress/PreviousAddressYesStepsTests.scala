@@ -26,7 +26,7 @@ class PreviousAddressYesStepsTests
         "What was your previous address?"
       )
       contentAsString(result) should include("Question 8 of 11")
-      contentAsString(result) should include("<form action=\"/register-to-vote/previous-address/lookup\"")
+      contentAsString(result) should include("<form action=\"/register-to-vote/previous-address/postcode\"")
     }
   }
 
@@ -75,7 +75,7 @@ class PreviousAddressYesStepsTests
         "What was your previous address?"
       )
       contentAsString(result) should include("Please enter your postcode")
-      contentAsString(result) should include("/register-to-vote/previous-address/lookup")
+      contentAsString(result) should include("/register-to-vote/previous-address/postcode")
     }
   }
 
@@ -149,7 +149,7 @@ class PreviousAddressYesStepsTests
         "What was your previous address?"
       )
       contentAsString(result) should include("Question 8 of 11")
-      contentAsString(result) should include("<form action=\"/register-to-vote/previous-address/lookup\"")
+      contentAsString(result) should include("<form action=\"/register-to-vote/edit/previous-address/postcode\"")
     }
   }
 
@@ -220,7 +220,7 @@ class PreviousAddressYesStepsTests
         "What was your previous address?"
       )
       contentAsString(result) should include("Please enter your postcode")
-      contentAsString(result) should include("/register-to-vote/previous-address/lookup")
+      contentAsString(result) should include("/register-to-vote/edit/previous-address/postcode")
     }
   }
 

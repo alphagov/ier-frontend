@@ -33,11 +33,7 @@ class AddressFirstStep @Inject ()(
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    if (currentState.address.flatMap(_.hasUkAddress) == Some(true)) {
-      controllers.step.crown.AddressController.addressStep
-    } else {
-      controllers.step.crown.AddressController.addressStep
-    }
+    controllers.step.crown.AddressController.addressStep
   }
 }
 
