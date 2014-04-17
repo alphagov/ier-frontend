@@ -36,7 +36,7 @@ class AddressStep @Inject() (
 
   def nextStep(currentState: InprogressOrdinary) = {
     currentState.address.map(_.postcode) match {
-        case Some(postcode) if postcode.toUpperCase.startsWith("BT") => GoTo (ExitController.northernIreland)
+        case Some(postcode) if postcode.trim.toUpperCase.startsWith("BT") => GoTo (ExitController.northernIreland)
         case _ => AddressSelectController.addressSelectStep
       }
   }
