@@ -363,9 +363,6 @@ POST        /register-to-vote/forces/previous-address/postcode          controll
 GET         /register-to-vote/forces/edit/previous-address/postcode     controllers.step.forces.PreviousAddressPostcodeController.editGet
 POST        /register-to-vote/forces/edit/previous-address/postcode     controllers.step.forces.PreviousAddressPostcodeController.editPost
 
-#Previous Address Step - postcode lookup
-POST        /register-to-vote/forces/previous-address/lookup            controllers.step.forces.PreviousAddressPostcodeController.lookup
-
 #Previous Address Step - selection from postcode
 GET         /register-to-vote/forces/previous-address/select            controllers.step.forces.PreviousAddressSelectController.get
 POST        /register-to-vote/forces/previous-address/select            controllers.step.forces.PreviousAddressSelectController.post

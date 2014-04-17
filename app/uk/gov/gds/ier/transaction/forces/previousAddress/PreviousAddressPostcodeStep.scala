@@ -24,26 +24,12 @@ class PreviousAddressPostcodeStep @Inject() (
 
   val routes = Routes(
     get = PreviousAddressPostcodeController.get,
-    post = PreviousAddressPostcodeController.lookup,
+    post = PreviousAddressPostcodeController.post,
     editGet = PreviousAddressPostcodeController.editGet,
-    editPost = PreviousAddressPostcodeController.lookup
+    editPost = PreviousAddressPostcodeController.editPost
   )
 
   def nextStep(currentState: InprogressForces) = {
     controllers.step.forces.PreviousAddressSelectController.previousAddressSelectStep
-  }
-
-  def lookup = ValidSession requiredFor { implicit request => application =>
-    validation.bindFromRequest().fold(
-      hasErrors => {
-        Ok(mustache(hasErrors, routes.post, previousRoute, application).html)
-      },
-      success => {
-        val mergedApplication = success.merge(application)
-        Redirect(
-          PreviousAddressSelectController.get
-        ) storeInSession mergedApplication
-      }
-    )
   }
 }
