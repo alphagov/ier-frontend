@@ -8,7 +8,7 @@ trait AddressLookupMustache extends StepTemplate[InprogressCrown] {
 
   private def pageTitle(hasUkAddress: Option[String]): String = {
     hasUkAddress match {
-      case Some(hasUkAddress) if (hasUkAddress.toBoolean) => "What is your UK address?"
+      case Some(hasUkAddress) if (!hasUkAddress.isEmpty && hasUkAddress.toBoolean) => "What is your UK address?"
       case _ => "What was your last UK address?"
     }
   }

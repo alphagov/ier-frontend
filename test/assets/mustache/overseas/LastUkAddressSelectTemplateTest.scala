@@ -8,8 +8,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.overseas.lastUkAddress.LastUkAddressSelectMustache
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.transaction.crown.address.WithAddressService
-import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.service.{AddressService, WithAddressService}
 import org.scalatest.mock.MockitoSugar
 
 class LastUkAddressSelectTemplateTest

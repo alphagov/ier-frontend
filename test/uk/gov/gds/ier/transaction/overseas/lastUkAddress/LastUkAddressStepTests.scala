@@ -34,7 +34,7 @@ class LastUkAddressStepTests
   it should "bind successfully and redirect a renewer to the Name step" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
+        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/select")
           .withIerSession()
           .withApplication(incompleteRenewerApplication)
           .withFormUrlEncodedBody(
@@ -51,7 +51,7 @@ class LastUkAddressStepTests
   it should "bind successfully and redirect a renewer to the Name step with manual address" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
+        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/select")
           .withIerSession()
           .withApplication(incompleteRenewerApplication)
           .withFormUrlEncodedBody(
@@ -71,7 +71,7 @@ class LastUkAddressStepTests
   it should "redirect a renewer to the Northern Ireland Exit page if the postcode starts with BT" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/lookup")
+        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
           .withIerSession()
           .withApplication(incompleteRenewerApplication)
           .withFormUrlEncodedBody(
@@ -87,7 +87,7 @@ class LastUkAddressStepTests
   it should "bind successfully and redirect a young voter to the Passport step" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
+        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/select")
           .withIerSession()
           .withApplication(incompleteYoungApplication)
           .withFormUrlEncodedBody(
@@ -104,7 +104,7 @@ class LastUkAddressStepTests
   it should "bind successfully and redirect a young voter to the Name step (manual address)" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
+        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/select")
           .withIerSession()
           .withApplication(incompleteYoungApplication)
           .withFormUrlEncodedBody(
@@ -123,7 +123,7 @@ class LastUkAddressStepTests
   it should "bind successfully and redirect a new voter to the Passport step" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
+        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/select")
           .withIerSession()
           .withApplication(incompleteNewApplication)
           .withFormUrlEncodedBody(
@@ -140,7 +140,7 @@ class LastUkAddressStepTests
   it should "bind successfully and redirect a new voter to passport step (manual address)" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
+        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/select")
           .withIerSession()
           .withApplication(incompleteNewApplication)
           .withFormUrlEncodedBody(
@@ -160,7 +160,7 @@ class LastUkAddressStepTests
   it should "bind successfully and redirect a special voter to the Passport step" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
+        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/select")
           .withIerSession()
           .withApplication(incompleteForcesApplication)
           .withFormUrlEncodedBody(
@@ -177,7 +177,7 @@ class LastUkAddressStepTests
   it should "bind successfully, redirect a special voter to Passport step(manual address)" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
+        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/select")
           .withIerSession()
           .withApplication(incompleteForcesApplication)
           .withFormUrlEncodedBody(
@@ -197,7 +197,7 @@ class LastUkAddressStepTests
   it should "bind successfully and redirect to confirmation if all other steps are complete" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
+        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/select")
           .withIerSession()
           .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
@@ -224,7 +224,7 @@ class LastUkAddressStepTests
       contentAsString(result) should include(
         "What was the UK address where you were last registered to vote?"
       )
-      contentAsString(result) should include("Please answer this question")
+      contentAsString(result) should include("Please enter your postcode")
       contentAsString(result) should include("/register-to-vote/overseas/last-uk-address")
     }
   }
@@ -233,7 +233,7 @@ behavior of "LastUkAddressStep.editGet"
   it should "display the page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(GET, "/register-to-vote/overseas/edit/last-uk-address").withIerSession()
+        FakeRequest(GET, "/register-to-vote/overseas/edit/last-uk-address/select").withIerSession()
       )
 
       status(result) should be(OK)
@@ -241,7 +241,7 @@ behavior of "LastUkAddressStep.editGet"
       contentAsString(result) should include(
         "What was the UK address where you were last registered to vote?"
       )
-      contentAsString(result) should include("/register-to-vote/overseas/last-uk-address/lookup")
+      contentAsString(result) should include("/register-to-vote/overseas/edit/last-uk-address")
     }
   }
 
@@ -249,7 +249,7 @@ behavior of "LastUkAddressStep.editGet"
   it should "bind successfully and redirect a renewer to the Name step" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
+        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/select")
           .withIerSession()
           .withApplication(incompleteRenewerApplication)
           .withFormUrlEncodedBody(
@@ -266,7 +266,7 @@ behavior of "LastUkAddressStep.editGet"
   it should "bind successfully and redirect a renewer to the Name step with manual address" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
+        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/select")
           .withIerSession()
           .withApplication(incompleteRenewerApplication)
           .withFormUrlEncodedBody(
@@ -286,7 +286,7 @@ behavior of "LastUkAddressStep.editGet"
   it should "bind successfully and redirect a young voter to the Passport step" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
+        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/select")
           .withIerSession()
           .withApplication(incompleteYoungApplication)
           .withFormUrlEncodedBody(
@@ -303,7 +303,7 @@ behavior of "LastUkAddressStep.editGet"
   it should "bind successfully and redirect a young voter to the Name step (manual address)" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
+        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/select")
           .withIerSession()
           .withApplication(incompleteYoungApplication)
           .withFormUrlEncodedBody(
@@ -323,7 +323,7 @@ behavior of "LastUkAddressStep.editGet"
   it should "bind successfully and redirect a new voter to the Passport step" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
+        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/select")
           .withIerSession()
           .withApplication(incompleteNewApplication)
           .withFormUrlEncodedBody(
@@ -340,7 +340,7 @@ behavior of "LastUkAddressStep.editGet"
   it should "bind successfully and redirect a new voter to passport step (manual address)" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
+        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/select")
           .withIerSession()
           .withApplication(incompleteNewApplication)
           .withFormUrlEncodedBody(
@@ -360,7 +360,7 @@ behavior of "LastUkAddressStep.editGet"
   it should "bind successfully and redirect a special voter to the Passport step" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
+        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/select")
           .withIerSession()
           .withApplication(incompleteForcesApplication)
           .withFormUrlEncodedBody(
@@ -377,7 +377,7 @@ behavior of "LastUkAddressStep.editGet"
   it should "bind successfully, redirect a special voter to Passport step(manual address)" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
+        FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/select")
           .withIerSession()
           .withApplication(incompleteForcesApplication)
           .withFormUrlEncodedBody(
@@ -397,7 +397,7 @@ behavior of "LastUkAddressStep.editGet"
   it should "bind successfully and redirect to confirmation if all other steps are complete" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/edit/last-uk-address")
+        FakeRequest(POST, "/register-to-vote/overseas/edit/last-uk-address/select")
           .withIerSession()
           .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
@@ -414,10 +414,10 @@ behavior of "LastUkAddressStep.editGet"
     }
   }
 
-  it should "display any errors on unsuccessful bind" in {
-    running(FakeApplication()) {
+  it should "display errors when posting empty form on a edit manual page" in {
+    running(FakeApplication()) { 
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/edit/last-uk-address").withIerSession()
+        FakeRequest(POST, "/register-to-vote/overseas/edit/last-uk-address/manual").withIerSession()
       )
 
       status(result) should be(OK)
@@ -425,10 +425,10 @@ behavior of "LastUkAddressStep.editGet"
         "What was the UK address where you were last registered to vote?"
       )
       contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/overseas/last-uk-address/lookup")
+      contentAsString(result) should include("/register-to-vote/overseas/edit/last-uk-address/manual")
     }
   }
-
+  
   behavior of "Completing a prior step when this question is incomplete"
   it should "stop on this page" in {
     running(FakeApplication()) {

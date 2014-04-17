@@ -95,10 +95,7 @@ trait AddressForms extends AddressConstraints {
         address = Some(LastUkAddress(hasUkAddress, addr))
       )
     ) (
-      inprogress => Some(
-        inprogress.address.get.hasUkAddress,
-        inprogress.address.get.address
-      )
+      inprogress => inprogress.address.map(address => (address.hasUkAddress, address.address))
     ).verifying( postcodeIsNotEmpty )
   )
 
@@ -134,10 +131,7 @@ trait AddressForms extends AddressConstraints {
         address = Some(LastUkAddress(hasUkAddress, addr))
       )
     ) (
-      inprogress => Some(
-        inprogress.address.get.hasUkAddress,
-        inprogress.address.get.address
-      )
+      inprogress => inprogress.address.map(address => (address.hasUkAddress, address.address))
     ).verifying( manualAddressIsRequired )
   )
 }

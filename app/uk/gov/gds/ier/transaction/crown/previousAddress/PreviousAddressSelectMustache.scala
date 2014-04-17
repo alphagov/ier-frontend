@@ -6,6 +6,7 @@ import uk.gov.gds.ier.model.{PossibleAddress, Addresses}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.crown.routes.{PreviousAddressManualController, PreviousAddressPostcodeController}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.service.WithAddressService
 
 trait PreviousAddressSelectMustache
   extends StepTemplate[InprogressCrown] {
@@ -30,8 +31,8 @@ trait PreviousAddressSelectMustache
 
     implicit val progressForm = form
 
-    val selectedUprn = form(keys.previousAddress.previousAddress.uprn).value
-    val postcode = form(keys.previousAddress.previousAddress.postcode).value
+    val selectedUprn = form(keys.previousAddress.uprn).value
+    val postcode = form(keys.previousAddress.postcode).value
 
     val storedAddresses = for(
       jsonList <- form(keys.possibleAddresses.jsonList).value;

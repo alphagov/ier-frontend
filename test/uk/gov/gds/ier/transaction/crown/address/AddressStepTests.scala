@@ -8,6 +8,7 @@ import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.model.LastUkAddress
 import akka.util.Timeout
 import java.util.concurrent.TimeUnit
+import scala.concurrent.duration.Duration
 
 class AddressStepTests
   extends FlatSpec
@@ -28,7 +29,7 @@ class AddressStepTests
         "What was your last UK address?"
       )
       contentAsString(result) should include("Question 2")
-      contentAsString(result) should include("<form action=\"/register-to-vote/crown/address/lookup\"")
+      contentAsString(result) should include("<form action=\"/register-to-vote/crown/address\"")
     }
   }
 
@@ -51,7 +52,7 @@ class AddressStepTests
         "What was your last UK address?"
       )
       contentAsString(result) should include("Question 2")
-      contentAsString(result) should include("<form action=\"/register-to-vote/crown/address/lookup\"")
+      contentAsString(result) should include("<form action=\"/register-to-vote/crown/address\"")
     }
   }
 
@@ -74,7 +75,7 @@ class AddressStepTests
         "What is your UK address?"
       )
       contentAsString(result) should include("Question 2")
-      contentAsString(result) should include("<form action=\"/register-to-vote/crown/address/lookup\"")
+      contentAsString(result) should include("<form action=\"/register-to-vote/crown/address\"")
     }
   }
 
@@ -82,7 +83,7 @@ class AddressStepTests
   it should "bind successfully and redirect to the next step" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/crown/address")
+        FakeRequest(POST, "/register-to-vote/crown/address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
             "address.uprn" -> "123456789",
@@ -91,14 +92,29 @@ class AddressStepTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/crown/previous-address"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/nationality"))
+    }
+  }
+
+  it should "redirect exit page for Northern Ireland when a postcode starts with BT" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/crown/address")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+          "address.postcode" -> "BT15EQ"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/exit/northern-ireland"))
     }
   }
 
   it should "bind successfully and redirect to the next step with a manual address" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/crown/address")
+        FakeRequest(POST, "/register-to-vote/crown/address/manual")
           .withIerSession()
           .withFormUrlEncodedBody(
             "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
@@ -110,14 +126,14 @@ class AddressStepTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/crown/previous-address"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/nationality"))
     }
   }
 
   it should "bind successfully and redirect to confirmation if all other steps are complete" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/crown/address")
+        FakeRequest(POST, "/register-to-vote/crown/address/manual")
           .withIerSession()
           .withApplication(completeCrownApplication)
           .withFormUrlEncodedBody(
@@ -145,8 +161,8 @@ class AddressStepTests
       contentAsString(result) should include(
         "What was your last UK address?"
       )
-      contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("<form action=\"/register-to-vote/crown/address/lookup\"")
+      contentAsString(result) should include("Please enter your postcode")
+      contentAsString(result) should include("<form action=\"/register-to-vote/crown/address\"")
 
     }
   }
@@ -164,7 +180,7 @@ behavior of "AddressStep.editGet"
         "What was your last UK address?"
       )
       contentAsString(result) should include("Question 2")
-      contentAsString(result) should include("<form action=\"/register-to-vote/crown/address/lookup\"")
+      contentAsString(result) should include("<form action=\"/register-to-vote/crown/edit/address\"")
 
     }
   }
@@ -173,7 +189,7 @@ behavior of "AddressStep.editGet"
   it should "bind successfully and redirect to the next step" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/crown/edit/address")
+        FakeRequest(POST, "/register-to-vote/crown/edit/address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
             "address.uprn" -> "123456789",
@@ -182,14 +198,14 @@ behavior of "AddressStep.editGet"
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/crown/previous-address"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/nationality"))
     }
   }
 
   it should "bind successfully and redirect to the next step with a manual address" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/crown/edit/address")
+        FakeRequest(POST, "/register-to-vote/crown/edit/address/manual")
           .withIerSession()
           .withFormUrlEncodedBody(
             "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
@@ -201,14 +217,14 @@ behavior of "AddressStep.editGet"
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/crown/previous-address"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/nationality"))
     }
   }
 
   it should "bind successfully and redirect to confirmation if all other steps are complete" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/crown/edit/address")
+        FakeRequest(POST, "/register-to-vote/crown/edit/address/manual")
           .withIerSession()
           .withApplication(completeCrownApplication)
           .withFormUrlEncodedBody(
@@ -235,8 +251,8 @@ behavior of "AddressStep.editGet"
       contentAsString(result) should include(
         "What was your last UK address?"
       )
-      contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("<form action=\"/register-to-vote/crown/address/lookup\"")
+      contentAsString(result) should include("Please enter your postcode")
+      contentAsString(result) should include("<form action=\"/register-to-vote/crown/edit/address\"")
 
     }
   }

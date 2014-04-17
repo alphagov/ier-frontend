@@ -6,6 +6,7 @@ import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import controllers.step.crown.routes.{AddressController, AddressManualController}
 import uk.gov.gds.ier.model.{PossibleAddress, Addresses}
 import uk.gov.gds.ier.serialiser.WithSerialiser
+import uk.gov.gds.ier.service.WithAddressService
 
 trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
     self:WithAddressService
@@ -13,7 +14,7 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
 
   private def pageTitle(hasUkAddress: Option[String]): String = {
     hasUkAddress match {
-      case Some(hasUkAddress) if (hasUkAddress.toBoolean) => "What is your UK address?"
+      case Some(hasUkAddress) if (!hasUkAddress.isEmpty && hasUkAddress.toBoolean) => "What is your UK address?"
       case _ => "What was your last UK address?"
     }
   }
