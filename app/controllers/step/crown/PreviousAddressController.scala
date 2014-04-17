@@ -17,7 +17,6 @@ object PreviousAddressPostcodeController extends DelegatingController[PreviousAd
   def post = delegate.post
   def editGet = delegate.editGet
   def editPost = delegate.editPost
-  def lookup = delegate.lookup
 
   def previousPostcodeAddressStep = delegate
 }

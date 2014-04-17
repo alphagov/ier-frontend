@@ -510,9 +510,6 @@ POST        /register-to-vote/crown/previous-address/postcode          controlle
 GET         /register-to-vote/crown/edit/previous-address/postcode     controllers.step.crown.PreviousAddressPostcodeController.editGet
 POST        /register-to-vote/crown/edit/previous-address/postcode     controllers.step.crown.PreviousAddressPostcodeController.editPost
 
-#Previous Address Step - postcode lookup
-POST        /register-to-vote/crown/previous-address/lookup            controllers.step.crown.PreviousAddressPostcodeController.lookup
-
 #Previous Address Step - selection from postcode
 GET         /register-to-vote/crown/previous-address/select            controllers.step.crown.PreviousAddressSelectController.get
 POST        /register-to-vote/crown/previous-address/select            controllers.step.crown.PreviousAddressSelectController.post

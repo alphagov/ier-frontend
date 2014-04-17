@@ -31,8 +31,8 @@ trait PreviousAddressSelectMustache
 
     implicit val progressForm = form
 
-    val selectedUprn = form(keys.previousAddress.previousAddress.uprn).value
-    val postcode = form(keys.previousAddress.previousAddress.postcode).value
+    val selectedUprn = form(keys.previousAddress.uprn).value
+    val postcode = form(keys.previousAddress.postcode).value
 
     val storedAddresses = for(
       jsonList <- form(keys.possibleAddresses.jsonList).value;
