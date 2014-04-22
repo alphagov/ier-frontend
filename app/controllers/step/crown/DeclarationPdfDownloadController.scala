@@ -17,11 +17,14 @@ object DeclarationPdfDownloadController extends Controller with HeaderNames with
     logger.info("About to stream out " + pdfFileName)
     val pdfFileUrl = Play.resource(pdfFileName)
     val pdfFile = pdfFileUrl match {
-      case Some(pdfFileUrl) => new File(pdfFileUrl.toURI)
+      case Some(pdfFileUrl) => {
+        logger.info("URI for " + pdfFileName + " is " + pdfFileUrl.toURI)
+        new File(pdfFileUrl.toURI)
+      }
       case None => throw new IllegalArgumentException(s"Play.resource($pdfFileName) returned None")
     }
     logger.info("Prepare enumerator for " + pdfFileName)
-    logger.info("URI for " + pdfFileName + " is " + pdfFileUrl.get.toURI)
+
     logger.info("Absolute path for " + pdfFileName + " is " + pdfFile.getAbsolutePath)
     val fileContent: Enumerator[Array[Byte]] = Enumerator.fromFile(pdfFile)
     logger.info("Enumerator ready for " + pdfFileName)
