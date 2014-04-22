@@ -40,7 +40,6 @@ class ConfirmationStep @Inject ()(
   def template(form: ErrorTransformForm[InprogressOrdinary]): Html = {
     Confirmation.confirmationPage(
       form,
-      previousRoute.map(_.url).getOrElse("#"),
       routes.post.url
     )
   }

@@ -22,7 +22,6 @@ trait ConfirmationMustache {
 
   case class ConfirmationModel(
     completeApplicantDetails: List[ConfirmationQuestion],
-    backUrl: String,
     postUrl: String
   )
 
@@ -30,7 +29,6 @@ trait ConfirmationMustache {
 
     def confirmationPage(
         form: ErrorTransformForm[InprogressOrdinary],
-        backUrl: String,
         postUrl: String) = {
 
       val confirmation = new ConfirmationBlocks(form)
@@ -51,7 +49,6 @@ trait ConfirmationMustache {
 
       val data = ConfirmationModel(
         completeApplicantDetails = completeApplicantData,
-        backUrl = backUrl,
         postUrl = postUrl
       )
 

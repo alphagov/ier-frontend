@@ -39,7 +39,6 @@ class ConfirmationStep @Inject() (val encryptionService: EncryptionService,
   def template(form: ErrorTransformForm[InprogressOverseas]) = {
     Confirmation.confirmationPage(
       form,
-      previousRoute.map(_.url).getOrElse("#"),
       routes.post.url
     )
   }

@@ -25,7 +25,6 @@ trait ConfirmationMustache {
       applicantDetails: List[ConfirmationQuestion],
       partnerDetails: List[ConfirmationQuestion],
       displayPartnerBlock: Boolean,
-      backUrl: String,
       postUrl: String
   )
 
@@ -33,7 +32,6 @@ trait ConfirmationMustache {
 
     def confirmationData(
         form: ErrorTransformForm[InprogressCrown],
-        backUrl: String,
         postUrl: String) = {
 
       val confirmation = new ConfirmationBlocks(form)
@@ -61,17 +59,15 @@ trait ConfirmationMustache {
         partnerDetails = partnerData,
         applicantDetails = applicantData,
         displayPartnerBlock = !partnerData.isEmpty,
-        backUrl = backUrl,
         postUrl = postUrl
       )
     }
 
     def confirmationPage(
         form: ErrorTransformForm[InprogressCrown],
-        backUrl: String,
         postUrl: String) = {
 
-      val data = confirmationData(form, backUrl, postUrl)
+      val data = confirmationData(form, postUrl)
       val content = Mustache.render("crown/confirmation", data)
 
       MainStepTemplate(
