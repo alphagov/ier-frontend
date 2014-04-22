@@ -18,7 +18,6 @@ class AddressTemplateTest
     running(FakeApplication()) {
       val data = AddressModel(
         question = Question(postUrl = "/register-to-vote/overseas/address",
-        backUrl = "/register-to-vote/overseas/nino",
         number = "11",
         title = "Where do you live?"
         ),
@@ -27,8 +26,8 @@ class AddressTemplateTest
           name = "overseasAddressCountryName",
           classes = "overseasAddressCountryClass",
           value = "United Kingdom",
-          optionList = List(SelectOption(value = "United Kingdom", text = "United Kingdom", 
-              selected = "selected=\"selected\""), 
+          optionList = List(SelectOption(value = "United Kingdom", text = "United Kingdom",
+              selected = "selected=\"selected\""),
               SelectOption(value = "France", text = "France"))
         ),
         addressLine1 = Field(
@@ -77,7 +76,7 @@ class AddressTemplateTest
         e.attr("name") should be("overseasAddressCountryName")
         e.attr("class") should include("overseasAddressCountryClass")
       }
-      
+
       {
        val e = doc.select("div[class*=overseasAddressCountryClass] select option[selected]").first()
        e should not be(null)

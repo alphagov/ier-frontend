@@ -4,7 +4,7 @@ import uk.gov.gds.ier.validation.{FormKeys, Key, ErrorTransformForm}
 import uk.gov.gds.ier.step.InprogressApplication
 
 trait MustacheModel extends FormKeys {
-  
+
   case class Text(value:String = "")
   case class FieldSet (classes:String = "")
   case class Field (
@@ -19,8 +19,6 @@ trait MustacheModel extends FormKeys {
   case class SelectOption(value:String, text:String, selected:String = "")
   case class Question (
       postUrl:String = "",
-      backUrl:String = "",
-      showBackUrl:Boolean = true,
       number:String = "",
       title:String = "",
       errorMessages:Seq[String] = Seq.empty

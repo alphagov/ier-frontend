@@ -18,7 +18,6 @@ class ContactTemplateTest
     running(FakeApplication()) {
       val data = ContactModel(
         question = Question(postUrl = "/whatever-url",
-        backUrl = "",
         number = "1",
         title = "contact title"
         ),

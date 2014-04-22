@@ -38,7 +38,6 @@ class DateOfBirthMustacheTest
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/forces/date-of-birth")
-    dateOfBirthModel.question.backUrl should be("")
 
     dateOfBirthModel.day.value should be("")
     dateOfBirthModel.month.value should be("")
@@ -57,7 +56,6 @@ class DateOfBirthMustacheTest
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/forces/date-of-birth")
-    dateOfBirthModel.question.backUrl should be("")
 
     dateOfBirthModel.day.value should be("12")
     dateOfBirthModel.month.value should be("12")
@@ -76,7 +74,6 @@ class DateOfBirthMustacheTest
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/forces/date-of-birth")
-    dateOfBirthModel.question.backUrl should be("")
 
     dateOfBirthModel.day.value should be("")
     dateOfBirthModel.month.value should be("")

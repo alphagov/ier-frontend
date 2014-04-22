@@ -18,21 +18,20 @@ class DateOfBirthMustacheTest
   with DateOfBirthForms
   with ErrorMessages
   with FormKeys
-  with TestHelpers 
+  with TestHelpers
   with DateOfBirthMustache {
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = dateOfBirthForm
-    
+
     val dateOfBirthModel = mustache.data(
-        emptyApplicationForm, 
+        emptyApplicationForm,
         Call("POST", "/register-to-vote/date-of-birth"),
         InprogressCrown()
     ).data.asInstanceOf[DateOfBirthModel]
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/date-of-birth")
-    dateOfBirthModel.question.backUrl should be("")
 
     dateOfBirthModel.day.value should be("")
     dateOfBirthModel.month.value should be("")
@@ -42,7 +41,7 @@ class DateOfBirthMustacheTest
   it should "fully filled applicant dob should produce Mustache Model with dob values present" in {
     val filledForm = dateOfBirthForm.fillAndValidate(InprogressCrown(
       dob = Some(DateOfBirth(Some(DOB(day=12, month= 12, year = 1980)), None))))
-      
+
     val dateOfBirthModel = mustache.data(
         filledForm,
         Call("POST", "/register-to-vote/date-of-birth"),
@@ -51,7 +50,6 @@ class DateOfBirthMustacheTest
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/date-of-birth")
-    dateOfBirthModel.question.backUrl should be("")
 
     dateOfBirthModel.day.value should be("12")
     dateOfBirthModel.month.value should be("12")
@@ -70,7 +68,6 @@ class DateOfBirthMustacheTest
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/date-of-birth")
-    dateOfBirthModel.question.backUrl should be("")
 
     dateOfBirthModel.day.value should be("")
     dateOfBirthModel.month.value should be("")

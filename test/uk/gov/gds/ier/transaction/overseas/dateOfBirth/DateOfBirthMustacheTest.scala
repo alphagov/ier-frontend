@@ -24,7 +24,7 @@ class DateOfBirthMustacheTest
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = dateOfBirthForm
-    
+
     val dateOfBirthModel = mustache.data(
       emptyApplicationForm,
       new Call("POST", "/register-to-vote/overseas/date-of-birth"),
@@ -33,7 +33,6 @@ class DateOfBirthMustacheTest
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/overseas/date-of-birth")
-    dateOfBirthModel.question.backUrl should be("")
 
     dateOfBirthModel.day.value should be("")
     dateOfBirthModel.month.value should be("")
@@ -43,7 +42,7 @@ class DateOfBirthMustacheTest
   it should "fully filled applicant dob should produce Mustache Model with dob values present" in {
     val filledForm = dateOfBirthForm.fillAndValidate(InprogressOverseas(
       dob = Some(DOB(day=12, month= 12, year = 1980))))
-      
+
     val dateOfBirthModel = mustache.data(
       filledForm,
       new Call("POST", "/register-to-vote/overseas/date-of-birth"),
@@ -53,7 +52,6 @@ class DateOfBirthMustacheTest
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/overseas/date-of-birth")
-    dateOfBirthModel.question.backUrl should be("")
 
     dateOfBirthModel.day.value should be("12")
     dateOfBirthModel.month.value should be("12")
