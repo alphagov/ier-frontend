@@ -41,7 +41,7 @@ class AddressStep @Inject() (
       GoTo (ExitController.northernIreland)
     else {
       val isScotland = optAddress.exists { add =>
-        addressService.lookupPartialAddress(add.postcode).head.gssCode.exists(_.startsWith("S"))
+        addressService.lookupPartialAddress(add.postcode).exists(_.gssCode.exists(_.startsWith("S")))
       }
       if (isScotland) 
         GoTo (ExitController.scotland)
