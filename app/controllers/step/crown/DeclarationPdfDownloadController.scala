@@ -12,10 +12,11 @@ import play.api.Play.current
 object DeclarationPdfDownloadController extends Controller with HeaderNames {
 
   def download = Action {
-    val pdfFileUrl = Play.resource("public/pdf/crown-servant-declaration-blank.pdf")
+    val pdfFileName = "/public/pdf/crown-servant-declaration-blank.pdf"
+    val pdfFileUrl = Play.resource(pdfFileName)
     val pdfFile = pdfFileUrl match {
       case Some(pdfFileUrl) => new File(pdfFileUrl.toURI)
-      case None => throw new IllegalArgumentException(s"Play.resource($pdfFileUrl) returned None")
+      case None => throw new IllegalArgumentException(s"Play.resource($pdfFileName) returned None")
     }
     val fileContent: Enumerator[Array[Byte]] = Enumerator.fromFile(pdfFile)
 
