@@ -7,8 +7,10 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
-import uk.gov.gds.ier.step.{ForcesStep, Routes}
+import uk.gov.gds.ier.step.{GoTo, ForcesStep, Routes}
+import controllers.routes._
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import scala.Some
 
 class AddressStep @Inject() (
     val serialiser: JsonSerialiser,
@@ -31,7 +33,14 @@ class AddressStep @Inject() (
   )
 
   def nextStep(currentState: InprogressForces) = {
-    AddressSelectController.addressSelectStep
+    currentState.address.map(_.postcode) match {
+      case Some(postcode) if postcode.trim.toUpperCase.startsWith("BT") => GoTo (ExitController.northernIreland)
+      case _ => AddressSelectController.addressSelectStep
+    }
+  }
+
+  override val onSuccess = {
+    GoToNextStep()
   }
 
 }
