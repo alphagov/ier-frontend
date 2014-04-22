@@ -36,6 +36,7 @@ object DeclarationPdfDownloadController extends Controller with HeaderNames with
     val result = SimpleResult(
       header = ResponseHeader(200,
         Map(
+          CONTENT_TYPE -> "application/pdf",
           CONTENT_LENGTH -> fileContentLength.toString,
           CONTENT_DISPOSITION -> "attachment; filename=\"crown-servant-declaration.pdf\""
         )),
