@@ -1,38 +1,42 @@
 package controllers.step.crown
 
 import play.api.mvc.{ResponseHeader, SimpleResult, Action}
-import play.api.libs.iteratee.Enumerator
-import java.io.File
+import play.api.libs.iteratee.{Iteratee, Enumerator}
 import play.api.libs.concurrent.Execution.Implicits._
 import play.api.mvc.Controller
 import play.api.http.HeaderNames
 import play.api.Play
 import play.api.Play.current
 import uk.gov.gds.ier.logging.Logging
+import scala.concurrent.Await
+import scala.concurrent.duration._
 
 object DeclarationPdfDownloadController extends Controller with HeaderNames with Logging {
 
+  val pdfFileName = "/public/pdf/crown-servant-declaration-blank.pdf"
+
+  private lazy val pdfFileStream = Play.resourceAsStream(pdfFileName) match {
+    case Some(pdfFileStream) => pdfFileStream
+    case None => throw new IllegalArgumentException(s"Play.resource($pdfFileName) returned None")
+  }
+
+  private lazy val fileContent: Enumerator[Array[Byte]] = Enumerator.fromStream(pdfFileStream)
+
+  lazy val fileContentLength: Int = Await.result(
+    fileContent.run(Iteratee.fold(0){(totalLength, chunk) => totalLength + chunk.length}),
+    10 seconds)
+
   def download = Action {
-    val pdfFileName = "/public/pdf/crown-servant-declaration-blank.pdf"
     logger.info("About to stream out " + pdfFileName)
-    val pdfFileUrl = Play.resource(pdfFileName)
-    val pdfFile = pdfFileUrl match {
-      case Some(pdfFileUrl) => {
-        logger.info("URI for " + pdfFileName + " is " + pdfFileUrl.toURI)
-        new File(pdfFileUrl.toURI)
-      }
+    val pdfFileStream = Play.resourceAsStream(pdfFileName) match {
+      case Some(pdfFileStream) => pdfFileStream
       case None => throw new IllegalArgumentException(s"Play.resource($pdfFileName) returned None")
     }
-    logger.info("Prepare enumerator for " + pdfFileName)
-
-    logger.info("Absolute path for " + pdfFileName + " is " + pdfFile.getAbsolutePath)
-    val fileContent: Enumerator[Array[Byte]] = Enumerator.fromFile(pdfFile)
-    logger.info("Enumerator ready for " + pdfFileName)
-
+    val fileContent: Enumerator[Array[Byte]] = Enumerator.fromStream(pdfFileStream)
     val result = SimpleResult(
       header = ResponseHeader(200,
         Map(
-          CONTENT_LENGTH -> pdfFile.length.toString,
+          CONTENT_LENGTH -> fileContentLength.toString,
           CONTENT_DISPOSITION -> "attachment; filename=\"crown-servant-declaration.pdf\""
         )),
       body = fileContent
