@@ -43,6 +43,10 @@ class AddressService @Inject()(locateService: LocateService) {
     
     partial.copy(addressLine = line, gssCode = address.flatMap(_.gssCode))
   }
+  
+  def isScotland(postcode: String): Boolean = {
+    locateService.lookupAddress(postcode).exists(_.gssCode.exists(_.startsWith("S")))
+  }
 
   protected[service] def formAddressLine(address:Address):String = {
     List(

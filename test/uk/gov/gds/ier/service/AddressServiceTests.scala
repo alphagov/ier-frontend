@@ -173,4 +173,46 @@ class AddressServiceTests extends FlatSpec
     
     service.fillAddressLine(partial) should be(result)
   }
+  
+  it should "return true if the address lookup response with gssCode starts with 'S'" in {
+    val mockLocate = mock[LocateService]
+    val service = new AddressService(mockLocate)
+
+    val postcode = "AB12 3CD"
+      
+    val address = Address(
+      lineOne = Some("1A Fake Flat"),
+      lineTwo = Some(""),
+      lineThree = Some(""),
+      city = Some("Fakerton"),
+      county = Some("Fakesbury"),
+      uprn = Some("12345678"),
+      postcode = "AB12 3CD",
+      gssCode = Some("S123"))
+      
+    when(mockLocate.lookupAddress(postcode)).thenReturn(List(address))
+
+    service.isScotland(postcode) should be(true)
+  }
+  
+  it should "return false if the address lookup response with gssCode doesn't start with 'S'" in {
+    val mockLocate = mock[LocateService]
+    val service = new AddressService(mockLocate)
+
+    val postcode = "AB12 3CD"
+      
+    val address = Address(
+      lineOne = Some("1A Fake Flat"),
+      lineTwo = Some(""),
+      lineThree = Some(""),
+      city = Some("Fakerton"),
+      county = Some("Fakesbury"),
+      uprn = Some("12345678"),
+      postcode = "AB12 3CD",
+      gssCode = Some("A123"))
+      
+    when(mockLocate.lookupAddress(postcode)).thenReturn(List(address))
+
+    service.isScotland(postcode) should be(false)
+  }
 }

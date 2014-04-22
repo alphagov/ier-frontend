@@ -41,10 +41,8 @@ class AddressControllerTests extends FlatSpec with TestHelpers with Matchers wit
         mockedEncryptionService, mockedAddressService)
     
     val postcode = "EH1 1AA"
-    val addresses = List(PartialAddress(None, None, postcode = postcode, None, gssCode = Some("S1")), 
-        PartialAddress(None, None, postcode = postcode, None, gssCode = Some("S2")))
       
-    when (mockedAddressService.lookupPartialAddress(postcode)).thenReturn(addresses) 
+    when (mockedAddressService.isScotland(postcode)).thenReturn(true) 
     val currentState = completeOrdinaryApplication.copy(
     		address = Some(PartialAddress(None, None, postcode, None, None)))
 
