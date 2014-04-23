@@ -19,7 +19,6 @@ class CitizenDetailsStep @Inject ()(
   with CitizenDetailsMustache {
 
   val validation = citizenDetailsForm
-  val previousRoute = Some(PassportCheckController.get)
 
   val routes = Routes(
     get = CitizenDetailsController.get,

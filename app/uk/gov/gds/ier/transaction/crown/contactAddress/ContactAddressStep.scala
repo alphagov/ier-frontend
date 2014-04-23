@@ -21,7 +21,6 @@ class ContactAddressStep @Inject ()(
     with ContactAddressMustache{
 
   val validation = contactAddressForm
-  val previousRoute = Some(NinoController.get)
 
   val routes = Routes(
     get = ContactAddressController.get,

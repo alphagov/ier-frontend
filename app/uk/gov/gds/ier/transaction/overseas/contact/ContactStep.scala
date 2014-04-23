@@ -20,7 +20,6 @@ class ContactStep @Inject ()(
   with ContactMustache {
 
   val validation = contactForm
-  val previousRoute = Some(WaysToVoteController.get)
 
   val routes = Routes(
     get = ContactController.get,

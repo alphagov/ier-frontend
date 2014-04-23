@@ -16,7 +16,7 @@ trait DateLeftSpecialMustache extends StepTemplate[InprogressOverseas] {
       service: String
   )
 
-  val mustache = MustacheTemplate("overseas/dateLeftService") { (form, post, back) =>
+  val mustache = MustacheTemplate("overseas/dateLeftService") { (form, post) =>
 
     implicit val progressForm = form
 
@@ -25,9 +25,7 @@ trait DateLeftSpecialMustache extends StepTemplate[InprogressOverseas] {
     val data = DateLeftSpecialModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
-        number = "",
         title = title
       ) ,
       dateLeftSpecialFieldSet = FieldSet(

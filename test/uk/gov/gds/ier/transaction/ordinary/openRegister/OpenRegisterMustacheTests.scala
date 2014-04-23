@@ -21,14 +21,12 @@ class OpenRegisterMustacheTests
     val openRegisterModel = mustache.data(
       emptyApplicationForm,
       PostalVoteController.post,
-      Some(PreviousAddressFirstController.get),
       InprogressOrdinary()
     ).data.asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be(
         "Do you want to include your name and address on the open register?")
     openRegisterModel.question.postUrl should be("/register-to-vote/postal-vote")
-    openRegisterModel.question.backUrl should be("/register-to-vote/previous-address")
 
     openRegisterModel.openRegister.value should be("false")
   }
@@ -43,14 +41,12 @@ class OpenRegisterMustacheTests
     val openRegisterModel = mustache.data(
       partiallyFilledApplicationForm,
       PostalVoteController.post,
-      Some(PreviousAddressFirstController.get),
       InprogressOrdinary()
     ).data.asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be(
         "Do you want to include your name and address on the open register?")
     openRegisterModel.question.postUrl should be("/register-to-vote/postal-vote")
-    openRegisterModel.question.backUrl should be("/register-to-vote/previous-address")
 
     openRegisterModel.openRegister.attributes should be("")
   }
@@ -65,14 +61,12 @@ class OpenRegisterMustacheTests
     val openRegisterModel = mustache.data(
       partiallyFilledApplicationForm,
       PostalVoteController.post,
-      Some(PreviousAddressFirstController.get),
       InprogressOrdinary()
     ).data.asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be(
         "Do you want to include your name and address on the open register?")
     openRegisterModel.question.postUrl should be("/register-to-vote/postal-vote")
-    openRegisterModel.question.backUrl should be("/register-to-vote/previous-address")
 
     openRegisterModel.openRegister.attributes should be("checked=\"checked\"")
   }

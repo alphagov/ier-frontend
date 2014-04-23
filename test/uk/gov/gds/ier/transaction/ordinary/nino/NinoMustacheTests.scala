@@ -30,7 +30,6 @@ class NinoMustacheTests
     val model = mustache.data(
       newNinoForm,
       NinoController.post,
-      Some(NameController.get),
       InprogressOrdinary()
     ).data.asInstanceOf[NinoModel]
     model.nino.value should be("AB 12 34 56 D")
@@ -46,7 +45,6 @@ class NinoMustacheTests
     val model = mustache.data(
         newNinoForm,
         NinoController.post,
-        Some(NameController.get),
         InprogressOrdinary()
     ).data.asInstanceOf[NinoModel]
     model.noNinoReason.value should be("Don't have any NINO")

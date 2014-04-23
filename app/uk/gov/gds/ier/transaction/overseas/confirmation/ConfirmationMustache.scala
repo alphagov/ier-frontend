@@ -18,14 +18,12 @@ trait ConfirmationMustache {
       applicantDetails: List[ConfirmationQuestion],
       parentDetails: List[ConfirmationQuestion],
       displayParentBlock: Boolean,
-      backUrl: String,
       postUrl: String
   )
 
   object Confirmation extends StepMustache {
     def confirmationPage(
         form: ErrorTransformForm[InprogressOverseas],
-        backUrl: String,
         postUrl: String) = {
 
       val confirmation = new ConfirmationBlocks(form)
@@ -36,7 +34,6 @@ trait ConfirmationMustache {
         parentDetails = parentData,
         applicantDetails = applicantData,
         displayParentBlock = !parentData.isEmpty,
-        backUrl = backUrl,
         postUrl = postUrl
       )
 

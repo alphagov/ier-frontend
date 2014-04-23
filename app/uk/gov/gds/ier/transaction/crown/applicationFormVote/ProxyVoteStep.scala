@@ -26,7 +26,6 @@ class ProxyVoteStep @Inject ()(
   val wayToVote = WaysToVoteType.ByProxy
 
   val validation = postalOrProxyVoteForm
-  val previousRoute = Some(WaysToVoteController.get)
 
   val routes = Routes(
     get = ProxyVoteController.get,

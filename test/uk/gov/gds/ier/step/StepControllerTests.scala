@@ -68,8 +68,7 @@ class StepControllerTests
 
       def template(
           form: ErrorTransformForm[InprogressOrdinary],
-          call: Call,
-          backUrl: Option[Call]):Html = {
+          call: Call):Html = {
         Html(s"This is the template.")
       }
 
@@ -221,8 +220,7 @@ class StepControllerTests
       val validation = form
       def template(
           form: ErrorTransformForm[FooBar],
-          call: Call,
-          backUrl: Option[Call]):Html = {
+          call: Call):Html = {
         val foo = form(testKeys.foo).value
         val bar = form(testKeys.bar).value
 
@@ -301,15 +299,13 @@ trait TestTemplate[T <: InprogressApplication[T]] extends StepTemplate[T] {
   self: StepController[T] =>
   def template(
     form: ErrorTransformForm[T],
-    call: Call,
-    backUrl: Option[Call]):Html
+    call: Call):Html
 
   val mustache = {
     new MustacheTemplate[T] {
       val data = (
         form:ErrorTransformForm[T],
         postUrl:Call,
-        backUrl:Option[Call],
         application:T
       ) => {
         MustacheData(application, "Faked")
@@ -320,11 +316,10 @@ trait TestTemplate[T <: InprogressApplication[T]] extends StepTemplate[T] {
       override def apply(
         form:ErrorTransformForm[T],
         postUrl:Call,
-        backUrl:Option[Call],
         application:T
       ):MustacheRenderer[T] = {
-        new MustacheRenderer[T](_this, form, postUrl, backUrl, application) {
-          override def html = template(form, postUrl, backUrl)
+        new MustacheRenderer[T](_this, form, postUrl, application) {
+          override def html = template(form, postUrl)
         }
       }
     }

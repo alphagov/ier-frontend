@@ -46,7 +46,7 @@ trait ContactAddressMustache extends StepTemplate[InprogressForces] with Address
   )
 
 
-  val mustache =  MustacheTemplate("forces/contactAddress") { (form, postUrl, backUrl, application) =>
+  val mustache =  MustacheTemplate("forces/contactAddress") { (form, postUrl, application) =>
 
     implicit val progressForm = form
 
@@ -123,7 +123,6 @@ trait ContactAddressMustache extends StepTemplate[InprogressForces] with Address
     val data = ContactAddressModel(
       question = Question(
         postUrl = postUrl.url,
-        backUrl = backUrl.map (_.url).getOrElse(""),
         errorMessages = form.globalErrors.map( _.message ),
         number = "10",
         title = title

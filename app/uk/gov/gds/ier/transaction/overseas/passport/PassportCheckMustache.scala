@@ -17,14 +17,13 @@ trait PassportCheckMustache extends StepTemplate[InprogressOverseas] {
       bornInUkFalse: Field
   )
 
-  val mustache = MustacheTemplate("overseas/passportCheck") { (form, post, back) =>
+  val mustache = MustacheTemplate("overseas/passportCheck") { (form, post) =>
 
     implicit val progressForm = form
 
     val data = PassportCheckModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "",
         title = title

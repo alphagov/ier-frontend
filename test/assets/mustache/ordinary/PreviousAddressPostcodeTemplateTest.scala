@@ -25,8 +25,6 @@ class PreviousAddressPostcodeTemplateTest
       val data = new PostcodeModel(
         question = Question(
           postUrl = "http://some.server/previousAddress/select",
-          backUrl = "http://some.server/previousAddress",
-          showBackUrl = true,
           number = "123",
           title = "Page title ABC"
         ),

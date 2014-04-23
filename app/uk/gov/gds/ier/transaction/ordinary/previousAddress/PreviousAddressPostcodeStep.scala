@@ -24,8 +24,6 @@ class PreviousAddressPostcodeStep @Inject() (
 
   val validation = postcodeStepForm
 
-  val previousRoute = Some(PreviousAddressFirstController.get)
-
   val routes = Routes(
     get = PreviousAddressPostcodeController.get,
     post = PreviousAddressPostcodeController.post,
@@ -36,5 +34,4 @@ class PreviousAddressPostcodeStep @Inject() (
   def nextStep(currentState: InprogressOrdinary) = {
     controllers.step.ordinary.PreviousAddressSelectController.previousAddressSelectStep
   }
-
 }

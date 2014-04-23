@@ -20,7 +20,6 @@ class OpenRegisterStep @Inject ()(
   with OpenRegisterMustache {
 
   val validation = openRegisterForm
-  val previousRoute = Some(AddressController.get)
 
   val routes = Routes(
     get = OpenRegisterController.get,

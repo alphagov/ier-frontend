@@ -33,13 +33,11 @@ class DateOfBirthMustacheTest
     val dateOfBirthModel = mustache.data(
       emptyApplicationForm,
       Call("POST", "/register-to-vote/forces/date-of-birth"),
-      None,
       InprogressForces()
     ).data.asInstanceOf[DateOfBirthModel]
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/forces/date-of-birth")
-    dateOfBirthModel.question.backUrl should be("")
 
     dateOfBirthModel.day.value should be("")
     dateOfBirthModel.month.value should be("")
@@ -53,13 +51,11 @@ class DateOfBirthMustacheTest
     val dateOfBirthModel = mustache.data(
       filledForm,
       Call("POST", "/register-to-vote/forces/date-of-birth"),
-      None,
       InprogressForces()
     ).data.asInstanceOf[DateOfBirthModel]
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/forces/date-of-birth")
-    dateOfBirthModel.question.backUrl should be("")
 
     dateOfBirthModel.day.value should be("12")
     dateOfBirthModel.month.value should be("12")
@@ -73,13 +69,11 @@ class DateOfBirthMustacheTest
     val dateOfBirthModel = mustache.data(
       filledForm,
       Call("POST", "/register-to-vote/forces/date-of-birth"),
-      None,
       InprogressForces()
     ).data.asInstanceOf[DateOfBirthModel]
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/forces/date-of-birth")
-    dateOfBirthModel.question.backUrl should be("")
 
     dateOfBirthModel.day.value should be("")
     dateOfBirthModel.month.value should be("")

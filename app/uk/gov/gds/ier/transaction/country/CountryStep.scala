@@ -26,7 +26,6 @@ class CountryStep @Inject ()(
   with CountryMustache {
 
   val validation = countryForm
-  val previousRoute = None
 
   val routes = Routes(
     get = CountryController.get,

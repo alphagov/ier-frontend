@@ -22,17 +22,15 @@ class StatementMustacheTest
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = statementForm
-    
+
     val statementhModel =mustache.data(
       emptyApplicationForm,
       Call("POST", "/register-to-vote/forces/statement"),
-      None,
       InprogressForces()
     ).data.asInstanceOf[StatementModel]
 
     statementhModel.question.title should be("Which of these statements applies to you?")
     statementhModel.question.postUrl should be("/register-to-vote/forces/statement")
-    statementhModel.question.backUrl should be("")
 
     statementhModel.statementFieldSet.classes should be("")
     statementhModel.statementMemberForcesCheckbox.attributes should be("")
@@ -42,17 +40,15 @@ class StatementMustacheTest
   it should "fully filled applicant statement should produce Mustache Model with statement values present" in {
     val filledForm = statementForm.fillAndValidate(InprogressForces(
       statement = Some(Statement(memberForcesFlag = Some(true), partnerForcesFlag = Some(true)))))
-      
+
     val statementModel = mustache.data(
       filledForm,
       Call("POST", "/register-to-vote/forces/statement"),
-      None,
       InprogressForces()
     ).data.asInstanceOf[StatementModel]
 
     statementModel.question.title should be("Which of these statements applies to you?")
     statementModel.question.postUrl should be("/register-to-vote/forces/statement")
-    statementModel.question.backUrl should be("")
 
     statementModel.statementFieldSet.classes should be("")
     statementModel.statementMemberForcesCheckbox.attributes should be("checked=\"checked\"")

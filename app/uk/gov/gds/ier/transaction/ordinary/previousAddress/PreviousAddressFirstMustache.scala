@@ -19,15 +19,13 @@ trait PreviousAddressFirstMustache extends StepTemplate[InprogressOrdinary] {
   )
 
   val mustache = MustacheTemplate("ordinary/previousAddressFirst") {
-    (form, post, back) =>
+    (form, post) =>
 
     implicit val progressForm = form
 
     val data = PreviousAddressFirstModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map(_.url).getOrElse(""),
-        showBackUrl = back.isDefined,
         number = questionNumber,
         title = title,
         errorMessages = form.globalErrors.map { _.message }),

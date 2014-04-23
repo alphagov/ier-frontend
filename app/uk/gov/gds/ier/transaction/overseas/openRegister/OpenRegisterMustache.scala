@@ -12,16 +12,14 @@ trait OpenRegisterMustache extends StepTemplate[InprogressOverseas] {
       openRegister: Field
   )
 
-  val mustache = MustacheTemplate("overseas/openRegister") { (form, post, back) =>
+  val mustache = MustacheTemplate("overseas/openRegister") { (form, post) =>
 
     implicit val progressForm = form
 
     val data = OpenRegisterModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
-        number = "",
         title = title
       ),
       openRegister = CheckboxField (

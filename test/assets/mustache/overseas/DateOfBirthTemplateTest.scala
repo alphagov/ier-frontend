@@ -18,7 +18,6 @@ class DateOfBirthTemplateTest
     running(FakeApplication()) {
       val data = DateOfBirthModel(
         question = Question(postUrl = "/register-to-vote/overseas/date-of-birth",
-        backUrl = "",
         number = "1",
         title = "What is your date of birth?"
         ),

@@ -20,7 +20,6 @@ class ServiceStep @Inject ()(
     with ServiceMustache {
 
   val validation = serviceForm
-  val previousRoute = Some(NinoController.get)
 
   val routes = Routes(
     get = ServiceController.get,

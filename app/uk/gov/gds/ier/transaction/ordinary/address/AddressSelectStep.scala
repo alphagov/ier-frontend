@@ -30,7 +30,6 @@ class AddressSelectStep @Inject() (
   with AddressForms {
 
   val validation = addressForm
-  val previousRoute = Some(NinoController.get)
 
   val routes = Routes(
     get = AddressSelectController.get,

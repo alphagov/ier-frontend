@@ -14,7 +14,7 @@ class NationalityMustacheTest
   with NationalityForms
   with ErrorMessages
   with FormKeys
-  with TestHelpers 
+  with TestHelpers
   with NationalityMustache {
 
   it should "empty progress form should produce empty Model" in {
@@ -22,13 +22,11 @@ class NationalityMustacheTest
     val nationalityModel = mustache.data(
       emptyApplicationForm,
       NationalityController.post,
-      Some(AddressController.get),
       InprogressCrown()
     ).data.asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/crown/nationality")
-    nationalityModel.question.backUrl should be("/register-to-vote/crown/address")
 
     nationalityModel.britishOption.attributes should be("")
     nationalityModel.irishOption.attributes should be("")
@@ -56,13 +54,11 @@ class NationalityMustacheTest
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
       NationalityController.post,
-      Some(AddressController.get),
       InprogressCrown()
     ).data.asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/crown/nationality")
-    nationalityModel.question.backUrl should be("/register-to-vote/crown/address")
 
     nationalityModel.britishOption.attributes should be("checked=\"checked\"")
     nationalityModel.irishOption.attributes should be("")
@@ -88,13 +84,11 @@ class NationalityMustacheTest
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
       NationalityController.post,
-      Some(AddressController.get),
       InprogressCrown()
     ).data.asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/crown/nationality")
-    nationalityModel.question.backUrl should be("/register-to-vote/crown/address")
 
     nationalityModel.britishOption.attributes should be("")
     nationalityModel.irishOption.attributes should be("checked=\"checked\"")
@@ -120,13 +114,11 @@ class NationalityMustacheTest
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
       NationalityController.post,
-      Some(AddressController.get),
       InprogressCrown()
     ).data.asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/crown/nationality")
-    nationalityModel.question.backUrl should be("/register-to-vote/crown/address")
 
     nationalityModel.britishOption.attributes should be("")
     nationalityModel.irishOption.attributes should be("")
@@ -153,13 +145,11 @@ class NationalityMustacheTest
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
       NationalityController.post,
-      Some(AddressController.get),
       InprogressCrown()
     ).data.asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/crown/nationality")
-    nationalityModel.question.backUrl should be("/register-to-vote/crown/address")
 
     nationalityModel.britishOption.attributes should be("checked=\"checked\"")
     nationalityModel.irishOption.attributes should be("")
@@ -186,13 +176,11 @@ class NationalityMustacheTest
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
       NationalityController.post,
-      Some(AddressController.get),
       InprogressCrown()
     ).data.asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/crown/nationality")
-    nationalityModel.question.backUrl should be("/register-to-vote/crown/address")
 
     nationalityModel.britishOption.attributes should be("")
     nationalityModel.irishOption.attributes should be("")
@@ -220,13 +208,11 @@ class NationalityMustacheTest
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
       NationalityController.post,
-      Some(AddressController.get),
       InprogressCrown()
     ).data.asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/crown/nationality")
-    nationalityModel.question.backUrl should be("/register-to-vote/crown/address")
 
     nationalityModel.britishOption.attributes should be("")
     nationalityModel.irishOption.attributes should be("")

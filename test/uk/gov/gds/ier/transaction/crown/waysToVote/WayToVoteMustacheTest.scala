@@ -23,13 +23,11 @@ class WayToVoteMustacheTest
     val model = mustache.data(
       emptyApplicationForm,
       Call("POST", "/register-to-vote/crown/ways-to-vote"),
-      Some(Call("GET", "/register-to-vote/crown/open-register")),
       InprogressCrown()
     ).data.asInstanceOf[WaysToVoteModel]
 
     model.question.title should be("How do you want to vote?")
     model.question.postUrl should be("/register-to-vote/crown/ways-to-vote")
-    model.question.backUrl should be("/register-to-vote/crown/open-register")
 
     model.byPost.value should be("by-post")
     model.byProxy.value should be("by-proxy")
@@ -47,13 +45,11 @@ class WayToVoteMustacheTest
     val model = mustache.data(
       emptyApplicationForm,
       Call("POST", "/register-to-vote/crown/ways-to-vote"),
-      Some(Call("GET", "/register-to-vote/crown/open-register")),
       InprogressCrown()
     ).data.asInstanceOf[WaysToVoteModel]
 
     model.question.title should be("How do you want to vote?")
     model.question.postUrl should be("/register-to-vote/crown/ways-to-vote")
-    model.question.backUrl should be("/register-to-vote/crown/open-register")
 
     model.byPost.value should be("by-post")
     model.byProxy.value should be("by-proxy")

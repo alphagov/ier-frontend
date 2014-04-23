@@ -24,7 +24,6 @@ class RankMustacheTest
     val rankModel = mustache.data(
       emptyApplicationForm,
       Call("POST", "/register-to-vote/forces/rank"),
-      None,
       InprogressForces()
     ).data.asInstanceOf[RankModel]
 
@@ -49,7 +48,6 @@ class RankMustacheTest
     val rankModel =  mustache.data(
       partiallyFilledApplicationForm,
       Call("POST", "/register-to-vote/forces/rank"),
-      None,
       partiallyFilledApplication
     ).data.asInstanceOf[RankModel]
 

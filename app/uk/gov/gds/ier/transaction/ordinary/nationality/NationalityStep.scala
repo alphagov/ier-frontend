@@ -23,7 +23,6 @@ class NationalityStep @Inject ()(
   with NationalityMustache {
 
   val validation = nationalityForm
-  val previousRoute = Some(CountryController.get)
 
   val routes = Routes(
     get = NationalityController.get,

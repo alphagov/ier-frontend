@@ -27,7 +27,7 @@ trait ParentsAddressSelectMustache extends StepTemplate[InprogressOverseas] {
   )
 
 
-  val mustache = MustacheTemplate("overseas/parentsAddressSelect") { (form, post, back) =>
+  val mustache = MustacheTemplate("overseas/parentsAddressSelect") { (form, post) =>
 
     implicit val progressForm = form
 
@@ -82,7 +82,6 @@ trait ParentsAddressSelectMustache extends StepTemplate[InprogressOverseas] {
     val data = SelectModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map{ _.url }.getOrElse(""),
         number = questionNumber,
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)

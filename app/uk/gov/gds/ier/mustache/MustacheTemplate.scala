@@ -8,33 +8,23 @@ case class MustacheData(data: Any, title:String)
 
 trait MustacheTemplate[T] {
   val mustachePath: String
-  val data: (ErrorTransformForm[T],Call,Option[Call],T) => MustacheData
+  val data: (ErrorTransformForm[T],Call,T) => MustacheData
 
   def apply(
       form:ErrorTransformForm[T],
       postUrl:Call,
-      backUrl:Option[Call],
       application:T
   ):MustacheRenderer[T] = {
-    new MustacheRenderer(this, form, postUrl, backUrl, application)
+    new MustacheRenderer(this, form, postUrl, application)
   }
 }
 
 trait MustacheTemplateFactories[T] {
   class MustacheTemplateMaker[T](name:String) {
     def apply(
-        data: (ErrorTransformForm[T], Call, Option[Call], T) => MustacheData
+        data: (ErrorTransformForm[T], Call, T) => MustacheData
     ): MustacheTemplate[T] = {
       makeMustacheTemplate(name, data)
-    }
-
-    def apply(
-        data: (ErrorTransformForm[T], Call, Option[Call]) => MustacheData
-    ): MustacheTemplate[T] = {
-      makeMustacheTemplate(
-        name,
-        (form, post, back, application) => data(form, post, back)
-      )
     }
 
     def apply(
@@ -42,7 +32,7 @@ trait MustacheTemplateFactories[T] {
     ): MustacheTemplate[T] = {
       makeMustacheTemplate(
         name,
-        (form, post, back, application) => data(form, post)
+        (form, post, application) => data(form, post)
       )
     }
 
@@ -51,13 +41,13 @@ trait MustacheTemplateFactories[T] {
     ) : MustacheTemplate[T] = {
       makeMustacheTemplate(
         name,
-        (form, post, back, application) => data(form)
+        (form, post, application) => data(form)
       )
     }
 
     private def makeMustacheTemplate(
         mustachePath:String,
-        data: (ErrorTransformForm[T], Call, Option[Call], T) => MustacheData
+        data: (ErrorTransformForm[T], Call, T) => MustacheData
     ) : MustacheTemplate[T] = {
       val _mustachePath = mustachePath
       val _data = data

@@ -26,7 +26,6 @@ class PostalVoteStep @Inject ()(
   with PostalVoteMustache {
 
   val validation = postalVoteForm
-  val previousRoute = Some(OpenRegisterController.get)
 
   val routes = Routes(
     get = PostalVoteController.get,

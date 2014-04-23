@@ -20,13 +20,11 @@ class LastRegisteredToVoteMustacheTests
     val model = mustache.data(
       form,
       Call("GET", "http://postUrl"),
-      Some(Call("GET", "http://backUrl")),
       InprogressOverseas()
     ).data.asInstanceOf[LastRegisteredModel]
 
     model.question.title should be("How were you last registered to vote?")
     model.question.postUrl should be("http://postUrl")
-    model.question.backUrl should be("http://backUrl")
 
     model.ukResident.name should be("lastRegisteredToVote.registeredType")
     model.ukResident.id should be("lastRegisteredToVote_registeredType_ordinary")
@@ -64,7 +62,6 @@ class LastRegisteredToVoteMustacheTests
     val model = mustache.data(
       form,
       Call("GET", "http://postUrl"),
-      Some(Call("GET", "http://backUrl")),
       InprogressOverseas()
     ).data.asInstanceOf[LastRegisteredModel]
 
@@ -83,7 +80,6 @@ class LastRegisteredToVoteMustacheTests
     val model = mustache.data(
       form,
       Call("GET", "http://postUrl"),
-      Some(Call("GET", "http://backUrl")),
       InprogressOverseas()
     ).data.asInstanceOf[LastRegisteredModel]
 
@@ -102,7 +98,6 @@ class LastRegisteredToVoteMustacheTests
     val model = mustache.data(
       form,
       Call("GET", "http://postUrl"),
-      Some(Call("GET", "http://backUrl")),
       InprogressOverseas()
     ).data.asInstanceOf[LastRegisteredModel]
 
@@ -121,7 +116,6 @@ class LastRegisteredToVoteMustacheTests
     val model = mustache.data(
       form,
       Call("GET", "http://postUrl"),
-      Some(Call("GET", "http://backUrl")),
       InprogressOverseas()
     ).data.asInstanceOf[LastRegisteredModel]
 
@@ -140,7 +134,6 @@ class LastRegisteredToVoteMustacheTests
     val model = mustache.data(
       form,
       Call("GET", "http://postUrl"),
-      Some(Call("GET", "http://backUrl")),
       InprogressOverseas()
     ).data.asInstanceOf[LastRegisteredModel]
 
@@ -159,7 +152,6 @@ class LastRegisteredToVoteMustacheTests
     val model = mustache.data(
       form,
       Call("GET", "http://postUrl"),
-      Some(Call("GET", "http://backUrl")),
       InprogressOverseas()
     ).data.asInstanceOf[LastRegisteredModel]
 
@@ -180,7 +172,6 @@ class LastRegisteredToVoteMustacheTests
     val model = mustache.data(
       form,
       Call("GET", "http://postUrl"),
-      Some(Call("GET", "http://backUrl")),
       InprogressOverseas()
     ).data.asInstanceOf[LastRegisteredModel]
 

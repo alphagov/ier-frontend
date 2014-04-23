@@ -18,7 +18,6 @@ class PostalVoteTemplateTest
     running(FakeApplication()) {
       val data = PostalVoteModel(
         question = Question(postUrl = "/whatever-url",
-        backUrl = "",
         number = "1",
         title = "postal vote title"
         ),

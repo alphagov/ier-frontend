@@ -13,14 +13,13 @@ trait LastUkAddressLookupMustache extends StepTemplate[InprogressOverseas] {
       postcode: Field
   )
 
-  val mustache = MustacheTemplate("overseas/lastUkAddressLookup") { (form, post, back) =>
+  val mustache = MustacheTemplate("overseas/lastUkAddressLookup") { (form, post) =>
 
     implicit val progressForm = form
 
     val data = LookupModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map{ _.url }.getOrElse(""),
         number = questionNumber,
         title = title,
         errorMessages = form.globalErrors.map(_.message)

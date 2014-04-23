@@ -25,7 +25,6 @@ class AddressStep @Inject() (
   with AddressForms {
 
   val validation = lookupAddressForm
-  val previousRoute = Some(NinoController.get)
 
   val routes = Routes(
     get = AddressController.get,
@@ -35,12 +34,12 @@ class AddressStep @Inject() (
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
-    val optAddress = currentState.address 
-    
+    val optAddress = currentState.address
+
     optAddress match {
       case Some(partialAddress) => {
         val postcode = partialAddress.postcode.trim.toUpperCase
-        if (postcode.isEmpty) 
+        if (postcode.isEmpty)
           this
         else if (postcode.startsWith("BT"))
           GoTo (ExitController.northernIreland)

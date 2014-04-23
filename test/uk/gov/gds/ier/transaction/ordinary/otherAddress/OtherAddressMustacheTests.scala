@@ -33,12 +33,10 @@ class OtherAddressMustacheTests
     val result = mustache.data(
       form,
       Call("POST", "/some-post-url"),
-      Some(Call("GET", "/some-back-url")),
       InprogressOrdinary()
     ).data.asInstanceOf[OtherAddressModel]
 
     result.question.postUrl should be("/some-post-url")
-    result.question.backUrl should be("/some-back-url")
     result.question.number should be("7 of 11")
     result.question.title should be("Do you also live at a second address?")
     result.question.errorMessages should be(Seq.empty)
@@ -64,7 +62,6 @@ class OtherAddressMustacheTests
     val result = mustache.data(
       form,
       Call("POST", "/some-post-url"),
-      Some(Call("GET", "/some-back-url")),
       InprogressOrdinary()
     ).data.asInstanceOf[OtherAddressModel]
 
@@ -81,7 +78,6 @@ class OtherAddressMustacheTests
     val result = mustache.data(
       form,
       Call("POST", "/some-post-url"),
-      Some(Call("GET", "/some-back-url")),
       InprogressOrdinary()
     ).data.asInstanceOf[OtherAddressModel]
 
@@ -98,7 +94,6 @@ class OtherAddressMustacheTests
     val result = mustache.data(
       form,
       Call("POST", "/some-post-url"),
-      Some(Call("GET", "/some-back-url")),
       InprogressOrdinary()
     ).data.asInstanceOf[OtherAddressModel]
 
@@ -113,7 +108,6 @@ class OtherAddressMustacheTests
     val result = mustache.data(
       form,
       Call("POST", "/some-post-url"),
-      Some(Call("GET", "/some-back-url")),
       InprogressOrdinary()
     ).data.asInstanceOf[OtherAddressModel]
 

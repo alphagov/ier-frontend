@@ -8,12 +8,11 @@ class MustacheRenderer[T](
     template: MustacheTemplate[T],
     form: ErrorTransformForm[T],
     postUrl: Call,
-    backUrl: Option[Call],
     application: T
 ) extends StepMustache {
 
   def html:Html = {
-    val model = template.data(form, postUrl, backUrl, application)
+    val model = template.data(form, postUrl, application)
     val content = Mustache.render(template.mustachePath, model.data)
     MainStepTemplate(content, model.title)
   }

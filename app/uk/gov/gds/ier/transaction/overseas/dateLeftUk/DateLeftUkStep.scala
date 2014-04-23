@@ -29,14 +29,13 @@ class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
     editGet = DateLeftUkController.editGet,
     editPost = DateLeftUkController.editPost
   )
-  val previousRoute = Some(PreviouslyRegisteredController.get)
 
   def nextStep(currentState: InprogressOverseas) = {
 
     val notRegistered = currentState.lastRegisteredToVote match {
-	  case Some(LastRegisteredToVote(LastRegisteredType.NotRegistered)) => true
-	  case _ => false
-	}
+      case Some(LastRegisteredToVote(LastRegisteredType.NotRegistered)) => true
+      case _ => false
+    }
 
     (currentState.dateLeftUk, currentState.dob, notRegistered) match {
       case (Some(dateLeftUk), Some(dateOfBirth), _)

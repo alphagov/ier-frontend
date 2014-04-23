@@ -18,13 +18,12 @@ trait StatementMustache extends StepTemplate[InprogressCrown] {
 
   val title = "Which of these statements applies to you?"
 
-  val mustache = MustacheTemplate("crown/statement") { (form, post, back) =>
+  val mustache = MustacheTemplate("crown/statement") { (form, post) =>
     implicit val progressForm = form
     
     val data = StatementModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map { _.url }.getOrElse(""),
         errorMessages = form.globalErrors.map { _.message },
         number = "1",
         title = title

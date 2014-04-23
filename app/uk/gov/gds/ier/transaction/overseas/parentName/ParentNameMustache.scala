@@ -20,18 +20,16 @@ trait ParentNameMustache extends StepTemplate[InprogressOverseas] {
     previousLastName: Field
   )
 
-  val mustache = MustacheTemplate("overseas/parentName") { (form, post, back) =>
+  val mustache = MustacheTemplate("overseas/parentName") { (form, post) =>
 
     implicit val progressForm = form
 
     val data = ParentNameModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map { call => call.url }.getOrElse(""),
-        showBackUrl = back.isDefined,
-        number = "",
         title = title,
-        errorMessages = form.globalErrors.map { _.message }),
+        errorMessages = form.globalErrors.map { _.message }
+      ),
       firstName = TextField(
         key = keys.overseasParentName.parentName.firstName),
       middleNames = TextField(

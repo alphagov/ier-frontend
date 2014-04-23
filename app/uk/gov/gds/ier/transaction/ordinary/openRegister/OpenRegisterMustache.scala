@@ -14,7 +14,7 @@ trait OpenRegisterMustache extends StepTemplate[InprogressOrdinary] {
   )
 
   val mustache = MustacheTemplate("ordinary/openRegister") {
-    (form, postEndpoint, backEndpoint) =>
+    (form, postEndpoint) =>
 
     implicit val progressForm = form
 
@@ -23,7 +23,6 @@ trait OpenRegisterMustache extends StepTemplate[InprogressOrdinary] {
     val data = OpenRegisterModel(
       question = Question(
         postUrl = postEndpoint.url,
-        backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "9",
         title = title

@@ -20,7 +20,6 @@ class AddressStep @Inject() (
   with AddressForms {
 
   val validation = lookupAddressForm
-  val previousRoute = Some(StatementController.get)
 
   val routes = Routes(
     get = AddressController.get,
@@ -39,5 +38,4 @@ class AddressStep @Inject() (
   override val onSuccess = {
     GoToNextStep()
   }
-
 }

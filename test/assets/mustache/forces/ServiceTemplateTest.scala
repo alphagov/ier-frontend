@@ -17,7 +17,6 @@ class ServiceTemplateTest
     running(FakeApplication()) {
       val data = ServiceModel(
         question = Question(postUrl = "/whatever-url",
-        backUrl = "",
         number = "7",
         title = "service title"
         ),

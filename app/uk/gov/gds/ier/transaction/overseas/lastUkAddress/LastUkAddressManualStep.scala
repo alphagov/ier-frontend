@@ -26,8 +26,6 @@ class LastUkAddressManualStep @Inject() (
 
   val validation = manualAddressForm
 
-  val previousRoute = Some(DateLeftUkController.get)
-
   val routes = Routes(
     get = LastUkAddressManualController.get,
     post = LastUkAddressManualController.post,

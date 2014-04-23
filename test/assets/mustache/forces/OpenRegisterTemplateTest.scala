@@ -17,7 +17,6 @@ class OpenRegisterTemplateTest
     running(FakeApplication()) {
       val data = OpenRegisterModel(
         question = Question(postUrl = "/whatever-url",
-        backUrl = "",
         number = "1",
         title = "open register title"
         ),

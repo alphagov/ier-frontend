@@ -20,13 +20,11 @@ class OverseasNameMustacheTest
     val nameModel = mustache.data(
       emptyApplicationForm,
       new Call("POST", "/register-to-vote/overseas/name"),
-      Some(new Call("GET", "/register-to-vote/overseas/last-registered-uk-address")),
       InprogressOverseas()
     ).data.asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/overseas/name")
-    nameModel.question.backUrl should be("/register-to-vote/overseas/last-registered-uk-address")
 
     nameModel.firstName.value should be("")
     nameModel.middleNames.value should be("")
@@ -48,13 +46,11 @@ class OverseasNameMustacheTest
     val nameModel = mustache.data(
       partiallyFilledApplicationForm,
       new Call("POST", "/register-to-vote/overseas/name"),
-      Some(new Call("GET", "/register-to-vote/overseas/last-registered-uk-address")),
-        InprogressOverseas()
+      InprogressOverseas()
       ).data.asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/overseas/name")
-    nameModel.question.backUrl should be("/register-to-vote/overseas/last-registered-uk-address")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
@@ -84,13 +80,11 @@ class OverseasNameMustacheTest
     val nameModel = mustache.data(
       partiallyFilledApplicationForm,
       new Call("POST", "/register-to-vote/overseas/name"),
-      Some(new Call("GET", "/register-to-vote/overseas/last-registered-uk-address")),
       InprogressOverseas()
     ).data.asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/overseas/name")
-    nameModel.question.backUrl should be("/register-to-vote/overseas/last-registered-uk-address")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
@@ -112,13 +106,11 @@ class OverseasNameMustacheTest
     val nameModel = mustache.data(
       partiallyFilledApplicationFormWithErrors,
       new Call("POST", "/register-to-vote/overseas/name"),
-      Some(new Call("GET", "/register-to-vote/overseas/last-registered-uk-address")),
       InprogressOverseas()
     ).data.asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/overseas/name")
-    nameModel.question.backUrl should be("/register-to-vote/overseas/last-registered-uk-address")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")

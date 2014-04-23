@@ -23,7 +23,7 @@ trait AddressSelectMustache extends StepTemplate[InprogressForces] {
      possiblePostcode: Field,
      hasAddresses: Boolean)
 
-  val mustache = MustacheTemplate("forces/addressSelect") { (form, postUrl, backUrl) =>
+  val mustache = MustacheTemplate("forces/addressSelect") { (form, postUrl) =>
     implicit val progressForm = form
 
     val title = "What is your UK address?"
@@ -84,7 +84,6 @@ trait AddressSelectMustache extends StepTemplate[InprogressForces] {
     val data = SelectModel(
       question = Question(
         postUrl = postUrl.url,
-        backUrl = backUrl.map{ _.url }.getOrElse(""),
         number = questionNumber,
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)

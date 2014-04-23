@@ -26,7 +26,6 @@ class NameStep @Inject ()(
     editGet = NameController.editGet,
     editPost = NameController.editPost
   )
-  val previousRoute = Some(LastUkAddressController.get)
 
   def nextStep(currentState: InprogressOverseas) = {
     NinoController.ninoStep

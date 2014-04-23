@@ -1,0 +1,39 @@
+execute pathogen#infect()
+
+"Airline
+set laststatus=2
+"let g:airline_powerline_fonts = 1
+
+colorscheme molokai
+set tabstop=2
+set shiftwidth=2
+set expandtab
+set guifont='Menlo for Powerline':h14
+set cindent
+set smartindent
+set autoindent
+syntax on
+filetype on
+au BufNewFile,BufRead *.zsh set filetype=sh
+set guioptions-=r
+set guioptions-=L
+set wildignore+=*.class,target/**,project/target/**,project/project/target/**,*/bin/**,_site/**
+set colorcolumn=80
+set rnu
+
+let g:nerdtree_tabs_open_on_gui_startup=0
+"augroup FocusNERDTree
+"  au!
+"  au BufRead * if &filetype !=# 'gitcommit' | NERDTreeFind | wincmd p
+"augroup END
+
+augroup BadWhitespace
+    au!
+    au Syntax * syn match customBadWhitespace /\s\+$/ containedin=ALL | hi link customBadWhitespace Error
+augroup END
+
+let g:indent_guides_enable_on_vim_startup=1
+let g:indent_guides_color_change_percent=2
+
+cnoreabbrev <expr> Q ((getcmdtype() is# ':' && getcmdline() is# 'Q')?('q'):('Q'))
+cnoreabbrev <expr> W ((getcmdtype() is# ':' && getcmdline() is# 'W')?('w'):('W'))

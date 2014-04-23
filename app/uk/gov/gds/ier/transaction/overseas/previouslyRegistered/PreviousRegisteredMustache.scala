@@ -14,7 +14,7 @@ trait PreviousRegisteredMustache extends StepTemplate[InprogressOverseas] {
       previouslyRegisteredFalse: Field
   )
 
-  val mustache = MustacheTemplate("overseas/previouslyRegistered") { (form, post, back) =>
+  val mustache = MustacheTemplate("overseas/previouslyRegistered") { (form, post) =>
 
     implicit val progressForm = form
 
@@ -23,7 +23,6 @@ trait PreviousRegisteredMustache extends StepTemplate[InprogressOverseas] {
     val data = PreviouslyRegisteredModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "",
         title = title

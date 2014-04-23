@@ -22,8 +22,6 @@ class PreviousAddressFirstTemplateTest
       val data = new PreviousAddressFirstModel(
         question = Question(
           postUrl = "http://some.server/post_url",
-          backUrl = "http://some.server/back_url",
-          showBackUrl = true,
           number = "123",
           title = "Page title ABC"
         ),

@@ -23,7 +23,7 @@ trait PostalOrProxyVoteMustache
 
 
   val mustache = MustacheTemplate("forces/postalOrProxyVote") {
-    (form, postUrl, backUrl) =>
+    (form, postUrl) =>
 
       implicit val progressForm = form
 
@@ -37,7 +37,6 @@ trait PostalOrProxyVoteMustache
       val data = PostalOrProxyVoteModel(
         question = Question(
           postUrl = postUrl.url,
-          backUrl = backUrl.map { call => call.url }.getOrElse(""),
           errorMessages = form.globalErrors.map{ _.message },
           number = "13",
           title = title

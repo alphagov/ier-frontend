@@ -29,13 +29,11 @@ class ParentNameMustacheTest
     val nameModel = mustache.data(
       emptyApplicationForm,
       new Call("POST","/register-to-vote/overseas/parent-name"),
-      Some(new Call("GET","/register-to-vote/overseas/last-registered-uk-address")),
       InprogressOverseas()
     ).data.asInstanceOf[ParentNameModel]
 
     nameModel.question.title should be("Parent or guardian's registration details")
     nameModel.question.postUrl should be("/register-to-vote/overseas/parent-name")
-    nameModel.question.backUrl should be("/register-to-vote/overseas/last-registered-uk-address")
 
     nameModel.firstName.value should be("")
     nameModel.middleNames.value should be("")
@@ -59,13 +57,11 @@ class ParentNameMustacheTest
     val nameModel = mustache.data(
       partiallyFilledApplicationForm,
       new Call("POST","/register-to-vote/overseas/parent-name"),
-      Some(new Call("GET","/register-to-vote/overseas/last-registered-uk-address")),
       InprogressOverseas()
     ).data.asInstanceOf[ParentNameModel]
 
     nameModel.question.title should be("Parent or guardian's registration details")
     nameModel.question.postUrl should be("/register-to-vote/overseas/parent-name")
-    nameModel.question.backUrl should be("/register-to-vote/overseas/last-registered-uk-address")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
@@ -96,13 +92,11 @@ class ParentNameMustacheTest
     val nameModel = mustache.data(
       partiallyFilledApplicationForm,
       new Call("POST","/register-to-vote/overseas/parent-name"),
-      Some(new Call("GET","/register-to-vote/overseas/last-registered-uk-address")),
       InprogressOverseas()
     ).data.asInstanceOf[ParentNameModel]
 
     nameModel.question.title should be("Parent or guardian's registration details")
     nameModel.question.postUrl should be("/register-to-vote/overseas/parent-name")
-    nameModel.question.backUrl should be("/register-to-vote/overseas/last-registered-uk-address")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
@@ -125,13 +119,11 @@ class ParentNameMustacheTest
     val nameModel = mustache.data(
       partiallyFilledApplicationFormWithErrors,
       new Call("POST","/register-to-vote/overseas/parent-name"),
-      Some(new Call("GET","/register-to-vote/overseas/last-registered-uk-address")),
       InprogressOverseas()
     ).data.asInstanceOf[ParentNameModel]
 
     nameModel.question.title should be("Parent or guardian's registration details")
     nameModel.question.postUrl should be("/register-to-vote/overseas/parent-name")
-    nameModel.question.backUrl should be("/register-to-vote/overseas/last-registered-uk-address")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")

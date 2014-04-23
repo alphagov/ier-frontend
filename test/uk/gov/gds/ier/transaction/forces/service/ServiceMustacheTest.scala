@@ -23,7 +23,6 @@ class ServiceMustacheTest
     val serviceModel = mustache.data(
       emptyApplicationForm,
       Call("POST", "/register-to-vote/forces/service"),
-      None,
       InprogressForces()
     ).data.asInstanceOf[ServiceModel]
 
@@ -52,7 +51,6 @@ class ServiceMustacheTest
     val serviceModel = mustache.data(
       filledForm,
       Call("POST", "/register-to-vote/forces/service"),
-      None,
       filledApp
     ).data.asInstanceOf[ServiceModel]
 

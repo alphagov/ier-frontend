@@ -22,13 +22,11 @@ class NinoMustacheTests
     val ninoModel = mustache.data(
       emptyApplicationForm,
       NinoController.post,
-      Some(AddressController.get),
       InprogressOverseas()
     ).data.asInstanceOf[NinoModel]
 
     ninoModel.question.title should be("What is your National Insurance number?")
     ninoModel.question.postUrl should be("/register-to-vote/overseas/nino")
-    ninoModel.question.backUrl should be("/register-to-vote/overseas/address")
 
     ninoModel.nino.value should be("")
     ninoModel.noNinoReason.value should be("")
@@ -43,13 +41,11 @@ class NinoMustacheTests
     val ninoModel = mustache.data(
       partiallyFilledApplicationForm,
       NinoController.post,
-      Some(AddressController.get),
       InprogressOverseas()
     ).data.asInstanceOf[NinoModel]
 
     ninoModel.question.title should be("What is your National Insurance number?")
     ninoModel.question.postUrl should be("/register-to-vote/overseas/nino")
-    ninoModel.question.backUrl should be("/register-to-vote/overseas/address")
 
     ninoModel.nino.value should be("AB123456C")
     ninoModel.noNinoReason.value should be("")
@@ -64,13 +60,11 @@ class NinoMustacheTests
     val ninoModel = mustache.data(
       partiallyFilledApplicationForm,
       NinoController.post,
-      Some(AddressController.get),
       InprogressOverseas()
     ).data.asInstanceOf[NinoModel]
 
     ninoModel.question.title should be("What is your National Insurance number?")
     ninoModel.question.postUrl should be("/register-to-vote/overseas/nino")
-    ninoModel.question.backUrl should be("/register-to-vote/overseas/address")
 
     ninoModel.nino.value should be("")
     ninoModel.noNinoReason.value should be("dunno!")
@@ -85,13 +79,11 @@ class NinoMustacheTests
     val ninoModel = mustache.data(
       partiallyFilledApplicationForm,
       NinoController.post,
-      Some(AddressController.get),
       InprogressOverseas()
     ).data.asInstanceOf[NinoModel]
 
     ninoModel.question.title should be("What is your National Insurance number?")
     ninoModel.question.postUrl should be("/register-to-vote/overseas/nino")
-    ninoModel.question.backUrl should be("/register-to-vote/overseas/address")
 
     ninoModel.nino.value should be("ABCDE")
     ninoModel.noNinoReason.value should be("")

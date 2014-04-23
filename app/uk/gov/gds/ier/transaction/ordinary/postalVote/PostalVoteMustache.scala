@@ -17,7 +17,7 @@ trait PostalVoteMustache extends StepTemplate[InprogressOrdinary] {
   )
 
   val mustache = MustacheTemplate("ordinary/postalVote") {
-    (form, postUrl, backUrl) =>
+    (form, postUrl) =>
 
     implicit val progressForm = form
 
@@ -29,8 +29,6 @@ trait PostalVoteMustache extends StepTemplate[InprogressOrdinary] {
     val data = PostalVoteModel(
       question = Question(
         postUrl = postUrl.url,
-        backUrl = backUrl.map { call => call.url }.getOrElse(""),
-        showBackUrl = backUrl.isDefined,
         number = "10",
         title = "Do you want to apply for a postal vote?",
         errorMessages = form.globalErrors.map { _.message }),

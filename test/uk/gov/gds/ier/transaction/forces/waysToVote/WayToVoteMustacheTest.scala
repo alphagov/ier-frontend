@@ -25,7 +25,6 @@ class WayToVoteMustacheTest
       val model = mustache.data(
         emptyApplicationForm,
         Call("POST", "/register-to-vote/forces/ways-to-vote"),
-        Some(Call("GET", "/register-to-vote/forces/open-register")),
         InprogressForces()
       ).data.asInstanceOf[WaysToVoteModel]
 
@@ -48,7 +47,6 @@ class WayToVoteMustacheTest
       val model = mustache.data(
         emptyApplicationForm,
         Call("POST", "/register-to-vote/forces/ways-to-vote"),
-        Some(Call("GET", "/register-to-vote/forces/open-register")),
         InprogressForces()
       ).data.asInstanceOf[WaysToVoteModel]
 

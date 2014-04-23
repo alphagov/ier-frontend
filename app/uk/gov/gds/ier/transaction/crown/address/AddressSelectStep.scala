@@ -22,7 +22,6 @@ class AddressSelectStep @Inject() (
   with WithAddressService {
 
   val validation = addressForm
-  val previousRoute = Some(StatementController.get)
 
   val routes = Routes(
     get = AddressSelectController.get,

@@ -15,14 +15,12 @@ trait AddressFirstMustache extends StepTemplate[InprogressCrown] {
     hasAddressNo: Field
   )
 
-  val mustache = MustacheTemplate("crown/addressFirst") { (form, postUrl, backUrl) =>
+  val mustache = MustacheTemplate("crown/addressFirst") { (form, postUrl) =>
     implicit val progressForm = form
   
     val data = AddressFirstModel(
       question = Question(
         postUrl = postUrl.url,
-        backUrl = backUrl.map(_.url).getOrElse(""),
-        showBackUrl = backUrl.isDefined,
         number = questionNumber,
         title = pageTitle,
         errorMessages = form.globalErrors.map { _.message }),

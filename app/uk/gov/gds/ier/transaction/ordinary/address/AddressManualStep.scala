@@ -27,8 +27,6 @@ class AddressManualStep @Inject() (
 
   val validation = manualAddressForm
 
-  val previousRoute = Some(NinoController.get)
-
   val routes = Routes(
     get = AddressManualController.get,
     post = AddressManualController.post,

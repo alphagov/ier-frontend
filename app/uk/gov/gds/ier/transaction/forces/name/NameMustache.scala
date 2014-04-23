@@ -19,13 +19,11 @@ trait NameMustache extends StepTemplate[InprogressForces] {
     previousMiddleNames: Field,
     previousLastName: Field)
 
-  val mustache = MustacheTemplate("forces/name") { (form, postUrl, backUrl) =>
+  val mustache = MustacheTemplate("forces/name") { (form, postUrl) =>
     implicit val progressForm = form
     val data = NameModel(
       question = Question(
         postUrl = postUrl.url,
-        backUrl = backUrl.map(_.url).getOrElse(""),
-        showBackUrl = backUrl.isDefined,
         number = "6",
         title = pageTitle,
         errorMessages = form.globalErrors.map ( _.message )

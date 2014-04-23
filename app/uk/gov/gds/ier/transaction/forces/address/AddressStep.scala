@@ -23,8 +23,6 @@ class AddressStep @Inject() (
 
   val validation = lookupAddressForm
 
-  val previousRoute = Some(StatementController.get)
-
   val routes = Routes(
     get = AddressController.get,
     post = AddressController.post,
@@ -33,7 +31,7 @@ class AddressStep @Inject() (
   )
 
   def nextStep(currentState: InprogressForces) = {
-    val optAddress = currentState.address 
+    val optAddress = currentState.address
     
     optAddress match {
       case Some(partialAddress) => {
@@ -53,5 +51,4 @@ class AddressStep @Inject() (
   override val onSuccess = {
     GoToNextStep()
   }
-
 }

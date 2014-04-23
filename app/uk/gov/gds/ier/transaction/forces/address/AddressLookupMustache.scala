@@ -11,7 +11,7 @@ trait AddressLookupMustache extends StepTemplate[InprogressForces] {
       question: Question,
       postcode: Field)
 
-  val mustache = MustacheTemplate("forces/addressLookup") { (form, postUrl, backUrl) =>
+  val mustache = MustacheTemplate("forces/addressLookup") { (form, postUrl) =>
     implicit val progressForm = form
 
     val title = "What is your UK address?"
@@ -19,7 +19,6 @@ trait AddressLookupMustache extends StepTemplate[InprogressForces] {
     val data = LookupModel(
       question = Question(
         postUrl = postUrl.url,
-        backUrl = backUrl.map{ _.url }.getOrElse(""),
         number = questionNumber,
         title = title,
         errorMessages = form.globalErrors.map(_.message)

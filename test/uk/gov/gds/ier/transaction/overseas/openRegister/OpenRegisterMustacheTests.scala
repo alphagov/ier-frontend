@@ -21,13 +21,11 @@ class OpenRegisterMustacheTests
     val openRegisterModel = mustache.data(
       emptyApplicationForm,
       WaysToVoteController.post,
-      Some(AddressController.get),
       InprogressOverseas()
     ).data.asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be("Do you want to include your name and address on the open register?")
     openRegisterModel.question.postUrl should be("/register-to-vote/overseas/ways-to-vote")
-    openRegisterModel.question.backUrl should be("/register-to-vote/overseas/address")
 
     openRegisterModel.openRegister.value should be("false")
     // value=false is part of a selectable UI widget, the 'empty model' is a bit a misnomer
@@ -42,13 +40,11 @@ class OpenRegisterMustacheTests
     val openRegisterModel = mustache.data(
       partiallyFilledApplicationForm,
       WaysToVoteController.post,
-      Some(AddressController.get),
       InprogressOverseas()
     ).data.asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be("Do you want to include your name and address on the open register?")
     openRegisterModel.question.postUrl should be("/register-to-vote/overseas/ways-to-vote")
-    openRegisterModel.question.backUrl should be("/register-to-vote/overseas/address")
 
     openRegisterModel.openRegister.attributes should be("")
   }
@@ -62,13 +58,11 @@ class OpenRegisterMustacheTests
     val openRegisterModel = mustache.data(
       partiallyFilledApplicationForm,
       WaysToVoteController.post,
-      Some(AddressController.get),
       InprogressOverseas()
     ).data.asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be("Do you want to include your name and address on the open register?")
     openRegisterModel.question.postUrl should be("/register-to-vote/overseas/ways-to-vote")
-    openRegisterModel.question.backUrl should be("/register-to-vote/overseas/address")
 
     openRegisterModel.openRegister.attributes should be("checked=\"checked\"")
   }

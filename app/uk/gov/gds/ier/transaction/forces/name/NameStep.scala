@@ -18,7 +18,6 @@ class NameStep @Inject ()(
   with NameMustache {
 
   val validation = nameForm
-  val previousRoute = Some(DateOfBirthController.get)
 
   val routes = Routes(
     get = NameController.get,

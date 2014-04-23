@@ -12,7 +12,7 @@ trait JobMustache extends StepTemplate[InprogressCrown] {
      jobTitle: Field,
      govDepartment: Field)
 
-  val mustache = MustacheTemplate("crown/job") { (form, post, back, application) =>
+  val mustache = MustacheTemplate("crown/job") { (form, post, application) =>
 
     implicit val progressForm = form
 
@@ -25,7 +25,6 @@ trait JobMustache extends StepTemplate[InprogressCrown] {
     val data = JobModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map (_.url).getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "6",
         title = title

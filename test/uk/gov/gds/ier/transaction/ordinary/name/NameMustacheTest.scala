@@ -27,13 +27,11 @@ class NameMustacheTest
     val nameModel = mustache.data(
       emptyApplicationForm,
       Call("POST", "/register-to-vote/name"),
-      Some(Call("GET", "/register-to-vote/date-of-birth")),
       InprogressOrdinary()
     ).data.asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/name")
-    nameModel.question.backUrl should be("/register-to-vote/date-of-birth")
 
     nameModel.firstName.value should be("")
     nameModel.middleNames.value should be("")
@@ -54,13 +52,11 @@ class NameMustacheTest
     val nameModel = mustache.data(
       partiallyFilledApplicationForm,
       Call("POST", "/register-to-vote/name"),
-      Some(Call("GET", "/register-to-vote/date-of-birth")),
       InprogressOrdinary()
     ).data.asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/name")
-    nameModel.question.backUrl should be("/register-to-vote/date-of-birth")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
@@ -89,13 +85,11 @@ class NameMustacheTest
     val nameModel = mustache.data(
       partiallyFilledApplicationForm,
       Call("POST", "/register-to-vote/name"),
-      Some(Call("GET", "/register-to-vote/date-of-birth")),
       InprogressOrdinary()
     ).data.asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/name")
-    nameModel.question.backUrl should be("/register-to-vote/date-of-birth")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
@@ -116,13 +110,11 @@ class NameMustacheTest
     val nameModel = mustache.data(
       partiallyFilledApplicationFormWithErrors,
       Call("POST", "/register-to-vote/name"),
-      Some(Call("GET", "/register-to-vote/date-of-birth")),
       InprogressOrdinary()
     ).data.asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/name")
-    nameModel.question.backUrl should be("/register-to-vote/date-of-birth")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")

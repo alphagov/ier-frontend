@@ -19,14 +19,13 @@ trait ParentsAddressManualMustache extends StepTemplate[InprogressOverseas] {
       maCounty: Field
   )
 
-  val mustache = MustacheTemplate("overseas/parentsAddressManual") { (form, post, back) =>
+  val mustache = MustacheTemplate("overseas/parentsAddressManual") { (form, post) =>
 
     implicit val progressForm = form
 
     val data = ManualModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map{ _.url }.getOrElse(""),
         number = questionNumber,
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)

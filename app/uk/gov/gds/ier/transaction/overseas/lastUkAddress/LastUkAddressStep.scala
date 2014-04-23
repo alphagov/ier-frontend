@@ -32,8 +32,6 @@ class LastUkAddressStep @Inject() (
 
   val validation = lookupAddressForm
 
-  val previousRoute = Some(DateLeftUkController.get)
-
   val routes = Routes(
     get = LastUkAddressController.get,
     post = LastUkAddressController.post,
@@ -44,13 +42,13 @@ class LastUkAddressStep @Inject() (
   def nextStep(currentState: InprogressOverseas) = {
     currentState.lastUkAddress.map(_.postcode) match {
       case Some(postcode) => {
-        if (postcode.trim.toUpperCase.startsWith("BT")) 
+        if (postcode.trim.toUpperCase.startsWith("BT"))
           GoTo (ExitController.northernIreland)
         else {
           LastUkAddressSelectController.lastUkAddressSelectStep
-        } 
+        }
       }
-      case _ => this 
+      case _ => this
     }
   }
 }

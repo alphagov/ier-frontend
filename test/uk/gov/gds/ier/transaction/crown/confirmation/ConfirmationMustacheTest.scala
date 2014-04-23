@@ -36,7 +36,6 @@ class ConfirmationMustacheTest
 
     val displayPartnerBlock = Confirmation.confirmationData(
       form = partiallyFilledApplicationForm,
-      backUrl = "http://backUrl",
       postUrl = "http://postUrl"
     ).displayPartnerBlock
 
@@ -56,7 +55,6 @@ class ConfirmationMustacheTest
 
     val displayPartnerBlock = Confirmation.confirmationData(
       form = partiallyFilledApplicationForm,
-      backUrl = "http://backUrl",
       postUrl = "http://postUrl"
     ).displayPartnerBlock
 
@@ -76,7 +74,6 @@ class ConfirmationMustacheTest
 
     val displayPartnerBlock = Confirmation.confirmationData(
       form = partiallyFilledApplicationForm,
-      backUrl = "http://backUrl",
       postUrl = "http://postUrl"
     ).displayPartnerBlock
 
@@ -99,7 +96,6 @@ class ConfirmationMustacheTest
 
     val displayPartnerBlock = Confirmation.confirmationData(
       form = partiallyFilledApplicationForm,
-      backUrl = "http://backUrl",
       postUrl = "http://postUrl"
     ).displayPartnerBlock
 
@@ -119,7 +115,6 @@ class ConfirmationMustacheTest
 
     val displayPartnerBlock = Confirmation.confirmationData(
       form = partiallyFilledApplicationForm,
-      backUrl = "http://backUrl",
       postUrl = "http://postUrl"
     ).displayPartnerBlock
 
@@ -139,7 +134,6 @@ class ConfirmationMustacheTest
 
     val displayPartnerBlock = Confirmation.confirmationData(
       form = partiallyFilledApplicationForm,
-      backUrl = "http://backUrl",
       postUrl = "http://postUrl"
     ).displayPartnerBlock
 
@@ -542,7 +536,6 @@ class ConfirmationMustacheTest
 
     val displayPartnerBlock = Confirmation.confirmationData(
       form = application,
-      backUrl = "http://backUrl",
       postUrl = "http://postUrl"
     ).displayPartnerBlock
 
@@ -567,7 +560,6 @@ class ConfirmationMustacheTest
 
     val displayPartnerBlock = Confirmation.confirmationData(
       form = application,
-      backUrl = "http://backUrl",
       postUrl = "http://postUrl"
     ).displayPartnerBlock
 

@@ -28,7 +28,6 @@ class PassportCheckStep @Inject ()(
   with PassportCheckMustache {
 
   val validation = passportCheckForm
-  val previousRoute = Some(LastUkAddressController.get)
 
   val routes = Routes(
     get = PassportCheckController.get,

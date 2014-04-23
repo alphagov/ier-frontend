@@ -16,13 +16,12 @@ trait OtherAddressMustache extends StepTemplate[InprogressOrdinary] {
   )
 
   val mustache = MustacheTemplate("ordinary/otherAddress") {
-    (form, post, back) =>
+    (form, post) =>
 
     val otherAddressValue = form(keys.otherAddress.hasOtherAddress).value
     val data = OtherAddressModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map(_.url).getOrElse(""),
         number = "7 of 11",
         title = "Do you also live at a second address?",
         errorMessages = form.globalErrors.map(_.message)

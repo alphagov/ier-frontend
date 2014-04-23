@@ -22,7 +22,6 @@ class NinoStep @Inject ()(
   with NinoMustache {
 
   val validation = ninoForm
-  val previousRoute = Some(NameController.get)
 
   val routes = Routes(
     get = NinoController.get,
