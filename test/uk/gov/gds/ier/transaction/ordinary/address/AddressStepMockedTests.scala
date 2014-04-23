@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.forces.address
+package uk.gov.gds.ier.transaction.ordinary.address
 
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
@@ -12,8 +12,12 @@ import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.GoTo
 import controllers.routes.ExitController
 import org.mockito.Mockito._
-
-class AddressControllerTests extends FlatSpec with TestHelpers with Matchers with Mockito {
+/*
+ * This test mock the AddressService. 
+ * 
+ * So it is separated from the normal AddressStepTests
+ */
+class AddressStepMockedTests extends FlatSpec with TestHelpers with Matchers with Mockito {
 
   it should "redirect to Scotland exit page if the gssCode starts with S" in {
     val mockedJsonSerialiser = mock[JsonSerialiser]
@@ -27,7 +31,7 @@ class AddressControllerTests extends FlatSpec with TestHelpers with Matchers wit
     val postcode = "EH1 1AA"
       
     when (mockedAddressService.isScotland(postcode)).thenReturn(true) 
-    val currentState = completeForcesApplication.copy(
+    val currentState = completeOrdinaryApplication.copy(
     		address = Some(PartialAddress(None, None, postcode, None, None)))
 
     val transferedState = addressStep.nextStep(currentState)
