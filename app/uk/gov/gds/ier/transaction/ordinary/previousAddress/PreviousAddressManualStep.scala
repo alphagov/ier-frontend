@@ -25,8 +25,6 @@ class PreviousAddressManualStep @Inject() (
 
   val validation = manualStepForm
 
-  val previousRoute = Some(PreviousAddressSelectController.get)
-
   val routes = Routes(
     get = PreviousAddressManualController.get,
     post = PreviousAddressManualController.post,

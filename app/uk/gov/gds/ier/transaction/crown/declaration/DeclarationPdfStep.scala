@@ -23,7 +23,6 @@ class DeclarationPdfStep @Inject ()(
   with DeclarationPdfMustache {
 
   val validation = declarationPdfForm
-  val previousRoute = Some(JobController.get)
 
   val routes = Routes(
     get = DeclarationPdfController.get,

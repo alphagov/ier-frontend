@@ -18,7 +18,6 @@ class RankStep @Inject ()(
   with RankMustache {
 
   val validation = rankForm
-  val previousRoute = Some(ServiceController.get)
 
   val routes = Routes(
     get = RankController.get,

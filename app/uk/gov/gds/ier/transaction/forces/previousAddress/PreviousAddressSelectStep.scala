@@ -28,8 +28,6 @@ class PreviousAddressSelectStep @Inject() (
 
   val validation = selectAddressFormForPreviousAddress
 
-  val previousRoute = Some(PreviousAddressPostcodeController.get)
-
   val routes = Routes(
     get = PreviousAddressSelectController.get,
     post = PreviousAddressSelectController.post,

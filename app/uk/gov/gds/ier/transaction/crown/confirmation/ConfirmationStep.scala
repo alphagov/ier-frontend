@@ -33,7 +33,6 @@ class ConfirmationStep @Inject() (
   )
 
   val validation = confirmationForm
-  val previousRoute = Some(StatementController.get)
 
   def template(form: ErrorTransformForm[InprogressCrown]) = {
     Confirmation.confirmationPage(

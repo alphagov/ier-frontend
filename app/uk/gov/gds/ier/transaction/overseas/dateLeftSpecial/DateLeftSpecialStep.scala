@@ -65,8 +65,6 @@ abstract class DateLeftSpecialStep
 
   val validation = dateLeftSpecialForm
 
-  val previousRoute = Some(LastRegisteredToVoteController.get)
-
   def nextStep(currentState: InprogressOverseas) = {
     currentState.dateLeftSpecial match {
       case Some(dateLeftSpecial) if dateLeftUkOver15Years(dateLeftSpecial.date) => {

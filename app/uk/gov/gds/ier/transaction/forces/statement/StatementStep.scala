@@ -23,7 +23,6 @@ class StatementStep @Inject ()(
     with StatementMustache {
 
   val validation = statementForm
-  val previousRoute = None
 
   val routes = Routes(
     get = StatementController.get,

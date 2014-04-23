@@ -32,7 +32,6 @@ class WaysToVoteStep @Inject ()(
     editGet = WaysToVoteController.editGet,
     editPost = WaysToVoteController.editPost
   )
-  val previousRoute = Some(OpenRegisterController.get)
 
   override val onSuccess = TransformApplication { application =>
     if (application.waysToVote == Some(WaysToVote(WaysToVoteType.InPerson))) {

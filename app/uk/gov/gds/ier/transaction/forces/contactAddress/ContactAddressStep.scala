@@ -18,7 +18,6 @@ class ContactAddressStep @Inject ()(
     with ContactAddressMustache{
 
   val validation = contactAddressForm
-  val previousRoute = Some(RankController.get)
 
   val routes = Routes(
     get = ContactAddressController.get,

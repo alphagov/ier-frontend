@@ -25,7 +25,6 @@ class PreviouslyRegisteredStep @Inject() (
     editGet = PreviouslyRegisteredController.editGet,
     editPost = PreviouslyRegisteredController.editPost
   )
-  val previousRoute = Some(DateOfBirthController.get)
 
   def nextStep(currentState: InprogressOverseas) = {
     currentState.previouslyRegistered match {

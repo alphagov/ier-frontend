@@ -22,7 +22,6 @@ class JobStep @Inject ()(
   with JobMustache {
 
   val validation = jobForm
-  val previousRoute = Some(NameController.get)
 
   val routes = Routes(
     get = JobController.get,

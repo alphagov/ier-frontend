@@ -21,7 +21,6 @@ class LastRegisteredToVoteStep @Inject() (
   with LastRegisteredToVoteMustache {
 
   val validation = lastRegisteredToVoteForm
-  val previousRoute = Some(PreviouslyRegisteredController.get)
 
   val routes = Routes(
     get = LastRegisteredToVoteController.get,

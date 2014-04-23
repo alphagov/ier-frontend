@@ -24,8 +24,6 @@ class ParentsAddressStep @Inject() (
 
   val validation = parentsLookupAddressForm
 
-  val previousRoute = Some(DateLeftUkController.get)
-
   val routes = Routes(
     get = ParentsAddressController.get,
     post = ParentsAddressController.post,

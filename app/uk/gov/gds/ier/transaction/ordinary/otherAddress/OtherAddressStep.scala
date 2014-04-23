@@ -22,7 +22,6 @@ class OtherAddressStep @Inject ()(
   with OtherAddressMustache {
 
   val validation = otherAddressForm
-  val previousRoute = Some(AddressController.get)
 
   val routes = Routes(
     get = OtherAddressController.get,

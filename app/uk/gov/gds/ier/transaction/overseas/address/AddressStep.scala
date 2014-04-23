@@ -24,7 +24,6 @@ class AddressStep @Inject() (
     editGet = AddressController.editGet,
     editPost = AddressController.editPost
   )
-  val previousRoute = Some(NinoController.get)
 
   def nextStep(currentState: InprogressOverseas) = {
     OpenRegisterController.openRegisterStep

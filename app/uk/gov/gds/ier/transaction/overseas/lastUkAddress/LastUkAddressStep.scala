@@ -32,8 +32,6 @@ class LastUkAddressStep @Inject() (
 
   val validation = lookupAddressForm
 
-  val previousRoute = Some(DateLeftUkController.get)
-
   val routes = Routes(
     get = LastUkAddressController.get,
     post = LastUkAddressController.post,

@@ -27,7 +27,6 @@ class ParentNameStep @Inject ()(
     editGet = ParentNameController.editGet,
     editPost = ParentNameController.editPost
   )
-  val previousRoute = Some(DateLeftUkController.get)
 
   def nextStep(currentState: InprogressOverseas) = {
     ParentsAddressController.parentsAddressStep

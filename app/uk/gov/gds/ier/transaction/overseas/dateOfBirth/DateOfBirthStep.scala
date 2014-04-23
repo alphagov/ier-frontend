@@ -28,7 +28,6 @@ class DateOfBirthStep @Inject ()(
     editGet = DateOfBirthController.editGet,
     editPost = DateOfBirthController.editPost
   )
-  val previousRoute = None
 
   def nextStep(currentState: InprogressOverseas) = {
     currentState.dob match {

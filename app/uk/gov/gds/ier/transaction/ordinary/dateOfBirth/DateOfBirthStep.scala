@@ -24,7 +24,6 @@ class DateOfBirthStep @Inject ()(
   with DateOfBirthMustache{
 
   val validation = dateOfBirthForm
-  val previousRoute = Some(NationalityController.get)
 
   val routes = Routes(
     get = DateOfBirthController.get,

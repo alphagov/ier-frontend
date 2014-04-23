@@ -18,7 +18,6 @@ class NinoStep @Inject ()(val serialiser: JsonSerialiser,
   with NinoMustache {
 
   val validation = ninoForm
-  val previousRoute = Some(NameController.get)
 
   val routes = Routes(
     get = NinoController.get,

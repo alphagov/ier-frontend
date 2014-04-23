@@ -23,7 +23,6 @@ class AddressFirstStep @Inject ()(
   with AddressFirstForms {
 
   val validation = addressFirstForm
-  val previousRoute = Some(StatementController.get)
 
   val routes = Routes(
     get = AddressFirstController.get,

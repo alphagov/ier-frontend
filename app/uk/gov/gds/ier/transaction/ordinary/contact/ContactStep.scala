@@ -25,7 +25,6 @@ class ContactStep @Inject ()(
   with ContactMustache {
 
   val validation = contactForm
-  val previousRoute = Some(PostalVoteController.get)
 
   val routes = Routes(
     get = ContactController.get,
