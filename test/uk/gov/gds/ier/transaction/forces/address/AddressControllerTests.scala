@@ -15,22 +15,6 @@ import org.mockito.Mockito._
 
 class AddressControllerTests extends FlatSpec with TestHelpers with Matchers with Mockito {
 
-  it should "redirect to Northern Ireland exit page if the postcode starts with BT" in {
-    val mockedJsonSerialiser = mock[JsonSerialiser]
-    val mockedConfig = mock[Config]
-    val mockedEncryptionService = mock[EncryptionService]
-    val mockedAddressService = mock[AddressService]
-
-    val addressStep = new AddressStep(mockedJsonSerialiser, mockedConfig,
-        mockedEncryptionService, mockedAddressService)
-
-    val currentState = completeForcesApplication.copy(
-    		address = Some(PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), 
-    				"BTabc", None, None)))
-
-    val transferedState = addressStep.nextStep(currentState)
-  }
-  
   it should "redirect to Scotland exit page if the gssCode starts with S" in {
     val mockedJsonSerialiser = mock[JsonSerialiser]
     val mockedConfig = mock[Config]
