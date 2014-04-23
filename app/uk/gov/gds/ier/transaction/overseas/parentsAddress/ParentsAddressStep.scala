@@ -32,15 +32,19 @@ class ParentsAddressStep @Inject() (
   )
 
   def nextStep(currentState: InprogressOverseas) = {
-    currentState.parentsAddress.map(_.postcode) match {
-      case Some(postcode) => {
-        if (postcode.trim.toUpperCase.startsWith("BT"))
+    currentState.parentsAddress match {
+      case Some(partialAddress) => {
+        val postcode = partialAddress.postcode.trim.toUpperCase
+        if (postcode.isEmpty)
+          this
+        else if (postcode.startsWith("BT"))
           GoTo (ExitController.northernIreland)
-        else {
+        else if (addressService.isScotland(postcode))
+          GoTo (ExitController.scotland)
+        else
           ParentsAddressSelectController.parentsAddressSelectStep
-        }
       }
-      case _ => this
+      case None => this
     }
   }
 }
