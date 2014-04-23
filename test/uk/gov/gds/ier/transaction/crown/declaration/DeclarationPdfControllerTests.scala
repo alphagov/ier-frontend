@@ -8,13 +8,13 @@ import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.model.{PartialAddress, LastUkAddress}
 
-class DeclarationControllerTests
+class DeclarationPdfControllerTests
   extends FlatSpec
   with Matchers
   with MockitoSugar
   with TestHelpers {
 
-  behavior of "DeclarationPdfController.get"
+  behavior of "DeclarationPdfController.get with no session data"
   it should "display the page" in {
     running(FakeApplication()) {
       route(
@@ -32,7 +32,7 @@ class DeclarationControllerTests
     }
   }
 
-  behavior of "DeclarationPdfController.post"
+  behavior of "DeclarationPdfController.post with postcode in session data"
   it should "redirect to the next step even when request is empty as this step has no inputs" in {
     running(FakeApplication()) {
       val Some(result) = route(

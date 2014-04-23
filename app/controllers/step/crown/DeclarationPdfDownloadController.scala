@@ -7,11 +7,10 @@ import play.api.mvc.Controller
 import play.api.http.HeaderNames
 import play.api.Play
 import play.api.Play.current
-import uk.gov.gds.ier.logging.Logging
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-object DeclarationPdfDownloadController extends Controller with HeaderNames with Logging {
+object DeclarationPdfDownloadController extends Controller with HeaderNames {
 
   val pdfFileName = "/public/pdf/crown-servant-declaration-blank.pdf"
 
@@ -27,13 +26,13 @@ object DeclarationPdfDownloadController extends Controller with HeaderNames with
     10 seconds)
 
   def download = Action {
-    logger.info("About to stream out " + pdfFileName)
     val pdfFileStream = Play.resourceAsStream(pdfFileName) match {
       case Some(pdfFileStream) => pdfFileStream
       case None => throw new IllegalArgumentException(s"Play.resource($pdfFileName) returned None")
     }
     val fileContent: Enumerator[Array[Byte]] = Enumerator.fromStream(pdfFileStream)
-    val result = SimpleResult(
+
+    SimpleResult(
       header = ResponseHeader(200,
         Map(
           CONTENT_TYPE -> "application/pdf",
@@ -42,8 +41,6 @@ object DeclarationPdfDownloadController extends Controller with HeaderNames with
         )),
       body = fileContent
     )
-    logger.info("Successfully prepared streaming out " + pdfFileName)
-    result
   }
 
   def fileSizeWithUnit = {
