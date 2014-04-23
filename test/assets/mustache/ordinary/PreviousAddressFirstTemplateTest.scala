@@ -25,6 +25,7 @@ class PreviousAddressFirstTemplateTest
           number = "123",
           title = "Page title ABC"
         ),
+        registeredAbroad = FieldSet(),
         previousYesUk = Field(
           id = "previousYesUkId",
           name = "previousYesUkName",
@@ -44,6 +45,20 @@ class PreviousAddressFirstTemplateTest
           name = "previousAddressNoName",
           classes = "previousAddressNoClasses",
           value = "previousAddressNoValue",
+          attributes = "foo=\"foo\""
+        ),
+        registeredAbroadYes = Field(
+          id = "registeredAbroadYesId",
+          name = "registeredAbroadYesName",
+          classes = "registeredAbroadYesClasses",
+          value = "registeredAbroadYesValue",
+          attributes = "foo=\"foo\""
+        ),
+        registeredAbroadNo = Field(
+          id = "registeredAbroadNoId",
+          name = "registeredAbroadNoName",
+          classes = "registeredAbroadNoClasses",
+          value = "registeredAbroadNoValue",
           attributes = "foo=\"foo\""
         )
       )
@@ -76,6 +91,24 @@ class PreviousAddressFirstTemplateTest
         r.attr("id") should be("previousAddressNoId")
         r.attr("name") should be("previousAddressNoName")
         r.attr("value") should be("previousAddressNoValue")
+        r.attr("foo") should be("foo")
+      }
+
+      { // YES option REGISTERED ABROAD YES
+        doc.select("label[for=registeredAbroadYesId]").size() should be(1)
+        val r = doc.select("input#registeredAbroadYesId").first()
+        r should not be(null)
+        r.attr("name") should be("registeredAbroadYesName")
+        r.attr("value") should be("registeredAbroadYesValue")
+        r.attr("foo") should be("foo")
+      }
+
+      { // YES option REGISTERED ABROAD NO
+        doc.select("label[for=registeredAbroadNoId]").size() should be(1)
+        val r = doc.select("input#registeredAbroadNoId").first()
+        r should not be(null)
+        r.attr("name") should be("registeredAbroadNoName")
+        r.attr("value") should be("registeredAbroadNoValue")
         r.attr("foo") should be("foo")
       }
 

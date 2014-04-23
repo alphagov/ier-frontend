@@ -36,7 +36,8 @@ class PreviousAddressFirstStep @Inject ()(
 
   def nextStep(currentState: InprogressOrdinary) = {
     currentState.previousAddress.flatMap(_.movedRecently) match {
-      case Some(MovedHouseOption.MovedFromAbroad) => previousPostcodeAddressStep
+      case Some(MovedHouseOption.MovedFromAbroadRegistered) => previousPostcodeAddressStep
+      case Some(MovedHouseOption.MovedFromAbroadNotRegistered) => openRegisterStep
       case Some(MovedHouseOption.MovedFromUk) => previousPostcodeAddressStep
       case Some(MovedHouseOption.NotMoved) => openRegisterStep
       case _ => this

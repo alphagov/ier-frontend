@@ -22,6 +22,9 @@ trait CommonForms {
     case MovedHouseOption.MovedFromUk => Valid
     case MovedHouseOption.MovedFromAbroad => Valid
     case MovedHouseOption.NotMoved => Valid
+    case MovedHouseOption.MovedFromAbroadRegistered => Valid
+    case MovedHouseOption.MovedFromAbroadNotRegistered => Valid
+
     case _ => Invalid("Not a valid option")
   }
 }
