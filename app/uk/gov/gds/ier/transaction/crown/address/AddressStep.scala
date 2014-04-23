@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.address
 
+import controllers.step.crown.AddressSelectController
 import controllers.step.crown.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.config.Config
@@ -30,9 +31,20 @@ class AddressStep @Inject() (
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    currentState.address.map(_.address) match {
-      case Some(address) if address.exists(_.postcode.trim.toUpperCase.startsWith("BT")) => GoTo (ExitController.northernIreland)
-      case _ => controllers.step.crown.AddressSelectController.addressSelectStep
+    val optAddress = currentState.address.flatMap(_.address)
+
+    optAddress match {
+      case Some(partialAddress) => {
+        val postcode = partialAddress.postcode.trim.toUpperCase
+        if (postcode.isEmpty)
+          this
+        else if (postcode.startsWith("BT"))
+          GoTo (ExitController.northernIreland)
+        else if (addressService.isScotland(postcode))
+          GoTo (ExitController.scotland)
+        else AddressSelectController.addressSelectStep
+      }
+      case None => this
     }
   }
 
