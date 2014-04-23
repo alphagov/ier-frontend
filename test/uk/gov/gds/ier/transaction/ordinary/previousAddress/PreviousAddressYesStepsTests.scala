@@ -232,7 +232,7 @@ class PreviousAddressYesStepsTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication.copy(previousAddress = None))
           .withFormUrlEncodedBody(
-            "previousAddress.movedRecently" -> "from-uk"
+            "previousAddress.movedRecently.movedRecently" -> "from-uk"
           )
       )
 

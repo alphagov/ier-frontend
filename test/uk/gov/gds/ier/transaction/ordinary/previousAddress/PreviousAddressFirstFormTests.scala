@@ -51,7 +51,7 @@ class PreviousAddressFirstFormTests
   it should "successfully bind when user has previous address (from uk)" in {
     val js = Json.toJson(
       Map(
-        "previousAddress.movedRecently" -> "from-uk"
+        "previousAddress.movedRecently.movedRecently" -> "from-uk"
       )
     )
     previousAddressFirstForm.bind(js).fold(
@@ -67,7 +67,8 @@ class PreviousAddressFirstFormTests
   it should "successfully bind when user has previous address (from abroad)" in {
     val js = Json.toJson(
       Map(
-        "previousAddress.movedRecently" -> "from-abroad"
+        "previousAddress.movedRecently.movedRecently" -> "from-abroad",
+        "previousAddress.movedRecently.wasRegisteredWhenAbroad" -> "false"
       )
     )
     previousAddressFirstForm.bind(js).fold(
@@ -75,7 +76,7 @@ class PreviousAddressFirstFormTests
         fail("Binding failed with " + hasErrors.errorsAsTextAll)
       },
       success => {
-        success.previousAddress.flatMap(_.movedRecently) should be(Some(MovedHouseOption.MovedFromAbroad))
+        success.previousAddress.flatMap(_.movedRecently) should be(Some(MovedHouseOption.MovedFromAbroadNotRegistered))
       }
     )
   }
@@ -83,7 +84,7 @@ class PreviousAddressFirstFormTests
   it should "successfully bind when user does not has previous address" in {
     val js = Json.toJson(
       Map(
-        "previousAddress.movedRecently" -> "no"
+        "previousAddress.movedRecently.movedRecently" -> "no"
       )
     )
     previousAddressFirstForm.bind(js).fold(
