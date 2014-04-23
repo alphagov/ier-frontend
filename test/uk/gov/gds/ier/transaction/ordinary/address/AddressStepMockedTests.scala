@@ -12,25 +12,13 @@ import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.GoTo
 import controllers.routes.ExitController
 import org.mockito.Mockito._
+/*
+ * This test mock the AddressService. 
+ * 
+ * So it is separated from the normal AddressStepTests
+ */
+class AddressStepMockedTests extends FlatSpec with TestHelpers with Matchers with Mockito {
 
-class AddressControllerTests extends FlatSpec with TestHelpers with Matchers with Mockito {
-
-  it should "redirect to Northern Ireland exit page if the postcode starts with BT" in {
-    val mockedJsonSerialiser = mock[JsonSerialiser]
-    val mockedConfig = mock[Config]
-    val mockedEncryptionService = mock[EncryptionService]
-    val mockedAddressService = mock[AddressService]
-
-    val addressStep = new AddressStep(mockedJsonSerialiser, mockedConfig,
-        mockedEncryptionService, mockedAddressService)
-
-    val currentState = completeOrdinaryApplication.copy(
-    		address = Some(PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), 
-    				"BTabc", None, None)))
-
-    val transferedState = addressStep.nextStep(currentState)
-  }
-  
   it should "redirect to Scotland exit page if the gssCode starts with S" in {
     val mockedJsonSerialiser = mock[JsonSerialiser]
     val mockedConfig = mock[Config]
@@ -41,10 +29,8 @@ class AddressControllerTests extends FlatSpec with TestHelpers with Matchers wit
         mockedEncryptionService, mockedAddressService)
     
     val postcode = "EH1 1AA"
-    val addresses = List(PartialAddress(None, None, postcode = postcode, None, gssCode = Some("S1")), 
-        PartialAddress(None, None, postcode = postcode, None, gssCode = Some("S2")))
       
-    when (mockedAddressService.lookupPartialAddress(postcode)).thenReturn(addresses) 
+    when (mockedAddressService.isScotland(postcode)).thenReturn(true) 
     val currentState = completeOrdinaryApplication.copy(
     		address = Some(PartialAddress(None, None, postcode, None, None)))
 
