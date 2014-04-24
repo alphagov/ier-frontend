@@ -32,13 +32,59 @@ class PreviousAddressFirstControllerTests
   }
 
   behavior of "PreviousAddressController.post"
-  it should "bind successfully and redirect to the Other Address step" in {
+  it should "bind successfully and redirect to the Select step for uk" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/previous-address")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+          "previousAddress.movedRecently.movedRecently" -> "from-uk"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/previous-address/postcode"))
+    }
+  }
+
+  it should "bind successfully and redirect to the Select step when registered abroad" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/previous-address")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+          "previousAddress.movedRecently.movedRecently" -> "from-abroad",
+          "previousAddress.movedRecently.wasRegisteredWhenAbroad" -> "true"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/previous-address/postcode"))
+    }
+  }
+
+  it should "bind successfully and redirect to the Open register step when not registered abroad" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/previous-address")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+          "previousAddress.movedRecently.movedRecently" -> "from-abroad",
+          "previousAddress.movedRecently.wasRegisteredWhenAbroad" -> "false"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/open-register"))
+    }
+  }
+
+  it should "bind successfully and redirect to the Open register step" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/previous-address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.previousAddress.movedRecently" -> "yes",
             "previousAddress.previousAddress.uprn" -> "123456789",
             "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
@@ -85,19 +131,33 @@ class PreviousAddressFirstControllerTests
       }
     }
 
-  it should "display any errors on unsuccessful bind" in {
+  it should "display any errors on unsuccessful bind with no data" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/previous-address").withIerSession()
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("" +
-        "Have you moved out of another address in the last 12 months?")
-      contentAsString(result) should include("" +
-        "Please answer this question")
-      contentAsString(result) should include("" +
-        "/register-to-vote/previous-address")
+      contentAsString(result) should include("Have you moved out of another address in the last 12 months?")
+      contentAsString(result) should include("Please answer this question")
+      contentAsString(result) should include("/register-to-vote/previous-address")
+    }
+  }
+
+  it should "display any errors on unsuccessful bind with incomplete data" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/previous-address")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "previousAddress.movedRecently.movedRecently" -> "from-abroad"
+        )
+      )
+
+      status(result) should be(OK)
+      contentAsString(result) should include("Have you moved out of another address in the last 12 months?")
+      contentAsString(result) should include("Please answer this question")
+      contentAsString(result) should include("/register-to-vote/previous-address")
     }
   }
 
@@ -142,7 +202,7 @@ class PreviousAddressFirstControllerTests
         FakeRequest(POST, "/register-to-vote/edit/previous-address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.previousAddress.movedRecently" -> "yes",
+            "previousAddress.previousAddress.movedRecently.movedRecently" -> "yes",
             "previousAddress.previousAddress.uprn" -> "123456789",
             "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
@@ -160,7 +220,7 @@ class PreviousAddressFirstControllerTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "previousAddress.previousAddress.movedRecently" -> "yes",
+            "previousAddress.previousAddress.movedRecently.movedRecently" -> "yes",
             "previousAddress.previousAddress.uprn" -> "123456789",
             "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
