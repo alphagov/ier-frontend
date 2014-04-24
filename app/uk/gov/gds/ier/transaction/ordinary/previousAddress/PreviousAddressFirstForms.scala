@@ -9,8 +9,7 @@ import play.api.data.validation.{Invalid, Valid, Constraint}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 trait PreviousAddressFirstForms
-    extends PreviousAddressFirstConstraints
-    with CommonForms {
+    extends PreviousAddressFirstConstraints {
   self: FormKeys
     with ErrorMessages
     with WithSerialiser =>
