@@ -238,10 +238,10 @@ trait ConfirmationMustache {
         editLink = routes.PreviousAddressFirstController.editGet.url,
         changeName = "your previous address",
         content = ifComplete(keys.previousAddress) {
-          if(movedHouse.exists(_.hasPreviousAddress)) {
-            address + postcode
-          } else {
-            "<p>I have not moved in the last 12 months</p>"
+          movedHouse match {
+            case Some(MovedHouseOption.MovedFromAbroadNotRegistered) => "<p>I moved from abroad, but I was not registered to vote there</p>"
+            case Some(moveOption) if moveOption.hasPreviousAddress => address + postcode
+            case _ => "<p>I have not moved in the last 12 months</p>"
           }
         }
       ))

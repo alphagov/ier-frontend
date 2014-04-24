@@ -11,7 +11,7 @@ object MovedHouseOption extends ModelMapping {
   val NotMoved = MovedHouseOption(false, "no")
   val DontKnow = MovedHouseOption(false, "dunno")
   val MovedFromAbroadRegistered = MovedHouseOption(true, "from-abroad-registered")
-  val MovedFromAbroadNotRegistered = MovedHouseOption(false, "from-abroad-not-registered")
+  val MovedFromAbroadNotRegistered = MovedHouseOption(true, "from-abroad-not-registered")
 
   def isValid(str:String):Boolean = {
     str match {
