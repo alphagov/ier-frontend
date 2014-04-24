@@ -3,6 +3,8 @@ package uk.gov.gds.ier.mustache
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.templates.Html
 import play.api.mvc.Call
+import uk.gov.gds.ier.langs.Messages
+import play.api.i18n.Lang
 
 case class Question (
     postUrl:String = "",
@@ -13,13 +15,21 @@ case class Question (
 
 trait MustacheData {
   val question: Question
-  val messages: Map[String,String] = Messages.english
+  val lang:Lang = Lang("en")
+  lazy val messages: Map[String,String] = Messages.messagesForLang(lang)
 }
 
 trait MustacheTemplate[T] {
   val mustachePath: String
-  val data: (ErrorTransformForm[T],Call,T) => MustacheData
+  val data: (Lang,ErrorTransformForm[T],Call,T) => MustacheData
 
+  def data(
+      form:ErrorTransformForm[T],
+      post:Call,
+      application:T
+  ): MustacheData = {
+    data(Lang("en"), form, post, application)
+  }
   def apply(
       form:ErrorTransformForm[T],
       postUrl:Call,
@@ -30,46 +40,61 @@ trait MustacheTemplate[T] {
 }
 
 trait MustacheTemplateFactories[T] {
-  class MustacheTemplateMaker[T](name:String) {
+  class MustacheTemplateMaker(name:String) {
     def apply(
         data: (ErrorTransformForm[T], Call, T) => MustacheData
     ): MustacheTemplate[T] = {
-      makeMustacheTemplate(name, data)
+      MustacheTemplate(
+        name,
+        (lang, form, post, application) => data(form, post, application)
+      )
     }
 
     def apply(
         data: (ErrorTransformForm[T], Call) => MustacheData
     ): MustacheTemplate[T] = {
-      makeMustacheTemplate(
+      MustacheTemplate(
         name,
-        (form, post, application) => data(form, post)
+        (lang, form, post, application) => data(form, post)
       )
     }
 
     def apply(
         data: (ErrorTransformForm[T]) => MustacheData
     ) : MustacheTemplate[T] = {
-      makeMustacheTemplate(
+      MustacheTemplate(
         name,
-        (form, post, application) => data(form)
+        (lang, form, post, application) => data(form)
       )
-    }
-
-    private def makeMustacheTemplate(
-        mustachePath:String,
-        data: (ErrorTransformForm[T], Call, T) => MustacheData
-    ) : MustacheTemplate[T] = {
-      val _mustachePath = mustachePath
-      val _data = data
-      new MustacheTemplate[T] {
-        val mustachePath = _mustachePath
-        val data = _data
-      }
     }
   }
   object MustacheTemplate {
-    def apply(mustachePath:String):MustacheTemplateMaker[T] = {
-      new MustacheTemplateMaker[T](mustachePath)
+    def apply(
+        path:String,
+        func: (Lang, ErrorTransformForm[T], Call, T) => MustacheData
+    ) : MustacheTemplate[T] = {
+      new MustacheTemplate[T] {
+        val mustachePath = path
+        val data = func
+      }
+    }
+    def apply(mustachePath:String):MustacheTemplateMaker = {
+      new MustacheTemplateMaker(mustachePath)
+    }
+  }
+  class MultilingualTemplateMaker(name:String) {
+    def apply(
+        data: (Lang) => (ErrorTransformForm[T], Call) => MustacheData
+    ): MustacheTemplate[T] = {
+      MustacheTemplate(
+        name,
+        (lang, form, post, application) => data(lang)(form, post)
+      )
+    }
+  }
+  object MultilingualTemplate {
+    def apply(mustachePath:String):MultilingualTemplateMaker = {
+      new MultilingualTemplateMaker(mustachePath)
     }
   }
 }

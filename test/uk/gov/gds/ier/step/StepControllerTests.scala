@@ -305,6 +305,7 @@ trait TestTemplate[T <: InprogressApplication[T]] extends StepTemplate[T] {
     new MustacheTemplate {
       case class FooModel(question:Question, application:T) extends MustacheData
       val data = (
+        lang:Lang,
         form:ErrorTransformForm[T],
         postUrl:Call,
         application:T
@@ -320,7 +321,7 @@ trait TestTemplate[T <: InprogressApplication[T]] extends StepTemplate[T] {
         application:T
       ):MustacheRenderer = {
         new MustacheRenderer(_this, form, postUrl, application) {
-          override def html = template(form, postUrl)
+          override def html()(implicit request:Request[Any]) = template(form, postUrl)
         }
       }
     }
