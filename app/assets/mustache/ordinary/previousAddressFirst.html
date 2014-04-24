@@ -47,7 +47,7 @@
         </label>
     </fieldset>
 
-    <fieldset class="optional-section sub-section validate {{registeredAbroad.classes}}"
+    <fieldset class="optional-section optional-section-core-content sub-section validate {{registeredAbroad.classes}}"
               data-condition="{{previousYesAbroad.id}}"
               data-validation-name="registeredAbroad"
               data-validation-type="fieldset"
@@ -86,7 +86,7 @@
     <button id="continue"
             type="submit"
             class="button next validation-submit"
-            data-validation-sources="previousAddress">
+            data-validation-sources="previousAddress registeredAbroad">
         Continue
     </button>
 </form>

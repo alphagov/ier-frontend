@@ -927,7 +927,10 @@
       },
       'hasUkAddress' : {
          'atLeastOneNonEmpty' : 'Please answer this question'
-      }
+      },
+      'registeredAbroad' : {
+        'atLeastOneNonEmpty' : 'Please answer this question'
+      },
 
     }
   };
