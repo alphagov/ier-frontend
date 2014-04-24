@@ -10,15 +10,16 @@ import uk.gov.gds.ier.service.AddressService
 import org.mockito.Mockito._
 import uk.gov.gds.ier.model.PartialAddress
 import controllers.routes._
+import controllers.step.overseas.LastUkAddressSelectController
+import play.api.test.Helpers._
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.step.GoTo
 import scala.Some
-import controllers.step.overseas.LastUkAddressSelectController
-import uk.gov.gds.guice.GuiceContainer
-import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import play.api.test.FakeApplication
 
 /**
- * This test mock the AddressService to provide positive Scot address
- * so it is separated from the normal AddressStepTests
+ * Lover level tests focused on individual Step methods, like exit branching, utilizing
+ * mocked services
  */
 class LastUkAddressStepMockedTests extends FlatSpec with TestHelpers with Matchers with Mockito {
 
@@ -34,7 +35,8 @@ class LastUkAddressStepMockedTests extends FlatSpec with TestHelpers with Matche
     lastUkAddress = Some(PartialAddress(None, None, scotPostcode, None, None)))
   val applicationWithEnglLastUkAddress = InprogressOverseas(
     lastUkAddress = Some(PartialAddress(None, None, englPostcode, None, None)))
-  GuiceContainer.initialize()
+  // start Guice if it was not already started as one of the following tests does not work without it
+  running(FakeApplication()) {}
 
   behavior of "LastUkAddressStep.nextStep"
 

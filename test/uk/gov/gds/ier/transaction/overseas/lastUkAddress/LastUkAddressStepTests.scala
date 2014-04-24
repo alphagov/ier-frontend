@@ -2,11 +2,11 @@ package uk.gov.gds.ier.transaction.overseas.lastUkAddress
 
 import org.scalatest.{Matchers, FlatSpec}
 import org.scalatest.mock.MockitoSugar
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
+import play.api.test.FakeApplication
+import scala.Some
 
 class LastUkAddressStepTests
   extends FlatSpec
@@ -67,7 +67,7 @@ class LastUkAddressStepTests
       redirectLocation(result) should be(Some("/register-to-vote/overseas/name"))
     }
   }
-  
+
   it should "redirect a renewer to the Northern Ireland Exit page if the postcode starts with BT" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -415,7 +415,7 @@ behavior of "LastUkAddressStep.editGet"
   }
 
   it should "display errors when posting empty form on a edit manual page" in {
-    running(FakeApplication()) { 
+    running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/edit/last-uk-address/manual").withIerSession()
       )
@@ -428,7 +428,7 @@ behavior of "LastUkAddressStep.editGet"
       contentAsString(result) should include("/register-to-vote/overseas/edit/last-uk-address/manual")
     }
   }
-  
+
   behavior of "Completing a prior step when this question is incomplete"
   it should "stop on this page" in {
     running(FakeApplication()) {
