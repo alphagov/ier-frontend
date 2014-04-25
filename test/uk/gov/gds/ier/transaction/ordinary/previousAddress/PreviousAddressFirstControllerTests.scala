@@ -2,11 +2,10 @@ package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
 import org.scalatest.{Matchers, FlatSpec}
 import org.scalatest.mock.MockitoSugar
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.model.{PartialManualAddress, PartialAddress, MovedHouseOption, PartialPreviousAddress}
 
 class PreviousAddressFirstControllerTests
   extends FlatSpec
@@ -196,13 +195,127 @@ class PreviousAddressFirstControllerTests
   }
 
   behavior of "PreviousAddressController.editPost"
+
+  it should "bind successfully and redirect to the Select address step (skipping postcode) when the address was selected before" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/edit/previous-address")
+          .withIerSession()
+          .withApplication(completeOrdinaryApplication.copy(
+            previousAddress =
+              Some(PartialPreviousAddress(
+                movedRecently = Some(MovedHouseOption.MovedFromAbroadRegistered),
+                previousAddress = Some(PartialAddress(
+                  addressLine = Some("123 Fake Street, Fakerton"),
+                  postcode = "SW1A 1AA",
+                  uprn = Some("123456789"),
+                  manualAddress = None))))))
+          .withFormUrlEncodedBody("previousAddress.previousAddress.movedRecently.movedRecently" -> "from-uk")
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/previous-address/select"))
+    }
+  }
+
+  it should "bind successfully and redirect to the Select address step (skipping postcode) when the address was provided manually" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/edit/previous-address")
+          .withIerSession()
+          .withApplication(completeOrdinaryApplication.copy(
+            previousAddress =
+              Some(PartialPreviousAddress(
+                movedRecently = Some(MovedHouseOption.MovedFromAbroadRegistered),
+                previousAddress = Some(PartialAddress(
+                  addressLine = None,
+                  postcode = "SW1A 1AA",
+                  uprn = None,
+                  manualAddress = Some(PartialManualAddress(
+                    lineOne = Some("123 Fake Street"),
+                    lineTwo = Some("Nonexistent building"),
+                    lineThree = Some(""),
+                    city = Some("Fakerton")
+                  ))
+                ))
+              ))
+           ))
+          .withFormUrlEncodedBody("previousAddress.movedRecently.movedRecently" -> "from-uk")
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/previous-address/manual"))
+    }
+  }
+
+  it should "bind successfully and redirect to the confirmation step when switched to not have a previous address" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/edit/previous-address")
+          .withIerSession()
+          .withApplication(completeOrdinaryApplication.copy(
+          previousAddress =
+            Some(PartialPreviousAddress(
+              movedRecently = Some(MovedHouseOption.MovedFromAbroadRegistered),
+              previousAddress = Some(PartialAddress(
+                addressLine = None,
+                postcode = "SW1A 1AA",
+                uprn = None,
+                manualAddress = Some(PartialManualAddress(
+                  lineOne = Some("123 Fake Street"),
+                  lineTwo = Some("Nonexistent building"),
+                  lineThree = Some(""),
+                  city = Some("Fakerton")
+                ))
+              ))
+            ))
+        ))
+        .withFormUrlEncodedBody("previousAddress.movedRecently.movedRecently" -> "no")
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/confirmation"))
+    }
+  }
+
+  it should "bind successfully and redirect to the confirmation step when switched to previous address but not registered " in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/edit/previous-address")
+          .withIerSession()
+          .withApplication(completeOrdinaryApplication.copy(
+          previousAddress =
+            Some(PartialPreviousAddress(
+              movedRecently = Some(MovedHouseOption.MovedFromUk),
+              previousAddress = Some(PartialAddress(
+                addressLine = None,
+                postcode = "SW1A 1AA",
+                uprn = None,
+                manualAddress = Some(PartialManualAddress(
+                  lineOne = Some("123 Fake Street"),
+                  lineTwo = Some("Nonexistent building"),
+                  lineThree = Some(""),
+                  city = Some("Fakerton")
+                ))
+              ))
+            ))
+        ))
+        .withFormUrlEncodedBody(
+          "previousAddress.movedRecently.movedRecently" -> "from-abroad",
+          "previousAddress.movedRecently.wasRegisteredWhenAbroad" -> "false")
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/confirmation"))
+    }
+  }
+
   it should "bind successfully and redirect to the Other Address step" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/edit/previous-address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.previousAddress.movedRecently.movedRecently" -> "yes",
             "previousAddress.previousAddress.uprn" -> "123456789",
             "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
@@ -220,7 +333,6 @@ class PreviousAddressFirstControllerTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "previousAddress.previousAddress.movedRecently.movedRecently" -> "from-uk",
             "previousAddress.previousAddress.uprn" -> "123456789",
             "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
@@ -237,7 +349,6 @@ class PreviousAddressFirstControllerTests
           FakeRequest(POST, "/register-to-vote/edit/previous-address/manual")
             .withIerSession()
             .withFormUrlEncodedBody(
-              "previousAddress.previousAddress.movedRecently.movedRecently" -> "from-uk",
               "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
               "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
               "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",

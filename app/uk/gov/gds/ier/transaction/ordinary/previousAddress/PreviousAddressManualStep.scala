@@ -39,10 +39,10 @@ class PreviousAddressManualStep @Inject() (
   override val onSuccess = TransformApplication { currentState =>
     val addressWithClearedSelectedOne = currentState.previousAddress.map { prev =>
       prev.copy(
-        previousAddress = prev.previousAddress.map(_.copy(
-          uprn = None,
-          addressLine = None
-        )))
+        previousAddress = prev.previousAddress.map(
+          _.copy(
+            uprn = None,
+            addressLine = None)))
     }
 
     currentState.copy(

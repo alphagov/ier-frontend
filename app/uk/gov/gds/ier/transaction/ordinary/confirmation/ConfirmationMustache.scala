@@ -4,7 +4,6 @@ import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.{Key, ErrorTransformForm}
-import uk.gov.gds.ier.model.{OtherAddress}
 import uk.gov.gds.ier.model.{OtherAddress, MovedHouseOption}
 import scala.Some
 import controllers.step.ordinary.routes
