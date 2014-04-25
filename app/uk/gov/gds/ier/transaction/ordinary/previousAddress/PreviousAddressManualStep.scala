@@ -42,8 +42,7 @@ class PreviousAddressManualStep @Inject() (
         previousAddress = prev.previousAddress.map(_.copy(
           uprn = None,
           addressLine = None
-        ))
-      )
+        )))
     }
 
     currentState.copy(

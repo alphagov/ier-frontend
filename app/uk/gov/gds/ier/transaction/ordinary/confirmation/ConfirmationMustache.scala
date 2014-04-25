@@ -233,8 +233,13 @@ trait ConfirmationMustache {
         MovedHouseOption.parse(_)
       }
 
+      val title = movedHouse match {
+        case Some(MovedHouseOption.MovedFromAbroadRegistered) => "Last UK address"
+        case _ => "Previous address"
+      }
+
       Some(ConfirmationQuestion(
-        title = "Previous address",
+        title = title,
         editLink = routes.PreviousAddressFirstController.editGet.url,
         changeName = "your previous address",
         content = ifComplete(keys.previousAddress) {

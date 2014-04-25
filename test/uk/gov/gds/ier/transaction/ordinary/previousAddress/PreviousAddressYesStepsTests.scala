@@ -37,7 +37,7 @@ class PreviousAddressYesStepsTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication.copy(
             previousAddress = Some(
-              PartialPreviousAddress(Some(MovedHouseOption.MovedFromAbroad), None)
+              PartialPreviousAddress(Some(MovedHouseOption.MovedFromAbroadRegistered), None)
             )
           ))
       )

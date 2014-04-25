@@ -20,9 +20,7 @@ trait PreviousAddressPostcodeMustache extends StepTemplate[InprogressOrdinary] {
     }
 
     val title = movedRecently match {
-      case Some(MovedHouseOption.MovedFromAbroad) => {
-        "What was your last UK address before moving abroad?"
-      }
+      case Some(MovedHouseOption.MovedFromAbroadRegistered) => "What was your last UK address before moving abroad?"
       case _ => "What was your previous address?"
     }
 
