@@ -23,7 +23,8 @@ trait PreviousAddressSelectMustache
     address: Field,
     possibleJsonList: Field,
     possiblePostcode: Field,
-    hasAddresses: Boolean)
+    hasAddresses: Boolean
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("forces/previousAddressSelect") {
     (form, post, application) =>
@@ -83,7 +84,7 @@ trait PreviousAddressSelectMustache
       }
     )
 
-    val data = SelectModel(
+    SelectModel(
       question = Question(
         postUrl = post.url,
         number = questionNumber,
@@ -106,7 +107,5 @@ trait PreviousAddressSelectMustache
       ),
       hasAddresses = hasAddresses
     )
-
-    MustacheData(data, title)
   }
 }

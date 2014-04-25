@@ -27,7 +27,7 @@ class ContactMustacheTests
       emptyApplicationForm,
       ContactController.post,
       InprogressForces()
-    ).data.asInstanceOf[ContactModel]
+    ).asInstanceOf[ContactModel]
 
     contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/forces/contact")
@@ -56,7 +56,7 @@ class ContactMustacheTests
       partiallyFilledApplicationForm,
       ContactController.post,
       InprogressForces()
-    ).data.asInstanceOf[ContactModel]
+    ).asInstanceOf[ContactModel]
 
     contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/forces/contact")
@@ -85,7 +85,7 @@ class ContactMustacheTests
       partiallyFilledApplicationForm,
       ContactController.post,
       InprogressForces()
-    ).data.asInstanceOf[ContactModel]
+    ).asInstanceOf[ContactModel]
 
     contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/forces/contact")
@@ -114,7 +114,7 @@ class ContactMustacheTests
       partiallyFilledApplicationForm,
       ContactController.post,
       InprogressForces()
-    ).data.asInstanceOf[ContactModel]
+    ).asInstanceOf[ContactModel]
 
     contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/forces/contact")
@@ -143,7 +143,7 @@ class ContactMustacheTests
       partiallyFilledApplicationForm,
       ContactController.post,
       InprogressForces()
-    ).data.asInstanceOf[ContactModel]
+    ).asInstanceOf[ContactModel]
 
     contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/forces/contact")

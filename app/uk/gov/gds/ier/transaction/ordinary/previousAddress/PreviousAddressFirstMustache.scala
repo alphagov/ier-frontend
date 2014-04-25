@@ -19,14 +19,14 @@ trait PreviousAddressFirstMustache extends StepTemplate[InprogressOrdinary] {
     previousNo: Field,
     registeredAbroadYes: Field,
     registeredAbroadNo: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("ordinary/previousAddressFirst") {
     (form, post) =>
 
     implicit val progressForm = form
 
-    val data = PreviousAddressFirstModel(
+    PreviousAddressFirstModel(
       question = Question(
         postUrl = post.url,
         number = questionNumber,
@@ -56,8 +56,6 @@ trait PreviousAddressFirstMustache extends StepTemplate[InprogressOrdinary] {
         value = "false"
       )
     )
-
-    MustacheData(data, title)
   }
 }
 

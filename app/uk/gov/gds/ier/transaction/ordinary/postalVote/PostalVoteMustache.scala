@@ -14,7 +14,7 @@ trait PostalVoteMustache extends StepTemplate[InprogressOrdinary] {
     deliveryByPost: Field,
     emailField: Field,
     deliveryMethodValid: String
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("ordinary/postalVote") {
     (form, postUrl) =>
@@ -26,7 +26,7 @@ trait PostalVoteMustache extends StepTemplate[InprogressOrdinary] {
     val deliveryMethodValidation =
       if (form(keys.postalVote.deliveryMethod.methodName).hasErrors) "invalid" else ""
 
-    val data = PostalVoteModel(
+    PostalVoteModel(
       question = Question(
         postUrl = postUrl.url,
         number = "10",
@@ -50,8 +50,6 @@ trait PostalVoteMustache extends StepTemplate[InprogressOrdinary] {
       ),
       deliveryMethodValid = deliveryMethodValidation
     )
-
-    MustacheData(data, data.question.title)
   }
 }
 

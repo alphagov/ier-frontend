@@ -24,7 +24,7 @@ class WayToVoteMustacheTest
       emptyApplicationForm,
       Call("POST", "/register-to-vote/crown/ways-to-vote"),
       InprogressCrown()
-    ).data.asInstanceOf[WaysToVoteModel]
+    ).asInstanceOf[WaysToVoteModel]
 
     model.question.title should be("How do you want to vote?")
     model.question.postUrl should be("/register-to-vote/crown/ways-to-vote")
@@ -46,7 +46,7 @@ class WayToVoteMustacheTest
       emptyApplicationForm,
       Call("POST", "/register-to-vote/crown/ways-to-vote"),
       InprogressCrown()
-    ).data.asInstanceOf[WaysToVoteModel]
+    ).asInstanceOf[WaysToVoteModel]
 
     model.question.title should be("How do you want to vote?")
     model.question.postUrl should be("/register-to-vote/crown/ways-to-vote")

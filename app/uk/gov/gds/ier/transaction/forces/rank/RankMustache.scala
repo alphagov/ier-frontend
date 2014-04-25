@@ -9,7 +9,8 @@ trait RankMustache extends  StepTemplate[InprogressForces] {
   case class RankModel(
      question:Question,
      serviceNumber: Field,
-     rank: Field)
+     rank: Field
+  ) extends MustacheData
 
   private def displayPartnerSentence (application:InprogressForces): Boolean = {
     application.statement match {
@@ -27,7 +28,7 @@ trait RankMustache extends  StepTemplate[InprogressForces] {
     else
       "What is your service number?"
 
-    val data = RankModel(
+    RankModel(
       question = Question(
         postUrl = postUrl.url,
         errorMessages = form.globalErrors.map{ _.message },
@@ -41,7 +42,5 @@ trait RankMustache extends  StepTemplate[InprogressForces] {
         key = keys.rank.rank
       )
     )
-
-    MustacheData(data, title)
   }
 }

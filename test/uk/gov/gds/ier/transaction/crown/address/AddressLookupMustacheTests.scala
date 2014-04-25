@@ -28,7 +28,7 @@ class AddressLookupMustacheTest
       emptyApplicationForm,
       Call("POST", "/register-to-vote/crown/address/lookup"),
       InprogressCrown()
-    ).data.asInstanceOf[LookupModel]
+    ).asInstanceOf[LookupModel]
 
     addressModel.question.title should be("What was your last UK address?")
     addressModel.question.postUrl should be("/register-to-vote/crown/address/lookup")
@@ -54,7 +54,7 @@ class AddressLookupMustacheTest
       partiallyFilledApplicationForm,
       Call("POST", "/register-to-vote/crown/address/lookup"),
       InprogressCrown()
-    ).data.asInstanceOf[LookupModel]
+    ).asInstanceOf[LookupModel]
 
     addressModel.question.title should be("What is your UK address?")
     addressModel.question.postUrl should be("/register-to-vote/crown/address/lookup")
@@ -81,7 +81,7 @@ class AddressLookupMustacheTest
       partiallyFilledApplicationForm,
       Call("POST", "/register-to-vote/crown/address/lookup"),
       InprogressCrown()
-    ).data.asInstanceOf[LookupModel]
+    ).asInstanceOf[LookupModel]
 
     addressModel.question.title should be("What was your last UK address?")
     addressModel.question.postUrl should be("/register-to-vote/crown/address/lookup")

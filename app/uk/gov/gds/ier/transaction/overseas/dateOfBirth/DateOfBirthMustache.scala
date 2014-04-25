@@ -12,13 +12,13 @@ trait DateOfBirthMustache extends StepTemplate[InprogressOverseas] {
       day: Field,
       month: Field,
       year: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("overseas/dateOfBirth") { (form, post) =>
 
     implicit val progressForm = form
 
-    val data = DateOfBirthModel(
+    DateOfBirthModel(
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
@@ -34,6 +34,5 @@ trait DateOfBirthMustache extends StepTemplate[InprogressOverseas] {
         key = keys.dob.year
       )
     )
-    MustacheData(data, title)
   }
 }

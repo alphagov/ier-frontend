@@ -13,8 +13,8 @@ class MustacheRenderer[T](
 
   def html:Html = {
     val model = template.data(form, postUrl, application)
-    val content = Mustache.render(template.mustachePath, model.data)
-    MainStepTemplate(content, model.title)
+    val content = Mustache.render(template.mustachePath, model)
+    MainStepTemplate(content, model.question.title)
   }
 }
 

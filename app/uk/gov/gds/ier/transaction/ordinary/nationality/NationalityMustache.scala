@@ -22,7 +22,7 @@ trait NationalityMustache extends StepTemplate[InprogressOrdinary] {
       moreThanOneOtherCountry: Boolean,
       noNationalityReason: Field,
       noNationalityReasonShowFlag: Text
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("ordinary/nationality") {
     (form, postEndpoint, application) =>
@@ -35,7 +35,7 @@ trait NationalityMustache extends StepTemplate[InprogressOrdinary] {
         _.otherCountries
     }.getOrElse(List.empty)
 
-    val data = NationalityModel(
+    NationalityModel(
       question = Question(
         postUrl = postEndpoint.url,
         errorMessages = form.globalErrors.map{ _.message },
@@ -75,8 +75,6 @@ trait NationalityMustache extends StepTemplate[InprogressOrdinary] {
         value = progressForm(keys.nationality.noNationalityReason).value.map(noNationalityReason => "-open").getOrElse("")
       )
     )
-
-    MustacheData(data, title)
   }
 
   def createMustacheCountryList (otherCountriesTail:List[String]) : List[CountryItem] = {

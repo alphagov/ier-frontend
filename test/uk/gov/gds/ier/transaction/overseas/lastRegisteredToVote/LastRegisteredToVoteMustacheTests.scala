@@ -21,7 +21,7 @@ class LastRegisteredToVoteMustacheTests
       form,
       Call("GET", "http://postUrl"),
       InprogressOverseas()
-    ).data.asInstanceOf[LastRegisteredModel]
+    ).asInstanceOf[LastRegisteredModel]
 
     model.question.title should be("How were you last registered to vote?")
     model.question.postUrl should be("http://postUrl")
@@ -54,7 +54,7 @@ class LastRegisteredToVoteMustacheTests
     model.notRegistered.attributes should be("")
 
   }
-  
+
   it should "mark ukResident as checked (uk)" in {
     val data = Map("lastRegisteredToVote.registeredType" -> "ordinary")
     val form = lastRegisteredToVoteForm.bind(data)
@@ -63,7 +63,7 @@ class LastRegisteredToVoteMustacheTests
       form,
       Call("GET", "http://postUrl"),
       InprogressOverseas()
-    ).data.asInstanceOf[LastRegisteredModel]
+    ).asInstanceOf[LastRegisteredModel]
 
     model.registeredType.classes should be("")
     model.ukResident.attributes should be("""checked="checked"""")
@@ -72,7 +72,7 @@ class LastRegisteredToVoteMustacheTests
     model.britishCouncil.attributes should be("")
     model.notRegistered.attributes should be("")
   }
-  
+
   it should "mark armedForces as checked (army)" in {
     val data = Map("lastRegisteredToVote.registeredType" -> "forces")
     val form = lastRegisteredToVoteForm.bind(data)
@@ -81,7 +81,7 @@ class LastRegisteredToVoteMustacheTests
       form,
       Call("GET", "http://postUrl"),
       InprogressOverseas()
-    ).data.asInstanceOf[LastRegisteredModel]
+    ).asInstanceOf[LastRegisteredModel]
 
     model.registeredType.classes should be("")
     model.armedForces.attributes should be("""checked="checked"""")
@@ -90,7 +90,7 @@ class LastRegisteredToVoteMustacheTests
     model.britishCouncil.attributes should be("")
     model.notRegistered.attributes should be("")
   }
-  
+
   it should "mark crownServant as checked (crown)" in {
     val data = Map("lastRegisteredToVote.registeredType" -> "crown")
     val form = lastRegisteredToVoteForm.bind(data)
@@ -99,7 +99,7 @@ class LastRegisteredToVoteMustacheTests
       form,
       Call("GET", "http://postUrl"),
       InprogressOverseas()
-    ).data.asInstanceOf[LastRegisteredModel]
+    ).asInstanceOf[LastRegisteredModel]
 
     model.registeredType.classes should be("")
     model.ukResident.attributes should be("")
@@ -108,7 +108,7 @@ class LastRegisteredToVoteMustacheTests
     model.britishCouncil.attributes should be("")
     model.notRegistered.attributes should be("")
   }
-  
+
   it should "mark britishCouncil as checked (council)" in {
     val data = Map("lastRegisteredToVote.registeredType" -> "council")
     val form = lastRegisteredToVoteForm.bind(data)
@@ -117,7 +117,7 @@ class LastRegisteredToVoteMustacheTests
       form,
       Call("GET", "http://postUrl"),
       InprogressOverseas()
-    ).data.asInstanceOf[LastRegisteredModel]
+    ).asInstanceOf[LastRegisteredModel]
 
     model.registeredType.classes should be("")
     model.ukResident.attributes should be("")
@@ -135,7 +135,7 @@ class LastRegisteredToVoteMustacheTests
       form,
       Call("GET", "http://postUrl"),
       InprogressOverseas()
-    ).data.asInstanceOf[LastRegisteredModel]
+    ).asInstanceOf[LastRegisteredModel]
 
     model.registeredType.classes should be("")
     model.ukResident.attributes should be("")
@@ -153,7 +153,7 @@ class LastRegisteredToVoteMustacheTests
       form,
       Call("GET", "http://postUrl"),
       InprogressOverseas()
-    ).data.asInstanceOf[LastRegisteredModel]
+    ).asInstanceOf[LastRegisteredModel]
 
     model.question.errorMessages should be(Seq("blargh is not a valid registration type"))
 
@@ -173,7 +173,7 @@ class LastRegisteredToVoteMustacheTests
       form,
       Call("GET", "http://postUrl"),
       InprogressOverseas()
-    ).data.asInstanceOf[LastRegisteredModel]
+    ).asInstanceOf[LastRegisteredModel]
 
     model.question.errorMessages should be(Seq("Please answer this question"))
 

@@ -13,14 +13,14 @@ trait ContactMustache extends StepTemplate[InprogressCrown] {
       contactPhoneCheckbox: Field,
       contactPostCheckbox: Field,
       contactEmailText: Field,
-      contactPhoneText: Field)
+      contactPhoneText: Field) extends MustacheData
 
   val mustache = MustacheTemplate("crown/contact") { (form, postUrl) =>
     implicit val progressForm = form
     val emailAddress = form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value
 
     val title = "If we have questions about your application, how should we contact you?"
-    val data = ContactModel(
+    ContactModel(
       question = Question(
         postUrl = postUrl.url,
         errorMessages = form.globalErrors.map{ _.message },
@@ -47,7 +47,5 @@ trait ContactMustache extends StepTemplate[InprogressCrown] {
         key = keys.contact.phone.detail
       )
     )
-
-    MustacheData(data, title)
   }
 }

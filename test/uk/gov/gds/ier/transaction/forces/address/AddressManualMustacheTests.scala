@@ -27,7 +27,7 @@ class AddressManualMustacheTests
       emptyApplicationForm,
       Call("POST", "/register-to-vote/forces/address/manual"),
       InprogressForces()
-    ).data.asInstanceOf[ManualModel]
+    ).asInstanceOf[ManualModel]
 
     addressModel.question.title should be("What is your UK address?")
     addressModel.question.postUrl should be("/register-to-vote/forces/address/manual")
@@ -61,7 +61,7 @@ class AddressManualMustacheTests
       partiallyFilledApplicationForm,
       Call("POST", "/register-to-vote/forces/address/manual"),
       InprogressForces()
-    ).data.asInstanceOf[ManualModel]
+    ).asInstanceOf[ManualModel]
 
     addressModel.question.title should be("What is your UK address?")
     addressModel.question.postUrl should be("/register-to-vote/forces/address/manual")

@@ -19,12 +19,12 @@ class ServiceMustacheTest
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = serviceForm
-    
+
     val serviceModel = mustache.data(
       emptyApplicationForm,
       Call("POST", "/register-to-vote/forces/service"),
       InprogressForces()
-    ).data.asInstanceOf[ServiceModel]
+    ).asInstanceOf[ServiceModel]
 
     serviceModel.question.title should be("Which of the services are you in?")
     serviceModel.question.postUrl should be("/register-to-vote/forces/service")
@@ -52,7 +52,7 @@ class ServiceMustacheTest
       filledForm,
       Call("POST", "/register-to-vote/forces/service"),
       filledApp
-    ).data.asInstanceOf[ServiceModel]
+    ).asInstanceOf[ServiceModel]
 
     serviceModel.question.title should be("Which of the services are you in?")
     serviceModel.question.postUrl should be("/register-to-vote/forces/service")

@@ -27,7 +27,7 @@ class StatementMustacheTest
       emptyApplicationForm,
       Call("POST", "/register-to-vote/forces/statement"),
       InprogressForces()
-    ).data.asInstanceOf[StatementModel]
+    ).asInstanceOf[StatementModel]
 
     statementhModel.question.title should be("Which of these statements applies to you?")
     statementhModel.question.postUrl should be("/register-to-vote/forces/statement")
@@ -45,7 +45,7 @@ class StatementMustacheTest
       filledForm,
       Call("POST", "/register-to-vote/forces/statement"),
       InprogressForces()
-    ).data.asInstanceOf[StatementModel]
+    ).asInstanceOf[StatementModel]
 
     statementModel.question.title should be("Which of these statements applies to you?")
     statementModel.question.postUrl should be("/register-to-vote/forces/statement")

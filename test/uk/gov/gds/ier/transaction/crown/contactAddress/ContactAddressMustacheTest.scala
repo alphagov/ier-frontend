@@ -24,7 +24,7 @@ class ContactAddressMustacheTest
         emptyApplicationForm,
         ContactAddressController.post,
         InprogressCrown()
-    ).data.asInstanceOf[ContactAddressModel]
+    ).asInstanceOf[ContactAddressModel]
 
     contactAddressModel.question.title should be("Where should we write to you about your registration?")
     contactAddressModel.question.postUrl should be("/register-to-vote/crown/contact-address")
@@ -65,7 +65,7 @@ class ContactAddressMustacheTest
         filledForm,
         ContactAddressController.post,
         InprogressCrown()
-    ).data.asInstanceOf[ContactAddressModel]
+    ).asInstanceOf[ContactAddressModel]
 
     contactAddressModel.question.title should be("Where should we write to you about your registration?")
     contactAddressModel.question.postUrl should be("/register-to-vote/crown/contact-address")
@@ -113,7 +113,7 @@ class ContactAddressMustacheTest
         filledForm,
         ContactAddressController.post,
         InprogressCrown()
-    ).data.asInstanceOf[ContactAddressModel]
+    ).asInstanceOf[ContactAddressModel]
 
     contactAddressModel.question.title should be("Where should we write to you about your registration?")
     contactAddressModel.question.postUrl should be("/register-to-vote/crown/contact-address")
@@ -161,7 +161,7 @@ class ContactAddressMustacheTest
         filledForm,
         ContactAddressController.post,
         InprogressCrown()
-    ).data.asInstanceOf[ContactAddressModel]
+    ).asInstanceOf[ContactAddressModel]
 
     contactAddressModel.question.title should be("Where should we write to you about your registration?")
     contactAddressModel.question.postUrl should be("/register-to-vote/crown/contact-address")

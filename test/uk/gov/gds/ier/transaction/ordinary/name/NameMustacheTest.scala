@@ -28,7 +28,7 @@ class NameMustacheTest
       emptyApplicationForm,
       Call("POST", "/register-to-vote/name"),
       InprogressOrdinary()
-    ).data.asInstanceOf[NameModel]
+    ).asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/name")
@@ -53,7 +53,7 @@ class NameMustacheTest
       partiallyFilledApplicationForm,
       Call("POST", "/register-to-vote/name"),
       InprogressOrdinary()
-    ).data.asInstanceOf[NameModel]
+    ).asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/name")
@@ -86,7 +86,7 @@ class NameMustacheTest
       partiallyFilledApplicationForm,
       Call("POST", "/register-to-vote/name"),
       InprogressOrdinary()
-    ).data.asInstanceOf[NameModel]
+    ).asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/name")
@@ -111,7 +111,7 @@ class NameMustacheTest
       partiallyFilledApplicationFormWithErrors,
       Call("POST", "/register-to-vote/name"),
       InprogressOrdinary()
-    ).data.asInstanceOf[NameModel]
+    ).asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/name")

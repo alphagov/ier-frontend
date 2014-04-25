@@ -30,7 +30,7 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
       possiblePostcode: Field,
       hasAddresses: Boolean,
       hasUkAddress: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("crown/addressSelect") { (form, postUrl) =>
     implicit val progressForm = form
@@ -92,7 +92,7 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
       }
     )
 
-    val data = SelectModel(
+    SelectModel(
       question = Question(
         postUrl = postUrl.url,
         number = questionNumber,
@@ -119,8 +119,6 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
         value = form(keys.hasUkAddress).value.getOrElse("")
       )
     )
-
-    MustacheData(data, title)
   }
 }
 

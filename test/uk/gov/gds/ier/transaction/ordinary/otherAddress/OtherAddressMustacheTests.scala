@@ -34,7 +34,7 @@ class OtherAddressMustacheTests
       form,
       Call("POST", "/some-post-url"),
       InprogressOrdinary()
-    ).data.asInstanceOf[OtherAddressModel]
+    ).asInstanceOf[OtherAddressModel]
 
     result.question.postUrl should be("/some-post-url")
     result.question.number should be("7 of 11")
@@ -63,7 +63,7 @@ class OtherAddressMustacheTests
       form,
       Call("POST", "/some-post-url"),
       InprogressOrdinary()
-    ).data.asInstanceOf[OtherAddressModel]
+    ).asInstanceOf[OtherAddressModel]
 
     result.hasOtherAddressStudent.attributes should be("checked=\"checked\"")
     result.hasOtherAddressHome.attributes should be("")
@@ -79,7 +79,7 @@ class OtherAddressMustacheTests
       form,
       Call("POST", "/some-post-url"),
       InprogressOrdinary()
-    ).data.asInstanceOf[OtherAddressModel]
+    ).asInstanceOf[OtherAddressModel]
 
     result.hasOtherAddressHome.attributes should be("checked=\"checked\"")
     result.hasOtherAddressStudent.attributes should be("")
@@ -95,7 +95,7 @@ class OtherAddressMustacheTests
       form,
       Call("POST", "/some-post-url"),
       InprogressOrdinary()
-    ).data.asInstanceOf[OtherAddressModel]
+    ).asInstanceOf[OtherAddressModel]
 
     result.hasOtherAddressStudent.attributes should be("")
     result.hasOtherAddressHome.attributes should be("")
@@ -109,7 +109,7 @@ class OtherAddressMustacheTests
       form,
       Call("POST", "/some-post-url"),
       InprogressOrdinary()
-    ).data.asInstanceOf[OtherAddressModel]
+    ).asInstanceOf[OtherAddressModel]
 
     result.hasOtherAddress.classes should be("invalid")
   }

@@ -11,7 +11,7 @@ trait NinoMustache extends StepTemplate[InprogressForces] {
       nino: Field,
       noNinoReason: Field,
       noNinoReasonShowFlag: Text
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("forces/nino") { (form, postEndpoint) =>
 
@@ -19,7 +19,7 @@ trait NinoMustache extends StepTemplate[InprogressForces] {
 
     val title = "What is your National Insurance number?"
 
-    val data = NinoModel(
+    NinoModel(
       question = Question(
         postUrl = postEndpoint.url,
         errorMessages = form.globalErrors.map(_.message),
@@ -36,6 +36,5 @@ trait NinoMustache extends StepTemplate[InprogressForces] {
         value = progressForm(keys.nino.noNinoReason).value.fold("")(noNinoReason => "-open")
       )
     )
-    MustacheData(data, title)
   }
 }

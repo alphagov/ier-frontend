@@ -34,7 +34,7 @@ class DeclarationPdfMustacheTest
       declarationPdfForm.fill(inprogressApplicationWithPostcode("WR26NJ")),
       DeclarationPdfController.post,
       emptyApplication
-    ).data.asInstanceOf[DeclarationPdfModel]
+    ).asInstanceOf[DeclarationPdfModel]
 
     model.question.title should be("Download your service declaration form")
     model.question.postUrl should be("/register-to-vote/crown/declaration-pdf")

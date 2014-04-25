@@ -20,14 +20,14 @@ trait DateOfBirthMustache extends StepTemplate[InprogressOrdinary] {
       range18to70: Field,
       rangeDontKnow: Field,
       noDobReasonShowFlag: Text
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("ordinary/dateOfBirth") { (form, post) =>
     implicit val progressForm = form
 
     val title = "What is your date of birth?"
 
-    val data = DateOfBirthModel(
+    DateOfBirthModel(
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
@@ -69,8 +69,6 @@ trait DateOfBirthMustache extends StepTemplate[InprogressOrdinary] {
         value = progressForm(keys.dob.noDob.reason).value.map(noDobReason => "-open").getOrElse("")
       )
     )
-
-    MustacheData(data, title)
   }
 }
 

@@ -11,7 +11,7 @@ trait OpenRegisterMustache extends StepTemplate[InprogressOrdinary] {
   case class OpenRegisterModel(
       question:Question,
       openRegister: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("ordinary/openRegister") {
     (form, postEndpoint) =>
@@ -20,7 +20,7 @@ trait OpenRegisterMustache extends StepTemplate[InprogressOrdinary] {
 
     val title = "Do you want to include your name and address on the open register?"
 
-    val data = OpenRegisterModel(
+    OpenRegisterModel(
       question = Question(
         postUrl = postEndpoint.url,
         errorMessages = form.globalErrors.map{ _.message },
@@ -32,8 +32,6 @@ trait OpenRegisterMustache extends StepTemplate[InprogressOrdinary] {
         value = "false"
       )
     )
-
-    MustacheData(data, title)
   }
 }
 

@@ -17,13 +17,13 @@ trait ParentsAddressManualMustache extends StepTemplate[InprogressOverseas] {
       maLineTwo: Field,
       maCity: Field,
       maCounty: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("overseas/parentsAddressManual") { (form, post) =>
 
     implicit val progressForm = form
 
-    val data = ManualModel(
+    ManualModel(
       question = Question(
         postUrl = post.url,
         number = questionNumber,
@@ -37,6 +37,5 @@ trait ParentsAddressManualMustache extends StepTemplate[InprogressOverseas] {
       maCity = TextField(keys.parentsAddress.manualAddress.city),
       maCounty = TextField(keys.parentsAddress.manualAddress.country)
     )
-    MustacheData(data, title)
   }
 }

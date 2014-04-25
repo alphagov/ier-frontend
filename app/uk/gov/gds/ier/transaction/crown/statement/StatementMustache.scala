@@ -14,14 +14,14 @@ trait StatementMustache extends StepTemplate[InprogressCrown] {
       council: Field,
       councilEmployee: Field,
       councilPartner: Field
-  )
+  ) extends MustacheData
 
   val title = "Which of these statements applies to you?"
 
   val mustache = MustacheTemplate("crown/statement") { (form, post) =>
     implicit val progressForm = form
     
-    val data = StatementModel(
+    StatementModel(
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map { _.message },
@@ -41,8 +41,6 @@ trait StatementMustache extends StepTemplate[InprogressCrown] {
       councilEmployee = CheckboxField(keys.statement.councilEmployee, "true"),
       councilPartner = CheckboxField(keys.statement.councilPartner, "true")
     )
-
-    MustacheData(data, title)
   }
 }
 

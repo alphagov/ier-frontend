@@ -16,7 +16,7 @@ trait ContactAddressMustache
       ukAddress: UKContactAddressModel,
       bfpoAddress: BFPOContactAddressModel,
       otherAddress: OtherContactAddressModel
-  )
+  ) extends MustacheData
 
   case class OtherContactAddressModel(
       otherAddressOption: Field,
@@ -117,7 +117,7 @@ trait ContactAddressMustache
 
     val title = "Where should we write to you about your registration?"
 
-    val data = ContactAddressModel(
+    ContactAddressModel(
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map( _.message ),
@@ -131,8 +131,6 @@ trait ContactAddressMustache
       bfpoAddress = bfpoContactAddressModel,
       otherAddress = otherContactAddressModel
     )
-
-    MustacheData(data, title)
   }
 
 

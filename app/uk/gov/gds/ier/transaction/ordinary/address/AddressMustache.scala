@@ -15,12 +15,12 @@ trait AddressMustache extends StepTemplate[InprogressOrdinary] {
   case class LookupModel (
       question: Question,
       postcode: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("ordinary/addressLookup") {
     (form, post) =>
 
-    val data = LookupModel(
+    LookupModel(
       question = Question(
         postUrl = post.url,
         number = questionNumber,
@@ -38,7 +38,5 @@ trait AddressMustache extends StepTemplate[InprogressOrdinary] {
         }
       )
     )
-
-    MustacheData(data, title)
   }
 }

@@ -4,7 +4,17 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.templates.Html
 import play.api.mvc.Call
 
-case class MustacheData(data: Any, title:String)
+case class Question (
+    postUrl:String = "",
+    number:String = "",
+    title:String = "",
+    errorMessages:Seq[String] = Seq.empty
+)
+
+trait MustacheData {
+  val question: Question
+  val messages: Map[String,String] = Messages.english
+}
 
 trait MustacheTemplate[T] {
   val mustachePath: String
