@@ -35,4 +35,21 @@ class PreviousAddressManualStep @Inject() (
   def nextStep(currentState: InprogressOrdinary) = {
     OpenRegisterController.openRegisterStep
   }
+
+  override val onSuccess = TransformApplication { currentState =>
+    val addressWithClearedSelectedOne = currentState.previousAddress.map { prev =>
+      prev.copy(
+        previousAddress = prev.previousAddress.map(_.copy(
+          uprn = None,
+          addressLine = None
+        ))
+      )
+    }
+
+    currentState.copy(
+      previousAddress = addressWithClearedSelectedOne,
+      possibleAddresses = None
+    )
+  } andThen GoToNextIncompleteStep()
+
 }

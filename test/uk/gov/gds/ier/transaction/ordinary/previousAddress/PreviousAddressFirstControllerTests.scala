@@ -220,7 +220,7 @@ class PreviousAddressFirstControllerTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "previousAddress.previousAddress.movedRecently.movedRecently" -> "yes",
+            "previousAddress.previousAddress.movedRecently.movedRecently" -> "from-uk",
             "previousAddress.previousAddress.uprn" -> "123456789",
             "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
@@ -234,9 +234,10 @@ class PreviousAddressFirstControllerTests
   it should "bind successfully and redirect to the Other Address step with a manual address" in {
       running(FakeApplication()) {
         val Some(result) = route(
-          FakeRequest(POST, "/register-to-vote/edit/previous-address/select")
+          FakeRequest(POST, "/register-to-vote/edit/previous-address/manual")
             .withIerSession()
             .withFormUrlEncodedBody(
+              "previousAddress.previousAddress.movedRecently.movedRecently" -> "from-uk",
               "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
               "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
               "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
