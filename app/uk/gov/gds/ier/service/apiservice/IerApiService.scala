@@ -69,7 +69,7 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       addressService.formFullAddress(prevAddress.previousAddress)
     }
 
-    val previouslyRegistered = applicant.previousAddress.map(_.movedRecently) match {
+    val previouslyRegistered = applicant.previousAddress.flatMap(_.movedRecently) match {
       case Some(MovedHouseOption.MovedFromAbroadRegistered) => Some(PreviouslyRegistered(true))
       case _ => None
     }
