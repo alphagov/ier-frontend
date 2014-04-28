@@ -27,3 +27,15 @@ case class Address(
       Map(addressKey + "postcode" -> postcode)
   }
 }
+
+object Address {
+  def apply(postcode: String): Address = Address(
+    lineOne = None,
+    lineTwo = None,
+    lineThree = None,
+    city = None,
+    county = None,
+    uprn = None,
+    postcode = postcode,
+    gssCode = None)
+}
