@@ -62,7 +62,7 @@ window.GOVUK.registerToVote = {};
   // Constructor for controlling the display of content that is additional to the main block
   // Uses ToggleObj for its base prototype
   OptionalInformation = function () {
-    ToggleObj.apply(this, arguments);
+    GOVUK.registerToVote.ToggleObj.apply(this, arguments);
   };
   $.extend(OptionalInformation.prototype, new ToggleObj());
   OptionalInformation.prototype.setup = function () {
