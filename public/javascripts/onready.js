@@ -40,12 +40,6 @@
       $(this).parent('label').removeClass('selectable-focus');
     });
   });
-  $('#find-address').each(function (idx, elm) {
-    new GOVUK.registerToVote.PostcodeLookup(elm, "address");
-  });
-  $('#find-previous-address').each(function (idx, elm) {
-    new GOVUK.registerToVote.PostcodeLookup(elm, "previousAddress.previousAddress");
-  });
   $('.country-autocomplete').each(function (idx, elm) {
     GOVUK.registerToVote.autocompletes.add($(elm));
   });
