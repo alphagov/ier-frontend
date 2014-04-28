@@ -11,6 +11,7 @@ trait StepTemplate[T] extends MustacheModel with MustacheTemplateFactories[T] {
   type MustacheTemplate = uk.gov.gds.ier.mustache.MustacheTemplate[T]
   type MustacheRenderer = uk.gov.gds.ier.mustache.MustacheRenderer[T]
   type MustacheData = uk.gov.gds.ier.mustache.MustacheData
+  val Messages = uk.gov.gds.ier.langs.Messages
 
   val mustache: MustacheTemplate
 
