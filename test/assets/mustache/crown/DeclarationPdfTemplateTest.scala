@@ -2,14 +2,13 @@ package assets.mustache.crown
 
 import org.jsoup.Jsoup
 import org.scalatest.{Matchers, FlatSpec}
-import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.crown.declaration.{WithPlacesService, DeclarationPdfMustache}
 import play.api.test.FakeApplication
 import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
 import org.scalatest.mock.MockitoSugar
-import uk.gov.gds.ier.service.PlacesService
+import uk.gov.gds.ier.service.{DeclarationPdfDownloadService, WithDeclarationPdfDownloadService, PlacesService}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 /**
@@ -21,11 +20,13 @@ class DeclarationPdfTemplateTest
   with MockitoSugar
   with WithSerialiser
   with WithPlacesService
+  with WithDeclarationPdfDownloadService
   with DeclarationPdfMustache
   with Matchers {
 
   val placesService = mock[PlacesService]
   val serialiser = mock[JsonSerialiser]
+  val declarationPdfDownloadService = mock[DeclarationPdfDownloadService]
 
   it should "properly render all properties from the model with just election authority URL" in {
     running(FakeApplication()) {

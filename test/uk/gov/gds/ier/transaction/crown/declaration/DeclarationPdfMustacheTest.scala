@@ -4,7 +4,7 @@ import org.scalatest.{GivenWhenThen, Matchers, FlatSpec}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import controllers.step.crown.routes._
-import uk.gov.gds.ier.service.PlacesService
+import uk.gov.gds.ier.service.{DeclarationPdfDownloadService, WithDeclarationPdfDownloadService, PlacesService}
 import uk.gov.gds.common.model.{Ero, LocalAuthority}
 import org.specs2.mock.Mockito
 import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
@@ -19,8 +19,10 @@ class DeclarationPdfMustacheTest
   with TestHelpers
   with DeclarationPdfMustache
   with WithSerialiser
+  with WithDeclarationPdfDownloadService
   with WithPlacesService {
 
+  val declarationPdfDownloadService = mock[DeclarationPdfDownloadService]
   val serialiser = mock[JsonSerialiser]
   val placesService = mock[PlacesService]
   placesService.lookupAuthority("WR26NJ") returns Some(

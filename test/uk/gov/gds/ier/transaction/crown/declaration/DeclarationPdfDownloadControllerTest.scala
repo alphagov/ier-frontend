@@ -7,15 +7,21 @@ import play.api.test.{FakeRequest, FakeApplication}
 import uk.gov.gds.ier.test.TestHelpers
 import java.nio.file.{Paths, Files}
 import controllers.step.crown.DeclarationPdfDownloadController
+import uk.gov.gds.ier.service.DeclarationPdfDownloadService
 
+/**
+ * Test DeclarationPdfDownloadController and DeclarationPdfDownloadService
+ */
 class DeclarationPdfDownloadControllerTest extends FlatSpec with Matchers with TestHelpers {
+
+  val service = new DeclarationPdfDownloadService()
 
   behavior of "DeclarationPdfDownloadController.download"
   it should "return binary stream exactly matching PDF file in assets" in {
     val expectedContent = Files.readAllBytes(
       Paths.get(
         DeclarationPdfDownloadController.getClass.getResource(
-          DeclarationPdfDownloadController.pdfFileName).toURI))
+          service.pdfFileName).toURI))
     running(FakeApplication()) {
       route(
         FakeRequest(GET, "/register-to-vote/crown/declaration-pdf-download").withIerSession()
