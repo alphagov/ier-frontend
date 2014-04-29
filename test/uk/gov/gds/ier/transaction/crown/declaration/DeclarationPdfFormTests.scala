@@ -9,7 +9,7 @@ import uk.gov.gds.ier.test.TestHelpers
 /**
  * Declaration is a simple PDF file download page, the validation form
  */
-class DeclarationFormTests
+class DeclarationPdfFormTests
   extends FlatSpec
   with Matchers
   with DeclarationPdfForms

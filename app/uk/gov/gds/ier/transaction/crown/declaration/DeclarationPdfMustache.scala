@@ -2,20 +2,20 @@ package uk.gov.gds.ier.transaction.crown.declaration
 
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
-import controllers.step.crown.routes.DeclarationPdfDownloadController
+import controllers.step.crown._
 import uk.gov.gds.common.model.LocalAuthority
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
+import uk.gov.gds.ier.service.WithDeclarationPdfDownloadService
 
 trait DeclarationPdfMustache extends StepTemplate[InprogressCrown] {
-  self: WithPlacesService with WithSerialiser =>
+  self: WithPlacesService with WithSerialiser with WithDeclarationPdfDownloadService =>
 
   case class DeclarationPdfModel(
     question: Question,
     declarationPdfUrl: String,
     showAuthorityUrl: Boolean,
-    authorityName: String
+    authorityName: String,
+    pdfFileSize: String
   )
 
   val pageTitle = "Download your service declaration form"
@@ -38,11 +38,12 @@ trait DeclarationPdfMustache extends StepTemplate[InprogressCrown] {
         title = pageTitle,
         errorMessages = form.globalErrors.map ( _.message )
       ),
-      declarationPdfUrl = DeclarationPdfDownloadController.download.url,
+      declarationPdfUrl = routes.DeclarationPdfDownloadController.download.url,
       showAuthorityUrl = false,
       authorityName = authorityDetails map {
         auth => auth.name + " electoral registration office"
-      } getOrElse "your local electoral registration office"
+      } getOrElse "your local electoral registration office",
+      pdfFileSize = declarationPdfDownloadService.fileSizeWithUnit
     )
     MustacheData(data, pageTitle)
   }

@@ -4,13 +4,13 @@ import org.scalatest.{GivenWhenThen, Matchers, FlatSpec}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import controllers.step.crown.routes._
-import uk.gov.gds.ier.service.PlacesService
+import uk.gov.gds.ier.service.{DeclarationPdfDownloadService, WithDeclarationPdfDownloadService, PlacesService}
 import uk.gov.gds.common.model.{Ero, LocalAuthority}
 import org.specs2.mock.Mockito
 import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
-import uk.gov.gds.ier.model.{Job, PartialAddress, LastUkAddress}
+import uk.gov.gds.ier.model.{PartialAddress, LastUkAddress}
 
-class DeclarationMustacheTest
+class DeclarationPdfMustacheTest
   extends FlatSpec
   with Matchers
   with GivenWhenThen
@@ -19,15 +19,16 @@ class DeclarationMustacheTest
   with TestHelpers
   with DeclarationPdfMustache
   with WithSerialiser
+  with WithDeclarationPdfDownloadService
   with WithPlacesService {
 
+  val declarationPdfDownloadService = mock[DeclarationPdfDownloadService]
   val serialiser = mock[JsonSerialiser]
   val placesService = mock[PlacesService]
   placesService.lookupAuthority("WR26NJ") returns Some(
     new LocalAuthority(name = "Haringey Borough Council", ero = Ero(), opcsId = ""))
 
   it should "construct model for declaration step with election authority details from mocked service" in {
-    val emptyApplicationForm = declarationPdfForm
     val emptyApplication = InprogressCrown()
     val model: DeclarationPdfModel = mustache.data(
       declarationPdfForm.fill(inprogressApplicationWithPostcode("WR26NJ")),

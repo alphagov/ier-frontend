@@ -5,20 +5,20 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{Routes, CrownStep}
-import controllers.step.crown.routes._
-import scala.Some
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import controllers.step.crown.NinoController
-import controllers.step.crown.routes.{DeclarationPdfController, JobController}
-import uk.gov.gds.ier.service.PlacesService
+import controllers.step.crown.routes.DeclarationPdfController
+import uk.gov.gds.ier.service.{DeclarationPdfDownloadService, WithDeclarationPdfDownloadService, PlacesService}
 
 class DeclarationPdfStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val placesService: PlacesService)
+    val placesService: PlacesService,
+    val declarationPdfDownloadService: DeclarationPdfDownloadService)
   extends CrownStep
   with WithPlacesService
+  with WithDeclarationPdfDownloadService
   with DeclarationPdfForms
   with DeclarationPdfMustache {
 
