@@ -34,4 +34,6 @@ class PreviousAddressPostcodeStep @Inject() (
   def nextStep(currentState: InprogressOrdinary) = {
     controllers.step.ordinary.PreviousAddressSelectController.previousAddressSelectStep
   }
+
+  override val onSuccess = GoToNextStep()
 }

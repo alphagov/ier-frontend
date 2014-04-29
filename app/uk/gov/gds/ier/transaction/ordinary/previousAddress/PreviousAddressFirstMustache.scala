@@ -13,9 +13,12 @@ trait PreviousAddressFirstMustache extends StepTemplate[InprogressOrdinary] {
 
   case class PreviousAddressFirstModel(
     question: Question,
+    registeredAbroad: FieldSet,
     previousYesUk: Field,
     previousYesAbroad: Field,
-    previousNo: Field
+    previousNo: Field,
+    registeredAbroadYes: Field,
+    registeredAbroadNo: Field
   )
 
   val mustache = MustacheTemplate("ordinary/previousAddressFirst") {
@@ -29,17 +32,28 @@ trait PreviousAddressFirstMustache extends StepTemplate[InprogressOrdinary] {
         number = questionNumber,
         title = title,
         errorMessages = form.globalErrors.map { _.message }),
+      registeredAbroad = FieldSet(
+        classes = if (form(keys.previousAddress.wasRegisteredWhenAbroad).hasErrors) "invalid" else ""
+      ),
       previousYesUk = RadioField(
-        key = keys.previousAddress.movedRecently,
+        key = keys.previousAddress.movedRecently.movedRecently,
         value = MovedHouseOption.MovedFromUk.name
       ),
       previousYesAbroad = RadioField(
-        key = keys.previousAddress.movedRecently,
+        key = keys.previousAddress.movedRecently.movedRecently,
         value = MovedHouseOption.MovedFromAbroad.name
       ),
       previousNo = RadioField(
-        key = keys.previousAddress.movedRecently,
+        key = keys.previousAddress.movedRecently.movedRecently,
         value = MovedHouseOption.NotMoved.name
+      ),
+      registeredAbroadYes = RadioField(
+        key = keys.previousAddress.movedRecently.wasRegisteredWhenAbroad,
+        value = "true"
+      ),
+      registeredAbroadNo = RadioField(
+        key = keys.previousAddress.movedRecently.wasRegisteredWhenAbroad,
+        value = "false"
       )
     )
 

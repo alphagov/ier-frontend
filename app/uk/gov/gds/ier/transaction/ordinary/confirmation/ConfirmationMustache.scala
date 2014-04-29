@@ -4,7 +4,6 @@ import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.{Key, ErrorTransformForm}
-import uk.gov.gds.ier.model.{OtherAddress}
 import uk.gov.gds.ier.model.{OtherAddress, MovedHouseOption}
 import scala.Some
 import controllers.step.ordinary.routes
@@ -233,15 +232,20 @@ trait ConfirmationMustache {
         MovedHouseOption.parse(_)
       }
 
+      val title = movedHouse match {
+        case Some(MovedHouseOption.MovedFromAbroadRegistered) => "Last UK address"
+        case _ => "Previous address"
+      }
+
       Some(ConfirmationQuestion(
-        title = "Previous address",
+        title = title,
         editLink = routes.PreviousAddressFirstController.editGet.url,
         changeName = "your previous address",
         content = ifComplete(keys.previousAddress) {
-          if(movedHouse.exists(_.hasPreviousAddress)) {
-            address + postcode
-          } else {
-            "<p>I have not moved in the last 12 months</p>"
+          movedHouse match {
+            case Some(MovedHouseOption.MovedFromAbroadNotRegistered) => "<p>I moved from abroad, but I was not registered to vote there</p>"
+            case Some(moveOption) if moveOption.hasPreviousAddress => address + postcode
+            case _ => "<p>I have not moved in the last 12 months</p>"
           }
         }
       ))

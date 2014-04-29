@@ -13,7 +13,128 @@ class OrdinaryApplicationTests
   with TestHelpers {
 
   it should "generate the expected payload" in {
-    lazy val application = OrdinaryApplication(
+    lazy val application = createOrdinaryApplication
+
+    val apiMap = application.toApiMap
+
+    val expected = Map(
+      "fn" -> "John",
+      "mn" -> "James",
+      "ln" -> "Smith",
+      "applicationType" -> "ordinary",
+      "pfn" -> "James",
+      "pmn" -> "John",
+      "pln" -> "Smith",
+      "dob" -> "1980-12-01",
+      "nino" -> "XX 12 34 56 D",
+      "nat" -> "GB, IE",
+      "oadr" -> "none",
+      "regproperty" -> "The (fake) Manor House",
+      "regstreet" -> "123 Fake Street",
+      "reglocality" -> "North Fake",
+      "regtown" -> "Fakerton",
+      "regarea" -> "Fakesbury",
+      "reguprn" -> "12345",
+      "regpostcode" -> "XX12 34XX",
+      "pproperty" -> "The (fake) Cottage",
+      "pstreet" -> "321 Fake Street",
+      "plocality" -> "South Fake",
+      "ptown" -> "Fakererly",
+      "parea" -> "Fakesborough",
+      "puprn" -> "54321",
+      "ppostcode" -> "XX34 21XX",
+      "pvote" -> "true",
+      "pvoteemail" -> "postal@vote.com",
+      "opnreg" -> "false",
+      "post" -> "true",
+      "email" -> "test@email.com",
+      "phone" -> "01234 5678910",
+      "refNum" -> "12345678910",
+      "ip" -> "256.256.256.256",
+      "gssCode" -> "E09000007",
+      "pgssCode" -> "E09000032"
+    )
+
+    val notExpected = List(
+      "nodobReason",
+      "agerange",
+      "nonino",
+      "nonat"
+    )
+
+    apiMap should matchMap(expected)
+
+    for(key <- notExpected) {
+      apiMap.keys should not contain(key)
+    }
+
+    apiMap.keys.size should be(35)
+  }
+
+  it should "generate the expected payload when registered while abroad" in {
+    lazy val application = createOrdinaryApplication.copy(
+      previouslyRegistered = Some(PreviouslyRegistered(true))
+    )
+
+    val apiMap = application.toApiMap
+
+    val expected = Map(
+      "fn" -> "John",
+      "mn" -> "James",
+      "ln" -> "Smith",
+      "applicationType" -> "ordinary",
+      "pfn" -> "James",
+      "pmn" -> "John",
+      "pln" -> "Smith",
+      "dob" -> "1980-12-01",
+      "nino" -> "XX 12 34 56 D",
+      "nat" -> "GB, IE",
+      "oadr" -> "none",
+      "regproperty" -> "The (fake) Manor House",
+      "regstreet" -> "123 Fake Street",
+      "reglocality" -> "North Fake",
+      "regtown" -> "Fakerton",
+      "regarea" -> "Fakesbury",
+      "reguprn" -> "12345",
+      "regpostcode" -> "XX12 34XX",
+      "pproperty" -> "The (fake) Cottage",
+      "pstreet" -> "321 Fake Street",
+      "plocality" -> "South Fake",
+      "ptown" -> "Fakererly",
+      "parea" -> "Fakesborough",
+      "puprn" -> "54321",
+      "ppostcode" -> "XX34 21XX",
+      "pvote" -> "true",
+      "pvoteemail" -> "postal@vote.com",
+      "opnreg" -> "false",
+      "post" -> "true",
+      "email" -> "test@email.com",
+      "phone" -> "01234 5678910",
+      "refNum" -> "12345678910",
+      "ip" -> "256.256.256.256",
+      "gssCode" -> "E09000007",
+      "pgssCode" -> "E09000032",
+      "lastcategory" -> "overseas"
+    )
+
+    val notExpected = List(
+      "nodobReason",
+      "agerange",
+      "nonino",
+      "nonat"
+    )
+
+    apiMap should matchMap(expected)
+
+    for(key <- notExpected) {
+      apiMap.keys should not contain(key)
+    }
+
+    apiMap.keys.size should be(36)
+  }
+
+  def createOrdinaryApplication =
+    OrdinaryApplication(
       name = Some(Name(
         firstName = "John",
         middleNames = Some("James"),
@@ -26,6 +147,7 @@ class OrdinaryApplicationTests
           lastName = "Smith"
         ))
       )),
+      previouslyRegistered = None,
       dob = Some(DateOfBirth(
         dob = Some(DOB(
           year = 1980,
@@ -95,60 +217,4 @@ class OrdinaryApplicationTests
         gssId = "E09000032"
       ))
     )
-
-    val apiMap = application.toApiMap
-
-    val expected = Map(
-      "fn" -> "John",
-      "mn" -> "James",
-      "ln" -> "Smith",
-      "applicationType" -> "ordinary",
-      "pfn" -> "James",
-      "pmn" -> "John",
-      "pln" -> "Smith",
-      "dob" -> "1980-12-01",
-      "nino" -> "XX 12 34 56 D",
-      "nat" -> "GB, IE",
-      "oadr" -> "none",
-      "regproperty" -> "The (fake) Manor House",
-      "regstreet" -> "123 Fake Street",
-      "reglocality" -> "North Fake",
-      "regtown" -> "Fakerton",
-      "regarea" -> "Fakesbury",
-      "reguprn" -> "12345",
-      "regpostcode" -> "XX12 34XX",
-      "pproperty" -> "The (fake) Cottage",
-      "pstreet" -> "321 Fake Street",
-      "plocality" -> "South Fake",
-      "ptown" -> "Fakererly",
-      "parea" -> "Fakesborough",
-      "puprn" -> "54321",
-      "ppostcode" -> "XX34 21XX",
-      "pvote" -> "true",
-      "pvoteemail" -> "postal@vote.com",
-      "opnreg" -> "false",
-      "post" -> "true",
-      "email" -> "test@email.com",
-      "phone" -> "01234 5678910",
-      "refNum" -> "12345678910",
-      "ip" -> "256.256.256.256",
-      "gssCode" -> "E09000007",
-      "pgssCode" -> "E09000032"
-    )
-
-    val notExpected = List(
-      "nodobReason",
-      "agerange",
-      "nonino",
-      "nonat"
-    )
-
-    apiMap should matchMap(expected)
-
-    for(key <- notExpected) {
-      apiMap.keys should not contain(key)
-    }
-
-    apiMap.keys.size should be(35)
-  }
 }
