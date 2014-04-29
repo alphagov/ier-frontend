@@ -1,23 +1,28 @@
 package assets.mustache.forces
 
+import uk.gov.gds.ier.transaction.forces.address.AddressSelectMustache
 import org.jsoup.Jsoup
 import org.scalatest.{Matchers, FlatSpec}
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.transaction.forces.address.AddressMustache
+import uk.gov.gds.ier.mustache.StepMustache
+import org.scalatest.mock.MockitoSugar
+import uk.gov.gds.ier.service.{AddressService, WithAddressService}
 
 class AddressSelectTemplateTest
   extends FlatSpec
-  with AddressMustache
+  with AddressSelectMustache
+  with StepMustache
   with Matchers
+  with MockitoSugar
   with WithSerialiser
+  with WithAddressService
   with TestHelpers {
 
+  val addressService = mock[AddressService]
   val serialiser = jsonSerialiser
-
-  import AddressMustache._
 
   it should "properly render" in {
     running(FakeApplication()) {

@@ -22,13 +22,11 @@ trait NameMustache extends StepTemplate[InprogressCrown] {
 
   val pageTitle = "What is your full name?"
 
-  val mustache = MustacheTemplate("crown/name") { (form, postUrl, backUrl) =>
+  val mustache = MustacheTemplate("crown/name") { (form, postUrl) =>
     implicit val progressForm = form
     val data = NameModel(
       question = Question(
         postUrl = postUrl.url,
-        backUrl = backUrl.map(_.url).getOrElse(""),
-        showBackUrl = backUrl.isDefined,
         number = "5",
         title = pageTitle,
         errorMessages = form.globalErrors.map ( _.message )

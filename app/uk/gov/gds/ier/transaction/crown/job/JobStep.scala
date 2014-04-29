@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.job
 
-import controllers.step.crown.NinoController
+import controllers.step.crown.{DeclarationPdfController, NinoController}
 import controllers.step.crown.routes.{NameController, JobController}
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
@@ -11,6 +11,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{CrownStep, Routes}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.model.{WaysToVoteType, WaysToVote}
 
 class JobStep @Inject ()(
     val serialiser: JsonSerialiser,
@@ -21,7 +22,6 @@ class JobStep @Inject ()(
   with JobMustache {
 
   val validation = jobForm
-  val previousRoute = Some(NameController.get)
 
   val routes = Routes(
     get = JobController.get,
@@ -30,7 +30,11 @@ class JobStep @Inject ()(
     editPost = JobController.editPost
   )
 
+  override val onSuccess = {
+    GoToNextStep()
+  }
+
   def nextStep(currentState: InprogressCrown) = {
-    NinoController.ninoStep
+    DeclarationPdfController.declarationPdfStep
   }
 }

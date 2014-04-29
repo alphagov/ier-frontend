@@ -5,6 +5,7 @@ import play.api.test._
 import org.jsoup.Jsoup
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.forces.nationality.NationalityMustache
+import org.jba.Mustache
 
 class NationalityTemplateTest
   extends FlatSpec
@@ -16,7 +17,6 @@ class NationalityTemplateTest
     running(FakeApplication()) {
       val data = NationalityModel(
         question = Question(postUrl = "/whatever-url",
-        backUrl = "",
         number = "1",
         title = "nationality title"
         ),

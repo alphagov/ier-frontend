@@ -25,7 +25,6 @@ class AddressStep @Inject() (
   with AddressForms {
 
   val validation = lookupAddressForm
-  val previousRoute = Some(NinoController.get)
 
   val routes = Routes(
     get = AddressController.get,
@@ -35,24 +34,24 @@ class AddressStep @Inject() (
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
-    currentState.address.map(_.postcode) match {
-        case Some(postcode) if postcode.toUpperCase.startsWith("BT") => GoTo (ExitController.northernIreland)
-        case _ => AddressSelectController.addressSelectStep
+    val optAddress = currentState.address
+
+    optAddress match {
+      case Some(partialAddress) => {
+        val postcode = partialAddress.postcode.trim.toUpperCase
+        if (postcode.isEmpty)
+          this
+        else if (postcode.startsWith("BT"))
+          GoTo (ExitController.northernIreland)
+        else if (addressService.isScotland(postcode))
+          GoTo (ExitController.scotland)
+        else AddressSelectController.addressSelectStep
       }
+      case None => this
+    }
   }
 
   override val onSuccess = {
      GoToNextStep()
-  }
-
-  def template(
-      form: ErrorTransformForm[InprogressOrdinary],
-      call: Call,
-      backUrl: Option[Call]) = {
-    AddressMustache.lookupPage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url
-    )
   }
 }

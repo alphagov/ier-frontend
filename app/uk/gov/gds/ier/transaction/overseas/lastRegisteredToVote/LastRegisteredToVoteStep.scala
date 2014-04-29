@@ -1,13 +1,11 @@
 package uk.gov.gds.ier.transaction.overseas.lastRegisteredToVote
 
 import com.google.inject.Inject
-import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.model.{LastRegisteredType}
+import uk.gov.gds.ier.model.LastRegisteredType
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
-import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.overseas.routes.LastRegisteredToVoteController
 import controllers.step.overseas.routes.PreviouslyRegisteredController
 import controllers.step.overseas.DateLeftUkController
@@ -23,7 +21,6 @@ class LastRegisteredToVoteStep @Inject() (
   with LastRegisteredToVoteMustache {
 
   val validation = lastRegisteredToVoteForm
-  val previousRoute = Some(PreviouslyRegisteredController.get)
 
   val routes = Routes(
     get = LastRegisteredToVoteController.get,
@@ -46,11 +43,4 @@ class LastRegisteredToVoteStep @Inject() (
   override val onSuccess = TransformApplication { currentState =>
     currentState.copy (dateLeftUk = None, dateLeftSpecial = None)
   } andThen GoToNextIncompleteStep()
-
-  def template(
-      form: ErrorTransformForm[InprogressOverseas],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]) = {
-    LastRegisteredToVoteMustache.lastRegisteredPage(form, postEndpoint, backEndpoint)
-  }
 }

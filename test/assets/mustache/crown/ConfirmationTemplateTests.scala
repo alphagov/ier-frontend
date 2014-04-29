@@ -33,7 +33,6 @@ class ConfirmationTemplateTests
           )
         ),
         displayPartnerBlock = false,
-        backUrl = "http://backUrl",
         postUrl = "http://postUrl"
       )
 
@@ -66,7 +65,6 @@ class ConfirmationTemplateTests
           )
         ),
         displayPartnerBlock = true,
-        backUrl = "http://backUrl",
         postUrl = "http://postUrl"
       )
 

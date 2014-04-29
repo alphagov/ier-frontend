@@ -7,7 +7,7 @@ import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.{PostalVoteDeliveryMethod, PostalVote}
 
-class PostalVoteFormTests 
+class PostalVoteFormTests
   extends FlatSpec
   with Matchers
   with PostalVoteForms
@@ -119,7 +119,9 @@ class PostalVoteFormTests
     postalVoteForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("") should be(Seq("Please answer this question"))
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "postalVote.deliveryMethod.methodName" -> Seq("Please answer this question")
+        ))
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
       },
       success => fail("Should have thrown an error")
@@ -136,7 +138,9 @@ class PostalVoteFormTests
     postalVoteForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("") should be(Seq("Please enter your email address"))
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "postalVote.deliveryMethod.emailAddress" -> Seq("Please enter your email address")
+        ))
         hasErrors.globalErrorMessages should be(Seq("Please enter your email address"))
       },
       success => fail("Should have thrown an error")

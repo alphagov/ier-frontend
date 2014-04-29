@@ -25,7 +25,6 @@ class NationalityStep @Inject ()(
     with NationalityMustache {
 
   val validation = nationalityForm
-  val previousRoute = Some(AddressController.get)
 
   val routes = Routes(
     get = NationalityController.get,
@@ -33,13 +32,6 @@ class NationalityStep @Inject ()(
     editGet = NationalityController.editGet,
     editPost = NationalityController.editPost
   )
-
-  def template(
-      form: ErrorTransformForm[InprogressForces],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]): Html = {
-    nationalityMustache(form, postEndpoint, backEndpoint)
-  }
 
   def nextStep(currentState: InprogressForces) = {
     if (currentState.nationality.flatMap(_.noNationalityReason) == None) {

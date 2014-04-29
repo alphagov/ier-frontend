@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.transaction.overseas.waysToVote
 
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.transaction.overseas.name.{NameMustache, NameForms}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.model._
@@ -16,6 +15,7 @@ class WayToVoteMustacheTest
   extends FlatSpec
   with Matchers
   with WaysToVoteForms
+  with WaysToVoteMustache
   with ErrorMessages
   with FormKeys
   with TestHelpers {
@@ -25,14 +25,14 @@ class WayToVoteMustacheTest
 
   it should "produce valid empty model when application is empty" in {
     val emptyApplicationForm = waysToVoteForm
-    val model = waysToVoteMustache.transformFormStepToMustacheData(
+    val model = mustache.data(
       emptyApplicationForm,
-      "/register-to-vote/overseas/ways-to-vote",
-      Some("/register-to-vote/overseas/open-register"))
+      new Call("POST","/register-to-vote/overseas/ways-to-vote"),
+      InprogressOverseas()
+    ).data.asInstanceOf[WaysToVoteModel]
 
     model.question.title should be("How do you want to vote?")
     model.question.postUrl should be("/register-to-vote/overseas/ways-to-vote")
-    model.question.backUrl should be("/register-to-vote/overseas/open-register")
 
     model.byPost.value should be("by-post")
     model.byProxy.value should be("by-proxy")
@@ -47,14 +47,15 @@ class WayToVoteMustacheTest
     val emptyApplicationForm = waysToVoteForm.fill(InprogressOverseas(
       waysToVote = Some(WaysToVote(WaysToVoteType.InPerson)))
     )
-    val model = waysToVoteMustache.transformFormStepToMustacheData(
+
+    val model = mustache.data(
       emptyApplicationForm,
-      "/register-to-vote/overseas/ways-to-vote",
-      Some("/register-to-vote/overseas/open-register"))
+      new Call("POST","/register-to-vote/overseas/ways-to-vote"),
+      InprogressOverseas()
+    ).data.asInstanceOf[WaysToVoteModel]
 
     model.question.title should be("How do you want to vote?")
     model.question.postUrl should be("/register-to-vote/overseas/ways-to-vote")
-    model.question.backUrl should be("/register-to-vote/overseas/open-register")
 
     model.byPost.value should be("by-post")
     model.byProxy.value should be("by-proxy")

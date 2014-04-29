@@ -24,7 +24,6 @@ class PreviousAddressYesFormTests
   val serialiser = jsonSerialiser
 
   behavior of "previous address form where user enters postcode"
-
   it should "succeed on valid postcode" in {
     val js = Json.toJson(
       Map(

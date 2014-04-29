@@ -36,14 +36,8 @@ trait StepController [T <: InprogressApplication[T]]
 
   val validation: ErrorTransformForm[T]
   val confirmationRoute: Call
-  val previousRoute: Option[Call]
-  def template(form: ErrorTransformForm[T], call: Call, backUrl: Option[Call]):Html
 
   val onSuccess: FlowControl = TransformApplication { application => application} andThen GoToNextIncompleteStep()
-
-  def templateWithApplication(form: ErrorTransformForm[T], call: Call, backUrl: Option[Call]):T => Html = {
-    application:T => template(form, call, backUrl)
-  }
 
   def isStepComplete (currentState: T):Boolean = {
     val filledForm = validation.fillAndValidate(currentState)
@@ -60,10 +54,10 @@ trait StepController [T <: InprogressApplication[T]]
   def get(implicit manifest: Manifest[T]) = ValidSession requiredFor {
     implicit request => application =>
       logger.debug(s"GET request for ${request.path}")
-      Ok(mustache(validation.fill(application), routes.post, previousRoute, application).html)
+      Ok(mustache(validation.fill(application), routes.post, application).html)
   }
 
-  def postMethod(postCall:Call, backUrl:Option[Call])(implicit manifest: Manifest[T]) = ValidSession requiredFor {
+  def postMethod(postCall:Call)(implicit manifest: Manifest[T]) = ValidSession requiredFor {
     implicit request => application =>
       logger.debug(s"POST request for ${request.path}")
 
@@ -73,7 +67,7 @@ trait StepController [T <: InprogressApplication[T]]
       validation.bind(dataFromApplication ++ dataFromRequest).fold(
         hasErrors => {
           logger.debug(s"Form binding error: ${hasErrors.prettyPrint.mkString(", ")}")
-          Ok(mustache(hasErrors, postCall, backUrl, application).html) storeInSession application
+          Ok(mustache(hasErrors, postCall, application).html) storeInSession application
         },
         success => {
           logger.debug(s"Form binding successful")
@@ -83,13 +77,13 @@ trait StepController [T <: InprogressApplication[T]]
       )
   }
 
-  def post(implicit manifest: Manifest[T]) = postMethod(routes.post, previousRoute)
+  def post(implicit manifest: Manifest[T]) = postMethod(routes.post)
 
-  def editPost(implicit manifest: Manifest[T]) = postMethod(routes.editPost, Some(confirmationRoute))
+  def editPost(implicit manifest: Manifest[T]) = postMethod(routes.editPost)
 
   def editGet(implicit manifest: Manifest[T]) = ValidSession requiredFor {
     implicit request => application =>
       logger.debug(s"GET edit request for ${request.path}")
-      Ok(mustache(validation.fill(application), routes.editPost, Some(confirmationRoute), application).html)
+      Ok(mustache(validation.fill(application), routes.editPost, application).html)
   }
 }

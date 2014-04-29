@@ -1,12 +1,9 @@
 package uk.gov.gds.ier.transaction.forces.name
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.templates.Html
-import play.api.mvc.Call
-import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.step.StepTemplate
 
-trait NameMustache extends StepMustache {
+trait NameMustache extends StepTemplate[InprogressForces] {
 
   val pageTitle = "What is your full name?"
 
@@ -22,44 +19,39 @@ trait NameMustache extends StepMustache {
     previousMiddleNames: Field,
     previousLastName: Field)
 
-    def transformFormStepToMustacheData(form: ErrorTransformForm[InprogressForces],
-                                        postUrl: String,
-                                        backUrl: Option[String]): NameModel = {
+  val mustache = MustacheTemplate("forces/name") { (form, postUrl) =>
     implicit val progressForm = form
-
-    NameModel(
+    val data = NameModel(
       question = Question(
-        postUrl = postUrl,
-        backUrl = backUrl.getOrElse(""),
-        showBackUrl = backUrl.isDefined,
+        postUrl = postUrl.url,
         number = "6",
         title = pageTitle,
-        errorMessages = form.globalErrors.map ( _.message )),
-      firstName = TextField(
-        key = keys.name.firstName),
-      middleNames = TextField(
-        key = keys.name.middleNames),
-      lastName = TextField(
-        key = keys.name.lastName),hasPreviousName = FieldSet(
+        errorMessages = form.globalErrors.map ( _.message )
+      ),
+      firstName = TextField(key = keys.name.firstName),
+      middleNames = TextField(key = keys.name.middleNames),
+      lastName = TextField(key = keys.name.lastName),
+      hasPreviousName = FieldSet(
         classes = if (form(keys.previousName).hasErrors) "invalid" else ""
       ),
       hasPreviousNameTrue = RadioField(
-        key = keys.previousName.hasPreviousName, value = "true"),
+        key = keys.previousName.hasPreviousName,
+        value = "true"
+      ),
       hasPreviousNameFalse = RadioField(
-        key = keys.previousName.hasPreviousName, value = "false"),
-
+        key = keys.previousName.hasPreviousName,
+        value = "false"
+      ),
       previousFirstName = TextField(
-        key = keys.previousName.previousName.firstName),
+        key = keys.previousName.previousName.firstName
+      ),
       previousMiddleNames = TextField(
-        key = keys.previousName.previousName.middleNames),
+        key = keys.previousName.previousName.middleNames
+      ),
       previousLastName = TextField(
-        key = keys.previousName.previousName.lastName)
+        key = keys.previousName.previousName.lastName
+      )
     )
-  }
-
-  def nameMustache(form: ErrorTransformForm[InprogressForces], call: Call, backUrl: Option[String]): Html = {
-    val data = transformFormStepToMustacheData(form, call.url, backUrl)
-    val content = Mustache.render("forces/name", data)
-    MainStepTemplate(content, pageTitle)
+    MustacheData(data, pageTitle)
   }
 }

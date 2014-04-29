@@ -1,42 +1,29 @@
 package uk.gov.gds.ier.transaction.forces.openRegister
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.step.StepTemplate
 
-trait OpenRegisterMustache extends StepMustache {
+trait OpenRegisterMustache extends StepTemplate[InprogressForces] {
 
-  case class OpenRegisterModel(question:Question,
-                               openRegister: Field)
+  case class OpenRegisterModel(
+    question:Question,
+    openRegister: Field)
 
-  def transformFormStepToMustacheData(
-      form: ErrorTransformForm[InprogressForces],
-      postEndpoint: Call,
-      backEndpoint: Option[Call]) : OpenRegisterModel = {
+  val mustache = MustacheTemplate("forces/openRegister") { (form, post) =>
     implicit val progressForm = form
-    OpenRegisterModel(
+    val title = "Do you want to include your name and address on the open register?"
+    val data = OpenRegisterModel(
       question = Question(
-        postUrl = postEndpoint.url,
-        backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
+        postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
         number = "11",
-        title = "Do you want to include your name and address on the open register?"
+        title = title
       ),
       openRegister = CheckboxField (
         key = keys.openRegister.optIn,
         value = "false"
       )
     )
-  }
-
-  def openRegisterMustache(
-      form:ErrorTransformForm[InprogressForces],
-      postEndpoint: Call,
-      backEndpoint: Option[Call]): Html = {
-    val data = transformFormStepToMustacheData(form, postEndpoint, backEndpoint)
-    val content = Mustache.render("forces/openRegister", data)
-    MainStepTemplate(content, data.question.title)
+    MustacheData(data, title)
   }
 }

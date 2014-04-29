@@ -13,15 +13,15 @@ import uk.gov.gds.ier.step.OrdinaryStep
 import controllers.step.ordinary.PreviousAddressFirstController
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
-class OtherAddressStep @Inject ()(val serialiser: JsonSerialiser,
-                                        val config: Config,
-                                        val encryptionService : EncryptionService)
-  extends OrdinaryStep
+class OtherAddressStep @Inject ()(
+    val serialiser: JsonSerialiser,
+    val config: Config,
+    val encryptionService : EncryptionService
+) extends OrdinaryStep
   with OtherAddressForms
   with OtherAddressMustache {
 
   val validation = otherAddressForm
-  val previousRoute = Some(AddressController.get)
 
   val routes = Routes(
     get = OtherAddressController.get,
@@ -30,9 +30,6 @@ class OtherAddressStep @Inject ()(val serialiser: JsonSerialiser,
     editPost = OtherAddressController.editPost
   )
 
-  def template(form: ErrorTransformForm[InprogressOrdinary], call:Call, backUrl: Option[Call]): Html = {
-    otherAddressMustache(form, call, backUrl.map(_.url))
-  }
   def nextStep(currentState: InprogressOrdinary) = {
     PreviousAddressFirstController.previousAddressFirstStep
   }

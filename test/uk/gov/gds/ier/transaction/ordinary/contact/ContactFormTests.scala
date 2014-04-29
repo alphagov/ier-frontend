@@ -138,7 +138,9 @@ class ContactFormTests
     contactForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("contact.phone.detail") should be(Seq("Please enter your phone number"))
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "contact.phone.detail" -> Seq("Please enter your phone number")
+        ))
         hasErrors.globalErrorMessages should be(Seq("Please enter your phone number"))
       },
       success => fail("Should have thrown an error")
@@ -154,7 +156,9 @@ class ContactFormTests
     contactForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("contact.email.detail") should be(Seq("Please enter your email address"))
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "contact.email.detail" -> Seq("Please enter your email address")
+        ))
         hasErrors.globalErrorMessages should be(Seq("Please enter your email address"))
       },
       success => fail("Should have thrown an error")
@@ -171,11 +175,31 @@ class ContactFormTests
     contactForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("contact.email.detail") should be(Seq("Please enter a valid email address"))
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "contact.email.detail" -> Seq("Please enter a valid email address")
+        ))
         hasErrors.globalErrorMessages should be(Seq("Please enter a valid email address"))
       },
       success => fail("Should have thrown an error")
     )
   }
 
+  it should "pass on invalid email if email.contactMe is not true" in {
+    val js = Json.toJson(
+      Map(
+        "contact.post.contactMe" -> "true",
+        "contact.email.detail" -> "test@mail"
+      )
+    )
+    contactForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(", ")),
+      success => {
+        success.contact.isDefined should be(true)
+        val contact = success.contact.get
+        contact.post should be(true)
+        contact.phone should be(None)
+        contact.email.isDefined should be(true)
+      }
+    )
+  }
 }

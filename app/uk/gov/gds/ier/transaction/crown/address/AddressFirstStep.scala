@@ -23,7 +23,6 @@ class AddressFirstStep @Inject ()(
   with AddressFirstForms {
 
   val validation = addressFirstForm
-  val previousRoute = Some(StatementController.get)
 
   val routes = Routes(
     get = AddressFirstController.get,
@@ -33,11 +32,7 @@ class AddressFirstStep @Inject ()(
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    if (currentState.address.flatMap(_.hasUkAddress) == Some(true)) {
-      controllers.step.crown.AddressController.addressStep
-    } else {
-      controllers.step.crown.AddressController.addressStep
-    }
+    controllers.step.crown.AddressController.addressStep
   }
 }
 

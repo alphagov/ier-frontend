@@ -3,10 +3,9 @@ package uk.gov.gds.ier.transaction.overseas.dateOfBirth
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.model.DOB
 import scala.Some
-import play.api.mvc.Call
-import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 /**
  * Unit test to test form to Mustache model transformation.
@@ -17,23 +16,23 @@ import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 class DateOfBirthMustacheTest
   extends FlatSpec
   with Matchers
+  with DateOfBirthMustache
   with DateOfBirthForms
   with ErrorMessages
   with FormKeys
   with TestHelpers {
 
-  // tested unit
-  val dateOfBirthMustache = new DateOfBirthMustache {}
-
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = dateOfBirthForm
-    
-    val dateOfBirthModel = dateOfBirthMustache.transformFormStepToMustacheData(emptyApplicationForm, 
-        new Call("POST", "/register-to-vote/overseas/date-of-birth"), None)
+
+    val dateOfBirthModel = mustache.data(
+      emptyApplicationForm,
+      new Call("POST", "/register-to-vote/overseas/date-of-birth"),
+      InprogressOverseas()
+    ).data.asInstanceOf[DateOfBirthModel]
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/overseas/date-of-birth")
-    dateOfBirthModel.question.backUrl should be("")
 
     dateOfBirthModel.day.value should be("")
     dateOfBirthModel.month.value should be("")
@@ -43,13 +42,16 @@ class DateOfBirthMustacheTest
   it should "fully filled applicant dob should produce Mustache Model with dob values present" in {
     val filledForm = dateOfBirthForm.fillAndValidate(InprogressOverseas(
       dob = Some(DOB(day=12, month= 12, year = 1980))))
-      
-    val dateOfBirthModel = dateOfBirthMustache.transformFormStepToMustacheData(filledForm,
-        new Call("POST", "/register-to-vote/overseas/date-of-birth"), None)
+
+    val dateOfBirthModel = mustache.data(
+      filledForm,
+      new Call("POST", "/register-to-vote/overseas/date-of-birth"),
+      InprogressOverseas()
+    ).data.asInstanceOf[DateOfBirthModel]
+
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/overseas/date-of-birth")
-    dateOfBirthModel.question.backUrl should be("")
 
     dateOfBirthModel.day.value should be("12")
     dateOfBirthModel.month.value should be("12")

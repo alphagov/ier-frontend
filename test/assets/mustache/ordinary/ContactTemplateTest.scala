@@ -4,11 +4,13 @@ import org.scalatest.{Matchers, FlatSpec}
 import play.api.test._
 import org.jsoup.Jsoup
 import play.api.test.Helpers._
+import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.ordinary.contact.ContactMustache
 
 class ContactTemplateTest
   extends FlatSpec
   with ContactMustache
+  with StepMustache
   with Matchers {
 
   it should "properly render all properties from the model" in {
@@ -16,7 +18,6 @@ class ContactTemplateTest
     running(FakeApplication()) {
       val data = ContactModel(
         question = Question(postUrl = "/whatever-url",
-        backUrl = "",
         number = "1",
         title = "contact title"
         ),

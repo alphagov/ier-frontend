@@ -11,7 +11,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.service.AddressService
 
-import uk.gov.gds.ier.step.{Routes, ForcesStep}
+import uk.gov.gds.ier.step.{ForcesStep, Routes}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class PreviousAddressFirstStep @Inject ()(
@@ -24,7 +24,6 @@ class PreviousAddressFirstStep @Inject ()(
   with PreviousAddressFirstForms {
 
   val validation = previousAddressFirstForm
-  val previousRoute = Some(AddressController.get)
 
   val routes = Routes(
     get = PreviousAddressFirstController.get,
@@ -39,14 +38,6 @@ class PreviousAddressFirstStep @Inject ()(
     } else {
       controllers.step.forces.NationalityController.nationalityStep
     }
-  }
-
-  def template(form: ErrorTransformForm[InprogressForces], call:Call, backUrl: Option[Call]): Html = {
-    previousAddressFirstStepMustache(
-      form,
-      call.url,
-      backUrl.map(_.url)
-    )
   }
 }
 

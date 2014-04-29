@@ -1,13 +1,10 @@
 package uk.gov.gds.ier.transaction.forces.service
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.model.{Statement}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.step.StepTemplate
 
-trait ServiceMustache extends StepMustache {
+trait ServiceMustache extends StepTemplate[InprogressForces] {
 
   case class ServiceModel (
       question:Question,
@@ -19,12 +16,15 @@ trait ServiceMustache extends StepMustache {
       regimentShowFlag: Text
   )
 
-  def transformFormStepToMustacheData(
-      application: InprogressForces,
-      form: ErrorTransformForm[InprogressForces],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]) : ServiceModel = {
+  private def displayPartnerSentence (application:InprogressForces): Boolean = {
+    application.statement match {
+      case Some(Statement(Some(false), Some(true))) => true
+      case Some(Statement(None, Some(true))) => true
+      case _ => false
+    }
+  }
 
+  val mustache = MustacheTemplate("forces/service") { (form, postUrl, application) =>
     implicit val progressForm = form
 
     def makeRadio(serviceName:String) = {
@@ -36,16 +36,17 @@ trait ServiceMustache extends StepMustache {
       )
     }
 
-    ServiceModel(
+    val title = if (displayPartnerSentence(application))
+      "Which of the services is your partner in?"
+    else
+      "Which of the services are you in?"
+
+    val data = ServiceModel(
       question = Question(
-        postUrl = postEndpoint.url,
-        backUrl = backEndpoint.fold("")(_.url),
+        postUrl = postUrl.url,
         errorMessages = form.globalErrors.map{ _.message },
         number = "8",
-        title = if (displayPartnerSentence(application))
-                  "Which of the services is your partner in?"
-                else
-                  "Which of the services are you in?"
+        title = title
       ),
       serviceFieldSet = FieldSet(
         classes = if (progressForm(keys.service).hasErrors) "invalid" else ""
@@ -60,24 +61,8 @@ trait ServiceMustache extends StepMustache {
         value = progressForm(keys.service.regiment).value.fold("")(_ => "-open")
       )
     )
+
+    MustacheData(data, title)
   }
 
-  def serviceMustache(
-      application: InprogressForces,
-      form:ErrorTransformForm[InprogressForces],
-      postEndpoint: Call,
-      backEndpoint: Option[Call]): Html = {
-
-    val data = transformFormStepToMustacheData(application, form, postEndpoint, backEndpoint)
-    val content = Mustache.render("forces/service", data)
-    MainStepTemplate(content, data.question.title)
-  }
-
-  private def displayPartnerSentence (application:InprogressForces): Boolean = {
-    application.statement match {
-      case Some(Statement(Some(false), Some(true))) => true
-      case Some(Statement(None, Some(true))) => true
-      case _ => false
-    }
-  }
 }

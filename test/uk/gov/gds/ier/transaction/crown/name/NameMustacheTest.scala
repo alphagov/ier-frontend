@@ -24,13 +24,11 @@ class NameMustacheTest
     val nameModel = nameMustache.mustache.data(
       emptyApplicationForm,
       Call("GET", "/register-to-vote/crown/name"),
-      Some(Call("POST", "/register-to-vote/crown/date-of-birth")),
       InprogressCrown()
     ).data.asInstanceOf[nameMustache.NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/crown/name")
-    nameModel.question.backUrl should be("/register-to-vote/crown/date-of-birth")
 
     nameModel.firstName.value should be("")
     nameModel.middleNames.value should be("")
@@ -53,13 +51,11 @@ class NameMustacheTest
     val nameModel = nameMustache.mustache.data(
       partiallyFilledApplicationForm,
       Call("GET", "/register-to-vote/crown/name"),
-      Some(Call("POST", "/register-to-vote/crown/date-of-birth")),
       InprogressCrown()
     ).data.asInstanceOf[nameMustache.NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/crown/name")
-    nameModel.question.backUrl should be("/register-to-vote/crown/date-of-birth")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
@@ -90,13 +86,11 @@ class NameMustacheTest
     val nameModel = nameMustache.mustache.data(
       partiallyFilledApplicationForm,
       Call("GET", "/register-to-vote/crown/name"),
-      Some(Call("POST", "/register-to-vote/crown/date-of-birth")),
       InprogressCrown()
     ).data.asInstanceOf[nameMustache.NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/crown/name")
-    nameModel.question.backUrl should be("/register-to-vote/crown/date-of-birth")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
@@ -119,13 +113,11 @@ class NameMustacheTest
     val nameModel = nameMustache.mustache.data(
       partiallyFilledApplicationFormWithErrors,
       Call("GET", "/register-to-vote/crown/name"),
-      Some(Call("POST", "/register-to-vote/crown/date-of-birth")),
       InprogressCrown()
     ).data.asInstanceOf[nameMustache.NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/crown/name")
-    nameModel.question.backUrl should be("/register-to-vote/crown/date-of-birth")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")

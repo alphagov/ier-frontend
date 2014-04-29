@@ -14,20 +14,19 @@ class NationalityMustacheTest
   with NationalityForms
   with ErrorMessages
   with FormKeys
-  with TestHelpers {
-
-  val nationalityMustache = new NationalityMustache {}
+  with TestHelpers
+  with NationalityMustache {
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = nationalityForm
-    val nationalityModel = nationalityMustache.transformFormStepToMustacheData(
+    val nationalityModel = mustache.data(
       emptyApplicationForm,
       NationalityController.post,
-      Some(AddressController.get))
+      InprogressForces()
+    ).data.asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/forces/nationality")
-    nationalityModel.question.backUrl should be("/register-to-vote/forces/address")
 
     nationalityModel.britishOption.attributes should be("")
     nationalityModel.irishOption.attributes should be("")
@@ -52,14 +51,14 @@ class NationalityMustacheTest
 
     val partiallyFilledApplicationForm = nationalityForm.fill(partiallyFilledApplication)
 
-    val nationalityModel = nationalityMustache.transformFormStepToMustacheData(
+    val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
       NationalityController.post,
-      Some(AddressController.get))
+      InprogressForces()
+    ).data.asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/forces/nationality")
-    nationalityModel.question.backUrl should be("/register-to-vote/forces/address")
 
     nationalityModel.britishOption.attributes should be("checked=\"checked\"")
     nationalityModel.irishOption.attributes should be("")
@@ -82,14 +81,14 @@ class NationalityMustacheTest
 
     val partiallyFilledApplicationForm = nationalityForm.fill(partiallyFilledApplication)
 
-    val nationalityModel = nationalityMustache.transformFormStepToMustacheData(
+    val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
       NationalityController.post,
-      Some(AddressController.get))
+      InprogressForces()
+    ).data.asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/forces/nationality")
-    nationalityModel.question.backUrl should be("/register-to-vote/forces/address")
 
     nationalityModel.britishOption.attributes should be("")
     nationalityModel.irishOption.attributes should be("checked=\"checked\"")
@@ -112,14 +111,14 @@ class NationalityMustacheTest
 
     val partiallyFilledApplicationForm = nationalityForm.fill(partiallyFilledApplication)
 
-    val nationalityModel = nationalityMustache.transformFormStepToMustacheData(
+    val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
       NationalityController.post,
-      Some(AddressController.get))
+      InprogressForces()
+    ).data.asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/forces/nationality")
-    nationalityModel.question.backUrl should be("/register-to-vote/forces/address")
 
     nationalityModel.britishOption.attributes should be("")
     nationalityModel.irishOption.attributes should be("")
@@ -143,14 +142,14 @@ class NationalityMustacheTest
 
     val partiallyFilledApplicationForm = nationalityForm.fill(partiallyFilledApplication)
 
-    val nationalityModel = nationalityMustache.transformFormStepToMustacheData(
+    val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
       NationalityController.post,
-      Some(AddressController.get))
+      InprogressForces()
+    ).data.asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/forces/nationality")
-    nationalityModel.question.backUrl should be("/register-to-vote/forces/address")
 
     nationalityModel.britishOption.attributes should be("checked=\"checked\"")
     nationalityModel.irishOption.attributes should be("")
@@ -174,14 +173,14 @@ class NationalityMustacheTest
 
     val partiallyFilledApplicationForm = nationalityForm.fillAndValidate(partiallyFilledApplication)
 
-    val nationalityModel = nationalityMustache.transformFormStepToMustacheData(
+    val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
       NationalityController.post,
-      Some(AddressController.get))
+      InprogressForces()
+    ).data.asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/forces/nationality")
-    nationalityModel.question.backUrl should be("/register-to-vote/forces/address")
 
     nationalityModel.britishOption.attributes should be("")
     nationalityModel.irishOption.attributes should be("")
@@ -206,14 +205,14 @@ class NationalityMustacheTest
 
     val partiallyFilledApplicationForm = nationalityForm.fill(partiallyFilledApplication)
 
-    val nationalityModel = nationalityMustache.transformFormStepToMustacheData(
+    val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
       NationalityController.post,
-      Some(AddressController.get))
+      InprogressForces()
+    ).data.asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/forces/nationality")
-    nationalityModel.question.backUrl should be("/register-to-vote/forces/address")
 
     nationalityModel.britishOption.attributes should be("")
     nationalityModel.irishOption.attributes should be("")

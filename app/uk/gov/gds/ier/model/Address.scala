@@ -9,7 +9,8 @@ case class Address(
     city:Option[String],
     county:Option[String],
     uprn:Option[String],
-    postcode:String) {
+    postcode:String,
+    gssCode: Option[String] = None) {
 
   def prettyAddressLine = {
     val addressLine = lineOne ++: lineTwo ++: lineThree ++: List(postcode)
@@ -25,4 +26,16 @@ case class Address(
       uprn.map(x => Map(addressKey + "uprn" -> x)).getOrElse(Map.empty) ++
       Map(addressKey + "postcode" -> postcode)
   }
+}
+
+object Address {
+  def apply(postcode: String): Address = Address(
+    lineOne = None,
+    lineTwo = None,
+    lineThree = None,
+    city = None,
+    county = None,
+    uprn = None,
+    postcode = postcode,
+    gssCode = None)
 }

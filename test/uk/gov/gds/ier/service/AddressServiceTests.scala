@@ -21,7 +21,8 @@ class AddressServiceTests extends FlatSpec
       addressLine = None,
       uprn = Some("12345"),
       postcode = "AB12 3CD",
-      manualAddress = None)
+      manualAddress = None,
+      gssCode = Some("abc"))
 
     when(mockPlaces.lookupAddress("AB12 3CD")).thenReturn(List.empty)
     service.formFullAddress(Some(partial))
@@ -35,7 +36,8 @@ class AddressServiceTests extends FlatSpec
       addressLine = None,
       uprn = Some("12345"),
       postcode = "AB12 3CD",
-      manualAddress = None
+      manualAddress = None,
+      gssCode = Some("abc")
     )
     val address = Address(
       lineOne = Some("123 Fake Street"),
@@ -44,7 +46,8 @@ class AddressServiceTests extends FlatSpec
       city = Some("Fakerton"),
       county = Some("Fakesbury"),
       uprn = Some("12345"),
-      postcode = "AB12 3CD"
+      postcode = "AB12 3CD",
+      gssCode = Some("abc")
     )
 
     when(mockPlaces.lookupAddress("AB12 3CD")).thenReturn(List(address))
@@ -98,7 +101,8 @@ class AddressServiceTests extends FlatSpec
       city = Some("Fakerton"),
       county = Some("Fakesbury"),
       uprn = Some("12345678"),
-      postcode = "AB12 3CD")
+      postcode = "AB12 3CD",
+      gssCode = Some("abc"))
 
     service.formAddressLine(address) should be(
       "1A Fake Flat, Fake House, 123 Fake Street, Fakerton, Fakesbury"
@@ -140,5 +144,60 @@ class AddressServiceTests extends FlatSpec
     service.formAddressLine(address) should be(
       "1A Fake Flat, Fakerton, Fakesbury"
     )
+  }
+
+  it should "return the PartialAddress with gssCode after partial address lookup" in {
+    val mockLocate = mock[LocateService]
+    val service = new AddressService(mockLocate)
+
+    val partial = PartialAddress(
+      addressLine = None,
+      uprn = Some("12345678"),
+      postcode = "AB12 3CD",
+      manualAddress = None)
+
+    val address = Address(
+      lineOne = Some("1A Fake Flat"),
+      lineTwo = Some(""),
+      lineThree = Some(""),
+      city = Some("Fakerton"),
+      county = Some("Fakesbury"),
+      uprn = Some("12345678"),
+      postcode = "AB12 3CD",
+      gssCode = Some("gss"))
+
+    when(mockLocate.lookupAddress(partial)).thenReturn(Some(address))
+
+    val result = partial.copy (addressLine = Some("1A Fake Flat, Fakerton, Fakesbury"),
+        gssCode = Some("gss"))
+
+    service.fillAddressLine(partial) should be(result)
+  }
+
+  behavior of "isScotland that is when testing Scotland address"
+  it should "return positive on address with scottish postcode" in {
+    val mockLocate = mock[LocateService]
+    val addressService = new AddressService(mockLocate)
+    val scottishSampleAddress = Address(postcode = "BBB11 2BB").copy(gssCode = Some("S123456789"))
+    when(mockLocate.lookupAddress("BBB11 2BB")).thenReturn(List(scottishSampleAddress))
+
+    addressService.isScotland(postcode = "BBB11 2BB") should be(true)
+  }
+
+  it should "return negative on address with english postcode" in {
+    val mockLocate = mock[LocateService]
+    val addressService = new AddressService(mockLocate)
+    val englishSampleAddress  = Address(postcode = "AAA22 1AA").copy(gssCode = Some("E998989654"))
+    when(mockLocate.lookupAddress("AAA22 1AA")).thenReturn(List(englishSampleAddress))
+
+    addressService.isScotland(postcode = "AAA22 1AA") should be(false)
+  }
+
+  it should "return negative on address with postcode returning empty list" in {
+    val mockLocate = mock[LocateService]
+    val addressService = new AddressService(mockLocate)
+    when(mockLocate.lookupAddress("CCC33 3CC")).thenReturn(List())
+
+    addressService.isScotland("CCC33 3CC") should be(false)
   }
 }

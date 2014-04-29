@@ -1,37 +1,38 @@
 package uk.gov.gds.ier.transaction.forces.rank
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.templates.Html
 import uk.gov.gds.ier.model.{Statement}
-import play.api.mvc.Call
-import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.step.StepTemplate
 
-trait RankMustache extends StepMustache {
+trait RankMustache extends  StepTemplate[InprogressForces] {
 
   case class RankModel(
      question:Question,
      serviceNumber: Field,
      rank: Field)
 
-  def transformFormStepToMustacheData(
-     application: InprogressForces,
-     form:ErrorTransformForm[InprogressForces],
-     post: Call,
-     back: Option[Call]): RankModel = {
+  private def displayPartnerSentence (application:InprogressForces): Boolean = {
+    application.statement match {
+      case Some(Statement(Some(false), Some(true))) => true
+      case Some(Statement(None, Some(true))) => true
+      case _ => false
+    }
+  }
 
+  val mustache = MustacheTemplate("forces/rank") { (form, postUrl, application) =>
     implicit val progressForm = form
 
-    RankModel(
+    val title = if (displayPartnerSentence(application))
+      "What is your partner's service number?"
+    else
+      "What is your service number?"
+
+    val data = RankModel(
       question = Question(
-        postUrl = post.url,
-        backUrl = back.map (_.url).getOrElse(""),
+        postUrl = postUrl.url,
         errorMessages = form.globalErrors.map{ _.message },
         number = "9",
-        title = if (displayPartnerSentence(application))
-          "What is your partner's service number?"
-        else
-          "What is your service number?"
+        title = title
       ),
       serviceNumber = TextField(
         key = keys.rank.serviceNumber
@@ -40,24 +41,7 @@ trait RankMustache extends StepMustache {
         key = keys.rank.rank
       )
     )
-  }
 
-  def rankMustache(
-       application: InprogressForces,
-       form:ErrorTransformForm[InprogressForces],
-       post: Call,
-       back: Option[Call]): Html = {
-
-    val data = transformFormStepToMustacheData(application, form, post, back)
-    val content = Mustache.render("forces/rank", data)
-    MainStepTemplate(content, data.question.title)
-  }
-
-  private def displayPartnerSentence (application:InprogressForces): Boolean = {
-    application.statement match {
-      case Some(Statement(Some(false), Some(true))) => true
-      case Some(Statement(None, Some(true))) => true
-      case _ => false
-    }
+    MustacheData(data, title)
   }
 }

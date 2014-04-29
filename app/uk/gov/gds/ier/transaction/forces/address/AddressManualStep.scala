@@ -11,17 +11,16 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.forces.PreviousAddressFirstController
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
+
 class AddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService)
   extends ForcesStep
-  with AddressMustache
+  with AddressManualMustache
   with AddressForms {
 
   val validation = manualAddressForm
-
-  val previousRoute = Some(StatementController.get)
 
   val routes = Routes(
     get = AddressManualController.get,
@@ -32,17 +31,5 @@ class AddressManualStep @Inject() (
 
   def nextStep(currentState: InprogressForces) = {
     PreviousAddressFirstController.previousAddressFirstStep
-  }
-
-  def template(
-      form: ErrorTransformForm[InprogressForces],
-      call: Call,
-      backUrl: Option[Call]) = {
-    AddressMustache.manualPage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url,
-      AddressController.get.url
-    )
   }
 }

@@ -20,12 +20,10 @@ class PreviousAddressManualStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService)
   extends OrdinaryStep
-  with PreviousAddressMustache
+  with PreviousAddressManualMustache
   with PreviousAddressForms {
 
   val validation = manualStepForm
-
-  val previousRoute = Some(PreviousAddressSelectController.get)
 
   val routes = Routes(
     get = PreviousAddressManualController.get,
@@ -38,15 +36,19 @@ class PreviousAddressManualStep @Inject() (
     OpenRegisterController.openRegisterStep
   }
 
-  def template(
-      form: ErrorTransformForm[InprogressOrdinary],
-      call: Call,
-      backUrl: Option[Call]) = {
-    PreviousAddressMustache.manualPage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url,
-      PreviousAddressPostcodeController.get.url
+  override val onSuccess = TransformApplication { currentState =>
+    val addressWithClearedSelectedOne = currentState.previousAddress.map { prev =>
+      prev.copy(
+        previousAddress = prev.previousAddress.map(
+          _.copy(
+            uprn = None,
+            addressLine = None)))
+    }
+
+    currentState.copy(
+      previousAddress = addressWithClearedSelectedOne,
+      possibleAddresses = None
     )
-  }
+  } andThen GoToNextIncompleteStep()
+
 }

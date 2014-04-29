@@ -4,10 +4,12 @@ import org.scalatest.{Matchers, FlatSpec}
 import play.api.test._
 import org.jsoup.Jsoup
 import play.api.test.Helpers._
+import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.ordinary.postalVote.PostalVoteMustache
 
 class PostalVoteTemplateTest
   extends FlatSpec
+  with StepMustache
   with PostalVoteMustache
   with Matchers {
 
@@ -16,7 +18,6 @@ class PostalVoteTemplateTest
     running(FakeApplication()) {
       val data = PostalVoteModel(
         question = Question(postUrl = "/whatever-url",
-        backUrl = "",
         number = "1",
         title = "postal vote title"
         ),

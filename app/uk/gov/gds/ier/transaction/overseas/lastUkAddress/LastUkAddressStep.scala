@@ -2,23 +2,18 @@ package uk.gov.gds.ier.transaction.overseas.lastUkAddress
 
 import controllers.step.overseas.routes.{
   LastUkAddressController,
-  LastUkAddressSelectController,
   DateLeftUkController}
-import controllers.step.overseas.{
-  NameController,
-  PassportCheckController}
+import controllers.step.overseas.LastUkAddressSelectController
 import com.google.inject.Inject
-import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.model.{
-  ApplicationType}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.service.{AddressService, WithAddressService}
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
-import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.form.OverseasFormImplicits
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import controllers.routes.ExitController
+import uk.gov.gds.ier.step.GoTo
 
 class LastUkAddressStep @Inject() (
     val serialiser: JsonSerialiser,
@@ -26,51 +21,34 @@ class LastUkAddressStep @Inject() (
     val encryptionService: EncryptionService,
     val addressService: AddressService)
   extends OverseaStep
-  with LastUkAddressMustache
+  with LastUkAddressLookupMustache
   with LastUkAddressForms
-  with OverseasFormImplicits {
+  with OverseasFormImplicits
+  with WithAddressService {
 
-  val validation = lastUkAddressForm
-
-  val previousRoute = Some(DateLeftUkController.get)
+  val validation = lookupAddressForm
 
   val routes = Routes(
     get = LastUkAddressController.get,
-    post = LastUkAddressController.lookup,
+    post = LastUkAddressController.post,
     editGet = LastUkAddressController.editGet,
-    editPost = LastUkAddressController.lookup
+    editPost = LastUkAddressController.editPost
   )
 
   def nextStep(currentState: InprogressOverseas) = {
-    currentState.identifyApplication match {
-      case ApplicationType.RenewerVoter => NameController.nameStep
-      case ApplicationType.DontKnow => this
-      case _ => PassportCheckController.passportCheckStep
-    }
-  }
-
-  def template(
-      form: ErrorTransformForm[InprogressOverseas],
-      call: Call,
-      backUrl: Option[Call]) = {
-    LastUkAddressMustache.lookupPage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url
-    )
-  }
-
-  def lookup = ValidSession requiredFor { implicit request => application =>
-    lookupAddressForm.bindFromRequest().fold(
-      hasErrors => {
-        Ok(template(hasErrors, routes.post, previousRoute))
-      },
-      success => {
-        val mergedApplication = success.merge(application)
-        Redirect(
-          LastUkAddressSelectController.get
-        ) storeInSession mergedApplication
+    currentState.lastUkAddress match {
+      case Some(partialAddress) => {
+        val postcode = partialAddress.postcode.trim.toUpperCase
+        if (postcode.isEmpty)
+          this
+        else if (postcode.startsWith("BT"))
+          GoTo (ExitController.northernIreland)
+        else if (addressService.isScotland(postcode))
+          GoTo (ExitController.scotland)
+        else
+          LastUkAddressSelectController.lastUkAddressSelectStep
       }
-    )
+      case None => this
+    }
   }
 }

@@ -24,12 +24,10 @@ class PreviousAddressSelectStep @Inject() (
     val encryptionService: EncryptionService,
     val addressService: AddressService)
   extends OrdinaryStep
-  with PreviousAddressMustache
+  with PreviousAddressSelectMustache
   with PreviousAddressForms {
 
   val validation = selectStepForm
-
-  val previousRoute = Some(PreviousAddressPostcodeController.get)
 
   val routes = Routes(
     get = PreviousAddressSelectController.get,
@@ -45,7 +43,7 @@ class PreviousAddressSelectStep @Inject() (
   override val onSuccess = TransformApplication { currentState =>
     val addressWithLineFilled = currentState.previousAddress.map { prev =>
       prev.copy(
-        previousAddress = prev.previousAddress.map(addressService.fillAddressLine)
+        previousAddress = prev.previousAddress.map(addressService.fillAddressLine(_).copy(manualAddress = None))
       )
     }
 
@@ -54,46 +52,5 @@ class PreviousAddressSelectStep @Inject() (
       possibleAddresses = None
     )
   } andThen GoToNextIncompleteStep()
-
-  def template(
-      form: ErrorTransformForm[InprogressOrdinary],
-      call: Call,
-      backUrl: Option[Call]) = {
-
-    val storedAddresses = for(
-      jsonList <- form(keys.possibleAddresses.jsonList).value;
-      postcode <- form(keys.possibleAddresses.postcode).value
-    ) yield {
-      PossibleAddress(
-        jsonList = serialiser.fromJson[Addresses](jsonList),
-        postcode = postcode
-      )
-    }
-
-    val maybeAddresses = storedAddresses.orElse {
-      val postcode = form(keys.previousAddress.previousAddress.postcode).value
-      lookupAddresses(postcode)
-    }
-
-    PreviousAddressMustache.selectPage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url,
-      PreviousAddressPostcodeController.get.url,
-      PreviousAddressManualController.get.url,
-      maybeAddresses
-    )
-  }
-
-  private def lookupAddresses(
-      maybePostcode:Option[String]): Option[PossibleAddress] = {
-
-    maybePostcode.map { postcode =>
-      val addresses = addressService.lookupPartialAddress(postcode)
-      PossibleAddress(
-        jsonList = Addresses(addresses),
-        postcode = postcode
-      )
-    }
-  }
 }
+

@@ -4,21 +4,21 @@ import org.jsoup.Jsoup
 import org.scalatest.{Matchers, FlatSpec}
 import play.api.test._
 import play.api.test.Helpers._
+import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.transaction.overseas.lastUkAddress.LastUkAddressMustache
+import uk.gov.gds.ier.transaction.overseas.lastUkAddress.LastUkAddressManualMustache
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressMustache
+import uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressManualMustache
 
 class PreviousAddressManualTemplateTest
   extends FlatSpec
-  with PreviousAddressMustache
+  with StepMustache
+  with PreviousAddressManualMustache
   with Matchers
   with WithSerialiser
   with TestHelpers {
 
   val serialiser = jsonSerialiser
-
-  import PreviousAddressMustache._
 
   it should "properly render all properties from the model" in {
     running(FakeApplication()) {

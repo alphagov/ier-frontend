@@ -1,16 +1,16 @@
 package uk.gov.gds.ier.transaction.overseas.parentsAddress
 
 import controllers.step.overseas.routes._
-import controllers.step.overseas.PassportCheckController
+import controllers.step.overseas.{PassportCheckController, ParentsAddressSelectController}
 import com.google.inject.Inject
-import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.service.{AddressService, WithAddressService}
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
-import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import controllers.routes.ExitController
+import uk.gov.gds.ier.step.GoTo
 
 class ParentsAddressStep @Inject() (
     val serialiser: JsonSerialiser,
@@ -18,46 +18,33 @@ class ParentsAddressStep @Inject() (
     val encryptionService: EncryptionService,
     val addressService: AddressService)
   extends OverseaStep
-  with ParentsAddressMustache
-  with ParentsAddressForms {
+  with ParentsAddressLookupMustache
+  with ParentsAddressForms
+  with WithAddressService {
 
-  val validation = parentsAddressForm
-
-  val previousRoute = Some(DateLeftUkController.get)
+  val validation = parentsLookupAddressForm
 
   val routes = Routes(
     get = ParentsAddressController.get,
-    post = ParentsAddressController.lookup,
+    post = ParentsAddressController.post,
     editGet = ParentsAddressController.editGet,
-    editPost = ParentsAddressController.lookup
+    editPost = ParentsAddressController.editPost
   )
 
   def nextStep(currentState: InprogressOverseas) = {
-    PassportCheckController.passportCheckStep
-  }
-
-  def template(
-      form: ErrorTransformForm[InprogressOverseas],
-      call: Call,
-      backUrl: Option[Call]) = {
-    ParentsAddressMustache.lookupPage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url
-    )
-  }
-
-  def lookup = ValidSession requiredFor { implicit request => application =>
-    parentsLookupAddressForm.bindFromRequest().fold(
-      hasErrors => {
-        Ok(template(hasErrors, routes.post, previousRoute))
-      },
-      success => {
-        val mergedApplication = success.merge(application)
-        Redirect(
-          ParentsAddressSelectController.get
-        ) storeInSession mergedApplication
+    currentState.parentsAddress match {
+      case Some(partialAddress) => {
+        val postcode = partialAddress.postcode.trim.toUpperCase
+        if (postcode.isEmpty)
+          this
+        else if (postcode.startsWith("BT"))
+          GoTo (ExitController.northernIreland)
+        else if (addressService.isScotland(postcode))
+          GoTo (ExitController.scotland)
+        else
+          ParentsAddressSelectController.parentsAddressSelectStep
       }
-    )
+      case None => this
+    }
   }
 }

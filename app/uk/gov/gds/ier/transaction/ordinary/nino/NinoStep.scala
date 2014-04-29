@@ -13,15 +13,15 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{OrdinaryStep, Routes}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
-class NinoStep @Inject ()(val serialiser: JsonSerialiser,
-                          val config: Config,
-                          val encryptionService : EncryptionService)
-  extends OrdinaryStep
+class NinoStep @Inject ()(
+    val serialiser: JsonSerialiser,
+    val config: Config,
+    val encryptionService: EncryptionService
+) extends OrdinaryStep
   with NinoForms
   with NinoMustache {
 
   val validation = ninoForm
-  val previousRoute = Some(NameController.get)
 
   val routes = Routes(
     get = NinoController.get,
@@ -30,9 +30,6 @@ class NinoStep @Inject ()(val serialiser: JsonSerialiser,
     editPost = NinoController.editPost
   )
 
-  def template(form: ErrorTransformForm[InprogressOrdinary], postEndpoint: Call, backEndpoint:Option[Call]): Html = {
-    ninoMustache(form, postEndpoint, backEndpoint)
-  }
   def nextStep(currentState: InprogressOrdinary) = {
     AddressController.addressStep
   }

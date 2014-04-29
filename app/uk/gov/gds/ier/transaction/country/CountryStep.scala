@@ -21,13 +21,11 @@ class CountryStep @Inject ()(
     val config:Config,
     val encryptionService : EncryptionService)
   extends OrdinaryStep
-  with uk.gov.gds.ier.stubs.StubTemplate[InprogressOrdinary]
   with CountryConstraints
   with CountryForms
   with CountryMustache {
 
   val validation = countryForm
-  val previousRoute = None
 
   val routes = Routes(
     get = CountryController.get,
@@ -35,13 +33,6 @@ class CountryStep @Inject ()(
     editGet = CountryController.editGet,
     editPost = CountryController.editPost
   )
-
-  def template(
-      form: ErrorTransformForm[InprogressOrdinary],
-      call:Call,
-      backUrl: Option[Call]): Html = {
-    countryMustache(form, call)
-  }
 
   def nextStep(currentState: InprogressOrdinary) = {
     currentState.country match {

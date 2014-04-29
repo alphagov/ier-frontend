@@ -4,7 +4,7 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
 import scala.Some
-import uk.gov.gds.ier.model.{Nino}
+import uk.gov.gds.ier.model.Nino
 import controllers.step.overseas.routes._
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
@@ -12,19 +12,21 @@ class NinoMustacheTests
   extends FlatSpec
   with Matchers
   with NinoForms
+  with NinoMustache
   with ErrorMessages
   with FormKeys
   with TestHelpers {
 
-  val ninoMustache = new NinoMustache {}
-
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = ninoForm
-    val ninoModel = ninoMustache.transformFormStepToMustacheData (emptyApplicationForm, NameController.post, Some(AddressController.get))
+    val ninoModel = mustache.data(
+      emptyApplicationForm,
+      NinoController.post,
+      InprogressOverseas()
+    ).data.asInstanceOf[NinoModel]
 
     ninoModel.question.title should be("What is your National Insurance number?")
-    ninoModel.question.postUrl should be("/register-to-vote/overseas/name")
-    ninoModel.question.backUrl should be("/register-to-vote/overseas/address")
+    ninoModel.question.postUrl should be("/register-to-vote/overseas/nino")
 
     ninoModel.nino.value should be("")
     ninoModel.noNinoReason.value should be("")
@@ -36,11 +38,14 @@ class NinoMustacheTests
         nino = Some("AB123456C"),
         noNinoReason = None))))
 
-    val ninoModel = ninoMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, NameController.post, Some(AddressController.get))
+    val ninoModel = mustache.data(
+      partiallyFilledApplicationForm,
+      NinoController.post,
+      InprogressOverseas()
+    ).data.asInstanceOf[NinoModel]
 
     ninoModel.question.title should be("What is your National Insurance number?")
-    ninoModel.question.postUrl should be("/register-to-vote/overseas/name")
-    ninoModel.question.backUrl should be("/register-to-vote/overseas/address")
+    ninoModel.question.postUrl should be("/register-to-vote/overseas/nino")
 
     ninoModel.nino.value should be("AB123456C")
     ninoModel.noNinoReason.value should be("")
@@ -52,11 +57,14 @@ class NinoMustacheTests
         nino = None,
         noNinoReason = Some("dunno!")))))
 
-    val ninoModel = ninoMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, NameController.post, Some(AddressController.get))
+    val ninoModel = mustache.data(
+      partiallyFilledApplicationForm,
+      NinoController.post,
+      InprogressOverseas()
+    ).data.asInstanceOf[NinoModel]
 
     ninoModel.question.title should be("What is your National Insurance number?")
-    ninoModel.question.postUrl should be("/register-to-vote/overseas/name")
-    ninoModel.question.backUrl should be("/register-to-vote/overseas/address")
+    ninoModel.question.postUrl should be("/register-to-vote/overseas/nino")
 
     ninoModel.nino.value should be("")
     ninoModel.noNinoReason.value should be("dunno!")
@@ -68,11 +76,14 @@ class NinoMustacheTests
         nino = Some("ABCDE"),
         noNinoReason = None))))
 
-    val ninoModel = ninoMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, NameController.post, Some(AddressController.get))
+    val ninoModel = mustache.data(
+      partiallyFilledApplicationForm,
+      NinoController.post,
+      InprogressOverseas()
+    ).data.asInstanceOf[NinoModel]
 
     ninoModel.question.title should be("What is your National Insurance number?")
-    ninoModel.question.postUrl should be("/register-to-vote/overseas/name")
-    ninoModel.question.backUrl should be("/register-to-vote/overseas/address")
+    ninoModel.question.postUrl should be("/register-to-vote/overseas/nino")
 
     ninoModel.nino.value should be("ABCDE")
     ninoModel.noNinoReason.value should be("")

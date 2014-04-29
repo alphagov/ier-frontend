@@ -45,7 +45,7 @@ trait ContactAddressMustache
   )
 
   val mustache = MustacheTemplate("crown/contactAddress") {
-    (form, post, back, application) =>
+    (form, post, application) =>
 
     implicit val progressForm = form
 
@@ -120,7 +120,6 @@ trait ContactAddressMustache
     val data = ContactAddressModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map (_.url).getOrElse(""),
         errorMessages = form.globalErrors.map( _.message ),
         number = "8",
         title = title

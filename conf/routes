@@ -118,9 +118,6 @@ POST        /register-to-vote/previous-address/postcode                  control
 GET         /register-to-vote/edit/previous-address/postcode             controllers.step.ordinary.PreviousAddressPostcodeController.editGet
 POST        /register-to-vote/edit/previous-address/postcode             controllers.step.ordinary.PreviousAddressPostcodeController.editPost
 
-#Previous Address Step - postcode lookup
-POST        /register-to-vote/previous-address/lookup                    controllers.step.ordinary.PreviousAddressPostcodeController.lookup
-
 #Previous Address Step - selection from postcode
 GET         /register-to-vote/previous-address/select                    controllers.step.ordinary.PreviousAddressSelectController.get
 POST        /register-to-vote/previous-address/select                    controllers.step.ordinary.PreviousAddressSelectController.post
@@ -195,9 +192,6 @@ POST        /register-to-vote/overseas/last-uk-address                   control
 GET         /register-to-vote/overseas/edit/last-uk-address              controllers.step.overseas.LastUkAddressController.editGet
 POST        /register-to-vote/overseas/edit/last-uk-address              controllers.step.overseas.LastUkAddressController.editPost
 
-#Lookup Last Uk Address
-POST        /register-to-vote/overseas/last-uk-address/lookup            controllers.step.overseas.LastUkAddressController.lookup
-
 #Manual Last Uk Address
 GET         /register-to-vote/overseas/last-uk-address/manual            controllers.step.overseas.LastUkAddressManualController.get
 POST        /register-to-vote/overseas/last-uk-address/manual            controllers.step.overseas.LastUkAddressManualController.post
@@ -215,9 +209,6 @@ GET         /register-to-vote/overseas/parents-address                   control
 POST        /register-to-vote/overseas/parents-address                   controllers.step.overseas.ParentsAddressController.post
 GET         /register-to-vote/overseas/edit/parents-address              controllers.step.overseas.ParentsAddressController.editGet
 POST        /register-to-vote/overseas/edit/parents-address              controllers.step.overseas.ParentsAddressController.editPost
-
-#Lookup Parents Address
-POST        /register-to-vote/overseas/parents-address/lookup            controllers.step.overseas.ParentsAddressController.lookup
 
 #Manual Parents Address
 GET         /register-to-vote/overseas/parents-address/manual            controllers.step.overseas.ParentsAddressManualController.get
@@ -348,9 +339,6 @@ POST        /register-to-vote/forces/address                            controll
 GET         /register-to-vote/forces/edit/address                       controllers.step.forces.AddressController.editGet
 POST        /register-to-vote/forces/edit/address                       controllers.step.forces.AddressController.editPost
 
-#Lookup Address Step
-POST        /register-to-vote/forces/address/lookup                     controllers.step.forces.AddressController.lookup
-
 #Manual Address Step
 GET         /register-to-vote/forces/address/manual                     controllers.step.forces.AddressManualController.get
 POST        /register-to-vote/forces/address/manual                     controllers.step.forces.AddressManualController.post
@@ -374,9 +362,6 @@ GET         /register-to-vote/forces/previous-address/postcode          controll
 POST        /register-to-vote/forces/previous-address/postcode          controllers.step.forces.PreviousAddressPostcodeController.post
 GET         /register-to-vote/forces/edit/previous-address/postcode     controllers.step.forces.PreviousAddressPostcodeController.editGet
 POST        /register-to-vote/forces/edit/previous-address/postcode     controllers.step.forces.PreviousAddressPostcodeController.editPost
-
-#Previous Address Step - postcode lookup
-POST        /register-to-vote/forces/previous-address/lookup            controllers.step.forces.PreviousAddressPostcodeController.lookup
 
 #Previous Address Step - selection from postcode
 GET         /register-to-vote/forces/previous-address/select            controllers.step.forces.PreviousAddressSelectController.get
@@ -495,9 +480,6 @@ POST        /register-to-vote/crown/address                            controlle
 GET         /register-to-vote/crown/edit/address                       controllers.step.crown.AddressController.editGet
 POST        /register-to-vote/crown/edit/address                       controllers.step.crown.AddressController.editPost
 
-#Lookup Address Step
-POST        /register-to-vote/crown/address/lookup                     controllers.step.crown.AddressController.lookup
-
 #Manual Address Step
 GET         /register-to-vote/crown/address/manual                     controllers.step.crown.AddressManualController.get
 POST        /register-to-vote/crown/address/manual                     controllers.step.crown.AddressManualController.post
@@ -521,9 +503,6 @@ GET         /register-to-vote/crown/previous-address/postcode          controlle
 POST        /register-to-vote/crown/previous-address/postcode          controllers.step.crown.PreviousAddressPostcodeController.post
 GET         /register-to-vote/crown/edit/previous-address/postcode     controllers.step.crown.PreviousAddressPostcodeController.editGet
 POST        /register-to-vote/crown/edit/previous-address/postcode     controllers.step.crown.PreviousAddressPostcodeController.editPost
-
-#Previous Address Step - postcode lookup
-POST        /register-to-vote/crown/previous-address/lookup            controllers.step.crown.PreviousAddressPostcodeController.lookup
 
 #Previous Address Step - selection from postcode
 GET         /register-to-vote/crown/previous-address/select            controllers.step.crown.PreviousAddressSelectController.get
@@ -560,6 +539,13 @@ GET         /register-to-vote/crown/job-title                          controlle
 POST        /register-to-vote/crown/job-title                          controllers.step.crown.JobController.post
 GET         /register-to-vote/crown/edit/job-title                     controllers.step.crown.JobController.editGet
 POST        /register-to-vote/crown/edit/job-title                     controllers.step.crown.JobController.editPost
+
+# declaration pdf form download
+GET         /register-to-vote/crown/declaration-pdf                    controllers.step.crown.DeclarationPdfController.get
+POST        /register-to-vote/crown/declaration-pdf                    controllers.step.crown.DeclarationPdfController.post
+GET         /register-to-vote/crown/edit/declaration-pdf               controllers.step.crown.DeclarationPdfController.editGet
+POST        /register-to-vote/crown/edit/declaration-pdf               controllers.step.crown.DeclarationPdfController.editPost
+GET         /register-to-vote/crown/declaration-pdf-download           controllers.step.crown.DeclarationPdfDownloadController.download
 
 #Nino Step
 GET         /register-to-vote/crown/nino                               controllers.step.crown.NinoController.get

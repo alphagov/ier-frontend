@@ -1,14 +1,12 @@
 package uk.gov.gds.ier.transaction.overseas.address
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.model.CountryWithCode
 import uk.gov.gds.ier.validation.constants.NationalityConstants
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.step.StepTemplate
 
-trait AddressMustache extends StepMustache {
+trait AddressMustache extends StepTemplate[InprogressOverseas] {
+
+  val title = "Where do you live?"
 
   case class AddressModel(
       question:Question,
@@ -17,44 +15,38 @@ trait AddressMustache extends StepMustache {
       addressLine2: Field,
       addressLine3: Field,
       addressLine4: Field,
-      addressLine5: Field)
+      addressLine5: Field
+  )
 
-  def transformFormStepToMustacheData(form:ErrorTransformForm[InprogressOverseas],
-                                 post: Call,
-                                 back: Option[Call]): AddressModel = {
-	implicit val progressForm = form
+  val mustache = MustacheTemplate("overseas/address") { (form, post) =>
 
-	def countrySelectOptions(selectedCountry: String) = (NationalityConstants.countryNameToCodes map (
-	  isoCountry => {
- 	       val isSelected = if (selectedCountry.equals(isoCountry._2.displayName)) "selected" else ""
-	       SelectOption(isoCountry._2.displayName, isoCountry._2.displayName, isSelected)
-	  }
-	)).toList.sortWith((x, y) => x.text.compareTo(y.text) < 0)
+    implicit val progressForm = form
 
-    AddressModel(
+    val data = AddressModel(
       question = Question(
         postUrl = post.url,
-        backUrl = back.map { call => call.url }.getOrElse(""),
-        errorMessages = form.globalErrors.map{ _.message },
-        number = "",
-        title = "Where do you live?"
+        title = title,
+        errorMessages = form.globalErrors.map { _.message }
       ),
       countrySelect = SelectField(key = keys.overseasAddress.country,
-          optionList = countrySelectOptions(
-              progressForm(keys.overseasAddress.country).value.getOrElse("")),
-          default = SelectOption("", "Please select your country")),
+        optionList = countrySelectOptions(
+          progressForm(keys.overseasAddress.country).value.getOrElse("")),
+        default = SelectOption("", "Please select your country")),
       addressLine1 = TextField(key = keys.overseasAddress.addressLine1),
       addressLine2 = TextField(key = keys.overseasAddress.addressLine2),
       addressLine3 = TextField(key = keys.overseasAddress.addressLine3),
       addressLine4 = TextField(key = keys.overseasAddress.addressLine4),
       addressLine5 = TextField(key = keys.overseasAddress.addressLine5)
     )
+    MustacheData(data, title)
   }
-  def addressMustache(form:ErrorTransformForm[InprogressOverseas],
-                                 post: Call,
-                                 back: Option[Call]): Html = {
-	val data = transformFormStepToMustacheData(form, post, back)
-	val content = Mustache.render("overseas/address", data)
-    MainStepTemplate(content, data.question.title)
-  }
+
+  def countrySelectOptions(selectedCountry: String) = (NationalityConstants.countryNameToCodes map (
+    isoCountry => {
+      val isSelected = if (selectedCountry.equals(isoCountry._2.displayName)) "selected" else ""
+      SelectOption(isoCountry._2.displayName, isoCountry._2.displayName, isSelected)
+    }
+  )).toList.sortWith((x, y) => x.text.compareTo(y.text) < 0)
+
+
 }

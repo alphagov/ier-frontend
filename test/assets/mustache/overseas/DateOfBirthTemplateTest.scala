@@ -5,10 +5,11 @@ import play.api.test._
 import org.jsoup.Jsoup
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.overseas.dateOfBirth.DateOfBirthMustache
-import play.api.mvc.Call
+import uk.gov.gds.ier.mustache.StepMustache
 
 class DateOfBirthTemplateTest
   extends FlatSpec
+  with StepMustache
   with DateOfBirthMustache
   with Matchers {
 
@@ -17,7 +18,6 @@ class DateOfBirthTemplateTest
     running(FakeApplication()) {
       val data = DateOfBirthModel(
         question = Question(postUrl = "/register-to-vote/overseas/date-of-birth",
-        backUrl = "",
         number = "1",
         title = "What is your date of birth?"
         ),

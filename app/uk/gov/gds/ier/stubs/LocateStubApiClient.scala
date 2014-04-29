@@ -23,7 +23,8 @@ class LocateStubApiClient @Inject() (
               "town": "Fakerton",
               "locality": "Fakesbury",
               "uprn": 12345678,
-              "postcode": "AB12 3CD"
+              "postcode": "AB12 3CD",
+              "gssCode": "abc"
             }
           ]""", 0)
   }

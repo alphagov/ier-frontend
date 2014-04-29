@@ -5,6 +5,7 @@ import org.scalatest.{Matchers, FlatSpec}
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.overseas.waysToVote.WaysToVoteMustache
+import uk.gov.gds.ier.mustache.StepMustache
 
 /**
  * Test rendering of Mustache template from given model
@@ -12,6 +13,7 @@ import uk.gov.gds.ier.transaction.overseas.waysToVote.WaysToVoteMustache
 class WaysToVoteTemplateTest
   extends FlatSpec
   with WaysToVoteMustache
+  with StepMustache
   with Matchers {
 
   it should "properly render all properties from the model" in {
@@ -19,8 +21,6 @@ class WaysToVoteTemplateTest
       val data = new WaysToVoteModel(
         question = Question(
           postUrl = "http://some.server/post_url",
-          backUrl = "http://some.server/back_url",
-          showBackUrl = true,
           number = "123",
           title = "Page title ABC"
         ),

@@ -47,10 +47,46 @@
         </label>
     </fieldset>
 
+    <fieldset class="optional-section sub-section validate {{registeredAbroad.classes}}"
+              data-condition="{{previousYesAbroad.id}}"
+              data-validation-name="registeredAbroad"
+              data-validation-type="fieldset"
+              data-validation-rules="atLeastOneNonEmpty"
+              data-validation-children="registeredAbroadYes registeredAbroadNo">
+        <legend>Were you registered as a UK voter when you were abroad?</legend>
+
+        <label for="{{registeredAbroadYes.id}}" class="selectable binary">
+            <input type="radio"
+                   id="{{registeredAbroadYes.id}}"
+                   name="{{registeredAbroadYes.name}}"
+                   value="{{registeredAbroadYes.value}}"
+                   class="radio validate"
+                   data-validation-name="registeredAbroadYes"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty"
+            {{{registeredAbroadYes.attributes}}}>
+            Yes
+        </label>
+        <label for="{{registeredAbroadNo.id}}" class="selectable binary">
+            <input type="radio"
+                   id="{{registeredAbroadNo.id}}"
+                   name="{{registeredAbroadNo.name}}"
+                   value="{{registeredAbroadNo.value}}"
+                   class="radio validate"
+                   data-validation-name="registeredAbroadNo"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty"
+            {{{registeredAbroadNo.attributes}}}>
+            No
+        </label>
+    </fieldset>
+
+
+
     <button id="continue"
             type="submit"
             class="button next validation-submit"
-            data-validation-sources="previousAddress">
+            data-validation-sources="previousAddress registeredAbroad">
         Continue
     </button>
 </form>

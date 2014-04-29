@@ -25,7 +25,6 @@ trait ConfirmationMustache {
     partnerDetails: List[ConfirmationQuestion],
     completeApplicantDetails: List[ConfirmationQuestion],
     displayPartnerBlock: Boolean,
-    backUrl: String,
     postUrl: String
   )
 
@@ -33,7 +32,6 @@ trait ConfirmationMustache {
 
     def confirmationPage(
         form: ErrorTransformForm[InprogressForces],
-        backUrl: String,
         postUrl: String) = {
 
       val confirmation = new ConfirmationBlocks(form)
@@ -78,7 +76,6 @@ trait ConfirmationMustache {
         applicantDetails = applicantData,
         completeApplicantDetails = completeApplicantData,
         displayPartnerBlock = displayPartnerBlock(form),
-        backUrl = backUrl,
         postUrl = postUrl
       )
 

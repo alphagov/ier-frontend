@@ -34,12 +34,10 @@ class ConfirmationStep @Inject() (val encryptionService: EncryptionService,
   )
 
   val validation = confirmationForm
-  val previousRoute = Some(PreviouslyRegisteredController.get)
 
   def template(form: ErrorTransformForm[InprogressOverseas]) = {
     Confirmation.confirmationPage(
       form,
-      previousRoute.map(_.url).getOrElse("#"),
       routes.post.url
     )
   }

@@ -25,7 +25,7 @@ class AddressStepTests
         "What is your UK address?"
       )
       contentAsString(result) should include("Question 2")
-      contentAsString(result) should include("<form action=\"/register-to-vote/forces/address/lookup\"")
+      contentAsString(result) should include("<form action=\"/register-to-vote/forces/address\"")
     }
   }
 
@@ -33,7 +33,7 @@ class AddressStepTests
   it should "bind successfully and redirect to the next step" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/forces/address")
+        FakeRequest(POST, "/register-to-vote/forces/address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
             "address.uprn" -> "123456789",
@@ -49,7 +49,7 @@ class AddressStepTests
   it should "bind successfully and redirect to the next step with a manual address" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/forces/address")
+        FakeRequest(POST, "/register-to-vote/forces/address/manual")
           .withIerSession()
           .withFormUrlEncodedBody(
             "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
@@ -65,10 +65,25 @@ class AddressStepTests
     }
   }
 
-  it should "bind successfully and redirect to confirmation if all other steps are complete" in {
+  it should "redirect exit page for Northern Ireland when a postcode starts with BT" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/forces/address")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "address.postcode" -> "BT15EQ"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/exit/northern-ireland"))
+    }
+  }
+
+  it should "bind successfully and redirect to confirmation if all other steps are complete" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/forces/address/manual")
           .withIerSession()
           .withApplication(completeForcesApplication)
           .withFormUrlEncodedBody(
@@ -95,8 +110,8 @@ class AddressStepTests
       contentAsString(result) should include(
         "What is your UK address?"
       )
-      contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("<form action=\"/register-to-vote/forces/address/lookup\"")
+      contentAsString(result) should include("Please enter your postcode")
+      contentAsString(result) should include("<form action=\"/register-to-vote/forces/address\"")
 
     }
   }
@@ -114,16 +129,16 @@ behavior of "AddressStep.editGet"
         "What is your UK address?"
       )
       contentAsString(result) should include("Question 2")
-      contentAsString(result) should include("<form action=\"/register-to-vote/forces/address/lookup\"")
+      contentAsString(result) should include("<form action=\"/register-to-vote/forces/edit/address\"")
 
     }
   }
 
   behavior of "AddressStep.editPost"
-  it should "bind successfully and redirect to the next step" in {
+  it should "bind successfully and redirect to the next step with a dropdown address" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/forces/edit/address")
+        FakeRequest(POST, "/register-to-vote/forces/edit/address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
             "address.uprn" -> "123456789",
@@ -139,7 +154,7 @@ behavior of "AddressStep.editGet"
   it should "bind successfully and redirect to the next step with a manual address" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/forces/edit/address")
+        FakeRequest(POST, "/register-to-vote/forces/edit/address/manual")
           .withIerSession()
           .withFormUrlEncodedBody(
             "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
@@ -158,7 +173,7 @@ behavior of "AddressStep.editGet"
   it should "bind successfully and redirect to confirmation if all other steps are complete" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/forces/edit/address")
+        FakeRequest(POST, "/register-to-vote/forces/edit/address/manual")
           .withIerSession()
           .withApplication(completeForcesApplication)
           .withFormUrlEncodedBody(
@@ -175,6 +190,7 @@ behavior of "AddressStep.editGet"
     }
   }
 
+  // this url is unreachable from the confirmation page
   it should "display any errors on unsuccessful bind" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -185,8 +201,40 @@ behavior of "AddressStep.editGet"
       contentAsString(result) should include(
         "What is your UK address?"
       )
+      contentAsString(result) should include("Please enter your postcode")
+      contentAsString(result) should include("<form action=\"/register-to-vote/forces/edit/address\"")
+
+    }
+  }
+
+  it should "display any errors on unsuccessful bind (select)" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/forces/edit/address/select").withIerSession()
+      )
+
+      status(result) should be(OK)
+      contentAsString(result) should include(
+        "What is your UK address?"
+      )
       contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("<form action=\"/register-to-vote/forces/address/lookup\"")
+      contentAsString(result) should include("<form action=\"/register-to-vote/forces/edit/address/select\"")
+
+    }
+  }
+
+  it should "display any errors on unsuccessful bind (manual)" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/forces/edit/address/manual").withIerSession()
+      )
+
+      status(result) should be(OK)
+      contentAsString(result) should include(
+        "What is your UK address?"
+      )
+      contentAsString(result) should include("Please answer this question")
+      contentAsString(result) should include("<form action=\"/register-to-vote/forces/edit/address/manual\"")
 
     }
   }

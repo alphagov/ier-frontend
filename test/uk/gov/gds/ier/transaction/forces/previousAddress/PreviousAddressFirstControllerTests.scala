@@ -103,7 +103,7 @@ class PreviousAddressFirstControllerTests
   it should "stop on this page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/forces/address")
+        FakeRequest(POST, "/register-to-vote/forces/address/select")
           .withIerSession()
           .withApplication(completeForcesApplication.copy(previousAddress = None))
           .withFormUrlEncodedBody(

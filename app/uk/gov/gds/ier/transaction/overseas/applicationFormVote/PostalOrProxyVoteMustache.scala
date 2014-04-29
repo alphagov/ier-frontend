@@ -1,13 +1,12 @@
 package uk.gov.gds.ier.transaction.overseas.applicationFormVote
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.model.{WaysToVoteType}
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.model.WaysToVoteType
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.step.StepTemplate
 
-trait PostalOrProxyVoteMustache extends StepMustache {
+trait PostalOrProxyVoteMustache extends StepTemplate[InprogressOverseas] {
+
+  val wayToVote: WaysToVoteType
 
   case class PostalOrProxyVoteModel(
       question:Question,
@@ -19,13 +18,10 @@ trait PostalOrProxyVoteMustache extends StepMustache {
       voteDeliveryMethodEmail: Field,
       voteDeliveryMethodPost: Field,
       voteEmailAddress: Field,
-      voteType: Field)
+      voteType: Field
+  )
 
-  def transformFormStepToMustacheData (
-      form: ErrorTransformForm[InprogressOverseas],
-      postEndpoint: Call,
-      backEndpoint: Option[Call],
-      wayToVote: WaysToVoteType) : PostalOrProxyVoteModel = {
+  val mustache = MustacheTemplate("overseas/postalOrProxyVote") { (form, post) =>
 
     implicit val progressForm = form
 
@@ -35,13 +31,13 @@ trait PostalOrProxyVoteMustache extends StepMustache {
       case _ => ""
     }
 
-    PostalOrProxyVoteModel(
+    val title = "Do you want us to send you a "+wayToVoteName+" vote application form?"
+
+    val data = PostalOrProxyVoteModel(
       question = Question(
-        postUrl = postEndpoint.url,
-        backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
+        postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
-        number = "",
-        title = "Do you want us to send you a "+wayToVoteName+" vote application form?"
+        title = title
       ),
       description = Text (
         value = "If this is your first time using a "+wayToVoteName
@@ -80,16 +76,6 @@ trait PostalOrProxyVoteMustache extends StepMustache {
         value = wayToVote.name
       )
     )
-  }
-
-  def postalOrProxyVoteMustache(
-      form:ErrorTransformForm[InprogressOverseas],
-      postEndpoint: Call,
-      backEndpoint: Option[Call],
-      wayToVote: WaysToVoteType): Html = {
-
-    val data = transformFormStepToMustacheData(form, postEndpoint, backEndpoint, wayToVote)
-    val content = Mustache.render("overseas/postalOrProxyVote", data)
-    MainStepTemplate(content, data.question.title)
+    MustacheData(data, title)
   }
 }

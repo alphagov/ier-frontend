@@ -1,13 +1,11 @@
 package uk.gov.gds.ier.transaction.ordinary.nino
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 
-trait NinoMustache extends StepMustache {
+trait NinoMustache extends StepTemplate[InprogressOrdinary] {
 
   case class NinoModel (
       question:Question,
@@ -16,20 +14,19 @@ trait NinoMustache extends StepMustache {
       noNinoReasonShowFlag: Text
   )
 
-  def ninoMustache(
-      form: ErrorTransformForm[InprogressOrdinary],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]) : Html = {
-
+  val mustache = MustacheTemplate("ordinary/nino") {
+    (form, postEndpoint) =>
+    
     implicit val progressForm = form
+
+    val title = "What is your National Insurance number?"
 
     val data = NinoModel(
       question = Question(
         postUrl = postEndpoint.url,
-        backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
         errorMessages = form.globalErrors.map{ _.message },
         number = "5 of 11",
-        title = "What is your National Insurance number?"
+        title = title
       ),
       nino = TextField(
         key = keys.nino.nino
@@ -41,7 +38,7 @@ trait NinoMustache extends StepMustache {
         value = progressForm(keys.nino.noNinoReason).value.map(noNinoReason => "-open").getOrElse("")
       )
     )
-    val content = Mustache.render("ordinary/nino", data)
-    MainStepTemplate(content, data.question.title)
+
+    MustacheData(data, title)
   }
 }

@@ -6,6 +6,7 @@ import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import controllers.step.crown.routes.{AddressController, AddressManualController}
 import uk.gov.gds.ier.model.{PossibleAddress, Addresses}
 import uk.gov.gds.ier.serialiser.WithSerialiser
+import uk.gov.gds.ier.service.WithAddressService
 
 trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
     self:WithAddressService
@@ -13,7 +14,7 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
 
   private def pageTitle(hasUkAddress: Option[String]): String = {
     hasUkAddress match {
-      case Some(hasUkAddress) if (hasUkAddress.toBoolean) => "What is your UK address?"
+      case Some(hasUkAddress) if (!hasUkAddress.isEmpty && hasUkAddress.toBoolean) => "What is your UK address?"
       case _ => "What was your last UK address?"
     }
   }
@@ -31,13 +32,15 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
       hasUkAddress: Field
   )
 
-  val mustache = MustacheTemplate("crown/addressSelect") { (form, postUrl, backUrl) =>
+  val mustache = MustacheTemplate("crown/addressSelect") { (form, postUrl) =>
     implicit val progressForm = form
   
     val title = pageTitle(form(keys.hasUkAddress).value)
 
     val selectedUprn = form(keys.address.uprn).value
-    val postcode = form(keys.address.postcode).value
+    val postcode = form(keys.address.postcode).value.orElse {
+      form(keys.possibleAddresses.postcode).value
+    }
 
     val storedAddresses = for(
       jsonList <- form(keys.possibleAddresses.jsonList).value;
@@ -92,14 +95,13 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
     val data = SelectModel(
       question = Question(
         postUrl = postUrl.url,
-        backUrl = backUrl.map{ _.url }.getOrElse(""),
         number = questionNumber,
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),
       lookupUrl = AddressController.get.url,
       manualUrl = AddressManualController.get.url,
-      postcode = TextField(keys.address.postcode),
+      postcode = TextField(keys.address.postcode, default = postcode),
       address = addressSelectWithError,
       possibleJsonList = HiddenField(
         key = keys.possibleAddresses.jsonList,

@@ -5,28 +5,26 @@ import org.scalatest.{Matchers, FlatSpec}
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.transaction.overseas.lastUkAddress.LastUkAddressMustache
+import uk.gov.gds.ier.transaction.overseas.lastUkAddress.LastUkAddressManualMustache
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressMustache
+import uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressPostcodeMustache
+import uk.gov.gds.ier.mustache.StepMustache
 
 class PreviousAddressPostcodeTemplateTest
   extends FlatSpec
-  with PreviousAddressMustache
+  with PreviousAddressPostcodeMustache
+  with StepMustache
   with Matchers
   with WithSerialiser
   with TestHelpers {
 
   val serialiser = jsonSerialiser
 
-  import PreviousAddressMustache._
-
   it should "properly render all properties from the model" in {
     running(FakeApplication()) {
       val data = new PostcodeModel(
         question = Question(
           postUrl = "http://some.server/previousAddress/select",
-          backUrl = "http://some.server/previousAddress",
-          showBackUrl = true,
           number = "123",
           title = "Page title ABC"
         ),

@@ -185,7 +185,4 @@ trait TestHelpers
   implicit def crownFormToErrorOps(form: ErrorTransformForm[InprogressCrown]) = {
     new ErrorsOps(form.errors, form.globalErrors)
   }
-
-  // Comment out for longer timeouts, essential for debugging the test
-  // implicit def defaultAwaitTimeout = Timeout(10, TimeUnit.MINUTES)
 }

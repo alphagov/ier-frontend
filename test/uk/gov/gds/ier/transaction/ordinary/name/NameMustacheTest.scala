@@ -5,7 +5,6 @@ import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.model.Name
 import uk.gov.gds.ier.model.PreviousName
-import scala.Some
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 /**
@@ -20,18 +19,19 @@ class NameMustacheTest
   with NameForms
   with ErrorMessages
   with FormKeys
-  with TestHelpers {
-
-  // tested unit
-  val nameMustache = new NameMustache {}
+  with TestHelpers
+  with NameMustache {
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = nameForm
-    val nameModel = nameMustache.transformFormStepToMustacheData(emptyApplicationForm, "/register-to-vote/name", Some("/register-to-vote/date-of-birth"))
+    val nameModel = mustache.data(
+      emptyApplicationForm,
+      Call("POST", "/register-to-vote/name"),
+      InprogressOrdinary()
+    ).data.asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/name")
-    nameModel.question.backUrl should be("/register-to-vote/date-of-birth")
 
     nameModel.firstName.value should be("")
     nameModel.middleNames.value should be("")
@@ -49,11 +49,14 @@ class NameMustacheTest
         firstName = "John",
         middleNames = None,
         lastName = "Smith"))))
-    val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, "/register-to-vote/name", Some("/register-to-vote/date-of-birth"))
+    val nameModel = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("POST", "/register-to-vote/name"),
+      InprogressOrdinary()
+    ).data.asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/name")
-    nameModel.question.backUrl should be("/register-to-vote/date-of-birth")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
@@ -79,11 +82,14 @@ class NameMustacheTest
           lastName = "Kovar"))
       ))
     ))
-    val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationForm, "/register-to-vote/name", Some("/register-to-vote/date-of-birth"))
+    val nameModel = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("POST", "/register-to-vote/name"),
+      InprogressOrdinary()
+    ).data.asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/name")
-    nameModel.question.backUrl should be("/register-to-vote/date-of-birth")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
@@ -101,11 +107,14 @@ class NameMustacheTest
         firstName = "John",
         middleNames = None,
         lastName = ""))))
-    val nameModel = nameMustache.transformFormStepToMustacheData(partiallyFilledApplicationFormWithErrors, "/register-to-vote/name", Some("/register-to-vote/date-of-birth"))
+    val nameModel = mustache.data(
+      partiallyFilledApplicationFormWithErrors,
+      Call("POST", "/register-to-vote/name"),
+      InprogressOrdinary()
+    ).data.asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/name")
-    nameModel.question.backUrl should be("/register-to-vote/date-of-birth")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")

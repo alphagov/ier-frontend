@@ -18,7 +18,6 @@ class NationalityTemplateTest
     running(FakeApplication()) {
       val data = NationalityModel(
         question = Question(postUrl = "/whatever-url",
-        backUrl = "",
         number = "1",
         title = "nationality title"
         ),

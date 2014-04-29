@@ -7,11 +7,11 @@ class AddressService @Inject()(locateService: LocateService) {
 
   def formFullAddress(partial:Option[PartialAddress]):Option[Address] = {
     partial flatMap {
-      case PartialAddress(_, Some(uprn), postcode, _) => {
+      case PartialAddress(_, Some(uprn), postcode, _, _) => {
         val listOfAddresses = locateService.lookupAddress(postcode)
         listOfAddresses.find(address => address.uprn == Some(uprn))
       }
-      case PartialAddress(_, None, postcode, Some(manualAddress)) => {
+      case PartialAddress(_, None, postcode, Some(manualAddress), gssCode) => {
         Some(Address(
           lineOne = manualAddress.lineOne,
           lineTwo = manualAddress.lineTwo,
@@ -19,7 +19,8 @@ class AddressService @Inject()(locateService: LocateService) {
           city = manualAddress.city,
           county = None,
           uprn = None,
-          postcode = postcode))
+          postcode = postcode,
+          gssCode = gssCode))
       }
     }
   }
@@ -30,14 +31,21 @@ class AddressService @Inject()(locateService: LocateService) {
         addressLine = Some(formAddressLine(address)),
         uprn = address.uprn,
         postcode = address.postcode,
-        None
+        None,
+        gssCode = address.gssCode
       )
     }
   }
 
   def fillAddressLine(partial:PartialAddress):PartialAddress = {
-    val line = locateService.lookupAddress(partial) map formAddressLine
-    partial.copy(addressLine = line)
+    val address = locateService.lookupAddress(partial) 
+    val line = address map formAddressLine
+    
+    partial.copy(addressLine = line, gssCode = address.flatMap(_.gssCode))
+  }
+  
+  def isScotland(postcode: String): Boolean = {
+    locateService.lookupAddress(postcode).exists(_.gssCode.exists(_.startsWith("S")))
   }
 
   protected[service] def formAddressLine(address:Address):String = {

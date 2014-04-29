@@ -7,8 +7,9 @@ import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.model.{PartialAddress}
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.step.StepTemplate
 
-trait ContactAddressMustache extends StepMustache with AddressHelpers {
+trait ContactAddressMustache extends StepTemplate[InprogressForces] with AddressHelpers {
 
   case class ContactAddressModel(
       question:Question,
@@ -44,16 +45,12 @@ trait ContactAddressMustache extends StepMustache with AddressHelpers {
       ukAddressLineText: Field
   )
 
-  def transformFormStepToMustacheData(
-      form:ErrorTransformForm[InprogressForces],
-      post: Call,
-      back: Option[Call]): ContactAddressModel = {
+
+  val mustache =  MustacheTemplate("forces/contactAddress") { (form, postUrl, application) =>
 
     implicit val progressForm = form
 
-    val application = progressForm.value
-
-    val ukAddress = application.map(_.address).getOrElse(None)
+    val ukAddress = application.address
 
     val ukAddressToBeShown = extractUkAddressText(ukAddress, form)
 
@@ -121,13 +118,14 @@ trait ContactAddressMustache extends StepMustache with AddressHelpers {
       )
     )
 
-    ContactAddressModel(
+  val title = "Where should we write to you about your registration?"
+
+    val data = ContactAddressModel(
       question = Question(
-        postUrl = post.url,
-        backUrl = back.map (_.url).getOrElse(""),
+        postUrl = postUrl.url,
         errorMessages = form.globalErrors.map( _.message ),
         number = "10",
-        title = "Where should we write to you about your registration?"
+        title = title
       ),
       contactAddressFieldSet = FieldSet (
         classes = if (form(keys.contactAddress).hasErrors) "invalid" else ""
@@ -136,6 +134,8 @@ trait ContactAddressMustache extends StepMustache with AddressHelpers {
       bfpoAddress = bfpoContactAddressModel,
       otherAddress = otherContactAddressModel
     )
+
+    MustacheData(data, title)
   }
 
 
@@ -153,13 +153,4 @@ trait ContactAddressMustache extends StepMustache with AddressHelpers {
     else form(keys.contactAddress.ukAddressLine).value
   }
 
-  def contactAddressMustache(
-        form:ErrorTransformForm[InprogressForces],
-        post: Call,
-        back: Option[Call]): Html = {
-
-    val data = transformFormStepToMustacheData(form, post, back)
-    val content = Mustache.render("forces/contactAddress", data)
-    MainStepTemplate(content, data.question.title)
-  }
 }

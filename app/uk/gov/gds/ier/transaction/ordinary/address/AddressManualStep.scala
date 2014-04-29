@@ -14,18 +14,18 @@ import uk.gov.gds.ier.step.{GoTo, OrdinaryStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import controllers.routes.ExitController
+import uk.gov.gds.ier.service.AddressService
 
 class AddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService: EncryptionService)
+    val encryptionService: EncryptionService,
+    val addressService: AddressService)
   extends OrdinaryStep
-  with AddressMustache
+  with AddressManualMustache
   with AddressForms {
 
   val validation = manualAddressForm
-
-  val previousRoute = Some(NinoController.get)
 
   val routes = Routes(
     get = AddressManualController.get,
@@ -35,21 +35,6 @@ class AddressManualStep @Inject() (
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
-    currentState.address.map(_.postcode) match {
-      case Some(postcode) if postcode.toUpperCase.startsWith("BT") => GoTo (ExitController.northernIreland)
-      case _ => OtherAddressController.otherAddressStep
-    }
-  }
-
-  def template(
-      form: ErrorTransformForm[InprogressOrdinary],
-      call: Call,
-      backUrl: Option[Call]) = {
-    AddressMustache.manualPage(
-      form,
-      backUrl.map(_.url).getOrElse(""),
-      call.url,
-      AddressController.get.url
-    )
+      OtherAddressController.otherAddressStep
   }
 }

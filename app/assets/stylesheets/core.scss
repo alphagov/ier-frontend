@@ -296,6 +296,19 @@ a.back-to-previous:focus {
   color: $black;
 }
 
+a.download {
+  display: block;
+  font-weight: 600;
+  background: url("/assets/images/icon-file-download.png") no-repeat scroll 0 0;
+  min-height: 2.5em;
+  padding:0 0 0 2.5em;
+
+  @include device-pixel-ratio() {
+    background-image: url("/assets/images/icon-file-download-2x.png");
+    background-size: 25px 25px;
+  }
+}
+
 button:focus,
 .invalid:focus,
 .selectable-focus {

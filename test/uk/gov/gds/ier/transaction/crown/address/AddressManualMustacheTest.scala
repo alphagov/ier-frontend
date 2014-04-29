@@ -7,7 +7,7 @@ import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.service.{AddressService, WithAddressService}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
@@ -34,12 +34,10 @@ class AddressSelectMustacheTest
     val addressModel = mustache.data(
       emptyApplicationForm,
       Call("POST","/register-to-vote/crown/address/select"),
-      Some(Call("GET", "/register-to-vote/crown/statement")),
       InprogressCrown()
     ).data.asInstanceOf[SelectModel]
 
     addressModel.question.title should be("What was your last UK address?")
-    addressModel.question.backUrl should be("/register-to-vote/crown/statement")
     addressModel.question.postUrl should be("/register-to-vote/crown/address/select")
 
     addressModel.lookupUrl should be ("/register-to-vote/crown/address")
@@ -71,13 +69,11 @@ class AddressSelectMustacheTest
     val addressModel = mustache.data(
       partiallyFilledApplicationForm,
       Call("POST","/register-to-vote/crown/address/select"),
-      Some(Call("GET", "/register-to-vote/crown/statement")),
       InprogressCrown()
     ).data.asInstanceOf[SelectModel]
 
 
     addressModel.question.title should be("What is your UK address?")
-    addressModel.question.backUrl should be("/register-to-vote/crown/statement")
     addressModel.question.postUrl should be("/register-to-vote/crown/address/select")
 
     addressModel.lookupUrl should be ("/register-to-vote/crown/address")
@@ -107,12 +103,10 @@ class AddressSelectMustacheTest
     val addressModel = mustache.data(
       partiallyFilledApplicationForm,
       Call("POST","/register-to-vote/crown/address/select"),
-      Some(Call("GET", "/register-to-vote/crown/statement")),
       InprogressCrown()
     ).data.asInstanceOf[SelectModel]
 
     addressModel.question.title should be("What was your last UK address?")
-    addressModel.question.backUrl should be("/register-to-vote/crown/statement")
     addressModel.question.postUrl should be("/register-to-vote/crown/address/select")
 
     addressModel.lookupUrl should be ("/register-to-vote/crown/address")

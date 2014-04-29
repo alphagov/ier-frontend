@@ -16,30 +16,27 @@ class ForcesPostalOrProxyVoteMustacheTest
   extends FlatSpec
   with Matchers
   with PostalOrProxyVoteForms
+  with PostalOrProxyVoteMustache
   with ErrorMessages
   with FormKeys
   with TestHelpers {
 
-  val postalOrProxyVoteMustache = new PostalOrProxyVoteMustache {}
+  val wayToVote = WaysToVoteType.ByPost
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = postalOrProxyVoteForm
-    val postalOrProxyVoteModel = postalOrProxyVoteMustache.transformFormStepToMustacheData(
+    val postalOrProxyVoteModel = mustache.data(
       emptyApplicationForm,
       PostalVoteController.post,
-      Some(WaysToVoteController.get),
-      WaysToVoteType.ByPost)
+      InprogressForces()
+    ).data.asInstanceOf[PostalOrProxyVoteModel]
 
-    postalOrProxyVoteModel.question.title should be(
-      "Do you want us to send you a postal vote application form?")
-    postalOrProxyVoteModel.question.postUrl should be(
-      "/register-to-vote/forces/postal-vote")
-    postalOrProxyVoteModel.question.backUrl should be(
-      "/register-to-vote/forces/ways-to-vote")
+    postalOrProxyVoteModel.question.title should be("Do you want us to send you a postal vote application form?")
+    postalOrProxyVoteModel.question.postUrl should be("/register-to-vote/forces/postal-vote")
 
     postalOrProxyVoteModel.description.value should be(
       "If this is your first time using a postal vote,"+
-      " or your details have changed, you need to sign and return an application form.")
+        " or your details have changed, you need to sign and return an application form.")
     postalOrProxyVoteModel.voteType.value should be("by-post")
 
     postalOrProxyVoteModel.voteFieldSet.classes should be("")
@@ -60,18 +57,14 @@ class ForcesPostalOrProxyVoteMustacheTest
           deliveryMethod = Some("email"),
           emailAddress = Some("address@email.com")))))))
 
-    val postalOrProxyVoteModel = postalOrProxyVoteMustache.transformFormStepToMustacheData(
+    val postalOrProxyVoteModel = mustache.data(
       partiallyFilledApplicationForm,
       PostalVoteController.post,
-      Some(WaysToVoteController.get),
-      WaysToVoteType.ByPost)
+      InprogressForces()
+    ).data.asInstanceOf[PostalOrProxyVoteModel]
 
-    postalOrProxyVoteModel.question.title should be(
-      "Do you want us to send you a postal vote application form?")
-    postalOrProxyVoteModel.question.postUrl should be(
-      "/register-to-vote/forces/postal-vote")
-    postalOrProxyVoteModel.question.backUrl should be(
-      "/register-to-vote/forces/ways-to-vote")
+    postalOrProxyVoteModel.question.title should be("Do you want us to send you a postal vote application form?")
+    postalOrProxyVoteModel.question.postUrl should be("/register-to-vote/forces/postal-vote")
 
     postalOrProxyVoteModel.description.value should be(
       "If this is your first time using a postal vote,"+
@@ -97,18 +90,14 @@ class ForcesPostalOrProxyVoteMustacheTest
           deliveryMethod = Some("email"),
           emailAddress = None))))))
 
-    val postalOrProxyVoteModel = postalOrProxyVoteMustache.transformFormStepToMustacheData(
+    val postalOrProxyVoteModel = mustache.data(
       partiallyFilledApplicationFormWithErrors,
       PostalVoteController.post,
-      Some(WaysToVoteController.get),
-      WaysToVoteType.ByPost)
+      InprogressForces()
+    ).data.asInstanceOf[PostalOrProxyVoteModel]
 
-    postalOrProxyVoteModel.question.title should be(
-      "Do you want us to send you a postal vote application form?")
-    postalOrProxyVoteModel.question.postUrl should be(
-      "/register-to-vote/forces/postal-vote")
-    postalOrProxyVoteModel.question.backUrl should be(
-      "/register-to-vote/forces/ways-to-vote")
+    postalOrProxyVoteModel.question.title should be("Do you want us to send you a postal vote application form?")
+    postalOrProxyVoteModel.question.postUrl should be("/register-to-vote/forces/postal-vote")
 
     postalOrProxyVoteModel.description.value should be(
       "If this is your first time using a postal vote,"+

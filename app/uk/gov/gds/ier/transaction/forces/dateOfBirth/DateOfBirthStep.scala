@@ -15,15 +15,15 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{ForcesStep, Routes, GoTo}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
-class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
-                                       val config: Config,
-                                       val encryptionService : EncryptionService)
+class DateOfBirthStep @Inject ()(
+    val serialiser: JsonSerialiser,
+    val config: Config,
+    val encryptionService : EncryptionService)
   extends ForcesStep
   with DateOfBirthForms
   with DateOfBirthMustache{
 
   val validation = dateOfBirthForm
-  val previousRoute = Some(NationalityController.get)
 
   val routes = Routes(
     get = DateOfBirthController.get,
@@ -31,13 +31,6 @@ class DateOfBirthStep @Inject ()(val serialiser: JsonSerialiser,
     editGet = DateOfBirthController.editGet,
     editPost = DateOfBirthController.editPost
   )
-
-  def template(
-      form: ErrorTransformForm[InprogressForces],
-      postEndpoint:Call,
-      backEndpoint: Option[Call]): Html = {
-    dateOfBirthMustache(form, postEndpoint, backEndpoint)
-  }
 
   def nextStep(currentState: InprogressForces) = {
     currentState.dob match {

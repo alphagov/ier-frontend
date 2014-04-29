@@ -1,14 +1,11 @@
 package uk.gov.gds.ier.transaction.overseas.waysToVote
 
-import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.step.StepTemplate
 
-trait WaysToVoteMustache extends StepMustache {
+trait WaysToVoteMustache extends StepTemplate[InprogressOverseas] {
 
-  val pageTitle = "How do you want to vote?"
+  val title = "How do you want to vote?"
 
   case class WaysToVoteModel(
     question: Question,
@@ -17,19 +14,15 @@ trait WaysToVoteMustache extends StepMustache {
     inPerson: Field
   )
 
-  def transformFormStepToMustacheData(
-      form: ErrorTransformForm[InprogressOverseas],
-      postUrl: String,
-      backUrl: Option[String]): WaysToVoteModel = {
+  val mustache = MustacheTemplate("overseas/waysToVote") { (form, post) =>
+
     implicit val progressForm = form
 
-    WaysToVoteModel(
+    val data = WaysToVoteModel(
       question = Question(
-        postUrl = postUrl,
-        backUrl = backUrl.getOrElse(""),
-        showBackUrl = backUrl.isDefined,
+        postUrl = post.url,
         number = "",
-        title = pageTitle,
+        title = title,
         errorMessages = form.globalErrors.map { _.message }),
       byPost = RadioField(
         key = keys.waysToVote.wayType,
@@ -41,13 +34,6 @@ trait WaysToVoteMustache extends StepMustache {
         key = keys.waysToVote.wayType,
         value = "in-person")
     )
-  }
-
-  def waysToVoteMustache(
-      form: ErrorTransformForm[InprogressOverseas],
-      call: Call, backUrl: Option[String]): Html = {
-    val data = transformFormStepToMustacheData(form, call.url, backUrl)
-    val content = Mustache.render("overseas/waysToVote", data)
-    MainStepTemplate(content, pageTitle)
+    MustacheData(data, title)
   }
 }

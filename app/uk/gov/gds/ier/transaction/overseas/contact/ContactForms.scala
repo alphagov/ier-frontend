@@ -7,8 +7,9 @@ import uk.gov.gds.ier.validation.constraints.ContactConstraints
 import uk.gov.gds.ier.validation.Key
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.transaction.overseas.applicationFormVote.PostalOrProxyVoteForms
 
-trait ContactForms extends ContactConstraints {
+trait ContactForms extends ContactConstraints with PostalOrProxyVoteForms {
   self:  FormKeys
     with ErrorMessages
     with WithSerialiser =>
@@ -34,11 +35,18 @@ trait ContactForms extends ContactConstraints {
 
   val contactForm = ErrorTransformForm(
     mapping(
-      keys.contact.key -> optional(contactMapping)
+      keys.contact.key -> optional(contactMapping),
+      keys.postalOrProxyVote.key -> optional(postalOrProxyVoteMapping)
+  ) (
+      (contact, postalVote) => InprogressOverseas(
+        contact = contact,
+        postalOrProxyVote = postalVote
+      )
     ) (
-      contact => InprogressOverseas(contact = contact)
-    ) (
-      inprogress => Some(inprogress.contact)
+      inprogress => Some(
+        inprogress.contact,
+        inprogress.postalOrProxyVote
+      )
     ).verifying (atLeastOneOptionSelectedOverseas)
   )
 }

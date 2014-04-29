@@ -21,22 +21,22 @@ class OtherAddressMustacheTests
   with OtherAddressForms
   with WithSerialiser
   with ErrorMessages
-  with FormKeys {
+  with FormKeys
+  with OtherAddressMustache {
 
   val serialiser = jsonSerialiser
 
   behavior of "OtherAddressMustache"
   it should "create model from empty form correctly" in {
-    val mustache = new OtherAddressMustache {}
     val form = otherAddressForm
 
-    val result = mustache.transformFormStepToMustacheData(
+    val result = mustache.data(
       form,
-      "/some-post-url",
-      Some("/some-back-url")
-    )
+      Call("POST", "/some-post-url"),
+      InprogressOrdinary()
+    ).data.asInstanceOf[OtherAddressModel]
+
     result.question.postUrl should be("/some-post-url")
-    result.question.backUrl should be("/some-back-url")
     result.question.number should be("7 of 11")
     result.question.title should be("Do you also live at a second address?")
     result.question.errorMessages should be(Seq.empty)
@@ -55,62 +55,62 @@ class OtherAddressMustacheTests
   }
 
   it should "mark true checkbox when hasOtherAddress = student" in {
-    val mustache = new OtherAddressMustache {}
     val form = otherAddressForm.fillAndValidate(InprogressOrdinary(
       otherAddress = Some(OtherAddress(StudentOtherAddress))
     ))
 
-    val result = mustache.transformFormStepToMustacheData(
+    val result = mustache.data(
       form,
-      "/some-post-url",
-      Some("/some-back-url")
-    )
+      Call("POST", "/some-post-url"),
+      InprogressOrdinary()
+    ).data.asInstanceOf[OtherAddressModel]
+
     result.hasOtherAddressStudent.attributes should be("checked=\"checked\"")
     result.hasOtherAddressHome.attributes should be("")
     result.hasOtherAddressNone.attributes should be("")
   }
 
   it should "mark true checkbox when hasOtherAddress = secondHome" in {
-    val mustache = new OtherAddressMustache {}
     val form = otherAddressForm.fillAndValidate(InprogressOrdinary(
       otherAddress = Some(OtherAddress(HomeOtherAddress))
     ))
 
-    val result = mustache.transformFormStepToMustacheData(
+    val result = mustache.data(
       form,
-      "/some-post-url",
-      Some("/some-back-url")
-    )
+      Call("POST", "/some-post-url"),
+      InprogressOrdinary()
+    ).data.asInstanceOf[OtherAddressModel]
+
     result.hasOtherAddressHome.attributes should be("checked=\"checked\"")
     result.hasOtherAddressStudent.attributes should be("")
     result.hasOtherAddressNone.attributes should be("")
   }
 
   it should "mark false checkbox when hasOtherAddress = none" in {
-    val mustache = new OtherAddressMustache {}
     val form = otherAddressForm.fillAndValidate(InprogressOrdinary(
       otherAddress = Some(OtherAddress(NoOtherAddress))
     ))
 
-    val result = mustache.transformFormStepToMustacheData(
+    val result = mustache.data(
       form,
-      "/some-post-url",
-      Some("/some-back-url")
-    )
+      Call("POST", "/some-post-url"),
+      InprogressOrdinary()
+    ).data.asInstanceOf[OtherAddressModel]
+
     result.hasOtherAddressStudent.attributes should be("")
     result.hasOtherAddressHome.attributes should be("")
     result.hasOtherAddressNone.attributes should be("checked=\"checked\"")
   }
 
   it should "display invalid with emtpy validated form" in {
-    val mustache = new OtherAddressMustache {}
     val form = otherAddressForm.fillAndValidate(InprogressOrdinary())
 
-    val result = mustache.transformFormStepToMustacheData(
+    val result = mustache.data(
       form,
-      "/some-post-url",
-      Some("/some-back-url")
-    )
+      Call("POST", "/some-post-url"),
+      InprogressOrdinary()
+    ).data.asInstanceOf[OtherAddressModel]
+
     result.hasOtherAddress.classes should be("invalid")
   }
 }

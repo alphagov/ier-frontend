@@ -1,12 +1,10 @@
 package uk.gov.gds.ier.transaction.forces.contact
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import play.api.mvc.Call
-import play.api.templates.Html
-import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.step.StepTemplate
 
-trait ContactMustache extends StepMustache {
+trait ContactMustache extends StepTemplate[InprogressForces] {
 
   case class ContactModel (
       question:Question,
@@ -17,18 +15,17 @@ trait ContactMustache extends StepMustache {
       contactEmailText: Field,
       contactPhoneText: Field)
 
-  def transformFormStepToMustacheData(
-      form: ErrorTransformForm[InprogressForces],
-      postEndpoint: Call, backEndpoint:Option[Call]) : ContactModel = {
-
+  val mustache = MustacheTemplate("forces/contact") { (form, postUrl) =>
     implicit val progressForm = form
-    ContactModel(
+    val emailAddress = form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value
+
+    val title = "If we have questions about your application, how should we contact you?"
+    val data = ContactModel(
       question = Question(
-        postUrl = postEndpoint.url,
-        backUrl = backEndpoint.map { call => call.url }.getOrElse(""),
+        postUrl = postUrl.url,
         errorMessages = form.globalErrors.map{ _.message },
         number = "14",
-        title = "If we have questions about your application, how should we contact you?"
+        title = title
       ),
       contactFieldSet = FieldSet(
         classes = if (progressForm(keys.contact).hasErrors) "invalid" else ""
@@ -43,21 +40,14 @@ trait ContactMustache extends StepMustache {
         key = keys.contact.post.contactMe, value = "true"
       ),
       contactEmailText = TextField(
-        key = keys.contact.email.detail
+        key = keys.contact.email.detail,
+        default = emailAddress
       ),
       contactPhoneText = TextField(
         key = keys.contact.phone.detail
       )
     )
-  }
 
-  def contactMustache(
-      form: ErrorTransformForm[InprogressForces],
-      postEndpoint: Call,
-      backEndpoint: Option[Call]): Html = {
-
-    val data = transformFormStepToMustacheData(form, postEndpoint, backEndpoint)
-    val content = Mustache.render("forces/contact", data)
-    MainStepTemplate(content, data.question.title)
+    MustacheData(data, title)
   }
 }

@@ -25,7 +25,7 @@ class PreviousAddressYesStepsTests
         "What was your previous UK address?"
       )
       contentAsString(result) should include("Question 3")
-      contentAsString(result) should include("<form action=\"/register-to-vote/forces/previous-address/lookup\"")
+      contentAsString(result) should include("<form action=\"/register-to-vote/forces/previous-address/postcode\"")
     }
   }
 
@@ -55,7 +55,7 @@ class PreviousAddressYesStepsTests
         "What was your previous UK address?"
       )
       contentAsString(result) should include("Please enter your postcode")
-      contentAsString(result) should include("/register-to-vote/forces/previous-address/lookup")
+      contentAsString(result) should include("/register-to-vote/forces/previous-address/postcode")
     }
   }
 
@@ -129,7 +129,7 @@ class PreviousAddressYesStepsTests
         "What was your previous UK address?"
       )
       contentAsString(result) should include("Question 3")
-      contentAsString(result) should include("<form action=\"/register-to-vote/forces/previous-address/lookup\"")
+      contentAsString(result) should include("<form action=\"/register-to-vote/forces/edit/previous-address/postcode\"")
     }
   }
 
@@ -200,7 +200,7 @@ class PreviousAddressYesStepsTests
         "What was your previous UK address?"
       )
       contentAsString(result) should include("Please enter your postcode")
-      contentAsString(result) should include("/register-to-vote/forces/previous-address/lookup")
+      contentAsString(result) should include("/register-to-vote/forces/edit/previous-address/postcode")
     }
   }
 

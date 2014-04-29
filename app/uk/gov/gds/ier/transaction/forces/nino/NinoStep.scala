@@ -13,15 +13,15 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{ForcesStep, Routes}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
-class NinoStep @Inject ()(val serialiser: JsonSerialiser,
-                          val config: Config,
-                          val encryptionService : EncryptionService)
+class NinoStep @Inject ()(
+    val serialiser: JsonSerialiser,
+    val config: Config,
+    val encryptionService : EncryptionService)
   extends ForcesStep
   with NinoForms
   with NinoMustache {
 
   val validation = ninoForm
-  val previousRoute = Some(NameController.get)
 
   val routes = Routes(
     get = NinoController.get,
@@ -30,12 +30,6 @@ class NinoStep @Inject ()(val serialiser: JsonSerialiser,
     editPost = NinoController.editPost
   )
 
-  def template(
-      form: ErrorTransformForm[InprogressForces],
-      postEndpoint: Call,
-      backEndpoint:Option[Call]): Html = {
-    ninoMustache(form, postEndpoint, backEndpoint)
-  }
   def nextStep(currentState: InprogressForces) = {
     ServiceController.serviceStep
   }

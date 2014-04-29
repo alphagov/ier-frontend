@@ -16,15 +16,15 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
-class ContactStep @Inject ()(val serialiser: JsonSerialiser,
-                             val config: Config,
-                             val encryptionService : EncryptionService)
-  extends OrdinaryStep
+class ContactStep @Inject ()(
+    val serialiser: JsonSerialiser,
+    val config: Config,
+    val encryptionService : EncryptionService
+) extends OrdinaryStep
   with ContactForms
   with ContactMustache {
 
   val validation = contactForm
-  val previousRoute = Some(PostalVoteController.get)
 
   val routes = Routes(
     get = ContactController.get,
@@ -32,30 +32,6 @@ class ContactStep @Inject ()(val serialiser: JsonSerialiser,
     editGet = ContactController.editGet,
     editPost = ContactController.editPost
   )
-
-  def prepopulateEmailAddress (application:InprogressOrdinary):InprogressOrdinary = {
-
-    val emailAddress = application.postalVote.flatMap( pvote => pvote.deliveryMethod ).flatMap(deliveryMethod => deliveryMethod.emailAddress)
-    val emailContactDetails = application.contact.flatMap( contact => contact.email ).getOrElse(ContactDetail(false,emailAddress))
-    val newContact = application.contact match {
-      case Some(contact) if contact.email.exists(_.detail.isDefined) => contact
-      case Some(contact) => contact.copy(email = Some(emailContactDetails))
-      case None => Contact(false, None, Some(ContactDetail(false,emailAddress)))
-    }
-    application.copy(contact = Some(newContact))
-  }
-
-  def template(form:ErrorTransformForm[InprogressOrdinary], call:Call,
-      backEndpoint:Option[Call]): Html = Html.empty
-
-  override def templateWithApplication(
-      form: ErrorTransformForm[InprogressOrdinary],
-      call: Call,
-      backUrl: Option[Call]):InprogressOrdinary => Html = {
-    application:InprogressOrdinary =>
-      val newForm = form.fill(prepopulateEmailAddress(application))
-      contactMustache(newForm, call, backUrl)
-  }
 
   def nextStep(currentState: InprogressOrdinary) = {
     ConfirmationController.confirmationStep

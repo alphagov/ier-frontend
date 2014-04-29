@@ -13,7 +13,7 @@ import uk.gov.gds.ier.model.PossibleAddress
 import uk.gov.gds.ier.model.PartialManualAddress
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
-trait PreviousAddressForms extends PreviousAddressConstraints with CommonForms {
+trait PreviousAddressForms extends PreviousAddressConstraints {
   self: FormKeys
   with ErrorMessages
   with WithSerialiser =>
