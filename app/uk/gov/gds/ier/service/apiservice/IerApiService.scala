@@ -144,10 +144,14 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
     val isoCodes = applicant.nationality map { nationality =>
       isoCountryService.transformToIsoCode(nationality)
     }
-    val currentAuthority = applicant.address flatMap { address =>
-      placesService.lookupAuthority(address.postcode)
-    }
-    val fullCurrentAddress = addressService.formFullAddress(applicant.address)
+    val currentAuthority =
+      (for (lastUkAddress <- applicant.address;
+        address <- lastUkAddress.address
+      ) yield placesService.lookupAuthority(address.postcode)) flatten
+
+    val fullCurrentAddress =
+      (for (lastUkAddress <- applicant.address)
+      yield addressService.formFullAddress(lastUkAddress.address)) flatten
 
     val previousAuthority = applicant.previousAddress flatMap { prevAddress =>
       prevAddress.previousAddress flatMap { prevAddress =>

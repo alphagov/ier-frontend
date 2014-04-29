@@ -330,25 +330,25 @@ class ConfirmationMustacheTest
   "In-progress application form with valid UK address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
-      address = Some(PartialAddress(
+      address = Some(LastUkAddress(Some(true), Some(PartialAddress(
         addressLine = Some("123 Fake Street"),
         uprn = Some("12345678"),
         postcode = "AB12 3CD",
         manualAddress = None
-      ))
+      ))))
     ))
 
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(addressModel) = confirmation.address
     addressModel.content should be("<p>123 Fake Street</p><p>AB12 3CD</p>")
-    addressModel.editLink should be("/register-to-vote/forces/edit/address/select")
+    addressModel.editLink should be("/register-to-vote/forces/edit/address/first")
   }
 
   "In-progress application form with valid UK manual address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
-      address = Some(PartialAddress(
+      address = Some(LastUkAddress(Some(true), Some(PartialAddress(
         addressLine = None,
         uprn = None,
         postcode = "AB12 3CD",
@@ -357,7 +357,7 @@ class ConfirmationMustacheTest
           lineTwo = Some("Moseley Road"),
           lineThree = Some("Hallow"),
           city = Some("Worcester")))
-      ))
+      ))))
     ))
 
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
@@ -462,7 +462,7 @@ class ConfirmationMustacheTest
   "In-progress application form with valid contact address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
-      address = Some(PartialAddress(
+      address = Some(LastUkAddress(Some(true), Some(PartialAddress(
         addressLine = None,
         uprn = None,
         postcode = "AB12 3CD",
@@ -471,7 +471,7 @@ class ConfirmationMustacheTest
           lineTwo = Some("Moseley Road"),
           lineThree = Some("Hallow"),
           city = Some("Worcester")))
-      )),
+      )))),
       contactAddress = Some (PossibleContactAddresses(
         contactAddressType = Some("uk"),
         ukAddressLine = Some("my uk address, london"),

@@ -44,7 +44,7 @@ class AddressManualMustacheTests
   it should "progress form with valid values should produce Mustache Model with values present (manualData)" in {
 
     val partiallyFilledApplicationForm = addressForm.fill(InprogressForces(
-      address = Some(PartialAddress(
+      address = Some(LastUkAddress(Some(true), Some(PartialAddress(
         addressLine = None,
         uprn = None,
         postcode = "WR26NJ",
@@ -52,7 +52,7 @@ class AddressManualMustacheTests
           lineOne = Some("Unit 4, Elgar Business Centre"),
           lineTwo = Some("Moseley Road"),
           lineThree = Some("Hallow"),
-          city = Some("Worcester")))
+          city = Some("Worcester")))))
       )),
       possibleAddresses = None
     ))

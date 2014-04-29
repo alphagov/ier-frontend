@@ -24,10 +24,10 @@ trait AddressLookupMustache extends StepTemplate[InprogressForces] {
         errorMessages = form.globalErrors.map(_.message)
       ),
       postcode = Field(
-        id = keys.address.postcode.asId(),
-        name = keys.address.postcode.key,
-        value = form(keys.address.postcode).value.getOrElse(""),
-        classes = if (form(keys.address.postcode).hasErrors) {
+        id = keys.address.address.postcode.asId(),
+        name = keys.address.address.postcode.key,
+        value = form(keys.address.address.postcode).value.getOrElse(""),
+        classes = if (form(keys.address.address.postcode).hasErrors) {
           "invalid"
         } else {
           ""

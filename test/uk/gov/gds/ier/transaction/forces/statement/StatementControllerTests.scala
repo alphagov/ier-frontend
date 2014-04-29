@@ -37,7 +37,7 @@ class StatementControllerTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/forces/address"))
+      redirectLocation(result) should be(Some("/register-to-vote/forces/address/first"))
     }
   }
 

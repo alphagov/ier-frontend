@@ -3,7 +3,7 @@ package uk.gov.gds.ier.form
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.{PartialManualAddress, PartialAddress}
+import uk.gov.gds.ier.model.{PartialManualAddress, PartialAddress, LastUkAddress}
 import uk.gov.gds.ier.transaction.forces.confirmation.ConfirmationForms
 import play.api.data.Form
 import uk.gov.gds.ier.transaction.ordinary.address.AddressForms
@@ -32,7 +32,8 @@ with Matchers {
 
   it should "return all elements of address separated by comma for form with full manual address" in {
     val partiallyFilledForm = confirmationForm.fillAndValidate(InprogressForces(
-      address = Some(PartialAddress(
+      address = Some(LastUkAddress(hasUkAddress = Some(true),
+        address = Some(PartialAddress(
         addressLine = None,
         uprn = None,
         postcode = "AB12 3CD",
@@ -40,20 +41,21 @@ with Matchers {
           lineOne = Some("Unit 4, Elgar Business Centre"),
           lineTwo = Some("Moseley Road"),
           lineThree = Some("Hallow"),
-          city = Some("Worcester")))
+          city = Some("Worcester")))))
       ))
     ))
     // local variable names matter!
     // if you try to rename 'result' to 'manualAddress' Scala compiler implodes with internal error
     val result = manualAddressToOneLine(
       partiallyFilledForm,
-      keys.address.manualAddress)
+      keys.address.address.manualAddress)
     result should be(Some("Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester"))
   }
 
   it should "return address without comma for form with manual address of just one line" in {
     val partiallyFilledForm = confirmationForm.fillAndValidate(InprogressForces(
-      address = Some(PartialAddress(
+      address = Some(LastUkAddress(hasUkAddress = Some(true),
+        address = Some(PartialAddress(
         addressLine = None,
         uprn = None,
         postcode = "AB12 3CD",
@@ -61,18 +63,19 @@ with Matchers {
           lineOne = Some("123 Fake Street"),
           lineTwo = None,
           lineThree = None,
-          city = None))
+          city = None))))
       ))
     ))
     val result = manualAddressToOneLine(
       partiallyFilledForm,
-      keys.address.manualAddress)
+      keys.address.address.manualAddress)
     result should be(Some("123 Fake Street"))
   }
 
   it should "return None for form without manual address" in {
     val partiallyFilledForm = confirmationForm.fillAndValidate(InprogressForces(
-      address = Some(PartialAddress(
+      address = Some(LastUkAddress(hasUkAddress = Some(true),
+        address = Some(PartialAddress(
         addressLine = None,
         uprn = None,
         postcode = "AB12 3CD",
@@ -80,7 +83,7 @@ with Matchers {
           lineOne = None,
           lineTwo = None,
           lineThree = None,
-          city = None))
+          city = None))))
       ))
     ))
     val result = manualAddressToOneLine(

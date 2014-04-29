@@ -38,12 +38,12 @@ class AddressLookupMustacheTest
   it should "progress form with valid values should produce Mustache Model with values present"+
     " (lookupData) - lastUkAddress = true" in {
     val partiallyFilledApplicationForm = addressForm.fill(InprogressForces(
-      address = Some(PartialAddress(
+      address = Some(LastUkAddress(Some(true), Some(PartialAddress(
         addressLine = Some("Fake street 123"),
         uprn = Some("1234567"),
         postcode = "WR26NJ",
         manualAddress = None
-      ))
+      ))))
     ))
 
     val addressModel = mustache.data(

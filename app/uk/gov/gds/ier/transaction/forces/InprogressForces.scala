@@ -17,7 +17,7 @@ import uk.gov.gds.ier.model.Contact
 
 case class InprogressForces(
     statement: Option[Statement] = None,
-    address: Option[PartialAddress] = None,
+    address: Option[LastUkAddress] = None,
     previousAddress: Option[PartialPreviousAddress] = None,
     nationality: Option[PartialNationality] = None,
     dob: Option[DateOfBirth] = None,

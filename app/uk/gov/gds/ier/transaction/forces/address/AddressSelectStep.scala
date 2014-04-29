@@ -24,7 +24,7 @@ class AddressSelectStep @Inject() (
   with AddressForms
   with WithAddressService {
 
-  val validation = addressForm
+  val validation = selectStepForm
 
   val routes = Routes(
     get = AddressSelectController.get,
@@ -38,8 +38,10 @@ class AddressSelectStep @Inject() (
   }
 
   override val onSuccess = TransformApplication { currentState =>
-    val addressWithAddressLine = currentState.address.map {
-      addressService.fillAddressLine(_)
+    val addressWithAddressLine = currentState.address.map { lastUkAddress =>
+      lastUkAddress.copy (
+        address = lastUkAddress.address.map(addressService.fillAddressLine)
+      )
     }
 
     currentState.copy(

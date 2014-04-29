@@ -36,8 +36,8 @@ class AddressStepTests
         FakeRequest(POST, "/register-to-vote/forces/address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "address.uprn" -> "123456789",
-            "address.postcode" -> "SW1A 1AA"
+            "address.address.uprn" -> "123456789",
+            "address.address.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -52,11 +52,11 @@ class AddressStepTests
         FakeRequest(POST, "/register-to-vote/forces/address/manual")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-            "address.manualAddress.lineTwo" -> "Moseley Road",
-            "address.manualAddress.lineThree" -> "Hallow",
-            "address.manualAddress.city" -> "Worcester",
-            "address.postcode" -> "SW1A 1AA"
+            "address.address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "address.address.manualAddress.lineTwo" -> "Moseley Road",
+            "address.address.manualAddress.lineThree" -> "Hallow",
+            "address.address.manualAddress.city" -> "Worcester",
+            "address.address.postcode" -> "SW1A 1AA"
         )
       )
 
@@ -71,7 +71,7 @@ class AddressStepTests
         FakeRequest(POST, "/register-to-vote/forces/address")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "address.postcode" -> "BT15EQ"
+            "address.address.postcode" -> "BT15EQ"
         )
       )
 
@@ -87,11 +87,11 @@ class AddressStepTests
           .withIerSession()
           .withApplication(completeForcesApplication)
           .withFormUrlEncodedBody(
-            "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-            "address.manualAddress.lineTwo" -> "Moseley Road",
-            "address.manualAddress.lineThree" -> "Hallow",
-            "address.manualAddress.city" -> "Worcester",
-            "address.postcode" -> "SW1A 1AA"
+            "address.address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "address.address.manualAddress.lineTwo" -> "Moseley Road",
+            "address.address.manualAddress.lineThree" -> "Hallow",
+            "address.address.manualAddress.city" -> "Worcester",
+            "address.address.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -141,8 +141,8 @@ behavior of "AddressStep.editGet"
         FakeRequest(POST, "/register-to-vote/forces/edit/address/select")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "address.uprn" -> "123456789",
-            "address.postcode" -> "SW1A 1AA"
+            "address.address.uprn" -> "123456789",
+            "address.address.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -157,11 +157,11 @@ behavior of "AddressStep.editGet"
         FakeRequest(POST, "/register-to-vote/forces/edit/address/manual")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-            "address.manualAddress.lineTwo" -> "Moseley Road",
-            "address.manualAddress.lineThree" -> "Hallow",
-            "address.manualAddress.city" -> "Worcester",
-            "address.postcode" -> "SW1A 1AA"
+            "address.address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "address.address.manualAddress.lineTwo" -> "Moseley Road",
+            "address.address.manualAddress.lineThree" -> "Hallow",
+            "address.address.manualAddress.city" -> "Worcester",
+            "address.address.postcode" -> "SW1A 1AA"
         )
       )
 
@@ -177,11 +177,11 @@ behavior of "AddressStep.editGet"
           .withIerSession()
           .withApplication(completeForcesApplication)
           .withFormUrlEncodedBody(
-            "address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-            "address.manualAddress.lineTwo" -> "Moseley Road",
-            "address.manualAddress.lineThree" -> "Hallow",
-            "address.manualAddress.city" -> "Worcester",
-            "address.postcode" -> "SW1A 1AA"
+            "address.address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "address.address.manualAddress.lineTwo" -> "Moseley Road",
+            "address.address.manualAddress.lineThree" -> "Hallow",
+            "address.address.manualAddress.city" -> "Worcester",
+            "address.address.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -217,7 +217,7 @@ behavior of "AddressStep.editGet"
       contentAsString(result) should include(
         "What is your UK address?"
       )
-      contentAsString(result) should include("Please answer this question")
+      contentAsString(result) should include("Please select your address")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/edit/address/select\"")
 
     }
@@ -252,7 +252,7 @@ behavior of "AddressStep.editGet"
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/forces/address"))
+      redirectLocation(result) should be(Some("/register-to-vote/forces/address/first"))
     }
   }
 }

@@ -28,8 +28,8 @@ trait AddressSelectMustache extends StepTemplate[InprogressForces] {
 
     val title = "What is your UK address?"
 
-    val selectedUprn = form(keys.address.uprn).value
-    val postcode = form(keys.address.postcode).value
+    val selectedUprn = form(keys.address.address.uprn).value
+    val postcode = form(keys.address.address.postcode).value
 
     val storedAddresses = for(
       jsonList <- form(keys.possibleAddresses.jsonList).value;
@@ -66,7 +66,7 @@ trait AddressSelectMustache extends StepTemplate[InprogressForces] {
     }
 
     val addressSelect = SelectField(
-      key = keys.address.uprn,
+      key = keys.address.address.uprn,
       optionList = options,
       default = SelectOption(
         value = "",
@@ -90,7 +90,7 @@ trait AddressSelectMustache extends StepTemplate[InprogressForces] {
       ),
       lookupUrl = AddressController.get.url,
       manualUrl = AddressManualController.get.url,
-      postcode = TextField(keys.address.postcode),
+      postcode = TextField(keys.address.address.postcode),
       address = addressSelectWithError,
       possibleJsonList = HiddenField(
         key = keys.possibleAddresses.jsonList,
@@ -100,7 +100,7 @@ trait AddressSelectMustache extends StepTemplate[InprogressForces] {
       ),
       possiblePostcode = HiddenField(
         key = keys.possibleAddresses.postcode,
-        value = form(keys.address.postcode).value.getOrElse("")
+        value = form(keys.address.address.postcode).value.getOrElse("")
       ),
       hasAddresses = hasAddresses
     )
