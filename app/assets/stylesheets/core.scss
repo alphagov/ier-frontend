@@ -73,6 +73,10 @@ h1 {
 h2 {
   @include bold-24;
   margin: 1em 0 0.75em;
+
+  &.paragraph {
+    @include core-19;
+  }
 }
 
 h3 {
