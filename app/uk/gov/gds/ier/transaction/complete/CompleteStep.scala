@@ -13,6 +13,7 @@ class CompleteStep @Inject() (val serialiser: JsonSerialiser,
                               placesService:PlacesService,
                               val config: Config,
                               val encryptionService : EncryptionService)
+
     extends Controller
     with SessionCleaner
     with WithSerialiser

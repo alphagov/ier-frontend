@@ -434,6 +434,31 @@ class ConfirmationMustacheTest
     previousAddressModel.editLink should be("/register-to-vote/forces/edit/previous-address")
   }
 
+  "In-progress application form with valid previous UK address but invalid move option (recentlyMoved)" should
+    "generate confirmation mustache model error from recently moved sub key" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
+      previousAddress = Some(PartialPreviousAddress(
+        movedRecently = Some(MovedHouseOption.MovedFromUk),
+        previousAddress = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "AB12 3CD",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")))
+        ))
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+
+    val Some(previousAddressModel) = confirmation.previousAddress
+    previousAddressModel.content should be("<div class=\"validation-message visible\">Please complete this step</div>")
+    previousAddressModel.editLink should be("/register-to-vote/forces/edit/previous-address")
+  }
+
   "In-progress application form with valid contact address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
@@ -818,4 +843,5 @@ class ConfirmationMustacheTest
       "I am a citizen of New Zealand and India"
     )
   }
+
 }
