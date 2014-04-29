@@ -17,7 +17,7 @@
                        value="false" {{{voteOptInFalse.attributes}}}
                        class="radio  validate" data-validation-name="postalNo"
                        data-validation-type="field"
-                       data-validation-rules="nonEmpty">No</input>
+                       data-validation-rules="nonEmpty" />No
             </label>
             <label class="selectable binary"  >
                 <input type="radio" id="{{voteOptInTrue.id}}"
@@ -25,11 +25,10 @@
                        value="true" {{{voteOptInTrue.attributes}}}
                        class="radio  validate" data-validation-name="postalYes"
                        data-validation-type="field"
-                       data-validation-rules="nonEmpty">Yes</input>
+                       data-validation-rules="nonEmpty" />Yes
             </label>
         </fieldset>
     </div>
-    </br>
     <div class="help">
         <p>{{description.value}}</p>
     </div>
@@ -40,9 +39,8 @@
               data-validation-type="fieldset"
               data-validation-rules="atLeastOneNonEmpty"
               data-validation-children="deliveryMethodEmail deliveryMethodPost">
-        <p>
-            <strong>How should we send you the form?</strong>
-        </p>
+
+        <legend>How should we send you the form?</legend>
         <label for="{{voteDeliveryMethodEmail.id}}" class="selectable"  >
             <input type="radio" id="{{voteDeliveryMethodEmail.id}}"
                    name="{{voteDeliveryMethodEmail.name}}"
@@ -50,13 +48,13 @@
                    class="radio  validate"
                    data-validation-name="deliveryMethodEmail"
                    data-validation-type="field"
-                   data-validation-rules="nonEmpty" >Email it to me</input>
+                   data-validation-rules="nonEmpty" />Email it to me
         </label>
 
         <div class="optional-section"
              data-condition="postalOrProxyVote_deliveryMethod_methodName_email">
 
-            <label>Email address</label>
+            <label for="{{voteEmailAddress.classes}}">Email address</label>
             <div class="validation-wrapper {{voteEmailAddress.classes}}">
                 <input type="email" id="{{voteEmailAddress.id}}"
                        name="{{voteEmailAddress.name}}"
@@ -76,7 +74,7 @@
                    class="radio  validate"
                    data-validation-name="deliveryMethodPost"
                    data-validation-type="field"
-                   data-validation-rules="nonEmpty" >Post it to me</input>
+                   data-validation-rules="nonEmpty" />Post it to me
         </label>
     </fieldset>
 

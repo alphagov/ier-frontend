@@ -9,6 +9,10 @@ legend {
   float: left;
   width: 100%;
   margin-bottom: 1em;
+
+  &.paragraph {
+    font-weight: normal;
+  }
 }
 
 label,

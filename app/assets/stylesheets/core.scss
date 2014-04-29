@@ -269,7 +269,8 @@ form {
 }
 
 .sub-section,
-.optional-section-core-content {
+.optional-section-core-content,
+.help {
   margin-top: 2em;
 }
 
@@ -322,4 +323,12 @@ button:focus,
 #footer .footer-meta-inner li {
   @include core-16;
   padding-left: 0;
+}
+
+.alt-content {
+  display: block;
+
+  .js-enabled & {
+    display: none;  
+  }
 }
