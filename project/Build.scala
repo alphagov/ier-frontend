@@ -26,7 +26,8 @@ object ApplicationBuild extends IERBuild {
     "org.mockito" % "mockito-core" % "1.9.5",
     "org.jba" %% "play2-mustache" % "1.1.3", // play2.2.0
     "org.jsoup" % "jsoup" % "1.7.2",
-    "com.typesafe.play.plugins" %% "play-statsd" % "2.2.0"
+    "com.typesafe.play.plugins" %% "play-statsd" % "2.2.0",
+    "org.julienrf" %% "play-jsmessages" % "1.6.1"
   )
 
   lazy val main = play.Project(appName, appVersion, appDependencies)

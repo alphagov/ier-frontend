@@ -4,7 +4,13 @@
   var root = this,
       $ = root.jQuery,
       GOVUK = root.GOVUK,
-      validation;
+      validation,
+      message;
+
+  message = function (key) {
+    var lang = $('html').attr('lang');
+    return GOVUK.registerToVote.messages(lang, key);
+  };
 
   validation = {
     init : function () {
