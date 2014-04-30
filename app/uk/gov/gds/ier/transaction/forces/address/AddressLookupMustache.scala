@@ -5,6 +5,13 @@ import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 trait AddressLookupMustache extends StepTemplate[InprogressForces] {
 
+  private def pageTitle(hasUkAddress: Option[String]): String = {
+    hasUkAddress match {
+      case Some(hasUkAddress) if (!hasUkAddress.isEmpty && hasUkAddress.toBoolean) => "What is your UK address?"
+      case _ => "What was your last UK address?"
+    }
+  }
+
   val questionNumber = "2"
 
   case class LookupModel (
@@ -14,7 +21,7 @@ trait AddressLookupMustache extends StepTemplate[InprogressForces] {
   val mustache = MustacheTemplate("forces/addressLookup") { (form, postUrl) =>
     implicit val progressForm = form
 
-    val title = "What is your UK address?"
+    val title = pageTitle(form(keys.address.hasUkAddress).value)
 
     val data = LookupModel(
       question = Question(

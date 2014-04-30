@@ -1,11 +1,12 @@
 package uk.gov.gds.ier.transaction.forces.address
 
 import controllers.step.forces.routes._
-import controllers.step.forces.PreviousAddressFirstController
+import controllers.step.forces.{PreviousAddressFirstController, NationalityController}
 import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{
+  LastUkAddress,
   Addresses,
   PossibleAddress}
 import uk.gov.gds.ier.security.EncryptionService
@@ -34,7 +35,13 @@ class AddressSelectStep @Inject() (
   )
 
   def nextStep(currentState: InprogressForces) = {
-    PreviousAddressFirstController.previousAddressFirstStep
+    val hasUkAddress = Some(true)
+
+    currentState.address match {
+      case Some(LastUkAddress(`hasUkAddress`,_))
+          => PreviousAddressFirstController.previousAddressFirstStep
+      case _ => NationalityController.nationalityStep
+    }
   }
 
   override val onSuccess = TransformApplication { currentState =>

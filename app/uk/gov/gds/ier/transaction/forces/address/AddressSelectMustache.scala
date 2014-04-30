@@ -11,6 +11,13 @@ trait AddressSelectMustache extends StepTemplate[InprogressForces] {
     self:WithAddressService
     with WithSerialiser =>
 
+  private def pageTitle(hasUkAddress: Option[String]): String = {
+    hasUkAddress match {
+      case Some(hasUkAddress) if (!hasUkAddress.isEmpty && hasUkAddress.toBoolean) => "What is your UK address?"
+      case _ => "What was your last UK address?"
+    }
+  }
+
   val questionNumber = "2"
 
   case class SelectModel (
@@ -26,7 +33,7 @@ trait AddressSelectMustache extends StepTemplate[InprogressForces] {
   val mustache = MustacheTemplate("forces/addressSelect") { (form, postUrl) =>
     implicit val progressForm = form
 
-    val title = "What is your UK address?"
+    val title = pageTitle(form(keys.address.hasUkAddress).value)
 
     val selectedUprn = form(keys.address.address.uprn).value
     val postcode = form(keys.address.address.postcode).value

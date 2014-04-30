@@ -1,6 +1,9 @@
 package uk.gov.gds.ier.transaction.forces.address
 
 import controllers.step.forces.routes._
+import controllers.step.forces.AddressController._
+import controllers.step.forces.AddressManualController._
+import controllers.step.forces.AddressSelectController._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
@@ -34,7 +37,14 @@ class AddressFirstStep @Inject ()(
   )
 
   def nextStep(currentState: InprogressForces) = {
-    controllers.step.forces.AddressController.addressStep
+    currentState.address.map(_.address) match {
+      case Some(address) =>
+        if (address.exists(_.postcode.isEmpty)) addressStep
+        else if (address.exists(_.manualAddress.isDefined)) addressManualStep
+        else if (address.exists(_.uprn.isDefined)) addressSelectStep
+        else addressStep
+      case _ => addressStep
+    }
   }
 
   override val onSuccess = GoToNextStep()
