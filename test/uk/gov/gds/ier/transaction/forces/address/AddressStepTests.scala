@@ -5,6 +5,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.model.LastUkAddress
 
 class AddressStepTests
   extends FlatSpec
@@ -13,10 +14,11 @@ class AddressStepTests
   with TestHelpers {
 
   behavior of "AddressStep.get"
-  it should "display the page" in {
+  it should "display the page with the right title if has uk address" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/forces/address").withIerSession()
+        .withApplication(completeForcesApplication.copy(address = Some(LastUkAddress(Some(true), None))))
       )
 
       status(result) should be(OK)
@@ -29,12 +31,32 @@ class AddressStepTests
     }
   }
 
+  it should "display the page with the right title if has no uk address" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(GET, "/register-to-vote/forces/address").withIerSession()
+        .withApplication(completeForcesApplication.copy(address = Some(LastUkAddress(Some(false), None))))
+      )
+
+      status(result) should be(OK)
+      contentType(result) should be(Some("text/html"))
+      contentAsString(result) should include(
+        "What was your last UK address?"
+      )
+      contentAsString(result) should include("Question 2")
+      contentAsString(result) should include("<form action=\"/register-to-vote/forces/address\"")
+    }
+  }
+
   behavior of "AddressStep.post"
-  it should "bind successfully and redirect to the next step" in {
+  it should "redirect to the previous address step if bind successfully and 'true' to the 'has uk address'" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/forces/address/select")
           .withIerSession()
+          .withApplication(completeForcesApplication.copy(
+              address = Some(LastUkAddress(Some(true), None)),
+              previousAddress = None))
           .withFormUrlEncodedBody(
             "address.address.uprn" -> "123456789",
             "address.address.postcode" -> "SW1A 1AA"
@@ -46,11 +68,34 @@ class AddressStepTests
     }
   }
 
-  it should "bind successfully and redirect to the next step with a manual address" in {
+  it should "redirect to the previous address step if bind successfully and 'false' to the 'has uk address'" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/forces/address/select")
+          .withIerSession()
+          .withApplication(completeForcesApplication.copy(
+              address = Some(LastUkAddress(Some(false), None)),
+              nationality = None))
+          .withFormUrlEncodedBody(
+            "address.address.uprn" -> "123456789",
+            "address.address.postcode" -> "SW1A 1AA"
+          )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/forces/nationality"))
+    }
+  }
+
+  it should "redirect to the previous address step with a manual address if 'true' to has uk address" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/forces/address/manual")
           .withIerSession()
+          .withApplication(completeForcesApplication.copy(
+              address = Some(LastUkAddress(Some(true), None)),
+              previousAddress = None
+              ))
           .withFormUrlEncodedBody(
             "address.address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
             "address.address.manualAddress.lineTwo" -> "Moseley Road",
@@ -62,6 +107,28 @@ class AddressStepTests
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/register-to-vote/forces/previous-address"))
+    }
+  }
+
+  it should "redirect to the previous address step with a manual address if 'false' to has uk address" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/forces/address/manual")
+          .withIerSession()
+          .withApplication(completeForcesApplication.copy(
+              address = Some(LastUkAddress(Some(false), None)),
+              nationality = None))
+          .withFormUrlEncodedBody(
+            "address.address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "address.address.manualAddress.lineTwo" -> "Moseley Road",
+            "address.address.manualAddress.lineThree" -> "Hallow",
+            "address.address.manualAddress.city" -> "Worcester",
+            "address.address.postcode" -> "SW1A 1AA"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/forces/nationality"))
     }
   }
 
@@ -108,7 +175,7 @@ class AddressStepTests
 
       status(result) should be(OK)
       contentAsString(result) should include(
-        "What is your UK address?"
+        "What was your last UK address?"
       )
       contentAsString(result) should include("Please enter your postcode")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/address\"")
@@ -126,7 +193,7 @@ behavior of "AddressStep.editGet"
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include(
-        "What is your UK address?"
+        "What was your last UK address?"
       )
       contentAsString(result) should include("Question 2")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/edit/address\"")
@@ -135,11 +202,14 @@ behavior of "AddressStep.editGet"
   }
 
   behavior of "AddressStep.editPost"
-  it should "bind successfully and redirect to the next step with a dropdown address" in {
+  it should "redirect to the previous step if bind successfully and answer 'true' to the 'has uk address'" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/forces/edit/address/select")
           .withIerSession()
+          .withApplication(completeForcesApplication.copy(
+              address = Some(LastUkAddress(Some(true), None)),
+              previousAddress = None))
           .withFormUrlEncodedBody(
             "address.address.uprn" -> "123456789",
             "address.address.postcode" -> "SW1A 1AA"
@@ -151,11 +221,34 @@ behavior of "AddressStep.editGet"
     }
   }
 
-  it should "bind successfully and redirect to the next step with a manual address" in {
+  it should "redirect to the nationality step if bind successfully and answer 'false' to the 'has uk address'" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/forces/edit/address/select")
+          .withIerSession()
+          .withApplication(completeForcesApplication.copy(
+              address = Some(LastUkAddress(Some(false), None)),
+              nationality = None
+              ))
+          .withFormUrlEncodedBody(
+            "address.address.uprn" -> "123456789",
+            "address.address.postcode" -> "SW1A 1AA"
+          )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/forces/nationality"))
+    }
+  }
+
+  it should "redirect to the previous address step with a manual address if answer 'true' to 'has uk address'" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/forces/edit/address/manual")
           .withIerSession()
+          .withApplication(completeForcesApplication.copy(
+              address = Some(LastUkAddress(Some(true), None)),
+              previousAddress = None))
           .withFormUrlEncodedBody(
             "address.address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
             "address.address.manualAddress.lineTwo" -> "Moseley Road",
@@ -167,6 +260,28 @@ behavior of "AddressStep.editGet"
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/register-to-vote/forces/previous-address"))
+    }
+  }
+
+  it should "redirect to the nationality step with a manual address if answer 'false' to 'has uk address'" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/forces/edit/address/manual")
+          .withIerSession()
+          .withApplication(completeForcesApplication.copy(
+              address = Some(LastUkAddress(Some(false), None)),
+              nationality = None))
+          .withFormUrlEncodedBody(
+            "address.address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "address.address.manualAddress.lineTwo" -> "Moseley Road",
+            "address.address.manualAddress.lineThree" -> "Hallow",
+            "address.address.manualAddress.city" -> "Worcester",
+            "address.address.postcode" -> "SW1A 1AA"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/forces/nationality"))
     }
   }
 
@@ -199,7 +314,7 @@ behavior of "AddressStep.editGet"
 
       status(result) should be(OK)
       contentAsString(result) should include(
-        "What is your UK address?"
+        "What was your last UK address?"
       )
       contentAsString(result) should include("Please enter your postcode")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/edit/address\"")
@@ -215,7 +330,7 @@ behavior of "AddressStep.editGet"
 
       status(result) should be(OK)
       contentAsString(result) should include(
-        "What is your UK address?"
+        "What was your last UK address?"
       )
       contentAsString(result) should include("Please select your address")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/edit/address/select\"")
@@ -231,7 +346,7 @@ behavior of "AddressStep.editGet"
 
       status(result) should be(OK)
       contentAsString(result) should include(
-        "What is your UK address?"
+        "What was your last UK address?"
       )
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/edit/address/manual\"")

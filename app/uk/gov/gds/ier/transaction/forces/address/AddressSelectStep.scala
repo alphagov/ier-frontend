@@ -47,7 +47,7 @@ class AddressSelectStep @Inject() (
   override val onSuccess = TransformApplication { currentState =>
     val addressWithAddressLine = currentState.address.map { lastUkAddress =>
       lastUkAddress.copy (
-        address = lastUkAddress.address.map(addressService.fillAddressLine)
+        address = lastUkAddress.address.map(addressService.fillAddressLine(_).copy(manualAddress = None))
       )
     }
 

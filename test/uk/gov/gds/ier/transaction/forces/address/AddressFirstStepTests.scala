@@ -45,7 +45,7 @@ class AddressFirstStepTests
     }
   }
 
-  it should "bind successfully and redirect to address step if all other steps are complete" in {
+  it should "bind successfully and redirect to address selectstep if all other steps are complete" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/forces/address/first")
@@ -57,7 +57,7 @@ class AddressFirstStepTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/forces/address"))
+      redirectLocation(result) should be(Some("/register-to-vote/forces/address/select"))
     }
   }
 

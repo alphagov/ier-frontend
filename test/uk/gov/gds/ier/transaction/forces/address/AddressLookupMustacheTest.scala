@@ -29,7 +29,7 @@ class AddressLookupMustacheTest
       InprogressForces()
     ).data.asInstanceOf[LookupModel]
 
-    addressModel.question.title should be("What is your UK address?")
+    addressModel.question.title should be("What was your last UK address?")
     addressModel.question.postUrl should be("/register-to-vote/forces/address/lookup")
 
     addressModel.postcode.value should be ("")

@@ -8,6 +8,13 @@ trait AddressManualMustache extends StepTemplate[InprogressForces] {
 
   val questionNumber = "2"
 
+  private def pageTitle(hasUkAddress: Option[String]): String = {
+    hasUkAddress match {
+      case Some(hasUkAddress) if (!hasUkAddress.isEmpty && hasUkAddress.toBoolean) => "What is your UK address?"
+      case _ => "What was your last UK address?"
+    }
+  }
+
   case class ManualModel (
      question: Question,
      lookupUrl: String,
@@ -17,10 +24,11 @@ trait AddressManualMustache extends StepTemplate[InprogressForces] {
      maLineThree: Field,
      maCity: Field)
 
-  val mustache = MustacheTemplate("forces/addressManual") { (form, postUrl) =>
+
+    val mustache = MustacheTemplate("forces/addressManual") { (form, postUrl) =>
     implicit val progressForm = form
 
-    val title = "What is your UK address?"
+    val title = pageTitle(form(keys.address.hasUkAddress).value)
 
     val data = ManualModel(
       question = Question(

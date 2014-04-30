@@ -8,8 +8,9 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.{ForcesStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import controllers.step.forces.PreviousAddressFirstController
+import controllers.step.forces.{PreviousAddressFirstController, NationalityController}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.model.LastUkAddress
 
 
 class AddressManualStep @Inject() (
@@ -30,6 +31,23 @@ class AddressManualStep @Inject() (
   )
 
   def nextStep(currentState: InprogressForces) = {
-    PreviousAddressFirstController.previousAddressFirstStep
+    currentState.address match {
+      case Some(LastUkAddress(Some(hasUkAddress),_))
+        if (hasUkAddress) => PreviousAddressFirstController.previousAddressFirstStep
+      case _ => {
+        NationalityController.nationalityStep
+      }
+    }
   }
+
+  override val onSuccess = TransformApplication { currentState =>
+    val clearedAddress = currentState.address.map {addr =>
+      addr.copy (address = addr.address.map(
+        _.copy(uprn = None, addressLine = None)))
+      }
+
+    currentState.copy(
+      address = clearedAddress
+    )
+  } andThen GoToNextIncompleteStep()
 }

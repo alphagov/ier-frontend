@@ -47,6 +47,11 @@ class AddressFirstStep @Inject ()(
     }
   }
 
-  override val onSuccess = GoToNextStep()
+  override val onSuccess = TransformApplication { currentState =>
+    if (currentState.address.exists(_.hasUkAddress == Some(false))) {
+      currentState.copy(previousAddress = None)
+    }
+    else currentState
+  } andThen GoToNextStep()
 }
 
