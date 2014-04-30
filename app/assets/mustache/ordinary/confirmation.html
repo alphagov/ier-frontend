@@ -7,7 +7,14 @@
         <div>
             <h3>{{title}}</h3>
             <div class="data-wrap">
-                {{{content}}}
+            {{#content}}
+                {{#blockContent}}
+                <p>{{.}}</p>
+                {{/blockContent}}
+                {{#blockError}}
+                <div class="validation-message visible"> {{.}}
+                {{/blockError}}
+            {{/content}}
             </div>
             <a href="{{editLink}}" class="change">
                 Change<span class="visuallyhidden"> {{changeName}}</span>
