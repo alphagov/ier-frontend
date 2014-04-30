@@ -7,6 +7,8 @@ import uk.gov.gds.ier.config.Config
 
 class RemoteAssets @Inject() (config : Config) {
 
+  def at = getAssetPath _
+
   def getAssetPath(file:String) : Call = {
     val playAsset : Call = PlayAssetRouter.at(file)
     playAsset.copy(

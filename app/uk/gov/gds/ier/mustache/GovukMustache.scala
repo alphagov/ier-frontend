@@ -2,8 +2,11 @@ package uk.gov.gds.ier.mustache
 
 import controllers.routes.Assets
 import controllers.routes.RegisterToVoteController
+import controllers.RemoteAssets
+import uk.gov.gds.ier.guice.WithRemoteAssets
 
 trait GovukMustache {
+  self: WithRemoteAssets =>
 
   object Govuk extends StepMustache {
 
@@ -21,12 +24,12 @@ trait GovukMustache {
       Mustache.render(
         "govuk/stylesheets",
         Stylesheets(
-          mainstream = Assets.at("stylesheets/mainstream.css").url,
-          print = Assets.at("stylesheets/print.css").url,
-          ie8 = Assets.at("stylesheets/application-ie8.css").url,
-          ie7 = Assets.at("stylesheets/application-ie7.css").url,
-          ie6 = Assets.at("stylesheets/application-ie6.css").url,
-          application = Assets.at("stylesheets/application.css").url
+          mainstream = remoteAssets.at("stylesheets/mainstream.css").url,
+          print = remoteAssets.at("stylesheets/print.css").url,
+          ie8 = remoteAssets.at("stylesheets/application-ie8.css").url,
+          ie7 = remoteAssets.at("stylesheets/application-ie7.css").url,
+          ie6 = remoteAssets.at("stylesheets/application-ie6.css").url,
+          application = remoteAssets.at("stylesheets/application.css").url
         )
       )
     }
@@ -35,8 +38,8 @@ trait GovukMustache {
       Mustache.render(
         "govuk/scripts",
         Scripts(
-          jquery = Assets.at("javascripts/vendor/jquery/jquery-1.10.1.min.js").url,
-          core = Assets.at("javascripts/core.js").url
+          jquery = remoteAssets.at("javascripts/vendor/jquery/jquery-1.10.1.min.js").url,
+          core = remoteAssets.at("javascripts/core.js").url
         )
       )
     }

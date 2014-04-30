@@ -27,7 +27,7 @@ class Config extends Logging {
   def cookiesAesKey = configuration.getString("ier.cookies.aes.encryptionKey")
   def cookiesSecured = configuration.getBoolean("ier.cookies.secured", false)
 
-  def assetsPath = configuration.getString("assets.path").stripSuffix("/") + "/"
+  def assetsPath = configuration.getString("assets.path")
 
   def logConfiguration() = {
     logger.debug(s"apiTimeout:$apiTimeout")
