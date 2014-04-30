@@ -391,12 +391,14 @@ class PreviousAddressYesFormTests
     )
     manualStepForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(2)
+        hasErrors.errors.size should be(4)
         // empty postcode does not have user friendly message
         // we assume UI guarantees it is present from previous step
-        hasErrors.globalErrorMessages should be(Seq("error.required"))
+        hasErrors.globalErrorMessages should be(Seq("Your postcode is not valid", "Please answer this question"))
+        println (hasErrors.keyedErrorsAsMap)
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.postcode" -> Seq("error.required")
+          "previousAddress.previousAddress.postcode" -> Seq("Your postcode is not valid"),
+          "previousAddress.previousAddress.manualAddress" -> Seq("Please answer this question")
         ))
       },
       success => fail("Should have errored out")
