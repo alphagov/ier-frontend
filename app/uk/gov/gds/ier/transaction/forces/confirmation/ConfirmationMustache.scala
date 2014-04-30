@@ -119,6 +119,14 @@ trait ConfirmationMustache {
       }
     }
 
+    def ifComplete(keys:Key*)(confirmationHtml: => String) = {
+      if (keys.exists(form(_).hasErrors)) {
+        completeThisStepMessage
+      } else {
+        confirmationHtml
+      }
+    }
+
     def name = {
       Some(ConfirmationQuestion(
         title = "Name",
@@ -292,7 +300,7 @@ trait ConfirmationMustache {
         title = "UK previous registration address",
         editLink = routes.PreviousAddressFirstController.editGet.url,
         changeName = "your UK previous registration address",
-        content = ifComplete(keys.previousAddress) {
+        content = ifComplete(keys.previousAddress, keys.previousAddress.movedRecently) {
           val moved = form(keys.previousAddress.movedRecently).value.map { str =>
             MovedHouseOption.parse(str).hasPreviousAddress
           }.getOrElse(false)

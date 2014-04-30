@@ -95,4 +95,16 @@ class ConfirmationFormTests
             }
         )
   }
+
+  it should "error out on previous address when movedHouse" in {
+    val errorMessage = Seq("Please complete this step")
+    confirmationForm.fillAndValidate(completeForcesApplication.copy(
+        previousAddress = Some(PartialPreviousAddress(Some(MovedHouseOption.MovedFromUk), None))
+     )).fold (
+      hasErrors => {
+        hasErrors.errorMessages(keys.previousAddress.movedRecently.key) should be(Seq("Not a valid option"))
+      },
+      success => fail("Should have errored out")
+    )
+  }
 }

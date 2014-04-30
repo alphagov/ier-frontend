@@ -47,8 +47,8 @@ class PreviousAddressSelectStep @Inject() (
 
     currentState.copy(
       previousAddress = Some(PartialPreviousAddress(
-        movedRecently = Some(MovedHouseOption.MovedFromUk),
-        addressWithAddressLine
+        movedRecently = Some(MovedHouseOption.Yes),
+        previousAddress = addressWithAddressLine
       )),
       possibleAddresses = None
     )
