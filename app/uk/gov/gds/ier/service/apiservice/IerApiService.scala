@@ -126,14 +126,14 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       lastRegisteredToVote = applicant.lastRegisteredToVote,
       dob = applicant.dob,
       nino = applicant.nino,
-      lastUkAddress = Some(fullLastUkRegAddress.getOrElse(fullParentRegAddress.get)),
+      lastUkAddress = fullLastUkRegAddress.orElse(fullParentRegAddress),
       address = applicant.address,
       openRegisterOptin = applicant.openRegisterOptin,
       postalOrProxyVote = applicant.postalOrProxyVote,
       passport = applicant.passport,
       contact = applicant.contact,
       referenceNumber = refNum,
-      authority = Some(currentAuthority.getOrElse(currentAuthorityParents.get)),
+      authority = currentAuthority.orElse(currentAuthorityParents),
       ip = ip
     )
 
