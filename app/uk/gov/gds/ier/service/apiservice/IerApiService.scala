@@ -2,8 +2,12 @@ package uk.gov.gds.ier.service.apiservice
 
 import com.google.inject.Inject
 import uk.gov.gds.ier.client.{StatsdClient, IerApiClient}
-
-import uk.gov.gds.ier.model.{PreviouslyRegistered, MovedHouseOption, Fail, Success}
+import uk.gov.gds.ier.model.{
+  LastRegisteredToVote,
+  LastRegisteredType,
+  MovedHouseOption,
+  Fail,
+  Success}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
@@ -69,14 +73,16 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       addressService.formFullAddress(prevAddress.previousAddress)
     }
 
-    val previouslyRegistered = applicant.previousAddress.flatMap(_.movedRecently) match {
-      case Some(MovedHouseOption.MovedFromAbroadRegistered) => Some(PreviouslyRegistered(true))
+    val lastRegistered = applicant.previousAddress.flatMap(_.movedRecently) match {
+      case Some(MovedHouseOption.MovedFromAbroadRegistered) => {
+        Some(LastRegisteredToVote(LastRegisteredType.Overseas))
+      }
       case _ => None
     }
 
     val completeApplication = OrdinaryApplication(
       name = applicant.name,
-      previouslyRegistered = previouslyRegistered,
+      lastRegisteredToVote = lastRegistered,
       previousName = applicant.previousName,
       dob = applicant.dob,
       nationality = isoCodes,
