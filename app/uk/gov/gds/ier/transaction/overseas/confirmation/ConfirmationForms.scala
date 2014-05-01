@@ -60,7 +60,7 @@ trait ConfirmationForms
       keys.dateLeftSpecial.key -> optional(dateLeftSpecialTypeMapping),
       keys.dateLeftUk.key -> optional(dateLeftUkMapping),
       keys.overseasParentName.key -> optional(overseasParentNameMapping),
-      keys.lastRegisteredToVote.key -> optional(lastRegisteredToVoteMapping),
+      keys.lastRegisteredToVote.key -> optional(LastRegisteredToVote.mapping),
       keys.dob.key -> optional(dobMapping),
       keys.nino.key -> optional(ninoMapping),
       keys.lastUkAddress.key -> optional(partialAddressMapping),

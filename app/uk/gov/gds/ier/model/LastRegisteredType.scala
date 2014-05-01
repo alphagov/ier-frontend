@@ -4,7 +4,7 @@ import scala.util.Try
 
 sealed case class LastRegisteredType(name:String)
 
-object LastRegisteredType {
+object LastRegisteredType extends ModelMapping {
   val Ordinary = LastRegisteredType("ordinary")
   val Forces = LastRegisteredType("forces")
   val Crown = LastRegisteredType("crown")
@@ -27,4 +27,21 @@ object LastRegisteredType {
       case _ => throw new IllegalArgumentException(s"$str not a valid LastRegisteredType")
     }
   }
+
+  import playMappings._
+
+  def mapping = text.verifying(
+    Constraint[String]("LastRegisteredType") { str =>
+      if(LastRegisteredType.isValid(str)) {
+        Valid
+      } else {
+        Invalid(
+          s"$str is not a valid registration type"
+        )
+      }
+    }
+  ).transform[LastRegisteredType](
+    str => LastRegisteredType.parse(str),
+    lastReg => lastReg.name
+  )
 }

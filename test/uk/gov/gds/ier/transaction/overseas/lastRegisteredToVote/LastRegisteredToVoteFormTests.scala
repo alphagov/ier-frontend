@@ -67,10 +67,7 @@ class LastRegisteredToVoteFormTests
         hasErrors.errorMessages("lastRegisteredToVote.registeredType") should be(
           Seq("blarghh is not a valid registration type")
         )
-        hasErrors.errorMessages("lastRegisteredToVote") should be(
-          Seq("blarghh is not a valid registration type")
-        )
-        hasErrors.errors.size should be(3)
+        hasErrors.errors.size should be(2)
         hasErrors.globalErrorMessages should be(Seq("blarghh is not a valid registration type"))
       },
       success => fail("Should have errored out.")
