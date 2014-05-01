@@ -16,15 +16,6 @@ trait AddressFirstForms extends AddressFirstConstraints {
 
   val addressFirstForm = ErrorTransformForm(
     addressForm.mapping.verifying(addressYesNoIsNotEmpty)
-//    mapping (
-//      keys.address.key -> optional(LastUkAddress.mapping)
-//    ) (
-//      addressYesNo => InprogressForces(
-//        address = addressYesNo
-//      )
-//    ) (
-//      inprogress => Some(inprogress.address)
-//    ).verifying( addressYesNoIsNotEmpty )
   )
 }
 

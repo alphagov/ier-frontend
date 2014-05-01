@@ -158,7 +158,7 @@ trait AddressConstraints extends CommonConstraints {
     inprogress =>
       inprogress.address match {
         case Some(partialAddress)
-          if partialAddress.address.exists(_.postcode != "")
+          if partialAddress.address.exists(_.postcode.nonEmpty)
           && (partialAddress.address.flatMap(_.uprn).isDefined
           ||  partialAddress.address.flatMap(_.manualAddress).isDefined) => {
           Valid
