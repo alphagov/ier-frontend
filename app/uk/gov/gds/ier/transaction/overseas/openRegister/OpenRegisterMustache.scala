@@ -10,13 +10,13 @@ trait OpenRegisterMustache extends StepTemplate[InprogressOverseas] {
   case class OpenRegisterModel(
       question:Question,
       openRegister: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("overseas/openRegister") { (form, post) =>
 
     implicit val progressForm = form
 
-    val data = OpenRegisterModel(
+    OpenRegisterModel(
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
@@ -27,6 +27,5 @@ trait OpenRegisterMustache extends StepTemplate[InprogressOverseas] {
         value = "false"
       )
     )
-    MustacheData(data, title)
   }
 }

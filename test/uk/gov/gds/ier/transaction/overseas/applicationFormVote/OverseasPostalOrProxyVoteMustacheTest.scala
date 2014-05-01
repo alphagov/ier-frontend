@@ -30,7 +30,7 @@ class OverseasPostalOrProxyVoteMustacheTest
       emptyApplicationForm,
       PostalVoteController.post,
       InprogressOverseas()
-    ).data.asInstanceOf[PostalOrProxyVoteModel]
+    ).asInstanceOf[PostalOrProxyVoteModel]
 
     postalOrProxyVoteModel.question.title should be(
       "Do you want us to send you a postal vote application form?")
@@ -64,7 +64,7 @@ class OverseasPostalOrProxyVoteMustacheTest
       partiallyFilledApplicationForm,
       PostalVoteController.post,
       InprogressOverseas()
-    ).data.asInstanceOf[PostalOrProxyVoteModel]
+    ).asInstanceOf[PostalOrProxyVoteModel]
 
     postalOrProxyVoteModel.question.title should be(
       "Do you want us to send you a postal vote application form?")
@@ -99,7 +99,7 @@ class OverseasPostalOrProxyVoteMustacheTest
       partiallyFilledApplicationFormWithErrors,
       PostalVoteController.post,
       InprogressOverseas()
-    ).data.asInstanceOf[PostalOrProxyVoteModel]
+    ).asInstanceOf[PostalOrProxyVoteModel]
 
     postalOrProxyVoteModel.question.title should be(
       "Do you want us to send you a postal vote application form?")

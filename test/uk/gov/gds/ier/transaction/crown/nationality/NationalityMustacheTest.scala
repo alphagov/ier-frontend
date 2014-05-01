@@ -23,7 +23,7 @@ class NationalityMustacheTest
       emptyApplicationForm,
       NationalityController.post,
       InprogressCrown()
-    ).data.asInstanceOf[NationalityModel]
+    ).asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/crown/nationality")
@@ -55,7 +55,7 @@ class NationalityMustacheTest
       partiallyFilledApplicationForm,
       NationalityController.post,
       InprogressCrown()
-    ).data.asInstanceOf[NationalityModel]
+    ).asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/crown/nationality")
@@ -85,7 +85,7 @@ class NationalityMustacheTest
       partiallyFilledApplicationForm,
       NationalityController.post,
       InprogressCrown()
-    ).data.asInstanceOf[NationalityModel]
+    ).asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/crown/nationality")
@@ -115,7 +115,7 @@ class NationalityMustacheTest
       partiallyFilledApplicationForm,
       NationalityController.post,
       InprogressCrown()
-    ).data.asInstanceOf[NationalityModel]
+    ).asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/crown/nationality")
@@ -146,7 +146,7 @@ class NationalityMustacheTest
       partiallyFilledApplicationForm,
       NationalityController.post,
       InprogressCrown()
-    ).data.asInstanceOf[NationalityModel]
+    ).asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/crown/nationality")
@@ -177,7 +177,7 @@ class NationalityMustacheTest
       partiallyFilledApplicationForm,
       NationalityController.post,
       InprogressCrown()
-    ).data.asInstanceOf[NationalityModel]
+    ).asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/crown/nationality")
@@ -209,7 +209,7 @@ class NationalityMustacheTest
       partiallyFilledApplicationForm,
       NationalityController.post,
       InprogressCrown()
-    ).data.asInstanceOf[NationalityModel]
+    ).asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/crown/nationality")

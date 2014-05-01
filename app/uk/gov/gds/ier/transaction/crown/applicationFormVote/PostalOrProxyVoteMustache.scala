@@ -21,7 +21,7 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressCrown] {
       voteDeliveryMethodEmail: Field,
       voteDeliveryMethodPost: Field,
       voteEmailAddress: Field,
-      voteType: Field)
+      voteType: Field) extends MustacheData
 
   val mustache = MustacheTemplate("crown/postalOrProxyVote") {
     (form, postUrl) =>
@@ -35,7 +35,7 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressCrown] {
     }
     val title = s"Do you want us to send you a $wayToVoteName vote application form?"
 
-    val data = PostalOrProxyVoteModel(
+    PostalOrProxyVoteModel(
       question = Question(
         postUrl = postUrl.url,
         errorMessages = form.globalErrors.map{ _.message },
@@ -83,6 +83,5 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressCrown] {
         value = wayToVote.name
       )
     )
-    MustacheData(data, title)
   }
 }

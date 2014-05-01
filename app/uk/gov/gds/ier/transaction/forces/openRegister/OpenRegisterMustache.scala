@@ -7,12 +7,13 @@ trait OpenRegisterMustache extends StepTemplate[InprogressForces] {
 
   case class OpenRegisterModel(
     question:Question,
-    openRegister: Field)
+    openRegister: Field
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("forces/openRegister") { (form, post) =>
     implicit val progressForm = form
     val title = "Do you want to include your name and address on the open register?"
-    val data = OpenRegisterModel(
+    OpenRegisterModel(
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
@@ -24,6 +25,5 @@ trait OpenRegisterMustache extends StepTemplate[InprogressForces] {
         value = "false"
       )
     )
-    MustacheData(data, title)
   }
 }

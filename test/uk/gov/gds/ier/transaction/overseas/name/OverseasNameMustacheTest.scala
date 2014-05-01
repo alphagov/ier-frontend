@@ -21,7 +21,7 @@ class OverseasNameMustacheTest
       emptyApplicationForm,
       new Call("POST", "/register-to-vote/overseas/name"),
       InprogressOverseas()
-    ).data.asInstanceOf[NameModel]
+    ).asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/overseas/name")
@@ -47,7 +47,7 @@ class OverseasNameMustacheTest
       partiallyFilledApplicationForm,
       new Call("POST", "/register-to-vote/overseas/name"),
       InprogressOverseas()
-      ).data.asInstanceOf[NameModel]
+      ).asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/overseas/name")
@@ -81,7 +81,7 @@ class OverseasNameMustacheTest
       partiallyFilledApplicationForm,
       new Call("POST", "/register-to-vote/overseas/name"),
       InprogressOverseas()
-    ).data.asInstanceOf[NameModel]
+    ).asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/overseas/name")
@@ -107,7 +107,7 @@ class OverseasNameMustacheTest
       partiallyFilledApplicationFormWithErrors,
       new Call("POST", "/register-to-vote/overseas/name"),
       InprogressOverseas()
-    ).data.asInstanceOf[NameModel]
+    ).asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/overseas/name")

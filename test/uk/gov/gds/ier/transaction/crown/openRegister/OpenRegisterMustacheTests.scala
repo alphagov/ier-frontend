@@ -12,7 +12,7 @@ class OpenRegisterMustacheTests
   with OpenRegisterForms
   with ErrorMessages
   with FormKeys
-  with TestHelpers 
+  with TestHelpers
   with OpenRegisterMustache {
 
   it should "empty progress form should produce empty Model" in {
@@ -21,7 +21,7 @@ class OpenRegisterMustacheTests
       emptyApplicationForm,
       OpenRegisterController.post,
       InprogressCrown()
-    ).data.asInstanceOf[OpenRegisterModel]
+    ).asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be(
         "Do you want to include your name and address on the open register?")
@@ -41,7 +41,7 @@ class OpenRegisterMustacheTests
       partiallyFilledApplicationForm,
       OpenRegisterController.post,
       InprogressCrown()
-    ).data.asInstanceOf[OpenRegisterModel]
+    ).asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be(
         "Do you want to include your name and address on the open register?")
@@ -61,7 +61,7 @@ class OpenRegisterMustacheTests
       partiallyFilledApplicationForm,
       OpenRegisterController.post,
       InprogressCrown()
-    ).data.asInstanceOf[OpenRegisterModel]
+    ).asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be(
         "Do you want to include your name and address on the open register?")

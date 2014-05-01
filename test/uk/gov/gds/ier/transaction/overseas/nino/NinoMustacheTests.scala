@@ -23,7 +23,7 @@ class NinoMustacheTests
       emptyApplicationForm,
       NinoController.post,
       InprogressOverseas()
-    ).data.asInstanceOf[NinoModel]
+    ).asInstanceOf[NinoModel]
 
     ninoModel.question.title should be("What is your National Insurance number?")
     ninoModel.question.postUrl should be("/register-to-vote/overseas/nino")
@@ -42,7 +42,7 @@ class NinoMustacheTests
       partiallyFilledApplicationForm,
       NinoController.post,
       InprogressOverseas()
-    ).data.asInstanceOf[NinoModel]
+    ).asInstanceOf[NinoModel]
 
     ninoModel.question.title should be("What is your National Insurance number?")
     ninoModel.question.postUrl should be("/register-to-vote/overseas/nino")
@@ -61,7 +61,7 @@ class NinoMustacheTests
       partiallyFilledApplicationForm,
       NinoController.post,
       InprogressOverseas()
-    ).data.asInstanceOf[NinoModel]
+    ).asInstanceOf[NinoModel]
 
     ninoModel.question.title should be("What is your National Insurance number?")
     ninoModel.question.postUrl should be("/register-to-vote/overseas/nino")
@@ -80,7 +80,7 @@ class NinoMustacheTests
       partiallyFilledApplicationForm,
       NinoController.post,
       InprogressOverseas()
-    ).data.asInstanceOf[NinoModel]
+    ).asInstanceOf[NinoModel]
 
     ninoModel.question.title should be("What is your National Insurance number?")
     ninoModel.question.postUrl should be("/register-to-vote/overseas/nino")

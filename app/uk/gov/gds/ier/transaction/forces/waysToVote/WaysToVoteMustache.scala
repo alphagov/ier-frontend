@@ -12,12 +12,12 @@ trait WaysToVoteMustache extends StepTemplate[InprogressForces] {
     byPost: Field,
     byProxy: Field,
     inPerson: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("forces/waysToVote") { (form, post) =>
     implicit val progressForm = form
 
-    val data = WaysToVoteModel(
+    WaysToVoteModel(
       question = Question(
         postUrl = post.url,
         number = "12",
@@ -33,7 +33,5 @@ trait WaysToVoteMustache extends StepTemplate[InprogressForces] {
         key = keys.waysToVote.wayType,
         value = "in-person")
     )
-
-    MustacheData(data, pageTitle)
   }
 }

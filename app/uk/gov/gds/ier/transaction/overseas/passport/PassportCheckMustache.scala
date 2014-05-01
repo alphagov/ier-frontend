@@ -15,13 +15,13 @@ trait PassportCheckMustache extends StepTemplate[InprogressOverseas] {
       bornInUk: Field,
       bornInUkTrue: Field,
       bornInUkFalse: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("overseas/passportCheck") { (form, post) =>
 
     implicit val progressForm = form
 
-    val data = PassportCheckModel(
+    PassportCheckModel(
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
@@ -55,7 +55,6 @@ trait PassportCheckMustache extends StepTemplate[InprogressOverseas] {
         value = "false"
       )
     )
-    MustacheData(data, title)
   }
 }
 

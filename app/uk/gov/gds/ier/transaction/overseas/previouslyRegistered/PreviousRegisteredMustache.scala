@@ -12,7 +12,7 @@ trait PreviousRegisteredMustache extends StepTemplate[InprogressOverseas] {
       previouslyRegistered: FieldSet,
       previouslyRegisteredTrue: Field,
       previouslyRegisteredFalse: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("overseas/previouslyRegistered") { (form, post) =>
 
@@ -20,7 +20,7 @@ trait PreviousRegisteredMustache extends StepTemplate[InprogressOverseas] {
 
     val prevRegKey = keys.previouslyRegistered.hasPreviouslyRegistered
 
-    val data = PreviouslyRegisteredModel(
+    PreviouslyRegisteredModel(
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
@@ -41,6 +41,5 @@ trait PreviousRegisteredMustache extends StepTemplate[InprogressOverseas] {
         attributes = if (form(prevRegKey).value == Some("false")) "checked=\"checked\"" else ""
       )
     )
-    MustacheData(data, title)
   }
 }

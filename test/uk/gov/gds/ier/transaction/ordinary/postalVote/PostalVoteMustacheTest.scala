@@ -25,7 +25,7 @@ class PostalVoteMustacheTest
       emptyApplicationForm,
       PostalVoteController.post,
       InprogressOrdinary()
-    ).data.asInstanceOf[PostalVoteModel]
+    ).asInstanceOf[PostalVoteModel]
 
     postalVoteModel.question.title should be("Do you want to apply for a postal vote?")
     postalVoteModel.question.postUrl should be("/register-to-vote/postal-vote")
@@ -48,7 +48,7 @@ class PostalVoteMustacheTest
       partiallyFilledApplicationForm,
       PostalVoteController.post,
       InprogressOrdinary()
-    ).data.asInstanceOf[PostalVoteModel]
+    ).asInstanceOf[PostalVoteModel]
 
     postalVoteModel.question.title should be("Do you want to apply for a postal vote?")
     postalVoteModel.question.postUrl should be("/register-to-vote/postal-vote")
@@ -59,8 +59,8 @@ class PostalVoteMustacheTest
     postalVoteModel.deliveryByPost.attributes should be("")
     postalVoteModel.emailField.value should be("")
   }
-  
-  it should "progress form with yes for postal vote and post for delivery method " + 
+
+  it should "progress form with yes for postal vote and post for delivery method " +
     "should produce form with values" in {
     val partiallyFilledApplicationForm = postalVoteForm.fill(InprogressOrdinary(
       postalVote = Some(PostalVote(
@@ -71,7 +71,7 @@ class PostalVoteMustacheTest
       partiallyFilledApplicationForm,
       PostalVoteController.post,
       InprogressOrdinary()
-    ).data.asInstanceOf[PostalVoteModel]
+    ).asInstanceOf[PostalVoteModel]
 
     postalVoteModel.question.title should be("Do you want to apply for a postal vote?")
     postalVoteModel.question.postUrl should be("/register-to-vote/postal-vote")
@@ -81,21 +81,21 @@ class PostalVoteMustacheTest
     postalVoteModel.deliveryByEmail.attributes should be("")
     postalVoteModel.deliveryByPost.attributes should be("checked=\"checked\"")
     postalVoteModel.emailField.value should be("")
-  }  
-  
-  it should "progress form with yes for postal vote and email for delivery method " + 
+  }
+
+  it should "progress form with yes for postal vote and email for delivery method " +
     "should produce form with values" in {
     val partiallyFilledApplicationForm = postalVoteForm.fill(InprogressOrdinary(
       postalVote = Some(PostalVote(
         postalVoteOption = Some(true),
-        deliveryMethod = Some(PostalVoteDeliveryMethod(deliveryMethod = Some("email"), 
+        deliveryMethod = Some(PostalVoteDeliveryMethod(deliveryMethod = Some("email"),
             emailAddress = Some("test@test.com")))))))
 
     val postalVoteModel = mustache.data(
       partiallyFilledApplicationForm,
       PostalVoteController.post,
       InprogressOrdinary()
-    ).data.asInstanceOf[PostalVoteModel]
+    ).asInstanceOf[PostalVoteModel]
 
     postalVoteModel.question.title should be("Do you want to apply for a postal vote?")
     postalVoteModel.question.postUrl should be("/register-to-vote/postal-vote")
@@ -105,5 +105,5 @@ class PostalVoteMustacheTest
     postalVoteModel.deliveryByEmail.attributes should be("checked=\"checked\"")
     postalVoteModel.deliveryByPost.attributes should be("")
     postalVoteModel.emailField.value should be("test@test.com")
-  }  
+  }
 }

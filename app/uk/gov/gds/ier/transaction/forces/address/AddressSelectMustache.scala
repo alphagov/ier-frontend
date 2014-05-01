@@ -21,7 +21,8 @@ trait AddressSelectMustache extends StepTemplate[InprogressForces] {
      address: Field,
      possibleJsonList: Field,
      possiblePostcode: Field,
-     hasAddresses: Boolean)
+     hasAddresses: Boolean
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("forces/addressSelect") { (form, postUrl) =>
     implicit val progressForm = form
@@ -81,7 +82,7 @@ trait AddressSelectMustache extends StepTemplate[InprogressForces] {
       }
     )
 
-    val data = SelectModel(
+    SelectModel(
       question = Question(
         postUrl = postUrl.url,
         number = questionNumber,
@@ -104,8 +105,6 @@ trait AddressSelectMustache extends StepTemplate[InprogressForces] {
       ),
       hasAddresses = hasAddresses
     )
-
-    MustacheData(data, title)
   }
 }
 

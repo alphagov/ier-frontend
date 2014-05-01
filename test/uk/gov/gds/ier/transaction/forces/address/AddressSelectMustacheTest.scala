@@ -34,7 +34,7 @@ class AddressSelectMustacheTest
       emptyApplicationForm,
       Call("POST","/register-to-vote/forces/address/select"),
       InprogressForces()
-    ).data.asInstanceOf[SelectModel]
+    ).asInstanceOf[SelectModel]
 
     addressModel.question.title should be("What is your UK address?")
     addressModel.question.postUrl should be("/register-to-vote/forces/address/select")
@@ -63,7 +63,7 @@ class AddressSelectMustacheTest
       partiallyFilledApplicationForm,
       Call("POST","/register-to-vote/forces/address/select"),
       InprogressForces()
-    ).data.asInstanceOf[SelectModel]
+    ).asInstanceOf[SelectModel]
 
 
     addressModel.question.title should be("What is your UK address?")

@@ -15,14 +15,15 @@ trait AddressManualMustache extends StepTemplate[InprogressForces] {
      maLineOne: Field,
      maLineTwo: Field,
      maLineThree: Field,
-     maCity: Field)
+     maCity: Field
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("forces/addressManual") { (form, postUrl) =>
     implicit val progressForm = form
   
     val title = "What is your UK address?"
 
-    val data = ManualModel(
+    ManualModel(
       question = Question(
         postUrl = postUrl.url,
         number = questionNumber,
@@ -34,9 +35,8 @@ trait AddressManualMustache extends StepTemplate[InprogressForces] {
       maLineOne = TextField(keys.address.manualAddress.lineOne),
       maLineTwo = TextField(keys.address.manualAddress.lineTwo),
       maLineThree = TextField(keys.address.manualAddress.lineThree),
-      maCity = TextField(keys.address.manualAddress.city))
-
-    MustacheData(data, title)
+      maCity = TextField(keys.address.manualAddress.city)
+    )
   }
 }
 

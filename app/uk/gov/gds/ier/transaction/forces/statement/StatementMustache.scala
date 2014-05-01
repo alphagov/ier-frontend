@@ -10,13 +10,13 @@ trait StatementMustache extends StepTemplate[InprogressForces] {
       statementFieldSet: FieldSet,
       statementMemberForcesCheckbox: Field,
       statementPartnerForcesCheckbox: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("forces/statement") { (form, postEndpoint) =>
     implicit val progressForm = form
 
     val title = "Which of these statements applies to you?"
-    val data = StatementModel(
+    StatementModel(
       question = Question(
         postUrl = postEndpoint.url,
         errorMessages = form.globalErrors.map{ _.message },
@@ -33,7 +33,5 @@ trait StatementMustache extends StepTemplate[InprogressForces] {
         key = keys.statement.partnerForcesMember, value = "true"
       )
     )
-
-    MustacheData(data, title)
   }
 }

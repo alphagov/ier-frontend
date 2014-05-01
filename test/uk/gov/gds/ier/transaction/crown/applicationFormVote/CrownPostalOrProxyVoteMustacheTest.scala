@@ -29,7 +29,7 @@ class CrownPostalOrProxyVoteMustacheTest
       emptyApplicationForm,
       PostalVoteController.post,
       InprogressCrown()
-    ).data.asInstanceOf[PostalOrProxyVoteModel]
+    ).asInstanceOf[PostalOrProxyVoteModel]
 
     postalOrProxyVoteModel.question.title should be(
       "Do you want us to send you a postal vote application form?")
@@ -63,7 +63,7 @@ class CrownPostalOrProxyVoteMustacheTest
       partiallyFilledApplicationForm,
       PostalVoteController.post,
       InprogressCrown()
-    ).data.asInstanceOf[PostalOrProxyVoteModel]
+    ).asInstanceOf[PostalOrProxyVoteModel]
 
     postalOrProxyVoteModel.question.title should be(
       "Do you want us to send you a postal vote application form?")
@@ -98,7 +98,7 @@ class CrownPostalOrProxyVoteMustacheTest
       partiallyFilledApplicationFormWithErrors,
       PostalVoteController.post,
       InprogressCrown()
-    ).data.asInstanceOf[PostalOrProxyVoteModel]
+    ).asInstanceOf[PostalOrProxyVoteModel]
 
     postalOrProxyVoteModel.question.title should be(
       "Do you want us to send you a postal vote application form?")

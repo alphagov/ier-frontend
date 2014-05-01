@@ -16,13 +16,13 @@ trait LastRegisteredToVoteMustache extends StepTemplate[InprogressOverseas] {
       crownServant:Field,
       britishCouncil:Field,
       notRegistered:Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("overseas/lastRegisteredToVote") { (form, post) =>
 
     implicit val progressForm = form
 
-    val data = LastRegisteredModel(
+    LastRegisteredModel(
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
@@ -54,7 +54,5 @@ trait LastRegisteredToVoteMustache extends StepTemplate[InprogressOverseas] {
         value = LastRegisteredType.NotRegistered.name
       )
     )
-
-    MustacheData(data, title)
   }
 }

@@ -27,7 +27,7 @@ class ContactMustacheTests
       emptyApplicationForm,
       ContactController.post,
       InprogressOverseas()
-    ).data.asInstanceOf[ContactModel]
+    ).asInstanceOf[ContactModel]
 
     contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/overseas/contact")
@@ -40,7 +40,7 @@ class ContactMustacheTests
   }
 
   it should "progress form with filled email should produce Mustache Model with email value present" in {
-    val partiallyFilledApplication = 
+    val partiallyFilledApplication =
       InprogressOverseas(
         contact = Some(
           Contact(
@@ -56,7 +56,7 @@ class ContactMustacheTests
       partiallyFilledApplicationForm,
       ContactController.post,
       InprogressOverseas()
-    ).data.asInstanceOf[ContactModel]
+    ).asInstanceOf[ContactModel]
 
     contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/overseas/contact")
@@ -69,7 +69,7 @@ class ContactMustacheTests
   }
 
   it should "progress form with filled phone should produce Mustache Model with phone value present" in {
-    val partiallyFilledApplication = 
+    val partiallyFilledApplication =
       InprogressOverseas(
         contact = Some(
           Contact(
@@ -85,7 +85,7 @@ class ContactMustacheTests
       partiallyFilledApplicationForm,
       ContactController.post,
       InprogressOverseas()
-    ).data.asInstanceOf[ContactModel]
+    ).asInstanceOf[ContactModel]
 
     contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/overseas/contact")
@@ -98,7 +98,7 @@ class ContactMustacheTests
   }
 
   it should "progress form with filled phone and post option should produce Mustache Model with phone and post values present" in {
-    val partiallyFilledApplication = 
+    val partiallyFilledApplication =
       InprogressOverseas(
         contact = Some(
           Contact(
@@ -114,7 +114,7 @@ class ContactMustacheTests
       partiallyFilledApplicationForm,
       ContactController.post,
       InprogressOverseas()
-    ).data.asInstanceOf[ContactModel]
+    ).asInstanceOf[ContactModel]
 
     contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/overseas/contact")
@@ -127,7 +127,7 @@ class ContactMustacheTests
   }
 
   it should "progress form with validation errors should produce Model with error list present" in {
-    val partiallyFilledApplication = 
+    val partiallyFilledApplication =
       InprogressOverseas(
         contact = Some(
           Contact(
@@ -143,7 +143,7 @@ class ContactMustacheTests
       partiallyFilledApplicationForm,
       ContactController.post,
       InprogressOverseas()
-    ).data.asInstanceOf[ContactModel]
+    ).asInstanceOf[ContactModel]
 
     contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/overseas/contact")

@@ -41,7 +41,7 @@ class DeclarationPdfTemplateTest
         pdfFileSize = "999KB"
       )
 
-      val templateName = mustache.asInstanceOf[MustacheTemplate[InprogressCrown]].mustachePath
+      val templateName = mustache.asInstanceOf[MustacheTemplate].mustachePath
       val html = Mustache.render(templateName, data)
       val renderedContent = html.toString
       val doc = Jsoup.parse(renderedContent)

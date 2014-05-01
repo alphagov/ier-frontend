@@ -16,13 +16,13 @@ trait CitizenDetailsMustache extends StepTemplate[InprogressOverseas] {
       citizenDateDay: Field,
       citizenDateMonth: Field,
       citizenDateYear: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("overseas/citizenDetails") { (form, post) =>
 
     implicit val progressForm = form
 
-    val data = CitizenDetailsModel(
+    CitizenDetailsModel(
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
@@ -42,7 +42,6 @@ trait CitizenDetailsMustache extends StepTemplate[InprogressOverseas] {
         } else ""
       )
     )
-    MustacheData(data, title)
   }
 }
 

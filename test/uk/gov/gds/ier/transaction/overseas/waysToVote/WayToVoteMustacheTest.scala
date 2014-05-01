@@ -29,7 +29,7 @@ class WayToVoteMustacheTest
       emptyApplicationForm,
       new Call("POST","/register-to-vote/overseas/ways-to-vote"),
       InprogressOverseas()
-    ).data.asInstanceOf[WaysToVoteModel]
+    ).asInstanceOf[WaysToVoteModel]
 
     model.question.title should be("How do you want to vote?")
     model.question.postUrl should be("/register-to-vote/overseas/ways-to-vote")
@@ -52,7 +52,7 @@ class WayToVoteMustacheTest
       emptyApplicationForm,
       new Call("POST","/register-to-vote/overseas/ways-to-vote"),
       InprogressOverseas()
-    ).data.asInstanceOf[WaysToVoteModel]
+    ).asInstanceOf[WaysToVoteModel]
 
     model.question.title should be("How do you want to vote?")
     model.question.postUrl should be("/register-to-vote/overseas/ways-to-vote")

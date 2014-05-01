@@ -30,7 +30,7 @@ class AddressFirstMustacheTest
       emptyApplicationForm,
       Call("GET","url-string-1"),
       InprogressCrown()
-    ).data.asInstanceOf[AddressFirstModel]
+    ).asInstanceOf[AddressFirstModel]
 
     addressFirstModel.question.title should be("Do you have a UK address?")
     addressFirstModel.question.postUrl should be("url-string-1")
@@ -53,7 +53,7 @@ class AddressFirstMustacheTest
       partiallyFilledApplicationForm,
       Call("GET","url-string-1"),
       InprogressCrown()
-    ).data.asInstanceOf[AddressFirstModel]
+    ).asInstanceOf[AddressFirstModel]
 
     addressFirstModel.question.title should be("Do you have a UK address?")
     addressFirstModel.question.postUrl should be("url-string-1")

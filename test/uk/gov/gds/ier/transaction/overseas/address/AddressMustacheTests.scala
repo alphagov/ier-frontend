@@ -31,7 +31,7 @@ class AddressMustacheTest
        emptyApplicationForm,
        postCall,
        InprogressOverseas()
-     ).data.asInstanceOf[AddressModel]
+     ).asInstanceOf[AddressModel]
 
     addressModel.question.title should be(title)
     addressModel.question.postUrl should be(postCall.url)
@@ -58,7 +58,7 @@ class AddressMustacheTest
       filledApplicationForm,
       postCall,
       InprogressOverseas()
-    ).data.asInstanceOf[AddressModel]
+    ).asInstanceOf[AddressModel]
 
     addressModel.question.title should be(title)
     addressModel.question.postUrl should be(postCall.url)
@@ -81,7 +81,7 @@ class AddressMustacheTest
       uncompletedFormWithErrors,
       postCall,
       InprogressOverseas()
-    ).data.asInstanceOf[AddressModel]
+    ).asInstanceOf[AddressModel]
 
     addressModel.question.title should be(title)
     addressModel.question.postUrl should be(postCall.url)
@@ -107,7 +107,7 @@ class AddressMustacheTest
       uncompletedFormWithErrors,
       postCall,
       InprogressOverseas()
-    ).data.asInstanceOf[AddressModel]
+    ).asInstanceOf[AddressModel]
 
 
     addressModel.question.title should be(title)

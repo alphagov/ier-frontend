@@ -17,12 +17,8 @@ trait MustacheModel extends FormKeys {
   )
 
   case class SelectOption(value:String, text:String, selected:String = "")
-  case class Question (
-      postUrl:String = "",
-      number:String = "",
-      title:String = "",
-      errorMessages:Seq[String] = Seq.empty
-  )
+  val Question = uk.gov.gds.ier.mustache.Question
+  type Question = uk.gov.gds.ier.mustache.Question
 
   object SelectField {
     def apply[T<:InprogressApplication[T]]

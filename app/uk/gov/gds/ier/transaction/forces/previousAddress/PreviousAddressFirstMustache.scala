@@ -13,13 +13,13 @@ trait PreviousAddressFirstMustache extends StepTemplate[InprogressForces] {
     question: Question,
     previousYes: Field,
     previousNo: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("forces/previousAddressFirst") { (form, post) =>
 
     implicit val progressForm = form
 
-    val data = PreviousAddressFirstModel(
+    PreviousAddressFirstModel(
       question = Question(
         postUrl = post.url,
         number = questionNumber,
@@ -32,6 +32,5 @@ trait PreviousAddressFirstMustache extends StepTemplate[InprogressForces] {
         key = keys.previousAddress.movedRecently,
         value = MovedHouseOption.NotMoved.name)
     )
-    MustacheData(data, title)
   }
 }

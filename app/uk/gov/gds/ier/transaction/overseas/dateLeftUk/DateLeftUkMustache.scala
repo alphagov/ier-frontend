@@ -13,13 +13,13 @@ trait DateLeftUkMustache extends StepTemplate[InprogressOverseas] {
       dateLeftUkFieldSet: FieldSet,
       dateLeftUkMonth: Field,
       dateLeftUkYear: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("overseas/dateLeftUk") { (form, post) =>
 
     implicit val progressForm = form
 
-    val data = DateLeftUkModel(
+    DateLeftUkModel(
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
@@ -38,8 +38,6 @@ trait DateLeftUkMustache extends StepTemplate[InprogressOverseas] {
         key = keys.dateLeftUk.year
       )
     )
-
-    MustacheData(data, title)
   }
 
   def generateOptionsList (month:String): List[SelectOption] = {

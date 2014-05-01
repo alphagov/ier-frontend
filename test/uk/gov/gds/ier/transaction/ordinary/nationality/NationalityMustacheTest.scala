@@ -25,7 +25,7 @@ class NationalityMustacheTest
       emptyApplicationForm,
       NationalityController.post,
       emptyApplication
-    ).data.asInstanceOf[NationalityModel]
+    ).asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
@@ -58,7 +58,7 @@ class NationalityMustacheTest
       partiallyFilledApplicationForm,
       NationalityController.post,
       partiallyFilledApplication
-    ).data.asInstanceOf[NationalityModel]
+    ).asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
@@ -89,7 +89,7 @@ class NationalityMustacheTest
       partiallyFilledApplicationForm,
       NationalityController.post,
       partiallyFilledApplication
-    ).data.asInstanceOf[NationalityModel]
+    ).asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
@@ -119,7 +119,7 @@ class NationalityMustacheTest
       partiallyFilledApplicationForm,
       NationalityController.post,
       partiallyFilledApplication
-    ).data.asInstanceOf[NationalityModel]
+    ).asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
@@ -150,7 +150,7 @@ class NationalityMustacheTest
       partiallyFilledApplicationForm,
       NationalityController.post,
       partiallyFilledApplication
-    ).data.asInstanceOf[NationalityModel]
+    ).asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
@@ -181,7 +181,7 @@ class NationalityMustacheTest
       partiallyFilledApplicationForm,
       NationalityController.post,
       partiallyFilledApplication
-    ).data.asInstanceOf[NationalityModel]
+    ).asInstanceOf[NationalityModel]
 
     nationalityModel.question.title should be("What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")

@@ -1,9 +1,7 @@
 package uk.gov.gds.ier.transaction.crown.name
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.step.StepTemplate
-import uk.gov.gds.ier.mustache.MustacheTemplate
 
 trait NameMustache extends StepTemplate[InprogressCrown] {
 
@@ -18,13 +16,13 @@ trait NameMustache extends StepTemplate[InprogressCrown] {
       previousFirstName: Field,
       previousMiddleNames: Field,
       previousLastName: Field
-  )
+  ) extends MustacheData
 
   val pageTitle = "What is your full name?"
 
   val mustache = MustacheTemplate("crown/name") { (form, postUrl) =>
     implicit val progressForm = form
-    val data = NameModel(
+    NameModel(
       question = Question(
         postUrl = postUrl.url,
         number = "5",
@@ -55,6 +53,5 @@ trait NameMustache extends StepTemplate[InprogressCrown] {
         key = keys.previousName.previousName.lastName
       )
     )
-    MustacheData(data, pageTitle)
   }
 }
