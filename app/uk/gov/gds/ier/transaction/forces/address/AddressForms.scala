@@ -52,7 +52,7 @@ trait AddressForms extends AddressConstraints {
         inprogress.possibleAddresses
       )
     ).verifying(
-      postcodeIsValid,
+      isPostcodeFormatValid,
       manualAddressLineOneRequired,
       cityIsRequired
     )
@@ -103,12 +103,10 @@ trait AddressConstraints extends CommonConstraints {
       }
   }
 
-  lazy val postcodeIsValid = Constraint[InprogressForces](keys.address.address.key) {
+  lazy val isPostcodeFormatValid = Constraint[InprogressForces](keys.address.address.key) {
     inprogress =>
       val possiblePostcode = inprogress.address.flatMap(_.address).map(_.postcode.trim).getOrElse("")
-      if (possiblePostcode.isEmpty)
-        Valid
-      else if (!PostcodeValidator.isValid(possiblePostcode))
+      if (!PostcodeValidator.isValid(possiblePostcode) && possiblePostcode.nonEmpty)
         Invalid( "Your postcode is not valid",keys.address.address.postcode)
       else Valid
   }

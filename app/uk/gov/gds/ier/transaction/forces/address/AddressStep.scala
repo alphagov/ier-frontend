@@ -44,10 +44,7 @@ class AddressStep @Inject() (
   }
 
   override def isStepComplete(currentState: InprogressForces) = {
-    currentState.address match {
-      case Some(lastUkAddress) if (lastUkAddress.address.exists(!_.postcode.trim.isEmpty)) => true
-      case _ => false
-    }
+    addressService.isPostcodeEmpty(currentState.address)
   }
 
 }

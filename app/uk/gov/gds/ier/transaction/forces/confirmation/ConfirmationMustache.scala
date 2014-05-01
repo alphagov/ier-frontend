@@ -303,9 +303,8 @@ trait ConfirmationMustache {
           editLink = routes.PreviousAddressFirstController.editGet.url,
           changeName = "your UK previous registration address",
           content = ifComplete(keys.previousAddress, keys.previousAddress.movedRecently) {
-            val moved = form(keys.previousAddress.movedRecently).value.map { str =>
-              MovedHouseOption.parse(str).hasPreviousAddress
-            }.getOrElse(false)
+            val moved = form(keys.previousAddress.movedRecently)
+              .value.map(MovedHouseOption.parse(_).hasPreviousAddress).getOrElse(false)
 
             if(moved) {
               val address = if(form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {

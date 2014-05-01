@@ -5,7 +5,7 @@ import uk.gov.gds.ier.test.TestHelpers
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.mockito.{Matchers => MockitoMatchers}
-import uk.gov.gds.ier.model.{PartialManualAddress, Address, PartialAddress}
+import uk.gov.gds.ier.model.{PartialManualAddress, Address, PartialAddress, LastUkAddress}
 
 class AddressServiceTests extends FlatSpec
   with Matchers
@@ -199,5 +199,25 @@ class AddressServiceTests extends FlatSpec
     when(mockLocate.lookupAddress("CCC33 3CC")).thenReturn(List())
 
     addressService.isScotland("CCC33 3CC") should be(false)
+  }
+
+  it should "return true if the postcode is not empty" in {
+
+    val mockLocate = mock[LocateService]
+    val addressService = new AddressService(mockLocate)
+
+    val optAddress = Some(LastUkAddress(hasUkAddress = Some(true),
+    address = Some(PartialAddress(Some("address line"), Some("uprn"), "postcode", None, None))))
+    addressService.isPostcodeEmpty(optAddress) should be (true)
+  }
+
+  it should "return false if the postcode is empty" in {
+
+    val mockLocate = mock[LocateService]
+    val addressService = new AddressService(mockLocate)
+
+    val optAddress = Some(LastUkAddress(hasUkAddress = Some(true),
+    address = Some(PartialAddress(Some("address line"), Some("uprn"), " ", None, None))))
+    addressService.isPostcodeEmpty(optAddress) should be (false)
   }
 }
