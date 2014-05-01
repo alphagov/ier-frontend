@@ -44,7 +44,7 @@ class AddressSelectStep @Inject() (
     }
   }
 
-  override val onSuccess = TransformApplication { currentState =>
+  def fillInAddressAndCleanManualAddress(currentState: InprogressForces) = {
     val addressWithAddressLine = currentState.address.map { lastUkAddress =>
       lastUkAddress.copy (
         address = lastUkAddress.address.map(addressService.fillAddressLine(_).copy(manualAddress = None))
@@ -55,5 +55,8 @@ class AddressSelectStep @Inject() (
       address = addressWithAddressLine,
       possibleAddresses = None
     )
-  } andThen GoToNextIncompleteStep()
+  }
+
+  override val onSuccess = TransformApplication(fillInAddressAndCleanManualAddress) andThen GoToNextIncompleteStep()
+
 }

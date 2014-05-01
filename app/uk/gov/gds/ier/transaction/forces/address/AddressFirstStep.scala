@@ -47,11 +47,13 @@ class AddressFirstStep @Inject ()(
     }
   }
 
-  override val onSuccess = TransformApplication { currentState =>
+  def clearPreviousAddress(currentState: InprogressForces) = {
     if (currentState.address.exists(_.hasUkAddress == Some(false))) {
       currentState.copy(previousAddress = None)
     }
     else currentState
-  } andThen GoToNextStep()
+  }
+
+  override val onSuccess = TransformApplication (clearPreviousAddress) andThen GoToNextStep()
 }
 

@@ -40,7 +40,7 @@ class AddressManualStep @Inject() (
     }
   }
 
-  override val onSuccess = TransformApplication { currentState =>
+  def clearAddressAndUprn(currentState: InprogressForces)= {
     val clearedAddress = currentState.address.map {addr =>
       addr.copy (address = addr.address.map(
         _.copy(uprn = None, addressLine = None)))
@@ -49,5 +49,7 @@ class AddressManualStep @Inject() (
     currentState.copy(
       address = clearedAddress
     )
-  } andThen GoToNextIncompleteStep()
+  }
+
+  override val onSuccess = TransformApplication (clearAddressAndUprn) andThen GoToNextIncompleteStep()
 }
