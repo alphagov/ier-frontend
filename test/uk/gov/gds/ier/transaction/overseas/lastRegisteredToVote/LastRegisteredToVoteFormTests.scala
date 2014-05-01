@@ -142,6 +142,23 @@ class LastRegisteredToVoteFormTests
     )
   }
 
+  it should "bind successfully to uk living abroad" in {
+    val js = Json.toJson(
+      Map(
+        "lastRegisteredToVote.registeredType" -> "overseas"
+      )
+    )
+    lastRegisteredToVoteForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(", ")),
+      success => {
+        success.lastRegisteredToVote.isDefined should be(true)
+        val Some(lastRegisteredToVote) = success.lastRegisteredToVote
+
+        lastRegisteredToVote.lastRegisteredType should be(LastRegisteredType.Overseas)
+      }
+    )
+  }
+
   it should "bind successfully to not-registered" in {
     val js = Json.toJson(
       Map(

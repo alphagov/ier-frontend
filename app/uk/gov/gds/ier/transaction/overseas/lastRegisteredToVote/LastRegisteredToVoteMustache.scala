@@ -12,6 +12,7 @@ trait LastRegisteredToVoteMustache extends StepTemplate[InprogressOverseas] {
       question:Question,
       registeredType:Field,
       ukResident:Field,
+      ukOverseas:Field,
       armedForces:Field,
       crownServant:Field,
       britishCouncil:Field,
@@ -36,6 +37,10 @@ trait LastRegisteredToVoteMustache extends StepTemplate[InprogressOverseas] {
       ukResident = RadioField(
         key = keys.lastRegisteredToVote.registeredType,
         value = LastRegisteredType.Ordinary.name
+      ),
+      ukOverseas = RadioField(
+        key = keys.lastRegisteredToVote.registeredType,
+        value = LastRegisteredType.Overseas.name
       ),
       armedForces = RadioField(
         key = keys.lastRegisteredToVote.registeredType,

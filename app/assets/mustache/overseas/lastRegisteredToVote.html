@@ -15,6 +15,17 @@
             UK resident
         </label>
 
+        <label for="{{ukOverseas.id}}" class="selectable">
+            <input
+              type="radio"
+              id="{{ukOverseas.id}}"
+              name="{{ukOverseas.name}}"
+              value="{{ukOverseas.value}}"
+              class="radio validate"
+              {{{ukOverseas.attributes}}}>
+            UK citizen living abroad
+        </label>
+
         <p>or</p>
 
         <label for="{{armedForces.id}}" class="selectable">

@@ -6,6 +6,7 @@ sealed case class LastRegisteredType(name:String)
 
 object LastRegisteredType extends ModelMapping {
   val Ordinary = LastRegisteredType("ordinary")
+  val Overseas = LastRegisteredType("overseas")
   val Forces = LastRegisteredType("forces")
   val Crown = LastRegisteredType("crown")
   val Council = LastRegisteredType("council")
@@ -20,6 +21,7 @@ object LastRegisteredType extends ModelMapping {
   def parse(str:String) = {
     str match {
       case "ordinary" => Ordinary
+      case "overseas" => Overseas
       case "forces" => Forces
       case "crown" => Crown
       case "council" => Council

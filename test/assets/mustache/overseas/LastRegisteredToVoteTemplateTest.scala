@@ -33,6 +33,13 @@ class LastRegisteredToVoteTemplateTest
           attributes = """ foo="foo" """,
           value = "ukResidentValue"
         ),
+        ukOverseas = Field(
+          id = "ukOverseasId",
+          name = "ukOverseasName",
+          classes = "ukOverseasClasses",
+          attributes = """ foo="foo" """,
+          value = "ukOverseasValue"
+        ),
         armedForces = Field(
           id = "armedForcesId",
           name = "armedForcesName",
@@ -78,6 +85,15 @@ class LastRegisteredToVoteTemplateTest
       ukResidentInput.attr("name") should be("ukResidentName")
       ukResidentInput.attr("value") should be("ukResidentValue")
       ukResidentInput.attr("foo") should be("foo")
+
+      val ukOverseasLabel = fieldset.select("label[for=ukOverseasId]")
+      ukOverseasLabel.attr("for") should be("ukOverseasId")
+
+      val ukOverseasInput = ukOverseasLabel.select("input")
+      ukOverseasInput.attr("id") should be("ukOverseasId")
+      ukOverseasInput.attr("name") should be("ukOverseasName")
+      ukOverseasInput.attr("value") should be("ukOverseasValue")
+      ukOverseasInput.attr("foo") should be("foo")
 
       val armedForcesLabel = fieldset.select("label[for=armedForcesId]")
       armedForcesLabel.attr("for") should be("armedForcesId")
