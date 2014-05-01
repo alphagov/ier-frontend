@@ -18,7 +18,6 @@ import uk.gov.gds.ier.model.Contact
 
 case class OverseasApplication(
     overseasName: Option[OverseasName],
-    previouslyRegistered: Option[PreviouslyRegistered],
     dateLeftUk: Option[DateLeft],
     dateLeftSpecial: Option[DateLeftSpecial],
     overseasParentName: Option[OverseasParentName] = None,
@@ -40,7 +39,7 @@ case class OverseasApplication(
   def toApiMap = {
     Map.empty ++
       overseasName.map(_.toApiMap("p")).getOrElse(Map.empty) ++
-      previouslyRegistered.map(_.toApiMap(lastRegisteredToVote)).getOrElse(Map.empty) ++
+      lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
       dateLeftUk.map(_.toApiMap()).getOrElse(Map.empty) ++
       dateLeftSpecial.map(_.toApiMap).getOrElse(Map.empty) ++
       overseasParentName.map(_.toApiMap("pgr")).getOrElse(Map.empty) ++

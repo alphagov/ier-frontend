@@ -36,7 +36,7 @@ trait ConfirmationBlock
 
 class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
   extends ConfirmationBlock
-  with PreviouslyRegisteredBlocks
+  with LastRegisteredToVoteBlocks
   with LastUkAddressBlocks
   with DateLeftBlocks
   with NinoBlocks
@@ -73,7 +73,7 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
 
   def youngVoterBlocks() = {
     List(
-      previouslyRegistered,
+      lastRegistered,
       dateLeftUk,
       passport,
       name,
@@ -89,7 +89,7 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
 
   def newVoterBlocks() = {
     List(
-      previouslyRegistered,
+      lastRegistered,
       dateLeftUk,
       lastUkAddress,
       passport,
@@ -106,7 +106,7 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
 
   def renewerVoterBlocks() = {
     List(
-      previouslyRegistered,
+      lastRegistered,
       dateLeftUk,
       lastUkAddress,
       name,
@@ -122,7 +122,7 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
 
   def specialVoterBlocks() = {
     List(
-      previouslyRegistered,
+      lastRegistered,
       dateLeftSpecial,
       lastUkAddress,
       passport,

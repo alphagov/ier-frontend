@@ -7,7 +7,6 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.overseas.routes.ConfirmationController
-import controllers.step.overseas.routes.PreviouslyRegisteredController
 import controllers.routes.CompleteController
 import com.google.inject.Inject
 import uk.gov.gds.ier.step.Routes

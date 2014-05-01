@@ -18,7 +18,6 @@ import uk.gov.gds.ier.model.Contact
 
 case class InprogressOverseas(
     overseasName: Option[OverseasName] = None,
-    previouslyRegistered: Option[PreviouslyRegistered] = None,
     dateLeftSpecial: Option[DateLeftSpecial] = None,
     dateLeftUk: Option[DateLeft] = None,
     overseasParentName: Option[OverseasParentName] = None,
@@ -39,7 +38,6 @@ case class InprogressOverseas(
   def merge(other:InprogressOverseas) = {
     other.copy(
       overseasName = this.overseasName.orElse(other.overseasName),
-      previouslyRegistered = this.previouslyRegistered.orElse(other.previouslyRegistered),
       dateLeftSpecial = this.dateLeftSpecial.orElse(other.dateLeftSpecial),
       dateLeftUk = this.dateLeftUk.orElse(other.dateLeftUk),
       overseasParentName = this.overseasParentName.orElse(other.overseasParentName),

@@ -8,7 +8,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{OverseaStep, Routes, GoTo}
 import controllers.step.overseas.routes.DateOfBirthController
-import controllers.step.overseas.PreviouslyRegisteredController
+import controllers.step.overseas.LastRegisteredToVoteController
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class DateOfBirthStep @Inject ()(
@@ -34,9 +34,7 @@ class DateOfBirthStep @Inject ()(
       case Some(dob) if DateValidator.isTooYoungToRegister(dob) => {
         GoTo(ExitController.tooYoung)
       }
-      case _ => {
-          PreviouslyRegisteredController.previouslyRegisteredStep
-      }
+      case _ => LastRegisteredToVoteController.lastRegisteredToVoteStep
     }
   }
 }

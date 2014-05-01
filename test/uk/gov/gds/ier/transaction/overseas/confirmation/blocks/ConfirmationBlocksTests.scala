@@ -32,7 +32,7 @@ class ConfirmationBlocksTests
 
     blocks.applicantBlocks() should be(
       List(
-        blocks.previouslyRegistered,
+        blocks.lastRegistered,
         blocks.dateLeftUk,
         blocks.passport,
         blocks.name,
@@ -53,7 +53,7 @@ class ConfirmationBlocksTests
 
     blocks.applicantBlocks() should be(
       List(
-        blocks.previouslyRegistered,
+        blocks.lastRegistered,
         blocks.dateLeftUk,
         blocks.lastUkAddress,
         blocks.passport,
@@ -75,7 +75,7 @@ class ConfirmationBlocksTests
 
     blocks.applicantBlocks() should be(
       List(
-        blocks.previouslyRegistered,
+        blocks.lastRegistered,
         blocks.dateLeftUk,
         blocks.lastUkAddress,
         blocks.name,
@@ -96,7 +96,7 @@ class ConfirmationBlocksTests
 
     blocks.applicantBlocks() should be(
       List(
-        blocks.previouslyRegistered,
+        blocks.lastRegistered,
         blocks.dateLeftCrown,
         blocks.lastUkAddress,
         blocks.passport,
@@ -118,7 +118,7 @@ class ConfirmationBlocksTests
 
     blocks.applicantBlocks() should be(
       List(
-        blocks.previouslyRegistered,
+        blocks.lastRegistered,
         blocks.dateLeftCouncil,
         blocks.lastUkAddress,
         blocks.passport,
@@ -140,7 +140,7 @@ class ConfirmationBlocksTests
 
     blocks.applicantBlocks() should be(
       List(
-        blocks.previouslyRegistered,
+        blocks.lastRegistered,
         blocks.dateLeftForces,
         blocks.lastUkAddress,
         blocks.passport,
