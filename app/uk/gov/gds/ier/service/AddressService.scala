@@ -48,13 +48,6 @@ class AddressService @Inject()(locateService: LocateService) {
     locateService.lookupAddress(postcode).exists(_.gssCode.exists(_.startsWith("S")))
   }
 
-  def isPostcodeEmpty(optAddress: Option[LastUkAddress]) = {
-    optAddress match {
-      case Some(lastUkAddress) if (lastUkAddress.address.exists(!_.postcode.trim.isEmpty)) => true
-      case _ => false
-    }
-  }
-
   protected[service] def formAddressLine(address:Address):String = {
     List(
       address.lineOne,

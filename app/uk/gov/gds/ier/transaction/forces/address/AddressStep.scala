@@ -42,9 +42,4 @@ class AddressStep @Inject() (
   override val onSuccess = {
     GoToNextStep()
   }
-
-  override def isStepComplete(currentState: InprogressForces) = {
-    addressService.isPostcodeEmpty(currentState.address)
-  }
-
 }
