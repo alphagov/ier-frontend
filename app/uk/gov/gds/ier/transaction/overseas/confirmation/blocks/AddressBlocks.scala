@@ -19,7 +19,11 @@ trait AddressBlocks {
             form(keys.overseasAddress.addressLine3).value,
             form(keys.overseasAddress.addressLine4).value,
             form(keys.overseasAddress.addressLine5).value
-          ).flatten.mkString(", "), // FIXME: it still can produce empty string, not good, make it return None instead or Some(List(..))
+          ).flatten.mkString(", ") match {
+            case "" => None
+            case a => Some(a)
+            // FIXME: improve!
+          },
 
           // country goes to a separate paragraph
           form(keys.overseasAddress.country).value

@@ -11,14 +11,15 @@ import scala.Some
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
 
 trait ConfirmationMustache {
 
   case class ConfirmationQuestion(
-     content:String,
-     title:String,
-     editLink:String,
-     changeName:String
+     content: EitherErrorOrContent,
+     title: String,
+     editLink: String,
+     changeName: String
   )
 
   case class ConfirmationModel(
@@ -81,15 +82,14 @@ trait ConfirmationMustache {
   class ConfirmationBlocks(form: ErrorTransformForm[InprogressCrown])
     extends StepMustache with AddressHelpers with Logging {
 
-    val completeThisStepMessage = "<div class=\"validation-message visible\">" +
-      "Please complete this step" +
-      "</div>"
 
-    def ifComplete(key:Key)(confirmationHtml: => String) = {
+    val completeThisStepMessage = "Please complete this step"
+
+    def ifComplete(key:Key)(confirmationHtml: => List[String]): EitherErrorOrContent = {
       if (form(key).hasErrors) {
-        completeThisStepMessage
+        BlockError(completeThisStepMessage)
       } else {
-        confirmationHtml
+        BlockContent(confirmationHtml)
       }
     }
 
@@ -99,11 +99,10 @@ trait ConfirmationMustache {
         editLink = routes.NameController.editGet.url,
         changeName = "full name",
         content = ifComplete(keys.name) {
-          List(
+          List(List(
             form(keys.name.firstName).value,
             form(keys.name.middleNames).value,
-            form(keys.name.lastName).value).flatten
-            .mkString("<p>", " ", "</p>")
+            form(keys.name.lastName).value).flatten.mkString(" "))
         }
       ))
     }
@@ -125,7 +124,7 @@ trait ConfirmationMustache {
         editLink = routes.NameController.editGet.url,
         changeName = "previous name",
         content = ifComplete(keys.previousName) {
-          s"<p>$prevNameStr</p>"
+          List(prevNameStr)
         }
       ))
     }
@@ -137,20 +136,21 @@ trait ConfirmationMustache {
           val day = form(keys.dob.dob.day).value.getOrElse("")
           val month = DateOfBirthConstants.monthsByNumber(form(keys.dob.dob.month).value.get)
           val year = form(keys.dob.dob.year).value.getOrElse("")
-          "<p>" + day + " " + month + " " + year + "</p>"
+          List(day + " " + month + " "  + year)
         } else {
-          val excuseReason = if (form(keys.dob.noDob.reason).value.isDefined) {
-            "<p>You are unable to provide your date of birth because: " +
-              form(keys.dob.noDob.reason).value.getOrElse("") + "</p>"
-          }
-          val ageRange = form(keys.dob.noDob.range).value match {
-            case Some("under18") => "<p>I am roughly under 18</p>"
-            case Some("18to70") => "<p>I am over 18 years old</p>"
-            case Some("over70") => "<p>I am over 70 years old</p>"
-            case Some("dontKnow") => "<p>I don't know my age</p>"
+          val excuseReason = form(keys.dob.noDob.reason).value match {
+            case Some(reasonDescription) =>
+              s"You are unable to provide your date of birth because: $reasonDescription"
             case _ => ""
           }
-          excuseReason + ageRange
+          val ageRange = form(keys.dob.noDob.range).value match {
+            case Some("under18") => "I am roughly under 18"
+            case Some("18to70") => "I am over 18 years old"
+            case Some("over70") => "I am over 70 years old"
+            case Some("dontKnow") => "I don't know my age"
+            case _ => ""
+          }
+          List(excuseReason, ageRange)
         }
 
       Some(ConfirmationQuestion(
@@ -170,10 +170,10 @@ trait ConfirmationMustache {
         changeName = "nationality",
         content = ifComplete(keys.nationality) {
           if (nationalityIsFilled) {
-            "<p>I am " + confirmationNationalityString + "</p>"
+            List("I am " + confirmationNationalityString)
           } else {
-            "<p>I cannot provide my nationality because:</p><p>"+
-              form(keys.nationality.noNationalityReason).value.getOrElse("") + "</p>"
+            List("I cannot provide my nationality because:",
+              form(keys.nationality.noNationalityReason).value.getOrElse(""))
           }
         }
       ))
@@ -186,10 +186,11 @@ trait ConfirmationMustache {
         changeName = "national insurance number",
         content = ifComplete(keys.nino) {
           if(form(keys.nino.nino).value.isDefined){
-            s"<p>${form(keys.nino.nino).value.getOrElse("")}</p>"
+            List(form(keys.nino.nino).value.getOrElse(""))
           } else {
-            "<p>I cannot provide my national insurance number because:</p>" +
-              s"<p>${form(keys.nino.noNinoReason).value.getOrElse("")}</p>"
+            List("I have not moved in the last 12 months")
+            List("I cannot provide my national insurance number because:",
+              form(keys.nino.noNinoReason).value.getOrElse(""))
           }
         }
       ))
@@ -217,8 +218,10 @@ trait ConfirmationMustache {
         editLink = routes.JobController.editGet.url,
         changeName = "job title",
         content = ifComplete(keys.job) {
-            "<p>"+form(keys.job.jobTitle).value.getOrElse("")+"</p>" +
-            "<p>"+form(keys.job.govDepartment).value.getOrElse("")+"</p>"
+          List(
+            form(keys.job.jobTitle).value,
+            form(keys.job.govDepartment).value
+          ).flatten
         }
       )
     }
@@ -244,7 +247,7 @@ trait ConfirmationMustache {
             manualAddressToOneLine(form, keys.address.address.manualAddress)
           }.getOrElse("")
           val postcode = form(keys.address.address.postcode).value.getOrElse("")
-          s"<p>$addressLine</p><p>$postcode</p>"
+          List(addressLine, postcode)
         }
       ))
     }
@@ -267,24 +270,15 @@ trait ConfirmationMustache {
             }.getOrElse(false)
 
             if(moved) {
-              val address = if(form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
-                form(keys.previousAddress.previousAddress.addressLine).value.map(
-                  addressLine => "<p>" + addressLine + "</p>"
-                ).getOrElse("")
+              val address = if (form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
+                form(keys.previousAddress.previousAddress.addressLine).value
               } else {
-                manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress).map(
-                  addressLine => "<p>" + addressLine + "</p>"
-                ).getOrElse("")
+                manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress)
               }
-
-              val postcode = form(keys.previousAddress.previousAddress.postcode).value.map(
-                postcode => "<p>" + postcode + "</p>"
-              ).getOrElse("")
-
-              address + postcode
-
+              val postcode = form(keys.previousAddress.previousAddress.postcode).value
+              List(address, postcode).flatten
             } else {
-              "<p>I have not moved in the last 12 months</p>"
+              List("I have not moved in the last 12 months")
             }
           }
         ))
@@ -299,38 +293,44 @@ trait ConfirmationMustache {
         title = "Polling card address",
         editLink = routes.ContactAddressController.editGet.url,
         changeName = "polling card address",
-        content = ifComplete(keys.contactAddress) {
-
+        content = {
           val addressTypeKey = form(keys.contactAddress.contactAddressType).value match {
-            case Some("uk") => keys.ukContactAddress
-            case Some("bfpo") => keys.bfpoContactAddress
-            case Some("other") => keys.otherContactAddress
-            case _ => throw new IllegalArgumentException
+            case Some("uk") => Some(keys.ukContactAddress)
+            case Some("bfpo") => Some(keys.bfpoContactAddress)
+            case Some("other") => Some(keys.otherContactAddress)
+            case _ => None
           }
 
-          if (addressTypeKey.equals(keys.ukContactAddress)) {
+          if (!addressTypeKey.isDefined) {
+            ifComplete(keys.contactAddress.contactAddressType) { List() }
+          } else if (addressTypeKey.equals(Some(keys.ukContactAddress))) {
             ifComplete(keys.address) {
               val addressLine = form(keys.address.address.addressLine).value.orElse{
                 manualAddressToOneLine(form, keys.address.address.manualAddress)
-              }.getOrElse("")
-              val postcode = form(keys.address.address.postcode).value.getOrElse("")
-              s"<p>$addressLine</p><p>$postcode</p>"
+              }
+              val postcode = form(keys.address.address.postcode).value
+              List(addressLine, postcode).flatten
             }
           }
           else {
-            val contactAddressKey = keys.contactAddress.prependNamespace(addressTypeKey)
-            val addressLines = List (
+            ifComplete(keys.contactAddress) {
+              val contactAddressKey = keys.contactAddress.prependNamespace(addressTypeKey.get)
+              val addressLines = List(
                 form(contactAddressKey.prependNamespace(keys.addressLine1)).value,
                 form(contactAddressKey.prependNamespace(keys.addressLine2)).value,
                 form(contactAddressKey.prependNamespace(keys.addressLine3)).value,
                 form(contactAddressKey.prependNamespace(keys.addressLine4)).value,
-                form(contactAddressKey.prependNamespace(keys.addressLine5)).value)
-                .filter(!_.getOrElse("").isEmpty).map(_.get).mkString("","<br/>","")
+                form(contactAddressKey.prependNamespace(keys.addressLine5)).value
+              ).flatten.mkString(", ") match {
+                case "" => None
+                case a => Some(a)
+                // FIXME: improve!
+              }
+              val postcode = form(contactAddressKey.prependNamespace(keys.postcode)).value
+              val country = form(contactAddressKey.prependNamespace(keys.country)).value
 
-            val postcode = form (contactAddressKey.prependNamespace(keys.postcode)).value.getOrElse("")
-            val country = form (contactAddressKey.prependNamespace(keys.country)).value.getOrElse("")
-
-            "<p>" + addressLines + "</p><p>" + postcode + "</p><p>" + country +  "</p>"
+              List(addressLines, postcode, country).flatten
+            }
           }
         }
       ))
@@ -342,10 +342,10 @@ trait ConfirmationMustache {
         editLink = routes.OpenRegisterController.editGet.url,
         changeName = "open register",
         content = ifComplete(keys.openRegister) {
-          if(form(keys.openRegister.optIn).value == Some("true")){
-            "<p>I want to include my details on the open register</p>"
-          }else{
-            "<p>I don’t want to include my details on the open register</p>"
+          if (form(keys.openRegister.optIn).value == Some("true")){
+            List("I want to include my details on the open register")
+          } else {
+            List("I don’t want to include my details on the open register")
           }
         }
       ))
@@ -362,17 +362,16 @@ trait ConfirmationMustache {
       val emailMe = form(keys.postalOrProxyVote.deliveryMethod.methodName).value == Some("email")
       val optIn = form(keys.postalOrProxyVote.optIn).value
       val ways = way match {
-        case Some(WaysToVoteType.ByPost) => "<p>I want to vote by post</p>"
-        case Some(WaysToVoteType.ByProxy) => "<p>I want to vote by proxy (someone else voting for me)</p>"
-        case Some(WaysToVoteType.InPerson) => "<p>I want to vote in person, at a polling station</p>"
-        case _ => ""
+        case Some(WaysToVoteType.ByPost) => List("I want to vote by post")
+        case Some(WaysToVoteType.ByProxy) => List("I want to vote by proxy (someone else voting for me)")
+        case Some(WaysToVoteType.InPerson) => List("I want to vote in person, at a polling station")
+        case _ => List()
       }
       val postalOrProxyVote = (optIn, emailMe) match {
-        case (Some("true"), true) => s"<p>Send an application form to:</p>" +
-          s"<p>${myEmail}</p>"
-        case (Some("true"), false) => s"<p>Send me an application form in the post</p>"
-        case (Some("false"), _) => s"<p>I do not need ${prettyWayName} application form</p>"
-        case (_, _) => ""
+        case (Some("true"), true) => List("Send an application form to:", myEmail)
+        case (Some("true"), false) => List("Send me an application form in the post")
+        case (Some("false"), _) => List(s"I do not need ${prettyWayName} application form")
+        case (_, _) => List()
       }
 
       Some(ConfirmationQuestion(
@@ -380,7 +379,7 @@ trait ConfirmationMustache {
         editLink = routes.WaysToVoteController.editGet.url,
         changeName = "voting",
         content = ifComplete(keys.waysToVote) {
-          ways + postalOrProxyVote
+          ways ++ postalOrProxyVote
         }
       ))
     }
@@ -391,19 +390,19 @@ trait ConfirmationMustache {
         editLink = routes.ContactController.editGet.url,
         changeName = "how we should contact you",
         content = ifComplete(keys.contact) {
-          val post = if(form(keys.contact.post.contactMe).value == Some("true")){
-            "<p>By post</p>"
-          } else ""
+          val post = if (form(keys.contact.post.contactMe).value == Some("true")) {
+            Some("By post")
+          } else None
 
-          val phone = if(form(keys.contact.phone.contactMe).value == Some("true")){
-            s"<p>By phone: ${form(keys.contact.phone.detail).value.getOrElse("")}</p>"
-          } else ""
+          val phone = if (form(keys.contact.phone.contactMe).value == Some("true")) {
+            Some(s"By phone: ${form(keys.contact.phone.detail).value.getOrElse("")}")
+          } else None
 
-          val email = if(form(keys.contact.email.contactMe).value == Some("true")){
-            s"<p>By email: ${form(keys.contact.email.detail).value.getOrElse("")}</p>"
-          } else ""
+          val email = if( form(keys.contact.email.contactMe).value == Some("true")) {
+            Some(s"By email: ${form(keys.contact.email.detail).value.getOrElse("")}")
+          } else None
 
-          s"$post $phone $email"
+          List(post, phone, email).flatten
         }
       ))
     }
