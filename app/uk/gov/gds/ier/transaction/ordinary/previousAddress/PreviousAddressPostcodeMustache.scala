@@ -9,7 +9,7 @@ trait PreviousAddressPostcodeMustache extends StepTemplate[InprogressOrdinary] {
   case class PostcodeModel (
       question: Question,
       postcode: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("ordinary/previousAddressPostcode") {
     (form, post) =>
@@ -24,7 +24,7 @@ trait PreviousAddressPostcodeMustache extends StepTemplate[InprogressOrdinary] {
       case _ => "What was your previous address?"
     }
 
-    val modelData = PostcodeModel(
+    PostcodeModel(
       question = Question(
         postUrl = post.url,
         number = "8 of 11",
@@ -33,6 +33,5 @@ trait PreviousAddressPostcodeMustache extends StepTemplate[InprogressOrdinary] {
       ),
       postcode = TextField(keys.previousAddress.previousAddress.postcode)
     )
-    MustacheData(modelData, title)
   }
 }

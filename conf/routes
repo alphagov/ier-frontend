@@ -29,10 +29,10 @@ GET         /register-to-vote/exit/overseas/left-service-over-15-years        co
 GET         /register-to-vote/error/timeout                              controllers.ErrorController.timeout
 
 # Map static resources from the /public folder to the /assets URL path
+GET         /assets/messages                                             controllers.MessagesController.all
 GET         /assets/template/*file                                       controllers.Template.at(path="/app/assets/govuk_template_play/assets", file)
 GET         /assets/toolkit/*file                                        controllers.GovukToolkit.at(path="/app/assets/govuk_frontend_toolkit", file)
 GET         /assets/*file                                                controllers.Assets.at(path="/public", file)
-
 
 # Status route
 GET         /status                                                      controllers.StatusController.status

@@ -16,13 +16,13 @@ trait AddressMustache extends StepTemplate[InprogressOverseas] {
       addressLine3: Field,
       addressLine4: Field,
       addressLine5: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("overseas/address") { (form, post) =>
 
     implicit val progressForm = form
 
-    val data = AddressModel(
+    AddressModel(
       question = Question(
         postUrl = post.url,
         title = title,
@@ -38,7 +38,6 @@ trait AddressMustache extends StepTemplate[InprogressOverseas] {
       addressLine4 = TextField(key = keys.overseasAddress.addressLine4),
       addressLine5 = TextField(key = keys.overseasAddress.addressLine5)
     )
-    MustacheData(data, title)
   }
 
   def countrySelectOptions(selectedCountry: String) = (NationalityConstants.countryNameToCodes map (

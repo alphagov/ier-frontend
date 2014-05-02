@@ -25,14 +25,14 @@ trait AddressManualMustache extends StepTemplate[InprogressCrown] {
     maLineThree: Field,
     maCity: Field,
     hasUkAddress: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("crown/addressManual") { (form, postUrl) =>
     implicit val progressForm = form
 
     val title = pageTitle(form(keys.hasUkAddress).value)
 
-    val data = ManualModel(
+    ManualModel(
       question = Question(
         postUrl = postUrl.url,
         number = questionNumber,
@@ -50,8 +50,6 @@ trait AddressManualMustache extends StepTemplate[InprogressCrown] {
         value = form(keys.hasUkAddress).value.getOrElse("")
       )
     )
-
-    MustacheData(data, title)
   }
 }
 

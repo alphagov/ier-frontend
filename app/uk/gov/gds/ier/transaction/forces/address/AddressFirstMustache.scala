@@ -13,12 +13,12 @@ trait AddressFirstMustache extends StepTemplate[InprogressForces] {
     question: Question,
     hasAddressYes: Field,
     hasAddressNo: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("forces/addressFirst") { (form, postUrl, backUrl) =>
     implicit val progressForm = form
 
-    val data = AddressFirstModel(
+    AddressFirstModel(
       question = Question(
         postUrl = postUrl.url,
         number = questionNumber,
@@ -31,7 +31,6 @@ trait AddressFirstMustache extends StepTemplate[InprogressForces] {
         key = keys.address.hasUkAddress,
         value = "false")
     )
-    MustacheData(data, pageTitle)
   }
 }
 

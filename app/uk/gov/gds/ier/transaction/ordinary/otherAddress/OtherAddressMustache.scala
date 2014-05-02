@@ -13,13 +13,13 @@ trait OtherAddressMustache extends StepTemplate[InprogressOrdinary] {
       hasOtherAddressStudent: Field,
       hasOtherAddressHome: Field,
       hasOtherAddressNone: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("ordinary/otherAddress") {
     (form, post) =>
 
     val otherAddressValue = form(keys.otherAddress.hasOtherAddress).value
-    val data = OtherAddressModel(
+    OtherAddressModel(
       question = Question(
         postUrl = post.url,
         number = "7 of 11",
@@ -57,8 +57,6 @@ trait OtherAddressMustache extends StepTemplate[InprogressOrdinary] {
         classes = if (form(keys.otherAddress).hasErrors) "invalid" else ""
       )
     )
-
-    MustacheData(data, data.question.title)
   }
 }
 

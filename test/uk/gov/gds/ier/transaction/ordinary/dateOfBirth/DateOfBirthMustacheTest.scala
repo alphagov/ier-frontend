@@ -28,7 +28,7 @@ class DateOfBirthMustacheTest
         emptyApplicationForm,
         Call("POST", "/register-to-vote/date-of-birth"),
         InprogressOrdinary()
-    ).data.asInstanceOf[DateOfBirthModel]
+    ).asInstanceOf[DateOfBirthModel]
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/date-of-birth")
@@ -46,7 +46,7 @@ class DateOfBirthMustacheTest
         filledForm,
         Call("POST", "/register-to-vote/date-of-birth"),
         InprogressOrdinary()
-    ).data.asInstanceOf[DateOfBirthModel]
+    ).asInstanceOf[DateOfBirthModel]
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/date-of-birth")
@@ -64,7 +64,7 @@ class DateOfBirthMustacheTest
         filledForm,
         Call("POST", "/register-to-vote/date-of-birth"),
         InprogressOrdinary()
-    ).data.asInstanceOf[DateOfBirthModel]
+    ).asInstanceOf[DateOfBirthModel]
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/date-of-birth")

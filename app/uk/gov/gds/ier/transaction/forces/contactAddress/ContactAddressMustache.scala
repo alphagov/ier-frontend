@@ -17,7 +17,7 @@ trait ContactAddressMustache extends StepTemplate[InprogressForces] with Address
       ukAddress: UKContactAddressModel,
       bfpoAddress: BFPOContactAddressModel,
       otherAddress: OtherContactAddressModel
-  )
+  ) extends MustacheData
 
   case class OtherContactAddressModel(
       otherAddressOption: Field,
@@ -118,9 +118,9 @@ trait ContactAddressMustache extends StepTemplate[InprogressForces] with Address
       )
     )
 
-  val title = "Where should we write to you about your registration?"
+    val title = "Where should we write to you about your registration?"
 
-    val data = ContactAddressModel(
+    ContactAddressModel(
       question = Question(
         postUrl = postUrl.url,
         errorMessages = form.globalErrors.map( _.message ),
@@ -134,8 +134,6 @@ trait ContactAddressMustache extends StepTemplate[InprogressForces] with Address
       bfpoAddress = bfpoContactAddressModel,
       otherAddress = otherContactAddressModel
     )
-
-    MustacheData(data, title)
   }
 
 

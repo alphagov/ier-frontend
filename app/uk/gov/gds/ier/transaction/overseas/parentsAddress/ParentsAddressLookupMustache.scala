@@ -11,13 +11,13 @@ trait ParentsAddressLookupMustache extends StepTemplate[InprogressOverseas] {
   case class LookupModel (
       question: Question,
       postcode: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("overseas/parentsAddressLookup") { (form, post) =>
 
     implicit val progressForm = form
 
-    val data = LookupModel(
+    LookupModel(
       question = Question(
         postUrl = post.url,
         number = questionNumber,
@@ -35,6 +35,5 @@ trait ParentsAddressLookupMustache extends StepTemplate[InprogressOverseas] {
         }
       )
     )
-    MustacheData(data, title)
   }
 }

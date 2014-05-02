@@ -22,7 +22,7 @@ class OpenRegisterMustacheTests
       emptyApplicationForm,
       WaysToVoteController.post,
       InprogressOverseas()
-    ).data.asInstanceOf[OpenRegisterModel]
+    ).asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be("Do you want to include your name and address on the open register?")
     openRegisterModel.question.postUrl should be("/register-to-vote/overseas/ways-to-vote")
@@ -41,7 +41,7 @@ class OpenRegisterMustacheTests
       partiallyFilledApplicationForm,
       WaysToVoteController.post,
       InprogressOverseas()
-    ).data.asInstanceOf[OpenRegisterModel]
+    ).asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be("Do you want to include your name and address on the open register?")
     openRegisterModel.question.postUrl should be("/register-to-vote/overseas/ways-to-vote")
@@ -59,7 +59,7 @@ class OpenRegisterMustacheTests
       partiallyFilledApplicationForm,
       WaysToVoteController.post,
       InprogressOverseas()
-    ).data.asInstanceOf[OpenRegisterModel]
+    ).asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be("Do you want to include your name and address on the open register?")
     openRegisterModel.question.postUrl should be("/register-to-vote/overseas/ways-to-vote")

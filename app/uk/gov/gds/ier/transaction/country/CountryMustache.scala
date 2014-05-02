@@ -7,7 +7,7 @@ import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 trait CountryMustache extends StepTemplate[InprogressOrdinary] {
   case class CountryModel(
-      postUrl:String = "",
+      question:Question,
       countries:FieldSet,
       england:Field,
       scotland:Field,
@@ -20,9 +20,8 @@ trait CountryMustache extends StepTemplate[InprogressOrdinary] {
       scotlandOrigin:Field,
       walesOrigin:Field,
       northIrelandOrigin:Field,
-      channelIslandsOrigin:Field,
-      globalErrors:Seq[String] = List.empty
-  )
+      channelIslandsOrigin:Field
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("ordinary/country") { (form, post) =>
     implicit val progressForm = form
@@ -43,8 +42,12 @@ trait CountryMustache extends StepTemplate[InprogressOrdinary] {
       if (form(keys.country.residence).hasErrors) "invalid" else ""
     )
 
-    val data = CountryModel(
-      postUrl = post.url,
+    CountryModel(
+      question = Question(
+        title = "Where do you live?",
+        postUrl = post.url,
+        errorMessages = globalErrors.map(_.message)
+      ),
       countries = countriesFieldSet,
       england = RadioField(keys.country.residence, "England"),
       scotland = RadioField(keys.country.residence, "Scotland"),
@@ -59,10 +62,7 @@ trait CountryMustache extends StepTemplate[InprogressOrdinary] {
       scotlandOrigin = RadioField(keys.country.origin, "Scotland"),
       walesOrigin = RadioField(keys.country.origin, "Wales"),
       northIrelandOrigin = RadioField(keys.country.origin, "Northern Ireland"),
-      channelIslandsOrigin = RadioField(keys.country.origin, "British Islands"),
-      globalErrors.map(_.message)
+      channelIslandsOrigin = RadioField(keys.country.origin, "British Islands")
     )
-
-    MustacheData(data, "Where do you live?")
   }
 }

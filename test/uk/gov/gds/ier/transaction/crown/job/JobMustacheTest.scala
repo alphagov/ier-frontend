@@ -24,7 +24,7 @@ class JobMustacheTest
       emptyApplicationForm,
       JobController.post,
       emptyApplication
-    ).data.asInstanceOf[JobModel]
+    ).asInstanceOf[JobModel]
 
     jobModel.question.title should be("What is your role?")
     jobModel.question.postUrl should be("/register-to-vote/crown/job-title")
@@ -49,7 +49,7 @@ class JobMustacheTest
       partiallyFilledApplicationForm,
       JobController.post,
       partiallyFilledApplication
-    ).data.asInstanceOf[JobModel]
+    ).asInstanceOf[JobModel]
 
     jobModel.question.title should be("What is your role?")
     jobModel.question.postUrl should be("/register-to-vote/crown/job-title")

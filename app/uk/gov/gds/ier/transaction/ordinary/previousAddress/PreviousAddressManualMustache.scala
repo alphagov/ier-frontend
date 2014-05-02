@@ -15,7 +15,7 @@ trait PreviousAddressManualMustache extends StepTemplate[InprogressOrdinary] {
       maLineTwo: Field,
       maLineThree: Field,
       maCity: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("ordinary/previousAddressManual") {
     (form, post) =>
@@ -29,7 +29,7 @@ trait PreviousAddressManualMustache extends StepTemplate[InprogressOrdinary] {
       case _ => "What was your previous address?"
     }
 
-    val modelData = ManualModel(
+    ManualModel(
       question = Question(
         postUrl = post.url,
         number = "8 of 11",
@@ -43,6 +43,5 @@ trait PreviousAddressManualMustache extends StepTemplate[InprogressOrdinary] {
       maLineThree = TextField(keys.previousAddress.previousAddress.manualAddress.lineThree),
       maCity = TextField(keys.previousAddress.previousAddress.manualAddress.city)
     )
-    MustacheData(modelData, title)
   }
 }

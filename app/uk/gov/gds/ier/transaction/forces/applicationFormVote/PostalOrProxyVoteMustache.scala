@@ -19,7 +19,8 @@ trait PostalOrProxyVoteMustache
       voteDeliveryMethodEmail: Field,
       voteDeliveryMethodPost: Field,
       voteEmailAddress: Field,
-      voteType: Field)
+      voteType: Field
+  ) extends MustacheData
 
 
   val mustache = MustacheTemplate("forces/postalOrProxyVote") {
@@ -34,7 +35,7 @@ trait PostalOrProxyVoteMustache
       }
       val title = s"Do you want us to send you a $wayToVoteName vote application form?"
 
-      val data = PostalOrProxyVoteModel(
+      PostalOrProxyVoteModel(
         question = Question(
           postUrl = postUrl.url,
           errorMessages = form.globalErrors.map{ _.message },
@@ -82,7 +83,6 @@ trait PostalOrProxyVoteMustache
           value = wayToVote.name
         )
       )
-      MustacheData(data, title)
   }
 
 }

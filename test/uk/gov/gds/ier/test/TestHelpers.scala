@@ -1,6 +1,8 @@
 package uk.gov.gds.ier.test
 
 import play.api.test.FakeRequest
+import play.api.test.FakeApplication
+import play.api.test.Helpers
 import org.joda.time.DateTime
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.serialiser.JsonSerialiser
@@ -185,5 +187,11 @@ trait TestHelpers
 
   implicit def crownFormToErrorOps(form: ErrorTransformForm[InprogressCrown]) = {
     new ErrorsOps(form.errors, form.globalErrors)
+  }
+
+  def runningApp(test: => Unit):Unit = {
+    Helpers.running(FakeApplication()) {
+      test
+    }
   }
 }

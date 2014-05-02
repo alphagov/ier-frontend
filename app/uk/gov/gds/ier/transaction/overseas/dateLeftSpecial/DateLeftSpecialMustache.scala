@@ -14,7 +14,7 @@ trait DateLeftSpecialMustache extends StepTemplate[InprogressOverseas] {
       dateLeftSpecialMonth: Field,
       dateLeftSpecialYear: Field,
       service: String
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("overseas/dateLeftService") { (form, post) =>
 
@@ -22,7 +22,7 @@ trait DateLeftSpecialMustache extends StepTemplate[InprogressOverseas] {
 
     val title = "When did you cease to be a " + service + "?"
 
-    val data = DateLeftSpecialModel(
+    DateLeftSpecialModel(
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
@@ -42,8 +42,6 @@ trait DateLeftSpecialMustache extends StepTemplate[InprogressOverseas] {
       ),
       service = service
     )
-
-    MustacheData(data, title)
   }
 
   def generateOptionsList (month:String): List[SelectOption] = {

@@ -14,7 +14,7 @@ trait ServiceMustache extends StepTemplate[InprogressForces] {
       royalAirForce: Field,
       regiment: Field,
       regimentShowFlag: Text
-  )
+  ) extends MustacheData
 
   private def displayPartnerSentence (application:InprogressForces): Boolean = {
     application.statement match {
@@ -41,7 +41,7 @@ trait ServiceMustache extends StepTemplate[InprogressForces] {
     else
       "Which of the services are you in?"
 
-    val data = ServiceModel(
+    ServiceModel(
       question = Question(
         postUrl = postUrl.url,
         errorMessages = form.globalErrors.map{ _.message },
@@ -61,8 +61,6 @@ trait ServiceMustache extends StepTemplate[InprogressForces] {
         value = progressForm(keys.service.regiment).value.fold("")(_ => "-open")
       )
     )
-
-    MustacheData(data, title)
   }
 
 }

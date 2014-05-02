@@ -21,7 +21,7 @@ class StatementMustacheTests
       application,
       Call("POST", "http://postUrl"),
       InprogressCrown()
-    ).data.asInstanceOf[StatementModel]
+    ).asInstanceOf[StatementModel]
 
     model.question.postUrl should be("http://postUrl")
     model.question.errorMessages should be (Seq.empty)
@@ -72,7 +72,7 @@ class StatementMustacheTests
       application,
       Call("POST", "http://postUrl"),
       InprogressCrown()
-    ).data.asInstanceOf[StatementModel]
+    ).asInstanceOf[StatementModel]
 
     model.crownServant.attributes should be("checked=\"checked\"")
     model.crownPartner.attributes should be("")
@@ -93,7 +93,7 @@ class StatementMustacheTests
       application,
       Call("POST", "http://postUrl"),
       InprogressCrown()
-    ).data.asInstanceOf[StatementModel]
+    ).asInstanceOf[StatementModel]
 
     model.crownServant.attributes should be("")
     model.crownPartner.attributes should be("checked=\"checked\"")
@@ -114,7 +114,7 @@ class StatementMustacheTests
       application,
       Call("POST", "http://postUrl"),
       InprogressCrown()
-    ).data.asInstanceOf[StatementModel]
+    ).asInstanceOf[StatementModel]
 
     model.crownServant.attributes should be("")
     model.crownPartner.attributes should be("")
@@ -135,7 +135,7 @@ class StatementMustacheTests
       application,
       Call("POST", "http://postUrl"),
       InprogressCrown()
-    ).data.asInstanceOf[StatementModel]
+    ).asInstanceOf[StatementModel]
 
     model.crownServant.attributes should be("")
     model.crownPartner.attributes should be("")

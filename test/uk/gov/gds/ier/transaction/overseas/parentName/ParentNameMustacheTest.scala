@@ -30,7 +30,7 @@ class ParentNameMustacheTest
       emptyApplicationForm,
       new Call("POST","/register-to-vote/overseas/parent-name"),
       InprogressOverseas()
-    ).data.asInstanceOf[ParentNameModel]
+    ).asInstanceOf[ParentNameModel]
 
     nameModel.question.title should be("Parent or guardian's registration details")
     nameModel.question.postUrl should be("/register-to-vote/overseas/parent-name")
@@ -58,7 +58,7 @@ class ParentNameMustacheTest
       partiallyFilledApplicationForm,
       new Call("POST","/register-to-vote/overseas/parent-name"),
       InprogressOverseas()
-    ).data.asInstanceOf[ParentNameModel]
+    ).asInstanceOf[ParentNameModel]
 
     nameModel.question.title should be("Parent or guardian's registration details")
     nameModel.question.postUrl should be("/register-to-vote/overseas/parent-name")
@@ -93,7 +93,7 @@ class ParentNameMustacheTest
       partiallyFilledApplicationForm,
       new Call("POST","/register-to-vote/overseas/parent-name"),
       InprogressOverseas()
-    ).data.asInstanceOf[ParentNameModel]
+    ).asInstanceOf[ParentNameModel]
 
     nameModel.question.title should be("Parent or guardian's registration details")
     nameModel.question.postUrl should be("/register-to-vote/overseas/parent-name")
@@ -120,7 +120,7 @@ class ParentNameMustacheTest
       partiallyFilledApplicationFormWithErrors,
       new Call("POST","/register-to-vote/overseas/parent-name"),
       InprogressOverseas()
-    ).data.asInstanceOf[ParentNameModel]
+    ).asInstanceOf[ParentNameModel]
 
     nameModel.question.title should be("Parent or guardian's registration details")
     nameModel.question.postUrl should be("/register-to-vote/overseas/parent-name")

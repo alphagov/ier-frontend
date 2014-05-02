@@ -12,12 +12,12 @@ trait PreviousAddressPostcodeMustache
     case class PostcodeModel (
         question: Question,
         postcode: Field
-    )
+    ) extends MustacheData
 
   val mustache = MustacheTemplate("forces/previousAddressPostcode") {
     (form, post) =>
     implicit val progressForm = form
-    val modelData = PostcodeModel(
+    PostcodeModel(
       question = Question(
         postUrl = post.url,
         number = questionNumber,
@@ -26,7 +26,6 @@ trait PreviousAddressPostcodeMustache
       ),
       postcode = TextField(keys.previousAddress.postcode)
     )
-    MustacheData(modelData, title)
   }
 }
 

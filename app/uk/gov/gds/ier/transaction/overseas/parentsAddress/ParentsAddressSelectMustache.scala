@@ -24,7 +24,7 @@ trait ParentsAddressSelectMustache extends StepTemplate[InprogressOverseas] {
       possibleJsonList: Field,
       possiblePostcode: Field,
       hasAddresses: Boolean
-  )
+  ) extends MustacheData
 
 
   val mustache = MustacheTemplate("overseas/parentsAddressSelect") { (form, post) =>
@@ -79,7 +79,7 @@ trait ParentsAddressSelectMustache extends StepTemplate[InprogressOverseas] {
       }
     )
 
-    val data = SelectModel(
+    SelectModel(
       question = Question(
         postUrl = post.url,
         number = questionNumber,
@@ -100,7 +100,6 @@ trait ParentsAddressSelectMustache extends StepTemplate[InprogressOverseas] {
       ),
       hasAddresses = hasAddresses
     )
-    MustacheData(data, title)
   }
 
   private[parentsAddress] def lookupAddresses(

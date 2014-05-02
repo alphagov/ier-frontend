@@ -10,7 +10,8 @@ trait JobMustache extends StepTemplate[InprogressCrown] {
   case class JobModel(
      question:Question,
      jobTitle: Field,
-     govDepartment: Field)
+     govDepartment: Field
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("crown/job") { (form, post, application) =>
 
@@ -22,7 +23,7 @@ trait JobMustache extends StepTemplate[InprogressCrown] {
       "What is your role?"
     }
 
-    val data = JobModel(
+    JobModel(
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
@@ -36,7 +37,5 @@ trait JobMustache extends StepTemplate[InprogressCrown] {
         key = keys.job.govDepartment
       )
     )
-
-    MustacheData(data, title)
   }
 }

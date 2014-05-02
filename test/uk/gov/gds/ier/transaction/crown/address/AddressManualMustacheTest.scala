@@ -35,7 +35,7 @@ class AddressSelectMustacheTest
       emptyApplicationForm,
       Call("POST","/register-to-vote/crown/address/select"),
       InprogressCrown()
-    ).data.asInstanceOf[SelectModel]
+    ).asInstanceOf[SelectModel]
 
     addressModel.question.title should be("What was your last UK address?")
     addressModel.question.postUrl should be("/register-to-vote/crown/address/select")
@@ -70,7 +70,7 @@ class AddressSelectMustacheTest
       partiallyFilledApplicationForm,
       Call("POST","/register-to-vote/crown/address/select"),
       InprogressCrown()
-    ).data.asInstanceOf[SelectModel]
+    ).asInstanceOf[SelectModel]
 
 
     addressModel.question.title should be("What is your UK address?")
@@ -104,7 +104,7 @@ class AddressSelectMustacheTest
       partiallyFilledApplicationForm,
       Call("POST","/register-to-vote/crown/address/select"),
       InprogressCrown()
-    ).data.asInstanceOf[SelectModel]
+    ).asInstanceOf[SelectModel]
 
     addressModel.question.title should be("What was your last UK address?")
     addressModel.question.postUrl should be("/register-to-vote/crown/address/select")

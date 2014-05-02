@@ -18,13 +18,13 @@ trait ParentNameMustache extends StepTemplate[InprogressOverseas] {
     previousFirstName: Field,
     previousMiddleNames: Field,
     previousLastName: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("overseas/parentName") { (form, post) =>
 
     implicit val progressForm = form
 
-    val data = ParentNameModel(
+    ParentNameModel(
       question = Question(
         postUrl = post.url,
         title = title,
@@ -51,6 +51,5 @@ trait ParentNameMustache extends StepTemplate[InprogressOverseas] {
       previousLastName = TextField(
         key = keys.overseasParentName.parentPreviousName.previousName.lastName)
     )
-    MustacheData(data, title)
   }
 }

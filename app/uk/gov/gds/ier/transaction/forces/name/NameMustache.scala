@@ -17,11 +17,12 @@ trait NameMustache extends StepTemplate[InprogressForces] {
     hasPreviousNameFalse: Field,
     previousFirstName: Field,
     previousMiddleNames: Field,
-    previousLastName: Field)
+    previousLastName: Field
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("forces/name") { (form, postUrl) =>
     implicit val progressForm = form
-    val data = NameModel(
+    NameModel(
       question = Question(
         postUrl = postUrl.url,
         number = "6",
@@ -52,6 +53,5 @@ trait NameMustache extends StepTemplate[InprogressForces] {
         key = keys.previousName.previousName.lastName
       )
     )
-    MustacheData(data, pageTitle)
   }
 }

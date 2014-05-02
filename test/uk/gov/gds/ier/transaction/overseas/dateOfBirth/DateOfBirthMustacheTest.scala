@@ -29,7 +29,7 @@ class DateOfBirthMustacheTest
       emptyApplicationForm,
       new Call("POST", "/register-to-vote/overseas/date-of-birth"),
       InprogressOverseas()
-    ).data.asInstanceOf[DateOfBirthModel]
+    ).asInstanceOf[DateOfBirthModel]
 
     dateOfBirthModel.question.title should be("What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/overseas/date-of-birth")
@@ -47,7 +47,7 @@ class DateOfBirthMustacheTest
       filledForm,
       new Call("POST", "/register-to-vote/overseas/date-of-birth"),
       InprogressOverseas()
-    ).data.asInstanceOf[DateOfBirthModel]
+    ).asInstanceOf[DateOfBirthModel]
 
 
     dateOfBirthModel.question.title should be("What is your date of birth?")

@@ -29,7 +29,7 @@ class ForcesPostalOrProxyVoteMustacheTest
       emptyApplicationForm,
       PostalVoteController.post,
       InprogressForces()
-    ).data.asInstanceOf[PostalOrProxyVoteModel]
+    ).asInstanceOf[PostalOrProxyVoteModel]
 
     postalOrProxyVoteModel.question.title should be("Do you want us to send you a postal vote application form?")
     postalOrProxyVoteModel.question.postUrl should be("/register-to-vote/forces/postal-vote")
@@ -61,7 +61,7 @@ class ForcesPostalOrProxyVoteMustacheTest
       partiallyFilledApplicationForm,
       PostalVoteController.post,
       InprogressForces()
-    ).data.asInstanceOf[PostalOrProxyVoteModel]
+    ).asInstanceOf[PostalOrProxyVoteModel]
 
     postalOrProxyVoteModel.question.title should be("Do you want us to send you a postal vote application form?")
     postalOrProxyVoteModel.question.postUrl should be("/register-to-vote/forces/postal-vote")
@@ -94,7 +94,7 @@ class ForcesPostalOrProxyVoteMustacheTest
       partiallyFilledApplicationFormWithErrors,
       PostalVoteController.post,
       InprogressForces()
-    ).data.asInstanceOf[PostalOrProxyVoteModel]
+    ).asInstanceOf[PostalOrProxyVoteModel]
 
     postalOrProxyVoteModel.question.title should be("Do you want us to send you a postal vote application form?")
     postalOrProxyVoteModel.question.postUrl should be("/register-to-vote/forces/postal-vote")

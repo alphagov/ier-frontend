@@ -33,7 +33,7 @@ class NinoMustacheTests
         newNinoForm,
         NinoController.post,
         InprogressCrown()
-    ).data.asInstanceOf[NinoModel]
+    ).asInstanceOf[NinoModel]
     model.nino.value should be("AB 12 34 56 D")
   }
 
@@ -48,7 +48,7 @@ class NinoMustacheTests
         newNinoForm,
         NinoController.post,
         InprogressCrown()
-    ).data.asInstanceOf[NinoModel]
+    ).asInstanceOf[NinoModel]
     model.noNinoReason.value should be("Don't have any NINO")
   }
 }

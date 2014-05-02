@@ -12,13 +12,13 @@ trait NinoMustache extends StepTemplate[InprogressOverseas] {
       question:Question,
       nino: Field,
       noNinoReason: Field
-  )
+  ) extends MustacheData
 
   val mustache = MustacheTemplate("overseas/nino") { (form, post) =>
 
     implicit val progressForm = form
 
-    val data = NinoModel(
+    NinoModel(
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
@@ -31,6 +31,5 @@ trait NinoMustache extends StepTemplate[InprogressOverseas] {
         key = keys.nino.noNinoReason
       )
     )
-    MustacheData(data, title)
   }
 }

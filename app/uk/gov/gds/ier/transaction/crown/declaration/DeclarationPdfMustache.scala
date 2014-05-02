@@ -16,7 +16,7 @@ trait DeclarationPdfMustache extends StepTemplate[InprogressCrown] {
     showAuthorityUrl: Boolean,
     authorityName: String,
     pdfFileSize: String
-  )
+  ) extends MustacheData
 
   val pageTitle = "Download your service declaration form"
 
@@ -31,7 +31,7 @@ trait DeclarationPdfMustache extends StepTemplate[InprogressCrown] {
     }
 
     implicit val progressForm = form
-    val data = DeclarationPdfModel(
+    DeclarationPdfModel(
       question = Question(
         postUrl = postUrl.url,
         number = "7",
@@ -45,6 +45,5 @@ trait DeclarationPdfMustache extends StepTemplate[InprogressCrown] {
       } getOrElse "your local electoral registration office",
       pdfFileSize = declarationPdfDownloadService.fileSizeWithUnit
     )
-    MustacheData(data, pageTitle)
   }
 }

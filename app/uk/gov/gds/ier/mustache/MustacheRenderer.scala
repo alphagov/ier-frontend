@@ -3,6 +3,7 @@ package uk.gov.gds.ier.mustache
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.templates.Html
 import play.api.mvc.Call
+import uk.gov.gds.ier.langs.Language
 
 class MustacheRenderer[T](
     template: MustacheTemplate[T],
@@ -11,10 +12,13 @@ class MustacheRenderer[T](
     application: T
 ) extends StepMustache {
 
-  def html:Html = {
-    val model = template.data(form, postUrl, application)
-    val content = Mustache.render(template.mustachePath, model.data)
-    MainStepTemplate(content, model.title)
+  type Request[A] = play.api.mvc.Request[A]
+
+  def html()(implicit request:Request[Any]):Html = {
+    val lang = Language.getLang(request)
+    val model = template.data(lang, form, postUrl, application)
+    val content = Mustache.render(template.mustachePath, model)
+    MainStepTemplate(content, model.question.title)
   }
 }
 

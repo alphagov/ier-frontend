@@ -30,7 +30,7 @@ class ContactMustacheTests
       emptyApplicationForm,
       ContactController.post,
       InprogressOrdinary()
-    ).data.asInstanceOf[ContactModel]
+    ).asInstanceOf[ContactModel]
 
     contactModel.question.title should be (
       "If we have questions about your application, what's the best way to contact you?"
@@ -61,7 +61,7 @@ class ContactMustacheTests
       partiallyFilledApplicationForm,
       ContactController.post,
       InprogressOrdinary()
-    ).data.asInstanceOf[ContactModel]
+    ).asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
       "If we have questions about your application, what's the best way to contact you?"
@@ -92,7 +92,7 @@ class ContactMustacheTests
       partiallyFilledApplicationForm,
       ContactController.post,
       InprogressOrdinary()
-    ).data.asInstanceOf[ContactModel]
+    ).asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
       "If we have questions about your application, what's the best way to contact you?"
@@ -123,7 +123,7 @@ class ContactMustacheTests
       partiallyFilledApplicationForm,
       ContactController.post,
       InprogressOrdinary()
-    ).data.asInstanceOf[ContactModel]
+    ).asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
       "If we have questions about your application, what's the best way to contact you?"
@@ -154,7 +154,7 @@ class ContactMustacheTests
       partiallyFilledApplicationForm,
       ContactController.post,
       InprogressOrdinary()
-    ).data.asInstanceOf[ContactModel]
+    ).asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
       "If we have questions about your application, what's the best way to contact you?"
@@ -190,7 +190,7 @@ class ContactMustacheTests
       partiallyFilledApplicationForm,
       ContactController.post,
       InprogressOrdinary()
-    ).data.asInstanceOf[ContactModel]
+    ).asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
       "If we have questions about your application, what's the best way to contact you?"
