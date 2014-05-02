@@ -93,6 +93,14 @@ trait ConfirmationMustache {
       }
     }
 
+    def ifComplete(keys:Key*)(confirmationHtml: => List[String]): EitherErrorOrContent = {
+      if (keys.exists(form(_).hasErrors)) {
+        BlockError(completeThisStepMessage)
+      } else {
+        BlockContent(confirmationHtml)
+      }
+    }
+
     def name = {
       Some(ConfirmationQuestion(
         title = "Name",
@@ -188,7 +196,6 @@ trait ConfirmationMustache {
           if(form(keys.nino.nino).value.isDefined){
             List(form(keys.nino.nino).value.getOrElse(""))
           } else {
-            List("I have not moved in the last 12 months")
             List("I cannot provide my national insurance number because:",
               form(keys.nino.noNinoReason).value.getOrElse(""))
           }
@@ -252,40 +259,65 @@ trait ConfirmationMustache {
       ))
     }
 
+//    def previousAddress = {
+//      val hasCurrentUkAddress =
+//        form(keys.address.hasUkAddress).value match {
+//          case Some(hasUkAddress) if (hasUkAddress.toBoolean) => true
+//          case _ => false
+//        }
+//
+//      if (hasCurrentUkAddress) {
+//        Some(ConfirmationQuestion(
+//          title = "Your previous UK address",
+//          editLink = routes.PreviousAddressFirstController.editGet.url,
+//          changeName = "your previous UK address",
+//          content = ifComplete(keys.previousAddress) {
+//            val moved = form(keys.previousAddress.movedRecently).value.map { str =>
+//              MovedHouseOption.parse(str).hasPreviousAddress
+//            }.getOrElse(false)
+//
+//            if (moved) {
+//              val address = if (form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
+//                form(keys.previousAddress.previousAddress.addressLine).value
+//              } else {
+//                manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress)
+//              }
+//              val postcode = form(keys.previousAddress.previousAddress.postcode).value
+//              List(address, postcode).flatten
+//            } else {
+//              List("I have not moved in the last 12 months")
+//            }
+//          }
+//        ))
+//      }
+//      else {
+//        None
+//      }
+//    }
+
     def previousAddress = {
-      val hasCurrentUkAddress =
-        form(keys.address.hasUkAddress).value match {
-          case Some(hasUkAddress) if (hasUkAddress.toBoolean) => true
-          case _ => false
-        }
+      Some(ConfirmationQuestion(
+        title = "Your previous UK address",
+        editLink = routes.PreviousAddressFirstController.editGet.url,
+        changeName = "your previous UK address",
+        content = ifComplete(keys.previousAddress, keys.previousAddress.movedRecently) {
+          val moved = form(keys.previousAddress.movedRecently).value.map { str =>
+            MovedHouseOption.parse(str).hasPreviousAddress
+          }.getOrElse(false)
 
-      if (hasCurrentUkAddress) {
-        Some(ConfirmationQuestion(
-          title = "Your previous UK address",
-          editLink = routes.PreviousAddressFirstController.editGet.url,
-          changeName = "your previous UK address",
-          content = ifComplete(keys.previousAddress) {
-            val moved = form(keys.previousAddress.movedRecently).value.map { str =>
-              MovedHouseOption.parse(str).hasPreviousAddress
-            }.getOrElse(false)
-
-            if(moved) {
-              val address = if (form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
-                form(keys.previousAddress.previousAddress.addressLine).value
-              } else {
-                manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress)
-              }
-              val postcode = form(keys.previousAddress.previousAddress.postcode).value
-              List(address, postcode).flatten
+          if (moved) {
+            val address = if (form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
+              form(keys.previousAddress.previousAddress.addressLine).value
             } else {
-              List("I have not moved in the last 12 months")
+              manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress)
             }
+            val postcode = form(keys.previousAddress.previousAddress.postcode).value
+            List(address, postcode).flatten
+          } else {
+            List("I have not moved in the last 12 months")
           }
-        ))
-      }
-      else {
-        None
-      }
+        }
+      ))
     }
 
     def contactAddress = {
