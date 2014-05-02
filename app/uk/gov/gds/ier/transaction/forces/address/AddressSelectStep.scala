@@ -1,11 +1,12 @@
 package uk.gov.gds.ier.transaction.forces.address
 
 import controllers.step.forces.routes._
-import controllers.step.forces.PreviousAddressFirstController
+import controllers.step.forces.{PreviousAddressFirstController, NationalityController}
 import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{
+  LastUkAddress,
   Addresses,
   PossibleAddress}
 import uk.gov.gds.ier.security.EncryptionService
@@ -24,7 +25,7 @@ class AddressSelectStep @Inject() (
   with AddressForms
   with WithAddressService {
 
-  val validation = addressForm
+  val validation = selectStepForm
 
   val routes = Routes(
     get = AddressSelectController.get,
@@ -34,17 +35,28 @@ class AddressSelectStep @Inject() (
   )
 
   def nextStep(currentState: InprogressForces) = {
-    PreviousAddressFirstController.previousAddressFirstStep
+    val hasUkAddress = Some(true)
+
+    currentState.address match {
+      case Some(LastUkAddress(`hasUkAddress`,_))
+          => PreviousAddressFirstController.previousAddressFirstStep
+      case _ => NationalityController.nationalityStep
+    }
   }
 
-  override val onSuccess = TransformApplication { currentState =>
-    val addressWithAddressLine = currentState.address.map {
-      addressService.fillAddressLine(_)
+  def fillInAddressAndCleanManualAddress(currentState: InprogressForces) = {
+    val addressWithAddressLine = currentState.address.map { lastUkAddress =>
+      lastUkAddress.copy (
+        address = lastUkAddress.address.map(addressService.fillAddressLine(_).copy(manualAddress = None))
+      )
     }
 
     currentState.copy(
       address = addressWithAddressLine,
       possibleAddresses = None
     )
-  } andThen GoToNextIncompleteStep()
+  }
+
+  override val onSuccess = TransformApplication(fillInAddressAndCleanManualAddress) andThen GoToNextIncompleteStep()
+
 }

@@ -333,6 +333,13 @@ POST        /register-to-vote/forces/statement                          controll
 GET         /register-to-vote/forces/edit/statement                     controllers.step.forces.StatementController.editGet
 POST        /register-to-vote/forces/edit/statement                     controllers.step.forces.StatementController.editPost
 
+
+#First Address Step
+GET         /register-to-vote/forces/address/first                      controllers.step.forces.AddressFirstController.get
+POST        /register-to-vote/forces/address/first                      controllers.step.forces.AddressFirstController.post
+GET         /register-to-vote/forces/edit/address/first                 controllers.step.forces.AddressFirstController.editGet
+POST        /register-to-vote/forces/edit/address/first                 controllers.step.forces.AddressFirstController.editPost
+
 #Address Step
 GET         /register-to-vote/forces/address                            controllers.step.forces.AddressController.get
 POST        /register-to-vote/forces/address                            controllers.step.forces.AddressController.post

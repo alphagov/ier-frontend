@@ -20,25 +20,24 @@ import uk.gov.gds.ier.transaction.forces.InprogressForces
  *
  * So it is separated from the normal AddressStepTests
  */
-class AddressStepMockedTests extends FlatSpec with TestHelpers with Matchers with Mockito {
+class AddressFirstStepMockedTests extends FlatSpec with TestHelpers with Matchers with Mockito {
 
-  it should "redirect to Scotland exit page if the gssCode starts with S" in {
+  it should "clear the previous address if answer no to 'have uk address'" in {
     val mockedJsonSerialiser = mock[JsonSerialiser]
     val mockedConfig = mock[Config]
     val mockedEncryptionService = mock[EncryptionService]
     val mockedAddressService = mock[AddressService]
 
-    val addressStep = new AddressStep(mockedJsonSerialiser, mockedConfig,
+    val currentState = completeForcesApplication.copy(
+      address = Some(LastUkAddress(Some(false),
+        Some(PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)))),
+      previousAddress = Some(PartialPreviousAddress(Some(MovedHouseOption.NotMoved), None))
+    )
+    val addressFirstStep = new AddressFirstStep(mockedJsonSerialiser, mockedConfig,
         mockedEncryptionService, mockedAddressService)
 
-    val postcode = "EH1 1AA"
+    val result = addressFirstStep.clearPreviousAddress(currentState)
 
-    when (mockedAddressService.isScotland(postcode)).thenReturn(true)
-    val currentState = completeForcesApplication.copy(
-    		address = Some(LastUkAddress(Some(true),
-    		    Some(PartialAddress(None, None, postcode, None, None)))))
-
-    val transferedState = addressStep.nextStep(currentState)
-    transferedState should be (GoTo(ExitController.scotland))
+    result.previousAddress.isDefined should be (false)
   }
 }

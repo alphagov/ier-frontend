@@ -26,7 +26,6 @@ class ConfirmationFormTests
         val errorMessage = Seq("Please complete this step")
         hasErrors.errorMessages("statement") should be(errorMessage)
         hasErrors.errorMessages("address") should be(errorMessage)
-        hasErrors.errorMessages("previousAddress") should be(errorMessage)
         hasErrors.errorMessages("nationality") should be(errorMessage)
         hasErrors.errorMessages("dob") should be(errorMessage)
         hasErrors.errorMessages("name") should be(errorMessage)
@@ -38,8 +37,8 @@ class ConfirmationFormTests
         hasErrors.errorMessages("openRegister") should be(errorMessage)
         hasErrors.errorMessages("waysToVote") should be(errorMessage)
         hasErrors.errorMessages("contact") should be(errorMessage)
-        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(14)
-        hasErrors.errors.size should be(28)
+        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(13)
+        hasErrors.errors.size should be(26)
       },
       success => fail("Should have errored out.")
     )
@@ -52,7 +51,6 @@ class ConfirmationFormTests
         val errorMessage = Seq("Please complete this step")
         hasErrors.errorMessages("statement") should be(errorMessage)
         hasErrors.errorMessages("address") should be(errorMessage)
-        hasErrors.errorMessages("previousAddress") should be(errorMessage)
         hasErrors.errorMessages("nationality") should be(errorMessage)
         hasErrors.errorMessages("dob") should be(errorMessage)
         hasErrors.errorMessages("name") should be(errorMessage)
@@ -64,16 +62,16 @@ class ConfirmationFormTests
         hasErrors.errorMessages("openRegister") should be(errorMessage)
         hasErrors.errorMessages("waysToVote") should be(errorMessage)
         hasErrors.errorMessages("contact") should be(errorMessage)
-        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(14)
-        hasErrors.errors.size should be(28)
+        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(13)
+        hasErrors.errors.size should be(26)
       },
       success => fail("Should have errored out.")
     )
   }
-  
+
   it should "error out on waysToVote when waysToVote form is empty" in {
     val errorMessage = Seq("Please complete this step")
-    confirmationForm.fillAndValidate(completeForcesApplication.copy(waysToVote = None, 
+    confirmationForm.fillAndValidate(completeForcesApplication.copy(waysToVote = None,
         postalOrProxyVote = None)).fold (
             hasErrors => {
               hasErrors.errorMessages(keys.waysToVote.key) should be(errorMessage)
@@ -81,11 +79,11 @@ class ConfirmationFormTests
             success => fail("Should have errored out")
         )
   }
-  it should "bind successfully if the waysToVote is either post or proxy and the postal vote step is" + 
+  it should "bind successfully if the waysToVote is either post or proxy and the postal vote step is" +
     "filled in as well" in {
     val errorMessage = Seq("Please complete this step")
     confirmationForm.fillAndValidate(completeForcesApplication.copy(
-        waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)), 
+        waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
         postalOrProxyVote = Some(PostalOrProxyVote(WaysToVoteType.ByPost,Some(true),
           Some(PostalVoteDeliveryMethod(Some("post"),None)))))).fold (
             hasErrors => fail("the form should be valid"),

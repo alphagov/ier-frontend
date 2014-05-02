@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.forces.statement
 
-import controllers.step.forces.AddressController
+import controllers.step.forces.AddressFirstController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.model._
@@ -32,6 +32,6 @@ class StatementStep @Inject ()(
   )
 
   def nextStep(currentState: InprogressForces) = {
-    AddressController.addressStep
+    AddressFirstController.addressFirstStep
   }
 }

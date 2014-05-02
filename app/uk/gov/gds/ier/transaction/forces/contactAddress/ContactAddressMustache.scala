@@ -52,7 +52,7 @@ trait ContactAddressMustache extends StepTemplate[InprogressForces] with Address
 
     val ukAddress = application.address
 
-    val ukAddressToBeShown = extractUkAddressText(ukAddress, form)
+    val ukAddressToBeShown = extractUkAddressText(ukAddress.flatMap(_.address), form)
 
     val ukContactAddressModel = UKContactAddressModel(
       ukAddressOption = RadioField(

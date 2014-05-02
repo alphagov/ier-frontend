@@ -12,7 +12,7 @@ object PartialAddress extends ModelMapping {
   lazy val mapping = playMappings.mapping(
     keys.addressLine.key -> optional(nonEmptyText),
     keys.uprn.key -> optional(nonEmptyText),
-    keys.postcode.key -> nonEmptyText,
+    keys.postcode.key -> text,
     keys.manualAddress.key -> optional(PartialManualAddress.mapping),
     keys.gssCode.key -> optional(nonEmptyText)
   ) (

@@ -6,3 +6,17 @@ case class LastUkAddress(
     hasUkAddress:Option[Boolean],
     address:Option[PartialAddress]
 )
+
+object LastUkAddress extends ModelMapping {
+
+  import playMappings._
+
+  lazy val mapping = playMappings.mapping(
+    keys.hasUkAddress.key -> optional(boolean),
+    keys.address.key -> optional(PartialAddress.mapping)
+  ) (
+    LastUkAddress.apply
+  ) (
+    LastUkAddress.unapply
+  )
+}

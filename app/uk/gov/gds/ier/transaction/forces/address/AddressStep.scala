@@ -31,21 +31,12 @@ class AddressStep @Inject() (
   )
 
   def nextStep(currentState: InprogressForces) = {
-    val optAddress = currentState.address
-    
-    optAddress match {
-      case Some(partialAddress) => {
-        val postcode = partialAddress.postcode.trim.toUpperCase
-        if (postcode.isEmpty) 
-          this
-        else if (postcode.startsWith("BT"))
-          GoTo (ExitController.northernIreland)
-        else if (addressService.isScotland(postcode))
-          GoTo (ExitController.scotland)
-        else AddressSelectController.addressSelectStep
-      }
-      case None => this
-    }
+
+    if (currentState.address.exists(_.address.exists(_.postcode.startsWith("BT"))))
+      GoTo (ExitController.northernIreland)
+    else if (currentState.address.exists(_.address.exists(addr => addressService.isScotland(addr.postcode))))
+      GoTo (ExitController.scotland)
+    else AddressSelectController.addressSelectStep
   }
 
   override val onSuccess = {

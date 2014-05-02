@@ -29,7 +29,7 @@ class AddressManualMustacheTests
       InprogressForces()
     ).asInstanceOf[ManualModel]
 
-    addressModel.question.title should be("What is your UK address?")
+    addressModel.question.title should be("What was your last UK address?")
     addressModel.question.postUrl should be("/register-to-vote/forces/address/manual")
 
     addressModel.lookupUrl should be ("/register-to-vote/forces/address")
@@ -44,7 +44,7 @@ class AddressManualMustacheTests
   it should "progress form with valid values should produce Mustache Model with values present (manualData)" in {
 
     val partiallyFilledApplicationForm = addressForm.fill(InprogressForces(
-      address = Some(PartialAddress(
+      address = Some(LastUkAddress(Some(true), Some(PartialAddress(
         addressLine = None,
         uprn = None,
         postcode = "WR26NJ",
@@ -52,7 +52,7 @@ class AddressManualMustacheTests
           lineOne = Some("Unit 4, Elgar Business Centre"),
           lineTwo = Some("Moseley Road"),
           lineThree = Some("Hallow"),
-          city = Some("Worcester")))
+          city = Some("Worcester")))))
       )),
       possibleAddresses = None
     ))

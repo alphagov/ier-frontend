@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.service
 
-import uk.gov.gds.ier.model.{Address, PartialAddress}
+import uk.gov.gds.ier.model.{Address, PartialAddress, LastUkAddress}
 import com.google.inject.Inject
 
 class AddressService @Inject()(locateService: LocateService) {
@@ -38,12 +38,12 @@ class AddressService @Inject()(locateService: LocateService) {
   }
 
   def fillAddressLine(partial:PartialAddress):PartialAddress = {
-    val address = locateService.lookupAddress(partial) 
+    val address = locateService.lookupAddress(partial)
     val line = address map formAddressLine
-    
+
     partial.copy(addressLine = line, gssCode = address.flatMap(_.gssCode))
   }
-  
+
   def isScotland(postcode: String): Boolean = {
     locateService.lookupAddress(postcode).exists(_.gssCode.exists(_.startsWith("S")))
   }

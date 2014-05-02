@@ -20,25 +20,31 @@ import uk.gov.gds.ier.transaction.forces.InprogressForces
  *
  * So it is separated from the normal AddressStepTests
  */
-class AddressStepMockedTests extends FlatSpec with TestHelpers with Matchers with Mockito {
+class AddressSelectStepMockedTests extends FlatSpec with TestHelpers with Matchers with Mockito {
 
-  it should "redirect to Scotland exit page if the gssCode starts with S" in {
+  it should "clear the manual address if an address is selected" in {
     val mockedJsonSerialiser = mock[JsonSerialiser]
     val mockedConfig = mock[Config]
     val mockedEncryptionService = mock[EncryptionService]
     val mockedAddressService = mock[AddressService]
 
-    val addressStep = new AddressStep(mockedJsonSerialiser, mockedConfig,
+    val partialAddress = PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ",
+        Some(PartialManualAddress(Some("line1"), Some("line2"), Some("line3"), Some("city"))))
+
+    val currentState = completeForcesApplication.copy(
+      address = Some(LastUkAddress(Some(false), Some(partialAddress)))
+    )
+    val addressSelectStep = new AddressSelectStep(mockedJsonSerialiser, mockedConfig,
         mockedEncryptionService, mockedAddressService)
 
-    val postcode = "EH1 1AA"
+    when (mockedAddressService.fillAddressLine(partialAddress)).thenReturn(partialAddress)
 
-    when (mockedAddressService.isScotland(postcode)).thenReturn(true)
-    val currentState = completeForcesApplication.copy(
-    		address = Some(LastUkAddress(Some(true),
-    		    Some(PartialAddress(None, None, postcode, None, None)))))
+    val result = addressSelectStep.fillInAddressAndCleanManualAddress(currentState)
+    val expected = result.address.exists{addr =>
+      addr.address.exists(_.manualAddress == None)
+    }
 
-    val transferedState = addressStep.nextStep(currentState)
-    transferedState should be (GoTo(ExitController.scotland))
+    expected should be (true)
+
   }
 }

@@ -9,8 +9,8 @@ import uk.gov.gds.ier.validation.{
   PostcodeValidator}
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import scala.Some
 import uk.gov.gds.ier.model.{
+  LastUkAddress,
   PartialAddress,
   PartialManualAddress,
   PossibleAddress,
@@ -21,45 +21,6 @@ trait AddressForms extends AddressConstraints {
   self: FormKeys
   with ErrorMessages
   with WithSerialiser =>
-
-  // address mapping for select address page - the address part
-  lazy val partialAddressMapping = 
-    PartialAddress.mapping.verifying(postcodeIsValid, uprnOrManualDefined)
-
-  // address mapping for manual address - the address individual lines part
-  lazy val manualPartialAddressLinesMapping = 
-        PartialManualAddress.mapping.verifying(lineOneIsRequired, cityIsRequired)  
-
-  // address mapping for manual address - the address parent wrapper part
-  lazy val manualPartialAddressMapping = mapping(
-    keys.postcode.key -> nonEmptyText,
-    keys.manualAddress.key -> optional(manualPartialAddressLinesMapping)
-  ) (
-    (postcode, manualAddress) => PartialAddress(
-      addressLine = None,
-      uprn = None,
-      postcode = postcode,
-      manualAddress = manualAddress
-    )
-  ) (
-    partial => Some(
-      partial.postcode,
-      partial.manualAddress
-    )
-  ).verifying(postcodeIsValid)
-
-  lazy val postcodeLookupMapping = mapping(
-    keys.postcode.key -> nonEmptyText
-  ) (
-    postcode => PartialAddress(
-      addressLine = None,
-      uprn = None,
-      postcode = postcode,
-      manualAddress = None
-    )
-  ) (
-    partial => Some(partial.postcode)
-  ).verifying(postcodeIsValid)
 
   lazy val possibleAddressesMapping = mapping(
     keys.jsonList.key -> nonEmptyText,
@@ -76,21 +37,9 @@ trait AddressForms extends AddressConstraints {
     )
   )
 
-  val lookupAddressForm = ErrorTransformForm(
+  lazy val addressForm = ErrorTransformForm(
     mapping (
-      keys.address.key -> optional(postcodeLookupMapping)
-    ) (
-      addr => InprogressForces(
-        address = addr
-      )
-    ) (
-      inprogress => Some(inprogress.address)
-    ).verifying( postcodeIsNotEmpty )
-  )
-
-  val addressForm = ErrorTransformForm(
-    mapping (
-      keys.address.key -> optional(partialAddressMapping),
+      keys.address.key -> optional(LastUkAddress.mapping),
       keys.possibleAddresses.key -> optional(possibleAddressesMapping)
     ) (
       (addr, possibleAddr) => InprogressForces(
@@ -102,17 +51,29 @@ trait AddressForms extends AddressConstraints {
         inprogress.address,
         inprogress.possibleAddresses
       )
-    ).verifying( addressIsRequired )
+    ).verifying(
+      isPostcodeFormatValid,
+      manualAddressLineOneRequired,
+      cityIsRequired
+    )
   )
 
-  val manualAddressForm = ErrorTransformForm(
-    mapping(
-      keys.address.key -> optional(manualPartialAddressMapping)
-    ) (
-      addr => InprogressForces(address = addr)
-    ) (
-      inprogress => Some(inprogress.address)
-    ).verifying( manualAddressIsRequired )
+  private[address] lazy val lookupAddressForm = ErrorTransformForm(
+    addressForm.mapping.verifying(
+      postcodeIsNotEmpty
+    )
+  )
+
+  private[address] lazy val manualAddressForm = ErrorTransformForm(
+    addressForm.mapping.verifying(
+      manualAddressIsRequired
+    )
+  )
+
+  private[address] val selectStepForm = ErrorTransformForm(
+    addressForm.mapping.verifying(
+      selectedAddressIsRequired
+    )
   )
 }
 
@@ -124,20 +85,30 @@ trait AddressConstraints extends CommonConstraints {
   lazy val manualAddressIsRequired = Constraint[InprogressForces](keys.address.key) {
     inprogress =>
       inprogress.address match {
-        case Some(partialAddress) if partialAddress.manualAddress.isDefined => Valid
+        case Some(partialAddress) if (partialAddress.address.flatMap(_.manualAddress).isDefined &&
+          partialAddress.address.exists(!_.postcode.trim.isEmpty)) => Valid
         case _ => Invalid("Please answer this question", keys.address.manualAddress)
       }
   }
 
-  lazy val postcodeIsNotEmpty = Constraint[InprogressForces](keys.address.key) {
+  lazy val postcodeIsNotEmpty = Constraint[InprogressForces](keys.address.address.key) {
     inprogress =>
       inprogress.address match {
-        case Some(partialAddress) if partialAddress.postcode == "" => {
-          Invalid("Please enter your postcode", keys.address.postcode)
+        case Some(partialAddress) if (partialAddress.address.exists(_.postcode.trim.isEmpty)
+            || !partialAddress.address.isDefined) => {
+          Invalid("Please enter your postcode", keys.address.address.postcode)
         }
-        case None => Invalid("Please enter your postcode", keys.address.postcode)
+        case None => Invalid("Please enter your postcode", keys.address.address.postcode)
         case _ => Valid
       }
+  }
+
+  lazy val isPostcodeFormatValid = Constraint[InprogressForces](keys.address.address.key) {
+    inprogress =>
+      val possiblePostcode = inprogress.address.flatMap(_.address).map(_.postcode.trim).getOrElse("")
+      if (!PostcodeValidator.isValid(possiblePostcode) && possiblePostcode.nonEmpty)
+        Invalid( "Your postcode is not valid",keys.address.address.postcode)
+      else Valid
   }
 
   lazy val addressIsRequired = Constraint[InprogressForces](keys.address.key) {
@@ -157,22 +128,43 @@ trait AddressConstraints extends CommonConstraints {
     )
   }
 
-  lazy val postcodeIsValid = Constraint[PartialAddress](keys.address.key) {
-    case PartialAddress(_, _, postcode, _, _)
-      if PostcodeValidator.isValid(postcode) => Valid
-    case _ => Invalid("Your postcode is not valid", keys.address.postcode)
+  lazy val manualAddressLineOneRequired = Constraint[InprogressForces](
+    keys.address.manualAddress.key) { inprogress =>
+    val manualAddress = inprogress.address.flatMap(_.address).flatMap(_.manualAddress)
+    manualAddress match {
+      case Some(PartialManualAddress(None, _, _, _)) => Invalid(
+        lineOneIsRequiredError,
+        keys.address.address.manualAddress.lineOne
+      )
+      case _ => Valid
+    }
   }
 
-  lazy val lineOneIsRequired = Constraint[PartialManualAddress](
-    keys.address.manualAddress.key) {
-    case PartialManualAddress(Some(_), _, _, _) => Valid
-    case _ => Invalid(lineOneIsRequiredError, keys.address.manualAddress.lineOne)
+  lazy val cityIsRequired = Constraint[InprogressForces](
+    keys.address.manualAddress.key) { inprogress =>
+    val manualAddress = inprogress.address.flatMap(_.address).flatMap(_.manualAddress)
+    manualAddress match {
+      case Some(PartialManualAddress(_, _, _, None)) => Invalid(
+        cityIsRequiredError,
+        keys.address.address.manualAddress.city
+      )
+      case _ => Valid
+    }
   }
 
-  lazy val cityIsRequired = Constraint[PartialManualAddress](
-    keys.address.manualAddress.key) {
-    case PartialManualAddress(_, _, _, Some(_)) => Valid
-    case _ => Invalid(cityIsRequiredError, keys.address.manualAddress.city)
+  lazy val selectedAddressIsRequired = Constraint[InprogressForces](keys.address.key) {
+    inprogress =>
+      inprogress.address match {
+        case Some(partialAddress)
+          if partialAddress.address.exists(_.postcode.nonEmpty)
+          && (partialAddress.address.flatMap(_.uprn).isDefined
+          ||  partialAddress.address.flatMap(_.manualAddress).isDefined) => {
+          Valid
+        }
+        case _ => {
+          Invalid("Please select your address", keys.address.address.uprn)
+        }
+      }
   }
 }
 

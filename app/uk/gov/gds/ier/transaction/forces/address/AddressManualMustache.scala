@@ -8,6 +8,13 @@ trait AddressManualMustache extends StepTemplate[InprogressForces] {
 
   val questionNumber = "2"
 
+  private def pageTitle(hasUkAddress: Option[String]): String = {
+    hasUkAddress match {
+      case Some(hasUkAddress) if (!hasUkAddress.isEmpty && hasUkAddress.toBoolean) => "What is your UK address?"
+      case _ => "What was your last UK address?"
+    }
+  }
+
   case class ManualModel (
      question: Question,
      lookupUrl: String,
@@ -18,10 +25,11 @@ trait AddressManualMustache extends StepTemplate[InprogressForces] {
      maCity: Field
   ) extends MustacheData
 
+
   val mustache = MustacheTemplate("forces/addressManual") { (form, postUrl) =>
     implicit val progressForm = form
-  
-    val title = "What is your UK address?"
+
+    val title = pageTitle(form(keys.address.hasUkAddress).value)
 
     ManualModel(
       question = Question(
@@ -31,12 +39,11 @@ trait AddressManualMustache extends StepTemplate[InprogressForces] {
         errorMessages = progressForm.globalErrors.map(_.message)
       ),
       lookupUrl = AddressController.get.url,
-      postcode = TextField(keys.address.postcode),
-      maLineOne = TextField(keys.address.manualAddress.lineOne),
-      maLineTwo = TextField(keys.address.manualAddress.lineTwo),
-      maLineThree = TextField(keys.address.manualAddress.lineThree),
-      maCity = TextField(keys.address.manualAddress.city)
-    )
+      postcode = TextField(keys.address.address.postcode),
+      maLineOne = TextField(keys.address.address.manualAddress.lineOne),
+      maLineTwo = TextField(keys.address.address.manualAddress.lineTwo),
+      maLineThree = TextField(keys.address.address.manualAddress.lineThree),
+      maCity = TextField(keys.address.address.manualAddress.city))
   }
 }
 
