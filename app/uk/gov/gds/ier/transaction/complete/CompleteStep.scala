@@ -5,21 +5,24 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.service.PlacesService
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.session.SessionCleaner
-import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
+import uk.gov.gds.ier.guice.{WithRemoteAssets, WithEncryption, WithConfig}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
+import uk.gov.gds.ier.assets.RemoteAssets
 
-class CompleteStep @Inject() (val serialiser: JsonSerialiser,
-                              placesService:PlacesService,
-                              val config: Config,
-                              val encryptionService : EncryptionService)
-
-    extends Controller
-    with SessionCleaner
-    with WithSerialiser
-    with WithConfig
-    with WithEncryption
-    with CompleteMustache {
+class CompleteStep @Inject() (
+    val serialiser: JsonSerialiser,
+    placesService:PlacesService,
+    val config: Config,
+    val encryptionService: EncryptionService,
+    val remoteAssets: RemoteAssets
+) extends Controller
+  with SessionCleaner
+  with WithSerialiser
+  with WithConfig
+  with WithEncryption
+  with WithRemoteAssets
+  with CompleteMustache {
 
   def complete = ClearSession requiredFor {
     implicit request =>

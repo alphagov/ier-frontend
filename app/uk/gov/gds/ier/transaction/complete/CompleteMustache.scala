@@ -2,10 +2,16 @@ package uk.gov.gds.ier.transaction.complete
 
 import uk.gov.gds.ier.mustache.{StepMustache, GovukMustache}
 import uk.gov.gds.common.model.{Ero, LocalAuthority}
+import uk.gov.gds.ier.guice.WithRemoteAssets
 
 trait CompleteMustache {
+  self: WithRemoteAssets =>
 
-  object Complete extends StepMustache with GovukMustache {
+  val _remoteAssets = remoteAssets
+
+  object Complete extends StepMustache with GovukMustache with WithRemoteAssets {
+
+    val remoteAssets = _remoteAssets
 
     case class CompleteModel(
         authorityUrl: String,

@@ -27,6 +27,8 @@ class Config extends Logging {
   def cookiesAesKey = configuration.getString("ier.cookies.aes.encryptionKey")
   def cookiesSecured = configuration.getBoolean("ier.cookies.secured", false)
 
+  def assetsPath = configuration.getString("assets.path")
+
   def logConfiguration() = {
     logger.debug(s"apiTimeout:$apiTimeout")
     logger.debug(s"placesUrl:$placesUrl")
@@ -41,5 +43,6 @@ class Config extends Logging {
     logger.debug(s"revision:$revision")
     logger.debug(s"branch:$branch")
     logger.debug(s"cookiesSecured:$cookiesSecured")
+    logger.debug(s"assetsPath:$assetsPath")
   }
 }
