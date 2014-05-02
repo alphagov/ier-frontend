@@ -9,6 +9,7 @@ import scala.Some
 import controllers.step.ordinary.routes
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
 
 trait ConfirmationMustache {
 
@@ -59,14 +60,6 @@ trait ConfirmationMustache {
       )
     }
 
-  }
-
-  case class EitherErrorOrContent(blockContent: Option[List[String]], blockError: Option[String])
-  object BlockContent {
-    def apply(values: List[String]) = EitherErrorOrContent(blockContent = Some(values), blockError = None)
-  }
-  object BlockError {
-    def apply(value: String) = EitherErrorOrContent(blockContent = None, blockError = Some(value))
   }
 
   class ConfirmationBlocks(form: ErrorTransformForm[InprogressOrdinary])

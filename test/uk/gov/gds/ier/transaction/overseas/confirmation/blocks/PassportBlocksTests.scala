@@ -13,6 +13,7 @@ import uk.gov.gds.ier.model.{
 import uk.gov.gds.ier.transaction.overseas.confirmation.ConfirmationForms
 import org.joda.time.DateTime
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.transaction.shared.{BlockError, BlockContent}
 
 class PassportBlocksTests
   extends FlatSpec
@@ -38,7 +39,7 @@ class PassportBlocksTests
     val passportModel = confirmation.passport
 
     val model = passportModel
-    model.content should include("Please complete this step")
+    model.content should be(BlockContent("Please complete this step"))
     model.editLink should be("/register-to-vote/overseas/edit/passport")
   }
 
@@ -54,7 +55,7 @@ class PassportBlocksTests
     val passportModel = confirmation.passport
 
     val model = passportModel
-    model.content should include("Please complete this step")
+    model.content should be(BlockError("Please complete this step"))
     model.editLink should be("/register-to-vote/overseas/edit/passport-details")
   }
 
@@ -70,7 +71,7 @@ class PassportBlocksTests
     val passportModel = confirmation.passport
 
     val model = passportModel
-    model.content should include("Please complete this step")
+    model.content should be(BlockContent("Please complete this step"))
     model.editLink should be("/register-to-vote/overseas/edit/citizen-details")
   }
 }

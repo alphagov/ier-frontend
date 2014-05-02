@@ -18,17 +18,16 @@ trait WaysToVoteBlocks {
       val emailMe = form(keys.postalOrProxyVote.deliveryMethod.methodName).value == Some("email")
       val optIn = form(keys.postalOrProxyVote.optIn).value
       val ways = way match {
-        case Some(WaysToVoteType.ByPost) => "<p>I want to vote by post</p>"
-        case Some(WaysToVoteType.ByProxy) => "<p>I want to vote by proxy (someone else voting for me)</p>"
-        case Some(WaysToVoteType.InPerson) => "<p>I want to vote in person, at a polling station</p>"
-        case _ => ""
+        case Some(WaysToVoteType.ByPost) => List("I want to vote by post")
+        case Some(WaysToVoteType.ByProxy) => List("I want to vote by proxy (someone else voting for me)")
+        case Some(WaysToVoteType.InPerson) => List("I want to vote in person, at a polling station")
+        case _ => List()
       }
       val postalOrProxyVote = (optIn, emailMe) match {
-        case (Some("true"), true) => s"<p>Send an application form to:</p>" +
-          s"<p>${myEmail}</p>"
-        case (Some("true"), false) => s"<p>Send me an application form in the post</p>"
-        case (Some("false"), _) => s"<p>I do not need ${prettyWayName} application form</p>"
-        case (_, _) => ""
+        case (Some("true"), true) => List("Send an application form to:", myEmail)
+        case (Some("true"), false) => List("Send me an application form in the post")
+        case (Some("false"), _) => List("I do not need ${prettyWayName} application form")
+        case (_, _) => List()
       }
 
       ConfirmationQuestion(
@@ -36,9 +35,9 @@ trait WaysToVoteBlocks {
         editLink = routes.WaysToVoteController.editGet.url,
         changeName = "voting",
         content = ifComplete(keys.waysToVote) {
-          ways + postalOrProxyVote
+          ways ++ postalOrProxyVote
         }
       )
-  }  
+  }
 }
 

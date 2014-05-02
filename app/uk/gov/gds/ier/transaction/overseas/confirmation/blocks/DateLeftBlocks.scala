@@ -25,7 +25,7 @@ trait DateLeftBlocks {
       editLink = routes.DateLeftUkController.editGet.url,
       changeName = "date you left the UK",
       content = ifComplete(keys.dateLeftUk) {
-        s"<p>$yearMonth</p>"
+        List(yearMonth)
       }
     )
   }
@@ -38,7 +38,7 @@ trait DateLeftBlocks {
       editLink = routes.DateLeftArmyController.editGet.url,
       changeName = "date you cease to be a member of the armed forces",
       content = ifComplete(keys.dateLeftSpecial) {
-        s"<p>$yearMonth</p>"
+        List(yearMonth)
       }
     )
   }
@@ -51,7 +51,7 @@ trait DateLeftBlocks {
       editLink = routes.DateLeftCrownController.editGet.url,
       changeName = "date you cease to be a Crown Servant",
       content = ifComplete(keys.dateLeftSpecial) {
-        s"<p>$yearMonth</p>"
+        List(yearMonth)
       }
     )
   }
@@ -64,7 +64,7 @@ trait DateLeftBlocks {
       editLink = routes.DateLeftCrownController.editGet.url,
       changeName = "date you cease to be a British Council employee?",
       content = ifComplete(keys.dateLeftSpecial) {
-        s"<p>$yearMonth</p>"
+        List(yearMonth)
       }
     )
   }

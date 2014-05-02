@@ -24,7 +24,7 @@ trait ParentsAddressBlocks extends AddressHelpers {
           manualAddressToOneLine(form, keys.parentsAddress.manualAddress)
         }.getOrElse("")
         val postcode = form(keys.parentsAddress.postcode).value.getOrElse("")
-        s"<p>$addressLine</p><p>$postcode</p>"
+        List(addressLine, postcode)
       }
     )
   }

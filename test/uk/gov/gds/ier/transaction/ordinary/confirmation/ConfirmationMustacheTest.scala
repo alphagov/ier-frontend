@@ -10,6 +10,7 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 import uk.gov.gds.ier.model.WaysToVote
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.shared.BlockContent
 
 class ConfirmationMustacheTest
   extends FlatSpec

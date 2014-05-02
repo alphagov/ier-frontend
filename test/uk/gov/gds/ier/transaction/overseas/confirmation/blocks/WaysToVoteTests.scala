@@ -13,6 +13,7 @@ import uk.gov.gds.ier.model.{
 import uk.gov.gds.ier.transaction.overseas.confirmation.ConfirmationForms
 import org.joda.time.DateTime
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.transaction.shared.BlockContent
 
 class WaysToVoteBlocksTests
   extends FlatSpec
@@ -40,8 +41,7 @@ class WaysToVoteBlocksTests
     ))
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
     val model = confirmation.waysToVote
-    model.content should include("<p>I want to vote by post</p>")
-    model.content should include("Send me an application form in the post")
+    model.content should be(BlockContent(List("I want to vote by post", "Send me an application form in the post")))
     model.editLink should be("/register-to-vote/overseas/edit/ways-to-vote")
   }
 
@@ -60,7 +60,9 @@ class WaysToVoteBlocksTests
     ))
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
     val model = confirmation.waysToVote
-    model.content should include("I want to vote by proxy (someone else voting for me)")
+    model.content should be(BlockContent(List(
+      "I want to vote by proxy (someone else voting for me)",
+      "Send me an application form in the post")))
     model.editLink should be("/register-to-vote/overseas/edit/ways-to-vote")
   }
 
@@ -70,7 +72,7 @@ class WaysToVoteBlocksTests
       waysToVote = Some(WaysToVote(WaysToVoteType.InPerson))))
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
     val model = confirmation.waysToVote
-    model.content should include("I want to vote in person, at a polling station")
+    model.content should be(BlockContent("I want to vote in person, at a polling station"))
     model.editLink should be("/register-to-vote/overseas/edit/ways-to-vote")
   }
 }

@@ -11,6 +11,7 @@ import uk.gov.gds.ier.model.{
 import uk.gov.gds.ier.transaction.overseas.confirmation.ConfirmationForms
 import org.joda.time.DateTime
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError}
 
 class ParentNameBlocksTests
   extends FlatSpec
@@ -41,11 +42,11 @@ class ParentNameBlocksTests
     val parentPreviousNameModel = confirmation.parentPreviousName
 
     val nameModel = parentNameModel
-    nameModel.content should include ("Please complete this step")
+    nameModel.content should be (BlockError("Please complete this step"))
     nameModel.editLink should be ("/register-to-vote/overseas/edit/parent-name")
 
     val previousNameModel = parentPreviousNameModel
-    previousNameModel.content should include ("Please complete this step")
+    previousNameModel.content should be (BlockError("Please complete this step"))
     previousNameModel.editLink should be ("/register-to-vote/overseas/edit/parent-name")
   }
 
@@ -69,11 +70,11 @@ class ParentNameBlocksTests
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val nameModel = confirmation.parentName
-    nameModel.content should be("<p>John Smith</p>")
+    nameModel.content should be(BlockContent("John Smith"))
     nameModel.editLink should be("/register-to-vote/overseas/edit/parent-name")
 
     val prevNameModel = confirmation.parentPreviousName
-    prevNameModel.content should be("<p>Jan Kovar</p>")
+    prevNameModel.content should be(BlockContent("Jan Kovar"))
     prevNameModel.editLink should be("/register-to-vote/overseas/edit/parent-name")
   }
 
@@ -98,11 +99,11 @@ class ParentNameBlocksTests
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val parentNameModel = confirmation.parentName
-    parentNameModel.content should be("<p>John Walker Junior Smith</p>")
+    parentNameModel.content should be(BlockContent("John Walker Junior Smith"))
     parentNameModel.editLink should be("/register-to-vote/overseas/edit/parent-name")
 
     val parentPrevNameModel = confirmation.parentPreviousName
-    parentPrevNameModel.content should be("<p>Jan Janko Janik Kovar</p>")
+    parentPrevNameModel.content should be(BlockContent("Jan Janko Janik Kovar"))
     parentPrevNameModel.editLink should be("/register-to-vote/overseas/edit/parent-name")
   }
 
@@ -128,11 +129,11 @@ class ParentNameBlocksTests
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val parentNameModel = confirmation.parentName
-    parentNameModel.content should be("<p>John Walker Junior Smith</p>")
+    parentNameModel.content should be(BlockContent("John Walker Junior Smith"))
     parentNameModel.editLink should be("/register-to-vote/overseas/edit/parent-name")
 
     val parentPrevNameModel = confirmation.parentPreviousName
-    parentPrevNameModel.content should be("<p>They haven't changed their name since they left the UK</p>")
+    parentPrevNameModel.content should be(BlockContent("They haven't changed their name since they left the UK"))
     parentPrevNameModel.editLink should be("/register-to-vote/overseas/edit/parent-name")
   }
 }

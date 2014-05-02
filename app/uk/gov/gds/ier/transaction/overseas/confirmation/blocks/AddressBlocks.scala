@@ -11,21 +11,21 @@ trait AddressBlocks {
       editLink = routes.AddressController.editGet.url,
       changeName = "where do you live?",
       content = ifComplete(keys.overseasAddress) {
-
-        val result:StringBuilder = new StringBuilder
-        result.append ("<p>")
-        result.append (
-          List (
+        List(
+          // address lines separated are concatenated by comma and go to one paragraph
+          List(
             form(keys.overseasAddress.addressLine1).value,
             form(keys.overseasAddress.addressLine2).value,
             form(keys.overseasAddress.addressLine3).value,
             form(keys.overseasAddress.addressLine4).value,
-            form(keys.overseasAddress.addressLine5).value)
-          .filter(!_.getOrElse("").isEmpty).map(_.get).mkString("","<br/>",""))
-        result.append ("</p>")
-        result.append ("<p>" + form (keys.overseasAddress.country).value.getOrElse("") + "</p>")
-        result.toString()
+            form(keys.overseasAddress.addressLine5).value
+          ).flatten.mkString(", "), // FIXME: it still can produce empty string, not good, make it return None instead or Some(List(..))
+
+          // country goes to a separate paragraph
+          form(keys.overseasAddress.country).value
+        ).flatten
       }
     )
   }
+
 }

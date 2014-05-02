@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
 import controllers.step.overseas.routes
+import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError}
 
 trait PassportBlocks {
   self: ConfirmationBlock =>
@@ -25,14 +26,14 @@ trait PassportBlocks {
           title = "British Passport Details",
           editLink = routes.PassportCheckController.editGet.url,
           changeName = "your passport details",
-          content = "<p>I was born in the UK but I don't have a British passport</p>"
+          content = BlockContent(List("I was born in the UK but I don't have a British passport"))
         )
       }
       case _ => ConfirmationQuestion(
         title = "British Passport Details",
         editLink = routes.PassportCheckController.editGet.url,
         changeName = "your passport details",
-        content = completeThisStepMessage
+        content = BlockContent(List(completeThisStepMessage))
       )
     }
   }
@@ -61,7 +62,9 @@ trait PassportBlocks {
       title = "British Citizenship Details",
       editLink = route.url,
       changeName = "your citizenship details",
-      content = ifComplete(keys.passport) { citizenContent.getOrElse(completeThisStepMessage) }
+      content = ifComplete(keys.passport) {
+        List(citizenContent.getOrElse(completeThisStepMessage))
+      }
     )
   }
 
@@ -79,9 +82,10 @@ trait PassportBlocks {
       auth <- authority;
       date <- issueDate
     ) yield {
-      s"<p>Passport Number: $num</p>" +
-        s"<p>Authority: $auth</p>" +
-        s"<p>Issue Date: $date</p>"
+      List(
+        s"Passport Number: $num",
+        s"Authority: $auth",
+        s"Issue Date: $date")
     }
 
     val route = if(form(keys.passport).hasErrors) {
@@ -94,9 +98,13 @@ trait PassportBlocks {
       title = "British Passport Details",
       editLink = route.url,
       changeName = "your passport details",
-      content = ifComplete(keys.passport) { passportContent.getOrElse(completeThisStepMessage) }
+      content = {
+        if (form(keys.passport).hasErrors || passportContent.isEmpty) {
+          BlockError(completeThisStepMessage)
+        } else {
+          BlockContent(passportContent.get)
+        }
+      }
     )
   }
-
-
 }

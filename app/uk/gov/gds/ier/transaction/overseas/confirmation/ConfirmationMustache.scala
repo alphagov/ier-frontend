@@ -3,9 +3,7 @@ package uk.gov.gds.ier.transaction.overseas.confirmation
 import uk.gov.gds.ier.mustache.StepMustache
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.transaction.overseas.confirmation.blocks.{
-  ConfirmationQuestion,
-  ConfirmationBlocks}
+import uk.gov.gds.ier.transaction.overseas.confirmation.blocks.{ConfirmationQuestion, ConfirmationBlocks}
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait ConfirmationMustache {

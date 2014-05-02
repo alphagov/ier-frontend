@@ -2,15 +2,25 @@
     <header class="no-back-link">
         <h1>Check your answers before sending your application</h1>
     </header>
+
   {{#displayParentBlock}}
     <h2>Your parent's or guardian's details</h2>
     {{#parentDetails}}
     <div>
         <h3>{{title}}</h3>
         <div class="data-wrap">
-          {{{content}}}
+        {{#content}}
+            {{#blockContent}}
+            <p>{{.}}</p>
+            {{/blockContent}}
+            {{#blockError}}
+            <div class="validation-message visible">{{.}}</div>
+            {{/blockError}}
+        {{/content}}
         </div>
-        <a href="{{editLink}}" class="change">Change<span class="visuallyhidden"> {{changeName}}</span></a>
+        <a href="{{editLink}}" class="change">
+            Change<span class="visuallyhidden"> {{changeName}}</span>
+        </a>
     </div>
     {{/parentDetails}}
 
@@ -21,9 +31,18 @@
     <div>
         <h3>{{title}}</h3>
         <div class="data-wrap">
-          {{{content}}}
+            {{#content}}
+            {{#blockContent}}
+            <p>{{.}}</p>
+            {{/blockContent}}
+            {{#blockError}}
+            <div class="validation-message visible">{{.}}</div>
+            {{/blockError}}
+            {{/content}}
         </div>
-        <a href="{{editLink}}" class="change">Change<span class="visuallyhidden"> {{changeName}}</span></a>
+        <a href="{{editLink}}" class="change">
+            Change<span class="visuallyhidden"> {{changeName}}</span>
+        </a>
     </div>
   {{/applicantDetails}}
     <div class="help-notice">

@@ -6,12 +6,13 @@ import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.{ErrorTransformForm, Key}
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
 
 case class ConfirmationQuestion(
-    content: String,
-    title: String,
-    editLink: String,
-    changeName: String
+  content: EitherErrorOrContent,
+  title: String,
+  editLink: String,
+  changeName: String
 )
 
 trait ConfirmationBlock
@@ -21,15 +22,13 @@ trait ConfirmationBlock
 
   val form: ErrorTransformForm[InprogressOverseas]
 
-  val completeThisStepMessage = "<div class=\"validation-message visible\">" +
-    "Please complete this step" +
-    "</div>"
+  val completeThisStepMessage = "Please complete this step"
 
-  def ifComplete(key:Key)(confirmationHtml: => String) = {
+  def ifComplete(key:Key)(confirmationHtml: => List[String]): EitherErrorOrContent = {
     if (form(key).hasErrors) {
-      completeThisStepMessage
+      BlockError(completeThisStepMessage)
     } else {
-      confirmationHtml
+      BlockContent(confirmationHtml)
     }
   }
 }
@@ -71,7 +70,7 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
     }
   }
 
-  def youngVoterBlocks() = {
+  def youngVoterBlocks():List[ConfirmationQuestion] = {
     List(
       lastRegistered,
       dateLeftUk,
@@ -87,7 +86,7 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
     )
   }
 
-  def newVoterBlocks() = {
+  def newVoterBlocks():List[ConfirmationQuestion] = {
     List(
       lastRegistered,
       dateLeftUk,
@@ -104,7 +103,7 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
     )
   }
 
-  def renewerVoterBlocks() = {
+  def renewerVoterBlocks():List[ConfirmationQuestion] = {
     List(
       lastRegistered,
       dateLeftUk,
@@ -120,7 +119,7 @@ class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
     )
   }
 
-  def specialVoterBlocks() = {
+  def specialVoterBlocks():List[ConfirmationQuestion] = {
     List(
       lastRegistered,
       dateLeftSpecial,

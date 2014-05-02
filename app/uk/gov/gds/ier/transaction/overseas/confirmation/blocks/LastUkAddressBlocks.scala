@@ -20,7 +20,7 @@ trait LastUkAddressBlocks extends AddressHelpers {
           manualAddressToOneLine(form, keys.lastUkAddress.manualAddress)
         }.getOrElse("")
         val postcode = form(keys.lastUkAddress.postcode).value.getOrElse("")
-        s"<p>$addressLine</p><p>$postcode</p>"
+        List(addressLine, postcode)
       }
     )
   }
