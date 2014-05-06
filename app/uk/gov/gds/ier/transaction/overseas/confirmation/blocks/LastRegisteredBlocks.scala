@@ -2,6 +2,7 @@ package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
 import uk.gov.gds.ier.model.LastRegisteredType
 import controllers.step.overseas.routes
+import uk.gov.gds.ier.transaction.shared.{BlockError, BlockContent}
 
 trait LastRegisteredToVoteBlocks {
   self: ConfirmationBlock =>
@@ -12,13 +13,13 @@ trait LastRegisteredToVoteBlocks {
     val iWas = "I was last registered as"
 
     val lastRegisteredContent = form.lastRegisteredType match {
-      case Some(Overseas) => s"<p>$iWas an overseas voter</p>"
-      case Some(Ordinary) => s"<p>$iWas a UK resident</p>"
-      case Some(Forces) => s"<p>$iWas a member of the armed forces</p>"
-      case Some(Crown) => s"<p>$iWas a Crown servant</p>"
-      case Some(Council) => s"<p>$iWas a British council employee</p>"
-      case Some(NotRegistered) => "<p>I have never been registered</p>"
-      case _ => completeThisStepMessage
+      case Some(Overseas) => BlockContent(s"$iWas an overseas voter")
+      case Some(Ordinary) => BlockContent(s"$iWas a UK resident")
+      case Some(Forces) => BlockContent(s"$iWas a member of the armed forces")
+      case Some(Crown) => BlockContent(s"$iWas a Crown servant")
+      case Some(Council) => BlockContent(s"$iWas a British council employee")
+      case Some(NotRegistered) => BlockContent("I have never been registered")
+      case _ => BlockError(completeThisStepMessage)
     }
 
     ConfirmationQuestion(

@@ -46,7 +46,7 @@ trait AddressHelpers extends FormKeys {
 
   /**
    * Example:
-   * List("123 High Street", None, "Newtown", None) -> Some("123 High Street, Newtown")
+   * List(Some("123 High Street"), None, Some("Newtown"), None) -> Some("123 High Street, Newtown")
    * List(None, None, None) -> None
    */
   def concatAddressToOneLine(

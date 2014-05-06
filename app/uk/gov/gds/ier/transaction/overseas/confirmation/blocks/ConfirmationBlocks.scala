@@ -24,11 +24,11 @@ trait ConfirmationBlock
 
   val completeThisStepMessage = "Please complete this step"
 
-  def ifComplete(key:Key)(confirmationHtml: => List[String]): EitherErrorOrContent = {
+  def ifComplete(key:Key)(confirmationTexts: => List[String]): EitherErrorOrContent = {
     if (form(key).hasErrors) {
       BlockError(completeThisStepMessage)
     } else {
-      BlockContent(confirmationHtml)
+      BlockContent(confirmationTexts)
     }
   }
 }
