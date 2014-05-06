@@ -11,7 +11,7 @@ trait LastRegisteredToVoteBlocks {
 
     val iWas = "I was last registered as"
 
-    val previouslyRegisteredContent = form.lastRegisteredType match {
+    val lastRegisteredContent = form.lastRegisteredType match {
       case Some(Overseas) => s"<p>$iWas an overseas voter</p>"
       case Some(Ordinary) => s"<p>$iWas a UK resident</p>"
       case Some(Forces) => s"<p>$iWas a member of the armed forces</p>"
@@ -25,7 +25,7 @@ trait LastRegisteredToVoteBlocks {
       title = "Last registered to vote",
       editLink = routes.LastRegisteredToVoteController.editGet.url,
       changeName = "last registered to vote",
-      content = previouslyRegisteredContent
+      content = lastRegisteredContent
     )
   }
 }
