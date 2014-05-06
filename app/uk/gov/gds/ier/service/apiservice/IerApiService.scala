@@ -99,7 +99,9 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       ip = ipAddress
     )
 
-    val apiApplicant = ApiApplication(completeApplication.toApiMap)
+    val apiMap = ApiServiceUtil.removeSpecialCharacters(completeApplication.toApiMap)
+
+    val apiApplicant = ApiApplication(apiMap)
 
     sendApplication(apiApplicant)
   }
@@ -137,7 +139,10 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       ip = ip
     )
 
-    val apiApplicant = ApiApplication(completeApplication.toApiMap)
+    val apiMap = ApiServiceUtil.removeSpecialCharacters(completeApplication.toApiMap)
+
+    val apiApplicant = ApiApplication(apiMap)
+
     sendApplication(apiApplicant)
   }
 
@@ -188,7 +193,9 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       ip = ipAddress
     )
 
-    val apiApplicant = ApiApplication(completeApplication.toApiMap)
+    val apiMap = ApiServiceUtil.removeSpecialCharacters(completeApplication.toApiMap)
+
+    val apiApplicant = ApiApplication(apiMap)
 
     sendApplication(apiApplicant)
   }
@@ -239,7 +246,9 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       ip = ipAddress
     )
 
-    val apiApplicant = ApiApplication(completeApplication.toApiMap)
+    val apiMap = ApiServiceUtil.removeSpecialCharacters(completeApplication.toApiMap)
+
+    val apiApplicant = ApiApplication(apiMap)
 
     sendApplication(apiApplicant)
   }
