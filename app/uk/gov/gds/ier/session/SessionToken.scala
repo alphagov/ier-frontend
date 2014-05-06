@@ -4,4 +4,10 @@ import org.joda.time.DateTime
 
 case class SessionToken(
     timestamp: DateTime = DateTime.now
-)
+) {
+  def refreshToken() = {
+    this.copy(
+      timestamp = DateTime.now
+    )
+  }
+}
