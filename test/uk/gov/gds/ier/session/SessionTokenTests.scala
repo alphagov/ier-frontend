@@ -46,4 +46,18 @@ class SessionTokenTests extends FlatSpec with Matchers {
     result.history.size should be(100)
     result.history should contain(sessionToken.timestamp)
   }
+
+  it should "have a maximum limit to the history" in {
+    val sessionToken = SessionToken()
+
+    val result = (1 to 200).foldLeft(sessionToken) { case (token, i) =>
+      val refreshed = token.refreshToken()
+      refreshed.history should contain(token.timestamp)
+      refreshed
+    }
+
+    result.history.size should not be 200
+    result.history.size should be(100)
+    result.history should not contain sessionToken.timestamp
+  }
 }

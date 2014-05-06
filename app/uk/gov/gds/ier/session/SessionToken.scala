@@ -6,10 +6,12 @@ case class SessionToken(
     timestamp: DateTime = DateTime.now,
     history: List[DateTime] = List.empty
 ) {
+  require(history.size <= 100)
+
   def refreshToken() = {
     this.copy(
       timestamp = DateTime.now,
-      history = history :+ timestamp
+      history = (timestamp +: history).take(100)
     )
   }
 }
