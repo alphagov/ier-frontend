@@ -43,4 +43,24 @@ trait AddressHelpers extends FormKeys {
     // is checking by just line one enough?
     form(manualAddressKey.lineOne).value.isDefined
   }
+
+  /**
+   * Example:
+   * List("123 High Street", None, "Newtown", None) -> Some("123 High Street, Newtown")
+   * List(None, None, None) -> None
+   */
+  def concatAddressToOneLine(
+      form: ErrorTransformForm[_],
+      contactAddressKey: Key): Option[String] = {
+    List(
+      form(contactAddressKey.prependNamespace(keys.addressLine1)).value,
+      form(contactAddressKey.prependNamespace(keys.addressLine2)).value,
+      form(contactAddressKey.prependNamespace(keys.addressLine3)).value,
+      form(contactAddressKey.prependNamespace(keys.addressLine4)).value,
+      form(contactAddressKey.prependNamespace(keys.addressLine5)).value
+    ).flatten match {
+      case List() => None
+      case x => Some(x.mkString(", "))
+    }
+  }
 }

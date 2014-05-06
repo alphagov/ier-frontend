@@ -5,7 +5,6 @@ import uk.gov.gds.ier.model.WaysToVoteType
 import uk.gov.gds.ier.model.MovedHouseOption
 import controllers.step.crown._
 import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
-import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.{ErrorTransformForm, Key}
 import scala.Some
 import uk.gov.gds.ier.logging.Logging
@@ -259,42 +258,6 @@ trait ConfirmationMustache {
       ))
     }
 
-//    def previousAddress = {
-//      val hasCurrentUkAddress =
-//        form(keys.address.hasUkAddress).value match {
-//          case Some(hasUkAddress) if (hasUkAddress.toBoolean) => true
-//          case _ => false
-//        }
-//
-//      if (hasCurrentUkAddress) {
-//        Some(ConfirmationQuestion(
-//          title = "Your previous UK address",
-//          editLink = routes.PreviousAddressFirstController.editGet.url,
-//          changeName = "your previous UK address",
-//          content = ifComplete(keys.previousAddress) {
-//            val moved = form(keys.previousAddress.movedRecently).value.map { str =>
-//              MovedHouseOption.parse(str).hasPreviousAddress
-//            }.getOrElse(false)
-//
-//            if (moved) {
-//              val address = if (form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
-//                form(keys.previousAddress.previousAddress.addressLine).value
-//              } else {
-//                manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress)
-//              }
-//              val postcode = form(keys.previousAddress.previousAddress.postcode).value
-//              List(address, postcode).flatten
-//            } else {
-//              List("I have not moved in the last 12 months")
-//            }
-//          }
-//        ))
-//      }
-//      else {
-//        None
-//      }
-//    }
-
     def previousAddress = {
       Some(ConfirmationQuestion(
         title = "Your previous UK address",
@@ -347,17 +310,7 @@ trait ConfirmationMustache {
           else {
             ifComplete(keys.contactAddress) {
               val contactAddressKey = keys.contactAddress.prependNamespace(addressTypeKey.get)
-              val addressLines = List(
-                form(contactAddressKey.prependNamespace(keys.addressLine1)).value,
-                form(contactAddressKey.prependNamespace(keys.addressLine2)).value,
-                form(contactAddressKey.prependNamespace(keys.addressLine3)).value,
-                form(contactAddressKey.prependNamespace(keys.addressLine4)).value,
-                form(contactAddressKey.prependNamespace(keys.addressLine5)).value
-              ).flatten.mkString(", ") match {
-                case "" => None
-                case a => Some(a)
-                // FIXME: improve!
-              }
+              val addressLines = concatAddressToOneLine(form, contactAddressKey)
               val postcode = form(contactAddressKey.prependNamespace(keys.postcode)).value
               val country = form(contactAddressKey.prependNamespace(keys.country)).value
 

@@ -351,17 +351,7 @@ trait ConfirmationMustache extends WithAddressService{
           else {
             ifComplete(keys.contactAddress) {
               val contactAddressKey = keys.contactAddress.prependNamespace(addressTypeKey.get)
-              val addressLines = List(
-                form(contactAddressKey.prependNamespace(keys.addressLine1)).value,
-                form(contactAddressKey.prependNamespace(keys.addressLine2)).value,
-                form(contactAddressKey.prependNamespace(keys.addressLine3)).value,
-                form(contactAddressKey.prependNamespace(keys.addressLine4)).value,
-                form(contactAddressKey.prependNamespace(keys.addressLine5)).value
-              ).flatten.mkString(", ") match {
-                case "" => None
-                case a => Some(a)
-                // FIXME: improve!
-              }
+              val addressLines = concatAddressToOneLine(form, contactAddressKey)
               val postcode = form(contactAddressKey.prependNamespace(keys.postcode)).value
               val country = form(contactAddressKey.prependNamespace(keys.country)).value
 
