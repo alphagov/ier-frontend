@@ -2,23 +2,9 @@ package uk.gov.gds.ier.service.apiservice
 
 import uk.gov.gds.common.model.LocalAuthority
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.model.OverseasAddress
-import uk.gov.gds.ier.model.PreviouslyRegistered
-import uk.gov.gds.ier.model.Passport
-import uk.gov.gds.ier.model.PostalOrProxyVote
-import uk.gov.gds.ier.model.OverseasName
-import uk.gov.gds.ier.model.DateLeft
-import uk.gov.gds.ier.model.OverseasParentName
-import uk.gov.gds.ier.model.DateLeftSpecial
-import uk.gov.gds.ier.model.LastRegisteredToVote
-import uk.gov.gds.ier.model.DOB
-import uk.gov.gds.ier.model.Nino
-import uk.gov.gds.ier.model.Address
-import uk.gov.gds.ier.model.Contact
 
 case class OverseasApplication(
     overseasName: Option[OverseasName],
-    previouslyRegistered: Option[PreviouslyRegistered],
     dateLeftUk: Option[DateLeft],
     dateLeftSpecial: Option[DateLeftSpecial],
     overseasParentName: Option[OverseasParentName] = None,
@@ -40,7 +26,7 @@ case class OverseasApplication(
   def toApiMap = {
     Map.empty ++
       overseasName.map(_.toApiMap("p")).getOrElse(Map.empty) ++
-      previouslyRegistered.map(_.toApiMap(lastRegisteredToVote)).getOrElse(Map.empty) ++
+      lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
       dateLeftUk.map(_.toApiMap()).getOrElse(Map.empty) ++
       dateLeftSpecial.map(_.toApiMap).getOrElse(Map.empty) ++
       overseasParentName.map(_.toApiMap("pgr")).getOrElse(Map.empty) ++

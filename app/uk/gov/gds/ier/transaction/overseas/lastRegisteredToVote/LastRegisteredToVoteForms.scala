@@ -7,22 +7,12 @@ import play.api.data.Forms._
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait LastRegisteredToVoteForms extends LastRegisteredToVoteConstraints {
-  self: FormKeys 
+  self: FormKeys
   with ErrorMessages =>
-
-  lazy val lastRegisteredToVoteMapping = mapping(
-    keys.registeredType.key -> text.verifying(registeredTypeIsValid)
-  ) (
-    registeredTypeParam => LastRegisteredToVote(
-      LastRegisteredType.parse(registeredTypeParam)
-    )
-  ) (
-    registeredTypeObj => Some(registeredTypeObj.lastRegisteredType.name)
-  )
 
   val lastRegisteredToVoteForm = ErrorTransformForm(
     mapping(
-      keys.lastRegisteredToVote.key -> optional(lastRegisteredToVoteMapping)
+      keys.lastRegisteredToVote.key -> optional(LastRegisteredToVote.mapping)
     ) (
       lastRegisteredToVoteObj => InprogressOverseas(
         lastRegisteredToVote = lastRegisteredToVoteObj

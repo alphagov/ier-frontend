@@ -27,9 +27,6 @@ class OverseasApplicationTests
               middleNames = Some("John"),
               lastName = "Smith"
           ))))
-      )), 
-      previouslyRegistered = Some(PreviouslyRegistered(
-        hasPreviouslyRegistered = false
       )),
       dateLeftUk = Some(DateLeft(
         month = 1,
@@ -185,16 +182,15 @@ class OverseasApplicationTests
               middleNames = Some("John"),
               lastName = "Smith"
           ))))
-      )), 
-      previouslyRegistered = Some(PreviouslyRegistered(
-        hasPreviouslyRegistered = true
       )),
       dateLeftUk = Some(DateLeft(
         month = 1,
         year = 1990
       )),
       dateLeftSpecial = None,
-      lastRegisteredToVote = None,
+      lastRegisteredToVote = Some(LastRegisteredToVote(
+        lastRegisteredType = LastRegisteredType.Overseas
+      )),
       dob = Some(DOB(
         day = 1,
         month = 12,

@@ -2,23 +2,9 @@ package uk.gov.gds.ier.transaction.overseas
 
 import uk.gov.gds.ier.step.InprogressApplication
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.model.OverseasAddress
-import uk.gov.gds.ier.model.PreviouslyRegistered
-import uk.gov.gds.ier.model.Passport
-import uk.gov.gds.ier.model.PostalOrProxyVote
-import uk.gov.gds.ier.model.OverseasName
-import uk.gov.gds.ier.model.DateLeft
-import uk.gov.gds.ier.model.OverseasParentName
-import uk.gov.gds.ier.model.DateLeftSpecial
-import uk.gov.gds.ier.model.LastRegisteredToVote
-import uk.gov.gds.ier.model.DOB
-import uk.gov.gds.ier.model.Nino
-import uk.gov.gds.ier.model.WaysToVote
-import uk.gov.gds.ier.model.Contact
 
 case class InprogressOverseas(
     overseasName: Option[OverseasName] = None,
-    previouslyRegistered: Option[PreviouslyRegistered] = None,
     dateLeftSpecial: Option[DateLeftSpecial] = None,
     dateLeftUk: Option[DateLeft] = None,
     overseasParentName: Option[OverseasParentName] = None,
@@ -39,7 +25,6 @@ case class InprogressOverseas(
   def merge(other:InprogressOverseas) = {
     other.copy(
       overseasName = this.overseasName.orElse(other.overseasName),
-      previouslyRegistered = this.previouslyRegistered.orElse(other.previouslyRegistered),
       dateLeftSpecial = this.dateLeftSpecial.orElse(other.dateLeftSpecial),
       dateLeftUk = this.dateLeftUk.orElse(other.dateLeftUk),
       overseasParentName = this.overseasParentName.orElse(other.overseasParentName),

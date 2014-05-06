@@ -14,7 +14,7 @@ import uk.gov.gds.ier.model.Contact
 case class OrdinaryApplication(
     name: Option[Name],
     previousName: Option[PreviousName],
-    previouslyRegistered: Option[PreviouslyRegistered],
+    lastRegisteredToVote: Option[LastRegisteredToVote],
     dob: Option[DateOfBirth],
     nationality: Option[IsoNationality],
     nino: Option[Nino],
@@ -32,7 +32,7 @@ case class OrdinaryApplication(
   def toApiMap:Map[String, String] = {
     Map.empty ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
-      previouslyRegistered.map(_.toApiMap(None)).getOrElse(Map.empty) ++
+      lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
       previousName.map(_.toApiMap("p")).getOrElse(Map.empty) ++
       dob.map(_.toApiMap).getOrElse(Map.empty) ++
       nationality.map(_.toApiMap).getOrElse(Map.empty) ++

@@ -67,10 +67,6 @@ trait OverseasFormImplicits {
       }
     }
 
-    def previouslyRegisteredOverseas = {
-      form(keys.previouslyRegistered.hasPreviouslyRegistered).value.map { _ == "true" }
-    }
-
     def under18WhenLeft = {
       for(dob <- dateOfBirth; whenLeft <- dateLeftUk) yield {
         Years.yearsBetween(new YearMonth(dob), whenLeft).getYears() < 18
@@ -89,7 +85,6 @@ trait OverseasFormImplicits {
       identifyOverseasApplication(
         dateOfBirth map { dateTime => new YearMonth(dateTime) },
         dateLeftUk,
-        previouslyRegisteredOverseas,
         lastRegisteredType
       )
     }
@@ -103,24 +98,22 @@ trait OverseasFormImplicits {
       val whenLeft = application.dateLeftUk.map { dateLeft =>
         new YearMonth().withYear(dateLeft.year).withMonthOfYear(dateLeft.month)
       }
-      val previouslyRegistered = application.previouslyRegistered.map(_.hasPreviouslyRegistered)
       val lastRegistered = application.lastRegisteredToVote.map(_.lastRegisteredType)
 
-      identifyOverseasApplication(dateOfBirth, whenLeft, previouslyRegistered, lastRegistered)
+      identifyOverseasApplication(dateOfBirth, whenLeft, lastRegistered)
     }
   }
 
   private def identifyOverseasApplication(
       dob:Option[YearMonth],
       dateLeft:Option[YearMonth],
-      previouslyRegistered: Option[Boolean],
       lastRegistered: Option[LastRegisteredType]):ApplicationType = {
 
     val under18WhenLeft = for(dateOfBirth <- dob; whenLeft <- dateLeft) yield {
       Years.yearsBetween(dateOfBirth, whenLeft).getYears() < 18
     }
 
-    if (previouslyRegistered.exists(_ == true)) {
+    if (lastRegistered.exists(_ == LastRegisteredType.Overseas)) {
       ApplicationType.RenewerVoter
     } else if (lastRegistered.exists(_ == LastRegisteredType.Ordinary)) {
       ApplicationType.NewVoter

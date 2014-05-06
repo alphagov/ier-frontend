@@ -58,7 +58,6 @@ class ConfirmationFormTests
           "lastRegisteredToVote" -> errorMessage,
           "overseasParentName.parentName" -> errorMessage,
           "overseasParentName.parentPreviousName" -> errorMessage,
-          "previouslyRegistered" -> errorMessage,
           "NINO" -> errorMessage,
           "overseasAddress" -> errorMessage,
           "openRegister" -> errorMessage,
@@ -67,7 +66,7 @@ class ConfirmationFormTests
           "passport" -> errorMessage
         ))
         hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(1)
-        hasErrors.errors.size should be(14)
+        hasErrors.errors.size should be(13)
       },
       success => fail("Should have errored out.")
     )
@@ -84,7 +83,6 @@ class ConfirmationFormTests
         hasErrors.keyedErrorsAsMap should matchMap(Map(
           "overseasName.name" -> errorMessage,
           "overseasName.previousName" -> errorMessage,
-          "previouslyRegistered" -> errorMessage,
           "dob" -> errorMessage,
           "lastUkAddress" -> errorMessage,
           "dateLeftUk" -> errorMessage,
@@ -96,7 +94,7 @@ class ConfirmationFormTests
           "passport" -> errorMessage
         ))
         hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(1)
-        hasErrors.errors.size should be(13)
+        hasErrors.errors.size should be(12)
       },
       success => fail("Should have errored out.")
     )
@@ -114,7 +112,6 @@ class ConfirmationFormTests
         hasErrors.keyedErrorsAsMap should matchMap(Map(
           "overseasName.name" -> errorMessage,
           "overseasName.previousName" -> errorMessage,
-          "previouslyRegistered" -> errorMessage,
           "dob" -> errorMessage,
           "lastUkAddress" -> errorMessage,
           "dateLeftSpecial" -> errorMessage,
@@ -126,7 +123,7 @@ class ConfirmationFormTests
           "passport" -> errorMessage
         ))
         hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(1)
-        hasErrors.errors.size should be(13)
+        hasErrors.errors.size should be(12)
       },
       success => fail("Should have errored out.")
     )
@@ -142,7 +139,6 @@ class ConfirmationFormTests
         hasErrors.keyedErrorsAsMap should matchMap(Map(
           "overseasName.name" -> errorMessage,
           "overseasName.previousName" -> errorMessage,
-          "previouslyRegistered" -> errorMessage,
           "dob" -> errorMessage,
           "lastUkAddress" -> errorMessage,
           "dateLeftSpecial" -> errorMessage,
@@ -154,7 +150,7 @@ class ConfirmationFormTests
           "passport" -> errorMessage
         ))
         hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(1)
-        hasErrors.errors.size should be(13)
+        hasErrors.errors.size should be(12)
       },
       success => fail("Should have errored out.")
     )
@@ -170,7 +166,6 @@ class ConfirmationFormTests
         hasErrors.keyedErrorsAsMap should matchMap(Map(
           "overseasName.name" -> errorMessage,
           "overseasName.previousName" -> errorMessage,
-          "previouslyRegistered" -> errorMessage,
           "dob" -> errorMessage,
           "lastUkAddress" -> errorMessage,
           "dateLeftSpecial" -> errorMessage,
@@ -182,7 +177,7 @@ class ConfirmationFormTests
           "passport" -> errorMessage
         ))
         hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(1)
-        hasErrors.errors.size should be(13)
+        hasErrors.errors.size should be(12)
       },
       success => fail("Should have errored out.")
     )

@@ -7,7 +7,6 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import controllers.step.overseas.routes.LastRegisteredToVoteController
-import controllers.step.overseas.routes.PreviouslyRegisteredController
 import controllers.step.overseas.DateLeftUkController
 import controllers.step.overseas.{DateLeftArmyController, DateLeftCrownController, DateLeftCouncilController}
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
@@ -30,12 +29,15 @@ class LastRegisteredToVoteStep @Inject() (
   )
 
   def nextStep(currentState: InprogressOverseas) = {
+    import LastRegisteredType._
+
     currentState.lastRegisteredToVote.map(_.lastRegisteredType) match {
-      case Some(LastRegisteredType.Ordinary) => DateLeftUkController.dateLeftUkStep
-      case Some(LastRegisteredType.Forces) =>  DateLeftArmyController.dateLeftArmyStep
-      case Some(LastRegisteredType.Crown) => DateLeftCrownController.dateLeftCrownStep
-      case Some(LastRegisteredType.Council) => DateLeftCouncilController.dateLeftCouncilStep
-      case Some(LastRegisteredType.NotRegistered) => DateLeftUkController.dateLeftUkStep
+      case Some(Overseas) => DateLeftUkController.dateLeftUkStep
+      case Some(Ordinary) => DateLeftUkController.dateLeftUkStep
+      case Some(Forces) =>  DateLeftArmyController.dateLeftArmyStep
+      case Some(Crown) => DateLeftCrownController.dateLeftCrownStep
+      case Some(Council) => DateLeftCouncilController.dateLeftCouncilStep
+      case Some(NotRegistered) => DateLeftUkController.dateLeftUkStep
       case _ => this
     }
   }

@@ -29,7 +29,9 @@ class PassportBlocksTests
 
   it should "return 'complete this' message if not a renewer" in {
     val partialApplication = confirmationForm.fillAndValidate(InprogressOverseas(
-      previouslyRegistered = Some(PreviouslyRegistered(false))
+      lastRegisteredToVote = Some(LastRegisteredToVote(
+          LastRegisteredType.Ordinary
+      ))
     ))
 
     val confirmation = new ConfirmationBlocks(partialApplication)
@@ -42,7 +44,9 @@ class PassportBlocksTests
 
   it should "return 'complete this' message if passport details only partially complete" in {
     val partialApplication = confirmationForm.fillAndValidate(InprogressOverseas(
-      previouslyRegistered = Some(PreviouslyRegistered(false)),
+      lastRegisteredToVote = Some(LastRegisteredToVote(
+          LastRegisteredType.Ordinary
+      )),
       passport = Some(Passport(true, None, None, None))
     ))
 
@@ -56,7 +60,9 @@ class PassportBlocksTests
 
   it should "return 'complete this' message if citizen details only partially complete" in {
     val partialApplication = confirmationForm.fillAndValidate(InprogressOverseas(
-      previouslyRegistered = Some(PreviouslyRegistered(false)),
+      lastRegisteredToVote = Some(LastRegisteredToVote(
+          LastRegisteredType.Ordinary
+      )),
       passport = Some(Passport(false, Some(false), None, None))
     ))
 

@@ -43,7 +43,7 @@ class DateOfBirthStepTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/overseas/previously-registered"))
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/last-registered-to-vote"))
     }
   }
 
@@ -121,7 +121,7 @@ class DateOfBirthStepTests
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/overseas/previously-registered"))
+      redirectLocation(result) should be(Some("/register-to-vote/overseas/last-registered-to-vote"))
     }
   }
 

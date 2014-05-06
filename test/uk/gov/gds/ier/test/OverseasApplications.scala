@@ -10,7 +10,6 @@ trait OverseasApplications {
     overseasName = Some(OverseasName(
         Some(Name("John", None, "Smith")),
         Some(PreviousName(false, None)))),
-    previouslyRegistered = Some(PreviouslyRegistered(true)),
     dob = Some(DOB(year = 1970, month = 12, day = 12)),
     lastUkAddress = Some(
       PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)
@@ -31,7 +30,7 @@ trait OverseasApplications {
       addressLine3 = None,
       addressLine4 = None,
       addressLine5 = None)),
-    lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.Ordinary)),
+    lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.Overseas)),
     openRegisterOptin = Some(true),
     waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
     postalOrProxyVote = Some(PostalOrProxyVote(
@@ -83,6 +82,8 @@ trait OverseasApplications {
   )
 
   val incompleteRenewerApplication = InprogressOverseas(
-    previouslyRegistered = Some(PreviouslyRegistered(true))
+    lastRegisteredToVote = Some(LastRegisteredToVote(
+      lastRegisteredType = LastRegisteredType.Overseas
+    ))
   )
 }

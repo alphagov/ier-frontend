@@ -67,10 +67,7 @@ class LastRegisteredToVoteFormTests
         hasErrors.errorMessages("lastRegisteredToVote.registeredType") should be(
           Seq("blarghh is not a valid registration type")
         )
-        hasErrors.errorMessages("lastRegisteredToVote") should be(
-          Seq("blarghh is not a valid registration type")
-        )
-        hasErrors.errors.size should be(3)
+        hasErrors.errors.size should be(2)
         hasErrors.globalErrorMessages should be(Seq("blarghh is not a valid registration type"))
       },
       success => fail("Should have errored out.")
@@ -141,6 +138,23 @@ class LastRegisteredToVoteFormTests
         val Some(lastRegisteredToVote) = success.lastRegisteredToVote
 
         lastRegisteredToVote.lastRegisteredType should be(LastRegisteredType.Ordinary)
+      }
+    )
+  }
+
+  it should "bind successfully to uk living abroad" in {
+    val js = Json.toJson(
+      Map(
+        "lastRegisteredToVote.registeredType" -> "overseas"
+      )
+    )
+    lastRegisteredToVoteForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(", ")),
+      success => {
+        success.lastRegisteredToVote.isDefined should be(true)
+        val Some(lastRegisteredToVote) = success.lastRegisteredToVote
+
+        lastRegisteredToVote.lastRegisteredType should be(LastRegisteredType.Overseas)
       }
     )
   }

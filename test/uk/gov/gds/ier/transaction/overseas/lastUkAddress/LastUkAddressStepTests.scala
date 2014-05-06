@@ -433,11 +433,15 @@ behavior of "LastUkAddressStep.editGet"
   it should "stop on this page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/overseas/previously-registered")
+        FakeRequest(POST, "/register-to-vote/overseas/date-of-birth")
           .withIerSession()
-          .withApplication(completeOverseasApplication.copy(lastUkAddress = None))
+          .withApplication(completeOverseasApplication.copy(
+            lastUkAddress = None
+          ))
           .withFormUrlEncodedBody(
-            "previouslyRegistered.hasPreviouslyRegistered" -> "true"
+            "dob.day" -> "1",
+            "dob.month" -> "1",
+            "dob.year" -> "1970"
           )
       )
 

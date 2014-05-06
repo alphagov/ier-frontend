@@ -9,7 +9,6 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, Key, ErrorMessages}
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import uk.gov.gds.ier.transaction.overseas.lastUkAddress.LastUkAddressForms
-import uk.gov.gds.ier.transaction.overseas.previouslyRegistered.PreviouslyRegisteredForms
 import uk.gov.gds.ier.transaction.overseas.dateLeftSpecial.DateLeftSpecialForms
 import uk.gov.gds.ier.transaction.overseas.dateLeftUk.DateLeftUkForms
 import uk.gov.gds.ier.transaction.overseas.dateOfBirth.DateOfBirthForms
@@ -30,7 +29,6 @@ trait ConfirmationForms
   extends FormKeys
   with ErrorMessages
   with WithSerialiser
-  with PreviouslyRegisteredForms
   with DateLeftSpecialForms
   with DateLeftUkForms
   with ParentNameForms
@@ -56,11 +54,10 @@ trait ConfirmationForms
   val confirmationForm = ErrorTransformForm(
     mapping(
       keys.overseasName.key -> optional(overseasNameMapping),
-      keys.previouslyRegistered.key -> optional(previouslyRegisteredMapping),
       keys.dateLeftSpecial.key -> optional(dateLeftSpecialTypeMapping),
       keys.dateLeftUk.key -> optional(dateLeftUkMapping),
       keys.overseasParentName.key -> optional(overseasParentNameMapping),
-      keys.lastRegisteredToVote.key -> optional(lastRegisteredToVoteMapping),
+      keys.lastRegisteredToVote.key -> optional(LastRegisteredToVote.mapping),
       keys.dob.key -> optional(dobMapping),
       keys.nino.key -> optional(ninoMapping),
       keys.lastUkAddress.key -> optional(partialAddressMapping),
@@ -96,8 +93,6 @@ trait ConfirmationForms
   lazy val validateYoungVoter = Constraint[InprogressOverseas]("validateYoungVoter") { app =>
     val errorKeys = List(
       if (app.dob.isDefined) None else Some(keys.dob),
-      if (!app.previouslyRegistered.exists(_.hasPreviouslyRegistered == false))
-        Some(keys.previouslyRegistered) else None,
       if (app.lastRegisteredToVote.isDefined) None else Some(keys.lastRegisteredToVote),
       if (app.dateLeftUk.isDefined) None else Some(keys.dateLeftUk),
       if (app.overseasParentName.flatMap(_.previousName).isDefined) None
@@ -128,8 +123,6 @@ trait ConfirmationForms
   lazy val validateSpecialVoter = Constraint[InprogressOverseas]("validateSpecialVoter") { app =>
     val errorKeys = List(
       if (app.dob.isDefined) None else Some(keys.dob),
-      if (!app.previouslyRegistered.exists(_.hasPreviouslyRegistered == false))
-        Some(keys.previouslyRegistered) else None,
       if (app.lastRegisteredToVote.isDefined) None else Some(keys.lastRegisteredToVote),
       if (app.dateLeftSpecial.isDefined) None else Some(keys.dateLeftSpecial),
       if (app.lastUkAddress.isDefined) None else Some(keys.lastUkAddress),
@@ -155,8 +148,6 @@ trait ConfirmationForms
   lazy val validateNewVoter = Constraint[InprogressOverseas]("validateNewVoter") { app =>
     val errorKeys = List(
       if (app.dob.isDefined) None else Some(keys.dob),
-      if (!app.previouslyRegistered.exists(_.hasPreviouslyRegistered == false))
-        Some(keys.previouslyRegistered) else None,
       if (app.dateLeftUk.isDefined) None else Some(keys.dateLeftUk),
       if (app.lastUkAddress.isDefined) None else Some(keys.lastUkAddress),
       if (app.passport.isDefined) None else Some(keys.passport),
@@ -181,8 +172,6 @@ trait ConfirmationForms
   lazy val validateRenewerVoter = Constraint[InprogressOverseas]("validateRenewerVoter") { app =>
     val validationErrors = Seq (
       if (app.dob.isDefined) None else Some(keys.dob),
-      if (!app.previouslyRegistered.exists(_.hasPreviouslyRegistered == true))
-        Some(keys.previouslyRegistered) else None,
       if (app.dateLeftUk.isDefined) None else Some(keys.dateLeftUk),
       if (app.lastUkAddress.isDefined) None else Some(keys.lastUkAddress),
       if (app.overseasName.flatMap(_.previousName).isDefined) None else Some(keys.overseasName.previousName),

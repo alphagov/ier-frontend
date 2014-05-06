@@ -73,7 +73,9 @@ class OrdinaryApplicationTests
 
   it should "generate the expected payload when registered while abroad" in {
     lazy val application = createOrdinaryApplication.copy(
-      previouslyRegistered = Some(PreviouslyRegistered(true))
+      lastRegisteredToVote = Some(LastRegisteredToVote(
+        lastRegisteredType = LastRegisteredType.Overseas
+      ))
     )
 
     val apiMap = application.toApiMap
@@ -147,7 +149,7 @@ class OrdinaryApplicationTests
           lastName = "Smith"
         ))
       )),
-      previouslyRegistered = None,
+      lastRegisteredToVote = None,
       dob = Some(DateOfBirth(
         dob = Some(DOB(
           year = 1980,
