@@ -3,7 +3,7 @@
         <h1>Check your answers before sending your application</h1>
     </header>
 
-  {{#displayParentBlock}}
+    {{#displayParentBlock}}
     <h2>Your parent's or guardian's details</h2>
     {{#parentDetails}}
     <div>
@@ -25,9 +25,8 @@
     {{/parentDetails}}
 
     <h2>Your details</h2>
-  {{/displayParentBlock}}
-
-  {{#applicantDetails}}
+    {{/displayParentBlock}}
+    {{#applicantDetails}}
     <div>
         <h3>{{title}}</h3>
         <div class="data-wrap">
@@ -44,7 +43,8 @@
             Change<span class="visuallyhidden"> {{changeName}}</span>
         </a>
     </div>
-  {{/applicantDetails}}
+    {{/applicantDetails}}
+
     <div class="help-notice">
         <p>I understand that: </p>
         <p>The information I provide through this application will be used to change my details on the electoral register.</p>

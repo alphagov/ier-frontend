@@ -3,33 +3,47 @@
         <h1>Check your answers before sending your application</h1>
     </header>
 
-  {{#displayPartnerBlock}}
+    {{#displayPartnerBlock}}
     <h2>Your partner's details</h2>
-  {{#partnerDetails}}
+    {{#partnerDetails}}
         <div>
             <h3>{{title}}</h3>
             <div class="data-wrap">
-                {{{content}}}
+                {{#content}}
+                {{#blockContent}}
+                <p>{{.}}</p>
+                {{/blockContent}}
+                {{#blockError}}
+                <div class="validation-message visible">{{.}}</div>
+                {{/blockError}}
+                {{/content}}
             </div>
             <a href="{{editLink}}" class="change">
                 Change<span class="visuallyhidden"> {{changeName}}</span>
             </a>
         </div>
-  {{/partnerDetails}}
+    {{/partnerDetails}}
 
     <h2>Your details</h2>
-  {{/displayPartnerBlock}}
-  {{#applicantDetails}}
+    {{/displayPartnerBlock}}
+    {{#applicantDetails}}
     <div>
         <h3>{{title}}</h3>
         <div class="data-wrap">
-            {{{content}}}
+            {{#content}}
+            {{#blockContent}}
+            <p>{{.}}</p>
+            {{/blockContent}}
+            {{#blockError}}
+            <div class="validation-message visible">{{.}}</div>
+            {{/blockError}}
+            {{/content}}
         </div>
         <a href="{{editLink}}" class="change">
             Change<span class="visuallyhidden"> {{changeName}}</span>
         </a>
     </div>
-  {{/applicantDetails}}
+    {{/applicantDetails}}
 
     <div class="help-notice">
         <p>I understand that: </p>
