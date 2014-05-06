@@ -48,6 +48,10 @@ class AddressService @Inject()(locateService: LocateService) {
     locateService.lookupAddress(postcode).exists(_.gssCode.exists(_.startsWith("S")))
   }
 
+  def isNothernIreland(postcode: String): Boolean = {
+    postcode.toUpperCase.startsWith("BT")
+  }
+
   protected[service] def formAddressLine(address:Address):String = {
     List(
       address.lineOne,

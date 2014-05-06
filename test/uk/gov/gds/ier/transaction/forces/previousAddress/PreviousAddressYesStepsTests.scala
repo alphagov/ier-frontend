@@ -44,6 +44,21 @@ class PreviousAddressYesStepsTests
     }
   }
 
+  it should "redirect to nationality step if previous address is Northern Ireland" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/forces/previous-address/postcode")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "previousAddress.postcode" -> "BT7 1AA"
+          )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/forces/nationality"))
+    }
+  }
+
   it should "stay on same postcode page and display errors on POST with missing required data" in {
     running(FakeApplication()) {
       val Some(result) = route(

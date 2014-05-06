@@ -200,4 +200,22 @@ class AddressServiceTests extends FlatSpec
 
     addressService.isScotland("CCC33 3CC") should be(false)
   }
+
+  behavior of "isNorthernIreland"
+  it should "positively identify Northern Irish post code" in {
+    val mockLocate = mock[LocateService]
+    val addressService = new AddressService(mockLocate)
+
+    addressService.isNothernIreland(postcode = "BT7 1AA") should be(true)
+    addressService.isNothernIreland(postcode = "bt71aa") should be(true)
+
+    addressService.isNothernIreland(postcode = "SW1 E34") should be(false)
+    addressService.isNothernIreland(postcode = "NU2 6UN") should be(false)
+    addressService.isNothernIreland(postcode = "ABC DEF") should be(false)
+    addressService.isNothernIreland(postcode = "ABCDEF") should be(false)
+    addressService.isNothernIreland(postcode = "abcdef") should be(false)
+
+
+  }
+
 }

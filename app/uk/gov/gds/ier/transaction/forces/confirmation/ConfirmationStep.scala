@@ -12,18 +12,22 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.service.apiservice.IerApiService
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.service.AddressService
 
 
 class ConfirmationStep @Inject() (
     val encryptionService: EncryptionService,
     val config: Config,
     val serialiser: JsonSerialiser,
+    val addressService: AddressService,
     ierApi: IerApiService)
   extends ConfirmationStepController[InprogressForces]
     with ConfirmationForms
     with ConfirmationMustache {
 
   def factoryOfT() = InprogressForces()
+
+
 
   val routes = Routes(
     get = ConfirmationController.get,

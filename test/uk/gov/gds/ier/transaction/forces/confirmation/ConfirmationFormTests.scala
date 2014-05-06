@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.forces.confirmation
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import org.scalatest.{Matchers, FlatSpec}
 import play.api.libs.json.JsNull
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockAddressService, TestHelpers}
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.transaction.forces.InprogressForces
@@ -15,7 +15,8 @@ class ConfirmationFormTests
   with WithSerialiser
   with ErrorMessages
   with FormKeys
-  with TestHelpers {
+  with TestHelpers
+  with WithMockAddressService{
 
   val serialiser = jsonSerialiser
 
@@ -94,8 +95,7 @@ class ConfirmationFormTests
         )
   }
 
-  it should "error out on previous address when movedHouse" in {
-    val errorMessage = Seq("Please complete this step")
+  it should "error out on previous address when movedHouse is an invalid option" in {
     confirmationForm.fillAndValidate(completeForcesApplication.copy(
         previousAddress = Some(PartialPreviousAddress(Some(MovedHouseOption.MovedFromUk), None))
      )).fold (
@@ -103,6 +103,40 @@ class ConfirmationFormTests
         hasErrors.errorMessages(keys.previousAddress.movedRecently.key) should be(Seq("Not a valid option"))
       },
       success => fail("Should have errored out")
+    )
+  }
+
+  it should "error out on previous address when previous address has not been filled in" in {
+    val errorMessage = Seq("Please complete this step")
+    confirmationForm.fillAndValidate(completeForcesApplication.copy(
+      previousAddress = Some(PartialPreviousAddress(Some(MovedHouseOption.Yes), None))
+    )).fold (
+      hasErrors => {
+        hasErrors.errorMessages(keys.previousAddress.key) should be(errorMessage)
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
+  it should "bind successfully if the previous address postcode was Northern Ireland" in {
+    confirmationForm.fillAndValidate(completeForcesApplication.copy(
+        previousAddress = Some(PartialPreviousAddress(
+          movedRecently = Some(MovedHouseOption.Yes),
+          previousAddress = Some(PartialAddress(
+            addressLine = None,
+            uprn = None,
+            postcode = "bt7 1aa",
+            manualAddress = None
+          ))
+        ))
+      )).fold (
+      hasErrors => {
+        println(hasErrors.prettyPrint)
+        fail("the form should be valid")
+      },
+      success => {
+        success.previousAddress.isDefined
+      }
     )
   }
 }
