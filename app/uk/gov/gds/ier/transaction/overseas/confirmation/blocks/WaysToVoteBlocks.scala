@@ -26,7 +26,7 @@ trait WaysToVoteBlocks {
       val postalOrProxyVote = (optIn, emailMe) match {
         case (Some("true"), true) => List("Send an application form to:", myEmail)
         case (Some("true"), false) => List("Send me an application form in the post")
-        case (Some("false"), _) => List("I do not need ${prettyWayName} application form")
+        case (Some("false"), _) => List(s"I do not need ${prettyWayName} application form")
         case (_, _) => List()
       }
 

@@ -41,7 +41,9 @@ class WaysToVoteBlocksTests
     ))
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
     val model = confirmation.waysToVote
-    model.content should be(BlockContent(List("I want to vote by post", "Send me an application form in the post")))
+    model.content should be(BlockContent(List(
+      "I want to vote by post",
+      "Send me an application form in the post")))
     model.editLink should be("/register-to-vote/overseas/edit/ways-to-vote")
   }
 
@@ -72,7 +74,44 @@ class WaysToVoteBlocksTests
       waysToVote = Some(WaysToVote(WaysToVoteType.InPerson))))
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
     val model = confirmation.waysToVote
-    model.content should be(BlockContent("I want to vote in person, at a polling station"))
+    model.content should be(BlockContent(
+      "I want to vote in person, at a polling station"))
+    model.editLink should be("/register-to-vote/overseas/edit/ways-to-vote")
+  }
+
+  "application form with filled way to vote as in-person with no delivery method" should
+    "generate block content stating I don't need 'an' application form" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
+      waysToVote = Some(WaysToVote(WaysToVoteType.InPerson)),
+      postalOrProxyVote = Some(PostalOrProxyVote(
+        typeVote = WaysToVoteType.InPerson,
+        postalVoteOption = Some(false),
+        None
+      ))
+    ))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+    val model = confirmation.waysToVote
+    model.content should be(BlockContent(List(
+      "I want to vote in person, at a polling station",
+      "I do not need an application form")))
+    model.editLink should be("/register-to-vote/overseas/edit/ways-to-vote")
+  }
+
+  "application form with filled way to vote by post with no delivery method" should
+    "generate block content stating I don't need 'a postal vote' application form" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
+      waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
+      postalOrProxyVote = Some(PostalOrProxyVote(
+        typeVote = WaysToVoteType.ByPost,
+        postalVoteOption = Some(false),
+        None
+      ))
+    ))
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+    val model = confirmation.waysToVote
+    model.content should be(BlockContent(List(
+      "I want to vote by post",
+      "I do not need a postal vote application form")))
     model.editLink should be("/register-to-vote/overseas/edit/ways-to-vote")
   }
 }

@@ -373,7 +373,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(addressModel) = confirmation.address
-    addressModel.content should be("<p>123 Fake Street</p><p>AB12 3CD</p>")
+    addressModel.content should be(BlockContent(List("123 Fake Street", "AB12 3CD")))
     addressModel.editLink should be("/register-to-vote/forces/edit/address/first")
   }
 
@@ -419,9 +419,9 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(addressModel) = confirmation.address
-    addressModel.content should be("" +
-      "<p>Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester</p>" +
-      "<p>AB12 3CD</p>")
+    addressModel.content should be(BlockContent(List(
+      "Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester",
+      "AB12 3CD")))
     addressModel.editLink should be("/register-to-vote/forces/edit/address/first")
   }
 

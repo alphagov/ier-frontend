@@ -271,11 +271,11 @@ trait ConfirmationMustache extends WithAddressService{
         title = "UK registration address",
         editLink = routes.AddressFirstController.editGet.url,
         changeName = "your UK registration address",
-        content = ifComplete(keys.address) {
-          val addressLine = form(keys.address.addressLine).value.orElse{
-            manualAddressToOneLine(form, keys.address.manualAddress)
+        content = ifComplete(keys.address.address) {
+          val addressLine = form(keys.address.address.addressLine).value.orElse{
+            manualAddressToOneLine(form, keys.address.address.manualAddress)
           }
-          val postcode = form(keys.address.postcode).value
+          val postcode = form(keys.address.address.postcode).value
           List(addressLine, postcode).flatten
         }
       ))
@@ -341,10 +341,10 @@ trait ConfirmationMustache extends WithAddressService{
             ifComplete(keys.address) {
               //println(">>>" + form(keys.address.address.manualAddress.lineOne).value)
               //println(">>>" + form(keys.address.manualAddress.lineOne).value)
-              val addressLine = form(keys.address.addressLine).value.orElse{
-                manualAddressToOneLine(form, keys.address.manualAddress)
+              val addressLine = form(keys.address.address.addressLine).value.orElse{
+                manualAddressToOneLine(form, keys.address.address.manualAddress)
               }
-              val postcode = form(keys.address.postcode).value
+              val postcode = form(keys.address.address.postcode).value
               List(addressLine, postcode).flatten
             }
           }

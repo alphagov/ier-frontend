@@ -25,7 +25,6 @@
     {{/partnerDetails}}
 
     <h2>Your details</h2>
-    {{/displayPartnerBlock}}
     {{#applicantDetails}}
     <div>
         <h3>{{title}}</h3>
@@ -44,6 +43,28 @@
         </a>
     </div>
     {{/applicantDetails}}
+    {{/displayPartnerBlock}}
+
+    {{^displayPartnerBlock}}
+    {{#completeApplicantDetails}}
+    <div>
+        <h3>{{title}}</h3>
+        <div class="data-wrap">
+            {{#content}}
+            {{#blockContent}}
+            <p>{{.}}</p>
+            {{/blockContent}}
+            {{#blockError}}
+            <div class="validation-message visible">{{.}}</div>
+            {{/blockError}}
+            {{/content}}
+        </div>
+        <a href="{{editLink}}" class="change">
+            Change<span class="visuallyhidden"> {{changeName}}</span>
+        </a>
+    </div>
+    {{/completeApplicantDetails}}
+    {{/displayPartnerBlock}}
 
     <div class="help-notice">
     <p>I understand that: </p>
