@@ -4,7 +4,7 @@ import uk.gov.gds.ier.guice.{WithConfig, WithEncryption}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.mvc._
 
-trait SessionCleaner extends ResultCleaning {
+trait SessionCleaner extends ResultHandling {
   self: WithEncryption with WithSerialiser with WithConfig =>
 
   object NewSession {

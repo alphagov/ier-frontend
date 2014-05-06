@@ -8,10 +8,12 @@ trait RequestHandling {
 
     private[session] implicit class InProgressRequest(request: play.api.mvc.Request[_])
       extends SessionKeys {
-        def getToken = for {
+        def getToken: Option[SessionToken] = for {
             cookie <- request.cookies.get(sessionTokenKey)
             cookieInitVec <- request.cookies.get(sessionTokenKeyIV)
-        } yield encryptionService.decrypt(cookie.value, cookieInitVec.value)
+        } yield serialiser.fromJson[SessionToken](
+          encryptionService.decrypt(cookie.value, cookieInitVec.value)
+        )
 
         def getApplication[T](implicit manifest: Manifest[T]): Option[T] = for {
             cookie <- request.cookies.get(sessionPayloadKey)

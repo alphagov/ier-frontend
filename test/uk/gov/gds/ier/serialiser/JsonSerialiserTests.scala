@@ -3,6 +3,7 @@ package uk.gov.gds.ier.serialiser
 import org.specs2.mutable._
 import uk.gov.gds.common.json.JsonSerializer
 import uk.gov.gds.ier.model.Success
+import org.joda.time.DateTime
 
 class JsonSerialiserTests extends Specification {
 

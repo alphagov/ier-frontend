@@ -64,13 +64,13 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
       val decryptedInfo = controller.encryptionService.decrypt(cookie.value, cookieIV.value)
 
-      val tokenDate = DateTime.parse(decryptedInfo)
-      tokenDate.getDayOfMonth should be(DateTime.now.getDayOfMonth)
-      tokenDate.getMonthOfYear should be(DateTime.now.getMonthOfYear)
-      tokenDate.getYear should be(DateTime.now.getYear)
-      tokenDate.getHourOfDay should be(DateTime.now.getHourOfDay)
-      tokenDate.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
-      tokenDate.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 2)
+      val token = jsonSerialiser.fromJson[SessionToken](decryptedInfo)
+      token.timestamp.getDayOfMonth should be(DateTime.now.getDayOfMonth)
+      token.timestamp.getMonthOfYear should be(DateTime.now.getMonthOfYear)
+      token.timestamp.getYear should be(DateTime.now.getYear)
+      token.timestamp.getHourOfDay should be(DateTime.now.getHourOfDay)
+      token.timestamp.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
+      token.timestamp.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 2)
     }
   }
 
@@ -138,14 +138,14 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       cookies(result).get("sessionKey") should not be None
       cookies(result).get("sessionKeyIV") should not be None
 
-      val Some(initialToken) = cookies(result).get("sessionKey")
+      val Some(initialTokenHash) = cookies(result).get("sessionKey")
       val Some(initialTokenIV) = cookies(result).get("sessionKeyIV")
 
       val initialTokendecryptedInfo =
-        controller.encryptionService.decrypt(initialToken.value, initialTokenIV.value)
-      val initialTokenDate = DateTime.parse(initialTokendecryptedInfo)
+        controller.encryptionService.decrypt(initialTokenHash.value, initialTokenIV.value)
+      val initialToken = jsonSerialiser.fromJson[SessionToken](initialTokendecryptedInfo)
 
-      val nextResult = controller.nextStep()(FakeRequest().withCookies(initialToken, initialTokenIV))
+      val nextResult = controller.nextStep()(FakeRequest().withCookies(initialTokenHash, initialTokenIV))
       status(nextResult) should be(OK)
 
       val Some(newToken) = cookies(nextResult).get("sessionKey")
@@ -153,15 +153,15 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
       val newTokendecryptedInfo =
         controller.encryptionService.decrypt(newToken.value, newTokenIV.value)
-      val nextTokenDate = DateTime.parse(newTokendecryptedInfo)
+      val nextToken = jsonSerialiser.fromJson[SessionToken](newTokendecryptedInfo)
 
-      nextTokenDate should not be initialTokenDate
-      nextTokenDate.getDayOfMonth should be(DateTime.now.getDayOfMonth)
-      nextTokenDate.getMonthOfYear should be(DateTime.now.getMonthOfYear)
-      nextTokenDate.getYear should be(DateTime.now.getYear)
-      nextTokenDate.getHourOfDay should be(DateTime.now.getHourOfDay)
-      nextTokenDate.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
-      nextTokenDate.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 1)
+      nextToken should not be initialToken
+      nextToken.timestamp.getDayOfMonth should be(DateTime.now.getDayOfMonth)
+      nextToken.timestamp.getMonthOfYear should be(DateTime.now.getMonthOfYear)
+      nextToken.timestamp.getYear should be(DateTime.now.getYear)
+      nextToken.timestamp.getHourOfDay should be(DateTime.now.getHourOfDay)
+      nextToken.timestamp.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
+      nextToken.timestamp.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 1)
     }
   }
 
@@ -188,9 +188,9 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       }
 
       val controller = new TestController()
-
+      val sessionToken = SessionToken(DateTime.now.minusMinutes(20))
       val (encryptedSessionTokenValue, encryptedSessionTokenIVValue) =
-        controller.encryptionService.encrypt(DateTime.now.minusMinutes(20).toString())
+        controller.encryptionService.encrypt(jsonSerialiser.toJson(sessionToken))
 
       val result = controller.index()(
         FakeRequest().withCookies(
@@ -209,14 +209,14 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
       val decryptedInfo = controller.encryptionService.decrypt(token.value, tokenIV.value)
 
-      val tokenDate = DateTime.parse(decryptedInfo)
-      tokenDate.getDayOfMonth should be(DateTime.now.getDayOfMonth)
-      tokenDate.getMonthOfYear should be(DateTime.now.getMonthOfYear)
-      tokenDate.getYear should be(DateTime.now.getYear)
-      tokenDate.getHourOfDay should be(DateTime.now.getHourOfDay)
-      tokenDate.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
-      tokenDate.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 2)
-      tokenDate.getMinuteOfHour should not be(DateTime.now.minusMinutes(6).getMinuteOfHour)
+      val tokenDate = jsonSerialiser.fromJson[SessionToken](decryptedInfo)
+      tokenDate.timestamp.getDayOfMonth should be(DateTime.now.getDayOfMonth)
+      tokenDate.timestamp.getMonthOfYear should be(DateTime.now.getMonthOfYear)
+      tokenDate.timestamp.getYear should be(DateTime.now.getYear)
+      tokenDate.timestamp.getHourOfDay should be(DateTime.now.getHourOfDay)
+      tokenDate.timestamp.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
+      tokenDate.timestamp.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 2)
+      tokenDate.timestamp.getMinuteOfHour should not be(DateTime.now.minusMinutes(20).getMinuteOfHour)
     }
   }
 
@@ -244,12 +244,14 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       }
 
       val controller = new TestController()
+      val sessionToken = SessionToken(DateTime.now.minusMinutes(19))
       val (encryptedSessionTokenValue, encryptedSessionTokenIVValue) =
-        controller.encryptionService.encrypt(DateTime.now.minusMinutes(19).toString())
+        controller.encryptionService.encrypt(jsonSerialiser.toJson(sessionToken))
+
       val result = controller.index()(
         FakeRequest().withCookies(
-          Cookie("sessionKey",encryptedSessionTokenValue),
-          Cookie("sessionKeyIV",encryptedSessionTokenIVValue)
+          Cookie("sessionKey", encryptedSessionTokenValue),
+          Cookie("sessionKeyIV", encryptedSessionTokenIVValue)
         )
       )
 
@@ -263,13 +265,13 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
       val decryptedInfo = controller.encryptionService.decrypt(token.value, tokenIV.value)
 
-      val tokenDate = DateTime.parse(decryptedInfo)
-      tokenDate.getDayOfMonth should be(DateTime.now.getDayOfMonth)
-      tokenDate.getMonthOfYear should be(DateTime.now.getMonthOfYear)
-      tokenDate.getYear should be(DateTime.now.getYear)
-      tokenDate.getHourOfDay should be(DateTime.now.getHourOfDay)
-      tokenDate.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
-      tokenDate.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 1)
+      val tokenDate = jsonSerialiser.fromJson[SessionToken](decryptedInfo)
+      tokenDate.timestamp.getDayOfMonth should be(DateTime.now.getDayOfMonth)
+      tokenDate.timestamp.getMonthOfYear should be(DateTime.now.getMonthOfYear)
+      tokenDate.timestamp.getYear should be(DateTime.now.getYear)
+      tokenDate.timestamp.getHourOfDay should be(DateTime.now.getHourOfDay)
+      tokenDate.timestamp.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
+      tokenDate.timestamp.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 1)
     }
   }
 
