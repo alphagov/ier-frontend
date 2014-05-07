@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.step
 
-import uk.gov.gds.ier.session.SessionHandling
+import uk.gov.gds.ier.session.{SessionHandling, SessionLogging}
 import play.api.mvc.{AnyContent, Action, Controller}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.serialiser.WithSerialiser
@@ -12,6 +12,7 @@ trait ConfirmationStepController[T <: InprogressApplication[T]]
   extends SessionHandling[T]
   with Step[T]
   with Controller
+  with SessionLogging
   with Logging
   with WithSerialiser
   with WithConfig

@@ -224,12 +224,12 @@ class SessionHandlingTests extends FlatSpec with Matchers {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       class TestController
         extends SessionHandling[FakeInprogress]
-          with Controller
-          with WithSerialiser
-          with WithConfig
-          with Logging
-          with ApiResults
-          with WithEncryption {
+        with Controller
+        with WithSerialiser
+        with WithConfig
+        with Logging
+        with ApiResults
+        with WithEncryption {
 
         def factoryOfT() = FakeInprogress("")
         val serialiser = jsonSerialiser
@@ -272,6 +272,57 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       tokenDate.timestamp.getHourOfDay should be(DateTime.now.getHourOfDay)
       tokenDate.timestamp.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
       tokenDate.timestamp.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 1)
+    }
+  }
+
+  it should "store the old timestamp when refreshing" in {
+    running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
+      class TestController
+        extends SessionHandling[FakeInprogress]
+        with Controller
+        with WithSerialiser
+        with WithConfig
+        with Logging
+        with ApiResults
+        with WithEncryption {
+
+        def factoryOfT() = FakeInprogress("")
+        val serialiser = jsonSerialiser
+        val config = new MockConfig
+        val encryptionService = new EncryptionService (new Base64EncodingService, config)
+
+
+        def index() = ValidSession requiredFor {
+          request => application =>
+            okResult(Map("status" -> "Ok"))
+        }
+      }
+
+      val controller = new TestController()
+      val sessionToken = SessionToken(DateTime.now.minusMinutes(19))
+      val (encryptedSessionTokenValue, encryptedSessionTokenIVValue) =
+        controller.encryptionService.encrypt(jsonSerialiser.toJson(sessionToken))
+
+      val result = controller.index()(
+        FakeRequest().withCookies(
+          Cookie("sessionKey", encryptedSessionTokenValue),
+          Cookie("sessionKeyIV", encryptedSessionTokenIVValue)
+        )
+      )
+
+      status(result) should be(OK)
+
+      cookies(result).get("sessionKey") should not be None
+      cookies(result).get("sessionKeyIV") should not be None
+
+      val Some(token) = cookies(result).get("sessionKey")
+      val Some(tokenIV) = cookies(result).get("sessionKeyIV")
+
+      val decryptedInfo = controller.encryptionService.decrypt(token.value, tokenIV.value)
+
+      val refreshedToken = jsonSerialiser.fromJson[SessionToken](decryptedInfo)
+      refreshedToken.history.size should be(1)
+      refreshedToken.history.map(_.getMillis) should contain(sessionToken.timestamp.getMillis)
     }
   }
 

@@ -50,7 +50,7 @@ class ConfirmationStep @Inject() (val encryptionService: EncryptionService,
   }
 
   def post = ValidSession requiredFor {
-    request => application =>
+    implicit request => application =>
       validation.fillAndValidate(application).fold(
         hasErrors => {
           Ok(template(hasErrors))
@@ -60,6 +60,9 @@ class ConfirmationStep @Inject() (val encryptionService: EncryptionService,
           val remoteClientIP = request.headers.get("X-Real-IP")
 
           ierApi.submitOverseasApplication(remoteClientIP, validApplication, Some(refNum))
+
+          logSession()
+
           Redirect(CompleteController.complete()).flashing(
             "refNum" -> refNum,
             "postcode" -> "SW1A 1AA"
