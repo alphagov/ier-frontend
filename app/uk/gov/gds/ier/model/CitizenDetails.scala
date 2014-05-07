@@ -5,7 +5,7 @@ case class CitizenDetails(
     howBecameCitizen: String) {
 
   def toApiMap = {
-    dateBecameCitizen.toApiMap("dbritcrit") ++
+    dateBecameCitizen.toApiMap("dbritcit") ++
       Map("hbritcit" -> howBecameCitizen)
   }
 }

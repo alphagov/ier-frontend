@@ -13,56 +13,10 @@ class OverseasApplicationTests
   with CustomMatchers {
 
   it should "generate expected new voter payload" in {
-    val application = OverseasApplication(
-      overseasName = Some(OverseasName(
-          Some(Name(
-            firstName = "John",
-            middleNames = Some("James"),
-            lastName = "Smith"
-          )),
-          Some(PreviousName(
-            hasPreviousName = true,
-            previousName = Some(Name(
-              firstName = "James",
-              middleNames = Some("John"),
-              lastName = "Smith"
-          ))))
-      )),
-      dateLeftUk = Some(DateLeft(
-        month = 1,
-        year = 1990
-      )),
-      dateLeftSpecial = None,
+    val application = createOverseasApplication.copy(
       lastRegisteredToVote = Some(LastRegisteredToVote(
         lastRegisteredType = LastRegisteredType.Ordinary
       )),
-      dob = Some(DOB(
-        day = 1,
-        month = 12,
-        year = 1980
-      )),
-      nino = Some(Nino(
-        nino = Some("XX 12 34 56 D"),
-        noNinoReason = None
-      )),
-      address = Some(OverseasAddress(
-        country = Some("France"),
-        addressLine1 = Some("123 Rue de Fake, Saint-Fake"),
-        addressLine2 = None,
-        addressLine3 = None,
-        addressLine4 = None,
-        addressLine5 = None
-      )),
-      lastUkAddress = Some(Address(
-        lineOne = Some("The (fake) Manor House"),
-        lineTwo = Some("123 Fake Street"),
-        lineThree = Some("North Fake"),
-        city = Some("Fakerton"),
-        county = Some("Fakesbury"),
-        postcode = "XX12 34XX",
-        uprn = Some("12345")
-      )),
-      openRegisterOptin = Some(true),
       postalOrProxyVote = Some(PostalOrProxyVote(
         typeVote = WaysToVoteType.ByPost,
         postalVoteOption = Some(true),
@@ -84,28 +38,8 @@ class OverseasApplicationTests
           )
         )),
         citizen = None
-      )),
-      contact = Some(Contact(
-        post = true,
-        phone = Some(ContactDetail(
-          contactMe = true,
-          detail = Some("01234 5678910")
-        )),
-        email = Some(ContactDetail(
-          contactMe = true,
-          detail = Some("test@email.com")
-        ))
-      )),
-      referenceNumber = Some("12345678910"),
-      ip = Some("256.256.256.256"),
-      authority = Some(LocalAuthority(
-        name = "Camden Borough Council",
-        opcsId = "00AG",
-        gssId = "E09000007"
       ))
     )
-
-    val apiMap = application.toApiMap
 
     val expected = Map(
       "fn" -> "John",
@@ -158,30 +92,171 @@ class OverseasApplicationTests
       "proxyvoteemail"
     )
 
-    apiMap should matchMap(expected)
-
-    for(key <- notExpected) {
-      apiMap.keys should not contain(key)
-    }
-
-    apiMap.keys.size should be(32)
+    assertApiMap(
+      application = application,
+      expectedKeysAndValues = expected,
+      notExpectedKeys = notExpected)
   }
 
   it should "generate expected renewer payload" in {
-    val application = OverseasApplication(
+    val application = createOverseasApplication.copy(
+      lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.Overseas))
+    )
+
+    val expected = Map(
+      "fn" -> "John",
+      "mn" -> "James",
+      "ln" -> "Smith",
+      "applicationType" -> "overseas",
+      "pfn" -> "James",
+      "pmn" -> "John",
+      "pln" -> "Smith",
+      "dob" -> "1980-12-01",
+      "nino" -> "XX 12 34 56 D",
+      "regproperty" -> "The (fake) Manor House",
+      "regstreet" -> "123 Fake Street",
+      "reglocality" -> "North Fake",
+      "regtown" -> "Fakerton",
+      "regarea" -> "Fakesbury",
+      "reguprn" -> "12345",
+      "regpostcode" -> "XX12 34XX",
+      "corraddressline1" -> "123 Rue de Fake, Saint-Fake",
+      "corrcountry" -> "France",
+      "lastcategory" -> "overseas",
+      "leftuk" -> "1990-01",
+      "opnreg" -> "true",
+      "post" -> "true",
+      "email" -> "test@email.com",
+      "phone" -> "01234 5678910",
+      "refNum" -> "12345678910",
+      "ip" -> "256.256.256.256",
+      "gssCode" -> "E09000007"
+    )
+
+    val notExpected = List(
+      "nonino",
+      "dcs",
+      "pgfn",
+      "pgmn",
+      "pgln",
+      "pgrfn",
+      "pgrmn",
+      "pgrln",
+      "bpass",
+      "passno",
+      "passloc",
+      "passdate",
+      "dbritcit",
+      "hbritcit",
+      "pvote",
+      "proxyvote",
+      "pvoteemail",
+      "proxyvoteemail"
+    )
+
+    assertApiMap(
+      application = application,
+      expectedKeysAndValues = expected,
+      notExpectedKeys = notExpected)
+  }
+
+
+  it should "generate expected british citizenship load" in {
+    val application = createOverseasApplication.copy(
+      passport = Some(Passport(
+        hasPassport = false,
+        bornInsideUk = None,
+        details = None,
+        citizen = Some(CitizenDetails(
+          dateBecameCitizen = DOB(2000,6,1),
+          howBecameCitizen = "by accident"
+        ))
+      ))
+    )
+
+    val expected = Map(
+      "fn" -> "John",
+      "mn" -> "James",
+      "ln" -> "Smith",
+      "applicationType" -> "overseas",
+      "pfn" -> "James",
+      "pmn" -> "John",
+      "pln" -> "Smith",
+      "dob" -> "1980-12-01",
+      "nino" -> "XX 12 34 56 D",
+      "regproperty" -> "The (fake) Manor House",
+      "regstreet" -> "123 Fake Street",
+      "reglocality" -> "North Fake",
+      "regtown" -> "Fakerton",
+      "regarea" -> "Fakesbury",
+      "reguprn" -> "12345",
+      "regpostcode" -> "XX12 34XX",
+      "corraddressline1" -> "123 Rue de Fake, Saint-Fake",
+      "corrcountry" -> "France",
+      "lastcategory" -> "overseas",
+      "leftuk" -> "1990-01",
+      "opnreg" -> "true",
+      "post" -> "true",
+      "email" -> "test@email.com",
+      "phone" -> "01234 5678910",
+      "refNum" -> "12345678910",
+      "ip" -> "256.256.256.256",
+      "gssCode" -> "E09000007",
+      "dbritcit" -> "2000-06-01",
+      "hbritcit" -> "by accident",
+      "bpass" -> "false"
+    )
+
+    val notExpected = List(
+      "nonino",
+      "dcs",
+      "pgfn",
+      "pgmn",
+      "pgln",
+      "pgrfn",
+      "pgrmn",
+      "pgrln",
+      "passno",
+      "passloc",
+      "passdate",
+      "pvote",
+      "proxyvote",
+      "pvoteemail",
+      "proxyvoteemail"
+    )
+    assertApiMap(
+      application = application,
+      expectedKeysAndValues = expected,
+      notExpectedKeys = notExpected)
+  }
+
+  def assertApiMap(application:OverseasApplication, expectedKeysAndValues:Map[String,String], notExpectedKeys:List[String]) {
+    val apiMap = application.toApiMap
+
+    apiMap should matchMap(expectedKeysAndValues)
+    for (key <- notExpectedKeys) {
+      apiMap.keys should not contain(key)
+    }
+    apiMap.keys.size should be(expectedKeysAndValues.size)
+  }
+
+
+  def createOverseasApplication =
+    OverseasApplication(
       overseasName = Some(OverseasName(
-          Some(Name(
-            firstName = "John",
-            middleNames = Some("James"),
+        Some(Name(
+          firstName = "John",
+          middleNames = Some("James"),
+          lastName = "Smith"
+        )),
+        Some(PreviousName(
+          hasPreviousName = true,
+          previousName = Some(Name(
+            firstName = "James",
+            middleNames = Some("John"),
             lastName = "Smith"
-          )),
-          Some(PreviousName(
-            hasPreviousName = true,
-            previousName = Some(Name(
-              firstName = "James",
-              middleNames = Some("John"),
-              lastName = "Smith"
-          ))))
+          ))
+        ))
       )),
       dateLeftUk = Some(DateLeft(
         month = 1,
@@ -240,63 +315,4 @@ class OverseasApplicationTests
       ))
     )
 
-    val apiMap = application.toApiMap
-
-    val expected = Map(
-      "fn" -> "John",
-      "mn" -> "James",
-      "ln" -> "Smith",
-      "applicationType" -> "overseas",
-      "pfn" -> "James",
-      "pmn" -> "John",
-      "pln" -> "Smith",
-      "dob" -> "1980-12-01",
-      "nino" -> "XX 12 34 56 D",
-      "regproperty" -> "The (fake) Manor House",
-      "regstreet" -> "123 Fake Street",
-      "reglocality" -> "North Fake",
-      "regtown" -> "Fakerton",
-      "regarea" -> "Fakesbury",
-      "reguprn" -> "12345",
-      "regpostcode" -> "XX12 34XX",
-      "corraddressline1" -> "123 Rue de Fake, Saint-Fake",
-      "corrcountry" -> "France",
-      "lastcategory" -> "overseas",
-      "leftuk" -> "1990-01",
-      "opnreg" -> "true",
-      "post" -> "true",
-      "email" -> "test@email.com",
-      "phone" -> "01234 5678910",
-      "refNum" -> "12345678910",
-      "ip" -> "256.256.256.256",
-      "gssCode" -> "E09000007"
-    )
-
-    val notExpected = List(
-      "nonino",
-      "dcs",
-      "pgfn",
-      "pgmn",
-      "pgln",
-      "pgrfn",
-      "pgrmn",
-      "pgrln",
-      "bpass",
-      "passno",
-      "passloc",
-      "passdate",
-      "dbritcit",
-      "hbritcit",
-      "pvote",
-      "proxyvote",
-      "pvoteemail",
-      "proxyvoteemail"
-    )
-
-    apiMap should matchMap(expected)
-    for (key <- notExpected) {
-      apiMap.keys should not contain(key)
-    }
-    apiMap.keys.size should be(27)
-  }
 }
