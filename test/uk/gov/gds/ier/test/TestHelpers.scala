@@ -5,11 +5,11 @@ import play.api.test.FakeApplication
 import play.api.test.Helpers
 import org.joda.time.DateTime
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.serialiser.JsonSerialiser
+import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.security._
-import uk.gov.gds.ier.session.{SessionKeys, ResultHandling}
-import uk.gov.gds.ier.guice.WithConfig
+import uk.gov.gds.ier.session.{SessionKeys, CookieHandling, SessionToken}
+import uk.gov.gds.ier.guice.{WithConfig, WithEncryption}
 import play.api.data.FormError
 import uk.gov.gds.ier.controller.MockConfig
 import uk.gov.gds.ier.step.InprogressApplication
@@ -40,7 +40,11 @@ trait TestHelpers
   }
 
   implicit class FakeRequestWithOurSessionCookies[A](request: FakeRequest[A])
-    extends ResultHandling with WithConfig with SessionKeys {
+    extends CookieHandling
+    with WithConfig
+    with WithEncryption
+    with WithSerialiser
+    with SessionKeys {
 
     val config = new MockConfig
 
@@ -48,21 +52,14 @@ trait TestHelpers
     val encryptionService = new EncryptionService (new Base64EncodingService, config)
 
     def withIerSession(timeSinceInteraction:Int = 1) = {
-      val (encryptedSessionTokenValue, encryptedSessionTokenIVValue) =
-        encryptionService.encrypt(DateTime.now.minusMinutes(timeSinceInteraction).toString())
-      request.withCookies(
-        createSecureCookie(sessionTokenKey, encryptedSessionTokenValue.filter(_ >= ' ')),
-        createSecureCookie(sessionTokenKeyIV, encryptedSessionTokenIVValue.filter(_ >= ' ')))
+      val token = SessionToken(DateTime.now.minusMinutes(timeSinceInteraction))
+      request.withCookies(tokenCookies(token):_*)
     }
 
     def withInvalidSession() = withIerSession(6)
 
     def withApplication[T <: InprogressApplication[T]](application: T) = {
-      val (encryptedSessionPayloadValue, encryptedSessionPayloadIVValue) =
-        encryptionService.encrypt(serialiser.toJson(application))
-      request.withCookies(
-        createSecureCookie(sessionPayloadKey, encryptedSessionPayloadValue.filter(_ >= ' ')),
-        createSecureCookie(sessionPayloadKeyIV, encryptedSessionPayloadIVValue.filter(_ >= ' ')))
+      request.withCookies(payloadCookies(application):_*)
     }
   }
 

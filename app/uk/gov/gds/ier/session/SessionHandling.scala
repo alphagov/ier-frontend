@@ -10,9 +10,8 @@ import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.step.InprogressApplication
 
 abstract class SessionHandling[T <: InprogressApplication[T]]
-  extends ResultStoring
-  with ResultCleaning
-  with RequestHandling
+  extends RequestHandling
+  with SessionTokenValidator
   with SessionCleaner {
   self: WithSerialiser
     with Controller
@@ -24,17 +23,18 @@ abstract class SessionHandling[T <: InprogressApplication[T]]
 
   object ValidSession {
 
+
     final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => T => Result)(implicit manifest:Manifest[T]):Action[A] = Action(bodyParser) {
       request =>
         logger.debug(s"REQUEST ${request.method} ${request.path} - Valid Session needed")
         request.getToken match {
           case Some(token) => {
-            isValidToken(token) match {
+            token.isValid match {
               case true => {
                 val application = request.getApplication.getOrElse(factoryOfT())
                 logger.debug(s"Validate session - token is valid")
                 val result = block(request)(application)
-                result.refreshSession()
+                result storeToken SessionToken()
               }
               case false => {
                 logger.debug(s"Validate session - token is not valid")
@@ -55,13 +55,6 @@ abstract class SessionHandling[T <: InprogressApplication[T]]
 
     final def requiredFor(action: Request[AnyContent] => T => Result)(implicit manifest:Manifest[T])  = withParser(BodyParsers.parse.anyContent) requiredFor action
 
-    protected def isValidToken(token:String) = {
-      try {
-        val dt = DateTime.parse(token)
-        dt.isAfter(DateTime.now.minusMinutes(config.sessionTimeout))
-      } catch {
-        case e:IllegalArgumentException => false
-      }
-    }
+
   }
 }
