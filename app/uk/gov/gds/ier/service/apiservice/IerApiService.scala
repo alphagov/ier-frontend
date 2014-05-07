@@ -138,6 +138,7 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
     )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
+
     sendApplication(apiApplicant)
   }
 
