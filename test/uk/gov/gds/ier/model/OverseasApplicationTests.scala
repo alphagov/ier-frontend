@@ -14,9 +14,6 @@ class OverseasApplicationTests
 
   it should "generate expected new voter payload" in {
     val application = createOverseasApplication.copy(
-      previouslyRegistered = Some(PreviouslyRegistered(
-        hasPreviouslyRegistered = false
-      )),
       lastRegisteredToVote = Some(LastRegisteredToVote(
         lastRegisteredType = LastRegisteredType.Ordinary
       )),
@@ -103,9 +100,7 @@ class OverseasApplicationTests
 
   it should "generate expected renewer payload" in {
     val application = createOverseasApplication.copy(
-      previouslyRegistered = Some(PreviouslyRegistered(
-        hasPreviouslyRegistered = true
-      ))
+      lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.Overseas))
     )
 
     val expected = Map(
@@ -198,6 +193,7 @@ class OverseasApplicationTests
       "regpostcode" -> "XX12 34XX",
       "corraddressline1" -> "123 Rue de Fake, Saint-Fake",
       "corrcountry" -> "France",
+      "lastcategory" -> "overseas",
       "leftuk" -> "1990-01",
       "opnreg" -> "true",
       "post" -> "true",
@@ -228,7 +224,6 @@ class OverseasApplicationTests
       "pvoteemail",
       "proxyvoteemail"
     )
-
     assertApiMap(
       application = application,
       expectedKeysAndValues = expected,
@@ -260,10 +255,8 @@ class OverseasApplicationTests
             firstName = "James",
             middleNames = Some("John"),
             lastName = "Smith"
-          ))))
-      )),
-      previouslyRegistered = Some(PreviouslyRegistered(
-        hasPreviouslyRegistered = false
+          ))
+        ))
       )),
       dateLeftUk = Some(DateLeft(
         month = 1,
