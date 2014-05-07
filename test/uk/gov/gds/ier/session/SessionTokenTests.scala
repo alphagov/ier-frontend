@@ -8,7 +8,7 @@ class SessionTokenTests extends FlatSpec with Matchers {
   behavior of "SessionToken.init"
   it should "init with a new Timestamp" in {
     val token = SessionToken()
-    token.timestamp.getMillis should equal(DateTime.now.getMillis +- 100)
+    token.timestamp.getMillis should equal(DateTime.now.getMillis +- 500)
   }
 
   it should "init with an empty history" in {
@@ -20,8 +20,7 @@ class SessionTokenTests extends FlatSpec with Matchers {
   it should "return a fresh timestamp" in {
     val token = SessionToken()
 
-    //Do some work to waste cycles
-    1 to 10 map { i => i + 10 }
+    Thread.sleep(5)
 
     val refreshed = token.refreshToken()
     refreshed.timestamp should not be token.timestamp
