@@ -35,7 +35,7 @@ case class CrownApplication(
 
   def toApiMap = {
 
-    Map.empty ++
+    val apiMap = Map.empty ++
       statement.map(_.toApiMap).getOrElse(Map.empty) ++
       address.map(_.toApiMap("reg")).getOrElse(Map.empty) ++
       previousAddress.map(_.toApiMap("p")).getOrElse(Map.empty) ++
@@ -53,5 +53,7 @@ case class CrownApplication(
       authority.map(auth => Map("gssCode" -> auth.gssId)).getOrElse(Map.empty) ++
       ip.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty) ++
       Map("applicationType" -> "crown")
+
+    removeSpecialCharacters(apiMap)
   }
 }

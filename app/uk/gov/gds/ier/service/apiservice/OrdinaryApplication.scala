@@ -30,7 +30,7 @@ case class OrdinaryApplication(
     ip: Option[String]) extends CompleteApplication {
 
   def toApiMap:Map[String, String] = {
-    Map.empty ++
+    val apiMap = Map.empty ++
       name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
       lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
       previousName.map(_.toApiMap("p")).getOrElse(Map.empty) ++
@@ -52,5 +52,7 @@ case class OrdinaryApplication(
       previousAuthority.map(auth => Map("pgssCode" -> auth.gssId)).getOrElse(Map.empty) ++
       ip.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty) ++
       Map("applicationType" -> "ordinary")
+
+    removeSpecialCharacters(apiMap)
   }
 }

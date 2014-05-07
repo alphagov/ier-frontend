@@ -24,7 +24,7 @@ case class OverseasApplication(
   extends CompleteApplication {
 
   def toApiMap = {
-    Map.empty ++
+    val apiMap = Map.empty ++
       overseasName.map(_.toApiMap("p")).getOrElse(Map.empty) ++
       lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
       dateLeftUk.map(_.toApiMap()).getOrElse(Map.empty) ++
@@ -44,5 +44,7 @@ case class OverseasApplication(
       authority.map(auth => Map("gssCode" -> auth.gssId)).getOrElse(Map.empty) ++
       ip.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty) ++
       Map("applicationType" -> "overseas")
+
+    removeSpecialCharacters(apiMap)
   }
 }
