@@ -49,7 +49,15 @@ class AddressService @Inject()(locateService: LocateService) {
   }
 
   def isNothernIreland(postcode: String): Boolean = {
-    postcode.toUpperCase.startsWith("BT")
+    println("\ntesting if "+postcode+" starts with BT")
+    println("formatted: "+postcode.trim.toUpperCase)
+
+    val result = postcode.trim.toUpperCase.startsWith("BT")
+
+    println("result: "+result)
+
+
+    result
   }
 
   protected[service] def formAddressLine(address:Address):String = {

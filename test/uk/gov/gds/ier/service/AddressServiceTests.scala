@@ -208,6 +208,8 @@ class AddressServiceTests extends FlatSpec
 
     addressService.isNothernIreland(postcode = "BT7 1AA") should be(true)
     addressService.isNothernIreland(postcode = "bt71aa") should be(true)
+    addressService.isNothernIreland(postcode = "  BT7 1AA  ") should be(true)
+    addressService.isNothernIreland(postcode = "   bt71aa ") should be(true)
 
     addressService.isNothernIreland(postcode = "SW1 E34") should be(false)
     addressService.isNothernIreland(postcode = "NU2 6UN") should be(false)

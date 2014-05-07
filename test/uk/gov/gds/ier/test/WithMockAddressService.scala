@@ -9,7 +9,10 @@ trait WithMockAddressService
   val addressService = {
 
     val mockService = mock[AddressService]
+    when (mockService.isNothernIreland("BT7 1AA")).thenReturn(true)
     when (mockService.isNothernIreland("bt7 1aa")).thenReturn(true)
+    when (mockService.isNothernIreland("BT71AA")).thenReturn(true)
+    when (mockService.isNothernIreland("bt71aa")).thenReturn(true)
     mockService
   }
 

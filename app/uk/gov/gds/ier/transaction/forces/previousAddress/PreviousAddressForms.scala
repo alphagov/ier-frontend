@@ -202,8 +202,8 @@ trait PreviousAddressConstraints extends CommonConstraints {
 
   lazy val uprnOrManualDefinedForPreviousAddressIfNotFromNI = Constraint[PartialAddress](keys.previousAddress.key) {
     case partialAddress if addressService.isNothernIreland(partialAddress.postcode) => Valid
-    case partialAddress if partialAddress.uprn.exists(_ != "") => Valid
-    case partialAddress if partialAddress.manualAddress.exists(_ != "") => Valid
+    case partialAddress if partialAddress.uprn.exists(_.nonEmpty) => Valid
+    case partialAddress if partialAddress.manualAddress.exists(_.city.exists(_.nonEmpty)) => Valid
     case _ => Invalid(
       "Please select your address",
       keys.previousAddress.uprn,

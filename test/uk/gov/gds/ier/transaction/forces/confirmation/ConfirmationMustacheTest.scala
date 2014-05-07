@@ -6,10 +6,10 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.test.{WithMockAddressService, TestHelpers}
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.Name
-import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 import uk.gov.gds.ier.model.WaysToVote
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import org.mockito.Mockito._
 
 class ConfirmationMustacheTest
   extends FlatSpec
@@ -20,7 +20,7 @@ class ConfirmationMustacheTest
   with FormKeys
   with TestHelpers
   with ConfirmationMustache
-  with WithMockAddressService{
+  with WithMockAddressService {
 
   val serialiser = jsonSerialiser
 
@@ -477,6 +477,42 @@ class ConfirmationMustacheTest
     previousAddressModel.content should be("" +
       "<p>Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester</p>" +
       "<p>AB12 3CD</p>")
+    previousAddressModel.editLink should be("/register-to-vote/forces/edit/previous-address")
+  }
+
+
+  "In-progress application form with previous postcode being Northern Ireland" should
+    "generate confirmation mustache model with an information for NI users" in {
+
+    when(addressService.isNothernIreland("BT7 1AA")).thenReturn(true)
+
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
+      address = Some(LastUkAddress(Some(true), Some(PartialAddress(
+        addressLine = None,
+        uprn = None,
+        postcode = "AB12 3CD",
+        manualAddress = Some(PartialManualAddress(
+          lineOne = Some("Unit 4, Elgar Business Centre"),
+          lineTwo = Some("Moseley Road"),
+          lineThree = Some("Hallow"),
+          city = Some("Worcester")))
+      )))),
+      previousAddress = Some(PartialPreviousAddress(
+        movedRecently = Some(MovedHouseOption.Yes),
+        previousAddress = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "BT7 1AA",
+          manualAddress = None
+        ))
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+
+    val Some(previousAddressModel) = confirmation.previousAddress
+
+    previousAddressModel.content should be("<p>BT7 1AA</p><p>I was previously registered in Northern Ireland</p>")
     previousAddressModel.editLink should be("/register-to-vote/forces/edit/previous-address")
   }
 

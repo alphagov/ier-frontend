@@ -44,7 +44,7 @@ class PreviousAddressYesStepsTests
     }
   }
 
-  it should "redirect to nationality step if previous address is Northern Ireland" in {
+  it should "redirect to next incomplete step (nationality) if previous address is Northern Ireland" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/forces/previous-address/postcode")
