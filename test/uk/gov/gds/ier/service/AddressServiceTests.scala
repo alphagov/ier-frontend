@@ -88,6 +88,31 @@ class AddressServiceTests extends FlatSpec
     verify(mockPlaces, never()).lookupAddress(MockitoMatchers.anyString())
   }
 
+  it should "provide correct address containing only a postcode (NI case)" in {
+    val mockPlaces = mock[LocateService]
+    val service = new AddressService(mockPlaces)
+    val partial = PartialAddress(
+      addressLine = None,
+      uprn = None,
+      postcode = "BT7 1AA",
+      manualAddress = None,
+      gssCode = None
+    )
+    val address = Address(
+      lineOne = None,
+      lineTwo = None,
+      lineThree = None,
+      city = None,
+      county = None,
+      uprn = None,
+      postcode = "BT7 1AA",
+      gssCode = None
+    )
+
+    service.formFullAddress(Some(partial)) should be(Some(address))
+    verify(mockPlaces, never()).lookupAddress("BT7 1AA")
+  }
+
   behavior of "AddressService.formAddressLine"
 
   it should "combine the 3 lines correctly" in {
