@@ -10,8 +10,9 @@ import scala.Some
 import controllers.step.forces.routes
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.service.WithAddressService
 
-trait ConfirmationMustache {
+trait ConfirmationMustache extends WithAddressService{
 
   case class ConfirmationQuestion(
       content:String,
@@ -292,36 +293,42 @@ trait ConfirmationMustache {
     }
 
     def previousAddress = {
+
       val hasCurrentUkAddress =
         form(keys.address.hasUkAddress).value match {
           case Some(hasUkAddress) if (hasUkAddress.toBoolean) => true
           case _ => false
         }
       if (hasCurrentUkAddress) {
+
         Some(ConfirmationQuestion(
           title = "UK previous registration address",
           editLink = routes.PreviousAddressFirstController.editGet.url,
           changeName = "your UK previous registration address",
           content = ifComplete(keys.previousAddress, keys.previousAddress.movedRecently) {
-            val moved = form(keys.previousAddress.movedRecently)
-              .value.map(MovedHouseOption.parse(_).hasPreviousAddress).getOrElse(false)
+            val moved = form(keys.previousAddress.movedRecently).value
+              .map(MovedHouseOption.parse(_).hasPreviousAddress)
+              .getOrElse(false)
 
             if(moved) {
-              val address = if(form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
-                form(keys.previousAddress.previousAddress.addressLine).value.map(
-                  addressLine => "<p>" + addressLine + "</p>"
-                ).getOrElse("")
+              val postcode = form(keys.previousAddress.previousAddress.postcode).value.getOrElse("")
+              if (addressService.isNothernIreland(postcode)){
+                "<p>" + postcode + "</p>" +
+                "<p>I was previously registered in Northern Ireland</p>"
+
               } else {
-                manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress).map(
-                  addressLine => "<p>" + addressLine + "</p>"
-                ).getOrElse("")
+                val address = if (form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
+                  form(keys.previousAddress.previousAddress.addressLine).value.map(
+                    addressLine => "<p>" + addressLine + "</p>"
+                  ).getOrElse("")
+                } else {
+                  manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress).map(
+                    addressLine => "<p>" + addressLine + "</p>"
+                  ).getOrElse("")
+                }
+
+                address + "<p>" + postcode.toUpperCase + "</p>"
               }
-
-              val postcode = form(keys.previousAddress.previousAddress.postcode).value.map(
-                postcode => "<p>" + postcode + "</p>"
-              ).getOrElse("")
-
-              address + postcode
 
             } else {
               "<p>I have not moved in the last 12 months</p>"

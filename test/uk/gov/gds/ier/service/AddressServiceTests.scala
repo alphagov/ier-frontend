@@ -88,6 +88,31 @@ class AddressServiceTests extends FlatSpec
     verify(mockPlaces, never()).lookupAddress(MockitoMatchers.anyString())
   }
 
+  it should "provide correct address containing only a postcode (NI case)" in {
+    val mockPlaces = mock[LocateService]
+    val service = new AddressService(mockPlaces)
+    val partial = PartialAddress(
+      addressLine = None,
+      uprn = None,
+      postcode = "BT7 1AA",
+      manualAddress = None,
+      gssCode = None
+    )
+    val address = Address(
+      lineOne = None,
+      lineTwo = None,
+      lineThree = None,
+      city = None,
+      county = None,
+      uprn = None,
+      postcode = "BT7 1AA",
+      gssCode = None
+    )
+
+    service.formFullAddress(Some(partial)) should be(Some(address))
+    verify(mockPlaces, never()).lookupAddress("BT7 1AA")
+  }
+
   behavior of "AddressService.formAddressLine"
 
   it should "combine the 3 lines correctly" in {
@@ -200,4 +225,24 @@ class AddressServiceTests extends FlatSpec
 
     addressService.isScotland("CCC33 3CC") should be(false)
   }
+
+  behavior of "isNorthernIreland"
+  it should "positively identify Northern Irish post code" in {
+    val mockLocate = mock[LocateService]
+    val addressService = new AddressService(mockLocate)
+
+    addressService.isNothernIreland(postcode = "BT7 1AA") should be(true)
+    addressService.isNothernIreland(postcode = "bt71aa") should be(true)
+    addressService.isNothernIreland(postcode = "  BT7 1AA  ") should be(true)
+    addressService.isNothernIreland(postcode = "   bt71aa ") should be(true)
+
+    addressService.isNothernIreland(postcode = "SW1 E34") should be(false)
+    addressService.isNothernIreland(postcode = "NU2 6UN") should be(false)
+    addressService.isNothernIreland(postcode = "ABC DEF") should be(false)
+    addressService.isNothernIreland(postcode = "ABCDEF") should be(false)
+    addressService.isNothernIreland(postcode = "abcdef") should be(false)
+
+
+  }
+
 }

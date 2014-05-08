@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.service
 
-import uk.gov.gds.ier.model.{Address, PartialAddress, LastUkAddress}
+import uk.gov.gds.ier.model.{Address, PartialAddress}
 import com.google.inject.Inject
 
 class AddressService @Inject()(locateService: LocateService) {
@@ -21,6 +21,18 @@ class AddressService @Inject()(locateService: LocateService) {
           uprn = None,
           postcode = postcode,
           gssCode = gssCode))
+      }
+      case PartialAddress(_,_,postcode,_,_) => {
+        Some(Address(
+          lineOne = None,
+          lineTwo = None,
+          lineThree = None,
+          city = None,
+          county = None,
+          uprn = None,
+          postcode = postcode,
+          gssCode = None
+        ))
       }
     }
   }
@@ -46,6 +58,10 @@ class AddressService @Inject()(locateService: LocateService) {
 
   def isScotland(postcode: String): Boolean = {
     locateService.lookupAddress(postcode).exists(_.gssCode.exists(_.startsWith("S")))
+  }
+
+  def isNothernIreland(postcode: String): Boolean = {
+    postcode.trim.toUpperCase.startsWith("BT")
   }
 
   protected[service] def formAddressLine(address:Address):String = {

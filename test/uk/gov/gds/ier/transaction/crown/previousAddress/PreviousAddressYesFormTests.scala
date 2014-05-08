@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.previousAddress
 
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockAddressService, TestHelpers}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
@@ -14,7 +14,8 @@ class PreviousAddressYesFormTests
   with WithSerialiser
   with ErrorMessages
   with FormKeys
-  with TestHelpers {
+  with TestHelpers
+  with WithMockAddressService{
 
   val serialiser = jsonSerialiser
 

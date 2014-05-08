@@ -7,6 +7,7 @@ import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.service.AddressService
 
 trait PreviousAddressForms
     extends PreviousAddressConstraints
@@ -15,10 +16,12 @@ trait PreviousAddressForms
   with ErrorMessages
   with WithSerialiser =>
 
+  val addressService: AddressService
+
   // address mapping for select address page - the address part
     lazy val partialAddressMappingForPreviousAddress = 
       PartialAddress.mapping.verifying(
-        postcodeIsValidForPreviousAddress, uprnOrManualDefinedForPreviousAddress)
+        postcodeIsValidForPreviousAddress, uprnOrManualDefinedForPreviousAddressIfNotFromNI)
 
   // address mapping for manual address - the address individual lines part
   lazy val manualPartialAddressLinesMappingForPreviousAddress = PartialManualAddress.mapping
@@ -31,7 +34,7 @@ trait PreviousAddressForms
     PartialPreviousAddress.apply
   ) (
     PartialPreviousAddress.unapply
-  )
+  ).verifying(previousAddressRequiredIfMoved)
 
   // address mapping for manual address - the address parent wrapper part
   val manualPartialPreviousAddressMappingForPreviousAddress = mapping(
@@ -134,6 +137,24 @@ trait PreviousAddressConstraints extends CommonConstraints {
   self: FormKeys
    with ErrorMessages =>
 
+  // passed from PreviousAddressForms
+  val addressService: AddressService
+
+  lazy val previousAddressRequiredIfMoved = Constraint[PartialPreviousAddress](keys.previousAddress.key) {
+    previousAddress =>
+      val postcode = previousAddress.previousAddress.map(_.postcode)
+      val uprn = previousAddress.previousAddress.flatMap(_.uprn)
+      val manualAddressCity = previousAddress.previousAddress.flatMap(_.manualAddress.flatMap(_.city))
+
+      previousAddress.movedRecently match {
+        case Some(MovedHouseOption.Yes) if postcode.exists(addressService.isNothernIreland(_)) => Valid
+        case Some(MovedHouseOption.Yes) if uprn.exists(_.nonEmpty) => Valid
+        case Some(MovedHouseOption.Yes) if manualAddressCity.exists(_.nonEmpty) => Valid
+        case Some(MovedHouseOption.NotMoved) => Valid
+        case _ => Invalid("Please complete this step", keys.previousAddress)
+      }
+  }
+
   lazy val manualAddressIsRequiredForPreviousAddress = Constraint[InprogressForces](keys.previousAddress.key) {
     inprogress =>
       inprogress.previousAddress match {
@@ -179,9 +200,10 @@ trait PreviousAddressConstraints extends CommonConstraints {
       }
   }
 
-  lazy val uprnOrManualDefinedForPreviousAddress = Constraint[PartialAddress](keys.previousAddress.key) {
-    case partialAddress if partialAddress.uprn.exists(_ != "") => Valid
-    case partialAddress if partialAddress.manualAddress.exists(_ != "") => Valid
+  lazy val uprnOrManualDefinedForPreviousAddressIfNotFromNI = Constraint[PartialAddress](keys.previousAddress.key) {
+    case partialAddress if addressService.isNothernIreland(partialAddress.postcode) => Valid
+    case partialAddress if partialAddress.uprn.exists(_.nonEmpty) => Valid
+    case partialAddress if partialAddress.manualAddress.exists(_.city.exists(_.nonEmpty)) => Valid
     case _ => Invalid(
       "Please select your address",
       keys.previousAddress.uprn,

@@ -12,11 +12,13 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 import controllers.step.forces.NationalityController
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.service.AddressService
 
 class PreviousAddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService: EncryptionService)
+    val encryptionService: EncryptionService,
+    val addressService: AddressService)
   extends ForcesStep
   with PreviousAddressManualMustache
   with PreviousAddressForms {

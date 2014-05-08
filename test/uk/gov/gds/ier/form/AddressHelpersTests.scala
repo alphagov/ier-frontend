@@ -21,12 +21,17 @@ with AddressHelpers
 with Matchers {
 
   val serialiser = null
+  val addressService = null
 
   // Use composition rather then inheritance to get Play Form instances
   val manualAddressForm = new AddressForms with ErrorMessages with FormKeys with WithSerialiser {
-      val serialiser = null
-    }.manualAddressForm
-  val confirmationForm = new ConfirmationForms {val serialiser = null}.confirmationForm
+    val serialiser = null
+  }.manualAddressForm
+
+  val confirmationForm = new ConfirmationForms {
+    val serialiser = null
+    val addressService = null
+  }.confirmationForm
 
   behavior of "AddressHelpers.manualAddressToOneLine with Forces ConfirmationForm"
 
