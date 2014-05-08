@@ -131,7 +131,6 @@ class ConfirmationFormTests
         ))
       )).fold (
       hasErrors => {
-        println(hasErrors.prettyPrint)
         fail("the form should be valid")
       },
       success => {

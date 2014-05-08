@@ -176,4 +176,25 @@ class ConfirmationFormTests
       success => fail("Should have errored out.")
     )
   }
+
+  it should "bind successfully if the previous address postcode was Northern Ireland" in {
+    confirmationForm.fillAndValidate(completeCrownApplication.copy(
+      previousAddress = Some(PartialPreviousAddress(
+        movedRecently = Some(MovedHouseOption.Yes),
+        previousAddress = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "bt7 1aa",
+          manualAddress = None
+        ))
+      ))
+    )).fold (
+      hasErrors => {
+        fail("the form should be valid")
+      },
+      success => {
+        success.previousAddress.isDefined
+      }
+    )
+  }
 }
