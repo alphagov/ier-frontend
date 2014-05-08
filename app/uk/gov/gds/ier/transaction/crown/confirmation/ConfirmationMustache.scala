@@ -11,8 +11,9 @@ import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
+import uk.gov.gds.ier.service.WithAddressService
 
-trait ConfirmationMustache {
+trait ConfirmationMustache extends WithAddressService {
 
   case class ConfirmationQuestion(
      content: EitherErrorOrContent,
@@ -259,29 +260,43 @@ trait ConfirmationMustache {
     }
 
     def previousAddress = {
-      Some(ConfirmationQuestion(
-        title = "Your previous UK address",
-        editLink = routes.PreviousAddressFirstController.editGet.url,
-        changeName = "your previous UK address",
-        content = ifComplete(keys.previousAddress, keys.previousAddress.movedRecently) {
-          val moved = form(keys.previousAddress.movedRecently).value.map { str =>
-            MovedHouseOption.parse(str).hasPreviousAddress
-          }.getOrElse(false)
-
-          if (moved) {
-            val address = if (form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
-              form(keys.previousAddress.previousAddress.addressLine).value
-            } else {
-              manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress)
-            }
-            val postcode = form(keys.previousAddress.previousAddress.postcode).value
-            List(address, postcode).flatten
-          } else {
-            List("I have not moved in the last 12 months")
-          }
+      val hasCurrentUkAddress =
+        form(keys.address.hasUkAddress).value match {
+          case Some(hasUkAddress) if (hasUkAddress.toBoolean) => true
+          case _ => false
         }
-      ))
+      if (hasCurrentUkAddress) {
+        Some(ConfirmationQuestion(
+          title = "UK previous registration address",
+          editLink = routes.PreviousAddressFirstController.editGet.url,
+          changeName = "your UK previous registration address",
+          content = ifComplete(keys.previousAddress) {
+            val moved = form(keys.previousAddress.movedRecently).value
+              .map(MovedHouseOption.parse(_).hasPreviousAddress)
+              .getOrElse(false)
+
+            if (moved) {
+              val postcode = form(keys.previousAddress.previousAddress.postcode).value.getOrElse("")
+              if (addressService.isNothernIreland(postcode)) {
+                List(postcode, "I was previously registered in Northern Ireland")
+              } else {
+                val address = if (form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
+                  form(keys.previousAddress.previousAddress.addressLine).value
+                } else {
+                  manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress)
+                }
+                val postcode = form(keys.previousAddress.previousAddress.postcode).value
+                List(address, postcode).flatten
+              }
+            } else {
+              List("I have not moved in the last 12 months")
+            }
+          }
+        ))
+      }
+      else None
     }
+
 
     def contactAddress = {
       Some(ConfirmationQuestion(

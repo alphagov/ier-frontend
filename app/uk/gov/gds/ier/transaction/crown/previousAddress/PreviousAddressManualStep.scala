@@ -13,11 +13,13 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 import controllers.step.crown.NationalityController
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.service.AddressService
 
 class PreviousAddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService: EncryptionService)
+    val encryptionService: EncryptionService,
+    val addressService: AddressService)
   extends CrownStep
   with PreviousAddressManualMustache
   with PreviousAddressForms {

@@ -12,12 +12,14 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.service.apiservice.IerApiService
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.service.AddressService
 
 
 class ConfirmationStep @Inject() (
     val encryptionService: EncryptionService,
     val config: Config,
     val serialiser: JsonSerialiser,
+    val addressService: AddressService,
     ierApi: IerApiService)
   extends ConfirmationStepController[InprogressCrown]
     with ConfirmationForms

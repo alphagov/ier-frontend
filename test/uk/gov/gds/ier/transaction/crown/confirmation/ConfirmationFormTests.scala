@@ -4,7 +4,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
 import org.scalatest.{Matchers, FlatSpec}
 import play.api.libs.json.JsNull
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockAddressService, TestHelpers}
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import scala.Some
 import scala.Some
@@ -22,7 +22,8 @@ class ConfirmationFormTests
   with WithSerialiser
   with ErrorMessages
   with FormKeys
-  with TestHelpers {
+  with TestHelpers
+  with WithMockAddressService {
 
   val serialiser = jsonSerialiser
 
