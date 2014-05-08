@@ -10,11 +10,11 @@ trait ContactBlocks {
   } else None
 
   val phone = if(form(keys.contact.phone.contactMe).value == Some("true")){
-    Some(s"By phone: ${form(keys.contact.phone.detail).value.getOrElse("")}")
+    form(keys.contact.phone.detail).value.map( phone => s"By phone: $phone")
   } else None
 
   val email = if(form(keys.contact.email.contactMe).value == Some("true")){
-    Some(s"By email: ${form(keys.contact.email.detail).value.getOrElse("")}")
+    form(keys.contact.email.detail).value.map {email => s"By email: $email"}
   } else None
 
   def contact = {

@@ -172,19 +172,17 @@ trait ConfirmationMustache extends WithAddressService{
           val year = form(keys.dob.dob.year).value.getOrElse("")
           List(day + " " + month + " "  + year)
         } else {
-          val excuseReason = form(keys.dob.noDob.reason).value match {
-            case Some(reasonDescription) =>
-              s"You are unable to provide your date of birth because: $reasonDescription"
-            case _ => ""
+          val excuseReason = form(keys.dob.noDob.reason).value.map { reason: String =>
+            s"You are unable to provide your date of birth because: $reason"
           }
-          val ageRange = form(keys.dob.noDob.range).value match {
-            case Some("under18") => "I am roughly under 18"
-            case Some("18to70") => "I am over 18 years old"
-            case Some("over70") => "I am over 70 years old"
-            case Some("dontKnow") => "I don't know my age"
+          val ageRange = form(keys.dob.noDob.range).value.map { _ match {
+            case "under18" => "I am roughly under 18"
+            case "18to70" => "I am over 18 years old"
+            case "over70" => "I am over 70 years old"
+            case "dontKnow" => "I don't know my age"
             case _ => ""
-          }
-          List(excuseReason, ageRange)
+          }}
+          List(excuseReason, ageRange).flatten
         }
 
       Some(ConfirmationQuestion(
@@ -339,8 +337,6 @@ trait ConfirmationMustache extends WithAddressService{
             ifComplete(keys.contactAddress.contactAddressType) { List() }
           } else if (addressTypeKey.equals(Some(keys.ukContactAddress))) {
             ifComplete(keys.address) {
-              //println(">>>" + form(keys.address.address.manualAddress.lineOne).value)
-              //println(">>>" + form(keys.address.manualAddress.lineOne).value)
               val addressLine = form(keys.address.address.addressLine).value.orElse{
                 manualAddressToOneLine(form, keys.address.address.manualAddress)
               }

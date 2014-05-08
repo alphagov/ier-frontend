@@ -156,4 +156,11 @@ with Matchers {
       keys.address.manualAddress)
     result should be(None)
   }
+
+  "concatListOfOptionalStrings()" should
+    "concatenate only Some values if there are any or return None" in {
+    concatListOfOptionalStrings(List(None, None, None)) should be(None)
+    concatListOfOptionalStrings(List(None, Some("aaa"), None)) should be(Some("aaa"))
+    concatListOfOptionalStrings(List(Some("aaa"), Some("bbb"), Some("ccc"))) should be(Some("aaa, bbb, ccc"))
+  }
 }

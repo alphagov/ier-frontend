@@ -52,15 +52,21 @@ trait AddressHelpers extends FormKeys {
   def concatAddressToOneLine(
       form: ErrorTransformForm[_],
       contactAddressKey: Key): Option[String] = {
-    List(
+    concatListOfOptionalStrings(List(
       form(contactAddressKey.prependNamespace(keys.addressLine1)).value,
       form(contactAddressKey.prependNamespace(keys.addressLine2)).value,
       form(contactAddressKey.prependNamespace(keys.addressLine3)).value,
       form(contactAddressKey.prependNamespace(keys.addressLine4)).value,
       form(contactAddressKey.prependNamespace(keys.addressLine5)).value
-    ).flatten match {
-      case List() => None
-      case x => Some(x.mkString(", "))
-    }
+    ))
+  }
+
+  /**
+   * Example:
+   * List(Some("123 High Street"), None, Some("Newtown"), None) -> Some("123 High Street, Newtown")
+   * List(None, None, None) -> None
+   */
+  private[form] def concatListOfOptionalStrings(x: List[Option[String]]): Option[String] = {
+    x.flatten.reduceLeftOption{(a, b) => a + ", " + b}
   }
 }
