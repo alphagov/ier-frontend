@@ -4,15 +4,22 @@
   </header>
 
     {{#completeApplicantDetails}}
-        <div>
-            <h3>{{title}}</h3>
-            <div class="data-wrap">
-                {{{content}}}
-            </div>
-            <a href="{{editLink}}" class="change">
-                Change<span class="visuallyhidden"> {{changeName}}</span>
-            </a>
+    <div>
+        <h3>{{title}}</h3>
+        <div class="data-wrap">
+            {{#content}}
+            {{#blockContent}}
+            <p>{{.}}</p>
+            {{/blockContent}}
+            {{#blockError}}
+            <div class="validation-message visible">{{.}}</div>
+            {{/blockError}}
+            {{/content}}
         </div>
+        <a href="{{editLink}}" class="change">
+            Change<span class="visuallyhidden"> {{changeName}}</span>
+        </a>
+    </div>
     {{/completeApplicantDetails}}
 
     <div class="help-notice">

@@ -17,7 +17,7 @@ trait ParentNameBlocks {
       editLink = routes.ParentNameController.editGet.url,
       changeName = "full name",
       content = ifComplete(keys.overseasParentName.parentName) {
-        s"<p>$nameStr</p>"
+        List(nameStr)
       }
     )
   }
@@ -39,11 +39,11 @@ trait ParentNameBlocks {
       editLink = routes.ParentNameController.editGet.url,
       changeName = "previous name",
       content = ifComplete(keys.overseasParentName.parentPreviousName) {
-        s"<p>$prevNameStr</p>"
+        List(prevNameStr)
       }
     )
   }
-  
+
   private val under18 = Some(true)
   private val withLimit = Some(true)
   private val hasPreviousName = Some("true")

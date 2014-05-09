@@ -6,6 +6,7 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.crown.confirmation.ConfirmationMustache
+import uk.gov.gds.ier.transaction.shared.BlockContent
 
 class ConfirmationTemplateTests
   extends FlatSpec
@@ -18,7 +19,7 @@ class ConfirmationTemplateTests
       val model = ConfirmationModel(
         applicantDetails = List(
           ConfirmationQuestion(
-            content = "Some applicant details",
+            content = BlockContent("Some applicant details"),
             title = "Applicant Details",
             editLink = "http://applicantDetails",
             changeName = "applicant details"
@@ -26,7 +27,7 @@ class ConfirmationTemplateTests
         ),
         partnerDetails = List(
           ConfirmationQuestion(
-            content = "Some applicant details",
+            content = BlockContent("Some applicant details"),
             title = "Applicant Details",
             editLink = "http://applicantDetails",
             changeName = "applicant details"
@@ -50,7 +51,7 @@ class ConfirmationTemplateTests
       val model = ConfirmationModel(
         applicantDetails = List(
           ConfirmationQuestion(
-            content = "Some applicant details",
+            content = BlockContent("Some applicant details"),
             title = "Applicant Details",
             editLink = "http://applicantDetails",
             changeName = "applicant details"
@@ -58,7 +59,7 @@ class ConfirmationTemplateTests
         ),
         partnerDetails = List(
           ConfirmationQuestion(
-            content = "Some applicant details",
+            content = BlockContent("Some applicant details"),
             title = "Applicant Details",
             editLink = "http://applicantDetails",
             changeName = "applicant details"

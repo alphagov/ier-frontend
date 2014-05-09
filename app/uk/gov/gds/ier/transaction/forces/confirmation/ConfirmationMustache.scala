@@ -10,15 +10,16 @@ import scala.Some
 import controllers.step.forces.routes
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
 import uk.gov.gds.ier.service.WithAddressService
 
 trait ConfirmationMustache extends WithAddressService{
 
   case class ConfirmationQuestion(
-      content:String,
-      title:String,
-      editLink:String,
-      changeName:String
+      content: EitherErrorOrContent,
+      title: String,
+      editLink: String,
+      changeName: String
   )
 
   case class ConfirmationModel(
@@ -108,23 +109,21 @@ trait ConfirmationMustache extends WithAddressService{
   class ConfirmationBlocks(form: ErrorTransformForm[InprogressForces])
     extends StepMustache with AddressHelpers with Logging {
 
-    val completeThisStepMessage = "<div class=\"validation-message visible\">" +
-      "Please complete this step" +
-      "</div>"
+    val completeThisStepMessage = "Please complete this step"
 
-    def ifComplete(key:Key)(confirmationHtml: => String) = {
+    def ifComplete(key:Key)(confirmationHtml: => List[String]): EitherErrorOrContent = {
       if (form(key).hasErrors) {
-        completeThisStepMessage
+        BlockError(completeThisStepMessage)
       } else {
-        confirmationHtml
+        BlockContent(confirmationHtml)
       }
     }
 
-    def ifComplete(keys:Key*)(confirmationHtml: => String) = {
+    def ifComplete(keys:Key*)(confirmationHtml: => List[String]): EitherErrorOrContent = {
       if (keys.exists(form(_).hasErrors)) {
-        completeThisStepMessage
+        BlockError(completeThisStepMessage)
       } else {
-        confirmationHtml
+        BlockContent(confirmationHtml)
       }
     }
 
@@ -134,11 +133,10 @@ trait ConfirmationMustache extends WithAddressService{
         editLink = routes.NameController.editGet.url,
         changeName = "full name",
         content = ifComplete(keys.name) {
-          List(
+          List(List(
             form(keys.name.firstName).value,
             form(keys.name.middleNames).value,
-            form(keys.name.lastName).value).flatten
-            .mkString("<p>", " ", "</p>")
+            form(keys.name.lastName).value).flatten.mkString(" "))
         }
       ))
     }
@@ -160,7 +158,7 @@ trait ConfirmationMustache extends WithAddressService{
         editLink = routes.NameController.editGet.url,
         changeName = "previous name",
         content = ifComplete(keys.previousName) {
-          s"<p>$prevNameStr</p>"
+          List(prevNameStr)
         }
       ))
     }
@@ -172,20 +170,19 @@ trait ConfirmationMustache extends WithAddressService{
           val day = form(keys.dob.dob.day).value.getOrElse("")
           val month = DateOfBirthConstants.monthsByNumber(form(keys.dob.dob.month).value.get)
           val year = form(keys.dob.dob.year).value.getOrElse("")
-          "<p>" + day + " " + month + " " + year + "</p>"
+          List(day + " " + month + " "  + year)
         } else {
-          val excuseReason = if (form(keys.dob.noDob.reason).value.isDefined) {
-            "<p>You are unable to provide your date of birth because: " +
-              form(keys.dob.noDob.reason).value.getOrElse("") + "</p>"
+          val excuseReason = form(keys.dob.noDob.reason).value.map { reason: String =>
+            s"You are unable to provide your date of birth because: $reason"
           }
-          val ageRange = form(keys.dob.noDob.range).value match {
-            case Some("under18") => "<p>I am roughly under 18</p>"
-            case Some("18to70") => "<p>I am over 18 years old</p>"
-            case Some("over70") => "<p>I am over 70 years old</p>"
-            case Some("dontKnow") => "<p>I don't know my age</p>"
+          val ageRange = form(keys.dob.noDob.range).value.map { _ match {
+            case "under18" => "I am roughly under 18"
+            case "18to70" => "I am over 18 years old"
+            case "over70" => "I am over 70 years old"
+            case "dontKnow" => "I don't know my age"
             case _ => ""
-          }
-          excuseReason + ageRange
+          }}
+          List(excuseReason, ageRange).flatten
         }
 
       Some(ConfirmationQuestion(
@@ -205,10 +202,10 @@ trait ConfirmationMustache extends WithAddressService{
         changeName = "nationality",
         content = ifComplete(keys.nationality) {
           if (nationalityIsFilled) {
-            "<p>" + confirmationNationalityString + "</p>"
+            List(confirmationNationalityString)
           } else {
-            "<p>I cannot provide my nationality because:</p><p>"+
-              form(keys.nationality.noNationalityReason).value.getOrElse("") + "</p>"
+            List("I cannot provide my nationality because:",
+              form(keys.nationality.noNationalityReason).value.getOrElse(""))
           }
         }
       ))
@@ -221,10 +218,10 @@ trait ConfirmationMustache extends WithAddressService{
         changeName = "national insurance number",
         content = ifComplete(keys.nino) {
           if(form(keys.nino.nino).value.isDefined){
-            s"<p>${form(keys.nino.nino).value.getOrElse("")}</p>"
+            List(form(keys.nino.nino).value.getOrElse(""))
           } else {
-            "<p>I cannot provide my national insurance number because:</p>" +
-              s"<p>${form(keys.nino.noNinoReason).value.getOrElse("")}</p>"
+            List("I cannot provide my national insurance number because:",
+              form(keys.nino.noNinoReason).value.getOrElse(""))
           }
         }
       ))
@@ -236,23 +233,16 @@ trait ConfirmationMustache extends WithAddressService{
         editLink = routes.ServiceController.editGet.url,
         changeName = "service",
         content = ifComplete(keys.service) {
-           val serviceName = form(keys.service.serviceName).value match {
-             case Some("Royal Navy") => "Royal Navy"
-             case Some("British Army") => "British Army"
-             case Some("Royal Air Force") => "Royal Air Force"
-             case _ => ""
+           val memberOf = form(keys.service.serviceName).value map { serviceName =>
+             if (isPartner)
+               s"Your partner is a member of the ${serviceName}"
+             else
+               s"I am a member of the ${serviceName}"
            }
-
-           val memberOf = if (isPartner)
-                            "<p>Your partner is a member of the "+serviceName+"</p>"
-                          else
-                            "<p>I am a member of the "+serviceName+"</p>"
-           val regiment = form(keys.service.regiment).value match {
-             case Some(regiment) => s"<p>Regiment: ${regiment}</p>"
-             case None => ""
+           val regiment = form(keys.service.regiment).value map {
+             regiment => s"Regiment: ${regiment}"
            }
-
-           memberOf + regiment
+           List(memberOf, regiment).flatten
         }
       ))
     }
@@ -263,16 +253,13 @@ trait ConfirmationMustache extends WithAddressService{
         editLink = routes.RankController.editGet.url,
         changeName = "service number and rank",
         content = ifComplete(keys.rank) {
-
-          val serviceNumber = form(keys.rank.serviceNumber).value match {
-            case Some(serviceNumber) => s"<p>Service number: ${serviceNumber}</p>"
-            case None => ""
+          val serviceNumber = form(keys.rank.serviceNumber).value map { serviceNumber =>
+            s"Service number: ${serviceNumber}"
           }
-          val rank = form(keys.rank.rank).value match {
-            case Some(rank) => s"<p>Rank: ${rank}</p>"
-            case None => ""
+          val rank = form(keys.rank.rank).value map { rank =>
+            s"Rank: ${rank}"
           }
-          serviceNumber + rank
+          List(serviceNumber, rank).flatten
         }
       ))
     }
@@ -285,22 +272,20 @@ trait ConfirmationMustache extends WithAddressService{
         content = ifComplete(keys.address.address) {
           val addressLine = form(keys.address.address.addressLine).value.orElse{
             manualAddressToOneLine(form, keys.address.address.manualAddress)
-          }.getOrElse("")
-          val postcode = form(keys.address.address.postcode).value.getOrElse("")
-          s"<p>$addressLine</p><p>$postcode</p>"
+          }
+          val postcode = form(keys.address.address.postcode).value
+          List(addressLine, postcode).flatten
         }
       ))
     }
 
     def previousAddress = {
-
       val hasCurrentUkAddress =
         form(keys.address.hasUkAddress).value match {
           case Some(hasUkAddress) if (hasUkAddress.toBoolean) => true
           case _ => false
         }
       if (hasCurrentUkAddress) {
-
         Some(ConfirmationQuestion(
           title = "UK previous registration address",
           editLink = routes.PreviousAddressFirstController.editGet.url,
@@ -310,28 +295,21 @@ trait ConfirmationMustache extends WithAddressService{
               .map(MovedHouseOption.parse(_).hasPreviousAddress)
               .getOrElse(false)
 
-            if(moved) {
+            if (moved) {
               val postcode = form(keys.previousAddress.previousAddress.postcode).value.getOrElse("")
-              if (addressService.isNothernIreland(postcode)){
-                "<p>" + postcode + "</p>" +
-                "<p>I was previously registered in Northern Ireland</p>"
-
+              if (addressService.isNothernIreland(postcode)) {
+                List(postcode, "I was previously registered in Northern Ireland")
               } else {
                 val address = if (form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
-                  form(keys.previousAddress.previousAddress.addressLine).value.map(
-                    addressLine => "<p>" + addressLine + "</p>"
-                  ).getOrElse("")
+                  form(keys.previousAddress.previousAddress.addressLine).value
                 } else {
-                  manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress).map(
-                    addressLine => "<p>" + addressLine + "</p>"
-                  ).getOrElse("")
+                  manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress)
                 }
-
-                address + "<p>" + postcode.toUpperCase + "</p>"
+                val postcode = form(keys.previousAddress.previousAddress.postcode).value
+                List(address, postcode).flatten
               }
-
             } else {
-              "<p>I have not moved in the last 12 months</p>"
+              List("I have not moved in the last 12 months")
             }
           }
         ))
@@ -344,42 +322,34 @@ trait ConfirmationMustache extends WithAddressService{
         title = "Polling card address",
         editLink = routes.ContactAddressController.editGet.url,
         changeName = "polling card address",
-        content = ifComplete(keys.contactAddress) {
-
+        content = {
           val addressTypeKey = form(keys.contactAddress.contactAddressType).value match {
-            case Some("uk") => keys.ukContactAddress
-            case Some("bfpo") => keys.bfpoContactAddress
-            case Some("other") => keys.otherContactAddress
-            case _ => throw new IllegalArgumentException
+            case Some("uk") => Some(keys.ukContactAddress)
+            case Some("bfpo") => Some(keys.bfpoContactAddress)
+            case Some("other") => Some(keys.otherContactAddress)
+            case _ => None
           }
 
-          if (addressTypeKey.equals(keys.ukContactAddress)) {
+          if (!addressTypeKey.isDefined) {
+            ifComplete(keys.contactAddress.contactAddressType) { List() }
+          } else if (addressTypeKey.equals(Some(keys.ukContactAddress))) {
             ifComplete(keys.address) {
               val addressLine = form(keys.address.address.addressLine).value.orElse{
                 manualAddressToOneLine(form, keys.address.address.manualAddress)
-              }.getOrElse("")
-              val postcode = form(keys.address.address.postcode).value.getOrElse("")
-              s"<p>$addressLine</p><p>$postcode</p>"
+              }
+              val postcode = form(keys.address.address.postcode).value
+              List(addressLine, postcode).flatten
             }
           }
           else {
-            val contactAddressKey = keys.contactAddress.prependNamespace(addressTypeKey)
-            val result:StringBuilder = new StringBuilder
-            result.append ("<p>")
-            result.append (
-              List (
-                form(contactAddressKey.prependNamespace(keys.addressLine1)).value,
-                form(contactAddressKey.prependNamespace(keys.addressLine2)).value,
-                form(contactAddressKey.prependNamespace(keys.addressLine3)).value,
-                form(contactAddressKey.prependNamespace(keys.addressLine4)).value,
-                form(contactAddressKey.prependNamespace(keys.addressLine5)).value)
-                .filter(!_.getOrElse("").isEmpty).map(_.get).mkString("","<br/>",""))
-            result.append ("</p>")
-            result.append ("<p>" +
-              form (contactAddressKey.prependNamespace(keys.postcode)).value.getOrElse("") + "</p>")
-            result.append ("<p>" +
-              form (contactAddressKey.prependNamespace(keys.country)).value.getOrElse("") + "</p>")
-            result.toString()
+            ifComplete(keys.contactAddress) {
+              val contactAddressKey = keys.contactAddress.prependNamespace(addressTypeKey.get)
+              val addressLines = concatAddressToOneLine(form, contactAddressKey)
+              val postcode = form(contactAddressKey.prependNamespace(keys.postcode)).value
+              val country = form(contactAddressKey.prependNamespace(keys.country)).value
+
+              List(addressLines, postcode, country).flatten
+            }
           }
         }
       ))
@@ -391,10 +361,10 @@ trait ConfirmationMustache extends WithAddressService{
         editLink = routes.OpenRegisterController.editGet.url,
         changeName = "open register",
         content = ifComplete(keys.openRegister) {
-          if(form(keys.openRegister.optIn).value == Some("true")){
-            "<p>I want to include my details on the open register</p>"
-          }else{
-            "<p>I don’t want to include my details on the open register</p>"
+          if (form(keys.openRegister.optIn).value == Some("true")){
+            List("I want to include my details on the open register")
+          } else {
+            List("I don’t want to include my details on the open register")
           }
         }
       ))
@@ -411,28 +381,25 @@ trait ConfirmationMustache extends WithAddressService{
       val emailMe = form(keys.postalOrProxyVote.deliveryMethod.methodName).value == Some("email")
       val optIn = form(keys.postalOrProxyVote.optIn).value
       val ways = way match {
-            case Some(WaysToVoteType.ByPost) => "<p>I want to vote by post</p>"
-            case Some(WaysToVoteType.ByProxy) => "<p>I want to vote by proxy (someone else voting for me)</p>"
-            case Some(WaysToVoteType.InPerson) => "<p>I want to vote in person, at a polling station</p>"
-            case _ => ""
+        case Some(WaysToVoteType.ByPost) => List("I want to vote by post")
+        case Some(WaysToVoteType.ByProxy) => List("I want to vote by proxy (someone else voting for me)")
+        case Some(WaysToVoteType.InPerson) => List("I want to vote in person, at a polling station")
+        case _ => List()
       }
       val postalOrProxyVote = (optIn, emailMe) match {
-              case (Some("true"), true) => s"<p>Send an application form to:</p>" +
-                s"<p>${myEmail}</p>"
-              case (Some("true"), false) => s"<p>Send me an application form in the post</p>"
-              case (Some("false"), _) => s"<p>I do not need ${prettyWayName} application form</p>"
-              case (_, _) => ""
+        case (Some("true"), true) => List("Send an application form to:", myEmail)
+        case (Some("true"), false) => List("Send me an application form in the post")
+        case (Some("false"), _) => List(s"I do not need ${prettyWayName} application form")
+        case (_, _) => List()
       }
 
       Some(ConfirmationQuestion(
         title = "Voting options",
         editLink = routes.WaysToVoteController.editGet.url,
         changeName = "voting",
-        content = if (form(keys.waysToVote).hasErrors ||
-             (way.exists(_ == WaysToVoteType.InPerson) && form(keys.postalOrProxyVote).hasErrors)) {
-           completeThisStepMessage
-         }
-         else ways + postalOrProxyVote
+        content = ifComplete(keys.waysToVote, keys.postalOrProxyVote) {
+          ways ++ postalOrProxyVote
+        }
       ))
     }
 
@@ -442,19 +409,19 @@ trait ConfirmationMustache extends WithAddressService{
         editLink = routes.ContactController.editGet.url,
         changeName = "how we should contact you",
         content = ifComplete(keys.contact) {
-          val post = if(form(keys.contact.post.contactMe).value == Some("true")){
-            "<p>By post</p>"
-          } else ""
+          val post = if (form(keys.contact.post.contactMe).value == Some("true")) {
+            Some("By post")
+          } else None
 
-          val phone = if(form(keys.contact.phone.contactMe).value == Some("true")){
-            s"<p>By phone: ${form(keys.contact.phone.detail).value.getOrElse("")}</p>"
-          } else ""
+          val phone = if (form(keys.contact.phone.contactMe).value == Some("true")) {
+            Some(s"By phone: ${form(keys.contact.phone.detail).value.getOrElse("")}")
+          } else None
 
-          val email = if(form(keys.contact.email.contactMe).value == Some("true")){
-            s"<p>By email: ${form(keys.contact.email.detail).value.getOrElse("")}</p>"
-          } else ""
+          val email = if( form(keys.contact.email.contactMe).value == Some("true")) {
+            Some(s"By email: ${form(keys.contact.email.detail).value.getOrElse("")}")
+          } else None
 
-          s"$post $phone $email"
+          List(post, phone, email).flatten
         }
       ))
     }

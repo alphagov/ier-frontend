@@ -13,6 +13,7 @@ import uk.gov.gds.ier.model.{
 import uk.gov.gds.ier.transaction.overseas.confirmation.ConfirmationForms
 import org.joda.time.DateTime
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.transaction.shared.{BlockError, BlockContent}
 
 class ParentsAddressBlocksTests
   extends FlatSpec
@@ -48,7 +49,7 @@ class ParentsAddressBlocksTests
     model.title should be("Parent's or guardian's last UK address")
     model.editLink should be("/register-to-vote/overseas/edit/parents-address/select")
     model.changeName should be("your parent's or guardian's last UK address")
-    model.content should be("<p>123 Fake Street</p><p>AB12 34DC</p>")
+    model.content should be(BlockContent(List("123 Fake Street", "AB12 34DC")))
   }
 
   it should "return parents manual address" in {
@@ -77,9 +78,9 @@ class ParentsAddressBlocksTests
     model.title should be("Parent's or guardian's last UK address")
     model.editLink should be("/register-to-vote/overseas/edit/parents-address/manual")
     model.changeName should be("your parent's or guardian's last UK address")
-    model.content should be("" +
-      "<p>Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester</p>" +
-      "<p>AB12 34DC</p>")
+    model.content should be(BlockContent(List(
+      "Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester",
+      "AB12 34DC")))
   }
 
   it should "return 'complete this step'" in {
@@ -100,9 +101,7 @@ class ParentsAddressBlocksTests
     model.title should be("Parent's or guardian's last UK address")
     model.editLink should be("/register-to-vote/overseas/edit/parents-address")
     model.changeName should be("your parent's or guardian's last UK address")
-    model.content should be(
-      "<div class=\"validation-message visible\">Please complete this step</div>"
-    )
+    model.content should be(BlockError("Please complete this step"))
   }
 }
 

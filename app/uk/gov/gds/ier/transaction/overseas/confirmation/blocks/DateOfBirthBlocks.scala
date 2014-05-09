@@ -6,7 +6,7 @@ trait DateOfBirthBlocks {
   self: ConfirmationBlock =>
 
   def dateOfBirth = {
-    val dob = form.dateOfBirth map { dob => 
+    val dob = form.dateOfBirth map { dob =>
       dob.toString("d M yyyy")
     } getOrElse ""
 
@@ -15,7 +15,7 @@ trait DateOfBirthBlocks {
       editLink = routes.DateOfBirthController.editGet.url,
       changeName = "date of birth",
       content = ifComplete(keys.dob) {
-        s"<p>$dob</p>"
+        List(dob)
       }
     )
   }

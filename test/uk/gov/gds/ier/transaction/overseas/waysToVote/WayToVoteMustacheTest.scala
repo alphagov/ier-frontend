@@ -65,5 +65,4 @@ class WayToVoteMustacheTest
     model.byProxy.attributes should be("")
     model.inPerson.attributes should be("checked=\"checked\"")
   }
-
 }

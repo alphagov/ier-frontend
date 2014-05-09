@@ -10,6 +10,7 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 import uk.gov.gds.ier.model.WaysToVote
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.shared.BlockContent
 
 class ConfirmationMustacheTest
   extends FlatSpec
@@ -44,11 +45,11 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(nameModel) = confirmation.name
-    nameModel.content should be("<p>John Smith</p>")
+    nameModel.content should be(BlockContent(List("John Smith")))
     nameModel.editLink should be("/register-to-vote/edit/name")
 
     val Some(prevNameModel) = confirmation.previousName
-    prevNameModel.content should be("<p>Jan Kovar</p>")
+    prevNameModel.content should be(BlockContent(List("Jan Kovar")))
     prevNameModel.editLink should be("/register-to-vote/edit/name")
   }
 
@@ -73,11 +74,11 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(nameModel) = confirmation.name
-    nameModel.content should be("<p>John Walker Junior Smith</p>")
+    nameModel.content should be(BlockContent(List("John Walker Junior Smith")))
     nameModel.editLink should be("/register-to-vote/edit/name")
 
     val Some(prevNameModel) = confirmation.previousName
-    prevNameModel.content should be("<p>Jan Janko Janik Kovar</p>")
+    prevNameModel.content should be(BlockContent(List("Jan Janko Janik Kovar")))
     prevNameModel.editLink should be("/register-to-vote/edit/name")
   }
 
@@ -96,7 +97,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(dateOfBirthModel) = confirmation.dateOfBirth
-    dateOfBirthModel.content should be("<p>22 January 1978</p>")
+    dateOfBirthModel.content should be(BlockContent(List("22 January 1978")))
     dateOfBirthModel.editLink should be("/register-to-vote/edit/date-of-birth")
   }
 
@@ -114,7 +115,9 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(dateOfBirthModel) = confirmation.dateOfBirth
-    dateOfBirthModel.content should be("<p>You are unable to provide your date of birth because: I have no idea!</p><p>I am over 18 years old</p>")
+    dateOfBirthModel.content should be(BlockContent(List(
+      "You are unable to provide your date of birth because: I have no idea!",
+      "I am over 18 years old")))
     dateOfBirthModel.editLink should be("/register-to-vote/edit/date-of-birth")
   }
 
@@ -134,7 +137,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(nationalityModel) = confirmation.nationality
-    nationalityModel.content should be("<p>I am British</p>")
+    nationalityModel.content should be(BlockContent(List("I am British")))
     nationalityModel.editLink should be("/register-to-vote/edit/nationality")
   }
 
@@ -153,7 +156,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(nationalityModel) = confirmation.nationality
-    nationalityModel.content should be("<p>I am Irish</p>")
+    nationalityModel.content should be(BlockContent(List("I am Irish")))
     nationalityModel.editLink should be("/register-to-vote/edit/nationality")
   }
 
@@ -172,7 +175,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(nationalityModel) = confirmation.nationality
-    nationalityModel.content should be("<p>I am a citizen of Spain, France and Germany</p>")
+    nationalityModel.content should be(BlockContent(List("I am a citizen of Spain, France and Germany")))
     nationalityModel.editLink should be("/register-to-vote/edit/nationality")
   }
 
@@ -191,7 +194,9 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(nationalityModel) = confirmation.nationality
-    nationalityModel.content should be("<p>I cannot provide my nationality because:</p><p>I'm from Mars</p>")
+    nationalityModel.content should be(BlockContent(List(
+      "I cannot provide my nationality because:",
+      "I'm from Mars")))
     nationalityModel.editLink should be("/register-to-vote/edit/nationality")
   }
 
@@ -207,7 +212,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(ninoModel) = confirmation.nino
-    ninoModel.content should be("<p>AB123456C</p>")
+    ninoModel.content should be(BlockContent(List("AB123456C")))
     ninoModel.editLink should be("/register-to-vote/edit/nino")
   }
 
@@ -223,8 +228,9 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(ninoModel) = confirmation.nino
-    ninoModel.content should be("<p>I cannot provide my national insurance number because:</p>"+
-      "<p>Recently arrived to the UK</p>")
+    ninoModel.content should be(BlockContent(List(
+      "I cannot provide my national insurance number because:",
+      "Recently arrived to the UK")))
     ninoModel.editLink should be("/register-to-vote/edit/nino")
   }
 
@@ -242,7 +248,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(addressModel) = confirmation.address
-    addressModel.content should be("<p>123 Fake Street</p><p>AB12 3CD</p>")
+    addressModel.content should be(BlockContent(List("123 Fake Street", "AB12 3CD")))
     addressModel.editLink should be("/register-to-vote/edit/address/select")
   }
 
@@ -264,9 +270,9 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(addressModel) = confirmation.address
-    addressModel.content should be("" +
-      "<p>Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester</p>" +
-      "<p>AB12 3CD</p>")
+    addressModel.content should be(BlockContent(List(
+      "Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester",
+      "AB12 3CD")))
     addressModel.editLink should be("/register-to-vote/edit/address/manual")
   }
 
@@ -288,7 +294,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(previousAddressModel) = confirmation.previousAddress
-    previousAddressModel.content should be("<p>123 Fake Street</p><p>AB12 3CD</p>")
+    previousAddressModel.content should be(BlockContent(List("123 Fake Street", "AB12 3CD")))
     previousAddressModel.editLink should be("/register-to-vote/edit/previous-address")
   }
 
@@ -313,9 +319,9 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(previousAddressModel) = confirmation.previousAddress
-    previousAddressModel.content should be("" +
-      "<p>Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester</p>" +
-      "<p>AB12 3CD</p>")
+    previousAddressModel.content should be(BlockContent(List(
+      "Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester",
+      "AB12 3CD")))
     previousAddressModel.editLink should be("/register-to-vote/edit/previous-address")
   }
 
@@ -336,7 +342,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(previousAddressModel) = confirmation.previousAddress
-    previousAddressModel.content should be("<p>123 Fake Street</p><p>AB12 3CD</p>")
+    previousAddressModel.content should be(BlockContent(List("123 Fake Street", "AB12 3CD")))
     previousAddressModel.editLink should be("/register-to-vote/edit/previous-address")
   }
 
@@ -361,9 +367,9 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(previousAddressModel) = confirmation.previousAddress
-    previousAddressModel.content should be("" +
-      "<p>Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester</p>" +
-      "<p>AB12 3CD</p>")
+    previousAddressModel.content should be(BlockContent(List(
+      "Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester",
+      "AB12 3CD")))
     previousAddressModel.editLink should be("/register-to-vote/edit/previous-address")
   }
 
@@ -379,7 +385,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(previousAddressModel) = confirmation.previousAddress
-    previousAddressModel.content should be("<p>I have not moved in the last 12 months</p>")
+    previousAddressModel.content should be(BlockContent(List("I have not moved in the last 12 months")))
     previousAddressModel.editLink should be("/register-to-vote/edit/previous-address")
   }
 
@@ -395,7 +401,8 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(previousAddressModel) = confirmation.previousAddress
-    previousAddressModel.content should be("<p>I moved from abroad, but I was not registered to vote there</p>")
+    previousAddressModel.content should be(BlockContent(List(
+      "I moved from abroad, but I was not registered to vote there")))
     previousAddressModel.editLink should be("/register-to-vote/edit/previous-address")
   }
 
@@ -410,7 +417,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(secondAddressModel) = confirmation.secondAddress
-    secondAddressModel.content should be("<p>I don't have a second address</p>")
+    secondAddressModel.content should be(BlockContent(List("I don't have a second address")))
     secondAddressModel.editLink should be("/register-to-vote/edit/other-address")
   }
 
@@ -424,7 +431,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(openRegisterModel) = confirmation.openRegister
-    openRegisterModel.content should be("<p>I want to include my details on the open register</p>")
+    openRegisterModel.content should be(BlockContent(List("I want to include my details on the open register")))
     openRegisterModel.editLink should be("/register-to-vote/edit/open-register")
   }
 
@@ -437,10 +444,10 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(openRegisterModel) = confirmation.openRegister
-    openRegisterModel.content should be("<p>I don’t want to include my details on the open register</p>")
+    openRegisterModel.content should be(BlockContent(List(
+      "I don’t want to include my details on the open register")))
     openRegisterModel.editLink should be("/register-to-vote/edit/open-register")
   }
-
 
   "In-progress application form with postal vote (by post)" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
@@ -457,7 +464,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(postalVoteMode) = confirmation.postalVote
-    postalVoteMode.content should include("<p>I want you to mail me a postal vote application form</p>")
+    postalVoteMode.content should be(BlockContent(List("I want you to mail me a postal vote application form")))
     postalVoteMode.editLink should be("/register-to-vote/edit/postal-vote")
   }
 
@@ -476,8 +483,9 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(postalVoteMode) = confirmation.postalVote
-    postalVoteMode.content should include(
-      "<p>I want you to email a postal vote application form to: <br/>john@email.com</p>")
+    postalVoteMode.content should be(BlockContent(List(
+      "I want you to email a postal vote application form to:",
+      "john@email.com")))
     postalVoteMode.editLink should be("/register-to-vote/edit/postal-vote")
   }
 
@@ -493,12 +501,10 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(postalVoteMode) = confirmation.postalVote
-    postalVoteMode.content should include(
-      "<p>I don’t want to apply for a postal vote</p>")
+    postalVoteMode.content should be(BlockContent(List(
+      "I don’t want to apply for a postal vote")))
     postalVoteMode.editLink should be("/register-to-vote/edit/postal-vote")
   }
-
-
 
   "In-progress application form with email contact" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
@@ -513,7 +519,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(contactModel) = confirmation.contact
-    contactModel.content should be("  <p>By email: antoine@gds.com</p>")
+    contactModel.content should be(BlockContent(List("By email: antoine@gds.com")))
     contactModel.editLink should be("/register-to-vote/edit/contact")
   }
 
@@ -530,7 +536,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(contactModel) = confirmation.contact
-    contactModel.content should be(" <p>By phone: +44 5678 907 546 ext. 3567-098</p> ")
+    contactModel.content should be(BlockContent(List("By phone: +44 5678 907 546 ext. 3567-098")))
     contactModel.editLink should be("/register-to-vote/edit/contact")
   }
 
@@ -547,7 +553,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(contactModel) = confirmation.contact
-    contactModel.content should be("<p>By post</p>  ")
+    contactModel.content should be(BlockContent(List("By post")))
     contactModel.editLink should be("/register-to-vote/edit/contact")
   }
 

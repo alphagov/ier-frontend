@@ -17,7 +17,7 @@ trait NameBlocks {
       editLink = routes.NameController.editGet.url,
       changeName = "full name",
       content = ifComplete(keys.overseasName.name) {
-        s"<p>$nameStr</p>"
+        List(nameStr)
       }
     )
   }
@@ -39,7 +39,7 @@ trait NameBlocks {
       editLink = routes.NameController.editGet.url,
       changeName = "previous name",
       content = ifComplete(keys.overseasName.previousName) {
-        s"<p>$prevNameStr</p>"
+        List(prevNameStr)
       }
     )
   }

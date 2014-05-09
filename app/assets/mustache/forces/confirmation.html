@@ -1,50 +1,70 @@
 <article>
-  <header class="no-back-link">
-    <h1>Check your answers before sending your application</h1>
-  </header>
+    <header class="no-back-link">
+        <h1>Check your answers before sending your application</h1>
+    </header>
 
     {{#displayPartnerBlock}}
-        <h2>Your partner's details</h2>
-        {{#partnerDetails}}
-            <div>
-                <h3>{{title}}</h3>
-                <div class="data-wrap">
-                    {{{content}}}
-                </div>
-                <a href="{{editLink}}" class="change">
-                    Change<span class="visuallyhidden"> {{changeName}}</span>
-                </a>
-            </div>
-        {{/partnerDetails}}
+    <h2>Your partner's details</h2>
+    {{#partnerDetails}}
+    <div>
+        <h3>{{title}}</h3>
+        <div class="data-wrap">
+            {{#content}}
+            {{#blockContent}}
+            <p>{{.}}</p>
+            {{/blockContent}}
+            {{#blockError}}
+            <div class="validation-message visible">{{.}}</div>
+            {{/blockError}}
+            {{/content}}
+        </div>
+        <a href="{{editLink}}" class="change">
+            Change<span class="visuallyhidden"> {{changeName}}</span>
+        </a>
+    </div>
+    {{/partnerDetails}}
 
-        <h2>Your details</h2>
-        {{#applicantDetails}}
-            <div>
-                <h3>{{title}}</h3>
-                <div class="data-wrap">
-                    {{{content}}}
-                </div>
-                <a href="{{editLink}}" class="change">
-                    Change<span class="visuallyhidden"> {{changeName}}</span>
-                </a>
-            </div>
-        {{/applicantDetails}}
+    <h2>Your details</h2>
+    {{#applicantDetails}}
+    <div>
+        <h3>{{title}}</h3>
+        <div class="data-wrap">
+            {{#content}}
+            {{#blockContent}}
+            <p>{{.}}</p>
+            {{/blockContent}}
+            {{#blockError}}
+            <div class="validation-message visible">{{.}}</div>
+            {{/blockError}}
+            {{/content}}
+        </div>
+        <a href="{{editLink}}" class="change">
+            Change<span class="visuallyhidden"> {{changeName}}</span>
+        </a>
+    </div>
+    {{/applicantDetails}}
     {{/displayPartnerBlock}}
 
     {{^displayPartnerBlock}}
-        {{#completeApplicantDetails}}
-        <div>
-            <h3>{{title}}</h3>
-            <div class="data-wrap">
-                {{{content}}}
-            </div>
-            <a href="{{editLink}}" class="change">
-                Change<span class="visuallyhidden"> {{changeName}}</span>
-            </a>
+    {{#completeApplicantDetails}}
+    <div>
+        <h3>{{title}}</h3>
+        <div class="data-wrap">
+            {{#content}}
+            {{#blockContent}}
+            <p>{{.}}</p>
+            {{/blockContent}}
+            {{#blockError}}
+            <div class="validation-message visible">{{.}}</div>
+            {{/blockError}}
+            {{/content}}
         </div>
-        {{/completeApplicantDetails}}
+        <a href="{{editLink}}" class="change">
+            Change<span class="visuallyhidden"> {{changeName}}</span>
+        </a>
+    </div>
+    {{/completeApplicantDetails}}
     {{/displayPartnerBlock}}
-
 
     <div class="help-notice">
     <p>I understand that: </p>

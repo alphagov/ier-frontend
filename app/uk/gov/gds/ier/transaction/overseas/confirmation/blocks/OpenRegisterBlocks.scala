@@ -12,9 +12,9 @@ trait OpenRegisterBlocks {
       changeName = "open register",
       content = ifComplete(keys.openRegister) {
         if(form(keys.openRegister.optIn).value == Some("true")){
-          "<p>I want to include my details on the open register</p>"
+          List("I want to include my details on the open register")
         }else{
-          "<p>I don’t want to include my details on the open register</p>"
+          List("I don’t want to include my details on the open register")
         }
       }
     )

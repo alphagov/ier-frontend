@@ -13,6 +13,7 @@ import uk.gov.gds.ier.model.{
 import uk.gov.gds.ier.transaction.overseas.confirmation.ConfirmationForms
 import org.joda.time.DateTime
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.transaction.shared.BlockContent
 
 class NameBlocksTests
   extends FlatSpec
@@ -45,14 +46,14 @@ class NameBlocksTests
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val nameModel = confirmation.name
-    nameModel.content should be("<p>John Smith</p>")
+    nameModel.content should be(BlockContent("John Smith"))
     nameModel.editLink should be("/register-to-vote/overseas/edit/name")
 
     val prevNameModel = confirmation.previousName
-    prevNameModel.content should be("<p>Jan Kovar</p>")
+    prevNameModel.content should be(BlockContent("Jan Kovar"))
     prevNameModel.editLink should be("/register-to-vote/overseas/edit/name")
   }
-  
+
   "In-progress application form with filled name and previous name with middle names" should
     "generate confirmation mustache model with correctly rendered names and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
@@ -73,11 +74,11 @@ class NameBlocksTests
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val nameModel = confirmation.name
-    nameModel.content should be("<p>John Walker Junior Smith</p>")
+    nameModel.content should be(BlockContent("John Walker Junior Smith"))
     nameModel.editLink should be("/register-to-vote/overseas/edit/name")
 
     val prevNameModel = confirmation.previousName
-    prevNameModel.content should be("<p>Jan Janko Janik Kovar</p>")
+    prevNameModel.content should be(BlockContent("Jan Janko Janik Kovar"))
     prevNameModel.editLink should be("/register-to-vote/overseas/edit/name")
   }
 }
