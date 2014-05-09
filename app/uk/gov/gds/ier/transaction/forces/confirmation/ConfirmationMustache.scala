@@ -298,9 +298,7 @@ trait ConfirmationMustache extends WithAddressService{
             if (moved) {
               val postcode = form(keys.previousAddress.previousAddress.postcode).value.getOrElse("")
               if (addressService.isNothernIreland(postcode)) {
-                "<p>" + postcode + "</p>" +
-                  "<p>I was previously registered in Northern Ireland</p>"
-
+                List(postcode, "I was previously registered in Northern Ireland")
               } else {
                 val address = if (form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
                   form(keys.previousAddress.previousAddress.addressLine).value
@@ -309,11 +307,10 @@ trait ConfirmationMustache extends WithAddressService{
                 }
                 val postcode = form(keys.previousAddress.previousAddress.postcode).value
                 List(address, postcode).flatten
-              } else
-              {
-                List("I have not moved in the last 12 months")
               }
-            } // FIXME: !!
+            } else {
+              List("I have not moved in the last 12 months")
+            }
           }
         ))
       }

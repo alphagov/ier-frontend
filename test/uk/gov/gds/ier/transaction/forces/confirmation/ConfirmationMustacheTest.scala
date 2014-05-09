@@ -10,7 +10,7 @@ import scala.Some
 import uk.gov.gds.ier.model.WaysToVote
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import org.mockito.Mockito._
-import uk.gov.gds.ier.transaction.shared.{BlockError, BlockContent}
+import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError}
 
 class ConfirmationMustacheTest
   extends FlatSpec
@@ -489,9 +489,9 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(previousAddressModel) = confirmation.previousAddress
-    previousAddressModel.content should be("" +
-      "<p>Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester</p>" +
-      "<p>AB12 3CD</p>")
+    previousAddressModel.content should be(BlockContent(List(
+      "Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester",
+      "AB12 3CD")))
     previousAddressModel.editLink should be("/register-to-vote/forces/edit/previous-address")
   }
 
@@ -527,10 +527,9 @@ class ConfirmationMustacheTest
 
     val Some(previousAddressModel) = confirmation.previousAddress
 
-    previousAddressModel.content should be("<p>BT7 1AA</p><p>I was previously registered in Northern Ireland</p>")
     previousAddressModel.content should be(BlockContent(List(
-      "Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester",
-      "AB12 3CD")))
+      "BT7 1AA",
+      "I was previously registered in Northern Ireland")))
     previousAddressModel.editLink should be("/register-to-vote/forces/edit/previous-address")
   }
 
