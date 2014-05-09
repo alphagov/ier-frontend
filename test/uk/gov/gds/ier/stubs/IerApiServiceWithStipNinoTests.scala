@@ -29,7 +29,7 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
         isNot(applicationWithNino),
         MockitoMatchers.eq(None)
       )
-    ).thenReturn(IerApiApplicationResponse("","","","","")) //don't care about return type
+    ).thenReturn(mock[IerApiApplicationResponse]) //don't care about return type
     service.submitOrdinaryApplication(None, applicationWithNino, None)
     verify(concreteIerApiServiceMock).submitOrdinaryApplication(
       MockitoMatchers.eq(None),
@@ -49,7 +49,7 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
         isNot(applicationWithNino),
         MockitoMatchers.eq(None)
       )
-    ).thenReturn(IerApiApplicationResponse("","","","","")) //don't care about return type
+    ).thenReturn(mock[IerApiApplicationResponse]) //don't care about return type
     service.submitOverseasApplication(None, applicationWithNino, None)
     verify(concreteIerApiServiceMock).submitOverseasApplication(
       MockitoMatchers.eq(None),
@@ -69,7 +69,7 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
         isNot(applicationWithNino),
         MockitoMatchers.eq(None)
       )
-    ).thenReturn(IerApiApplicationResponse("","","","","")) //don't care about return type
+    ).thenReturn(mock[IerApiApplicationResponse]) //don't care about return type
     service.submitForcesApplication(None, applicationWithNino, None)
     verify(concreteIerApiServiceMock).submitForcesApplication(
       MockitoMatchers.eq(None),
@@ -89,7 +89,7 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
         isNot(applicationWithNino),
         MockitoMatchers.eq(None)
       )
-    ).thenReturn(IerApiApplicationResponse("","","","","")) //don't care about return type
+    ).thenReturn(mock[IerApiApplicationResponse]) //don't care about return type
     service.submitCrownApplication(None, applicationWithNino, None)
     verify(concreteIerApiServiceMock).submitCrownApplication(
       MockitoMatchers.eq(None),
@@ -118,7 +118,7 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
 
     when(concreteIerApiServiceMock.submitOrdinaryApplication(
       None, applicationWithNoNinoReason, None))
-      .thenReturn(IerApiApplicationResponse("","","","","")) //don't care about return type
+      .thenReturn(mock[IerApiApplicationResponse]) //don't care about return type
     service.submitOrdinaryApplication(None, applicationWithNoNinoReason, None)
     verify(concreteIerApiServiceMock).submitOrdinaryApplication(
       None, applicationWithNoNinoReason, None)
@@ -144,7 +144,7 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
 
     when(concreteIerApiServiceMock.submitOverseasApplication(
       None, applicationWithNoNinoReason, None))
-      .thenReturn(IerApiApplicationResponse("","","","","")) //don't care about return type
+      .thenReturn(mock[IerApiApplicationResponse]) //don't care about return type
     service.submitOverseasApplication(None, applicationWithNoNinoReason, None)
     verify(concreteIerApiServiceMock).submitOverseasApplication(
       None, applicationWithNoNinoReason, None)
@@ -170,7 +170,7 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
 
     when(concreteIerApiServiceMock.submitForcesApplication(
       None, applicationWithNoNinoReason, None))
-      .thenReturn(IerApiApplicationResponse("","","","","")) //don't care about return type
+      .thenReturn(mock[IerApiApplicationResponse]) //don't care about return type
     service.submitForcesApplication(None, applicationWithNoNinoReason, None)
     verify(concreteIerApiServiceMock).submitForcesApplication(
       None, applicationWithNoNinoReason, None)
@@ -197,7 +197,7 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
 
     when(concreteIerApiServiceMock.submitCrownApplication(
       None, applicationWithNoNinoReason, None))
-      .thenReturn(IerApiApplicationResponse("","","","","")) //don't care about return type
+      .thenReturn(mock[IerApiApplicationResponse]) //don't care about return type
     service.submitCrownApplication(None, applicationWithNoNinoReason, None)
     verify(concreteIerApiServiceMock).submitCrownApplication(
       None, applicationWithNoNinoReason, None)
