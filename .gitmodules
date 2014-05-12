@@ -4,3 +4,6 @@
 [submodule "app/assets/govuk_template_play"]
 	path = app/assets/govuk_template_play
 	url = https://github.com/alphagov/govuk_template_play.git
+[submodule "app/assets/mustache/govuk_template_mustache"]
+	path = app/assets/mustache/govuk_template_mustache
+	url = https://github.com/alphagov/govuk_template_mustache
