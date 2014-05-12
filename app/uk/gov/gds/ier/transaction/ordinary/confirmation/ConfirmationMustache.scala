@@ -255,9 +255,9 @@ trait ConfirmationMustache {
         changeName = "open register",
         content = ifComplete(keys.openRegister) {
           if (form(keys.openRegister.optIn).value == Some("true")){
-            List("I want to include my details on the open register")
+            List("I want to include my name and address on the open register")
           } else {
-            List("I don’t want to include my details on the open register")
+            List("I don't want my name and address on the open register")
           }
         }
       ))

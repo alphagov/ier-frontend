@@ -634,8 +634,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(openRegisterModel) = confirmation.openRegister
-    openRegisterModel.content should be(BlockContent(
-      "I want to include my details on the open register"))
+    openRegisterModel.content should be(BlockContent(List("I want to include my name and address on the open register")))
     openRegisterModel.editLink should be("/register-to-vote/forces/edit/open-register")
   }
 
@@ -648,8 +647,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(openRegisterModel) = confirmation.openRegister
-    openRegisterModel.content should be(BlockContent(
-      "I don’t want to include my details on the open register"))
+    openRegisterModel.content should be(BlockContent(List("I don't want my name and address on the open register")))
     openRegisterModel.editLink should be("/register-to-vote/forces/edit/open-register")
   }
 
