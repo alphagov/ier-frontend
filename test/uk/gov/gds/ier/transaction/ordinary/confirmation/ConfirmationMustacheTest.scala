@@ -178,7 +178,8 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(nationalityModel) = confirmation.nationality
-    nationalityModel.content should be(BlockContent(List("I am a citizen of Spain, France and Germany")))
+    nationalityModel.content should be(
+        BlockContent(List("I am a citizen of Spain, France and Germany")))
     nationalityModel.editLink should be("/register-to-vote/edit/nationality")
   }
 
@@ -435,7 +436,8 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(openRegisterModel) = confirmation.openRegister
-    openRegisterModel.content should be(BlockContent(List("I want to include my name and address on the open register")))
+    openRegisterModel.content should be(
+        BlockContent(List("I want to include my name and address on the open register")))
     openRegisterModel.editLink should be("/register-to-vote/edit/open-register")
   }
 
