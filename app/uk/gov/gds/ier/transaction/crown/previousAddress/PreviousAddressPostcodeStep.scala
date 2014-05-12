@@ -30,7 +30,8 @@ class PreviousAddressPostcodeStep @Inject() (
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    val isPreviousAddressNI = currentState.previousAddress.exists(_.previousAddress.exists(prevAddr => addressService.isNothernIreland(prevAddr.postcode)))
+    val isPreviousAddressNI = currentState.previousAddress.exists(
+      _.previousAddress.exists(prevAddr => addressService.isNothernIreland(prevAddr.postcode)))
 
     if (isPreviousAddressNI) {
       controllers.step.crown.NationalityController.nationalityStep
