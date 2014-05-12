@@ -3,13 +3,14 @@ package uk.gov.gds.ier.transaction.crown.confirmation
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockAddressService, TestHelpers}
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.Name
 import scala.Some
 import uk.gov.gds.ier.model.WaysToVote
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError}
+import org.mockito.Mockito._
 
 class ConfirmationMustacheTest
   extends FlatSpec
@@ -19,7 +20,8 @@ class ConfirmationMustacheTest
   with ErrorMessages
   with FormKeys
   with TestHelpers
-  with ConfirmationMustache {
+  with ConfirmationMustache
+  with WithMockAddressService {
 
   val serialiser = jsonSerialiser
 
@@ -1020,5 +1022,138 @@ class ConfirmationMustacheTest
     val Some(contactModel) = confirmation.contact
     contactModel.content should be(BlockContent("By post"))
     contactModel.editLink should be("/register-to-vote/crown/edit/contact")
+  }
+
+  "In-progress application form with valid previous UK address" should
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+      address = Some(LastUkAddress(Some(true), Some(PartialAddress(
+        addressLine = None,
+        uprn = None,
+        postcode = "AB12 3CD",
+        manualAddress = Some(PartialManualAddress(
+          lineOne = Some("Unit 4, Elgar Business Centre"),
+          lineTwo = Some("Moseley Road"),
+          lineThree = Some("Hallow"),
+          city = Some("Worcester")))
+      )))),
+      previousAddress = Some(PartialPreviousAddress(
+        movedRecently = Some(MovedHouseOption.Yes),
+        previousAddress = Some(PartialAddress(
+          addressLine = Some("123 Fake Street"),
+          uprn = Some("12345678"),
+          postcode = "AB12 3CD",
+          manualAddress = None
+        ))
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+
+    val Some(previousAddressModel) = confirmation.previousAddress
+    previousAddressModel.content should be(BlockContent(List(
+      "123 Fake Street", "AB12 3CD")))
+    previousAddressModel.editLink should be("/register-to-vote/crown/edit/previous-address")
+  }
+
+  "In-progress application form with valid previous UK manual address" should
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+      address = Some(LastUkAddress(Some(true), Some(PartialAddress(
+        addressLine = None,
+        uprn = None,
+        postcode = "AB12 3CD",
+        manualAddress = Some(PartialManualAddress(
+          lineOne = Some("Unit 4, Elgar Business Centre"),
+          lineTwo = Some("Moseley Road"),
+          lineThree = Some("Hallow"),
+          city = Some("Worcester")))
+      )))),
+      previousAddress = Some(PartialPreviousAddress(
+        movedRecently = Some(MovedHouseOption.Yes),
+        previousAddress = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "AB12 3CD",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")))
+        ))
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+
+    val Some(previousAddressModel) = confirmation.previousAddress
+    previousAddressModel.content should be(BlockContent(List(
+      "Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester",
+      "AB12 3CD")))
+    previousAddressModel.editLink should be("/register-to-vote/crown/edit/previous-address")
+  }
+
+
+  "In-progress application form with previous postcode being Northern Ireland" should
+    "generate confirmation mustache model with an information for NI users" in {
+
+    when(addressService.isNothernIreland("BT7 1AA")).thenReturn(true)
+
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+      address = Some(LastUkAddress(Some(true), Some(PartialAddress(
+        addressLine = None,
+        uprn = None,
+        postcode = "AB12 3CD",
+        manualAddress = Some(PartialManualAddress(
+          lineOne = Some("Unit 4, Elgar Business Centre"),
+          lineTwo = Some("Moseley Road"),
+          lineThree = Some("Hallow"),
+          city = Some("Worcester")))
+      )))),
+      previousAddress = Some(PartialPreviousAddress(
+        movedRecently = Some(MovedHouseOption.Yes),
+        previousAddress = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "BT7 1AA",
+          manualAddress = None
+        ))
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+
+    val Some(previousAddressModel) = confirmation.previousAddress
+
+    previousAddressModel.content should be(BlockContent(List(
+      "BT7 1AA",
+      "I was previously registered in Northern Ireland")))
+    previousAddressModel.editLink should be("/register-to-vote/crown/edit/previous-address")
+  }
+
+  "In-progress application form without previous UK address" should
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+      address = Some(LastUkAddress(Some(true), Some(PartialAddress(
+        addressLine = None,
+        uprn = None,
+        postcode = "AB12 3CD",
+        manualAddress = Some(PartialManualAddress(
+          lineOne = Some("Unit 4, Elgar Business Centre"),
+          lineTwo = Some("Moseley Road"),
+          lineThree = Some("Hallow"),
+          city = Some("Worcester")))
+      )))),
+      previousAddress = Some(PartialPreviousAddress(
+        movedRecently = Some(MovedHouseOption.NotMoved),
+        previousAddress = None
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+
+    val Some(previousAddressModel) = confirmation.previousAddress
+    previousAddressModel.content should be(BlockContent(List("I have not moved in the last 12 months")))
+    previousAddressModel.editLink should be("/register-to-vote/crown/edit/previous-address")
   }
 }

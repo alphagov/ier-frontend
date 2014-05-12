@@ -30,7 +30,33 @@ class PreviousAddressPostcodeStep @Inject() (
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    controllers.step.crown.PreviousAddressSelectController.previousAddressSelectStep
+    val isPreviousAddressNI = currentState.previousAddress.exists(
+      _.previousAddress.exists(prevAddr => addressService.isNothernIreland(prevAddr.postcode)))
+
+    if (isPreviousAddressNI) {
+      controllers.step.crown.NationalityController.nationalityStep
+    } else {
+      controllers.step.crown.PreviousAddressSelectController.previousAddressSelectStep
+    }
   }
 
+  override val onSuccess = TransformApplication { currentState =>
+    val prevAddressCleaned = currentState.previousAddress.map { prev =>
+      prev.copy(
+        previousAddress = prev.previousAddress.map(_.copy(
+          addressLine = None,
+          uprn = None,
+          manualAddress = None,
+          gssCode = None
+        ))
+      )
+    }
+
+    currentState.copy(
+      previousAddress = prevAddressCleaned,
+      possibleAddresses = None
+    )
+
+  } andThen GoToNextIncompleteStep()
 }
+
