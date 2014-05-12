@@ -14,23 +14,19 @@ import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
-class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with MockitoSugar {
+class IerApiServiceWithStripNinoTests extends FlatSpec with Matchers with MockitoSugar {
 
   def isNot[T](obj:T) = AdditionalMatchers.not(MockitoMatchers.eq(obj))
 
-  it should "replace a nino when submitting Application (ordinary)" in {
+  behavior of "IerApiServiceWithStripNino"
+
+  it should "replace a nino when submitting Application (ordinary) when calling API service" in {
     val concreteIerApiServiceMock = mock[ConcreteIerApiService]
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
     val applicationWithNino = InprogressOrdinary(nino = Some(Nino(Some("12345"), None)))
 
-    when(
-      concreteIerApiServiceMock.submitOrdinaryApplication(
-        MockitoMatchers.eq(None),
-        isNot(applicationWithNino),
-        MockitoMatchers.eq(None)
-      )
-    ).thenReturn(mock[IerApiApplicationResponse]) //don't care about return type
     service.submitOrdinaryApplication(None, applicationWithNino, None)
+
     verify(concreteIerApiServiceMock).submitOrdinaryApplication(
       MockitoMatchers.eq(None),
       isNot(applicationWithNino),
@@ -38,19 +34,13 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
     )
   }
 
-  it should "replace a nino when submitting Application (overseas)" in {
+  it should "replace a nino when submitting Application (overseas) when calling API service" in {
     val concreteIerApiServiceMock = mock[ConcreteIerApiService]
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
     val applicationWithNino = InprogressOverseas(nino = Some(Nino(Some("12345"), None)))
 
-    when(
-      concreteIerApiServiceMock.submitOverseasApplication(
-        MockitoMatchers.eq(None),
-        isNot(applicationWithNino),
-        MockitoMatchers.eq(None)
-      )
-    ).thenReturn(mock[IerApiApplicationResponse]) //don't care about return type
     service.submitOverseasApplication(None, applicationWithNino, None)
+
     verify(concreteIerApiServiceMock).submitOverseasApplication(
       MockitoMatchers.eq(None),
       isNot(applicationWithNino),
@@ -58,19 +48,13 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
     )
   }
 
-  it should "replace a nino when submitting Application (forces)" in {
+  it should "replace a nino when submitting Application (forces) when calling API service" in {
     val concreteIerApiServiceMock = mock[ConcreteIerApiService]
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
     val applicationWithNino = InprogressForces(nino = Some(Nino(Some("12345"), None)))
 
-    when(
-      concreteIerApiServiceMock.submitForcesApplication(
-        MockitoMatchers.eq(None),
-        isNot(applicationWithNino),
-        MockitoMatchers.eq(None)
-      )
-    ).thenReturn(mock[IerApiApplicationResponse]) //don't care about return type
     service.submitForcesApplication(None, applicationWithNino, None)
+
     verify(concreteIerApiServiceMock).submitForcesApplication(
       MockitoMatchers.eq(None),
       isNot(applicationWithNino),
@@ -78,19 +62,13 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
     )
   }
 
-  it should "replace a nino when submitting Application (crown)" in {
+  it should "replace a nino when submitting Application (crown) when calling API service" in {
     val concreteIerApiServiceMock = mock[ConcreteIerApiService]
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
     val applicationWithNino = InprogressCrown(nino = Some(Nino(Some("12345"), None)))
 
-    when(
-      concreteIerApiServiceMock.submitCrownApplication(
-        MockitoMatchers.eq(None),
-        isNot(applicationWithNino),
-        MockitoMatchers.eq(None)
-      )
-    ).thenReturn(mock[IerApiApplicationResponse]) //don't care about return type
     service.submitCrownApplication(None, applicationWithNino, None)
+
     verify(concreteIerApiServiceMock).submitCrownApplication(
       MockitoMatchers.eq(None),
       isNot(applicationWithNino),
@@ -103,9 +81,8 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
     val applicationWithNino = InprogressOrdinary(nino = Some(Nino(Some("12345"), None)))
 
-    when(concreteIerApiServiceMock.generateOrdinaryReferenceNumber(
-      isNot(applicationWithNino))).thenReturn("a1b2c3d4") //don't care about return type
     service.generateOrdinaryReferenceNumber(applicationWithNino)
+
     verify(concreteIerApiServiceMock).generateOrdinaryReferenceNumber(
       isNot(applicationWithNino))
   }
@@ -116,10 +93,8 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
     val applicationWithNoNinoReason = InprogressOrdinary(
       nino = Some(Nino(None, Some("no nino reason"))))
 
-    when(concreteIerApiServiceMock.submitOrdinaryApplication(
-      None, applicationWithNoNinoReason, None))
-      .thenReturn(mock[IerApiApplicationResponse]) //don't care about return type
     service.submitOrdinaryApplication(None, applicationWithNoNinoReason, None)
+
     verify(concreteIerApiServiceMock).submitOrdinaryApplication(
       None, applicationWithNoNinoReason, None)
   }
@@ -129,9 +104,8 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
     val applicationWithNino = InprogressOverseas(nino = Some(Nino(Some("12345"), None)))
 
-    when(concreteIerApiServiceMock.generateOverseasReferenceNumber(
-      isNot(applicationWithNino))).thenReturn("a1b2c3d4") //don't care about return type
     service.generateOverseasReferenceNumber(applicationWithNino)
+
     verify(concreteIerApiServiceMock).generateOverseasReferenceNumber(
       isNot(applicationWithNino))
   }
@@ -142,10 +116,8 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
     val applicationWithNoNinoReason = InprogressOverseas(
       nino = Some(Nino(None, Some("no nino reason"))))
 
-    when(concreteIerApiServiceMock.submitOverseasApplication(
-      None, applicationWithNoNinoReason, None))
-      .thenReturn(mock[IerApiApplicationResponse]) //don't care about return type
     service.submitOverseasApplication(None, applicationWithNoNinoReason, None)
+
     verify(concreteIerApiServiceMock).submitOverseasApplication(
       None, applicationWithNoNinoReason, None)
   }
@@ -155,9 +127,8 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
     val applicationWithNino = InprogressForces(nino = Some(Nino(Some("12345"), None)))
 
-    when(concreteIerApiServiceMock.generateForcesReferenceNumber(
-      isNot(applicationWithNino))).thenReturn("a1b2c3d4") //don't care about return type
     service.generateForcesReferenceNumber(applicationWithNino)
+
     verify(concreteIerApiServiceMock).generateForcesReferenceNumber(
       isNot(applicationWithNino))
   }
@@ -168,10 +139,8 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
     val applicationWithNoNinoReason = InprogressForces(
       nino = Some(Nino(None, Some("no nino reason"))))
 
-    when(concreteIerApiServiceMock.submitForcesApplication(
-      None, applicationWithNoNinoReason, None))
-      .thenReturn(mock[IerApiApplicationResponse]) //don't care about return type
     service.submitForcesApplication(None, applicationWithNoNinoReason, None)
+
     verify(concreteIerApiServiceMock).submitForcesApplication(
       None, applicationWithNoNinoReason, None)
   }
@@ -182,9 +151,8 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
     val applicationWithNino = InprogressCrown(nino = Some(Nino(Some("12345"), None)))
 
-    when(concreteIerApiServiceMock.generateCrownReferenceNumber(
-      isNot(applicationWithNino))).thenReturn("a1b2c3d4") //don't care about return type
     service.generateCrownReferenceNumber(applicationWithNino)
+
     verify(concreteIerApiServiceMock).generateCrownReferenceNumber(
       isNot(applicationWithNino))
   }
@@ -195,10 +163,8 @@ class IerApiServiceWithStipNinoTests extends FlatSpec with Matchers with Mockito
     val applicationWithNoNinoReason = InprogressCrown(
       nino = Some(Nino(None, Some("no nino reason"))))
 
-    when(concreteIerApiServiceMock.submitCrownApplication(
-      None, applicationWithNoNinoReason, None))
-      .thenReturn(mock[IerApiApplicationResponse]) //don't care about return type
     service.submitCrownApplication(None, applicationWithNoNinoReason, None)
+
     verify(concreteIerApiServiceMock).submitCrownApplication(
       None, applicationWithNoNinoReason, None)
   }
