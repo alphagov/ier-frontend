@@ -50,10 +50,13 @@
                       data-validation-children=
                               "BFPOAddressLine1 BFPOAddressLine2 BFPOAddressLine3 BFPOAddressLine4 BFPOAddressLine5">
 
-                <label for="{{bfpoAddress.BFPOAddressLine1.id}}">
+                <legend class="label">
                     Address
-                </label>
+                </legend>
                 <div class="validation-wrapper">
+                    <label for="{{bfpoAddress.BFPOAddressLine1.id}}" class="visuallyhidden">
+                        Address line one
+                    </label>
                     <input type="text" id="{{bfpoAddress.BFPOAddressLine1.id}}"
                            name="{{bfpoAddress.BFPOAddressLine1.name}}"
                            value="{{bfpoAddress.BFPOAddressLine1.value}}"
@@ -64,6 +67,9 @@
                            data-validation-rules="nonEmpty" >
                 </div>
                 <div class="validation-wrapper">
+                    <label for="{{bfpoAddress.BFPOAddressLine2.id}}" class="visuallyhidden">
+                        Address line two
+                    </label>
                     <input type="text" id="{{bfpoAddress.BFPOAddressLine2.id}}"
                            name="{{bfpoAddress.BFPOAddressLine2.name}}"
                            value="{{bfpoAddress.BFPOAddressLine2.value}}"
@@ -74,6 +80,9 @@
                            data-validation-rules="nonEmpty" >
                 </div>
                 <div class="validation-wrapper">
+                    <label for="{{bfpoAddress.BFPOAddressLine3.id}}" class="visuallyhidden">
+                        Address line three
+                    </label>
                     <input type="text" id="{{bfpoAddress.BFPOAddressLine3.id}}"
                            name="{{bfpoAddress.BFPOAddressLine3.name}}"
                            value="{{bfpoAddress.BFPOAddressLine3.value}}"
@@ -84,6 +93,9 @@
                            data-validation-rules="nonEmpty" >
                 </div>
                 <div class="validation-wrapper">
+                    <label for="{{bfpoAddress.BFPOAddressLine4.id}}" class="visuallyhidden">
+                        Address line four
+                    </label>
                     <input type="text" id="{{bfpoAddress.BFPOAddressLine4.id}}"
                            name="{{bfpoAddress.BFPOAddressLine4.name}}"
                            value="{{bfpoAddress.BFPOAddressLine4.value}}"
@@ -94,6 +106,9 @@
                            data-validation-rules="nonEmpty" >
                 </div>
                 <div class="validation-wrapper">
+                    <label for="{{bfpoAddress.BFPOAddressLine5.id}}" class="visuallyhidden">
+                        Address line five
+                    </label>
                     <input type="text" id="{{bfpoAddress.BFPOAddressLine5.id}}"
                            name="{{bfpoAddress.BFPOAddressLine5.name}}"
                            value="{{bfpoAddress.BFPOAddressLine5.value}}"
