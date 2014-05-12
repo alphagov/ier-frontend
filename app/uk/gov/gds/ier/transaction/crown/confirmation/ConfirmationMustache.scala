@@ -327,9 +327,9 @@ trait ConfirmationMustache {
         editLink = routes.OpenRegisterController.editGet.url,
         changeName = "open register",
         content = ifComplete(keys.openRegister) {
-          if(form(keys.openRegister.optIn).value == Some("true")){
+          if (form(keys.openRegister.optIn).value == Some("true")){
             List("I want to include my name and address on the open register")
-          }else{
+          } else {
             List("I don't want my name and address on the open register")
           }
         }

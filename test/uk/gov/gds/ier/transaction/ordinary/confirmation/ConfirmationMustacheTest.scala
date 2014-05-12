@@ -124,7 +124,8 @@ class ConfirmationMustacheTest
   "In-progress application form with british nationality" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
 
-    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(completeOrdinaryApplication.copy(
+    val partiallyFilledApplicationForm =
+      confirmationForm.fillAndValidate(completeOrdinaryApplication.copy(
       nationality = Some(PartialNationality(
         british = Some(true),
         irish = None,
@@ -143,7 +144,8 @@ class ConfirmationMustacheTest
 
   "In-progress application form with irish nationality" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
-    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(completeOrdinaryApplication.copy(
+    val partiallyFilledApplicationForm =
+      confirmationForm.fillAndValidate(completeOrdinaryApplication.copy(
       nationality = Some(PartialNationality(
         british = None,
         irish = Some(true),
@@ -162,7 +164,8 @@ class ConfirmationMustacheTest
 
   "In-progress application form with other nationality" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
-    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(completeOrdinaryApplication.copy(
+    val partiallyFilledApplicationForm =
+      confirmationForm.fillAndValidate(completeOrdinaryApplication.copy(
       nationality = Some(PartialNationality(
         british = None,
         irish = None,
@@ -385,7 +388,8 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(previousAddressModel) = confirmation.previousAddress
-    previousAddressModel.content should be(BlockContent(List("I have not moved in the last 12 months")))
+    previousAddressModel.content should be(
+        BlockContent(List("I have not moved in the last 12 months")))
     previousAddressModel.editLink should be("/register-to-vote/edit/previous-address")
   }
 
@@ -444,7 +448,8 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(openRegisterModel) = confirmation.openRegister
-    openRegisterModel.content should be(BlockContent(List("I don't want my name and address on the open register")))
+    openRegisterModel.content should be(
+        BlockContent(List("I don't want my name and address on the open register")))
     openRegisterModel.editLink should be("/register-to-vote/edit/open-register")
   }
 
@@ -463,7 +468,8 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(postalVoteMode) = confirmation.postalVote
-    postalVoteMode.content should be(BlockContent(List("I want you to mail me a postal vote application form")))
+    postalVoteMode.content should be(
+        BlockContent(List("I want you to mail me a postal vote application form")))
     postalVoteMode.editLink should be("/register-to-vote/edit/postal-vote")
   }
 
