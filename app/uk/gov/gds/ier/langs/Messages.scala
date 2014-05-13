@@ -25,5 +25,5 @@ object Messages {
     play.api.i18n.Messages(key)
   }
 
-  lazy val jsMessages = JsMessages.default
+  lazy val jsMessages = JsMessages.filtering(!_.startsWith("error."))
 }

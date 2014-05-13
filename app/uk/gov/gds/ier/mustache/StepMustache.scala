@@ -4,6 +4,7 @@ import play.api.templates.Html
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import play.api.http.{ContentTypeOf, MimeTypes}
 import play.api.mvc.Content
+import play.api.i18n.Lang
 
 trait StepMustache extends MustacheModel {
   self: WithRemoteAssets =>
@@ -37,8 +38,8 @@ trait StepMustache extends MustacheModel {
   }
 
   case class GovukTemplate(
+      htmlLang: String = "en",
       topOfPage: String = "",
-      htmlLang: String = "",
       pageTitle: String = "",
       assetPath: String = remoteAssets.templatePath,
       head: Html = Head(),
@@ -50,11 +51,15 @@ trait StepMustache extends MustacheModel {
       cookieMessage: Html = CookieMessage(),
       footerTop: String = "",
       footerSupportLinks: Html = FooterLinks(),
-      bodyEnd: Html = StepBodyEnd(),
+      bodyEndContent: Option[Html] = None,
       mainContent: Html = Html.empty,
       relatedContent: Html = Html.empty,
       contentClasses: String = ""
   ) extends Mustachio("govuk_template_mustache/views/layouts/govuk_template") {
+    val bodyEnd:Html = bodyEndContent getOrElse StepBodyEnd(
+      messagesPath = remoteAssets.messages(htmlLang).url
+    )
+
     val content: Html = ContentTemplate(
       mainContent,
       relatedContent,
@@ -74,7 +79,7 @@ trait StepMustache extends MustacheModel {
 
   case class StepBodyEnd(
       assetPath: String = remoteAssets.assetsPath,
-      messagesPath: String = remoteAssets.messages().url
+      messagesPath: String = remoteAssets.messages("en").url
   ) extends Mustachio("template/stepBodyEnd")
 
   case class Head (

@@ -24,8 +24,8 @@ class RemoteAssets @Inject() (config : Config) {
     )
   }
 
-  def messages() : Call = {
-    val playRoutedMessages = MessagesController.all()
+  def messages(lang:String) : Call = {
+    val playRoutedMessages = MessagesController.forLang(lang)
     playRoutedMessages.copy(
       url = appendAssetPath(playRoutedMessages.url)
     )
