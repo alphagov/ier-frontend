@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.transaction.complete
 
 import uk.gov.gds.ier.mustache.{StepMustache, GovukMustache}
-import uk.gov.gds.common.model.Ero
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 

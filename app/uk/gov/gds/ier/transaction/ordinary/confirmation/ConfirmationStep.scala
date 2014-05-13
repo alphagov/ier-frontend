@@ -83,10 +83,8 @@ class ConfirmationStep @Inject ()(
 
           logSession()
 
-          //FIXME: unfinished
           Redirect(CompleteController.complete()).flashing(
             "refNum" -> refNum,
-            //"postcode" -> validApplication.address.map(_.postcode).getOrElse(""),
             "localAuthority" -> serialiser.toJson(response.localAuthority),
             "hasOtherAddress" -> validApplication.otherAddress.map(
               _.otherAddressOption.hasOtherAddress.toString).getOrElse(""),

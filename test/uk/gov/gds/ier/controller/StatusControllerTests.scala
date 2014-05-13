@@ -4,22 +4,13 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.DynamicGlobal
 import play.api.test._
 import play.api.test.Helpers._
-import uk.gov.gds.ier.client.PlacesApiClient
-import uk.gov.gds.ier.model.{Fail, Success, ApiResponse}
-import com.google.inject.Inject
-import org.junit.runner.RunWith
 import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.junit.JUnitRunner
-import uk.gov.gds.ier.service.PlacesService
-import uk.gov.gds.ier.serialiser.JsonSerialiser
 
-// FIXME: remove dead code
 class StatusControllerTests extends FlatSpec with Matchers {
 
   val stubGlobal = new DynamicGlobal {
     override def bindings = { binder =>
       binder bind classOf[Config] to classOf[MockConfig]
-//      binder bind classOf[PlacesService] to classOf[MockPlacesService]
     }
   }
 
@@ -55,15 +46,8 @@ class StatusControllerTests extends FlatSpec with Matchers {
     it should "claim to be up" in {
       contentAsString(result) should fullyMatch regex ".*\"status\":\"up\".*".r
     }
-//    it should "have access to places" in {
-//      contentAsString(result) should fullyMatch regex ".*\"places\":\"up\".*".r
-//    }
   }
 }
-
-//class MockPlacesService @Inject() (apiClient: PlacesApiClient, serialiser: JsonSerialiser, config:Config) extends PlacesService(apiClient, serialiser, config) {
-//  override def beaconFire = true
-//}
 
 class MockConfig extends Config {
   override def revision = "a1b2c3d54"

@@ -76,7 +76,10 @@ class AddressService @Inject()(locateService: LocateService) {
       .mkString(", ")
   }
 
-  // FIXME: javadoc
+  /**
+   * If GssCode is present in the Address, use it, if not use postcode and do locateService lookup
+   * and pick first available gssCode from the results.
+   */
   def gssCodeFor(address: PartialAddress): Option[String] = {
     if (address.gssCode.isDefined) {
       address.gssCode

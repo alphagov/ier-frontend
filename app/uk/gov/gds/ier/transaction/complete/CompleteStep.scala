@@ -2,7 +2,6 @@ package uk.gov.gds.ier.transaction.complete
 
 import play.api.mvc._
 import com.google.inject.Inject
-import uk.gov.gds.ier.service.PlacesService
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
 import uk.gov.gds.ier.session.SessionCleaner
 import uk.gov.gds.ier.guice.{WithRemoteAssets, WithEncryption, WithConfig}
@@ -13,7 +12,6 @@ import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 
 class CompleteStep @Inject() (
     val serialiser: JsonSerialiser,
-    placesService:PlacesService,
     val config: Config,
     val encryptionService: EncryptionService,
     val remoteAssets: RemoteAssets
@@ -27,13 +25,6 @@ class CompleteStep @Inject() (
 
   def complete = ClearSession requiredFor {
     implicit request =>
-      //FIXME: under construction
-//      val authority = request.flash.get("postcode") match {
-//        case Some("") => None
-//        case Some(postCode) => placesService.lookupAuthority(postCode)
-//        case None => None
-//      }
-      //"localAuthority" -> serialiser.toJson(response.localAuthority),
       val authority = request.flash.get("localAuthority") match {
         case Some("") => None
         case Some(authorityJson) => Some(serialiser.fromJson[EroAuthorityDetails](authorityJson))

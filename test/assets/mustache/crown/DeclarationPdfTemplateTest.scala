@@ -4,12 +4,11 @@ import org.jsoup.Jsoup
 import org.scalatest.{Matchers, FlatSpec}
 import play.api.test.Helpers._
 import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.transaction.crown.declaration.{WithPlacesService, DeclarationPdfMustache}
+import uk.gov.gds.ier.transaction.crown.declaration.DeclarationPdfMustache
 import play.api.test.FakeApplication
 import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
 import org.scalatest.mock.MockitoSugar
-import uk.gov.gds.ier.service.{DeclarationPdfDownloadService, WithDeclarationPdfDownloadService, PlacesService}
-import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.service.{DeclarationPdfDownloadService, WithDeclarationPdfDownloadService}
 import uk.gov.gds.ier.test.WithMockRemoteAssets
 
 /**
@@ -20,13 +19,11 @@ class DeclarationPdfTemplateTest
   with StepMustache
   with MockitoSugar
   with WithSerialiser
-  with WithPlacesService
   with WithDeclarationPdfDownloadService
   with DeclarationPdfMustache
   with WithMockRemoteAssets
   with Matchers {
 
-  val placesService = mock[PlacesService]
   val serialiser = mock[JsonSerialiser]
   val declarationPdfDownloadService = mock[DeclarationPdfDownloadService]
 

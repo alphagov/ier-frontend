@@ -8,10 +8,8 @@ import org.scalatest.mock.MockitoSugar
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.test.TestHelpers
 import org.mockito.Mockito._
-import uk.gov.gds.common.model.LocalAuthority
 
 trait IerApiServiceTestsHelper extends TestHelpers with MockitoSugar {
-  val mockPlaces = mock[PlacesService]
   val mockLocateService = mock[LocateService]
   val addressService = new AddressService(mockLocateService)
   val mockSha = mock[ShaHashProvider]
@@ -38,14 +36,6 @@ trait IerApiServiceTestsHelper extends TestHelpers with MockitoSugar {
     )
   ))
 
-//  when(mockPlaces.lookupAuthority("WR26NJ")).thenReturn(
-//    Some(LocalAuthority(
-//      name = "Worcestershire County Council",
-//      opcsId = "00AG",
-//      gssId = " E10000034"
-//    ))
-//  )
-
   class MockConfig extends Config with TestHelpers {
     override def ierApiUrl = "testUrl"
     override def ierApiToken = "123457890"
@@ -63,6 +53,6 @@ trait IerApiServiceTestsHelper extends TestHelpers with MockitoSugar {
       }
     }
     new ConcreteIerApiService(new FakeApiClient, jsonSerialiser,
-      new MockConfig, mockPlaces, addressService, mockSha, isoService)
+      new MockConfig, addressService, mockSha, isoService)
   }
 }

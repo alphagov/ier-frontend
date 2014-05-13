@@ -21,22 +21,29 @@ import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 abstract class IerApiService {
-  def submitOrdinaryApplication(ipAddress: Option[String],
-                                applicant: InprogressOrdinary,
-                                referenceNumber: Option[String]): IerApiApplicationResponse
+  def submitOrdinaryApplication(
+      ipAddress: Option[String],
+      applicant: InprogressOrdinary,
+      referenceNumber: Option[String]
+  ): IerApiApplicationResponse
 
-  def submitOverseasApplication(ip:Option[String],
-                                applicant: InprogressOverseas,
-                                refNum:Option[String]): IerApiApplicationResponse
+  def submitOverseasApplication(
+      ip: Option[String],
+      applicant: InprogressOverseas,
+      refNum: Option[String]
+  ): IerApiApplicationResponse
 
+  def submitForcesApplication (
+      ip: Option[String],
+      applicant: InprogressForces,
+      refNum: Option[String]
+  ): IerApiApplicationResponse
 
-  def submitForcesApplication (ip:Option[String],
-                               applicant: InprogressForces,
-                               refNum:Option[String]): IerApiApplicationResponse
-
-  def submitCrownApplication (ip:Option[String],
-                               applicant: InprogressCrown,
-                               refNum:Option[String]): IerApiApplicationResponse
+  def submitCrownApplication (
+      ip: Option[String],
+      applicant: InprogressCrown,
+      refNum: Option[String]
+  ): IerApiApplicationResponse
 
   def generateOrdinaryReferenceNumber(application: InprogressOrdinary): String
   def generateOverseasReferenceNumber(application: InprogressOverseas): String
@@ -44,30 +51,28 @@ abstract class IerApiService {
   def generateCrownReferenceNumber(application: InprogressCrown): String
 }
 
-class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
-                                       serialiser: JsonSerialiser,
-                                       config: Config,
-                                       placesService:PlacesService,
-                                       addressService: AddressService,
-                                       shaHashProvider:ShaHashProvider,
-                                       isoCountryService: IsoCountryService)
-  extends IerApiService
-     with Logging {
+class ConcreteIerApiService @Inject() (
+    apiClient: IerApiClient,
+    serialiser: JsonSerialiser,
+    config: Config,
+    addressService: AddressService,
+    shaHashProvider:ShaHashProvider,
+    isoCountryService: IsoCountryService
+  ) extends IerApiService with Logging {
 
-  def submitOrdinaryApplication(ipAddress: Option[String],
-                                applicant: InprogressOrdinary,
-                                referenceNumber: Option[String]) = {
+  def submitOrdinaryApplication(
+      ipAddress: Option[String],
+      applicant: InprogressOrdinary,
+      referenceNumber: Option[String]) = {
+
     val isoCodes = applicant.nationality map { nationality =>
       isoCountryService.transformToIsoCode(nationality)
     }
-    // FIXME: unfinished
     val currAddrGssCode = applicant.address flatMap { address =>
-      //placesService.lookupAuthority(address.postcode)
       addressService.gssCodeFor(address)
     }
     val prevAddrGssCode = applicant.previousAddress flatMap { prevAddress =>
       prevAddress.previousAddress flatMap { prevAddress =>
-        //placesService.lookupAuthority(prevAddress.postcode)
         addressService.gssCodeFor(prevAddress)
       }
     }
@@ -113,13 +118,11 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
 
     val fullLastUkRegAddress = addressService.formFullAddress(applicant.lastUkAddress)
     val currentAuthorityGssCode = applicant.lastUkAddress flatMap { address =>
-      //placesService.lookupAuthority(address.postcode)
       addressService.gssCodeFor(address)
     }
 
     val fullParentRegAddress = addressService.formFullAddress(applicant.parentsAddress)
     val currentAuthorityParentsGssCode = applicant.parentsAddress flatMap { address =>
-      //placesService.lookupAuthority(address.postcode)
       addressService.gssCodeFor(address)
     }
 
@@ -157,7 +160,6 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
     }
     val currentAuthorityGssCode = applicant.address flatMap { pAddress =>
       pAddress.address.flatMap { address =>
-        //placesService.lookupAuthority(tAddress.postcode)
         addressService.gssCodeFor(address)
       }
     }
@@ -168,7 +170,6 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
 
     val previousAuthorityGssCode = applicant.previousAddress flatMap { prevAddress =>
       prevAddress.previousAddress flatMap { address =>
-        //placesService.lookupAuthority(prevAddress.postcode)
         addressService.gssCodeFor(address)
       }
     }
@@ -209,14 +210,7 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
     val isoCodes = applicant.nationality map { nationality =>
       isoCountryService.transformToIsoCode(nationality)
     }
-    // FIXME: under construction
-//    val currentAuthority = applicant.address flatMap { address =>
-//      if (address.address.isDefined) {
-//        val realAddress = address.address.get
-//        placesService.lookupAuthority(realAddress.postcode)
-//      }
-//      else None
-//    }
+
     val currentAuthorityGssCode = applicant.address flatMap { address =>
       address.address.flatMap { address =>
         addressService.gssCodeFor(address)
