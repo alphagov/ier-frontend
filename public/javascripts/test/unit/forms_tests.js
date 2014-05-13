@@ -301,11 +301,12 @@ describe("ConditionalControl", function () {
     });
     
     it("Should not change the margin-bottom of the content if it and the toggle control are not siblings", function () {
-      var expectedMarginBottom = conditionalControlMock.marginWhenContentIs.hidden;
+      var expectedMarginBottom = conditionalControlMock.marginWhenContentIs.hidden,
+          originalMarginBottom = conditionalControlMock.$toggle.css("margin-bottom");
 
       conditionalControlMock.controlAndContentAreSiblings = false;
       GOVUK.registerToVote.ConditionalControl.prototype.adjustVerticalSpace.call(conditionalControlMock, 'hidden');
-      expect(conditionalControlMock.$toggle.css("margin-bottom")).toBe('');
+      expect(conditionalControlMock.$toggle.css("margin-bottom")).toBe(originalMarginBottom);
     });
   });
 
