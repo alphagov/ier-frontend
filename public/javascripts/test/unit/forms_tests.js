@@ -98,6 +98,7 @@ describe("ConditionalControl", function () {
   describe("setup method", function () {
     var cachedGetElementById = document.getElementById,
         conditionalControlMock,
+        $toggle,
         stubGetElementById;
 
     stubGetElementById = function (handleElm) { 
@@ -112,15 +113,37 @@ describe("ConditionalControl", function () {
     };
 
     beforeEach(function () {
+      $toggle = $("<input type='radio' name='options' id='option-1' />");
       conditionalControlMock = {
-        "$content" : $("<div id='mock1' data-condition='test-control'></div>"),
+        "$content" : $("<div id='mock1' data-condition='option-1'></div>"),
         "adjustVerticalSpace" : function () {},
         "toggle" : function () {}
       };
+
+      $(document.body)
+        .append($toggle)
+        .append(conditionalControlMock.$content);
     });
 
     afterEach(function () {
+      conditionalControlMock.$content.remove();
+      $toggle.remove();
       document.getElementById = cachedGetElementById;
+    });
+
+    it("Should return false if the toggle control can't be found", function () {
+      var setupResult;
+
+      $toggle.remove();
+      setupResult = GOVUK.registerToVote.ConditionalControl.prototype.setup.call(conditionalControlMock);
+      expect(setupResult).toEqual(false);
+    });
+
+    it("Should return true if the toggle control can't be found", function () {
+      var setupResult;
+
+      setupResult = GOVUK.registerToVote.ConditionalControl.prototype.setup.call(conditionalControlMock);
+      expect(setupResult).toEqual(true);
     });
 
     it("Should get the toggle control id from an attribute value on the content", function () {
@@ -133,7 +156,7 @@ describe("ConditionalControl", function () {
       stubGetElementById(storeSentId);
       GOVUK.registerToVote.ConditionalControl.prototype.setup.call(conditionalControlMock);
 
-      expect(sentId).toBe('test-control');
+      expect(sentId).toBe('option-1');
     });
 
     it("Should add an 'aria-controls' attribute linking the toggle control to the content", function () {
@@ -169,8 +192,8 @@ describe("ConditionalControl", function () {
 
     beforeEach(function () {
       conditionalControlMock = {
-        "$content" : $("<div id='mock1' data-condition='test-control'></div>"),
-        "$toggle" : $("<input type='radio' name='mock1' />"),
+        "$content" : $("<div id='mock1' data-condition='option-1'></div>"),
+        "$toggle" : $("<input type='radio' name='options' id='option-1' />"),
         "adjustVerticalSpace" : function () {},
         "toggle" : function () {}
       };
@@ -247,8 +270,8 @@ describe("ConditionalControl", function () {
     beforeEach(function () {
       var $container = $(
         "<div>" +
-          "<input type='radio' name='mock1' />" +
-          "<div id='mock1' data-condition='test-control'></div>" +
+          "<input type='radio' name='options' id='option-1' />" +
+          "<div id='mock1' data-condition='option-1'></div>" +
         "</div>"
       );
 
