@@ -60,12 +60,15 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
     val isoCodes = applicant.nationality map { nationality =>
       isoCountryService.transformToIsoCode(nationality)
     }
-    val currentAuthority = applicant.address flatMap { address =>
-      placesService.lookupAuthority(address.postcode)
+    // FIXME: unfinished
+    val currAddrGssCode = applicant.address flatMap { address =>
+      //placesService.lookupAuthority(address.postcode)
+      addressService.gssCodeFor(address)
     }
-    val previousAuthority = applicant.previousAddress flatMap { prevAddress =>
+    val prevAddrGssCode = applicant.previousAddress flatMap { prevAddress =>
       prevAddress.previousAddress flatMap { prevAddress =>
-        placesService.lookupAuthority(prevAddress.postcode)
+        //placesService.lookupAuthority(prevAddress.postcode)
+        addressService.gssCodeFor(prevAddress)
       }
     }
     val fullCurrentAddress = addressService.formFullAddress(applicant.address)
@@ -94,8 +97,8 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       postalVote = applicant.postalVote,
       contact = applicant.contact,
       referenceNumber = referenceNumber,
-      authority = currentAuthority,
-      previousAuthority = previousAuthority,
+      authorityGssCode = currAddrGssCode,
+      previousAuthorityGssCode = prevAddrGssCode,
       ip = ipAddress
     )
 
@@ -109,13 +112,15 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
                                 refNum:Option[String]) = {
 
     val fullLastUkRegAddress = addressService.formFullAddress(applicant.lastUkAddress)
-    val currentAuthority = applicant.lastUkAddress flatMap { address =>
-      placesService.lookupAuthority(address.postcode)
+    val currentAuthorityGssCode = applicant.lastUkAddress flatMap { address =>
+      //placesService.lookupAuthority(address.postcode)
+      addressService.gssCodeFor(address)
     }
 
     val fullParentRegAddress = addressService.formFullAddress(applicant.parentsAddress)
-    val currentAuthorityParents = applicant.parentsAddress flatMap { address =>
-      placesService.lookupAuthority(address.postcode)
+    val currentAuthorityParentsGssCode = applicant.parentsAddress flatMap { address =>
+      //placesService.lookupAuthority(address.postcode)
+      addressService.gssCodeFor(address)
     }
 
     val completeApplication = OverseasApplication(
@@ -133,7 +138,7 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       passport = applicant.passport,
       contact = applicant.contact,
       referenceNumber = refNum,
-      authority = currentAuthority.orElse(currentAuthorityParents),
+      authorityGssCode = currentAuthorityGssCode.orElse(currentAuthorityParentsGssCode),
       ip = ip
     )
 
@@ -150,9 +155,10 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
     val isoCodes = applicant.nationality map { nationality =>
       isoCountryService.transformToIsoCode(nationality)
     }
-    val currentAuthority = applicant.address flatMap { pAddress =>
-      pAddress.address.flatMap { tAddress =>
-        placesService.lookupAuthority(tAddress.postcode)
+    val currentAuthorityGssCode = applicant.address flatMap { pAddress =>
+      pAddress.address.flatMap { address =>
+        //placesService.lookupAuthority(tAddress.postcode)
+        addressService.gssCodeFor(address)
       }
     }
 
@@ -160,9 +166,10 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       (for (lastUkAddress <- applicant.address)
       yield addressService.formFullAddress(lastUkAddress.address)) flatten
 
-    val previousAuthority = applicant.previousAddress flatMap { prevAddress =>
-      prevAddress.previousAddress flatMap { prevAddress =>
-        placesService.lookupAuthority(prevAddress.postcode)
+    val previousAuthorityGssCode = applicant.previousAddress flatMap { prevAddress =>
+      prevAddress.previousAddress flatMap { address =>
+        //placesService.lookupAuthority(prevAddress.postcode)
+        addressService.gssCodeFor(address)
       }
     }
     val fullPreviousAddress = applicant.previousAddress flatMap { prevAddress =>
@@ -185,7 +192,7 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       postalOrProxyVote = applicant.postalOrProxyVote,
       contact = applicant.contact,
       referenceNumber = referenceNumber,
-      authority = currentAuthority,
+      authorityGssCode = currentAuthorityGssCode,
       ip = ipAddress
     )
 
@@ -202,12 +209,18 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
     val isoCodes = applicant.nationality map { nationality =>
       isoCountryService.transformToIsoCode(nationality)
     }
-    val currentAuthority = applicant.address flatMap { address =>
-      if (address.address.isDefined) {
-        val realAddress = address.address.get
-        placesService.lookupAuthority(realAddress.postcode)
+    // FIXME: under construction
+//    val currentAuthority = applicant.address flatMap { address =>
+//      if (address.address.isDefined) {
+//        val realAddress = address.address.get
+//        placesService.lookupAuthority(realAddress.postcode)
+//      }
+//      else None
+//    }
+    val currentAuthorityGssCode = applicant.address flatMap { address =>
+      address.address.flatMap { address =>
+        addressService.gssCodeFor(address)
       }
-      else None
     }
 
     val lastUkAddress = applicant.address
@@ -236,7 +249,7 @@ class ConcreteIerApiService @Inject() (apiClient: IerApiClient,
       postalOrProxyVote = applicant.postalOrProxyVote,
       contact = applicant.contact,
       referenceNumber = referenceNumber,
-      authority = currentAuthority,
+      authorityGssCode = currentAuthorityGssCode,
       ip = ipAddress
     )
 

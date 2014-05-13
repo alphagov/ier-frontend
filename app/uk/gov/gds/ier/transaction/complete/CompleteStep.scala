@@ -9,6 +9,7 @@ import uk.gov.gds.ier.guice.{WithRemoteAssets, WithEncryption, WithConfig}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.assets.RemoteAssets
+import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 
 class CompleteStep @Inject() (
     val serialiser: JsonSerialiser,
@@ -26,9 +27,16 @@ class CompleteStep @Inject() (
 
   def complete = ClearSession requiredFor {
     implicit request =>
-      val authority = request.flash.get("postcode") match {
+      //FIXME: under construction
+//      val authority = request.flash.get("postcode") match {
+//        case Some("") => None
+//        case Some(postCode) => placesService.lookupAuthority(postCode)
+//        case None => None
+//      }
+      //"localAuthority" -> serialiser.toJson(response.localAuthority),
+      val authority = request.flash.get("localAuthority") match {
         case Some("") => None
-        case Some(postCode) => placesService.lookupAuthority(postCode)
+        case Some(authorityJson) => Some(serialiser.fromJson[EroAuthorityDetails](authorityJson))
         case None => None
       }
       val refNum = request.flash.get("refNum")

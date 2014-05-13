@@ -75,4 +75,13 @@ class AddressService @Inject()(locateService: LocateService) {
       .flatten
       .mkString(", ")
   }
+
+  // FIXME: javadoc
+  def gssCodeFor(address: PartialAddress): Option[String] = {
+    if (address.gssCode.isDefined) {
+      address.gssCode
+    } else {
+      locateService.lookupAddress(address.postcode).find(_.gssCode.isDefined).flatMap(_.gssCode)
+    }
+  }
 }

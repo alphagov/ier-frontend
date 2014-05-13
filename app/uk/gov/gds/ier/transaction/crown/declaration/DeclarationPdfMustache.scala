@@ -13,8 +13,8 @@ trait DeclarationPdfMustache extends StepTemplate[InprogressCrown] {
   case class DeclarationPdfModel(
     question: Question,
     declarationPdfUrl: String,
-    showAuthorityUrl: Boolean,
-    authorityName: String,
+//    showAuthorityUrl: Boolean,
+//    authorityName: String,
     pdfFileSize: String
   ) extends MustacheData
 
@@ -22,13 +22,13 @@ trait DeclarationPdfMustache extends StepTemplate[InprogressCrown] {
 
   val mustache = MustacheTemplate("crown/declarationPdf") { (form, postUrl) =>
 
-    //val postcode = application.address flatMap {_.address} map {_.postcode}
     val postcode = form(keys.address.address.postcode).value
-    val authorityDetails : Option[LocalAuthority] = postcode match {
-      case Some("") => None
-      case Some(postCode) => placesService.lookupAuthority(postCode)
-      case None => None
-    }
+    // FIXME: remove dead code
+//    val authorityDetails : Option[LocalAuthority] = postcode match {
+//      case Some("") => None
+//      case Some(postCode) => placesService.lookupAuthority(postCode)
+//      case None => None
+//    }
 
     implicit val progressForm = form
     DeclarationPdfModel(
@@ -39,10 +39,10 @@ trait DeclarationPdfMustache extends StepTemplate[InprogressCrown] {
         errorMessages = form.globalErrors.map ( _.message )
       ),
       declarationPdfUrl = routes.DeclarationPdfDownloadController.download.url,
-      showAuthorityUrl = false,
-      authorityName = authorityDetails map {
-        auth => auth.name + " electoral registration office"
-      } getOrElse "your local electoral registration office",
+//      showAuthorityUrl = false,
+//      authorityName = authorityDetails map {
+//        auth => auth.name + " electoral registration office"
+//      } getOrElse "your local electoral registration office",
       pdfFileSize = declarationPdfDownloadService.fileSizeWithUnit
     )
   }

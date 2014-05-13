@@ -308,11 +308,7 @@ class OverseasApplicationTests
       )),
       referenceNumber = Some("12345678910"),
       ip = Some("256.256.256.256"),
-      authority = Some(LocalAuthority(
-        name = "Camden Borough Council",
-        opcsId = "00AG",
-        gssId = "E09000007"
-      ))
+      authorityGssCode = Some("E09000007")
     )
 
 }

@@ -13,26 +13,26 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.logging.Logging
 
 class PlacesService @Inject() (apiClient: PlacesApiClient, serialiser: JsonSerialiser, config:Config) extends Logging {
- 
-  def lookupAuthority(postcode:String) : Option[LocalAuthority] = {
-    val result = apiClient.get((config.placesUrl + "/authority?postcode=%s").format(postcode.replaceAllLiterally(" ","").toLowerCase))
-    result match {
-      case Success(body,_) => Some(serialiser.fromJson[LocalAuthority](body))
-      case Fail(error,_) => None
-    }
-  }
 
-  def beaconFire:Boolean = {
-    apiClient.get(config.placesUrl + "/status") match {
-      case Success(body,_) => {
-        serialiser.fromJson[Map[String,String]](body).get("status") match {
-          case Some("up") => true
-          case _ => false
-        }
-      }
-      case Fail(error,_) => {
-        false
-      }
-    }
-  }
+//  def lookupAuthority(postcode:String) : Option[LocalAuthority] = {
+//    val result = apiClient.get((config.placesUrl + "/authority?postcode=%s").format(postcode.replaceAllLiterally(" ","").toLowerCase))
+//    result match {
+//      case Success(body,_) => Some(serialiser.fromJson[LocalAuthority](body))
+//      case Fail(error,_) => None
+//    }
+//  }
+//
+//  def beaconFire:Boolean = {
+//    apiClient.get(config.placesUrl + "/status") match {
+//      case Success(body,_) => {
+//        serialiser.fromJson[Map[String,String]](body).get("status") match {
+//          case Some("up") => true
+//          case _ => false
+//        }
+//      }
+//      case Fail(error,_) => {
+//        false
+//      }
+//    }
+//  }
 }

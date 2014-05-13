@@ -28,16 +28,16 @@ class PostcodeController @Inject()(postcodeAnywhere: PlacesService, val addressS
       )
   }
 
-  def lookupAuthority(postcode: String) = Action {
-    implicit request =>
-      postcodeForm.bind(Map("postcode" -> postcode)).fold(
-        errors => badResult("errors" -> errors.errorsAsMap),
-        postcode =>
-          try {
-            okResult(postcodeAnywhere.lookupAuthority(postcode))
-          } catch {
-            case e:PostcodeLookupFailedException => serverErrorResult("error" -> e.getMessage)
-          }
-      )
-  }
+//  def lookupAuthority(postcode: String) = Action {
+//    implicit request =>
+//      postcodeForm.bind(Map("postcode" -> postcode)).fold(
+//        errors => badResult("errors" -> errors.errorsAsMap),
+//        postcode =>
+//          try {
+//            okResult(postcodeAnywhere.lookupAuthority(postcode))
+//          } catch {
+//            case e:PostcodeLookupFailedException => serverErrorResult("error" -> e.getMessage)
+//          }
+//      )
+//  }
 }

@@ -38,13 +38,13 @@ trait IerApiServiceTestsHelper extends TestHelpers with MockitoSugar {
     )
   ))
 
-  when(mockPlaces.lookupAuthority("WR26NJ")).thenReturn(
-    Some(LocalAuthority(
-      name = "Worcestershire County Council",
-      opcsId = "00AG",
-      gssId = " E10000034"
-    ))
-  )
+//  when(mockPlaces.lookupAuthority("WR26NJ")).thenReturn(
+//    Some(LocalAuthority(
+//      name = "Worcestershire County Council",
+//      opcsId = "00AG",
+//      gssId = " E10000034"
+//    ))
+//  )
 
   class MockConfig extends Config with TestHelpers {
     override def ierApiUrl = "testUrl"

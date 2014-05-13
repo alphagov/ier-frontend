@@ -21,17 +21,18 @@ class StatusController @Inject() (val serialiser: JsonSerialiser, config: Config
       "build date" -> config.buildDate,
       "build number" -> config.buildNumber,
       "revision" -> config.revision,
-      "branch" -> config.branch,
-      "places" -> {
-        placesService.beaconFire match {
-          case true => {
-            "up"
-          }
-          case false => {
-            "down"
-          }
-        }
-      }
+      "branch" -> config.branch
+    // FIXME: verify
+//      "places" -> {
+//        placesService.beaconFire match {
+//          case true => {
+//            "up"
+//          }
+//          case false => {
+//            "down"
+//          }
+//        }
+//      }
     ))
   }
 

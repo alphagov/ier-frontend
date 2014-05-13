@@ -13,12 +13,13 @@ import org.scalatest.junit.JUnitRunner
 import uk.gov.gds.ier.service.PlacesService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 
+// FIXME: remove dead code
 class StatusControllerTests extends FlatSpec with Matchers {
 
   val stubGlobal = new DynamicGlobal {
     override def bindings = { binder =>
       binder bind classOf[Config] to classOf[MockConfig]
-      binder bind classOf[PlacesService] to classOf[MockPlacesService]
+//      binder bind classOf[PlacesService] to classOf[MockPlacesService]
     }
   }
 
@@ -54,15 +55,15 @@ class StatusControllerTests extends FlatSpec with Matchers {
     it should "claim to be up" in {
       contentAsString(result) should fullyMatch regex ".*\"status\":\"up\".*".r
     }
-    it should "have access to places" in {
-      contentAsString(result) should fullyMatch regex ".*\"places\":\"up\".*".r
-    }
+//    it should "have access to places" in {
+//      contentAsString(result) should fullyMatch regex ".*\"places\":\"up\".*".r
+//    }
   }
 }
 
-class MockPlacesService @Inject() (apiClient: PlacesApiClient, serialiser: JsonSerialiser, config:Config) extends PlacesService(apiClient, serialiser, config) {
-  override def beaconFire = true
-}
+//class MockPlacesService @Inject() (apiClient: PlacesApiClient, serialiser: JsonSerialiser, config:Config) extends PlacesService(apiClient, serialiser, config) {
+//  override def beaconFire = true
+//}
 
 class MockConfig extends Config {
   override def revision = "a1b2c3d54"

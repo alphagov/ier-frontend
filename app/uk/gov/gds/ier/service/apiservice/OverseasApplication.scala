@@ -19,7 +19,7 @@ case class OverseasApplication(
     passport: Option[Passport],
     contact: Option[Contact],
     referenceNumber: Option[String],
-    authority: Option[LocalAuthority],
+    authorityGssCode: Option[String],
     ip: Option[String])
   extends CompleteApplication {
 
@@ -41,7 +41,7 @@ case class OverseasApplication(
       passport.map(_.toApiMap).getOrElse(Map.empty) ++
       contact.map(_.toApiMap).getOrElse(Map.empty) ++
       referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
-      authority.map(auth => Map("gssCode" -> auth.gssId)).getOrElse(Map.empty) ++
+      authorityGssCode.map(value => Map("gssCode" -> value)).getOrElse(Map.empty) ++
       ip.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty) ++
       Map("applicationType" -> "overseas")
 

@@ -38,8 +38,6 @@ class DeclarationPdfTemplateTest
           title = "Page title ABC"
         ),
         declarationPdfUrl = "http://test/pdf_download",
-        showAuthorityUrl = false,
-        authorityName = "Haringey Borough Council",
         pdfFileSize = "999KB"
       )
 
@@ -48,8 +46,7 @@ class DeclarationPdfTemplateTest
       val renderedContent = html.toString
       val doc = Jsoup.parse(renderedContent)
 
-      renderedContent should include ("http://test/pdf_download")
-      renderedContent should include ("Haringey Borough Council")
+      renderedContent should include ("your local electoral registration office")
       renderedContent should include ("999KB")
 
       val f = doc.select("form").first() // there should be only one form in the template

@@ -208,15 +208,7 @@ class OrdinaryApplicationTests
       )),
       referenceNumber = Some("12345678910"),
       ip = Some("256.256.256.256"),
-      authority = Some(LocalAuthority(
-        name = "Camden Borough Council",
-        opcsId = "00AG",
-        gssId = "E09000007"
-      )),
-      previousAuthority = Some(LocalAuthority(
-        name = "Wandsworth Borough Council",
-        opcsId = "00BJ",
-        gssId = "E09000032"
-      ))
+      authorityGssCode = Some("E09000007"),
+      previousAuthorityGssCode = Some("E09000032")
     )
 }
