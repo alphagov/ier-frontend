@@ -17,7 +17,7 @@ import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 class ConfirmationStep @Inject ()(
     val serialiser: JsonSerialiser,
     ierApi: IerApiService,
-    addressService: AddressService,
+    val addressService: AddressService,
     val config: Config,
     val encryptionService : EncryptionService)
 

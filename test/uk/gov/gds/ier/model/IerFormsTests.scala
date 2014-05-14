@@ -6,8 +6,9 @@ import play.api.libs.json._
 import play.api.test.FakeRequest
 import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
 import uk.gov.gds.ier.validation.IerForms
+import uk.gov.gds.ier.test.WithMockAddressService
 
-class IerFormsTests extends Specification with IerForms with WithSerialiser {
+class IerFormsTests extends Specification with IerForms with WithSerialiser with WithMockAddressService {
 
   val serialiser = new JsonSerialiser
 

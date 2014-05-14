@@ -10,8 +10,9 @@ import controllers.step.ordinary.routes
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
+import uk.gov.gds.ier.service.WithAddressService
 
-trait ConfirmationMustache {
+trait ConfirmationMustache extends WithAddressService{
 
   case class ConfirmationQuestion(
       content: EitherErrorOrContent,
@@ -72,6 +73,14 @@ trait ConfirmationMustache {
         BlockError(completeThisStepMessage)
       } else {
         BlockContent(confirmationHtml)
+      }
+    }
+
+    def ifComplete(keys:Key*)(confirmationHtml: => List[String]): EitherErrorOrContent = {
+      if (keys.exists(form(_).hasErrors)) {
+    	BlockError(completeThisStepMessage)
+      } else {
+    	BlockContent(confirmationHtml)
       }
     }
 
@@ -213,7 +222,6 @@ trait ConfirmationMustache {
           }
       ))
     }
-
     def previousAddress = {
       val addressLine = form(keys.previousAddress.previousAddress.addressLine).value
       val manualAddress = manualAddressToOneLine(
@@ -235,17 +243,28 @@ trait ConfirmationMustache {
         title = title,
         editLink = routes.PreviousAddressFirstController.editGet.url,
         changeName = "your previous address",
-        content = ifComplete(keys.previousAddress) {
+        content = ifComplete(keys.previousAddress, keys.previousAddress.movedRecently) {
           movedHouse match {
             case Some(MovedHouseOption.MovedFromAbroadNotRegistered) =>
               List("I moved from abroad, but I was not registered to vote there")
-            case Some(moveOption) if moveOption.hasPreviousAddress =>
-              List(address, postcode)
+            case Some(moveOption) if moveOption.hasPreviousAddress => {
+              val postcode = form(keys.previousAddress.previousAddress.postcode).value.getOrElse("")
+              if (addressService.isNothernIreland(postcode)) {
+                List(postcode, "I was previously registered in Northern Ireland")
+              } else {
+                val address = if (form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
+                  form(keys.previousAddress.previousAddress.addressLine).value
+                } else {
+                  manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress)
+                }
+                List(address.getOrElse(""), postcode)
+              }
+            }
             case _ =>
               List("I have not moved in the last 12 months")
+            }
           }
-        }
-      ))
+        ))
     }
 
     def openRegister = {
