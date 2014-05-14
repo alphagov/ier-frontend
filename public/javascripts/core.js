@@ -16,24 +16,19 @@ window.GOVUK.registerToVote = {};
   ToggleObj = function (elm, toggleClass) {
     if (elm) {
       this.$content = $(elm);
-      this.toggleActions = {
-        'hidden': 'Expand',
-        'visible': 'Hide'
-      };
       this.toggleClass = toggleClass + '-open';
-      this.setup();
-      this.bindEvents();
+      if (this.setup()) {
+        this.bindEvents();
+      }
     }
   };
   ToggleObj.prototype.setAccessibilityAPI = function (state) {
     if (state === 'hidden') {
       this.$content.attr('aria-hidden', true);
       this.$content.attr('aria-expanded', false);
-      this.$toggle.find('span.visuallyhidden').eq(0).text(this.toggleActions.hidden);
     } else {
       this.$content.attr('aria-hidden', false);
       this.$content.attr('aria-expanded', true);
-      this.$toggle.find('span.visuallyhidden').eq(0).text(this.toggleActions.visible);
     }
   };
   ToggleObj.prototype.toggle = function () {
@@ -67,14 +62,17 @@ window.GOVUK.registerToVote = {};
   $.extend(OptionalInformation.prototype, new ToggleObj());
   OptionalInformation.prototype.setup = function () {
     var contentId = this.$content.attr('id'),
-        headingText;
+        toggleText;
 
     this.$heading = this.$content.find("h1,h2,h3,h4").first();
-    this.$toggle = $('<a href="#" class="toggle toggle-closed"><span class="visuallyhidden">Show</span> ' + this.$heading.text() + ' <span class="visuallyhidden">section</span></a>');
+    toggleText = this.$content.data('toggleText');
+    if (toggleText === undefined) { return false; }
+    this.$toggle = $('<a href="#" class="toggle toggle-closed">' + toggleText + '</a>');
     if (contentId) { this.$toggle.attr('aria-controls', contentId); }
     this.$toggle.insertBefore(this.$content);
     this.$heading.addClass("visuallyhidden");
     this.setInitialState();
+    return true;
   };
   OptionalInformation.prototype.bindEvents = function () {
     var _this = this;

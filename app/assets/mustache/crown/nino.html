@@ -21,7 +21,7 @@
     <button type="submit" id="alt-continue"
             class="button next validation-submit"
             data-validation-sources="nino">Continue</button>
-    <div class="help-content help-content{{noNinoReasonShowFlag.value}}" id="dont-know-nino">
+    <div class="help-content help-content{{noNinoReasonShowFlag.value}}" data-toggle-text="I don't know my National Insurance number">
         <h2>I don't know my National Insurance number</h2>
         <p>If you can't find your National Insurance number you can</p>
         <ul>
@@ -33,7 +33,7 @@
         <p>If you can't provide a National Insurance number, you will need to explain why.
             And after you've applied, you'll be asked to prove your identity by sending
             documents in the post (or providing them in person).</p>
-        <div class="optional-section optional-section{{noNinoReasonShowFlag.value}}">
+        <div class="optional-section optional-section{{noNinoReasonShowFlag.value}}" data-toggle-text="I can't provide a National Insurance number">
             <h3>I can't provide a National Insurance number</h3>
 
             <label for="{{noNinoReason.id}}" class=""  >

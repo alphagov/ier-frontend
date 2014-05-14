@@ -64,7 +64,12 @@
       }
     };
     // fix for having periods in id names breaking sizzle
-    this.$toggle = $(document.getElementById(this.$content.data('condition'))); 
+    this.$toggle = document.getElementById(this.$content.data('condition')); 
+    if (this.$toggle !== null) {
+      this.$toggle = $(this.$toggle);
+    } else { 
+      return false;
+    }
     if (contentId) { this.$toggle.attr('aria-controls', contentId); }
     _bindControlAndContentMargins();
     if (this.$content.hasClass(this.toggleClass)) {
@@ -75,6 +80,7 @@
     if (this.$toggle.is(':checked')) {
       this.toggle();
     }
+    return true;
   }; 
   ConditionalControl.prototype.bindEvents = function () {
     var _this = this,

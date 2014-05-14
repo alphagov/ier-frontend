@@ -17,12 +17,31 @@ describe("ToggleObj", function () {
       var elm = document.createElement('div'),
           toggleObj;
       
-      spyOn(GOVUK.registerToVote.ToggleObj.prototype, "setup");
+      spyOn(GOVUK.registerToVote.ToggleObj.prototype, "setup").and.callFake(
+        function () {
+          return true;
+        }
+      );
       spyOn(GOVUK.registerToVote.ToggleObj.prototype, "bindEvents");
 
       toggleObj = new GOVUK.registerToVote.ToggleObj(elm, 'optional-section');
       expect(GOVUK.registerToVote.ToggleObj.prototype.setup).toHaveBeenCalled();
       expect(GOVUK.registerToVote.ToggleObj.prototype.bindEvents).toHaveBeenCalled();
+    });
+
+    it("Should not call bindEvents if setup fails", function () {
+      var elm = document.createElement('div'),
+          toggleObj;
+      
+      spyOn(GOVUK.registerToVote.ToggleObj.prototype, "setup").and.callFake(
+        function () {
+          return false;
+        }
+      );
+      spyOn(GOVUK.registerToVote.ToggleObj.prototype, "bindEvents");
+
+      toggleObj = new GOVUK.registerToVote.ToggleObj(elm, 'optional-section');
+      expect(GOVUK.registerToVote.ToggleObj.prototype.bindEvents).not.toHaveBeenCalled();
     });
   });
 
@@ -37,7 +56,6 @@ describe("ToggleObj", function () {
       GOVUK.registerToVote.ToggleObj.prototype.setAccessibilityAPI.call(toggleMock, 'hidden');
       expect(toggleMock.$content[0].getAttribute('aria-hidden')).toEqual('true');
       expect(toggleMock.$content[0].getAttribute('aria-expanded')).toEqual('false');
-      expect(toggleMock.$toggle.find('span').text()).toEqual(toggleMock.toggleActions.hidden);
     });
 
     it("Should set the right ARIA attributes for shown content", function () {
@@ -50,7 +68,6 @@ describe("ToggleObj", function () {
       GOVUK.registerToVote.ToggleObj.prototype.setAccessibilityAPI.call(toggleMock, 'visible');
       expect(toggleMock.$content[0].getAttribute('aria-hidden')).toEqual('false');
       expect(toggleMock.$content[0].getAttribute('aria-expanded')).toEqual('true');
-      expect(toggleMock.$toggle.find('span').text()).toEqual(toggleMock.toggleActions.visible);
     });
   });
 
@@ -134,68 +151,118 @@ describe("OptionalInformation", function () {
     var elm;
 
     beforeEach(function () {
-      elm = document.createElement('div');
+      elm = $('<div class="optional-section" data-toggle-text="Help" />"');
     });
 
     it("Should produce an instance with the correct interface", function () {
-      var optionalSection = new GOVUK.registerToVote.OptionalInformation(elm, 'optional-section');
+      var optionalInformation = new GOVUK.registerToVote.OptionalInformation(elm, 'optional-section');
 
-      expect(optionalSection.setup).toBeDefined();
-      expect(optionalSection.bindEvents).toBeDefined();
-      expect(optionalSection.setAccessibilityAPI).toBeDefined();
-      expect(optionalSection.toggle).toBeDefined();
-      expect(optionalSection.setInitialState).toBeDefined();
+      expect(optionalInformation.setup).toBeDefined();
+      expect(optionalInformation.bindEvents).toBeDefined();
+      expect(optionalInformation.setAccessibilityAPI).toBeDefined();
+      expect(optionalInformation.toggle).toBeDefined();
+      expect(optionalInformation.setInitialState).toBeDefined();
     });
 
     it("Should call the ToggleObj constructor with the same arguments sent to the OptionalInformation constructor", function () {
-      var optionalSection;
+      var optionalInformation;
 
       spyOn(GOVUK.registerToVote, "ToggleObj");
-      optionalSection = new GOVUK.registerToVote.OptionalInformation(elm, 'optional-section');
+      optionalInformation = new GOVUK.registerToVote.OptionalInformation(elm, 'optional-section');
       expect(GOVUK.registerToVote.ToggleObj).toHaveBeenCalledWith(elm, 'optional-section');
+    });
+
+    it("Should not call bindEvents if the data-toggle-text attribute isn't set", function () {
+      var optionalInformation;
+
+      elm = $(
+        '<div class="optional-section">' +
+          '<h2>Help</h2>' +
+          '<p>Some help content</p>' +
+        '</div>'
+      )[0];
+
+      spyOn(GOVUK.registerToVote.OptionalInformation.prototype, "bindEvents");
+      optionalInformation = new GOVUK.registerToVote.OptionalInformation(elm, 'optional-section');
+      expect(GOVUK.registerToVote.OptionalInformation.prototype.bindEvents).not.toHaveBeenCalled();
     });
   });
 
   describe("setup", function () {
     var elm,
-        toggleLink = '<a href="#" class="toggle toggle-closed"><span class="visuallyhidden">Show</span> Help <span class="visuallyhidden">section</span></a>';
+        toggleLink = '<a href="#" class="toggle toggle-closed">Help</a>';
 
     beforeEach(function () {
       elm = $(
-            "<div class='optional-section'>" +
+            "<div class='optional-section' data-toggle-text='Help'>" +
               "<h2>Help</h2>" +
-              "</p>Some content</p>" +
+              "</p>Some help content</p>" +
             "</div>"
-            );
+            )[0];
 
       $(document.body).append(elm);
     });
 
     afterEach(function () {
-      $(elm).remove();
+      var $elm = $(elm);
+
+      $elm.siblings("a.toggle").remove();
+      $elm.remove();
     });
 
-    it("Should insert a toggle link before the optional section", function () {
-      var optionalSection;
+    it("Should return true if run on valid HTML", function () {
+      var optionalInformationMock = {
+            $content : $('.optional-section'),
+            setAccessibilityAPI : function () {},
+            setInitialState : function () {}
+          },
+          setupResult;
+
+      setupResult = GOVUK.registerToVote.OptionalInformation.prototype.setup.call(optionalInformationMock);
+      expect(setupResult).toEqual(true);
+    });
+
+    it("Should return false if run on invalid HTML", function () {
+      var optionalInformationMock = {
+            $content : $('.optional-section'),
+            setAccessibilityAPI : function () {},
+            setInitialState : function () {}
+          },
+          setupResult;
+
+      optionalInformationMock.$content.removeAttr('data-toggle-text');
+      setupResult = GOVUK.registerToVote.OptionalInformation.prototype.setup.call(optionalInformationMock);
+      expect(setupResult).toEqual(false);
+    });
+
+    it("Should insert a toggle link before the optional information section", function () {
+      var optionalInformation;
 
       expect($(elm).prev('a.toggle').length).toEqual(0);
-      optionalSection = new GOVUK.registerToVote.OptionalInformation(elm, 'optional-section')
+      optionalInformation = new GOVUK.registerToVote.OptionalInformation(elm, 'optional-section')
       expect($(elm).prev('a.toggle').length).toEqual(1);
     });
 
-    it("Should visually hide the section's initial heading", function () {
-      var optionalSection;
+    it("Should insert a toggle link containing the text from it's data attribute", function () {
+      var optionalInformation;
 
-      optionalSection = new GOVUK.registerToVote.OptionalInformation(elm, 'optional-section')
+      optionalInformation = new GOVUK.registerToVote.OptionalInformation(elm, 'optional-section')
+      expect($(elm).prev('a.toggle').text()).toEqual($(elm).data('toggleText'));
+    });
+
+    it("Should visually hide the section's initial heading", function () {
+      var optionalInformation;
+
+      optionalInformation = new GOVUK.registerToVote.OptionalInformation(elm, 'optional-section')
       expect($(elm).find('h2').hasClass('visuallyhidden')).toBe(true);
     });
 
     it("Should call the setInitialState method", function () {
-      var optionalSection;
+      var optionalInformation;
 
       spyOn(GOVUK.registerToVote.OptionalInformation.prototype, "setInitialState");
 
-      optionalSection = new GOVUK.registerToVote.OptionalInformation(elm, 'optional-section')
+      optionalInformation = new GOVUK.registerToVote.OptionalInformation(elm, 'optional-section')
       expect(GOVUK.registerToVote.OptionalInformation.prototype.setInitialState).toHaveBeenCalled();
     });
   });
@@ -204,11 +271,16 @@ describe("OptionalInformation", function () {
     var elm;
 
     beforeEach(function () {
-      elm = document.createElement('div');
+      elm = $(
+            "<div class='optional-section' data-toggle-text='Help'>" +
+              "<h2>Help</h2>" +
+              "</p>Some help content</p>" +
+            "</div>"
+            )[0];
     });
 
     it("Should add a click event to the toggle link that calls the toggle method", function () {
-      var optionalSection,
+      var optionalInformation,
           evtCallback;
 
       spyOn(GOVUK.registerToVote.OptionalInformation.prototype, "toggle");
@@ -216,7 +288,7 @@ describe("OptionalInformation", function () {
         evtCallback = callback;
       });
 
-      optionalSection = new GOVUK.registerToVote.OptionalInformation(elm, 'optional-section')
+      optionalInformation = new GOVUK.registerToVote.OptionalInformation(elm, 'optional-section')
       expect($.fn.on).toHaveBeenCalled();
       evtCallback();
       expect(GOVUK.registerToVote.OptionalInformation.prototype.toggle).toHaveBeenCalled();

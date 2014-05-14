@@ -52,7 +52,7 @@
     <button type="submit" id="alt-continue"
             class="button next validation-submit"
             data-validation-sources="dateOfBirth">Continue</button>
-    <div class="help-content help-content{{noDobReasonShowFlag.value}}" id="date-of-birth-help">
+    <div class="help-content help-content{{noDobReasonShowFlag.value}}" data-toggle-text="Help with date of birth">
         <h3>Help with date of birth</h3>
         <p>If you don't know your exact date of birth, use the one you put on official documents 
             (for example, your passport or driving licence).</p>
@@ -61,6 +61,7 @@
 
         <div class="optional-section validate optional-section{{noDobReasonShowFlag.value}}"
              id="no-date-of-birth"
+             data-toggle-text="I can't provide my date of birth"
              data-validation-name="dateOfBirthExcuse" data-validation-type="fieldset"
              data-validation-rules="allNonEmpty"
              data-validation-children="dateOfBirthExcuseReason excuseAgeAttempt">

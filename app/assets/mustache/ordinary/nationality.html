@@ -90,7 +90,7 @@
             class="button next validation-submit"
             data-validation-sources="nationality">Continue</button>
     <div class="help-content help-content{{noNationalityReasonShowFlag.value}}"
-         id="nationality-help">
+         data-toggle-text="Help with nationality">
         <h2>Help with nationality</h2>
         <p>If you're not sure about your nationality, try to find out from an official document 
             like a passport or national ID card.</p>
@@ -98,6 +98,7 @@
             vote in. If you can't provide your nationality, you'll have to send copies of identity 
             documents through the post.</p>
         <div class="optional-section optional-section{{noNationalityReasonShowFlag.value}}"
+             data-toggle-text="I can't provide my nationality"
              id="nationality-provision">
             <h3>I can't provide my nationality</h3>
             <label for="{{noNationalityReason.id}}" class=""  >
