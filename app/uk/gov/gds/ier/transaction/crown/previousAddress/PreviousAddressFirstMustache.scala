@@ -11,8 +11,7 @@ trait PreviousAddressFirstMustache extends StepTemplate[InprogressCrown] {
 
   case class PreviousAddressFirstModel(
     question: Question,
-    previousYesAndLivingThere: Field,
-    previousYesAndNotLivingThere: Field,
+    previousYes: Field,
     previousNo: Field
   ) extends MustacheData
 
@@ -26,12 +25,9 @@ trait PreviousAddressFirstMustache extends StepTemplate[InprogressCrown] {
         number = questionNumber,
         title = title,
         errorMessages = form.globalErrors.map { _.message }),
-      previousYesAndLivingThere = RadioField(
+      previousYes = RadioField(
         key = keys.previousAddress.movedRecently,
-        value = MovedHouseOption.YesAndLivingThere.name),
-      previousYesAndNotLivingThere = RadioField(
-        key = keys.previousAddress.movedRecently,
-        value = MovedHouseOption.YesAndNotLivingThere.name),
+        value = MovedHouseOption.Yes.name),
       previousNo = RadioField(
         key = keys.previousAddress.movedRecently,
         value = MovedHouseOption.NotMoved.name)

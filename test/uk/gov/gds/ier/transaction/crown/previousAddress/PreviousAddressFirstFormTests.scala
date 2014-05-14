@@ -32,9 +32,15 @@ class PreviousAddressFirstFormTests
       expectedErrorMessage = "Please answer this question")
   }
 
-  it should "error out on invalid moved house value (yes)" in {
+  it should "error out on invalid moved house value (yes living there)" in {
     assertUnsuccessfulBinding(
-      formData = Map("previousAddress.movedRecently" -> "yes"),
+      formData = Map("previousAddress.movedRecently" -> "yes-living-there"),
+      expectedErrorMessage = "Not a valid option")
+  }
+
+  it should "error out on invalid moved house value (yes not living there)" in {
+    assertUnsuccessfulBinding(
+      formData = Map("previousAddress.movedRecently" -> "yes-not-living-there"),
       expectedErrorMessage = "Not a valid option")
   }
 
@@ -62,16 +68,10 @@ class PreviousAddressFirstFormTests
       expectedErrorMessage = "Not a valid option")
   }
 
-  it should "successfully bind when user has previous address (yes-living-there)" in {
+  it should "successfully bind when user has previous address (yes)" in {
     assertSuccessfullBinding(
-      formData = Map("previousAddress.movedRecently" -> "yes-living-there"),
-      expected = MovedHouseOption.YesAndLivingThere)
-  }
-
-  it should "successfully bind when user has previous address (yes-not-living-there)" in {
-    assertSuccessfullBinding(
-      formData = Map("previousAddress.movedRecently" -> "yes-not-living-there"),
-      expected = MovedHouseOption.YesAndNotLivingThere)
+      formData = Map("previousAddress.movedRecently" -> "yes"),
+      expected = MovedHouseOption.Yes)
   }
 
   it should "successfully bind when user does not has previous address (not-moved)" in {

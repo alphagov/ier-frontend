@@ -180,7 +180,7 @@ class ConfirmationFormTests
   it should "bind successfully if the previous address postcode was Northern Ireland" in {
     confirmationForm.fillAndValidate(completeCrownApplication.copy(
       previousAddress = Some(PartialPreviousAddress(
-        movedRecently = Some(MovedHouseOption.YesAndLivingThere),
+        movedRecently = Some(MovedHouseOption.Yes),
         previousAddress = Some(PartialAddress(
           addressLine = None,
           uprn = None,
@@ -190,7 +190,6 @@ class ConfirmationFormTests
       ))
     )).fold (
       hasErrors => {
-        println(hasErrors.prettyPrint)
         fail("the form should be valid")
       },
       success => {

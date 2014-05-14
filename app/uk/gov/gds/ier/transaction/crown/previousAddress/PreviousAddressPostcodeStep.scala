@@ -21,7 +21,7 @@ class PreviousAddressPostcodeStep @Inject() (
   with PreviousAddressPostcodeMustache
   with PreviousAddressForms {
 
-  val validation = postcodeAddressFormForPreviousAddress
+  val validation = postcodeStepForm
 
   val routes = Routes(
     get = PreviousAddressPostcodeController.get,

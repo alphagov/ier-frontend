@@ -6,33 +6,21 @@
               data-validation-name="previousAddress"
               data-validation-type="fieldset"
               data-validation-rules="atLeastOneNonEmpty"
-              data-validation-children="previousYesAndLivingThere previousYesAndNotLivingThere previousNo">
+              data-validation-children="previousYes previousNo">
 
-        <label for="{{previousYesAndLivingThere.id}}" class="selectable">
+        <label for="{{previousYes.id}}" class="selectable binary"  >
             <input type="radio"
-                   id="{{previousYesAndLivingThere.id}}"
-                   name="{{previousYesAndLivingThere.name}}"
-                   value="{{previousYesAndLivingThere.value}}"
+                   id="{{previousYes.id}}"
+                   name="{{previousYes.name}}"
+                   value="{{previousYes.value}}"
                    class="radio validate"
-                   data-validation-name="previousYesAndLivingThere"
+                   data-validation-name="previousYes"
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"
-                   {{{previousYesAndLivingThere.attributes}}}>
-            Yes, and I'm living there now
+            {{{previousYes.attributes}}}>
+            Yes
         </label>
-        <label for="{{previousYesAndNotLivingThere.id}}" class="selectable">
-            <input type="radio"
-                   id="{{previousYesAndNotLivingThere.id}}"
-                   name="{{previousYesAndNotLivingThere.name}}"
-                   value="{{previousYesAndNotLivingThere.value}}"
-                   class="radio validate"
-                   data-validation-name="previousYesAndNotLivingThere"
-                   data-validation-type="field"
-                   data-validation-rules="nonEmpty"
-            {{{previousYesAndNotLivingThere.attributes}}}>
-            Yes, but I don't live there at the moment
-        </label>
-        <label for="{{previousNo.id}}" class="selectable">
+        <label for="{{previousNo.id}}" class="selectable binary"  >
             <input type="radio"
                    id="{{previousNo.id}}"
                    name="{{previousNo.name}}"
@@ -41,7 +29,7 @@
                    data-validation-name="previousNo"
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"
-                   {{{previousNo.attributes}}}>
+            {{{previousNo.attributes}}}>
             No
         </label>
     </fieldset>

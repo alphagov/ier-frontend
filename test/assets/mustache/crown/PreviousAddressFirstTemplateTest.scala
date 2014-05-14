@@ -26,48 +26,32 @@ class PreviousAddressFirstTemplateTest
           number = "123",
           title = "Page title ABC"
         ),
-        previousYesAndLivingThere = Field(
-          id = "previousYesAndLivingThereId",
-          name = "previousYesAndLivingThereName",
-          classes = "previousYesAndLivingThereClass previousYesAndLivingThereClass2",
+        previousYes = Field(
+          id = "previousYesId",
+          name = "previousYesName",
+          classes = "previousYesClass previousYesClass2",
           value = "true",
-          attributes = "foo=\"foo\""
-        ),
-        previousYesAndNotLivingThere = Field(
-          id = "previousYesAndNotLivingThereId",
-          name = "previousYesAndNotLivingThereName",
-          classes = "previousYesAndNotLivingThereClass previousYesAndNotLivingThereClass2",
-          value = "true",
-          attributes = "foo=\"foo\""
+          attributes = "checked=\"checked1\""
         ),
         previousNo = Field(
           id = "previousNoId",
           name = "previousNoName",
           classes = "previousNoClass previousNoClass2",
           value = "false",
-          attributes = "foo=\"foo\""
+          attributes = "checked=\"checked2\""
         )
       )
 
       val html = Mustache.render("crown/previousAddressFirst", data)
       val doc = Jsoup.parse(html.toString)
 
-      { // YES living there option
-        doc.select("label[for=previousYesAndLivingThereId]").size() should be(1)
-        val r = doc.select("input#previousYesAndLivingThereId").first()
+      { // YES option
+        doc.select("label[for=previousYesId]").size() should be(1)
+        val r = doc.select("input#previousYesId").first()
         r should not be(null)
-        r.attr("name") should be("previousYesAndLivingThereName")
+        r.attr("name") should be("previousYesName")
         r.attr("value") should be("true")
-        r.attr("foo") should be("foo")
-      }
-
-      { // YES not living there option
-        doc.select("label[for=previousYesAndNotLivingThereId]").size() should be(1)
-        val r = doc.select("input#previousYesAndNotLivingThereId").first()
-        r should not be(null)
-        r.attr("name") should be("previousYesAndNotLivingThereName")
-        r.attr("value") should be("true")
-        r.attr("foo") should be("foo")
+        r.attr("checked") should be("checked1")
       }
 
       { // NO option
@@ -77,11 +61,11 @@ class PreviousAddressFirstTemplateTest
         r.attr("id") should be("previousNoId")
         r.attr("name") should be("previousNoName")
         r.attr("value") should be("false")
-        r.attr("foo") should be("foo")
+        r.attr("checked") should be("checked2")
       }
 
       { // page
-        val f = doc.select("form").first() // there should be only one form in the template
+      val f = doc.select("form").first() // there should be only one form in the template
         f should not be(null)
         f.attr("action") should be ("http://some.server/post_url")
 

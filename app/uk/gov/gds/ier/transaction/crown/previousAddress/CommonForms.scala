@@ -19,8 +19,7 @@ trait CommonForms {
   )
 
   lazy val movedHouseLivingThereOrNot = Constraint[MovedHouseOption]("movedHouse") {
-    case MovedHouseOption.YesAndLivingThere => Valid
-    case MovedHouseOption.YesAndNotLivingThere => Valid
+    case MovedHouseOption.Yes => Valid
     case MovedHouseOption.NotMoved => Valid
     case _ => Invalid("Not a valid option")
   }
