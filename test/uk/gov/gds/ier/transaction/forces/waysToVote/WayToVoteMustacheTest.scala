@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.forces.waysToVote
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
 import uk.gov.gds.ier.model._
 import scala.Some
 import uk.gov.gds.ier.model.WaysToVote
@@ -18,6 +18,7 @@ class WayToVoteMustacheTest
   with ErrorMessages
   with FormKeys
   with TestHelpers
+  with WithMockRemoteAssets
   with WaysToVoteMustache {
 
     it should "produce valid empty model when application is empty" in {

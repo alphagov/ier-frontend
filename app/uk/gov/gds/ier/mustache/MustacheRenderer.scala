@@ -4,21 +4,35 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.templates.Html
 import play.api.mvc.Call
 import uk.gov.gds.ier.langs.Language
+import uk.gov.gds.ier.guice.WithRemoteAssets
 
-class MustacheRenderer[T](
-    template: MustacheTemplate[T],
-    form: ErrorTransformForm[T],
-    postUrl: Call,
-    application: T
-) extends StepMustache {
+trait MustacheRendering[T] extends StepMustache {
+  self: WithRemoteAssets =>
 
-  type Request[A] = play.api.mvc.Request[A]
+  class MustacheRenderer(
+      template: MustacheTemplate[T],
+      form: ErrorTransformForm[T],
+      postUrl: Call,
+      application: T
+  ) {
 
-  def html()(implicit request:Request[Any]):Html = {
-    val lang = Language.getLang(request)
-    val model = template.data(lang, form, postUrl, application)
-    val content = Mustache.render(template.mustachePath, model)
-    MainStepTemplate(content, model.question.title)
+    type Request[A] = play.api.mvc.Request[A]
+
+    def html()(implicit request:Request[Any]):Html = {
+      val lang = Language.getLang(request)
+      val model = template.data(lang, form, postUrl, application)
+      val content = Mustache.render(template.mustachePath, model)
+      MainStepTemplate(content, model.question.title)
+    }
+  }
+
+  implicit class MustacheTemplateWithRenderer(template:MustacheTemplate[T]) {
+    def apply(
+        form:ErrorTransformForm[T],
+        postUrl:Call,
+        application:T
+    ):MustacheRenderer = {
+      new MustacheRenderer(template, form, postUrl, application)
+    }
   }
 }
-

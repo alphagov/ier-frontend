@@ -11,12 +11,14 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.forces.{PreviousAddressFirstController, NationalityController}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.model.LastUkAddress
+import uk.gov.gds.ier.assets.RemoteAssets
 
 
 class AddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService: EncryptionService)
+    val encryptionService: EncryptionService,
+    val remoteAssets: RemoteAssets)
   extends ForcesStep
   with AddressManualMustache
   with AddressForms {

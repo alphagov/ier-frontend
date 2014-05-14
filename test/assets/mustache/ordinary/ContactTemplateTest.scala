@@ -6,11 +6,13 @@ import org.jsoup.Jsoup
 import play.api.test.Helpers._
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.ordinary.contact.ContactMustache
+import uk.gov.gds.ier.test.WithMockRemoteAssets
 
 class ContactTemplateTest
   extends FlatSpec
   with ContactMustache
   with StepMustache
+  with WithMockRemoteAssets
   with Matchers {
 
   it should "properly render all properties from the model" in {
@@ -53,13 +55,13 @@ class ContactTemplateTest
 
       val html = Mustache.render("ordinary/contact", data)
       val doc = Jsoup.parse(html.toString)
-      
+
       // page
-      val f = doc.select("form").first() 
+      val f = doc.select("form").first()
       f should not be(null)
       f.attr("action") should be ("/whatever-url")
 
-      val h = doc.select("header").first() 
+      val h = doc.select("header").first()
       h should not be(null)
       h.text should include ("1")
       h.text should include ("contact title")
@@ -75,19 +77,19 @@ class ContactTemplateTest
       phoneCheckBox.attr("id") should be("contactPhoneCheckboxId")
       phoneCheckBox.attr("name") should be("contactPhoneCheckboxName")
       phoneCheckBox.attr("value") should be("true")
-      
+
       val postCheckBox = doc.select("input#contactPostCheckboxId").first()
       postCheckBox should not be (null)
       postCheckBox.attr("id") should be("contactPostCheckboxId")
       postCheckBox.attr("name") should be("contactPostCheckboxName")
       postCheckBox.attr("value") should be("true")
-      
+
       val emailField = doc.select("input#contactEmailTextId").first()
       emailField should not be (null)
       emailField.attr("id") should be("contactEmailTextId")
       emailField.attr("name") should be("contactEmailTextName")
       emailField.attr("value") should be("test@test.com")
-      
+
       val phoneField = doc.select("input#contactPhoneTextId").first()
       phoneField should not be (null)
       phoneField.attr("id") should be("contactPhoneTextId")

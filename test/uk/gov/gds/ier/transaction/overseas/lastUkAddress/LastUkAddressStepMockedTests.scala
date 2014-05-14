@@ -16,6 +16,7 @@ import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.step.GoTo
 import scala.Some
 import play.api.test.FakeApplication
+import uk.gov.gds.ier.assets.RemoteAssets
 
 /**
  * Lover level tests focused on individual Step methods, like exit branching, utilizing
@@ -27,6 +28,8 @@ class LastUkAddressStepMockedTests extends FlatSpec with TestHelpers with Matche
   val mockedConfig = mock[Config]
   val mockedEncryptionService = mock[EncryptionService]
   val mockedAddressService = mock[AddressService]
+  val mockedRemoteAssets = mock[RemoteAssets]
+
   val scotPostcode = "EH1 1AA"
   val englPostcode = "WR2 6NJ"
   when (mockedAddressService.isScotland(scotPostcode)).thenReturn(true)
@@ -41,15 +44,25 @@ class LastUkAddressStepMockedTests extends FlatSpec with TestHelpers with Matche
   behavior of "LastUkAddressStep.nextStep"
 
   it should "redirect to Scotland exit page if address is Scottish (the gssCode starts with S)" in {
-    val addressStep = new LastUkAddressStep(mockedJsonSerialiser, mockedConfig,
-      mockedEncryptionService, mockedAddressService)
+    val addressStep = new LastUkAddressStep(
+      mockedJsonSerialiser,
+      mockedConfig,
+      mockedEncryptionService,
+      mockedAddressService,
+      mockedRemoteAssets
+    )
     val transferedState = addressStep.nextStep(applicationWithScotLastUkAddress)
     transferedState should be (GoTo(ExitController.scotland))
   }
 
   it should "redirect to next address step if address is English" in {
-    val addressStep = new LastUkAddressStep(mockedJsonSerialiser, mockedConfig,
-      mockedEncryptionService, mockedAddressService)
+    val addressStep = new LastUkAddressStep(
+      mockedJsonSerialiser,
+      mockedConfig,
+      mockedEncryptionService,
+      mockedAddressService,
+      mockedRemoteAssets
+    )
     val transferedState = addressStep.nextStep(applicationWithEnglLastUkAddress)
     transferedState should be (LastUkAddressSelectController.lastUkAddressSelectStep)
   }

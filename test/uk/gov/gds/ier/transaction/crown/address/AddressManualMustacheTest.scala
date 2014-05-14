@@ -4,7 +4,7 @@ import org.mockito.Mockito._
 import org.scalatest.{Matchers, FlatSpec}
 import org.scalatest.mock.MockitoSugar
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.service.{AddressService, WithAddressService}
@@ -21,6 +21,7 @@ class AddressSelectMustacheTest
   with FormKeys
   with TestHelpers
   with WithSerialiser
+  with WithMockRemoteAssets
   with WithAddressService {
 
   val serialiser = jsonSerialiser

@@ -35,13 +35,6 @@ trait MustacheTemplate[T] {
   ): MustacheData = {
     data(Lang("en"), form, post, application)
   }
-  def apply(
-      form:ErrorTransformForm[T],
-      postUrl:Call,
-      application:T
-  ):MustacheRenderer[T] = {
-    new MustacheRenderer(this, form, postUrl, application)
-  }
 }
 
 trait MustacheTemplateFactories[T] {

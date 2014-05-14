@@ -13,11 +13,13 @@ import play.api.mvc.Call
 import uk.gov.gds.ier.step.{CrownStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class ContactStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService)
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets)
 
   extends CrownStep
   with ContactForms

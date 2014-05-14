@@ -8,12 +8,14 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class ParentsAddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService: EncryptionService)
-  extends OverseaStep
+    val encryptionService: EncryptionService,
+    val remoteAssets: RemoteAssets
+) extends OverseaStep
   with ParentsAddressManualMustache
   with ParentsAddressForms {
 

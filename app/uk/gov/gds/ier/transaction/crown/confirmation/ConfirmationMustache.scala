@@ -12,8 +12,10 @@ import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
 import uk.gov.gds.ier.service.WithAddressService
+import uk.gov.gds.ier.guice.WithRemoteAssets
 
-trait ConfirmationMustache extends WithAddressService {
+trait ConfirmationMustache extends StepMustache with WithAddressService {
+  self: WithRemoteAssets =>
 
   case class ConfirmationQuestion(
      content: EitherErrorOrContent,
@@ -29,7 +31,7 @@ trait ConfirmationMustache extends WithAddressService {
       postUrl: String
   )
 
-  object Confirmation extends StepMustache {
+  object Confirmation {
 
     def confirmationData(
         form: ErrorTransformForm[InprogressCrown],
@@ -80,7 +82,7 @@ trait ConfirmationMustache extends WithAddressService {
   }
 
   class ConfirmationBlocks(form: ErrorTransformForm[InprogressCrown])
-    extends StepMustache with AddressHelpers with Logging {
+    extends AddressHelpers with Logging {
 
 
     val completeThisStepMessage = "Please complete this step"

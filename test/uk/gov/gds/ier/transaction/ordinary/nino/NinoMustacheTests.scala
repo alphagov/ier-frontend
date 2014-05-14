@@ -5,7 +5,7 @@ import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.libs.json.Json
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
 import controllers.step.ordinary.routes._
 
 class NinoMustacheTests
@@ -16,6 +16,7 @@ class NinoMustacheTests
   with WithSerialiser
   with ErrorMessages
   with FormKeys
+  with WithMockRemoteAssets
   with TestHelpers {
 
   val serialiser = jsonSerialiser

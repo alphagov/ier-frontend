@@ -10,13 +10,14 @@ import uk.gov.gds.ier.step.{OverseaStep, Routes, GoTo}
 import controllers.step.overseas.routes.DateOfBirthController
 import controllers.step.overseas.LastRegisteredToVoteController
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class DateOfBirthStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService)
-
-  extends OverseaStep
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets
+) extends OverseaStep
   with DateOfBirthForms
   with DateOfBirthMustache {
 

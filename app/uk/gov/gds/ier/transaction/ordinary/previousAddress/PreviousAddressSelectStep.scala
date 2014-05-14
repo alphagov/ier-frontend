@@ -17,12 +17,14 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 import uk.gov.gds.ier.model.PartialPreviousAddress
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class PreviousAddressSelectStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
-    val addressService: AddressService)
+    val addressService: AddressService,
+    val remoteAssets: RemoteAssets)
   extends OrdinaryStep
   with PreviousAddressSelectMustache
   with PreviousAddressForms {

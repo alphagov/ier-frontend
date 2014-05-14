@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.overseas.openRegister
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
 import scala.Some
 import controllers.step.overseas.routes._
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
@@ -14,6 +14,7 @@ class OpenRegisterMustacheTests
   with OpenRegisterMustache
   with ErrorMessages
   with FormKeys
+  with WithMockRemoteAssets
   with TestHelpers {
 
   it should "empty progress form should produce empty Model" in {

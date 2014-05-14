@@ -13,6 +13,8 @@ import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.service.apiservice.IerApiService
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.assets.RemoteAssets
+import uk.gov.gds.ier.guice.WithRemoteAssets
 
 
 class ConfirmationStep @Inject() (
@@ -20,10 +22,12 @@ class ConfirmationStep @Inject() (
     val config: Config,
     val serialiser: JsonSerialiser,
     val addressService: AddressService,
+    val remoteAssets: RemoteAssets,
     ierApi: IerApiService)
   extends ConfirmationStepController[InprogressCrown]
     with ConfirmationForms
-    with ConfirmationMustache {
+    with ConfirmationMustache
+    with WithRemoteAssets {
 
   def factoryOfT() = InprogressCrown()
 

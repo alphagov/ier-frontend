@@ -4,7 +4,7 @@ import org.scalatest.{Matchers, FlatSpec}
 import play.api.mvc.Call
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
 
 class StatementMustacheTests
   extends FlatSpec
@@ -13,6 +13,7 @@ class StatementMustacheTests
   with FormKeys
   with StatementMustache
   with StatementForms
+  with WithMockRemoteAssets
   with TestHelpers {
 
   it should "render without any user input correctly" in {

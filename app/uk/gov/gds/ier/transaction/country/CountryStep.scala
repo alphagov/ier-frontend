@@ -15,12 +15,14 @@ import controllers.step.routes.CountryController
 import controllers.routes.ExitController
 import controllers.routes.RegisterToVoteController
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class CountryStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config:Config,
-    val encryptionService : EncryptionService)
-  extends OrdinaryStep
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets
+) extends OrdinaryStep
   with CountryConstraints
   with CountryForms
   with CountryMustache {

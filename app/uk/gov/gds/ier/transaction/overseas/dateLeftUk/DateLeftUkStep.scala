@@ -13,12 +13,15 @@ import org.joda.time.{Months, DateTime}
 import controllers.routes.ExitController
 import uk.gov.gds.ier.validation.DateValidator
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.assets.RemoteAssets
 
 
-class DateLeftUkStep @Inject() (val serialiser: JsonSerialiser,
-                                val config: Config,
-                                val encryptionService: EncryptionService)
-  extends OverseaStep
+class DateLeftUkStep @Inject() (
+    val serialiser: JsonSerialiser,
+    val config: Config,
+    val encryptionService: EncryptionService,
+    val remoteAssets: RemoteAssets
+) extends OverseaStep
     with DateLeftUkForms
     with DateLeftUkMustache {
 

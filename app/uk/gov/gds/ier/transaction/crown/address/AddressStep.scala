@@ -10,12 +10,14 @@ import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{GoTo, CrownStep, Routes}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import controllers.routes.ExitController
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class AddressStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
-    val addressService: AddressService)
+    val addressService: AddressService,
+    val remoteAssets: RemoteAssets)
   extends CrownStep
   with AddressLookupMustache
   with AddressForms {

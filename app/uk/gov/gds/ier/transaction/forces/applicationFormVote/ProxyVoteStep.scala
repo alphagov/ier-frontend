@@ -10,11 +10,13 @@ import scala.Some
 import controllers.step.forces.ContactController
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.model.WaysToVoteType
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class ProxyVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService)
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets)
 
   extends ForcesStep
   with PostalOrProxyVoteForms

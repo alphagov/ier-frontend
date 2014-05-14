@@ -5,7 +5,7 @@ import controllers.routes.CompleteController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
-import uk.gov.gds.ier.service.{AddressService}
+import uk.gov.gds.ier.service.{WithAddressService, AddressService}
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
@@ -13,17 +13,21 @@ import uk.gov.gds.ier.step.{ConfirmationStepController, Routes}
 import controllers.routes.RegisterToVoteController
 import uk.gov.gds.ier.service.apiservice.IerApiService
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.assets.RemoteAssets
+import uk.gov.gds.ier.guice.WithRemoteAssets
 
 class ConfirmationStep @Inject ()(
     val serialiser: JsonSerialiser,
     ierApi: IerApiService,
     val addressService: AddressService,
     val config: Config,
-    val encryptionService : EncryptionService)
-
-  extends ConfirmationStepController[InprogressOrdinary]
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets
+) extends ConfirmationStepController[InprogressOrdinary]
     with ConfirmationForms
-    with ConfirmationMustache{
+    with ConfirmationMustache
+    with WithAddressService
+    with WithRemoteAssets {
 
   def factoryOfT() = InprogressOrdinary()
 

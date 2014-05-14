@@ -4,7 +4,7 @@ import uk.gov.gds.ier.form.OverseasFormImplicits
 import uk.gov.gds.ier.model.ApplicationType._
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.logging.Logging
-import uk.gov.gds.ier.validation.{ErrorTransformForm, Key}
+import uk.gov.gds.ier.validation.{FormKeys, ErrorTransformForm, Key}
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
 
@@ -16,8 +16,8 @@ case class ConfirmationQuestion(
 )
 
 trait ConfirmationBlock
-  extends StepMustache
-  with Logging
+  extends Logging
+  with FormKeys
   with OverseasFormImplicits {
 
   val form: ErrorTransformForm[InprogressOverseas]

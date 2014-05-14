@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.crown.contactAddress
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
 import scala.Some
 import controllers.step.crown.routes.{OpenRegisterController, ContactAddressController}
 import uk.gov.gds.ier.model.{PossibleContactAddresses, ContactAddress}
@@ -15,6 +15,7 @@ class ContactAddressMustacheTest
   with ContactAddressMustache
   with ErrorMessages
   with FormKeys
+  with WithMockRemoteAssets
   with TestHelpers {
 
   it should "empty progress form should produce empty Model" in {

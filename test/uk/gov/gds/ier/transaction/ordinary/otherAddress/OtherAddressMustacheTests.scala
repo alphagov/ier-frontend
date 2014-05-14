@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import play.api.test._
 import play.api.test.Helpers._
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
 import uk.gov.gds.ier.model.{OtherAddress}
 import uk.gov.gds.ier.model.OtherAddress._
 import uk.gov.gds.ier.serialiser.WithSerialiser
@@ -22,6 +22,7 @@ class OtherAddressMustacheTests
   with WithSerialiser
   with ErrorMessages
   with FormKeys
+  with WithMockRemoteAssets
   with OtherAddressMustache {
 
   val serialiser = jsonSerialiser

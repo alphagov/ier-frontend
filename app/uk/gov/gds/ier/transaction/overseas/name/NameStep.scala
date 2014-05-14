@@ -9,12 +9,14 @@ import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import controllers.step.overseas.routes.NameController
 import controllers.step.overseas.routes.LastUkAddressController
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class NameStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService)
-  extends OverseaStep
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets
+) extends OverseaStep
   with NameForms
   with NameMustache {
 

@@ -14,12 +14,14 @@ import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.model.WaysToVote
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.assets.RemoteAssets
 
 
 class WaysToVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService)
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets)
   extends CrownStep
   with WaysToVoteForms
   with WaysToVoteMustache {

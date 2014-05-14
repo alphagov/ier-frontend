@@ -6,10 +6,12 @@ import org.jsoup.Jsoup
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.forces.service.ServiceMustache
 import org.jba.Mustache
+import uk.gov.gds.ier.test.WithMockRemoteAssets
 
 class ServiceTemplateTest
   extends FlatSpec
   with ServiceMustache
+  with WithMockRemoteAssets
   with Matchers {
 
   it should "properly render all properties from the model" in {
@@ -63,7 +65,7 @@ class ServiceTemplateTest
       britishArmyInput.attr("id") should be("britishArmyId")
       britishArmyInput.attr("name") should be("britishArmyName")
       britishArmyInput.attr("foo") should be("foo")
-      
+
       val royalAirForceInput = doc.select("input[id=royalAirForceId]").first()
       royalAirForceInput.attr("id") should be("royalAirForceId")
       royalAirForceInput.attr("name") should be("royalAirForceName")

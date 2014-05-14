@@ -6,10 +6,12 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.forces.contactAddress.ContactAddressMustache
 import org.jba.Mustache
+import uk.gov.gds.ier.test.WithMockRemoteAssets
 
 class ContactAddressTemplateTest
   extends FlatSpec
   with ContactAddressMustache
+  with WithMockRemoteAssets
   with Matchers {
 
   it should "properly render all properties from the model" in {

@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.crown.confirmation
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.test.{WithMockAddressService, TestHelpers}
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, WithMockAddressService, TestHelpers}
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.Name
 import scala.Some
@@ -21,7 +21,8 @@ class ConfirmationMustacheTest
   with FormKeys
   with TestHelpers
   with ConfirmationMustache
-  with WithMockAddressService {
+  with WithMockAddressService
+  with WithMockRemoteAssets {
 
   val serialiser = jsonSerialiser
 

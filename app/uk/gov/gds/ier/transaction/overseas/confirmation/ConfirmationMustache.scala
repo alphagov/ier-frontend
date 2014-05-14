@@ -5,8 +5,10 @@ import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.overseas.confirmation.blocks.{ConfirmationQuestion, ConfirmationBlocks}
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.guice.WithRemoteAssets
 
-trait ConfirmationMustache {
+trait ConfirmationMustache extends StepMustache {
+  self: WithRemoteAssets =>
 
   case class ErrorModel(
       startUrl: String
@@ -19,7 +21,7 @@ trait ConfirmationMustache {
       postUrl: String
   )
 
-  object Confirmation extends StepMustache {
+  object Confirmation {
     def confirmationPage(
         form: ErrorTransformForm[InprogressOverseas],
         postUrl: String) = {

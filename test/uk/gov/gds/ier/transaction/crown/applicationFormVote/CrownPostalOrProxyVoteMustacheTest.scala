@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.crown.applicationFormVote
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
 import scala.Some
 import controllers.step.crown.routes._
 import uk.gov.gds.ier.model.{
@@ -19,6 +19,7 @@ class CrownPostalOrProxyVoteMustacheTest
   with PostalOrProxyVoteMustache
   with ErrorMessages
   with FormKeys
+  with WithMockRemoteAssets
   with TestHelpers {
 
   val wayToVote = WaysToVoteType.ByPost

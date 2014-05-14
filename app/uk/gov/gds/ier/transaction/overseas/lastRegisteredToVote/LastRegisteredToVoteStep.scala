@@ -10,12 +10,14 @@ import controllers.step.overseas.routes.LastRegisteredToVoteController
 import controllers.step.overseas.DateLeftUkController
 import controllers.step.overseas.{DateLeftArmyController, DateLeftCrownController, DateLeftCouncilController}
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class LastRegisteredToVoteStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService: EncryptionService)
-  extends OverseaStep
+    val encryptionService: EncryptionService,
+    val remoteAssets: RemoteAssets
+) extends OverseaStep
   with LastRegisteredToVoteForms
   with LastRegisteredToVoteMustache {
 

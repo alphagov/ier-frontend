@@ -12,7 +12,9 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.service.apiservice.IerApiService
 import uk.gov.gds.ier.transaction.forces.InprogressForces
-import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.service.{WithAddressService, AddressService}
+import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.assets.RemoteAssets
 
 
 class ConfirmationStep @Inject() (
@@ -20,10 +22,13 @@ class ConfirmationStep @Inject() (
     val config: Config,
     val serialiser: JsonSerialiser,
     val addressService: AddressService,
+    val remoteAssets: RemoteAssets,
     ierApi: IerApiService)
   extends ConfirmationStepController[InprogressForces]
     with ConfirmationForms
-    with ConfirmationMustache {
+    with ConfirmationMustache
+    with WithAddressService
+    with WithRemoteAssets {
 
   def factoryOfT() = InprogressForces()
 

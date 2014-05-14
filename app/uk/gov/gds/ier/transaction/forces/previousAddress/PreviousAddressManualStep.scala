@@ -13,12 +13,14 @@ import scala.Some
 import controllers.step.forces.NationalityController
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class PreviousAddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
-    val addressService: AddressService)
+    val addressService: AddressService,
+    val remoteAssets: RemoteAssets)
   extends ForcesStep
   with PreviousAddressManualMustache
   with PreviousAddressForms {

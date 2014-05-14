@@ -11,12 +11,14 @@ import uk.gov.gds.ier.step.{GoTo, ForcesStep, Routes}
 import controllers.routes._
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import scala.Some
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class AddressStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
-    val addressService: AddressService)
+    val addressService: AddressService,
+    val remoteAssets: RemoteAssets)
   extends ForcesStep
   with AddressLookupMustache
   with AddressForms {

@@ -10,12 +10,14 @@ import controllers.step.overseas.routes.ParentNameController
 import controllers.step.overseas.routes.DateLeftUkController
 import controllers.step.overseas.ParentsAddressController
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class ParentNameStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService)
-  extends OverseaStep
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets
+) extends OverseaStep
   with ParentNameForms
   with ParentNameMustache {
 

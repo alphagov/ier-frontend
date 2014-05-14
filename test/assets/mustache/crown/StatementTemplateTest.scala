@@ -6,11 +6,13 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.crown.statement.StatementMustache
+import uk.gov.gds.ier.test.WithMockRemoteAssets
 
 class StatementTemplateTest
   extends FlatSpec
   with StatementMustache
   with StepMustache
+  with WithMockRemoteAssets
   with Matchers {
 
   it should "properly render all properties from the model" in {
@@ -69,7 +71,7 @@ class StatementTemplateTest
       val crownServantLabel = crownFieldset.select("label[for=crownServantId]").first()
       crownServantLabel should not be(null)
       crownServantLabel.attr("for") should be("crownServantId")
-      
+
       val crownServantInput = crownServantLabel.select("input").first()
       crownServantInput should not be(null)
       crownServantInput.attr("id") should be("crownServantId")
@@ -83,7 +85,7 @@ class StatementTemplateTest
       val crownPartnerLabel = crownFieldset.select("label[for=crownPartnerId]").first()
       crownPartnerLabel should not be(null)
       crownPartnerLabel.attr("for") should be("crownPartnerId")
-      
+
       val crownPartnerInput = crownPartnerLabel.select("input").first()
       crownPartnerInput should not be(null)
       crownPartnerInput.attr("id") should be("crownPartnerId")
@@ -103,7 +105,7 @@ class StatementTemplateTest
       val councilEmployeeLabel = councilFieldset.select("label[for=councilEmployeeId]").first()
       councilEmployeeLabel should not be(null)
       councilEmployeeLabel.attr("for") should be("councilEmployeeId")
-      
+
       val councilEmployeeInput = councilEmployeeLabel.select("input").first()
       councilEmployeeInput should not be(null)
       councilEmployeeInput.attr("id") should be("councilEmployeeId")
@@ -117,7 +119,7 @@ class StatementTemplateTest
       val councilPartnerLabel = councilFieldset.select("label[for=councilPartnerId]").first()
       councilPartnerLabel should not be(null)
       councilPartnerLabel.attr("for") should be("councilPartnerId")
-      
+
       val councilPartnerInput = councilPartnerLabel.select("input").first()
       councilPartnerInput should not be(null)
       councilPartnerInput.attr("id") should be("councilPartnerId")

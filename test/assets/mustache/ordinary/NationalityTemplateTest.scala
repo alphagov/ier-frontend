@@ -6,11 +6,13 @@ import org.jsoup.Jsoup
 import play.api.test.Helpers._
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.ordinary.nationality.NationalityMustache
+import uk.gov.gds.ier.test.WithMockRemoteAssets
 
 class NationalityTemplateTest
   extends FlatSpec
   with StepMustache
   with NationalityMustache
+  with WithMockRemoteAssets
   with Matchers {
 
   it should "properly render all properties from the model" in {
@@ -65,7 +67,7 @@ class NationalityTemplateTest
       irishOptionInput.attr("id") should be("irishOptionId")
       irishOptionInput.attr("name") should be("irishOptionName")
       irishOptionInput.attr("foo") should be("foo")
-      
+
       val hasOtherCountryOptionInput = doc.select("input[id=hasOtherCountryOptionId]").first()
       hasOtherCountryOptionInput.attr("id") should be("hasOtherCountryOptionId")
       hasOtherCountryOptionInput.attr("name") should be("hasOtherCountryOptionName")

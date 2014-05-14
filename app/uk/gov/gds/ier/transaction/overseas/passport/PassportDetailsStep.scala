@@ -9,12 +9,14 @@ import controllers.step.overseas.routes.PassportDetailsController
 import controllers.step.overseas.routes.PassportCheckController
 import controllers.step.overseas.NameController
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class PassportDetailsStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService)
-  extends OverseaStep
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets
+) extends OverseaStep
   with PassportForms
   with PassportDetailsMustache {
 

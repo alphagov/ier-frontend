@@ -15,12 +15,14 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import controllers.routes.ExitController
 import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class AddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
-    val addressService: AddressService)
+    val addressService: AddressService,
+    val remoteAssets: RemoteAssets)
   extends OrdinaryStep
   with AddressManualMustache
   with AddressForms {

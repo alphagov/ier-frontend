@@ -6,11 +6,13 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.overseas.openRegister.OpenRegisterMustache
 import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.test.WithMockRemoteAssets
 
 class OpenRegisterTemplateTest
   extends FlatSpec
   with StepMustache
   with OpenRegisterMustache
+  with WithMockRemoteAssets
   with Matchers {
 
   it should "properly render all properties from the model" in {
