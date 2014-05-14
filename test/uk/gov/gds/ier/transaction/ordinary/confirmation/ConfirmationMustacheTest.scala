@@ -9,8 +9,6 @@ import uk.gov.gds.ier.model.Name
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.shared.BlockContent
 import org.mockito.Mockito._
-import uk.gov.gds.ier.guice.WithRemoteAssets
-import uk.gov.gds.ier.service.WithAddressService
 
 class ConfirmationMustacheTest
   extends FlatSpec

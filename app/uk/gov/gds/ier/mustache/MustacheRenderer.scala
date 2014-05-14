@@ -22,7 +22,7 @@ trait MustacheRendering[T] extends StepMustache {
       val lang = Language.getLang(request)
       val model = template.data(lang, form, postUrl, application)
       val content = Mustache.render(template.mustachePath, model)
-      MainStepTemplate(content, model.question.title)
+      MainStepTemplate(content, model.question.title, lang = model.question.lang)
     }
   }
 
