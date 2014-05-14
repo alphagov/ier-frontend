@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.crown.previousAddress
 
 import play.api.data.Forms._
-import uk.gov.gds.ier.model.{PartialPreviousAddress}
+import uk.gov.gds.ier.model.{MovedHouseOption, PartialAddress, PartialPreviousAddress}
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys, ErrorTransformForm}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
@@ -15,19 +15,26 @@ trait PreviousAddressFirstForms
     with ErrorMessages
     with WithSerialiser =>
 
+
+  lazy val previousAddressMapping = mapping(
+    keys.movedRecently.key -> optional(movedHouseMapping),
+    keys.previousAddress.key -> optional(PartialAddress.mapping)
+  ) (
+    PartialPreviousAddress.apply
+  ) (
+    PartialPreviousAddress.unapply
+  )
+
   val previousAddressFirstForm = ErrorTransformForm(
     mapping (
-      keys.previousAddress.movedRecently.key -> optional(movedHouseMapping)
+      keys.previousAddress.key -> optional(previousAddressMapping)
     ) (
-      previousAddressYesNo => InprogressCrown(
-        previousAddress = Some(PartialPreviousAddress(
-          movedRecently = previousAddressYesNo,
-          previousAddress = None
-        ))
+      previousAddress => InprogressCrown(
+        previousAddress = previousAddress
       )
     ) (
-      inprogress => Some(inprogress.previousAddress.flatMap(_.movedRecently))
-    ).verifying( previousAddressYesNoIsNotEmpty )
+      inprogress => Some(inprogress.previousAddress)
+    ).verifying(previousAddressMovedHouseNotEmpty)
   )
 }
 
@@ -35,15 +42,11 @@ trait PreviousAddressFirstConstraints extends CommonConstraints {
   self: FormKeys
     with ErrorMessages =>
 
-  lazy val previousAddressYesNoIsNotEmpty = Constraint[InprogressCrown](
+  lazy val previousAddressMovedHouseNotEmpty = Constraint[InprogressCrown](
     keys.previousAddress.movedRecently.key) {
     inprogress => inprogress.previousAddress match {
-      case Some(PartialPreviousAddress(Some(_), _)) => {
-        Valid
-      }
-      case _ => {
-        Invalid("Please answer this question", keys.previousAddress.movedRecently)
-      }
+      case Some(PartialPreviousAddress(Some(_), _)) => Valid
+      case _ => Invalid("Please answer this question", keys.previousAddress.movedRecently)
     }
   }
 }

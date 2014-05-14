@@ -24,7 +24,7 @@ class PreviousAddressYesFormTests
   it should "succeed on valid postcode" in {
     val js = Json.toJson(
       Map(
-        "previousAddress.postcode" -> "SW1A 1AA"
+        "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
       )
     )
 
@@ -47,13 +47,13 @@ class PreviousAddressYesFormTests
 
   it should "fail out on no postcode" in {
     val js = Json.toJson(Map(
-      "previousAddress.postcode" -> "")
+      "previousAddress.previousAddress.postcode" -> "")
     )
 
     postcodeAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("previousAddress.postcode") should be(
+        hasErrors.errorMessages("previousAddress.previousAddress.postcode") should be(
           Seq("Please enter your postcode")
         )
       },
@@ -67,7 +67,7 @@ class PreviousAddressYesFormTests
     postcodeAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("previousAddress.postcode") should be(
+        hasErrors.errorMessages("previousAddress.previousAddress.postcode") should be(
           Seq("Please enter your postcode")
         )
       },
@@ -81,7 +81,7 @@ class PreviousAddressYesFormTests
     postcodeAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("previousAddress.postcode") should be(
+        hasErrors.errorMessages("previousAddress.previousAddress.postcode") should be(
           Seq("Please enter your postcode")
         )
       },

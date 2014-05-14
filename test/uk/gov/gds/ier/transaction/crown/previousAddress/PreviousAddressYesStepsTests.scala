@@ -5,6 +5,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 class PreviousAddressYesStepsTests
   extends FlatSpec
@@ -34,7 +35,7 @@ class PreviousAddressYesStepsTests
         FakeRequest(POST, "/register-to-vote/crown/previous-address/postcode")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -49,7 +50,7 @@ class PreviousAddressYesStepsTests
         FakeRequest(POST, "/register-to-vote/crown/previous-address/postcode")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "previousAddress.postcode" -> "BT7 1AA"
+            "previousAddress.previousAddress.postcode" -> "BT7 1AA"
           )
       )
 
@@ -225,7 +226,7 @@ class PreviousAddressYesStepsTests
           .withIerSession()
           .withApplication(completeCrownApplication.copy(previousAddress = None))
           .withFormUrlEncodedBody(
-            "previousAddress.movedRecently" -> "yes"
+            "previousAddress.movedRecently" -> "yes-living-there"
           )
       )
 
@@ -233,4 +234,5 @@ class PreviousAddressYesStepsTests
       redirectLocation(result) should be(Some("/register-to-vote/crown/previous-address/postcode"))
     }
   }
+
 }

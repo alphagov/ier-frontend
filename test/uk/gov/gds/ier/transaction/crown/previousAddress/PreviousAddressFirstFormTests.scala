@@ -21,98 +21,89 @@ class PreviousAddressFirstFormTests
   val serialiser = jsonSerialiser
 
   it should "error out on empty input" in {
-    val js = JsNull
-    previousAddressFirstForm.bind(js).fold(
-      hasErrors => {
-        hasErrors.errorMessages("previousAddress.movedRecently") should be(Seq("Please answer this question"))
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errors.size should be(2)
-      },
-      success => fail("Should have errored out.")
-    )
+    assertUnsuccessfulBinding(
+      formData = Map.empty,
+      expectedErrorMessage = "Please answer this question")
   }
 
   it should "error out on missing values in input" in {
-    val js = Json.toJson(
-      Map(
-        "previousAddress.movedRecently" -> ""
-      )
+    assertUnsuccessfulBinding(
+      formData = Map("previousAddress.movedRecently" -> ""),
+      expectedErrorMessage = "Please answer this question")
+  }
+
+  it should "error out on invalid moved house value (yes)" in {
+    assertUnsuccessfulBinding(
+      formData = Map("previousAddress.movedRecently" -> "yes"),
+      expectedErrorMessage = "Not a valid option")
+  }
+
+  it should "error out on invalid moved house value (from uk)" in {
+    assertUnsuccessfulBinding(
+      formData = Map("previousAddress.movedRecently" -> "from-uk"),
+      expectedErrorMessage = "Not a valid option")
+  }
+
+  it should "error out on invalid moved house value (from abroad)" in {
+    assertUnsuccessfulBinding(
+      formData = Map("previousAddress.movedRecently" -> "from-abroad"),
+      expectedErrorMessage = "Not a valid option")
+  }
+
+  it should "error out on invalid moved house value (from abroad registered)" in {
+    assertUnsuccessfulBinding(
+      formData = Map("previousAddress.movedRecently" -> "from-abroad-registered"),
+      expectedErrorMessage = "Not a valid option")
+  }
+
+  it should "error out on invalid moved house value (from abroad not registered)" in {
+    assertUnsuccessfulBinding(
+      formData = Map("previousAddress.movedRecently" -> "from-abroad-not-registered"),
+      expectedErrorMessage = "Not a valid option")
+  }
+
+  it should "successfully bind when user has previous address (yes-living-there)" in {
+    assertSuccessfullBinding(
+      formData = Map("previousAddress.movedRecently" -> "yes-living-there"),
+      expected = MovedHouseOption.YesAndLivingThere)
+  }
+
+  it should "successfully bind when user has previous address (yes-not-living-there)" in {
+    assertSuccessfullBinding(
+      formData = Map("previousAddress.movedRecently" -> "yes-not-living-there"),
+      expected = MovedHouseOption.YesAndNotLivingThere)
+  }
+
+  it should "successfully bind when user does not has previous address (not-moved)" in {
+    assertSuccessfullBinding(
+      formData = Map("previousAddress.movedRecently" -> "no"),
+      expected = MovedHouseOption.NotMoved)
+  }
+
+
+  def assertSuccessfullBinding(formData:Map[String,String], expected:MovedHouseOption) {
+    previousAddressFirstForm.bind(Json.toJson(formData)).fold(
+      hasErrors => {
+        fail("Binding failed with " + hasErrors.errorsAsTextAll)
+      },
+      success => {
+        success.previousAddress.flatMap(_.movedRecently) should be(Some(expected))
+      }
     )
+  }
+
+  def assertUnsuccessfulBinding(formData:Map[String,String], expectedErrorMessage:String) {
+    val js = if(formData.isEmpty) JsNull else Json.toJson(formData)
+
     previousAddressFirstForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("previousAddress.movedRecently") should be(Seq("Please answer this question"))
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errors.size should be(2)
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousAddress.movedRecently" -> Seq(expectedErrorMessage)
+        ))
       },
       success => fail("Should have errored out.")
     )
   }
 
-  it should "fail on invalid moved house value (from abroad)" in {
-    val js = Json.toJson(
-      Map(
-        "previousAddress.movedRecently" -> "from-abroad"
-      )
-    )
-    previousAddressFirstForm.bind(js).fold(
-      hasErrors => {
-        hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.movedRecently" -> Seq("Not a valid option")
-        ))
-      },
-      success => {
-        fail("Should have errored out")
-      }
-    )
-  }
 
-  it should "fail on invalid moved house value (from uk)" in {
-    val js = Json.toJson(
-      Map(
-        "previousAddress.movedRecently" -> "from-uk"
-      )
-    )
-    previousAddressFirstForm.bind(js).fold(
-      hasErrors => {
-        hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.movedRecently" -> Seq("Not a valid option")
-        ))
-      },
-      success => {
-        fail("Should have errored out")
-      }
-    )
-  }
-
-  it should "successfully bind when user has previous address" in {
-    val js = Json.toJson(
-      Map(
-        "previousAddress.movedRecently" -> "yes"
-      )
-    )
-    previousAddressFirstForm.bind(js).fold(
-      hasErrors => {
-        fail("Binding failed with " + hasErrors.errorsAsTextAll)
-      },
-      success => {
-        success.previousAddress.flatMap(_.movedRecently) should be(Some(MovedHouseOption.Yes))
-      }
-    )
-  }
-
-  it should "successfully bind when user does not has previous address" in {
-    val js = Json.toJson(
-      Map(
-        "previousAddress.movedRecently" -> "no"
-      )
-    )
-    previousAddressFirstForm.bind(js).fold(
-      hasErrors => {
-        fail("Binding failed with " + hasErrors.errorsAsTextAll)
-      },
-      success => {
-        success.previousAddress.flatMap(_.movedRecently) should be(Some(MovedHouseOption.NotMoved))
-      }
-    )
-  }
 }

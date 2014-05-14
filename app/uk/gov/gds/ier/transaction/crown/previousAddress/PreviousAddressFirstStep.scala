@@ -2,11 +2,8 @@ package uk.gov.gds.ier.transaction.crown.previousAddress
 
 import controllers.step.crown.routes._
 import com.google.inject.Inject
-import uk.gov.gds.ier.model.{MovedHouseOption}
+import uk.gov.gds.ier.model.MovedHouseOption
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.validation._
-import play.api.mvc.Call
-import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.service.AddressService
@@ -35,11 +32,14 @@ class PreviousAddressFirstStep @Inject ()(
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    if (currentState.previousAddress.flatMap(_.movedRecently) == Some(MovedHouseOption.Yes)) {
-      controllers.step.crown.PreviousAddressPostcodeController.previousPostcodeAddressStep
-    } else {
-      controllers.step.crown.NationalityController.nationalityStep
+    currentState.previousAddress.flatMap(_.movedRecently) match {
+      case
+        Some(MovedHouseOption.YesAndLivingThere) |
+        Some(MovedHouseOption.YesAndNotLivingThere) => controllers.step.crown.PreviousAddressPostcodeController.previousPostcodeAddressStep
+      case _ => controllers.step.crown.NationalityController.nationalityStep
     }
+
+
   }
 }
 

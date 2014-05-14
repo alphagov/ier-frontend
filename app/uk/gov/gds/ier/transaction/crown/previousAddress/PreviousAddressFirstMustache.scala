@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.previousAddress
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.model.{MovedHouseOption}
+import uk.gov.gds.ier.model.MovedHouseOption
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.step.StepTemplate
 
@@ -12,7 +11,8 @@ trait PreviousAddressFirstMustache extends StepTemplate[InprogressCrown] {
 
   case class PreviousAddressFirstModel(
     question: Question,
-    previousYes: Field,
+    previousYesAndLivingThere: Field,
+    previousYesAndNotLivingThere: Field,
     previousNo: Field
   ) extends MustacheData
 
@@ -26,9 +26,12 @@ trait PreviousAddressFirstMustache extends StepTemplate[InprogressCrown] {
         number = questionNumber,
         title = title,
         errorMessages = form.globalErrors.map { _.message }),
-      previousYes = RadioField(
+      previousYesAndLivingThere = RadioField(
         key = keys.previousAddress.movedRecently,
-        value = MovedHouseOption.Yes.name),
+        value = MovedHouseOption.YesAndLivingThere.name),
+      previousYesAndNotLivingThere = RadioField(
+        key = keys.previousAddress.movedRecently,
+        value = MovedHouseOption.YesAndNotLivingThere.name),
       previousNo = RadioField(
         key = keys.previousAddress.movedRecently,
         value = MovedHouseOption.NotMoved.name)
