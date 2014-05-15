@@ -88,4 +88,22 @@ class ConfirmationFormTests
 	    )
 	  }
 
+  it should "indicate erros if MovedFromUK but manual address is None" in {
+	    confirmationForm.fillAndValidate(completeOrdinaryApplication.copy(
+	      previousAddress = Some(PartialPreviousAddress(
+	        movedRecently = Some(MovedHouseOption.MovedFromUk),
+	        previousAddress = Some(PartialAddress(
+	          addressLine = None,
+	          uprn = None,
+	          postcode = "WC2A 2HD",
+	          manualAddress = None
+	        ))
+	      ))
+	    )).fold (
+	      hasErrors => {
+	        hasErrors.globalErrorMessages should be(Seq("Please complete this step"))
+	      },
+	      success => fail("Should have errored out.")
+	    )
+	  }
 }

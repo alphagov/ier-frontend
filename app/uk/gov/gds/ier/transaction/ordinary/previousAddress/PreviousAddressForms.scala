@@ -90,11 +90,11 @@ trait PreviousAddressConstraints extends CommonConstraints {
     previousAddress =>
       val postcode = previousAddress.previousAddress.map(_.postcode)
       val uprn = previousAddress.previousAddress.flatMap(_.uprn)
-      val manualAddressCity = previousAddress.previousAddress.flatMap(_.manualAddress.flatMap(_.city))
+//      val manualAddressCity = previousAddress.previousAddress.flatMap(_.manualAddress.flatMap(_.city))
 
       val isAddressValid = (postcode.exists(addressService.isNothernIreland(_))) ||
-          (uprn.exists(_.nonEmpty)) ||
-          (manualAddressCity.exists(_.nonEmpty))
+          (uprn.exists(_.nonEmpty)) || previousAddress.previousAddress.exists(_.manualAddress.isDefined)
+//          (manualAddressCity.exists(_.nonEmpty))
 
       previousAddress.movedRecently match {
         case Some(MovedHouseOption.MovedFromUk) | Some(MovedHouseOption.MovedFromAbroadRegistered)

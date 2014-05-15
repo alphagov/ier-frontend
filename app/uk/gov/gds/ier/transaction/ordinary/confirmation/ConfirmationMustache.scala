@@ -223,13 +223,6 @@ trait ConfirmationMustache extends WithAddressService{
       ))
     }
     def previousAddress = {
-      val addressLine = form(keys.previousAddress.previousAddress.addressLine).value
-      val manualAddress = manualAddressToOneLine(
-        form,
-        keys.previousAddress.previousAddress.manualAddress
-      )
-      val address = addressLine orElse manualAddress getOrElse("")
-      val postcode = form(keys.previousAddress.previousAddress.postcode).value.getOrElse("")
       val movedHouse = form(keys.previousAddress.movedRecently).value.map {
         MovedHouseOption.parse(_)
       }
@@ -248,16 +241,13 @@ trait ConfirmationMustache extends WithAddressService{
             case Some(MovedHouseOption.MovedFromAbroadNotRegistered) =>
               List("I moved from abroad, but I was not registered to vote there")
             case Some(moveOption) if moveOption.hasPreviousAddress => {
-              val postcode = form(keys.previousAddress.previousAddress.postcode).value.getOrElse("")
-              if (addressService.isNothernIreland(postcode)) {
-                List(postcode, "I was previously registered in Northern Ireland")
+              val postcode = form(keys.previousAddress.previousAddress.postcode).value
+              if (addressService.isNothernIreland(postcode.getOrElse(""))) {
+                List(postcode, Some("I was previously registered in Northern Ireland")).flatten
               } else {
-                val address = if (form(keys.previousAddress.previousAddress.addressLine).value.isDefined) {
-                  form(keys.previousAddress.previousAddress.addressLine).value
-                } else {
-                  manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress)
-                }
-                List(address.getOrElse(""), postcode)
+                val address = form(keys.previousAddress.previousAddress.addressLine).value.orElse(
+                  manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress))
+                List(address, postcode).flatten
               }
             }
             case _ =>
