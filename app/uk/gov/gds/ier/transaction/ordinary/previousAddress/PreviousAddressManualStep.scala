@@ -14,11 +14,13 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 import controllers.step.ordinary.OpenRegisterController
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.service.AddressService
 
 class PreviousAddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService: EncryptionService)
+    val encryptionService: EncryptionService,
+    val addressService: AddressService)
   extends OrdinaryStep
   with PreviousAddressManualMustache
   with PreviousAddressForms {

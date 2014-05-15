@@ -10,8 +10,9 @@ import controllers.step.ordinary.routes
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
+import uk.gov.gds.ier.service.WithAddressService
 
-trait ConfirmationMustache {
+trait ConfirmationMustache extends WithAddressService{
 
   case class ConfirmationQuestion(
       content: EitherErrorOrContent,
@@ -72,6 +73,14 @@ trait ConfirmationMustache {
         BlockError(completeThisStepMessage)
       } else {
         BlockContent(confirmationHtml)
+      }
+    }
+
+    def ifComplete(keys:Key*)(confirmationHtml: => List[String]): EitherErrorOrContent = {
+      if (keys.exists(form(_).hasErrors)) {
+    	BlockError(completeThisStepMessage)
+      } else {
+    	BlockContent(confirmationHtml)
       }
     }
 
@@ -213,15 +222,7 @@ trait ConfirmationMustache {
           }
       ))
     }
-
     def previousAddress = {
-      val addressLine = form(keys.previousAddress.previousAddress.addressLine).value
-      val manualAddress = manualAddressToOneLine(
-        form,
-        keys.previousAddress.previousAddress.manualAddress
-      )
-      val address = addressLine orElse manualAddress getOrElse("")
-      val postcode = form(keys.previousAddress.previousAddress.postcode).value.getOrElse("")
       val movedHouse = form(keys.previousAddress.movedRecently).value.map {
         MovedHouseOption.parse(_)
       }
@@ -235,17 +236,25 @@ trait ConfirmationMustache {
         title = title,
         editLink = routes.PreviousAddressFirstController.editGet.url,
         changeName = "your previous address",
-        content = ifComplete(keys.previousAddress) {
+        content = ifComplete(keys.previousAddress, keys.previousAddress.movedRecently) {
           movedHouse match {
             case Some(MovedHouseOption.MovedFromAbroadNotRegistered) =>
               List("I moved from abroad, but I was not registered to vote there")
-            case Some(moveOption) if moveOption.hasPreviousAddress =>
-              List(address, postcode)
+            case Some(moveOption) if moveOption.hasPreviousAddress => {
+              val postcode = form(keys.previousAddress.previousAddress.postcode).value
+              if (addressService.isNothernIreland(postcode.getOrElse(""))) {
+                List(postcode, Some("I was previously registered in Northern Ireland")).flatten
+              } else {
+                val address = form(keys.previousAddress.previousAddress.addressLine).value.orElse(
+                  manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress))
+                List(address, postcode).flatten
+              }
+            }
             case _ =>
               List("I have not moved in the last 12 months")
+            }
           }
-        }
-      ))
+        ))
     }
 
     def openRegister = {

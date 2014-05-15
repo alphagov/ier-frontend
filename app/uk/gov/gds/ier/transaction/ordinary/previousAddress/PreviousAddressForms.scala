@@ -12,11 +12,14 @@ import uk.gov.gds.ier.model.PartialPreviousAddress
 import uk.gov.gds.ier.model.PossibleAddress
 import uk.gov.gds.ier.model.PartialManualAddress
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.service.AddressService
 
 trait PreviousAddressForms extends PreviousAddressConstraints {
   self: FormKeys
   with ErrorMessages
   with WithSerialiser =>
+
+  val addressService: AddressService
 
   private[previousAddress] lazy val possibleAddressesMappingForPreviousAddress = mapping(
     keys.jsonList.key -> nonEmptyText,
@@ -81,6 +84,27 @@ trait PreviousAddressConstraints extends CommonConstraints {
   self: FormKeys
    with ErrorMessages =>
 
+  val addressService: AddressService
+
+  lazy val previousAddressRequiredIfMoved = Constraint[PartialPreviousAddress](keys.previousAddress.key) {
+    previousAddress =>
+      val postcode = previousAddress.previousAddress.map(_.postcode)
+      val uprn = previousAddress.previousAddress.flatMap(_.uprn)
+//      val manualAddressCity = previousAddress.previousAddress.flatMap(_.manualAddress.flatMap(_.city))
+
+      val isAddressValid = (postcode.exists(addressService.isNothernIreland(_))) ||
+          (uprn.exists(_.nonEmpty)) || previousAddress.previousAddress.exists(_.manualAddress.isDefined)
+//          (manualAddressCity.exists(_.nonEmpty))
+
+      previousAddress.movedRecently match {
+        case Some(MovedHouseOption.MovedFromUk) | Some(MovedHouseOption.MovedFromAbroadRegistered)
+          if (isAddressValid) => Valid
+        case Some(MovedHouseOption.NotMoved) => Valid
+        case Some(MovedHouseOption.MovedFromAbroadNotRegistered) => Valid
+        case _ => Invalid("Please complete this step", keys.previousAddress)
+      }
+  }
+
   lazy val manualAddressIsRequiredForPreviousAddress = Constraint[InprogressOrdinary](keys.previousAddress.key) {
     inprogress =>
       inprogress.previousAddress match {
@@ -137,32 +161,39 @@ trait PreviousAddressConstraints extends CommonConstraints {
           "Your postcode is not valid",
           keys.previousAddress.previousAddress.postcode
         )
+        case Some(postcode) if addressService.isNothernIreland(postcode) => Valid
         case _ => Valid
       }
   }
 
   lazy val manualAddressLineOneRequired = Constraint[InprogressOrdinary](
       keys.previousAddress.manualAddress.key) { inprogress =>
-    val manualAddress = inprogress.previousAddress.flatMap(_.previousAddress).flatMap(_.manualAddress)
 
-    manualAddress match {
-      case Some(PartialManualAddress(None, _, _, _)) => Invalid(
-        lineOneIsRequiredError,
-        keys.previousAddress.previousAddress.manualAddress.lineOne
-      )
+    inprogress.previousAddress.flatMap(_.previousAddress) match{
+      case Some(PartialAddress(_, _, postcode, manualAddress, _)) => {
+        if (addressService.isNothernIreland(postcode)) Valid
+        else if (manualAddress.exists(!_.lineOne.isDefined)) Invalid(
+          lineOneIsRequiredError,
+          keys.previousAddress.previousAddress.manualAddress.lineOne
+        )
+        else Valid
+      }
       case _ => Valid
     }
   }
 
   lazy val cityIsRequiredForPreviousAddress = Constraint[InprogressOrdinary](
       keys.previousAddress.manualAddress.key) { inprogress =>
-    val manualAddress = inprogress.previousAddress.flatMap(_.previousAddress).flatMap(_.manualAddress)
 
-    manualAddress match {
-      case Some(PartialManualAddress(_, _, _, None)) => Invalid(
-        cityIsRequiredError,
-        keys.previousAddress.previousAddress.manualAddress.city
-      )
+    inprogress.previousAddress.flatMap(_.previousAddress) match{
+      case Some(PartialAddress(_, _, postcode, manualAddress, _)) => {
+        if (addressService.isNothernIreland(postcode)) Valid
+        else if (manualAddress.exists(!_.city.isDefined)) Invalid(
+          cityIsRequiredError,
+          keys.previousAddress.previousAddress.manualAddress.city
+        )
+        else Valid
+      }
       case _ => Valid
     }
   }

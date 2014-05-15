@@ -10,7 +10,8 @@ import uk.gov.gds.ier.exception.PostcodeLookupFailedException
 import uk.gov.gds.ier.validation.IerForms
 import uk.gov.gds.ier.model.Addresses
 
-class PostcodeController @Inject()(postcodeAnywhere: PlacesService, addressService:AddressService, val serialiser: JsonSerialiser)
+class PostcodeController @Inject()(postcodeAnywhere: PlacesService, val addressService:AddressService,
+    val serialiser: JsonSerialiser)
   extends Controller with ApiResults with WithSerialiser with IerForms {
 
   def lookupAddress(postcode: String) = Action {
