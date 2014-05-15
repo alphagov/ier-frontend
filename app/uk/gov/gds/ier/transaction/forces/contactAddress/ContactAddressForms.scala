@@ -109,15 +109,11 @@ trait ContactAddressConstraints extends CommonConstraints {
             contactAddress.addressLine5).forall(_.getOrElse("").trim.isEmpty))
             Some(keys.contactAddress.otherContactAddress.addressLine1) else None
 
-        val postcodeKey:Option[Key] =
-          if (contactAddress.postcode.getOrElse("").trim.isEmpty)
-          Some(keys.contactAddress.otherContactAddress.postcode) else None
-
         val countryKey:Option[Key] =
           if (contactAddress.country.getOrElse("").trim.isEmpty)
           Some(keys.contactAddress.otherContactAddress.country) else None
 
-        val errorKeys = List(addressLine1Key,postcodeKey,countryKey).flatten
+        val errorKeys = List(addressLine1Key, countryKey).flatten
 
         if (errorKeys.size == 0) {
           Valid
