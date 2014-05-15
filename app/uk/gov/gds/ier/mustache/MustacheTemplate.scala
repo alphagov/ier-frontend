@@ -11,12 +11,17 @@ case class Question (
     number:String = "",
     title:String = "",
     errorMessages:Seq[String] = Seq.empty
-)
+) (
+    implicit _lang: Lang = Lang("en")
+) {
+  val lang: Lang = _lang
+}
 
 trait MustacheData {
   val question: Question
-  val lang:Lang = Lang("en")
-  lazy val messages: Map[String,String] = Messages.messagesForLang(lang)
+  lazy val messages: Map[String,String] = {
+    Messages.messagesForLang(question.lang)
+  }
 }
 
 trait MustacheTemplate[T] {
