@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.crown.contactAddress
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.step.StepTemplate
-import uk.gov.gds.ier.model.{LastUkAddress, PartialAddress}
+import uk.gov.gds.ier.model.{LastAddress, LastUkAddress, PartialAddress}
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
@@ -135,7 +135,7 @@ trait ContactAddressMustache
 
 
   private def extractUkAddressText(
-      lastUkAddress: Option[LastUkAddress],
+      lastUkAddress: Option[LastAddress],
       form: ErrorTransformForm[InprogressCrown]): Option[String] = {
       val address = lastUkAddress flatMap { _.address }
 

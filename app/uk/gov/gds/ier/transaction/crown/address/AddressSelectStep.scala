@@ -4,7 +4,7 @@ import controllers.step.crown.routes._
 import controllers.step.crown.{PreviousAddressFirstController, NationalityController}
 import com.google.inject.Inject
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.model.{LastUkAddress}
+import uk.gov.gds.ier.model.{HasAddressOption, LastAddress, LastUkAddress}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.{AddressService, WithAddressService}
@@ -33,14 +33,10 @@ class AddressSelectStep @Inject() (
   )
 
   def nextStep(currentState: InprogressCrown) = {
-
-    val hasUkAddress = Some(true)
-
-    currentState.address match {
-      case Some(LastUkAddress(`hasUkAddress`,_))
-          => PreviousAddressFirstController.previousAddressFirstStep
-      case _
-          => NationalityController.nationalityStep
+    currentState.address.flatMap(_.hasAddress) match {
+      case Some(HasAddressOption.YesAndLivingThere) | Some(HasAddressOption.YesAndNotLivingThere)
+        => PreviousAddressFirstController.previousAddressFirstStep
+      case _ => NationalityController.nationalityStep
     }
   }
 
@@ -49,8 +45,8 @@ class AddressSelectStep @Inject() (
     val addressWithAddressLine =  address.map (address => addressService.fillAddressLine(address))
 
     application.copy(
-      address = Some(LastUkAddress(
-        hasUkAddress = application.address.flatMap {_.hasUkAddress},
+      address = Some(LastAddress(
+        hasAddress = application.address.flatMap {_.hasAddress},
         address = addressWithAddressLine
       )),
       possibleAddresses = None

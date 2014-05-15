@@ -231,7 +231,7 @@ class PreviousAddressYesFormTests
         hasErrors.errorsAsTextAll should be("" +
           " -> Please answer this question\n"+
           "previousAddress.previousAddress.uprn -> Please answer this question")
-        hasErrors.globalErrorMessages should be eq("Please select your address")
+        hasErrors.globalErrorMessages should be List("Please select your address")
       },
       success => {
         fail("Should have errored out")

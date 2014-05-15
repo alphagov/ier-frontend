@@ -135,10 +135,10 @@ class ConfirmationFormTests
     )
   }
 
-  it should "succeed on hasUkAddress = true and existing previousAddress" in {
+  it should "succeed on hasAddress = true and existing previousAddress" in {
     val application = completeCrownApplication.copy(
-      address = Some(LastUkAddress(
-        Some(true),
+      address = Some(LastAddress(
+        Some(HasAddressOption.YesAndLivingThere),
         Some(PartialAddress(
           Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None))
       )),
@@ -147,10 +147,10 @@ class ConfirmationFormTests
     confirmationForm.fillAndValidate(application).hasErrors should be(false)
   }
 
-  it should "succeed on hasUkAddress = false and missing previousAddress" in {
+  it should "succeed on hasAddress = false and missing previousAddress" in {
     val application = completeCrownApplication.copy(
-      address = Some(LastUkAddress(
-        Some(false),
+      address = Some(LastAddress(
+        Some(HasAddressOption.No),
         Some(PartialAddress(
           Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None))
       )),
@@ -159,10 +159,10 @@ class ConfirmationFormTests
     confirmationForm.fillAndValidate(application).hasErrors should be(false)
   }
 
-  it should "error out on hasUkAddress = true and missing previousAddress" in {
+  it should "error out on hasAddress = true and missing previousAddress" in {
     val application = completeCrownApplication.copy(
-      address = Some(LastUkAddress(
-        Some(true),
+      address = Some(LastAddress(
+        Some(HasAddressOption.YesAndLivingThere),
         Some(PartialAddress(
           Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None))
       )),

@@ -6,8 +6,6 @@ object MovedHouseOption extends ModelMapping {
   import playMappings._
 
   val Yes = MovedHouseOption(true, "yes")
-  val YesAndLivingThere = MovedHouseOption(true, "yes-living-there")
-  val YesAndNotLivingThere = MovedHouseOption(true, "yes-not-living-there")
 
   val MovedFromUk = MovedHouseOption(true, "from-uk")
   val MovedFromAbroad = MovedHouseOption(true, "from-abroad")
@@ -17,13 +15,10 @@ object MovedHouseOption extends ModelMapping {
   val NotMoved = MovedHouseOption(false, "no")
   val DontKnow = MovedHouseOption(false, "dunno")
 
-
   def isValid(str:String):Boolean = {
     str match {
       case
         Yes.`name` |
-        YesAndLivingThere.`name` |
-        YesAndNotLivingThere.`name` |
 
         MovedFromUk.`name`|
         MovedFromAbroad.`name`|
@@ -39,8 +34,6 @@ object MovedHouseOption extends ModelMapping {
   def parse(str:String):MovedHouseOption = {
     str match {
       case Yes.`name` => Yes
-      case YesAndLivingThere.`name` => YesAndLivingThere
-      case YesAndNotLivingThere.`name` => YesAndNotLivingThere
 
       case MovedFromUk.`name` => MovedFromUk
       case MovedFromAbroad.`name` => MovedFromAbroad
@@ -48,6 +41,7 @@ object MovedHouseOption extends ModelMapping {
       case MovedFromAbroadNotRegistered.`name` => MovedFromAbroadNotRegistered
 
       case NotMoved.`name` => NotMoved
+
       case _ => DontKnow
     }
   }
@@ -63,8 +57,6 @@ object MovedHouseOption extends ModelMapping {
 
   lazy val allPossibleMoveOptions = Constraint[MovedHouseOption]("movedHouse") {
     case MovedHouseOption.Yes => Valid
-    case MovedHouseOption.YesAndLivingThere => Valid
-    case MovedHouseOption.YesAndNotLivingThere => Valid
 
     case MovedHouseOption.MovedFromUk => Valid
     case MovedHouseOption.MovedFromAbroad => Valid

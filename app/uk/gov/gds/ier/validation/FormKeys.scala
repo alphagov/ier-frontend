@@ -168,6 +168,7 @@ trait FormKeys {
 
     lazy val forceToRedirect = prependNamespace(Key("forceToRedirect"))
 
+    lazy val hasAddress =  prependNamespace(Key("hasAddress"))
     lazy val hasUkAddress =  prependNamespace(Key("hasUkAddress"))
   }
 

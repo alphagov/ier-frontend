@@ -1,10 +1,9 @@
 package uk.gov.gds.ier.transaction.crown.address
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import controllers.step.crown.routes.{AddressController, AddressManualController}
-import uk.gov.gds.ier.model.{PossibleAddress, Addresses}
+import uk.gov.gds.ier.model.{HasAddressOption, PossibleAddress, Addresses}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.service.WithAddressService
 
@@ -12,9 +11,9 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
     self:WithAddressService
     with WithSerialiser =>
 
-  private def pageTitle(hasUkAddress: Option[String]): String = {
-    hasUkAddress match {
-      case Some(hasUkAddress) if (!hasUkAddress.isEmpty && hasUkAddress.toBoolean) => "What is your UK address?"
+  private def pageTitle(hasAddress: Option[String]): String = {
+    HasAddressOption.parse(hasAddress.getOrElse("")) match{
+      case HasAddressOption.YesAndLivingThere | HasAddressOption.YesAndNotLivingThere => "What is your UK address?"
       case _ => "What was your last UK address?"
     }
   }
@@ -29,13 +28,13 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
       possibleJsonList: Field,
       possiblePostcode: Field,
       hasAddresses: Boolean,
-      hasUkAddress: Field
+      hasAddress: Field
   ) extends MustacheData
 
   val mustache = MustacheTemplate("crown/addressSelect") { (form, postUrl) =>
     implicit val progressForm = form
   
-    val title = pageTitle(form(keys.hasUkAddress).value)
+    val title = pageTitle(form(keys.hasAddress).value)
 
     val selectedUprn = form(keys.address.uprn).value
     val postcode = form(keys.address.postcode).value.orElse {
@@ -114,9 +113,9 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
         value = form(keys.address.postcode).value.getOrElse("")
       ),
       hasAddresses = hasAddresses,
-      hasUkAddress = HiddenField(
-        key = keys.hasUkAddress,
-        value = form(keys.hasUkAddress).value.getOrElse("")
+      hasAddress = HiddenField(
+        key = keys.hasAddress,
+        value = form(keys.hasAddress).value.getOrElse("")
       )
     )
   }

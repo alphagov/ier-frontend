@@ -4,7 +4,7 @@ import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 import org.specs2.mock.Mockito
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.model.{PartialAddress, LastUkAddress}
+import uk.gov.gds.ier.model.{LastAddress, PartialAddress}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.test.TestHelpers
@@ -40,7 +40,7 @@ class AddressStepMockedTests extends FlatSpec with TestHelpers with Matchers wit
 
     when (mockedAddressService.isScotland(postcode)).thenReturn(true)
     val currentState = completeCrownApplication.copy(
-      address = Some(LastUkAddress(None, Some(PartialAddress(None, None, postcode, None, None)))))
+      address = Some(LastAddress(None, Some(PartialAddress(None, None, postcode, None, None)))))
 
     val transferedState = addressStep.nextStep(currentState)
     transferedState should be (GoTo(ExitController.scotland))

@@ -1,8 +1,7 @@
 package uk.gov.gds.ier.transaction.crown.confirmation
 
 import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.model.WaysToVoteType
-import uk.gov.gds.ier.model.MovedHouseOption
+import uk.gov.gds.ier.model.{HasAddressOption, WaysToVoteType, MovedHouseOption}
 import controllers.step.crown._
 import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
 import uk.gov.gds.ier.validation.{ErrorTransformForm, Key}
@@ -236,15 +235,12 @@ trait ConfirmationMustache extends StepMustache with WithAddressService {
     }
 
     def address = {
+      val hasAddressValue = form(keys.address.hasAddress).value.getOrElse("")
 
-      val addressTitle = form(keys.address.hasUkAddress).value match {
-        case Some(hasUkAddress) if (hasUkAddress.toBoolean) => "Your UK address"
-        case _ => "Your last UK address"
-      }
-
-      val addressChangeName = form(keys.address.hasUkAddress).value match {
-        case Some(hasUkAddress) if (hasUkAddress.toBoolean) => "your UK address"
-        case _ => "your last UK address"
+      val (addressTitle, addressChangeName) = HasAddressOption.parse(hasAddressValue) match {
+        case HasAddressOption.YesAndLivingThere | HasAddressOption.YesAndNotLivingThere =>
+          ("Your UK address", "your UK address")
+        case _ => ("Your last UK address", "your last UK address")
       }
 
       Some(ConfirmationQuestion(
@@ -262,12 +258,14 @@ trait ConfirmationMustache extends StepMustache with WithAddressService {
     }
 
     def previousAddress = {
-      val hasCurrentUkAddress =
-        form(keys.address.hasUkAddress).value match {
-          case Some(hasUkAddress) if (hasUkAddress.toBoolean) => true
+      val hasCurrentAddress = form(keys.address.hasAddress).value.exists{
+        HasAddressOption.parse(_) match {
+          case HasAddressOption.YesAndLivingThere | HasAddressOption.YesAndNotLivingThere => true
           case _ => false
         }
-      if (hasCurrentUkAddress) {
+      }
+
+      if (hasCurrentAddress) {
         Some(ConfirmationQuestion(
           title = "UK previous registration address",
           editLink = routes.PreviousAddressFirstController.editGet.url,

@@ -5,6 +5,7 @@ import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.libs.json.{JsNull, Json}
+import uk.gov.gds.ier.model.HasAddressOption
 
 class AddressFirstFormTests
   extends FlatSpec
@@ -19,62 +20,57 @@ class AddressFirstFormTests
   val serialiser = jsonSerialiser
 
   it should "error out on empty input" in {
-    val js = JsNull
-    addressFirstForm.bind(js).fold(
-      hasErrors => {
-        hasErrors.errorMessages("address.hasUkAddress") should be(Seq("Please answer this question"))
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errors.size should be(2)
-      },
-      success => fail("Should have errored out.")
-    )
+    assertUnsuccessfulBinding(
+      formData = Map.empty,
+      expectedErrorMessage = "Please answer this question")
   }
 
   it should "error out on missing values in input" in {
-    val js = Json.toJson(
-      Map(
-        "address.hasUkAddress" -> ""
-      )
+    assertUnsuccessfulBinding(
+      formData = Map("address.hasAddress" -> ""),
+      expectedErrorMessage = "Please answer this question")
+  }
+
+  it should "successfully bind when user has an address (yes and living there)" in {
+    assertSuccessfullBinding(
+      formData = Map("address.hasAddress" -> "yes-living-there"),
+      expected = HasAddressOption.YesAndLivingThere)
+  }
+
+  it should "successfully bind when user has an address (yes and not living there)" in {
+    assertSuccessfullBinding(
+      formData = Map("address.hasAddress" -> "yes-not-living-there"),
+      expected = HasAddressOption.YesAndNotLivingThere)
+  }
+
+  it should "successfully bind when user does not has previous address" in {
+    assertSuccessfullBinding(
+      formData = Map("address.hasAddress" -> "no"),
+      expected = HasAddressOption.No)
+  }
+
+  def assertSuccessfullBinding(formData:Map[String,String], expected:HasAddressOption) {
+    addressFirstForm.bind(Json.toJson(formData)).fold(
+      hasErrors => {
+        fail("Binding failed with " + hasErrors.errorsAsTextAll)
+      },
+      success => {
+        success.address.flatMap(_.hasAddress) should be(Some(expected))
+      }
     )
+  }
+
+  def assertUnsuccessfulBinding(formData:Map[String,String], expectedErrorMessage:String) {
+    val js = if(formData.isEmpty) JsNull else Json.toJson(formData)
+
     addressFirstForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("address.hasUkAddress") should be(Seq("Please answer this question"))
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errors.size should be(2)
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "address.hasAddress" -> Seq(expectedErrorMessage)
+        ))
       },
       success => fail("Should have errored out.")
     )
   }
 
-  it should "successfully bind when user has previous address" in {
-    val js = Json.toJson(
-      Map(
-        "address.hasUkAddress" -> "true"
-      )
-    )
-    addressFirstForm.bind(js).fold(
-      hasErrors => {
-        fail("Binding failed with " + hasErrors.errorsAsTextAll)
-      },
-      success => {
-        success.address.flatMap(_.hasUkAddress) should be(Some(true))
-      }
-    )
-  }
-
-  it should "successfully bind when user does not has previous address" in {
-    val js = Json.toJson(
-      Map(
-        "address.hasUkAddress" -> "false"
-      )
-    )
-    addressFirstForm.bind(js).fold(
-      hasErrors => {
-        fail("Binding failed with " + hasErrors.errorsAsTextAll)
-      },
-      success => {
-        success.address.flatMap(_.hasUkAddress) should be(Some(false))
-      }
-    )
-  }
 }

@@ -3,9 +3,6 @@ package uk.gov.gds.ier.transaction.crown.address
 import controllers.step.crown.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.validation._
-import play.api.mvc.Call
-import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.service.AddressService
@@ -13,6 +10,7 @@ import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{Routes, CrownStep}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.assets.RemoteAssets
+import controllers.step.crown.AddressController._
 
 class AddressFirstStep @Inject ()(
     val serialiser: JsonSerialiser,
@@ -34,7 +32,16 @@ class AddressFirstStep @Inject ()(
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    controllers.step.crown.AddressController.addressStep
+    currentState.address.map(_.address) match {
+      case Some(address) =>
+        if (address.exists(_.postcode.isEmpty)) { addressStep }
+        else if (address.exists(_.manualAddress.isDefined)) { controllers.step.crown.AddressManualController.addressManualStep }
+        else if (address.exists(_.uprn.isDefined)) { controllers.step.crown.AddressSelectController.addressSelectStep }
+        else addressStep
+      case _ => addressStep
+    }
   }
+
+  override val onSuccess = GoToNextStep()
 }
 
