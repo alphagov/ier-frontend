@@ -68,7 +68,6 @@ class ConfirmationFormTests
   }
 
   it should "bind successfully if the previous address postcode was Northern Ireland" in {
-    println ("enter test")
 	    confirmationForm.fillAndValidate(completeOrdinaryApplication.copy(
 	      previousAddress = Some(PartialPreviousAddress(
 	        movedRecently = Some(MovedHouseOption.MovedFromUk),
