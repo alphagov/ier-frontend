@@ -11,7 +11,13 @@ trait StepMustache extends MustacheModel {
 
   def Mustache = org.jba.Mustache
 
-  case class TemplateModel(
+  abstract class Mustachio(mustachePath:String) {
+    def render():Html = {
+      Mustache.render(mustachePath, this)
+    }
+  }
+
+  case class GovukTemplate(
       topOfPage: String = "",
       htmlLang: String = "",
       pageTitle: String = "",
@@ -27,17 +33,17 @@ trait StepMustache extends MustacheModel {
       footerTop: String = "",
       footerSupportLinks: Html = Html.empty,
       bodyEnd: Html = Html.empty
-  )
+  ) extends Mustachio("govuk_template_mustache/views/layouts/govuk_template")
 
-  case class ContentModel(
+  case class ContentTemplate(
       content: Html,
       related: Html,
       contentClasses: String
-  )
+  ) extends Mustachio("template/content")
 
-  def contentTemplate(model: ContentModel) = {
-    Mustache.render("template/content", model)
-  }
+  case class CookieMessage() extends Mustachio("template/cookieMessage")
+
+  case class FooterLinks() extends Mustachio("template/footerLinks")
 
   def MainStepTemplate(
       content:Html,
@@ -49,21 +55,15 @@ trait StepMustache extends MustacheModel {
       contentClasses:Option[String] = None,
       lang: Lang = Lang("en")
   ) = {
-    Mustache.render (
-      "govuk_template_mustache/views/layouts/govuk_template",
-      TemplateModel (
-        pageTitle = s"$title - GOV.UK",
-        content = Mustache.render(
-          "template/content",
-          ContentModel(content, related, contentClasses.getOrElse(""))
-        ),
-        bodyEnd = scripts,
-        head = header,
-        insideHeader = insideHeader,
-        footerSupportLinks = Mustache.render("template/footerLinks", null),
-        cookieMessage = Mustache.render("template/cookieMessage", null),
-        htmlLang = lang.language
-      )
-    )
+    GovukTemplate (
+      pageTitle = s"$title - GOV.UK",
+      content = ContentTemplate(content, related, contentClasses.getOrElse("")).render(),
+      bodyEnd = scripts,
+      head = header,
+      insideHeader = insideHeader,
+      footerSupportLinks = FooterLinks().render(),
+      cookieMessage = CookieMessage().render(),
+      htmlLang = lang.language
+    ).render()
   }
 }
