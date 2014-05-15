@@ -97,7 +97,7 @@ class CrownApplicationTests
         county = Some("Fakesbury"),
         postcode = "XX12 34XX",
         uprn = Some("12345"),
-        gssCode = Some("E09000007") // unrealistic expectation, manual address does not have gssCode!
+        gssCode = Some("E09000007")
       )),
       previousAddress = Some(Address(
         lineOne = Some("Fake House 2"),
@@ -106,7 +106,8 @@ class CrownApplicationTests
         city = Some("Fakerton 2"),
         county = Some("Fakesbury 2"),
         postcode = "SW12 34AB",
-        uprn = Some("12345")
+        uprn = Some("12345"),
+        gssCode = Some("E09000339")
       )),
       nationality = Some(IsoNationality(
         countryIsos = List("GB", "IE"),
@@ -218,20 +219,10 @@ class CrownApplicationTests
       "post" -> "true",
       "email" -> "test@email.com",
       "phone" -> "01234 5678910",
-      "gssCode" -> "E09000007"
-    )
-
-    val notExpected = List(
-      "nodobReason",
-      "agerange",
-      "nonino",
-      "nonat"
+      "gssCode" -> "E09000007",
+      "pgssCode" -> "E09000339"
     )
 
     apiMap should matchMap(expected)
-
-    for(key <- notExpected) {
-      apiMap.keys should not contain(key)
-    }
   }
 }
