@@ -2,3 +2,54 @@ name_firstName=First Name
 name_error_enterFirstName=Please enter your first name
 name_error_enterLastName=Please enter your last name
 previousName_error_pleaseAnswer=Please answer this question
+
+
+# ordinary: country of residence
+
+
+# ordinary: nationality
+
+
+# ordinary: date of birth
+
+
+# ordinary: name
+
+
+# ordinary: nino
+
+
+# ordinary: address
+
+
+# ordinary: address select
+
+
+#ordinary: manual address
+
+
+# ordinary: other address
+
+
+# ordinary: previous address
+
+
+# ordinary: previous address postcode
+
+
+# ordinary: previous address select
+
+
+# ordinary: previous address manual
+
+
+# ordinary: open register
+
+
+# ordinary: postal vote
+
+
+# ordinary: contact
+
+
+# ordinary: confirmation
