@@ -65,13 +65,13 @@ class ConfirmationStep @Inject() (
           val refNum = ierApi.generateForcesReferenceNumber(validApplication)
           val remoteClientIP = request.headers.get("X-Real-IP")
 
-          ierApi.submitForcesApplication(remoteClientIP, validApplication, Some(refNum))
+          val response = ierApi.submitForcesApplication(remoteClientIP, validApplication, Some(refNum))
 
           logSession()
 
           Redirect(CompleteController.complete()).flashing(
             "refNum" -> refNum,
-            "postcode" -> "SW1A 1AA"
+            "localAuthority" -> serialiser.toJson(response.localAuthority)
           )
         }
       )
