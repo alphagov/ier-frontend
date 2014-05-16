@@ -3,12 +3,12 @@ name_error_enterFirstName=Please enter your first name
 name_error_enterLastName=Please enter your last name
 previousName_error_pleaseAnswer=Please answer this question
 
+# general
+
 step_continue=Continue
 step_question=Question
 
-# general
 
-continue=Continue
 
 # ordinary: country of residence
 ordinary_country_heading=Where do you live?

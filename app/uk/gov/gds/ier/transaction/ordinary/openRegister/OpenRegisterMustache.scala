@@ -13,7 +13,7 @@ trait OpenRegisterMustache extends StepTemplate[InprogressOrdinary] {
       openRegister: Field
   ) extends MustacheData
 
-  val mustache = MustacheTemplate("ordinary/openRegister") {
+  val mustache = MultilingualTemplate("ordinary/openRegister") { implicit lang =>
     (form, postEndpoint) =>
 
     implicit val progressForm = form
