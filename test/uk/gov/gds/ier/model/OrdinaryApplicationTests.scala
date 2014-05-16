@@ -173,7 +173,8 @@ class OrdinaryApplicationTests
         city = Some("Fakerton"),
         county = Some("Fakesbury"),
         postcode = "XX12 34XX",
-        uprn = Some("12345")
+        uprn = Some("12345"),
+        gssCode = Some("E09000007") // unrealistic expectation, manual address does not have gssCode!
       )),
       previousAddress = Some(Address(
         lineOne = Some("The (fake) Cottage"),
@@ -182,7 +183,8 @@ class OrdinaryApplicationTests
         city = Some("Fakererly"),
         county = Some("Fakesborough"),
         postcode = "XX34 21XX",
-        uprn = Some("54321")
+        uprn = Some("54321"),
+        gssCode = Some("E09000032") // unrealistic expectation, manual address does not have gssCode!
       )),
       otherAddress = Some(OtherAddress(
         otherAddressOption = OtherAddress.NoOtherAddress
@@ -207,8 +209,6 @@ class OrdinaryApplicationTests
         ))
       )),
       referenceNumber = Some("12345678910"),
-      ip = Some("256.256.256.256"),
-      authorityGssCode = Some("E09000007"),
-      previousAuthorityGssCode = Some("E09000032")
+      ip = Some("256.256.256.256")
     )
 }

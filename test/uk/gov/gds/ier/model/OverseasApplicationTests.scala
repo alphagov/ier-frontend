@@ -1,7 +1,5 @@
 package uk.gov.gds.ier.model
 
-import uk.gov.gds.common.model.LocalAuthority
-import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.test.{TestHelpers, CustomMatchers}
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.service.apiservice.OverseasApplication
@@ -290,7 +288,8 @@ class OverseasApplicationTests
         city = Some("Fakerton"),
         county = Some("Fakesbury"),
         postcode = "XX12 34XX",
-        uprn = Some("12345")
+        uprn = Some("12345"),
+        gssCode = Some("E09000007") // unrealistic expectation, manual address does not have gssCode!
       )),
       openRegisterOptin = Some(true),
       postalOrProxyVote = None,
@@ -307,8 +306,7 @@ class OverseasApplicationTests
         ))
       )),
       referenceNumber = Some("12345678910"),
-      ip = Some("256.256.256.256"),
-      authorityGssCode = Some("E09000007")
+      ip = Some("256.256.256.256")
     )
 
 }

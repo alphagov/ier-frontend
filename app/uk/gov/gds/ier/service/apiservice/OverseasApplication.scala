@@ -19,11 +19,11 @@ case class OverseasApplication(
     passport: Option[Passport],
     contact: Option[Contact],
     referenceNumber: Option[String],
-    authorityGssCode: Option[String],
     ip: Option[String])
   extends CompleteApplication {
 
   def toApiMap = {
+    val authorityGssCodeSource = lastUkAddress.orElse(parentsAddress)
     val apiMap = Map.empty ++
       overseasName.map(_.toApiMap("p")).getOrElse(Map.empty) ++
       lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
@@ -41,7 +41,7 @@ case class OverseasApplication(
       passport.map(_.toApiMap).getOrElse(Map.empty) ++
       contact.map(_.toApiMap).getOrElse(Map.empty) ++
       referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
-      authorityGssCode.map(value => Map("gssCode" -> value)).getOrElse(Map.empty) ++
+      authorityGssCodeSource.flatMap(_.gssCode.map(gssCode => Map("gssCode" -> gssCode))).getOrElse(Map.empty) ++
       ip.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty) ++
       Map("applicationType" -> "overseas")
 

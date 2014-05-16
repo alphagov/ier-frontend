@@ -25,7 +25,8 @@ class ForcesApplicationTests
         city = Some("Fakerton"),
         county = Some("Fakesbury"),
         postcode = "XX12 34XX",
-        uprn = Some("12345")
+        uprn = Some("12345"),
+        gssCode = Some("E09000007") // unrealistic expectation, manual address does not have gssCode!
       )),
       previousAddress = Some(Address(
         lineOne = Some("The (fake) Cottage"),
@@ -100,8 +101,7 @@ class ForcesApplicationTests
         ))
       )),
       referenceNumber = Some("12345678910"),
-      ip = Some("256.256.256.256"),
-      authorityGssCode = Some("E09000007")
+      ip = Some("256.256.256.256")
     )
 
     val apiMap = application.toApiMap

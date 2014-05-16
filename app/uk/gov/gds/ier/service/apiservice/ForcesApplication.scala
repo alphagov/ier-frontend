@@ -31,7 +31,6 @@ case class ForcesApplication(
     postalOrProxyVote: Option[PostalOrProxyVote],
     contact: Option[Contact],
     referenceNumber: Option[String],
-    authorityGssCode: Option[String],
     ip: Option[String])
   extends CompleteApplication {
 
@@ -53,7 +52,7 @@ case class ForcesApplication(
       postalOrProxyVote.map(_.toApiMap).getOrElse(Map.empty) ++
       contact.map(_.toApiMap).getOrElse(Map.empty) ++
       referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
-      authorityGssCode.map(value => Map("gssCode" -> value)).getOrElse(Map.empty) ++
+      address.flatMap(_.gssCode.map(gssCode => Map("gssCode" -> gssCode))).getOrElse(Map.empty) ++
       ip.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty) ++
       Map("applicationType" -> "forces")
 
