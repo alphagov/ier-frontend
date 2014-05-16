@@ -129,8 +129,8 @@ class CountryFormTests
     countryForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("country.residence") should be(Seq("This is not a valid country"))
-        hasErrors.globalErrorMessages should be(Seq("This is not a valid country"))
+        hasErrors.errorMessages("country.residence") should be(Seq("ordinary_country_error_notValidCountry"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_country_error_notValidCountry"))
       },
       success => fail("Should have errored out")
     )
@@ -145,8 +145,8 @@ class CountryFormTests
     countryForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("country.origin") should be(Seq("Please answer this question"))
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+        hasErrors.errorMessages("country.origin") should be(Seq("ordinary_country_error_pleaseAnswer"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_country_error_pleaseAnswer"))
       },
       success => fail("Should have errored out")
     )
@@ -157,8 +157,8 @@ class CountryFormTests
     countryForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("country.residence") should be(Seq("Please answer this question"))
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+        hasErrors.errorMessages("country.residence") should be(Seq("ordinary_country_error_pleaseAnswer"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_country_error_pleaseAnswer"))
       },
       success => fail("Should have errored out")
     )
@@ -174,8 +174,8 @@ class CountryFormTests
     countryForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("country.residence") should be(Seq("Please answer this question"))
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+        hasErrors.errorMessages("country.residence") should be(Seq("ordinary_country_error_pleaseAnswer"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_country_error_pleaseAnswer"))
       },
       success => fail("Should have errored out")
     )

@@ -3,9 +3,21 @@ name_error_enterFirstName=Please enter your first name
 name_error_enterLastName=Please enter your last name
 previousName_error_pleaseAnswer=Please answer this question
 
+step_continue=Continue
+step_question=Question
 
 # ordinary: country of residence
-
+ordinary_country_heading=Where do you live?
+ordinary_country_or=or
+ordinary_country_england=England
+ordinary_country_scotland=Scotland
+ordinary_country_wales=Wales
+ordinary_country_northernIreland=Northern Ireland
+ordinary_country_channelIslandOrOIsleOfMan=Channel Islands or Isle of Man
+ordinary_country_britishAbroad_option=I am a British citizen living abroad
+ordinary_country_britishAbroad_heading=Where did you live before you moved abroad?
+ordinary_country_error_pleaseAnswer=Please answer this question
+ordinary_country_error_notValidCountry=This is not a valid country
 
 # ordinary: nationality
 
@@ -53,3 +65,4 @@ previousName_error_pleaseAnswer=Please answer this question
 
 
 # ordinary: confirmation
+
