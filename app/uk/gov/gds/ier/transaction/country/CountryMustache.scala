@@ -1,7 +1,5 @@
 package uk.gov.gds.ier.transaction.country
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.model.{Country}
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
@@ -25,18 +23,6 @@ trait CountryMustache extends StepTemplate[InprogressOrdinary] {
 
   val mustache = MustacheTemplate("ordinary/country") { (form, post) =>
     implicit val progressForm = form
-    val globalErrors = form.globalErrors
-    def makeCountry(country:String) = {
-      val isChecked = form(keys.country.residence).value match {
-        case Some(`country`) => "checked=\"checked\""
-        case _ => ""
-      }
-      Field(
-        id = keys.country.residence.asId(country),
-        name = keys.country.residence.key,
-        attributes = isChecked
-      )
-    }
 
     val countriesFieldSet = FieldSet(
       if (form(keys.country.residence).hasErrors) "invalid" else ""
@@ -44,9 +30,10 @@ trait CountryMustache extends StepTemplate[InprogressOrdinary] {
 
     CountryModel(
       question = Question(
-        title = "Where do you live?",
+        title = Messages("ordinary_country_heading"),
+        number = "1 of 11",
         postUrl = post.url,
-        errorMessages = globalErrors.map(_.message)
+        errorMessages = Messages.translatedGlobalErrors(form)
       ),
       countries = countriesFieldSet,
       england = RadioField(keys.country.residence, "England"),

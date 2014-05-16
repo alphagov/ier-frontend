@@ -13,7 +13,7 @@ trait CountryForms extends CountryConstraints {
     with ErrorMessages =>
   
   lazy val countryMapping = mapping(
-    keys.residence.key -> optional(text).verifying("Please answer this question", _.isDefined),
+    keys.residence.key -> optional(text).verifying("ordinary_country_error_pleaseAnswer", _.isDefined),
     keys.origin.key -> optional(text)
   ) {
     case (Some("Abroad"), origin) => Country(origin.getOrElse(""), true)
