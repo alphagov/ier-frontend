@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.ordinary.name
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
 import uk.gov.gds.ier.model.Name
 import uk.gov.gds.ier.model.PreviousName
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
@@ -20,6 +20,7 @@ class NameMustacheTest
   with ErrorMessages
   with FormKeys
   with TestHelpers
+  with WithMockRemoteAssets
   with NameMustache {
 
   it should "empty progress form should produce empty Model" in {

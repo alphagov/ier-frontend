@@ -6,7 +6,7 @@ import org.scalatest.{Matchers, FlatSpec}
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
 import uk.gov.gds.ier.mustache.StepMustache
 import org.scalatest.mock.MockitoSugar
 import uk.gov.gds.ier.service.{AddressService, WithAddressService}
@@ -19,6 +19,7 @@ class AddressSelectTemplateTest
   with MockitoSugar
   with WithSerialiser
   with WithAddressService
+  with WithMockRemoteAssets
   with TestHelpers {
 
   val addressService = mock[AddressService]
@@ -110,7 +111,7 @@ class AddressSelectTemplateTest
     }
   }
 
-  
+
   it should "should display error message if no addresses provided" in {
     running(FakeApplication()) {
       val data = new SelectModel(
@@ -137,7 +138,7 @@ class AddressSelectTemplateTest
       wrapper.html() should include(
         "Sorry - we couldn't find any addresses for that postcode"
       )
-      
+
       doc.select("select").size should be(0)
     }
   }

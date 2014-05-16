@@ -12,11 +12,13 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{CrownStep, Routes}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.model.{WaysToVoteType, WaysToVote}
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class JobStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService)
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets)
   extends CrownStep
   with JobForms
   with JobMustache {

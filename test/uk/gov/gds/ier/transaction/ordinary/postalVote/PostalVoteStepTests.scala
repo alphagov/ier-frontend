@@ -8,6 +8,7 @@ import uk.gov.gds.ier.model.{PostalVote,PostalVoteDeliveryMethod}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class PostalVoteStepTests extends FlatSpec with TestHelpers with Matchers with Mockito {
 
@@ -15,9 +16,14 @@ class PostalVoteStepTests extends FlatSpec with TestHelpers with Matchers with M
     val mockedJsonSerialiser = mock[JsonSerialiser]
     val mockedConfig = mock[Config]
     val mockedEncryptionService = mock[EncryptionService]
+    val mockedRemoteAssets = mock[RemoteAssets]
 
-    val postalVoteStep = new PostalVoteStep(mockedJsonSerialiser, mockedConfig,
-        mockedEncryptionService)
+    val postalVoteStep = new PostalVoteStep(
+      mockedJsonSerialiser,
+      mockedConfig,
+      mockedEncryptionService,
+      mockedRemoteAssets
+    )
 
     val currentState = completeOrdinaryApplication.copy(postalVote = Some(PostalVote(
         postalVoteOption = Some(false), deliveryMethod =

@@ -6,11 +6,13 @@ import org.jsoup.Jsoup
 import play.api.test.Helpers._
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.ordinary.postalVote.PostalVoteMustache
+import uk.gov.gds.ier.test.WithMockRemoteAssets
 
 class PostalVoteTemplateTest
   extends FlatSpec
   with StepMustache
   with PostalVoteMustache
+  with WithMockRemoteAssets
   with Matchers {
 
   it should "properly render all properties from the model" in {
@@ -62,17 +64,17 @@ class PostalVoteTemplateTest
       val postCheckboxNoInput = doc.select("input[id=postCheckboxNoId]").first()
       postCheckboxNoInput.attr("id") should be("postCheckboxNoId")
       postCheckboxNoInput.attr("name") should be("postCheckboxNoName")
-      
+
       val deliveryByEmailInput = doc.select("input[id=deliveryByEmailId]").first()
       deliveryByEmailInput.attr("id") should be("deliveryByEmailId")
       deliveryByEmailInput.attr("name") should be("deliveryByEmailName")
       deliveryByEmailInput.attr("value") should include("deliveryByEmailValue")
       deliveryByEmailInput.attr("foo") should include("foo")
-      
+
       val deliveryByPostInput = doc.select("input[id=deliveryByPostId]").first()
       deliveryByPostInput.attr("id") should be("deliveryByPostId")
       deliveryByPostInput.attr("name") should be("deliveryByPostName")
-      
+
       val emailFieldInput = doc.select("input[id=emailFieldId]").first()
       emailFieldInput.attr("id") should be("emailFieldId")
       emailFieldInput.attr("name") should be("emailFieldName")

@@ -13,15 +13,20 @@ import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.mustache.ErrorPageMustache
 import uk.gov.gds.ier.service.apiservice.IerApiService
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.assets.RemoteAssets
+import uk.gov.gds.ier.guice.WithRemoteAssets
 
-class ConfirmationStep @Inject() (val encryptionService: EncryptionService,
-                                  val config: Config,
-                                  val serialiser: JsonSerialiser,
-                                  ierApi: IerApiService)
-  extends ConfirmationStepController[InprogressOverseas]
+class ConfirmationStep @Inject() (
+    val encryptionService: EncryptionService,
+    val config: Config,
+    val serialiser: JsonSerialiser,
+    ierApi: IerApiService,
+    val remoteAssets: RemoteAssets
+) extends ConfirmationStepController[InprogressOverseas]
   with ConfirmationForms
   with ErrorPageMustache
-  with ConfirmationMustache {
+  with ConfirmationMustache
+  with WithRemoteAssets {
 
   def factoryOfT() = InprogressOverseas()
 

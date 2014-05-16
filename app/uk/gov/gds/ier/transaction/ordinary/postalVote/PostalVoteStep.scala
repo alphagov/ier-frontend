@@ -16,11 +16,13 @@ import uk.gov.gds.ier.model.PostalVote
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class PostalVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets
 ) extends OrdinaryStep
   with PostalVoteForms
   with PostalVoteMustache {

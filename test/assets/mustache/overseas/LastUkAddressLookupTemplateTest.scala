@@ -6,7 +6,7 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.overseas.lastUkAddress.LastUkAddressLookupMustache
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
 import uk.gov.gds.ier.mustache.StepMustache
 
 class LastUkAddressLookupTemplateTest
@@ -15,6 +15,7 @@ class LastUkAddressLookupTemplateTest
   with LastUkAddressLookupMustache
   with Matchers
   with WithSerialiser
+  with WithMockRemoteAssets
   with TestHelpers {
 
   val serialiser = jsonSerialiser
@@ -41,7 +42,7 @@ class LastUkAddressLookupTemplateTest
 
       val divWrapper = fieldset.select("div").first()
       divWrapper.attr("class") should include("postcodeClasses")
-      
+
       val input = divWrapper.select("input").first()
       input.attr("id") should be("postcodeId")
       input.attr("name") should be("postcodeName")

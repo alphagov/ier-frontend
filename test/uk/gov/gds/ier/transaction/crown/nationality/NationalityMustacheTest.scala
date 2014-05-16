@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.crown.nationality
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
 import scala.Some
 import controllers.step.crown.routes._
 import uk.gov.gds.ier.model.{PartialNationality}
@@ -15,6 +15,7 @@ class NationalityMustacheTest
   with ErrorMessages
   with FormKeys
   with TestHelpers
+  with WithMockRemoteAssets
   with NationalityMustache {
 
   it should "empty progress form should produce empty Model" in {

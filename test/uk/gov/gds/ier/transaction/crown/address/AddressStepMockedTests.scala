@@ -12,6 +12,7 @@ import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.GoTo
 import controllers.routes.ExitController
 import org.mockito.Mockito._
+import uk.gov.gds.ier.assets.RemoteAssets
 
 /*
  * This test mock the AddressService.
@@ -25,9 +26,15 @@ class AddressStepMockedTests extends FlatSpec with TestHelpers with Matchers wit
     val mockedConfig = mock[Config]
     val mockedEncryptionService = mock[EncryptionService]
     val mockedAddressService = mock[AddressService]
+    val mockedRemoteAssets = mock[RemoteAssets]
 
-    val addressStep = new AddressStep(mockedJsonSerialiser, mockedConfig,
-        mockedEncryptionService, mockedAddressService)
+    val addressStep = new AddressStep(
+      mockedJsonSerialiser,
+      mockedConfig,
+      mockedEncryptionService,
+      mockedAddressService,
+      mockedRemoteAssets
+    )
 
     val postcode = "EH1 1AA"
 

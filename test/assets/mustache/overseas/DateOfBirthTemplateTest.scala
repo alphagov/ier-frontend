@@ -6,11 +6,13 @@ import org.jsoup.Jsoup
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.overseas.dateOfBirth.DateOfBirthMustache
 import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.test.WithMockRemoteAssets
 
 class DateOfBirthTemplateTest
   extends FlatSpec
   with StepMustache
   with DateOfBirthMustache
+  with WithMockRemoteAssets
   with Matchers {
 
   it should "properly render all properties from the model" in {
@@ -51,7 +53,7 @@ class DateOfBirthTemplateTest
       dayInput.attr("name") should be("dayName")
       dayInput.attr("value") should be("12")
       dayInput.attr("class") should include("dayClass")
-      
+
       doc.select("label[for=dayId]").first().attr("for") should be("dayId")
 
       val monthInput = doc.select("input[id=monthId]").first()
@@ -59,7 +61,7 @@ class DateOfBirthTemplateTest
       monthInput.attr("name") should be("monthName")
       monthInput.attr("value") should be("12")
       monthInput.attr("class") should include("monthClass")
-      
+
       doc.select("label[for=yearId]").first().attr("for") should be("yearId")
 
       val yearInput = doc.select("input[id=yearId]").first()

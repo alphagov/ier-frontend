@@ -22,6 +22,7 @@ function checkSubmoduleExists() {
 
 checkSubmoduleExists "https://github.com/alphagov/govuk_template_play.git" "app/assets/govuk_template_play"
 checkSubmoduleExists "https://github.com/alphagov/govuk_frontend_toolkit.git" "app/assets/govuk_frontend_toolkit"
+checkSubmoduleExists "https://github.com/alphagov/govuk_template_mustache.git" "app/assets/mustache/govuk_template_mustache"
 
 echo "Updating govuk_template_play"
 git submodule init

@@ -10,6 +10,7 @@ import uk.gov.gds.ier.model.{OverseasParentName, Name, PreviousName}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class ParentNameStepTests extends FlatSpec with TestHelpers with Matchers with Mockito {
 
@@ -17,9 +18,14 @@ class ParentNameStepTests extends FlatSpec with TestHelpers with Matchers with M
     val mockedJsonSerialiser = mock[JsonSerialiser]
     val mockedConfig = mock[Config]
     val mockedEncryptionService = mock[EncryptionService]
+    val mockedRemoteAssets = mock[RemoteAssets]
 
-    val parentNameStep = new ParentNameStep(mockedJsonSerialiser, mockedConfig,
-        mockedEncryptionService)
+    val parentNameStep = new ParentNameStep(
+      mockedJsonSerialiser,
+      mockedConfig,
+      mockedEncryptionService,
+      mockedRemoteAssets
+    )
 
     val currentState = completeOverseasApplication.copy(overseasParentName = Some(OverseasParentName(
         name = None, previousName =

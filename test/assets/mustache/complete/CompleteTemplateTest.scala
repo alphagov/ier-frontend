@@ -9,17 +9,16 @@ import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.assets.RemoteAssets
 import org.specs2.mock.Mockito
+import uk.gov.gds.ier.test.WithMockRemoteAssets
 
 
 class CompleteTemplateTest
   extends FlatSpec
   with CompleteMustache
-  with WithRemoteAssets
+  with WithMockRemoteAssets
   with StepMustache
   with Matchers
   with Mockito {
-
-  val remoteAssets = mock[RemoteAssets]
 
   it should "properly render all properties from the model" in {
     running(FakeApplication()) {

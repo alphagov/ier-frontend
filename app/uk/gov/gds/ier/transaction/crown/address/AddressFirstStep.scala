@@ -12,12 +12,14 @@ import uk.gov.gds.ier.service.AddressService
 
 import uk.gov.gds.ier.step.{Routes, CrownStep}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class AddressFirstStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val addressService: AddressService)
+    val addressService: AddressService,
+    val remoteAssets: RemoteAssets)
   extends CrownStep
   with AddressFirstMustache
   with AddressFirstForms {

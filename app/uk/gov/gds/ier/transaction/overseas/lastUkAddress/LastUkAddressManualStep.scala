@@ -14,12 +14,14 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.form.OverseasFormImplicits
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class LastUkAddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService: EncryptionService)
-  extends OverseaStep
+    val encryptionService: EncryptionService,
+    val remoteAssets: RemoteAssets
+) extends OverseaStep
   with LastUkAddressManualMustache
   with LastUkAddressForms
   with OverseasFormImplicits {

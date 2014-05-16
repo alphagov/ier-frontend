@@ -4,7 +4,7 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.libs.json.Json
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
 import controllers.step.forces.routes.NinoController
 import controllers.step.forces.routes.NameController
 import scala.Some
@@ -18,6 +18,7 @@ class NinoMustacheTests
   with WithSerialiser
   with ErrorMessages
   with FormKeys
+  with WithMockRemoteAssets
   with TestHelpers {
 
   val serialiser = jsonSerialiser

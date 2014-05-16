@@ -9,13 +9,14 @@ import controllers.step.overseas.routes._
 import scala.Some
 import controllers.step.overseas.WaysToVoteController
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class OpenRegisterStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService)
-
-  extends OverseaStep
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets
+) extends OverseaStep
   with OpenRegisterForms
   with OpenRegisterMustache {
 

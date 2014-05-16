@@ -13,11 +13,13 @@ import play.api.mvc.Call
 import uk.gov.gds.ier.step.{ForcesStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class StatementStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService)
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets)
   extends ForcesStep
     with StatementForms
     with StatementMustache {

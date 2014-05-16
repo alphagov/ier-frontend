@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.crown.dateOfBirth
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
 import uk.gov.gds.ier.model._
 import scala.Some
 import play.api.mvc.Call
@@ -19,6 +19,7 @@ class DateOfBirthMustacheTest
   with ErrorMessages
   with FormKeys
   with TestHelpers
+  with WithMockRemoteAssets
   with DateOfBirthMustache {
 
   it should "empty progress form should produce empty Model" in {

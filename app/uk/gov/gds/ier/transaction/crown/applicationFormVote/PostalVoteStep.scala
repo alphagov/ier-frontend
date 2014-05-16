@@ -13,11 +13,13 @@ import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.{WaysToVoteType}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class PostalVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService)
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets)
 
   extends CrownStep
   with PostalOrProxyVoteForms

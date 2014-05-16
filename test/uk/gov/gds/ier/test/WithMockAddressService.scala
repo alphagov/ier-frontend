@@ -1,10 +1,10 @@
 package uk.gov.gds.ier.test
 import org.specs2.mock.Mockito
-import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.service.{WithAddressService, AddressService}
 import org.mockito.Mockito._
 
 trait WithMockAddressService
-  extends Mockito{
+  extends Mockito with WithAddressService {
 
   val addressService = {
 

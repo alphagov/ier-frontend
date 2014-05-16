@@ -9,13 +9,15 @@ import controllers.step.overseas.routes.{WaysToVoteController,OpenRegisterContro
 import controllers.step.overseas.{ProxyVoteController, ContactController, PostalVoteController}
 import uk.gov.gds.ier.model.{WaysToVote, WaysToVoteType}
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.assets.RemoteAssets
 
 
 class WaysToVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService)
-  extends OverseaStep
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets
+) extends OverseaStep
   with WaysToVoteForms
   with WaysToVoteMustache {
 

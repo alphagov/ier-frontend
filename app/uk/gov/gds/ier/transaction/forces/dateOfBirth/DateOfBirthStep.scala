@@ -14,11 +14,13 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{ForcesStep, Routes, GoTo}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class DateOfBirthStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService)
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets)
   extends ForcesStep
   with DateOfBirthForms
   with DateOfBirthMustache{

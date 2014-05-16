@@ -5,10 +5,10 @@ import controllers.routes.RegisterToVoteController
 import controllers.RemoteAssets
 import uk.gov.gds.ier.guice.WithRemoteAssets
 
-trait GovukMustache {
+trait GovukMustache extends StepMustache {
   self: WithRemoteAssets =>
 
-  object Govuk extends StepMustache {
+  object Govuk {
 
     case class Stylesheets(mainstream:String,
                            print:String,
@@ -53,7 +53,7 @@ trait GovukMustache {
     }
   }
 
-  object RegisterToVote extends StepMustache {
+  object RegisterToVote {
     case class GovukUrls(startUrl:String,
                          registerToVoteUrl:String,
                          registerArmedForcesUrl:String,

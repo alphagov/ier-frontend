@@ -6,11 +6,13 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.overseas.passport.PassportDetailsMustache
 import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.test.WithMockRemoteAssets
 
 class PassportDetailsTemplateTest
   extends FlatSpec
   with PassportDetailsMustache
   with StepMustache
+  with WithMockRemoteAssets
   with Matchers {
 
   val data = new PassportDetailsModel(
@@ -65,7 +67,7 @@ class PassportDetailsTemplateTest
 
   it should "properly render all properties from the model" in {
     running(FakeApplication()) {
-      
+
       val html = Mustache.render("overseas/passportDetails", data)
       val doc = Jsoup.parse(html.toString)
 

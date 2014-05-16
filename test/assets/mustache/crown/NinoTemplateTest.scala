@@ -6,11 +6,13 @@ import org.jsoup.Jsoup
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.crown.nino.NinoMustache
 import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.test.WithMockRemoteAssets
 
 class NinoTemplateTest
   extends FlatSpec
   with NinoMustache
   with StepMustache
+  with WithMockRemoteAssets
   with Matchers {
 
   it should "properly render all properties from the model" in {

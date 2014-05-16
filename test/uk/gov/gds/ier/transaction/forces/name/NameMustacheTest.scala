@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.forces.name
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.model.Name
 import scala.Some
@@ -12,20 +12,20 @@ import play.api.mvc.Call
 class NameMustacheTest
   extends FlatSpec
   with Matchers
+  with NameMustache
   with NameForms
   with ErrorMessages
   with FormKeys
+  with WithMockRemoteAssets
   with TestHelpers {
-
-  val nameMustache = new NameMustache {}
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = nameForm
-    val nameModel = nameMustache.mustache.data(
+    val nameModel = mustache.data(
       emptyApplicationForm,
       Call("GET", "/register-to-vote/crown/name"),
       InprogressForces()
-    ).asInstanceOf[nameMustache.NameModel]
+    ).asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/crown/name")
@@ -48,11 +48,11 @@ class NameMustacheTest
         lastName = "Smith"
       ))
     ))
-    val nameModel = nameMustache.mustache.data(
+    val nameModel = mustache.data(
       partiallyFilledApplicationForm,
       Call("GET", "/register-to-vote/crown/name"),
       InprogressForces()
-    ).asInstanceOf[nameMustache.NameModel]
+    ).asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/crown/name")
@@ -83,11 +83,11 @@ class NameMustacheTest
         ))
       ))
     ))
-    val nameModel = nameMustache.mustache.data(
+    val nameModel = mustache.data(
       partiallyFilledApplicationForm,
       Call("GET", "/register-to-vote/crown/name"),
       InprogressForces()
-    ).asInstanceOf[nameMustache.NameModel]
+    ).asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/crown/name")
@@ -110,11 +110,11 @@ class NameMustacheTest
         lastName = ""
       ))
     ))
-    val nameModel = nameMustache.mustache.data(
+    val nameModel = mustache.data(
       partiallyFilledApplicationFormWithErrors,
       Call("GET", "/register-to-vote/crown/name"),
       InprogressForces()
-    ).asInstanceOf[nameMustache.NameModel]
+    ).asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/crown/name")

@@ -12,11 +12,13 @@ import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.step.OrdinaryStep
 import controllers.step.ordinary.PreviousAddressFirstController
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class OtherAddressStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets
 ) extends OrdinaryStep
   with OtherAddressForms
   with OtherAddressMustache {

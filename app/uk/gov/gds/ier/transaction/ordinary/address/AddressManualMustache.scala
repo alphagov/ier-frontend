@@ -4,8 +4,10 @@ import controllers.step.ordinary.routes.AddressController
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.guice.WithRemoteAssets
 
 trait AddressManualMustache extends StepTemplate[InprogressOrdinary] {
+
     val title = "What is your address?"
     val questionNumber = "6 of 11"
 

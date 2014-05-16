@@ -11,11 +11,14 @@ import controllers.step.overseas.routes._
 import org.joda.time.{Months, DateTime}
 import controllers.routes.ExitController
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class DateLeftArmyStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService: EncryptionService) extends DateLeftSpecialStep {
+    val encryptionService: EncryptionService,
+    val remoteAssets: RemoteAssets
+) extends DateLeftSpecialStep {
 
   val service = "member of the armed forces"
 
@@ -30,7 +33,9 @@ class DateLeftArmyStep @Inject() (
 class DateLeftCrownStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService: EncryptionService) extends DateLeftSpecialStep {
+    val encryptionService: EncryptionService,
+    val remoteAssets: RemoteAssets
+) extends DateLeftSpecialStep {
 
   val service = "Crown Servant"
 
@@ -45,7 +50,9 @@ class DateLeftCrownStep @Inject() (
 class DateLeftCouncilStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService: EncryptionService) extends DateLeftSpecialStep {
+    val encryptionService: EncryptionService,
+    val remoteAssets: RemoteAssets
+) extends DateLeftSpecialStep {
 
  val service = "British Council employee"
 

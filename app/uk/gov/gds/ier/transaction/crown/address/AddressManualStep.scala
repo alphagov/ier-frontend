@@ -11,11 +11,13 @@ import uk.gov.gds.ier.step.{CrownStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.crown.{PreviousAddressFirstController, NationalityController}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class AddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService: EncryptionService)
+    val encryptionService: EncryptionService,
+    val remoteAssets: RemoteAssets)
   extends CrownStep
   with AddressManualMustache
   with AddressForms {

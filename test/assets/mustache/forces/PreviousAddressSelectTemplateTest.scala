@@ -5,7 +5,7 @@ import org.scalatest.{Matchers, FlatSpec}
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
 import uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressSelectMustache
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.service.{AddressService, WithAddressService}
@@ -23,6 +23,7 @@ class PreviousAddressSelectTemplateTest
   with MockitoSugar
   with WithSerialiser
   with WithAddressService
+  with WithMockRemoteAssets
   with TestHelpers  {
 
   val addressService = mock[AddressService]

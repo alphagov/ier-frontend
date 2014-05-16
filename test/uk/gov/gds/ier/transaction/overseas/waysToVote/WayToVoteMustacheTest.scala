@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.overseas.waysToVote
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
 import uk.gov.gds.ier.model._
 import scala.Some
 import uk.gov.gds.ier.model.WaysToVote
@@ -18,10 +18,8 @@ class WayToVoteMustacheTest
   with WaysToVoteMustache
   with ErrorMessages
   with FormKeys
+  with WithMockRemoteAssets
   with TestHelpers {
-
-  // tested transformer
-  val waysToVoteMustache = new WaysToVoteMustache {}
 
   it should "produce valid empty model when application is empty" in {
     val emptyApplicationForm = waysToVoteForm

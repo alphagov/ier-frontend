@@ -15,12 +15,14 @@ import uk.gov.gds.ier.service.AddressService
 
 import uk.gov.gds.ier.step.{Routes, OrdinaryStep}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class PreviousAddressFirstStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val addressService: AddressService)
+    val addressService: AddressService,
+    val remoteAssets: RemoteAssets)
   extends OrdinaryStep
   with PreviousAddressFirstMustache
   with PreviousAddressFirstForms {

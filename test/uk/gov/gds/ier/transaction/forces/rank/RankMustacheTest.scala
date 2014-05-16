@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.forces.rank
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
 import uk.gov.gds.ier.model.{Rank}
 import scala.Some
 import controllers.step.forces.routes._
@@ -15,6 +15,7 @@ class RankMustacheTest
   with ErrorMessages
   with FormKeys
   with TestHelpers
+  with WithMockRemoteAssets
   with RankMustache {
 
 

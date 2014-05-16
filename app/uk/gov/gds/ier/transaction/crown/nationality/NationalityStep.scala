@@ -13,12 +13,14 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{CrownStep, Routes, GoTo}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class NationalityStep @Inject ()(
     val serialiser: JsonSerialiser,
     val isoCountryService: IsoCountryService,
     val config: Config,
-    val encryptionService : EncryptionService)
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets)
   extends CrownStep
     with NationalityForms
     with NationalityMustache {

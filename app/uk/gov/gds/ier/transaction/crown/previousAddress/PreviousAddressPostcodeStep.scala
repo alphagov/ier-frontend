@@ -10,11 +10,13 @@ import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{CrownStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class PreviousAddressPostcodeStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
+    val remoteAssets: RemoteAssets,
     val addressService: AddressService)
   extends CrownStep
   with PreviousAddressPostcodeMustache

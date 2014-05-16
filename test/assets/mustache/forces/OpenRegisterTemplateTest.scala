@@ -6,10 +6,12 @@ import org.jsoup.Jsoup
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.forces.openRegister.OpenRegisterMustache
 import org.jba.Mustache
+import uk.gov.gds.ier.test.WithMockRemoteAssets
 
 class OpenRegisterTemplateTest
   extends FlatSpec
   with OpenRegisterMustache
+  with WithMockRemoteAssets
   with Matchers {
 
   it should "properly render all properties from the model" in {

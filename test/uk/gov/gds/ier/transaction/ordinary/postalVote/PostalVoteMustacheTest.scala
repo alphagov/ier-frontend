@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.ordinary.postalVote
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
 import scala.Some
 import controllers.step.ordinary.routes._
 import controllers.step.routes._
@@ -17,6 +17,7 @@ class PostalVoteMustacheTest
   with ErrorMessages
   with FormKeys
   with TestHelpers
+  with WithMockRemoteAssets
   with PostalVoteMustache {
 
   it should "empty progress form should produce empty Model" in {

@@ -6,10 +6,12 @@ import play.api.test.Helpers._
 import org.jsoup.Jsoup
 import uk.gov.gds.ier.transaction.forces.statement.StatementMustache
 import org.jba.Mustache
+import uk.gov.gds.ier.test.WithMockRemoteAssets
 
 class StatementTemplateTest
   extends FlatSpec
   with StatementMustache
+  with WithMockRemoteAssets
   with Matchers {
 
   val data = new StatementModel(

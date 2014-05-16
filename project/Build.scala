@@ -10,6 +10,7 @@ import org.jba.sbt.plugin.MustachePlugin
 import org.jba.sbt.plugin.MustachePlugin._
 import org.scalastyle.sbt.ScalastylePlugin
 import aether.Aether._
+import scala.Some
 
 object ApplicationBuild extends IERBuild {
 
@@ -82,10 +83,14 @@ object Sass {
 }
 
 object Mustache {
+
   val mustacheSettings = Seq(
     resolvers += Resolver.url("julienba.github.com", url("http://julienba.github.com/repo/"))(Resolver.ivyStylePatterns),
     // Mustache settings
-    mustacheEntryPoints <<= (sourceDirectory in Compile)(base => base / "assets" / "mustache" ** "*.html"),
+    mustacheEntryPoints <<= (sourceDirectory in Compile)( base => {
+      base / "assets" / "mustache" +++
+      base / "assets" / "mustache" / "govuk_template_mustache" / "views" / "layouts"
+    } ** "*.html"),
     mustacheOptions := Seq.empty[String],
     resourceGenerators in Compile <+= MustacheFileCompiler
   )
@@ -107,8 +112,10 @@ object GovukTemplatePlay extends Plugin {
   }
 
   val playSettings = Seq(
-    templateKey <<= baseDirectory(_ / "app" / "assets" / "govuk_template_play")(Seq(_)),
+    templateKey <<= baseDirectory { _ / "app" / "assets" / "mustache" / "govuk_template_mustache" }(Seq(_)),
+    templateKey <+= baseDirectory { _ / "app" / "assets" / "govuk_template_play" },
     sourceGenerators in Compile <+= (state, templateKey, sourceManaged in Compile, templatesTypes, templatesImport) map ScalaTemplates,
+    playAssetsDirectories <+= baseDirectory { _ / "app" / "assets" / "mustache" / "govuk_template_mustache" / "assets" },
     playAssetsDirectories <+= baseDirectory { _ / "app" / "assets" / "govuk_template_play" / "assets" },
     updateTemplateTask
   )

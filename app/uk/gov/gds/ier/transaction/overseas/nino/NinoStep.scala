@@ -9,11 +9,14 @@ import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import controllers.step.overseas.routes._
 import controllers.step.overseas.AddressController
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.assets.RemoteAssets
 
-class NinoStep @Inject ()(val serialiser: JsonSerialiser,
-                          val config: Config,
-                          val encryptionService : EncryptionService)
-  extends OverseaStep
+class NinoStep @Inject ()(
+    val serialiser: JsonSerialiser,
+    val config: Config,
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets
+) extends OverseaStep
   with NinoForms
   with NinoMustache {
 

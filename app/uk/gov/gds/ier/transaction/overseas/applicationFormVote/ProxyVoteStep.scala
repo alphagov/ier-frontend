@@ -11,11 +11,13 @@ import scala.Some
 import uk.gov.gds.ier.model.WaysToVoteType
 import controllers.step.overseas.ContactController
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class ProxyVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService)
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets)
 
   extends OverseaStep
   with PostalOrProxyVoteForms

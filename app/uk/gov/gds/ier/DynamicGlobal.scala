@@ -1,6 +1,6 @@
 package uk.gov.gds.ier
 
-import uk.gov.gds.guice.GuiceContainer
+import uk.gov.gds.guice.{DependencyInjectionProvider, GuiceContainer}
 import com.google.inject.{Binder, AbstractModule}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.mustache.ErrorPageMustache
@@ -10,13 +10,19 @@ import play.api._
 import play.api.mvc._
 import play.api.mvc.Results._
 import org.slf4j.MDC
+import uk.gov.gds.ier.assets.RemoteAssets
+import uk.gov.gds.ier.guice.WithRemoteAssets
 
 trait DynamicGlobal 
     extends GlobalSettings 
-    with Logging 
-    with ErrorPageMustache {
+    with Logging
+    with DependencyInjectionProvider
+    with ErrorPageMustache
+    with WithRemoteAssets {
 
   def bindings: Binder => Unit = { binder => }
+
+  lazy val remoteAssets = dependency[RemoteAssets]
 
   override def onStart(app: Application) {
     super.onStart(app)

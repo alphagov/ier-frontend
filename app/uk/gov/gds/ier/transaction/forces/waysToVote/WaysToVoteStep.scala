@@ -14,12 +14,14 @@ import play.api.templates.Html
 import play.api.mvc.SimpleResult
 import uk.gov.gds.ier.model.{WaysToVote,PostalOrProxyVote}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.assets.RemoteAssets
 
 
 class WaysToVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService : EncryptionService)
+    val encryptionService : EncryptionService,
+    val remoteAssets: RemoteAssets)
   extends ForcesStep
   with WaysToVoteForms
   with WaysToVoteMustache {

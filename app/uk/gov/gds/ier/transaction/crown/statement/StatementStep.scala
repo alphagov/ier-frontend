@@ -10,11 +10,13 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class StatementStep @Inject ()(
     val serialiser:JsonSerialiser,
     val config: Config,
-    val encryptionService: EncryptionService
+    val encryptionService: EncryptionService,
+    val remoteAssets: RemoteAssets
 ) extends CrownStep
     with StatementForms
     with StatementMustache {

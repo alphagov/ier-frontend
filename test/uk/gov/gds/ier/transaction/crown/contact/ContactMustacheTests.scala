@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.crown.contact
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
 import uk.gov.gds.ier.model.{ContactDetail,
   Contact,
   PostalOrProxyVote,
@@ -20,6 +20,7 @@ class ContactMustacheTests
   with ErrorMessages
   with FormKeys
   with TestHelpers
+  with WithMockRemoteAssets
   with WithSerialiser {
 
   val serialiser = jsonSerialiser

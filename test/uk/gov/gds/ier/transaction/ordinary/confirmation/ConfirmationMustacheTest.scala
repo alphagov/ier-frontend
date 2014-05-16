@@ -3,14 +3,14 @@ package uk.gov.gds.ier.transaction.ordinary.confirmation
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.test.{WithMockAddressService, TestHelpers}
+import uk.gov.gds.ier.test.{WithMockRemoteAssets, WithMockAddressService, TestHelpers}
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.Name
-import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.model.WaysToVote
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.shared.BlockContent
 import org.mockito.Mockito._
+import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.service.WithAddressService
 
 class ConfirmationMustacheTest
   extends FlatSpec
@@ -20,8 +20,9 @@ class ConfirmationMustacheTest
   with ErrorMessages
   with FormKeys
   with TestHelpers
-  with ConfirmationMustache
-  with WithMockAddressService{
+  with WithMockRemoteAssets
+  with WithMockAddressService
+  with ConfirmationMustache {
 
   val serialiser = jsonSerialiser
 

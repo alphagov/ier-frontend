@@ -9,13 +9,15 @@ import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import controllers.step.crown.NinoController
 import controllers.step.crown.routes.DeclarationPdfController
 import uk.gov.gds.ier.service.{DeclarationPdfDownloadService, WithDeclarationPdfDownloadService, PlacesService}
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class DeclarationPdfStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
     val placesService: PlacesService,
-    val declarationPdfDownloadService: DeclarationPdfDownloadService)
+    val declarationPdfDownloadService: DeclarationPdfDownloadService,
+    val remoteAssets: RemoteAssets)
   extends CrownStep
   with WithPlacesService
   with WithDeclarationPdfDownloadService

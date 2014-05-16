@@ -15,12 +15,14 @@ import uk.gov.gds.ier.service.AddressService
 
 import uk.gov.gds.ier.step.{Routes, ForcesStep}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class AddressFirstStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val addressService: AddressService)
+    val addressService: AddressService,
+    val remoteAssets: RemoteAssets)
   extends ForcesStep
   with AddressFirstMustache
   with AddressFirstForms

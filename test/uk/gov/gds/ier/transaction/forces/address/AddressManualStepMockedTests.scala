@@ -14,6 +14,7 @@ import controllers.routes.ExitController
 import org.mockito.Mockito._
 import uk.gov.gds.ier.step.Step
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.assets.RemoteAssets
 
 /*
  * This test mock the AddressService.
@@ -26,6 +27,7 @@ class AddressManualStepMockedTests extends FlatSpec with TestHelpers with Matche
     val mockedJsonSerialiser = mock[JsonSerialiser]
     val mockedConfig = mock[Config]
     val mockedEncryptionService = mock[EncryptionService]
+    val mockedRemoteAssets = mock[RemoteAssets]
 
     val partialAddress = PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ",
         Some(PartialManualAddress(Some("line1"), Some("line2"), Some("line3"), Some("city"))))
@@ -33,8 +35,12 @@ class AddressManualStepMockedTests extends FlatSpec with TestHelpers with Matche
     val currentState = completeForcesApplication.copy(
       address = Some(LastUkAddress(Some(false), Some(partialAddress)))
     )
-    val addressManualStep = new AddressManualStep(mockedJsonSerialiser, mockedConfig,
-        mockedEncryptionService)
+    val addressManualStep = new AddressManualStep(
+      mockedJsonSerialiser,
+      mockedConfig,
+      mockedEncryptionService,
+      mockedRemoteAssets
+    )
 
     val result = addressManualStep.clearAddressAndUprn(currentState)
     val expected = result.address.exists{addr =>

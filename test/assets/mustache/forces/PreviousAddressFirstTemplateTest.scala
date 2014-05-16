@@ -7,6 +7,7 @@ import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressFirstMustache
 import org.jba.Mustache
 import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.test.WithMockRemoteAssets
 
 /**
  * Test rendering of Mustache template from given model
@@ -15,6 +16,7 @@ class PreviousAddressFirstTemplateTest
   extends FlatSpec
   with PreviousAddressFirstMustache
   with StepMustache
+  with WithMockRemoteAssets
   with Matchers {
 
   it should "properly render all properties from the model" in {
