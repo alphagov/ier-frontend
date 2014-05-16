@@ -1,7 +1,12 @@
 <form action="{{question.postUrl}}" method="POST" >
     <header class="question-one">
-        <p>Question 1 of 11</p>
-        <h1>{{{question.title}}}</h1>
+        {{#question.number}}
+        <p>{{messages.step_question}} {{question.number}}</p>
+        {{/question.number}}
+        {{^question.number}}
+        <br/>
+        {{/question.number}}
+        <h1>{{question.title}}</h1>
     </header>
 
     {{> shared/validationMessages }}

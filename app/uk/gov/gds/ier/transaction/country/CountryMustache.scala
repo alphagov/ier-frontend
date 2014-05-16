@@ -21,7 +21,7 @@ trait CountryMustache extends StepTemplate[InprogressOrdinary] {
       channelIslandsOrigin:Field
   ) extends MustacheData
 
-  val mustache = MustacheTemplate("ordinary/country") { (form, post) =>
+  val mustache = MultilingualTemplate("ordinary/country") { implicit lang => (form, post) =>
     implicit val progressForm = form
 
     val countriesFieldSet = FieldSet(
@@ -31,7 +31,7 @@ trait CountryMustache extends StepTemplate[InprogressOrdinary] {
     CountryModel(
       question = Question(
         title = Messages("ordinary_country_heading"),
-        number = "1 of 11",
+        number = "1",
         postUrl = post.url,
         errorMessages = Messages.translatedGlobalErrors(form)
       ),
