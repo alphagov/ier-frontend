@@ -18,14 +18,12 @@ trait OpenRegisterMustache extends StepTemplate[InprogressOrdinary] {
 
     implicit val progressForm = form
 
-    val title = "Do you want to include your name and address on the open register?"
-
     OpenRegisterModel(
       question = Question(
         postUrl = postEndpoint.url,
-        errorMessages = form.globalErrors.map{ _.message },
+        errorMessages = Messages.translatedGlobalErrors(form),
         number = "9",
-        title = title
+        title = Messages("ordinary_openRegister_title")
       ),
       openRegister = CheckboxField (
         key = keys.openRegister.optIn,

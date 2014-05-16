@@ -7,39 +7,33 @@
     <fieldset>
 
         <p>
-          {{messages.ordinary_openRegister_intro_1}}
+          {{messages.ordinary_openRegister_content_1}}
         </p>
         <p>
-          Your decision won't affect your right to vote.
+          {{messages.ordinary_openRegister_content_2}}
         </p>
         <label class="selectable"  >
             <input type="checkbox" id="{{openRegister.id}}" name="{{openRegister.name}}" 
               value="false" {{{openRegister.attributes}}} >
-            No, I don't want my name and address on the open register
+            {{messages.ordinary_openRegister_choice}}
         </label>
 
     </fieldset>
-    <button type="submit" id="alt-continue" class="button next">Continue</button>
-    <div class="help-content" data-toggle-text="Why are there two registers?">
-        <h2>Why are there two registers?</h2>
-        <p>Using information received from the public, registration officers keep two registers – the electoral 
-          register and the open register (also known as the edited register).</p>
-        <h3>The electoral register</h3>
-        <p>The electoral register lists the names and addresses of everyone who is registered to vote in public 
-          elections. The register is used for electoral purposes, such as making sure only eligible people can 
-          vote.</p>
-        <p>It is also used for other limited purposes specified in law, such as:</p>
+    <button type="submit" id="alt-continue" class="button next">{{messages.continue}}</button>
+    <div class="help-content" data-toggle-text="{{messages.ordinary_data-toggle-text}}">
+        <h2>{{messages.ordinary_openRegister_link}}</h2>
+        <p>{{messages.ordinary_openRegister_why_content_1}}</p>
+        <h3>{{messages.ordinary_openRegister_why_heading_1}}</h3>
+        <p>{{messages.ordinary_openRegister_why_content_2}}</p>
+        <p>{{messages.ordinary_openRegister_why_content_3}}</p>
         <ul>
-            <li>detecting crime (eg fraud)</li>
-            <li>calling people for jury service</li>
-            <li>checking credit applications</li>
+            <li>{{messages.ordinary_openRegister_why_list_1}}</li>
+            <li>{{messages.ordinary_openRegister_why_list_2}}</li>
+            <li>{{messages.ordinary_openRegister_why_list_3}}</li>
         </ul>
-        <h3>The open register</h3>
-        <p>The open register is an extract of the electoral register, but is not used for elections. It can be 
-          bought by any person, company or organisation. For example, it is used by businesses and charities to 
-          confirm name and address details.</p>
-        <p>Your name and address will be included in the open register unless you ask for them to be removed. 
-          Removing your details from the open register does not affect your right to vote.</p>
+        <h3>{{messages.ordinary_openRegister_why_heading_2}}</h3>
+        <p>{{messages.ordinary_openRegister_why_content_4}}</p>
+        <p>{{messages.ordinary_openRegister_why_content_5}}</p>
     </div>
-    <button type="submit" id="continue" class="button next">Continue</button>
+    <button type="submit" id="continue" class="button next">{{messages.continue}}</button>
 </form>

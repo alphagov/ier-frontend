@@ -6,6 +6,10 @@ previousName_error_pleaseAnswer=Please answer this question
 step_continue=Continue
 step_question=Question
 
+# general
+
+continue=Continue
+
 # ordinary: country of residence
 ordinary_country_heading=Where do you live?
 ordinary_country_or=or
@@ -57,6 +61,45 @@ ordinary_country_error_notValidCountry=This is not a valid country
 
 # ordinary: open register
 
+ordinary_openRegister_title=Do you want to include your name and address on the open register?
+
+ordinary_openRegister_content_1=The open register is an extract of the electoral register, but is not \
+used for elections. It can be bought by any person, company or organisation. For example, it is used by \
+businesses and charities to confirm name and address details.
+
+ordinary_openRegister_content_2=Your decision won't affect your right to vote.
+
+ordinary_openRegister_choice=No, I don't want my name and address on the open register
+
+ordinary_openRegister_link=Why are two registers?
+
+ordinary_openRegister_why_content_1=Using information received from the public, registration officers keep \
+two registers – the electoral register and the open register (also known as the edited register).
+
+ordinary_openRegister_why_heading_1=The electoral register
+
+ordinary_openRegister_why_content_2=The electoral register lists the names and addresses of everyone who \
+is registered to vote in public elections. The register is used for electoral purposes, such as making sure only \
+eligible people can vote.
+
+ordinary_openRegister_why_content_3=It is also used for other limited purposes specified in law, such as:
+
+ordinary_openRegister_why_list_1=detecting crime (eg fraud)
+
+ordinary_openRegister_why_list_2=calling people for jury service
+
+ordinary_openRegister_why_list_3=checking credit applications
+
+ordinary_openRegister_why_heading_2=The open register
+
+ordinary_openRegister_why_content_4=The open register is an extract of the electoral register, but is not \
+used for elections. It can be bought by any person, company or organisation. For example, it is used by \
+businesses and charities to confirm name and address details.
+
+ordinary_openRegister_why_content_5=Your name and address will be included in the open register unless \
+you ask for them to be removed. Removing your details from the open register does not affect your right to vote.
+
+ordinary_data-toggle-text=Why are there two registers?
 
 # ordinary: postal vote
 
