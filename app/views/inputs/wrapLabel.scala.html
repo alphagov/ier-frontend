@@ -1,7 +1,0 @@
-@(id:uk.gov.gds.ier.validation.Key, attributes:(Symbol,String)*)(wrapContent: Html)(implicit formData:uk.gov.gds.ier.validation.ErrorTransformForm[uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary])
-@import uk.gov.gds.ier.form.FieldHelpers._
-@defining(formData(id)) { field =>
-<label for="@id.asId(attributes.toMap.get('value).getOrElse(""))" class="@(if(field.hasErrors) "invalid " else "")@attributes.toMap.get('class).getOrElse("")" @asAttributes(attributes.toMap.without('for, 'class, 'value))>
-    @wrapContent
-</label>
-}

@@ -33,9 +33,9 @@ class RemoteAssets @Inject() (config : Config) {
     )
   }
 
-  def assetsPath = config.assetsPath.stripSuffix("/") + "/"
+  def assetsPath: String = config.assetsPath.stripSuffix("/") + "/"
 
-  def templatePath = config.assetsPath.stripSuffix("/") + "/template/"
+  def templatePath: String = config.assetsPath.stripSuffix("/") + "/template/"
 
   private def appendAssetPath(url:String):String = {
     config.assetsPath.stripSuffix("/") + "/" + url.stripPrefix("/assets/").stripPrefix("/")

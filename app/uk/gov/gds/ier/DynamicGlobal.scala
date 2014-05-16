@@ -13,8 +13,8 @@ import org.slf4j.MDC
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.guice.WithRemoteAssets
 
-trait DynamicGlobal 
-    extends GlobalSettings 
+trait DynamicGlobal
+    extends GlobalSettings
     with Logging
     with DependencyInjectionProvider
     with ErrorPageMustache

@@ -67,15 +67,15 @@ trait ConfirmationMustache extends StepMustache with WithAddressService {
 
     def confirmationPage(
         form: ErrorTransformForm[InprogressCrown],
-        postUrl: String) = {
-
+        postUrl: String
+    ) = {
       val data = confirmationData(form, postUrl)
       val content = Mustache.render("crown/confirmation", data)
 
-      MainStepTemplate(
-        content,
-        "Confirm your details - Register to vote",
-        contentClasses = Some("confirmation")
+      GovukTemplate(
+        mainContent = content,
+        pageTitle = "Confirm your details - Register to vote",
+        contentClasses = "confirmation"
       )
     }
   }
