@@ -49,12 +49,8 @@ class PreviousAddressFirstStep @Inject ()(
   }
 
   override val onSuccess = TransformApplication { currentApplication =>
-    val clearAddress = currentApplication.previousAddress.flatMap(
-      _.movedRecently match {
-        case Some(MovedHouseOption.NotMoved) => Some(true)
-        case _ => Some(false)
-      }
-    ).getOrElse(false)
+    val clearAddress = currentApplication.previousAddress.exists(
+      _.movedRecently.exists(_ == MovedHouseOption.NotMoved))
 
     if(clearAddress){
       val clearedAddress = currentApplication.previousAddress.map{ _.copy(previousAddress = None) }

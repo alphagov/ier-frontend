@@ -9,14 +9,10 @@ trait CommonForms {
   self: FormKeys
   with ErrorMessages =>
 
-  lazy val hasAddressMapping = text.verifying(
-    str => HasAddressOption.isValid(str)
-  ).transform[HasAddressOption](
-    str => HasAddressOption.parse(str),
-    option => option.name
-  ).verifying(
-    hasAddressLivingThereOrNot
-  )
+  lazy val hasAddressMapping = HasAddressOption.mapping
+    .verifying(
+      hasAddressLivingThereOrNot
+    )
 
   lazy val hasAddressLivingThereOrNot = Constraint[HasAddressOption]("hasAddress") {
     case HasAddressOption.YesAndLivingThere => Valid

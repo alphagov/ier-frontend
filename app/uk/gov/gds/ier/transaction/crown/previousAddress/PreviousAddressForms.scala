@@ -149,17 +149,21 @@ trait PreviousAddressConstraints extends CommonConstraints {
 
   lazy val uprnOrManualDefinedForPreviousAddressIfNotFromNI = Constraint[InprogressCrown](keys.previousAddress.key) {
     inprogress =>
-      inprogress.previousAddress.flatMap(_.previousAddress) match {
-        case Some(partialAddress) if addressService.isNothernIreland(partialAddress.postcode) => Valid
-        case Some(partialAddress) if partialAddress.uprn.exists(_.nonEmpty) => Valid
-        case Some(partialAddress) if partialAddress.manualAddress.exists(_.city.exists(_.nonEmpty)) => Valid
-        case _ => Invalid(
-          "Please select your address",
-          keys.previousAddress.previousAddress.uprn,
-          keys.previousAddress.previousAddress.manualAddress,
-          keys.previousAddress
-        )
-      }
+      val previousAddress = inprogress.previousAddress.flatMap(_.previousAddress)
+
+      val isPreviousAddressValid = previousAddress.exists( partialAddress =>
+        addressService.isNothernIreland(partialAddress.postcode) |
+        partialAddress.uprn.exists(_.nonEmpty) |
+        partialAddress.manualAddress.exists(_.city.exists(_.nonEmpty))
+      )
+
+      if (isPreviousAddressValid) Valid
+      else Invalid(
+        "Please select your address",
+        keys.previousAddress.previousAddress.uprn,
+        keys.previousAddress.previousAddress.manualAddress,
+        keys.previousAddress
+      )
   }
 
   lazy val postcodeIsValidForPreviousAddress = Constraint[InprogressCrown](keys.previousAddress.key) {
