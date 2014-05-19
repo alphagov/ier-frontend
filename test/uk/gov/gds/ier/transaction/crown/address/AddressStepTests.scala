@@ -5,8 +5,9 @@ import org.scalatest.mock.MockitoSugar
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.LastUkAddress
+import uk.gov.gds.ier.model.{LastAddress, HasAddressOption}
 import akka.util.Timeout
+
 import java.util.concurrent.TimeUnit
 import scala.concurrent.duration.Duration
 
@@ -33,13 +34,13 @@ class AddressStepTests
     }
   }
 
-  it should "display the page with last uk address (false value)" in {
+  it should "display the page with last address (false value)" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/crown/address")
           .withApplication(completeCrownApplication.copy(
-            address = Some(LastUkAddress(
-              hasUkAddress = Some(false),
+            address = Some(LastAddress(
+              hasAddress = Some(HasAddressOption.No),
               address = None
             ))
           ))
@@ -61,8 +62,8 @@ class AddressStepTests
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/crown/address")
           .withApplication(completeCrownApplication.copy(
-          address = Some(LastUkAddress(
-            hasUkAddress = Some(true),
+          address = Some(LastAddress(
+            hasAddress = Some(HasAddressOption.YesAndLivingThere),
             address = None
           ))
         ))
@@ -261,16 +262,16 @@ behavior of "AddressStep.editGet"
   it should "stop on this page" in {
     running(FakeApplication()) {
       val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/crown/address/first")
+        FakeRequest(POST, "/register-to-vote/crown/statement")
           .withIerSession()
           .withApplication(completeCrownApplication.copy(address = None))
           .withFormUrlEncodedBody(
-            "address.hasUkAddress" -> "true"
+            "statement.crownServant" -> "true"
           )
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/crown/address"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/address/first"))
     }
   }
 }

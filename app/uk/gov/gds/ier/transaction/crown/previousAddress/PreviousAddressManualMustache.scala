@@ -33,11 +33,11 @@ trait PreviousAddressManualMustache extends StepTemplate[InprogressCrown] {
         errorMessages = progressForm.globalErrors.map(_.message)
       ),
       lookupUrl = PreviousAddressPostcodeController.get.url,
-      postcode = TextField(keys.previousAddress.postcode),
-      maLineOne = TextField(keys.previousAddress.manualAddress.lineOne),
-      maLineTwo = TextField(keys.previousAddress.manualAddress.lineTwo),
-      maLineThree = TextField(keys.previousAddress.manualAddress.lineThree),
-      maCity = TextField(keys.previousAddress.manualAddress.city)
+      postcode = TextField(keys.previousAddress.previousAddress.postcode),
+      maLineOne = TextField(keys.previousAddress.previousAddress.manualAddress.lineOne),
+      maLineTwo = TextField(keys.previousAddress.previousAddress.manualAddress.lineTwo),
+      maLineThree = TextField(keys.previousAddress.previousAddress.manualAddress.lineThree),
+      maCity = TextField(keys.previousAddress.previousAddress.manualAddress.city)
     )
   }
 }

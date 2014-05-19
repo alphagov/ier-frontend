@@ -44,11 +44,11 @@ class AddressManualMustacheTests
   }
 
   it should "progress form with valid values should produce Mustache Model with values present "+
-    "(manualData) - lastUkAddress = true" in {
+    "(manualData) - lastAddress = yes and living there" in {
 
     val partiallyFilledApplicationForm = addressForm.fill(InprogressCrown(
-      address = Some(LastUkAddress(
-        hasUkAddress = Some(true),
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndLivingThere),
         address = Some(PartialAddress(
           addressLine = None,
           uprn = None,
@@ -81,11 +81,48 @@ class AddressManualMustacheTests
   }
 
   it should "progress form with valid values should produce Mustache Model with values present "+
-    "(manualData) - lastUkAddress = false" in {
+    "(manualData) - lastAddress = yes and not living there" in {
 
     val partiallyFilledApplicationForm = addressForm.fill(InprogressCrown(
-      address = Some(LastUkAddress(
-        hasUkAddress = Some(false),
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndNotLivingThere),
+        address = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "WR26NJ",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")))
+        ))
+      )),
+      possibleAddresses = None
+    ))
+
+    val addressModel = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("POST", "/register-to-vote/crown/address/manual"),
+      InprogressCrown()
+    ).asInstanceOf[ManualModel]
+
+    addressModel.question.title should be("What is your UK address?")
+    addressModel.question.postUrl should be("/register-to-vote/crown/address/manual")
+
+    addressModel.lookupUrl should be ("/register-to-vote/crown/address")
+    addressModel.postcode.value should be ("WR26NJ")
+    addressModel.maLineOne.value should be ("Unit 4, Elgar Business Centre")
+    addressModel.maLineTwo.value should be ("Moseley Road")
+    addressModel.maLineThree.value should be ("Hallow")
+    addressModel.maCity.value should be ("Worcester")
+  }
+
+  it should "progress form with valid values should produce Mustache Model with values present "+
+    "(manualData) - lastAddress = false" in {
+
+    val partiallyFilledApplicationForm = addressForm.fill(InprogressCrown(
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.No),
         address = Some(PartialAddress(
           addressLine = None,
           uprn = None,

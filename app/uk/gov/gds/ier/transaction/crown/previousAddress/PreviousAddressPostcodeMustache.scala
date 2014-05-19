@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.transaction.crown.previousAddress
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
@@ -23,7 +22,7 @@ trait PreviousAddressPostcodeMustache
         title = title,
         errorMessages = form.globalErrors.map(_.message)
       ),
-      postcode = TextField(keys.previousAddress.postcode)
+      postcode = TextField(keys.previousAddress.previousAddress.postcode)
     )
   }
 }

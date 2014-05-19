@@ -61,10 +61,10 @@ class AddressSelectTemplateTest
           value = "possiblePostcodeValue"
         ),
         hasAddresses = true,
-        hasUkAddress = Field(
-          id = "hasUkAddressId",
-          name = "hasUkAddressName",
-          value = "hasUkAddressValue"
+        hasAddress = Field(
+          id = "hasAddressId",
+          name = "hasAddressName",
+          value = "hasAddressValue"
         )
       )
 
@@ -114,10 +114,11 @@ class AddressSelectTemplateTest
       hiddenPostcodeInput.attr("name") should be("possiblePostcodeName")
       hiddenPostcodeInput.attr("value") should be("possiblePostcodeValue")
 
-      val hasUkAddressInput = doc.select("input[id=hasUkAddressId]").first()
-      hasUkAddressInput should not be(null)
-      hasUkAddressInput.attr("name") should be("hasUkAddressName")
-      hasUkAddressInput.attr("value") should be("hasUkAddressValue")
+
+      val hasAddressInput = doc.select("input[id=hasAddressId]").first()
+      hasAddressInput should not be(null)
+      hasAddressInput.attr("name") should be("hasAddressName")
+      hasAddressInput.attr("value") should be("hasAddressValue")
     }
   }
 
@@ -139,10 +140,10 @@ class AddressSelectTemplateTest
         possibleJsonList = Field(id = "",name = "",value = ""),
         possiblePostcode = Field(id = "",name = "",value = ""),
         hasAddresses = false,
-        hasUkAddress = Field(
-          id = "hasUkAddressId",
-          name = "hasUkAddressName",
-          value = "hasUkAddressValue"
+        hasAddress = Field(
+          id = "hasAddressId",
+          name = "hasAddressName",
+          value = "hasAddressValue"
         )
       )
 

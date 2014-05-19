@@ -4,7 +4,7 @@ import controllers.step.crown.routes._
 import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.model.{LastUkAddress}
+import uk.gov.gds.ier.model.{LastAddress, LastUkAddress}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.{CrownStep, Routes}
@@ -33,8 +33,8 @@ class AddressManualStep @Inject() (
 
   def nextStep(currentState: InprogressCrown) = {
     currentState.address match {
-      case Some(LastUkAddress(Some(hasUkAddress),_))
-        if (hasUkAddress) => PreviousAddressFirstController.previousAddressFirstStep
+      case Some(LastAddress(Some(hasAddressOption),_))
+        if (hasAddressOption.hasAddress) => PreviousAddressFirstController.previousAddressFirstStep
       case _ => {
         currentState.copy(
           previousAddress = None

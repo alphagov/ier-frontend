@@ -3,12 +3,13 @@ package uk.gov.gds.ier.transaction.crown.address
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.model.HasAddressOption
 
 trait AddressLookupMustache extends StepTemplate[InprogressCrown] {
 
-  private def pageTitle(hasUkAddress: Option[String]): String = {
-    hasUkAddress match {
-      case Some(hasUkAddress) if (!hasUkAddress.isEmpty && hasUkAddress.toBoolean) => "What is your UK address?"
+  private def pageTitle(hasAddress: Option[String]): String = {
+    HasAddressOption.parse(hasAddress.getOrElse("")) match{
+      case HasAddressOption.YesAndLivingThere | HasAddressOption.YesAndNotLivingThere => "What is your UK address?"
       case _ => "What was your last UK address?"
     }
   }
@@ -23,7 +24,7 @@ trait AddressLookupMustache extends StepTemplate[InprogressCrown] {
   val mustache = MustacheTemplate("crown/addressLookup") { (form, postUrl) =>
     implicit val progressForm = form
   
-    val title = pageTitle(form(keys.hasUkAddress).value)
+    val title = pageTitle(form(keys.hasAddress).value)
 
     LookupModel(
       question = Question(

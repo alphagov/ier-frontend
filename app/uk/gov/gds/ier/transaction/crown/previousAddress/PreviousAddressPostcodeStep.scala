@@ -8,7 +8,6 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{CrownStep, Routes}
-import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.assets.RemoteAssets
 
@@ -22,7 +21,7 @@ class PreviousAddressPostcodeStep @Inject() (
   with PreviousAddressPostcodeMustache
   with PreviousAddressForms {
 
-  val validation = postcodeAddressFormForPreviousAddress
+  val validation = postcodeStepForm
 
   val routes = Routes(
     get = PreviousAddressPostcodeController.get,

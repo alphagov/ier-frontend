@@ -31,8 +31,8 @@ trait PreviousAddressSelectMustache
 
     implicit val progressForm = form
 
-    val selectedUprn = form(keys.previousAddress.uprn).value
-    val postcode = form(keys.previousAddress.postcode).value
+    val selectedUprn = form(keys.previousAddress.previousAddress.uprn).value
+    val postcode = form(keys.previousAddress.previousAddress.postcode).value
 
     val storedAddresses = for(
       jsonList <- form(keys.possibleAddresses.jsonList).value;
@@ -69,7 +69,7 @@ trait PreviousAddressSelectMustache
     }
 
     val addressSelect = SelectField(
-      key = keys.previousAddress.uprn,
+      key = keys.previousAddress.previousAddress.uprn,
       optionList = options,
       default = SelectOption(
         value = "",
@@ -92,7 +92,7 @@ trait PreviousAddressSelectMustache
       ),
       lookupUrl = PreviousAddressPostcodeController.get.url,
       manualUrl = PreviousAddressManualController.get.url,
-      postcode = TextField(keys.previousAddress.postcode),
+      postcode = TextField(keys.previousAddress.previousAddress.postcode),
       address = addressSelectWithError,  // this is model data for <select>
       possibleJsonList = HiddenField(
         key = keys.possibleAddresses.jsonList,
@@ -102,7 +102,7 @@ trait PreviousAddressSelectMustache
       ),
       possiblePostcode = HiddenField(
         key = keys.possibleAddresses.postcode,
-        value = form(keys.previousAddress.postcode).value.getOrElse("")
+        value = form(keys.previousAddress.previousAddress.postcode).value.getOrElse("")
       ),
       hasAddresses = hasAddresses
     )

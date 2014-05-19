@@ -29,7 +29,7 @@ class PreviousAddressSelectStep @Inject() (
   with PreviousAddressForms
   with WithAddressService {
 
-  val validation = selectAddressFormForPreviousAddress
+  val validation = selectStepForm
 
   val routes = Routes(
     get = PreviousAddressSelectController.get,
@@ -43,16 +43,14 @@ class PreviousAddressSelectStep @Inject() (
   }
 
   override val onSuccess = TransformApplication { currentState =>
-    val address = currentState.previousAddress.flatMap(_.previousAddress)
-    val addressWithAddressLine = address.map {
-      addressService.fillAddressLine(_)
+    val addressWithLineFilled = currentState.previousAddress.map { prev =>
+      prev.copy(
+        previousAddress = prev.previousAddress.map(addressService.fillAddressLine(_).copy(manualAddress = None))
+      )
     }
 
     currentState.copy(
-      previousAddress = Some(PartialPreviousAddress(
-        movedRecently = Some(MovedHouseOption.Yes),
-        addressWithAddressLine
-      )),
+      previousAddress = addressWithLineFilled,
       possibleAddresses = None
     )
   } andThen GoToNextIncompleteStep()

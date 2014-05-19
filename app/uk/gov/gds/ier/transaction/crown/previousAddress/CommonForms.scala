@@ -15,10 +15,10 @@ trait CommonForms {
     str => MovedHouseOption.parse(str),
     option => option.name
   ).verifying(
-    movedHouseYesOrNoOnly
+    movedHouseYesOrNo
   )
 
-  lazy val movedHouseYesOrNoOnly = Constraint[MovedHouseOption]("movedHouse") {
+  lazy val movedHouseYesOrNo = Constraint[MovedHouseOption]("movedHouse") {
     case MovedHouseOption.Yes => Valid
     case MovedHouseOption.NotMoved => Valid
     case _ => Invalid("Not a valid option")

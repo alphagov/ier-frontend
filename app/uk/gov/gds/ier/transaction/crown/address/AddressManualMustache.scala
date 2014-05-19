@@ -1,15 +1,15 @@
 package uk.gov.gds.ier.transaction.crown.address
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import controllers.step.crown.routes.AddressController
+import uk.gov.gds.ier.model.HasAddressOption
 
 trait AddressManualMustache extends StepTemplate[InprogressCrown] {
 
-  private def pageTitle(hasUkAddress: Option[String]): String = {
-    hasUkAddress match {
-      case Some(hasUkAddress) if (!hasUkAddress.isEmpty && hasUkAddress.toBoolean) => "What is your UK address?"
+  private def pageTitle(hasAddress: Option[String]): String = {
+    HasAddressOption.parse(hasAddress.getOrElse("")) match{
+      case HasAddressOption.YesAndLivingThere | HasAddressOption.YesAndNotLivingThere => "What is your UK address?"
       case _ => "What was your last UK address?"
     }
   }
@@ -24,13 +24,13 @@ trait AddressManualMustache extends StepTemplate[InprogressCrown] {
     maLineTwo: Field,
     maLineThree: Field,
     maCity: Field,
-    hasUkAddress: Field
+    hasAddress: Field
   ) extends MustacheData
 
   val mustache = MustacheTemplate("crown/addressManual") { (form, postUrl) =>
     implicit val progressForm = form
 
-    val title = pageTitle(form(keys.hasUkAddress).value)
+    val title = pageTitle(form(keys.hasAddress).value)
 
     ManualModel(
       question = Question(
@@ -45,9 +45,9 @@ trait AddressManualMustache extends StepTemplate[InprogressCrown] {
       maLineTwo = TextField(keys.address.manualAddress.lineTwo),
       maLineThree = TextField(keys.address.manualAddress.lineThree),
       maCity = TextField(keys.address.manualAddress.city),
-      hasUkAddress = HiddenField(
-        key = keys.hasUkAddress,
-        value = form(keys.hasUkAddress).value.getOrElse("")
+      hasAddress = HiddenField(
+        key = keys.hasAddress,
+        value = form(keys.hasAddress).value.getOrElse("")
       )
     )
   }

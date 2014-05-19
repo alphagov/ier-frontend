@@ -55,10 +55,10 @@ class AddressManualTemplateTest
           classes = "manualClass41 manualClass42",
           value = "Worcester"
         ),
-        hasUkAddress = Field(
-          id = "hasUkAddressId",
-          name = "hasUkAddressName",
-          value = "hasUkAddressValue"
+        hasAddress = Field(
+          id = "hasAddressId",
+          name = "hasAddressName",
+          value = "hasAddressValue"
         )
       )
 
@@ -135,10 +135,10 @@ class AddressManualTemplateTest
         addressLineInput.attr("class") should include("manualClass42")
       }
 
-      val hasUkAddressInput = doc.select("input[id=hasUkAddressId]").first()
-      hasUkAddressInput should not be(null)
-      hasUkAddressInput.attr("name") should be("hasUkAddressName")
-      hasUkAddressInput.attr("value") should be("hasUkAddressValue")
+      val hasAddressInput = doc.select("input[id=hasAddressId]").first()
+      hasAddressInput should not be(null)
+      hasAddressInput.attr("name") should be("hasAddressName")
+      hasAddressInput.attr("value") should be("hasAddressValue")
 
       val lookupChangeLink = fieldset.select("a").first()
       lookupChangeLink.attr("href") should be("http://lookup")

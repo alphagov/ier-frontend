@@ -44,8 +44,8 @@ trait ConfirmationForms
   val confirmationForm = ErrorTransformForm(
     mapping(
       keys.statement.key -> optional(statementMapping),
-      keys.address.key -> optional(lastUkAddressMapping),
-      keys.previousAddress.key -> optional(partialPreviousAddressMappingForPreviousAddress),
+      keys.address.key -> optional(lastAddressMapping),
+      keys.previousAddress.key -> optional(PartialPreviousAddress.mapping.verifying(previousAddressRequiredIfMoved)),
       keys.nationality.key -> optional(nationalityMapping),
       keys.dob.key -> optional(dobAndReasonMapping),
       keys.name.key -> optional(nameMapping),
@@ -108,8 +108,8 @@ trait ConfirmationConstraints {
   val previousAddressStepRequired = Constraint[InprogressCrown]("previousAddressStepRequired") {
     application =>
       application.address match {
-        case Some(LastUkAddress(Some(hasUkAddress), _))
-          if (hasUkAddress) => {
+        case Some(LastAddress(Some(hasAddressOption), _))
+          if (hasAddressOption.hasAddress) => {
             application.previousAddress match {
               case Some(_) => Valid
               case None => Invalid("Please complete this step", keys.previousAddress)

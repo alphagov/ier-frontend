@@ -7,7 +7,7 @@ import controllers.step.crown.routes._
 import uk.gov.gds.ier.service.{DeclarationPdfDownloadService, WithDeclarationPdfDownloadService}
 import org.specs2.mock.Mockito
 import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
-import uk.gov.gds.ier.model.{PartialAddress, LastUkAddress}
+import uk.gov.gds.ier.model.{HasAddressOption, LastAddress, PartialAddress}
 
 class DeclarationPdfMustacheTest
   extends FlatSpec
@@ -38,8 +38,8 @@ class DeclarationPdfMustacheTest
 
   private def inprogressApplicationWithPostcode(postcode: String) = {
     InprogressCrown().copy(
-        address = Some(LastUkAddress(
-          hasUkAddress = Some(true),
+        address = Some(LastAddress(
+          hasAddress = Some(HasAddressOption.YesAndLivingThere),
           address = Some(PartialAddress(
             addressLine = None,
             uprn = None,

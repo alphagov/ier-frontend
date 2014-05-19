@@ -18,7 +18,7 @@ import uk.gov.gds.ier.model.Contact
 
 case class InprogressCrown(
     statement: Option[CrownStatement] = None,
-    address: Option[LastUkAddress] = None,
+    address: Option[LastAddress] = None,
     previousAddress: Option[PartialPreviousAddress] = None,
     nationality: Option[PartialNationality] = None,
     dob: Option[DateOfBirth] = None,

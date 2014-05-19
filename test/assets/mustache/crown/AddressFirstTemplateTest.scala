@@ -23,11 +23,18 @@ class AddressFirstTemplateTest
           number = "123",
           title = "Page title ABC"
         ),
-        hasAddressYes = Field(
-          id = "hasAddressYesId",
-          name = "hasAddressYesName",
-          classes = "hasAddressYesClass",
-          value = "hasAddressYesValue",
+        hasAddressYesAndLivingThere = Field(
+          id = "hasAddressYesAndLivingThereId",
+          name = "hasAddressYesAndLivingThereName",
+          classes = "hasAddressYesAndLivingThereClass",
+          value = "hasAddressYesAndLivingThereValue",
+          attributes = "foo=\"foo\""
+        ),
+        hasAddressYesAndNotLivingThere = Field(
+          id = "hasAddressYesAndNotLivingThereId",
+          name = "hasAddressYesAndNotLivingThereName",
+          classes = "hasAddressYesAndNotLivingThereClass",
+          value = "hasAddressYesAndNotLivingThereValue",
           attributes = "foo=\"foo\""
         ),
         hasAddressNo = Field(
@@ -42,12 +49,21 @@ class AddressFirstTemplateTest
       val html = Mustache.render("crown/addressFirst", data)
       val doc = Jsoup.parse(html.toString)
 
-      { // YES option
-        doc.select("label[for=hasAddressYesId]").size() should be(1)
-        val r = doc.select("input#hasAddressYesId").first()
+      { // YES and living there option
+        doc.select("label[for=hasAddressYesAndLivingThereId]").size() should be(1)
+        val r = doc.select("input#hasAddressYesAndLivingThereId").first()
         r should not be(null)
-        r.attr("name") should be("hasAddressYesName")
-        r.attr("value") should be("hasAddressYesValue")
+        r.attr("name") should be("hasAddressYesAndLivingThereName")
+        r.attr("value") should be("hasAddressYesAndLivingThereValue")
+        r.attr("foo") should be("foo")
+      }
+
+      { // YES and not living there option
+        doc.select("label[for=hasAddressYesAndNotLivingThereId]").size() should be(1)
+        val r = doc.select("input#hasAddressYesAndNotLivingThereId").first()
+        r should not be(null)
+        r.attr("name") should be("hasAddressYesAndNotLivingThereName")
+        r.attr("value") should be("hasAddressYesAndNotLivingThereValue")
         r.attr("foo") should be("foo")
       }
 

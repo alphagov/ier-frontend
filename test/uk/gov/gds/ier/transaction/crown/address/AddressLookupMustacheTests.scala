@@ -19,7 +19,6 @@ class AddressLookupMustacheTest
   with WithMockRemoteAssets
   with TestHelpers {
 
-
   val serialiser = jsonSerialiser
 
   it should "empty progress form should produce empty Model (lookupData)" in {
@@ -40,8 +39,8 @@ class AddressLookupMustacheTest
   it should "progress form with valid values should produce Mustache Model with values present"+
     " (lookupData) - lastUkAddress = true" in {
     val partiallyFilledApplicationForm = addressForm.fill(InprogressCrown(
-      address = Some(LastUkAddress(
-        hasUkAddress = Some(true),
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndLivingThere),
         address = Some(PartialAddress(
           addressLine = Some("Fake street 123"),
           uprn = Some("1234567"),
@@ -67,8 +66,8 @@ class AddressLookupMustacheTest
   it should "progress form with valid values should produce Mustache Model with values present "+
     "(lookupData) - lastUkAddress = false" in {
     val partiallyFilledApplicationForm = addressForm.fill(InprogressCrown(
-      address = Some(LastUkAddress(
-        hasUkAddress = Some(false),
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.No),
         address = Some(PartialAddress(
           addressLine = Some("Fake street 123"),
           uprn = Some("1234567"),

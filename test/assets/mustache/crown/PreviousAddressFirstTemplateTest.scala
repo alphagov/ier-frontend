@@ -65,7 +65,7 @@ class PreviousAddressFirstTemplateTest
       }
 
       { // page
-        val f = doc.select("form").first() // there should be only one form in the template
+      val f = doc.select("form").first() // there should be only one form in the template
         f should not be(null)
         f.attr("action") should be ("http://some.server/post_url")
 

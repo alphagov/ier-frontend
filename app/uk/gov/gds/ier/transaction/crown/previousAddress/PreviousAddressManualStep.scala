@@ -26,7 +26,7 @@ class PreviousAddressManualStep @Inject() (
   with PreviousAddressManualMustache
   with PreviousAddressForms {
 
-  val validation = manualAddressFormForPreviousAddress
+  val validation = manualStepForm
 
   val routes = Routes(
     get = PreviousAddressManualController.get,
@@ -38,4 +38,19 @@ class PreviousAddressManualStep @Inject() (
   def nextStep(currentState: InprogressCrown) = {
     NationalityController.nationalityStep
   }
+
+  override val onSuccess = TransformApplication { currentState =>
+    val addressWithClearedSelectedOne = currentState.previousAddress.map { prev =>
+      prev.copy(
+        previousAddress = prev.previousAddress.map(
+          _.copy(
+            uprn = None,
+            addressLine = None)))
+    }
+
+    currentState.copy(
+      previousAddress = addressWithClearedSelectedOne,
+      possibleAddresses = None
+    )
+  } andThen GoToNextIncompleteStep()
 }

@@ -1,8 +1,8 @@
 package uk.gov.gds.ier.transaction.crown.address
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.model.HasAddressOption
 
 trait AddressFirstMustache extends StepTemplate[InprogressCrown] {
 
@@ -11,7 +11,8 @@ trait AddressFirstMustache extends StepTemplate[InprogressCrown] {
 
   case class AddressFirstModel(
     question: Question,
-    hasAddressYes: Field,
+    hasAddressYesAndLivingThere: Field,
+    hasAddressYesAndNotLivingThere: Field,
     hasAddressNo: Field
   ) extends MustacheData
 
@@ -24,12 +25,15 @@ trait AddressFirstMustache extends StepTemplate[InprogressCrown] {
         number = questionNumber,
         title = pageTitle,
         errorMessages = form.globalErrors.map { _.message }),
-      hasAddressYes = RadioField(
-        key = keys.address.hasUkAddress,
-        value = "true"),
+      hasAddressYesAndLivingThere = RadioField(
+        key = keys.address.hasAddress,
+        value = HasAddressOption.YesAndLivingThere.name),
+      hasAddressYesAndNotLivingThere = RadioField(
+        key = keys.address.hasAddress,
+        value = HasAddressOption.YesAndNotLivingThere.name),
       hasAddressNo = RadioField(
-        key = keys.address.hasUkAddress,
-        value = "false")
+        key = keys.address.hasAddress,
+        value = HasAddressOption.No.name)
     )
   }
 }

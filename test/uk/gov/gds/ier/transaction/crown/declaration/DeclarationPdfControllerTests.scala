@@ -6,7 +6,7 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
-import uk.gov.gds.ier.model.{PartialAddress, LastUkAddress}
+import uk.gov.gds.ier.model.{LastAddress, HasAddressOption, PartialAddress}
 
 class DeclarationPdfControllerTests
   extends FlatSpec
@@ -48,8 +48,8 @@ class DeclarationPdfControllerTests
 
   private def inprogressApplicationWithPostcode(postcode: String) = {
     InprogressCrown().copy(
-      address = Some(LastUkAddress(
-        hasUkAddress = Some(true),
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndLivingThere),
         address = Some(PartialAddress(
           addressLine = None,
           uprn = None,

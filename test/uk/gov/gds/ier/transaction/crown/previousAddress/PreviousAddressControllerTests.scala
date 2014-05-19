@@ -36,8 +36,8 @@ class PreviousAddressControllerTests
           .withIerSession()
           .withFormUrlEncodedBody(
             "previousAddress.movedRecently" -> "yes",
-            "previousAddress.uprn" -> "123456789",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.uprn" -> "123456789",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -53,8 +53,8 @@ class PreviousAddressControllerTests
           .withIerSession()
           .withApplication(completeCrownApplication)
           .withFormUrlEncodedBody(
-            "previousAddress.uprn" -> "123456789",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.uprn" -> "123456789",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -69,11 +69,11 @@ class PreviousAddressControllerTests
           FakeRequest(POST, "/register-to-vote/crown/previous-address/manual")
             .withIerSession()
             .withFormUrlEncodedBody(
-              "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-              "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
-              "previousAddress.manualAddress.lineThree" -> "Hallow",
-              "previousAddress.manualAddress.city" -> "Worcester",
-              "previousAddress.postcode" -> "SW1A 1AA"
+              "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+              "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+              "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
+              "previousAddress.previousAddress.manualAddress.city" -> "Worcester",
+              "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
         )
 
@@ -140,8 +140,8 @@ class PreviousAddressControllerTests
           .withIerSession()
           .withFormUrlEncodedBody(
             "previousAddress.movedRecently" -> "yes",
-            "previousAddress.uprn" -> "123456789",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.uprn" -> "123456789",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -158,8 +158,8 @@ class PreviousAddressControllerTests
           .withApplication(completeCrownApplication)
           .withFormUrlEncodedBody(
             "previousAddress.movedRecently" -> "yes",
-            "previousAddress.uprn" -> "123456789",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.uprn" -> "123456789",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
       )
 
@@ -171,15 +171,15 @@ class PreviousAddressControllerTests
   it should "bind successfully and redirect to the next step with a manual address" in {
       running(FakeApplication()) {
         val Some(result) = route(
-          FakeRequest(POST, "/register-to-vote/crown/edit/previous-address/select")
+          FakeRequest(POST, "/register-to-vote/crown/edit/previous-address/manual")
             .withIerSession()
             .withFormUrlEncodedBody(
             "previousAddress.movedRecently" -> "yes",
-            "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-            "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
-            "previousAddress.manualAddress.lineThree" -> "Hallow",
-            "previousAddress.manualAddress.city" -> "Worcester",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
+            "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
+            "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
+            "previousAddress.previousAddress.manualAddress.city" -> "Worcester",
+            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
           )
         )
 

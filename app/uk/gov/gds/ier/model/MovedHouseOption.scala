@@ -6,16 +6,27 @@ object MovedHouseOption extends ModelMapping {
   import playMappings._
 
   val Yes = MovedHouseOption(true, "yes")
+
   val MovedFromUk = MovedHouseOption(true, "from-uk")
   val MovedFromAbroad = MovedHouseOption(true, "from-abroad")
-  val NotMoved = MovedHouseOption(false, "no")
-  val DontKnow = MovedHouseOption(false, "dunno")
   val MovedFromAbroadRegistered = MovedHouseOption(true, "from-abroad-registered")
   val MovedFromAbroadNotRegistered = MovedHouseOption(true, "from-abroad-not-registered")
 
+  val NotMoved = MovedHouseOption(false, "no")
+  val DontKnow = MovedHouseOption(false, "dunno")
+
   def isValid(str:String):Boolean = {
     str match {
-      case MovedFromUk.`name`|MovedFromAbroad.`name`|NotMoved.`name`|Yes.`name`|MovedFromAbroadRegistered.`name`|MovedFromAbroadNotRegistered.`name` => true
+      case
+        Yes.`name` |
+
+        MovedFromUk.`name`|
+        MovedFromAbroad.`name`|
+        MovedFromAbroadRegistered.`name`|
+        MovedFromAbroadNotRegistered.`name` |
+
+        NotMoved.`name` => true
+
       case _ => false
     }
   }
@@ -23,11 +34,14 @@ object MovedHouseOption extends ModelMapping {
   def parse(str:String):MovedHouseOption = {
     str match {
       case Yes.`name` => Yes
+
       case MovedFromUk.`name` => MovedFromUk
       case MovedFromAbroad.`name` => MovedFromAbroad
-      case NotMoved.`name` => NotMoved
       case MovedFromAbroadRegistered.`name` => MovedFromAbroadRegistered
       case MovedFromAbroadNotRegistered.`name` => MovedFromAbroadNotRegistered
+
+      case NotMoved.`name` => NotMoved
+
       case _ => DontKnow
     }
   }
@@ -38,15 +52,19 @@ object MovedHouseOption extends ModelMapping {
     str => MovedHouseOption.parse(str),
     option => option.name
   ).verifying(
-    movedHouseUkAbroadOrNoOnly
+    allPossibleMoveOptions
   )
 
-  lazy val movedHouseUkAbroadOrNoOnly = Constraint[MovedHouseOption]("movedHouse") {
+  lazy val allPossibleMoveOptions = Constraint[MovedHouseOption]("movedHouse") {
+    case MovedHouseOption.Yes => Valid
+
     case MovedHouseOption.MovedFromUk => Valid
     case MovedHouseOption.MovedFromAbroad => Valid
-    case MovedHouseOption.NotMoved => Valid
     case MovedHouseOption.MovedFromAbroadRegistered => Valid
     case MovedHouseOption.MovedFromAbroadNotRegistered => Valid
+
+    case MovedHouseOption.NotMoved => Valid
+
     case _ => Invalid("Not a valid option")
   }
 }
