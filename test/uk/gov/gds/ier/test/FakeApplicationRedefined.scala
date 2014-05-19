@@ -52,8 +52,9 @@ trait FakeApplicationRedefined {
    * Emulate behaviour of Locate Service
    */
   val dummyLocateService = new LocateService(null, null, null) {
-    override def lookupAddress(postcode: String): List[Address] = postcode match {
-      case "WR2 6NJ" =>
+    override def lookupAddress(postcode: String): List[Address] =
+      postcode.trim.replaceAll(" ", "") match {
+      case "WR26NJ" =>
         // real English address, real GssCode, use when calling application submit against real API service
         List(
           Address(
@@ -68,7 +69,7 @@ trait FakeApplicationRedefined {
           )
         )
       // Scottish postcode, good to test 'Scot Exit'
-      case "EH3 7AL" =>
+      case "EH37AL" =>
         List(
           Address(
             lineOne = Some("2 Coates Crescent"),
@@ -81,7 +82,7 @@ trait FakeApplicationRedefined {
             gssCode = Some("S12000036")
           )
         )
-      case "AB12 3CD" =>
+      case "AB123CD" =>
         List(
           Address(
             lineOne = Some("123 Fake Street"),
