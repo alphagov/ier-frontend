@@ -17,7 +17,7 @@ class OpenRegisterMustacheTests
   with WithMockRemoteAssets
   with OpenRegisterMustache {
 
-  it should "empty progress form should produce empty Model" in {
+  it should "empty progress form should produce empty Model" in runningApp {
     val emptyApplicationForm = openRegisterForm
     val openRegisterModel = mustache.data(
       emptyApplicationForm,
@@ -33,7 +33,7 @@ class OpenRegisterMustacheTests
   }
 
   it should "progress form with open register marked should produce Mustache Model with open " +
-    "register value present (true)" in {
+    "register value present (true)" in runningApp {
     val partiallyFilledApplicationForm = openRegisterForm.fill(
       InprogressOrdinary(
         openRegisterOptin = Some(true)
@@ -53,7 +53,7 @@ class OpenRegisterMustacheTests
   }
 
   it should "progress form with open register marked should produce Mustache Model with open " +
-    "register value present (false)" in {
+    "register value present (false)" in runningApp {
     val partiallyFilledApplicationForm = openRegisterForm.fill(
       InprogressOrdinary(
         openRegisterOptin = Some(false)
