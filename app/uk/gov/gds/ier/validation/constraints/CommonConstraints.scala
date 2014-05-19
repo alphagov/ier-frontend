@@ -8,6 +8,10 @@ import uk.gov.gds.ier.validation.Key
 
 trait CommonConstraints extends ErrorMessages {
 
+  val Invalid = play.api.data.validation.Invalid
+  val Valid = play.api.data.validation.Valid
+  val Constraint = play.api.data.validation.Constraint
+
   def required[A](mapping: Mapping[A], errorMessage:String):Mapping[A] = {
     optional(mapping).verifying(errorMessage, _.nonEmpty).transform(_.get, Option(_))
   }
@@ -32,7 +36,7 @@ trait CommonConstraints extends ErrorMessages {
     }
   }
 
-  protected def fieldNotTooLong [T](fieldKey:Key, errorMessage:String)
+  def fieldNotTooLong [T](fieldKey:Key, errorMessage:String)
                                    (fieldValue:T => String) = {
     predicateHolds[T](fieldKey, errorMessage){
       t => fieldValue(t).size <= maxTextFieldLength

@@ -167,5 +167,62 @@ class NameFormTests
       }
     )
   }
+
+  it should "ignore previous name values if hasPreviousName is false" in {
+    val js = Json.toJson(
+      Map(
+        "name.firstName" -> "John",
+        "name.middleNames" -> "joe",
+        "name.lastName" -> "Smith",
+        "previousName.hasPreviousName" -> "false",
+        "previousName.previousName.firstName" -> "John",
+        "previousName.previousName.middleNames" -> "joe",
+        "previousName.previousName.lastName" -> "Smith"
+      )
+    )
+    nameForm.bind(js).fold(
+      hasErrors => {
+        fail(serialiser.toJson(hasErrors.prettyPrint))
+      },
+      success => {
+        success.name.isDefined should be(true)
+        val name = success.name.get
+        name.firstName should be("John")
+        name.lastName should be("Smith")
+        name.middleNames should be(Some("joe"))
+
+        success.previousName.isDefined should be(true)
+        success.previousName.get.previousName.isDefined should be(true)
+        success.previousName.get.hasPreviousName should be(false)
+      }
+    )
+  }
+
+  it should "error on too long values" in {
+    val js = Json.toJson(
+      Map(
+        "name.firstName" -> textTooLong,
+        "name.middleNames" -> textTooLong,
+        "name.lastName" -> textTooLong,
+        "previousName.hasPreviousName" -> "true",
+        "previousName.previousName.firstName" -> textTooLong,
+        "previousName.previousName.middleNames" -> textTooLong,
+        "previousName.previousName.lastName" -> textTooLong
+      )
+    )
+    nameForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "name.firstName" -> Seq("First name can be no longer than 256 characters"),
+          "name.middleNames" -> Seq("Middle names can be no longer than 256 characters"),
+          "name.lastName" -> Seq("Last name can be no longer than 256 characters"),
+          "previousName.previousName.firstName" -> Seq("First name can be no longer than 256 characters"),
+          "previousName.previousName.middleNames" -> Seq("Middle names can be no longer than 256 characters"),
+          "previousName.previousName.lastName" -> Seq("Last name can be no longer than 256 characters")
+        ))
+      },
+      success => fail("Should have errored out")
+    )
+  }
 }
 

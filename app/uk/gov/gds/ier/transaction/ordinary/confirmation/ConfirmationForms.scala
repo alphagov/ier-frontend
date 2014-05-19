@@ -11,8 +11,8 @@ trait ConfirmationForms extends OrdinaryMappings {
 
   val confirmationForm = ErrorTransformForm(
     mapping(
-      keys.name.key -> optional(nameMapping).verifying("Please complete this step", _.isDefined),
-      keys.previousName.key -> optional(previousNameMapping).verifying("Please complete this step", _.isDefined),
+      keys.name.key -> optional(Name.mapping).verifying("Please complete this step", _.isDefined),
+      keys.previousName.key -> optional(PreviousName.mapping).verifying("Please complete this step", _.isDefined),
       keys.dob.key -> optional(dobAndReasonMapping).verifying("Please complete this step", _.isDefined),
       keys.nationality.key -> optional(nationalityMapping).verifying("Please complete this step", _.isDefined),
       keys.nino.key -> optional(ninoMapping).verifying("Please complete this step", _.isDefined),

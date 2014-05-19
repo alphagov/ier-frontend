@@ -8,3 +8,16 @@ case class PreviousName(hasPreviousName:Boolean,
     ).getOrElse(Map.empty)
   }
 }
+
+object PreviousName extends ModelMapping {
+  import playMappings._
+
+  val mapping = playMappings.mapping(
+    keys.hasPreviousName.key -> boolean,
+    keys.previousName.key -> optional(Name.mapping)
+  ) (
+    PreviousName.apply
+  ) (
+    PreviousName.unapply
+  )
+}
