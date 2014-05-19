@@ -26,8 +26,17 @@ ordinary_country_error_notValidCountry=This is not a valid country
 
 
 # ordinary: name
+ordinary_name_firstName_label=First name
+ordinary_name_middleNames_label=Middle names
+ordinary_name_lastName_label=Last name
 
-
+ordinary_previousName_hasPreviousName_label=Have you changed your name in the last 12 months?
+ordinary_previousName_hasPreviousName_yes_label=Yes<span class="visuallyhidden"> I changed my name in the last 12 months</span>
+ordinary_previousName_hasPreviousName_no_label=Yes<span class="visuallyhidden"> I changed my name in the last 12 months</span>
+ordinary_previousName_header=What was your previous name?
+ordinary_previousName_firstName_label=<span class="visuallyhidden">Previous</span> First name
+ordinary_previousName_middleNames_label=<span class="visuallyhidden">Previous</span> Middle names
+ordinary_previousName_lastName_label=<span class="visuallyhidden">Previous</span> Last name
 # ordinary: nino
 
 
