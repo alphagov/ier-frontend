@@ -92,7 +92,7 @@ trait FakeApplicationRedefined {
             county = Some("Fakesbury"),
             uprn = Some("12345"),
             postcode = "AB12 3CD",
-            gssCode = Some("abc")
+            gssCode = Some("E09000007")
           )
         )
       case _ => List[Address]()

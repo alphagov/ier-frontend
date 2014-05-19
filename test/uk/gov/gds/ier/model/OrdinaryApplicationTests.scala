@@ -10,10 +10,10 @@ class OrdinaryApplicationTests
   with CustomMatchers
   with TestHelpers {
 
-  it should "generate the expected payload" in {
-    lazy val application = createOrdinaryApplication
+  behavior of "OrdinaryApplication.toApiMap"
 
-    val apiMap = application.toApiMap
+  it should "generate the expected payload map - simple case" in {
+    lazy val application = createOrdinaryApplication
 
     val expected = Map(
       "fn" -> "John",
@@ -53,20 +53,9 @@ class OrdinaryApplicationTests
       "pgssCode" -> "E09000032"
     )
 
-    val notExpected = List(
-      "nodobReason",
-      "agerange",
-      "nonino",
-      "nonat"
-    )
+    val apiMap = application.toApiMap
 
     apiMap should matchMap(expected)
-
-    for(key <- notExpected) {
-      apiMap.keys should not contain(key)
-    }
-
-    apiMap.keys.size should be(35)
   }
 
   it should "generate the expected payload when registered while abroad" in {
@@ -75,8 +64,6 @@ class OrdinaryApplicationTests
         lastRegisteredType = LastRegisteredType.Overseas
       ))
     )
-
-    val apiMap = application.toApiMap
 
     val expected = Map(
       "fn" -> "John",
@@ -117,23 +104,12 @@ class OrdinaryApplicationTests
       "lastcategory" -> "overseas"
     )
 
-    val notExpected = List(
-      "nodobReason",
-      "agerange",
-      "nonino",
-      "nonat"
-    )
+    val apiMap = application.toApiMap
 
     apiMap should matchMap(expected)
-
-    for(key <- notExpected) {
-      apiMap.keys should not contain(key)
-    }
-
-    apiMap.keys.size should be(36)
   }
 
-  def createOrdinaryApplication =
+  private def createOrdinaryApplication =
     OrdinaryApplication(
       name = Some(Name(
         firstName = "John",
@@ -172,7 +148,7 @@ class OrdinaryApplicationTests
         county = Some("Fakesbury"),
         postcode = "XX12 34XX",
         uprn = Some("12345"),
-        gssCode = Some("E09000007") // unrealistic expectation, manual address does not have gssCode!
+        gssCode = Some("E09000007")
       )),
       previousAddress = Some(Address(
         lineOne = Some("The (fake) Cottage"),
@@ -182,7 +158,7 @@ class OrdinaryApplicationTests
         county = Some("Fakesborough"),
         postcode = "XX34 21XX",
         uprn = Some("54321"),
-        gssCode = Some("E09000032") // unrealistic expectation, manual address does not have gssCode!
+        gssCode = Some("E09000032")
       )),
       otherAddress = Some(OtherAddress(
         otherAddressOption = OtherAddress.NoOtherAddress
