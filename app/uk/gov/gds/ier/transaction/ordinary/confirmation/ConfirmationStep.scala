@@ -79,13 +79,13 @@ class ConfirmationStep @Inject ()(
           val refNum = ierApi.generateOrdinaryReferenceNumber(validApplication)
           val remoteClientIP = request.headers.get("X-Real-IP")
 
-          ierApi.submitOrdinaryApplication(remoteClientIP, validApplication, Some(refNum))
+          val response = ierApi.submitOrdinaryApplication(remoteClientIP, validApplication, Some(refNum))
 
           logSession()
 
           Redirect(CompleteController.complete()).flashing(
             "refNum" -> refNum,
-            "postcode" -> validApplication.address.map(_.postcode).getOrElse(""),
+            "localAuthority" -> serialiser.toJson(response.localAuthority),
             "hasOtherAddress" -> validApplication.otherAddress.map(
               _.otherAddressOption.hasOtherAddress.toString).getOrElse(""),
             "backToStartUrl" -> RegisterToVoteController.registerToVote.url.toString

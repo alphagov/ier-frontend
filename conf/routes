@@ -151,7 +151,6 @@ POST        /register-to-vote/edit/nino                                  control
 
 #Postcode Lookup
 GET         /address/:postcode                                           controllers.PostcodeController.lookupAddress(postcode)
-GET         /authority/:postcode                                         controllers.PostcodeController.lookupAuthority(postcode)
 
 
 

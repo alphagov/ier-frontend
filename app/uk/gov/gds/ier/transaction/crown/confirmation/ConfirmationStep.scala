@@ -6,15 +6,16 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.crown.routes.ConfirmationController
-import controllers.step.crown.routes.StatementController
 import controllers.routes.CompleteController
 import com.google.inject.Inject
-import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.service.apiservice.IerApiService
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.step.Routes
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import scala.Some
 
 
 class ConfirmationStep @Inject() (
@@ -62,13 +63,13 @@ class ConfirmationStep @Inject() (
           val refNum = ierApi.generateCrownReferenceNumber(validApplication)
           val remoteClientIP = request.headers.get("X-Real-IP")
 
-          ierApi.submitCrownApplication(remoteClientIP, validApplication, Some(refNum))
+          val response = ierApi.submitCrownApplication(remoteClientIP, validApplication, Some(refNum))
 
           logSession()
 
           Redirect(CompleteController.complete()).flashing(
             "refNum" -> refNum,
-            "postcode" -> "SW1A 1AA"
+            "localAuthority" -> serialiser.toJson(response.localAuthority)
           )
         }
       )

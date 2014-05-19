@@ -23,8 +23,8 @@ class CompleteTemplateTest
   it should "properly render all properties from the model" in {
     running(FakeApplication()) {
       val data = new Complete.CompleteModel(
-        authorityUrl = "http://authority123.gov.uk/contactUs",
         authorityName = "election authority 123",
+        authorityUrl = Some("http://authority123.gov.uk/contactUs"),
         refNumber = Some("123457689013"),
         hasOtherAddress = true,
         backToStartUrl = "/register-to-vote/start"
@@ -34,7 +34,7 @@ class CompleteTemplateTest
       val renderedOutput = html.toString
       val doc = Jsoup.parse(renderedOutput)
 
-      doc.select("a[href=" + data.authorityUrl + "]").size() should be(1)
+      doc.select("a[href=" + data.authorityUrl.get + "]").size() should be(1)
       doc.select("a[href=" + data.backToStartUrl + "]").size() should be(1)
 
       renderedOutput should include(data.refNumber.get)

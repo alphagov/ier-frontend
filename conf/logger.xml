@@ -17,7 +17,7 @@
 
     <logger name="uk.gov" level="INFO" />
 
-    <logger name="mustache" level="DEBUG"/>
+    <logger name="mustache" level="ERROR"/>
 
     <root level="INFO">
         <appender-ref ref="FILE"/>

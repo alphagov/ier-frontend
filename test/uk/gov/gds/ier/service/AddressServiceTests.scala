@@ -62,6 +62,7 @@ class AddressServiceTests extends FlatSpec
       addressLine = None,
       uprn = None,
       postcode = "AB12 3CD",
+      gssCode = Some("E09000007"), // unrealistic expectation, manual address does not have gssCode!
       manualAddress = Some(PartialManualAddress(
         lineOne = Some("123 Fake Street"),
         city = Some("Fakerton")))
@@ -73,7 +74,8 @@ class AddressServiceTests extends FlatSpec
       city = Some("Fakerton"),
       county = None,
       uprn = None,
-      postcode = "AB12 3CD"
+      postcode = "AB12 3CD",
+      gssCode = Some("E09000007")
     )
 
     service.formFullAddress(Some(partial)) should be(Some(address))

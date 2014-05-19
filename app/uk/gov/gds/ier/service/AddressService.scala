@@ -5,12 +5,14 @@ import com.google.inject.Inject
 
 class AddressService @Inject()(locateService: LocateService) {
 
-  def formFullAddress(partial:Option[PartialAddress]):Option[Address] = {
+  def formFullAddress(partial: Option[PartialAddress]): Option[Address] = {
     partial flatMap {
+      // selected address
       case PartialAddress(_, Some(uprn), postcode, _, _) => {
         val listOfAddresses = locateService.lookupAddress(postcode)
         listOfAddresses.find(address => address.uprn == Some(uprn))
       }
+      // manual address
       case PartialAddress(_, None, postcode, Some(manualAddress), gssCode) => {
         Some(Address(
           lineOne = manualAddress.lineOne,
@@ -20,8 +22,9 @@ class AddressService @Inject()(locateService: LocateService) {
           county = None,
           uprn = None,
           postcode = postcode,
-          gssCode = gssCode))
+          gssCode = ensureGssCode(gssCode, postcode)))
       }
+      // special case address, like 'ignored' Northen Ireland
       case PartialAddress(_,_,postcode,_,_) => {
         Some(Address(
           lineOne = None,
@@ -74,5 +77,15 @@ class AddressService @Inject()(locateService: LocateService) {
     ).filterNot(line => line.map(_.replaceAllLiterally(" ","")) == Some(""))
       .flatten
       .mkString(", ")
+  }
+
+  /**
+   * If Gss Code is not present use postcode and do locateService lookup
+   * and pick first available gssCode from the results.
+   */
+  private def ensureGssCode(gssCode: Option[String], postcode: String): Option[String] = {
+    gssCode.orElse {
+      locateService.lookupAddress(postcode).find(_.gssCode.isDefined).flatMap(_.gssCode)
+    }
   }
 }

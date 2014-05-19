@@ -25,8 +25,6 @@ case class OrdinaryApplication(
     postalVote: Option[PostalVote],
     contact: Option[Contact],
     referenceNumber: Option[String],
-    authority: Option[LocalAuthority],
-    previousAuthority: Option[LocalAuthority],
     ip: Option[String]) extends CompleteApplication {
 
   def toApiMap:Map[String, String] = {
@@ -48,8 +46,8 @@ case class OrdinaryApplication(
         emailAddress => Map("pvoteemail" -> emailAddress)).getOrElse(Map.empty)).getOrElse(Map.empty)).getOrElse(Map.empty) ++
       contact.map(_.toApiMap).getOrElse(Map.empty) ++
       referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
-      authority.map(auth => Map("gssCode" -> auth.gssId)).getOrElse(Map.empty)  ++
-      previousAuthority.map(auth => Map("pgssCode" -> auth.gssId)).getOrElse(Map.empty) ++
+      address.flatMap(_.gssCode.map(gssCode => Map("gssCode" -> gssCode))).getOrElse(Map.empty)  ++
+      previousAddress.flatMap(_.gssCode.map(gssCode => Map("pgssCode" -> gssCode))).getOrElse(Map.empty) ++
       ip.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty) ++
       Map("applicationType" -> "ordinary")
 
