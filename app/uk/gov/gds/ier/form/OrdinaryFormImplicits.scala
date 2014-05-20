@@ -10,11 +10,12 @@ trait OrdinaryFormImplicits {
 
   implicit class OrdinaryImprovedForm(form: ErrorTransformForm[InprogressOrdinary]) {
     def obtainOtherCountriesList: List[String] = {
-      val otherCountries =
+      val otherCountries = (
         for (i <- 0 until NationalityConstants.numberMaxOfOtherCountries
-             if (!form(otherCountriesKey(i)).value.exists(_.isEmpty)))
+             if (form(otherCountriesKey(i)).value.isDefined)
+               && !form(otherCountriesKey(i)).value.get.isEmpty)
         yield form(otherCountriesKey(i)).value.get
-
+      )
       otherCountries.toList
     }
 
