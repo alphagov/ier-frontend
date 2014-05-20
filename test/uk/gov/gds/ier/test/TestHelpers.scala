@@ -20,7 +20,7 @@ import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait TestHelpers
   extends CustomMatchers
-    with OverseasApplications {
+    with OverseasApplications with FakeApplicationRedefined {
 
   val jsonSerialiser = new JsonSerialiser
 
