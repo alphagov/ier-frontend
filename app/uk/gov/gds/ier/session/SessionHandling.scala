@@ -25,7 +25,7 @@ abstract class SessionHandling[T <: InprogressApplication[T]]
 
 
     final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => T => Result)(implicit manifest:Manifest[T]):Action[A] = Action(bodyParser) {
-      request =>
+      implicit request =>
         logger.debug(s"REQUEST ${request.method} ${request.path} - Valid Session needed")
         request.getToken match {
           case Some(token) => {

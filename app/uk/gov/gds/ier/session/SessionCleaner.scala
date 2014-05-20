@@ -9,7 +9,7 @@ trait SessionCleaner extends ResultHandling {
 
   object NewSession {
     final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => Result):Action[A] = Action(bodyParser) {
-      request =>
+      implicit request =>
         block(request).withFreshSession()
     }
 
