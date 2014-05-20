@@ -12,12 +12,12 @@
             <input type="checkbox" id="{{contactEmailCheckbox.id}}" name="{{contactEmailCheckbox.name}}" 
               value="true" {{contactEmailCheckbox.attributes}} class="validate {{contactEmailCheckbox.classes}}" 
               data-validation-name="emailOption"  data-validation-type="field" data-validation-rules="nonEmpty">
-        Email
+            {{messages.ordinary_contact_email_option}}
         </label>
 
         <div class="optional-section " data-condition="contact_email_contactMe">
             <label for="{{contactEmailText.id}}" class=""  >
-                Email address
+                {{messages.ordinary_contact_emailAddress}}
             </label>
             <div class="validation-wrapper">
                 <input type="email" id="{{contactEmailText.id}}" name="{{contactEmailText.name}}" 
@@ -31,12 +31,12 @@
            <input type="checkbox" id="{{contactPhoneCheckbox.id}}" name="{{contactPhoneCheckbox.name}}"
               value="true" {{contactPhoneCheckbox.attributes}} class=" validate {{contactPhoneCheckbox.classes}}" 
               data-validation-name="phoneOption"  data-validation-type="field" data-validation-rules="nonEmpty">
-        Phone Call
+           {{messages.ordinary_contact_phoneCall_option}}
         </label>
 
         <div class="optional-section " data-condition="contact_phone_contactMe">
             <label for="{{contactPhoneText.id}}" class=""  >
-                Phone number
+                {{messages.ordinary_contact_phoneNumber}}
             </label>
             <div class="validation-wrapper">
                 <input type="tel" id="{{contactPhoneText.id}}" name="{{contactPhoneText.name}}" 
@@ -50,11 +50,11 @@
             <input type="checkbox" id="{{contactPostCheckbox.id}}" name="{{contactPostCheckbox.name}}" 
               value="true" {{contactPostCheckbox.attributes}} class=" validate {{contactPostCheckbox.classes}}" 
               data-validation-name="post"  data-validation-type="field" data-validation-rules="nonEmpty" >
-        Post
+            {{messages.ordinary_contact_post_option}}
         </label>
 
     </fieldset>
-    <p class="footnote">Enter an email address if you want an email confirmation of your registration.</p>
+    <p class="footnote">{{messages.ordinary_contact_emailConfirmationMessage}}</p>
     <button type="submit" id="continue" class="button next validation-submit" 
       data-validation-sources="contact phoneNumber emailAddress">Continue</button>
 </form>

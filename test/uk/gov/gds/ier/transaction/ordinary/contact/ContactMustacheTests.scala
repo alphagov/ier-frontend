@@ -33,9 +33,7 @@ class ContactMustacheTests
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
-    contactModel.question.title should be (
-      "If we have questions about your application, what's the best way to contact you?"
-    )
+    contactModel.question.title should be ("ordinary_contact_title")
     contactModel.question.postUrl should be("/register-to-vote/contact")
 
     contactModel.contactEmailCheckbox.attributes should be("")
@@ -64,9 +62,7 @@ class ContactMustacheTests
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
-    contactModel.question.title should be(
-      "If we have questions about your application, what's the best way to contact you?"
-    )
+    contactModel.question.title should be("ordinary_contact_title")
     contactModel.question.postUrl should be("/register-to-vote/contact")
 
     contactModel.contactEmailCheckbox.attributes should be("checked=\"checked\"")
@@ -95,9 +91,7 @@ class ContactMustacheTests
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
-    contactModel.question.title should be(
-      "If we have questions about your application, what's the best way to contact you?"
-    )
+    contactModel.question.title should be("ordinary_contact_title")
     contactModel.question.postUrl should be("/register-to-vote/contact")
 
     contactModel.contactEmailCheckbox.attributes should be("")
@@ -126,9 +120,7 @@ class ContactMustacheTests
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
-    contactModel.question.title should be(
-      "If we have questions about your application, what's the best way to contact you?"
-    )
+    contactModel.question.title should be("ordinary_contact_title")
     contactModel.question.postUrl should be("/register-to-vote/contact")
 
     contactModel.contactEmailCheckbox.attributes should be("")
@@ -157,9 +149,7 @@ class ContactMustacheTests
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
-    contactModel.question.title should be(
-      "If we have questions about your application, what's the best way to contact you?"
-    )
+    contactModel.question.title should be("ordinary_contact_title")
     contactModel.question.postUrl should be("/register-to-vote/contact")
 
     contactModel.contactEmailCheckbox.attributes should be("")
@@ -168,9 +158,7 @@ class ContactMustacheTests
     contactModel.contactPhoneText.value should be("")
     contactModel.contactPostCheckbox.attributes should be("")
 
-    contactModel.question.errorMessages.mkString(", ") should be(
-      "Please enter your phone number"
-    )
+    contactModel.question.errorMessages.mkString(", ") should be("ordinary_contact_error_enterYourPhoneNo")
   }
 
   it should "pre-fill the email address from the postal vote question" in {
@@ -193,9 +181,7 @@ class ContactMustacheTests
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
-    contactModel.question.title should be(
-      "If we have questions about your application, what's the best way to contact you?"
-    )
+    contactModel.question.title should be("ordinary_contact_title")
     contactModel.question.postUrl should be("/register-to-vote/contact")
 
     contactModel.contactEmailCheckbox.attributes should be("")

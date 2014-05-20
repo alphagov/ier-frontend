@@ -24,7 +24,7 @@ class ContactControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 11")
-      contentAsString(result) should include("If we have questions about your application, what&#39;s the best way to contact you?")
+      contentAsString(result) should include("If we have questions about your application, how should we contact you?")
       contentAsString(result) should include("/register-to-vote/contact")
     }
   }
@@ -84,7 +84,7 @@ class ContactControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 11")
-      contentAsString(result) should include("If we have questions about your application, what&#39;s the best way to contact you?")
+      contentAsString(result) should include("If we have questions about your application, how should we contact you?")
       contentAsString(result) should include("/register-to-vote/edit/contact")
     }
   }

@@ -103,9 +103,18 @@ ordinary_data-toggle-text=Why are there two registers?
 
 # ordinary: postal vote
 
-
 # ordinary: contact
-
+ordinary_contact_title=If we have questions about your application, how should we contact you?
+ordinary_contact_email_option=Email
+ordinary_contact_emailAddress=Email address
+ordinary_contact_phoneCall_option=Phone call
+ordinary_contact_phoneNumber=Phone number
+ordinary_contact_post_option=Post
+ordinary_contact_emailConfirmationMessage=Enter an email address if you want an email confirmation of your registration.
+ordinary_contact_error_pleaseAnswer=Please answer this question
+ordinary_contact_error_enterYourEmail=Please enter your email address
+ordinary_contact_error_enterYourPhoneNo=Please enter your phone number
+ordinary_contact_error_pleaseEnterValidEmail=Please enter a valid email address
 
 # ordinary: confirmation
 

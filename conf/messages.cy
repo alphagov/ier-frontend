@@ -106,7 +106,17 @@ ordinary_data-toggle-text=Pam mae dwy gofrestr?
 
 
 # ordinary: contact
-
+ordinary_contact_title=Os bydd gennym gwestiynau am eich cais, beth yw'r ffordd orau o gysylltu â chi?
+ordinary_contact_email_option=E-bost
+ordinary_contact_emailAddress=Cyfeiriad e-bost
+ordinary_contact_phoneCall_option=Galwad Ffôn
+ordinary_contact_phoneNumber=Rhif ffôn
+ordinary_contact_post_option=Post
+ordinary_contact_emailConfirmationMessage=Nodwch gyfeiriad e-bost os hoffech dderbyn cadarnhad o'ch cofrestriad drwy e-bost.
+ordinary_contact_error_pleaseAnswer=Atebwch y cwestiwn hwn
+ordinary_contact_error_enterYourEmail=Rhowch eich cyfeiriad e-bost
+ordinary_contact_error_enterYourPhoneNo=Nodwch eich rhif ffôn
+ordinary_contact_error_pleaseEnterValidEmail=Nid yw hwnnw'n gyfeiriad e-bost dilys: gwiriwch yr hyn rydych wedi'i nodi
 
 # ordinary: confirmation
 
