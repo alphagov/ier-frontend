@@ -102,8 +102,8 @@ class ContactFormTests
     contactForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("contact") should be(Seq("Please answer this question"))
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+        hasErrors.errorMessages("contact") should be(Seq("ordinary_contact_error_pleaseAnswer"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_contact_error_pleaseAnswer"))
       },
       success => fail("Should have thrown an error")
     )
@@ -122,8 +122,8 @@ class ContactFormTests
     contactForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("contact") should be(Seq("Please answer this question"))
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+        hasErrors.errorMessages("contact") should be(Seq("ordinary_contact_error_pleaseAnswer"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_contact_error_pleaseAnswer"))
       },
       success => fail("Should have thrown an error")
     )
@@ -139,9 +139,9 @@ class ContactFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "contact.phone.detail" -> Seq("Please enter your phone number")
+          "contact.phone.detail" -> Seq("ordinary_contact_error_enterYourPhoneNo")
         ))
-        hasErrors.globalErrorMessages should be(Seq("Please enter your phone number"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_contact_error_enterYourPhoneNo"))
       },
       success => fail("Should have thrown an error")
     )
@@ -157,9 +157,9 @@ class ContactFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "contact.email.detail" -> Seq("Please enter your email address")
+          "contact.email.detail" -> Seq("ordinary_contact_error_enterYourEmail")
         ))
-        hasErrors.globalErrorMessages should be(Seq("Please enter your email address"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_contact_error_enterYourEmail"))
       },
       success => fail("Should have thrown an error")
     )
@@ -176,9 +176,9 @@ class ContactFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "contact.email.detail" -> Seq("Please enter a valid email address")
+          "contact.email.detail" -> Seq("ordinary_contact_error_pleaseEnterValidEmail")
         ))
-        hasErrors.globalErrorMessages should be(Seq("Please enter a valid email address"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_contact_error_pleaseEnterValidEmail"))
       },
       success => fail("Should have thrown an error")
     )

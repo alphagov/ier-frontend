@@ -16,19 +16,17 @@ trait ContactMustache extends StepTemplate[InprogressOrdinary] {
       contactPhoneText: Field
   ) extends MustacheData
 
-  val mustache = MustacheTemplate("ordinary/contact") { (form, post) =>
+  val mustache = MultilingualTemplate("ordinary/contact") { implicit lang => (form, post) =>
     implicit val progressForm = form
-    val title = "If we have questions about your application," +
-                " what's the best way to contact you?"
-    
+
     val emailAddress = form(keys.postalVote.deliveryMethod.emailAddress).value
 
     ContactModel(
       question = Question(
         postUrl = post.url,
-        errorMessages = form.globalErrors.map{ _.message },
+        errorMessages = Messages.translatedGlobalErrors(form),
         number = "11",
-        title = title
+        title = Messages("ordinary_contact_title")
       ),
       contactFieldSet = FieldSet(
         classes = if (progressForm(keys.contact).hasErrors) "invalid" else ""
