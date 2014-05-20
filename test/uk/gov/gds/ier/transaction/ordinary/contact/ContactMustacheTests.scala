@@ -25,7 +25,7 @@ class ContactMustacheTests
 
   val serialiser = jsonSerialiser
 
-  it should "empty progress form should produce empty Model" in {
+  it should "empty progress form should produce empty Model" in runningApp {
     val emptyApplicationForm = contactForm
     val contactModel = mustache.data(
       emptyApplicationForm,
@@ -33,7 +33,7 @@ class ContactMustacheTests
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
-    contactModel.question.title should be ("ordinary_contact_title")
+    contactModel.question.title should be ("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/contact")
 
     contactModel.contactEmailCheckbox.attributes should be("")
@@ -43,7 +43,7 @@ class ContactMustacheTests
     contactModel.contactPostCheckbox.attributes should be("")
   }
 
-  it should "progress form with filled email should produce Mustache Model with email value " in {
+  it should "progress form with filled email should produce Mustache Model with email value " in runningApp {
     val partiallyFilledApplicationForm = contactForm.fill(
       InprogressOrdinary(
         contact = Some(
@@ -62,7 +62,7 @@ class ContactMustacheTests
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
-    contactModel.question.title should be("ordinary_contact_title")
+    contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/contact")
 
     contactModel.contactEmailCheckbox.attributes should be("checked=\"checked\"")
@@ -72,7 +72,7 @@ class ContactMustacheTests
     contactModel.contactPostCheckbox.attributes should be("")
   }
 
-  it should "progress form with filled phone should produce Mustache Model with phone value" in {
+  it should "progress form with filled phone should produce Mustache Model with phone value" in runningApp {
     val partiallyFilledApplicationForm = contactForm.fill(
       InprogressOrdinary(
         contact = Some(
@@ -91,7 +91,7 @@ class ContactMustacheTests
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
-    contactModel.question.title should be("ordinary_contact_title")
+    contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/contact")
 
     contactModel.contactEmailCheckbox.attributes should be("")
@@ -101,7 +101,7 @@ class ContactMustacheTests
     contactModel.contactPostCheckbox.attributes should be("")
   }
 
-  it should "progress form with filled phone and post should produce Model with phone and post" in {
+  it should "progress form with filled phone and post should produce Model with phone and post" in runningApp {
     val partiallyFilledApplicationForm = contactForm.fill(
       InprogressOrdinary(
         contact = Some(
@@ -120,7 +120,7 @@ class ContactMustacheTests
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
-    contactModel.question.title should be("ordinary_contact_title")
+    contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/contact")
 
     contactModel.contactEmailCheckbox.attributes should be("")
@@ -130,7 +130,7 @@ class ContactMustacheTests
     contactModel.contactPostCheckbox.attributes should be("checked=\"checked\"")
   }
 
-  it should "progress form with validation errors should produce Model with error list present" in {
+  it should "progress form with validation errors should produce Model with error list present" in runningApp {
     val partiallyFilledApplicationForm = contactForm.fillAndValidate(
       InprogressOrdinary(
         contact = Some(
@@ -149,7 +149,7 @@ class ContactMustacheTests
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
-    contactModel.question.title should be("ordinary_contact_title")
+    contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/contact")
 
     contactModel.contactEmailCheckbox.attributes should be("")
@@ -158,10 +158,10 @@ class ContactMustacheTests
     contactModel.contactPhoneText.value should be("")
     contactModel.contactPostCheckbox.attributes should be("")
 
-    contactModel.question.errorMessages.mkString(", ") should be("ordinary_contact_error_enterYourPhoneNo")
+    contactModel.question.errorMessages.mkString(", ") should be("Please enter your phone number")
   }
 
-  it should "pre-fill the email address from the postal vote question" in {
+  it should "pre-fill the email address from the postal vote question" in runningApp {
     val partiallyFilledApplicationForm = contactForm.fillAndValidate(
       InprogressOrdinary(
         contact = None,
@@ -181,7 +181,7 @@ class ContactMustacheTests
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
-    contactModel.question.title should be("ordinary_contact_title")
+    contactModel.question.title should be("If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/contact")
 
     contactModel.contactEmailCheckbox.attributes should be("")

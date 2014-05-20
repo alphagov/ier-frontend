@@ -79,20 +79,17 @@ trait ContactForms {
 
   def atLeastOneContactOptionSelected (contact: Option[Contact]) = {
     contact match {
-      case Some(Contact(postOption,Some(ContactDetail(phoneOption,_)),Some(ContactDetail(emailOption,_)))) =>
-        if (!postOption && !phoneOption && !emailOption)
+      case Some(Contact(postOption,Some(ContactDetail(phoneOption,_)),Some(ContactDetail(emailOption,_))))
+        if(!postOption && !phoneOption && !emailOption) =>
           Invalid("ordinary_contact_error_pleaseAnswer", keys.contact)
-        else Valid
 
-      case Some(Contact(postOption,Some(ContactDetail(phoneOption,_)),None)) =>
-        if (!postOption && !phoneOption)
+      case Some(Contact(postOption,Some(ContactDetail(phoneOption,_)),None))
+        if (!postOption && !phoneOption) =>
           Invalid("ordinary_contact_error_pleaseAnswer", keys.contact)
-        else Valid
 
-      case Some(Contact(postOption,None,Some(ContactDetail(emailOption,_)))) =>
-        if (!postOption && !emailOption)
+      case Some(Contact(postOption,None,Some(ContactDetail(emailOption,_))))
+        if (!postOption && !emailOption) =>
           Invalid("ordinary_contact_error_pleaseAnswer", keys.contact)
-        else Valid
 
       case None => Invalid("ordinary_contact_error_pleaseAnswer", keys.contact)
       case _ => Valid
