@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.model
 
-import uk.gov.gds.common.model.LocalAuthority
 import uk.gov.gds.ier.test.{TestHelpers, CustomMatchers}
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.service.apiservice.ForcesApplication
@@ -26,7 +25,7 @@ class ForcesApplicationTests
         county = Some("Fakesbury"),
         postcode = "XX12 34XX",
         uprn = Some("12345"),
-        gssCode = Some("E09000007") // unrealistic expectation, manual address does not have gssCode!
+        gssCode = Some("E09000007")
       )),
       previousAddress = Some(Address(
         lineOne = Some("The (fake) Cottage"),
@@ -35,7 +34,8 @@ class ForcesApplicationTests
         city = Some("Fakererly"),
         county = Some("Fakesborough"),
         postcode = "XX34 21XX",
-        uprn = Some("54321")
+        uprn = Some("54321"),
+        gssCode = Some("E09000339")
       )),
       nationality = Some(IsoNationality(
         countryIsos = List("GB", "IE"),
@@ -149,22 +149,10 @@ class ForcesApplicationTests
       "post" -> "true",
       "email" -> "test@email.com",
       "phone" -> "01234 5678910",
-      "gssCode" -> "E09000007"
-    )
-
-    val notExpected = List(
-      "nodobReason",
-      "agerange",
-      "nonino",
-      "nonat"
+      "gssCode" -> "E09000007",
+      "pgssCode" -> "E09000339"
     )
 
     apiMap should matchMap(expected)
-
-    for(key <- notExpected) {
-      apiMap.keys should not contain(key)
-    }
-
-    apiMap.keys.size should be(43)
   }
 }

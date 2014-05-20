@@ -1,7 +1,5 @@
 package uk.gov.gds.ier.service.apiservice
 
-import uk.gov.gds.common.model.LocalAuthority
-import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.model.Statement
 import uk.gov.gds.ier.model.DateOfBirth
 import uk.gov.gds.ier.model.IsoNationality
@@ -53,6 +51,7 @@ case class ForcesApplication(
       contact.map(_.toApiMap).getOrElse(Map.empty) ++
       referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
       address.flatMap(_.gssCode.map(gssCode => Map("gssCode" -> gssCode))).getOrElse(Map.empty) ++
+      previousAddress.flatMap(_.gssCode.map(gssCode => Map("pgssCode" -> gssCode))).getOrElse(Map.empty) ++
       ip.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty) ++
       Map("applicationType" -> "forces")
 
