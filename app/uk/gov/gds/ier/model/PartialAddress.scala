@@ -1,12 +1,10 @@
 package uk.gov.gds.ier.model
 
-case class PartialAddress(
-  addressLine: Option[String],
-  uprn: Option[String],
-  postcode: String,
-  manualAddress: Option[PartialManualAddress],
-  gssCode: Option[String] = None
-)
+case class PartialAddress( addressLine: Option[String],
+                           uprn: Option[String],
+                           postcode: String,
+                           manualAddress: Option[PartialManualAddress],
+                           gssCode: Option[String] = None)
 
 object PartialAddress extends ModelMapping {
   import playMappings._

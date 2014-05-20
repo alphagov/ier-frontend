@@ -65,7 +65,7 @@ trait FakeApplicationRedefined {
             county = Some("Worcestershire"),
             uprn = Some("100120595384"),
             postcode = "WR2 6NJ",
-            gssCode = Some("E07000235")
+            gssCode = Some("abc")
           )
         )
       // Scottish postcode, good to test 'Scot Exit'
