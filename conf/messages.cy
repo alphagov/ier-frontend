@@ -1,4 +1,4 @@
-
+step_of=o
 step_continue=Parhau
 step_question=Cwestiwn
 
@@ -43,6 +43,7 @@ ordinary_previousName_middleNames_label=Enwau Canol<span class="visuallyhidden">
 ordinary_previousName_lastName_label=Cyfenw<span class="visuallyhidden"> blaenorol</span>
 
 ordinary_previousName_error_answerThis=Dywedwch wrthym a ydych chi wedi newid eich enw
+ordinary_previousName_error_enterFullName=Nodwch eich enw blaenorol
 ordinary_previousName_error_enterFirstName=Nodwch eich enw cyntaf blaenorol
 ordinary_previousName_error_enterLastName=Nodwch eich cyfenw blaenorol
 ordinary_previousName_error_firstNameTooLong=Gall enw cyntaf blaenorol fod yn fwy na 256 nod

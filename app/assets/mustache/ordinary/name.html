@@ -112,41 +112,50 @@
             <label for="{{previousFirstName.id}}">
                 {{{messages.ordinary_previousName_firstName_label}}}
             </label>
-            <input
-              type="text"
-              id="{{previousFirstName.id}}"
-              name="{{previousFirstName.name}}"
-              value="{{previousFirstName.value}}"
-              autocomplete="off"
-              class="text  first-name long validate {{previousFirstName.classes}}"
-              data-validation-name="previousFirstName"
-              data-validation-type="field"
-              data-validation-rules="nonEmpty">
+
+            <div class="validation-wrapper {{previousFirstName.classes}}">
+                <input
+                  type="text"
+                  id="{{previousFirstName.id}}"
+                  name="{{previousFirstName.name}}"
+                  value="{{previousFirstName.value}}"
+                  autocomplete="off"
+                  class="text  first-name long validate {{previousFirstName.classes}}"
+                  data-validation-name="previousFirstName"
+                  data-validation-type="field"
+                  data-validation-rules="nonEmpty">
+            </div>
 
             <label for="{{previousMiddleNames.id}}">
                 {{{messages.ordinary_previousName_middleNames_label}}}
             </label>
-            <input
-              type="text"
-              id="{{previousMiddleNames.id}}"
-              name="{{previousMiddleNames.name}}"
-              value="{{previousMiddleNames.value}}"
-              autocomplete="off"
-              class="text  middle-names long {{previousMiddleName.classes}}">
+
+            <div class="validation-wrapper {{previousMiddleNames.classes}}">
+                <input
+                  type="text"
+                  id="{{previousMiddleNames.id}}"
+                  name="{{previousMiddleNames.name}}"
+                  value="{{previousMiddleNames.value}}"
+                  autocomplete="off"
+                  class="text  middle-names long {{previousMiddleName.classes}}">
+            </div>
 
             <label for="{{previousLastName.id}}">
                 {{{messages.ordinary_previousName_lastName_label}}}
             </label>
-            <input
-              type="text"
-              id="{{previousLastName.id}}"
-              name="{{previousLastName.name}}"
-              value="{{previousLastName.value}}"
-              autocomplete="off"
-              class="text  last-name long validate {{previousLastName.classes}}"
-              data-validation-name="previousLastName"
-              data-validation-type="field"
-              data-validation-rules="nonEmpty">
+
+            <div class="validation-wrapper {{previousLastName.classes}}">
+                <input
+                  type="text"
+                  id="{{previousLastName.id}}"
+                  name="{{previousLastName.name}}"
+                  value="{{previousLastName.value}}"
+                  autocomplete="off"
+                  class="text  last-name long validate {{previousLastName.classes}}"
+                  data-validation-name="previousLastName"
+                  data-validation-type="field"
+                  data-validation-rules="nonEmpty">
+            </div>
         </fieldset>
     </div>
 

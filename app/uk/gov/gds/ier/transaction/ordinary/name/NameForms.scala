@@ -37,7 +37,8 @@ trait NameForms extends NameConstraints {
       prevLastNameRequired,
       prevFirstNameNotTooLong,
       prevMiddleNamesNotTooLong,
-      prevLastNameNotTooLong
+      prevLastNameNotTooLong,
+      prevNameRequiredIfHasPrevNameTrue
     )
   )
 }
@@ -86,6 +87,20 @@ trait NameConstraints extends CommonConstraints with FormKeys {
       case Some(Name("", _, _)) => Invalid (
         "ordinary_name_error_enterFirstName",
         keys.name.firstName
+      )
+      case _ => Valid
+    }
+  }
+
+  lazy val prevNameRequiredIfHasPrevNameTrue = Constraint[InprogressOrdinary] (
+    keys.previousName.previousName.key
+  ) {
+    _.previousName match {
+      case Some(PreviousName(true, None)) => Invalid (
+        "ordinary_previousName_error_enterFullName",
+        keys.previousName.previousName,
+        keys.previousName.previousName.firstName,
+        keys.previousName.previousName.lastName
       )
       case _ => Valid
     }

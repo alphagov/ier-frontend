@@ -1,6 +1,5 @@
-
 # general
-
+step_of=of
 step_continue=Continue
 step_question=Question
 
@@ -47,6 +46,7 @@ ordinary_previousName_middleNames_label=<span class="visuallyhidden">Previous</s
 ordinary_previousName_lastName_label=<span class="visuallyhidden">Previous</span> Last name
 
 ordinary_previousName_error_answerThis=Please answer this question
+ordinary_previousName_error_enterFullName=Please enter your previous name
 ordinary_previousName_error_enterFirstName=Please enter your first name
 ordinary_previousName_error_enterLastName=Please enter your last name
 ordinary_previousName_error_firstNameTooLong=Previous first name can be no longer than 256 characters

@@ -87,6 +87,37 @@ class NameFormTests
     )
   }
 
+  it should "error out on missing previous name" in {
+    val js = Json.toJson(
+      Map(
+        "name.firstName" -> "john",
+        "name.middleNames" -> "joe",
+        "name.lastName" -> "smith",
+        "previousName.hasPreviousName" -> "true"
+      )
+    )
+    nameForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(4)
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousName.previousName.firstName" -> Seq(
+            "ordinary_previousName_error_enterFullName"
+          ),
+          "previousName.previousName.lastName" -> Seq(
+            "ordinary_previousName_error_enterFullName"
+          ),
+          "previousName.previousName" -> Seq(
+            "ordinary_previousName_error_enterFullName"
+          )
+        ))
+        hasErrors.globalErrorMessages should be(Seq(
+          "ordinary_previousName_error_enterFullName"
+        ))
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
   it should "error out on a missing field" in {
     val js = Json.toJson(
       Map(
