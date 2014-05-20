@@ -22,6 +22,32 @@ ordinary_country_error_notValidCountry=Nid yw'r wlad honno'n ddilys
 
 
 # ordinary: name
+ordinary_name_title=Beth yw eich enw llawn?
+ordinary_name_firstName_label=Enw cyntaf
+ordinary_name_middleNames_label=Enwau canol
+ordinary_name_lastName_label=Cyfenw
+
+ordinary_name_error_enterFullName=Nodwch eich enw llawn
+ordinary_name_error_enterFirstName=Nodwch eich enw cyntaf
+ordinary_name_error_enterLastName=Nodwch eich cyfenw
+ordinary_name_error_firstNameTooLong=Gall enw cyntaf fod yn fwy na 256 nod
+ordinary_name_error_middleNamesTooLong=Gall enwau canol fod yn fwy na 256 nod
+ordinary_name_error_lastNameTooLong=Gall enw olaf fod yn fwy na 256 nod
+
+ordinary_previousName_hasPreviousName_label=Ydych chi wedi newid eich enw yn y 12 mis diwethaf?
+ordinary_previousName_hasPreviousName_yes_label=Ydw<span class="visuallyhidden"> Rwyf wedi newid fy enw yn y 12 mis diwethaf</span>
+ordinary_previousName_hasPreviousName_no_label=Nac<span class="visuallyhidden"> ydw Nid wyf wedi newid fy enw yn y 12 mis diwethaf</span>
+ordinary_previousName_header=Enw blaenorol
+ordinary_previousName_firstName_label=Enw Cyntaf<span class="visuallyhidden"> blaenorol</span>
+ordinary_previousName_middleNames_label=Enwau Canol<span class="visuallyhidden"> blaenorol</span>
+ordinary_previousName_lastName_label=Cyfenw<span class="visuallyhidden"> blaenorol</span>
+
+ordinary_previousName_error_answerThis=Dywedwch wrthym a ydych chi wedi newid eich enw
+ordinary_previousName_error_enterFirstName=Nodwch eich enw cyntaf blaenorol
+ordinary_previousName_error_enterLastName=Nodwch eich cyfenw blaenorol
+ordinary_previousName_error_firstNameTooLong=Gall enw cyntaf blaenorol fod yn fwy na 256 nod
+ordinary_previousName_error_middleNamesTooLong=Gall enwau canol blaenorol fod yn fwy na 256 nod
+ordinary_previousName_error_lastNameTooLong=Gall enw olaf blaenorol fod yn fwy na 256 nod
 
 
 # ordinary: nino
