@@ -20,6 +20,26 @@ ordinary_country_error_notValidCountry=This is not a valid country
 
 # ordinary: nationality
 
+ordinary_nationality_heading=What is your nationality?
+ordinary_nationality_content_1=If you have dual nationality, select all options that are relevant to you.
+ordinary_nationality_british=British
+ordinary_nationality_irish=Irish
+ordinary_nationality_other_country=Citizen of another country
+ordinary_nationality_which_country=Which Country?
+ordinary_nationality_country=Country
+ordinary_nationality_remove_country=Remove 
+ordinary_nationality_add_another_country=add another country
+ordinary_nationality_Add_another_country=Add another country
+ordinary_nationality_dual_nationality=If you have dual nationality
+ordinary_nationality_help_heading_1=Help with nationality
+ordinary_nationality_help_content_1=If you're not sure about your nationality, try to find out from an official \
+document like a passport or national ID card.
+ordinary_nationality_help_content_2=We need to know your nationality so we can work out which elections \
+you're entitled to vote in. If you can't provide your nationality, you'll have to send copies of identity documents \
+through the post.
+ordinary_nationality_help_heading_2=I can't provide my nationality
+ordinary_nationality_help_content_3=Why can't you provide your nationality?
+
 
 # ordinary: date of birth
 

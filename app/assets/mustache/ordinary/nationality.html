@@ -7,7 +7,7 @@
 
     {{> shared/validationMessages }}
 
-    <p>If you have dual nationality, select all options that are relevant to you.</p>
+    <p>{{messages.ordinary_nationality_content_1}}</p>
 
     <fieldset class="validate" data-validation-name="country"
               data-validation-type="fieldset"
@@ -21,7 +21,7 @@
                    data-validation-name="british"
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"
-                   {{{britishOption.attributes}}}>British
+                   {{{britishOption.attributes}}}>{{messages.ordinary_nationality_british}}
         </label>
         <label class="selectable"  >
             <input type="checkbox" id="{{irishOption.id}}"
@@ -30,7 +30,7 @@
                    data-validation-name="irish"
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"
-                   {{{irishOption.attributes}}}>Irish
+                   {{{irishOption.attributes}}}>{{messages.ordinary_nationality_irish}}
         </label>
         <label class="selectable"  >
             <input type="checkbox" id="{{hasOtherCountryOption.id}}"
@@ -39,7 +39,7 @@
                    data-validation-name="other"
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"
-                   {{{hasOtherCountryOption.attributes}}}>Citizen of another country
+                   {{{hasOtherCountryOption.attributes}}}>{{messages.ordinary_nationality_other_country}}
         </label>
         <div class="validation-wrapper">
             <div id="add-countries" class="optional-section validate"
@@ -49,7 +49,7 @@
                  data-validation-rules="atLeastOneCountry">
 
                 <label for="{{otherCountriesHead.id}}" class=""  >
-                    Which country?
+                    {{messages.ordinary_nationality_which_country}}
                 </label>
                 <input type="text" id="{{otherCountriesHead.id}}"
                        name="{{otherCountriesHead.name}}"
@@ -59,19 +59,19 @@
 
                 <p class="duplication-intro"
                    style="{{#moreThanOneOtherCountry}}display: none{{/moreThanOneOtherCountry}}">
-                    If you have dual nationality
+                    {{messages.ordinary_nationality_dual_nationality}}
                     <a class="duplicate-control-initial"
-                     href="#" data-field="{{otherCountriesHead.id}}">add another country</a>.
+                     href="#" data-field="{{otherCountriesHead.id}}">{{messages.ordinary_nationality_add_another_country}}</a>.
                 </p>
 
                 {{#otherCountriesTail}}
                     <div class="added-country">
                         <label for="nationality_otherCountries[{{index}}]" class="country-label"  >
-                            Country {{index}}
+                            {{messages.ordinary_nationality_country}} {{index}}
                         </label>
                         <a href="#" class="remove-field"
                            data-field="nationality_otherCountries[{{index}}]">
-                            Remove<span class="visuallyhidden"> Country</span>
+                            {{messages.ordinary_nationality_remove_country}}<span class="visuallyhidden">{{messages.ordinary_nationality_country}}</span>
                         </a>
                         <input type="text" id="nationality_otherCountries[{{index}}]"
                                name="nationality.otherCountries[{{index}}]" value="{{countryName}}"
@@ -80,7 +80,7 @@
                 {{/otherCountriesTail}}
 
                 {{#moreThanOneOtherCountry}}
-                    <a class="duplicate-control" href="#">Add another country</a>
+                    <a class="duplicate-control" href="#">{{messages.ordinary_nationality_Add_another_country}}</a>
                 {{/moreThanOneOtherCountry}}
 
             </div>
@@ -90,19 +90,16 @@
             class="button next validation-submit"
             data-validation-sources="nationality">Continue</button>
     <div class="help-content help-content{{noNationalityReasonShowFlag.value}}"
-         data-toggle-text="Help with nationality">
-        <h2>Help with nationality</h2>
-        <p>If you're not sure about your nationality, try to find out from an official document 
-            like a passport or national ID card.</p>
-        <p>We need to know your nationality so we can work out which elections you're entitled to 
-            vote in. If you can't provide your nationality, you'll have to send copies of identity 
-            documents through the post.</p>
+         data-toggle-text="{{messages.ordinary_nationality_help_heading_1}}">
+        <h2>{{messages.ordinary_nationality_help_heading_1}}</h2>
+        <p>{{messages.ordinary_nationality_help_content_1}}</p>
+        <p>{{messages.ordinary_nationality_help_content_2}}</p>
         <div class="optional-section optional-section{{noNationalityReasonShowFlag.value}}"
-             data-toggle-text="I can't provide my nationality"
+             data-toggle-text="{{messages.ordinary_nationality_help_heading_2}}"
              id="nationality-provision">
-            <h3>I can't provide my nationality</h3>
+            <h3>{{messages.ordinary_nationality_help_heading_2}}</h3>
             <label for="{{noNationalityReason.id}}" class=""  >
-                Why can't you provide your nationality?
+                {{messages.ordinary_nationality_help_content_3}}
             </label>
             <textarea name="{{noNationalityReason.name}}"
                       id="{{noNationalityReason.id}}"

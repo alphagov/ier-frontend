@@ -19,7 +19,7 @@ class NationalityMustacheTest
   with WithMockRemoteAssets
   with NationalityMustache {
 
-  it should "empty progress form should produce empty Model" in {
+  it should "empty progress form should produce empty Model" in runningApp {
     val emptyApplicationForm = nationalityForm
     val emptyApplication = InprogressOrdinary()
     val nationalityModel = mustache.data(
@@ -42,7 +42,7 @@ class NationalityMustacheTest
 
   }
 
-  it should "progress form with british option should produce Mustache Model with values present" in {
+  it should "progress form with british option should produce Mustache Model with values present" in runningApp {
 
     val partiallyFilledApplication = InprogressOrdinary(
       nationality = Some(PartialNationality(
@@ -73,7 +73,7 @@ class NationalityMustacheTest
     nationalityModel.noNationalityReason.value should be("")
   }
 
-  it should "progress form with irish option should produce Mustache Model with values present" in {
+  it should "progress form with irish option should produce Mustache Model with values present" in runningApp {
 
     val partiallyFilledApplication = InprogressOrdinary(
       nationality = Some(PartialNationality(
@@ -104,7 +104,7 @@ class NationalityMustacheTest
     nationalityModel.noNationalityReason.value should be("")
   }
 
-  it should "progress form with other countries option should produce Mustache Model with values present" in {
+  it should "progress form with other countries option should produce Mustache Model with values present" in runningApp {
 
     val partiallyFilledApplication = InprogressOrdinary(
       nationality = Some(PartialNationality(
@@ -135,7 +135,7 @@ class NationalityMustacheTest
     nationalityModel.noNationalityReason.value should be("")
   }
 
-  it should "progress form with other countries and british option should produce Mustache Model with values present" in {
+  it should "progress form with other countries and british option should produce Mustache Model with values present" in runningApp {
 
     val partiallyFilledApplication = InprogressOrdinary(
       nationality = Some(PartialNationality(
@@ -166,7 +166,7 @@ class NationalityMustacheTest
     nationalityModel.noNationalityReason.value should be("")
   }
 
-  it should "progress form with validation errors should produce Model with error list present" in {
+  it should "progress form with validation errors should produce Model with error list present" in runningApp {
 
     val partiallyFilledApplication = InprogressOrdinary(
       nationality = Some(PartialNationality(
