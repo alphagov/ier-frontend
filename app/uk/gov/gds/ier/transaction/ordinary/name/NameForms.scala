@@ -48,7 +48,7 @@ trait NameConstraints extends CommonConstraints with FormKeys {
     _.name match {
       case Some(_) => Valid
       case None => Invalid(
-        "Please enter your full name",
+        "ordinary_name_error_enterFullName",
         keys.name.firstName,
         keys.name.lastName
       )
@@ -61,7 +61,7 @@ trait NameConstraints extends CommonConstraints with FormKeys {
     _.previousName match {
       case Some(_) => Valid
       case _ => Invalid (
-        "Please answer this question",
+        "ordinary_previousName_error_answerThis",
         keys.previousName
       )
     }
@@ -72,7 +72,7 @@ trait NameConstraints extends CommonConstraints with FormKeys {
   ) {
     _.name match {
       case Some(Name(_, _, "")) => Invalid (
-        "Please enter your last name",
+        "ordinary_name_error_enterLastName",
         keys.name.lastName
       )
       case _ => Valid
@@ -84,7 +84,7 @@ trait NameConstraints extends CommonConstraints with FormKeys {
   ) {
     _.name match {
       case Some(Name("", _, _)) => Invalid (
-        "Please enter your first name",
+        "ordinary_name_error_enterFirstName",
         keys.name.firstName
       )
       case _ => Valid
@@ -96,7 +96,7 @@ trait NameConstraints extends CommonConstraints with FormKeys {
   ) {
     _.previousName match {
       case Some(PreviousName(true, Some(Name("", _, _)))) => Invalid (
-        "Please enter your first name",
+        "ordinary_previousName_error_enterFirstName",
         keys.previousName.previousName.firstName
       )
       case _ => Valid
@@ -108,7 +108,7 @@ trait NameConstraints extends CommonConstraints with FormKeys {
   ) {
     _.previousName match {
       case Some(PreviousName(true, Some(Name(_, _, "")))) => Invalid (
-        "Please enter your last name",
+        "ordinary_previousName_error_enterLastName",
         keys.previousName.previousName.lastName
       )
       case _ => Valid
@@ -116,37 +116,43 @@ trait NameConstraints extends CommonConstraints with FormKeys {
   }
 
   lazy val firstNameNotTooLong = fieldNotTooLong[InprogressOrdinary] (
-    keys.name.firstName, firstNameMaxLengthError
+    keys.name.firstName,
+    "ordinary_name_error_firstNameTooLong"
   ) {
     _.name map { _.firstName } getOrElse ""
   }
 
   lazy val middleNamesNotTooLong = fieldNotTooLong[InprogressOrdinary] (
-    keys.name.middleNames, middleNameMaxLengthError
+    keys.name.middleNames,
+    "ordinary_name_error_middleNamesTooLong"
   ) {
     _.name flatMap { _.middleNames } getOrElse ""
   }
 
   lazy val lastNameNotTooLong = fieldNotTooLong[InprogressOrdinary] (
-    keys.name.lastName, lastNameMaxLengthError
+    keys.name.lastName,
+    "ordinary_name_error_lastNameTooLong"
   ) {
     _.name map { _.lastName } getOrElse ""
   }
 
   lazy val prevFirstNameNotTooLong = fieldNotTooLong[InprogressOrdinary] (
-    keys.previousName.previousName.firstName, firstNameMaxLengthError
+    keys.previousName.previousName.firstName,
+    "ordinary_previousName_error_firstNameTooLong"
   ) {
     _.previousName flatMap { _.previousName } map { _.firstName } getOrElse ""
   }
 
   lazy val prevMiddleNamesNotTooLong = fieldNotTooLong[InprogressOrdinary] (
-    keys.previousName.previousName.middleNames, middleNameMaxLengthError
+    keys.previousName.previousName.middleNames,
+    "ordinary_previousName_error_middleNamesTooLong"
   ) {
     _.previousName flatMap { _.previousName } flatMap { _.middleNames } getOrElse ""
   }
 
   lazy val prevLastNameNotTooLong = fieldNotTooLong[InprogressOrdinary] (
-    keys.previousName.previousName.lastName, lastNameMaxLengthError
+    keys.previousName.previousName.lastName,
+    "ordinary_previousName_error_lastNameTooLong"
   ) {
     _.previousName flatMap { _.previousName } map { _.lastName } getOrElse ""
   }

@@ -6,8 +6,6 @@ import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 trait NameMustache extends StepTemplate[InprogressOrdinary] {
 
-  val pageTitle = "What is your full name?"
-
   case class NameModel(
     question: Question,
     firstName: Field,
@@ -21,15 +19,16 @@ trait NameMustache extends StepTemplate[InprogressOrdinary] {
     previousLastName: Field
   ) extends MustacheData
 
-  val mustache = MustacheTemplate("ordinary/name") { (form, post) =>
+  val mustache = MultilingualTemplate("ordinary/name") { implicit lang =>
+    (form, post) =>
     implicit val progressForm = form
 
     NameModel(
       question = Question(
         postUrl = post.url,
         number = "4 of 11",
-        title = pageTitle,
-        errorMessages = form.globalErrors.map { _.message }),
+        title = Messages("ordinary_name_title"),
+        errorMessages = Messages.translatedGlobalErrors(form)),
       firstName = TextField(
         key = keys.name.firstName),
       middleNames = TextField(
