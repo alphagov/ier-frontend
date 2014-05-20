@@ -57,8 +57,8 @@ class NinoFormTests
     ninoForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Please enter your National Insurance number"))
-        hasErrors.errorMessages("NINO.NINO") should be(Seq("Please enter your National Insurance number"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_nino_error_none_entered"))
+        hasErrors.errorMessages("NINO.NINO") should be(Seq("ordinary_nino_error_none_entered"))
       },
       success => fail("Should have errored out")
     )
@@ -74,8 +74,8 @@ class NinoFormTests
     ninoForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Please enter your National Insurance number"))
-        hasErrors.errorMessages("NINO.NINO") should be(Seq("Please enter your National Insurance number"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_nino_error_none_entered"))
+        hasErrors.errorMessages("NINO.NINO") should be(Seq("ordinary_nino_error_none_entered"))
       },
       success => fail("Should have errored out")
     )

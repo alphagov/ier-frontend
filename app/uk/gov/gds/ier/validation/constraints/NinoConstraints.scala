@@ -5,6 +5,7 @@ import play.api.data.validation.{Valid, Invalid, Constraint}
 import uk.gov.gds.ier.model.{Nino}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import play.api.i18n.Messages
 
 trait NinoConstraints {
   self: ErrorMessages
@@ -16,7 +17,7 @@ trait NinoConstraints {
         Valid
       }
       else {
-        Invalid("Please enter your National Insurance number", keys.nino.nino)
+        Invalid("ordinary_nino_error_none_entered", keys.nino.nino)
       }
   }
 
@@ -31,7 +32,7 @@ trait NinoConstraints {
   }
 
   lazy val ninoIsValidIfProvided = Constraint[Nino](keys.nino.nino.key) {
-    nino => 
+    nino =>
       nino match {
         case Nino(Some(nino), _) if NinoValidator.isValid(nino) => Valid
         case Nino(Some(nino), _) if !NinoValidator.isValid(nino) => {

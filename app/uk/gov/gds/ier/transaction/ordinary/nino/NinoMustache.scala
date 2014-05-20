@@ -14,19 +14,17 @@ trait NinoMustache extends StepTemplate[InprogressOrdinary] {
       noNinoReasonShowFlag: Text
   ) extends MustacheData
 
-  val mustache = MustacheTemplate("ordinary/nino") {
+  val mustache = MultilingualTemplate("ordinary/nino") { implicit lang =>
     (form, postEndpoint) =>
-    
-    implicit val progressForm = form
 
-    val title = "What is your National Insurance number?"
+    implicit val progressForm = form
 
     NinoModel(
       question = Question(
         postUrl = postEndpoint.url,
-        errorMessages = form.globalErrors.map{ _.message },
+        errorMessages = Messages.translatedGlobalErrors(form),
         number = "5 of 11",
-        title = title
+        title = Messages("ordinary_nino_heading")
       ),
       nino = TextField(
         key = keys.nino.nino
