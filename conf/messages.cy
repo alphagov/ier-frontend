@@ -133,7 +133,7 @@ gennych bleidleisio drwy'r post, gallwn anfon ffurflen gais atoch.
 ordinary_postalVote_voteInPerson_option=Nac ydw, mae'n well gennyf bleidleisio'n bersonol
 ordinary_postalVote_postalVote_option=Ydw, rwyf am gael pleidlais drwy'r post
 
-ordinary_postalVote_postalVote_heading=Os ydych am gael ffurflen gais am bleidlais bost  (G  TRANSLATION!!)
+ordinary_postalVote_postalVote_heading=Os ydych am gael ffurflen gais am bleidlais bost
 ordinary_postalVote_postalVote_deliveryOptionsQuestion=Bydd angen i chi lofnodi a dychwelyd ffurflen gais am bleidlais drwy'r \
 post. Sut dylem anfon y ffurflen atoch chi?
 ordinary_postalVote_postalVote_deliveryEmail_option=Drwy e-bost
