@@ -13,7 +13,8 @@
       autocompletes,
       PostcodeLookup,
       monitorRadios,
-      BackButton;
+      BackButton,
+      message = GOVUK.registerToVote.messages;
 
   BackButton = function (elm) {
     if (elm) {
@@ -23,8 +24,14 @@
     }
   };
   BackButton.prototype.setup = function () {
-    this.$link = $('<a class="back-to-previous" href="#">' +
-      'Back <span class="visuallyhidden"> to the previous question</span></a>');
+    this.$link = $(
+                  '<a class="back-to-previous" href="#">' +
+                    message('back_button') +
+                    ' <span class="visuallyhidden"> ' +
+                    message('back_button_non_visual') +
+                    '</span>' +
+                  '</a>'
+                );
     this.$header.before(this.$link);
     this.$header.removeClass('no-back-link');
   };

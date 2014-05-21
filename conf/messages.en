@@ -3,8 +3,6 @@ step_of=of
 step_continue=Continue
 step_question=Question
 
-
-
 # ordinary: country of residence
 ordinary_country_heading=Where do you live?
 ordinary_country_or=or
@@ -234,3 +232,8 @@ ordinary_contact_error_pleaseEnterValidEmail=Please enter a valid email address
 
 # ordinary: confirmation
 
+
+# JavaScript: general
+
+back_button=Back
+back_button_non_visual=to the previous question

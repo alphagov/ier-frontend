@@ -5,12 +5,7 @@
       $ = root.jQuery,
       GOVUK = root.GOVUK,
       validation,
-      message;
-
-  message = function (key) {
-    var lang = $('html').attr('lang');
-    return GOVUK.registerToVote.messages(lang, key);
-  };
+      message = GOVUK.registerToVote.messages;
 
   validation = {
     init : function () {

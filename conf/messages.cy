@@ -237,3 +237,7 @@ ordinary_contact_error_pleaseEnterValidEmail=Nid yw hwnnw'n gyfeiriad e-bost dil
 
 # ordinary: confirmation
 
+# JavaScript: general
+
+back_button=Welsh Back
+back_button_non_visual=Welsh to the previous question
