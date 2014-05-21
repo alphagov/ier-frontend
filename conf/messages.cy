@@ -17,7 +17,7 @@ ordinary_country_error_notValidCountry=Nid yw'r wlad honno'n ddilys
 
 # ordinary: nationality
 
-ordinary_nationality_heading=Beth yw eich cenedligrwydd?
+ordinary_nationality_title=Beth yw eich cenedligrwydd?
 ordinary_nationality_content_1=Os oes cenedligrwydd deuol gennych, dewiswch yr holl opsiynau sy'n \
 berthnasol i chi.
 ordinary_nationality_british=Prydeinig

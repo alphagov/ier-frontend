@@ -20,7 +20,7 @@ ordinary_country_error_notValidCountry=This is not a valid country
 
 # ordinary: nationality
 
-ordinary_nationality_heading=What is your nationality?
+ordinary_nationality_title=What is your nationality?
 ordinary_nationality_content_1=If you have dual nationality, select all options that are relevant to you.
 ordinary_nationality_british=British
 ordinary_nationality_irish=Irish

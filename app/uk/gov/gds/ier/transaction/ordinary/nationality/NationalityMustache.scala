@@ -37,7 +37,7 @@ trait NationalityMustache extends StepTemplate[InprogressOrdinary]
         postUrl = postEndpoint.url,
         errorMessages = Messages.translatedGlobalErrors(form),
         number = "2 of 11",
-        title = Messages("ordinary_nationality_heading")
+        title = Messages("ordinary_nationality_title")
       ),
       britishOption = CheckboxField(
         key = keys.nationality.british,
