@@ -39,10 +39,10 @@ trait ConfirmationMustache extends StepMustache {
 
       val content = Mustache.render("overseas/confirmation", data)
 
-      MainStepTemplate(
-        content,
-        "Confirm your details - Register to vote",
-        contentClasses = Some("confirmation")
+      GovukTemplate(
+        mainContent = content,
+        pageTitle = "Confirm your details - Register to vote",
+        contentClasses = "confirmation"
       )
     }
   }

@@ -86,10 +86,10 @@ trait ConfirmationMustache
       )
 
       val content = Mustache.render("forces/confirmation", data)
-      MainStepTemplate(
-        content,
-        "Confirm your details - Register to vote",
-        contentClasses = Some("confirmation")
+      GovukTemplate(
+        mainContent = content,
+        pageTitle = "Confirm your details - Register to vote",
+        contentClasses = "confirmation"
       )
     }
 

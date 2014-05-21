@@ -10,6 +10,7 @@ import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.assets.RemoteAssets
 import org.specs2.mock.Mockito
 import uk.gov.gds.ier.test.WithMockRemoteAssets
+import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 
 
 class CompleteTemplateTest
@@ -22,9 +23,18 @@ class CompleteTemplateTest
 
   it should "properly render all properties from the model" in {
     running(FakeApplication()) {
-      val data = new Complete.CompleteModel(
-        authorityName = "election authority 123",
-        authorityUrl = Some("http://authority123.gov.uk/contactUs"),
+      val data = new Complete.CompletePage(
+        authority = Some(EroAuthorityDetails(
+          name = "election authority 123",
+          urls = List("http://authority123.gov.uk/contactUs"),
+          email = None,
+          phone = None,
+          addressLine1 = None,
+          addressLine2 = None,
+          addressLine3 = None,
+          addressLine4 = None,
+          postcode = None
+        )),
         refNumber = Some("123457689013"),
         hasOtherAddress = true,
         backToStartUrl = "/register-to-vote/start"

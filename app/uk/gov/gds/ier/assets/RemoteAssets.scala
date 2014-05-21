@@ -8,10 +8,6 @@ import uk.gov.gds.ier.config.Config
 
 class RemoteAssets @Inject() (config : Config) {
 
-  def at = getAssetPath _
-
-  def templateAt = getTemplatePath _
-
   def getAssetPath(file:String) : Call = {
     val playAsset : Call = PlayAssetRouter.at(file)
     playAsset.copy(
@@ -20,7 +16,9 @@ class RemoteAssets @Inject() (config : Config) {
   }
 
   def getTemplatePath(file:String) : Call = {
-    val templateAsset : Call = TemplateAssetRouter.at(file)
+    val templateAsset : Call = TemplateAssetRouter.at(
+      file.stripPrefix("/")
+    )
     templateAsset.copy(
       url = appendAssetPath(templateAsset.url)
     )
@@ -33,7 +31,9 @@ class RemoteAssets @Inject() (config : Config) {
     )
   }
 
-  def assetsPath = config.assetsPath.stripSuffix("/") + "/"
+  def assetsPath: String = getAssetPath("").url
+
+  def templatePath: String = getTemplatePath("").url
 
   private def appendAssetPath(url:String):String = {
     config.assetsPath.stripSuffix("/") + "/" + url.stripPrefix("/assets/").stripPrefix("/")

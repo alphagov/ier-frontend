@@ -1,6 +1,0 @@
-@(id:uk.gov.gds.ier.validation.Key, attributes:Map[Symbol,String] = Map.empty)(implicit formData:uk.gov.gds.ier.validation.ErrorTransformForm[uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary])
-@import uk.gov.gds.ier.form.FieldHelpers._
-@inputType = @{ attributes.get('type).getOrElse("text") }
-@defining(formData(id)) { inputField =>
-<textarea name="@inputField.name" id="@id.asId()" class="@(if(inputField.hasErrors) "invalid" else "") @attributes.get('class).getOrElse("")" @asAttributes(attributes.without('class, 'id, 'name)) autocomplete="off" >@inputField.value.getOrElse("")</textarea>
-}

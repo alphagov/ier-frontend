@@ -1,6 +1,0 @@
-@(id:uk.gov.gds.ier.validation.Key, value:String, attributes:(Symbol,String)*)(implicit formData:uk.gov.gds.ier.validation.ErrorTransformForm[uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary])
-@import uk.gov.gds.ier.form.FieldHelpers._
-@inputType = @{ attributes.toMap.get('type).getOrElse("radio") }
-@defining(formData(id)) { field =>
-    <input type="@inputType" id="@id.asId(value)" name="@field.name" value="@value" @(if(field.value == Some(value)) "checked='checked'" else "") class="radio @(if(field.hasErrors) "invalid" else "") @attributes.toMap.get('class).getOrElse("")" @asAttributes(attributes.toMap.without('class, 'id, 'name, 'type, 'value))>
-}
