@@ -22,10 +22,10 @@ class NameFormTests
     nameForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(5)
-        hasErrors.errorMessages("name.lastName") should be(Seq("Please enter your full name"))
-        hasErrors.errorMessages("name.firstName") should be(Seq("Please enter your full name"))
-        hasErrors.errorMessages("previousName") should be(Seq("Please answer this question"))
-        hasErrors.globalErrorMessages should be(Seq("Please enter your full name", "Please answer this question"))
+        hasErrors.errorMessages("name.lastName") should be(Seq("ordinary_name_error_enterFullName"))
+        hasErrors.errorMessages("name.firstName") should be(Seq("ordinary_name_error_enterFullName"))
+        hasErrors.errorMessages("previousName") should be(Seq("ordinary_previousName_error_answerThis"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_name_error_enterFullName", "ordinary_previousName_error_answerThis"))
       },
       success => fail("Should have errored out")
     )
@@ -47,14 +47,14 @@ class NameFormTests
       hasErrors => {
         hasErrors.errors.size should be(8)
         hasErrors.globalErrorMessages should be(Seq(
-          "Please enter your first name",
-          "Please enter your last name",
-          "Please enter your first name",
-          "Please enter your last name"))
-        hasErrors.errorMessages("name.firstName") should be(Seq("Please enter your first name"))
-        hasErrors.errorMessages("name.lastName") should be(Seq("Please enter your last name"))
-        hasErrors.errorMessages("previousName.previousName.firstName") should be(Seq("Please enter your first name"))
-        hasErrors.errorMessages("previousName.previousName.lastName") should be(Seq("Please enter your last name"))
+          "ordinary_name_error_enterFirstName",
+          "ordinary_name_error_enterLastName",
+          "ordinary_previousName_error_enterFirstName",
+          "ordinary_previousName_error_enterLastName"))
+        hasErrors.errorMessages("name.firstName") should be(Seq("ordinary_name_error_enterFirstName"))
+        hasErrors.errorMessages("name.lastName") should be(Seq("ordinary_name_error_enterLastName"))
+        hasErrors.errorMessages("previousName.previousName.firstName") should be(Seq("ordinary_previousName_error_enterFirstName"))
+        hasErrors.errorMessages("previousName.previousName.lastName") should be(Seq("ordinary_previousName_error_enterLastName"))
       },
       success => fail("Should have errored out")
     )
@@ -71,17 +71,48 @@ class NameFormTests
     nameForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(8)
-        hasErrors.errorMessages("name.firstName") should be(Seq("Please enter your first name"))
-        hasErrors.errorMessages("name.lastName") should be(Seq("Please enter your last name"))
-        hasErrors.errorMessages("previousName.previousName.firstName") should be(Seq("Please enter your first name"))
-        hasErrors.errorMessages("previousName.previousName.lastName") should be(Seq("Please enter your last name"))
+        hasErrors.errorMessages("name.firstName") should be(Seq("ordinary_name_error_enterFirstName"))
+        hasErrors.errorMessages("name.lastName") should be(Seq("ordinary_name_error_enterLastName"))
+        hasErrors.errorMessages("previousName.previousName.firstName") should be(Seq("ordinary_previousName_error_enterFirstName"))
+        hasErrors.errorMessages("previousName.previousName.lastName") should be(Seq("ordinary_previousName_error_enterLastName"))
 
 
         hasErrors.globalErrorMessages should be(Seq(
-          "Please enter your first name",
-          "Please enter your last name",
-          "Please enter your first name",
-          "Please enter your last name"))
+          "ordinary_name_error_enterFirstName",
+          "ordinary_name_error_enterLastName",
+          "ordinary_previousName_error_enterFirstName",
+          "ordinary_previousName_error_enterLastName"))
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
+  it should "error out on missing previous name" in {
+    val js = Json.toJson(
+      Map(
+        "name.firstName" -> "john",
+        "name.middleNames" -> "joe",
+        "name.lastName" -> "smith",
+        "previousName.hasPreviousName" -> "true"
+      )
+    )
+    nameForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(4)
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousName.previousName.firstName" -> Seq(
+            "ordinary_previousName_error_enterFullName"
+          ),
+          "previousName.previousName.lastName" -> Seq(
+            "ordinary_previousName_error_enterFullName"
+          ),
+          "previousName.previousName" -> Seq(
+            "ordinary_previousName_error_enterFullName"
+          )
+        ))
+        hasErrors.globalErrorMessages should be(Seq(
+          "ordinary_previousName_error_enterFullName"
+        ))
       },
       success => fail("Should have errored out")
     )
@@ -100,9 +131,12 @@ class NameFormTests
     nameForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(4)
-        hasErrors.errorMessages("name.lastName") should be(Seq("Please enter your last name"))
-        hasErrors.errorMessages("previousName.previousName.lastName") should be(Seq("Please enter your last name"))
-        hasErrors.globalErrorMessages should be(Seq("Please enter your last name","Please enter your last name"))
+        hasErrors.errorMessages("name.lastName") should be(Seq("ordinary_name_error_enterLastName"))
+        hasErrors.errorMessages("previousName.previousName.lastName") should be(Seq("ordinary_previousName_error_enterLastName"))
+        hasErrors.globalErrorMessages should be(Seq(
+          "ordinary_name_error_enterLastName",
+          "ordinary_previousName_error_enterLastName"
+        ))
       },
       success => fail("Should have errored out")
     )
@@ -165,6 +199,63 @@ class NameFormTests
         previousName.middleNames should be(Some("Joe"))
         previousName.lastName should be("Bloggs")
       }
+    )
+  }
+
+  it should "ignore previous name values if hasPreviousName is false" in {
+    val js = Json.toJson(
+      Map(
+        "name.firstName" -> "John",
+        "name.middleNames" -> "joe",
+        "name.lastName" -> "Smith",
+        "previousName.hasPreviousName" -> "false",
+        "previousName.previousName.firstName" -> "John",
+        "previousName.previousName.middleNames" -> "joe",
+        "previousName.previousName.lastName" -> "Smith"
+      )
+    )
+    nameForm.bind(js).fold(
+      hasErrors => {
+        fail(serialiser.toJson(hasErrors.prettyPrint))
+      },
+      success => {
+        success.name.isDefined should be(true)
+        val name = success.name.get
+        name.firstName should be("John")
+        name.lastName should be("Smith")
+        name.middleNames should be(Some("joe"))
+
+        success.previousName.isDefined should be(true)
+        success.previousName.get.previousName.isDefined should be(true)
+        success.previousName.get.hasPreviousName should be(false)
+      }
+    )
+  }
+
+  it should "error on too long values" in {
+    val js = Json.toJson(
+      Map(
+        "name.firstName" -> textTooLong,
+        "name.middleNames" -> textTooLong,
+        "name.lastName" -> textTooLong,
+        "previousName.hasPreviousName" -> "true",
+        "previousName.previousName.firstName" -> textTooLong,
+        "previousName.previousName.middleNames" -> textTooLong,
+        "previousName.previousName.lastName" -> textTooLong
+      )
+    )
+    nameForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "name.firstName" -> Seq("ordinary_name_error_firstNameTooLong"),
+          "name.middleNames" -> Seq("ordinary_name_error_middleNamesTooLong"),
+          "name.lastName" -> Seq("ordinary_name_error_lastNameTooLong"),
+          "previousName.previousName.firstName" -> Seq("ordinary_previousName_error_firstNameTooLong"),
+          "previousName.previousName.middleNames" -> Seq("ordinary_previousName_error_middleNamesTooLong"),
+          "previousName.previousName.lastName" -> Seq("ordinary_previousName_error_lastNameTooLong")
+        ))
+      },
+      success => fail("Should have errored out")
     )
   }
 }
