@@ -38,7 +38,7 @@ trait PostalVoteForms {
   ) { application =>
     application.postalVote match {
       case Some(PostalVote(Some(true), None)) => Invalid(
-        "ordinary_postalVote_error_pleaseAnswer",
+        "ordinary_postalVote_error_answerThis",
         keys.postalVote.deliveryMethod.methodName
       )
       case _ => Valid
@@ -52,7 +52,7 @@ trait PostalVoteForms {
     val emailAddress = deliveryMethod.flatMap(_.emailAddress)
     emailAddress match {
       case Some(email) if !EmailValidator.isValid(emailAddress) => Invalid(
-        "ordinary_postalVote_error_pleaseEnterValidEmail",
+        "ordinary_postalVote_error_enterValidEmail",
         keys.postalVote.deliveryMethod.emailAddress
       )
       case _ => Valid
@@ -65,7 +65,7 @@ trait PostalVoteForms {
     application.postalVote.flatMap(_.postalVoteOption) match {
       case Some(_) => Valid
       case None => Invalid(
-        "ordinary_postalVote_error_pleaseAnswer",
+        "ordinary_postalVote_error_answerThis",
         keys.postalVote.optIn
       )
     }

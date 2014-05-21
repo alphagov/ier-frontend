@@ -144,9 +144,10 @@ ordinary_postalVote_help_content_2=Anyone can apply for a postal vote. You don't
 ordinary_postalVote_help_content_3=If you're not sure whether you want a postal vote, you can complete your registration \
 now and apply for a postal vote later.
 
-ordinary_postalVote_error_pleaseAnswer=Please answer this question
-ordinary_postalVote_error_pleaseEnterValidEmail=Please enter a valid email address
+ordinary_postalVote_error_answerThis=Please answer this question
 ordinary_postalVote_error_enterYourEmail=Please enter your email address
+ordinary_postalVote_error_enterValidEmail=Please enter a valid email address
+
 
 # ordinary: contact
 ordinary_contact_title=If we have questions about your application, how should we contact you?

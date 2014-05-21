@@ -60,8 +60,8 @@ class PostalVoteFormTests
     postalVoteForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("postalVote.deliveryMethod.emailAddress") should be(Seq("ordinary_postalVote_error_pleaseEnterValidEmail"))
-        hasErrors.globalErrorMessages should be(Seq("ordinary_postalVote_error_pleaseEnterValidEmail"))
+        hasErrors.errorMessages("postalVote.deliveryMethod.emailAddress") should be(Seq("ordinary_postalVote_error_enterValidEmail"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_postalVote_error_enterValidEmail"))
       },
       success => fail("Should have thrown an error")
     )
@@ -87,8 +87,8 @@ class PostalVoteFormTests
     postalVoteForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("postalVote.optIn") should be(Seq("ordinary_postalVote_error_pleaseAnswer"))
-        hasErrors.globalErrorMessages should be(Seq("ordinary_postalVote_error_pleaseAnswer"))
+        hasErrors.errorMessages("postalVote.optIn") should be(Seq("ordinary_postalVote_error_answerThis"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_postalVote_error_answerThis"))
       },
       success => fail("Should have thrown an error")
     )
@@ -103,8 +103,8 @@ class PostalVoteFormTests
     postalVoteForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("postalVote.optIn") should be(Seq("ordinary_postalVote_error_pleaseAnswer"))
-        hasErrors.globalErrorMessages should be(Seq("ordinary_postalVote_error_pleaseAnswer"))
+        hasErrors.errorMessages("postalVote.optIn") should be(Seq("ordinary_postalVote_error_answerThis"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_postalVote_error_answerThis"))
       },
       success => fail("Should have thrown an error")
     )
@@ -120,9 +120,9 @@ class PostalVoteFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "postalVote.deliveryMethod.methodName" -> Seq("ordinary_postalVote_error_pleaseAnswer")
+          "postalVote.deliveryMethod.methodName" -> Seq("ordinary_postalVote_error_answerThis")
         ))
-        hasErrors.globalErrorMessages should be(Seq("ordinary_postalVote_error_pleaseAnswer"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_postalVote_error_answerThis"))
       },
       success => fail("Should have thrown an error")
     )

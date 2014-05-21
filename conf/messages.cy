@@ -126,6 +126,30 @@ ordinary_data-toggle-text=Pam mae dwy gofrestr?
 
 
 # ordinary: postal vote
+ordinary_postalVote_title=Ydych chi am wneud cais am bleidlais drwy'r post?
+
+ordinary_postalVote_optionsQuestion=Mae'r rhan fwyaf o bobl yn pleidleisio'n bersonol mewn gorsaf bleidleisio. Ond os yw'n well \
+gennych bleidleisio drwy'r post, gallwn anfon ffurflen gais atoch.
+ordinary_postalVote_voteInPerson_option=Nac ydw, mae'n well gennyf bleidleisio'n bersonol
+ordinary_postalVote_postalVote_option=Ydw, rwyf am gael pleidlais drwy'r post
+
+ordinary_postalVote_postalVote_heading=Os ydych am gael ffurflen gais am bleidlais bost  (G  TRANSLATION!!)
+ordinary_postalVote_postalVote_deliveryOptionsQuestion=Bydd angen i chi lofnodi a dychwelyd ffurflen gais am bleidlais drwy'r \
+post. Sut dylem anfon y ffurflen atoch chi?
+ordinary_postalVote_postalVote_deliveryEmail_option=Drwy e-bost
+ordinary_postalVote_postalVote_emailAddress_label=Cyfeiriad e-bost
+ordinary_postalVote_postalVote_deliveryPost_option=Drwy'r post
+
+ordinary_postalVote_help_link=Beth yw pleidlais drwy'r post?
+ordinary_postalVote_help_content_1=Byddwn yn anfon eich papur pleidleisio i'r cyfeiriad rydych wedi'i ddewis. Yna, bydd angen i \
+chi ei lenwi a'i ddychwelyd drwy'r post.
+ordinary_postalVote_help_content_2=Gall unrhyw un wneud cais am bleidlais drwy'r post. Does dim angen rhoi rheswm.
+ordinary_postalVote_help_content_3=Os nad ydych yn siŵr a oes eisiau pleidlais drwy'r post arnoch, gallwch gwblhau cofrestru nawr \
+a chyflwyno cais am bleidlais drwy'r post nes ymlaen.
+
+ordinary_postalVote_error_answerThis=Atebwch y cwestiwn hwn
+ordinary_postalVote_error_enterYourEmail=Rhowch eich cyfeiriad e-bost
+ordinary_postalVote_error_enterValidEmail=Nid yw hwnnw'n gyfeiriad e-bost dilys: gwiriwch yr hyn rydych wedi'i nodi
 
 
 # ordinary: contact
