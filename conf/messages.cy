@@ -241,3 +241,10 @@ ordinary_contact_error_pleaseEnterValidEmail=Nid yw hwnnw'n gyfeiriad e-bost dil
 
 back_button=Welsh Back
 back_button_non_visual=Welsh to the previous question
+
+# JavaScipt: nationality
+
+ordinary_nationality_other_country=Ychwanegu gwlad arall
+ordinary_autocomplete_status=Welsh available, use up and down arrow keys to navigate
+ordinary_autocomplete_status_prefix_singular=Welsh result is
+ordinary_autocomplete_status_prefix_multiple=Welsh results are

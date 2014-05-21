@@ -275,7 +275,10 @@
         $addAnotherLink;
 
     if (this.$duplicationIntro.is(':visible')) {
-      $addAnotherLink = $('<a href="#" class="duplicate-control">Add another ' + this.label.txt + '</a>');
+      $addAnotherLink = $(
+                          '<a href="#" class="duplicate-control">' +
+                            message('ordinary_nationality_other_country') +
+                          '</a>');
       this.$duplicationIntro.hide();
       $container.append($addAnotherLink);
     } else {
@@ -349,7 +352,11 @@
     };
   }());
   Autocomplete.menuIdPrefix = 'typeahead-suggestions';
-  Autocomplete.prototype.compiledStatusText = Mustache.compile('{{results}} {{#describe}}{{results}}{{/describe}} available, use up and down arrow keys to navigate.');
+  Autocomplete.prototype.compiledStatusText = Mustache.compile(
+    '{{results}} {{#describe}}{{results}}{{/describe}} ' +
+     message('ordinary_nationality_autocomplete_status') +
+    '.'
+  );
   Autocomplete.prototype.compiledTemplate = Mustache.compile('<p role="presentation" id="{{name}}">{{value}}</p>');
   Autocomplete.prototype.updateStatus = function (suggestions) {
     var statusText;
@@ -359,7 +366,11 @@
         'results' : suggestions.length, 
         'describe' : function () {
           return function (results) {
-            return (this.results > 1) ? 'results are' : 'result is';
+            if (this.results > 1) {
+              return message('ordinary_nationality_autocomplete_status_prefix_multiple');
+            } else {
+              return message('ordinary_nationality_autocomplete_status_prefix_singular');
+            }
           }
         }
       });
