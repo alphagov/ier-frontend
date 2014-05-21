@@ -20,7 +20,7 @@ class PostalVoteMustacheTest
   with WithMockRemoteAssets
   with PostalVoteMustache {
 
-  it should "empty progress form should produce empty Model" in {
+  it should "empty progress form should produce empty Model" in runningApp {
     val emptyApplicationForm = postalVoteForm
     val postalVoteModel = mustache.data(
       emptyApplicationForm,
@@ -39,7 +39,7 @@ class PostalVoteMustacheTest
 
   }
 
-  it should "progress form with no for postal vote" in {
+  it should "progress form with no for postal vote" in runningApp {
     val partiallyFilledApplicationForm = postalVoteForm.fill(InprogressOrdinary(
       postalVote = Some(PostalVote(
         postalVoteOption = Some(false),
@@ -62,7 +62,7 @@ class PostalVoteMustacheTest
   }
 
   it should "progress form with yes for postal vote and post for delivery method " +
-    "should produce form with values" in {
+    "should produce form with values" in runningApp {
     val partiallyFilledApplicationForm = postalVoteForm.fill(InprogressOrdinary(
       postalVote = Some(PostalVote(
         postalVoteOption = Some(true),
@@ -85,7 +85,7 @@ class PostalVoteMustacheTest
   }
 
   it should "progress form with yes for postal vote and email for delivery method " +
-    "should produce form with values" in {
+    "should produce form with values" in runningApp {
     val partiallyFilledApplicationForm = postalVoteForm.fill(InprogressOrdinary(
       postalVote = Some(PostalVote(
         postalVoteOption = Some(true),
