@@ -25,7 +25,7 @@ ordinary_nationality_irish=Irish
 ordinary_nationality_otherCountry=Citizen of another country
 ordinary_nationality_whichCountry=Which Country?
 ordinary_nationality_country=Country
-ordinary_nationality_removeCountry=Remove 
+ordinary_nationality_removeCountry=Remove
 ordinary_nationality_addAnotherCountry=add another country
 ordinary_nationality_AddAnotherCountry=Add another country
 ordinary_nationality_dualNationality=If you have dual nationality
@@ -132,6 +132,24 @@ ordinary_nino_error_maxLength=Reason for not providing National Insurance number
 
 
 # ordinary: other address
+
+ordinary_otheraddr_title=Do you also live at a second address?
+
+ordinary_otheraddr_no_I_dont_spend_time_living_at_two_homes=No
+ordinary_otheraddr_yes_I_spend_time_living_at_two_homes=Yes, I spend time living at two homes
+ordinary_otheraddr_h2_if_you_have_second_address=If you have a second address
+
+ordinary_otheraddr_if_you_have_second_address_p1=You may be able to register at both addresses \
+(though you can only vote once in any election).
+
+ordinary_otheraddr_if_you_have_second_address_p2=If you want to register in two places, make two \
+separate applications through this service. Your local Electoral Registration Office will look at \
+each application and tell you whether you're allowed to register.
+
+ordinary_otheraddr_yes_Im_student=Yes, I'm a student with home and term-time addresses
+ordinary_otheraddr_yes_Im_student_p1=Students can register to vote at their home and term time addresses.
+ordinary_otheraddr_yes_Im_student_p2=If you're not already registered at your other address, you \
+can do so by making a second application.
 
 ordinary_otheraddr_error_pleaseAnswer=Please answer this question
 

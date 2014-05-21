@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.model
 
-case class OtherAddress (otherAddressOption:OtherAddressOption) {
+case class OtherAddress(otherAddressOption: OtherAddressOption) {
   def toApiMap = {
     Map("oadr" -> otherAddressOption.name)
   }
@@ -11,7 +11,7 @@ object OtherAddress {
   val StudentOtherAddress = OtherAddressOption(true, "student")
   val HomeOtherAddress = OtherAddressOption(true, "secondHome")
 
-  def parse(str:String):OtherAddressOption = {
+  def parse(str: String): OtherAddressOption = {
     str match {
       case "secondHome" => HomeOtherAddress
       case "student" => StudentOtherAddress
@@ -20,4 +20,4 @@ object OtherAddress {
   }
 }
 
-case class OtherAddressOption(hasOtherAddress:Boolean, name:String)
+case class OtherAddressOption(hasOtherAddress: Boolean, name: String)

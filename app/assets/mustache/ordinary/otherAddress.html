@@ -10,38 +10,55 @@
               data-validation-rules="atLeastOneNonEmpty"
               data-validation-children="otherAddressNo otherAddressYesTwoHomes otherAddressYesStudent">
         <label for="{{hasOtherAddressNone.id}}" class="selectable">
-            <input id="{{hasOtherAddressNone.id}}" name="{{hasOtherAddressNone.name}}" value="none" class="radio  validate" data-validation-name="otherAddressNo" data-validation-type="field" data-validation-rules="nonEmpty" type="radio" {{{hasOtherAddressNone.attributes}}}>
-            No
+            <input id="{{hasOtherAddressNone.id}}" name="{{hasOtherAddressNone.name}}" value="none"
+                   class="radio  validate" data-validation-name="otherAddressNo"
+                   data-validation-type="field" data-validation-rules="nonEmpty" type="radio"
+            {{{hasOtherAddressNone.attributes}}}>
+            {{messages.ordinary_otheraddr_no_I_dont_spend_time_living_at_two_homes}}
         </label>
 
         <label for="{{hasOtherAddressHome.id}}" class="selectable">
-            <input id="{{hasOtherAddressHome.id}}" name="{{hasOtherAddressHome.name}}" value="secondHome" class="radio  validate" data-validation-name="otherAddressYesTwoHomes" data-validation-type="field" data-validation-rules="nonEmpty" type="radio" {{{hasOtherAddressHome.attributes}}}>
-            Yes, I spend time living at two homes
+            <input id="{{hasOtherAddressHome.id}}" name="{{hasOtherAddressHome.name}}"
+                   value="secondHome" class="radio  validate"
+                   data-validation-name="otherAddressYesTwoHomes" data-validation-type="field"
+                   data-validation-rules="nonEmpty" type="radio"
+            {{{hasOtherAddressHome.attributes}}}>
+            {{messages.ordinary_otheraddr_yes_I_spend_time_living_at_two_homes}}
         </label>
-        <div id="{{hasOtherAddressHome.id}}_help" class="optional-section" data-condition="{{hasOtherAddressHome.id}}">
-          <h2 class="alt-content">If you have a second address</h2>
-          <p>
-            You may be able to register at both addresses (though you can only vote once in any 
-            election).
-          </p>
-          <p>
-            If you want to register in two places, make two separate applications through this
-            service. Your local Electoral Registration Office will look at each application and
-            tell you whether you're allowed to register.
-          </p>
+
+        <div id="{{hasOtherAddressHome.id}}_help" class="optional-section"
+             data-condition="{{hasOtherAddressHome.id}}">
+
+            <h2 class="alt-content">{{messages.ordinary_otheraddr_h2_if_you_have_second_address}}</h2>
+
+            <p>{{messages.ordinary_otheraddr_if_you_have_second_address_p1}}</p>
+
+            <p>{{messages.ordinary_otheraddr_if_you_have_second_address_p2}}</p>
+
         </div>
 
         <label for="{{hasOtherAddressStudent.id}}" class="selectable">
-            <input id="{{hasOtherAddressStudent.id}}" name="{{hasOtherAddressStudent.name}}" value="student" class="radio  validate" data-validation-name="otherAddressYesStudent" data-validation-type="field" data-validation-rules="nonEmpty" type="radio" {{{hasOtherAddressStudent.attributes}}}>
-            Yes, I'm a student with home and term-time addresses
+            <input id="{{hasOtherAddressStudent.id}}" name="{{hasOtherAddressStudent.name}}"
+                   value="student" class="radio  validate"
+                   data-validation-name="otherAddressYesStudent" data-validation-type="field"
+                   data-validation-rules="nonEmpty" type="radio"
+            {{{hasOtherAddressStudent.attributes}}}>
+            {{messages.ordinary_otheraddr_yes_Im_student}}
         </label>
-        <div id="{{hasOtherAddressStudent.id}}_help" class="optional-section" data-condition="{{hasOtherAddressStudent.id}}">
-          <p>Students can register to vote at their home and term time addresses.</p>
-          <p>If you're not already registered at your other address, you can do so by making a second application.</p>
+
+        <div id="{{hasOtherAddressStudent.id}}_help" class="optional-section"
+             data-condition="{{hasOtherAddressStudent.id}}">
+
+            <p>{{messages.ordinary_otheraddr_yes_Im_student_p1}}</p>
+
+            <p>{{messages.ordinary_otheraddr_yes_Im_student_p2}}</p>
+
         </div>
     </fieldset>
 
-    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="otherAddressQuestion">Continue
+    <button type="submit" id="continue" class="button next validation-submit"
+            data-validation-sources="otherAddressQuestion">
+        {{messages.step_continue}}
     </button>
 
 </form>

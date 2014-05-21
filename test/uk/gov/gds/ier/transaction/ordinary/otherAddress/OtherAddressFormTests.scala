@@ -7,7 +7,7 @@ import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.model.OtherAddress
 import play.api.libs.json.{Json, JsNull}
 
-class OtherAddressFormTests 
+class OtherAddressFormTests
   extends FlatSpec
   with Matchers
   with OtherAddressForms
@@ -24,8 +24,8 @@ class OtherAddressFormTests
     otherAddressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("otherAddress") should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_otheraddr_error_pleaseAnswer"))
+        hasErrors.errorMessages("otherAddress") should be(Seq("ordinary_otheraddr_error_pleaseAnswer"))
       },
       success => fail("Should have thrown an error")
     )
@@ -40,8 +40,8 @@ class OtherAddressFormTests
     otherAddressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("otherAddress") should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_otheraddr_error_pleaseAnswer"))
+        hasErrors.errorMessages("otherAddress") should be(Seq("ordinary_otheraddr_error_pleaseAnswer"))
       },
       success => fail("Should have thrown an error")
     )
@@ -56,9 +56,9 @@ class OtherAddressFormTests
     otherAddressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("bleurch is not a valid value"))
+        hasErrors.globalErrorMessages should be(Seq("bleurch not a valid other address type"))
         hasErrors.errorMessages("otherAddress.hasOtherAddress") should be(
-          Seq("bleurch is not a valid value"))
+          Seq("bleurch not a valid other address type"))
       },
       success => fail("Should have thrown an error")
     )
