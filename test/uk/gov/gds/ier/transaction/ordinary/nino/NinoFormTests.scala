@@ -90,8 +90,8 @@ class NinoFormTests
     ninoForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Your National Insurance number is not correct"))
-        hasErrors.errorMessages("NINO.NINO") should be(Seq("Your National Insurance number is not correct"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_nino_error_incorrect_format"))
+        hasErrors.errorMessages("NINO.NINO") should be(Seq("ordinary_nino_error_incorrect_format"))
       },
       success => fail("Should have errored out")
     )

@@ -5,7 +5,6 @@ import play.api.data.validation.{Valid, Invalid, Constraint}
 import uk.gov.gds.ier.model.{Nino}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
-import play.api.i18n.Messages
 
 trait NinoConstraints {
   self: ErrorMessages
@@ -36,7 +35,7 @@ trait NinoConstraints {
       nino match {
         case Nino(Some(nino), _) if NinoValidator.isValid(nino) => Valid
         case Nino(Some(nino), _) if !NinoValidator.isValid(nino) => {
-          Invalid("Your National Insurance number is not correct", keys.nino.nino)
+          Invalid("ordinary_nino_error_incorrect_format", keys.nino.nino)
         }
         case _ => Valid
       }
