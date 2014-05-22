@@ -5,7 +5,6 @@ import uk.gov.gds.ier.model.{PartialNationality}
 import play.api.data.Forms._
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import play.api.data.validation.Constraint
-import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import uk.gov.gds.ier.validation.constants.NationalityConstants
 import play.api.data.validation._
 
@@ -26,7 +25,7 @@ trait NationalityForms extends NationalityConstraints {
   )
 }
 
-trait NationalityConstraints extends CommonConstraints with FormKeys with ErrorMessages {
+trait NationalityConstraints extends FormKeys with ErrorMessages {
 
   lazy val notTooManyNationalities = Constraint[InprogressOrdinary](keys.nationality.key) {
     application =>
