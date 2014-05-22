@@ -22,7 +22,40 @@ ordinary_country_error_notValidCountry=This is not a valid country
 
 
 # ordinary: date of birth
+ordinary_dob_title=What is your date of birth?
 
+ordinary_dob_day_label=Day
+ordinary_dob_month_label=Month
+ordinary_dob_year_label=Year
+ordinary_dob_formatExample=For example: <span class="date">31 3 1970</span>
+
+ordinary_dob_help_link=Help with date of birth
+ordinary_dob_help_content_1=If you don't know your exact date of birth, use the one you put on official documents \
+(for example, your passport or driving licence).
+ordinary_dob_help_content_2=If you can't provide your date of birth you'll have to send copies of identity documents \
+through the post.
+
+ordinary_dob_help_cannotProvideDOB_link=I can't provide my date of birth
+ordinary_dob_help_cannotProvideDOB_reasonQuestion=Why can't you provide your date of birth?
+ordinary_dob_help_cannotProvideDOB_ageGroupQuestion=What age group do you belong to?
+ordinary_dob_help_cannotProvideDOB_ageGroup_under18_option=<span class="visuallyhidden">I am</span>Under 18 years old
+ordinary_dob_help_cannotProvideDOB_ageGroup_between18and70_option=<span class="visuallyhidden">I am</span>Between 18 and 70 years old
+ordinary_dob_help_cannotProvideDOB_ageGroup_over70_option=<span class="visuallyhidden">I am</span>Over 70 years old
+ordinary_dob_help_cannotProvideDOB_ageGroup_dontKnow=Don't know<span class="visuallyhidden"> the age group I belong to</span>
+
+ordinary_dob_error_answerThis=Please answer this question
+ordinary_dob_error_enterDateOfBirth=Please enter your date of birth
+ordinary_dob_error_enterYear=Please enter your year of birth
+ordinary_dob_error_invalidYear=The year you provided is invalid
+ordinary_dob_error_enterMonth=Please enter your month of birth
+ordinary_dob_error_invalidMonth=The month you provided is invalid
+ordinary_dob_error_enterDay=Please enter your day of birth
+ordinary_dob_error_invalidDay=The day you provided is invalid
+ordinary_dob_error_provideReason=Please provide a reason
+ordinary_dob_error_selectRange=Please select a rough age range
+ordinary_dob_error_dateInTheFuture=You have entered a date in the future
+ordinary_dob_error_tooOld=Please check the year you were born
+ordinary_dob_error_invalidDate=You have entered an invalid date
 
 # ordinary: name
 ordinary_name_title=What is your full name?

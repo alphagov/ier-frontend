@@ -13,7 +13,7 @@
 
       <span class="day field-wrapper">
         <label for="{{day.id}}" class=""  >
-            Day
+            {{messages.ordinary_dob_day_label}}
         </label>
         <input type="number" id="{{day.id}}" name="{{day.name}}"
                value="{{day.value}}" autocomplete="off"
@@ -25,7 +25,7 @@
 
       <span class="month field-wrapper">
         <label for="{{month.id}}" class=""  >
-            Month
+            {{messages.ordinary_dob_month_label}}
         </label>
         <input type="number" id="{{month.id}}" name="{{month.name}}"
                value="{{month.value}}" autocomplete="off"
@@ -37,7 +37,7 @@
 
       <span class="year field-wrapper">
         <label for="{{year.id}}" class=""  >
-            Year
+            {{messages.ordinary_dob_year_label}}
         </label>
         <input type="number" id="{{year.id}}" name="{{year.name}}" value="{{year.value}}"
                autocomplete="off"  class="text  year text validate {{year.classes}}"
@@ -46,29 +46,27 @@
                data-validation-rules="nonEmpty" >
       </span>
 
-        <p class="example">For example: <span class="date">31 3 1970</span></p>
+        <p class="example">{{{messages.ordinary_dob_formatExample}}}</p>
     </fieldset>
 
     <button type="submit" id="alt-continue"
             class="button next validation-submit"
-            data-validation-sources="dateOfBirth">Continue</button>
-    <div class="help-content help-content{{noDobReasonShowFlag.value}}" data-toggle-text="Help with date of birth">
-        <h3>Help with date of birth</h3>
-        <p>If you don't know your exact date of birth, use the one you put on official documents 
-            (for example, your passport or driving licence).</p>
-        <p>If you can't provide your date of birth you'll have to send copies of identity documents 
-            through the post.</p>
+            data-validation-sources="dateOfBirth">{{messages.step_continue}}</button>
+    <div class="help-content help-content{{noDobReasonShowFlag.value}}" data-toggle-text="{{messages.ordinary_dob_help_link}}">
+        <h3>{{messages.ordinary_dob_help_link}}</h3>
+        <p>{{messages.ordinary_dob_help_content_1}}</p>
+        <p>{{messages.ordinary_dob_help_content_2}}</p>
 
         <div class="optional-section validate optional-section{{noDobReasonShowFlag.value}}"
              id="no-date-of-birth"
-             data-toggle-text="I can't provide my date of birth"
+             data-toggle-text="{{messages.ordinary_dob_help_cannotProvideDOB_link}}"
              data-validation-name="dateOfBirthExcuse" data-validation-type="fieldset"
              data-validation-rules="allNonEmpty"
              data-validation-children="dateOfBirthExcuseReason excuseAgeAttempt">
 
-           <h3>I can't provide my date of birth</h3>
+           <h3>{{messages.ordinary_dob_help_cannotProvideDOB_link}}</h3>
            <label for="{{noDobReason.id}}" class=""  >
-                Why can't you provide your date of birth?
+               {{messages.ordinary_dob_help_cannotProvideDOB_reasonQuestion}}
             </label>
 
             <textarea name="{{noDobReason.name}}" id="{{noDobReason.id}}"
@@ -82,7 +80,7 @@
                       data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty"
                       data-validation-children="excuseUnder18 excuse18to70 excuseOver70 excuseDontKnow">
 
-                <p>What age group do you belong to?</p>
+                <p>{{messages.ordinary_dob_help_cannotProvideDOB_ageGroupQuestion}}</p>
                 <label for="{{rangeUnder18.id}}" class="selectable"  >
                     <input type="radio" id="{{rangeUnder18.id}}" name="{{rangeUnder18.name}}"
                            value="under18"  class="radio  validate"
@@ -90,7 +88,7 @@
                            data-validation-type="field"
                            data-validation-rules="nonEmpty"
                            {{{rangeUnder18.attributes}}}>
-                    <span class="visuallyhidden">I am</span>Under 18 years old
+                    {{{messages.ordinary_dob_help_cannotProvideDOB_ageGroup_under18_option}}}
                 </label>
                 <label for="{{range18to70.id}}" class="selectable"  >
                     <input type="radio" id="{{range18to70.id}}" name="{{range18to70.name}}"
@@ -99,7 +97,7 @@
                            data-validation-type="field"
                            data-validation-rules="nonEmpty"
                            {{{range18to70.attributes}}}>
-                    <span class="visuallyhidden">I am</span>Between 18 and 70 years old
+                    {{{messages.ordinary_dob_help_cannotProvideDOB_ageGroup_between18and70_option}}}
                 </label>
                 <label for="{{rangeOver70.id}}" class="selectable"  >
                     <input type="radio" id="{{rangeOver70.id}}" name="{{rangeOver70.name}}"
@@ -108,7 +106,7 @@
                            data-validation-type="field"
                            data-validation-rules="nonEmpty"
                            {{{rangeOver70.attributes}}}>
-                    <span class="visuallyhidden">I am</span>Over 70 years old
+                    {{{messages.ordinary_dob_help_cannotProvideDOB_ageGroup_over70_option}}}
                 </label>
                 <label for="{{rangeDontKnow.id}}" class="selectable"  >
                     <input type="radio" id="{{rangeDontKnow.id}}" name="{{rangeDontKnow.name}}"
@@ -117,13 +115,13 @@
                            data-validation-type="field"
                            data-validation-rules="nonEmpty"
                            {{{rangeDontKnow.attributes}}}>
-                    Don't know<span class="visuallyhidden"> the age group I belong to</span>
+                    {{{messages.ordinary_dob_help_cannotProvideDOB_ageGroup_dontKnow}}}
                 </label>
             </fieldset>
         </div>
     </div>
     <button type="submit" id="continue"
             class="button next validation-submit"
-            data-validation-sources="dateOfBirth">Continue</button>
+            data-validation-sources="dateOfBirth">{{messages.step_continue}}</button>
 
 </form>
