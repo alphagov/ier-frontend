@@ -39,7 +39,7 @@
                    data-validation-name="other"
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"
-                   {{{hasOtherCountryOption.attributes}}}>{{messages.ordinary_nationality_other_country}}
+                   {{{hasOtherCountryOption.attributes}}}>{{messages.ordinary_nationality_otherCountry}}
         </label>
         <div class="validation-wrapper">
             <div id="add-countries" class="optional-section validate"
@@ -49,7 +49,7 @@
                  data-validation-rules="atLeastOneCountry">
 
                 <label for="{{otherCountriesHead.id}}" class=""  >
-                    {{messages.ordinary_nationality_which_country}}
+                    {{messages.ordinary_nationality_whichCountry}}
                 </label>
                 <div class="validation-wrapper {{otherCountriesHead.classes}}">
                   <input type="text" id="{{otherCountriesHead.id}}"
@@ -61,9 +61,9 @@
 
                 <p class="duplication-intro"
                    style="{{#moreThanOneOtherCountry}}display: none{{/moreThanOneOtherCountry}}">
-                    {{messages.ordinary_nationality_dual_nationality}}
+                    {{messages.ordinary_nationality_dualNationality}}
                     <a class="duplicate-control-initial"
-                     href="#" data-field="{{otherCountriesHead.id}}">{{messages.ordinary_nationality_add_another_country}}</a>.
+                     href="#" data-field="{{otherCountriesHead.id}}">{{messages.ordinary_nationality_addAnotherCountry}}</a>.
                 </p>
 
                 {{#otherCountriesTail}}
@@ -73,7 +73,7 @@
                         </label>
                         <a href="#" class="remove-field"
                            data-field="nationality_otherCountries[{{index}}]">
-                            {{messages.ordinary_nationality_remove_country}}<span class="visuallyhidden">{{messages.ordinary_nationality_country}}</span>
+                            {{messages.ordinary_nationality_removeCountry}}<span class="visuallyhidden">{{messages.ordinary_nationality_country}}</span>
                         </a>
                         <input type="text" id="nationality_otherCountries[{{index}}]"
                                name="nationality.otherCountries[{{index}}]" value="{{countryName}}"
@@ -82,7 +82,7 @@
                 {{/otherCountriesTail}}
 
                 {{#moreThanOneOtherCountry}}
-                    <a class="duplicate-control" href="#">{{messages.ordinary_nationality_Add_another_country}}</a>
+                    <a class="duplicate-control" href="#">{{messages.ordinary_nationality_AddAnotherCountry}}</a>
                 {{/moreThanOneOtherCountry}}
 
             </div>

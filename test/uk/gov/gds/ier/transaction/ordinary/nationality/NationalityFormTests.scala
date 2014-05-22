@@ -119,8 +119,8 @@ class NationalityFormTests
     val js = JsNull
     nationalityForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("nationality").head should be("ordinary_nationality_please_answer")
-        hasErrors.globalErrorMessages.head should be("ordinary_nationality_please_answer")
+        hasErrors.errorMessages("nationality").head should be("ordinary_nationality_error_pleaseAnswer")
+        hasErrors.globalErrorMessages.head should be("ordinary_nationality_error_pleaseAnswer")
         hasErrors.errors.size should be(2)
       },
       success => fail("Should have errored out.")

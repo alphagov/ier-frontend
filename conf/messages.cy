@@ -22,13 +22,13 @@ ordinary_nationality_content_1=Os oes cenedligrwydd deuol gennych, dewiswch yr h
 berthnasol i chi.
 ordinary_nationality_british=Prydeinig
 ordinary_nationality_irish=Gwyddelig
-ordinary_nationality_other_country=Dinesydd gwlad arall
-ordinary_nationality_which_country=Pa wlad?
+ordinary_nationality_otherCountry=Dinesydd gwlad arall
+ordinary_nationality_whichCountry=Pa wlad?
 ordinary_nationality_country=Gwlad
-ordinary_nationality_remove_country=Dileu gwlad
-ordinary_nationality_add_another_country=ychwanegu gwlad arall
-ordinary_nationality_Add_another_country=Ychwanegu gwlad arall
-ordinary_nationality_dual_nationality=Os oes cenedligrwydd deuol gennych, dewiswch yr holl opsiynau sy'n berthnasol i chi.
+ordinary_nationality_removeCountry=Dileu gwlad
+ordinary_nationality_addAnotherCountry=ychwanegu gwlad arall
+ordinary_nationality_AddAnotherCountry=Ychwanegu gwlad arall
+ordinary_nationality_dualNationality=Os oes cenedligrwydd deuol gennych, dewiswch yr holl opsiynau sy'n berthnasol i chi.
 ordinary_nationality_help_heading_1=Help gyda chenedligrwydd
 ordinary_nationality_help_content_1=Os nad ydych yn siŵr beth yw eich cenedligrwydd, edrychwch ar ddogfen \
 swyddogol megis pasbort neu gerdyn adnabod cenedlaethol i ddod o hyd i'r wybodaeth.
@@ -37,9 +37,9 @@ etholiadau mae gennych hawl i bleidleisio ynddynt. Os nad ydych yn gallu nodi ei
 i chi anfon copïau o ddogfennau adnabod drwy'r post.
 ordinary_nationality_help_heading_2=Nid wyf yn gallu nodi fy nghenedligrwydd
 ordinary_nationality_help_content_3=Pam nad oes modd i chi nodi eich cenedligrwydd?
-ordinary_nationality_please_answer=Atebwch y cwestiwn hwn
-ordinary_nationality_not_valid=Nid yw'r wlad honno'n ddilys
-ordinary_nationality_no_more_five_countries=Gallwch specifiy dim mwy na pum gwlad
+ordinary_nationality_error_pleaseAnswer=Atebwch y cwestiwn hwn
+ordinary_nationality_error_notValid=Nid yw'r wlad honno'n ddilys
+ordinary_nationality_error_noMoreFiveCountries=Gallwch specifiy dim mwy na pum gwlad
 
 # ordinary: date of birth
 

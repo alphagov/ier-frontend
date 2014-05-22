@@ -30,7 +30,7 @@ trait NationalityConstraints extends FormKeys with ErrorMessages {
   lazy val notTooManyNationalities = Constraint[InprogressOrdinary](keys.nationality.key) {
     application =>
       if (application.nationality.exists(_.otherCountries.size <= NationalityConstants.numberMaxOfOtherCountries)) Valid
-      else Invalid("ordinary_nationality_no_more_five_countries", keys.nationality)
+      else Invalid("ordinary_nationality_error_noMoreFiveCountries", keys.nationality)
   }
 
   lazy val nationalityIsChosen = Constraint[InprogressOrdinary](keys.nationality.key) {
@@ -43,7 +43,7 @@ trait NationalityConstraints extends FormKeys with ErrorMessages {
 
       application.nationality match {
         case Some(nationality) if (isNationalityValid) => Valid
-        case _ => Invalid("ordinary_nationality_please_answer", keys.nationality)
+        case _ => Invalid("ordinary_nationality_error_pleaseAnswer", keys.nationality)
       }
   }
 
@@ -61,7 +61,7 @@ trait NationalityConstraints extends FormKeys with ErrorMessages {
       }
 
       if (isNationalityValid) Valid
-      else Invalid("ordinary_nationality_not_valid", keys.nationality.otherCountries.item(i))
+      else Invalid("ordinary_nationality_error_notValid", keys.nationality.otherCountries.item(i))
   }
 
 }
