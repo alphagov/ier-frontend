@@ -15,8 +15,7 @@ object Nino extends ModelMapping with ErrorMessages {
 
   val mapping = playMappings.mapping(
     keys.nino.key -> optional(nonEmptyText),
-    keys.noNinoReason.key -> optional(nonEmptyText
-      .verifying(noNinoReasonMaxLengthError, _.size <= maxExplanationFieldLength))
+    keys.noNinoReason.key -> optional(nonEmptyText)
   ) (
     Nino.apply
   ) (

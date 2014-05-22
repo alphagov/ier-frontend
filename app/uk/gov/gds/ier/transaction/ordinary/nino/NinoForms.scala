@@ -5,6 +5,7 @@ import play.api.data.Forms._
 import uk.gov.gds.ier.model.{Nino}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
+import play.api.data.validation.ValidationError
 
 trait NinoForms extends NinoConstraints {
   self:  FormKeys =>
@@ -15,7 +16,7 @@ trait NinoForms extends NinoConstraints {
       nino => InprogressOrdinary(nino = nino)
     ) (
       inprogress => Some(inprogress.nino)
-    ) verifying (ninoOrNoNinoReasonDefined, ninoIsValidIfProvided)
+    ) verifying (ninoOrNoNinoReasonDefined, ninoIsValidIfProvided, ninoReasonMaxLength)
   )
 }
 
@@ -26,7 +27,7 @@ trait NinoConstraints extends CommonConstraints with FormKeys {
         Valid
       }
       else {
-        Invalid("ordinary_nino_error_none_entered", keys.nino.nino)
+        Invalid("ordinary_nino_error_noneEntered", keys.nino.nino)
       }
   }
 
@@ -34,7 +35,15 @@ trait NinoConstraints extends CommonConstraints with FormKeys {
     _.nino match {
       case Some(Nino(Some(nino), _)) if NinoValidator.isValid(nino) => Valid
       case Some(Nino(Some(nino), _)) if !NinoValidator.isValid(nino) =>
-        Invalid("ordinary_nino_error_incorrect_format", keys.nino.nino)
+        Invalid("ordinary_nino_error_incorrectFormat", keys.nino.nino)
+      case _ => Valid
+    }
+  }
+
+  lazy val ninoReasonMaxLength = Constraint[InprogressOrdinary](keys.nino.noNinoReason.key) {
+    _.nino match {
+      case Some(Nino(None, Some(reason))) if (reason.size > maxExplanationFieldLength) =>
+        Invalid(ValidationError("ordinary_nino_error_maxLength", maxExplanationFieldLength))
       case _ => Valid
     }
   }

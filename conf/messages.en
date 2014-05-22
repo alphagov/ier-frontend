@@ -108,19 +108,21 @@ ordinary_previousName_error_enterLastName=Please enter your last name
 ordinary_previousName_error_firstNameTooLong=Previous first name can be no longer than 256 characters
 ordinary_previousName_error_middleNamesTooLong=Previous middle names can be no longer than 256 characters
 ordinary_previousName_error_lastNameTooLong=Previous last name can be no longer than 256 characters
+
+
 # ordinary: nino
 
 ordinary_nino_heading=What is your National Insurance number?
 ordinary_nino_example=Example: QQ 12 34 56 C
-ordinary_nino_dont_know_link=I don't know my National Insurance number
-ordinary_nino_you_can=You can
-ordinary_nino_look_for=look for your National Insurance number on payslips or official letters about tax, pensions or benefits
-ordinary_nino_ask_for=ask for a reminder through the post
-ordinary_nino_cant_provide=If you can't provide a National Insurance number, you will need to explain why. And after you've applied, you'll be asked to prove your identity by sending documents in the post.
-ordinary_nino_cant_provide_link=I can't provide a National Insurance number
-ordinary_nino_cant_provide_why=Why can't you provide a National Insurance number?
-ordinary_nino_error_none_entered=Please enter your National Insurance number
-ordinary_nino_error_incorrect_format=That’s not a valid National Insurance number: please check what you’ve entered
+ordinary_nino_help=I don't know my National Insurance number
+ordinary_nino_section_1=You can
+ordinary_nino_list_1=look for your National Insurance number on payslips or official letters about tax, pensions or benefits
+ordinary_nino_list_2=ask for a reminder through the post
+ordinary_nino_section_2=If you can't provide a National Insurance number, you will need to explain why. And after you've applied, you'll be asked to prove your identity by sending documents in the post.
+ordinary_nino_excuse=I can't provide a National Insurance number
+ordinary_nino_excuse_content=Why can't you provide a National Insurance number?
+ordinary_nino_error_noneEntered=Please enter your National Insurance number
+ordinary_nino_error_incorrectFormat=That’s not a valid National Insurance number: please check what you’ve entered
 
 # ordinary: address
 

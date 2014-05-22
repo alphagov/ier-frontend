@@ -51,6 +51,27 @@ class NinoFormTests
     )
   }
 
+  it should "error out if no nino reason is over the max length" in {
+    val js = Json.toJson(
+      Map(
+        "NINO.NoNinoReason" -> "a" * 501
+      )
+    )
+    ninoForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.keyedErrorsAsMap should matchMap(
+           Map("nino.noNinoReason" -> "ordinary_nino_error_maxLength")
+        )
+      },
+      success => {
+        success.nino.isDefined should be(true)
+        val nino = success.nino.get
+        nino.nino should be(None)
+        nino.noNinoReason should be(Some("Uh, whuh, dunno!"))
+      }
+    )
+  }
+
   it should "error out on empty json" in {
     val js = JsNull
 

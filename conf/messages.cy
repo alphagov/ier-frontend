@@ -112,15 +112,16 @@ ordinary_previousName_error_lastNameTooLong=Gall enw olaf blaenorol fod yn fwy n
 
 ordinary_nino_heading=Beth yw eich rhif Yswiriant Gwladol?
 ordinary_nino_example=Enghraifft: QQ 12 34 56 C
-ordinary_nino_dont_know_link=Nid wyf yn gwybod fy rhif Yswiriant Gwladol
-ordinary_nino_you_can=Gallwch
-ordinary_nino_look_for=chwilio am eich rhif Yswiriant Gwladol ar slipiau cyflog neu lythyrau swyddogol am drethi, pensiynau neu fudd-daliadau
-ordinary_nino_ask_for=neu ofyn am gael eich atgoffa drwy'r post
-ordinary_nino_cant_provide=Os nad ydych yn gallu darparu rhif Yswiriant Gwladol, bydd angen i chi esbonio pam. Ac ar ôl i chi gyflwyno'ch cais, gofynnir i chi brofi pwy ydych chi drwy anfon dogfennau drwy'r post.
-ordinary_nino_cant_provide_link=Nid wyf yn gallu darparu rhif Yswiriant Gwladol
-ordinary_nino_cant_provide_why=Pam nad oes modd i chi ddarparu rhif Yswiriant Gwladol?
-ordinary_nino_error_none_entered=Nodwch eich rhif Yswiriant Gwladol
-ordinary_nino_error_incorrect_format=Nid yw hwnnw'n rhif Yswiriant Gwladol dilys: gwiriwch yr hyn rydych wedi'i nodi
+ordinary_nino_help=Nid wyf yn gwybod fy rhif Yswiriant Gwladol
+ordinary_nino_section_1=Gallwch
+ordinary_nino_list_1=chwilio am eich rhif Yswiriant Gwladol ar slipiau cyflog neu lythyrau swyddogol am drethi, pensiynau neu fudd-daliadau
+ordinary_nino_list_2=neu ofyn am gael eich atgoffa drwy'r post
+ordinary_nino_section_2=Os nad ydych yn gallu darparu rhif Yswiriant Gwladol, bydd angen i chi esbonio pam. Ac ar ôl i chi gyflwyno'ch cais, gofynnir i chi brofi pwy ydych chi drwy anfon dogfennau drwy'r post.
+ordinary_nino_excuse=Nid wyf yn gallu darparu rhif Yswiriant Gwladol
+ordinary_nino_excuse_content=Pam nad oes modd i chi ddarparu rhif Yswiriant Gwladol?
+ordinary_nino_error_noneEntered=Nodwch eich rhif Yswiriant Gwladol
+ordinary_nino_error_incorrectFormat=Nid yw hwnnw'n rhif Yswiriant Gwladol dilys: gwiriwch yr hyn rydych wedi'i nodi
+ordinary_nino_error_maxLength=Rhaid Rheswm dros beidio â darparu rhif Yswiriant Gwladol yn cael eu disgrifio mewn hyd at ${1} cymeriadau
 
 
 # ordinary: address
