@@ -244,3 +244,14 @@ ordinary_nationality_other_country=Add another country
 ordinary_autocomplete_status=available, use up and down arrow keys to navigate
 ordinary_autocomplete_status_prefix_singular=result is
 ordinary_autocomplete_status_prefix_multiple=results are
+
+# JavaScript: address
+
+ordinary_address_postcode=Postcode
+ordinary_address_loading=Finding address
+ordinary_address_selectAddress=Select your address
+ordinary_address_excuse=I can't find my address in the list
+ordinary_address_previousAddressTest=previous address
+ordinary_address_selectPreviousAddress=Select your previous address
+ordinary_address_previousAddressExcuse=I can't find my previous address in the list
+ordinary_address_continue=Continue

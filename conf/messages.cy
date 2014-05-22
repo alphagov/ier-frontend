@@ -248,3 +248,14 @@ ordinary_nationality_other_country=Ychwanegu gwlad arall
 ordinary_autocomplete_status=Welsh available, use up and down arrow keys to navigate
 ordinary_autocomplete_status_prefix_singular=Welsh result is
 ordinary_autocomplete_status_prefix_multiple=Welsh results are
+
+# JavaScript: date of birth
+
+ordinary_address_postcode=Côd Post
+ordinary_address_loading=Welsh Finding address
+ordinary_address_selectAddress=Dewiswch eich cyfeiriad
+ordinary_address_excuse=Nid wyf yn gallu gweld fy nghyfeiriad yn y rhestr
+ordinary_address_previousAddressTest=Cyfeiriad blaenorol
+ordinary_address_selectPreviousAddress=Welsh Select your previous address
+ordinary_address_previousAddressExcuse=Welsh I can't find my previous address in the list
+ordinary_address_continue=Parhau

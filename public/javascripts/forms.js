@@ -482,6 +482,7 @@
 
   PostcodeLookup = function (searchButton, inputName) {
     var inputId = inputName.replace(/\./g, "_"),
+        previousAddressTest = message('ordinary_address_previousAddressTest'),
         _allowSubmission;
 
     _allowSubmission = function ($searchButton) {
@@ -506,8 +507,12 @@
     this.$searchInput = this.$searchButton.closest('fieldset').find('input.postcode');
     this.$targetElement = $('#found-addresses');
     this.hasAddresses = ($('#'+inputId+'_uprn_select').length > 0);
-    this.$waitMessage = $('<p id="wait-for-request">Finding address</p>');
-    this.addressIsPrevious = (this.$searchInput.siblings('label').text().indexOf('previous address') !== -1);
+    this.$waitMessage = $(
+                          '<p id="wait-for-request">' +
+                            message('ordinary_address_loading') +
+                          '</p>'
+                        );
+    this.addressIsPrevious = (this.$searchInput.siblings('label').text().indexOf(previousAddressTest) !== -1);
     this.$searchButton.attr('aria-controls', this.$targetElement.attr('id'));
     this.$targetElement.attr({
       'aria-live' : 'polite',
@@ -516,7 +521,7 @@
     });
     this.fragment =
         '<label for="'+inputId+'_postcode" class="hidden">' +
-           'Postcode' + 
+           message('ordinary_address_postcode') + 
         '</label>' +
         '<input type="hidden" id="input-address-postcode" name="'+inputName+'.postcode" value="{{postcode}}" class="text hidden">' +
         '<label for="'+inputId+'_uprn_select">{{selectLabel}}</label>' +
@@ -539,7 +544,9 @@
         '</div>' +
         '<input type="hidden" id="possibleAddresses_postcode" name="possibleAddresses.postcode" value="{{postcode}}" />' +
         '<input type="hidden" id="possibleAddresses_jsonList" name="possibleAddresses.jsonList" value="{{resultsJSON}}" />' +
-        '<button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode address">Continue</button>';
+        '<button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode address">' +
+          message('ordinary_address_continue') +
+        '</button>';
 
     if (!_allowSubmission.apply(this, [this.$searchButton])) {
       $('#continue').hide();
@@ -566,18 +573,18 @@
         defaultOption = (addressNum === 1) ? addressNum + ' address found' : addressNum + ' addresses found',
         htmlData = {
           'postcode' : postcode,
-          'selectLabel' : 'Select your address',
+          'selectLabel' : message('ordinary_address_selectAddress'),
           'defaultOption' : defaultOption,
           'options' : data.addresses,
-          'excuseToggle' : 'I can\'t find my address in the list',
-          'excuseLabel' : 'Enter your address',
+          'excuseToggle' : message('ordinary_address_excuse'),
+          'excuseLabel' : 'Enter your address,
           'resultsJSON' : data.rawJSON
         },
         $results;
 
     if (this.addressIsPrevious) {
-      htmlData.selectLabel = 'Select your previous address';
-      htmlData.excuseToggle = 'I can\'t find my previous address in the list'; 
+      htmlData.selectLabel = message('ordinary_address_selectPreviousAddress');
+      htmlData.excuseToggle = message('ordinary_address_previousAddressExcuse'); 
       htmlData.excuseLabel = 'Enter your previous address';
     }
     // To be removed once all address pages shared the same HTML
