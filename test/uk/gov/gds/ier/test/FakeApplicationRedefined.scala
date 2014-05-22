@@ -2,7 +2,9 @@ package uk.gov.gds.ier.test
 
 import uk.gov.gds.ier.DynamicGlobal
 import uk.gov.gds.ier.service.LocateService
-import uk.gov.gds.ier.model.Address
+import uk.gov.gds.ier.model.{Success, Fail, ApiResponse, Address}
+import uk.gov.gds.ier.client.IerApiClient
+import uk.gov.gds.ier.controller.MockConfig
 
 /**
  * Intended as an extension to TestHelpers; every test using FakeApplication also extends
@@ -44,6 +46,7 @@ trait FakeApplicationRedefined {
   val testGlobal = new DynamicGlobal {
     override def bindings = { binder =>
       binder bind classOf[uk.gov.gds.ier.service.apiservice.IerApiService] to classOf[uk.gov.gds.ier.service.apiservice.ConcreteIerApiService]
+      binder bind classOf[uk.gov.gds.ier.client.IerApiClient] toInstance dummyApiClient
       binder bind classOf[uk.gov.gds.ier.service.LocateService] toInstance dummyLocateService
     }
   }
@@ -96,6 +99,29 @@ trait FakeApplicationRedefined {
           )
         )
       case _ => List[Address]()
+    }
+  }
+
+  val dummyApiClient = new IerApiClient(new MockConfig) {
+    override def post(url: String, content: String, headers: (String, String)*): ApiResponse = {
+      Success("""
+      {
+        "id": "5360fe69036424d9ec0a1657",
+        "localAuthority": {
+          "name": "Malvern Hills (test)",
+          "urls": [
+            "http://www.malvernhills.gov.uk/",
+            "http://www.malvernhills.gov.uk/cms/council-and-democracy/elections.aspx"],
+          "email": "worcestershirehub@malvernhills.gov.uk.test",
+          "phone": "01684 862151",
+          "addressLine1": "Council House",
+          "addressLine2": "Avenue Road",
+          "addressLine3": "Malvern",
+          "addressLine4": "",
+          "postcode": "WR14 3AF"
+        }
+      }
+      """, 0)
     }
   }
 }
