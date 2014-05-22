@@ -3,9 +3,11 @@ package uk.gov.gds.ier.transaction.ordinary.nationality
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.ordinary.confirmation.ConfirmationMustache
+import uk.gov.gds.ier.form.OrdinaryFormImplicits
 
-
-trait NationalityMustache extends StepTemplate[InprogressOrdinary] {
+trait NationalityMustache extends StepTemplate[InprogressOrdinary]
+  with OrdinaryFormImplicits {
 
   case class CountryItem (
       index:String = "",
@@ -24,23 +26,18 @@ trait NationalityMustache extends StepTemplate[InprogressOrdinary] {
       noNationalityReasonShowFlag: Text
   ) extends MustacheData
 
-  val mustache = MustacheTemplate("ordinary/nationality") {
-    (form, postEndpoint, application) =>
+  val mustache = MultilingualTemplate("ordinary/nationality") { implicit lang =>
+    (form, postEndpoint) =>
 
     implicit val progressForm = form
-
-    val title = "What is your nationality?"
-
-    val otherCountriesList = application.nationality.map {
-        _.otherCountries
-    }.getOrElse(List.empty)
+    val otherCountriesList = form.obtainOtherCountriesList
 
     NationalityModel(
       question = Question(
         postUrl = postEndpoint.url,
-        errorMessages = form.globalErrors.map{ _.message },
-        number = "2 of 11",
-        title = title
+        errorMessages = Messages.translatedGlobalErrors(form),
+        number = "2 " + Messages("step_of") + " 11",
+        title = Messages("ordinary_nationality_title")
       ),
       britishOption = CheckboxField(
         key = keys.nationality.british,
@@ -55,13 +52,13 @@ trait NationalityMustache extends StepTemplate[InprogressOrdinary] {
         value = "true"
       ),
       otherCountriesHead =  Field(
-        id = keys.nationality.otherCountries.asId() + "[0]",
-        name = keys.nationality.otherCountries.key + "[0]",
+        id = keys.nationality.otherCountries.item(0).asId(),
+        name = keys.nationality.otherCountries.item(0).key,
         value = otherCountriesList match {
           case Nil => ""
           case headCountry :: tailCountries => headCountry
         },
-        classes = if (progressForm(keys.nationality.otherCountries).hasErrors) "invalid" else ""
+        classes = if (progressForm(keys.nationality.otherCountries.item(0)).hasErrors) "invalid" else ""
       ),
 
       otherCountriesTail =

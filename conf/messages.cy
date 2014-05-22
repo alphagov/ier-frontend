@@ -17,6 +17,29 @@ ordinary_country_error_notValidCountry=Nid yw'r wlad honno'n ddilys
 
 # ordinary: nationality
 
+ordinary_nationality_title=Beth yw eich cenedligrwydd?
+ordinary_nationality_content_1=Os oes cenedligrwydd deuol gennych, dewiswch yr holl opsiynau sy'n \
+berthnasol i chi.
+ordinary_nationality_british=Prydeinig
+ordinary_nationality_irish=Gwyddelig
+ordinary_nationality_otherCountry=Dinesydd gwlad arall
+ordinary_nationality_whichCountry=Pa wlad?
+ordinary_nationality_country=Gwlad
+ordinary_nationality_removeCountry=Dileu gwlad
+ordinary_nationality_addAnotherCountry=ychwanegu gwlad arall
+ordinary_nationality_AddAnotherCountry=Ychwanegu gwlad arall
+ordinary_nationality_dualNationality=Os oes cenedligrwydd deuol gennych
+ordinary_nationality_help_heading_1=Help gyda chenedligrwydd
+ordinary_nationality_help_content_1=Os nad ydych yn siŵr beth yw eich cenedligrwydd, edrychwch ar ddogfen \
+swyddogol megis pasbort neu gerdyn adnabod cenedlaethol i ddod o hyd i'r wybodaeth.
+ordinary_nationality_help_content_2=Mae angen i ni wybod eich cenedligrwydd er mwyn i ni benderfynu pa \
+etholiadau mae gennych hawl i bleidleisio ynddynt. Os nad ydych yn gallu nodi eich cenedligrwydd, bydd rhaid \
+i chi anfon copïau o ddogfennau adnabod drwy'r post.
+ordinary_nationality_help_heading_2=Nid wyf yn gallu nodi fy nghenedligrwydd
+ordinary_nationality_help_content_3=Pam nad oes modd i chi nodi eich cenedligrwydd?
+ordinary_nationality_error_pleaseAnswer=Atebwch y cwestiwn hwn
+ordinary_nationality_error_notValid=Nid yw'r wlad honno'n ddilys
+ordinary_nationality_error_noMoreFiveCountries=Gallwch specifiy dim mwy na pum gwlad
 
 # ordinary: date of birth
 

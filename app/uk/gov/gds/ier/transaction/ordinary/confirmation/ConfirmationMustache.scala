@@ -12,11 +12,13 @@ import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
 import uk.gov.gds.ier.service.WithAddressService
 import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.form.OrdinaryFormImplicits
 
 trait ConfirmationMustache
     extends StepMustache {
     self: WithRemoteAssets
-      with WithAddressService =>
+      with WithAddressService
+      with OrdinaryFormImplicits =>
 
   case class ConfirmationQuestion(
       content: EitherErrorOrContent,
@@ -348,7 +350,7 @@ trait ConfirmationMustache
       val localNationalities = getNationalities
       val foreignNationalities = concatCommaEndInAnd(
         prepend = "a citizen of ",
-        list = obtainOtherCountriesList
+        list = form.obtainOtherCountriesList
       )
 
       val nationalityString = concatCommaEndInAnd(
@@ -361,20 +363,10 @@ trait ConfirmationMustache
     private def nationalityIsFilled: Boolean = {
       val isBritish = form(keys.nationality.british).value.getOrElse("false").toBoolean
       val isIrish = form(keys.nationality.irish).value.getOrElse("false").toBoolean
-      val otherCountries = obtainOtherCountriesList
+      val otherCountries = form.obtainOtherCountriesList
       (isBritish || isIrish || !otherCountries.isEmpty)
     }
 
-    private def obtainOtherCountriesList: List[String] = {
-      val otherCountries = (
-        for (i <- 0 until NationalityConstants.numberMaxOfOtherCountries
-             if (form(otherCountriesKey(i)).value.isDefined)
-               && !form(otherCountriesKey(i)).value.get.isEmpty)
-        yield form(otherCountriesKey(i)).value.get
-      )
-      otherCountries.toList
-    }
 
-    private def otherCountriesKey(i:Int) = keys.nationality.otherCountries.item(i)
   }
 }
