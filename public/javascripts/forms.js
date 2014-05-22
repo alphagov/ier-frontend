@@ -577,7 +577,7 @@
           'defaultOption' : defaultOption,
           'options' : data.addresses,
           'excuseToggle' : message('ordinary_address_excuse'),
-          'excuseLabel' : 'Enter your address,
+          'excuseLabel' : 'Enter your address',
           'resultsJSON' : data.rawJSON
         },
         $results;

@@ -41,7 +41,6 @@ ordinary_nationality_error_pleaseAnswer=Please answer this question
 ordinary_nationality_error_notValid=This is not a valid country
 ordinary_nationality_error_noMoreFiveCountries=You can specifiy no more than five countries
 
-
 # ordinary: date of birth
 ordinary_dob_title=What is your date of birth?
 
@@ -134,6 +133,7 @@ ordinary_nino_error_maxLength=Reason for not providing National Insurance number
 
 # ordinary: other address
 
+ordinary_otheraddr_error_pleaseAnswer=Please answer this question
 
 # ordinary: previous address
 
@@ -216,6 +216,8 @@ ordinary_postalVote_error_answerThis=Please answer this question
 ordinary_postalVote_error_enterYourEmail=Please enter your email address
 ordinary_postalVote_error_enterValidEmail=Please enter a valid email address
 
+
+ordinary_postalVote_error_answerThis=Please answer this question
 
 # ordinary: contact
 ordinary_contact_title=If we have questions about your application, how should we contact you?

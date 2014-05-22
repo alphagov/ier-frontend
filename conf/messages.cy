@@ -77,6 +77,10 @@ ordinary_dob_error_dateInTheFuture=Rydych wedi nodi dyddiad yn y dyfodol
 ordinary_dob_error_tooOld=Gwiriwch y flwyddyn y cawsoch eich geni
 ordinary_dob_error_invalidDate=Rydych wedi nodi dyddiad annilys
 
+ordinary_dob_error_enterDateOfBirth=Nodwch eich dyddiad geni
+ordinary_dob_error_enterYear=Nodwch eich blwyddyn geni 
+ordinary_dob_error_enterMonth=Nodwch eich mis geni
+ordinary_dob_error_enterDay=Nodwch eich diwrnod geni
 
 # ordinary: name
 ordinary_name_title=Beth yw eich enw llawn?
@@ -135,6 +139,7 @@ ordinary_nino_error_maxLength=Rhaid Rheswm dros beidio â darparu rhif Yswiriant
 
 # ordinary: other address
 
+ordinary_otheraddr_error_pleaseAnswer=Atebwch y cwestiwn hwn
 
 # ordinary: previous address
 
@@ -221,6 +226,7 @@ ordinary_postalVote_error_answerThis=Atebwch y cwestiwn hwn
 ordinary_postalVote_error_enterYourEmail=Rhowch eich cyfeiriad e-bost
 ordinary_postalVote_error_enterValidEmail=Nid yw hwnnw'n gyfeiriad e-bost dilys: gwiriwch yr hyn rydych wedi'i nodi
 
+ordinary_postalVote_error_answerThis=Atebwch y cwestiwn hwn
 
 # ordinary: contact
 ordinary_contact_title=Os bydd gennym gwestiynau am eich cais, beth yw'r ffordd orau o gysylltu â chi?
