@@ -38,4 +38,13 @@ class ResultHandlingTests
     getDomain(request) should be(Some("foo.com"))
   }
 
+  it should "return None when no Host header" in {
+    val request = FakeRequest("GET", "/")
+    getDomain(request) should be(None)
+  }
+
+  it should "return None on an empty Host header" in {
+    val request = FakeRequest("GET", "/").withHeaders("Host" -> "")
+    getDomain(request) should be(None)
+  }
 }

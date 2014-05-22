@@ -46,12 +46,10 @@ trait ResultHandling extends CookieHandling {
   def getDomain(request: Request[_]) = {
     request.headers.get("host") filterNot {
       _ startsWith "localhost"
+    } filterNot {
+      _ == ""
     } map {
       _.split(":").head
     }
-  }
-
-  def createSecureCookie ( name : String, value : String) : Cookie = {
-    Cookie (name, value, None, "/", None, config.cookiesSecured, true)
   }
 }
