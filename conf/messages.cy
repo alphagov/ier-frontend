@@ -28,7 +28,7 @@ ordinary_nationality_country=Gwlad
 ordinary_nationality_remove_country=Dileu gwlad
 ordinary_nationality_add_another_country=ychwanegu gwlad arall
 ordinary_nationality_Add_another_country=Ychwanegu gwlad arall
-ordinary_nationality_dual_nationality=If you have dual nationality
+ordinary_nationality_dual_nationality=Os oes cenedligrwydd deuol gennych, dewiswch yr holl opsiynau sy'n berthnasol i chi.
 ordinary_nationality_help_heading_1=Help gyda chenedligrwydd
 ordinary_nationality_help_content_1=Os nad ydych yn siŵr beth yw eich cenedligrwydd, edrychwch ar ddogfen \
 swyddogol megis pasbort neu gerdyn adnabod cenedlaethol i ddod o hyd i'r wybodaeth.
