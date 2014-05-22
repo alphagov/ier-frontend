@@ -53,13 +53,13 @@ trait TestHelpers
 
     def withIerSession(timeSinceInteraction:Int = 1) = {
       val token = SessionToken(DateTime.now.minusMinutes(timeSinceInteraction))
-      request.withCookies(tokenCookies(token):_*)
+      request.withCookies(tokenCookies(token, None):_*)
     }
 
     def withInvalidSession() = withIerSession(6)
 
     def withApplication[T <: InprogressApplication[T]](application: T) = {
-      request.withCookies(payloadCookies(application):_*)
+      request.withCookies(payloadCookies(application, None):_*)
     }
   }
 

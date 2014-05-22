@@ -10,12 +10,15 @@ trait CookieHandling extends SessionKeys {
     with WithEncryption
     with WithConfig =>
 
-  def payloadCookies[A <: InprogressApplication[A]](application: A) = {
+  def payloadCookies[A <: InprogressApplication[A]](
+    application: A,
+    domain: Option[String]
+  ) = {
     val payloadString = serialiser.toJson(application)
     val (payloadHash, payloadIV) = encryptionService.encrypt(payloadString)
     Seq(
-      secureCookie(sessionPayloadKey, payloadHash),
-      secureCookie(sessionPayloadKeyIV, payloadIV)
+      secureCookie(sessionPayloadKey, payloadHash, domain),
+      secureCookie(sessionPayloadKeyIV, payloadIV, domain)
     )
   }
 
@@ -24,12 +27,15 @@ trait CookieHandling extends SessionKeys {
     DiscardingCookie(sessionPayloadKeyIV)
   )
 
-  def tokenCookies(token: SessionToken) = {
+  def tokenCookies(
+    token: SessionToken,
+    domain: Option[String]
+  ) = {
     val tokenString = serialiser.toJson(token)
     val (tokenHash, tokenIV) = encryptionService.encrypt(tokenString)
     Seq(
-      secureCookie(sessionTokenKey, tokenHash),
-      secureCookie(sessionTokenKeyIV, tokenIV)
+      secureCookie(sessionTokenKey, tokenHash, domain),
+      secureCookie(sessionTokenKeyIV, tokenIV, domain)
     )
   }
 
@@ -38,7 +44,11 @@ trait CookieHandling extends SessionKeys {
     DiscardingCookie(sessionTokenKeyIV)
   )
 
-  def secureCookie ( name : String, value : String) : Cookie = {
-    Cookie (name, value, None, "/", None, config.cookiesSecured, true)
+  def secureCookie(
+    name: String,
+    value: String,
+    domain: Option[String]
+  ): Cookie = {
+    Cookie (name, value, None, "/", domain, config.cookiesSecured, true)
   }
 }
