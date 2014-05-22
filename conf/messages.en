@@ -41,7 +41,7 @@ ordinary_dob_help_cannotProvideDOB_ageGroupQuestion=What age group do you belong
 ordinary_dob_help_cannotProvideDOB_ageGroup_under18_option=<span class="visuallyhidden">I am</span>Under 18 years old
 ordinary_dob_help_cannotProvideDOB_ageGroup_between18and70_option=<span class="visuallyhidden">I am</span>Between 18 and 70 years old
 ordinary_dob_help_cannotProvideDOB_ageGroup_over70_option=<span class="visuallyhidden">I am</span>Over 70 years old
-ordinary_dob_help_cannotProvideDOB_ageGroup_dontKnow=Don't know<span class="visuallyhidden"> the age group I belong to</span>
+ordinary_dob_help_cannotProvideDOB_ageGroup_dontKnow_option=Don't know<span class="visuallyhidden"> the age group I belong to</span>
 
 ordinary_dob_error_answerThis=Please answer this question
 ordinary_dob_error_enterDateOfBirth=Please enter your date of birth

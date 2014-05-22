@@ -19,6 +19,40 @@ ordinary_country_error_notValidCountry=Nid yw'r wlad honno'n ddilys
 
 
 # ordinary: date of birth
+ordinary_dob_title=Beth yw eich dyddiad geni?
+
+ordinary_dob_day_label=Diwrnod
+ordinary_dob_month_label=Mis
+ordinary_dob_year_label=Blwyddyn
+ordinary_dob_formatExample=Er enghraifft: <span class="date">31 3 1970</span>
+
+ordinary_dob_help_link=Help gyda dyddiad geni
+ordinary_dob_help_content_1=Os nad ydych yn gwybod eich union ddyddiad geni, defnyddiwch yr un rydych yn ei roi ar \
+ddogfennau swyddogol (er enghraifft, eich pasbort neu'ch trwydded yrru).
+ordinary_dob_help_content_2=Os nad ydych yn gallu rhoi'ch dyddiad geni, bydd rhaid i chi anfon copïau o ddogfennau \
+adnabod drwy'r post.
+
+ordinary_dob_help_cannotProvideDOB_link=Nid wyf yn gallu rhoi fy nyddiad geni
+ordinary_dob_help_cannotProvideDOB_reasonQuestion=Pam nad oes modd i chi roi eich dyddiad geni?
+ordinary_dob_help_cannotProvideDOB_ageGroupQuestion=Beth yw eich grŵp oedran?
+ordinary_dob_help_cannotProvideDOB_ageGroup_under18_option=<span class="visuallyhidden">Rwy'n</span>Iau na 18 oed
+ordinary_dob_help_cannotProvideDOB_ageGroup_between18and70_option=<span class="visuallyhidden">Rwy'n</span>Rhwng 18 a 70 oed
+ordinary_dob_help_cannotProvideDOB_ageGroup_over70_option=<span class="visuallyhidden">Rwy'n</span>Hŷn na 70 oed
+ordinary_dob_help_cannotProvideDOB_ageGroup_dontKnow_option=Nid wyf yn gwybod<span class="visuallyhidden"> beth yw fy ngrŵp oedran</span>
+
+ordinary_dob_error_answerThis=Atebwch y cwestiwn hwn
+ordinary_dob_error_enterDateOfBirth=Nodwch eich dyddiad geni
+ordinary_dob_error_enterYear=Nodwch eich blwyddyn geni
+ordinary_dob_error_invalidYear=Y flwyddyn ar yr amod eich yn annilys
+ordinary_dob_error_enterMonth=Nodwch eich mis geni
+ordinary_dob_error_invalidMonth=Y mis ar yr amod eich yn annilys
+ordinary_dob_error_enterDay=Nodwch eich diwrnod geni
+ordinary_dob_error_invalidDay=Y diwrnod ar yr amod eich yn annilys
+ordinary_dob_error_provideReason=Rhowch reswm
+ordinary_dob_error_selectRange=Dewiswch grŵp oedrane
+ordinary_dob_error_dateInTheFuture=Rydych wedi nodi dyddiad yn y dyfodol
+ordinary_dob_error_tooOld=Gwiriwch y flwyddyn y cawsoch eich geni
+ordinary_dob_error_invalidDate=Rydych wedi nodi dyddiad annilys
 
 
 # ordinary: name
