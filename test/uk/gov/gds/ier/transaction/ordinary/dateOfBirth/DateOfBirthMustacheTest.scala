@@ -22,7 +22,7 @@ class DateOfBirthMustacheTest
   with WithMockRemoteAssets
   with TestHelpers {
 
-  it should "empty progress form should produce empty Model" in {
+  it should "empty progress form should produce empty Model" in runningApp {
     val emptyApplicationForm = dateOfBirthForm
 
     val dateOfBirthModel = mustache.data(
@@ -39,7 +39,7 @@ class DateOfBirthMustacheTest
     dateOfBirthModel.year.value should be("")
   }
 
-  it should "fully filled applicant dob should produce Mustache Model with dob values present" in {
+  it should "fully filled applicant dob should produce Mustache Model with dob values present" in runningApp {
     val filledForm = dateOfBirthForm.fillAndValidate(InprogressOrdinary(
       dob = Some(DateOfBirth(Some(DOB(day=12, month= 12, year = 1980)), None))))
 
@@ -57,7 +57,7 @@ class DateOfBirthMustacheTest
     dateOfBirthModel.year.value should be("1980")
   }
 
-  it should "fully filled applicant no dob reason should produce Mustache Model with values present" in {
+  it should "fully filled applicant no dob reason should produce Mustache Model with values present" in runningApp {
     val filledForm = dateOfBirthForm.fillAndValidate(InprogressOrdinary(
       dob = Some(DateOfBirth(None, Some(noDOB(Some("dunno my birthday... ???"), Some("18to70")))))))
 
