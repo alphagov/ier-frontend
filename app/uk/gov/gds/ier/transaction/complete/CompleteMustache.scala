@@ -9,7 +9,10 @@ trait CompleteMustache {
 
   val _remoteAssets = remoteAssets
 
-  object Complete extends StepMustache with GovukMustache with WithRemoteAssets {
+  object Complete
+    extends StepMustache
+    with GovukMustache
+    with WithRemoteAssets {
 
     val remoteAssets = _remoteAssets
 
@@ -18,7 +21,7 @@ trait CompleteMustache {
         refNumber: Option[String],
         hasOtherAddress: Boolean,
         backToStartUrl: String
-    ) extends GovukPage ("complete", "Application Complete") {
+    ) extends Mustachio("complete") {
       val authorityUrl = authority flatMap {
         auth => auth.urls.headOption
       }
@@ -26,6 +29,12 @@ trait CompleteMustache {
       val authorityName = authority map {
         auth => auth.name + " electoral registration office"
       } getOrElse "your local electoral registration office"
+
+      override def render() = GovukTemplate(
+        mainContent = super.render(),
+        pageTitle = "Application Complete",
+        contentClasses = "complete"
+      )
     }
   }
 }
