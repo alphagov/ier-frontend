@@ -39,6 +39,9 @@ you're entitled to vote in. If you can't provide your nationality, you'll have t
 through the post.
 ordinary_nationality_help_heading_2=I can't provide my nationality
 ordinary_nationality_help_content_3=Why can't you provide your nationality?
+ordinary_nationality_please_answer=Please answer this question
+ordinary_nationality_not_valid=This is not a valid country
+ordinary_nationality_no_more_five_countries=You can specifiy no more than five countries
 
 
 # ordinary: date of birth

@@ -51,11 +51,13 @@
                 <label for="{{otherCountriesHead.id}}" class=""  >
                     {{messages.ordinary_nationality_which_country}}
                 </label>
-                <input type="text" id="{{otherCountriesHead.id}}"
+                <div class="validation-wrapper {{otherCountriesHead.classes}}">
+                  <input type="text" id="{{otherCountriesHead.id}}"
                        name="{{otherCountriesHead.name}}"
                        value="{{otherCountriesHead.value}}"
                        autocomplete="off"
-                       class="text  country-autocomplete long"  >
+                       class="text  country-autocomplete long {{otherCountriesHead.classes}}"  >
+                </div>
 
                 <p class="duplication-intro"
                    style="{{#moreThanOneOtherCountry}}display: none{{/moreThanOneOtherCountry}}">
@@ -88,7 +90,7 @@
     </fieldset>
     <button type="submit" id="alt-continue"
             class="button next validation-submit"
-            data-validation-sources="nationality">Continue</button>
+            data-validation-sources="nationality">{{messages.step_continue}}</button>
     <div class="help-content help-content{{noNationalityReasonShowFlag.value}}"
          data-toggle-text="{{messages.ordinary_nationality_help_heading_1}}">
         <h2>{{messages.ordinary_nationality_help_heading_1}}</h2>
@@ -113,5 +115,5 @@
     </div>
     <button type="submit" id="continue"
             class="button next validation-submit"
-            data-validation-sources="nationality">Continue</button>
+            data-validation-sources="nationality">{{messages.step_continue}}</button>
 </form>

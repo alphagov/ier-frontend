@@ -37,6 +37,9 @@ etholiadau mae gennych hawl i bleidleisio ynddynt. Os nad ydych yn gallu nodi ei
 i chi anfon copïau o ddogfennau adnabod drwy'r post.
 ordinary_nationality_help_heading_2=Nid wyf yn gallu nodi fy nghenedligrwydd
 ordinary_nationality_help_content_3=Pam nad oes modd i chi nodi eich cenedligrwydd?
+ordinary_nationality_please_answer=Atebwch y cwestiwn hwn
+ordinary_nationality_not_valid=Nid yw'r wlad honno'n ddilys
+ordinary_nationality_no_more_five_countries=Gallwch specifiy dim mwy na pum gwlad
 
 # ordinary: date of birth
 

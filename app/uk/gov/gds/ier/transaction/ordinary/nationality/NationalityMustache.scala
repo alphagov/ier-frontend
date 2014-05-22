@@ -36,7 +36,7 @@ trait NationalityMustache extends StepTemplate[InprogressOrdinary]
       question = Question(
         postUrl = postEndpoint.url,
         errorMessages = Messages.translatedGlobalErrors(form),
-        number = "2 of 11",
+        number = "2 " + Messages("step_of") + " 11",
         title = Messages("ordinary_nationality_title")
       ),
       britishOption = CheckboxField(
@@ -52,13 +52,13 @@ trait NationalityMustache extends StepTemplate[InprogressOrdinary]
         value = "true"
       ),
       otherCountriesHead =  Field(
-        id = keys.nationality.otherCountries.asId() + "[0]",
-        name = keys.nationality.otherCountries.key + "[0]",
+        id = keys.nationality.otherCountries.item(0).asId(),
+        name = keys.nationality.otherCountries.item(0).key,
         value = otherCountriesList match {
           case Nil => ""
           case headCountry :: tailCountries => headCountry
         },
-        classes = if (progressForm(keys.nationality.otherCountries).hasErrors) "invalid" else ""
+        classes = if (progressForm(keys.nationality.otherCountries.item(0)).hasErrors) "invalid" else ""
       ),
 
       otherCountriesTail =
