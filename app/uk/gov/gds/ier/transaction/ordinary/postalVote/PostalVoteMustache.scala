@@ -16,7 +16,7 @@ trait PostalVoteMustache extends StepTemplate[InprogressOrdinary] {
     deliveryMethodValid: String
   ) extends MustacheData
 
-  val mustache = MustacheTemplate("ordinary/postalVote") {
+  val mustache = MultilingualTemplate("ordinary/postalVote") { implicit lang =>
     (form, postUrl) =>
 
     implicit val progressForm = form
@@ -29,9 +29,9 @@ trait PostalVoteMustache extends StepTemplate[InprogressOrdinary] {
     PostalVoteModel(
       question = Question(
         postUrl = postUrl.url,
-        number = "10",
-        title = "Do you want to apply for a postal vote?",
-        errorMessages = form.globalErrors.map { _.message }),
+        number = s"10 ${Messages("step_of")} 11",
+        title = Messages("ordinary_postalVote_title"),
+        errorMessages = Messages.translatedGlobalErrors(form)),
       postCheckboxYes = RadioField(
         key = keys.postalVote.optIn,
         value = "true"),

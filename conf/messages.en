@@ -191,7 +191,33 @@ you ask for them to be removed. Removing your details from the open register doe
 
 ordinary_data-toggle-text=Why are there two registers?
 
+
 # ordinary: postal vote
+ordinary_postalVote_title=Do you want to apply for a postal vote?
+
+ordinary_postalVote_optionsQuestion=Most people vote in person at a polling station. But if you prefer to \
+vote by post, we can send you an application form.
+ordinary_postalVote_voteInPerson_option=No, I prefer to vote in person
+ordinary_postalVote_postalVote_option=Yes, I want a postal vote
+
+ordinary_postalVote_postalVote_heading=If you want a postal vote application form
+ordinary_postalVote_postalVote_deliveryOptionsQuestion=You'll need to sign and return a postal vote application \
+form. How should we send you the form?
+ordinary_postalVote_postalVote_deliveryEmail_option=Email it to me
+ordinary_postalVote_postalVote_emailAddress_label=Email address
+ordinary_postalVote_postalVote_deliveryPost_option=Post it to me
+
+ordinary_postalVote_help_link=What is a postal vote?
+ordinary_postalVote_help_content_1=We'll send your ballot paper to the address you choose. Then you fill it in \
+and return it by post.
+ordinary_postalVote_help_content_2=Anyone can apply for a postal vote. You don't need to give a reason.
+ordinary_postalVote_help_content_3=If you're not sure whether you want a postal vote, you can complete your registration \
+now and apply for a postal vote later.
+
+ordinary_postalVote_error_answerThis=Please answer this question
+ordinary_postalVote_error_enterYourEmail=Please enter your email address
+ordinary_postalVote_error_enterValidEmail=Please enter a valid email address
+
 
 # ordinary: contact
 ordinary_contact_title=If we have questions about your application, how should we contact you?
