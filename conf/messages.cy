@@ -121,7 +121,7 @@ ordinary_nino_excuse=Nid wyf yn gallu darparu rhif Yswiriant Gwladol
 ordinary_nino_excuse_content=Pam nad oes modd i chi ddarparu rhif Yswiriant Gwladol?
 ordinary_nino_error_noneEntered=Nodwch eich rhif Yswiriant Gwladol
 ordinary_nino_error_incorrectFormat=Nid yw hwnnw'n rhif Yswiriant Gwladol dilys: gwiriwch yr hyn rydych wedi'i nodi
-ordinary_nino_error_maxLength=Rhaid Rheswm dros beidio â darparu rhif Yswiriant Gwladol yn cael eu disgrifio mewn hyd at ${1} cymeriadau
+ordinary_nino_error_maxLength=Rhaid Rheswm dros beidio â darparu rhif Yswiriant Gwladol yn cael eu disgrifio mewn hyd at 500 cymeriadau
 
 
 # ordinary: address

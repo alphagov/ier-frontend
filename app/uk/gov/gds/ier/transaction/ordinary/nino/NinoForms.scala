@@ -41,9 +41,12 @@ trait NinoConstraints extends CommonConstraints with FormKeys {
   }
 
   lazy val ninoReasonMaxLength = Constraint[InprogressOrdinary](keys.nino.noNinoReason.key) {
-    _.nino match {
-      case Some(Nino(None, Some(reason))) if (reason.size > maxExplanationFieldLength) =>
-        Invalid(ValidationError("ordinary_nino_error_maxLength", maxExplanationFieldLength))
+    application =>
+    application.nino match {
+      case Some(Nino(None, Some(reason))) if (reason.size > maxExplanationFieldLength) => {
+        println ("invalid")
+        Invalid(ValidationError("ordinary_nino_error_maxLength", keys.nino.noNinoReason))
+      }
       case _ => Valid
     }
   }

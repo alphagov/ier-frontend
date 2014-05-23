@@ -123,6 +123,7 @@ ordinary_nino_excuse=I can't provide a National Insurance number
 ordinary_nino_excuse_content=Why can't you provide a National Insurance number?
 ordinary_nino_error_noneEntered=Please enter your National Insurance number
 ordinary_nino_error_incorrectFormat=That’s not a valid National Insurance number: please check what you’ve entered
+ordinary_nino_error_maxLength=Reason for not providing National Insurance number must be described in up to 500 characters
 
 # ordinary: address
 
