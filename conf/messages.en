@@ -19,7 +19,6 @@ ordinary_country_error_pleaseAnswer=Please answer this question
 ordinary_country_error_notValidCountry=This is not a valid country
 
 # ordinary: nationality
-
 ordinary_nationality_title=What is your nationality?
 ordinary_nationality_content_1=If you have dual nationality, select all options that are relevant to you.
 ordinary_nationality_british=British
@@ -124,6 +123,16 @@ ordinary_previousName_error_lastNameTooLong=Previous last name can be no longer 
 
 
 # ordinary: previous address
+ordinary_previousAddress_title=Have you moved out of another address in the last 12 months?
+ordinary_previousAddress_no_option=No
+ordinary_previousAddress_yesFromUk_option=Yes, from a UK address
+ordinary_previousAddress_yesFromAbroad_option=Yes, from abroad
+ordinary_previousAddress_yesFromAbroad_wasRegisteredQuestion=Were you registered as a UK voter when you were abroad?
+ordinary_previousAddress_yesFromAbroad_wasRegistered_yes_option=Yes
+ordinary_previousAddress_yesFromAbroad_wasRegistered_no_option=No
+
+ordinary_previousAddress_error_answerThis=Please answer this question
+ordinary_previousAddress_error_invalidOption=Not a valid option
 
 
 # ordinary: previous address postcode

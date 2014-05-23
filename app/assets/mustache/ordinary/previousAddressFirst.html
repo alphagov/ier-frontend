@@ -17,7 +17,7 @@
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"
                    {{{previousNo.attributes}}}>
-            No
+            {{messages.ordinary_previousAddress_no_option}}
         </label>
 
         <label for="{{previousYesUk.id}}" class="selectable"  >
@@ -30,7 +30,7 @@
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"
                    {{{previousYesUk.attributes}}}>
-            Yes, from a UK address
+            {{messages.ordinary_previousAddress_yesFromUk_option}}
         </label>
 
         <label for="{{previousYesAbroad.id}}" class="selectable"  >
@@ -43,7 +43,7 @@
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"
                    {{{previousYesAbroad.attributes}}}>
-            Yes, from abroad
+            {{messages.ordinary_previousAddress_yesFromAbroad_option}}
         </label>
     </fieldset>
 
@@ -53,7 +53,7 @@
               data-validation-type="fieldset"
               data-validation-rules="atLeastOneNonEmpty"
               data-validation-children="registeredAbroadYes registeredAbroadNo">
-        <legend>Were you registered as a UK voter when you were abroad?</legend>
+        <legend>{{messages.ordinary_previousAddress_yesFromAbroad_wasRegisteredQuestion}}</legend>
 
         <label for="{{registeredAbroadYes.id}}" class="selectable binary">
             <input type="radio"
@@ -65,7 +65,7 @@
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"
             {{{registeredAbroadYes.attributes}}}>
-            Yes
+            {{messages.ordinary_previousAddress_yesFromAbroad_wasRegistered_yes_option}}
         </label>
         <label for="{{registeredAbroadNo.id}}" class="selectable binary">
             <input type="radio"
@@ -77,7 +77,7 @@
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"
             {{{registeredAbroadNo.attributes}}}>
-            No
+            {{messages.ordinary_previousAddress_yesFromAbroad_wasRegistered_no_option}}
         </label>
     </fieldset>
 
@@ -87,6 +87,6 @@
             type="submit"
             class="button next validation-submit"
             data-validation-sources="previousAddress registeredAbroad">
-        Continue
+        {{messages.step_continue}}
     </button>
 </form>
