@@ -15,7 +15,7 @@ trait ConfirmationForms extends OrdinaryMappings {
       keys.previousName.key -> optional(PreviousName.mapping).verifying("Please complete this step", _.isDefined),
       keys.dob.key -> optional(dobAndReasonMapping).verifying("Please complete this step", _.isDefined),
       keys.nationality.key -> optional(PartialNationality.mapping).verifying("Please complete this step", _.isDefined),
-      keys.nino.key -> optional(ninoMapping).verifying("Please complete this step", _.isDefined),
+      keys.nino.key -> optional(Nino.mapping).verifying("Please complete this step", _.isDefined),
       keys.address.key -> optional(partialAddressMapping).verifying("Please complete this step", _.isDefined),
       keys.previousAddress.key ->
         optional(PartialPreviousAddress.mapping.verifying(previousAddressRequiredIfMoved))

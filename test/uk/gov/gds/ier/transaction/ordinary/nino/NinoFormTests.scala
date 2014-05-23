@@ -5,11 +5,13 @@ import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.libs.json.{Json, JsNull}
 import uk.gov.gds.ier.test.TestHelpers
+import org.scalatest.mock.MockitoSugar
 
 class NinoFormTests
   extends FlatSpec
   with Matchers
   with NinoForms
+  with MockitoSugar
   with WithSerialiser
   with ErrorMessages
   with FormKeys
@@ -51,14 +53,31 @@ class NinoFormTests
     )
   }
 
+  it should "error out if no nino reason is over the max length" in {
+    val js = Json.toJson(
+      Map(
+        "NINO.NoNinoReason" -> "a" * 1001
+      )
+    )
+    ninoForm.bind(js).fold(
+      hasErrors => {
+        println (hasErrors.keyedErrorsAsMap)
+        hasErrors.keyedErrorsAsMap should matchMap(
+           Map("NINO.NoNinoReason" -> Seq("ordinary_nino_error_maxLength"))
+        )
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
   it should "error out on empty json" in {
     val js = JsNull
 
     ninoForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Please enter your National Insurance number"))
-        hasErrors.errorMessages("NINO.NINO") should be(Seq("Please enter your National Insurance number"))
+        hasErrors.keyedErrorsAsMap should matchMap(
+           Map("NINO.NINO" -> Seq("ordinary_nino_error_noneEntered"))
+        )
       },
       success => fail("Should have errored out")
     )
@@ -73,9 +92,7 @@ class NinoFormTests
     )
     ninoForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Please enter your National Insurance number"))
-        hasErrors.errorMessages("NINO.NINO") should be(Seq("Please enter your National Insurance number"))
+        Map("NINO.NINO" -> Seq("ordinary_nino_error_noneEntered"))
       },
       success => fail("Should have errored out")
     )
@@ -89,9 +106,7 @@ class NinoFormTests
     )
     ninoForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Your National Insurance number is not correct"))
-        hasErrors.errorMessages("NINO.NINO") should be(Seq("Your National Insurance number is not correct"))
+        Map("NINO.NINO" -> Seq("ordinary_nino_error_noneEntered"))
       },
       success => fail("Should have errored out")
     )
