@@ -125,6 +125,9 @@ ordinary_previousName_error_lastNameTooLong=Gall enw olaf blaenorol fod yn fwy n
 
 # ordinary: previous address
 ordinary_previousAddress_title=Ydych chi wedi symud o gyfeiriad arall yn y DU yn y 12 mis diwethaf?
+ordinary_previousAddress_yesFromUk_title=Beth oedd eich cyfeiriad blaenorol?
+ordinary_previousAddress_yesFromAbroadWasRegistered_title=Beth oedd eich cyfeiriad olaf yn y DU cyn i chi symud dramor?
+
 ordinary_previousAddress_no_option=Nac ydw
 ordinary_previousAddress_yesFromUk_option=Ie, o gyfeiriad yn y DU
 ordinary_previousAddress_yesFromAbroad_option=Ie, o dramor
@@ -136,7 +139,10 @@ ordinary_previousAddress_error_answerThis=Atebwch y cwestiwn hwn
 ordinary_previousAddress_error_invalidOption=Nid yw hynny'n opsiwn dilys
 
 # ordinary: previous address postcode
-
+ordinary_previousAddress_postcode_postcode_label=Côd Post
+ordinary_previousAddress_postcode_findAddress=Chwilio am gyfeiriad
+ordinary_previousAddress_postcode_error_enterPostcode=Nodwch eich côd post blaenorol
+ordinary_previousAddress_postcode_error_invalidPostcode=Nid yw hwnnw'n gôd post dilys: gwiriwch yr hyn rydych wedi'i nodi
 
 # ordinary: previous address select
 

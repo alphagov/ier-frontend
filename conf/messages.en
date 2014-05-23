@@ -124,6 +124,9 @@ ordinary_previousName_error_lastNameTooLong=Previous last name can be no longer 
 
 # ordinary: previous address
 ordinary_previousAddress_title=Have you moved out of another address in the last 12 months?
+ordinary_previousAddress_yesFromUk_title=What was your previous address?
+ordinary_previousAddress_yesFromAbroadWasRegistered_title=What was your last UK address before moving abroad?
+
 ordinary_previousAddress_no_option=No
 ordinary_previousAddress_yesFromUk_option=Yes, from a UK address
 ordinary_previousAddress_yesFromAbroad_option=Yes, from abroad
@@ -134,9 +137,11 @@ ordinary_previousAddress_yesFromAbroad_wasRegistered_no_option=No
 ordinary_previousAddress_error_answerThis=Please answer this question
 ordinary_previousAddress_error_invalidOption=Not a valid option
 
-
 # ordinary: previous address postcode
-
+ordinary_previousAddress_postcode_postcode_label=Postcode
+ordinary_previousAddress_postcode_findAddress=Find address
+ordinary_previousAddress_postcode_error_enterPostcode=Please enter your postcode
+ordinary_previousAddress_postcode_error_invalidPostcode=Your postcode is not valid
 
 # ordinary: previous address select
 

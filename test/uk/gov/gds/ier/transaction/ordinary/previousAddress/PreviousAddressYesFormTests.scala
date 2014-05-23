@@ -58,7 +58,7 @@ class PreviousAddressYesFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.postcode" -> Seq("Please enter your postcode")
+          "previousAddress.previousAddress.postcode" -> Seq("ordinary_previousAddress_postcode_error_enterPostcode")
         ))
       },
       success => fail("Should have failed out")
@@ -72,7 +72,7 @@ class PreviousAddressYesFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.postcode" -> Seq("Please enter your postcode")
+          "previousAddress.previousAddress.postcode" -> Seq("ordinary_previousAddress_postcode_error_enterPostcode")
         ))
       },
       success => fail("Should have failed out")
@@ -86,7 +86,7 @@ class PreviousAddressYesFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.postcode" -> Seq("Please enter your postcode")
+          "previousAddress.previousAddress.postcode" -> Seq("ordinary_previousAddress_postcode_error_enterPostcode")
         ))
       },
       success => fail("Should have failed out")
@@ -395,10 +395,10 @@ class PreviousAddressYesFormTests
         hasErrors.errors.size should be(4)
         // empty postcode does not have user friendly message
         // we assume UI guarantees it is present from previous step
-        hasErrors.globalErrorMessages should be(Seq("Your postcode is not valid", "Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_previousAddress_postcode_error_invalidPostcode", "Please answer this question"))
         println (hasErrors.keyedErrorsAsMap)
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.postcode" -> Seq("Your postcode is not valid"),
+          "previousAddress.previousAddress.postcode" -> Seq("ordinary_previousAddress_postcode_error_invalidPostcode"),
           "previousAddress.previousAddress.manualAddress" -> Seq("Please answer this question")
         ))
       },
@@ -420,7 +420,7 @@ class PreviousAddressYesFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.postcode" -> Seq("Your postcode is not valid")
+          "previousAddress.previousAddress.postcode" -> Seq("ordinary_previousAddress_postcode_error_invalidPostcode")
         ))
       },
       success => fail("Should have errored out")
