@@ -22,9 +22,11 @@ trait CookieHandling extends SessionKeys {
     )
   }
 
-  def discardPayloadCookies() = Seq(
-    DiscardingCookie(sessionPayloadKey),
-    DiscardingCookie(sessionPayloadKeyIV)
+  def discardPayloadCookies(
+    domain: Option[String]
+  ) = Seq(
+    discard(sessionPayloadKey, domain),
+    discard(sessionPayloadKeyIV, domain)
   )
 
   def tokenCookies(
@@ -39,10 +41,23 @@ trait CookieHandling extends SessionKeys {
     )
   }
 
-  def discardTokenCookies() = Seq(
-    DiscardingCookie(sessionTokenKey),
-    DiscardingCookie(sessionTokenKeyIV)
+  def discardTokenCookies(
+    domain: Option[String]
+  ) = Seq(
+    discard(sessionTokenKey, domain),
+    discard(sessionTokenKeyIV, domain)
   )
+
+  def discard(
+    name: String,
+    domain: Option[String]
+  ): DiscardingCookie = {
+    DiscardingCookie(
+      name = name,
+      domain = domain,
+      secure = config.cookiesSecured
+    )
+  }
 
   def secureCookie(
     name: String,
