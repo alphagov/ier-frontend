@@ -19,7 +19,7 @@ class Config extends Logging {
 
   def buildDate = configuration.getString("gds.BuildTime", "unknown")
   def buildNumber = configuration.getString("gds.BuildNumber", "unknown")
-  def revision = configuration.getString("gds.GitCommit", "unknown")
+  def revision = configuration.getString("gds.GitCommit", "abcdef1234567890abcdef1234567890abcdef12")
   def branch = configuration.getString("gds.GitBranch", "unknown")
 
   def cookiesAesKey = configuration.getString("ier.cookies.aes.encryptionKey")
