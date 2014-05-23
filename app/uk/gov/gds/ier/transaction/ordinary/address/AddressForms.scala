@@ -9,11 +9,6 @@ import uk.gov.gds.ier.validation.{
   PostcodeValidator}
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.model.{
-  PartialAddress,
-  PartialManualAddress,
-  PossibleAddress,
-  Addresses}
 import uk.gov.gds.ier.model.Addresses
 import uk.gov.gds.ier.model.PartialAddress
 import uk.gov.gds.ier.model.PartialManualAddress
@@ -27,12 +22,12 @@ trait AddressForms extends AddressConstraints {
   with WithSerialiser =>
 
   // address mapping for select address page - the address part
-    lazy val partialAddressMapping = 
-      PartialAddress.mapping.verifying(postcodeIsValid, uprnOrManualDefined)
+  lazy val partialAddressMapping =
+    PartialAddress.mapping.verifying(postcodeIsValid, uprnOrManualDefined)
 
   // address mapping for manual address - the address individual lines part
-    lazy val manualPartialAddressLinesMapping = 
-        PartialManualAddress.mapping.verifying(lineOneIsRequired, cityIsRequired)
+  lazy val manualPartialAddressLinesMapping =
+    PartialManualAddress.mapping.verifying(lineOneIsRequired, cityIsRequired)
 
   // address mapping for manual address - the address parent wrapper part
   lazy val manualPartialAddressMapping = mapping(
@@ -132,7 +127,7 @@ trait AddressConstraints extends CommonConstraints {
     inprogress =>
       inprogress.address match {
         case Some(partialAddress) if partialAddress.manualAddress.isDefined => Valid
-        case _ => Invalid("Please answer this question", keys.address.manualAddress)
+        case _ => Invalid("ordinary_address_error_pleaseAnswer", keys.address.manualAddress)
       }
   }
 
@@ -140,9 +135,9 @@ trait AddressConstraints extends CommonConstraints {
     inprogress =>
       inprogress.address match {
         case Some(partialAddress) if partialAddress.postcode == "" => {
-          Invalid("Please enter your postcode", keys.address.postcode)
+          Invalid("ordinary_address_error_pleaseEnterYourPostcode", keys.address.postcode)
         }
-        case None => Invalid("Please enter your postcode", keys.address.postcode)
+        case None => Invalid("ordinary_address_error_pleaseEnterYourPostcode", keys.address.postcode)
         case _ => Valid
       }
   }
@@ -150,14 +145,14 @@ trait AddressConstraints extends CommonConstraints {
   lazy val addressIsRequired = Constraint[InprogressOrdinary](keys.address.key) {
     inprogress =>
       if (inprogress.address.isDefined) Valid
-      else Invalid("Please answer this question", keys.address)
+      else Invalid("ordinary_address_error_pleaseAnswer", keys.address)
   }
 
   lazy val uprnOrManualDefined = Constraint[PartialAddress](keys.address.key) {
     case partialAddress if partialAddress.uprn.exists(_ != "") => Valid
     case partialAddress if partialAddress.manualAddress.exists(_ != "") => Valid
     case _ => Invalid(
-      "Please select your address",
+      "ordinary_address_error_pleaseSelectYourAddress",
       keys.address.uprn,
       keys.address.manualAddress,
       keys.address
@@ -167,18 +162,18 @@ trait AddressConstraints extends CommonConstraints {
   lazy val postcodeIsValid = Constraint[PartialAddress](keys.address.key) {
     case PartialAddress(_, _, postcode, _, _)
       if PostcodeValidator.isValid(postcode) => Valid
-    case _ => Invalid("Your postcode is not valid", keys.address.postcode)
+    case _ => Invalid("ordinary_address_error_postcodeIsNotValid", keys.address.postcode)
   }
 
   lazy val lineOneIsRequired = Constraint[PartialManualAddress](
       keys.address.manualAddress.key) {
     case PartialManualAddress(Some(_), _, _, _) => Valid
-    case _ => Invalid(lineOneIsRequiredError, keys.address.manualAddress.lineOne)
+    case _ => Invalid(lineOneIsRequiredErrorKey, keys.address.manualAddress.lineOne)
   }
 
   lazy val cityIsRequired = Constraint[PartialManualAddress](
       keys.address.manualAddress.key) {
     case PartialManualAddress(_, _, _, Some(_)) => Valid
-    case _ => Invalid(cityIsRequiredError, keys.address.manualAddress.city)
+    case _ => Invalid(cityIsRequiredErrorKey, keys.address.manualAddress.city)
   }
 }

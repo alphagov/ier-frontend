@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.transaction.ordinary.contact
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 

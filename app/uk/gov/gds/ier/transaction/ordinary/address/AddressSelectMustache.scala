@@ -12,7 +12,6 @@ trait AddressSelectMustache extends StepTemplate[InprogressOrdinary] {
   val serialiser:JsonSerialiser
   val addressService:AddressService
 
-  val title = "What is your address?"
   val questionNumber = "6 of 11"
 
   case class SelectModel (
@@ -26,8 +25,7 @@ trait AddressSelectMustache extends StepTemplate[InprogressOrdinary] {
       hasAddresses: Boolean
   ) extends MustacheData
 
-  val mustache = MustacheTemplate("ordinary/addressSelect") {
-    (form, post) =>
+  val mustache = MultilingualTemplate("ordinary/addressSelect") { implicit lang => (form, post) =>
 
     implicit val progressForm = form
 
@@ -73,7 +71,7 @@ trait AddressSelectMustache extends StepTemplate[InprogressOrdinary] {
       optionList = options,
       default = SelectOption(
         value = "",
-        text = s"${options.size} addresses found"
+        text = Messages("ordinary_address_nAddressFound", options.size)
       )
     )
     val addressSelectWithError = addressSelect.copy(
@@ -88,19 +86,21 @@ trait AddressSelectMustache extends StepTemplate[InprogressOrdinary] {
       question = Question(
         postUrl = post.url,
         number = questionNumber,
-        title = title,
-        errorMessages = progressForm.globalErrors.map(_.message)
+        title = Messages("ordinary_address1_title"),
+        errorMessages = Messages.translatedGlobalErrors(form)
       ),
       lookupUrl = AddressController.get.url,
       manualUrl = AddressManualController.get.url,
       postcode = TextField(keys.address.postcode, default = postcode),
       address = addressSelectWithError,
-      possibleJsonList = TextField(keys.possibleAddresses.jsonList).copy(
+      possibleJsonList = HiddenField(
+        key = keys.possibleAddresses.jsonList,
         value = possibleAddresses.map { poss =>
           serialiser.toJson(poss.jsonList)
         }.getOrElse("")
       ),
-      possiblePostcode = TextField(keys.possibleAddresses.postcode).copy(
+      possiblePostcode = HiddenField(
+        key = keys.possibleAddresses.postcode,
         value = form(keys.address.postcode).value.getOrElse("")
       ),
       hasAddresses = hasAddresses

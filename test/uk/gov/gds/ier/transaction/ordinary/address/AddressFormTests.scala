@@ -69,8 +69,8 @@ class AddressFormTests
     addressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("address") should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_address_error_pleaseAnswer"))
+        hasErrors.errorMessages("address") should be(Seq("ordinary_address_error_pleaseAnswer"))
       },
       success => fail("Should have errored out")
     )
@@ -87,8 +87,8 @@ class AddressFormTests
     addressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("address") should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_address_error_pleaseAnswer"))
+        hasErrors.errorMessages("address") should be(Seq("ordinary_address_error_pleaseAnswer"))
       },
       success => fail("Should have errored out")
     )
@@ -107,8 +107,8 @@ class AddressFormTests
     addressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("address") should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_address_error_pleaseAnswer"))
+        hasErrors.errorMessages("address") should be(Seq("ordinary_address_error_pleaseAnswer"))
       },
       success => fail("Should have errored out")
     )
@@ -166,12 +166,12 @@ class AddressFormTests
       hasErrors => {
         hasErrors.errors.size should be(4)
         hasErrors.errorMessages("address.uprn") should be(
-          Seq("Please select your address")
+          Seq("ordinary_address_error_pleaseSelectYourAddress")
         )
         hasErrors.errorMessages("address.manualAddress") should be(
-          Seq("Please select your address")
+          Seq("ordinary_address_error_pleaseSelectYourAddress")
         )
-        hasErrors.globalErrorMessages should be(Seq("Please select your address"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_address_error_pleaseSelectYourAddress"))
       },
       success => {
         fail("Should have errored out")
@@ -272,7 +272,7 @@ class AddressFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.errorMessages("address.postcode") should be(
-          Seq("Please enter your postcode")
+          Seq("ordinary_address_error_pleaseEnterYourPostcode")
         )
       },
       success => fail("Should have failed out")
@@ -286,7 +286,7 @@ class AddressFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.errorMessages("address.postcode") should be(
-          Seq("Please enter your postcode")
+          Seq("ordinary_address_error_pleaseEnterYourPostcode")
         )
       },
       success => fail("Should have failed out")
@@ -300,7 +300,7 @@ class AddressFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.errorMessages("address.postcode") should be(
-          Seq("Please enter your postcode")
+          Seq("ordinary_address_error_pleaseEnterYourPostcode")
         )
       },
       success => fail("Should have failed out")
@@ -344,9 +344,9 @@ class AddressFormTests
     manualAddressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_address_error_pleaseAnswer"))
         hasErrors.errorMessages("address.manualAddress") should be(
-          Seq("Please answer this question")
+          Seq("ordinary_address_error_pleaseAnswer")
         )
       },
       success => fail("Should have errored out")
@@ -359,9 +359,9 @@ class AddressFormTests
     manualAddressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_address_error_pleaseAnswer"))
         hasErrors.errorMessages("address.manualAddress") should be(
-          Seq("Please answer this question")
+          Seq("ordinary_address_error_pleaseAnswer")
         )
       },
       success => fail("Should have errored out")
@@ -381,9 +381,9 @@ class AddressFormTests
     manualAddressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errorsAsTextAll should be("" +
-          s" -> $cityIsRequiredError\n" +
-          s"address.manualAddress.city -> $cityIsRequiredError")
-        hasErrors.globalErrorsAsText() should be(cityIsRequiredError)
+          s" -> $cityIsRequiredErrorKey\n" +
+          s"address.manualAddress.city -> $cityIsRequiredErrorKey")
+        hasErrors.globalErrorsAsText() should be(cityIsRequiredErrorKey)
       },
       success => fail("Should have errored out")
     )
@@ -402,9 +402,9 @@ class AddressFormTests
     manualAddressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errorsAsTextAll should be("" +
-          s" -> $lineOneIsRequiredError\n" +
-          s"address.manualAddress.lineOne -> $lineOneIsRequiredError")
-        hasErrors.globalErrorsAsText() should be(lineOneIsRequiredError)
+          s" -> $lineOneIsRequiredErrorKey\n" +
+          s"address.manualAddress.lineOne -> $lineOneIsRequiredErrorKey")
+        hasErrors.globalErrorsAsText() should be(lineOneIsRequiredErrorKey)
       },
       success => fail("Should have errored out")
 
