@@ -32,14 +32,16 @@ trait ResultHandling extends CookieHandling {
     }
 
     def emptySession()(implicit request: Request[_]) = {
+      val domain = getDomain(request)
       result.discardingCookies(
-        discardPayloadCookies ++ discardTokenCookies:_*
+        discardPayloadCookies(domain) ++ discardTokenCookies(domain):_*
       )
     }
 
     def withFreshSession()(implicit request: Request[_]) = {
+      val domain = getDomain(request)
       val resultWithToken = result storeToken SessionToken()
-      resultWithToken.discardingCookies(discardPayloadCookies:_*)
+      resultWithToken.discardingCookies(discardPayloadCookies(domain):_*)
     }
   }
 
