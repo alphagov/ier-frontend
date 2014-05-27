@@ -838,10 +838,6 @@
         'nonEmpty' : message('ordinary_contact_error_enterYourPhoneNo'),
         'telephone' : 'Please enter a valid phone number'
       },
-      'smsNumber' : {
-        'nonEmpty' : 'Please enter the phone number you use for text messages',
-        'telephone' : 'Please enter a valid phone number'
-      },
       'emailAddress' : {
         'nonEmpty' : message('ordinary_contact_error_enterYourEmail'),
         'email' : message('ordinary_contact_error_pleaseEnterValidEmail')
