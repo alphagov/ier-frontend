@@ -12,8 +12,6 @@ trait AddressSelectMustache extends StepTemplate[InprogressOrdinary] {
   val serialiser:JsonSerialiser
   val addressService:AddressService
 
-  val questionNumber = "6 of 11"
-
   case class SelectModel (
       question: Question,
       lookupUrl: String,
@@ -85,8 +83,8 @@ trait AddressSelectMustache extends StepTemplate[InprogressOrdinary] {
     SelectModel(
       question = Question(
         postUrl = post.url,
-        number = questionNumber,
-        title = Messages("ordinary_address1_title"),
+        number = Messages("step_a_of_b", 6, 11),
+        title = Messages("ordinary_address_postcode_title"),
         errorMessages = Messages.translatedGlobalErrors(form)
       ),
       lookupUrl = AddressController.get.url,

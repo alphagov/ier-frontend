@@ -7,8 +7,6 @@ import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 trait AddressMustache extends StepTemplate[InprogressOrdinary] {
   self: WithSerialiser =>
 
-  val questionNumber = "6 of 11"
-
   case class LookupModel (
       question: Question,
       postcode: Field
@@ -19,8 +17,8 @@ trait AddressMustache extends StepTemplate[InprogressOrdinary] {
     LookupModel(
       question = Question(
         postUrl = post.url,
-        number = questionNumber,
-        title = Messages("ordinary_address1_title"),
+        number = Messages("step_a_of_b", 6, 11),
+        title = Messages("ordinary_address_postcode_title"),
         errorMessages = Messages.translatedGlobalErrors(form)
       ),
       postcode = TextField(

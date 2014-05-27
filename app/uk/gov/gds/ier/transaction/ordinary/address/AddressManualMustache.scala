@@ -8,8 +8,6 @@ import uk.gov.gds.ier.guice.WithRemoteAssets
 
 trait AddressManualMustache extends StepTemplate[InprogressOrdinary] {
 
-    val questionNumber = "6 of 11"
-
     case class ManualModel (
         question: Question,
         lookupUrl: String,
@@ -27,8 +25,8 @@ trait AddressManualMustache extends StepTemplate[InprogressOrdinary] {
       ManualModel(
         question = Question(
           postUrl = post.url,
-          number = questionNumber,
-          title = Messages("ordinary_address3_title"),
+          number = Messages("step_a_of_b", 6, 11),
+          title = Messages("ordinary_address_manual_title"),
           errorMessages = Messages.translatedGlobalErrors(form)
         ),
         lookupUrl = AddressController.get.url,

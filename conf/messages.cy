@@ -145,59 +145,59 @@ ordinary_address_error_cityIsRequired=Mae angen enw tref neu ddinas
 #
 # ordinary: address postcode
 #
-ordinary_address1_title=Beth yw eich cyfeiriad?
+ordinary_address_postcode_title=Beth yw eich cyfeiriad?
 
-ordinary_address1_enterPostcodeWhenRegistering_p=Nodwch gôd post y cyfeiriad ble rydych chi'n cofrestru i bleidleisio.
-ordinary_address1_postcode_label=Côd Post
+ordinary_address_postcode_enterPostcodeWhenRegistering_p=Nodwch gôd post y cyfeiriad ble rydych chi'n cofrestru i bleidleisio.
+ordinary_address_postcode_postcode_label=Côd Post
 
-ordinary_address1_dontKnowMyPostcode_h2=Nid wyf yn gwybod fy nghôd post
-ordinary_address1_dontKnowMyPostcode_dtt=Nid wyf yn gwybod fy nghôd post
-ordinary_address1_tryWebSearchEngine_p=Os nad ydych yn gallu gweld eich côd post ar lythyr neu\
+ordinary_address_postcode_dontKnowMyPostcode_h2=Nid wyf yn gwybod fy nghôd post
+ordinary_address_postcode_dontKnowMyPostcode_dtt=Nid wyf yn gwybod fy nghôd post
+ordinary_address_postcode_tryWebSearchEngine_p=Os nad ydych yn gallu gweld eich côd post ar lythyr neu\
  ddogfen arall, rhowch eich cyfeiriad mewn peiriant chwilio ar-lein.
 
-ordinary_address1_dontKnowWhatAddressToUse_h3=Nid wyf yn gwybod pa gyfeiriad i'w ddefnyddio
+ordinary_address_postcode_dontKnowWhatAddressToUse_h3=Nid wyf yn gwybod pa gyfeiriad i'w ddefnyddio
 
-ordinary_address1_ifYouHaveMoreThanOneAddress_h4=Os oes gennych fwy nag un cyfeiriad
-ordinary_address1_itIsPossible_p=Weithiau mae'n bosib cofrestru dau gyfeiriad\
+ordinary_address_postcode_ifYouHaveMoreThanOneAddress_h4=Os oes gennych fwy nag un cyfeiriad
+ordinary_address_postcode_itIsPossible_p=Weithiau mae'n bosib cofrestru dau gyfeiriad\
  (er mai unwaith yn unig y byddwch yn gallu pleidleisio mewn unrhyw etholiad).
-ordinary_address1_forExample_p=Er enghraifft, os ydych chi'n fyfyriwr sy'n byw oddi cartref,\
+ordinary_address_postcode_forExample_p=Er enghraifft, os ydych chi'n fyfyriwr sy'n byw oddi cartref,\
  mae'n bosib y gallwch gofrestru gartref ac yn eich cyfeiriad yn ystod y tymor.
-ordinary_address1_makeTwoSeparateApplications_p=Os hoffech gofrestru mewn dau gyfeiriad, gwnewch\
+ordinary_address_postcode_makeTwoSeparateApplications_p=Os hoffech gofrestru mewn dau gyfeiriad, gwnewch\
  ddau gais ar wahân drwy'r gwasanaeth hwn. Bydd eich Swyddfa Cofrestru Etholiadol leol yn\
  ystyried pob cais ac yn dweud wrthych a oes hawl gennych i gofrestru.
 
-ordinary_address1_ifYouDontHavePermanentAddress_h4=Os nad oes cyfeiriad parhaol gennych
-ordinary_address1_ifYouAreHomeless_p=Os ydych chi'n ddigartref ac yn byw mewn llety dros dro\
+ordinary_address_postcode_ifYouDontHavePermanentAddress_h4=Os nad oes cyfeiriad parhaol gennych
+ordinary_address_postcode_ifYouAreHomeless_p=Os ydych chi'n ddigartref ac yn byw mewn llety dros dro\
  (er enghraifft, hostel tymor hir), defnyddiwch y cyfeiriad hwnnw.
-ordinary_address1_ifYouAreLongTermPatient_p=Os ydych chi'n glaf tymor hir mewn ysbyty seiciatrig, defnyddiwch gyfeiriad yr ysbyty.
-ordinary_address1_ifYouArePrisoner_p=Os ydych chi'n garcharor ar remand tymor hir, defnyddiwch gyfeiriad y carchar.
+ordinary_address_postcode_ifYouAreLongTermPatient_p=Os ydych chi'n glaf tymor hir mewn ysbyty seiciatrig, defnyddiwch gyfeiriad yr ysbyty.
+ordinary_address_postcode_ifYouArePrisoner_p=Os ydych chi'n garcharor ar remand tymor hir, defnyddiwch gyfeiriad y carchar.
 
-ordinary_address1_ifYouCantProvideAddress_h4=Os nad ydych yn gallu darparu cyfeiriad
-ordinary_address1_ifYouCannotProvideAddress_p=Os nad ydych yn gallu darparu cyfeiriad, cysylltwch\
+ordinary_address_postcode_ifYouCantProvideAddress_h4=Os nad ydych yn gallu darparu cyfeiriad
+ordinary_address_postcode_ifYouCannotProvideAddress_p=Os nad ydych yn gallu darparu cyfeiriad, cysylltwch\
  â'ch Swyddfa Cofrestru
 
-ordinary_address1_findAddress_button=Chwilio am gyfeiriad
+ordinary_address_postcode_findAddress_button=Chwilio am gyfeiriad
 
 #
 # ordinary: address select
 #
-ordinary_address2_title=Beth yw eich cyfeiriad?
+ordinary_address_select_title=Beth yw eich cyfeiriad?
 
-ordinary_address2_postcode_label=Côd Post
-ordinary_address2_changeYourPostcode_a=Newid<span class="visuallyhidden"> eich cod post</span>
-ordinary_address2_sorryWeCouldNotFindAnyAddressesForThatPostcode_p=Mae'n ddrwg gennym - ni allem ddod o hyd i unrhyw gyfeiriadau ar gyfer y cod post
-ordinary_address2_selectYourAddress_p=<span class="visuallyhidden">Dewiswch eich </span>cyfeiriad
-ordinary_address2_cannotFindMyAddressInTheList_a=Nid wyf yn gallu gweld fy nghyfeiriad yn y rhestr
+ordinary_address_select_postcode_label=Côd Post
+ordinary_address_select_changeYourPostcode_a=Newid<span class="visuallyhidden"> eich cod post</span>
+ordinary_address_select_couldNotFindAnyAddresses_p=Mae'n ddrwg gennym - ni allem ddod o hyd i unrhyw gyfeiriadau ar gyfer y cod post
+ordinary_address_select_selectYourAddress_p=<span class="visuallyhidden">Dewiswch eich </span>cyfeiriad
+ordinary_address_select_cannotFindMyAddressInTheList_a=Nid wyf yn gallu gweld fy nghyfeiriad yn y rhestr
 
 #
 # ordinary: address manual
 #
-ordinary_address3_title=Beth yw eich cyfeiriad?
+ordinary_address_manual_title=Beth yw eich cyfeiriad?
 
-ordinary_address3_postcode_label=Côd post
-ordinary_address3_changeYourPostcode_a=Newid<span class="visuallyhidden"> eich cod post</span>
-ordinary_address3_address_label=Cyfeiriad
-ordinary_address3_townOrCity_label=Tref neu Ddinas
+ordinary_address_manual_postcode_label=Côd post
+ordinary_address_manual_changeYourPostcode_a=Newid<span class="visuallyhidden"> eich cod post</span>
+ordinary_address_manual_address_label=Cyfeiriad
+ordinary_address_manual_townOrCity_label=Tref neu Ddinas
 
 # ordinary: other address
 
