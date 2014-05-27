@@ -114,7 +114,7 @@ trait PreviousAddressConstraints extends CommonConstraints {
           Valid
         }
         case _ => {
-          Invalid("Please answer this question", keys.previousAddress.previousAddress.manualAddress)
+          Invalid("ordinary_previousAddress_manual_error_answerThis", keys.previousAddress.previousAddress.manualAddress)
         }
       }
   }
@@ -173,7 +173,7 @@ trait PreviousAddressConstraints extends CommonConstraints {
       case Some(PartialAddress(_, _, postcode, manualAddress, _)) => {
         if (addressService.isNothernIreland(postcode)) Valid
         else if (manualAddress.exists(!_.lineOne.isDefined)) Invalid(
-          lineOneIsRequiredError,
+          "ordinary_previousAddress_manual_error_oneAddressLineRequired",
           keys.previousAddress.previousAddress.manualAddress.lineOne
         )
         else Valid
@@ -189,7 +189,7 @@ trait PreviousAddressConstraints extends CommonConstraints {
       case Some(PartialAddress(_, _, postcode, manualAddress, _)) => {
         if (addressService.isNothernIreland(postcode)) Valid
         else if (manualAddress.exists(!_.city.isDefined)) Invalid(
-          cityIsRequiredError,
+          "ordinary_previousAddress_manual_error_cityRequired",
           keys.previousAddress.previousAddress.manualAddress.city
         )
         else Valid

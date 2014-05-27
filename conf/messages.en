@@ -154,7 +154,14 @@ ordinary_previousAddress_select_error_answerThis=Please answer this question
 ordinary_previousAddress_select_error_noAddressesFound=Sorry - we couldn't find any addresses for that postcode
 
 # ordinary: previous address manual
+ordinary_previousAddress_manual_postcode_label=Postcode
+ordinary_previousAddress_manual_postcodeChange=Change<span class="visuallyhidden"> your postcode</span>
+ordinary_previousAddress_manual_address_label=Address
+ordinary_previousAddress_manual_city_label=Town or City
 
+ordinary_previousAddress_manual_error_answerThis=Please answer this question
+ordinary_previousAddress_manual_error_oneAddressLineRequired=At least one address line is required
+ordinary_previousAddress_manual_error_cityRequired=Postal town or city is required
 
 # ordinary: open register
 

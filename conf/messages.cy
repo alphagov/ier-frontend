@@ -155,6 +155,14 @@ ordinary_previousAddress_select_error_answerThis=Atebwch y cwestiwn hwn
 ordinary_previousAddress_select_error_noAddressesFound=Mae'n ddrwg gennym - ni allem ddod o hyd i unrhyw gyfeiriadau ar gyfer y cod post
 
 # ordinary: previous address manual
+ordinary_previousAddress_manual_postcode_label=Côd post
+ordinary_previousAddress_manual_postcodeChange=Newid<span class="visuallyhidden"> eich cod post</span>
+ordinary_previousAddress_manual_address_label=Cyfeiriad
+ordinary_previousAddress_manual_city_label=Tref neu Ddinas
+
+ordinary_previousAddress_manual_error_answerThis=Atebwch y cwestiwn hwn
+ordinary_previousAddress_manual_error_oneAddressLineRequired=Mae angen o leiaf un llinell gyfeiriad
+ordinary_previousAddress_manual_error_cityRequired=Mae angen enw tref neu ddinas
 
 
 # ordinary: open register
