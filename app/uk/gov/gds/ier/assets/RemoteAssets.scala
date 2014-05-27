@@ -1,12 +1,14 @@
 package uk.gov.gds.ier.assets
 
-import play.api.mvc.Call
+import play.api.mvc.{RequestHeader, Call}
 import controllers.routes.{Assets => PlayAssetRouter, MessagesController}
 import controllers.routes.{Template => TemplateAssetRouter}
 import com.google.inject.Inject
 import uk.gov.gds.ier.config.Config
 
 class RemoteAssets @Inject() (config : Config) {
+
+  val gitShaRegex = "[0-9a-z]{40}/"
 
   def getAssetPath(file:String) : Call = {
     val playAsset : Call = PlayAssetRouter.at(file)
@@ -36,6 +38,16 @@ class RemoteAssets @Inject() (config : Config) {
   def templatePath: String = getTemplatePath("").url
 
   private def appendAssetPath(url:String):String = {
-    config.assetsPath.stripSuffix("/") + "/" + url.stripPrefix("/assets/").stripPrefix("/")
+    val path = config.assetsPath.stripSuffix("/")
+    val gitsha = config.revision
+    val asset = url.stripPrefix("/assets/").stripPrefix("/")
+    s"$path/$gitsha/$asset"
+  }
+
+  def stripGitSha(request: RequestHeader): RequestHeader = {
+    request.copy(
+      uri = request.uri.replaceFirst(gitShaRegex, ""),
+      path = request.path.replaceFirst(gitShaRegex, "")
+    )
   }
 }
