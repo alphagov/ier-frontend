@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.forces.confirmation
 
-import uk.gov.gds.ier.mustache.StepMustache
+import uk.gov.gds.ier.mustache.{MustacheData, StepMustache}
 import uk.gov.gds.ier.model.WaysToVoteType
 import uk.gov.gds.ier.model.MovedHouseOption
 import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
@@ -13,9 +13,10 @@ import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
 import uk.gov.gds.ier.service.WithAddressService
 import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.step.StepTemplate
 
 trait ConfirmationMustache
-    extends StepMustache {
+    extends StepTemplate[InprogressForces] {
     self: WithAddressService
     with WithRemoteAssets =>
 
@@ -27,18 +28,15 @@ trait ConfirmationMustache
   )
 
   case class ConfirmationModel(
-    applicantDetails: List[ConfirmationQuestion],
-    partnerDetails: List[ConfirmationQuestion],
-    completeApplicantDetails: List[ConfirmationQuestion],
-    displayPartnerBlock: Boolean,
-    postUrl: String
-  )
+      question: Question,
+      applicantDetails: List[ConfirmationQuestion],
+      partnerDetails: List[ConfirmationQuestion],
+      completeApplicantDetails: List[ConfirmationQuestion],
+      displayPartnerBlock: Boolean
+  ) extends MustacheData
 
-  object Confirmation {
-
-    def confirmationPage(
-        form: ErrorTransformForm[InprogressForces],
-        postUrl: String) = {
+  val mustache = MustacheTemplate("forces/confirmation") {
+    (form, post) =>
 
       val confirmation = new ConfirmationBlocks(form)
 
@@ -77,37 +75,32 @@ trait ConfirmationMustache
         confirmation.contact
       ).flatten
 
-      val data = ConfirmationModel(
+      ConfirmationModel(
+        question = Question(
+          title = "Confirm your details - Register to vote",
+          postUrl = post.url,
+          contentClasses = "confirmation"
+        ),
         partnerDetails = partnerData,
         applicantDetails = applicantData,
         completeApplicantDetails = completeApplicantData,
-        displayPartnerBlock = displayPartnerBlock(form),
-        postUrl = postUrl
+        displayPartnerBlock = displayPartnerBlock(form)
       )
+  }
 
-      val content = Mustache.render("forces/confirmation", data)
-      GovukTemplate(
-        mainContent = content,
-        pageTitle = "Confirm your details - Register to vote",
-        contentClasses = "confirmation"
-      )
+  def displayPartnerBlock (form: ErrorTransformForm[InprogressForces]): Boolean = {
+
+    val isForcesPartner = Some("true")
+    val isNotForcesMember = Some("false")
+
+    (
+      form(keys.statement.partnerForcesMember).value,
+      form(keys.statement.forcesMember).value
+    ) match {
+      case (`isForcesPartner`, `isNotForcesMember`) => true
+      case (`isForcesPartner`, None) => true
+      case _ => false
     }
-
-    def displayPartnerBlock (form: ErrorTransformForm[InprogressForces]): Boolean = {
-
-      val isForcesPartner = Some("true")
-      val isNotForcesMember = Some("false")
-
-      (
-        form(keys.statement.partnerForcesMember).value,
-        form(keys.statement.forcesMember).value
-      ) match {
-        case (`isForcesPartner`, `isNotForcesMember`) => true
-        case (`isForcesPartner`, None) => true
-        case _ => false
-      }
-    }
-
   }
 
   class ConfirmationBlocks(form: ErrorTransformForm[InprogressForces])

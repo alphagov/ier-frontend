@@ -6,8 +6,9 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.overseas.confirmation.blocks.{ConfirmationQuestion, ConfirmationBlocks}
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.step.StepTemplate
 
-trait ConfirmationMustache extends StepMustache {
+trait ConfirmationMustache extends StepTemplate[InprogressOverseas] {
   self: WithRemoteAssets =>
 
   case class ErrorModel(
@@ -15,35 +16,27 @@ trait ConfirmationMustache extends StepMustache {
   )
 
   case class ConfirmationModel(
+      question: Question,
       applicantDetails: List[ConfirmationQuestion],
       parentDetails: List[ConfirmationQuestion],
-      displayParentBlock: Boolean,
-      postUrl: String
-  )
+      displayParentBlock: Boolean
+  ) extends MustacheData
 
-  object Confirmation {
-    def confirmationPage(
-        form: ErrorTransformForm[InprogressOverseas],
-        postUrl: String) = {
+  val mustache = MustacheTemplate("overseas/confirmation") { (form, postUrl) =>
 
-      val confirmation = new ConfirmationBlocks(form)
-      val parentData = confirmation.parentBlocks()
-      val applicantData = confirmation.applicantBlocks()
+    val confirmation = new ConfirmationBlocks(form)
+    val parentData = confirmation.parentBlocks()
+    val applicantData = confirmation.applicantBlocks()
 
-      val data = ConfirmationModel(
-        parentDetails = parentData,
-        applicantDetails = applicantData,
-        displayParentBlock = !parentData.isEmpty,
-        postUrl = postUrl
-      )
-
-      val content = Mustache.render("overseas/confirmation", data)
-
-      GovukTemplate(
-        mainContent = content,
-        pageTitle = "Confirm your details - Register to vote",
+    ConfirmationModel(
+      question = Question(
+        postUrl = postUrl.url,
+        title = "Confirm your details - Register to vote",
         contentClasses = "confirmation"
-      )
-    }
+      ),
+      parentDetails = parentData,
+      applicantDetails = applicantData,
+      displayParentBlock = !parentData.isEmpty
+    )
   }
 }

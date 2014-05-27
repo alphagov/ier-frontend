@@ -13,9 +13,10 @@ import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorO
 import uk.gov.gds.ier.service.WithAddressService
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.form.OrdinaryFormImplicits
+import uk.gov.gds.ier.step.StepTemplate
 
 trait ConfirmationMustache
-    extends StepMustache {
+    extends StepTemplate[InprogressOrdinary] {
     self: WithRemoteAssets
       with WithAddressService
       with OrdinaryFormImplicits =>
@@ -28,45 +29,35 @@ trait ConfirmationMustache
   )
 
   case class ConfirmationModel(
-    completeApplicantDetails: List[ConfirmationQuestion],
-    postUrl: String
-  )
+      question: Question,
+      completeApplicantDetails: List[ConfirmationQuestion]
+  ) extends MustacheData
 
-  object Confirmation {
+  val mustache = MustacheTemplate("ordinary/confirmation") { (form, postUrl) =>
+    val confirmation = new ConfirmationBlocks(form)
 
-    def confirmationPage(
-        form: ErrorTransformForm[InprogressOrdinary],
-        postUrl: String) = {
+    val completeApplicantData = List(
+      confirmation.name,
+      confirmation.previousName,
+      confirmation.dateOfBirth,
+      confirmation.nationality,
+      confirmation.nino,
+      confirmation.address,
+      confirmation.secondAddress,
+      confirmation.previousAddress,
+      confirmation.openRegister,
+      confirmation.postalVote,
+      confirmation.contact
+    ).flatten
 
-      val confirmation = new ConfirmationBlocks(form)
-
-      val completeApplicantData = List(
-        confirmation.name,
-        confirmation.previousName,
-        confirmation.dateOfBirth,
-        confirmation.nationality,
-        confirmation.nino,
-        confirmation.address,
-        confirmation.secondAddress,
-        confirmation.previousAddress,
-        confirmation.openRegister,
-        confirmation.postalVote,
-        confirmation.contact
-      ).flatten
-
-      val data = ConfirmationModel(
-        completeApplicantDetails = completeApplicantData,
-        postUrl = postUrl
-      )
-
-      val content = Mustache.render("ordinary/confirmation", data)
-      GovukTemplate (
-        mainContent = content,
-        pageTitle = "Confirm your details - Register to vote",
+    ConfirmationModel(
+      question = Question(
+        title = "Confirm your details - Register to vote",
+        postUrl = postUrl.url,
         contentClasses = "confirmation"
-      )
-    }
-
+      ),
+      completeApplicantDetails = completeApplicantData
+    )
   }
 
   class ConfirmationBlocks(form: ErrorTransformForm[InprogressOrdinary])

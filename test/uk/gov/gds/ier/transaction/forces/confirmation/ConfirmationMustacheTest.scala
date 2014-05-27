@@ -43,11 +43,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = partiallyFilledApplicationForm
-    )
-
-    displayPartnerBlock should be (false)
+    displayPartnerBlock(partiallyFilledApplicationForm) should be(false)
   }
 
   "In-progress application form without a forces partner (member and partner = true)" should
@@ -59,11 +55,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = partiallyFilledApplicationForm
-    )
-
-    displayPartnerBlock should be (false)
+    displayPartnerBlock(partiallyFilledApplicationForm) should be(false)
   }
 
   "In-progress application form with a forces partner" should
@@ -75,11 +67,7 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.displayPartnerBlock(
-      form = partiallyFilledApplicationForm
-    )
-
-    displayPartnerBlock should be (true)
+    displayPartnerBlock(partiallyFilledApplicationForm) should be(true)
   }
 
 
