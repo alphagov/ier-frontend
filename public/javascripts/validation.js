@@ -835,8 +835,7 @@
         'atLeastOneNonEmpty' : message('ordinary_contact_error_pleaseAnswer')
       },
       'phoneNumber' : {
-        'nonEmpty' : message('ordinary_contact_error_enterYourPhoneNo'),
-        'telephone' : 'Please enter a valid phone number'
+        'nonEmpty' : message('ordinary_contact_error_enterYourPhoneNo')
       },
       'emailAddress' : {
         'nonEmpty' : message('ordinary_contact_error_enterYourEmail'),
