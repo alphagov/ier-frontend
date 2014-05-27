@@ -1,4 +1,6 @@
+# general
 step_of=o
+step_a_of_b={0} o {1}
 step_continue=Parhau
 step_question=Cwestiwn
 
@@ -78,7 +80,7 @@ ordinary_dob_error_tooOld=Gwiriwch y flwyddyn y cawsoch eich geni
 ordinary_dob_error_invalidDate=Rydych wedi nodi dyddiad annilys
 
 ordinary_dob_error_enterDateOfBirth=Nodwch eich dyddiad geni
-ordinary_dob_error_enterYear=Nodwch eich blwyddyn geni 
+ordinary_dob_error_enterYear=Nodwch eich blwyddyn geni
 ordinary_dob_error_enterMonth=Nodwch eich mis geni
 ordinary_dob_error_enterDay=Nodwch eich diwrnod geni
 
@@ -134,10 +136,33 @@ ordinary_nino_error_maxLength=Rhaid Rheswm dros beidio â darparu rhif Yswiriant
 # ordinary: address select
 
 
-#ordinary: manual address
+# ordinary: manual address
 
 
 # ordinary: other address
+
+# ordinary: other address
+
+ordinary_otheraddr_title=Ydych chi'n byw mewn ail gyfeiriad hefyd?
+
+ordinary_otheraddr_noTwoHomes=Nac ydw
+ordinary_otheraddr_yesTwoHomes=Ydw, rwy'n byw mewn dau gartref
+ordinary_otheraddr_ifYouHaveSecondAddress_h2=Os oes gennych ail gyfeiriad
+
+ordinary_otheraddr_ifYouHaveSecondAddr_p1=Mae'n bosib y gallwch gofrestru yn y ddau \
+gyfeiriad (er mai unwaith yn unig y gallwch bleidleisio mewn unrhyw etholiad).
+
+ordinary_otheraddr_ifYouHaveSecondAddr_p2=Os  hoffech gofrestru mewn dau le, gwnewch ddau \
+gais ar wahân drwy'r gwasanaeth hwn. Bydd eich Swyddfa Cofrestru Etholiadol leol yn ystyried pob \
+cais ac yn dweud wrthych a oes hawl gennych i gofrestru.
+
+ordinary_otheraddr_yesImStudent=Ydw, rwy'n fyfyriwr â chyfeiriad cartref a chyfeiriad yn ystod y tymor.
+
+ordinary_otheraddr_yesImStudent_p1=Gall myfyrwyr gofrestru i bleidleisio yn eu cyfeiriadau \
+cartref ac yn ystod y tymor.
+
+ordinary_otheraddr_yesImStudent_p2=Os nad ydych wedi eich cofrestru eisoes yn eich cyfeiriad \
+arall, gallwch wneud hynny drwy gyflwyno ail gais.
 
 ordinary_otheraddr_error_pleaseAnswer=Atebwch y cwestiwn hwn
 
