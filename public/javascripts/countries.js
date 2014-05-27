@@ -221,7 +221,7 @@
     { "name": "AE", "value": "United Arab Emirates", "tokens": ["United Arab Emirates"] },
     { "name": "GB", "value": "United Kingdom", "tokens": ["United Kingdom"] },
     { "name": "UY", "value": "Uruguay", "tokens": ["Uruguay"] },
-    { "name": "US", "value": "USA", "tokens": ["USA"] },
+    { "name": "US", "value": "United States of America", "tokens": ["United States of America"] },
     { "name": "UZ", "value": "Uzbekistan", "tokens": ["Uzbekistan"] },
     { "name": "VU", "value": "Vanuatu", "tokens": ["Vanuatu"] },
     { "name": "VE", "value": "Venezuela", "tokens": ["Venezuela"] },
