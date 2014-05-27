@@ -77,6 +77,10 @@ ordinary_dob_error_dateInTheFuture=Rydych wedi nodi dyddiad yn y dyfodol
 ordinary_dob_error_tooOld=Gwiriwch y flwyddyn y cawsoch eich geni
 ordinary_dob_error_invalidDate=Rydych wedi nodi dyddiad annilys
 
+ordinary_dob_error_enterDateOfBirth=Nodwch eich dyddiad geni
+ordinary_dob_error_enterYear=Nodwch eich blwyddyn geni 
+ordinary_dob_error_enterMonth=Nodwch eich mis geni
+ordinary_dob_error_enterDay=Nodwch eich diwrnod geni
 
 # ordinary: name
 ordinary_name_title=Beth yw eich enw llawn?
@@ -135,6 +139,7 @@ ordinary_nino_error_maxLength=Rhaid Rheswm dros beidio â darparu rhif Yswiriant
 
 # ordinary: other address
 
+ordinary_otheraddr_error_pleaseAnswer=Atebwch y cwestiwn hwn
 
 # ordinary: previous address
 
@@ -221,6 +226,7 @@ ordinary_postalVote_error_answerThis=Atebwch y cwestiwn hwn
 ordinary_postalVote_error_enterYourEmail=Rhowch eich cyfeiriad e-bost
 ordinary_postalVote_error_enterValidEmail=Nid yw hwnnw'n gyfeiriad e-bost dilys: gwiriwch yr hyn rydych wedi'i nodi
 
+ordinary_postalVote_error_answerThis=Atebwch y cwestiwn hwn
 
 # ordinary: contact
 ordinary_contact_title=Os bydd gennym gwestiynau am eich cais, beth yw'r ffordd orau o gysylltu â chi?
@@ -237,3 +243,25 @@ ordinary_contact_error_pleaseEnterValidEmail=Nid yw hwnnw'n gyfeiriad e-bost dil
 
 # ordinary: confirmation
 
+# JavaScript: general
+
+back_button=Welsh Back
+back_button_non_visual=Welsh to the previous question
+
+# JavaScipt: nationality
+
+ordinary_nationality_other_country=Ychwanegu gwlad arall
+ordinary_autocomplete_status=Welsh available, use up and down arrow keys to navigate
+ordinary_autocomplete_status_prefix_singular=Welsh result is
+ordinary_autocomplete_status_prefix_multiple=Welsh results are
+
+# JavaScript: date of birth
+
+ordinary_address_postcode=Côd Post
+ordinary_address_loading=Welsh Finding address
+ordinary_address_selectAddress=Dewiswch eich cyfeiriad
+ordinary_address_excuse=Nid wyf yn gallu gweld fy nghyfeiriad yn y rhestr
+ordinary_address_previousAddressTest=Cyfeiriad blaenorol
+ordinary_address_selectPreviousAddress=Welsh Select your previous address
+ordinary_address_previousAddressExcuse=Welsh I can't find my previous address in the list
+ordinary_address_continue=Parhau
