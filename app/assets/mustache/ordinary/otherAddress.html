@@ -14,7 +14,7 @@
                    class="radio  validate" data-validation-name="otherAddressNo"
                    data-validation-type="field" data-validation-rules="nonEmpty" type="radio"
             {{{hasOtherAddressNone.attributes}}}>
-            {{messages.ordinary_otheraddr_no_I_dont_spend_time_living_at_two_homes}}
+            {{messages.ordinary_otheraddr_noTwoHomes}}
         </label>
 
         <label for="{{hasOtherAddressHome.id}}" class="selectable">
@@ -23,17 +23,17 @@
                    data-validation-name="otherAddressYesTwoHomes" data-validation-type="field"
                    data-validation-rules="nonEmpty" type="radio"
             {{{hasOtherAddressHome.attributes}}}>
-            {{messages.ordinary_otheraddr_yes_I_spend_time_living_at_two_homes}}
+            {{messages.ordinary_otheraddr_yesTwoHomes}}
         </label>
 
         <div id="{{hasOtherAddressHome.id}}_help" class="optional-section"
              data-condition="{{hasOtherAddressHome.id}}">
 
-            <h2 class="alt-content">{{messages.ordinary_otheraddr_h2_if_you_have_second_address}}</h2>
+            <h2 class="alt-content">{{messages.ordinary_otheraddr_ifYouHaveSecondAddress_h2}}</h2>
 
-            <p>{{messages.ordinary_otheraddr_if_you_have_second_address_p1}}</p>
+            <p>{{messages.ordinary_otheraddr_ifYouHaveSecondAddr_p1}}</p>
 
-            <p>{{messages.ordinary_otheraddr_if_you_have_second_address_p2}}</p>
+            <p>{{messages.ordinary_otheraddr_ifYouHaveSecondAddr_p2}}</p>
 
         </div>
 
@@ -43,15 +43,15 @@
                    data-validation-name="otherAddressYesStudent" data-validation-type="field"
                    data-validation-rules="nonEmpty" type="radio"
             {{{hasOtherAddressStudent.attributes}}}>
-            {{messages.ordinary_otheraddr_yes_Im_student}}
+            {{messages.ordinary_otheraddr_yesImStudent}}
         </label>
 
         <div id="{{hasOtherAddressStudent.id}}_help" class="optional-section"
              data-condition="{{hasOtherAddressStudent.id}}">
 
-            <p>{{messages.ordinary_otheraddr_yes_Im_student_p1}}</p>
+            <p>{{messages.ordinary_otheraddr_yesImStudent_p1}}</p>
 
-            <p>{{messages.ordinary_otheraddr_yes_Im_student_p2}}</p>
+            <p>{{messages.ordinary_otheraddr_yesImStudent_p2}}</p>
 
         </div>
     </fieldset>

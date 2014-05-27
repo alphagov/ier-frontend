@@ -20,7 +20,7 @@ trait OtherAddressMustache extends StepTemplate[InprogressOrdinary] {
     OtherAddressModel(
       question = Question(
         postUrl = post.url,
-        number = "7 of 11",
+        number = Messages("step_a_of_b", 7, 11),
         title = Messages("ordinary_otheraddr_title"),
         errorMessages = Messages.translatedGlobalErrors(form)
       ),

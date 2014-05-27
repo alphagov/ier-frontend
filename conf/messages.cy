@@ -1,4 +1,6 @@
+# general
 step_of=o
+step_a_of_b={0} o {1}
 step_continue=Parhau
 step_question=Cwestiwn
 
@@ -143,23 +145,23 @@ ordinary_nino_error_maxLength=Rhaid Rheswm dros beidio â darparu rhif Yswiriant
 
 ordinary_otheraddr_title=Ydych chi'n byw mewn ail gyfeiriad hefyd?
 
-ordinary_otheraddr_no_I_dont_spend_time_living_at_two_homes=Nac ydw
-ordinary_otheraddr_yes_I_spend_time_living_at_two_homes=Ydw, rwy'n byw mewn dau gartref
-ordinary_otheraddr_h2_if_you_have_second_address=Os oes gennych ail gyfeiriad
+ordinary_otheraddr_noTwoHomes=Nac ydw
+ordinary_otheraddr_yesTwoHomes=Ydw, rwy'n byw mewn dau gartref
+ordinary_otheraddr_ifYouHaveSecondAddress_h2=Os oes gennych ail gyfeiriad
 
-ordinary_otheraddr_if_you_have_second_address_p1=Mae'n bosib y gallwch gofrestru yn y ddau \
+ordinary_otheraddr_ifYouHaveSecondAddr_p1=Mae'n bosib y gallwch gofrestru yn y ddau \
 gyfeiriad (er mai unwaith yn unig y gallwch bleidleisio mewn unrhyw etholiad).
 
-ordinary_otheraddr_if_you_have_second_address_p2=Os  hoffech gofrestru mewn dau le, gwnewch ddau \
+ordinary_otheraddr_ifYouHaveSecondAddr_p2=Os  hoffech gofrestru mewn dau le, gwnewch ddau \
 gais ar wahân drwy'r gwasanaeth hwn. Bydd eich Swyddfa Cofrestru Etholiadol leol yn ystyried pob \
 cais ac yn dweud wrthych a oes hawl gennych i gofrestru.
 
-ordinary_otheraddr_yes_Im_student=Ydw, rwy'n fyfyriwr â chyfeiriad cartref a chyfeiriad yn ystod y tymor.
+ordinary_otheraddr_yesImStudent=Ydw, rwy'n fyfyriwr â chyfeiriad cartref a chyfeiriad yn ystod y tymor.
 
-ordinary_otheraddr_yes_Im_student_p1=Gall myfyrwyr gofrestru i bleidleisio yn eu cyfeiriadau \
+ordinary_otheraddr_yesImStudent_p1=Gall myfyrwyr gofrestru i bleidleisio yn eu cyfeiriadau \
 cartref ac yn ystod y tymor.
 
-ordinary_otheraddr_yes_Im_student_p2=Os nad ydych wedi eich cofrestru eisoes yn eich cyfeiriad \
+ordinary_otheraddr_yesImStudent_p2=Os nad ydych wedi eich cofrestru eisoes yn eich cyfeiriad \
 arall, gallwch wneud hynny drwy gyflwyno ail gais.
 
 ordinary_otheraddr_error_pleaseAnswer=Atebwch y cwestiwn hwn

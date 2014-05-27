@@ -56,9 +56,9 @@ class OtherAddressFormTests
     otherAddressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("bleurch not a valid other address type"))
+        hasErrors.globalErrorMessages should be(Seq("bleurch is not a valid other address type"))
         hasErrors.errorMessages("otherAddress.hasOtherAddress") should be(
-          Seq("bleurch not a valid other address type"))
+          Seq("bleurch is not a valid other address type"))
       },
       success => fail("Should have thrown an error")
     )

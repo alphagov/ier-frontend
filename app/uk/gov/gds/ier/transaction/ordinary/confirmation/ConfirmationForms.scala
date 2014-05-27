@@ -20,7 +20,7 @@ trait ConfirmationForms extends OrdinaryMappings {
       keys.previousAddress.key ->
         optional(PartialPreviousAddress.mapping.verifying(previousAddressRequiredIfMoved))
         .verifying("Please complete this step", _.isDefined),
-      keys.otherAddress.key -> optional(otherAddressMapping).verifying("Please complete this step", _.isDefined),
+      keys.otherAddress.key -> optional(OtherAddress.otherAddressMapping).verifying("Please complete this step", _.isDefined),
       keys.openRegister.key -> optional(optInMapping).verifying("Please complete this step", _.isDefined),
       keys.postalVote.key -> optional(PostalVote.mapping).verifying("Please complete this step", _.isDefined),
       keys.contact.key -> optional(Contact.mapping).verifying("Please complete this step", _.isDefined),
