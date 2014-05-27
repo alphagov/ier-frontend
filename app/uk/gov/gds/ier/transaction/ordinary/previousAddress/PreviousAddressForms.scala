@@ -129,7 +129,7 @@ trait PreviousAddressConstraints extends CommonConstraints {
           Valid
         }
         case _ => {
-          Invalid("Please answer this question", keys.previousAddress.previousAddress.uprn)
+          Invalid("ordinary_previousAddress_select_error_answerThis", keys.previousAddress.previousAddress.uprn)
         }
       }
   }

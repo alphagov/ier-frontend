@@ -145,7 +145,14 @@ ordinary_previousAddress_postcode_error_enterPostcode=Nodwch eich côd post blae
 ordinary_previousAddress_postcode_error_invalidPostcode=Nid yw hwnnw'n gôd post dilys: gwiriwch yr hyn rydych wedi'i nodi
 
 # ordinary: previous address select
+ordinary_previousAddress_select_postcode_label=Côd post
+ordinary_previousAddress_select_postcodeChange=Newid<span class="visuallyhidden"> eich cod post</span>
+ordinary_previousAddress_select_selectAddress=<span class="visuallyhidden">Dewiswch eich </span>Cyfeiriad
+ordinary_previousAddress_select_addressesFound=cyfeiriadau a geir
+ordinary_previousAddress_select_cannotFindAddress=Nid wyf yn gallu gweld fy nghyfeiriad yn y rhestr
 
+ordinary_previousAddress_select_error_answerThis=Atebwch y cwestiwn hwn
+ordinary_previousAddress_select_error_noAddressesFound=Mae'n ddrwg gennym - ni allem ddod o hyd i unrhyw gyfeiriadau ar gyfer y cod post
 
 # ordinary: previous address manual
 

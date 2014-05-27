@@ -144,7 +144,14 @@ ordinary_previousAddress_postcode_error_enterPostcode=Please enter your postcode
 ordinary_previousAddress_postcode_error_invalidPostcode=Your postcode is not valid
 
 # ordinary: previous address select
+ordinary_previousAddress_select_postcode_label=Postcode
+ordinary_previousAddress_select_postcodeChange=Change<span class="visuallyhidden"> your postcode</span>
+ordinary_previousAddress_select_selectAddress=<span class="visuallyhidden">Select your </span>Address
+ordinary_previousAddress_select_addressesFound=addresses found
+ordinary_previousAddress_select_cannotFindAddress=I can't find my address in the list
 
+ordinary_previousAddress_select_error_answerThis=Please answer this question
+ordinary_previousAddress_select_error_noAddressesFound=Sorry - we couldn't find any addresses for that postcode
 
 # ordinary: previous address manual
 
