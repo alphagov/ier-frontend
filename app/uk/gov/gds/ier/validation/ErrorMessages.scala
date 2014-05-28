@@ -21,6 +21,4 @@ trait ErrorMessages {
 
   lazy val lineOneIsRequiredError = "At least one address line is required"
   lazy val cityIsRequiredError = "Postal town or city is required"
-  lazy val lineOneIsRequiredErrorKey = "ordinary_address_error_lineOneIsRequired"
-  lazy val cityIsRequiredErrorKey = "ordinary_address_error_cityIsRequired"
 }

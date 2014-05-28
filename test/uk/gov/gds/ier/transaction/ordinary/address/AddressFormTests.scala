@@ -381,9 +381,9 @@ class AddressFormTests
     manualAddressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errorsAsTextAll should be("" +
-          s" -> $cityIsRequiredErrorKey\n" +
-          s"address.manualAddress.city -> $cityIsRequiredErrorKey")
-        hasErrors.globalErrorsAsText() should be(cityIsRequiredErrorKey)
+          " -> ordinary_address_error_cityIsRequired\n" +
+          "address.manualAddress.city -> ordinary_address_error_cityIsRequired")
+        hasErrors.globalErrorsAsText() should be("ordinary_address_error_cityIsRequired")
       },
       success => fail("Should have errored out")
     )
@@ -402,9 +402,9 @@ class AddressFormTests
     manualAddressForm.bind(js).fold(
       hasErrors => {
         hasErrors.errorsAsTextAll should be("" +
-          s" -> $lineOneIsRequiredErrorKey\n" +
-          s"address.manualAddress.lineOne -> $lineOneIsRequiredErrorKey")
-        hasErrors.globalErrorsAsText() should be(lineOneIsRequiredErrorKey)
+          " -> ordinary_address_error_lineOneIsRequired\n" +
+          "address.manualAddress.lineOne -> ordinary_address_error_lineOneIsRequired")
+        hasErrors.globalErrorsAsText() should be("ordinary_address_error_lineOneIsRequired")
       },
       success => fail("Should have errored out")
 

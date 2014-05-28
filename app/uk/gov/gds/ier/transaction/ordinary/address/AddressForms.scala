@@ -168,12 +168,12 @@ trait AddressConstraints extends CommonConstraints {
   lazy val lineOneIsRequired = Constraint[PartialManualAddress](
       keys.address.manualAddress.key) {
     case PartialManualAddress(Some(_), _, _, _) => Valid
-    case _ => Invalid(lineOneIsRequiredErrorKey, keys.address.manualAddress.lineOne)
+    case _ => Invalid("ordinary_address_error_lineOneIsRequired", keys.address.manualAddress.lineOne)
   }
 
   lazy val cityIsRequired = Constraint[PartialManualAddress](
       keys.address.manualAddress.key) {
     case PartialManualAddress(_, _, _, Some(_)) => Valid
-    case _ => Invalid(cityIsRequiredErrorKey, keys.address.manualAddress.city)
+    case _ => Invalid("ordinary_address_error_cityIsRequired", keys.address.manualAddress.city)
   }
 }
