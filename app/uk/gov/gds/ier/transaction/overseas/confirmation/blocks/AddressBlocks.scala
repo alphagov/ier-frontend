@@ -8,9 +8,9 @@ trait AddressBlocks {
 
   def address = {
     ConfirmationQuestion(
-      title = "Where do you live?",
+      title = "Correspondence address",
       editLink = routes.AddressController.editGet.url,
-      changeName = "where do you live?",
+      changeName = "correspondence address",
       content = ifComplete(keys.overseasAddress) {
         List(
           // address lines separated are concatenated by comma and go to one paragraph

@@ -21,7 +21,7 @@ trait DateLeftBlocks {
     val yearMonth = form.dateLeftUk map { _.toString("MMMM, yyyy") } getOrElse ""
 
     ConfirmationQuestion(
-      title = "Date you left the UK",
+      title = "Left the UK",
       editLink = routes.DateLeftUkController.editGet.url,
       changeName = "date you left the UK",
       content = ifComplete(keys.dateLeftUk) {
@@ -34,9 +34,9 @@ trait DateLeftBlocks {
     val yearMonth = form.dateLeftSpecial map { _.toString("MMMM, yyyy") } getOrElse ""
 
     ConfirmationQuestion(
-      title = "Date you cease to be a member of the armed forces",
+      title = "Left the armed forces",
       editLink = routes.DateLeftArmyController.editGet.url,
-      changeName = "date you cease to be a member of the armed forces",
+      changeName = "date you left the armed forces",
       content = ifComplete(keys.dateLeftSpecial) {
         List(yearMonth)
       }
@@ -47,9 +47,9 @@ trait DateLeftBlocks {
     val yearMonth = form.dateLeftSpecial map { _.toString("MMMM, yyyy") } getOrElse ""
 
     ConfirmationQuestion(
-      title = "Date you cease to be a Crown Servant",
+      title = "Date you ceased to be a Crown Servant",
       editLink = routes.DateLeftCrownController.editGet.url,
-      changeName = "date you cease to be a Crown Servant",
+      changeName = "date you ceased to be a Crown Servant",
       content = ifComplete(keys.dateLeftSpecial) {
         List(yearMonth)
       }
@@ -60,9 +60,9 @@ trait DateLeftBlocks {
     val yearMonth = form.dateLeftSpecial map { _.toString("MMMM, yyyy") } getOrElse ""
 
     ConfirmationQuestion(
-      title = "Date you cease to be a British Council employee?",
+      title = "Date you left the British Council",
       editLink = routes.DateLeftCrownController.editGet.url,
-      changeName = "date you cease to be a British Council employee?",
+      changeName = "date you left the British Council",
       content = ifComplete(keys.dateLeftSpecial) {
         List(yearMonth)
       }

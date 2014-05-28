@@ -295,8 +295,8 @@ class ConfirmationMustacheTest
 
     val Some(serviceModel) = confirmation.service(false)
     serviceModel.content should be(BlockContent(List(
-      "I am a member of the British Army",
-      "Regiment: regiment")))
+      "British Army",
+      "regiment")))
     serviceModel.editLink should be("/register-to-vote/forces/edit/service")
   }
 
@@ -312,7 +312,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(serviceModel) = confirmation.service(false)
-    serviceModel.content should be(BlockContent("I am a member of the Royal Air Force"))
+    serviceModel.content should be(BlockContent("Royal Air Force"))
     serviceModel.editLink should be("/register-to-vote/forces/edit/service")
   }
 
@@ -330,8 +330,8 @@ class ConfirmationMustacheTest
 
     val Some(rankModel) = confirmation.rank
     rankModel.content should be(BlockContent(List(
-      "Service number: 123456",
-      "Rank: Captain")))
+      "123456",
+      "Captain")))
     rankModel.editLink should be("/register-to-vote/forces/edit/rank")
   }
 

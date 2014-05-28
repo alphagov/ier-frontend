@@ -13,7 +13,7 @@ trait NameBlocks {
     ).flatten.mkString(" ")
 
     ConfirmationQuestion(
-      title = "What is your full name?",
+      title = "Full name",
       editLink = routes.NameController.editGet.url,
       changeName = "full name",
       content = ifComplete(keys.overseasName.name) {
@@ -35,7 +35,7 @@ trait NameBlocks {
       case _ => "I have not changed my name in the last 12 months"
     }
     ConfirmationQuestion(
-      title = "What is your previous name?",
+      title = "Previous name",
       editLink = routes.NameController.editGet.url,
       changeName = "previous name",
       content = ifComplete(keys.overseasName.previousName) {

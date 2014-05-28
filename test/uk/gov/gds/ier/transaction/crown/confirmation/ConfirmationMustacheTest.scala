@@ -606,7 +606,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(addressModel) = confirmation.address
-    addressModel.title should be("Your UK address")
+    addressModel.title should be("Registration address")
     addressModel.content should be(BlockContent(List("123 Fake Street", "AB12 3CD")))
     addressModel.editLink should be("/register-to-vote/crown/edit/address/first")
   }
@@ -634,7 +634,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(addressModel) = confirmation.address
-    addressModel.title should be("Your last UK address")
+    addressModel.title should be("Registration address")
     addressModel.content should be(BlockContent(List("123 Fake Street", "AB12 3CD")))
     addressModel.editLink should be("/register-to-vote/crown/edit/address/first")
   }
@@ -660,7 +660,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(addressModel) = confirmation.address
-    addressModel.title should be("Your last UK address")
+    addressModel.title should be("Registration address")
     addressModel.content should be(BlockError("Please complete this step"))
 
     addressModel.editLink should be("/register-to-vote/crown/edit/address/first")
@@ -687,7 +687,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(addressModel) = confirmation.address
-    addressModel.title should be("Your UK address")
+    addressModel.title should be("Registration address")
     addressModel.content should be(BlockContent(List(
       "Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester",
       "AB12 3CD")))
@@ -715,7 +715,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(addressModel) = confirmation.address
-    addressModel.title should be("Your last UK address")
+    addressModel.title should be("Registration address")
     addressModel.content should be(BlockContent(List(
       "Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester",
       "AB12 3CD")))
@@ -743,7 +743,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(addressModel) = confirmation.address
-    addressModel.title should be("Your last UK address")
+    addressModel.title should be("Registration address")
     addressModel.content should be(BlockError("Please complete this step"))
     addressModel.editLink should be("/register-to-vote/crown/edit/address/first")
   }

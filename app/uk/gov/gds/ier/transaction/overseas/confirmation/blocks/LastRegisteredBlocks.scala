@@ -23,9 +23,9 @@ trait LastRegisteredToVoteBlocks {
     }
 
     ConfirmationQuestion(
-      title = "Last registered to vote",
+      title = "Last registration",
       editLink = routes.LastRegisteredToVoteController.editGet.url,
-      changeName = "last registered to vote",
+      changeName = "last registration",
       content = lastRegisteredContent
     )
   }
