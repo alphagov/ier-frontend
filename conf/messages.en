@@ -343,6 +343,46 @@ ordinary_contact_error_enterYourPhoneNo=Please enter your phone number
 ordinary_contact_error_pleaseEnterValidEmail=Please enter a valid email address
 
 # ordinary: confirmation
+ordinary_confirmation_title=Check your answers before sending your application_TTest
+ordinary_confirmation_title_header=Confirm your details - Register to vote_TTest
+ordinary_confirmation_edit_link=Change
+ordinary_confirmation_submitApplication=I accept - send my application_TTest
+
+ordinary_confirmation_name_title=Name_TTest
+ordinary_confirmation_name_changeName=full name_TTest
+
+ordinary_confirmation_previousName_title=What is your previous name?_TTest
+ordinary_confirmation_previousName_changeName=previous name_TTest
+ordinary_confirmation_previousName_nameNotChanged=I have not changed my name in the last 12 months_TTest
+
+ordinary_confirmation_dob_title=Date of birth_TTest
+ordinary_confirmation_dob_changeName=date of birth
+ordinary_confirmation_dob_noDOBReason=You are unable to provide your date of birth because:_TTest {0}
+ordinary_confirmation_dob_noDOBUnder18=I am roughly under 18_TTest
+ordinary_confirmation_dob_noDOB18to70=I am over 18 years old_TTest
+ordinary_confirmation_dob_noDOBOver70=I am over 70 years old_TTest
+ordinary_confirmation_dob_noDOBDontKnow=I don't know my age_TTest
+
+ordinary_confirmation_nationality_title=Nationality_TTest
+ordinary_confirmation_nationality_changeName=nationality_TTest
+ordinary_confirmation_nationality_british=British_TTest
+ordinary_confirmation_nationality_irish=Irish_TTest
+ordinary_confirmation_nationality_iAm=I am_TTest
+ordinary_confirmation_nationality_and=and_TTest
+ordinary_confirmation_nationality_citizenOf=a citizen of_TTest
+ordinary_confirmation_nationality_noNationalityReason=I cannot provide my nationality because:_TTest
+
+ordinary_confirmation_nino_title=National Insurance number_TTest
+ordinary_confirmation_nino_changeName=national insurance number_TTest
+ordinary_confirmation_nationality_noNinoReason=I cannot provide my national insurance number because:_TTest
+
+
+ordinary_confirmation_help_p1=I understand that:_TTest
+ordinary_confirmation_help_p2=The information I provide through this application will be used to change my details on the electoral register._TTest
+ordinary_confirmation_help_p3=If I knowingly give false information through this application, I could be fined up to £5,000 or go to prison for up to a year._TTest
+ordinary_confirmation_help_p4=My local electoral registration office may ask the Home Office to check my immigration status._TTest
+
+ordinary_confirmation_error_completeThis=Please complete this step_TTest
 
 
 # JavaScript: general
