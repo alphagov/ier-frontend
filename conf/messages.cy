@@ -186,7 +186,7 @@ ordinary_address_select_title=Beth yw eich cyfeiriad?
 ordinary_address_select_postcode_label=Cod post
 ordinary_address_select_changeYourPostcode_a=Newid<span class="visuallyhidden"> eich cod post</span>
 ordinary_address_select_couldNotFindAnyAddresses_p=Mae'n ddrwg gennym - ni allem ddod o hyd i unrhyw gyfeiriadau ar gyfer y cod post
-ordinary_address_select_selectYourAddress_p=<span class="visuallyhidden">Dewiswch eich </span>cyfeiriad
+ordinary_address_select_selectYourAddress_p=<span class="visuallyhidden">Dewiswch eich </span>Cyfeiriad
 ordinary_address_select_cannotFindMyAddressInTheList_a=Nid wyf yn gallu gweld fy nghyfeiriad yn y rhestr
 
 #
