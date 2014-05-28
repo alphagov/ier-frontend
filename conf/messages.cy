@@ -4,7 +4,7 @@ step_continue=Parhau
 step_question=Cwestiwn
 
 # ordinary: country of residence
-ordinary_country_heading=Ble rydych chi'n byw??
+ordinary_country_heading=Ble rydych chi'n byw?
 ordinary_country_or=neu
 ordinary_country_england=Lloegr
 ordinary_country_scotland=Yr Alban
@@ -148,7 +148,7 @@ ordinary_address_error_cityIsRequired=Mae angen enw tref neu ddinas
 ordinary_address_postcode_title=Beth yw eich cyfeiriad?
 
 ordinary_address_postcode_enterPostcodeWhenRegistering_p=Nodwch god post y cyfeiriad ble rydych chi'n cofrestru i bleidleisio.
-ordinary_address_postcode_postcode_label=Cod Post
+ordinary_address_postcode_postcode_label=Cod post
 
 ordinary_address_postcode_dontKnowMyPostcode_h2=Nid wyf yn gwybod fy nghod post
 ordinary_address_postcode_dontKnowMyPostcode_dtt=Nid wyf yn gwybod fy nghod post
@@ -183,7 +183,7 @@ ordinary_address_postcode_findAddress_button=Chwilio am gyfeiriad
 #
 ordinary_address_select_title=Beth yw eich cyfeiriad?
 
-ordinary_address_select_postcode_label=Cod Post
+ordinary_address_select_postcode_label=Cod post
 ordinary_address_select_changeYourPostcode_a=Newid<span class="visuallyhidden"> eich cod post</span>
 ordinary_address_select_couldNotFindAnyAddresses_p=Mae'n ddrwg gennym - ni allem ddod o hyd i unrhyw gyfeiriadau ar gyfer y cod post
 ordinary_address_select_selectYourAddress_p=<span class="visuallyhidden">Dewiswch eich </span>cyfeiriad
@@ -242,7 +242,7 @@ ordinary_previousAddress_error_answerThis=Atebwch y cwestiwn hwn
 ordinary_previousAddress_error_invalidOption=Nid yw hynny'n opsiwn dilys
 
 # ordinary: previous address postcode
-ordinary_previousAddress_postcode_postcode_label=Cod Post
+ordinary_previousAddress_postcode_postcode_label=Cod post
 ordinary_previousAddress_postcode_findAddress=Chwilio am gyfeiriad
 ordinary_previousAddress_postcode_error_enterPostcode=Nodwch eich cod post blaenorol
 ordinary_previousAddress_postcode_error_invalidPostcode=Nid yw hwnnw'n gôd post dilys: gwiriwch yr hyn rydych wedi'i nodi
@@ -372,7 +372,7 @@ ordinary_autocomplete_status_prefix_multiple=Welsh results are
 
 # JavaScript: date of birth
 
-ordinary_address_postcode=Cod Post
+ordinary_address_postcode=Cod post
 ordinary_address_loading=Welsh Finding address
 ordinary_address_selectAddress=Dewiswch eich cyfeiriad
 ordinary_address_excuse=Nid wyf yn gallu gweld fy nghyfeiriad yn y rhestr
