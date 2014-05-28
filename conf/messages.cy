@@ -360,8 +360,8 @@ ordinary_contact_error_pleaseEnterValidEmail=Nid yw hwnnw'n gyfeiriad e-bost dil
 
 # JavaScript: general
 
-back_button=Welsh Back
-back_button_non_visual=Welsh to the previous question
+back_button=Yn ôl
+back_button_non_visual=at y cwestiwn blaenorol
 
 # JavaScipt: nationality
 
