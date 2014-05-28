@@ -10,7 +10,7 @@ import uk.gov.gds.ier.step.{ForcesStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.forces.{PreviousAddressFirstController, NationalityController}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
-import uk.gov.gds.ier.model.{HasAddressOption, LastUkAddress}
+import uk.gov.gds.ier.model.{HasAddressOption, LastAddress}
 import uk.gov.gds.ier.assets.RemoteAssets
 
 
@@ -36,7 +36,7 @@ class AddressManualStep @Inject() (
     val hasUkAddress = Some(true)
 
     currentState.address flatMap {
-      address => address.hasUkAddress
+      address => address.hasAddress
     } map {
       hasUkAddress => hasUkAddress.hasAddress
     } match {

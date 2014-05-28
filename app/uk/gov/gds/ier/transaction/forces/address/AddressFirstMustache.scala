@@ -26,11 +26,11 @@ trait AddressFirstMustache extends StepTemplate[InprogressForces] {
         title = pageTitle,
         errorMessages = form.globalErrors.map { _.message }),
       hasAddressYes = RadioField(
-        key = keys.address.hasUkAddress,
+        key = keys.address.hasAddress,
         value = HasAddressOption.YesAndLivingThere.name
       ),
       hasAddressNo = RadioField(
-        key = keys.address.hasUkAddress,
+        key = keys.address.hasAddress,
         value = HasAddressOption.No.name
       )
     )

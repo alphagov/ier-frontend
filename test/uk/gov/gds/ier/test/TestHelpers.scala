@@ -83,7 +83,7 @@ trait TestHelpers
 
   lazy val completeForcesApplication = InprogressForces(
     statement = Some(Statement(memberForcesFlag = Some(true), None)),
-    address = Some(LastUkAddress(
+    address = Some(LastAddress(
       Some(HasAddressOption.YesAndLivingThere),
       Some(PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None))
     )),

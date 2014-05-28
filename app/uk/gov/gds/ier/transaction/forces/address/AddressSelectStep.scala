@@ -6,7 +6,7 @@ import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{
-  LastUkAddress,
+  LastAddress,
   Addresses,
   PossibleAddress}
 import uk.gov.gds.ier.security.EncryptionService
@@ -40,7 +40,7 @@ class AddressSelectStep @Inject() (
     val hasUkAddress = Some(true)
 
     currentState.address flatMap {
-      address => address.hasUkAddress
+      address => address.hasAddress
     } map {
       hasUkAddress => hasUkAddress.hasAddress
     } match {

@@ -5,7 +5,7 @@ import org.scalatest.mock.MockitoSugar
 import uk.gov.gds.ier.test.TestHelpers
 import play.api.test.Helpers._
 import play.api.test.FakeRequest
-import uk.gov.gds.ier.model.{HasAddressOption, LastUkAddress, PartialAddress}
+import uk.gov.gds.ier.model.{HasAddressOption, LastAddress, PartialAddress}
 import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 
 /**
@@ -24,8 +24,8 @@ with TestHelpers {
         FakeRequest(POST, "/register-to-vote/forces/confirmation")
           .withIerSession()
           .withApplication(completeForcesApplication.copy(address =
-            Some(LastUkAddress(
-              hasUkAddress = Some(HasAddressOption.YesAndLivingThere),
+            Some(LastAddress(
+              hasAddress = Some(HasAddressOption.YesAndLivingThere),
               address = Some(PartialAddress(
                 addressLine = Some("1 The Cottages, Moseley Road, Hallow, Worcestershire"),
                 uprn = Some("100120595384"),

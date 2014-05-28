@@ -42,8 +42,8 @@ class AddressStepMockedTests extends FlatSpec with TestHelpers with Matchers wit
 
     when (mockedAddressService.isScotland(postcode)).thenReturn(true)
     val currentState = completeForcesApplication.copy(
-      address = Some(LastUkAddress(
-        hasUkAddress = Some(HasAddressOption.YesAndLivingThere),
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndLivingThere),
         address = Some(PartialAddress(None, None, postcode, None, None))
       ))
     )

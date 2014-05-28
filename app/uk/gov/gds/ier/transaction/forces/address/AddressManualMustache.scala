@@ -30,7 +30,7 @@ trait AddressManualMustache extends StepTemplate[InprogressForces] {
   val mustache = MustacheTemplate("forces/addressManual") { (form, postUrl) =>
     implicit val progressForm = form
 
-    val title = pageTitle(form(keys.address.hasUkAddress).value)
+    val title = pageTitle(form(keys.address.hasAddress).value)
 
     ManualModel(
       question = Question(

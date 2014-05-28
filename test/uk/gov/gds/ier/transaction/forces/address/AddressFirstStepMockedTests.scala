@@ -31,8 +31,8 @@ class AddressFirstStepMockedTests extends FlatSpec with TestHelpers with Matcher
     val mockedRemoteAssets = mock[RemoteAssets]
 
     val currentState = completeForcesApplication.copy(
-      address = Some(LastUkAddress(
-        hasUkAddress = Some(HasAddressOption.No),
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.No),
         address = Some(PartialAddress(
           Some("123 Fake Street, Fakerton"),
           Some("123456789"),

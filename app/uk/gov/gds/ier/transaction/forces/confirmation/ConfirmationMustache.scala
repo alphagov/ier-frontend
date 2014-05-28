@@ -276,7 +276,7 @@ trait ConfirmationMustache
     }
 
     def previousAddress = {
-      val hasCurrentUkAddress = form(keys.address.hasUkAddress).value exists {
+      val hasCurrentUkAddress = form(keys.address.hasAddress).value exists {
         HasAddressOption.parse(_).hasAddress
       }
       if (hasCurrentUkAddress) {

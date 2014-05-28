@@ -3,7 +3,7 @@ package uk.gov.gds.ier.form
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.{HasAddressOption, PartialManualAddress, PartialAddress, LastUkAddress}
+import uk.gov.gds.ier.model.{HasAddressOption, PartialManualAddress, PartialAddress, LastAddress}
 import uk.gov.gds.ier.transaction.forces.confirmation.ConfirmationForms
 import play.api.data.Form
 import uk.gov.gds.ier.transaction.ordinary.address.AddressForms
@@ -37,8 +37,8 @@ with Matchers {
 
   it should "return all elements of address separated by comma for form with full manual address" in {
     val partiallyFilledForm = confirmationForm.fillAndValidate(InprogressForces(
-      address = Some(LastUkAddress(
-        hasUkAddress = Some(HasAddressOption.YesAndLivingThere),
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndLivingThere),
         address = Some(PartialAddress(
           addressLine = None,
           uprn = None,
@@ -61,8 +61,8 @@ with Matchers {
 
   it should "return address without comma for form with manual address of just one line" in {
     val partiallyFilledForm = confirmationForm.fillAndValidate(InprogressForces(
-      address = Some(LastUkAddress(
-        hasUkAddress = Some(HasAddressOption.YesAndLivingThere),
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndLivingThere),
         address = Some(PartialAddress(
           addressLine = None,
           uprn = None,
@@ -83,8 +83,8 @@ with Matchers {
 
   it should "return None for form without manual address" in {
     val partiallyFilledForm = confirmationForm.fillAndValidate(InprogressForces(
-      address = Some(LastUkAddress(
-        hasUkAddress = Some(HasAddressOption.YesAndLivingThere),
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndLivingThere),
         address = Some(PartialAddress(
           addressLine = None,
           uprn = None,

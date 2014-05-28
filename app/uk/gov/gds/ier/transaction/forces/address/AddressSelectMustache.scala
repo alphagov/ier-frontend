@@ -34,7 +34,7 @@ trait AddressSelectMustache extends StepTemplate[InprogressForces] {
   val mustache = MustacheTemplate("forces/addressSelect") { (form, postUrl) =>
     implicit val progressForm = form
 
-    val title = pageTitle(form(keys.address.hasUkAddress).value)
+    val title = pageTitle(form(keys.address.hasAddress).value)
 
     val selectedUprn = form(keys.address.address.uprn).value
     val postcode = form(keys.address.address.postcode).value

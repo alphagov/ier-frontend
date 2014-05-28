@@ -37,7 +37,7 @@ class AddressFirstStepTests
         FakeRequest(POST, "/register-to-vote/forces/address/first")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "address.hasUkAddress" -> "yes-living-there"
+            "address.hasAddress" -> "yes-living-there"
           )
       )
 
@@ -53,7 +53,7 @@ class AddressFirstStepTests
           .withIerSession()
           .withApplication(completeForcesApplication)
           .withFormUrlEncodedBody(
-            "address.hasUkAddress" -> "yes-living-there"
+            "address.hasAddress" -> "yes-living-there"
           )
       )
 
@@ -103,7 +103,7 @@ behavior of "AddressFirstStep.editGet"
         FakeRequest(POST, "/register-to-vote/forces/edit/address/first")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "address.hasUkAddress" -> "yes-living-there"
+            "address.hasAddress" -> "yes-living-there"
           )
       )
 

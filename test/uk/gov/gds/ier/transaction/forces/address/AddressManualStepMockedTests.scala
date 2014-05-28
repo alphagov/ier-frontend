@@ -33,8 +33,8 @@ class AddressManualStepMockedTests extends FlatSpec with TestHelpers with Matche
         Some(PartialManualAddress(Some("line1"), Some("line2"), Some("line3"), Some("city"))))
 
     val currentState = completeForcesApplication.copy(
-      address = Some(LastUkAddress(
-        hasUkAddress = Some(HasAddressOption.No),
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.No),
         address = Some(partialAddress)
       ))
     )

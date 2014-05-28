@@ -51,7 +51,7 @@ class AddressFirstStep @Inject ()(
   }
 
   def clearPreviousAddress(currentState: InprogressForces) = {
-    currentState.address flatMap (_.hasUkAddress) match {
+    currentState.address flatMap (_.hasAddress) match {
       case Some(HasAddressOption.No) => currentState.copy(previousAddress = None)
       case _ => currentState
     }

@@ -23,7 +23,7 @@ class AddressFirstFormTests
     val js = JsNull
     addressFirstForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("address.hasUkAddress") should be(Seq("Please answer this question"))
+        hasErrors.errorMessages("address.hasAddress") should be(Seq("Please answer this question"))
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
         hasErrors.errors.size should be(2)
       },
@@ -34,12 +34,12 @@ class AddressFirstFormTests
   it should "error out on missing values in input" in {
     val js = Json.toJson(
       Map(
-        "address.hasUkAddress" -> ""
+        "address.hasAddress" -> ""
       )
     )
     addressFirstForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorMessages("address.hasUkAddress") should be(Seq("Please answer this question"))
+        hasErrors.errorMessages("address.hasAddress") should be(Seq("Please answer this question"))
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
         hasErrors.errors.size should be(2)
       },
@@ -50,7 +50,7 @@ class AddressFirstFormTests
   it should "successfully bind when user has previous address" in {
     val js = Json.toJson(
       Map(
-        "address.hasUkAddress" -> "yes-living-there"
+        "address.hasAddress" -> "yes-living-there"
       )
     )
     addressFirstForm.bind(js).fold(
@@ -60,7 +60,7 @@ class AddressFirstFormTests
       success => {
         val Some(address) = success.address
         address should have(
-          'hasUkAddress (Some(HasAddressOption.YesAndLivingThere))
+          'hasAddress (Some(HasAddressOption.YesAndLivingThere))
         )
       }
     )
@@ -69,7 +69,7 @@ class AddressFirstFormTests
   it should "successfully bind when user does not has previous address" in {
     val js = Json.toJson(
       Map(
-        "address.hasUkAddress" -> "no"
+        "address.hasAddress" -> "no"
       )
     )
     addressFirstForm.bind(js).fold(
@@ -79,7 +79,7 @@ class AddressFirstFormTests
       success => {
         val Some(address) = success.address
         address should have(
-          'hasUkAddress (Some(HasAddressOption.No))
+          'hasAddress (Some(HasAddressOption.No))
         )
       }
     )
