@@ -31,7 +31,7 @@ class ConfirmationStep @Inject ()(
 
   def factoryOfT() = InprogressOrdinary()
 
-  val routes = Routes(
+  val routes:Routes = Routes(
     get = ConfirmationController.get,
     post = ConfirmationController.post,
     editGet = ConfirmationController.get,
@@ -40,15 +40,8 @@ class ConfirmationStep @Inject ()(
 
   val validation = confirmationForm
 
-  def template(form: ErrorTransformForm[InprogressOrdinary]): Html = {
-    Confirmation.confirmationPage(
-      form,
-      routes.post.url
-    )
-  }
-
   def get = ValidSession requiredFor {
-    request => application =>
+    implicit request => application =>
       val currentAddressLine = application.address.map { addressService.fillAddressLine(_) }
 
       val previousAddressLine = application.previousAddress.flatMap { prev =>
@@ -66,14 +59,15 @@ class ConfirmationStep @Inject ()(
         }
       )
 
-      Ok(template(validation.fillAndValidate(appWithAddressLines)))
+      //Ok(template(validation.fillAndValidate(appWithAddressLines)))
+      Ok(mustache(validation.fillAndValidate(appWithAddressLines), routes.post, application).html)
   }
 
   def post = ValidSession requiredFor {
     implicit request => application =>
       validation.fillAndValidate(application).fold(
         hasErrors => {
-          Ok(template(hasErrors))
+          Ok(mustache(hasErrors, routes.post, application).html)
         },
         validApplication => {
           val refNum = ierApi.generateOrdinaryReferenceNumber(validApplication)

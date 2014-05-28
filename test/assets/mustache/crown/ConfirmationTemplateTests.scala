@@ -21,6 +21,10 @@ class ConfirmationTemplateTests
   it should "not render the partners details block if displayPartnerBlock = false" in {
     running(FakeApplication()) {
       val model = ConfirmationModel(
+        question = Question(
+          title = "Foo",
+          postUrl = "http://postUrl"
+        ),
         applicantDetails = List(
           ConfirmationQuestion(
             content = BlockContent("Some applicant details"),
@@ -37,8 +41,7 @@ class ConfirmationTemplateTests
             changeName = "applicant details"
           )
         ),
-        displayPartnerBlock = false,
-        postUrl = "http://postUrl"
+        displayPartnerBlock = false
       )
 
       val html = Mustache.render("crown/confirmation", model)
@@ -53,6 +56,10 @@ class ConfirmationTemplateTests
   it should "render the partners details block if displayPartnerBlock = true" in {
     running(FakeApplication()) {
       val model = ConfirmationModel(
+        question = Question(
+          title = "Foo",
+          postUrl = "http://postUrl"
+        ),
         applicantDetails = List(
           ConfirmationQuestion(
             content = BlockContent("Some applicant details"),
@@ -69,8 +76,7 @@ class ConfirmationTemplateTests
             changeName = "applicant details"
           )
         ),
-        displayPartnerBlock = true,
-        postUrl = "http://postUrl"
+        displayPartnerBlock = true
       )
 
       val html = Mustache.render("crown/confirmation", model)

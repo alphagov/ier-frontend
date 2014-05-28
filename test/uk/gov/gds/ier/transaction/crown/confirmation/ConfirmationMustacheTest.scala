@@ -37,10 +37,11 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.confirmationData(
-      form = partiallyFilledApplicationForm,
-      postUrl = "http://postUrl"
-    ).displayPartnerBlock
+    val displayPartnerBlock = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("GET", "http://postUrl"),
+      InprogressCrown()
+    ).asInstanceOf[ConfirmationModel].displayPartnerBlock
 
     displayPartnerBlock should be (false)
   }
@@ -56,10 +57,11 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.confirmationData(
-      form = partiallyFilledApplicationForm,
-      postUrl = "http://postUrl"
-    ).displayPartnerBlock
+    val displayPartnerBlock = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("GET", "http://postUrl"),
+      InprogressCrown()
+    ).asInstanceOf[ConfirmationModel].displayPartnerBlock
 
     displayPartnerBlock should be (false)
   }
@@ -75,15 +77,14 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.confirmationData(
-      form = partiallyFilledApplicationForm,
-      postUrl = "http://postUrl"
-    ).displayPartnerBlock
+    val displayPartnerBlock = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("GET", "http://postUrl"),
+      InprogressCrown()
+    ).asInstanceOf[ConfirmationModel].displayPartnerBlock
 
     displayPartnerBlock should be (true)
   }
-
-
 
 
   "In-progress application form without a crown or council partner (BC member)" should
@@ -97,10 +98,11 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.confirmationData(
-      form = partiallyFilledApplicationForm,
-      postUrl = "http://postUrl"
-    ).displayPartnerBlock
+    val displayPartnerBlock = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("GET", "http://postUrl"),
+      InprogressCrown()
+    ).asInstanceOf[ConfirmationModel].displayPartnerBlock
 
     displayPartnerBlock should be (false)
   }
@@ -116,10 +118,11 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.confirmationData(
-      form = partiallyFilledApplicationForm,
-      postUrl = "http://postUrl"
-    ).displayPartnerBlock
+    val displayPartnerBlock = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("GET", "http://postUrl"),
+      InprogressCrown()
+    ).asInstanceOf[ConfirmationModel].displayPartnerBlock
 
     displayPartnerBlock should be (false)
   }
@@ -135,10 +138,11 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.confirmationData(
-      form = partiallyFilledApplicationForm,
-      postUrl = "http://postUrl"
-    ).displayPartnerBlock
+    val displayPartnerBlock = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("GET", "http://postUrl"),
+      InprogressCrown()
+    ).asInstanceOf[ConfirmationModel].displayPartnerBlock
 
     displayPartnerBlock should be (true)
   }
@@ -542,10 +546,11 @@ class ConfirmationMustacheTest
     confirmation.applicantJobTitle.isDefined should be(true)
     confirmation.partnerJobTitle should be(None)
 
-    val displayPartnerBlock = Confirmation.confirmationData(
-      form = application,
-      postUrl = "http://postUrl"
-    ).displayPartnerBlock
+    val displayPartnerBlock = mustache.data(
+      application,
+      Call("GET", "http://postUrl"),
+      InprogressCrown()
+    ).asInstanceOf[ConfirmationModel].displayPartnerBlock
 
     displayPartnerBlock should be(false)
   }
@@ -566,10 +571,11 @@ class ConfirmationMustacheTest
     confirmation.applicantJobTitle.isDefined should be(true)
     confirmation.partnerJobTitle should be(None)
 
-    val displayPartnerBlock = Confirmation.confirmationData(
-      form = application,
-      postUrl = "http://postUrl"
-    ).displayPartnerBlock
+    val displayPartnerBlock = mustache.data(
+      application,
+      Call("GET", "http://postUrl"),
+      InprogressCrown()
+    ).asInstanceOf[ConfirmationModel].displayPartnerBlock
 
     displayPartnerBlock should be(false)
   }

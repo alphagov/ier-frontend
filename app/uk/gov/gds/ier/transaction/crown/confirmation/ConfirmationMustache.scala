@@ -12,72 +12,61 @@ import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
 import uk.gov.gds.ier.service.WithAddressService
 import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.step.StepTemplate
 
-trait ConfirmationMustache extends StepMustache with WithAddressService {
-  self: WithRemoteAssets =>
+trait ConfirmationMustache
+  extends StepTemplate[InprogressCrown]
+  with WithAddressService {
+    self: WithRemoteAssets =>
 
   case class ConfirmationQuestion(
-     content: EitherErrorOrContent,
-     title: String,
-     editLink: String,
-     changeName: String
+      content: EitherErrorOrContent,
+      title: String,
+      editLink: String,
+      changeName: String
   )
 
   case class ConfirmationModel(
+      question: Question,
       applicantDetails: List[ConfirmationQuestion],
       partnerDetails: List[ConfirmationQuestion],
-      displayPartnerBlock: Boolean,
-      postUrl: String
-  )
+      displayPartnerBlock: Boolean
+  ) extends MustacheData
 
-  object Confirmation {
+  val mustache = MustacheTemplate("crown/confirmation") {
+    (form, post) =>
 
-    def confirmationData(
-        form: ErrorTransformForm[InprogressCrown],
-        postUrl: String) = {
+    val confirmation = new ConfirmationBlocks(form)
 
-      val confirmation = new ConfirmationBlocks(form)
+    val partnerData = List(
+      confirmation.partnerJobTitle
+    ).flatten
 
-      val partnerData = List(
-        confirmation.partnerJobTitle
-      ).flatten
+    val applicantData = List(
+      confirmation.name,
+      confirmation.previousName,
+      confirmation.dateOfBirth,
+      confirmation.nationality,
+      confirmation.nino,
+      confirmation.applicantJobTitle,
+      confirmation.address,
+      confirmation.previousAddress,
+      confirmation.contactAddress,
+      confirmation.openRegister,
+      confirmation.waysToVote,
+      confirmation.contact
+    ).flatten
 
-      val applicantData = List(
-        confirmation.name,
-        confirmation.previousName,
-        confirmation.dateOfBirth,
-        confirmation.nationality,
-        confirmation.nino,
-        confirmation.applicantJobTitle,
-        confirmation.address,
-        confirmation.previousAddress,
-        confirmation.contactAddress,
-        confirmation.openRegister,
-        confirmation.waysToVote,
-        confirmation.contact
-      ).flatten
-
-      ConfirmationModel(
-        partnerDetails = partnerData,
-        applicantDetails = applicantData,
-        displayPartnerBlock = !partnerData.isEmpty,
-        postUrl = postUrl
-      )
-    }
-
-    def confirmationPage(
-        form: ErrorTransformForm[InprogressCrown],
-        postUrl: String
-    ) = {
-      val data = confirmationData(form, postUrl)
-      val content = Mustache.render("crown/confirmation", data)
-
-      GovukTemplate(
-        mainContent = content,
-        pageTitle = "Confirm your details - Register to vote",
+    ConfirmationModel(
+      question = Question(
+        title = "Confirm your details - Register to vote",
+        postUrl = post.url,
         contentClasses = "confirmation"
-      )
-    }
+      ),
+      partnerDetails = partnerData,
+      applicantDetails = applicantData,
+      displayPartnerBlock = !partnerData.isEmpty
+    )
   }
 
   class ConfirmationBlocks(form: ErrorTransformForm[InprogressCrown])

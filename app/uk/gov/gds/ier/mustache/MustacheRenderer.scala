@@ -26,7 +26,8 @@ trait MustacheRendering[T] extends StepMustache {
       GovukTemplate(
         mainContent = content,
         pageTitle = model.question.title,
-        htmlLang = model.question.lang.language
+        htmlLang = model.question.lang.language,
+        contentClasses = model.question.contentClasses
       ).render()
     }
   }

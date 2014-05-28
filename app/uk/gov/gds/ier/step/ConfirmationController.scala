@@ -11,6 +11,7 @@ import play.api.templates.Html
 trait ConfirmationStepController[T <: InprogressApplication[T]]
   extends SessionHandling[T]
   with Step[T]
+  with StepTemplate[T]
   with Controller
   with SessionLogging
   with Logging
@@ -19,7 +20,7 @@ trait ConfirmationStepController[T <: InprogressApplication[T]]
   with WithEncryption {
 
   val validation: ErrorTransformForm[T]
-  def template(form: ErrorTransformForm[T]): Html
+  val routes: Routes
   def get:Action[AnyContent]
   def post:Action[AnyContent]
 

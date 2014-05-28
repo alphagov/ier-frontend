@@ -34,7 +34,7 @@ class ConfirmationStep @Inject() (
 
 
 
-  val routes = Routes(
+  val routes: Routes = Routes(
     get = ConfirmationController.get,
     post = ConfirmationController.post,
     editGet = ConfirmationController.get,
@@ -43,23 +43,16 @@ class ConfirmationStep @Inject() (
 
   val validation = confirmationForm
 
-  def template(form: ErrorTransformForm[InprogressForces]) = {
-    Confirmation.confirmationPage(
-      form,
-      routes.post.url
-    )
-  }
-
   def get = ValidSession requiredFor {
-    request => application =>
-      Ok(template(validation.fillAndValidate(application)))
+    implicit request => application =>
+      Ok(mustache(validation.fillAndValidate(application), routes.post, application).html)
   }
 
   def post = ValidSession requiredFor {
     implicit request => application =>
       validation.fillAndValidate(application).fold(
         hasErrors => {
-          Ok(template(hasErrors))
+          Ok(mustache(hasErrors, routes.post, application).html)
         },
         validApplication => {
           val refNum = ierApi.generateForcesReferenceNumber(validApplication)
