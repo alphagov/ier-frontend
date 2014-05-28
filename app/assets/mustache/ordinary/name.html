@@ -106,8 +106,8 @@
           class="validate"
           data-validation-name="previousName"
           data-validation-type="association"
-          data-validation-rules="allNonEmpty"
-          data-validation-members="previousFirstName previousLastName">
+          data-validation-rules="allNonEmpty allValid"
+          data-validation-members="previousFirstName previousMiddleName previousLastName">
 
             <label for="{{previousFirstName.id}}">
                 {{{messages.ordinary_previousName_firstName_label}}}
@@ -137,7 +137,10 @@
                   name="{{previousMiddleNames.name}}"
                   value="{{previousMiddleNames.value}}"
                   autocomplete="off"
-                  class="text  middle-names long {{previousMiddleName.classes}}">
+                  class="text  middle-names long validate {{previousMiddleName.classes}}"
+                  data-validation-name="previousMiddleName"
+                  data-validation-type="field"
+                  data-validation-rules="smallText">
             </div>
 
             <label for="{{previousLastName.id}}">

@@ -807,7 +807,7 @@
         'smallText' : message('ordinary_name_error_middleNamesTooLong')
       },
       'lastName' : {
-        'nonEmpty' : message('ordinary_name_error_enterFirstName'),
+        'nonEmpty' : message('ordinary_name_error_enterLastName'),
         'smallText' : message('ordinary_name_error_lastNameTooLong')
       },
       'previousQuestion' : {
@@ -815,6 +815,17 @@
       },
       'previousName' : {
         'allNonEmpty' : message('ordinary_previousName_error_enterFullName')
+      },
+      'previousFirstName' : {
+        'nonEmpty' : message('ordinary_previousName_error_enterFirstName'),
+        'smallText' : message('ordinary_previousName_error_firstNameTooLong')
+      },
+      'previousMiddleName' : {
+        'smallText' : message('ordinary_previousName_error_middleNamesTooLong')
+      },
+      'previousLastName' : {
+        'nonEmpty' : message('ordinary_previousName_error_enterLastName'),
+        'smallText' : message('ordinary_previousName_error_lastNameTooLong')
       },
       'dateOfBirthDate' : {
         'allNonEmpty' : message('ordinary_dob_error_enterDateOfBirth')
@@ -926,8 +937,7 @@
       },
       'registeredAbroad' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
-      },
-
+      }
     }
   };
 

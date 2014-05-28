@@ -103,8 +103,8 @@ ordinary_previousName_lastName_label=<span class="visuallyhidden">Previous</span
 
 ordinary_previousName_error_answerThis=Please answer this question
 ordinary_previousName_error_enterFullName=Please enter your previous name
-ordinary_previousName_error_enterFirstName=Please enter your first name
-ordinary_previousName_error_enterLastName=Please enter your last name
+ordinary_previousName_error_enterFirstName=Please enter your previous first name
+ordinary_previousName_error_enterLastName=Please enter your previous last name
 ordinary_previousName_error_firstNameTooLong=Previous first name can be no longer than 256 characters
 ordinary_previousName_error_middleNamesTooLong=Previous middle names can be no longer than 256 characters
 ordinary_previousName_error_lastNameTooLong=Previous last name can be no longer than 256 characters
