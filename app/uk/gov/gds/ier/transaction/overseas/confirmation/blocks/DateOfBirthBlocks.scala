@@ -11,7 +11,7 @@ trait DateOfBirthBlocks {
     } getOrElse ""
 
     ConfirmationQuestion(
-      title = "What is your date of birth?",
+      title = "Date of birth",
       editLink = routes.DateOfBirthController.editGet.url,
       changeName = "date of birth",
       content = ifComplete(keys.dob) {

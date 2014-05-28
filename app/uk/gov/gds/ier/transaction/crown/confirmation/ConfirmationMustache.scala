@@ -118,7 +118,7 @@ trait ConfirmationMustache
         case _ => "I have not changed my name in the last 12 months"
       }
       Some(ConfirmationQuestion(
-        title = "What is your previous name?",
+        title = "Previous name",
         editLink = routes.NameController.editGet.url,
         changeName = "previous name",
         content = ifComplete(keys.previousName) {
@@ -211,9 +211,9 @@ trait ConfirmationMustache
 
     def jobTitle = {
       ConfirmationQuestion(
-        title = "Job title",
+        title = "Role",
         editLink = routes.JobController.editGet.url,
-        changeName = "job title",
+        changeName = "role",
         content = ifComplete(keys.job) {
           List(
             form(keys.job.jobTitle).value,
@@ -228,8 +228,8 @@ trait ConfirmationMustache
 
       val (addressTitle, addressChangeName) = HasAddressOption.parse(hasAddressValue) match {
         case HasAddressOption.YesAndLivingThere | HasAddressOption.YesAndNotLivingThere =>
-          ("Your UK address", "your UK address")
-        case _ => ("Your last UK address", "your last UK address")
+          ("Registration address", "registration address")
+        case _ => ("Registration address", "registration address")
       }
 
       Some(ConfirmationQuestion(
@@ -256,9 +256,9 @@ trait ConfirmationMustache
 
       if (hasCurrentAddress) {
         Some(ConfirmationQuestion(
-          title = "UK previous registration address",
+          title = "Previous address",
           editLink = routes.PreviousAddressFirstController.editGet.url,
-          changeName = "your UK previous registration address",
+          changeName = "your previous address",
           content = ifComplete(keys.previousAddress) {
             val moved = form(keys.previousAddress.movedRecently).value
               .map(MovedHouseOption.parse(_).hasPreviousAddress)
@@ -289,9 +289,9 @@ trait ConfirmationMustache
 
     def contactAddress = {
       Some(ConfirmationQuestion(
-        title = "Polling card address",
+        title = "Correspondence address",
         editLink = routes.ContactAddressController.editGet.url,
-        changeName = "polling card address",
+        changeName = "correspondence address",
         content = {
           val addressTypeKey = form(keys.contactAddress.contactAddressType).value match {
             case Some("uk") => Some(keys.ukContactAddress)

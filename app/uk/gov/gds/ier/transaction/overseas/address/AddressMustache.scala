@@ -6,7 +6,7 @@ import uk.gov.gds.ier.step.StepTemplate
 
 trait AddressMustache extends StepTemplate[InprogressOverseas] {
 
-  val title = "Where do you live?"
+  val title = "Where should we write to you about your registration?"
 
   case class AddressModel(
       question:Question,

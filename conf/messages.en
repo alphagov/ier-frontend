@@ -212,7 +212,7 @@ each application and tell you whether you're allowed to register.
 ordinary_otheraddr_yesImStudent=Yes, I'm a student with home and term-time addresses
 ordinary_otheraddr_yesImStudent_p1=Students can register to vote at their home and term time addresses.
 ordinary_otheraddr_yesImStudent_p2=If you're not already registered at your other address, you \
-can do so by making a second application.
+can make a separate application through this service.
 
 ordinary_otheraddr_error_pleaseAnswer=Please answer this question
 
