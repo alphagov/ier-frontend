@@ -221,30 +221,29 @@ trait ConfirmationMustache
       }
 
       val title = movedHouse match {
-        case Some(MovedHouseOption.MovedFromAbroadRegistered) => "Last UK address"
-        case _ => "Previous address"
+        case Some(MovedHouseOption.MovedFromAbroadRegistered) => Messages("ordinary_confirmation_previousAddress_title_lastAddress")
+        case _ => Messages("ordinary_confirmation_previousAddress_title_previous")
       }
 
       Some(ConfirmationQuestion(
         title = title,
         editLink = routes.PreviousAddressFirstController.editGet.url,
-        changeName = "your previous address",
+        changeName = Messages("ordinary_confirmation_previousAddress_changeName"),
         content = ifComplete(keys.previousAddress, keys.previousAddress.movedRecently) {
           movedHouse match {
             case Some(MovedHouseOption.MovedFromAbroadNotRegistered) =>
-              List("I moved from abroad, but I was not registered to vote there")
+              List(Messages("ordinary_confirmation_previousAddress_movedFromAbroadNotRegistered"))
             case Some(moveOption) if moveOption.hasPreviousAddress => {
               val postcode = form(keys.previousAddress.previousAddress.postcode).value.map(_.toUpperCase)
               if (addressService.isNothernIreland(postcode.getOrElse(""))) {
-                List(postcode, Some("I was previously registered in Northern Ireland")).flatten
+                List(postcode, Some(Messages("ordinary_confirmation_previousAddress_movedFromNI"))).flatten
               } else {
                 val address = form(keys.previousAddress.previousAddress.addressLine).value.orElse(
                   manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress))
                 List(address, postcode).flatten
               }
             }
-            case _ =>
-              List("I have not moved in the last 12 months")
+            case _ => List(Messages("ordinary_confirmation_previousAddress_notMoved"))
             }
           }
         ))
@@ -252,14 +251,14 @@ trait ConfirmationMustache
 
     def openRegister = {
       Some(ConfirmationQuestion(
-        title = "Open register",
+        title = Messages("ordinary_confirmation_openRegister_title"),
         editLink = routes.OpenRegisterController.editGet.url,
-        changeName = "open register",
+        changeName = Messages("ordinary_confirmation_openRegister_changeName"),
         content = ifComplete(keys.openRegister) {
           if (form(keys.openRegister.optIn).value == Some("true")){
-            List("I want to include my name and address on the open register")
+            List(Messages("ordinary_confirmation_openRegister_optIn"))
           } else {
-            List("I don't want my name and address on the open register")
+            List(Messages("ordinary_confirmation_openRegister_optOut"))
           }
         }
       ))

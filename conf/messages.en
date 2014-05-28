@@ -384,6 +384,19 @@ ordinary_confirmation_secondAddress_changeName=second address_TTest
 ordinary_confirmation_secondAddress_haveAddress=I have a second address_TTest
 ordinary_confirmation_secondAddress_dontHaveAddress=I don't have a second address_TTest
 
+ordinary_confirmation_previousAddress_title_lastAddress=Last UK address_TTest
+ordinary_confirmation_previousAddress_title_previous=Previous address_TTest
+ordinary_confirmation_previousAddress_changeName=your previous address_TTest
+ordinary_confirmation_previousAddress_movedFromAbroadNotRegistered=I moved from abroad, but I was not registered to vote there_TTest
+ordinary_confirmation_previousAddress_movedFromNI=I was previously registered in Northern Ireland_TTest
+ordinary_confirmation_previousAddress_notMoved=I have not moved in the last 12 months_TTest
+
+ordinary_confirmation_openRegister_title=Open register_TTest
+ordinary_confirmation_openRegister_changeName=open register_TTest
+ordinary_confirmation_openRegister_optIn=I want to include my name and address on the open register_TTest
+ordinary_confirmation_openRegister_optOut=I don't want my name and address on the open register_TTest
+
+
 ordinary_confirmation_help_p1=I understand that:_TTest
 ordinary_confirmation_help_p2=The information I provide through this application will be used to change my details on the electoral register._TTest
 ordinary_confirmation_help_p3=If I knowingly give false information through this application, I could be fined up to £5,000 or go to prison for up to a year._TTest
