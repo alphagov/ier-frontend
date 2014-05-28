@@ -357,6 +357,78 @@ ordinary_contact_error_enterYourPhoneNo=Nodwch eich rhif ffôn
 ordinary_contact_error_pleaseEnterValidEmail=Nid yw hwnnw'n gyfeiriad e-bost dilys: gwiriwch yr hyn rydych wedi'i nodi
 
 # ordinary: confirmation
+ordinary_confirmation_title=Gwiriwch eich atebion cyn anfon eich cais
+ordinary_confirmation_title_header=Cadarnhau eich manylion - Cofrestru i bleidleisio
+ordinary_confirmation_edit_link=Newid
+ordinary_confirmation_submitApplication=Yr wyf yn derbyn - anfon fy nghais
+
+ordinary_confirmation_name_title=Enw
+ordinary_confirmation_name_changeName=enw llawn
+
+ordinary_confirmation_previousName_title=Beth yw eich enw blaenorol?
+ordinary_confirmation_previousName_changeName=enw blaenorol
+ordinary_confirmation_previousName_nameNotChanged=Nid wyf wedi newid fy enw yn y 12 mis diwethaf
+
+ordinary_confirmation_dob_title=Dyddiad geni
+ordinary_confirmation_dob_changeName=dyddiad geni
+ordinary_confirmation_dob_noDOBReason=Yr ydych yn gallu darparu eich dyddiad geni oherwydd: {0}
+ordinary_confirmation_dob_noDOBUnder18=Rwy'n iau na 18 oed
+ordinary_confirmation_dob_noDOB18to70=Rwyf rhwng 18 a 70 oed
+ordinary_confirmation_dob_noDOBOver70=Rwy'n hŷn na 70 oed
+ordinary_confirmation_dob_noDOBDontKnow=Nid wyf yn gwybod fy oed
+
+ordinary_confirmation_nationality_title=Cenedligrwydd
+ordinary_confirmation_nationality_changeName=cenedligrwydd
+ordinary_confirmation_nationality_british=Prydeinig
+ordinary_confirmation_nationality_irish=Gwyddelig
+ordinary_confirmation_nationality_iAm=Rwy'n
+ordinary_confirmation_nationality_and=a
+ordinary_confirmation_nationality_citizenOf=yn ddinesydd
+ordinary_confirmation_nationality_noNationalityReason=Ni allaf roi fy cenedligrwydd oherwydd:
+
+ordinary_confirmation_nino_title=Rhif Yswiriant Gwladol
+ordinary_confirmation_nino_changeName=rhif yswiriant gwladol
+ordinary_confirmation_nino_noNinoReason=Ni allaf roi fy rhif yswiriant gwladol oherwydd:
+
+ordinary_confirmation_address_title=Cyfeiriad
+ordinary_confirmation_address_changeName=eich cyfeiriad
+
+ordinary_confirmation_secondAddress_title=Ail gyfeiriad
+ordinary_confirmation_secondAddress_changeName=ail gyfeiriad
+ordinary_confirmation_secondAddress_haveAddress=Mae gen i ail gyfeiriad
+ordinary_confirmation_secondAddress_dontHaveAddress=Does dim ail gyfeiriad gennyf
+
+ordinary_confirmation_previousAddress_title_lastAddress=Cyfeiriad diwethaf a DU
+ordinary_confirmation_previousAddress_title_previous=Cyfeiriad blaenorol
+ordinary_confirmation_previousAddress_changeName=eich cyfeiriad blaenorol
+ordinary_confirmation_previousAddress_movedFromAbroadNotRegistered=Symudais o dramor, ond nid oeddwn yn cofrestru i bleidleisio yno
+ordinary_confirmation_previousAddress_movedFromNI=Yr wyf yn ei gofrestru o'r blaen yng Ngogledd Iwerddon
+ordinary_confirmation_previousAddress_notMoved=Nid wyf wedi symud yn y 12 mis diwethaf
+
+ordinary_confirmation_openRegister_title=Y gofrestr agored
+ordinary_confirmation_openRegister_changeName=y gofrestr agored
+ordinary_confirmation_openRegister_optIn=Rwyf am i gynnwys fy enw a'ch cyfeiriad ar y gofrestr agored
+ordinary_confirmation_openRegister_optOut=Nid wyf yn fodlon i'm manylion gael eu cynnwys ar y gofrestr agored
+
+ordinary_confirmation_postalVote_title=Pleidlais drwy'r post
+ordinary_confirmation_postalVote_changeName=pleidlais drwy'r post
+ordinary_confirmation_postalVote_emailDelivery=Rwyf am i chi e-bostio ffurflen gais am bleidlais drwy'r post i:
+ordinary_confirmation_postalVote_mailDelivery=Rwyf am i chi i bostio ffurflen gais am bleidlais bost mi
+ordinary_confirmation_postalVote_dontWant=Dydw i ddim eisiau gwneud cais am bleidlais drwy'r post
+
+ordinary_confirmation_contact_title=Sut dylem gysylltu â chi
+ordinary_confirmation_contact_changeName=sut dylem gysylltu â chi
+ordinary_confirmation_contact_byPost=Drwy'r post
+ordinary_confirmation_contact_byPhone=Dros y ffôn: {0}
+ordinary_confirmation_contact_byEmail=Drwy e-bost: {0}
+
+ordinary_confirmation_help_p1=Rwy'n deall:
+ordinary_confirmation_help_p2=Y caiff yr wybodaeth a ddarperir gennyf drwy'r cais hwn ei defnyddio i newid fy manylion ar y gofrestr etholiadol.
+ordinary_confirmation_help_p3=Os ydw i'n rhoi gwybodaeth ffug yn y cais hwn, ac yn ymwybodol o hynny, gallaf gael dirwy hyd at £5,000 neu ddedfryd carchar am hyd at flwyddyn.
+ordinary_confirmation_help_p4=Gall fy swyddfa cofrestru etholiadol leol ofyn i'r Swyddfa Gartref wirio fy statws mewnfudo.
+
+ordinary_confirmation_error_completeThis=Cwblhewch y cam hwn
+
 
 # JavaScript: general
 
