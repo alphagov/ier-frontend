@@ -22,7 +22,7 @@ trait OpenRegisterMustache extends StepTemplate[InprogressOrdinary] {
       question = Question(
         postUrl = postEndpoint.url,
         errorMessages = Messages.translatedGlobalErrors(form),
-        number = "9",
+        number = s"9 ${Messages("step_of")} 11",
         title = Messages("ordinary_openRegister_title")
       ),
       openRegister = CheckboxField (
