@@ -29,11 +29,13 @@ trait StepMustache extends MustacheModel {
 
   abstract class GovukPage(
       templatePath: String,
-      pageTitle: String
+      pageTitle: String,
+      contentClasses: String = ""
   ) extends Mustachio(templatePath) {
     override def render() = GovukTemplate(
       mainContent = super.render(),
-      pageTitle = pageTitle
+      pageTitle = pageTitle,
+      contentClasses = contentClasses
     )
   }
 
