@@ -101,7 +101,7 @@ trait PreviousAddressConstraints extends CommonConstraints {
           if (isAddressValid) => Valid
         case Some(MovedHouseOption.NotMoved) => Valid
         case Some(MovedHouseOption.MovedFromAbroadNotRegistered) => Valid
-        case _ => Invalid("Please complete this step", keys.previousAddress)
+        case _ => Invalid("ordinary_confirmation_error_completeThis", keys.previousAddress)
       }
   }
 
