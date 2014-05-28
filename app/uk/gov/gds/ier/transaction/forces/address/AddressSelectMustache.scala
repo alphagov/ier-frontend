@@ -14,6 +14,7 @@ trait AddressSelectMustache extends StepTemplate[InprogressForces] {
   private def pageTitle(hasUkAddress: Option[String]): String = {
     hasUkAddress.map(HasAddressOption.parse) match {
       case Some(HasAddressOption.YesAndLivingThere) => "What is your UK address?"
+      case Some(HasAddressOption.YesAndNotLivingThere) => "What is your UK address?"
       case _ => "What was your last UK address?"
     }
   }

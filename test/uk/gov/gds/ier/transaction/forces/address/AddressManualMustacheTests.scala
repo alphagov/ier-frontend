@@ -42,7 +42,94 @@ class AddressManualMustacheTests
 
   }
 
-  it should "progress form with valid values should produce Mustache Model with values present (manualData)" in {
+  it should "have correct title hasAddress = yes and living there" in {
+
+    val partiallyFilledApplicationForm = addressForm.fill(InprogressForces(
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndLivingThere),
+        address = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "WR26NJ",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")
+          ))
+        ))
+      )),
+      possibleAddresses = None
+    ))
+
+    val addressModel = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("POST", "/register-to-vote/forces/address/manual"),
+      InprogressForces()
+    ).asInstanceOf[ManualModel]
+
+    addressModel.question.title should be("What is your UK address?")
+  }
+
+  it should "have correct title hasAddress = yes and not living there" in {
+
+    val partiallyFilledApplicationForm = addressForm.fill(InprogressForces(
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndNotLivingThere),
+        address = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "WR26NJ",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")
+          ))
+        ))
+      )),
+      possibleAddresses = None
+    ))
+
+    val addressModel = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("POST", "/register-to-vote/forces/address/manual"),
+      InprogressForces()
+    ).asInstanceOf[ManualModel]
+
+    addressModel.question.title should be("What is your UK address?")
+  }
+
+  it should "have correct title hasAddress = no" in {
+
+    val partiallyFilledApplicationForm = addressForm.fill(InprogressForces(
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.No),
+        address = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "WR26NJ",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")
+          ))
+        ))
+      )),
+      possibleAddresses = None
+    ))
+
+    val addressModel = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("POST", "/register-to-vote/forces/address/manual"),
+      InprogressForces()
+    ).asInstanceOf[ManualModel]
+
+    addressModel.question.title should be("What was your last UK address?")
+  }
+
+  it should "populate a manual address from the form" in {
 
     val partiallyFilledApplicationForm = addressForm.fill(InprogressForces(
       address = Some(LastAddress(

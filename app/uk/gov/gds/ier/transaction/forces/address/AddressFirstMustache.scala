@@ -12,7 +12,8 @@ trait AddressFirstMustache extends StepTemplate[InprogressForces] {
 
   case class AddressFirstModel(
     question: Question,
-    hasAddressYes: Field,
+    hasAddressYesLivingThere: Field,
+    hasAddressYesNotLivingThere: Field,
     hasAddressNo: Field
   ) extends MustacheData
 
@@ -25,9 +26,13 @@ trait AddressFirstMustache extends StepTemplate[InprogressForces] {
         number = questionNumber,
         title = pageTitle,
         errorMessages = form.globalErrors.map { _.message }),
-      hasAddressYes = RadioField(
+      hasAddressYesLivingThere = RadioField(
         key = keys.address.hasAddress,
         value = HasAddressOption.YesAndLivingThere.name
+      ),
+      hasAddressYesNotLivingThere = RadioField(
+        key = keys.address.hasAddress,
+        value = HasAddressOption.YesAndNotLivingThere.name
       ),
       hasAddressNo = RadioField(
         key = keys.address.hasAddress,

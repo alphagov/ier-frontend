@@ -31,14 +31,28 @@ class AddressFirstStepTests
   }
 
   behavior of "AddressFirstStep.post"
-  it should "bind successfully and redirect to the next step" in {
+  it should "bind successfully and redirect to the next step (yes living there)" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/forces/address/first")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "address.hasAddress" -> "yes-living-there"
-          )
+          "address.hasAddress" -> "yes-living-there"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/forces/address"))
+    }
+  }
+  it should "bind successfully and redirect to the next step (yes not living there)" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/forces/address/first")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+          "address.hasAddress" -> "yes-not-living-there"
+        )
       )
 
       status(result) should be(SEE_OTHER)

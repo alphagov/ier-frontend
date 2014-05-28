@@ -47,7 +47,7 @@ class AddressFirstFormTests
     )
   }
 
-  it should "successfully bind when user has previous address" in {
+  it should "successfully bind when user has uk address" in {
     val js = Json.toJson(
       Map(
         "address.hasAddress" -> "yes-living-there"
@@ -61,6 +61,25 @@ class AddressFirstFormTests
         val Some(address) = success.address
         address should have(
           'hasAddress (Some(HasAddressOption.YesAndLivingThere))
+        )
+      }
+    )
+  }
+
+  it should "successfully bind when user doesn't live at their uk address" in {
+    val js = Json.toJson(
+      Map(
+        "address.hasAddress" -> "yes-not-living-there"
+      )
+    )
+    addressFirstForm.bind(js).fold(
+      hasErrors => {
+        fail("Binding failed with " + hasErrors.errorsAsTextAll)
+      },
+      success => {
+        val Some(address) = success.address
+        address should have(
+          'hasAddress (Some(HasAddressOption.YesAndNotLivingThere))
         )
       }
     )
