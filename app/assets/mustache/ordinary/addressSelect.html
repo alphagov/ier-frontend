@@ -2,16 +2,16 @@
     {{> shared/questionHeader }}
     {{> shared/validationMessages }}
     <p>
-        <span class="postcode-prefix">Postcode</span>
+        <span class="postcode-prefix">{{messages.ordinary_address_select_postcode_label}}</span>
         <span class="visuallyhidden">:</span>
         <span class="postcode">{{postcode.value}}</span>
         <a href="{{lookupUrl}}" class="change-postcode-button">
-            Change<span class="visuallyhidden"> your postcode</span>
+            {{{messages.ordinary_address_select_changeYourPostcode_a}}}
         </a>
     </p>
   {{^hasAddresses}}
     <div class="validation-message visible">
-        Sorry - we couldn't find any addresses for that postcode
+        {{messages.ordinary_address_select_couldNotFindAnyAddresses_p}}
     </div>
   {{/hasAddresses}}
   {{#hasAddresses}}
@@ -24,7 +24,7 @@
           class="text hidden">
 
         <label for="{{address.id}}">
-            <span class="visuallyhidden">Select your </span>Address
+            {{{messages.ordinary_address_select_selectYourAddress_p}}}
         </label>
         <div class="validation-wrapper {{address.classes}}">
             <select
@@ -38,7 +38,7 @@
         </div>
     </fieldset>
     <a href="{{manualUrl}}" class="toggle">
-        I can't find my address in the list<span class="visuallyhidden"> section</span>
+        {{{messages.ordinary_address_select_cannotFindMyAddressInTheList_a}}}
     </a>
 
     <button
@@ -46,7 +46,7 @@
       id="continue"
       class="button next"
       style="display: block;">
-        Continue
+        {{messages.step_continue}}
     </button>
   {{/hasAddresses}}
     <input

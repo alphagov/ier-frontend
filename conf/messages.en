@@ -123,16 +123,79 @@ ordinary_nino_error_noneEntered=Please enter your National Insurance number
 ordinary_nino_error_incorrectFormat=Your National Insurance number is not correct
 ordinary_nino_error_maxLength=Reason for not providing National Insurance number must be described in up to 500 characters
 
-# ordinary: address
+#
+# ordinary: address (common)
+#
+ordinary_address_nAddressFound={0} addresses found
 
+ordinary_address_error_pleaseAnswer=Please answer this question
+ordinary_address_error_pleaseEnterYourPostcode=Please enter your postcode
+ordinary_address_error_pleaseSelectYourAddress=Please select your address
+ordinary_address_error_postcodeIsNotValid=Your postcode is not valid
 
+ordinary_address_error_lineOneIsRequired=At least one address line is required
+ordinary_address_error_cityIsRequired=Postal town or city is required
+
+#
+# ordinary: address postcode
+#
+ordinary_address_postcode_title=What is your address?
+
+ordinary_address_postcode_enterPostcodeWhenRegistering_p=Enter the postcode where you're registering to vote.
+ordinary_address_postcode_postcode_label=Postcode
+
+ordinary_address_postcode_dontKnowMyPostcode_h2=I don't know my postcode
+ordinary_address_postcode_dontKnowMyPostcode_dtt=I don't know my postcode
+ordinary_address_postcode_tryWebSearchEngine_p=If you can't find your postcode on a letter or other\
+ document, try entering your address into a search engine website.
+
+ordinary_address_postcode_dontKnowWhatAddressToUse_h3=I don't know what address to use
+
+ordinary_address_postcode_ifYouHaveMoreThanOneAddress_h4=If you have more than one address
+ordinary_address_postcode_itIsPossible_p=It's sometimes possible to register at two addresses\
+ (though you can only vote once in any election).
+ordinary_address_postcode_forExample_p=For example, if you're a student living away from home, you may\
+ be able to register at both your home and term time addresses.
+ordinary_address_postcode_makeTwoSeparateApplications_p=If you want to register at two addresses, make two\
+ separate applications through this service. Your local Electoral Registration Office will look\
+ at each application and tell you whether you're allowed to register.
+
+ordinary_address_postcode_ifYouDontHavePermanentAddress_h4=If you don't have a permanent address
+ordinary_address_postcode_ifYouAreHomeless_p=If you're homeless and living in temporary accommodation\
+ (for example, a long term hostel), use that address.
+ordinary_address_postcode_ifYouAreLongTermPatient_p=If you're a long term patient in a psychiatric hospital, use the address of the hospital.
+ordinary_address_postcode_ifYouArePrisoner_p=If you're a prisoner on long term remand, use the address of the prison.
+
+ordinary_address_postcode_ifYouCantProvideAddress_h4=If you can't provide an address
+ordinary_address_postcode_ifYouCannotProvideAddress_p=If you can't provide an address, contact [your local\
+ Electoral Registration Office](https://www.gov.uk/get-on-electoral-register) for advice.
+
+ordinary_address_postcode_findAddress_button=Find address
+
+#
 # ordinary: address select
+#
+ordinary_address_select_title=What is your address?
 
+ordinary_address_select_postcode_label=Postcode
+ordinary_address_select_changeYourPostcode_a=Change<span class="visuallyhidden"> your postcode</span>
+ordinary_address_select_couldNotFindAnyAddresses_p=Sorry - we couldn't find any addresses for that postcode
+ordinary_address_select_selectYourAddress_p=<span class="visuallyhidden">Select your </span>Address
+ordinary_address_select_cannotFindMyAddressInTheList_a=I can't find my address in the list<span class="visuallyhidden"> section</span>
 
-#ordinary: manual address
+#
+# ordinary: address manual
+#
+ordinary_address_manual_title=What is your address?
 
+ordinary_address_manual_postcode_label=Postcode
+ordinary_address_manual_changeYourPostcode_a=Change<span class="visuallyhidden"> your postcode</span>
+ordinary_address_manual_address_label=Address
+ordinary_address_manual_townOrCity_label=Town or City
 
+#
 # ordinary: other address
+#
 
 ordinary_otheraddr_title=Do you also live at a second address?
 

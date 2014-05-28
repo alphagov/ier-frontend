@@ -8,9 +8,6 @@ import uk.gov.gds.ier.guice.WithRemoteAssets
 
 trait AddressManualMustache extends StepTemplate[InprogressOrdinary] {
 
-    val title = "What is your address?"
-    val questionNumber = "6 of 11"
-
     case class ManualModel (
         question: Question,
         lookupUrl: String,
@@ -21,17 +18,16 @@ trait AddressManualMustache extends StepTemplate[InprogressOrdinary] {
         maCity: Field
     ) extends MustacheData
 
-    val mustache = MustacheTemplate("ordinary/addressManual") {
-      (form, post) =>
+    val mustache = MultilingualTemplate("ordinary/addressManual") { implicit lang => (form, post) =>
 
       implicit val progressForm = form
 
       ManualModel(
         question = Question(
           postUrl = post.url,
-          number = questionNumber,
-          title = title,
-          errorMessages = progressForm.globalErrors.map(_.message)
+          number = Messages("step_a_of_b", 6, 11),
+          title = Messages("ordinary_address_manual_title"),
+          errorMessages = Messages.translatedGlobalErrors(form)
         ),
         lookupUrl = AddressController.get.url,
         postcode = TextField(keys.address.postcode),

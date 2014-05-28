@@ -27,7 +27,7 @@ object Messages {
   }
 
   def apply(key: String, args: Any*)(implicit lang: Lang): String = {
-    play.api.i18n.Messages(key, args:_*)
+    play.api.i18n.Messages(key, args: _*)
   }
 
   lazy val jsMessages = JsMessages.filtering(!_.startsWith(playErrorPrefix))
