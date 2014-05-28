@@ -11,7 +11,7 @@ trait PreviousAddressPostcodeMustache extends StepTemplate[InprogressOrdinary] {
       postcode: Field
   ) extends MustacheData
 
-  val mustache = MustacheTemplate("ordinary/previousAddressPostcode") {
+  val mustache = MultilingualTemplate("ordinary/previousAddressPostcode") { implicit lang =>
     (form, post) =>
     implicit val progressForm = form
 
@@ -20,16 +20,16 @@ trait PreviousAddressPostcodeMustache extends StepTemplate[InprogressOrdinary] {
     }
 
     val title = movedRecently match {
-      case Some(MovedHouseOption.MovedFromAbroadRegistered) => "What was your last UK address before moving abroad?"
-      case _ => "What was your previous address?"
+      case Some(MovedHouseOption.MovedFromAbroadRegistered) => Messages("ordinary_previousAddress_yesFromAbroadWasRegistered_title")
+      case _ => Messages("ordinary_previousAddress_yesFromUk_title")
     }
 
     PostcodeModel(
       question = Question(
         postUrl = post.url,
-        number = "8 of 11",
+        number = s"8 ${Messages("step_of")} 11",
         title = title,
-        errorMessages = form.globalErrors.map(_.message)
+        errorMessages = Messages.translatedGlobalErrors(form)
       ),
       postcode = TextField(keys.previousAddress.previousAddress.postcode)
     )

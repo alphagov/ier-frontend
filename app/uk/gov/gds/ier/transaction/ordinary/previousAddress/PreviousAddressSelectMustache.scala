@@ -25,16 +25,17 @@ trait PreviousAddressSelectMustache extends StepTemplate[InprogressOrdinary] {
       hasAddresses: Boolean
   ) extends MustacheData
 
-  val mustache = MustacheTemplate("ordinary/previousAddressSelect") {
+  val mustache = MultilingualTemplate("ordinary/previousAddressSelect") { implicit lang =>
     (form, post) =>
     implicit val progressForm = form
 
     val movedRecently = form(keys.previousAddress.movedRecently).value.map {
       str => MovedHouseOption.parse(str)
     }
+
     val title = movedRecently match {
-      case Some(MovedHouseOption.MovedFromAbroadRegistered) => "What was your last UK address before moving abroad?"
-      case _ => "What was your previous address?"
+      case Some(MovedHouseOption.MovedFromAbroadRegistered) => Messages("ordinary_previousAddress_yesFromAbroadWasRegistered_title")
+      case _ => Messages("ordinary_previousAddress_yesFromUk_title")
     }
 
     val selectedUprn = form(keys.previousAddress.previousAddress.uprn).value
@@ -75,7 +76,7 @@ trait PreviousAddressSelectMustache extends StepTemplate[InprogressOrdinary] {
       optionList = options,
       default = SelectOption(
         value = "",
-        text = s"${options.size} addresses found"
+        text = s"${options.size} ${Messages("ordinary_previousAddress_select_addressesFound")}"
       )
     )
     val addressSelectWithError = addressSelect.copy(
@@ -89,9 +90,9 @@ trait PreviousAddressSelectMustache extends StepTemplate[InprogressOrdinary] {
     SelectModel(
       question = Question(
         postUrl = post.url,
-        number = "8 of 11",
+        number = s"8 ${Messages("step_of")} 11",
         title = title,
-        errorMessages = progressForm.globalErrors.map(_.message)
+        errorMessages = Messages.translatedGlobalErrors(form)
       ),
       lookupUrl = PreviousAddressPostcodeController.get.url,
       manualUrl = PreviousAddressManualController.get.url,

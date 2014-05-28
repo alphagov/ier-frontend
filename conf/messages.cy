@@ -227,15 +227,45 @@ arall, gallwch wneud hynny drwy gyflwyno ail gais.
 ordinary_otheraddr_error_pleaseAnswer=Atebwch y cwestiwn hwn
 
 # ordinary: previous address
+ordinary_previousAddress_title=Ydych chi wedi symud o gyfeiriad arall yn y DU yn y 12 mis diwethaf?
+ordinary_previousAddress_yesFromUk_title=Beth oedd eich cyfeiriad blaenorol?
+ordinary_previousAddress_yesFromAbroadWasRegistered_title=Beth oedd eich cyfeiriad olaf yn y DU cyn i chi symud dramor?
 
+ordinary_previousAddress_no_option=Nac ydw
+ordinary_previousAddress_yesFromUk_option=Ie, o gyfeiriad yn y DU
+ordinary_previousAddress_yesFromAbroad_option=Ie, o dramor
+ordinary_previousAddress_yesFromAbroad_wasRegisteredQuestion=A oeddech chi wedi'ch cofrestru fel pleidleisiwr yn etholiadau'r DU pan oeddech dramor?
+ordinary_previousAddress_yesFromAbroad_wasRegistered_yes_option=Ydw
+ordinary_previousAddress_yesFromAbroad_wasRegistered_no_option=Nac ydw
+
+ordinary_previousAddress_error_answerThis=Atebwch y cwestiwn hwn
+ordinary_previousAddress_error_invalidOption=Nid yw hynny'n opsiwn dilys
 
 # ordinary: previous address postcode
-
+ordinary_previousAddress_postcode_postcode_label=Côd Post
+ordinary_previousAddress_postcode_findAddress=Chwilio am gyfeiriad
+ordinary_previousAddress_postcode_error_enterPostcode=Nodwch eich côd post blaenorol
+ordinary_previousAddress_postcode_error_invalidPostcode=Nid yw hwnnw'n gôd post dilys: gwiriwch yr hyn rydych wedi'i nodi
 
 # ordinary: previous address select
+ordinary_previousAddress_select_postcode_label=Côd post
+ordinary_previousAddress_select_postcodeChange=Newid<span class="visuallyhidden"> eich cod post</span>
+ordinary_previousAddress_select_selectAddress=<span class="visuallyhidden">Dewiswch eich </span>Cyfeiriad
+ordinary_previousAddress_select_addressesFound=cyfeiriadau a geir
+ordinary_previousAddress_select_cannotFindAddress=Nid wyf yn gallu gweld fy nghyfeiriad yn y rhestr
 
+ordinary_previousAddress_select_error_answerThis=Atebwch y cwestiwn hwn
+ordinary_previousAddress_select_error_noAddressesFound=Mae'n ddrwg gennym - ni allem ddod o hyd i unrhyw gyfeiriadau ar gyfer y cod post
 
 # ordinary: previous address manual
+ordinary_previousAddress_manual_postcode_label=Côd post
+ordinary_previousAddress_manual_postcodeChange=Newid<span class="visuallyhidden"> eich cod post</span>
+ordinary_previousAddress_manual_address_label=Cyfeiriad
+ordinary_previousAddress_manual_city_label=Tref neu Ddinas
+
+ordinary_previousAddress_manual_error_answerThis=Atebwch y cwestiwn hwn
+ordinary_previousAddress_manual_error_oneAddressLineRequired=Mae angen o leiaf un llinell gyfeiriad
+ordinary_previousAddress_manual_error_cityRequired=Mae angen enw tref neu ddinas
 
 
 # ordinary: open register
