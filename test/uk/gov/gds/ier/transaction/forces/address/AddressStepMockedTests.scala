@@ -42,8 +42,11 @@ class AddressStepMockedTests extends FlatSpec with TestHelpers with Matchers wit
 
     when (mockedAddressService.isScotland(postcode)).thenReturn(true)
     val currentState = completeForcesApplication.copy(
-    		address = Some(LastUkAddress(Some(true),
-    		    Some(PartialAddress(None, None, postcode, None, None)))))
+      address = Some(LastUkAddress(
+        hasUkAddress = Some(HasAddressOption.YesAndLivingThere),
+        address = Some(PartialAddress(None, None, postcode, None, None))
+      ))
+    )
 
     val transferedState = addressStep.nextStep(currentState)
     transferedState should be (GoTo(ExitController.scotland))

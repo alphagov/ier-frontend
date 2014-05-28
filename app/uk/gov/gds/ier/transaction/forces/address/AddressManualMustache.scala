@@ -3,14 +3,15 @@ package uk.gov.gds.ier.transaction.forces.address
 import uk.gov.gds.ier.step.StepTemplate
 import controllers.step.forces.routes.AddressController
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.model.HasAddressOption
 
 trait AddressManualMustache extends StepTemplate[InprogressForces] {
 
   val questionNumber = "2"
 
   private def pageTitle(hasUkAddress: Option[String]): String = {
-    hasUkAddress match {
-      case Some(hasUkAddress) if (!hasUkAddress.isEmpty && hasUkAddress.toBoolean) => "What is your UK address?"
+    hasUkAddress map HasAddressOption.parse match {
+      case Some(HasAddressOption.YesAndLivingThere) => "What is your UK address?"
       case _ => "What was your last UK address?"
     }
   }

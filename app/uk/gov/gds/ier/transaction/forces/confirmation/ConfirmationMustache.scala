@@ -1,8 +1,7 @@
 package uk.gov.gds.ier.transaction.forces.confirmation
 
 import uk.gov.gds.ier.mustache.{MustacheData, StepMustache}
-import uk.gov.gds.ier.model.WaysToVoteType
-import uk.gov.gds.ier.model.MovedHouseOption
+import uk.gov.gds.ier.model.{HasAddressOption, WaysToVoteType, MovedHouseOption}
 import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.{ErrorTransformForm, Key}
@@ -277,20 +276,18 @@ trait ConfirmationMustache
     }
 
     def previousAddress = {
-      val hasCurrentUkAddress =
-        form(keys.address.hasUkAddress).value match {
-          case Some(hasUkAddress) if (hasUkAddress.toBoolean) => true
-          case _ => false
-        }
+      val hasCurrentUkAddress = form(keys.address.hasUkAddress).value exists {
+        HasAddressOption.parse(_).hasAddress
+      }
       if (hasCurrentUkAddress) {
         Some(ConfirmationQuestion(
           title = "Previous address",
           editLink = routes.PreviousAddressFirstController.editGet.url,
           changeName = "your previous address",
           content = ifComplete(keys.previousAddress, keys.previousAddress.movedRecently) {
-            val moved = form(keys.previousAddress.movedRecently).value
-              .map(MovedHouseOption.parse(_).hasPreviousAddress)
-              .getOrElse(false)
+            val moved = form(keys.previousAddress.movedRecently).value exists {
+              MovedHouseOption.parse(_).hasPreviousAddress
+            }
 
             if (moved) {
               val postcode = form(keys.previousAddress.previousAddress.postcode).value.getOrElse("")

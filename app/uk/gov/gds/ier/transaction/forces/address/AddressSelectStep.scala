@@ -39,9 +39,12 @@ class AddressSelectStep @Inject() (
   def nextStep(currentState: InprogressForces) = {
     val hasUkAddress = Some(true)
 
-    currentState.address match {
-      case Some(LastUkAddress(`hasUkAddress`,_))
-          => PreviousAddressFirstController.previousAddressFirstStep
+    currentState.address flatMap {
+      address => address.hasUkAddress
+    } map {
+      hasUkAddress => hasUkAddress.hasAddress
+    } match {
+      case `hasUkAddress` => PreviousAddressFirstController.previousAddressFirstStep
       case _ => NationalityController.nationalityStep
     }
   }

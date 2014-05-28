@@ -10,7 +10,7 @@ import uk.gov.gds.ier.step.{ForcesStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.forces.{PreviousAddressFirstController, NationalityController}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
-import uk.gov.gds.ier.model.LastUkAddress
+import uk.gov.gds.ier.model.{HasAddressOption, LastUkAddress}
 import uk.gov.gds.ier.assets.RemoteAssets
 
 
@@ -33,12 +33,15 @@ class AddressManualStep @Inject() (
   )
 
   def nextStep(currentState: InprogressForces) = {
-    currentState.address match {
-      case Some(LastUkAddress(Some(hasUkAddress),_))
-        if (hasUkAddress) => PreviousAddressFirstController.previousAddressFirstStep
-      case _ => {
-        NationalityController.nationalityStep
-      }
+    val hasUkAddress = Some(true)
+
+    currentState.address flatMap {
+      address => address.hasUkAddress
+    } map {
+      hasUkAddress => hasUkAddress.hasAddress
+    } match {
+      case `hasUkAddress` => PreviousAddressFirstController.previousAddressFirstStep
+      case _ => NationalityController.nationalityStep
     }
   }
 

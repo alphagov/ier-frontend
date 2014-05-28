@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.forces.address
 
 import uk.gov.gds.ier.step.StepTemplate
 import controllers.step.forces.routes.{AddressController, AddressManualController}
-import uk.gov.gds.ier.model.{PossibleAddress, Addresses}
+import uk.gov.gds.ier.model.{HasAddressOption, PossibleAddress, Addresses}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.service.WithAddressService
@@ -12,8 +12,8 @@ trait AddressSelectMustache extends StepTemplate[InprogressForces] {
     with WithSerialiser =>
 
   private def pageTitle(hasUkAddress: Option[String]): String = {
-    hasUkAddress match {
-      case Some(hasUkAddress) if (!hasUkAddress.isEmpty && hasUkAddress.toBoolean) => "What is your UK address?"
+    hasUkAddress.map(HasAddressOption.parse) match {
+      case Some(HasAddressOption.YesAndLivingThere) => "What is your UK address?"
       case _ => "What was your last UK address?"
     }
   }

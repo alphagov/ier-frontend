@@ -45,7 +45,7 @@ class AddressFirstMustacheTest
   it should "progress form with valid values should produce Mustache Model with values present" in {
     val partiallyFilledApplicationForm = addressFirstForm.fill(InprogressForces(
       address = Some(LastUkAddress(
-        hasUkAddress = Some(true),
+        hasUkAddress = Some(HasAddressOption.YesAndLivingThere),
         address = None
       ))
     ))

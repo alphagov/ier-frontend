@@ -3,6 +3,7 @@ package uk.gov.gds.ier.transaction.forces.address
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.model.HasAddressOption
 
 trait AddressFirstMustache extends StepTemplate[InprogressForces] {
 
@@ -26,10 +27,12 @@ trait AddressFirstMustache extends StepTemplate[InprogressForces] {
         errorMessages = form.globalErrors.map { _.message }),
       hasAddressYes = RadioField(
         key = keys.address.hasUkAddress,
-        value = "true"),
+        value = HasAddressOption.YesAndLivingThere.name
+      ),
       hasAddressNo = RadioField(
         key = keys.address.hasUkAddress,
-        value = "false")
+        value = HasAddressOption.No.name
+      )
     )
   }
 }

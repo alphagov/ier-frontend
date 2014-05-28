@@ -5,6 +5,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.model.HasAddressOption
 
 class AddressFirstStepTests
   extends FlatSpec
@@ -36,7 +37,7 @@ class AddressFirstStepTests
         FakeRequest(POST, "/register-to-vote/forces/address/first")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "address.hasUkAddress" -> "true"
+            "address.hasUkAddress" -> "yes-living-there"
           )
       )
 
@@ -52,7 +53,7 @@ class AddressFirstStepTests
           .withIerSession()
           .withApplication(completeForcesApplication)
           .withFormUrlEncodedBody(
-            "address.hasUkAddress" -> "true"
+            "address.hasUkAddress" -> "yes-living-there"
           )
       )
 
@@ -102,7 +103,7 @@ behavior of "AddressFirstStep.editGet"
         FakeRequest(POST, "/register-to-vote/forces/edit/address/first")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "address.hasUkAddress" -> "true"
+            "address.hasUkAddress" -> "yes-living-there"
           )
       )
 
