@@ -120,7 +120,7 @@ ordinary_nino_example=Enghraifft: QQ 12 34 56 C
 ordinary_nino_help=Nid wyf yn gwybod fy rhif Yswiriant Gwladol
 ordinary_nino_section_1=Gallwch
 ordinary_nino_list_1=chwilio am eich rhif Yswiriant Gwladol ar slipiau cyflog neu lythyrau swyddogol am drethi, pensiynau neu fudd-daliadau
-ordinary_nino_list_2=neu ofyn am gael eich atgoffa drwy'r post
+ordinary_nino_list_2=ofyn am gael eich atgoffa drwy'r post
 ordinary_nino_section_2=Os nad ydych yn gallu darparu rhif Yswiriant Gwladol, bydd angen i chi esbonio pam. Ac ar ôl i chi gyflwyno'ch cais, gofynnir i chi brofi pwy ydych chi drwy anfon dogfennau drwy'r post.
 ordinary_nino_excuse=Nid wyf yn gallu darparu rhif Yswiriant Gwladol
 ordinary_nino_excuse_content=Pam nad oes modd i chi ddarparu rhif Yswiriant Gwladol?
@@ -135,7 +135,7 @@ ordinary_nino_error_maxLength=Rhaid Rheswm dros beidio â darparu rhif Yswiriant
 ordinary_address_nAddressFound=Daethpwyd o hyd i {0} o gyfeiriadau
 
 ordinary_address_error_pleaseAnswer=Atebwch y cwestiwn hwn
-ordinary_address_error_pleaseEnterYourPostcode=Nodwch eich côd post
+ordinary_address_error_pleaseEnterYourPostcode=Nodwch eich cod post
 ordinary_address_error_pleaseSelectYourAddress=Dewiswch eich cyfeiriad
 ordinary_address_error_postcodeIsNotValid=Nid yw hwnnw'n gôd post dilys
 
@@ -147,12 +147,12 @@ ordinary_address_error_cityIsRequired=Mae angen enw tref neu ddinas
 #
 ordinary_address_postcode_title=Beth yw eich cyfeiriad?
 
-ordinary_address_postcode_enterPostcodeWhenRegistering_p=Nodwch gôd post y cyfeiriad ble rydych chi'n cofrestru i bleidleisio.
-ordinary_address_postcode_postcode_label=Côd Post
+ordinary_address_postcode_enterPostcodeWhenRegistering_p=Nodwch god post y cyfeiriad ble rydych chi'n cofrestru i bleidleisio.
+ordinary_address_postcode_postcode_label=Cod Post
 
-ordinary_address_postcode_dontKnowMyPostcode_h2=Nid wyf yn gwybod fy nghôd post
-ordinary_address_postcode_dontKnowMyPostcode_dtt=Nid wyf yn gwybod fy nghôd post
-ordinary_address_postcode_tryWebSearchEngine_p=Os nad ydych yn gallu gweld eich côd post ar lythyr neu\
+ordinary_address_postcode_dontKnowMyPostcode_h2=Nid wyf yn gwybod fy nghod post
+ordinary_address_postcode_dontKnowMyPostcode_dtt=Nid wyf yn gwybod fy nghod post
+ordinary_address_postcode_tryWebSearchEngine_p=Os nad ydych yn gallu gweld eich cod post ar lythyr neu\
  ddogfen arall, rhowch eich cyfeiriad mewn peiriant chwilio ar-lein.
 
 ordinary_address_postcode_dontKnowWhatAddressToUse_h3=Nid wyf yn gwybod pa gyfeiriad i'w ddefnyddio
@@ -183,7 +183,7 @@ ordinary_address_postcode_findAddress_button=Chwilio am gyfeiriad
 #
 ordinary_address_select_title=Beth yw eich cyfeiriad?
 
-ordinary_address_select_postcode_label=Côd Post
+ordinary_address_select_postcode_label=Cod Post
 ordinary_address_select_changeYourPostcode_a=Newid<span class="visuallyhidden"> eich cod post</span>
 ordinary_address_select_couldNotFindAnyAddresses_p=Mae'n ddrwg gennym - ni allem ddod o hyd i unrhyw gyfeiriadau ar gyfer y cod post
 ordinary_address_select_selectYourAddress_p=<span class="visuallyhidden">Dewiswch eich </span>cyfeiriad
@@ -194,7 +194,7 @@ ordinary_address_select_cannotFindMyAddressInTheList_a=Nid wyf yn gallu gweld fy
 #
 ordinary_address_manual_title=Beth yw eich cyfeiriad?
 
-ordinary_address_manual_postcode_label=Côd post
+ordinary_address_manual_postcode_label=Cod post
 ordinary_address_manual_changeYourPostcode_a=Newid<span class="visuallyhidden"> eich cod post</span>
 ordinary_address_manual_address_label=Cyfeiriad
 ordinary_address_manual_townOrCity_label=Tref neu Ddinas
@@ -242,13 +242,13 @@ ordinary_previousAddress_error_answerThis=Atebwch y cwestiwn hwn
 ordinary_previousAddress_error_invalidOption=Nid yw hynny'n opsiwn dilys
 
 # ordinary: previous address postcode
-ordinary_previousAddress_postcode_postcode_label=Côd Post
+ordinary_previousAddress_postcode_postcode_label=Cod Post
 ordinary_previousAddress_postcode_findAddress=Chwilio am gyfeiriad
-ordinary_previousAddress_postcode_error_enterPostcode=Nodwch eich côd post blaenorol
+ordinary_previousAddress_postcode_error_enterPostcode=Nodwch eich cod post blaenorol
 ordinary_previousAddress_postcode_error_invalidPostcode=Nid yw hwnnw'n gôd post dilys: gwiriwch yr hyn rydych wedi'i nodi
 
 # ordinary: previous address select
-ordinary_previousAddress_select_postcode_label=Côd post
+ordinary_previousAddress_select_postcode_label=Cod post
 ordinary_previousAddress_select_postcodeChange=Newid<span class="visuallyhidden"> eich cod post</span>
 ordinary_previousAddress_select_selectAddress=<span class="visuallyhidden">Dewiswch eich </span>Cyfeiriad
 ordinary_previousAddress_select_addressesFound=cyfeiriadau a geir
@@ -258,7 +258,7 @@ ordinary_previousAddress_select_error_answerThis=Atebwch y cwestiwn hwn
 ordinary_previousAddress_select_error_noAddressesFound=Mae'n ddrwg gennym - ni allem ddod o hyd i unrhyw gyfeiriadau ar gyfer y cod post
 
 # ordinary: previous address manual
-ordinary_previousAddress_manual_postcode_label=Côd post
+ordinary_previousAddress_manual_postcode_label=Cod post
 ordinary_previousAddress_manual_postcodeChange=Newid<span class="visuallyhidden"> eich cod post</span>
 ordinary_previousAddress_manual_address_label=Cyfeiriad
 ordinary_previousAddress_manual_city_label=Tref neu Ddinas
@@ -270,7 +270,7 @@ ordinary_previousAddress_manual_error_cityRequired=Mae angen enw tref neu ddinas
 
 # ordinary: open register
 
-ordinary_openRegister_title=Ydych chi'n fodlon i'ch enw a'ch cyfeiriad gael eu cynnwys ar y gofrestr agored?
+ordinary_openRegister_title=Ydych chi am i'ch enw a'ch cyfeiriad gael eu cynnwys ar y gofrestr agored?
 
 ordinary_openRegister_content_1=Mae'r gofrestr agored yn ddetholiad o'r gofrestr etholiadol, ond nid yw'n \
 cael ei defnyddio ar gyfer etholiadau. Gall unrhyw unigolyn, cwmni neu sefydliad ei phrynu. Er enghraifft, \
@@ -279,7 +279,7 @@ mae'n cael ei defnyddio gan fusnesau ac elusennau i gadarnhau manylion enwau a c
 ordinary_openRegister_content_2=Ni fydd eich penderfyniad yn effeithio ar eich hawl i bleidleisio neu'ch sgôr \
 gredyd.
 
-ordinary_openRegister_choice=Nac ydw, nid wyf yn fodlon i'm manylion gael eu cynnwys ar y gofrestr agored.
+ordinary_openRegister_choice=Nac ydw, nid wyf am i'm manylion gael eu cynnwys ar y gofrestr agored.
 
 ordinary_openRegister_help_link=Pam mae dwy gofrestr?
 
@@ -334,7 +334,7 @@ ordinary_postalVote_help_link=Beth yw pleidlais drwy'r post?
 ordinary_postalVote_help_content_1=Byddwn yn anfon eich papur pleidleisio i'r cyfeiriad rydych wedi'i ddewis. Yna, bydd angen i \
 chi ei lenwi a'i ddychwelyd drwy'r post.
 ordinary_postalVote_help_content_2=Gall unrhyw un wneud cais am bleidlais drwy'r post. Does dim angen rhoi rheswm.
-ordinary_postalVote_help_content_3=Os nad ydych yn siŵr a oes eisiau pleidlais drwy'r post arnoch, gallwch gwblhau cofrestru nawr \
+ordinary_postalVote_help_content_3=Os nad ydych yn siŵr os ydych eisiau pleidlais drwy'r post, gallwch gwblhau cofrestru nawr \
 a chyflwyno cais am bleidlais drwy'r post nes ymlaen.
 
 ordinary_postalVote_error_answerThis=Atebwch y cwestiwn hwn
@@ -372,7 +372,7 @@ ordinary_autocomplete_status_prefix_multiple=Welsh results are
 
 # JavaScript: date of birth
 
-ordinary_address_postcode=Côd Post
+ordinary_address_postcode=Cod Post
 ordinary_address_loading=Welsh Finding address
 ordinary_address_selectAddress=Dewiswch eich cyfeiriad
 ordinary_address_excuse=Nid wyf yn gallu gweld fy nghyfeiriad yn y rhestr
