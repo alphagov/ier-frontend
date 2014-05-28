@@ -174,7 +174,7 @@ trait ConfirmationMustache
           if(form(keys.nino.nino).value.isDefined){
             List(form(keys.nino.nino).value.getOrElse("").toUpperCase)
           } else {
-            List(Messages("ordinary_confirmation_nationality_noNinoReason"),
+            List(Messages("ordinary_confirmation_nino_noNinoReason"),
               form(keys.nino.noNinoReason).value.getOrElse(""))
           }
         }
@@ -183,13 +183,13 @@ trait ConfirmationMustache
 
     def address = {
       Some(ConfirmationQuestion(
-        title = "Address",
+        title = Messages("ordinary_confirmation_address_title"),
         editLink = if (isManualAddressDefined(form, keys.address.manualAddress)) {
           routes.AddressManualController.editGet.url
         } else {
           routes.AddressSelectController.editGet.url
         },
-        changeName = "your address",
+        changeName = Messages("ordinary_confirmation_address_changeName"),
         content = ifComplete(keys.address) {
           val addressLine = form(keys.address.addressLine).value.orElse{
             manualAddressToOneLine(form, keys.address.manualAddress)
@@ -202,16 +202,15 @@ trait ConfirmationMustache
 
     def secondAddress = {
       Some(ConfirmationQuestion(
-        title = "Second address",
+        title = Messages("ordinary_confirmation_secondAddress_title"),
         editLink = routes.OtherAddressController.editGet.url,
-        changeName = "second address",
+        changeName = Messages("ordinary_confirmation_secondAddress_changeName"),
         content =
           ifComplete(keys.otherAddress) {
             form(keys.otherAddress.hasOtherAddress).value match {
               case Some(secAddrType)
-                if OtherAddress.parse(secAddrType) != OtherAddress.NoOtherAddress =>
-                  List("I have a second address")
-              case _ => List("I don't have a second address")
+                if OtherAddress.parse(secAddrType) != OtherAddress.NoOtherAddress => List(Messages("ordinary_confirmation_secondAddress_haveAddress"))
+              case _ => List(Messages("ordinary_confirmation_secondAddress_dontHaveAddress"))
             }
           }
       ))

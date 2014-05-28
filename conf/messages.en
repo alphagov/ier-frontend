@@ -374,8 +374,15 @@ ordinary_confirmation_nationality_noNationalityReason=I cannot provide my nation
 
 ordinary_confirmation_nino_title=National Insurance number_TTest
 ordinary_confirmation_nino_changeName=national insurance number_TTest
-ordinary_confirmation_nationality_noNinoReason=I cannot provide my national insurance number because:_TTest
+ordinary_confirmation_nino_noNinoReason=I cannot provide my national insurance number because:_TTest
 
+ordinary_confirmation_address_title=Address_TTest
+ordinary_confirmation_address_changeName=your address_TTest
+
+ordinary_confirmation_secondAddress_title=Second address_TTest
+ordinary_confirmation_secondAddress_changeName=second address_TTest
+ordinary_confirmation_secondAddress_haveAddress=I have a second address_TTest
+ordinary_confirmation_secondAddress_dontHaveAddress=I don't have a second address_TTest
 
 ordinary_confirmation_help_p1=I understand that:_TTest
 ordinary_confirmation_help_p2=The information I provide through this application will be used to change my details on the electoral register._TTest
