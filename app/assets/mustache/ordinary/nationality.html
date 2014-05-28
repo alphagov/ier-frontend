@@ -51,13 +51,11 @@
                 <label for="{{otherCountriesHead.id}}" class=""  >
                     {{messages.ordinary_nationality_whichCountry}}
                 </label>
-                <div class="validation-wrapper {{otherCountriesHead.classes}}">
-                  <input type="text" id="{{otherCountriesHead.id}}"
-                       name="{{otherCountriesHead.name}}"
-                       value="{{otherCountriesHead.value}}"
-                       autocomplete="off"
-                       class="text  country-autocomplete long {{otherCountriesHead.classes}}"  >
-                </div>
+                <input type="text" id="{{otherCountriesHead.id}}"
+                   name="{{otherCountriesHead.name}}"
+                   value="{{otherCountriesHead.value}}"
+                   autocomplete="off"
+                   class="text  country-autocomplete long {{otherCountriesHead.classes}}"  >
 
                 <p class="duplication-intro"
                    style="{{#moreThanOneOtherCountry}}display: none{{/moreThanOneOtherCountry}}">
