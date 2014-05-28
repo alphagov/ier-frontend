@@ -266,24 +266,24 @@ trait ConfirmationMustache
 
     def postalVote = {
       Some(ConfirmationQuestion(
-        title = "Postal vote",
+        title = Messages("ordinary_confirmation_postalVote_title"),
         editLink = routes.PostalVoteController.editGet.url,
-        changeName = "postal vote",
+        changeName = Messages("ordinary_confirmation_postalVote_changeName"),
         content = ifComplete(keys.postalVote) {
           val deliveryMethod =
             if (form(keys.postalVote.deliveryMethod.methodName).value == Some("email")){
-              List("I want you to email a postal vote application form to:",
+              List(Messages("ordinary_confirmation_postalVote_emailDelivery"),
                 form(keys.postalVote.deliveryMethod.emailAddress).value.getOrElse(""))
             }
             else {
-              List("I want you to mail me a postal vote application form")
+              List(Messages("ordinary_confirmation_postalVote_mailDelivery"))
             }
 
           if(form(keys.postalVote.optIn).value == Some("true")){
             deliveryMethod
           }
           else {
-            List("I don’t want to apply for a postal vote")
+            List(Messages("ordinary_confirmation_postalVote_dontWant"))
           }
         }
       ))
@@ -291,20 +291,22 @@ trait ConfirmationMustache
 
     def contact = {
       Some(ConfirmationQuestion(
-        title = "How we should contact you",
+        title = Messages("ordinary_confirmation_contact_title"),
         editLink = routes.ContactController.editGet.url,
-        changeName = "how we should contact you",
+        changeName = Messages("ordinary_confirmation_contact_changeName"),
         content = ifComplete(keys.contact) {
           val post = if (form(keys.contact.post.contactMe).value == Some("true")) {
-            Some("By post")
+            Some(Messages("ordinary_confirmation_contact_byPost"))
           } else None
 
           val phone = if (form(keys.contact.phone.contactMe).value == Some("true")) {
-            form(keys.contact.phone.detail).value.map( phone => s"By phone: $phone")
+            form(keys.contact.phone.detail).value.map( phone =>
+              Messages("ordinary_confirmation_contact_byPhone",phone))
           } else None
 
           val email = if( form(keys.contact.email.contactMe).value == Some("true")) {
-            form(keys.contact.email.detail).value.map {email => s"By email: $email"}
+            form(keys.contact.email.detail).value.map {email =>
+              Messages("ordinary_confirmation_contact_byEmail", email)}
           } else None
 
           List(post, phone, email).flatten

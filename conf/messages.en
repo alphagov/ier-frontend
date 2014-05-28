@@ -396,6 +396,17 @@ ordinary_confirmation_openRegister_changeName=open register_TTest
 ordinary_confirmation_openRegister_optIn=I want to include my name and address on the open register_TTest
 ordinary_confirmation_openRegister_optOut=I don't want my name and address on the open register_TTest
 
+ordinary_confirmation_postalVote_title=Postal vote_TTest
+ordinary_confirmation_postalVote_changeName=postal vote_TTest
+ordinary_confirmation_postalVote_emailDelivery=I want you to email a postal vote application form to:_TTest
+ordinary_confirmation_postalVote_mailDelivery=I want you to mail me a postal vote application form_TTest
+ordinary_confirmation_postalVote_dontWant=I don’t want to apply for a postal vote_TTest
+
+ordinary_confirmation_contact_title=How we should contact you_TTest
+ordinary_confirmation_contact_changeName=how we should contact you_TTest
+ordinary_confirmation_contact_byPost=By post_TTest
+ordinary_confirmation_contact_byPhone=By phone: {0}_TTest
+ordinary_confirmation_contact_byEmail=By email: {0}_TTest
 
 ordinary_confirmation_help_p1=I understand that:_TTest
 ordinary_confirmation_help_p2=The information I provide through this application will be used to change my details on the electoral register._TTest
