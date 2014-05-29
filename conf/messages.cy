@@ -372,6 +372,8 @@ complete_questionsContact_p=Os oes gennych unrhyw gwestiynau am eich cais, cysyl
 complete_ifYouAreNotAlreadyRegistered1_p=Os nad ydych wedi cofrestru yn barod yn eich ail gyfeiriad, gallwch
 complete_ifYouAreNotAlreadyRegistered2_p=wneud cais arall
 complete_moreAboutVoting_a=Mwy o wybodaeth am bleidleisio yn y DU
+complete_takeOurSurvey_a=Beth oedd eich barn am y gwasanaeth hwn?
+complete_takeOurSurvey_p= (yn cymryd 30 eiliad)
 
 complete_electoralRegistrationOffice=swyddfa cofrestru etholiadol.
 complete_unspecificElectoralRegistrationOffice=eich swyddfa gofrestru etholiadol leol
