@@ -9,7 +9,7 @@ trait SessionTokenValidator {
   implicit class SessionTokenWithValidation(token: SessionToken) {
     def isValid() = {
       try {
-        token.timestamp.isAfter(DateTime.now.minusMinutes(config.sessionTimeout))
+        token.latest.isAfter(DateTime.now.minusMinutes(config.sessionTimeout))
       } catch {
         case e:IllegalArgumentException => false
       }

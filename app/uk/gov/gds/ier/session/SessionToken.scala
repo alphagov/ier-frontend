@@ -1,17 +1,20 @@
 package uk.gov.gds.ier.session
 
-import org.joda.time.DateTime
+import org.joda.time.{Seconds, DateTime}
 
 case class SessionToken(
-    timestamp: DateTime = DateTime.now,
-    history: List[DateTime] = List.empty
+    start: DateTime = DateTime.now,
+    latest: DateTime = DateTime.now,
+    history: List[Int] = List.empty
 ) {
   require(history.size <= 50)
 
   def refreshToken() = {
+    val now = DateTime.now
+    val delta = Seconds.secondsBetween(latest, now).getSeconds
     this.copy(
-      timestamp = DateTime.now,
-      history = (timestamp +: history).take(50)
+      latest = now,
+      history = (delta +: history).take(50)
     )
   }
 }
