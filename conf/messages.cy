@@ -1,3 +1,7 @@
+#
+# WHEN MODYFYING MESSAGES USE ’ CHARACTED INSTEAD OF '
+#
+
 step_of=o
 step_a_of_b={0} o {1}
 step_continue=Parhau
