@@ -23,7 +23,7 @@ trait CompleteMustache {
         refNumber: Option[String],
         hasOtherAddress: Boolean,
         backToStartUrl: String
-    ) (implicit lang : Lang) extends Mustachio("complete") {
+    ) (implicit val lang : Lang) extends Mustachio("complete") with MessagesForMustache {
 
       val authorityUrl = authority flatMap {
         auth => auth.urls.headOption
@@ -32,10 +32,6 @@ trait CompleteMustache {
       val authorityName = authority map {
         auth => auth.name + " " + Messages("complete_electoralRegistrationOffice")
       } getOrElse Messages("complete_unspecificElectoralRegistrationOffice")
-
-      lazy val messages: Map[String,String] = {
-        Messages.messagesForLang(lang)
-      }
 
       override def render() = GovukTemplate(
         htmlLang = lang.code,
