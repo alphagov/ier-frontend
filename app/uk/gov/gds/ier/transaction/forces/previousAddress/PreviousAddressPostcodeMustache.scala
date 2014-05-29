@@ -7,7 +7,6 @@ trait PreviousAddressPostcodeMustache
   extends StepTemplate[InprogressForces] {
 
     val title = "What was your previous UK address?"
-    val questionNumber = "3"
 
     case class PostcodeModel (
         question: Question,
@@ -20,7 +19,6 @@ trait PreviousAddressPostcodeMustache
     PostcodeModel(
       question = Question(
         postUrl = post.url,
-        number = questionNumber,
         title = title,
         errorMessages = form.globalErrors.map(_.message)
       ),

@@ -17,7 +17,6 @@ trait OpenRegisterMustache extends StepTemplate[InprogressForces] {
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
-        number = "11",
         title = title
       ),
       openRegister = CheckboxField (

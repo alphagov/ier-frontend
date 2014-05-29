@@ -36,7 +36,6 @@ trait NationalityMustache extends StepTemplate[InprogressForces] {
       question = Question(
         postUrl = postUrl.url,
         errorMessages = form.globalErrors.map{ _.message },
-        number = "4",
         title = title
       ),
       britishOption = CheckboxField(

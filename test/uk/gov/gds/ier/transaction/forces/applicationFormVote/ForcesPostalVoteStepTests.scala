@@ -22,7 +22,6 @@ class ForcesPostalVoteStepTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 13")
       contentAsString(result) should include(
         "Do you want us to send you a postal vote application form?")
       contentAsString(result) should include("/register-to-vote/forces/postal-vote")
@@ -71,7 +70,6 @@ class ForcesPostalVoteStepTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 13")
       contentAsString(result) should include(
         "Do you want us to send you a postal vote application form?")
       contentAsString(result) should include("/register-to-vote/forces/edit/postal-vote")

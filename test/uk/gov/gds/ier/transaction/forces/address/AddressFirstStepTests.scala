@@ -25,7 +25,6 @@ class AddressFirstStepTests
       contentAsString(result) should include(
         "Do you have a UK address?"
       )
-      contentAsString(result) should include("Question 2")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/address/first\"")
     }
   }
@@ -104,7 +103,6 @@ behavior of "AddressFirstStep.editGet"
       contentAsString(result) should include(
         "Do you have a UK address?"
       )
-      contentAsString(result) should include("Question 2")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/edit/address/first\"")
 
     }

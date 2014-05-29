@@ -20,7 +20,6 @@ trait WaysToVoteMustache extends StepTemplate[InprogressForces] {
     WaysToVoteModel(
       question = Question(
         postUrl = post.url,
-        number = "12",
         title = pageTitle,
         errorMessages = form.globalErrors.map { _.message }),
       byPost = RadioField(

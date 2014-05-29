@@ -36,16 +36,16 @@ trait ServiceMustache extends StepTemplate[InprogressForces] {
       )
     }
 
-    val title = if (displayPartnerSentence(application))
+    val title = if (displayPartnerSentence(application)) {
       "Which of the services is your partner in?"
-    else
+    } else {
       "Which of the services are you in?"
+    }
 
     ServiceModel(
       question = Question(
         postUrl = postUrl.url,
         errorMessages = form.globalErrors.map{ _.message },
-        number = "8",
         title = title
       ),
       serviceFieldSet = FieldSet(
