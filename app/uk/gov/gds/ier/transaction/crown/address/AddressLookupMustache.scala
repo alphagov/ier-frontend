@@ -14,7 +14,6 @@ trait AddressLookupMustache extends StepTemplate[InprogressCrown] {
     }
   }
 
-  val questionNumber = "2"
   case class LookupModel (
       question: Question,
       postcode: Field,
@@ -29,7 +28,6 @@ trait AddressLookupMustache extends StepTemplate[InprogressCrown] {
     LookupModel(
       question = Question(
         postUrl = postUrl.url,
-        number = questionNumber,
         title = title,
         errorMessages = form.globalErrors.map(_.message)
       ),

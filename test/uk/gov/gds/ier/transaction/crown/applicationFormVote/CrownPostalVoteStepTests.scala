@@ -21,7 +21,6 @@ class CrownPostalVoteStepTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 12")
       contentAsString(result) should include(
         "Do you want us to send you a postal vote application form?")
       contentAsString(result) should include("/register-to-vote/crown/postal-vote")
@@ -70,7 +69,6 @@ class CrownPostalVoteStepTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 12")
       contentAsString(result) should include(
         "Do you want us to send you a postal vote application form?")
       contentAsString(result) should include("/register-to-vote/crown/edit/postal-vote")

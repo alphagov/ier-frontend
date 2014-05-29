@@ -21,7 +21,6 @@ class JobControllerTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 6")
       contentAsString(result) should include("What is your role?")
       contentAsString(result) should include("<form action=\"/register-to-vote/crown/job-title\"")
     }
@@ -84,7 +83,6 @@ class JobControllerTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 6")
       contentAsString(result) should include("What is your role?")
       contentAsString(result) should include("<form action=\"/register-to-vote/crown/edit/job-title\"")
     }

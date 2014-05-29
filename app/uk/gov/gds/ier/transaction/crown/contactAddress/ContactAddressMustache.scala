@@ -121,7 +121,6 @@ trait ContactAddressMustache
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map( _.message ),
-        number = "8",
         title = title
       ),
       contactAddressFieldSet = FieldSet (
