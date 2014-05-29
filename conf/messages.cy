@@ -462,9 +462,9 @@ back_button_non_visual=at y cwestiwn blaenorol
 # JavaScipt: nationality
 
 ordinary_nationality_other_country=Ychwanegu gwlad arall
-ordinary_autocomplete_status=Welsh available, use up and down arrow keys to navigate
-ordinary_autocomplete_status_prefix_singular=Welsh result is
-ordinary_autocomplete_status_prefix_multiple=Welsh results are
+ordinary_nationality_autocomplete_status=gael, defnyddiwch i fyny ac i lawr bysellau saeth i lywio
+ordinary_nationality_autocomplete_status_prefix_singular=canlyniad ar
+ordinary_nationality_autocomplete_status_prefix_multiple=canlyniadau ar
 
 # JavaScript: date of birth
 

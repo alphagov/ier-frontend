@@ -446,9 +446,9 @@ back_button_non_visual=to the previous question
 # JavaScipt: nationality
 
 ordinary_nationality_other_country=Add another country
-ordinary_autocomplete_status=available, use up and down arrow keys to navigate
-ordinary_autocomplete_status_prefix_singular=result is
-ordinary_autocomplete_status_prefix_multiple=results are
+ordinary_nationality_autocomplete_status=available, use up and down arrow keys to navigate
+ordinary_nationality_autocomplete_status_prefix_singular=result is
+ordinary_nationality_autocomplete_status_prefix_multiple=results are
 
 # JavaScript: address
 
