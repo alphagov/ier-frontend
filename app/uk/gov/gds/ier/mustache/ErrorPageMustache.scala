@@ -7,7 +7,12 @@ trait ErrorPageMustache extends StepMustache {
   self: WithRemoteAssets =>
 
   object ErrorPage {
-    case class ServerError() extends GovukPage (
+    abstract class ErrorMustache(
+        path: String,
+        title: String
+    ) extends GovukPage(path, title, "exit")
+
+    case class ServerError() extends ErrorMustache (
       "error/serverError",
       "Oops, we've done something wrong"
     )
@@ -15,7 +20,7 @@ trait ErrorPageMustache extends StepMustache {
     case class NotFound(
         url:String,
         startPageUrl:String = RegisterToVoteController.redirectToOrdinary.url
-    ) extends GovukPage (
+    ) extends ErrorMustache (
       "error/notFound",
       "This isn't the page you were looking for"
     )
@@ -23,7 +28,7 @@ trait ErrorPageMustache extends StepMustache {
     case class Timeout(
         timeout: Int,
         startUrl: String = RegisterToVoteController.registerToVote.url
-    ) extends GovukPage (
+    ) extends ErrorMustache (
       "error/timeout",
       "Register to Vote - Sorry, your session has expired"
     )
