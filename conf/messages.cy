@@ -358,6 +358,25 @@ ordinary_contact_error_pleaseEnterValidEmail=Nid yw hwnnw'n gyfeiriad e-bost dil
 
 # ordinary: confirmation
 
+#
+# all: complete
+#
+complete_step_title=Application Complete
+
+complete_applicationComplete_h1=Cais wedi'i gwblhau
+complete_yourRefNumberIs=Eich cyfeirnod yw
+complete_whatHappensNext_h2=Beth sy'n digwydd nesaf?
+complete_sentApplicationTo_p=Rydyn ni wedi anfon eich cais i
+complete_contactYouTo_p=They will contact you - either to confirm your registration, or to ask for more information.
+complete_questionsContact_p=Os oes gennych unrhyw gwestiynau am eich cais, cysylltwch â
+complete_ifYouAreNotAlreadyRegistered1_p=Os nad ydych wedi cofrestru yn barod yn eich ail gyfeiriad, gallwch
+complete_ifYouAreNotAlreadyRegistered2_p=wneud cais arall
+complete_moreAboutVoting_a=Mwy o wybodaeth am bleidleisio yn y DU
+
+complete_electoralRegistrationOffice=swyddfa cofrestru etholiadol.
+complete_unspecificElectoralRegistrationOffice=eich swyddfa gofrestru etholiadol leol
+
+
 # JavaScript: general
 
 back_button=Yn ôl

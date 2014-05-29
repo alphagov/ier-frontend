@@ -9,6 +9,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
+import uk.gov.gds.ier.langs.Language
 
 class CompleteStep @Inject() (
     val serialiser: JsonSerialiser,
@@ -25,6 +26,7 @@ class CompleteStep @Inject() (
 
   def complete = ClearSession requiredFor {
     implicit request =>
+      implicit val lang = Language.getLang(request)
       val authority = request.flash.get("localAuthority") match {
         case Some("") => None
         case Some(authorityJson) => Some(serialiser.fromJson[EroAuthorityDetails](authorityJson))
