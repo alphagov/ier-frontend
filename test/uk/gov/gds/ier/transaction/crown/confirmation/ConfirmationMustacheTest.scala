@@ -611,7 +611,7 @@ class ConfirmationMustacheTest
     addressModel.editLink should be("/register-to-vote/crown/edit/address/first")
   }
 
-  "In-progress application form with valid UK address (hasUkAddress = false)" should
+  "In-progress application form with valid UK address (hasAddress = false)" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
 
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(

@@ -5,6 +5,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.model.HasAddressOption
 
 class AddressFirstStepTests
   extends FlatSpec
@@ -30,14 +31,28 @@ class AddressFirstStepTests
   }
 
   behavior of "AddressFirstStep.post"
-  it should "bind successfully and redirect to the next step" in {
+  it should "bind successfully and redirect to the next step (yes living there)" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/forces/address/first")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "address.hasUkAddress" -> "true"
-          )
+          "address.hasAddress" -> "yes-living-there"
+        )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/forces/address"))
+    }
+  }
+  it should "bind successfully and redirect to the next step (yes not living there)" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/forces/address/first")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+          "address.hasAddress" -> "yes-not-living-there"
+        )
       )
 
       status(result) should be(SEE_OTHER)
@@ -52,7 +67,7 @@ class AddressFirstStepTests
           .withIerSession()
           .withApplication(completeForcesApplication)
           .withFormUrlEncodedBody(
-            "address.hasUkAddress" -> "true"
+            "address.hasAddress" -> "yes-living-there"
           )
       )
 
@@ -102,7 +117,7 @@ behavior of "AddressFirstStep.editGet"
         FakeRequest(POST, "/register-to-vote/forces/edit/address/first")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "address.hasUkAddress" -> "true"
+            "address.hasAddress" -> "yes-living-there"
           )
       )
 

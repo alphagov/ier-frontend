@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.forces.address
 
 import play.api.data.Forms._
-import uk.gov.gds.ier.model.{LastUkAddress}
+import uk.gov.gds.ier.model.{LastAddress}
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys, ErrorTransformForm}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
@@ -24,13 +24,13 @@ trait AddressFirstConstraints extends CommonConstraints {
     with ErrorMessages =>
 
   lazy val addressYesNoIsNotEmpty = Constraint[InprogressForces](
-    keys.address.hasUkAddress.key) {
+    keys.address.hasAddress.key) {
     inprogress => inprogress.address match {
-      case Some(LastUkAddress(Some(_), _)) => {
+      case Some(LastAddress(Some(_), _)) => {
         Valid
       }
       case _ => {
-        Invalid("Please answer this question", keys.address.hasUkAddress)
+        Invalid("Please answer this question", keys.address.hasAddress)
       }
     }
   }

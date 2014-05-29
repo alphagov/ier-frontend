@@ -10,7 +10,7 @@ import scala.Some
 import scala.Some
 import uk.gov.gds.ier.model.PartialAddress
 import uk.gov.gds.ier.model.PostalOrProxyVote
-import uk.gov.gds.ier.model.LastUkAddress
+import uk.gov.gds.ier.model.LastAddress
 import scala.Some
 import uk.gov.gds.ier.model.WaysToVote
 import uk.gov.gds.ier.transaction.crown.InprogressCrown

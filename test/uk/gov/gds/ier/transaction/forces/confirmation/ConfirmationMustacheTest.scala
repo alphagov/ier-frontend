@@ -339,12 +339,15 @@ class ConfirmationMustacheTest
   "'has uk address' and valid uk address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
-      address = Some(LastUkAddress(Some(true), Some(PartialAddress(
-        addressLine = Some("123 Fake Street"),
-        uprn = Some("12345678"),
-        postcode = "AB12 3CD",
-        manualAddress = None
-      ))))
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndLivingThere),
+        address = Some(PartialAddress(
+          addressLine = Some("123 Fake Street"),
+          uprn = Some("12345678"),
+          postcode = "AB12 3CD",
+          manualAddress = None
+        ))
+      ))
     ))
 
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
@@ -359,12 +362,15 @@ class ConfirmationMustacheTest
   "'has no uk address' currently, but provide last UK address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
-      address = Some(LastUkAddress(Some(false), Some(PartialAddress(
-        addressLine = Some("123 Fake Street"),
-        uprn = Some("12345678"),
-        postcode = "AB12 3CD",
-        manualAddress = None
-      ))))
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.No),
+        address = Some(PartialAddress(
+          addressLine = Some("123 Fake Street"),
+          uprn = Some("12345678"),
+          postcode = "AB12 3CD",
+          manualAddress = None
+        ))
+      ))
     ))
 
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
@@ -377,16 +383,19 @@ class ConfirmationMustacheTest
   "'has uk address' and provide UK manual address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
-      address = Some(LastUkAddress(Some(true), Some(PartialAddress(
-        addressLine = None,
-        uprn = None,
-        postcode = "AB12 3CD",
-        manualAddress = Some(PartialManualAddress(
-          lineOne = Some("Unit 4, Elgar Business Centre"),
-          lineTwo = Some("Moseley Road"),
-          lineThree = Some("Hallow"),
-          city = Some("Worcester")))
-      ))))
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndLivingThere),
+        address = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "AB12 3CD",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")))
+        ))
+      ))
     ))
 
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
@@ -401,16 +410,19 @@ class ConfirmationMustacheTest
   "'has no uk address' but provide valid UK manual address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
-      address = Some(LastUkAddress(Some(false), Some(PartialAddress(
-        addressLine = None,
-        uprn = None,
-        postcode = "AB12 3CD",
-        manualAddress = Some(PartialManualAddress(
-          lineOne = Some("Unit 4, Elgar Business Centre"),
-          lineTwo = Some("Moseley Road"),
-          lineThree = Some("Hallow"),
-          city = Some("Worcester")))
-      ))))
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.No),
+        address = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "AB12 3CD",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")))
+        ))
+      ))
     ))
 
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
@@ -425,16 +437,19 @@ class ConfirmationMustacheTest
   "In-progress application form with valid previous UK address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
-      address = Some(LastUkAddress(Some(true), Some(PartialAddress(
-        addressLine = None,
-        uprn = None,
-        postcode = "AB12 3CD",
-        manualAddress = Some(PartialManualAddress(
-          lineOne = Some("Unit 4, Elgar Business Centre"),
-          lineTwo = Some("Moseley Road"),
-          lineThree = Some("Hallow"),
-          city = Some("Worcester")))
-      )))),
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndLivingThere),
+        address = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "AB12 3CD",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")))
+        ))
+      )),
       previousAddress = Some(PartialPreviousAddress(
         movedRecently = Some(MovedHouseOption.Yes),
         previousAddress = Some(PartialAddress(
@@ -458,16 +473,19 @@ class ConfirmationMustacheTest
   "In-progress application form with valid previous UK manual address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
-      address = Some(LastUkAddress(Some(true), Some(PartialAddress(
-        addressLine = None,
-        uprn = None,
-        postcode = "AB12 3CD",
-        manualAddress = Some(PartialManualAddress(
-          lineOne = Some("Unit 4, Elgar Business Centre"),
-          lineTwo = Some("Moseley Road"),
-          lineThree = Some("Hallow"),
-          city = Some("Worcester")))
-      )))),
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndLivingThere),
+        address = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "AB12 3CD",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")))
+        ))
+      )),
       previousAddress = Some(PartialPreviousAddress(
         movedRecently = Some(MovedHouseOption.Yes),
         previousAddress = Some(PartialAddress(
@@ -499,16 +517,19 @@ class ConfirmationMustacheTest
     when(addressService.isNothernIreland("BT7 1AA")).thenReturn(true)
 
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
-      address = Some(LastUkAddress(Some(true), Some(PartialAddress(
-        addressLine = None,
-        uprn = None,
-        postcode = "AB12 3CD",
-        manualAddress = Some(PartialManualAddress(
-          lineOne = Some("Unit 4, Elgar Business Centre"),
-          lineTwo = Some("Moseley Road"),
-          lineThree = Some("Hallow"),
-          city = Some("Worcester")))
-      )))),
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndLivingThere),
+        address = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "AB12 3CD",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")))
+        ))
+      )),
       previousAddress = Some(PartialPreviousAddress(
         movedRecently = Some(MovedHouseOption.Yes),
         previousAddress = Some(PartialAddress(
@@ -533,16 +554,19 @@ class ConfirmationMustacheTest
   "In-progress application form without previous UK address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
-      address = Some(LastUkAddress(Some(true), Some(PartialAddress(
-        addressLine = None,
-        uprn = None,
-        postcode = "AB12 3CD",
-        manualAddress = Some(PartialManualAddress(
-          lineOne = Some("Unit 4, Elgar Business Centre"),
-          lineTwo = Some("Moseley Road"),
-          lineThree = Some("Hallow"),
-          city = Some("Worcester")))
-      )))),
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndLivingThere),
+        address = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "AB12 3CD",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")))
+        ))
+      )),
       previousAddress = Some(PartialPreviousAddress(
         movedRecently = Some(MovedHouseOption.NotMoved),
         previousAddress = None
@@ -560,16 +584,19 @@ class ConfirmationMustacheTest
   "In-progress application form with valid previous UK address but invalid move option (recentlyMoved)" should
     "generate confirmation mustache model error from recently moved sub key" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
-      address = Some(LastUkAddress(Some(true), Some(PartialAddress(
-        addressLine = None,
-        uprn = None,
-        postcode = "AB12 3CD",
-        manualAddress = Some(PartialManualAddress(
-          lineOne = Some("Unit 4, Elgar Business Centre"),
-          lineTwo = Some("Moseley Road"),
-          lineThree = Some("Hallow"),
-          city = Some("Worcester")))
-      )))),
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndLivingThere),
+        address = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "AB12 3CD",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")))
+        ))
+      )),
       previousAddress = Some(PartialPreviousAddress(
         movedRecently = Some(MovedHouseOption.MovedFromUk),
         previousAddress = Some(PartialAddress(
@@ -595,16 +622,19 @@ class ConfirmationMustacheTest
   "In-progress application form with valid contact address" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressForces(
-      address = Some(LastUkAddress(Some(true), Some(PartialAddress(
-        addressLine = None,
-        uprn = None,
-        postcode = "AB12 3CD",
-        manualAddress = Some(PartialManualAddress(
-          lineOne = Some("Unit 4, Elgar Business Centre"),
-          lineTwo = Some("Moseley Road"),
-          lineThree = Some("Hallow"),
-          city = Some("Worcester")))
-      )))),
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndLivingThere),
+        address = Some(PartialAddress(
+          addressLine = None,
+          uprn = None,
+          postcode = "AB12 3CD",
+          manualAddress = Some(PartialManualAddress(
+            lineOne = Some("Unit 4, Elgar Business Centre"),
+            lineTwo = Some("Moseley Road"),
+            lineThree = Some("Hallow"),
+            city = Some("Worcester")))
+        ))
+      )),
       contactAddress = Some (PossibleContactAddresses(
         contactAddressType = Some("uk"),
         ukAddressLine = Some("my uk address, london"),

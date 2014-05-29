@@ -5,7 +5,7 @@ import uk.gov.gds.ier.test.TestHelpers
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.mockito.{Matchers => MockitoMatchers}
-import uk.gov.gds.ier.model.{PartialManualAddress, Address, PartialAddress, LastUkAddress}
+import uk.gov.gds.ier.model.{PartialManualAddress, Address, PartialAddress, LastAddress}
 
 class AddressServiceTests extends FlatSpec
   with Matchers

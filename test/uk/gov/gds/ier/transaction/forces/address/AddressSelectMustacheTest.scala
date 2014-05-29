@@ -51,12 +51,15 @@ class AddressSelectMustacheTest
   it should "progress form with valid values should produce Mustache Model with values present (selectData)" in {
 
     val partiallyFilledApplicationForm = addressForm.fill(InprogressForces(
-      address = Some(LastUkAddress(Some(true), Some(PartialAddress(
-        addressLine = Some("Fake street 123"),
-        uprn = Some("1234567"),
-        postcode = "WR26NJ",
-        manualAddress = None
-      )))),
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndLivingThere),
+        address = Some(PartialAddress(
+          addressLine = Some("Fake street 123"),
+          uprn = Some("1234567"),
+          postcode = "WR26NJ",
+          manualAddress = None
+        ))
+      )),
       possibleAddresses = None
     ))
 
@@ -75,5 +78,80 @@ class AddressSelectMustacheTest
     addressModel.postcode.value should be ("WR26NJ")
     addressModel.possiblePostcode.value should be ("WR26NJ")
     addressModel.hasAddresses should be (false)
+  }
+
+  it should "have correct title hasAddress = yes and living there" in {
+
+    val partiallyFilledApplicationForm = addressForm.fill(InprogressForces(
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndLivingThere),
+        address = Some(PartialAddress(
+          addressLine = Some("Fake street 123"),
+          uprn = Some("1234567"),
+          postcode = "WR26NJ",
+          manualAddress = None
+        ))
+      )),
+      possibleAddresses = None
+    ))
+
+    val addressModel = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("POST","/register-to-vote/forces/address/select"),
+      InprogressForces()
+    ).asInstanceOf[SelectModel]
+
+
+    addressModel.question.title should be("What is your UK address?")
+  }
+
+  it should "have correct title hasAddress = yes and not living there" in {
+
+    val partiallyFilledApplicationForm = addressForm.fill(InprogressForces(
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndNotLivingThere),
+        address = Some(PartialAddress(
+          addressLine = Some("Fake street 123"),
+          uprn = Some("1234567"),
+          postcode = "WR26NJ",
+          manualAddress = None
+        ))
+      )),
+      possibleAddresses = None
+    ))
+
+    val addressModel = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("POST","/register-to-vote/forces/address/select"),
+      InprogressForces()
+    ).asInstanceOf[SelectModel]
+
+
+    addressModel.question.title should be("What is your UK address?")
+  }
+
+  it should "have correct title hasAddress = no" in {
+
+    val partiallyFilledApplicationForm = addressForm.fill(InprogressForces(
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.No),
+        address = Some(PartialAddress(
+          addressLine = Some("Fake street 123"),
+          uprn = Some("1234567"),
+          postcode = "WR26NJ",
+          manualAddress = None
+        ))
+      )),
+      possibleAddresses = None
+    ))
+
+    val addressModel = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("POST","/register-to-vote/forces/address/select"),
+      InprogressForces()
+    ).asInstanceOf[SelectModel]
+
+
+    addressModel.question.title should be("What was your last UK address?")
   }
 }

@@ -4,7 +4,7 @@ import controllers.step.crown.routes._
 import controllers.step.crown.{PreviousAddressFirstController, NationalityController}
 import com.google.inject.Inject
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.model.{HasAddressOption, LastAddress, LastUkAddress}
+import uk.gov.gds.ier.model.{HasAddressOption, LastAddress}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.{AddressService, WithAddressService}
@@ -40,7 +40,7 @@ class AddressSelectStep @Inject() (
     }
   }
 
-  override val onSuccess = TransformApplication { application => 
+  override val onSuccess = TransformApplication { application =>
     val address = application.address.flatMap {_.address}
     val addressWithAddressLine =  address.map (address => addressService.fillAddressLine(address))
 

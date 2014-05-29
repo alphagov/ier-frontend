@@ -6,7 +6,8 @@ import com.google.inject.Inject
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{
-  LastUkAddress,
+  LastAddress,
+  HasAddressOption,
   Addresses,
   PossibleAddress}
 import uk.gov.gds.ier.security.EncryptionService
@@ -37,11 +38,13 @@ class AddressSelectStep @Inject() (
   )
 
   def nextStep(currentState: InprogressForces) = {
-    val hasUkAddress = Some(true)
+    import HasAddressOption._
 
-    currentState.address match {
-      case Some(LastUkAddress(`hasUkAddress`,_))
-          => PreviousAddressFirstController.previousAddressFirstStep
+    currentState.address flatMap {
+      address => address.hasAddress
+    } match {
+      case Some(YesAndLivingThere) => PreviousAddressFirstController.previousAddressFirstStep
+      case Some(YesAndNotLivingThere) => PreviousAddressFirstController.previousAddressFirstStep
       case _ => NationalityController.nationalityStep
     }
   }
