@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.confirmation
 
-import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
+import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.{Key, ErrorTransformForm}
 import uk.gov.gds.ier.model.{OtherAddress, MovedHouseOption}
@@ -58,10 +57,13 @@ trait ConfirmationMustache
       ),
       completeApplicantDetails = completeApplicantData
     )
+
   }
 
-  class ConfirmationBlocks(form: ErrorTransformForm[InprogressOrdinary])
+  class ConfirmationBlocks(form: ErrorTransformForm[InprogressOrdinary])(implicit lang: Lang)
     extends AddressHelpers with Logging {
+
+
 
     val completeThisStepMessage = Messages("ordinary_confirmation_error_completeThis")
 
