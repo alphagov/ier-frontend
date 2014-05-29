@@ -63,8 +63,6 @@ trait ConfirmationMustache
   class ConfirmationBlocks(form: ErrorTransformForm[InprogressOrdinary])(implicit lang: Lang)
     extends AddressHelpers with Logging {
 
-
-
     val completeThisStepMessage = Messages("ordinary_confirmation_error_completeThis")
 
     def ifComplete(key:Key)(confirmationHtml: => List[String]): EitherErrorOrContent = {
@@ -160,7 +158,7 @@ trait ConfirmationMustache
           if (nationalityIsFilled) {
             List(confirmationNationalityString)
           } else {
-            List(Messages("ordinary_confirmation_dob_noNationalityReason"),
+            List(Messages("ordinary_confirmation_nationality_noNationalityReason"),
               form(keys.nationality.noNationalityReason).value.getOrElse(""))
           }
         }

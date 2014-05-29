@@ -382,7 +382,7 @@ ordinary_confirmation_address_changeName=your address
 ordinary_confirmation_secondAddress_title=Second address
 ordinary_confirmation_secondAddress_changeName=second address
 ordinary_confirmation_secondAddress_haveAddress=I have a second address
-ordinary_confirmation_secondAddress_dontHaveAddress=I don't have a second address
+ordinary_confirmation_secondAddress_dontHaveAddress=I don’t have a second address
 
 ordinary_confirmation_previousAddress_title_lastAddress=Last UK address
 ordinary_confirmation_previousAddress_title_previous=Previous address
@@ -394,7 +394,7 @@ ordinary_confirmation_previousAddress_notMoved=I have not moved in the last 12 m
 ordinary_confirmation_openRegister_title=Open register
 ordinary_confirmation_openRegister_changeName=open register
 ordinary_confirmation_openRegister_optIn=I want to include my name and address on the open register
-ordinary_confirmation_openRegister_optOut=I don't want my name and address on the open register
+ordinary_confirmation_openRegister_optOut=I don’t want my name and address on the open register
 
 ordinary_confirmation_postalVote_title=Postal vote
 ordinary_confirmation_postalVote_changeName=postal vote

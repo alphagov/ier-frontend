@@ -25,7 +25,7 @@ class ConfirmationFormTests
     val js = JsNull
     confirmationForm.bind(js).fold(
       hasErrors => {
-        val errorMessage = Seq("Please complete this step")
+        val errorMessage = Seq("ordinary_confirmation_error_completeThis")
         hasErrors.errorMessages("name") should be(errorMessage)
         hasErrors.errorMessages("previousName") should be(errorMessage)
         hasErrors.errorMessages("dob") should be(errorMessage)
@@ -37,7 +37,7 @@ class ConfirmationFormTests
         hasErrors.errorMessages("openRegister") should be(errorMessage)
         hasErrors.errorMessages("postalVote") should be(errorMessage)
         hasErrors.errorMessages("contact") should be(errorMessage)
-        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(11)
+        hasErrors.globalErrorMessages.count(_ == "ordinary_confirmation_error_completeThis") should be(11)
         hasErrors.errors.size should be(22)
       },
       success => fail("Should have errored out.")
@@ -48,7 +48,7 @@ class ConfirmationFormTests
     val application = InprogressOrdinary()
     confirmationForm.fillAndValidate(application).fold(
       hasErrors => {
-        val errorMessage = Seq("Please complete this step")
+        val errorMessage = Seq("ordinary_confirmation_error_completeThis")
         hasErrors.errorMessages("name") should be(errorMessage)
         hasErrors.errorMessages("previousName") should be(errorMessage)
         hasErrors.errorMessages("dob") should be(errorMessage)
@@ -60,7 +60,7 @@ class ConfirmationFormTests
         hasErrors.errorMessages("openRegister") should be(errorMessage)
         hasErrors.errorMessages("postalVote") should be(errorMessage)
         hasErrors.errorMessages("contact") should be(errorMessage)
-        hasErrors.globalErrorMessages.count(_ == "Please complete this step") should be(11)
+        hasErrors.globalErrorMessages.count(_ == "ordinary_confirmation_error_completeThis") should be(11)
         hasErrors.errors.size should be(22)
       },
       success => fail("Should have errored out.")
@@ -101,7 +101,7 @@ class ConfirmationFormTests
 	      ))
 	    )).fold (
 	      hasErrors => {
-	        hasErrors.globalErrorMessages should be(Seq("Please complete this step"))
+	        hasErrors.globalErrorMessages should be(Seq("ordinary_confirmation_error_completeThis"))
 	      },
 	      success => fail("Should have errored out.")
 	    )
