@@ -174,7 +174,7 @@ trait ConfirmationMustache
         changeName = "national insurance number",
         content = ifComplete(keys.nino) {
           if(form(keys.nino.nino).value.isDefined){
-            List(form(keys.nino.nino).value.getOrElse(""))
+            List(form(keys.nino.nino).value.getOrElse("").toUpperCase)
           } else {
             List("I have not moved in the last 12 months")
             List("I cannot provide my national insurance number because:",
@@ -238,13 +238,13 @@ trait ConfirmationMustache
             case Some(MovedHouseOption.MovedFromAbroadNotRegistered) =>
               List("I moved from abroad, but I was not registered to vote there")
             case Some(moveOption) if moveOption.hasPreviousAddress => {
-              val postcode = form(keys.previousAddress.previousAddress.postcode).value
-              if (addressService.isNothernIreland(postcode.getOrElse(""))) {
-                List(postcode, Some("I was previously registered in Northern Ireland")).flatten
+              val postcode = form(keys.previousAddress.previousAddress.postcode).value.getOrElse("").toUpperCase
+              if (addressService.isNothernIreland(postcode)) {
+                List(Some(postcode), Some("I was previously registered in Northern Ireland")).flatten
               } else {
                 val address = form(keys.previousAddress.previousAddress.addressLine).value.orElse(
                   manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress))
-                List(address, postcode).flatten
+                List(address, Some(postcode)).flatten
               }
             }
             case _ =>
