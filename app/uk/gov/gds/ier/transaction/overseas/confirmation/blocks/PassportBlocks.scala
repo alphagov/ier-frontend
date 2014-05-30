@@ -48,9 +48,8 @@ trait PassportBlocks {
       how <- howBecameCitizen;
       date <- dateBecameCitizen
     ) yield {
-      List(
-        s"How you became a citizen: $how",
-        s"Date you became a citizen: $date")
+      s"<p>How you became a citizen: $how</p>"+
+        s"<p>Date you became a citizen: $date</p>"
     }
 
     val route = if(form(keys.passport).hasErrors) {
