@@ -46,7 +46,7 @@ class ExitController @Inject() (
   }
 
   def tooYoung = ClearSession requiredFor {
-    request =>
+    implicit request =>
       Ok(ExitPages.TooYoung())
   }
 

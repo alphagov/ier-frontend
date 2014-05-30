@@ -477,3 +477,33 @@ ordinary_address_previousAddressTest=Cyfeiriad blaenorol
 ordinary_address_selectPreviousAddress=Welsh Select your previous address
 ordinary_address_previousAddressExcuse=Welsh I can’t find my previous address in the list
 ordinary_address_continue=Parhau
+
+
+#
+# Exit pages
+#
+
+
+# Too Young
+
+ordinary_tooYoung_title=Mae'n ddrwg gennym, ni allwch gofrestru i bleidleisio eto
+ordinary_tooYoung_explanation=Ni allwch gofrestru i bleidleisio nes eich bod yn 16 oed. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk/">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
+ordinary_tooYoung_moreAboutVoting=<a href="https://www.gov.uk/voting-in-the-uk">Mwy o wybodaeth am bleidleisio yn y DU</a>.
+
+# British Islands
+
+# Dont Know
+
+# No Franchise
+
+# Northern Ireland
+
+# Scotland
+
+# Under 18
+
+# Left Service
+
+# Left Uk
+
+# Too Old When Left

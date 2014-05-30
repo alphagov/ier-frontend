@@ -461,3 +461,33 @@ ordinary_address_previousAddressTest=previous address
 ordinary_address_selectPreviousAddress=Select your previous address
 ordinary_address_previousAddressExcuse=I can’t find my previous address in the list
 ordinary_address_continue=Continue
+
+
+#
+# Exit pages
+#
+
+
+# Too Young
+
+ordinary_tooYoung_title=Sorry, you can’t register to vote yet
+ordinary_tooYoung_explanation=You can’t register to vote until you're 16. In the meantime, you may be interested in the <a href="http://www.ukyouthparliament.org.uk/">UK Youth Parliament</a>.
+ordinary_tooYoung_moreAboutVoting=<a href="https://www.gov.uk/voting-in-the-uk">More about voting in the UK</a>.
+
+# British Islands
+
+# Dont Know
+
+# No Franchise
+
+# Northern Ireland
+
+# Scotland
+
+# Under 18
+
+# Left Service
+
+# Left Uk
+
+# Too Old When Left
