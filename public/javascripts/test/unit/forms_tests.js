@@ -540,7 +540,13 @@ describe("DuplicateField", function () {
             "<div class='" + copyClass + "'>" +
               "<label for='field[2]' class='" + labelObj.className + "'>" + labelObj.txt + " 2</label>" +
               "<a href='#' class='remove-field'>Remove<span class='visuallyhidden'> " + labelObj.txt + " 2</span></a>" +
-              "<input type='text' id='field[2]' name='field[2]' class='text country-autocomplete long' value='France' Autocomplete='off' />",
+              "<div class='validation-wrapper'>" + 
+                "<input type='text' id='field[2]' name='field[2]' class='text country-autocomplete long validate' value='France' Autocomplete='off' " +
+                "data-validation-name='country-2' " +
+                "data-validation-type='field' " +
+                "data-validation-rules='nonEmpty validCountry' " +
+                "/>" +
+              "</div>" +
             "</div>"
           ),
           field = GOVUK.registerToVote.DuplicateField.prototype.makeField.call(duplicateFieldMock, 2, "France");
@@ -554,7 +560,13 @@ describe("DuplicateField", function () {
             "<div class='" + copyClass + "'>" +
               "<label for='field[2]' class='" + labelObj.className + "'>" + labelObj.txt + " 3</label>" +
               "<a href='#' class='remove-field'>Remove<span class='visuallyhidden'> " + labelObj.txt + " 3</span></a>" +
-              "<input type='text' id='field[2]' name='field[2]' class='text country-autocomplete long' value='Sweden' Autocomplete='off' />",
+              "<div class='validation-wrapper'>" + 
+                "<input type='text' id='field[2]' name='field[2]' class='text country-autocomplete long validate' value='Sweden' Autocomplete='off' " +
+                "data-validation-name='country-2' " +
+                "data-validation-type='field' " +
+                "data-validation-rules='nonEmpty validCountry' " +
+                " />",
+              "</div>" +
             "</div>"
           ),
           field = GOVUK.registerToVote.DuplicateField.prototype.makeField.call(duplicateFieldMock, 3, "Sweden");
@@ -614,7 +626,13 @@ describe("DuplicateField", function () {
     emptyContainer = 
       "<div id='duplication'>" +
         "<label for='field[0]'></label>" +
-        "<input type='text' id='field[0]' name='field[0]' class='text country-autocomplete long' value='Algeria' Autocomplete='off' />" +
+        "<div class='validation-wrapper'>" + 
+          "<input type='text' id='field[0]' name='field[0]' class='text country-autocomplete long validate' value='Algeria' Autocomplete='off' " +
+          "data-validation-name='country-0' " +
+          "data-validation-type='field' " +
+          "data-validation-rules='nonEmpty validCountry' " +
+          " />" +
+        "</div>" +
         "<p class='duplication-intro' style='display: block;'>" +
           "If you have dual nationality" +
           "<a class='duplicate-control-initial' href='#' data-field='field[0]'>add another country</a>." +
@@ -624,7 +642,13 @@ describe("DuplicateField", function () {
     containerWithOneDuplicate = 
       "<div id='duplication'>" +
         "<label for='field[0]'></label>" +
-        "<input type='text' id='field[0]' name='field[0]' class='text country-autocomplete long' value='Algeria' Autocomplete='off' />" +
+        "<div class='validation-wrapper'>" + 
+          "<input type='text' id='field[0]' name='field[0]' class='text country-autocomplete long' value='Algeria' Autocomplete='off' />" +
+          "data-validation-name='country-0' " +
+          "data-validation-type='field' " +
+          "data-validation-rules='nonEmpty validCountry' " +
+          " />" +
+        "</div>" +
         "<p class='duplication-intro' style='display: block;'>" +
           "If you have dual nationality" +
           "<a class='duplicate-control-initial' href='#' data-field='field[0]'>add another country</a>." +
@@ -632,7 +656,13 @@ describe("DuplicateField", function () {
         "<div class='" + copyClass + "'>" +
           "<label for='field[1]' class='country-label'>country 1</label>" +
           "<a href='#' class='remove-field'>Remove<span class='visuallyhidden'> country 1</span></a>" +
-          "<input type='text' id='field[1]' name='field[1]' class='text country-autocomplete long' value='France' Autocomplete='off' />" +
+          "<div class='validation-wrapper'>" + 
+            "<input type='text' id='field[1]' name='field[1]' class='text country-autocomplete long validate' value='France' Autocomplete='off' " +
+            "data-validation-name='country-1' " +
+            "data-validation-type='field' " +
+            "data-validation-rules='nonEmpty validCountry' " +
+            " />" +
+          "</div>" +
         "</div>" +
         "<a href='#' class='duplicate-control'>Add another country</a>" +
       "</div>";
@@ -640,7 +670,13 @@ describe("DuplicateField", function () {
     containerWithTwoDuplicates = 
       "<div id='duplication'>" +
         "<label for='field[0]'></label>" +
-        "<input type='text' id='field[0]' name='field[0]' class='text country-autocomplete long' value='Algeria' Autocomplete='off' />" +
+        "<div class='validation-wrapper'>" + 
+          "<input type='text' id='field[0]' name='field[0]' class='text country-autocomplete long validate' value='Algeria' Autocomplete='off' " +
+          "data-validation-name='country-0' " +
+          "data-validation-type='field' " +
+          "data-validation-rules='nonEmpty validCountry' " +
+          " />" +
+        "</div>" +
         "<p class='duplication-intro' style='display: block;'>" +
           "If you have dual nationality" +
           "<a class='duplicate-control-initial' href='#' data-field='field[0]'>add another country</a>." +
@@ -648,12 +684,24 @@ describe("DuplicateField", function () {
         "<div class='" + copyClass + "'>" +
           "<label for='field[1]' class='country-label'>country 1</label>" +
           "<a href='#' class='remove-field'>Remove<span class='visuallyhidden'> country 1</span></a>" +
-          "<input type='text' id='field[1]' name='field[1]' class='text country-autocomplete long' value='France' Autocomplete='off' />" +
+          "<div class='validation-wrapper'>" + 
+            "<input type='text' id='field[1]' name='field[1]' class='text country-autocomplete long validate' value='France' Autocomplete='off' " +
+            "data-validation-name='country-1' " +
+            "data-validation-type='field' " +
+            "data-validation-rules='nonEmpty validCountry' " +
+            " />" +
+          "</div>" +
         "</div>" +
         "<div class='" + copyClass + "'>" +
           "<label for='field[2]' class='country-label'>country 1</label>" +
           "<a href='#' class='remove-field'>Remove<span class='visuallyhidden'> country 2</span></a>" +
-          "<input type='text' id='field[2]' name='field[2]' class='text country-autocomplete long' value='Sweden' Autocomplete='off' />" +
+          "<div class='validation-wrapper'>" + 
+            "<input type='text' id='field[2]' name='field[2]' class='text country-autocomplete long' value='Sweden' Autocomplete='off' " +
+            "data-validation-name='country-2' " +
+            "data-validation-type='field' " +
+            "data-validation-rules='nonEmpty validCountry' " +
+            "/>" +
+          "</div>" +
         "</div>" +
         "<a href='#' class='duplicate-control'>Add another country</a>" +
       "</div>";
@@ -742,7 +790,13 @@ describe("DuplicateField", function () {
       $container = $(
         "<div id='duplication'>" +
           "<label for='field[0]'></label>" +
-          "<input type='text' id='field[0]' name='field[0]' class='text country-autocomplete long' value='Algeria' Autocomplete='off' />" +
+          "<div class='validation-wrapper'>" + 
+            "<input type='text' id='field[0]' name='field[0]' class='text country-autocomplete long validate' value='Algeria' Autocomplete='off' " +
+            "data-validation-name='country-0' " +
+            "data-validation-type='field' " +
+            "data-validation-rules='nonEmpty validCountry' " +
+            "/>" +
+          "</div>" +
           "<p class='duplication-intro' style='display: block;'>" +
             "If you have dual nationality" +
             "<a class='duplicate-control-initial' href='#' data-field='field[0]'>add another country</a>." +
