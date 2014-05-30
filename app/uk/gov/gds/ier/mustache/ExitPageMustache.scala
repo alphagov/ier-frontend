@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.mustache
 
 import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.langs.Messages
 
 trait ExitPageMustache extends StepMustache {
   self: WithRemoteAssets =>
@@ -38,8 +39,13 @@ trait ExitPageMustache extends StepMustache {
     ) extends ExitTemplate("exit/scotland")
 
     case class TooYoung (
-        pageTitle: String = "Register to Vote - Sorry, you can’t register to vote until you are at least 16"
+        title: Option[String] = None
+    ) (
+      implicit val lang: Lang
     ) extends ExitTemplate("exit/tooYoung")
+      with MessagesForMustache {
+      val pageTitle = title getOrElse Messages("exit_tooYoung_title")
+    }
 
     case class Under18 (
         pageTitle: String = "Register to Vote - You need to find out your date of birth"
