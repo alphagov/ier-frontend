@@ -26,7 +26,6 @@ class StatementMustacheTests
 
     model.question.postUrl should be("http://postUrl")
     model.question.errorMessages should be (Seq.empty)
-    model.question.number should be("1")
     model.question.title should be("Which of these statements applies to you?")
 
     model.council.id should be("councilstatement")

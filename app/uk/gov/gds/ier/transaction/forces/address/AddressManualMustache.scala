@@ -7,8 +7,6 @@ import uk.gov.gds.ier.model.HasAddressOption
 
 trait AddressManualMustache extends StepTemplate[InprogressForces] {
 
-  val questionNumber = "2"
-
   private def pageTitle(hasUkAddress: Option[String]): String = {
     hasUkAddress map HasAddressOption.parse match {
       case Some(HasAddressOption.YesAndLivingThere) => "What is your UK address?"
@@ -36,7 +34,6 @@ trait AddressManualMustache extends StepTemplate[InprogressForces] {
     ManualModel(
       question = Question(
         postUrl = postUrl.url,
-        number = questionNumber,
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),

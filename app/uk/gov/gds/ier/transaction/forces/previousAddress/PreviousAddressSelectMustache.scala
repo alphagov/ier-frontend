@@ -13,7 +13,6 @@ trait PreviousAddressSelectMustache
     with WithSerialiser =>
 
   val title = "What was your previous UK address?"
-  val questionNumber = "3"
 
   case class SelectModel (
     question: Question,
@@ -87,7 +86,6 @@ trait PreviousAddressSelectMustache
     SelectModel(
       question = Question(
         postUrl = post.url,
-        number = questionNumber,
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),

@@ -21,7 +21,6 @@ class NameControllerTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 5")
       contentAsString(result) should include("What is your full name?")
       contentAsString(result) should include("Have you changed your name in the last 12 months?")
       contentAsString(result) should include("<form action=\"/register-to-vote/crown/name\"")
@@ -124,7 +123,6 @@ class NameControllerTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 5")
       contentAsString(result) should include("What is your full name?")
       contentAsString(result) should include("Have you changed your name in the last 12 months?")
       contentAsString(result) should include("<form action=\"/register-to-vote/crown/edit/name\"")

@@ -20,7 +20,6 @@ trait StatementMustache extends StepTemplate[InprogressForces] {
       question = Question(
         postUrl = postEndpoint.url,
         errorMessages = form.globalErrors.map{ _.message },
-        number = "1",
         title = title
       ),
       statementFieldSet = FieldSet(

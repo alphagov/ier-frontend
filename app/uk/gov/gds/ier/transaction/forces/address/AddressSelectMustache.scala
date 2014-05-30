@@ -19,8 +19,6 @@ trait AddressSelectMustache extends StepTemplate[InprogressForces] {
     }
   }
 
-  val questionNumber = "2"
-
   case class SelectModel (
      question: Question,
      lookupUrl: String,
@@ -93,7 +91,6 @@ trait AddressSelectMustache extends StepTemplate[InprogressForces] {
     SelectModel(
       question = Question(
         postUrl = postUrl.url,
-        number = questionNumber,
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),

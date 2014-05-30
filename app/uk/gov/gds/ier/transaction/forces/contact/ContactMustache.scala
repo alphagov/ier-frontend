@@ -25,7 +25,6 @@ trait ContactMustache extends StepTemplate[InprogressForces] {
       question = Question(
         postUrl = postUrl.url,
         errorMessages = form.globalErrors.map{ _.message },
-        number = "14",
         title = title
       ),
       contactFieldSet = FieldSet(

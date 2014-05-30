@@ -22,7 +22,6 @@ trait DeclarationPdfMustache extends StepTemplate[InprogressCrown] {
     DeclarationPdfModel(
       question = Question(
         postUrl = postUrl.url,
-        number = "7",
         title = pageTitle,
         errorMessages = form.globalErrors.map ( _.message )
       ),

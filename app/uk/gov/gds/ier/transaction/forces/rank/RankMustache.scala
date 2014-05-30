@@ -23,16 +23,16 @@ trait RankMustache extends  StepTemplate[InprogressForces] {
   val mustache = MustacheTemplate("forces/rank") { (form, postUrl, application) =>
     implicit val progressForm = form
 
-    val title = if (displayPartnerSentence(application))
+    val title = if (displayPartnerSentence(application)) {
       "What is your partner's service number?"
-    else
+    } else {
       "What is your service number?"
+    }
 
     RankModel(
       question = Question(
         postUrl = postUrl.url,
         errorMessages = form.globalErrors.map{ _.message },
-        number = "9",
         title = title
       ),
       serviceNumber = TextField(

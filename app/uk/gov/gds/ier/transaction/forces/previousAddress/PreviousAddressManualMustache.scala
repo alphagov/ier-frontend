@@ -7,7 +7,6 @@ import controllers.step.forces.routes.PreviousAddressPostcodeController
 trait PreviousAddressManualMustache extends StepTemplate[InprogressForces] {
 
   val title = "What was your previous UK address?"
-  val questionNumber = "3"
 
   case class ManualModel (
     question: Question,
@@ -27,7 +26,6 @@ trait PreviousAddressManualMustache extends StepTemplate[InprogressForces] {
     ManualModel(
       question = Question(
         postUrl = postUrl.url,
-        number = questionNumber,
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),

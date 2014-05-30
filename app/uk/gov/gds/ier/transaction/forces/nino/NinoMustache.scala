@@ -23,7 +23,6 @@ trait NinoMustache extends StepTemplate[InprogressForces] {
       question = Question(
         postUrl = postEndpoint.url,
         errorMessages = form.globalErrors.map(_.message),
-        number = "7",
         title = title
       ),
       nino = TextField(

@@ -31,7 +31,6 @@ class AddressStepTests
       contentAsString(result) should include(
         "What is your UK address?"
       )
-      contentAsString(result) should include("Question 2")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/address\"")
     }
   }
@@ -53,7 +52,6 @@ class AddressStepTests
       contentAsString(result) should include(
         "What was your last UK address?"
       )
-      contentAsString(result) should include("Question 2")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/address\"")
     }
   }
@@ -220,7 +218,6 @@ behavior of "AddressStep.editGet"
       contentAsString(result) should include(
         "What was your last UK address?"
       )
-      contentAsString(result) should include("Question 2")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/edit/address\"")
 
     }

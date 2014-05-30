@@ -20,12 +20,11 @@ trait StatementMustache extends StepTemplate[InprogressCrown] {
 
   val mustache = MustacheTemplate("crown/statement") { (form, post) =>
     implicit val progressForm = form
-    
+
     StatementModel(
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map { _.message },
-        number = "1",
         title = title
       ),
       crown = Field(

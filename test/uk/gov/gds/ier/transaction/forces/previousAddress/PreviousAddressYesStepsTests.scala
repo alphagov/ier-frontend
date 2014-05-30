@@ -24,7 +24,6 @@ class PreviousAddressYesStepsTests
       contentAsString(result) should include(
         "What was your previous UK address?"
       )
-      contentAsString(result) should include("Question 3")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/previous-address/postcode\"")
     }
   }
@@ -143,7 +142,6 @@ class PreviousAddressYesStepsTests
       contentAsString(result) should include(
         "What was your previous UK address?"
       )
-      contentAsString(result) should include("Question 3")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/edit/previous-address/postcode\"")
     }
   }
