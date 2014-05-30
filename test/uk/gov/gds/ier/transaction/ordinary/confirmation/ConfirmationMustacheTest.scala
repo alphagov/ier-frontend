@@ -25,7 +25,7 @@ class ConfirmationMustacheTest
   val serialiser = jsonSerialiser
 
   "In-progress application form with filled name and previous name" should
-    "generate confirmation mustache model with correctly rendered names and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered names and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
         name = Some(Name(
           firstName = "John",
@@ -54,7 +54,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with filled name and previous name with middle names" should
-    "generate confirmation mustache model with correctly rendered names and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered names and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
         name = Some(Name(
           firstName = "John",
@@ -83,7 +83,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with filled date of birth" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       dob = Some(DateOfBirth(
         dob = Some(DOB(
@@ -102,7 +102,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with filled date of birth excuse" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       dob = Some(DateOfBirth(
         dob = None,
@@ -122,7 +122,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with british nationality" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
 
     val partiallyFilledApplicationForm =
       confirmationForm.fillAndValidate(completeOrdinaryApplication.copy(
@@ -143,7 +143,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with irish nationality" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm =
       confirmationForm.fillAndValidate(completeOrdinaryApplication.copy(
       nationality = Some(PartialNationality(
@@ -163,7 +163,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with other nationality" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm =
       confirmationForm.fillAndValidate(completeOrdinaryApplication.copy(
       nationality = Some(PartialNationality(
@@ -184,7 +184,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with nationality excuse" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       nationality = Some(PartialNationality(
         british = None,
@@ -205,7 +205,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with valid nino" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       nino = Some(Nino(
         nino = Some("AB123456C"),
@@ -221,7 +221,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with nino excuse" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       nino = Some(Nino(
         nino = None,
@@ -239,7 +239,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with valid address" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       address = Some(PartialAddress(
         addressLine = Some("123 Fake Street"),
@@ -257,7 +257,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with valid manual address" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       address = Some(PartialAddress(
         addressLine = None,
@@ -282,7 +282,7 @@ class ConfirmationMustacheTest
 
 
   "In-progress application form with valid previous address" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       previousAddress = Some(PartialPreviousAddress(
         movedRecently = Some(MovedHouseOption.MovedFromUk),
@@ -303,7 +303,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with valid previous manual address" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       previousAddress = Some(PartialPreviousAddress(
         movedRecently = Some(MovedHouseOption.MovedFromUk),
@@ -330,7 +330,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with valid previous address registered at when living abroad" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       previousAddress = Some(PartialPreviousAddress(
         movedRecently = Some(MovedHouseOption.MovedFromAbroadRegistered),
@@ -351,7 +351,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with valid previous manual address registered at when living abroad" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       previousAddress = Some(PartialPreviousAddress(
         movedRecently = Some(MovedHouseOption.MovedFromAbroadRegistered),
@@ -378,7 +378,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form without previous address" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       previousAddress = Some(PartialPreviousAddress(
         movedRecently = Some(MovedHouseOption.NotMoved),
@@ -395,7 +395,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with previous address being abroad but not registered" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       previousAddress = Some(PartialPreviousAddress(
         movedRecently = Some(MovedHouseOption.MovedFromAbroadNotRegistered),
@@ -412,7 +412,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with valid other/second address" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       otherAddress = Some(OtherAddress(
         otherAddressOption =  OtherAddress.NoOtherAddress
@@ -428,7 +428,7 @@ class ConfirmationMustacheTest
 
 
   "In-progress application form with open register set to true" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       openRegisterOptin = Some(true)
     ))
@@ -442,7 +442,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form without open register flag" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       openRegisterOptin = Some(false)
     ))
@@ -456,7 +456,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with postal vote (by post)" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       postalVote = Some(PostalVote(
         postalVoteOption = Some(true),
@@ -476,7 +476,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with postal vote (by email)" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       postalVote = Some(PostalVote(
         postalVoteOption = Some(true),
@@ -497,7 +497,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with no postal vote" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       postalVote = Some(PostalVote(
         postalVoteOption = Some(false),
@@ -514,7 +514,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with email contact" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       contact = Some(Contact(
         post = false,
@@ -531,7 +531,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with phone contact" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       contact = Some(Contact(
         post = false,
@@ -548,7 +548,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with post contact" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp{
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       contact = Some(Contact(
         post = true,
@@ -705,7 +705,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with valid previous UK address" should
-  "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
+  "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       previousAddress = Some(PartialPreviousAddress(
         movedRecently = Some(MovedHouseOption.MovedFromUk),
@@ -727,7 +727,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with valid previous UK manual address" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       previousAddress = Some(PartialPreviousAddress(
         movedRecently = Some(MovedHouseOption.MovedFromUk),
