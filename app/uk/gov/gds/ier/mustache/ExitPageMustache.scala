@@ -39,7 +39,7 @@ trait ExitPageMustache extends StepMustache {
     ) extends ExitTemplate("exit/scotland")
 
     case class TooYoung (
-        title: Option[String] = None// "Register to Vote - "
+        title: Option[String] = None
     ) (
       implicit val lang: Lang
     ) extends ExitTemplate("exit/tooYoung")

@@ -472,7 +472,7 @@ ordinary_address_continue=Continue
 
 ordinary_tooYoung_title=Sorry, you can’t register to vote yet
 ordinary_tooYoung_explanation=You can’t register to vote until you're 16. In the meantime, you may be interested in the <a href="http://www.ukyouthparliament.org.uk/">UK Youth Parliament</a>.
-ordinary_tooYoung_moreAboutVoting=<a href="https://www.gov.uk/voting-in-the-uk">More about voting in the UK</a>.
+ordinary_tooYoung_moreAboutVoting=More about voting in the UK.
 
 # British Islands
 
