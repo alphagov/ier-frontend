@@ -44,7 +44,7 @@ trait ExitPageMustache extends StepMustache {
       implicit val lang: Lang
     ) extends ExitTemplate("exit/tooYoung")
       with MessagesForMustache {
-      val pageTitle = title getOrElse Messages("ordinary_tooYoung_title")
+      val pageTitle = title getOrElse Messages("exit_tooYoung_title")
     }
 
     case class Under18 (

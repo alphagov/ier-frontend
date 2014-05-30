@@ -486,9 +486,9 @@ ordinary_address_continue=Parhau
 
 # Too Young
 
-ordinary_tooYoung_title=Mae'n ddrwg gennym, ni allwch gofrestru i bleidleisio eto
-ordinary_tooYoung_explanation=Ni allwch gofrestru i bleidleisio nes eich bod yn 16 oed. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk/">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
-ordinary_tooYoung_moreAboutVoting=Mwy o wybodaeth am bleidleisio yn y DU.
+exit_tooYoung_title=Mae'n ddrwg gennym, ni allwch gofrestru i bleidleisio eto
+exit_tooYoung_explanation=Ni allwch gofrestru i bleidleisio nes eich bod yn 16 oed. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk/">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
+exit_tooYoung_moreAboutVoting=Mwy o wybodaeth am bleidleisio yn y DU.
 
 # British Islands
 
