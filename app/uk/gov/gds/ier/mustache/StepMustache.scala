@@ -83,6 +83,7 @@ trait StepMustache extends MustacheModel {
   case class CookieMessage() extends Mustachio("template/cookieMessage")
 
   case class FooterLinks(
+    cookieUrl: String = controllers.routes.RegisterToVoteController.cookies.url,
     privacyUrl: String = controllers.routes.RegisterToVoteController.privacy.url
   ) extends Mustachio("template/footerLinks")
 

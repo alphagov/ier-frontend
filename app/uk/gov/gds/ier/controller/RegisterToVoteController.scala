@@ -65,5 +65,9 @@ class RegisterToVoteController @Inject() (
   def privacy = Action { request =>
     Ok(RegisterToVote.PrivacyPage())
   }
+
+  def cookies = Action { request =>
+    Ok(RegisterToVote.CookiePage())
+  }
 }
 

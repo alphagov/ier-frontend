@@ -78,5 +78,11 @@ trait GovukMustache extends StepMustache {
       "Register to vote: privacy",
       "article"
     )
+
+    case class CookiePage() extends GovukPage(
+      "govuk/cookies",
+      "Cookies",
+      "article"
+    )
   }
 }
