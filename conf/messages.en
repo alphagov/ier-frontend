@@ -482,6 +482,13 @@ exit_tooYoung_moreAboutVoting=More about voting in the UK.
 
 # Northern Ireland
 
+exit_northernIreland_title=Voter canvass form for Northern Ireland
+exit_northernIreland_explanation=You can't register online if you live in Northern Ireland.
+exit_northernIreland_instead=Instead, download and complete a
+exit_northernIreland_paperRegistration=registration form
+exit_northernIreland_postItTo=then post it to your
+exit_northernIreland_yourElectoralOffice=local area electoral office
+
 # Scotland
 
 # Under 18
