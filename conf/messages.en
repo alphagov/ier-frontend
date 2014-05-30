@@ -1,3 +1,7 @@
+#
+# WHEN MODYFYING MESSAGES USE ’ INSTEAD OF '
+#
+
 # general
 step_of=of
 step_a_of_b={0} of {1}
@@ -30,16 +34,16 @@ ordinary_nationality_addAnotherCountry=add another country
 ordinary_nationality_AddAnotherCountry=Add another country
 ordinary_nationality_dualNationality=If you have dual nationality
 ordinary_nationality_help_heading_1=Help with nationality
-ordinary_nationality_help_content_1=If you're not sure about your nationality, try to find out from an official \
+ordinary_nationality_help_content_1=If you’re not sure about your nationality, try to find out from an official \
 document like a passport or national ID card.
 ordinary_nationality_help_content_2=We need to know your nationality so we can work out which elections \
-you're entitled to vote in. If you can't provide your nationality, you'll have to send copies of identity documents \
+you’re entitled to vote in. If you can’t provide your nationality, you’ll have to send copies of identity documents \
 through the post.
-ordinary_nationality_help_heading_2=I can't provide my nationality
-ordinary_nationality_help_content_3=Why can't you provide your nationality?
+ordinary_nationality_help_heading_2=I can’t provide my nationality
+ordinary_nationality_help_content_3=Why can’t you provide your nationality?
 ordinary_nationality_error_pleaseAnswer=Please answer this question
 ordinary_nationality_error_notValid=This is not a valid country
-ordinary_nationality_error_noMoreFiveCountries=You can specifiy no more than five countries
+ordinary_nationality_error_noMoreFiveCountries=You can specify no more than five countries
 
 # ordinary: date of birth
 ordinary_dob_title=What is your date of birth?
@@ -50,18 +54,18 @@ ordinary_dob_year_label=Year
 ordinary_dob_formatExample=For example: <span class="date">31 3 1970</span>
 
 ordinary_dob_help_link=Help with date of birth
-ordinary_dob_help_content_1=If you don't know your exact date of birth, use the one you put on official documents \
+ordinary_dob_help_content_1=If you don’t know your exact date of birth, use the one you put on official documents \
 (for example, your passport or driving licence).
-ordinary_dob_help_content_2=If you can't provide your date of birth you'll have to send copies of identity documents \
+ordinary_dob_help_content_2=If you can’t provide your date of birth you’ll have to send copies of identity documents \
 through the post.
 
-ordinary_dob_help_cannotProvideDOB_link=I can't provide my date of birth
-ordinary_dob_help_cannotProvideDOB_reasonQuestion=Why can't you provide your date of birth?
+ordinary_dob_help_cannotProvideDOB_link=I can’t provide my date of birth
+ordinary_dob_help_cannotProvideDOB_reasonQuestion=Why can’t you provide your date of birth?
 ordinary_dob_help_cannotProvideDOB_ageGroupQuestion=What age group do you belong to?
 ordinary_dob_help_cannotProvideDOB_ageGroup_under18_option=<span class="visuallyhidden">I am</span>Under 18 years old
 ordinary_dob_help_cannotProvideDOB_ageGroup_between18and70_option=<span class="visuallyhidden">I am</span>Between 18 and 70 years old
 ordinary_dob_help_cannotProvideDOB_ageGroup_over70_option=<span class="visuallyhidden">I am</span>Over 70 years old
-ordinary_dob_help_cannotProvideDOB_ageGroup_dontKnow_option=Don't know<span class="visuallyhidden"> the age group I belong to</span>
+ordinary_dob_help_cannotProvideDOB_ageGroup_dontKnow_option=Don’t know<span class="visuallyhidden"> the age group I belong to</span>
 
 ordinary_dob_error_answerThis=Please answer this question
 ordinary_dob_error_enterDateOfBirth=Please enter your date of birth
@@ -92,7 +96,7 @@ ordinary_name_error_lastNameTooLong=Last name can be no longer than 256 characte
 
 ordinary_previousName_hasPreviousName_label=Have you changed your name in the last 12 months?
 ordinary_previousName_hasPreviousName_yes_label=Yes<span class="visuallyhidden"> I changed my name in the last 12 months</span>
-ordinary_previousName_hasPreviousName_no_label=No<span class="visuallyhidden"> I haven't changed my name in the last 12 months</span>
+ordinary_previousName_hasPreviousName_no_label=No<span class="visuallyhidden"> I haven’t changed my name in the last 12 months</span>
 ordinary_previousName_header=What was your previous name?
 ordinary_previousName_firstName_label=<span class="visuallyhidden">Previous</span> First name
 ordinary_previousName_middleNames_label=<span class="visuallyhidden">Previous</span> Middle names
@@ -111,13 +115,13 @@ ordinary_previousName_error_lastNameTooLong=Previous last name can be no longer 
 
 ordinary_nino_heading=What is your National Insurance number?
 ordinary_nino_example=Example: QQ 12 34 56 C
-ordinary_nino_help=I don't know my National Insurance number
+ordinary_nino_help=I don’t know my National Insurance number
 ordinary_nino_section_1=You can
 ordinary_nino_list_1=look for your National Insurance number on payslips or official letters about tax, pensions or benefits
 ordinary_nino_list_2=ask for a reminder through the post
-ordinary_nino_section_2=If you can't provide a National Insurance number, you will need to explain why. And after you've applied, you'll be asked to prove your identity by sending documents in the post.
-ordinary_nino_excuse=I can't provide a National Insurance number
-ordinary_nino_excuse_content=Why can't you provide a National Insurance number?
+ordinary_nino_section_2=If you can’t provide a National Insurance number, you will need to explain why. And after you’ve applied, you’ll be asked to prove your identity by sending documents in the post.
+ordinary_nino_excuse=I can’t provide a National Insurance number
+ordinary_nino_excuse_content=Why can’t you provide a National Insurance number?
 ordinary_nino_error_noneEntered=Please enter your National Insurance number
 ordinary_nino_error_incorrectFormat=Your National Insurance number is not correct
 ordinary_nino_error_maxLength=Reason for not providing National Insurance number must be described in up to 500 characters
@@ -140,33 +144,33 @@ ordinary_address_error_cityIsRequired=Postal town or city is required
 #
 ordinary_address_postcode_title=What is your address?
 
-ordinary_address_postcode_enterPostcodeWhenRegistering_p=Enter the postcode where you're registering to vote.
+ordinary_address_postcode_enterPostcodeWhenRegistering_p=Enter the postcode where you’re registering to vote.
 ordinary_address_postcode_postcode_label=Postcode
 
-ordinary_address_postcode_dontKnowMyPostcode_h2=I don't know my postcode
-ordinary_address_postcode_dontKnowMyPostcode_dtt=I don't know my postcode
-ordinary_address_postcode_tryWebSearchEngine_p=If you can't find your postcode on a letter or other\
+ordinary_address_postcode_dontKnowMyPostcode_h2=I don’t know my postcode
+ordinary_address_postcode_dontKnowMyPostcode_dtt=I don’t know my postcode
+ordinary_address_postcode_tryWebSearchEngine_p=If you can’t find your postcode on a letter or other\
  document, try entering your address into a search engine website.
 
-ordinary_address_postcode_dontKnowWhatAddressToUse_h3=I don't know what address to use
+ordinary_address_postcode_dontKnowWhatAddressToUse_h3=I don’t know what address to use
 
 ordinary_address_postcode_ifYouHaveMoreThanOneAddress_h4=If you have more than one address
-ordinary_address_postcode_itIsPossible_p=It's sometimes possible to register at two addresses\
+ordinary_address_postcode_itIsPossible_p=It’s sometimes possible to register at two addresses\
  (though you can only vote once in any election).
-ordinary_address_postcode_forExample_p=For example, if you're a student living away from home, you may\
+ordinary_address_postcode_forExample_p=For example, if you’re a student living away from home, you may\
  be able to register at both your home and term time addresses.
 ordinary_address_postcode_makeTwoSeparateApplications_p=If you want to register at two addresses, make two\
  separate applications through this service. Your local Electoral Registration Office will look\
- at each application and tell you whether you're allowed to register.
+ at each application and tell you whether you’re allowed to register.
 
-ordinary_address_postcode_ifYouDontHavePermanentAddress_h4=If you don't have a permanent address
-ordinary_address_postcode_ifYouAreHomeless_p=If you're homeless and living in temporary accommodation\
+ordinary_address_postcode_ifYouDontHavePermanentAddress_h4=If you don’t have a permanent address
+ordinary_address_postcode_ifYouAreHomeless_p=If you’re homeless and living in temporary accommodation\
  (for example, a long term hostel), use that address.
-ordinary_address_postcode_ifYouAreLongTermPatient_p=If you're a long term patient in a psychiatric hospital, use the address of the hospital.
-ordinary_address_postcode_ifYouArePrisoner_p=If you're a prisoner on long term remand, use the address of the prison.
+ordinary_address_postcode_ifYouAreLongTermPatient_p=If you’re a long term patient in a psychiatric hospital, use the address of the hospital.
+ordinary_address_postcode_ifYouArePrisoner_p=If you’re a prisoner on long term remand, use the address of the prison.
 
-ordinary_address_postcode_ifYouCantProvideAddress_h4=If you can't provide an address
-ordinary_address_postcode_ifYouCannotProvideAddress_p=If you can't provide an address, contact [your local\
+ordinary_address_postcode_ifYouCantProvideAddress_h4=If you can’t provide an address
+ordinary_address_postcode_ifYouCannotProvideAddress_p=If you can’t provide an address, contact [your local\
  Electoral Registration Office](https://www.gov.uk/get-on-electoral-register) for advice.
 
 ordinary_address_postcode_findAddress_button=Find address
@@ -178,9 +182,9 @@ ordinary_address_select_title=What is your address?
 
 ordinary_address_select_postcode_label=Postcode
 ordinary_address_select_changeYourPostcode_a=Change<span class="visuallyhidden"> your postcode</span>
-ordinary_address_select_couldNotFindAnyAddresses_p=Sorry - we couldn't find any addresses for that postcode
+ordinary_address_select_couldNotFindAnyAddresses_p=Sorry - we couldn’t find any addresses for that postcode
 ordinary_address_select_selectYourAddress_p=<span class="visuallyhidden">Select your </span>Address
-ordinary_address_select_cannotFindMyAddressInTheList_a=I can't find my address in the list<span class="visuallyhidden"> section</span>
+ordinary_address_select_cannotFindMyAddressInTheList_a=I can’t find my address in the list<span class="visuallyhidden"> section</span>
 
 #
 # ordinary: address manual
@@ -207,11 +211,11 @@ ordinary_otheraddr_ifYouHaveSecondAddr_p1=You may be able to register at both ad
 
 ordinary_otheraddr_ifYouHaveSecondAddr_p2=If you want to register in two places, make two \
 separate applications through this service. Your local Electoral Registration Office will look at \
-each application and tell you whether you're allowed to register.
+each application and tell you whether you’re allowed to register.
 
-ordinary_otheraddr_yesImStudent=Yes, I'm a student with home and term-time addresses
+ordinary_otheraddr_yesImStudent=Yes, I’m a student with home and term-time addresses
 ordinary_otheraddr_yesImStudent_p1=Students can register to vote at their home and term time addresses.
-ordinary_otheraddr_yesImStudent_p2=If you're not already registered at your other address, you \
+ordinary_otheraddr_yesImStudent_p2=If you’re not already registered at your other address, you \
 can make a separate application through this service.
 
 ordinary_otheraddr_error_pleaseAnswer=Please answer this question
@@ -242,10 +246,10 @@ ordinary_previousAddress_select_postcode_label=Postcode
 ordinary_previousAddress_select_postcodeChange=Change<span class="visuallyhidden"> your postcode</span>
 ordinary_previousAddress_select_selectAddress=<span class="visuallyhidden">Select your </span>Address
 ordinary_previousAddress_select_addressesFound=addresses found
-ordinary_previousAddress_select_cannotFindAddress=I can't find my address in the list
+ordinary_previousAddress_select_cannotFindAddress=I can’t find my address in the list
 
 ordinary_previousAddress_select_error_answerThis=Please answer this question
-ordinary_previousAddress_select_error_noAddressesFound=Sorry - we couldn't find any addresses for that postcode
+ordinary_previousAddress_select_error_noAddressesFound=Sorry - we couldn’t find any addresses for that postcode
 
 # ordinary: previous address manual
 ordinary_previousAddress_manual_postcode_label=Postcode
@@ -265,9 +269,9 @@ ordinary_openRegister_content_1=The open register is an extract of the electoral
 used for elections. It can be bought by any person, company or organisation. For example, it is used by \
 businesses and charities to confirm name and address details.
 
-ordinary_openRegister_content_2=Your decision won't affect your right to vote.
+ordinary_openRegister_content_2=Your decision won’t affect your right to vote.
 
-ordinary_openRegister_choice=No, I don't want my name and address on the open register
+ordinary_openRegister_choice=No, I don’t want my name and address on the open register
 
 ordinary_openRegister_help_link=Why are two registers?
 
@@ -309,17 +313,17 @@ ordinary_postalVote_voteInPerson_option=No, I prefer to vote in person
 ordinary_postalVote_postalVote_option=Yes, I want a postal vote
 
 ordinary_postalVote_postalVote_heading=If you want a postal vote application form
-ordinary_postalVote_postalVote_deliveryOptionsQuestion=You'll need to sign and return a postal vote application \
+ordinary_postalVote_postalVote_deliveryOptionsQuestion=You’ll need to sign and return a postal vote application \
 form. How should we send you the form?
 ordinary_postalVote_postalVote_deliveryEmail_option=Email it to me
 ordinary_postalVote_postalVote_emailAddress_label=Email address
 ordinary_postalVote_postalVote_deliveryPost_option=Post it to me
 
 ordinary_postalVote_help_link=What is a postal vote?
-ordinary_postalVote_help_content_1=We'll send your ballot paper to the address you choose. Then you fill it in \
+ordinary_postalVote_help_content_1=We’ll send your ballot paper to the address you choose. Then you fill it in \
 and return it by post.
-ordinary_postalVote_help_content_2=Anyone can apply for a postal vote. You don't need to give a reason.
-ordinary_postalVote_help_content_3=If you're not sure whether you want a postal vote, you can complete your registration \
+ordinary_postalVote_help_content_2=Anyone can apply for a postal vote. You don’t need to give a reason.
+ordinary_postalVote_help_content_3=If you’re not sure whether you want a postal vote, you can complete your registration \
 now and apply for a postal vote later.
 
 ordinary_postalVote_error_answerThis=Please answer this question
@@ -343,6 +347,77 @@ ordinary_contact_error_enterYourPhoneNo=Please enter your phone number
 ordinary_contact_error_pleaseEnterValidEmail=Please enter a valid email address
 
 # ordinary: confirmation
+ordinary_confirmation_title=Check your answers before sending your application
+ordinary_confirmation_title_header=Confirm your details - Register to vote
+ordinary_confirmation_edit_link=Change
+ordinary_confirmation_submitApplication=I accept - send my application
+
+ordinary_confirmation_name_title=Name
+ordinary_confirmation_name_changeName=full name
+
+ordinary_confirmation_previousName_title=What is your previous name?
+ordinary_confirmation_previousName_changeName=previous name
+ordinary_confirmation_previousName_nameNotChanged=I have not changed my name in the last 12 months
+
+ordinary_confirmation_dob_title=Date of birth
+ordinary_confirmation_dob_changeName=date of birth
+ordinary_confirmation_dob_noDOBReason=You are unable to provide your date of birth because: {0}
+ordinary_confirmation_dob_noDOBUnder18=I am roughly under 18
+ordinary_confirmation_dob_noDOB18to70=I am over 18 years old
+ordinary_confirmation_dob_noDOBOver70=I am over 70 years old
+ordinary_confirmation_dob_noDOBDontKnow=I don’t know my age
+
+ordinary_confirmation_nationality_title=Nationality
+ordinary_confirmation_nationality_changeName=nationality
+ordinary_confirmation_nationality_british=British
+ordinary_confirmation_nationality_irish=Irish
+ordinary_confirmation_nationality_iAm=I am
+ordinary_confirmation_nationality_and=and
+ordinary_confirmation_nationality_citizenOf=a citizen of
+ordinary_confirmation_nationality_noNationalityReason=I cannot provide my nationality because:
+
+ordinary_confirmation_nino_title=National Insurance number
+ordinary_confirmation_nino_changeName=national insurance number
+ordinary_confirmation_nino_noNinoReason=I cannot provide my national insurance number because:
+
+ordinary_confirmation_address_title=Address
+ordinary_confirmation_address_changeName=your address
+
+ordinary_confirmation_secondAddress_title=Second address
+ordinary_confirmation_secondAddress_changeName=second address
+ordinary_confirmation_secondAddress_haveAddress=I have a second address
+ordinary_confirmation_secondAddress_dontHaveAddress=I don’t have a second address
+
+ordinary_confirmation_previousAddress_title_lastAddress=Last UK address
+ordinary_confirmation_previousAddress_title_previous=Previous address
+ordinary_confirmation_previousAddress_changeName=your previous address
+ordinary_confirmation_previousAddress_movedFromAbroadNotRegistered=I moved from abroad, but I was not registered to vote there
+ordinary_confirmation_previousAddress_movedFromNI=I was previously registered in Northern Ireland
+ordinary_confirmation_previousAddress_notMoved=I have not moved in the last 12 months
+
+ordinary_confirmation_openRegister_title=Open register
+ordinary_confirmation_openRegister_changeName=open register
+ordinary_confirmation_openRegister_optIn=I want to include my name and address on the open register
+ordinary_confirmation_openRegister_optOut=I don’t want my name and address on the open register
+
+ordinary_confirmation_postalVote_title=Postal vote
+ordinary_confirmation_postalVote_changeName=postal vote
+ordinary_confirmation_postalVote_emailDelivery=I want you to email a postal vote application form to:
+ordinary_confirmation_postalVote_mailDelivery=I want you to mail me a postal vote application form
+ordinary_confirmation_postalVote_dontWant=I don’t want to apply for a postal vote
+
+ordinary_confirmation_contact_title=How we should contact you
+ordinary_confirmation_contact_changeName=how we should contact you
+ordinary_confirmation_contact_byPost=By post
+ordinary_confirmation_contact_byPhone=By phone: {0}
+ordinary_confirmation_contact_byEmail=By email: {0}
+
+ordinary_confirmation_help_p1=I understand that:
+ordinary_confirmation_help_p2=The information I provide through this application will be used to change my details on the electoral register.
+ordinary_confirmation_help_p3=If I knowingly give false information through this application, I could be fined up to £5,000 or go to prison for up to a year.
+ordinary_confirmation_help_p4=My local electoral registration office may ask the Home Office to check my immigration status.
+
+ordinary_confirmation_error_completeThis=Please complete this step
 
 #
 # all: complete
@@ -381,8 +456,8 @@ ordinary_autocomplete_status_prefix_multiple=results are
 ordinary_address_postcode=Postcode
 ordinary_address_loading=Finding address
 ordinary_address_selectAddress=Select your address
-ordinary_address_excuse=I can't find my address in the list
+ordinary_address_excuse=I can’t find my address in the list
 ordinary_address_previousAddressTest=previous address
 ordinary_address_selectPreviousAddress=Select your previous address
-ordinary_address_previousAddressExcuse=I can't find my previous address in the list
+ordinary_address_previousAddressExcuse=I can’t find my previous address in the list
 ordinary_address_continue=Continue

@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.confirmation
 
-import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
+import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.{Key, ErrorTransformForm}
 import uk.gov.gds.ier.model.{OtherAddress, MovedHouseOption}
@@ -33,7 +32,7 @@ trait ConfirmationMustache
       completeApplicantDetails: List[ConfirmationQuestion]
   ) extends MustacheData
 
-  val mustache = MustacheTemplate("ordinary/confirmation") { (form, postUrl) =>
+  val mustache = MultilingualTemplate("ordinary/confirmation") { implicit lang => (form, postUrl) =>
     val confirmation = new ConfirmationBlocks(form)
 
     val completeApplicantData = List(
@@ -52,18 +51,19 @@ trait ConfirmationMustache
 
     ConfirmationModel(
       question = Question(
-        title = "Confirm your details - Register to vote",
+        title = Messages("ordinary_confirmation_title_header"),
         postUrl = postUrl.url,
         contentClasses = "confirmation"
       ),
       completeApplicantDetails = completeApplicantData
     )
+
   }
 
-  class ConfirmationBlocks(form: ErrorTransformForm[InprogressOrdinary])
+  class ConfirmationBlocks(form: ErrorTransformForm[InprogressOrdinary])(implicit lang: Lang)
     extends AddressHelpers with Logging {
 
-    val completeThisStepMessage = "Please complete this step"
+    val completeThisStepMessage = Messages("ordinary_confirmation_error_completeThis")
 
     def ifComplete(key:Key)(confirmationHtml: => List[String]): EitherErrorOrContent = {
       if (form(key).hasErrors) {
@@ -83,9 +83,9 @@ trait ConfirmationMustache
 
     def name = {
       Some(ConfirmationQuestion(
-        title = "Name",
+        title = Messages("ordinary_confirmation_name_title"),
         editLink = routes.NameController.editGet.url,
-        changeName = "full name",
+        changeName = Messages("ordinary_confirmation_name_changeName"),
         content = ifComplete(keys.name) {
           List(List(
             form(keys.name.firstName).value,
@@ -105,12 +105,12 @@ trait ConfirmationMustache
             form(keys.previousName.previousName.lastName).value
           ).flatten.mkString(" ")
         }
-        case _ => "I have not changed my name in the last 12 months"
+        case _ => Messages("ordinary_confirmation_previousName_nameNotChanged")
       }
       Some(ConfirmationQuestion(
-        title = "What is your previous name?",
+        title = Messages("ordinary_confirmation_previousName_title"),
         editLink = routes.NameController.editGet.url,
-        changeName = "previous name",
+        changeName = Messages("ordinary_confirmation_previousName_changeName"),
         content = ifComplete(keys.previousName) {
           List(prevNameStr)
         }
@@ -118,7 +118,6 @@ trait ConfirmationMustache
     }
 
     def dateOfBirth = {
-
       val dobContent =
         if (form(keys.dob.dob.day).value.isDefined) {
           val day = form(keys.dob.dob.day).value.getOrElse("")
@@ -127,24 +126,23 @@ trait ConfirmationMustache
           List(day + " " + month + " "  + year)
         } else {
           val excuseReason = form(keys.dob.noDob.reason).value match {
-            case Some(reasonDescription) =>
-              s"You are unable to provide your date of birth because: $reasonDescription"
+            case Some(reasonDescription) =>Messages("ordinary_confirmation_dob_noDOBReason", reasonDescription)
             case _ => ""
           }
           val ageRange = form(keys.dob.noDob.range).value match {
-            case Some("under18") => "I am roughly under 18"
-            case Some("18to70") => "I am over 18 years old"
-            case Some("over70") => "I am over 70 years old"
-            case Some("dontKnow") => "I don't know my age"
+            case Some("under18") => Messages("ordinary_confirmation_dob_noDOBUnder18")
+            case Some("18to70") => Messages("ordinary_confirmation_dob_noDOB18to70")
+            case Some("over70") => Messages("ordinary_confirmation_dob_noDOBOver70")
+            case Some("dontKnow") => Messages("ordinary_confirmation_dob_noDOBDontKnow")
             case _ => ""
           }
           List(excuseReason, ageRange)
         }
 
       Some(ConfirmationQuestion(
-        title = "Date of birth",
+        title = Messages("ordinary_confirmation_dob_title"),
         editLink = routes.DateOfBirthController.editGet.url,
-        changeName = "date of birth",
+        changeName = Messages("ordinary_confirmation_dob_changeName"),
         content = ifComplete(keys.dob) {
           dobContent
         }
@@ -153,14 +151,14 @@ trait ConfirmationMustache
 
     def nationality = {
       Some(ConfirmationQuestion(
-        title = "Nationality",
+        title = Messages("ordinary_confirmation_nationality_title"),
         editLink = routes.NationalityController.editGet.url,
-        changeName = "nationality",
+        changeName = Messages("ordinary_confirmation_nationality_changeName"),
         content = ifComplete(keys.nationality) {
           if (nationalityIsFilled) {
             List(confirmationNationalityString)
           } else {
-            List("I cannot provide my nationality because:",
+            List(Messages("ordinary_confirmation_nationality_noNationalityReason"),
               form(keys.nationality.noNationalityReason).value.getOrElse(""))
           }
         }
@@ -169,15 +167,14 @@ trait ConfirmationMustache
 
     def nino = {
       Some(ConfirmationQuestion(
-        title = "National Insurance number",
+        title = Messages("ordinary_confirmation_nino_title"),
         editLink = routes.NinoController.editGet.url,
-        changeName = "national insurance number",
+        changeName = Messages("ordinary_confirmation_nino_changeName"),
         content = ifComplete(keys.nino) {
           if(form(keys.nino.nino).value.isDefined){
             List(form(keys.nino.nino).value.getOrElse("").toUpperCase)
           } else {
-            List("I have not moved in the last 12 months")
-            List("I cannot provide my national insurance number because:",
+            List(Messages("ordinary_confirmation_nino_noNinoReason"),
               form(keys.nino.noNinoReason).value.getOrElse(""))
           }
         }
@@ -186,13 +183,13 @@ trait ConfirmationMustache
 
     def address = {
       Some(ConfirmationQuestion(
-        title = "Address",
+        title = Messages("ordinary_confirmation_address_title"),
         editLink = if (isManualAddressDefined(form, keys.address.manualAddress)) {
           routes.AddressManualController.editGet.url
         } else {
           routes.AddressSelectController.editGet.url
         },
-        changeName = "your address",
+        changeName = Messages("ordinary_confirmation_address_changeName"),
         content = ifComplete(keys.address) {
           val addressLine = form(keys.address.addressLine).value.orElse{
             manualAddressToOneLine(form, keys.address.manualAddress)
@@ -205,16 +202,16 @@ trait ConfirmationMustache
 
     def secondAddress = {
       Some(ConfirmationQuestion(
-        title = "Second address",
+        title = Messages("ordinary_confirmation_secondAddress_title"),
         editLink = routes.OtherAddressController.editGet.url,
-        changeName = "second address",
+        changeName = Messages("ordinary_confirmation_secondAddress_changeName"),
         content =
           ifComplete(keys.otherAddress) {
             form(keys.otherAddress.hasOtherAddress).value match {
               case Some(secAddrType)
                 if OtherAddress.parse(secAddrType) != OtherAddress.NoOtherAddress =>
-                  List("I have a second address")
-              case _ => List("I don't have a second address")
+                  List(Messages("ordinary_confirmation_secondAddress_haveAddress"))
+              case _ => List(Messages("ordinary_confirmation_secondAddress_dontHaveAddress"))
             }
           }
       ))
@@ -225,30 +222,29 @@ trait ConfirmationMustache
       }
 
       val title = movedHouse match {
-        case Some(MovedHouseOption.MovedFromAbroadRegistered) => "Last UK address"
-        case _ => "Previous address"
+        case Some(MovedHouseOption.MovedFromAbroadRegistered) => Messages("ordinary_confirmation_previousAddress_title_lastAddress")
+        case _ => Messages("ordinary_confirmation_previousAddress_title_previous")
       }
 
       Some(ConfirmationQuestion(
         title = title,
         editLink = routes.PreviousAddressFirstController.editGet.url,
-        changeName = "your previous address",
+        changeName = Messages("ordinary_confirmation_previousAddress_changeName"),
         content = ifComplete(keys.previousAddress, keys.previousAddress.movedRecently) {
           movedHouse match {
             case Some(MovedHouseOption.MovedFromAbroadNotRegistered) =>
-              List("I moved from abroad, but I was not registered to vote there")
+              List(Messages("ordinary_confirmation_previousAddress_movedFromAbroadNotRegistered"))
             case Some(moveOption) if moveOption.hasPreviousAddress => {
               val postcode = form(keys.previousAddress.previousAddress.postcode).value.map(_.toUpperCase)
               if (addressService.isNothernIreland(postcode.getOrElse(""))) {
-                List(postcode, Some("I was previously registered in Northern Ireland")).flatten
+                List(postcode, Some(Messages("ordinary_confirmation_previousAddress_movedFromNI"))).flatten
               } else {
                 val address = form(keys.previousAddress.previousAddress.addressLine).value.orElse(
                   manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress))
                 List(address, postcode).flatten
               }
             }
-            case _ =>
-              List("I have not moved in the last 12 months")
+            case _ => List(Messages("ordinary_confirmation_previousAddress_notMoved"))
             }
           }
         ))
@@ -256,14 +252,14 @@ trait ConfirmationMustache
 
     def openRegister = {
       Some(ConfirmationQuestion(
-        title = "Open register",
+        title = Messages("ordinary_confirmation_openRegister_title"),
         editLink = routes.OpenRegisterController.editGet.url,
-        changeName = "open register",
+        changeName = Messages("ordinary_confirmation_openRegister_changeName"),
         content = ifComplete(keys.openRegister) {
           if (form(keys.openRegister.optIn).value == Some("true")){
-            List("I want to include my name and address on the open register")
+            List(Messages("ordinary_confirmation_openRegister_optIn"))
           } else {
-            List("I don't want my name and address on the open register")
+            List(Messages("ordinary_confirmation_openRegister_optOut"))
           }
         }
       ))
@@ -271,24 +267,24 @@ trait ConfirmationMustache
 
     def postalVote = {
       Some(ConfirmationQuestion(
-        title = "Postal vote",
+        title = Messages("ordinary_confirmation_postalVote_title"),
         editLink = routes.PostalVoteController.editGet.url,
-        changeName = "postal vote",
+        changeName = Messages("ordinary_confirmation_postalVote_changeName"),
         content = ifComplete(keys.postalVote) {
           val deliveryMethod =
             if (form(keys.postalVote.deliveryMethod.methodName).value == Some("email")){
-              List("I want you to email a postal vote application form to:",
+              List(Messages("ordinary_confirmation_postalVote_emailDelivery"),
                 form(keys.postalVote.deliveryMethod.emailAddress).value.getOrElse(""))
             }
             else {
-              List("I want you to mail me a postal vote application form")
+              List(Messages("ordinary_confirmation_postalVote_mailDelivery"))
             }
 
           if(form(keys.postalVote.optIn).value == Some("true")){
             deliveryMethod
           }
           else {
-            List("I don’t want to apply for a postal vote")
+            List(Messages("ordinary_confirmation_postalVote_dontWant"))
           }
         }
       ))
@@ -296,20 +292,22 @@ trait ConfirmationMustache
 
     def contact = {
       Some(ConfirmationQuestion(
-        title = "How we should contact you",
+        title = Messages("ordinary_confirmation_contact_title"),
         editLink = routes.ContactController.editGet.url,
-        changeName = "how we should contact you",
+        changeName = Messages("ordinary_confirmation_contact_changeName"),
         content = ifComplete(keys.contact) {
           val post = if (form(keys.contact.post.contactMe).value == Some("true")) {
-            Some("By post")
+            Some(Messages("ordinary_confirmation_contact_byPost"))
           } else None
 
           val phone = if (form(keys.contact.phone.contactMe).value == Some("true")) {
-            form(keys.contact.phone.detail).value.map( phone => s"By phone: $phone")
+            form(keys.contact.phone.detail).value.map( phone =>
+              Messages("ordinary_confirmation_contact_byPhone",phone))
           } else None
 
           val email = if( form(keys.contact.email.contactMe).value == Some("true")) {
-            form(keys.contact.email.detail).value.map {email => s"By email: $email"}
+            form(keys.contact.email.detail).value.map {email =>
+              Messages("ordinary_confirmation_contact_byEmail", email)}
           } else None
 
           List(post, phone, email).flatten
@@ -320,8 +318,8 @@ trait ConfirmationMustache
     private def getNationalities: List[String] = {
       val british = form(keys.nationality.british).value
       val irish =form(keys.nationality.irish).value
-      british.toList.filter(_ == "true").map(brit => "British") ++
-      irish.toList.filter(_ == "true").map(isIrish => "Irish")
+      british.toList.filter(_ == "true").map(brit => Messages("ordinary_confirmation_nationality_british")) ++
+      irish.toList.filter(_ == "true").map(isIrish => Messages("ordinary_confirmation_nationality_irish"))
     }
 
     private[confirmation] def confirmationNationalityString = {
@@ -330,22 +328,24 @@ trait ConfirmationMustache
           prepend:String = "",
           append:String = "") = {
         val filteredList = list.filter(_.nonEmpty)
+
+        val andStr=" "+Messages("ordinary_confirmation_nationality_and")+" "
         val str = List(
           filteredList.dropRight(1).mkString(", "),
           filteredList.takeRight(1).mkString("")
-        ).filter(_.nonEmpty).mkString(" and ")
+        ).filter(_.nonEmpty).mkString(andStr)
 
         if (str.isEmpty) "" else s"$prepend$str$append"
       }
 
       val localNationalities = getNationalities
       val foreignNationalities = concatCommaEndInAnd(
-        prepend = "a citizen of ",
+        prepend = Messages("ordinary_confirmation_nationality_citizenOf")+" ",
         list = form.obtainOtherCountriesList
       )
 
       val nationalityString = concatCommaEndInAnd(
-        prepend = "I am ",
+        prepend = Messages("ordinary_confirmation_nationality_iAm")+" ",
         list = localNationalities :+ foreignNationalities
       )
       nationalityString

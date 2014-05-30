@@ -102,7 +102,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with filled date of birth excuse" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       dob = Some(DateOfBirth(
         dob = None,
@@ -122,7 +122,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with british nationality" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
 
     val partiallyFilledApplicationForm =
       confirmationForm.fillAndValidate(completeOrdinaryApplication.copy(
@@ -143,7 +143,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with irish nationality" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm =
       confirmationForm.fillAndValidate(completeOrdinaryApplication.copy(
       nationality = Some(PartialNationality(
@@ -163,7 +163,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with other nationality" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm =
       confirmationForm.fillAndValidate(completeOrdinaryApplication.copy(
       nationality = Some(PartialNationality(
@@ -184,7 +184,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with nationality excuse" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       nationality = Some(PartialNationality(
         british = None,
@@ -221,7 +221,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with nino excuse" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       nino = Some(Nino(
         nino = None,
@@ -378,7 +378,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form without previous address" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       previousAddress = Some(PartialPreviousAddress(
         movedRecently = Some(MovedHouseOption.NotMoved),
@@ -395,7 +395,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with previous address being abroad but not registered" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       previousAddress = Some(PartialPreviousAddress(
         movedRecently = Some(MovedHouseOption.MovedFromAbroadNotRegistered),
@@ -412,7 +412,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with valid other/second address" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       otherAddress = Some(OtherAddress(
         otherAddressOption =  OtherAddress.NoOtherAddress
@@ -422,13 +422,13 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(secondAddressModel) = confirmation.secondAddress
-    secondAddressModel.content should be(BlockContent(List("I don't have a second address")))
+    secondAddressModel.content should be(BlockContent(List("I don’t have a second address")))
     secondAddressModel.editLink should be("/register-to-vote/edit/other-address")
   }
 
 
   "In-progress application form with open register set to true" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       openRegisterOptin = Some(true)
     ))
@@ -442,7 +442,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form without open register flag" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       openRegisterOptin = Some(false)
     ))
@@ -451,12 +451,12 @@ class ConfirmationMustacheTest
 
     val Some(openRegisterModel) = confirmation.openRegister
     openRegisterModel.content should be(
-        BlockContent(List("I don't want my name and address on the open register")))
+        BlockContent(List("I don’t want my name and address on the open register")))
     openRegisterModel.editLink should be("/register-to-vote/edit/open-register")
   }
 
   "In-progress application form with postal vote (by post)" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       postalVote = Some(PostalVote(
         postalVoteOption = Some(true),
@@ -476,7 +476,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with postal vote (by email)" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       postalVote = Some(PostalVote(
         postalVoteOption = Some(true),
@@ -497,7 +497,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with no postal vote" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       postalVote = Some(PostalVote(
         postalVoteOption = Some(false),
@@ -514,7 +514,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with email contact" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       contact = Some(Contact(
         post = false,
@@ -531,7 +531,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with phone contact" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       contact = Some(Contact(
         post = false,
@@ -548,7 +548,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form with post contact" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       contact = Some(Contact(
         post = true,
@@ -566,7 +566,7 @@ class ConfirmationMustacheTest
 
   behavior of "InProgressForm.confirmationNationalityString"
 
-  it should "handle just irish checked" in {
+  it should "handle just irish checked" in runningApp {
     val form = confirmationForm.fillAndValidate(InprogressOrdinary(
       nationality = Some(PartialNationality(
         british = None,
@@ -580,7 +580,7 @@ class ConfirmationMustacheTest
     confirmation.confirmationNationalityString should be("I am Irish")
   }
 
-  it should "handle just british checked" in {
+  it should "handle just british checked" in runningApp {
     val form = confirmationForm.fillAndValidate(InprogressOrdinary(
       nationality = Some(PartialNationality(
         british = Some(true),
@@ -594,7 +594,7 @@ class ConfirmationMustacheTest
     confirmation.confirmationNationalityString should be("I am British")
   }
 
-  it should "handle british and irish checked" in {
+  it should "handle british and irish checked" in runningApp {
     val form = confirmationForm.fillAndValidate(InprogressOrdinary(
       nationality = Some(PartialNationality(
         british = Some(true),
@@ -608,7 +608,7 @@ class ConfirmationMustacheTest
     confirmation.confirmationNationalityString should be("I am British and Irish")
   }
 
-  it should "handle british, irish and an other nationality checked" in {
+  it should "handle british, irish and an other nationality checked" in runningApp {
     val form = confirmationForm.fillAndValidate(InprogressOrdinary(
       nationality = Some(PartialNationality(
         british = Some(true),
@@ -624,7 +624,7 @@ class ConfirmationMustacheTest
     )
   }
 
-  it should "handle british, irish and two other nationalities checked" in {
+  it should "handle british, irish and two other nationalities checked" in runningApp {
     val form = confirmationForm.fillAndValidate(InprogressOrdinary(
       nationality = Some(PartialNationality(
         british = Some(true),
@@ -640,7 +640,7 @@ class ConfirmationMustacheTest
     )
   }
 
-  it should "handle british, irish and three other nationalities checked" in {
+  it should "handle british, irish and three other nationalities checked" in runningApp {
     val form = confirmationForm.fillAndValidate(InprogressOrdinary(
       nationality = Some(PartialNationality(
         british = Some(true),
@@ -656,7 +656,7 @@ class ConfirmationMustacheTest
     )
   }
 
-  it should "handle an other nationality checked" in {
+  it should "handle an other nationality checked" in runningApp {
     val form = confirmationForm.fillAndValidate(InprogressOrdinary(
       nationality = Some(PartialNationality(
         british = None,
@@ -672,7 +672,7 @@ class ConfirmationMustacheTest
     )
   }
 
-  it should "handle an three other nationalities checked" in {
+  it should "handle an three other nationalities checked" in runningApp {
     val form = confirmationForm.fillAndValidate(InprogressOrdinary(
       nationality = Some(PartialNationality(
         british = None,
@@ -688,7 +688,7 @@ class ConfirmationMustacheTest
     )
   }
 
-  it should "handle two other nationalities checked" in {
+  it should "handle two other nationalities checked" in runningApp {
     val form = confirmationForm.fillAndValidate(InprogressOrdinary(
       nationality = Some(PartialNationality(
         british = None,
@@ -755,7 +755,7 @@ class ConfirmationMustacheTest
 
 
   "In-progress application form with previous postcode being Northern Ireland" should
-    "generate confirmation mustache model with an information for NI users" in {
+    "generate confirmation mustache model with an information for NI users" in runningApp {
 
     when(addressService.isNothernIreland("BT7 1AA")).thenReturn(true)
 
@@ -781,7 +781,7 @@ class ConfirmationMustacheTest
   }
 
   "In-progress application form without previous UK address" should
-    "generate confirmation mustache model with correctly rendered values and correct URLs" in {
+    "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       previousAddress = Some(PartialPreviousAddress(
         movedRecently = Some(MovedHouseOption.NotMoved),

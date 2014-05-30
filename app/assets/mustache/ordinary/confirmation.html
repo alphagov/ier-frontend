@@ -1,6 +1,6 @@
 <article>
   <header class="no-back-link">
-    <h1>Check your answers before sending your application</h1>
+    <h1>{{messages.ordinary_confirmation_title}}</h1>
   </header>
 
     {{#completeApplicantDetails}}
@@ -17,23 +17,20 @@
             {{/content}}
         </div>
         <a href="{{editLink}}" class="change">
-            Change<span class="visuallyhidden"> {{changeName}}</span>
+            {{messages.ordinary_confirmation_edit_link}}<span class="visuallyhidden"> {{changeName}}</span>
         </a>
     </div>
     {{/completeApplicantDetails}}
 
     <div class="help-notice">
-    <p>I understand that: </p>
-    <p>The information I provide through this application will be used to
-        change my details on the electoral register.</p>
-    <p>If I knowingly give false information through this application, I
-        could be fined up to £5,000 or go to prison for up to a year.</p>
-    <p>My local electoral registration office may ask the Home Office to
-        check my immigration status.</p>
+    <p>{{messages.ordinary_confirmation_help_p1}}</p>
+    <p>{{messages.ordinary_confirmation_help_p2}}</p>
+    <p>{{messages.ordinary_confirmation_help_p3}}</p>
+    <p>{{messages.ordinary_confirmation_help_p4}}</p>
   </div>
 </article>
 <form action="{{question.postUrl}}" method="POST">
   <input id="continue" type="submit"
          class="button next"
-         value="I accept - send my application">
+         value="{{messages.ordinary_confirmation_submitApplication}}">
 </form>
