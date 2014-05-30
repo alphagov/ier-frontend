@@ -492,6 +492,10 @@ exit_tooYoung_moreAboutVoting=Mwy o wybodaeth am bleidleisio yn y DU.
 
 # British Islands
 
+exit_britishIslands_title=Cofrestru i bleidleisio yn Ynysoedd y Sianel neu Ynys Manaw
+exit_britishIslands_explanation=Ni allwch chi gofrestru ar-lein os ydych yn byw yn Ynysoedd y Sianel neu Ynys Manaw.
+exit_britishIslands_paperRegistration=Ond mae'n bosib y gallwch gofrestru i bleidleisio yn etholiadau'r DU drwy ddefnyddio ffurflen bapur. Gallwch lawrlwytho a llenwi ffurflen <a href="http://www.aboutmyvote.co.uk/register_to_vote/british_citizens_living_abroad.aspx" rel="external">'Pleidleisiwr Dramor'</a> o'r wefan Fy Mhleidlais I.
+
 # Dont Know
 
 # No Franchise
