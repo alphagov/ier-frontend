@@ -62,7 +62,7 @@ class ConcreteIerApiService @Inject() (
     addressService: AddressService,
     shaHashProvider:ShaHashProvider,
     isoCountryService: IsoCountryService
-  ) extends IerApiService with Logging {
+  ) extends IerApiService with Logging with SubmissionHacks {
 
   def submitOrdinaryApplication(
       ipAddress: Option[String],
@@ -228,7 +228,7 @@ class ConcreteIerApiService @Inject() (
       referenceNumber = referenceNumber,
       ip = ipAddress,
       timeTaken = timeTaken.getOrElse("-1")
-    )
+    ).hackNoUkAddressToNonat(applicant.nationality, applicant.address)
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
 
