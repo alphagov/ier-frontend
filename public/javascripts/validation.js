@@ -410,6 +410,7 @@
             return $field.val();
         }
       };
+      // Format an array of field objects into one where they are marked as invalid against a single rule
       _getInvalidDataFromFields = function (fields, rule) {
         return $.map(fields, function (item, idx) {
           return {
@@ -429,22 +430,6 @@
             if (this.$source.is(':hidden')) { return []; }
             if (_getFieldValue(this.$source) === '') {
               return _getInvalidDataFromFields([this], 'nonEmpty');
-            } else {
-              return [];
-            }
-          },
-          'atLeastOneCountry' : function () {
-            var $countries,
-                $filledCountries,
-                $selectedCountries;
-
-            if (this.$source.is(':hidden')) { return []; }
-            $countries = this.$source.find('.country-autocomplete');
-            $filledCountries = $.map($countries, function (elm, idx) {
-              return (_getFieldValue($(elm)) === '') ? null : elm;
-            });
-            if ($filledCountries.length === 0) {
-              return _getInvalidDataFromFields([this, { 'name' : 'country', '$source' : $countries }], 'atLeastOneCountry');
             } else {
               return [];
             }
@@ -515,6 +500,23 @@
             } else {
               return [];
             }
+          },
+          'validCountry' : function () {
+            var entry = _getFieldValue(this.$source),
+                countries = GOVUK.registerToVote.countries,
+                isValid = false;
+
+            $.each(countries, function (idx, country) {
+              if ($.inArray(entry, country.tokens) > -1) {
+                isValid = true;
+                return false;
+              }
+            });
+            if (!isValid) {
+              return _getInvalidDataFromFields([this], 'validCountry');
+            } else {
+              return [];
+            }
           }
         },
         'fieldset' : {
@@ -550,27 +552,33 @@
             if (!invalidRules.length) { return []; }
             return invalidRules;
           },
-          'checkedOtherHasValue' : function () {
+          'checkedOtherIsValid' : function () {
             var childFields = validation.fields.getNames(this.children),
                 otherIsChecked = false,
-                invalidRules = [],
+                otherCountries,
+                otherCountriesFailedRules,
                 i,j;
 
+            // get checkbox & 
             for (i = 0, j = childFields.length; i < j; i++) {
               var fieldObj = childFields[i];
 
               if (fieldObj.name === 'otherCountries') {
-                invalidRules = fieldObj.atLeastOneCountry();
+                otherCountries = fieldObj;
               } else if (fieldObj.name === 'other') {
                 otherIsChecked = (_getFieldValue(fieldObj.$source) !== '');
               } else {
                 if (_getFieldValue(fieldObj.$source) !== '') { return []; }
               }
             }
-            if (otherIsChecked && !invalidRules.length) {
+            // if British or Irish are not checked
+            if (!otherIsChecked) {
               return [];
             } else {
-              return invalidRules;
+              otherCountriesFailedRules = validation.applyRules(otherCountries);
+              if (otherCountriesFailedRules.length) {
+                return otherCountriesFailedRules;
+              }
             }
           },
           'allNonEmpty' : function () {
@@ -652,19 +660,59 @@
               return [];
             }
           },
-          'countryNonEmpty' : function () {
-            var otherField = validation.fields.getNames(['other'])[0],
-                $countryInput = otherField.$source.parent('label')
-                                  .siblings('#add-countries')
-                                  .find('.country-autocomplete'),
-                otherFieldFailed = otherField.nonEmpty();
+          'atLeastOneCountry' : function () {
+            var countryValidationFields,
+                $countryTextboxes,
+                $filledCountries;
 
-            if (!otherFieldFailed.length) {
-              if (_getFieldValue($countryInput) === '') {
-                return _getInvalidDataFromFields([otherField, this], 'countryNonEmpty');
+            if (this.$source.is(':hidden')) { return []; }
+            countryValidationFields = GOVUK.registerToVote.validation.fields.getNames(this.children);
+            $filledCountries = $.map(countryValidationFields, function (field, idx) {
+              if ($countryTextboxes === undefined) {
+                $countryTextboxes = $(field.$source);
               } else {
-                return [];
+                $countryTextboxes = $countryTextboxes.add(field.$source);
               }
+              return (_getFieldValue(field.$source) === '') ? null : field.$source;
+            });
+            if ($filledCountries.length === 0) {
+              return _getInvalidDataFromFields([this], 'atLeastOneCountry');
+            } else {
+              return [];
+            }
+          },
+          'allCountriesValid' : function () {
+            var countries = GOVUK.registerToVote.countries,
+                countryValidationFields,
+                getInvalidCountries,
+                $invalidCountries;
+
+            getInvalidCountries = function (countryValidationFields) {
+              var invalidCountryObj,
+                  $results;
+
+              $.each(countryValidationFields, function (idx, field) {
+                var entry = _getFieldValue(field.$source),
+                    entryIsValidCountry;
+
+                if (entry === '') { return true; } 
+                invalidCountryObj = field.validCountry();
+                if (invalidCountryObj.length) {
+                  if ($results === undefined) {
+                    $results = $(field.$source);
+                  } else {
+                    $results = $results.add(field.$source);
+                  }
+                }
+              });
+              return ($results !== undefined) ? $results : false;
+            };
+
+            if (this.$source.is(':hidden')) { return []; }
+            countryValidationFields = GOVUK.registerToVote.validation.fields.getNames(this.children);
+            $invalidCountries = getInvalidCountries(countryValidationFields);
+            if ($invalidCountries) {
+              return _getInvalidDataFromFields([this, { 'name' : 'country', '$source' : $invalidCountries }], 'allCountriesValid');
             } else {
               return [];
             }
@@ -856,7 +904,8 @@
         'atLeastOneNonEmpty' : message('ordinary_nationality_error_pleaseAnswer')
       },
       'otherCountries' : {
-        'atLeastOneCountry' : message('ordinary_nationality_error_pleaseAnswer')
+        'atLeastOneCountry' : message('ordinary_nationality_error_pleaseAnswer'),
+        'allCountriesValid' : message('ordinary_nationality_error_notValid')
       },
       'ninoCode' : {
         'nonEmpty' : message('ordinary_nino_error_noneEntered'),

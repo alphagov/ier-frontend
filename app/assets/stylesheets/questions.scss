@@ -557,7 +557,6 @@ span.postcode {
     margin-bottom: 0;
   }
 
-  & .optional-section input,
   & .help-content select {
     margin-bottom: 1em;
   }
@@ -645,13 +644,17 @@ fieldset.invalid {
   }
 }
 
-#add-countries.invalid {
-  outline: none;
-  margin-left: 0;
-  border-left: $grey-2 solid 4px;
+#add-countries {
+  &.invalid {
+    outline: none;
+    margin-left: 0;
+    border-left: $grey-2 solid 4px;
+  }
 
-  .country-autocomplete {
-    outline: solid 4px $mellow-red;
+  .validation-wrapper {
+    border-left: none;
+    padding-left: 0;
+    margin-left: 0;
   }
 }
 

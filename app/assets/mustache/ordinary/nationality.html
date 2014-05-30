@@ -11,7 +11,7 @@
 
     <fieldset class="validate" data-validation-name="country"
               data-validation-type="fieldset"
-              data-validation-rules="atLeastOneChecked checkedOtherHasValue"
+              data-validation-rules="atLeastOneChecked checkedOtherIsValid"
               data-validation-children="british irish other otherCountries">
 
         <label class="selectable"  >
@@ -45,45 +45,55 @@
             <div id="add-countries" class="optional-section validate"
                  data-condition="{{hasOtherCountryOption.id}}"
                  data-validation-name="otherCountries"
-                 data-validation-type="field"
-                 data-validation-rules="atLeastOneCountry">
+                 data-validation-type="fieldset"
+                 data-validation-rules="atLeastOneCountry allCountriesValid"
+                 data-validation-children="added-country-0">
 
-                <label for="{{otherCountriesHead.id}}" class=""  >
-                    {{messages.ordinary_nationality_whichCountry}}
-                </label>
+              <label for="{{otherCountriesHead.id}}" class=""  >
+                  {{messages.ordinary_nationality_whichCountry}}
+              </label>
+              <div class="validation-wrapper">
                 <input type="text" id="{{otherCountriesHead.id}}"
                    name="{{otherCountriesHead.name}}"
                    value="{{otherCountriesHead.value}}"
                    autocomplete="off"
-                   class="text  country-autocomplete long {{otherCountriesHead.classes}}"  >
+                   class="text  country-autocomplete long validate {{otherCountriesHead.classes}}"
+                   data-validation-name="added-country-0"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty validCountry">
+              </div>
 
-                <p class="duplication-intro"
-                   style="{{#moreThanOneOtherCountry}}display: none{{/moreThanOneOtherCountry}}">
-                    {{messages.ordinary_nationality_dualNationality}}
-                    <a class="duplicate-control-initial"
-                     href="#" data-field="{{otherCountriesHead.id}}">{{messages.ordinary_nationality_addAnotherCountry}}</a>.
-                </p>
+              <p class="duplication-intro"
+                 style="{{#moreThanOneOtherCountry}}display: none{{/moreThanOneOtherCountry}}">
+                  {{messages.ordinary_nationality_dualNationality}}
+                  <a class="duplicate-control-initial"
+                   href="#" data-field="{{otherCountriesHead.id}}">{{messages.ordinary_nationality_addAnotherCountry}}</a>.
+              </p>
 
-                {{#otherCountriesTail}}
-                    <div class="added-country">
-                        <label for="nationality_otherCountries[{{index}}]" class="country-label"  >
-                            {{messages.ordinary_nationality_country}} {{index}}
-                        </label>
-                        <a href="#" class="remove-field"
-                           data-field="nationality_otherCountries[{{index}}]">
-                            {{messages.ordinary_nationality_removeCountry}}<span class="visuallyhidden">{{messages.ordinary_nationality_country}}</span>
-                        </a>
+              {{#otherCountriesTail}}
+                  <div class="added-country">
+                      <label for="nationality_otherCountries[{{index}}]" class="country-label"  >
+                          {{messages.ordinary_nationality_country}} {{index}}
+                      </label>
+                      <a href="#" class="remove-field"
+                         data-field="nationality_otherCountries[{{index}}]">
+                          {{messages.ordinary_nationality_removeCountry}}<span class="visuallyhidden">{{messages.ordinary_nationality_country}}</span>
+                      </a>
+                      <div class="validation-wrapper">
                         <input type="text" id="nationality_otherCountries[{{index}}]"
                                name="nationality.otherCountries[{{index}}]" value="{{countryName}}"
-                               autocomplete="off"  class="text  country-autocomplete long"  >
-                    </div>
-                {{/otherCountriesTail}}
+                               autocomplete="off"  class="text country-autocomplete long validate"
+                               data-validation-name="added-country-{{index}}"
+                               data-validation-type="field"
+                               data-validation-rules="nonEmpty validCountry">
+                      </div>
+                  </div>
+              {{/otherCountriesTail}}
 
-                {{#moreThanOneOtherCountry}}
-                    <a class="duplicate-control" href="#">{{messages.ordinary_nationality_AddAnotherCountry}}</a>
-                {{/moreThanOneOtherCountry}}
-
-            </div>
+              {{#moreThanOneOtherCountry}}
+                  <a class="duplicate-control" href="#">{{messages.ordinary_nationality_AddAnotherCountry}}</a>
+              {{/moreThanOneOtherCountry}}
+          </div>
         </div>
     </fieldset>
     <button type="submit" id="alt-continue"

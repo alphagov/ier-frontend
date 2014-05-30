@@ -180,7 +180,7 @@
     this.idPattern = this.fieldId;
     this.namePattern = this.fieldId.replace('_', '.');
     this.$field = $(document.getElementById(this.fieldId));
-    this.$label = this.$field.prev('label');
+    this.$label = this.$field.parent('.validation-wrapper').prev('label');
     this.$duplicationIntro = this.$label.parent().find('.duplication-intro');
     this.$label.parent()
       .on('click', 'a', function (e) {
@@ -209,14 +209,21 @@
         $container = this.$label.parent(),
         fragment = '<label for="{{ id }}" class="{{ labelClass }}">{{ labelText }}</label>' +
                     '<a href="#" class="remove-field">Remove<span class="visuallyhidden"> {{ labelText }}</span></a>' +
-                    '<input type="text" id="{{ id }}" name="{{ name }}" class="text country-autocomplete long" value="{{ value }}" Autocomplete="off" />',
+                    '<div class="validation-wrapper">' +
+                      '<input type="text" id="{{ id }}" name="{{ name }}" class="text country-autocomplete long validate" value="{{ value }}" Autocomplete="off" ' +
+                      'data-validation-name="{{ validationName }}" ' +
+                      'data-validation-type="field" ' +
+                      'data-validation-rules="nonEmpty validCountry" ' +
+                      '/>' +
+                    '</div>',
         wrapperDiv = document.createElement('div'),
         options = {
           'id' : this.getFieldId(fieldNum),
           'labelClass' : this.label.className,
           'labelText' : this.label.txt + " " + fieldNum,
           'name' : this.getFieldName(fieldNum),
-          'value' : (fieldValue !== undefined) ? fieldValue : ""
+          'value' : (fieldValue !== undefined) ? fieldValue : "",
+          'validationName' : this.getValidationName(fieldNum)
         };
 
     wrapperDiv.className = this.copyClass;
