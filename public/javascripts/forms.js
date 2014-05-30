@@ -183,7 +183,7 @@
     this.$label = this.$field.prev('label');
     this.$duplicationIntro = this.$label.parent().find('.duplication-intro');
     this.$label.parent()
-      .on('click', function (e) {
+      .on('click', 'a', function (e) {
         var className = e.target.className;
         if (className.indexOf('duplicate-control') !== -1) {
           _this.duplicate();
@@ -200,6 +200,9 @@
         var input = document.getElementById($(elm).find('label').attr('for'));
         input.value = input.value.replace(/^\s+|\s+$/g, '');
       });
+    $(document).bind('contentUpdate contentRemoval', function (e, eData) {
+      _this.updateValidation(e.type, eData.context);
+    });
   };
   DuplicateField.prototype.makeField = function (fieldNum, fieldValue) {
     var _this = this,
@@ -225,6 +228,33 @@
   DuplicateField.prototype.getFieldName = function (idx) {
     return this.namePattern.replace(/\[\d+\]/, '[' + idx + ']');
   };
+  DuplicateField.prototype.getValidationName = function (idx) {
+    return this.copyClass + '-' + idx;
+  };
+  DuplicateField.prototype.updateValidation = function (evt, $elm) {
+    var $source = $elm.find('.validate'),
+        $container = $elm.parent(),
+        elmValidationName,
+        containerValidationName,
+        containerValidationObj;
+
+    if (!$source.length || !$container.length) {
+      return false;
+    }
+    elmValidationName = $source.data('validationName'),
+    containerValidationName = $container.data('validationName'),
+    containerValidationObj = GOVUK.registerToVote.validation.fields.getNames([containerValidationName])[0];
+
+    if (evt === 'contentRemoval') {
+      GOVUK.registerToVote.validation.fields.remove([elmValidationName]);
+      containerValidationObj.children = $.grep(containerValidationObj.children, function (childName, idx) {
+        return (childName === elmValidationName) ? false : true;
+      });
+    } else { // evt === 'contentUpdate
+      GOVUK.registerToVote.validation.fields.add($source);
+      containerValidationObj.children.push(elmValidationName);
+    }
+  };
   DuplicateField.prototype.removeDuplicate = function (id) {
     var _this = this,
         $container = this.$label.parent(),
@@ -245,7 +275,7 @@
       } else {
         targetNum = idx + 1;
       }
-      $(document).trigger('contentRemoval', { 'context' : elm });
+      $(document).trigger('contentRemoval', { 'context' : $(elm) });
     };
 
     $copies.each(_getRemainingValues).remove();
