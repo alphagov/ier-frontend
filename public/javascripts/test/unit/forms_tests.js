@@ -464,7 +464,7 @@ describe("DuplicateField", function () {
       expect(eventCalled).toBe("click");
     });
 
-    it("Click event should call the duplicate method if from the 'add another country' link", function () {
+    it("Click event from the 'add another country' link should call the duplicate method", function () {
       var duplicateField,
           eventCalled;
 
@@ -484,7 +484,7 @@ describe("DuplicateField", function () {
       expect(GOVUK.registerToVote.DuplicateField.prototype.duplicate).toHaveBeenCalled();
     });
 
-    it("Click event should call the removeDuplicate method if from the 'Remove' link", function () {
+    it("Click event from the 'Remove' link should call the removeDuplicate method", function () {
       var duplicateField,
           eventCalled;
 
@@ -790,6 +790,24 @@ describe("DuplicateField", function () {
       GOVUK.registerToVote.DuplicateField.prototype.duplicate.call(duplicateFieldMock);
 
       expect($container.find("a.duplicate-control").length).toEqual(1);
+    });
+
+    it("Should trigger an event to the document when a duplicate is added", function () {
+      var eventCalled = false;
+
+      $(document.body).append($container);
+      spyOn($.fn, "trigger").and.callFake(
+        function (evt) {
+          if (this[0] === document) {
+            eventCalled = evt;
+          }
+        }
+      );
+
+      GOVUK.registerToVote.DuplicateField.prototype.duplicate.call(duplicateFieldMock);
+      expect($.fn.trigger).toHaveBeenCalled();
+      expect(eventCalled).not.toBe(false);
+      expect(eventCalled).toBe("contentUpdate");
     });
   });
 });
