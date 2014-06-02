@@ -16,6 +16,7 @@ import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{Routes, ForcesStep}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.assets.RemoteAssets
+import uk.gov.gds.ier.model.HasAddressOption
 
 class AddressFirstStep @Inject ()(
     val serialiser: JsonSerialiser,
@@ -50,12 +51,12 @@ class AddressFirstStep @Inject ()(
   }
 
   def clearPreviousAddress(currentState: InprogressForces) = {
-    if (currentState.address.exists(_.hasUkAddress == Some(false))) {
-      currentState.copy(previousAddress = None)
+    currentState.address flatMap (_.hasAddress) match {
+      case Some(HasAddressOption.No) => currentState.copy(previousAddress = None)
+      case _ => currentState
     }
-    else currentState
   }
 
-  override val onSuccess = TransformApplication (clearPreviousAddress) andThen GoToNextStep()
+  override val onSuccess = TransformApplication(clearPreviousAddress) andThen GoToNextStep()
 }
 

@@ -10,35 +10,60 @@ trait CookieHandling extends SessionKeys {
     with WithEncryption
     with WithConfig =>
 
-  def payloadCookies[A <: InprogressApplication[A]](application: A) = {
+  def payloadCookies[A <: InprogressApplication[A]](
+    application: A,
+    domain: Option[String]
+  ) = {
     val payloadString = serialiser.toJson(application)
     val (payloadHash, payloadIV) = encryptionService.encrypt(payloadString)
     Seq(
-      secureCookie(sessionPayloadKey, payloadHash),
-      secureCookie(sessionPayloadKeyIV, payloadIV)
+      secureCookie(sessionPayloadKey, payloadHash, domain),
+      secureCookie(sessionPayloadKeyIV, payloadIV, domain)
     )
   }
 
-  def discardPayloadCookies() = Seq(
-    DiscardingCookie(sessionPayloadKey),
-    DiscardingCookie(sessionPayloadKeyIV)
+  def discardPayloadCookies(
+    domain: Option[String]
+  ) = Seq(
+    discard(sessionPayloadKey, domain),
+    discard(sessionPayloadKeyIV, domain)
   )
 
-  def tokenCookies(token: SessionToken) = {
+  def tokenCookies(
+    token: SessionToken,
+    domain: Option[String]
+  ) = {
     val tokenString = serialiser.toJson(token)
     val (tokenHash, tokenIV) = encryptionService.encrypt(tokenString)
     Seq(
-      secureCookie(sessionTokenKey, tokenHash),
-      secureCookie(sessionTokenKeyIV, tokenIV)
+      secureCookie(sessionTokenKey, tokenHash, domain),
+      secureCookie(sessionTokenKeyIV, tokenIV, domain)
     )
   }
 
-  def discardTokenCookies() = Seq(
-    DiscardingCookie(sessionTokenKey),
-    DiscardingCookie(sessionTokenKeyIV)
+  def discardTokenCookies(
+    domain: Option[String]
+  ) = Seq(
+    discard(sessionTokenKey, domain),
+    discard(sessionTokenKeyIV, domain)
   )
 
-  def secureCookie ( name : String, value : String) : Cookie = {
-    Cookie (name, value, None, "/", None, config.cookiesSecured, true)
+  def discard(
+    name: String,
+    domain: Option[String]
+  ): DiscardingCookie = {
+    DiscardingCookie(
+      name = name,
+      domain = domain,
+      secure = config.cookiesSecured
+    )
+  }
+
+  def secureCookie(
+    name: String,
+    value: String,
+    domain: Option[String]
+  ): Cookie = {
+    Cookie (name, value, None, "/", domain, config.cookiesSecured, true)
   }
 }

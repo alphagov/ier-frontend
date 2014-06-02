@@ -25,7 +25,6 @@ trait NameMustache extends StepTemplate[InprogressForces] {
     NameModel(
       question = Question(
         postUrl = postUrl.url,
-        number = "6",
         title = pageTitle,
         errorMessages = form.globalErrors.map ( _.message )
       ),

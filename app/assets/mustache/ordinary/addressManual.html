@@ -4,11 +4,11 @@
 
     <fieldset>
         <p>
-            <span class="postcode-prefix">Postcode</span>
+            <span class="postcode-prefix">{{messages.ordinary_address_manual_postcode_label}}</span>
             <span class="visuallyhidden">:</span>
             <span class="postcode">{{postcode.value}}</span>
             <a href="{{lookupUrl}}" class="change-postcode-button">
-                Change<span class="visuallyhidden"> your postcode</span>
+                {{{messages.ordinary_address_manual_changeYourPostcode_a}}}
             </a>
         </p>
         <input
@@ -18,7 +18,7 @@
           value="{{postcode.value}}"
           class="text hidden">
 
-        <label for="{{maLineOne.id}}">Address</label>
+        <label for="{{maLineOne.id}}">{{messages.ordinary_address_manual_address_label}}</label>
         <div class="validation-wrapper {{maLineOne.classes}}">
             <input type="text"
                    id="{{maLineOne.id}}"
@@ -46,7 +46,7 @@
                    class="text long {{maLineThree.classes}}"
                    >
         </div>
-        <label for="{{maCity.id}}">Town or City</label>
+        <label for="{{maCity.id}}">{{messages.ordinary_address_manual_townOrCity_label}}</label>
         <div class="validation-wrapper {{maCity.classes}}">
             <input type="text"
                    id="{{maCity.id}}"
@@ -61,6 +61,6 @@
       id="continue"
       class="button next"
       style="display: block;">
-        Continue
+        {{messages.step_continue}}
     </button>
 </form>

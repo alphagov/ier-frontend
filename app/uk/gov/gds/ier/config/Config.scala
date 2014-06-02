@@ -8,11 +8,9 @@ class Config extends Logging {
   private lazy val configuration = play.Play.application().configuration()
 
   def apiTimeout = configuration.getInt("api.timeout", 10).toInt
-  def placesUrl = configuration.getString("places.url")
   def locateUrl = configuration.getString("locate.url")
   def locateApiAuthorizationToken = configuration.getString("locate.api.authorization.token")
   def fakeIer = configuration.getBoolean("ier.fake")
-  def fakePlaces = configuration.getBoolean("places.fake")
   def fakeLocate = configuration.getBoolean("locate.fake")
   def ierApiUrl = configuration.getString("ier.api.url")
   def ierApiToken = configuration.getString("ier.api.token")
@@ -21,7 +19,7 @@ class Config extends Logging {
 
   def buildDate = configuration.getString("gds.BuildTime", "unknown")
   def buildNumber = configuration.getString("gds.BuildNumber", "unknown")
-  def revision = configuration.getString("gds.GitCommit", "unknown")
+  def revision = configuration.getString("gds.GitCommit", "abcdef1234567890abcdef1234567890abcdef12")
   def branch = configuration.getString("gds.GitBranch", "unknown")
 
   def cookiesAesKey = configuration.getString("ier.cookies.aes.encryptionKey")
@@ -31,11 +29,9 @@ class Config extends Logging {
 
   def logConfiguration() = {
     logger.debug(s"apiTimeout:$apiTimeout")
-    logger.debug(s"placesUrl:$placesUrl")
     logger.debug(s"locateUrl:$locateUrl")
     logger.debug(s"locateApiAuthorizationToken:$locateApiAuthorizationToken")
     logger.debug(s"fakeIer:$fakeIer")
-    logger.debug(s"fakePlaces:$fakePlaces")
     logger.debug(s"ierApiUrl:$ierApiUrl")
     logger.debug(s"stripNino:$stripNino")
     logger.debug(s"buildDate:$buildDate")

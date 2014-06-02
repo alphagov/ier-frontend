@@ -58,7 +58,7 @@ class PreviousAddressYesFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.postcode" -> Seq("Please enter your postcode")
+          "previousAddress.previousAddress.postcode" -> Seq("ordinary_previousAddress_postcode_error_enterPostcode")
         ))
       },
       success => fail("Should have failed out")
@@ -72,7 +72,7 @@ class PreviousAddressYesFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.postcode" -> Seq("Please enter your postcode")
+          "previousAddress.previousAddress.postcode" -> Seq("ordinary_previousAddress_postcode_error_enterPostcode")
         ))
       },
       success => fail("Should have failed out")
@@ -86,7 +86,7 @@ class PreviousAddressYesFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.postcode" -> Seq("Please enter your postcode")
+          "previousAddress.previousAddress.postcode" -> Seq("ordinary_previousAddress_postcode_error_enterPostcode")
         ))
       },
       success => fail("Should have failed out")
@@ -149,9 +149,9 @@ class PreviousAddressYesFormTests
     selectStepForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_previousAddress_select_error_answerThis"))
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.uprn" -> Seq("Please answer this question")
+          "previousAddress.previousAddress.uprn" -> Seq("ordinary_previousAddress_select_error_answerThis")
         ))
       },
       success => fail("Should have errored out")
@@ -169,9 +169,9 @@ class PreviousAddressYesFormTests
     selectStepForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_previousAddress_select_error_answerThis"))
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.uprn" -> Seq("Please answer this question")
+          "previousAddress.previousAddress.uprn" -> Seq("ordinary_previousAddress_select_error_answerThis")
         ))
       },
       success => fail("Should have errored out")
@@ -231,9 +231,9 @@ class PreviousAddressYesFormTests
     )
     selectStepForm.bind(js).fold(
       hasErrors => {
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_previousAddress_select_error_answerThis"))
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.uprn" -> Seq("Please answer this question")
+          "previousAddress.previousAddress.uprn" -> Seq("ordinary_previousAddress_select_error_answerThis")
         ))
       },
       success => {
@@ -324,7 +324,7 @@ class PreviousAddressYesFormTests
     manualStepForm.bind(js).fold(
       hasErrors => {
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.manualAddress" -> Seq("Please answer this question")
+          "previousAddress.previousAddress.manualAddress" -> Seq("ordinary_previousAddress_manual_error_answerThis")
         ))
       },
       success => fail("Should have errored out")
@@ -373,7 +373,7 @@ class PreviousAddressYesFormTests
     manualStepForm.bind(js).fold(
       hasErrors => {
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.manualAddress" -> Seq("Please answer this question")
+          "previousAddress.previousAddress.manualAddress" -> Seq("ordinary_previousAddress_manual_error_answerThis")
         ))
       },
       success => fail("Should have errored out")
@@ -395,11 +395,10 @@ class PreviousAddressYesFormTests
         hasErrors.errors.size should be(4)
         // empty postcode does not have user friendly message
         // we assume UI guarantees it is present from previous step
-        hasErrors.globalErrorMessages should be(Seq("Your postcode is not valid", "Please answer this question"))
-        println (hasErrors.keyedErrorsAsMap)
+        hasErrors.globalErrorMessages should be(Seq("ordinary_previousAddress_postcode_error_invalidPostcode", "ordinary_previousAddress_manual_error_answerThis"))
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.postcode" -> Seq("Your postcode is not valid"),
-          "previousAddress.previousAddress.manualAddress" -> Seq("Please answer this question")
+          "previousAddress.previousAddress.postcode" -> Seq("ordinary_previousAddress_postcode_error_invalidPostcode"),
+          "previousAddress.previousAddress.manualAddress" -> Seq("ordinary_previousAddress_manual_error_answerThis")
         ))
       },
       success => fail("Should have errored out")
@@ -420,7 +419,7 @@ class PreviousAddressYesFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.postcode" -> Seq("Your postcode is not valid")
+          "previousAddress.previousAddress.postcode" -> Seq("ordinary_previousAddress_postcode_error_invalidPostcode")
         ))
       },
       success => fail("Should have errored out")
@@ -433,7 +432,7 @@ class PreviousAddressYesFormTests
     manualStepForm.bind(js).fold(
       hasErrors => {
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.manualAddress" -> Seq("Please answer this question")
+          "previousAddress.previousAddress.manualAddress" -> Seq("ordinary_previousAddress_manual_error_answerThis")
         ))
       },
       success => fail("Should have errored out")
@@ -453,7 +452,7 @@ class PreviousAddressYesFormTests
     manualStepForm.bind(js).fold(
       hasErrors => {
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.manualAddress.city" -> Seq(cityIsRequiredError)
+          "previousAddress.previousAddress.manualAddress.city" -> Seq("ordinary_previousAddress_manual_error_cityRequired")
         ))
       },
       success => fail("Should have errored out")
@@ -473,9 +472,9 @@ class PreviousAddressYesFormTests
     manualStepForm.bind(js).fold(
       hasErrors => {
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.manualAddress.lineOne" -> Seq(lineOneIsRequiredError)
+          "previousAddress.previousAddress.manualAddress.lineOne" -> Seq("ordinary_previousAddress_manual_error_oneAddressLineRequired")
         ))
-        hasErrors.globalErrorsAsText() should be(lineOneIsRequiredError)
+        hasErrors.globalErrorsAsText() should be("ordinary_previousAddress_manual_error_oneAddressLineRequired")
       },
       success => fail("Should have errored out")
 

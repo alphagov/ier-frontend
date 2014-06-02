@@ -7,6 +7,7 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 object Messages {
   import play.api.Play.current
 
+  private val playErrorPrefix = "error."
   private lazy val messages = play.api.i18n.Messages.messages
 
   def messagesForLang(lang:Lang) = {
@@ -21,9 +22,13 @@ object Messages {
     }
   }
 
-  def apply(key: String)(implicit lang:Lang):String = {
+  def apply(key: String)(implicit lang: Lang): String = {
     play.api.i18n.Messages(key)
   }
 
-  lazy val jsMessages = JsMessages.default
+  def apply(key: String, args: Any*)(implicit lang: Lang): String = {
+    play.api.i18n.Messages(key, args: _*)
+  }
+
+  lazy val jsMessages = JsMessages.filtering(!_.startsWith(playErrorPrefix))
 }

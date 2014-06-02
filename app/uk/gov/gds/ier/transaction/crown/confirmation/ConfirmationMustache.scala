@@ -12,72 +12,61 @@ import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
 import uk.gov.gds.ier.service.WithAddressService
 import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.step.StepTemplate
 
-trait ConfirmationMustache extends StepMustache with WithAddressService {
-  self: WithRemoteAssets =>
+trait ConfirmationMustache
+  extends StepTemplate[InprogressCrown]
+  with WithAddressService {
+    self: WithRemoteAssets =>
 
   case class ConfirmationQuestion(
-     content: EitherErrorOrContent,
-     title: String,
-     editLink: String,
-     changeName: String
+      content: EitherErrorOrContent,
+      title: String,
+      editLink: String,
+      changeName: String
   )
 
   case class ConfirmationModel(
+      question: Question,
       applicantDetails: List[ConfirmationQuestion],
       partnerDetails: List[ConfirmationQuestion],
-      displayPartnerBlock: Boolean,
-      postUrl: String
-  )
+      displayPartnerBlock: Boolean
+  ) extends MustacheData
 
-  object Confirmation {
+  val mustache = MustacheTemplate("crown/confirmation") {
+    (form, post) =>
 
-    def confirmationData(
-        form: ErrorTransformForm[InprogressCrown],
-        postUrl: String) = {
+    val confirmation = new ConfirmationBlocks(form)
 
-      val confirmation = new ConfirmationBlocks(form)
+    val partnerData = List(
+      confirmation.partnerJobTitle
+    ).flatten
 
-      val partnerData = List(
-        confirmation.partnerJobTitle
-      ).flatten
+    val applicantData = List(
+      confirmation.name,
+      confirmation.previousName,
+      confirmation.dateOfBirth,
+      confirmation.nationality,
+      confirmation.nino,
+      confirmation.applicantJobTitle,
+      confirmation.address,
+      confirmation.previousAddress,
+      confirmation.contactAddress,
+      confirmation.openRegister,
+      confirmation.waysToVote,
+      confirmation.contact
+    ).flatten
 
-      val applicantData = List(
-        confirmation.name,
-        confirmation.previousName,
-        confirmation.dateOfBirth,
-        confirmation.nationality,
-        confirmation.nino,
-        confirmation.applicantJobTitle,
-        confirmation.address,
-        confirmation.previousAddress,
-        confirmation.contactAddress,
-        confirmation.openRegister,
-        confirmation.waysToVote,
-        confirmation.contact
-      ).flatten
-
-      ConfirmationModel(
-        partnerDetails = partnerData,
-        applicantDetails = applicantData,
-        displayPartnerBlock = !partnerData.isEmpty,
-        postUrl = postUrl
-      )
-    }
-
-    def confirmationPage(
-        form: ErrorTransformForm[InprogressCrown],
-        postUrl: String) = {
-
-      val data = confirmationData(form, postUrl)
-      val content = Mustache.render("crown/confirmation", data)
-
-      MainStepTemplate(
-        content,
-        "Confirm your details - Register to vote",
-        contentClasses = Some("confirmation")
-      )
-    }
+    ConfirmationModel(
+      question = Question(
+        title = "Confirm your details - Register to vote",
+        postUrl = post.url,
+        contentClasses = "confirmation"
+      ),
+      partnerDetails = partnerData,
+      applicantDetails = applicantData,
+      displayPartnerBlock = !partnerData.isEmpty
+    )
   }
 
   class ConfirmationBlocks(form: ErrorTransformForm[InprogressCrown])
@@ -129,7 +118,7 @@ trait ConfirmationMustache extends StepMustache with WithAddressService {
         case _ => "I have not changed my name in the last 12 months"
       }
       Some(ConfirmationQuestion(
-        title = "What is your previous name?",
+        title = "Previous name",
         editLink = routes.NameController.editGet.url,
         changeName = "previous name",
         content = ifComplete(keys.previousName) {
@@ -222,9 +211,9 @@ trait ConfirmationMustache extends StepMustache with WithAddressService {
 
     def jobTitle = {
       ConfirmationQuestion(
-        title = "Job title",
+        title = "Role",
         editLink = routes.JobController.editGet.url,
-        changeName = "job title",
+        changeName = "role",
         content = ifComplete(keys.job) {
           List(
             form(keys.job.jobTitle).value,
@@ -239,8 +228,8 @@ trait ConfirmationMustache extends StepMustache with WithAddressService {
 
       val (addressTitle, addressChangeName) = HasAddressOption.parse(hasAddressValue) match {
         case HasAddressOption.YesAndLivingThere | HasAddressOption.YesAndNotLivingThere =>
-          ("Your UK address", "your UK address")
-        case _ => ("Your last UK address", "your last UK address")
+          ("Registration address", "registration address")
+        case _ => ("Registration address", "registration address")
       }
 
       Some(ConfirmationQuestion(
@@ -267,9 +256,9 @@ trait ConfirmationMustache extends StepMustache with WithAddressService {
 
       if (hasCurrentAddress) {
         Some(ConfirmationQuestion(
-          title = "UK previous registration address",
+          title = "Previous address",
           editLink = routes.PreviousAddressFirstController.editGet.url,
-          changeName = "your UK previous registration address",
+          changeName = "your previous address",
           content = ifComplete(keys.previousAddress) {
             val moved = form(keys.previousAddress.movedRecently).value
               .map(MovedHouseOption.parse(_).hasPreviousAddress)
@@ -300,9 +289,9 @@ trait ConfirmationMustache extends StepMustache with WithAddressService {
 
     def contactAddress = {
       Some(ConfirmationQuestion(
-        title = "Polling card address",
+        title = "Correspondence address",
         editLink = routes.ContactAddressController.editGet.url,
-        changeName = "polling card address",
+        changeName = "correspondence address",
         content = {
           val addressTypeKey = form(keys.contactAddress.contactAddressType).value match {
             case Some("uk") => Some(keys.ukContactAddress)

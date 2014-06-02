@@ -10,7 +10,7 @@ import uk.gov.gds.ier.validation.{
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model.{
-  LastUkAddress,
+  LastAddress,
   PartialAddress,
   PartialManualAddress,
   PossibleAddress,
@@ -39,7 +39,7 @@ trait AddressForms extends AddressConstraints {
 
   lazy val addressForm = ErrorTransformForm(
     mapping (
-      keys.address.key -> optional(LastUkAddress.mapping),
+      keys.address.key -> optional(LastAddress.mapping),
       keys.possibleAddresses.key -> optional(possibleAddressesMapping)
     ) (
       (addr, possibleAddr) => InprogressForces(

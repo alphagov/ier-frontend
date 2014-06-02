@@ -21,7 +21,6 @@ class RankControllerTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 9")
       contentAsString(result) should include("What is your service number?")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/rank\"")
     }
@@ -83,7 +82,6 @@ class RankControllerTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 9")
       contentAsString(result) should include("What is your service number?")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/edit/rank\"")
     }

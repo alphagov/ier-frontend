@@ -45,7 +45,7 @@ trait ConfirmationForms
   val confirmationForm = ErrorTransformForm(
     mapping(
       keys.statement.key -> stepRequired(statementMapping),
-      keys.address.key -> stepRequired(LastUkAddress.mapping),
+      keys.address.key -> stepRequired(LastAddress.mapping),
       keys.previousAddress.key -> optional(partialPreviousAddressMappingForPreviousAddress),
       keys.nationality.key -> stepRequired(nationalityMapping),
       keys.dob.key -> stepRequired(dobAndReasonMapping),

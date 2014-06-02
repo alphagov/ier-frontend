@@ -53,13 +53,13 @@ trait TestHelpers
 
     def withIerSession(timeSinceInteraction:Int = 1) = {
       val token = SessionToken(DateTime.now.minusMinutes(timeSinceInteraction))
-      request.withCookies(tokenCookies(token):_*)
+      request.withCookies(tokenCookies(token, None):_*)
     }
 
     def withInvalidSession() = withIerSession(6)
 
     def withApplication[T <: InprogressApplication[T]](application: T) = {
-      request.withCookies(payloadCookies(application):_*)
+      request.withCookies(payloadCookies(application, None):_*)
     }
   }
 
@@ -83,8 +83,10 @@ trait TestHelpers
 
   lazy val completeForcesApplication = InprogressForces(
     statement = Some(Statement(memberForcesFlag = Some(true), None)),
-    address = Some(LastUkAddress(Some(true),
-      Some(PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)))),
+    address = Some(LastAddress(
+      Some(HasAddressOption.YesAndLivingThere),
+      Some(PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None))
+    )),
     previousAddress = Some(PartialPreviousAddress(Some(MovedHouseOption.NotMoved), None)),
     nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
     dob = Some(DateOfBirth(Some(DOB(1988, 1, 1)), None)),

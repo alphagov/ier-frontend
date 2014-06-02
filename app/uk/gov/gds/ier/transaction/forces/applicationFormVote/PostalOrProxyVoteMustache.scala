@@ -39,7 +39,6 @@ trait PostalOrProxyVoteMustache
         question = Question(
           postUrl = postUrl.url,
           errorMessages = form.globalErrors.map{ _.message },
-          number = "13",
           title = title
         ),
         description = Text (

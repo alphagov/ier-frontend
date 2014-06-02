@@ -8,7 +8,6 @@ import controllers.step.crown.routes.PreviousAddressPostcodeController
 trait PreviousAddressManualMustache extends StepTemplate[InprogressCrown] {
 
   val title = "What was your previous UK address?"
-  val questionNumber = ""
 
   case class ManualModel (
     question: Question,
@@ -28,7 +27,6 @@ trait PreviousAddressManualMustache extends StepTemplate[InprogressCrown] {
     ManualModel(
       question = Question(
         postUrl = postUrl.url,
-        number = questionNumber,
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),

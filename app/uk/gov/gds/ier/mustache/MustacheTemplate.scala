@@ -10,6 +10,7 @@ case class Question (
     postUrl:String = "",
     number:String = "",
     title:String = "",
+    contentClasses:String = "",
     errorMessages:Seq[String] = Seq.empty
 ) (
     implicit _lang: Lang = Lang("en")

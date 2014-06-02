@@ -37,10 +37,11 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.confirmationData(
-      form = partiallyFilledApplicationForm,
-      postUrl = "http://postUrl"
-    ).displayPartnerBlock
+    val displayPartnerBlock = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("GET", "http://postUrl"),
+      InprogressCrown()
+    ).asInstanceOf[ConfirmationModel].displayPartnerBlock
 
     displayPartnerBlock should be (false)
   }
@@ -56,10 +57,11 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.confirmationData(
-      form = partiallyFilledApplicationForm,
-      postUrl = "http://postUrl"
-    ).displayPartnerBlock
+    val displayPartnerBlock = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("GET", "http://postUrl"),
+      InprogressCrown()
+    ).asInstanceOf[ConfirmationModel].displayPartnerBlock
 
     displayPartnerBlock should be (false)
   }
@@ -75,15 +77,14 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.confirmationData(
-      form = partiallyFilledApplicationForm,
-      postUrl = "http://postUrl"
-    ).displayPartnerBlock
+    val displayPartnerBlock = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("GET", "http://postUrl"),
+      InprogressCrown()
+    ).asInstanceOf[ConfirmationModel].displayPartnerBlock
 
     displayPartnerBlock should be (true)
   }
-
-
 
 
   "In-progress application form without a crown or council partner (BC member)" should
@@ -97,10 +98,11 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.confirmationData(
-      form = partiallyFilledApplicationForm,
-      postUrl = "http://postUrl"
-    ).displayPartnerBlock
+    val displayPartnerBlock = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("GET", "http://postUrl"),
+      InprogressCrown()
+    ).asInstanceOf[ConfirmationModel].displayPartnerBlock
 
     displayPartnerBlock should be (false)
   }
@@ -116,10 +118,11 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.confirmationData(
-      form = partiallyFilledApplicationForm,
-      postUrl = "http://postUrl"
-    ).displayPartnerBlock
+    val displayPartnerBlock = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("GET", "http://postUrl"),
+      InprogressCrown()
+    ).asInstanceOf[ConfirmationModel].displayPartnerBlock
 
     displayPartnerBlock should be (false)
   }
@@ -135,10 +138,11 @@ class ConfirmationMustacheTest
       ))
     ))
 
-    val displayPartnerBlock = Confirmation.confirmationData(
-      form = partiallyFilledApplicationForm,
-      postUrl = "http://postUrl"
-    ).displayPartnerBlock
+    val displayPartnerBlock = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("GET", "http://postUrl"),
+      InprogressCrown()
+    ).asInstanceOf[ConfirmationModel].displayPartnerBlock
 
     displayPartnerBlock should be (true)
   }
@@ -542,10 +546,11 @@ class ConfirmationMustacheTest
     confirmation.applicantJobTitle.isDefined should be(true)
     confirmation.partnerJobTitle should be(None)
 
-    val displayPartnerBlock = Confirmation.confirmationData(
-      form = application,
-      postUrl = "http://postUrl"
-    ).displayPartnerBlock
+    val displayPartnerBlock = mustache.data(
+      application,
+      Call("GET", "http://postUrl"),
+      InprogressCrown()
+    ).asInstanceOf[ConfirmationModel].displayPartnerBlock
 
     displayPartnerBlock should be(false)
   }
@@ -566,10 +571,11 @@ class ConfirmationMustacheTest
     confirmation.applicantJobTitle.isDefined should be(true)
     confirmation.partnerJobTitle should be(None)
 
-    val displayPartnerBlock = Confirmation.confirmationData(
-      form = application,
-      postUrl = "http://postUrl"
-    ).displayPartnerBlock
+    val displayPartnerBlock = mustache.data(
+      application,
+      Call("GET", "http://postUrl"),
+      InprogressCrown()
+    ).asInstanceOf[ConfirmationModel].displayPartnerBlock
 
     displayPartnerBlock should be(false)
   }
@@ -600,12 +606,12 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(addressModel) = confirmation.address
-    addressModel.title should be("Your UK address")
+    addressModel.title should be("Registration address")
     addressModel.content should be(BlockContent(List("123 Fake Street", "AB12 3CD")))
     addressModel.editLink should be("/register-to-vote/crown/edit/address/first")
   }
 
-  "In-progress application form with valid UK address (hasUkAddress = false)" should
+  "In-progress application form with valid UK address (hasAddress = false)" should
     "generate confirmation mustache model with correctly rendered values and correct URLs" in {
 
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
@@ -628,7 +634,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(addressModel) = confirmation.address
-    addressModel.title should be("Your last UK address")
+    addressModel.title should be("Registration address")
     addressModel.content should be(BlockContent(List("123 Fake Street", "AB12 3CD")))
     addressModel.editLink should be("/register-to-vote/crown/edit/address/first")
   }
@@ -654,7 +660,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(addressModel) = confirmation.address
-    addressModel.title should be("Your last UK address")
+    addressModel.title should be("Registration address")
     addressModel.content should be(BlockError("Please complete this step"))
 
     addressModel.editLink should be("/register-to-vote/crown/edit/address/first")
@@ -681,7 +687,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(addressModel) = confirmation.address
-    addressModel.title should be("Your UK address")
+    addressModel.title should be("Registration address")
     addressModel.content should be(BlockContent(List(
       "Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester",
       "AB12 3CD")))
@@ -709,7 +715,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(addressModel) = confirmation.address
-    addressModel.title should be("Your last UK address")
+    addressModel.title should be("Registration address")
     addressModel.content should be(BlockContent(List(
       "Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester",
       "AB12 3CD")))
@@ -737,7 +743,7 @@ class ConfirmationMustacheTest
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
     val Some(addressModel) = confirmation.address
-    addressModel.title should be("Your last UK address")
+    addressModel.title should be("Registration address")
     addressModel.content should be(BlockError("Please complete this step"))
     addressModel.editLink should be("/register-to-vote/crown/edit/address/first")
   }

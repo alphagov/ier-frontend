@@ -21,7 +21,6 @@ class PreviousAddressFirstControllerTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 3")
       contentAsString(result) should include(
         "<form action=\"/register-to-vote/forces/previous-address\"")
       contentAsString(result) should include("" +
@@ -126,7 +125,6 @@ class PreviousAddressFirstControllerTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 3")
       contentAsString(result) should include("" +
         "Have you changed your UK address in the last 12 months?")
       contentAsString(result) should include("" +

@@ -15,7 +15,7 @@ trait PreviousAddressFirstForms
     with WithSerialiser =>
 
   lazy val movedHouseRegisteredAbroadMapping = mapping(
-    keys.movedRecently.key -> optional(MovedHouseOption.mapping),
+    keys.movedRecently.key -> optional(movedHouseOptionmapping),
     keys.wasRegisteredWhenAbroad.key -> optional(boolean)
   ) (
       (movedHouse, registered) => movedHouse match {
@@ -57,6 +57,28 @@ trait PreviousAddressFirstForms
       previousAddressYesNoIsNotEmpty,
       previouslyRegisteredAbroad)
   )
+
+  lazy val movedHouseOptionmapping = text.verifying(
+    str => MovedHouseOption.isValid(str)
+  ).transform[MovedHouseOption](
+      str => MovedHouseOption.parse(str),
+      option => option.name
+    ).verifying(
+      allPossibleMoveOptions
+    )
+
+  lazy val allPossibleMoveOptions = Constraint[MovedHouseOption]("movedHouse") {
+    case MovedHouseOption.Yes => Valid
+
+    case MovedHouseOption.MovedFromUk => Valid
+    case MovedHouseOption.MovedFromAbroad => Valid
+    case MovedHouseOption.MovedFromAbroadRegistered => Valid
+    case MovedHouseOption.MovedFromAbroadNotRegistered => Valid
+
+    case MovedHouseOption.NotMoved => Valid
+
+    case _ => Invalid("ordinary_previousAddress_error_invalidOption")
+  }
 }
 
 trait PreviousAddressFirstConstraints extends CommonConstraints {
@@ -66,13 +88,13 @@ trait PreviousAddressFirstConstraints extends CommonConstraints {
   lazy val previousAddressYesNoIsNotEmpty = Constraint[InprogressOrdinary](keys.previousAddress.movedRecently.key) {
     inprogress => inprogress.previousAddress match {
       case Some(PartialPreviousAddress(Some(_), _)) => Valid
-      case _ => Invalid("Please answer this question",keys.previousAddress.movedRecently)
+      case _ => Invalid("ordinary_previousAddress_error_answerThis",keys.previousAddress.movedRecently)
     }
   }
 
   lazy val previouslyRegisteredAbroad = Constraint[InprogressOrdinary](keys.previousAddress.wasRegisteredWhenAbroad.key) {
     inprogress => inprogress.previousAddress.map( _.movedRecently ) match {
-      case Some(Some(MovedHouseOption.MovedFromAbroad)) => Invalid("Please answer this question",keys.previousAddress.wasRegisteredWhenAbroad)
+      case Some(Some(MovedHouseOption.MovedFromAbroad)) => Invalid("ordinary_previousAddress_error_answerThis",keys.previousAddress.wasRegisteredWhenAbroad)
       case _ => Valid
     }
   }

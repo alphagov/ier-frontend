@@ -249,7 +249,7 @@ object NationalityConstants {
     "united arab emirates" -> ISOCountry("AE", displayName = "United Arab Emirates"),
     "united kingdom" -> ISOCountry("GB", displayName = "United Kingdom", Franchise.full, Franchise.european, Franchise.commonwealth),
     "uruguay" -> ISOCountry("UY", displayName = "Uruguay"),
-    "usa" -> ISOCountry("US", displayName = "USA"),
+    "united states of america" -> ISOCountry("US", displayName = "United States of America"),
     "uzbekistan" -> ISOCountry("UZ", displayName = "Uzbekistan"),
     "vanuatu" -> ISOCountry("VU", displayName = "Vanuatu", Franchise.commonwealth),
     "venezuela" -> ISOCountry("VE", displayName = "Venezuela"),

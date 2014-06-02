@@ -26,7 +26,6 @@ trait NinoMustache extends StepTemplate[InprogressCrown] {
       question = Question(
         postUrl = postEndpoint.url,
         errorMessages = form.globalErrors.map(_.message),
-        number = "7",
         title = title
       ),
       nino = TextField(

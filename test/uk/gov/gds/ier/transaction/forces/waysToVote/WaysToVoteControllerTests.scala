@@ -24,7 +24,6 @@ class WaysToVoteControllerTests
       )
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 12")
       contentAsString(result) should include("How do you want to vote?")
     }
   }
@@ -79,7 +78,6 @@ class WaysToVoteControllerTests
       )
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 12")
       contentAsString(result) should include("How do you want to vote?")
     }
   }
@@ -122,7 +120,6 @@ class WaysToVoteControllerTests
       )
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 12")
       contentAsString(result) should include("How do you want to vote?")
 
       contentAsString(result) should include("Please answer this question")
@@ -137,7 +134,6 @@ class WaysToVoteControllerTests
       )
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 12")
       contentAsString(result) should include("How do you want to vote?")
 
       contentAsString(result) should include("Please answer this question")

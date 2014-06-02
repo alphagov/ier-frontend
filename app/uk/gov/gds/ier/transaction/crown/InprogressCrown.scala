@@ -9,7 +9,7 @@ import uk.gov.gds.ier.model.PostalOrProxyVote
 import uk.gov.gds.ier.model.PossibleContactAddresses
 import uk.gov.gds.ier.model.Name
 import uk.gov.gds.ier.model.PreviousName
-import uk.gov.gds.ier.model.LastUkAddress
+import uk.gov.gds.ier.model.LastAddress
 import scala.Some
 import uk.gov.gds.ier.model.Job
 import uk.gov.gds.ier.model.Nino

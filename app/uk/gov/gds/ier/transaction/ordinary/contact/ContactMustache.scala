@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.transaction.ordinary.contact
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
@@ -25,7 +24,7 @@ trait ContactMustache extends StepTemplate[InprogressOrdinary] {
       question = Question(
         postUrl = post.url,
         errorMessages = Messages.translatedGlobalErrors(form),
-        number = "11",
+        number = s"11 ${Messages("step_of")} 11",
         title = Messages("ordinary_contact_title")
       ),
       contactFieldSet = FieldSet(

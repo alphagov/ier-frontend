@@ -3,41 +3,43 @@ package uk.gov.gds.ier.controller
 import play.api.test._
 import play.api.test.Helpers._
 import org.scalatest.{Matchers, FlatSpec}
+import uk.gov.gds.ier.test.TestHelpers
 
-class ExitControllerTests extends FlatSpec with Matchers {
+class ExitControllerTests
+  extends FlatSpec
+  with Matchers
+  with TestHelpers {
 
-  running(FakeApplication()) {
+  "ExitController.scotland" should "display the scotland exit page" in runningApp {
     val Some(result) = route(FakeRequest("GET", "/register-to-vote/exit/scotland"))
+    status(result) should be(OK)
+    contentAsString(result) should include("Voter registration forms for Scotland")
 
-    "ExitController.scotland" should "display the scotland exit page" in {
-      status(result) should be(OK)
-      contentAsString(result) should include("Voter registration forms for Scotland")
-
-      cookies(result).get("sessionKey").isDefined should be(true)
-      cookies(result).get("sessionKey").get.maxAge.get should be < 0
-      cookies(result).get("application").isDefined should be(true)
-      cookies(result).get("application").get.maxAge.get should be < 0
-    }
-    it should "clear cookies correctly" in {
-      cookies(result).get("sessionKey").isDefined should be(true)
-      cookies(result).get("sessionKey").get.maxAge.get should be < 0
-      cookies(result).get("application").isDefined should be(true)
-      cookies(result).get("application").get.maxAge.get should be < 0
-    }
+    cookies(result).get("sessionKey").isDefined should be(true)
+    cookies(result).get("sessionKey").get.maxAge.get should be < 0
+    cookies(result).get("application").isDefined should be(true)
+    cookies(result).get("application").get.maxAge.get should be < 0
   }
 
-  running(FakeApplication()) {
-    val Some(result) = route(FakeRequest("GET", "/register-to-vote/exit/northern-ireland"))
+  it should "clear cookies correctly" in runningApp {
+    val Some(result) = route(FakeRequest("GET", "/register-to-vote/exit/scotland"))
+    cookies(result).get("sessionKey").isDefined should be(true)
+    cookies(result).get("sessionKey").get.maxAge.get should be < 0
+    cookies(result).get("application").isDefined should be(true)
+    cookies(result).get("application").get.maxAge.get should be < 0
+  }
 
-    "ExitController.northernIreland" should "display the northern ireland exit page" in {
-      status(result) should be(OK)
-      contentAsString(result) should include("Voter canvass form for Northern Ireland")
-    }
-    it should "clear cookies correctly" in {
-      cookies(result).get("sessionKey").isDefined should be(true)
-      cookies(result).get("sessionKey").get.maxAge.get should be < 0
-      cookies(result).get("application").isDefined should be(true)
-      cookies(result).get("application").get.maxAge.get should be < 0
-    }
+  "ExitController.northernIreland" should "display the northern ireland exit page" in runningApp {
+    val Some(result) = route(FakeRequest("GET", "/register-to-vote/exit/northern-ireland"))
+    status(result) should be(OK)
+    contentAsString(result) should include("Voter canvass form for Northern Ireland")
+  }
+
+  it should "clear cookies correctly" in runningApp {
+    val Some(result) = route(FakeRequest("GET", "/register-to-vote/exit/northern-ireland"))
+    cookies(result).get("sessionKey").isDefined should be(true)
+    cookies(result).get("sessionKey").get.maxAge.get should be < 0
+    cookies(result).get("application").isDefined should be(true)
+    cookies(result).get("application").get.maxAge.get should be < 0
   }
 }

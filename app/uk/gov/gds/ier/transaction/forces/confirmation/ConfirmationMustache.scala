@@ -1,8 +1,7 @@
 package uk.gov.gds.ier.transaction.forces.confirmation
 
-import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.model.WaysToVoteType
-import uk.gov.gds.ier.model.MovedHouseOption
+import uk.gov.gds.ier.mustache.{MustacheData, StepMustache}
+import uk.gov.gds.ier.model.{HasAddressOption, WaysToVoteType, MovedHouseOption}
 import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.{ErrorTransformForm, Key}
@@ -13,9 +12,10 @@ import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
 import uk.gov.gds.ier.service.WithAddressService
 import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.step.StepTemplate
 
 trait ConfirmationMustache
-    extends StepMustache {
+    extends StepTemplate[InprogressForces] {
     self: WithAddressService
     with WithRemoteAssets =>
 
@@ -27,18 +27,15 @@ trait ConfirmationMustache
   )
 
   case class ConfirmationModel(
-    applicantDetails: List[ConfirmationQuestion],
-    partnerDetails: List[ConfirmationQuestion],
-    completeApplicantDetails: List[ConfirmationQuestion],
-    displayPartnerBlock: Boolean,
-    postUrl: String
-  )
+      question: Question,
+      applicantDetails: List[ConfirmationQuestion],
+      partnerDetails: List[ConfirmationQuestion],
+      completeApplicantDetails: List[ConfirmationQuestion],
+      displayPartnerBlock: Boolean
+  ) extends MustacheData
 
-  object Confirmation {
-
-    def confirmationPage(
-        form: ErrorTransformForm[InprogressForces],
-        postUrl: String) = {
+  val mustache = MustacheTemplate("forces/confirmation") {
+    (form, post) =>
 
       val confirmation = new ConfirmationBlocks(form)
 
@@ -77,37 +74,32 @@ trait ConfirmationMustache
         confirmation.contact
       ).flatten
 
-      val data = ConfirmationModel(
+      ConfirmationModel(
+        question = Question(
+          title = "Confirm your details - Register to vote",
+          postUrl = post.url,
+          contentClasses = "confirmation"
+        ),
         partnerDetails = partnerData,
         applicantDetails = applicantData,
         completeApplicantDetails = completeApplicantData,
-        displayPartnerBlock = displayPartnerBlock(form),
-        postUrl = postUrl
+        displayPartnerBlock = displayPartnerBlock(form)
       )
+  }
 
-      val content = Mustache.render("forces/confirmation", data)
-      MainStepTemplate(
-        content,
-        "Confirm your details - Register to vote",
-        contentClasses = Some("confirmation")
-      )
+  def displayPartnerBlock (form: ErrorTransformForm[InprogressForces]): Boolean = {
+
+    val isForcesPartner = Some("true")
+    val isNotForcesMember = Some("false")
+
+    (
+      form(keys.statement.partnerForcesMember).value,
+      form(keys.statement.forcesMember).value
+    ) match {
+      case (`isForcesPartner`, `isNotForcesMember`) => true
+      case (`isForcesPartner`, None) => true
+      case _ => false
     }
-
-    def displayPartnerBlock (form: ErrorTransformForm[InprogressForces]): Boolean = {
-
-      val isForcesPartner = Some("true")
-      val isNotForcesMember = Some("false")
-
-      (
-        form(keys.statement.partnerForcesMember).value,
-        form(keys.statement.forcesMember).value
-      ) match {
-        case (`isForcesPartner`, `isNotForcesMember`) => true
-        case (`isForcesPartner`, None) => true
-        case _ => false
-      }
-    }
-
   }
 
   class ConfirmationBlocks(form: ErrorTransformForm[InprogressForces])
@@ -158,7 +150,7 @@ trait ConfirmationMustache
         case _ => "I have not changed my name in the last 12 months"
       }
       Some(ConfirmationQuestion(
-        title = "What is your previous name?",
+        title = "Previous name",
         editLink = routes.NameController.editGet.url,
         changeName = "previous name",
         content = ifComplete(keys.previousName) {
@@ -239,12 +231,12 @@ trait ConfirmationMustache
         content = ifComplete(keys.service) {
            val memberOf = form(keys.service.serviceName).value map { serviceName =>
              if (isPartner)
-               s"Your partner is a member of the ${serviceName}"
+               s"${serviceName}"
              else
-               s"I am a member of the ${serviceName}"
+               s"${serviceName}"
            }
            val regiment = form(keys.service.regiment).value map {
-             regiment => s"Regiment: ${regiment}"
+             regiment => s"${regiment}"
            }
            List(memberOf, regiment).flatten
         }
@@ -253,15 +245,15 @@ trait ConfirmationMustache
 
     def rank = {
       Some(ConfirmationQuestion(
-        title = "Service number and rank",
+        title = "Number and rank",
         editLink = routes.RankController.editGet.url,
-        changeName = "service number and rank",
+        changeName = "number and rank",
         content = ifComplete(keys.rank) {
           val serviceNumber = form(keys.rank.serviceNumber).value map { serviceNumber =>
-            s"Service number: ${serviceNumber}"
+            s"${serviceNumber}"
           }
           val rank = form(keys.rank.rank).value map { rank =>
-            s"Rank: ${rank}"
+            s"${rank}"
           }
           List(serviceNumber, rank).flatten
         }
@@ -284,20 +276,18 @@ trait ConfirmationMustache
     }
 
     def previousAddress = {
-      val hasCurrentUkAddress =
-        form(keys.address.hasUkAddress).value match {
-          case Some(hasUkAddress) if (hasUkAddress.toBoolean) => true
-          case _ => false
-        }
+      val hasCurrentUkAddress = form(keys.address.hasAddress).value exists {
+        HasAddressOption.parse(_).hasAddress
+      }
       if (hasCurrentUkAddress) {
         Some(ConfirmationQuestion(
-          title = "UK previous registration address",
+          title = "Previous address",
           editLink = routes.PreviousAddressFirstController.editGet.url,
-          changeName = "your UK previous registration address",
+          changeName = "your previous address",
           content = ifComplete(keys.previousAddress, keys.previousAddress.movedRecently) {
-            val moved = form(keys.previousAddress.movedRecently).value
-              .map(MovedHouseOption.parse(_).hasPreviousAddress)
-              .getOrElse(false)
+            val moved = form(keys.previousAddress.movedRecently).value exists {
+              MovedHouseOption.parse(_).hasPreviousAddress
+            }
 
             if (moved) {
               val postcode = form(keys.previousAddress.previousAddress.postcode).value.getOrElse("")
@@ -323,9 +313,9 @@ trait ConfirmationMustache
 
     def contactAddress = {
       Some(ConfirmationQuestion(
-        title = "Polling card address",
+        title = "Correspondence address",
         editLink = routes.ContactAddressController.editGet.url,
-        changeName = "polling card address",
+        changeName = "correspondence address",
         content = {
           val addressTypeKey = form(keys.contactAddress.contactAddressType).value match {
             case Some("uk") => Some(keys.ukContactAddress)

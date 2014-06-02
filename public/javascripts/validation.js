@@ -5,12 +5,7 @@
       $ = root.jQuery,
       GOVUK = root.GOVUK,
       validation,
-      message;
-
-  message = function (key) {
-    var lang = $('html').attr('lang');
-    return GOVUK.registerToVote.messages(lang, key);
-  };
+      message = GOVUK.registerToVote.messages;
 
   validation = {
     init : function () {
@@ -802,67 +797,62 @@
     }()),
     messages : {
       'fullName' : {
-        'allNonEmpty' : 'Please enter your name'
+        'allNonEmpty' : message('ordinary_name_error_enterFullName')
       },
       'firstName' : {
-        'nonEmpty' : 'Please enter your first name',
-        'smallText' : 'First name can be no longer than 256 characters'
+        'nonEmpty' : message('ordinary_name_error_enterFirstName'),
+        'smallText' : message('ordinary_name_error_firstNameTooLong')
       },
       'middleName' : {
-        'smallText' : 'Middle name can be no longer than 256 characters'
+        'smallText' : message('ordinary_name_error_middleNamesTooLong')
       },
       'lastName' : {
-        'nonEmpty' : 'Please enter your last name',
-        'smallText' : 'Last name can be no longer than 256 characters'
+        'nonEmpty' : message('ordinary_name_error_enterFirstName'),
+        'smallText' : message('ordinary_name_error_lastNameTooLong')
       },
       'previousQuestion' : {
-        'atLeastOneNonEmpty' : 'Please answer if you changed your name'
+        'atLeastOneNonEmpty' : message('ordinary_previousName_error_answerThis')
       },
       'previousName' : {
-        'allNonEmpty' : 'Please enter your previous name'
+        'allNonEmpty' : message('ordinary_previousName_error_enterFullName')
       },
       'dateOfBirthDate' : {
-        'allNonEmpty' : 'Please enter your date of birth'
+        'allNonEmpty' : message('ordinary_dob_error_enterDateOfBirth')
       },
       'day' : {
-        'nonEmpty' : 'Please enter your day of birth'
+        'nonEmpty' : message('ordinary_dob_error_enterDay')
       },
       'month' : {
-        'nonEmpty' : 'Please enter your month of birth'
+        'nonEmpty' : message('ordinary_dob_error_enterMonth')
       },
       'year' : {
-        'nonEmpty' : 'Please enter your year of birth'
+        'nonEmpty' : message('ordinary_dob_error_enterYear')
       },
       'otherAddressQuestion' : {
-        'atLeastOneNonEmpty' : 'Please answer this question'
+        'atLeastOneNonEmpty' : message('ordinary_otheraddr_error_pleaseAnswer')
       },
       'contact' : {
-        'atLeastOneNonEmpty' : 'Please answer this question'
+        'atLeastOneNonEmpty' : message('ordinary_contact_error_pleaseAnswer')
       },
       'phoneNumber' : {
-        'nonEmpty' : 'Please enter your phone number',
-        'telephone' : 'Please enter a valid phone number'
-      },
-      'smsNumber' : {
-        'nonEmpty' : 'Please enter the phone number you use for text messages',
-        'telephone' : 'Please enter a valid phone number'
+        'nonEmpty' : message('ordinary_contact_error_enterYourPhoneNo')
       },
       'emailAddress' : {
-        'nonEmpty' : 'Please enter your email address',
-        'email' : 'Please enter a valid email address'
+        'nonEmpty' : message('ordinary_contact_error_enterYourEmail'),
+        'email' : message('ordinary_contact_error_pleaseEnterValidEmail')
       },
       'nationality' : {
-        'atLeastOneNonEmpty' : 'Please answer this question'
+        'atLeastOneNonEmpty' : message('ordinary_nationality_error_pleaseAnswer')
       },
       'otherCountries' : {
-        'atLeastOneCountry' : 'Please enter a country'
+        'atLeastOneCountry' : message('ordinary_nationality_error_pleaseAnswer')
       },
       'ninoCode' : {
-        'nonEmpty' : 'Please enter your National Insurance number',
-        'nino' : 'Your National Insurance number is not correct'
+        'nonEmpty' : message('ordinary_nino_error_noneEntered'),
+        'nino' : message('ordinary_nino_error_incorrectFormat')
       },
       'postalVote' : {
-        'atLeastOneNonEmpty' : 'Please answer this question'
+        'atLeastOneNonEmpty' : message('ordinary_postalVote_error_answerThis')
       },
       'waysToVote' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
@@ -880,7 +870,7 @@
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
       'country' : {
-        'atLeastOneNonEmpty' : 'Please answer this question'
+        'atLeastOneNonEmpty' : message('ordinary_country_error_pleaseAnswer')
       },
       'postcode' : {
         'nonEmpty' : 'Please enter a postcode',

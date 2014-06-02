@@ -23,19 +23,19 @@ class PreviousAddressFirstFormTests
   it should "error out on empty input" in {
     assertUnsuccessfulBinding(
       formData = Map.empty,
-      expectedErrorMessage = "Please answer this question")
+      expectedErrorMessage = "ordinary_previousAddress_error_answerThis")
   }
 
   it should "error out on missing values in input" in {
     assertUnsuccessfulBinding(
       formData = Map("previousAddress.movedRecently" -> ""),
-      expectedErrorMessage = "Please answer this question")
+      expectedErrorMessage = "ordinary_previousAddress_error_answerThis")
   }
 
   it should "error out when moved from abroad selected without answering registered yes/no question" in {
     assertUnsuccessfulBinding(
       formData = Map("previousAddress.movedRecently" -> "from-abroad"),
-      expectedErrorMessage = "Please answer this question")
+      expectedErrorMessage = "ordinary_previousAddress_error_answerThis")
   }
 
   it should "successfully bind when user has previous address (from uk)" in {

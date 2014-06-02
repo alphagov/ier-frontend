@@ -10,6 +10,8 @@ class OverseasApplicationTests
   with TestHelpers
   with CustomMatchers {
 
+  behavior of "OverseasApplication.toApiMap"
+
   it should "generate expected new voter payload" in {
     val application = createOverseasApplication.copy(
       lastRegisteredToVote = Some(LastRegisteredToVote(
@@ -74,26 +76,9 @@ class OverseasApplicationTests
       "gssCode" -> "E09000007"
     )
 
-    val notExpected = List(
-      "nonino",
-      "dcs",
-      "pgfn",
-      "pgmn",
-      "pgln",
-      "pgrfn",
-      "pgrmn",
-      "pgrln",
-      "dbritcit",
-      "hbritcit",
-      "proxyvote",
-      "pvoteemail",
-      "proxyvoteemail"
-    )
+    val apiMap = application.toApiMap
 
-    assertApiMap(
-      application = application,
-      expectedKeysAndValues = expected,
-      notExpectedKeys = notExpected)
+    apiMap should matchMap(expected)
   }
 
   it should "generate expected renewer payload" in {
@@ -131,31 +116,9 @@ class OverseasApplicationTests
       "gssCode" -> "E09000007"
     )
 
-    val notExpected = List(
-      "nonino",
-      "dcs",
-      "pgfn",
-      "pgmn",
-      "pgln",
-      "pgrfn",
-      "pgrmn",
-      "pgrln",
-      "bpass",
-      "passno",
-      "passloc",
-      "passdate",
-      "dbritcit",
-      "hbritcit",
-      "pvote",
-      "proxyvote",
-      "pvoteemail",
-      "proxyvoteemail"
-    )
+    val apiMap = application.toApiMap
 
-    assertApiMap(
-      application = application,
-      expectedKeysAndValues = expected,
-      notExpectedKeys = notExpected)
+    apiMap should matchMap(expected)
   }
 
 
@@ -205,39 +168,11 @@ class OverseasApplicationTests
       "bpass" -> "false"
     )
 
-    val notExpected = List(
-      "nonino",
-      "dcs",
-      "pgfn",
-      "pgmn",
-      "pgln",
-      "pgrfn",
-      "pgrmn",
-      "pgrln",
-      "passno",
-      "passloc",
-      "passdate",
-      "pvote",
-      "proxyvote",
-      "pvoteemail",
-      "proxyvoteemail"
-    )
-    assertApiMap(
-      application = application,
-      expectedKeysAndValues = expected,
-      notExpectedKeys = notExpected)
-  }
 
-  def assertApiMap(application:OverseasApplication, expectedKeysAndValues:Map[String,String], notExpectedKeys:List[String]) {
     val apiMap = application.toApiMap
 
-    apiMap should matchMap(expectedKeysAndValues)
-    for (key <- notExpectedKeys) {
-      apiMap.keys should not contain(key)
-    }
-    apiMap.keys.size should be(expectedKeysAndValues.size)
+    apiMap should matchMap(expected)
   }
-
 
   def createOverseasApplication =
     OverseasApplication(
@@ -289,7 +224,7 @@ class OverseasApplicationTests
         county = Some("Fakesbury"),
         postcode = "XX12 34XX",
         uprn = Some("12345"),
-        gssCode = Some("E09000007") // unrealistic expectation, manual address does not have gssCode!
+        gssCode = Some("E09000007")
       )),
       openRegisterOptin = Some(true),
       postalOrProxyVote = None,

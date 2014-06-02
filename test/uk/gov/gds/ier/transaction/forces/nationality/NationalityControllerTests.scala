@@ -22,7 +22,6 @@ class NationalityControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
 
-      contentAsString(result) should include("Question 4")
       contentAsString(result) should include("What is your nationality?")
       contentAsString(result) should include("/register-to-vote/forces/nationality")
     }
@@ -136,7 +135,6 @@ class NationalityControllerTests
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
 
-      contentAsString(result) should include("Question 4")
       contentAsString(result) should include("What is your nationality?")
       contentAsString(result) should include("/register-to-vote/forces/edit/nationality")
     }

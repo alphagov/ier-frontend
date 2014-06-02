@@ -3,9 +3,9 @@
     {{> shared/validationMessages }}
 
     <fieldset>
-        <p>Enter the postcode where you're registering to vote.</p>
+        <p>{{messages.ordinary_address_postcode_enterPostcodeWhenRegistering_p}}</p>
         <label for="{{postcode.id}}">
-            Postcode
+            {{messages.ordinary_address_postcode_postcode_label}}
         </label>
         <div class="validation-wrapper {{postcode.classes}}">
             <input
@@ -20,52 +20,44 @@
           id="find-address"
           type="submit"
           class="button next">
-            Find address
+            {{messages.ordinary_address_postcode_findAddress_button}}
         </button>
     </fieldset>
-    <div class="help-content page-help-content" data-toggle-text="I don't know my postcode">
-        <h2 >I don't know my postcode</h2>
+    <div class="help-content page-help-content" data-toggle-text="{{messages.ordinary_address_postcode_dontKnowMyPostcode_dtt}}">
+        <h2 >{{messages.ordinary_address_postcode_dontKnowMyPostcode_h2}}</h2>
         <p>
-          If you can't find your postcode on a letter or other document, try entering your address 
-          into a search engine website.
+          {{messages.ordinary_address_postcode_tryWebSearchEngine_p}}
         </p>
-        <h3>I don't know what address to use</h3>
-        <h4>If you have more than one address</h4>
+        <h3>{{messages.ordinary_address_postcode_dontKnowWhatAddressToUse_h3}}</h3>
+        <h4>{{messages.ordinary_address_postcode_ifYouHaveMoreThanOneAddress_h4}}</h4>
         <p>
-          It's sometimes possible to register at two addresses (though you can only vote once in 
-          any election).
+          {{messages.ordinary_address_postcode_itIsPossible_p}}
         </p>
         <p>
-          For example, if you're a student living away from home, you may be able to register at 
-          both your home and term time addresses.
+          {{messages.ordinary_address_postcode_forExample_p}}
         </p>
         <p>
-          If you want to register at two addresses, make two separate applications through this 
-          service. Your local Electoral Registration Office will look at each application and tell 
-          you whether you're allowed to register.
+          {{messages.ordinary_address_postcode_makeTwoSeparateApplications_p}}
         </p>
-        <h4>If you don't have a permanent address</h4>
+        <h4>{{messages.ordinary_address_postcode_ifYouDontHavePermanentAddress_h4}}</h4>
         <p>
-          If you're homeless and living in temporary accommodation (for example, a long term
-          hostel), use that address.
+          {{messages.ordinary_address_postcode_ifYouAreHomeless_p}}
         </p>
         <p>
-          If you're a long term patient in a psychiatric hospital, use the address of the hospital.
+          {{messages.ordinary_address_postcode_ifYouAreLongTermPatient_p}}
         </p>
         <p>
-          If you're a prisoner on long term remand, use the address of the prison.
+          {{messages.ordinary_address_postcode_ifYouArePrisoner_p}}
         </p>
-        <h4>If you can't provide an address</h4>
+        <h4>{{messages.ordinary_address_postcode_ifYouCantProvideAddress_h4}}</h4>
         <p>
-          If you can't provide an address, contact 
-          [your local Electoral Registration Office](https://www.gov.uk/get-on-electoral-register) 
-          for advice.
+          {{messages.ordinary_address_postcode_ifYouCannotProvideAddress_p}}
         </p>
     </div>
     <button
       id="alt-continue"
       type="submit"
       class="button next">
-        Find address
+        {{messages.ordinary_address_postcode_findAddress_button}}
     </button>
 </form>

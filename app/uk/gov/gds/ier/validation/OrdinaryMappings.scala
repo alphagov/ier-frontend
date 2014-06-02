@@ -17,8 +17,9 @@ import uk.gov.gds.ier.transaction.ordinary.openRegister.OpenRegisterForms
 import uk.gov.gds.ier.transaction.ordinary.postalVote.PostalVoteForms
 import uk.gov.gds.ier.transaction.ordinary.contact.ContactForms
 import uk.gov.gds.ier.transaction.country.CountryForms
+import uk.gov.gds.ier.form.OrdinaryFormImplicits
 
-trait OrdinaryMappings 
+trait OrdinaryMappings
   extends FormKeys
   with ErrorMessages
   with NinoForms
@@ -31,7 +32,8 @@ trait OrdinaryMappings
   with OpenRegisterForms
   with PostalVoteForms
   with ContactForms
-  with CountryForms {
+  with CountryForms
+  with OrdinaryFormImplicits {
     self: WithSerialiser =>
 
   val optInMapping = single(

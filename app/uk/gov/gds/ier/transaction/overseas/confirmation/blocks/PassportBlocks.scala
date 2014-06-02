@@ -30,7 +30,7 @@ trait PassportBlocks {
         )
       }
       case _ => ConfirmationQuestion(
-        title = "British Passport Details",
+        title = "British passport",
         editLink = routes.PassportCheckController.editGet.url,
         changeName = "your passport details",
         content = BlockContent(List(completeThisStepMessage))
@@ -59,7 +59,7 @@ trait PassportBlocks {
     }
 
     ConfirmationQuestion(
-      title = "British Citizenship Details",
+      title = "British citizenship",
       editLink = route.url,
       changeName = "your citizenship details",
       content = ifComplete(keys.passport) {

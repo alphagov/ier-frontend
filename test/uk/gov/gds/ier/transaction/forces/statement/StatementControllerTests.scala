@@ -21,7 +21,6 @@ class StatementControllerTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 1")
       contentAsString(result) should include("Which of these statements applies to you?")
       contentAsString(result) should include("/register-to-vote/forces/statement")
     }

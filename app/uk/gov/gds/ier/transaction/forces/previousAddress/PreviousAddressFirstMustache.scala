@@ -7,7 +7,6 @@ import uk.gov.gds.ier.step.StepTemplate
 trait PreviousAddressFirstMustache extends StepTemplate[InprogressForces] {
 
   val title = "Have you changed your UK address in the last 12 months?"
-  val questionNumber = "3"
 
   case class PreviousAddressFirstModel(
     question: Question,
@@ -22,7 +21,6 @@ trait PreviousAddressFirstMustache extends StepTemplate[InprogressForces] {
     PreviousAddressFirstModel(
       question = Question(
         postUrl = post.url,
-        number = questionNumber,
         title = title,
         errorMessages = form.globalErrors.map { _.message }),
       previousYes = RadioField(

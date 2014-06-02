@@ -17,24 +17,25 @@ trait PreviousAddressManualMustache extends StepTemplate[InprogressOrdinary] {
       maCity: Field
   ) extends MustacheData
 
-  val mustache = MustacheTemplate("ordinary/previousAddressManual") {
+  val mustache = MultilingualTemplate("ordinary/previousAddressManual") { implicit lang =>
     (form, post) =>
     implicit val progressForm = form
 
     val movedRecently = form(keys.previousAddress.movedRecently).value.map {
       str => MovedHouseOption.parse(str)
     }
-    val title = movedRecently match {
-      case Some(MovedHouseOption.MovedFromAbroadRegistered) => "What was your last UK address before moving abroad?"
-      case _ => "What was your previous address?"
+
+      val title = movedRecently match {
+      case Some(MovedHouseOption.MovedFromAbroadRegistered) => Messages("ordinary_previousAddress_yesFromAbroadWasRegistered_title")
+      case _ => Messages("ordinary_previousAddress_yesFromUk_title")
     }
 
     ManualModel(
       question = Question(
         postUrl = post.url,
-        number = "8 of 11",
+        number = s"8 ${Messages("step_of")} 11",
         title = title,
-        errorMessages = progressForm.globalErrors.map(_.message)
+        errorMessages = Messages.translatedGlobalErrors(form)
       ),
       lookupUrl = PreviousAddressPostcodeController.get.url,
       postcode = TextField(keys.previousAddress.previousAddress.postcode),

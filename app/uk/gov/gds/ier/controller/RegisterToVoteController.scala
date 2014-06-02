@@ -31,7 +31,7 @@ class RegisterToVoteController @Inject() (
   }
 
   def registerToVote = Action {
-    Ok(RegisterToVote.ordinaryStartPage())
+    Ok(RegisterToVote.OrdinaryStartPage())
   }
 
   def registerToVoteStart = NewSession requiredFor {
@@ -45,7 +45,7 @@ class RegisterToVoteController @Inject() (
   }
 
   def registerToVoteForces = Action {
-    Ok(RegisterToVote.forcesStartPage())
+    Ok(RegisterToVote.ForcesStartPage())
   }
 
   def registerToVoteForcesStart = NewSession requiredFor {
@@ -54,7 +54,7 @@ class RegisterToVoteController @Inject() (
   }
 
   def registerToVoteCrown = Action {
-    Ok(RegisterToVote.crownStartPage())
+    Ok(RegisterToVote.CrownStartPage())
   }
 
   def registerToVoteCrownStart = NewSession requiredFor {

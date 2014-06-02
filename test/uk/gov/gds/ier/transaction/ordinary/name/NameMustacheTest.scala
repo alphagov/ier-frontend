@@ -23,7 +23,7 @@ class NameMustacheTest
   with WithMockRemoteAssets
   with NameMustache {
 
-  it should "empty progress form should produce empty Model" in {
+  it should "empty progress form should produce empty Model" in runningApp {
     val emptyApplicationForm = nameForm
     val nameModel = mustache.data(
       emptyApplicationForm,
@@ -44,7 +44,7 @@ class NameMustacheTest
     nameModel.previousLastName.value should be("")
   }
 
-  it should "progress form with filled applicant name should produce Mustache Model with name values present" in {
+  it should "progress form with filled applicant name should produce Mustache Model with name values present" in runningApp {
     val partiallyFilledApplicationForm = nameForm.fill(InprogressOrdinary(
       name = Some(Name(
         firstName = "John",
@@ -69,7 +69,7 @@ class NameMustacheTest
     nameModel.previousLastName.value should be("")
   }
 
-  it should "progress form with filled applicant name and previous should produce Mustache Model with name and previous name values present" in {
+  it should "progress form with filled applicant name and previous should produce Mustache Model with name and previous name values present" in runningApp {
     val partiallyFilledApplicationForm = nameForm.fill(InprogressOrdinary(
       name = Some(Name(
         firstName = "John",
@@ -102,7 +102,7 @@ class NameMustacheTest
     nameModel.previousLastName.value should be("Kovar")
   }
 
-  it should "progress form with validation errors should produce Model with error list present" in {
+  it should "progress form with validation errors should produce Model with error list present" in runningApp {
     val partiallyFilledApplicationFormWithErrors = nameForm.fillAndValidate(InprogressOrdinary(
       name = Some(Name(
         firstName = "John",

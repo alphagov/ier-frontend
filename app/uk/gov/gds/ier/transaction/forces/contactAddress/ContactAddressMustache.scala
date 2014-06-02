@@ -124,7 +124,6 @@ trait ContactAddressMustache extends StepTemplate[InprogressForces] with Address
       question = Question(
         postUrl = postUrl.url,
         errorMessages = form.globalErrors.map( _.message ),
-        number = "10",
         title = title
       ),
       contactAddressFieldSet = FieldSet (

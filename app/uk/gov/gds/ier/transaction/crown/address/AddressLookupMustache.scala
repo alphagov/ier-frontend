@@ -14,7 +14,6 @@ trait AddressLookupMustache extends StepTemplate[InprogressCrown] {
     }
   }
 
-  val questionNumber = "2"
   case class LookupModel (
       question: Question,
       postcode: Field,
@@ -23,13 +22,12 @@ trait AddressLookupMustache extends StepTemplate[InprogressCrown] {
 
   val mustache = MustacheTemplate("crown/addressLookup") { (form, postUrl) =>
     implicit val progressForm = form
-  
+
     val title = pageTitle(form(keys.hasAddress).value)
 
     LookupModel(
       question = Question(
         postUrl = postUrl.url,
-        number = questionNumber,
         title = title,
         errorMessages = form.globalErrors.map(_.message)
       ),
@@ -44,8 +42,8 @@ trait AddressLookupMustache extends StepTemplate[InprogressCrown] {
         }
       ),
       hasUkAddress = HiddenField(
-        key = keys.hasUkAddress,
-        value = form(keys.hasUkAddress).value.getOrElse("")
+        key = keys.hasAddress,
+        value = form(keys.hasAddress).value.getOrElse("")
       )
     )
   }

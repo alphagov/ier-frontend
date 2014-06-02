@@ -101,7 +101,7 @@ trait PreviousAddressConstraints extends CommonConstraints {
           if (isAddressValid) => Valid
         case Some(MovedHouseOption.NotMoved) => Valid
         case Some(MovedHouseOption.MovedFromAbroadNotRegistered) => Valid
-        case _ => Invalid("Please complete this step", keys.previousAddress)
+        case _ => Invalid("ordinary_confirmation_error_completeThis", keys.previousAddress)
       }
   }
 
@@ -114,7 +114,7 @@ trait PreviousAddressConstraints extends CommonConstraints {
           Valid
         }
         case _ => {
-          Invalid("Please answer this question", keys.previousAddress.previousAddress.manualAddress)
+          Invalid("ordinary_previousAddress_manual_error_answerThis", keys.previousAddress.previousAddress.manualAddress)
         }
       }
   }
@@ -129,7 +129,7 @@ trait PreviousAddressConstraints extends CommonConstraints {
           Valid
         }
         case _ => {
-          Invalid("Please answer this question", keys.previousAddress.previousAddress.uprn)
+          Invalid("ordinary_previousAddress_select_error_answerThis", keys.previousAddress.previousAddress.uprn)
         }
       }
   }
@@ -139,13 +139,13 @@ trait PreviousAddressConstraints extends CommonConstraints {
       inprogress.previousAddress match {
         case Some(PartialPreviousAddress(_,Some(partialAddress)))
           if (partialAddress.postcode == "") => {
-            Invalid("Please enter your postcode", keys.previousAddress.previousAddress.postcode)
+            Invalid("ordinary_previousAddress_postcode_error_enterPostcode", keys.previousAddress.previousAddress.postcode)
         }
         case Some(PartialPreviousAddress(_,None)) => {
-          Invalid("Please enter your postcode", keys.previousAddress.previousAddress.postcode)
+          Invalid("ordinary_previousAddress_postcode_error_enterPostcode", keys.previousAddress.previousAddress.postcode)
         }
         case None => {
-          Invalid("Please enter your postcode", keys.previousAddress.previousAddress.postcode)
+          Invalid("ordinary_previousAddress_postcode_error_enterPostcode", keys.previousAddress.previousAddress.postcode)
         }
         case _ => {
           Valid
@@ -158,7 +158,7 @@ trait PreviousAddressConstraints extends CommonConstraints {
       val possiblePostcode = inprogress.previousAddress.flatMap(_.previousAddress).map(_.postcode)
       possiblePostcode match {
         case Some(postcode) if !PostcodeValidator.isValid(postcode) => Invalid(
-          "Your postcode is not valid",
+          "ordinary_previousAddress_postcode_error_invalidPostcode",
           keys.previousAddress.previousAddress.postcode
         )
         case Some(postcode) if addressService.isNothernIreland(postcode) => Valid
@@ -173,7 +173,7 @@ trait PreviousAddressConstraints extends CommonConstraints {
       case Some(PartialAddress(_, _, postcode, manualAddress, _)) => {
         if (addressService.isNothernIreland(postcode)) Valid
         else if (manualAddress.exists(!_.lineOne.isDefined)) Invalid(
-          lineOneIsRequiredError,
+          "ordinary_previousAddress_manual_error_oneAddressLineRequired",
           keys.previousAddress.previousAddress.manualAddress.lineOne
         )
         else Valid
@@ -189,7 +189,7 @@ trait PreviousAddressConstraints extends CommonConstraints {
       case Some(PartialAddress(_, _, postcode, manualAddress, _)) => {
         if (addressService.isNothernIreland(postcode)) Valid
         else if (manualAddress.exists(!_.city.isDefined)) Invalid(
-          cityIsRequiredError,
+          "ordinary_previousAddress_manual_error_cityRequired",
           keys.previousAddress.previousAddress.manualAddress.city
         )
         else Valid

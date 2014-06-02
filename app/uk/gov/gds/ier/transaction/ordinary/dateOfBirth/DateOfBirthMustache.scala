@@ -22,17 +22,15 @@ trait DateOfBirthMustache extends StepTemplate[InprogressOrdinary] {
       noDobReasonShowFlag: Text
   ) extends MustacheData
 
-  val mustache = MustacheTemplate("ordinary/dateOfBirth") { (form, post) =>
+  val mustache = MultilingualTemplate("ordinary/dateOfBirth") { implicit lang => (form, post) =>
     implicit val progressForm = form
-
-    val title = "What is your date of birth?"
 
     DateOfBirthModel(
       question = Question(
         postUrl = post.url,
-        errorMessages = form.globalErrors.map{ _.message },
-        number = "3 of 11",
-        title = title
+        errorMessages =  Messages.translatedGlobalErrors(form),
+        number = s"3 ${Messages("step_of")} 11",
+        title = Messages("ordinary_dob_title")
       ),
       day = TextField(
         key = keys.dob.dob.day

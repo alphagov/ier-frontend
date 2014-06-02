@@ -5,7 +5,7 @@ import uk.gov.gds.ier.test.TestHelpers
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.mockito.{Matchers => MockitoMatchers}
-import uk.gov.gds.ier.model.{PartialManualAddress, Address, PartialAddress, LastUkAddress}
+import uk.gov.gds.ier.model.{PartialManualAddress, Address, PartialAddress, LastAddress}
 
 class AddressServiceTests extends FlatSpec
   with Matchers
@@ -14,9 +14,9 @@ class AddressServiceTests extends FlatSpec
 
   behavior of "AddressService.formFullAddress"
 
-  it should "perform a lookup against places when a uprn is provided" in {
-    val mockPlaces = mock[LocateService]
-    val service = new AddressService(mockPlaces)
+  it should "perform a lookup against Locate Service when a uprn is provided" in {
+    val mockLocateService = mock[LocateService]
+    val service = new AddressService(mockLocateService)
     val partial = PartialAddress(
       addressLine = None,
       uprn = Some("12345"),
@@ -24,14 +24,14 @@ class AddressServiceTests extends FlatSpec
       manualAddress = None,
       gssCode = Some("abc"))
 
-    when(mockPlaces.lookupAddress("AB12 3CD")).thenReturn(List.empty)
+    when(mockLocateService.lookupAddress("AB12 3CD")).thenReturn(List.empty)
     service.formFullAddress(Some(partial))
-    verify(mockPlaces).lookupAddress("AB12 3CD")
+    verify(mockLocateService).lookupAddress("AB12 3CD")
   }
 
   it should "pick the correct address out of the returned list" in {
-    val mockPlaces = mock[LocateService]
-    val service = new AddressService(mockPlaces)
+    val mockLocateService = mock[LocateService]
+    val service = new AddressService(mockLocateService)
     val partial = PartialAddress(
       addressLine = None,
       uprn = Some("12345"),
@@ -50,24 +50,25 @@ class AddressServiceTests extends FlatSpec
       gssCode = Some("abc")
     )
 
-    when(mockPlaces.lookupAddress("AB12 3CD")).thenReturn(List(address))
+    when(mockLocateService.lookupAddress("AB12 3CD")).thenReturn(List(address))
     service.formFullAddress(Some(partial)) should be(Some(address))
-    verify(mockPlaces).lookupAddress("AB12 3CD")
+    verify(mockLocateService).lookupAddress("AB12 3CD")
   }
 
-  it should "provide a manual address formed when no uprn provided" in {
-    val mockPlaces = mock[LocateService]
-    val service = new AddressService(mockPlaces)
-    val partial = PartialAddress(
+  it should "provide a manual address formed when no uprn provided " +
+    "and ensure that gssCode is present in full address" in {
+
+    val addressService = new AddressService(dummyLocateService)
+    val manualAddress = PartialAddress(
       addressLine = None,
       uprn = None,
       postcode = "AB12 3CD",
-      gssCode = Some("E09000007"), // unrealistic expectation, manual address does not have gssCode!
+      gssCode = None,
       manualAddress = Some(PartialManualAddress(
         lineOne = Some("123 Fake Street"),
         city = Some("Fakerton")))
     )
-    val address = Address(
+    val expectedFullAddressResult = Address(
       lineOne = Some("123 Fake Street"),
       lineTwo = None,
       lineThree = None,
@@ -78,21 +79,22 @@ class AddressServiceTests extends FlatSpec
       gssCode = Some("E09000007")
     )
 
-    service.formFullAddress(Some(partial)) should be(Some(address))
-    verify(mockPlaces, never()).lookupAddress("AB12 3CD")
+    val fullAddress = addressService.formFullAddress(Some(manualAddress))
+
+    fullAddress should be(Some(expectedFullAddressResult))
   }
 
   it should "return none if no partial provided" in {
-    val mockPlaces = mock[LocateService]
-    val service = new AddressService(mockPlaces)
+    val mockLocateService = mock[LocateService]
+    val service = new AddressService(mockLocateService)
 
     service.formFullAddress(None) should be(None)
-    verify(mockPlaces, never()).lookupAddress(MockitoMatchers.anyString())
+    verify(mockLocateService, never()).lookupAddress(MockitoMatchers.anyString())
   }
 
   it should "provide correct address containing only a postcode (NI case)" in {
-    val mockPlaces = mock[LocateService]
-    val service = new AddressService(mockPlaces)
+    val mockLocateService = mock[LocateService]
+    val service = new AddressService(mockLocateService)
     val partial = PartialAddress(
       addressLine = None,
       uprn = None,
@@ -112,14 +114,14 @@ class AddressServiceTests extends FlatSpec
     )
 
     service.formFullAddress(Some(partial)) should be(Some(address))
-    verify(mockPlaces, never()).lookupAddress("BT7 1AA")
+    verify(mockLocateService, never()).lookupAddress("BT7 1AA")
   }
 
   behavior of "AddressService.formAddressLine"
 
   it should "combine the 3 lines correctly" in {
-    val mockPlaces = mock[LocateService]
-    val service = new AddressService(mockPlaces)
+    val mockLocateService = mock[LocateService]
+    val service = new AddressService(mockLocateService)
 
     val address = Address(
       lineOne = Some("1A Fake Flat"),
@@ -137,8 +139,8 @@ class AddressServiceTests extends FlatSpec
   }
 
   it should "filter out Nones" in {
-    val mockPlaces = mock[LocateService]
-    val service = new AddressService(mockPlaces)
+    val mockLocateService = mock[LocateService]
+    val service = new AddressService(mockLocateService)
 
     val address = Address(
       lineOne = Some("1A Fake Flat"),
@@ -156,8 +158,8 @@ class AddressServiceTests extends FlatSpec
 
 
   it should "filter out empty strings" in {
-    val mockPlaces = mock[LocateService]
-    val service = new AddressService(mockPlaces)
+    val mockLocateService = mock[LocateService]
+    val service = new AddressService(mockLocateService)
 
     val address = Address(
       lineOne = Some("1A Fake Flat"),

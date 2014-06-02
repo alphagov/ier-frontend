@@ -14,8 +14,6 @@ trait AddressManualMustache extends StepTemplate[InprogressCrown] {
     }
   }
 
-  val questionNumber = "2"
-
   case class ManualModel (
     question: Question,
     lookupUrl: String,
@@ -35,7 +33,6 @@ trait AddressManualMustache extends StepTemplate[InprogressCrown] {
     ManualModel(
       question = Question(
         postUrl = postUrl.url,
-        number = questionNumber,
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),

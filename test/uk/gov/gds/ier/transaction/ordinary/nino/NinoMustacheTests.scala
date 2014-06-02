@@ -21,7 +21,7 @@ class NinoMustacheTests
 
   val serialiser = jsonSerialiser
 
-  it should "successfully render to a valid nino" in {
+  it should "successfully render to a valid nino" in runningApp {
     val js = Json.toJson(
       Map(
         "NINO.NINO" -> "AB 12 34 56 D"
@@ -36,7 +36,7 @@ class NinoMustacheTests
     model.nino.value should be("AB 12 34 56 D")
   }
 
-  it should "successfully render to a valid 'no nino reason'" in {
+  it should "successfully render to a valid 'no nino reason'" in runningApp{
     val js = Json.toJson(
       Map(
         "NINO.NoNinoReason" -> "Don't have any NINO"

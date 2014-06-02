@@ -30,7 +30,7 @@ class ConfirmationStep @Inject() (
 
   def factoryOfT() = InprogressOverseas()
 
-  val routes = Routes(
+  val routes: Routes = Routes(
     get = ConfirmationController.get,
     post = ConfirmationController.post,
     editGet = ConfirmationController.get,
@@ -39,18 +39,11 @@ class ConfirmationStep @Inject() (
 
   val validation = confirmationForm
 
-  def template(form: ErrorTransformForm[InprogressOverseas]) = {
-    Confirmation.confirmationPage(
-      form,
-      routes.post.url
-    )
-  }
-
   def get = ValidSession requiredFor {
-    request => application =>
+    implicit request => application =>
       application.identifyApplication match {
         case ApplicationType.DontKnow => NotFound(ErrorPage.NotFound(request.path))
-        case _ => Ok(template(validation.fillAndValidate(application)))
+        case _ => Ok(mustache(validation.fillAndValidate(application), routes.post, application).html)
       }
   }
 
@@ -58,7 +51,7 @@ class ConfirmationStep @Inject() (
     implicit request => application =>
       validation.fillAndValidate(application).fold(
         hasErrors => {
-          Ok(template(hasErrors))
+          Ok(mustache(hasErrors, routes.post, application).html)
         },
         validApplication => {
           val refNum = ierApi.generateOverseasReferenceNumber(validApplication)

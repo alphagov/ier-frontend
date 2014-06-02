@@ -8,13 +8,13 @@ trait LastUkAddressBlocks extends AddressHelpers {
 
   def lastUkAddress = {
     ConfirmationQuestion(
-      title = "Last UK Address",
+      title = "Registration address",
       editLink = if (isManualAddressDefined(form, keys.lastUkAddress.manualAddress)) {
         routes.LastUkAddressManualController.editGet.url
       } else {
         routes.LastUkAddressSelectController.editGet.url
       },
-      changeName = "your last UK address",
+      changeName = "your registration address",
       content = ifComplete(keys.lastUkAddress) {
         val addressLine = form(keys.lastUkAddress.addressLine).value.orElse{
           manualAddressToOneLine(form, keys.lastUkAddress.manualAddress)

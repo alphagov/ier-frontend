@@ -32,3 +32,17 @@ case class Name(firstName:String,
     )).getOrElse(Map.empty)
   }
 }
+
+object Name extends ModelMapping {
+  import playMappings._
+
+  val mapping = playMappings.mapping(
+    keys.firstName.key -> default(text, ""),
+    keys.middleNames.key -> optional(text),
+    keys.lastName.key -> default(text, "")
+  ) (
+    Name.apply
+  ) (
+    Name.unapply
+  )
+}

@@ -4,7 +4,7 @@ import play.api.mvc.Cookie
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.step.InprogressApplication
-import play.api.mvc.{DiscardingCookie, Result}
+import play.api.mvc.{DiscardingCookie, Result, Request}
 
 trait ResultHandling extends CookieHandling {
   self: WithConfig
@@ -13,25 +13,45 @@ trait ResultHandling extends CookieHandling {
 
   implicit class ResultWithCookieOps(result:Result) extends SessionKeys {
 
-    def storeInSession[B <: InprogressApplication[B]](application:B) = {
-      result.withCookies(payloadCookies(application):_*)
+    def storeInSession[B <: InprogressApplication[B]](
+      application:B
+    ) (
+      implicit request: Request[_]
+    ) = {
+      val domain = getDomain(request)
+      result.withCookies(payloadCookies(application, domain):_*)
     }
 
-    def storeToken(token: SessionToken) = {
-      result.withCookies(tokenCookies(token):_*)
+    def storeToken(
+      token: SessionToken
+    ) (
+      implicit request: Request[_]
+    ) = {
+      val domain = getDomain(request)
+      result.withCookies(tokenCookies(token, domain):_*)
     }
 
-    def emptySession()(implicit request: play.api.mvc.Request[_]) = {
-      result.discardingCookies(discardPayloadCookies ++ discardTokenCookies:_*)
+    def emptySession()(implicit request: Request[_]) = {
+      val domain = getDomain(request)
+      result.discardingCookies(
+        discardPayloadCookies(domain) ++ discardTokenCookies(domain):_*
+      )
     }
 
-    def withFreshSession() = {
+    def withFreshSession()(implicit request: Request[_]) = {
+      val domain = getDomain(request)
       val resultWithToken = result storeToken SessionToken()
-      resultWithToken.discardingCookies(discardPayloadCookies:_*)
+      resultWithToken.discardingCookies(discardPayloadCookies(domain):_*)
     }
   }
 
-  def createSecureCookie ( name : String, value : String) : Cookie = {
-    Cookie (name, value, None, "/", None, config.cookiesSecured, true)
+  def getDomain(request: Request[_]) = {
+    request.headers.get("host") filterNot {
+      _ startsWith "localhost"
+    } filterNot {
+      _ == ""
+    } map {
+      _.split(":").head
+    }
   }
 }

@@ -5,7 +5,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.model.LastUkAddress
+import uk.gov.gds.ier.model.{HasAddressOption, LastAddress}
 
 class AddressStepTests
   extends FlatSpec
@@ -18,7 +18,12 @@ class AddressStepTests
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/forces/address").withIerSession()
-        .withApplication(completeForcesApplication.copy(address = Some(LastUkAddress(Some(true), None))))
+        .withApplication(completeForcesApplication.copy(
+          address = Some(LastAddress(
+            hasAddress = Some(HasAddressOption.YesAndLivingThere),
+            address = None
+          ))
+        ))
       )
 
       status(result) should be(OK)
@@ -26,7 +31,6 @@ class AddressStepTests
       contentAsString(result) should include(
         "What is your UK address?"
       )
-      contentAsString(result) should include("Question 2")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/address\"")
     }
   }
@@ -35,7 +39,12 @@ class AddressStepTests
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/forces/address").withIerSession()
-        .withApplication(completeForcesApplication.copy(address = Some(LastUkAddress(Some(false), None))))
+        .withApplication(completeForcesApplication.copy(
+          address = Some(LastAddress(
+            hasAddress = Some(HasAddressOption.No),
+            address = None
+          ))
+        ))
       )
 
       status(result) should be(OK)
@@ -43,7 +52,6 @@ class AddressStepTests
       contentAsString(result) should include(
         "What was your last UK address?"
       )
-      contentAsString(result) should include("Question 2")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/address\"")
     }
   }
@@ -55,8 +63,12 @@ class AddressStepTests
         FakeRequest(POST, "/register-to-vote/forces/address/select")
           .withIerSession()
           .withApplication(completeForcesApplication.copy(
-              address = Some(LastUkAddress(Some(true), None)),
-              previousAddress = None))
+              address = Some(LastAddress(
+                hasAddress = Some(HasAddressOption.YesAndLivingThere),
+                address = None
+              )),
+              previousAddress = None
+          ))
           .withFormUrlEncodedBody(
             "address.address.uprn" -> "123456789",
             "address.address.postcode" -> "SW1A 1AA"
@@ -74,8 +86,12 @@ class AddressStepTests
         FakeRequest(POST, "/register-to-vote/forces/address/select")
           .withIerSession()
           .withApplication(completeForcesApplication.copy(
-              address = Some(LastUkAddress(Some(false), None)),
-              nationality = None))
+              address = Some(LastAddress(
+                hasAddress = Some(HasAddressOption.No),
+                address = None
+              )),
+              nationality = None
+          ))
           .withFormUrlEncodedBody(
             "address.address.uprn" -> "123456789",
             "address.address.postcode" -> "SW1A 1AA"
@@ -93,9 +109,12 @@ class AddressStepTests
         FakeRequest(POST, "/register-to-vote/forces/address/manual")
           .withIerSession()
           .withApplication(completeForcesApplication.copy(
-              address = Some(LastUkAddress(Some(true), None)),
-              previousAddress = None
-              ))
+            address = Some(LastAddress(
+              hasAddress = Some(HasAddressOption.YesAndLivingThere),
+              address = None
+            )),
+            previousAddress = None
+          ))
           .withFormUrlEncodedBody(
             "address.address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
             "address.address.manualAddress.lineTwo" -> "Moseley Road",
@@ -116,15 +135,19 @@ class AddressStepTests
         FakeRequest(POST, "/register-to-vote/forces/address/manual")
           .withIerSession()
           .withApplication(completeForcesApplication.copy(
-              address = Some(LastUkAddress(Some(false), None)),
-              nationality = None))
+            address = Some(LastAddress(
+              hasAddress = Some(HasAddressOption.No),
+              address = None
+            )),
+            nationality = None
+          ))
           .withFormUrlEncodedBody(
             "address.address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
             "address.address.manualAddress.lineTwo" -> "Moseley Road",
             "address.address.manualAddress.lineThree" -> "Hallow",
             "address.address.manualAddress.city" -> "Worcester",
             "address.address.postcode" -> "SW1A 1AA"
-        )
+          )
       )
 
       status(result) should be(SEE_OTHER)
@@ -195,7 +218,6 @@ behavior of "AddressStep.editGet"
       contentAsString(result) should include(
         "What was your last UK address?"
       )
-      contentAsString(result) should include("Question 2")
       contentAsString(result) should include("<form action=\"/register-to-vote/forces/edit/address\"")
 
     }
@@ -208,8 +230,12 @@ behavior of "AddressStep.editGet"
         FakeRequest(POST, "/register-to-vote/forces/edit/address/select")
           .withIerSession()
           .withApplication(completeForcesApplication.copy(
-              address = Some(LastUkAddress(Some(true), None)),
-              previousAddress = None))
+            address = Some(LastAddress(
+              hasAddress = Some(HasAddressOption.YesAndLivingThere),
+              address = None
+            )),
+            previousAddress = None
+          ))
           .withFormUrlEncodedBody(
             "address.address.uprn" -> "123456789",
             "address.address.postcode" -> "SW1A 1AA"
@@ -227,9 +253,12 @@ behavior of "AddressStep.editGet"
         FakeRequest(POST, "/register-to-vote/forces/edit/address/select")
           .withIerSession()
           .withApplication(completeForcesApplication.copy(
-              address = Some(LastUkAddress(Some(false), None)),
-              nationality = None
-              ))
+            address = Some(LastAddress(
+              hasAddress = Some(HasAddressOption.No),
+              address = None
+            )),
+            nationality = None
+          ))
           .withFormUrlEncodedBody(
             "address.address.uprn" -> "123456789",
             "address.address.postcode" -> "SW1A 1AA"
@@ -247,15 +276,19 @@ behavior of "AddressStep.editGet"
         FakeRequest(POST, "/register-to-vote/forces/edit/address/manual")
           .withIerSession()
           .withApplication(completeForcesApplication.copy(
-              address = Some(LastUkAddress(Some(true), None)),
-              previousAddress = None))
+            address = Some(LastAddress(
+              hasAddress = Some(HasAddressOption.YesAndLivingThere),
+              address = None
+            )),
+            previousAddress = None
+          ))
           .withFormUrlEncodedBody(
             "address.address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
             "address.address.manualAddress.lineTwo" -> "Moseley Road",
             "address.address.manualAddress.lineThree" -> "Hallow",
             "address.address.manualAddress.city" -> "Worcester",
             "address.address.postcode" -> "SW1A 1AA"
-        )
+          )
       )
 
       status(result) should be(SEE_OTHER)
@@ -269,15 +302,19 @@ behavior of "AddressStep.editGet"
         FakeRequest(POST, "/register-to-vote/forces/edit/address/manual")
           .withIerSession()
           .withApplication(completeForcesApplication.copy(
-              address = Some(LastUkAddress(Some(false), None)),
-              nationality = None))
+            address = Some(LastAddress(
+              hasAddress = Some(HasAddressOption.No),
+              address = None
+            )),
+            nationality = None
+          ))
           .withFormUrlEncodedBody(
             "address.address.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
             "address.address.manualAddress.lineTwo" -> "Moseley Road",
             "address.address.manualAddress.lineThree" -> "Hallow",
             "address.address.manualAddress.city" -> "Worcester",
             "address.address.postcode" -> "SW1A 1AA"
-        )
+          )
       )
 
       status(result) should be(SEE_OTHER)

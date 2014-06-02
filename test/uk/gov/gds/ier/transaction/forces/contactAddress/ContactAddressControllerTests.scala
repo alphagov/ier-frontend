@@ -21,7 +21,6 @@ class ContactAddressControllerTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 10")
       contentAsString(result) should include("Where should we write to you about your registration?")
       contentAsString(result) should include("/register-to-vote/forces/contact-address")
     }
@@ -99,7 +98,6 @@ class ContactAddressControllerTests
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 10")
       contentAsString(result) should include("Where should we write to you about your registration?")
       contentAsString(result) should include("/register-to-vote/forces/edit/contact-address")    }
   }

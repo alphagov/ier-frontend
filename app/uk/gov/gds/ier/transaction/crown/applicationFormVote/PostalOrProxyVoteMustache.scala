@@ -39,7 +39,6 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressCrown] {
       question = Question(
         postUrl = postUrl.url,
         errorMessages = form.globalErrors.map{ _.message },
-        number = "12",
         title = title
       ),
       description = Text (

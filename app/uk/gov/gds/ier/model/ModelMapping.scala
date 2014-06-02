@@ -8,4 +8,5 @@ trait ModelMapping extends FormKeys {
   private[model] lazy val Invalid = play.api.data.validation.Invalid
   private[model] lazy val Valid = play.api.data.validation.Valid
   private[model] lazy val Constraint = play.api.data.validation.Constraint
+
 }

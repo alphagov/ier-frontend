@@ -6,7 +6,7 @@ import play.api.mvc.Controller
 import uk.gov.gds.ier.client.ApiResults
 import play.api.test._
 import play.api.test.Helpers._
-import org.joda.time.DateTime
+import org.joda.time.{Seconds, DateTime}
 import uk.gov.gds.ier.security._
 import uk.gov.gds.ier.controller.MockConfig
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
@@ -65,12 +65,12 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       val decryptedInfo = controller.encryptionService.decrypt(cookie.value, cookieIV.value)
 
       val token = jsonSerialiser.fromJson[SessionToken](decryptedInfo)
-      token.timestamp.getDayOfMonth should be(DateTime.now.getDayOfMonth)
-      token.timestamp.getMonthOfYear should be(DateTime.now.getMonthOfYear)
-      token.timestamp.getYear should be(DateTime.now.getYear)
-      token.timestamp.getHourOfDay should be(DateTime.now.getHourOfDay)
-      token.timestamp.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
-      token.timestamp.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 2)
+      token.latest.getDayOfMonth should be(DateTime.now.getDayOfMonth)
+      token.latest.getMonthOfYear should be(DateTime.now.getMonthOfYear)
+      token.latest.getYear should be(DateTime.now.getYear)
+      token.latest.getHourOfDay should be(DateTime.now.getHourOfDay)
+      token.latest.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
+      token.latest.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 2)
     }
   }
 
@@ -156,12 +156,12 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       val nextToken = jsonSerialiser.fromJson[SessionToken](newTokendecryptedInfo)
 
       nextToken should not be initialToken
-      nextToken.timestamp.getDayOfMonth should be(DateTime.now.getDayOfMonth)
-      nextToken.timestamp.getMonthOfYear should be(DateTime.now.getMonthOfYear)
-      nextToken.timestamp.getYear should be(DateTime.now.getYear)
-      nextToken.timestamp.getHourOfDay should be(DateTime.now.getHourOfDay)
-      nextToken.timestamp.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
-      nextToken.timestamp.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 1)
+      nextToken.latest.getDayOfMonth should be(DateTime.now.getDayOfMonth)
+      nextToken.latest.getMonthOfYear should be(DateTime.now.getMonthOfYear)
+      nextToken.latest.getYear should be(DateTime.now.getYear)
+      nextToken.latest.getHourOfDay should be(DateTime.now.getHourOfDay)
+      nextToken.latest.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
+      nextToken.latest.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 1)
     }
   }
 
@@ -211,13 +211,13 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       val decryptedInfo = controller.encryptionService.decrypt(token.value, tokenIV.value)
 
       val tokenDate = jsonSerialiser.fromJson[SessionToken](decryptedInfo)
-      tokenDate.timestamp.getDayOfMonth should be(DateTime.now.getDayOfMonth)
-      tokenDate.timestamp.getMonthOfYear should be(DateTime.now.getMonthOfYear)
-      tokenDate.timestamp.getYear should be(DateTime.now.getYear)
-      tokenDate.timestamp.getHourOfDay should be(DateTime.now.getHourOfDay)
-      tokenDate.timestamp.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
-      tokenDate.timestamp.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 2)
-      tokenDate.timestamp.getMinuteOfHour should not be(DateTime.now.minusMinutes(20).getMinuteOfHour)
+      tokenDate.latest.getDayOfMonth should be(DateTime.now.getDayOfMonth)
+      tokenDate.latest.getMonthOfYear should be(DateTime.now.getMonthOfYear)
+      tokenDate.latest.getYear should be(DateTime.now.getYear)
+      tokenDate.latest.getHourOfDay should be(DateTime.now.getHourOfDay)
+      tokenDate.latest.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
+      tokenDate.latest.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 2)
+      tokenDate.latest.getMinuteOfHour should not be(DateTime.now.minusMinutes(20).getMinuteOfHour)
     }
   }
 
@@ -245,7 +245,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       }
 
       val controller = new TestController()
-      val sessionToken = SessionToken(DateTime.now.minusMinutes(20))
+      val sessionToken = SessionToken(latest = DateTime.now.minusMinutes(20))
       val (encryptedSessionTokenValue, encryptedSessionTokenIVValue) =
         controller.encryptionService.encrypt(jsonSerialiser.toJson(sessionToken))
 
@@ -267,13 +267,13 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       val decryptedInfo = controller.encryptionService.decrypt(token.value, tokenIV.value)
 
       val tokenDate = jsonSerialiser.fromJson[SessionToken](decryptedInfo)
-      tokenDate.timestamp.getDayOfMonth should be(DateTime.now.getDayOfMonth)
-      tokenDate.timestamp.getMonthOfYear should be(DateTime.now.getMonthOfYear)
-      tokenDate.timestamp.getYear should be(DateTime.now.getYear)
-      tokenDate.timestamp.getHourOfDay should be(DateTime.now.getHourOfDay)
-      tokenDate.timestamp.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
-      tokenDate.timestamp.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 2)
-      tokenDate.timestamp.getMinuteOfHour should not be(DateTime.now.minusMinutes(20).getMinuteOfHour)
+      tokenDate.latest.getDayOfMonth should be(DateTime.now.getDayOfMonth)
+      tokenDate.latest.getMonthOfYear should be(DateTime.now.getMonthOfYear)
+      tokenDate.latest.getYear should be(DateTime.now.getYear)
+      tokenDate.latest.getHourOfDay should be(DateTime.now.getHourOfDay)
+      tokenDate.latest.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
+      tokenDate.latest.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 2)
+      tokenDate.latest.getMinuteOfHour should not be(DateTime.now.minusMinutes(20).getMinuteOfHour)
     }
   }
 
@@ -301,7 +301,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       }
 
       val controller = new TestController()
-      val sessionToken = SessionToken(DateTime.now.minusMinutes(19))
+      val sessionToken = SessionToken(latest = DateTime.now.minusMinutes(19))
       val (encryptedSessionTokenValue, encryptedSessionTokenIVValue) =
         controller.encryptionService.encrypt(jsonSerialiser.toJson(sessionToken))
 
@@ -323,12 +323,12 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       val decryptedInfo = controller.encryptionService.decrypt(token.value, tokenIV.value)
 
       val tokenDate = jsonSerialiser.fromJson[SessionToken](decryptedInfo)
-      tokenDate.timestamp.getDayOfMonth should be(DateTime.now.getDayOfMonth)
-      tokenDate.timestamp.getMonthOfYear should be(DateTime.now.getMonthOfYear)
-      tokenDate.timestamp.getYear should be(DateTime.now.getYear)
-      tokenDate.timestamp.getHourOfDay should be(DateTime.now.getHourOfDay)
-      tokenDate.timestamp.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
-      tokenDate.timestamp.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 1)
+      tokenDate.latest.getDayOfMonth should be(DateTime.now.getDayOfMonth)
+      tokenDate.latest.getMonthOfYear should be(DateTime.now.getMonthOfYear)
+      tokenDate.latest.getYear should be(DateTime.now.getYear)
+      tokenDate.latest.getHourOfDay should be(DateTime.now.getHourOfDay)
+      tokenDate.latest.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
+      tokenDate.latest.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 1)
     }
   }
 
@@ -356,7 +356,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
       }
 
       val controller = new TestController()
-      val sessionToken = SessionToken(DateTime.now.minusMinutes(19))
+      val sessionToken = SessionToken(latest = DateTime.now.minusMinutes(19))
       val (encryptedSessionTokenValue, encryptedSessionTokenIVValue) =
         controller.encryptionService.encrypt(jsonSerialiser.toJson(sessionToken))
 
@@ -379,7 +379,9 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
       val refreshedToken = jsonSerialiser.fromJson[SessionToken](decryptedInfo)
       refreshedToken.history.size should be(1)
-      refreshedToken.history.map(_.getMillis) should contain(sessionToken.timestamp.getMillis)
+      refreshedToken.history should contain(
+        Seconds.secondsBetween(sessionToken.latest, refreshedToken.latest).getSeconds
+      )
     }
   }
 

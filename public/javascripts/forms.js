@@ -13,7 +13,8 @@
       autocompletes,
       PostcodeLookup,
       monitorRadios,
-      BackButton;
+      BackButton,
+      message = GOVUK.registerToVote.messages;
 
   BackButton = function (elm) {
     if (elm) {
@@ -23,8 +24,14 @@
     }
   };
   BackButton.prototype.setup = function () {
-    this.$link = $('<a class="back-to-previous" href="#">' +
-      'Back <span class="visuallyhidden"> to the previous question</span></a>');
+    this.$link = $(
+                  '<a class="back-to-previous" href="#">' +
+                    message('back_button') +
+                    ' <span class="visuallyhidden"> ' +
+                    message('back_button_non_visual') +
+                    '</span>' +
+                  '</a>'
+                );
     this.$header.before(this.$link);
     this.$header.removeClass('no-back-link');
   };
@@ -268,7 +275,10 @@
         $addAnotherLink;
 
     if (this.$duplicationIntro.is(':visible')) {
-      $addAnotherLink = $('<a href="#" class="duplicate-control">Add another ' + this.label.txt + '</a>');
+      $addAnotherLink = $(
+                          '<a href="#" class="duplicate-control">' +
+                            message('ordinary_nationality_other_country') +
+                          '</a>');
       this.$duplicationIntro.hide();
       $container.append($addAnotherLink);
     } else {
@@ -342,7 +352,11 @@
     };
   }());
   Autocomplete.menuIdPrefix = 'typeahead-suggestions';
-  Autocomplete.prototype.compiledStatusText = Mustache.compile('{{results}} {{#describe}}{{results}}{{/describe}} available, use up and down arrow keys to navigate.');
+  Autocomplete.prototype.compiledStatusText = Mustache.compile(
+    '{{results}} {{#describe}}{{results}}{{/describe}} ' +
+     message('ordinary_nationality_autocomplete_status') +
+    '.'
+  );
   Autocomplete.prototype.compiledTemplate = Mustache.compile('<p role="presentation" id="{{name}}">{{value}}</p>');
   Autocomplete.prototype.updateStatus = function (suggestions) {
     var statusText;
@@ -352,7 +366,11 @@
         'results' : suggestions.length, 
         'describe' : function () {
           return function (results) {
-            return (this.results > 1) ? 'results are' : 'result is';
+            if (this.results > 1) {
+              return message('ordinary_nationality_autocomplete_status_prefix_multiple');
+            } else {
+              return message('ordinary_nationality_autocomplete_status_prefix_singular');
+            }
           }
         }
       });
@@ -464,6 +482,7 @@
 
   PostcodeLookup = function (searchButton, inputName) {
     var inputId = inputName.replace(/\./g, "_"),
+        previousAddressTest = message('ordinary_address_previousAddressTest'),
         _allowSubmission;
 
     _allowSubmission = function ($searchButton) {
@@ -488,8 +507,12 @@
     this.$searchInput = this.$searchButton.closest('fieldset').find('input.postcode');
     this.$targetElement = $('#found-addresses');
     this.hasAddresses = ($('#'+inputId+'_uprn_select').length > 0);
-    this.$waitMessage = $('<p id="wait-for-request">Finding address</p>');
-    this.addressIsPrevious = (this.$searchInput.siblings('label').text().indexOf('previous address') !== -1);
+    this.$waitMessage = $(
+                          '<p id="wait-for-request">' +
+                            message('ordinary_address_loading') +
+                          '</p>'
+                        );
+    this.addressIsPrevious = (this.$searchInput.siblings('label').text().indexOf(previousAddressTest) !== -1);
     this.$searchButton.attr('aria-controls', this.$targetElement.attr('id'));
     this.$targetElement.attr({
       'aria-live' : 'polite',
@@ -498,7 +521,7 @@
     });
     this.fragment =
         '<label for="'+inputId+'_postcode" class="hidden">' +
-           'Postcode' + 
+           message('ordinary_address_postcode') + 
         '</label>' +
         '<input type="hidden" id="input-address-postcode" name="'+inputName+'.postcode" value="{{postcode}}" class="text hidden">' +
         '<label for="'+inputId+'_uprn_select">{{selectLabel}}</label>' +
@@ -521,7 +544,9 @@
         '</div>' +
         '<input type="hidden" id="possibleAddresses_postcode" name="possibleAddresses.postcode" value="{{postcode}}" />' +
         '<input type="hidden" id="possibleAddresses_jsonList" name="possibleAddresses.jsonList" value="{{resultsJSON}}" />' +
-        '<button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode address">Continue</button>';
+        '<button type="submit" id="continue" class="button next validation-submit" data-validation-sources="postcode address">' +
+          message('ordinary_address_continue') +
+        '</button>';
 
     if (!_allowSubmission.apply(this, [this.$searchButton])) {
       $('#continue').hide();
@@ -548,18 +573,18 @@
         defaultOption = (addressNum === 1) ? addressNum + ' address found' : addressNum + ' addresses found',
         htmlData = {
           'postcode' : postcode,
-          'selectLabel' : 'Select your address',
+          'selectLabel' : message('ordinary_address_selectAddress'),
           'defaultOption' : defaultOption,
           'options' : data.addresses,
-          'excuseToggle' : 'I can\'t find my address in the list',
+          'excuseToggle' : message('ordinary_address_excuse'),
           'excuseLabel' : 'Enter your address',
           'resultsJSON' : data.rawJSON
         },
         $results;
 
     if (this.addressIsPrevious) {
-      htmlData.selectLabel = 'Select your previous address';
-      htmlData.excuseToggle = 'I can\'t find my previous address in the list'; 
+      htmlData.selectLabel = message('ordinary_address_selectPreviousAddress');
+      htmlData.excuseToggle = message('ordinary_address_previousAddressExcuse'); 
       htmlData.excuseLabel = 'Enter your previous address';
     }
     // To be removed once all address pages shared the same HTML

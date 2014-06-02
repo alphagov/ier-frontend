@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.crown.contactAddress
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.step.StepTemplate
-import uk.gov.gds.ier.model.{LastAddress, LastUkAddress, PartialAddress}
+import uk.gov.gds.ier.model.{LastAddress, PartialAddress}
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
@@ -121,7 +121,6 @@ trait ContactAddressMustache
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map( _.message ),
-        number = "8",
         title = title
       ),
       contactAddressFieldSet = FieldSet (
