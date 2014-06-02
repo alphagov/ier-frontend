@@ -369,7 +369,7 @@ ordinary_confirmation_submitApplication=Yr wyf yn derbyn - anfon fy nghais
 ordinary_confirmation_name_title=Enw
 ordinary_confirmation_name_changeName=enw llawn
 
-ordinary_confirmation_previousName_title=Beth yw eich enw blaenorol?
+ordinary_confirmation_previousName_title=Enw blaenorol
 ordinary_confirmation_previousName_changeName=enw blaenorol
 ordinary_confirmation_previousName_nameNotChanged=Nid wyf wedi newid fy enw yn y 12 mis diwethaf
 
