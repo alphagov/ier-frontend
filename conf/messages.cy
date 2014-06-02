@@ -199,7 +199,10 @@ ordinary_address_manual_title=Beth yw eich cyfeiriad?
 
 ordinary_address_manual_postcode_label=Cod post
 ordinary_address_manual_changeYourPostcode_a=Newid<span class="visuallyhidden"> eich cod post</span>
-ordinary_address_manual_address_label=Cyfeiriad
+ordinary_address_manual_address_label_heading=Cyfeiriad
+ordinary_address_manual_address_label_1=Cyfeiriad
+ordinary_address_manual_address_label_2=Cyfeiriad
+ordinary_address_manual_address_label_3=Cyfeiriad
 ordinary_address_manual_townOrCity_label=Tref neu Ddinas
 
 # ordinary: other address
