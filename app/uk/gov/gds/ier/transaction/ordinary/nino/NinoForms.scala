@@ -44,7 +44,6 @@ trait NinoConstraints extends CommonConstraints with FormKeys {
     application =>
     application.nino match {
       case Some(Nino(None, Some(reason))) if (reason.size > maxExplanationFieldLength) => {
-        println ("invalid")
         Invalid(ValidationError("ordinary_nino_error_maxLength", keys.nino.noNinoReason))
       }
       case _ => Valid
