@@ -215,7 +215,7 @@ class IerApiServiceTests
           "This person has no UK address so needs to be set as an 'other' elector: IER-DS.\"")
         successMessage
       }
-    ).submitCrownApplication(None, application, None)
+    ).submitCrownApplication(None, application, None, None)
   }
 
   "submitCrownApplication address hack for application with no nationality" should
@@ -245,6 +245,6 @@ class IerApiServiceTests
           "This person has no UK address so needs to be set as an 'other' elector: IER-DS.\"")
         successMessage
       }
-    ).submitCrownApplication(None, application, None)
+    ).submitCrownApplication(None, application, None, None)
   }
 }
