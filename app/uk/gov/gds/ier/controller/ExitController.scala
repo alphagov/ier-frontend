@@ -26,7 +26,7 @@ class ExitController @Inject() (
   with WithEncryption {
 
   def scotland = ClearSession requiredFor {
-    request =>
+    implicit request =>
       Ok(ExitPages.Scotland())
   }
 

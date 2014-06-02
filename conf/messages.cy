@@ -499,6 +499,11 @@ exit_tooYoung_moreAboutVoting=Mwy o wybodaeth am bleidleisio yn y DU.
 # Northern Ireland
 
 # Scotland
+exit_scotland_title=Ffurflenni cofrestru pleidleisiwr yn yr Alban
+exit_scotland_explanation=Ni allwch gofrestru ar-lein eto os ydych yn byw yn yr Alban.
+exit_scotland_instead=Yn lle hynny, gallwch lawrlwytho
+exit_scotland_registrationForm=ffurflen gofrestru
+exit_scotland_from=o'r wefan Fy Mhleidlais I.
 
 # Under 18
 
