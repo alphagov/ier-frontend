@@ -735,6 +735,31 @@
             } else {
               return [];
             }
+          },
+          'max5Countries' : function () {
+            var totalCountryFields,
+                totalCountries,
+                getPrimaryCountries,
+                getOtherCountries;
+
+            getPrimaryCountries = function () {
+              return GOVUK.registerToVote.validation.fields.getNames(['british', 'irish']);
+            };
+
+            getOtherCountries = function () {
+              var otherCountries = GOVUK.registerToVote.validation.fields.getNames(['otherCountries']);
+
+              return GOVUK.registerToVote.validation.fields.getNames(otherCountries[0].children);
+            };
+
+            totalCountryFields = $.merge(getPrimaryCountries(), getOtherCountries());
+            totalCountries = $.grep(totalCountryFields, function (field, idx) {
+              return (field.nonEmpty().length === 0);
+            });
+
+            if (totalCountries.length > 5) {
+              return _getInvalidDataFromFields([this], 'max5Countries');
+            }
           }
         },
         'association' : {
@@ -930,7 +955,8 @@
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
       'country' : {
-        'atLeastOneNonEmpty' : message('ordinary_country_error_pleaseAnswer')
+        'atLeastOneNonEmpty' : message('ordinary_country_error_pleaseAnswer'),
+        'max5Countries' : message('ordinary_nationality_error_noMoreFiveCountries')
       },
       'postcode' : {
         'nonEmpty' : 'Please enter a postcode',
