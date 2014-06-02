@@ -962,11 +962,17 @@
         'nonEmpty' : 'Please enter a postcode',
         'postcode' : 'Please enter a valid postcode'
       },
-      'address' : {
-        'fieldOrExcuse' : 'Please select an address'
+      'addressSelect' : {
+        'nonEmpty' : message('ordinary_address_error_pleaseSelectYourAddress')
+      },
+      'addressManual' : {
+        'atLeastOneNonEmpty' : message('ordinary_address_error_lineOneIsRequired')
+      },
+      'city' : {
+        'nonEmpty' : message('ordinary_address_error_cityIsRequired')
       },
       'previousAddress' : {
-        'atLeastOneNonEmpty' : 'Please answer this question'
+        'nonEmpty' : 'Please answer this question'
       },
       'statement' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
