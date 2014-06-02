@@ -73,7 +73,8 @@ class OverseasApplicationTests
       "phone" -> "01234 5678910",
       "refNum" -> "12345678910",
       "ip" -> "256.256.256.256",
-      "gssCode" -> "E09000007"
+      "gssCode" -> "E09000007",
+      "timeTaken" -> "1234"
     )
 
     val apiMap = application.toApiMap
@@ -113,7 +114,8 @@ class OverseasApplicationTests
       "phone" -> "01234 5678910",
       "refNum" -> "12345678910",
       "ip" -> "256.256.256.256",
-      "gssCode" -> "E09000007"
+      "gssCode" -> "E09000007",
+      "timeTaken" -> "1234"
     )
 
     val apiMap = application.toApiMap
@@ -165,7 +167,8 @@ class OverseasApplicationTests
       "gssCode" -> "E09000007",
       "dbritcit" -> "2000-06-01",
       "hbritcit" -> "by accident",
-      "bpass" -> "false"
+      "bpass" -> "false",
+      "timeTaken" -> "1234"
     )
 
 
@@ -241,7 +244,8 @@ class OverseasApplicationTests
         ))
       )),
       referenceNumber = Some("12345678910"),
-      ip = Some("256.256.256.256")
+      ip = Some("256.256.256.256"),
+      timeTaken = "1234"
     )
 
 }

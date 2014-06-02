@@ -55,7 +55,7 @@ class IerApiServiceTests
         requestJson should include("Smith")
         successMessage
       }
-    ).submitOrdinaryApplication(None, application, None)
+    ).submitOrdinaryApplication(None, application, None, Some("1234"))
 
     r should be(IerApiApplicationResponse(
       id = "5360fe69036424d9ec0a1657",
@@ -84,7 +84,7 @@ class IerApiServiceTests
         requestJson should include("Smith")
         successMessage
       }
-    ).submitOrdinaryApplication(Some("127.0.0.1"), application, Some("55631D"))
+    ).submitOrdinaryApplication(Some("127.0.0.1"), application, Some("55631D"), Some("1234"))
 
     r should be(IerApiApplicationResponse(
       id = "5360fe69036424d9ec0a1657",
@@ -113,7 +113,7 @@ class IerApiServiceTests
         requestJson should include("Smith")
         successMessage
       }
-    ).submitOverseasApplication(None, application, None)
+    ).submitOverseasApplication(None, application, None, Some("1234"))
 
     r should be(IerApiApplicationResponse(
       id = "5360fe69036424d9ec0a1657",
@@ -142,7 +142,7 @@ class IerApiServiceTests
         requestJson should include("Smith")
         successMessage
       }
-    ).submitCrownApplication(None, application, None)
+    ).submitCrownApplication(None, application, None, Some("1234"))
 
     r should be(IerApiApplicationResponse(
       id = "5360fe69036424d9ec0a1657",
@@ -171,7 +171,7 @@ class IerApiServiceTests
         requestJson should include("Smith")
         successMessage
       }
-    ).submitForcesApplication(None, application, None)
+    ).submitForcesApplication(None, application, None, Some("1234"))
 
     r should be(IerApiApplicationResponse(
       id = "5360fe69036424d9ec0a1657",

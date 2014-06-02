@@ -73,7 +73,12 @@ class ConfirmationStep @Inject ()(
           val refNum = ierApi.generateOrdinaryReferenceNumber(validApplication)
           val remoteClientIP = request.headers.get("X-Real-IP")
 
-          val response = ierApi.submitOrdinaryApplication(remoteClientIP, validApplication, Some(refNum))
+          val response = ierApi.submitOrdinaryApplication(
+            remoteClientIP,
+            validApplication,
+            Some(refNum),
+            request.getToken.map(_.timeTaken)
+          )
 
           logSession()
 

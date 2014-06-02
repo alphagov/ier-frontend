@@ -50,7 +50,8 @@ class OrdinaryApplicationTests
       "refNum" -> "12345678910",
       "ip" -> "256.256.256.256",
       "gssCode" -> "E09000007",
-      "pgssCode" -> "E09000032"
+      "pgssCode" -> "E09000032",
+      "timeTaken" -> "1234"
     )
 
     val apiMap = application.toApiMap
@@ -101,7 +102,8 @@ class OrdinaryApplicationTests
       "ip" -> "256.256.256.256",
       "gssCode" -> "E09000007",
       "pgssCode" -> "E09000032",
-      "lastcategory" -> "overseas"
+      "lastcategory" -> "overseas",
+      "timeTaken" -> "1234"
     )
 
     val apiMap = application.toApiMap
@@ -183,6 +185,7 @@ class OrdinaryApplicationTests
         ))
       )),
       referenceNumber = Some("12345678910"),
-      ip = Some("256.256.256.256")
+      ip = Some("256.256.256.256"),
+      timeTaken = "1234"
     )
 }

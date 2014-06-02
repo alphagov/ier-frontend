@@ -101,7 +101,8 @@ class ForcesApplicationTests
         ))
       )),
       referenceNumber = Some("12345678910"),
-      ip = Some("256.256.256.256")
+      ip = Some("256.256.256.256"),
+      timeTaken = "1234"
     )
 
     val apiMap = application.toApiMap
@@ -150,7 +151,8 @@ class ForcesApplicationTests
       "email" -> "test@email.com",
       "phone" -> "01234 5678910",
       "gssCode" -> "E09000007",
-      "pgssCode" -> "E09000339"
+      "pgssCode" -> "E09000339",
+      "timeTaken" -> "1234"
     )
 
     apiMap should matchMap(expected)

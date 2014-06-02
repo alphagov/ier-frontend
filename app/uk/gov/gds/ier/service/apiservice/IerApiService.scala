@@ -24,25 +24,29 @@ abstract class IerApiService {
   def submitOrdinaryApplication(
       ipAddress: Option[String],
       applicant: InprogressOrdinary,
-      referenceNumber: Option[String]
+      referenceNumber: Option[String],
+      timeTaken: Option[String]
   ): IerApiApplicationResponse
 
   def submitOverseasApplication(
       ip: Option[String],
       applicant: InprogressOverseas,
-      refNum: Option[String]
+      refNum: Option[String],
+      timeTaken: Option[String]
   ): IerApiApplicationResponse
 
   def submitForcesApplication (
       ip: Option[String],
       applicant: InprogressForces,
-      refNum: Option[String]
+      refNum: Option[String],
+      timeTaken: Option[String]
   ): IerApiApplicationResponse
 
   def submitCrownApplication (
       ip: Option[String],
       applicant: InprogressCrown,
-      refNum: Option[String]
+      refNum: Option[String],
+      timeTaken: Option[String]
   ): IerApiApplicationResponse
 
   def generateOrdinaryReferenceNumber(application: InprogressOrdinary): String
@@ -63,7 +67,9 @@ class ConcreteIerApiService @Inject() (
   def submitOrdinaryApplication(
       ipAddress: Option[String],
       applicant: InprogressOrdinary,
-      referenceNumber: Option[String]) = {
+      referenceNumber: Option[String],
+      timeTaken: Option[String]
+  ) = {
 
     val isoCodes = applicant.nationality map { nationality =>
       isoCountryService.transformToIsoCode(nationality)
@@ -95,7 +101,8 @@ class ConcreteIerApiService @Inject() (
       postalVote = applicant.postalVote,
       contact = applicant.contact,
       referenceNumber = referenceNumber,
-      ip = ipAddress
+      ip = ipAddress,
+      timeTaken = timeTaken.getOrElse("-1")
     )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
@@ -103,9 +110,12 @@ class ConcreteIerApiService @Inject() (
     sendApplication(apiApplicant)
   }
 
-  def submitOverseasApplication(ip:Option[String],
-                                applicant: InprogressOverseas,
-                                refNum:Option[String]) = {
+  def submitOverseasApplication(
+      ip:Option[String],
+      applicant: InprogressOverseas,
+      refNum:Option[String],
+      timeTaken: Option[String]
+  ) = {
 
     val fullLastUkRegAddress = addressService.formFullAddress(applicant.lastUkAddress)
 
@@ -126,7 +136,8 @@ class ConcreteIerApiService @Inject() (
       passport = applicant.passport,
       contact = applicant.contact,
       referenceNumber = refNum,
-      ip = ip
+      ip = ip,
+      timeTaken = timeTaken.getOrElse("-1")
     )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
@@ -137,7 +148,9 @@ class ConcreteIerApiService @Inject() (
   def submitForcesApplication(
       ipAddress: Option[String],
       applicant: InprogressForces,
-      referenceNumber: Option[String]) = {
+      referenceNumber: Option[String],
+      timeTaken: Option[String]
+  ) = {
 
     val isoCodes = applicant.nationality map { nationality =>
       isoCountryService.transformToIsoCode(nationality)
@@ -167,7 +180,8 @@ class ConcreteIerApiService @Inject() (
       postalOrProxyVote = applicant.postalOrProxyVote,
       contact = applicant.contact,
       referenceNumber = referenceNumber,
-      ip = ipAddress
+      ip = ipAddress,
+      timeTaken = timeTaken.getOrElse("-1")
     )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
@@ -178,7 +192,9 @@ class ConcreteIerApiService @Inject() (
   def submitCrownApplication(
       ipAddress: Option[String],
       applicant: InprogressCrown,
-      referenceNumber: Option[String]) = {
+      referenceNumber: Option[String],
+      timeTaken: Option[String]
+  ) = {
 
     val isoCodes = applicant.nationality map { nationality =>
       isoCountryService.transformToIsoCode(nationality)
@@ -210,7 +226,8 @@ class ConcreteIerApiService @Inject() (
       postalOrProxyVote = applicant.postalOrProxyVote,
       contact = applicant.contact,
       referenceNumber = referenceNumber,
-      ip = ipAddress
+      ip = ipAddress,
+      timeTaken = timeTaken.getOrElse("-1")
     )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)

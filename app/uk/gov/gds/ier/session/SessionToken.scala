@@ -9,6 +9,10 @@ case class SessionToken(
 ) {
   require(history.size <= 50)
 
+  def timeTaken(): String = {
+    Seconds.secondsBetween(start, latest).getSeconds.toString
+  }
+
   def refreshToken() = {
     val now = DateTime.now
     val delta = Seconds.secondsBetween(latest, now).getSeconds
