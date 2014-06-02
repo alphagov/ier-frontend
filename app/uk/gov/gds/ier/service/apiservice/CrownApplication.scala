@@ -27,7 +27,8 @@ case class CrownApplication(
     postalOrProxyVote: Option[PostalOrProxyVote],
     contact: Option[Contact],
     referenceNumber: Option[String],
-    ip: Option[String])
+    ip: Option[String],
+    timeTaken: String)
   extends CompleteApplication {
 
   def toApiMap = {
@@ -49,8 +50,10 @@ case class CrownApplication(
       referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
       address.flatMap(_.gssCode.map(gssCode => Map("gssCode" -> gssCode))).getOrElse(Map.empty) ++
       previousAddress.flatMap(_.gssCode.map(gssCode => Map("pgssCode" -> gssCode))).getOrElse(Map.empty) ++
-      ip.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty) ++
-      Map("applicationType" -> "crown")
+      ip.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty) ++ Map(
+        "applicationType" -> "crown",
+        "timeTaken" -> timeTaken
+      )
 
     removeSpecialCharacters(apiMap)
   }

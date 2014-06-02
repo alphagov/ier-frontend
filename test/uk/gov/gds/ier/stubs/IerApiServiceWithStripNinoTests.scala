@@ -25,12 +25,13 @@ class IerApiServiceWithStripNinoTests extends FlatSpec with Matchers with Mockit
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
     val applicationWithNino = InprogressOrdinary(nino = Some(Nino(Some("12345"), None)))
 
-    service.submitOrdinaryApplication(None, applicationWithNino, None)
+    service.submitOrdinaryApplication(None, applicationWithNino, None, Some("1234"))
 
     verify(concreteIerApiServiceMock).submitOrdinaryApplication(
       MockitoMatchers.eq(None),
       isNot(applicationWithNino),
-      MockitoMatchers.eq(None)
+      MockitoMatchers.eq(None),
+      MockitoMatchers.eq(Some("1234"))
     )
   }
 
@@ -39,12 +40,13 @@ class IerApiServiceWithStripNinoTests extends FlatSpec with Matchers with Mockit
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
     val applicationWithNino = InprogressOverseas(nino = Some(Nino(Some("12345"), None)))
 
-    service.submitOverseasApplication(None, applicationWithNino, None)
+    service.submitOverseasApplication(None, applicationWithNino, None, Some("1234"))
 
     verify(concreteIerApiServiceMock).submitOverseasApplication(
       MockitoMatchers.eq(None),
       isNot(applicationWithNino),
-      MockitoMatchers.eq(None)
+      MockitoMatchers.eq(None),
+      MockitoMatchers.eq(Some("1234"))
     )
   }
 
@@ -53,12 +55,13 @@ class IerApiServiceWithStripNinoTests extends FlatSpec with Matchers with Mockit
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
     val applicationWithNino = InprogressForces(nino = Some(Nino(Some("12345"), None)))
 
-    service.submitForcesApplication(None, applicationWithNino, None)
+    service.submitForcesApplication(None, applicationWithNino, None, Some("1234"))
 
     verify(concreteIerApiServiceMock).submitForcesApplication(
       MockitoMatchers.eq(None),
       isNot(applicationWithNino),
-      MockitoMatchers.eq(None)
+      MockitoMatchers.eq(None),
+      MockitoMatchers.eq(Some("1234"))
     )
   }
 
@@ -67,12 +70,13 @@ class IerApiServiceWithStripNinoTests extends FlatSpec with Matchers with Mockit
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
     val applicationWithNino = InprogressCrown(nino = Some(Nino(Some("12345"), None)))
 
-    service.submitCrownApplication(None, applicationWithNino, None)
+    service.submitCrownApplication(None, applicationWithNino, None, Some("1234"))
 
     verify(concreteIerApiServiceMock).submitCrownApplication(
       MockitoMatchers.eq(None),
       isNot(applicationWithNino),
-      MockitoMatchers.eq(None)
+      MockitoMatchers.eq(None),
+      MockitoMatchers.eq(Some("1234"))
     )
   }
 
@@ -93,10 +97,14 @@ class IerApiServiceWithStripNinoTests extends FlatSpec with Matchers with Mockit
     val applicationWithNoNinoReason = InprogressOrdinary(
       nino = Some(Nino(None, Some("no nino reason"))))
 
-    service.submitOrdinaryApplication(None, applicationWithNoNinoReason, None)
+    service.submitOrdinaryApplication(None, applicationWithNoNinoReason, None, Some("1234"))
 
     verify(concreteIerApiServiceMock).submitOrdinaryApplication(
-      None, applicationWithNoNinoReason, None)
+      None,
+      applicationWithNoNinoReason,
+      None,
+      Some("1234")
+    )
   }
 
   it should "replace a nino when generating Reference Number (overseas)" in {
@@ -116,10 +124,14 @@ class IerApiServiceWithStripNinoTests extends FlatSpec with Matchers with Mockit
     val applicationWithNoNinoReason = InprogressOverseas(
       nino = Some(Nino(None, Some("no nino reason"))))
 
-    service.submitOverseasApplication(None, applicationWithNoNinoReason, None)
+    service.submitOverseasApplication(None, applicationWithNoNinoReason, None, Some("1234"))
 
     verify(concreteIerApiServiceMock).submitOverseasApplication(
-      None, applicationWithNoNinoReason, None)
+      None,
+      applicationWithNoNinoReason,
+      None,
+      Some("1234")
+    )
   }
 
   it should "replace a nino when generating Reference Number (forces)" in {
@@ -139,10 +151,14 @@ class IerApiServiceWithStripNinoTests extends FlatSpec with Matchers with Mockit
     val applicationWithNoNinoReason = InprogressForces(
       nino = Some(Nino(None, Some("no nino reason"))))
 
-    service.submitForcesApplication(None, applicationWithNoNinoReason, None)
+    service.submitForcesApplication(None, applicationWithNoNinoReason, None, Some("1234"))
 
     verify(concreteIerApiServiceMock).submitForcesApplication(
-      None, applicationWithNoNinoReason, None)
+      None,
+      applicationWithNoNinoReason,
+      None,
+      Some("1234")
+    )
   }
 
 
@@ -163,10 +179,14 @@ class IerApiServiceWithStripNinoTests extends FlatSpec with Matchers with Mockit
     val applicationWithNoNinoReason = InprogressCrown(
       nino = Some(Nino(None, Some("no nino reason"))))
 
-    service.submitCrownApplication(None, applicationWithNoNinoReason, None)
+    service.submitCrownApplication(None, applicationWithNoNinoReason, None, Some("1234"))
 
     verify(concreteIerApiServiceMock).submitCrownApplication(
-      None, applicationWithNoNinoReason, None)
+      None,
+      applicationWithNoNinoReason,
+      None,
+      Some("1234")
+    )
   }
 
   it should "strip nino generator should always generate random number but starting with XX and validating against pattern" in {

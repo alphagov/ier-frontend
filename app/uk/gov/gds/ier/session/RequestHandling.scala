@@ -7,7 +7,7 @@ import scala.util.Try
 trait RequestHandling {
     self: WithEncryption with WithSerialiser =>
 
-    private[session] implicit class InProgressRequest(request: play.api.mvc.Request[_])
+    implicit class InProgressRequest(request: play.api.mvc.Request[_])
       extends SessionKeys {
         def getToken: Option[SessionToken] = {
           val sessionToken = for {
