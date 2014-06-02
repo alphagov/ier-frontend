@@ -11,7 +11,7 @@
 
     <fieldset class="validate" data-validation-name="country"
               data-validation-type="fieldset"
-              data-validation-rules="atLeastOneChecked checkedOtherHasValue"
+              data-validation-rules="atLeastOneChecked checkedOtherIsValid max5Countries"
               data-validation-children="british irish other otherCountries">
 
         <label class="selectable"  >
@@ -45,18 +45,23 @@
             <div id="add-countries" class="optional-section validate"
                  data-condition="{{hasOtherCountryOption.id}}"
                  data-validation-name="otherCountries"
-                 data-validation-type="field"
-                 data-validation-rules="atLeastOneCountry">
+                 data-validation-type="fieldset"
+                 data-validation-rules="atLeastOneCountry allCountriesValid"
+                 data-validation-children="added-country-0">
 
                 <label for="{{otherCountriesHead.id}}" class=""  >
                     Which country?
                 </label>
-                <input type="text" id="{{otherCountriesHead.id}}"
-                       name="{{otherCountriesHead.name}}"
-                       value="{{otherCountriesHead.value}}"
-                       autocomplete="off"
-                       class="text  country-autocomplete long"  >
-
+                <div class="validation-wrapper">
+                  <input type="text" id="{{otherCountriesHead.id}}"
+                         name="{{otherCountriesHead.name}}"
+                         value="{{otherCountriesHead.value}}"
+                         autocomplete="off"
+                         class="text  country-autocomplete long validate"
+                         data-validation-name="added-country-0"
+                         data-validation-type="field"
+                         data-validation-rules="nonEmpty validCountry" />
+                </div>
                 <p class="duplication-intro"
                    style="{{#moreThanOneOtherCountry}}display: none{{/moreThanOneOtherCountry}}">
                     If you have dual nationality
@@ -73,9 +78,14 @@
                            data-field="nationality_otherCountries[{{index}}]">
                             Remove<span class="visuallyhidden"> Country</span>
                         </a>
-                        <input type="text" id="nationality_otherCountries[{{index}}]"
-                               name="nationality.otherCountries[{{index}}]" value="{{countryName}}"
-                               autocomplete="off"  class="text  country-autocomplete long"  >
+                        <div class="validation-wrapper">
+                          <input type="text" id="nationality_otherCountries[{{index}}]"
+                                 name="nationality.otherCountries[{{index}}]" value="{{countryName}}"
+                                 autocomplete="off"  class="text  country-autocomplete long validate"
+                                 data-validation-name="added-country-{{index}}"
+                                 data-validation-type="field"
+                                 data-validation-rules="nonEmpty validCountry" />
+                        </div>
                     </div>
                 {{/otherCountriesTail}}
 
