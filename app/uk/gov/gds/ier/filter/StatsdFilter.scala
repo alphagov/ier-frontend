@@ -13,7 +13,7 @@ object StatsdFilter extends Filter with Logging {
     nextFilter(requestHeader).map { result =>
       val endTime = System.currentTimeMillis
       val requestTime = endTime - startTime
-      logger.debug(
+      logger.info(
         s"${requestHeader.method} ${requestHeader.uri} " +
         s"took ${requestTime}ms and returned ${result.header.status}")
       val metricPageName =
