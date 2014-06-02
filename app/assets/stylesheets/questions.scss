@@ -119,6 +119,14 @@ input.text {
 	border: 1px solid #bbb;
 	margin: 0 0 1em;
 	padding: 0.5em;
+
+  .multi-line-field & {
+    margin-bottom: 1em;
+  }
+
+  .multi-line-field &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 @include media(tablet) {
