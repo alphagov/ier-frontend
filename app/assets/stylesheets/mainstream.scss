@@ -159,7 +159,7 @@
       width: 35px;
       height: 35px;
 
-      border: 1px solid $mainstream-brand;
+      border: 1px solid #005ea5; // $govuk-blue
       border-width: 0 0 0 1px;
       @include ie-lte(7){
         border-width: 1px;
@@ -171,7 +171,7 @@
       text-indent: -5000px;
 
       color: $white;
-      background-color: $mainstream-brand;
+      background-color: #005ea5; // $govuk-blue
       background-image: url("/assets/images/search-button.png");
       background-repeat: no-repeat;
       background-position: 0 50%;
@@ -377,10 +377,6 @@ header.page-header {
   }
 }
 
-ol.breadcrumbs {
-  border-top: 10px solid $mainstream-brand;
-}
-
 /*
  * Related box
  */
@@ -443,7 +439,7 @@ ol.breadcrumbs {
   right: auto;
   width: auto;
   margin: 3em 0 0 0;
-  border-top: 10px solid $mainstream-brand;
+  border-top: 10px solid #005ea5; //$govuk-blue
 
   @include media(desktop) {
     position: absolute;
@@ -536,7 +532,7 @@ ol.breadcrumbs {
       content: "\A0\A0\A0\A0\A0\A0";
       background-position: 5px 0px;
     }
-    
+
     a[rel="external"]:hover:after {
       background-position: 5px -388px;
     }
@@ -631,6 +627,6 @@ article {
   padding-bottom: 2em;
 
   .toggle {
-    float: none;   
+    float: none;
   }
 }
