@@ -8,7 +8,7 @@ step_continue=Parhau
 step_question=Cwestiwn
 
 # ordinary: country of residence
-ordinary_country_heading=Ble rydych chi’n byw??
+ordinary_country_heading=Ble rydych chi’n byw?
 ordinary_country_or=neu
 ordinary_country_england=Lloegr
 ordinary_country_scotland=Yr Alban
