@@ -530,9 +530,17 @@
             };
             if (this.$source.is(':hidden')) { return []; }
             $.each(childFields, function (idx, fieldObj) {
-              var method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty',
-                  isFilledFailedRules = fieldObj[method]();
+              var method = 'nonEmpty',
+                  isFilledFailedRules;
 
+              if (fieldObj.type === 'fieldset') {
+                if ($.inArray('allNonEmpty', fieldObj.rules) > -1) {
+                  method = 'allNonEmpty';
+                } else {
+                  method = 'radioNonEmpty';
+                }
+              }
+              isFilledFailedRules = fieldObj[method]();
               if (_fieldIsShowing(fieldObj) && !isFilledFailedRules.length) {
                 oneFilled = true;
               }
@@ -551,6 +559,22 @@
             });
             if (!invalidRules.length) { return []; }
             return invalidRules;
+          },
+          'radioNonEmpty' : function () {
+            var radioOptions = validation.fields.getNames(this.children),
+                oneSelected = false;
+
+            $.each(radioOptions, function (idx, radioOption) {
+              if (radioOption.$source.is(':checked')) {
+                oneSelected = true;
+                return false;
+              }
+            });
+            if (oneSelected) {
+              return [];
+            } else {
+              return _getInvalidDataFromFields([this], 'radioNonEmpty');
+            }
           },
           'checkedOtherIsValid' : function () {
             var childFields = validation.fields.getNames(this.children),
@@ -598,9 +622,17 @@
             // validate against the nonEmpty rules of children
             for (i = 0, j = childFields.length; i < j; i++) {
               var fieldObj = childFields[i],
-                  method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty',
+                  method = 'nonEmpty',
                   isFilledFailedRules;
 
+              if (fieldObj.type === 'fieldset') {
+                if ($.inArray('allNonEmpty', fieldObj.rules) > -1) {
+                  method = 'allNonEmpty';
+                } else {
+                  method = 'radioNonEmpty';
+                }
+              }
+              isFilledFailedRules = fieldObj[method]();
               if ($.inArray(method, fieldObj.rules) === -1) { continue; }
               fieldsThatNeedInput++;
               isFilledFailedRules = fieldObj[method]();
@@ -792,6 +824,38 @@
               return [];
             }
           },
+          'dateOfBirthOrExcuse' : function () {
+            var memberFields = validation.fields.getNames(this.members),
+                dateOfBirthField = memberFields[0],
+                excuseField = memberFields[1],
+                dateOfBirthInvalidRules = validation.applyRules(dateOfBirthField),
+                excuseInvalidRules = validation.applyRules(excuseField),
+                _fieldIsShowing,
+                _entryInDateOfBirth,
+                _entryInExcuse;
+
+            _fieldIsShowing = function (fieldObj) {
+              return !fieldObj.$source.is(':hidden');
+            };
+
+            _entryInDateOfBirth = function () {
+              return dateOfBirthInvalidRules.length < 4;
+            };
+
+            _entryInExcuse = function () {
+              return excuseInvalidRules.length < 2;
+            };
+
+            if (!_entryInDateOfBirth()) {
+              if ((!_fieldIsShowing(excuseField)) || (!_entryInExcuse())) {
+                return dateOfBirthInvalidRules;
+              } else {
+                return excuseInvalidRules;
+              }
+            } else {
+              return dateOfBirthInvalidRules;
+            }
+          },
           'allNonEmpty' : function () {
             var memberFields = validation.fields.getNames(this.members),
                 memberFailedRules = [],
@@ -808,9 +872,16 @@
             // validate against the nonEmpty rules of children
             for (i = 0, j = memberFields.length; i < j; i++) {
               var fieldObj = memberFields[i],
-                  method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty',
+                  method = 'nonEmpty',
                   isFilledFailedRules;
 
+              if (fieldObj.type === 'fieldset') {
+                if ($.inArray('allNonEmpty', fieldObj.rules) > -1) {
+                  method = 'allNonEmpty';
+                } else {
+                  method = 'radioNonEmpty';
+                }
+              }
               if ($.inArray(method, fieldObj.rules) === -1) { continue; }
               fieldsThatNeedInput++;
               isFilledFailedRules = fieldObj[method]();
@@ -911,6 +982,12 @@
       },
       'year' : {
         'nonEmpty' : message('ordinary_dob_error_enterYear')
+      },
+      'dateOfBirthExcuseReason' : {
+        'nonEmpty' : message('ordinary_dob_error_provideReason')
+      },
+      'excuseAgeAttempt' : {
+        'radioNonEmpty' : message('ordinary_dob_error_selectRange')
       },
       'otherAddressQuestion' : {
         'atLeastOneNonEmpty' : message('ordinary_otheraddr_error_pleaseAnswer')
