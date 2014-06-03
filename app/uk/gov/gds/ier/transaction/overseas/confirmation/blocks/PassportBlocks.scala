@@ -48,8 +48,10 @@ trait PassportBlocks {
       how <- howBecameCitizen;
       date <- dateBecameCitizen
     ) yield {
-      s"<p>How you became a citizen: $how</p>"+
-        s"<p>Date you became a citizen: $date</p>"
+      List(
+        s"I became a citizen through: $how",
+        "I became a citizen on:",
+        s"$date")
     }
 
     val route = if(form(keys.passport).hasErrors) {
@@ -63,7 +65,7 @@ trait PassportBlocks {
       editLink = route.url,
       changeName = "your citizenship details",
       content = ifComplete(keys.passport) {
-        List(citizenContent.getOrElse(completeThisStepMessage))
+        citizenContent.getOrElse(List(completeThisStepMessage))
       }
     )
   }
