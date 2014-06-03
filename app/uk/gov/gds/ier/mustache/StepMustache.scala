@@ -51,9 +51,9 @@ trait StepMustache extends MustacheModel {
       assetPath: String = remoteAssets.templatePath,
       head: Html = Head(),
       bodyClasses: String = "",
-      headerClass: String = "",
+      headerClass: String = "with-proposition",
       insideHeader: Html = Html.empty,
-      propositionHeader: String = "",
+      propositionHeader: Html = PropositionHeader(),
       afterHeader: String = "",
       cookieMessage: Html = CookieMessage(),
       footerTop: String = "",
@@ -83,6 +83,8 @@ trait StepMustache extends MustacheModel {
   case class CookieMessage() extends Mustachio("template/cookieMessage")
 
   case class FooterLinks() extends Mustachio("template/footerLinks")
+
+  case class PropositionHeader() extends Mustachio("template/propositionHeader")
 
   case class StepBodyEnd(
       assetPath: String = remoteAssets.assetsPath,
