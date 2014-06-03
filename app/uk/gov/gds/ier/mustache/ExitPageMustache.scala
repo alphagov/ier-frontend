@@ -19,8 +19,13 @@ trait ExitPageMustache extends StepMustache {
     }
 
     case class BritishIslands(
-        pageTitle: String = "Register to Vote - Channel Islands and the Isle Of Man"
+        title: Option[String] = None
+    ) (
+        implicit val lang: Lang
     ) extends ExitTemplate("exit/britishIslands")
+      with MessagesForMustache {
+      val pageTitle = title getOrElse Messages("exit_britishIslands_title")
+    }
 
     case class DontKnow(
         pageTitle: String = "Register to Vote - You need to find out whether you're 18 or over"

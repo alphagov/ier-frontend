@@ -476,6 +476,10 @@ exit_tooYoung_moreAboutVoting=More about voting in the UK.
 
 # British Islands
 
+exit_britishIslands_title=Registering to Vote from the Channel Islands or the Isle Of Man
+exit_britishIslands_explanation=You can't register online if you live in the Channel Islands or the Isle Of Man.
+exit_britishIslands_paperRegistration=But you may be able to register to vote in UK elections using a paper form. Download and complete an <a href="http://www.aboutmyvote.co.uk/register_to_vote/british_citizens_living_abroad.aspx" rel="external">'Overseas voter' form</a> from About my Vote.
+
 # Dont Know
 
 # No Franchise
