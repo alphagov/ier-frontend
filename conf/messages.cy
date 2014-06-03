@@ -498,6 +498,13 @@ exit_tooYoung_moreAboutVoting=Mwy o wybodaeth am bleidleisio yn y DU.
 
 # Northern Ireland
 
+exit_northernIreland_title=Ffurflen canfasio pleidleisiwr ar gyfer Gogledd Iwerddon.
+exit_northernIreland_explanation=Ni allwch gofrestru ar-lein os ydych yn byw yng Ngogledd Iwerddon.
+exit_northernIreland_instead=Yn lle hynny, gallwch lawrlwytho a llenwi
+exit_northernIreland_paperRegistration=ffurflen gofrestru
+exit_northernIreland_postItTo=ac yna a'i hanfon drwy'r post i'ch
+exit_northernIreland_yourElectoralOffice=swyddfa etholiadau leol
+
 # Scotland
 
 # Under 18

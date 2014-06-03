@@ -31,7 +31,7 @@ class ExitController @Inject() (
   }
 
   def northernIreland = ClearSession requiredFor {
-    request =>
+    implicit request =>
       Ok(ExitPages.NorthernIreland())
   }
 
