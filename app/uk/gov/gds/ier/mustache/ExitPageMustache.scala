@@ -39,9 +39,12 @@ trait ExitPageMustache extends StepMustache {
       val pageTitle = title getOrElse Messages("exit_northernIreland_title")
     }
 
-    case class Scotland(
-        pageTitle: String = "Register to Vote - Voter registration forms for Scotland"
+    case class Scotland (
+      implicit val lang: Lang
     ) extends ExitTemplate("exit/scotland")
+      with MessagesForMustache {
+      val pageTitle =  Messages("exit_scotland_title")
+    }
 
     case class TooYoung (
         title: Option[String] = None
