@@ -592,16 +592,17 @@
               } else if (fieldObj.name === 'other') {
                 otherIsChecked = (_getFieldValue(fieldObj.$source) !== '');
               } else {
-                if (_getFieldValue(fieldObj.$source) !== '') { return []; }
+                continue;
               }
             }
-            // if British or Irish are not checked
             if (!otherIsChecked) {
               return [];
             } else {
               otherCountriesFailedRules = validation.applyRules(otherCountries);
               if (otherCountriesFailedRules.length) {
                 return otherCountriesFailedRules;
+              } else {
+                return [];
               }
             }
           },
@@ -791,6 +792,8 @@
 
             if (totalCountries.length > 5) {
               return _getInvalidDataFromFields([this], 'max5Countries');
+            } else {
+              return [];
             }
           }
         },
