@@ -18,7 +18,7 @@ class LocateServiceTest extends FlatSpec with Matchers {
   it should "be able to parse a response from PostcodeAnywhere" in {
     class FakeApiClient extends LocateApiClient(new MockConfig) {
       override def get(url: String, headers: (String, String)*) : ApiResponse = {
-        if (url == "http://locate/addresses?residentialOnly=true&postcode=ab123cd") {
+        if (url == "http://locate/addresses?postcode=ab123cd") {
           Success("""[
             {
               "property": "1A Fake Flat",

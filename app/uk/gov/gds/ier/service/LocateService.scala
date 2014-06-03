@@ -20,7 +20,7 @@ import play.api.Logger
 class LocateService @Inject() (apiClient: LocateApiClient, serialiser: JsonSerialiser, config:Config) extends Logging {
 
   lazy val partialLocateUrl = config.locateUrl
-  lazy val partialAddressLookupUrl = config.locateUrl + "?residentialOnly=true"
+  lazy val partialAddressLookupUrl = config.locateUrl
   lazy val authorizationToken = config.locateApiAuthorizationToken
 
 
@@ -30,7 +30,7 @@ class LocateService @Inject() (apiClient: LocateApiClient, serialiser: JsonSeria
   }
 
   def lookupAddress(postcode: String) : List[Address] = {
-    val result = apiClient.get((partialAddressLookupUrl + "&postcode=%s").format(postcode.replaceAllLiterally(" ","").toLowerCase),
+    val result = apiClient.get((partialAddressLookupUrl + "?postcode=%s").format(postcode.replaceAllLiterally(" ","").toLowerCase),
         ("Authorization", authorizationToken))
     result match {
       case Success(body, _) => {
