@@ -11,14 +11,12 @@ trait CountryMustache extends StepTemplate[InprogressOrdinary] {
       scotland:Field,
       wales:Field,
       northIreland:Field,
-      channelIslands:Field,
       livingAbroad:Field,
       origin:FieldSet,
       englandOrigin:Field,
       scotlandOrigin:Field,
       walesOrigin:Field,
-      northIrelandOrigin:Field,
-      channelIslandsOrigin:Field
+      northIrelandOrigin:Field
   ) extends MustacheData
 
   val mustache = MultilingualTemplate("ordinary/country") { implicit lang => (form, post) =>
@@ -40,7 +38,6 @@ trait CountryMustache extends StepTemplate[InprogressOrdinary] {
       scotland = RadioField(keys.country.residence, "Scotland"),
       wales = RadioField(keys.country.residence, "Wales"),
       northIreland = RadioField(keys.country.residence, "Northern Ireland"),
-      channelIslands = RadioField(keys.country.residence, "British Islands"),
       livingAbroad = RadioField(keys.country.residence, "Abroad"),
       origin = FieldSet(
         if (form(keys.country.origin).hasErrors) "invalid" else ""
@@ -48,8 +45,7 @@ trait CountryMustache extends StepTemplate[InprogressOrdinary] {
       englandOrigin = RadioField(keys.country.origin, "England"),
       scotlandOrigin = RadioField(keys.country.origin, "Scotland"),
       walesOrigin = RadioField(keys.country.origin, "Wales"),
-      northIrelandOrigin = RadioField(keys.country.origin, "Northern Ireland"),
-      channelIslandsOrigin = RadioField(keys.country.origin, "British Islands")
+      northIrelandOrigin = RadioField(keys.country.origin, "Northern Ireland")
     )
   }
 }
