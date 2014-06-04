@@ -20,6 +20,18 @@ trait MustacheModel extends FormKeys {
   val Question = uk.gov.gds.ier.mustache.Question
   type Question = uk.gov.gds.ier.mustache.Question
 
+  object FieldSet {
+    def apply[T<:InprogressApplication[T]] (
+      key: Key
+    ) (
+      implicit progressForm: ErrorTransformForm[T]
+    ): FieldSet = {
+      FieldSet(
+        classes = if (progressForm(key).hasErrors) "invalid" else ""
+      )
+    }
+  }
+
   object SelectField {
     def apply[T<:InprogressApplication[T]]
         (key: Key, optionList:List[SelectOption], default:SelectOption)

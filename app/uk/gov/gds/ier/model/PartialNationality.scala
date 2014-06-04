@@ -36,17 +36,20 @@ case class PartialNationality(
   }
 }
 
-object PartialNationality extends ModelMapping with ErrorMessages {
+object PartialNationality extends ModelMapping {
   import playMappings._
+
+  private val listStrippingEmptyString = list(text).transform[List[String]](
+    list => list.filterNot(_.isEmpty),
+    list => list.filterNot(_.isEmpty)
+  )
 
   val mapping = playMappings.mapping(
     keys.british.key -> optional(boolean),
     keys.irish.key -> optional(boolean),
     keys.hasOtherCountry.key -> optional(boolean),
-    keys.otherCountries.key -> list(text
-      .verifying(nationalityMaxLengthError, _.size <= maxTextFieldLength)),
-    keys.noNationalityReason.key -> optional(nonEmptyText
-      .verifying(noNationalityReasonMaxLengthError, _.size <= maxExplanationFieldLength))
+    keys.otherCountries.key -> listStrippingEmptyString,
+    keys.noNationalityReason.key -> optional(nonEmptyText)
   ) (
     PartialNationality.apply
   ) (

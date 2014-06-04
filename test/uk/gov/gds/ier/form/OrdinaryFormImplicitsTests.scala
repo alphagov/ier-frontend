@@ -56,9 +56,9 @@ class OrdinaryFormImplicitsTests
 
     nationalityForm.bind(value).fold(
       hasErrors => {
-        hasErrors.errors.size should be(2)
-        hasErrors.errorMessages("nationality") should be(Seq("ordinary_nationality_error_noMoreFiveCountries"))
-        hasErrors.globalErrorMessages should be(Seq("ordinary_nationality_error_noMoreFiveCountries"))
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "nationality.otherCountries" -> Seq("ordinary_nationality_error_noMoreFiveCountries")
+        ))
       },
       success => fail("Should have thrown an error")
     )

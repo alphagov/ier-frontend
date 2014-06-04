@@ -16,34 +16,76 @@ trait NationalityForms extends NationalityConstraints {
     mapping(
       keys.nationality.key -> PartialNationality.mapping
     ) (
-      nationality => InprogressOrdinary(nationality = Some(nationality))
+      nationality => InprogressOrdinary(
+        nationality = Some(nationality)
+      )
     ) (
       inprogressApplication => inprogressApplication.nationality
     ) verifying (
-    nationalityIsChosen, notTooManyNationalities, otherCountry0IsValid, otherCountry1IsValid, otherCountry2IsValid
-  )
+      nationalityIsChosen,
+      notTooManyNationalities,
+      otherCountry0IsValid,
+      otherCountry1IsValid,
+      otherCountry2IsValid,
+      atleastOneOtherCountryIfHasOtherCountry
+    )
   )
 }
 
 trait NationalityConstraints extends FormKeys with ErrorMessages {
 
+  lazy val atleastOneOtherCountryIfHasOtherCountry = Constraint[InprogressOrdinary] (
+    keys.nationality.otherCountries.key
+  ) { application =>
+    val numberOtherCoutries = application.nationality.foldLeft(0) {
+      (zero, nationality) => nationality.otherCountries.size
+    }
+    val hasOtherCountry = application.nationality.flatMap(_.hasOtherCountry)
+
+    (hasOtherCountry, numberOtherCoutries) match {
+      case (Some(true), 0) => Invalid(
+        "ordinary_nationality_error_pleaseAnswer",
+        keys.nationality.otherCountries
+      )
+      case _ => Valid
+    }
+  }
+
   lazy val notTooManyNationalities = Constraint[InprogressOrdinary](keys.nationality.key) {
     application =>
-      if (application.nationality.exists(_.otherCountries.size <= NationalityConstants.numberMaxOfOtherCountries)) Valid
-      else Invalid("ordinary_nationality_error_noMoreFiveCountries", keys.nationality)
+      val numberOtherCoutries = application.nationality.foldLeft(0) {
+        (zero, nationality) => nationality.otherCountries.size
+      }
+      if (numberOtherCoutries > NationalityConstants.numberMaxOfOtherCountries) {
+        Invalid(
+          "ordinary_nationality_error_noMoreFiveCountries",
+          keys.nationality.otherCountries
+        )
+      } else {
+        Valid
+      }
   }
 
   lazy val nationalityIsChosen = Constraint[InprogressOrdinary](keys.nationality.key) {
     application =>
-      val isNationalityValid = application.nationality.exists { nationality =>
-        (nationality.british == Some(true) || nationality.irish == Some(true)) ||
-        (nationality.otherCountries.exists(_.nonEmpty) && nationality.hasOtherCountry.exists(b => b)) ||
-        (nationality.noNationalityReason.isDefined)
-      }
+      val britishChecked = application.nationality.flatMap(_.british).getOrElse(false)
+      val irishChecked = application.nationality.flatMap(_.irish).getOrElse(false)
+      val hasOtherCountry = application.nationality.flatMap(_.hasOtherCountry).getOrElse(false)
+      val otherCountryFilled = application.nationality.map{ nat => 
+        nat.otherCountries.size > 0
+      }.getOrElse(false)
 
-      application.nationality match {
-        case Some(nationality) if (isNationalityValid) => Valid
-        case _ => Invalid("ordinary_nationality_error_pleaseAnswer", keys.nationality)
+      val nationalityFilled = britishChecked || irishChecked || otherCountryFilled || hasOtherCountry
+
+      val excuseFilled = application.nationality.flatMap(_.noNationalityReason).exists(_.nonEmpty)
+
+      if (nationalityFilled || excuseFilled) {
+        Valid
+      } else {
+        Invalid(
+          "ordinary_nationality_error_pleaseAnswer",
+          keys.nationality
+        )
       }
   }
 
@@ -51,17 +93,21 @@ trait NationalityConstraints extends FormKeys with ErrorMessages {
   lazy val otherCountry1IsValid = otherCountryIsValid(1)
   lazy val otherCountry2IsValid = otherCountryIsValid(2)
 
-  private def otherCountryIsValid(i:Int) = Constraint[InprogressOrdinary](keys.nationality.otherCountries.key) {
-    application =>
-      val isNationalityValid = application.nationality exists { nationality =>
-        (nationality.otherCountries.isEmpty || !nationality.hasOtherCountry.exists(b => b)) ||
-        (nationality.otherCountries.size != i+1) ||
-        (nationality.otherCountries.size > i
-          && NationalityConstants.countryNameToCodes.contains(nationality.otherCountries(i).toLowerCase))
-      }
+  private def otherCountryIsValid(i:Int) = Constraint[InprogressOrdinary](
+    keys.nationality.otherCountries.key
+  ) { application =>
+    val otherCountry = application.nationality.flatMap(_.otherCountries.lift(i))
+    val otherCountryValid = otherCountry.exists { country =>
+      NationalityConstants.countryNameToCodes.contains(country.toLowerCase)
+    }
 
-      if (isNationalityValid) Valid
-      else Invalid("ordinary_nationality_error_notValid", keys.nationality.otherCountries.item(i))
+    (otherCountry, otherCountryValid) match {
+      case (Some(c), false) => Invalid(
+        "ordinary_nationality_error_notValid",
+        keys.nationality.otherCountries.item(i)
+      )
+      case _ => Valid
+    }
   }
-
 }
+
