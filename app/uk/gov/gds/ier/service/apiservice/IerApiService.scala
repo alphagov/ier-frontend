@@ -182,7 +182,7 @@ class ConcreteIerApiService @Inject() (
       referenceNumber = referenceNumber,
       ip = ipAddress,
       timeTaken = timeTaken.getOrElse("-1")
-    )
+    ).hackNoUkAddressToNonat(applicant.nationality, applicant.address)
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
 
