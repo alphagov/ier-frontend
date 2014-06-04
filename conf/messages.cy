@@ -425,10 +425,10 @@ ordinary_confirmation_contact_byPost=Drwy’r post
 ordinary_confirmation_contact_byPhone=Dros y ffôn: {0}
 ordinary_confirmation_contact_byEmail=Drwy e-bost: {0}
 
-ordinary_confirmation_help_p1=Rwy’n deall:
-ordinary_confirmation_help_p2=Y caiff yr wybodaeth a ddarperir gennyf drwy’r cais hwn ei defnyddio i newid fy manylion ar y gofrestr etholiadol.
-ordinary_confirmation_help_p3=Os ydw i’n rhoi gwybodaeth ffug yn y cais hwn, ac yn ymwybodol o hynny, gallaf gael dirwy hyd at £5,000 neu ddedfryd carchar am hyd at flwyddyn.
-ordinary_confirmation_help_p4=Gall fy swyddfa cofrestru etholiadol leol ofyn i’r Swyddfa Gartref wirio fy statws mewnfudo.
+ordinary_confirmation_help_h2=Anfon eich cais
+ordinary_confirmation_help_p1=Drwy anfon eich cais rydych yn cadarnhau fod y wybodaeth a ddarperir gennych yn wir.
+ordinary_confirmation_help_p2=Efallai caiff eich gwybodaeth ei rhannu gydag adrannau eraill y Llywodraeth I wirio eich hunaniaeth a bod gennych hawl i bleidleisio.
+ordinary_confirmation_help_p3=Gallech gael dirwy o hyd at £5,000 neu ddedfryd o garchar o hyd at 6 mis os rhowch gamwybodaeth gan wybod hynny yn eich cais.
 
 ordinary_confirmation_error_completeThis=Cwblhewch y cam hwn
 
