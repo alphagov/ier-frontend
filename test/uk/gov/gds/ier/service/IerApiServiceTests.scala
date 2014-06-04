@@ -247,4 +247,63 @@ class IerApiServiceTests
       }
     ).submitCrownApplication(None, application, None, None)
   }
+
+  "submitForcesApplication address hack" should
+    "should cause 'nat' being resetted and explanation with nationality inserted as 'nonat'" in {
+    val application = completeForcesApplication.copy(
+      nationality = Some(PartialNationality(
+        british = Some(true),
+        irish = Some(true),
+        hasOtherCountry = Some(true),
+        otherCountries = List("Czech"),
+        noNationalityReason = None
+      )),
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.No),
+        address = Some(PartialAddress(
+          Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None
+        ))
+      ))
+    )
+
+    fakeServiceCall(
+      requestJson => {
+        requestJson should include("applicationType\":\"forces\"")
+        requestJson should not include("\"nat\"")
+        requestJson should include("\"nonat\":\"Nationality is British, Irish and Czech. " +
+          "This person has no UK address so needs to be set as an 'other' elector: IER-DS.\"")
+        successMessage
+      }
+    ).submitForcesApplication(None, application, None, None)
+  }
+
+  "submitForcesApplication address hack for application with no nationality" should
+    "should cause 'nat' being resetted and explanation with nationality appended to 'nonat'" in {
+    val application = completeForcesApplication.copy(
+      nationality = Some(PartialNationality(
+        british = Some(false),
+        irish = Some(false),
+        hasOtherCountry = Some(false),
+        otherCountries = Nil,
+        noNationalityReason = Some("Where I was born is a mystery to me.")
+      )),
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.No),
+        address = Some(PartialAddress(
+          Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None
+        ))
+      ))
+    )
+
+    fakeServiceCall(
+      requestJson => {
+        requestJson should include("applicationType\":\"forces\"")
+        requestJson should not include("\"nat\"")
+        requestJson should include("\"nonat\":\"Where I was born is a mystery to me.\\n" +
+          "Nationality is unspecified. " +
+          "This person has no UK address so needs to be set as an 'other' elector: IER-DS.\"")
+        successMessage
+      }
+    ).submitForcesApplication(None, application, None, None)
+  }
 }
