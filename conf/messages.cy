@@ -14,9 +14,8 @@ ordinary_country_england=Lloegr
 ordinary_country_scotland=Yr Alban
 ordinary_country_wales=Cymru
 ordinary_country_northernIreland=Gogledd Iwerddon
-ordinary_country_channelIslandOrOIsleOfMan=Ynysoedd y Sianel neu Ynys Manaw
-ordinary_country_britishAbroad_option=Rwy’n ddinesydd Prydeinig sy’n byw dramor
-ordinary_country_britishAbroad_heading=Ble roeddech chi’n byw cyn i chi symud dramor?
+ordinary_country_britishAbroad_option=Dinesydd Prydeinig yn byw mewn gwlad arall (heblaw Ynysoedd y Sianel neu Ynys Manaw)
+ordinary_country_britishAbroad_heading=Ble oeddech chi’n byw cyn i chi symud i wlad arall?
 ordinary_country_error_pleaseAnswer=Atebwch y cwestiwn hwn
 ordinary_country_error_notValidCountry=Nid yw’r wlad honno’n ddilys
 

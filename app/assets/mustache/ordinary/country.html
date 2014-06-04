@@ -71,19 +71,6 @@
               data-validation-rules="nonEmpty">
             {{messages.ordinary_country_northernIreland}}
         </label>
-        <label for="{{channelIslands.id}}" class="selectable">
-            <input
-              type="radio"
-              id="{{channelIslands.id}}"
-              name="{{channelIslands.name}}"
-              value="British Islands"
-              class="radio  validate"
-              {{{channelIslands.attributes}}}
-              data-validation-name="britishIslands"
-              data-validation-type="field"
-              data-validation-rules="nonEmpty">
-            {{messages.ordinary_country_channelIslandOrOIsleOfMan}}
-        </label>
         <p>{{messages.ordinary_country_or}}</p>
         <label for="{{livingAbroad.id}}" class="selectable">
             <input
@@ -157,19 +144,6 @@
                   data-validation-type="field"
                   data-validation-rules="nonEmpty">
                 {{messages.ordinary_country_northernIreland}}
-            </label>
-            <label for="{{channelIslandsOrigin.id}}" class="selectable">
-                <input
-                  type="radio"
-                  id="{{channelIslandsOrigin.id}}"
-                  name="{{channelIslandsOrigin.name}}"
-                  value="British Islands"
-                  class="radio  validate"
-                  {{{channelIslandsOrigin.attributes}}}
-                  data-validation-name="britishIslandsOrigin"
-                  data-validation-type="field"
-                  data-validation-rules="nonEmpty">
-                {{messages.ordinary_country_channelIslandOrOIsleOfMan}}
             </label>
         </div>
     </fieldset>
