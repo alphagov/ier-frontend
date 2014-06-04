@@ -47,7 +47,6 @@ class ConfirmationTemplateTests
       val html = Mustache.render("crown/confirmation", model)
       val doc = Jsoup.parse(html.toString)
 
-      doc.select("h2").size() should be(0)
       doc.html should not include("Your partner's details")
     }
   }
