@@ -324,7 +324,7 @@
         }
         firstChild = _this.fields.getNames([firstChildName])[0];
         if (firstChild.type !== 'field') {
-          firstChild = _getFirstChild(field);
+          firstChild = _getFirstChild(firstChild);
         }
         return firstChild;
       };
@@ -547,6 +547,50 @@
             });
             if (!oneFilled) {
               return _getInvalidDataFromFields([this], 'atLeastOneNonEmpty');
+            } else {
+              return [];
+            }
+          },
+          'atLeastOneTextEntry' : function () {
+            var childFields = validation.fields.getNames(this.children),
+                totalTextFields = 0,
+                totalInvalidFields,
+                oneHasEntry = false,
+                _checkChildren,
+                _fieldHasEntry;
+
+            _checkChildren = function (children) {
+              $.each(children, function (idx, child) {
+                if (child.children) {
+                  _checkChildren(validation.fields.getNames(child.children));
+                } else {
+                  if (_fieldHasEntry(child)) {
+                    return false;
+                  }
+                }
+              });
+            };
+
+            _fieldHasEntry = function (field) {
+              var hasRule = $.inArray('nonEmpty', field.rules) > -1,
+                  fieldType = field.$source.attr('type'),
+                  invalidRules;
+
+              if ((fieldType === 'text') && hasRule) {
+                invalidRules = field.nonEmpty();
+
+                if (invalidRules.length) {
+                  return false;
+                } else {
+                  oneHasEntry = true;
+                  return true;
+                }
+              }
+            };
+
+            _checkChildren(childFields);
+            if (!oneHasEntry) {
+              return _getInvalidDataFromFields([this], 'atLeastOneTextEntry');
             } else {
               return [];
             }
@@ -795,6 +839,29 @@
             } else {
               return [];
             }
+          },
+          'atLeastOneValid' : function () {
+            var children = validation.fields.getNames(this.children),
+                totalInvalidRules = [];
+
+            $.each(children, function (idx, child) {
+              var invalidRules = validation.applyRules(child);
+
+              if (invalidRules.length) {
+                $.merge(totalInvalidRules, invalidRules);
+              }
+            });
+            return totalInvalidRules;
+          },
+          'firstChildValid' : function () {
+            var children = validation.fields.getNames(this.children),
+                firstChildVaildRules = validation.applyRules(children[0]);
+
+            if (firstChildVaildRules.length) {
+              return _getInvalidDataFromFields([this], 'firstChildValid');
+            } else {
+              return [];
+            }
           }
         },
         'association' : {
@@ -1039,20 +1106,23 @@
         'max5Countries' : message('ordinary_nationality_error_noMoreFiveCountries')
       },
       'postcode' : {
-        'nonEmpty' : 'Please enter a postcode',
-        'postcode' : 'Please enter a valid postcode'
+        'nonEmpty' : message('ordinary_address_error_pleaseEnterYourPostcode'),
+        'postcode' : message('ordinary_address_error_postcodeIsNotValid')
       },
       'addressSelect' : {
         'nonEmpty' : message('ordinary_address_error_pleaseSelectYourAddress')
       },
-      'addressManual' : {
-        'atLeastOneNonEmpty' : message('ordinary_address_error_lineOneIsRequired')
+      'addressManual' :  {
+        'atLeastOneTextEntry' :  message('ordinary_address_error_pleaseAnswer')
+      },
+      'manualAddressMultiline' : {
+        'firstChildValid' : message('ordinary_address_error_lineOneIsRequired')
       },
       'city' : {
         'nonEmpty' : message('ordinary_address_error_cityIsRequired')
       },
       'previousAddress' : {
-        'nonEmpty' : 'Please answer this question'
+        'atLeastOneNonEmpty' : message('ordinary_address_error_pleaseAnswer')
       },
       'statement' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
