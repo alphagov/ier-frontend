@@ -2,7 +2,7 @@ package uk.gov.gds.ier.validation
 
 object EmailValidator {
 
-  val emailRegex = """^[A-Za-z0-9._%+-]+@[A-Za-z0-9._%+-]+\.[A-Za-z]{2,}$"""
+  val emailRegex = """^[A-Za-z0-9._%+’'-]+@[A-Za-z0-9._%+’'-]+\.[A-Za-z]{2,}$"""
 
   def isValid(email:Option[String]):Boolean = {
     email match {

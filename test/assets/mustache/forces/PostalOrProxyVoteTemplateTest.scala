@@ -95,13 +95,13 @@ class PostalOrProxyVoteTemplateTest
       voteDeliveryMethodEmailInput.attr("id") should be("voteDeliveryMethodEmailId")
       voteDeliveryMethodEmailInput.attr("name") should be("voteDeliveryMethodEmailName")
       voteDeliveryMethodEmailInput.attr("foo") should be ("foo")
-
+//
       val voteDeliveryMethodPostInput = deliveryMethodFieldSet.select("input[value=post]").first()
       voteDeliveryMethodPostInput.attr("id") should be("voteDeliveryMethodPostId")
       voteDeliveryMethodPostInput.attr("name") should be("voteDeliveryMethodPostName")
       voteDeliveryMethodPostInput.attr("foo") should be("foo")
 
-      val voteEmailAddressInput = deliveryMethodFieldSet.select("input[type=email]").first()
+      val voteEmailAddressInput = deliveryMethodFieldSet.select("input[type=text]").first()
       voteEmailAddressInput.attr("id") should be("voteEmailAddressId")
       voteEmailAddressInput.attr("name") should be("voteEmailAddressName")
       voteEmailAddressInput.attr("class") should include("voteEmailAddressClasses")
