@@ -32,67 +32,61 @@
                    data-validation-rules="nonEmpty"
                    {{{irishOption.attributes}}}>Irish
         </label>
-        <label class="selectable"  >
-            <input type="checkbox" id="{{hasOtherCountryOption.id}}"
-                   name="{{hasOtherCountryOption.name}}" value="true"
-                   class=" validate"
-                   data-validation-name="other"
-                   data-validation-type="field"
-                   data-validation-rules="nonEmpty"
-                   {{{hasOtherCountryOption.attributes}}}>Citizen of another country
-        </label>
         <div class="validation-wrapper">
             <div id="add-countries" class="optional-section validate"
                  data-condition="{{hasOtherCountryOption.id}}"
                  data-validation-name="otherCountries"
                  data-validation-type="fieldset"
                  data-validation-rules="atLeastOneCountry allCountriesValid"
-                 data-validation-children="added-country-0">
-
-                <label for="{{otherCountriesHead.id}}" class=""  >
-                    Which country?
+                 data-validation-children="added-country-0"
+                 data-control-text="{{messages.ordinary_nationality_otherCountry}}"
+                 data-control-id="{{hasOtherCountryOption.id}}"
+                 data-control-name="{{hasOtherCountryOption.name}}"
+                 data-control-value="true"
+                 data-control-classes="validate"
+                 data-control-attributes="
+                   data-validation-name='other'
+                   data-validation-type='field'
+                   data-validation-rules='nonEmpty'
+                   {{{hasOtherCountryOption.attributes}}}
+                "
+            >
+                <label for="{{otherCountries0.id}}">
+                    {{messages.ordinary_nationality_whichCountry}}
                 </label>
-                <div class="validation-wrapper">
-                  <input type="text" id="{{otherCountriesHead.id}}"
-                         name="{{otherCountriesHead.name}}"
-                         value="{{otherCountriesHead.value}}"
-                         autocomplete="off"
-                         class="text  country-autocomplete long validate"
-                         data-validation-name="added-country-0"
-                         data-validation-type="field"
-                         data-validation-rules="nonEmpty validCountry" />
-                </div>
-                <p class="duplication-intro"
-                   style="{{#moreThanOneOtherCountry}}display: none{{/moreThanOneOtherCountry}}">
-                    If you have dual nationality
-                    <a class="duplicate-control-initial"
-                     href="#" data-field="{{otherCountriesHead.id}}">add another country</a>.
-                </p>
-
-                {{#otherCountriesTail}}
-                    <div class="added-country">
-                        <label for="nationality_otherCountries[{{index}}]" class="country-label"  >
-                            Country {{index}}
-                        </label>
-                        <a href="#" class="remove-field"
-                           data-field="nationality_otherCountries[{{index}}]">
-                            Remove<span class="visuallyhidden"> Country</span>
-                        </a>
-                        <div class="validation-wrapper">
-                          <input type="text" id="nationality_otherCountries[{{index}}]"
-                                 name="nationality.otherCountries[{{index}}]" value="{{countryName}}"
-                                 autocomplete="off"  class="text  country-autocomplete long validate"
-                                 data-validation-name="added-country-{{index}}"
-                                 data-validation-type="field"
-                                 data-validation-rules="nonEmpty validCountry" />
-                        </div>
-                    </div>
-                {{/otherCountriesTail}}
-
-                {{#moreThanOneOtherCountry}}
-                    <a class="duplicate-control" href="#">Add another country</a>
-                {{/moreThanOneOtherCountry}}
-
+                <input type="text"
+                       id="{{otherCountries0.id}}"
+                       name="{{otherCountries0.name}}"
+                       value="{{otherCountries0.value}}"
+                       autocomplete="off"
+                       class="text  country-autocomplete long validate {{otherCountries0.classes}}"
+                       data-validation-name="added-country-0"
+                       data-validation-type="field"
+                       data-validation-rules="nonEmpty validCountry" />
+                <label for="{{otherCountries1.id}}">
+                    {{messages.ordinary_nationality_secondCountry}}
+                </label>
+                <input type="text"
+                       id="{{otherCountries1.id}}"
+                       name="{{otherCountries1.name}}"
+                       value="{{otherCountries1.value}}"
+                       autocomplete="off"
+                       class="text  country-autocomplete long validate {{otherCountries1.classes}}"
+                       data-validation-name="added-country-1"
+                       data-validation-type="field"
+                       data-validation-rules="nonEmpty validCountry" />
+                <label for="{{otherCountries2.id}}">
+                    {{messages.ordinary_nationality_thirdCountry}}
+                </label>
+                <input type="text"
+                       id="{{otherCountries2.id}}"
+                       name="{{otherCountries2.name}}"
+                       value="{{otherCountries2.value}}"
+                       autocomplete="off"
+                       class="text  country-autocomplete long validate {{otherCountries2.classes}}"
+                       data-validation-name="added-country-2"
+                       data-validation-type="field"
+                       data-validation-rules="nonEmpty validCountry" />
             </div>
         </div>
     </fieldset>
