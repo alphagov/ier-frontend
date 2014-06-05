@@ -4,10 +4,55 @@ import uk.gov.gds.ier.validation._
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import org.joda.time.DateMidnight
 
 trait PassportConstraints extends CommonConstraints{
   self: ErrorMessages
     with FormKeys =>
+
+
+  lazy val validPassportDate = Constraint[DOB](keys.dob.key) {
+    dateOfBirth =>
+      val validDate = DateValidator.isExistingDate(dateOfBirth)
+
+      validDate match {
+        case Some(dateMidnight:DateMidnight) => Valid
+        case None => Invalid(
+          "You have entered an invalid date",
+          keys.passport.passportDetails.issueDate.day,
+          keys.passport.passportDetails.issueDate.month,
+          keys.passport.passportDetails.issueDate.year
+        )
+      }
+  }
+
+
+  lazy val validCitizenDate = Constraint[DOB](keys.dob.key) {
+    dateOfBirth =>
+      val validDate = DateValidator.isExistingDate(dateOfBirth)
+
+      validDate match {
+        case Some(dateMidnight:DateMidnight) => {
+
+          if (!DateValidator.isExistingDateInThePast(dateMidnight)) {
+            Invalid(
+              "You have entered a date in the future",
+              keys.passport.citizenDetails.dateBecameCitizen.day,
+              keys.passport.citizenDetails.dateBecameCitizen.month,
+              keys.passport.citizenDetails.dateBecameCitizen.year
+            )
+          } else {
+            Valid
+          }
+        }
+        case None => Invalid(
+          "You have entered an invalid date",
+          keys.passport.citizenDetails.dateBecameCitizen.day,
+          keys.passport.citizenDetails.dateBecameCitizen.month,
+          keys.passport.citizenDetails.dateBecameCitizen.year
+        )
+      }
+  }
 
   lazy val citizenDetailsFilled = Constraint[InprogressOverseas](keys.passport.key) {
     application => application.passport match {
