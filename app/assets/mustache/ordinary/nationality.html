@@ -39,18 +39,6 @@
                    {{{irishOption.attributes}}} />
             {{messages.ordinary_nationality_irish}}
         </label>
-        <label class="selectable">
-            <input type="checkbox"
-                   id="{{hasOtherCountryOption.id}}"
-                   name="{{hasOtherCountryOption.name}}"
-                   value="true"
-                   class=" validate"
-                   data-validation-name="other"
-                   data-validation-type="field"
-                   data-validation-rules="nonEmpty"
-                   {{{hasOtherCountryOption.attributes}}} />
-            {{messages.ordinary_nationality_otherCountry}}
-        </label>
         <div class="validation-wrapper {{otherCountry.classes}}">
             <div id="add-countries"
                  class="optional-section validate"
@@ -70,6 +58,11 @@
                  data-validation-rules='nonEmpty'
                  {{{hasOtherCountryOption.attributes}}}
                  "
+                   data-validation-name='other'
+                   data-validation-type='field'
+                   data-validation-rules='nonEmpty'
+                   {{{hasOtherCountryOption.attributes}}}
+                "
             >
                 <label for="{{otherCountries0.id}}">
                     {{messages.ordinary_nationality_whichCountry}}

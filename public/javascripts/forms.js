@@ -7,6 +7,7 @@
       countries = GOVUK.registerToVote.countries,
       ENTER = 13,
       ConditionalControl,
+      OptionalControl,
       DuplicateField,
       MarkSelected,
       Autocomplete,
@@ -165,6 +166,74 @@
         $(document).trigger('toggle.closed', { '$toggle' : this.$toggle });
         $('#continue').show();
       }
+    }
+  };
+
+  OptionalControl = function (elm, toggleClass) {
+    this.controlText = $(elm).data('controlText');
+    this.controlId = $(elm).data('controlId');
+    this.controlName = $(elm).data('controlName');
+    this.controlValue = $(elm).data('controlValue');
+    this.controlClasses = $(elm).data('controlClasses');
+    this.controlAttributes = $(elm).data('controlAttributes');
+    GOVUK.registerToVote.ConditionalControl.apply(this, arguments);
+  };
+  $.extend(OptionalControl.prototype, ConditionalControl.prototype);
+  OptionalControl.prototype.setup = function () {
+    var $content = this.$content,
+        $validationWrapper = this.$content.parent('.validation-wrapper'),
+        contentHasEntry = false,
+        setupResult;
+
+    if ($validationWrapper.length) {
+      $content = $validationWrapper;
+    }
+    this.$control = $(this.createControl());
+    this.$control.insertBefore($content)
+    $.each(this.$content.find('input[type="text"]'), function (idx, textbox) {
+      if (this.value !== '') {
+        contentHasEntry = true;
+        return false;
+      }
+    });
+    setupResult = GOVUK.registerToVote.ConditionalControl.prototype.setup.call(this);
+    if (contentHasEntry) {
+      this.$toggle.attr('checked', 'checked');
+      this.toggle();
+    }
+    return setupResult;
+  };
+  OptionalControl.prototype.createControl = function () {
+    var template = '<label class="selectable">' +
+                     '<input type="checkbox" id="{{controlId}}" name="{{controlName}}" value="{{controlValue}}" class="{{controlClasses}}" {{controlAttributes}} />' +
+                     '{{controlText}}' +
+                   '</label>';
+
+    return Mustache.render(template, {
+      'controlText' : this.controlText,
+      'controlId' : this.controlId,
+      'controlName' : this.controlName,
+      'controlValue' : this.controlValue,
+      'controlClasses' : this.controlClasses,
+      'controlAttributes' : this.controlAttributes
+    })
+  };
+  OptionalControl.prototype.bindEvents = function () {
+    var $parentForm = this.$content.closest('form'),
+        _this = this;
+
+    if ($parentForm.length) {
+      $parentForm.on('submit', function () {
+        _this.filterFormContent();
+      });
+    }
+    GOVUK.registerToVote.ConditionalControl.prototype.bindEvents.call(this);
+  };
+  OptionalControl.prototype.filterFormContent = function () {
+    var $textboxes = this.$content.find('input[type="text"]');
+
+    if (this.$content.is(':hidden')) {
+      $textboxes.val('');
     }
   };
 
@@ -737,6 +806,7 @@
   }());
 
   GOVUK.registerToVote.ConditionalControl = ConditionalControl;
+  GOVUK.registerToVote.OptionalControl = OptionalControl;
   GOVUK.registerToVote.DuplicateField = DuplicateField;
   GOVUK.registerToVote.MarkSelected = MarkSelected;
   GOVUK.registerToVote.Autocomplete = Autocomplete;
