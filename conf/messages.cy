@@ -260,7 +260,7 @@ ordinary_previousAddress_select_selectAddress=<span class="visuallyhidden">Dewis
 ordinary_previousAddress_select_addressesFound=cyfeiriadau a geir
 ordinary_previousAddress_select_cannotFindAddress=Nid wyf yn gallu gweld fy nghyfeiriad yn y rhestr
 
-ordinary_previousAddress_select_error_answerThis=Atebwch y cwestiwn hwn
+ordinary_previousAddress_select_error_answerThis=Dewiswch eich cyfeiriad
 ordinary_previousAddress_select_error_noAddressesFound=Mae’n ddrwg gennym - ni allem ddod o hyd i unrhyw gyfeiriadau ar gyfer y cod post
 
 # ordinary: previous address manual
