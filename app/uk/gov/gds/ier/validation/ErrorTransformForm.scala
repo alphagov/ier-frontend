@@ -11,7 +11,7 @@ case class ErrorTransformForm[T](private val form:Form[T]) {
   lazy val data : Map[String, String] = form.data
   lazy val errors : Seq[FormError] = transformedForm.errors
 
-  private lazy val value : Option[T] = form.value
+  private[validation] lazy val value : Option[T] = form.value
 
   def apply(key : Key) = {
     transformedForm(key.key)
@@ -24,13 +24,27 @@ case class ErrorTransformForm[T](private val form:Form[T]) {
     this.copy(form.bind(data))
   }
   def bindFromRequest()(implicit request : play.api.mvc.Request[_]) : ErrorTransformForm[T] = {
-    this.copy(form.bindFromRequest())
+    val filledForm = form.bindFromRequest()
+
+    val fullData = if(filledForm.data.isEmpty){
+      this.fill(filledForm.value).data
+    } else {
+      filledForm.data
+    }
+
+    this.copy(form = filledForm.copy(data = fullData))
   }
   def bindFromRequest(data : Map[String, Seq[String]]) : ErrorTransformForm[T] = {
     this.copy(form.bindFromRequest(data))
   }
   def fill(value : T) : ErrorTransformForm[T] = {
     this.copy(form.fill(value))
+  }
+  def fill(value : Option[T]): ErrorTransformForm[T] = {
+    value match {
+      case Some(v) => this.fill(v)
+      case None => this
+    }
   }
   def fillAndValidate(value : T) : ErrorTransformForm[T] = {
     val filledForm = form.fillAndValidate(value)
@@ -105,7 +119,7 @@ case class ErrorTransformForm[T](private val form:Form[T]) {
 
   def globalErrorMessages = this.globalErrors.map(_.message)
 
-  def  prettyPrint = this.errors.map(error => s"${error.key} -> ${error.message}")
+  def prettyPrint = this.errors.map(error => s"${error.key} -> ${error.message}")
 }
 
 object ErrorTransformForm {

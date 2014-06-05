@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.openRegister
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
@@ -10,18 +9,16 @@ trait OpenRegisterForms {
     with ErrorMessages =>
 
   lazy val openRegisterOptInMapping = single(
-    keys.optIn.key -> boolean
+    keys.optIn.key -> default(boolean, true)
   )
 
   val openRegisterForm = ErrorTransformForm(
     mapping(
-      keys.openRegister.key -> optional(openRegisterOptInMapping)
+      keys.openRegister.key -> default(openRegisterOptInMapping, true)
     ) (
-      openRegister => InprogressOrdinary(
-        openRegisterOptin = openRegister.orElse(Some(true))
-      )
+      openRegister => InprogressOrdinary(openRegisterOptin = Some(openRegister))
     ) (
-      inprogress => Some(inprogress.openRegisterOptin)
+      inprogress => inprogress.openRegisterOptin
     )
   )
 }

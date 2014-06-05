@@ -1,10 +1,11 @@
 package uk.gov.gds.ier.validation
 
 import org.scalatest.{Matchers, FlatSpec}
-import play.api.data.Form
 import play.api.data.Forms._
-import play.api.data.validation.{Valid, Invalid, Constraint}
+import play.api.data.validation.{Invalid, Valid, Constraint}
 import uk.gov.gds.ier.test.TestHelpers
+import play.api.test.FakeRequest
+import play.api.data.Form
 
 class TransformedFormTests
   extends FlatSpec
@@ -50,4 +51,60 @@ class TransformedFormTests
     val boundTransformedForm = transformedForm.bind(data)
     boundTransformedForm.globalErrorMessages shouldNot be(Seq("Not John"))
   }
+
+  behavior of "bind from request"
+  case class Foo(bar1: String, bar2: String)
+  val FooForm = ErrorTransformForm[Foo](
+    mapping(
+      "foo.bar1" -> optional(text),
+      "foo.bar2" -> optional(text)
+    ) (
+      (bar1, bar2) => Foo(bar1.getOrElse("was_empty"), bar2.getOrElse("was_empty"))
+    ) (
+      foo => Some(Some(foo.bar1), Some(foo.bar2))
+    ) verifying Constraint[Foo]("foo") {
+      foo =>
+        if(foo.bar1 == "fail me") Invalid("bar1 failed on purpose")
+        else Valid
+    }
+  )
+
+  it should "use data from key-value map for valid request" in {
+    val sutForm = FooForm.bindFromRequest()(
+      FakeRequest()
+        .withFormUrlEncodedBody(
+          "foo.bar1" -> "jim",
+          "foo.bar2" -> "jam"
+         )
+    )
+
+    sutForm.data should be(Map("foo.bar1" -> "jim", "foo.bar2" -> "jam"))
+    sutForm.value should not be(None)
+    sutForm.hasGlobalErrors should be(false)
+  }
+
+  it should "use data default data from object when keys are not present" in {
+    val sutForm = FooForm.bindFromRequest()(
+      FakeRequest()
+    )
+
+    sutForm.data should be(Map("foo.bar1" -> "was_empty", "foo.bar2" -> "was_empty"))
+    sutForm.value should not be(None)
+    sutForm.hasGlobalErrors should be(false)
+  }
+
+  it should "use data from key-value map for invalid request (object not mapped)" in {
+    val sutForm = FooForm.bindFromRequest()(
+      FakeRequest()
+        .withFormUrlEncodedBody(
+          "foo.bar1" -> "fail me",
+          "foo.bar2" -> "jam"
+        )
+    )
+
+    sutForm.data should be(Map("foo.bar1" -> "fail me", "foo.bar2" -> "jam"))
+    sutForm.value should be(None)
+    sutForm.hasGlobalErrors should be(true)
+  }
+
 }

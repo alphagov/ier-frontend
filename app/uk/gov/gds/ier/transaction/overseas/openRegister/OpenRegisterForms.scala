@@ -9,18 +9,17 @@ trait OpenRegisterForms {
     with ErrorMessages =>
 
   lazy val openRegisterOptInMapping = single(
-    keys.optIn.key -> boolean
+    keys.optIn.key -> default(boolean, true)
   )
 
   val openRegisterForm = ErrorTransformForm(
     mapping(
-      keys.openRegister.key -> optional(openRegisterOptInMapping)
+      keys.openRegister.key -> default(openRegisterOptInMapping, true)
     ) (
-      openRegister => InprogressOverseas(
-        openRegisterOptin = openRegister.orElse(Some(true))
-      )
+      openRegister => InprogressOverseas(openRegisterOptin = Some(openRegister))
     ) (
-      inprogress => Some(inprogress.openRegisterOptin)
+      inprogress => inprogress.openRegisterOptin
     )
   )
 }
+
