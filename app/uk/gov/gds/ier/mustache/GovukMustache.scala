@@ -19,7 +19,9 @@ trait GovukMustache extends StepMustache {
         insideHeader = Search(),
         relatedContent = Related(),
         bodyEndContent = Some(Scripts()),
-        head = Stylesheets()
+        head = Stylesheets(),
+        propositionHeader = Html.empty,
+        headerClass = ""
       )
     }
 
