@@ -119,7 +119,7 @@ case class ErrorTransformForm[T](private val form:Form[T]) {
 
   def globalErrorMessages = this.globalErrors.map(_.message)
 
-  def  prettyPrint = this.errors.map(error => s"${error.key} -> ${error.message}")
+  def prettyPrint = this.errors.map(error => s"${error.key} -> ${error.message}")
 }
 
 object ErrorTransformForm {
