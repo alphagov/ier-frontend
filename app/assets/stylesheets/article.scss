@@ -1,0 +1,57 @@
+/* Styles for exit pages */
+
+@import "toolkit";
+
+.article {
+  h1 {
+    @include bold-48;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    @include media(tablet){
+      padding-top: 7px;
+      padding-bottom: 13px;
+    }
+  }
+  h2 {
+    @include bold-36;
+    padding-top: 8px;
+    padding-bottom: 7px;
+
+    @include media(tablet){
+      padding-top: 6px;
+      padding-bottom: 9px;
+    }
+  }
+  h3 {
+    @include heading-24;
+    padding-top: 8px;
+    padding-bottom: 7px;
+
+    @include media(tablet){
+      padding-top: 4px;
+      padding-bottom: 6px;
+    }
+  }
+  h4 {
+    @include bold-19;
+  }
+  header {
+    margin: 0;
+    padding: 1em 14px 0;
+
+    @include media(tablet) {
+      margin: 0;
+      padding: 3em 2em 2em;
+      max-width: 36em;
+    }
+  }
+
+  article {
+    padding-bottom: 2em;
+  }
+}
+
+main.article header h1 { /* overwrite styles from questions.scss */
+  margin-top: 0;
+}
