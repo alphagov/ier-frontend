@@ -14,7 +14,7 @@ trait ExitPageMustache extends StepMustache {
       override def render() = GovukTemplate(
         mainContent = super.render(),
         pageTitle = pageTitle,
-        contentClasses = "exit"
+        contentClasses = "article"
       )
     }
 

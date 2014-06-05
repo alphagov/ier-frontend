@@ -10,7 +10,7 @@ trait ErrorPageMustache extends StepMustache {
     abstract class ErrorMustache(
         path: String,
         title: String
-    ) extends GovukPage(path, title, "exit")
+    ) extends GovukPage(path, title, "article")
 
     case class ServerError() extends ErrorMustache (
       "error/serverError",
