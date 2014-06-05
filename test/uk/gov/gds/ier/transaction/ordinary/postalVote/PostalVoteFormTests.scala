@@ -49,6 +49,22 @@ class PostalVoteFormTests
     )
   }
 
+  it should "bind successfully on postal vote true and delivery method email (including email with special characters)" in {
+    val js = Json.toJson(
+      Map(
+        "postalVote.optIn" -> "true",
+        "postalVote.deliveryMethod.methodName" -> "email",
+        "postalVote.deliveryMethod.emailAddress" -> "o'fake’._%+’'-@fake._%+’'-.co.uk"
+      )
+    )
+    postalVoteForm.bind(js).fold(
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
+      success => {
+        success.postalVote should be(Some(PostalVote(Some(true),Some(PostalVoteDeliveryMethod(Some("email"),Some("o'fake’._%+’'-@fake._%+’'-.co.uk"))))))
+      }
+    )
+  }
+
   it should "error out on postal vote true and delivery method email with invalid email" in {
     val js = Json.toJson(
       Map(

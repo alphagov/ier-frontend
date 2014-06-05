@@ -67,6 +67,31 @@ class CrownPostalOrProxyFormTests
     )
   }
 
+  it should "bind successfully on postal vote true and delivery method email (including email with special characters)" in {
+    val js = Json.toJson(
+      Map(
+        "postalOrProxyVote.optIn" -> "true",
+        "postalOrProxyVote.deliveryMethod.methodName" -> "email",
+        "postalOrProxyVote.deliveryMethod.emailAddress" -> "o'fake’._%+’'-@fake._%+’'-.co.uk",
+        "postalOrProxyVote.voteType" -> "by-post"
+      )
+    )
+    postalOrProxyVoteForm.bind(js).fold(
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
+      success => {
+        success.postalOrProxyVote.isDefined should be(true)
+        val Some(postalOrProxy) = success.postalOrProxyVote
+        postalOrProxy.typeVote should be(WaysToVoteType.ByPost)
+        postalOrProxy.postalVoteOption should be(Some(true))
+
+        postalOrProxy.deliveryMethod.isDefined should be(true)
+        val Some(deliveryMethod) = postalOrProxy.deliveryMethod
+        deliveryMethod.deliveryMethod should be(Some("email"))
+        deliveryMethod.emailAddress should be(Some("o'fake’._%+’'-@fake._%+’'-.co.uk"))
+      }
+    )
+  }
+
   it should "error out on postal vote true and delivery method email with invalid email" in {
     val js = Json.toJson(
       Map(
