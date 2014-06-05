@@ -56,12 +56,12 @@ class TransformedFormTests
   case class Foo(bar1: String, bar2: String)
   val FooForm = ErrorTransformForm[Foo](
     mapping(
-      "foo.bar1" -> optional(text),
-      "foo.bar2" -> optional(text)
+      "foo.bar1" -> default(text, "was_empty"),
+      "foo.bar2" -> default(text, "was_empty")
     ) (
-      (bar1, bar2) => Foo(bar1.getOrElse("was_empty"), bar2.getOrElse("was_empty"))
+      Foo.apply
     ) (
-      foo => Some(Some(foo.bar1), Some(foo.bar2))
+      Foo.unapply
     ) verifying Constraint[Foo]("foo") {
       foo =>
         if(foo.bar1 == "fail me") Invalid("bar1 failed on purpose")
@@ -97,14 +97,27 @@ class TransformedFormTests
     val sutForm = FooForm.bindFromRequest()(
       FakeRequest()
         .withFormUrlEncodedBody(
-          "foo.bar1" -> "fail me",
-          "foo.bar2" -> "jam"
-        )
+        "foo.bar1" -> "fail me",
+        "foo.bar2" -> "jam"
+      )
     )
 
     sutForm.data should be(Map("foo.bar1" -> "fail me", "foo.bar2" -> "jam"))
     sutForm.value should be(None)
     sutForm.hasGlobalErrors should be(true)
+  }
+
+  it should "fill any values not specified into the data map" in {
+    val sutForm = FooForm.bindFromRequest()(
+      FakeRequest()
+        .withFormUrlEncodedBody(
+        "foo.bar2" -> "jam"
+      )
+    )
+
+    sutForm.data should be(Map("foo.bar1" -> "was_empty", "foo.bar2" -> "jam"))
+    sutForm.value should not be(None)
+    sutForm.hasGlobalErrors should be(false)
   }
 
 }

@@ -61,7 +61,7 @@ class NationalityFormTests
         nationality.irish should be(Some(true))
 
         nationality.otherCountries should be(List.empty)
-        nationality.hasOtherCountry should be(None)
+        nationality.hasOtherCountry should be(Some(false))
       }
     )
   }
@@ -103,9 +103,9 @@ class NationalityFormTests
       hasErrors => fail(hasErrors.prettyPrint.mkString(", ")),
       success => {
         val nationality = success.nationality.get
-        nationality.hasOtherCountry should be(None)
-        nationality.british should be(None)
-        nationality.irish should be(None)
+        nationality.hasOtherCountry should be(Some(false))
+        nationality.british should be(Some(false))
+        nationality.irish should be(Some(false))
         nationality.otherCountries should be(List.empty)
         nationality.noNationalityReason should be(
           Some("I don't have a nationality. I am stateless.")
@@ -165,7 +165,7 @@ class NationalityFormTests
     )
   }
 
-  it should "atleast one other country provided if hasOtherCountry = true" in {
+  it should "accept other countries provided if hasOtherCountry = false" in {
     val js = Map (
       "nationality.british" -> "true",
       "nationality.irish" -> "true",
@@ -180,7 +180,7 @@ class NationalityFormTests
         nationality should have(
           'british (Some(true)),
           'irish (Some(true)),
-          'hasOtherCountry (None),
+          'hasOtherCountry (Some(true)),
           'otherCountries (List("Spain"))
         )
       }
@@ -202,7 +202,7 @@ class NationalityFormTests
         nationality should have(
           'british (Some(true)),
           'irish (Some(true)),
-          'hasOtherCountry (None),
+          'hasOtherCountry (Some(false)),
           'otherCountries (List.empty)
         )
       }
