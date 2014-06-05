@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.openRegister
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
