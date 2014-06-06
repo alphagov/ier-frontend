@@ -372,7 +372,7 @@ class PreviousAddressFirstControllerTests
       contentAsString(result) should include("" +
         "What was your previous address?")
       contentAsString(result) should include("" +
-        "Please answer this question")
+        "Please select your address")
       contentAsString(result) should include("" +
         "<form action=\"/register-to-vote/edit/previous-address/select\"")
     }
