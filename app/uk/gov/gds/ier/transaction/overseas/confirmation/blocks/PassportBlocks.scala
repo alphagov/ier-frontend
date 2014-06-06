@@ -2,6 +2,7 @@ package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
 import controllers.step.overseas.routes
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError}
+import org.joda.time.LocalDate
 
 trait PassportBlocks {
   self: ConfirmationBlock =>
@@ -41,7 +42,7 @@ trait PassportBlocks {
   def citizenDetails = {
     val howBecameCitizen = form(keys.passport.citizenDetails.howBecameCitizen).value
     val dateBecameCitizen = form.dateBecameCitizen.map { date =>
-      s"${date.getDayOfMonth} ${date.getMonthOfYear} ${date.getYear}"
+      date.toString("MMMM, yyyy")
     }
 
     val citizenContent = for (
@@ -73,11 +74,17 @@ trait PassportBlocks {
   def passportDetails = {
     val passportNumber = form(keys.passport.passportDetails.passportNumber).value
     val authority = form(keys.passport.passportDetails.authority).value
+    form.lastRegisteredType
     val issueDate = for(
       day <- form(keys.passport.passportDetails.issueDate.day).value;
       month <- form(keys.passport.passportDetails.issueDate.month).value;
       year <- form(keys.passport.passportDetails.issueDate.year).value
-    ) yield s"$day $month $year"
+    ) yield {
+      new LocalDate()
+        .withDayOfMonth(day.toInt)
+        .withMonthOfYear(month.toInt)
+        .withYear(year.toInt).toString("d MMMM yyyy")
+    }
 
     val passportContent = for(
       num <- passportNumber;

@@ -7,7 +7,7 @@ trait DateOfBirthBlocks {
 
   def dateOfBirth = {
     val dob = form.dateOfBirth map { dob =>
-      dob.toString("d M yyyy")
+      dob.toString("d MMMM yyyy")
     } getOrElse ""
 
     ConfirmationQuestion(
