@@ -14,12 +14,16 @@
               name="{{postcode.name}}"
               value="{{postcode.value}}"
               autocomplete="off"
-              class="text postcode medium validate {{postcode.classes}}">
+              class="text postcode medium validate {{postcode.classes}}"
+              data-validation-name="postcode"
+              data-validation-type="field"
+              data-validation-rules="nonEmpty postcode" />
         </div>
         <button
           id="find-address"
           type="submit"
-          class="button next">
+          class="button next validation-submit"
+          data-validation-sources="postcode">
             {{messages.ordinary_address_postcode_findAddress_button}}
         </button>
     </fieldset>

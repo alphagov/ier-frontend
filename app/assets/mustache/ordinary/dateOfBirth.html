@@ -1,7 +1,9 @@
 <form action="{{question.postUrl}}" method="POST"
-      data-validation-name="dateOfBirth" data-validation-type="association"
-      data-validation-rules="fieldsetOrExcuse" class="validate"
-      data-validation-members="dateOfBirthDate dateOfBirthExcuse">
+      data-validation-name="dateOfBirth"
+      data-validation-type="association"
+      data-validation-rules="dateOfBirthOrExcuse" 
+      data-validation-members="dateOfBirthDate dateOfBirthExcuse"
+      class="validate">
 
     {{> shared/questionHeader }}
 
@@ -69,15 +71,19 @@
                {{messages.ordinary_dob_help_cannotProvideDOB_reasonQuestion}}
             </label>
 
-            <textarea name="{{noDobReason.name}}" id="{{noDobReason.id}}"
-                      class=" small {{noDobReason.classes}}"
-                      data-validation-name="dateOfBirthExcuseReason"
-                      data-validation-type="field"
-                      data-validation-rules="nonEmpty"
-                      autocomplete="off" >{{noDobReason.value}}</textarea>
+            <div class="validation-wrapper">
+                <textarea name="{{noDobReason.name}}" id="{{noDobReason.id}}"
+                          class="validate small {{noDobReason.classes}}"
+                          data-validation-name="dateOfBirthExcuseReason"
+                          data-validation-type="field"
+                          data-validation-rules="nonEmpty"
+                          autocomplete="off" >{{noDobReason.value}}</textarea>
+            </div>
 
-            <fieldset class="validate {{rangeFieldSet.classes}}" data-validation-name="excuseAgeAttempt"
-                      data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty"
+            <fieldset class="validate {{rangeFieldSet.classes}}"
+                      data-validation-name="excuseAgeAttempt"
+                      data-validation-type="fieldset"
+                      data-validation-rules="radioNonEmpty"
                       data-validation-children="excuseUnder18 excuse18to70 excuseOver70 excuseDontKnow">
 
                 <p>{{messages.ordinary_dob_help_cannotProvideDOB_ageGroupQuestion}}</p>

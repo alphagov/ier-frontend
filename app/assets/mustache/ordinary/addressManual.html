@@ -2,7 +2,12 @@
     {{> shared/questionHeader }}
     {{> shared/validationMessages }}
 
-    <fieldset>
+    <fieldset class="validate"
+              data-validation-name="addressManual"
+              data-validation-type="fieldset"
+              data-validation-rules="atLeastOneTextEntry atLeastOneValid"
+              data-validation-children="manualAddressMultiline city"
+    >
         <p>
             <span class="postcode-prefix">{{messages.ordinary_address_manual_postcode_label}}</span>
             <span class="visuallyhidden">:</span>
@@ -18,33 +23,47 @@
           value="{{postcode.value}}"
           class="text hidden">
 
-        <label for="{{maLineOne.id}}">{{messages.ordinary_address_manual_address_label}}</label>
-        <div class="validation-wrapper {{maLineOne.classes}}">
-            <input type="text"
-                   id="{{maLineOne.id}}"
-                   name="{{maLineOne.name}}"
-                   value="{{maLineOne.value}}"
-                   class="text long {{maLineOne.classes}}"
-                   data-validation-name="manualAddressLineOne"
-                   data-validation-type="field"
-                   data-validation-rules="nonEmpty"
-                   >
-        </div>
-        <div class="validation-wrapper {{maLineTwo.classes}}">
-            <input type="text"
-                   id="{{maLineTwo.id}}"
-                   name="{{maLineTwo.name}}"
-                   value="{{maLineTwo.value}}"
-                   class="text long {{maLineTwo.classes}}"
-                   >
-        </div>
-        <div class="validation-wrapper {{maLineThree.classes}}">
-            <input type="text"
-                   id="{{maLineThree.id}}"
-                   name="{{maLineThree.name}}"
-                   value="{{maLineThree.value}}"
-                   class="text long {{maLineThree.classes}}"
-                   >
+        <div class="validation-wrapper">
+            <fieldset class="multi-line-field validate"
+                      data-validation-name="manualAddressMultiline"
+                      data-validation-type="fieldset"
+                      data-validation-rules="firstChildValid"
+                      data-validation-children="manualAddressLineOne manualAddressLineTwo manualAddressLineThree"
+            >
+                <legend class="label">
+                    {{messages.ordinary_address_manual_address_label_heading}}
+                </legend>
+                <label for="{{maLineOne.id}}" class="visuallyhidden">{{messages.ordinary_address_manual_address_label_1}}</label>
+                <input type="text"
+                       id="{{maLineOne.id}}"
+                       name="{{maLineOne.name}}"
+                       value="{{maLineOne.value}}"
+                       class="text long validate {{maLineOne.classes}}"
+                       data-validation-name="manualAddressLineOne"
+                       data-validation-type="field"
+                       data-validation-rules="nonEmpty"
+                 />
+                <label for="{{maLineTwo.id}}" class="visuallyhidden">{{messages.ordinary_address_manual_address_label_2}}</label>
+                <input type="text"
+                       id="{{maLineTwo.id}}"
+                       name="{{maLineTwo.name}}"
+                       value="{{maLineTwo.value}}"
+                       class="text long validate {{maLineTwo.classes}}"
+                       data-validation-name="manualAddressLineTwo"
+                       data-validation-type="field"
+                       data-validation-rules="nonEmpty"
+                />
+                <label for="{{maLineThree.id}}" class="visuallyhidden">{{messages.ordinary_address_manual_address_label_3}}</label>
+                <input type="text"
+                       id="{{maLineThree.id}}"
+                       name="{{maLineThree.name}}"
+                       value="{{maLineThree.value}}"
+                       class="text long validate {{maLineThree.classes}}"
+                       data-validation-name="manualAddressLineThree"
+                       data-validation-type="field"
+                       data-validation-rules="nonEmpty"
+                />
+            </fieldset>
         </div>
         <label for="{{maCity.id}}">{{messages.ordinary_address_manual_townOrCity_label}}</label>
         <div class="validation-wrapper {{maCity.classes}}">
@@ -52,15 +71,19 @@
                    id="{{maCity.id}}"
                    name="{{maCity.name}}"
                    value="{{maCity.value}}"
-                   class="text long {{maCity.classes}}"
-                   >
+                   class="text long validate {{maCity.classes}}"
+                   data-validation-name="city"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty"
+            />
         </div>
     </fieldset>
     <button
-      type="submit"
-      id="continue"
-      class="button next"
-      style="display: block;">
+        type="submit"
+        id="continue"
+        class="button next validation-submit"
+        data-validation-sources="addressManual"
+    >
         {{messages.step_continue}}
     </button>
 </form>

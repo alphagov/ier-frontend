@@ -180,10 +180,10 @@
     this.idPattern = this.fieldId;
     this.namePattern = this.fieldId.replace('_', '.');
     this.$field = $(document.getElementById(this.fieldId));
-    this.$label = this.$field.prev('label');
+    this.$label = this.$field.parent('.validation-wrapper').prev('label');
     this.$duplicationIntro = this.$label.parent().find('.duplication-intro');
     this.$label.parent()
-      .on('click', function (e) {
+      .on('click', 'a', function (e) {
         var className = e.target.className;
         if (className.indexOf('duplicate-control') !== -1) {
           _this.duplicate();
@@ -200,20 +200,30 @@
         var input = document.getElementById($(elm).find('label').attr('for'));
         input.value = input.value.replace(/^\s+|\s+$/g, '');
       });
+    $(document).bind('contentUpdate contentRemoval', function (e, eData) {
+      _this.updateValidation(e.type, eData.context);
+    });
   };
   DuplicateField.prototype.makeField = function (fieldNum, fieldValue) {
     var _this = this,
         $container = this.$label.parent(),
         fragment = '<label for="{{ id }}" class="{{ labelClass }}">{{ labelText }}</label>' +
                     '<a href="#" class="remove-field">Remove<span class="visuallyhidden"> {{ labelText }}</span></a>' +
-                    '<input type="text" id="{{ id }}" name="{{ name }}" class="text country-autocomplete long" value="{{ value }}" Autocomplete="off" />',
+                    '<div class="validation-wrapper">' +
+                      '<input type="text" id="{{ id }}" name="{{ name }}" class="text country-autocomplete long validate" value="{{ value }}" Autocomplete="off" ' +
+                      'data-validation-name="{{ validationName }}" ' +
+                      'data-validation-type="field" ' +
+                      'data-validation-rules="nonEmpty validCountry" ' +
+                      '/>' +
+                    '</div>',
         wrapperDiv = document.createElement('div'),
         options = {
           'id' : this.getFieldId(fieldNum),
           'labelClass' : this.label.className,
           'labelText' : this.label.txt + " " + fieldNum,
           'name' : this.getFieldName(fieldNum),
-          'value' : (fieldValue !== undefined) ? fieldValue : ""
+          'value' : (fieldValue !== undefined) ? fieldValue : "",
+          'validationName' : this.getValidationName(fieldNum)
         };
 
     wrapperDiv.className = this.copyClass;
@@ -224,6 +234,33 @@
   };
   DuplicateField.prototype.getFieldName = function (idx) {
     return this.namePattern.replace(/\[\d+\]/, '[' + idx + ']');
+  };
+  DuplicateField.prototype.getValidationName = function (idx) {
+    return this.copyClass + '-' + idx;
+  };
+  DuplicateField.prototype.updateValidation = function (evt, $elm) {
+    var $source = $elm.find('.validate'),
+        $container = $elm.parent(),
+        elmValidationName,
+        containerValidationName,
+        containerValidationObj;
+
+    if (!$source.length || !$container.length) {
+      return false;
+    }
+    elmValidationName = $source.data('validationName'),
+    containerValidationName = $container.data('validationName'),
+    containerValidationObj = GOVUK.registerToVote.validation.fields.getNames([containerValidationName])[0];
+
+    if (evt === 'contentRemoval') {
+      GOVUK.registerToVote.validation.fields.remove([elmValidationName]);
+      containerValidationObj.children = $.grep(containerValidationObj.children, function (childName, idx) {
+        return (childName === elmValidationName) ? false : true;
+      });
+    } else { // evt === 'contentUpdate
+      GOVUK.registerToVote.validation.fields.add($source);
+      containerValidationObj.children.push(elmValidationName);
+    }
   };
   DuplicateField.prototype.removeDuplicate = function (id) {
     var _this = this,
@@ -245,7 +282,7 @@
       } else {
         targetNum = idx + 1;
       }
-      $(document).trigger('contentRemoval', { 'context' : elm });
+      $(document).trigger('contentRemoval', { 'context' : $(elm) });
     };
 
     $copies.each(_getRemainingValues).remove();

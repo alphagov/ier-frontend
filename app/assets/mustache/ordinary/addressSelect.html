@@ -30,7 +30,10 @@
             <select
               id="{{address.id}}"
               name="{{address.name}}"
-              class="lonely validate {{address.classes}}">
+              class="lonely validate {{address.classes}}"
+              data-validation-name="addressSelect"
+              data-validation-type="field"
+              data-validation-rules="nonEmpty">
               {{#address.optionList}}
                 <option value="{{value}}" {{{selected}}}>{{text}}</option>
               {{/address.optionList}}
@@ -44,8 +47,8 @@
     <button
       type="submit"
       id="continue"
-      class="button next"
-      style="display: block;">
+      class="button next validation-submit"
+      data-validation-sources="addressSelect">
         {{messages.step_continue}}
     </button>
   {{/hasAddresses}}

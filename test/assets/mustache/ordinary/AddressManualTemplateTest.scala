@@ -78,12 +78,7 @@ class AddressManualTemplateTest
         addressLineLabel should not be(null)
         addressLineLabel.attr("for") should be("maLineOneId")
 
-        val divWrapper = fieldset.select("div[class*=manualClass11]").first()
-        divWrapper should not be(null)
-        divWrapper.attr("class") should include("manualClass11")
-        divWrapper.attr("class") should include("manualClass12")
-
-        val addressLineInput = divWrapper.select("input#maLineOneId").first()
+        val addressLineInput = fieldset.select("input#maLineOneId").first()
         addressLineInput should not be(null)
         addressLineInput.attr("name") should be("maLineOneName")
         addressLineInput.attr("class") should include("manualClass11")
@@ -91,12 +86,7 @@ class AddressManualTemplateTest
       }
 
       { // manual address line 2 (no label)
-        val divWrapper = fieldset.select("div[class*=manualClass21]").first()
-        divWrapper should not be(null)
-        divWrapper.attr("class") should include("manualClass21")
-        divWrapper.attr("class") should include("manualClass22")
-
-        val addressLineInput = divWrapper.select("input#maLineTwoId").first()
+        val addressLineInput = fieldset.select("input#maLineTwoId").first()
         addressLineInput should not be(null)
         addressLineInput.attr("name") should be("maLineTwoName")
         addressLineInput.attr("class") should include("manualClass21")
@@ -104,12 +94,7 @@ class AddressManualTemplateTest
       }
 
       { // manual address line 3 (no label)
-      val divWrapper = fieldset.select("div[class*=manualClass31]").first()
-        divWrapper should not be(null)
-        divWrapper.attr("class") should include("manualClass31")
-        divWrapper.attr("class") should include("manualClass32")
-
-        val addressLineInput = divWrapper.select("input#maLineThreeId").first()
+        val addressLineInput = fieldset.select("input#maLineThreeId").first()
         addressLineInput should not be(null)
         addressLineInput.attr("name") should be("maLineThreeName")
         addressLineInput.attr("class") should include("manualClass31")
@@ -121,12 +106,7 @@ class AddressManualTemplateTest
         addressLineLabel should not be(null)
         addressLineLabel.attr("for") should be("maCityId")
 
-        val divWrapper = fieldset.select("div[class*=manualClass41]").first()
-        divWrapper should not be(null)
-        divWrapper.attr("class") should include("manualClass41")
-        divWrapper.attr("class") should include("manualClass42")
-
-        val addressLineInput = divWrapper.select("input#maCityId").first()
+        val addressLineInput = fieldset.select("input#maCityId").first()
         addressLineInput should not be(null)
         addressLineInput.attr("name") should be("maCityName")
         addressLineInput.attr("class") should include("manualClass41")

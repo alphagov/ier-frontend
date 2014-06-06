@@ -324,7 +324,7 @@
         }
         firstChild = _this.fields.getNames([firstChildName])[0];
         if (firstChild.type !== 'field') {
-          firstChild = _getFirstChild(field);
+          firstChild = _getFirstChild(firstChild);
         }
         return firstChild;
       };
@@ -410,6 +410,7 @@
             return $field.val();
         }
       };
+      // Format an array of field objects into one where they are marked as invalid against a single rule
       _getInvalidDataFromFields = function (fields, rule) {
         return $.map(fields, function (item, idx) {
           return {
@@ -429,22 +430,6 @@
             if (this.$source.is(':hidden')) { return []; }
             if (_getFieldValue(this.$source) === '') {
               return _getInvalidDataFromFields([this], 'nonEmpty');
-            } else {
-              return [];
-            }
-          },
-          'atLeastOneCountry' : function () {
-            var $countries,
-                $filledCountries,
-                $selectedCountries;
-
-            if (this.$source.is(':hidden')) { return []; }
-            $countries = this.$source.find('.country-autocomplete');
-            $filledCountries = $.map($countries, function (elm, idx) {
-              return (_getFieldValue($(elm)) === '') ? null : elm;
-            });
-            if ($filledCountries.length === 0) {
-              return _getInvalidDataFromFields([this, { 'name' : 'country', '$source' : $countries }], 'atLeastOneCountry');
             } else {
               return [];
             }
@@ -489,7 +474,7 @@
             match = entry
                       .toUpperCase()
                       .replace(/[\s|\-]/g, "")
-                      .match(/((GIR0AA)|((([A-PR-UW-Z][0-9][0-9]?)|(([A-PR-UW-Z]][A-HK-Y][0-9][0-9]?)|(([A-PR-UW-Z][0-9][A-HJKSTUW])|([A-PR-UW-Z][A-HK-Z][0-9][ABEHMNPRVWXY]))))[0-9][A-BD-HJLNP-UW-Z]{2}))/);
+                      .match(/^((GIR0AA)|((([A-PR-UW-Z][0-9][0-9]?)|(([A-PR-UW-Z][A-HK-Y][0-9][0-9]?)|(([A-PR-UW-Z][0-9][A-HJKSTUW])|([A-PR-UW-Z][A-HK-Z][0-9][ABEHMNPRVWXY]))))[0-9][A-BD-HJLNP-UW-Z]{2}))$/);
             if (match === null) {
               return _getInvalidDataFromFields([this], 'postcode');
             } else {
@@ -515,6 +500,23 @@
             } else {
               return [];
             }
+          },
+          'validCountry' : function () {
+            var entry = _getFieldValue(this.$source),
+                countries = GOVUK.registerToVote.countries,
+                isValid = false;
+
+            $.each(countries, function (idx, country) {
+              if ($.inArray(entry, country.tokens) > -1) {
+                isValid = true;
+                return false;
+              }
+            });
+            if (!isValid) {
+              return _getInvalidDataFromFields([this], 'validCountry');
+            } else {
+              return [];
+            }
           }
         },
         'fieldset' : {
@@ -528,15 +530,67 @@
             };
             if (this.$source.is(':hidden')) { return []; }
             $.each(childFields, function (idx, fieldObj) {
-              var method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty',
-                  isFilledFailedRules = fieldObj[method]();
+              var method = 'nonEmpty',
+                  isFilledFailedRules;
 
+              if (fieldObj.type === 'fieldset') {
+                if ($.inArray('allNonEmpty', fieldObj.rules) > -1) {
+                  method = 'allNonEmpty';
+                } else {
+                  method = 'radioNonEmpty';
+                }
+              }
+              isFilledFailedRules = fieldObj[method]();
               if (_fieldIsShowing(fieldObj) && !isFilledFailedRules.length) {
                 oneFilled = true;
               }
             });
             if (!oneFilled) {
               return _getInvalidDataFromFields([this], 'atLeastOneNonEmpty');
+            } else {
+              return [];
+            }
+          },
+          'atLeastOneTextEntry' : function () {
+            var childFields = validation.fields.getNames(this.children),
+                totalTextFields = 0,
+                totalInvalidFields,
+                oneHasEntry = false,
+                _checkChildren,
+                _fieldHasEntry;
+
+            _checkChildren = function (children) {
+              $.each(children, function (idx, child) {
+                if (child.children) {
+                  _checkChildren(validation.fields.getNames(child.children));
+                } else {
+                  if (_fieldHasEntry(child)) {
+                    return false;
+                  }
+                }
+              });
+            };
+
+            _fieldHasEntry = function (field) {
+              var hasRule = $.inArray('nonEmpty', field.rules) > -1,
+                  fieldType = field.$source.attr('type'),
+                  invalidRules;
+
+              if ((fieldType === 'text') && hasRule) {
+                invalidRules = field.nonEmpty();
+
+                if (invalidRules.length) {
+                  return false;
+                } else {
+                  oneHasEntry = true;
+                  return true;
+                }
+              }
+            };
+
+            _checkChildren(childFields);
+            if (!oneHasEntry) {
+              return _getInvalidDataFromFields([this], 'atLeastOneTextEntry');
             } else {
               return [];
             }
@@ -550,27 +604,50 @@
             if (!invalidRules.length) { return []; }
             return invalidRules;
           },
-          'checkedOtherHasValue' : function () {
+          'radioNonEmpty' : function () {
+            var radioOptions = validation.fields.getNames(this.children),
+                oneSelected = false;
+
+            $.each(radioOptions, function (idx, radioOption) {
+              if (radioOption.$source.is(':checked')) {
+                oneSelected = true;
+                return false;
+              }
+            });
+            if (oneSelected) {
+              return [];
+            } else {
+              return _getInvalidDataFromFields([this], 'radioNonEmpty');
+            }
+          },
+          'checkedOtherIsValid' : function () {
             var childFields = validation.fields.getNames(this.children),
                 otherIsChecked = false,
-                invalidRules = [],
+                otherCountries,
+                otherCountriesFailedRules,
                 i,j;
 
+            // get checkbox & 
             for (i = 0, j = childFields.length; i < j; i++) {
               var fieldObj = childFields[i];
 
               if (fieldObj.name === 'otherCountries') {
-                invalidRules = fieldObj.atLeastOneCountry();
+                otherCountries = fieldObj;
               } else if (fieldObj.name === 'other') {
                 otherIsChecked = (_getFieldValue(fieldObj.$source) !== '');
               } else {
-                if (_getFieldValue(fieldObj.$source) !== '') { return []; }
+                continue;
               }
             }
-            if (otherIsChecked && !invalidRules.length) {
+            if (!otherIsChecked) {
               return [];
             } else {
-              return invalidRules;
+              otherCountriesFailedRules = validation.applyRules(otherCountries);
+              if (otherCountriesFailedRules.length) {
+                return otherCountriesFailedRules;
+              } else {
+                return [];
+              }
             }
           },
           'allNonEmpty' : function () {
@@ -590,9 +667,17 @@
             // validate against the nonEmpty rules of children
             for (i = 0, j = childFields.length; i < j; i++) {
               var fieldObj = childFields[i],
-                  method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty',
+                  method = 'nonEmpty',
                   isFilledFailedRules;
 
+              if (fieldObj.type === 'fieldset') {
+                if ($.inArray('allNonEmpty', fieldObj.rules) > -1) {
+                  method = 'allNonEmpty';
+                } else {
+                  method = 'radioNonEmpty';
+                }
+              }
+              isFilledFailedRules = fieldObj[method]();
               if ($.inArray(method, fieldObj.rules) === -1) { continue; }
               fieldsThatNeedInput++;
               isFilledFailedRules = fieldObj[method]();
@@ -652,19 +737,59 @@
               return [];
             }
           },
-          'countryNonEmpty' : function () {
-            var otherField = validation.fields.getNames(['other'])[0],
-                $countryInput = otherField.$source.parent('label')
-                                  .siblings('#add-countries')
-                                  .find('.country-autocomplete'),
-                otherFieldFailed = otherField.nonEmpty();
+          'atLeastOneCountry' : function () {
+            var countryValidationFields,
+                $countryTextboxes,
+                $filledCountries;
 
-            if (!otherFieldFailed.length) {
-              if (_getFieldValue($countryInput) === '') {
-                return _getInvalidDataFromFields([otherField, this], 'countryNonEmpty');
+            if (this.$source.is(':hidden')) { return []; }
+            countryValidationFields = GOVUK.registerToVote.validation.fields.getNames(this.children);
+            $filledCountries = $.map(countryValidationFields, function (field, idx) {
+              if ($countryTextboxes === undefined) {
+                $countryTextboxes = $(field.$source);
               } else {
-                return [];
+                $countryTextboxes = $countryTextboxes.add(field.$source);
               }
+              return (_getFieldValue(field.$source) === '') ? null : field.$source;
+            });
+            if ($filledCountries.length === 0) {
+              return _getInvalidDataFromFields([this], 'atLeastOneCountry');
+            } else {
+              return [];
+            }
+          },
+          'allCountriesValid' : function () {
+            var countries = GOVUK.registerToVote.countries,
+                countryValidationFields,
+                getInvalidCountries,
+                $invalidCountries;
+
+            getInvalidCountries = function (countryValidationFields) {
+              var invalidCountryObj,
+                  $results;
+
+              $.each(countryValidationFields, function (idx, field) {
+                var entry = _getFieldValue(field.$source),
+                    entryIsValidCountry;
+
+                if (entry === '') { return true; } 
+                invalidCountryObj = field.validCountry();
+                if (invalidCountryObj.length) {
+                  if ($results === undefined) {
+                    $results = $(field.$source);
+                  } else {
+                    $results = $results.add(field.$source);
+                  }
+                }
+              });
+              return ($results !== undefined) ? $results : false;
+            };
+
+            if (this.$source.is(':hidden')) { return []; }
+            countryValidationFields = GOVUK.registerToVote.validation.fields.getNames(this.children);
+            $invalidCountries = getInvalidCountries(countryValidationFields);
+            if ($invalidCountries) {
+              return _getInvalidDataFromFields([this, { 'name' : 'country', '$source' : $invalidCountries }], 'allCountriesValid');
             } else {
               return [];
             }
@@ -684,6 +809,56 @@
             isValid = ((age >= minAge) && (age <= maxAge));
             if (!isValid) {
               return _getInvalidDataFromFields(children, 'correctAge');
+            } else {
+              return [];
+            }
+          },
+          'max5Countries' : function () {
+            var totalCountryFields,
+                totalCountries,
+                getPrimaryCountries,
+                getOtherCountries;
+
+            getPrimaryCountries = function () {
+              return GOVUK.registerToVote.validation.fields.getNames(['british', 'irish']);
+            };
+
+            getOtherCountries = function () {
+              var otherCountries = GOVUK.registerToVote.validation.fields.getNames(['otherCountries']);
+
+              return GOVUK.registerToVote.validation.fields.getNames(otherCountries[0].children);
+            };
+
+            totalCountryFields = $.merge(getPrimaryCountries(), getOtherCountries());
+            totalCountries = $.grep(totalCountryFields, function (field, idx) {
+              return (field.nonEmpty().length === 0);
+            });
+
+            if (totalCountries.length > 5) {
+              return _getInvalidDataFromFields([this], 'max5Countries');
+            } else {
+              return [];
+            }
+          },
+          'atLeastOneValid' : function () {
+            var children = validation.fields.getNames(this.children),
+                totalInvalidRules = [];
+
+            $.each(children, function (idx, child) {
+              var invalidRules = validation.applyRules(child);
+
+              if (invalidRules.length) {
+                $.merge(totalInvalidRules, invalidRules);
+              }
+            });
+            return totalInvalidRules;
+          },
+          'firstChildValid' : function () {
+            var children = validation.fields.getNames(this.children),
+                firstChildVaildRules = validation.applyRules(children[0]);
+
+            if (firstChildVaildRules.length) {
+              return _getInvalidDataFromFields([this], 'firstChildValid');
             } else {
               return [];
             }
@@ -719,6 +894,38 @@
               return [];
             }
           },
+          'dateOfBirthOrExcuse' : function () {
+            var memberFields = validation.fields.getNames(this.members),
+                dateOfBirthField = memberFields[0],
+                excuseField = memberFields[1],
+                dateOfBirthInvalidRules = validation.applyRules(dateOfBirthField),
+                excuseInvalidRules = validation.applyRules(excuseField),
+                _fieldIsShowing,
+                _entryInDateOfBirth,
+                _entryInExcuse;
+
+            _fieldIsShowing = function (fieldObj) {
+              return !fieldObj.$source.is(':hidden');
+            };
+
+            _entryInDateOfBirth = function () {
+              return dateOfBirthInvalidRules.length < 4;
+            };
+
+            _entryInExcuse = function () {
+              return excuseInvalidRules.length < 2;
+            };
+
+            if (!_entryInDateOfBirth()) {
+              if ((!_fieldIsShowing(excuseField)) || (!_entryInExcuse())) {
+                return dateOfBirthInvalidRules;
+              } else {
+                return excuseInvalidRules;
+              }
+            } else {
+              return dateOfBirthInvalidRules;
+            }
+          },
           'allNonEmpty' : function () {
             var memberFields = validation.fields.getNames(this.members),
                 memberFailedRules = [],
@@ -735,9 +942,16 @@
             // validate against the nonEmpty rules of children
             for (i = 0, j = memberFields.length; i < j; i++) {
               var fieldObj = memberFields[i],
-                  method = (fieldObj.type === 'fieldset') ? 'allNonEmpty' : 'nonEmpty',
+                  method = 'nonEmpty',
                   isFilledFailedRules;
 
+              if (fieldObj.type === 'fieldset') {
+                if ($.inArray('allNonEmpty', fieldObj.rules) > -1) {
+                  method = 'allNonEmpty';
+                } else {
+                  method = 'radioNonEmpty';
+                }
+              }
               if ($.inArray(method, fieldObj.rules) === -1) { continue; }
               fieldsThatNeedInput++;
               isFilledFailedRules = fieldObj[method]();
@@ -807,7 +1021,7 @@
         'smallText' : message('ordinary_name_error_middleNamesTooLong')
       },
       'lastName' : {
-        'nonEmpty' : message('ordinary_name_error_enterFirstName'),
+        'nonEmpty' : message('ordinary_name_error_enterLastName'),
         'smallText' : message('ordinary_name_error_lastNameTooLong')
       },
       'previousQuestion' : {
@@ -815,6 +1029,17 @@
       },
       'previousName' : {
         'allNonEmpty' : message('ordinary_previousName_error_enterFullName')
+      },
+      'previousFirstName' : {
+        'nonEmpty' : message('ordinary_previousName_error_enterFirstName'),
+        'smallText' : message('ordinary_previousName_error_firstNameTooLong')
+      },
+      'previousMiddleName' : {
+        'smallText' : message('ordinary_previousName_error_middleNamesTooLong')
+      },
+      'previousLastName' : {
+        'nonEmpty' : message('ordinary_previousName_error_enterLastName'),
+        'smallText' : message('ordinary_previousName_error_lastNameTooLong')
       },
       'dateOfBirthDate' : {
         'allNonEmpty' : message('ordinary_dob_error_enterDateOfBirth')
@@ -827,6 +1052,12 @@
       },
       'year' : {
         'nonEmpty' : message('ordinary_dob_error_enterYear')
+      },
+      'dateOfBirthExcuseReason' : {
+        'nonEmpty' : message('ordinary_dob_error_provideReason')
+      },
+      'excuseAgeAttempt' : {
+        'radioNonEmpty' : message('ordinary_dob_error_selectRange')
       },
       'otherAddressQuestion' : {
         'atLeastOneNonEmpty' : message('ordinary_otheraddr_error_pleaseAnswer')
@@ -845,7 +1076,8 @@
         'atLeastOneNonEmpty' : message('ordinary_nationality_error_pleaseAnswer')
       },
       'otherCountries' : {
-        'atLeastOneCountry' : message('ordinary_nationality_error_pleaseAnswer')
+        'atLeastOneCountry' : message('ordinary_nationality_error_pleaseAnswer'),
+        'allCountriesValid' : message('ordinary_nationality_error_notValid')
       },
       'ninoCode' : {
         'nonEmpty' : message('ordinary_nino_error_noneEntered'),
@@ -870,17 +1102,27 @@
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
       'country' : {
-        'atLeastOneNonEmpty' : message('ordinary_country_error_pleaseAnswer')
+        'atLeastOneNonEmpty' : message('ordinary_country_error_pleaseAnswer'),
+        'max5Countries' : message('ordinary_nationality_error_noMoreFiveCountries')
       },
       'postcode' : {
-        'nonEmpty' : 'Please enter a postcode',
-        'postcode' : 'Please enter a valid postcode'
+        'nonEmpty' : message('ordinary_address_error_pleaseEnterYourPostcode'),
+        'postcode' : message('ordinary_address_error_postcodeIsNotValid')
       },
-      'address' : {
-        'fieldOrExcuse' : 'Please select an address'
+      'addressSelect' : {
+        'nonEmpty' : message('ordinary_address_error_pleaseSelectYourAddress')
+      },
+      'addressManual' :  {
+        'atLeastOneTextEntry' :  message('ordinary_address_error_pleaseAnswer')
+      },
+      'manualAddressMultiline' : {
+        'firstChildValid' : message('ordinary_address_error_lineOneIsRequired')
+      },
+      'city' : {
+        'nonEmpty' : message('ordinary_address_error_cityIsRequired')
       },
       'previousAddress' : {
-        'atLeastOneNonEmpty' : 'Please answer this question'
+        'atLeastOneNonEmpty' : message('ordinary_address_error_pleaseAnswer')
       },
       'statement' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
@@ -926,8 +1168,7 @@
       },
       'registeredAbroad' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
-      },
-
+      }
     }
   };
 

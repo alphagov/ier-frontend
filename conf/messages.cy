@@ -199,7 +199,10 @@ ordinary_address_manual_title=Beth yw eich cyfeiriad?
 
 ordinary_address_manual_postcode_label=Cod post
 ordinary_address_manual_changeYourPostcode_a=Newid<span class="visuallyhidden"> eich cod post</span>
-ordinary_address_manual_address_label=Cyfeiriad
+ordinary_address_manual_address_label_heading=Cyfeiriad
+ordinary_address_manual_address_label_1=Cyfeiriad
+ordinary_address_manual_address_label_2=Cyfeiriad
+ordinary_address_manual_address_label_3=Cyfeiriad
 ordinary_address_manual_townOrCity_label=Tref neu Ddinas
 
 # ordinary: other address
@@ -257,7 +260,7 @@ ordinary_previousAddress_select_selectAddress=<span class="visuallyhidden">Dewis
 ordinary_previousAddress_select_addressesFound=cyfeiriadau a geir
 ordinary_previousAddress_select_cannotFindAddress=Nid wyf yn gallu gweld fy nghyfeiriad yn y rhestr
 
-ordinary_previousAddress_select_error_answerThis=Atebwch y cwestiwn hwn
+ordinary_previousAddress_select_error_answerThis=Dewiswch eich cyfeiriad
 ordinary_previousAddress_select_error_noAddressesFound=Mae’n ddrwg gennym - ni allem ddod o hyd i unrhyw gyfeiriadau ar gyfer y cod post
 
 # ordinary: previous address manual
@@ -462,9 +465,9 @@ back_button_non_visual=at y cwestiwn blaenorol
 # JavaScipt: nationality
 
 ordinary_nationality_other_country=Ychwanegu gwlad arall
-ordinary_autocomplete_status=Welsh available, use up and down arrow keys to navigate
-ordinary_autocomplete_status_prefix_singular=Welsh result is
-ordinary_autocomplete_status_prefix_multiple=Welsh results are
+ordinary_nationality_autocomplete_status=gael, defnyddiwch i fyny ac i lawr bysellau saeth i lywio
+ordinary_nationality_autocomplete_status_prefix_singular=canlyniad ar
+ordinary_nationality_autocomplete_status_prefix_multiple=canlyniadau ar
 
 # JavaScript: date of birth
 
