@@ -27,6 +27,8 @@ GET         /register-to-vote/exit/overseas/left-service-over-15-years        co
 
 #Error Routes
 GET         /register-to-vote/error/timeout                              controllers.ErrorController.timeout
+GET         /register-to-vote/error/serverError                          controllers.ErrorController.serverError
+GET         /register-to-vote/error/notFound                             controllers.ErrorController.notFound
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/messages.js                                          controllers.MessagesController.all
