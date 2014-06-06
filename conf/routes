@@ -11,6 +11,8 @@ GET         /register-to-vote/start                                      control
 GET         /register-to-vote/complete                                   controllers.CompleteController.complete
 GET         /register-to-vote/overseas/complete                          controllers.CompleteController.overseasComplete
 
+#Service Routes
+GET         /register-to-vote/privacy                                    controllers.RegisterToVoteController.privacy
 
 #Exit Routes
 GET         /register-to-vote/exit/british-islands                       controllers.ExitController.britishIslands

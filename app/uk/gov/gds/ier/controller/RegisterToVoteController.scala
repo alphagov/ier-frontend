@@ -61,5 +61,9 @@ class RegisterToVoteController @Inject() (
     request =>
       Redirect(step.crown.routes.StatementController.get)
   }
+
+  def privacy = Action { request =>
+    Ok(RegisterToVote.PrivacyPage())
+  }
 }
 

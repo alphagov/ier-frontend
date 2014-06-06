@@ -281,13 +281,19 @@ form {
 .back-to-previous {
   @include core-16;
   display: block;
-  position: absolute;
+  position: static;
   text-decoration: none;
   border-bottom: $black 1px solid;
   width: 2.25em;
   background: url("/assets/images/icon-caret-left.png") left 0.2em no-repeat;
   padding-left: 0.75em;
   text-align: right;
+  margin: 2em 0 0 2em;
+
+  form & {
+    position: absolute;
+    margin: 0;
+  }
 
   @include media(mobile) {
     font-size: 16px;

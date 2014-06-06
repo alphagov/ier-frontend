@@ -13,4 +13,5 @@ object RegisterToVoteController extends DelegatingController[GuicedController] {
   def registerToVoteForcesStart = delegate.registerToVoteForcesStart
   def registerToVoteCrown = delegate.registerToVoteCrown
   def registerToVoteCrownStart = delegate.registerToVoteCrownStart
+  def privacy = delegate.privacy
 }
