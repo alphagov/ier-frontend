@@ -44,7 +44,7 @@ abstract class SessionHandling[T <: InprogressApplication[T]]
           }
           case None => {
             logger.debug(s"Validate session - Request has no token, refreshing and redirecting to govuk start page")
-            Redirect(routes.RegisterToVoteController.registerToVote()).withFreshSession()
+            Redirect(config.ordinaryStartUrl).withFreshSession()
           }
         }
     }

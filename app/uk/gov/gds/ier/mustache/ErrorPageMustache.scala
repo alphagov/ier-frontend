@@ -1,10 +1,10 @@
 package uk.gov.gds.ier.mustache
 
-import controllers.routes.RegisterToVoteController
-import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
 
 trait ErrorPageMustache extends StepMustache {
-  self: WithRemoteAssets =>
+  self: WithRemoteAssets
+    with WithConfig =>
 
   object ErrorPage {
     abstract class ErrorMustache(
@@ -19,7 +19,7 @@ trait ErrorPageMustache extends StepMustache {
 
     case class NotFound(
         url:String,
-        startPageUrl:String = RegisterToVoteController.redirectToOrdinary.url
+        startPageUrl:String = config.ordinaryStartUrl
     ) extends ErrorMustache (
       "error/notFound",
       "This isn't the page you were looking for"
@@ -27,7 +27,7 @@ trait ErrorPageMustache extends StepMustache {
 
     case class Timeout(
         timeout: Int,
-        startUrl: String = RegisterToVoteController.registerToVote.url
+        startUrl: String = config.ordinaryStartUrl
     ) extends ErrorMustache (
       "error/timeout",
       "Register to Vote - Sorry, your session has expired"

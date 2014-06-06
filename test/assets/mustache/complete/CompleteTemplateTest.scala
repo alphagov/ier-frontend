@@ -6,8 +6,9 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.complete.CompleteMustache
 import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
 import uk.gov.gds.ier.assets.RemoteAssets
+import uk.gov.gds.ier.config.Config
 import org.specs2.mock.Mockito
 import uk.gov.gds.ier.test.WithMockRemoteAssets
 import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
@@ -16,10 +17,13 @@ import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 class CompleteTemplateTest
   extends FlatSpec
   with CompleteMustache
+  with WithConfig
   with WithMockRemoteAssets
   with StepMustache
   with Matchers
   with Mockito {
+
+  val config = new Config()
 
   it should "properly render all properties from the model" in {
     running(FakeApplication()) {

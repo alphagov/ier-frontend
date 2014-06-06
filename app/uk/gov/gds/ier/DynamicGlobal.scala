@@ -11,18 +11,20 @@ import play.api.mvc._
 import play.api.mvc.Results._
 import org.slf4j.MDC
 import uk.gov.gds.ier.assets.RemoteAssets
-import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
 
 trait DynamicGlobal
     extends GlobalSettings
     with Logging
     with DependencyInjectionProvider
     with ErrorPageMustache
-    with WithRemoteAssets {
+    with WithRemoteAssets
+    with WithConfig {
 
   def bindings: Binder => Unit = { binder => }
 
   lazy val remoteAssets = dependency[RemoteAssets]
+  lazy val config = dependency[Config]
 
   override def onStart(app: Application) {
     super.onStart(app)

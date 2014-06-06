@@ -27,7 +27,7 @@ class RegisterToVoteController @Inject() (
   with GovukMustache {
 
   def index = Action {
-    Redirect(routes.RegisterToVoteController.registerToVote)
+    Redirect(config.ordinaryStartUrl)
   }
 
   def registerToVote = Action {
