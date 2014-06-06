@@ -8,29 +8,31 @@ import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 trait NationalityMustache extends StepTemplate[InprogressForces] {
 
-  case class CountryItem (
-      index:String = "",
-      countryName:String = ""
-  )
-
   case class NationalityModel(
       question:Question,
+      nationality: FieldSet,
       britishOption: Field,
       irishOption: Field,
       hasOtherCountryOption: Field,
-      otherCountriesHead: Field,
-      otherCountriesTail: List[CountryItem] = List.empty,
-      moreThanOneOtherCountry: Boolean,
+      otherCountry: FieldSet,
+      otherCountries0: Field,
+      otherCountries1: Field,
+      otherCountries2: Field,
       noNationalityReason: Field,
-      noNationalityReasonShowFlag: Text
+      noNationalityReasonShowFlag: String
   ) extends MustacheData
 
   val mustache = MustacheTemplate("forces/nationality") { (form, postUrl) =>
     implicit val progressForm = form
 
-    val otherCountriesList =  obtainOtherCountriesList(progressForm)
-
     val title = "What is your nationality?"
+
+    val nationalityReason = form(keys.nationality.noNationalityReason).value
+
+    val nationalityReasonClass = nationalityReason match {
+      case Some("") | None => ""
+      case _ => "-open"
+    }
 
     NationalityModel(
       question = Question(
@@ -38,6 +40,7 @@ trait NationalityMustache extends StepTemplate[InprogressForces] {
         errorMessages = form.globalErrors.map{ _.message },
         title = title
       ),
+      nationality = FieldSet(keys.nationality),
       britishOption = CheckboxField(
         key = keys.nationality.british,
         value = "true"
@@ -50,41 +53,12 @@ trait NationalityMustache extends StepTemplate[InprogressForces] {
         key = keys.nationality.hasOtherCountry,
         value = "true"
       ),
-      otherCountriesHead =  Field(
-        id = keys.nationality.otherCountries.asId() + "[0]",
-        name = keys.nationality.otherCountries.key + "[0]",
-        value = otherCountriesList match {
-          case Nil => ""
-          case headCountry :: tailCountries => headCountry
-        },
-        classes = if (progressForm(keys.nationality.otherCountries).hasErrors) "invalid" else ""
-      ),
-
-      otherCountriesTail =
-        if (!otherCountriesList.isEmpty) createMustacheCountryList(otherCountriesList.tail)
-        else List.empty,
-      moreThanOneOtherCountry = otherCountriesList.size > 1,
-      noNationalityReason= TextField(
-        key = keys.nationality.noNationalityReason
-      ),
-      noNationalityReasonShowFlag = Text (
-        value = progressForm(keys.nationality.noNationalityReason).value.map(noNationalityReason => "-open").getOrElse("")
-      )
+      otherCountry = FieldSet(keys.nationality.otherCountries),
+      otherCountries0 = TextField(keys.nationality.otherCountries.item(0)),
+      otherCountries1 = TextField(keys.nationality.otherCountries.item(1)),
+      otherCountries2 = TextField(keys.nationality.otherCountries.item(2)),
+      noNationalityReason = TextField(keys.nationality.noNationalityReason),
+      noNationalityReasonShowFlag = nationalityReasonClass
     )
   }
-
-  def createMustacheCountryList (otherCountriesTail:List[String]) : List[CountryItem] = {
-    otherCountriesTail.zipWithIndex.map{case (item, i) => CountryItem((i+2).toString,item)}
-  }
-
-  def obtainOtherCountriesList(form: ErrorTransformForm[InprogressForces]):List[String] = {
-    (
-      for (i <- 0 until NationalityConstants.numberMaxOfOtherCountries
-           if (form(otherCountriesKey(i)).value.isDefined)
-             && !form(otherCountriesKey(i)).value.get.isEmpty)
-      yield form(otherCountriesKey(i)).value.get
-      ).toList
-  }
-
-  def otherCountriesKey(i:Int) = keys.nationality.otherCountries.item(i)
 }

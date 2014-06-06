@@ -9,30 +9,37 @@
 
     <p>If you have dual nationality, select all options that are relevant to you.</p>
 
-    <fieldset class="validate" data-validation-name="country"
+    <fieldset class="validate {{nationality.classes}}"
+              data-validation-name="country"
               data-validation-type="fieldset"
               data-validation-rules="atLeastOneChecked checkedOtherIsValid max5Countries"
               data-validation-children="british irish other otherCountries">
 
-        <label class="selectable"  >
-            <input type="checkbox" id="{{britishOption.id}}"
-                   name="{{britishOption.name}}" value="true"
+        <label class="selectable">
+            <input type="checkbox"
+                   id="{{britishOption.id}}"
+                   name="{{britishOption.name}}"
+                   value="true"
                    class=" validate"
                    data-validation-name="british"
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"
-                   {{{britishOption.attributes}}}>British
+                   {{{britishOption.attributes}}} />
+            British
         </label>
-        <label class="selectable"  >
-            <input type="checkbox" id="{{irishOption.id}}"
-                   name="{{irishOption.name}}" value="true"
+        <label class="selectable">
+            <input type="checkbox"
+                   id="{{irishOption.id}}"
+                   name="{{irishOption.name}}"
+                   value="true"
                    class=" validate"
                    data-validation-name="irish"
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"
-                   {{{irishOption.attributes}}}>Irish
+                   {{{irishOption.attributes}}} />
+            Irish
         </label>
-        <div class="validation-wrapper">
+        <div class="validation-wrapper {{otherCountry.classes}}">
             <div id="add-countries" class="optional-section validate"
                  data-condition="{{hasOtherCountryOption.id}}"
                  data-validation-name="otherCountries"
@@ -52,7 +59,7 @@
                 "
             >
                 <label for="{{otherCountries0.id}}">
-                    {{messages.ordinary_nationality_whichCountry}}
+                    If you are a citizen of another country, enter the country name
                 </label>
                 <div class="validation-wrapper">
                     <input type="text"
@@ -66,7 +73,7 @@
                            data-validation-rules="nonEmpty validCountry" />
                 </div>
                 <label for="{{otherCountries1.id}}">
-                    {{messages.ordinary_nationality_secondCountry}}
+                    Second country name (if you have dual nationality)
                 </label>
                 <div class="validation-wrapper">
                     <input type="text"
@@ -80,7 +87,7 @@
                            data-validation-rules="nonEmpty validCountry" />
                 </div>
                 <label for="{{otherCountries2.id}}">
-                    {{messages.ordinary_nationality_thirdCountry}}
+                    Third country name (if you have 3 nationalities)
                 </label>
                 <div class="validation-wrapper">
                     <input type="text"
@@ -96,10 +103,14 @@
             </div>
         </div>
     </fieldset>
-    <button type="submit" id="alt-continue"
+    <button type="submit"
+            id="alt-continue"
             class="button next validation-submit"
-            data-validation-sources="nationality">Continue</button>
-    <div class="help-content help-content{{noNationalityReasonShowFlag.value}}" data-toggle-text="I don't know my nationality">
+            data-validation-sources="nationality">
+        Continue
+    </button>
+    <div class="help-content help-content{{noNationalityReasonShowFlag}}"
+         data-toggle-text="{{messages.ordinary_nationality_help_heading_1}}">
         <h2>I don't know my nationality</h2>
         <p>We need to know your nationality so we can work out which
             elections you're entitled to vote in.</p>
@@ -109,14 +120,16 @@
             why. And after you've applied, you'll be asked to prove your
             identity by sending documents in the post (or providing them
             in person).</p>
-        <div class="optional-section optional-section{{noNationalityReasonShowFlag.value}}" data-toggle-text="I can't provide my nationality">
+        <div class="optional-section optional-section{{noNationalityReasonShowFlag}}"
+             data-toggle-text="{{messages.ordinary_nationality_help_heading_2}}"
+             id="nationality-provision">
             <h3>I can't provide my nationality</h3>
-            <label for="{{noNationalityReason.id}}" class=""  >
+            <label for="{{noNationalityReason.id}}">
                 Why can't you provide your nationality?
             </label>
             <textarea name="{{noNationalityReason.name}}"
                       id="{{noNationalityReason.id}}"
-                      class=" small validate"
+                      class="{{noNationalityReason.classes}} small validate"
                       data-validation-name="nationalityExcuse"
                       data-validation-type="field"
                       data-validation-rules="nonEmpty"
@@ -124,7 +137,10 @@
                       autocomplete="off" >{{noNationalityReason.value}}</textarea>
         </div>
     </div>
-    <button type="submit" id="continue"
+    <button type="submit"
+            id="continue"
             class="button next validation-submit"
-            data-validation-sources="nationality">Continue</button>
+            data-validation-sources="nationality">
+        Continue
+    </button>
 </form>

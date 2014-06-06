@@ -82,11 +82,6 @@ class NationalityTemplateTest
       irishOptionInput.attr("name") should be("irishOptionName")
       irishOptionInput.attr("foo") should be("foo")
 
-      val hasOtherCountryOptionInput = doc.select("input[id=hasOtherCountryOptionId]").first()
-      hasOtherCountryOptionInput.attr("id") should be("hasOtherCountryOptionId")
-      hasOtherCountryOptionInput.attr("name") should be("hasOtherCountryOptionName")
-      hasOtherCountryOptionInput.attr("foo") should be("foo")
-
       val otherCountryValidation = doc.select("div").first()
       otherCountryValidation.attr("class") should include("otherCountryClass")
 

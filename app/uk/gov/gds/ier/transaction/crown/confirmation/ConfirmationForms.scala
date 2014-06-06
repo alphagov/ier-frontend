@@ -46,7 +46,7 @@ trait ConfirmationForms
       keys.statement.key -> optional(statementMapping),
       keys.address.key -> optional(lastAddressMapping),
       keys.previousAddress.key -> optional(PartialPreviousAddress.mapping.verifying(previousAddressRequiredIfMoved)),
-      keys.nationality.key -> optional(nationalityMapping),
+      keys.nationality.key -> optional(PartialNationality.mapping),
       keys.dob.key -> optional(dobAndReasonMapping),
       keys.name.key -> optional(nameMapping),
       keys.previousName.key -> optional(previousNameMapping),

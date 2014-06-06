@@ -64,7 +64,7 @@ class NationalityFormTests
         nationality.irish should be(Some(true))
 
         nationality.otherCountries should be(List.empty)
-        nationality.hasOtherCountry should be(None)
+        nationality.hasOtherCountry should be(Some(false))
       }
     )
   }
@@ -105,9 +105,9 @@ class NationalityFormTests
       hasErrors => fail(hasErrors.prettyPrint.mkString(", ")),
       success => {
         val nationality = success.nationality.get
-        nationality.hasOtherCountry should be(None)
-        nationality.british should be(None)
-        nationality.irish should be(None)
+        nationality.hasOtherCountry should be(Some(false))
+        nationality.british should be(Some(false))
+        nationality.irish should be(Some(false))
         nationality.otherCountries should be(List.empty)
         nationality.noNationalityReason should be(Some("I don't have a nationality. I am stateless."))
       }
