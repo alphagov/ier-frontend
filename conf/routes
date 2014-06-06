@@ -13,6 +13,7 @@ GET         /register-to-vote/overseas/complete                          control
 
 #Service Routes
 GET         /register-to-vote/privacy                                    controllers.RegisterToVoteController.privacy
+GET         /register-to-vote/cookies                                    controllers.RegisterToVoteController.cookies
 
 #Exit Routes
 GET         /register-to-vote/exit/british-islands                       controllers.ExitController.britishIslands
