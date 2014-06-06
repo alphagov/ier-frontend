@@ -509,9 +509,13 @@
                 isValid = false;
 
             $.each(countries, function (idx, country) {
-              if ($.inArray(entry, country.tokens) > -1) {
-                isValid = true;
-                return false;
+              if (!isValid) {
+                $.each(country.tokens, function (idx, token) {
+                  if (entry.toLowerCase() === token.toLowerCase()) {
+                    isValid = true;
+                    return false;
+                  }
+                });
               }
             });
             if (!isValid) {
