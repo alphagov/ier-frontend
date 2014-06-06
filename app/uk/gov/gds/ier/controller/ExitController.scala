@@ -41,7 +41,7 @@ class ExitController @Inject() (
   }
 
   def under18 = ClearSession requiredFor {
-    request =>
+    implicit request =>
       Ok(ExitPages.Under18())
   }
 

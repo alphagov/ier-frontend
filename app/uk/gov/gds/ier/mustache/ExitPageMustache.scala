@@ -61,8 +61,13 @@ trait ExitPageMustache extends StepMustache {
     }
 
     case class Under18 (
-        pageTitle: String = "Register to Vote - You need to find out your date of birth"
+      title: Option[String] = None
+    ) (
+    implicit val lang: Lang
     ) extends ExitTemplate("exit/under18")
+    with MessagesForMustache {
+      val pageTitle = title getOrElse Messages("exit_under18_title")
+    }
 
     case class LeftService (
         pageTitle: String = "Sorry, you cannot registers because it has been over 15 years since you left the position"
