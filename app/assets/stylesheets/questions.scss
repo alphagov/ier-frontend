@@ -112,6 +112,7 @@ input.text,
 input.long,
 .twitter-typeahead {
   width: 100%;
+  box-sizing: border-box;
 }
 
 input.text {
@@ -357,10 +358,6 @@ fieldset {
 .tt-suggestion.tt-is-under-cursor {
 	color: #fff;
 	background-color: #0097cf;
-}
-
-.tt-dropdown-menu {
-  margin-top: -1.25em;
 }
 
 .added-country {
