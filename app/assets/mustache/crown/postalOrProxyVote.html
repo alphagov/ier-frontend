@@ -57,14 +57,14 @@
 
             <label for="{{voteEmailAddress.id}}">Email address</label>
             <div class="validation-wrapper {{voteEmailAddress.classes}}">
-                <input type="email" id="{{voteEmailAddress.id}}"
+                <input type="text" id="{{voteEmailAddress.id}}"
                        name="{{voteEmailAddress.name}}"
                        value="{{voteEmailAddress.value}}"
                        autocomplete="off"
                        class="text  text long validate {{voteEmailAddress.classes}}"
                        data-validation-name="emailAddress"
                        data-validation-type="field"
-                       data-validation-rules="nonEmpty" />
+                       data-validation-rules="nonEmpty email" />
             </div>
         </div>
 
