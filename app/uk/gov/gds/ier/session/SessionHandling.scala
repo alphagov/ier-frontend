@@ -37,7 +37,7 @@ abstract class SessionHandling[T <: InprogressApplication[T]]
                 result storeToken token.refreshToken
               }
               case false => {
-                logger.debug(s"Validate session - token is not valid", serialiser.toJson(token))
+                logger.debug(s"Validate session - token is not valid ${serialiser.toJson(token)}")
                 Redirect(routes.ErrorController.timeout()).withFreshSession()
               }
             }
