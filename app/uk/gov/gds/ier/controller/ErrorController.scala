@@ -29,4 +29,14 @@ class ErrorController @Inject ()(
     request =>
       Ok(ErrorPage.Timeout(config.sessionTimeout))
   }
+
+  def serverError = ClearSession requiredFor {
+    request =>
+      InternalServerError(ErrorPage.ServerError())
+  }
+
+  def notFound = ClearSession requiredFor {
+    request =>
+      NotFound(ErrorPage.NotFound(""))
+  }
 }
