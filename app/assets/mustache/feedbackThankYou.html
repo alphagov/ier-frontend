@@ -1,0 +1,13 @@
+{{#returnToProgress}}
+<form action="{{question.postUrl}}" method="POST">
+    {{> shared/questionHeader }}
+    <p>
+        {{messages.feedback_thankYou_p1}}
+    </p>
+
+    <button type="submit" class="button next">{{messages.step_continue}}</button>
+</form>
+{{/returnToProgress}}
+{{^returnToProgress}}
+{{> shared/questionHeader }}
+{{/returnToProgress}}

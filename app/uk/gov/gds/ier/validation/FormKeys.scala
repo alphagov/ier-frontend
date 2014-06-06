@@ -169,6 +169,12 @@ trait FormKeys {
     lazy val forceToRedirect = prependNamespace(Key("forceToRedirect"))
 
     lazy val hasAddress =  prependNamespace(Key("hasAddress"))
+
+    lazy val feedback =  prependNamespace(Key("feedback"))
+    lazy val sourcePath = prependNamespace(Key("sourcePath"))
+    lazy val feedbackText =  prependNamespace(Key("feedbackText"))
+    lazy val contactName =  prependNamespace(Key("contactName"))
+    lazy val contactEmail =  prependNamespace(Key("contactEmail"))
   }
 
   implicit class key2namespace(key:Key) extends Keys {

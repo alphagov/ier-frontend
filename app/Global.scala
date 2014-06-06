@@ -1,10 +1,11 @@
 import uk.gov.gds.ier.client._
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.DynamicGlobal
+import uk.gov.gds.ier.feedback.{FeedbackClientImpl, FeedbackClient}
 import uk.gov.gds.ier.filter.{ResultFilter, StatsdFilter}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.service.apiservice.{ConcreteIerApiService, IerApiService}
-import uk.gov.gds.ier.stubs.{LocateStubApiClient, IerStubApiClient, IerApiServiceWithStripNino}
+import uk.gov.gds.ier.stubs.{FeedbackStubClient, LocateStubApiClient, IerStubApiClient, IerApiServiceWithStripNino}
 import play.api.mvc._
 
 
@@ -27,6 +28,14 @@ object Global extends DynamicGlobal with Logging {
       } else {
         logger.debug("Binding ConcreteIerApiService")
         binder.bind(classOf[IerApiService]).to(classOf[ConcreteIerApiService])
+      }
+
+      if (config.fakeFeedbackService) {
+        logger.debug("Binding FeedbackStubClient")
+        binder.bind(classOf[FeedbackClient]).to(classOf[FeedbackStubClient])
+      } else {
+        logger.debug("Binding FeedbackClientImpl")
+        binder.bind(classOf[FeedbackClient]).to(classOf[FeedbackClientImpl])
       }
   }
 

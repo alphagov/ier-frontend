@@ -46,7 +46,7 @@ trait MustacheModel extends FormKeys {
   }
 
   object TextField {
-    def apply[T<:InprogressApplication[T]]
+    def apply[T]
         (key: Key, default:Option[String] = None)
         (implicit progressForm: ErrorTransformForm[T]):Field = {
       Field(
@@ -60,7 +60,7 @@ trait MustacheModel extends FormKeys {
   object HiddenField {
     // Hidden field is "declare intent" style of field, it does not really render field as hidden
     // Hidden fields are usually used to store specific values, hence value is explicitly required
-    def apply[T<:InprogressApplication[T]](
+    def apply[T](
         key: Key,
         value: String)
         (implicit progressForm: ErrorTransformForm[T]):Field = {

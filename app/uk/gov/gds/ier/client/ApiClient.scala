@@ -8,6 +8,8 @@ import play.api.http._
 import uk.gov.gds.ier.guice.WithConfig
 import org.joda.time.DateTime
 import uk.gov.gds.ier.logging.Logging
+import com.ning.http.client.Realm.AuthScheme
+
 
 trait ApiClient extends Logging {
   self:WithConfig =>
@@ -81,5 +83,31 @@ trait ApiClient extends Logging {
         Fail(e.getMessage, timeTakenMs)
       }
     }
+  }
+
+  /**
+   * Post a serialized JSON content asynchronously to given web service with basic authentication
+   * and don't wait for reply
+   */
+  def postAsync(
+    url: String,
+    content: String,
+    username: String,
+    password: String,
+    headers: (String, String)*) : Unit = {
+      implicit val context = scala.concurrent.ExecutionContext.Implicits.global
+      WS.url(url)
+        .withAuth(username, password, AuthScheme.BASIC)
+        .withHeaders("Content-Type" -> MimeTypes.JSON)
+        .withHeaders(headers: _*)
+        .post(content)
+        .map {
+          // we are not really interested in response, just log it
+          // TODO: capture error (status != 200) and log it as error
+          response => logger.info(
+            s"WS response status: ${response.status}" +
+            s"body: ${response.body}")
+        }
+    logger.info(s"apiClient.get url: $url request submitted")
   }
 }

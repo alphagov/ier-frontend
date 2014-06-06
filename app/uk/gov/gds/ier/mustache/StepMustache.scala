@@ -36,12 +36,14 @@ trait StepMustache extends MustacheModel {
   abstract class GovukPage(
       templatePath: String,
       pageTitle: String,
-      contentClasses: String = ""
+      contentClasses: String = "",
+      sourcePath: String = ""
   ) extends Mustachio(templatePath) {
     override def render() = GovukTemplate(
       mainContent = super.render(),
       pageTitle = pageTitle,
-      contentClasses = contentClasses
+      contentClasses = contentClasses,
+      sourcePath = sourcePath
     )
   }
 
@@ -58,12 +60,13 @@ trait StepMustache extends MustacheModel {
       afterHeader: String = "",
       cookieMessage: Html = CookieMessage(),
       footerTop: String = "",
-      footerSupportLinks: Html = FooterLinks(),
+      sourcePath: String = "",
       bodyEndContent: Option[Html] = None,
       mainContent: Html = Html.empty,
       relatedContent: Html = Html.empty,
       contentClasses: String = ""
   ) extends Mustachio("govuk_template_mustache/views/layouts/govuk_template") {
+    val footerSupportLinks: Html = FooterLinks(sourcePath)
     val bodyEnd:Html = bodyEndContent getOrElse StepBodyEnd(
       messagesPath = remoteAssets.messages(htmlLang).url
     )
@@ -84,6 +87,7 @@ trait StepMustache extends MustacheModel {
   case class CookieMessage() extends Mustachio("template/cookieMessage")
 
   case class FooterLinks(
+    sourcePath: String,
     cookieUrl: String = controllers.routes.RegisterToVoteController.cookies.url,
     privacyUrl: String = controllers.routes.RegisterToVoteController.privacy.url
   ) extends Mustachio("template/footerLinks")
