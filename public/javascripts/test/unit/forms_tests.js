@@ -1012,6 +1012,239 @@ describe("DuplicateField", function () {
   });
 });
 
+describe("OptionalControl", function () {
+  describe("Creating an instance", function () {
+    var $content;
+
+    beforeEach(function () {
+      $content = $(
+            '<div id="add-countries"' +
+                 'data-control-text="Other country"' +
+                 'data-control-id="other-country"' +
+                 'data-control-name="other-country"' +
+                 'data-control-value="true"' +
+                 'data-control-classes="validate"' +
+                 'data-control-attributes=""' +
+            '>' +
+            '</div>'
+      );
+      $(document.body).append($content); 
+    });
+
+    afterEach(function () {
+      $content.remove();
+      $('#country-1').parent().remove();
+    });
+
+    it("Should produce an instance with the correct interface", function () {
+      var elm = $content,
+          toggleClass = 'optional-section',
+          instance = new GOVUK.registerToVote.OptionalControl(elm, toggleClass);
+
+      expect(instance.setup).toBeDefined();
+      expect(instance.bindEvents).toBeDefined();
+      expect(instance.adjustVerticalSpace).toBeDefined();
+      expect(instance.toggle).toBeDefined();
+      expect(instance.setAccessibilityAPI).toBeDefined();
+      expect(instance.setInitialState).toBeDefined();
+    });
+  });
+
+  describe("Setup method", function () {
+    var $content,
+        $control;
+
+    beforeEach(function () {
+      $content = $(
+            '<div id="add-countries"' +
+                 'data-condition="other-country"' +
+                 'data-control-text="Other country"' +
+                 'data-control-id="other-country"' +
+                 'data-control-name="other-country"' +
+                 'data-control-value="true"' +
+                 'data-control-classes="validate"' +
+                 'data-control-attributes=""' +
+            '>' +
+            '</div>'
+      );
+      $control = $(
+            '<label for="">' +
+              '<input type="checkbox" name="other-country" id="other-country" />' +
+            '<label>'
+          ),
+          optionalControlMock = {
+            '$content' : $content,
+            'toggle' : function () {},
+            'adjustVerticalSpace' : function () {},
+            'createControl' : function () {},
+            '$toggle' : $control.find('input')
+          };
+      $(document.body).append($content); 
+    });
+
+    afterEach(function () {
+      $content.remove();
+      $('#country-1').parent().remove();
+    });
+
+    it("Should call the createControl method", function () {
+      spyOn(optionalControlMock, "createControl").and.callFake(function () {
+        return 
+      });
+      GOVUK.registerToVote.OptionalControl.prototype.setup.call(optionalControlMock);
+
+      expect(optionalControlMock.createControl).toHaveBeenCalled();
+    });
+
+    it("Should add the control before the content div", function () {
+      spyOn(GOVUK.registerToVote.OptionalControl.prototype, "createControl").and.callFake(function () {
+        return $control
+      });
+      GOVUK.registerToVote.OptionalControl.prototype.setup.call(optionalControlMock);
+      expect($content.prev()[0]).toEqual($control[0]);
+    });
+
+    it("Should check the control & show the content div if the content div has a textbox with a value", function () {
+      $content.append('<input type="text" name="country-1" id="country-1" value="Algeria" />');
+      spyOn(GOVUK.registerToVote.OptionalControl.prototype, "createControl").and.callFake(function () {
+        return $control
+      });
+      GOVUK.registerToVote.OptionalControl.prototype.setup.call(optionalControlMock);
+      expect(optionalControlMock.$toggle.is(':checked')).toBe(true);
+      expect($content.is(':hidden')).toBe(false);
+    });
+
+    it("Should return the same value as ConditionalControl's setup method", function () {
+      var conditionalControlReturnValue = GOVUK.registerToVote.ConditionalControl.prototype.setup.call(optionalControlMock),
+          optionalControlReturnValue = GOVUK.registerToVote.OptionalControl.prototype.setup.call(optionalControlMock);
+
+      expect(conditionalControlReturnValue).toEqual(optionalControlReturnValue);
+    });
+  });
+
+  describe("CreateControl method", function () {
+    it("Should return the expected HTML", function () {
+      var result,
+          expectedHtml = '<label class="selectable">' +
+                           '<input type="checkbox" id="other-country" name="other-country" value="" class="text"  />' +
+                           'Other country' +
+                         '</label>',
+          optionalControlMock = {
+            'controlText' : 'Other country',
+            'controlId' : 'other-country',
+            'controlName' : 'other-country',
+            'controlValue' : '',
+            'controlClasses' : 'text',
+            'controlAttributes' : ''
+          };
+
+      result = GOVUK.registerToVote.OptionalControl.prototype.createControl.call(optionalControlMock);
+      expect(result).toEqual(expectedHtml);
+    });
+  });
+
+  describe("BindEvents method", function () {
+    var $content;
+
+    beforeEach(function () {
+      $content = $(
+            '<div id="add-countries"' +
+                 'data-control-text="Other country"' +
+                 'data-control-id="other-country"' +
+                 'data-control-name="other-country"' +
+                 'data-control-value="true"' +
+                 'data-control-classes="validate"' +
+                 'data-control-attributes=""' +
+            '>' +
+            '</div>'
+      );
+      $(document.body).append($content); 
+      $content.wrap('<form action="" method="get" />');
+    });
+
+    afterEach(function () {
+      $content.closest('form').remove();
+      $content.remove();
+      $('#country-1').parent().remove();
+    });
+
+    it("Should call the bindEvents method of ConditionalControl", function () {
+      var optionalControlMock = {
+            "$content" : $content,
+            "filterFormContent" : function () {}
+          };
+      
+      spyOn(GOVUK.registerToVote.ConditionalControl.prototype, "bindEvents");
+      GOVUK.registerToVote.OptionalControl.prototype.bindEvents.call(optionalControlMock);      
+
+      expect(GOVUK.registerToVote.ConditionalControl.prototype.bindEvents).toHaveBeenCalled();
+    });
+
+    it("Should call the filterFormContent method when the form our module is in is submitted", function () {
+      var optionalControlMock = {
+            "$content" : $content,
+            "filterFormContent" : function () {}
+          },
+          form = $content.parent('form')[0],
+          submitEvtWasBoundToForm = false,
+          onSubmit;
+
+      spyOn($.fn, "on").and.callFake(function (evt, callback) {
+        if ((evt === 'submit') && (this[0] === form)) {
+          submitEvtWasBoundToForm = true;
+          onSubmit = callback;
+        }
+      });
+      spyOn(optionalControlMock, "filterFormContent");
+      spyOn(GOVUK.registerToVote.ConditionalControl.prototype, "bindEvents");
+
+      GOVUK.registerToVote.OptionalControl.prototype.bindEvents.call(optionalControlMock);      
+      expect($.fn.on).toHaveBeenCalled();
+      expect(submitEvtWasBoundToForm).toBe(true);
+      
+      onSubmit();
+      expect(optionalControlMock.filterFormContent).toHaveBeenCalled();
+    });
+  });
+
+  describe("FilterFormContent method", function () {
+    var $content;
+
+    beforeEach(function () {
+      $content = $(
+                  '<div id="add-countries">' +
+                    '<input type="text" value="Germany" />' +
+                  '</div>'
+                  );
+
+      $(document.body).append($content);
+    });
+
+    afterEach(function () {
+      $content.remove();
+    });
+
+    it("Should leave the contents of any textboxes in our content area as they are if the area is visible", function () {
+      var optionalControlMock = {
+            '$content' : $content
+          };
+
+      GOVUK.registerToVote.OptionalControl.prototype.filterFormContent.call(optionalControlMock);
+      expect($content.find('input[type="text"]').val()).toEqual('Germany');
+    });
+
+    it("Should wipe the contents of any textboxes in our content area if the area is hidden", function () {
+      var optionalControlMock = {
+            '$content' : $content
+          };
+
+      $content.hide();
+      GOVUK.registerToVote.OptionalControl.prototype.filterFormContent.call(optionalControlMock);
+      expect($content.find('input[type="text"]').val()).toEqual('');
+    });
+  });
+});
+
 describe("MarkSelected", function () {
   describe("Creating an instance", function () {
     var $radioLabel,
