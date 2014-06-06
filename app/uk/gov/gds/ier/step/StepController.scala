@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.step
 
-import uk.gov.gds.ier.session.SessionHandling
+import uk.gov.gds.ier.session.{SessionHandling, CacheBust}
 import play.api.mvc.Controller
 import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, ErrorMessages}
 import uk.gov.gds.ier.logging.Logging
@@ -51,14 +51,15 @@ trait StepController [T <: InprogressApplication[T]]
     )
   }
 
-  def get(implicit manifest: Manifest[T]) = ValidSession requiredFor {
-    implicit request => application =>
+  def get(implicit manifest: Manifest[T]) = CacheBust {
+    ValidSession requiredFor { implicit request => application =>
       logger.debug(s"GET request for ${request.path}")
       Ok(mustache(validation.fill(application), routes.post, application).html)
+    }
   }
 
-  def postMethod(postCall:Call)(implicit manifest: Manifest[T]) = ValidSession requiredFor {
-    implicit request => application =>
+  def postMethod(postCall:Call)(implicit manifest: Manifest[T]) = CacheBust {
+    ValidSession requiredFor { implicit request => application =>
       logger.debug(s"POST request for ${request.path}")
 
       val dataFromApplication = validation.fill(application).data
@@ -75,15 +76,17 @@ trait StepController [T <: InprogressApplication[T]]
           Redirect(result.routes.get) storeInSession mergedApplication
         }
       )
+    }
   }
 
   def post(implicit manifest: Manifest[T]) = postMethod(routes.post)
 
   def editPost(implicit manifest: Manifest[T]) = postMethod(routes.editPost)
 
-  def editGet(implicit manifest: Manifest[T]) = ValidSession requiredFor {
-    implicit request => application =>
+  def editGet(implicit manifest: Manifest[T]) = CacheBust {
+    ValidSession requiredFor { implicit request => application =>
       logger.debug(s"GET edit request for ${request.path}")
       Ok(mustache(validation.fill(application), routes.editPost, application).html)
+    }
   }
 }
