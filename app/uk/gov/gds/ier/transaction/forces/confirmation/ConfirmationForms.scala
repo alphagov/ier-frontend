@@ -47,7 +47,7 @@ trait ConfirmationForms
       keys.statement.key -> stepRequired(statementMapping),
       keys.address.key -> stepRequired(LastAddress.mapping),
       keys.previousAddress.key -> optional(partialPreviousAddressMappingForPreviousAddress),
-      keys.nationality.key -> stepRequired(nationalityMapping),
+      keys.nationality.key -> stepRequired(PartialNationality.mapping),
       keys.dob.key -> stepRequired(dobAndReasonMapping),
       keys.name.key -> stepRequired(nameMapping),
       keys.previousName.key -> stepRequired(previousNameMapping),

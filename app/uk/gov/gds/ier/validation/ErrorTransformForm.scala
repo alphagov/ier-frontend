@@ -25,14 +25,9 @@ case class ErrorTransformForm[T](private val form:Form[T]) {
   }
   def bindFromRequest()(implicit request : play.api.mvc.Request[_]) : ErrorTransformForm[T] = {
     val filledForm = form.bindFromRequest()
+    val dataFromValue = this.fill(filledForm.value).data
 
-    val fullData = if(filledForm.data.isEmpty){
-      this.fill(filledForm.value).data
-    } else {
-      filledForm.data
-    }
-
-    this.copy(form = filledForm.copy(data = fullData))
+    this.copy(form = filledForm.copy(data = dataFromValue ++ filledForm.data))
   }
   def bindFromRequest(data : Map[String, Seq[String]]) : ErrorTransformForm[T] = {
     this.copy(form.bindFromRequest(data))

@@ -34,10 +34,11 @@ class NationalityMustacheTest
     nationalityModel.britishOption.attributes should be("")
     nationalityModel.irishOption.attributes should be("")
     nationalityModel.hasOtherCountryOption.attributes should be("")
-    nationalityModel.otherCountriesHead.value should be("")
-    nationalityModel.otherCountriesTail.isEmpty should be(true)
-    nationalityModel.moreThanOneOtherCountry should be(false)
+    nationalityModel.otherCountries0.value should be("")
+    nationalityModel.otherCountries1.value should be("")
+    nationalityModel.otherCountries2.value should be("")
     nationalityModel.noNationalityReason.value should be("")
+    nationalityModel.noNationalityReasonShowFlag should be("")
 
 
   }
@@ -67,10 +68,11 @@ class NationalityMustacheTest
     nationalityModel.britishOption.attributes should be("checked=\"checked\"")
     nationalityModel.irishOption.attributes should be("")
     nationalityModel.hasOtherCountryOption.attributes should be("")
-    nationalityModel.otherCountriesHead.value should be("")
-    nationalityModel.otherCountriesTail.isEmpty should be(true)
-    nationalityModel.moreThanOneOtherCountry should be(false)
+    nationalityModel.otherCountries0.value should be("")
+    nationalityModel.otherCountries1.value should be("")
+    nationalityModel.otherCountries2.value should be("")
     nationalityModel.noNationalityReason.value should be("")
+    nationalityModel.noNationalityReasonShowFlag should be("")
   }
 
   it should "progress form with irish option should produce Mustache Model with values present" in runningApp {
@@ -98,10 +100,11 @@ class NationalityMustacheTest
     nationalityModel.britishOption.attributes should be("")
     nationalityModel.irishOption.attributes should be("checked=\"checked\"")
     nationalityModel.hasOtherCountryOption.attributes should be("")
-    nationalityModel.otherCountriesHead.value should be("")
-    nationalityModel.otherCountriesTail.isEmpty should be(true)
-    nationalityModel.moreThanOneOtherCountry should be(false)
+    nationalityModel.otherCountries0.value should be("")
+    nationalityModel.otherCountries1.value should be("")
+    nationalityModel.otherCountries2.value should be("")
     nationalityModel.noNationalityReason.value should be("")
+    nationalityModel.noNationalityReasonShowFlag should be("")
   }
 
   it should "progress form with other countries option should produce Mustache Model with values present" in runningApp {
@@ -128,11 +131,11 @@ class NationalityMustacheTest
     nationalityModel.britishOption.attributes should be("")
     nationalityModel.irishOption.attributes should be("")
     nationalityModel.hasOtherCountryOption.attributes should be("checked=\"checked\"")
-    nationalityModel.otherCountriesHead.value should be("Spain")
-    nationalityModel.otherCountriesTail.size should be(1)
-    nationalityModel.otherCountriesTail(0).countryName should be("France")
-    nationalityModel.moreThanOneOtherCountry should be(true)
+    nationalityModel.otherCountries0.value should be("Spain")
+    nationalityModel.otherCountries1.value should be("France")
+    nationalityModel.otherCountries2.value should be("")
     nationalityModel.noNationalityReason.value should be("")
+    nationalityModel.noNationalityReasonShowFlag should be("")
   }
 
   it should "progress form with other countries and british option should produce Mustache Model with values present" in runningApp {
@@ -159,11 +162,11 @@ class NationalityMustacheTest
     nationalityModel.britishOption.attributes should be("checked=\"checked\"")
     nationalityModel.irishOption.attributes should be("")
     nationalityModel.hasOtherCountryOption.attributes should be("checked=\"checked\"")
-    nationalityModel.otherCountriesHead.value should be("Spain")
-    nationalityModel.otherCountriesTail.size should be(1)
-    nationalityModel.otherCountriesTail(0).countryName should be("France")
-    nationalityModel.moreThanOneOtherCountry should be(true)
+    nationalityModel.otherCountries0.value should be("Spain")
+    nationalityModel.otherCountries1.value should be("France")
+    nationalityModel.otherCountries2.value should be("")
     nationalityModel.noNationalityReason.value should be("")
+    nationalityModel.noNationalityReasonShowFlag should be("")
   }
 
   it should "progress form with validation errors should produce Model with error list present" in runningApp {
@@ -190,10 +193,11 @@ class NationalityMustacheTest
     nationalityModel.britishOption.attributes should be("")
     nationalityModel.irishOption.attributes should be("")
     nationalityModel.hasOtherCountryOption.attributes should be("")
-    nationalityModel.otherCountriesHead.value should be("")
-    nationalityModel.otherCountriesTail.isEmpty should be(true)
-    nationalityModel.moreThanOneOtherCountry should be(false)
+    nationalityModel.otherCountries0.value should be("")
+    nationalityModel.otherCountries1.value should be("")
+    nationalityModel.otherCountries2.value should be("")
     nationalityModel.noNationalityReason.value should be("")
+    nationalityModel.noNationalityReasonShowFlag should be("")
 
     nationalityModel.question.errorMessages.mkString(", ") should be("Please answer this question")
   }

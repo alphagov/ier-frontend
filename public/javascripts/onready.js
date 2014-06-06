@@ -9,11 +9,16 @@
     new GOVUK.registerToVote.BackButton(elm);
   });
   $('.optional-section, .optional-section-binary').each(function (idx, elm) {
-    var toggleClass = 'optional-section'
-    if ($(elm).data('condition') !== undefined) {
-      new GOVUK.registerToVote.ConditionalControl(elm, toggleClass);
+    var toggleClass = 'optional-section',
+        $elm = $(elm);
+    if ($elm.data('controlText') !== undefined) {
+      new GOVUK.registerToVote.OptionalControl(elm, toggleClass);
     } else {
-      new GOVUK.registerToVote.OptionalInformation(elm, toggleClass);
+      if ($elm.data('condition') !== undefined) {
+        new GOVUK.registerToVote.ConditionalControl(elm, toggleClass);
+      } else {
+        new GOVUK.registerToVote.OptionalInformation(elm, toggleClass);
+      }
     }
   });
   $('.duplicate-control-initial').each(function (idx, elm) {

@@ -27,7 +27,9 @@ berthnasol i chi.
 ordinary_nationality_british=Prydeinig
 ordinary_nationality_irish=Gwyddelig
 ordinary_nationality_otherCountry=Dinesydd gwlad arall
-ordinary_nationality_whichCountry=Pa wlad?
+ordinary_nationality_whichCountry=Os ydych yn ddinesydd o wlad arall, nodwch enw'r wlad
+ordinary_nationality_secondCountry=Enw Ail wlad (os oes gennych genedligrwydd deuol)
+ordinary_nationality_thirdCountry=Enw trydedd wlad (os oes gennych 3 genhedloedd)
 ordinary_nationality_country=Gwlad
 ordinary_nationality_removeCountry=Dileu gwlad
 ordinary_nationality_addAnotherCountry=ychwanegu gwlad arall
