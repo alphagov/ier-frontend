@@ -175,7 +175,7 @@
     this.controlName = $(elm).data('controlName');
     this.controlValue = $(elm).data('controlValue');
     this.controlClasses = $(elm).data('controlClasses');
-    this.controlAttributes = $(elm).data('controlAttributes');
+    this.controlAttributes = $(elm).data('controlAttributes').replace(/'/g, '');
     GOVUK.registerToVote.ConditionalControl.apply(this, arguments);
   };
   $.extend(OptionalControl.prototype, ConditionalControl.prototype);
