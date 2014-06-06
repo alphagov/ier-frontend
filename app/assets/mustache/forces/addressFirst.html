@@ -8,7 +8,7 @@
               data-validation-rules="atLeastOneNonEmpty"
               data-validation-children="hasAddressYesLivingThere hasAddressYesNotLivingThere hasAddressNo">
 
-        <label for="{{hasAddressYesLivingThere.id}}" class="selectable binary"  >
+        <label for="{{hasAddressYesLivingThere.id}}" class="selectable"  >
             <input type="radio"
                    id="{{hasAddressYesLivingThere.id}}"
                    name="{{hasAddressYesLivingThere.name}}"
@@ -20,7 +20,7 @@
                    {{{hasAddressYesLivingThere.attributes}}}>
             Yes, and I'm living there now
         </label>
-        <label for="{{hasAddressYesNotLivingThere.id}}" class="selectable binary"  >
+        <label for="{{hasAddressYesNotLivingThere.id}}" class="selectable"  >
             <input type="radio"
                    id="{{hasAddressYesNotLivingThere.id}}"
                    name="{{hasAddressYesNotLivingThere.name}}"
@@ -32,7 +32,7 @@
                    {{{hasAddressYesNotLivingThere.attributes}}}>
             Yes, but I don't live there at the moment
         </label>
-        <label for="{{hasAddressNo.id}}" class="selectable binary"  >
+        <label for="{{hasAddressNo.id}}" class="selectable"  >
             <input type="radio"
                    id="{{hasAddressNo.id}}"
                    name="{{hasAddressNo.name}}"
