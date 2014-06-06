@@ -15,11 +15,11 @@
         </encoder>
     </appender>
 
-    <logger name="uk.gov" level="DEBUG" />
+    <logger name="uk.gov" level="INFO" />
 
     <logger name="mustache" level="ERROR"/>
 
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="FILE"/>
 
         <if condition='${isNotInTestMode}'>
