@@ -38,8 +38,13 @@ trait ExitPageMustache extends StepMustache {
     }
 
     case class NoFranchise(
-        pageTitle: String = "Register to Vote - Sorry, you can’t register to vote"
+      title: Option[String] = None
+    ) (
+      implicit val lang: Lang
     ) extends ExitTemplate("exit/noFranchise")
+      with MessagesForMustache {
+      val pageTitle = title getOrElse Messages("exit_noFranchise_title")
+    }
 
     case class NorthernIreland(
         title: Option[String] = None

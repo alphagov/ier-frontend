@@ -47,6 +47,7 @@ ordinary_nationality_error_pleaseAnswer=Atebwch y cwestiwn hwn
 ordinary_nationality_error_notValid=Nid yw’r wlad honno’n ddilys
 ordinary_nationality_error_noMoreFiveCountries=Gallwch specifiy dim mwy na pum gwlad
 
+
 # ordinary: date of birth
 ordinary_dob_title=Beth yw eich dyddiad geni?
 
@@ -505,6 +506,10 @@ exit_dontKnow_title=Mae angen i chi wybod a ydych yn 18 oed neu'n hŷn
 exit_dontKnow_explanation=Ni allwch gofrestru i bleidleisio oni bai y gallwch gadarnhau eich bod yn 18 oed neu'n hŷn. Os oes anhawster gennych, <a href="https://www.gov.uk/get-on-electoral-register">cysylltwch â'ch Swyddfa Cofrestru Etholiadol</a> leol i gael cyngor.
 
 # No Franchise
+
+exit_nationality_noFranchise_title=Mae'n ddrwg gennym, ni allwch gofrestru i bleidleisio
+exit_nationality_noFranchise_content=I gofrestru i bleidleisio, mae'n rhaid eich bod yn ddinesydd Prydeinig, neu'n ddinesydd yr UE neu'r Gymanwlad sy'n byw yn y DU.
+exit_nationality_noFranchise_moreAboutVoting=Mwy o wybodaeth am bleidleisio yn y DU
 
 # Northern Ireland
 
