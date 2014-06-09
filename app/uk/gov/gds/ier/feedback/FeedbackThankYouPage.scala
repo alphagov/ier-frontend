@@ -5,8 +5,10 @@ import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.logging.Logging
 import play.api.mvc._
 import controllers.routes._
+import uk.gov.gds.ier.config.Config
 
 class FeedbackThankYouPage @Inject ()(
+    val config: Config,
     val remoteAssets: RemoteAssets)
   extends Controller
   with FeedbackForm
@@ -16,7 +18,6 @@ class FeedbackThankYouPage @Inject ()(
   def get(sourcePath: Option[String]) = Action { implicit request =>
     logger.debug(s"GET request for ${request.path}")
     val form = feedbackThankYouGetForm.bindFromRequest()
-    //val sourcePath = form(keys.sourcePath).value.getOrElse("")
     Ok(mustache(
       form,
       FeedbackThankYouController.post,
