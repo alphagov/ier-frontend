@@ -33,7 +33,7 @@ trait FeedbackMustache
         key = keys.feedback.contactEmail
       ),
       sourcePath = HiddenField(
-        key = keys.feedback.sourcePath,
+        key = keys.sourcePath,
         value = form(keys.sourcePath).value.getOrElse("")
       )
     )

@@ -5,6 +5,11 @@
         {{messages.feedback_thankYou_p1}}
     </p>
 
+    <input name="{{sourcePath.name}}"
+           id="{{sourcePath.id}}"
+           type="hidden"
+           value="{{sourcePath.value}}">
+
     <button type="submit" class="button next">{{messages.step_continue}}</button>
 </form>
 {{/returnToTransaction}}

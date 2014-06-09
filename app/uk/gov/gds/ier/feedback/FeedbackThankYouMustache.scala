@@ -7,7 +7,8 @@ trait FeedbackThankYouMustache
 
   case class FeedbackModel (
       question: Question,
-      returnToTransaction: Boolean
+      returnToTransaction: Boolean,
+      sourcePath: Field
   ) extends MustacheData
 
   val mustache = MultilingualTemplate("feedbackThankYou") { implicit lang => (form, post) =>
@@ -20,7 +21,11 @@ trait FeedbackThankYouMustache
         number = "",
         title = Messages("feedback_thankYou_title")
       ),
-      returnToTransaction = !post.url.isEmpty
+      returnToTransaction = !post.url.isEmpty,
+      sourcePath = HiddenField(
+        key = keys.sourcePath,
+        value = form(keys.sourcePath).value.getOrElse("")
+      )
     )
   }
 }

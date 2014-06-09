@@ -8,7 +8,7 @@ trait FeedbackForm {
 
   val feedbackForm = ErrorTransformForm(
     mapping(
-      keys.feedback.sourcePath.key -> text,
+      keys.sourcePath.key -> text,
       keys.feedback.feedbackText.key -> text(0, 1200),
       keys.feedback.contactName.key -> optional(text),
       keys.feedback.contactEmail.key -> optional(text)
@@ -45,4 +45,8 @@ trait FeedbackForm {
       )
     )
   )
+
+  val feedbackThankYouGetForm = feedbackGetForm
+
+  val feedbackThankYouPostForm = feedbackGetForm
 }
