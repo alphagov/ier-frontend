@@ -61,11 +61,11 @@ trait ExitPageMustache extends StepMustache {
     }
 
     case class Under18 (
-      title: Option[String] = None
+        title: Option[String] = None
     ) (
-    implicit val lang: Lang
+        implicit val lang: Lang
     ) extends ExitTemplate("exit/under18")
-    with MessagesForMustache {
+      with MessagesForMustache {
       val pageTitle = title getOrElse Messages("exit_under18_title")
     }
 
