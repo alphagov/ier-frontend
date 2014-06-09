@@ -501,6 +501,8 @@ exit_britishIslands_explanation=Ni allwch chi gofrestru ar-lein os ydych yn byw 
 exit_britishIslands_paperRegistration=Ond mae'n bosib y gallwch gofrestru i bleidleisio yn etholiadau'r DU drwy ddefnyddio ffurflen bapur. Gallwch lawrlwytho a llenwi ffurflen <a href="http://www.aboutmyvote.co.uk/register_to_vote/british_citizens_living_abroad.aspx" rel="external">'Pleidleisiwr Dramor'</a> o'r wefan Fy Mhleidlais I.
 
 # Dont Know
+exit_dontKnow_title=Mae angen i chi wybod a ydych yn 18 oed neu'n hŷn
+exit_dontKnow_explanation=Ni allwch gofrestru i bleidleisio oni bai y gallwch gadarnhau eich bod yn 18 oed neu'n hŷn. Os oes anhawster gennych, <a href="https://www.gov.uk/get-on-electoral-register">cysylltwch â'ch Swyddfa Cofrestru Etholiadol</a> leol i gael cyngor.
 
 # No Franchise
 

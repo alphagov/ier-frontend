@@ -51,7 +51,7 @@ class ExitController @Inject() (
   }
 
   def dontKnow = ClearSession requiredFor {
-    request =>
+    implicit request =>
       Ok(ExitPages.DontKnow())
   }
 

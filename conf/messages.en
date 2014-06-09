@@ -485,6 +485,8 @@ exit_britishIslands_explanation=You can't register online if you live in the Cha
 exit_britishIslands_paperRegistration=But you may be able to register to vote in UK elections using a paper form. Download and complete an <a href="http://www.aboutmyvote.co.uk/register_to_vote/british_citizens_living_abroad.aspx" rel="external">'Overseas voter' form</a> from About my Vote.
 
 # Dont Know
+exit_dontKnow_title=You need to find out whether you're 18 or over
+exit_dontKnow_explanation=You can only register if you're able to confirm that you're 18 or over. If you have trouble, <a href="https://www.gov.uk/get-on-electoral-register">contact your local Electoral Registration Office</a> for advice.
 
 # No Franchise
 
