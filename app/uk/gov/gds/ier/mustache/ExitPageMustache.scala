@@ -1,10 +1,11 @@
 package uk.gov.gds.ier.mustache
 
-import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
 import uk.gov.gds.ier.langs.Messages
 
 trait ExitPageMustache extends StepMustache {
-  self: WithRemoteAssets =>
+  self: WithRemoteAssets
+    with WithConfig =>
 
   object ExitPages {
     abstract class ExitTemplate(template:String) extends Mustachio(template) {
