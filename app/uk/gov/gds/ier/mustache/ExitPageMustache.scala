@@ -28,8 +28,13 @@ trait ExitPageMustache extends StepMustache {
     }
 
     case class DontKnow(
-        pageTitle: String = "Register to Vote - You need to find out whether you're 18 or over"
+      title: Option[String] = None
+    ) (
+      implicit val lang: Lang
     ) extends ExitTemplate("exit/dontKnow")
+    with MessagesForMustache {
+      val pageTitle = title getOrElse Messages("exit_dontKnow_title")
+    }
 
     case class NoFranchise(
         pageTitle: String = "Register to Vote - Sorry, you can’t register to vote"
