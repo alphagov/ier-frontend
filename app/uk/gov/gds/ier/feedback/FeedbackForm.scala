@@ -2,6 +2,7 @@ package uk.gov.gds.ier.feedback
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys}
 import play.api.data.Forms._
+import play.api.data.validation._
 
 trait FeedbackForm {
   self: FormKeys =>
@@ -36,7 +37,7 @@ trait FeedbackForm {
         request.contactName,
         request.contactName
       )
-    )
+    ).verifying(feedbackTextCannotBeEmpty)
   )
 
   val feedbackGetForm = ErrorTransformForm(
@@ -55,6 +56,12 @@ trait FeedbackForm {
       )
     )
   )
+
+  lazy val feedbackTextCannotBeEmpty = Constraint[FeedbackRequest] {
+    feedbackRequest: FeedbackRequest =>
+      if (feedbackRequest.comment.trim.isEmpty) Invalid("Feedback text cannot be empty")
+      else Valid
+  }
 
   val feedbackThankYouGetForm = feedbackGetForm
 
