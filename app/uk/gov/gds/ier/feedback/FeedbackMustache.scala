@@ -3,14 +3,17 @@ package uk.gov.gds.ier.feedback
 import uk.gov.gds.ier.step.StepTemplate
 
 trait FeedbackMustache
-  extends StepTemplate[FeedbackRequest] {
+  extends StepTemplate[FeedbackRequest] with FeedbackForm {
 
   case class FeedbackModel (
       question: Question,
       feedbackText: Field,
       contactName: Field,
       contactEmail: Field,
-      sourcePath: Field
+      sourcePath: Field,
+      maxFeedbackCommentLength: Int,
+      maxFeedbackNameLength: Int,
+      maxFeedbackEmailLength: Int
   ) extends MustacheData
 
   val mustache = MultilingualTemplate("feedbackForm") { implicit lang => (form, post) =>
@@ -35,7 +38,10 @@ trait FeedbackMustache
       sourcePath = HiddenField(
         key = keys.sourcePath,
         value = form(keys.sourcePath).value.getOrElse("")
-      )
+      ),
+      maxFeedbackCommentLength = maxFeedbackCommentLength,
+      maxFeedbackNameLength = maxFeedbackNameLength,
+      maxFeedbackEmailLength = maxFeedbackEmailLength
     )
   }
 }

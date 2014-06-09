@@ -6,12 +6,22 @@ import play.api.data.Forms._
 trait FeedbackForm {
   self: FormKeys =>
 
+  // this is out limit, it works well with Zendesk, not sure what is the real limit
+  // also count with some space for appended contact and browser details
+  val maxFeedbackCommentLength = 1200
+
+  // another arbitrary limit
+  val maxFeedbackNameLength = 100
+
+  // see: http://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
+  val maxFeedbackEmailLength = 254
+
   val feedbackForm = ErrorTransformForm(
     mapping(
       keys.sourcePath.key -> text,
-      keys.feedback.feedbackText.key -> text(0, 1200),
-      keys.feedback.contactName.key -> optional(text),
-      keys.feedback.contactEmail.key -> optional(text)
+      keys.feedback.feedbackText.key -> text(0, maxFeedbackCommentLength),
+      keys.feedback.contactName.key -> optional(text(0, maxFeedbackNameLength)),
+      keys.feedback.contactEmail.key -> optional(text(0, maxFeedbackEmailLength))
     ) (
       (sourcePath, comment, contactName, contactEmail) => FeedbackRequest(
         sourcePath = sourcePath,
