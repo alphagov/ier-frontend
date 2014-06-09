@@ -13,7 +13,6 @@ EOF
 thisDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$thisDir"
 
-IER=/Users/tombyers/Documents/repos/govuk/ier-frontend
 INPUT=$thisDir/../app/assets/stylesheets
 OUTPUT=$thisDir/../target/scala-2.10/resource_managed/main/public/stylesheets
 TOOLKIT=$thisDir/../app/assets/govuk_frontend_toolkit/stylesheets
