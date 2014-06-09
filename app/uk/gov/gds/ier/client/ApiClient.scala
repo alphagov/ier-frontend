@@ -104,7 +104,7 @@ trait ApiClient extends Logging {
         .map {
           // we are not really interested in response, just log it
           response => response.status match {
-            case IsSuccessStatusCode(statusCode) =>
+            case IsSuccessStatusCode(true) =>
               logger.info(s"apiClient.post url: $url request succeed " +
                 s"with status code ${response.status}")
             case _ =>
