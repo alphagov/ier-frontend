@@ -56,7 +56,7 @@ class ExitController @Inject() (
   }
 
   def noFranchise = ClearSession requiredFor {
-    request =>
+    implicit request =>
       Ok(ExitPages.NoFranchise())
   }
 

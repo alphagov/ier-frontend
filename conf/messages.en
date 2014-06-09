@@ -488,6 +488,10 @@ exit_britishIslands_paperRegistration=But you may be able to register to vote in
 
 # No Franchise
 
+exit_nationality_noFranchise_title=Sorry, you can’t register to vote
+exit_nationality_noFranchise_content=To register to vote you have to be British, or an EU or Commonwealth citizen living in the UK.
+exit_nationality_noFranchise_moreAboutVoting=More about voting in the UK
+
 # Northern Ireland
 
 exit_northernIreland_title=Voter canvass form for Northern Ireland
