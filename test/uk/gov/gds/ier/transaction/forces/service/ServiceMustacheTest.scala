@@ -4,7 +4,7 @@ import scala.Some
 import controllers.step.forces.routes._
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
@@ -15,6 +15,7 @@ class ServiceMustacheTest
   with ErrorMessages
   with FormKeys
   with TestHelpers
+  with WithMockConfig
   with WithMockRemoteAssets
   with ServiceMustache {
 

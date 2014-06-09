@@ -6,13 +6,14 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.overseas.passport.PassportDetailsMustache
 import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.test.WithMockRemoteAssets
+import uk.gov.gds.ier.test._
 
 class PassportDetailsTemplateTest
   extends FlatSpec
   with PassportDetailsMustache
   with StepMustache
   with WithMockRemoteAssets
+  with WithMockConfig
   with Matchers {
 
   val data = new PassportDetailsModel(

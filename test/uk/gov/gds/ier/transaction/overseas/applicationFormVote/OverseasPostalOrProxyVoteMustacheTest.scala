@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.overseas.applicationFormVote
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
+import uk.gov.gds.ier.test._
 import scala.Some
 import controllers.step.overseas.routes._
 import uk.gov.gds.ier.model.{
@@ -19,6 +19,7 @@ class OverseasPostalOrProxyVoteMustacheTest
   with PostalOrProxyVoteMustache
   with ErrorMessages
   with FormKeys
+  with WithMockConfig
   with WithMockRemoteAssets
   with TestHelpers {
 

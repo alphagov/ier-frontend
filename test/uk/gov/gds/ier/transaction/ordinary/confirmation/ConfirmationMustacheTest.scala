@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.ordinary.confirmation
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.test.{WithMockRemoteAssets, WithMockAddressService, TestHelpers}
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.Name
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
@@ -18,6 +18,7 @@ class ConfirmationMustacheTest
   with ErrorMessages
   with FormKeys
   with TestHelpers
+  with WithMockConfig
   with WithMockRemoteAssets
   with WithMockAddressService
   with ConfirmationMustache {

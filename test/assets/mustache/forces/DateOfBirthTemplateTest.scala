@@ -6,12 +6,13 @@ import org.jsoup.Jsoup
 import play.api.test.Helpers._
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.forces.dateOfBirth.DateOfBirthMustache
-import uk.gov.gds.ier.test.WithMockRemoteAssets
+import uk.gov.gds.ier.test._
 
 class DateOfBirthTemplateTest
   extends FlatSpec
   with DateOfBirthMustache
   with StepMustache
+  with WithMockConfig
   with WithMockRemoteAssets
   with Matchers {
 

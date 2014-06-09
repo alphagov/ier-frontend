@@ -5,7 +5,7 @@ import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import play.api.libs.json.Json
-import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
+import uk.gov.gds.ier.test._
 import controllers.step.crown.routes._
 import scala.Some
 import play.api.templates.Html
@@ -18,6 +18,7 @@ class NinoMustacheTests
   with WithSerialiser
   with ErrorMessages
   with FormKeys
+  with WithMockConfig
   with WithMockRemoteAssets
   with TestHelpers {
 

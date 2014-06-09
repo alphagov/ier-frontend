@@ -7,8 +7,7 @@ import play.api.test.Helpers._
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.crown.confirmation.ConfirmationMustache
 import uk.gov.gds.ier.transaction.shared.BlockContent
-import uk.gov.gds.ier.test.WithMockAddressService
-import uk.gov.gds.ier.test.WithMockRemoteAssets
+import uk.gov.gds.ier.test._
 
 class ConfirmationTemplateTests
   extends FlatSpec
@@ -16,6 +15,7 @@ class ConfirmationTemplateTests
   with StepMustache
   with Matchers
   with WithMockAddressService
+  with WithMockConfig
   with WithMockRemoteAssets {
 
   it should "not render the partners details block if displayPartnerBlock = false" in {

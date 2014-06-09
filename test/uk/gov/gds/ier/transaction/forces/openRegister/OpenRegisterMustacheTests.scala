@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.forces.openRegister
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
+import uk.gov.gds.ier.test._
 import scala.Some
 import controllers.step.forces.routes._
 import uk.gov.gds.ier.transaction.forces.InprogressForces
@@ -14,6 +14,7 @@ class OpenRegisterMustacheTests
   with ErrorMessages
   with FormKeys
   with TestHelpers
+  with WithMockConfig
   with WithMockRemoteAssets
   with OpenRegisterMustache {
 

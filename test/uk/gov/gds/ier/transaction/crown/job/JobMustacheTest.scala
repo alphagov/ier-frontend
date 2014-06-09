@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.crown.job
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.{Job}
 import scala.Some
 import controllers.step.crown.routes._
@@ -15,6 +15,7 @@ class JobMustacheTest
   with ErrorMessages
   with FormKeys
   with TestHelpers
+  with WithMockConfig
   with WithMockRemoteAssets
   with JobMustache {
 

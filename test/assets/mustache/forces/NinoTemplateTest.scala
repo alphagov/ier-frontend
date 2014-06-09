@@ -6,12 +6,13 @@ import org.jsoup.Jsoup
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.forces.nino.NinoMustache
 import org.jba.Mustache
-import uk.gov.gds.ier.test.WithMockRemoteAssets
+import uk.gov.gds.ier.test._
 
 
 class NinoTemplateTest
   extends FlatSpec
   with NinoMustache
+  with WithMockConfig
   with WithMockRemoteAssets
   with Matchers {
 

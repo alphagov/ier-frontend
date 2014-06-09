@@ -7,7 +7,7 @@ import play.api.test.Helpers._
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.ordinary.address.AddressManualMustache
-import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
+import uk.gov.gds.ier.test._
 
 class AddressManualTemplateTest
   extends FlatSpec
@@ -16,6 +16,7 @@ class AddressManualTemplateTest
   with Matchers
   with WithSerialiser
   with WithMockRemoteAssets
+  with WithMockConfig
   with TestHelpers {
 
   val serialiser = jsonSerialiser

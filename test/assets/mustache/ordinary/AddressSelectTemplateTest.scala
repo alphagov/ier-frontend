@@ -9,7 +9,7 @@ import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.ordinary.address.AddressSelectMustache
-import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
+import uk.gov.gds.ier.test._
 
 class AddressSelectTemplateTest
   extends FlatSpec
@@ -17,6 +17,7 @@ class AddressSelectTemplateTest
   with StepMustache
   with MockitoSugar
   with Matchers
+  with WithMockConfig
   with WithMockRemoteAssets
   with WithSerialiser
   with TestHelpers {

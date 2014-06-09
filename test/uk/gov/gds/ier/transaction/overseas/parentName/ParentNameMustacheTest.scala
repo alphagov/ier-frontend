@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.overseas.parentName
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.model.OverseasParentName
 import uk.gov.gds.ier.model.Name
@@ -22,6 +22,7 @@ class ParentNameMustacheTest
   with ParentNameMustache
   with ErrorMessages
   with FormKeys
+  with WithMockConfig
   with WithMockRemoteAssets
   with TestHelpers {
 

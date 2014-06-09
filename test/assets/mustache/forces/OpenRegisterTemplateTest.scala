@@ -6,11 +6,12 @@ import org.jsoup.Jsoup
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.forces.openRegister.OpenRegisterMustache
 import org.jba.Mustache
-import uk.gov.gds.ier.test.WithMockRemoteAssets
+import uk.gov.gds.ier.test._
 
 class OpenRegisterTemplateTest
   extends FlatSpec
   with OpenRegisterMustache
+  with WithMockConfig
   with WithMockRemoteAssets
   with Matchers {
 

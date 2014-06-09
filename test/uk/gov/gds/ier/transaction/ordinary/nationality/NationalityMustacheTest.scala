@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.ordinary.nationality
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
+import uk.gov.gds.ier.test._
 import scala.Some
 import controllers.step.ordinary.routes._
 import controllers.step.routes._
@@ -16,6 +16,7 @@ class NationalityMustacheTest
   with ErrorMessages
   with FormKeys
   with TestHelpers
+  with WithMockConfig
   with WithMockRemoteAssets
   with NationalityMustache {
 

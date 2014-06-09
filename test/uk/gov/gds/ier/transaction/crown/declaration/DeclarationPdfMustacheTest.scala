@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.crown.declaration
 
 import org.scalatest.{GivenWhenThen, Matchers, FlatSpec}
-import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import controllers.step.crown.routes._
 import uk.gov.gds.ier.service.{DeclarationPdfDownloadService, WithDeclarationPdfDownloadService}
@@ -19,6 +19,7 @@ class DeclarationPdfMustacheTest
   with DeclarationPdfMustache
   with WithSerialiser
   with WithDeclarationPdfDownloadService
+  with WithMockConfig
   with WithMockRemoteAssets {
 
   val declarationPdfDownloadService = mock[DeclarationPdfDownloadService]
