@@ -13,7 +13,8 @@ trait FeedbackMustache
       sourcePath: Field,
       maxFeedbackCommentLength: Int,
       maxFeedbackNameLength: Int,
-      maxFeedbackEmailLength: Int
+      maxFeedbackEmailLength: Int,
+      feedbackDetailHint: String
   ) extends MustacheData
 
   val mustache = MultilingualTemplate("feedbackForm") { implicit lang => (form, post) =>
@@ -41,7 +42,8 @@ trait FeedbackMustache
       ),
       maxFeedbackCommentLength = maxFeedbackCommentLength,
       maxFeedbackNameLength = maxFeedbackNameLength,
-      maxFeedbackEmailLength = maxFeedbackEmailLength
+      maxFeedbackEmailLength = maxFeedbackEmailLength,
+      feedbackDetailHint = Messages("feedback_detail_hint", maxFeedbackCommentLength)
     )
   }
 }

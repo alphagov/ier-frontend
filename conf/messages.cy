@@ -548,7 +548,7 @@ feedback_description_p1=For example if you were searching for something, what di
 feedback_warning_p2=Please don't include any personal or financial information,\
  for example your National Insurance or credit card numbers.
 feedback_detail_label=Detail
-feedback_detail_hint=(Limit is 1200 characters)
+feedback_detail_hint=(Limit is {0} characters)
 feedback_contact_h2=Do you want a reply?
 feedback_contact_descr_p1=If you'd like us to get back to you, please leave your details below.
 feedback_submit=Submit
