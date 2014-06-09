@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.crown.waysToVote
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
@@ -16,6 +16,7 @@ class WayToVoteMustacheTest
   with ErrorMessages
   with FormKeys
   with TestHelpers
+  with WithMockConfig
   with WithMockRemoteAssets
   with WaysToVoteMustache {
 

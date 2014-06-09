@@ -6,17 +6,20 @@ import play.api.test.Helpers._
 import org.jsoup.Jsoup
 import uk.gov.gds.ier.mustache.StepMustache
 import org.specs2.mock.Mockito
-import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
 import uk.gov.gds.ier.assets.RemoteAssets
+import uk.gov.gds.ier.config.Config
 
 class ContactTemplateTest
   extends FlatSpec
   with StepMustache
   with Matchers
   with Mockito
+  with WithConfig
   with WithRemoteAssets {
 
   val remoteAssets = mock[RemoteAssets]
+  val config = mock[Config]
 
   case class Model(
     contactFieldSet: FieldSet,

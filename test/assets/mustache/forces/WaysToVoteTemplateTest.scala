@@ -6,7 +6,7 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.forces.waysToVote.WaysToVoteMustache
 import org.jba.Mustache
-import uk.gov.gds.ier.test.WithMockRemoteAssets
+import uk.gov.gds.ier.test._
 
 /**
  * Test rendering of Mustache template from given model
@@ -15,6 +15,7 @@ class WaysToVoteTemplateTest
   extends FlatSpec
   with WaysToVoteMustache
   with WithMockRemoteAssets
+  with WithMockConfig
   with Matchers {
 
   it should "properly render all properties from the model" in {

@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.crown.address
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.validation.ErrorTransformForm
@@ -16,6 +16,7 @@ class AddressManualMustacheTests
   with ErrorMessages
   with WithSerialiser
   with WithMockRemoteAssets
+  with WithMockConfig
   with FormKeys
   with TestHelpers {
 

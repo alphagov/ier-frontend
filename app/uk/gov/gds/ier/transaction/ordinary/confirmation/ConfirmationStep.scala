@@ -10,7 +10,6 @@ import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{ConfirmationStepController, Routes}
-import controllers.routes.RegisterToVoteController
 import uk.gov.gds.ier.service.apiservice.IerApiService
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.assets.RemoteAssets
@@ -87,7 +86,7 @@ class ConfirmationStep @Inject ()(
             "localAuthority" -> serialiser.toJson(response.localAuthority),
             "hasOtherAddress" -> validApplication.otherAddress.map(
               _.otherAddressOption.hasOtherAddress.toString).getOrElse(""),
-            "backToStartUrl" -> RegisterToVoteController.registerToVote.url.toString
+            "backToStartUrl" -> config.ordinaryStartUrl
           )
         }
       )

@@ -1,14 +1,15 @@
 package uk.gov.gds.ier.mustache
 
 import play.api.templates.Html
-import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
 import play.api.http.{ContentTypeOf, MimeTypes}
 import play.api.mvc.Content
 import uk.gov.gds.ier.langs.Language
 import play.api.mvc.Request
 
 trait StepMustache extends MustacheModel {
-  self: WithRemoteAssets =>
+  self: WithRemoteAssets
+    with WithConfig =>
 
   def Mustache = org.jba.Mustache
   type MessagesForMustache = uk.gov.gds.ier.langs.MessagesForMustache
@@ -87,7 +88,9 @@ trait StepMustache extends MustacheModel {
     privacyUrl: String = controllers.routes.RegisterToVoteController.privacy.url
   ) extends Mustachio("template/footerLinks")
 
-  case class PropositionHeader() extends Mustachio("template/propositionHeader")
+  case class PropositionHeader(
+      startUrl: String = config.ordinaryStartUrl
+  ) extends Mustachio("template/propositionHeader")
 
   case class StepBodyEnd(
       assetPath: String = remoteAssets.assetsPath,

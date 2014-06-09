@@ -4,10 +4,11 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.templates.Html
 import play.api.mvc.Call
 import uk.gov.gds.ier.langs.Language
-import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
 
 trait MustacheRendering[T] extends StepMustache {
-  self: WithRemoteAssets =>
+  self: WithRemoteAssets
+    with WithConfig =>
 
   class MustacheRenderer(
       template: MustacheTemplate[T],

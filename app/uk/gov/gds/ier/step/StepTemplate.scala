@@ -4,12 +4,13 @@ import uk.gov.gds.ier.mustache.{
   MustacheModel,
   MustacheTemplateFactories,
   MustacheRendering}
-import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
 
 trait StepTemplate[T]
     extends MustacheModel
     with MustacheTemplateFactories[T]
     with MustacheRendering[T]
+    with WithConfig
     with WithRemoteAssets {
 
   type Call = play.api.mvc.Call

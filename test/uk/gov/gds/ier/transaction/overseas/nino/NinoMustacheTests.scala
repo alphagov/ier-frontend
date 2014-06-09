@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.overseas.nino
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
+import uk.gov.gds.ier.test._
 import scala.Some
 import uk.gov.gds.ier.model.Nino
 import controllers.step.overseas.routes._
@@ -15,6 +15,7 @@ class NinoMustacheTests
   with NinoMustache
   with ErrorMessages
   with FormKeys
+  with WithMockConfig
   with WithMockRemoteAssets
   with TestHelpers {
 

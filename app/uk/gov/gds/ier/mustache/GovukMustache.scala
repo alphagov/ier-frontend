@@ -1,11 +1,12 @@
 package uk.gov.gds.ier.mustache
 
 import controllers.routes.RegisterToVoteController
-import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
 import play.api.templates.Html
 
 trait GovukMustache extends StepMustache {
-  self: WithRemoteAssets =>
+  self: WithRemoteAssets
+    with WithConfig =>
 
   object Govuk {
 
@@ -47,9 +48,9 @@ trait GovukMustache extends StepMustache {
   object RegisterToVote {
     trait GovukUrls {
       val startUrl:String
-      val registerToVoteUrl:String = RegisterToVoteController.registerToVote.url
-      val registerArmedForcesUrl:String = RegisterToVoteController.registerToVoteForces.url
-      val registerCrownServantUrl:String = RegisterToVoteController.registerToVoteCrown.url
+      val registerToVoteUrl:String = config.ordinaryStartUrl
+      val registerArmedForcesUrl:String = config.forcesStartUrl
+      val registerCrownServantUrl:String = config.crownStartUrl
     }
 
     case class ForcesStartPage(

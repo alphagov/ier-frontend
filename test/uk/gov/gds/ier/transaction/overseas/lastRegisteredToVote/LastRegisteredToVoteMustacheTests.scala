@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.overseas.lastRegisteredToVote
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class LastRegisteredToVoteMustacheTests
@@ -11,6 +11,7 @@ class LastRegisteredToVoteMustacheTests
   with ErrorMessages
   with FormKeys
   with TestHelpers
+  with WithMockConfig
   with WithMockRemoteAssets
   with LastRegisteredToVoteForms
   with LastRegisteredToVoteMustache {

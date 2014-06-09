@@ -1,21 +1,25 @@
 package uk.gov.gds.ier.transaction.complete
 
 import uk.gov.gds.ier.mustache.{StepMustache, GovukMustache}
-import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
 import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 import uk.gov.gds.ier.langs.Messages
 import play.api.i18n.Lang
 
 trait CompleteMustache {
-  self: WithRemoteAssets =>
+  self: WithRemoteAssets
+    with WithConfig =>
 
+  val _config = config
   val _remoteAssets = remoteAssets
 
   object Complete
     extends StepMustache
     with GovukMustache
-    with WithRemoteAssets {
+    with WithRemoteAssets
+    with WithConfig {
 
+    val config = _config
     val remoteAssets = _remoteAssets
 
     case class CompletePage (

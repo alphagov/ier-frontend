@@ -6,7 +6,7 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.overseas.lastRegisteredToVote.LastRegisteredToVoteMustache
-import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.mustache.StepMustache
 
 class LastRegisteredToVoteTemplateTest
@@ -16,6 +16,7 @@ class LastRegisteredToVoteTemplateTest
   with Matchers
   with WithSerialiser
   with WithMockRemoteAssets
+  with WithMockConfig
   with TestHelpers {
 
   val serialiser = jsonSerialiser

@@ -6,7 +6,7 @@ import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.crown.waysToVote.WaysToVoteMustache
-import uk.gov.gds.ier.test.WithMockRemoteAssets
+import uk.gov.gds.ier.test._
 
 /**
  * Test rendering of Mustache template from given model
@@ -15,6 +15,7 @@ class WaysToVoteTemplateTest
   extends FlatSpec
   with StepMustache
   with WaysToVoteMustache
+  with WithMockConfig
   with WithMockRemoteAssets
   with Matchers {
 

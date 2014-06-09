@@ -27,6 +27,10 @@ class Config extends Logging {
 
   def assetsPath = configuration.getString("assets.path")
 
+  def ordinaryStartUrl = configuration.getString("ier.start.ordinary")
+  def crownStartUrl = configuration.getString("ier.start.crown")
+  def forcesStartUrl = configuration.getString("ier.start.forces")
+
   def logConfiguration() = {
     logger.debug(s"apiTimeout:$apiTimeout")
     logger.debug(s"locateUrl:$locateUrl")

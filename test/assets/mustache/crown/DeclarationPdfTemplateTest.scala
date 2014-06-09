@@ -9,7 +9,7 @@ import play.api.test.FakeApplication
 import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
 import org.scalatest.mock.MockitoSugar
 import uk.gov.gds.ier.service.{DeclarationPdfDownloadService, WithDeclarationPdfDownloadService}
-import uk.gov.gds.ier.test.WithMockRemoteAssets
+import uk.gov.gds.ier.test._
 
 /**
  * Test rendering of Mustache template from given model
@@ -21,6 +21,7 @@ class DeclarationPdfTemplateTest
   with WithSerialiser
   with WithDeclarationPdfDownloadService
   with DeclarationPdfMustache
+  with WithMockConfig
   with WithMockRemoteAssets
   with Matchers {
 

@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.overseas.address
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.test.{WithMockRemoteAssets, TestHelpers}
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.OverseasAddress
 import play.api.mvc.Call
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
@@ -21,6 +21,7 @@ class AddressMustacheTest
   with AddressMustache
   with ErrorMessages
   with FormKeys
+  with WithMockConfig
   with WithMockRemoteAssets
   with TestHelpers {
 
