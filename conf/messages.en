@@ -507,6 +507,9 @@ exit_scotland_registrationForm=registration form
 exit_scotland_from=from About My Vote.
 
 # Under 18
+exit_under18_title=You need to find out your date of birth
+exit_under18_explanation=If you're under 18, you have to provide a date of birth before you can register to vote.
+exit_under18_tryToFindDOBOut=Try to find out your date of birth. If you have trouble, <a href="https://www.gov.uk/get-on-electoral-register">contact your local Electoral Registration Office</a> for advice.
 
 # Left Service
 

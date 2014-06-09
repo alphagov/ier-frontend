@@ -523,6 +523,9 @@ exit_scotland_registrationForm=ffurflen gofrestru
 exit_scotland_from=o'r wefan Fy Mhleidlais I.
 
 # Under 18
+exit_under18_title=Angen i chi gael gwybod eich dyddiad geni
+exit_under18_explanation=Ni allwch gofrestru i bleidleisio oni bai y gallwch gadarnhau eich bod yn 18 oed neu'n hŷn.
+exit_under18_tryToFindDOBOut=Ceisiwch ddarganfod eich dyddiad geni. Os ydych yn cael trafferth, <a href="https://www.gov.uk/get-on-electoral-register">cysylltwch â'ch Swyddfa Cofrestru Etholiadol</a> lleol am gyngor.
 
 # Left Service
 
