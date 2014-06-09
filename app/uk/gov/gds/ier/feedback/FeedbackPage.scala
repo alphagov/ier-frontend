@@ -45,7 +45,7 @@ class FeedbackPage @Inject ()(
       hasErrors => {
         logger.debug(s"Form binding error: ${hasErrors}")
         val sourcePath = hasErrors(keys.sourcePath).value
-        Redirect(FeedbackThankYouController.get(sourcePath.getOrElse("")))
+        Redirect(FeedbackThankYouController.get(sourcePath))
       },
       success => {
         logger.debug(s"Form binding successful, proceed with submitting feedback")

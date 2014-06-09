@@ -21,7 +21,7 @@ trait FeedbackThankYouMustache
         number = "",
         title = Messages("feedback_thankYou_title")
       ),
-      returnToTransaction = !post.url.isEmpty,
+      returnToTransaction = form(keys.sourcePath).value.isDefined,
       sourcePath = HiddenField(
         key = keys.sourcePath,
         value = form(keys.sourcePath).value.getOrElse("")

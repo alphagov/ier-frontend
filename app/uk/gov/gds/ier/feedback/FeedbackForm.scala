@@ -19,7 +19,7 @@ trait FeedbackForm {
 
   val feedbackForm = ErrorTransformForm(
     mapping(
-      keys.sourcePath.key -> text,
+      keys.sourcePath.key -> optional(text),
       keys.feedback.feedbackText.key -> text(0, maxFeedbackCommentLength),
       keys.feedback.contactName.key -> optional(text(0, maxFeedbackNameLength)),
       keys.feedback.contactEmail.key -> optional(text(0, maxFeedbackEmailLength))
@@ -42,7 +42,7 @@ trait FeedbackForm {
 
   val feedbackGetForm = ErrorTransformForm(
     mapping(
-      "sourcePath" -> text
+      "sourcePath" -> optional(text)
     ) (
       (sourcePath) => FeedbackRequest(
         sourcePath = sourcePath,
@@ -51,9 +51,8 @@ trait FeedbackForm {
         contactEmail = None
       )
     ) (
-      request => Some(
-        request.sourcePath
-      )
+      request =>
+        Some(request.sourcePath)
     )
   )
 

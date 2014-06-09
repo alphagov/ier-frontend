@@ -13,10 +13,10 @@ class FeedbackThankYouPage @Inject ()(
   with FeedbackThankYouMustache
   with Logging {
 
-  def get(sourcePath: String) = Action { implicit request =>
+  def get(sourcePath: Option[String]) = Action { implicit request =>
     logger.debug(s"GET request for ${request.path}")
     val form = feedbackThankYouGetForm.bindFromRequest()
-    val sourcePath = form(keys.sourcePath).value.getOrElse("")
+    //val sourcePath = form(keys.sourcePath).value.getOrElse("")
     Ok(mustache(
       form,
       FeedbackThankYouController.post,
@@ -30,11 +30,17 @@ class FeedbackThankYouPage @Inject ()(
       hasErrors => {
         logger.debug(s"Form binding error on FeedbackThankYouPage, returning back to GET")
         val sourcePath = hasErrors(keys.sourcePath).value
-        Redirect(FeedbackThankYouController.get(sourcePath.getOrElse("")))
+        Redirect(FeedbackThankYouController.get(sourcePath))
       },
       success => {
-        logger.debug(s"Return to transaction to ${success.sourcePath}")
-        Redirect(success.sourcePath)
+        if (success.sourcePath.isDefined) {
+          logger.debug(s"Return to transaction to ${success.sourcePath}")
+          Redirect(success.sourcePath.get)
+        } else {
+          // in reality should not get here, exit variant of ThankYou page does not have a submit button
+          logger.debug(s"No sourcePath, returning back to GET")
+          Redirect(FeedbackThankYouController.get(None))
+        }
       }
     )
   }
