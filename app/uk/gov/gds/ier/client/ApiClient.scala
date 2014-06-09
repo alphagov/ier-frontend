@@ -103,11 +103,20 @@ trait ApiClient extends Logging {
         .post(content)
         .map {
           // we are not really interested in response, just log it
-          // TODO: capture error (status != 200) and log it as error
-          response => logger.info(
-            s"WS response status: ${response.status}" +
-            s"body: ${response.body}")
+          response => response.status match {
+            case IsSuccessStatusCode(statusCode) =>
+              logger.info(s"apiClient.post url: $url request succeed " +
+                s"with status code ${response.status}")
+            case _ =>
+              logger.error(s"apiClient.post url: $url request failed " +
+                s"with error status code ${response.status}")
+          }
         }
-    logger.info(s"apiClient.get url: $url request submitted")
+    logger.info(s"apiClient.post url: $url request submitted")
+  }
+
+  object IsSuccessStatusCode {
+    val successStatusCodes =  Set(200, 201, 202)
+    def unapply(statusCode: Int) = Option(statusCode).map { c => successStatusCodes.contains(c) }
   }
 }

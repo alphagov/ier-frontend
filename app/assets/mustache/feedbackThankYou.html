@@ -1,4 +1,4 @@
-{{#returnToProgress}}
+{{#returnToTransaction}}
 <form action="{{question.postUrl}}" method="POST">
     {{> shared/questionHeader }}
     <p>
@@ -7,7 +7,7 @@
 
     <button type="submit" class="button next">{{messages.step_continue}}</button>
 </form>
-{{/returnToProgress}}
-{{^returnToProgress}}
+{{/returnToTransaction}}
+{{^returnToTransaction}}
 {{> shared/questionHeader }}
-{{/returnToProgress}}
+{{/returnToTransaction}}

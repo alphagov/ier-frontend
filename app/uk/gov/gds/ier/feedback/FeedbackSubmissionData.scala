@@ -18,9 +18,9 @@ case class FeedbackComment (
 )
 
 object FeedbackSubmissionData {
-  def apply(text: String): FeedbackSubmissionData = {
+  def apply(subject: String, text: String): FeedbackSubmissionData = {
     FeedbackSubmissionData(FeedbackTicket(
-      subject = "ier-frontend-feedback page",
+      subject = subject,
       comment = FeedbackComment(
         body = text
       )

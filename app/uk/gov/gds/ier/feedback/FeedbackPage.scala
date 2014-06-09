@@ -15,16 +15,17 @@ class FeedbackPage @Inject ()(
     val config: Config,
     val encryptionService: EncryptionService,
     val remoteAssets: RemoteAssets,
-    val feedbackClient: FeedbackClient
-) extends Controller
+    val feedbackClient: FeedbackClient)
+  extends Controller
   with FeedbackForm
   with FeedbackMustache
-  with Logging
-{
+  with Logging {
 
   val validation = feedbackForm
 
   val postRoute = FeedbackController.post
+
+  val fixedTicketSubject = "ier-frontend-feedback page"
 
   def get() = Action { implicit request =>
     logger.debug(s"GET request for ${request.path}")
@@ -48,17 +49,41 @@ class FeedbackPage @Inject ()(
       },
       success => {
         logger.debug(s"Form binding successful, proceed with submitting feedback")
+        val browserDetails = getBrowserAndOsDetailsIfPresent(request)
         feedbackClient.submit(
-          FeedbackSubmissionData(List(
-            success.comment,
-            success.contactName map {
-              name => s"contact name ${name}"} getOrElse("No contact name provided"),
-            success.contactEmail map {
-              email => s"contact email ${email}"} getOrElse("No contact email provided")
-          ).mkString("\n")))
+          FeedbackSubmissionData(
+            fixedTicketSubject,
+            fudgeTicketBodyText(success, browserDetails)
+          )
+        )
         Redirect(FeedbackThankYouController.get(success.sourcePath))
       }
     )
+  }
+
+  private[feedback] def getBrowserAndOsDetailsIfPresent(request: Request[_]) = {
+    request.headers.get("user-agent")
+  }
+
+  val separatorBetweenCommentAndAppendedFields = "\n"
+
+  /**
+   * Append contact and browser details to a ticket body text as there are no proper fields for
+   * them in Zendesk API and it is common practice
+   */
+  private[feedback] def fudgeTicketBodyText(
+      request: FeedbackRequest,
+      browserDetails: Option[String]) = {
+    List(
+      request.comment,
+      separatorBetweenCommentAndAppendedFields,
+      request.contactName map {
+        name => s"Contact name: ${name}"} getOrElse("No contact name was provided"),
+      request.contactEmail map {
+        email => s"Contact email: ${email}"} getOrElse("No contact email was provided"),
+      browserDetails map {
+        details => s"Browser details: ${details}"} getOrElse("No browser details were provided")
+    ).mkString("\n")
   }
 }
 
