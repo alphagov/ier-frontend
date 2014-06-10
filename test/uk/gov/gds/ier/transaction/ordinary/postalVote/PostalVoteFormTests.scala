@@ -162,4 +162,27 @@ class PostalVoteFormTests
       success => fail("Should have thrown an error")
     )
   }
+
+  it should "ignore a malformed email if other deliveryMethod is chosen" in {
+    val js = Json.toJson(
+      Map(
+        "postalVote.optIn" -> "true",
+        "postalVote.deliveryMethod.methodName" -> "post",
+        "postalVote.deliveryMethod.emailAddress" -> "malformedEmail"
+      )
+    )
+    postalVoteForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(", ")),
+      success => {
+        val Some(postalVote) = success.postalVote
+
+        postalVote.postalVoteOption should be(Some(true))
+        val Some(deliveryMethod) = postalVote.deliveryMethod
+        deliveryMethod should have(
+          'deliveryMethod (Some("post")),
+          'emailAddress (None)
+        )
+      }
+    )
+  }
 }

@@ -29,7 +29,13 @@ object PostalVoteDeliveryMethod extends ModelMapping {
     keys.methodName.key -> optional(nonEmptyText),
     keys.emailAddress.key -> optional(nonEmptyText)
   )(
-    PostalVoteDeliveryMethod.apply
+    (method, email) => PostalVoteDeliveryMethod(
+      deliveryMethod = method,
+      emailAddress = method match {
+        case Some("email") => email
+        case _ => None
+      }
+    )
   )(
     PostalVoteDeliveryMethod.unapply
   )
