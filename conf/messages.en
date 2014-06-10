@@ -171,8 +171,8 @@ ordinary_address_postcode_ifYouAreLongTermPatient_p=If you’re a long term pati
 ordinary_address_postcode_ifYouArePrisoner_p=If you’re a prisoner on long term remand, use the address of the prison.
 
 ordinary_address_postcode_ifYouCantProvideAddress_h4=If you can’t provide an address
-ordinary_address_postcode_ifYouCannotProvideAddress_p=If you can’t provide an address, contact [your local\
- Electoral Registration Office](https://www.gov.uk/get-on-electoral-register) for advice.
+ordinary_address_postcode_ifYouCannotProvideAddress_p=If you can’t provide an address, contact <a href="https://www.gov.uk/get-on-electoral-register">your local\
+ Electoral Registration Office</a> for advice.
 
 ordinary_address_postcode_findAddress_button=Find address
 
