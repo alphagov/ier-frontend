@@ -33,8 +33,8 @@ class Config extends Logging {
 
   def fakeFeedbackService = configuration.getBoolean("fakeFeedbackService")
   def zendeskUrl = configuration.getString("zendesk.url")
-  def zendeskUsername = configuration.getString("zendesk.username")
-  def zendeskPassword = configuration.getString("zendesk.password")
+  def zendeskUsername = configuration.getString("zendesk.username", "")
+  def zendeskPassword = configuration.getString("zendesk.password", "")
 
   def logConfiguration() = {
     logger.debug(s"apiTimeout:$apiTimeout")
