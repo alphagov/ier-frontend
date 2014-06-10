@@ -43,7 +43,7 @@ trait ExitPageMustache extends StepMustache {
       implicit val lang: Lang
     ) extends ExitTemplate("exit/noFranchise")
       with MessagesForMustache {
-      val pageTitle = title getOrElse Messages("exit_noFranchise_title")
+      val pageTitle = title getOrElse Messages("exit_nationality_noFranchise_title")
     }
 
     case class NorthernIreland(
