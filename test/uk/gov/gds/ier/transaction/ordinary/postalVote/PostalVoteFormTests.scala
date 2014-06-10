@@ -54,13 +54,13 @@ class PostalVoteFormTests
       Map(
         "postalVote.optIn" -> "true",
         "postalVote.deliveryMethod.methodName" -> "email",
-        "postalVote.deliveryMethod.emailAddress" -> "o'fake’._%+’'-@fake._%+’'-.co.uk"
+        "postalVote.deliveryMethod.emailAddress" -> "o'fake._%+'-@fake._%+'-.co.uk"
       )
     )
     postalVoteForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
-        success.postalVote should be(Some(PostalVote(Some(true),Some(PostalVoteDeliveryMethod(Some("email"),Some("o'fake’._%+’'-@fake._%+’'-.co.uk"))))))
+        success.postalVote should be(Some(PostalVote(Some(true),Some(PostalVoteDeliveryMethod(Some("email"),Some("o'fake._%+'-@fake._%+'-.co.uk"))))))
       }
     )
   }

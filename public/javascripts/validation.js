@@ -448,7 +448,7 @@
             var entry = _getFieldValue(this.$source);
 
             if (this.$source.is(':hidden')) { return []; }
-            if (entry.match(/^[A-Za-z0-9._%+’'-]+@[A-Za-z0-9._%+’'-]+\.[A-Za-z]{2,}$/) === null) {
+            if (entry.match(/^[A-Za-z0-9._%+'-]+@[A-Za-z0-9._%+'-]+\.[A-Za-z]{2,}$/) === null) {
               return _getInvalidDataFromFields([this], 'email');
             } else {
               return [];

@@ -13,7 +13,7 @@ class EmailValidatorTest
   behavior of "EmailValidator.isValid"
   it should "accept valid email addresses" in {
     EmailValidator.isValid("regular@email.com") should be(true)
-    EmailValidator.isValid("with_all_acceptable_chars_._%+’'-@email._%+’'-.co.uk") should be(true)
+    EmailValidator.isValid("with_all_acceptable_chars_._%+'-@email._%+'-.co.uk") should be(true)
   }
 
   it should "reject invalid email addresses" in {
@@ -21,7 +21,7 @@ class EmailValidatorTest
     EmailValidator.isValid("invalid spaces@email.com") should be(false)
     EmailValidator.isValid("invalidstructure@emam") should be(false)
     EmailValidator.isValid("invalidstructure@emam.c") should be(false)
-    EmailValidator.isValid("invalid&^/chars@email.com") should be(false)
+    EmailValidator.isValid("invalid’&^/chars@email.com") should be(false)
     EmailValidator.isValid("tooM_many@at@chars.com") should be(false)
   }
 

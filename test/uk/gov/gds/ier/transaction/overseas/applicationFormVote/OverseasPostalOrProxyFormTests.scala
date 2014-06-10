@@ -72,7 +72,7 @@ class OverseasPostalOrProxyFormTests
       Map(
         "postalOrProxyVote.optIn" -> "true",
         "postalOrProxyVote.deliveryMethod.methodName" -> "email",
-        "postalOrProxyVote.deliveryMethod.emailAddress" -> "o'fake’._%+’'-@fake._%+’'-.co.uk",
+        "postalOrProxyVote.deliveryMethod.emailAddress" -> "o'fake._%+'-@fake._%+'-.co.uk",
         "postalOrProxyVote.voteType" -> "by-post"
       )
     )
@@ -87,7 +87,7 @@ class OverseasPostalOrProxyFormTests
         postalOrProxy.deliveryMethod.isDefined should be(true)
         val Some(deliveryMethod) = postalOrProxy.deliveryMethod
         deliveryMethod.deliveryMethod should be(Some("email"))
-        deliveryMethod.emailAddress should be(Some("o'fake’._%+’'-@fake._%+’'-.co.uk"))
+        deliveryMethod.emailAddress should be(Some("o'fake._%+'-@fake._%+'-.co.uk"))
       }
     )
   }

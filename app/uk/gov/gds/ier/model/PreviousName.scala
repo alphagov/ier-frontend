@@ -21,3 +21,4 @@ object PreviousName extends ModelMapping {
     PreviousName.unapply
   )
 }
+
