@@ -104,7 +104,7 @@ ordinary_name_error_lastNameTooLong=Gall enw olaf fod yn fwy na 256 nod
 
 ordinary_previousName_hasPreviousName_label=Ydych chi wedi newid eich enw yn y 12 mis diwethaf?
 ordinary_previousName_hasPreviousName_yes_label=Ydw<span class="visuallyhidden"> Rwyf wedi newid fy enw yn y 12 mis diwethaf</span>
-ordinary_previousName_hasPreviousName_no_label=Nac<span class="visuallyhidden"> ydw Nid wyf wedi newid fy enw yn y 12 mis diwethaf</span>
+ordinary_previousName_hasPreviousName_no_label=Nac ydw<span class="visuallyhidden"> Nid wyf wedi newid fy enw yn y 12 mis diwethaf</span>
 ordinary_previousName_header=Enw blaenorol
 ordinary_previousName_firstName_label=Enw Cyntaf<span class="visuallyhidden"> blaenorol</span>
 ordinary_previousName_middleNames_label=Enwau Canol<span class="visuallyhidden"> blaenorol</span>
