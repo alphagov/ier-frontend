@@ -8,7 +8,8 @@ trait FeedbackThankYouMustache
   case class FeedbackModel (
       question: Question,
       returnToTransaction: Boolean,
-      sourcePath: Field
+      sourcePath: String,
+      exitPath: String
   ) extends MustacheData
 
   val mustache = MultilingualTemplate("feedbackThankYou") { implicit lang => (form, post) =>
@@ -22,10 +23,8 @@ trait FeedbackThankYouMustache
         title = Messages("feedback_thankYou_title")
       ),
       returnToTransaction = form(keys.sourcePath).value.isDefined,
-      sourcePath = HiddenField(
-        key = keys.sourcePath,
-        value = form(keys.sourcePath).value.getOrElse("")
-      )
+      sourcePath = form(keys.sourcePath).value.getOrElse(""),
+      exitPath = controllers.routes.RegisterToVoteController.registerToVote.url
     )
   }
 }

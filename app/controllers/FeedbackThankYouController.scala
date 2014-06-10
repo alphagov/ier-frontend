@@ -5,6 +5,5 @@ import uk.gov.gds.ier.feedback.FeedbackThankYouPage
 
 object FeedbackThankYouController extends DelegatingController[FeedbackThankYouPage] {
   def get(sourcePath: Option[String]) = delegate.get(sourcePath)
-  def post = delegate.post
   def feedbackThankYouPage = delegate
 }
