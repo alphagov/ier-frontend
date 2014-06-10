@@ -185,4 +185,23 @@ class PostalVoteFormTests
       }
     )
   }
+
+  it should "ignore email/post option if optIn is false" in {
+    val js = Json.toJson(
+      Map(
+        "postalVote.optIn" -> "false",
+        "postalVote.deliveryMethod.methodName" -> "post",
+        "postalVote.deliveryMethod.emailAddress" -> "malformedEmail"
+      )
+    )
+    postalVoteForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(", ")),
+      success => {
+        val Some(postalVote) = success.postalVote
+
+        postalVote.postalVoteOption should be(Some(false))
+        postalVote.deliveryMethod should be(None)
+      }
+    )
+  }
 }
