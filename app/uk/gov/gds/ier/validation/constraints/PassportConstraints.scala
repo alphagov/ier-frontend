@@ -16,7 +16,17 @@ trait PassportConstraints extends CommonConstraints{
       val validDate = DateValidator.isExistingDate(dateOfBirth)
 
       validDate match {
-        case Some(dateMidnight:DateMidnight) => Valid
+        case Some(dateMidnight:DateMidnight) => {
+          if (!DateValidator.isExistingDateInThePast(dateMidnight)) {
+            Invalid(
+              "You have entered a date in the future",
+              keys.passport.passportDetails.issueDate.day,
+              keys.passport.passportDetails.issueDate.month,
+              keys.passport.passportDetails.issueDate.year
+            )
+          }
+          else Valid
+        }
         case None => Invalid(
           "You have entered an invalid date",
           keys.passport.passportDetails.issueDate.day,
