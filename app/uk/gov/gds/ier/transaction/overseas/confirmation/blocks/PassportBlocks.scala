@@ -42,7 +42,7 @@ trait PassportBlocks {
   def citizenDetails = {
     val howBecameCitizen = form(keys.passport.citizenDetails.howBecameCitizen).value
     val dateBecameCitizen = form.dateBecameCitizen.map { date =>
-      date.toString("MMMM, yyyy")
+      date.toString("dd MMMM yyyy")
     }
 
     val citizenContent = for (
