@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.feedback
 
 import uk.gov.gds.ier.step.StepTemplate
+import uk.gov.gds.ier.mustache.NamedStyleClasses._
 
 trait FeedbackMustache
   extends StepTemplate[FeedbackRequest] with FeedbackForm {
@@ -25,7 +26,8 @@ trait FeedbackMustache
         postUrl = post.url,
         errorMessages = Nil,
         number = "",
-        title = Messages("feedback_title")
+        title = Messages("feedback_title"),
+        headerClasses = headerWithoutBackButtonClass
       ),
       feedbackText = TextField(
         key = keys.feedback.feedbackText

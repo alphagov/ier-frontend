@@ -1,12 +1,16 @@
 {{#returnToTransaction}}
+   <article>
    {{> shared/questionHeader }}
     <p>
          {{messages.feedback_thankYou_p1}}
     </p>
     <a href="{{sourcePath}}">{{messages.step_continue}}</a>
+    </article>
 {{/returnToTransaction}}
 {{^returnToTransaction}}
+    <div>
     {{> shared/questionHeader }}
     <a href="{{exitPath}}">{{messages.feedback_thankYou_exit_button}}</a>
+    </div>
 {{/returnToTransaction}}
 
