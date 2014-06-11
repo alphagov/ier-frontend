@@ -3,9 +3,10 @@
     <p>
          {{messages.feedback_thankYou_p1}}
     </p>
-    <a href="{{sourcePath}}" class="button next">{{messages.step_continue}}</a>
+    <a href="{{sourcePath}}">{{messages.step_continue}}</a>
 {{/returnToTransaction}}
 {{^returnToTransaction}}
     {{> shared/questionHeader }}
-    <a href="{{exitPath}}" class="button next">{{messages.feedback_thankYou_exit_button}}</a>
+    <a href="{{exitPath}}">{{messages.feedback_thankYou_exit_button}}</a>
 {{/returnToTransaction}}
+
