@@ -99,7 +99,7 @@ class ContactFormTests
   it should "bind successfully (email with special characters)" in {
     val js = Json.toJson(
       Map(
-        "contact.email.detail" -> "o'fake’._%+’'-@fake._%+’'-.co.uk",
+        "contact.email.detail" -> "o'fake._%+'-@fake._%+'-.co.uk",
         "contact.email.contactMe" -> "true"
       )
     )
@@ -108,7 +108,7 @@ class ContactFormTests
       success => {
         success.contact.isDefined should be(true)
         val contact = success.contact.get
-        contact.email should be(Some(ContactDetail(true,Some("o'fake’._%+’'-@fake._%+’'-.co.uk"))))
+        contact.email should be(Some(ContactDetail(true,Some("o'fake._%+'-@fake._%+'-.co.uk"))))
         contact.phone should be(None)
         contact.post should be(false)
       }
