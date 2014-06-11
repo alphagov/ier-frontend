@@ -41,6 +41,11 @@ trait PassportConstraints extends CommonConstraints{
               keys.passport.citizenDetails.dateBecameCitizen.month,
               keys.passport.citizenDetails.dateBecameCitizen.year
             )
+          } else if(DateValidator.isCitizenshipTooOld(dateMidnight)) {
+            Invalid(
+              "Please check the year you became a citizen",
+              keys.passport.citizenDetails.dateBecameCitizen.year
+            )
           } else {
             Valid
           }

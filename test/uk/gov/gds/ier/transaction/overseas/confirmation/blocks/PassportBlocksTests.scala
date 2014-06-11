@@ -74,4 +74,28 @@ class PassportBlocksTests
     model.content should be(BlockContent("Please complete this step"))
     model.editLink should be("/register-to-vote/overseas/edit/citizen-details")
   }
+
+  it should "return return correct citizenship reason and date in correct format" in {
+    val partialApplication = confirmationForm.fillAndValidate(InprogressOverseas(
+      lastRegisteredToVote = Some(LastRegisteredToVote(
+        LastRegisteredType.Ordinary
+      )),
+      passport = Some(Passport(
+        hasPassport = false,
+        bornInsideUk = Some(false),
+        details = None,
+        citizen = Some(CitizenDetails(DOB(2000,1,1),"test reason"))
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(partialApplication)
+    val passportModel = confirmation.passport
+
+    val model = passportModel
+    model.content should be(BlockContent(List(
+      "I became a citizen through: test reason",
+      "I became a citizen on:",
+      "01 January 2000")))
+    model.editLink should be("/register-to-vote/overseas/edit/citizen-details")
+  }
 }

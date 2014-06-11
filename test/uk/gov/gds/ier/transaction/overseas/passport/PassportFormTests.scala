@@ -369,4 +369,51 @@ class PassportFormTests
       success => fail("Should have errored out")
     )
   }
+
+  it should "error out on date became citizen date being in the future" in {
+    val js = Json.toJson(
+      Map(
+        "passport.hasPassport" -> "false",
+        "passport.bornInsideUk" -> "false",
+        "passport.citizenDetails.howBecameCitizen" -> "Naturalisation",
+        "passport.citizenDetails.dateBecameCitizen.day" -> "1",
+        "passport.citizenDetails.dateBecameCitizen.month" -> "1",
+        "passport.citizenDetails.dateBecameCitizen.year" -> "3000"
+      )
+    )
+
+    citizenDetailsForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errorMessages("passport.citizenDetails.dateBecameCitizen.day") should be(
+          Seq("You have entered a date in the future"))
+        hasErrors.errorMessages("passport.citizenDetails.dateBecameCitizen.month") should be(
+          Seq("You have entered a date in the future"))
+        hasErrors.errorMessages("passport.citizenDetails.dateBecameCitizen.year") should be(
+          Seq("You have entered a date in the future"))
+        hasErrors.globalErrors.size should be(1)
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
+  it should "error out on date became citizen date being too long ago" in {
+    val js = Json.toJson(
+      Map(
+        "passport.hasPassport" -> "false",
+        "passport.bornInsideUk" -> "false",
+        "passport.citizenDetails.howBecameCitizen" -> "Naturalisation",
+        "passport.citizenDetails.dateBecameCitizen.day" -> "1",
+        "passport.citizenDetails.dateBecameCitizen.month" -> "1",
+        "passport.citizenDetails.dateBecameCitizen.year" -> "1800"
+      )
+    )
+
+    citizenDetailsForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errorMessages("passport.citizenDetails.dateBecameCitizen.year") should be(Seq("Please check the year you became a citizen"))
+        hasErrors.globalErrors.size should be(1)
+      },
+      success => fail("Should have errored out")
+    )
+  }
 }
