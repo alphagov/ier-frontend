@@ -12,8 +12,8 @@ trait PassportConstraints extends CommonConstraints{
 
 
   lazy val validPassportDate = Constraint[DOB](keys.dob.key) {
-    dateOfBirth =>
-      val validDate = DateValidator.isExistingDate(dateOfBirth)
+    issueDate =>
+      val validDate = DateValidator.isExistingDate(issueDate)
 
       validDate match {
         case Some(dateMidnight:DateMidnight) => {
