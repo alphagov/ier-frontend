@@ -25,6 +25,12 @@ trait PassportConstraints extends CommonConstraints{
               keys.passport.passportDetails.issueDate.year
             )
           }
+          else if(DateValidator.isCitizenshipTooOld(dateMidnight)) {
+            Invalid(
+              "Please check the passport issue year",
+              keys.passport.passportDetails.issueDate.year
+            )
+          }
           else Valid
         }
         case None => Invalid(
