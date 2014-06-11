@@ -3,6 +3,8 @@
 @import "toolkit";
 
 .article {
+  @extend %contain-floats;
+
   h1 {
     @include bold-48;
     padding-top: 10px;
