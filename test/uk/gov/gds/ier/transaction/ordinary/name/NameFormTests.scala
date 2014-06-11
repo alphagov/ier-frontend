@@ -31,6 +31,35 @@ class NameFormTests
     )
   }
 
+  it should "not accept whitespace" in {
+    val js = Json.toJson(
+      Map(
+        "name.firstName" -> "   ",
+        "name.middleNames" -> "joe",
+        "name.lastName" -> "   ",
+        "previousName.hasPreviousName" -> "true",
+        "previousName.previousName.firstName" -> "   ",
+        "previousName.previousName.middleNames" -> "Joe",
+        "previousName.previousName.lastName" -> "   "
+      )
+    )
+    nameForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(8)
+        hasErrors.globalErrorMessages should be(Seq(
+          "ordinary_name_error_enterFirstName",
+          "ordinary_name_error_enterLastName",
+          "ordinary_previousName_error_enterFirstName",
+          "ordinary_previousName_error_enterLastName"))
+        hasErrors.errorMessages("name.firstName") should be(Seq("ordinary_name_error_enterFirstName"))
+        hasErrors.errorMessages("name.lastName") should be(Seq("ordinary_name_error_enterLastName"))
+        hasErrors.errorMessages("previousName.previousName.firstName") should be(Seq("ordinary_previousName_error_enterFirstName"))
+        hasErrors.errorMessages("previousName.previousName.lastName") should be(Seq("ordinary_previousName_error_enterLastName"))
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
   it should "describe all missing fields" in {
     val js = Json.toJson(
       Map(
