@@ -9,6 +9,7 @@ object DateValidator {
 
   lazy val minimumAge = 16
   lazy val maximumAge = 115
+  lazy val maximumCitizenshipDuration = 115
 
 
   def isExistingDate(dateOfBirth: DOB):Option[DateMidnight] = {
@@ -28,12 +29,13 @@ object DateValidator {
   }
 
   def isTooOldToBeAlive(dateOfBirth: DateMidnight) = {
-    try {
-      dateOfBirth.plusYears(maximumAge).isBefore(DateTime.now.toDateMidnight.plusDays(1))
-    } catch {
-      case ex: Exception => false
-    }
+    isDateBefore(dateOfBirth, maximumAge)
   }
+
+  def isCitizenshipTooOld(dateOfCitizenship: DateMidnight) =  {
+    isDateBefore(dateOfCitizenship, maximumCitizenshipDuration)
+  }
+
 
   def isTooYoungToRegister(dateOfBirth: DOB) = {
     try {
@@ -55,6 +57,14 @@ object DateValidator {
       val eighteenYearsAgo = DateTime.now.minusYears(18).toDateMidnight
     	val dob = parseToDateMidnight(dateOfBirth)
       dob.isAfter(eighteenYearsAgo) || dob.isEqual(eighteenYearsAgo)
+    } catch {
+      case ex: Exception => false
+    }
+  }
+
+  private def isDateBefore(date: DateMidnight, yearsBack: Int) = {
+    try {
+      date.plusYears(yearsBack).isBefore(DateTime.now.toDateMidnight.plusDays(1))
     } catch {
       case ex: Exception => false
     }

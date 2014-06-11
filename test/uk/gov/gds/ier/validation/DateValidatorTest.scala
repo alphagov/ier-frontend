@@ -74,5 +74,22 @@ class DateValidatorTest
     DateValidator.isLessEighteen(getDateOfBirth(lessThan18years)) should be(false)
   }
 
+  behavior of "DateValidator.isCitizenshipTooOld"
+
+  it should "return false for a date newer than 115 years ago" in {
+    val almost115yearsAgo = DateTime.now.toDateMidnight.minusYears(115).plusDays(1)
+    DateValidator.isCitizenshipTooOld(almost115yearsAgo) should be(false)
+  }
+
+  it should "return true for a date equal to 115 years ago" in {
+    val exactly115yearsAgo = DateTime.now.toDateMidnight.minusYears(115)
+    DateValidator.isCitizenshipTooOld(exactly115yearsAgo) should be(true)
+  }
+
+  it should "return true for a date older than 115 years ago" in {
+    val moreThan115yearsAgo = DateTime.now.toDateMidnight.minusYears(115).minusDays(1)
+    DateValidator.isCitizenshipTooOld(moreThan115yearsAgo) should be(true)
+  }
+
   private def getDateOfBirth(date: DateMidnight) = DOB(date.getYear, date.getMonthOfYear, date.getDayOfMonth)
 }
