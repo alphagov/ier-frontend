@@ -42,9 +42,6 @@
         }
       }
       .header-proposition {
-        @include media(mobile){
-          display: none;
-        }
         @include media(desktop){
           width: 66.66%;
           float: left;

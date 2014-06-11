@@ -342,3 +342,12 @@ button:focus,
     display: none;
   }
 }
+
+/* IER-specific template header styles */
+.header-proposition {
+  display: none;
+
+  @include media(tablet) {
+    display: block;
+  }
+}
