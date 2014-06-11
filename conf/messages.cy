@@ -180,7 +180,7 @@ ordinary_address_postcode_ifYouArePrisoner_p=Os ydych chi’n garcharor ar reman
 
 ordinary_address_postcode_ifYouCantProvideAddress_h4=Os nad ydych yn gallu darparu cyfeiriad
 ordinary_address_postcode_ifYouCannotProvideAddress_p=Os nad ydych yn gallu darparu cyfeiriad, cysylltwch\
- â’ch Swyddfa Cofrestru
+ â’ch <a href="https://www.gov.uk/get-on-electoral-register">Swyddfa Cofrestru</a>.
 
 ordinary_address_postcode_findAddress_button=Chwilio am gyfeiriad
 
