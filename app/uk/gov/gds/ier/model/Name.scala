@@ -36,10 +36,15 @@ case class Name(firstName:String,
 object Name extends ModelMapping {
   import playMappings._
 
+  val trimWhitespaceText = text.transform[String](
+    text => text.trim,
+    text => text.trim
+  )
+
   val mapping = playMappings.mapping(
-    keys.firstName.key -> default(text, ""),
-    keys.middleNames.key -> optional(text),
-    keys.lastName.key -> default(text, "")
+    keys.firstName.key -> default(trimWhitespaceText, ""),
+    keys.middleNames.key -> optional(trimWhitespaceText),
+    keys.lastName.key -> default(trimWhitespaceText, "")
   ) (
     Name.apply
   ) (
