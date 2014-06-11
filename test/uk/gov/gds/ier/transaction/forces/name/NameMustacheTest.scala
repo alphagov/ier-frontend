@@ -129,6 +129,8 @@ class NameMustacheTest
     nameModel.previousMiddleNames.value should be("")
     nameModel.previousLastName.value should be("")
 
-    nameModel.question.errorMessages.mkString(", ") should be("Please enter your last name, Please answer this question")
+    nameModel.question.errorMessages.toSet should be(
+      Set("Please enter your last name", "Please answer this question")
+    )
   }
 }

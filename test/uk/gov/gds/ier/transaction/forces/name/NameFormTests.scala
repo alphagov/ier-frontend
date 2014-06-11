@@ -61,6 +61,30 @@ class NameFormTests
     )
   }
 
+  it should "require you to enter full names" in {
+    val js = Json.toJson(
+      Map(
+        "previousName.hasPreviousName" -> "true"
+      )
+    )
+    nameForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.globalErrorMessages should be(Seq(
+          "Please enter your full name",
+          "Please enter your full previous name"
+        ))
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "name.firstName" -> Seq("Please enter your full name"),
+          "name.lastName" -> Seq("Please enter your full name"),
+          "previousName.previousName" -> Seq("Please enter your full previous name"),
+          "previousName.previousName.firstName" -> Seq("Please enter your full previous name"),
+          "previousName.previousName.lastName" -> Seq("Please enter your full previous name")
+        ))
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
   it should "check for too long names" in {
     val inputDataJson = Json.toJson(
       Map(
@@ -75,21 +99,14 @@ class NameFormTests
     )
     nameForm.bind(inputDataJson).fold(
       hasErrors => {
-        hasErrors.errorsAsText should be("" +
-          "name.firstName -> First name can be no longer than 256 characters\n" +
-          "name.middleNames -> Middle names can be no longer than 256 characters\n" +
-          "name.lastName -> Last name can be no longer than 256 characters\n" +
-          "name.firstName -> First name can be no longer than 256 characters\n" +
-          "name.middleNames -> Middle names can be no longer than 256 characters\n" +
-          "name.lastName -> Last name can be no longer than 256 characters"
-        )
-        hasErrors.globalErrorsAsText should be("" +
-          "First name can be no longer than 256 characters\n" +
-          "Middle names can be no longer than 256 characters\n" +
-          "Last name can be no longer than 256 characters\n" +
-          "First name can be no longer than 256 characters\n" +
-          "Middle names can be no longer than 256 characters\n" +
-          "Last name can be no longer than 256 characters")
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "name.firstName" -> Seq("First name can be no longer than 256 characters"),
+          "name.middleNames" -> Seq("Middle names can be no longer than 256 characters"),
+          "name.lastName" -> Seq("Last name can be no longer than 256 characters"),
+          "previousName.previousName.firstName" -> Seq("Previous first name can be no longer than 256 characters"),
+          "previousName.previousName.middleNames" -> Seq("Previous middle names can be no longer than 256 characters"),
+          "previousName.previousName.lastName" -> Seq("Previous last name can be no longer than 256 characters")
+        ))
       },
       success => fail("Should have errored out")
     )
@@ -200,6 +217,31 @@ class NameFormTests
         previousName.previousName.get.firstName should be("Jonny")
         previousName.previousName.get.middleNames should be(Some("Joe"))
         previousName.previousName.get.lastName should be("Bloggs")
+      }
+    )
+  }
+
+  it should "ignore invalid input if previousName = false" in {
+    val js = Map(
+      "name.firstName" -> "John",
+      "name.lastName" -> "Smith",
+      "previousName.hasPreviousName" -> "false",
+      "previousName.firstName" -> "Jonny"
+    )
+    nameForm.bind(js).fold(
+      hasErrors => fail(hasErrors.prettyPrint.mkString(", ")),
+      success => {
+        val Some(name) = success.name
+        name should have(
+          'firstName ("John"),
+          'middleNames (None),
+          'lastName ("Smith")
+        )
+        val Some(previousName) = success.previousName
+        previousName should have(
+          'hasPreviousName (false),
+          'previousName (None)
+        )
       }
     )
   }
