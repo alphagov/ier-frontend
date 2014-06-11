@@ -225,9 +225,9 @@ class NameFormTests
         name.lastName should be("Smith")
         name.middleNames should be(Some("joe"))
 
-        success.previousName.isDefined should be(true)
-        success.previousName.get.previousName.isDefined should be(true)
-        success.previousName.get.hasPreviousName should be(false)
+        val Some(previousName) = success.previousName
+        previousName.previousName should be(None)
+        previousName.hasPreviousName should be(false)
       }
     )
   }

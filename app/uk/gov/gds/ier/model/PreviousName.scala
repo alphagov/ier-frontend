@@ -16,7 +16,13 @@ object PreviousName extends ModelMapping {
     keys.hasPreviousName.key -> boolean,
     keys.previousName.key -> optional(Name.mapping)
   ) (
-    PreviousName.apply
+    (hasPreviousName, name) => PreviousName(
+      hasPreviousName = hasPreviousName,
+      previousName = hasPreviousName match {
+        case false => None
+        case _ => name
+      }
+    )
   ) (
     PreviousName.unapply
   )
