@@ -9,6 +9,7 @@ import controllers.routes.FeedbackController
 import controllers.routes.FeedbackThankYouController
 import uk.gov.gds.ier.logging.Logging
 import play.api.mvc._
+import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
 
 class FeedbackPage @Inject ()(
     val serialiser: JsonSerialiser,
@@ -20,7 +21,9 @@ class FeedbackPage @Inject ()(
   with FeedbackForm
   with FeedbackMustache
   with FeedbackService
-  with Logging {
+  with Logging
+  with WithConfig
+  with WithRemoteAssets {
 
   val validation = feedbackForm
 
@@ -31,11 +34,7 @@ class FeedbackPage @Inject ()(
     val form = feedbackGetForm.bindFromRequest()
     val sourcePath = form(keys.sourcePath).value.getOrElse("")
     logger.debug(s"FeedbackPage source path ${sourcePath}")
-    Ok(mustache(
-      form,
-      postRoute,
-      FeedbackRequest()
-    ).html)
+    Ok(FeedbackPage(form, postRoute.url))
   }
 
   def post() = Action { implicit request =>
