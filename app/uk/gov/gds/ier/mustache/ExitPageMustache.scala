@@ -8,22 +8,12 @@ trait ExitPageMustache extends StepMustache {
     with WithConfig =>
 
   object ExitPages {
-    abstract class ExitTemplate(template:String) extends Mustachio(template) {
-
-      val pageTitle:String
-
-      override def render() = GovukTemplate(
-        mainContent = super.render(),
-        pageTitle = pageTitle,
-        contentClasses = "article"
-      )
-    }
 
     case class BritishIslands(
         title: Option[String] = None
     ) (
         implicit val lang: Lang
-    ) extends ExitTemplate("exit/britishIslands")
+    ) extends ArticlePage("exit/britishIslands")
       with MessagesForMustache {
       val pageTitle = title getOrElse Messages("exit_britishIslands_title")
     }
@@ -32,7 +22,7 @@ trait ExitPageMustache extends StepMustache {
       title: Option[String] = None
     ) (
       implicit val lang: Lang
-    ) extends ExitTemplate("exit/dontKnow")
+    ) extends ArticlePage("exit/dontKnow")
     with MessagesForMustache {
       val pageTitle = title getOrElse Messages("exit_dontKnow_title")
     }
@@ -41,7 +31,7 @@ trait ExitPageMustache extends StepMustache {
       title: Option[String] = None
     ) (
       implicit val lang: Lang
-    ) extends ExitTemplate("exit/noFranchise")
+    ) extends ArticlePage("exit/noFranchise")
       with MessagesForMustache {
       val pageTitle = title getOrElse Messages("exit_nationality_noFranchise_title")
     }
@@ -50,14 +40,14 @@ trait ExitPageMustache extends StepMustache {
         title: Option[String] = None
     ) (
         implicit val lang: Lang
-    ) extends ExitTemplate("exit/northernIreland")
+    ) extends ArticlePage("exit/northernIreland")
       with MessagesForMustache {
       val pageTitle = title getOrElse Messages("exit_northernIreland_title")
     }
 
     case class Scotland (
       implicit val lang: Lang
-    ) extends ExitTemplate("exit/scotland")
+    ) extends ArticlePage("exit/scotland")
       with MessagesForMustache {
       val pageTitle =  Messages("exit_scotland_title")
     }
@@ -66,7 +56,7 @@ trait ExitPageMustache extends StepMustache {
         title: Option[String] = None
     ) (
         implicit val lang: Lang
-    ) extends ExitTemplate("exit/tooYoung")
+    ) extends ArticlePage("exit/tooYoung")
       with MessagesForMustache {
       val pageTitle = title getOrElse Messages("exit_tooYoung_title")
     }
@@ -75,21 +65,21 @@ trait ExitPageMustache extends StepMustache {
         title: Option[String] = None
     ) (
         implicit val lang: Lang
-    ) extends ExitTemplate("exit/under18")
+    ) extends ArticlePage("exit/under18")
       with MessagesForMustache {
       val pageTitle = title getOrElse Messages("exit_under18_title")
     }
 
     case class LeftService (
         pageTitle: String = "Sorry, you cannot registers because it has been over 15 years since you left the position"
-    ) extends ExitTemplate("exit/leftService")
+    ) extends ArticlePage("exit/leftService")
 
     case class LeftUk (
         pageTitle: String = "Sorry, you cannot registers because it has been over 15 years since you left the UK"
-    ) extends ExitTemplate("exit/leftUk")
+    ) extends ArticlePage("exit/leftUk")
 
     case class TooOldWhenLeft (
         pageTitle: String = "Sorry, you cannot register to vote overseas because you were not registered to vote when you lived in the UK"
-    ) extends ExitTemplate("exit/tooOldWhenLeft")
+    ) extends ArticlePage("exit/tooOldWhenLeft")
   }
 }

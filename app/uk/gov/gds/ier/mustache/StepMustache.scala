@@ -33,6 +33,17 @@ trait StepMustache extends MustacheModel {
     def contentType: String = MimeTypes.HTML
   }
 
+  abstract class ArticlePage(template:String) extends Mustachio(template) {
+
+    val pageTitle:String
+
+    override def render() = GovukTemplate(
+      mainContent = super.render(),
+      pageTitle = pageTitle,
+      contentClasses = "article"
+    )
+  }
+
   abstract class GovukPage(
       templatePath: String,
       pageTitle: String,
