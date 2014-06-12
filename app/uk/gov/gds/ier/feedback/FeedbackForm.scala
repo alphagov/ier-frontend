@@ -1,8 +1,9 @@
 package uk.gov.gds.ier.feedback
 
-import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys}
+import uk.gov.gds.ier.validation.FormKeys
 import play.api.data.Forms._
 import play.api.data.validation._
+import play.api.data.Form
 
 trait FeedbackForm {
   self: FormKeys =>
@@ -17,7 +18,7 @@ trait FeedbackForm {
   // see: http://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
   val maxFeedbackEmailLength = 254
 
-  val feedbackForm = ErrorTransformForm(
+  val feedbackForm = Form(
     mapping(
       keys.feedback.feedbackText.key -> text(0, maxFeedbackCommentLength),
       keys.feedback.contactName.key -> optional(text(0, maxFeedbackNameLength)),

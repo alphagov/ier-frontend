@@ -7,6 +7,7 @@ import controllers.routes.FeedbackController
 import uk.gov.gds.ier.logging.Logging
 import play.api.mvc._
 import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
+import uk.gov.gds.ier.session.CacheBust
 
 class FeedbackPage @Inject ()(
     val config: Config,
@@ -19,36 +20,30 @@ class FeedbackPage @Inject ()(
   with WithConfig
   with WithRemoteAssets {
 
-  val validation = feedbackForm
-
-  def get(sourcePath: Option[String]) = Action { implicit request =>
-    logger.debug(s"GET request for ${request.path} with source path ${sourcePath}")
-    Ok(FeedbackPage(
-      postUrl = FeedbackController.post(sourcePath).url
-    ))
+  def get(sourcePath: Option[String]) = CacheBust {
+    Action { implicit request =>
+      Ok(FeedbackPage(
+        postUrl = FeedbackController.post(sourcePath).url
+      ))
+    }
   }
 
-  def post(sourcePath: Option[String]) = Action { implicit request =>
-    logger.debug(s"POST request for ${request.path}")
-    validation.bindFromRequest().fold(
-      hasErrors => {
-        logger.debug(s"Form binding error: ${hasErrors}")
-        Redirect(FeedbackController.thankYou(sourcePath))
-      },
-      success => {
-        logger.debug(s"Form binding successful, proceed with submitting feedback")
+  def post(sourcePath: Option[String]) = CacheBust {
+    Action { implicit request =>
+      feedbackForm.bindFromRequest().value.map{ feedback =>
         val browserDetails = getBrowserAndOsDetailsIfPresent(request)
-        feedbackService.submit(success, browserDetails)
-        Redirect(FeedbackController.thankYou(sourcePath))
+        feedbackService.submit(feedback, browserDetails)
       }
-    )
+      Redirect(FeedbackController.thankYou(sourcePath))
+    }
   }
 
-  def thankYou(sourcePath: Option[String]) = Action { implicit request =>
-    logger.debug(s"GET request for ${request.path}")
-    Ok(ThankYouPage(
-      sourcePath = sourcePath.getOrElse(config.ordinaryStartUrl)
-    ))
+  def thankYou(sourcePath: Option[String]) = CacheBust {
+    Action { implicit request =>
+      Ok(ThankYouPage(
+        sourcePath = sourcePath getOrElse config.ordinaryStartUrl
+      ))
+    }
   }
 
   private[feedback] def getBrowserAndOsDetailsIfPresent(request: Request[_]) = {

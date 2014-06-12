@@ -22,7 +22,7 @@ trait FeedbackMustache
   ) extends ArticlePage("feedbackThankYou")
     with MessagesForMustache
 
-  private[this] implicit val feedbackPageForm = feedbackForm
+  private[this] implicit val progressForm = ErrorTransformForm(feedbackForm)
 
   case class FeedbackPage (
       pageTitle: String = Messages("feedback_title"),
