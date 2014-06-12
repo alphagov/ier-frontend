@@ -34,6 +34,16 @@ class DateOfBirthStep @Inject ()(
     editPost = DateOfBirthController.editPost
   )
 
+  override val onSuccess = TransformApplication { currentState =>
+    val dateOfBirth = currentState.dob.map { currentDob =>
+      if (currentDob.dob.isDefined) currentDob.copy(noDob = None)
+      else {
+        currentDob.copy(dob = None)
+      }
+    }
+    currentState.copy(dob = dateOfBirth)
+  } andThen GoToNextIncompleteStep()
+
   def nextStep(currentState: InprogressForces) = {
     currentState.dob match {
       case Some(DateOfBirth(Some(dob), _)) if DateValidator.isTooYoungToRegister(dob) => {
