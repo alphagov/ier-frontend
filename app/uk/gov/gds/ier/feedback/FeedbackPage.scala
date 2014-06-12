@@ -1,9 +1,7 @@
 package uk.gov.gds.ier.feedback
 
 import com.google.inject.Inject
-import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.assets.RemoteAssets
 import controllers.routes.FeedbackController
 import controllers.routes.FeedbackThankYouController
@@ -12,9 +10,7 @@ import play.api.mvc._
 import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
 
 class FeedbackPage @Inject ()(
-    val serialiser: JsonSerialiser,
     val config: Config,
-    val encryptionService: EncryptionService,
     val remoteAssets: RemoteAssets,
     val feedbackService: FeedbackService)
   extends Controller

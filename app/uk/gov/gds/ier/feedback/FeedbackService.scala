@@ -5,7 +5,7 @@ import com.google.inject.Inject
 
 class FeedbackService @Inject() (
     feedbackClient: FeedbackClient
-){
+) {
 
   def submit(request: FeedbackRequest, browserDetails: Option[String]) {
     feedbackClient.submit(
