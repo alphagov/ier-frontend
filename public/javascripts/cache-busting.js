@@ -16,7 +16,8 @@
     controls = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
     idx = controls.length;
     while (idx--) {
-      if (controls[idx].getAttribute('checked') !== null) {
+      var checked = controls[idx].getAttribute('checked');
+      if (checked !== null && checked !== "") {
         controls[idx].checked = 'checked';
       }
     }
