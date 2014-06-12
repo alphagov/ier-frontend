@@ -4,6 +4,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.guice.{WithRemoteAssets, WithEncryption, WithConfig}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import controllers.step.crown.routes.ConfirmationController
+import controllers.routes.ErrorController
 
 trait CrownStep
   extends StepController[InprogressCrown]
@@ -12,6 +13,7 @@ trait CrownStep
   with WithEncryption
   with WithRemoteAssets { self: StepTemplate[InprogressCrown] =>
     def factoryOfT() = InprogressCrown()
+    def timeoutPage() = ErrorController.crownTimeout
     val confirmationRoute = ConfirmationController.get
 }
 

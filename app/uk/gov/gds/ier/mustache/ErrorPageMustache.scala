@@ -12,6 +12,9 @@ trait ErrorPageMustache extends InheritedGovukMustache {
 
     case class NotFound(url: String) extends ArticleMustachio ("error/notFound")
 
-    case class Timeout(timeout: Int) extends ArticleMustachio ("error/timeout")
+    case class Timeout(
+        timeout: Int,
+        override val startUrl: String
+    ) extends ArticleMustachio ("error/timeout")
   }
 }

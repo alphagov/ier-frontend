@@ -2,7 +2,7 @@ package uk.gov.gds.ier.session
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
-import play.api.mvc.Controller
+import play.api.mvc.{Call, Controller, Cookie}
 import uk.gov.gds.ier.client.ApiResults
 import play.api.test._
 import play.api.test.Helpers._
@@ -12,7 +12,6 @@ import uk.gov.gds.ier.controller.MockConfig
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import scala.Some
 import play.api.test.FakeApplication
-import play.api.mvc.Cookie
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.step.InprogressApplication
 
@@ -38,6 +37,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
           with ApiResults
           with WithEncryption {
 
+        def timeoutPage() = Call(GET, "/error/timeout")
         def factoryOfT() = FakeInprogress("")
         val serialiser = jsonSerialiser
         val config = new MockConfig
@@ -85,6 +85,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
           with ApiResults
           with WithEncryption {
 
+        def timeoutPage() = Call(GET, "/error/timeout")
         def factoryOfT() = FakeInprogress("")
         val serialiser = jsonSerialiser
         val config = new MockConfig
@@ -114,6 +115,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
           with ApiResults
           with WithEncryption {
 
+        def timeoutPage() = Call(GET, "/error/timeout")
         def factoryOfT() = FakeInprogress("")
         val serialiser = jsonSerialiser
         val config = new MockConfig
@@ -176,6 +178,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
           with ApiResults
           with WithEncryption {
 
+        def timeoutPage() = Call(GET, "/error/timeout")
         def factoryOfT() = FakeInprogress("")
         val serialiser = jsonSerialiser
         val config = new MockConfig
@@ -233,6 +236,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
         with ApiResults
         with WithEncryption {
 
+        def timeoutPage() = Call(GET, "/error/timeout")
         def factoryOfT() = FakeInprogress("")
         val serialiser = jsonSerialiser
         val config = new MockConfig
@@ -288,6 +292,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
         with ApiResults
         with WithEncryption {
 
+        def timeoutPage() = Call(GET, "/error/timeout")
         def factoryOfT() = FakeInprogress("")
         val serialiser = jsonSerialiser
         val config = new MockConfig
@@ -343,6 +348,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
         with ApiResults
         with WithEncryption {
 
+        def timeoutPage() = Call(GET, "/error/timeout")
         def factoryOfT() = FakeInprogress("")
         val serialiser = jsonSerialiser
         val config = new MockConfig

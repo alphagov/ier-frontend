@@ -1,18 +1,19 @@
 package uk.gov.gds.ier.transaction.ordinary.confirmation
 
 import controllers.step.ordinary.routes.ConfirmationController
-import controllers.routes.CompleteController
+import controllers.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.{WithAddressService, AddressService}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.step.{ConfirmationStepController, Routes}
+import uk.gov.gds.ier.step.ConfirmationStepController
 import uk.gov.gds.ier.service.apiservice.IerApiService
-import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.langs.Language
+import uk.gov.gds.ier.step.Routes
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 class ConfirmationStep @Inject ()(
     val serialiser: JsonSerialiser,
@@ -28,6 +29,7 @@ class ConfirmationStep @Inject ()(
     with WithRemoteAssets {
 
   def factoryOfT() = InprogressOrdinary()
+  def timeoutPage() = ErrorController.ordinaryTimeout
 
   val routes:Routes = Routes(
     get = ConfirmationController.get,
