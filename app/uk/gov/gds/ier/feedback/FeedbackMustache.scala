@@ -1,7 +1,5 @@
 package uk.gov.gds.ier.feedback
 
-import uk.gov.gds.ier.step.StepTemplate
-import uk.gov.gds.ier.mustache.NamedStyleClasses._
 import uk.gov.gds.ier.mustache.{MustacheModel, StepMustache}
 import uk.gov.gds.ier.guice.{WithConfig, WithRemoteAssets}
 import uk.gov.gds.ier.validation.ErrorTransformForm
