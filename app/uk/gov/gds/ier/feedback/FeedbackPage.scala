@@ -31,8 +31,7 @@ class FeedbackPage @Inject ()(
   def post(sourcePath: Option[String]) = CacheBust {
     Action { implicit request =>
       feedbackForm.bindFromRequest().value.map{ feedback =>
-        val browserDetails = getBrowserAndOsDetailsIfPresent(request)
-        feedbackService.submit(feedback, browserDetails)
+        feedbackService.submit(feedback, sourcePath)
       }
       Redirect(FeedbackController.thankYou(sourcePath))
     }
@@ -44,10 +43,6 @@ class FeedbackPage @Inject ()(
         sourcePath = sourcePath getOrElse config.ordinaryStartUrl
       ))
     }
-  }
-
-  private[feedback] def getBrowserAndOsDetailsIfPresent(request: Request[_]) = {
-    request.headers.get("user-agent")
   }
 }
 

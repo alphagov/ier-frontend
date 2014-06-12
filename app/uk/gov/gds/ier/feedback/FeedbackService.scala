@@ -2,15 +2,20 @@ package uk.gov.gds.ier.feedback
 
 import uk.gov.gds.ier.validation.EmailValidator
 import com.google.inject.Inject
+import play.api.mvc.Request
 
 class FeedbackService @Inject() (
     feedbackClient: FeedbackClient
 ) {
 
-  def submit(request: FeedbackRequest, browserDetails: Option[String]) {
+  def submit(
+    request: FeedbackRequest,
+    page: Option[String],
+    browserDetails: Option[String]
+  ) {
     feedbackClient.submit(
       FeedbackSubmissionData(
-        ticketSubject(request.sourcePath),
+        ticketSubject(page),
         fudgeTicketBodyText(request, browserDetails),
         fixContactDetails(request.contactName, request.contactEmail)
       )
@@ -20,6 +25,19 @@ class FeedbackService @Inject() (
   def ticketSubject(sourcePath: Option[String]) = sourcePath match {
     case Some(sourcePath) => sourcePath
     case None => "ier-frontend feedback"
+  }
+
+  def submit(
+    feedback: FeedbackRequest,
+    page: Option[String]
+  ) (
+    implicit request: Request[Any]
+  ) {
+    this.submit(
+      request = feedback,
+      page = page,
+      browserDetails = request.headers.get("user-agent")
+    )
   }
 
   val separatorBetweenCommentAndAppendedFields = "\n"
