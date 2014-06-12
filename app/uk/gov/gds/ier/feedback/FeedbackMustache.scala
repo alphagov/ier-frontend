@@ -14,6 +14,14 @@ trait FeedbackMustache
      with FeedbackForm
      with WithConfig =>
 
+  case class ThankYouPage (
+      sourcePath: String = "",
+      pageTitle: String = Messages("feedback_thankYou_title")
+  ) (
+      implicit val lang: Lang
+  ) extends ArticlePage("feedbackThankYou")
+    with MessagesForMustache
+
   case class FeedbackPage (
       pageTitle: String,
       postUrl: String,
@@ -27,9 +35,8 @@ trait FeedbackMustache
       feedbackDetailHint: String
   ) (
       implicit val lang: Lang
-  ) extends ArticlePage (
-    "feedbackForm"
-  ) with MessagesForMustache
+  ) extends ArticlePage("feedbackForm")
+    with MessagesForMustache
 
   object FeedbackPage {
     def apply[T](
