@@ -29,26 +29,23 @@ trait NameMustache extends StepTemplate[InprogressOverseas] {
         postUrl = post.url,
         title = title,
         errorMessages = form.globalErrors.map { _.message }),
-      firstName = TextField(
-        key = keys.overseasName.name.firstName),
-      middleNames = TextField(
-        key = keys.overseasName.name.middleNames),
-      lastName = TextField(
-        key = keys.overseasName.name.lastName),
+      firstName = TextField(key = keys.name.firstName),
+      middleNames = TextField(key = keys.name.middleNames),
+      lastName = TextField(key = keys.name.lastName),
       hasPreviousName = FieldSet(
-        classes = if (form(keys.overseasName.previousName).hasErrors) "invalid" else ""
+        classes = if (form(keys.previousName).hasErrors) "invalid" else ""
       ),
       hasPreviousNameTrue = RadioField(
-        key = keys.overseasName.previousName.hasPreviousName, value = "true"),
+        key = keys.previousName.hasPreviousName, value = "true"),
       hasPreviousNameFalse = RadioField(
-        key = keys.overseasName.previousName.hasPreviousName, value = "false"),
+        key = keys.previousName.hasPreviousName, value = "false"),
 
       previousFirstName = TextField(
-        key = keys.overseasName.previousName.previousName.firstName),
+        key = keys.previousName.previousName.firstName),
       previousMiddleNames = TextField(
-        key = keys.overseasName.previousName.previousName.middleNames),
+        key = keys.previousName.previousName.middleNames),
       previousLastName = TextField(
-        key = keys.overseasName.previousName.previousName.lastName)
+        key = keys.previousName.previousName.lastName)
     )
   }
 }

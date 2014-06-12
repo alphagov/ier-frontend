@@ -122,7 +122,8 @@ class ConcreteIerApiService @Inject() (
     val fullParentRegAddress = addressService.formFullAddress(applicant.parentsAddress)
 
     val completeApplication = OverseasApplication(
-      overseasName = applicant.overseasName,
+      name = applicant.name,
+      previousName = applicant.previousName,
       dateLeftSpecial = applicant.dateLeftSpecial,
       dateLeftUk = applicant.dateLeftUk,
       overseasParentName = applicant.overseasParentName,

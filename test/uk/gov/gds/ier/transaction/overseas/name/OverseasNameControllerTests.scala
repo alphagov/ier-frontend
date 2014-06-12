@@ -37,11 +37,11 @@ class OverseasNameControllerTests
         FakeRequest(POST, "/register-to-vote/overseas/name")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "overseasName.name.firstName" -> "John",
-            "overseasName.name.lastName" -> "Smith",
-            "overseasName.previousName.hasPreviousName" -> "true",
-            "overseasName.previousName.previousName.firstName" -> "John",
-            "overseasName.previousName.previousName.lastName" -> "Smith")
+            "name.firstName" -> "John",
+            "name.lastName" -> "Smith",
+            "previousName.hasPreviousName" -> "true",
+            "previousName.previousName.firstName" -> "John",
+            "previousName.previousName.lastName" -> "Smith")
       )
 
       status(result) should be(SEE_OTHER)
@@ -55,9 +55,9 @@ class OverseasNameControllerTests
         FakeRequest(POST, "/register-to-vote/overseas/name")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "overseasName.name.firstName" -> "John",
-            "overseasName.name.lastName" -> "Smith",
-            "overseasName.previousName.hasPreviousName" -> "false")
+            "name.firstName" -> "John",
+            "name.lastName" -> "Smith",
+            "previousName.hasPreviousName" -> "false")
       )
 
       status(result) should be(SEE_OTHER)
@@ -72,11 +72,11 @@ class OverseasNameControllerTests
           .withIerSession()
           .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
-            "overseasName.name.firstName" -> "John",
-            "overseasName.name.lastName" -> "Smith",
-            "overseasName.previousName.hasPreviousName" -> "true",
-            "overseasName.previousName.previousName.firstName" -> "John",
-            "overseasName.previousName.previousName.lastName" -> "Smith")
+            "name.firstName" -> "John",
+            "name.lastName" -> "Smith",
+            "previousName.hasPreviousName" -> "true",
+            "previousName.previousName.firstName" -> "John",
+            "previousName.previousName.lastName" -> "Smith")
       )
 
       status(result) should be(SEE_OTHER)
@@ -106,7 +106,7 @@ class OverseasNameControllerTests
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/select")
           .withIerSession()
-          .withApplication(completeOverseasApplication.copy(overseasName = None))
+          .withApplication(completeOverseasApplication.copy(name = None, previousName = None))
           .withFormUrlEncodedBody(
             "lastUkAddress.uprn" -> "12345678",
             "lastUkAddress.postcode" -> "SW1A1AA")
@@ -139,11 +139,11 @@ class OverseasNameControllerTests
         FakeRequest(POST, "/register-to-vote/overseas/edit/name")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "overseasName.name.firstName" -> "John",
-            "overseasName.name.lastName" -> "Smith",
-            "overseasName.previousName.hasPreviousName" -> "true",
-            "overseasName.previousName.previousName.firstName" -> "John",
-            "overseasName.previousName.previousName.lastName" -> "Smith")
+            "name.firstName" -> "John",
+            "name.lastName" -> "Smith",
+            "previousName.hasPreviousName" -> "true",
+            "previousName.previousName.firstName" -> "John",
+            "previousName.previousName.lastName" -> "Smith")
       )
 
       status(result) should be(SEE_OTHER)
@@ -157,9 +157,9 @@ class OverseasNameControllerTests
         FakeRequest(POST, "/register-to-vote/overseas/edit/name")
           .withIerSession()
           .withFormUrlEncodedBody(
-            "overseasName.name.firstName" -> "John",
-            "overseasName.name.lastName" -> "Smith",
-            "overseasName.previousName.hasPreviousName" -> "false")
+            "name.firstName" -> "John",
+            "name.lastName" -> "Smith",
+            "previousName.hasPreviousName" -> "false")
       )
 
       status(result) should be(SEE_OTHER)
@@ -174,11 +174,11 @@ class OverseasNameControllerTests
           .withIerSession()
           .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
-            "overseasName.name.firstName" -> "John",
-            "overseasName.name.lastName" -> "Smith",
-            "overseasName.previousName.hasPreviousName" -> "true",
-            "overseasName.previousName.previousName.firstName" -> "John",
-            "overseasName.previousName.previousName.lastName" -> "Smith")
+            "name.firstName" -> "John",
+            "name.lastName" -> "Smith",
+            "previousName.hasPreviousName" -> "true",
+            "previousName.previousName.firstName" -> "John",
+            "previousName.previousName.lastName" -> "Smith")
       )
 
       status(result) should be(SEE_OTHER)

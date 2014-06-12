@@ -3,14 +3,17 @@ package uk.gov.gds.ier.transaction.overseas.name
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
-import uk.gov.gds.ier.model.{Name, PreviousName, OverseasName}
+import uk.gov.gds.ier.model._
+import uk.gov.gds.ier.model.Name
+import scala.Some
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import play.api.mvc.Call
 
-class OverseasNameMustacheTest
+class NameMustacheTest
   extends FlatSpec
   with Matchers
-  with NameForms
   with NameMustache
+  with NameForms
   with ErrorMessages
   with FormKeys
   with WithMockConfig
@@ -21,12 +24,12 @@ class OverseasNameMustacheTest
     val emptyApplicationForm = nameForm
     val nameModel = mustache.data(
       emptyApplicationForm,
-      new Call("POST", "/register-to-vote/overseas/name"),
+      Call("GET", "/register-to-vote/crown/name"),
       InprogressOverseas()
     ).asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
-    nameModel.question.postUrl should be("/register-to-vote/overseas/name")
+    nameModel.question.postUrl should be("/register-to-vote/crown/name")
 
     nameModel.firstName.value should be("")
     nameModel.middleNames.value should be("")
@@ -40,19 +43,20 @@ class OverseasNameMustacheTest
 
   it should "progress form with filled applicant name should produce Mustache Model with name values present" in {
     val partiallyFilledApplicationForm = nameForm.fill(InprogressOverseas(
-      overseasName = Some(OverseasName(name = Some(Name(
+      name = Some(Name(
         firstName = "John",
         middleNames = None,
-        lastName = "Smith"))))))
-
+        lastName = "Smith"
+      ))
+    ))
     val nameModel = mustache.data(
       partiallyFilledApplicationForm,
-      new Call("POST", "/register-to-vote/overseas/name"),
+      Call("GET", "/register-to-vote/crown/name"),
       InprogressOverseas()
-      ).asInstanceOf[NameModel]
+    ).asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
-    nameModel.question.postUrl should be("/register-to-vote/overseas/name")
+    nameModel.question.postUrl should be("/register-to-vote/crown/name")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
@@ -66,27 +70,28 @@ class OverseasNameMustacheTest
 
   it should "progress form with filled applicant name and previous should produce Mustache Model with name and previous name values present" in {
     val partiallyFilledApplicationForm = nameForm.fill(InprogressOverseas(
-      overseasName = Some(OverseasName(name = Some(Name(
+      name = Some(Name(
         firstName = "John",
         middleNames = None,
-        lastName = "Smith")),
+        lastName = "Smith"
+      )),
       previousName = Some(PreviousName(
         hasPreviousName = true,
         previousName = Some(Name(
           firstName = "Jan",
           middleNames = None,
-          lastName = "Kovar"))
-      ))))
+          lastName = "Kovar"
+        ))
+      ))
     ))
-
     val nameModel = mustache.data(
       partiallyFilledApplicationForm,
-      new Call("POST", "/register-to-vote/overseas/name"),
+      Call("GET", "/register-to-vote/crown/name"),
       InprogressOverseas()
     ).asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
-    nameModel.question.postUrl should be("/register-to-vote/overseas/name")
+    nameModel.question.postUrl should be("/register-to-vote/crown/name")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
@@ -100,19 +105,20 @@ class OverseasNameMustacheTest
 
   it should "progress form with validation errors should produce Model with error list present" in {
     val partiallyFilledApplicationFormWithErrors = nameForm.fillAndValidate(InprogressOverseas(
-      overseasName = Some(OverseasName(name = Some(Name(
+      name = Some(Name(
         firstName = "John",
         middleNames = None,
-        lastName = ""))))))
-
+        lastName = ""
+      ))
+    ))
     val nameModel = mustache.data(
       partiallyFilledApplicationFormWithErrors,
-      new Call("POST", "/register-to-vote/overseas/name"),
+      Call("GET", "/register-to-vote/crown/name"),
       InprogressOverseas()
     ).asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
-    nameModel.question.postUrl should be("/register-to-vote/overseas/name")
+    nameModel.question.postUrl should be("/register-to-vote/crown/name")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
@@ -123,7 +129,8 @@ class OverseasNameMustacheTest
     nameModel.previousMiddleNames.value should be("")
     nameModel.previousLastName.value should be("")
 
-    nameModel.question.errorMessages.mkString(", ") should be(
-      "Please enter your last name, Please answer this question")
+    nameModel.question.errorMessages.toSet should be(
+      Set("Please enter your last name", "Please answer this question")
+    )
   }
 }

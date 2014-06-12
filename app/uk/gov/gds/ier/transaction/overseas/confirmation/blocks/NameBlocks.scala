@@ -7,9 +7,9 @@ trait NameBlocks {
 
   def name = {
     val nameStr = List(
-      form(keys.overseasName.name.firstName).value,
-      form(keys.overseasName.name.middleNames).value,
-      form(keys.overseasName.name.lastName).value
+      form(keys.name.firstName).value,
+      form(keys.name.middleNames).value,
+      form(keys.name.lastName).value
     ).flatten.mkString(" ")
 
     ConfirmationQuestion(
@@ -23,13 +23,13 @@ trait NameBlocks {
   }
 
   def previousName = {
-    val havePreviousName = form(keys.overseasName.previousName.hasPreviousName).value
+    val havePreviousName = form(keys.previousName.hasPreviousName).value
     val prevNameStr =  havePreviousName match {
       case `hasPreviousName` => {
         List(
-          form(keys.overseasName.previousName.previousName.firstName).value,
-          form(keys.overseasName.previousName.previousName.middleNames).value,
-          form(keys.overseasName.previousName.previousName.lastName).value
+          form(keys.previousName.previousName.firstName).value,
+          form(keys.previousName.previousName.middleNames).value,
+          form(keys.previousName.previousName.lastName).value
         ).flatten.mkString(" ")
       }
       case _ => "I have not changed my name in the last 12 months"

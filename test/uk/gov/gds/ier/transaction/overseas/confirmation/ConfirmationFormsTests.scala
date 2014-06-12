@@ -52,8 +52,8 @@ class ConfirmationFormTests
       hasErrors => {
         val errorMessage = Seq("Please complete this step")
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "overseasName.name" -> errorMessage,
-          "overseasName.previousName" -> errorMessage,
+          "name" -> errorMessage,
+          "previousName" -> errorMessage,
           "parentsAddress" -> errorMessage,
           "lastRegisteredToVote" -> errorMessage,
           "overseasParentName.parentName" -> errorMessage,
@@ -81,8 +81,8 @@ class ConfirmationFormTests
       hasErrors => {
         val errorMessage = Seq("Please complete this step")
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "overseasName.name" -> errorMessage,
-          "overseasName.previousName" -> errorMessage,
+          "name" -> errorMessage,
+          "previousName" -> errorMessage,
           "dob" -> errorMessage,
           "lastUkAddress" -> errorMessage,
           "dateLeftUk" -> errorMessage,
@@ -110,8 +110,8 @@ class ConfirmationFormTests
         val errorMessage = Seq("Please complete this step")
 
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "overseasName.name" -> errorMessage,
-          "overseasName.previousName" -> errorMessage,
+          "name" -> errorMessage,
+          "previousName" -> errorMessage,
           "dob" -> errorMessage,
           "lastUkAddress" -> errorMessage,
           "dateLeftSpecial" -> errorMessage,
@@ -137,8 +137,8 @@ class ConfirmationFormTests
         val errorMessage = Seq("Please complete this step")
 
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "overseasName.name" -> errorMessage,
-          "overseasName.previousName" -> errorMessage,
+          "name" -> errorMessage,
+          "previousName" -> errorMessage,
           "dob" -> errorMessage,
           "lastUkAddress" -> errorMessage,
           "dateLeftSpecial" -> errorMessage,
@@ -164,8 +164,8 @@ class ConfirmationFormTests
         val errorMessage = Seq("Please complete this step")
 
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "overseasName.name" -> errorMessage,
-          "overseasName.previousName" -> errorMessage,
+          "name" -> errorMessage,
+          "previousName" -> errorMessage,
           "dob" -> errorMessage,
           "lastUkAddress" -> errorMessage,
           "dateLeftSpecial" -> errorMessage,
@@ -193,8 +193,8 @@ class ConfirmationFormTests
         val errorMessage = Seq("Please complete this step")
 
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "overseasName.name" -> errorMessage,
-          "overseasName.previousName" -> errorMessage,
+          "name" -> errorMessage,
+          "previousName" -> errorMessage,
           "dob" -> errorMessage,
           "dateLeftUk" -> errorMessage,
           "NINO" -> errorMessage,
