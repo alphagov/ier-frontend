@@ -1,10 +1,11 @@
 package uk.gov.gds.ier.feedback
 
 import uk.gov.gds.ier.validation.EmailValidator
+import com.google.inject.Inject
 
-trait FeedbackService {
-
-  val feedbackClient: FeedbackClient
+class FeedbackService @Inject() (
+    feedbackClient: FeedbackClient
+){
 
   def submit(request: FeedbackRequest, browserDetails: Option[String]) {
     feedbackClient.submit(

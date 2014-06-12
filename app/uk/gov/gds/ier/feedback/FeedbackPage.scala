@@ -16,11 +16,10 @@ class FeedbackPage @Inject ()(
     val config: Config,
     val encryptionService: EncryptionService,
     val remoteAssets: RemoteAssets,
-    val feedbackClient: FeedbackClient)
+    val feedbackService: FeedbackService)
   extends Controller
   with FeedbackForm
   with FeedbackMustache
-  with FeedbackService
   with Logging
   with WithConfig
   with WithRemoteAssets {
@@ -48,7 +47,7 @@ class FeedbackPage @Inject ()(
       success => {
         logger.debug(s"Form binding successful, proceed with submitting feedback")
         val browserDetails = getBrowserAndOsDetailsIfPresent(request)
-        submit(success, browserDetails)
+        feedbackService.submit(success, browserDetails)
         Redirect(FeedbackThankYouController.get(success.sourcePath))
       }
     )
