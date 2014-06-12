@@ -19,41 +19,14 @@ trait FeedbackForm {
 
   val feedbackForm = ErrorTransformForm(
     mapping(
-      keys.sourcePath.key -> optional(text),
       keys.feedback.feedbackText.key -> text(0, maxFeedbackCommentLength),
       keys.feedback.contactName.key -> optional(text(0, maxFeedbackNameLength)),
       keys.feedback.contactEmail.key -> optional(text(0, maxFeedbackEmailLength))
     ) (
-      (sourcePath, comment, contactName, contactEmail) => FeedbackRequest(
-        sourcePath = sourcePath,
-        comment = comment,
-        contactName = contactName,
-        contactEmail = contactEmail
-      )
+      FeedbackRequest.apply
     ) (
-      request => Some(
-        request.sourcePath,
-        request.comment,
-        request.contactName,
-        request.contactName
-      )
+      FeedbackRequest.unapply
     ).verifying(feedbackTextCannotBeEmpty)
-  )
-
-  val feedbackGetForm = ErrorTransformForm(
-    mapping(
-      "sourcePath" -> optional(text)
-    ) (
-      (sourcePath) => FeedbackRequest(
-        sourcePath = sourcePath,
-        comment = "",
-        contactName = None,
-        contactEmail = None
-      )
-    ) (
-      request =>
-        Some(request.sourcePath)
-    )
   )
 
   lazy val feedbackTextCannotBeEmpty = Constraint[FeedbackRequest] {
@@ -61,8 +34,4 @@ trait FeedbackForm {
       if (feedbackRequest.comment.trim.isEmpty) Invalid("Feedback text cannot be empty")
       else Valid
   }
-
-  val feedbackThankYouGetForm = feedbackGetForm
-
-  val feedbackThankYouPostForm = feedbackGetForm
 }

@@ -21,29 +21,25 @@ class FeedbackPage @Inject ()(
 
   val validation = feedbackForm
 
-  val postRoute = FeedbackController.post
-
-  def get() = Action { implicit request =>
-    logger.debug(s"GET request for ${request.path}")
-    val form = feedbackGetForm.bindFromRequest()
-    val sourcePath = form(keys.sourcePath).value.getOrElse("")
-    logger.debug(s"FeedbackPage source path ${sourcePath}")
-    Ok(FeedbackPage(form, postRoute.url))
+  def get(sourcePath: Option[String]) = Action { implicit request =>
+    logger.debug(s"GET request for ${request.path} with source path ${sourcePath}")
+    Ok(FeedbackPage(
+      postUrl = FeedbackController.post(sourcePath).url
+    ))
   }
 
-  def post() = Action { implicit request =>
+  def post(sourcePath: Option[String]) = Action { implicit request =>
     logger.debug(s"POST request for ${request.path}")
     validation.bindFromRequest().fold(
       hasErrors => {
         logger.debug(s"Form binding error: ${hasErrors}")
-        val sourcePath = hasErrors(keys.sourcePath).value
         Redirect(FeedbackController.thankYou(sourcePath))
       },
       success => {
         logger.debug(s"Form binding successful, proceed with submitting feedback")
         val browserDetails = getBrowserAndOsDetailsIfPresent(request)
         feedbackService.submit(success, browserDetails)
-        Redirect(FeedbackController.thankYou(success.sourcePath))
+        Redirect(FeedbackController.thankYou(sourcePath))
       }
     )
   }

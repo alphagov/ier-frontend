@@ -22,52 +22,29 @@ trait FeedbackMustache
   ) extends ArticlePage("feedbackThankYou")
     with MessagesForMustache
 
+  private[this] implicit val feedbackPageForm = feedbackForm
+
   case class FeedbackPage (
-      pageTitle: String,
+      pageTitle: String = Messages("feedback_title"),
       postUrl: String,
-      feedbackText: Field,
-      contactName: Field,
-      contactEmail: Field,
-      sourcePath: Field,
-      maxFeedbackCommentLength: Int,
-      maxFeedbackNameLength: Int,
-      maxFeedbackEmailLength: Int,
-      feedbackDetailHint: String
+      feedbackText: Field = TextField(
+        key = keys.feedback.feedbackText
+      ),
+      contactName: Field = TextField(
+        key = keys.feedback.contactName
+      ),
+      contactEmail: Field = TextField(
+        key = keys.feedback.contactEmail
+      ),
+      maxFeedbackCommentLength: Int = maxFeedbackCommentLength,
+      maxFeedbackNameLength: Int = maxFeedbackNameLength,
+      maxFeedbackEmailLength: Int = maxFeedbackEmailLength,
+      feedbackDetailHint: String = Messages(
+        "feedback_detail_hint",
+        maxFeedbackCommentLength
+      )
   ) (
       implicit val lang: Lang
   ) extends ArticlePage("feedbackForm")
     with MessagesForMustache
-
-  object FeedbackPage {
-    def apply[T](
-        form: ErrorTransformForm[T],
-        postUrl: String
-    ) (
-        implicit lang: Lang
-    ) : FeedbackPage = {
-      implicit val progressForm = form
-
-      FeedbackPage(
-        pageTitle = Messages("feedback_title"),
-        postUrl = postUrl,
-        feedbackText = TextField(
-          key = keys.feedback.feedbackText
-        ),
-        contactName = TextField(
-          key = keys.feedback.contactName
-        ),
-        contactEmail = TextField(
-          key = keys.feedback.contactEmail
-        ),
-        sourcePath = HiddenField(
-          key = keys.sourcePath,
-          value = form(keys.sourcePath).value.getOrElse("")
-        ),
-        maxFeedbackCommentLength = maxFeedbackCommentLength,
-        maxFeedbackNameLength = maxFeedbackNameLength,
-        maxFeedbackEmailLength = maxFeedbackEmailLength,
-        feedbackDetailHint = Messages("feedback_detail_hint", maxFeedbackCommentLength)
-      )
-    }
-  }
 }
