@@ -90,28 +90,29 @@ trait ApiClient extends Logging {
    * and don't wait for reply
    */
   def postAsync(
-    url: String,
-    content: String,
-    username: String,
-    password: String,
-    headers: (String, String)*) : Unit = {
-      implicit val context = scala.concurrent.ExecutionContext.Implicits.global
-      WS.url(url)
-        .withAuth(username, password, AuthScheme.BASIC)
-        .withHeaders("Content-Type" -> MimeTypes.JSON)
-        .withHeaders(headers: _*)
-        .post(content)
-        .map {
-          // we are not really interested in response, just log it
-          response => response.status match {
-            case IsSuccessStatusCode(true) =>
-              logger.info(s"apiClient.post url: $url request succeed " +
-                s"with status code ${response.status}")
-            case _ =>
-              logger.error(s"apiClient.post url: $url request failed " +
-                s"with error status code ${response.status}")
-          }
-        }
+      url: String,
+      content: String,
+      username: String,
+      password: String,
+      headers: (String, String)*
+  ): Unit = {
+    implicit val context = scala.concurrent.ExecutionContext.Implicits.global
+    WS.url(url)
+      .withAuth(username, password, AuthScheme.BASIC)
+      .withHeaders("Content-Type" -> MimeTypes.JSON)
+      .withHeaders(headers: _*)
+      .post(content)
+      .map {
+      // we are not really interested in response, just log it
+      response => response.status match {
+        case IsSuccessStatusCode(true) =>
+          logger.info(s"apiClient.post url: $url request succeed " +
+            s"with status code ${response.status}")
+        case _ =>
+          logger.error(s"apiClient.post url: $url request failed " +
+            s"with error status code ${response.status}")
+      }
+    }
     logger.info(s"apiClient.post url: $url request submitted")
   }
 

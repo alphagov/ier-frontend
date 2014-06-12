@@ -10,20 +10,31 @@ case class FeedbackSubmissionData(
 
 case class FeedbackTicket(
   subject: String,
-  comment: FeedbackComment
+  comment: FeedbackComment,
+  requester: FeedbackRequester
 )
 
-case class FeedbackComment (
+case class FeedbackComment(
   body: String
 )
 
+case class FeedbackRequester(
+  name: String,
+  email: String
+)
+
 object FeedbackSubmissionData {
-  def apply(subject: String, text: String): FeedbackSubmissionData = {
+  def apply(
+      subject: String,
+      text: String,
+      requester: FeedbackRequester
+    ): FeedbackSubmissionData = {
     FeedbackSubmissionData(FeedbackTicket(
       subject = subject,
       comment = FeedbackComment(
         body = text
-      )
+      ),
+      requester = requester
     ))
   }
 }
