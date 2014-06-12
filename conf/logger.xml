@@ -3,7 +3,14 @@
     <property name="isNotInTestMode" value='!property("gds.mode").equals("test")' />
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>/var/log/ier/ier-frontend.log</file>
+        <if condition='${isNotInTestMode}'>
+            <then>
+                <file>/var/log/ier/ier-frontend.log</file>
+            </then>
+            <else>
+                <file>logs/ier-frontend.log</file>
+            </else>
+        </if>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>%date{ISO8601} clientip=[%X{clientip}] level=[%level] logger=[%logger] thread=[%thread] message=[%message] %replace(exception=[%xException]){'^exception=\[\]$',''}%n%nopex</pattern>
         </encoder>
