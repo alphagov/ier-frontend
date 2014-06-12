@@ -29,7 +29,7 @@ trait MustacheRendering[T] extends StepMustache {
         pageTitle = model.question.title,
         htmlLang = model.question.lang.language,
         contentClasses = model.question.contentClasses,
-        sourcePath = model.question.postUrl
+        footerSupportLinks = FooterLinks(model.question.postUrl)
       ).render()
     }
   }
