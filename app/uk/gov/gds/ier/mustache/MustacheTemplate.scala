@@ -11,7 +11,6 @@ case class Question (
     number:String = "",
     title:String = "",
     contentClasses:String = "",
-    headerClasses: String = headerWithBackButtonClass,
     errorMessages:Seq[String] = Seq.empty
 ) (
     implicit _lang: Lang = Lang("en")
