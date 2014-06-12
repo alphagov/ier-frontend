@@ -4,7 +4,6 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.assets.RemoteAssets
 import controllers.routes.FeedbackController
-import controllers.routes.FeedbackThankYouController
 import uk.gov.gds.ier.logging.Logging
 import play.api.mvc._
 import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
@@ -38,15 +37,22 @@ class FeedbackPage @Inject ()(
       hasErrors => {
         logger.debug(s"Form binding error: ${hasErrors}")
         val sourcePath = hasErrors(keys.sourcePath).value
-        Redirect(FeedbackThankYouController.get(sourcePath))
+        Redirect(FeedbackController.thankYou(sourcePath))
       },
       success => {
         logger.debug(s"Form binding successful, proceed with submitting feedback")
         val browserDetails = getBrowserAndOsDetailsIfPresent(request)
         feedbackService.submit(success, browserDetails)
-        Redirect(FeedbackThankYouController.get(success.sourcePath))
+        Redirect(FeedbackController.thankYou(success.sourcePath))
       }
     )
+  }
+
+  def thankYou(sourcePath: Option[String]) = Action { implicit request =>
+    logger.debug(s"GET request for ${request.path}")
+    Ok(ThankYouPage(
+      sourcePath = sourcePath.getOrElse(config.ordinaryStartUrl)
+    ))
   }
 
   private[feedback] def getBrowserAndOsDetailsIfPresent(request: Request[_]) = {
