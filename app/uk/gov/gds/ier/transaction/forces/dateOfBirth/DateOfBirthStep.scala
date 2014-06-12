@@ -34,7 +34,7 @@ class DateOfBirthStep @Inject ()(
     editPost = DateOfBirthController.editPost
   )
 
-  override val onSuccess = TransformApplication { currentState => currentState
+  override val onSuccess = TransformApplication { currentState =>
     val dateOfBirth = currentState.dob.map { currentDob =>
       if (currentDob.dob.isDefined) currentDob.copy(noDob = None)
       else {
