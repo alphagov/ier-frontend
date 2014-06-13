@@ -24,12 +24,12 @@ class NameMustacheTest
     val emptyApplicationForm = nameForm
     val nameModel = mustache.data(
       emptyApplicationForm,
-      Call("GET", "/register-to-vote/crown/name"),
+      Call("GET", "/register-to-vote/forces/name"),
       InprogressForces()
     ).asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
-    nameModel.question.postUrl should be("/register-to-vote/crown/name")
+    nameModel.question.postUrl should be("/register-to-vote/forces/name")
 
     nameModel.firstName.value should be("")
     nameModel.middleNames.value should be("")
@@ -51,12 +51,12 @@ class NameMustacheTest
     ))
     val nameModel = mustache.data(
       partiallyFilledApplicationForm,
-      Call("GET", "/register-to-vote/crown/name"),
+      Call("GET", "/register-to-vote/forces/name"),
       InprogressForces()
     ).asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
-    nameModel.question.postUrl should be("/register-to-vote/crown/name")
+    nameModel.question.postUrl should be("/register-to-vote/forces/name")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
@@ -86,12 +86,12 @@ class NameMustacheTest
     ))
     val nameModel = mustache.data(
       partiallyFilledApplicationForm,
-      Call("GET", "/register-to-vote/crown/name"),
+      Call("GET", "/register-to-vote/forces/name"),
       InprogressForces()
     ).asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
-    nameModel.question.postUrl should be("/register-to-vote/crown/name")
+    nameModel.question.postUrl should be("/register-to-vote/forces/name")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
@@ -113,12 +113,12 @@ class NameMustacheTest
     ))
     val nameModel = mustache.data(
       partiallyFilledApplicationFormWithErrors,
-      Call("GET", "/register-to-vote/crown/name"),
+      Call("GET", "/register-to-vote/forces/name"),
       InprogressForces()
     ).asInstanceOf[NameModel]
 
     nameModel.question.title should be("What is your full name?")
-    nameModel.question.postUrl should be("/register-to-vote/crown/name")
+    nameModel.question.postUrl should be("/register-to-vote/forces/name")
 
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
