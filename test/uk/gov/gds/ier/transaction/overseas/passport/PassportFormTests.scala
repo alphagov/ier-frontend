@@ -262,6 +262,56 @@ class PassportFormTests
     )
   }
 
+  it should "error out on person older than 115 years" in {
+    val js = Json.toJson(
+      Map(
+        "passport.hasPassport" -> "true",
+        "passport.bornInsideUk" -> "true",
+        "passport.passportDetails.passportNumber" -> "12345",
+        "passport.passportDetails.authority" -> "London",
+        "passport.passportDetails.issueDate.day" -> "1",
+        "passport.passportDetails.issueDate.month" -> "1",
+        "passport.passportDetails.issueDate.year" -> "1899"
+      )
+    )
+
+    passportDetailsForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errorMessages("passport.passportDetails.issueDate.year") should be(
+          Seq("Please check the passport issue year"))
+        hasErrors.globalErrors.size should be(1)
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
+  it should "error out on future issue date" in {
+    val js = Json.toJson(
+      Map(
+        "passport.hasPassport" -> "true",
+        "passport.bornInsideUk" -> "true",
+        "passport.passportDetails.passportNumber" -> "12345",
+        "passport.passportDetails.authority" -> "London",
+        "passport.passportDetails.issueDate.day" -> "1",
+        "passport.passportDetails.issueDate.month" -> "1",
+        "passport.passportDetails.issueDate.year" -> "20000"
+      )
+    )
+
+    passportDetailsForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errorMessages("passport.passportDetails.issueDate.day") should be(
+          Seq("You have entered a date in the future"))
+        hasErrors.errorMessages("passport.passportDetails.issueDate.month") should be(
+          Seq("You have entered a date in the future"))
+        hasErrors.errorMessages("passport.passportDetails.issueDate.year") should be(
+          Seq("You have entered a date in the future"))
+        hasErrors.globalErrors.size should be(1)
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
   behavior of "PassportForms.citizenDetailsForm"
   it should "successfully bind" in {
     val js = Json.toJson(
