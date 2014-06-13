@@ -269,7 +269,7 @@ trait ConfirmationMustache
           val addressLine = form(keys.address.address.addressLine).value.orElse{
             manualAddressToOneLine(form, keys.address.address.manualAddress)
           }
-          val postcode = form(keys.address.address.postcode).value
+          val postcode = form(keys.address.address.postcode).value.map(_.toUpperCase)
           List(addressLine, postcode).flatten
         }
       ))
@@ -290,7 +290,7 @@ trait ConfirmationMustache
             }
 
             if (moved) {
-              val postcode = form(keys.previousAddress.previousAddress.postcode).value.getOrElse("")
+              val postcode = form(keys.previousAddress.previousAddress.postcode).value.getOrElse("").toUpperCase
               if (addressService.isNothernIreland(postcode)) {
                 List(postcode, "I was previously registered in Northern Ireland")
               } else {
@@ -299,8 +299,7 @@ trait ConfirmationMustache
                 } else {
                   manualAddressToOneLine(form, keys.previousAddress.previousAddress.manualAddress)
                 }
-                val postcode = form(keys.previousAddress.previousAddress.postcode).value
-                List(address, postcode).flatten
+                List(address, Some(postcode)).flatten
               }
             } else {
               List("I have not moved in the last 12 months")
@@ -331,7 +330,7 @@ trait ConfirmationMustache
               val addressLine = form(keys.address.address.addressLine).value.orElse{
                 manualAddressToOneLine(form, keys.address.address.manualAddress)
               }
-              val postcode = form(keys.address.address.postcode).value
+              val postcode = form(keys.address.address.postcode).value.map(_.toUpperCase)
               List(addressLine, postcode).flatten
             }
           }
