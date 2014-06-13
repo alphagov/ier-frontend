@@ -176,6 +176,10 @@ input.postcode {
   text-transform: uppercase;
 }
 
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .inline-fields {
   label {
     margin-bottom: 0.5em;
