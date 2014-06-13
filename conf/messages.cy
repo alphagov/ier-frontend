@@ -206,7 +206,7 @@ ordinary_address_manual_address_label_heading=Cyfeiriad
 ordinary_address_manual_address_label_1=Cyfeiriad
 ordinary_address_manual_address_label_2=Cyfeiriad
 ordinary_address_manual_address_label_3=Cyfeiriad
-ordinary_address_manual_townOrCity_label=Tref neu Ddinas
+ordinary_address_manual_townOrCity_label=Tref neu ddinas
 
 # ordinary: other address
 
@@ -270,7 +270,7 @@ ordinary_previousAddress_select_error_noAddressesFound=Mae’n ddrwg gennym - ni
 ordinary_previousAddress_manual_postcode_label=Cod post
 ordinary_previousAddress_manual_postcodeChange=Newid<span class="visuallyhidden"> eich cod post</span>
 ordinary_previousAddress_manual_address_label=Cyfeiriad
-ordinary_previousAddress_manual_city_label=Tref neu Ddinas
+ordinary_previousAddress_manual_city_label=Tref neu ddinas
 
 ordinary_previousAddress_manual_error_answerThis=Atebwch y cwestiwn hwn
 ordinary_previousAddress_manual_error_oneAddressLineRequired=Mae angen o leiaf un llinell gyfeiriad
