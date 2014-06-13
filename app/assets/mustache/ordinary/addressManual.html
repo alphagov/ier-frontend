@@ -3,10 +3,10 @@
     {{> shared/validationMessages }}
 
     <fieldset class="validate"
-              data-validation-name="addressManual"
-              data-validation-type="fieldset"
-              data-validation-rules="atLeastOneTextEntry atLeastOneValid"
-              data-validation-children="manualAddressMultiline city"
+      data-validation-name="addressManual"
+      data-validation-type="fieldset"
+      data-validation-rules="atLeastOneTextEntry atLeastOneValid"
+      data-validation-children="manualAddressMultiline city"
     >
         <p>
             <span class="postcode-prefix">{{messages.ordinary_address_manual_postcode_label}}</span>
@@ -25,10 +25,10 @@
 
         <div class="validation-wrapper">
             <fieldset class="multi-line-field validate"
-                      data-validation-name="manualAddressMultiline"
-                      data-validation-type="fieldset"
-                      data-validation-rules="firstChildValid"
-                      data-validation-children="manualAddressLineOne manualAddressLineTwo manualAddressLineThree"
+              data-validation-name="manualAddressMultiline"
+              data-validation-type="fieldset"
+              data-validation-rules="firstChildValid"
+              data-validation-children="manualAddressLineOne manualAddressLineTwo manualAddressLineThree"
             >
                 <legend class="label">
                     {{messages.ordinary_address_manual_address_label_heading}}
@@ -78,11 +78,12 @@
             />
         </div>
     </fieldset>
+
     <button
         type="submit"
         id="continue"
         class="button next validation-submit"
-        data-validation-sources="addressManual"
+        data-validation-sources="addressManual city"
     >
         {{messages.step_continue}}
     </button>
