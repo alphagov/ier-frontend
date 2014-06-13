@@ -2,7 +2,7 @@
    <div class="article">
    {{> shared/questionHeader }}
     <p>
-      <a class="call-to-action" href="{{sourcePath}}">{{messages.feedback_thankYou_exit_button}}</a>
+      <a class="call-to-action" href="{{sourcePath}}" id="continue">{{messages.feedback_thankYou_exit_button}}</a>
     </p>
     </div>
 {{/returnToTransaction}}
@@ -10,7 +10,7 @@
     <div class="article">
       {{> shared/questionHeader }}
       <p>
-        <a class="call-to-action" href="{{exitPath}}">{{messages.feedback_thankYou_exit_button}}</a>
+        <a class="call-to-action" href="{{exitPath}}" id="continue">{{messages.feedback_thankYou_exit_button}}</a>
       </p>
     </div>
 {{/returnToTransaction}}
