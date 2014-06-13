@@ -17,7 +17,7 @@ trait FeedbackService {
   }
 
   def ticketSubject(sourcePath: Option[String]) = sourcePath match {
-    case Some(sourcePath) => s"ier-frontend feedback ${sourcePath}"
+    case Some(sourcePath) => sourcePath
     case None => "ier-frontend feedback"
   }
 
