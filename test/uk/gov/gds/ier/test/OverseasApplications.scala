@@ -7,9 +7,8 @@ import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 trait OverseasApplications {
 
   lazy val completeOverseasApplication = InprogressOverseas(
-    overseasName = Some(OverseasName(
-        Some(Name("John", None, "Smith")),
-        Some(PreviousName(false, None)))),
+    name = Some(Name("John", None, "Smith")),
+    previousName = Some(PreviousName(false, None)),
     dob = Some(DOB(year = 1970, month = 12, day = 12)),
     lastUkAddress = Some(
       PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)

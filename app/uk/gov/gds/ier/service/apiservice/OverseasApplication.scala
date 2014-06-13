@@ -4,7 +4,8 @@ import uk.gov.gds.common.model.LocalAuthority
 import uk.gov.gds.ier.model._
 
 case class OverseasApplication(
-    overseasName: Option[OverseasName],
+    name: Option[Name],
+    previousName: Option[PreviousName],
     dateLeftUk: Option[DateLeft],
     dateLeftSpecial: Option[DateLeftSpecial],
     overseasParentName: Option[OverseasParentName] = None,
@@ -26,7 +27,8 @@ case class OverseasApplication(
   def toApiMap = {
     val authorityGssCodeSource = lastUkAddress.orElse(parentsAddress)
     val apiMap = Map.empty ++
-      overseasName.map(_.toApiMap("p")).getOrElse(Map.empty) ++
+      name.map(_.toApiMap("fn", "mn", "ln")).getOrElse(Map.empty) ++
+      previousName.map(_.toApiMap("p")).getOrElse(Map.empty) ++
       lastRegisteredToVote.map(_.toApiMap).getOrElse(Map.empty) ++
       dateLeftUk.map(_.toApiMap()).getOrElse(Map.empty) ++
       dateLeftSpecial.map(_.toApiMap).getOrElse(Map.empty) ++

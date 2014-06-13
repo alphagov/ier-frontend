@@ -29,8 +29,7 @@ class NameBlocksTests
   "In-progress application form with filled name and previous name" should
     "generate confirmation mustache model with correctly rendered names and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
-      overseasName = Some(OverseasName(
-          name = Some(Name(
+      name = Some(Name(
         firstName = "John",
         middleNames = None,
         lastName = "Smith")),
@@ -41,7 +40,7 @@ class NameBlocksTests
           middleNames = None,
           lastName = "Kovar"))
       ))
-    ))))
+    ))
 
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
@@ -57,8 +56,7 @@ class NameBlocksTests
   "In-progress application form with filled name and previous name with middle names" should
     "generate confirmation mustache model with correctly rendered names and correct URLs" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
-      overseasName = Some(OverseasName(
-          name = Some(Name(
+      name = Some(Name(
         firstName = "John",
         middleNames = Some("Walker Junior"),
         lastName = "Smith")),
@@ -69,7 +67,7 @@ class NameBlocksTests
           middleNames = Some("Janko Janik"),
           lastName = "Kovar"))
       ))
-    ))))
+    ))
 
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 

@@ -179,21 +179,18 @@ class OverseasApplicationTests
 
   def createOverseasApplication =
     OverseasApplication(
-      overseasName = Some(OverseasName(
-        Some(Name(
+      name = Some(Name(
           firstName = "John",
           middleNames = Some("James"),
-          lastName = "Smith"
-        )),
-        Some(PreviousName(
+          lastName = "Smith")),
+      previousName = Some(PreviousName(
           hasPreviousName = true,
           previousName = Some(Name(
             firstName = "James",
             middleNames = Some("John"),
             lastName = "Smith"
           ))
-        ))
-      )),
+        )),
       dateLeftUk = Some(DateLeft(
         month = 1,
         year = 1990

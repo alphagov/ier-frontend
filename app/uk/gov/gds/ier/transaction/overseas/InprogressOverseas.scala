@@ -4,7 +4,8 @@ import uk.gov.gds.ier.step.InprogressApplication
 import uk.gov.gds.ier.model._
 
 case class InprogressOverseas(
-    overseasName: Option[OverseasName] = None,
+    name: Option[Name] = None,
+    previousName: Option[PreviousName] = None,
     dateLeftSpecial: Option[DateLeftSpecial] = None,
     dateLeftUk: Option[DateLeft] = None,
     overseasParentName: Option[OverseasParentName] = None,
@@ -24,7 +25,8 @@ case class InprogressOverseas(
 
   def merge(other:InprogressOverseas) = {
     other.copy(
-      overseasName = this.overseasName.orElse(other.overseasName),
+      name = this.name.orElse(other.name),
+      previousName = this.previousName.orElse(other.previousName),
       dateLeftSpecial = this.dateLeftSpecial.orElse(other.dateLeftSpecial),
       dateLeftUk = this.dateLeftUk.orElse(other.dateLeftUk),
       overseasParentName = this.overseasParentName.orElse(other.overseasParentName),
