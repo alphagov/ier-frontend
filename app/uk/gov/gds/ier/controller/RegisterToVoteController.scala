@@ -36,7 +36,7 @@ class RegisterToVoteController @Inject() (
 
   def registerToVoteStart = NewSession requiredFor {
     request =>
-      Redirect(step.routes.CountryController.get)
+      Redirect(step.routes.CountryController.get.url, request.queryString)
   }
 
   def registerToVoteOverseasStart = NewSession requiredFor {
