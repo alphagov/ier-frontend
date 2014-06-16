@@ -796,4 +796,43 @@ class ConfirmationMustacheTest
     previousAddressModel.content should be(BlockContent(List("I have not moved in the last 12 months")))
     previousAddressModel.editLink should be("/register-to-vote/edit/previous-address")
   }
+
+  "In-progress application confirmation form" should
+    "display all postcodes uppercased" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
+      address = Some(PartialAddress(
+          addressLine = Some("line1"),
+          uprn = Some("1234"),
+          postcode = "ab123cd",
+          manualAddress = None
+      )),
+      previousAddress = Some(PartialPreviousAddress(
+        movedRecently = Some(MovedHouseOption.MovedFromUk),
+        previousAddress = Some(PartialAddress(
+          addressLine = Some("line1"),
+          uprn = Some("12341234"),
+          postcode = "aa123bb",
+          manualAddress = None
+        ))
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+
+    confirmation.address.get.content should be(BlockContent(List("line1", "AB123CD")))
+    confirmation.previousAddress.get.content should be(BlockContent(List("line1", "AA123BB")))
+  }
+
+  "In-progress application confirmation form" should
+    "display NINO uppercased" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
+      nino = Some(Nino(
+        nino = Some("ab123456"),
+        noNinoReason = None
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+    confirmation.nino.get.content should be(BlockContent(List("AB123456")))
+  }
 }

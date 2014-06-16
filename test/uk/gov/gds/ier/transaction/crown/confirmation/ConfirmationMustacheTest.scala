@@ -1195,4 +1195,18 @@ class ConfirmationMustacheTest
     confirmation.previousAddress.get.content should be(BlockContent(List("line1", "AA123BB")))
     confirmation.contactAddress.get.content should be(BlockContent(List("line1", "AB123CD")))
   }
+
+
+  "In-progress application confirmation form" should
+    "display NINO uppercased" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
+      nino = Some(Nino(
+        nino = Some("ab123456"),
+        noNinoReason = None
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+    confirmation.nino.get.content should be(BlockContent(List("AB123456")))
+  }
 }
