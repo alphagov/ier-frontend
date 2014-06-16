@@ -27,7 +27,8 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
       possibleJsonList: Field,
       possiblePostcode: Field,
       hasAddresses: Boolean,
-      hasAddress: Field
+      hasAddress: Field,
+      hasAuthority: Boolean
   ) extends MustacheData
 
   val mustache = MustacheTemplate("crown/addressSelect") { (form, postUrl) =>
@@ -42,7 +43,7 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
 
     val storedAddresses = for(
       jsonList <- form(keys.possibleAddresses.jsonList).value;
-      postcode <- form(keys.possibleAddresses.postcode).value
+      postcode <- postcode
     ) yield {
       PossibleAddress(
         jsonList = serialiser.fromJson[Addresses](jsonList),
@@ -73,6 +74,8 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
     val hasAddresses = possibleAddresses.exists { poss =>
       !poss.jsonList.addresses.isEmpty
     }
+
+    val hasAuthority = hasAddresses || addressService.validAuthority(postcode)
 
     val addressSelect = SelectField(
       key = keys.address.uprn,
@@ -114,7 +117,8 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
       hasAddress = HiddenField(
         key = keys.hasAddress,
         value = form(keys.hasAddress).value.getOrElse("")
-      )
+      ),
+      hasAuthority = hasAuthority
     )
   }
 }
