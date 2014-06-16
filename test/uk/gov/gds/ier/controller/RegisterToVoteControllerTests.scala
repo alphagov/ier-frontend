@@ -23,7 +23,7 @@ class RegisterToVoteControllerTests extends FlatSpec with Matchers {
     }
   }
 
-    behavior of "RegisterToVoteController.registerToVoteOverseasStart"
+  behavior of "RegisterToVoteController.registerToVoteOverseasStart"
   it should "redirect to register-to-vote/country-of-residence" in {
     running(FakeApplication()) {
       val Some(result) = route(FakeRequest(GET, "/register-to-vote/overseas/start"))
