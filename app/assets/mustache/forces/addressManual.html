@@ -2,7 +2,12 @@
     {{> shared/questionHeader }}
     {{> shared/validationMessages }}
 
-    <fieldset>
+    <fieldset class="validate"
+      data-validation-name="addressManual"
+      data-validation-type="fieldset"
+      data-validation-rules="atLeastOneTextEntry atLeastOneValid"
+      data-validation-children="manualAddressMultiline city"
+    >
         <p>
             <span class="postcode-prefix">Postcode</span>
             <span class="visuallyhidden">:</span>
@@ -19,11 +24,11 @@
           class="text hidden">
 
         <div class="validation-wrapper">
-            <fieldset class="validate multi-line-field"
-                      data-validation-name="addressManual"
-                      data-validation-type="fieldset"
-                      data-validation-rules="atLeastOneNonEmpty"
-                      data-validation-children="manualAddressLineOne manualAddressLineTwo manualAddressLineThree"
+            <fieldset class="multi-line-field validate"
+              data-validation-name="manualAddressMultiline"
+              data-validation-type="fieldset"
+              data-validation-rules="firstChildValid"
+              data-validation-children="manualAddressLineOne manualAddressLineTwo manualAddressLineThree"
             >
                 <legend class="label">
                     Address
@@ -78,7 +83,7 @@
       type="submit"
       id="continue"
       class="button next validation-submit"
-      data-validation-sources="addressManual city">
+      data-validation-sources="addressManual">
         Continue
     </button>
 </form>
