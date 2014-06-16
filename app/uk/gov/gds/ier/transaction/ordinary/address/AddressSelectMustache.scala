@@ -20,7 +20,8 @@ trait AddressSelectMustache extends StepTemplate[InprogressOrdinary] {
       address: Field,
       possibleJsonList: Field,
       possiblePostcode: Field,
-      hasAddresses: Boolean
+      hasAddresses: Boolean,
+      hasAuthority: Boolean
   ) extends MustacheData
 
   val mustache = MultilingualTemplate("ordinary/addressSelect") { implicit lang => (form, post) =>
@@ -64,6 +65,8 @@ trait AddressSelectMustache extends StepTemplate[InprogressOrdinary] {
 
     val hasAddresses = possibleAddresses.exists (!_.jsonList.addresses.isEmpty)
 
+    val hasAuthority = hasAddresses || addressService.validAuthority(postcode)
+
     val addressSelect = SelectField(
       key = keys.address.uprn,
       optionList = options,
@@ -101,7 +104,8 @@ trait AddressSelectMustache extends StepTemplate[InprogressOrdinary] {
         key = keys.possibleAddresses.postcode,
         value = form(keys.address.postcode).value.getOrElse("")
       ),
-      hasAddresses = hasAddresses
+      hasAddresses = hasAddresses,
+      hasAuthority = hasAuthority
     )
   }
 }
