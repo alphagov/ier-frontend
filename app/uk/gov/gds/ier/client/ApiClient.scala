@@ -8,6 +8,8 @@ import play.api.http._
 import uk.gov.gds.ier.guice.WithConfig
 import org.joda.time.DateTime
 import uk.gov.gds.ier.logging.Logging
+import com.ning.http.client.Realm.AuthScheme
+
 
 trait ApiClient extends Logging {
   self:WithConfig =>
@@ -81,5 +83,41 @@ trait ApiClient extends Logging {
         Fail(e.getMessage, timeTakenMs)
       }
     }
+  }
+
+  /**
+   * Post a serialized JSON content asynchronously to given web service with basic authentication
+   * and don't wait for reply
+   */
+  def postAsync(
+      url: String,
+      content: String,
+      username: String,
+      password: String,
+      headers: (String, String)*
+  ): Unit = {
+    implicit val context = scala.concurrent.ExecutionContext.Implicits.global
+    WS.url(url)
+      .withAuth(username, password, AuthScheme.BASIC)
+      .withHeaders("Content-Type" -> MimeTypes.JSON)
+      .withHeaders(headers: _*)
+      .post(content)
+      .map {
+      // we are not really interested in response, just log it
+      response => response.status match {
+        case IsSuccessStatusCode(true) =>
+          logger.info(s"apiClient.post url: $url request succeed " +
+            s"with status code ${response.status}")
+        case _ =>
+          logger.error(s"apiClient.post url: $url request failed " +
+            s"with error status code ${response.status}")
+      }
+    }
+    logger.info(s"apiClient.post url: $url request submitted")
+  }
+
+  object IsSuccessStatusCode {
+    val successStatusCodes =  Set(200, 201, 202)
+    def unapply(statusCode: Int) = Option(statusCode).map { c => successStatusCodes.contains(c) }
   }
 }

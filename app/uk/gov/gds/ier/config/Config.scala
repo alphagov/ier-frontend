@@ -31,6 +31,11 @@ class Config extends Logging {
   def crownStartUrl = configuration.getString("ier.start.crown")
   def forcesStartUrl = configuration.getString("ier.start.forces")
 
+  def fakeFeedbackService = configuration.getBoolean("fakeFeedbackService")
+  def zendeskUrl = configuration.getString("zendesk.url")
+  def zendeskUsername = configuration.getString("zendesk.username", "")
+  def zendeskPassword = configuration.getString("zendesk.password", "")
+
   def logConfiguration() = {
     logger.debug(s"apiTimeout:$apiTimeout")
     logger.debug(s"locateUrl:$locateUrl")
@@ -44,5 +49,6 @@ class Config extends Logging {
     logger.debug(s"branch:$branch")
     logger.debug(s"cookiesSecured:$cookiesSecured")
     logger.debug(s"assetsPath:$assetsPath")
+    logger.debug(s"zendeskUrl:$zendeskUrl")
   }
 }

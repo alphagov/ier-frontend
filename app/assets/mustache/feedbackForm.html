@@ -1,0 +1,55 @@
+<form action="{{question.postUrl}}" method="POST">
+    {{> shared/questionHeader }}
+
+    <h3>{{messages.feedback_preamble_h2}}</h3>
+
+    <p>
+        {{messages.feedback_description_p1}}
+    </p>
+
+    <p>
+        {{messages.feedback_warning_p2}}
+    </p>
+
+    <label for="{{feedbackText.id}}" class="visuallyhidden">
+        {{messages.feedback_detail_label}}
+    </label>
+    <textarea name="{{feedbackText.name}}"
+              id="{{feedbackText.id}}"
+              class="text large"
+              maxlength="{{maxFeedbackCommentLength}}"
+              autocomplete="off"
+              ></textarea>
+
+    <p id="textdetailscounter" class="hint">
+      {{feedbackDetailHint}}
+    </p>
+
+    <h3>{{messages.feedback_contact_h2}}</h3>
+    <p>{{messages.feedback_contact_descr_p1}}</p>
+
+    <label for="{{contactName.id}}">Your name</label>
+    <input name="{{contactName.name}}"
+           id="{{contactName.id}}"
+           type="text"
+           maxlength="{{maxFeedbackNameLength}}"
+           class="text long">
+
+
+    <label for="{{contactEmail.id}}">Your email address</label>
+    <input name="{{contactEmail.name}}"
+           id="{{contactEmail.id}}"
+           type="text"
+           maxlength="{{maxFeedbackEmailLength}}"
+           class="text long">
+    <p class="example">We'll only use this to reply to your message.</p>
+
+    <input name="{{sourcePath.name}}"
+           id="{{sourcePath.id}}"
+           type="hidden"
+           value="{{sourcePath.value}}">
+
+    <button type="submit" class="button next" id="continue">{{messages.feedback_submit}}</button>
+
+</form>
+

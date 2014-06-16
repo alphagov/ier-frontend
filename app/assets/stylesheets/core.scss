@@ -320,6 +320,35 @@ a.download {
   }
 }
 
+a.call-to-action {
+  font-size: 18px;
+  line-height: 1.5;
+  @include inline-block;
+  background: transparent url("/assets/images/icon-caret-left-medium.png") no-repeat 0 center;
+  padding: 0px 0px 0px 17px;
+  border-bottom: $black 0.1em solid;
+  margin-bottom: 1.5em;
+  text-decoration: none;
+  cursor: pointer;
+
+  @include media(tablet) {
+    font-size: 27px;
+    background-image: url("/assets/images/icon-caret-left-large.png");
+    padding-left: 26px;
+  }
+
+  &,
+  &:hover,
+  &:focus {
+    color: $black;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: #F0F0F0;
+  }
+}
+
 button:focus,
 .invalid:focus,
 .selectable-focus {

@@ -599,3 +599,9 @@ POST        /register-to-vote/crown/edit/contact                      controller
 #Crown Confirmation
 GET         /register-to-vote/crown/confirmation                      controllers.step.crown.ConfirmationController.get
 POST        /register-to-vote/crown/confirmation                      controllers.step.crown.ConfirmationController.post
+
+# Zendesk proxy
+GET         /register-to-vote/feedback                                controllers.FeedbackController.get
+POST        /register-to-vote/feedback                                controllers.FeedbackController.post
+GET         /register-to-vote/feedback/thank-you                      controllers.FeedbackThankYouController.get(sourcePath: Option[String] ?= None)
+#POST        /register-to-vote/feedback/thank-you                      controllers.FeedbackThankYouController.post

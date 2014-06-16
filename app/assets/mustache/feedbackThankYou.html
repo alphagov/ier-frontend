@@ -1,0 +1,17 @@
+{{#returnToTransaction}}
+   <div class="article">
+   {{> shared/questionHeader }}
+    <p>
+      <a class="call-to-action" href="{{sourcePath}}" id="continue">{{messages.feedback_thankYou_exit_button}}</a>
+    </p>
+    </div>
+{{/returnToTransaction}}
+{{^returnToTransaction}}
+    <div class="article">
+      {{> shared/questionHeader }}
+      <p>
+        <a class="call-to-action" href="{{exitPath}}" id="continue">{{messages.feedback_thankYou_exit_button}}</a>
+      </p>
+    </div>
+{{/returnToTransaction}}
+

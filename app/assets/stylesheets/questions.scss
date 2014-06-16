@@ -149,6 +149,11 @@ input.text {
     width: 320px;
     min-height: 120px;
   }
+
+  textarea.large {
+    width: 99%;
+    height: 15em;
+  }
 }
 
 input.small{

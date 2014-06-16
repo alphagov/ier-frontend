@@ -20,3 +20,4 @@ conf/version.conf
 .classpath
 .project
 .cache
+/conf/zendesk-credentials.conf

@@ -28,7 +28,8 @@ trait MustacheRendering[T] extends StepMustache {
         mainContent = content,
         pageTitle = model.question.title,
         htmlLang = model.question.lang.language,
-        contentClasses = model.question.contentClasses
+        contentClasses = model.question.contentClasses,
+        sourcePath = model.question.postUrl
       ).render()
     }
   }
