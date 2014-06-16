@@ -58,7 +58,7 @@ class LastUkAddressManualTemplateTest
         )
       )
 
-      val html = Mustache.render("forces/addressManual", data)
+      val html = Mustache.render("overseas/lastUkAddressManual", data)
       val doc = Jsoup.parse(html.toString)
 
       val fieldset = doc.select("fieldset").first()
