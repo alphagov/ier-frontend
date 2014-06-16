@@ -5,7 +5,8 @@ import uk.gov.gds.ier.test.TestHelpers
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.mockito.{Matchers => MockitoMatchers}
-import uk.gov.gds.ier.model.{PartialManualAddress, Address, PartialAddress, LastAddress}
+import uk.gov.gds.ier.model.{PartialManualAddress, Address, PartialAddress,
+  LastAddress, LocateAuthority}
 
 class AddressServiceTests extends FlatSpec
   with Matchers
@@ -57,8 +58,8 @@ class AddressServiceTests extends FlatSpec
 
   it should "provide a manual address formed when no uprn provided " +
     "and ensure that gssCode is present in full address" in {
-
-    val addressService = new AddressService(dummyLocateService)
+    val mockLocate = mock[LocateService]
+    val addressService = new AddressService(mockLocate)
     val manualAddress = PartialAddress(
       addressLine = None,
       uprn = None,
@@ -76,7 +77,16 @@ class AddressServiceTests extends FlatSpec
       county = None,
       uprn = None,
       postcode = "AB12 3CD",
-      gssCode = Some("E09000007")
+      gssCode = Some("AB123456789")
+    )
+
+    when(mockLocate.lookupAuthority("AB12 3CD")).thenReturn(
+      Some(LocateAuthority(
+        name = "Fakerton Council",
+        gssCode = "AB123456789",
+        country = "England",
+        postcode = "AB12 3CD"
+      ))
     )
 
     val fullAddress = addressService.formFullAddress(Some(manualAddress))

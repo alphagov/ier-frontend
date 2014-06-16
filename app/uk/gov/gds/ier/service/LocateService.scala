@@ -3,10 +3,9 @@ package uk.gov.gds.ier.service
 import uk.gov.gds.ier.client.{LocateApiClient, ApiClient}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import com.google.inject.Inject
-import uk.gov.gds.ier.model.Fail
-import uk.gov.gds.ier.model.Success
-import uk.gov.gds.ier.model.Address
-import uk.gov.gds.ier.model.PartialAddress
+import uk.gov.gds.ier.model.{Fail, Success, Address, PartialAddress,
+  LocateAuthority
+}
 import uk.gov.gds.common.model.{GovUkAddress, LocalAuthority}
 import uk.gov.gds.ier.exception.{GssCodeLookupFailedException, PostcodeLookupFailedException}
 import uk.gov.gds.ier.config.Config
@@ -17,9 +16,14 @@ import play.api.libs.json.Json
 import play.api.libs.ws.WS
 import play.api.Logger
 
-class LocateService @Inject() (apiClient: LocateApiClient, serialiser: JsonSerialiser, config:Config) extends Logging {
+class LocateService @Inject() (
+    apiClient: LocateApiClient,
+    serialiser: JsonSerialiser,
+    config:Config
+) extends Logging {
 
   lazy val partialLocateUrl = config.locateUrl
+  lazy val partialAuthorityUrl = config.locateAuthorityUrl
   lazy val partialAddressLookupUrl = config.locateUrl
   lazy val authorizationToken = config.locateApiAuthorizationToken
 
@@ -47,6 +51,19 @@ class LocateService @Inject() (apiClient: LocateApiClient, serialiser: JsonSeria
         })
       }
       case Fail(error, _) => throw new PostcodeLookupFailedException(error)
+    }
+  }
+
+  def lookupAuthority(postcode: String) : Option[LocateAuthority] = {
+    val cleanPostcode = postcode.replaceAllLiterally(" ", "").toLowerCase
+    val result = apiClient.get(
+      s"$partialAuthorityUrl?postcode=$cleanPostcode",
+      ("Authorization", authorizationToken)
+    )
+
+    result match {
+      case Success(body, _) => Some(serialiser.fromJson[LocateAuthority](body))
+      case Fail(error, _) => None
     }
   }
 

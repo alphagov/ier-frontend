@@ -11,6 +11,7 @@ class LocateServiceTest extends FlatSpec with Matchers {
 
   class MockConfig extends Config {
     override def locateUrl = "http://locate/addresses"
+    override def locateAuthorityUrl = "http://locate/authority"
     override def locateApiAuthorizationToken = "abc"
   }
 
@@ -48,6 +49,52 @@ class LocateServiceTest extends FlatSpec with Matchers {
     addresses(0).uprn should be(Some("12345678"))
     addresses(0).postcode should be("AB12 3CD")
     addresses(0).gssCode should be (Some("abc"))
+  }
+
+  behavior of "LocateService.lookupAuthority"
+  it should "lookup an authority successfully" in {
+    class FakeApiClient extends LocateApiClient(new MockConfig) {
+      override def get(url: String, headers: (String, String)*) : ApiResponse = {
+        if (url == "http://locate/authority?postcode=ab123cd") {
+          Success("""
+            {
+              "name": "Fakeston Council",
+              "gssCode": "A12345678",
+              "postcode": "AB12 3CD",
+              "country": "England"
+            }
+          """, 0)
+        } else {
+          Fail("Bad postcode", 200)
+        }
+      }
+    }
+    val service = new LocateService(
+      new FakeApiClient,
+      new JsonSerialiser,
+      new MockConfig
+    )
+    val Some(authority) = service.lookupAuthority("AB12 3CD")
+    authority should have(
+      'name ("Fakeston Council"),
+      'gssCode ("A12345678"),
+      'postcode ("AB12 3CD"),
+      'country ("England")
+    )
+  }
+
+  it should "return None for bad postcode" in {
+    class FakeApiClient extends LocateApiClient(new MockConfig) {
+      override def get(url: String, headers: (String, String)*) : ApiResponse = {
+        Fail("Bad postcode", 200)
+      }
+    }
+    val service = new LocateService(
+      new FakeApiClient,
+      new JsonSerialiser,
+      new MockConfig
+    )
+    service.lookupAuthority("AB12 3CD") should be(None)
   }
 
   behavior of "LocateService.beaconFire"
