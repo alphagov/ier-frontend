@@ -184,7 +184,7 @@ trait ConfirmationMustache
         changeName = "national insurance number",
         content = ifComplete(keys.nino) {
           if(form(keys.nino.nino).value.isDefined){
-            List(form(keys.nino.nino).value.getOrElse(""))
+            List(form(keys.nino.nino).value.getOrElse("").toUpperCase)
           } else {
             List("I cannot provide my national insurance number because:",
               form(keys.nino.noNinoReason).value.getOrElse(""))
