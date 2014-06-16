@@ -40,7 +40,7 @@ class FeedbackServiceTests
             headers: (String, String)*
           ): Unit = {
             content should be("{\"ticket\":" +
-              "{\"subject\":\"ier-frontend feedback /register-to-vote/previous-name\"," +
+              "{\"subject\":\"/register-to-vote/previous-name\"," +
               "\"comment\":{" +
               "\"body\":\"Middle name limit is too short for me!\\n" +
               "\\n\\n" +
