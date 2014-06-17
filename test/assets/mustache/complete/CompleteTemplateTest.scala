@@ -41,7 +41,8 @@ class CompleteTemplateTest
         )),
         refNumber = Some("123457689013"),
         hasOtherAddress = true,
-        backToStartUrl = "/register-to-vote/start"
+        backToStartUrl = "/register-to-vote/start",
+        showEmailConfirmation = true
       )
 
       val html = Mustache.render("complete", data)

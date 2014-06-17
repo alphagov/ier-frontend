@@ -446,6 +446,7 @@ complete_step_title=Application Complete
 
 complete_applicationComplete_h1=Cais wedi'i gwblhau
 complete_yourRefNumberIs=Eich cyfeirnod yw
+complete_emailConfirmation=Rydym wedi anfon e-bost cadarnhad atoch
 complete_whatHappensNext_h2=Beth sy'n digwydd nesaf?
 complete_sentApplicationTo_p=Rydyn ni wedi anfon eich cais i
 complete_contactYouTo_p=Bydd rhywun yn cysylltu â chi - naill ai i gadarnhau'ch cofrestriad, neu i ofyn am ragor o wybodaeth.

@@ -81,12 +81,25 @@ class ConfirmationStep @Inject ()(
 
           logSession()
 
+          val isPostalVoteEmailPresent = validApplication.postalVote.exists { postalVote =>
+            postalVote.postalVoteOption.exists(_ == true) & postalVote.deliveryMethod.exists{ deliveryMethod =>
+              deliveryMethod.deliveryMethod.exists(_ == "email") && deliveryMethod.emailAddress.exists(_.nonEmpty)
+            }
+          }
+
+          val isContactEmailPresent = validApplication.contact.exists(
+            _.email.exists{ emailContact =>
+              emailContact.contactMe & emailContact.detail.exists(_.nonEmpty)
+            }
+          )
+
           Redirect(CompleteController.complete()).flashing(
             "refNum" -> refNum,
             "localAuthority" -> serialiser.toJson(response.localAuthority),
             "hasOtherAddress" -> validApplication.otherAddress.map(
               _.otherAddressOption.hasOtherAddress.toString).getOrElse(""),
-            "backToStartUrl" -> config.ordinaryStartUrl
+            "backToStartUrl" -> config.ordinaryStartUrl,
+            "showEmailConfirmation" -> (isPostalVoteEmailPresent | isContactEmailPresent).toString
           )
         }
       )

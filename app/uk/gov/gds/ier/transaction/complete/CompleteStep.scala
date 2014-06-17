@@ -33,7 +33,8 @@ class CompleteStep @Inject() (
       val refNum = request.flash.get("refNum")
       val hasOtherAddress = request.flash.get("hasOtherAddress").map(_.toBoolean).getOrElse(false)
       val backToStartUrl = request.flash.get("backToStartUrl").getOrElse("")
+      val showEmailConfirmation = request.flash.get("showEmailConfirmation").map(_.toBoolean).getOrElse(false)
 
-      Ok(Complete.CompletePage(authority, refNum, hasOtherAddress, backToStartUrl))
+      Ok(Complete.CompletePage(authority, refNum, hasOtherAddress, backToStartUrl, showEmailConfirmation))
   }
 }

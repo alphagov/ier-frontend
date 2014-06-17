@@ -430,6 +430,7 @@ complete_step_title=Application Complete
 
 complete_applicationComplete_h1=Application complete
 complete_yourRefNumberIs=Your reference number is
+complete_emailConfirmation=We have sent you a confirmation email.
 complete_whatHappensNext_h2=What happens next
 complete_sentApplicationTo_p=We've sent your application to
 complete_contactYouTo_p=They will contact you – either to confirm that you're registered to vote, or to ask for more information.
