@@ -419,7 +419,7 @@ ordinary_confirmation_contact_byEmail=By email: {0}
 ordinary_confirmation_help_h2=Send your application
 ordinary_confirmation_help_p1=By sending your application you confirm that the information you have provided is true.
 ordinary_confirmation_help_p2=Your information may be shared with other government departments to check your identity and that you’re entitled to register to vote.
-ordinary_confirmation_help_p3=You could be fined up £5,000 or go to prison for up to 6 months if you knowingly give false information in your application.
+ordinary_confirmation_help_p3=You could be fined up to £5,000 or go to prison for up to 6 months if you knowingly give false information in your application.
 
 ordinary_confirmation_error_completeThis=Please complete this step
 
