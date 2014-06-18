@@ -148,7 +148,6 @@ class PreviousAddressYesFormTests
     selectStepForm.bind(js).fold(
       hasErrors => {
         hasErrors.errors.size should be(2)
-        println(hasErrors.prettyPrint)
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
         hasErrors.errorMessages("previousAddress.previousAddress.uprn") should be(Seq("Please answer this question"))
       },
@@ -227,7 +226,6 @@ class PreviousAddressYesFormTests
     )
     selectStepForm.bind(js).fold(
       hasErrors => {
-        println(hasErrors.errorsAsTextAll)
         hasErrors.errorsAsTextAll should be("" +
           " -> Please answer this question\n"+
           "previousAddress.previousAddress.uprn -> Please answer this question")
