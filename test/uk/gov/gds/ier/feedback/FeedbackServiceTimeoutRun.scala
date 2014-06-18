@@ -5,16 +5,17 @@ import uk.gov.gds.ier.test.TestHelpers
 import org.scalatest.mock.MockitoSugar
 import uk.gov.gds.ier.config.Config
 import org.mockito.Mockito._
-import play.api.test.Helpers._
 import play.api.mvc.Results._
 import play.api.test.WithServer
-import play.api.libs.ws.WS
+import scala.concurrent.duration._
+import uk.gov.gds.ier.logging.Logging
 
 
-class FeedbackServiceTimeoutIntegrationTests
+class FeedbackServiceTimeoutRun
   extends FlatSpec
   with Matchers
   with MockitoSugar
+  with Logging
   with TestHelpers {
 
   val serialiser = jsonSerialiser
@@ -22,12 +23,12 @@ class FeedbackServiceTimeoutIntegrationTests
   val config = mock[Config]
   when(config.zendeskUrl).thenReturn("http://localhost:5743/api/v2/tickets.json")
   when(config.zendeskUsername).thenReturn("feedback@registertovote.service.gov.uk")
-  when(config.zendeskPassword).thenReturn("aaaaaaaaaaaa")
+  when(config.zendeskPassword).thenReturn("fake-password")
 
   val dummyTicketAction = play.api.mvc.Action { request =>
-    println("dummyTicketAction start")
-    Thread.sleep(10000)
-    println("dummyTicketAction end")
+    logger.debug("dummyTicketAction start")
+    Thread.sleep(20.seconds.toMillis.toInt)
+    logger.debug("dummyTicketAction end")
     Ok("ok")
   }
 
@@ -39,7 +40,7 @@ class FeedbackServiceTimeoutIntegrationTests
     case ("GET", "/api/v2/tickets.json") => dummyTicketAction
     case ("POST", "/api/v2/tickets.json") => dummyTicketAction
     case (x, y) => {
-      println(s"unknown URL: ${x} ${y}")
+      logger.error(s"unknown URL: ${x} ${y}")
       catchAllDummyAction
     }
   })
@@ -55,6 +56,6 @@ class FeedbackServiceTimeoutIntegrationTests
       val feedbackClient = new FeedbackClientImpl(serialiser, config)
     }
     feedbackService.submit(request, Some("cool web browser 2.3.5"))
-    Thread.sleep(10000)
+    Thread.sleep(20.seconds.toMillis.toInt)
   }
 }

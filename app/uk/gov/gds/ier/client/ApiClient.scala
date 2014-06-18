@@ -11,7 +11,7 @@ import uk.gov.gds.ier.logging.Logging
 import com.ning.http.client.Realm.AuthScheme
 
 
-trait ApiClient extends Logging with FuturesWithTimeouts3 {
+trait ApiClient extends Logging {
   self:WithConfig =>
 
   def get(url: String, headers: (String, String)*) : ApiResponse = {
@@ -103,9 +103,6 @@ trait ApiClient extends Logging with FuturesWithTimeouts3 {
       .withHeaders(headers: _*)
       .withRequestTimeout(5.seconds.toMillis.toInt)
       .post(content)
-//      .withTimeout(5 seconds) {
-//        logger.error(s"apiClient.post url: $url request timeouted")
-//      }
       .map {
       // we are not really interested in response, just log it
       response => response.status match {
@@ -121,6 +118,7 @@ trait ApiClient extends Logging with FuturesWithTimeouts3 {
       case exception => {
         logger.error(s"apiClient.post url: $url request failed " +
           s"with exception ${exception}")
+        // this also handles timeouts
       }
     }
 
