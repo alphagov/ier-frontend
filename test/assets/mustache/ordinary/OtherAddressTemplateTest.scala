@@ -51,7 +51,6 @@ class OtherAddressTemplateTest
 
       val html = Mustache.render("ordinary/otherAddress", data)
       val doc = Jsoup.parse(html.toString)
-      println(doc)
 
       {
         val div = doc.select("input[id=test_hasOtherAddress_student]").first()
