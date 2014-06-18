@@ -17,6 +17,7 @@ import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import play.api.mvc.{Headers, RequestHeader}
 
 trait TestHelpers
   extends CustomMatchers
@@ -192,5 +193,17 @@ trait TestHelpers
     Helpers.running(FakeApplication()) {
       test
     }
+  }
+
+  case class DummyRequestHeader(headersMap: Map[String, Seq[String]] = Map()) extends RequestHeader{
+    def id = 1
+    def tags = Map()
+    def uri = ""
+    def path = ""
+    def method = ""
+    def version = ""
+    def queryString = Map()
+    def remoteAddress = ""
+    lazy val headers = new Headers { val data = headersMap.toSeq }
   }
 }
