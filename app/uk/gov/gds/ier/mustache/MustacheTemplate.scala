@@ -4,14 +4,12 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.mvc.Call
 import uk.gov.gds.ier.langs.Messages
 import play.api.i18n.Lang
-import uk.gov.gds.ier.mustache.NamedStyleClasses._
 
 case class Question (
     postUrl:String = "",
     number:String = "",
     title:String = "",
     contentClasses:String = "",
-    headerClasses: String = headerWithBackButtonClass,
     errorMessages:Seq[String] = Seq.empty
 ) (
     implicit _lang: Lang = Lang("en")

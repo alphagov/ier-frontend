@@ -1,51 +1,48 @@
 package uk.gov.gds.ier.feedback
 
-import uk.gov.gds.ier.step.StepTemplate
-import uk.gov.gds.ier.mustache.NamedStyleClasses._
+import uk.gov.gds.ier.mustache.{MustacheModel, StepMustache}
+import uk.gov.gds.ier.guice.{WithConfig, WithRemoteAssets}
+import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.langs.Messages
 
 trait FeedbackMustache
-  extends StepTemplate[FeedbackRequest] with FeedbackForm {
+  extends StepMustache
+  with MustacheModel {
+    self: WithRemoteAssets
+     with FeedbackForm
+     with WithConfig =>
 
-  case class FeedbackModel (
-      question: Question,
-      feedbackText: Field,
-      contactName: Field,
-      contactEmail: Field,
-      sourcePath: Field,
-      maxFeedbackCommentLength: Int,
-      maxFeedbackNameLength: Int,
-      maxFeedbackEmailLength: Int,
-      feedbackDetailHint: String
-  ) extends MustacheData
+  case class ThankYouPage (
+      sourcePath: String = "",
+      pageTitle: String = Messages("feedback_thankYou_title")
+  ) (
+      implicit val lang: Lang
+  ) extends ArticlePage("feedbackThankYou")
+    with MessagesForMustache
 
-  val mustache = MultilingualTemplate("feedbackForm") { implicit lang => (form, post) =>
-    implicit val progressForm = form
+  private[this] implicit val progressForm = ErrorTransformForm(feedbackForm)
 
-    FeedbackModel(
-      question = Question(
-        postUrl = post.url,
-        errorMessages = Nil,
-        number = "",
-        title = Messages("feedback_title"),
-        headerClasses = headerWithoutBackButtonClass
-      ),
-      feedbackText = TextField(
+  case class FeedbackPage (
+      pageTitle: String = Messages("feedback_title"),
+      postUrl: String,
+      feedbackText: Field = TextField(
         key = keys.feedback.feedbackText
       ),
-      contactName = TextField(
+      contactName: Field = TextField(
         key = keys.feedback.contactName
       ),
-      contactEmail = TextField(
+      contactEmail: Field = TextField(
         key = keys.feedback.contactEmail
       ),
-      sourcePath = HiddenField(
-        key = keys.sourcePath,
-        value = form(keys.sourcePath).value.getOrElse("")
-      ),
-      maxFeedbackCommentLength = maxFeedbackCommentLength,
-      maxFeedbackNameLength = maxFeedbackNameLength,
-      maxFeedbackEmailLength = maxFeedbackEmailLength,
-      feedbackDetailHint = Messages("feedback_detail_hint", maxFeedbackCommentLength)
-    )
-  }
+      maxFeedbackCommentLength: Int = maxFeedbackCommentLength,
+      maxFeedbackNameLength: Int = maxFeedbackNameLength,
+      maxFeedbackEmailLength: Int = maxFeedbackEmailLength,
+      feedbackDetailHint: String = Messages(
+        "feedback_detail_hint",
+        maxFeedbackCommentLength
+      )
+  ) (
+      implicit val lang: Lang
+  ) extends ArticlePage("feedbackForm")
+    with MessagesForMustache
 }

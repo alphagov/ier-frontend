@@ -1,8 +1,9 @@
 package uk.gov.gds.ier.feedback
 
-import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys}
+import uk.gov.gds.ier.validation.FormKeys
 import play.api.data.Forms._
 import play.api.data.validation._
+import play.api.data.Form
 
 trait FeedbackForm {
   self: FormKeys =>
@@ -17,43 +18,16 @@ trait FeedbackForm {
   // see: http://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
   val maxFeedbackEmailLength = 254
 
-  val feedbackForm = ErrorTransformForm(
+  val feedbackForm = Form(
     mapping(
-      keys.sourcePath.key -> optional(text),
       keys.feedback.feedbackText.key -> text(0, maxFeedbackCommentLength),
       keys.feedback.contactName.key -> optional(text(0, maxFeedbackNameLength)),
       keys.feedback.contactEmail.key -> optional(text(0, maxFeedbackEmailLength))
     ) (
-      (sourcePath, comment, contactName, contactEmail) => FeedbackRequest(
-        sourcePath = sourcePath,
-        comment = comment,
-        contactName = contactName,
-        contactEmail = contactEmail
-      )
+      FeedbackRequest.apply
     ) (
-      request => Some(
-        request.sourcePath,
-        request.comment,
-        request.contactName,
-        request.contactName
-      )
+      FeedbackRequest.unapply
     ).verifying(feedbackTextCannotBeEmpty)
-  )
-
-  val feedbackGetForm = ErrorTransformForm(
-    mapping(
-      "sourcePath" -> optional(text)
-    ) (
-      (sourcePath) => FeedbackRequest(
-        sourcePath = sourcePath,
-        comment = "",
-        contactName = None,
-        contactEmail = None
-      )
-    ) (
-      request =>
-        Some(request.sourcePath)
-    )
   )
 
   lazy val feedbackTextCannotBeEmpty = Constraint[FeedbackRequest] {
@@ -61,8 +35,4 @@ trait FeedbackForm {
       if (feedbackRequest.comment.trim.isEmpty) Invalid("Feedback text cannot be empty")
       else Valid
   }
-
-  val feedbackThankYouGetForm = feedbackGetForm
-
-  val feedbackThankYouPostForm = feedbackGetForm
 }
