@@ -13,7 +13,7 @@ import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
-import uk.gov.gds.ier.model._
+import uk.gov.gds.ier.model.{WaysToVoteType, ApplicationType}
 
 
 class ConfirmationStep @Inject() (

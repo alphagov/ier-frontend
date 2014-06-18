@@ -7,7 +7,6 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
-import scala.Some
 
 /**
  * Test ConfirmationStep and ConfirmationController for Ordinary route,
