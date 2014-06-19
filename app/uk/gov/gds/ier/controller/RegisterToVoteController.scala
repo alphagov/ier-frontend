@@ -36,12 +36,12 @@ class RegisterToVoteController @Inject() (
 
   def registerToVoteStart = NewSession requiredFor {
     request =>
-      Redirect(step.routes.CountryController.get)
+      Redirect(step.routes.CountryController.get.url, request.queryString)
   }
 
   def registerToVoteOverseasStart = NewSession requiredFor {
     request =>
-      Redirect(step.overseas.routes.DateOfBirthController.get)
+      Redirect(step.overseas.routes.DateOfBirthController.get.url, request.queryString)
   }
 
   def registerToVoteForces = Action {
@@ -50,7 +50,7 @@ class RegisterToVoteController @Inject() (
 
   def registerToVoteForcesStart = NewSession requiredFor {
     request =>
-      Redirect(step.forces.routes.StatementController.get)
+      Redirect(step.forces.routes.StatementController.get.url, request.queryString)
   }
 
   def registerToVoteCrown = Action {
@@ -59,7 +59,7 @@ class RegisterToVoteController @Inject() (
 
   def registerToVoteCrownStart = NewSession requiredFor {
     request =>
-      Redirect(step.crown.routes.StatementController.get)
+      Redirect(step.crown.routes.StatementController.get.url, request.queryString)
   }
 
   def privacy = Action { request =>
