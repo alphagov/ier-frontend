@@ -1,12 +1,10 @@
 package uk.gov.gds.ier.transaction.ordinary.confirmation
 
-import controllers.step.ordinary.routes.{ConfirmationController, ContactController}
+import controllers.step.ordinary.routes.ConfirmationController
 import controllers.routes.CompleteController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.service.{WithAddressService, AddressService}
-import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{ConfirmationStepController, Routes}
@@ -14,6 +12,7 @@ import uk.gov.gds.ier.service.apiservice.IerApiService
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.langs.Language
 
 class ConfirmationStep @Inject ()(
     val serialiser: JsonSerialiser,
@@ -73,10 +72,11 @@ class ConfirmationStep @Inject ()(
           val remoteClientIP = request.headers.get("X-Real-IP")
 
           val response = ierApi.submitOrdinaryApplication(
-            remoteClientIP,
-            validApplication,
-            Some(refNum),
-            request.getToken.map(_.timeTaken)
+            ipAddress = remoteClientIP,
+            applicant = validApplication,
+            referenceNumber = Some(refNum),
+            timeTaken = request.getToken.map(_.timeTaken),
+            language = Language.getLang(request).language
           )
 
           logSession()

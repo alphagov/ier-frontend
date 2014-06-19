@@ -17,20 +17,23 @@ class IerApiServiceWithStripNino @Inject() (ierService: ConcreteIerApiService) e
       ipAddress: Option[String],
       applicant: InprogressOrdinary,
       referenceNumber: Option[String],
-      timeTaken: Option[String]
+      timeTaken: Option[String],
+      language: String
   ) = {
     applicant.nino match {
       case Some(Nino(None, Some(noNinoReason))) => ierService.submitOrdinaryApplication(
         ipAddress,
         applicant,
         referenceNumber,
-        timeTaken
+        timeTaken,
+        language
       )
       case Some(Nino(Some(nino), None)) => ierService.submitOrdinaryApplication(
         ipAddress,
         applicant.copy(nino = Some(Nino(Some(randomNino()), None))),
         referenceNumber,
-        timeTaken
+        timeTaken,
+        language
       )
       case unexpectedNino => throw new IllegalArgumentException("Unexpected NINO: " + unexpectedNino)
     }

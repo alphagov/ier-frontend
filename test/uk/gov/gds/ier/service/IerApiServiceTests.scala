@@ -55,7 +55,7 @@ class IerApiServiceTests
         requestJson should include("Smith")
         successMessage
       }
-    ).submitOrdinaryApplication(None, application, None, Some("1234"))
+    ).submitOrdinaryApplication(None, application, None, Some("1234"), "en")
 
     r should be(IerApiApplicationResponse(
       id = "5360fe69036424d9ec0a1657",
@@ -84,7 +84,7 @@ class IerApiServiceTests
         requestJson should include("Smith")
         successMessage
       }
-    ).submitOrdinaryApplication(Some("127.0.0.1"), application, Some("55631D"), Some("1234"))
+    ).submitOrdinaryApplication(Some("127.0.0.1"), application, Some("55631D"), Some("1234"), "en")
 
     r should be(IerApiApplicationResponse(
       id = "5360fe69036424d9ec0a1657",

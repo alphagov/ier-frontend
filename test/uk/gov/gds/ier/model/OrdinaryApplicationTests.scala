@@ -51,7 +51,8 @@ class OrdinaryApplicationTests
       "ip" -> "256.256.256.256",
       "gssCode" -> "E09000007",
       "pgssCode" -> "E09000032",
-      "timeTaken" -> "1234"
+      "timeTaken" -> "1234",
+      "lang" -> "en"
     )
 
     val apiMap = application.toApiMap
@@ -103,13 +104,64 @@ class OrdinaryApplicationTests
       "gssCode" -> "E09000007",
       "pgssCode" -> "E09000032",
       "lastcategory" -> "overseas",
-      "timeTaken" -> "1234"
+      "timeTaken" -> "1234",
+      "lang" -> "en"
     )
 
     val apiMap = application.toApiMap
 
     apiMap should matchMap(expected)
   }
+
+  it should "generate the expected payload when application submitted in Welsh" in {
+    lazy val application = createOrdinaryApplication.copy(language = "cy")
+
+    val expected = Map(
+      "fn" -> "John",
+      "mn" -> "James",
+      "ln" -> "Smith",
+      "applicationType" -> "ordinary",
+      "pfn" -> "James",
+      "pmn" -> "John",
+      "pln" -> "Smith",
+      "dob" -> "1980-12-01",
+      "nino" -> "XX 12 34 56 D",
+      "nat" -> "GB, IE",
+      "oadr" -> "none",
+      "regproperty" -> "The (fake) Manor House",
+      "regstreet" -> "123 Fake Street",
+      "reglocality" -> "North Fake",
+      "regtown" -> "Fakerton",
+      "regarea" -> "Fakesbury",
+      "reguprn" -> "12345",
+      "regpostcode" -> "XX12 34XX",
+      "pproperty" -> "The (fake) Cottage",
+      "pstreet" -> "321 Fake Street",
+      "plocality" -> "South Fake",
+      "ptown" -> "Fakererly",
+      "parea" -> "Fakesborough",
+      "puprn" -> "54321",
+      "ppostcode" -> "XX34 21XX",
+      "pvote" -> "true",
+      "pvoteemail" -> "postal@vote.com",
+      "opnreg" -> "false",
+      "post" -> "true",
+      "email" -> "test@email.com",
+      "phone" -> "01234 5678910",
+      "refNum" -> "12345678910",
+      "ip" -> "256.256.256.256",
+      "gssCode" -> "E09000007",
+      "pgssCode" -> "E09000032",
+      "timeTaken" -> "1234",
+      "lang" -> "cy"
+    )
+
+    val apiMap = application.toApiMap
+
+    apiMap should matchMap(expected)
+  }
+
+
 
   private def createOrdinaryApplication =
     OrdinaryApplication(
@@ -186,6 +238,7 @@ class OrdinaryApplicationTests
       )),
       referenceNumber = Some("12345678910"),
       ip = Some("256.256.256.256"),
-      timeTaken = "1234"
+      timeTaken = "1234",
+      language = "en"
     )
 }

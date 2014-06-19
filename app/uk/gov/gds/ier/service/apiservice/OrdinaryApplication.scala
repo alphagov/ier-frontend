@@ -26,7 +26,8 @@ case class OrdinaryApplication(
     contact: Option[Contact],
     referenceNumber: Option[String],
     ip: Option[String],
-    timeTaken: String
+    timeTaken: String,
+    language: String
 ) extends CompleteApplication {
 
   def toApiMap:Map[String, String] = {
@@ -50,9 +51,11 @@ case class OrdinaryApplication(
       referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
       address.flatMap(_.gssCode.map(gssCode => Map("gssCode" -> gssCode))).getOrElse(Map.empty)  ++
       previousAddress.flatMap(_.gssCode.map(gssCode => Map("pgssCode" -> gssCode))).getOrElse(Map.empty) ++
-      ip.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty) ++ Map(
+      ip.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty) ++
+      Map(
         "applicationType" -> "ordinary",
-        "timeTaken" -> timeTaken
+        "timeTaken" -> timeTaken,
+        "lang" -> language
       )
 
     removeSpecialCharacters(apiMap)
