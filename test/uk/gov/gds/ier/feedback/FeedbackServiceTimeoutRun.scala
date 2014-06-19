@@ -9,7 +9,7 @@ import play.api.mvc.Results._
 import play.api.test.WithServer
 import scala.concurrent.duration._
 import uk.gov.gds.ier.logging.Logging
-import play.api.mvc.{RequestHeader, Headers, Request}
+import play.api.mvc.Request
 
 
 class FeedbackServiceTimeoutRun
@@ -49,7 +49,6 @@ class FeedbackServiceTimeoutRun
   val mockedRequest = mock[Request[Any]]
   val dummyHeader = DummyRequestHeader(Map(("user-agent" -> Seq("cool web browser version 1.2.3"))))
   when(mockedRequest.headers).thenReturn(dummyHeader.headers)
-  //when(mockedRequest.headers.get("user-agent")).thenReturn(Some("cool web browser version 1.2.3"))
 
   behavior of "FeedbackService#submit"
   it should "timeout" in new WithServer(app = fakeZendeskApp, port = 5743) {
