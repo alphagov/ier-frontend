@@ -175,6 +175,9 @@ trait FormKeys {
     lazy val feedbackText =  prependNamespace(Key("feedbackText"))
     lazy val contactName =  prependNamespace(Key("contactName"))
     lazy val contactEmail =  prependNamespace(Key("contactEmail"))
+
+    lazy val localAuthority = prependNamespace(Key("localAuthority"))
+    lazy val backLink = prependNamespace(Key("backLink"))
   }
 
   implicit class key2namespace(key:Key) extends Keys {

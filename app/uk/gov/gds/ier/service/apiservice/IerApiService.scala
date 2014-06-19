@@ -19,6 +19,8 @@ import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import play.api.libs.json.Json
+import uk.gov.gds.ier.model.LocalAuthority
 
 abstract class IerApiService {
   def submitOrdinaryApplication(
@@ -251,18 +253,36 @@ class ConcreteIerApiService @Inject() (
     sendApplication(apiApplicant)
   }
 
+  def getLocalAuthorityByGssCode(gssCode: String): LocalAuthority = {
+//    apiClient.get(config.ierLocalAuthorityLookupUrl + gssCode,
+//                   ("Authorization", "BEARER " + config.ierApiToken)) match {
+//      case Success(body,timeTakenMs) => {
+//        val json = """
+//          {"gssCode":"gssCode","contactDetails":{"url":"http://some/url.com","addressLine1":"Address 1","addressLine2":"London","addressLine3":"street a","addressLine4":"county blah","postcode":"N1 543","emailAddress":"some@email.com","phoneNumber":"145234534","name":"name1"},"eroIdentifier":"ero1Identifier","eroDescription":"ero 1 name"}
+//          """
+//        serialiser.fromJson[LocalAuthority]((Json.parse(body) \ "contactDetails").as[String])
+//      }
+//      case Fail(error,timeTakenMs) => {
+//        logger.error("Local Authority lookup failed: " + error)
+//        throw new ApiException(error)
+//      }
+//    }
+    val json = """
+          {"gssCode":"gssCode","contactDetails":{"url":"http://some/url.com","addressLine1":"Address 1","addressLine2":"London","addressLine3":"street a","addressLine4":"county blah","postcode":"N1 543","emailAddress":"some@email.com","phoneNumber":"145234534","name":"name1"},"eroIdentifier":"ero1Identifier","eroDescription":"ero 1 name"}
+          """
+    serialiser.fromJson[LocalAuthority](Json.stringify((Json.parse(json) \ "contactDetails")))
+  }
+
   private def sendApplication(application: ApiApplication) = {
     val applicationType = application.application.get("applicationType").getOrElse("")
     apiClient.post(config.ierApiUrl,
                    serialiser.toJson(application),
                    ("Authorization", "BEARER " + config.ierApiToken)) match {
       case Success(body,timeTakenMs) => {
-        StatsdClient.timing("submission." + applicationType + ".OK", timeTakenMs)
         serialiser.fromJson[IerApiApplicationResponse](body)
       }
       case Fail(error,timeTakenMs) => {
         logger.error("Submitting application to api failed: " + error)
-        StatsdClient.timing("submission." + applicationType + ".Error", timeTakenMs)
         throw new ApiException(error)
       }
     }

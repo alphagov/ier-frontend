@@ -62,6 +62,9 @@ class LocateService @Inject() (
       case Fail(error, _) => None
     }
   }
+  def lookupGssCode(postcode: String): Option[String] = {
+    lookupAuthority(postcode).map(_.gssCode )
+  }
 
   def beaconFire:Boolean = {
     apiClient.get(config.locateUrl + "/status") match {
