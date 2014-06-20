@@ -557,3 +557,4 @@ lookup_show_phone=Phone
 lookup_show_exit_button=Return to your application
 
 lookup_postcode_label=Postcode
+lookup_error_noneFound=No Electoral Registration Office has been found. Please check your postcode.

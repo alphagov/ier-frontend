@@ -25,6 +25,7 @@ import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.guice.WithConfig
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.assets.RemoteAssets
+import uk.gov.gds.ier.langs.Messages
 
 class LocalAuthorityController @Inject() (
     val locateService: LocateService,
@@ -81,6 +82,33 @@ class LocalAuthorityController @Inject() (
   def ero(gssCode: String, sourcePath: Option[String]) = Action { request =>
     val localAuthority = ierApiService.getLocalAuthorityByGssCode(gssCode)
     Ok(LocalAuthorityPage(localAuthority, sourcePath))
+  }
+
+  def doLookup(sourcePath: Option[String]) = Action { implicit request =>
+    localAuthorityLookupForm.bindFromRequest().fold(
+      hasErrors => BadRequest(LocalAuthorityLookupPage(
+        hasErrors,
+        sourcePath,
+        controllers.routes.LocalAuthorityController.showLookup(sourcePath).url
+      )),
+      success => {
+        val gssCode = locateService.lookupGssCode(success.postcode)
+        gssCode match {
+          case Some(gss) => Redirect(
+            controllers.routes.LocalAuthorityController.ero(gss, sourcePath)
+          )
+          case None => BadRequest(
+            LocalAuthorityLookupPage(
+              localAuthorityLookupForm.fill(success).withGlobalError(
+                Messages("lookup_error_noneFound")
+              ),
+              sourcePath,
+              controllers.routes.LocalAuthorityController.showLookup(sourcePath).url
+            )
+          )
+        }
+      }
+    )
   }
 
   def showLookup(sourcePath: Option[String]) = Action { implicit request =>
