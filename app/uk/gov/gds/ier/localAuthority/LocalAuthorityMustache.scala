@@ -13,6 +13,6 @@ trait LocalAuthorityMustache
     case class LocalAuthorityPage (
         localAuthority: LocalAuthority,
         pageTitle: String = "Contact your local authority"
-    ) extends ArticlePage("localAuthorityPage")
+    ) extends ArticlePage("localAuthority/show")
 
 }
