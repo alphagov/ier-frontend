@@ -503,6 +503,26 @@
               return [];
             }
           },
+          'firstOrLastNameText' : function () {
+            var entry = _getFieldValue(this.$source),
+                maxLen = 35;
+
+            if (entry.length > maxLen) {
+              return _getInvalidDataFromFields([this], 'firstOrLastNameText');
+            } else {
+              return [];
+            }
+          },
+          'middleNameText' : function () {
+            var entry = _getFieldValue(this.$source),
+                maxLen = 100;
+
+            if (entry.length > maxLen) {
+              return _getInvalidDataFromFields([this], 'middleNameText');
+            } else {
+              return [];
+            }
+          },
           'validCountry' : function () {
             var entry = _getFieldValue(this.$source),
                 countries = GOVUK.registerToVote.countries,
@@ -1021,14 +1041,14 @@
       },
       'firstName' : {
         'nonEmpty' : message('ordinary_name_error_enterFirstName'),
-        'smallText' : message('ordinary_name_error_firstNameTooLong')
+        'firstOrLastNameText' : message('ordinary_name_error_firstNameTooLong')
       },
       'middleName' : {
-        'smallText' : message('ordinary_name_error_middleNamesTooLong')
+        'middleNameText' : message('ordinary_name_error_middleNamesTooLong')
       },
       'lastName' : {
         'nonEmpty' : message('ordinary_name_error_enterLastName'),
-        'smallText' : message('ordinary_name_error_lastNameTooLong')
+        'firstOrLastNameText' : message('ordinary_name_error_lastNameTooLong')
       },
       'previousQuestion' : {
         'atLeastOneNonEmpty' : message('ordinary_previousName_error_answerThis')
@@ -1038,14 +1058,14 @@
       },
       'previousFirstName' : {
         'nonEmpty' : message('ordinary_previousName_error_enterFirstName'),
-        'smallText' : message('ordinary_previousName_error_firstNameTooLong')
+        'firstOrLastNameText' : message('ordinary_previousName_error_firstNameTooLong')
       },
       'previousMiddleName' : {
-        'smallText' : message('ordinary_previousName_error_middleNamesTooLong')
+        'middleNameText' : message('ordinary_previousName_error_middleNamesTooLong')
       },
       'previousLastName' : {
         'nonEmpty' : message('ordinary_previousName_error_enterLastName'),
-        'smallText' : message('ordinary_previousName_error_lastNameTooLong')
+        'firstOrLastNameText' : message('ordinary_previousName_error_lastNameTooLong')
       },
       'dateOfBirthDate' : {
         'allNonEmpty' : message('ordinary_dob_error_enterDateOfBirth')
