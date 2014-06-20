@@ -1,7 +1,5 @@
 package uk.gov.gds.ier.model
 
-import play.api.libs.json.Json
-
 case class LocalAuthority(
   name: Option[String],
   url: Option[String],

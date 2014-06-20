@@ -1,0 +1,31 @@
+<header>
+    <h1>{{pageTitle}}</h1>
+</header>
+
+<article>
+    <h2>Your local authority is {{localAuthority.name}}</h2>
+    <div>
+        <h3>Address</h3>
+        <span>{{localAuthority.addressLine1}}</span>
+        <span>{{localAuthority.addressLine2}}</span>
+        <span>{{localAuthority.addressLine3}}</span>
+        <span>{{localAuthority.addressLine4}}</span> 
+        <span>{{localAuthority.postcode}}</span>
+    </div>
+    
+    <div>
+        <h3>Website</h3>
+        <p><a href = "{{localAuthority.url}}" rel = "external">{{localAuthority.url}}</a></p>
+    </div>
+    
+    <div>
+        <h3>Email</h3>
+        <p>{{localAuthority.emailAddress}}</p>
+    </div>
+    
+    <div>
+        <h3>Phone</h3>
+        <p>{{localAuthority.phoneNumber}}</p>
+    </div>
+    
+</article>

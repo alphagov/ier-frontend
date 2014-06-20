@@ -21,13 +21,19 @@ import uk.gov.gds.ier.logging.Logging
 import controllers.routes.LocalAuthorityController
 import uk.gov.gds.ier.model.LocalAuthority
 import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.guice.WithConfig
+import uk.gov.gds.ier.config.Config
+import uk.gov.gds.ier.assets.RemoteAssets
 
 class LocalAuthorityController @Inject() (
     val locateService: LocateService,
     val ierApiService: ConcreteIerApiService,
     val addressService: AddressService,
     val serialiser: JsonSerialiser,
-    val encryptionService: EncryptionService
+    val encryptionService: EncryptionService,
+    val config: Config,
+    val remoteAssets: RemoteAssets
 ) extends Controller
   with ApiResults
   with WithSerialiser
@@ -36,7 +42,10 @@ class LocalAuthorityController @Inject() (
   with WithEncryption
   with Logging
   with LocalAuthorityLookupForm
-  with IerForms {
+  with IerForms
+  with LocalAuthorityMustache
+  with WithRemoteAssets
+  with WithConfig {
 
 //  val validation = localAuthorityLookupForm
 //  val postRoute = LocalAuthorityController.lookup
@@ -71,13 +80,11 @@ class LocalAuthorityController @Inject() (
           Ok(views.html.localAuthorityLookup(sourcePath))
         }
       }
-
-
   }
 
   def ero(gssCode: String, sourcePath: String) = Action { request =>
     val localAuthority = ierApiService.getLocalAuthorityByGssCode(gssCode)
-    Ok(views.html.localAuthority(localAuthority, sourcePath))
+    Ok(LocalAuthorityPage(localAuthority))
   }
 
   def lookup = Action {
