@@ -131,43 +131,49 @@ trait NameConstraints extends CommonConstraints with FormKeys {
   }
 
   lazy val firstNameNotTooLong = fieldNotTooLong[InprogressOrdinary] (
-    keys.name.firstName,
-    "ordinary_name_error_firstNameTooLong"
+    fieldKey = keys.name.firstName,
+    errorMessage = "ordinary_name_error_firstNameTooLong",
+    maxLength = maxFirstLastNameLength
   ) {
     _.name map { _.firstName } getOrElse ""
   }
 
   lazy val middleNamesNotTooLong = fieldNotTooLong[InprogressOrdinary] (
-    keys.name.middleNames,
-    "ordinary_name_error_middleNamesTooLong"
+    fieldKey = keys.name.middleNames,
+    errorMessage = "ordinary_name_error_middleNamesTooLong",
+    maxLength = maxMiddleNameLength
   ) {
     _.name flatMap { _.middleNames } getOrElse ""
   }
 
   lazy val lastNameNotTooLong = fieldNotTooLong[InprogressOrdinary] (
-    keys.name.lastName,
-    "ordinary_name_error_lastNameTooLong"
+    fieldKey = keys.name.lastName,
+    errorMessage = "ordinary_name_error_lastNameTooLong",
+    maxLength = maxFirstLastNameLength
   ) {
     _.name map { _.lastName } getOrElse ""
   }
 
   lazy val prevFirstNameNotTooLong = fieldNotTooLong[InprogressOrdinary] (
-    keys.previousName.previousName.firstName,
-    "ordinary_previousName_error_firstNameTooLong"
+    fieldKey = keys.previousName.previousName.firstName,
+    errorMessage = "ordinary_previousName_error_firstNameTooLong",
+    maxLength = maxFirstLastNameLength
   ) {
     _.previousName flatMap { _.previousName } map { _.firstName } getOrElse ""
   }
 
   lazy val prevMiddleNamesNotTooLong = fieldNotTooLong[InprogressOrdinary] (
-    keys.previousName.previousName.middleNames,
-    "ordinary_previousName_error_middleNamesTooLong"
+    fieldKey = keys.previousName.previousName.middleNames,
+    errorMessage = "ordinary_previousName_error_middleNamesTooLong",
+    maxLength = maxMiddleNameLength
   ) {
     _.previousName flatMap { _.previousName } flatMap { _.middleNames } getOrElse ""
   }
 
   lazy val prevLastNameNotTooLong = fieldNotTooLong[InprogressOrdinary] (
-    keys.previousName.previousName.lastName,
-    "ordinary_previousName_error_lastNameTooLong"
+    fieldKey = keys.previousName.previousName.lastName,
+    errorMessage = "ordinary_previousName_error_lastNameTooLong",
+    maxLength = maxFirstLastNameLength
   ) {
     _.previousName flatMap { _.previousName } map { _.lastName } getOrElse ""
   }

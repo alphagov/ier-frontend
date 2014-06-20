@@ -6,6 +6,8 @@ import uk.gov.gds.ier.model.PartialManualAddress
 trait ErrorMessages {
   lazy val maxTextFieldLength = 256
   lazy val maxExplanationFieldLength = 500
+  lazy val maxFirstLastNameLength = 35
+  lazy val maxMiddleNameLength = 100
 
   lazy val firstNameMaxLengthError = s"First name can be no longer than $maxTextFieldLength characters"
   lazy val middleNameMaxLengthError = s"Middle names can be no longer than $maxTextFieldLength characters"

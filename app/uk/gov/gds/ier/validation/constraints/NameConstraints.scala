@@ -16,36 +16,45 @@ trait NameConstraints extends CommonConstraints {
       else Invalid("Please enter your full name", keys.name.firstName, keys.name.lastName)
   }
   
-  lazy val firstNameNotTooLong = fieldNotTooLong[Name](keys.name.firstName,
-    firstNameMaxLengthError) {
+  lazy val firstNameNotTooLong = fieldNotTooLong[Name](
+    fieldKey = keys.name.firstName,
+    errorMessage = firstNameMaxLengthError,
+    maxLength = maxFirstLastNameLength) {
     name => name.firstName
   }
 
-  lazy val middleNamesNotTooLong = fieldNotTooLong[Name](keys.name.middleNames,
-    middleNameMaxLengthError) {
+  lazy val middleNamesNotTooLong = fieldNotTooLong[Name](
+    fieldKey = keys.name.middleNames,
+    errorMessage = middleNameMaxLengthError,
+    maxLength = maxMiddleNameLength) {
     name => name.middleNames.getOrElse("")
   }
 
-  lazy val lastNameNotTooLong = fieldNotTooLong[Name](keys.name.lastName,
-    lastNameMaxLengthError) {
+  lazy val lastNameNotTooLong = fieldNotTooLong[Name](
+    fieldKey = keys.name.lastName,
+    errorMessage = lastNameMaxLengthError,
+    maxLength = maxFirstLastNameLength) {
     name => name.lastName
   }
 
   lazy val prevFirstNameNotTooLong = fieldNotTooLong[Name](
-    keys.previousName.previousName.firstName,
-    firstNameMaxLengthError) {
+    fieldKey = keys.previousName.previousName.firstName,
+    errorMessage = firstNameMaxLengthError,
+    maxLength = maxFirstLastNameLength) {
     name => name.firstName
   }
 
   lazy val prevMiddleNamesNotTooLong = fieldNotTooLong[Name](
-    keys.previousName.previousName.middleNames,
-    middleNameMaxLengthError) {
+    fieldKey = keys.previousName.previousName.middleNames,
+    errorMessage = middleNameMaxLengthError,
+    maxLength = maxMiddleNameLength) {
     name => name.middleNames.getOrElse("")
   }
 
   lazy val prevLastNameNotTooLong = fieldNotTooLong[Name](
-    keys.previousName.previousName.lastName,
-    lastNameMaxLengthError) {
+    fieldKey = keys.previousName.previousName.lastName,
+    errorMessage = lastNameMaxLengthError,
+    maxLength = maxFirstLastNameLength) {
     name => name.lastName
   }
 
