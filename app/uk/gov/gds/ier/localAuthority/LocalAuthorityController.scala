@@ -47,14 +47,10 @@ class LocalAuthorityController @Inject() (
   with WithRemoteAssets
   with WithConfig {
 
-//  val validation = localAuthorityLookupForm
-//  val postRoute = LocalAuthorityController.lookup
 
   def show = Action {
     implicit request =>
 
-//      val form = localAuthorityLookupForm.bindFromRequest()
-//      val sourcePath = form(keys.sourcePath).value.getOrElse("")
       val sourcePath = request.headers.get("referer").getOrElse("")
 
       val optGssCode =
@@ -87,27 +83,11 @@ class LocalAuthorityController @Inject() (
     Ok(LocalAuthorityPage(localAuthority, sourcePath))
   }
 
-  def lookup = Action {
-    implicit request =>
-//      postcodeForm.bindFromRequest.fold(
-        localAuthorityLookupForm.bindFromRequest.fold(
-//        errors => badResult("errors" -> errors.errorsAsMap),
-          errors => badResult("errors" -> "errors"),
-        localAuthorityRequest =>
-          try {
-            val optGssCode = locateService.lookupGssCode(localAuthorityRequest.postcode )
-            val sourcePath = localAuthorityRequest.sourcePath.getOrElse("")
-            optGssCode match {
-              case Some(gssCode) => {
-                val localAuthority = ierApiService.getLocalAuthorityByGssCode(gssCode)
-                Ok(views.html.localAuthority(localAuthority, sourcePath))
-              }
-              case None => Ok(views.html.localAuthorityLookup(sourcePath))
-            }
-          }
-          catch {
-            case e: PostcodeLookupFailedException => serverErrorResult("error" -> e.getMessage)
-          }
-      )
+  def showLookup(sourcePath: Option[String]) = Action { implicit request =>
+    Ok(LocalAuthorityLookupPage(
+      localAuthorityLookupForm,
+      sourcePath,
+      controllers.routes.LocalAuthorityController.showLookup(sourcePath).url
+    ))
   }
 }

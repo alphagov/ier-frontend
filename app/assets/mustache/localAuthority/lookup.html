@@ -1,0 +1,27 @@
+{{<template/govuk}}
+
+{{$pageTitle}}{{messages.lookup_show_title}}{{/pageTitle}}
+
+{{$main}}
+<header class="no-back-link">
+    <h1>{{messages.lookup_show_title}}</h1>
+</header>
+
+<form action="{{postUrl}}" method="POST">
+    <label for="{{postcode.id}}">{{messages.lookup_postcode_label}}</label>
+    <div class="validation-wrapper {{postcode.classes}}">
+        <input 
+            name="{{postcode.name}}" 
+            id="{{postcode.id}}" 
+            type="text" 
+            value="{{postcode.value}}" 
+            class="text postcode medium {{postcode.classes}}" />
+     </div>
+     <button
+         type="submit"
+         id="continue"
+         class="button next">{{messages.step_continue}}</button>
+         
+</form>
+{{/main}}
+{{/template/govuk}}

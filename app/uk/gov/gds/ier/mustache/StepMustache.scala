@@ -33,3 +33,4 @@ trait StepMustache extends MustacheModel {
     def contentType: String = MimeTypes.HTML
   }
 }
+
