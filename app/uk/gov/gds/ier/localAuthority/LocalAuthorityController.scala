@@ -23,12 +23,19 @@ import uk.gov.gds.ier.model.LocalAuthority
 import uk.gov.gds.ier.service.AddressService
 
 class LocalAuthorityController @Inject() (
-  val locateService: LocateService,
-  val ierApiService: ConcreteIerApiService,
-  val addressService: AddressService,
-  val serialiser: JsonSerialiser,
-  val encryptionService: EncryptionService) extends Controller with ApiResults with WithSerialiser
-  with FormKeys with RequestHandling with WithEncryption with Logging with LocalAuthorityLookupForm
+    val locateService: LocateService,
+    val ierApiService: ConcreteIerApiService,
+    val addressService: AddressService,
+    val serialiser: JsonSerialiser,
+    val encryptionService: EncryptionService
+) extends Controller
+  with ApiResults
+  with WithSerialiser
+  with FormKeys
+  with RequestHandling
+  with WithEncryption
+  with Logging
+  with LocalAuthorityLookupForm
   with IerForms {
 
 //  val validation = localAuthorityLookupForm
@@ -67,6 +74,12 @@ class LocalAuthorityController @Inject() (
 
 
   }
+
+  def ero(gssCode: String, sourcePath: String) = Action { request =>
+    val localAuthority = ierApiService.getLocalAuthorityByGssCode(gssCode)
+    Ok(views.html.localAuthority(localAuthority, sourcePath))
+  }
+
   def lookup = Action {
     implicit request =>
 //      postcodeForm.bindFromRequest.fold(
