@@ -611,4 +611,4 @@ GET         /register-to-vote/feedback/thank-you                      controller
 # Local Authority Lookup
 GET         /register-to-vote/local-authority                                                controllers.LocalAuthorityController.show
 POST       /register-to-vote/local-authority                                                controllers.LocalAuthorityController.lookup
-GET         /register-to-vote/local-authority/:gssCode                controllers.LocalAuthorityController.ero(gssCode:String, sourcePath: String ?= "")
+GET         /register-to-vote/local-authority/:gssCode                controllers.LocalAuthorityController.ero(gssCode:String, sourcePath: Option[String] ?= None)

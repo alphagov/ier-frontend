@@ -7,12 +7,16 @@ import uk.gov.gds.ier.model.LocalAuthority
 
 trait LocalAuthorityMustache
   extends StepMustache {
-
   self: WithRemoteAssets
   with WithConfig =>
+
     case class LocalAuthorityPage (
         localAuthority: LocalAuthority,
+        sourcePath: Option[String],
         pageTitle: String = "Contact your local authority"
+    ) (
+        implicit val lang: Lang
     ) extends ArticlePage("localAuthority/show")
+      with MessagesForMustache
 
 }

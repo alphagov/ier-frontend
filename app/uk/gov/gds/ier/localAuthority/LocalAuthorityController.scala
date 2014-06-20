@@ -82,9 +82,9 @@ class LocalAuthorityController @Inject() (
       }
   }
 
-  def ero(gssCode: String, sourcePath: String) = Action { request =>
+  def ero(gssCode: String, sourcePath: Option[String]) = Action { request =>
     val localAuthority = ierApiService.getLocalAuthorityByGssCode(gssCode)
-    Ok(LocalAuthorityPage(localAuthority))
+    Ok(LocalAuthorityPage(localAuthority, sourcePath))
   }
 
   def lookup = Action {

@@ -545,3 +545,13 @@ feedback_submit=Send
 feedback_thankYou_title=Thank you for your feedback
 feedback_thankYou_p1=If you select continue you will be transferred to the last edited step
 feedback_thankYou_exit_button=Return to your application
+
+
+#LocalAuthority Lookup pages
+
+lookup_show_yourLocalAuthorityIs=Your Local Authority is
+lookup_show_address=Address
+lookup_show_website=Website
+lookup_show_email=Email
+lookup_show_phone=Phone
+lookup_show_exit_button=Return to your application
