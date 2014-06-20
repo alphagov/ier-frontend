@@ -36,10 +36,10 @@ trait CommonConstraints extends ErrorMessages {
     }
   }
 
-  def fieldNotTooLong [T](fieldKey:Key, errorMessage:String)
-                                   (fieldValue:T => String) = {
+  def fieldNotTooLong [T](fieldKey:Key, errorMessage:String, maxLength: Int = maxTextFieldLength)
+                         (fieldValue:T => String) = {
     predicateHolds[T](fieldKey, errorMessage){
-      t => fieldValue(t).size <= maxTextFieldLength
+      t => fieldValue(t).size <= maxLength
     }
   }
 }
