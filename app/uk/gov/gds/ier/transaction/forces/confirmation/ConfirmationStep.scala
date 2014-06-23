@@ -4,9 +4,7 @@ import uk.gov.gds.ier.step.ConfirmationStepController
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.validation.ErrorTransformForm
 import controllers.step.forces.routes.ConfirmationController
-import controllers.step.forces.routes.StatementController
 import controllers.routes.CompleteController
 import com.google.inject.Inject
 import uk.gov.gds.ier.step.Routes
@@ -15,7 +13,7 @@ import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.service.{WithAddressService, AddressService}
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.assets.RemoteAssets
-
+import uk.gov.gds.ier.model.{WaysToVoteType, ApplicationType}
 
 class ConfirmationStep @Inject() (
     val encryptionService: EncryptionService,
@@ -67,9 +65,24 @@ class ConfirmationStep @Inject() (
 
           logSession()
 
+          val isPostalOrProxyVoteEmailPresent = validApplication.postalOrProxyVote.exists { postalVote =>
+            (postalVote.typeVote != WaysToVoteType.InPerson) &
+              postalVote.postalVoteOption.exists(_ == true) & postalVote.deliveryMethod.exists{ deliveryMethod =>
+              deliveryMethod.deliveryMethod.exists(_ == "email") && deliveryMethod.emailAddress.exists(_.nonEmpty)
+            }
+          }
+
+          val isContactEmailPresent = validApplication.contact.exists(
+            _.email.exists{ emailContact =>
+              emailContact.contactMe & emailContact.detail.exists(_.nonEmpty)
+            }
+          )
+
           Redirect(CompleteController.complete()).flashing(
             "refNum" -> refNum,
-            "localAuthority" -> serialiser.toJson(response.localAuthority)
+            "localAuthority" -> serialiser.toJson(response.localAuthority),
+            "showEmailConfirmation" -> (isPostalOrProxyVoteEmailPresent | isContactEmailPresent).toString
+
           )
         }
       )

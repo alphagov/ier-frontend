@@ -5,8 +5,8 @@ import org.scalatest.mock.MockitoSugar
 import uk.gov.gds.ier.test.TestHelpers
 import play.api.test.Helpers._
 import play.api.test.FakeRequest
-import uk.gov.gds.ier.model.PartialAddress
 import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
+import uk.gov.gds.ier.model._
 
 /**
  * Test ConfirmationStep and ConfirmationController for Ordinary route,
@@ -56,5 +56,139 @@ with TestHelpers {
         phone = Some("01684 862151")
       ))
     }
+  }
+
+  it should "submit application and set show email message flag to false for no email addresses present" in runningApp {
+    val Some(result) = route(
+      FakeRequest(POST, "/register-to-vote/overseas/confirmation")
+        .withIerSession()
+        .withApplication(completeOverseasApplication.copy(
+        waysToVote = Some(WaysToVote(WaysToVoteType.InPerson)),
+        postalOrProxyVote = None,
+        contact = Some(Contact(
+          post = true,
+          email = None,
+          phone = None
+        ))
+      ))
+    )
+
+    status(result) should be(SEE_OTHER)
+    redirectLocation(result) should be(Some("/register-to-vote/complete"))
+    val flashData = flash(result).data
+    flashData("showEmailConfirmation") should be("false")
+  }
+
+
+
+  it should "submit application and set show email message flag to true if contact email is present" in runningApp {
+    val Some(result) = route(
+      FakeRequest(POST, "/register-to-vote/overseas/confirmation")
+        .withIerSession()
+        .withApplication(completeOverseasApplication.copy(
+        waysToVote = Some(WaysToVote(WaysToVoteType.InPerson)),
+        postalOrProxyVote = None,
+        contact = Some(Contact(
+          post = false,
+          email = Some(ContactDetail(
+            contactMe = true,
+            detail = Some("test@email.com")
+          )),
+          phone = None
+        ))
+      ))
+    )
+
+    status(result) should be(SEE_OTHER)
+    redirectLocation(result) should be(Some("/register-to-vote/complete"))
+    val flashData = flash(result).data
+    flashData("showEmailConfirmation") should be("true")
+  }
+
+  it should "submit application and set show email message flag to true if postal email is present" in runningApp {
+    val Some(result) = route(
+      FakeRequest(POST, "/register-to-vote/overseas/confirmation")
+        .withIerSession()
+        .withApplication(completeOverseasApplication.copy(
+        waysToVote = Some(WaysToVote(WaysToVoteType.ByPost)),
+        postalOrProxyVote = Some(PostalOrProxyVote(
+          typeVote = WaysToVoteType.ByPost,
+          postalVoteOption = Some(true),
+          deliveryMethod = Some(PostalVoteDeliveryMethod(
+            deliveryMethod = Some("email"),
+            emailAddress = Some("test@email.com")
+          ))
+        )),
+        contact = Some(Contact(
+          post = true,
+          email = None,
+          phone = None
+        ))
+      ))
+    )
+
+    status(result) should be(SEE_OTHER)
+    redirectLocation(result) should be(Some("/register-to-vote/complete"))
+    val flashData = flash(result).data
+    flashData("showEmailConfirmation") should be("true")
+  }
+
+  it should "submit application and set show email message flag to true if proxy postal email is present" in runningApp {
+    val Some(result) = route(
+      FakeRequest(POST, "/register-to-vote/overseas/confirmation")
+        .withIerSession()
+        .withApplication(completeOverseasApplication.copy(
+        waysToVote = Some(WaysToVote(WaysToVoteType.ByProxy)),
+        postalOrProxyVote = Some(PostalOrProxyVote(
+          typeVote = WaysToVoteType.ByPost,
+          postalVoteOption = Some(true),
+          deliveryMethod = Some(PostalVoteDeliveryMethod(
+            deliveryMethod = Some("email"),
+            emailAddress = Some("test@email.com")
+          ))
+        )),
+        contact = Some(Contact(
+          post = true,
+          email = None,
+          phone = None
+        ))
+      ))
+    )
+
+    status(result) should be(SEE_OTHER)
+    redirectLocation(result) should be(Some("/register-to-vote/complete"))
+    val flashData = flash(result).data
+    flashData("showEmailConfirmation") should be("true")
+  }
+
+  it should "submit application and set show email message flag to true if postal email and contact email are present" in runningApp {
+    val Some(result) = route(
+      FakeRequest(POST, "/register-to-vote/overseas/confirmation")
+        .withIerSession()
+        .withApplication(completeOverseasApplication.copy(
+        waysToVote = Some(WaysToVote(WaysToVoteType.ByProxy)),
+        postalOrProxyVote = Some(PostalOrProxyVote(
+          typeVote = WaysToVoteType.ByPost,
+          postalVoteOption = Some(true),
+          deliveryMethod = Some(PostalVoteDeliveryMethod(
+            deliveryMethod = Some("email"),
+            emailAddress = Some("test@email.com")
+          ))
+        )),
+        contact = Some(Contact(
+          post = false,
+          email = Some(ContactDetail(
+            contactMe = true,
+            detail = Some("test@email.com")
+          )),
+          phone = None
+        ))
+      ))
+    )
+
+    status(result) should be(SEE_OTHER)
+    redirectLocation(result) should be(Some("/register-to-vote/complete"))
+    val flashData = flash(result).data
+    flashData("showEmailConfirmation") should be("true")
   }
 }

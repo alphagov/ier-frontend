@@ -8,6 +8,10 @@
   {{/refNumber}}
 </header>
 <article>
+  {{#showEmailConfirmation}}
+  <p class="intro email">{{messages.complete_emailConfirmation}}</p>
+  {{/showEmailConfirmation}}
+
   <h2>{{messages.complete_whatHappensNext_h2}}</h2>
   <p>{{messages.complete_sentApplicationTo_p}} <strong>{{authorityName}}</strong>.</p>
   <p>{{messages.complete_contactYouTo_p}}</p>

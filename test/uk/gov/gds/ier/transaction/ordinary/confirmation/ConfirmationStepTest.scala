@@ -5,8 +5,10 @@ import org.scalatest.mock.MockitoSugar
 import uk.gov.gds.ier.test.TestHelpers
 import play.api.test.Helpers._
 import play.api.test.FakeRequest
-import uk.gov.gds.ier.model.PartialAddress
+import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
+import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
+import scala.Some
 
 /**
  * Test ConfirmationStep and ConfirmationController for Ordinary route,
@@ -56,4 +58,109 @@ with TestHelpers {
       ))
     }
   }
+
+  it should "submit application and set show email message flag to false for no email addresses" in runningApp {
+    val Some(result) = route(
+      FakeRequest(POST, "/register-to-vote/confirmation")
+        .withIerSession()
+        .withApplication(completeOrdinaryApplication.copy(
+          postalVote = Some(PostalVote(
+            postalVoteOption = Some(false),
+            deliveryMethod = None
+          )),
+          contact = Some(Contact(
+            post = true,
+            email = None,
+            phone = None
+          ))
+        ))
+    )
+
+    status(result) should be(SEE_OTHER)
+    redirectLocation(result) should be(Some("/register-to-vote/complete"))
+    val flashData = flash(result).data
+    flashData("showEmailConfirmation") should be("false")
+  }
+
+  it should "submit application and set show email message flag to true if the contact email address is present" in runningApp {
+    val Some(result) = route(
+      FakeRequest(POST, "/register-to-vote/confirmation")
+        .withIerSession()
+        .withApplication(completeOrdinaryApplication.copy(
+        postalVote = Some(PostalVote(
+          postalVoteOption = Some(false),
+          deliveryMethod = None
+        )),
+        contact = Some(Contact(
+          post = false,
+          email = Some(ContactDetail(
+            contactMe = true,
+            detail = Some("test@email.com")
+          )),
+          phone = None
+        ))
+      ))
+    )
+
+    status(result) should be(SEE_OTHER)
+    redirectLocation(result) should be(Some("/register-to-vote/complete"))
+    val flashData = flash(result).data
+    flashData("showEmailConfirmation") should be("true")
+  }
+
+  it should "submit application and set show email message flag to true if the postal vote email is present" in runningApp {
+    val Some(result) = route(
+      FakeRequest(POST, "/register-to-vote/confirmation")
+        .withIerSession()
+        .withApplication(completeOrdinaryApplication.copy(
+        postalVote = Some(PostalVote(
+          postalVoteOption = Some(true),
+          deliveryMethod = Some(PostalVoteDeliveryMethod(
+            deliveryMethod = Some("email"),
+            emailAddress = Some("test@email.com")
+          ))
+        )),
+        contact = Some(Contact(
+          post = true,
+          email = None,
+          phone = None
+        ))
+      ))
+    )
+
+    status(result) should be(SEE_OTHER)
+    redirectLocation(result) should be(Some("/register-to-vote/complete"))
+    val flashData = flash(result).data
+    flashData("showEmailConfirmation") should be("true")
+  }
+
+  it should "submit application and set show email message flag to true if the postal vote and contact email are present" in runningApp {
+    val Some(result) = route(
+      FakeRequest(POST, "/register-to-vote/confirmation")
+        .withIerSession()
+        .withApplication(completeOrdinaryApplication.copy(
+        postalVote = Some(PostalVote(
+          postalVoteOption = Some(true),
+          deliveryMethod = Some(PostalVoteDeliveryMethod(
+            deliveryMethod = Some("email"),
+            emailAddress = Some("test@email.com")
+          ))
+        )),
+        contact = Some(Contact(
+          post = false,
+          email = Some(ContactDetail(
+            contactMe = true,
+            detail = Some("test@email.com")
+          )),
+          phone = None
+        ))
+      ))
+    )
+
+    status(result) should be(SEE_OTHER)
+    redirectLocation(result) should be(Some("/register-to-vote/complete"))
+    val flashData = flash(result).data
+    flashData("showEmailConfirmation") should be("true")
+  }
+
 }

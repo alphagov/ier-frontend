@@ -24,7 +24,8 @@ class CompleteControllerTests
             "refNum" -> "123457689013",
             "postcode" -> "WR26NJ",  // postcode is not currently shown
             "hasOtherAddress" -> "true",
-            "backToStartUrl" -> "/register-to-vote/start")
+            "backToStartUrl" -> "/register-to-vote/start",
+            "showEmailConfirmation" -> "true")
           .withIerSession()
       )
 
@@ -45,7 +46,8 @@ class CompleteControllerTests
             "refNum" -> "123457689013",
             "postcode" -> "WR26NJ",
             "hasOtherAddress" -> "false",
-            "backToStartUrl" -> "/register-to-vote/start")
+            "backToStartUrl" -> "/register-to-vote/start",
+            "showEmailConfirmation" -> "true")
           .withIerSession()
       )
 
@@ -57,4 +59,44 @@ class CompleteControllerTests
       renderedOutput should not include("/register-to-vote/start")
     }
   }
+
+  it should "display the page with email confirmation info" in runningApp {
+    val Some(result) = route(
+      FakeRequest(GET, "/register-to-vote/complete")
+        .withFlash(
+          "refNum" -> "123457689013",
+          "postcode" -> "WR26NJ",
+          "hasOtherAddress" -> "false",
+          "backToStartUrl" -> "/register-to-vote/start",
+          "showEmailConfirmation" -> "true")
+        .withIerSession()
+    )
+
+    status(result) should be(OK)
+    contentType(result) should be(Some("text/html"))
+    val renderedOutput = contentAsString(result)
+
+    renderedOutput should include("We have sent you a confirmation email.")
+  }
+
+  it should "display the page without email confirmation info" in runningApp {
+    val Some(result) = route(
+      FakeRequest(GET, "/register-to-vote/complete")
+        .withFlash(
+          "refNum" -> "123457689013",
+          "postcode" -> "WR26NJ",
+          "hasOtherAddress" -> "false",
+          "backToStartUrl" -> "/register-to-vote/start",
+          "showEmailConfirmation" -> "false")
+        .withIerSession()
+    )
+
+    status(result) should be(OK)
+    contentType(result) should be(Some("text/html"))
+    val renderedOutput = contentAsString(result)
+
+    renderedOutput should not include("We have sent you a confirmation email.")
+  }
+
+
 }

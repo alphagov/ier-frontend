@@ -26,7 +26,8 @@ trait CompleteMustache {
         authority: Option[EroAuthorityDetails],
         refNumber: Option[String],
         hasOtherAddress: Boolean,
-        backToStartUrl: String
+        backToStartUrl: String,
+        showEmailConfirmation: Boolean
     ) (implicit val lang : Lang) extends Mustachio("complete") with MessagesForMustache {
 
       val authorityUrl = authority flatMap {
