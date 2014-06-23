@@ -124,19 +124,19 @@ class ParentNameFormTests
     
     parentNameForm.bind(data).fold(
       formWithErrors => {
-        formWithErrors.errorMessages("overseasParentName.parentName.firstName").head should be ("First name can be no longer than 256 characters")
-        formWithErrors.errorMessages("overseasParentName.parentName.middleNames").head should be ("Middle names can be no longer than 256 characters")
-        formWithErrors.errorMessages("overseasParentName.parentName.lastName").head should be ("Last name can be no longer than 256 characters")
-        formWithErrors.errorMessages("overseasParentName.parentPreviousName.previousName.firstName").head should be ("First name can be no longer than 256 characters")
-        formWithErrors.errorMessages("overseasParentName.parentPreviousName.previousName.middleNames").head should be ("Middle names can be no longer than 256 characters")
-        formWithErrors.errorMessages("overseasParentName.parentPreviousName.previousName.lastName").head should be ("Last name can be no longer than 256 characters")
+        formWithErrors.errorMessages("overseasParentName.parentName.firstName").head should be ("First name can be no longer than 35 characters")
+        formWithErrors.errorMessages("overseasParentName.parentName.middleNames").head should be ("Middle names can be no longer than 100 characters")
+        formWithErrors.errorMessages("overseasParentName.parentName.lastName").head should be ("Last name can be no longer than 35 characters")
+        formWithErrors.errorMessages("overseasParentName.parentPreviousName.previousName.firstName").head should be ("Previous first name can be no longer than 35 characters")
+        formWithErrors.errorMessages("overseasParentName.parentPreviousName.previousName.middleNames").head should be ("Previous middle names can be no longer than 100 characters")
+        formWithErrors.errorMessages("overseasParentName.parentPreviousName.previousName.lastName").head should be ("Previous last name can be no longer than 35 characters")
         formWithErrors.globalErrorMessages should be (Seq(
-          "First name can be no longer than 256 characters",
-          "Middle names can be no longer than 256 characters",
-          "Last name can be no longer than 256 characters",
-          "First name can be no longer than 256 characters",
-          "Middle names can be no longer than 256 characters",
-          "Last name can be no longer than 256 characters"))
+          "First name can be no longer than 35 characters",
+          "Middle names can be no longer than 100 characters",
+          "Last name can be no longer than 35 characters",
+          "Previous first name can be no longer than 35 characters",
+          "Previous middle names can be no longer than 100 characters",
+          "Previous last name can be no longer than 35 characters"))
       },
       success => fail("Should have errored out")
     )

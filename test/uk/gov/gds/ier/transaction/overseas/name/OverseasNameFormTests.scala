@@ -129,12 +129,12 @@ class OverseasNameFormTests
     nameForm.bind(inputDataJson).fold(
       hasErrors => {
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "name.firstName" -> Seq("First name can be no longer than 256 characters"),
-          "name.middleNames" -> Seq("Middle names can be no longer than 256 characters"),
-          "name.lastName" -> Seq("Last name can be no longer than 256 characters"),
-          "previousName.previousName.firstName" -> Seq("Previous first name can be no longer than 256 characters"),
-          "previousName.previousName.middleNames" -> Seq("Previous middle names can be no longer than 256 characters"),
-          "previousName.previousName.lastName" -> Seq("Previous last name can be no longer than 256 characters")
+          "name.firstName" -> Seq("First name can be no longer than 35 characters"),
+          "name.middleNames" -> Seq("Middle names can be no longer than 100 characters"),
+          "name.lastName" -> Seq("Last name can be no longer than 35 characters"),
+          "previousName.previousName.firstName" -> Seq("Previous first name can be no longer than 35 characters"),
+          "previousName.previousName.middleNames" -> Seq("Previous middle names can be no longer than 100 characters"),
+          "previousName.previousName.lastName" -> Seq("Previous last name can be no longer than 35 characters")
         ))
       },
       success => fail("Should have errored out")

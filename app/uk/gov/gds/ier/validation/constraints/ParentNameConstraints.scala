@@ -86,15 +86,15 @@ trait ParentNameConstraints extends CommonConstraints {
   
   lazy val parentPrevFirstNameNotTooLong = fieldNotTooLong[PreviousName](
     keys.overseasParentName.parentPreviousName.previousName.firstName,
-    firstNameMaxLengthError) (_.previousName.map(_.firstName).getOrElse(""))
+    previousFirstNameMaxLengthError) (_.previousName.map(_.firstName).getOrElse(""))
 
   lazy val parentPrevMiddleNamesNotTooLong = fieldNotTooLong[PreviousName](
     keys.overseasParentName.parentPreviousName.previousName.middleNames,
-    middleNameMaxLengthError) (_.previousName.flatMap(_.middleNames).getOrElse(""))
+    previousMiddleNameMaxLengthError) (_.previousName.flatMap(_.middleNames).getOrElse(""))
 
   lazy val parentPrevLastNameNotTooLong = fieldNotTooLong[PreviousName](
     keys.overseasParentName.parentPreviousName.previousName.lastName,
-    lastNameMaxLengthError) (_.previousName.map(_.lastName).getOrElse(""))
+    previousLastNameMaxLengthError) (_.previousName.map(_.lastName).getOrElse(""))
 
   
 }

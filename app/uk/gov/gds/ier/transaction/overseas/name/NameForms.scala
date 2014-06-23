@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.overseas.name
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.{PreviousName, Name}
 import play.api.data.Forms._
-import uk.gov.gds.ier.validation.constraints.CommonConstraints
+import uk.gov.gds.ier.validation.constraints.NameCommonConstraints
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 trait NameForms extends NameConstraints {
@@ -12,8 +12,16 @@ trait NameForms extends NameConstraints {
 
   val nameForm = ErrorTransformForm(
     mapping(
-      keys.name.key -> optional(Name.mapping),
+      keys.name.key -> optional(Name.mapping)
+        .verifying(
+          firstNameNotTooLong,
+          middleNamesNotTooLong,
+          lastNameNotTooLong),
       keys.previousName.key -> optional(PreviousName.mapping)
+        .verifying(
+          prevFirstNameNotTooLong,
+          prevMiddleNamesNotTooLong,
+          prevLastNameNotTooLong)
     ) (
       (name, previousName) => InprogressOverseas(
         name = name,
@@ -31,18 +39,12 @@ trait NameForms extends NameConstraints {
       lastNameRequired,
       prevNameRequiredIfHasPrevNameTrue,
       prevFirstNameRequired,
-      prevLastNameRequired,
-      firstNameNotTooLong,
-      middleNamesNotTooLong,
-      lastNameNotTooLong,
-      prevFirstNameNotTooLong,
-      prevMiddleNamesNotTooLong,
-      prevLastNameNotTooLong
+      prevLastNameRequired
     )
   )
 }
 
-trait NameConstraints extends CommonConstraints with FormKeys {
+trait NameConstraints extends NameCommonConstraints with FormKeys {
 
   lazy val nameRequired = Constraint[InprogressOverseas](keys.name.key) {
     _.name match {
@@ -129,46 +131,5 @@ trait NameConstraints extends CommonConstraints with FormKeys {
     }
   }
 
-  lazy val firstNameNotTooLong = fieldNotTooLong[InprogressOverseas] (
-    keys.name.firstName,
-    "First name can be no longer than 256 characters"
-  ) {
-    _.name map { _.firstName } getOrElse ""
-  }
-
-  lazy val middleNamesNotTooLong = fieldNotTooLong[InprogressOverseas] (
-    keys.name.middleNames,
-    "Middle names can be no longer than 256 characters"
-  ) {
-    _.name flatMap { _.middleNames } getOrElse ""
-  }
-
-  lazy val lastNameNotTooLong = fieldNotTooLong[InprogressOverseas] (
-    keys.name.lastName,
-    "Last name can be no longer than 256 characters"
-  ) {
-    _.name map { _.lastName } getOrElse ""
-  }
-
-  lazy val prevFirstNameNotTooLong = fieldNotTooLong[InprogressOverseas] (
-    keys.previousName.previousName.firstName,
-    "Previous first name can be no longer than 256 characters"
-  ) {
-    _.previousName flatMap { _.previousName } map { _.firstName } getOrElse ""
-  }
-
-  lazy val prevMiddleNamesNotTooLong = fieldNotTooLong[InprogressOverseas] (
-    keys.previousName.previousName.middleNames,
-    "Previous middle names can be no longer than 256 characters"
-  ) {
-    _.previousName flatMap { _.previousName } flatMap { _.middleNames } getOrElse ""
-  }
-
-  lazy val prevLastNameNotTooLong = fieldNotTooLong[InprogressOverseas] (
-    keys.previousName.previousName.lastName,
-    "Previous last name can be no longer than 256 characters"
-  ) {
-    _.previousName flatMap { _.previousName } map { _.lastName } getOrElse ""
-  }
 }
 
