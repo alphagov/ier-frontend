@@ -52,30 +52,35 @@ class LocalAuthorityController @Inject() (
   def show = Action {
     implicit request =>
 
-      val sourcePath = request.headers.get("referer").getOrElse("")
+      val optSourcePath = request.headers.get("referer")
 
-      val optGssCode =
-        if (sourcePath.contains("overseas")) {
+      val optGssCode = optSourcePath match {
+        case Some(sourcePath) if (sourcePath.contains("overseas"))  =>
           request.getApplication[InprogressOverseas] flatMap (_.lastUkAddress flatMap (_.gssCode))
-        }
-        else if (sourcePath.contains("crown")) {
-          request.getApplication[InprogressCrown] flatMap (_.address flatMap (_.address flatMap (_.gssCode)))
-        }
-        else if (sourcePath.contains("forces")) {
-          request.getApplication[InprogressForces] flatMap (_.address flatMap (_.address flatMap (_.gssCode)))
-        }
-        else {
+        case Some(sourcePath) if (sourcePath.contains("crown")) =>
+          request.getApplication[InprogressCrown] flatMap
+            (_.address flatMap (_.address flatMap (_.gssCode)))
+        case Some(sourcePath) if (sourcePath.contains("forces"))  =>
+          request.getApplication[InprogressForces] flatMap
+            (_.address flatMap (_.address flatMap (_.gssCode)))
+        case _ =>
           request.getApplication[InprogressOrdinary] flatMap (_.address flatMap (_.gssCode))
-        }
+      }
 
       optGssCode match {
-        case Some(gssCode) => {
-          val localAuthority = ierApiService.getLocalAuthorityByGssCode(gssCode)
-          Ok(views.html.localAuthority(localAuthority, sourcePath))
-        }
-        case None => {
-          Ok(views.html.localAuthorityLookup(sourcePath))
-        }
+        case Some(gssCode) =>
+          Redirect(
+            controllers.routes.LocalAuthorityController.ero(gssCode, optSourcePath)
+          )
+        case None => BadRequest(
+            LocalAuthorityLookupPage(
+              localAuthorityLookupForm.withGlobalError(
+                Messages("lookup_error_noneFound")
+              ),
+              optSourcePath,
+              controllers.routes.LocalAuthorityController.showLookup(optSourcePath).url
+            )
+          )
       }
   }
 
@@ -112,10 +117,31 @@ class LocalAuthorityController @Inject() (
   }
 
   def showLookup(sourcePath: Option[String]) = Action { implicit request =>
-    Ok(LocalAuthorityLookupPage(
-      localAuthorityLookupForm,
-      sourcePath,
-      controllers.routes.LocalAuthorityController.showLookup(sourcePath).url
-    ))
+    val optSourcePath = request.headers.get("referer")
+
+      val optGssCode = optSourcePath match {
+        case Some(sourcePath) if (sourcePath.contains("overseas"))  =>
+          request.getApplication[InprogressOverseas] flatMap (_.lastUkAddress flatMap (_.gssCode))
+        case Some(sourcePath) if (sourcePath.contains("crown")) =>
+          request.getApplication[InprogressCrown] flatMap
+            (_.address flatMap (_.address flatMap (_.gssCode)))
+        case Some(sourcePath) if (sourcePath.contains("forces"))  =>
+          request.getApplication[InprogressForces] flatMap
+            (_.address flatMap (_.address flatMap (_.gssCode)))
+        case _ =>
+          request.getApplication[InprogressOrdinary] flatMap (_.address flatMap (_.gssCode))
+      }
+
+      optGssCode match {
+        case Some(gssCode) =>
+          Redirect(
+            controllers.routes.LocalAuthorityController.ero(gssCode, optSourcePath)
+          )
+        case None => Ok(LocalAuthorityLookupPage(
+          localAuthorityLookupForm,
+          sourcePath,
+          controllers.routes.LocalAuthorityController.showLookup(sourcePath).url
+          ))
+      }
   }
 }
