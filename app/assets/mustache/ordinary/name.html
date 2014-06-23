@@ -23,7 +23,7 @@
               class="text first-name long validate {{firstName.classes}}"
               data-validation-name="firstName"
               data-validation-type="field"
-              data-validation-rules="nonEmpty firstOrLastNameText">
+              data-validation-rules="nonEmpty firstNameText">
         </div>
 
         <label for="{{middleNames.id}}">
@@ -55,7 +55,7 @@
               class="text  last-name long validate {{lastName.classes}}"
               data-validation-name="lastName"
               data-validation-type="field"
-              data-validation-rules="nonEmpty firstOrLastNameText">
+              data-validation-rules="nonEmpty lastNameText">
         </div>
     </fieldset>
 
@@ -123,7 +123,7 @@
                   class="text  first-name long validate {{previousFirstName.classes}}"
                   data-validation-name="previousFirstName"
                   data-validation-type="field"
-                  data-validation-rules="nonEmpty firstOrLastNameText">
+                  data-validation-rules="nonEmpty prevFirstNameText">
             </div>
 
             <label for="{{previousMiddleNames.id}}">
@@ -140,7 +140,7 @@
                   class="text  middle-names long validate {{previousMiddleName.classes}}"
                   data-validation-name="previousMiddleName"
                   data-validation-type="field"
-                  data-validation-rules="middleNameText">
+                  data-validation-rules="prevMiddleNameText">
             </div>
 
             <label for="{{previousLastName.id}}">
@@ -157,7 +157,7 @@
                   class="text  last-name long validate {{previousLastName.classes}}"
                   data-validation-name="previousLastName"
                   data-validation-type="field"
-                  data-validation-rules="nonEmpty firstOrLastNameText">
+                  data-validation-rules="nonEmpty prevLastNameText">
             </div>
         </fieldset>
     </div>
