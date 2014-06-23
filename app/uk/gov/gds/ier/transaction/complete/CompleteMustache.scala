@@ -23,7 +23,7 @@ trait CompleteMustache {
 
     case class CompletePage (
         authority: Option[EroAuthorityDetails],
-        refNumber: Option[String],
+        refNumber: String,
         hasOtherAddress: Boolean,
         backToStartUrl: String,
         showEmailConfirmation: Boolean

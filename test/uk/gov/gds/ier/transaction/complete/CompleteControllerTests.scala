@@ -8,6 +8,7 @@ import uk.gov.gds.ier.test.TestHelpers
 import controllers.routes._
 import play.api.test.FakeApplication
 import scala.Some
+import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 
 class CompleteControllerTests
   extends FlatSpec
@@ -20,12 +21,23 @@ class CompleteControllerTests
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/complete")
-          .withFlash(
-            "refNum" -> "123457689013",
-            "postcode" -> "WR26NJ",  // postcode is not currently shown
-            "hasOtherAddress" -> "true",
-            "backToStartUrl" -> "/register-to-vote/start",
-            "showEmailConfirmation" -> "true")
+          .withEncryptedCookie(CompleteStepCookie(
+            refNum = "123457689013",
+            authority = Some(EroAuthorityDetails(
+              name = "Hornsey Council",
+              urls = List(),
+              email = None,
+              phone = None,
+              addressLine1 = None,
+              addressLine2 = None,
+              addressLine3 = None,
+              addressLine4 = None,
+              postcode = None
+            )),
+            hasOtherAddress = true,
+            backToStartUrl = "/register-to-vote/start",
+            showEmailConfirmation = "true"
+          ))
           .withIerSession()
       )
 
@@ -42,12 +54,22 @@ class CompleteControllerTests
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/complete")
-          .withFlash(
-            "refNum" -> "123457689013",
-            "postcode" -> "WR26NJ",
-            "hasOtherAddress" -> "false",
-            "backToStartUrl" -> "/register-to-vote/start",
-            "showEmailConfirmation" -> "true")
+          .withEncryptedCookie(CompleteStepCookie(
+            refNum = "123457689013",
+            authority = Some(EroAuthorityDetails(
+              name = "Hornsey Council",
+              urls = List(),
+              email = None,
+              phone = None,
+              addressLine1 = None,
+              addressLine2 = None,
+              addressLine3 = None,
+              addressLine4 = None,
+              postcode = None
+            )),
+            hasOtherAddress = false,
+            backToStartUrl = "/register-to-vote/start",
+            showEmailConfirmation = "true"))
           .withIerSession()
       )
 

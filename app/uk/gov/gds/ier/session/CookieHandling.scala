@@ -22,6 +22,19 @@ trait CookieHandling extends SessionKeys {
     )
   }
 
+  def customPayloadCookies[A <: AnyRef](
+      payload: A,
+      key: String,
+      domain: Option[String]
+    ) = {
+    val payloadString = serialiser.toJson(payload)
+    val (payloadHash, payloadIV) = encryptionService.encrypt(payloadString)
+    Seq(
+      secureCookie(key, payloadHash, domain),
+      secureCookie(sessionPayloadKeyIV, payloadIV, domain)
+    )
+  }
+
   def discardPayloadCookies(
     domain: Option[String]
   ) = Seq(

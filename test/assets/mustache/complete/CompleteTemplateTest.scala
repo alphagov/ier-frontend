@@ -51,8 +51,8 @@ class CompleteTemplateTest
       doc.select("a[href=" + mustache.authorityUrl.get + "]").size() should be(1)
       doc.select("a[href=" + mustache.backToStartUrl + "]").size() should be(1)
 
-      renderedOutput should include(mustache.refNumber.get)
-      renderedOutput should include(mustache.authorityName)
+      renderedOutput should include(data.refNumber.get)
+      renderedOutput should include(data.authorityName)
     }
   }
 }

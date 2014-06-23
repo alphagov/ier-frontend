@@ -3,38 +3,37 @@ package uk.gov.gds.ier.transaction.complete
 import play.api.mvc._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
-import uk.gov.gds.ier.session.SessionCleaner
 import uk.gov.gds.ier.guice.{WithRemoteAssets, WithEncryption, WithConfig}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.assets.RemoteAssets
-import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
+import scala.util.Try
+import uk.gov.gds.ier.logging.Logging
 
 class CompleteStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
     val remoteAssets: RemoteAssets
-) extends Controller
-  with SessionCleaner
+) extends SessionHandling[CompleteStepCookie]
+  with Controller
   with WithSerialiser
   with WithConfig
   with WithEncryption
   with WithRemoteAssets
+  with Logging
   with CompleteMustache {
 
-  def complete = ClearSession requiredFor {
-    implicit request =>
-      val authority = request.flash.get("localAuthority") match {
-        case Some("") => None
-        case Some(authorityJson) => Some(serialiser.fromJson[EroAuthorityDetails](authorityJson))
-        case None => None
-      }
-      val refNum = request.flash.get("refNum")
-      val hasOtherAddress = request.flash.get("hasOtherAddress").map(_.toBoolean).getOrElse(false)
-      val backToStartUrl = request.flash.get("backToStartUrl").getOrElse("")
-      val showEmailConfirmation = request.flash.get("showEmailConfirmation").map(_.toBoolean).getOrElse(false)
-
-      Ok(Complete.CompletePage(authority, refNum, hasOtherAddress, backToStartUrl, showEmailConfirmation))
+  def complete = ValidSession requiredFor {
+    implicit request => completeData =>
+      Ok(Complete.CompletePage(
+        completeData.authority,
+        completeData.refNum,
+        completeData.hasOtherAddress,
+        completeData.backToStartUrl,
+        completeData.showEmailConfirmation))
   }
+
+  // FIXME: should not be used
+  def factoryOfT() = CompleteStepCookie()
 }
