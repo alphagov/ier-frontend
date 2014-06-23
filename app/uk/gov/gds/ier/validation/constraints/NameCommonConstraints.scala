@@ -58,14 +58,4 @@ trait NameCommonConstraints extends CommonConstraints {
       .getOrElse("")
   }
 
-//  lazy val prevNameFilledIfHasPrevIsTrue = Constraint[PreviousName](keys.previousName.previousName.key) {
-//    prevName =>
-//      if ((prevName.hasPreviousName && prevName.previousName.isDefined) || !prevName.hasPreviousName){
-//        Valid
-//      } else {
-//        Invalid("Please enter your previous name",
-//            keys.previousName.previousName.firstName,
-//            keys.previousName.previousName.lastName)
-//      }
-//  }
 }

@@ -155,44 +155,4 @@ class NameCommonConstraintsTests
       keys.previousName.previousName.middleNames))
   }
 
-//  behavior of "NameCommonConstraints.prevNameFilledIfHasPrevIsTrue"
-//
-//  it should "be valid for hasPreviousName = true and filled Previous Name" in {
-//    prevNameFilledIfHasPrevIsTrue.apply(
-//      PreviousName(
-//        hasPreviousName = true,
-//        previousName = Some(Name("John", None, "Smith"))
-//      )
-//    ) should be(Valid)
-//  }
-//
-//  it should "be valid for hasPreviousName = false and no previous name" in {
-//    prevNameFilledIfHasPrevIsTrue.apply(
-//      PreviousName(
-//        hasPreviousName = false,
-//        previousName = None
-//      )
-//    ) should be(Valid)
-//  }
-//
-//  it should "be invalid for hasPreviousName = true and no previousName" in {
-//    prevNameFilledIfHasPrevIsTrue.apply(
-//      PreviousName(
-//        hasPreviousName = true,
-//        previousName = None
-//      )
-//    ) should be(
-//      Invalid("Please enter your previous name",
-//      keys.previousName.previousName.firstName,
-//      keys.previousName.previousName.lastName))
-//  }
-//
-//  it should "be valid for hasPreviousName = false and filled previousName" in {
-//    prevNameFilledIfHasPrevIsTrue.apply(
-//      PreviousName(
-//        hasPreviousName = false,
-//        previousName = Some(Name("John", None, "Smith"))
-//      )
-//    ) should be(Valid)
-//  }
 }
