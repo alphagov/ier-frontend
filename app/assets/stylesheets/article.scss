@@ -61,6 +61,16 @@
   article {
     padding-bottom: 2em;
 
+    p {
+      margin: 0.75em 0;
+
+      @include media(tablet) {
+        &.summary {
+          margin-top: 0;
+        }
+      }
+    }
+
     table {
       border-collapse: collapse;
       border-spacing: 0;

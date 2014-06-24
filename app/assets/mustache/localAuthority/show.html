@@ -8,9 +8,9 @@
 </header>
 
 <article>
-    <h2>{{messages.lookup_show_yourLocalAuthorityIs}} {{localAuthority.name}}</h2>
+    <p class="summary">{{messages.lookup_show_yourLocalAuthorityIs}} {{localAuthority.name}}</p>
 
-    <h3>{{messages.lookup_show_address}}</h3>
+    <h2>{{messages.lookup_show_address}}</h2>
     <p>
         {{localAuthority.addressLine1}}<br />
         {{localAuthority.addressLine2}}<br />
@@ -19,13 +19,13 @@
     </p>
     <p>{{localAuthority.postcode}}</p>
 
-    <h3>{{messages.lookup_show_website}}</h3>
+    <h2>{{messages.lookup_show_website}}</h2>
     <p><a href = "{{localAuthority.url}}" rel = "external">{{localAuthority.url}}</a></p>
 
-    <h3>{{messages.lookup_show_email}}</h3>
+    <h2>{{messages.lookup_show_email}}</h2>
     <p>{{localAuthority.emailAddress}}</p>
 
-    <h3>{{messages.lookup_show_phone}}</h3>
+    <h2>{{messages.lookup_show_phone}}</h2>
     <p>{{localAuthority.phoneNumber}}</p>
 
     {{#sourcePath}}
