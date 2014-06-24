@@ -494,8 +494,8 @@ describe("OptionalControl", function () {
     });
 
     it("Should add the control before the content div", function () {
-      spyOn(GOVUK.registerToVote.OptionalControl.prototype, "createControl").and.callFake(function () {
-        return $control
+      spyOn(optionalControlMock, "createControl").and.callFake(function () {
+        return $control;
       });
       GOVUK.registerToVote.OptionalControl.prototype.setup.call(optionalControlMock);
       expect($content.prev()[0]).toEqual($control[0]);
