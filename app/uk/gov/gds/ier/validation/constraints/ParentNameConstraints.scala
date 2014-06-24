@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.validation.constraints
 
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages, Key}
-import uk.gov.gds.ier.model.{Name, PreviousName}
+import uk.gov.gds.ier.model.{OverseasParentName, Name, PreviousName}
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import play.api.data.Mapping
 import play.api.data.Forms._
@@ -14,13 +14,13 @@ trait ParentNameConstraints extends CommonConstraints {
      
       
     lazy val parentNameNotOptional = Constraint[Option[Name]] (keys.overseasParentName.parentName.key) {
-      name =>
-        name match {
-          case Some(parentName) => Valid
-          case None => Invalid("Please enter their full name", 
-          keys.overseasParentName.parentName.firstName, keys.overseasParentName.parentName.lastName, keys.overseasParentName.parentName) 
-        }
-    }  
+      case Some(_) => Valid
+      case None => Invalid(
+        "Please enter their full name",
+        keys.overseasParentName.parentName.firstName,
+        keys.overseasParentName.parentName.lastName,
+        keys.overseasParentName.parentName)
+    }
     
     lazy val parentPreviousNameNotOptionalIfHasPreviousIsTrue = Constraint[Option[PreviousName]] (keys.overseasParentName.parentPreviousName.key) {
       name => 
@@ -41,60 +41,84 @@ trait ParentNameConstraints extends CommonConstraints {
       if (application.overseasParentName.isDefined && application.overseasParentName.get.previousName.isDefined) Valid
       else Invalid("Please answer this question", keys.overseasParentName.parentPreviousName)
   }
-   def parentFirstNameNotEmpty = Constraint[Name](keys.overseasParentName.parentName.firstName.key) {
+   lazy val parentFirstNameNotEmpty = Constraint[Name](keys.overseasParentName.parentName.firstName.key) {
     name =>
       if (name.firstName.trim.isEmpty()) Invalid("Please enter their first name",
           keys.overseasParentName.parentName.firstName)
       else Valid
   }
   
-  def parentLastNameNotEmpty = Constraint[Name](keys.overseasParentName.parentName.lastName.key) {
+  lazy val parentLastNameNotEmpty = Constraint[Name](keys.overseasParentName.parentName.lastName.key) {
     name =>
       if (name.lastName.trim.isEmpty()) Invalid("Please enter their last name", 
           keys.overseasParentName.parentName.lastName)
       else Valid
   }
   
-  lazy val parentFirstNameNotTooLong = fieldNotTooLong[Name](keys.overseasParentName.parentName.firstName,
-    firstNameMaxLengthError) (_.firstName)
+  lazy val parentFirstNameNotTooLong = fieldNotTooLong[Option[Name]](
+    fieldKey = keys.overseasParentName.parentName.firstName,
+    errorMessage = firstNameMaxLengthError,
+    maxLength = maxFirstLastNameLength) {
+      _.map { _.firstName } getOrElse ""
+    }
 
-  lazy val parentMiddleNamesNotTooLong = fieldNotTooLong[Name](keys.overseasParentName.parentName.middleNames,
-    middleNameMaxLengthError) (_.middleNames.getOrElse(""))
+  lazy val parentMiddleNamesNotTooLong = fieldNotTooLong[Option[Name]](
+    fieldKey = keys.overseasParentName.parentName.middleNames,
+    errorMessage = middleNameMaxLengthError,
+    maxLength = maxMiddleNameLength) {
+      _.map { _.middleNames.getOrElse("") } getOrElse("")
+    }
 
-  lazy val parentLastNameNotTooLong = fieldNotTooLong[Name](keys.overseasParentName.parentName.lastName,
-    lastNameMaxLengthError) (_.lastName)
+  lazy val parentLastNameNotTooLong = fieldNotTooLong[Option[Name]](
+    fieldKey = keys.overseasParentName.parentName.lastName,
+    errorMessage = lastNameMaxLengthError,
+    maxLength = maxFirstLastNameLength) {
+      _.map { _.lastName } getOrElse("")
+    }
   
+  lazy val parentPreviousFirstNameNotEmpty = Constraint[Option[PreviousName]](
+    keys.overseasParentName.parentPreviousName.previousName.firstName.key) {
+    case Some(PreviousName(true, Some(Name("", _, _)))) => Invalid(
+      "Please enter their previous first name",
+      keys.overseasParentName.parentPreviousName.previousName.firstName)
+    case _ => Valid
+  }
+
   
-  
-  def parentPreviousFirstNameNotEmpty = Constraint[PreviousName](keys.overseasParentName.parentPreviousName.previousName.firstName.key) {
-    name =>
-      if (name.hasPreviousName) {
-        if (name.previousName.isDefined && name.previousName.get.firstName.trim.isEmpty()) Invalid("Please enter their previous first name", keys.overseasParentName.parentPreviousName.previousName.firstName)
-        else Valid
-      } 
-      else Valid 
+  lazy val parentPreviousLastNameNotEmpty = Constraint[Option[PreviousName]](
+    keys.overseasParentName.parentPreviousName.previousName.lastName.key) {
+    case Some(PreviousName(true, Some(Name(_, _, "")))) => Invalid(
+      "Please enter their previous last name",
+      keys.overseasParentName.parentPreviousName.previousName.lastName)
+    case _ => Valid
   }
   
-  def parentPreviousLastNameNotEmpty = Constraint[PreviousName](keys.overseasParentName.parentPreviousName.previousName.lastName.key) {
-    name =>
-      if (name.hasPreviousName) {
-      if (name.previousName.isDefined && name.previousName.get.lastName.trim.isEmpty()) Invalid("Please enter their previous last name", keys.overseasParentName.parentPreviousName.previousName.lastName)
-      else Valid
-      } 
-      else Valid 
-  }
-  
-  lazy val parentPrevFirstNameNotTooLong = fieldNotTooLong[PreviousName](
-    keys.overseasParentName.parentPreviousName.previousName.firstName,
-    previousFirstNameMaxLengthError) (_.previousName.map(_.firstName).getOrElse(""))
+  lazy val parentPrevFirstNameNotTooLong = fieldNotTooLong[Option[PreviousName]](
+    fieldKey = keys.overseasParentName.parentPreviousName.previousName.firstName,
+    errorMessage = previousFirstNameMaxLengthError,
+    maxLength = maxFirstLastNameLength) {
+      _.flatMap { _.previousName }
+        .map { _.firstName }
+        .getOrElse("")
+    }
 
-  lazy val parentPrevMiddleNamesNotTooLong = fieldNotTooLong[PreviousName](
-    keys.overseasParentName.parentPreviousName.previousName.middleNames,
-    previousMiddleNameMaxLengthError) (_.previousName.flatMap(_.middleNames).getOrElse(""))
+  lazy val parentPrevMiddleNamesNotTooLong = fieldNotTooLong[Option[PreviousName]](
+    fieldKey = keys.overseasParentName.parentPreviousName.previousName.middleNames,
+    errorMessage = previousMiddleNameMaxLengthError,
+    maxLength = maxMiddleNameLength) {
+      _.flatMap{ _.previousName }
+        .map{ _.middleNames.getOrElse("") }
+        .getOrElse("")
+    }
 
-  lazy val parentPrevLastNameNotTooLong = fieldNotTooLong[PreviousName](
-    keys.overseasParentName.parentPreviousName.previousName.lastName,
-    previousLastNameMaxLengthError) (_.previousName.map(_.lastName).getOrElse(""))
+  lazy val parentPrevLastNameNotTooLong = fieldNotTooLong[Option[PreviousName]](
+    fieldKey = keys.overseasParentName.parentPreviousName.previousName.lastName,
+    errorMessage = previousLastNameMaxLengthError,
+    maxLength = maxFirstLastNameLength) {
+      _.flatMap { _.previousName }
+        .map { _.lastName }
+        .getOrElse("")
+    }
 
   
 }
