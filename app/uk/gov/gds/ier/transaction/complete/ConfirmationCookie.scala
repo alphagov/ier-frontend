@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.complete
 
 import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 
-case class CompleteStepCookie(
+case class ConfirmationCookie(
     refNum: String,
     authority: Option[EroAuthorityDetails],
     hasOtherAddress: Boolean = false,
@@ -10,9 +10,9 @@ case class CompleteStepCookie(
     showEmailConfirmation: Boolean
   )
 
-object CompleteStepCookie {
-  def apply(): CompleteStepCookie = {
-    CompleteStepCookie(
+object ConfirmationCookie {
+  def apply(): ConfirmationCookie = {
+    ConfirmationCookie(
       refNum = "",
       authority = None,
       hasOtherAddress = false,

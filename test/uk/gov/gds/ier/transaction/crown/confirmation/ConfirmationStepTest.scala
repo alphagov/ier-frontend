@@ -9,7 +9,7 @@ import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 import uk.gov.gds.ier.controller.MockConfig
 import uk.gov.gds.ier.security.{Base64EncodingService, EncryptionService}
-import uk.gov.gds.ier.transaction.complete.CompleteStepCookie
+import uk.gov.gds.ier.transaction.complete.ConfirmationCookie
 
 /**
  * Test ConfirmationStep and ConfirmationController for Ordinary route,
@@ -62,7 +62,7 @@ with TestHelpers {
       }
 
       "content of Confirmation cookie" should "contain refnum and local ERO authority details" in {
-        val result = getCompleteStepCookie[CompleteStepCookie](allCookies)
+        val result = getConfirmationCookie(allCookies)
         result should not be (None)
         result.get.refNum.trim should not be ("")
         result.get.hasOtherAddress should be(false)
@@ -105,7 +105,7 @@ with TestHelpers {
     status(result) should be(SEE_OTHER)
     redirectLocation(result) should be(Some("/register-to-vote/complete"))
     val allCookies = cookies(result)
-    val completeStepData = getCompleteStepCookie[CompleteStepCookie](allCookies)
+    val completeStepData = getConfirmationCookie(allCookies)
     completeStepData should not be(None)
     completeStepData.get.showEmailConfirmation should be(false)
   }
@@ -133,7 +133,7 @@ with TestHelpers {
     status(result) should be(SEE_OTHER)
     redirectLocation(result) should be(Some("/register-to-vote/complete"))
     val allCookies = cookies(result)
-    val completeStepData = getCompleteStepCookie[CompleteStepCookie](allCookies)
+    val completeStepData = getConfirmationCookie(allCookies)
     completeStepData should not be(None)
     completeStepData.get.showEmailConfirmation should be(true)
   }
@@ -163,7 +163,7 @@ with TestHelpers {
     status(result) should be(SEE_OTHER)
     redirectLocation(result) should be(Some("/register-to-vote/complete"))
     val allCookies = cookies(result)
-    val completeStepData = getCompleteStepCookie[CompleteStepCookie](allCookies)
+    val completeStepData = getConfirmationCookie(allCookies)
     completeStepData should not be(None)
     completeStepData.get.showEmailConfirmation should be(true)
   }
@@ -193,7 +193,7 @@ with TestHelpers {
     status(result) should be(SEE_OTHER)
     redirectLocation(result) should be(Some("/register-to-vote/complete"))
     val allCookies = cookies(result)
-    val completeStepData = getCompleteStepCookie[CompleteStepCookie](allCookies)
+    val completeStepData = getConfirmationCookie(allCookies)
     completeStepData should not be(None)
     completeStepData.get.showEmailConfirmation should be(true)
   }
@@ -226,7 +226,7 @@ with TestHelpers {
     status(result) should be(SEE_OTHER)
     redirectLocation(result) should be(Some("/register-to-vote/complete"))
     val allCookies = cookies(result)
-    val completeStepData = getCompleteStepCookie[CompleteStepCookie](allCookies)
+    val completeStepData = getConfirmationCookie(allCookies)
     completeStepData should not be(None)
     completeStepData.get.showEmailConfirmation should be(true)
   }

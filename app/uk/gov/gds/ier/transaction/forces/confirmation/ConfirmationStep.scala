@@ -12,7 +12,7 @@ import uk.gov.gds.ier.service.{WithAddressService, AddressService}
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.model.{WaysToVoteType, ApplicationType}
-import uk.gov.gds.ier.transaction.complete.CompleteStepCookie
+import uk.gov.gds.ier.transaction.complete.ConfirmationCookie
 import uk.gov.gds.ier.transaction.ordinary.confirmation.ConfirmationCookieWriter
 import uk.gov.gds.ier.session.ResultHandling
 import uk.gov.gds.ier.step.Routes
@@ -83,7 +83,7 @@ class ConfirmationStep @Inject() (
             }
           )
 
-          val completeStepData = CompleteStepCookie(
+          val completeStepData = ConfirmationCookie(
             refNum = refNum,
             authority = Some(response.localAuthority),
             backToStartUrl = config.ordinaryStartUrl,

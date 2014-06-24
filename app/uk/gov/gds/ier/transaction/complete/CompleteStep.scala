@@ -16,7 +16,7 @@ class CompleteStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService,
     val remoteAssets: RemoteAssets
-  ) extends CustomizedSessionHandling[CompleteStepCookie](confirmationCookieKey)
+  ) extends CustomizedSessionHandling[ConfirmationCookie](confirmationCookieKey)
   with Controller
   with WithSerialiser
   with WithConfig
@@ -35,5 +35,5 @@ class CompleteStep @Inject() (
         completeData.showEmailConfirmation))
   }
 
-  def factoryOfT() = CompleteStepCookie()
+  def factoryOfT() = ConfirmationCookie()
 }

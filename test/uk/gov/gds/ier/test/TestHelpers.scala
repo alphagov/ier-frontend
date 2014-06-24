@@ -19,6 +19,7 @@ import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import scala.util.Try
 import play.api.mvc.Cookies
 import uk.gov.gds.common.json.JsonSerializer
+import uk.gov.gds.ier.transaction.complete.ConfirmationCookie
 
 trait TestHelpers
   extends CustomMatchers
@@ -226,16 +227,16 @@ trait TestHelpers
    * import play.api.test.Helpers._
    * val Some(resultFuture) = route(
    *    FakeRequest(POST, "/register-to-vote/confirmation"))
-   * val result = getCompleteStepCookie[CompleteStepCookie](cookies(resultFuture))
+   * val result = getCompleteStepCookie(cookies(resultFuture))
    * }}}
    */
-  def getCompleteStepCookie[T](
+  def getConfirmationCookie(
       cookies: Cookies
     )(
-      implicit manifest: Manifest[T],
+      implicit manifest: Manifest[ConfirmationCookie],
       encryptionService: EncryptionService,
-      serialiser: JsonSerializer): Option[T] = {
-    getSessionCookie[T](cookies, confirmationCookieKey, sessionPayloadKeyIV)
+      serialiser: JsonSerializer): Option[ConfirmationCookie] = {
+    getSessionCookie[ConfirmationCookie](cookies, confirmationCookieKey, sessionPayloadKeyIV)
   }
 
   def getSessionCookie[T](

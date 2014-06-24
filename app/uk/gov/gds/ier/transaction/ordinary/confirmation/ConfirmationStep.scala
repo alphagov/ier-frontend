@@ -11,7 +11,7 @@ import uk.gov.gds.ier.step.ConfirmationStepController
 import uk.gov.gds.ier.service.apiservice.IerApiService
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.guice.WithRemoteAssets
-import uk.gov.gds.ier.transaction.complete.CompleteStepCookie
+import uk.gov.gds.ier.transaction.complete.ConfirmationCookie
 import uk.gov.gds.ier.session.ResultHandling
 import uk.gov.gds.ier.langs.Language
 import uk.gov.gds.ier.step.Routes
@@ -100,7 +100,7 @@ class ConfirmationStep @Inject ()(
           val hasOtherAddress = validApplication.otherAddress
             .map(_.otherAddressOption.hasOtherAddress).getOrElse(false)
 
-          val completeStepData = CompleteStepCookie(
+          val completeStepData = ConfirmationCookie(
             refNum = refNum,
             authority = Some(response.localAuthority),
             hasOtherAddress = hasOtherAddress,

@@ -17,6 +17,7 @@ import uk.gov.gds.ier.session.ResultHandling
 import uk.gov.gds.ier.transaction.complete.CompleteStepCookie
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.step.Routes
+import uk.gov.gds.ier.transaction.complete.ConfirmationCookie
 
 class ConfirmationStep @Inject() (
     val encryptionService: EncryptionService,
@@ -85,7 +86,7 @@ class ConfirmationStep @Inject() (
             }
           )
 
-          val completeStepData = CompleteStepCookie(
+          val completeStepData = ConfirmationCookie(
             refNum = refNum,
             authority = Some(response.localAuthority),
             backToStartUrl = config.ordinaryStartUrl,
