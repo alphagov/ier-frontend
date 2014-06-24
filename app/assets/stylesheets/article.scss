@@ -3,7 +3,13 @@
 @import "toolkit";
 
 .article {
+  position: relative;
   @extend %contain-floats;
+  padding-top: 46px;
+
+  @include media(tablet) {
+    padding-top: 50px;
+  }
 
   h1, h2, h3, h4 {
     margin: 0;
@@ -29,17 +35,25 @@
     margin: 1em 0  0.75em;
   }
 
-  h4 {
-    @include bold-19;
+  .back-to-previous {
+    position: absolute;
+    top: 13px;
+    margin: 0 14px;
+
+    @include media(tablet) {
+      top: 20px;
+      margin-left: 32px;
+      margin-right: 32px;
+    }
   }
 
   header {
-    margin: 0px;
-    padding: 0 14px;
+    margin: 0;
+    padding: 0 14px 0;
 
     @include media(tablet) {
-      margin: 0px;
-      padding: 20px 2em;
+      margin: 0;
+      padding: 10px 2em;
       max-width: 36em;
     }
   }
@@ -110,6 +124,10 @@
       background-color: #DEE0E2;
       border: solid 1px #a1acb2;
     }
+  }
+
+  form {
+    padding-top: 0;
   }
 }
 
