@@ -5,7 +5,7 @@ import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 case class CompleteStepCookie(
     refNum: String,
     authority: Option[EroAuthorityDetails],
-    hasOtherAddress: Boolean,
+    hasOtherAddress: Boolean = false,
     backToStartUrl: String,
     showEmailConfirmation: Boolean
   )

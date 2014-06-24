@@ -24,13 +24,13 @@ class ConfirmationStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService,
     val remoteAssets: RemoteAssets
-) extends ConfirmationStepController[InprogressOrdinary]
-    with ConfirmationForms
-    with ConfirmationMustache
-    with ConfirmationCookieWriter
-    with ResultHandling
-    with WithAddressService
-    with WithRemoteAssets {
+  ) extends ConfirmationStepController[InprogressOrdinary]
+  with ConfirmationForms
+  with ConfirmationMustache
+  with ConfirmationCookieWriter
+  with ResultHandling
+  with WithAddressService
+  with WithRemoteAssets {
 
   def factoryOfT() = InprogressOrdinary()
   def timeoutPage() = ErrorController.ordinaryTimeout
