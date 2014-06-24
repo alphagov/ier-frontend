@@ -331,7 +331,7 @@ a.call-to-action {
   background: transparent url("/assets/images/icon-caret-left-medium.png") no-repeat 0 center;
   padding: 0px 0px 0px 17px;
   border-bottom: $black 0.1em solid;
-  margin-bottom: 1.5em;
+  margin: 22px 0 0;
   text-decoration: none;
   cursor: pointer;
 
@@ -350,6 +350,10 @@ a.call-to-action {
   &:hover,
   &:focus {
     background-color: #F0F0F0;
+  }
+
+  .summary & {
+    margin: 0;
   }
 }
 
