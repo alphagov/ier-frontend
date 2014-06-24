@@ -9,6 +9,7 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.session.SessionKeysConstants._
+import uk.gov.gds.ier.session.CustomizedSessionHandling
 
 class CompleteStep @Inject() (
     val serialiser: JsonSerialiser,
