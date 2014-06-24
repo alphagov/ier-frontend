@@ -409,605 +409,235 @@ describe("ConditionalControl", function () {
   });
 });
 
-describe("DuplicateField", function () {
-  var copyClass = "added-country",
-      labelObj = {
-        "txt" : "country",
-        "className" : "country-label"
-      };
-
-  describe("Constructor", function () {
-    var duplicateFieldMock
+describe("OptionalControl", function () {
+  describe("Creating an instance", function () {
+    var $content;
 
     beforeEach(function () {
-      duplicateFieldMock = $(
-        "<div class='duplication-intro'>" +
-          "<label for='field_1'></label>" +
-          "<div class='validation-wrapper'>" +
-            "<input type='text' id='field_1' />" +
-          "</div>" +
-          "<a data-field='field_1' class='duplicate-control'></a>" +
-        "</div>"
+      $content = $(
+            '<div id="add-countries"' +
+                 'data-control-text="Other country"' +
+                 'data-control-id="other-country"' +
+                 'data-control-name="other-country"' +
+                 'data-control-value="true"' +
+                 'data-control-classes="validate"' +
+                 'data-control-attributes=""' +
+            '>' +
+            '</div>'
       );
-      $(document.body).append(duplicateFieldMock);
+      $(document.body).append($content); 
     });
 
     afterEach(function () {
-      $(".duplication-intro").remove();
+      $content.remove();
+      $('#country-1').parent().remove();
     });
 
     it("Should produce an instance with the correct interface", function () {
-      var duplicateField;
+      var elm = $content,
+          toggleClass = 'optional-section',
+          instance = new GOVUK.registerToVote.OptionalControl(elm, toggleClass);
 
-      duplicateField = new GOVUK.registerToVote.DuplicateField(duplicateFieldMock.find("a")[0], copyClass, labelObj);
-      expect(duplicateField.$control).toBeDefined();
-      expect(duplicateField.copyClass).toBeDefined();
-      expect(duplicateField.label).toBeDefined();
-      expect(duplicateField.fieldId).toBeDefined();
-      expect(duplicateField.idPattern).toBeDefined();
-      expect(duplicateField.namePattern).toBeDefined();
-      expect(duplicateField.$field).toBeDefined();
-      expect(duplicateField.$label).toBeDefined();
-      expect(duplicateField.$duplicationIntro).toBeDefined();
-    });
-
-    it("Should add a click event to the duplication container", function () {
-      var duplicateField,
-          clickCalled = false;
-
-      spyOn($.fn, "on").and.callFake(
-        function (evt) {
-          if ($(this).hasClass('duplication-intro') && (evt === 'click')) {
-            clickCalled = true; 
-          }
-          return this;
-        }
-      );
-      duplicateField = new GOVUK.registerToVote.DuplicateField(duplicateFieldMock.find("a")[0], copyClass, labelObj);
-      expect($.fn.on).toHaveBeenCalled();
-      expect(clickCalled).toBe(true);
-    });
-
-    it("Should add custom events to the document which call the updateValidation method", function () {
-      var duplicateField,
-          clickCalled = false;
-
-      spyOn($.fn, "on").and.callFake(
-        function (evt) {
-          if (evt === 'contentUpdate contentRemoval') {
-            clickCalled = true; 
-          }
-          return this;
-        }
-      );
-      duplicateField = new GOVUK.registerToVote.DuplicateField(duplicateFieldMock.find("a")[0], copyClass, labelObj);
-      expect($.fn.on).toHaveBeenCalled();
-      expect(clickCalled).toBe(true);
-    });
-
-    it("Click event from the 'add another country' link should call the duplicate method", function () {
-      var duplicateField,
-          duplicationLink = duplicateFieldMock.find("a")[0],
-          eventCalled;
-
-      spyOn(GOVUK.registerToVote.DuplicateField.prototype, "duplicate");
-      spyOn($.fn, "on").and.callFake(
-        function () {
-          var selector,
-              callback;
-
-          if (arguments.length === 3) {
-            eventCalled = arguments[0];
-            selector = arguments[1];
-            callback = arguments[2];
-            if ((eventCalled === 'click') && (selector === 'a')) {
-              callback({
-                "target" : { "className" : "duplicate-control" }
-              });
-            }
-          }
-          return this;
-        }
-      );
-      duplicateField = new GOVUK.registerToVote.DuplicateField(duplicationLink, copyClass, labelObj);
-      expect(GOVUK.registerToVote.DuplicateField.prototype.duplicate).toHaveBeenCalled();
-    });
-
-    it("Click event from the 'Remove' link should call the removeDuplicate method", function () {
-      var duplicateField,
-          eventCalled;
-
-      spyOn(GOVUK.registerToVote.DuplicateField.prototype, "removeDuplicate");
-      spyOn($.fn, "on").and.callFake(
-        function () {
-          var selector,
-              callback;
-
-          if (arguments.length === 3) {
-            eventCalled = arguments[0];
-            selector = arguments[1];
-            callback = arguments[2];
-            if ((eventCalled === 'click') && (selector === 'a')) {
-              callback({
-                "target" : { "className" : "remove-field" }
-              });
-            }
-          }
-          return this;
-        }
-      );
-      duplicateField = new GOVUK.registerToVote.DuplicateField(duplicateFieldMock.find("a")[0], copyClass, labelObj);
-      expect(GOVUK.registerToVote.DuplicateField.prototype.removeDuplicate).toHaveBeenCalled();
+      expect(instance.setup).toBeDefined();
+      expect(instance.bindEvents).toBeDefined();
+      expect(instance.adjustVerticalSpace).toBeDefined();
+      expect(instance.toggle).toBeDefined();
+      expect(instance.setAccessibilityAPI).toBeDefined();
+      expect(instance.setInitialState).toBeDefined();
     });
   });
 
-  describe("makeField method", function () {
-    var duplicateFieldMock;
+  describe("Setup method", function () {
+    var $content,
+        $control;
 
     beforeEach(function () {
-      $container = $(
-        "<div>" +
-          "<label></label>" +
-        "</div>"
+      $content = $(
+            '<div id="add-countries"' +
+                 'data-condition="other-country"' +
+                 'data-control-text="Other country"' +
+                 'data-control-id="other-country"' +
+                 'data-control-name="other-country"' +
+                 'data-control-value="true"' +
+                 'data-control-classes="validate"' +
+                 'data-control-attributes=""' +
+            '>' +
+            '</div>'
       );
-
-      duplicateFieldMock = {
-        "getFieldId" : function () { return "field[2]"; },
-        "$label" : $container.find('label'),
-        "label" : labelObj,
-        "getFieldName" : function () { return "field[2]"; }, 
-        "getValidationName" : function () { return "added-country-2"; },
-        "copyClass" : copyClass
-      };
-    });
-
-    it("Should call the getFieldId and getFieldName methods", function () {
-      var field;
-
-      spyOn(duplicateFieldMock, "getFieldId").and.callThrough;
-      spyOn(duplicateFieldMock, "getFieldName").and.callThrough;
-      field = GOVUK.registerToVote.DuplicateField.prototype.makeField.call(duplicateFieldMock, 2, "France");
-      
-      expect(duplicateFieldMock.getFieldId).toHaveBeenCalled();
-      expect(duplicateFieldMock.getFieldName).toHaveBeenCalled();
-    });
-
-    it("Should return the correct element given 'France' as the first duplicate", function () {
-      var expectedElement = $(
-            "<div class='" + copyClass + "'>" +
-              "<label for='field[2]' class='" + labelObj.className + "'>" + labelObj.txt + " 2</label>" +
-              "<a href='#' class='remove-field'>Remove<span class='visuallyhidden'> " + labelObj.txt + " 2</span></a>" +
-              "<div class='validation-wrapper'>" + 
-                "<input type='text' id='field[2]' name='field[2]' class='text country-autocomplete long validate' value='France' Autocomplete='off' " +
-                "data-validation-name='added-country-2' " +
-                "data-validation-type='field' " +
-                "data-validation-rules='nonEmpty validCountry' " +
-                "/>" +
-              "</div>" +
-            "</div>"
+      $control = $(
+            '<label for="">' +
+              '<input type="checkbox" name="other-country" id="other-country" />' +
+            '<label>'
           ),
-          field = GOVUK.registerToVote.DuplicateField.prototype.makeField.call(duplicateFieldMock, 2, "France");
-
-      expect(field[0].nodeName.toLowerCase()).toBe('div');
-      expect(field.html()).toEqual(expectedElement.html());
-    });
-
-    it("Should return the correct element given 'Sweden' as the second duplicate", function () {
-      var expectedElement = $(
-            "<div class='" + copyClass + "'>" +
-              "<label for='field[2]' class='" + labelObj.className + "'>" + labelObj.txt + " 3</label>" +
-              "<a href='#' class='remove-field'>Remove<span class='visuallyhidden'> " + labelObj.txt + " 3</span></a>" +
-              "<div class='validation-wrapper'>" + 
-                "<input type='text' id='field[2]' name='field[2]' class='text country-autocomplete long validate' value='Sweden' Autocomplete='off' " +
-                "data-validation-name='added-country-2' " +
-                "data-validation-type='field' " +
-                "data-validation-rules='nonEmpty validCountry' " +
-                " />",
-              "</div>" +
-            "</div>"
-          ),
-          field = GOVUK.registerToVote.DuplicateField.prototype.makeField.call(duplicateFieldMock, 3, "Sweden");
-
-      expect(field[0].nodeName.toLowerCase()).toBe('div');
-      expect(field.html()).toEqual(expectedElement.html());
-    });
-  });
-
-  describe("getFieldId method", function () {
-    var duplicateFieldMock;
-
-    beforeEach(function () {
-      duplicateFieldMock = {
-        "idPattern" : "field[1]",
-        "getFieldId" : function () {}
-      };
-    });
-
-    it("Should form an id string from an integer", function () {
-      var idString = GOVUK.registerToVote.DuplicateField.prototype.getFieldId.call(duplicateFieldMock, 3);
-
-      expect(idString).toBe("field[3]");
-    })
-  });
-
-  describe("getFieldName method", function () {
-    var duplicateFieldMock;
-
-    beforeEach(function () {
-      duplicateFieldMock = {
-        "namePattern" : "field[1]",
-        "getFieldId" : function () {}
-      };
-    });
-
-    it("Should form an id string from an integer", function () {
-      var idString = GOVUK.registerToVote.DuplicateField.prototype.getFieldName.call(duplicateFieldMock, 3);
-
-      expect(idString).toBe("field[3]");
-    })
-  });
-
-  describe("removeDuplicate method", function () {
-    var updateValidationCopy = GOVUK.registerToVote.DuplicateField.prototype.updateValidation,
-        duplicateFieldMock,
-        setUpMock,
-        emptyContainer,
-        containerWithOneDuplicate,
-        containerWithTwoDuplicates;
-
-    setUpMock = function (mock, $container) {
-      mock.$label = $container.find('label');
-      mock.$duplicationIntro = $container.find('.duplication-intro');
-      mock.$field = $container.find("input:first");
-    }
-
-    emptyContainer = 
-      "<div id='duplication' " +
-      "data-validation-name='otherCountries' " +
-      "data-validation-type='fieldset' " +
-      "data-validation-rules='atLeastOneCountry allCountriesValid' " +
-      ">" +
-        "<label for='field[0]'></label>" +
-        "<div class='validation-wrapper'>" + 
-          "<input type='text' id='field[0]' name='field[0]' class='text country-autocomplete long validate' value='Algeria' Autocomplete='off' " +
-          "data-validation-name='added-country-0' " +
-          "data-validation-type='field' " +
-          "data-validation-rules='nonEmpty validCountry' " +
-          " />" +
-        "</div>" +
-        "<p class='duplication-intro' style='display: block;'>" +
-          "If you have dual nationality" +
-          "<a class='duplicate-control-initial' href='#' data-field='field[0]'>add another country</a>." +
-        "</p>" +
-      "</div>";
-
-    containerWithOneDuplicate = 
-      "<div id='duplication' " +
-      "data-validation-name='otherCountries' " +
-      "data-validation-type='fieldset' " +
-      "data-validation-rules='atLeastOneCountry allCountriesValid' " +
-      ">" +
-        "<label for='field[0]'></label>" +
-        "<div class='validation-wrapper'>" + 
-          "<input type='text' id='field[0]' name='field[0]' class='text country-autocomplete long validate' value='Algeria' Autocomplete='off' " +
-          "data-validation-name='added-country-0' " +
-          "data-validation-type='field' " +
-          "data-validation-rules='nonEmpty validCountry' " +
-          " />" +
-        "</div>" +
-        "<p class='duplication-intro' style='display: block;'>" +
-          "If you have dual nationality" +
-          "<a class='duplicate-control-initial' href='#' data-field='field[0]'>add another country</a>." +
-        "</p>" +
-        "<div class='" + copyClass + "'>" +
-          "<label for='field[1]' class='country-label'>country 1</label>" +
-          "<a href='#' class='remove-field'>Remove<span class='visuallyhidden'> country 1</span></a>" +
-          "<div class='validation-wrapper'>" + 
-            "<input type='text' id='field[1]' name='field[1]' class='text country-autocomplete long validate' value='France' Autocomplete='off' " +
-            "data-validation-name='added-country-1' " +
-            "data-validation-type='field' " +
-            "data-validation-rules='nonEmpty validCountry' " +
-            " />" +
-          "</div>" +
-        "</div>" +
-        "<a href='#' class='duplicate-control'>Add another country</a>" +
-      "</div>";
-
-    containerWithTwoDuplicates = 
-      "<div id='duplication' " +
-      "data-validation-name='otherCountries' " +
-      "data-validation-type='fieldset' " +
-      "data-validation-rules='atLeastOneCountry allCountriesValid' " +
-      ">" +
-        "<label for='field[0]'></label>" +
-        "<div class='validation-wrapper'>" + 
-          "<input type='text' id='field[0]' name='field[0]' class='text country-autocomplete long validate' value='Algeria' Autocomplete='off' " +
-          "data-validation-name='added-country-0' " +
-          "data-validation-type='field' " +
-          "data-validation-rules='nonEmpty validCountry' " +
-          " />" +
-        "</div>" +
-        "<p class='duplication-intro' style='display: block;'>" +
-          "If you have dual nationality" +
-          "<a class='duplicate-control-initial' href='#' data-field='field[0]'>add another country</a>." +
-        "</p>" +
-        "<div class='" + copyClass + "'>" +
-          "<label for='field[1]' class='country-label'>country 1</label>" +
-          "<a href='#' class='remove-field'>Remove<span class='visuallyhidden'> country 1</span></a>" +
-          "<div class='validation-wrapper'>" + 
-            "<input type='text' id='field[1]' name='field[1]' class='text country-autocomplete long validate' value='France' Autocomplete='off' " +
-            "data-validation-name='added-country-1' " +
-            "data-validation-type='field' " +
-            "data-validation-rules='nonEmpty validCountry' " +
-            " />" +
-          "</div>" +
-        "</div>" +
-        "<div class='" + copyClass + "'>" +
-          "<label for='field[2]' class='country-label'>country 1</label>" +
-          "<a href='#' class='remove-field'>Remove<span class='visuallyhidden'> country 2</span></a>" +
-          "<div class='validation-wrapper'>" + 
-            "<input type='text' id='field[2]' name='field[2]' class='text country-autocomplete long validate' value='Sweden' Autocomplete='off' " +
-            "data-validation-name='added-country-2' " +
-            "data-validation-type='field' " +
-            "data-validation-rules='nonEmpty validCountry' " +
-            " />" +
-          "</div>" +
-        "</div>" +
-        "<a href='#' class='duplicate-control'>Add another country</a>" +
-      "</div>";
-
-    beforeEach(function () {
-      duplicateFieldMock = {
-        "copyClass" : copyClass,
-        "label" : labelObj,
-        "makeField" : GOVUK.registerToVote.DuplicateField.prototype.makeField,
-        "getFieldId" : GOVUK.registerToVote.DuplicateField.prototype.getFieldId,
-        "getFieldName" : GOVUK.registerToVote.DuplicateField.prototype.getFieldName,
-        "getValidationName" : GOVUK.registerToVote.DuplicateField.prototype.getValidationName,
-        "idPattern" : "field[0]",
-        "namePattern" : "field[0]"
-      };
+          optionalControlMock = {
+            '$content' : $content,
+            'toggle' : function () {},
+            'adjustVerticalSpace' : function () {},
+            'createControl' : function () {},
+            '$toggle' : $control.find('input')
+          };
+      $(document.body).append($content); 
     });
 
     afterEach(function () {
-      $("#duplication").remove();
-      GOVUK.registerToVote.DuplicateField.prototype.updateValidation = updateValidationCopy;
+      $content.remove();
+      $('#country-1').parent().remove();
     });
 
-    it("Should call updateValidation method when a duplicate is removed", function () {
-      var $container = $(containerWithOneDuplicate);
+    it("Should call the createControl method", function () {
+      spyOn(optionalControlMock, "createControl").and.callFake(function () {
+        return 
+      });
+      GOVUK.registerToVote.OptionalControl.prototype.setup.call(optionalControlMock);
 
-      setUpMock(duplicateFieldMock, $container);
-      spyOn(GOVUK.registerToVote.DuplicateField.prototype, "updateValidation");
-
-      GOVUK.registerToVote.DuplicateField.prototype.removeDuplicate.call(duplicateFieldMock, "field[1]");
-      expect(GOVUK.registerToVote.DuplicateField.prototype.updateValidation).toHaveBeenCalled();
+      expect(optionalControlMock.createControl).toHaveBeenCalled();
     });
 
-    it("Should remove a duplicate correctly when it's the only one", function () {
-      var $container = $(containerWithOneDuplicate);
-
-      setUpMock(duplicateFieldMock, $container);
-      $(document.body).append($container);
-      GOVUK.registerToVote.DuplicateField.prototype.updateValidation = function () {};
-
-      GOVUK.registerToVote.DuplicateField.prototype.removeDuplicate.call(duplicateFieldMock, "field[1]");
-      expect($container.html()).toEqual($(emptyContainer).html());
+    it("Should add the control before the content div", function () {
+      spyOn(optionalControlMock, "createControl").and.callFake(function () {
+        return $control;
+      });
+      GOVUK.registerToVote.OptionalControl.prototype.setup.call(optionalControlMock);
+      expect($content.prev()[0]).toEqual($control[0]);
     });
 
-    it("Should remove a duplicate correctly when it's one of two", function () {
-      var $container = $(containerWithTwoDuplicates);
-
-      $(document.body).append($container);
-      setUpMock(duplicateFieldMock, $container);
-      GOVUK.registerToVote.DuplicateField.prototype.updateValidation = function () {};
-
-      GOVUK.registerToVote.DuplicateField.prototype.removeDuplicate.call(duplicateFieldMock, "field[2]");
-      expect($container.html()).toEqual($(containerWithOneDuplicate).html());
+    it("Should check the control & show the content div if the content div has a textbox with a value", function () {
+      $content.append('<input type="text" name="country-1" id="country-1" value="Algeria" />');
+      spyOn(GOVUK.registerToVote.OptionalControl.prototype, "createControl").and.callFake(function () {
+        return $control
+      });
+      GOVUK.registerToVote.OptionalControl.prototype.setup.call(optionalControlMock);
+      expect(optionalControlMock.$toggle.is(':checked')).toBe(true);
+      expect($content.is(':hidden')).toBe(false);
     });
 
-    it("Should trigger an event to the document when a duplicate is removed", function () {
-      var $container = $(containerWithOneDuplicate),
-          eventCalled = false;
+    it("Should return the same value as ConditionalControl's setup method", function () {
+      var conditionalControlReturnValue = GOVUK.registerToVote.ConditionalControl.prototype.setup.call(optionalControlMock),
+          optionalControlReturnValue = GOVUK.registerToVote.OptionalControl.prototype.setup.call(optionalControlMock);
 
-      $(document.body).append($container);
-      setUpMock(duplicateFieldMock, $container);
-      GOVUK.registerToVote.DuplicateField.prototype.updateValidation = function () {};
-      spyOn($.fn, "trigger").and.callFake(
-        function (evt) {
-          if (this[0] === document) {
-            eventCalled = evt;
-          }
-        }
-      );
-
-      GOVUK.registerToVote.DuplicateField.prototype.removeDuplicate.call(duplicateFieldMock, "field[1]");
-      expect($.fn.trigger).toHaveBeenCalled();
-      expect(eventCalled).not.toBe(false);
-      expect(eventCalled).toBe("contentRemoval");
-    });
-
-    it("Should shift focus to the original textbox if only one duplicate is left", function () {
-      var $container = $(containerWithOneDuplicate),
-          focusCalledOn;
-
-      spyOn($.fn, 'focus').and.callFake(
-        function () {
-          focusCalledOn = this[0];
-          return this;
-        }
-      );
-      $(document.body).append($container);
-      setUpMock(duplicateFieldMock, $container);
-      GOVUK.registerToVote.DuplicateField.prototype.updateValidation = function () {};
-
-      GOVUK.registerToVote.DuplicateField.prototype.removeDuplicate.call(duplicateFieldMock, "field[1]");
-      expect($.fn.focus).toHaveBeenCalled();
-      expect(focusCalledOn).toEqual($container.find('input:first')[0]);
+      expect(conditionalControlReturnValue).toEqual(optionalControlReturnValue);
     });
   });
 
-  describe("updateValidation method", function () {
-    var $duplicationContainer,
-        $newField;
+  describe("CreateControl method", function () {
+    it("Should return the expected HTML", function () {
+      var result,
+          expectedHtml = '<label class="selectable">' +
+                           '<input type="checkbox" id="other-country" name="other-country" value="" class="text"  />' +
+                           'Other country' +
+                         '</label>',
+          optionalControlMock = {
+            'controlText' : 'Other country',
+            'controlId' : 'other-country',
+            'controlName' : 'other-country',
+            'controlValue' : '',
+            'controlClasses' : 'text',
+            'controlAttributes' : ''
+          };
 
-    beforeEach(function () {
-      $duplicationContainer = $(
-        "<div id='duplication' " +
-        "data-validation-name='otherCountries' " +
-        "data-validation-type='fieldset' " +
-        "data-validation-rules='atLeastOneCountry allCountriesValid' " +
-        "/>"
-      );
-      $newField = $(
-        "<div class='added-country'>" +
-          "<label for='field[1]' class='country-label'>country 1</label>" +
-          "<a href='#' class='remove-field'>Remove<span class='visuallyhidden'> country 1</span></a>" +
-          "<div class='validation-wrapper'>" + 
-            "<input type='text' id='field[1]' name='field[1]' class='text country-autocomplete long validate' value='France' Autocomplete='off' " +
-            "data-validation-name='added-country-1' " +
-            "data-validation-type='field' " +
-            "data-validation-rules='nonEmpty validCountry' " +
-            " />" +
-          "</div>" +
-        "</div>"
-      );
-      $duplicationContainer.append($newField);
-      $(document.body).append($duplicationContainer);
-    });
-
-    afterEach(function () {
-      $duplicationContainer.remove();
-    });
-
-    it("Should update GOVUK.registerToVote.validation.fields when called by a contentUpdate event", function () {
-      var containerValidationFieldMock = { 'children' : [] };
-
-      spyOn(GOVUK.registerToVote.validation.fields, "getNames").and.callFake(
-        function () {
-          return [ containerValidationFieldMock ];
-        }
-      );
-      spyOn(GOVUK.registerToVote.validation.fields, "add");
-
-      GOVUK.registerToVote.DuplicateField.prototype.updateValidation('contentUpdate', $newField);
-      expect(GOVUK.registerToVote.validation.fields.getNames).toHaveBeenCalledWith(['otherCountries']);
-      expect(GOVUK.registerToVote.validation.fields.add).toHaveBeenCalled();
-      expect(containerValidationFieldMock.children.length).toEqual(1);
-    });
-
-    it("Should update GOVUK.registerToVote.validation.fields when called by a contentRemoval event", function () {
-      var containerValidationFieldMock = { 'children' : ['added-country-1'] };
-
-      spyOn(GOVUK.registerToVote.validation.fields, "getNames").and.callFake(
-        function () {
-          return [ containerValidationFieldMock ];
-        }
-      );
-      spyOn(GOVUK.registerToVote.validation.fields, "remove");
-
-      GOVUK.registerToVote.DuplicateField.prototype.updateValidation('contentRemoval', $newField);
-      expect(GOVUK.registerToVote.validation.fields.getNames).toHaveBeenCalledWith(['otherCountries']);
-      expect(GOVUK.registerToVote.validation.fields.remove).toHaveBeenCalledWith(['added-country-1']);
-      expect(containerValidationFieldMock.children.length).toEqual(0);
+      result = GOVUK.registerToVote.OptionalControl.prototype.createControl.call(optionalControlMock);
+      expect(result).toEqual(expectedHtml);
     });
   });
 
-  describe("duplicate method", function () {
-    var $addAnotherLink = "<a href='#' class='duplicate-control'>Add another '" + labelObj.txt + "'</a>",
-        updateValidationCopy = GOVUK.registerToVote.DuplicateField.prototype.updateValidation,
-        $container,
-        duplicateFieldMock;
+  describe("BindEvents method", function () {
+    var $content;
 
     beforeEach(function () {
-      $container = $(
-        "<div id='duplication'>" +
-          "<label for='field[0]'></label>" +
-          "<div class='validation-wrapper'>" + 
-            "<input type='text' id='field[0]' name='field[0]' class='text country-autocomplete long validate' value='Algeria' Autocomplete='off' " +
-            "data-validation-name='country-0' " +
-            "data-validation-type='field' " +
-            "data-validation-rules='nonEmpty validCountry' " +
-            "/>" +
-          "</div>" +
-          "<p class='duplication-intro' style='display: block;'>" +
-            "If you have dual nationality" +
-            "<a class='duplicate-control-initial' href='#' data-field='field[0]'>add another country</a>." +
-          "</p>" +
-        "</div>"
+      $content = $(
+            '<div id="add-countries"' +
+                 'data-control-text="Other country"' +
+                 'data-control-id="other-country"' +
+                 'data-control-name="other-country"' +
+                 'data-control-value="true"' +
+                 'data-control-classes="validate"' +
+                 'data-control-attributes=""' +
+            '>' +
+            '</div>'
       );
-
-      duplicateFieldMock = {
-        "$label" : $container.find("label"),
-        "label" : labelObj,
-        "makeField" : function (idx) {
-          return $(
-            "<div class='" + copyClass + "' data-validation-name='otherCountries'>" +
-              "<input id='field[1]' class='validate' data-validation-name='added-country-1' />" +
-            "</div>"
-          )
-        },
-        "getFieldId" : function (idx) {
-          return "field[1]";
-        },
-        "$duplicationIntro" : $container.find(".duplication-intro")
-      };
+      $(document.body).append($content); 
+      $content.wrap('<form action="" method="get" />');
     });
 
     afterEach(function () {
-      $("#duplication").remove();
-      GOVUK.registerToVote.DuplicateField.prototype.updateValidation = updateValidationCopy;
+      $content.closest('form').remove();
+      $content.remove();
+      $('#country-1').parent().remove();
     });
 
-    it("Should call the updateValidation method when a duplicate is added", function () {
-      $(document.body).append($container);
-      spyOn(GOVUK.registerToVote.DuplicateField.prototype, "updateValidation");
-      GOVUK.registerToVote.DuplicateField.prototype.duplicate.call(duplicateFieldMock, "field[1]");
-
-      expect(GOVUK.registerToVote.DuplicateField.prototype.updateValidation).toHaveBeenCalled();
-    });
-
-    it("Should add the duplicate to the containing div", function () {
-      $(document.body).append($container);
-      GOVUK.registerToVote.DuplicateField.prototype.updateValidation = function () {};
-      GOVUK.registerToVote.DuplicateField.prototype.duplicate.call(duplicateFieldMock);
+    it("Should call the bindEvents method of ConditionalControl", function () {
+      var optionalControlMock = {
+            "$content" : $content,
+            "filterFormContent" : function () {}
+          };
       
-      expect(document.getElementById("field[1]")).not.toEqual(null);
+      spyOn(GOVUK.registerToVote.ConditionalControl.prototype, "bindEvents");
+      GOVUK.registerToVote.OptionalControl.prototype.bindEvents.call(optionalControlMock);      
+
+      expect(GOVUK.registerToVote.ConditionalControl.prototype.bindEvents).toHaveBeenCalled();
     });
 
-    it("Should hide the 'add another country' intro paragraph", function () {
-      $(document.body).append($container);
-      GOVUK.registerToVote.DuplicateField.prototype.updateValidation = function () {};
-      GOVUK.registerToVote.DuplicateField.prototype.duplicate.call(duplicateFieldMock);
+    it("Should call the filterFormContent method when the form our module is in is submitted", function () {
+      var optionalControlMock = {
+            "$content" : $content,
+            "filterFormContent" : function () {}
+          },
+          form = $content.parent('form')[0],
+          submitEvtWasBoundToForm = false,
+          onSubmit;
 
-      expect($container.find('.duplication-intro').css("display")).toEqual("none");
-    });
-
-    it("Should add the 'add another' link to the bottom of the duplicates added", function () {
-      $(document.body).append($container);
-      GOVUK.registerToVote.DuplicateField.prototype.updateValidation = function () {};
-      GOVUK.registerToVote.DuplicateField.prototype.duplicate.call(duplicateFieldMock);
-
-      expect($container.find("a.duplicate-control").length).toEqual(1);
-    });
-
-    it("Should trigger an event to the document when a duplicate is added", function () {
-      var eventCalled = false;
-
-      $(document.body).append($container);
-      GOVUK.registerToVote.DuplicateField.prototype.updateValidation = function () {};
-      spyOn($.fn, "trigger").and.callFake(
-        function (evt) {
-          if (this[0] === document) {
-            eventCalled = evt;
-          }
+      spyOn($.fn, "on").and.callFake(function (evt, callback) {
+        if ((evt === 'submit') && (this[0] === form)) {
+          submitEvtWasBoundToForm = true;
+          onSubmit = callback;
         }
-      );
+      });
+      spyOn(optionalControlMock, "filterFormContent");
+      spyOn(GOVUK.registerToVote.ConditionalControl.prototype, "bindEvents");
 
-      GOVUK.registerToVote.DuplicateField.prototype.duplicate.call(duplicateFieldMock);
-      expect($.fn.trigger).toHaveBeenCalled();
-      expect(eventCalled).not.toBe(false);
-      expect(eventCalled).toBe("contentUpdate");
+      GOVUK.registerToVote.OptionalControl.prototype.bindEvents.call(optionalControlMock);      
+      expect($.fn.on).toHaveBeenCalled();
+      expect(submitEvtWasBoundToForm).toBe(true);
+      
+      onSubmit();
+      expect(optionalControlMock.filterFormContent).toHaveBeenCalled();
+    });
+  });
+
+  describe("FilterFormContent method", function () {
+    var $content;
+
+    beforeEach(function () {
+      $content = $(
+                  '<div id="add-countries">' +
+                    '<input type="text" value="Germany" />' +
+                  '</div>'
+                  );
+
+      $(document.body).append($content);
+    });
+
+    afterEach(function () {
+      $content.remove();
+    });
+
+    it("Should leave the contents of any textboxes in our content area as they are if the area is visible", function () {
+      var optionalControlMock = {
+            '$content' : $content
+          };
+
+      GOVUK.registerToVote.OptionalControl.prototype.filterFormContent.call(optionalControlMock);
+      expect($content.find('input[type="text"]').val()).toEqual('Germany');
+    });
+
+    it("Should wipe the contents of any textboxes in our content area if the area is hidden", function () {
+      var optionalControlMock = {
+            '$content' : $content
+          };
+
+      $content.hide();
+      GOVUK.registerToVote.OptionalControl.prototype.filterFormContent.call(optionalControlMock);
+      expect($content.find('input[type="text"]').val()).toEqual('');
     });
   });
 });

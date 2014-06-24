@@ -295,7 +295,3 @@ describe("OptionalInformation", function () {
     });
   });
 });
-
-describe("OptionalInformation", function () {
-  describe("Constructor", function () {
-    var elm;

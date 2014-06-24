@@ -21,13 +21,6 @@
       }
     }
   });
-  $('.duplicate-control-initial').each(function (idx, elm) {
-    var labelOpts = {
-      txt : 'country',
-      className : 'country-label'
-    };
-    new GOVUK.registerToVote.DuplicateField(elm, 'added-country', labelOpts);
-  });
   $('.selectable').each(function (idx, elm) {
     var $label = $(elm),
         $control = $label.find('input[type=radio], input[type=checkbox]'),
