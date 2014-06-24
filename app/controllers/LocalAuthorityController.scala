@@ -5,7 +5,6 @@ import uk.gov.gds.ier.localAuthority.{LocalAuthorityController => GuicedControll
 
 object LocalAuthorityController extends DelegatingController[GuicedController]{
 
-  def show = delegate.show
   def showLookup(sourcePath:Option[String]) = delegate.showLookup(sourcePath)
   def doLookup(sourcePath:Option[String]) = delegate.doLookup(sourcePath)
   def ero(gssCode:String, sourcePath:Option[String]) = delegate.ero(gssCode, sourcePath)

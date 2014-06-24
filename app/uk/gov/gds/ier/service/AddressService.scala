@@ -52,6 +52,10 @@ class AddressService @Inject()(locateService: LocateService) {
     }
   }
 
+  def lookupGssCode(postcode: String): Option[String] = {
+    locateService.lookupGssCode(postcode)
+  }
+
   def fillAddressLine(partial:PartialAddress):PartialAddress = {
     val address = locateService.lookupAddress(partial)
     val line = address map formAddressLine

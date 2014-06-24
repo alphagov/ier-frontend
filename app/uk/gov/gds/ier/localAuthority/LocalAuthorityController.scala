@@ -9,7 +9,6 @@ import uk.gov.gds.ier.validation.IerForms
 import uk.gov.gds.ier.session.RequestHandling
 import uk.gov.gds.ier.guice.WithEncryption
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.service.LocateService
 import uk.gov.gds.ier.service.apiservice.ConcreteIerApiService
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.forces.InprogressForces
@@ -26,9 +25,10 @@ import uk.gov.gds.ier.guice.WithConfig
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.langs.Messages
+import play.api.mvc.Request
+import play.api.mvc.AnyContent
 
 class LocalAuthorityController @Inject() (
-    val locateService: LocateService,
     val ierApiService: ConcreteIerApiService,
     val addressService: AddressService,
     val serialiser: JsonSerialiser,
@@ -48,42 +48,6 @@ class LocalAuthorityController @Inject() (
   with WithRemoteAssets
   with WithConfig {
 
-
-  def show = Action {
-    implicit request =>
-
-      val optSourcePath = request.headers.get("referer")
-
-      val optGssCode = optSourcePath match {
-        case Some(sourcePath) if (sourcePath.contains("overseas"))  =>
-          request.getApplication[InprogressOverseas] flatMap (_.lastUkAddress flatMap (_.gssCode))
-        case Some(sourcePath) if (sourcePath.contains("crown")) =>
-          request.getApplication[InprogressCrown] flatMap
-            (_.address flatMap (_.address flatMap (_.gssCode)))
-        case Some(sourcePath) if (sourcePath.contains("forces"))  =>
-          request.getApplication[InprogressForces] flatMap
-            (_.address flatMap (_.address flatMap (_.gssCode)))
-        case _ =>
-          request.getApplication[InprogressOrdinary] flatMap (_.address flatMap (_.gssCode))
-      }
-
-      optGssCode match {
-        case Some(gssCode) =>
-          Redirect(
-            controllers.routes.LocalAuthorityController.ero(gssCode, optSourcePath)
-          )
-        case None => BadRequest(
-            LocalAuthorityLookupPage(
-              localAuthorityLookupForm.withGlobalError(
-                Messages("lookup_error_noneFound")
-              ),
-              optSourcePath,
-              controllers.routes.LocalAuthorityController.showLookup(optSourcePath).url
-            )
-          )
-      }
-  }
-
   def ero(gssCode: String, sourcePath: Option[String]) = Action { request =>
     val localAuthority = ierApiService.getLocalAuthorityByGssCode(gssCode)
     Ok(LocalAuthorityPage(localAuthority, sourcePath))
@@ -97,7 +61,7 @@ class LocalAuthorityController @Inject() (
         controllers.routes.LocalAuthorityController.showLookup(sourcePath).url
       )),
       success => {
-        val gssCode = locateService.lookupGssCode(success.postcode)
+        val gssCode = addressService.lookupGssCode(success.postcode)
         gssCode match {
           case Some(gss) => Redirect(
             controllers.routes.LocalAuthorityController.ero(gss, sourcePath)
@@ -117,31 +81,31 @@ class LocalAuthorityController @Inject() (
   }
 
   def showLookup(sourcePath: Option[String]) = Action { implicit request =>
-    val optSourcePath = request.headers.get("referer")
-
-      val optGssCode = optSourcePath match {
-        case Some(sourcePath) if (sourcePath.contains("overseas"))  =>
-          request.getApplication[InprogressOverseas] flatMap (_.lastUkAddress flatMap (_.gssCode))
-        case Some(sourcePath) if (sourcePath.contains("crown")) =>
-          request.getApplication[InprogressCrown] flatMap
-            (_.address flatMap (_.address flatMap (_.gssCode)))
-        case Some(sourcePath) if (sourcePath.contains("forces"))  =>
-          request.getApplication[InprogressForces] flatMap
-            (_.address flatMap (_.address flatMap (_.gssCode)))
-        case _ =>
-          request.getApplication[InprogressOrdinary] flatMap (_.address flatMap (_.gssCode))
-      }
-
-      optGssCode match {
+      getGssCode(sourcePath, request) match {
         case Some(gssCode) =>
           Redirect(
-            controllers.routes.LocalAuthorityController.ero(gssCode, optSourcePath)
+            controllers.routes.LocalAuthorityController.ero(gssCode, sourcePath)
           )
         case None => Ok(LocalAuthorityLookupPage(
           localAuthorityLookupForm,
           sourcePath,
           controllers.routes.LocalAuthorityController.showLookup(sourcePath).url
           ))
+      }
+  }
+
+  def getGssCode(sourcePath: Option[String], request: Request[AnyContent]): Option[String] = {
+      sourcePath match {
+        case Some(srcPath) if (srcPath.contains("overseas"))  =>
+          request.getApplication[InprogressOverseas] flatMap (_.lastUkAddress flatMap (_.gssCode))
+        case Some(srcPath) if (srcPath.contains("crown")) =>
+          request.getApplication[InprogressCrown] flatMap
+            (_.address flatMap (_.address flatMap (_.gssCode)))
+        case Some(srcPath) if (srcPath.contains("forces"))  =>
+          request.getApplication[InprogressForces] flatMap
+            (_.address flatMap (_.address flatMap (_.gssCode)))
+        case _ =>
+          request.getApplication[InprogressOrdinary] flatMap (_.address flatMap (_.gssCode))
       }
   }
 }
