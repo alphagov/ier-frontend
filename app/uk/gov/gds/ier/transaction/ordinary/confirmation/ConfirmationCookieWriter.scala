@@ -7,11 +7,11 @@ trait ConfirmationCookieWriter {
   self: ResultHandling =>
 
   implicit class CookieWritertorForCompletePage(result: Result) extends SessionKeys {
-    def confirmationCookieInSession[B <: AnyRef](
+    def addConfirmationCookieToSession[B <: AnyRef](
         payload: B)(
         implicit request: Request[_]) = {
       val domain = getDomain(request)
-      result.withCookies(customPayloadCookies(payload, sessionCompleteStepKey, domain): _*)
+      result.withCookies(customPayloadCookies(payload, confirmationCookieKey, domain): _*)
     }
   }
 }

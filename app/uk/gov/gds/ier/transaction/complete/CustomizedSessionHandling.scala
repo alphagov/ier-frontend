@@ -10,7 +10,11 @@ import uk.gov.gds.ier.step.InprogressApplication
 import uk.gov.gds.ier.session.{SessionToken, SessionCleaner, SessionTokenValidator}
 import scala.util.Try
 
-abstract class SessionHandling[T <: InprogressApplication[T]]
+/**
+ * Nearly exact copy and ugly duplication with uk.gov.gds.ier.session.SessionHandling
+ * The only difference is you can specify payload cookie name and that payload can by any Case class
+ */
+abstract class CustomizedSessionHandling[T](payloadCookieKey: String)
   extends SessionTokenValidator
   with SessionCleaner {
   self: WithSerialiser
@@ -34,7 +38,7 @@ abstract class SessionHandling[T <: InprogressApplication[T]]
           case Some(token) => {
             token.isValid match {
               case true => {
-                val application = request.getApplication.getOrElse(factoryOfT())
+                val application = request.getPayload.getOrElse(factoryOfT())
                 logger.debug(s"Validate session - token is valid")
                 val result = block(request)(application)
                 result storeToken token.refreshToken
@@ -80,9 +84,9 @@ abstract class SessionHandling[T <: InprogressApplication[T]]
       sessionToken.flatMap(_.toOption)
     }
 
-    def getApplication[T](implicit manifest: Manifest[T]): Option[T] = {
+    def getPayload[T](implicit manifest: Manifest[T]): Option[T] = {
       val application = for {
-        cookie <- request.cookies.get(sessionCompleteStepKey)  // here is the only change
+        cookie <- request.cookies.get(payloadCookieKey)  // here is the only change
         cookieInitVec <- request.cookies.get(sessionPayloadKeyIV)
       } yield Try {
         val json = encryptionService.decrypt(cookie.value,  cookieInitVec.value)

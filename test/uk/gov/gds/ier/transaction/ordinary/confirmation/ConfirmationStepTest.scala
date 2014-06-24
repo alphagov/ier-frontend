@@ -55,8 +55,8 @@ class ConfirmationStepTest
       }
 
       it should "add new cookie with confirmation data for Complete page" in {
-        allCookies.get(sessionCompleteStepKey) should not be (None)
-        allCookies.get(sessionCompleteStepKey).get.value.trim should not be empty
+        allCookies.get(confirmationCookieKey) should not be (None)
+        allCookies.get(confirmationCookieKey).get.value.trim should not be empty
       }
 
       "content of Confirmation cookie" should "contain refnum and local ERO authority details" in {

@@ -7,15 +7,15 @@ import uk.gov.gds.ier.guice.{WithRemoteAssets, WithEncryption, WithConfig}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.assets.RemoteAssets
-import scala.util.Try
 import uk.gov.gds.ier.logging.Logging
+import uk.gov.gds.ier.session.SessionKeysConstants._
 
 class CompleteStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
     val remoteAssets: RemoteAssets
-) extends SessionHandling[CompleteStepCookie]
+  ) extends CustomizedSessionHandling[CompleteStepCookie](confirmationCookieKey)
   with Controller
   with WithSerialiser
   with WithConfig

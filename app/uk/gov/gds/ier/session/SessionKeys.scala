@@ -11,5 +11,7 @@ trait SessionKeys {
    * Confirmation cookie replaces 'application' cookie for Confirmation to Complete transition.
    * The counterpart initialization vector cookie is still 'applicationIV'
    */
-  val sessionCompleteStepKey = "confirmation"
+  val confirmationCookieKey = "confirmation"
 }
+
+object SessionKeysConstants extends SessionKeys

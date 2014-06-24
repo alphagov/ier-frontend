@@ -110,7 +110,7 @@ class ConfirmationStep @Inject ()(
 
           Redirect(CompleteController.complete())
             .removeApplicationFromSession()
-            .confirmationCookieInSession(completeStepData)
+            .addConfirmationCookieToSession(completeStepData)
         }
       )
   }
