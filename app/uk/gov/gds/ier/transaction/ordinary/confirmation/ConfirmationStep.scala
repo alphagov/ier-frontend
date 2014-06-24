@@ -105,7 +105,7 @@ class ConfirmationStep @Inject ()(
             authority = Some(response.localAuthority),
             hasOtherAddress = hasOtherAddress,
             backToStartUrl = config.ordinaryStartUrl,
-            showEmailConfirmation = (isPostalVoteEmailPresent | isContactEmailPresent).toString
+            showEmailConfirmation = (isPostalVoteEmailPresent | isContactEmailPresent)
           )
 
           Redirect(CompleteController.complete())

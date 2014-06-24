@@ -34,6 +34,5 @@ class CompleteStep @Inject() (
         completeData.showEmailConfirmation))
   }
 
-  // FIXME: should not be used
   def factoryOfT() = CompleteStepCookie()
 }

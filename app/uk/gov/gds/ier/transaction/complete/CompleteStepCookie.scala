@@ -7,7 +7,8 @@ case class CompleteStepCookie(
     refNum: String,
     authority: Option[EroAuthorityDetails],
     hasOtherAddress: Boolean,
-    backToStartUrl: String
+    backToStartUrl: String,
+    showEmailConfirmation: Boolean
   ) extends InprogressApplication[CompleteStepCookie] {
 
   def merge(other: CompleteStepCookie) = {
@@ -27,7 +28,8 @@ object CompleteStepCookie {
       refNum = "",
       authority = None,
       hasOtherAddress = false,
-      backToStartUrl = ""
+      backToStartUrl = "",
+      showEmailConfirmation = false
     )
   }
 }

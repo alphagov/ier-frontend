@@ -36,7 +36,7 @@ class CompleteControllerTests
             )),
             hasOtherAddress = true,
             backToStartUrl = "/register-to-vote/start",
-            showEmailConfirmation = "true"
+            showEmailConfirmation = true
           ))
           .withIerSession()
       )
@@ -69,7 +69,8 @@ class CompleteControllerTests
             )),
             hasOtherAddress = false,
             backToStartUrl = "/register-to-vote/start",
-            showEmailConfirmation = "true"))
+            showEmailConfirmation = true
+          ))
           .withIerSession()
       )
 
@@ -85,12 +86,23 @@ class CompleteControllerTests
   it should "display the page with email confirmation info" in runningApp {
     val Some(result) = route(
       FakeRequest(GET, "/register-to-vote/complete")
-        .withFlash(
-          "refNum" -> "123457689013",
-          "postcode" -> "WR26NJ",
-          "hasOtherAddress" -> "false",
-          "backToStartUrl" -> "/register-to-vote/start",
-          "showEmailConfirmation" -> "true")
+        .withEncryptedCookie(CompleteStepCookie(
+          refNum = "123457689013",
+          authority = Some(EroAuthorityDetails(
+            name = "Hornsey Council",
+            urls = List(),
+            email = None,
+            phone = None,
+            addressLine1 = None,
+            addressLine2 = None,
+            addressLine3 = None,
+            addressLine4 = None,
+            postcode = None
+          )),
+          hasOtherAddress = true,
+          backToStartUrl = "/register-to-vote/start",
+          showEmailConfirmation = true
+        ))
         .withIerSession()
     )
 
@@ -104,12 +116,23 @@ class CompleteControllerTests
   it should "display the page without email confirmation info" in runningApp {
     val Some(result) = route(
       FakeRequest(GET, "/register-to-vote/complete")
-        .withFlash(
-          "refNum" -> "123457689013",
-          "postcode" -> "WR26NJ",
-          "hasOtherAddress" -> "false",
-          "backToStartUrl" -> "/register-to-vote/start",
-          "showEmailConfirmation" -> "false")
+        .withEncryptedCookie(CompleteStepCookie(
+          refNum = "123457689013",
+          authority = Some(EroAuthorityDetails(
+            name = "Hornsey Council",
+            urls = List(),
+            email = None,
+            phone = None,
+            addressLine1 = None,
+            addressLine2 = None,
+            addressLine3 = None,
+            addressLine4 = None,
+            postcode = None
+          )),
+          hasOtherAddress = true,
+          backToStartUrl = "/register-to-vote/start",
+          showEmailConfirmation = false
+        ))
         .withIerSession()
     )
 
@@ -119,6 +142,4 @@ class CompleteControllerTests
 
     renderedOutput should not include("We have sent you a confirmation email.")
   }
-
-
 }

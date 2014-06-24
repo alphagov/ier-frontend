@@ -6,14 +6,9 @@ import uk.gov.gds.ier.test.TestHelpers
 import play.api.test.Helpers._
 import play.api.test.FakeRequest
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 import uk.gov.gds.ier.transaction.complete.CompleteStepCookie
 import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 import scala.Some
-import uk.gov.gds.ier.transaction.complete.{CompleteStepCookie, SessionHandling}
-import scala.concurrent.{Future, Await}
-import play.api.mvc.{Result, SimpleResult}
-import akka.util.Timeout
 import uk.gov.gds.ier.controller.MockConfig
 import uk.gov.gds.ier.security.{Base64EncodingService, EncryptionService}
 
@@ -38,12 +33,12 @@ class ConfirmationStepTest
         FakeRequest(POST, "/register-to-vote/confirmation")
           .withIerSession()
           .withApplication(completeOrdinaryApplication.copy(address = Some(PartialAddress(
-          addressLine = Some("1 The Cottages, Moseley Road, Hallow, Worcestershire"),
-          uprn = Some("100120595384"),
-          postcode = "WR2 6NJ",
-          gssCode = Some("E07000235"),
-          manualAddress = None
-        ))
+            addressLine = Some("1 The Cottages, Moseley Road, Hallow, Worcestershire"),
+            uprn = Some("100120595384"),
+            postcode = "WR2 6NJ",
+            gssCode = Some("E07000235"),
+            manualAddress = None
+          ))
         ))
       )
 
@@ -86,16 +81,74 @@ class ConfirmationStepTest
         )))
       }
     }
-  }
 
-  it should "submit application and set show email message flag to false for no email addresses" in runningApp {
-    val Some(result) = route(
-      FakeRequest(POST, "/register-to-vote/confirmation")
-        .withIerSession()
-        .withApplication(completeOrdinaryApplication.copy(
+
+  behavior of "showEmailConfirmation flag"
+
+    it should "submit application and set show email message flag to false for no email addresses" in runningApp {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/confirmation")
+          .withIerSession()
+          .withApplication(completeOrdinaryApplication.copy(
+            postalVote = Some(PostalVote(
+              postalVoteOption = Some(false),
+              deliveryMethod = None
+            )),
+            contact = Some(Contact(
+              post = true,
+              email = None,
+              phone = None
+            ))
+          ))
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/complete"))
+      val allCookies = cookies(result)
+      val completeStepData = getCompleteStepCookie[CompleteStepCookie](allCookies)
+      completeStepData should not be(None)
+      completeStepData.get.showEmailConfirmation should be(false)
+    }
+
+    it should "submit application and set show email message flag to true if the contact email address is present" in runningApp {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/confirmation")
+          .withIerSession()
+          .withApplication(completeOrdinaryApplication.copy(
           postalVote = Some(PostalVote(
             postalVoteOption = Some(false),
             deliveryMethod = None
+          )),
+          contact = Some(Contact(
+            post = false,
+            email = Some(ContactDetail(
+              contactMe = true,
+              detail = Some("test@email.com")
+            )),
+            phone = None
+          ))
+        ))
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/complete"))
+      val allCookies = cookies(result)
+      val completeStepData = getCompleteStepCookie[CompleteStepCookie](allCookies)
+      completeStepData should not be(None)
+      completeStepData.get.showEmailConfirmation should be(true)
+    }
+
+    it should "submit application and set show email message flag to true if the postal vote email is present" in runningApp {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/confirmation")
+          .withIerSession()
+          .withApplication(completeOrdinaryApplication.copy(
+          postalVote = Some(PostalVote(
+            postalVoteOption = Some(true),
+            deliveryMethod = Some(PostalVoteDeliveryMethod(
+              deliveryMethod = Some("email"),
+              emailAddress = Some("test@email.com")
+            ))
           )),
           contact = Some(Contact(
             post = true,
@@ -103,93 +156,45 @@ class ConfirmationStepTest
             phone = None
           ))
         ))
-    )
+      )
 
-    status(result) should be(SEE_OTHER)
-    redirectLocation(result) should be(Some("/register-to-vote/complete"))
-    val flashData = flash(result).data
-    flashData("showEmailConfirmation") should be("false")
-  }
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/complete"))
+      val allCookies = cookies(result)
+      val completeStepData = getCompleteStepCookie[CompleteStepCookie](allCookies)
+      completeStepData should not be(None)
+      completeStepData.get.showEmailConfirmation should be(true)
+    }
 
-  it should "submit application and set show email message flag to true if the contact email address is present" in runningApp {
-    val Some(result) = route(
-      FakeRequest(POST, "/register-to-vote/confirmation")
-        .withIerSession()
-        .withApplication(completeOrdinaryApplication.copy(
-        postalVote = Some(PostalVote(
-          postalVoteOption = Some(false),
-          deliveryMethod = None
-        )),
-        contact = Some(Contact(
-          post = false,
-          email = Some(ContactDetail(
-            contactMe = true,
-            detail = Some("test@email.com")
+    it should "submit application and set show email message flag to true if the postal vote and contact email are present" in runningApp {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/confirmation")
+          .withIerSession()
+          .withApplication(completeOrdinaryApplication.copy(
+          postalVote = Some(PostalVote(
+            postalVoteOption = Some(true),
+            deliveryMethod = Some(PostalVoteDeliveryMethod(
+              deliveryMethod = Some("email"),
+              emailAddress = Some("test@email.com")
+            ))
           )),
-          phone = None
-        ))
-      ))
-    )
-
-    status(result) should be(SEE_OTHER)
-    redirectLocation(result) should be(Some("/register-to-vote/complete"))
-    val flashData = flash(result).data
-    flashData("showEmailConfirmation") should be("true")
-  }
-
-  it should "submit application and set show email message flag to true if the postal vote email is present" in runningApp {
-    val Some(result) = route(
-      FakeRequest(POST, "/register-to-vote/confirmation")
-        .withIerSession()
-        .withApplication(completeOrdinaryApplication.copy(
-        postalVote = Some(PostalVote(
-          postalVoteOption = Some(true),
-          deliveryMethod = Some(PostalVoteDeliveryMethod(
-            deliveryMethod = Some("email"),
-            emailAddress = Some("test@email.com")
+          contact = Some(Contact(
+            post = false,
+            email = Some(ContactDetail(
+              contactMe = true,
+              detail = Some("test@email.com")
+            )),
+            phone = None
           ))
-        )),
-        contact = Some(Contact(
-          post = true,
-          email = None,
-          phone = None
         ))
-      ))
-    )
+      )
 
-    status(result) should be(SEE_OTHER)
-    redirectLocation(result) should be(Some("/register-to-vote/complete"))
-    val flashData = flash(result).data
-    flashData("showEmailConfirmation") should be("true")
-  }
-
-  it should "submit application and set show email message flag to true if the postal vote and contact email are present" in runningApp {
-    val Some(result) = route(
-      FakeRequest(POST, "/register-to-vote/confirmation")
-        .withIerSession()
-        .withApplication(completeOrdinaryApplication.copy(
-        postalVote = Some(PostalVote(
-          postalVoteOption = Some(true),
-          deliveryMethod = Some(PostalVoteDeliveryMethod(
-            deliveryMethod = Some("email"),
-            emailAddress = Some("test@email.com")
-          ))
-        )),
-        contact = Some(Contact(
-          post = false,
-          email = Some(ContactDetail(
-            contactMe = true,
-            detail = Some("test@email.com")
-          )),
-          phone = None
-        ))
-      ))
-    )
-
-    status(result) should be(SEE_OTHER)
-    redirectLocation(result) should be(Some("/register-to-vote/complete"))
-    val flashData = flash(result).data
-    flashData("showEmailConfirmation") should be("true")
-  }
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/complete"))
+      val allCookies = cookies(result)
+      val completeStepData = getCompleteStepCookie[CompleteStepCookie](allCookies)
+      completeStepData should not be(None)
+      completeStepData.get.showEmailConfirmation should be(true)
+    }
 
 }
