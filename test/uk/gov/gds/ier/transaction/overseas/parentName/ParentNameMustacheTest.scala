@@ -40,7 +40,6 @@ class ParentNameMustacheTest
     nameModel.firstName.value should be("")
     nameModel.middleNames.value should be("")
     nameModel.lastName.value should be("")
-//    nameModel.hasPreviousName.classes should be ("invalid")
     nameModel.hasPreviousNameTrue.attributes should be("")
     nameModel.hasPreviousNameFalse.attributes should be("")
     nameModel.previousFirstName.value should be("")

@@ -22,7 +22,8 @@ trait ParentNameConstraints extends CommonConstraints {
         keys.overseasParentName.parentName)
     }
     
-    lazy val parentPreviousNameNotOptionalIfHasPreviousIsTrue = Constraint[Option[PreviousName]] (keys.overseasParentName.parentPreviousName.key) {
+    lazy val parentPreviousNameNotOptionalIfHasPreviousIsTrue = Constraint[Option[PreviousName]] (
+      keys.overseasParentName.parentPreviousName.key) {
       name => 
         if (name.isDefined) {
          if (name.get.hasPreviousName && !name.get.previousName.isDefined) {
@@ -32,7 +33,7 @@ trait ParentNameConstraints extends CommonConstraints {
          }
          else Valid 
         }
-        else Invalid("Please answer this quesiton", keys.overseasParentName.parentPreviousName.hasPreviousName)
+        else Invalid("Please answer this question", keys.overseasParentName.parentPreviousName)
     }
 
 
@@ -41,18 +42,18 @@ trait ParentNameConstraints extends CommonConstraints {
       if (application.overseasParentName.isDefined && application.overseasParentName.get.previousName.isDefined) Valid
       else Invalid("Please answer this question", keys.overseasParentName.parentPreviousName)
   }
-   lazy val parentFirstNameNotEmpty = Constraint[Name](keys.overseasParentName.parentName.firstName.key) {
-    name =>
-      if (name.firstName.trim.isEmpty()) Invalid("Please enter their first name",
-          keys.overseasParentName.parentName.firstName)
-      else Valid
+   lazy val parentFirstNameNotEmpty = Constraint[Option[Name]](keys.overseasParentName.parentName.firstName.key) {
+     case Some(Name("", _, _)) => Invalid(
+       "Please enter their first name",
+       keys.overseasParentName.parentName.firstName)
+     case _ => Valid
   }
   
-  lazy val parentLastNameNotEmpty = Constraint[Name](keys.overseasParentName.parentName.lastName.key) {
-    name =>
-      if (name.lastName.trim.isEmpty()) Invalid("Please enter their last name", 
-          keys.overseasParentName.parentName.lastName)
-      else Valid
+  lazy val parentLastNameNotEmpty = Constraint[Option[Name]](keys.overseasParentName.parentName.lastName.key) {
+    case Some(Name(_, _, "")) => Invalid(
+      "Please enter their last name",
+      keys.overseasParentName.parentName.lastName)
+    case _ => Valid
   }
   
   lazy val parentFirstNameNotTooLong = fieldNotTooLong[Option[Name]](

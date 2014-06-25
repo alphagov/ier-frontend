@@ -13,22 +13,12 @@ trait ParentNameForms extends ParentNameConstraints {
   self:  FormKeys
     with ErrorMessages =>
 
-//  lazy val parentPrevNameMapping = mapping(
-//    keys.hasPreviousName.key -> boolean,
-//    keys.previousName.key -> optional(Name.mapping)
-//  ) (PreviousName.apply) (PreviousName.unapply) verifying (
-//      parentPreviousFirstNameNotEmpty,
-//      parentPreviousLastNameNotEmpty,
-//      parentPrevFirstNameNotTooLong,
-//      parentPrevMiddleNamesNotTooLong,
-//      parentPrevLastNameNotTooLong
-//  )
-  
-    
   lazy val overseasParentNameMapping = mapping(
     keys.parentName.key -> optional(Name.mapping)
       .verifying(
         parentNameNotOptional,
+        parentFirstNameNotEmpty,
+        parentLastNameNotEmpty,
         parentFirstNameNotTooLong,
         parentMiddleNamesNotTooLong,
         parentLastNameNotTooLong
