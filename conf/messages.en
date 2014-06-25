@@ -25,7 +25,7 @@ ordinary_nationality_title=What is your nationality?
 ordinary_nationality_content_1=If you have dual nationality, select all options that are relevant to you.
 ordinary_nationality_british=British
 ordinary_nationality_irish=Irish
-ordinary_nationality_otherCountry=Citizen of different country
+ordinary_nationality_otherCountry=Citizen of a different country
 ordinary_nationality_whichCountry=Country name<span class="visuallyhidden"> first</span>
 ordinary_nationality_secondCountry=Country name<span class="visuallyhidden"> second</span>
 ordinary_nationality_thirdCountry=Country name<span class="visuallyhidden"> third</span>
