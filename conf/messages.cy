@@ -575,5 +575,6 @@ lookup_show_email=E-bost
 lookup_show_phone=ffôn
 lookup_show_exit_button=Dychwelyd i’ch cais
 
+lookup_instruction=Rhowch god post y cyfeiriad yr ydych yn cofrestru gyda
 lookup_postcode_label=Cod Post
 lookup_error_noneFound=Dim Swyddfa Cofrestru Etholiadol wedi cael ei ddarganfod. Gwiriwch eich cod post.

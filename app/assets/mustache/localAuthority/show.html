@@ -8,25 +8,23 @@
 </header>
 
 <article>
-    <p class="summary">{{messages.lookup_show_yourLocalAuthorityIs}} {{localAuthority.name}}</p>
+    <p class="summary">{{localAuthority.name}}</p>
+
+    <p><a href = "{{localAuthority.url}}" rel = "external">{{localAuthority.url}}</a></p>
+
+    <p>{{messages.lookup_show_email}}: {{localAuthority.emailAddress}}</p>
+
+    <p>{{messages.lookup_show_phone}}: {{localAuthority.phoneNumber}}</p>
 
     <h2>{{messages.lookup_show_address}}</h2>
     <p>
+        {{localAuthority.name}}<br />
         {{localAuthority.addressLine1}}<br />
         {{localAuthority.addressLine2}}<br />
         {{localAuthority.addressLine3}}<br />
         {{localAuthority.addressLine4}}
     </p>
     <p>{{localAuthority.postcode}}</p>
-
-    <h2>{{messages.lookup_show_website}}</h2>
-    <p><a href = "{{localAuthority.url}}" rel = "external">{{localAuthority.url}}</a></p>
-
-    <h2>{{messages.lookup_show_email}}</h2>
-    <p>{{localAuthority.emailAddress}}</p>
-
-    <h2>{{messages.lookup_show_phone}}</h2>
-    <p>{{localAuthority.phoneNumber}}</p>
 
     {{#sourcePath}}
     <p>
