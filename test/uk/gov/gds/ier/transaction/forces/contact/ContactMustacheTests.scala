@@ -41,6 +41,37 @@ class ContactMustacheTests
     contactModel.contactPostCheckbox.attributes should be("")
   }
 
+  it should "prepopulate the email address from postal vote step" in {
+    val partiallyFilledApplication =
+      InprogressForces(
+        postalOrProxyVote = Some(PostalOrProxyVote(
+          typeVote = WaysToVoteType.ByProxy,
+          postalVoteOption = Some(true),
+          deliveryMethod = Some(PostalVoteDeliveryMethod(
+            deliveryMethod = Some("email"),
+            emailAddress = Some("my@email.com")
+          ))
+        ))
+      )
+    val partiallyFilledApplicationForm = contactForm.fill(partiallyFilledApplication)
+
+    val contactModel = mustache.data(
+      partiallyFilledApplicationForm,
+      ContactController.post,
+      InprogressForces()
+    ).asInstanceOf[ContactModel]
+
+    contactModel.question.title should be(
+      "If we have questions about your application, how should we contact you?")
+    contactModel.question.postUrl should be("/register-to-vote/forces/contact")
+
+    contactModel.contactEmailCheckbox.attributes should be("")
+    contactModel.contactEmailText.value should be("my@email.com")
+    contactModel.contactPhoneCheckbox.attributes should be("")
+    contactModel.contactPhoneText.value should be("")
+    contactModel.contactPostCheckbox.attributes should be("")
+  }
+
   it should "progress form with filled email should produce Mustache Model with email value present" in {
     val partiallyFilledApplication =
       InprogressForces(
