@@ -28,25 +28,33 @@ abstract class SessionHandling[T <: InprogressApplication[T]]
 
     final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => T => Result)(implicit manifest:Manifest[T]):Action[A] = Action(bodyParser) {
       implicit request =>
-        logger.debug(s"REQUEST ${request.method} ${request.path} - Valid Session needed")
-        request.getToken match {
-          case Some(token) => {
-            token.isValid match {
-              case true => {
-                val application = request.getApplication.getOrElse(factoryOfT())
-                logger.debug(s"Validate session - token is valid")
-                val result = block(request)(application)
-                result storeToken token.refreshToken
+        if (request.cookies.get(confirmationCookieKey).isDefined) {
+          Redirect(config.ordinaryStartUrl).withFreshSession()
+        } else {
+          logger.debug(s"REQUEST ${request.method} ${request.path} - Valid Session needed")
+          request.getToken match {
+            case Some(token) => {
+              token.isValid match {
+                case true => {
+                  val application = request.getApplication.getOrElse(factoryOfT())
+                  logger.debug(s"Validate session - token is valid")
+                  val result = block(request)(application)
+                  result storeToken token.refreshToken
+                }
+                case false => {
+                  logger.debug(s"Validate session - token is not valid ${serialiser.toJson(token)}")
+                  Redirect(routes.ErrorController.timeout()).withFreshSession()
+                }
               }
               case false => {
                 logger.debug(s"Validate session - token is not valid ${serialiser.toJson(token)}")
                 Redirect(timeoutPage()).withFreshSession()
               }
             }
-          }
-          case None => {
-            logger.debug(s"Validate session - Request has no token, refreshing and redirecting to govuk start page")
-            Redirect(config.ordinaryStartUrl).withFreshSession()
+            case None => {
+              logger.debug(s"Validate session - Request has no token, refreshing and redirecting to govuk start page")
+              Redirect(config.ordinaryStartUrl).withFreshSession()
+            }
           }
         }
     }

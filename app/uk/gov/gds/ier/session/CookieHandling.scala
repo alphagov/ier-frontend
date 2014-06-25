@@ -39,6 +39,7 @@ trait CookieHandling extends SessionKeys {
     domain: Option[String]
   ) = Seq(
     discard(sessionPayloadKey, domain),
+    discard(confirmationCookieKey, domain),
     discard(sessionPayloadKeyIV, domain)
   )
 
