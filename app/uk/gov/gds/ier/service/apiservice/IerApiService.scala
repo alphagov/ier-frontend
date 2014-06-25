@@ -25,7 +25,8 @@ abstract class IerApiService {
       ipAddress: Option[String],
       applicant: InprogressOrdinary,
       referenceNumber: Option[String],
-      timeTaken: Option[String]
+      timeTaken: Option[String],
+      language: String
   ): IerApiApplicationResponse
 
   def submitOverseasApplication(
@@ -68,7 +69,8 @@ class ConcreteIerApiService @Inject() (
       ipAddress: Option[String],
       applicant: InprogressOrdinary,
       referenceNumber: Option[String],
-      timeTaken: Option[String]
+      timeTaken: Option[String],
+      language: String
   ) = {
 
     val isoCodes = applicant.nationality map { nationality =>
@@ -102,7 +104,8 @@ class ConcreteIerApiService @Inject() (
       contact = applicant.contact,
       referenceNumber = referenceNumber,
       ip = ipAddress,
-      timeTaken = timeTaken.getOrElse("-1")
+      timeTaken = timeTaken.getOrElse("-1"),
+      language = language
     )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
