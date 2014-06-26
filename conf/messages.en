@@ -91,9 +91,9 @@ ordinary_name_lastName_label=Last name
 ordinary_name_error_enterFullName=Please enter your full name
 ordinary_name_error_enterFirstName=Please enter your first name
 ordinary_name_error_enterLastName=Please enter your last name
-ordinary_name_error_firstNameTooLong=First name can be no longer than 256 characters
-ordinary_name_error_middleNamesTooLong=Middle names can be no longer than 256 characters
-ordinary_name_error_lastNameTooLong=Last name can be no longer than 256 characters
+ordinary_name_error_firstNameTooLong=First name can be no longer than 35 characters
+ordinary_name_error_middleNamesTooLong=Middle names can be no longer than 100 characters
+ordinary_name_error_lastNameTooLong=Last name can be no longer than 35 characters
 
 ordinary_previousName_hasPreviousName_label=Have you changed your name in the last 12 months?
 ordinary_previousName_hasPreviousName_yes_label=Yes<span class="visuallyhidden"> I changed my name in the last 12 months</span>
@@ -107,9 +107,9 @@ ordinary_previousName_error_answerThis=Please answer this question
 ordinary_previousName_error_enterFullName=Please enter your previous name
 ordinary_previousName_error_enterFirstName=Please enter your previous first name
 ordinary_previousName_error_enterLastName=Please enter your previous last name
-ordinary_previousName_error_firstNameTooLong=Previous first name can be no longer than 256 characters
-ordinary_previousName_error_middleNamesTooLong=Previous middle names can be no longer than 256 characters
-ordinary_previousName_error_lastNameTooLong=Previous last name can be no longer than 256 characters
+ordinary_previousName_error_firstNameTooLong=Previous first name can be no longer than 35 characters
+ordinary_previousName_error_middleNamesTooLong=Previous middle names can be no longer than 100 characters
+ordinary_previousName_error_lastNameTooLong=Previous last name can be no longer than 35 characters
 
 
 # ordinary: nino

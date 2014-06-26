@@ -98,9 +98,9 @@ ordinary_name_lastName_label=Cyfenw
 ordinary_name_error_enterFullName=Nodwch eich enw llawn
 ordinary_name_error_enterFirstName=Nodwch eich enw cyntaf
 ordinary_name_error_enterLastName=Nodwch eich cyfenw
-ordinary_name_error_firstNameTooLong=Gall enw cyntaf fod yn fwy na 256 nod
-ordinary_name_error_middleNamesTooLong=Gall enwau canol fod yn fwy na 256 nod
-ordinary_name_error_lastNameTooLong=Gall enw olaf fod yn fwy na 256 nod
+ordinary_name_error_firstNameTooLong=Gall enw cyntaf fod yn fwy na 35 nod
+ordinary_name_error_middleNamesTooLong=Gall enwau canol fod yn fwy na 100 nod
+ordinary_name_error_lastNameTooLong=Gall enw olaf fod yn fwy na 35 nod
 
 ordinary_previousName_hasPreviousName_label=Ydych chi wedi newid eich enw yn y 12 mis diwethaf?
 ordinary_previousName_hasPreviousName_yes_label=Ydw<span class="visuallyhidden"> Rwyf wedi newid fy enw yn y 12 mis diwethaf</span>
@@ -114,9 +114,9 @@ ordinary_previousName_error_answerThis=Dywedwch wrthym a ydych chi wedi newid ei
 ordinary_previousName_error_enterFullName=Nodwch eich enw blaenorol
 ordinary_previousName_error_enterFirstName=Nodwch eich enw cyntaf blaenorol
 ordinary_previousName_error_enterLastName=Nodwch eich cyfenw blaenorol
-ordinary_previousName_error_firstNameTooLong=Gall enw cyntaf blaenorol fod yn fwy na 256 nod
-ordinary_previousName_error_middleNamesTooLong=Gall enwau canol blaenorol fod yn fwy na 256 nod
-ordinary_previousName_error_lastNameTooLong=Gall enw olaf blaenorol fod yn fwy na 256 nod
+ordinary_previousName_error_firstNameTooLong=Gall enw cyntaf blaenorol fod yn fwy na 35 nod
+ordinary_previousName_error_middleNamesTooLong=Gall enwau canol blaenorol fod yn fwy na 100 nod
+ordinary_previousName_error_lastNameTooLong=Gall enw olaf blaenorol fod yn fwy na 35 nod
 
 
 # ordinary: nino

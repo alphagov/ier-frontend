@@ -3,10 +3,11 @@
 
     {{> shared/validationMessages }}
 
-    <fieldset class="validate" data-validation-name="fullName"
+    <fieldset class="validate"
+              data-validation-name="fullName"
               data-validation-type="association"
-              data-validation-rules="allNonEmpty"
-              data-validation-members="firstName lastName">
+              data-validation-rules="allNonEmpty allValid"
+              data-validation-members="firstName middleName lastName">
 
         <label for="{{firstName.id}}">
             First name
@@ -19,7 +20,7 @@
                    class="text first-name long validate {{firstName.classes}}"
                    data-validation-name="firstName"
                    data-validation-type="field"
-                   data-validation-rules="nonEmpty" >
+                   data-validation-rules="nonEmpty firstNameText">
         </div>
 
         <label for="{{middleNames.id}}">
@@ -29,7 +30,10 @@
                name="{{middleNames.name}}"
                value="{{middleNames.value}}"
                autocomplete="off"
-               class="text  middle-names long {{middleNames.classes}}"  >
+               class="text middle-names long validate {{middleNames.classes}}"
+               data-validation-name="middleName"
+               data-validation-type="field"
+               data-validation-rules="middleNameText">
 
         <label for="{{lastName.id}}">
             Last name
@@ -39,10 +43,10 @@
                    name="{{lastName.name}}"
                    value="{{lastName.value}}"
                    autocomplete="off"
-                   class="text  last-name long validate {{lastName.classes}}"
+                   class="text last-name long validate {{lastName.classes}}"
                    data-validation-name="lastName"
                    data-validation-type="field"
-                   data-validation-rules="nonEmpty" >
+                   data-validation-rules="nonEmpty lastNameText">
         </div>
     </fieldset>
 
@@ -80,10 +84,11 @@
     <div class="optional-section optional-section-core-content "
          data-condition="previousName_hasPreviousName_true">
         <h2>What was your previous name?</h2>
-        <fieldset class="validate" data-validation-name="previousName"
+        <fieldset class="validate"
+                  data-validation-name="previousName"
                   data-validation-type="association"
-                  data-validation-rules="allNonEmpty"
-                  data-validation-members="previousFirstName previousLastName">
+                  data-validation-rules="allNonEmpty allValid"
+                  data-validation-members="previousFirstName previousMiddleName previousLastName">
 
             <label for="{{previousFirstName.id}}">
                 <span class="visuallyhidden">Previous</span> First name
@@ -93,10 +98,10 @@
                        name="{{previousFirstName.name}}"
                        value="{{previousFirstName.value}}"
                        autocomplete="off"
-                       class="text  first-name long validate {{previousFirstName.classes}}"
+                       class="text first-name long validate {{previousFirstName.classes}}"
                        data-validation-name="previousFirstName"
                        data-validation-type="field"
-                       data-validation-rules="nonEmpty" >
+                       data-validation-rules="nonEmpty prevFirstNameText">
             </div>
 
             <label for="{{previousMiddleNames.id}}">
@@ -106,7 +111,10 @@
                    name="{{previousMiddleNames.name}}"
                    value="{{previousMiddleNames.value}}"
                    autocomplete="off"
-                   class="text  middle-names long {{previousMiddleNames.classes}}"  >
+                   class="text middle-names long validate {{previousMiddleNames.classes}}"
+                   data-validation-name="previousMiddleName"
+                   data-validation-type="field"
+                   data-validation-rules="prevMiddleNameText">
 
             <label for="{{previousLastName.id}}">
                 <span class="visuallyhidden">Previous</span> Last name
@@ -116,10 +124,10 @@
                        name="{{previousLastName.name}}"
                        value="{{previousLastName.value}}"
                        autocomplete="off"
-                       class="text  last-name long validate {{previousLastName.classes}}"
+                       class="text last-name long validate {{previousLastName.classes}}"
                        data-validation-name="previousLastName"
                        data-validation-type="field"
-                       data-validation-rules="nonEmpty" >
+                       data-validation-rules="nonEmpty prevLastNameText">
             </div>
         </fieldset>
     </div>

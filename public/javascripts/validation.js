@@ -503,6 +503,66 @@
               return [];
             }
           },
+          'firstNameText' : function () {
+            var entry = _getFieldValue(this.$source),
+                maxLen = 35;
+
+            if (entry.length > maxLen) {
+              return _getInvalidDataFromFields([this], 'firstNameText');
+            } else {
+              return [];
+            }
+          },
+          'middleNameText' : function () {
+            var entry = _getFieldValue(this.$source),
+                maxLen = 100;
+
+            if (entry.length > maxLen) {
+              return _getInvalidDataFromFields([this], 'middleNameText');
+            } else {
+              return [];
+            }
+          },
+          'lastNameText' : function () {
+            var entry = _getFieldValue(this.$source),
+                maxLen = 35;
+
+            if (entry.length > maxLen) {
+              return _getInvalidDataFromFields([this], 'lastNameText');
+            } else {
+              return [];
+            }
+          },
+          'prevFirstNameText' : function () {
+            var entry = _getFieldValue(this.$source),
+                maxLen = 35;
+
+            if (entry.length > maxLen) {
+              return _getInvalidDataFromFields([this], 'prevFirstNameText');
+            } else {
+              return [];
+            }
+          },
+          'prevMiddleNameText' : function () {
+            var entry = _getFieldValue(this.$source),
+                maxLen = 100;
+
+            if (entry.length > maxLen) {
+              return _getInvalidDataFromFields([this], 'prevMiddleNameText');
+            } else {
+              return [];
+            }
+          },
+          'prevLastNameText' : function () {
+            var entry = _getFieldValue(this.$source),
+                maxLen = 35;
+
+            if (entry.length > maxLen) {
+              return _getInvalidDataFromFields([this], 'prevLastNameText');
+            } else {
+              return [];
+            }
+          },
           'validCountry' : function () {
             var entry = _getFieldValue(this.$source),
                 countries = GOVUK.registerToVote.countries,
@@ -1021,14 +1081,14 @@
       },
       'firstName' : {
         'nonEmpty' : message('ordinary_name_error_enterFirstName'),
-        'smallText' : message('ordinary_name_error_firstNameTooLong')
+        'firstNameText' : message('ordinary_name_error_firstNameTooLong')
       },
       'middleName' : {
-        'smallText' : message('ordinary_name_error_middleNamesTooLong')
+        'middleNameText' : message('ordinary_name_error_middleNamesTooLong')
       },
       'lastName' : {
         'nonEmpty' : message('ordinary_name_error_enterLastName'),
-        'smallText' : message('ordinary_name_error_lastNameTooLong')
+        'lastNameText' : message('ordinary_name_error_lastNameTooLong')
       },
       'previousQuestion' : {
         'atLeastOneNonEmpty' : message('ordinary_previousName_error_answerThis')
@@ -1038,14 +1098,14 @@
       },
       'previousFirstName' : {
         'nonEmpty' : message('ordinary_previousName_error_enterFirstName'),
-        'smallText' : message('ordinary_previousName_error_firstNameTooLong')
+        'prevFirstNameText' : message('ordinary_previousName_error_firstNameTooLong')
       },
       'previousMiddleName' : {
-        'smallText' : message('ordinary_previousName_error_middleNamesTooLong')
+        'prevMiddleNameText' : message('ordinary_previousName_error_middleNamesTooLong')
       },
       'previousLastName' : {
         'nonEmpty' : message('ordinary_previousName_error_enterLastName'),
-        'smallText' : message('ordinary_previousName_error_lastNameTooLong')
+        'prevLastNameText' : message('ordinary_previousName_error_lastNameTooLong')
       },
       'dateOfBirthDate' : {
         'allNonEmpty' : message('ordinary_dob_error_enterDateOfBirth')

@@ -287,5 +287,39 @@ class NameFormTests
       success => fail("Should have errored out")
     )
   }
+
+  it should "successfully bind with names matching max length" in {
+    val js = Json.toJson(
+      Map(
+        "name.firstName" -> "a_name_which_contains_35_characters",
+        "name.middleNames" -> "some sample middle names which are not longer than permitted input text one hundred chars long total",
+        "name.lastName" -> "a_name_which_contains_35_characters",
+        "previousName.hasPreviousName" -> "true",
+        "previousName.previousName.firstName" -> "a_name_which_contains_35_characters",
+        "previousName.previousName.middleNames" -> "some sample middle names which are not longer than permitted input text one hundred chars long total",
+        "previousName.previousName.lastName" -> "a_name_which_contains_35_characters"
+      )
+    )
+    nameForm.bind(js).fold(
+      hasErrors => {
+        fail(serialiser.toJson(hasErrors.prettyPrint))
+      },
+      success => {
+        success.name.isDefined should be(true)
+        val name = success.name.get
+        name.firstName should be("a_name_which_contains_35_characters")
+        name.lastName should be("a_name_which_contains_35_characters")
+        name.middleNames should be(Some("some sample middle names which are not longer than permitted input text one hundred chars long total"))
+
+        success.previousName.isDefined should be(true)
+        success.previousName.get.previousName.isDefined should be(true)
+        success.previousName.get.hasPreviousName should be(true)
+        val previousName = success.previousName.get.previousName.get
+        previousName.firstName should be("a_name_which_contains_35_characters")
+        previousName.middleNames should be(Some("some sample middle names which are not longer than permitted input text one hundred chars long total"))
+        previousName.lastName should be("a_name_which_contains_35_characters")
+      }
+    )
+  }
 }
 
