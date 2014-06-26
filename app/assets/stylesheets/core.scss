@@ -116,6 +116,10 @@ main .visible { // assumes default state is block
   display: block
 }
 
+a.button {
+  color: white;
+}
+
 .button {
   @include button;
 }
