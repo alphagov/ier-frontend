@@ -84,50 +84,6 @@ with TestHelpers {
       }
     }
 
-//  behavior of "ConfirmationStep.post"
-//  it should "submit application and set Refnum and LocalAuthority for the next step" in {
-//    running(FakeApplication()) {
-//      val Some(result) = route(
-//        FakeRequest(POST, "/register-to-vote/forces/confirmation")
-//          .withIerSession()
-//          .withApplication(completeForcesApplication.copy(address =
-//            Some(LastAddress(
-//              hasAddress = Some(HasAddressOption.YesAndLivingThere),
-//              address = Some(PartialAddress(
-//                addressLine = Some("1 The Cottages, Moseley Road, Hallow, Worcestershire"),
-//                uprn = Some("100120595384"),
-//                postcode = "WR2 6NJ",
-//                gssCode = Some("E07000235"),
-//                manualAddress = None
-//              ))
-//            ))
-//          ))
-//      )
-//
-//      status(result) should be(SEE_OTHER)
-//      redirectLocation(result) should be(Some("/register-to-vote/complete"))
-//      val flashData = flash(result).data
-//      flashData("refNum") should not be(None)
-//      flashData("localAuthority") should not be(None)
-//      val localAuthority = jsonSerialiser.fromJson[EroAuthorityDetails](flashData("localAuthority"))
-//
-//      localAuthority should be(EroAuthorityDetails(
-//        name = "Malvern Hills (test)",
-//        urls  = List(
-//          "http://www.malvernhills.gov.uk/",
-//          "http://www.malvernhills.gov.uk/cms/council-and-democracy/elections.aspx"
-//        ),
-//        email  = Some("worcestershirehub@malvernhills.gov.uk.test"),
-//        addressLine1 = Some("Council House"),
-//        addressLine2 = Some("Avenue Road"),
-//        addressLine3 = Some("Malvern"),
-//        addressLine4 = Some(""),
-//        postcode = Some("WR14 3AF"),
-//        phone = Some("01684 862151")
-//      ))
-//    }
-//  }
-
   behavior of "showEmailConfirmation flag"
 
   it should "submit application and set show email message flag to false for no email addresses present" in runningApp {
