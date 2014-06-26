@@ -23,7 +23,8 @@ trait ParentsAddressSelectMustache extends StepTemplate[InprogressOverseas] {
       address: Field,
       possibleJsonList: Field,
       possiblePostcode: Field,
-      hasAddresses: Boolean
+      hasAddresses: Boolean,
+      hasAuthority: Boolean
   ) extends MustacheData
 
 
@@ -32,10 +33,13 @@ trait ParentsAddressSelectMustache extends StepTemplate[InprogressOverseas] {
     implicit val progressForm = form
 
     val selectedUprn = form(keys.parentsAddress.uprn).value
+    val postcode = form(keys.parentsAddress.postcode).value.orElse {
+      form(keys.possibleAddresses.postcode).value
+    }
 
     val storedAddresses = for(
       jsonList <- form(keys.possibleAddresses.jsonList).value;
-      postcode <- form(keys.possibleAddresses.postcode).value
+      postcode <- postcode
     ) yield {
       PossibleAddress(
         jsonList = serialiser.fromJson[Addresses](jsonList),
@@ -43,9 +47,7 @@ trait ParentsAddressSelectMustache extends StepTemplate[InprogressOverseas] {
       )
     }
 
-    val maybeAddresses = storedAddresses.orElse {
-      lookupAddresses(form(keys.parentsAddress.postcode).value)
-    }
+    val maybeAddresses = storedAddresses orElse lookupAddresses(postcode)
 
     val options = maybeAddresses.map { possibleAddress =>
       possibleAddress.jsonList.addresses
@@ -62,6 +64,8 @@ trait ParentsAddressSelectMustache extends StepTemplate[InprogressOverseas] {
     val hasAddresses = maybeAddresses.exists { poss =>
       !poss.jsonList.addresses.isEmpty
     }
+
+    val hasAuthority = hasAddresses || addressService.validAuthority(postcode)
 
     val addressSelect = SelectField(
       key = keys.parentsAddress.uprn,
@@ -98,7 +102,8 @@ trait ParentsAddressSelectMustache extends StepTemplate[InprogressOverseas] {
       possiblePostcode = TextField(keys.possibleAddresses.postcode).copy(
         value = form(keys.parentsAddress.postcode).value.getOrElse("")
       ),
-      hasAddresses = hasAddresses
+      hasAddresses = hasAddresses,
+      hasAuthority = hasAuthority
     )
   }
 

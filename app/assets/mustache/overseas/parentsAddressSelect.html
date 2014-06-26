@@ -13,6 +13,13 @@
     <div class="validation-message visible">
         Sorry - we couldn't find any addresses for that postcode
     </div>
+    {{#hasAuthority}}
+    <p>
+        <a href="{{manualUrl}}" class="button" rel="external">
+            Enter your address manually
+        </a>
+    </p>
+    {{/hasAuthority}}
   {{/hasAddresses}}
   {{#hasAddresses}}
     <fieldset>

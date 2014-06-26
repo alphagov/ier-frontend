@@ -61,7 +61,8 @@ class AddressSelectTemplateTest
           name = "possiblePostcodeName",
           value = "possiblePostcodeValue"
         ),
-        hasAddresses = true
+        hasAddresses = true,
+        hasAuthority = true
       )
 
       val html = Mustache.render("forces/addressSelect", data)
@@ -129,7 +130,8 @@ class AddressSelectTemplateTest
         ),
         possibleJsonList = Field(id = "",name = "",value = ""),
         possiblePostcode = Field(id = "",name = "",value = ""),
-        hasAddresses = false
+        hasAddresses = false,
+        hasAuthority = false
       )
 
       val html = Mustache.render("forces/addressSelect", data)
@@ -141,6 +143,41 @@ class AddressSelectTemplateTest
       )
 
       doc.select("select").size should be(0)
+      doc.select("a[class=button]").size should be(0)
+    }
+  }
+
+  it should "display manual link if has authority" in {
+    running(FakeApplication()) {
+      val data = new SelectModel(
+        question = Question(),
+        lookupUrl = "",
+        manualUrl = "/lookup/url",
+        postcode = Field(id = "",name = "",classes = "",value = ""),
+        address = Field(
+          id = "",
+          name = "",
+          classes = "",
+          value = "",
+          optionList = List.empty
+        ),
+        possibleJsonList = Field(id = "",name = "",value = ""),
+        possiblePostcode = Field(id = "",name = "",value = ""),
+        hasAddresses = false,
+        hasAuthority = true
+      )
+
+      val html = Mustache.render("forces/addressSelect", data)
+      val doc = Jsoup.parse(html.toString)
+
+      val wrapper = doc.select("div").first()
+      wrapper.html() should include(
+        "Sorry - we couldn't find any addresses for that postcode"
+      )
+
+      doc.select("select").size should be(0)
+      val button = doc.select("a[class=button]").first()
+      button.attr("href") should be("/lookup/url")
     }
   }
 }

@@ -9,6 +9,7 @@ class Config extends Logging {
 
   def apiTimeout = configuration.getInt("api.timeout", 10).toInt
   def locateUrl = configuration.getString("locate.url")
+  def locateAuthorityUrl = configuration.getString("locate.authority.url")
   def locateApiAuthorizationToken = configuration.getString("locate.api.authorization.token")
   def fakeIer = configuration.getBoolean("ier.fake")
   def fakeLocate = configuration.getBoolean("locate.fake")
@@ -39,6 +40,7 @@ class Config extends Logging {
   def logConfiguration() = {
     logger.debug(s"apiTimeout:$apiTimeout")
     logger.debug(s"locateUrl:$locateUrl")
+    logger.debug(s"locateAuthorityUrl:$locateAuthorityUrl")
     logger.debug(s"locateApiAuthorizationToken:$locateApiAuthorizationToken")
     logger.debug(s"fakeIer:$fakeIer")
     logger.debug(s"ierApiUrl:$ierApiUrl")

@@ -67,6 +67,13 @@ class AddressService @Inject()(locateService: LocateService) {
     postcode.trim.toUpperCase.startsWith("BT")
   }
 
+  def validAuthority(postcode: Option[String]): Boolean = {
+    postcode match {
+      case Some(p) => locateService.lookupAuthority(p).isDefined
+      case _ => false
+    }
+  }
+
   protected[service] def formAddressLine(address:Address):String = {
     List(
       address.lineOne,
@@ -85,7 +92,7 @@ class AddressService @Inject()(locateService: LocateService) {
    */
   private def ensureGssCode(gssCode: Option[String], postcode: String): Option[String] = {
     gssCode.orElse {
-      locateService.lookupAddress(postcode).find(_.gssCode.isDefined).flatMap(_.gssCode)
+      locateService.lookupAuthority(postcode).map(_.gssCode)
     }
   }
 }
