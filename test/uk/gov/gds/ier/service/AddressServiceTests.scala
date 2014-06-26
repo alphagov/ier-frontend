@@ -259,4 +259,36 @@ class AddressServiceTests extends FlatSpec
 
   }
 
+  behavior of "AddressService.validAuthority"
+  it should "return false for no postcode" in {
+    val mockLocate = mock[LocateService]
+    val addressService = new AddressService(mockLocate)
+
+    addressService.validAuthority(None) should be(false)
+  }
+
+  it should "return false when no authority is found" in {
+    val mockLocate = mock[LocateService]
+    val addressService = new AddressService(mockLocate)
+
+    when(mockLocate.lookupAuthority("AB12 3CD")).thenReturn(None)
+
+    addressService.validAuthority(Some("AB12 3CD")) should be(false)
+  }
+
+  it should "return true when authority is found" in {
+    val mockLocate = mock[LocateService]
+    val addressService = new AddressService(mockLocate)
+
+    when(mockLocate.lookupAuthority("AB12 3CD")).thenReturn(
+      Some(LocateAuthority(
+        postcode = "AB12 3CD",
+        country = "England",
+        gssCode = "A010000010",
+        name = "Fake Local Authority"
+      ))
+    )
+
+    addressService.validAuthority(Some("AB12 3CD")) should be(true)
+  }
 }
