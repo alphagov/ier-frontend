@@ -66,6 +66,10 @@ abstract class CustomizedSessionHandling[T](payloadCookieKey: String)
     }
   }
 
+  /**
+   * Nearly exact copy of uk.gov.gds.ier.session.RequestHandling
+   * The only difference is you can specify payload cookie name and that payload can by any Case class
+   */
   implicit class SessionCookieExtractor(request: play.api.mvc.Request[_]) {
 
     def getToken: Option[SessionToken] = {
@@ -81,7 +85,7 @@ abstract class CustomizedSessionHandling[T](payloadCookieKey: String)
 
     def getPayload[T](implicit manifest: Manifest[T]): Option[T] = {
       val application = for {
-        cookie <- request.cookies.get(payloadCookieKey)  // here is the only change
+        cookie <- request.cookies.get(payloadCookieKey)
         cookieInitVec <- request.cookies.get(sessionPayloadKeyIV)
       } yield Try {
         val json = encryptionService.decrypt(cookie.value,  cookieInitVec.value)
