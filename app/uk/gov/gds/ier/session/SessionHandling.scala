@@ -28,7 +28,7 @@ abstract class SessionHandling[T <: InprogressApplication[T]]
 
     final def validateSession[A](bodyParser: BodyParser[A], block:Request[A] => T => Result)(implicit manifest:Manifest[T]):Action[A] = Action(bodyParser) {
       implicit request =>
-        if (request.cookies.get(confirmationCookieKey).isDefined) {
+        if (alreadyFinishedTransaction) {
           Redirect(config.ordinaryStartUrl).withFreshSession()
         } else {
           logger.debug(s"REQUEST ${request.method} ${request.path} - Valid Session needed")
@@ -65,6 +65,8 @@ abstract class SessionHandling[T <: InprogressApplication[T]]
 
     final def requiredFor(action: Request[AnyContent] => T => Result)(implicit manifest:Manifest[T])  = withParser(BodyParsers.parse.anyContent) requiredFor action
 
-
+    private def alreadyFinishedTransaction()(implicit request: Request[_]) = {
+      request.cookies.get(confirmationCookieKey).isDefined
+    }
   }
 }
