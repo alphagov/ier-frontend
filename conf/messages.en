@@ -2,6 +2,12 @@
 # WHEN MODYFYING MESSAGES USE ’ INSTEAD OF '
 #
 
+# service
+service_header_ordinary=Register to vote
+service_footer_contactEro=Contact your local Electoral Registration Office
+service_footer_forHelp=for help using this service
+service_footer_supportLinks=Support links
+
 # general
 step_of=of
 step_a_of_b={0} of {1}
