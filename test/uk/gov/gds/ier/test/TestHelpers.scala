@@ -195,15 +195,4 @@ trait TestHelpers
     }
   }
 
-  case class DummyRequestHeader(headersMap: Map[String, Seq[String]] = Map()) extends RequestHeader{
-    def id = 1
-    def tags = Map()
-    def uri = ""
-    def path = ""
-    def method = ""
-    def version = ""
-    def queryString = Map()
-    def remoteAddress = ""
-    lazy val headers = new Headers { val data = headersMap.toSeq }
-  }
 }

@@ -9,7 +9,7 @@ import play.api.mvc.Results._
 import play.api.test.WithServer
 import scala.concurrent.duration._
 import uk.gov.gds.ier.logging.Logging
-import play.api.mvc.Request
+import play.api.mvc.{Headers, RequestHeader, Request}
 
 
 class FeedbackServiceTimeoutRun
@@ -59,5 +59,17 @@ class FeedbackServiceTimeoutRun
     val feedbackService = new FeedbackService(feedbackClient = new FeedbackClientImpl(serialiser, config))
     feedbackService.submit(request, Some("cool web browser 2.3.5"))(mockedRequest)
     Thread.sleep(20.seconds.toMillis.toInt)
+  }
+
+  case class DummyRequestHeader(headersMap: Map[String, Seq[String]] = Map()) extends RequestHeader{
+    def id = 1
+    def tags = Map()
+    def uri = ""
+    def path = ""
+    def method = ""
+    def version = ""
+    def queryString = Map()
+    def remoteAddress = ""
+    lazy val headers = new Headers { val data = headersMap.toSeq }
   }
 }
