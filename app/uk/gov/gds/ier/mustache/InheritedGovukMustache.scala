@@ -7,6 +7,13 @@ trait InheritedGovukMustache extends StepMustache {
   self: WithRemoteAssets
     with WithConfig =>
 
+  case class TestPage (
+      override val pageTitle:String = "This is an inherited template test - Register to Vote",
+      override val contentClasses:String = "article"
+  ) (
+      implicit val lang:Lang = Language.english
+  ) extends GovukInheritedTemplate("test/testpage")
+
   abstract class GovukInheritedTemplate(
       template: String
   ) extends Mustachio (template) with MessagesForMustache {
