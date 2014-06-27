@@ -6,9 +6,18 @@ import play.api.mvc.Call
 import uk.gov.gds.ier.langs.Language
 import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
 
-trait MustacheRendering[T] extends StepMustache {
+trait MustacheRendering[T] extends StepMustache with InheritedGovukMustache {
   self: WithRemoteAssets
     with WithConfig =>
+
+  case class CheapHackInheritanceIntoSteps (
+      mainContent: Html,
+      lang: Lang,
+      override val htmlLang: String,
+      override val pageTitle: String,
+      override val contentClasses: String,
+      override val sourcePath: String
+  ) extends InheritedMustachio("template/cheapHackInheritanceIntoSteps")
 
   class MustacheRenderer(
       template: MustacheTemplate[T],
@@ -24,12 +33,13 @@ trait MustacheRendering[T] extends StepMustache {
       val model = template.data(lang, form, postUrl, application)
       val content = Mustache.render(template.mustachePath, model)
 
-      GovukTemplate(
+      CheapHackInheritanceIntoSteps(
         mainContent = content,
+        lang = lang,
         pageTitle = model.question.title,
         htmlLang = model.question.lang.language,
         contentClasses = model.question.contentClasses,
-        footerSupportLinks = FooterLinks(model.question.postUrl)
+        sourcePath = model.question.postUrl
       ).render()
     }
   }
