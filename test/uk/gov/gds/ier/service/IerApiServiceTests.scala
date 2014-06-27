@@ -14,7 +14,7 @@ import uk.gov.gds.ier.model.Fail
 import scala.Some
 import uk.gov.gds.ier.service.apiservice.{EroAuthorityDetails, IerApiApplicationResponse, IerApiService, ConcreteIerApiService}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
-
+import org.mockito.Matchers._
 /**
  * Test {@link IerApiService} submission methods where IER-API is emulated with FakeApiClient.
  *
@@ -306,4 +306,47 @@ class IerApiServiceTests
       }
     ).submitForcesApplication(None, application, None, None, None)
   }
+
+  behavior of "getLocalAuthroityByGssCode"
+  it should "support missing fields for local authority contact info" in {
+
+    val json = """
+      {
+	    "gssCode": "E09000030",
+	    "contactDetails": {
+	        "addressLine1": "address_line_1",
+	        "postcode": "a11aa",
+	        "emailAddress": "email@address.com",
+	        "phoneNumber": "0123456789",
+	        "name": "Tower Hamlets"
+	    },
+	    "eroIdentifier": "tower-hamlets",
+	    "eroDescription": "Tower Hamlets"
+    }
+    """
+    val mockApiClient = mock[IerApiClient]
+    val mockConfig = mock[Config]
+    val mockAddressService = mock[AddressService]
+    val mockSharHashProvider = mock[ShaHashProvider]
+    val mockIsoCountryService = mock[IsoCountryService]
+
+    val ierApiService = new ConcreteIerApiService (mockApiClient, jsonSerialiser, mockConfig,
+        mockAddressService, mockSharHashProvider, mockIsoCountryService)
+
+    when(mockApiClient.get(any[String], any[(String, String)])).thenReturn(Success(json, 0))
+    val authority = ierApiService.getLocalAuthorityByGssCode("123")
+
+    authority should have (
+      'gssCode (Some("E09000030")),
+      'eroIdentifier (Some("tower-hamlets")),
+      'eroDescription (Some("Tower Hamlets")),
+      'contactDetails (Some( LocalAuthorityContactDetails(
+        addressLine1 = Some("address_line_1"),
+        postcode =Some("a11aa"),
+        emailAddress = Some("email@address.com"),
+        phoneNumber = Some("0123456789"),
+        name = Some("Tower Hamlets"))))
+    )
+  }
+
 }

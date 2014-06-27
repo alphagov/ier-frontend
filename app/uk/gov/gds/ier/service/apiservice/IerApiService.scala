@@ -254,23 +254,16 @@ class ConcreteIerApiService @Inject() (
   }
 
   def getLocalAuthorityByGssCode(gssCode: String): LocalAuthority = {
-//    apiClient.get(config.ierLocalAuthorityLookupUrl + gssCode,
-//                   ("Authorization", "BEARER " + config.ierApiToken)) match {
-//      case Success(body,timeTakenMs) => {
-//        val json = """
-//          {"gssCode":"gssCode","contactDetails":{"url":"http://some/url.com","addressLine1":"Address 1","addressLine2":"London","addressLine3":"street a","addressLine4":"county blah","postcode":"N1 543","emailAddress":"some@email.com","phoneNumber":"145234534","name":"name1"},"eroIdentifier":"ero1Identifier","eroDescription":"ero 1 name"}
-//          """
-//        serialiser.fromJson[LocalAuthority]((Json.parse(body) \ "contactDetails").as[String])
-//      }
-//      case Fail(error,timeTakenMs) => {
-//        logger.error("Local Authority lookup failed: " + error)
-//        throw new ApiException(error)
-//      }
-//    }
-    val json = """
-          {"gssCode":"gssCode","contactDetails":{"url":"http://some/url.com","addressLine1":"Address 1","addressLine2":"London","addressLine3":"street a","addressLine4":"county blah","postcode":"N1 543","emailAddress":"some@email.com","phoneNumber":"145234534","name":"name1"},"eroIdentifier":"ero1Identifier","eroDescription":"ero 1 name"}
-          """
-    serialiser.fromJson[LocalAuthority](Json.stringify((Json.parse(json) \ "contactDetails")))
+    apiClient.get(config.ierLocalAuthorityLookupUrl + gssCode,
+                   ("Authorization", "BEARER " + config.ierApiToken)) match {
+      case Success(body,timeTakenMs) => {
+        serialiser.fromJson[LocalAuthority](body)
+      }
+      case Fail(error,timeTakenMs) => {
+        logger.error("Local Authority lookup failed: " + error)
+        throw new ApiException(error)
+      }
+    }
   }
 
   private def sendApplication(application: ApiApplication) = {

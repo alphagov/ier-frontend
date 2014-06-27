@@ -6,6 +6,7 @@ import uk.gov.gds.ier.guice.WithConfig
 import uk.gov.gds.ier.model.LocalAuthority
 import uk.gov.gds.ier.mustache.MustacheModel
 import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.model.LocalAuthorityContactDetails
 
 trait LocalAuthorityMustache
   extends InheritedGovukMustache with MustacheModel {
@@ -13,7 +14,7 @@ trait LocalAuthorityMustache
   with WithConfig =>
 
     case class LocalAuthorityPage (
-        localAuthority: LocalAuthority,
+        localAuthorityContact: Option[LocalAuthorityContactDetails],
         override val sourcePath: String
     ) (
         implicit override val lang: Lang
@@ -21,12 +22,13 @@ trait LocalAuthorityMustache
 
     object LocalAuthorityPage {
       def apply(
-        localAuthority: LocalAuthority,
+        localAuthorityContact: Option[LocalAuthorityContactDetails],
         sourcePath: Option[String]
       ): LocalAuthorityPage = {
-        LocalAuthorityPage(localAuthority, sourcePath getOrElse "")
+        LocalAuthorityPage(localAuthorityContact, sourcePath getOrElse "")
       }
     }
+
     case class LocalAuthorityLookupPage (
         postcode: Field,
         override val sourcePath: String,

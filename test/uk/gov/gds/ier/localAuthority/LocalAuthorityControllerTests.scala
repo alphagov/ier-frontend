@@ -17,17 +17,55 @@ import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import uk.gov.gds.ier.service.apiservice.ConcreteIerApiService
 import uk.gov.gds.ier.client.LocateApiClient
-import uk.gov.gds.ier.controller.MockConfig
 import uk.gov.gds.ier.model.ApiResponse
 import uk.gov.gds.ier.model.Success
 import uk.gov.gds.ier.model.Fail
 import uk.gov.gds.ier.service.LocateService
+import uk.gov.gds.ier.DynamicGlobal
+import uk.gov.gds.ier.client.ApiClient
+import uk.gov.gds.ier.guice.WithConfig
+import uk.gov.gds.ier.client.IerApiClient
 
 class LocalAuthorityControllerTests
   extends FlatSpec
   with Matchers
   with TestHelpers
   with MockitoSugar {
+
+  val stubConfig = new Config {
+	  override def locateUrl = "http://locateurl"
+	  override def locateApiAuthorizationToken = "token"
+	  override def apiTimeout = 10
+  }
+
+  val mockApiClient = new LocateApiClient(stubConfig) {
+    override def get(url: String, headers: (String, String)*) : ApiResponse = {
+      val json = """
+      {
+	    "gssCode": "E09000030",
+	    "contactDetails": {
+	        "addressLine1": "address_line_1",
+	        "postcode": "a11aa",
+	        "emailAddress": "email@address.com",
+	        "phoneNumber": "0123456789",
+	        "name": "Tower Hamlets"
+	    },
+	    "eroIdentifier": "tower-hamlets",
+	    "eroDescription": "Tower Hamlets"
+      }
+      """
+      Success(json, 0)
+    }
+  }
+
+
+
+  val stubGlobal = new DynamicGlobal {
+    override def bindings = { binder =>
+      binder bind classOf[Config] toInstance stubConfig
+      binder bind classOf[ApiClient] toInstance mockApiClient
+    }
+  }
 
   behavior of "LocalAuthorityController.showLookup"
   it should "display the lookup page" in {
@@ -66,96 +104,18 @@ class LocalAuthorityControllerTests
     }
   }
 
-//  it should "redirect to the show local authority page" in {
-//    running(FakeApplication()) {
-//      val mockedAddressService = mock[AddressService]
-//      val mockedIerApiService = mock[ConcreteIerApiService]
-//      val mockedJsonSerialiser = mock[JsonSerialiser]
-//      val mockedConfig = mock[Config]
-//      val mockedEncryptionService = mock[EncryptionService]
-//      val mockedRemoteAssets = mock[RemoteAssets]
-//
-//      val localAuthorityController = new LocalAuthorityController(
-//        mockedIerApiService,
-//        mockedAddressService,
-//        mockedJsonSerialiser,
-//        mockedEncryptionService,
-//        mockedConfig,
-//        mockedRemoteAssets
-//      )
-//
-//      val result = localAuthorityController.showLookup(Some("/register-to-vote/name"))(FakeRequest())
-//    }
-//
-//  }
-
-  //  behavior of "LocalAuthorityController.doLookup"
-  //  it should "lookup the postcode and redirect to the show authority info page" in {
-  //
-  //    val mockedAddressService = mock[AddressService]
-  //    val postcode = "ab12 3cd"
-  //    val gssCode = "a123456"
-  //
-  //    val Some(result) = route(
-  //      FakeRequest(POST, "/register-to-vote/local-authority/lookup")
-  //      .withIerSession()
-  //      .withFormUrlEncodedBody("postcode" -> postcode)
-  //    )
-  //
-  //    println(result)
-  //    status(result) should be(SEE_OTHER)
-  //    redirectLocation(result).get should be("register-to-vote/local-authority/" + gssCode)
-  //  }
-
-  //  behavior of "LocalAuthorityController.doLookup"
-  //  it should "lookup the postcode and redirect to the show authority info page" in {
-  //
-  //    val postcode = "ab123cd"
-  //    val gssCode = "a123456"
-  //
-  //    running(FakeApplication()) {
-  //    class FakeApiClient extends LocateApiClient(new MockConfig) {
-  //      override def get(url: String, headers: (String, String)*) : ApiResponse = {
-  //        println (url)
-  //        if (url == ("https://preview-verification-locate-api.ertp.alphagov.co.uk/locate/authority?postcode=" + postcode)) {
-  //          Success("""
-  //            {
-  //              "gssCode": gssCode
-  //            }
-  //          """, 0)
-  //        } else {
-  //          Fail("Bad postcode", 200)
-  //        }
-  //      }
-  //    }
-  //    val service = new LocateService(new FakeApiClient, new JsonSerialiser, new MockConfig)
-  //
-  //    val mockedAddressService = new AddressService(service)//mock[AddressService]
-  //
-  //    val mockedIerApiService = mock[ConcreteIerApiService]
-  //    val mockedJsonSerialiser = mock[JsonSerialiser]
-  //    val mockedConfig = mock[Config]
-  //    val mockedEncryptionService = mock[EncryptionService]
-  //    val mockedRemoteAssets = mock[RemoteAssets]
-  //
-  //    val localAuthorityController = new LocalAuthorityController(
-  //      mockedIerApiService,
-  //      mockedAddressService,
-  //      mockedJsonSerialiser,
-  //      mockedEncryptionService,
-  //      mockedConfig,
-  //      mockedRemoteAssets
-  //    )
-  //
-  ////    val result = localAuthorityController.doLookup(Some(postcode))(FakeRequest(POST, "/register-to-vote/local-authority/lookup"))
-  //        val Some(result) = route(
-  //      FakeRequest(POST, "/register-to-vote/local-authority/lookup")
-  //      .withIerSession()
-  //      .withFormUrlEncodedBody("postcode" -> postcode)
-  //    )
-  //    println(result)
-  //    status(result) should be(SEE_OTHER)
-  //    redirectLocation(result).get should be("register-to-vote/local-authority/" + gssCode)
-  //    }
-  //  }
+  behavior of "gss lookup"
+    it should "redirect to the show local authority page" in {
+	  running(FakeApplication(withGlobal = Some(stubGlobal))) {
+    	val postcode = "ab123cd"
+        val Some(result) = route(
+    	  FakeRequest(POST, "/register-to-vote/local-authority/lookup")
+    		.withIerSession()
+    		.withFormUrlEncodedBody("postcode" -> postcode)
+    	  )
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result).get should be("/register-to-vote/local-authority/" + "E09000030")
+    }
+  }
 }
+

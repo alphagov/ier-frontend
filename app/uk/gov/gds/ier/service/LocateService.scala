@@ -56,12 +56,12 @@ class LocateService @Inject() (
       s"$partialAuthorityUrl?postcode=$cleanPostcode",
       ("Authorization", authorizationToken)
     )
-
     result match {
       case Success(body, _) => Some(serialiser.fromJson[LocateAuthority](body))
       case Fail(error, _) => None
     }
   }
+
   def lookupGssCode(postcode: String): Option[String] = {
     lookupAuthority(postcode).map(_.gssCode )
   }

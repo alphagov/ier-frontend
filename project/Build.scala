@@ -43,7 +43,7 @@ object ApplicationBuild extends IERBuild {
       "-Xss1M",
       "-XX:+CMSClassUnloadingEnabled",
       "-XX:+UseConcMarkSweepGC",
-      "-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005",
+      "-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005",
       "-Dconfig.resource=test.conf"
     ))
     .settings(testOptions in Test += Tests.Argument("-oF"))

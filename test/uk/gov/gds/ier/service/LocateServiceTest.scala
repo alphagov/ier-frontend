@@ -101,9 +101,12 @@ class LocateServiceTest extends FlatSpec with Matchers {
   it should "return gssCode for a given postcode" in {
     class FakeApiClient extends LocateApiClient(new MockConfig) {
       override def get(url: String, headers: (String, String)*) : ApiResponse = {
-        if (url == "http://locate/gssCode?postcode=ab123cd") {
+        if (url == "http://locate/authority?postcode=ab123cd") {
           Success("""
             {
+              "name": "Fakeston Council",
+              "postcode": "AB12 3CD",
+              "country": "England",
               "gssCode": "abc"
             }
           """, 0)
