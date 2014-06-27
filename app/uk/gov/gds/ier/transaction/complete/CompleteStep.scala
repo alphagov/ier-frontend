@@ -9,15 +9,17 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.session.SessionKeysConstants._
-import uk.gov.gds.ier.session.CustomizedSessionHandling
+import uk.gov.gds.ier.session.{RequestHandling, ResultHandling, SessionToken, CustomizedSessionHandling}
+import scala.util.Try
 
 class CompleteStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
     val remoteAssets: RemoteAssets
-  ) extends CustomizedSessionHandling[ConfirmationCookie](confirmationCookieKey)
-  with Controller
+  ) extends Controller
+  with ResultHandling
+  with RequestHandling
   with WithSerialiser
   with WithConfig
   with WithEncryption
@@ -25,15 +27,24 @@ class CompleteStep @Inject() (
   with Logging
   with CompleteMustache {
 
-  def complete = ValidSession requiredFor {
-    implicit request => completeData =>
-      Ok(Complete.CompletePage(
-        completeData.authority,
-        completeData.refNum,
-        completeData.hasOtherAddress,
-        completeData.backToStartUrl,
-        completeData.showEmailConfirmation))
+  def complete = Action {
+    implicit request =>
+      confirmationCookie(request) match {
+        case Some(confirmationData) => {
+          Ok(Complete.CompletePage(
+            confirmationData.authority,
+            confirmationData.refNum,
+            confirmationData.hasOtherAddress,
+            confirmationData.backToStartUrl,
+            confirmationData.showEmailConfirmation)) }
+        case None => {
+          logger.debug(s"Validate session - Request has no token, refreshing and redirecting to govuk start page")
+          Redirect(config.ordinaryStartUrl).withFreshSession()
+        }
+      }
   }
 
-  def factoryOfT() = ConfirmationCookie()
+  private def confirmationCookie(request: Request[_]) = {
+    getPayload[ConfirmationCookie](request, confirmationCookieKey, confirmationCookieKeyIV)
+  }
 }

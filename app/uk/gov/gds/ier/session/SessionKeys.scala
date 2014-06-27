@@ -7,11 +7,8 @@ trait SessionKeys {
   val sessionPayloadKeyIV = "applicationIV"
   val sessionTokenKeyIV = "sessionKeyIV"
 
-  /**
-   * Confirmation cookie replaces 'application' cookie for Confirmation to Complete transition.
-   * The counterpart initialization vector cookie is still 'applicationIV'
-   */
   val confirmationCookieKey = "confirmation"
+  val confirmationCookieKeyIV = "confirmationIV"
 }
 
 object SessionKeysConstants extends SessionKeys

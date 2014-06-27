@@ -42,17 +42,6 @@ trait ResultHandling extends CookieHandling {
       val resultWithToken = result storeToken SessionToken()
       resultWithToken.discardingCookies(discardPayloadCookies(domain):_*)
     }
-
-    def removeFromSession(key: String)(implicit request: Request[_]) = {
-      val domain = getDomain(request)
-      result.discardingCookies(
-        discard(key, domain)
-      )
-    }
-
-    def removeApplicationFromSession()(implicit request: Request[_]) = {
-      removeFromSession(sessionPayloadKey)
-    }
   }
 
   def getDomain(request: Request[_]) = {

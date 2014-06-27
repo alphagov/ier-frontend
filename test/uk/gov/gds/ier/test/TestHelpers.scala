@@ -68,7 +68,8 @@ trait TestHelpers
     }
 
     def withConfirmationCookie[T <: AnyRef](payload: T) = {
-      request.withCookies(customPayloadCookies(payload, confirmationCookieKey, None):_*)
+      request.withCookies(customPayloadCookies(
+        payload, confirmationCookieKey, confirmationCookieKeyIV, None):_*)
     }
   }
 
@@ -236,7 +237,7 @@ trait TestHelpers
       implicit manifest: Manifest[ConfirmationCookie],
       encryptionService: EncryptionService,
       serialiser: JsonSerializer): Option[ConfirmationCookie] = {
-    getSessionCookie[ConfirmationCookie](cookies, confirmationCookieKey, sessionPayloadKeyIV)
+    getSessionCookie[ConfirmationCookie](cookies, confirmationCookieKey, confirmationCookieKeyIV)
   }
 
   def getSessionCookie[T](

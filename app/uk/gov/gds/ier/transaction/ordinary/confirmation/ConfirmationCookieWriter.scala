@@ -11,7 +11,11 @@ trait ConfirmationCookieWriter {
         payload: B)(
         implicit request: Request[_]) = {
       val domain = getDomain(request)
-      result.withCookies(customPayloadCookies(payload, confirmationCookieKey, domain): _*)
+      result.withCookies(customPayloadCookies(
+        payload,
+        confirmationCookieKey,
+        confirmationCookieKeyIV,
+        domain): _*)
     }
   }
 }

@@ -18,7 +18,6 @@ import uk.gov.gds.ier.transaction.complete.ConfirmationCookie
 import uk.gov.gds.ier.transaction.ordinary.confirmation.ConfirmationCookieWriter
 import uk.gov.gds.ier.session.ResultHandling
 
-
 class ConfirmationStep @Inject() (
     val encryptionService: EncryptionService,
     val config: Config,
@@ -91,7 +90,7 @@ class ConfirmationStep @Inject() (
           )
 
           Redirect(CompleteController.complete())
-            .removeApplicationFromSession()
+            .emptySession()
             .addConfirmationCookieToSession(completeStepData)
         }
       )

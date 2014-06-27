@@ -51,7 +51,7 @@ with TestHelpers {
 
       val allCookies = cookies(resultFuture)
 
-      it should "delete application inprogress data, delete main cookie but not session" in {
+      it should "delete application inprogress data, delete main cookie and session" in {
         allCookies.get(sessionPayloadKey) should not be (None)
         allCookies.get(sessionPayloadKey).get.value should be("")
       }
