@@ -2,6 +2,14 @@
 # WHEN MODYFYING MESSAGES USE ’ INSTEAD OF '
 #
 
+# service
+service_header_ordinary=Cofrestru i bleidleisio
+service_footer_contactEro=Cysylltwch â'ch Swyddfa Gofrestru Etholiadol leol
+service_footer_forHelp=am help i ddefnyddio'r gwasanaeth hwn
+service_footer_supportLinks=Cysylltiadau cymorth
+
+
+#general
 step_of=o
 step_a_of_b={0} o {1}
 step_continue=Parhau
