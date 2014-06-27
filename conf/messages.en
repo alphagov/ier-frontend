@@ -148,12 +148,10 @@ ordinary_address_postcode_title=What is your address?
 ordinary_address_postcode_enterPostcodeWhenRegistering_p=Enter the postcode where you’re registering to vote.
 ordinary_address_postcode_postcode_label=Postcode
 
-ordinary_address_postcode_dontKnowMyPostcode_h2=I don’t know my postcode
-ordinary_address_postcode_dontKnowMyPostcode_dtt=I don’t know my postcode
+ordinary_address_postcode_dontKnowMyPostcode_h2=I don’t know what postcode to use
+ordinary_address_postcode_dontKnowMyPostcode_dtt=I don’t know what postcode to use
 ordinary_address_postcode_tryWebSearchEngine_p=If you can’t find your postcode on a letter or other\
  document, try entering your address into a search engine website.
-
-ordinary_address_postcode_dontKnowWhatAddressToUse_h3=I don’t know what address to use
 
 ordinary_address_postcode_ifYouHaveMoreThanOneAddress_h4=If you have more than one address
 ordinary_address_postcode_itIsPossible_p=It’s sometimes possible to register at two addresses\
