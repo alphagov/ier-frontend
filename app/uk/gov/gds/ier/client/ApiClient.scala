@@ -101,7 +101,7 @@ trait ApiClient extends Logging {
       .withAuth(username, password, AuthScheme.BASIC)
       .withHeaders("Content-Type" -> MimeTypes.JSON)
       .withHeaders(headers: _*)
-      .withRequestTimeout(5.seconds.toMillis.toInt)
+      .withRequestTimeout(config.apiTimeout.seconds.toMillis.toInt)
       .post(content)
       .map {
       // we are not really interested in response, just log it
