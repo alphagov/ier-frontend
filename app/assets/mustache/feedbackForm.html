@@ -2,14 +2,12 @@
     <h1>{{pageTitle}}</h1>
 </header>
 <form action="{{postUrl}}" method="POST">
-    <h3>{{messages.feedback_preamble_h2}}</h3>
-
     <p>
         {{messages.feedback_description_p1}}
     </p>
 
-    <p>
-        {{messages.feedback_warning_p2}}
+    <p class="">
+        <strong>{{messages.feedback_description_p2}}</strong>
     </p>
 
     <label for="{{feedbackText.id}}" class="visuallyhidden">
@@ -29,7 +27,7 @@
     <h3>{{messages.feedback_contact_h2}}</h3>
     <p>{{messages.feedback_contact_descr_p1}}</p>
 
-    <label for="{{contactName.id}}">Your name</label>
+    <label for="{{contactName.id}}">{{messages.feedback_contact_name_label}}</label>
     <input name="{{contactName.name}}"
            id="{{contactName.id}}"
            type="text"
@@ -37,13 +35,12 @@
            class="text long">
 
 
-    <label for="{{contactEmail.id}}">Your email address</label>
+    <label for="{{contactEmail.id}}">{{messages.feedback_contact_email_label}}</label>
     <input name="{{contactEmail.name}}"
            id="{{contactEmail.id}}"
            type="text"
            maxlength="{{maxFeedbackEmailLength}}"
            class="text long">
-    <p class="example">We'll only use this to reply to your message.</p>
 
     <button type="submit" class="button next" id="continue">{{messages.feedback_submit}}</button>
 

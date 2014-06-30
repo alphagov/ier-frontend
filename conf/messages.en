@@ -532,17 +532,16 @@ exit_under18_tryToFindDOBOut=Try to find out your date of birth. If you have tro
 #
 # Feedback page
 #
-feedback_title=Feedback form
-feedback_preamble_h2=Can you provide more detail?
-feedback_description_p1=For example if you were searching for something, what did you type\
- into the search box?
-feedback_warning_p2=Please don’t include any personal or financial information,\
- for example your National Insurance or credit card numbers.
+feedback_title=Give feedback
+feedback_description_p1=Please don’t include any personal or financial information - for example your National Insurance number.
+feedback_description_p2=What went wrong, if anything? What went well? How could we improve this service?
 feedback_detail_label=Detail
 feedback_detail_hint=(Limit is {0} characters)
 feedback_contact_h2=Do you want a reply?
-feedback_contact_descr_p1=If you’d like us to get back to you, please leave your details below.
-feedback_submit=Submit
+feedback_contact_descr_p1=Leave your details below if you'd like a response.
+feedback_contact_name_label=Name
+feedback_contact_email_label=Email address
+feedback_submit=Send
 
 feedback_thankYou_title=Thank you for your feedback
 feedback_thankYou_p1=If you select continue you will be transferred to the last edited step
