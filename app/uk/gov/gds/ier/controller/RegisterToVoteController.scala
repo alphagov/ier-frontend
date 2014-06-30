@@ -9,7 +9,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.guice.{WithRemoteAssets, WithEncryption, WithConfig}
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.mustache.GovukMustache
+import uk.gov.gds.ier.mustache.{InheritedGovukMustache, GovukMustache}
 import uk.gov.gds.ier.assets.RemoteAssets
 
 class RegisterToVoteController @Inject() (
@@ -24,7 +24,12 @@ class RegisterToVoteController @Inject() (
   with Logging
   with SessionCleaner
   with WithEncryption
-  with GovukMustache {
+  with GovukMustache
+  with InheritedGovukMustache {
+
+  def templateTest = Action { implicit request =>
+    Ok(TestPage())
+  }
 
   def index = Action {
     Redirect(config.ordinaryStartUrl)

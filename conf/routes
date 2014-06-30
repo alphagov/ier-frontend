@@ -3,6 +3,7 @@
 # ~~~~
 
 # Home page
+GET         /template-test                                               controllers.RegisterToVoteController.templateTest
 GET         /                                                            controllers.RegisterToVoteController.redirectToOrdinary
 GET         /register-to-vote                                            controllers.RegisterToVoteController.registerToVote
 GET         /register-to-vote/start                                      controllers.RegisterToVoteController.registerToVoteStart
