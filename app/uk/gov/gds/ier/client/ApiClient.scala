@@ -101,6 +101,7 @@ trait ApiClient extends Logging {
       .withAuth(username, password, AuthScheme.BASIC)
       .withHeaders("Content-Type" -> MimeTypes.JSON)
       .withHeaders(headers: _*)
+      .withRequestTimeout(config.apiTimeout.seconds.toMillis.toInt)
       .post(content)
       .map {
       // we are not really interested in response, just log it
@@ -113,6 +114,14 @@ trait ApiClient extends Logging {
             s"with error status code ${response.status}")
       }
     }
+    .recover {
+      case exception => {
+        logger.error(s"apiClient.post url: $url request failed " +
+          s"with exception ${exception}")
+        // this also handles timeouts
+      }
+    }
+
     logger.info(s"apiClient.post url: $url request submitted")
   }
 
