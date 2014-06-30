@@ -164,12 +164,10 @@ ordinary_address_postcode_title=Beth yw eich cyfeiriad?
 ordinary_address_postcode_enterPostcodeWhenRegistering_p=Nodwch god post y cyfeiriad ble rydych chi’n cofrestru i bleidleisio.
 ordinary_address_postcode_postcode_label=Cod post
 
-ordinary_address_postcode_dontKnowMyPostcode_h2=Nid wyf yn gwybod fy nghod post
-ordinary_address_postcode_dontKnowMyPostcode_dtt=Nid wyf yn gwybod fy nghod post
+ordinary_address_postcode_dontKnowMyPostcode_h2=Dydw i ddim yn gwybod pa god post i’w ddefnyddio
+ordinary_address_postcode_dontKnowMyPostcode_dtt=Dydw i ddim yn gwybod pa god post i’w ddefnyddio
 ordinary_address_postcode_tryWebSearchEngine_p=Os nad ydych yn gallu gweld eich cod post ar lythyr neu\
  ddogfen arall, rhowch eich cyfeiriad mewn peiriant chwilio ar-lein.
-
-ordinary_address_postcode_dontKnowWhatAddressToUse_h3=Nid wyf yn gwybod pa gyfeiriad i’w ddefnyddio
 
 ordinary_address_postcode_ifYouHaveMoreThanOneAddress_h4=Os oes gennych fwy nag un cyfeiriad
 ordinary_address_postcode_itIsPossible_p=Weithiau mae’n bosib cofrestru dau gyfeiriad\
