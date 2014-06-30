@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.test
 
 import play.api.test.FakeRequest
-import play.api.test.FakeApplication
 import play.api.test.Helpers
 import org.joda.time.DateTime
 import uk.gov.gds.ier.model._
@@ -17,7 +16,6 @@ import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
-import play.api.mvc.{Headers, RequestHeader}
 
 trait TestHelpers
   extends CustomMatchers
@@ -194,5 +192,4 @@ trait TestHelpers
       test
     }
   }
-
 }
