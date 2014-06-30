@@ -4,5 +4,5 @@ import play.api.i18n.Lang
 
 trait MessagesForMustache {
   val lang: Lang
-  lazy val messages = Messages.messagesForLang(lang)
+  val messages = Messages.messagesForLang(lang)
 }

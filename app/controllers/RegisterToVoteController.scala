@@ -5,8 +5,6 @@ import uk.gov.gds.ier.controller.{RegisterToVoteController => GuicedController}
 
 object RegisterToVoteController extends DelegatingController[GuicedController] {
 
-  def templateTest = delegate.templateTest
-
   def redirectToOrdinary = delegate.index
   def registerToVote = delegate.registerToVote
   def registerToVoteStart = delegate.registerToVoteStart
