@@ -26,13 +26,13 @@ trait InheritedGovukMustache extends StepMustache {
 
   trait GovukInheritedTemplate extends MessagesForMustache {
     val lang = Language.english
-    val htmlLang = "en"
+    val htmlLang = lang.code
     val pageTitle = ""
     val contentClasses = ""
     val sourcePath = ""
 
     val headerClass = "with-proposition"
-    val messagesPath = remoteAssets.messages("en").url
+    val messagesPath = remoteAssets.messages(htmlLang).url
     val assetPath = remoteAssets.templatePath
     val appAssetPath = remoteAssets.assetsPath
     val startUrl = config.ordinaryStartUrl
