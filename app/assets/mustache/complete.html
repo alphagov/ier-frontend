@@ -15,8 +15,12 @@
   <h2>{{messages.complete_whatHappensNext_h2}}</h2>
   <p>{{messages.complete_sentApplicationTo_p}} <strong>{{authorityName}}</strong>.</p>
   <p>{{messages.complete_contactYouTo_p}}</p>
-  <p>{{messages.complete_questionsContact_p}}
-  {{#authorityUrl}}<a href="{{.}}">{{/authorityUrl}}{{authorityName}}{{#authorityUrl}}</a>{{/authorityUrl}}.</p>
+  <p>
+    {{messages.complete_questionsContact_p1}}
+    {{#authorityUrl}}<a href="{{.}}">{{/authorityUrl}}{{authorityName}}{{#authorityUrl}}</a>{{/authorityUrl}}
+    {{messages.complete_questionsContact_p2}}.
+  </p>
+
   {{#hasOtherAddress}}
   <p>{{messages.complete_ifYouAreNotAlreadyRegistered1_p}}
   <a href="{{backToStartUrl}}">{{messages.complete_ifYouAreNotAlreadyRegistered2_p}}</a>.</p>

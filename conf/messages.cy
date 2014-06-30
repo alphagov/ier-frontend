@@ -459,15 +459,16 @@ complete_emailConfirmation=Rydym wedi anfon e-bost cadarnhad atoch
 complete_whatHappensNext_h2=Beth sy'n digwydd nesaf?
 complete_sentApplicationTo_p=Rydyn ni wedi anfon eich cais i
 complete_contactYouTo_p=Bydd rhywun yn cysylltu â chi - naill ai i gadarnhau'ch cofrestriad, neu i ofyn am ragor o wybodaeth.
-complete_questionsContact_p=Os oes gennych unrhyw gwestiynau am eich cais, cysylltwch â
+complete_questionsContact_p1=Cysylltwch â
+complete_questionsContact_p2=os oes gennych unrhyw gwestiynau am eich cais
 complete_ifYouAreNotAlreadyRegistered1_p=Os nad ydych wedi cofrestru yn barod yn eich ail gyfeiriad, gallwch
 complete_ifYouAreNotAlreadyRegistered2_p=wneud cais arall
 complete_moreAboutVoting_a=Mwy o wybodaeth am bleidleisio yn y DU
 complete_takeOurSurvey_a=Beth oedd eich barn am y gwasanaeth hwn?
 complete_takeOurSurvey_p= (yn cymryd 30 eiliad)
 
-complete_electoralRegistrationOffice=swyddfa cofrestru etholiadol.
-complete_unspecificElectoralRegistrationOffice=eich swyddfa gofrestru etholiadol leol
+complete_electoralRegistrationOffice=Swyddfa Gofrestru Etholiadol
+complete_unspecificElectoralRegistrationOffice=eich Swyddfa Gofrestru Etholiadol leol
 
 
 # JavaScript: general
