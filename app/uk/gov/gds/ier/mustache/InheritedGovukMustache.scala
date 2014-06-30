@@ -26,7 +26,7 @@ trait InheritedGovukMustache extends StepMustache {
 
   trait GovukInheritedTemplate extends MessagesForMustache {
     val lang = Language.english
-    val htmlLang = lang.code
+    def htmlLang = lang.code
     val pageTitle = ""
     val contentClasses = ""
     val sourcePath = ""
