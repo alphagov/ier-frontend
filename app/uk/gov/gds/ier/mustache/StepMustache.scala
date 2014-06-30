@@ -107,11 +107,11 @@ trait StepMustache extends MustacheModel {
   ) extends Mustachio("template/propositionHeader")
 
   case class StepBodyEnd(
-      assetPath: String = remoteAssets.assetsPath,
+      appAssetPath: String = remoteAssets.assetsPath,
       messagesPath: String = remoteAssets.messages("en").url
   ) extends Mustachio("template/stepBodyEnd")
 
   case class Head (
-      assetPath: String = remoteAssets.assetsPath
+      appAssetPath: String = remoteAssets.assetsPath
   ) extends Mustachio("template/head")
 }
