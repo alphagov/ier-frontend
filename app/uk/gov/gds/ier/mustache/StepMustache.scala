@@ -44,20 +44,6 @@ trait StepMustache extends MustacheModel {
     )
   }
 
-  abstract class GovukPage(
-      templatePath: String,
-      pageTitle: String,
-      contentClasses: String = "",
-      sourcePath: String = ""
-  ) extends Mustachio(templatePath) {
-    override def render() = GovukTemplate(
-      mainContent = super.render(),
-      pageTitle = pageTitle,
-      contentClasses = contentClasses,
-      footerSupportLinks = FooterLinks(sourcePath = sourcePath)
-    )
-  }
-
   case class GovukTemplate(
       htmlLang: String = "en",
       topOfPage: String = "",

@@ -12,7 +12,7 @@ trait MustacheRendering[T] extends StepMustache with InheritedGovukMustache {
 
   case class CheapHackInheritanceIntoSteps (
       mainContent: Html,
-      lang: Lang,
+      override val lang: Lang,
       override val htmlLang: String,
       override val pageTitle: String,
       override val contentClasses: String,

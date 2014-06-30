@@ -4,7 +4,7 @@ import controllers.routes.RegisterToVoteController
 import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
 import play.api.templates.Html
 
-trait GovukMustache extends StepMustache {
+trait GovukMustache extends InheritedGovukMustache {
   self: WithRemoteAssets
     with WithConfig =>
 
@@ -74,16 +74,8 @@ trait GovukMustache extends StepMustache {
       "Register to Vote"
     ) with GovukUrls
 
-    case class PrivacyPage() extends GovukPage(
-      "govuk/privacy",
-      "Register to vote: privacy",
-      "article"
-    )
+    case class PrivacyPage() extends ArticleMustachio("govuk/privacy")
 
-    case class CookiePage() extends GovukPage(
-      "govuk/cookies",
-      "Cookies",
-      "article"
-    )
+    case class CookiePage() extends ArticleMustachio("govuk/cookies")
   }
 }

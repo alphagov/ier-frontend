@@ -11,15 +11,21 @@ trait InheritedGovukMustache extends StepMustache {
       override val pageTitle:String = "This is an inherited template test - Register to Vote",
       override val contentClasses:String = "article"
   ) (
-      implicit val lang:Lang = Language.english
+      implicit override val lang:Lang = Language.english
   ) extends InheritedMustachio("test/testpage")
+
+  abstract class ArticleMustachio(
+      template: String
+  ) extends InheritedMustachio(template) {
+    override val contentClasses = "article"
+  }
 
   abstract class InheritedMustachio(
       template: String
   ) extends Mustachio(template) with GovukInheritedTemplate
 
   trait GovukInheritedTemplate extends MessagesForMustache {
-
+    val lang = Language.english
     val htmlLang = "en"
     val pageTitle = ""
     val contentClasses = ""
