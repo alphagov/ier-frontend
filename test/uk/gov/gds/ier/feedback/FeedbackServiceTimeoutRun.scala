@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.feedback
 
 import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{IntegrationTest, TestHelpers}
 import org.scalatest.mock.MockitoSugar
 import uk.gov.gds.ier.config.Config
 import org.mockito.Mockito._
@@ -10,7 +10,6 @@ import play.api.test.WithServer
 import scala.concurrent.duration._
 import uk.gov.gds.ier.logging.Logging
 import play.api.mvc.{Headers, RequestHeader, Request}
-
 
 class FeedbackServiceTimeoutRun
   extends FlatSpec
@@ -51,7 +50,7 @@ class FeedbackServiceTimeoutRun
   when(mockedRequest.headers).thenReturn(dummyHeader.headers)
 
   behavior of "FeedbackService#submit"
-  it should "timeout" in new WithServer(app = fakeZendeskApp, port = 5743) {
+  it should "timeout" taggedAs(IntegrationTest) in new WithServer(app = fakeZendeskApp, port = 5743) {
     val request = FeedbackRequest(
       comment = "Test test test",
       contactName = Some("Foo Bar"),
