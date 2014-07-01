@@ -38,16 +38,17 @@ trait ContactForms extends ContactCrownConstraints with PostalOrProxyVoteForms {
   val contactForm = ErrorTransformForm(
     mapping(
       keys.contact.key -> optional(contactMapping),
-      keys.postalOrProxyVote.key -> optional(postalOrProxyVoteMapping)
+      keys.postalOrProxyVote.deliveryMethod.emailAddress.key -> optional(text)
     ) (
-      (contact, postalVote) => InprogressCrown(
-        postalOrProxyVote = postalVote,
-        contact = contact
+      (contact, email) => InprogressCrown(
+        contact = contact.map( c => c.copy(
+          email = c.email orElse email.map(_ => ContactDetail(false, email))
+        ))
       )
     ) (
       inprogress => Some(
         inprogress.contact,
-        inprogress.postalOrProxyVote
+        inprogress.postalOrProxyVote.flatMap(_.deliveryMethod.flatMap(_.emailAddress))
       )
     ).verifying (atLeastOneOptionSelected)
   )
