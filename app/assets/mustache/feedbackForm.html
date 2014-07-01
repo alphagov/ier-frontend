@@ -1,5 +1,10 @@
+{{<template/govuk}}
+
+{{$pageTitle}}{{messages.feedback_title}}{{/pageTitle}}
+
+{{$main}}
 <header>
-    <h1>{{pageTitle}}</h1>
+    <h1>{{messages.feedback_title}}</h1>
 </header>
 <form action="{{postUrl}}" method="POST">
     <p>
@@ -45,3 +50,6 @@
     <button type="submit" class="button next" id="continue">{{messages.feedback_submit}}</button>
 
 </form>
+{{/main}}
+
+{{/template/govuk}}

@@ -1,8 +1,18 @@
+{{<template/govuk}}
+
+{{$pageTitle}}{{messages.feedback_thankYou_title}}{{/pageTitle}}
+
+{{$main}}
 <header>
     <h1>{{pageTitle}}</h1>
 </header>
 <article>
     <p>
-        <a class="call-to-action" href="{{sourcePath}}" id="continue">{{messages.feedback_thankYou_exit_button}}</a>
+        <a class="call-to-action" href="{{sourcePath}}" id="continue">
+            {{messages.feedback_thankYou_exit_button}}
+        </a>
     </p>
 </article>
+{{/main}}
+
+{{/template/govuk}}
