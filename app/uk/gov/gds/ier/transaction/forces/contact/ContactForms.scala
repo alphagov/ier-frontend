@@ -6,10 +6,9 @@ import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.ContactConstraints
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.transaction.forces.applicationFormVote.PostalOrProxyVoteForms
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
-trait ContactForms extends ContactForcesConstraints with PostalOrProxyVoteForms {
+trait ContactForms extends ContactForcesConstraints {
   self:  FormKeys
     with ErrorMessages
     with WithSerialiser =>
@@ -34,20 +33,21 @@ trait ContactForms extends ContactForcesConstraints with PostalOrProxyVoteForms 
   ).verifying (emailIsValid)
 
   val contactForm = ErrorTransformForm(
-		  mapping(
-			      keys.contact.key -> optional(contactMapping),
-			      keys.postalOrProxyVote.key -> optional(postalOrProxyVoteMapping)
-			    ) (
-			      (contact, postalVote) => InprogressForces(
-			        postalOrProxyVote = postalVote,
-			        contact = contact
-			      )
-			    ) (
-			      inprogress => Some(
-			        inprogress.contact,
-			        inprogress.postalOrProxyVote
-			      )
-			    ).verifying (atLeastOneOptionSelected)
+    mapping(
+      keys.contact.key -> optional(contactMapping),
+      keys.postalOrProxyVote.deliveryMethod.emailAddress.key -> optional(text)
+    ) (
+      (contact, email) => InprogressForces(
+        contact = contact.map( c => c.copy(
+          email = c.email orElse email.map(_ => ContactDetail(false, email))
+        ))
+      )
+    ) (
+      inprogress => Some((
+        inprogress.contact,
+        inprogress.postalOrProxyVote.flatMap(_.deliveryMethod.flatMap(_.emailAddress))
+      ))
+    ).verifying (atLeastOneOptionSelected)
   )
 }
 

@@ -25,3 +25,25 @@ case class PostalOrProxyVote (
     voteMap ++ emailMap
   }
 }
+
+object PostalOrProxyVote extends ModelMapping {
+  import playMappings._ 
+
+  def mapping = playMappings.mapping(
+    keys.voteType.key -> text,
+    keys.optIn.key -> optional(boolean),
+    keys.deliveryMethod.key -> optional(PostalVoteDeliveryMethod.mapping)
+  ) (
+    (voteType, postalVoteOption, deliveryMethod) => PostalOrProxyVote(
+      WaysToVoteType.parse(voteType),
+      postalVoteOption,
+      deliveryMethod
+    )
+  ) (
+    postalVote => Some(
+      postalVote.typeVote.name,
+      postalVote.postalVoteOption,
+      postalVote.deliveryMethod
+    )
+  )
+}
