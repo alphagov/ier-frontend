@@ -37,7 +37,7 @@ GET         /register-to-vote/error/notFound                             control
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/messages.js                                          controllers.MessagesController.all
 GET         /assets/:lang/messages.js                                    controllers.MessagesController.forLang(lang:String)
-GET         /assets/template/*file                                       controllers.Template.at(path="/app/assets/mustache/govuk_template_mustache/assets", file)
+GET         /assets/template/*file                                       controllers.Template.at(path="/app/assets/mustache/govuk_template_inheritance/assets", file)
 GET         /assets/toolkit/*file                                        controllers.GovukToolkit.at(path="/app/assets/govuk_frontend_toolkit", file)
 GET         /assets/*file                                                controllers.Assets.at(path="/public", file)
 

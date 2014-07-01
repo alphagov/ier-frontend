@@ -77,7 +77,7 @@ object Mustache {
     // Mustache settings
     mustacheEntryPoints <<= (sourceDirectory in Compile)( base => {
       base / "assets" / "mustache" +++
-      base / "assets" / "mustache" / "govuk_template_mustache" / "views" / "layouts"
+      base / "assets" / "mustache" / "govuk_template_inheritance" / "views" / "layouts"
     } ** "*.html"),
     mustacheOptions := Seq.empty[String],
     resourceGenerators in Compile <+= MustacheFileCompiler
@@ -100,10 +100,10 @@ object GovukTemplatePlay extends Plugin {
   }
 
   val playSettings = Seq(
-    templateKey <<= baseDirectory { _ / "app" / "assets" / "mustache" / "govuk_template_mustache" }(Seq(_)),
+    templateKey <<= baseDirectory { _ / "app" / "assets" / "mustache" / "govuk_template_inheritance" }(Seq(_)),
     templateKey <+= baseDirectory { _ / "app" / "assets" / "govuk_template_play" },
     sourceGenerators in Compile <+= (state, templateKey, sourceManaged in Compile, templatesTypes, templatesImport) map ScalaTemplates,
-    playAssetsDirectories <+= baseDirectory { _ / "app" / "assets" / "mustache" / "govuk_template_mustache" / "assets" },
+    playAssetsDirectories <+= baseDirectory { _ / "app" / "assets" / "mustache" / "govuk_template_inheritance" / "assets" },
     playAssetsDirectories <+= baseDirectory { _ / "app" / "assets" / "govuk_template_play" / "assets" },
     updateTemplateTask
   )
