@@ -1,6 +1,6 @@
 package uk.gov.gds.ier
 
-import uk.gov.gds.guice.{DependencyInjectionProvider, GuiceContainer}
+import uk.gov.gds.ier.guice.{DependencyInjectionProvider, GuiceContainer}
 import com.google.inject.{Binder, AbstractModule}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.mustache.ErrorPageMustache
@@ -28,12 +28,12 @@ trait DynamicGlobal
 
   override def onStart(app: Application) {
     super.onStart(app)
-    GuiceContainer.initialize(List(new AbstractModule() {
-      @Override
-      protected def configure() {
-        bindings(binder())
-      }
-    }))
+    GuiceContainer.initialize(bindings)
+  }
+
+  override def onStop(app: Application) {
+    GuiceContainer.destroy()
+    super.onStop(app)
   }
 
   override def onRouteRequest(request: RequestHeader): Option[Handler] = {

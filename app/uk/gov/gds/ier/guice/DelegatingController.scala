@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.guice
 
 import play.api.mvc.Controller
-import uk.gov.gds.guice.DependencyInjectionProvider
 
 /**
  * This object is the play controller that handles the incoming requests for the licence application process.

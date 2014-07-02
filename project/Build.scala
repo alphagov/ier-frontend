@@ -17,7 +17,7 @@ object ApplicationBuild extends IERBuild {
   val appVersion      = "1.0-SNAPSHOT"
 
   val appDependencies = Seq(
-    "uk.gov.gds" %% "govuk-guice-utils" % "0.2-SNAPSHOT",
+    "com.google.inject" % "guice" % "3.0",
     "uk.gov.gds" %% "gds-scala-utils" % "0.7.6-SNAPSHOT" exclude("com.google.code.findbugs", "jsr305"),
     "joda-time" % "joda-time" % "2.1",
     anorm,
