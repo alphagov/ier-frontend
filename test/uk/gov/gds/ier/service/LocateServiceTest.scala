@@ -107,7 +107,7 @@ class LocateServiceTest extends FlatSpec with Matchers {
               "name": "Fakeston Council",
               "postcode": "AB12 3CD",
               "country": "England",
-              "gssCode": "abc"
+              "gssCode": "A12345678"
             }
           """, 0)
         } else {
@@ -118,7 +118,7 @@ class LocateServiceTest extends FlatSpec with Matchers {
     val service = new LocateService(new FakeApiClient, new JsonSerialiser, new MockConfig)
     val gssCode = service.lookupGssCode("AB123CD")
 
-    gssCode should be(Some("abc"))
+    gssCode should be(Some("A12345678"))
   }
 
   behavior of "LocateService.beaconFire"

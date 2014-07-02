@@ -60,7 +60,7 @@ class LocalAuthorityMustacheTests
     val lookupPage = LocalAuthorityLookupPage(
       postcode = Field(id = "postcode_id", name = "postcode_name", classes = "postcode_classes",
         value = "postcode_value"),
-      sourcePath = Some("/sourcePath"),
+      sourcePath = "/sourcePath",
       postUrl = "/postUrl"
     )
     when(remoteAssets.messages(any[String])).thenReturn(Call("GET", "/assests/messages"))

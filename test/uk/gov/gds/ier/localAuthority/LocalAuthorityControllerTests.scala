@@ -34,6 +34,7 @@ class LocalAuthorityControllerTests
 
   val stubConfig = new Config {
 	  override def locateUrl = "http://locateurl"
+	  override def locateAuthorityUrl = "http://localAuthorityUrl"
 	  override def locateApiAuthorizationToken = "token"
 	  override def apiTimeout = 10
   }
