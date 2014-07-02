@@ -642,6 +642,310 @@ describe("OptionalControl", function () {
   });
 });
 
+describe("OtherCountryFields", function () {
+  describe("BindEvents method", function () {
+    it("Should bind the handleClicks method to all click events on the container element", function () {
+      var otherCountryFieldsMock = {
+            '$container' : $('<div />'),
+            'handleClicks' : function () {}
+          },
+          callback = null;
+
+      spyOn($.fn, 'on').and.callFake(function (evt, func) {
+        if ((this === otherCountryFieldsMock.$container) && (evt === 'click')) {
+          callback = func;
+        }
+      });
+      spyOn(otherCountryFieldsMock, 'handleClicks');
+      GOVUK.registerToVote.OtherCountryFields.prototype.bindEvents.call(otherCountryFieldsMock);
+      callback();
+      expect(callback).not.toEqual(null);
+      expect(otherCountryFieldsMock.handleClicks).toHaveBeenCalled();
+    });
+  });
+
+  describe("HandleClicks method", function () {
+    var eventMock;
+
+    beforeEach(function () {
+      eventMock = {
+        'type' : 'click'
+      };
+    });
+
+    it("Should add the results of makeCountryHTML to the container element if the .duplicate-control link was clicked", function () {
+      eventMock.target = $('<a href="" class="duplicate-control">Add another</a>')[0];
+
+      spyOn(GOVUK.registerToVote.OtherCountryFields.prototype, 'makeCountryHTML').and.callFake(
+        function () {
+          return '<div id="added-country" />';
+        }
+      );
+      GOVUK.registerToVote.OtherCountryFields.prototype.handleClicks(eventMock);
+    });
+
+    it("Should call the remove method if the .remove-field link was clicked", function () {
+      eventMock.target = $('<a href="" class="remove-field">Remove</a>')[0];
+
+      spyOn(GOVUK.registerToVote.OtherCountryFields.prototype, 'removeCountry');
+      GOVUK.registerToVote.OtherCountryFields.prototype.handleClicks(eventMock);
+      expect(GOVUK.registerToVote.OtherCountryFields.prototype.removeCountry).toHaveBeenCalled();
+    });
+  });
+
+  describe("UpdateCountryValues method", function () {
+    it("Should update the values of the stored countries to match those of the country elements in the document", function () {
+      var $countries = $(
+            '<div class="added-country">' +
+              '<input type="text" id="country-1" value="Belgium" />' + 
+            '</div>' +
+            '<div class="added-country">' +
+              '<input type="text" id="country-2" value="France" />' + 
+            '</div>' +
+            '<div class="added-country">' +
+              '<input type="text" id="country-3" value="Sweden" />' +
+            '</div>'
+          ),
+          otherCountryFieldsMock = {
+            'countries' : [ 'Germany', 'France', 'Sweden' ],
+            '$container' : $('<div class="add-countries" />')
+          };
+
+      otherCountryFieldsMock.$container.append($countries);
+      $(document.body).append(otherCountryFieldsMock.$container);
+      GOVUK.registerToVote.OtherCountryFields.prototype.updateCountryValues.call(otherCountryFieldsMock);
+      expect(otherCountryFieldsMock.countries[0]).toEqual('Belgium');
+      otherCountryFieldsMock.$container.remove();
+    });
+  });
+
+  describe("RemoveCountryValue method", function () {
+    it("Should update the values of the stored countries so the one sent as a parameter is removed", function () {
+      var otherCountryFieldsMock = {
+            'countries' : [ 'Germany', 'France', 'Sweden' ]
+          };
+
+      $(document.body).append(otherCountryFieldsMock.$countries);
+      GOVUK.registerToVote.OtherCountryFields.prototype.removeCountryValue.call(otherCountryFieldsMock, 1);
+      expect(otherCountryFieldsMock.countries).toEqual(['Germany', 'Sweden']);
+    });
+  });
+
+  describe("GetFieldId method", function () {
+    it("Should return the correct format of id", function () {
+      var id = GOVUK.registerToVote.OtherCountryFields.prototype.getFieldId(1);
+
+      expect(id).toEqual('nationality_otherCountries[1]');
+    });
+  });
+
+  describe("GetFieldName method", function () {
+    it("Should return the correct format of name", function () {
+      var name = GOVUK.registerToVote.OtherCountryFields.prototype.getFieldName(1);
+
+      expect(name).toEqual('nationality.otherCountries[1]');
+    });
+  });
+
+  describe("GetValidationName method", function () {
+    it("Should return the correct format of validation name", function () {
+      var id = GOVUK.registerToVote.OtherCountryFields.prototype.getValidationName(1);
+
+      expect(id).toEqual('added-country-1');
+    });
+  });
+
+  describe("RemoveEmptyCountry method", function () {
+    var $filledCountry = $(
+          '<div class="added-country">' +
+            '<input type="text" value="Belgium" />' +
+          '</div>'
+        ),
+        $emptyCountry = $(
+          '<div class="added-country">' +
+            '<input type="text" value="" />' +
+          '</div>'
+        );
+
+    it("Should remove the country element from the document if its textbox is empty", function () {
+      $(document.body).append($emptyCountry);
+
+      expect($('.added-country').length).toEqual(1);
+      GOVUK.registerToVote.OtherCountryFields.prototype.removeEmptyCountry($emptyCountry);
+      expect($('.added-country').length).toEqual(0);
+    });
+
+    it("Should leave the country element in the document if its textbox is not empty", function () {
+      $(document.body).append($filledCountry);
+
+      expect($('.added-country').length).toEqual(1);
+      GOVUK.registerToVote.OtherCountryFields.prototype.removeEmptyCountry($filledCountry);
+      expect($('.added-country').length).toEqual(1);
+
+      $filledCountry.remove();
+    });
+
+    it("Should return true if the country element has an empty textbox", function () {
+      var result;
+
+      $(document.body).append($emptyCountry);
+      result = GOVUK.registerToVote.OtherCountryFields.prototype.removeEmptyCountry($emptyCountry);
+      expect(result).toBe(true);
+    });
+
+    it("Should return false if the country element has an filled textbox", function () {
+      var result;
+
+      $(document.body).append($filledCountry);
+      result = GOVUK.registerToVote.OtherCountryFields.prototype.removeEmptyCountry($filledCountry);
+      expect(result).toBe(false);
+
+      $filledCountry.remove();
+    });
+  });
+
+  describe("MakeCountryHTML method", function () {
+    var otherCountriesMock = {
+          'getFieldId' : GOVUK.registerToVote.OtherCountryFields.prototype.getFieldId,
+          'getFieldName' : GOVUK.registerToVote.OtherCountryFields.prototype.getFieldName,
+          'getValidationName' : GOVUK.registerToVote.OtherCountryFields.prototype.getValidationName,
+          'templates' : GOVUK.registerToVote.OtherCountryFields.prototype.templates,
+          'countries' : [{}]
+        },
+        expectedHTMLTemplate = '<div class="added-country">' +
+                                 '<label for="{{id}}" class="country-label" >' +
+                                   'Country name' +
+                                 '</label>' +
+                                 '<a href="#" class="remove-field" data-field="{{id}}">' +
+                                   'Remove <span class="visuallyhidden">Country</span>' +
+                                 '</a>' +
+                                 '<div class="validation-wrapper">' +
+                                   '<input type="text" ' +
+                                          'id="{{id}}" ' +
+                                          'name="{{name}}" value="{{value}}" ' +
+                                          'autocomplete="off" class="text country-autocomplete long validate" ' +
+                                          'data-validation-name="{{data-validation-name}}" ' +
+                                          'data-validation-type="field" ' +
+                                          'data-validation-rules="nonEmpty validCountry">' +
+                                '</div>' +
+                              '</div>';
+
+    it("Should return the correct HTML for a new country when passed no parameters", function () {
+      var countryHTML,
+          expectedHTML;
+
+      expectedHTML = Mustache.render(expectedHTMLTemplate, {
+        'id' : otherCountriesMock.getFieldId(1),
+        'name' : otherCountriesMock.getFieldName(1),
+        'data-validation-name' : otherCountriesMock.getValidationName(1),
+        'value' : '' 
+      });
+      countryHTML = GOVUK.registerToVote.OtherCountryFields.prototype.makeCountryHTML.call(otherCountriesMock);
+      expect(countryHTML).toEqual(expectedHTML);
+    });
+
+    it("Should return the correct HTML for a new country when passed index and value parameters", function () {
+      var countryHTML,
+          expectedHTML;
+
+      expectedHTML = Mustache.render(expectedHTMLTemplate, {
+        'id' : otherCountriesMock.getFieldId(4),
+        'name' : otherCountriesMock.getFieldName(4),
+        'data-validation-name' : otherCountriesMock.getValidationName(4),
+        'value' : 'Belgium' 
+      });
+      countryHTML = GOVUK.registerToVote.OtherCountryFields.prototype.makeCountryHTML.call(otherCountriesMock, {
+        'idx' : 4,
+        'value' : 'Belgium'
+      });
+      expect(countryHTML).toEqual(expectedHTML);
+    });
+  });
+
+  describe("RemoveCountry method", function () {
+    var countryElementTemplate = '<div class="added-country">' +
+                                   '<label for="{{id}}" class="country-label" >' +
+                                       'Country name' +
+                                   '</label>' +
+                                   '<a href="#" class="remove-field" data-field="{{id}}">' +
+                                       'Remove <span class="visuallyhidden">Country</span>' +
+                                   '</a>' +
+                                   '<div class="validation-wrapper">' +
+                                     '<input type="text" id="{{id}}"' +
+                                            'name="{{name}}" value="{{value}}"' +
+                                            'autocomplete="off" class="text country-autocomplete long validate"' +
+                                            'data-validation-name="{{data-validation-name}}"' +
+                                            'data-validation-type="field"' +
+                                           'data-validation-rules="nonEmpty validCountry">' +
+                                   '</div>' +
+                                 '</div>',
+        otherCountriesMock = $.extend({}, GOVUK.registerToVote.OtherCountryFields.prototype),
+        $removeLink;
+
+    beforeEach(function () {
+      otherCountriesMock.countries = [];
+      otherCountriesMock.$addAnotherLink = $('<a class="duplicate-control" href="#">Add another country</a>');
+      otherCountriesMock.$container = $('<div id="add-countries" />');
+    });
+
+    afterEach(function () {
+      otherCountriesMock.$container.remove();
+    });
+
+    it("Should remove a single country element whose 'Remove' link is the parameter", function () {
+      var countryData = {
+            'id' : 'nationality_otherCountries[0]',
+            'name' : 'nationality_otherCountries[0]',
+            'data-validation-name' : 'added-country-0',
+            'value' : 'Belgium'
+          },
+          $countryElement = $(Mustache.render(countryElementTemplate, countryData));
+
+      $removeLink = $countryElement.find('.remove-field');
+      otherCountriesMock.countries.push(countryData);
+      otherCountriesMock.$container.append($countryElement);
+      $(document.body).append(otherCountriesMock.$container);
+
+      expect($('.added-country').length).toEqual(1);
+      GOVUK.registerToVote.OtherCountryFields.prototype.removeCountry.call(otherCountriesMock, $removeLink);
+      expect($('.added-country').length).toEqual(0);
+    }); 
+
+    it("Should remove a country in the middle of the set and leave the set in the correct order", function () {
+      var countryNames = ['Belgium', 'France', 'Germany', 'Sweden'],
+          countryData,
+          countryHTML,
+          existingCountryValues,
+          idx;
+      
+      for (idx = 0; idx < 4; idx++) {
+        countryData = {
+          'id' : GOVUK.registerToVote.OtherCountryFields.prototype.getFieldId(idx),
+          'name' : GOVUK.registerToVote.OtherCountryFields.prototype.getFieldName(idx),
+          'data-validation-name' : GOVUK.registerToVote.OtherCountryFields.prototype.getValidationName(idx),
+          'value' : countryNames[idx]
+        };
+        countryHTML = Mustache.render(countryElementTemplate, countryData);
+        otherCountriesMock.$container.append(countryHTML);
+      }
+      $removeLink = otherCountriesMock.$container.find('.remove-field').eq(2);
+      $(document.body).append(otherCountriesMock.$container);
+
+      expect($('.added-country').length).toEqual(4);
+      existingCountryValues = $.map($('.added-country input:text'), function (elm, idx) {
+        return $(elm).val();
+      });
+      expect(existingCountryValues[2]).toEqual('Germany');
+      GOVUK.registerToVote.OtherCountryFields.prototype.removeCountry.call(otherCountriesMock, $removeLink);
+      expect($('.added-country').length).toEqual(3);
+      existingCountryValues = $.map($('.added-country input:text'), function (elm, idx) {
+        return $(elm).val();
+      });
+      expect(existingCountryValues).toEqual(['Belgium', 'France', 'Sweden']);
+    });
+  });
+});
+
 describe("MarkSelected", function () {
   describe("Creating an instance", function () {
     var $radioLabel,
