@@ -5,29 +5,27 @@ import org.scalatest.{Matchers, FlatSpec}
 import play.api.test._
 import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.complete.CompleteMustache
-import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
-import uk.gov.gds.ier.assets.RemoteAssets
-import uk.gov.gds.ier.config.Config
-import org.specs2.mock.Mockito
-import uk.gov.gds.ier.test.WithMockRemoteAssets
+import uk.gov.gds.ier.test.{WithMockConfig, WithMockRemoteAssets}
+import org.mockito.Mockito._
 import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
-
+import play.api.mvc.Call
 
 class CompleteTemplateTest
   extends FlatSpec
-  with CompleteMustache
-  with WithConfig
+  with WithMockConfig
   with WithMockRemoteAssets
-  with StepMustache
-  with Matchers
-  with Mockito {
+  with CompleteMustache
+  with Matchers {
 
-  val config = new Config()
+  when(config.ordinaryStartUrl).thenReturn("/register-to-vote")
+  when(remoteAssets.messages("en-US")).thenReturn(Call("GET", "/assets/messages/en"))
+  when(remoteAssets.templatePath).thenReturn("/assets/template")
+  when(remoteAssets.assetsPath).thenReturn("/assets")
 
   it should "properly render all properties from the model" in {
     running(FakeApplication()) {
-      val data = new Complete.CompletePage(
+
+      val mustache = new Complete.CompletePage(
         authority = Some(EroAuthorityDetails(
           name = "election authority 123",
           urls = List("http://authority123.gov.uk/contactUs"),
@@ -45,15 +43,15 @@ class CompleteTemplateTest
         showEmailConfirmation = true
       )
 
-      val html = Mustache.render("complete", data)
+      val html = mustache.render()
       val renderedOutput = html.toString
       val doc = Jsoup.parse(renderedOutput)
 
-      doc.select("a[href=" + data.authorityUrl.get + "]").size() should be(1)
-      doc.select("a[href=" + data.backToStartUrl + "]").size() should be(1)
+      doc.select("a[href=" + mustache.authorityUrl.get + "]").size() should be(1)
+      doc.select("a[href=" + mustache.backToStartUrl + "]").size() should be(1)
 
-      renderedOutput should include(data.refNumber.get)
-      renderedOutput should include(data.authorityName)
+      renderedOutput should include(mustache.refNumber.get)
+      renderedOutput should include(mustache.authorityName)
     }
   }
 }

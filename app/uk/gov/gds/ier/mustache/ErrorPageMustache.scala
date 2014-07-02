@@ -2,35 +2,16 @@ package uk.gov.gds.ier.mustache
 
 import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
 
-trait ErrorPageMustache extends StepMustache {
+trait ErrorPageMustache extends InheritedGovukMustache {
   self: WithRemoteAssets
     with WithConfig =>
 
   object ErrorPage {
-    abstract class ErrorMustache(
-        path: String,
-        title: String
-    ) extends GovukPage(path, title, "article")
 
-    case class ServerError() extends ErrorMustache (
-      "error/serverError",
-      "Oops, we've done something wrong"
-    )
+    case class ServerError() extends ArticleMustachio ("error/serverError")
 
-    case class NotFound(
-        url:String,
-        startPageUrl:String = config.ordinaryStartUrl
-    ) extends ErrorMustache (
-      "error/notFound",
-      "This isn't the page you were looking for"
-    )
+    case class NotFound(url: String) extends ArticleMustachio ("error/notFound")
 
-    case class Timeout(
-        timeout: Int,
-        startUrl: String = config.ordinaryStartUrl
-    ) extends ErrorMustache (
-      "error/timeout",
-      "Register to Vote - Sorry, your session has expired"
-    )
+    case class Timeout(timeout: Int) extends ArticleMustachio ("error/timeout")
   }
 }

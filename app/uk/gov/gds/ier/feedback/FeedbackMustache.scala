@@ -1,29 +1,26 @@
 package uk.gov.gds.ier.feedback
 
-import uk.gov.gds.ier.mustache.{MustacheModel, StepMustache}
+import uk.gov.gds.ier.mustache.{MustacheModel, InheritedGovukMustache}
 import uk.gov.gds.ier.guice.{WithConfig, WithRemoteAssets}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.langs.Messages
 
 trait FeedbackMustache
-  extends StepMustache
+  extends InheritedGovukMustache
   with MustacheModel {
     self: WithRemoteAssets
      with FeedbackForm
      with WithConfig =>
 
   case class ThankYouPage (
-      sourcePath: String = "",
-      pageTitle: String = Messages("feedback_thankYou_title")
+      override val sourcePath: String = ""
   ) (
-      implicit val lang: Lang
-  ) extends ArticlePage("feedbackThankYou")
-    with MessagesForMustache
+      implicit override val lang: Lang
+  ) extends ArticleMustachio("feedbackThankYou")
 
   private[this] implicit val progressForm = ErrorTransformForm(feedbackForm)
 
   case class FeedbackPage (
-      pageTitle: String = Messages("feedback_title"),
       postUrl: String,
       feedbackText: Field = TextField(
         key = keys.feedback.feedbackText
@@ -42,7 +39,6 @@ trait FeedbackMustache
         maxFeedbackCommentLength
       )
   ) (
-      implicit val lang: Lang
-  ) extends ArticlePage("feedbackForm")
-    with MessagesForMustache
+      implicit override val lang: Lang
+  ) extends ArticleMustachio("feedbackForm")
 }

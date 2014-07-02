@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.complete
 
-import uk.gov.gds.ier.mustache.{StepMustache, GovukMustache}
+import uk.gov.gds.ier.mustache.InheritedGovukMustache
 import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
 import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 import uk.gov.gds.ier.langs.Messages
@@ -14,8 +14,7 @@ trait CompleteMustache {
   val _remoteAssets = remoteAssets
 
   object Complete
-    extends StepMustache
-    with GovukMustache
+    extends InheritedGovukMustache
     with WithRemoteAssets
     with WithConfig {
 
@@ -28,7 +27,12 @@ trait CompleteMustache {
         hasOtherAddress: Boolean,
         backToStartUrl: String,
         showEmailConfirmation: Boolean
-    ) (implicit val lang : Lang) extends Mustachio("complete") with MessagesForMustache {
+    ) (
+        implicit override val lang: Lang
+    ) extends InheritedMustachio("complete") {
+
+      override val contentClasses = "complete"
+      override val pageTitle = Messages("complete_step_title")
 
       val authorityUrl = authority flatMap {
         auth => auth.urls.headOption
@@ -37,13 +41,6 @@ trait CompleteMustache {
       val authorityName = authority map {
         auth => auth.name + " " + Messages("complete_electoralRegistrationOffice")
       } getOrElse Messages("complete_unspecificElectoralRegistrationOffice")
-
-      override def render() = GovukTemplate(
-        htmlLang = lang.code,
-        mainContent = super.render(),
-        pageTitle = Messages("complete_step_title"),
-        contentClasses = "complete"
-      )
     }
   }
 }
