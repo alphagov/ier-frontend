@@ -32,7 +32,7 @@ trait InheritedGovukMustache extends StepMustache {
     val sourcePath = ""
 
     val headerClass = "with-proposition"
-    val messagesPath = remoteAssets.messages(htmlLang).url
+    def messagesPath = remoteAssets.messages(htmlLang).url
     val assetPath = remoteAssets.templatePath
     val appAssetPath = remoteAssets.assetsPath
     val startUrl = config.ordinaryStartUrl
