@@ -8,9 +8,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.logging.Logging
-import uk.gov.gds.ier.session.SessionKeysConstants._
-import uk.gov.gds.ier.session.{RequestHandling, ResultHandling, SessionToken, CustomizedSessionHandling}
-import scala.util.Try
+import uk.gov.gds.ier.session.{RequestHandling, ResultHandling}
 
 class CompleteStep @Inject() (
     val serialiser: JsonSerialiser,

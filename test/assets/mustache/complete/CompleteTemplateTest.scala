@@ -38,7 +38,7 @@ class CompleteTemplateTest
           addressLine4 = None,
           postcode = None
         )),
-        refNumber = Some("123457689013"),
+        refNumber = "123457689013",
         hasOtherAddress = true,
         backToStartUrl = "/register-to-vote/start",
         showEmailConfirmation = true
@@ -51,8 +51,8 @@ class CompleteTemplateTest
       doc.select("a[href=" + mustache.authorityUrl.get + "]").size() should be(1)
       doc.select("a[href=" + mustache.backToStartUrl + "]").size() should be(1)
 
-      renderedOutput should include(data.refNumber.get)
-      renderedOutput should include(data.authorityName)
+      renderedOutput should include(mustache.refNumber)
+      renderedOutput should include(mustache.authorityName)
     }
   }
 }
