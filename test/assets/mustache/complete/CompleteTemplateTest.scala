@@ -7,6 +7,7 @@ import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.complete.CompleteMustache
 import uk.gov.gds.ier.test.{WithMockConfig, WithMockRemoteAssets}
 import org.mockito.Mockito._
+import org.mockito.Matchers._
 import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 import play.api.mvc.Call
 
@@ -18,7 +19,7 @@ class CompleteTemplateTest
   with Matchers {
 
   when(config.ordinaryStartUrl).thenReturn("/register-to-vote")
-  when(remoteAssets.messages("en-US")).thenReturn(Call("GET", "/assets/messages/en"))
+  when(remoteAssets.messages(anyString())).thenReturn(Call("GET", "/assets/messages/en"))
   when(remoteAssets.templatePath).thenReturn("/assets/template")
   when(remoteAssets.assetsPath).thenReturn("/assets")
 
