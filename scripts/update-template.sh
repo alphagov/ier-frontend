@@ -28,6 +28,9 @@ function ensureDeleted() {
   if git submodule status "$submoduleName" >/dev/null 2>&1; then
     removeSubmodule "$submoduleName"
   fi
+  if [ -e "$submoduleName" ]; then
+    rm -r "$submoduleName"
+  fi
 }
 
 function checkSubmoduleExists() {
