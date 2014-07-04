@@ -13,7 +13,7 @@ import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 import controllers.step.ordinary.OpenRegisterController
-import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.assets.RemoteAssets
 
@@ -22,8 +22,9 @@ class PreviousAddressManualStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService,
-    val remoteAssets: RemoteAssets)
-  extends OrdinaryStep
+    val remoteAssets: RemoteAssets,
+    val ordinary: OrdinaryControllers
+) extends OrdinaryStep
   with PreviousAddressManualMustache
   with PreviousAddressForms {
 
@@ -37,7 +38,7 @@ class PreviousAddressManualStep @Inject() (
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
-    OpenRegisterController.openRegisterStep
+    ordinary.OpenRegisterStep
   }
 
   override val onSuccess = TransformApplication { currentState =>

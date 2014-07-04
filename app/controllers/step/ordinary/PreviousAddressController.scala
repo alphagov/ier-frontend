@@ -8,8 +8,6 @@ object PreviousAddressFirstController extends DelegatingController[PreviousAddre
   def post = delegate.post
   def editGet = delegate.editGet
   def editPost = delegate.editPost
-
-  def previousAddressFirstStep = delegate
 }
 
 object PreviousAddressPostcodeController extends DelegatingController[PreviousAddressPostcodeStep] {
@@ -17,8 +15,6 @@ object PreviousAddressPostcodeController extends DelegatingController[PreviousAd
   def post = delegate.post
   def editGet = delegate.editGet
   def editPost = delegate.editPost
-
-  def previousPostcodeAddressStep = delegate
 }
 
 object PreviousAddressSelectController extends DelegatingController[PreviousAddressSelectStep] {
@@ -26,8 +22,6 @@ object PreviousAddressSelectController extends DelegatingController[PreviousAddr
   def post = delegate.post
   def editGet = delegate.editGet
   def editPost = delegate.editPost
-
-  def previousAddressSelectStep = delegate
 }
 
 object PreviousAddressManualController extends DelegatingController[PreviousAddressManualStep] {
@@ -35,6 +29,4 @@ object PreviousAddressManualController extends DelegatingController[PreviousAddr
   def post = delegate.post
   def editGet = delegate.editGet
   def editPost = delegate.editPost
-
-  def previousAddressManualStep = delegate
 }

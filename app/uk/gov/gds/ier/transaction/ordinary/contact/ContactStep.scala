@@ -14,14 +14,15 @@ import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
-import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.assets.RemoteAssets
 
 class ContactStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val ordinary: OrdinaryControllers
 ) extends OrdinaryStep
   with ContactForms
   with ContactMustache {
@@ -36,6 +37,6 @@ class ContactStep @Inject ()(
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
-    ConfirmationController.confirmationStep
+    ordinary.ConfirmationStep
   }
 }

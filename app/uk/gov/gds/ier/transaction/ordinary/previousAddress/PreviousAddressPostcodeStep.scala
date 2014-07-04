@@ -11,7 +11,7 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{OrdinaryStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.assets.RemoteAssets
 
 class PreviousAddressPostcodeStep @Inject() (
@@ -19,8 +19,9 @@ class PreviousAddressPostcodeStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService,
-    val remoteAssets: RemoteAssets)
-  extends OrdinaryStep
+    val remoteAssets: RemoteAssets,
+    val ordinary: OrdinaryControllers
+) extends OrdinaryStep
   with PreviousAddressPostcodeMustache
   with PreviousAddressForms {
 
@@ -38,9 +39,9 @@ class PreviousAddressPostcodeStep @Inject() (
       _.previousAddress.exists(prevAddr => addressService.isNothernIreland(prevAddr.postcode)))
 
     if (isPreviousAddressNI) {
-      controllers.step.ordinary.OpenRegisterController.openRegisterStep
+      ordinary.OpenRegisterStep
     } else {
-      controllers.step.ordinary.PreviousAddressSelectController.previousAddressSelectStep
+      ordinary.PreviousAddressSelectStep
     }
   }
 

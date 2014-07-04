@@ -14,14 +14,15 @@ import controllers.step.ordinary.NationalityController
 import controllers.step.routes.CountryController
 import controllers.routes.ExitController
 import controllers.routes.RegisterToVoteController
-import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.assets.RemoteAssets
 
 class CountryStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config:Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val ordinary: OrdinaryControllers
 ) extends OrdinaryStep
   with CountryConstraints
   with CountryForms
@@ -42,7 +43,7 @@ class CountryStep @Inject ()(
       case Some(Country("Scotland", _)) => GoTo(ExitController.scotland)
       case Some(Country("British Islands", _)) => GoTo(ExitController.britishIslands)
       case Some(Country(_, true)) => GoTo(RegisterToVoteController.registerToVoteOverseasStart)
-      case _ => NationalityController.nationalityStep
+      case _ => ordinary.NationalityStep
     }
   }
 }

@@ -15,14 +15,15 @@ import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.PostalVote
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
-import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.assets.RemoteAssets
 
 class PostalVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val ordinary: OrdinaryControllers
 ) extends OrdinaryStep
   with PostalVoteForms
   with PostalVoteMustache {
@@ -47,7 +48,7 @@ class PostalVoteStep @Inject ()(
   override val onSuccess = resetPostalVote andThen GoToNextIncompleteStep()
 
   def nextStep(currentState: InprogressOrdinary) = {
-    ContactController.contactStep
+    ordinary.ContactStep
   }
 }
 

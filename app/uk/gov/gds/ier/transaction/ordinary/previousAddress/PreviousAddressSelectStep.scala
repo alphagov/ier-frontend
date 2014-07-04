@@ -16,7 +16,7 @@ import uk.gov.gds.ier.model.PossibleAddress
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 import uk.gov.gds.ier.model.PartialPreviousAddress
-import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.assets.RemoteAssets
 
 class PreviousAddressSelectStep @Inject() (
@@ -24,8 +24,9 @@ class PreviousAddressSelectStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService,
-    val remoteAssets: RemoteAssets)
-  extends OrdinaryStep
+    val remoteAssets: RemoteAssets,
+    val ordinary: OrdinaryControllers
+) extends OrdinaryStep
   with PreviousAddressSelectMustache
   with PreviousAddressForms {
 
@@ -39,7 +40,7 @@ class PreviousAddressSelectStep @Inject() (
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
-    OpenRegisterController.openRegisterStep
+    ordinary.OpenRegisterStep
   }
 
   override val onSuccess = TransformApplication { currentState =>

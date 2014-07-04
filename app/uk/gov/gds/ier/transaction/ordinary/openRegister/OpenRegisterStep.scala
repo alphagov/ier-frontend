@@ -10,14 +10,15 @@ import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{OrdinaryStep, Routes}
-import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.assets.RemoteAssets
 
 class OpenRegisterStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val ordinary: OrdinaryControllers
 ) extends OrdinaryStep
   with OpenRegisterForms
   with OpenRegisterMustache {
@@ -32,7 +33,7 @@ class OpenRegisterStep @Inject ()(
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
-    PostalVoteController.postalVoteStep
+    ordinary.PostalVoteStep
   }
   override def isStepComplete(currentState: InprogressOrdinary) = {
     currentState.openRegisterOptin.isDefined

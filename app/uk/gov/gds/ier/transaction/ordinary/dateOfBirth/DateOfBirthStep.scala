@@ -13,14 +13,15 @@ import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{OrdinaryStep, Routes, GoTo}
-import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.assets.RemoteAssets
 
 class DateOfBirthStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val ordinary: OrdinaryControllers
 ) extends OrdinaryStep
   with DateOfBirthForms
   with DateOfBirthMustache{
@@ -55,7 +56,7 @@ class DateOfBirthStep @Inject ()(
       case Some(DateOfBirth(_, Some(noDOB(Some(reason), Some(range))))) if range == DateOfBirthConstants.dontKnow => {
         GoTo(ExitController.dontKnow)
       }
-      case _ => NameController.nameStep
+      case _ => ordinary.NameStep
     }
   }
 }

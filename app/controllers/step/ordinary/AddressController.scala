@@ -11,8 +11,6 @@ object AddressController extends DelegatingController[AddressStep] {
   def post = delegate.post
   def editGet = delegate.editGet
   def editPost = delegate.editPost
-
-  def addressStep = delegate
 }
 
 object AddressSelectController extends DelegatingController[AddressSelectStep] {
@@ -20,8 +18,6 @@ object AddressSelectController extends DelegatingController[AddressSelectStep] {
   def post = delegate.post
   def editGet = delegate.editGet
   def editPost = delegate.editPost
-
-  def addressSelectStep = delegate
 }
 
 object AddressManualController extends DelegatingController[AddressManualStep] {
@@ -29,6 +25,4 @@ object AddressManualController extends DelegatingController[AddressManualStep] {
   def post = delegate.post
   def editGet = delegate.editGet
   def editPost = delegate.editPost
-
-  def addressManualStep = delegate
 }

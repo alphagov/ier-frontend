@@ -1,20 +1,15 @@
 package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
 import controllers.step.ordinary.routes._
-import controllers.step.ordinary.PreviousAddressPostcodeController._
-import controllers.step.ordinary.OpenRegisterController._
 import com.google.inject.Inject
 import uk.gov.gds.ier.model.{MovedHouseOption}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.validation._
-import play.api.mvc.Call
-import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.service.AddressService
 
 import uk.gov.gds.ier.step.{Routes, OrdinaryStep}
-import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.assets.RemoteAssets
 
 class PreviousAddressFirstStep @Inject ()(
@@ -22,8 +17,9 @@ class PreviousAddressFirstStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService,
     val addressService: AddressService,
-    val remoteAssets: RemoteAssets)
-  extends OrdinaryStep
+    val remoteAssets: RemoteAssets,
+    val ordinary: OrdinaryControllers
+) extends OrdinaryStep
   with PreviousAddressFirstMustache
   with PreviousAddressFirstForms {
 
@@ -39,18 +35,18 @@ class PreviousAddressFirstStep @Inject ()(
   def nextStep(currentState: InprogressOrdinary) = {
     val nextAddressStep = currentState.previousAddress.map(_.previousAddress) match {
       case Some(address) =>
-        if (address.exists(_.postcode.isEmpty)) { previousPostcodeAddressStep }
-        else if (address.exists(_.manualAddress.isDefined)) { controllers.step.ordinary.PreviousAddressManualController.previousAddressManualStep }
-        else if (address.exists(_.uprn.isDefined)) { controllers.step.ordinary.PreviousAddressSelectController.previousAddressSelectStep }
-        else previousPostcodeAddressStep
-      case _ => previousPostcodeAddressStep
+        if (address.exists(_.postcode.isEmpty)) { ordinary.PreviousAddressPostcodeStep }
+        else if (address.exists(_.manualAddress.isDefined)) { ordinary.PreviousAddressManualStep }
+        else if (address.exists(_.uprn.isDefined)) { ordinary.PreviousAddressSelectStep }
+        else ordinary.PreviousAddressPostcodeStep
+      case _ => ordinary.PreviousAddressPostcodeStep
     }
 
     currentState.previousAddress.flatMap(_.movedRecently) match {
       case Some(MovedHouseOption.MovedFromAbroadRegistered) => nextAddressStep
-      case Some(MovedHouseOption.MovedFromAbroadNotRegistered) => openRegisterStep
+      case Some(MovedHouseOption.MovedFromAbroadNotRegistered) => ordinary.OpenRegisterStep
       case Some(MovedHouseOption.MovedFromUk) => nextAddressStep
-      case Some(MovedHouseOption.NotMoved) => openRegisterStep
+      case Some(MovedHouseOption.NotMoved) => ordinary.OpenRegisterStep
       case _ => this
     }
   }

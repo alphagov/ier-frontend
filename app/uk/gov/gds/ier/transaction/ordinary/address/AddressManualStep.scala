@@ -12,7 +12,7 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.{GoTo, OrdinaryStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import controllers.routes.ExitController
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.assets.RemoteAssets
@@ -22,8 +22,9 @@ class AddressManualStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService,
-    val remoteAssets: RemoteAssets)
-  extends OrdinaryStep
+    val remoteAssets: RemoteAssets,
+    val ordinary: OrdinaryControllers
+) extends OrdinaryStep
   with AddressManualMustache
   with AddressForms {
 
@@ -37,6 +38,6 @@ class AddressManualStep @Inject() (
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
-      OtherAddressController.otherAddressStep
+      ordinary.OtherAddressStep
   }
 }
