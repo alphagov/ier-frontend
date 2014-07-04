@@ -12,6 +12,7 @@ trait ForcesStep
   with WithConfig
   with WithEncryption
   with WithRemoteAssets{ self: StepTemplate[InprogressForces] =>
+    val manifestOfT = manifest[InprogressForces]
     def factoryOfT() = InprogressForces()
     def timeoutPage() = ErrorController.forcesTimeout
     val confirmationRoute = ConfirmationController.get

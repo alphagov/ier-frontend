@@ -5,8 +5,8 @@ import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import play.api.libs.json.Json
+import play.api.mvc.Call
 import uk.gov.gds.ier.test._
-import controllers.step.ordinary.routes._
 
 class NinoMustacheTests
   extends FlatSpec
@@ -31,7 +31,7 @@ class NinoMustacheTests
     val newNinoForm = ninoForm.bind(js)
     val model = mustache.data(
       newNinoForm,
-      NinoController.post,
+      Call("POST", "/register-to-vote/nino"),
       InprogressOrdinary()
     ).asInstanceOf[NinoModel]
     model.nino.value should be("AB 12 34 56 D")
@@ -46,7 +46,7 @@ class NinoMustacheTests
     val newNinoForm = ninoForm.bind(js)
     val model = mustache.data(
         newNinoForm,
-        NinoController.post,
+        Call("POST", "/register-to-vote/nino"),
         InprogressOrdinary()
     ).asInstanceOf[NinoModel]
     model.noNinoReason.value should be("Don't have any NINO")
