@@ -10,6 +10,12 @@ import play.api.mvc.Controller
  * pattern
  */
 
-abstract class DelegatingController[A <: AnyRef](implicit m: Manifest[A]) extends DependencyInjectionProvider with Controller {
-  protected lazy val delegate = dependency[A]
+abstract class DelegatingController[A <: AnyRef](implicit m: Manifest[A]) extends Controller {
+
+  private lazy val app = play.api.Play.maybeApplication getOrElse {
+    throw new IllegalStateException("Play Application not started.")
+  }
+  private lazy val delegateClass = m.runtimeClass.asInstanceOf[Class[A]]
+
+  protected lazy val delegate = app.global.getControllerInstance(delegateClass)
 }
