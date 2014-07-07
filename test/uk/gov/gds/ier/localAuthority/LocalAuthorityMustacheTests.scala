@@ -13,6 +13,7 @@ import org.mockito.Matchers._
 import play.api.mvc.Call
 import uk.gov.gds.ier.model.LocalAuthorityContactDetails
 import play.api.test.Helpers._
+import org.jsoup.Jsoup
 
 class LocalAuthorityMustacheTests
   extends FlatSpec
@@ -42,35 +43,58 @@ class LocalAuthorityMustacheTests
       )
       val authorityPage = LocalAuthorityPage(Some(authorityDetails), Some("/test"))
       when(remoteAssets.messages(any[String])).thenReturn(Call("GET", "/assests/messages"))
-      val htmlBody = authorityPage.render.body
 
-      htmlBody should include("authority name")
-      htmlBody should include("http://localhost")
-      htmlBody should include("addressLine1")
-      htmlBody should include("addressLine2")
-      htmlBody should include("ab123cd")
-      htmlBody should include("test@test.com")
-      htmlBody should include("123456")
+      val doc = Jsoup.parse(authorityPage.body)
+
+      val authorityName = doc.select("p.summary").first
+      authorityName should not be (null)
+      authorityName.text should include("authority name")
+
+      val urlText = doc.select("a#url").first()
+      urlText should not be (null)
+      urlText.text should include("http://localhost")
+
+      val email = doc.select("p#authority_email").first
+      email should not be (null)
+      email.text should include ("test@test.com")
+
+      val phone = doc.select("p#authority_phone").first
+      phone should not be (null)
+      phone.text should include ("123456")
+
+      val address = doc.select("p#authority_address").first
+      address should not be (null)
+      address.text should include("authority name")
+      address.text should include ("addressLine1")
+      address.text should include ("addressLine2")
+
+      val postcodeText = doc.select("p#authority_postcode").first
+      postcodeText should not be (null)
+      postcodeText.text should include ("ab123cd")
     }
   }
 
   behavior of "LocalAuthorityLookupPage"
   it should "render the lookup page" in {
     running(FakeApplication()) {
-    val lookupPage = LocalAuthorityLookupPage(
-      postcode = Field(id = "postcode_id", name = "postcode_name", classes = "postcode_classes",
-        value = "postcode_value"),
-      sourcePath = "/sourcePath",
-      postUrl = "/postUrl"
-    )
-    when(remoteAssets.messages(any[String])).thenReturn(Call("GET", "/assests/messages"))
-    val htmlBody = lookupPage.render.body
+      val lookupPage = LocalAuthorityLookupPage(
+        postcode = Field(id = "postcode_id", name = "postcode_name", classes = "postcode_classes",
+          value = "postcode_value"),
+        sourcePath = "/sourcePath",
+        postUrl = "/postUrl"
+      )
+      when(remoteAssets.messages(any[String])).thenReturn(Call("GET", "/assests/messages"))
+      val doc = Jsoup.parse(lookupPage.body)
 
-    htmlBody should include("postcode_name")
-    htmlBody should include("postcode_id")
-    htmlBody should include("postcode_classes")
-    htmlBody should include("postcode_value")
-    htmlBody should include("/postUrl")
+      val form = doc.select("form").first()
+      form should not be (null)
+      form.attr("action") should be ("/postUrl")
+
+      val postcodeField = doc.select("input").first
+      postcodeField.attr("id") should be ("postcode_id")
+      postcodeField.attr("name") should be ("postcode_name")
+      postcodeField.attr("class") should include ("postcode_classes")
+      postcodeField.attr("value") should be ("postcode_value")
     }
   }
 

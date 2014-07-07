@@ -11,15 +11,15 @@
     <p class="summary">{{localAuthorityContact.name}}</p>
 
     {{#localAuthorityContact.url}}
-      <p><a href = "{{localAuthorityContact.url}}" rel = "external">{{localAuthorityContact.url}}</a></p>
+      <p><a href="{{localAuthorityContact.url}}" rel="external" id="url">{{localAuthorityContact.url}}</a></p>
     {{/localAuthorityContact.url}}
 
-    <p>{{messages.lookup_show_email}}: {{localAuthorityContact.emailAddress}}</p>
+    <p id="authority_email">{{messages.lookup_show_email}}: {{localAuthorityContact.emailAddress}}</p>
 
-    <p>{{messages.lookup_show_phone}}: {{localAuthorityContact.phoneNumber}}</p>
+    <p id="authority_phone">{{messages.lookup_show_phone}}: {{localAuthorityContact.phoneNumber}}</p>
 
     <h2>{{messages.lookup_show_address}}</h2>
-    <p>
+    <p id="authority_address">
         {{localAuthorityContact.name}}
         
         {{#localAuthorityContact.addressLine1}}
@@ -38,7 +38,7 @@
           <br />{{localAuthorityContact.addressLine4}}
         {{/localAuthorityContact.addressLine4}}
     </p>
-    <p>{{localAuthorityContact.postcode}}</p>
+    <p id="authority_postcode">{{localAuthorityContact.postcode}}</p>
 
     {{#sourcePath}}
     <p>
