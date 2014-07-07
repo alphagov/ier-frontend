@@ -92,7 +92,7 @@ class AddressService @Inject()(locateService: LocateService) {
    */
   private def ensureGssCode(gssCode: Option[String], postcode: String): Option[String] = {
     gssCode.orElse {
-      locateService.lookupAuthority(postcode).map(_.gssCode)
+      locateService.lookupAddress(postcode).find(_.gssCode.isDefined).flatMap(_.gssCode)
     }
   }
 }

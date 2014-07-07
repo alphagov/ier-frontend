@@ -58,8 +58,8 @@ class AddressServiceTests extends FlatSpec
 
   it should "provide a manual address formed when no uprn provided " +
     "and ensure that gssCode is present in full address" in {
-    val mockLocate = mock[LocateService]
-    val addressService = new AddressService(mockLocate)
+
+    val addressService = new AddressService(dummyLocateService)
     val manualAddress = PartialAddress(
       addressLine = None,
       uprn = None,
@@ -77,16 +77,7 @@ class AddressServiceTests extends FlatSpec
       county = None,
       uprn = None,
       postcode = "AB12 3CD",
-      gssCode = Some("AB123456789")
-    )
-
-    when(mockLocate.lookupAuthority("AB12 3CD")).thenReturn(
-      Some(LocateAuthority(
-        name = "Fakerton Council",
-        gssCode = "AB123456789",
-        country = "England",
-        postcode = "AB12 3CD"
-      ))
+      gssCode = Some("E09000007")
     )
 
     val fullAddress = addressService.formFullAddress(Some(manualAddress))
