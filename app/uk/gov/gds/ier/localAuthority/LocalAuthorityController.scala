@@ -50,12 +50,12 @@ class LocalAuthorityController @Inject() (
 
   def ero(gssCode: String, sourcePath: Option[String]) = Action { request =>
     val localAuthorityContactDetails = ierApiService.getLocalAuthorityByGssCode(gssCode).contactDetails
-    Ok(LocalAuthorityPage(localAuthorityContactDetails, sourcePath))
+    Ok(LocalAuthorityShowPage(localAuthorityContactDetails, sourcePath))
   }
 
   def doLookup(sourcePath: Option[String]) = Action { implicit request =>
     localAuthorityLookupForm.bindFromRequest().fold(
-      hasErrors => BadRequest(LocalAuthorityLookupPage(
+      hasErrors => BadRequest(LocalAuthorityPostcodePage(
         hasErrors,
         sourcePath,
         controllers.routes.LocalAuthorityController.showLookup(sourcePath).url
@@ -67,7 +67,7 @@ class LocalAuthorityController @Inject() (
             controllers.routes.LocalAuthorityController.ero(gss, sourcePath)
           )
           case None => BadRequest(
-            LocalAuthorityLookupPage(
+            LocalAuthorityPostcodePage(
               localAuthorityLookupForm.fill(success).withGlobalError(
                 Messages("lookup_error_noneFound")
               ),
@@ -86,7 +86,7 @@ class LocalAuthorityController @Inject() (
           Redirect(
             controllers.routes.LocalAuthorityController.ero(gssCode, sourcePath)
           )
-        case None => Ok(LocalAuthorityLookupPage(
+        case None => Ok(LocalAuthorityPostcodePage(
           localAuthorityLookupForm,
           sourcePath,
           controllers.routes.LocalAuthorityController.showLookup(sourcePath).url

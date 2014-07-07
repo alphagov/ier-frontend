@@ -41,7 +41,7 @@ class LocalAuthorityMustacheTests
         emailAddress = Some("test@test.com"),
         phoneNumber = Some("123456")
       )
-      val authorityPage = LocalAuthorityPage(Some(authorityDetails), Some("/test"))
+      val authorityPage = LocalAuthorityShowPage(Some(authorityDetails), Some("/test"))
       when(remoteAssets.messages(any[String])).thenReturn(Call("GET", "/assests/messages"))
 
       val doc = Jsoup.parse(authorityPage.body)
@@ -77,7 +77,7 @@ class LocalAuthorityMustacheTests
   behavior of "LocalAuthorityLookupPage"
   it should "render the lookup page" in {
     running(FakeApplication()) {
-      val lookupPage = LocalAuthorityLookupPage(
+      val lookupPage = LocalAuthorityPostcodePage(
         postcode = Field(id = "postcode_id", name = "postcode_name", classes = "postcode_classes",
           value = "postcode_value"),
         sourcePath = "/sourcePath",

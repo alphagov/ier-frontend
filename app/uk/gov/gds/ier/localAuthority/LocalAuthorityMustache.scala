@@ -13,23 +13,23 @@ trait LocalAuthorityMustache
   self: WithRemoteAssets
   with WithConfig =>
 
-    case class LocalAuthorityPage (
+    case class LocalAuthorityShowPage (
         localAuthorityContact: Option[LocalAuthorityContactDetails],
         override val sourcePath: String
     ) (
         implicit override val lang: Lang
     ) extends ArticleMustachio("localAuthority/show")
 
-    object LocalAuthorityPage {
+    object LocalAuthorityShowPage {
       def apply(
         localAuthorityContact: Option[LocalAuthorityContactDetails],
         sourcePath: Option[String]
-      ): LocalAuthorityPage = {
-        LocalAuthorityPage(localAuthorityContact, sourcePath getOrElse "")
+      ): LocalAuthorityShowPage = {
+        LocalAuthorityShowPage(localAuthorityContact, sourcePath getOrElse "")
       }
     }
 
-    case class LocalAuthorityLookupPage (
+    case class LocalAuthorityPostcodePage (
         postcode: Field,
         override val sourcePath: String,
         postUrl: String
@@ -37,13 +37,13 @@ trait LocalAuthorityMustache
         implicit override val lang: Lang
     ) extends ArticleMustachio("localAuthority/lookup")
 
-    object LocalAuthorityLookupPage {
+    object LocalAuthorityPostcodePage {
       def apply(
           implicit form: ErrorTransformForm[LocalAuthorityRequest],
           sourcePath: Option[String],
           postUrl: String
-      ): LocalAuthorityLookupPage = {
-        LocalAuthorityLookupPage(
+      ): LocalAuthorityPostcodePage = {
+        LocalAuthorityPostcodePage(
           TextField(key = keys.postcode),
           sourcePath getOrElse "",
           postUrl
