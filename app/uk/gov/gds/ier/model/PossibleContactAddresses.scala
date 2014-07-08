@@ -19,7 +19,7 @@ case class PossibleContactAddresses(
     if (address.isDefined) {
       val ukAddress = address.get
       Map("corrcountry" -> "uk") ++
-      Map("corrpostcode" -> ukAddress.postcode) ++
+      Map("corrpostcode" -> ukAddress.postcode.replaceAllLiterally(" ", "").toLowerCase) ++
       ukAddress.lineOne.map(lineOne => Map("corraddressline1" -> lineOne.toString)).getOrElse(Map.empty) ++
       ukAddress.lineTwo.map(lineTwo => Map("corraddressline2" -> lineTwo.toString)).getOrElse(Map.empty) ++
       ukAddress.lineThree.map(lineThree => Map("corraddressline3" -> lineThree.toString)).getOrElse(Map.empty) ++

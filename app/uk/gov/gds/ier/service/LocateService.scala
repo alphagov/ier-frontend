@@ -1,19 +1,15 @@
 package uk.gov.gds.ier.service
 
-import uk.gov.gds.ier.client.{LocateApiClient, ApiClient}
+import uk.gov.gds.ier.client.LocateApiClient
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import com.google.inject.Inject
 import uk.gov.gds.ier.model.{Fail, Success, Address, PartialAddress,
   LocateAuthority
 }
-import uk.gov.gds.common.model.{GovUkAddress, LocalAuthority}
-import uk.gov.gds.ier.exception.{GssCodeLookupFailedException, PostcodeLookupFailedException}
+import uk.gov.gds.ier.exception.PostcodeLookupFailedException
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.logging.Logging
-import java.net.ConnectException
 import uk.gov.gds.ier.model.LocateAddress
-import play.api.libs.json.Json
-import play.api.libs.ws.WS
 import play.api.Logger
 
 class LocateService @Inject() (
