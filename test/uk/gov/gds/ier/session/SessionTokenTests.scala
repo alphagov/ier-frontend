@@ -24,6 +24,15 @@ class SessionTokenTests
     token.history should be(List.empty)
   }
 
+  it should "init with a new id" in {
+    val token1 = SessionToken()
+    val token2 = SessionToken()
+
+    token1.id should not be token2.id
+    token1.id should not be SessionToken().id
+    token2.id should not be SessionToken().id
+  }
+
   behavior of "SessionToken.refreshToken"
   it should "keep the initial timestamp" in {
     val token = SessionToken(
@@ -77,6 +86,12 @@ class SessionTokenTests
     result.history.size should be(50)
   }
 
+  it should "keep the initial id" in {
+    val token = SessionToken()
+    val refreshed = token.refreshToken()
+    refreshed.id should be(token.id)
+  }
+
   behavior of "SessionToken when serialised and encrypted"
   it should "be under half a KB when serialised" in {
     //20 mins in seconds (the max size of a session delta)
@@ -91,6 +106,6 @@ class SessionTokenTests
     val encryption = new EncryptionService (new Base64EncodingService, new MockConfig)
     val (hash, iv) = encryption.encrypt(json)
 
-    hash.getBytes(Charset.defaultCharset()).size should be < 500
+    hash.getBytes(Charset.defaultCharset()).size should be < 560
   }
 }
