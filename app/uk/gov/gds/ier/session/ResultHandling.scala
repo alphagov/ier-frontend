@@ -1,10 +1,9 @@
 package uk.gov.gds.ier.session
 
-import play.api.mvc.Cookie
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.step.InprogressApplication
-import play.api.mvc.{DiscardingCookie, Result, Request}
+import play.api.mvc.{Result, Request}
 
 trait ResultHandling extends CookieHandling {
   self: WithConfig
