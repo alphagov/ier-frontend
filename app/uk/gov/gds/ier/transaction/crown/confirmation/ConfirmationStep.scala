@@ -5,7 +5,7 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import controllers.step.crown.routes.ConfirmationController
-import controllers.routes.CompleteController
+import controllers.routes.{CompleteController, ErrorController}
 import com.google.inject.Inject
 import uk.gov.gds.ier.service.apiservice.IerApiService
 import uk.gov.gds.ier.service.AddressService
@@ -29,6 +29,7 @@ class ConfirmationStep @Inject() (
     with WithRemoteAssets {
 
   def factoryOfT() = InprogressCrown()
+  def timeoutPage() = ErrorController.crownTimeout
 
   val routes: Routes = Routes(
     get = ConfirmationController.get,

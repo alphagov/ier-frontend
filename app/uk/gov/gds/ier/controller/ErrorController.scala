@@ -25,9 +25,25 @@ class ErrorController @Inject ()(
   with WithConfig
   with WithEncryption {
 
-  def timeout = ClearSession requiredFor {
-    request =>
-      Ok(ErrorPage.Timeout(config.sessionTimeout))
+  def ordinaryTimeout = ClearSession requiredFor { request =>
+    Ok(ErrorPage.Timeout(
+      config.sessionTimeout,
+      config.ordinaryStartUrl
+    ))
+  }
+
+  def forcesTimeout = ClearSession requiredFor { request =>
+    Ok(ErrorPage.Timeout(
+      config.sessionTimeout,
+      config.forcesStartUrl
+    ))
+  }
+
+  def crownTimeout = ClearSession requiredFor { request =>
+    Ok(ErrorPage.Timeout(
+      config.sessionTimeout,
+      config.crownStartUrl
+    ))
   }
 
   def serverError = ClearSession requiredFor {

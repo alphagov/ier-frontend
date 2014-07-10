@@ -21,6 +21,8 @@ abstract class SessionHandling[T <: InprogressApplication[T]]
 
   def factoryOfT():T
 
+  def timeoutPage(): Call
+
   object ValidSession {
 
 
@@ -38,7 +40,7 @@ abstract class SessionHandling[T <: InprogressApplication[T]]
               }
               case false => {
                 logger.debug(s"Validate session - token is not valid ${serialiser.toJson(token)}")
-                Redirect(routes.ErrorController.timeout()).withFreshSession()
+                Redirect(timeoutPage()).withFreshSession()
               }
             }
           }

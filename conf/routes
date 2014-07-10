@@ -30,7 +30,9 @@ GET         /register-to-vote/exit/overseas/left-service-over-15-years        co
 
 
 #Error Routes
-GET         /register-to-vote/error/timeout                              controllers.ErrorController.timeout
+GET         /register-to-vote/error/timeout                              controllers.ErrorController.ordinaryTimeout
+GET         /register-to-vote/error/forces/timeout                       controllers.ErrorController.forcesTimeout
+GET         /register-to-vote/error/crown/timeout                        controllers.ErrorController.crownTimeout
 GET         /register-to-vote/error/serverError                          controllers.ErrorController.serverError
 GET         /register-to-vote/error/notFound                             controllers.ErrorController.notFound
 

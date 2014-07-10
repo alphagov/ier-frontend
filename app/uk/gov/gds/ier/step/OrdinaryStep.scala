@@ -3,6 +3,7 @@ package uk.gov.gds.ier.step
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.guice.{WithRemoteAssets, WithEncryption, WithConfig}
 import controllers.step.ordinary.routes.ConfirmationController
+import controllers.routes._
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 trait OrdinaryStep
@@ -12,6 +13,7 @@ trait OrdinaryStep
   with WithEncryption
   with WithRemoteAssets { self: StepTemplate[InprogressOrdinary] =>
   def factoryOfT() = InprogressOrdinary()
+  def timeoutPage() = ErrorController.ordinaryTimeout
   val confirmationRoute = ConfirmationController.get
 }
 

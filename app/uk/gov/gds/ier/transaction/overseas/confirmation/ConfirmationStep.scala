@@ -6,14 +6,14 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import controllers.step.overseas.routes.ConfirmationController
-import controllers.routes.CompleteController
+import controllers.routes._
 import com.google.inject.Inject
-import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.mustache.ErrorPageMustache
 import uk.gov.gds.ier.service.apiservice.IerApiService
-import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.step.Routes
 
 class ConfirmationStep @Inject() (
     val encryptionService: EncryptionService,
@@ -28,6 +28,7 @@ class ConfirmationStep @Inject() (
   with WithRemoteAssets {
 
   def factoryOfT() = InprogressOverseas()
+  def timeoutPage() = ErrorController.ordinaryTimeout
 
   val routes: Routes = Routes(
     get = ConfirmationController.get,
