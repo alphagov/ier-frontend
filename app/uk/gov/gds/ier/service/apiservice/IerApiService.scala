@@ -108,8 +108,7 @@ class ConcreteIerApiService @Inject() (
       ip = ipAddress,
       timeTaken = timeTaken.getOrElse("-1"),
       language = language,
-//    ask Pete what should we do over here
-      sessionId = sessionId.getOrElse("?")
+      sessionId = sessionId.getOrElse("")
     )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
