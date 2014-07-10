@@ -33,18 +33,10 @@ abstract class SessionHandling[T <: InprogressApplication[T]]
           case Some(token) => {
             token.isValid match {
               case true => {
-                token.hasSessionId match {
-                  case true => {
-                    val application = request.getApplication.getOrElse(factoryOfT())
-                    logger.debug(s"Validate session - token is valid")
-                    val result = block(request)(application)
-                    result storeToken token.refreshToken
-                  }
-                  case false => {
-                    logger.debug(s"Validate session - token does not have session id ${serialiser.toJson(token)}")
-                    Redirect(routes.ErrorController.serverError()).withFreshSession()
-                  }
-                }
+                val application = request.getApplication.getOrElse(factoryOfT())
+                logger.debug(s"Validate session - token is valid")
+                val result = block(request)(application)
+                result storeToken token.refreshToken
               }
               case false => {
                 logger.debug(s"Validate session - token is not valid ${serialiser.toJson(token)}")
