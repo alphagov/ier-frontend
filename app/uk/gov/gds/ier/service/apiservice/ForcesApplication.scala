@@ -30,7 +30,8 @@ case class ForcesApplication(
     contact: Option[Contact],
     referenceNumber: Option[String],
     ip: Option[String],
-    timeTaken: String
+    timeTaken: String,
+    sessionId: String
 ) extends CompleteApplication {
 
   def toApiMap = {
@@ -55,7 +56,8 @@ case class ForcesApplication(
       previousAddress.flatMap(_.gssCode.map(gssCode => Map("pgssCode" -> gssCode))).getOrElse(Map.empty) ++
       ip.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty) ++ Map(
         "applicationType" -> "forces",
-        "timeTaken" -> timeTaken
+        "timeTaken" -> timeTaken,
+        "webHash" -> sessionId
       )
 
     removeSpecialCharacters(apiMap)
