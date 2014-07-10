@@ -7,7 +7,7 @@ import scala.Some
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.step.InprogressApplication
 
-abstract class SessionHandling[T <: InprogressApplication[T]]
+abstract class ConfirmationSessionHandling[T <: InprogressApplication[T]]
   extends RequestHandling
   with SessionTokenValidator
   with SessionCleaner {
@@ -33,7 +33,8 @@ abstract class SessionHandling[T <: InprogressApplication[T]]
                 val application = request.getApplication.getOrElse(factoryOfT())
                 logger.debug(s"Validate session - token is valid")
                 val result = block(request)(application)
-                result storeToken token.refreshToken
+                //result storeToken token.refreshToken   //..this is the only difference
+                result
               }
               case false => {
                 logger.debug(s"Validate session - token is not valid ${serialiser.toJson(token)}")

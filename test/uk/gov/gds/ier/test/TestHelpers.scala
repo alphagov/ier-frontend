@@ -16,10 +16,16 @@ import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import scala.util.Try
+import play.api.mvc.Cookies
+import uk.gov.gds.common.json.JsonSerializer
+import uk.gov.gds.ier.transaction.complete.ConfirmationCookie
 
 trait TestHelpers
   extends CustomMatchers
-    with OverseasApplications with FakeApplicationRedefined {
+  with OverseasApplications
+  with FakeApplicationRedefined
+  with SessionKeys {
 
   val jsonSerialiser = new JsonSerialiser
 
@@ -59,6 +65,11 @@ trait TestHelpers
 
     def withApplication[T <: InprogressApplication[T]](application: T) = {
       request.withCookies(payloadCookies(application, None):_*)
+    }
+
+    def withConfirmationCookie[T <: AnyRef](payload: T) = {
+      request.withCookies(customPayloadCookies(
+        payload, confirmationCookieKey, confirmationCookieKeyIV, None):_*)
     }
   }
 
@@ -191,5 +202,59 @@ trait TestHelpers
     Helpers.running(FakeApplication()) {
       test
     }
+  }
+
+  /**
+   * Usage:
+   * {{{
+   * import play.api.test.Helpers._
+   * val Some(resultFuture) = route(
+   *    FakeRequest(POST, "/register-to-vote/confirmation"))
+   * val result = getApplication[InprogressOrdinary](cookies(resultFuture))
+   * }}}
+   */
+  def getApplication[T <: InprogressApplication[T]](
+      cookies: Cookies
+    )(
+      implicit manifest: Manifest[T],
+      encryptionService: EncryptionService,
+      serialiser: JsonSerializer): Option[T] = {
+    getSessionCookie[T](cookies, sessionPayloadKey, sessionPayloadKeyIV)
+  }
+
+  /**
+   * Usage:
+   * {{{
+   * import play.api.test.Helpers._
+   * val Some(resultFuture) = route(
+   *    FakeRequest(POST, "/register-to-vote/confirmation"))
+   * val result = getCompleteStepCookie(cookies(resultFuture))
+   * }}}
+   */
+  def getConfirmationCookie(
+      cookies: Cookies
+    )(
+      implicit manifest: Manifest[ConfirmationCookie],
+      encryptionService: EncryptionService,
+      serialiser: JsonSerializer): Option[ConfirmationCookie] = {
+    getSessionCookie[ConfirmationCookie](cookies, confirmationCookieKey, confirmationCookieKeyIV)
+  }
+
+  def getSessionCookie[T](
+      cookies: Cookies,
+      key: String,
+      keyIV: String
+    )(
+      implicit manifest: Manifest[T],
+      encryptionService: EncryptionService,
+      serialiser: JsonSerializer): Option[T] = {
+    val application = for {
+      cookie <- cookies.get(key)
+      cookieInitVec <- cookies.get(keyIV)
+    } yield Try {
+      val json = encryptionService.decrypt(cookie.value,  cookieInitVec.value)
+      serialiser.fromJson[T](json)
+    }
+    application.flatMap(_.toOption)
   }
 }

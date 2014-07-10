@@ -11,6 +11,8 @@ import uk.gov.gds.ier.step.ConfirmationStepController
 import uk.gov.gds.ier.service.apiservice.IerApiService
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.guice.WithRemoteAssets
+import uk.gov.gds.ier.transaction.complete.ConfirmationCookie
+import uk.gov.gds.ier.session.ResultHandling
 import uk.gov.gds.ier.langs.Language
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
@@ -22,11 +24,13 @@ class ConfirmationStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService,
     val remoteAssets: RemoteAssets
-) extends ConfirmationStepController[InprogressOrdinary]
-    with ConfirmationForms
-    with ConfirmationMustache
-    with WithAddressService
-    with WithRemoteAssets {
+  ) extends ConfirmationStepController[InprogressOrdinary]
+  with ConfirmationForms
+  with ConfirmationMustache
+  with ConfirmationCookieWriter
+  with ResultHandling
+  with WithAddressService
+  with WithRemoteAssets {
 
   def factoryOfT() = InprogressOrdinary()
   def timeoutPage() = ErrorController.ordinaryTimeout
@@ -59,7 +63,6 @@ class ConfirmationStep @Inject ()(
         }
       )
 
-      //Ok(template(validation.fillAndValidate(appWithAddressLines)))
       Ok(mustache(validation.fillAndValidate(appWithAddressLines), routes.post, application).html)
   }
 
@@ -89,21 +92,25 @@ class ConfirmationStep @Inject ()(
               deliveryMethod.deliveryMethod.exists(_ == "email") && deliveryMethod.emailAddress.exists(_.nonEmpty)
             }
           }
-
           val isContactEmailPresent = validApplication.contact.exists(
             _.email.exists{ emailContact =>
               emailContact.contactMe & emailContact.detail.exists(_.nonEmpty)
             }
           )
+          val hasOtherAddress = validApplication.otherAddress
+            .map(_.otherAddressOption.hasOtherAddress).getOrElse(false)
 
-          Redirect(CompleteController.complete()).flashing(
-            "refNum" -> refNum,
-            "localAuthority" -> serialiser.toJson(response.localAuthority),
-            "hasOtherAddress" -> validApplication.otherAddress.map(
-              _.otherAddressOption.hasOtherAddress.toString).getOrElse(""),
-            "backToStartUrl" -> config.ordinaryStartUrl,
-            "showEmailConfirmation" -> (isPostalVoteEmailPresent | isContactEmailPresent).toString
+          val completeStepData = ConfirmationCookie(
+            refNum = refNum,
+            authority = Some(response.localAuthority),
+            hasOtherAddress = hasOtherAddress,
+            backToStartUrl = config.ordinaryStartUrl,
+            showEmailConfirmation = (isPostalVoteEmailPresent | isContactEmailPresent)
           )
+
+          Redirect(CompleteController.complete())
+            .emptySession()
+            .addConfirmationCookieToSession(completeStepData)
         }
       )
   }

@@ -23,7 +23,7 @@ trait CompleteMustache {
 
     case class CompletePage (
         authority: Option[EroAuthorityDetails],
-        refNumber: Option[String],
+        refNumber: String,
         hasOtherAddress: Boolean,
         backToStartUrl: String,
         showEmailConfirmation: Boolean
@@ -33,6 +33,7 @@ trait CompleteMustache {
 
       override val contentClasses = "complete"
       override val pageTitle = Messages("complete_step_title")
+      override val sourcePath = controllers.routes.CompleteController.complete.url
 
       val authorityUrl = authority flatMap {
         auth => auth.urls.headOption

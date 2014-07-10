@@ -7,9 +7,10 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import play.api.templates.Html
+import uk.gov.gds.ier.session.ConfirmationSessionHandling
 
 trait ConfirmationStepController[T <: InprogressApplication[T]]
-  extends SessionHandling[T]
+  extends ConfirmationSessionHandling[T]
   with Step[T]
   with StepTemplate[T]
   with Controller

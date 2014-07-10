@@ -14,7 +14,9 @@ import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.model.{WaysToVoteType, ApplicationType}
-
+import uk.gov.gds.ier.transaction.complete.ConfirmationCookie
+import uk.gov.gds.ier.transaction.ordinary.confirmation.ConfirmationCookieWriter
+import uk.gov.gds.ier.session.ResultHandling
 
 class ConfirmationStep @Inject() (
     val encryptionService: EncryptionService,
@@ -24,9 +26,11 @@ class ConfirmationStep @Inject() (
     val remoteAssets: RemoteAssets,
     ierApi: IerApiService)
   extends ConfirmationStepController[InprogressCrown]
-    with ConfirmationForms
-    with ConfirmationMustache
-    with WithRemoteAssets {
+  with ConfirmationForms
+  with ConfirmationMustache
+  with ConfirmationCookieWriter
+  with ResultHandling
+  with WithRemoteAssets {
 
   def factoryOfT() = InprogressCrown()
   def timeoutPage() = ErrorController.crownTimeout
@@ -78,11 +82,16 @@ class ConfirmationStep @Inject() (
             }
           )
 
-          Redirect(CompleteController.complete()).flashing(
-            "refNum" -> refNum,
-            "localAuthority" -> serialiser.toJson(response.localAuthority),
-            "showEmailConfirmation" -> (isPostalOrProxyVoteEmailPresent | isContactEmailPresent).toString
+          val completeStepData = ConfirmationCookie(
+            refNum = refNum,
+            authority = Some(response.localAuthority),
+            backToStartUrl = config.ordinaryStartUrl,
+            showEmailConfirmation = (isPostalOrProxyVoteEmailPresent | isContactEmailPresent)
           )
+
+          Redirect(CompleteController.complete())
+            .emptySession()
+            .addConfirmationCookieToSession(completeStepData)
         }
       )
   }
