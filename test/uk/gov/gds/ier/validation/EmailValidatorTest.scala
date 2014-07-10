@@ -8,6 +8,21 @@ class EmailValidatorTest
 
   behavior of "EmailValidator.isValid"
 
+  it must "have an @ in it, at approx the right place" in {
+    EmailValidator.isValid("1@dd.com") should be(true)
+    EmailValidator.isValid("1@.com") should be(false)
+  }
+
+  it must "not have 2 dots prior to any subdomain" in {
+    EmailValidator.isValid("1@d..d.com") should be(false)
+    EmailValidator.isValid("1@d..d..com") should be(false)
+  }
+
+  it must "have something prior to the @" in {
+    EmailValidator.isValid("1@1.com") should be(true)
+    EmailValidator.isValid("@1.com") should be(false)
+  }
+
   it should "accept regular valid email addresses" in {
     EmailValidator.isValid("regular@email.com") should be(true)
   }
@@ -16,55 +31,53 @@ class EmailValidatorTest
     EmailValidator.isValid("with_all_acceptable_chars_._%+'-@email.co.uk") should be(true)
   }
 
-  it should "reject _.' and % in domain name of email address" in {
-    EmailValidator.isValid("regular@email._%+'-.co.uk") should be(false)
+  it should "accept _.' and % in domain name of email address" in {
+    EmailValidator.isValid("regular@email._%+'-.co.uk") should be(true)
   }
 
   it should "accept single quote (apostrophe) in user name" in {
     EmailValidator.isValid("connor.o'brien@thomond.ie") should be(true)
   }
 
-  it should "reject single quote (apostrophe) in domain name" in {
-    EmailValidator.isValid("connor@o'briens.ie") should be(false)
+  it should "accept single quote (apostrophe) in domain name" in {
+    EmailValidator.isValid("connor@o'briens.ie") should be(true)
   }
 
-  it should "reject real apostrophe in user name" in {
-    EmailValidator.isValid("connor.o’brien@thomond.ie") should be(false)
+  it should "accept real apostrophe in user name" in {
+    EmailValidator.isValid("connor.o’brien@thomond.ie") should be(true)
   }
 
-  it should "reject real apostrophe in server name" in {
-    EmailValidator.isValid("connor@o’briens.ie") should be(false)
+  it should "accept real apostrophe in server name" in {
+    EmailValidator.isValid("connor@o’briens.ie") should be(true)
   }
 
-  it should "reject spaces" in {
-    EmailValidator.isValid("regular joe@email.com") should be(false)
-    EmailValidator.isValid("regular.joe@somewhere on net.com") should be(false)
-    EmailValidator.isValid("just invalid") should be(false)
-    EmailValidator.isValid("invalid spaces@email.com") should be(false)
+  it should "accept spaces" in {
+    EmailValidator.isValid("regular joe@email.com") should be(true)
+    EmailValidator.isValid("regular.joe@somewhere on net.com") should be(true)
   }
 
   it should "reject email address with missing TLD" in {
     EmailValidator.isValid("invalidstructure@foo") should be(false)
   }
 
-  it should "reject email address with TLD shorter than 2 characters" in {
-    EmailValidator.isValid("invalidstructure@foo.c") should be(false)
+  it should "accept email address with TLD shorter than 2 characters" in {
+    EmailValidator.isValid("invalidstructure@foo.c") should be(true)
   }
 
   it should "accept email address with a sub domain shorter than 2 characters" in {
     EmailValidator.isValid("invalidstructure@foo.c.com") should be(true)
   }
 
-  it should "reject email with special characters like ’&^/ in user name" in {
-    EmailValidator.isValid("invalid’&^/chars@email.com") should be(false)
+  it should "accept email with special characters like ’&^/ in user name" in {
+    EmailValidator.isValid("invalid’&^/chars@email.com") should be(true)
   }
 
   it should "reject email address with no @" in {
       EmailValidator.isValid("no-at-sign.com") should be(false)
   }
 
-  it should "reject email address with too many @" in {
-    EmailValidator.isValid("tooM_many@at@chars.com") should be(false)
+  it should "accept email address with multiple @ (ie domain name containing @)" in {
+    EmailValidator.isValid("tooM_many@at@chars.com") should be(true)
   }
 
   it should "reject multiple consecutive dots in domain name" in {
@@ -77,7 +90,6 @@ class EmailValidatorTest
   }
 
   it should "accept new top level domains" in {
-    // http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains
     EmailValidator.isValid("jan@something.london") should be(true)
     EmailValidator.isValid("jan@something.photography") should be(true)
     EmailValidator.isValid("jan@something.computer") should be(true)
@@ -86,8 +98,7 @@ class EmailValidatorTest
     EmailValidator.isValid("jan@something.properties") should be(true)
   }
 
-  it should "accept (?) hot new top level domains" in {
-    // hot new, not yet approved (?) yet ofefred for sale on http://www.1and1.co.uk/new-top-level-domains as of 8/7/2014
+  it should "accept hot new top level domains" in {
     EmailValidator.isValid("jan@something.accountant") should be(true)
     EmailValidator.isValid("jan@something.limited") should be(true)
     EmailValidator.isValid("jan@something.management") should be(true)
@@ -102,14 +113,13 @@ class EmailValidatorTest
     EmailValidator.isValid("jan@com") should be(false)
   }
 
-  it should "reject (??) email address with digits in TLD" in {
-    // not sure if this is right, but nearly all regex found on net does that and no TLD has a number so far
-    EmailValidator.isValid("not.so.nice.guy@hell.666") should be(false)
-    EmailValidator.isValid("winner@always.1st") should be(false)
-    EmailValidator.isValid("mathematician@numeric.1") should be(false)
+  it should "accept email address with digits in TLD" in {
+    EmailValidator.isValid("not.so.nice.guy@hell.666") should be(true)
+    EmailValidator.isValid("winner@always.1st") should be(true)
+    EmailValidator.isValid("mathematician@numeric.1") should be(true)
   }
 
-  it should "accept email address with digits anywhere but TLD" in {
+  it should "accept email address with digits in subdomains" in {
     EmailValidator.isValid("admin.2@1and1.co.uk") should be(true)
     EmailValidator.isValid("22.ad22min.2222@11and1.22.uk") should be(true)
   }
