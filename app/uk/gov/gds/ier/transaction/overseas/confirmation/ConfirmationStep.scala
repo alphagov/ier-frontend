@@ -14,7 +14,6 @@ import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.transaction.ordinary.confirmation.ConfirmationCookieWriter
 import uk.gov.gds.ier.session.ResultHandling
-import uk.gov.gds.ier.transaction.complete.CompleteStepCookie
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.transaction.complete.ConfirmationCookie
