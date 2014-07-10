@@ -34,7 +34,8 @@ abstract class IerApiService {
       ip: Option[String],
       applicant: InprogressOverseas,
       refNum: Option[String],
-      timeTaken: Option[String]
+      timeTaken: Option[String],
+      sessionId: Option[String]
   ): IerApiApplicationResponse
 
   def submitForcesApplication (
@@ -120,7 +121,8 @@ class ConcreteIerApiService @Inject() (
       ip:Option[String],
       applicant: InprogressOverseas,
       refNum:Option[String],
-      timeTaken: Option[String]
+      timeTaken: Option[String],
+      sessionId: Option[String]
   ) = {
 
     val fullLastUkRegAddress = addressService.formFullAddress(applicant.lastUkAddress)
@@ -144,7 +146,8 @@ class ConcreteIerApiService @Inject() (
       contact = applicant.contact,
       referenceNumber = refNum,
       ip = ip,
-      timeTaken = timeTaken.getOrElse("-1")
+      timeTaken = timeTaken.getOrElse("-1"),
+      sessionId = sessionId.getOrElse("")
     )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)

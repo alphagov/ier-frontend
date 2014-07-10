@@ -42,13 +42,14 @@ class IerApiServiceWithStripNinoTests extends FlatSpec with Matchers with Mockit
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
     val applicationWithNino = InprogressOverseas(nino = Some(Nino(Some("12345"), None)))
 
-    service.submitOverseasApplication(None, applicationWithNino, None, Some("1234"))
+    service.submitOverseasApplication(None, applicationWithNino, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
 
     verify(concreteIerApiServiceMock).submitOverseasApplication(
       MockitoMatchers.eq(None),
       isNot(applicationWithNino),
       MockitoMatchers.eq(None),
-      MockitoMatchers.eq(Some("1234"))
+      MockitoMatchers.eq(Some("1234")),
+      MockitoMatchers.eq(Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
     )
   }
 
@@ -128,13 +129,14 @@ class IerApiServiceWithStripNinoTests extends FlatSpec with Matchers with Mockit
     val applicationWithNoNinoReason = InprogressOverseas(
       nino = Some(Nino(None, Some("no nino reason"))))
 
-    service.submitOverseasApplication(None, applicationWithNoNinoReason, None, Some("1234"))
+    service.submitOverseasApplication(None, applicationWithNoNinoReason, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
 
     verify(concreteIerApiServiceMock).submitOverseasApplication(
       None,
       applicationWithNoNinoReason,
       None,
-      Some("1234")
+      Some("1234"),
+      Some("860da84c-74df-45b0-8ff8-d2d16ef8367a")
     )
   }
 

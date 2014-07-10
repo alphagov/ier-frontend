@@ -113,7 +113,7 @@ class IerApiServiceTests
         requestJson should include("Smith")
         successMessage
       }
-    ).submitOverseasApplication(None, application, None, Some("1234"))
+    ).submitOverseasApplication(None, application, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
 
     r should be(IerApiApplicationResponse(
       id = "5360fe69036424d9ec0a1657",

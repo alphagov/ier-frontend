@@ -74,7 +74,8 @@ class OverseasApplicationTests
       "refNum" -> "12345678910",
       "ip" -> "256.256.256.256",
       "gssCode" -> "E09000007",
-      "timeTaken" -> "1234"
+      "timeTaken" -> "1234",
+      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
 
     val apiMap = application.toApiMap
@@ -115,7 +116,8 @@ class OverseasApplicationTests
       "refNum" -> "12345678910",
       "ip" -> "256.256.256.256",
       "gssCode" -> "E09000007",
-      "timeTaken" -> "1234"
+      "timeTaken" -> "1234",
+      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
 
     val apiMap = application.toApiMap
@@ -168,7 +170,8 @@ class OverseasApplicationTests
       "dbritcit" -> "2000-06-01",
       "hbritcit" -> "by accident",
       "bpass" -> "false",
-      "timeTaken" -> "1234"
+      "timeTaken" -> "1234",
+      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
 
 
@@ -242,7 +245,8 @@ class OverseasApplicationTests
       )),
       referenceNumber = Some("12345678910"),
       ip = Some("256.256.256.256"),
-      timeTaken = "1234"
+      timeTaken = "1234",
+      sessionId = "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
 
 }
