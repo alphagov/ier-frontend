@@ -26,28 +26,32 @@ abstract class IerApiService {
       applicant: InprogressOrdinary,
       referenceNumber: Option[String],
       timeTaken: Option[String],
-      language: String
+      language: String,
+      sessionId: Option[String]
   ): IerApiApplicationResponse
 
   def submitOverseasApplication(
       ip: Option[String],
       applicant: InprogressOverseas,
       refNum: Option[String],
-      timeTaken: Option[String]
+      timeTaken: Option[String],
+      sessionId: Option[String]
   ): IerApiApplicationResponse
 
   def submitForcesApplication (
       ip: Option[String],
       applicant: InprogressForces,
       refNum: Option[String],
-      timeTaken: Option[String]
+      timeTaken: Option[String],
+      sessionId: Option[String]
   ): IerApiApplicationResponse
 
   def submitCrownApplication (
       ip: Option[String],
       applicant: InprogressCrown,
       refNum: Option[String],
-      timeTaken: Option[String]
+      timeTaken: Option[String],
+      sessionId: Option[String]
   ): IerApiApplicationResponse
 
   def generateOrdinaryReferenceNumber(application: InprogressOrdinary): String
@@ -70,7 +74,8 @@ class ConcreteIerApiService @Inject() (
       applicant: InprogressOrdinary,
       referenceNumber: Option[String],
       timeTaken: Option[String],
-      language: String
+      language: String,
+      sessionId: Option[String]
   ) = {
 
     val isoCodes = applicant.nationality map { nationality =>
@@ -105,7 +110,8 @@ class ConcreteIerApiService @Inject() (
       referenceNumber = referenceNumber,
       ip = ipAddress,
       timeTaken = timeTaken.getOrElse("-1"),
-      language = language
+      language = language,
+      sessionId = sessionId.getOrElse("")
     )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
@@ -117,7 +123,8 @@ class ConcreteIerApiService @Inject() (
       ip:Option[String],
       applicant: InprogressOverseas,
       refNum:Option[String],
-      timeTaken: Option[String]
+      timeTaken: Option[String],
+      sessionId: Option[String]
   ) = {
 
     val fullLastUkRegAddress = addressService.formFullAddress(applicant.lastUkAddress)
@@ -141,7 +148,8 @@ class ConcreteIerApiService @Inject() (
       contact = applicant.contact,
       referenceNumber = refNum,
       ip = ip,
-      timeTaken = timeTaken.getOrElse("-1")
+      timeTaken = timeTaken.getOrElse("-1"),
+      sessionId = sessionId.getOrElse("")
     )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
@@ -153,7 +161,8 @@ class ConcreteIerApiService @Inject() (
       ipAddress: Option[String],
       applicant: InprogressForces,
       referenceNumber: Option[String],
-      timeTaken: Option[String]
+      timeTaken: Option[String],
+      sessionId: Option[String]
   ) = {
 
     val isoCodes = applicant.nationality map { nationality =>
@@ -185,7 +194,8 @@ class ConcreteIerApiService @Inject() (
       contact = applicant.contact,
       referenceNumber = referenceNumber,
       ip = ipAddress,
-      timeTaken = timeTaken.getOrElse("-1")
+      timeTaken = timeTaken.getOrElse("-1"),
+      sessionId = sessionId.getOrElse("")
     ).hackNoUkAddressToNonat(applicant.nationality, applicant.address)
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
@@ -197,7 +207,8 @@ class ConcreteIerApiService @Inject() (
       ipAddress: Option[String],
       applicant: InprogressCrown,
       referenceNumber: Option[String],
-      timeTaken: Option[String]
+      timeTaken: Option[String],
+      sessionId: Option[String]
   ) = {
 
     val isoCodes = applicant.nationality map { nationality =>
@@ -231,7 +242,8 @@ class ConcreteIerApiService @Inject() (
       contact = applicant.contact,
       referenceNumber = referenceNumber,
       ip = ipAddress,
-      timeTaken = timeTaken.getOrElse("-1")
+      timeTaken = timeTaken.getOrElse("-1"),
+      sessionId = sessionId.getOrElse("")
     ).hackNoUkAddressToNonat(applicant.nationality, applicant.address)
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)

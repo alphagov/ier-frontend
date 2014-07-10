@@ -52,7 +52,8 @@ class OrdinaryApplicationTests
       "gssCode" -> "E09000007",
       "pgssCode" -> "E09000032",
       "timeTaken" -> "1234",
-      "lang" -> "en"
+      "lang" -> "en",
+      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
 
     val apiMap = application.toApiMap
@@ -105,7 +106,8 @@ class OrdinaryApplicationTests
       "pgssCode" -> "E09000032",
       "lastcategory" -> "overseas",
       "timeTaken" -> "1234",
-      "lang" -> "en"
+      "lang" -> "en",
+      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
 
     val apiMap = application.toApiMap
@@ -153,7 +155,8 @@ class OrdinaryApplicationTests
       "gssCode" -> "E09000007",
       "pgssCode" -> "E09000032",
       "timeTaken" -> "1234",
-      "lang" -> "cy"
+      "lang" -> "cy",
+      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
 
     val apiMap = application.toApiMap
@@ -239,6 +242,7 @@ class OrdinaryApplicationTests
       referenceNumber = Some("12345678910"),
       ip = Some("256.256.256.256"),
       timeTaken = "1234",
-      language = "en"
+      language = "en",
+      sessionId = "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
 }

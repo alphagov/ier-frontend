@@ -55,7 +55,7 @@ class IerApiServiceTests
         requestJson should include("Smith")
         successMessage
       }
-    ).submitOrdinaryApplication(None, application, None, Some("1234"), "en")
+    ).submitOrdinaryApplication(None, application, None, Some("1234"), "en", Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
 
     r should be(IerApiApplicationResponse(
       id = "5360fe69036424d9ec0a1657",
@@ -84,7 +84,7 @@ class IerApiServiceTests
         requestJson should include("Smith")
         successMessage
       }
-    ).submitOrdinaryApplication(Some("127.0.0.1"), application, Some("55631D"), Some("1234"), "en")
+    ).submitOrdinaryApplication(Some("127.0.0.1"), application, Some("55631D"), Some("1234"), "en", Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
 
     r should be(IerApiApplicationResponse(
       id = "5360fe69036424d9ec0a1657",
@@ -113,7 +113,7 @@ class IerApiServiceTests
         requestJson should include("Smith")
         successMessage
       }
-    ).submitOverseasApplication(None, application, None, Some("1234"))
+    ).submitOverseasApplication(None, application, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
 
     r should be(IerApiApplicationResponse(
       id = "5360fe69036424d9ec0a1657",
@@ -142,7 +142,7 @@ class IerApiServiceTests
         requestJson should include("Smith")
         successMessage
       }
-    ).submitCrownApplication(None, application, None, Some("1234"))
+    ).submitCrownApplication(None, application, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
 
     r should be(IerApiApplicationResponse(
       id = "5360fe69036424d9ec0a1657",
@@ -171,7 +171,7 @@ class IerApiServiceTests
         requestJson should include("Smith")
         successMessage
       }
-    ).submitForcesApplication(None, application, None, Some("1234"))
+    ).submitForcesApplication(None, application, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
 
     r should be(IerApiApplicationResponse(
       id = "5360fe69036424d9ec0a1657",
@@ -215,7 +215,7 @@ class IerApiServiceTests
           "This person has no UK address so needs to be set as an 'other' elector: IER-DS.\"")
         successMessage
       }
-    ).submitCrownApplication(None, application, None, None)
+    ).submitCrownApplication(None, application, None, None, None)
   }
 
   "submitCrownApplication address hack for application with no nationality" should
@@ -245,7 +245,7 @@ class IerApiServiceTests
           "This person has no UK address so needs to be set as an 'other' elector: IER-DS.\"")
         successMessage
       }
-    ).submitCrownApplication(None, application, None, None)
+    ).submitCrownApplication(None, application, None, None, None)
   }
 
   "submitForcesApplication address hack" should
@@ -274,7 +274,7 @@ class IerApiServiceTests
           "This person has no UK address so needs to be set as an 'other' elector: IER-DS.\"")
         successMessage
       }
-    ).submitForcesApplication(None, application, None, None)
+    ).submitForcesApplication(None, application, None, None, None)
   }
 
   "submitForcesApplication address hack for application with no nationality" should
@@ -304,6 +304,6 @@ class IerApiServiceTests
           "This person has no UK address so needs to be set as an 'other' elector: IER-DS.\"")
         successMessage
       }
-    ).submitForcesApplication(None, application, None, None)
+    ).submitForcesApplication(None, application, None, None, None)
   }
 }

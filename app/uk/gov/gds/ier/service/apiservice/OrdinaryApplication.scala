@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.service.apiservice
 
-import uk.gov.gds.common.model.LocalAuthority
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.model.DateOfBirth
 import uk.gov.gds.ier.model.IsoNationality
@@ -27,7 +26,8 @@ case class OrdinaryApplication(
     referenceNumber: Option[String],
     ip: Option[String],
     timeTaken: String,
-    language: String
+    language: String,
+    sessionId: String
 ) extends CompleteApplication {
 
   def toApiMap:Map[String, String] = {
@@ -55,7 +55,8 @@ case class OrdinaryApplication(
       Map(
         "applicationType" -> "ordinary",
         "timeTaken" -> timeTaken,
-        "lang" -> language
+        "lang" -> language,
+        "webHash" -> sessionId
       )
 
     removeSpecialCharacters(apiMap)

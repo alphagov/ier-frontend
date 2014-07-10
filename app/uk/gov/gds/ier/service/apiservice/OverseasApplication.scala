@@ -21,7 +21,8 @@ case class OverseasApplication(
     contact: Option[Contact],
     referenceNumber: Option[String],
     ip: Option[String],
-    timeTaken: String
+    timeTaken: String,
+    sessionId: String
 ) extends CompleteApplication {
 
   def toApiMap = {
@@ -47,7 +48,8 @@ case class OverseasApplication(
       authorityGssCodeSource.flatMap(_.gssCode.map(gssCode => Map("gssCode" -> gssCode))).getOrElse(Map.empty) ++
       ip.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty) ++ Map(
         "applicationType" -> "overseas",
-        "timeTaken" -> timeTaken
+        "timeTaken" -> timeTaken,
+        "webHash" -> sessionId
       )
 
     removeSpecialCharacters(apiMap)

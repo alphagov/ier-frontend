@@ -78,7 +78,8 @@ class ConfirmationStep @Inject ()(
             applicant = validApplication,
             referenceNumber = Some(refNum),
             timeTaken = request.getToken.map(_.timeTaken),
-            language = Language.getLang(request).language
+            language = Language.getLang(request).language,
+            sessionId = request.getToken.map(_.id)
           )
 
           logSession()
