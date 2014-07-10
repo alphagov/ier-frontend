@@ -155,9 +155,6 @@ class ParentNameFormTests
       )
     parentNameForm.bind(data).fold(
       hasErrors => {
-
-        println(hasErrors.keyedErrorsAsMap.toString())
-
         hasErrors.keyedErrorsAsMap should matchMap(Map(
           "overseasParentName.parentName.lastName" -> Seq("Please enter their last name"),
           "overseasParentName.parentPreviousName.previousName.lastName" -> Seq("Please enter their previous last name")
