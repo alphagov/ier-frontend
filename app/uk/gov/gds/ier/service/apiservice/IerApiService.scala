@@ -50,7 +50,8 @@ abstract class IerApiService {
       ip: Option[String],
       applicant: InprogressCrown,
       refNum: Option[String],
-      timeTaken: Option[String]
+      timeTaken: Option[String],
+      sessionId: Option[String]
   ): IerApiApplicationResponse
 
   def generateOrdinaryReferenceNumber(application: InprogressOrdinary): String
@@ -206,7 +207,8 @@ class ConcreteIerApiService @Inject() (
       ipAddress: Option[String],
       applicant: InprogressCrown,
       referenceNumber: Option[String],
-      timeTaken: Option[String]
+      timeTaken: Option[String],
+      sessionId: Option[String]
   ) = {
 
     val isoCodes = applicant.nationality map { nationality =>
@@ -240,7 +242,8 @@ class ConcreteIerApiService @Inject() (
       contact = applicant.contact,
       referenceNumber = referenceNumber,
       ip = ipAddress,
-      timeTaken = timeTaken.getOrElse("-1")
+      timeTaken = timeTaken.getOrElse("-1"),
+      sessionId = sessionId.getOrElse("")
     ).hackNoUkAddressToNonat(applicant.nationality, applicant.address)
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)

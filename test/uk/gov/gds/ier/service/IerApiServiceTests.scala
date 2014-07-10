@@ -142,7 +142,7 @@ class IerApiServiceTests
         requestJson should include("Smith")
         successMessage
       }
-    ).submitCrownApplication(None, application, None, Some("1234"))
+    ).submitCrownApplication(None, application, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
 
     r should be(IerApiApplicationResponse(
       id = "5360fe69036424d9ec0a1657",
@@ -215,7 +215,7 @@ class IerApiServiceTests
           "This person has no UK address so needs to be set as an 'other' elector: IER-DS.\"")
         successMessage
       }
-    ).submitCrownApplication(None, application, None, None)
+    ).submitCrownApplication(None, application, None, None, None)
   }
 
   "submitCrownApplication address hack for application with no nationality" should
@@ -245,7 +245,7 @@ class IerApiServiceTests
           "This person has no UK address so needs to be set as an 'other' elector: IER-DS.\"")
         successMessage
       }
-    ).submitCrownApplication(None, application, None, None)
+    ).submitCrownApplication(None, application, None, None, None)
   }
 
   "submitForcesApplication address hack" should
