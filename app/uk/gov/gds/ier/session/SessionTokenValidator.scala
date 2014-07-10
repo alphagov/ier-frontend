@@ -14,5 +14,7 @@ trait SessionTokenValidator {
         case e:IllegalArgumentException => false
       }
     }
+
+    def hasSessionId = token.id.nonEmpty
   }
 }
