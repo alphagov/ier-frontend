@@ -24,7 +24,7 @@ case class Address(
       city.map(x => Map(addressKey + "town" -> x)).getOrElse(Map.empty) ++
       county.map(x => Map(addressKey + "area" -> x)).getOrElse(Map.empty) ++
       uprn.map(x => Map(addressKey + "uprn" -> x)).getOrElse(Map.empty) ++
-      Map(addressKey + "postcode" -> postcode)
+      Map(addressKey + "postcode" -> postcode.replaceAllLiterally(" ", "").toLowerCase)
   }
 }
 

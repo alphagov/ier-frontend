@@ -20,7 +20,7 @@ case class LocateAddress(
     locality.map(x => Map(addressKey + "locality" -> x)).getOrElse(Map.empty) ++
     town.map(x => Map(addressKey + "town" -> x)).getOrElse(Map.empty) ++
     area.map(x => Map(addressKey + "area" -> x)).getOrElse(Map.empty) ++
-    Map(addressKey + "postcode" -> postcode) ++
+    Map(addressKey + "postcode" -> postcode.replaceAllLiterally(" ", "").toLowerCase) ++
     uprn.map(x => Map(addressKey + "uprn" -> x)).getOrElse(Map.empty) ++
     gssCode.map(x => Map(addressKey + "gssCode" -> x)).getOrElse(Map.empty)
   }
