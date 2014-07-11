@@ -23,6 +23,9 @@
       }
     }
   });
+  $('#add-countries').each(function (idx, elm) {
+    new GOVUK.registerToVote.OtherCountryFields(elm);
+  });
   $('.selectable').each(function (idx, elm) {
     var $label = $(elm),
         $control = $label.find('input[type=radio], input[type=checkbox]'),
