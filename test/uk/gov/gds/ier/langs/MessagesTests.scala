@@ -23,9 +23,9 @@ class MessagesTests
   }
 
   it should "have the same messages in cy and en" in runningApp {
-    val enKeySet = Messages.jsMessages.allMessages("en").keySet
-    val cyKeySet = Messages.jsMessages.allMessages("cy").keySet
+    val enKeySet = Messages.jsMessages.allMessages("en").keySet.map{ a => (a -> a) }.toMap
+    val cyKeySet = Messages.jsMessages.allMessages("cy").keySet.map{ a => (a -> a) }.toMap
 
-    enKeySet should equal(cyKeySet)
+    enKeySet should matchMap(cyKeySet)
   }
 }

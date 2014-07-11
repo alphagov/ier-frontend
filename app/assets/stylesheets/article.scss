@@ -3,54 +3,73 @@
 @import "toolkit";
 
 .article {
+  position: relative;
   @extend %contain-floats;
+  padding-top: 46px;
+
+  @include media(tablet) {
+    padding-top: 50px;
+  }
+
+  h1, h2, h3, h4 {
+    margin: 0;
+  }
 
   h1 {
     @include bold-48;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    margin: 10px 0;
 
     @include media(tablet){
-      padding-top: 7px;
-      padding-bottom: 13px;
+      margin-top: 20px;
+      margin-bottom: 20px;
     }
   }
+
   h2 {
-    @include bold-36;
-    padding-top: 8px;
-    padding-bottom: 7px;
-
-    @include media(tablet){
-      padding-top: 6px;
-      padding-bottom: 9px;
-    }
+    @include bold-24;
+    margin: 1.2em 0 0.4em 0;
   }
+
   h3 {
-    @include heading-24;
-    padding-top: 8px;
-    padding-bottom: 7px;
+    @include bold-19;
+    margin: 1em 0  0.75em;
+  }
 
-    @include media(tablet){
-      padding-top: 4px;
-      padding-bottom: 6px;
+  .back-to-previous {
+    position: absolute;
+    top: 13px;
+    margin: 0 14px;
+
+    @include media(tablet) {
+      top: 20px;
+      margin-left: 32px;
+      margin-right: 32px;
     }
   }
-  h4 {
-    @include bold-19;
-  }
+
   header {
     margin: 0;
-    padding: 1em 14px 0;
+    padding: 0 14px 0;
 
     @include media(tablet) {
       margin: 0;
-      padding: 3em 2em 2em;
+      padding: 10px 2em;
       max-width: 36em;
     }
   }
 
   article {
     padding-bottom: 2em;
+
+    p {
+      margin: 0.75em 0;
+
+      @include media(tablet) {
+        &.summary {
+          margin-top: 0;
+        }
+      }
+    }
 
     table {
       border-collapse: collapse;
@@ -115,6 +134,10 @@
       background-color: #DEE0E2;
       border: solid 1px #a1acb2;
     }
+  }
+
+  form {
+    padding-top: 0;
   }
 }
 

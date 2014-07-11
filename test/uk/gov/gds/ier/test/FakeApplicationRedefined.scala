@@ -5,6 +5,7 @@ import uk.gov.gds.ier.service.LocateService
 import uk.gov.gds.ier.model.{Success, Fail, ApiResponse, Address}
 import uk.gov.gds.ier.client.IerApiClient
 import uk.gov.gds.ier.controller.MockConfig
+import play.api.GlobalSettings
 
 /**
  * Intended as an extension to TestHelpers; every test using FakeApplication also extends
@@ -33,6 +34,11 @@ trait FakeApplicationRedefined {
         withGlobal = Some(testGlobal))
     }
 
+    def apply(withGlobal: Option[GlobalSettings]) = {
+      play.api.test.FakeApplication(
+        withGlobal = withGlobal)
+    }
+
     def apply(additionalConfiguration: Map[String, String]) = {
       play.api.test.FakeApplication(
         withGlobal = Some(testGlobal),
@@ -55,6 +61,10 @@ trait FakeApplicationRedefined {
    * Emulate behaviour of Locate Service
    */
   val dummyLocateService = new LocateService(null, null, null) {
+    override def lookupGssCode(postcode: String): Option[String] = {
+      Some("E09000030")
+    }
+
     override def lookupAddress(postcode: String): List[Address] =
       postcode.trim.replaceAll(" ", "") match {
       case "WR26NJ" =>
