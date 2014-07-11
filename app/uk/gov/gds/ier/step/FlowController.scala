@@ -7,7 +7,7 @@ trait FlowController[T] {
   object GoToNextStep {
     def apply(): FlowControl = {
       case (currentState, step) => {
-        (currentState, GoTo(step.nextStep(currentState).routes.get))
+        (currentState, GoTo(step.nextStep(currentState).routing.get))
       }
     }
   }
@@ -24,7 +24,7 @@ trait FlowController[T] {
       if (step.isStepComplete(app)) {
         getNextStep(app, step.nextStep(app))
       } else {
-        GoTo(step.routes.get)
+        GoTo(step.routing.get)
       }
     }
   }

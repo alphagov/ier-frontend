@@ -23,7 +23,7 @@ class StatementStep @Inject ()(
 
   val validation = statementForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = StatementController.get,
     post = StatementController.post,
     editGet = StatementController.editGet,

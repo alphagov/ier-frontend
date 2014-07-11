@@ -35,7 +35,7 @@ class ConfirmationStep @Inject() (
   def factoryOfT() = InprogressCrown()
   def timeoutPage() = ErrorController.crownTimeout
 
-  val routes: Routes = Routes(
+  val routing: Routes = Routes(
     get = ConfirmationController.get,
     post = ConfirmationController.post,
     editGet = ConfirmationController.get,
@@ -46,14 +46,14 @@ class ConfirmationStep @Inject() (
 
   def get = ValidSession requiredFor {
     implicit request => application =>
-      Ok(mustache(validation.fillAndValidate(application), routes.post, application).html)
+      Ok(mustache(validation.fillAndValidate(application), routing.post, application).html)
   }
 
   def post = ValidSession requiredFor {
     implicit request => application =>
       validation.fillAndValidate(application).fold(
         hasErrors => {
-          Ok(mustache(hasErrors, routes.post, application).html)
+          Ok(mustache(hasErrors, routing.post, application).html)
         },
         validApplication => {
           val refNum = ierApi.generateCrownReferenceNumber(validApplication)

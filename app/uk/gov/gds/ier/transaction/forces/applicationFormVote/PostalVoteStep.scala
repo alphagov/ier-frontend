@@ -25,7 +25,7 @@ class PostalVoteStep @Inject ()(
 
   val validation = postalOrProxyVoteForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = PostalVoteController.get,
     post = PostalVoteController.post,
     editGet = PostalVoteController.editGet,

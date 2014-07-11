@@ -32,7 +32,7 @@ class AddressFirstStep @Inject ()(
   val validation = addressFirstForm
   val previousRoute = Some(StatementController.get)
 
-  val routes = Routes(
+  val routing = Routes(
     get = AddressFirstController.get,
     post = AddressFirstController.post,
     editGet = AddressFirstController.editGet,

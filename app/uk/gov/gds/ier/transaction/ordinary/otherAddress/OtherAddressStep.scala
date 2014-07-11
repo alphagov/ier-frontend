@@ -25,7 +25,7 @@ class OtherAddressStep @Inject ()(
 
   val validation = otherAddressForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = OtherAddressController.get,
     post = OtherAddressController.post,
     editGet = OtherAddressController.editGet,

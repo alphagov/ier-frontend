@@ -25,7 +25,7 @@ class JobStep @Inject ()(
 
   val validation = jobForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = JobController.get,
     post = JobController.post,
     editGet = JobController.editGet,

@@ -23,7 +23,7 @@ class ServiceStep @Inject ()(
 
   val validation = serviceForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = ServiceController.get,
     post = ServiceController.post,
     editGet = ServiceController.editGet,

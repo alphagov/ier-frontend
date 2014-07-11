@@ -27,7 +27,7 @@ class NationalityStep @Inject ()(
 
   val validation = nationalityForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = NationalityController.get,
     post = NationalityController.post,
     editGet = NationalityController.editGet,

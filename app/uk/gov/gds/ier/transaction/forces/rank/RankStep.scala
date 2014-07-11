@@ -21,7 +21,7 @@ class RankStep @Inject ()(
 
   val validation = rankForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = RankController.get,
     post = RankController.post,
     editGet = RankController.editGet,

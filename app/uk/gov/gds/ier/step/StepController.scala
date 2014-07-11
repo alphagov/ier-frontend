@@ -8,7 +8,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 
 trait Step[T] {
-  val routes: Routes
+  val routing: Routes
 
   //Returns true if this step is currently complete
   def isStepComplete (currentState: T):Boolean
@@ -54,7 +54,7 @@ trait StepController [T <: InprogressApplication[T]]
   def get(implicit manifest: Manifest[T]) = CacheBust {
     ValidSession requiredFor { implicit request => application =>
       logger.debug(s"GET request for ${request.path}")
-      Ok(mustache(validation.fill(application), routes.post, application).html)
+      Ok(mustache(validation.fill(application), routing.post, application).html)
     }
   }
 
@@ -73,20 +73,20 @@ trait StepController [T <: InprogressApplication[T]]
         success => {
           logger.debug(s"Form binding successful")
           val (mergedApplication, result) = onSuccess(success.merge(application), this)
-          Redirect(result.routes.get) storeInSession mergedApplication
+          Redirect(result.routing.get) storeInSession mergedApplication
         }
       )
     }
   }
 
-  def post(implicit manifest: Manifest[T]) = postMethod(routes.post)
+  def post(implicit manifest: Manifest[T]) = postMethod(routing.post)
 
-  def editPost(implicit manifest: Manifest[T]) = postMethod(routes.editPost)
+  def editPost(implicit manifest: Manifest[T]) = postMethod(routing.editPost)
 
   def editGet(implicit manifest: Manifest[T]) = CacheBust {
     ValidSession requiredFor { implicit request => application =>
       logger.debug(s"GET edit request for ${request.path}")
-      Ok(mustache(validation.fill(application), routes.editPost, application).html)
+      Ok(mustache(validation.fill(application), routing.editPost, application).html)
     }
   }
 }

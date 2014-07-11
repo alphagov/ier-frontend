@@ -31,7 +31,7 @@ class PassportCheckStep @Inject ()(
 
   val validation = passportCheckForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = PassportCheckController.get,
     post = PassportCheckController.post,
     editGet = PassportCheckController.editGet,

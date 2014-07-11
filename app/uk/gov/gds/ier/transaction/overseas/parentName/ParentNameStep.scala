@@ -23,7 +23,7 @@ class ParentNameStep @Inject ()(
 
   val validation = parentNameForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = ParentNameController.get,
     post = ParentNameController.post,
     editGet = ParentNameController.editGet,

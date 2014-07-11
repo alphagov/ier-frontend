@@ -28,7 +28,7 @@ class WaysToVoteStep @Inject ()(
 
   val validation = waysToVoteForm
 
-  val routes: Routes = Routes(
+  val routing: Routes = Routes(
     get = WaysToVoteController.get,
     post = WaysToVoteController.post,
     editGet = WaysToVoteController.editGet,

@@ -20,7 +20,7 @@ class AddressStep @Inject() (
   with AddressMustache {
 
   val validation = addressForm
-  val routes = Routes(
+  val routing = Routes(
     get = AddressController.get,
     post = AddressController.post,
     editGet = AddressController.editGet,

@@ -22,7 +22,7 @@ class PassportDetailsStep @Inject ()(
 
   val validation = passportDetailsForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = PassportDetailsController.get,
     post = PassportDetailsController.post,
     editGet = PassportDetailsController.editGet,

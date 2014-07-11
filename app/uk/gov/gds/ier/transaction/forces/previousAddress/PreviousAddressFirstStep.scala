@@ -27,7 +27,7 @@ class PreviousAddressFirstStep @Inject ()(
 
   val validation = previousAddressFirstForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = PreviousAddressFirstController.get,
     post = PreviousAddressFirstController.post,
     editGet = PreviousAddressFirstController.editGet,

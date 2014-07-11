@@ -24,7 +24,7 @@ class AddressManualStep @Inject() (
 
   val validation = manualAddressForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = AddressManualController.get,
     post = AddressManualController.post,
     editGet = AddressManualController.editGet,
