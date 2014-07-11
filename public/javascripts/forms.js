@@ -239,7 +239,6 @@
 
   OtherCountryFields = function (elm) {
     this.$container = $(elm);
-    this.$addAnotherLink = this.$container.find('.duplicate-control');
     Mustache.parse(this.templates.country);
     this.setup();
   };
@@ -248,10 +247,12 @@
                   '<label for="{{id}}" class="country-label" >' +
                       'Country name' +
                   '</label>' +
+                  '{{#remove-link}}' +
                   '<a href="#" class="remove-field" ' +
                      'data-field="{{id}}">' +
                       'Remove <span class="visuallyhidden">Country</span>' +
                   '</a>' +
+                  '{{/remove-link}}' +
                   '<div class="validation-wrapper">' +
                     '<input type="text" id="{{id}}" ' +
                            'name="{{name}}" value="{{value}}" ' +
@@ -260,27 +261,35 @@
                            'data-validation-type="field" ' +
                            'data-validation-rules="nonEmpty validCountry">' +
                   '</div>' +
-                '</div>'
+                '</div>',
+    'addAnotherLink' : '<a href="" class="duplicate-control">' + message('ordinary_nationality_AddAnotherCountry')  + '</a>'
   };
   OtherCountryFields.prototype.setup = function () {
     var $countries = this.$container.find('.added-country');
 
-    this.getCountries($fields);
+    this.getCountries($countries);
+    this.$addAnotherLink = $(this.templates.addAnotherLink);
+    this.$container.append(this.$addAnotherLink);
     this.bindEvents();
   };
   OtherCountryFields.prototype.getCountries = function ($countries) {
-    var _this = this;
+    var _this = this,
+        fieldsInContainer = $countries.length;
 
     this.countries = [];
     $countries.each(function (idx, elm) {
-      if (!_this.removeEmptyCountry(elm)) {
-        _this.countries.push($(elm).find('input:text').val());
+      var countryValue = $(elm).find('input.country-autocomplete').val();
+
+      if (countryValue !== '') {
+        _this.countries.push();
       }
     });
+    if (!this.countries.length) { this.countries.push(''); }
+    this.addCountryElements();
   };
   OtherCountryFields.prototype.removeEmptyCountry = function (country) {
     var $country = $(country),
-        isEmpty = $country.find('input:text').val() === '';
+        isEmpty = $country.find('input.country-autocomplete').val() === '';
 
     if (isEmpty) { $country.remove(); }
     return isEmpty;
@@ -290,6 +299,7 @@
 
     this.$container.on('click', function (e) {
       _this.handleClicks(e);
+      return false;
     });
   };
   OtherCountryFields.prototype.handleClicks = function (evt) {
@@ -297,7 +307,7 @@
         action = null;
 
     if ($target.hasClass('duplicate-control')) {
-      $(this.makeCountryHTML()).insertBefore(this.$addAnotherLink);
+      this.addCountry();
     }
     if ($target.hasClass('remove-field')) {
       this.removeCountry($target);
@@ -321,7 +331,7 @@
     var _this = this;
 
     this.countries = [];
-    $('.added-country input:text', this.$container).each(function (idx, elm) {
+    $('.added-country input.country-autocomplete', this.$container).each(function (idx, elm) {
       _this.countries.push($(elm).val());
     });
   };
@@ -334,6 +344,7 @@
   };
   OtherCountryFields.prototype.makeCountryHTML = function (opts) {
     var newValue = '',
+        includeLink = false,
         newIdx,
         newCountryData;
 
@@ -342,6 +353,7 @@
     } else {
       if (typeof opts.value !== 'undefined') { newValue = opts.value; }
       if (typeof opts.idx !== 'undefined') { newIdx = opts.idx; }
+      if (typeof opts['include-remove-link'] !== 'undefined') { includeLink = true; }
     }
     newCountryData = {
       'id' : this.getFieldId(newIdx),
@@ -349,26 +361,48 @@
       'data-validation-name' : this.getValidationName(newIdx),
       'value' : newValue
     };
+    if (includeLink) {
+      newCountryData['remove-link'] = true;
+    }
 
     return Mustache.render(this.templates.country, newCountryData);
   };
-  OtherCountryFields.prototype.removeCountry = function ($removeLink) {
+  OtherCountryFields.prototype.addCountryElements = function () {
     var $holder = $('<div />'),
-        idxToRemove = this.getIndexFromId($removeLink.data('field')),
+        _this = this;
+
+    this.$container.html('');
+    $.each(this.countries, function (idx, country) {
+      var opts = {
+        'idx' : idx,
+        'value' : country,
+        'include-remove-link' : true
+      };
+
+      if (_this.countries.length === 1) {
+        delete opts['include-remove-link'];
+      }
+      $holder.append(_this.makeCountryHTML(opts));
+    });
+    $holder.append(this.$addAnotherLink);
+    this.$container.append($holder.html());
+  };
+  OtherCountryFields.prototype.addCountry = function () {
+    this.updateCountryValues();
+    this.countries.push('');
+    this.addCountryElements();
+    this.$container.find('.added-country input.country-autocomplete')
+      .eq(this.countries.length - 1)
+      .focus();
+  };
+  OtherCountryFields.prototype.removeCountry = function ($removeLink) {
+    var idxToRemove = this.getIndexFromId($removeLink.data('field')),
         _this = this;
 
     if (!idxToRemove) { return; }
     this.updateCountryValues();
     this.removeCountryValue(idxToRemove);
-    this.$container.html('');
-    $.each(this.countries, function (idx, country) {
-      $holder.append(_this.makeCountryHTML({
-        'idx' : idx,
-        'value' : country
-      }));
-    });
-    $holder.append(this.$addAnotherLink);
-    this.$container.append($holder.html());
+    this.addCountryElements();
   };
 
   // Constructor to allow the label wrapping radios/checkboxes to be styled to reflect their status
