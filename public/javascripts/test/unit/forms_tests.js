@@ -699,13 +699,9 @@ describe("OtherCountryFields", function () {
 
   describe("GetCountries method", function () {
     var otherCountryFieldsMock = {
-          'removeEmptyCountry' : GOVUK.registerToVote.OtherCountryFields.prototype.removeEmptyCountry
+          'addCountryElements' : function () {}
         },
         $countries;
-
-    afterEach(function () {
-      $countries.remove();
-    });
  
     it("Should only add nonEmpty values to the countries array", function () {
       var countriesData = [
@@ -734,7 +730,7 @@ describe("OtherCountryFields", function () {
               'name' : GOVUK.registerToVote.OtherCountryFields.prototype.getFieldName(3),
               'data-validation-name' : GOVUK.registerToVote.OtherCountryFields.prototype.getValidationName(3),
               'value' : '',
-              'remove-link' : true 
+              'remove-link' : true
             }
           ],
           idx;
@@ -746,10 +742,8 @@ describe("OtherCountryFields", function () {
           $countries = $countries.add(Mustache.render(countryHTMLTemplate, countriesData[idx]));
         }
       }
-      $(document.body).append($countries);
-      expect($('.added-country').length).toEqual(4);
-      GOVUK.registerToVote.OtherCountryFields.prototype.getCountries($countries);
-      expect($('.added-country').length).toEqual(2);
+      GOVUK.registerToVote.OtherCountryFields.prototype.getCountries.call(otherCountryFieldsMock, $countries);
+      expect(otherCountryFieldsMock.countries.length).toEqual(2);
     });
 
     it("Should always leave at least one country element, regardless of it having a value or not", function () {
@@ -777,10 +771,8 @@ describe("OtherCountryFields", function () {
           $countries = $countries.add(Mustache.render(countryHTMLTemplate, countriesData[idx]));
         }
       }
-      $(document.body).append($countries);
-      expect($('.added-country').length).toEqual(2);
-      GOVUK.registerToVote.OtherCountryFields.prototype.getCountries($countries);
-      expect($('.added-country').length).toEqual(1);
+      GOVUK.registerToVote.OtherCountryFields.prototype.getCountries.call(otherCountryFieldsMock, $countries);
+      expect(otherCountryFieldsMock.countries.length).toEqual(1);
     });
   });
 
@@ -1111,23 +1103,31 @@ describe("OtherCountryFields", function () {
     });
 
     it("Should remove a country element when passed its 'Remove' link as the parameter", function () {
-      var countryData = {
+      var countryData1 = {
             'id' : 'nationality_otherCountries[0]',
             'name' : 'nationality_otherCountries[0]',
             'data-validation-name' : 'added-country-0',
-            'value' : 'Belgium',
+            'value' : 'Belgium'
+          },
+          countryData2 = {
+            'id' : 'nationality_otherCountries[1]',
+            'name' : 'nationality_otherCountries[1]',
+            'data-validation-name' : 'added-country-1',
+            'value' : 'Germany',
             'remove-link' : true
           },
-          $countryElement = $(Mustache.render(countryHTMLTemplate, countryData));
+          $countryElement1 = $(Mustache.render(countryHTMLTemplate, countryData1));
+          $countryElement2 = $(Mustache.render(countryHTMLTemplate, countryData2));
 
-      $removeLink = $countryElement.find('.remove-field');
-      otherCountriesMock.countries.push(countryData);
-      otherCountriesMock.$container.append($countryElement);
+      $removeLink = $countryElement2.find('.remove-field');
+      otherCountriesMock.countries = ['Belgium', 'Germany'];
+      otherCountriesMock.$container.append($countryElement1);
+      otherCountriesMock.$container.append($countryElement2);
       $(document.body).append(otherCountriesMock.$container);
 
-      expect($('.added-country').length).toEqual(1);
+      expect($('.added-country').length).toEqual(2);
       GOVUK.registerToVote.OtherCountryFields.prototype.removeCountry.call(otherCountriesMock, $removeLink);
-      expect($('.added-country').length).toEqual(0);
+      expect($('.added-country').length).toEqual(1);
     }); 
 
     it("Should create a country element without a 'remove' link when it is the only one left", function () {

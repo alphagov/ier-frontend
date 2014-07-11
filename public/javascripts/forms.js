@@ -281,7 +281,7 @@
       var countryValue = $(elm).find('input.country-autocomplete').val();
 
       if (countryValue !== '') {
-        _this.countries.push();
+        _this.countries.push(countryValue);
       }
     });
     if (!this.countries.length) { this.countries.push(''); }
@@ -391,18 +391,24 @@
     this.updateCountryValues();
     this.countries.push('');
     this.addCountryElements();
-    this.$container.find('.added-country input.country-autocomplete')
-      .eq(this.countries.length - 1)
-      .focus();
+    $(document).trigger('contentUpdate', { context : this.$container });
+    document.getElementById(this.getFieldId(this.countries.length - 1)).focus();
   };
   OtherCountryFields.prototype.removeCountry = function ($removeLink) {
     var idxToRemove = this.getIndexFromId($removeLink.data('field')),
-        _this = this;
+        _this = this,
+        focusInheritor;
 
     if (!idxToRemove) { return; }
     this.updateCountryValues();
     this.removeCountryValue(idxToRemove);
     this.addCountryElements();
+    $(document).trigger('contentUpdate', { context : this.$container });
+    focusInheritor = document.getElementById(this.getFieldId(idxToRemove - 1));
+    if (focusInheritor === null) {
+      focusInheritor = this.$container.find('.added-country input.country-autocomplete')[0];
+    }
+    focusInheritor.focus();
   };
 
   // Constructor to allow the label wrapping radios/checkboxes to be styled to reflect their status
