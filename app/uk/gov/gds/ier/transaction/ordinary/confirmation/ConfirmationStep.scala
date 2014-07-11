@@ -82,7 +82,7 @@ class ConfirmationStep @Inject ()(
             referenceNumber = Some(refNum),
             timeTaken = request.getToken.map(_.timeTaken),
             language = Language.getLang(request).language,
-            sessionId = request.getToken.map(_.id)
+            sessionId = request.getToken.flatMap(_.refreshToken.id)
           )
 
           logSession()
