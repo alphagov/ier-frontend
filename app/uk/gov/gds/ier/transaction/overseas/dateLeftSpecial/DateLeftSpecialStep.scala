@@ -22,7 +22,7 @@ class DateLeftArmyStep @Inject() (
 
   val service = "member of the armed forces"
 
-  val routes = Routes(
+  val routing = Routes(
     get = DateLeftArmyController.get,
     post = DateLeftArmyController.post,
     editGet = DateLeftArmyController.editGet,
@@ -39,7 +39,7 @@ class DateLeftCrownStep @Inject() (
 
   val service = "Crown Servant"
 
-  val routes = Routes(
+  val routing = Routes(
     get = DateLeftCrownController.get,
     post = DateLeftCrownController.post,
     editGet = DateLeftCrownController.editGet,
@@ -56,7 +56,7 @@ class DateLeftCouncilStep @Inject() (
 
  val service = "British Council employee"
 
- val routes = Routes(
+ val routing = Routes(
     get = DateLeftCouncilController.get,
     post = DateLeftCouncilController.post,
     editGet = DateLeftCouncilController.editGet,

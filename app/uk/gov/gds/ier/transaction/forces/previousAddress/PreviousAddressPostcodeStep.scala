@@ -22,7 +22,7 @@ class PreviousAddressPostcodeStep @Inject() (
 
   val validation = postcodeAddressFormForPreviousAddress
 
-  val routes = Routes(
+  val routing = Routes(
     get = PreviousAddressPostcodeController.get,
     post = PreviousAddressPostcodeController.post,
     editGet = PreviousAddressPostcodeController.editGet,

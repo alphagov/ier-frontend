@@ -35,7 +35,7 @@ class ConfirmationStep @Inject ()(
   def factoryOfT() = InprogressOrdinary()
   def timeoutPage() = ErrorController.ordinaryTimeout
 
-  val routes:Routes = Routes(
+  val routing:Routes = Routes(
     get = ConfirmationController.get,
     post = ConfirmationController.post,
     editGet = ConfirmationController.get,
@@ -63,14 +63,14 @@ class ConfirmationStep @Inject ()(
         }
       )
 
-      Ok(mustache(validation.fillAndValidate(appWithAddressLines), routes.post, application).html)
+      Ok(mustache(validation.fillAndValidate(appWithAddressLines), routing.post, application).html)
   }
 
   def post = ValidSession requiredFor {
     implicit request => application =>
       validation.fillAndValidate(application).fold(
         hasErrors => {
-          Ok(mustache(hasErrors, routes.post, application).html)
+          Ok(mustache(hasErrors, routing.post, application).html)
         },
         validApplication => {
           val refNum = ierApi.generateOrdinaryReferenceNumber(validApplication)

@@ -29,7 +29,7 @@ class CountryStep @Inject ()(
 
   val validation = countryForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = CountryController.get,
     post = CountryController.post,
     editGet = CountryController.editGet,

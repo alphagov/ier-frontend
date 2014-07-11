@@ -27,7 +27,7 @@ class ContactStep @Inject ()(
 
   val validation = contactForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = ContactController.get,
     post = ContactController.post,
     editGet = ContactController.editGet,

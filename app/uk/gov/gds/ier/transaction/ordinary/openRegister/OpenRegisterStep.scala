@@ -24,7 +24,7 @@ class OpenRegisterStep @Inject ()(
 
   val validation = openRegisterForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = OpenRegisterController.get,
     post = OpenRegisterController.post,
     editGet = OpenRegisterController.editGet,

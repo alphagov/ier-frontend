@@ -31,7 +31,7 @@ class PreviousAddressSelectStep @Inject() (
 
   val validation = selectStepForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = PreviousAddressSelectController.get,
     post = PreviousAddressSelectController.post,
     editGet = PreviousAddressSelectController.editGet,

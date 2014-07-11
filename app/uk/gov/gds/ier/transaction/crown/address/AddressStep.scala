@@ -24,7 +24,7 @@ class AddressStep @Inject() (
 
   val validation = lookupAddressForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = AddressController.get,
     post = AddressController.post,
     editGet = AddressController.editGet,

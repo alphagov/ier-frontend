@@ -35,7 +35,7 @@ class ConfirmationStep @Inject() (
   def factoryOfT() = InprogressOverseas()
   def timeoutPage() = ErrorController.ordinaryTimeout
 
-  val routes: Routes = Routes(
+  val routing: Routes = Routes(
     get = ConfirmationController.get,
     post = ConfirmationController.post,
     editGet = ConfirmationController.get,
@@ -48,7 +48,7 @@ class ConfirmationStep @Inject() (
     implicit request => application =>
       application.identifyApplication match {
         case ApplicationType.DontKnow => NotFound(ErrorPage.NotFound(request.path))
-        case _ => Ok(mustache(validation.fillAndValidate(application), routes.post, application).html)
+        case _ => Ok(mustache(validation.fillAndValidate(application), routing.post, application).html)
       }
   }
 
@@ -56,7 +56,7 @@ class ConfirmationStep @Inject() (
     implicit request => application =>
       validation.fillAndValidate(application).fold(
         hasErrors => {
-          Ok(mustache(hasErrors, routes.post, application).html)
+          Ok(mustache(hasErrors, routing.post, application).html)
         },
         validApplication => {
           val refNum = ierApi.generateOverseasReferenceNumber(validApplication)

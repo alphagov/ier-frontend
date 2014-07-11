@@ -21,7 +21,7 @@ class ParentsAddressManualStep @Inject() (
 
   val validation = parentsManualAddressForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = ParentsAddressManualController.get,
     post = ParentsAddressManualController.post,
     editGet = ParentsAddressManualController.editGet,

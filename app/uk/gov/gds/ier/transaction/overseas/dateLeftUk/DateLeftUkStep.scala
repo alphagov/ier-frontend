@@ -26,7 +26,7 @@ class DateLeftUkStep @Inject() (
     with DateLeftUkMustache {
 
   val validation = dateLeftUkForm
-  val routes = Routes(
+  val routing = Routes(
     get = DateLeftUkController.get,
     post = DateLeftUkController.post,
     editGet = DateLeftUkController.editGet,

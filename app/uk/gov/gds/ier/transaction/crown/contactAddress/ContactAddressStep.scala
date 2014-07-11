@@ -24,7 +24,7 @@ class ContactAddressStep @Inject ()(
 
   val validation = contactAddressForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = ContactAddressController.get,
     post = ContactAddressController.post,
     editGet = ContactAddressController.editGet,

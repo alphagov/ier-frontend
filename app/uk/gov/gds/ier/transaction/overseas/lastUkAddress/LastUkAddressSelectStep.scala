@@ -32,7 +32,7 @@ class LastUkAddressSelectStep @Inject() (
 
   val validation = lastUkAddressForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = LastUkAddressSelectController.get,
     post = LastUkAddressSelectController.post,
     editGet = LastUkAddressSelectController.editGet,

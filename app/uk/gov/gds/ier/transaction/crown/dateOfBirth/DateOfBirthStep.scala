@@ -27,7 +27,7 @@ class DateOfBirthStep @Inject ()(
 
   val validation = dateOfBirthForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = DateOfBirthController.get,
     post = DateOfBirthController.post,
     editGet = DateOfBirthController.editGet,

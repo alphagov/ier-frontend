@@ -23,7 +23,7 @@ class LastRegisteredToVoteStep @Inject() (
 
   val validation = lastRegisteredToVoteForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = LastRegisteredToVoteController.get,
     post = LastRegisteredToVoteController.post,
     editGet = LastRegisteredToVoteController.editGet,

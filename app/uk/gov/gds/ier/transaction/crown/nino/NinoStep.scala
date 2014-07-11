@@ -22,7 +22,7 @@ class NinoStep @Inject ()(
 
   val validation = ninoForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = NinoController.get,
     post = NinoController.post,
     editGet = NinoController.editGet,

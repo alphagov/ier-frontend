@@ -24,7 +24,7 @@ class DeclarationPdfStep @Inject ()(
 
   val validation = declarationPdfForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = DeclarationPdfController.get,
     post = DeclarationPdfController.post,
     editGet = DeclarationPdfController.editGet,

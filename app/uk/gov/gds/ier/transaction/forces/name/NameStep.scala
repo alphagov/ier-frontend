@@ -21,7 +21,7 @@ class NameStep @Inject ()(
 
   val validation = nameForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = NameController.get,
     post = NameController.post,
     editGet = NameController.editGet,

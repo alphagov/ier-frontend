@@ -21,12 +21,12 @@ trait ConfirmationStepController[T <: InprogressApplication[T]]
   with WithEncryption {
 
   val validation: ErrorTransformForm[T]
-  val routes: Routes
+  val routing: Routes
   def get:Action[AnyContent]
   def post:Action[AnyContent]
 
   def goToNext(currentState: T) = {
-    Redirect(routes.get)
+    Redirect(routing.get)
   }
 
   def nextStep(currentState: T) = this

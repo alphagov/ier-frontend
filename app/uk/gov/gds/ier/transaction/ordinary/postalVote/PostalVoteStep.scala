@@ -29,7 +29,7 @@ class PostalVoteStep @Inject ()(
 
   val validation = postalVoteForm
 
-  val routes = Routes(
+  val routing = Routes(
     get = PostalVoteController.get,
     post = PostalVoteController.post,
     editGet = PostalVoteController.editGet,
