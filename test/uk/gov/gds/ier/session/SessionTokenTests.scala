@@ -92,6 +92,23 @@ class SessionTokenTests
     refreshed.id should be(token.id)
   }
 
+  it should "generate a new id if no id was deserialised" in {
+    val sessionToken = SessionToken(
+      id = None
+    )
+    val json = jsonSerialiser.toJson(sessionToken)
+    
+    val token = jsonSerialiser.fromJson[SessionToken](json)
+
+    token should have(
+      'id (None)
+    )
+
+    token.refreshToken should not have(
+      'id (None)
+    )
+  }
+
   behavior of "SessionToken when serialised and encrypted"
   it should "be under half a KB when serialised" in {
     //20 mins in seconds (the max size of a session delta)

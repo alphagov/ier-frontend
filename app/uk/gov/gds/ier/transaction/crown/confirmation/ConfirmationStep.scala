@@ -60,7 +60,7 @@ class ConfirmationStep @Inject() (
             validApplication,
             Some(refNum),
             request.getToken.map(_.timeTaken),
-            sessionId = request.getToken.map(_.id)
+            sessionId = request.getToken.flatMap(_.refreshToken.id)
           )
 
           logSession()
