@@ -116,16 +116,11 @@ main .visible { // assumes default state is block
   display: block
 }
 
-a.button {
-  color: white;
-}
-
 .button {
   @include button;
-}
-
-.button {
-  padding: 0.3em 0.6em 0.2em 0.6em;
+  
+  color: white;
+  padding: 0.3em 0.6em 0.2em 0.6em;  
 }
 
 .breadcrumbs {
