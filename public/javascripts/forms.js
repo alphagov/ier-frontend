@@ -301,6 +301,27 @@
       _this.handleClicks(e);
       return false;
     });
+    $(document).bind('contentUpdate', function (evt, eData) {
+      if (eData.context[0] === _this.$container[0]) {
+        _this.updateValidation(evt.type, eData.context);
+      }
+    });
+  };
+  OtherCountryFields.prototype.updateValidation = function (evt, $elm) {
+    var containerValidationName = $elm.data('validationName'),
+        containerValidationObj = GOVUK.registerToVote.validation.fields.getNames([containerValidationName])[0],
+        countryValidationNames = [];
+
+    $.each(containerValidationObj.children, function (idx, child) {
+      GOVUK.registerToVote.validation.fields.remove(child);
+    });
+    $elm.find('.validate').each(function (idx, elm) {
+      var $elm = $(elm);
+
+      GOVUK.registerToVote.validation.fields.add($elm);
+      countryValidationNames.push($elm.data('validationName'));
+    });
+    containerValidationObj.children = countryValidationNames;
   };
   OtherCountryFields.prototype.handleClicks = function (evt) {
     var $target = $(evt.target),
@@ -384,10 +405,13 @@
       }
       $holder.append(_this.makeCountryHTML(opts));
     });
-    $holder.append(this.$addAnotherLink);
+    if (this.countries.length < 3) {
+      $holder.append(this.$addAnotherLink);
+    }
     this.$container.append($holder.html());
   };
   OtherCountryFields.prototype.addCountry = function () {
+    $(document).trigger('contentRemoval', { context : this.$container });
     this.updateCountryValues();
     this.countries.push('');
     this.addCountryElements();
@@ -400,6 +424,7 @@
         focusInheritor;
 
     if (!idxToRemove) { return; }
+    $(document).trigger('contentRemoval', { context : this.$container });
     this.updateCountryValues();
     this.removeCountryValue(idxToRemove);
     this.addCountryElements();
@@ -408,7 +433,8 @@
     if (focusInheritor === null) {
       focusInheritor = this.$container.find('.added-country input.country-autocomplete')[0];
     }
-    focusInheritor.focus();
+    $(focusInheritor).focus();
+    $(document).trigger('contentUpdate', { context : this.$container });
   };
 
   // Constructor to allow the label wrapping radios/checkboxes to be styled to reflect their status
