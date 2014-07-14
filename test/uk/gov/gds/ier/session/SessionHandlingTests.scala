@@ -167,64 +167,6 @@ class SessionHandlingTests extends FlatSpec with Matchers {
     }
   }
 
-  it should "invalidate a session with an old style session token" in {
-    running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
-      class TestController
-        extends SessionHandling[FakeInprogress]
-          with Controller
-          with WithSerialiser
-          with WithConfig
-          with Logging
-          with ApiResults
-          with WithEncryption {
-
-        def timeoutPage() = Call(GET, "/error/timeout")
-        def factoryOfT() = FakeInprogress("")
-        val serialiser = jsonSerialiser
-        val config = new MockConfig
-        val encryptionService = new EncryptionService (new Base64EncodingService, config)
-
-        def index() = ValidSession requiredFor {
-          request => application =>
-            okResult(Map("status" -> "Ok"))
-        }
-      }
-
-      val controller = new TestController()
-      val sessionToken = DateTime.now.minusMinutes(2)
-      val (encryptedSessionTokenValue, encryptedSessionTokenIVValue) =
-        controller.encryptionService.encrypt(jsonSerialiser.toJson(sessionToken))
-
-      val result = controller.index()(
-        FakeRequest().withCookies(
-          Cookie("sessionKey", encryptedSessionTokenValue),
-          Cookie("sessionKeyIV", encryptedSessionTokenIVValue)
-        )
-      )
-
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote"))
-
-      cookies(result).get("sessionKey") should not be None
-      cookies(result).get("sessionKeyIV") should not be None
-
-      val Some(token) = cookies(result).get("sessionKey")
-      val Some(tokenIV) = cookies(result).get("sessionKeyIV")
-
-      val decryptedInfo = controller.encryptionService.decrypt(token.value, tokenIV.value)
-
-      val tokenDate = jsonSerialiser.fromJson[SessionToken](decryptedInfo)
-      tokenDate.latest.getDayOfMonth should be(DateTime.now.getDayOfMonth)
-      tokenDate.latest.getMonthOfYear should be(DateTime.now.getMonthOfYear)
-      tokenDate.latest.getYear should be(DateTime.now.getYear)
-      tokenDate.latest.getHourOfDay should be(DateTime.now.getHourOfDay)
-      tokenDate.latest.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
-      tokenDate.latest.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 2)
-      tokenDate.latest.getMinuteOfHour should not be(DateTime.now.minusMinutes(20).getMinuteOfHour)
-    }
-  }
-
-
   it should "invalidate a session after 20 mins" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       class TestController
@@ -262,22 +204,11 @@ class SessionHandlingTests extends FlatSpec with Matchers {
 
       status(result) should be(SEE_OTHER)
 
-      cookies(result).get("sessionKey") should not be None
-      cookies(result).get("sessionKeyIV") should not be None
-
       val Some(token) = cookies(result).get("sessionKey")
       val Some(tokenIV) = cookies(result).get("sessionKeyIV")
 
-      val decryptedInfo = controller.encryptionService.decrypt(token.value, tokenIV.value)
-
-      val tokenDate = jsonSerialiser.fromJson[SessionToken](decryptedInfo)
-      tokenDate.latest.getDayOfMonth should be(DateTime.now.getDayOfMonth)
-      tokenDate.latest.getMonthOfYear should be(DateTime.now.getMonthOfYear)
-      tokenDate.latest.getYear should be(DateTime.now.getYear)
-      tokenDate.latest.getHourOfDay should be(DateTime.now.getHourOfDay)
-      tokenDate.latest.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
-      tokenDate.latest.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 2)
-      tokenDate.latest.getMinuteOfHour should not be(DateTime.now.minusMinutes(20).getMinuteOfHour)
+      token should have ('value(""))
+      tokenIV should have ('value(""))
     }
   }
 
