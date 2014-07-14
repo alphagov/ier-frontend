@@ -475,7 +475,7 @@
 
             match = entry
                       .toUpperCase()
-                      .replace(/[\s|\-]/g, "")
+                      .replace(/\s/g, "")
                       .match(/^((GIR0AA)|((([A-PR-UW-Z][0-9][0-9]?)|(([A-PR-UW-Z][A-HK-Y][0-9][0-9]?)|(([A-PR-UW-Z][0-9][A-HJKSTUW])|([A-PR-UW-Z][A-HK-Z][0-9][ABEHMNPRVWXY]))))[0-9][A-BD-HJLNP-UW-Z]{2}))$/);
             if (match === null) {
               return _getInvalidDataFromFields([this], 'postcode');
