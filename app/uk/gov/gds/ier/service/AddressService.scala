@@ -64,7 +64,7 @@ class AddressService @Inject()(locateService: LocateService) {
   }
 
   def isScotland(postcode: String): Boolean = {
-    locateService.lookupAddress(postcode).exists(_.gssCode.exists(_.startsWith("S")))
+    locateService.lookupGssCode(postcode).exists(_.startsWith("S"))
   }
 
   def isNothernIreland(postcode: String): Boolean = {
@@ -73,7 +73,7 @@ class AddressService @Inject()(locateService: LocateService) {
 
   def validAuthority(postcode: Option[String]): Boolean = {
     postcode match {
-      case Some(p) => locateService.lookupAuthority(p).isDefined
+      case Some(p) => locateService.lookupGssCode(p).isDefined
       case _ => false
     }
   }
@@ -95,8 +95,6 @@ class AddressService @Inject()(locateService: LocateService) {
    * and pick first available gssCode from the results.
    */
   private def ensureGssCode(gssCode: Option[String], postcode: String): Option[String] = {
-    gssCode.orElse {
-      locateService.lookupAddress(postcode).find(_.gssCode.isDefined).flatMap(_.gssCode)
-    }
+    gssCode orElse locateService.lookupGssCode(postcode)
   }
 }
