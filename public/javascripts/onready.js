@@ -64,7 +64,7 @@
       GOVUK.registerToVote.autocompletes.add($(elm));
     });
   });
-  $(document).bind('contentRemoval', function (e, data) {
+  $(document).bind('preContentRemoval', function (e, data) {
     var context = data.context;
 
     $('.country-autocomplete', context).each(function (idx, elm) {

@@ -411,7 +411,7 @@
     this.$container.append($holder.html());
   };
   OtherCountryFields.prototype.addCountry = function () {
-    $(document).trigger('contentRemoval', { context : this.$container });
+    $(document).trigger('preContentRemoval', { context : this.$container });
     this.updateCountryValues();
     this.countries.push('');
     this.addCountryElements();
@@ -424,7 +424,7 @@
         focusInheritor;
 
     if (!idxToRemove) { return; }
-    $(document).trigger('contentRemoval', { context : this.$container });
+    $(document).trigger('preContentRemoval', { context : this.$container });
     this.updateCountryValues();
     this.removeCountryValue(idxToRemove);
     this.addCountryElements();
