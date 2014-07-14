@@ -63,7 +63,14 @@ class LocateService @Inject() (
   }
 
   def lookupGssCode(postcode: String): Option[String] = {
-    lookupAuthority(postcode).map(_.gssCode )
+    def gssFromAuthority = {
+      lookupAuthority(postcode).map(_.gssCode )
+    }
+    def gssFromAddress = {
+      lookupAddress(postcode).find(_.gssCode.isDefined).flatMap(_.gssCode)
+    }
+
+    gssFromAuthority orElse gssFromAddress
   }
 
   def beaconFire:Boolean = {
