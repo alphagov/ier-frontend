@@ -4,10 +4,13 @@ trait FlowController[T] {
   type ApplicationStep = (T, Step[T])
   type FlowControl = ApplicationStep => ApplicationStep
 
+  class FlowRecursionException extends Exception("Recursion encountered in FlowControl")
+
   object GoToNextStep {
     def apply(): FlowControl = {
       case (currentState, step) => {
-        (currentState, GoTo(step.nextStep(currentState).routing.get))
+        val nextStep = step.nextStep(currentState)
+        (currentState, GoTo(nextStep.routing.get))
       }
     }
   }
@@ -22,7 +25,9 @@ trait FlowController[T] {
 
     def getNextStep(app:T, step:Step[T]):Step[T] = {
       if (step.isStepComplete(app)) {
-        getNextStep(app, step.nextStep(app))
+        val nextStep = step.nextStep(app)
+        if (nextStep == step) throw new FlowRecursionException
+        getNextStep(app, nextStep)
       } else {
         GoTo(step.routing.get)
       }

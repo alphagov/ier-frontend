@@ -37,13 +37,13 @@ abstract class SessionHandling[T <: InprogressApplication[T]]
               }
               case false => {
                 logger.debug(s"Validate session - token is not valid ${serialiser.toJson(token)}")
-                Redirect(timeoutPage()).withFreshSession()
+                Redirect(timeoutPage()).emptySession()
               }
             }
           }
           case None => {
             logger.debug(s"Validate session - Request has no token, refreshing and redirecting to govuk start page")
-            Redirect(config.ordinaryStartUrl).withFreshSession()
+            Redirect(config.ordinaryStartUrl).emptySession()
           }
         }
     }
