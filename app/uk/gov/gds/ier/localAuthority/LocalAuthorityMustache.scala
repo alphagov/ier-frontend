@@ -7,6 +7,7 @@ import uk.gov.gds.ier.model.LocalAuthority
 import uk.gov.gds.ier.mustache.MustacheModel
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.model.LocalAuthorityContactDetails
+import uk.gov.gds.ier.langs.Messages
 
 trait LocalAuthorityMustache
   extends InheritedGovukMustache with MustacheModel {
@@ -32,7 +33,8 @@ trait LocalAuthorityMustache
     case class LocalAuthorityPostcodePage (
         postcode: Field,
         override val sourcePath: String,
-        postUrl: String
+        postUrl: String,
+        errorMessages: Seq[String] = Seq.empty
     ) (
         implicit override val lang: Lang
     ) extends ArticleMustachio("localAuthority/lookup")
@@ -44,9 +46,10 @@ trait LocalAuthorityMustache
           postUrl: String
       ): LocalAuthorityPostcodePage = {
         LocalAuthorityPostcodePage(
-          TextField(key = keys.postcode),
-          sourcePath getOrElse "",
-          postUrl
+          postcode = TextField(key = keys.postcode),
+          sourcePath = sourcePath getOrElse "",
+          postUrl = postUrl,
+          errorMessages = Messages.translatedGlobalErrors(form)
         )
       }
     }

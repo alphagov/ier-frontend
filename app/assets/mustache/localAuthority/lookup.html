@@ -7,6 +7,11 @@
     <h1>{{messages.lookup_show_title}}</h1>
 </header>
 <form action="{{postUrl}}" method="POST">
+
+    {{#errorMessages}}
+        <div class="validation-message visible">{{.}}</div>
+    {{/errorMessages}}
+
     <p>{{messages.lookup_instruction}}</p>
     <label for="{{postcode.id}}">{{messages.lookup_postcode_label}}:</label>
 
@@ -16,6 +21,7 @@
           id="{{postcode.id}}"
           name="{{postcode.name}}"
           value="{{postcode.value}}"
+          autocomplete="off"
           class="text postcode medium validate {{postcode.classes}}"
           data-validation-name="postcode"
           data-validation-type="field"
