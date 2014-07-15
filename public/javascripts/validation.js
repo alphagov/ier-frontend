@@ -390,17 +390,31 @@
       return false;
     },
     rules : (function () {
-      var _fieldType,
+      var _isTextField,
+          _fieldType,
           _selectValue,
           _radioValue,
           _getFieldValue,
           _getInvalidDataFromFields,
           rules;
 
-      _fieldType = function ($field) {
-        var type = $field[0].nodeName.toLowerCase();
+      _isTextField = function (type) {
+        var types = ['text', 'tel', 'email', 'number'];
 
-        return (type === 'input') ? $field[0].type : type;
+        return ($.inArray(type, types) !== -1);
+      };
+      _fieldType = function ($field) {
+        var nodeName = $field[0].nodeName.toLowerCase();
+
+        if (nodeName === 'input') {
+          if (_isTextField(nodeName)) {
+            return 'text';
+          } else {
+            return $field[0].type;
+          }
+        } else {
+          return nodeName;
+        }
       };
       _selectValue = function ($field) {
         var idx = $field[0].selectedIndex;
