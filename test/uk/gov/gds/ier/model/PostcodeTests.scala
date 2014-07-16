@@ -15,7 +15,7 @@ class PostcodeTests
     Postcode.toApiFormat("") should be("")
   }
 
-  it should "introduce insert space before last 3 characters" in {
+  it should "insert a space before last 3 characters" in {
     Postcode.toApiFormat("n") should be("N")
     Postcode.toApiFormat("un") should be("UN")
     Postcode.toApiFormat("6un") should be("6UN")
@@ -39,7 +39,7 @@ class PostcodeTests
     Postcode.toDisplayFormat("") should be("")
   }
 
-  it should "introduce insert space before last 3 characters" in {
+  it should "insert a space before last 3 characters" in {
     Postcode.toDisplayFormat("n") should be("N")
     Postcode.toDisplayFormat("un") should be("UN")
     Postcode.toDisplayFormat("6un") should be("6UN")
