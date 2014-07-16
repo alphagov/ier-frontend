@@ -8,10 +8,10 @@ class AddressTests
   with Matchers
   with CustomMatchers {
 
-  it should "generate the expected payload with lower-cased, no whitespaces postcode" in {
-    Address(" aB1  2Cd ").toApiMap("reg") should matchMap(Map("regpostcode" -> "ab12cd"))
-    Address("ab12cd").toApiMap("reg") should matchMap(Map("regpostcode" -> "ab12cd"))
-    Address("  A  B  12  C  D  ").toApiMap("reg") should matchMap(Map("regpostcode" -> "ab12cd"))
+  it should "generate the expected payload with correct format postcode" in {
+    Address(" aB1  2Cd ").toApiMap("reg") should matchMap(Map("regpostcode" -> "AB1 2CD"))
+    Address("ab12cd").toApiMap("reg") should matchMap(Map("regpostcode" -> "AB1 2CD"))
+    Address("  A  B  12  C  D  ").toApiMap("reg") should matchMap(Map("regpostcode" -> "AB1 2CD"))
   }
 
 }

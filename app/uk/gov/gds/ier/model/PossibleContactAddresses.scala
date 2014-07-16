@@ -18,8 +18,10 @@ case class PossibleContactAddresses(
   private def toApiMapFromUkAddress (address: Option[Address]) = {
     if (address.isDefined) {
       val ukAddress = address.get
-      Map("corrcountry" -> "uk") ++
-      Map("corrpostcode" -> ukAddress.postcode.replaceAllLiterally(" ", "").toLowerCase) ++
+      Map(
+        "corrcountry" -> "uk",
+        "corrpostcode" -> Postcode.toApiFormat(ukAddress.postcode)
+      ) ++
       ukAddress.lineOne.map(lineOne => Map("corraddressline1" -> lineOne.toString)).getOrElse(Map.empty) ++
       ukAddress.lineTwo.map(lineTwo => Map("corraddressline2" -> lineTwo.toString)).getOrElse(Map.empty) ++
       ukAddress.lineThree.map(lineThree => Map("corraddressline3" -> lineThree.toString)).getOrElse(Map.empty) ++
