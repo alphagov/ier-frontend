@@ -11,16 +11,17 @@ trait LocalAuthorityLookupForm {
 
   lazy val localAuthorityLookupForm = ErrorTransformForm(
     mapping(
-      keys.postcode.key -> text.verifying(postcodeNotEmpty)
+      keys.postcode.key -> optional(text)
+        .verifying(postcodeNotEmpty)
     )
-    (LocalAuthorityRequest.apply)(LocalAuthorityRequest.unapply)
+    (postcode => LocalAuthorityRequest(postcode.getOrElse("")))
+    (localAuthRequest => Some(Some(localAuthRequest.postcode)))
     .verifying(isPostcodeValid)
   )
 
-  lazy val postcodeNotEmpty = Constraint[String](keys.postcode.key) {
-    postcode =>
-      if(postcode.isEmpty) Invalid("ordinary_address_error_pleaseEnterYourPostcode", keys.postcode)
-      else Valid
+  lazy val postcodeNotEmpty = Constraint[Option[String]](keys.postcode.key) {
+    case Some(postcode) if(postcode.nonEmpty) => Valid
+    case _ => Invalid("ordinary_address_error_pleaseEnterYourPostcode", keys.postcode)
   }
 
   lazy val isPostcodeValid = Constraint[LocalAuthorityRequest](keys.postcode.key) {
