@@ -8,7 +8,7 @@ class PossibleContactAddressesTests
   with Matchers
   with CustomMatchers {
 
-  it should "generate the expected payload with lower-cased, no whitespaces postcode" in {
+  it should "generate the expected payload with postcode in the correct format" in {
     val possibleAddress = PossibleContactAddresses(
       contactAddressType = Some("uk"),
       ukAddressLine = None,
@@ -17,7 +17,7 @@ class PossibleContactAddressesTests
     )
 
     val possibleAddressMap = possibleAddress.toApiMap(Some(Address(" aB1  2Cd "))).asInstanceOf[Map[String, String]]
-    possibleAddressMap should matchMap(Map("corrcountry" -> "uk", "corrpostcode" -> "ab12cd"))
+    possibleAddressMap should matchMap(Map("corrcountry" -> "uk", "corrpostcode" -> "AB1 2CD"))
   }
 
 }
