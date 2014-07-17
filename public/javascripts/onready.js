@@ -5,6 +5,8 @@
       $ = root.jQuery,
       GOVUK = root.GOVUK;
 
+  GOVUK.performance.stageprompt.setupForGoogleAnalytics();
+
   $('header.no-back-link').each(function (idx, elm) {
     new GOVUK.registerToVote.BackButton(elm);
   });
