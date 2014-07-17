@@ -28,4 +28,8 @@ class PostcodeValidatorTest
   it should "return false for empty string" in {
     PostcodeValidator.isValid("") should be(false)
   }
+
+  it should "return false for postcode with hyphen (-)" in {
+    PostcodeValidator.isValid("SW11-2DR") should be(false)
+  }
 }
