@@ -28,8 +28,16 @@
   <p>{{messages.complete_ifYouAreNotAlreadyRegistered1_p}}
   <a href="{{backToStartUrl}}">{{messages.complete_ifYouAreNotAlreadyRegistered2_p}}</a>.</p>
   {{/hasOtherAddress}}
-  <p class="footnote"><a href="https://www.gov.uk/done/register-to-vote">{{messages.complete_takeOurSurvey_a}}</a> {{messages.complete_takeOurSurvey_p}}</p>
-  <p><a href="https://www.gov.uk/voting-in-the-uk">{{messages.complete_moreAboutVoting_a}}</a></p>
+  <div class="footnote">
+    <p><a href="https://www.gov.uk/done/register-to-vote">{{messages.complete_takeOurSurvey_a}}</a> {{messages.complete_takeOurSurvey_p}}</p>
+    <p><a href="https://www.gov.uk/voting-in-the-uk">{{messages.complete_moreAboutVoting_a}}</a></p>
+  </div>
+  <div class="footnote">
+    <ul class="sharing-links">
+      <li><a href="https://twitter.com/intent/tweet?text=I%27ve%20just%20registered%20online%20to%20vote%2C%20you%20should%20too!%20%23YourVoteMatters&url=https%3A%2F%2Fwww.gov.uk%2Fregister-to-vote" data-journey-click="Social media sharing:Click share link:Twitter"><img src="{{{ assetPath }}}images/social-icons-twitter.png" alt="" />Twitter</a></li>
+      <li><a href="http://www.facebook.com/sharer.php?t=I've%20just%20registered%20online%20to%20vote,%20you%20should%20too!&u=https://www.gov.uk/register-to-vote" data-journey-click="Social media sharing:Click share link:Facebook"><img src="{{{ assetPath }}}images/social-icons-facebook.png" alt="" />Facebook</a></li>
+    </ul>
+  </div>
 </article>
 {{/main}}
 
