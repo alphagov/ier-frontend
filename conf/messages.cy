@@ -468,6 +468,7 @@ complete_takeOurSurvey_p= (yn cymryd 30 eiliad)
 complete_electoralRegistrationOffice=Swyddfa Gofrestru Etholiadol
 complete_unspecificElectoralRegistrationOffice=eich Swyddfa Gofrestru Etholiadol leol
 
+complete_social_twitter_text=I%20just%20registered%20online%20to%20vote.%20If%20you%20haven't%20already%2C%20you%20should%20too!%20%23YourVoteMatters
 
 # JavaScript: general
 
