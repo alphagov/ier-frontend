@@ -10,7 +10,60 @@ window.GOVUK.registerToVote = {};
       GOVUK = root.GOVUK,
       ToggleObj,
       OptionalInformation,
+      stageprompt,
+      sendGoogleAnalyticsEvent,
       $searchFocus;
+
+  /*
+    Stageprompt analytics tracking
+
+    This version:
+    https://github.com/alphagov/stageprompt/blob/fc13f1f6b2034a8c9f60c8fbae5b07e80f9f84b1/script/stageprompt.js
+  */
+  stageprompt = (function () {
+
+    var setup, setupForGoogleAnalytics, splitAction;
+
+    splitAction = function (action) {
+      var parts = action.split(':');
+      if (parts.length <= 3) return parts;
+      return [parts.shift(), parts.shift(), parts.join(':')];
+    };
+
+    setup = function (analyticsCallback) {
+      var journeyStage = $('[data-journey]').attr('data-journey'),
+          journeyHelpers = $('[data-journey-click]');
+
+      if (journeyStage) {
+        analyticsCallback.apply(null, splitAction(journeyStage));
+      }
+
+      journeyHelpers.on('click', function (event) {
+        analyticsCallback.apply(null, splitAction($(this).data('journey-click')));
+      });
+    };
+
+    setupForGoogleAnalytics = function () {
+      setup(GOVUK.performance.sendGoogleAnalyticsEvent);
+    };
+
+    return {
+      setup: setup,
+      setupForGoogleAnalytics: setupForGoogleAnalytics
+    };
+  }());
+
+  sendGoogleAnalyticsEvent = function (category, event, label) {
+    if (window.ga && typeof(window.ga) === 'function') {
+      ga('send', 'event', category, event, label);
+    } else {
+      _gaq.push(['_trackEvent', category, event, label, undefined, true]);
+    }
+  };
+
+  GOVUK.performance = GOVUK.performance || {};
+  GOVUK.performance.stageprompt = stageprompt;
+  GOVUK.performance.sendGoogleAnalyticsEvent  = sendGoogleAnalyticsEvent;
 
   // Base contructor for content associated with a 'toggle' element that controls its visiblity
   ToggleObj = function (elm, toggleClass) {

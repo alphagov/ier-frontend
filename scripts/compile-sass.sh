@@ -16,7 +16,7 @@ cd "$thisDir"
 INPUT=$thisDir/../app/assets/stylesheets
 OUTPUT=$thisDir/../target/scala-2.10/resource_managed/main/public/stylesheets
 TOOLKIT=$thisDir/../app/assets/govuk_frontend_toolkit/stylesheets
-SHEETS=( mainstream application )
+SHEETS=( mainstream application application-ie6 application-ie7 application-ie8)
 WORKED=1
 WATCH=1
 
