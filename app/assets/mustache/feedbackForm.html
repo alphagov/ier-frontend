@@ -37,7 +37,8 @@
            id="{{contactName.id}}"
            type="text"
            maxlength="{{maxFeedbackNameLength}}"
-           class="text long">
+           class="text long"
+           autocomplete="off">
 
 
     <label for="{{contactEmail.id}}">{{messages.feedback_contact_email_label}}</label>
@@ -45,7 +46,8 @@
            id="{{contactEmail.id}}"
            type="text"
            maxlength="{{maxFeedbackEmailLength}}"
-           class="text long">
+           class="text long"
+           autocomplete="off">
 
     <button type="submit" class="button next" id="continue">{{messages.feedback_submit}}</button>
 
