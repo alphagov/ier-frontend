@@ -2,16 +2,21 @@ package uk.gov.gds.ier.validation
 
 object EmailValidator {
 
-  val emailRegex = """^[A-Za-z0-9._%+'-]+@[A-Za-z0-9._%+'-]+\.[A-Za-z]{2,}$"""
+  val emailDomainRegex = """^[^@^\.]+(\.[^@^\.]+)+$"""
 
-  def isValid(email:Option[String]):Boolean = {
+  def isValid(email: Option[String]): Boolean = {
     email match {
       case Some(str) => isValid(str)
       case None => false
     }
   }
 
-  def isValid(email:String) = {
-    email.matches(emailRegex)
+  def isValid(email: String) = {
+    val p = email.lastIndexOf('@')
+    if (p >= 0) {
+      val localPart = email.substring(0, p)
+      val domain = email.substring(p + 1)
+      (localPart.size > 0 && domain.matches(emailDomainRegex))
+    } else false
   }
 }

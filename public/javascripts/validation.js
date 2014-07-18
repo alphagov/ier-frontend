@@ -448,7 +448,7 @@
             var entry = _getFieldValue(this.$source);
 
             if (this.$source.is(':hidden')) { return []; }
-            if (entry.match(/^[A-Za-z0-9._%+'-]+@[A-Za-z0-9._%+'-]+\.[A-Za-z]{2,}$/) === null) {
+            if (entry.match(/^.+@[^@.]+(\.[^@.]+)+$/) === null) {
               return _getInvalidDataFromFields([this], 'email');
             } else {
               return [];
@@ -693,7 +693,7 @@
                 otherCountriesFailedRules,
                 i,j;
 
-            // get checkbox & 
+            // get checkbox &
             for (i = 0, j = childFields.length; i < j; i++) {
               var fieldObj = childFields[i];
 
@@ -838,7 +838,7 @@
                 var entry = _getFieldValue(field.$source),
                     entryIsValidCountry;
 
-                if (entry === '') { return true; } 
+                if (entry === '') { return true; }
                 invalidCountryObj = field.validCountry();
                 if (invalidCountryObj.length) {
                   if ($results === undefined) {
