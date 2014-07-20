@@ -32,9 +32,12 @@ ordinary_nationality_content_1=Select all options that are relevant to you.
 ordinary_nationality_british=British
 ordinary_nationality_irish=Irish
 ordinary_nationality_otherCountry=Citizen of a different country
-ordinary_nationality_whichCountry=Country name<span class="visuallyhidden"> first</span>
-ordinary_nationality_secondCountry=Country name<span class="visuallyhidden"> second</span>
-ordinary_nationality_thirdCountry=Country name<span class="visuallyhidden"> third</span>
+ordinary_nationality_firstCountry=<span class="visuallyhidden">First </span>Country name
+ordinary_nationality_secondCountry=<span class="visuallyhidden">Second </span>Country name
+ordinary_nationality_thirdCountry=<span class="visuallyhidden">Third </span>Country name
+ordinary_nationality_removeFirstCountry=Remove <span class="visuallyhidden">first country name</span>
+ordinary_nationality_removeSecondCountry=Remove <span class="visuallyhidden">second country name</span>
+ordinary_nationality_removeThirdCountry=Remove <span class="visuallyhidden">third country name</span>
 ordinary_nationality_country=Country
 ordinary_nationality_removeCountry=Remove
 ordinary_nationality_addAnotherCountry=add another country

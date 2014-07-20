@@ -245,13 +245,12 @@
   OtherCountryFields.prototype.templates = {
     'country' : '<div class="added-country">' +
                   '<label for="{{id}}" class="country-label" >' +
-                      'Country name' +
+                    '{{#countryFieldName}}' +
+                      '{{idx}}' +
+                    '{{/countryFieldName}}' +
                   '</label>' +
                   '{{#remove-link}}' +
-                  '<a href="#" class="remove-field" ' +
-                     'data-field="{{id}}">' +
-                      'Remove <span class="visuallyhidden">Country</span>' +
-                  '</a>' +
+                    '{{idx}}' +
                   '{{/remove-link}}' +
                   '<div class="validation-wrapper">' +
                     '<input type="text" id="{{id}}" ' +
@@ -262,7 +261,31 @@
                            'data-validation-rules="nonEmpty validCountry">' +
                   '</div>' +
                 '</div>',
+    'removeLink' : '<a href="#" class="remove-field" ' +
+                      'data-field="{{id}}">' +
+                      '{{#countryFieldRemoveText}}' +
+                        '{{idx}}' +
+                      '{{/countryFieldRemoveText}}' +
+                    '</a>',
     'addAnotherLink' : '<a href="" class="duplicate-control">' + message('ordinary_nationality_AddAnotherCountry')  + '</a>'
+  };
+  OtherCountryFields.prototype.getRemoveLink = function (idx) {
+    var id = this.getFieldId(idx),
+        fragment = this.templates.removeLink,
+        getCountryFieldRemoveText = this.getCountryFieldRemoveText,
+        lambda;
+
+    lambda = function () {
+      return function (indexStr, render) {
+        return Mustache.render(fragment, {
+          'id' : id,
+          'idx' : idx,
+          'countryFieldRemoveText' : getCountryFieldRemoveText
+        });
+      };
+    };
+
+    return lambda;
   };
   OtherCountryFields.prototype.setup = function () {
     var $countries = this.$container.find('.added-country');
@@ -348,6 +371,24 @@
 
     return (match !== null) ? match[1] : false;
   };
+  OtherCountryFields.prototype.getCountryFieldName = function () {
+    var keys = ['firstCountry', 'secondCountry', 'thirdCountry'];
+
+    return function (indexStr, render) {
+      var idx = parseInt(render(indexStr), 10);
+
+      return message('ordinary_nationality_' + keys[idx]);
+    };
+  };
+  OtherCountryFields.prototype.getCountryFieldRemoveText = function () {
+    var keys = ['removeFirstCountry', 'removeSecondCountry', 'removeThirdCountry'];
+
+    return function (indexStr, render) {
+      var idx = parseInt(render(indexStr), 10);
+
+      return message('ordinary_nationality_' + keys[idx]);
+    };
+  };
   OtherCountryFields.prototype.updateCountryValues = function () {
     var _this = this;
 
@@ -367,7 +408,8 @@
     var newValue = '',
         includeLink = false,
         newIdx,
-        newCountryData;
+        newCountryData,
+        _this = this;
 
     if (opts === undefined) {
       newIdx = this.countries.length;
@@ -380,10 +422,12 @@
       'id' : this.getFieldId(newIdx),
       'name' : this.getFieldName(newIdx),
       'data-validation-name' : this.getValidationName(newIdx),
-      'value' : newValue
+      'value' : newValue,
+      'idx' : newIdx,
+      'countryFieldName' : _this.getCountryFieldName
     };
     if (includeLink) {
-      newCountryData['remove-link'] = true;
+      newCountryData['remove-link'] = _this.getRemoveLink(newIdx);
     }
 
     return Mustache.render(this.templates.country, newCountryData);

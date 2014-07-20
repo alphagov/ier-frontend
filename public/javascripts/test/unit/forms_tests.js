@@ -644,24 +644,23 @@ describe("OptionalControl", function () {
 
 describe("OtherCountryFields", function () {
   var countryHTMLTemplate = '<div class="added-country">' +
-                           '<label for="{{id}}" class="country-label" >' +
-                             'Country name' +
-                           '</label>' +
-                           '{{#remove-link}}' +
-                           '<a href="#" class="remove-field" data-field="{{id}}">' +
-                             'Remove <span class="visuallyhidden">Country</span>' +
-                           '</a>' +
-                           '{{/remove-link}}' +
-                           '<div class="validation-wrapper">' +
-                             '<input type="text" ' +
-                                    'id="{{id}}" ' +
-                                    'name="{{name}}" value="{{value}}" ' +
-                                    'autocomplete="off" class="text country-autocomplete long validate" ' +
-                                    'data-validation-name="{{data-validation-name}}" ' +
-                                    'data-validation-type="field" ' +
-                                    'data-validation-rules="nonEmpty validCountry">' +
-                          '</div>' +
-                        '</div>';
+                              '<label for="{{id}}" class="country-label" >' +
+                                '{{#countryFieldName}}' +
+                                  '{{idx}}' +
+                                '{{/countryFieldName}}' +
+                              '</label>' +
+                              '{{#remove-link}}' +
+                                '{{idx}}' +
+                              '{{/remove-link}}' +
+                              '<div class="validation-wrapper">' +
+                                '<input type="text" id="{{id}}" ' +
+                                       'name="{{name}}" value="{{value}}" ' +
+                                       'autocomplete="off" class="text country-autocomplete long validate" ' +
+                                       'data-validation-name="{{data-validation-name}}" ' +
+                                       'data-validation-type="field" ' +
+                                       'data-validation-rules="nonEmpty validCountry">' +
+                              '</div>' +
+                            '</div>';
 
   describe("Setup method", function () {
     var otherCountryFieldsMock = {
@@ -972,8 +971,11 @@ describe("OtherCountryFields", function () {
           'getFieldId' : GOVUK.registerToVote.OtherCountryFields.prototype.getFieldId,
           'getFieldName' : GOVUK.registerToVote.OtherCountryFields.prototype.getFieldName,
           'getValidationName' : GOVUK.registerToVote.OtherCountryFields.prototype.getValidationName,
+          'getCountryFieldName' : GOVUK.registerToVote.OtherCountryFields.prototype.getCountryFieldName,
+          'getCountryFieldRemoveText' : GOVUK.registerToVote.OtherCountryFields.prototype.getCountryFieldRemoveText,
+          'getRemoveLink' : GOVUK.registerToVote.OtherCountryFields.prototype.getRemoveLink,
           'templates' : GOVUK.registerToVote.OtherCountryFields.prototype.templates,
-          'countries' : ['Belgium']
+          'countries' : []
         };
 
     it("Should return HTML for the next country element in the sequence when passed no parameters", function () {
@@ -981,10 +983,12 @@ describe("OtherCountryFields", function () {
           expectedHTML;
 
       expectedHTML = Mustache.render(countryHTMLTemplate, {
-        'id' : otherCountriesMock.getFieldId(1),
-        'name' : otherCountriesMock.getFieldName(1),
-        'data-validation-name' : otherCountriesMock.getValidationName(1),
-        'value' : '' 
+        'id' : otherCountriesMock.getFieldId(0),
+        'name' : otherCountriesMock.getFieldName(0),
+        'data-validation-name' : otherCountriesMock.getValidationName(0),
+        'value' : '',
+        'idx' : '0',
+        'countryFieldName' : otherCountriesMock.getCountryFieldName
       });
       countryHTML = GOVUK.registerToVote.OtherCountryFields.prototype.makeCountryHTML.call(otherCountriesMock);
       expect(countryHTML).toEqual(expectedHTML);
@@ -999,7 +1003,9 @@ describe("OtherCountryFields", function () {
         'name' : otherCountriesMock.getFieldName(4),
         'data-validation-name' : otherCountriesMock.getValidationName(4),
         'value' : 'Germany',
-        'remove-link' : true 
+        'idx' : '4',
+        'countryFieldName' : otherCountriesMock.getCountryFieldName,
+        'remove-link' : otherCountriesMock.getRemoveLink(4)
       });
       countryHTML = GOVUK.registerToVote.OtherCountryFields.prototype.makeCountryHTML.call(otherCountriesMock, {
         'idx' : 4,
@@ -1018,7 +1024,9 @@ describe("OtherCountryFields", function () {
         'name' : otherCountriesMock.getFieldName(1),
         'data-validation-name' : otherCountriesMock.getValidationName(1),
         'value' : 'Germany',
-        'remove-link' : true 
+        'idx' : '1',
+        'countryFieldName' : otherCountriesMock.getCountryFieldName,
+        'remove-link' : otherCountriesMock.getRemoveLink(1)
       });
       countryHTML = GOVUK.registerToVote.OtherCountryFields.prototype.makeCountryHTML.call(otherCountriesMock, {
         'idx' : 1,
@@ -1035,6 +1043,9 @@ describe("OtherCountryFields", function () {
       'getFieldId' : GOVUK.registerToVote.OtherCountryFields.prototype.getFieldId,
       'getFieldName' : GOVUK.registerToVote.OtherCountryFields.prototype.getFieldName,
       'getValidationName' : GOVUK.registerToVote.OtherCountryFields.prototype.getValidationName,
+      'getCountryFieldName' : GOVUK.registerToVote.OtherCountryFields.prototype.getCountryFieldName,
+      'getCountryFieldRemoveText' : GOVUK.registerToVote.OtherCountryFields.prototype.getCountryFieldRemoveText,
+      'getRemoveLink' : GOVUK.registerToVote.OtherCountryFields.prototype.getRemoveLink,
       'templates' : GOVUK.registerToVote.OtherCountryFields.prototype.templates
     }
 
@@ -1126,6 +1137,9 @@ describe("OtherCountryFields", function () {
           'getValidationName' : GOVUK.registerToVote.OtherCountryFields.prototype.getValidationName,
           'addCountryElements'  : GOVUK.registerToVote.OtherCountryFields.prototype.addCountryElements,
           'updateCountryValues' : GOVUK.registerToVote.OtherCountryFields.prototype.updateCountryValues,
+          'getCountryFieldName' : GOVUK.registerToVote.OtherCountryFields.prototype.getCountryFieldName,
+          'getCountryFieldRemoveText' : GOVUK.registerToVote.OtherCountryFields.prototype.getCountryFieldRemoveText,
+          'getRemoveLink' : GOVUK.registerToVote.OtherCountryFields.prototype.getRemoveLink,
           'templates' : GOVUK.registerToVote.OtherCountryFields.prototype.templates
         };
 
@@ -1203,14 +1217,18 @@ describe("OtherCountryFields", function () {
             'id' : 'nationality_otherCountries[0]',
             'name' : 'nationality_otherCountries[0]',
             'data-validation-name' : 'added-country-0',
-            'value' : 'Belgium'
+            'value' : 'Belgium',
+            'countryFieldName' : otherCountryFieldsMock.getCountryFieldName,
+            'idx' : '0'
           },
           countryData2 = {
             'id' : 'nationality_otherCountries[1]',
             'name' : 'nationality_otherCountries[1]',
             'data-validation-name' : 'added-country-1',
             'value' : 'Germany',
-            'remove-link' : true
+            'countryFieldName' : otherCountryFieldsMock.getCountryFieldName,
+            'idx' : '1'
+            'remove-link' : otherCountryFieldsMock.getRemoveLink(1)
           },
           $countryElement1 = $(Mustache.render(countryHTMLTemplate, countryData1));
           $countryElement2 = $(Mustache.render(countryHTMLTemplate, countryData2));
