@@ -146,7 +146,7 @@ ordinary_address_error_pleaseEnterYourPostcode=Please enter your postcode
 ordinary_address_error_pleaseSelectYourAddress=Please select your address
 ordinary_address_error_postcodeIsNotValid=Your postcode is not valid
 
-ordinary_address_error_lineOneIsRequired=At least one address line is required
+ordinary_address_error_atLeastOneLineIsRequired=At least one address line is required
 ordinary_address_error_cityIsRequired=Postal town or city is required
 
 #

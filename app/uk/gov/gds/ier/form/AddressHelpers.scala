@@ -40,8 +40,9 @@ trait AddressHelpers extends FormKeys {
    * @param manualAddressKey example: keys.lastUkAddress.manualAddress
    */
   def isManualAddressDefined(form: ErrorTransformForm[_], manualAddressKey: Key): Boolean = {
-    // is checking by just line one enough?
-    form(manualAddressKey.lineOne).value.isDefined
+    form(manualAddressKey.lineOne).value.isDefined |
+    form(manualAddressKey.lineTwo).value.isDefined |
+    form(manualAddressKey.lineThree).value.isDefined
   }
 
   /**

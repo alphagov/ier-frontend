@@ -61,7 +61,6 @@ class NinoFormTests
     )
     ninoForm.bind(js).fold(
       hasErrors => {
-        println (hasErrors.keyedErrorsAsMap)
         hasErrors.keyedErrorsAsMap should matchMap(
            Map("NINO.NoNinoReason" -> Seq("ordinary_nino_error_maxLength"))
         )

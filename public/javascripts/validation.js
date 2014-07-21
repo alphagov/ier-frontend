@@ -1239,7 +1239,7 @@
         'atLeastOneTextEntry' :  message('ordinary_address_error_pleaseAnswer')
       },
       'manualAddressMultiline' : {
-        'firstChildValid' : message('ordinary_address_error_lineOneIsRequired')
+        'atLeastOneNonEmpty' : message('ordinary_address_error_atLeastOneLineIsRequired')
       },
       'city' : {
         'nonEmpty' : message('ordinary_address_error_cityIsRequired')

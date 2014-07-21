@@ -155,7 +155,7 @@ ordinary_address_error_pleaseEnterYourPostcode=Nodwch eich cod post
 ordinary_address_error_pleaseSelectYourAddress=Dewiswch eich cyfeiriad
 ordinary_address_error_postcodeIsNotValid=Nid yw hwnnw’n gôd post dilys
 
-ordinary_address_error_lineOneIsRequired=Mae angen o leiaf un llinell gyfeiriad
+ordinary_address_error_atLeastOneLineIsRequired=Mae angen o leiaf un llinell gyfeiriad
 ordinary_address_error_cityIsRequired=Mae angen enw tref neu ddinas
 
 #
