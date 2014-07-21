@@ -38,7 +38,7 @@ class LocateServiceTest extends FlatSpec with Matchers {
       }
     }
     val service = new LocateService(new FakeApiClient, new JsonSerialiser, new MockConfig)
-    val addresses = service.lookupAddress("AB123CD")
+    val addresses = service.lookupAddress(" AB1 \t 23CD ")
 
     addresses.size should be(1)
     addresses(0).lineOne should be(Some("1A Fake Flat"))
@@ -74,7 +74,7 @@ class LocateServiceTest extends FlatSpec with Matchers {
       new JsonSerialiser,
       new MockConfig
     )
-    val Some(authority) = service.lookupAuthority("AB12 3CD")
+    val Some(authority) = service.lookupAuthority(" AB1 \t 23CD ")
     authority should have(
       'name ("Fakeston Council"),
       'gssCode ("A12345678"),
@@ -116,7 +116,7 @@ class LocateServiceTest extends FlatSpec with Matchers {
       }
     }
     val service = new LocateService(new FakeApiClient, new JsonSerialiser, new MockConfig)
-    val gssCode = service.lookupGssCode("AB123CD")
+    val gssCode = service.lookupGssCode(" AB1 \t 23CD ")
 
     gssCode should be(Some("A12345678"))
   }
@@ -145,7 +145,7 @@ class LocateServiceTest extends FlatSpec with Matchers {
       }
     }
     val service = new LocateService(new FakeApiClient, new JsonSerialiser, new MockConfig)
-    val gssCode = service.lookupGssCode("AB12 3CD")
+    val gssCode = service.lookupGssCode(" AB1 \t 23CD ")
 
     gssCode should be(Some("A12345678")) 
   }
