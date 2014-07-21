@@ -164,11 +164,11 @@ class OrdinaryApplicationTests
     apiMap should matchMap(expected)
   }
 
-  it should "generate expected payload with stripped special characters" in {
+  it should "generate expected payload with stripped special characters and trailing spaces" in {
     lazy val application = createOrdinaryApplication.copy(
       name = Some(Name(
         firstName = "Chars:<>|",
-        middleNames = None,
+        middleNames = Some(" Trailing spaces\t  \t"),
         lastName = "	Tabs	are	here"
       )),
       nino = Some(Nino(
@@ -179,13 +179,14 @@ class OrdinaryApplicationTests
 
     val expected = Map(
       "fn" -> "Chars:",
-      "ln" -> " Tabs are here",
+      "mn" -> "Trailing spaces",
+      "ln" -> "Tabs are here",
       "applicationType" -> "ordinary",
       "pfn" -> "James",
       "pmn" -> "John",
       "pln" -> "Smith",
       "dob" -> "1980-12-01",
-      "nino" -> " AB 123 456 ",
+      "nino" -> "AB 123 456",
       "nat" -> "GB, IE",
       "oadr" -> "none",
       "regproperty" -> "The (fake) Manor House",
@@ -220,7 +221,6 @@ class OrdinaryApplicationTests
 
     application.toApiMap should matchMap(expected)
   }
-
 
   private def createOrdinaryApplication =
     OrdinaryApplication(

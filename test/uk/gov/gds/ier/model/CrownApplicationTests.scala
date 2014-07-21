@@ -81,8 +81,134 @@ class CrownApplicationTests
   behavior of "CrownApplication.toApi"
 
   it should "generate the expected payload" in {
-    lazy val application = CrownApplication(
+    lazy val application = createCrownApplication
 
+    val apiMap = application.toApiMap
+
+    val expected = Map(
+      "applicationType" -> "crown",
+      "refNum" -> "12345678910",
+      "ip" -> "256.256.256.256",
+      "fn" -> "John",
+      "mn" -> "James",
+      "ln" -> "Smith",
+      "pfn" -> "George",
+      "pmn" -> "Jeffrey",
+      "pln" -> "Smith",
+      "dob" -> "1980-12-01",
+      "nino" -> "XX 12 34 56 D",
+      "nat" -> "GB, IE",
+      "regproperty" -> "The (fake) Manor House",
+      "regstreet" -> "123 Fake Street",
+      "reglocality" -> "North Fake",
+      "regtown" -> "Fakerton",
+      "regarea" -> "Fakesbury",
+      "reguprn" -> "12345",
+      "regpostcode" -> "XX123 4XX",
+      "pproperty" -> "Fake House 2",
+      "pstreet" -> "222 Fake Street",
+      "plocality" -> "South Fake 2",
+      "ptown" -> "Fakerton 2",
+      "parea" -> "Fakesbury 2",
+      "puprn" -> "12345",
+      "ppostcode" -> "SW123 4AB",
+      "corrcountry" -> "uk",
+      "corrpostcode" -> "XX123 4XX",
+      "corraddressline1" -> "The (fake) Manor House",
+      "corraddressline2" -> "123 Fake Street",
+      "corraddressline3" -> "North Fake",
+      "corraddressline4" -> "Fakerton",
+      "corraddressline5" -> "Fakesbury",
+      "crwn" -> "true",
+      "scrwn" -> "false",
+      "bc" -> "false",
+      "sbc" -> "false",
+      "role" -> "my job title",
+      "dept" -> "MoJ",
+      "pvote" -> "true",
+      "opnreg" -> "false",
+      "post" -> "true",
+      "email" -> "test@email.com",
+      "phone" -> "01234 5678910",
+      "gssCode" -> "E09000007",
+      "pgssCode" -> "E09000339",
+      "timeTaken" -> "1234",
+      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
+    )
+
+    apiMap should matchMap(expected)
+  }
+
+  it should "generate expected payload with stripped special characters and trailing spaces" in {
+    lazy val application = createCrownApplication.copy(
+      name = Some(Name(
+        firstName = "Chars:<>|",
+        middleNames = Some(" Trailing spaces\t  \t"),
+        lastName = "	Tabs	are	here"
+      )),
+      nino = Some(Nino(
+        nino = Some("\tAB\t123\t456\t"),
+        noNinoReason = None
+      ))
+    )
+
+    val expected = Map(
+      "applicationType" -> "crown",
+      "refNum" -> "12345678910",
+      "ip" -> "256.256.256.256",
+      "fn" -> "Chars:",
+      "mn" -> "Trailing spaces",
+      "ln" -> "Tabs are here",
+      "pfn" -> "George",
+      "pmn" -> "Jeffrey",
+      "pln" -> "Smith",
+      "dob" -> "1980-12-01",
+      "nino" -> "AB 123 456",
+      "nat" -> "GB, IE",
+      "regproperty" -> "The (fake) Manor House",
+      "regstreet" -> "123 Fake Street",
+      "reglocality" -> "North Fake",
+      "regtown" -> "Fakerton",
+      "regarea" -> "Fakesbury",
+      "reguprn" -> "12345",
+      "regpostcode" -> "XX123 4XX",
+      "pproperty" -> "Fake House 2",
+      "pstreet" -> "222 Fake Street",
+      "plocality" -> "South Fake 2",
+      "ptown" -> "Fakerton 2",
+      "parea" -> "Fakesbury 2",
+      "puprn" -> "12345",
+      "ppostcode" -> "SW123 4AB",
+      "corrcountry" -> "uk",
+      "corrpostcode" -> "XX123 4XX",
+      "corraddressline1" -> "The (fake) Manor House",
+      "corraddressline2" -> "123 Fake Street",
+      "corraddressline3" -> "North Fake",
+      "corraddressline4" -> "Fakerton",
+      "corraddressline5" -> "Fakesbury",
+      "crwn" -> "true",
+      "scrwn" -> "false",
+      "bc" -> "false",
+      "sbc" -> "false",
+      "role" -> "my job title",
+      "dept" -> "MoJ",
+      "pvote" -> "true",
+      "opnreg" -> "false",
+      "post" -> "true",
+      "email" -> "test@email.com",
+      "phone" -> "01234 5678910",
+      "gssCode" -> "E09000007",
+      "pgssCode" -> "E09000339",
+      "timeTaken" -> "1234",
+      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
+    )
+
+
+    application.toApiMap should matchMap(expected)
+  }
+
+  private def createCrownApplication =
+    CrownApplication(
       statement = Some(CrownStatement(
         crownServant = true,
         crownPartner = false,
@@ -173,60 +299,4 @@ class CrownApplicationTests
       timeTaken = "1234",
       sessionId = "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
-
-    val apiMap = application.toApiMap
-
-    val expected = Map(
-      "applicationType" -> "crown",
-      "refNum" -> "12345678910",
-      "ip" -> "256.256.256.256",
-      "fn" -> "John",
-      "mn" -> "James",
-      "ln" -> "Smith",
-      "pfn" -> "George",
-      "pmn" -> "Jeffrey",
-      "pln" -> "Smith",
-      "dob" -> "1980-12-01",
-      "nino" -> "XX 12 34 56 D",
-      "nat" -> "GB, IE",
-      "regproperty" -> "The (fake) Manor House",
-      "regstreet" -> "123 Fake Street",
-      "reglocality" -> "North Fake",
-      "regtown" -> "Fakerton",
-      "regarea" -> "Fakesbury",
-      "reguprn" -> "12345",
-      "regpostcode" -> "XX123 4XX",
-      "pproperty" -> "Fake House 2",
-      "pstreet" -> "222 Fake Street",
-      "plocality" -> "South Fake 2",
-      "ptown" -> "Fakerton 2",
-      "parea" -> "Fakesbury 2",
-      "puprn" -> "12345",
-      "ppostcode" -> "SW123 4AB",
-      "corrcountry" -> "uk",
-      "corrpostcode" -> "XX123 4XX",
-      "corraddressline1" -> "The (fake) Manor House",
-      "corraddressline2" -> "123 Fake Street",
-      "corraddressline3" -> "North Fake",
-      "corraddressline4" -> "Fakerton",
-      "corraddressline5" -> "Fakesbury",
-      "crwn" -> "true",
-      "scrwn" -> "false",
-      "bc" -> "false",
-      "sbc" -> "false",
-      "role" -> "my job title",
-      "dept" -> "MoJ",
-      "pvote" -> "true",
-      "opnreg" -> "false",
-      "post" -> "true",
-      "email" -> "test@email.com",
-      "phone" -> "01234 5678910",
-      "gssCode" -> "E09000007",
-      "pgssCode" -> "E09000339",
-      "timeTaken" -> "1234",
-      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
-    )
-
-    apiMap should matchMap(expected)
-  }
 }
