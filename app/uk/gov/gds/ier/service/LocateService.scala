@@ -3,16 +3,11 @@ package uk.gov.gds.ier.service
 import uk.gov.gds.ier.client.LocateApiClient
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import com.google.inject.Inject
-import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.exception.PostcodeLookupFailedException
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.logging.Logging
 import play.api.Logger
-import uk.gov.gds.ier.model.Success
-import uk.gov.gds.ier.model.Fail
-import scala.Some
-import uk.gov.gds.ier.model.LocateAuthority
-import uk.gov.gds.ier.model.LocateAddress
+import uk.gov.gds.ier.model._
 
 class LocateService @Inject() (
     apiClient: LocateApiClient,
