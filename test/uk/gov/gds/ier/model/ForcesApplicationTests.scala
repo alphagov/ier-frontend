@@ -11,8 +11,129 @@ class ForcesApplicationTests
   with TestHelpers {
 
   it should "generate the expected payload" in {
-    lazy val application = ForcesApplication(
+    lazy val application = createForcesApplication
 
+    val apiMap = application.toApiMap
+
+    val expected = Map(
+      "applicationType" -> "forces",
+      "refNum" -> "12345678910",
+      "ip" -> "256.256.256.256",
+      "fn" -> "John",
+      "mn" -> "James",
+      "ln" -> "Smith",
+      "pfn" -> "George",
+      "pmn" -> "Jeffrey",
+      "pln" -> "Smith",
+      "dob" -> "1980-12-01",
+      "nino" -> "XX 12 34 56 D",
+      "nat" -> "GB, IE",
+      "regproperty" -> "The (fake) Manor House",
+      "regstreet" -> "123 Fake Street",
+      "reglocality" -> "North Fake",
+      "regtown" -> "Fakerton",
+      "regarea" -> "Fakesbury",
+      "reguprn" -> "12345",
+      "regpostcode" -> "XX123 4XX",
+      "pproperty" -> "The (fake) Cottage",
+      "pstreet" -> "321 Fake Street",
+      "plocality" -> "South Fake",
+      "ptown" -> "Fakererly",
+      "parea" -> "Fakesborough",
+      "puprn" -> "54321",
+      "ppostcode" -> "XX342 1XX",
+      "corrcountry" -> "uk",
+      "corrpostcode" -> "XX123 4XX",
+      "corraddressline1" -> "The (fake) Manor House",
+      "corraddressline2" -> "123 Fake Street",
+      "corraddressline3" -> "North Fake",
+      "corraddressline4" -> "Fakerton",
+      "corraddressline5" -> "Fakesbury",
+      "saf" -> "false",
+      "rank" -> "Captain",
+      "serv" -> "Royal Air Force",
+      "servno" -> "1234567",
+      "pvote" -> "true",
+      "opnreg" -> "false",
+      "post" -> "true",
+      "email" -> "test@email.com",
+      "phone" -> "01234 5678910",
+      "gssCode" -> "E09000007",
+      "pgssCode" -> "E09000339",
+      "timeTaken" -> "1234",
+      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
+    )
+
+    apiMap should matchMap(expected)
+  }
+
+  it should "generate expected payload with stripped special characters and trailing spaces" in {
+    lazy val application = createForcesApplication.copy(
+      name = Some(Name(
+        firstName = "Chars:<>|",
+        middleNames = Some(" Trailing spaces\t  \t"),
+        lastName = "	Tabs	are	here"
+      )),
+      nino = Some(Nino(
+        nino = Some("\tAB\t123\t456\t"),
+        noNinoReason = None
+      ))
+    )
+
+    val expected = Map(
+      "applicationType" -> "forces",
+      "refNum" -> "12345678910",
+      "ip" -> "256.256.256.256",
+      "fn" -> "Chars:",
+      "mn" -> "Trailing spaces",
+      "ln" -> "Tabs are here",
+      "pfn" -> "George",
+      "pmn" -> "Jeffrey",
+      "pln" -> "Smith",
+      "dob" -> "1980-12-01",
+      "nino" -> "AB 123 456",
+      "nat" -> "GB, IE",
+      "regproperty" -> "The (fake) Manor House",
+      "regstreet" -> "123 Fake Street",
+      "reglocality" -> "North Fake",
+      "regtown" -> "Fakerton",
+      "regarea" -> "Fakesbury",
+      "reguprn" -> "12345",
+      "regpostcode" -> "XX123 4XX",
+      "pproperty" -> "The (fake) Cottage",
+      "pstreet" -> "321 Fake Street",
+      "plocality" -> "South Fake",
+      "ptown" -> "Fakererly",
+      "parea" -> "Fakesborough",
+      "puprn" -> "54321",
+      "ppostcode" -> "XX342 1XX",
+      "corrcountry" -> "uk",
+      "corrpostcode" -> "XX123 4XX",
+      "corraddressline1" -> "The (fake) Manor House",
+      "corraddressline2" -> "123 Fake Street",
+      "corraddressline3" -> "North Fake",
+      "corraddressline4" -> "Fakerton",
+      "corraddressline5" -> "Fakesbury",
+      "saf" -> "false",
+      "rank" -> "Captain",
+      "serv" -> "Royal Air Force",
+      "servno" -> "1234567",
+      "pvote" -> "true",
+      "opnreg" -> "false",
+      "post" -> "true",
+      "email" -> "test@email.com",
+      "phone" -> "01234 5678910",
+      "gssCode" -> "E09000007",
+      "pgssCode" -> "E09000339",
+      "timeTaken" -> "1234",
+      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
+    )
+
+    application.toApiMap should matchMap(expected)
+  }
+
+  private def createForcesApplication =
+    ForcesApplication(
       statement = Some(Statement(
         memberForcesFlag = Some(true),
         partnerForcesFlag = None
@@ -105,58 +226,4 @@ class ForcesApplicationTests
       timeTaken = "1234",
       sessionId = "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
-
-    val apiMap = application.toApiMap
-
-    val expected = Map(
-      "applicationType" -> "forces",
-      "refNum" -> "12345678910",
-      "ip" -> "256.256.256.256",
-      "fn" -> "John",
-      "mn" -> "James",
-      "ln" -> "Smith",
-      "pfn" -> "George",
-      "pmn" -> "Jeffrey",
-      "pln" -> "Smith",
-      "dob" -> "1980-12-01",
-      "nino" -> "XX 12 34 56 D",
-      "nat" -> "GB, IE",
-      "regproperty" -> "The (fake) Manor House",
-      "regstreet" -> "123 Fake Street",
-      "reglocality" -> "North Fake",
-      "regtown" -> "Fakerton",
-      "regarea" -> "Fakesbury",
-      "reguprn" -> "12345",
-      "regpostcode" -> "XX123 4XX",
-      "pproperty" -> "The (fake) Cottage",
-      "pstreet" -> "321 Fake Street",
-      "plocality" -> "South Fake",
-      "ptown" -> "Fakererly",
-      "parea" -> "Fakesborough",
-      "puprn" -> "54321",
-      "ppostcode" -> "XX342 1XX",
-      "corrcountry" -> "uk",
-      "corrpostcode" -> "XX123 4XX",
-      "corraddressline1" -> "The (fake) Manor House",
-      "corraddressline2" -> "123 Fake Street",
-      "corraddressline3" -> "North Fake",
-      "corraddressline4" -> "Fakerton",
-      "corraddressline5" -> "Fakesbury",
-      "saf" -> "false",
-      "rank" -> "Captain",
-      "serv" -> "Royal Air Force",
-      "servno" -> "1234567",
-      "pvote" -> "true",
-      "opnreg" -> "false",
-      "post" -> "true",
-      "email" -> "test@email.com",
-      "phone" -> "01234 5678910",
-      "gssCode" -> "E09000007",
-      "pgssCode" -> "E09000339",
-      "timeTaken" -> "1234",
-      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
-    )
-
-    apiMap should matchMap(expected)
-  }
 }

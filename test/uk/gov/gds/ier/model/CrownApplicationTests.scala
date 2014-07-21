@@ -203,7 +203,6 @@ class CrownApplicationTests
       "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
 
-
     application.toApiMap should matchMap(expected)
   }
 
