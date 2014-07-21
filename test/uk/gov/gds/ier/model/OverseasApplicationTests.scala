@@ -174,10 +174,57 @@ class OverseasApplicationTests
       "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
 
-
     val apiMap = application.toApiMap
 
     apiMap should matchMap(expected)
+  }
+
+  it should "generate expected payload with stripped special characters and trailing spaces" in {
+    lazy val application = createOverseasApplication.copy(
+      name = Some(Name(
+        firstName = "Chars:<>|",
+        middleNames = Some(" Trailing spaces\t  \t"),
+        lastName = "	Tabs	are	here"
+      )),
+      nino = Some(Nino(
+        nino = Some("\tAB\t123\t456\t"),
+        noNinoReason = None
+      ))
+    )
+
+    val expected = Map(
+      "applicationType" -> "overseas",
+      "fn" -> "Chars:",
+      "mn" -> "Trailing spaces",
+      "ln" -> "Tabs are here",
+      "pfn" -> "James",
+      "pmn" -> "John",
+      "pln" -> "Smith",
+      "dob" -> "1980-12-01",
+      "nino" -> "AB 123 456",
+      "regproperty" -> "The (fake) Manor House",
+      "regstreet" -> "123 Fake Street",
+      "reglocality" -> "North Fake",
+      "regtown" -> "Fakerton",
+      "regarea" -> "Fakesbury",
+      "reguprn" -> "12345",
+      "regpostcode" -> "XX123 4XX",
+      "corraddressline1" -> "123 Rue de Fake, Saint-Fake",
+      "corrcountry" -> "France",
+      "lastcategory" -> "overseas",
+      "leftuk" -> "1990-01",
+      "opnreg" -> "true",
+      "post" -> "true",
+      "email" -> "test@email.com",
+      "phone" -> "01234 5678910",
+      "refNum" -> "12345678910",
+      "ip" -> "256.256.256.256",
+      "gssCode" -> "E09000007",
+      "timeTaken" -> "1234",
+      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
+    )
+
+    application.toApiMap should matchMap(expected)
   }
 
   def createOverseasApplication =

@@ -14,9 +14,17 @@ class CompleteApplicationTests extends FlatSpec with Matchers with CompleteAppli
   }
 
   it should "remove defined special characters" in {
-    val apiMap = Map ("a" -> "Hel<l>o world|", "b" -> "H<e>llo gd|s")
-    val expect = Map ("a" -> "Hello world", "b" -> "Hello gds")
+    val apiMap = Map ("a" -> "Hel<l>o world|", "b" -> "H<e>llo gd|s", "c" -> "\ttab Tabs	are here	\t")
+    val expect = Map ("a" -> "Hello world", "b" -> "Hello gds", "c" -> "tab Tabs are here")
     val result = removeSpecialCharacters(apiMap)
     result should be (expect)
   }
+
+  it should "remove trailing spaces" in {
+    val apiMap = Map ("a" -> "", "b" -> " Hello gds ", "c" -> "\t	tab before and after	\t")
+    val expect = Map ("a" -> "", "b" -> "Hello gds", "c" -> "tab before and after")
+    val result = removeSpecialCharacters(apiMap)
+    result should be (expect)
+  }
+
 }

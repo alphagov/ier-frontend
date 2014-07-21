@@ -2,16 +2,17 @@ package uk.gov.gds.ier.model
 
 object Postcode extends ModelMapping {
 
-  def toApiFormat(postcode: String) = toFormat(postcode)
+  def toCleanFormat(postcode: String) = cleanFormat(postcode)
 
-  def toDisplayFormat(postcode: String) = toFormat(postcode)
+  def toApiFormat(postcode: String) =  {
+    val formattedPostcode = cleanFormat(postcode).toUpperCase
+    if(formattedPostcode.length > 3) {
+      formattedPostcode.take(formattedPostcode.length-3)+" "+formattedPostcode.takeRight(3)
+    } else formattedPostcode
+  }
 
-
-  private def toFormat(postcode: String) = {
-    val cleanPostode = postcode.replaceAllLiterally(" ", "").toUpperCase
-    if(cleanPostode.length > 3) {
-      cleanPostode.take(cleanPostode.length-3)+" "+cleanPostode.takeRight(3)
-    } else cleanPostode
+  private def cleanFormat(postcode: String) = {
+    postcode.replaceAll("[<>|\\s\\t]", "").toLowerCase
   }
 
 }

@@ -3,14 +3,11 @@ package uk.gov.gds.ier.service
 import uk.gov.gds.ier.client.LocateApiClient
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import com.google.inject.Inject
-import uk.gov.gds.ier.model.{Fail, Success, Address, PartialAddress,
-  LocateAuthority
-}
 import uk.gov.gds.ier.exception.PostcodeLookupFailedException
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.logging.Logging
-import uk.gov.gds.ier.model.LocateAddress
 import play.api.Logger
+import uk.gov.gds.ier.model._
 
 class LocateService @Inject() (
     apiClient: LocateApiClient,
@@ -30,7 +27,7 @@ class LocateService @Inject() (
   }
 
   def lookupAddress(postcode: String) : List[Address] = {
-    val result = apiClient.get((partialAddressLookupUrl + "?postcode=%s").format(postcode.replaceAllLiterally(" ","").toLowerCase),
+    val result = apiClient.get((partialAddressLookupUrl + "?postcode=%s").format(Postcode.toCleanFormat(postcode)),
         ("Authorization", authorizationToken))
     result match {
       case Success(body, _) => {
@@ -51,7 +48,7 @@ class LocateService @Inject() (
   }
 
   def lookupAuthority(postcode: String) : Option[LocateAuthority] = {
-    val cleanPostcode = postcode.replaceAllLiterally(" ", "").toLowerCase
+    val cleanPostcode = Postcode.toCleanFormat(postcode)
     val result = apiClient.get(
       s"$partialAuthorityUrl?postcode=$cleanPostcode",
       ("Authorization", authorizationToken)

@@ -6,6 +6,10 @@ trait CompleteApplication {
   def toApiMap:Map[String, String]
 
   def removeSpecialCharacters (apiMap: Map[String, String]): Map[String, String] = {
-    apiMap.mapValues(_.replaceAll("[<>|]", ""))
+    apiMap.mapValues(apiFieldValue =>
+      apiFieldValue
+        .replaceAll("[<>|]", "")
+        .replaceAll("\t"," ")
+        .trim)
   }
 }
