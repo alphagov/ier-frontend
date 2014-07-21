@@ -27,7 +27,12 @@ object ApplicationBuild extends IERBuild {
     "org.jba" %% "play2-mustache" % "1.1.3", // play2.2.0
     "org.jsoup" % "jsoup" % "1.7.2",
     "com.typesafe.play.plugins" %% "play-statsd" % "2.2.0",
-    "org.julienrf" %% "play-jsmessages" % "1.6.1"
+    "org.julienrf" %% "play-jsmessages" % "1.6.1",
+    //We don't actually need httpclient but we have found that version 4.0.1
+    //required by signpost-http is acting strangely with Cookies returned on
+    //a redirect.
+    //By requiring v4.2.1 here we overwrite the version needed and fix the issue
+    "org.apache.httpcomponents" % "httpclient" % "4.2.1"
   )
 
   lazy val main = play.Project(appName, appVersion, appDependencies)
@@ -50,6 +55,7 @@ object ApplicationBuild extends IERBuild {
     .settings(StyleChecker.settings:_*)
     .settings(watchSources ~= { _.filterNot(_.isDirectory) })
     .settings(organization := "uk.gov.gds")
+    .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
 
 }
 
