@@ -38,7 +38,42 @@ class LocateServiceTest extends FlatSpec with Matchers {
       }
     }
     val service = new LocateService(new FakeApiClient, new JsonSerialiser, new MockConfig)
-    val addresses = service.lookupAddress(" AB1 \t 23CD ")
+    val addresses = service.lookupAddress("AB12 3CD")
+
+    addresses.size should be(1)
+    addresses(0).lineOne should be(Some("1A Fake Flat"))
+    addresses(0).lineTwo should be(Some("Fake House"))
+    addresses(0).lineThree should be(Some("Fakesbury"))
+    addresses(0).city should be(Some("Fakerton"))
+    addresses(0).county should be(Some("123 Fake Street"))
+    addresses(0).uprn should be(Some("12345678"))
+    addresses(0).postcode should be("AB12 3CD")
+    addresses(0).gssCode should be (Some("abc"))
+  }
+
+  it should "strip postcode from special characters and trailing spaces" in {
+    class FakeApiClient extends LocateApiClient(new MockConfig) {
+      override def get(url: String, headers: (String, String)*) : ApiResponse = {
+        if (url == "http://locate/addresses?postcode=ab123cd") {
+          Success("""[
+            {
+              "property": "1A Fake Flat",
+              "street": "Fake House",
+              "area": "123 Fake Street",
+              "town": "Fakerton",
+              "locality": "Fakesbury",
+              "uprn": 12345678,
+              "postcode": "AB12 3CD",
+              "gssCode": "abc"
+            }
+          ]""", 0)
+        } else {
+          Fail("Bad postcode", 200)
+        }
+      }
+    }
+    val service = new LocateService(new FakeApiClient, new JsonSerialiser, new MockConfig)
+    val addresses = service.lookupAddress(" \t  Ab \t1<\t|>2 3 C			d  \t")
 
     addresses.size should be(1)
     addresses(0).lineOne should be(Some("1A Fake Flat"))
@@ -74,7 +109,38 @@ class LocateServiceTest extends FlatSpec with Matchers {
       new JsonSerialiser,
       new MockConfig
     )
-    val Some(authority) = service.lookupAuthority(" AB1 \t 23CD ")
+    val Some(authority) = service.lookupAuthority("AB12 3CD")
+    authority should have(
+      'name ("Fakeston Council"),
+      'gssCode ("A12345678"),
+      'postcode ("AB12 3CD"),
+      'country ("England")
+    )
+  }
+
+  it should "strip postcode from special characters and trailing spaces" in {
+    class FakeApiClient extends LocateApiClient(new MockConfig) {
+      override def get(url: String, headers: (String, String)*) : ApiResponse = {
+        if (url == "http://locate/authority?postcode=ab123cd") {
+          Success("""
+            {
+              "name": "Fakeston Council",
+              "gssCode": "A12345678",
+              "postcode": "AB12 3CD",
+              "country": "England"
+            }
+                  """, 0)
+        } else {
+          Fail("Bad postcode", 200)
+        }
+      }
+    }
+    val service = new LocateService(
+      new FakeApiClient,
+      new JsonSerialiser,
+      new MockConfig
+    )
+    val Some(authority) = service.lookupAuthority(" \t  Ab \t1<\t|>2 3 C			d  \t")
     authority should have(
       'name ("Fakeston Council"),
       'gssCode ("A12345678"),
@@ -116,7 +182,30 @@ class LocateServiceTest extends FlatSpec with Matchers {
       }
     }
     val service = new LocateService(new FakeApiClient, new JsonSerialiser, new MockConfig)
-    val gssCode = service.lookupGssCode(" AB1 \t 23CD ")
+    val gssCode = service.lookupGssCode("AB12 3CD")
+
+    gssCode should be(Some("A12345678"))
+  }
+
+  it should "strip postcode from special characters and trailing spaces" in {
+    class FakeApiClient extends LocateApiClient(new MockConfig) {
+      override def get(url: String, headers: (String, String)*) : ApiResponse = {
+        if (url == "http://locate/authority?postcode=ab123cd") {
+          Success("""
+            {
+              "name": "Fakeston Council",
+              "postcode": "AB12 3CD",
+              "country": "England",
+              "gssCode": "A12345678"
+            }
+                  """, 0)
+        } else {
+          Fail("Bad postcode", 200)
+        }
+      }
+    }
+    val service = new LocateService(new FakeApiClient, new JsonSerialiser, new MockConfig)
+    val gssCode = service.lookupGssCode(" \t  Ab \t1<\t|>2 3 C			d  \t")
 
     gssCode should be(Some("A12345678"))
   }
@@ -145,7 +234,7 @@ class LocateServiceTest extends FlatSpec with Matchers {
       }
     }
     val service = new LocateService(new FakeApiClient, new JsonSerialiser, new MockConfig)
-    val gssCode = service.lookupGssCode(" AB1 \t 23CD ")
+    val gssCode = service.lookupGssCode("AB12 3CD")
 
     gssCode should be(Some("A12345678")) 
   }
