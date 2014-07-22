@@ -184,7 +184,7 @@ trait PreviousAddressConstraints extends CommonConstraints {
 
       manualAddress match {
         case Some(PartialManualAddress(None, _, _, _)) => Invalid(
-          lineOneIsRequiredError,
+          atLeastOneLineIsRequiredError,
           keys.previousAddress.previousAddress.manualAddress.lineOne
         )
         case _ => Valid

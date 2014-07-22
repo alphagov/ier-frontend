@@ -29,7 +29,7 @@ trait AddressForms
 
   // address mapping for manual address - the address individual lines part
     lazy val manualPartialAddressLinesMapping = 
-      PartialManualAddress.mapping.verifying(lineOneIsRequired, cityIsRequired)
+      PartialManualAddress.mapping.verifying(atLeastOneLineIsRequired, cityIsRequired)
 
   lazy val lastAddressMapping = mapping(
     keys.hasAddress.key -> optional(hasAddressMapping),
@@ -206,10 +206,14 @@ trait AddressConstraints extends CommonConstraints {
     case _ => Invalid("Your postcode is not valid", keys.address.postcode)
   }
 
-  lazy val lineOneIsRequired = Constraint[PartialManualAddress](
+  lazy val atLeastOneLineIsRequired = Constraint[PartialManualAddress](
     keys.address.manualAddress.key) {
-    case PartialManualAddress(Some(_), _, _, _) => Valid
-    case _ => Invalid(lineOneIsRequiredError, keys.address.manualAddress.lineOne)
+    case PartialManualAddress(None, None, None, _) => Invalid(atLeastOneLineIsRequiredError,
+      keys.address.manualAddress.lineOne,
+      keys.address.manualAddress.lineTwo,
+      keys.address.manualAddress.lineThree
+    )
+    case _ => Valid
   }
 
   lazy val cityIsRequired = Constraint[PartialManualAddress](

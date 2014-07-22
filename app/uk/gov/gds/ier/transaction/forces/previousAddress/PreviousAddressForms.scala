@@ -236,7 +236,7 @@ trait PreviousAddressConstraints extends CommonConstraints {
   lazy val lineOneIsRequredForPreviousAddress = Constraint[PartialManualAddress](
     keys.previousAddress.manualAddress.key) {
     case PartialManualAddress(Some(_), _, _, _) => Valid
-    case _ => Invalid(lineOneIsRequiredError, keys.previousAddress.manualAddress.lineOne)
+    case _ => Invalid(atLeastOneLineIsRequiredError, keys.previousAddress.manualAddress.lineOne)
   }
 
   lazy val cityIsRequiredForPreviousAddress = Constraint[PartialManualAddress](

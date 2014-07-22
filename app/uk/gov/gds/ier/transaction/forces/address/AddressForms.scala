@@ -133,7 +133,7 @@ trait AddressConstraints extends CommonConstraints {
     val manualAddress = inprogress.address.flatMap(_.address).flatMap(_.manualAddress)
     manualAddress match {
       case Some(PartialManualAddress(None, _, _, _)) => Invalid(
-        lineOneIsRequiredError,
+        atLeastOneLineIsRequiredError,
         keys.address.address.manualAddress.lineOne
       )
       case _ => Valid

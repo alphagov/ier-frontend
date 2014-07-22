@@ -413,7 +413,7 @@ class AddressFormTests
     )
   }
 
-  it should "successfully bind when lineOne not empty" in {
+  it should "successfully bind when lineOne is not empty" in {
     val js =  Json.toJson(
       Map(
         "address.manualAddress.lineOne" -> "line one",
@@ -438,7 +438,7 @@ class AddressFormTests
     )
   }
 
-  it should "successfully bind when lineTwo not empty" in {
+  it should "successfully bind when lineTwo is not empty" in {
     val js =  Json.toJson(
       Map(
         "address.manualAddress.lineOne" -> "",
@@ -463,7 +463,7 @@ class AddressFormTests
     )
   }
 
-  it should "successfully bind when lineThree not empty" in {
+  it should "successfully bind when lineThree is not empty" in {
     val js =  Json.toJson(
       Map(
         "address.manualAddress.lineOne" -> "",
