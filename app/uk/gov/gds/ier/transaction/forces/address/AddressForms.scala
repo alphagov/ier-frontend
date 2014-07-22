@@ -53,7 +53,7 @@ trait AddressForms extends AddressConstraints {
       )
     ).verifying(
       isPostcodeFormatValid,
-      manualAddressLineOneRequired,
+      atLeastOneLineIsRequired,
       cityIsRequired
     )
   )
@@ -128,13 +128,15 @@ trait AddressConstraints extends CommonConstraints {
     )
   }
 
-  lazy val manualAddressLineOneRequired = Constraint[InprogressForces](
+  lazy val atLeastOneLineIsRequired = Constraint[InprogressForces](
     keys.address.manualAddress.key) { inprogress =>
     val manualAddress = inprogress.address.flatMap(_.address).flatMap(_.manualAddress)
     manualAddress match {
-      case Some(PartialManualAddress(None, _, _, _)) => Invalid(
+      case Some(PartialManualAddress(None, None, None, _)) => Invalid(
         atLeastOneLineIsRequiredError,
-        keys.address.address.manualAddress.lineOne
+        keys.address.address.manualAddress.lineOne,
+        keys.address.address.manualAddress.lineTwo,
+        keys.address.address.manualAddress.lineThree
       )
       case _ => Valid
     }
