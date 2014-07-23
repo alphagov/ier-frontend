@@ -419,6 +419,25 @@ class AddressFormTests
     )
   }
 
+  it should "error out on all empty values for manual address" in {
+    val js =  Json.toJson(Map(
+      "address.manualAddress.lineOne" -> "",
+      "address.manualAddress.lineTwo" -> "",
+      "address.manualAddress.lineThree" -> "",
+      "address.manualAddress.city" -> "",
+      "address.postcode" -> "SW1A 1AA"
+    ))
+
+    manualAddressForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "address.manualAddress" -> Seq("Please answer this question")
+        ))
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
   it should "error out on all empty lines for manual address" in {
     val js =  Json.toJson(Map(
       "address.manualAddress.lineOne" -> "",
