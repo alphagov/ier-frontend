@@ -34,12 +34,12 @@ ordinary_nationality_content_1=Dewiswch yr holl opsiynau sy’n berthnasol i chi
 ordinary_nationality_british=Prydeinig
 ordinary_nationality_irish=Gwyddelig
 ordinary_nationality_otherCountry=Dinesydd gwlad arall
-ordinary_nationality_firstCountry=Enw'r wlad<span class="visuallyhidden"> un</span>
+ordinary_nationality_whichCountry=Enw'r wlad<span class="visuallyhidden"> un</span>
 ordinary_nationality_secondCountry=Enw'r wlad<span class="visuallyhidden"> dau</span>
 ordinary_nationality_thirdCountry=Enw'r wlad<span class="visuallyhidden"> tri</span>
-ordinary_nationality_removeFirstcountry=Remove <span class="visuallyhidden">first country name</span>
-ordinary_nationality_removeSecondcountry=Remove <span class="visuallyhidden">second country name<span>
-ordinary_nationality_removeThirdcountry=Remove <span class="visuallyhidden">third country name</span>
+ordinary_nationality_removeWhichCountry=Remove <span class="visuallyhidden">first country name</span>
+ordinary_nationality_removeSecondCountry=Remove <span class="visuallyhidden">second country name<span>
+ordinary_nationality_removeThirdCountry=Remove <span class="visuallyhidden">third country name</span>
 ordinary_nationality_country=Gwlad
 ordinary_nationality_removeCountry=Dileu gwlad
 ordinary_nationality_addAnotherCountry=ychwanegu gwlad arall

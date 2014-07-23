@@ -219,22 +219,7 @@
     })
   };
   OptionalControl.prototype.bindEvents = function () {
-    var $parentForm = this.$content.closest('form'),
-        _this = this;
-
-    if ($parentForm.length) {
-      $parentForm.on('submit', function () {
-        _this.filterFormContent();
-      });
-    }
     GOVUK.registerToVote.ConditionalControl.prototype.bindEvents.call(this);
-  };
-  OptionalControl.prototype.filterFormContent = function () {
-    var $textboxes = this.$content.find('input[type="text"]');
-
-    if (this.$content.is(':hidden')) {
-      $textboxes.val('');
-    }
   };
 
   OtherCountryFields = function (elm) {
@@ -267,7 +252,8 @@
                         '{{idx}}' +
                       '{{/countryFieldRemoveText}}' +
                     '</a>',
-    'addAnotherLink' : '<a href="" class="duplicate-control">' + message('ordinary_nationality_AddAnotherCountry')  + '</a>'
+    'addAnotherLink' : '<a href="" class="duplicate-control">' + message('ordinary_nationality_AddAnotherCountry')  + '</a>',
+    'dummy' : '<input type="hidden" value="" name="{{name}}" />'
   };
   OtherCountryFields.prototype.getRemoveLink = function (idx) {
     var id = this.getFieldId(idx),
@@ -372,7 +358,7 @@
     return (match !== null) ? match[1] : false;
   };
   OtherCountryFields.prototype.getCountryFieldName = function () {
-    var keys = ['firstCountry', 'secondCountry', 'thirdCountry'];
+    var keys = ['whichCountry', 'secondCountry', 'thirdCountry'];
 
     return function (indexStr, render) {
       var idx = parseInt(render(indexStr), 10);
@@ -381,7 +367,7 @@
     };
   };
   OtherCountryFields.prototype.getCountryFieldRemoveText = function () {
-    var keys = ['removeFirstCountry', 'removeSecondCountry', 'removeThirdCountry'];
+    var keys = ['removeWhichCountry', 'removeSecondCountry', 'removeThirdCountry'];
 
     return function (indexStr, render) {
       var idx = parseInt(render(indexStr), 10);
@@ -434,7 +420,8 @@
   };
   OtherCountryFields.prototype.addCountryElements = function () {
     var $holder = $('<div />'),
-        _this = this;
+        _this = this,
+        dummiesHTML;
 
     this.$container.html('');
     $.each(this.countries, function (idx, country) {
@@ -449,10 +436,31 @@
       }
       $holder.append(_this.makeCountryHTML(opts));
     });
+    dummiesHTML = this.getDummyFields();
+    if (dummiesHTML) { $holder.append(dummiesHTML); }
     if (this.countries.length < 3) {
       $holder.append(this.$addAnotherLink);
     }
     this.$container.append($holder.html());
+  };
+  OtherCountryFields.prototype.getDummyFields = function () {
+    var maxCountries = 3,
+        numberOfCountries = this.countries.length,
+        dummiesRequired = (maxCountries - numberOfCountries),
+        idx = numberOfCountries,
+        dummyTemplate = Mustache.compile(this.templates.dummy),
+        $holder = $('<div />'),
+        dummyHTML;
+
+    if (!dummiesRequired) { return false; }
+    while (idx < maxCountries) {
+      dummyHTML = dummyTemplate({
+        'name' : this.getFieldName(idx)
+      });
+      $holder.append(dummyHTML);
+      idx++;
+    }
+    return $holder.html();
   };
   OtherCountryFields.prototype.addCountry = function () {
     $(document).trigger('preContentRemoval', { context : this.$container });
