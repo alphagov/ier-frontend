@@ -15,7 +15,8 @@ trait CitizenDetailsMustache extends StepTemplate[InprogressOverseas] {
       citizenDate: Field,
       citizenDateDay: Field,
       citizenDateMonth: Field,
-      citizenDateYear: Field
+      citizenDateYear: Field,
+      birthplace: Field
   ) extends MustacheData
 
   val mustache = MustacheTemplate("overseas/citizenDetails") { (form, post) =>
@@ -40,7 +41,8 @@ trait CitizenDetailsMustache extends StepTemplate[InprogressOverseas] {
         classes = if (form(keys.passport.citizenDetails.dateBecameCitizen).hasErrors) {
           "invalid"
         } else ""
-      )
+      ),
+      birthplace = TextField(keys.passport.citizenDetails.birthplace)
     )
   }
 }

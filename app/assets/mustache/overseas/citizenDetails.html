@@ -74,6 +74,21 @@
             For example: Naturalisation, adoption, born in the UK to British parents
         </p>
 
+        <label for="{{birthplace.id}}" class="sub-section">
+            Town or city and country of birth
+        </label>
+        <div class="validation-wrapper {{birthplace.classes}}">
+            <input
+                type="text"
+                id="{{birthplace.id}}"
+                name="{{birthplace.name}}"
+                value="{{birthplace.value}}"
+                autocomplete="off"
+                class="text long validate {{birthplace.classes}}">
+        </div>
+        <p class="example">
+            For example: Wellington, New Zealand
+        </p>
     <button
       id="continue"
       type="submit"

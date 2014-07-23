@@ -85,7 +85,8 @@ trait PassportConstraints extends CommonConstraints{
         keys.passport.citizenDetails.dateBecameCitizen.day,
         keys.passport.citizenDetails.dateBecameCitizen.month,
         keys.passport.citizenDetails.dateBecameCitizen.year,
-        keys.passport.citizenDetails.dateBecameCitizen
+        keys.passport.citizenDetails.dateBecameCitizen,
+        keys.passport.citizenDetails.birthplace
       )
     }
   }
@@ -133,10 +134,22 @@ trait PassportConstraints extends CommonConstraints{
   lazy val ifDefinedHowBecameCitizenRequired = Constraint[InprogressOverseas](keys.passport.key){
     application => application.passport match {
       case Some(passport) if !passport.citizen.isDefined => Valid
-      case Some(Passport(_, _, _, Some(citizen))) if citizen.howBecameCitizen != "" => Valid
+      case Some(Passport(_, _, _, Some(citizen))) if citizen.howBecameCitizen.nonEmpty => Valid
       case _ => Invalid(
         "Please provide your explanation of how you became a British Citizen",
         keys.passport.citizenDetails.howBecameCitizen,
+        keys.passport.citizenDetails
+      )
+    }
+  }
+
+  lazy val ifDefinedBirthplaceRequired = Constraint[InprogressOverseas](keys.passport.key){
+    application => application.passport match {
+      case Some(passport) if !passport.citizen.isDefined => Valid
+      case Some(Passport(_, _, _, Some(citizen))) if citizen.birthplace.nonEmpty => Valid
+      case _ => Invalid(
+        "Please provide your birthplace",
+        keys.passport.citizenDetails.birthplace,
         keys.passport.citizenDetails
       )
     }
