@@ -47,7 +47,7 @@ trait PassportBlocks {
     val birthplace = form(keys.passport.citizenDetails.birthplace).value
 
     val citizenContent = (howBecameCitizen, dateBecameCitizen, birthplace) match {
-      case (Some(how),Some(date), Some(bplace)) =>
+      case (Some(how), Some(date), Some(bplace)) =>
         List(
           s"I became a citizen through: $how",
           "I became a citizen on:",
