@@ -414,7 +414,7 @@ class PassportFormTests
 
     citizenDetailsForm.bind(js).fold(
       hasErrors => {
-        val error = Seq("Please provide your birthplace")
+        val error = Seq("Please provide your town or city and county of birth")
         hasErrors.errorMessages("passport.citizenDetails") should be(error)
         hasErrors.errorMessages("passport.citizenDetails.birthplace") should be(error)
         hasErrors.globalErrors.size should be(1)

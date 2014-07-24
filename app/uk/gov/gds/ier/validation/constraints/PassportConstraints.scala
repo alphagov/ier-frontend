@@ -148,7 +148,7 @@ trait PassportConstraints extends CommonConstraints{
       case Some(passport) if !passport.citizen.isDefined => Valid
       case Some(Passport(_, _, _, Some(citizen))) if citizen.birthplace.nonEmpty => Valid
       case _ => Invalid(
-        "Please provide your birthplace",
+        "Please provide your town or city and county of birth",
         keys.passport.citizenDetails.birthplace,
         keys.passport.citizenDetails
       )

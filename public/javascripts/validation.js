@@ -1141,7 +1141,7 @@
         'nonEmpty' : "Please provide your explanation of how you became a British Citizen"
       },
       'birthplace' : {
-        'nonEmpty' : "Please provide your birthplace"
+        'nonEmpty' : "Please provide your town or city and county of birth"
       },
       'excuseAgeAttempt' : {
         'radioNonEmpty' : message('ordinary_dob_error_selectRange')
