@@ -131,7 +131,7 @@ class NationalityMustacheTest
 
     nationalityModel.britishOption.attributes should be("")
     nationalityModel.irishOption.attributes should be("")
-    nationalityModel.hasOtherCountryOption.attributes should be("checked=\"checked\"")
+    nationalityModel.hasOtherCountryOption.attributes should be("checked='checked'")
     nationalityModel.otherCountries0.value should be("Spain")
     nationalityModel.otherCountries1.value should be("France")
     nationalityModel.otherCountries2.value should be("")
@@ -162,7 +162,7 @@ class NationalityMustacheTest
 
     nationalityModel.britishOption.attributes should be("checked=\"checked\"")
     nationalityModel.irishOption.attributes should be("")
-    nationalityModel.hasOtherCountryOption.attributes should be("checked=\"checked\"")
+    nationalityModel.hasOtherCountryOption.attributes should be("checked='checked'")
     nationalityModel.otherCountries0.value should be("Spain")
     nationalityModel.otherCountries1.value should be("France")
     nationalityModel.otherCountries2.value should be("")
