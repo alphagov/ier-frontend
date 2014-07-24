@@ -38,11 +38,8 @@ class LastUkAddressStepMockedTests extends FlatSpec with TestHelpers with Matche
     lastUkAddress = Some(PartialAddress(None, None, scotPostcode, None, None)))
   val applicationWithEnglLastUkAddress = InprogressOverseas(
     lastUkAddress = Some(PartialAddress(None, None, englPostcode, None, None)))
-  // start Guice if it was not already started as one of the following tests does not work without it
-  running(FakeApplication()) {}
 
   behavior of "LastUkAddressStep.nextStep"
-
   it should "redirect to Scotland exit page if address is Scottish (the gssCode starts with S)" in {
     val addressStep = new LastUkAddressStep(
       mockedJsonSerialiser,
