@@ -1143,7 +1143,6 @@
       'birthplace' : {
         'nonEmpty' : "Please provide your birthplace"
       },
-
       'excuseAgeAttempt' : {
         'radioNonEmpty' : message('ordinary_dob_error_selectRange')
       },
