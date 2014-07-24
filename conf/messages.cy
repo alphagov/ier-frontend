@@ -37,9 +37,9 @@ ordinary_nationality_otherCountry=Dinesydd gwlad arall
 ordinary_nationality_whichCountry=Enw'r wlad<span class="visuallyhidden"> un</span>
 ordinary_nationality_secondCountry=Enw'r wlad<span class="visuallyhidden"> dau</span>
 ordinary_nationality_thirdCountry=Enw'r wlad<span class="visuallyhidden"> tri</span>
-ordinary_nationality_removeWhichCountry=Remove <span class="visuallyhidden">first country name</span>
-ordinary_nationality_removeSecondCountry=Remove <span class="visuallyhidden">second country name<span>
-ordinary_nationality_removeThirdCountry=Remove <span class="visuallyhidden">third country name</span>
+ordinary_nationality_removeWhichCountry=Dileu <span class="visuallyhidden">gwlad un</span>
+ordinary_nationality_removeSecondCountry=Dileu <span class="visuallyhidden">gwlad dau<span>
+ordinary_nationality_removeThirdCountry=Dileu <span class="visuallyhidden">gwlad tri</span>
 ordinary_nationality_country=Gwlad
 ordinary_nationality_removeCountry=Dileu gwlad
 ordinary_nationality_addAnotherCountry=ychwanegu gwlad arall
