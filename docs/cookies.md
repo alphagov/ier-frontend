@@ -85,6 +85,9 @@ assets requests per page, that would be highly inefficient. Recommended solution
 separate domain for assets, and that is what we use on production environments, on local dev 
 environments default _same domain_ setup is used for simplicity. 
 
+On Preview, Staging and Production environements the `asset.path` config setting in `conf/ier-frontend.conf`
+is set so assets are served off a different domain. This means cookies are not sent on this asset domain.
+
 ### Outside session pages
 
 Feedback form, static text pages like Cookies or Privacy pages. All this pages have session data 
