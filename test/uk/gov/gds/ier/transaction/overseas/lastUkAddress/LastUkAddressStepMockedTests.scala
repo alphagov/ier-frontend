@@ -55,7 +55,7 @@ class LastUkAddressStepMockedTests extends FlatSpec with TestHelpers with Matche
     transferedState should be (GoTo(ExitController.scotland))
   }
 
-  it should "redirect to next address step if address is English" in {
+  it should "redirect to next address step if address is English" in runningApp {
     val addressStep = new LastUkAddressStep(
       mockedJsonSerialiser,
       mockedConfig,
