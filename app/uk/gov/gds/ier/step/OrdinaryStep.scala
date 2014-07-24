@@ -12,6 +12,7 @@ trait OrdinaryStep
   with WithConfig
   with WithEncryption
   with WithRemoteAssets { self: StepTemplate[InprogressOrdinary] =>
+  val manifestOfT = manifest[InprogressOrdinary]
   def factoryOfT() = InprogressOrdinary()
   def timeoutPage() = ErrorController.ordinaryTimeout
   val confirmationRoute = ConfirmationController.get
