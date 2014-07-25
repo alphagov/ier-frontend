@@ -2,13 +2,19 @@
 
 {{$main}}
 <header>
+  {{#showBirthdayBunting}}
+    <img src="{{{ appAssetPath }}}images/birthdaybunting.png" alt="Happy Birthday" class="bunting-image"/>
+  {{/showBirthdayBunting}}
+
   <h1>{{messages.complete_applicationComplete_h1}}</h1>
+
   {{#refNumber}}
   <p>
     {{messages.complete_yourRefNumberIs}}
     <span>{{refNumber}}</span>
   </p>
   {{/refNumber}}
+
 </header>
 <article>
   {{#showEmailConfirmation}}

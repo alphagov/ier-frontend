@@ -1,5 +1,7 @@
 package uk.gov.gds.ier.model
 
+import org.joda.time.LocalDate
+
 case class DateOfBirth(dob:Option[DOB],
                        noDob:Option[noDOB]) {
   def toApiMap = {
@@ -13,6 +15,15 @@ case class DOB(year:Int,
                day:Int) {
   def toApiMap(key:String) = {
     Map(key -> (year + "-" + "%02d".format(month) + "-" + "%02d".format(day)))
+  }
+
+  def isToday = {
+    val dobDate = new LocalDate()
+      .withYear(year)
+      .withMonthOfYear(month)
+      .withDayOfMonth(day)
+
+    dobDate.isEqual(LocalDate.now.withYear(year))
   }
 }
 
