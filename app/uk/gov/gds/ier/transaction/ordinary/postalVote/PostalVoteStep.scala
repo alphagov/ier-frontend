@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.postalVote
 
-import controllers.step.ordinary.routes.{PostalVoteController, OpenRegisterController}
+import controllers.step.ordinary.routes.OpenRegisterController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.model._
@@ -30,10 +30,10 @@ class PostalVoteStep @Inject ()(
   val validation = postalVoteForm
 
   val routing = Routes(
-    get = PostalVoteController.get,
-    post = PostalVoteController.post,
-    editGet = PostalVoteController.editGet,
-    editPost = PostalVoteController.editPost
+    get = routes.PostalVoteStep.get,
+    post = routes.PostalVoteStep.post,
+    editGet = routes.PostalVoteStep.editGet,
+    editPost = routes.PostalVoteStep.editPost
   )
 
   def resetPostalVote = TransformApplication { currentState =>

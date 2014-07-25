@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.transaction.ordinary.contact
 
-import controllers.step.ordinary.routes.PostalVoteController
 import controllers.step.ordinary.ConfirmationController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser

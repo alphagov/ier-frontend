@@ -74,10 +74,10 @@ GET         /register-to-vote/edit/contact                               @uk.gov
 POST        /register-to-vote/edit/contact                               @uk.gov.gds.ier.transaction.ordinary.contact.ContactStep.editPost
 
 #Postal Vote Step
-GET         /register-to-vote/postal-vote                                controllers.step.ordinary.PostalVoteController.get
-POST        /register-to-vote/postal-vote                                controllers.step.ordinary.PostalVoteController.post
-GET         /register-to-vote/edit/postal-vote                           controllers.step.ordinary.PostalVoteController.editGet
-POST        /register-to-vote/edit/postal-vote                           controllers.step.ordinary.PostalVoteController.editPost
+GET         /register-to-vote/postal-vote                                @uk.gov.gds.ier.transaction.ordinary.postalVote.PostalVoteStep.get
+POST        /register-to-vote/postal-vote                                @uk.gov.gds.ier.transaction.ordinary.postalVote.PostalVoteStep.post
+GET         /register-to-vote/edit/postal-vote                           @uk.gov.gds.ier.transaction.ordinary.postalVote.PostalVoteStep.editGet
+POST        /register-to-vote/edit/postal-vote                           @uk.gov.gds.ier.transaction.ordinary.postalVote.PostalVoteStep.editPost
 
 #Open Register Step
 GET         /register-to-vote/open-register                              controllers.step.ordinary.OpenRegisterController.get
