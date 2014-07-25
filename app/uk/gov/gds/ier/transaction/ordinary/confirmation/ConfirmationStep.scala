@@ -16,6 +16,7 @@ import uk.gov.gds.ier.session.ResultHandling
 import uk.gov.gds.ier.langs.Language
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.ordinary.{WithOrdinaryControllers, OrdinaryControllers}
 
 class ConfirmationStep @Inject ()(
     val serialiser: JsonSerialiser,
@@ -23,13 +24,15 @@ class ConfirmationStep @Inject ()(
     val addressService: AddressService,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val ordinary: OrdinaryControllers
   ) extends ConfirmationStepController[InprogressOrdinary]
   with ConfirmationForms
   with ConfirmationMustache
   with ConfirmationCookieWriter
   with ResultHandling
   with WithAddressService
+  with WithOrdinaryControllers
   with WithRemoteAssets {
 
   def factoryOfT() = InprogressOrdinary()
