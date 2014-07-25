@@ -18,13 +18,12 @@ case class DOB(year:Int,
   }
 
   def isToday = {
-    val dobDate = new LocalDate()
-      .withYear(year)
-      .withMonthOfYear(month)
-      .withDayOfMonth(day)
+    val now = LocalDate.now
 
-    dobDate.isEqual(LocalDate.now.withYear(year))
+    month == now.monthOfYear.get &&
+    day ==  now.dayOfMonth.get
   }
+
 }
 
 case class noDOB(reason:Option[String],

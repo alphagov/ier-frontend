@@ -3,9 +3,12 @@ package uk.gov.gds.ier.serialiser
 import uk.gov.gds.common.json.JsonSerializer
 import com.fasterxml.jackson.core.`type`.TypeReference
 import java.lang.reflect.{ Type, ParameterizedType }
+import com.fasterxml.jackson.annotation.{JsonAutoDetect, PropertyAccessor}
 
 class JsonSerialiser extends JsonSerializer {
   mapper.registerModule(new JodaParseModule)
+//  mapper.setVisibility(PropertyAccessor.GETTER, JsonAutoDetect.Visibility.NONE)
+//  mapper.setVisibility(PropertyAccessor.IS_GETTER, JsonAutoDetect.Visibility.NONE)
 
   override def toJson(obj: AnyRef) = try {
     mapper.writeValueAsString(obj)
