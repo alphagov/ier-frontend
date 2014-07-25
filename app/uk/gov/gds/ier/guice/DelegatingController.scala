@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.guice
 
 import play.api.mvc.Controller
-import uk.gov.gds.guice.DependencyInjectionProvider
 
 /**
  * This object is the play controller that handles the incoming requests for the licence application process.
@@ -11,6 +10,12 @@ import uk.gov.gds.guice.DependencyInjectionProvider
  * pattern
  */
 
-abstract class DelegatingController[A <: AnyRef](implicit m: Manifest[A]) extends DependencyInjectionProvider with Controller {
-  protected lazy val delegate = dependency[A]
+abstract class DelegatingController[A <: AnyRef](implicit m: Manifest[A]) extends Controller {
+
+  private lazy val app = play.api.Play.maybeApplication getOrElse {
+    throw new IllegalStateException("Play Application not started.")
+  }
+  private lazy val delegateClass = m.runtimeClass.asInstanceOf[Class[A]]
+
+  protected lazy val delegate = app.global.getControllerInstance(delegateClass)
 }
