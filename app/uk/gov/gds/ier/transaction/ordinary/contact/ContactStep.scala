@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.contact
 
-import controllers.step.ordinary.routes.{ContactController, PostalVoteController}
+import controllers.step.ordinary.routes.PostalVoteController
 import controllers.step.ordinary.ConfirmationController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
@@ -30,10 +30,10 @@ class ContactStep @Inject ()(
   val validation = contactForm
 
   val routing = Routes(
-    get = ContactController.get,
-    post = ContactController.post,
-    editGet = ContactController.editGet,
-    editPost = ContactController.editPost
+    get = routes.ContactStep.get,
+    post = routes.ContactStep.post,
+    editGet = routes.ContactStep.editGet,
+    editPost = routes.ContactStep.editPost
   )
 
   def nextStep(currentState: InprogressOrdinary) = {

@@ -12,6 +12,7 @@ import uk.gov.gds.ier.service.WithAddressService
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.form.OrdinaryFormImplicits
 import uk.gov.gds.ier.step.StepTemplate
+import uk.gov.gds.ier.transaction.ordinary.contact.routes._
 import uk.gov.gds.ier.transaction.ordinary.name.routes._
 
 trait ConfirmationMustache
@@ -75,9 +76,9 @@ trait ConfirmationMustache
 
     def ifComplete(keys:Key*)(confirmationHtml: => List[String]): EitherErrorOrContent = {
       if (keys.exists(form(_).hasErrors)) {
-    	BlockError(completeThisStepMessage)
+        BlockError(completeThisStepMessage)
       } else {
-    	BlockContent(confirmationHtml)
+        BlockContent(confirmationHtml)
       }
     }
 
@@ -293,7 +294,7 @@ trait ConfirmationMustache
     def contact = {
       Some(ConfirmationQuestion(
         title = Messages("ordinary_confirmation_contact_title"),
-        editLink = routes.ContactController.editGet.url,
+        editLink = ContactStep.editGet.url,
         changeName = Messages("ordinary_confirmation_contact_changeName"),
         content = ifComplete(keys.contact) {
           val post = if (form(keys.contact.post.contactMe).value == Some("true")) {

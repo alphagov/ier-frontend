@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.transaction.ordinary.postalVote
 
-import controllers.step.ordinary.ContactController
 import controllers.step.ordinary.routes.{PostalVoteController, OpenRegisterController}
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
