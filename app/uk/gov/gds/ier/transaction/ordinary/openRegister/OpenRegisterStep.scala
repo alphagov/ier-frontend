@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.transaction.ordinary.openRegister
 
-import controllers.step.ordinary.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
@@ -25,10 +24,10 @@ class OpenRegisterStep @Inject ()(
   val validation = openRegisterForm
 
   val routing = Routes(
-    get = OpenRegisterController.get,
-    post = OpenRegisterController.post,
-    editGet = OpenRegisterController.editGet,
-    editPost = OpenRegisterController.editPost
+    get = routes.OpenRegisterStep.get,
+    post = routes.OpenRegisterStep.post,
+    editGet = routes.OpenRegisterStep.editGet,
+    editPost = routes.OpenRegisterStep.editPost
   )
 
   def nextStep(currentState: InprogressOrdinary) = {

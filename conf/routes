@@ -80,10 +80,10 @@ GET         /register-to-vote/edit/postal-vote                           @uk.gov
 POST        /register-to-vote/edit/postal-vote                           @uk.gov.gds.ier.transaction.ordinary.postalVote.PostalVoteStep.editPost
 
 #Open Register Step
-GET         /register-to-vote/open-register                              controllers.step.ordinary.OpenRegisterController.get
-POST        /register-to-vote/open-register                              controllers.step.ordinary.OpenRegisterController.post
-GET         /register-to-vote/edit/open-register                         controllers.step.ordinary.OpenRegisterController.editGet
-POST        /register-to-vote/edit/open-register                         controllers.step.ordinary.OpenRegisterController.editPost
+GET         /register-to-vote/open-register                              @uk.gov.gds.ier.transaction.ordinary.openRegister.OpenRegisterStep.get
+POST        /register-to-vote/open-register                              @uk.gov.gds.ier.transaction.ordinary.openRegister.OpenRegisterStep.post
+GET         /register-to-vote/edit/open-register                         @uk.gov.gds.ier.transaction.ordinary.openRegister.OpenRegisterStep.editGet
+POST        /register-to-vote/edit/open-register                         @uk.gov.gds.ier.transaction.ordinary.openRegister.OpenRegisterStep.editPost
 
 #Other Address Step
 GET         /register-to-vote/other-address                              controllers.step.ordinary.OtherAddressController.get
