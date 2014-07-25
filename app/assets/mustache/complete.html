@@ -1,7 +1,12 @@
 {{<template/govuk}}
 
 {{$main}}
-<header>
+<header
+    {{#showBirthdayBunting}}
+        class="bunting"
+    {{/showBirthdayBunting}}
+    >
+
   {{#showBirthdayBunting}}
     <img src="{{{ appAssetPath }}}images/birthdaybunting.png" alt="Happy Birthday" class="bunting-image"/>
   {{/showBirthdayBunting}}
