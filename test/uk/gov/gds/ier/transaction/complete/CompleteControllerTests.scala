@@ -48,6 +48,7 @@ class CompleteControllerTests
 
       renderedOutput should include("123457689013")
       renderedOutput should include("/register-to-vote/start")
+      renderedOutput should not include("Happy Birthday")
     }
   }
 
@@ -82,6 +83,7 @@ class CompleteControllerTests
 
       renderedOutput should include("123457689013")
       renderedOutput should not include("/register-to-vote/start")
+      renderedOutput should not include("Happy Birthday")
     }
   }
 
@@ -114,6 +116,7 @@ class CompleteControllerTests
     val renderedOutput = contentAsString(result)
 
     renderedOutput should include("We have sent you a confirmation email.")
+    renderedOutput should not include("Happy Birthday")
   }
 
   it should "display the page without email confirmation info" in runningApp {
@@ -145,6 +148,7 @@ class CompleteControllerTests
     val renderedOutput = contentAsString(result)
 
     renderedOutput should not include("We have sent you a confirmation email.")
+    renderedOutput should not include("Happy Birthday")
   }
 
   it should "display happy birthday bunting" in {

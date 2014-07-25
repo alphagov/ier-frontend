@@ -7,8 +7,6 @@ import com.fasterxml.jackson.annotation.{JsonAutoDetect, PropertyAccessor}
 
 class JsonSerialiser extends JsonSerializer {
   mapper.registerModule(new JodaParseModule)
-//  mapper.setVisibility(PropertyAccessor.GETTER, JsonAutoDetect.Visibility.NONE)
-//  mapper.setVisibility(PropertyAccessor.IS_GETTER, JsonAutoDetect.Visibility.NONE)
 
   override def toJson(obj: AnyRef) = try {
     mapper.writeValueAsString(obj)
