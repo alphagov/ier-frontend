@@ -140,10 +140,10 @@ GET         /register-to-vote/edit/previous-address/manual               control
 POST        /register-to-vote/edit/previous-address/manual               controllers.step.ordinary.PreviousAddressManualController.editPost
 
 #Name Step
-GET         /register-to-vote/name                                       controllers.step.ordinary.NameController.get
-POST        /register-to-vote/name                                       controllers.step.ordinary.NameController.post
-GET         /register-to-vote/edit/name                                  controllers.step.ordinary.NameController.editGet
-POST        /register-to-vote/edit/name                                  controllers.step.ordinary.NameController.editPost
+GET         /register-to-vote/name                                       @uk.gov.gds.ier.transaction.ordinary.name.NameStep.get
+POST        /register-to-vote/name                                       @uk.gov.gds.ier.transaction.ordinary.name.NameStep.post
+GET         /register-to-vote/edit/name                                  @uk.gov.gds.ier.transaction.ordinary.name.NameStep.editGet
+POST        /register-to-vote/edit/name                                  @uk.gov.gds.ier.transaction.ordinary.name.NameStep.editPost
 
 #Date Of Birth Step
 GET         /register-to-vote/date-of-birth                              controllers.step.ordinary.DateOfBirthController.get

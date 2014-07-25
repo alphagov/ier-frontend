@@ -4,7 +4,6 @@ import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.{Key, ErrorTransformForm}
 import uk.gov.gds.ier.model.{OtherAddress, MovedHouseOption}
-import scala.Some
 import controllers.step.ordinary.routes
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
@@ -13,6 +12,7 @@ import uk.gov.gds.ier.service.WithAddressService
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.form.OrdinaryFormImplicits
 import uk.gov.gds.ier.step.StepTemplate
+import uk.gov.gds.ier.transaction.ordinary.name.routes._
 
 trait ConfirmationMustache
     extends StepTemplate[InprogressOrdinary] {
@@ -84,7 +84,7 @@ trait ConfirmationMustache
     def name = {
       Some(ConfirmationQuestion(
         title = Messages("ordinary_confirmation_name_title"),
-        editLink = routes.NameController.editGet.url,
+        editLink = NameStep.editGet.url,
         changeName = Messages("ordinary_confirmation_name_changeName"),
         content = ifComplete(keys.name) {
           List(List(
@@ -109,7 +109,7 @@ trait ConfirmationMustache
       }
       Some(ConfirmationQuestion(
         title = Messages("ordinary_confirmation_previousName_title"),
-        editLink = routes.NameController.editGet.url,
+        editLink = NameStep.editGet.url,
         changeName = Messages("ordinary_confirmation_previousName_changeName"),
         content = ifComplete(keys.previousName) {
           List(prevNameStr)

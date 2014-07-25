@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.name
 
-import controllers.step.ordinary.routes.{NameController, DateOfBirthController}
+import controllers.step.ordinary.routes.DateOfBirthController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
@@ -26,10 +26,10 @@ class NameStep @Inject ()(
   val validation = nameForm
 
   val routing = Routes(
-    get = NameController.get,
-    post = NameController.post,
-    editGet = NameController.editGet,
-    editPost = NameController.editPost
+    get = routes.NameStep.get,
+    post = routes.NameStep.post,
+    editGet = routes.NameStep.editGet,
+    editPost = routes.NameStep.editPost
   )
 
   def nextStep(currentState: InprogressOrdinary) = {

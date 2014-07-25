@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.nino
 
-import controllers.step.ordinary.routes.{NinoController, NameController}
+import controllers.step.ordinary.routes.{NinoController}
 import controllers.step.ordinary.AddressController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
