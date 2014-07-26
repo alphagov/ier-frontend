@@ -1,13 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.address
 
-import controllers.step.ordinary.routes.{
-  AddressController,
-  AddressManualController,
-  AddressSelectController,
-  NinoController}
-import controllers.step.ordinary.OtherAddressController
+import controllers.step.ordinary.routes.AddressSelectController
 import com.google.inject.Inject
-import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{
   Addresses,

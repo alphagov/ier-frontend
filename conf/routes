@@ -86,10 +86,10 @@ GET         /register-to-vote/edit/open-register                         @uk.gov
 POST        /register-to-vote/edit/open-register                         @uk.gov.gds.ier.transaction.ordinary.openRegister.OpenRegisterStep.editPost
 
 #Other Address Step
-GET         /register-to-vote/other-address                              controllers.step.ordinary.OtherAddressController.get
-POST        /register-to-vote/other-address                              controllers.step.ordinary.OtherAddressController.post
-GET         /register-to-vote/edit/other-address                         controllers.step.ordinary.OtherAddressController.editGet
-POST        /register-to-vote/edit/other-address                         controllers.step.ordinary.OtherAddressController.editPost
+GET         /register-to-vote/other-address                              @uk.gov.gds.ier.transaction.ordinary.otherAddress.OtherAddressStep.get
+POST        /register-to-vote/other-address                              @uk.gov.gds.ier.transaction.ordinary.otherAddress.OtherAddressStep.post
+GET         /register-to-vote/edit/other-address                         @uk.gov.gds.ier.transaction.ordinary.otherAddress.OtherAddressStep.editGet
+POST        /register-to-vote/edit/other-address                         @uk.gov.gds.ier.transaction.ordinary.otherAddress.OtherAddressStep.editPost
 
 #Nationality Step
 GET         /register-to-vote/nationality                                controllers.step.ordinary.NationalityController.get
