@@ -17,7 +17,8 @@ trait NameMustache extends StepTemplate[InprogressOverseas] {
     hasPreviousNameFalse: Field,
     previousFirstName: Field,
     previousMiddleNames: Field,
-    previousLastName: Field
+    previousLastName: Field,
+    nameChangeReason: Field
   ) extends MustacheData
 
   val mustache = MustacheTemplate("overseas/name") { (form, post) =>
@@ -45,7 +46,9 @@ trait NameMustache extends StepTemplate[InprogressOverseas] {
       previousMiddleNames = TextField(
         key = keys.previousName.previousName.middleNames),
       previousLastName = TextField(
-        key = keys.previousName.previousName.lastName)
+        key = keys.previousName.previousName.lastName),
+      nameChangeReason = TextField(
+        key = keys.previousName.previousName.reason)
     )
   }
 }
