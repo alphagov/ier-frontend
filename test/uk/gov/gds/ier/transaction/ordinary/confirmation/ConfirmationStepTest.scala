@@ -197,33 +197,34 @@ class ConfirmationStepTest
       completeStepData.get.showEmailConfirmation should be(true)
     }
 
-  it should "submit application and set show bunting flag to true if its applicants birthday" in {
-    applicationWithDateOfBirth(LocalDate.now, true)
-    applicationWithDateOfBirth(LocalDate.now.minusYears(1), true)
-    applicationWithDateOfBirth(LocalDate.now.minusYears(30), true)
-    applicationWithDateOfBirth(LocalDate.now.minusYears(60), true)
-  }
+  behavior of "showBirthdayBunting flag"
+    it should "submit application and set show bunting flag to true if its applicants birthday" in {
+      applicationWithDateOfBirth(LocalDate.now, true)
+      applicationWithDateOfBirth(LocalDate.now.minusYears(1), true)
+      applicationWithDateOfBirth(LocalDate.now.minusYears(30), true)
+      applicationWithDateOfBirth(LocalDate.now.minusYears(60), true)
+    }
 
-  it should "submit application and set show bunting flag to false if its not applicants birthday" in {
-    applicationWithDateOfBirth(LocalDate.now.minusDays(1), false)
-    applicationWithDateOfBirth(LocalDate.now.minusDays(2), false)
-    applicationWithDateOfBirth(LocalDate.now.minusMonths(1), false)
-    applicationWithDateOfBirth(LocalDate.now.minusMonths(2), false)
-    applicationWithDateOfBirth(LocalDate.now.minusMonths(11).minusYears(80), false)
-  }
+    it should "submit application and set show bunting flag to false if its not applicants birthday" in {
+      applicationWithDateOfBirth(LocalDate.now.minusDays(1), false)
+      applicationWithDateOfBirth(LocalDate.now.minusDays(2), false)
+      applicationWithDateOfBirth(LocalDate.now.minusMonths(1), false)
+      applicationWithDateOfBirth(LocalDate.now.minusMonths(2), false)
+      applicationWithDateOfBirth(LocalDate.now.minusMonths(11).minusYears(80), false)
+    }
 
-  it should "submit application and set show bunting flag to false if applicants age is not provided" in {
-    applicationWithDateOfBirth(
-      dateOfBirth = DateOfBirth(
-        dob = None,
-        noDob = Some(noDOB(
-          reason = Some("test reason"),
-          range = Some(DateOfBirthConstants.is18to70)
-        ))
-      ),
-      expectedBuntingFlagValue = false
-    )
-  }
+    it should "submit application and set show bunting flag to false if applicants age is not provided" in {
+      applicationWithDateOfBirth(
+        dateOfBirth = DateOfBirth(
+          dob = None,
+          noDob = Some(noDOB(
+            reason = Some("test reason"),
+            range = Some(DateOfBirthConstants.is18to70)
+          ))
+        ),
+        expectedBuntingFlagValue = false
+      )
+    }
 
   def applicationWithDateOfBirth(localDate: LocalDate, expectedBuntingFlagValue: Boolean): Unit =
     applicationWithDateOfBirth(createDoBFrom(localDate), expectedBuntingFlagValue: Boolean)
