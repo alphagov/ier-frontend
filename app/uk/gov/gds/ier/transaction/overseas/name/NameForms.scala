@@ -120,11 +120,14 @@ trait NameConstraints extends NameCommonConstraints with FormKeys {
 
   lazy val prevReasonRequired = Constraint[InprogressOverseas] (
     keys.previousName.reason.key
-  ) { prevName =>
-    if (prevName.previousName.exists(pn => pn.hasPreviousName && pn.reason.exists(_.nonEmpty))) Valid
-    else Invalid (
-      "Please provide reason for changing name",
-      keys.previousName.reason)
+  ) {
+    _.previousName match {
+      case Some(PreviousName(false, _, _)) => Valid
+      case Some(PreviousName(true, _, Some(reason))) if reason.nonEmpty => Valid
+      case _ => Invalid(
+        "Please provide a reason for changing the name",
+        keys.previousName.reason)
+    }
   }
 
   lazy val prevNameRequiredIfHasPrevNameTrue = Constraint[InprogressOverseas] (

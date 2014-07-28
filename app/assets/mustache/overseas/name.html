@@ -85,8 +85,8 @@
         <fieldset class="validate"
                   data-validation-name="previousName"
                   data-validation-type="association"
-                  data-validation-rules="allNonEmpty allValid"
-                  data-validation-members="previousFirstName previousMiddleName previousLastName">
+                  data-validation-rules="allValid"
+                  data-validation-members="previousFirstName previousMiddleName previousLastName nameChangeReason">
 
             <label for="{{previousFirstName.id}}">
                 <span class="visuallyhidden">Previous</span> First name
@@ -135,7 +135,7 @@
                 <textarea name="{{nameChangeReason.name}}"
                           id="{{nameChangeReason.id}}"
                           class="small validate {{nameChangeReason.classes}}"
-                          data-validation-name="nationalityExcuse"
+                          data-validation-name="nameChangeReason"
                           data-validation-type="field"
                           data-validation-rules="nonEmpty"
                           maxlength="255">{{nameChangeReason.value}}</textarea>
