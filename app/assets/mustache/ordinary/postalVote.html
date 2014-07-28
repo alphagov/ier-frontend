@@ -18,7 +18,8 @@
 <label for="{{postCheckboxYes.id}}" class="selectable">
     <input type="radio" id="{{postCheckboxYes.id}}" name="{{postCheckboxYes.name}}" value="true" 
       class="radio  validate {{postCheckboxYes.classes}}" data-validation-name="postalYes" 
-      data-validation-type="field" data-validation-rules="nonEmpty" {{postCheckboxYes.attributes}}>
+      data-validation-type="field" data-validation-rules="nonEmpty" {{postCheckboxYes.attributes}} 
+      data-journey-click="Postal vote:Yes:Yes I want a postal vote">
         {{messages.ordinary_postalVote_postalVote_option}}
 </label>
 
