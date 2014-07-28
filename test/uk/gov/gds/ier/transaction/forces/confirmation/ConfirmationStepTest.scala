@@ -234,18 +234,18 @@ with TestHelpers {
 
   behavior of "showBirthdayBunting flag"
   it should "submit application and set show bunting flag to true if its applicants birthday" in {
-    applicationWithDateOfBirth(LocalDate.now, true)
-    applicationWithDateOfBirth(LocalDate.now.minusYears(1), true)
-    applicationWithDateOfBirth(LocalDate.now.minusYears(30), true)
-    applicationWithDateOfBirth(LocalDate.now.minusYears(60), true)
+    applicationWithDateOfBirth(LocalDate.now, expectedBuntingFlagValue = true)
+    applicationWithDateOfBirth(LocalDate.now.minusYears(1), expectedBuntingFlagValue = true)
+    applicationWithDateOfBirth(LocalDate.now.minusYears(30), expectedBuntingFlagValue = true)
+    applicationWithDateOfBirth(LocalDate.now.minusYears(60), expectedBuntingFlagValue = true)
   }
 
   it should "submit application and set show bunting flag to false if its not applicants birthday" in {
-    applicationWithDateOfBirth(LocalDate.now.minusDays(1), false)
-    applicationWithDateOfBirth(LocalDate.now.minusDays(2), false)
-    applicationWithDateOfBirth(LocalDate.now.minusMonths(1), false)
-    applicationWithDateOfBirth(LocalDate.now.minusMonths(2), false)
-    applicationWithDateOfBirth(LocalDate.now.minusMonths(11).minusYears(80), false)
+    applicationWithDateOfBirth(LocalDate.now.minusDays(1), expectedBuntingFlagValue = false)
+    applicationWithDateOfBirth(LocalDate.now.minusDays(2), expectedBuntingFlagValue = false)
+    applicationWithDateOfBirth(LocalDate.now.minusMonths(1), expectedBuntingFlagValue = false)
+    applicationWithDateOfBirth(LocalDate.now.minusMonths(2), expectedBuntingFlagValue = false)
+    applicationWithDateOfBirth(LocalDate.now.minusMonths(11).minusYears(80), expectedBuntingFlagValue = false)
   }
 
   it should "submit application and set show bunting flag to false if applicants age is not provided" in {
