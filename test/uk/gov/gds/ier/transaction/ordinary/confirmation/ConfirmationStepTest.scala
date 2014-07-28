@@ -11,6 +11,8 @@ import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 import scala.Some
 import uk.gov.gds.ier.controller.MockConfig
 import uk.gov.gds.ier.security.{Base64EncodingService, EncryptionService}
+import org.joda.time.LocalDate
+import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 
 /**
  * Test ConfirmationStep and ConfirmationController for Ordinary route,
@@ -27,7 +29,6 @@ class ConfirmationStepTest
   implicit val encryptionService = new EncryptionService (new Base64EncodingService, config)
 
   behavior of "ConfirmationStep.post submit application and set Refnum and LocalAuthority for the next step"
-
     running(FakeApplication()) {
       val Some(resultFuture) = route(
         FakeRequest(POST, "/register-to-vote/confirmation")
@@ -84,7 +85,6 @@ class ConfirmationStepTest
 
 
   behavior of "showEmailConfirmation flag"
-
     it should "submit application and set show email message flag to false for no email addresses" in runningApp {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/confirmation")
@@ -197,4 +197,60 @@ class ConfirmationStepTest
       completeStepData.get.showEmailConfirmation should be(true)
     }
 
+  behavior of "showBirthdayBunting flag"
+  it should "submit application and set show bunting flag to true if its applicants birthday" in {
+    applicationWithDateOfBirth(LocalDate.now, expectedBuntingFlagValue = true)
+    applicationWithDateOfBirth(LocalDate.now.minusYears(1), expectedBuntingFlagValue = true)
+    applicationWithDateOfBirth(LocalDate.now.minusYears(30), expectedBuntingFlagValue = true)
+    applicationWithDateOfBirth(LocalDate.now.minusYears(60), expectedBuntingFlagValue = true)
+  }
+
+  it should "submit application and set show bunting flag to false if its not applicants birthday" in {
+    applicationWithDateOfBirth(LocalDate.now.minusDays(1), expectedBuntingFlagValue = false)
+    applicationWithDateOfBirth(LocalDate.now.minusDays(2), expectedBuntingFlagValue = false)
+    applicationWithDateOfBirth(LocalDate.now.minusMonths(1), expectedBuntingFlagValue = false)
+    applicationWithDateOfBirth(LocalDate.now.minusMonths(2), expectedBuntingFlagValue = false)
+    applicationWithDateOfBirth(LocalDate.now.minusMonths(11).minusYears(80), expectedBuntingFlagValue = false)
+  }
+
+  it should "submit application and set show bunting flag to false if applicants age is not provided" in {
+    applicationWithDateOfBirth(
+      dateOfBirth = DateOfBirth(
+        dob = None,
+        noDob = Some(noDOB(
+          reason = Some("test reason"),
+          range = Some(DateOfBirthConstants.is18to70)
+        ))
+      ),
+      expectedBuntingFlagValue = false
+    )
+  }
+
+  def applicationWithDateOfBirth(localDate: LocalDate, expectedBuntingFlagValue: Boolean): Unit =
+    applicationWithDateOfBirth(createDoBFrom(localDate), expectedBuntingFlagValue: Boolean)
+
+  def applicationWithDateOfBirth(dateOfBirth: DateOfBirth, expectedBuntingFlagValue: Boolean): Unit =
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/confirmation")
+          .withIerSession()
+          .withApplication(completeOrdinaryApplication.copy(dob = Some(dateOfBirth)))
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/complete"))
+      val allCookies = cookies(result)
+      val completeStepData = getConfirmationCookie(allCookies)
+      completeStepData should not be (None)
+      completeStepData.get.showBirthdayBunting should be(expectedBuntingFlagValue)
+    }
+
+  private def createDoBFrom(localDate: LocalDate) =
+    DateOfBirth(
+      dob = Some(DOB(
+        year = localDate.year.get,
+        month = localDate.monthOfYear.get,
+        day = localDate.dayOfMonth.get
+      )),
+      noDob = None)
 }

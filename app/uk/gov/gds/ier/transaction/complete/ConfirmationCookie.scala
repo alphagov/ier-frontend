@@ -7,7 +7,8 @@ case class ConfirmationCookie(
     authority: Option[EroAuthorityDetails],
     hasOtherAddress: Boolean = false,
     backToStartUrl: String,
-    showEmailConfirmation: Boolean
+    showEmailConfirmation: Boolean,
+    showBirthdayBunting: Boolean
   )
 
 object ConfirmationCookie {
@@ -17,7 +18,8 @@ object ConfirmationCookie {
       authority = None,
       hasOtherAddress = false,
       backToStartUrl = "",
-      showEmailConfirmation = false
+      showEmailConfirmation = false,
+      showBirthdayBunting = false
     )
   }
 }

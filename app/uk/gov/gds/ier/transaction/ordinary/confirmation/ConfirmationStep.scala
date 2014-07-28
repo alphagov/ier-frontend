@@ -100,12 +100,15 @@ class ConfirmationStep @Inject ()(
           val hasOtherAddress = validApplication.otherAddress
             .map(_.otherAddressOption.hasOtherAddress).getOrElse(false)
 
+          val isBirthdayToday = validApplication.dob.exists(_.dob.exists(_.isToday))
+
           val completeStepData = ConfirmationCookie(
             refNum = refNum,
             authority = Some(response.localAuthority),
             hasOtherAddress = hasOtherAddress,
             backToStartUrl = config.ordinaryStartUrl,
-            showEmailConfirmation = (isPostalVoteEmailPresent | isContactEmailPresent)
+            showEmailConfirmation = (isPostalVoteEmailPresent | isContactEmailPresent),
+            showBirthdayBunting =  isBirthdayToday
           )
 
           Redirect(CompleteController.complete())

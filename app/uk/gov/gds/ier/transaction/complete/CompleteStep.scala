@@ -34,7 +34,8 @@ class CompleteStep @Inject() (
             confirmationData.refNum,
             confirmationData.hasOtherAddress,
             confirmationData.backToStartUrl,
-            confirmationData.showEmailConfirmation)) }
+            confirmationData.showEmailConfirmation,
+            confirmationData.showBirthdayBunting)) }
         case None => {
           logger.debug(s"Validate session - Request has no token, refreshing and redirecting to govuk start page")
           Redirect(config.ordinaryStartUrl).withFreshSession()

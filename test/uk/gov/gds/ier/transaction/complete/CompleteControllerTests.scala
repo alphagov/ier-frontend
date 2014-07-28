@@ -36,7 +36,8 @@ class CompleteControllerTests
             )),
             hasOtherAddress = true,
             backToStartUrl = "/register-to-vote/start",
-            showEmailConfirmation = true
+            showEmailConfirmation = true,
+            showBirthdayBunting = false
           ))
           .withIerSession()
       )
@@ -47,6 +48,7 @@ class CompleteControllerTests
 
       renderedOutput should include("123457689013")
       renderedOutput should include("/register-to-vote/start")
+      renderedOutput should not include("Happy Birthday")
     }
   }
 
@@ -69,7 +71,8 @@ class CompleteControllerTests
             )),
             hasOtherAddress = false,
             backToStartUrl = "/register-to-vote/start",
-            showEmailConfirmation = true
+            showEmailConfirmation = true,
+            showBirthdayBunting = false
           ))
           .withIerSession()
       )
@@ -80,6 +83,7 @@ class CompleteControllerTests
 
       renderedOutput should include("123457689013")
       renderedOutput should not include("/register-to-vote/start")
+      renderedOutput should not include("Happy Birthday")
     }
   }
 
@@ -101,7 +105,8 @@ class CompleteControllerTests
           )),
           hasOtherAddress = true,
           backToStartUrl = "/register-to-vote/start",
-          showEmailConfirmation = true
+          showEmailConfirmation = true,
+          showBirthdayBunting = false
         ))
         .withIerSession()
     )
@@ -111,6 +116,7 @@ class CompleteControllerTests
     val renderedOutput = contentAsString(result)
 
     renderedOutput should include("We have sent you a confirmation email.")
+    renderedOutput should not include("Happy Birthday")
   }
 
   it should "display the page without email confirmation info" in runningApp {
@@ -131,7 +137,8 @@ class CompleteControllerTests
           )),
           hasOtherAddress = true,
           backToStartUrl = "/register-to-vote/start",
-          showEmailConfirmation = false
+          showEmailConfirmation = false,
+          showBirthdayBunting = false
         ))
         .withIerSession()
     )
@@ -141,5 +148,40 @@ class CompleteControllerTests
     val renderedOutput = contentAsString(result)
 
     renderedOutput should not include("We have sent you a confirmation email.")
+    renderedOutput should not include("Happy Birthday")
+  }
+
+  it should "display happy birthday bunting" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(GET, "/register-to-vote/complete")
+          .withConfirmationCookie(ConfirmationCookie(
+            refNum = "123457689013",
+            authority = Some(EroAuthorityDetails(
+              name = "Hornsey Council",
+              urls = List(),
+              email = None,
+              phone = None,
+              addressLine1 = None,
+              addressLine2 = None,
+              addressLine3 = None,
+              addressLine4 = None,
+              postcode = None
+            )),
+            hasOtherAddress = true,
+            backToStartUrl = "/register-to-vote/start",
+            showEmailConfirmation = false,
+            showBirthdayBunting = true
+          ))
+          .withIerSession()
+      )
+
+      status(result) should be(OK)
+      contentType(result) should be(Some("text/html"))
+      val renderedOutput = contentAsString(result)
+
+      renderedOutput should include("Happy Birthday")
+      renderedOutput should include("/register-to-vote/start")
+    }
   }
 }

@@ -82,11 +82,14 @@ class ConfirmationStep @Inject() (
             }
           )
 
+          val isBirthdayToday = validApplication.dob.exists(_.dob.exists(_.isToday))
+
           val completeStepData = ConfirmationCookie(
             refNum = refNum,
             authority = Some(response.localAuthority),
             backToStartUrl = config.ordinaryStartUrl,
-            showEmailConfirmation = (isPostalOrProxyVoteEmailPresent | isContactEmailPresent)
+            showEmailConfirmation = (isPostalOrProxyVoteEmailPresent | isContactEmailPresent),
+            showBirthdayBunting =  isBirthdayToday
           )
 
           Redirect(CompleteController.complete())

@@ -8,6 +8,7 @@
   }
 
   header {
+    position: relative;
     color: $white;
     max-width: 640px;
     background: rgb(40, 161, 151) !important;
@@ -53,6 +54,15 @@
           font-size: 36px;
         }
       }
+    }
+  }
+  header.bunting{
+    padding-top: 5em;
+    @include media($max-width: 550px) {
+      padding-top: 4em;
+    }
+    @include media($max-width: 450px) {
+      padding-top: 3em;
     }
   }
   p.intro{
@@ -102,5 +112,11 @@
         margin-right: 10px;
       }
     }
+  }
+  .bunting-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: 100%;
   }
 }
