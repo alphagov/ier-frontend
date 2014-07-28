@@ -6,24 +6,34 @@
 <header class="no-back-link">
     <h1>{{messages.lookup_show_title}}</h1>
 </header>
-
 <form action="{{postUrl}}" method="POST">
+
+    {{#errorMessages}}
+        <div class="validation-message visible">{{.}}</div>
+    {{/errorMessages}}
+
     <p>{{messages.lookup_instruction}}</p>
     <label for="{{postcode.id}}">{{messages.lookup_postcode_label}}:</label>
+
     <div class="validation-wrapper {{postcode.classes}}">
-        <input 
-            name="{{postcode.name}}" 
-            id="{{postcode.id}}" 
-            type="text" 
-            value="{{postcode.value}}"
-            autocomplete="off"
-            class="text postcode medium {{postcode.classes}}" />
-     </div>
-     <button
-         type="submit"
-         id="continue"
-         class="button next">{{messages.step_continue}}</button>
-         
+        <input
+          type="text"
+          id="{{postcode.id}}"
+          name="{{postcode.name}}"
+          value="{{postcode.value}}"
+          autocomplete="off"
+          class="text postcode medium validate {{postcode.classes}}"
+          data-validation-name="postcode"
+          data-validation-type="field"
+          data-validation-rules="nonEmpty postcode" />
+    </div>
+    <button
+      id="find-address"
+      type="submit"
+      class="button next validation-submit"
+      data-validation-sources="postcode">
+        {{messages.step_continue}}
+    </button>
 </form>
 {{/main}}
 {{/template/govuk}}

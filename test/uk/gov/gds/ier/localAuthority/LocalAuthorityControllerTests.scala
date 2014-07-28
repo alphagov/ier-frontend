@@ -59,8 +59,6 @@ class LocalAuthorityControllerTests
     }
   }
 
-
-
   val stubGlobal = new DynamicGlobal {
     override def bindings = { binder =>
       binder bind classOf[Config] toInstance stubConfig
@@ -106,16 +104,31 @@ class LocalAuthorityControllerTests
   }
 
   behavior of "gss lookup"
-    it should "redirect to the show local authority page" in {
+  it should "redirect to the show local authority page" in {
 	  running(FakeApplication(withGlobal = Some(stubGlobal))) {
-    	val postcode = "ab123cd"
-        val Some(result) = route(
+      val Some(result) = route(
     	  FakeRequest(POST, "/register-to-vote/local-authority/lookup")
     		.withIerSession()
-    		.withFormUrlEncodedBody("postcode" -> postcode)
+    		.withFormUrlEncodedBody("postcode" -> "ab123cd")
     	  )
       status(result) should be(SEE_OTHER)
       redirectLocation(result).get should be("/register-to-vote/local-authority/" + "E09000030")
+    }
+  }
+
+  it should "display any errors on unsuccessful bind" in {
+    running(FakeApplication(withGlobal = Some(stubGlobal))) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/local-authority/lookup")
+          .withIerSession()
+          .withFormUrlEncodedBody("postcode" -> "invalid Poscode")
+      )
+      status(result) should be(BAD_REQUEST)
+      contentAsString(result) should include("Contact your local Electoral Registration Office")
+
+      contentAsString(result) should include("Your postcode is not valid")
+      contentAsString(result) should include("form action=\"/register-to-vote/local-authority/lookup\"")
+
     }
   }
 }

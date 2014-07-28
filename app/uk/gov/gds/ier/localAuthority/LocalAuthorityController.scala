@@ -68,8 +68,9 @@ class LocalAuthorityController @Inject() (
           )
           case None => BadRequest(
             LocalAuthorityPostcodePage(
-              localAuthorityLookupForm.fill(success).withGlobalError(
-                Messages("lookup_error_noneFound")
+              localAuthorityLookupForm.fill(success).withError(
+                keys.postcode.key,
+                "lookup_error_noneFound"
               ),
               sourcePath,
               controllers.routes.LocalAuthorityController.showLookup(sourcePath).url
