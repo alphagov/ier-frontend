@@ -310,8 +310,30 @@
           element,
           $label,
           idToLinkTo,
+          _isTextField,
+          _sourceIsFormControl,
           _getFirstChild;
 
+
+      _isTextField = function ($source) {
+        var types = ['text', 'tel', 'email', 'number'];
+
+        return ($.inArray($source[0].type, types) !== -1);
+      };
+      _sourceIsFormControl = function ($source) {
+        var nodeName = $source[0].nodeName.toLowerCase();
+
+        switch (nodeName) {
+          case 'input':
+            return _isTextField($source);
+          case 'select':
+            return true;
+          case 'textarea':
+            return true;
+          default:
+            return false;
+        }
+      };
       _getFirstChild = function (field) {
         var group = _this.fields.getNames([field.name])[0],
             firstChildName,
@@ -342,7 +364,7 @@
           if ((typeof _this.messages[name] !== 'undefined') && (typeof _this.messages[name][rule] !== 'undefined')) {
             messageData.message = _this.messages[name][rule];
             // if the field is a form control, add a message to its label and link to it
-            if (field.$source && field.$source[0].id) {
+            if (_sourceIsFormControl(field.$source) && field.$source[0].id) {
               idToLinkTo = field.$source[0].id;
               _this.messageField(field.$source, _this.messages[name][rule]);
             } else {
@@ -368,17 +390,31 @@
       return false;
     },
     rules : (function () {
-      var _fieldType,
+      var _isTextField,
+          _fieldType,
           _selectValue,
           _radioValue,
           _getFieldValue,
           _getInvalidDataFromFields,
           rules;
 
-      _fieldType = function ($field) {
-        var type = $field[0].nodeName.toLowerCase();
+      _isTextField = function (type) {
+        var types = ['text', 'tel', 'email', 'number'];
 
-        return (type === 'input') ? $field[0].type : type;
+        return ($.inArray(type, types) !== -1);
+      };
+      _fieldType = function ($field) {
+        var nodeName = $field[0].nodeName.toLowerCase();
+
+        if (nodeName === 'input') {
+          if (_isTextField(nodeName)) {
+            return 'text';
+          } else {
+            return $field[0].type;
+          }
+        } else {
+          return nodeName;
+        }
       };
       _selectValue = function ($field) {
         var idx = $field[0].selectedIndex;

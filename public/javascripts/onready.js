@@ -23,6 +23,9 @@
       }
     }
   });
+  $('#add-countries').each(function (idx, elm) {
+    new GOVUK.registerToVote.OtherCountryFields(elm);
+  });
   $('.selectable').each(function (idx, elm) {
     var $label = $(elm),
         $control = $label.find('input[type=radio], input[type=checkbox]'),
@@ -61,7 +64,7 @@
       GOVUK.registerToVote.autocompletes.add($(elm));
     });
   });
-  $(document).bind('contentRemoval', function (e, data) {
+  $(document).bind('preContentRemoval', function (e, data) {
     var context = data.context;
 
     $('.country-autocomplete', context).each(function (idx, elm) {

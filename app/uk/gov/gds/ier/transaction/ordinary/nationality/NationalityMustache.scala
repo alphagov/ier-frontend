@@ -35,6 +35,11 @@ trait NationalityMustache extends StepTemplate[InprogressOrdinary]
       case _ => "-open"
     }
 
+    val hasOtherCountryOption = CheckboxField(
+      key = keys.nationality.hasOtherCountry,
+      value = "true"
+    )
+
     NationalityModel(
       question = Question(
         postUrl = postEndpoint.url,
@@ -51,9 +56,8 @@ trait NationalityMustache extends StepTemplate[InprogressOrdinary]
         key = keys.nationality.irish,
         value = "true"
       ),
-      hasOtherCountryOption = CheckboxField(
-        key = keys.nationality.hasOtherCountry,
-        value = "true"
+      hasOtherCountryOption = hasOtherCountryOption.copy(
+        attributes = hasOtherCountryOption.attributes.replaceAll("\"", "'")
       ),
       otherCountry = FieldSet(keys.nationality.otherCountries),
       otherCountries0 = TextField(keys.nationality.otherCountries.item(0)),

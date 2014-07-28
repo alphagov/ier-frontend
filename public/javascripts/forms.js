@@ -8,7 +8,7 @@
       ENTER = 13,
       ConditionalControl,
       OptionalControl,
-      DuplicateField,
+      OtherCountryFields,
       MarkSelected,
       Autocomplete,
       autocompletes,
@@ -219,22 +219,274 @@
     })
   };
   OptionalControl.prototype.bindEvents = function () {
-    var $parentForm = this.$content.closest('form'),
-        _this = this;
-
-    if ($parentForm.length) {
-      $parentForm.on('submit', function () {
-        _this.filterFormContent();
-      });
-    }
     GOVUK.registerToVote.ConditionalControl.prototype.bindEvents.call(this);
   };
-  OptionalControl.prototype.filterFormContent = function () {
-    var $textboxes = this.$content.find('input[type="text"]');
 
-    if (this.$content.is(':hidden')) {
-      $textboxes.val('');
+  OtherCountryFields = function (elm) {
+    this.$container = $(elm);
+    Mustache.parse(this.templates.country);
+    this.setup();
+  };
+  OtherCountryFields.prototype.templates = {
+    'country' : '<div class="added-country">' +
+                  '<label for="{{id}}" class="country-label" >' +
+                    '{{#countryFieldName}}' +
+                      '{{idx}}' +
+                    '{{/countryFieldName}}' +
+                  '</label>' +
+                  '{{#remove-link}}' +
+                    '{{idx}}' +
+                  '{{/remove-link}}' +
+                  '<div class="validation-wrapper">' +
+                    '<input type="text" id="{{id}}" ' +
+                           'name="{{name}}" value="{{value}}" ' +
+                           'autocomplete="off" class="text country-autocomplete long validate" ' +
+                           'data-validation-name="{{data-validation-name}}" ' +
+                           'data-validation-type="field" ' +
+                           'data-validation-rules="nonEmpty validCountry">' +
+                  '</div>' +
+                '</div>',
+    'removeLink' : '<a href="#" class="remove-field" ' +
+                      'data-field="{{id}}">' +
+                      '{{#countryFieldRemoveText}}' +
+                        '{{idx}}' +
+                      '{{/countryFieldRemoveText}}' +
+                    '</a>',
+    'addAnotherLink' : '<a href="" class="duplicate-control">' + message('ordinary_nationality_AddAnotherCountry')  + '</a>',
+    'dummy' : '<input type="hidden" value="" name="{{name}}" />'
+  };
+  OtherCountryFields.prototype.getRemoveLink = function (idx) {
+    var id = this.getFieldId(idx),
+        fragment = this.templates.removeLink,
+        getCountryFieldRemoveText = this.getCountryFieldRemoveText,
+        lambda;
+
+    lambda = function () {
+      return function (indexStr, render) {
+        return Mustache.render(fragment, {
+          'id' : id,
+          'idx' : idx,
+          'countryFieldRemoveText' : getCountryFieldRemoveText
+        });
+      };
+    };
+
+    return lambda;
+  };
+  OtherCountryFields.prototype.setup = function () {
+    var $countries = this.$container.find('.added-country');
+
+    this.getCountries($countries);
+    this.$addAnotherLink = $(this.templates.addAnotherLink);
+    this.$container.append(this.$addAnotherLink);
+    this.bindEvents();
+  };
+  OtherCountryFields.prototype.getCountries = function ($countries) {
+    var _this = this,
+        fieldsInContainer = $countries.length;
+
+    this.countries = [];
+    $countries.each(function (idx, elm) {
+      var countryValue = $(elm).find('input.country-autocomplete').val();
+
+      if (countryValue !== '') {
+        _this.countries.push(countryValue);
+      }
+    });
+    if (!this.countries.length) { this.countries.push(''); }
+    this.addCountryElements();
+  };
+  OtherCountryFields.prototype.removeEmptyCountry = function (country) {
+    var $country = $(country),
+        isEmpty = $country.find('input.country-autocomplete').val() === '';
+
+    if (isEmpty) { $country.remove(); }
+    return isEmpty;
+  };
+  OtherCountryFields.prototype.bindEvents = function () {
+    var _this = this;
+
+    this.$container.on('click', function (e) {
+      _this.handleClicks(e);
+      return false;
+    });
+    $(document).bind('contentUpdate', function (evt, eData) {
+      if (eData.context[0] === _this.$container[0]) {
+        _this.updateValidation(evt.type, eData.context);
+      }
+    });
+  };
+  OtherCountryFields.prototype.updateValidation = function (evt, $elm) {
+    var containerValidationName = $elm.data('validationName'),
+        containerValidationObj = GOVUK.registerToVote.validation.fields.getNames([containerValidationName])[0],
+        countryValidationNames = [];
+
+    $.each(containerValidationObj.children, function (idx, child) {
+      GOVUK.registerToVote.validation.fields.remove(child);
+    });
+    $elm.find('.validate').each(function (idx, elm) {
+      var $elm = $(elm);
+
+      GOVUK.registerToVote.validation.fields.add($elm);
+      countryValidationNames.push($elm.data('validationName'));
+    });
+    containerValidationObj.children = countryValidationNames;
+  };
+  OtherCountryFields.prototype.handleClicks = function (evt) {
+    var $target = $(evt.target),
+        action = null;
+
+    if ($target.hasClass('duplicate-control')) {
+      this.addCountry();
     }
+    if ($target.hasClass('remove-field')) {
+      this.removeCountry($target);
+    }
+  };
+  OtherCountryFields.prototype.getFieldId = function (idx) {
+    return 'nationality_otherCountries[' + idx + ']';
+  };
+  OtherCountryFields.prototype.getFieldName = function (idx) {
+    return 'nationality.otherCountries[' + idx + ']';
+  };
+  OtherCountryFields.prototype.getValidationName = function (idx) {
+    return 'added-country-' + idx;
+  };
+  OtherCountryFields.prototype.getIndexFromId = function (id) {
+    var match = id.match(/\[(\d+)\]$/);
+
+    return (match !== null) ? match[1] : false;
+  };
+  OtherCountryFields.prototype.getCountryFieldName = function () {
+    var keys = ['whichCountry', 'secondCountry', 'thirdCountry'];
+
+    return function (indexStr, render) {
+      var idx = parseInt(render(indexStr), 10);
+
+      return message('ordinary_nationality_' + keys[idx]);
+    };
+  };
+  OtherCountryFields.prototype.getCountryFieldRemoveText = function () {
+    var keys = ['removeWhichCountry', 'removeSecondCountry', 'removeThirdCountry'];
+
+    return function (indexStr, render) {
+      var idx = parseInt(render(indexStr), 10);
+
+      return message('ordinary_nationality_' + keys[idx]);
+    };
+  };
+  OtherCountryFields.prototype.updateCountryValues = function () {
+    var _this = this;
+
+    this.countries = [];
+    $('.added-country input.country-autocomplete', this.$container).each(function (idx, elm) {
+      _this.countries.push($(elm).val());
+    });
+  };
+  OtherCountryFields.prototype.removeCountryValue = function (countryIdx) {
+    var countryIdx = parseInt(countryIdx, 10);
+
+    this.countries = $.map(this.countries, function (country, idx) {
+      return (idx != countryIdx) ? country : null;
+    });
+  };
+  OtherCountryFields.prototype.makeCountryHTML = function (opts) {
+    var newValue = '',
+        includeLink = false,
+        newIdx,
+        newCountryData,
+        _this = this;
+
+    if (opts === undefined) {
+      newIdx = this.countries.length;
+    } else {
+      if (typeof opts.value !== 'undefined') { newValue = opts.value; }
+      if (typeof opts.idx !== 'undefined') { newIdx = opts.idx; }
+      if (typeof opts['include-remove-link'] !== 'undefined') { includeLink = true; }
+    }
+    newCountryData = {
+      'id' : this.getFieldId(newIdx),
+      'name' : this.getFieldName(newIdx),
+      'data-validation-name' : this.getValidationName(newIdx),
+      'value' : newValue,
+      'idx' : newIdx,
+      'countryFieldName' : _this.getCountryFieldName
+    };
+    if (includeLink) {
+      newCountryData['remove-link'] = _this.getRemoveLink(newIdx);
+    }
+
+    return Mustache.render(this.templates.country, newCountryData);
+  };
+  OtherCountryFields.prototype.addCountryElements = function () {
+    var $holder = $('<div />'),
+        _this = this,
+        dummiesHTML;
+
+    this.$container.html('');
+    $.each(this.countries, function (idx, country) {
+      var opts = {
+        'idx' : idx,
+        'value' : country,
+        'include-remove-link' : true
+      };
+
+      if (_this.countries.length === 1) {
+        delete opts['include-remove-link'];
+      }
+      $holder.append(_this.makeCountryHTML(opts));
+    });
+    dummiesHTML = this.getDummyFields();
+    if (dummiesHTML) { $holder.append(dummiesHTML); }
+    if (this.countries.length < 3) {
+      $holder.append(this.$addAnotherLink);
+    }
+    this.$container.append($holder.html());
+  };
+  OtherCountryFields.prototype.getDummyFields = function () {
+    var maxCountries = 3,
+        numberOfCountries = this.countries.length,
+        dummiesRequired = (maxCountries - numberOfCountries),
+        idx = numberOfCountries,
+        dummyTemplate = Mustache.compile(this.templates.dummy),
+        $holder = $('<div />'),
+        dummyHTML;
+
+    if (!dummiesRequired) { return false; }
+    while (idx < maxCountries) {
+      dummyHTML = dummyTemplate({
+        'name' : this.getFieldName(idx)
+      });
+      $holder.append(dummyHTML);
+      idx++;
+    }
+    return $holder.html();
+  };
+  OtherCountryFields.prototype.addCountry = function () {
+    $(document).trigger('preContentRemoval', { context : this.$container });
+    this.updateCountryValues();
+    this.countries.push('');
+    this.addCountryElements();
+    $(document).trigger('contentUpdate', { context : this.$container });
+    document.getElementById(this.getFieldId(this.countries.length - 1)).focus();
+  };
+  OtherCountryFields.prototype.removeCountry = function ($removeLink) {
+    var idxToRemove = this.getIndexFromId($removeLink.data('field')),
+        _this = this,
+        focusInheritor;
+
+    if (!idxToRemove) { return; }
+    $(document).trigger('preContentRemoval', { context : this.$container });
+    this.updateCountryValues();
+    this.removeCountryValue(idxToRemove);
+    this.addCountryElements();
+    $(document).trigger('contentUpdate', { context : this.$container });
+    focusInheritor = document.getElementById(this.getFieldId(idxToRemove - 1));
+    if (focusInheritor === null) {
+      focusInheritor = this.$container.find('.added-country input.country-autocomplete')[0];
+    }
+    $(focusInheritor).focus();
+    $(document).trigger('contentUpdate', { context : this.$container });
   };
 
   // Constructor to allow the label wrapping radios/checkboxes to be styled to reflect their status
@@ -649,6 +901,7 @@
 
   GOVUK.registerToVote.ConditionalControl = ConditionalControl;
   GOVUK.registerToVote.OptionalControl = OptionalControl;
+  GOVUK.registerToVote.OtherCountryFields = OtherCountryFields;
   GOVUK.registerToVote.MarkSelected = MarkSelected;
   GOVUK.registerToVote.Autocomplete = Autocomplete;
   GOVUK.registerToVote.autocompletes = autocompletes;
