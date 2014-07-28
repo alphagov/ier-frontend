@@ -48,7 +48,7 @@ trait NameMustache extends StepTemplate[InprogressOverseas] {
       previousLastName = TextField(
         key = keys.previousName.previousName.lastName),
       nameChangeReason = TextField(
-        key = keys.previousName.previousName.reason)
+        key = keys.previousName.reason)
     )
   }
 }
