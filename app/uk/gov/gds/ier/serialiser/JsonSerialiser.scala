@@ -3,7 +3,6 @@ package uk.gov.gds.ier.serialiser
 import uk.gov.gds.common.json.JsonSerializer
 import com.fasterxml.jackson.core.`type`.TypeReference
 import java.lang.reflect.{ Type, ParameterizedType }
-import com.fasterxml.jackson.annotation.{JsonAutoDetect, PropertyAccessor}
 
 class JsonSerialiser extends JsonSerializer {
   mapper.registerModule(new JodaParseModule)
