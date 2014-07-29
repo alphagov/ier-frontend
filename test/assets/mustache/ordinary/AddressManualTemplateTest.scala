@@ -121,10 +121,9 @@ class AddressManualTemplateTest
       postcodeChangeLink should not be(null)
       postcodeChangeLink.attr("href") should be("http://lookup")
 
-      val manualAddressLinesWrapper = doc.select("validation-wrapper").first()
+      val manualAddressLinesWrapper = doc.select(".validation-wrapper").first()
       manualAddressLinesWrapper should not be(null)
       manualAddressLinesWrapper.attr("class") should include("maLinesClasses")
-
     }
   }
 }

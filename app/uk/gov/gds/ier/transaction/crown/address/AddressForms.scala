@@ -150,11 +150,11 @@ trait AddressConstraints extends CommonConstraints {
           if (lastUkAddress.address.isDefined) {
             val manualAddress = lastUkAddress.address.get.manualAddress
             if (manualAddress.isDefined) Valid
-            else Invalid("Please answer this question", keys.address.manualAddress)
+            else Invalid("Please answer this question", keys.address)
           }
-          else Invalid("Please answer this question", keys.address.manualAddress)
+          else Invalid("Please answer this question", keys.address)
         }
-        case None => Invalid("Please answer this question", keys.address.manualAddress)
+        case None => Invalid("Please answer this question", keys.address)
       }
   }
 
@@ -208,10 +208,9 @@ trait AddressConstraints extends CommonConstraints {
 
   lazy val atLeastOneLineIsRequired = Constraint[PartialManualAddress](
     keys.address.manualAddress.key) {
-    case PartialManualAddress(None, None, None, _) => Invalid(atLeastOneLineIsRequiredError,
-      keys.address.manualAddress.lineOne,
-      keys.address.manualAddress.lineTwo,
-      keys.address.manualAddress.lineThree
+    case PartialManualAddress(None, None, None, _) => Invalid(
+      atLeastOneLineIsRequiredError,
+      keys.address.manualAddress
     )
     case _ => Valid
   }

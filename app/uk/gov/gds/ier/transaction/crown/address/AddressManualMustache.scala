@@ -22,7 +22,8 @@ trait AddressManualMustache extends StepTemplate[InprogressCrown] {
     maLineTwo: Field,
     maLineThree: Field,
     maCity: Field,
-    hasAddress: Field
+    hasAddress: Field,
+    maLines: FieldSet
   ) extends MustacheData
 
   val mustache = MustacheTemplate("crown/addressManual") { (form, postUrl) =>
@@ -45,7 +46,8 @@ trait AddressManualMustache extends StepTemplate[InprogressCrown] {
       hasAddress = HiddenField(
         key = keys.hasAddress,
         value = form(keys.hasAddress).value.getOrElse("")
-      )
+      ),
+      maLines = FieldSet(keys.address.manualAddress)
     )
   }
 }
