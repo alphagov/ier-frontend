@@ -4,8 +4,6 @@ import play.api.mvc.Call
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
-import controllers.step.ordinary.routes._
-import controllers.step.routes._
 import uk.gov.gds.ier.model.{PartialNationality}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 

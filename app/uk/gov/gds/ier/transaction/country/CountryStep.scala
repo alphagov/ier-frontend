@@ -8,7 +8,6 @@ import uk.gov.gds.ier.model.{Country}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{OrdinaryStep, Routes, GoTo}
-import controllers.step.routes.CountryController
 import controllers.routes.ExitController
 import controllers.routes.RegisterToVoteController
 import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
@@ -28,10 +27,10 @@ class CountryStep @Inject ()(
   val validation = countryForm
 
   val routing = Routes(
-    get = CountryController.get,
-    post = CountryController.post,
-    editGet = CountryController.editGet,
-    editPost = CountryController.editPost
+    get = routes.CountryStep.get,
+    post = routes.CountryStep.post,
+    editGet = routes.CountryStep.editGet,
+    editPost = routes.CountryStep.editPost
   )
 
   def nextStep(currentState: InprogressOrdinary) = {

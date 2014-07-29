@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.transaction.ordinary.confirmation
 
-import controllers.step.ordinary.routes.ConfirmationController
 import controllers.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
@@ -39,10 +38,10 @@ class ConfirmationStep @Inject ()(
   def timeoutPage() = ErrorController.ordinaryTimeout
 
   val routing:Routes = Routes(
-    get = ConfirmationController.get,
-    post = ConfirmationController.post,
-    editGet = ConfirmationController.get,
-    editPost = ConfirmationController.post
+    get = routes.ConfirmationStep.get,
+    post = routes.ConfirmationStep.post,
+    editGet = routes.ConfirmationStep.get,
+    editPost = routes.ConfirmationStep.post
   )
 
   val validation = confirmationForm

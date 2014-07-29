@@ -53,10 +53,10 @@ GET         /status                                                      control
 ################################
 
 #Country Step
-GET         /register-to-vote/country-of-residence                       controllers.step.CountryController.get
-POST        /register-to-vote/country-of-residence                       controllers.step.CountryController.post
-GET         /register-to-vote/edit/country-of-residence                  controllers.step.CountryController.editGet
-POST        /register-to-vote/edit/country-of-residence                  controllers.step.CountryController.editPost
+GET         /register-to-vote/country-of-residence                       @uk.gov.gds.ier.transaction.country.CountryStep.get
+POST        /register-to-vote/country-of-residence                       @uk.gov.gds.ier.transaction.country.CountryStep.post
+GET         /register-to-vote/edit/country-of-residence                  @uk.gov.gds.ier.transaction.country.CountryStep.editGet
+POST        /register-to-vote/edit/country-of-residence                  @uk.gov.gds.ier.transaction.country.CountryStep.editPost
 
 
 ################################
@@ -64,8 +64,8 @@ POST        /register-to-vote/edit/country-of-residence                  control
 ################################
 
 #Confirmation Step
-GET         /register-to-vote/confirmation                               controllers.step.ordinary.ConfirmationController.get
-POST        /register-to-vote/confirmation                               controllers.step.ordinary.ConfirmationController.post
+GET         /register-to-vote/confirmation                               @uk.gov.gds.ier.transaction.ordinary.confirmation.ConfirmationStep.get
+POST        /register-to-vote/confirmation                               @uk.gov.gds.ier.transaction.ordinary.confirmation.ConfirmationStep.post
 
 #Contact Step
 GET         /register-to-vote/contact                                    @uk.gov.gds.ier.transaction.ordinary.contact.ContactStep.get
