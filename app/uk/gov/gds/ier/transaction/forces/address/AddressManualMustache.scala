@@ -22,7 +22,8 @@ trait AddressManualMustache extends StepTemplate[InprogressForces] {
      maLineOne: Field,
      maLineTwo: Field,
      maLineThree: Field,
-     maCity: Field
+     maCity: Field,
+     maLines: FieldSet
   ) extends MustacheData
 
 
@@ -42,7 +43,9 @@ trait AddressManualMustache extends StepTemplate[InprogressForces] {
       maLineOne = TextField(keys.address.address.manualAddress.lineOne),
       maLineTwo = TextField(keys.address.address.manualAddress.lineTwo),
       maLineThree = TextField(keys.address.address.manualAddress.lineThree),
-      maCity = TextField(keys.address.address.manualAddress.city))
+      maCity = TextField(keys.address.address.manualAddress.city),
+      maLines = FieldSet(keys.address.address.manualAddress)
+    )
   }
 }
 

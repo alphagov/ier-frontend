@@ -104,7 +104,7 @@ class AddressFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("address.manualAddress") should be(Seq("Please answer this question"))
+        hasErrors.errorMessages("address") should be(Seq("Please answer this question"))
       },
       success => fail("Should have errored out")
     )
@@ -332,7 +332,7 @@ class AddressFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("address.manualAddress") should be(
+        hasErrors.errorMessages("address") should be(
           Seq("Please answer this question")
         )
       },
@@ -354,7 +354,7 @@ class AddressFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("address.manualAddress") should be(
+        hasErrors.errorMessages("address") should be(
           Seq("Please answer this question")
         )
       },
@@ -374,9 +374,7 @@ class AddressFormTests
     manualAddressForm.bind(js).fold(
       hasErrors => {
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "address.address.manualAddress.lineOne" -> Seq("At least one address line is required"),
-          "address.address.manualAddress.lineTwo" -> Seq("At least one address line is required"),
-          "address.address.manualAddress.lineThree" -> Seq("At least one address line is required")
+          "address.address.manualAddress" -> Seq("At least one address line is required")
         ))
       },
       success => fail("Should have errored out")
