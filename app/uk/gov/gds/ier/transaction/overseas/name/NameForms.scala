@@ -99,7 +99,7 @@ trait NameConstraints extends NameCommonConstraints with FormKeys {
   ) {
     _.previousName match {
       case Some(PreviousName(true, Some(Name("", _, _)), _)) => Invalid (
-        "Please enter your first name",
+        "Please enter your previuos first name",
         keys.previousName.previousName.firstName
       )
       case _ => Valid
@@ -111,7 +111,7 @@ trait NameConstraints extends NameCommonConstraints with FormKeys {
   ) {
     _.previousName match {
       case Some(PreviousName(true, Some(Name(_, _, "")), _)) => Invalid (
-        "Please enter your last name",
+        "Please enter your previous last name",
         keys.previousName.previousName.lastName
       )
       case _ => Valid
@@ -122,6 +122,7 @@ trait NameConstraints extends NameCommonConstraints with FormKeys {
     keys.previousName.reason.key
   ) {
     _.previousName match {
+      case None => Valid
       case Some(PreviousName(false, _, _)) => Valid
       case Some(PreviousName(true, _, Some(reason))) if reason.nonEmpty => Valid
       case _ => Invalid(
@@ -138,8 +139,7 @@ trait NameConstraints extends NameCommonConstraints with FormKeys {
         "Please enter your full previous name",
         keys.previousName.previousName,
         keys.previousName.previousName.firstName,
-        keys.previousName.previousName.lastName,
-        keys.previousName.reason
+        keys.previousName.previousName.lastName
       )
       case _ => Valid
     }
