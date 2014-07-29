@@ -59,6 +59,12 @@ class CitizenDetailsTemplateTest
       name = "howBecameCitizenName",
       value = "howBecameCitizenValue",
       classes = "howBecameCitizenClasses"
+    ),
+    birthplace = Field(
+      id = "birthplaceId",
+      name = "birthplaceName",
+      value = "birthplaceValue",
+      classes = "birthplaceClasses"
     )
   )
 
@@ -127,6 +133,15 @@ class CitizenDetailsTemplateTest
       citizenDateYearInput.attr("name") should be("citizenDateYearName")
       citizenDateYearInput.attr("value") should be("citizenDateYearValue")
       citizenDateYearInput.attr("class") should include("citizenDateYearClasses")
+
+      val birthplaceWrapper = doc.select("div[class*=birthplaceClasses]").first()
+      birthplaceWrapper.attr("class") should include("birthplaceClasses")
+
+      val birthplaceInput = birthplaceWrapper.select("input").first()
+      birthplaceInput.attr("id") should be("birthplaceId")
+      birthplaceInput.attr("name") should be("birthplaceName")
+      birthplaceInput.attr("value") should be("birthplaceValue")
+      birthplaceInput.attr("class") should include("birthplaceClasses")
     }
   }
 }

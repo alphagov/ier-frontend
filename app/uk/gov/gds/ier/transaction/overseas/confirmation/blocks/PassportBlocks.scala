@@ -44,16 +44,19 @@ trait PassportBlocks {
     val dateBecameCitizen = form.dateBecameCitizen.map { date =>
       date.toString("dd MMMM yyyy")
     }
+    val birthplace = form(keys.passport.citizenDetails.birthplace).value
 
-    val citizenContent = for (
-      how <- howBecameCitizen;
-      date <- dateBecameCitizen
-    ) yield {
-      List(
-        s"I became a citizen through: $how",
-        "I became a citizen on:",
-        s"$date")
+    val citizenContent = (howBecameCitizen, dateBecameCitizen, birthplace) match {
+      case (Some(how), Some(date), Some(bplace)) =>
+        List(
+          s"I became a citizen through: $how",
+          "I became a citizen on:",
+          date,
+          s"I was born in: $bplace"
+        )
+      case _ => List(completeThisStepMessage)
     }
+
 
     val route = if(form(keys.passport).hasErrors) {
       routes.PassportCheckController.editGet
@@ -66,7 +69,7 @@ trait PassportBlocks {
       editLink = route.url,
       changeName = "your citizenship details",
       content = ifComplete(keys.passport) {
-        citizenContent.getOrElse(List(completeThisStepMessage))
+        citizenContent
       }
     )
   }

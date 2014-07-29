@@ -5,7 +5,6 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
-import controllers.step.overseas.routes.PassportCheckController
 import controllers.step.overseas.routes.CitizenDetailsController
 import controllers.step.overseas.NameController
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas

@@ -133,8 +133,9 @@ class OverseasApplicationTests
         bornInsideUk = None,
         details = None,
         citizen = Some(CitizenDetails(
-          dateBecameCitizen = DOB(2000,6,1),
-          howBecameCitizen = "by accident"
+          dateBecameCitizen = DOB(2002,6,1),
+          howBecameCitizen = "manana",
+          birthplace = "Wellington"
         ))
       ))
     )
@@ -167,8 +168,9 @@ class OverseasApplicationTests
       "refNum" -> "12345678910",
       "ip" -> "256.256.256.256",
       "gssCode" -> "E09000007",
-      "dbritcit" -> "2000-06-01",
-      "hbritcit" -> "by accident",
+      "dbritcit" -> "2002-06-01",
+      "hbritcit" -> "manana",
+      "birthplace" -> "Wellington",
       "bpass" -> "false",
       "timeTaken" -> "1234",
       "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"

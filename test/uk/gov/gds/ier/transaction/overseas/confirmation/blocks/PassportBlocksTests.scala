@@ -84,7 +84,7 @@ class PassportBlocksTests
         hasPassport = false,
         bornInsideUk = Some(false),
         details = None,
-        citizen = Some(CitizenDetails(DOB(2000,1,1),"test reason"))
+        citizen = Some(CitizenDetails(DOB(2000,1,1),"test reason","test birthplace"))
       ))
     ))
 
@@ -95,7 +95,9 @@ class PassportBlocksTests
     model.content should be(BlockContent(List(
       "I became a citizen through: test reason",
       "I became a citizen on:",
-      "01 January 2000")))
+      "01 January 2000",
+      "I was born in: test birthplace"
+    )))
     model.editLink should be("/register-to-vote/overseas/edit/citizen-details")
   }
 }

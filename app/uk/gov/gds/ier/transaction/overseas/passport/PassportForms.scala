@@ -38,7 +38,8 @@ trait PassportForms extends PassportConstraints {
 
   lazy val citizenDetailsMapping = mapping(
     keys.dateBecameCitizen.key -> dateMapping.verifying(validCitizenDate),
-    keys.howBecameCitizen.key -> text
+    keys.howBecameCitizen.key -> text,
+    keys.birthplace.key -> text
   ) (CitizenDetails.apply) (CitizenDetails.unapply)
 
   lazy val passportMapping = mapping(
@@ -71,6 +72,7 @@ trait PassportForms extends PassportConstraints {
     passportForm.mapping.verifying(
       citizenDetailsFilled,
       ifDefinedHowBecameCitizenRequired,
+      ifDefinedBirthplaceRequired,
       passportRequired,
       ifNoPassportBornInsideRequired
     )

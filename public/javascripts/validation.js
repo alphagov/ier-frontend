@@ -1158,6 +1158,27 @@
       'dateOfBirthExcuseReason' : {
         'nonEmpty' : message('ordinary_dob_error_provideReason')
       },
+      'citizenDetail' : {
+        'allNonEmpty' : 'Please answer this question'
+      },
+      'citizenDateMulti' : {
+        'allNonEmpty' : 'Please provide date you became a British citizen'
+      },
+      'citizenDateDay' : {
+        'nonEmpty' : 'Please enter a day'
+      },
+      'citizenDateMonth' : {
+        'nonEmpty' : 'Please enter a month'
+      },
+      'citizenDateYear' : {
+        'nonEmpty' : 'Please enter a year'
+      },
+      'howBecameCitizen' : {
+        'nonEmpty' : "Please provide your explanation of how you became a British Citizen"
+      },
+      'birthplace' : {
+        'nonEmpty' : "Please provide your town or city and county of birth"
+      },
       'excuseAgeAttempt' : {
         'radioNonEmpty' : message('ordinary_dob_error_selectRange')
       },

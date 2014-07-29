@@ -122,6 +122,7 @@ trait FormKeys {
 
     lazy val dateBecameCitizen = prependNamespace(Key("dateBecameCitizen"))
     lazy val howBecameCitizen = prependNamespace(Key("howBecameCitizen"))
+    lazy val birthplace = prependNamespace(Key("birthplace"))
 
     lazy val hasPassport = prependNamespace(Key("hasPassport"))
     lazy val bornInsideUk = prependNamespace(Key("bornInsideUk"))

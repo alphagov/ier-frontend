@@ -321,7 +321,8 @@ class PassportFormTests
         "passport.citizenDetails.howBecameCitizen" -> "Naturalisation",
         "passport.citizenDetails.dateBecameCitizen.day" -> "1",
         "passport.citizenDetails.dateBecameCitizen.month" -> "12",
-        "passport.citizenDetails.dateBecameCitizen.year" -> "1990"
+        "passport.citizenDetails.dateBecameCitizen.year" -> "1990",
+        "passport.citizenDetails.birthplace" -> "Wellington"
       )
     )
 
@@ -341,6 +342,7 @@ class PassportFormTests
         citizen.dateBecameCitizen.day should be(1)
         citizen.dateBecameCitizen.month should be(12)
         citizen.dateBecameCitizen.year should be(1990)
+        citizen.birthplace should be("Wellington")
       }
     )
   }
@@ -353,7 +355,8 @@ class PassportFormTests
         "passport.citizenDetails.howBecameCitizen" -> "",
         "passport.citizenDetails.dateBecameCitizen.day" -> "",
         "passport.citizenDetails.dateBecameCitizen.month" -> "",
-        "passport.citizenDetails.dateBecameCitizen.year" -> ""
+        "passport.citizenDetails.dateBecameCitizen.year" -> "",
+        "passport.citizenDetails.birthplace" -> ""
       )
     )
 
@@ -365,6 +368,7 @@ class PassportFormTests
         hasErrors.errorMessages("passport.citizenDetails.dateBecameCitizen.day") should be(error)
         hasErrors.errorMessages("passport.citizenDetails.dateBecameCitizen.month") should be(error)
         hasErrors.errorMessages("passport.citizenDetails.dateBecameCitizen.year") should be(error)
+        hasErrors.errorMessages("passport.citizenDetails.birthplace") should be(error)
         hasErrors.globalErrors.size should be(1)
       },
       success => fail("Should have errored out")
@@ -379,7 +383,8 @@ class PassportFormTests
         "passport.citizenDetails.howBecameCitizen" -> "",
         "passport.citizenDetails.dateBecameCitizen.day" -> "1",
         "passport.citizenDetails.dateBecameCitizen.month" -> "12",
-        "passport.citizenDetails.dateBecameCitizen.year" -> "1990"
+        "passport.citizenDetails.dateBecameCitizen.year" -> "1990",
+        "passport.citizenDetails.birthplace" -> "Wellington"
       )
     )
 
@@ -394,6 +399,30 @@ class PassportFormTests
     )
   }
 
+  it should "error out on missing birthplace" in {
+    val js = Json.toJson(
+      Map(
+        "passport.hasPassport" -> "true",
+        "passport.bornInsideUk" -> "true",
+        "passport.citizenDetails.howBecameCitizen" -> "Naturalisation",
+        "passport.citizenDetails.dateBecameCitizen.day" -> "1",
+        "passport.citizenDetails.dateBecameCitizen.month" -> "12",
+        "passport.citizenDetails.dateBecameCitizen.year" -> "1990",
+        "passport.citizenDetails.birthplace" -> ""
+      )
+    )
+
+    citizenDetailsForm.bind(js).fold(
+      hasErrors => {
+        val error = Seq("Please provide your town or city and county of birth")
+        hasErrors.errorMessages("passport.citizenDetails") should be(error)
+        hasErrors.errorMessages("passport.citizenDetails.birthplace") should be(error)
+        hasErrors.globalErrors.size should be(1)
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
   it should "error out on missing date became citizen" in {
     val js = Json.toJson(
       Map(
@@ -402,7 +431,8 @@ class PassportFormTests
         "passport.citizenDetails.howBecameCitizen" -> "Naturalisation",
         "passport.citizenDetails.dateBecameCitizen.day" -> "",
         "passport.citizenDetails.dateBecameCitizen.month" -> "",
-        "passport.citizenDetails.dateBecameCitizen.year" -> ""
+        "passport.citizenDetails.dateBecameCitizen.year" -> "",
+        "passport.citizenDetails.birthplace" -> "Wellington"
       )
     )
 
@@ -428,7 +458,8 @@ class PassportFormTests
         "passport.citizenDetails.howBecameCitizen" -> "Naturalisation",
         "passport.citizenDetails.dateBecameCitizen.day" -> "1",
         "passport.citizenDetails.dateBecameCitizen.month" -> "1",
-        "passport.citizenDetails.dateBecameCitizen.year" -> "3000"
+        "passport.citizenDetails.dateBecameCitizen.year" -> "3000",
+        "passport.citizenDetails.birthplace" -> "Wellington"
       )
     )
 
@@ -454,7 +485,8 @@ class PassportFormTests
         "passport.citizenDetails.howBecameCitizen" -> "Naturalisation",
         "passport.citizenDetails.dateBecameCitizen.day" -> "1",
         "passport.citizenDetails.dateBecameCitizen.month" -> "1",
-        "passport.citizenDetails.dateBecameCitizen.year" -> "1800"
+        "passport.citizenDetails.dateBecameCitizen.year" -> "1800",
+        "passport.citizenDetails.birthplace" -> "Wellington"
       )
     )
 
