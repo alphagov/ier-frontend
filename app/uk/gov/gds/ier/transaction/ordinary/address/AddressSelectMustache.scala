@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.transaction.ordinary.address
 
-import controllers.step.ordinary.routes.{AddressController, AddressManualController}
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
@@ -90,8 +89,8 @@ trait AddressSelectMustache extends StepTemplate[InprogressOrdinary] {
         title = Messages("ordinary_address_postcode_title"),
         errorMessages = Messages.translatedGlobalErrors(form)
       ),
-      lookupUrl = AddressController.get.url,
-      manualUrl = AddressManualController.get.url,
+      lookupUrl = routes.AddressStep.get.url,
+      manualUrl = routes.AddressManualStep.get.url,
       postcode = TextField(keys.address.postcode, default = postcode),
       address = addressSelectWithError,
       possibleJsonList = HiddenField(

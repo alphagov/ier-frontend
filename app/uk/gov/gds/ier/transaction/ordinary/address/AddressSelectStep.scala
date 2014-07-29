@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.transaction.ordinary.address
 
-import controllers.step.ordinary.routes.AddressSelectController
 import com.google.inject.Inject
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{
@@ -29,10 +28,10 @@ class AddressSelectStep @Inject() (
   val validation = addressForm
 
   val routing = Routes(
-    get = AddressSelectController.get,
-    post = AddressSelectController.post,
-    editGet = AddressSelectController.editGet,
-    editPost = AddressSelectController.editPost
+    get = routes.AddressSelectStep.get,
+    post = routes.AddressSelectStep.post,
+    editGet = routes.AddressSelectStep.editGet,
+    editPost = routes.AddressSelectStep.editPost
   )
 
   def nextStep(currentState: InprogressOrdinary) = {

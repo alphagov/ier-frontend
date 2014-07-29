@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.transaction.ordinary.address
 
-import controllers.step.ordinary.routes.AddressManualController
 import com.google.inject.Inject
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
@@ -25,10 +24,10 @@ class AddressManualStep @Inject() (
   val validation = manualAddressForm
 
   val routing = Routes(
-    get = AddressManualController.get,
-    post = AddressManualController.post,
-    editGet = AddressManualController.editGet,
-    editPost = AddressManualController.editPost
+    get = routes.AddressManualStep.get,
+    post = routes.AddressManualStep.post,
+    editGet = routes.AddressManualStep.editGet,
+    editPost = routes.AddressManualStep.editPost
   )
 
   def nextStep(currentState: InprogressOrdinary) = {

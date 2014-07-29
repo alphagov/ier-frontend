@@ -98,22 +98,22 @@ GET         /register-to-vote/edit/nationality                           @uk.gov
 POST        /register-to-vote/edit/nationality                           @uk.gov.gds.ier.transaction.ordinary.nationality.NationalityStep.editPost
 
 #Address
-GET         /register-to-vote/address                                    controllers.step.ordinary.AddressController.get
-POST        /register-to-vote/address                                    controllers.step.ordinary.AddressController.post
-GET         /register-to-vote/edit/address                               controllers.step.ordinary.AddressController.editGet
-POST        /register-to-vote/edit/address                               controllers.step.ordinary.AddressController.editPost
+GET         /register-to-vote/address                                    @uk.gov.gds.ier.transaction.ordinary.address.AddressStep.get
+POST        /register-to-vote/address                                    @uk.gov.gds.ier.transaction.ordinary.address.AddressStep.post
+GET         /register-to-vote/edit/address                               @uk.gov.gds.ier.transaction.ordinary.address.AddressStep.editGet
+POST        /register-to-vote/edit/address                               @uk.gov.gds.ier.transaction.ordinary.address.AddressStep.editPost
 
 #Manual Address
-GET         /register-to-vote/address/manual                             controllers.step.ordinary.AddressManualController.get
-POST        /register-to-vote/address/manual                             controllers.step.ordinary.AddressManualController.post
-GET         /register-to-vote/edit/address/manual                        controllers.step.ordinary.AddressManualController.editGet
-POST        /register-to-vote/edit/address/manual                        controllers.step.ordinary.AddressManualController.editPost
+GET         /register-to-vote/address/manual                             @uk.gov.gds.ier.transaction.ordinary.address.AddressManualStep.get
+POST        /register-to-vote/address/manual                             @uk.gov.gds.ier.transaction.ordinary.address.AddressManualStep.post
+GET         /register-to-vote/edit/address/manual                        @uk.gov.gds.ier.transaction.ordinary.address.AddressManualStep.editGet
+POST        /register-to-vote/edit/address/manual                        @uk.gov.gds.ier.transaction.ordinary.address.AddressManualStep.editPost
 
 #Select Address
-GET         /register-to-vote/address/select                             controllers.step.ordinary.AddressSelectController.get
-POST        /register-to-vote/address/select                             controllers.step.ordinary.AddressSelectController.post
-GET         /register-to-vote/edit/address/select                        controllers.step.ordinary.AddressSelectController.editGet
-POST        /register-to-vote/edit/address/select                        controllers.step.ordinary.AddressSelectController.editPost
+GET         /register-to-vote/address/select                             @uk.gov.gds.ier.transaction.ordinary.address.AddressSelectStep.get
+POST        /register-to-vote/address/select                             @uk.gov.gds.ier.transaction.ordinary.address.AddressSelectStep.post
+GET         /register-to-vote/edit/address/select                        @uk.gov.gds.ier.transaction.ordinary.address.AddressSelectStep.editGet
+POST        /register-to-vote/edit/address/select                        @uk.gov.gds.ier.transaction.ordinary.address.AddressSelectStep.editPost
 
 #Previous Address Step
 GET         /register-to-vote/previous-address                           controllers.step.ordinary.PreviousAddressFirstController.get

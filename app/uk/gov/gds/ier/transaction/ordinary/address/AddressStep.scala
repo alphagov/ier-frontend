@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.transaction.ordinary.address
 
-import controllers.step.ordinary.routes.AddressController
 import com.google.inject.Inject
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
@@ -26,10 +25,10 @@ class AddressStep @Inject() (
   val validation = lookupAddressForm
 
   val routing = Routes(
-    get = AddressController.get,
-    post = AddressController.post,
-    editGet = AddressController.editGet,
-    editPost = AddressController.editPost
+    get = routes.AddressStep.get,
+    post = routes.AddressStep.post,
+    editGet = routes.AddressStep.editGet,
+    editPost = routes.AddressStep.editPost
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
