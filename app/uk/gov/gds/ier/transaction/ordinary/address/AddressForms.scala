@@ -127,7 +127,7 @@ trait AddressConstraints extends CommonConstraints {
     inprogress =>
       inprogress.address match {
         case Some(partialAddress) if partialAddress.manualAddress.isDefined => Valid
-        case _ => Invalid("ordinary_address_error_pleaseAnswer", keys.address.manualAddress)
+        case _ => Invalid("ordinary_address_error_pleaseAnswer", keys.address)
       }
   }
 
@@ -168,9 +168,7 @@ trait AddressConstraints extends CommonConstraints {
   lazy val atLeastOneLineIsRequired = Constraint[PartialManualAddress](
       keys.address.manualAddress.key) {
     case PartialManualAddress(None, None, None, _) => Invalid("ordinary_address_error_atLeastOneLineIsRequired",
-      keys.address.manualAddress.lineOne,
-      keys.address.manualAddress.lineTwo,
-      keys.address.manualAddress.lineThree
+      keys.address.manualAddress
     )
     case _ => Valid
   }
