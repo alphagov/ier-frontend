@@ -146,10 +146,10 @@ GET         /register-to-vote/edit/name                                  @uk.gov
 POST        /register-to-vote/edit/name                                  @uk.gov.gds.ier.transaction.ordinary.name.NameStep.editPost
 
 #Date Of Birth Step
-GET         /register-to-vote/date-of-birth                              controllers.step.ordinary.DateOfBirthController.get
-POST        /register-to-vote/date-of-birth                              controllers.step.ordinary.DateOfBirthController.post
-GET         /register-to-vote/edit/date-of-birth                         controllers.step.ordinary.DateOfBirthController.editGet
-POST        /register-to-vote/edit/date-of-birth                         controllers.step.ordinary.DateOfBirthController.editPost
+GET         /register-to-vote/date-of-birth                              @uk.gov.gds.ier.transaction.ordinary.dateOfBirth.DateOfBirthStep.get
+POST        /register-to-vote/date-of-birth                              @uk.gov.gds.ier.transaction.ordinary.dateOfBirth.DateOfBirthStep.post
+GET         /register-to-vote/edit/date-of-birth                         @uk.gov.gds.ier.transaction.ordinary.dateOfBirth.DateOfBirthStep.editGet
+POST        /register-to-vote/edit/date-of-birth                         @uk.gov.gds.ier.transaction.ordinary.dateOfBirth.DateOfBirthStep.editPost
 
 #Nino Step
 GET         /register-to-vote/nino                                       controllers.step.ordinary.NinoController.get

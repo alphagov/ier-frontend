@@ -1,7 +1,5 @@
 package uk.gov.gds.ier.transaction.ordinary.nationality
 
-import controllers.step.routes.CountryController
-import controllers.step.ordinary.DateOfBirthController
 import controllers.routes.ExitController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser

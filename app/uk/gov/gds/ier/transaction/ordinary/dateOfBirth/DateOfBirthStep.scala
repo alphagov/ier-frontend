@@ -1,12 +1,9 @@
 package uk.gov.gds.ier.transaction.ordinary.dateOfBirth
 
-import controllers.step.ordinary.routes.DateOfBirthController
 import controllers.routes.ExitController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import play.api.mvc.Call
 import uk.gov.gds.ier.model.{DateOfBirth, noDOB}
-import play.api.templates.Html
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.config.Config
@@ -23,15 +20,15 @@ class DateOfBirthStep @Inject ()(
     val ordinary: OrdinaryControllers
 ) extends OrdinaryStep
   with DateOfBirthForms
-  with DateOfBirthMustache{
+  with DateOfBirthMustache {
 
   val validation = dateOfBirthForm
 
   val routing = Routes(
-    get = DateOfBirthController.get,
-    post = DateOfBirthController.post,
-    editGet = DateOfBirthController.editGet,
-    editPost = DateOfBirthController.editPost
+    get = routes.DateOfBirthStep.get,
+    post = routes.DateOfBirthStep.post,
+    editGet = routes.DateOfBirthStep.editGet,
+    editPost = routes.DateOfBirthStep.editPost
   )
 
   override val onSuccess = TransformApplication { currentState =>
