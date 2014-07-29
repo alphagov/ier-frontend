@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
-import controllers.step.ordinary.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model._
@@ -27,10 +26,10 @@ class PreviousAddressManualStep @Inject() (
   val validation = manualStepForm
 
   val routing = Routes(
-    get = PreviousAddressManualController.get,
-    post = PreviousAddressManualController.post,
-    editGet = PreviousAddressManualController.editGet,
-    editPost = PreviousAddressManualController.editPost
+    get = routes.PreviousAddressManualStep.get,
+    post = routes.PreviousAddressManualStep.post,
+    editGet = routes.PreviousAddressManualStep.editGet,
+    editPost = routes.PreviousAddressManualStep.editPost
   )
 
   def nextStep(currentState: InprogressOrdinary) = {

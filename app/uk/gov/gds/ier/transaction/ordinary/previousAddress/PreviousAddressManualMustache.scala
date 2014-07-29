@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
-import controllers.step.ordinary.routes.PreviousAddressPostcodeController
 import uk.gov.gds.ier.model.MovedHouseOption
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
@@ -37,7 +36,7 @@ trait PreviousAddressManualMustache extends StepTemplate[InprogressOrdinary] {
         title = title,
         errorMessages = Messages.translatedGlobalErrors(form)
       ),
-      lookupUrl = PreviousAddressPostcodeController.get.url,
+      lookupUrl = routes.PreviousAddressPostcodeStep.get.url,
       postcode = TextField(keys.previousAddress.previousAddress.postcode),
       maLineOne = TextField(keys.previousAddress.previousAddress.manualAddress.lineOne),
       maLineTwo = TextField(keys.previousAddress.previousAddress.manualAddress.lineTwo),

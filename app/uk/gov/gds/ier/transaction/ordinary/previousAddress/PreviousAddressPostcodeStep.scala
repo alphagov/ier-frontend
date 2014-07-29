@@ -1,9 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
-import controllers.step.ordinary.routes._
 import com.google.inject.Inject
-import play.api.mvc.Call
-import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{MovedHouseOption}
 import uk.gov.gds.ier.security.EncryptionService
@@ -28,10 +25,10 @@ class PreviousAddressPostcodeStep @Inject() (
   val validation = postcodeStepForm
 
   val routing = Routes(
-    get = PreviousAddressPostcodeController.get,
-    post = PreviousAddressPostcodeController.post,
-    editGet = PreviousAddressPostcodeController.editGet,
-    editPost = PreviousAddressPostcodeController.editPost
+    get = routes.PreviousAddressPostcodeStep.get,
+    post = routes.PreviousAddressPostcodeStep.post,
+    editGet = routes.PreviousAddressPostcodeStep.editGet,
+    editPost = routes.PreviousAddressPostcodeStep.editPost
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
