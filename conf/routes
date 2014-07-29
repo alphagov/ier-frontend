@@ -92,10 +92,10 @@ GET         /register-to-vote/edit/other-address                         @uk.gov
 POST        /register-to-vote/edit/other-address                         @uk.gov.gds.ier.transaction.ordinary.otherAddress.OtherAddressStep.editPost
 
 #Nationality Step
-GET         /register-to-vote/nationality                                controllers.step.ordinary.NationalityController.get
-POST        /register-to-vote/nationality                                controllers.step.ordinary.NationalityController.post
-GET         /register-to-vote/edit/nationality                           controllers.step.ordinary.NationalityController.editGet
-POST        /register-to-vote/edit/nationality                           controllers.step.ordinary.NationalityController.editPost
+GET         /register-to-vote/nationality                                @uk.gov.gds.ier.transaction.ordinary.nationality.NationalityStep.get
+POST        /register-to-vote/nationality                                @uk.gov.gds.ier.transaction.ordinary.nationality.NationalityStep.post
+GET         /register-to-vote/edit/nationality                           @uk.gov.gds.ier.transaction.ordinary.nationality.NationalityStep.editGet
+POST        /register-to-vote/edit/nationality                           @uk.gov.gds.ier.transaction.ordinary.nationality.NationalityStep.editPost
 
 #Address
 GET         /register-to-vote/address                                    controllers.step.ordinary.AddressController.get

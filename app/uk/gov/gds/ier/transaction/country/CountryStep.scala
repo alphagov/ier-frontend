@@ -4,13 +4,10 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.validation.constraints.CountryConstraints
-import play.api.mvc.Call
 import uk.gov.gds.ier.model.{Country}
-import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{OrdinaryStep, Routes, GoTo}
-import controllers.step.ordinary.NationalityController
 import controllers.step.routes.CountryController
 import controllers.routes.ExitController
 import controllers.routes.RegisterToVoteController
