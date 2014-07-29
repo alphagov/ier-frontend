@@ -152,10 +152,10 @@ GET         /register-to-vote/edit/date-of-birth                         @uk.gov
 POST        /register-to-vote/edit/date-of-birth                         @uk.gov.gds.ier.transaction.ordinary.dateOfBirth.DateOfBirthStep.editPost
 
 #Nino Step
-GET         /register-to-vote/nino                                       controllers.step.ordinary.NinoController.get
-POST        /register-to-vote/nino                                       controllers.step.ordinary.NinoController.post
-GET         /register-to-vote/edit/nino                                  controllers.step.ordinary.NinoController.editGet
-POST        /register-to-vote/edit/nino                                  controllers.step.ordinary.NinoController.editPost
+GET         /register-to-vote/nino                                       @uk.gov.gds.ier.transaction.ordinary.nino.NinoStep.get
+POST        /register-to-vote/nino                                       @uk.gov.gds.ier.transaction.ordinary.nino.NinoStep.post
+GET         /register-to-vote/edit/nino                                  @uk.gov.gds.ier.transaction.ordinary.nino.NinoStep.editGet
+POST        /register-to-vote/edit/nino                                  @uk.gov.gds.ier.transaction.ordinary.nino.NinoStep.editPost
 
 
 #Postcode Lookup

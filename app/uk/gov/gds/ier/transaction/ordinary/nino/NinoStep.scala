@@ -1,11 +1,8 @@
 package uk.gov.gds.ier.transaction.ordinary.nino
 
-import controllers.step.ordinary.routes.{NinoController}
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
-import play.api.mvc.Call
-import play.api.templates.Html
 
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
@@ -26,10 +23,10 @@ class NinoStep @Inject ()(
   val validation = ninoForm
 
   val routing = Routes(
-    get = NinoController.get,
-    post = NinoController.post,
-    editGet = NinoController.editGet,
-    editPost = NinoController.editPost
+    get = routes.NinoStep.get,
+    post = routes.NinoStep.post,
+    editGet = routes.NinoStep.editGet,
+    editPost = routes.NinoStep.editPost
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
