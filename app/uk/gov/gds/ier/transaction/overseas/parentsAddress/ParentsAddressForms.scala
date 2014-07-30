@@ -165,7 +165,7 @@ trait ParentsAddressConstraints extends CommonConstraints {
   lazy val lineOneIsRequiredForParentsAddress = Constraint[PartialManualAddress](
     keys.address.manualAddress.key) {
     case PartialManualAddress(Some(_), _, _, _) => Valid
-    case _ => Invalid(lineOneIsRequiredError, keys.address.manualAddress.lineOne)
+    case _ => Invalid(atLeastOneLineIsRequiredError, keys.address.manualAddress.lineOne)
   }
 
   lazy val cityIsRequiredForParentsAddress = Constraint[PartialManualAddress](

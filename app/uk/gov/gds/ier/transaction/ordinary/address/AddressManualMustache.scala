@@ -15,7 +15,8 @@ trait AddressManualMustache extends StepTemplate[InprogressOrdinary] {
         maLineOne: Field,
         maLineTwo: Field,
         maLineThree: Field,
-        maCity: Field
+        maCity: Field,
+        maLines: FieldSet
     ) extends MustacheData
 
     val mustache = MultilingualTemplate("ordinary/addressManual") { implicit lang => (form, post) =>
@@ -34,7 +35,8 @@ trait AddressManualMustache extends StepTemplate[InprogressOrdinary] {
         maLineOne = TextField(keys.address.manualAddress.lineOne),
         maLineTwo = TextField(keys.address.manualAddress.lineTwo),
         maLineThree = TextField(keys.address.manualAddress.lineThree),
-        maCity = TextField(keys.address.manualAddress.city)
+        maCity = TextField(keys.address.manualAddress.city),
+        maLines = FieldSet(keys.address.manualAddress)
       )
     }
 }

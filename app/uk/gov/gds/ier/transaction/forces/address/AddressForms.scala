@@ -53,7 +53,7 @@ trait AddressForms extends AddressConstraints {
       )
     ).verifying(
       isPostcodeFormatValid,
-      manualAddressLineOneRequired,
+      atLeastOneLineIsRequired,
       cityIsRequired
     )
   )
@@ -85,9 +85,9 @@ trait AddressConstraints extends CommonConstraints {
   lazy val manualAddressIsRequired = Constraint[InprogressForces](keys.address.key) {
     inprogress =>
       inprogress.address match {
-        case Some(partialAddress) if (partialAddress.address.flatMap(_.manualAddress).isDefined &&
-          partialAddress.address.exists(!_.postcode.trim.isEmpty)) => Valid
-        case _ => Invalid("Please answer this question", keys.address.manualAddress)
+        case Some(partialAddress)
+          if partialAddress.address.exists(addr => addr.manualAddress.isDefined && addr.postcode.trim.nonEmpty) => Valid
+        case _ => Invalid("Please answer this question", keys.address)
       }
   }
 
@@ -128,20 +128,20 @@ trait AddressConstraints extends CommonConstraints {
     )
   }
 
-  lazy val manualAddressLineOneRequired = Constraint[InprogressForces](
-    keys.address.manualAddress.key) { inprogress =>
+  lazy val atLeastOneLineIsRequired = Constraint[InprogressForces](
+    keys.address.address.manualAddress.key) { inprogress =>
     val manualAddress = inprogress.address.flatMap(_.address).flatMap(_.manualAddress)
     manualAddress match {
-      case Some(PartialManualAddress(None, _, _, _)) => Invalid(
-        lineOneIsRequiredError,
-        keys.address.address.manualAddress.lineOne
+      case Some(PartialManualAddress(None, None, None, _)) => Invalid(
+        atLeastOneLineIsRequiredError,
+        keys.address.address.manualAddress
       )
       case _ => Valid
     }
   }
 
   lazy val cityIsRequired = Constraint[InprogressForces](
-    keys.address.manualAddress.key) { inprogress =>
+    keys.address.address.manualAddress.key) { inprogress =>
     val manualAddress = inprogress.address.flatMap(_.address).flatMap(_.manualAddress)
     manualAddress match {
       case Some(PartialManualAddress(_, _, _, None)) => Invalid(

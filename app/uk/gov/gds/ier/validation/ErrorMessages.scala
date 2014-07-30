@@ -26,6 +26,6 @@ trait ErrorMessages {
   lazy val addressMaxLengthError = s"Address information should be no longer than $maxTextFieldLength characters"
   lazy val noNinoReasonMaxLengthError = s"Reason for not providing National Insurance number must be described in up to $maxTextFieldLength characters"
 
-  lazy val lineOneIsRequiredError = "At least one address line is required"
+  lazy val atLeastOneLineIsRequiredError = "At least one address line is required"
   lazy val cityIsRequiredError = "Postal town or city is required"
 }

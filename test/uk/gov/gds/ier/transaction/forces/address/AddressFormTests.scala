@@ -104,7 +104,7 @@ class AddressFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("address.manualAddress") should be(Seq("Please answer this question"))
+        hasErrors.errorMessages("address") should be(Seq("Please answer this question"))
       },
       success => fail("Should have errored out")
     )
@@ -325,7 +325,22 @@ class AddressFormTests
     )
   }
 
-  it should "error out on empty values for manual address" in {
+  it should "error out on empty json for manual address" in {
+    val js =  JsNull
+
+    manualAddressForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+        hasErrors.errorMessages("address") should be(
+          Seq("Please answer this question")
+        )
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
+  it should "error out on all empty values for manual address" in {
     val js =  Json.toJson(
       Map(
         "address.address.manualAddress.lineOne" -> "",
@@ -339,7 +354,7 @@ class AddressFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("address.manualAddress") should be(
+        hasErrors.errorMessages("address") should be(
           Seq("Please answer this question")
         )
       },
@@ -347,18 +362,107 @@ class AddressFormTests
     )
   }
 
-  it should "error out on empty json for manual address" in {
-    val js =  JsNull
+  it should "error out on all empty lines for manual address" in {
+    val js =  Json.toJson(Map(
+      "address.address.manualAddress.lineOne" -> "",
+      "address.address.manualAddress.lineTwo" -> "",
+      "address.address.manualAddress.lineThree" -> "",
+      "address.address.manualAddress.city" -> "Worcester",
+      "address.address.postcode" -> "SW1A 1AA"
+    ))
 
     manualAddressForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("address.manualAddress") should be(
-          Seq("Please answer this question")
-        )
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "address.address.manualAddress" -> Seq("At least one address line is required")
+        ))
       },
       success => fail("Should have errored out")
     )
   }
+
+  it should "successfully bind when lineOne is not empty" in {
+    val js = Json.toJson(Map(
+      "address.address.manualAddress.lineOne" -> "line one",
+      "address.address.manualAddress.lineTwo" -> "",
+      "address.address.manualAddress.lineThree" -> "",
+      "address.address.manualAddress.city" -> "Worcester",
+      "address.address.postcode" -> "SW1A1AA"
+    ))
+
+    addressForm.bind(js).fold(
+      hasErrors => fail(serialiser.toJson(hasErrors)),
+      success => {
+        val Some(lastUkAddress) = success.address
+        val Some(partialAddress) = lastUkAddress.address
+        val Some(manualAddress) = partialAddress.manualAddress
+
+        manualAddress should be(PartialManualAddress(
+          lineOne = Some("line one"),
+          lineTwo = None,
+          lineThree = None,
+          city = Some("Worcester")
+        ))
+
+        partialAddress.postcode should be("SW1A1AA")
+      }
+    )
+  }
+
+  it should "successfully bind when lineTwo is not empty" in {
+    val js = Json.toJson(Map(
+      "address.address.manualAddress.lineOne" -> "",
+      "address.address.manualAddress.lineTwo" -> "line two",
+      "address.address.manualAddress.lineThree" -> "",
+      "address.address.manualAddress.city" -> "Worcester",
+      "address.address.postcode" -> "SW1A1AA"
+    ))
+
+    addressForm.bind(js).fold(
+      hasErrors => fail(serialiser.toJson(hasErrors)),
+      success => {
+        val Some(lastUkAddress) = success.address
+        val Some(partialAddress) = lastUkAddress.address
+        val Some(manualAddress) = partialAddress.manualAddress
+
+        manualAddress should be(PartialManualAddress(
+          lineOne = None,
+          lineTwo = Some("line two"),
+          lineThree = None,
+          city = Some("Worcester")
+        ))
+
+        partialAddress.postcode should be("SW1A1AA")
+      }
+    )
+  }
+
+  it should "successfully bind when lineThree is not empty" in {
+    val js = Json.toJson(Map(
+      "address.address.manualAddress.lineOne" -> "",
+      "address.address.manualAddress.lineTwo" -> "",
+      "address.address.manualAddress.lineThree" -> "line three",
+      "address.address.manualAddress.city" -> "Worcester",
+      "address.address.postcode" -> "SW1A1AA"
+    ))
+
+    addressForm.bind(js).fold(
+      hasErrors => fail(serialiser.toJson(hasErrors)),
+      success => {
+        val Some(lastUkAddress) = success.address
+        val Some(partialAddress) = lastUkAddress.address
+        val Some(manualAddress) = partialAddress.manualAddress
+
+        manualAddress should be(PartialManualAddress(
+          lineOne = None,
+          lineTwo = None,
+          lineThree = Some("line three"),
+          city = Some("Worcester")
+        ))
+
+        partialAddress.postcode should be("SW1A1AA")
+      }
+    )
+  }
+
 }
