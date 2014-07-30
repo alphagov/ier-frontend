@@ -3,12 +3,11 @@ package uk.gov.gds.ier.transaction.ordinary.contact
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
-import scala.Some
 import uk.gov.gds.ier.model.{ContactDetail,
   Contact,
   PostalVote,
   PostalVoteDeliveryMethod}
-import controllers.step.ordinary.routes._
+import uk.gov.gds.ier.transaction.ordinary.contact.routes._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
@@ -30,7 +29,7 @@ class ContactMustacheTests
     val emptyApplicationForm = contactForm
     val contactModel = mustache.data(
       emptyApplicationForm,
-      ContactController.post,
+      ContactStep.post,
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
@@ -59,7 +58,7 @@ class ContactMustacheTests
 
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
-      ContactController.post,
+      ContactStep.post,
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
@@ -88,7 +87,7 @@ class ContactMustacheTests
 
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
-      ContactController.post,
+      ContactStep.post,
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
@@ -117,7 +116,7 @@ class ContactMustacheTests
 
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
-      ContactController.post,
+      ContactStep.post,
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
@@ -146,7 +145,7 @@ class ContactMustacheTests
 
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
-      ContactController.post,
+      ContactStep.post,
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
@@ -178,7 +177,7 @@ class ContactMustacheTests
 
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
-      ContactController.post,
+      ContactStep.post,
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
