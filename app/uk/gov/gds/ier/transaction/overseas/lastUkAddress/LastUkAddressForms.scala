@@ -124,7 +124,7 @@ trait LastUkAddressConstraints extends CommonConstraints {
     inprogress =>
       inprogress.lastUkAddress match {
         case Some(partialAddress) if partialAddress.manualAddress.isDefined => Valid
-        case _ => Invalid("Please answer this question", keys.lastUkAddress.manualAddress)
+        case _ => Invalid("Please answer this question", keys.lastUkAddress)
       }
   }
 
@@ -165,9 +165,7 @@ trait LastUkAddressConstraints extends CommonConstraints {
   lazy val atLeastOneLineIsRequired = Constraint[PartialManualAddress](
     keys.lastUkAddress.manualAddress.key) {
     case PartialManualAddress(None, None, None, _) => Invalid(atLeastOneLineIsRequiredError,
-      keys.lastUkAddress.manualAddress.lineOne,
-      keys.lastUkAddress.manualAddress.lineTwo,
-      keys.lastUkAddress.manualAddress.lineThree
+      keys.lastUkAddress.manualAddress
     )
     case _ => Valid
   }
@@ -175,6 +173,6 @@ trait LastUkAddressConstraints extends CommonConstraints {
   lazy val cityIsRequired = Constraint[PartialManualAddress](
     keys.address.manualAddress.key) {
     case PartialManualAddress(_, _, _, Some(_)) => Valid
-    case _ => Invalid(cityIsRequiredError, keys.address.manualAddress.city)
+    case _ => Invalid(cityIsRequiredError, keys.lastUkAddress.manualAddress.city)
   }
 }

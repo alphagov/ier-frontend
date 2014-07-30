@@ -55,6 +55,9 @@ class LastUkAddressManualTemplateTest
           name = "maCityName",
           classes = "manualClass41 manualClass42",
           value = "Worcester"
+        ),
+        maLines = FieldSet(
+          classes = "maLinesClasses"
         )
       )
 
@@ -115,6 +118,10 @@ class LastUkAddressManualTemplateTest
 
       val lookupChangeLink = fieldset.select("a").first()
       lookupChangeLink.attr("href") should be("http://lookup")
+
+      val manualAddressLinesWrapper = doc.select(".validation-wrapper").first()
+      manualAddressLinesWrapper should not be(null)
+      manualAddressLinesWrapper.attr("class") should include("maLinesClasses")
     }
   }
 }

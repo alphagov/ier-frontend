@@ -336,7 +336,7 @@ class LastUkAddressFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("lastUkAddress.manualAddress") should be(
+        hasErrors.errorMessages("lastUkAddress") should be(
           Seq("Please answer this question")
         )
       },
@@ -358,7 +358,7 @@ class LastUkAddressFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
-        hasErrors.errorMessages("lastUkAddress.manualAddress") should be(
+        hasErrors.errorMessages("lastUkAddress") should be(
           Seq("Please answer this question")
         )
       },
@@ -378,9 +378,7 @@ class LastUkAddressFormTests
     manualAddressForm.bind(js).fold(
       hasErrors => {
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "lastUkAddress.manualAddress.lineOne" -> Seq("At least one address line is required"),
-          "lastUkAddress.manualAddress.lineTwo" -> Seq("At least one address line is required"),
-          "lastUkAddress.manualAddress.lineThree" -> Seq("At least one address line is required")
+          "lastUkAddress.manualAddress" -> Seq("At least one address line is required")
         ))
       },
       success => fail("Should have errored out")
