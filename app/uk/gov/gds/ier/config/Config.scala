@@ -38,6 +38,8 @@ class Config extends Logging {
   def zendeskUsername = configuration.getString("zendesk.username", "")
   def zendeskPassword = configuration.getString("zendesk.password", "")
 
+  def completeSurveyLink = configuration.getString("complete.survey.link")
+
   def logConfiguration() = {
     logger.debug(s"apiTimeout:$apiTimeout")
     logger.debug(s"locateUrl:$locateUrl")
