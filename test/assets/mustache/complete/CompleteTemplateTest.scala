@@ -42,7 +42,8 @@ class CompleteTemplateTest
         hasOtherAddress = true,
         backToStartUrl = "/register-to-vote/start",
         showEmailConfirmation = true,
-        showBirthdayBunting = false
+        showBirthdayBunting = false,
+        surveyLink = "http://my/survey/"
       )
 
       val html = mustache.render()
@@ -51,6 +52,7 @@ class CompleteTemplateTest
 
       doc.select("a[href=" + mustache.authorityUrl.get + "]").size() should be(1)
       doc.select("a[href=" + mustache.backToStartUrl + "]").size() should be(1)
+      doc.select("a[href=http://my/survey/]").size() should be(1)
 
       renderedOutput should include(mustache.refNumber)
       renderedOutput should include(mustache.authorityName)

@@ -27,7 +27,8 @@ trait CompleteMustache {
         hasOtherAddress: Boolean,
         backToStartUrl: String,
         showEmailConfirmation: Boolean,
-        showBirthdayBunting: Boolean
+        showBirthdayBunting: Boolean,
+        surveyLink: String
     ) (
         implicit override val lang: Lang
     ) extends InheritedMustachio("complete") {
