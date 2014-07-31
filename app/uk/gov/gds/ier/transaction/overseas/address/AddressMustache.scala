@@ -43,7 +43,7 @@ trait AddressMustache extends StepTemplate[InprogressOverseas] {
   def countrySelectOptions(selectedCountry: String) = {
     import NationalityConstants._
 
-    val selectOptions = overseasCountryNameToCodes.map {
+    val selectOptions = countriesExceptUK.map {
       case (`selectedCountry`, iso) => SelectOption(selectedCountry, iso.displayName, "selected")
       case (name, iso) => SelectOption(name, iso.displayName, "")
     }

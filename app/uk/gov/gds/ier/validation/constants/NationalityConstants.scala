@@ -261,7 +261,7 @@ object NationalityConstants {
     "zimbabwe" -> ISOCountry("ZW", displayName = "Zimbabwe", Franchise.commonwealth)
   )
 
-  lazy val overseasCountryNameToCodes = countryNameToCodes.filterNot {
+  lazy val countriesExceptUK = countryNameToCodes.filterNot {
     case (name, iso) => iso.isoCode == "GB"
   }
 }
