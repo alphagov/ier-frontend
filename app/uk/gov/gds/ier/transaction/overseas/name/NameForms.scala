@@ -99,7 +99,7 @@ trait NameConstraints extends NameCommonConstraints with FormKeys {
   ) {
     _.previousName match {
       case Some(PreviousName(true, Some(Name("", _, _)), _)) => Invalid (
-        "Please enter your previuos first name",
+        "Please enter your previous first name",
         keys.previousName.previousName.firstName
       )
       case _ => Valid
