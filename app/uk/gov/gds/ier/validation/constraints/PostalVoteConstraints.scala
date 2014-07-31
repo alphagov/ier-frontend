@@ -30,7 +30,7 @@ trait PostalVoteConstraints {
       keys.postalVote.deliveryMethod.key
   ) { application =>
     application.postalVote match {
-      case Some(PostalVote(Some(true), None)) => Invalid(
+      case Some(PostalVote(Some(PostalVoteOption.Yes), None)) => Invalid(
         "Please answer this question",
         keys.postalVote.deliveryMethod.methodName
       )

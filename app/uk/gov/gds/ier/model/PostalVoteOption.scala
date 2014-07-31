@@ -6,8 +6,8 @@ object PostalVoteOption extends ModelMapping {
   import playMappings._
 
   val Yes = PostalVoteOption(true, "yes")
-  val NoAndVoteInPerson = PostalVoteOption(true, "no-vote-in-person")
-  val NoAndAlreadyHave = PostalVoteOption(true, "no-already-have")
+  val NoAndVoteInPerson = PostalVoteOption(false, "no-vote-in-person")
+  val NoAndAlreadyHave = PostalVoteOption(false, "no-already-have")
 
   def isValid(str:String):Boolean = {
     str match {

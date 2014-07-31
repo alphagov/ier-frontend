@@ -1,15 +1,15 @@
 package uk.gov.gds.ier.transaction.ordinary.postalVote
 
 import uk.gov.gds.ier.step.StepTemplate
-import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.model.PostalVoteOption
 
 trait PostalVoteMustache extends StepTemplate[InprogressOrdinary] {
 
   case class PostalVoteModel(
     question: Question,
     postCheckboxYes: Field,
-    postCheckboxNo: Field,
+    postCheckboxNoAndVoteInPerson: Field,
     deliveryByEmail: Field,
     deliveryByPost: Field,
     emailField: Field,
@@ -32,12 +32,14 @@ trait PostalVoteMustache extends StepTemplate[InprogressOrdinary] {
         number = s"10 ${Messages("step_of")} 11",
         title = Messages("ordinary_postalVote_title"),
         errorMessages = Messages.translatedGlobalErrors(form)),
+
       postCheckboxYes = RadioField(
         key = keys.postalVote.optIn,
-        value = "true"),
-      postCheckboxNo = RadioField(
+        value = PostalVoteOption.Yes.name),
+      postCheckboxNoAndVoteInPerson = RadioField(
         key = keys.postalVote.optIn,
-        value = "false"),
+        value = PostalVoteOption.NoAndVoteInPerson.name),
+
       deliveryByEmail = RadioField(
         key = keys.postalVote.deliveryMethod.methodName,
         value = "email"),

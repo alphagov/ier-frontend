@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.model
 
 case class PostalVote (
-    postalVoteOption: Option[Boolean],
+    postalVoteOption: Option[PostalVoteOption],
     deliveryMethod: Option[PostalVoteDeliveryMethod]
 )
 
@@ -9,16 +9,10 @@ object PostalVote extends ModelMapping {
   import playMappings._
 
   val mapping = playMappings.mapping(
-    keys.optIn.key -> optional(boolean),
+    keys.optIn.key -> optional(PostalVoteOption.mapping),
     keys.deliveryMethod.key -> optional(PostalVoteDeliveryMethod.mapping)
   ) (
-    (optIn, delivery) => PostalVote(
-      postalVoteOption = optIn,
-      deliveryMethod = optIn match {
-        case Some(false) => None
-        case _ => delivery
-      }
-    )
+    PostalVote.apply
   ) (
     PostalVote.unapply
   )
