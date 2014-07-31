@@ -30,7 +30,7 @@ trait NameBlocks {
     }
 
     val prevNameContent =  hasPreviousName match {
-      case `hasPreviousName` => {
+      case Some("true") => {
         List(
           List(
             form(keys.previousName.previousName.firstName).value,
@@ -38,8 +38,6 @@ trait NameBlocks {
             form(keys.previousName.previousName.lastName).value
           ).flatten.mkString(" ")
         ) ++ nameChangeReason
-
-
       }
       case _ => List("I have not changed my name in the last 12 months")
     }
@@ -52,6 +50,4 @@ trait NameBlocks {
       }
     )
   }
-
-  private val hasPreviousName = Some("true")
 }
