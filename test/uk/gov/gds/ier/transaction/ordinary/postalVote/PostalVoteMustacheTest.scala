@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.ordinary.postalVote
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
-import uk.gov.gds.ier.model.{PostalVote, PostalVoteDeliveryMethod}
+import uk.gov.gds.ier.model.{PostalVoteOption, PostalVote, PostalVoteDeliveryMethod}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import play.api.mvc.Call
 
@@ -30,17 +30,20 @@ class PostalVoteMustacheTest
     postalVoteModel.question.postUrl should be("/foo/postal-vote")
 
     postalVoteModel.postCheckboxYes.attributes should be("")
-    postalVoteModel.postCheckboxNo.attributes should be("")
+    postalVoteModel.postCheckboxNoAndVoteInPerson.attributes should be("")
+    postalVoteModel.postCheckboxNoAndAlreadyHave.attributes should be("")
+
+
     postalVoteModel.deliveryByEmail.attributes should be("")
     postalVoteModel.deliveryByPost.attributes should be("")
     postalVoteModel.emailField.value should be("")
 
   }
 
-  it should "progress form with no for postal vote" in runningApp {
+  it should "progress form with no and vote in person for postal vote" in runningApp {
     val partiallyFilledApplicationForm = postalVoteForm.fill(InprogressOrdinary(
       postalVote = Some(PostalVote(
-        postalVoteOption = Some(false),
+        postalVoteOption = Some(PostalVoteOption.NoAndVoteInPerson),
         deliveryMethod = None))))
 
     val postalVoteModel = mustache.data(
@@ -53,7 +56,35 @@ class PostalVoteMustacheTest
     postalVoteModel.question.postUrl should be("/foo/postal-vote")
 
     postalVoteModel.postCheckboxYes.attributes should be("")
-    postalVoteModel.postCheckboxNo.attributes should be("checked=\"checked\"")
+    postalVoteModel.postCheckboxNoAndVoteInPerson.attributes should be("checked=\"checked\"")
+    postalVoteModel.postCheckboxNoAndAlreadyHave.attributes should be("")
+
+
+    postalVoteModel.deliveryByEmail.attributes should be("")
+    postalVoteModel.deliveryByPost.attributes should be("")
+    postalVoteModel.emailField.value should be("")
+  }
+
+  it should "progress form with no and already have a postal vote" in runningApp {
+    val partiallyFilledApplicationForm = postalVoteForm.fill(InprogressOrdinary(
+      postalVote = Some(PostalVote(
+        postalVoteOption = Some(PostalVoteOption.NoAndAlreadyHave),
+        deliveryMethod = None))))
+
+    val postalVoteModel = mustache.data(
+      partiallyFilledApplicationForm,
+      Call("POST", "/foo/postal-vote"),
+      InprogressOrdinary()
+    ).asInstanceOf[PostalVoteModel]
+
+    postalVoteModel.question.title should be("Do you want to apply for a postal vote?")
+    postalVoteModel.question.postUrl should be("/foo/postal-vote")
+
+    postalVoteModel.postCheckboxYes.attributes should be("")
+    postalVoteModel.postCheckboxNoAndVoteInPerson.attributes should be("")
+    postalVoteModel.postCheckboxNoAndAlreadyHave.attributes should be("checked=\"checked\"")
+
+
     postalVoteModel.deliveryByEmail.attributes should be("")
     postalVoteModel.deliveryByPost.attributes should be("")
     postalVoteModel.emailField.value should be("")
@@ -63,7 +94,7 @@ class PostalVoteMustacheTest
     "should produce form with values" in runningApp {
     val partiallyFilledApplicationForm = postalVoteForm.fill(InprogressOrdinary(
       postalVote = Some(PostalVote(
-        postalVoteOption = Some(true),
+        postalVoteOption = Some(PostalVoteOption.Yes),
         deliveryMethod = Some(PostalVoteDeliveryMethod(deliveryMethod = Some("post"), None))))))
 
     val postalVoteModel = mustache.data(
@@ -76,7 +107,10 @@ class PostalVoteMustacheTest
     postalVoteModel.question.postUrl should be("/foo/postal-vote")
 
     postalVoteModel.postCheckboxYes.attributes should be("checked=\"checked\"")
-    postalVoteModel.postCheckboxNo.attributes should be("")
+    postalVoteModel.postCheckboxNoAndVoteInPerson.attributes should be("")
+    postalVoteModel.postCheckboxNoAndAlreadyHave.attributes should be("")
+
+
     postalVoteModel.deliveryByEmail.attributes should be("")
     postalVoteModel.deliveryByPost.attributes should be("checked=\"checked\"")
     postalVoteModel.emailField.value should be("")
@@ -86,7 +120,7 @@ class PostalVoteMustacheTest
     "should produce form with values" in runningApp {
     val partiallyFilledApplicationForm = postalVoteForm.fill(InprogressOrdinary(
       postalVote = Some(PostalVote(
-        postalVoteOption = Some(true),
+        postalVoteOption = Some(PostalVoteOption.Yes),
         deliveryMethod = Some(PostalVoteDeliveryMethod(deliveryMethod = Some("email"),
             emailAddress = Some("test@test.com")))))))
 
@@ -100,7 +134,10 @@ class PostalVoteMustacheTest
     postalVoteModel.question.postUrl should be("/foo/postal-vote")
 
     postalVoteModel.postCheckboxYes.attributes should be("checked=\"checked\"")
-    postalVoteModel.postCheckboxNo.attributes should be("")
+    postalVoteModel.postCheckboxNoAndVoteInPerson.attributes should be("")
+    postalVoteModel.postCheckboxNoAndAlreadyHave.attributes should be("")
+
+
     postalVoteModel.deliveryByEmail.attributes should be("checked=\"checked\"")
     postalVoteModel.deliveryByPost.attributes should be("")
     postalVoteModel.emailField.value should be("test@test.com")

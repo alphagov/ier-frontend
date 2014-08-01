@@ -83,7 +83,7 @@ trait TestHelpers
     previousAddress = Some(PartialPreviousAddress(Some(MovedHouseOption.NotMoved), None)),
     otherAddress = Some(OtherAddress(OtherAddress.NoOtherAddress)),
     openRegisterOptin = Some(false),
-    postalVote = Some(PostalVote(Some(false),None)),
+    postalVote = Some(PostalVote(Some(PostalVoteOption.NoAndVoteInPerson),None)),
     contact = Some(Contact(true, None, None)),
     possibleAddresses = None,
     country = Some(Country("England", false))

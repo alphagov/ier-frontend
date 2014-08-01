@@ -41,8 +41,7 @@ class OrdinaryApplicationTests
       "parea" -> "Fakesborough",
       "puprn" -> "54321",
       "ppostcode" -> "XX342 1XX",
-      "pvote" -> "true",
-      "pvoteemail" -> "postal@vote.com",
+      "pvote" -> "false",
       "opnreg" -> "false",
       "post" -> "true",
       "email" -> "test@email.com",
@@ -94,8 +93,7 @@ class OrdinaryApplicationTests
       "parea" -> "Fakesborough",
       "puprn" -> "54321",
       "ppostcode" -> "XX342 1XX",
-      "pvote" -> "true",
-      "pvoteemail" -> "postal@vote.com",
+      "pvote" -> "false",
       "opnreg" -> "false",
       "post" -> "true",
       "email" -> "test@email.com",
@@ -144,8 +142,7 @@ class OrdinaryApplicationTests
       "parea" -> "Fakesborough",
       "puprn" -> "54321",
       "ppostcode" -> "XX342 1XX",
-      "pvote" -> "true",
-      "pvoteemail" -> "postal@vote.com",
+      "pvote" -> "false",
       "opnreg" -> "false",
       "post" -> "true",
       "email" -> "test@email.com",
@@ -203,8 +200,7 @@ class OrdinaryApplicationTests
       "parea" -> "Fakesborough",
       "puprn" -> "54321",
       "ppostcode" -> "XX342 1XX",
-      "pvote" -> "true",
-      "pvoteemail" -> "postal@vote.com",
+      "pvote" -> "false",
       "opnreg" -> "false",
       "post" -> "true",
       "email" -> "test@email.com",
@@ -221,6 +217,103 @@ class OrdinaryApplicationTests
 
     application.toApiMap should matchMap(expected)
   }
+
+  it should "generate expected payload with postal vote and email delivery" in {
+    lazy val application = createOrdinaryApplication.copy(
+      postalVote = Some(PostalVote(
+        postalVoteOption = Some(PostalVoteOption.Yes),
+        deliveryMethod = Some(PostalVoteDeliveryMethod(
+          deliveryMethod = Some("email"),
+          emailAddress = Some("test@email.com")
+        ))
+      ))
+    )
+    val expected = ordinaryApplicationPayload ++ Map(
+      "pvote" -> "true",
+      "pvoteemail" -> "test@email.com"
+    )
+
+    application.toApiMap should matchMap(expected)
+  }
+
+  it should "generate expected payload with postal vote and post delivery" in {
+    lazy val application = createOrdinaryApplication.copy(
+      postalVote = Some(PostalVote(
+        postalVoteOption = Some(PostalVoteOption.Yes),
+        deliveryMethod = Some(PostalVoteDeliveryMethod(
+          deliveryMethod = Some("post"),
+          emailAddress = None
+        ))
+      ))
+    )
+    val expected = ordinaryApplicationPayload + ("pvote" -> "true")
+
+    application.toApiMap should matchMap(expected)
+  }
+
+  it should "generate expected payload with no postal vote - prefer in person" in {
+    lazy val application = createOrdinaryApplication.copy(
+      postalVote = Some(PostalVote(
+        postalVoteOption = Some(PostalVoteOption.NoAndVoteInPerson),
+        deliveryMethod = None
+      ))
+    )
+    val expected = ordinaryApplicationPayload + ("pvote" -> "false")
+
+    application.toApiMap should matchMap(expected)
+  }
+
+  it should "generate expected payload with no postal vote - already has one" in {
+    lazy val application = createOrdinaryApplication.copy(
+      postalVote = Some(PostalVote(
+        postalVoteOption = Some(PostalVoteOption.NoAndAlreadyHave),
+        deliveryMethod = None
+      ))
+    )
+    val expected = ordinaryApplicationPayload + ("pvote" -> "false")
+
+    application.toApiMap should matchMap(expected)
+  }
+
+  private val ordinaryApplicationPayload = Map(
+    "fn" -> "John",
+    "mn" -> "James",
+    "ln" -> "Smith",
+    "applicationType" -> "ordinary",
+    "pfn" -> "James",
+    "pmn" -> "John",
+    "pln" -> "Smith",
+    "dob" -> "1980-12-01",
+    "nino" -> "XX 12 34 56 D",
+    "nat" -> "GB, IE",
+    "oadr" -> "none",
+    "regproperty" -> "The (fake) Manor House",
+    "regstreet" -> "123 Fake Street",
+    "reglocality" -> "North Fake",
+    "regtown" -> "Fakerton",
+    "regarea" -> "Fakesbury",
+    "reguprn" -> "12345",
+    "regpostcode" -> "XX123 4XX",
+    "pproperty" -> "The (fake) Cottage",
+    "pstreet" -> "321 Fake Street",
+    "plocality" -> "South Fake",
+    "ptown" -> "Fakererly",
+    "parea" -> "Fakesborough",
+    "puprn" -> "54321",
+    "ppostcode" -> "XX342 1XX",
+    "pvote" -> "false",
+    "opnreg" -> "false",
+    "post" -> "true",
+    "email" -> "test@email.com",
+    "phone" -> "01234 5678910",
+    "refNum" -> "12345678910",
+    "ip" -> "256.256.256.256",
+    "gssCode" -> "E09000007",
+    "pgssCode" -> "E09000032",
+    "timeTaken" -> "1234",
+    "lang" -> "en",
+    "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
+  )
 
   private def createOrdinaryApplication =
     OrdinaryApplication(
@@ -278,11 +371,8 @@ class OrdinaryApplicationTests
       )),
       openRegisterOptin = Some(false),
       postalVote = Some(PostalVote(
-        postalVoteOption = Some(true),
-        deliveryMethod = Some(PostalVoteDeliveryMethod(
-          deliveryMethod = Some("email"),
-          emailAddress = Some("postal@vote.com")
-        ))
+        postalVoteOption = Some(PostalVoteOption.NoAndVoteInPerson),
+        deliveryMethod = None
       )),
       contact = Some(Contact(
         post = true,

@@ -29,9 +29,14 @@ class PostalVoteTemplateTest
           name = "postCheckboxYesName",
           attributes = "foo=\"foo\""
         ),
-        postCheckboxNo = Field(
-          id = "postCheckboxNoId",
-          name = "postCheckboxNoName",
+        postCheckboxNoAndVoteInPerson = Field(
+          id = "postCheckboxNoAndVoteInPersonId",
+          name = "postCheckboxNoAndVoteInPersonName",
+          attributes = ""
+        ),
+        postCheckboxNoAndAlreadyHave = Field(
+          id = "postCheckboxNoAndAlreadyHaveId",
+          name = "postCheckboxNoAndAlreadyHaveName",
           attributes = ""
         ),
         deliveryByEmail = Field(
@@ -62,9 +67,13 @@ class PostalVoteTemplateTest
       postCheckboxYesInput.attr("name") should be("postCheckboxYesName")
       postCheckboxYesInput.attr("foo") should include("foo")
 
-      val postCheckboxNoInput = doc.select("input[id=postCheckboxNoId]").first()
-      postCheckboxNoInput.attr("id") should be("postCheckboxNoId")
-      postCheckboxNoInput.attr("name") should be("postCheckboxNoName")
+      val postCheckboxNoAndVoteInPersonInput = doc.select("input[id=postCheckboxNoAndVoteInPersonId]").first()
+      postCheckboxNoAndVoteInPersonInput.attr("id") should be("postCheckboxNoAndVoteInPersonId")
+      postCheckboxNoAndVoteInPersonInput.attr("name") should be("postCheckboxNoAndVoteInPersonName")
+
+      val postCheckboxNoAndAlreadyHaveInput = doc.select("input[id=postCheckboxNoAndAlreadyHaveId]").first()
+      postCheckboxNoAndAlreadyHaveInput.attr("id") should be("postCheckboxNoAndAlreadyHaveId")
+      postCheckboxNoAndAlreadyHaveInput.attr("name") should be("postCheckboxNoAndAlreadyHaveName")
 
       val deliveryByEmailInput = doc.select("input[id=deliveryByEmailId]").first()
       deliveryByEmailInput.attr("id") should be("deliveryByEmailId")

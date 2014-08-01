@@ -5,7 +5,7 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{PostalVoteDeliveryMethod, PostalVote}
+import uk.gov.gds.ier.model.{PostalVoteOption, PostalVoteDeliveryMethod, PostalVote}
 
 class PostalVoteFormTests
   extends FlatSpec
@@ -28,7 +28,13 @@ class PostalVoteFormTests
     postalVoteForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
-        success.postalVote should be(Some(PostalVote(Some(true),Some(PostalVoteDeliveryMethod(Some("post"),None)))))
+        success.postalVote should be(Some(PostalVote(
+          postalVoteOption = Some(PostalVoteOption.Yes),
+          deliveryMethod = Some(PostalVoteDeliveryMethod(
+            deliveryMethod = Some("post"),
+            emailAddress = None
+          ))
+        )))
       }
     )
   }
@@ -44,7 +50,13 @@ class PostalVoteFormTests
     postalVoteForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
-        success.postalVote should be(Some(PostalVote(Some(true),Some(PostalVoteDeliveryMethod(Some("email"),Some("test@mail.com"))))))
+        success.postalVote should be(Some(PostalVote(
+          postalVoteOption = Some(PostalVoteOption.Yes),
+          deliveryMethod = Some(PostalVoteDeliveryMethod(
+            deliveryMethod = Some("email"),
+            emailAddress = Some("test@mail.com")
+          ))
+        )))
       }
     )
   }
@@ -60,7 +72,13 @@ class PostalVoteFormTests
     postalVoteForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
-        success.postalVote should be(Some(PostalVote(Some(true),Some(PostalVoteDeliveryMethod(Some("email"),Some("o'fake._%+'-@fake._%+'-.co.uk"))))))
+        success.postalVote should be(Some(PostalVote(
+          postalVoteOption = Some(PostalVoteOption.Yes),
+          deliveryMethod = Some(PostalVoteDeliveryMethod(
+            deliveryMethod = Some("email"),
+            emailAddress = Some("o'fake._%+'-@fake._%+'-.co.uk")
+          ))
+        )))
       }
     )
   }
@@ -92,7 +110,9 @@ class PostalVoteFormTests
     postalVoteForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
-        success.postalVote should be(Some(PostalVote(Some(false),None)))
+        success.postalVote should be(Some(PostalVote(
+          postalVoteOption = Some(PostalVoteOption.NoAndVoteInPerson),
+          deliveryMethod = None)))
       }
     )
   }
