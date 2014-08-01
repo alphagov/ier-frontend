@@ -123,4 +123,14 @@ class AddressMustacheTest
     addressModel.question.errorMessages.mkString(", ") should be("" +
       "Please enter your country")
   }
+
+  behavior of "AddressMustache.countrySelectOptions"
+
+  it should "not include the UK" in {
+    countrySelectOptions("").map(_.text) should not contain("United Kingdom")
+  }
+
+  it should "include São Tomé and Principe" in {
+    countrySelectOptions("").map(_.text) should contain("São Tomé and Principe")
+  }
 }
