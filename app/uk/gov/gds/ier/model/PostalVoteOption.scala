@@ -9,12 +9,15 @@ object PostalVoteOption extends ModelMapping {
   val NoAndVoteInPerson = PostalVoteOption(false, "no-vote-in-person")
   val NoAndAlreadyHave = PostalVoteOption(false, "no-already-have")
 
+  val Unknown = PostalVoteOption(false, "unknown")
+
   def isValid(str:String):Boolean = {
     str match {
       case
         Yes.`name` |
         NoAndVoteInPerson.`name`|
-        NoAndAlreadyHave.`name` => true
+        NoAndAlreadyHave.`name` |
+        Unknown.`name` => true
       case _ => false
     }
   }
@@ -24,6 +27,7 @@ object PostalVoteOption extends ModelMapping {
       case Yes.`name` => Yes
       case NoAndVoteInPerson.`name` => NoAndVoteInPerson
       case NoAndAlreadyHave.`name` => NoAndAlreadyHave
+      case _ => Unknown
     }
   }
 

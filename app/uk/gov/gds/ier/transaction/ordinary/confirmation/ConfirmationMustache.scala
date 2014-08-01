@@ -280,6 +280,8 @@ trait ConfirmationMustache
               List(Messages("ordinary_confirmation_postalVote_mailDelivery"))
             }
 
+
+
           if(form(keys.postalVote.optIn).value == Some("true")){
             deliveryMethod
           }
