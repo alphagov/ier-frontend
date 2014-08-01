@@ -97,7 +97,7 @@ trait NationalityConstraints extends FormKeys with ErrorMessages {
   ) { application =>
     val otherCountry = application.nationality.flatMap(_.otherCountries.lift(i))
     val otherCountryValid = otherCountry.exists { country =>
-      NationalityConstants.countryNameToCodes.contains(country.toLowerCase)
+      NationalityConstants.countriesExceptUK.contains(country.toLowerCase)
     }
 
     (otherCountry, otherCountryValid) match {

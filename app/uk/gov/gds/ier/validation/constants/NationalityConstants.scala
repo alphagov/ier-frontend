@@ -32,7 +32,7 @@ object NationalityConstants {
   }
 
   case class ISOCountry(isoCode:String, displayName: String, franchise: Franchise*)
-  
+
   lazy val countryNameToCodes = HashMap(
     "afghanistan" -> ISOCountry("AF", displayName = "Afghanistan"),
     "albania" -> ISOCountry("AL", displayName = "Albania"),
@@ -260,4 +260,8 @@ object NationalityConstants {
     "zambia" -> ISOCountry("ZM", displayName = "Zambia", Franchise.commonwealth),
     "zimbabwe" -> ISOCountry("ZW", displayName = "Zimbabwe", Franchise.commonwealth)
   )
+
+  lazy val countriesExceptUK = countryNameToCodes.filterNot {
+    case (name, iso) => iso.isoCode == "GB"
+  }
 }

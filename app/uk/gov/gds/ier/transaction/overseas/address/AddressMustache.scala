@@ -40,12 +40,15 @@ trait AddressMustache extends StepTemplate[InprogressOverseas] {
     )
   }
 
-  def countrySelectOptions(selectedCountry: String) = (NationalityConstants.countryNameToCodes map (
-    isoCountry => {
-      val isSelected = if (selectedCountry.equals(isoCountry._2.displayName)) "selected" else ""
-      SelectOption(isoCountry._2.displayName, isoCountry._2.displayName, isSelected)
+  def countrySelectOptions(selectedCountry: String) = {
+    import NationalityConstants._
+
+    val selectOptions = countriesExceptUK.toList.map {
+      case (`selectedCountry`, iso) => SelectOption(selectedCountry, iso.displayName, "selected")
+      case (name, iso) => SelectOption(name, iso.displayName, "")
     }
-  )).toList.sortWith((x, y) => x.text.compareTo(y.text) < 0)
 
-
+    val sortedOptions = selectOptions.sortWith((x, y) => x.text.compareTo(y.text) < 0)
+    sortedOptions
+  }
 }
