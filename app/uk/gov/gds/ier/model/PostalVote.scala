@@ -18,9 +18,11 @@ object PostalVote extends ModelMapping {
   )
 }
 case class PostalVoteDeliveryMethod(
-    deliveryMethod: Option[String],
-    emailAddress: Option[String]
-)
+  deliveryMethod: Option[String],
+  emailAddress: Option[String]) {
+
+  def isEmail = deliveryMethod.exists(_ == "email")
+}
 
 object PostalVoteDeliveryMethod extends ModelMapping {
   import playMappings._
