@@ -61,7 +61,8 @@ class ForcesApplicationTests
       "gssCode" -> "E09000007",
       "pgssCode" -> "E09000339",
       "timeTaken" -> "1234",
-      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
+      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a",
+      "ukAddr" -> "resident"
     )
 
     apiMap should matchMap(expected)
@@ -126,7 +127,8 @@ class ForcesApplicationTests
       "gssCode" -> "E09000007",
       "pgssCode" -> "E09000339",
       "timeTaken" -> "1234",
-      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
+      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a",
+      "ukAddr" -> "resident"
     )
 
     application.toApiMap should matchMap(expected)
@@ -224,6 +226,7 @@ class ForcesApplicationTests
       referenceNumber = Some("12345678910"),
       ip = Some("256.256.256.256"),
       timeTaken = "1234",
-      sessionId = "860da84c-74df-45b0-8ff8-d2d16ef8367a"
+      sessionId = "860da84c-74df-45b0-8ff8-d2d16ef8367a",
+      ukAddr = Some("resident")
     )
 }

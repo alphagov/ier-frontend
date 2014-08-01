@@ -31,7 +31,8 @@ case class ForcesApplication(
     referenceNumber: Option[String],
     ip: Option[String],
     timeTaken: String,
-    sessionId: String
+    sessionId: String,
+    ukAddr: Option[String]
 ) extends CompleteApplication {
 
   def toApiMap = {
@@ -54,6 +55,7 @@ case class ForcesApplication(
       referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
       address.flatMap(_.gssCode.map(gssCode => Map("gssCode" -> gssCode))).getOrElse(Map.empty) ++
       previousAddress.flatMap(_.gssCode.map(gssCode => Map("pgssCode" -> gssCode))).getOrElse(Map.empty) ++
+      ukAddr.map(ukAddress => Map("ukAddr" -> ukAddress)).getOrElse(Map.empty) ++
       ip.map(ipAddress => Map("ip" -> ipAddress)).getOrElse(Map.empty) ++ Map(
         "applicationType" -> "forces",
         "timeTaken" -> timeTaken,

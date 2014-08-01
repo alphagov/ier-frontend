@@ -189,6 +189,63 @@ class IerApiServiceTests
     ))
   }
 
+  it should "have ukAddr:resident when hasAddress:YesAndLivingThere" in {
+    val application = completeForcesApplication.copy(
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndLivingThere),
+        address = Some(PartialAddress(
+          Some("123 Fake Street, Fakerton"),
+          Some("123456789"), "WR26NJ", None
+        ))
+      ))
+    )
+
+    fakeServiceCall(
+      requestJson => {
+        requestJson should include("ukAddr\":\"resident\"")
+        successMessage
+      }
+    ).submitForcesApplication(None, application, None, None, None)
+  }
+
+  it should "have ukAddr:not-resident when hasAddress:YesAndNotLivingThere" in {
+    val application = completeForcesApplication.copy(
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndNotLivingThere),
+        address = Some(PartialAddress(
+          Some("123 Fake Street, Fakerton"),
+          Some("123456789"), "WR26NJ", None
+        ))
+      ))
+    )
+
+    fakeServiceCall(
+      requestJson => {
+        requestJson should include("ukAddr\":\"not-resident\"")
+        successMessage
+      }
+    ).submitForcesApplication(None, application, None, None, None)
+  }
+
+  it should "have ukAddr:no-connection when hasAddress:No" in {
+    val application = completeForcesApplication.copy(
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.No),
+        address = Some(PartialAddress(
+          Some("123 Fake Street, Fakerton"),
+          Some("123456789"), "WR26NJ", None
+        ))
+      ))
+    )
+
+    fakeServiceCall(
+      requestJson => {
+        requestJson should include("ukAddr\":\"no-connection\"")
+        successMessage
+      }
+    ).submitForcesApplication(None, application, None, None, None)
+  }
+
   "submitCrownApplication address hack" should
     "should cause nat being resetted and explanation with nationality inserted as nonat" in {
     val application = completeCrownApplication.copy(
@@ -269,6 +326,7 @@ class IerApiServiceTests
     fakeServiceCall(
       requestJson => {
         requestJson should include("applicationType\":\"forces\"")
+        requestJson should include("ukAddr\":\"no-connection\"")
         requestJson should not include("\"nat\"")
         requestJson should include("\"nonat\":\"Nationality is British, Irish and Czech. " +
           "This person has no UK address so needs to be set as an 'other' elector: IER-DS.\"")
@@ -312,17 +370,17 @@ class IerApiServiceTests
 
     val json = """
       {
-	    "gssCode": "E09000030",
-	    "contactDetails": {
-	        "addressLine1": "address_line_1",
-	        "postcode": "a11aa",
-	        "emailAddress": "email@address.com",
-	        "phoneNumber": "0123456789",
-	        "name": "Tower Hamlets"
-	    },
-	    "eroIdentifier": "tower-hamlets",
-	    "eroDescription": "Tower Hamlets"
-    }
+        "gssCode": "E09000030",
+        "contactDetails": {
+          "addressLine1": "address_line_1",
+          "postcode": "a11aa",
+          "emailAddress": "email@address.com",
+          "phoneNumber": "0123456789",
+          "name": "Tower Hamlets"
+        },
+        "eroIdentifier": "tower-hamlets",
+        "eroDescription": "Tower Hamlets"
+      }
     """
     val mockApiClient = mock[IerApiClient]
     val mockConfig = mock[Config]

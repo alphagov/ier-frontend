@@ -2,6 +2,7 @@ package uk.gov.gds.ier.service.apiservice
 
 import com.google.inject.Inject
 import uk.gov.gds.ier.client.{StatsdClient, IerApiClient}
+import uk.gov.gds.ier.model.HasAddressOption._
 import uk.gov.gds.ier.model.{
   LastRegisteredToVote,
   LastRegisteredType,
@@ -171,9 +172,18 @@ class ConcreteIerApiService @Inject() (
       isoCountryService.transformToIsoCode(nationality)
     }
 
-    val fullCurrentAddress =
-      (for (lastUkAddress <- applicant.address)
-      yield addressService.formFullAddress(lastUkAddress.address)) flatten
+    val fullCurrentAddress = applicant.address flatMap { lastUkAddress =>
+      addressService.formFullAddress(lastUkAddress.address)
+    }
+
+    val residentType = applicant.address flatMap { lastUkAddress =>
+      lastUkAddress.hasAddress.flatMap {
+        case `YesAndLivingThere` => Some("resident")
+        case `YesAndNotLivingThere` => Some("not-resident")
+        case `No` => Some("no-connection")
+        case _ => None
+      }
+    }
 
     val fullPreviousAddress = applicant.previousAddress flatMap { prevAddress =>
       addressService.formFullAddress(prevAddress.previousAddress)
@@ -197,7 +207,8 @@ class ConcreteIerApiService @Inject() (
       referenceNumber = referenceNumber,
       ip = ipAddress,
       timeTaken = timeTaken.getOrElse("-1"),
-      sessionId = sessionId.getOrElse("")
+      sessionId = sessionId.getOrElse(""),
+      ukAddr = residentType
     ).hackNoUkAddressToNonat(applicant.nationality, applicant.address)
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
