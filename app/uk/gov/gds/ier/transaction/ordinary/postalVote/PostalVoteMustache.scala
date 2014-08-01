@@ -10,6 +10,7 @@ trait PostalVoteMustache extends StepTemplate[InprogressOrdinary] {
     question: Question,
     postCheckboxYes: Field,
     postCheckboxNoAndVoteInPerson: Field,
+    postCheckboxNoAndAlreadyHave: Field,
     deliveryByEmail: Field,
     deliveryByPost: Field,
     emailField: Field,
@@ -39,6 +40,9 @@ trait PostalVoteMustache extends StepTemplate[InprogressOrdinary] {
       postCheckboxNoAndVoteInPerson = RadioField(
         key = keys.postalVote.optIn,
         value = PostalVoteOption.NoAndVoteInPerson.name),
+      postCheckboxNoAndAlreadyHave = RadioField(
+        key = keys.postalVote.optIn,
+        value = PostalVoteOption.NoAndAlreadyHave.name),
 
       deliveryByEmail = RadioField(
         key = keys.postalVote.deliveryMethod.methodName,

@@ -339,11 +339,13 @@ ordinary_postalVote_title=Ydych chi am wneud cais am bleidlais drwy’r post?
 ordinary_postalVote_optionsQuestion=Mae’r rhan fwyaf o bobl yn pleidleisio’n bersonol mewn gorsaf bleidleisio. Ond os yw’n well \
 gennych bleidleisio drwy’r post, gallwn anfon ffurflen gais atoch.
 ordinary_postalVote_voteInPerson_option=Nac ydw, mae’n well gennyf bleidleisio’n bersonol
-ordinary_postalVote_postalVote_option=Ydw, rwyf am gael pleidlais drwy’r post
+ordinary_postalVote_voteAlreadyHave_option=Na, does dim angen ffurflen gais pleidlais bost arnaf
+ordinary_postalVote_voteAlreadyHave_help=Os ydych chi wedi newid cyfeiriad, bydd angen i chi wneud cais am bleidlais bost newydd
+ordinary_postalVote_postalVote_option=Oes anfonwch ffurflen gais pleidlais bost arnaf
 
 ordinary_postalVote_postalVote_heading=Os ydych am gael ffurflen gais am bleidlais bost
-ordinary_postalVote_postalVote_deliveryOptionsQuestion=Bydd angen i chi lofnodi a dychwelyd ffurflen gais am bleidlais drwy’r \
-post. Sut dylem anfon y ffurflen atoch chi?
+ordinary_postalVote_postalVote_deliveryOptionsQuestion=Bydd angen i chi lofnodi a dychwelyd y ffurflen gais pleidlais bost. Sut ddylen ni \
+anfon y ffurflen atoch?
 ordinary_postalVote_postalVote_deliveryEmail_option=Drwy e-bost
 ordinary_postalVote_postalVote_emailAddress_label=Cyfeiriad e-bost
 ordinary_postalVote_postalVote_deliveryPost_option=Drwy’r post
