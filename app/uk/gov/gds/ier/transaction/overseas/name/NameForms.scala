@@ -122,12 +122,10 @@ trait NameConstraints extends NameCommonConstraints with FormKeys {
     keys.previousName.reason.key
   ) {
     _.previousName match {
-      case None => Valid
-      case Some(PreviousName(false, _, _)) => Valid
-      case Some(PreviousName(true, _, Some(reason))) if reason.nonEmpty => Valid
-      case _ => Invalid(
+      case Some(PreviousName(true, _, reason))  if reason.isEmpty || reason.exists(_.isEmpty) => Invalid(
         "Please provide a reason for changing the name",
         keys.previousName.reason)
+      case _ => Valid
     }
   }
 

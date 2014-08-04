@@ -190,7 +190,7 @@ class OverseasNameFormTests
     )
   }
 
-  it should "error out on missing change reason for previous name" in {
+  it should "error out on missing reason for previous name change" in {
     val js = Json.toJson(
       Map(
         "name.firstName" -> "John",
@@ -198,6 +198,30 @@ class OverseasNameFormTests
         "previousName.hasPreviousName" -> "true",
         "previousName.previousName.firstName" -> "Johnny",
         "previousName.previousName.lastName" -> "Joneso"
+      )
+    )
+    nameForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.globalErrorMessages should be(Seq(
+          "Please provide a reason for changing the name"
+        ))
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousName.reason" -> Seq("Please provide a reason for changing the name")
+        ))
+      },
+      success => fail("Should have errored out")
+    )
+  }
+
+  it should "error out on empty reason for previous name change" in {
+    val js = Json.toJson(
+      Map(
+        "name.firstName" -> "John",
+        "name.lastName" -> "Jones",
+        "previousName.hasPreviousName" -> "true",
+        "previousName.previousName.firstName" -> "Johnny",
+        "previousName.previousName.lastName" -> "Joneso",
+        "previousName.reason" -> ""
       )
     )
     nameForm.bind(js).fold(
