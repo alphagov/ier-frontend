@@ -5,7 +5,10 @@ case class PreviousName(hasPreviousName: Boolean,
                         reason: Option[String] = None) {
   def toApiMap(prefix:String = "p"):Map[String,String] = {
     val previousNameMap =
-      if(hasPreviousName) previousName.map(pn => pn.toApiMap(prefix + "fn", prefix + "mn", prefix + "ln"))
+      if(hasPreviousName) previousName.map(pn =>
+        pn.toApiMap(prefix + "fn", prefix + "mn", prefix + "ln") ++
+        reason.map(reason => Map("nameChangeReason" -> reason)).getOrElse(Map.empty)
+      )
       else None
 
     previousNameMap.getOrElse(Map.empty)
