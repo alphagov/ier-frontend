@@ -5,7 +5,7 @@ import play.api.mvc.Request
 import org.joda.time.DateTime
 
 trait SessionLogging extends Logging {
-  self: ConfirmationSessionHandling[_] =>
+  self: SessionHandling[_] =>
 
   def logSession()(implicit request: Request[Any]) {
     val url = request.path
