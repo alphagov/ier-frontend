@@ -21,7 +21,7 @@ class PostalVoteFormTests
   it should "bind successfully on postal vote true and delivery method post" in {
     val js = Json.toJson(
       Map(
-        "postalVote.optIn" -> "true",
+        "postalVote.optIn" -> "yes",
         "postalVote.deliveryMethod.methodName" -> "post"
       )
     )
@@ -42,7 +42,7 @@ class PostalVoteFormTests
   it should "bind successfully on postal vote true and delivery method email (including email)" in {
     val js = Json.toJson(
       Map(
-        "postalVote.optIn" -> "true",
+        "postalVote.optIn" -> "yes",
         "postalVote.deliveryMethod.methodName" -> "email",
         "postalVote.deliveryMethod.emailAddress" -> "test@mail.com"
       )
@@ -64,7 +64,7 @@ class PostalVoteFormTests
   it should "bind successfully on postal vote true and delivery method email (including email with special characters)" in {
     val js = Json.toJson(
       Map(
-        "postalVote.optIn" -> "true",
+        "postalVote.optIn" -> "yes",
         "postalVote.deliveryMethod.methodName" -> "email",
         "postalVote.deliveryMethod.emailAddress" -> "o'fake._%+'-@fake._%+'-.co.uk"
       )
@@ -86,7 +86,7 @@ class PostalVoteFormTests
   it should "error out on postal vote true and delivery method email with invalid email" in {
     val js = Json.toJson(
       Map(
-        "postalVote.optIn" -> "true",
+        "postalVote.optIn" -> "yes",
         "postalVote.deliveryMethod.methodName" -> "email",
         "postalVote.deliveryMethod.emailAddress" -> "emailAddress"
       )
@@ -101,10 +101,10 @@ class PostalVoteFormTests
     )
   }
 
-  it should "bind successfully on postal vote false" in {
+  it should "bind successfully on postal vote no and in person" in {
     val js = Json.toJson(
       Map(
-        "postalVote.optIn" -> "false"
+        "postalVote.optIn" -> "no-vote-in-person"
       )
     )
     postalVoteForm.bind(js).fold(
@@ -112,6 +112,22 @@ class PostalVoteFormTests
       success => {
         success.postalVote should be(Some(PostalVote(
           postalVoteOption = Some(PostalVoteOption.NoAndVoteInPerson),
+          deliveryMethod = None)))
+      }
+    )
+  }
+
+  it should "bind successfully on postal vote no and already have one" in {
+    val js = Json.toJson(
+      Map(
+        "postalVote.optIn" -> "no-already-have"
+      )
+    )
+    postalVoteForm.bind(js).fold(
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
+      success => {
+        success.postalVote should be(Some(PostalVote(
+          postalVoteOption = Some(PostalVoteOption.NoAndAlreadyHave),
           deliveryMethod = None)))
       }
     )
@@ -146,10 +162,10 @@ class PostalVoteFormTests
     )
   }
 
-  it should "error out on empty method delivery when postalVote.optIn is true" in {
+  it should "error out on empty method delivery when postalVote.optIn is yes" in {
     val js = Json.toJson(
       Map(
-        "postalVote.optIn" -> "true"
+        "postalVote.optIn" -> "yes"
       )
     )
     postalVoteForm.bind(js).fold(
@@ -167,7 +183,7 @@ class PostalVoteFormTests
   it should "error out on postalVote.optIn true, method delivery email and empty email address" in {
     val js = Json.toJson(
       Map(
-        "postalVote.optIn" -> "true",
+        "postalVote.optIn" -> "yes",
         "postalVote.deliveryMethod.methodName" -> "email"
       )
     )
@@ -186,7 +202,7 @@ class PostalVoteFormTests
   it should "ignore a malformed email if other deliveryMethod is chosen" in {
     val js = Json.toJson(
       Map(
-        "postalVote.optIn" -> "true",
+        "postalVote.optIn" -> "yes",
         "postalVote.deliveryMethod.methodName" -> "post",
         "postalVote.deliveryMethod.emailAddress" -> "malformedEmail"
       )
@@ -196,7 +212,7 @@ class PostalVoteFormTests
       success => {
         val Some(postalVote) = success.postalVote
 
-        postalVote.postalVoteOption should be(Some(true))
+        postalVote.postalVoteOption should be(Some(PostalVoteOption.Yes))
         val Some(deliveryMethod) = postalVote.deliveryMethod
         deliveryMethod should have(
           'deliveryMethod (Some("post")),
@@ -206,20 +222,39 @@ class PostalVoteFormTests
     )
   }
 
-  it should "ignore email/post option if optIn is false" in {
+  it should "ignore email/post option if optIn is no and in person" in {
     val js = Json.toJson(
       Map(
-        "postalVote.optIn" -> "false",
+        "postalVote.optIn" -> "no-vote-in-person",
         "postalVote.deliveryMethod.methodName" -> "post",
         "postalVote.deliveryMethod.emailAddress" -> "malformedEmail"
       )
     )
     postalVoteForm.bind(js).fold(
-      hasErrors => fail(hasErrors.prettyPrint.mkString(", ")),
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         val Some(postalVote) = success.postalVote
 
-        postalVote.postalVoteOption should be(Some(false))
+        postalVote.postalVoteOption should be(Some(PostalVoteOption.NoAndVoteInPerson))
+        postalVote.deliveryMethod should be(None)
+      }
+    )
+  }
+
+  it should "ignore email/post option if optIn is no and already have one" in {
+    val js = Json.toJson(
+      Map(
+        "postalVote.optIn" -> "no-already-have",
+        "postalVote.deliveryMethod.methodName" -> "post",
+        "postalVote.deliveryMethod.emailAddress" -> "malformedEmail"
+      )
+    )
+    postalVoteForm.bind(js).fold(
+      hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
+      success => {
+        val Some(postalVote) = success.postalVote
+
+        postalVote.postalVoteOption should be(Some(PostalVoteOption.NoAndAlreadyHave))
         postalVote.deliveryMethod should be(None)
       }
     )

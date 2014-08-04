@@ -12,7 +12,13 @@ object PostalVote extends ModelMapping {
     keys.optIn.key -> optional(PostalVoteOption.mapping),
     keys.deliveryMethod.key -> optional(PostalVoteDeliveryMethod.mapping)
   ) (
-    PostalVote.apply
+    (optIn, delivery) => PostalVote(
+      postalVoteOption = optIn,
+      deliveryMethod = optIn match {
+        case Some(PostalVoteOption.Yes) => delivery
+        case _ => None
+      }
+    )
   ) (
     PostalVote.unapply
   )

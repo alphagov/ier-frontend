@@ -32,19 +32,25 @@ class PostalVoteControllerTests
   }
 
   behavior of "PostalVoteController.post"
-  it should "bind successfully and redirect to the Open Register step" in {
-    running(FakeApplication()) {
-      val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/postal-vote")
-          .withIerSession()
-          .withFormUrlEncodedBody(
-            "postalVote.optIn" -> "true",
-            "postalVote.deliveryMethod.methodName" -> "post"
-          )
-      )
+  it should behave like appWithPostalVote("yes")
+  it should behave like appWithPostalVote("no-vote-in-person")
+  it should behave like appWithPostalVote("no-already-have")
 
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/contact"))
+  def appWithPostalVote(postalVoteOption: String) {
+    it should s"bind successfully and redirect to the Contact step for vote option: $postalVoteOption" in {
+      running(FakeApplication()) {
+        val Some(result) = route(
+          FakeRequest(POST, "/register-to-vote/postal-vote")
+            .withIerSession()
+            .withFormUrlEncodedBody(
+              "postalVote.optIn" -> postalVoteOption,
+              "postalVote.deliveryMethod.methodName" -> "post"
+            )
+        )
+
+        status(result) should be(SEE_OTHER)
+        redirectLocation(result) should be(Some("/register-to-vote/contact"))
+      }
     }
   }
 
@@ -55,7 +61,7 @@ class PostalVoteControllerTests
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "postalVote.optIn" -> "true",
+            "postalVote.optIn" -> "yes",
             "postalVote.deliveryMethod.methodName" -> "post"
           )
       )
@@ -111,49 +117,26 @@ class PostalVoteControllerTests
   }
 
   behavior of "PostalVoteController.editPost"
-  it should "bind successfully and redirect to the Open Register step" in {
-    running(FakeApplication()) {
-      val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/postal-vote")
-          .withIerSession()
-          .withFormUrlEncodedBody(
-            "postalVote.optIn" -> "true",
-            "postalVote.deliveryMethod.methodName" -> "post"
-          )
-      )
+  it should behave like editedAppWithPostalVote("yes")
+  it should behave like editedAppWithPostalVote("no-vote-in-person")
+  it should behave like editedAppWithPostalVote("no-already-have")
 
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/contact"))
-    }
-  }
+  def editedAppWithPostalVote(postalVoteOption: String) {
+    it should s"bind successfully and redirect to the Confirmation step when complete application for vote option: $postalVoteOption" in {
+      running(FakeApplication()) {
+        val Some(result) = route(
+          FakeRequest(POST, "/register-to-vote/edit/postal-vote")
+            .withIerSession()
+            .withApplication(completeOrdinaryApplication)
+            .withFormUrlEncodedBody(
+              "postalVote.optIn" -> postalVoteOption,
+              "postalVote.deliveryMethod.methodName" -> "post"
+            )
+        )
 
-  it should "bind successfully and redirect to the confirmation step when complete application" in {
-    running(FakeApplication()) {
-      val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/postal-vote")
-          .withIerSession()
-          .withApplication(completeOrdinaryApplication)
-          .withFormUrlEncodedBody(
-            "postalVote.optIn" -> "true",
-            "postalVote.deliveryMethod.methodName" -> "post"
-          )
-      )
-
-      status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/confirmation"))
-    }
-  }
-  
-  it should "display any errors on unsuccessful bind" in {
-    running(FakeApplication()) {
-      val Some(result) = route(
-        FakeRequest(POST, "/register-to-vote/edit/postal-vote").withIerSession()
-      )
-
-      status(result) should be(OK)
-      contentAsString(result) should include("Do you want to apply for a postal vote?")
-      contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("/register-to-vote/edit/postal-vote")
+        status(result) should be(SEE_OTHER)
+        redirectLocation(result) should be(Some("/register-to-vote/confirmation"))
+      }
     }
   }
 }
