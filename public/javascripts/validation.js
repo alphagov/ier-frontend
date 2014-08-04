@@ -1144,7 +1144,7 @@
         'prevLastNameText' : message('ordinary_previousName_error_lastNameTooLong')
       },
       'nameChangeReason' : {
-        'nonEmpty' : 'Please provide a reason for changing the name'
+        'nonEmpty' : 'Please provide a reason for changing your name'
       },
       'dateOfBirthDate' : {
         'allNonEmpty' : message('ordinary_dob_error_enterDateOfBirth')

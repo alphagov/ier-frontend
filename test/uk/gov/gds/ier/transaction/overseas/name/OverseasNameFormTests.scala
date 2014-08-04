@@ -52,7 +52,7 @@ class OverseasNameFormTests
           "name.lastName" -> Seq("Please enter your last name"),
           "previousName.previousName.firstName" -> Seq("Please enter your previous first name"),
           "previousName.previousName.lastName" -> Seq("Please enter your previous last name"),
-          "previousName.reason" -> Seq("Please provide a reason for changing the name")
+          "previousName.reason" -> Seq("Please provide a reason for changing your name")
         ))
       },
       success => fail("Should have errored out")
@@ -79,7 +79,7 @@ class OverseasNameFormTests
           "name.lastName" -> Seq("Please enter your last name"),
           "previousName.previousName.firstName" -> Seq("Please enter your previous first name"),
           "previousName.previousName.lastName" -> Seq("Please enter your previous last name"),
-          "previousName.reason" -> Seq("Please provide a reason for changing the name")
+          "previousName.reason" -> Seq("Please provide a reason for changing your name")
         ))
       },
       success => fail("Should have errored out")
@@ -97,7 +97,7 @@ class OverseasNameFormTests
         hasErrors.globalErrorMessages should be(Seq(
           "Please enter your full name",
           "Please enter your full previous name",
-          "Please provide a reason for changing the name"
+          "Please provide a reason for changing your name"
         ))
         hasErrors.keyedErrorsAsMap should matchMap(Map(
           "name.firstName" -> Seq("Please enter your full name"),
@@ -105,7 +105,7 @@ class OverseasNameFormTests
           "previousName.previousName" -> Seq("Please enter your full previous name"),
           "previousName.previousName.firstName" -> Seq("Please enter your full previous name"),
           "previousName.previousName.lastName" -> Seq("Please enter your full previous name"),
-          "previousName.reason" -> Seq("Please provide a reason for changing the name")
+          "previousName.reason" -> Seq("Please provide a reason for changing your name")
         ))
       },
       success => fail("Should have errored out")
@@ -154,14 +154,14 @@ class OverseasNameFormTests
           "Please enter your last name",
           "Please enter your previous first name",
           "Please enter your previous last name",
-          "Please provide a reason for changing the name"
+          "Please provide a reason for changing your name"
         ))
         hasErrors.keyedErrorsAsMap should matchMap(Map(
           "name.firstName" -> Seq("Please enter your first name"),
           "name.lastName" -> Seq("Please enter your last name"),
           "previousName.previousName.firstName" -> Seq("Please enter your previous first name"),
           "previousName.previousName.lastName" -> Seq("Please enter your previous last name"),
-          "previousName.reason" -> Seq("Please provide a reason for changing the name")
+          "previousName.reason" -> Seq("Please provide a reason for changing your name")
         ))
       },
       success => fail("Should have errored out")
@@ -203,10 +203,10 @@ class OverseasNameFormTests
     nameForm.bind(js).fold(
       hasErrors => {
         hasErrors.globalErrorMessages should be(Seq(
-          "Please provide a reason for changing the name"
+          "Please provide a reason for changing your name"
         ))
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousName.reason" -> Seq("Please provide a reason for changing the name")
+          "previousName.reason" -> Seq("Please provide a reason for changing your name")
         ))
       },
       success => fail("Should have errored out")
@@ -227,10 +227,10 @@ class OverseasNameFormTests
     nameForm.bind(js).fold(
       hasErrors => {
         hasErrors.globalErrorMessages should be(Seq(
-          "Please provide a reason for changing the name"
+          "Please provide a reason for changing your name"
         ))
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousName.reason" -> Seq("Please provide a reason for changing the name")
+          "previousName.reason" -> Seq("Please provide a reason for changing your name")
         ))
       },
       success => fail("Should have errored out")
