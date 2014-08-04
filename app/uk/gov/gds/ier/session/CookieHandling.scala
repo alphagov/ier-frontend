@@ -4,6 +4,7 @@ import play.api.mvc.{Cookie, DiscardingCookie}
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.step.InprogressApplication
+import uk.gov.gds.ier.transaction.complete.CompleteCookie
 
 trait CookieHandling extends SessionKeys {
   self: WithSerialiser
@@ -22,26 +23,30 @@ trait CookieHandling extends SessionKeys {
     )
   }
 
-  def customPayloadCookies[A <: AnyRef](
-      payload: A,
-      payloadCookieKey: String,
-      payloadCookieKeyIV: String,
-      domain: Option[String]
-    ) = {
-    val payloadString = serialiser.toJson(payload)
-    val (payloadHash, payloadIV) = encryptionService.encrypt(payloadString)
-    Seq(
-      secureCookie(payloadCookieKey, payloadHash, domain),
-      secureCookie(payloadCookieKeyIV, payloadIV, domain)
-    )
-  }
-
   def discardPayloadCookies(
     domain: Option[String]
   ) = Seq(
     discard(sessionPayloadKey, domain),
-    discard(confirmationCookieKey, domain),
     discard(sessionPayloadKeyIV, domain)
+  )
+
+  def completeCookies(
+    completePayload: CompleteCookie,
+    domain: Option[String]
+  ) = {
+    val payloadString = serialiser.toJson(completePayload)
+    val (payloadHash, payloadIV) = encryptionService.encrypt(payloadString)
+    Seq(
+      secureCookie(completeCookieKey, payloadHash, domain),
+      secureCookie(completeCookieKeyIV, payloadIV, domain)
+    )
+  }
+
+  def discardCompleteCookies(
+    domain: Option[String]
+  ) = Seq(
+    discard(completeCookieKey, domain),
+    discard(completeCookieKeyIV, domain)
   )
 
   def tokenCookies(

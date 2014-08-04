@@ -4,6 +4,7 @@ import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.step.InprogressApplication
 import play.api.mvc.{Result, Request}
+import uk.gov.gds.ier.transaction.complete.CompleteCookie
 
 trait ResultHandling extends CookieHandling {
   self: WithConfig
@@ -30,10 +31,19 @@ trait ResultHandling extends CookieHandling {
       result.withCookies(tokenCookies(token, domain):_*)
     }
 
+    def storeCompleteCookie(
+      token: CompleteCookie
+    ) (
+      implicit request: Request[_]
+    ) = {
+      val domain = getDomain(request)
+      result.withCookies(completeCookies(token, domain):_*)
+    }
+
     def emptySession()(implicit request: Request[_]) = {
       val domain = getDomain(request)
       result.discardingCookies(
-        discardPayloadCookies(domain) ++ discardTokenCookies(domain):_*
+        discardPayloadCookies(domain) ++ discardTokenCookies(domain) ++ discardCompleteCookies(domain):_*
       )
     }
 

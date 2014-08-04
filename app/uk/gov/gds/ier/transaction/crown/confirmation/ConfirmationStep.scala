@@ -14,8 +14,7 @@ import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.model.{WaysToVoteType, ApplicationType}
-import uk.gov.gds.ier.transaction.complete.ConfirmationCookie
-import uk.gov.gds.ier.transaction.ordinary.confirmation.ConfirmationCookieWriter
+import uk.gov.gds.ier.transaction.complete.CompleteCookie
 import uk.gov.gds.ier.session.ResultHandling
 
 class ConfirmationStep @Inject() (
@@ -28,7 +27,6 @@ class ConfirmationStep @Inject() (
   extends ConfirmationStepController[InprogressCrown]
   with ConfirmationForms
   with ConfirmationMustache
-  with ConfirmationCookieWriter
   with ResultHandling
   with WithRemoteAssets {
 
@@ -84,7 +82,7 @@ class ConfirmationStep @Inject() (
 
           val isBirthdayToday = validApplication.dob.exists(_.dob.exists(_.isToday))
 
-          val completeStepData = ConfirmationCookie(
+          val completeStepData = CompleteCookie(
             refNum = refNum,
             authority = Some(response.localAuthority),
             backToStartUrl = config.ordinaryStartUrl,
@@ -94,7 +92,7 @@ class ConfirmationStep @Inject() (
 
           Redirect(CompleteController.complete())
             .emptySession()
-            .addConfirmationCookieToSession(completeStepData)
+            .storeCompleteCookie(completeStepData)
         }
       )
   }

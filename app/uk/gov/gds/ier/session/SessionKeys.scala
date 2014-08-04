@@ -7,8 +7,8 @@ trait SessionKeys {
   val sessionPayloadKeyIV = "applicationIV"
   val sessionTokenKeyIV = "sessionKeyIV"
 
-  val confirmationCookieKey = "confirmation"
-  val confirmationCookieKeyIV = "confirmationIV"
+  val completeCookieKey = "confirmation"
+  val completeCookieKeyIV = "confirmationIV"
 }
 
 object SessionKeysConstants extends SessionKeys

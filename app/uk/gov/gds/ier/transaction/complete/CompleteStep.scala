@@ -27,7 +27,7 @@ class CompleteStep @Inject() (
 
   def complete = Action {
     implicit request =>
-      confirmationCookie(request) match {
+      request.getCompleteCookie match {
         case Some(confirmationData) => {
           Ok(Complete.CompletePage(
             confirmationData.authority,
@@ -41,12 +41,8 @@ class CompleteStep @Inject() (
         }
         case None => {
           logger.debug(s"Validate session - Request has no token, refreshing and redirecting to govuk start page")
-          Redirect(config.ordinaryStartUrl).withFreshSession()
+          Redirect(config.ordinaryStartUrl).emptySession()
         }
       }
-  }
-
-  private def confirmationCookie(request: Request[_]) = {
-    getPayload[ConfirmationCookie](request, confirmationCookieKey, confirmationCookieKeyIV)
   }
 }
