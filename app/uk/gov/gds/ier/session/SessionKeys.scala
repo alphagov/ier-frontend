@@ -10,5 +10,3 @@ trait SessionKeys {
   val completeCookieKey = "confirmation"
   val completeCookieKeyIV = "confirmationIV"
 }
-
-object SessionKeysConstants extends SessionKeys
