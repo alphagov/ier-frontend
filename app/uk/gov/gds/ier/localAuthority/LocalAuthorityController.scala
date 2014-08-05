@@ -14,17 +14,13 @@ import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
-import uk.gov.gds.ier.exception.PostcodeLookupFailedException
 import uk.gov.gds.ier.validation.FormKeys
 import uk.gov.gds.ier.logging.Logging
-import controllers.routes.LocalAuthorityController
-import uk.gov.gds.ier.model.{LocalAuthorityContactDetails, LocalAuthority}
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.guice.WithConfig
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.assets.RemoteAssets
-import uk.gov.gds.ier.langs.Messages
 import play.api.mvc.Request
 import play.api.mvc.AnyContent
 
@@ -49,18 +45,8 @@ class LocalAuthorityController @Inject() (
   with WithConfig {
 
   def ero(gssCode: String, sourcePath: Option[String]) = Action { request =>
-//    val localAuthorityContactDetails = ierApiService.getLocalAuthorityByGssCode(gssCode).contactDetails
-    val localAuthorityContactDetails = LocalAuthorityContactDetails(
-      name = Some("London Borough of Brent"),
-      url = Some("url_test"),
-      addressLine1 = Some("Civic Centre"),
-      addressLine2 = Some("Engineers Way"),
-      addressLine3 = Some("Wembley"),
-      addressLine4 = Some("line 4"),
-      postcode = Some("HA9 0FJ"),
-      emailAddress = Some("electoral.services@brent.gov.uk"),
-      phoneNumber = Some("020 8937 1372"))
-    Ok(LocalAuthorityShowPage(Some(localAuthorityContactDetails), sourcePath))
+    val localAuthorityContactDetails = ierApiService.getLocalAuthorityByGssCode(gssCode).contactDetails
+    Ok(LocalAuthorityShowPage(localAuthorityContactDetails, sourcePath))
   }
 
   def doLookup(sourcePath: Option[String]) = Action { implicit request =>
