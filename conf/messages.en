@@ -565,5 +565,5 @@ lookup_show_phone=Phone
 lookup_show_search_button=Search
 lookup_show_exit_button=Return to your application
 
-lookup_postcode_label=Postcode
+lookup_postcode_label=Your UK postcode
 lookup_error_noneFound=No Electoral Registration Office has been found. Please check your postcode.

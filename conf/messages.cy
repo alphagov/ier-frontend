@@ -582,5 +582,5 @@ lookup_show_phone=ffôn
 lookup_show_search_button=Chwilio
 lookup_show_exit_button=Dychwelyd i’ch cais
 
-lookup_postcode_label=Cod Post
+lookup_postcode_label=Eich cod post y DU
 lookup_error_noneFound=Dim Swyddfa Cofrestru Etholiadol wedi cael ei ddarganfod. Gwiriwch eich cod post.
