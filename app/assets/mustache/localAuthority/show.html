@@ -13,7 +13,10 @@
       <p>{{{visitAuthorityPage}}}</p>
     {{/visitAuthorityPage}}
 
-    <p id="authority_email">{{messages.lookup_show_email}}: {{localAuthorityContact.emailAddress}}</p>
+    <p id="authority_email">
+      {{messages.lookup_show_email}}:
+      <a href="mailto:{{localAuthorityContact.emailAddress}}">{{localAuthorityContact.emailAddress}}</a>
+    </p>
     <p id="authority_phone">{{messages.lookup_show_phone}}: {{localAuthorityContact.phoneNumber}}</p>
     <p id="authority_address">
       {{localAuthorityContact.name}}
