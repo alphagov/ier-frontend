@@ -228,12 +228,18 @@ class ConcreteIerApiService @Inject() (
       isoCountryService.transformToIsoCode(nationality)
     }
 
-    val lastUkAddress = applicant.address
-    val fullCurrentAddress = if (lastUkAddress.isDefined) {
-      addressService.formFullAddress(lastUkAddress.get.address)
+    val fullCurrentAddress = applicant.address flatMap { lastUkAddress =>
+      addressService.formFullAddress(lastUkAddress.address)
     }
-    else None
 
+    val residentType = applicant.address flatMap { lastUkAddress =>
+      lastUkAddress.hasAddress.flatMap {
+        case `YesAndLivingThere` => Some("resident")
+        case `YesAndNotLivingThere` => Some("not-resident")
+        case `No` => Some("no-connection")
+        case _ => None
+      }
+    }
 
     val fullPreviousAddress = applicant.previousAddress flatMap { prevAddress =>
       addressService.formFullAddress(prevAddress.previousAddress)
@@ -256,7 +262,8 @@ class ConcreteIerApiService @Inject() (
       referenceNumber = referenceNumber,
       ip = ipAddress,
       timeTaken = timeTaken.getOrElse("-1"),
-      sessionId = sessionId.getOrElse("")
+      sessionId = sessionId.getOrElse(""),
+      ukAddr = residentType
     ).hackNoUkAddressToNonat(applicant.nationality, applicant.address)
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)

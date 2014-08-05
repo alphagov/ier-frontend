@@ -160,6 +160,63 @@ class IerApiServiceTests
     ))
   }
 
+  it should "have ukAddr:resident when hasAddress:YesAndLivingThere" in {
+    val application = completeCrownApplication.copy(
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndLivingThere),
+        address = Some(PartialAddress(
+          Some("123 Fake Street, Fakerton"),
+          Some("123456789"), "WR26NJ", None
+        ))
+      ))
+    )
+
+    fakeServiceCall(
+      requestJson => {
+        requestJson should include("ukAddr\":\"resident\"")
+        successMessage
+      }
+    ).submitCrownApplication(None, application, None, None, None)
+  }
+
+  it should "have ukAddr:not-resident when hasAddress:YesAndNotLivingThere" in {
+    val application = completeCrownApplication.copy(
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.YesAndNotLivingThere),
+        address = Some(PartialAddress(
+          Some("123 Fake Street, Fakerton"),
+          Some("123456789"), "WR26NJ", None
+        ))
+      ))
+    )
+
+    fakeServiceCall(
+      requestJson => {
+        requestJson should include("ukAddr\":\"not-resident\"")
+        successMessage
+      }
+    ).submitCrownApplication(None, application, None, None, None)
+  }
+
+  it should "have ukAddr:no-connection when hasAddress:No" in {
+    val application = completeCrownApplication.copy(
+      address = Some(LastAddress(
+        hasAddress = Some(HasAddressOption.No),
+        address = Some(PartialAddress(
+          Some("123 Fake Street, Fakerton"),
+          Some("123456789"), "WR26NJ", None
+        ))
+      ))
+    )
+
+    fakeServiceCall(
+      requestJson => {
+        requestJson should include("ukAddr\":\"no-connection\"")
+        successMessage
+      }
+    ).submitCrownApplication(None, application, None, None, None)
+  }
+
   "submitForcesApplication" should
     "deserialize result correctly and return expected response" in {
     val application = completeForcesApplication
