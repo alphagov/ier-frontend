@@ -18,7 +18,7 @@ import uk.gov.gds.ier.exception.PostcodeLookupFailedException
 import uk.gov.gds.ier.validation.FormKeys
 import uk.gov.gds.ier.logging.Logging
 import controllers.routes.LocalAuthorityController
-import uk.gov.gds.ier.model.LocalAuthority
+import uk.gov.gds.ier.model.{LocalAuthorityContactDetails, LocalAuthority}
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.guice.WithConfig
@@ -49,8 +49,18 @@ class LocalAuthorityController @Inject() (
   with WithConfig {
 
   def ero(gssCode: String, sourcePath: Option[String]) = Action { request =>
-    val localAuthorityContactDetails = ierApiService.getLocalAuthorityByGssCode(gssCode).contactDetails
-    Ok(LocalAuthorityShowPage(localAuthorityContactDetails, sourcePath))
+//    val localAuthorityContactDetails = ierApiService.getLocalAuthorityByGssCode(gssCode).contactDetails
+    val localAuthorityContactDetails = LocalAuthorityContactDetails(
+      name = Some("London Borough of Brent"),
+      url = Some("url_test"),
+      addressLine1 = Some("Civic Centre"),
+      addressLine2 = Some("Engineers Way"),
+      addressLine3 = Some("Wembley"),
+      addressLine4 = Some("line 4"),
+      postcode = Some("HA9 0FJ"),
+      emailAddress = Some("electoral.services@brent.gov.uk"),
+      phoneNumber = Some("020 8937 1372"))
+    Ok(LocalAuthorityShowPage(Some(localAuthorityContactDetails), sourcePath))
   }
 
   def doLookup(sourcePath: Option[String]) = Action { implicit request =>

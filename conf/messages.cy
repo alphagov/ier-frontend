@@ -575,12 +575,12 @@ feedback_thankYou_exit_button=Return to your application
 #LocalAuthority Lookup pages
 lookup_show_title=Cysylltwch â’ch Swyddfa Gofrestru Etholiadol leol
 lookup_show_yourLocalAuthorityIs=Eich Awdurdod Lleol
-lookup_show_address=Cyfeiriad
-lookup_show_website=Gwefan
 lookup_show_email=E-bost
 lookup_show_phone=ffôn
 lookup_show_search_button=Chwilio
 lookup_show_exit_button=Dychwelyd i’ch cais
+lookup_show_contact=Cysylltwch
+lookup_show_visitWebsite=Ewch i <a href="{0}" rel="external" id="url">{1} wefan</a>
 
 lookup_postcode_label=Eich cod post y DU
 lookup_error_noneFound=Dim Swyddfa Cofrestru Etholiadol wedi cael ei ddarganfod. Gwiriwch eich cod post.

@@ -15,8 +15,9 @@ trait LocalAuthorityMustache
   with WithConfig =>
 
     case class LocalAuthorityShowPage (
-        localAuthorityContact: Option[LocalAuthorityContactDetails],
-        override val sourcePath: String
+      localAuthorityContact: Option[LocalAuthorityContactDetails],
+      visitAuthorityPage: String,
+      override val sourcePath: String
     ) (
         implicit override val lang: Lang
     ) extends InheritedMustachio("localAuthority/show")
@@ -26,7 +27,16 @@ trait LocalAuthorityMustache
         localAuthorityContact: Option[LocalAuthorityContactDetails],
         sourcePath: Option[String]
       ): LocalAuthorityShowPage = {
-        LocalAuthorityShowPage(localAuthorityContact, sourcePath getOrElse "")
+
+        val authName = localAuthorityContact.map(_.name.getOrElse("")).getOrElse("")
+
+        val visitAuthorityPage = localAuthorityContact.flatMap(_.url) match{
+          case Some(authUrl) if authUrl.nonEmpty =>
+            Messages("lookup_show_visitWebsite", authUrl, authName)
+          case _ => ""
+        }
+
+        LocalAuthorityShowPage(localAuthorityContact, visitAuthorityPage, sourcePath.getOrElse(""))
       }
     }
 
