@@ -3,7 +3,6 @@ package uk.gov.gds.ier.localAuthority
 import uk.gov.gds.ier.mustache.InheritedGovukMustache
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.guice.WithConfig
-import uk.gov.gds.ier.model.LocalAuthority
 import uk.gov.gds.ier.mustache.MustacheModel
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.model.LocalAuthorityContactDetails
