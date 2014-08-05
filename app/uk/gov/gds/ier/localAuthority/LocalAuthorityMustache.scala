@@ -19,7 +19,7 @@ trait LocalAuthorityMustache
         override val sourcePath: String
     ) (
         implicit override val lang: Lang
-    ) extends ArticleMustachio("localAuthority/show")
+    ) extends InheritedMustachio("localAuthority/show")
 
     object LocalAuthorityShowPage {
       def apply(
@@ -37,7 +37,7 @@ trait LocalAuthorityMustache
         errorMessages: Seq[String] = Seq.empty
     ) (
         implicit override val lang: Lang
-    ) extends ArticleMustachio("localAuthority/lookup")
+    ) extends InheritedMustachio("localAuthority/lookup")
 
     object LocalAuthorityPostcodePage {
       def apply(
