@@ -66,14 +66,16 @@ class ConfirmationStep @Inject ()(
         }
       )
 
-      Ok(mustache(validation.fillAndValidate(appWithAddressLines), routing.post, application).html)
+      val filledForm = validation.fillAndValidate(application)
+      val html = mustache(filledForm, routing.post, application).html
+      Ok(html).refreshToken
   }
 
   def post = ValidSession in Action {
     implicit request =>
       validation.fillAndValidate(application).fold(
         hasErrors => {
-          Ok(mustache(hasErrors, routing.post, application).html)
+          Ok(mustache(hasErrors, routing.post, application).html).refreshToken
         },
         validApplication => {
           val refNum = ierApi.generateOrdinaryReferenceNumber(validApplication)

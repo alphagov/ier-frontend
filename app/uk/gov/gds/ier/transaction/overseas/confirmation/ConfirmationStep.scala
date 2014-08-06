@@ -46,7 +46,11 @@ class ConfirmationStep @Inject() (
     implicit request =>
       application.identifyApplication match {
         case ApplicationType.DontKnow => NotFound(ErrorPage.NotFound(request.path))
-        case _ => Ok(mustache(validation.fillAndValidate(application), routing.post, application).html)
+        case _ => {
+          val filledForm = validation.fillAndValidate(application)
+          val html = mustache(filledForm, routing.post, application).html
+          Ok(html).refreshToken
+        }
       }
   }
 
@@ -54,7 +58,7 @@ class ConfirmationStep @Inject() (
     implicit request =>
       validation.fillAndValidate(application).fold(
         hasErrors => {
-          Ok(mustache(hasErrors, routing.post, application).html)
+          Ok(mustache(hasErrors, routing.post, application).html).refreshToken
         },
         validApplication => {
           val refNum = ierApi.generateOverseasReferenceNumber(validApplication)
