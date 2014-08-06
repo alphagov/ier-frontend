@@ -27,10 +27,8 @@ trait LocalAuthorityMustache
         sourcePath: Option[String]
       ): LocalAuthorityShowPage = {
 
-        val authName = localAuthorityContact.map(_.name.getOrElse("")).getOrElse("")
-
-        val visitAuthorityPage = localAuthorityContact.flatMap(_.url) match{
-          case Some(authUrl) if authUrl.nonEmpty =>
+        val visitAuthorityPage = localAuthorityContact.map(details => (details.url.getOrElse(""), details.name.getOrElse(""))) match {
+          case Some((authUrl, authName)) if authUrl.nonEmpty =>
             Messages("lookup_show_visitWebsite", authUrl, authName)
           case _ => ""
         }
