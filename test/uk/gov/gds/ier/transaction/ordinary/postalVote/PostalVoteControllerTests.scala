@@ -118,6 +118,22 @@ class PostalVoteControllerTests
   it should behave like editedAppWithPostalVote("no-already-have")
 
   def editedAppWithPostalVote(postalVoteOption: String) {
+    it should s"bind successfully and redirect to the incomplete Contact step for vote option: $postalVoteOption" in {
+      running(FakeApplication()) {
+        val Some(result) = route(
+          FakeRequest(POST, "/register-to-vote/edit/postal-vote")
+            .withIerSession()
+            .withFormUrlEncodedBody(
+              "postalVote.optIn" -> postalVoteOption,
+              "postalVote.deliveryMethod.methodName" -> "post"
+            )
+        )
+
+        status(result) should be(SEE_OTHER)
+        redirectLocation(result) should be(Some("/register-to-vote/contact"))
+      }
+    }
+
     it should s"bind successfully and redirect to the Confirmation step when complete application for vote option: $postalVoteOption" in {
       running(FakeApplication()) {
         val Some(result) = route(
