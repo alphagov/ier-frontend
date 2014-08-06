@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.controller
 
-import play.api.mvc.Controller
+import play.api.mvc.{Controller, Action}
 import uk.gov.gds.ier.session.SessionCleaner
 import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
 import com.google.inject.Inject
@@ -10,6 +10,7 @@ import uk.gov.gds.ier.guice.{WithRemoteAssets, WithEncryption, WithConfig}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.mustache.ExitPageMustache
 import uk.gov.gds.ier.assets.RemoteAssets
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 class ExitController @Inject() (
     val serialiser: JsonSerialiser,
@@ -25,52 +26,52 @@ class ExitController @Inject() (
   with WithRemoteAssets
   with WithEncryption {
 
-  def scotland = ClearSession requiredFor {
+  def scotland = ClearSession in Action {
     implicit request =>
       Ok(ExitPages.Scotland())
   }
 
-  def northernIreland = ClearSession requiredFor {
+  def northernIreland = ClearSession in Action {
     implicit request =>
       Ok(ExitPages.NorthernIreland())
   }
 
-  def britishIslands = ClearSession requiredFor {
+  def britishIslands = ClearSession in Action {
     implicit request =>
       Ok(ExitPages.BritishIslands())
   }
 
-  def under18 = ClearSession requiredFor {
+  def under18 = ClearSession in Action {
     implicit request =>
       Ok(ExitPages.Under18())
   }
 
-  def tooYoung = ClearSession requiredFor {
+  def tooYoung = ClearSession in Action {
     implicit request =>
       Ok(ExitPages.TooYoung())
   }
 
-  def dontKnow = ClearSession requiredFor {
+  def dontKnow = ClearSession in Action {
     implicit request =>
       Ok(ExitPages.DontKnow())
   }
 
-  def noFranchise = ClearSession requiredFor {
+  def noFranchise = ClearSession in Action {
     implicit request =>
       Ok(ExitPages.NoFranchise())
   }
 
-  def leftUkOver15Years = ClearSession requiredFor {
+  def leftUkOver15Years = ClearSession in Action {
     request =>
       Ok(ExitPages.LeftUk())
   }
 
-  def tooOldWhenLeftUk = ClearSession requiredFor {
+  def tooOldWhenLeftUk = ClearSession in Action {
     request =>
       Ok(ExitPages.TooOldWhenLeft())
   }
 
-  def leftSpecialOver15Years = ClearSession requiredFor {
+  def leftSpecialOver15Years = ClearSession in Action {
     request =>
       Ok(ExitPages.LeftService())
   }

@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.step
 
 import uk.gov.gds.ier.session.{SessionHandling, CacheBust}
-import play.api.mvc.Controller
+import play.api.mvc.{Controller, Action}
 import uk.gov.gds.ier.validation.{ErrorTransformForm, FormKeys, ErrorMessages}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.serialiser.WithSerialiser
@@ -35,6 +35,7 @@ trait StepController [T <: InprogressApplication[T]]
     with StepTemplate[T] =>
 
   implicit val manifestOfT: Manifest[T]
+  implicit val executionContext = play.api.libs.concurrent.Execution.Implicits.defaultContext
 
   val validation: ErrorTransformForm[T]
   val confirmationRoute: Call
@@ -54,14 +55,14 @@ trait StepController [T <: InprogressApplication[T]]
   }
 
   def get = CacheBust {
-    ValidSession requiredFor { implicit request => application =>
+    ValidSession in Action { implicit request =>
       logger.debug(s"GET request for ${request.path}")
       Ok(mustache(validation.fill(application), routing.post, application).html)
     }
   }
 
   def postMethod(postCall:Call) = CacheBust {
-    ValidSession requiredFor { implicit request => application =>
+    ValidSession in Action { implicit request =>
       logger.debug(s"POST request for ${request.path}")
 
       val dataFromApplication = validation.fill(application).data
@@ -86,7 +87,7 @@ trait StepController [T <: InprogressApplication[T]]
   def editPost = postMethod(routing.editPost)
 
   def editGet = CacheBust {
-    ValidSession requiredFor { implicit request => application =>
+    ValidSession in Action { implicit request =>
       logger.debug(s"GET edit request for ${request.path}")
       Ok(mustache(validation.fill(application), routing.editPost, application).html)
     }

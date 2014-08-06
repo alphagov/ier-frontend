@@ -10,6 +10,7 @@ import uk.gov.gds.ier.session.SessionCleaner
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.mustache.ErrorPageMustache
 import uk.gov.gds.ier.assets.RemoteAssets
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 class ErrorController @Inject ()(
     val serialiser: JsonSerialiser,
@@ -25,33 +26,33 @@ class ErrorController @Inject ()(
   with WithConfig
   with WithEncryption {
 
-  def ordinaryTimeout = ClearSession requiredFor { request =>
+  def ordinaryTimeout = ClearSession in Action { request =>
     Ok(ErrorPage.Timeout(
       config.sessionTimeout,
       config.ordinaryStartUrl
     ))
   }
 
-  def forcesTimeout = ClearSession requiredFor { request =>
+  def forcesTimeout = ClearSession in Action { request =>
     Ok(ErrorPage.Timeout(
       config.sessionTimeout,
       config.forcesStartUrl
     ))
   }
 
-  def crownTimeout = ClearSession requiredFor { request =>
+  def crownTimeout = ClearSession in Action { request =>
     Ok(ErrorPage.Timeout(
       config.sessionTimeout,
       config.crownStartUrl
     ))
   }
 
-  def serverError = ClearSession requiredFor {
+  def serverError = ClearSession in Action {
     request =>
       InternalServerError(ErrorPage.ServerError())
   }
 
-  def notFound = ClearSession requiredFor {
+  def notFound = ClearSession in Action {
     request =>
       NotFound(ErrorPage.NotFound(""))
   }

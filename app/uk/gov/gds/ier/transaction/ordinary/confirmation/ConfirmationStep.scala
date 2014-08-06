@@ -47,8 +47,8 @@ class ConfirmationStep @Inject ()(
 
   val validation = confirmationForm
 
-  def get = ValidSession requiredFor {
-    implicit request => application =>
+  def get = ValidSession in Action {
+    implicit request =>
       val currentAddressLine = application.address.map { addressService.fillAddressLine(_) }
 
       val previousAddressLine = application.previousAddress.flatMap { prev =>
@@ -69,8 +69,8 @@ class ConfirmationStep @Inject ()(
       Ok(mustache(validation.fillAndValidate(appWithAddressLines), routing.post, application).html)
   }
 
-  def post = ValidSession requiredFor {
-    implicit request => application =>
+  def post = ValidSession in Action {
+    implicit request =>
       validation.fillAndValidate(application).fold(
         hasErrors => {
           Ok(mustache(hasErrors, routing.post, application).html)

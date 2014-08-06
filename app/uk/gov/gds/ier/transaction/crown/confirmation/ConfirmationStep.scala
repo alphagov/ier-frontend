@@ -42,13 +42,13 @@ class ConfirmationStep @Inject() (
 
   val validation = confirmationForm
 
-  def get = ValidSession requiredFor {
-    implicit request => application =>
+  def get = ValidSession in Action {
+    implicit request =>
       Ok(mustache(validation.fillAndValidate(application), routing.post, application).html)
   }
 
-  def post = ValidSession requiredFor {
-    implicit request => application =>
+  def post = ValidSession in Action {
+    implicit request =>
       validation.fillAndValidate(application).fold(
         hasErrors => {
           Ok(mustache(hasErrors, routing.post, application).html)

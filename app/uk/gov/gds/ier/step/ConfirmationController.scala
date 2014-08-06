@@ -20,6 +20,9 @@ trait ConfirmationStepController[T <: InprogressApplication[T]]
   with WithConfig
   with WithEncryption {
 
+  val Action = play.api.mvc.Action
+  implicit val executionContext = play.api.libs.concurrent.Execution.Implicits.defaultContext
+
   val validation: ErrorTransformForm[T]
   val routing: Routes
   def get:Action[AnyContent]

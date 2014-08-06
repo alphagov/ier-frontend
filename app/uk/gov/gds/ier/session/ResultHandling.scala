@@ -3,15 +3,17 @@ package uk.gov.gds.ier.session
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.step.InprogressApplication
-import play.api.mvc.{Result, Request}
+import play.api.mvc.{SimpleResult, Result, Request}
 import uk.gov.gds.ier.transaction.complete.CompleteCookie
+import scala.concurrent.Future
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 trait ResultHandling extends CookieHandling {
   self: WithConfig
     with WithEncryption
     with WithSerialiser =>
 
-  implicit class ResultWithCookieOps(result:Result) extends SessionKeys {
+  implicit class ResultWithCookieOps(result:SimpleResult) extends SessionKeys {
 
     def storeInSession[B <: InprogressApplication[B]](
       application:B
