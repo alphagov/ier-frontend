@@ -91,7 +91,7 @@ class ConfirmationStepTest
           .withIerSession()
           .withApplication(completeOrdinaryApplication.copy(
             postalVote = Some(PostalVote(
-              postalVoteOption = Some(false),
+              postalVoteOption = Some(PostalVoteOption.NoAndVoteInPerson),
               deliveryMethod = None
             )),
             contact = Some(Contact(
@@ -116,7 +116,7 @@ class ConfirmationStepTest
           .withIerSession()
           .withApplication(completeOrdinaryApplication.copy(
           postalVote = Some(PostalVote(
-            postalVoteOption = Some(false),
+            postalVoteOption = Some(PostalVoteOption.NoAndVoteInPerson),
             deliveryMethod = None
           )),
           contact = Some(Contact(
@@ -144,7 +144,7 @@ class ConfirmationStepTest
           .withIerSession()
           .withApplication(completeOrdinaryApplication.copy(
           postalVote = Some(PostalVote(
-            postalVoteOption = Some(true),
+            postalVoteOption = Some(PostalVoteOption.Yes),
             deliveryMethod = Some(PostalVoteDeliveryMethod(
               deliveryMethod = Some("email"),
               emailAddress = Some("test@email.com")
@@ -172,7 +172,7 @@ class ConfirmationStepTest
           .withIerSession()
           .withApplication(completeOrdinaryApplication.copy(
           postalVote = Some(PostalVote(
-            postalVoteOption = Some(true),
+            postalVoteOption = Some(PostalVoteOption.Yes),
             deliveryMethod = Some(PostalVoteDeliveryMethod(
               deliveryMethod = Some("email"),
               emailAddress = Some("test@email.com")

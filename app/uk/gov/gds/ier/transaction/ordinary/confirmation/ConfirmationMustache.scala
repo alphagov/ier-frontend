@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.ordinary.confirmation
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.{Key, ErrorTransformForm}
-import uk.gov.gds.ier.model.{OtherAddress, MovedHouseOption}
+import uk.gov.gds.ier.model.{PostalVoteDeliveryMethod, PostalVoteOption, OtherAddress, MovedHouseOption}
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
@@ -271,19 +271,21 @@ trait ConfirmationMustache
         editLink = ordinary.PostalVoteStep.routing.editGet.url,
         changeName = Messages("ordinary_confirmation_postalVote_changeName"),
         content = ifComplete(keys.postalVote) {
-          val deliveryMethod =
-            if (form(keys.postalVote.deliveryMethod.methodName).value == Some("email")){
-              List(Messages("ordinary_confirmation_postalVote_emailDelivery"),
-                form(keys.postalVote.deliveryMethod.emailAddress).value.getOrElse(""))
+          val isPostalVote = PostalVoteOption.parse(form(keys.postalVote.optIn).value.getOrElse("")) == PostalVoteOption.Yes
+
+          if(isPostalVote){
+            val deliveryMethod = PostalVoteDeliveryMethod(
+              deliveryMethod = form(keys.postalVote.deliveryMethod.methodName).value,
+              emailAddress = form(keys.postalVote.deliveryMethod.emailAddress).value)
+
+            if(deliveryMethod.isEmail) {
+              List(Messages("ordinary_confirmation_postalVote_emailDelivery"), deliveryMethod.emailAddress.getOrElse(""))
             }
             else {
               List(Messages("ordinary_confirmation_postalVote_mailDelivery"))
             }
 
-          if(form(keys.postalVote.optIn).value == Some("true")){
-            deliveryMethod
-          }
-          else {
+          } else {
             List(Messages("ordinary_confirmation_postalVote_dontWant"))
           }
         }

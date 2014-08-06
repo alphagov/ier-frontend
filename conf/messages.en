@@ -322,10 +322,12 @@ ordinary_postalVote_title=Do you want to apply for a postal vote?
 ordinary_postalVote_optionsQuestion=Most people vote in person at a polling station. But if you prefer to \
 vote by post, we can send you an application form.
 ordinary_postalVote_voteInPerson_option=No, I prefer to vote in person
-ordinary_postalVote_postalVote_option=Yes, I want a postal vote
+ordinary_postalVote_voteAlreadyHave_option=No, I already have a postal vote
+ordinary_postalVote_voteAlreadyHave_help=If you've changed address you'll need to apply for a new postal vote
+ordinary_postalVote_postalVote_option=Yes, send me a postal vote application form
 
 ordinary_postalVote_postalVote_heading=If you want a postal vote application form
-ordinary_postalVote_postalVote_deliveryOptionsQuestion=You’ll need to sign and return a postal vote application \
+ordinary_postalVote_postalVote_deliveryOptionsQuestion=You’ll need to sign and return the postal vote application \
 form. How should we send you the form?
 ordinary_postalVote_postalVote_deliveryEmail_option=Email it to me
 ordinary_postalVote_postalVote_emailAddress_label=Email address

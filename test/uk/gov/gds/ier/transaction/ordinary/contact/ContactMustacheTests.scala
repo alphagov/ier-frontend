@@ -3,13 +3,12 @@ package uk.gov.gds.ier.transaction.ordinary.contact
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
-import uk.gov.gds.ier.model.{ContactDetail,
-  Contact,
-  PostalVote,
-  PostalVoteDeliveryMethod}
+import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.transaction.ordinary.contact.routes._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import scala.Some
 
 class ContactMustacheTests
   extends FlatSpec
@@ -166,7 +165,7 @@ class ContactMustacheTests
       InprogressOrdinary(
         contact = None,
         postalVote = Some(PostalVote(
-          postalVoteOption = Some(true),
+          postalVoteOption = Some(PostalVoteOption.Yes),
           deliveryMethod = Some(PostalVoteDeliveryMethod(
             deliveryMethod = Some("email"),
             emailAddress = Some("my@email.com")

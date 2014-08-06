@@ -481,7 +481,7 @@ class ConfirmationMustacheTest
     "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       postalVote = Some(PostalVote(
-        postalVoteOption = Some(true),
+        postalVoteOption = Some(PostalVoteOption.Yes),
         deliveryMethod = Some(PostalVoteDeliveryMethod(
           deliveryMethod = Some("post"),
           emailAddress = None
@@ -501,7 +501,7 @@ class ConfirmationMustacheTest
     "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       postalVote = Some(PostalVote(
-        postalVoteOption = Some(true),
+        postalVoteOption = Some(PostalVoteOption.Yes),
         deliveryMethod = Some(PostalVoteDeliveryMethod(
           deliveryMethod = Some("email"),
           emailAddress = Some("john@email.com")
@@ -522,7 +522,7 @@ class ConfirmationMustacheTest
     "generate confirmation mustache model with correctly rendered values and correct URLs" in runningApp {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOrdinary(
       postalVote = Some(PostalVote(
-        postalVoteOption = Some(false),
+        postalVoteOption = Some(PostalVoteOption.NoAndVoteInPerson),
         deliveryMethod = None
       ))
     ))

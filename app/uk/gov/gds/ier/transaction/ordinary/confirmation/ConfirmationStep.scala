@@ -16,6 +16,7 @@ import uk.gov.gds.ier.langs.Language
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.ordinary.{WithOrdinaryControllers, OrdinaryControllers}
+import uk.gov.gds.ier.model.PostalVoteOption
 
 class ConfirmationStep @Inject ()(
     val serialiser: JsonSerialiser,
@@ -90,17 +91,20 @@ class ConfirmationStep @Inject ()(
           logSession()
 
           val isPostalVoteEmailPresent = validApplication.postalVote.exists { postalVote =>
-            postalVote.postalVoteOption.exists(_ == true) & postalVote.deliveryMethod.exists{ deliveryMethod =>
-              deliveryMethod.deliveryMethod.exists(_ == "email") && deliveryMethod.emailAddress.exists(_.nonEmpty)
+            val isPostalOptionSelected = postalVote.postalVoteOption.exists(_ == PostalVoteOption.Yes)
+
+            val isEmailDeliveryOptionValid = postalVote.deliveryMethod.exists{
+              deliveryMethod => deliveryMethod.isEmail && deliveryMethod.emailAddress.exists(_.nonEmpty)
             }
+
+            isPostalOptionSelected && isEmailDeliveryOptionValid
           }
-          val isContactEmailPresent = validApplication.contact.exists(
-            _.email.exists{ emailContact =>
-              emailContact.contactMe & emailContact.detail.exists(_.nonEmpty)
-            }
-          )
-          val hasOtherAddress = validApplication.otherAddress
-            .map(_.otherAddressOption.hasOtherAddress).getOrElse(false)
+
+          val isContactEmailPresent = validApplication.contact.exists {
+            _.email.exists { emailContact => emailContact.contactMe && emailContact.detail.exists(_.nonEmpty) }
+          }
+
+          val hasOtherAddress = validApplication.otherAddress.exists(_.otherAddressOption.hasOtherAddress)
 
           val isBirthdayToday = validApplication.dob.exists(_.dob.exists(_.isToday))
 
@@ -109,7 +113,7 @@ class ConfirmationStep @Inject ()(
             authority = Some(response.localAuthority),
             hasOtherAddress = hasOtherAddress,
             backToStartUrl = config.ordinaryStartUrl,
-            showEmailConfirmation = (isPostalVoteEmailPresent | isContactEmailPresent),
+            showEmailConfirmation = (isPostalVoteEmailPresent || isContactEmailPresent),
             showBirthdayBunting =  isBirthdayToday
           )
 

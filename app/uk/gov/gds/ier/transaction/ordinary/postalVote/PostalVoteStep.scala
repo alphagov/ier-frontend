@@ -36,9 +36,13 @@ class PostalVoteStep @Inject ()(
   )
 
   def resetPostalVote = TransformApplication { currentState =>
-    currentState.postalVote match {
-      case Some(PostalVote(Some(false), _)) =>
-          currentState.copy(postalVote = Some(PostalVote(Some(false), None)))
+    val postalVoteOption = currentState.postalVote.flatMap(_.postalVoteOption)
+    postalVoteOption match {
+      case Some(PostalVoteOption.NoAndVoteInPerson) | Some(PostalVoteOption.NoAndAlreadyHave) =>
+          currentState.copy(postalVote = Some(PostalVote(
+            postalVoteOption = postalVoteOption,
+            deliveryMethod = None))
+          )
       case _ => currentState
     }
   }
