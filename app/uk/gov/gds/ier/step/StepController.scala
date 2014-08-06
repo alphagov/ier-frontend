@@ -57,7 +57,8 @@ trait StepController [T <: InprogressApplication[T]]
   def get = CacheBust {
     ValidSession in Action { implicit request =>
       logger.debug(s"GET request for ${request.path}")
-      Ok(mustache(validation.fill(application), routing.post, application).html)
+      val html = mustache(validation.fill(application), routing.post, application).html
+      Ok(html).refreshToken
     }
   }
 
@@ -76,7 +77,9 @@ trait StepController [T <: InprogressApplication[T]]
         success => {
           logger.debug(s"Form binding successful")
           val (mergedApplication, result) = onSuccess(success.merge(application), this)
-          Redirect(result.routing.get) storeInSession mergedApplication
+          Redirect(result.routing.get)
+            .storeInSession(mergedApplication)
+            .refreshToken
         }
       )
     }
@@ -89,7 +92,8 @@ trait StepController [T <: InprogressApplication[T]]
   def editGet = CacheBust {
     ValidSession in Action { implicit request =>
       logger.debug(s"GET edit request for ${request.path}")
-      Ok(mustache(validation.fill(application), routing.editPost, application).html)
+      val html = mustache(validation.fill(application), routing.editPost, application).html
+      Ok(html).refreshToken
     }
   }
 }
