@@ -3,7 +3,6 @@ package uk.gov.gds.ier.localAuthority
 import uk.gov.gds.ier.mustache.InheritedGovukMustache
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.guice.WithConfig
-import uk.gov.gds.ier.model.LocalAuthority
 import uk.gov.gds.ier.mustache.MustacheModel
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.model.LocalAuthorityContactDetails
@@ -15,18 +14,26 @@ trait LocalAuthorityMustache
   with WithConfig =>
 
     case class LocalAuthorityShowPage (
-        localAuthorityContact: Option[LocalAuthorityContactDetails],
-        override val sourcePath: String
+      localAuthorityContact: Option[LocalAuthorityContactDetails],
+      visitAuthorityPage: String,
+      override val sourcePath: String
     ) (
         implicit override val lang: Lang
-    ) extends ArticleMustachio("localAuthority/show")
+    ) extends InheritedMustachio("localAuthority/show")
 
     object LocalAuthorityShowPage {
       def apply(
         localAuthorityContact: Option[LocalAuthorityContactDetails],
         sourcePath: Option[String]
       ): LocalAuthorityShowPage = {
-        LocalAuthorityShowPage(localAuthorityContact, sourcePath getOrElse "")
+
+        val visitAuthorityPage = localAuthorityContact.map(details => (details.url.getOrElse(""), details.name.getOrElse(""))) match {
+          case Some((authUrl, authName)) if authUrl.nonEmpty =>
+            Messages("lookup_show_visitWebsite", authUrl, authName)
+          case _ => ""
+        }
+
+        LocalAuthorityShowPage(localAuthorityContact, visitAuthorityPage, sourcePath.getOrElse(""))
       }
     }
 
@@ -37,7 +44,7 @@ trait LocalAuthorityMustache
         errorMessages: Seq[String] = Seq.empty
     ) (
         implicit override val lang: Lang
-    ) extends ArticleMustachio("localAuthority/lookup")
+    ) extends InheritedMustachio("localAuthority/lookup")
 
     object LocalAuthorityPostcodePage {
       def apply(

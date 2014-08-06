@@ -4,9 +4,7 @@ case class LocalAuthority (
   gssCode: Option[String],
   eroIdentifier: Option[String],
   eroDescription: Option[String],
-  contactDetails: Option[LocalAuthorityContactDetails]
-)
-
+  contactDetails: Option[LocalAuthorityContactDetails])
 
 case class LocalAuthorityContactDetails(
   name: Option[String] = None,

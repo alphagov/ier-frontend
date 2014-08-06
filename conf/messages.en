@@ -560,12 +560,12 @@ feedback_thankYou_exit_button=Return to your application
 #LocalAuthority Lookup pages
 lookup_show_title=Contact your local Electoral Registration Office
 lookup_show_yourLocalAuthorityIs=Your Local Authority is
-lookup_show_address=Address
-lookup_show_website=Website
 lookup_show_email=Email
 lookup_show_phone=Phone
+lookup_show_search_button=Search
 lookup_show_exit_button=Return to your application
+lookup_show_contact=Contact
+lookup_show_visitWebsite=Visit the <a href="{0}" rel="external" id="url">{1} website</a>
 
-lookup_instruction=Enter the postcode of the address you are registering with
-lookup_postcode_label=Postcode
+lookup_postcode_label=Your UK postcode
 lookup_error_noneFound=No Electoral Registration Office has been found. Please check your postcode.

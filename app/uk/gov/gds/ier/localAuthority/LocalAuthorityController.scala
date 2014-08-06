@@ -14,17 +14,13 @@ import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
-import uk.gov.gds.ier.exception.PostcodeLookupFailedException
 import uk.gov.gds.ier.validation.FormKeys
 import uk.gov.gds.ier.logging.Logging
-import controllers.routes.LocalAuthorityController
-import uk.gov.gds.ier.model.LocalAuthority
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.guice.WithConfig
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.assets.RemoteAssets
-import uk.gov.gds.ier.langs.Messages
 import play.api.mvc.Request
 import play.api.mvc.AnyContent
 
