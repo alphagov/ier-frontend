@@ -49,6 +49,7 @@ class OverseasApplicationTests
       "pfn" -> "James",
       "pmn" -> "John",
       "pln" -> "Smith",
+      "nameChangeReason" -> "some reason",
       "dob" -> "1980-12-01",
       "nino" -> "XX 12 34 56 D",
       "regproperty" -> "The (fake) Manor House",
@@ -96,6 +97,7 @@ class OverseasApplicationTests
       "pfn" -> "James",
       "pmn" -> "John",
       "pln" -> "Smith",
+      "nameChangeReason" -> "some reason",
       "dob" -> "1980-12-01",
       "nino" -> "XX 12 34 56 D",
       "regproperty" -> "The (fake) Manor House",
@@ -148,6 +150,7 @@ class OverseasApplicationTests
       "pfn" -> "James",
       "pmn" -> "John",
       "pln" -> "Smith",
+      "nameChangeReason" -> "some reason",
       "dob" -> "1980-12-01",
       "nino" -> "XX 12 34 56 D",
       "regproperty" -> "The (fake) Manor House",
@@ -202,6 +205,7 @@ class OverseasApplicationTests
       "pfn" -> "James",
       "pmn" -> "John",
       "pln" -> "Smith",
+      "nameChangeReason" -> "some reason",
       "dob" -> "1980-12-01",
       "nino" -> "AB 123 456",
       "regproperty" -> "The (fake) Manor House",
@@ -229,6 +233,50 @@ class OverseasApplicationTests
     application.toApiMap should matchMap(expected)
   }
 
+  it should "generate expected payload without last name and reason" in {
+    val application = createOverseasApplication.copy(
+      lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.Overseas)),
+      previousName = Some(PreviousName(
+        hasPreviousName = false,
+        previousName = None,
+        reason = None
+      ))
+    )
+
+    val expected = Map(
+      "fn" -> "John",
+      "mn" -> "James",
+      "ln" -> "Smith",
+      "applicationType" -> "overseas",
+      "dob" -> "1980-12-01",
+      "nino" -> "XX 12 34 56 D",
+      "regproperty" -> "The (fake) Manor House",
+      "regstreet" -> "123 Fake Street",
+      "reglocality" -> "North Fake",
+      "regtown" -> "Fakerton",
+      "regarea" -> "Fakesbury",
+      "reguprn" -> "12345",
+      "regpostcode" -> "XX123 4XX",
+      "corraddressline1" -> "123 Rue de Fake, Saint-Fake",
+      "corrcountry" -> "France",
+      "lastcategory" -> "overseas",
+      "leftuk" -> "1990-01",
+      "opnreg" -> "true",
+      "post" -> "true",
+      "email" -> "test@email.com",
+      "phone" -> "01234 5678910",
+      "refNum" -> "12345678910",
+      "ip" -> "256.256.256.256",
+      "gssCode" -> "E09000007",
+      "timeTaken" -> "1234",
+      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
+    )
+
+    val apiMap = application.toApiMap
+
+    apiMap should matchMap(expected)
+  }
+
   def createOverseasApplication =
     OverseasApplication(
       name = Some(Name(
@@ -241,7 +289,8 @@ class OverseasApplicationTests
             firstName = "James",
             middleNames = Some("John"),
             lastName = "Smith"
-          ))
+          )),
+          reason = Some("some reason")
         )),
       dateLeftUk = Some(DateLeft(
         month = 1,

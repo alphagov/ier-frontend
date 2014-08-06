@@ -1,17 +1,11 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.model._
-import org.joda.time.DateTime
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{
-  Name,
-  PreviousName,
-  WaysToVote}
+import uk.gov.gds.ier.model.{Name, PreviousName}
 import uk.gov.gds.ier.transaction.overseas.confirmation.ConfirmationForms
-import org.joda.time.DateTime
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.transaction.shared.BlockContent
 
@@ -79,4 +73,61 @@ class NameBlocksTests
     prevNameModel.content should be(BlockContent("Jan Janko Janik Kovar"))
     prevNameModel.editLink should be("/register-to-vote/overseas/edit/name")
   }
+
+  "In-progress application form with filled name and no previous name" should
+    "generate confirmation mustache model with correctly rendered names and information message for previous name" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
+      name = Some(Name(
+        firstName = "John",
+        middleNames = Some("Walker Junior"),
+        lastName = "Smith")),
+      previousName = Some(PreviousName(
+        hasPreviousName = false,
+        previousName = None
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+
+    val nameModel = confirmation.name
+    nameModel.content should be(BlockContent("John Walker Junior Smith"))
+    nameModel.editLink should be("/register-to-vote/overseas/edit/name")
+
+    val prevNameModel = confirmation.previousName
+    prevNameModel.content should be(BlockContent("I have not changed my name in the last 12 months"))
+    prevNameModel.editLink should be("/register-to-vote/overseas/edit/name")
+  }
+
+  "In-progress application form with filled name, previous name and a reason for changing it" should
+    "generate confirmation mustache model with correctly rendered names and the reason for the name change" in {
+    val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
+      name = Some(Name(
+        firstName = "John",
+        middleNames = Some("Walker Junior"),
+        lastName = "Smith")),
+      previousName = Some(PreviousName(
+        hasPreviousName = true,
+        previousName = Some(Name(
+          firstName = "Jan",
+          middleNames = Some("Janko Janik"),
+          lastName = "Kovar")),
+        reason = Some("marriage")
+      ))
+    ))
+
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+
+    val nameModel = confirmation.name
+    nameModel.content should be(BlockContent("John Walker Junior Smith"))
+    nameModel.editLink should be("/register-to-vote/overseas/edit/name")
+
+    val prevNameModel = confirmation.previousName
+    prevNameModel.content should be(BlockContent(List(
+      "Jan Janko Janik Kovar",
+      "Reason for the name change:",
+      "marriage"
+    )))
+    prevNameModel.editLink should be("/register-to-vote/overseas/edit/name")
+  }
+
 }

@@ -23,26 +23,31 @@ trait NameBlocks {
   }
 
   def previousName = {
-    val havePreviousName = form(keys.previousName.hasPreviousName).value
-    val prevNameStr =  havePreviousName match {
-      case `hasPreviousName` => {
+    val hasPreviousName = form(keys.previousName.hasPreviousName).value
+    val nameChangeReason = form(keys.previousName.reason).value match {
+      case Some(reason) if reason.nonEmpty => List("Reason for the name change:", reason)
+      case _ => List.empty
+    }
+
+    val prevNameContent =  hasPreviousName match {
+      case Some("true") => {
         List(
-          form(keys.previousName.previousName.firstName).value,
-          form(keys.previousName.previousName.middleNames).value,
-          form(keys.previousName.previousName.lastName).value
-        ).flatten.mkString(" ")
+          List(
+            form(keys.previousName.previousName.firstName).value,
+            form(keys.previousName.previousName.middleNames).value,
+            form(keys.previousName.previousName.lastName).value
+          ).flatten.mkString(" ")
+        ) ++ nameChangeReason
       }
-      case _ => "I have not changed my name in the last 12 months"
+      case _ => List("I have not changed my name in the last 12 months")
     }
     ConfirmationQuestion(
       title = "Previous name",
       editLink = routes.NameController.editGet.url,
       changeName = "previous name",
       content = ifComplete(keys.overseasName.previousName) {
-        List(prevNameStr)
+        prevNameContent
       }
     )
   }
-
-  private val hasPreviousName = Some("true")
 }

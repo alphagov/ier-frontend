@@ -61,11 +61,17 @@ class NameTemplateTest
           classes = "previousMiddleNameClass",
           value = "previousMiddleNameValue"
         ),
-        previousLastName =  Field(
+        previousLastName = Field(
           id = "previousLastNameId",
           name = "previousLastNameName",
           classes = "previousLastNameClass",
           value = "previousLastNameValue"
+        ),
+        nameChangeReason = Field(
+          id = "nameChangeReasonId",
+          name = "nameChangeReasonName",
+          classes = "nameChangeReasonClass",
+          value = "nameChangeReasonValue"
         )
       )
 
@@ -108,13 +114,12 @@ class NameTemplateTest
 
       val lastNameDiv = doc.select("div[class*=lastNameClass]").first()
       lastNameDiv.attr("class") should include("lastNameClass")
+
       val lastNameInput = lastNameDiv.select("input").first()
       lastNameInput.attr("id") should be("lastNameId")
       lastNameInput.attr("name") should be("lastNameName")
       lastNameInput.attr("value") should be("lastNameValue")
       lastNameInput.attr("class") should include("lastNameClass")
-
-
 
       //Previous First Name
       doc
@@ -122,20 +127,15 @@ class NameTemplateTest
         .first()
         .attr("for") should be("previousFirstNameId")
 
-      val previousFirstNameDiv = doc
-        .select("div[class*=previousFirstNameClass]")
-        .first()
-      previousFirstNameDiv
-        .attr("class") should include("previousFirstNameClass")
+      val previousFirstNameDiv = doc.select("div[class*=previousFirstNameClass]").first()
+      previousFirstNameDiv.attr("class") should include("previousFirstNameClass")
 
-      val previousFirstNameInput =
-        previousFirstNameDiv.select("input").first()
+      val previousFirstNameInput = previousFirstNameDiv.select("input").first()
 
       previousFirstNameInput.attr("id") should be("previousFirstNameId")
       previousFirstNameInput.attr("name") should be("previousFirstNameName")
       previousFirstNameInput.attr("value") should be("previousFirstNameValue")
-      previousFirstNameInput
-        .attr("class") should include("previousFirstNameClass")
+      previousFirstNameInput.attr("class") should include("previousFirstNameClass")
 
 
       //Previous Middle Name
@@ -144,16 +144,11 @@ class NameTemplateTest
         .first()
         .attr("for") should be("previousMiddleNameId")
 
-      val previousMiddleNameInput = doc
-        .select("input[id=previousMiddleNameId]").first()
-      previousMiddleNameInput
-        .attr("id") should be("previousMiddleNameId")
-      previousMiddleNameInput
-        .attr("name") should be("previousMiddleNameName")
-      previousMiddleNameInput
-        .attr("value") should be("previousMiddleNameValue")
-      previousMiddleNameInput
-        .attr("class") should include("previousMiddleNameClass")
+      val previousMiddleNameInput = doc.select("input[id=previousMiddleNameId]").first()
+      previousMiddleNameInput.attr("id") should be("previousMiddleNameId")
+      previousMiddleNameInput.attr("name") should be("previousMiddleNameName")
+      previousMiddleNameInput.attr("value") should be("previousMiddleNameValue")
+      previousMiddleNameInput.attr("class") should include("previousMiddleNameClass")
 
 
       //Previous Last Name
@@ -162,27 +157,20 @@ class NameTemplateTest
         .first()
         .attr("for") should be("previousLastNameId")
 
-      val previousLastNameDiv =
-        doc.select("div[class*=previousLastNameClass]").first()
-      previousLastNameDiv
-        .attr("class") should include("previousLastNameClass")
+      val previousLastNameDiv =doc.select("div[class*=previousLastNameClass]").first()
+      previousLastNameDiv.attr("class") should include("previousLastNameClass")
+
       val previousLastNameInput = previousLastNameDiv.select("input").first()
-      previousLastNameInput
-        .attr("id") should be("previousLastNameId")
-      previousLastNameInput
-        .attr("name") should be("previousLastNameName")
-      previousLastNameInput
-        .attr("value") should be("previousLastNameValue")
-      previousLastNameInput
-        .attr("class") should include("previousLastNameClass")
+      previousLastNameInput.attr("id") should be("previousLastNameId")
+      previousLastNameInput.attr("name") should be("previousLastNameName")
+      previousLastNameInput.attr("value") should be("previousLastNameValue")
+      previousLastNameInput.attr("class") should include("previousLastNameClass")
 
       //Has Previous Name
-      val hasPreviousFieldset =
-        doc.select("fieldset[class*=hasPreviousNameClass").first()
+      val hasPreviousFieldset = doc.select("fieldset[class*=hasPreviousNameClass").first()
       hasPreviousFieldset.attr("class") should include("hasPreviousNameClass")
 
-      val hasPreviousTrueLabel =
-        hasPreviousFieldset.select("label[for=hasPreviousTrueId]").first()
+      val hasPreviousTrueLabel = hasPreviousFieldset.select("label[for=hasPreviousTrueId]").first()
       hasPreviousTrueLabel.attr("for") should be("hasPreviousTrueId")
 
       val hasPreviousTrueInput = hasPreviousTrueLabel.select("input").first()
@@ -190,15 +178,25 @@ class NameTemplateTest
       hasPreviousTrueInput.attr("name") should be("hasPreviousTrueName")
       hasPreviousTrueInput.attr("foo") should be("foo")
 
-
-      val hasPreviousFalseLabel =
-        hasPreviousFieldset.select("label[for=hasPreviousFalseId]").first()
+      val hasPreviousFalseLabel = hasPreviousFieldset.select("label[for=hasPreviousFalseId]").first()
       hasPreviousFalseLabel.attr("for") should be("hasPreviousFalseId")
 
       val hasPreviousFalseInput = hasPreviousFalseLabel.select("input").first()
       hasPreviousFalseInput.attr("id") should be("hasPreviousFalseId")
       hasPreviousFalseInput.attr("name") should be("hasPreviousFalseName")
       hasPreviousFalseInput.attr("foo") should be("foo")
+
+
+      val nameChangeReasonLabel = doc.select("label[for=nameChangeReasonId]").first()
+      nameChangeReasonLabel.attr("for") should be("nameChangeReasonId")
+
+      val nameChangeReasonDiv = doc.select("div[class*=nameChangeReasonClass]").first()
+
+      val nameChangeReasonInput = nameChangeReasonDiv.select("textarea").first()
+      nameChangeReasonInput.attr("id") should be("nameChangeReasonId")
+      nameChangeReasonInput.attr("name") should be("nameChangeReasonName")
+      nameChangeReasonInput.html should be("nameChangeReasonValue")
+      nameChangeReasonInput.attr("class") should include("nameChangeReasonClass")
 
     }
   }

@@ -41,7 +41,8 @@ class OverseasNameControllerTests
             "name.lastName" -> "Smith",
             "previousName.hasPreviousName" -> "true",
             "previousName.previousName.firstName" -> "John",
-            "previousName.previousName.lastName" -> "Smith")
+            "previousName.previousName.lastName" -> "Smith",
+            "previousName.reason" -> "got bored")
       )
 
       status(result) should be(SEE_OTHER)
@@ -76,7 +77,8 @@ class OverseasNameControllerTests
             "name.lastName" -> "Smith",
             "previousName.hasPreviousName" -> "true",
             "previousName.previousName.firstName" -> "John",
-            "previousName.previousName.lastName" -> "Smith")
+            "previousName.previousName.lastName" -> "Smith",
+            "previousName.reason" -> "because I could")
       )
 
       status(result) should be(SEE_OTHER)
@@ -101,7 +103,6 @@ class OverseasNameControllerTests
 
   behavior of "Completing a prior step when this question is incomplete"
   it should "stop on this page" in {
-    // enable again when whole page chain is finished for Overseas
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/overseas/last-uk-address/select")
@@ -143,7 +144,8 @@ class OverseasNameControllerTests
             "name.lastName" -> "Smith",
             "previousName.hasPreviousName" -> "true",
             "previousName.previousName.firstName" -> "John",
-            "previousName.previousName.lastName" -> "Smith")
+            "previousName.previousName.lastName" -> "Smith",
+            "previousName.reason" -> "because I could")
       )
 
       status(result) should be(SEE_OTHER)
@@ -178,7 +180,8 @@ class OverseasNameControllerTests
             "name.lastName" -> "Smith",
             "previousName.hasPreviousName" -> "true",
             "previousName.previousName.firstName" -> "John",
-            "previousName.previousName.lastName" -> "Smith")
+            "previousName.previousName.lastName" -> "Smith",
+            "previousName.reason" -> "because I could")
       )
 
       status(result) should be(SEE_OTHER)

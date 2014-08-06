@@ -39,7 +39,8 @@ trait NameForms extends NameConstraints {
       lastNameRequired,
       prevNameRequiredIfHasPrevNameTrue,
       prevFirstNameRequired,
-      prevLastNameRequired
+      prevLastNameRequired,
+      prevReasonRequired
     )
   )
 }
@@ -97,8 +98,8 @@ trait NameConstraints extends NameCommonConstraints with FormKeys {
     keys.previousName.previousName.firstName.key
   ) {
     _.previousName match {
-      case Some(PreviousName(true, Some(Name("", _, _)))) => Invalid (
-        "Please enter your first name",
+      case Some(PreviousName(true, Some(Name("", _, _)), _)) => Invalid (
+        "Please enter your previous first name",
         keys.previousName.previousName.firstName
       )
       case _ => Valid
@@ -109,10 +110,21 @@ trait NameConstraints extends NameCommonConstraints with FormKeys {
     keys.previousName.previousName.lastName.key
   ) {
     _.previousName match {
-      case Some(PreviousName(true, Some(Name(_, _, "")))) => Invalid (
-        "Please enter your last name",
+      case Some(PreviousName(true, Some(Name(_, _, "")), _)) => Invalid (
+        "Please enter your previous last name",
         keys.previousName.previousName.lastName
       )
+      case _ => Valid
+    }
+  }
+
+  lazy val prevReasonRequired = Constraint[InprogressOverseas] (
+    keys.previousName.reason.key
+  ) {
+    _.previousName match {
+      case Some(PreviousName(true, _, reason))  if reason.isEmpty || reason.exists(_.isEmpty) => Invalid(
+        "Please provide a reason for changing your name",
+        keys.previousName.reason)
       case _ => Valid
     }
   }
@@ -121,7 +133,7 @@ trait NameConstraints extends NameCommonConstraints with FormKeys {
     keys.previousName.previousName.key
   ) {
     _.previousName match {
-      case Some(PreviousName(true, None)) => Invalid (
+      case Some(PreviousName(true, None, _)) => Invalid (
         "Please enter your full previous name",
         keys.previousName.previousName,
         keys.previousName.previousName.firstName,

@@ -17,13 +17,15 @@ class PreviousNameTests
         firstName = "John",
         middleNames = Some("James"),
         lastName = "Smith"
-      ))
+      )),
+      reason = Some("some reason")
     )
 
     val expected = Map(
       "pfn" -> "John",
       "pmn" -> "James",
-      "pln" -> "Smith"
+      "pln" -> "Smith",
+      "nameChangeReason" -> "some reason"
     )
     sutPreviousName.toApiMap() should matchMap(expected)
   }
@@ -35,12 +37,14 @@ class PreviousNameTests
         firstName = "John",
         middleNames = None,
         lastName = "Smith"
-      ))
+      )),
+      reason = Some("some reason")
     )
 
     val expected = Map(
       "pfn" -> "John",
-      "pln" -> "Smith"
+      "pln" -> "Smith",
+      "nameChangeReason" -> "some reason"
     )
     sutPreviousName.toApiMap() should matchMap(expected)
   }
@@ -63,7 +67,8 @@ class PreviousNameTests
         firstName = "John",
         middleNames = None,
         lastName = "Smith"
-      ))
+      )),
+      reason = Some("some reason")
     )
 
     sutPreviousName.toApiMap() shouldBe empty

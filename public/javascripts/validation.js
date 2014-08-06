@@ -364,7 +364,7 @@
           if ((typeof _this.messages[name] !== 'undefined') && (typeof _this.messages[name][rule] !== 'undefined')) {
             messageData.message = _this.messages[name][rule];
             // if the field is a form control, add a message to its label and link to it
-            if (_sourceIsFormControl(field.$source) && field.$source[0].id) {
+            if (field.$source && _sourceIsFormControl(field.$source) && field.$source[0].id) {
               idToLinkTo = field.$source[0].id;
               _this.messageField(field.$source, _this.messages[name][rule]);
             } else {
@@ -1142,6 +1142,9 @@
       'previousLastName' : {
         'nonEmpty' : message('ordinary_previousName_error_enterLastName'),
         'prevLastNameText' : message('ordinary_previousName_error_lastNameTooLong')
+      },
+      'nameChangeReason' : {
+        'nonEmpty' : 'Please provide a reason for changing your name'
       },
       'dateOfBirthDate' : {
         'allNonEmpty' : message('ordinary_dob_error_enterDateOfBirth')
