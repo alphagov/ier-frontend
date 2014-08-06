@@ -1,21 +1,24 @@
 package uk.gov.gds.ier.transaction.ordinary.otherAddress
 
+import controllers.step.ordinary.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
+import play.api.mvc.Call
+import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.step.OrdinaryStep
-import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
+import controllers.step.ordinary.PreviousAddressFirstController
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.assets.RemoteAssets
 
 class OtherAddressStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets,
-    val ordinary: OrdinaryControllers
+    val remoteAssets: RemoteAssets
 ) extends OrdinaryStep
   with OtherAddressForms
   with OtherAddressMustache {
@@ -23,14 +26,14 @@ class OtherAddressStep @Inject ()(
   val validation = otherAddressForm
 
   val routing = Routes(
-    get = routes.OtherAddressStep.get,
-    post = routes.OtherAddressStep.post,
-    editGet = routes.OtherAddressStep.editGet,
-    editPost = routes.OtherAddressStep.editPost
+    get = OtherAddressController.get,
+    post = OtherAddressController.post,
+    editGet = OtherAddressController.editGet,
+    editPost = OtherAddressController.editPost
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
-    ordinary.PreviousAddressFirstStep
+    PreviousAddressFirstController.previousAddressFirstStep
   }
 }
 

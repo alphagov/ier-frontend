@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.confirmation
 
+import controllers.step.ordinary.routes.ConfirmationController
 import controllers.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
@@ -24,25 +25,23 @@ class ConfirmationStep @Inject ()(
     val addressService: AddressService,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets,
-    val ordinary: OrdinaryControllers
+    val remoteAssets: RemoteAssets
   ) extends ConfirmationStepController[InprogressOrdinary]
   with ConfirmationForms
   with ConfirmationMustache
   with ConfirmationCookieWriter
   with ResultHandling
   with WithAddressService
-  with WithOrdinaryControllers
   with WithRemoteAssets {
 
   def factoryOfT() = InprogressOrdinary()
   def timeoutPage() = ErrorController.ordinaryTimeout
 
   val routing:Routes = Routes(
-    get = routes.ConfirmationStep.get,
-    post = routes.ConfirmationStep.post,
-    editGet = routes.ConfirmationStep.get,
-    editPost = routes.ConfirmationStep.post
+    get = ConfirmationController.get,
+    post = ConfirmationController.post,
+    editGet = ConfirmationController.get,
+    editPost = ConfirmationController.post
   )
 
   val validation = confirmationForm

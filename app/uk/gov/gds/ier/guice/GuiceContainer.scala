@@ -1,15 +1,15 @@
 package uk.gov.gds.ier.guice
 
-import com.google.inject.{Module, Inject, Binder, AbstractModule}
+import com.google.inject.{Guice, Module, Injector, Inject, Binder, AbstractModule}
 
 class GuiceContainer @Inject() (val di: Injector) {
 
   @inline final def dependency[A <: AnyRef](implicit m: Manifest[A]) = {
-    di.dependency[A]
+    di.getInstance(m.runtimeClass.asInstanceOf[Class[A]])
   }
 
   @inline final def dependency[A](dependencyClass: Class[A]) = {
-    di.dependency(dependencyClass)
+    di.getInstance(dependencyClass)
   }
 }
 
@@ -19,7 +19,7 @@ object GuiceContainer {
   }
 
   def apply(modules: List[Module]): GuiceContainer = {
-    new GuiceContainer(Injector(modules))
+    new GuiceContainer(Guice.createInjector(modules.toSeq: _*))
   }
 
   def apply(bindings: Binder => Unit): GuiceContainer = {

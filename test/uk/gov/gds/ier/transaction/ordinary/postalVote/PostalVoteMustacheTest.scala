@@ -4,8 +4,9 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.{PostalVoteOption, PostalVote, PostalVoteDeliveryMethod}
+import controllers.step.ordinary.routes._
+import controllers.step.routes._
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
-import play.api.mvc.Call
 
 class PostalVoteMustacheTest
   extends FlatSpec
@@ -22,12 +23,12 @@ class PostalVoteMustacheTest
     val emptyApplicationForm = postalVoteForm
     val postalVoteModel = mustache.data(
       emptyApplicationForm,
-      Call("POST", "/foo/postal-vote"),
+      PostalVoteController.post,
       InprogressOrdinary()
     ).asInstanceOf[PostalVoteModel]
 
     postalVoteModel.question.title should be("Do you want to apply for a postal vote?")
-    postalVoteModel.question.postUrl should be("/foo/postal-vote")
+    postalVoteModel.question.postUrl should be("/register-to-vote/postal-vote")
 
     postalVoteModel.postCheckboxYes.attributes should be("")
     postalVoteModel.postCheckboxNoAndVoteInPerson.attributes should be("")
@@ -48,12 +49,12 @@ class PostalVoteMustacheTest
 
     val postalVoteModel = mustache.data(
       partiallyFilledApplicationForm,
-      Call("POST", "/foo/postal-vote"),
+      PostalVoteController.post,
       InprogressOrdinary()
     ).asInstanceOf[PostalVoteModel]
 
     postalVoteModel.question.title should be("Do you want to apply for a postal vote?")
-    postalVoteModel.question.postUrl should be("/foo/postal-vote")
+    postalVoteModel.question.postUrl should be("/register-to-vote/postal-vote")
 
     postalVoteModel.postCheckboxYes.attributes should be("")
     postalVoteModel.postCheckboxNoAndVoteInPerson.attributes should be("checked=\"checked\"")
@@ -99,12 +100,12 @@ class PostalVoteMustacheTest
 
     val postalVoteModel = mustache.data(
       partiallyFilledApplicationForm,
-      Call("POST", "/foo/postal-vote"),
+      PostalVoteController.post,
       InprogressOrdinary()
     ).asInstanceOf[PostalVoteModel]
 
     postalVoteModel.question.title should be("Do you want to apply for a postal vote?")
-    postalVoteModel.question.postUrl should be("/foo/postal-vote")
+    postalVoteModel.question.postUrl should be("/register-to-vote/postal-vote")
 
     postalVoteModel.postCheckboxYes.attributes should be("checked=\"checked\"")
     postalVoteModel.postCheckboxNoAndVoteInPerson.attributes should be("")
@@ -126,12 +127,12 @@ class PostalVoteMustacheTest
 
     val postalVoteModel = mustache.data(
       partiallyFilledApplicationForm,
-      Call("POST", "/foo/postal-vote"),
+      PostalVoteController.post,
       InprogressOrdinary()
     ).asInstanceOf[PostalVoteModel]
 
     postalVoteModel.question.title should be("Do you want to apply for a postal vote?")
-    postalVoteModel.question.postUrl should be("/foo/postal-vote")
+    postalVoteModel.question.postUrl should be("/register-to-vote/postal-vote")
 
     postalVoteModel.postCheckboxYes.attributes should be("checked=\"checked\"")
     postalVoteModel.postCheckboxNoAndVoteInPerson.attributes should be("")
