@@ -8,7 +8,9 @@ import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.Name
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.shared.BlockContent
+import uk.gov.gds.ier.step.Routes
 import org.mockito.Mockito._
+import play.api.mvc.Call
 
 class ConfirmationMustacheTest
   extends FlatSpec
@@ -21,9 +23,28 @@ class ConfirmationMustacheTest
   with WithMockConfig
   with WithMockRemoteAssets
   with WithMockAddressService
+  with WithMockOrdinaryControllers
   with ConfirmationMustache {
 
+  def routes(url:String) = Routes(
+    get = Call("GET", url),
+    post = Call("POST", url),
+    editGet = Call("GET", url),
+    editPost = Call("POST", url)
+  )
+
   val serialiser = jsonSerialiser
+  when(mockNameStep.routing).thenReturn(routes("/register-to-vote/edit/name"))
+  when(mockDateOfBirthStep.routing).thenReturn(routes("/register-to-vote/edit/date-of-birth"))
+  when(mockOtherAddressStep.routing).thenReturn(routes("/register-to-vote/edit/other-address"))
+  when(mockNinoStep.routing).thenReturn(routes("/register-to-vote/edit/nino"))
+  when(mockNationalityStep.routing).thenReturn(routes("/register-to-vote/edit/nationality"))
+  when(mockAddressManualStep.routing).thenReturn(routes("/register-to-vote/edit/address/manual"))
+  when(mockAddressSelectStep.routing).thenReturn(routes("/register-to-vote/edit/address/select"))
+  when(mockPreviousAddressFirstStep.routing).thenReturn(routes("/register-to-vote/edit/previous-address"))
+  when(mockOpenRegisterStep.routing).thenReturn(routes("/register-to-vote/edit/open-register"))
+  when(mockPostalVoteStep.routing).thenReturn(routes("/register-to-vote/edit/postal-vote"))
+  when(mockContactStep.routing).thenReturn(routes("/register-to-vote/edit/contact"))
 
   "In-progress application form with filled name and previous name" should
     "generate confirmation mustache model with correctly rendered names and correct URLs" in {

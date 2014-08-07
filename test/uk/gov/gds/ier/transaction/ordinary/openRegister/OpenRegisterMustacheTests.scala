@@ -4,8 +4,8 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
 import scala.Some
-import controllers.step.ordinary.routes._
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import play.api.mvc.Call
 
 class OpenRegisterMustacheTests
   extends FlatSpec
@@ -22,13 +22,13 @@ class OpenRegisterMustacheTests
     val emptyApplicationForm = openRegisterForm
     val openRegisterModel = mustache.data(
       emptyApplicationForm,
-      PostalVoteController.post,
+      Call("POST", "/foo"),
       InprogressOrdinary()
     ).asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be(
         "Do you want to include your name and address on the open register?")
-    openRegisterModel.question.postUrl should be("/register-to-vote/postal-vote")
+    openRegisterModel.question.postUrl should be("/foo")
 
     openRegisterModel.openRegister.value should be("false")
   }
@@ -42,13 +42,13 @@ class OpenRegisterMustacheTests
     )
     val openRegisterModel = mustache.data(
       partiallyFilledApplicationForm,
-      PostalVoteController.post,
+      Call("POST", "/foo"),
       InprogressOrdinary()
     ).asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be(
         "Do you want to include your name and address on the open register?")
-    openRegisterModel.question.postUrl should be("/register-to-vote/postal-vote")
+    openRegisterModel.question.postUrl should be("/foo")
 
     openRegisterModel.openRegister.attributes should be("")
   }
@@ -62,13 +62,13 @@ class OpenRegisterMustacheTests
     )
     val openRegisterModel = mustache.data(
       partiallyFilledApplicationForm,
-      PostalVoteController.post,
+      Call("POST", "/foo"),
       InprogressOrdinary()
     ).asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be(
         "Do you want to include your name and address on the open register?")
-    openRegisterModel.question.postUrl should be("/register-to-vote/postal-vote")
+    openRegisterModel.question.postUrl should be("/foo")
 
     openRegisterModel.openRegister.attributes should be("checked=\"checked\"")
   }

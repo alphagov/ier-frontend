@@ -4,7 +4,6 @@ import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.{Key, ErrorTransformForm}
 import uk.gov.gds.ier.model.{PostalVoteDeliveryMethod, PostalVoteOption, OtherAddress, MovedHouseOption}
-import controllers.step.ordinary.routes
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
@@ -12,10 +11,12 @@ import uk.gov.gds.ier.service.WithAddressService
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.form.OrdinaryFormImplicits
 import uk.gov.gds.ier.step.StepTemplate
+import uk.gov.gds.ier.transaction.ordinary.WithOrdinaryControllers
 
 trait ConfirmationMustache
     extends StepTemplate[InprogressOrdinary] {
     self: WithRemoteAssets
+      with WithOrdinaryControllers
       with WithAddressService
       with OrdinaryFormImplicits =>
 
@@ -74,16 +75,16 @@ trait ConfirmationMustache
 
     def ifComplete(keys:Key*)(confirmationHtml: => List[String]): EitherErrorOrContent = {
       if (keys.exists(form(_).hasErrors)) {
-    	BlockError(completeThisStepMessage)
+        BlockError(completeThisStepMessage)
       } else {
-    	BlockContent(confirmationHtml)
+        BlockContent(confirmationHtml)
       }
     }
 
     def name = {
       Some(ConfirmationQuestion(
         title = Messages("ordinary_confirmation_name_title"),
-        editLink = routes.NameController.editGet.url,
+        editLink = ordinary.NameStep.routing.editGet.url,
         changeName = Messages("ordinary_confirmation_name_changeName"),
         content = ifComplete(keys.name) {
           List(List(
@@ -108,7 +109,7 @@ trait ConfirmationMustache
       }
       Some(ConfirmationQuestion(
         title = Messages("ordinary_confirmation_previousName_title"),
-        editLink = routes.NameController.editGet.url,
+        editLink = ordinary.NameStep.routing.editGet.url,
         changeName = Messages("ordinary_confirmation_previousName_changeName"),
         content = ifComplete(keys.previousName) {
           List(prevNameStr)
@@ -140,7 +141,7 @@ trait ConfirmationMustache
 
       Some(ConfirmationQuestion(
         title = Messages("ordinary_confirmation_dob_title"),
-        editLink = routes.DateOfBirthController.editGet.url,
+        editLink = ordinary.DateOfBirthStep.routing.editGet.url,
         changeName = Messages("ordinary_confirmation_dob_changeName"),
         content = ifComplete(keys.dob) {
           dobContent
@@ -151,7 +152,7 @@ trait ConfirmationMustache
     def nationality = {
       Some(ConfirmationQuestion(
         title = Messages("ordinary_confirmation_nationality_title"),
-        editLink = routes.NationalityController.editGet.url,
+        editLink = ordinary.NationalityStep.routing.editGet.url,
         changeName = Messages("ordinary_confirmation_nationality_changeName"),
         content = ifComplete(keys.nationality) {
           if (nationalityIsFilled) {
@@ -167,7 +168,7 @@ trait ConfirmationMustache
     def nino = {
       Some(ConfirmationQuestion(
         title = Messages("ordinary_confirmation_nino_title"),
-        editLink = routes.NinoController.editGet.url,
+        editLink = ordinary.NinoStep.routing.editGet.url,
         changeName = Messages("ordinary_confirmation_nino_changeName"),
         content = ifComplete(keys.nino) {
           if(form(keys.nino.nino).value.isDefined){
@@ -184,9 +185,9 @@ trait ConfirmationMustache
       Some(ConfirmationQuestion(
         title = Messages("ordinary_confirmation_address_title"),
         editLink = if (isManualAddressDefined(form, keys.address.manualAddress)) {
-          routes.AddressManualController.editGet.url
+          ordinary.AddressManualStep.routing.editGet.url
         } else {
-          routes.AddressSelectController.editGet.url
+          ordinary.AddressSelectStep.routing.editGet.url
         },
         changeName = Messages("ordinary_confirmation_address_changeName"),
         content = ifComplete(keys.address) {
@@ -202,7 +203,7 @@ trait ConfirmationMustache
     def secondAddress = {
       Some(ConfirmationQuestion(
         title = Messages("ordinary_confirmation_secondAddress_title"),
-        editLink = routes.OtherAddressController.editGet.url,
+        editLink = ordinary.OtherAddressStep.routing.editGet.url,
         changeName = Messages("ordinary_confirmation_secondAddress_changeName"),
         content =
           ifComplete(keys.otherAddress) {
@@ -227,7 +228,7 @@ trait ConfirmationMustache
 
       Some(ConfirmationQuestion(
         title = title,
-        editLink = routes.PreviousAddressFirstController.editGet.url,
+        editLink = ordinary.PreviousAddressFirstStep.routing.editGet.url,
         changeName = Messages("ordinary_confirmation_previousAddress_changeName"),
         content = ifComplete(keys.previousAddress, keys.previousAddress.movedRecently) {
           movedHouse match {
@@ -252,7 +253,7 @@ trait ConfirmationMustache
     def openRegister = {
       Some(ConfirmationQuestion(
         title = Messages("ordinary_confirmation_openRegister_title"),
-        editLink = routes.OpenRegisterController.editGet.url,
+        editLink = ordinary.OpenRegisterStep.routing.editGet.url,
         changeName = Messages("ordinary_confirmation_openRegister_changeName"),
         content = ifComplete(keys.openRegister) {
           if (form(keys.openRegister.optIn).value == Some("true")){
@@ -267,7 +268,7 @@ trait ConfirmationMustache
     def postalVote = {
       Some(ConfirmationQuestion(
         title = Messages("ordinary_confirmation_postalVote_title"),
-        editLink = routes.PostalVoteController.editGet.url,
+        editLink = ordinary.PostalVoteStep.routing.editGet.url,
         changeName = Messages("ordinary_confirmation_postalVote_changeName"),
         content = ifComplete(keys.postalVote) {
           val isPostalVote = PostalVoteOption.parse(form(keys.postalVote.optIn).value.getOrElse("")) == PostalVoteOption.Yes
@@ -294,7 +295,7 @@ trait ConfirmationMustache
     def contact = {
       Some(ConfirmationQuestion(
         title = Messages("ordinary_confirmation_contact_title"),
-        editLink = routes.ContactController.editGet.url,
+        editLink = ordinary.ContactStep.routing.editGet.url,
         changeName = Messages("ordinary_confirmation_contact_changeName"),
         content = ifComplete(keys.contact) {
           val post = if (form(keys.contact.post.contactMe).value == Some("true")) {

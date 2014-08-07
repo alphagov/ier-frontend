@@ -11,6 +11,7 @@ import uk.gov.gds.ier.guice.{WithRemoteAssets, WithEncryption, WithConfig}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.mustache.{InheritedGovukMustache, GovukMustache}
 import uk.gov.gds.ier.assets.RemoteAssets
+import uk.gov.gds.ier.transaction._
 
 class RegisterToVoteController @Inject() (
     val serialiser: JsonSerialiser,
@@ -41,7 +42,7 @@ class RegisterToVoteController @Inject() (
 
   def registerToVoteStart = NewSession requiredFor {
     request =>
-      Redirect(step.routes.CountryController.get.url, request.queryString)
+      Redirect(country.routes.CountryStep.get.url, request.queryString)
   }
 
   def registerToVoteOverseasStart = NewSession requiredFor {
