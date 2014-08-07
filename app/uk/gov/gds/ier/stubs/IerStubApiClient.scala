@@ -16,7 +16,7 @@ class IerStubApiClient @Inject() (
     if (url.contains("/citizen/application")) {
       Success(serialiser.toJson(
         IerApiApplicationResponse(
-          id = "5360fe69036424d9ec0a1657",
+          id = Some("5360fe69036424d9ec0a1657"),
           localAuthority = EroAuthorityDetails(
             name = "Local authority name",
             urls = "url1" :: "url2" :: Nil,

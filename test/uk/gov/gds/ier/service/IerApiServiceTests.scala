@@ -58,7 +58,7 @@ class IerApiServiceTests
     ).submitOrdinaryApplication(None, application, None, Some("1234"), "en", Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
 
     r should be(IerApiApplicationResponse(
-      id = "5360fe69036424d9ec0a1657",
+      id = Some("5360fe69036424d9ec0a1657"),
       localAuthority = EroAuthorityDetails(
         name = "Local authority name",
         urls = "url1" :: "url2" :: Nil,
@@ -87,7 +87,7 @@ class IerApiServiceTests
     ).submitOrdinaryApplication(Some("127.0.0.1"), application, Some("55631D"), Some("1234"), "en", Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
 
     r should be(IerApiApplicationResponse(
-      id = "5360fe69036424d9ec0a1657",
+      id = Some("5360fe69036424d9ec0a1657"),
       localAuthority = EroAuthorityDetails(
         name = "Local authority name",
         urls = "url1" :: "url2" :: Nil,
@@ -116,7 +116,7 @@ class IerApiServiceTests
     ).submitOverseasApplication(None, application, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
 
     r should be(IerApiApplicationResponse(
-      id = "5360fe69036424d9ec0a1657",
+      id = Some("5360fe69036424d9ec0a1657"),
       localAuthority = EroAuthorityDetails(
         name = "Local authority name",
         urls = "url1" :: "url2" :: Nil,
@@ -145,7 +145,7 @@ class IerApiServiceTests
     ).submitCrownApplication(None, application, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
 
     r should be(IerApiApplicationResponse(
-      id = "5360fe69036424d9ec0a1657",
+      id = Some("5360fe69036424d9ec0a1657"),
       localAuthority = EroAuthorityDetails(
         name = "Local authority name",
         urls = "url1" :: "url2" :: Nil,
@@ -231,7 +231,7 @@ class IerApiServiceTests
     ).submitForcesApplication(None, application, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
 
     r should be(IerApiApplicationResponse(
-      id = "5360fe69036424d9ec0a1657",
+      id = Some("5360fe69036424d9ec0a1657"),
       localAuthority = EroAuthorityDetails(
         name = "Local authority name",
         urls = "url1" :: "url2" :: Nil,
