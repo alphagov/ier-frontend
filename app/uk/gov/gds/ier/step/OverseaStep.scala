@@ -12,7 +12,6 @@ trait OverseaStep
   with WithConfig
   with WithEncryption
   with WithRemoteAssets { self: StepTemplate[InprogressOverseas] =>
-    val manifestOfT = manifest[InprogressOverseas]
     def factoryOfT() = InprogressOverseas()
     def timeoutPage() = ErrorController.ordinaryTimeout
     val confirmationRoute = ConfirmationController.get

@@ -56,21 +56,7 @@ object ApplicationBuild extends IERBuild {
     .settings(watchSources ~= { _.filterNot(_.isDirectory) })
     .settings(organization := "uk.gov.gds")
     .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
-    .settings(ClearShell.settings:_*)
 
-}
-
-object ClearShell {
-  lazy val clearShell = TaskKey[Unit](
-    "clear",
-    "Clears your shell. Useful to clear screen between test runs e.g. ~; clear ; test"
-  )
-  lazy val clearShellTask = clearShell := {
-    """printf \033c""".!
-  }
-  val settings = Seq(
-    clearShellTask
-  )
 }
 
 abstract class IERBuild extends Build {

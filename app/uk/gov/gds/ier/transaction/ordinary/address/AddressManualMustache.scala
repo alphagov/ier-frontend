@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.address
 
+import controllers.step.ordinary.routes.AddressController
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
@@ -29,7 +30,7 @@ trait AddressManualMustache extends StepTemplate[InprogressOrdinary] {
           title = Messages("ordinary_address_manual_title"),
           errorMessages = Messages.translatedGlobalErrors(form)
         ),
-        lookupUrl = routes.AddressStep.get.url,
+        lookupUrl = AddressController.get.url,
         postcode = TextField(keys.address.postcode),
         maLineOne = TextField(keys.address.manualAddress.lineOne),
         maLineTwo = TextField(keys.address.manualAddress.lineTwo),
