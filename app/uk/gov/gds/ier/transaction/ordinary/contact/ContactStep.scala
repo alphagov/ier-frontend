@@ -1,23 +1,27 @@
 package uk.gov.gds.ier.transaction.ordinary.contact
 
+import controllers.step.ordinary.routes.{ContactController, PostalVoteController}
+import controllers.step.ordinary.ConfirmationController
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.model._
+import play.api.templates.Html
 
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.OrdinaryStep
+import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
+import scala.Some
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.assets.RemoteAssets
 
 class ContactStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets,
-    val ordinary: OrdinaryControllers
+    val remoteAssets: RemoteAssets
 ) extends OrdinaryStep
   with ContactForms
   with ContactMustache {
@@ -25,13 +29,13 @@ class ContactStep @Inject ()(
   val validation = contactForm
 
   val routing = Routes(
-    get = routes.ContactStep.get,
-    post = routes.ContactStep.post,
-    editGet = routes.ContactStep.editGet,
-    editPost = routes.ContactStep.editPost
+    get = ContactController.get,
+    post = ContactController.post,
+    editGet = ContactController.editGet,
+    editPost = ContactController.editPost
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
-    ordinary.ConfirmationStep
+    ConfirmationController.confirmationStep
   }
 }

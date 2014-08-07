@@ -1,6 +1,13 @@
 package uk.gov.gds.ier.transaction.ordinary.address
 
+import controllers.step.ordinary.routes.{
+  AddressController,
+  AddressManualController,
+  AddressSelectController,
+  NinoController}
+import controllers.step.ordinary.OtherAddressController
 import com.google.inject.Inject
+import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{
   Addresses,
@@ -10,7 +17,7 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{GoTo, OrdinaryStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import controllers.routes.ExitController
 import uk.gov.gds.ier.assets.RemoteAssets
 
@@ -19,8 +26,7 @@ class AddressSelectStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService,
-    val remoteAssets: RemoteAssets,
-    val ordinary: OrdinaryControllers
+    val remoteAssets: RemoteAssets
 ) extends OrdinaryStep
   with AddressSelectMustache
   with AddressForms {
@@ -28,16 +34,16 @@ class AddressSelectStep @Inject() (
   val validation = addressForm
 
   val routing = Routes(
-    get = routes.AddressSelectStep.get,
-    post = routes.AddressSelectStep.post,
-    editGet = routes.AddressSelectStep.editGet,
-    editPost = routes.AddressSelectStep.editPost
+    get = AddressSelectController.get,
+    post = AddressSelectController.post,
+    editGet = AddressSelectController.editGet,
+    editPost = AddressSelectController.editPost
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
     currentState.address.map(_.postcode) match {
       case Some(postcode) if postcode.trim.toUpperCase.startsWith("BT") => GoTo (ExitController.northernIreland)
-      case _ => ordinary.OtherAddressStep
+      case _ => OtherAddressController.otherAddressStep
     }
   }
 

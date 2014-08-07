@@ -1,9 +1,11 @@
 package uk.gov.gds.ier.transaction.ordinary.nationality
 
-import play.api.mvc.Call
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
+import scala.Some
+import controllers.step.ordinary.routes._
+import controllers.step.routes._
 import uk.gov.gds.ier.model.{PartialNationality}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
@@ -23,7 +25,7 @@ class NationalityMustacheTest
     val emptyApplication = InprogressOrdinary()
     val nationalityModel = mustache.data(
       emptyApplicationForm,
-      Call("POST", "/register-to-vote/nationality"),
+      NationalityController.post,
       emptyApplication
     ).asInstanceOf[NationalityModel]
 
@@ -57,7 +59,7 @@ class NationalityMustacheTest
 
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
-      Call("POST", "/register-to-vote/nationality"),
+      NationalityController.post,
       partiallyFilledApplication
     ).asInstanceOf[NationalityModel]
 
@@ -89,7 +91,7 @@ class NationalityMustacheTest
 
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
-      Call("POST", "/register-to-vote/nationality"),
+      NationalityController.post,
       partiallyFilledApplication
     ).asInstanceOf[NationalityModel]
 
@@ -120,7 +122,7 @@ class NationalityMustacheTest
 
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
-      Call("POST", "/register-to-vote/nationality"),
+      NationalityController.post,
       partiallyFilledApplication
     ).asInstanceOf[NationalityModel]
 
@@ -151,7 +153,7 @@ class NationalityMustacheTest
 
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
-      Call("POST", "/register-to-vote/nationality"),
+      NationalityController.post,
       partiallyFilledApplication
     ).asInstanceOf[NationalityModel]
 
@@ -182,7 +184,7 @@ class NationalityMustacheTest
 
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
-      Call("POST", "/register-to-vote/nationality"),
+      NationalityController.post,
       partiallyFilledApplication
     ).asInstanceOf[NationalityModel]
 

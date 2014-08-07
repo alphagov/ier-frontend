@@ -1,5 +1,8 @@
 package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
+import controllers.step.ordinary.routes.{
+  PreviousAddressPostcodeController,
+  PreviousAddressManualController}
 import uk.gov.gds.ier.model.{PossibleAddress, Addresses, MovedHouseOption}
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.serialiser.JsonSerialiser
@@ -91,8 +94,8 @@ trait PreviousAddressSelectMustache extends StepTemplate[InprogressOrdinary] {
         title = title,
         errorMessages = Messages.translatedGlobalErrors(form)
       ),
-      lookupUrl = routes.PreviousAddressPostcodeStep.get.url,
-      manualUrl = routes.PreviousAddressManualStep.get.url,
+      lookupUrl = PreviousAddressPostcodeController.get.url,
+      manualUrl = PreviousAddressManualController.get.url,
       postcode = TextField(keys.previousAddress.previousAddress.postcode),
       address = addressSelectWithError,  // this is model data for <select>
       possibleJsonList = HiddenField(
