@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.service.apiservice
 
 case class IerApiApplicationResponse (
-  id: String,
+  id: Option[String],
   localAuthority: EroAuthorityDetails
 )
 
