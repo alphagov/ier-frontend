@@ -4,7 +4,7 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.transaction.ordinary.contact.routes._
+import controllers.step.ordinary.routes._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
@@ -28,7 +28,7 @@ class ContactMustacheTests
     val emptyApplicationForm = contactForm
     val contactModel = mustache.data(
       emptyApplicationForm,
-      ContactStep.post,
+      ContactController.post,
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
@@ -57,7 +57,7 @@ class ContactMustacheTests
 
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
-      ContactStep.post,
+      ContactController.post,
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
@@ -86,7 +86,7 @@ class ContactMustacheTests
 
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
-      ContactStep.post,
+      ContactController.post,
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
@@ -115,7 +115,7 @@ class ContactMustacheTests
 
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
-      ContactStep.post,
+      ContactController.post,
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
@@ -144,7 +144,7 @@ class ContactMustacheTests
 
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
-      ContactStep.post,
+      ContactController.post,
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 
@@ -176,7 +176,7 @@ class ContactMustacheTests
 
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
-      ContactStep.post,
+      ContactController.post,
       InprogressOrdinary()
     ).asInstanceOf[ContactModel]
 

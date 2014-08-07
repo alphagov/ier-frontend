@@ -1,14 +1,19 @@
 package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
+import controllers.step.ordinary.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.OrdinaryStep
+import play.api.mvc.Call
+import play.api.templates.Html
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
+import scala.Some
+import controllers.step.ordinary.OpenRegisterController
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.assets.RemoteAssets
 
@@ -17,23 +22,22 @@ class PreviousAddressManualStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService,
-    val remoteAssets: RemoteAssets,
-    val ordinary: OrdinaryControllers
-) extends OrdinaryStep
+    val remoteAssets: RemoteAssets)
+  extends OrdinaryStep
   with PreviousAddressManualMustache
   with PreviousAddressForms {
 
   val validation = manualStepForm
 
   val routing = Routes(
-    get = routes.PreviousAddressManualStep.get,
-    post = routes.PreviousAddressManualStep.post,
-    editGet = routes.PreviousAddressManualStep.editGet,
-    editPost = routes.PreviousAddressManualStep.editPost
+    get = PreviousAddressManualController.get,
+    post = PreviousAddressManualController.post,
+    editGet = PreviousAddressManualController.editGet,
+    editPost = PreviousAddressManualController.editPost
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
-    ordinary.OpenRegisterStep
+    OpenRegisterController.openRegisterStep
   }
 
   override val onSuccess = TransformApplication { currentState =>

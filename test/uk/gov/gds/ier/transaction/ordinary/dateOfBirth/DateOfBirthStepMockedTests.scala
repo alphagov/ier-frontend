@@ -3,8 +3,6 @@ package uk.gov.gds.ier.transaction.ordinary.dateOfBirth
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 import org.specs2.mock.Mockito
-import org.mockito.Mockito._
-import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
@@ -14,9 +12,6 @@ import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.model.DateOfBirth
 import uk.gov.gds.ier.model.noDOB
 import uk.gov.gds.ier.model.DOB
-import uk.gov.gds.ier.transaction.ordinary.{InprogressOrdinary, OrdinaryControllers}
-import uk.gov.gds.ier.transaction.ordinary.name.NameStep
-import uk.gov.gds.ier.step.Routes
 
 /*
  * This test mock the Date of Birth.
@@ -31,22 +26,13 @@ class DateOfBirthStepMockedTests extends FlatSpec with TestHelpers with Matchers
     val mockedConfig = mock[Config]
     val mockedEncryptionService = mock[EncryptionService]
     val mockedRemoteAssets = mock[RemoteAssets]
-    val mockedControllers = mock[OrdinaryControllers]
-    val mockNameStep = mock[NameStep]
-    val mockRoutes = mock[Routes]
 
     val dobStep = new DateOfBirthStep(
       mockedJsonSerialiser,
       mockedConfig,
       mockedEncryptionService,
-      mockedRemoteAssets,
-      mockedControllers
+      mockedRemoteAssets
     )
-
-    when(mockedControllers.NameStep).thenReturn(mockNameStep)
-    when(mockNameStep.isStepComplete(any[InprogressOrdinary])).thenReturn(false)
-    when(mockNameStep.routing).thenReturn(mockRoutes)
-    when(mockRoutes.get).thenReturn(Call("GET", "/name"))
 
     val currentState = completeOrdinaryApplication.copy(
       dob = Some(DateOfBirth(

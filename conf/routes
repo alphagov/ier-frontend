@@ -53,10 +53,10 @@ GET         /status                                                      control
 ################################
 
 #Country Step
-GET         /register-to-vote/country-of-residence                       @uk.gov.gds.ier.transaction.country.CountryStep.get
-POST        /register-to-vote/country-of-residence                       @uk.gov.gds.ier.transaction.country.CountryStep.post
-GET         /register-to-vote/edit/country-of-residence                  @uk.gov.gds.ier.transaction.country.CountryStep.editGet
-POST        /register-to-vote/edit/country-of-residence                  @uk.gov.gds.ier.transaction.country.CountryStep.editPost
+GET         /register-to-vote/country-of-residence                       controllers.step.CountryController.get
+POST        /register-to-vote/country-of-residence                       controllers.step.CountryController.post
+GET         /register-to-vote/edit/country-of-residence                  controllers.step.CountryController.editGet
+POST        /register-to-vote/edit/country-of-residence                  controllers.step.CountryController.editPost
 
 
 ################################
@@ -64,98 +64,98 @@ POST        /register-to-vote/edit/country-of-residence                  @uk.gov
 ################################
 
 #Confirmation Step
-GET         /register-to-vote/confirmation                               @uk.gov.gds.ier.transaction.ordinary.confirmation.ConfirmationStep.get
-POST        /register-to-vote/confirmation                               @uk.gov.gds.ier.transaction.ordinary.confirmation.ConfirmationStep.post
+GET         /register-to-vote/confirmation                               controllers.step.ordinary.ConfirmationController.get
+POST        /register-to-vote/confirmation                               controllers.step.ordinary.ConfirmationController.post
 
 #Contact Step
-GET         /register-to-vote/contact                                    @uk.gov.gds.ier.transaction.ordinary.contact.ContactStep.get
-POST        /register-to-vote/contact                                    @uk.gov.gds.ier.transaction.ordinary.contact.ContactStep.post
-GET         /register-to-vote/edit/contact                               @uk.gov.gds.ier.transaction.ordinary.contact.ContactStep.editGet
-POST        /register-to-vote/edit/contact                               @uk.gov.gds.ier.transaction.ordinary.contact.ContactStep.editPost
+GET         /register-to-vote/contact                                    controllers.step.ordinary.ContactController.get
+POST        /register-to-vote/contact                                    controllers.step.ordinary.ContactController.post
+GET         /register-to-vote/edit/contact                               controllers.step.ordinary.ContactController.editGet
+POST        /register-to-vote/edit/contact                               controllers.step.ordinary.ContactController.editPost
 
 #Postal Vote Step
-GET         /register-to-vote/postal-vote                                @uk.gov.gds.ier.transaction.ordinary.postalVote.PostalVoteStep.get
-POST        /register-to-vote/postal-vote                                @uk.gov.gds.ier.transaction.ordinary.postalVote.PostalVoteStep.post
-GET         /register-to-vote/edit/postal-vote                           @uk.gov.gds.ier.transaction.ordinary.postalVote.PostalVoteStep.editGet
-POST        /register-to-vote/edit/postal-vote                           @uk.gov.gds.ier.transaction.ordinary.postalVote.PostalVoteStep.editPost
+GET         /register-to-vote/postal-vote                                controllers.step.ordinary.PostalVoteController.get
+POST        /register-to-vote/postal-vote                                controllers.step.ordinary.PostalVoteController.post
+GET         /register-to-vote/edit/postal-vote                           controllers.step.ordinary.PostalVoteController.editGet
+POST        /register-to-vote/edit/postal-vote                           controllers.step.ordinary.PostalVoteController.editPost
 
 #Open Register Step
-GET         /register-to-vote/open-register                              @uk.gov.gds.ier.transaction.ordinary.openRegister.OpenRegisterStep.get
-POST        /register-to-vote/open-register                              @uk.gov.gds.ier.transaction.ordinary.openRegister.OpenRegisterStep.post
-GET         /register-to-vote/edit/open-register                         @uk.gov.gds.ier.transaction.ordinary.openRegister.OpenRegisterStep.editGet
-POST        /register-to-vote/edit/open-register                         @uk.gov.gds.ier.transaction.ordinary.openRegister.OpenRegisterStep.editPost
+GET         /register-to-vote/open-register                              controllers.step.ordinary.OpenRegisterController.get
+POST        /register-to-vote/open-register                              controllers.step.ordinary.OpenRegisterController.post
+GET         /register-to-vote/edit/open-register                         controllers.step.ordinary.OpenRegisterController.editGet
+POST        /register-to-vote/edit/open-register                         controllers.step.ordinary.OpenRegisterController.editPost
 
 #Other Address Step
-GET         /register-to-vote/other-address                              @uk.gov.gds.ier.transaction.ordinary.otherAddress.OtherAddressStep.get
-POST        /register-to-vote/other-address                              @uk.gov.gds.ier.transaction.ordinary.otherAddress.OtherAddressStep.post
-GET         /register-to-vote/edit/other-address                         @uk.gov.gds.ier.transaction.ordinary.otherAddress.OtherAddressStep.editGet
-POST        /register-to-vote/edit/other-address                         @uk.gov.gds.ier.transaction.ordinary.otherAddress.OtherAddressStep.editPost
+GET         /register-to-vote/other-address                              controllers.step.ordinary.OtherAddressController.get
+POST        /register-to-vote/other-address                              controllers.step.ordinary.OtherAddressController.post
+GET         /register-to-vote/edit/other-address                         controllers.step.ordinary.OtherAddressController.editGet
+POST        /register-to-vote/edit/other-address                         controllers.step.ordinary.OtherAddressController.editPost
 
 #Nationality Step
-GET         /register-to-vote/nationality                                @uk.gov.gds.ier.transaction.ordinary.nationality.NationalityStep.get
-POST        /register-to-vote/nationality                                @uk.gov.gds.ier.transaction.ordinary.nationality.NationalityStep.post
-GET         /register-to-vote/edit/nationality                           @uk.gov.gds.ier.transaction.ordinary.nationality.NationalityStep.editGet
-POST        /register-to-vote/edit/nationality                           @uk.gov.gds.ier.transaction.ordinary.nationality.NationalityStep.editPost
+GET         /register-to-vote/nationality                                controllers.step.ordinary.NationalityController.get
+POST        /register-to-vote/nationality                                controllers.step.ordinary.NationalityController.post
+GET         /register-to-vote/edit/nationality                           controllers.step.ordinary.NationalityController.editGet
+POST        /register-to-vote/edit/nationality                           controllers.step.ordinary.NationalityController.editPost
 
 #Address
-GET         /register-to-vote/address                                    @uk.gov.gds.ier.transaction.ordinary.address.AddressStep.get
-POST        /register-to-vote/address                                    @uk.gov.gds.ier.transaction.ordinary.address.AddressStep.post
-GET         /register-to-vote/edit/address                               @uk.gov.gds.ier.transaction.ordinary.address.AddressStep.editGet
-POST        /register-to-vote/edit/address                               @uk.gov.gds.ier.transaction.ordinary.address.AddressStep.editPost
+GET         /register-to-vote/address                                    controllers.step.ordinary.AddressController.get
+POST        /register-to-vote/address                                    controllers.step.ordinary.AddressController.post
+GET         /register-to-vote/edit/address                               controllers.step.ordinary.AddressController.editGet
+POST        /register-to-vote/edit/address                               controllers.step.ordinary.AddressController.editPost
 
 #Manual Address
-GET         /register-to-vote/address/manual                             @uk.gov.gds.ier.transaction.ordinary.address.AddressManualStep.get
-POST        /register-to-vote/address/manual                             @uk.gov.gds.ier.transaction.ordinary.address.AddressManualStep.post
-GET         /register-to-vote/edit/address/manual                        @uk.gov.gds.ier.transaction.ordinary.address.AddressManualStep.editGet
-POST        /register-to-vote/edit/address/manual                        @uk.gov.gds.ier.transaction.ordinary.address.AddressManualStep.editPost
+GET         /register-to-vote/address/manual                             controllers.step.ordinary.AddressManualController.get
+POST        /register-to-vote/address/manual                             controllers.step.ordinary.AddressManualController.post
+GET         /register-to-vote/edit/address/manual                        controllers.step.ordinary.AddressManualController.editGet
+POST        /register-to-vote/edit/address/manual                        controllers.step.ordinary.AddressManualController.editPost
 
 #Select Address
-GET         /register-to-vote/address/select                             @uk.gov.gds.ier.transaction.ordinary.address.AddressSelectStep.get
-POST        /register-to-vote/address/select                             @uk.gov.gds.ier.transaction.ordinary.address.AddressSelectStep.post
-GET         /register-to-vote/edit/address/select                        @uk.gov.gds.ier.transaction.ordinary.address.AddressSelectStep.editGet
-POST        /register-to-vote/edit/address/select                        @uk.gov.gds.ier.transaction.ordinary.address.AddressSelectStep.editPost
+GET         /register-to-vote/address/select                             controllers.step.ordinary.AddressSelectController.get
+POST        /register-to-vote/address/select                             controllers.step.ordinary.AddressSelectController.post
+GET         /register-to-vote/edit/address/select                        controllers.step.ordinary.AddressSelectController.editGet
+POST        /register-to-vote/edit/address/select                        controllers.step.ordinary.AddressSelectController.editPost
 
 #Previous Address Step
-GET         /register-to-vote/previous-address                           @uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressFirstStep.get
-POST        /register-to-vote/previous-address                           @uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressFirstStep.post
-GET         /register-to-vote/edit/previous-address                      @uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressFirstStep.editGet
-POST        /register-to-vote/edit/previous-address                      @uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressFirstStep.editPost
+GET         /register-to-vote/previous-address                           controllers.step.ordinary.PreviousAddressFirstController.get
+POST        /register-to-vote/previous-address                           controllers.step.ordinary.PreviousAddressFirstController.post
+GET         /register-to-vote/edit/previous-address                      controllers.step.ordinary.PreviousAddressFirstController.editGet
+POST        /register-to-vote/edit/previous-address                      controllers.step.ordinary.PreviousAddressFirstController.editPost
 
 #Previous Address Step - postcode entry (if there is a previous address)
-GET         /register-to-vote/previous-address/postcode                  @uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressPostcodeStep.get
-POST        /register-to-vote/previous-address/postcode                  @uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressPostcodeStep.post
-GET         /register-to-vote/edit/previous-address/postcode             @uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressPostcodeStep.editGet
-POST        /register-to-vote/edit/previous-address/postcode             @uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressPostcodeStep.editPost
+GET         /register-to-vote/previous-address/postcode                  controllers.step.ordinary.PreviousAddressPostcodeController.get
+POST        /register-to-vote/previous-address/postcode                  controllers.step.ordinary.PreviousAddressPostcodeController.post
+GET         /register-to-vote/edit/previous-address/postcode             controllers.step.ordinary.PreviousAddressPostcodeController.editGet
+POST        /register-to-vote/edit/previous-address/postcode             controllers.step.ordinary.PreviousAddressPostcodeController.editPost
 
 #Previous Address Step - selection from postcode
-GET         /register-to-vote/previous-address/select                    @uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressSelectStep.get
-POST        /register-to-vote/previous-address/select                    @uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressSelectStep.post
-GET         /register-to-vote/edit/previous-address/select               @uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressSelectStep.editGet
-POST        /register-to-vote/edit/previous-address/select               @uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressSelectStep.editPost
+GET         /register-to-vote/previous-address/select                    controllers.step.ordinary.PreviousAddressSelectController.get
+POST        /register-to-vote/previous-address/select                    controllers.step.ordinary.PreviousAddressSelectController.post
+GET         /register-to-vote/edit/previous-address/select               controllers.step.ordinary.PreviousAddressSelectController.editGet
+POST        /register-to-vote/edit/previous-address/select               controllers.step.ordinary.PreviousAddressSelectController.editPost
 
 #Previous Address Step - manual address
-GET         /register-to-vote/previous-address/manual                    @uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressManualStep.get
-POST        /register-to-vote/previous-address/manual                    @uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressManualStep.post
-GET         /register-to-vote/edit/previous-address/manual               @uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressManualStep.editGet
-POST        /register-to-vote/edit/previous-address/manual               @uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressManualStep.editPost
+GET         /register-to-vote/previous-address/manual                    controllers.step.ordinary.PreviousAddressManualController.get
+POST        /register-to-vote/previous-address/manual                    controllers.step.ordinary.PreviousAddressManualController.post
+GET         /register-to-vote/edit/previous-address/manual               controllers.step.ordinary.PreviousAddressManualController.editGet
+POST        /register-to-vote/edit/previous-address/manual               controllers.step.ordinary.PreviousAddressManualController.editPost
 
 #Name Step
-GET         /register-to-vote/name                                       @uk.gov.gds.ier.transaction.ordinary.name.NameStep.get
-POST        /register-to-vote/name                                       @uk.gov.gds.ier.transaction.ordinary.name.NameStep.post
-GET         /register-to-vote/edit/name                                  @uk.gov.gds.ier.transaction.ordinary.name.NameStep.editGet
-POST        /register-to-vote/edit/name                                  @uk.gov.gds.ier.transaction.ordinary.name.NameStep.editPost
+GET         /register-to-vote/name                                       controllers.step.ordinary.NameController.get
+POST        /register-to-vote/name                                       controllers.step.ordinary.NameController.post
+GET         /register-to-vote/edit/name                                  controllers.step.ordinary.NameController.editGet
+POST        /register-to-vote/edit/name                                  controllers.step.ordinary.NameController.editPost
 
 #Date Of Birth Step
-GET         /register-to-vote/date-of-birth                              @uk.gov.gds.ier.transaction.ordinary.dateOfBirth.DateOfBirthStep.get
-POST        /register-to-vote/date-of-birth                              @uk.gov.gds.ier.transaction.ordinary.dateOfBirth.DateOfBirthStep.post
-GET         /register-to-vote/edit/date-of-birth                         @uk.gov.gds.ier.transaction.ordinary.dateOfBirth.DateOfBirthStep.editGet
-POST        /register-to-vote/edit/date-of-birth                         @uk.gov.gds.ier.transaction.ordinary.dateOfBirth.DateOfBirthStep.editPost
+GET         /register-to-vote/date-of-birth                              controllers.step.ordinary.DateOfBirthController.get
+POST        /register-to-vote/date-of-birth                              controllers.step.ordinary.DateOfBirthController.post
+GET         /register-to-vote/edit/date-of-birth                         controllers.step.ordinary.DateOfBirthController.editGet
+POST        /register-to-vote/edit/date-of-birth                         controllers.step.ordinary.DateOfBirthController.editPost
 
 #Nino Step
-GET         /register-to-vote/nino                                       @uk.gov.gds.ier.transaction.ordinary.nino.NinoStep.get
-POST        /register-to-vote/nino                                       @uk.gov.gds.ier.transaction.ordinary.nino.NinoStep.post
-GET         /register-to-vote/edit/nino                                  @uk.gov.gds.ier.transaction.ordinary.nino.NinoStep.editGet
-POST        /register-to-vote/edit/nino                                  @uk.gov.gds.ier.transaction.ordinary.nino.NinoStep.editPost
+GET         /register-to-vote/nino                                       controllers.step.ordinary.NinoController.get
+POST        /register-to-vote/nino                                       controllers.step.ordinary.NinoController.post
+GET         /register-to-vote/edit/nino                                  controllers.step.ordinary.NinoController.editGet
+POST        /register-to-vote/edit/nino                                  controllers.step.ordinary.NinoController.editPost
 
 
 #Postcode Lookup

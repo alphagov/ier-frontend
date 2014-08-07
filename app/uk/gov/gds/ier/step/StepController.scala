@@ -34,8 +34,6 @@ trait StepController [T <: InprogressApplication[T]]
     with WithEncryption
     with StepTemplate[T] =>
 
-  implicit val manifestOfT: Manifest[T]
-
   val validation: ErrorTransformForm[T]
   val confirmationRoute: Call
 
@@ -53,14 +51,14 @@ trait StepController [T <: InprogressApplication[T]]
     )
   }
 
-  def get = CacheBust {
+  def get(implicit manifest: Manifest[T]) = CacheBust {
     ValidSession requiredFor { implicit request => application =>
       logger.debug(s"GET request for ${request.path}")
       Ok(mustache(validation.fill(application), routing.post, application).html)
     }
   }
 
-  def postMethod(postCall:Call) = CacheBust {
+  def postMethod(postCall:Call)(implicit manifest: Manifest[T]) = CacheBust {
     ValidSession requiredFor { implicit request => application =>
       logger.debug(s"POST request for ${request.path}")
 
@@ -81,11 +79,11 @@ trait StepController [T <: InprogressApplication[T]]
     }
   }
 
-  def post = postMethod(routing.post)
+  def post(implicit manifest: Manifest[T]) = postMethod(routing.post)
 
-  def editPost = postMethod(routing.editPost)
+  def editPost(implicit manifest: Manifest[T]) = postMethod(routing.editPost)
 
-  def editGet = CacheBust {
+  def editGet(implicit manifest: Manifest[T]) = CacheBust {
     ValidSession requiredFor { implicit request => application =>
       logger.debug(s"GET edit request for ${request.path}")
       Ok(mustache(validation.fill(application), routing.editPost, application).html)
