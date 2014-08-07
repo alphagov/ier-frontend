@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.postalVote
 
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.model._
 import play.api.templates.Html
@@ -16,6 +16,7 @@ import scala.Some
 import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class PostalVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,

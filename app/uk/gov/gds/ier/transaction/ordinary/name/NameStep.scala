@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.name
 
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.config.Config
@@ -10,6 +10,7 @@ import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.transaction.ordinary.OrdinaryControllers
 
+@Singleton
 class NameStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,

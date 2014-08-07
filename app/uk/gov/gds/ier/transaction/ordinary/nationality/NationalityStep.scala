@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.nationality
 
 import controllers.routes.ExitController
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.service.IsoCountryService
@@ -11,6 +11,7 @@ import uk.gov.gds.ier.step.{OrdinaryStep, Routes, GoTo}
 import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class NationalityStep @Inject ()(
     val serialiser: JsonSerialiser,
     val isoCountryService: IsoCountryService,

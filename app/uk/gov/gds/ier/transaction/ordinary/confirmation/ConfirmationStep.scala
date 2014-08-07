@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.confirmation
 
 import controllers.routes._
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.{WithAddressService, AddressService}
 import uk.gov.gds.ier.config.Config
@@ -18,6 +18,7 @@ import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.model.PostalVoteOption
 import uk.gov.gds.ier.transaction.ordinary.{WithOrdinaryControllers, OrdinaryControllers}
 
+@Singleton
 class ConfirmationStep @Inject ()(
     val serialiser: JsonSerialiser,
     ierApi: IerApiService,

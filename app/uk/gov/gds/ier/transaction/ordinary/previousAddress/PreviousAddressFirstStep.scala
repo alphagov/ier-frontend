@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.model.{MovedHouseOption}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
@@ -11,6 +11,7 @@ import uk.gov.gds.ier.step.{Routes, OrdinaryStep}
 import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class PreviousAddressFirstStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,

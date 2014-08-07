@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.address
 
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{
   Addresses,
@@ -14,6 +14,7 @@ import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdin
 import controllers.routes.ExitController
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class AddressSelectStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,

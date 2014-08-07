@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.address
 
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
@@ -11,6 +11,7 @@ import controllers.routes.ExitController
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.transaction.ordinary.OrdinaryControllers
 
+@Singleton
 class AddressStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,

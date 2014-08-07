@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.dateOfBirth
 
 import controllers.routes.ExitController
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.model.{DateOfBirth, noDOB}
 import uk.gov.gds.ier.validation._
@@ -12,6 +12,7 @@ import uk.gov.gds.ier.step.{OrdinaryStep, Routes, GoTo}
 import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class DateOfBirthStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
