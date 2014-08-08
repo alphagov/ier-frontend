@@ -12,11 +12,10 @@ import uk.gov.gds.ier.mustache.ErrorPageMustache
 import uk.gov.gds.ier.service.apiservice.IerApiService
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.guice.WithRemoteAssets
-import uk.gov.gds.ier.transaction.ordinary.confirmation.ConfirmationCookieWriter
 import uk.gov.gds.ier.session.ResultHandling
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.step.Routes
-import uk.gov.gds.ier.transaction.complete.ConfirmationCookie
+import uk.gov.gds.ier.transaction.complete.CompleteCookie
 
 class ConfirmationStep @Inject() (
     val encryptionService: EncryptionService,
@@ -28,7 +27,6 @@ class ConfirmationStep @Inject() (
   with ConfirmationForms
   with ErrorPageMustache
   with ConfirmationMustache
-  with ConfirmationCookieWriter
   with ResultHandling
   with WithRemoteAssets {
 
@@ -44,19 +42,23 @@ class ConfirmationStep @Inject() (
 
   val validation = confirmationForm
 
-  def get = ValidSession requiredFor {
-    implicit request => application =>
+  def get = ValidSession in Action {
+    implicit request =>
       application.identifyApplication match {
         case ApplicationType.DontKnow => NotFound(ErrorPage.NotFound(request.path))
-        case _ => Ok(mustache(validation.fillAndValidate(application), routing.post, application).html)
+        case _ => {
+          val filledForm = validation.fillAndValidate(application)
+          val html = mustache(filledForm, routing.post, application).html
+          Ok(html).refreshToken
+        }
       }
   }
 
-  def post = ValidSession requiredFor {
-    implicit request => application =>
+  def post = ValidSession in Action {
+    implicit request =>
       validation.fillAndValidate(application).fold(
         hasErrors => {
-          Ok(mustache(hasErrors, routing.post, application).html)
+          Ok(mustache(hasErrors, routing.post, application).html).refreshToken
         },
         validApplication => {
           val refNum = ierApi.generateOverseasReferenceNumber(validApplication)
@@ -87,7 +89,7 @@ class ConfirmationStep @Inject() (
 
           val isBirthdayToday = validApplication.dob.exists(_.isToday)
 
-          val completeStepData = ConfirmationCookie(
+          val completeStepData = CompleteCookie(
             refNum = refNum,
             authority = Some(response.localAuthority),
             backToStartUrl = config.ordinaryStartUrl,
@@ -97,7 +99,7 @@ class ConfirmationStep @Inject() (
 
           Redirect(CompleteController.complete())
             .emptySession()
-            .addConfirmationCookieToSession(completeStepData)
+            .storeCompleteCookie(completeStepData)
         }
       )
   }

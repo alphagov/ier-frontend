@@ -14,8 +14,7 @@ import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.model.{WaysToVoteType, ApplicationType}
-import uk.gov.gds.ier.transaction.complete.ConfirmationCookie
-import uk.gov.gds.ier.transaction.ordinary.confirmation.ConfirmationCookieWriter
+import uk.gov.gds.ier.transaction.complete.CompleteCookie
 import uk.gov.gds.ier.session.ResultHandling
 
 class ConfirmationStep @Inject() (
@@ -28,7 +27,6 @@ class ConfirmationStep @Inject() (
   extends ConfirmationStepController[InprogressCrown]
   with ConfirmationForms
   with ConfirmationMustache
-  with ConfirmationCookieWriter
   with ResultHandling
   with WithRemoteAssets {
 
@@ -44,16 +42,18 @@ class ConfirmationStep @Inject() (
 
   val validation = confirmationForm
 
-  def get = ValidSession requiredFor {
-    implicit request => application =>
-      Ok(mustache(validation.fillAndValidate(application), routing.post, application).html)
+  def get = ValidSession in Action {
+    implicit request =>
+      val filledForm = validation.fillAndValidate(application)
+      val html = mustache(filledForm, routing.post, application).html
+      Ok(html).refreshToken
   }
 
-  def post = ValidSession requiredFor {
-    implicit request => application =>
+  def post = ValidSession in Action {
+    implicit request =>
       validation.fillAndValidate(application).fold(
         hasErrors => {
-          Ok(mustache(hasErrors, routing.post, application).html)
+          Ok(mustache(hasErrors, routing.post, application).html).refreshToken
         },
         validApplication => {
           val refNum = ierApi.generateCrownReferenceNumber(validApplication)
@@ -84,7 +84,7 @@ class ConfirmationStep @Inject() (
 
           val isBirthdayToday = validApplication.dob.exists(_.dob.exists(_.isToday))
 
-          val completeStepData = ConfirmationCookie(
+          val completeStepData = CompleteCookie(
             refNum = refNum,
             authority = Some(response.localAuthority),
             backToStartUrl = config.ordinaryStartUrl,
@@ -94,7 +94,7 @@ class ConfirmationStep @Inject() (
 
           Redirect(CompleteController.complete())
             .emptySession()
-            .addConfirmationCookieToSession(completeStepData)
+            .storeCompleteCookie(completeStepData)
         }
       )
   }

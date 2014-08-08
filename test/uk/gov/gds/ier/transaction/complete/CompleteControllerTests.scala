@@ -21,7 +21,7 @@ class CompleteControllerTests
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/complete")
-          .withConfirmationCookie(ConfirmationCookie(
+          .withCompleteCookie(CompleteCookie(
             refNum = "123457689013",
             authority = Some(EroAuthorityDetails(
               name = "Hornsey Council",
@@ -56,7 +56,7 @@ class CompleteControllerTests
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/complete")
-          .withConfirmationCookie(ConfirmationCookie(
+          .withCompleteCookie(CompleteCookie(
             refNum = "123457689013",
             authority = Some(EroAuthorityDetails(
               name = "Hornsey Council",
@@ -90,7 +90,7 @@ class CompleteControllerTests
   it should "display the page with email confirmation info" in runningApp {
     val Some(result) = route(
       FakeRequest(GET, "/register-to-vote/complete")
-        .withConfirmationCookie(ConfirmationCookie(
+        .withCompleteCookie(CompleteCookie(
           refNum = "123457689013",
           authority = Some(EroAuthorityDetails(
             name = "Hornsey Council",
@@ -122,7 +122,7 @@ class CompleteControllerTests
   it should "display the page without email confirmation info" in runningApp {
     val Some(result) = route(
       FakeRequest(GET, "/register-to-vote/complete")
-        .withConfirmationCookie(ConfirmationCookie(
+        .withCompleteCookie(CompleteCookie(
           refNum = "123457689013",
           authority = Some(EroAuthorityDetails(
             name = "Hornsey Council",
@@ -155,7 +155,7 @@ class CompleteControllerTests
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(GET, "/register-to-vote/complete")
-          .withConfirmationCookie(ConfirmationCookie(
+          .withCompleteCookie(CompleteCookie(
             refNum = "123457689013",
             authority = Some(EroAuthorityDetails(
               name = "Hornsey Council",

@@ -4,6 +4,7 @@ import uk.gov.gds.ier.guice.WithEncryption
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import scala.util.Try
 import play.api.mvc.Request
+import uk.gov.gds.ier.transaction.complete.CompleteCookie
 
 trait RequestHandling {
   self: WithEncryption with WithSerialiser =>
@@ -31,21 +32,16 @@ trait RequestHandling {
         }
         application.flatMap(_.toOption)
       }
-  }
 
-  def getPayload[T](
-    request: Request[_],
-    payloadCookieKey: String,
-    payloadCookieKeyIV: String)(
-    implicit manifest: Manifest[T]
-    ): Option[T] = {
-    val application = for {
-      cookie <- request.cookies.get(payloadCookieKey)
-      cookieInitVec <- request.cookies.get(payloadCookieKeyIV)
-    } yield Try {
-        val json = encryptionService.decrypt(cookie.value,  cookieInitVec.value)
-        serialiser.fromJson[T](json)
+      def getCompleteCookie(): Option[CompleteCookie] = {
+        val completeCookie = for {
+          cookie <- request.cookies.get(completeCookieKey)
+          cookieIV <- request.cookies.get(completeCookieKeyIV)
+        } yield Try {
+          val json = encryptionService.decrypt(cookie.value, cookieIV.value)
+          serialiser.fromJson[CompleteCookie](json)
+        }
+        completeCookie.flatMap(_.toOption)
       }
-    application.flatMap(_.toOption)
   }
 }

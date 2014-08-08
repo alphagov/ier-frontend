@@ -19,7 +19,7 @@ import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import scala.util.Try
 import play.api.mvc.Cookies
 import uk.gov.gds.common.json.JsonSerializer
-import uk.gov.gds.ier.transaction.complete.ConfirmationCookie
+import uk.gov.gds.ier.transaction.complete.CompleteCookie
 
 trait TestHelpers
   extends CustomMatchers
@@ -67,9 +67,8 @@ trait TestHelpers
       request.withCookies(payloadCookies(application, None):_*)
     }
 
-    def withConfirmationCookie[T <: AnyRef](payload: T) = {
-      request.withCookies(customPayloadCookies(
-        payload, confirmationCookieKey, confirmationCookieKeyIV, None):_*)
+    def withCompleteCookie(payload: CompleteCookie) = {
+      request.withCookies(completeCookies(payload, None):_*)
     }
   }
 
@@ -231,13 +230,13 @@ trait TestHelpers
    * val result = getCompleteStepCookie(cookies(resultFuture))
    * }}}
    */
-  def getConfirmationCookie(
+  def getCompleteCookie(
       cookies: Cookies
-    )(
-      implicit manifest: Manifest[ConfirmationCookie],
-      encryptionService: EncryptionService,
-      serialiser: JsonSerializer): Option[ConfirmationCookie] = {
-    getSessionCookie[ConfirmationCookie](cookies, confirmationCookieKey, confirmationCookieKeyIV)
+  ) (
+      implicit encryptionService: EncryptionService,
+      serialiser: JsonSerializer
+  ): Option[CompleteCookie] = {
+    getSessionCookie[CompleteCookie](cookies, completeCookieKey, completeCookieKeyIV)
   }
 
   def getSessionCookie[T](

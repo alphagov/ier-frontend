@@ -2,7 +2,7 @@ package uk.gov.gds.ier.session
 
 import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
-import play.api.mvc.{Call, Controller, Cookie}
+import play.api.mvc.{Call, Controller, Cookie, Action}
 import uk.gov.gds.ier.client.ApiResults
 import play.api.test._
 import play.api.test.Helpers._
@@ -14,6 +14,7 @@ import scala.Some
 import play.api.test.FakeApplication
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.step.InprogressApplication
+import play.api.libs.concurrent.Execution.Implicits._
 
 
 class SessionHandlingTests extends FlatSpec with Matchers {
@@ -30,6 +31,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       class TestController
         extends SessionHandling[FakeInprogress]
+          with SessionCleaner
           with Controller
           with WithSerialiser
           with WithConfig
@@ -44,7 +46,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
         val encryptionService = new EncryptionService (new Base64EncodingService, config)
 
 
-        def index() = NewSession requiredFor {
+        def index() = NewSession in Action {
           request =>
             okResult(Map("status" -> "Ok"))
         }
@@ -91,8 +93,8 @@ class SessionHandlingTests extends FlatSpec with Matchers {
         val config = new MockConfig
         val encryptionService = new EncryptionService (new Base64EncodingService, config)
 
-        def index() = ValidSession requiredFor {
-          request => application =>
+        def index() = ValidSession in Action {
+          request =>
             okResult(Map("status" -> "Ok"))
         }
       }
@@ -108,6 +110,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       class TestController
         extends SessionHandling[FakeInprogress]
+          with SessionCleaner
           with Controller
           with WithSerialiser
           with WithConfig
@@ -121,13 +124,13 @@ class SessionHandlingTests extends FlatSpec with Matchers {
         val config = new MockConfig
         val encryptionService = new EncryptionService (new Base64EncodingService, config)
 
-        def index() = NewSession requiredFor {
+        def index() = NewSession in Action {
           request =>
             okResult(Map("status" -> "Ok"))
         }
-        def nextStep() = ValidSession requiredFor {
-          request => application =>
-            okResult(Map("status" -> "Ok"))
+        def nextStep() = ValidSession in Action {
+          implicit request =>
+            okResult(Map("status" -> "Ok")).refreshToken
         }
       }
 
@@ -184,8 +187,8 @@ class SessionHandlingTests extends FlatSpec with Matchers {
         val config = new MockConfig
         val encryptionService = new EncryptionService (new Base64EncodingService, config)
 
-        def index() = ValidSession requiredFor {
-          request => application =>
+        def index() = ValidSession in Action {
+          request =>
             okResult(Map("status" -> "Ok"))
         }
       }
@@ -230,9 +233,9 @@ class SessionHandlingTests extends FlatSpec with Matchers {
         val encryptionService = new EncryptionService (new Base64EncodingService, config)
 
 
-        def index() = ValidSession requiredFor {
-          request => application =>
-            okResult(Map("status" -> "Ok"))
+        def index() = ValidSession in Action {
+          implicit request =>
+            okResult(Map("status" -> "Ok")).refreshToken
         }
       }
 
@@ -286,9 +289,9 @@ class SessionHandlingTests extends FlatSpec with Matchers {
         val encryptionService = new EncryptionService (new Base64EncodingService, config)
 
 
-        def index() = ValidSession requiredFor {
-          request => application =>
-            okResult(Map("status" -> "Ok"))
+        def index() = ValidSession in Action {
+          implicit request =>
+            okResult(Map("status" -> "Ok")).refreshToken
         }
       }
 
@@ -336,7 +339,7 @@ class SessionHandlingTests extends FlatSpec with Matchers {
         val config = new MockConfig
         val encryptionService = new EncryptionService (new Base64EncodingService, config)
 
-        def noSessionTest() = ClearSession requiredFor {
+        def noSessionTest() = ClearSession in Action {
           request =>
             okResult(Map("status" -> "no session"))
         }

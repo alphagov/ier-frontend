@@ -12,6 +12,7 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.mustache.{InheritedGovukMustache, GovukMustache}
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.transaction._
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 class RegisterToVoteController @Inject() (
     val serialiser: JsonSerialiser,
@@ -40,12 +41,12 @@ class RegisterToVoteController @Inject() (
     Ok(RegisterToVote.OrdinaryStartPage())
   }
 
-  def registerToVoteStart = NewSession requiredFor {
+  def registerToVoteStart = NewSession in Action {
     request =>
       Redirect(country.routes.CountryStep.get.url, request.queryString)
   }
 
-  def registerToVoteOverseasStart = NewSession requiredFor {
+  def registerToVoteOverseasStart = NewSession in Action {
     request =>
       Redirect(step.overseas.routes.DateOfBirthController.get.url, request.queryString)
   }
@@ -54,7 +55,7 @@ class RegisterToVoteController @Inject() (
     Ok(RegisterToVote.ForcesStartPage())
   }
 
-  def registerToVoteForcesStart = NewSession requiredFor {
+  def registerToVoteForcesStart = NewSession in Action {
     request =>
       Redirect(step.forces.routes.StatementController.get.url, request.queryString)
   }
@@ -63,7 +64,7 @@ class RegisterToVoteController @Inject() (
     Ok(RegisterToVote.CrownStartPage())
   }
 
-  def registerToVoteCrownStart = NewSession requiredFor {
+  def registerToVoteCrownStart = NewSession in Action {
     request =>
       Redirect(step.crown.routes.StatementController.get.url, request.queryString)
   }
