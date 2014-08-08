@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
+var rimraf = require('gulp-rimraf');
 
 var sourceFiles = [
               '../../assets/javascripts/cache-busting.js',
@@ -16,7 +17,12 @@ var sourceFiles = [
 var targetFile = 'application.js';
 var targetFolder = '../../public/javascripts';
 
-gulp.task('default', function () {
+gulp.task('clean', function () {
+  return gulp.src(targetFolder + '/*.js', { read: false })
+      .pipe(rimraf({ force: true }));
+});
+
+gulp.task('default', ['clean'], function () {
   gulp.src(sourceFiles)
     .pipe(uglify())
     .pipe(concat(targetFile))
