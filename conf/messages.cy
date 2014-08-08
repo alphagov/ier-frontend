@@ -435,6 +435,7 @@ ordinary_confirmation_postalVote_changeName=pleidlais drwy’r post
 ordinary_confirmation_postalVote_emailDelivery=Rwyf am i chi e-bostio ffurflen gais am bleidlais drwy’r post i:
 ordinary_confirmation_postalVote_mailDelivery=Rwyf am i chi i bostio ffurflen gais am bleidlais bost mi
 ordinary_confirmation_postalVote_dontWant=Dydw i ddim eisiau gwneud cais am bleidlais drwy’r post
+ordinary_confirmation_postalVote_alreadyHave=Mae gen i bleidlais bost yn barod
 
 ordinary_confirmation_contact_title=Sut dylem gysylltu â chi
 ordinary_confirmation_contact_changeName=sut dylem gysylltu â chi
