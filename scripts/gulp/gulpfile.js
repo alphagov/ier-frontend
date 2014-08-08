@@ -6,29 +6,28 @@ var sass = require('gulp-ruby-sass');
 
 var env = 'production';
 
-var cssAssetsFolder = '../../app/assets';
-var jsAssetsFolder = '../../assets';
+var assetsFolder = '../../assets';
 var jsSourceFiles = [
-  jsAssetsFolder + '/javascripts/cache-busting.js',
-  jsAssetsFolder + '/javascripts/vendor/jquery/jquery-1.10.1.min.js',
-  jsAssetsFolder + '/javascripts/vendor/jquery/typeahead.js',
-  jsAssetsFolder + '/javascripts/vendor/mustache.js',
-  jsAssetsFolder + '/javascripts/core.js',
-  jsAssetsFolder + '/javascripts/countries.js',
-  jsAssetsFolder + '/javascripts/validation.js',
-  jsAssetsFolder + '/javascripts/forms.js',
-  jsAssetsFolder + '/javascripts/onready.js',
+  assetsFolder + '/javascripts/cache-busting.js',
+  assetsFolder + '/javascripts/vendor/jquery/jquery-1.10.1.min.js',
+  assetsFolder + '/javascripts/vendor/jquery/typeahead.js',
+  assetsFolder + '/javascripts/vendor/mustache.js',
+  assetsFolder + '/javascripts/core.js',
+  assetsFolder + '/javascripts/countries.js',
+  assetsFolder + '/javascripts/validation.js',
+  assetsFolder + '/javascripts/forms.js',
+  assetsFolder + '/javascripts/onready.js',
 ];
 var cssSourceFiles = [
-  cssAssetsFolder + '/stylesheets/print.scss',
-  cssAssetsFolder + '/stylesheets/mainstream.scss',
-  cssAssetsFolder + '/stylesheets/application-ie6.scss',
-  cssAssetsFolder +  '/stylesheets/application-ie7.scss',
-  cssAssetsFolder + '/stylesheets/application-ie8.scss',
-  cssAssetsFolder + '/stylesheets/application.scss'
+  assetsFolder + '/stylesheets/print.scss',
+  assetsFolder + '/stylesheets/mainstream.scss',
+  assetsFolder + '/stylesheets/application-ie6.scss',
+  assetsFolder +  '/stylesheets/application-ie7.scss',
+  assetsFolder + '/stylesheets/application-ie8.scss',
+  assetsFolder + '/stylesheets/application.scss'
 ];
 
-var toolkit = cssAssetsFolder + '/govuk_frontend_toolkit/stylesheets';
+var toolkit = '../../app/assets/govuk_frontend_toolkit/stylesheets';
 var jsTargetFile = 'application.js';
 var jsTargetFolder = '../../public/javascripts';
 var cssTargetFolder = '../../target/scala-2.10/resource_managed/main/public/stylesheets';
@@ -66,8 +65,8 @@ gulp.task('js', function () {
 });
 
 gulp.task('watch', ['build'], function () {
-  var jsWatcher = gulp.watch([ jsAssetsFolder + '/**/*.js' ], ['js']);
-  var cssWatcher = gulp.watch([ cssAssetsFolder + '/**/*.scss' ], ['sass']);
+  var jsWatcher = gulp.watch([ assetsFolder + '/**/*.js' ], ['js']);
+  var cssWatcher = gulp.watch([ assetsFolder + '/**/*.scss' ], ['sass']);
   var notice = function (event) {
     console.log('File ' + event.path + ' was ' + event.type + ' running tasks...');
   }
