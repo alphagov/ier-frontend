@@ -266,27 +266,36 @@ trait ConfirmationMustache
     }
 
     def postalVote = {
+      val postalVoteOption = PostalVoteOption.parse(form(keys.postalVote.optIn).value.getOrElse(""))
+      val deliveryMethod = PostalVoteDeliveryMethod(
+        deliveryMethod = form(keys.postalVote.deliveryMethod.methodName).value,
+        emailAddress = form(keys.postalVote.deliveryMethod.emailAddress).value
+      )
+      val postalVoteContent = if (deliveryMethod.isEmail) {
+        List(
+          Messages("ordinary_confirmation_postalVote_emailDelivery"),
+          deliveryMethod.emailAddress getOrElse ""
+        )
+      } else {
+        List(Messages("ordinary_confirmation_postalVote_mailDelivery"))
+      }
+      val noPostalVoteContent = List(
+        Messages("ordinary_confirmation_postalVote_dontWant")
+      )
+      val alreadyHaveContent = List(
+        Messages("ordinary_confirmation_postalVote_alreadyHave")
+      )
+
       Some(ConfirmationQuestion(
         title = Messages("ordinary_confirmation_postalVote_title"),
         editLink = ordinary.PostalVoteStep.routing.editGet.url,
         changeName = Messages("ordinary_confirmation_postalVote_changeName"),
         content = ifComplete(keys.postalVote) {
-          val isPostalVote = PostalVoteOption.parse(form(keys.postalVote.optIn).value.getOrElse("")) == PostalVoteOption.Yes
-
-          if(isPostalVote){
-            val deliveryMethod = PostalVoteDeliveryMethod(
-              deliveryMethod = form(keys.postalVote.deliveryMethod.methodName).value,
-              emailAddress = form(keys.postalVote.deliveryMethod.emailAddress).value)
-
-            if(deliveryMethod.isEmail) {
-              List(Messages("ordinary_confirmation_postalVote_emailDelivery"), deliveryMethod.emailAddress.getOrElse(""))
-            }
-            else {
-              List(Messages("ordinary_confirmation_postalVote_mailDelivery"))
-            }
-
-          } else {
-            List(Messages("ordinary_confirmation_postalVote_dontWant"))
+          postalVoteOption match {
+            case PostalVoteOption.Yes => postalVoteContent
+            case PostalVoteOption.NoAndAlreadyHave => alreadyHaveContent
+            case PostalVoteOption.NoAndVoteInPerson => noPostalVoteContent
+            case _ => List(completeThisStepMessage)
           }
         }
       ))

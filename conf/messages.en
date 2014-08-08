@@ -419,6 +419,7 @@ ordinary_confirmation_postalVote_changeName=postal vote
 ordinary_confirmation_postalVote_emailDelivery=I want you to email a postal vote application form to:
 ordinary_confirmation_postalVote_mailDelivery=I want you to mail me a postal vote application form
 ordinary_confirmation_postalVote_dontWant=I don’t want to apply for a postal vote
+ordinary_confirmation_postalVote_alreadyHave=I already have a postal vote
 
 ordinary_confirmation_contact_title=How we should contact you
 ordinary_confirmation_contact_changeName=how we should contact you
