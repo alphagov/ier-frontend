@@ -12,6 +12,7 @@ trait CrownStep
   with WithConfig
   with WithEncryption
   with WithRemoteAssets { self: StepTemplate[InprogressCrown] =>
+    val manifestOfT = manifest[InprogressCrown]
     def factoryOfT() = InprogressCrown()
     def timeoutPage() = ErrorController.crownTimeout
     val confirmationRoute = ConfirmationController.get

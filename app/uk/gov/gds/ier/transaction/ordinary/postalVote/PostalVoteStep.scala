@@ -1,8 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.postalVote
 
-import controllers.step.ordinary.ContactController
-import controllers.step.ordinary.routes.{PostalVoteController, OpenRegisterController}
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.model._
 import play.api.templates.Html
@@ -15,14 +13,16 @@ import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.PostalVote
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
-import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class PostalVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val ordinary: OrdinaryControllers
 ) extends OrdinaryStep
   with PostalVoteForms
   with PostalVoteMustache {
@@ -30,10 +30,10 @@ class PostalVoteStep @Inject ()(
   val validation = postalVoteForm
 
   val routing = Routes(
-    get = PostalVoteController.get,
-    post = PostalVoteController.post,
-    editGet = PostalVoteController.editGet,
-    editPost = PostalVoteController.editPost
+    get = routes.PostalVoteStep.get,
+    post = routes.PostalVoteStep.post,
+    editGet = routes.PostalVoteStep.editGet,
+    editPost = routes.PostalVoteStep.editPost
   )
 
   def resetPostalVote = TransformApplication { currentState =>
@@ -51,7 +51,7 @@ class PostalVoteStep @Inject ()(
   override val onSuccess = resetPostalVote andThen GoToNextIncompleteStep()
 
   def nextStep(currentState: InprogressOrdinary) = {
-    ContactController.contactStep
+    ordinary.ContactStep
   }
 }
 
