@@ -30,7 +30,7 @@ var cssSourceFiles = [
 var toolkit = '../../app/assets/govuk_frontend_toolkit/stylesheets';
 var jsTargetFile = 'application.js';
 var jsTargetFolder = '../../public/javascripts';
-var cssTargetFolder = '../../target/scala-2.10/resource_managed/main/public/stylesheets';
+var cssTargetFolder = '../../public/stylesheets';
 
 gulp.task('cleanJs', function () {
   return gulp.src(jsTargetFolder + '/*.js', { read: false })
