@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
-var rimraf = require('gulp-rimraf');
+var deleteFiles = require('gulp-rimraf');
 var sass = require('gulp-ruby-sass');
 
 var env = 'production';
@@ -34,12 +34,12 @@ var cssTargetFolder = '../../public/stylesheets';
 
 gulp.task('cleanJs', function () {
   return gulp.src(jsTargetFolder + '/*.js', { read: false })
-      .pipe(rimraf({ force: true }));
+      .pipe(deleteFiles({ force: true }));
 });
 
 gulp.task('cleanCss', function () {
   return gulp.src(cssTargetFolder + '/*.css', { read: false })
-      .pipe(rimraf({ force: true }));
+      .pipe(deleteFiles({ force: true }));
 });
 
 gulp.task('clean', function () {
