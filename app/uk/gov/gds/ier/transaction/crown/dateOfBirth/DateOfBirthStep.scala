@@ -4,7 +4,7 @@ import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.step.crown.NameController
 import controllers.step.crown.routes.{DateOfBirthController, NationalityController}
 import controllers.routes.ExitController
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import play.api.mvc.Call
 import uk.gov.gds.ier.model.{DateOfBirth, noDOB}
@@ -17,6 +17,7 @@ import uk.gov.gds.ier.step.{CrownStep, Routes, GoTo}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class DateOfBirthStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,

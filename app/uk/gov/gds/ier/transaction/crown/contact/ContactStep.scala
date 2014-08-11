@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.crown.contact
 import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.step.crown.routes.{ContactController, WaysToVoteController}
 import controllers.step.crown.ConfirmationController
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.model._
 import play.api.templates.Html
@@ -16,6 +16,7 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class ContactStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,

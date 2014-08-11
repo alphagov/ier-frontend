@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.crown.address
 
 import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.step.crown.routes._
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{LastAddress, HasAddressOption}
@@ -14,6 +14,7 @@ import controllers.step.crown.{PreviousAddressFirstController, NationalityContro
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class AddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,

@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.crown.applicationFormVote
 
 import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.step.crown.routes._
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import play.api.templates.Html
 import uk.gov.gds.ier.config.Config
@@ -16,6 +16,7 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class PostalVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,

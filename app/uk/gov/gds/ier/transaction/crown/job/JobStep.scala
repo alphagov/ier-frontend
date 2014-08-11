@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.crown.job
 import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.step.crown.{DeclarationPdfController, NinoController}
 import controllers.step.crown.routes.{NameController, JobController}
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
 import play.api.mvc.Call
@@ -15,6 +15,7 @@ import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.model.{WaysToVoteType, WaysToVote}
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class JobStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,

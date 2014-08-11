@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.crown.contactAddress
 import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.step.crown.OpenRegisterController
 import controllers.step.crown.routes.{ContactAddressController, NinoController}
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import play.api.mvc.Call
 import play.api.templates.Html
@@ -14,6 +14,7 @@ import uk.gov.gds.ier.step.{CrownStep, Routes}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class ContactAddressStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,

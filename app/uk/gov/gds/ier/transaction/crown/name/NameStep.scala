@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.crown.name
 import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.step.crown.JobController
 import controllers.step.crown.routes.{NameController, DateOfBirthController}
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
 import play.api.mvc.Call
@@ -14,6 +14,7 @@ import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.step.{CrownStep, Routes}
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class NameStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,

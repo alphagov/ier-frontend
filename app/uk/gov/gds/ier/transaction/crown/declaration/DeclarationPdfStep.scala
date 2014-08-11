@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.crown.declaration
 
 import uk.gov.gds.ier.transaction.crown.CrownControllers
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
@@ -12,6 +12,7 @@ import controllers.step.crown.routes.DeclarationPdfController
 import uk.gov.gds.ier.service.{DeclarationPdfDownloadService, WithDeclarationPdfDownloadService}
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class DeclarationPdfStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,

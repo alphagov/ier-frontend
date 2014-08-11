@@ -6,7 +6,7 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import controllers.step.crown.routes.ConfirmationController
 import controllers.routes.{CompleteController, ErrorController}
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.service.apiservice.IerApiService
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.assets.RemoteAssets
@@ -17,6 +17,7 @@ import uk.gov.gds.ier.model.{WaysToVoteType, ApplicationType}
 import uk.gov.gds.ier.transaction.complete.CompleteCookie
 import uk.gov.gds.ier.session.ResultHandling
 
+@Singleton
 class ConfirmationStep @Inject() (
     val encryptionService: EncryptionService,
     val config: Config,

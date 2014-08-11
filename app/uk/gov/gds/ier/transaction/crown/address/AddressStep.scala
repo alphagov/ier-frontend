@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.crown.address
 import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.step.crown.AddressSelectController
 import controllers.step.crown.routes._
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
@@ -13,6 +13,7 @@ import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import controllers.routes.ExitController
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class AddressStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,

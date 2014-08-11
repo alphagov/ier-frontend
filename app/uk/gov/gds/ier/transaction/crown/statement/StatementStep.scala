@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.crown.statement
 
 import uk.gov.gds.ier.transaction.crown.CrownControllers
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import controllers.step.crown.routes.StatementController
 import controllers.step.crown.AddressFirstController
 import play.api.mvc.Call
@@ -13,6 +13,7 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class StatementStep @Inject ()(
     val serialiser:JsonSerialiser,
     val config: Config,
