@@ -1,12 +1,8 @@
 package uk.gov.gds.ier.transaction.crown.contactAddress
 
 import uk.gov.gds.ier.transaction.crown.CrownControllers
-import controllers.step.crown.OpenRegisterController
-import controllers.step.crown.routes.{ContactAddressController, NinoController}
 import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import play.api.mvc.Call
-import play.api.templates.Html
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
@@ -28,10 +24,10 @@ class ContactAddressStep @Inject ()(
   val validation = contactAddressForm
 
   val routing = Routes(
-    get = ContactAddressController.get,
-    post = ContactAddressController.post,
-    editGet = ContactAddressController.editGet,
-    editPost = ContactAddressController.editPost
+    get = routes.ContactAddressStep.get,
+    post = routes.ContactAddressStep.post,
+    editGet = routes.ContactAddressStep.editGet,
+    editPost = routes.ContactAddressStep.editPost
   )
 
   def nextStep(currentState: InprogressCrown) = {

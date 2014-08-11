@@ -1,9 +1,7 @@
 package uk.gov.gds.ier.transaction.crown.previousAddress
 
 import uk.gov.gds.ier.transaction.crown.CrownControllers
-import controllers.step.crown.routes._
 import com.google.inject.{Inject, Singleton}
-import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
@@ -27,10 +25,10 @@ class PreviousAddressPostcodeStep @Inject() (
   val validation = postcodeStepForm
 
   val routing = Routes(
-    get = PreviousAddressPostcodeController.get,
-    post = PreviousAddressPostcodeController.post,
-    editGet = PreviousAddressPostcodeController.editGet,
-    editPost = PreviousAddressPostcodeController.editPost
+    get = routes.PreviousAddressPostcodeStep.get,
+    post = routes.PreviousAddressPostcodeStep.post,
+    editGet = routes.PreviousAddressPostcodeStep.editGet,
+    editPost = routes.PreviousAddressPostcodeStep.editPost
   )
 
   def nextStep(currentState: InprogressCrown) = {

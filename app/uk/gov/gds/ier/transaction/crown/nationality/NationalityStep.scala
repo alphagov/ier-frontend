@@ -1,14 +1,10 @@
 package uk.gov.gds.ier.transaction.crown.nationality
 
 import uk.gov.gds.ier.transaction.crown.CrownControllers
-import controllers.step.crown.routes.{AddressController,NationalityController}
-import controllers.step.crown.DateOfBirthController
 import controllers.routes.ExitController
 import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._
-import play.api.mvc.Call
-import play.api.templates.Html
 import uk.gov.gds.ier.service.IsoCountryService
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
@@ -31,10 +27,10 @@ class NationalityStep @Inject ()(
   val validation = nationalityForm
 
   val routing = Routes(
-    get = NationalityController.get,
-    post = NationalityController.post,
-    editGet = NationalityController.editGet,
-    editPost = NationalityController.editPost
+    get = routes.NationalityStep.get,
+    post = routes.NationalityStep.post,
+    editGet = routes.NationalityStep.editGet,
+    editPost = routes.NationalityStep.editPost
   )
 
   def nextStep(currentState: InprogressCrown) = {

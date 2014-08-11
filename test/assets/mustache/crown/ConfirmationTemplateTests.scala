@@ -16,6 +16,7 @@ class ConfirmationTemplateTests
   with Matchers
   with WithMockAddressService
   with WithMockConfig
+  with WithMockCrownControllers
   with WithMockRemoteAssets {
 
   it should "not render the partners details block if displayPartnerBlock = false" in {

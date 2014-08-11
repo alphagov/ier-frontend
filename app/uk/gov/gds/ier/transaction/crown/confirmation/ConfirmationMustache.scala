@@ -2,13 +2,11 @@ package uk.gov.gds.ier.transaction.crown.confirmation
 
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.model.{HasAddressOption, WaysToVoteType, MovedHouseOption}
-import controllers.step.crown._
 import uk.gov.gds.ier.validation.constants.{NationalityConstants, DateOfBirthConstants}
 import uk.gov.gds.ier.validation.{ErrorTransformForm, Key}
-import scala.Some
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.form.AddressHelpers
-import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.transaction.crown.{InprogressCrown, WithCrownControllers}
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
 import uk.gov.gds.ier.service.WithAddressService
 import uk.gov.gds.ier.guice.WithRemoteAssets
@@ -17,7 +15,8 @@ import uk.gov.gds.ier.step.StepTemplate
 trait ConfirmationMustache
   extends StepTemplate[InprogressCrown]
   with WithAddressService {
-    self: WithRemoteAssets =>
+    self: WithRemoteAssets
+    with WithCrownControllers =>
 
   case class ConfirmationQuestion(
       content: EitherErrorOrContent,
@@ -94,7 +93,7 @@ trait ConfirmationMustache
     def name = {
       Some(ConfirmationQuestion(
         title = "Name",
-        editLink = routes.NameController.editGet.url,
+        editLink = crown.NameStep.routing.editGet.url,
         changeName = "full name",
         content = ifComplete(keys.name) {
           List(List(
@@ -119,7 +118,7 @@ trait ConfirmationMustache
       }
       Some(ConfirmationQuestion(
         title = "Previous name",
-        editLink = routes.NameController.editGet.url,
+        editLink = crown.NameStep.routing.editGet.url,
         changeName = "previous name",
         content = ifComplete(keys.previousName) {
           List(prevNameStr)
@@ -153,7 +152,7 @@ trait ConfirmationMustache
 
       Some(ConfirmationQuestion(
         title = "Date of birth",
-        editLink = routes.DateOfBirthController.editGet.url,
+        editLink = crown.DateOfBirthStep.routing.editGet.url,
         changeName = "date of birth",
         content = ifComplete(keys.dob) {
           dobContent
@@ -164,7 +163,7 @@ trait ConfirmationMustache
     def nationality = {
       Some(ConfirmationQuestion(
         title = "Nationality",
-        editLink = routes.NationalityController.editGet.url,
+        editLink = crown.NationalityStep.routing.editGet.url,
         changeName = "nationality",
         content = ifComplete(keys.nationality) {
           if (nationalityIsFilled) {
@@ -180,7 +179,7 @@ trait ConfirmationMustache
     def nino = {
       Some(ConfirmationQuestion(
         title = "National Insurance number",
-        editLink = routes.NinoController.editGet.url,
+        editLink = crown.NinoStep.routing.editGet.url,
         changeName = "national insurance number",
         content = ifComplete(keys.nino) {
           if(form(keys.nino.nino).value.isDefined){
@@ -212,7 +211,7 @@ trait ConfirmationMustache
     def jobTitle = {
       ConfirmationQuestion(
         title = "Role",
-        editLink = routes.JobController.editGet.url,
+        editLink = crown.JobStep.routing.editGet.url,
         changeName = "role",
         content = ifComplete(keys.job) {
           List(
@@ -234,7 +233,7 @@ trait ConfirmationMustache
 
       Some(ConfirmationQuestion(
         title = addressTitle,
-        editLink = routes.AddressFirstController.editGet.url,
+        editLink = crown.AddressFirstStep.routing.editGet.url,
         changeName = addressChangeName,
         content = ifComplete(keys.address) {
           val addressLine = form(keys.address.address.addressLine).value.orElse{
@@ -257,7 +256,7 @@ trait ConfirmationMustache
       if (hasCurrentAddress) {
         Some(ConfirmationQuestion(
           title = "Previous address",
-          editLink = routes.PreviousAddressFirstController.editGet.url,
+          editLink = crown.PreviousAddressFirstStep.routing.editGet.url,
           changeName = "your previous address",
           content = ifComplete(keys.previousAddress) {
             val moved = form(keys.previousAddress.movedRecently).value
@@ -289,7 +288,7 @@ trait ConfirmationMustache
     def contactAddress = {
       Some(ConfirmationQuestion(
         title = "Correspondence address",
-        editLink = routes.ContactAddressController.editGet.url,
+        editLink = crown.ContactAddressStep.routing.editGet.url,
         changeName = "correspondence address",
         content = {
           val addressTypeKey = form(keys.contactAddress.contactAddressType).value match {
@@ -327,7 +326,7 @@ trait ConfirmationMustache
     def openRegister = {
       Some(ConfirmationQuestion(
         title = "Open register",
-        editLink = routes.OpenRegisterController.editGet.url,
+        editLink = crown.OpenRegisterStep.routing.editGet.url,
         changeName = "open register",
         content = ifComplete(keys.openRegister) {
           if (form(keys.openRegister.optIn).value == Some("true")){
@@ -364,7 +363,7 @@ trait ConfirmationMustache
 
       Some(ConfirmationQuestion(
         title = "Voting options",
-        editLink = routes.WaysToVoteController.editGet.url,
+        editLink = crown.WaysToVoteStep.routing.editGet.url,
         changeName = "voting",
         content = ifComplete(keys.waysToVote) {
           ways ++ postalOrProxyVote
@@ -375,7 +374,7 @@ trait ConfirmationMustache
     def contact = {
       Some(ConfirmationQuestion(
         title = "How we should contact you",
-        editLink = routes.ContactController.editGet.url,
+        editLink = crown.ContactStep.routing.editGet.url,
         changeName = "how we should contact you",
         content = ifComplete(keys.contact) {
           val post = if (form(keys.contact.post.contactMe).value == Some("true")) {

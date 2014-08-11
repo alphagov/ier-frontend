@@ -21,6 +21,7 @@ class AddressSelectTemplateTest
   with WithAddressService
   with WithMockConfig
   with WithMockRemoteAssets
+  with WithMockCrownControllers
   with TestHelpers {
 
   val addressService = mock[AddressService]

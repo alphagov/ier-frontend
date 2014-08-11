@@ -4,13 +4,13 @@ import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model.{PossibleAddress, Addresses}
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import controllers.step.crown.routes.{PreviousAddressManualController, PreviousAddressPostcodeController}
-import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.transaction.crown.{InprogressCrown, WithCrownControllers}
 import uk.gov.gds.ier.service.WithAddressService
 
 trait PreviousAddressSelectMustache
   extends StepTemplate[InprogressCrown] {
     self: WithAddressService
+    with WithCrownControllers
     with WithSerialiser =>
 
   val title = "What was your previous UK address?"
@@ -90,8 +90,8 @@ trait PreviousAddressSelectMustache
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),
-      lookupUrl = PreviousAddressPostcodeController.get.url,
-      manualUrl = PreviousAddressManualController.get.url,
+      lookupUrl = crown.PreviousAddressPostcodeStep.routing.get.url,
+      manualUrl = crown.PreviousAddressManualStep.routing.get.url,
       postcode = TextField(keys.previousAddress.previousAddress.postcode),
       address = addressSelectWithError,  // this is model data for <select>
       possibleJsonList = HiddenField(

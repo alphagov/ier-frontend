@@ -1,18 +1,15 @@
 package uk.gov.gds.ier.transaction.crown.previousAddress
 
 import uk.gov.gds.ier.transaction.crown.CrownControllers
-import controllers.step.crown.routes._
 import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.model.MovedHouseOption
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.service.AddressService
-
 import uk.gov.gds.ier.step.{Routes, CrownStep}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.assets.RemoteAssets
-import controllers.step.crown.PreviousAddressPostcodeController._
 
 @Singleton
 class PreviousAddressFirstStep @Inject ()(
@@ -29,10 +26,10 @@ class PreviousAddressFirstStep @Inject ()(
   val validation = previousAddressFirstForm
 
   val routing = Routes(
-    get = PreviousAddressFirstController.get,
-    post = PreviousAddressFirstController.post,
-    editGet = PreviousAddressFirstController.editGet,
-    editPost = PreviousAddressFirstController.editPost
+    get = routes.PreviousAddressFirstStep.get,
+    post = routes.PreviousAddressFirstStep.post,
+    editGet = routes.PreviousAddressFirstStep.editGet,
+    editPost = routes.PreviousAddressFirstStep.editPost
   )
 
   def nextStep(currentState: InprogressCrown) = {

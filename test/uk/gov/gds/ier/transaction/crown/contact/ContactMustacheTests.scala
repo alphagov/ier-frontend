@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.transaction.crown.contact
 
 import org.scalatest.{Matchers, FlatSpec}
+import play.api.mvc.Call
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.{ContactDetail,
@@ -8,7 +9,6 @@ import uk.gov.gds.ier.model.{ContactDetail,
   PostalOrProxyVote,
   PostalVoteDeliveryMethod,
   WaysToVoteType}
-import controllers.step.crown.routes._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
@@ -30,7 +30,7 @@ class ContactMustacheTests
     val emptyApplicationForm = contactForm
     val contactModel = mustache.data(
       emptyApplicationForm,
-      ContactController.post,
+      Call("POST", "/register-to-vote/crown/contact"),
       InprogressCrown()
     ).asInstanceOf[ContactModel]
 
@@ -61,7 +61,7 @@ class ContactMustacheTests
 
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
-      ContactController.post,
+      Call("POST", "/register-to-vote/crown/contact"),
       InprogressCrown()
     ).asInstanceOf[ContactModel]
 
@@ -91,7 +91,7 @@ class ContactMustacheTests
 
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
-      ContactController.post,
+      Call("POST", "/register-to-vote/crown/contact"),
       InprogressCrown()
     ).asInstanceOf[ContactModel]
 
@@ -121,7 +121,7 @@ class ContactMustacheTests
 
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
-      ContactController.post,
+      Call("POST", "/register-to-vote/crown/contact"),
       InprogressCrown()
     ).asInstanceOf[ContactModel]
 
@@ -151,7 +151,7 @@ class ContactMustacheTests
 
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
-      ContactController.post,
+      Call("POST", "/register-to-vote/crown/contact"),
       InprogressCrown()
     ).asInstanceOf[ContactModel]
 
@@ -181,7 +181,7 @@ class ContactMustacheTests
 
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
-      ContactController.post,
+      Call("POST", "/register-to-vote/crown/contact"),
       InprogressCrown()
     ).asInstanceOf[ContactModel]
 

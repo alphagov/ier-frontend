@@ -1,10 +1,9 @@
 package uk.gov.gds.ier.transaction.crown.nationality
 
 import org.scalatest.{Matchers, FlatSpec}
+import play.api.mvc.Call
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
-import scala.Some
-import controllers.step.crown.routes._
 import uk.gov.gds.ier.model.{PartialNationality}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
@@ -23,7 +22,7 @@ class NationalityMustacheTest
     val emptyApplicationForm = nationalityForm
     val nationalityModel = mustache.data(
       emptyApplicationForm,
-      NationalityController.post,
+      Call("POST", "/register-to-vote/crown/nationality"),
       InprogressCrown()
     ).asInstanceOf[NationalityModel]
 
@@ -56,7 +55,7 @@ class NationalityMustacheTest
 
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
-      NationalityController.post,
+      Call("POST", "/register-to-vote/crown/nationality"),
       InprogressCrown()
     ).asInstanceOf[NationalityModel]
 
@@ -87,7 +86,7 @@ class NationalityMustacheTest
 
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
-      NationalityController.post,
+      Call("POST", "/register-to-vote/crown/nationality"),
       InprogressCrown()
     ).asInstanceOf[NationalityModel]
 
@@ -118,7 +117,7 @@ class NationalityMustacheTest
 
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
-      NationalityController.post,
+      Call("POST", "/register-to-vote/crown/nationality"),
       InprogressCrown()
     ).asInstanceOf[NationalityModel]
 
@@ -149,7 +148,7 @@ class NationalityMustacheTest
 
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
-      NationalityController.post,
+      Call("POST", "/register-to-vote/crown/nationality"),
       InprogressCrown()
     ).asInstanceOf[NationalityModel]
 
@@ -180,7 +179,7 @@ class NationalityMustacheTest
 
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
-      NationalityController.post,
+      Call("POST", "/register-to-vote/crown/nationality"),
       InprogressCrown()
     ).asInstanceOf[NationalityModel]
 
@@ -213,7 +212,7 @@ class NationalityMustacheTest
 
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
-      NationalityController.post,
+      Call("POST", "/register-to-vote/crown/nationality"),
       InprogressCrown()
     ).asInstanceOf[NationalityModel]
 

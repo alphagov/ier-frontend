@@ -1,16 +1,13 @@
 package uk.gov.gds.ier.transaction.crown.address
 
 import uk.gov.gds.ier.transaction.crown.CrownControllers
-import controllers.step.crown.routes._
 import com.google.inject.{Inject, Singleton}
-import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{LastAddress, HasAddressOption}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.{CrownStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import controllers.step.crown.{PreviousAddressFirstController, NationalityController}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.assets.RemoteAssets
 
@@ -28,10 +25,10 @@ class AddressManualStep @Inject() (
   val validation = manualAddressForm
 
   val routing = Routes(
-    get = AddressManualController.get,
-    post = AddressManualController.post,
-    editGet = AddressManualController.editGet,
-    editPost = AddressManualController.editPost
+    get = routes.AddressManualStep.get,
+    post = routes.AddressManualStep.post,
+    editGet = routes.AddressManualStep.editGet,
+    editPost = routes.AddressManualStep.editPost
   )
 
   def nextStep(currentState: InprogressCrown) = {

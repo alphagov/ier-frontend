@@ -1,8 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.address
 
 import uk.gov.gds.ier.transaction.crown.CrownControllers
-import controllers.step.crown.routes._
-import controllers.step.crown.{PreviousAddressFirstController, NationalityController}
 import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{HasAddressOption, LastAddress}
@@ -29,10 +27,10 @@ class AddressSelectStep @Inject() (
   val validation = addressForm
 
   val routing = Routes(
-    get = AddressSelectController.get,
-    post = AddressSelectController.post,
-    editGet = AddressSelectController.editGet,
-    editPost = AddressSelectController.editPost
+    get = routes.AddressSelectStep.get,
+    post = routes.AddressSelectStep.post,
+    editGet = routes.AddressSelectStep.editGet,
+    editPost = routes.AddressSelectStep.editPost
   )
 
   def nextStep(currentState: InprogressCrown) = {

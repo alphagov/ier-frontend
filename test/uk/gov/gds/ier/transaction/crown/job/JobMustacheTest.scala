@@ -1,11 +1,10 @@
 package uk.gov.gds.ier.transaction.crown.job
 
 import org.scalatest.{Matchers, FlatSpec}
+import play.api.mvc.Call
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.{Job}
-import scala.Some
-import controllers.step.crown.routes._
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 class JobMustacheTest
@@ -24,7 +23,7 @@ class JobMustacheTest
     val emptyApplication = InprogressCrown()
     val jobModel = mustache.data(
       emptyApplicationForm,
-      JobController.post,
+      Call("POST", "/register-to-vote/crown/job-title"),
       emptyApplication
     ).asInstanceOf[JobModel]
 
@@ -49,7 +48,7 @@ class JobMustacheTest
 
     val jobModel = mustache.data(
       partiallyFilledApplicationForm,
-      JobController.post,
+      Call("POST", "/register-to-vote/crown/job-title"),
       partiallyFilledApplication
     ).asInstanceOf[JobModel]
 
