@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.statement
 
+import uk.gov.gds.ier.transaction.crown.CrownControllers
 import com.google.inject.Inject
 import controllers.step.crown.routes.StatementController
 import controllers.step.crown.AddressFirstController
@@ -16,7 +17,8 @@ class StatementStep @Inject ()(
     val serialiser:JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val crown: CrownControllers
 ) extends CrownStep
     with StatementForms
     with StatementMustache {
@@ -31,6 +33,6 @@ class StatementStep @Inject ()(
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    AddressFirstController.addressFirstStep
+    crown.AddressFirstStep
   }
 }

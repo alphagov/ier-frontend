@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.applicationFormVote
 
+import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.step.crown.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
@@ -19,9 +20,9 @@ class PostalVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets)
-
-  extends CrownStep
+    val remoteAssets: RemoteAssets,
+    val crown: CrownControllers
+) extends CrownStep
   with PostalOrProxyVoteForms
   with PostalOrProxyVoteMustache {
 
@@ -37,7 +38,7 @@ class PostalVoteStep @Inject ()(
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    ContactController.contactStep
+    crown.ContactStep
   }
 
 }

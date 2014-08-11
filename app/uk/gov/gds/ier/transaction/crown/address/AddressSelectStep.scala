@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.address
 
+import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.step.crown.routes._
 import controllers.step.crown.{PreviousAddressFirstController, NationalityController}
 import com.google.inject.Inject
@@ -17,8 +18,9 @@ class AddressSelectStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService,
-    val remoteAssets: RemoteAssets)
-  extends CrownStep
+    val remoteAssets: RemoteAssets,
+    val crown: CrownControllers
+) extends CrownStep
   with AddressSelectMustache
   with AddressForms
   with WithAddressService {
@@ -33,10 +35,12 @@ class AddressSelectStep @Inject() (
   )
 
   def nextStep(currentState: InprogressCrown) = {
+    import HasAddressOption._
+
     currentState.address.flatMap(_.hasAddress) match {
-      case Some(HasAddressOption.YesAndLivingThere) | Some(HasAddressOption.YesAndNotLivingThere)
-        => PreviousAddressFirstController.previousAddressFirstStep
-      case _ => NationalityController.nationalityStep
+      case Some(YesAndLivingThere) => crown.PreviousAddressFirstStep
+      case Some(YesAndNotLivingThere) => crown.PreviousAddressFirstStep
+      case _ => crown.NationalityStep
     }
   }
 

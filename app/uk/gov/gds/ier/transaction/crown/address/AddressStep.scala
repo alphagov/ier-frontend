@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.address
 
+import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.step.crown.AddressSelectController
 import controllers.step.crown.routes._
 import com.google.inject.Inject
@@ -17,8 +18,9 @@ class AddressStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService,
-    val remoteAssets: RemoteAssets)
-  extends CrownStep
+    val remoteAssets: RemoteAssets,
+    val crown: CrownControllers
+) extends CrownStep
   with AddressLookupMustache
   with AddressForms {
 
@@ -32,20 +34,20 @@ class AddressStep @Inject() (
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    val optAddress = currentState.address.flatMap(_.address)
+    val fromNI = true
+    val fromScotland = true
+    val hasPostcode = true
 
-    optAddress match {
-      case Some(partialAddress) => {
-        val postcode = partialAddress.postcode.trim.toUpperCase
-        if (postcode.isEmpty)
-          this
-        else if (postcode.startsWith("BT"))
-          GoTo (ExitController.northernIreland)
-        else if (addressService.isScotland(postcode))
-          GoTo (ExitController.scotland)
-        else AddressSelectController.addressSelectStep
-      }
-      case None => this
+    val address = currentState.address.flatMap(_.address)
+    val postcode = address.exists(!_.postcode.trim.toUpperCase.isEmpty)
+    val ni = address.exists(_.postcode.startsWith("BT"))
+    val scot = address.exists(addr => addressService.isScotland(addr.postcode))
+
+    (postcode, ni, scot) match {
+      case (_, `fromNI`, _) => GoTo (ExitController.northernIreland)
+      case (_, _, `fromScotland`) => GoTo (ExitController.scotland)
+      case (`hasPostcode`, _, _) => crown.AddressSelectStep
+      case _ => this
     }
   }
 

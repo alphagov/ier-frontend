@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.openRegister
 
+import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.step.crown.WaysToVoteController
 import controllers.step.crown.routes._
 import com.google.inject.Inject
@@ -17,8 +18,9 @@ class OpenRegisterStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets)
-  extends CrownStep
+    val remoteAssets: RemoteAssets,
+    val crown: CrownControllers
+) extends CrownStep
   with OpenRegisterForms
   with OpenRegisterMustache {
 
@@ -32,7 +34,7 @@ class OpenRegisterStep @Inject ()(
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    WaysToVoteController.waysToVoteStep
+    crown.WaysToVoteStep
   }
   override def isStepComplete(currentState: InprogressCrown) = {
     currentState.openRegisterOptin.isDefined

@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.dateOfBirth
 
+import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.step.crown.NameController
 import controllers.step.crown.routes.{DateOfBirthController, NationalityController}
 import controllers.routes.ExitController
@@ -20,7 +21,8 @@ class DateOfBirthStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val crown: CrownControllers
 ) extends CrownStep
   with DateOfBirthForms
   with DateOfBirthMustache{
@@ -45,19 +47,19 @@ class DateOfBirthStep @Inject ()(
   } andThen GoToNextIncompleteStep()
 
   def nextStep(currentState: InprogressCrown) = {
-    currentState.dob match {
-      case Some(DateOfBirth(Some(dob), _)) if DateValidator.isTooYoungToRegister(dob) => {
-        GoTo(ExitController.tooYoung)
-      }
-      case Some(DateOfBirth(_, Some(noDOB(Some(reason), Some(range)))))
-        if range == DateOfBirthConstants.under18 => {
-          GoTo(ExitController.under18)
-      }
-      case Some(DateOfBirth(_, Some(noDOB(Some(reason), Some(range)))))
-        if range == DateOfBirthConstants.dontKnow => {
-          GoTo(ExitController.dontKnow)
-      }
-      case _ => NameController.nameStep
+    import DateOfBirthConstants._
+    val tooYoung = true
+
+    val young = currentState.dob.flatMap(_.dob).exists(
+      dob => DateValidator.isTooYoungToRegister(dob)
+    )
+    val range = currentState.dob.flatMap(_.noDob).flatMap(_.range)
+
+    (young, range) match {
+      case (`tooYoung`, _) => GoTo(ExitController.tooYoung)
+      case (_, Some(`dontKnow`)) => GoTo(ExitController.dontKnow)
+      case (_, Some(`under18`)) => GoTo(ExitController.under18)
+      case _ => crown.NameStep
     }
   }
 }

@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.waysToVote
 
+import uk.gov.gds.ier.transaction.crown.CrownControllers
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
@@ -21,8 +22,9 @@ class WaysToVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets)
-  extends CrownStep
+    val remoteAssets: RemoteAssets,
+    val crown: CrownControllers
+) extends CrownStep
   with WaysToVoteForms
   with WaysToVoteMustache {
 
@@ -47,10 +49,12 @@ class WaysToVoteStep @Inject ()(
   }
 
   def nextStep(currentState: InprogressCrown) = {
+    import WaysToVoteType._
+
     currentState.waysToVote.map(_.waysToVoteType) match {
-      case Some(WaysToVoteType.InPerson) => ContactController.contactStep
-      case Some(WaysToVoteType.ByPost) => PostalVoteController.postalVoteStep
-      case Some(WaysToVoteType.ByProxy) => ProxyVoteController.proxyVoteStep
+      case Some(InPerson) => crown.ContactStep
+      case Some(ByPost) => crown.PostalVoteStep
+      case Some(ByProxy) => crown.ProxyVoteStep
       case _ => throw new IllegalArgumentException("unknown next step")
     }
   }

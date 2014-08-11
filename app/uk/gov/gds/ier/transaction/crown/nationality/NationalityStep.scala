@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.nationality
 
+import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.step.crown.routes.{AddressController,NationalityController}
 import controllers.step.crown.DateOfBirthController
 import controllers.routes.ExitController
@@ -20,8 +21,9 @@ class NationalityStep @Inject ()(
     val isoCountryService: IsoCountryService,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets)
-  extends CrownStep
+    val remoteAssets: RemoteAssets,
+    val crown: CrownControllers
+) extends CrownStep
     with NationalityForms
     with NationalityMustache {
 
@@ -44,10 +46,10 @@ class NationalityStep @Inject ()(
 
       franchises match {
         case Nil => GoTo(ExitController.noFranchise)
-        case list => DateOfBirthController.dateOfBirthStep
+        case list => crown.DateOfBirthStep
       }
     }
-    else DateOfBirthController.dateOfBirthStep
+    else crown.DateOfBirthStep
   }
 }
 

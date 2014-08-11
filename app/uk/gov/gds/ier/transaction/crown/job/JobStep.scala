@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.job
 
+import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.step.crown.{DeclarationPdfController, NinoController}
 import controllers.step.crown.routes.{NameController, JobController}
 import com.google.inject.Inject
@@ -18,8 +19,9 @@ class JobStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets)
-  extends CrownStep
+    val remoteAssets: RemoteAssets,
+    val crown: CrownControllers
+) extends CrownStep
   with JobForms
   with JobMustache {
 
@@ -32,11 +34,9 @@ class JobStep @Inject ()(
     editPost = JobController.editPost
   )
 
-  override val onSuccess = {
-    GoToNextStep()
-  }
+  override val onSuccess = GoToNextStep()
 
   def nextStep(currentState: InprogressCrown) = {
-    DeclarationPdfController.declarationPdfStep
+    crown.DeclarationPdfStep
   }
 }

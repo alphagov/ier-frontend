@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.previousAddress
 
+import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.step.crown.routes._
 import com.google.inject.Inject
 import play.api.mvc.Call
@@ -16,8 +17,9 @@ class PreviousAddressPostcodeStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService,
     val remoteAssets: RemoteAssets,
-    val addressService: AddressService)
-  extends CrownStep
+    val addressService: AddressService,
+    val crown: CrownControllers
+) extends CrownStep
   with PreviousAddressPostcodeMustache
   with PreviousAddressForms {
 
@@ -35,9 +37,9 @@ class PreviousAddressPostcodeStep @Inject() (
       _.previousAddress.exists(prevAddr => addressService.isNothernIreland(prevAddr.postcode)))
 
     if (isPreviousAddressNI) {
-      controllers.step.crown.NationalityController.nationalityStep
+      crown.NationalityStep
     } else {
-      controllers.step.crown.PreviousAddressSelectController.previousAddressSelectStep
+      crown.PreviousAddressSelectStep
     }
   }
 

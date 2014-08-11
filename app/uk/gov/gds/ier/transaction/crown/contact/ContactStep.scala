@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.contact
 
+import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.step.crown.routes.{ContactController, WaysToVoteController}
 import controllers.step.crown.ConfirmationController
 import com.google.inject.Inject
@@ -19,9 +20,9 @@ class ContactStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets)
-
-  extends CrownStep
+    val remoteAssets: RemoteAssets,
+    val crown: CrownControllers
+) extends CrownStep
   with ContactForms
   with ContactMustache {
 
@@ -35,6 +36,6 @@ class ContactStep @Inject ()(
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    ConfirmationController.confirmationStep
+    crown.ConfirmationStep
   }
 }

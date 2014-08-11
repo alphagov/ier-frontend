@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.nino
 
+import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.step.crown.routes.{NinoController, JobController}
 import controllers.step.crown.ContactAddressController
 import com.google.inject.Inject
@@ -15,8 +16,9 @@ class NinoStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets)
-  extends CrownStep
+    val remoteAssets: RemoteAssets,
+    val crown: CrownControllers
+) extends CrownStep
   with NinoForms
   with NinoMustache {
 
@@ -30,7 +32,7 @@ class NinoStep @Inject ()(
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    ContactAddressController.contactAddressStep
+    crown.ContactAddressStep
   }
 }
 

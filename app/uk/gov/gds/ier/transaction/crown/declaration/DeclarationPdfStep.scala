@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.declaration
 
+import uk.gov.gds.ier.transaction.crown.CrownControllers
 import com.google.inject.Inject
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
@@ -16,8 +17,9 @@ class DeclarationPdfStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService,
     val declarationPdfDownloadService: DeclarationPdfDownloadService,
-    val remoteAssets: RemoteAssets)
-  extends CrownStep
+    val remoteAssets: RemoteAssets,
+    val crown: CrownControllers
+) extends CrownStep
   with WithDeclarationPdfDownloadService
   with DeclarationPdfForms
   with DeclarationPdfMustache {
@@ -32,7 +34,7 @@ class DeclarationPdfStep @Inject ()(
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    NinoController.ninoStep
+    crown.NinoStep
   }
 }
 

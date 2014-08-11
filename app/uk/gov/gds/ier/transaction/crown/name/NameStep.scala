@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.name
 
+import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.step.crown.JobController
 import controllers.step.crown.routes.{NameController, DateOfBirthController}
 import com.google.inject.Inject
@@ -17,8 +18,9 @@ class NameStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets)
-  extends CrownStep
+    val remoteAssets: RemoteAssets,
+    val crown: CrownControllers
+) extends CrownStep
   with NameForms
   with NameMustache {
 
@@ -32,6 +34,6 @@ class NameStep @Inject ()(
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    JobController.jobStep
+    crown.JobStep
   }
 }

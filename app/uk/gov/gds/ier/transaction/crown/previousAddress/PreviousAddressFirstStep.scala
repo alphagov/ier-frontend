@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.previousAddress
 
+import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.step.crown.routes._
 import com.google.inject.Inject
 import uk.gov.gds.ier.model.MovedHouseOption
@@ -18,8 +19,9 @@ class PreviousAddressFirstStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService,
     val addressService: AddressService,
-    val remoteAssets: RemoteAssets)
-  extends CrownStep
+    val remoteAssets: RemoteAssets,
+    val crown: CrownControllers
+) extends CrownStep
   with PreviousAddressFirstMustache
   with PreviousAddressFirstForms {
 
@@ -33,18 +35,23 @@ class PreviousAddressFirstStep @Inject ()(
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    val nextAddressStep = currentState.previousAddress.map(_.previousAddress) match {
-      case Some(address) =>
-        if (address.exists(_.postcode.isEmpty)) { previousPostcodeAddressStep }
-        else if (address.exists(_.manualAddress.isDefined)) { controllers.step.crown.PreviousAddressManualController.previousAddressManualStep }
-        else if (address.exists(_.uprn.isDefined)) { controllers.step.crown.PreviousAddressSelectController.previousAddressSelectStep }
-        else previousPostcodeAddressStep
-      case _ => previousPostcodeAddressStep
-    }
+    import MovedHouseOption.Yes
 
-    currentState.previousAddress.flatMap(_.movedRecently) match {
-      case Some(MovedHouseOption.Yes) => nextAddressStep
-      case _ => controllers.step.crown.NationalityController.nationalityStep
+    val noPostcode = false
+    val hasManualAddress = true
+    val hasUprn = true
+
+    val movedHouse = currentState.previousAddress.flatMap(_.movedRecently)
+    val address = currentState.previousAddress.flatMap(_.previousAddress)
+    val postcode = address.exists(!_.postcode.isEmpty)
+    val manualAddress = address.exists(_.manualAddress.isDefined)
+    val uprn = address.exists(_.uprn.isDefined)
+
+    (movedHouse, postcode, manualAddress, uprn) match {
+      case (Some(Yes), `noPostcode`, _, _) => crown.PreviousAddressPostcodeStep
+      case (Some(Yes), _, `hasManualAddress`, _) => crown.PreviousAddressManualStep
+      case (Some(Yes), _, _, `hasUprn`) => crown.PreviousAddressSelectStep
+      case _ => crown.NationalityStep
     }
   }
 

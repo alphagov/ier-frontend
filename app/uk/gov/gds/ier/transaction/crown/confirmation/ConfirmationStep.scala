@@ -23,8 +23,8 @@ class ConfirmationStep @Inject() (
     val serialiser: JsonSerialiser,
     val addressService: AddressService,
     val remoteAssets: RemoteAssets,
-    ierApi: IerApiService)
-  extends ConfirmationStepController[InprogressCrown]
+    ierApi: IerApiService
+) extends ConfirmationStepController[InprogressCrown]
   with ConfirmationForms
   with ConfirmationMustache
   with ResultHandling
