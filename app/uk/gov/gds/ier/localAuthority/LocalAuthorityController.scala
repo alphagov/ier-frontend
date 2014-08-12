@@ -23,7 +23,6 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.assets.RemoteAssets
 import play.api.mvc.Request
 import play.api.mvc.AnyContent
-import uk.gov.gds.ier.langs.Language
 
 class LocalAuthorityController @Inject() (
     val ierApiService: ConcreteIerApiService,
