@@ -1,20 +1,11 @@
 package uk.gov.gds.ier.transaction.complete
 
-import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.mock.MockitoSugar
-import play.api.test._
-import play.api.test.Helpers._
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.ControllerTestSuite
 import controllers.routes._
 import play.api.test.FakeApplication
-import scala.Some
 import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 
-class CompleteControllerTests
-  extends FlatSpec
-  with Matchers
-  with MockitoSugar
-  with TestHelpers {
+class CompleteControllerTests extends ControllerTestSuite {
 
   behavior of "CompleteController.get"
   it should "display the page with link back to start when user indicated that has other address" in {

@@ -1,31 +1,19 @@
 package uk.gov.gds.ier.service
 
-import org.scalatest.{Matchers, FlatSpec}
+import uk.gov.gds.ier.test.MockingTestSuite
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.client.IerApiClient
 import uk.gov.gds.ier.model._
 import org.joda.time.DateTime
-import uk.gov.gds.ier.test.TestHelpers
-import org.scalatest.mock.MockitoSugar
-import org.mockito.Mockito._
 import uk.gov.gds.ier.digest.ShaHashProvider
 import uk.gov.gds.ier.model.Success
 import uk.gov.gds.ier.model.Fail
-import scala.Some
 import uk.gov.gds.ier.service.apiservice.{EroAuthorityDetails, IerApiApplicationResponse, IerApiService, ConcreteIerApiService}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
-import org.mockito.Matchers._
-/**
- * Test {@link IerApiService} submission methods where IER-API is emulated with FakeApiClient.
- *
- * For test of transformation of application data to API request format see
- * {@link OrdinaryApplicationTests}, {@link OverseasApplicationTests} ..
- */
-class IerApiServiceTests
-  extends FlatSpec
-  with Matchers
-  with IerApiServiceTestsHelper
-  with MockitoSugar {
+
+class IerApiServiceTests extends MockingTestSuite {
+
+  val testHelper = new IerApiServiceTestsHelper {}
 
   val successMessage = Success(s"""
   {
@@ -48,7 +36,7 @@ class IerApiServiceTests
     "deserialize result correctly and return expected response" in {
     val application = completeOrdinaryApplication
 
-    val r = fakeServiceCall(
+    val r = testHelper.fakeServiceCall(
       requestJson => {
         requestJson should include("applicationType\":\"ordinary\"")
         requestJson should include("John")
@@ -77,7 +65,7 @@ class IerApiServiceTests
     "deserialize result correctly and return expected response" in {
     val application = completeOrdinaryApplication
 
-    val r = fakeServiceCall(
+    val r = testHelper.fakeServiceCall(
       requestJson => {
         requestJson should include("applicationType\":\"ordinary\"")
         requestJson should include("John")
@@ -106,7 +94,7 @@ class IerApiServiceTests
     "deserialize result correctly and return expected response" in {
     val application = completeOverseasApplication
 
-    val r = fakeServiceCall(
+    val r = testHelper.fakeServiceCall(
       requestJson => {
         requestJson should include("applicationType\":\"overseas\"")
         requestJson should include("John")
@@ -135,7 +123,7 @@ class IerApiServiceTests
     "deserialize result correctly and return expected response" in {
     val application = completeCrownApplication
 
-    val r = fakeServiceCall(
+    val r = testHelper.fakeServiceCall(
       requestJson => {
         requestJson should include("applicationType\":\"crown\"")
         requestJson should include("John")
@@ -171,7 +159,7 @@ class IerApiServiceTests
       ))
     )
 
-    fakeServiceCall(
+    testHelper.fakeServiceCall(
       requestJson => {
         requestJson should include("ukAddr\":\"resident\"")
         successMessage
@@ -190,7 +178,7 @@ class IerApiServiceTests
       ))
     )
 
-    fakeServiceCall(
+    testHelper.fakeServiceCall(
       requestJson => {
         requestJson should include("ukAddr\":\"not-resident\"")
         successMessage
@@ -209,7 +197,7 @@ class IerApiServiceTests
       ))
     )
 
-    fakeServiceCall(
+    testHelper.fakeServiceCall(
       requestJson => {
         requestJson should include("ukAddr\":\"no-connection\"")
         successMessage
@@ -221,7 +209,7 @@ class IerApiServiceTests
     "deserialize result correctly and return expected response" in {
     val application = completeForcesApplication
 
-    val r = fakeServiceCall(
+    val r = testHelper.fakeServiceCall(
       requestJson => {
         requestJson should include("applicationType\":\"forces\"")
         requestJson should include("John")
@@ -257,7 +245,7 @@ class IerApiServiceTests
       ))
     )
 
-    fakeServiceCall(
+    testHelper.fakeServiceCall(
       requestJson => {
         requestJson should include("ukAddr\":\"resident\"")
         successMessage
@@ -276,7 +264,7 @@ class IerApiServiceTests
       ))
     )
 
-    fakeServiceCall(
+    testHelper.fakeServiceCall(
       requestJson => {
         requestJson should include("ukAddr\":\"not-resident\"")
         successMessage
@@ -295,7 +283,7 @@ class IerApiServiceTests
       ))
     )
 
-    fakeServiceCall(
+    testHelper.fakeServiceCall(
       requestJson => {
         requestJson should include("ukAddr\":\"no-connection\"")
         successMessage
@@ -321,7 +309,7 @@ class IerApiServiceTests
       ))
     )
 
-    fakeServiceCall(
+    testHelper.fakeServiceCall(
       requestJson => {
         requestJson should include("applicationType\":\"crown\"")
         requestJson should not include("\"nat\"")
@@ -350,7 +338,7 @@ class IerApiServiceTests
       ))
     )
 
-    fakeServiceCall(
+    testHelper.fakeServiceCall(
       requestJson => {
         requestJson should include("applicationType\":\"crown\"")
         requestJson should not include("\"nat\"")
@@ -380,7 +368,7 @@ class IerApiServiceTests
       ))
     )
 
-    fakeServiceCall(
+    testHelper.fakeServiceCall(
       requestJson => {
         requestJson should include("applicationType\":\"forces\"")
         requestJson should include("ukAddr\":\"no-connection\"")
@@ -410,7 +398,7 @@ class IerApiServiceTests
       ))
     )
 
-    fakeServiceCall(
+    testHelper.fakeServiceCall(
       requestJson => {
         requestJson should include("applicationType\":\"forces\"")
         requestJson should not include("\"nat\"")

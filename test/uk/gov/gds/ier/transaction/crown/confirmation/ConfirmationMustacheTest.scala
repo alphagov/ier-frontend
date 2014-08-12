@@ -1,29 +1,17 @@
 package uk.gov.gds.ier.transaction.crown.confirmation
 
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.model._
-import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.test._
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.Name
-import uk.gov.gds.ier.model.WaysToVote
+import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError}
-import org.mockito.Mockito._
 
 class ConfirmationMustacheTest
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
+  with MockitoHelpers
   with ConfirmationForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers
   with ConfirmationMustache
   with WithMockCrownControllers
-  with WithMockAddressService
-  with WithMockConfig
-  with WithMockRemoteAssets {
+  with WithMockAddressService {
 
   when(mockNameStep.routing).thenReturn(routes("/register-to-vote/crown/edit/name"))
   when(mockDateOfBirthStep.routing).thenReturn(routes("/register-to-vote/crown/edit/date-of-birth"))
@@ -36,8 +24,6 @@ class ConfirmationMustacheTest
   when(mockContactStep.routing).thenReturn(routes("/register-to-vote/crown/edit/contact"))
   when(mockOpenRegisterStep.routing).thenReturn(routes("/register-to-vote/crown/edit/open-register"))
   when(mockWaysToVoteStep.routing).thenReturn(routes("/register-to-vote/crown/edit/ways-to-vote"))
-
-  val serialiser = jsonSerialiser
 
   "In-progress application form without a crown or council partner" should
     "generate confirmation mustache model without partner block" in {

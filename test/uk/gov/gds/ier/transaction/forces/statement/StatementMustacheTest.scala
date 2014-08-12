@@ -1,24 +1,14 @@
 package uk.gov.gds.ier.transaction.forces.statement
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.{Statement}
-import scala.Some
 import controllers.step.forces.routes._
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
-
 class StatementMustacheTest
-  extends FlatSpec
-  with Matchers
-  with ErrorMessages
-  with FormKeys
+  extends MustacheTestSuite
   with StatementMustache
-  with StatementForms
-  with WithMockConfig
-  with WithMockRemoteAssets
-  with TestHelpers {
+  with StatementForms {
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = statementForm

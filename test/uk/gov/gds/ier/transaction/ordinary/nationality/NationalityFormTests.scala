@@ -1,21 +1,10 @@
 package uk.gov.gds.ier.transaction.ordinary.nationality
 
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.libs.json.{JsNull, JsBoolean, Json, JsObject}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.FormTestSuite
 
 class NationalityFormTests
-  extends FlatSpec
-  with Matchers
-  with NationalityForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers {
-
-  val serialiser = jsonSerialiser
+  extends FormTestSuite
+  with NationalityForms {
 
   it should "succesfully bind json" in {
     val js = Map (

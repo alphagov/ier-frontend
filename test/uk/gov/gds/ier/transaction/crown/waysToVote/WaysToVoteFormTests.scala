@@ -1,22 +1,11 @@
 package uk.gov.gds.ier.transaction.crown.waysToVote
 
-import play.api.libs.json.Json
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.test.FormTestSuite
 import uk.gov.gds.ier.model.{WaysToVote, WaysToVoteType}
 
 class WaysToVoteFormTests
-  extends FlatSpec
-  with Matchers
-  with WaysToVoteForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers {
-
-  val serialiser = jsonSerialiser
+  extends FormTestSuite
+  with WaysToVoteForms {
 
   it should "error out on empty input" in {
     val emptyRequest = Map.empty[String, String]

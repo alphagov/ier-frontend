@@ -1,19 +1,11 @@
 package uk.gov.gds.ier.transaction.overseas.name
 
-import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.mock.MockitoSugar
-import play.api.test._
-import play.api.test.Helpers._
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.ControllerTestSuite
 import uk.gov.gds.ier.model.{PreviousName, Name}
 import akka.util.Timeout
 import java.util.concurrent.TimeUnit
 
-class OverseasNameControllerTests
-  extends FlatSpec
-  with Matchers
-  with MockitoSugar
-  with TestHelpers {
+class OverseasNameControllerTests extends ControllerTestSuite {
 
   behavior of "NameController.get"
   it should "display the page" in {

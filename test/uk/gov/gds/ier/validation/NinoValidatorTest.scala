@@ -1,14 +1,8 @@
 package uk.gov.gds.ier.validation
 
-import org.scalatest.{Matchers, FlatSpec}
+import uk.gov.gds.ier.test.UnitTestSuite
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-
-@RunWith(classOf[JUnitRunner])
-class NinoValidatorTest   
-  extends FlatSpec
-  with Matchers {
+class NinoValidatorTest extends UnitTestSuite {
 
   behavior of "NinoValidator.isValid" 
 

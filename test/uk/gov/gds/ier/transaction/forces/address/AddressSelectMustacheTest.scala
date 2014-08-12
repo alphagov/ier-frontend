@@ -1,30 +1,17 @@
 package uk.gov.gds.ier.transaction.forces.address
 
-import org.mockito.Mockito._
-import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.mock.MockitoSugar
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
-import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.service.{AddressService, WithAddressService}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class AddressSelectMustacheTest
-  extends FlatSpec
-  with Matchers
-  with MockitoSugar
+  extends MustacheTestSuite
   with AddressForms
   with AddressSelectMustache
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers
-  with WithMockConfig
-  with WithMockRemoteAssets
-  with WithSerialiser
-  with WithAddressService {
+  with WithAddressService
+  with MockitoHelpers {
 
-  val serialiser = jsonSerialiser
   val addressService = mock[AddressService]
 
   when(addressService.lookupPartialAddress("WR26NJ")).thenReturn(List.empty)

@@ -1,20 +1,12 @@
 package uk.gov.gds.ier.validation.constraints
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.FormTestSuite
 import uk.gov.gds.ier.model.{PreviousName, Name}
 import play.api.data.validation.{Invalid, Valid}
 
 class NameCommonConstraintsTests
-  extends FlatSpec
-  with Matchers 
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers 
+  extends FormTestSuite 
   with NameCommonConstraints {
-  
-  val serialiser = jsonSerialiser
 
   behavior of "NameCommonConstraints.firstNameTooLong"
 

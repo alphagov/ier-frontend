@@ -1,13 +1,8 @@
 package uk.gov.gds.ier.model
 
-import uk.gov.gds.ier.test.{TestHelpers, CustomMatchers}
-import org.scalatest.{Matchers, FlatSpec}
+import uk.gov.gds.ier.test.UnitTestSuite
 
-class PreviousNameTests
-  extends FlatSpec
-  with Matchers
-  with CustomMatchers
-  with TestHelpers {
+class PreviousNameTests extends UnitTestSuite {
 
   behavior of "toApiMap with hasPreviuosName = true"
   it should "generate the expected payload with first,last and middle names" in {

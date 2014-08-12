@@ -1,17 +1,10 @@
 package uk.gov.gds.ier.feedback
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.MockingTestSuite
 import uk.gov.gds.ier.stubs.FeedbackStubClient
-import org.scalatest.mock.MockitoSugar
-import org.mockito.Mock
 import uk.gov.gds.ier.config.Config
 
-class FeedbackServiceTests
-  extends FlatSpec
-  with Matchers
-  with MockitoSugar
-  with TestHelpers {
+class FeedbackServiceTests extends MockingTestSuite {
 
   val serialiser = jsonSerialiser
   val config = mock[Config]

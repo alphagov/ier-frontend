@@ -1,10 +1,10 @@
 package uk.gov.gds.ier.assets
 
-import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.config.Config
 import play.api.test.FakeRequest
+import uk.gov.gds.ier.test._
 
-class RemoteAssetsTests extends FlatSpec with Matchers {
+class RemoteAssetsTests extends UnitTestSuite {
 
   behavior of "RemoteAssets.getAssetPath"
 

@@ -1,19 +1,8 @@
 package uk.gov.gds.ier.transaction.country
 
-import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.mock.MockitoSugar
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import play.api.test._
-import play.api.test.Helpers._
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.ControllerTestSuite
 
-@RunWith(classOf[JUnitRunner])
-class CountryControllerTests
-  extends FlatSpec
-  with Matchers
-  with MockitoSugar
-  with TestHelpers {
+class CountryControllerTests extends ControllerTestSuite {
 
   behavior of "CountryController.get"
   it should "display the page" in {

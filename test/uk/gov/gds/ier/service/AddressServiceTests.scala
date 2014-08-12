@@ -1,17 +1,10 @@
 package uk.gov.gds.ier.service
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.test.TestHelpers
-import org.scalatest.mock.MockitoSugar
-import org.mockito.Mockito._
-import org.mockito.{Matchers => MockitoMatchers}
+import uk.gov.gds.ier.test.MockingTestSuite
 import uk.gov.gds.ier.model.{PartialManualAddress, Address, PartialAddress,
   LastAddress, LocateAuthority}
 
-class AddressServiceTests extends FlatSpec
-  with Matchers
-  with TestHelpers
-  with MockitoSugar {
+class AddressServiceTests extends MockingTestSuite {
 
   behavior of "AddressService.formFullAddress"
 
@@ -93,7 +86,7 @@ class AddressServiceTests extends FlatSpec
     val service = new AddressService(mockLocateService)
 
     service.formFullAddress(None) should be(None)
-    verify(mockLocateService, never()).lookupAddress(MockitoMatchers.anyString())
+    verify(mockLocateService, never()).lookupAddress(anyString())
   }
 
   it should "provide correct address containing only a postcode (NI case)" in {

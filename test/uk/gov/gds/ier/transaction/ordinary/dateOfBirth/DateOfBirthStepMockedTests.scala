@@ -1,14 +1,10 @@
 package uk.gov.gds.ier.transaction.ordinary.dateOfBirth
 
-import org.scalatest.FlatSpec
-import org.scalatest.Matchers
-import org.specs2.mock.Mockito
-import org.mockito.Mockito._
 import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.MockingTestSuite
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.model.DateOfBirth
@@ -18,13 +14,7 @@ import uk.gov.gds.ier.transaction.ordinary.{InprogressOrdinary, OrdinaryControll
 import uk.gov.gds.ier.transaction.ordinary.name.NameStep
 import uk.gov.gds.ier.step.Routes
 
-/*
- * This test mock the Date of Birth.
- *
- * The app has to be running for Guice to initialise properly
- *
- */
-class DateOfBirthStepMockedTests extends FlatSpec with TestHelpers with Matchers with Mockito {
+class DateOfBirthStepMockedTests extends MockingTestSuite {
 
   it should "clear dob reason if the date of birth is provided" in runningApp {
     val mockedJsonSerialiser = mock[JsonSerialiser]

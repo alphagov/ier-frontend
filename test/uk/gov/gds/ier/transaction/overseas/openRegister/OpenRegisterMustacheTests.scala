@@ -1,22 +1,13 @@
 package uk.gov.gds.ier.transaction.overseas.openRegister
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
-import scala.Some
 import controllers.step.overseas.routes._
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class OpenRegisterMustacheTests
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
   with OpenRegisterForms
-  with OpenRegisterMustache
-  with ErrorMessages
-  with FormKeys
-  with WithMockConfig
-  with WithMockRemoteAssets
-  with TestHelpers {
+  with OpenRegisterMustache {
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = openRegisterForm

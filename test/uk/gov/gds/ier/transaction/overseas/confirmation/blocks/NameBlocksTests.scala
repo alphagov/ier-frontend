@@ -1,24 +1,14 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.test.FormTestSuite
 import uk.gov.gds.ier.model.{Name, PreviousName}
 import uk.gov.gds.ier.transaction.overseas.confirmation.ConfirmationForms
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.transaction.shared.BlockContent
 
 class NameBlocksTests
-  extends FlatSpec
-  with Matchers
-  with ConfirmationForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers {
-
-  val serialiser = jsonSerialiser
+  extends FormTestSuite
+  with ConfirmationForms {
 
   "In-progress application form with filled name and previous name" should
     "generate confirmation mustache model with correctly rendered names and correct URLs" in {

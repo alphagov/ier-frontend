@@ -1,23 +1,19 @@
 package uk.gov.gds.ier.form
 
-import uk.gov.gds.ier.serialiser.WithSerialiser
+import uk.gov.gds.ier.test.UnitTestSuite
 import uk.gov.gds.ier.model._
 import org.joda.time.DateTime
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.transaction.overseas.confirmation.ConfirmationForms
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
-class OverseasFormImplicitsTests
-  extends FlatSpec
-  with Matchers
-  with FormKeys
-  with TestHelpers
-  with OverseasFormImplicits
-  with ConfirmationForms {
+class OverseasFormImplicitsTests extends UnitTestSuite {
 
-  val serialiser = jsonSerialiser
+  val implicits = new OverseasFormImplicits with FormKeys {}
+  import implicits._
+  val forms = new ConfirmationForms {
+    val serialiser = jsonSerialiser
+  }
 
   behavior of "OverseasFormImplicits.InprogressOverseas.identifyApplication"
   it should "properly identify a young voter" in {
@@ -57,37 +53,37 @@ class OverseasFormImplicitsTests
 
   behavior of "OverseasFormImplicits.InProgressForm[InprogressOverseas].identifyApplication"
   it should "properly identify a young voter" in {
-    val youngVoterForm = confirmationForm.fillAndValidate(incompleteYoungApplication)
+    val youngVoterForm = forms.confirmationForm.fillAndValidate(incompleteYoungApplication)
     youngVoterForm.identifyApplication should be(ApplicationType.YoungVoter)
   }
 
   it should "properly identify a new voter whose been registered in uk" in {
-    val newVoterForm = confirmationForm.fillAndValidate(incompleteNewApplication)
+    val newVoterForm = forms.confirmationForm.fillAndValidate(incompleteNewApplication)
     newVoterForm.identifyApplication should be(ApplicationType.NewVoter)
   }
 
   it should "properly identify a renewer voter" in {
-    val renewerVoterForm = confirmationForm.fillAndValidate(incompleteRenewerApplication)
+    val renewerVoterForm = forms.confirmationForm.fillAndValidate(incompleteRenewerApplication)
     renewerVoterForm.identifyApplication should be(ApplicationType.RenewerVoter)
   }
 
   it should "properly identify a forces voter" in {
-    val specialVoterForm = confirmationForm.fillAndValidate(incompleteForcesApplication)
+    val specialVoterForm = forms.confirmationForm.fillAndValidate(incompleteForcesApplication)
     specialVoterForm.identifyApplication should be(ApplicationType.SpecialVoter)
   }
 
   it should "properly identify a council voter" in {
-    val specialVoterForm = confirmationForm.fillAndValidate(incompleteCouncilApplication)
+    val specialVoterForm = forms.confirmationForm.fillAndValidate(incompleteCouncilApplication)
     specialVoterForm.identifyApplication should be(ApplicationType.SpecialVoter)
   }
 
   it should "properly identify a crown voter" in {
-    val specialVoterForm = confirmationForm.fillAndValidate(incompleteCrownApplication)
+    val specialVoterForm = forms.confirmationForm.fillAndValidate(incompleteCrownApplication)
     specialVoterForm.identifyApplication should be(ApplicationType.SpecialVoter)
   }
 
   it should "properly identify a DontKnow case" in {
-    val dunnoForm = confirmationForm.fillAndValidate(InprogressOverseas())
+    val dunnoForm = forms.confirmationForm.fillAndValidate(InprogressOverseas())
     dunnoForm.identifyApplication should be(ApplicationType.DontKnow)
   }
 }

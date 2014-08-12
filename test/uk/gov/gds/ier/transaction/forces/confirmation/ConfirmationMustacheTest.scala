@@ -1,39 +1,18 @@
 package uk.gov.gds.ier.transaction.forces.confirmation
 
-import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
-import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.test._
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.Name
-import scala.Some
 import uk.gov.gds.ier.model.WaysToVote
 import uk.gov.gds.ier.transaction.forces.InprogressForces
-import org.mockito.Mockito._
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError}
-import org.specs2.mock.Mockito
-import uk.gov.gds.ier.guice.WithRemoteAssets
-import uk.gov.gds.ier.assets.RemoteAssets
-import uk.gov.gds.ier.service.WithAddressService
 
 class ConfirmationMustacheTest
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
   with ConfirmationForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers
   with ConfirmationMustache
-  with WithMockConfig
   with WithMockAddressService
-  with Mockito
-  with WithAddressService
-  with WithRemoteAssets {
-
-  val remoteAssets = mock[RemoteAssets]
-
-  val serialiser = jsonSerialiser
+  with MockitoHelpers {
 
   "In-progress application form without a forces partner (member = true)" should
     "generate confirmation mustache model without forces partner block" in {

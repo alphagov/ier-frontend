@@ -1,21 +1,11 @@
 package uk.gov.gds.ier.transaction.ordinary.openRegister
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
-import scala.Some
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
-import play.api.mvc.Call
 
 class OpenRegisterMustacheTests
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
   with OpenRegisterForms
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers
-  with WithMockConfig
-  with WithMockRemoteAssets
   with OpenRegisterMustache {
 
   it should "empty progress form should produce empty Model" in runningApp {

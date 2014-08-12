@@ -1,11 +1,7 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
-import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
-import org.joda.time.DateTime
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.test.FormTestSuite
 import uk.gov.gds.ier.model.{
   Name,
   PreviousName,
@@ -16,15 +12,8 @@ import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.transaction.shared.BlockContent
 
 class WaysToVoteBlocksTests
-  extends FlatSpec
-  with Matchers
-  with ConfirmationForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers {
-
-  val serialiser = jsonSerialiser
+  extends FormTestSuite
+  with ConfirmationForms {
 
   "application form with filled way to vote as by-post" should
     "generate confirmation mustache model with correctly rendered way to vote type" in {

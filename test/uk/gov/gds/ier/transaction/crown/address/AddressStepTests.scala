@@ -1,21 +1,13 @@
 package uk.gov.gds.ier.transaction.crown.address
 
-import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.mock.MockitoSugar
-import play.api.test._
-import play.api.test.Helpers._
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.ControllerTestSuite
 import uk.gov.gds.ier.model.{LastAddress, HasAddressOption}
 import akka.util.Timeout
 
 import java.util.concurrent.TimeUnit
 import scala.concurrent.duration.Duration
 
-class AddressStepTests
-  extends FlatSpec
-  with Matchers
-  with MockitoSugar
-  with TestHelpers {
+class AddressStepTests extends ControllerTestSuite {
 
   behavior of "AddressStep.get"
   it should "display the page with last uk address (None value)" in {

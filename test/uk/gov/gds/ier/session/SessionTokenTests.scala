@@ -1,16 +1,12 @@
 package uk.gov.gds.ier.session
 
-import org.scalatest.{Matchers, FlatSpec}
 import org.joda.time.{Minutes, Seconds, DateTime}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.UnitTestSuite
 import uk.gov.gds.ier.security.{Base64EncodingService, EncryptionService}
 import uk.gov.gds.ier.controller.MockConfig
 import java.nio.charset.Charset
 
-class SessionTokenTests
-  extends FlatSpec
-  with Matchers
-  with TestHelpers {
+class SessionTokenTests extends UnitTestSuite {
 
   behavior of "SessionToken.init"
   it should "init with a new Timestamp" in {

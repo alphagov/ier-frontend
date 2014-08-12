@@ -1,23 +1,12 @@
 package uk.gov.gds.ier.transaction.ordinary.contact
 
-import play.api.libs.json.{JsNull, Json}
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation._
-import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.serialiser.WithSerialiser
+import uk.gov.gds.ier.test.FormTestSuite
 import uk.gov.gds.ier.model.ContactDetail
 
-class ContactFormTests 
-  extends FlatSpec
-  with Matchers
-  with ContactForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers {
+class ContactFormTests
+  extends FormTestSuite
+  with ContactForms {
 
-  val serialiser = jsonSerialiser
-  
   it should "bind successfully (all)" in {
     val js = Json.toJson(
       Map(
@@ -39,7 +28,7 @@ class ContactFormTests
       }
     )
   }
-  
+
   it should "bind successfully (post)" in {
     val js = Json.toJson(
       Map(
@@ -114,7 +103,7 @@ class ContactFormTests
       }
     )
   }
-  
+
   it should "error out on empty json" in {
     val js = JsNull
 

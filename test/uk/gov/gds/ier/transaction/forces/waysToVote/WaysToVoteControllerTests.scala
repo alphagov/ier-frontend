@@ -1,20 +1,8 @@
 package uk.gov.gds.ier.transaction.forces.waysToVote
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.test.TestHelpers
-import org.scalatest.mock.MockitoSugar
-import play.api.test.Helpers._
-import scala.Some
-import play.api.test.{FakeRequest, FakeApplication}
+import uk.gov.gds.ier.test.ControllerTestSuite
 
-
-class WaysToVoteControllerTests
-  extends FlatSpec
-  with Matchers
-  with MockitoSugar
-  with TestHelpers {
-
-  val serialiser = jsonSerialiser
+class WaysToVoteControllerTests extends ControllerTestSuite {
 
   behavior of "WaysToVoteController.get"
   it should "display the page" in {

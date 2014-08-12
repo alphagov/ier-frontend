@@ -1,21 +1,12 @@
 package uk.gov.gds.ier.transaction.crown.statement
 
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.mvc.Call
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.test._
 
 class StatementMustacheTests
-  extends FlatSpec
-  with Matchers
-  with ErrorMessages
-  with FormKeys
+  extends MustacheTestSuite
   with StatementMustache
-  with StatementForms
-  with WithMockConfig
-  with WithMockRemoteAssets
-  with TestHelpers {
+  with StatementForms {
 
   it should "render without any user input correctly" in {
     val application = statementForm

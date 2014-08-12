@@ -1,22 +1,11 @@
 package uk.gov.gds.ier.transaction.ordinary.openRegister
 
-import play.api.libs.json.{JsNull, Json}
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.FormTestSuite
 
-class OpenRegisterFormTests  
-  extends FlatSpec
-  with Matchers
-  with OpenRegisterForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers {
+class OpenRegisterFormTests
+  extends FormTestSuite
+  with OpenRegisterForms {
 
-  val serialiser = jsonSerialiser
-    
   it should "successfully bind (true)" in {
     val js = Json.toJson(
       Map(

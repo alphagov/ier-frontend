@@ -1,18 +1,18 @@
 package uk.gov.gds.ier.test
-import org.specs2.mock.Mockito
-import uk.gov.gds.ier.service.{WithAddressService, AddressService}
-import org.mockito.Mockito._
 
-trait WithMockAddressService
-  extends Mockito with WithAddressService {
+import uk.gov.gds.ier.service.{WithAddressService, AddressService}
+
+trait WithMockAddressService extends WithAddressService {
+
+  private val mockito = new MockitoHelpers {}
 
   val addressService = {
 
-    val mockService = mock[AddressService]
-    when (mockService.isNothernIreland("BT7 1AA")).thenReturn(true)
-    when (mockService.isNothernIreland("bt7 1aa")).thenReturn(true)
-    when (mockService.isNothernIreland("BT71AA")).thenReturn(true)
-    when (mockService.isNothernIreland("bt71aa")).thenReturn(true)
+    val mockService = mockito.mock[AddressService]
+    mockito.when (mockService.isNothernIreland("BT7 1AA")).thenReturn(true)
+    mockito.when (mockService.isNothernIreland("bt7 1aa")).thenReturn(true)
+    mockito.when (mockService.isNothernIreland("BT71AA")).thenReturn(true)
+    mockito.when (mockService.isNothernIreland("bt71aa")).thenReturn(true)
     mockService
   }
 

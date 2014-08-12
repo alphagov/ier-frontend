@@ -1,21 +1,10 @@
 package uk.gov.gds.ier.transaction.overseas.address
 
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.libs.json.{Json, JsNull}
-import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.test.FormTestSuite
 
 class AddressFormTests
-  extends FlatSpec
-  with Matchers
-  with AddressForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers {
-
-  val serialiser = jsonSerialiser
+  extends FormTestSuite
+  with AddressForms {
 
   it should "error out on empty json" in {
     val js = JsNull

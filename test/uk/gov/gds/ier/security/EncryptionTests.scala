@@ -1,32 +1,30 @@
 package uk.gov.gds.ier.security
 
-import org.scalatest.{GivenWhenThen, FunSuite}
-import org.scalatest.Matchers
+import uk.gov.gds.ier.test.MockingTestSuite
 import uk.gov.gds.ier.config.Config
-import org.specs2.mock.Mockito
 
-class EncryptionTests extends FunSuite with GivenWhenThen with Matchers with Mockito {
+class EncryptionTests extends MockingTestSuite {
 
   private val jsonToEncrypt = """{key:"value"}"""
   private val mockedConfig = mock[Config]
-  mockedConfig.cookiesAesKey returns "J1gs7djvi9/ecFHj0gNRbHHWIreobplsWmXnZiM2reo="
   private val encryptionService = new EncryptionService(new Base64EncodingService, mockedConfig)
 
-  test("Should be able to encrypt/decrypt a block using an AES key") {
+  when(mockedConfig.cookiesAesKey).thenReturn("J1gs7djvi9/ecFHj0gNRbHHWIreobplsWmXnZiM2reo=")
+
+  it should "encrypt/decrypt a block using an AES key" in {
     val (encryptionOutput, encryptionIV) = encryptionService.encrypt(jsonToEncrypt)
     encryptionService.decrypt(encryptionOutput, encryptionIV) should be(jsonToEncrypt)
   }
 
-  test("encrypt with AES returns message different than original") {
+  it should "encrypt with AES returns message different than original" in {
     val (encryptionOutput, encryptionIV) = encryptionService.encrypt(jsonToEncrypt)
     jsonToEncrypt should not be(encryptionOutput)
   }
 
-  test("encrypt twice with AES returns different encrypted content") {
+  it should "encrypt twice with AES returns different encrypted content" in {
     val (encryptionOutput1, encryptionIV1) = encryptionService.encrypt(jsonToEncrypt)
     val (encryptionOutput2, encryptionIV2) = encryptionService.encrypt(jsonToEncrypt)
     encryptionOutput1 should not be (encryptionOutput2)
     encryptionIV1 should not be (encryptionIV2)
   }
-
 }

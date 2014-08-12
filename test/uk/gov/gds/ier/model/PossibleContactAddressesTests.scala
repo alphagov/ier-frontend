@@ -1,12 +1,8 @@
 package uk.gov.gds.ier.model
 
-import uk.gov.gds.ier.test.CustomMatchers
-import org.scalatest.{Matchers, FlatSpec}
+import uk.gov.gds.ier.test.UnitTestSuite
 
-class PossibleContactAddressesTests
-  extends FlatSpec
-  with Matchers
-  with CustomMatchers {
+class PossibleContactAddressesTests extends UnitTestSuite {
 
   it should "generate the expected payload with postcode in the correct format" in {
     val possibleAddress = PossibleContactAddresses(

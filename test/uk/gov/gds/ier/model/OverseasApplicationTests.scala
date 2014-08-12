@@ -1,14 +1,9 @@
 package uk.gov.gds.ier.model
 
-import uk.gov.gds.ier.test.{TestHelpers, CustomMatchers}
-import org.scalatest.{Matchers, FlatSpec}
+import uk.gov.gds.ier.test.UnitTestSuite
 import uk.gov.gds.ier.service.apiservice.OverseasApplication
 
-class OverseasApplicationTests
-  extends FlatSpec
-  with Matchers
-  with TestHelpers
-  with CustomMatchers {
+class OverseasApplicationTests extends UnitTestSuite {
 
   behavior of "OverseasApplication.toApiMap"
 

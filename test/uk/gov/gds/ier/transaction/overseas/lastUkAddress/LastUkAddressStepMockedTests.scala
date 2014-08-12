@@ -1,28 +1,18 @@
 package uk.gov.gds.ier.transaction.overseas.lastUkAddress
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.test.TestHelpers
-import org.specs2.mock.Mockito
+import uk.gov.gds.ier.test.MockingTestSuite
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.service.AddressService
-import org.mockito.Mockito._
 import uk.gov.gds.ier.model.PartialAddress
 import controllers.routes._
 import controllers.step.overseas.LastUkAddressSelectController
-import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.step.GoTo
-import scala.Some
-import play.api.test.FakeApplication
 import uk.gov.gds.ier.assets.RemoteAssets
 
-/**
- * Lover level tests focused on individual Step methods, like exit branching, utilizing
- * mocked services
- */
-class LastUkAddressStepMockedTests extends FlatSpec with TestHelpers with Matchers with Mockito {
+class LastUkAddressStepMockedTests extends MockingTestSuite {
 
   val mockedJsonSerialiser = mock[JsonSerialiser]
   val mockedConfig = mock[Config]

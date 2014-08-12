@@ -1,27 +1,13 @@
 package uk.gov.gds.ier.transaction.crown.nino
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import play.api.libs.json.Json
 import uk.gov.gds.ier.test._
-import play.api.mvc.Call
-import play.api.templates.Html
 
 class NinoMustacheTests
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
   with NinoForms
-  with NinoMustache
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with WithMockConfig
-  with WithMockRemoteAssets
-  with TestHelpers {
-
-  val serialiser = jsonSerialiser
+  with NinoMustache {
 
   it should "successfully render to a valid nino" in {
     val js = Json.toJson(

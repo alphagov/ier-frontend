@@ -1,18 +1,10 @@
 package uk.gov.gds.ier.transaction.overseas.lastRegisteredToVote
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class LastRegisteredToVoteMustacheTests
-  extends FlatSpec
-  with Matchers
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers
-  with WithMockConfig
-  with WithMockRemoteAssets
+  extends MustacheTestSuite
   with LastRegisteredToVoteForms
   with LastRegisteredToVoteMustache {
 

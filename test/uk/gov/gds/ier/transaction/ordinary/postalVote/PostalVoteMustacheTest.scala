@@ -1,21 +1,12 @@
 package uk.gov.gds.ier.transaction.ordinary.postalVote
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.{PostalVoteOption, PostalVote, PostalVoteDeliveryMethod}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
-import play.api.mvc.Call
 
 class PostalVoteMustacheTest
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
   with PostalVoteForms
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers
-  with WithMockConfig
-  with WithMockRemoteAssets
   with PostalVoteMustache {
 
   it should "empty progress form should produce empty Model" in runningApp {

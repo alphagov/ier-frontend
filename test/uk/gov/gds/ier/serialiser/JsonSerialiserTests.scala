@@ -1,21 +1,15 @@
 package uk.gov.gds.ier.serialiser
 
-import org.specs2.mutable._
-import uk.gov.gds.common.json.JsonSerializer
+import uk.gov.gds.ier.test.UnitTestSuite
 import uk.gov.gds.ier.model.Success
-import org.joda.time.DateTime
 
-class JsonSerialiserTests extends Specification {
+class JsonSerialiserTests extends UnitTestSuite {
 
-  "JsonSerialiser" should {
-    "be able to serialise a simple class" in {
-      val jsonSerialiser = new JsonSerialiser()
+  it should "be able to serialise a simple class" in {
+    val jsonString = jsonSerialiser.toJson(Success("bar",0))
+    jsonString should be("""{"body":"bar","timeTakenMs":0}""")
 
-      val jsonString = JsonSerializer.toJson(Success("bar",0))
-      jsonString must contain("bar")
-
-      val mightbeFoo = JsonSerializer.fromJson[Success](jsonString)
-      mightbeFoo.body mustEqual "bar"
-    }
+    val mightbeFoo = jsonSerialiser.fromJson[Success](jsonString)
+    mightbeFoo.body should be("bar")
   }
 }

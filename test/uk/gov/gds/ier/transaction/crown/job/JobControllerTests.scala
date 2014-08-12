@@ -1,16 +1,8 @@
 package uk.gov.gds.ier.transaction.crown.job
 
-import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.mock.MockitoSugar
-import play.api.test._
-import play.api.test.Helpers._
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.ControllerTestSuite
 
-class JobControllerTests
-  extends FlatSpec
-  with Matchers
-  with MockitoSugar
-  with TestHelpers {
+class JobControllerTests extends ControllerTestSuite {
 
   behavior of "JobController.get"
   it should "display the page" in {

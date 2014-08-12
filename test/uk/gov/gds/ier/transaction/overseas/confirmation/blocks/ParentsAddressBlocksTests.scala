@@ -1,30 +1,19 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
-import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
 import org.joda.time.DateTime
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.test.FormTestSuite
 import uk.gov.gds.ier.model.{
   Name,
   PreviousName,
   WaysToVote}
 import uk.gov.gds.ier.transaction.overseas.confirmation.ConfirmationForms
-import org.joda.time.DateTime
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.transaction.shared.{BlockError, BlockContent}
 
 class ParentsAddressBlocksTests
-  extends FlatSpec
-  with Matchers
-  with ConfirmationForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers {
-
-  val serialiser = jsonSerialiser
+  extends FormTestSuite
+  with ConfirmationForms {
 
   behavior of "ConfirmationBlocks.parentsAddress"
   it should "return parents address" in {

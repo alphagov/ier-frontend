@@ -1,27 +1,13 @@
 package uk.gov.gds.ier.transaction.ordinary.dateOfBirth
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model._
-import scala.Some
-import play.api.mvc.Call
-import uk.gov.gds.ier.model.DateOfBirth
-import play.api.mvc.Call
-import uk.gov.gds.ier.model.DOB
-import scala.Some
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 class DateOfBirthMustacheTest
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
   with DateOfBirthForms
-  with DateOfBirthMustache
-  with ErrorMessages
-  with FormKeys
-  with WithMockConfig
-  with WithMockRemoteAssets
-  with TestHelpers {
+  with DateOfBirthMustache {
 
   it should "empty progress form should produce empty Model" in runningApp {
     val emptyApplicationForm = dateOfBirthForm

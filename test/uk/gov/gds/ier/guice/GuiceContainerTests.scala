@@ -1,11 +1,9 @@
 package uk.gov.gds.ier.guice
 
-import org.scalatest.{FlatSpec, Matchers}
+import uk.gov.gds.ier.test.UnitTestSuite
 import com.google.inject.{AbstractModule, Binder}
 
-class GuiceContainerTests
-  extends FlatSpec
-  with Matchers {
+class GuiceContainerTests extends UnitTestSuite {
 
   it should "resolve a dependancy once initialised" in {
     val foo = new Foo

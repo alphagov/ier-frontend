@@ -1,21 +1,11 @@
 package uk.gov.gds.ier.transaction.country
 
-import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.test.FormTestSuite
 import play.api.libs.json.{Json, JsNull}
 
 class CountryFormTests
-  extends FlatSpec
-  with Matchers
-  with CountryForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers {
-
-  val serialiser = jsonSerialiser
+  extends FormTestSuite
+  with CountryForms {
 
   it should "successfully bind a valid country choice (Abroad)" in {
     val js = Json.toJson(

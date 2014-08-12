@@ -1,12 +1,7 @@
 package uk.gov.gds.ier.stubs
 
-import org.scalatest.{FlatSpec, Matchers}
+import uk.gov.gds.ier.test.MockingTestSuite
 import uk.gov.gds.ier.model._
-import org.scalatest.mock.MockitoSugar
-import org.mockito.Mockito._
-import org.mockito.AdditionalMatchers
-import org.mockito.{Matchers => MockitoMatchers}
-import scala.Some
 import uk.gov.gds.ier.model.Nino
 import uk.gov.gds.ier.service.apiservice.{IerApiApplicationResponse, ConcreteIerApiService}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
@@ -14,9 +9,7 @@ import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
-class IerApiServiceWithStripNinoTests extends FlatSpec with Matchers with MockitoSugar {
-
-  def isNot[T](obj:T) = AdditionalMatchers.not(MockitoMatchers.eq(obj))
+class IerApiServiceWithStripNinoTests extends MockingTestSuite {
 
   behavior of "IerApiServiceWithStripNino"
 
@@ -28,12 +21,12 @@ class IerApiServiceWithStripNinoTests extends FlatSpec with Matchers with Mockit
     service.submitOrdinaryApplication(None, applicationWithNino, None, Some("1234"), "en", Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
 
     verify(concreteIerApiServiceMock).submitOrdinaryApplication(
-      MockitoMatchers.eq(None),
+      eq(None),
       isNot(applicationWithNino),
-      MockitoMatchers.eq(None),
-      MockitoMatchers.eq(Some("1234")),
-      MockitoMatchers.eq("en"),
-      MockitoMatchers.eq(Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+      eq(None),
+      eq(Some("1234")),
+      eq("en"),
+      eq(Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
     )
   }
 
@@ -45,11 +38,11 @@ class IerApiServiceWithStripNinoTests extends FlatSpec with Matchers with Mockit
     service.submitOverseasApplication(None, applicationWithNino, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
 
     verify(concreteIerApiServiceMock).submitOverseasApplication(
-      MockitoMatchers.eq(None),
+      eq(None),
       isNot(applicationWithNino),
-      MockitoMatchers.eq(None),
-      MockitoMatchers.eq(Some("1234")),
-      MockitoMatchers.eq(Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+      eq(None),
+      eq(Some("1234")),
+      eq(Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
     )
   }
 
@@ -61,11 +54,11 @@ class IerApiServiceWithStripNinoTests extends FlatSpec with Matchers with Mockit
     service.submitForcesApplication(None, applicationWithNino, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
 
     verify(concreteIerApiServiceMock).submitForcesApplication(
-      MockitoMatchers.eq(None),
+      eq(None),
       isNot(applicationWithNino),
-      MockitoMatchers.eq(None),
-      MockitoMatchers.eq(Some("1234")),
-      MockitoMatchers.eq(Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+      eq(None),
+      eq(Some("1234")),
+      eq(Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
     )
   }
 
@@ -77,11 +70,11 @@ class IerApiServiceWithStripNinoTests extends FlatSpec with Matchers with Mockit
     service.submitCrownApplication(None, applicationWithNino, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
 
     verify(concreteIerApiServiceMock).submitCrownApplication(
-      MockitoMatchers.eq(None),
+      eq(None),
       isNot(applicationWithNino),
-      MockitoMatchers.eq(None),
-      MockitoMatchers.eq(Some("1234")),
-      MockitoMatchers.eq(Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+      eq(None),
+      eq(Some("1234")),
+      eq(Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
     )
   }
 

@@ -1,27 +1,13 @@
 package uk.gov.gds.ier.transaction.ordinary.name
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.Name
 import uk.gov.gds.ier.model.PreviousName
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
-/**
- * Unit test to test form to Mustache model transformation.
- *
- * Testing Mustache html text rendering requires running application, it is not easily unit testable,
- * so method {@link NameMustache#nameMustache()} is tested as a part of MustacheControllerTest.
- */
 class NameMustacheTest
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
   with NameForms
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers
-  with WithMockConfig
-  with WithMockRemoteAssets
   with NameMustache {
 
   it should "empty progress form should produce empty Model" in runningApp {

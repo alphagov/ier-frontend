@@ -1,32 +1,14 @@
 package uk.gov.gds.ier.transaction.ordinary.otherAddress
 
-import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.mock.MockitoSugar
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
-import play.api.test._
-import play.api.test.Helpers._
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.{OtherAddress}
 import uk.gov.gds.ier.model.OtherAddress._
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
 class OtherAddressMustacheTests
-  extends FlatSpec
-  with Matchers
-  with MockitoSugar
-  with TestHelpers
+  extends MustacheTestSuite
   with OtherAddressForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with WithMockConfig
-  with WithMockRemoteAssets
   with OtherAddressMustache {
-
-  val serialiser = jsonSerialiser
 
   behavior of "OtherAddressMustache"
   it should "create model from empty form correctly" in {

@@ -1,31 +1,13 @@
 package uk.gov.gds.ier.transaction.crown.confirmation
 
-import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.libs.json.JsNull
-import uk.gov.gds.ier.test.{WithMockAddressService, TestHelpers}
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import scala.Some
-import scala.Some
-import uk.gov.gds.ier.model.PartialAddress
-import uk.gov.gds.ier.model.PostalOrProxyVote
-import uk.gov.gds.ier.model.LastAddress
-import scala.Some
-import uk.gov.gds.ier.model.WaysToVote
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 class ConfirmationFormTests
-  extends FlatSpec
-  with Matchers
+  extends FormTestSuite
   with ConfirmationForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers
   with WithMockAddressService {
-
-  val serialiser = jsonSerialiser
 
   it should "error out on empty json" in {
     val js = JsNull

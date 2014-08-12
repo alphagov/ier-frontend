@@ -1,20 +1,11 @@
 package assets.mustache.ordinary
 
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.test._
-import org.jsoup.Jsoup
-import play.api.test.Helpers._
-import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.ordinary.dateOfBirth.DateOfBirthMustache
 import uk.gov.gds.ier.test._
 
 class DateOfBirthTemplateTest
-  extends FlatSpec
-  with StepMustache
-  with DateOfBirthMustache
-  with WithMockRemoteAssets
-  with WithMockConfig
-  with Matchers {
+  extends TemplateTestSuite
+  with DateOfBirthMustache {
 
   it should "properly render all properties from the model" in {
 

@@ -1,30 +1,15 @@
 package uk.gov.gds.ier.form
 
-import org.scalatest.FlatSpec
-import org.scalatest.Matchers
+import uk.gov.gds.ier.test.UnitTestSuite
 import uk.gov.gds.ier.validation.FormKeys
-import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.transaction.ordinary.confirmation.ConfirmationForms
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.service.AddressService
-import uk.gov.gds.ier.service.LocateService
-import org.scalatest.mock.MockitoSugar
-import org.mockito.Mockito._
-import uk.gov.gds.ier.service.WithAddressService
 import uk.gov.gds.ier.transaction.ordinary.nationality.NationalityForms
 
-class OrdinaryFormImplicitsTests
-  extends FlatSpec
-  with Matchers
-  with FormKeys
-  with TestHelpers
-  with OrdinaryFormImplicits
-  with MockitoSugar
-  with WithAddressService
-  with NationalityForms {
+class OrdinaryFormImplicitsTests extends UnitTestSuite {
 
-  val mockPlaces = mock[LocateService]
-  val addressService = new AddressService(mockPlaces)
+  val implicits = new OrdinaryFormImplicits with FormKeys {}
+  import implicits._
+
+  val forms = new NationalityForms {}
   val serialiser = jsonSerialiser
 
   behavior of "OrdinaryFormImplicits"
@@ -35,7 +20,7 @@ class OrdinaryFormImplicitsTests
         "nationality.hasOtherCountry" -> "true",
         "nationality.otherCountries[0]" -> "country 1")
 
-    nationalityForm.bind(value).fold(
+    forms.nationalityForm.bind(value).fold(
       hasErrors => {
         hasErrors.keyedErrorsAsMap should matchMap(
           Map("nationality.otherCountries[0]" -> Seq("ordinary_nationality_error_notValid")))
@@ -54,7 +39,7 @@ class OrdinaryFormImplicitsTests
         "nationality.otherCountries[4]" -> "France",
         "nationality.otherCountries[5]" -> "Spain")
 
-    nationalityForm.bind(value).fold(
+    forms.nationalityForm.bind(value).fold(
       hasErrors => {
         hasErrors.keyedErrorsAsMap should matchMap(Map(
           "nationality.otherCountries" -> Seq("ordinary_nationality_error_noMoreFiveCountries")
@@ -72,7 +57,7 @@ class OrdinaryFormImplicitsTests
         "nationality.otherCountries[1]" -> "Canada",
         "nationality.otherCountries[2]" -> "Australia")
 
-    nationalityForm.bind(value).fold(
+    forms.nationalityForm.bind(value).fold(
       hasErrors => fail(serialiser.toJson(hasErrors.prettyPrint)),
       success => {
         val otherCountries = success.nationality.map(_.otherCountries).getOrElse(List(Nil))

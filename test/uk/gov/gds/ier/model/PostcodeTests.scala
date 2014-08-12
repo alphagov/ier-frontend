@@ -1,14 +1,9 @@
 package uk.gov.gds.ier.model
 
-import uk.gov.gds.ier.test.{TestHelpers, CustomMatchers}
-import org.scalatest.{Matchers, FlatSpec}
+import uk.gov.gds.ier.test.UnitTestSuite
 import uk.gov.gds.ier.validation.constants.NameConstants
 
-class PostcodeTests
-  extends FlatSpec
-  with Matchers
-  with CustomMatchers
-  with TestHelpers {
+class PostcodeTests extends UnitTestSuite {
 
   behavior of "Postcode.toApiFormat"
   it should "return empty string for empty postcode" in {

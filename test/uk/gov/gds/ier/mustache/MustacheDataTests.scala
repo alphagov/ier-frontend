@@ -1,15 +1,10 @@
 package uk.gov.gds.ier.mustache
 
-import uk.gov.gds.ier.test.{TestHelpers, CustomMatchers}
-import org.scalatest.{Matchers, FlatSpec}
+import uk.gov.gds.ier.test.UnitTestSuite
 import play.api.i18n.{MessagesPlugin, Lang}
 import play.api.test.FakeApplication
 
-class MustacheDataTests
-  extends FlatSpec
-  with Matchers
-  with CustomMatchers
-  with TestHelpers {
+class MustacheDataTests extends UnitTestSuite {
 
   it should "default the lang to english if no implicit in scope" in {
     case class FooModel (

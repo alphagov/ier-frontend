@@ -1,9 +1,5 @@
 package uk.gov.gds.ier.transaction.crown.address
 
-import org.mockito.Mockito._
-import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.mock.MockitoSugar
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
@@ -12,21 +8,13 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 class AddressSelectMustacheTest
-  extends FlatSpec
-  with Matchers
-  with MockitoSugar
+  extends MustacheTestSuite
   with AddressForms
   with AddressSelectMustache
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers
-  with WithSerialiser
-  with WithMockRemoteAssets
   with WithMockCrownControllers
-  with WithMockConfig
-  with WithAddressService {
+  with WithAddressService
+  with MockitoHelpers {
 
-  val serialiser = jsonSerialiser
   val addressService = mock[AddressService]
 
   when(mockAddressSelectStep.routing).thenReturn(routes("/register-to-vote/crown/address/select"))

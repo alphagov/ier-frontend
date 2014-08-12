@@ -1,22 +1,13 @@
 package uk.gov.gds.ier.transaction.forces.service
 
-import scala.Some
 import controllers.step.forces.routes._
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class ServiceMustacheTest
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
   with ServiceForms
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers
-  with WithMockConfig
-  with WithMockRemoteAssets
   with ServiceMustache {
 
   it should "empty progress form should produce empty Model" in {

@@ -1,14 +1,9 @@
 package uk.gov.gds.ier.model
 
-import uk.gov.gds.ier.test.{TestHelpers, CustomMatchers}
-import org.scalatest.{Matchers, FlatSpec}
+import uk.gov.gds.ier.test.UnitTestSuite
 import uk.gov.gds.ier.validation.constants.NameConstants
 
-class NameTests
-  extends FlatSpec
-  with Matchers
-  with CustomMatchers
-  with TestHelpers {
+class NameTests extends UnitTestSuite {
 
   it should "generate the expected payload with first,last and middle names" in {
     val name = Name(

@@ -1,31 +1,18 @@
 package uk.gov.gds.ier.transaction.crown.address
 
-import org.scalatest.{Matchers, FlatSpec}
-import org.mockito.Mockito._
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
-import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 class AddressManualMustacheTests
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
   with AddressForms
-  with AddressManualMustache
-  with ErrorMessages
-  with WithSerialiser
-  with WithMockRemoteAssets
-  with WithMockConfig
   with WithMockCrownControllers
-  with FormKeys
-  with TestHelpers {
+  with AddressManualMustache {
 
   when(mockAddressManualStep.routing).thenReturn(routes("/register-to-vote/crown/address/manual"))
   when(mockAddressStep.routing).thenReturn(routes("/register-to-vote/crown/address"))
-
-  val serialiser = jsonSerialiser
 
   it should "empty progress form should produce empty Model (manualData)" in {
 

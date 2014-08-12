@@ -1,20 +1,11 @@
 package assets.mustache.crown
 
-import org.jsoup.Jsoup
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.test._
-import play.api.test.Helpers._
-import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.crown.statement.StatementMustache
 import uk.gov.gds.ier.test._
 
 class StatementTemplateTest
-  extends FlatSpec
-  with StatementMustache
-  with StepMustache
-  with WithMockConfig
-  with WithMockRemoteAssets
-  with Matchers {
+  extends TemplateTestSuite
+  with StatementMustache {
 
   it should "properly render all properties from the model" in {
     running(FakeApplication()) {

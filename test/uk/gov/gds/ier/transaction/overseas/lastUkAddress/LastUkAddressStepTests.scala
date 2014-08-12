@@ -1,18 +1,8 @@
 package uk.gov.gds.ier.transaction.overseas.lastUkAddress
 
-import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.mock.MockitoSugar
-import play.api.test._
-import play.api.test.Helpers._
-import uk.gov.gds.ier.test.TestHelpers
-import play.api.test.FakeApplication
-import scala.Some
+import uk.gov.gds.ier.test.ControllerTestSuite
 
-class LastUkAddressStepTests
-  extends FlatSpec
-  with Matchers
-  with MockitoSugar
-  with TestHelpers {
+class LastUkAddressStepTests extends ControllerTestSuite {
 
   behavior of "LastUkAddressStep.get"
   it should "display the page" in {

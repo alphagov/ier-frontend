@@ -1,32 +1,12 @@
 package uk.gov.gds.ier.transaction.forces.dateOfBirth
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model._
-import scala.Some
-import play.api.mvc.Call
-import uk.gov.gds.ier.model.DateOfBirth
-import play.api.mvc.Call
-import uk.gov.gds.ier.model.DOB
-import scala.Some
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
-/**
- * Unit test to test form to Mustache model transformation.
- *
- * Testing Mustache html text rendering requires running application, it is not easily unit testable,
- * so method {@link NameMustache#nameMustache()} is tested as a part of MustacheControllerTest.
- */
 class DateOfBirthMustacheTest
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
   with DateOfBirthForms
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers
-  with WithMockConfig
-  with WithMockRemoteAssets
   with DateOfBirthMustache {
 
   it should "empty progress form should produce empty Model" in {

@@ -1,16 +1,8 @@
 package uk.gov.gds.ier.transaction.crown.nino
 
-import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.mock.MockitoSugar
-import play.api.test._
-import play.api.test.Helpers._
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.ControllerTestSuite
 
-class NinoControllerTests
-  extends FlatSpec
-  with Matchers
-  with MockitoSugar
-  with TestHelpers {
+class NinoControllerTests extends ControllerTestSuite {
 
   behavior of "NinoController.get"
   it should "display the page" in {

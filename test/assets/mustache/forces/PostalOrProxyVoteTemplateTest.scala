@@ -1,25 +1,13 @@
 package assets.mustache.forces
 
-import org.jsoup.Jsoup
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.test._
-import play.api.test.Helpers._
-import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.transaction.forces.applicationFormVote.PostalOrProxyVoteMustache
-import org.jba.Mustache
 import uk.gov.gds.ier.model.WaysToVoteType
 
 class PostalOrProxyVoteTemplateTest
-  extends FlatSpec
-  with PostalOrProxyVoteMustache
-  with Matchers
-  with WithSerialiser
-  with WithMockRemoteAssets
-  with WithMockConfig
-  with TestHelpers {
+  extends TemplateTestSuite
+  with PostalOrProxyVoteMustache {
 
-  val serialiser = jsonSerialiser
   val wayToVote = WaysToVoteType.ByPost
 
   it should "properly render" in {

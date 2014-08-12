@@ -1,21 +1,10 @@
 package uk.gov.gds.ier.transaction.forces.statement
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import play.api.libs.json.{Json, JsNull}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.FormTestSuite
 
 class StatementFormTests
-  extends FlatSpec
-  with Matchers
-  with StatementForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers{
-
-  val serialiser = jsonSerialiser
+  extends FormTestSuite
+  with StatementForms {
 
   it should "successfully bind flag of forces member to a valid form" in {
     val js = Json.toJson(

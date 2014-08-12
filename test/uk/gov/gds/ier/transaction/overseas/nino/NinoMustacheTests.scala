@@ -1,23 +1,14 @@
 package uk.gov.gds.ier.transaction.overseas.nino
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
-import scala.Some
 import uk.gov.gds.ier.model.Nino
 import controllers.step.overseas.routes._
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class NinoMustacheTests
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
   with NinoForms
-  with NinoMustache
-  with ErrorMessages
-  with FormKeys
-  with WithMockConfig
-  with WithMockRemoteAssets
-  with TestHelpers {
+  with NinoMustache {
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = ninoForm

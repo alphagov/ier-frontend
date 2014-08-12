@@ -1,22 +1,11 @@
 package uk.gov.gds.ier.transaction.crown.address
 
-import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import play.api.libs.json.{Json, JsNull}
+import uk.gov.gds.ier.test.FormTestSuite
 import uk.gov.gds.ier.model.{PartialManualAddress, Addresses, PartialAddress}
 
 class AddressFormTests
-  extends FlatSpec
-  with Matchers
-  with AddressForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers {
-
-  val serialiser = jsonSerialiser
+  extends FormTestSuite
+  with AddressForms {
 
   behavior of "AddressForms.addressForm"
 

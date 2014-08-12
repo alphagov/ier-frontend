@@ -1,13 +1,13 @@
 package uk.gov.gds.ier.service
 
+import uk.gov.gds.ier.test.UnitTestSuite
 import uk.gov.gds.ier.client.{LocateApiClient, ApiClient}
 import uk.gov.gds.ier.model.{Fail, Success, ApiResponse, Address}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.guice.WithConfig
-import org.scalatest.{Matchers, FlatSpec}
 
-class LocateServiceTest extends FlatSpec with Matchers {
+class LocateServiceTest extends UnitTestSuite {
 
   class MockConfig extends Config {
     override def locateUrl = "http://locate/addresses"

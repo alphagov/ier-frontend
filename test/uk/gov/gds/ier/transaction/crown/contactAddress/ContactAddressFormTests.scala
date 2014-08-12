@@ -1,22 +1,11 @@
 package uk.gov.gds.ier.transaction.crown.contactAddress
 
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.libs.json.Json
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.test.FormTestSuite
 import uk.gov.gds.ier.model.{ContactAddress, PossibleContactAddresses}
 
 class ContactAddressFormTests
-  extends FlatSpec
-  with Matchers
-  with ContactAddressForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers {
-
-  val serialiser = jsonSerialiser
+  extends FormTestSuite
+  with ContactAddressForms {
 
   it should "error out on empty input" in {
     val emptyRequest = Map.empty[String, String]

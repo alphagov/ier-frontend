@@ -1,29 +1,14 @@
 package uk.gov.gds.ier.transaction.forces.address
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
-import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class AddressFirstMustacheTest
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
   with AddressFirstForms
   with AddressForms
-  with AddressFirstMustache
-  with ErrorMessages
-  with FormKeys
-  with WithMockConfig
-  with WithMockRemoteAssets
-  with TestHelpers {
-
-  self: FormKeys
-    with ErrorMessages
-    with WithSerialiser =>
-
-  val serialiser = jsonSerialiser
+  with AddressFirstMustache {
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = addressFirstForm
