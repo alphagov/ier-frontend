@@ -22,12 +22,16 @@ class AddressSelectMustacheTest
   with TestHelpers
   with WithSerialiser
   with WithMockRemoteAssets
+  with WithMockCrownControllers
   with WithMockConfig
   with WithAddressService {
 
   val serialiser = jsonSerialiser
   val addressService = mock[AddressService]
 
+  when(mockAddressSelectStep.routing).thenReturn(routes("/register-to-vote/crown/address/select"))
+  when(mockAddressStep.routing).thenReturn(routes("/register-to-vote/crown/address"))
+  when(mockAddressManualStep.routing).thenReturn(routes("/register-to-vote/crown/address/manual"))
   when(addressService.lookupPartialAddress("WR26NJ")).thenReturn(List.empty)
 
   it should "empty progress form should produce empty Model (selectData)" in {

@@ -1,11 +1,11 @@
 package uk.gov.gds.ier.transaction.crown.address
 
 import uk.gov.gds.ier.step.StepTemplate
-import uk.gov.gds.ier.transaction.crown.InprogressCrown
-import controllers.step.crown.routes.AddressController
+import uk.gov.gds.ier.transaction.crown.{InprogressCrown, WithCrownControllers}
 import uk.gov.gds.ier.model.HasAddressOption
 
 trait AddressManualMustache extends StepTemplate[InprogressCrown] {
+  self: WithCrownControllers =>
 
   private def pageTitle(hasAddress: Option[String]): String = {
     HasAddressOption.parse(hasAddress.getOrElse("")) match{
@@ -37,7 +37,7 @@ trait AddressManualMustache extends StepTemplate[InprogressCrown] {
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),
-      lookupUrl = AddressController.get.url,
+      lookupUrl = crown.AddressStep.routing.get.url,
       postcode = TextField(keys.address.postcode),
       maLineOne = TextField(keys.address.manualAddress.lineOne),
       maLineTwo = TextField(keys.address.manualAddress.lineTwo),

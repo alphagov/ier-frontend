@@ -1,9 +1,7 @@
 package uk.gov.gds.ier.transaction.crown.statement
 
-import com.google.inject.Inject
-import controllers.step.crown.routes.StatementController
-import controllers.step.crown.AddressFirstController
-import play.api.mvc.Call
+import uk.gov.gds.ier.transaction.crown.CrownControllers
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.step.{CrownStep, Routes}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
@@ -12,11 +10,13 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class StatementStep @Inject ()(
     val serialiser:JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val crown: CrownControllers
 ) extends CrownStep
     with StatementForms
     with StatementMustache {
@@ -24,13 +24,13 @@ class StatementStep @Inject ()(
   val validation = statementForm
 
   val routing = Routes(
-    get = StatementController.get,
-    post = StatementController.post,
-    editGet = StatementController.editGet,
-    editPost = StatementController.editPost
+    get = routes.StatementStep.get,
+    post = routes.StatementStep.post,
+    editGet = routes.StatementStep.editGet,
+    editPost = routes.StatementStep.editPost
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    AddressFirstController.addressFirstStep
+    crown.AddressFirstStep
   }
 }

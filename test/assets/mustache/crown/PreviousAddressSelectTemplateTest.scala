@@ -24,6 +24,7 @@ class PreviousAddressSelectTemplateTest
   with WithSerialiser
   with WithAddressService
   with WithMockConfig
+  with WithMockCrownControllers
   with WithMockRemoteAssets
   with TestHelpers {
 

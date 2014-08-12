@@ -6,8 +6,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import play.api.libs.json.Json
 import uk.gov.gds.ier.test._
-import controllers.step.crown.routes._
-import scala.Some
+import play.api.mvc.Call
 import play.api.templates.Html
 
 class NinoMustacheTests
@@ -33,7 +32,7 @@ class NinoMustacheTests
     val newNinoForm = ninoForm.bind(js)
     val model = mustache.data(
         newNinoForm,
-        NinoController.post,
+        Call("POST", "/register-to-vote/nino"),
         InprogressCrown()
     ).asInstanceOf[NinoModel]
     model.nino.value should be("AB 12 34 56 D")
@@ -48,7 +47,7 @@ class NinoMustacheTests
     val newNinoForm = ninoForm.bind(js)
     val model = mustache.data(
         newNinoForm,
-        NinoController.post,
+        Call("POST", "/register-to-vote/nino"),
         InprogressCrown()
     ).asInstanceOf[NinoModel]
     model.noNinoReason.value should be("Don't have any NINO")

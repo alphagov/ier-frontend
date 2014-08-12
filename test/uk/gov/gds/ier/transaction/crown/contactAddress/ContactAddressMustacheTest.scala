@@ -1,10 +1,9 @@
 package uk.gov.gds.ier.transaction.crown.contactAddress
 
 import org.scalatest.{Matchers, FlatSpec}
+import play.api.mvc.Call
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
-import scala.Some
-import controllers.step.crown.routes.{OpenRegisterController, ContactAddressController}
 import uk.gov.gds.ier.model.{PossibleContactAddresses, ContactAddress}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
@@ -24,7 +23,7 @@ class ContactAddressMustacheTest
 
     val contactAddressModel = mustache.data(
         emptyApplicationForm,
-        ContactAddressController.post,
+        Call("POST", "/register-to-vote/crown/contact-address"),
         InprogressCrown()
     ).asInstanceOf[ContactAddressModel]
 
@@ -65,7 +64,7 @@ class ContactAddressMustacheTest
 
     val contactAddressModel = mustache.data(
         filledForm,
-        ContactAddressController.post,
+        Call("POST", "/register-to-vote/crown/contact-address"),
         InprogressCrown()
     ).asInstanceOf[ContactAddressModel]
 
@@ -113,7 +112,7 @@ class ContactAddressMustacheTest
 
     val contactAddressModel = mustache.data(
         filledForm,
-        ContactAddressController.post,
+        Call("POST", "/register-to-vote/crown/contact-address"),
         InprogressCrown()
     ).asInstanceOf[ContactAddressModel]
 
@@ -161,7 +160,7 @@ class ContactAddressMustacheTest
 
     val contactAddressModel = mustache.data(
         filledForm,
-        ContactAddressController.post,
+        Call("POST", "/register-to-vote/crown/contact-address"),
         InprogressCrown()
     ).asInstanceOf[ContactAddressModel]
 

@@ -66,7 +66,7 @@ class RegisterToVoteController @Inject() (
 
   def registerToVoteCrownStart = NewSession in Action {
     request =>
-      Redirect(step.crown.routes.StatementController.get.url, request.queryString)
+      Redirect(crown.statement.routes.StatementStep.get.url, request.queryString)
   }
 
   def privacy = Action { request =>

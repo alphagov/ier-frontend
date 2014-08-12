@@ -1,13 +1,10 @@
 package uk.gov.gds.ier.transaction.crown.dateOfBirth
 
-import controllers.step.crown.NameController
-import controllers.step.crown.routes.{DateOfBirthController, NationalityController}
+import uk.gov.gds.ier.transaction.crown.CrownControllers
 import controllers.routes.ExitController
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import play.api.mvc.Call
 import uk.gov.gds.ier.model.{DateOfBirth, noDOB}
-import play.api.templates.Html
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.config.Config
@@ -16,11 +13,13 @@ import uk.gov.gds.ier.step.{CrownStep, Routes, GoTo}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class DateOfBirthStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val crown: CrownControllers
 ) extends CrownStep
   with DateOfBirthForms
   with DateOfBirthMustache{
@@ -28,10 +27,10 @@ class DateOfBirthStep @Inject ()(
   val validation = dateOfBirthForm
 
   val routing = Routes(
-    get = DateOfBirthController.get,
-    post = DateOfBirthController.post,
-    editGet = DateOfBirthController.editGet,
-    editPost = DateOfBirthController.editPost
+    get = routes.DateOfBirthStep.get,
+    post = routes.DateOfBirthStep.post,
+    editGet = routes.DateOfBirthStep.editGet,
+    editPost = routes.DateOfBirthStep.editPost
   )
 
   override val onSuccess = TransformApplication { currentState =>
@@ -45,19 +44,19 @@ class DateOfBirthStep @Inject ()(
   } andThen GoToNextIncompleteStep()
 
   def nextStep(currentState: InprogressCrown) = {
-    currentState.dob match {
-      case Some(DateOfBirth(Some(dob), _)) if DateValidator.isTooYoungToRegister(dob) => {
-        GoTo(ExitController.tooYoung)
-      }
-      case Some(DateOfBirth(_, Some(noDOB(Some(reason), Some(range)))))
-        if range == DateOfBirthConstants.under18 => {
-          GoTo(ExitController.under18)
-      }
-      case Some(DateOfBirth(_, Some(noDOB(Some(reason), Some(range)))))
-        if range == DateOfBirthConstants.dontKnow => {
-          GoTo(ExitController.dontKnow)
-      }
-      case _ => NameController.nameStep
+    import DateOfBirthConstants._
+    val tooYoung = true
+
+    val young = currentState.dob.flatMap(_.dob).exists(
+      dob => DateValidator.isTooYoungToRegister(dob)
+    )
+    val range = currentState.dob.flatMap(_.noDob).flatMap(_.range)
+
+    (young, range) match {
+      case (`tooYoung`, _) => GoTo(ExitController.tooYoung)
+      case (_, Some(`dontKnow`)) => GoTo(ExitController.dontKnow)
+      case (_, Some(`under18`)) => GoTo(ExitController.under18)
+      case _ => crown.NameStep
     }
   }
 }

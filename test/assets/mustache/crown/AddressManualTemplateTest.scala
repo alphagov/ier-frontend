@@ -15,6 +15,7 @@ class AddressManualTemplateTest
   with StepMustache
   with Matchers
   with WithSerialiser
+  with WithMockCrownControllers
   with WithMockConfig
   with WithMockRemoteAssets
   with TestHelpers {

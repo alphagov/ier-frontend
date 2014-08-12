@@ -1,27 +1,26 @@
 package uk.gov.gds.ier.transaction.crown.previousAddress
 
-import controllers.step.crown.routes._
-import com.google.inject.Inject
+import uk.gov.gds.ier.transaction.crown.CrownControllers
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.step.CrownStep
-import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.validation.ErrorTransformForm
-import scala.Some
-import controllers.step.crown.NationalityController
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class PreviousAddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val addressService: AddressService,
     val remoteAssets: RemoteAssets,
-    val encryptionService: EncryptionService
+    val encryptionService: EncryptionService,
+    val crown: CrownControllers
 ) extends CrownStep
   with PreviousAddressManualMustache
   with PreviousAddressForms {
@@ -29,14 +28,14 @@ class PreviousAddressManualStep @Inject() (
   val validation = manualStepForm
 
   val routing = Routes(
-    get = PreviousAddressManualController.get,
-    post = PreviousAddressManualController.post,
-    editGet = PreviousAddressManualController.editGet,
-    editPost = PreviousAddressManualController.editPost
+    get = routes.PreviousAddressManualStep.get,
+    post = routes.PreviousAddressManualStep.post,
+    editGet = routes.PreviousAddressManualStep.editGet,
+    editPost = routes.PreviousAddressManualStep.editPost
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    NationalityController.nationalityStep
+    crown.NationalityStep
   }
 
   override val onSuccess = TransformApplication { currentState =>

@@ -8,6 +8,7 @@ import uk.gov.gds.ier.model.{LastAddress, PartialAddress}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.transaction.crown.CrownControllers
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.GoTo
 import controllers.routes.ExitController
@@ -27,13 +28,15 @@ class AddressStepMockedTests extends FlatSpec with TestHelpers with Matchers wit
     val mockedEncryptionService = mock[EncryptionService]
     val mockedAddressService = mock[AddressService]
     val mockedRemoteAssets = mock[RemoteAssets]
+    val mockCrownControllers = mock[CrownControllers]
 
     val addressStep = new AddressStep(
       mockedJsonSerialiser,
       mockedConfig,
       mockedEncryptionService,
       mockedAddressService,
-      mockedRemoteAssets
+      mockedRemoteAssets,
+      mockCrownControllers
     )
 
     val postcode = "EH1 1AA"

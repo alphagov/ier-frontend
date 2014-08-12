@@ -1,27 +1,24 @@
 package uk.gov.gds.ier.transaction.crown.applicationFormVote
 
-import com.google.inject.Inject
+import uk.gov.gds.ier.transaction.crown.CrownControllers
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{Routes, CrownStep}
-import controllers.step.crown.routes._
-import scala.Some
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.model.{WaysToVoteType}
-import play.api.mvc.Call
-import play.api.templates.Html
-import controllers.step.crown.ContactController
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class ProxyVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets)
-
-  extends CrownStep
+    val remoteAssets: RemoteAssets,
+    val crown: CrownControllers
+) extends CrownStep
   with PostalOrProxyVoteForms
   with PostalOrProxyVoteMustache {
 
@@ -30,14 +27,14 @@ class ProxyVoteStep @Inject ()(
   val validation = postalOrProxyVoteForm
 
   val routing = Routes(
-    get = ProxyVoteController.get,
-    post = ProxyVoteController.post,
-    editGet = ProxyVoteController.editGet,
-    editPost = ProxyVoteController.editPost
+    get = routes.ProxyVoteStep.get,
+    post = routes.ProxyVoteStep.post,
+    editGet = routes.ProxyVoteStep.editGet,
+    editPost = routes.ProxyVoteStep.editPost
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    ContactController.contactStep
+    crown.ContactStep
   }
 
 }

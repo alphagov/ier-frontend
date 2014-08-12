@@ -1,44 +1,51 @@
 package uk.gov.gds.ier.transaction.crown.address
 
-import controllers.step.crown.routes._
-import com.google.inject.Inject
+import uk.gov.gds.ier.transaction.crown.CrownControllers
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.service.AddressService
-
 import uk.gov.gds.ier.step.{Routes, CrownStep}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.assets.RemoteAssets
-import controllers.step.crown.AddressController._
 
+@Singleton
 class AddressFirstStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
     val addressService: AddressService,
-    val remoteAssets: RemoteAssets)
-  extends CrownStep
+    val remoteAssets: RemoteAssets,
+    val crown: CrownControllers
+) extends CrownStep
   with AddressFirstMustache
   with AddressFirstForms {
 
   val validation = addressFirstForm
 
   val routing = Routes(
-    get = AddressFirstController.get,
-    post = AddressFirstController.post,
-    editGet = AddressFirstController.editGet,
-    editPost = AddressFirstController.editPost
+    get = routes.AddressFirstStep.get,
+    post = routes.AddressFirstStep.post,
+    editGet = routes.AddressFirstStep.editGet,
+    editPost = routes.AddressFirstStep.editPost
   )
 
   def nextStep(currentState: InprogressCrown) = {
-    currentState.address.map(_.address) match {
-      case Some(address) =>
-        if (address.exists(_.postcode.isEmpty)) { addressStep }
-        else if (address.exists(_.manualAddress.isDefined)) { controllers.step.crown.AddressManualController.addressManualStep }
-        else if (address.exists(_.uprn.isDefined)) { controllers.step.crown.AddressSelectController.addressSelectStep }
-        else addressStep
-      case _ => addressStep
+    val noPostcode = true
+    val hasManualAddress = true
+    val hasUprn = true
+
+    val address = currentState.address.flatMap(_.address)
+    val postcode = address.exists(_.postcode.isEmpty)
+    val manualAddress = address.exists(_.manualAddress.isDefined)
+    val uprn = address.exists(_.uprn.isDefined)
+
+    (postcode, manualAddress, uprn) match {
+      case (`noPostcode`, _, _) => crown.AddressStep
+      case (_, `hasManualAddress`, _) => crown.AddressManualStep
+      case (_, _, `hasUprn`) => crown.AddressSelectStep
+      case _ => crown.AddressStep
     }
   }
 

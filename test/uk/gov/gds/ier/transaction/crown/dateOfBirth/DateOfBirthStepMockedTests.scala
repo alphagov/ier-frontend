@@ -3,10 +3,16 @@ package uk.gov.gds.ier.transaction.crown.dateOfBirth
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 import org.specs2.mock.Mockito
+import org.mockito.Mockito._
+import play.api.mvc.Call
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.transaction.crown.CrownControllers
+import uk.gov.gds.ier.transaction.crown.name.NameStep
+import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.model.DateOfBirth
@@ -26,12 +32,21 @@ class DateOfBirthStepMockedTests extends FlatSpec with TestHelpers with Matchers
     val mockedConfig = mock[Config]
     val mockedEncryptionService = mock[EncryptionService]
     val mockedRemoteAssets = mock[RemoteAssets]
+    val mockedCrownControllers = mock[CrownControllers]
+    val mockNameStep = mock[NameStep]
+    val mockRoutes = mock[Routes]
+
+    when(mockedCrownControllers.NameStep).thenReturn(mockNameStep)
+    when(mockNameStep.isStepComplete(any[InprogressCrown])).thenReturn(false)
+    when(mockNameStep.routing).thenReturn(mockRoutes)
+    when(mockRoutes.get).thenReturn(Call("GET", "/name"))
 
     val dobStep = new DateOfBirthStep(
       mockedJsonSerialiser,
       mockedConfig,
       mockedEncryptionService,
-      mockedRemoteAssets
+      mockedRemoteAssets,
+      mockedCrownControllers
     )
 
     val currentState = completeCrownApplication.copy(

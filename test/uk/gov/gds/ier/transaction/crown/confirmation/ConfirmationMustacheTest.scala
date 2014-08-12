@@ -6,7 +6,6 @@ import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model.Name
-import scala.Some
 import uk.gov.gds.ier.model.WaysToVote
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError}
@@ -21,9 +20,22 @@ class ConfirmationMustacheTest
   with FormKeys
   with TestHelpers
   with ConfirmationMustache
+  with WithMockCrownControllers
   with WithMockAddressService
   with WithMockConfig
   with WithMockRemoteAssets {
+
+  when(mockNameStep.routing).thenReturn(routes("/register-to-vote/crown/edit/name"))
+  when(mockDateOfBirthStep.routing).thenReturn(routes("/register-to-vote/crown/edit/date-of-birth"))
+  when(mockNationalityStep.routing).thenReturn(routes("/register-to-vote/crown/edit/nationality"))
+  when(mockNinoStep.routing).thenReturn(routes("/register-to-vote/crown/edit/nino"))
+  when(mockJobStep.routing).thenReturn(routes("/register-to-vote/crown/edit/job-title"))
+  when(mockAddressFirstStep.routing).thenReturn(routes("/register-to-vote/crown/edit/address/first"))
+  when(mockPreviousAddressFirstStep.routing).thenReturn(routes("/register-to-vote/crown/edit/previous-address"))
+  when(mockContactAddressStep.routing).thenReturn(routes("/register-to-vote/crown/edit/contact-address"))
+  when(mockContactStep.routing).thenReturn(routes("/register-to-vote/crown/edit/contact"))
+  when(mockOpenRegisterStep.routing).thenReturn(routes("/register-to-vote/crown/edit/open-register"))
+  when(mockWaysToVoteStep.routing).thenReturn(routes("/register-to-vote/crown/edit/ways-to-vote"))
 
   val serialiser = jsonSerialiser
 

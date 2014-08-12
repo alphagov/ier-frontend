@@ -1,14 +1,14 @@
 package uk.gov.gds.ier.transaction.crown.address
 
 import uk.gov.gds.ier.step.StepTemplate
-import uk.gov.gds.ier.transaction.crown.InprogressCrown
-import controllers.step.crown.routes.{AddressController, AddressManualController}
+import uk.gov.gds.ier.transaction.crown.{WithCrownControllers, InprogressCrown}
 import uk.gov.gds.ier.model.{HasAddressOption, PossibleAddress, Addresses}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.service.WithAddressService
 
 trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
     self:WithAddressService
+    with WithCrownControllers
     with WithSerialiser =>
 
   private def pageTitle(hasAddress: Option[String]): String = {
@@ -33,7 +33,7 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
 
   val mustache = MustacheTemplate("crown/addressSelect") { (form, postUrl) =>
     implicit val progressForm = form
-  
+
     val title = pageTitle(form(keys.hasAddress).value)
 
     val selectedUprn = form(keys.address.uprn).value
@@ -99,8 +99,8 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),
-      lookupUrl = AddressController.get.url,
-      manualUrl = AddressManualController.get.url,
+      lookupUrl = crown.AddressStep.routing.get.url,
+      manualUrl = crown.AddressManualStep.routing.get.url,
       postcode = TextField(keys.address.postcode, default = postcode),
       address = addressSelectWithError,
       possibleJsonList = HiddenField(

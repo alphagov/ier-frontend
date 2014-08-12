@@ -2,9 +2,9 @@ package uk.gov.gds.ier.transaction.crown.declaration
 
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
-import controllers.step.crown._
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.service.WithDeclarationPdfDownloadService
+import uk.gov.gds.ier.controller.routes.DeclarationPdfDownloadController
 
 trait DeclarationPdfMustache extends StepTemplate[InprogressCrown] {
   self: WithSerialiser with WithDeclarationPdfDownloadService =>
@@ -25,7 +25,7 @@ trait DeclarationPdfMustache extends StepTemplate[InprogressCrown] {
         title = pageTitle,
         errorMessages = form.globalErrors.map ( _.message )
       ),
-      declarationPdfUrl = routes.DeclarationPdfDownloadController.download.url,
+      declarationPdfUrl = DeclarationPdfDownloadController.download.url,
       pdfFileSize = declarationPdfDownloadService.fileSizeWithUnit
     )
   }

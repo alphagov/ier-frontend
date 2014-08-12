@@ -16,6 +16,7 @@ class PreviousAddressManualTemplateTest
   with Matchers
   with WithSerialiser
   with WithMockConfig
+  with WithMockCrownControllers
   with WithMockRemoteAssets
   with TestHelpers {
 

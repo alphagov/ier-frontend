@@ -1,9 +1,9 @@
 package uk.gov.gds.ier.transaction.crown.openRegister
 
 import org.scalatest.{Matchers, FlatSpec}
+import play.api.mvc.Call
 import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
-import controllers.step.crown.routes._
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 class OpenRegisterMustacheTests
@@ -13,6 +13,7 @@ class OpenRegisterMustacheTests
   with ErrorMessages
   with FormKeys
   with TestHelpers
+  with WithMockCrownControllers
   with WithMockConfig
   with WithMockRemoteAssets
   with OpenRegisterMustache {
@@ -21,7 +22,7 @@ class OpenRegisterMustacheTests
     val emptyApplicationForm = openRegisterForm
     val openRegisterModel = mustache.data(
       emptyApplicationForm,
-      OpenRegisterController.post,
+      Call("POST", "/register-to-vote/crown/open-register"),
       InprogressCrown()
     ).asInstanceOf[OpenRegisterModel]
 
@@ -41,7 +42,7 @@ class OpenRegisterMustacheTests
     )
     val openRegisterModel = mustache.data(
       partiallyFilledApplicationForm,
-      OpenRegisterController.post,
+      Call("POST", "/register-to-vote/crown/open-register"),
       InprogressCrown()
     ).asInstanceOf[OpenRegisterModel]
 
@@ -61,7 +62,7 @@ class OpenRegisterMustacheTests
     )
     val openRegisterModel = mustache.data(
       partiallyFilledApplicationForm,
-      OpenRegisterController.post,
+      Call("POST", "/register-to-vote/crown/open-register"),
       InprogressCrown()
     ).asInstanceOf[OpenRegisterModel]
 

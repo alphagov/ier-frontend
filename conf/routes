@@ -472,136 +472,136 @@ GET         /register-to-vote/crown                                    controlle
 GET         /register-to-vote/crown/start                              controllers.RegisterToVoteController.registerToVoteCrownStart
 
 #Statement Step
-GET         /register-to-vote/crown/statement                          controllers.step.crown.StatementController.get
-POST        /register-to-vote/crown/statement                          controllers.step.crown.StatementController.post
-GET         /register-to-vote/crown/edit/statement                     controllers.step.crown.StatementController.editGet
-POST        /register-to-vote/crown/edit/statement                     controllers.step.crown.StatementController.editPost
+GET         /register-to-vote/crown/statement                          @uk.gov.gds.ier.transaction.crown.statement.StatementStep.get
+POST        /register-to-vote/crown/statement                          @uk.gov.gds.ier.transaction.crown.statement.StatementStep.post
+GET         /register-to-vote/crown/edit/statement                     @uk.gov.gds.ier.transaction.crown.statement.StatementStep.editGet
+POST        /register-to-vote/crown/edit/statement                     @uk.gov.gds.ier.transaction.crown.statement.StatementStep.editPost
 
 #First Address Step
-GET         /register-to-vote/crown/address/first                      controllers.step.crown.AddressFirstController.get
-POST        /register-to-vote/crown/address/first                      controllers.step.crown.AddressFirstController.post
-GET         /register-to-vote/crown/edit/address/first                 controllers.step.crown.AddressFirstController.editGet
-POST        /register-to-vote/crown/edit/address/first                 controllers.step.crown.AddressFirstController.editPost
+GET         /register-to-vote/crown/address/first                      @uk.gov.gds.ier.transaction.crown.address.AddressFirstStep.get
+POST        /register-to-vote/crown/address/first                      @uk.gov.gds.ier.transaction.crown.address.AddressFirstStep.post
+GET         /register-to-vote/crown/edit/address/first                 @uk.gov.gds.ier.transaction.crown.address.AddressFirstStep.editGet
+POST        /register-to-vote/crown/edit/address/first                 @uk.gov.gds.ier.transaction.crown.address.AddressFirstStep.editPost
 
 #Address Step
-GET         /register-to-vote/crown/address                            controllers.step.crown.AddressController.get
-POST        /register-to-vote/crown/address                            controllers.step.crown.AddressController.post
-GET         /register-to-vote/crown/edit/address                       controllers.step.crown.AddressController.editGet
-POST        /register-to-vote/crown/edit/address                       controllers.step.crown.AddressController.editPost
+GET         /register-to-vote/crown/address                            @uk.gov.gds.ier.transaction.crown.address.AddressStep.get
+POST        /register-to-vote/crown/address                            @uk.gov.gds.ier.transaction.crown.address.AddressStep.post
+GET         /register-to-vote/crown/edit/address                       @uk.gov.gds.ier.transaction.crown.address.AddressStep.editGet
+POST        /register-to-vote/crown/edit/address                       @uk.gov.gds.ier.transaction.crown.address.AddressStep.editPost
 
 #Manual Address Step
-GET         /register-to-vote/crown/address/manual                     controllers.step.crown.AddressManualController.get
-POST        /register-to-vote/crown/address/manual                     controllers.step.crown.AddressManualController.post
-GET         /register-to-vote/crown/edit/address/manual                controllers.step.crown.AddressManualController.editGet
-POST        /register-to-vote/crown/edit/address/manual                controllers.step.crown.AddressManualController.editPost
+GET         /register-to-vote/crown/address/manual                     @uk.gov.gds.ier.transaction.crown.address.AddressManualStep.get
+POST        /register-to-vote/crown/address/manual                     @uk.gov.gds.ier.transaction.crown.address.AddressManualStep.post
+GET         /register-to-vote/crown/edit/address/manual                @uk.gov.gds.ier.transaction.crown.address.AddressManualStep.editGet
+POST        /register-to-vote/crown/edit/address/manual                @uk.gov.gds.ier.transaction.crown.address.AddressManualStep.editPost
 
 #Select Address Step
-GET         /register-to-vote/crown/address/select                     controllers.step.crown.AddressSelectController.get
-POST        /register-to-vote/crown/address/select                     controllers.step.crown.AddressSelectController.post
-GET         /register-to-vote/crown/edit/address/select                controllers.step.crown.AddressSelectController.editGet
-POST        /register-to-vote/crown/edit/address/select                controllers.step.crown.AddressSelectController.editPost
+GET         /register-to-vote/crown/address/select                     @uk.gov.gds.ier.transaction.crown.address.AddressSelectStep.get
+POST        /register-to-vote/crown/address/select                     @uk.gov.gds.ier.transaction.crown.address.AddressSelectStep.post
+GET         /register-to-vote/crown/edit/address/select                @uk.gov.gds.ier.transaction.crown.address.AddressSelectStep.editGet
+POST        /register-to-vote/crown/edit/address/select                @uk.gov.gds.ier.transaction.crown.address.AddressSelectStep.editPost
 
 #Previous Address Step
-GET         /register-to-vote/crown/previous-address                   controllers.step.crown.PreviousAddressFirstController.get
-POST        /register-to-vote/crown/previous-address                   controllers.step.crown.PreviousAddressFirstController.post
-GET         /register-to-vote/crown/edit/previous-address              controllers.step.crown.PreviousAddressFirstController.editGet
-POST        /register-to-vote/crown/edit/previous-address              controllers.step.crown.PreviousAddressFirstController.editPost
+GET         /register-to-vote/crown/previous-address                   @uk.gov.gds.ier.transaction.crown.previousAddress.PreviousAddressFirstStep.get
+POST        /register-to-vote/crown/previous-address                   @uk.gov.gds.ier.transaction.crown.previousAddress.PreviousAddressFirstStep.post
+GET         /register-to-vote/crown/edit/previous-address              @uk.gov.gds.ier.transaction.crown.previousAddress.PreviousAddressFirstStep.editGet
+POST        /register-to-vote/crown/edit/previous-address              @uk.gov.gds.ier.transaction.crown.previousAddress.PreviousAddressFirstStep.editPost
 
 #Previous Address Step - postcode entry (if there is a previous address)
-GET         /register-to-vote/crown/previous-address/postcode          controllers.step.crown.PreviousAddressPostcodeController.get
-POST        /register-to-vote/crown/previous-address/postcode          controllers.step.crown.PreviousAddressPostcodeController.post
-GET         /register-to-vote/crown/edit/previous-address/postcode     controllers.step.crown.PreviousAddressPostcodeController.editGet
-POST        /register-to-vote/crown/edit/previous-address/postcode     controllers.step.crown.PreviousAddressPostcodeController.editPost
+GET         /register-to-vote/crown/previous-address/postcode          @uk.gov.gds.ier.transaction.crown.previousAddress.PreviousAddressPostcodeStep.get
+POST        /register-to-vote/crown/previous-address/postcode          @uk.gov.gds.ier.transaction.crown.previousAddress.PreviousAddressPostcodeStep.post
+GET         /register-to-vote/crown/edit/previous-address/postcode     @uk.gov.gds.ier.transaction.crown.previousAddress.PreviousAddressPostcodeStep.editGet
+POST        /register-to-vote/crown/edit/previous-address/postcode     @uk.gov.gds.ier.transaction.crown.previousAddress.PreviousAddressPostcodeStep.editPost
 
 #Previous Address Step - selection from postcode
-GET         /register-to-vote/crown/previous-address/select            controllers.step.crown.PreviousAddressSelectController.get
-POST        /register-to-vote/crown/previous-address/select            controllers.step.crown.PreviousAddressSelectController.post
-GET         /register-to-vote/crown/edit/previous-address/select       controllers.step.crown.PreviousAddressSelectController.editGet
-POST        /register-to-vote/crown/edit/previous-address/select       controllers.step.crown.PreviousAddressSelectController.editPost
+GET         /register-to-vote/crown/previous-address/select            @uk.gov.gds.ier.transaction.crown.previousAddress.PreviousAddressSelectStep.get
+POST        /register-to-vote/crown/previous-address/select            @uk.gov.gds.ier.transaction.crown.previousAddress.PreviousAddressSelectStep.post
+GET         /register-to-vote/crown/edit/previous-address/select       @uk.gov.gds.ier.transaction.crown.previousAddress.PreviousAddressSelectStep.editGet
+POST        /register-to-vote/crown/edit/previous-address/select       @uk.gov.gds.ier.transaction.crown.previousAddress.PreviousAddressSelectStep.editPost
 
 #Previous Address Step - manual address
-GET         /register-to-vote/crown/previous-address/manual            controllers.step.crown.PreviousAddressManualController.get
-POST        /register-to-vote/crown/previous-address/manual            controllers.step.crown.PreviousAddressManualController.post
-GET         /register-to-vote/crown/edit/previous-address/manual       controllers.step.crown.PreviousAddressManualController.editGet
-POST        /register-to-vote/crown/edit/previous-address/manual       controllers.step.crown.PreviousAddressManualController.editPost
+GET         /register-to-vote/crown/previous-address/manual            @uk.gov.gds.ier.transaction.crown.previousAddress.PreviousAddressManualStep.get
+POST        /register-to-vote/crown/previous-address/manual            @uk.gov.gds.ier.transaction.crown.previousAddress.PreviousAddressManualStep.post
+GET         /register-to-vote/crown/edit/previous-address/manual       @uk.gov.gds.ier.transaction.crown.previousAddress.PreviousAddressManualStep.editGet
+POST        /register-to-vote/crown/edit/previous-address/manual       @uk.gov.gds.ier.transaction.crown.previousAddress.PreviousAddressManualStep.editPost
 
 #Nationality Step
-GET         /register-to-vote/crown/nationality                        controllers.step.crown.NationalityController.get
-POST        /register-to-vote/crown/nationality                        controllers.step.crown.NationalityController.post
-GET         /register-to-vote/crown/edit/nationality                   controllers.step.crown.NationalityController.editGet
-POST        /register-to-vote/crown/edit/nationality                   controllers.step.crown.NationalityController.editPost
+GET         /register-to-vote/crown/nationality                        @uk.gov.gds.ier.transaction.crown.nationality.NationalityStep.get
+POST        /register-to-vote/crown/nationality                        @uk.gov.gds.ier.transaction.crown.nationality.NationalityStep.post
+GET         /register-to-vote/crown/edit/nationality                   @uk.gov.gds.ier.transaction.crown.nationality.NationalityStep.editGet
+POST        /register-to-vote/crown/edit/nationality                   @uk.gov.gds.ier.transaction.crown.nationality.NationalityStep.editPost
 
 #Date of Birth Step
-GET         /register-to-vote/crown/date-of-birth                      controllers.step.crown.DateOfBirthController.get
-POST        /register-to-vote/crown/date-of-birth                      controllers.step.crown.DateOfBirthController.post
-GET         /register-to-vote/crown/edit/date-of-birth                 controllers.step.crown.DateOfBirthController.editGet
-POST        /register-to-vote/crown/edit/date-of-birth                 controllers.step.crown.DateOfBirthController.editPost
+GET         /register-to-vote/crown/date-of-birth                      @uk.gov.gds.ier.transaction.crown.dateOfBirth.DateOfBirthStep.get
+POST        /register-to-vote/crown/date-of-birth                      @uk.gov.gds.ier.transaction.crown.dateOfBirth.DateOfBirthStep.post
+GET         /register-to-vote/crown/edit/date-of-birth                 @uk.gov.gds.ier.transaction.crown.dateOfBirth.DateOfBirthStep.editGet
+POST        /register-to-vote/crown/edit/date-of-birth                 @uk.gov.gds.ier.transaction.crown.dateOfBirth.DateOfBirthStep.editPost
 
 #Name Step
-GET         /register-to-vote/crown/name                               controllers.step.crown.NameController.get
-POST        /register-to-vote/crown/name                               controllers.step.crown.NameController.post
-GET         /register-to-vote/crown/edit/name                          controllers.step.crown.NameController.editGet
-POST        /register-to-vote/crown/edit/name                          controllers.step.crown.NameController.editPost
+GET         /register-to-vote/crown/name                               @uk.gov.gds.ier.transaction.crown.name.NameStep.get
+POST        /register-to-vote/crown/name                               @uk.gov.gds.ier.transaction.crown.name.NameStep.post
+GET         /register-to-vote/crown/edit/name                          @uk.gov.gds.ier.transaction.crown.name.NameStep.editGet
+POST        /register-to-vote/crown/edit/name                          @uk.gov.gds.ier.transaction.crown.name.NameStep.editPost
 
 #Job Step
-GET         /register-to-vote/crown/job-title                          controllers.step.crown.JobController.get
-POST        /register-to-vote/crown/job-title                          controllers.step.crown.JobController.post
-GET         /register-to-vote/crown/edit/job-title                     controllers.step.crown.JobController.editGet
-POST        /register-to-vote/crown/edit/job-title                     controllers.step.crown.JobController.editPost
+GET         /register-to-vote/crown/job-title                          @uk.gov.gds.ier.transaction.crown.job.JobStep.get
+POST        /register-to-vote/crown/job-title                          @uk.gov.gds.ier.transaction.crown.job.JobStep.post
+GET         /register-to-vote/crown/edit/job-title                     @uk.gov.gds.ier.transaction.crown.job.JobStep.editGet
+POST        /register-to-vote/crown/edit/job-title                     @uk.gov.gds.ier.transaction.crown.job.JobStep.editPost
 
 # declaration pdf form download
-GET         /register-to-vote/crown/declaration-pdf                    controllers.step.crown.DeclarationPdfController.get
-POST        /register-to-vote/crown/declaration-pdf                    controllers.step.crown.DeclarationPdfController.post
-GET         /register-to-vote/crown/edit/declaration-pdf               controllers.step.crown.DeclarationPdfController.editGet
-POST        /register-to-vote/crown/edit/declaration-pdf               controllers.step.crown.DeclarationPdfController.editPost
-GET         /register-to-vote/crown/declaration-pdf-download           controllers.step.crown.DeclarationPdfDownloadController.download
+GET         /register-to-vote/crown/declaration-pdf                    @uk.gov.gds.ier.transaction.crown.declaration.DeclarationPdfStep.get
+POST        /register-to-vote/crown/declaration-pdf                    @uk.gov.gds.ier.transaction.crown.declaration.DeclarationPdfStep.post
+GET         /register-to-vote/crown/edit/declaration-pdf               @uk.gov.gds.ier.transaction.crown.declaration.DeclarationPdfStep.editGet
+POST        /register-to-vote/crown/edit/declaration-pdf               @uk.gov.gds.ier.transaction.crown.declaration.DeclarationPdfStep.editPost
+GET         /register-to-vote/crown/declaration-pdf-download           @uk.gov.gds.ier.controller.DeclarationPdfDownloadController.download
 
 #Nino Step
-GET         /register-to-vote/crown/nino                               controllers.step.crown.NinoController.get
-POST        /register-to-vote/crown/nino                               controllers.step.crown.NinoController.post
-GET         /register-to-vote/crown/edit/nino                          controllers.step.crown.NinoController.editGet
-POST        /register-to-vote/crown/edit/nino                          controllers.step.crown.NinoController.editPost
+GET         /register-to-vote/crown/nino                               @uk.gov.gds.ier.transaction.crown.nino.NinoStep.get
+POST        /register-to-vote/crown/nino                               @uk.gov.gds.ier.transaction.crown.nino.NinoStep.post
+GET         /register-to-vote/crown/edit/nino                          @uk.gov.gds.ier.transaction.crown.nino.NinoStep.editGet
+POST        /register-to-vote/crown/edit/nino                          @uk.gov.gds.ier.transaction.crown.nino.NinoStep.editPost
 
 
 #Contact Address Step
-GET         /register-to-vote/crown/contact-address                    controllers.step.crown.ContactAddressController.get
-POST        /register-to-vote/crown/contact-address                    controllers.step.crown.ContactAddressController.post
-GET         /register-to-vote/crown/edit/contact-address               controllers.step.crown.ContactAddressController.editGet
-POST        /register-to-vote/crown/edit/contact-address               controllers.step.crown.ContactAddressController.editPost
+GET         /register-to-vote/crown/contact-address                    @uk.gov.gds.ier.transaction.crown.contactAddress.ContactAddressStep.get
+POST        /register-to-vote/crown/contact-address                    @uk.gov.gds.ier.transaction.crown.contactAddress.ContactAddressStep.post
+GET         /register-to-vote/crown/edit/contact-address               @uk.gov.gds.ier.transaction.crown.contactAddress.ContactAddressStep.editGet
+POST        /register-to-vote/crown/edit/contact-address               @uk.gov.gds.ier.transaction.crown.contactAddress.ContactAddressStep.editPost
 
 #Open Register Step
-GET         /register-to-vote/crown/open-register                     controllers.step.crown.OpenRegisterController.get
-POST        /register-to-vote/crown/open-register                     controllers.step.crown.OpenRegisterController.post
-GET         /register-to-vote/crown/edit/open-register                controllers.step.crown.OpenRegisterController.editGet
-POST        /register-to-vote/crown/edit/open-register                controllers.step.crown.OpenRegisterController.editPost
+GET         /register-to-vote/crown/open-register                      @uk.gov.gds.ier.transaction.crown.openRegister.OpenRegisterStep.get
+POST        /register-to-vote/crown/open-register                      @uk.gov.gds.ier.transaction.crown.openRegister.OpenRegisterStep.post
+GET         /register-to-vote/crown/edit/open-register                 @uk.gov.gds.ier.transaction.crown.openRegister.OpenRegisterStep.editGet
+POST        /register-to-vote/crown/edit/open-register                 @uk.gov.gds.ier.transaction.crown.openRegister.OpenRegisterStep.editPost
 
 #Ways To Vote Step
-GET         /register-to-vote/crown/ways-to-vote                      controllers.step.crown.WaysToVoteController.get
-POST        /register-to-vote/crown/ways-to-vote                      controllers.step.crown.WaysToVoteController.post
-GET         /register-to-vote/crown/edit/ways-to-vote                 controllers.step.crown.WaysToVoteController.editGet
-POST        /register-to-vote/crown/edit/ways-to-vote                 controllers.step.crown.WaysToVoteController.editPost
+GET         /register-to-vote/crown/ways-to-vote                       @uk.gov.gds.ier.transaction.crown.waysToVote.WaysToVoteStep.get
+POST        /register-to-vote/crown/ways-to-vote                       @uk.gov.gds.ier.transaction.crown.waysToVote.WaysToVoteStep.post
+GET         /register-to-vote/crown/edit/ways-to-vote                  @uk.gov.gds.ier.transaction.crown.waysToVote.WaysToVoteStep.editGet
+POST        /register-to-vote/crown/edit/ways-to-vote                  @uk.gov.gds.ier.transaction.crown.waysToVote.WaysToVoteStep.editPost
 
 #Proxy Vote Step
-GET         /register-to-vote/crown/proxy-vote                       controllers.step.crown.ProxyVoteController.get
-POST        /register-to-vote/crown/proxy-vote                       controllers.step.crown.ProxyVoteController.post
-GET         /register-to-vote/crown/edit/proxy-vote                  controllers.step.crown.ProxyVoteController.editGet
-POST        /register-to-vote/crown/edit/proxy-vote                  controllers.step.crown.ProxyVoteController.editPost
+GET         /register-to-vote/crown/proxy-vote                         @uk.gov.gds.ier.transaction.crown.applicationFormVote.ProxyVoteStep.get
+POST        /register-to-vote/crown/proxy-vote                         @uk.gov.gds.ier.transaction.crown.applicationFormVote.ProxyVoteStep.post
+GET         /register-to-vote/crown/edit/proxy-vote                    @uk.gov.gds.ier.transaction.crown.applicationFormVote.ProxyVoteStep.editGet
+POST        /register-to-vote/crown/edit/proxy-vote                    @uk.gov.gds.ier.transaction.crown.applicationFormVote.ProxyVoteStep.editPost
 
 #Postal Vote Step
-GET         /register-to-vote/crown/postal-vote                       controllers.step.crown.PostalVoteController.get
-POST        /register-to-vote/crown/postal-vote                       controllers.step.crown.PostalVoteController.post
-GET         /register-to-vote/crown/edit/postal-vote                  controllers.step.crown.PostalVoteController.editGet
-POST        /register-to-vote/crown/edit/postal-vote                  controllers.step.crown.PostalVoteController.editPost
+GET         /register-to-vote/crown/postal-vote                        @uk.gov.gds.ier.transaction.crown.applicationFormVote.PostalVoteStep.get
+POST        /register-to-vote/crown/postal-vote                        @uk.gov.gds.ier.transaction.crown.applicationFormVote.PostalVoteStep.post
+GET         /register-to-vote/crown/edit/postal-vote                   @uk.gov.gds.ier.transaction.crown.applicationFormVote.PostalVoteStep.editGet
+POST        /register-to-vote/crown/edit/postal-vote                   @uk.gov.gds.ier.transaction.crown.applicationFormVote.PostalVoteStep.editPost
 
 #Contact Step
-GET         /register-to-vote/crown/contact                           controllers.step.crown.ContactController.get
-POST        /register-to-vote/crown/contact                           controllers.step.crown.ContactController.post
-GET         /register-to-vote/crown/edit/contact                      controllers.step.crown.ContactController.editGet
-POST        /register-to-vote/crown/edit/contact                      controllers.step.crown.ContactController.editPost
+GET         /register-to-vote/crown/contact                            @uk.gov.gds.ier.transaction.crown.contact.ContactStep.get
+POST        /register-to-vote/crown/contact                            @uk.gov.gds.ier.transaction.crown.contact.ContactStep.post
+GET         /register-to-vote/crown/edit/contact                       @uk.gov.gds.ier.transaction.crown.contact.ContactStep.editGet
+POST        /register-to-vote/crown/edit/contact                       @uk.gov.gds.ier.transaction.crown.contact.ContactStep.editPost
 
 #Crown Confirmation
-GET         /register-to-vote/crown/confirmation                      controllers.step.crown.ConfirmationController.get
-POST        /register-to-vote/crown/confirmation                      controllers.step.crown.ConfirmationController.post
+GET         /register-to-vote/crown/confirmation                       @uk.gov.gds.ier.transaction.crown.confirmation.ConfirmationStep.get
+POST        /register-to-vote/crown/confirmation                       @uk.gov.gds.ier.transaction.crown.confirmation.ConfirmationStep.post
 
 # Zendesk proxy
 GET         /register-to-vote/feedback                                controllers.FeedbackController.get(sourcePath: Option[String] ?= None)

@@ -1,9 +1,9 @@
 package uk.gov.gds.ier.transaction.crown.declaration
 
 import org.scalatest.{GivenWhenThen, Matchers, FlatSpec}
+import play.api.mvc.Call
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
-import controllers.step.crown.routes._
 import uk.gov.gds.ier.service.{DeclarationPdfDownloadService, WithDeclarationPdfDownloadService}
 import org.specs2.mock.Mockito
 import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
@@ -29,7 +29,7 @@ class DeclarationPdfMustacheTest
     val emptyApplication = InprogressCrown()
     val model: DeclarationPdfModel = mustache.data(
       declarationPdfForm.fill(inprogressApplicationWithPostcode("WR26NJ")),
-      DeclarationPdfController.post,
+      Call("POST", "/register-to-vote/crown/declaration-pdf"),
       emptyApplication
     ).asInstanceOf[DeclarationPdfModel]
 

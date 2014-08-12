@@ -4,40 +4,42 @@ import uk.gov.gds.ier.step.ConfirmationStepController
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
-import controllers.step.crown.routes.ConfirmationController
-import controllers.routes.{CompleteController, ErrorController}
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.service.apiservice.IerApiService
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.step.Routes
-import uk.gov.gds.ier.transaction.crown.InprogressCrown
+import uk.gov.gds.ier.transaction.crown.{InprogressCrown, CrownControllers, WithCrownControllers}
 import uk.gov.gds.ier.model.{WaysToVoteType, ApplicationType}
 import uk.gov.gds.ier.transaction.complete.CompleteCookie
 import uk.gov.gds.ier.session.ResultHandling
+import controllers.routes.{ErrorController, CompleteController}
 
+@Singleton
 class ConfirmationStep @Inject() (
     val encryptionService: EncryptionService,
     val config: Config,
     val serialiser: JsonSerialiser,
     val addressService: AddressService,
     val remoteAssets: RemoteAssets,
-    ierApi: IerApiService)
-  extends ConfirmationStepController[InprogressCrown]
+    ierApi: IerApiService,
+    val crown: CrownControllers
+) extends ConfirmationStepController[InprogressCrown]
   with ConfirmationForms
   with ConfirmationMustache
   with ResultHandling
+  with WithCrownControllers
   with WithRemoteAssets {
 
   def factoryOfT() = InprogressCrown()
   def timeoutPage() = ErrorController.crownTimeout
 
   val routing: Routes = Routes(
-    get = ConfirmationController.get,
-    post = ConfirmationController.post,
-    editGet = ConfirmationController.get,
-    editPost = ConfirmationController.post
+    get = routes.ConfirmationStep.get,
+    post = routes.ConfirmationStep.post,
+    editGet = routes.ConfirmationStep.get,
+    editPost = routes.ConfirmationStep.post
   )
 
   val validation = confirmationForm
