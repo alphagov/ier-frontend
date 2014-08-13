@@ -1,16 +1,8 @@
 package uk.gov.gds.ier.transaction.forces.previousAddress
 
-import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.mock.MockitoSugar
-import play.api.test._
-import play.api.test.Helpers._
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.ControllerTestSuite
 
-class PreviousAddressYesStepsTests
-  extends FlatSpec
-  with Matchers
-  with MockitoSugar
-  with TestHelpers {
+class PreviousAddressYesStepsTests extends ControllerTestSuite {
 
   behavior of "PreviousAddressPostcodeController"
   it should "display the page on GET" in {

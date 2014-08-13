@@ -1,22 +1,11 @@
 package uk.gov.gds.ier.transaction.overseas.lastRegisteredToVote
 
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.libs.json.{Json, JsNull}
-import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.test.FormTestSuite
 import uk.gov.gds.ier.model.LastRegisteredType
 
 class LastRegisteredToVoteFormTests
-  extends FlatSpec
-  with Matchers
-  with TestHelpers
-  with LastRegisteredToVoteForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys {
-
-  val serialiser = jsonSerialiser
+  extends FormTestSuite
+  with LastRegisteredToVoteForms {
 
   it should "error out on empty json" in {
     val js = JsNull

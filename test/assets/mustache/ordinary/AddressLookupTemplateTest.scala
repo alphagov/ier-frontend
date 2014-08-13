@@ -1,25 +1,11 @@
 package assets.mustache.ordinary
 
-import org.jsoup.Jsoup
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.test._
-import play.api.test.Helpers._
-import uk.gov.gds.ier.mustache.StepMustache
-import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.ordinary.address.AddressMustache
 import uk.gov.gds.ier.test._
 
 class AddressLookupTemplateTest
-  extends FlatSpec
-  with AddressMustache
-  with StepMustache
-  with Matchers
-  with WithSerialiser
-  with WithMockRemoteAssets
-  with WithMockConfig
-  with TestHelpers {
-
-  val serialiser = jsonSerialiser
+  extends TemplateTestSuite
+  with AddressMustache {
 
   it should "properly render" in {
     running(FakeApplication()) {

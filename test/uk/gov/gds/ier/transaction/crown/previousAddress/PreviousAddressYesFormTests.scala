@@ -1,23 +1,12 @@
 package uk.gov.gds.ier.transaction.crown.previousAddress
 
-import uk.gov.gds.ier.test.{WithMockAddressService, TestHelpers}
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import play.api.libs.json.{Json, JsNull}
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.{PartialManualAddress, Addresses, PartialAddress}
 
 class PreviousAddressYesFormTests
-  extends FlatSpec
-  with Matchers
+  extends FormTestSuite
   with PreviousAddressForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers
-  with WithMockAddressService{
-
-  val serialiser = jsonSerialiser
+  with WithMockAddressService {
 
   behavior of "previous address form where user enters postcode"
 

@@ -1,29 +1,18 @@
 package uk.gov.gds.ier.transaction.ordinary.confirmation
 
-import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
-import org.scalatest.{Matchers, FlatSpec}
 import uk.gov.gds.ier.test._
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.Name
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.shared.BlockContent
 import uk.gov.gds.ier.step.Routes
-import org.mockito.Mockito._
 import play.api.mvc.Call
 
 class ConfirmationMustacheTest
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
   with ConfirmationForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers
-  with WithMockConfig
-  with WithMockRemoteAssets
   with WithMockAddressService
   with WithMockOrdinaryControllers
+  with MockitoHelpers
   with ConfirmationMustache {
 
   def routes(url:String) = Routes(
@@ -33,7 +22,6 @@ class ConfirmationMustacheTest
     editPost = Call("POST", url)
   )
 
-  val serialiser = jsonSerialiser
   when(mockNameStep.routing).thenReturn(routes("/register-to-vote/edit/name"))
   when(mockDateOfBirthStep.routing).thenReturn(routes("/register-to-vote/edit/date-of-birth"))
   when(mockOtherAddressStep.routing).thenReturn(routes("/register-to-vote/edit/other-address"))

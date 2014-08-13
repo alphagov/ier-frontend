@@ -1,21 +1,12 @@
 package uk.gov.gds.ier.transaction.crown.job
 
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.mvc.Call
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
-import uk.gov.gds.ier.model.{Job}
+import uk.gov.gds.ier.model.Job
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 class JobMustacheTest
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
   with JobForms
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers
-  with WithMockConfig
-  with WithMockRemoteAssets
   with JobMustache {
 
   it should "empty progress form should produce empty Model" in {

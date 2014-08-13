@@ -1,20 +1,11 @@
 package assets.mustache.forces
 
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.test._
-import org.jsoup.Jsoup
-import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.forces.nino.NinoMustache
-import org.jba.Mustache
 import uk.gov.gds.ier.test._
 
-
 class NinoTemplateTest
-  extends FlatSpec
-  with NinoMustache
-  with WithMockConfig
-  with WithMockRemoteAssets
-  with Matchers {
+  extends TemplateTestSuite
+  with NinoMustache {
 
   it should "properly render all properties from the model" in {
 

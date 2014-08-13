@@ -1,23 +1,10 @@
 package uk.gov.gds.ier.transaction.ordinary.nino
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import play.api.libs.json.{Json, JsNull}
-import uk.gov.gds.ier.test.TestHelpers
-import org.scalatest.mock.MockitoSugar
+import uk.gov.gds.ier.test.FormTestSuite
 
 class NinoFormTests
-  extends FlatSpec
-  with Matchers
-  with NinoForms
-  with MockitoSugar
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers{
-
-  val serialiser = jsonSerialiser
+  extends FormTestSuite
+  with NinoForms {
 
   it should "successfully bind to a valid nino" in {
     val js = Json.toJson(

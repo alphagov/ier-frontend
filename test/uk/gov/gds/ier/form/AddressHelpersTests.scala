@@ -1,8 +1,7 @@
 package uk.gov.gds.ier.form
 
-import org.scalatest.{Matchers, FlatSpec}
+import uk.gov.gds.ier.test.UnitTestSuite
 import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.model.{HasAddressOption, PartialManualAddress, PartialAddress, LastAddress}
 import uk.gov.gds.ier.transaction.forces.confirmation.ConfirmationForms
 import play.api.data.Form
@@ -14,14 +13,11 @@ import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 /**
  * Test AddressHelpers utility class against multiple forms
  */
-class AddressHelpersTests extends FlatSpec
-with TestHelpers
-with FormKeys
-with AddressHelpers
-with Matchers {
+class AddressHelpersTests extends UnitTestSuite {
 
-  val serialiser = null
-  val addressService = null
+  val helpers = new AddressHelpers {}
+  val formKeys = new FormKeys {}
+  import formKeys._
 
   // Use composition rather then inheritance to get Play Form instances
   val manualAddressForm = new AddressForms with ErrorMessages with FormKeys with WithSerialiser {
@@ -53,7 +49,7 @@ with Matchers {
     ))
     // local variable names matter!
     // if you try to rename 'result' to 'manualAddress' Scala compiler implodes with internal error
-    val result = manualAddressToOneLine(
+    val result = helpers.manualAddressToOneLine(
       partiallyFilledForm,
       keys.address.address.manualAddress)
     result should be(Some("Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester"))
@@ -75,7 +71,7 @@ with Matchers {
         ))
       ))
     ))
-    val result = manualAddressToOneLine(
+    val result = helpers.manualAddressToOneLine(
       partiallyFilledForm,
       keys.address.address.manualAddress)
     result should be(Some("123 Fake Street"))
@@ -97,7 +93,7 @@ with Matchers {
         ))
       ))
     ))
-    val result = manualAddressToOneLine(
+    val result = helpers.manualAddressToOneLine(
       partiallyFilledForm,
       keys.address.manualAddress)
     result should be(None)
@@ -119,7 +115,7 @@ with Matchers {
           city = Some("Worcester")))
       ))
     ))
-    val result = manualAddressToOneLine(
+    val result = helpers.manualAddressToOneLine(
       partiallyFilledForm,
       keys.address.manualAddress)
     result should be(Some("Unit 4, Elgar Business Centre, Moseley Road, Hallow, Worcester"))
@@ -138,7 +134,7 @@ with Matchers {
           city = None))
       ))
     ))
-    val result = manualAddressToOneLine(
+    val result = helpers.manualAddressToOneLine(
       partiallyFilledForm,
       keys.address.manualAddress)
     result should be(Some("123 Fake Street"))
@@ -157,7 +153,7 @@ with Matchers {
           city = None))
       ))
     ))
-    val result = manualAddressToOneLine(
+    val result = helpers.manualAddressToOneLine(
       partiallyFilledForm,
       keys.address.manualAddress)
     result should be(None)
@@ -165,8 +161,8 @@ with Matchers {
 
   "concatListOfOptionalStrings()" should
     "concatenate only Some values if there are any or return None" in {
-    concatListOfOptionalStrings(List(None, None, None)) should be(None)
-    concatListOfOptionalStrings(List(None, Some("aaa"), None)) should be(Some("aaa"))
-    concatListOfOptionalStrings(List(Some("aaa"), Some("bbb"), Some("ccc"))) should be(Some("aaa, bbb, ccc"))
+    helpers.concatListOfOptionalStrings(List(None, None, None)) should be(None)
+    helpers.concatListOfOptionalStrings(List(None, Some("aaa"), None)) should be(Some("aaa"))
+    helpers.concatListOfOptionalStrings(List(Some("aaa"), Some("bbb"), Some("ccc"))) should be(Some("aaa, bbb, ccc"))
   }
 }

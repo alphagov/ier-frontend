@@ -1,10 +1,8 @@
 package uk.gov.gds.ier.validation
 
-import org.scalatest.{Matchers, FlatSpec}
+import uk.gov.gds.ier.test.UnitTestSuite
 
-class EmailValidatorTest
-  extends FlatSpec
-  with Matchers {
+class EmailValidatorTest extends UnitTestSuite {
 
   behavior of "EmailValidator.isValid - basic rules"
 

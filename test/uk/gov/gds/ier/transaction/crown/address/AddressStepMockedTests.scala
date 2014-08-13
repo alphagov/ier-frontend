@@ -1,18 +1,14 @@
 package uk.gov.gds.ier.transaction.crown.address
 
-import org.scalatest.FlatSpec
-import org.scalatest.Matchers
-import org.specs2.mock.Mockito
+import uk.gov.gds.ier.test.MockingTestSuite
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{LastAddress, PartialAddress}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.test.TestHelpers
 import uk.gov.gds.ier.transaction.crown.CrownControllers
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.GoTo
 import controllers.routes.ExitController
-import org.mockito.Mockito._
 import uk.gov.gds.ier.assets.RemoteAssets
 
 /*
@@ -20,7 +16,7 @@ import uk.gov.gds.ier.assets.RemoteAssets
  *
  * So it is separated from the normal AddressStepTests
  */
-class AddressStepMockedTests extends FlatSpec with TestHelpers with Matchers with Mockito {
+class AddressStepMockedTests extends MockingTestSuite {
 
   it should "redirect to Scotland exit page if the gssCode starts with S" in {
     val mockedJsonSerialiser = mock[JsonSerialiser]

@@ -1,20 +1,8 @@
 package uk.gov.gds.ier.transaction.crown.contact
 
-import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.mock.MockitoSugar
-import play.api.test._
-import play.api.test.Helpers._
-import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.model._
+import uk.gov.gds.ier.test.ControllerTestSuite
 
-class ContactControllerTests
-  extends FlatSpec
-  with Matchers
-  with MockitoSugar
-  with TestHelpers {
+class ContactControllerTests extends ControllerTestSuite {
 
   behavior of "ContactController.get"
   it should "display the page" in {

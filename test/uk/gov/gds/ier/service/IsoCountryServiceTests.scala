@@ -1,13 +1,9 @@
 package uk.gov.gds.ier.service
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.UnitTestSuite
 import uk.gov.gds.ier.model.PartialNationality
 
-class IsoCountryServiceTests
-  extends FlatSpec
-  with Matchers
-  with TestHelpers {
+class IsoCountryServiceTests extends UnitTestSuite {
 
   behavior of "IsoCountryService.transformToIsoCode"
   it should "fill in iso codes from country names" in {

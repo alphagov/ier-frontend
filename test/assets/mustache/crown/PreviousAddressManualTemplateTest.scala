@@ -1,27 +1,12 @@
 package assets.mustache.crown
 
-import org.jsoup.Jsoup
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.test._
-import play.api.test.Helpers._
-import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.transaction.crown.previousAddress.PreviousAddressManualMustache
-import uk.gov.gds.ier.mustache.StepMustache
 
 class PreviousAddressManualTemplateTest
-  extends FlatSpec
-  with PreviousAddressManualMustache
-  with StepMustache
-  with Matchers
-  with WithSerialiser
-  with WithMockConfig
+  extends TemplateTestSuite
   with WithMockCrownControllers
-  with WithMockRemoteAssets
-  with TestHelpers {
-
-  val serialiser = jsonSerialiser
-
+  with PreviousAddressManualMustache {
 
   it should "properly render all properties from the model" in {
     running(FakeApplication()) {

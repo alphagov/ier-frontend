@@ -1,23 +1,14 @@
 package uk.gov.gds.ier.transaction.forces.contactAddress
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
-import scala.Some
 import controllers.step.forces.routes.{OpenRegisterController, ContactAddressController}
 import uk.gov.gds.ier.model.{PartialAddress, PossibleContactAddresses, ContactAddress}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class ContactAddressMustacheTest
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
   with ContactAddressForms
-  with ContactAddressMustache
-  with ErrorMessages
-  with FormKeys
-  with WithMockConfig
-  with WithMockRemoteAssets
-  with TestHelpers {
+  with ContactAddressMustache {
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = contactAddressForm

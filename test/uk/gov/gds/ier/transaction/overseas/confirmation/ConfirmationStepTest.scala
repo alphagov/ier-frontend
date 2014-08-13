@@ -1,10 +1,6 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation
 
-import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.mock.MockitoSugar
-import uk.gov.gds.ier.test.TestHelpers
-import play.api.test.Helpers._
-import play.api.test.FakeRequest
+import uk.gov.gds.ier.test.ControllerTestSuite
 import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.controller.MockConfig
@@ -13,17 +9,10 @@ import uk.gov.gds.ier.transaction.complete.CompleteCookie
 import org.joda.time.LocalDate
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 
-/**
- * Test ConfirmationStep and ConfirmationController for Ordinary route,
- * notably application submission
- */
-class ConfirmationStepTest extends FlatSpec
-with Matchers
-with MockitoSugar
-with TestHelpers {
+class ConfirmationStepTest extends ControllerTestSuite {
 
   val config = new MockConfig
-  implicit val serialiser = jsonSerialiser
+  implicit val _serialiser = jsonSerialiser
   implicit val encryptionService = new EncryptionService (new Base64EncodingService, config)
 
   behavior of "ConfirmationStep.post submit application and set Refnum and LocalAuthority for the next step"

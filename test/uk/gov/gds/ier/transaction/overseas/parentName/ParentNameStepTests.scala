@@ -1,18 +1,13 @@
 package uk.gov.gds.ier.transaction.overseas.parentName
 
-import org.scalatest.FlatSpec
-import org.scalatest.Matchers
-import org.specs2.mock.Mockito
-
-
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{OverseasParentName, Name, PreviousName}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.MockingTestSuite
 import uk.gov.gds.ier.assets.RemoteAssets
 
-class ParentNameStepTests extends FlatSpec with TestHelpers with Matchers with Mockito {
+class ParentNameStepTests extends MockingTestSuite {
 
   it should "reset the previous names if the has previous is false when submitting the form successfully" in {
     val mockedJsonSerialiser = mock[JsonSerialiser]

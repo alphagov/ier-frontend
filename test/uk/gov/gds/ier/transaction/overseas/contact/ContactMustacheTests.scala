@@ -1,27 +1,14 @@
 package uk.gov.gds.ier.transaction.overseas.contact
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
-import scala.Some
 import uk.gov.gds.ier.model.{ContactDetail, Contact}
 import controllers.step.overseas.routes._
-import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class ContactMustacheTests
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
   with ContactForms
-  with ContactMustache
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers
-  with WithMockConfig
-  with WithMockRemoteAssets
-  with WithSerialiser {
-
-  val serialiser = jsonSerialiser
+  with ContactMustache {
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = contactForm

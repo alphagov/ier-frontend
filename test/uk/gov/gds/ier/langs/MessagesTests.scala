@@ -1,12 +1,8 @@
 package uk.gov.gds.ier.langs
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.UnitTestSuite
 
-class MessagesTests
-  extends FlatSpec
-  with Matchers
-  with TestHelpers {
+class MessagesTests extends UnitTestSuite {
 
   behavior of "Messages.jsMessages"
 

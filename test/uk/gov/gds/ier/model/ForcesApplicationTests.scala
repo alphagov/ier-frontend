@@ -1,14 +1,9 @@
 package uk.gov.gds.ier.model
 
-import uk.gov.gds.ier.test.{TestHelpers, CustomMatchers}
-import org.scalatest.{Matchers, FlatSpec}
+import uk.gov.gds.ier.test.UnitTestSuite
 import uk.gov.gds.ier.service.apiservice.ForcesApplication
 
-class ForcesApplicationTests
-  extends FlatSpec
-  with Matchers
-  with CustomMatchers
-  with TestHelpers {
+class ForcesApplicationTests extends UnitTestSuite {
 
   it should "generate the expected payload" in {
     lazy val application = createForcesApplication

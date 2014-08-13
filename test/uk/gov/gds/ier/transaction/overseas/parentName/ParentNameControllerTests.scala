@@ -1,10 +1,6 @@
 package uk.gov.gds.ier.transaction.overseas.parentName
 
-import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.mock.MockitoSugar
-import play.api.test._
-import play.api.test.Helpers._
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.ControllerTestSuite
 import uk.gov.gds.ier.model.{PreviousName, Name}
 import akka.util.Timeout
 import java.util.concurrent.TimeUnit
@@ -12,11 +8,7 @@ import uk.gov.gds.ier.model.DOB
 import uk.gov.gds.ier.model.LastRegisteredToVote
 import uk.gov.gds.ier.model.LastRegisteredType
 
-class ParentNameControllerTests
-  extends FlatSpec
-  with Matchers
-  with MockitoSugar
-  with TestHelpers {
+class ParentNameControllerTests extends ControllerTestSuite {
 
   behavior of "ParentNameController.get"
   it should "display the page" in {

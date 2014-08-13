@@ -1,32 +1,13 @@
 package assets.mustache.ordinary
 
-import org.jsoup.Jsoup
-import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.mock.MockitoSugar
-import play.api.test._
-import play.api.test.Helpers._
-import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.test._
-import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.transaction.ordinary.previousAddress.PreviousAddressSelectMustache
 
-/**
- * This test is also a good example how select from list of addresses for postcode looks like,
- * especially what possibleAddresses and possiblePostcode are used for, hence the realistic values.
- */
 class PreviousAddressSelectTemplateTest
-  extends FlatSpec
-  with PreviousAddressSelectMustache
-  with StepMustache
-  with MockitoSugar
-  with Matchers
-  with WithSerialiser
-  with WithMockRemoteAssets
-  with WithMockConfig
-  with TestHelpers {
+  extends TemplateTestSuite
+  with PreviousAddressSelectMustache {
 
-  val serialiser = jsonSerialiser
   val addressService = mock[AddressService]
 
   it should "properly render all properties from the model" in {

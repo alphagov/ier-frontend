@@ -1,24 +1,13 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation
 
-import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
 import org.joda.time.DateTime
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.libs.json.JsNull
-import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.test.FormTestSuite
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class ConfirmationFormTests
-  extends FlatSpec
-  with Matchers
-  with ConfirmationForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers {
-
-  val serialiser = jsonSerialiser
+  extends FormTestSuite
+  with ConfirmationForms {
 
   behavior of "ConfirmationForms.validateBaseSetRequired"
   it should "error out on empty json" in {

@@ -1,24 +1,13 @@
 package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import play.api.libs.json.{JsNull, Json}
+import uk.gov.gds.ier.test.FormTestSuite
 import uk.gov.gds.ier.model.{Addresses, PartialAddress, MovedHouseOption}
 import uk.gov.gds.ier.transaction.ordinary.address.AddressForms
 
 class PreviousAddressFirstFormTests
-  extends FlatSpec
-  with Matchers
+  extends FormTestSuite
   with AddressForms
-  with PreviousAddressFirstForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers {
-
-  val serialiser = jsonSerialiser
+  with PreviousAddressFirstForms {
 
   it should "error out on empty input" in {
     assertUnsuccessfulBinding(

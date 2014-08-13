@@ -1,25 +1,14 @@
 package uk.gov.gds.ier.transaction.overseas.dateOfBirth
 
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.libs.json.{Json, JsNull}
 import org.joda.time.DateTime
-import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.test.FormTestSuite
 import uk.gov.gds.ier.model.{DOB, DateOfBirth}
 import play.api.i18n.Lang
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class DateOfBirthFormTests 
-  extends FlatSpec
-  with Matchers
-  with DateOfBirthForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers {
-
-  val serialiser = jsonSerialiser
+  extends FormTestSuite
+  with DateOfBirthForms {
 
   it should "error out on empty json" in {
     val js = JsNull

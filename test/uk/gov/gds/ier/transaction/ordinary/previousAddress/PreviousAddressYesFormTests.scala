@@ -1,10 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
-import uk.gov.gds.ier.test.{TestHelpers, WithMockAddressService}
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
-import play.api.libs.json.{Json, JsNull}
+import uk.gov.gds.ier.test.{FormTestSuite, WithMockAddressService}
 import uk.gov.gds.ier.model.{PartialPreviousAddress,
   PartialManualAddress,
   Addresses,
@@ -13,16 +9,9 @@ import uk.gov.gds.ier.model.{PartialPreviousAddress,
 }
 
 class PreviousAddressYesFormTests
-  extends FlatSpec
-  with Matchers
+  extends FormTestSuite
   with PreviousAddressForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers
   with WithMockAddressService{
-
-  val serialiser = jsonSerialiser
 
   behavior of "previous address form where user enters postcode"
   it should "succeed on valid postcode" in {

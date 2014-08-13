@@ -1,33 +1,17 @@
 package uk.gov.gds.ier.localAuthority
 
-import org.scalatest.FlatSpec
-import org.scalatest.Matchers
-import uk.gov.gds.ier.validation.ErrorMessages
-import uk.gov.gds.ier.validation.FormKeys
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.{MustacheTestSuite, MockitoHelpers}
 import uk.gov.gds.ier.test.WithMockConfig
 import uk.gov.gds.ier.test.WithMockRemoteAssets
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import org.mockito.Mockito._
-import org.mockito.Matchers._
-import play.api.mvc.Call
 import uk.gov.gds.ier.model.LocalAuthorityContactDetails
-import play.api.test.Helpers._
 import org.jsoup.Jsoup
+import play.api.mvc.Call
 
-class LocalAuthorityMustacheTests
-  extends FlatSpec
-  with Matchers
-  with LocalAuthorityLookupForm
-  with LocalAuthorityMustache
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers
-  with WithMockConfig
-  with WithMockRemoteAssets
-  with WithSerialiser{
+class LocalAuthorityMustacheTests extends MustacheTestSuite with MockitoHelpers {
 
-  val serialiser = jsonSerialiser
+  val mustaches = new LocalAuthorityMustache
+    with WithMockConfig
+    with WithMockRemoteAssets {}
 
   behavior of "LocalAutorityPage"
   it should "render Local Authority information" in runningApp {
@@ -40,8 +24,8 @@ class LocalAuthorityMustacheTests
       emailAddress = Some("test@test.com"),
       phoneNumber = Some("123456")
     )
-    val authorityPage = LocalAuthorityShowPage(Some(authorityDetails), Some("/test"))
-    when(remoteAssets.messages(any[String])).thenReturn(Call("GET", "/assests/messages"))
+    val authorityPage = mustaches.LocalAuthorityShowPage(Some(authorityDetails), Some("/test"))
+    when(mustaches.remoteAssets.messages(any[String])).thenReturn(Call("GET", "/assests/messages"))
 
     val doc = Jsoup.parse(authorityPage.body)
 
@@ -87,8 +71,8 @@ class LocalAuthorityMustacheTests
       emailAddress = Some("test@test.com"),
       phoneNumber = Some("123456")
     )
-    val authorityPage = LocalAuthorityShowPage(Some(authorityDetails), Some("/test"))
-    when(remoteAssets.messages(any[String])).thenReturn(Call("GET", "/assests/messages"))
+    val authorityPage = mustaches.LocalAuthorityShowPage(Some(authorityDetails), Some("/test"))
+    when(mustaches.remoteAssets.messages(any[String])).thenReturn(Call("GET", "/assests/messages"))
 
     val doc = Jsoup.parse(authorityPage.body)
 
@@ -104,13 +88,17 @@ class LocalAuthorityMustacheTests
 
   behavior of "LocalAuthorityLookupPage"
   it should "render the lookup page" in runningApp {
-    val lookupPage = LocalAuthorityPostcodePage(
-      postcode = Field(id = "postcode_id", name = "postcode_name", classes = "postcode_classes",
-        value = "postcode_value"),
+    val lookupPage = mustaches.LocalAuthorityPostcodePage(
+      postcode = mustaches.Field(
+        id = "postcode_id",
+        name = "postcode_name",
+        classes = "postcode_classes",
+        value = "postcode_value"
+      ),
       sourcePath = "/sourcePath",
       postUrl = "/postUrl"
     )
-    when(remoteAssets.messages(any[String])).thenReturn(Call("GET", "/assests/messages"))
+    when(mustaches.remoteAssets.messages(any[String])).thenReturn(Call("GET", "/assests/messages"))
     val doc = Jsoup.parse(lookupPage.body)
 
     val form = doc.select("form").first()

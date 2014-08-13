@@ -1,21 +1,11 @@
 package uk.gov.gds.ier.transaction.overseas.dateLeftSpecial
 
-import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.mock.MockitoSugar
-import play.api.test._
-import play.api.test.Helpers._
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.ControllerTestSuite
 import uk.gov.gds.ier.model.{LastRegisteredToVote, LastRegisteredType, DOB, DateOfBirth}
 import uk.gov.gds.ier.model.LastRegisteredType._
-import play.api.test.FakeApplication
-import scala.Some
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
-class DateLeftArmyStepTests
-  extends FlatSpec
-  with Matchers
-  with MockitoSugar
-  with TestHelpers {
+class DateLeftArmyStepTests extends ControllerTestSuite {
 
   behavior of "DateLeftArmyStep.get"
   it should "display the page" in {

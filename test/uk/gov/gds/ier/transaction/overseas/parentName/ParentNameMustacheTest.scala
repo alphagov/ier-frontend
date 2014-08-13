@@ -1,30 +1,15 @@
 package uk.gov.gds.ier.transaction.overseas.parentName
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.model.OverseasParentName
 import uk.gov.gds.ier.model.Name
 import uk.gov.gds.ier.model.PreviousName
-import scala.Some
 
-/**
- * Unit test to test form to Mustache model transformation.
- *
- * Testing Mustache html text rendering requires running application, it is not easily unit testable,
- * so method {@link NameMustache#nameMustache()} is tested as a part of MustacheControllerTest.
- */
 class ParentNameMustacheTest
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
   with ParentNameForms
-  with ParentNameMustache
-  with ErrorMessages
-  with FormKeys
-  with WithMockConfig
-  with WithMockRemoteAssets
-  with TestHelpers {
+  with ParentNameMustache {
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = parentNameForm

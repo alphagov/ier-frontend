@@ -1,22 +1,13 @@
 package assets.mustache.complete
 
-import org.jsoup.Jsoup
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.test._
-import play.api.test.Helpers._
-import uk.gov.gds.ier.transaction.complete.CompleteMustache
-import uk.gov.gds.ier.test.{WithMockConfig, WithMockRemoteAssets}
-import org.mockito.Mockito._
-import org.mockito.Matchers._
-import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 import play.api.mvc.Call
+import uk.gov.gds.ier.test.TemplateTestSuite
+import uk.gov.gds.ier.transaction.complete.CompleteMustache
+import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 
 class CompleteTemplateTest
-  extends FlatSpec
-  with WithMockConfig
-  with WithMockRemoteAssets
-  with CompleteMustache
-  with Matchers {
+  extends TemplateTestSuite
+  with CompleteMustache {
 
   when(config.ordinaryStartUrl).thenReturn("/register-to-vote")
   when(remoteAssets.messages(anyString())).thenReturn(Call("GET", "/assets/messages/en"))

@@ -1,19 +1,11 @@
 package assets.mustache.forces
 
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.test._
-import play.api.test.Helpers._
-import org.jsoup.Jsoup
 import uk.gov.gds.ier.transaction.forces.statement.StatementMustache
-import org.jba.Mustache
 import uk.gov.gds.ier.test._
 
 class StatementTemplateTest
-  extends FlatSpec
-  with StatementMustache
-  with WithMockRemoteAssets
-  with WithMockConfig
-  with Matchers {
+  extends TemplateTestSuite
+  with StatementMustache {
 
   val data = new StatementModel(
     question = Question(),

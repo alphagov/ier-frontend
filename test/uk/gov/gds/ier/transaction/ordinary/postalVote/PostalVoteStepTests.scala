@@ -1,17 +1,14 @@
 package uk.gov.gds.ier.transaction.ordinary.postalVote
 
-import org.scalatest.FlatSpec
-import org.scalatest.Matchers
-import org.specs2.mock.Mockito
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{PostalVoteOption, PostalVote, PostalVoteDeliveryMethod}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.MockingTestSuite
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.transaction.ordinary.OrdinaryControllers
 
-class PostalVoteStepTests extends FlatSpec with TestHelpers with Matchers with Mockito {
+class PostalVoteStepTests extends MockingTestSuite {
 
   it should "reset the delivery method if postval vote is no when submitting the form successfully" in {
     val mockedJsonSerialiser = mock[JsonSerialiser]

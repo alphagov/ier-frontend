@@ -1,29 +1,13 @@
 package uk.gov.gds.ier.transaction.overseas.address
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.OverseasAddress
-import play.api.mvc.Call
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
-/**
- * Unit test to test form to Mustache model transformation.
- *
- * Testing Mustache html text rendering requires running application, it is not easily unit testable,
- * so method {@link AddressMustache#transformFormStepToMustacheData()} is tested as a part of
- * MustacheControllerTest.
- */
 class AddressMustacheTest
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
   with AddressForms
-  with AddressMustache
-  with ErrorMessages
-  with FormKeys
-  with WithMockConfig
-  with WithMockRemoteAssets
-  with TestHelpers {
+  with AddressMustache {
 
   val postCall = new Call("POST", "/register-to-vote/overseas/address")
 

@@ -1,10 +1,8 @@
 package uk.gov.gds.ier.controller
 
-import play.api.test._
-import play.api.test.Helpers._
-import org.scalatest.{Matchers, FlatSpec}
+import uk.gov.gds.ier.test.ControllerTestSuite
 
-class RegisterToVoteControllerTests extends FlatSpec with Matchers {
+class RegisterToVoteControllerTests extends ControllerTestSuite {
 
   behavior of "RegisterToVoteController.registerToVote"
   it should "display the Register to Vote start page" in {

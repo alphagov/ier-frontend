@@ -1,21 +1,12 @@
 package uk.gov.gds.ier.transaction.crown.nationality
 
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.mvc.Call
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.{PartialNationality}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 class NationalityMustacheTest
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
   with NationalityForms
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers
-  with WithMockConfig
-  with WithMockRemoteAssets
   with NationalityMustache {
 
   it should "empty progress form should produce empty Model" in {

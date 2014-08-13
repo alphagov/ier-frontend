@@ -1,23 +1,11 @@
 package assets.mustache.overseas
 
-import org.jsoup.Jsoup
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.test._
-import play.api.test.Helpers._
 import uk.gov.gds.ier.transaction.overseas.waysToVote.WaysToVoteMustache
-import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.test._
 
-/**
- * Test rendering of Mustache template from given model
- */
 class WaysToVoteTemplateTest
-  extends FlatSpec
-  with WaysToVoteMustache
-  with StepMustache
-  with WithMockRemoteAssets
-  with WithMockConfig
-  with Matchers {
+  extends TemplateTestSuite
+  with WaysToVoteMustache {
 
   it should "properly render all properties from the model" in {
     running(FakeApplication()) {

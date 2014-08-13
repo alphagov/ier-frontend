@@ -1,16 +1,12 @@
 package uk.gov.gds.ier.validation
 
-import org.scalatest.{Matchers, FlatSpec}
+import uk.gov.gds.ier.test.UnitTestSuite
 import play.api.data.Forms._
 import play.api.data.validation.{Invalid, Valid, Constraint}
-import uk.gov.gds.ier.test.TestHelpers
 import play.api.test.FakeRequest
 import play.api.data.Form
 
-class TransformedFormTests
-  extends FlatSpec
-  with Matchers
-  with TestHelpers {
+class TransformedFormTests extends UnitTestSuite {
 
   it should "validate like a form" in {
     val data = Map("foo" -> "john")

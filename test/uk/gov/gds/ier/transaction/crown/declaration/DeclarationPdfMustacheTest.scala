@@ -1,29 +1,18 @@
 package uk.gov.gds.ier.transaction.crown.declaration
 
-import org.scalatest.{GivenWhenThen, Matchers, FlatSpec}
-import play.api.mvc.Call
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.service.{DeclarationPdfDownloadService, WithDeclarationPdfDownloadService}
-import org.specs2.mock.Mockito
-import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
 import uk.gov.gds.ier.model.{HasAddressOption, LastAddress, PartialAddress}
 
 class DeclarationPdfMustacheTest
-  extends FlatSpec
-  with Matchers
-  with GivenWhenThen
-  with Mockito
+  extends MustacheTestSuite
   with DeclarationPdfForms
-  with TestHelpers
   with DeclarationPdfMustache
-  with WithSerialiser
   with WithDeclarationPdfDownloadService
-  with WithMockConfig
-  with WithMockRemoteAssets {
+  with MockitoHelpers {
 
   val declarationPdfDownloadService = mock[DeclarationPdfDownloadService]
-  val serialiser = mock[JsonSerialiser]
 
   it should "construct model for declaration step with election authority details from mocked service" in {
     val emptyApplication = InprogressCrown()

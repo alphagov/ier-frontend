@@ -1,30 +1,17 @@
 package uk.gov.gds.ier.transaction.crown.contact
 
-import org.scalatest.{Matchers, FlatSpec}
-import play.api.mvc.Call
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.{ContactDetail,
   Contact,
   PostalOrProxyVote,
   PostalVoteDeliveryMethod,
   WaysToVoteType}
-import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
 class ContactMustacheTests
-  extends FlatSpec
-  with Matchers
+  extends MustacheTestSuite
   with ContactForms
-  with ContactMustache
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers
-  with WithMockConfig
-  with WithMockRemoteAssets
-  with WithSerialiser {
-
-  val serialiser = jsonSerialiser
+  with ContactMustache {
 
   it should "empty progress form should produce empty Model" in {
     val emptyApplicationForm = contactForm

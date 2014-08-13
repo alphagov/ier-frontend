@@ -1,9 +1,6 @@
 package uk.gov.gds.ier.localAuthority
 
-import uk.gov.gds.ier.test.TestHelpers
-import org.scalatest.{ Matchers, FlatSpec }
-import play.api.test._
-import play.api.test.Helpers._
+import uk.gov.gds.ier.test.MockingControllerTestSuite
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.model.PartialAddress
 import uk.gov.gds.ier.assets.RemoteAssets
@@ -13,8 +10,6 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.transaction.ordinary.address.AddressStep
 import uk.gov.gds.ier.step.GoTo
 import controllers.routes.ExitController
-import org.scalatest.mock.MockitoSugar
-import org.mockito.Mockito._
 import uk.gov.gds.ier.service.apiservice.ConcreteIerApiService
 import uk.gov.gds.ier.client.LocateApiClient
 import uk.gov.gds.ier.model.ApiResponse
@@ -26,33 +21,29 @@ import uk.gov.gds.ier.client.ApiClient
 import uk.gov.gds.ier.guice.WithConfig
 import uk.gov.gds.ier.client.IerApiClient
 
-class LocalAuthorityControllerTests
-  extends FlatSpec
-  with Matchers
-  with TestHelpers
-  with MockitoSugar {
+class LocalAuthorityControllerTests extends MockingControllerTestSuite {
 
   val stubConfig = new Config {
-	  override def locateUrl = "http://locateurl"
-	  override def locateAuthorityUrl = "http://localAuthorityUrl"
-	  override def locateApiAuthorizationToken = "token"
-	  override def apiTimeout = 10
+    override def locateUrl = "http://locateurl"
+    override def locateAuthorityUrl = "http://localAuthorityUrl"
+    override def locateApiAuthorizationToken = "token"
+    override def apiTimeout = 10
   }
 
   val mockApiClient = new LocateApiClient(stubConfig) {
     override def get(url: String, headers: (String, String)*) : ApiResponse = {
       val json = """
       {
-	    "gssCode": "E09000030",
-	    "contactDetails": {
-	        "addressLine1": "address_line_1",
-	        "postcode": "a11aa",
-	        "emailAddress": "email@address.com",
-	        "phoneNumber": "0123456789",
-	        "name": "Tower Hamlets"
-	    },
-	    "eroIdentifier": "tower-hamlets",
-	    "eroDescription": "Tower Hamlets"
+        "gssCode": "E09000030",
+        "contactDetails": {
+          "addressLine1": "address_line_1",
+          "postcode": "a11aa",
+          "emailAddress": "email@address.com",
+          "phoneNumber": "0123456789",
+          "name": "Tower Hamlets"
+        },
+        "eroIdentifier": "tower-hamlets",
+        "eroDescription": "Tower Hamlets"
       }
       """
       Success(json, 0)
@@ -105,12 +96,12 @@ class LocalAuthorityControllerTests
 
   behavior of "gss lookup"
   it should "redirect to the show local authority page" in {
-	  running(FakeApplication(withGlobal = Some(stubGlobal))) {
+    running(FakeApplication(withGlobal = Some(stubGlobal))) {
       val Some(result) = route(
-    	  FakeRequest(POST, "/register-to-vote/local-authority/lookup")
-    		.withIerSession()
-    		.withFormUrlEncodedBody("postcode" -> "ab123cd")
-    	  )
+        FakeRequest(POST, "/register-to-vote/local-authority/lookup")
+          .withIerSession()
+          .withFormUrlEncodedBody("postcode" -> "ab123cd")
+      )
       status(result) should be(SEE_OTHER)
       redirectLocation(result).get should be("/register-to-vote/local-authority/" + "E09000030")
     }

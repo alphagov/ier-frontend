@@ -1,13 +1,8 @@
 package uk.gov.gds.ier.model
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.test.{TestHelpers, CustomMatchers}
+import uk.gov.gds.ier.test.UnitTestSuite
 
-
-class PartialNationalityTest extends FlatSpec
-with Matchers
-with CustomMatchers
-with TestHelpers {
+class PartialNationalityTest extends UnitTestSuite {
 
   behavior of "PartialNationality.toNiceString"
 

@@ -1,21 +1,10 @@
 package uk.gov.gds.ier.transaction.forces.rank
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import play.api.libs.json.{Json, JsNull}
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.FormTestSuite
 
 class RankFormTests
-  extends FlatSpec
-  with Matchers
-  with RankForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers {
-
-  val serialiser = jsonSerialiser
+  extends FormTestSuite
+  with RankForms {
 
   it should "error out on empty json" in {
     val js = JsNull

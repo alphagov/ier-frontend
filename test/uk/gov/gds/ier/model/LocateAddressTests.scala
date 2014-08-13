@@ -1,12 +1,8 @@
 package uk.gov.gds.ier.model
 
-import uk.gov.gds.ier.test.CustomMatchers
-import org.scalatest.{Matchers, FlatSpec}
+import uk.gov.gds.ier.test.UnitTestSuite
 
-class LocateAddressTests
-  extends FlatSpec
-  with Matchers
-  with CustomMatchers {
+class LocateAddressTests extends UnitTestSuite {
 
   it should "generate the expected payload with lower-cased, no whitespaces postcode" in {
     generateLocateAddressFor(" aB1  2Cd ").toApiMap("reg") should matchMap(Map("regpostcode" -> "ab12cd"))

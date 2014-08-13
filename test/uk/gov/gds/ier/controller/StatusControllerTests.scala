@@ -2,11 +2,9 @@ package uk.gov.gds.ier.controller
 
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.DynamicGlobal
-import play.api.test._
-import play.api.test.Helpers._
-import org.scalatest.{Matchers, FlatSpec}
+import uk.gov.gds.ier.test.ControllerTestSuite
 
-class StatusControllerTests extends FlatSpec with Matchers {
+class StatusControllerTests extends ControllerTestSuite {
 
   val stubGlobal = new DynamicGlobal {
     override def bindings = { binder =>

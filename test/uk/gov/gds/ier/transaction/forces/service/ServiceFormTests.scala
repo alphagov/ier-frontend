@@ -1,22 +1,11 @@
 package uk.gov.gds.ier.transaction.forces.service
 
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages}
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import play.api.libs.json.{Json, JsNull}
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.FormTestSuite
 import uk.gov.gds.ier.model.ServiceType
 
 class ServiceFormTests
-  extends FlatSpec
-  with Matchers
-  with ServiceForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers{
-
-  val serialiser = jsonSerialiser
+  extends FormTestSuite
+  with ServiceForms {
 
   it should "successfully bind values to a valid form" in {
     val js = Json.toJson(

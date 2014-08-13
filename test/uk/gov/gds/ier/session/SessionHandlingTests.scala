@@ -1,25 +1,19 @@
 package uk.gov.gds.ier.session
 
-import org.scalatest.{Matchers, FlatSpec}
+import uk.gov.gds.ier.test.ControllerTestSuite
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
-import play.api.mvc.{Call, Controller, Cookie, Action}
+
 import uk.gov.gds.ier.client.ApiResults
-import play.api.test._
-import play.api.test.Helpers._
 import org.joda.time.{Seconds, DateTime}
 import uk.gov.gds.ier.security._
 import uk.gov.gds.ier.controller.MockConfig
 import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
-import scala.Some
-import play.api.test.FakeApplication
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.step.InprogressApplication
 import play.api.libs.concurrent.Execution.Implicits._
 
 
-class SessionHandlingTests extends FlatSpec with Matchers {
-
-  val jsonSerialiser = new JsonSerialiser
+class SessionHandlingTests extends ControllerTestSuite {
 
   case class FakeInprogress(foo:String) extends InprogressApplication[FakeInprogress] {
     def merge(other:FakeInprogress) = {

@@ -1,16 +1,9 @@
 package uk.gov.gds.ier.transaction.overseas.lastRegisteredToVote
 
-import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.mock.MockitoSugar
-import play.api.test._
-import play.api.test.Helpers._
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.ControllerTestSuite
 import uk.gov.gds.ier.model.{DateLeftSpecial, DateLeft, LastRegisteredType}
 
-class LastRegisteredToVoteStepTests
-  extends FlatSpec
-  with Matchers
-  with TestHelpers {
+class LastRegisteredToVoteStepTests extends ControllerTestSuite {
   
   behavior of "LastRegisteredToVoteStep.get"
 

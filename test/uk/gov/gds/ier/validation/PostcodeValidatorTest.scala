@@ -1,13 +1,8 @@
 package uk.gov.gds.ier.validation
 
-import org.scalatest.{Matchers, FlatSpec}
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
+import uk.gov.gds.ier.test.UnitTestSuite
 
-@RunWith(classOf[JUnitRunner])
-class PostcodeValidatorTest
-  extends FlatSpec
-  with Matchers {
+class PostcodeValidatorTest extends UnitTestSuite {
 
   it should "return true for a valid postcode" in {
     PostcodeValidator.isValid("SW11 2DR") should be(true)

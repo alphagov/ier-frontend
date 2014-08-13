@@ -1,15 +1,10 @@
 package uk.gov.gds.ier.model
 
-import uk.gov.gds.ier.test.{TestHelpers, CustomMatchers}
-import org.scalatest.{Matchers, FlatSpec}
+import uk.gov.gds.ier.test.UnitTestSuite
 import uk.gov.gds.ier.service.apiservice.CrownApplication
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
 
-class CrownApplicationTests
-  extends FlatSpec
-  with Matchers
-  with CustomMatchers
-  with TestHelpers {
+class CrownApplicationTests extends UnitTestSuite {
 
   behavior of "InprogressCrown.displayPartner"
 

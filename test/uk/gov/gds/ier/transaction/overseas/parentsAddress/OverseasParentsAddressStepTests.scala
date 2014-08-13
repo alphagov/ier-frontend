@@ -1,22 +1,9 @@
 package uk.gov.gds.ier.transaction.overseas.parentsAddress
 
-import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.mock.MockitoSugar
-import play.api.test._
-import play.api.test.Helpers._
-import uk.gov.gds.ier.test.TestHelpers
+import uk.gov.gds.ier.test.ControllerTestSuite
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.model.OverseasName
-import play.api.test.FakeApplication
-import uk.gov.gds.ier.model.DOB
-import uk.gov.gds.ier.model.LastRegisteredToVote
-import scala.Some
 
-class OverseasParentsAddressStepTests
-  extends FlatSpec
-  with Matchers
-  with MockitoSugar
-  with TestHelpers {
+class OverseasParentsAddressStepTests extends ControllerTestSuite {
 
   behavior of "ParentsAddressStep.get"
   it should "display the page" in {

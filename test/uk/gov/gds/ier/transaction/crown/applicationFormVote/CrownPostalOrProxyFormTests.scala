@@ -1,22 +1,11 @@
 package uk.gov.gds.ier.transaction.crown.applicationFormVote
 
-import play.api.libs.json.{JsNull, Json}
-import org.scalatest.{Matchers, FlatSpec}
-import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.test.TestHelpers
-import uk.gov.gds.ier.validation.{ErrorMessages, FormKeys}
+import uk.gov.gds.ier.test.FormTestSuite
 import uk.gov.gds.ier.model.WaysToVoteType
 
 class CrownPostalOrProxyFormTests
-  extends FlatSpec
-  with Matchers
-  with PostalOrProxyVoteForms
-  with WithSerialiser
-  with ErrorMessages
-  with FormKeys
-  with TestHelpers {
-
-  val serialiser = jsonSerialiser
+  extends FormTestSuite
+  with PostalOrProxyVoteForms {
 
   it should "bind successfully on postal vote true and delivery method post" in {
     val js = Json.toJson(
