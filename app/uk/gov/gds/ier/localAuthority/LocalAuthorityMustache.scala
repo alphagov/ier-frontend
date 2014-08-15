@@ -25,7 +25,7 @@ trait LocalAuthorityMustache
       def apply(
         localAuthorityContact: Option[LocalAuthorityContactDetails],
         sourcePath: Option[String]
-      ): LocalAuthorityShowPage = {
+      )(implicit lang: Lang): LocalAuthorityShowPage = {
 
         val visitAuthorityPage = localAuthorityContact.map(details => (details.url.getOrElse(""), details.name.getOrElse(""))) match {
           case Some((authUrl, authName)) if authUrl.nonEmpty =>
@@ -48,10 +48,11 @@ trait LocalAuthorityMustache
 
     object LocalAuthorityPostcodePage {
       def apply(
-          implicit form: ErrorTransformForm[LocalAuthorityRequest],
+          form: ErrorTransformForm[LocalAuthorityRequest],
           sourcePath: Option[String],
           postUrl: String
-      ): LocalAuthorityPostcodePage = {
+      ) (implicit lang: Lang): LocalAuthorityPostcodePage = {
+        implicit val _form = form
         LocalAuthorityPostcodePage(
           postcode = TextField(key = keys.postcode),
           sourcePath = sourcePath getOrElse "",

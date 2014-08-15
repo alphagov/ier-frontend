@@ -44,7 +44,7 @@ class LocalAuthorityController @Inject() (
   with WithRemoteAssets
   with WithConfig {
 
-  def ero(gssCode: String, sourcePath: Option[String]) = Action { request =>
+  def ero(gssCode: String, sourcePath: Option[String]) = Action { implicit request =>
     val localAuthorityContactDetails = ierApiService.getLocalAuthorityByGssCode(gssCode).contactDetails
     Ok(LocalAuthorityShowPage(localAuthorityContactDetails, sourcePath))
   }
@@ -78,17 +78,17 @@ class LocalAuthorityController @Inject() (
   }
 
   def showLookup(sourcePath: Option[String]) = Action { implicit request =>
-      getGssCode(sourcePath, request) match {
-        case Some(gssCode) =>
-          Redirect(
-            controllers.routes.LocalAuthorityController.ero(gssCode, sourcePath)
-          )
-        case None => Ok(LocalAuthorityPostcodePage(
-          localAuthorityLookupForm,
-          sourcePath,
-          controllers.routes.LocalAuthorityController.showLookup(sourcePath).url
-          ))
-      }
+    getGssCode(sourcePath, request) match {
+      case Some(gssCode) =>
+        Redirect(
+          controllers.routes.LocalAuthorityController.ero(gssCode, sourcePath)
+        )
+      case None => Ok(LocalAuthorityPostcodePage(
+        localAuthorityLookupForm,
+        sourcePath,
+        controllers.routes.LocalAuthorityController.showLookup(sourcePath).url
+        ))
+    }
   }
 
   def getGssCode(sourcePath: Option[String], request: Request[AnyContent]): Option[String] = {
