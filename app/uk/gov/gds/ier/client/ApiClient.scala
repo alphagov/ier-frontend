@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.client
 
 import uk.gov.gds.ier.model.{Fail, ApiResponse, Success}
-import play.api.libs.ws.WS
+import play.api.libs.ws.{WS, Response}
 import scala.concurrent.duration._
 import scala.concurrent.Await
 import play.api.http._
@@ -17,10 +17,11 @@ trait ApiClient extends Logging {
   def get(url: String, headers: (String, String)*) : ApiResponse = {
 	val start = new DateTime()
     try {
-        val result = Await.result(
-          WS.url(url).withHeaders(headers:_*).get(),
-          config.apiTimeout seconds
-        )
+        val result = awaitResultFor {
+          Await.result(
+            WS.url(url).withHeaders(headers:_*).get(),
+            config.apiTimeout seconds)
+        }
         result.status match {
           case Status.OK => {
             val timeTakenMs = DateTime.now.minus(start.getMillis).getMillis
@@ -51,13 +52,15 @@ trait ApiClient extends Logging {
 
     val start = new DateTime()
     try {
-      val result = Await.result(
-        WS.url(url)
-          .withHeaders("Content-Type" -> MimeTypes.JSON)
-          .withHeaders(headers:_*)
-          .post(content),
-        config.apiTimeout seconds
-      )
+      val result = awaitResultFor {
+        Await.result(
+          WS.url(url)
+            .withHeaders("Content-Type" -> MimeTypes.JSON)
+            .withHeaders(headers: _*)
+            .post(content),
+          config.apiTimeout seconds
+        )
+      }
       result.status match {
         case Status.OK => {
           val timeTakenMs = DateTime.now.minus(start.getMillis).getMillis
@@ -129,4 +132,6 @@ trait ApiClient extends Logging {
     val successStatusCodes =  Set(200, 201, 202)
     def unapply(statusCode: Int) = Option(statusCode).map { c => successStatusCodes.contains(c) }
   }
+
+  protected def awaitResultFor(block: => Response): Response = block
 }
