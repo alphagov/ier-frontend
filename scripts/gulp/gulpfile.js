@@ -4,8 +4,6 @@ var concat = require('gulp-concat');
 var deleteFiles = require('gulp-rimraf');
 var sass = require('gulp-ruby-sass');
 
-var env = 'production';
-
 var assetsFolder = '../../assets';
 var jsSourceFiles = [
   assetsFolder + '/javascripts/cache-busting.js',
@@ -49,7 +47,7 @@ gulp.task('clean', function () {
 gulp.task('sass', function () {
   return gulpSrc = gulp.src(cssSourceFiles)
     .pipe(sass({
-      style: (env === 'production') ? 'compressed' : 'expanded',
+      style: 'compressed',
       lineNumbers: true,
       loadPath: toolkit
     }))
@@ -71,7 +69,6 @@ gulp.task('watch', ['build'], function () {
     console.log('File ' + event.path + ' was ' + event.type + ' running tasks...');
   }
 
-  env = 'development';
   cssWatcher.on('change', notice); 
   jsWatcher.on('change', notice); 
 });
