@@ -466,7 +466,8 @@ complete_questionsContact_p1=Cysylltwch â
 complete_questionsContact_p2=os oes gennych unrhyw gwestiynau am eich cais
 complete_ifYouAreNotAlreadyRegistered1_p=Os nad ydych wedi cofrestru yn barod yn eich ail gyfeiriad, gallwch
 complete_ifYouAreNotAlreadyRegistered2_p=wneud cais arall
-complete_moreAboutVoting_a=Mwy o wybodaeth am bleidleisio yn y DU
+complete_moreAboutVoting_a=Mwy o wybodaeth am y  newid i gofrestru pleidleiswyr
+complete_moreAboutVoting_url=https://www.gov.uk/gwybodaethamgofrestru
 complete_takeOurSurvey_a=Beth oedd eich barn am y gwasanaeth hwn?
 complete_takeOurSurvey_p= (yn cymryd 30 eiliad)
 
