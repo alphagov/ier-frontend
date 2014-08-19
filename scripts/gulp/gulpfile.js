@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-var uglify = require('gulp-uglify');
+var uglify = require('gulp-uglifyjs');
 var concat = require('gulp-concat');
 var deleteFiles = require('gulp-rimraf');
 var sass = require('gulp-ruby-sass');
@@ -57,8 +57,10 @@ gulp.task('sass', function () {
 
 gulp.task('js', function () {
   return gulp.src(jsSourceFiles)
-    .pipe(uglify())
     .pipe(concat(jsTargetFile))
+    .pipe(uglify(jsTargetFile, {
+      'mangle' : false
+    }))
     .pipe(gulp.dest(jsTargetFolder))
 });
 
