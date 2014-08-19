@@ -69,7 +69,8 @@ trait ConfirmationForms
       keys.postalOrProxyVote.key -> optional(postalOrProxyVoteMapping),
       keys.contact.key -> optional(contactMapping),
       keys.passport.key -> optional(passportMapping),
-      keys.possibleAddresses.key -> optional(possibleAddressesMapping)
+      keys.possibleAddresses.key -> optional(possibleAddressesMapping),
+      keys.sessionId.key -> optional(text)
     )
     (InprogressOverseas.apply)
     (InprogressOverseas.unapply)

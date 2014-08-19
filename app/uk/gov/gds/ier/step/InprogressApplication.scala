@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.step
 
-trait InprogressApplication[T] {
+abstract class InprogressApplication[T] {
+  val sessionId: Option[String]
   def merge(other: T):T
 }
