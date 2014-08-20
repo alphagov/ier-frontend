@@ -31,7 +31,8 @@ case class InprogressCrown(
     waysToVote: Option[WaysToVote] = None,
     postalOrProxyVote: Option[PostalOrProxyVote] = None,
     contact: Option[Contact] = None,
-    possibleAddresses: Option[PossibleAddress] = None)
+    possibleAddresses: Option[PossibleAddress] = None,
+    sessionId: Option[String] = None)
   extends InprogressApplication[InprogressCrown] {
 
   def merge(other:InprogressCrown) = {

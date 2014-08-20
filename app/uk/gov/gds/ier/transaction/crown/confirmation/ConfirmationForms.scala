@@ -57,7 +57,8 @@ trait ConfirmationForms
       keys.waysToVote.key -> optional(waysToVoteMapping),
       keys.postalOrProxyVote.key -> optional(postalOrProxyVoteMapping),
       keys.contact.key -> optional(contactMapping),
-      keys.possibleAddresses.key -> optional(possibleAddressesMapping)
+      keys.possibleAddresses.key -> optional(possibleAddressesMapping),
+      keys.sessionId.key -> optional(text)
     ) (
       InprogressCrown.apply
     ) (
