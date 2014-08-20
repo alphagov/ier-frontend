@@ -82,7 +82,7 @@ class SessionHandlingTests extends ControllerTestSuite {
     }
   }
 
-  it should "successfully a new application cookie with new id for new session" in {
+  it should "successfully create a new application cookie with new id for new session" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       class TestController
         extends SessionHandling[FakeInprogress]
