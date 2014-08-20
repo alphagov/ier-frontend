@@ -1,9 +1,9 @@
 /* Global print stylesheet */
 $is-print: true;
 
-@import "../../app/assets/govuk_frontend_toolkit/stylesheets/_typography";
-@import "../../app/assets/govuk_frontend_toolkit/stylesheets/_colours";
-@import "../../app/assets/govuk_frontend_toolkit/stylesheets/design-patterns/_buttons";
+@import "../govuk_frontend_toolkit/stylesheets/_typography";
+@import "../govuk_frontend_toolkit/stylesheets/_colours";
+@import "../govuk_frontend_toolkit/stylesheets/design-patterns/_buttons";
 
 main > header {
   position: relative;

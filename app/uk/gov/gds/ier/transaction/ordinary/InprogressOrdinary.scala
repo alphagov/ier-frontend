@@ -11,7 +11,7 @@ import uk.gov.gds.ier.model.PreviousName
 import uk.gov.gds.ier.model.Nino
 import uk.gov.gds.ier.model.Contact
 
-case class InprogressOrdinary(
+case class InprogressOrdinary (
     name: Option[Name] = None,
     previousName: Option[PreviousName] = None,
     dob: Option[DateOfBirth] = None,
@@ -24,9 +24,7 @@ case class InprogressOrdinary(
     postalVote: Option[PostalVote] = None,
     contact: Option[Contact] = None,
     possibleAddresses: Option[PossibleAddress] = None,
-    country: Option[Country] = None,
-    sessionId: Option[String] = None)
-  extends InprogressApplication[InprogressOrdinary] {
+    country: Option[Country] = None) extends InprogressApplication[InprogressOrdinary] {
 
   def merge(other: InprogressOrdinary):InprogressOrdinary = {
     other.copy(

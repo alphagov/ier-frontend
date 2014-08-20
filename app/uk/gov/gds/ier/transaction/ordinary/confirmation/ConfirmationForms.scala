@@ -25,8 +25,8 @@ trait ConfirmationForms extends OrdinaryMappings {
       keys.postalVote.key -> optional(PostalVote.mapping).verifying("ordinary_confirmation_error_completeThis", _.isDefined),
       keys.contact.key -> optional(Contact.mapping).verifying("ordinary_confirmation_error_completeThis", _.isDefined),
       keys.possibleAddresses.key -> optional(possibleAddressesMapping),
-      keys.country.key -> optional(countryMapping),
-      keys.sessionId.key -> optional(text)
+      keys.country.key -> optional(countryMapping)
+
     ) (InprogressOrdinary.apply) (InprogressOrdinary.unapply)
   )
 

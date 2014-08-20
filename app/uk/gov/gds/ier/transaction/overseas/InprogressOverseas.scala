@@ -20,8 +20,7 @@ case class InprogressOverseas(
     postalOrProxyVote: Option[PostalOrProxyVote] = None,
     contact: Option[Contact] = None,
     passport: Option[Passport] = None,
-    possibleAddresses: Option[PossibleAddress] = None,
-    sessionId: Option[String] = None)
+    possibleAddresses: Option[PossibleAddress] = None)
   extends InprogressApplication[InprogressOverseas] {
 
   def merge(other:InprogressOverseas) = {

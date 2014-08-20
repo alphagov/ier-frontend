@@ -114,8 +114,6 @@ class ConcreteIerApiService @Inject() (
       ip = ipAddress,
       timeTaken = timeTaken.getOrElse("-1"),
       language = language,
-      // this has to be changed to: applicant.sessionId.getOrElse("")
-      // some time after we deployed new application cookie sessionId
       sessionId = sessionId.getOrElse("")
     )
 

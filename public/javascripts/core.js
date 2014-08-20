@@ -1,4 +1,7 @@
 /* Scripts used throughout IER */
+window.GOVUK = window.GOVUK || {};
+window.GOVUK.registerToVote = {};
+
 (function () {
   "use strict";
 

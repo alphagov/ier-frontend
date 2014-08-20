@@ -179,8 +179,6 @@ trait FormKeys {
 
     lazy val localAuthority = prependNamespace(Key("localAuthority"))
     lazy val backLink = prependNamespace(Key("backLink"))
-
-    lazy val sessionId = prependNamespace(Key("sessionId"))
   }
 
   implicit class key2namespace(key:Key) extends Keys {

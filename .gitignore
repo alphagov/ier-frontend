@@ -9,7 +9,6 @@ RUNNING_PID
 *.swp
 .idea_modules
 scripts/bin/*
-scripts/gulp/node_modules
 logs/*
 dist/*
 .sass-cache
