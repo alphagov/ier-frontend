@@ -32,8 +32,8 @@ class IerApiServiceTests extends MockingTestSuite {
   }
   """, 0)
 
-  "submitOrdinaryApplication" should
-    "deserialize result correctly and return expected response" in {
+  behavior of "submitOrdinaryApplication"
+  it should "deserialize result correctly and return expected response" in {
     val application = completeOrdinaryApplication
 
     val r = testHelper.fakeServiceCall(
@@ -43,7 +43,7 @@ class IerApiServiceTests extends MockingTestSuite {
         requestJson should include("Smith")
         successMessage
       }
-    ).submitOrdinaryApplication(None, application, None, Some("1234"), "en", Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+    ).submitOrdinaryApplication(None, application, None, Some("1234"), "en")
 
     r should be(IerApiApplicationResponse(
       id = Some("5360fe69036424d9ec0a1657"),
@@ -72,7 +72,7 @@ class IerApiServiceTests extends MockingTestSuite {
         requestJson should include("Smith")
         successMessage
       }
-    ).submitOrdinaryApplication(Some("127.0.0.1"), application, Some("55631D"), Some("1234"), "en", Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+    ).submitOrdinaryApplication(Some("127.0.0.1"), application, Some("55631D"), Some("1234"), "en")
 
     r should be(IerApiApplicationResponse(
       id = Some("5360fe69036424d9ec0a1657"),
@@ -90,8 +90,19 @@ class IerApiServiceTests extends MockingTestSuite {
     ))
   }
 
-  "submitOverseasApplication" should
-    "deserialize result correctly and return expected response" in {
+  it should "submit application with web hash from the application payload" in {
+    val application = completeOrdinaryApplication.copy(sessionId = Some("test session id"))
+
+    testHelper.fakeServiceCall(
+      requestJson => {
+        requestJson should include("webHash\":\"test session id\"")
+        successMessage
+      }
+    ).submitOrdinaryApplication(None, application, None, None, "en")
+  }
+
+  behavior of "submitOverseasApplication"
+  it should "deserialize result correctly and return expected response" in {
     val application = completeOverseasApplication
 
     val r = testHelper.fakeServiceCall(
@@ -101,7 +112,7 @@ class IerApiServiceTests extends MockingTestSuite {
         requestJson should include("Smith")
         successMessage
       }
-    ).submitOverseasApplication(None, application, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+    ).submitOverseasApplication(None, application, None, Some("1234"))
 
     r should be(IerApiApplicationResponse(
       id = Some("5360fe69036424d9ec0a1657"),
@@ -119,8 +130,19 @@ class IerApiServiceTests extends MockingTestSuite {
     ))
   }
 
-  "submitCrownApplication" should
-    "deserialize result correctly and return expected response" in {
+  it should "submit application with web hash from the application payload" in {
+    val application = completeOverseasApplication.copy(sessionId = Some("test session id"))
+
+    testHelper.fakeServiceCall(
+      requestJson => {
+        requestJson should include("webHash\":\"test session id\"")
+        successMessage
+      }
+    ).submitOverseasApplication(None, application, None, None)
+  }
+
+  behavior of "submitCrownApplication"
+  it should "deserialize result correctly and return expected response" in {
     val application = completeCrownApplication
 
     val r = testHelper.fakeServiceCall(
@@ -130,7 +152,7 @@ class IerApiServiceTests extends MockingTestSuite {
         requestJson should include("Smith")
         successMessage
       }
-    ).submitCrownApplication(None, application, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+    ).submitCrownApplication(None, application, None, Some("1234"))
 
     r should be(IerApiApplicationResponse(
       id = Some("5360fe69036424d9ec0a1657"),
@@ -146,6 +168,17 @@ class IerApiServiceTests extends MockingTestSuite {
         postcode = Some("WR26NJ")
       )
     ))
+  }
+
+  it should "submit application with web hash from the application payload" in {
+    val application = completeCrownApplication.copy(sessionId = Some("test session id"))
+
+    testHelper.fakeServiceCall(
+      requestJson => {
+        requestJson should include("webHash\":\"test session id\"")
+        successMessage
+      }
+    ).submitCrownApplication(None, application, None, None)
   }
 
   it should "have ukAddr:resident when hasAddress:YesAndLivingThere" in {
@@ -164,7 +197,7 @@ class IerApiServiceTests extends MockingTestSuite {
         requestJson should include("ukAddr\":\"resident\"")
         successMessage
       }
-    ).submitCrownApplication(None, application, None, None, None)
+    ).submitCrownApplication(None, application, None, None)
   }
 
   it should "have ukAddr:not-resident when hasAddress:YesAndNotLivingThere" in {
@@ -183,7 +216,7 @@ class IerApiServiceTests extends MockingTestSuite {
         requestJson should include("ukAddr\":\"not-resident\"")
         successMessage
       }
-    ).submitCrownApplication(None, application, None, None, None)
+    ).submitCrownApplication(None, application, None, None)
   }
 
   it should "have ukAddr:no-connection when hasAddress:No" in {
@@ -202,11 +235,11 @@ class IerApiServiceTests extends MockingTestSuite {
         requestJson should include("ukAddr\":\"no-connection\"")
         successMessage
       }
-    ).submitCrownApplication(None, application, None, None, None)
+    ).submitCrownApplication(None, application, None, None)
   }
 
-  "submitForcesApplication" should
-    "deserialize result correctly and return expected response" in {
+  behavior of "submitForcesApplication"
+  it should "deserialize result correctly and return expected response" in {
     val application = completeForcesApplication
 
     val r = testHelper.fakeServiceCall(
@@ -216,7 +249,7 @@ class IerApiServiceTests extends MockingTestSuite {
         requestJson should include("Smith")
         successMessage
       }
-    ).submitForcesApplication(None, application, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+    ).submitForcesApplication(None, application, None, Some("1234"))
 
     r should be(IerApiApplicationResponse(
       id = Some("5360fe69036424d9ec0a1657"),
@@ -232,6 +265,17 @@ class IerApiServiceTests extends MockingTestSuite {
         postcode = Some("WR26NJ")
       )
     ))
+  }
+
+  it should "submit application with web hash from the application payload" in {
+    val application = completeForcesApplication.copy(sessionId = Some("test session id"))
+
+    testHelper.fakeServiceCall(
+      requestJson => {
+        requestJson should include("webHash\":\"test session id\"")
+        successMessage
+      }
+    ).submitForcesApplication(None, application, None, None)
   }
 
   it should "have ukAddr:resident when hasAddress:YesAndLivingThere" in {
@@ -250,7 +294,7 @@ class IerApiServiceTests extends MockingTestSuite {
         requestJson should include("ukAddr\":\"resident\"")
         successMessage
       }
-    ).submitForcesApplication(None, application, None, None, None)
+    ).submitForcesApplication(None, application, None, None)
   }
 
   it should "have ukAddr:not-resident when hasAddress:YesAndNotLivingThere" in {
@@ -269,7 +313,7 @@ class IerApiServiceTests extends MockingTestSuite {
         requestJson should include("ukAddr\":\"not-resident\"")
         successMessage
       }
-    ).submitForcesApplication(None, application, None, None, None)
+    ).submitForcesApplication(None, application, None, None)
   }
 
   it should "have ukAddr:no-connection when hasAddress:No" in {
@@ -288,11 +332,11 @@ class IerApiServiceTests extends MockingTestSuite {
         requestJson should include("ukAddr\":\"no-connection\"")
         successMessage
       }
-    ).submitForcesApplication(None, application, None, None, None)
+    ).submitForcesApplication(None, application, None, None)
   }
 
-  "submitCrownApplication address hack" should
-    "should cause nat being resetted and explanation with nationality inserted as nonat" in {
+  behavior of "submitCrownApplication address hack"
+  it should "cause nat being resetted and explanation with nationality inserted as nonat" in {
     val application = completeCrownApplication.copy(
       nationality = Some(PartialNationality(
         british = Some(true),
@@ -317,11 +361,10 @@ class IerApiServiceTests extends MockingTestSuite {
           "This person has no UK address so needs to be set as an 'other' elector: IER-DS.\"")
         successMessage
       }
-    ).submitCrownApplication(None, application, None, None, None)
+    ).submitCrownApplication(None, application, None, None)
   }
 
-  "submitCrownApplication address hack for application with no nationality" should
-    "should cause nat being resetted and explanation with nationality appended to nonat" in {
+  "submitCrownApplication address hack with no nationality" should "should cause nat being resetted and explanation with nationality appended to nonat" in {
     val application = completeCrownApplication.copy(
       nationality = Some(PartialNationality(
         british = Some(false),
@@ -347,11 +390,11 @@ class IerApiServiceTests extends MockingTestSuite {
           "This person has no UK address so needs to be set as an 'other' elector: IER-DS.\"")
         successMessage
       }
-    ).submitCrownApplication(None, application, None, None, None)
+    ).submitCrownApplication(None, application, None, None)
   }
 
-  "submitForcesApplication address hack" should
-    "should cause 'nat' being resetted and explanation with nationality inserted as 'nonat'" in {
+  behavior of "submitForcesApplication address hack"
+  it should "cause 'nat' being resetted and explanation with nationality inserted as 'nonat'" in {
     val application = completeForcesApplication.copy(
       nationality = Some(PartialNationality(
         british = Some(true),
@@ -377,11 +420,10 @@ class IerApiServiceTests extends MockingTestSuite {
           "This person has no UK address so needs to be set as an 'other' elector: IER-DS.\"")
         successMessage
       }
-    ).submitForcesApplication(None, application, None, None, None)
+    ).submitForcesApplication(None, application, None, None)
   }
 
-  "submitForcesApplication address hack for application with no nationality" should
-    "should cause 'nat' being resetted and explanation with nationality appended to 'nonat'" in {
+  "submitForcesApplication address hack with no nationality" should "cause 'nat' being resetted and explanation with nationality appended to 'nonat'" in {
     val application = completeForcesApplication.copy(
       nationality = Some(PartialNationality(
         british = Some(false),
@@ -407,7 +449,7 @@ class IerApiServiceTests extends MockingTestSuite {
           "This person has no UK address so needs to be set as an 'other' elector: IER-DS.\"")
         successMessage
       }
-    ).submitForcesApplication(None, application, None, None, None)
+    ).submitForcesApplication(None, application, None, None)
   }
 
   behavior of "getLocalAuthroityByGssCode"

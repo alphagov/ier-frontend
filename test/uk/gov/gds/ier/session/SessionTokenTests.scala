@@ -20,15 +20,6 @@ class SessionTokenTests extends UnitTestSuite {
     token.history should be(List.empty)
   }
 
-  it should "init with a new id" in {
-    val token1 = SessionToken()
-    val token2 = SessionToken()
-
-    token1.id should not be token2.id
-    token1.id should not be SessionToken().id
-    token2.id should not be SessionToken().id
-  }
-
   behavior of "SessionToken.refreshToken"
   it should "keep the initial timestamp" in {
     val token = SessionToken(
@@ -80,29 +71,6 @@ class SessionTokenTests extends UnitTestSuite {
 
     result.history.size should not be 200
     result.history.size should be(50)
-  }
-
-  it should "keep the initial id" in {
-    val token = SessionToken()
-    val refreshed = token.refreshToken()
-    refreshed.id should be(token.id)
-  }
-
-  it should "generate a new id if no id was deserialised" in {
-    val sessionToken = SessionToken(
-      id = None
-    )
-    val json = jsonSerialiser.toJson(sessionToken)
-    
-    val token = jsonSerialiser.fromJson[SessionToken](json)
-
-    token should have(
-      'id (None)
-    )
-
-    token.refreshToken should not have(
-      'id (None)
-    )
   }
 
   behavior of "SessionToken when serialised and encrypted"

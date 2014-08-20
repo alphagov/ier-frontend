@@ -53,7 +53,7 @@ trait ResultHandling extends CookieHandling {
     def withFreshSession()(implicit request: Request[_]) = {
       val domain = getDomain(request)
       val sessionId = Some(java.util.UUID.randomUUID.toString)
-      val resultWithToken = result storeToken SessionToken(id = sessionId)
+      val resultWithToken = result storeToken SessionToken()
       val newApplication = new StartupApplication(sessionId = sessionId)
       resultWithToken.withCookies(payloadCookies(newApplication, domain):_*)
     }
