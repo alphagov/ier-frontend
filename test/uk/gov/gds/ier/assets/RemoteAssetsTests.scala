@@ -7,7 +7,6 @@ import uk.gov.gds.ier.test._
 class RemoteAssetsTests extends UnitTestSuite {
 
   behavior of "RemoteAssets.getAssetPath"
-
   it should "return an asset URL with the correct assetPath appended" in {
     val config = new Config {
       override def assetsPath = "/my-asset-path"
@@ -165,4 +164,51 @@ class RemoteAssetsTests extends UnitTestSuite {
       'uri ("/assets/stylesheets/fonts.css")
     )
   }
+
+  behavior of "RemoteAssets.shouldSetNoCache"
+  it should "not change response for known sha in the request" in {
+    val config = new Config {
+      override def assetsPath = "/my-asset-path/"
+      override def revision = "abcdef1234567890abcdef1234567890abcdef12"
+    }
+    val remoteAssets = new RemoteAssets(config)
+
+    val fakeRequest = FakeRequest(
+      "GET",
+      "/assets/abcdef1234567890abcdef1234567890abcdef12/stylesheets/fonts.css"
+    )
+
+    remoteAssets.shouldSetNoCache(fakeRequest) should be(false)
+  }
+
+  it should "not change response if there is no sha in the request" in {
+    val config = new Config {
+      override def assetsPath = "/my-asset-path/"
+      override def revision = "abcdef1234567890abcdef1234567890abcdef12"
+    }
+    val remoteAssets = new RemoteAssets(config)
+
+    val fakeRequest = FakeRequest(
+      "GET",
+      "/assets/stylesheets/fonts.css"
+    )
+
+    remoteAssets.shouldSetNoCache(fakeRequest) should be(false)
+  }
+
+  it should "set PRAGMA no cache for unknown sha in the request" in {
+    val config = new Config {
+      override def assetsPath = "/my-asset-path/"
+      override def revision = "abcdef1234567890abcdef1234567890abcdef12"
+    }
+    val remoteAssets = new RemoteAssets(config)
+
+    val fakeRequest = FakeRequest(
+      "GET",
+      "/assets/abcdef1234567890abcdef1234567890abcdef00/stylesheets/fonts.css"
+    )
+
+    remoteAssets.shouldSetNoCache(fakeRequest) should be(true)
+  }
+
 }
