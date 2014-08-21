@@ -33,7 +33,7 @@ class AssetsControllerTests extends ControllerTestSuite {
     }
   }
 
-  it should "return asset with pragma: no-cache for unknown sha" in {
+  it should "return asset with pragma: no-cache for unrecognised sha" in {
     running(FakeApplication(withGlobal = Some(stubGlobal))) {
       val Some(result) = route(FakeRequest(GET,
         "/assets/atestf1234567890atestf1234567890atestf00/template/stylesheets/fonts.css"))

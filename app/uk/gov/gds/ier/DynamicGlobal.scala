@@ -30,6 +30,7 @@ trait DynamicGlobal
 
   override def doFilter(action: EssentialAction) = EssentialAction { request =>
     if(remoteAssets.shouldSetNoCache(request)){
+      logger.error(s"request with unrecognised sha: ${request.method} ${request.path}")
       action(request).map(_.withHeaders("Pragma" -> "no-cache"))
     } else {
       action(request)
