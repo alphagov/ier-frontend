@@ -200,31 +200,41 @@ class AddressServiceTests extends MockingTestSuite with WithMockConfig {
     service.fillAddressLine(partial) should be(result)
   }
 
-  behavior of "isScotland that is when testing Scotland address"
-  it should "return positive on address with scottish postcode" in {
+  behavior of "isScotland with availableForScotland flag: true"
+  it should behave like addressServiceWith(availableForScotlandFlag = true)
+
+  behavior of "isScotland with availableForScotland flag: false"
+  it should behave like addressServiceWith(availableForScotlandFlag = false)
+
+  def addressServiceWith(availableForScotlandFlag: Boolean) = {
     val mockLocateService = mock[LocateService]
     val addressService = getAddressService(mockLocateService)
-    val scottishGssCode = Some("S123456789")
-    when(mockLocateService.lookupGssCode("BBB11 2BB")).thenReturn(scottishGssCode)
 
-    addressService.isScotland(postcode = "BBB11 2BB") should be(true)
-  }
+    it should "return false for an address with english postcode" in {
+      val englishGssCode = Some("E998989654")
 
-  it should "return false on address with english postcode" in {
-    val mockLocateService = mock[LocateService]
-    val addressService = getAddressService(mockLocateService)
-    val englishGssCode = Some("E998989654")
-    when(mockLocateService.lookupGssCode("AAA22 1AA")).thenReturn(englishGssCode)
+      when(config.availableForScotland).thenReturn(availableForScotlandFlag)
+      when(mockLocateService.lookupGssCode("AAA22 1AA")).thenReturn(englishGssCode)
 
-    addressService.isScotland(postcode = "AAA22 1AA") should be(false)
-  }
+      addressService.isScotland(postcode = "AAA22 1AA") should be(false)
+    }
 
-  it should "return false on address with postcode returning empty list" in {
-    val mockLocateService = mock[LocateService]
-    val addressService = getAddressService(mockLocateService)
-    when(mockLocateService.lookupGssCode("CCC33 3CC")).thenReturn(None)
+    it should "return false for an address with postcode returning empty list" in {
+      when(config.availableForScotland).thenReturn(availableForScotlandFlag)
+      when(mockLocateService.lookupGssCode("CCC33 3CC")).thenReturn(None)
 
-    addressService.isScotland("CCC33 3CC") should be(false)
+      addressService.isScotland("CCC33 3CC") should be(false)
+    }
+
+    val expectedResult = if (availableForScotlandFlag) false else true
+    it should s"return $expectedResult for an address with scottish postcode" in {
+      val scottishGssCode = Some("S123456789")
+
+      when(config.availableForScotland).thenReturn(availableForScotlandFlag)
+      when(mockLocateService.lookupGssCode("BBB11 2BB")).thenReturn(scottishGssCode)
+
+      addressService.isScotland(postcode = "BBB11 2BB") should be(expectedResult)
+    }
   }
 
   behavior of "isNorthernIreland"
