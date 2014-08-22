@@ -11,7 +11,7 @@ import org.mockito.Mockito._
 
 trait IerApiServiceTestsHelper extends TestHelpers with MockitoSugar {
   val mockLocateService = mock[LocateService]
-  val addressService = new AddressService(mockLocateService)
+  val addressService = new AddressService(mockLocateService, new MockConfig)
   val mockSha = mock[ShaHashProvider]
   val isoService = new IsoCountryService
 

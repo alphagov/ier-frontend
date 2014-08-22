@@ -40,7 +40,7 @@ class Config extends Logging {
 
   def completeSurveyLink = configuration.getString("complete.survey.link")
 
-  def availableForScotland = configuration.getBoolean("ier.availableForScotland")
+  def availableForScotland = configuration.getBoolean("ier.availableForScotland", false)
 
   def logConfiguration() = {
     logger.debug(s"apiTimeout:$apiTimeout")

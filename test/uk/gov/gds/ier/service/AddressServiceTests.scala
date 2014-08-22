@@ -1,16 +1,16 @@
 package uk.gov.gds.ier.service
 
-import uk.gov.gds.ier.test.MockingTestSuite
-import uk.gov.gds.ier.model.{PartialManualAddress, Address, PartialAddress,
-  LastAddress, LocateAuthority}
+import uk.gov.gds.ier.test.{WithMockConfig, MockingTestSuite}
+import uk.gov.gds.ier.model.{PartialManualAddress, Address, PartialAddress}
+import uk.gov.gds.ier.config.Config
 
-class AddressServiceTests extends MockingTestSuite {
+class AddressServiceTests extends MockingTestSuite with WithMockConfig {
 
   behavior of "AddressService.formFullAddress"
 
   it should "perform a lookup against Locate Service when a uprn is provided" in {
     val mockLocateService = mock[LocateService]
-    val service = new AddressService(mockLocateService)
+    val service = getAddressService(mockLocateService)
     val partial = PartialAddress(
       addressLine = None,
       uprn = Some("12345"),
@@ -25,7 +25,7 @@ class AddressServiceTests extends MockingTestSuite {
 
   it should "pick the correct address out of the returned list" in {
     val mockLocateService = mock[LocateService]
-    val service = new AddressService(mockLocateService)
+    val service = getAddressService(mockLocateService)
     val partial = PartialAddress(
       addressLine = None,
       uprn = Some("12345"),
@@ -55,7 +55,7 @@ class AddressServiceTests extends MockingTestSuite {
 
     when(mockLocateService.lookupGssCode("AB12 3CD")).thenReturn(Some("E09000007"))
 
-    val addressService = new AddressService(mockLocateService)
+    val addressService = getAddressService(mockLocateService)
     val manualAddress = PartialAddress(
       addressLine = None,
       uprn = None,
@@ -83,7 +83,7 @@ class AddressServiceTests extends MockingTestSuite {
 
   it should "return none if no partial provided" in {
     val mockLocateService = mock[LocateService]
-    val service = new AddressService(mockLocateService)
+    val service = getAddressService(mockLocateService)
 
     service.formFullAddress(None) should be(None)
     verify(mockLocateService, never()).lookupAddress(anyString())
@@ -91,7 +91,7 @@ class AddressServiceTests extends MockingTestSuite {
 
   it should "provide correct address containing only a postcode (NI case)" in {
     val mockLocateService = mock[LocateService]
-    val service = new AddressService(mockLocateService)
+    val service = getAddressService(mockLocateService)
     val partial = PartialAddress(
       addressLine = None,
       uprn = None,
@@ -118,7 +118,7 @@ class AddressServiceTests extends MockingTestSuite {
 
   it should "combine the 3 lines correctly" in {
     val mockLocateService = mock[LocateService]
-    val service = new AddressService(mockLocateService)
+    val service = getAddressService(mockLocateService)
 
     val address = Address(
       lineOne = Some("1A Fake Flat"),
@@ -137,7 +137,7 @@ class AddressServiceTests extends MockingTestSuite {
 
   it should "filter out Nones" in {
     val mockLocateService = mock[LocateService]
-    val service = new AddressService(mockLocateService)
+    val service = getAddressService(mockLocateService)
 
     val address = Address(
       lineOne = Some("1A Fake Flat"),
@@ -156,7 +156,7 @@ class AddressServiceTests extends MockingTestSuite {
 
   it should "filter out empty strings" in {
     val mockLocateService = mock[LocateService]
-    val service = new AddressService(mockLocateService)
+    val service = getAddressService(mockLocateService)
 
     val address = Address(
       lineOne = Some("1A Fake Flat"),
@@ -173,8 +173,8 @@ class AddressServiceTests extends MockingTestSuite {
   }
 
   it should "return the PartialAddress with gssCode after partial address lookup" in {
-    val mockLocate = mock[LocateService]
-    val service = new AddressService(mockLocate)
+    val mockLocateService = mock[LocateService]
+    val service = getAddressService(mockLocateService)
 
     val partial = PartialAddress(
       addressLine = None,
@@ -192,7 +192,7 @@ class AddressServiceTests extends MockingTestSuite {
       postcode = "AB12 3CD",
       gssCode = Some("gss"))
 
-    when(mockLocate.lookupAddress(partial)).thenReturn(Some(address))
+    when(mockLocateService.lookupAddress(partial)).thenReturn(Some(address))
 
     val result = partial.copy (addressLine = Some("1A Fake Flat, Fakerton, Fakesbury"),
         gssCode = Some("gss"))
@@ -202,35 +202,35 @@ class AddressServiceTests extends MockingTestSuite {
 
   behavior of "isScotland that is when testing Scotland address"
   it should "return positive on address with scottish postcode" in {
-    val mockLocate = mock[LocateService]
-    val addressService = new AddressService(mockLocate)
+    val mockLocateService = mock[LocateService]
+    val addressService = getAddressService(mockLocateService)
     val scottishGssCode = Some("S123456789")
-    when(mockLocate.lookupGssCode("BBB11 2BB")).thenReturn(scottishGssCode)
+    when(mockLocateService.lookupGssCode("BBB11 2BB")).thenReturn(scottishGssCode)
 
     addressService.isScotland(postcode = "BBB11 2BB") should be(true)
   }
 
   it should "return false on address with english postcode" in {
-    val mockLocate = mock[LocateService]
-    val addressService = new AddressService(mockLocate)
+    val mockLocateService = mock[LocateService]
+    val addressService = getAddressService(mockLocateService)
     val englishGssCode = Some("E998989654")
-    when(mockLocate.lookupGssCode("AAA22 1AA")).thenReturn(englishGssCode)
+    when(mockLocateService.lookupGssCode("AAA22 1AA")).thenReturn(englishGssCode)
 
     addressService.isScotland(postcode = "AAA22 1AA") should be(false)
   }
 
   it should "return false on address with postcode returning empty list" in {
-    val mockLocate = mock[LocateService]
-    val addressService = new AddressService(mockLocate)
-    when(mockLocate.lookupGssCode("CCC33 3CC")).thenReturn(None)
+    val mockLocateService = mock[LocateService]
+    val addressService = getAddressService(mockLocateService)
+    when(mockLocateService.lookupGssCode("CCC33 3CC")).thenReturn(None)
 
     addressService.isScotland("CCC33 3CC") should be(false)
   }
 
   behavior of "isNorthernIreland"
   it should "positively identify Northern Irish post code" in {
-    val mockLocate = mock[LocateService]
-    val addressService = new AddressService(mockLocate)
+    val mockLocateService = mock[LocateService]
+    val addressService = getAddressService(mockLocateService)
 
     addressService.isNothernIreland(postcode = "BT7 1AA") should be(true)
     addressService.isNothernIreland(postcode = "bt71aa") should be(true)
@@ -242,35 +242,43 @@ class AddressServiceTests extends MockingTestSuite {
     addressService.isNothernIreland(postcode = "ABC DEF") should be(false)
     addressService.isNothernIreland(postcode = "ABCDEF") should be(false)
     addressService.isNothernIreland(postcode = "abcdef") should be(false)
-
-
   }
 
   behavior of "AddressService.validAuthority"
   it should "return false for no postcode" in {
-    val mockLocate = mock[LocateService]
-    val addressService = new AddressService(mockLocate)
+    val mockLocateService = mock[LocateService]
+    val addressService = getAddressService(mockLocateService)
 
     addressService.validAuthority(None) should be(false)
   }
 
   it should "return false when no authority is found" in {
-    val mockLocate = mock[LocateService]
-    val addressService = new AddressService(mockLocate)
+    val mockLocateService = mock[LocateService]
+    val addressService = getAddressService(mockLocateService)
 
-    when(mockLocate.lookupGssCode("AB12 3CD")).thenReturn(None)
+    when(mockLocateService.lookupGssCode("AB12 3CD")).thenReturn(None)
 
     addressService.validAuthority(Some("AB12 3CD")) should be(false)
   }
 
   it should "return true when authority is found" in {
-    val mockLocate = mock[LocateService]
-    val addressService = new AddressService(mockLocate)
+    val mockLocateService = mock[LocateService]
+    val addressService = getAddressService(mockLocateService)
 
-    when(mockLocate.lookupGssCode("AB12 3CD")).thenReturn(
+    when(mockLocateService.lookupGssCode("AB12 3CD")).thenReturn(
       Some("A010000010")
     )
 
     addressService.validAuthority(Some("AB12 3CD")) should be(true)
+  }
+
+  private def getAddressService(locateService: LocateService = mock[LocateService], config: Config = config) = {
+    new AddressService(locateService, config)
+  }
+
+  class MockConfig extends Config {
+    override def locateUrl = "http://locate/addresses"
+    override def locateAuthorityUrl = "http://locate/authority"
+    override def locateApiAuthorizationToken = "abc"
   }
 }

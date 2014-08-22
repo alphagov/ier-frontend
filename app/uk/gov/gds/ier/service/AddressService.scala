@@ -2,8 +2,9 @@ package uk.gov.gds.ier.service
 
 import uk.gov.gds.ier.model.{Address, PartialAddress}
 import com.google.inject.Inject
+import uk.gov.gds.ier.config.Config
 
-class AddressService @Inject()(locateService: LocateService) {
+class AddressService @Inject()(locateService: LocateService, config: Config) {
 
   def formFullAddress(partial: Option[PartialAddress]): Option[Address] = {
     partial flatMap {
@@ -64,7 +65,7 @@ class AddressService @Inject()(locateService: LocateService) {
   }
 
   def isScotland(postcode: String): Boolean = {
-    locateService.lookupGssCode(postcode).exists(_.startsWith("S"))
+    !config.availableForScotland && locateService.lookupGssCode(postcode).exists(_.startsWith("S"))
   }
 
   def isNothernIreland(postcode: String): Boolean = {
