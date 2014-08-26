@@ -5,6 +5,7 @@ import uk.gov.gds.ier.transaction.forces.address.AddressManualMustache
 
 class AddressManualTemplateTest
   extends TemplateTestSuite
+  with WithMockForcesControllers
   with AddressManualMustache {
 
   it should "properly render" in {

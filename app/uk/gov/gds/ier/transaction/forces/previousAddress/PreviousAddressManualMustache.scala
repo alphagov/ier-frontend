@@ -1,10 +1,10 @@
 package uk.gov.gds.ier.transaction.forces.previousAddress
 
 import uk.gov.gds.ier.step.StepTemplate
-import uk.gov.gds.ier.transaction.forces.InprogressForces
-import controllers.step.forces.routes.PreviousAddressPostcodeController
+import uk.gov.gds.ier.transaction.forces.{InprogressForces, WithForcesControllers}
 
 trait PreviousAddressManualMustache extends StepTemplate[InprogressForces] {
+  self: WithForcesControllers =>
 
   val title = "What was your previous UK address?"
 
@@ -29,7 +29,7 @@ trait PreviousAddressManualMustache extends StepTemplate[InprogressForces] {
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),
-      lookupUrl = PreviousAddressPostcodeController.get.url,
+      lookupUrl = forces.PreviousAddressPostcodeStep.routing.get.url,
       postcode = TextField(keys.previousAddress.postcode),
       maLineOne = TextField(keys.previousAddress.manualAddress.lineOne),
       maLineTwo = TextField(keys.previousAddress.manualAddress.lineTwo),

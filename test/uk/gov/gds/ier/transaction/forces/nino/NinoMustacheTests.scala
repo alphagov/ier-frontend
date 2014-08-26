@@ -1,8 +1,6 @@
 package uk.gov.gds.ier.transaction.forces.nino
 
 import uk.gov.gds.ier.test._
-import controllers.step.forces.routes.NinoController
-import controllers.step.forces.routes.NameController
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import play.api.libs.json.Json
 
@@ -20,7 +18,7 @@ class NinoMustacheTests
     val newNinoForm = ninoForm.bind(js)
     val model = mustache.data(
       newNinoForm,
-      NinoController.post,
+      Call("POST", "/register-to-vote/forces/nino"),
       InprogressForces()
     ).asInstanceOf[NinoModel]
     model.nino.value should be("AB 12 34 56 D")
@@ -35,7 +33,7 @@ class NinoMustacheTests
     val newNinoForm = ninoForm.bind(js)
     val model = mustache.data(
       newNinoForm,
-      NinoController.post,
+      Call("POST", "/register-to-vote/forces/nino"),
       InprogressForces()
     ).asInstanceOf[NinoModel]
     model.noNinoReason.value should be("Don't have any NINO")

@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.transaction.forces.contactAddress
 
 import uk.gov.gds.ier.test._
-import controllers.step.forces.routes.{OpenRegisterController, ContactAddressController}
 import uk.gov.gds.ier.model.{PartialAddress, PossibleContactAddresses, ContactAddress}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
@@ -15,7 +14,7 @@ class ContactAddressMustacheTest
 
     val contactAddressModel = mustache.data(
       emptyApplicationForm,
-      ContactAddressController.post,
+      Call("POST", "/register-to-vote/forces/contact-address"),
       InprogressForces()
     ).asInstanceOf[ContactAddressModel]
 
@@ -56,7 +55,7 @@ class ContactAddressMustacheTest
 
     val contactAddressModel = mustache.data(
       filledForm,
-      ContactAddressController.post,
+      Call("POST", "/register-to-vote/forces/contact-address"),
       InprogressForces()
     ).asInstanceOf[ContactAddressModel]
 
@@ -104,7 +103,7 @@ class ContactAddressMustacheTest
 
     val contactAddressModel = mustache.data(
       filledForm,
-      ContactAddressController.post,
+      Call("POST", "/register-to-vote/forces/contact-address"),
       InprogressForces()
     ).asInstanceOf[ContactAddressModel]
 
@@ -152,7 +151,7 @@ class ContactAddressMustacheTest
 
     val contactAddressModel = mustache.data(
       filledForm,
-      ContactAddressController.post,
+      Call("POST", "/register-to-vote/forces/contact-address"),
       InprogressForces()
     ).asInstanceOf[ContactAddressModel]
 

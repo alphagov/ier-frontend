@@ -7,7 +7,10 @@ import uk.gov.gds.ier.transaction.forces.InprogressForces
 class AddressManualMustacheTests
   extends MustacheTestSuite
   with AddressForms
+  with WithMockForcesControllers
   with AddressManualMustache {
+
+  when(mockAddressStep.routing).thenReturn(routes("/register-to-vote/forces/address"))
 
   it should "empty progress form should produce empty Model (manualData)" in {
 

@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.forces.previousAddress
 
-import controllers.step.forces.routes._
-import com.google.inject.Inject
+import uk.gov.gds.ier.transaction.forces.ForcesControllers
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
@@ -10,30 +10,32 @@ import uk.gov.gds.ier.step.{ForcesStep, Routes}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class PreviousAddressPostcodeStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService,
-    val remoteAssets: RemoteAssets)
-  extends ForcesStep
+    val remoteAssets: RemoteAssets,
+    val forces: ForcesControllers
+) extends ForcesStep
   with PreviousAddressPostcodeMustache
   with PreviousAddressForms {
 
   val validation = postcodeAddressFormForPreviousAddress
 
   val routing = Routes(
-    get = PreviousAddressPostcodeController.get,
-    post = PreviousAddressPostcodeController.post,
-    editGet = PreviousAddressPostcodeController.editGet,
-    editPost = PreviousAddressPostcodeController.editPost
+    get = routes.PreviousAddressPostcodeStep.get,
+    post = routes.PreviousAddressPostcodeStep.post,
+    editGet = routes.PreviousAddressPostcodeStep.editGet,
+    editPost = routes.PreviousAddressPostcodeStep.editPost
   )
 
   def nextStep(currentState: InprogressForces) = {
     if (currentState.previousAddress.exists(_.previousAddress.exists(prevAddr => addressService.isNothernIreland(prevAddr.postcode)))) {
-      controllers.step.forces.NationalityController.nationalityStep
+      forces.NationalityStep
     } else {
-      controllers.step.forces.PreviousAddressSelectController.previousAddressSelectStep
+      forces.PreviousAddressSelectStep
     }
   }
 

@@ -4,7 +4,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.test.MockingTestSuite
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.GoTo
 import controllers.routes.ExitController
@@ -12,7 +12,9 @@ import uk.gov.gds.ier.step.Step
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.assets.RemoteAssets
 
-class AddressStepMockedTests extends MockingTestSuite {
+class AddressStepMockedTests
+  extends MockingTestSuite
+  with WithMockForcesControllers {
 
   it should "redirect to Scotland exit page if the gssCode starts with S" in {
     val mockedJsonSerialiser = mock[JsonSerialiser]
@@ -26,7 +28,8 @@ class AddressStepMockedTests extends MockingTestSuite {
       mockedConfig,
       mockedEncryptionService,
       mockedAddressService,
-      mockedRemoteAssets
+      mockedRemoteAssets,
+      forces
     )
 
     val postcode = "EH1 1AA"

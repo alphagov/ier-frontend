@@ -7,6 +7,7 @@ import uk.gov.gds.ier.service.{AddressService, WithAddressService}
 class AddressSelectTemplateTest
   extends TemplateTestSuite
   with AddressSelectMustache
+  with WithMockForcesControllers
   with WithAddressService {
 
   val addressService = mock[AddressService]
