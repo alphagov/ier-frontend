@@ -1,8 +1,22 @@
 package uk.gov.gds.ier.transaction.ordinary.address
 
 import uk.gov.gds.ier.test.ControllerTestSuite
+import uk.gov.gds.ier.DynamicGlobal
+import uk.gov.gds.ier.config.Config
 
 class AddressStepTests extends ControllerTestSuite {
+
+  private def createGlobalConfigWith(availableForScotlandFlag: Boolean) = {
+    val mockConfig = new Config {
+      override def availableForScotland = availableForScotlandFlag
+    }
+
+    Some(new DynamicGlobal {
+      override def bindings = { binder =>
+        binder bind classOf[uk.gov.gds.ier.config.Config] toInstance mockConfig
+      }
+    })
+  }
 
   behavior of "AddressStep.get"
   it should "display the page" in {
@@ -48,6 +62,26 @@ class AddressStepTests extends ControllerTestSuite {
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/register-to-vote/exit/northern-ireland"))
+    }
+  }
+
+  it should behave like appWithScottishAddressWith(availableForScotlandFlag = false, andRedirectsToUrl = "/register-to-vote/exit/scotland")
+  it should behave like appWithScottishAddressWith(availableForScotlandFlag = true, andRedirectsToUrl = "/register-to-vote/address/select")
+
+  def appWithScottishAddressWith(availableForScotlandFlag: Boolean, andRedirectsToUrl: String) {
+    it should s"redirect $andRedirectsToUrl for Scottish postcode with availableForScotlandFlag: $availableForScotlandFlag" in {
+      running(FakeApplication(withGlobal = createGlobalConfigWith(availableForScotlandFlag = availableForScotlandFlag))) {
+        val Some(result) = route(
+          FakeRequest(POST, "/register-to-vote/address")
+            .withIerSession()
+            .withFormUrlEncodedBody(
+              "address.postcode" -> "EH10 4AE"
+            )
+        )
+
+        status(result) should be(SEE_OTHER)
+        redirectLocation(result) should be(Some(andRedirectsToUrl))
+      }
     }
   }
 
