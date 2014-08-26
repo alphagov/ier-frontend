@@ -3,6 +3,8 @@ package uk.gov.gds.ier.controller
 import uk.gov.gds.ier.test.ControllerTestSuite
 import uk.gov.gds.ier.DynamicGlobal
 import uk.gov.gds.ier.config.Config
+import play.api.mvc.{Filters, EssentialAction}
+import uk.gov.gds.ier.filter.AssetsCacheFilter
 
 class AssetsControllerTests extends ControllerTestSuite {
   private def createGlobalConfigWith(revisionNo: String) = {
@@ -13,6 +15,10 @@ class AssetsControllerTests extends ControllerTestSuite {
     Some(new DynamicGlobal {
       override def bindings = { binder =>
         binder bind classOf[uk.gov.gds.ier.config.Config] toInstance mockConfig
+      }
+
+      override def doFilter(next: EssentialAction): EssentialAction = {
+        Filters(super.doFilter(next), new AssetsCacheFilter(remoteAssets))
       }
     })
   }
@@ -49,6 +55,3 @@ class AssetsControllerTests extends ControllerTestSuite {
   }
 
 }
-
-
-

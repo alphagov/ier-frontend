@@ -2,7 +2,7 @@ import uk.gov.gds.ier.client._
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.DynamicGlobal
 import uk.gov.gds.ier.feedback.{FeedbackClientImpl, FeedbackClient}
-import uk.gov.gds.ier.filter.{ResultFilter, StatsdFilter}
+import uk.gov.gds.ier.filter.{AssetsCacheFilter, ResultFilter, StatsdFilter}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.service.apiservice.{ConcreteIerApiService, IerApiService}
 import uk.gov.gds.ier.stubs.{FeedbackStubClient, LocateStubApiClient, IerStubApiClient, IerApiServiceWithStripNino}
@@ -40,6 +40,6 @@ object Global extends DynamicGlobal with Logging {
   }
 
   override def doFilter(next: EssentialAction): EssentialAction = {
-    Filters(super.doFilter(next), StatsdFilter, ResultFilter)
+    Filters(super.doFilter(next), StatsdFilter, ResultFilter, new AssetsCacheFilter(remoteAssets))
   }
 }
