@@ -199,6 +199,26 @@ class AddressStepTests extends ControllerTestSuite {
     }
   }
 
+  it should behave like editedAppWithScottishAddressWith(availableForScotlandFlag = false, andRedirectsToUrl = "/register-to-vote/exit/scotland")
+  it should behave like editedAppWithScottishAddressWith(availableForScotlandFlag = true, andRedirectsToUrl = "/register-to-vote/address/select")
+
+  def editedAppWithScottishAddressWith(availableForScotlandFlag: Boolean, andRedirectsToUrl: String) {
+    it should s"redirect $andRedirectsToUrl for Scottish postcode with availableForScotlandFlag: $availableForScotlandFlag" in {
+      running(FakeApplication(withGlobal = createGlobalConfigWith(availableForScotlandFlag = availableForScotlandFlag))) {
+        val Some(result) = route(
+          FakeRequest(POST, "/register-to-vote/edit/address")
+            .withIerSession()
+            .withFormUrlEncodedBody(
+              "address.postcode" -> "EH10 4AE"
+            )
+        )
+
+        status(result) should be(SEE_OTHER)
+        redirectLocation(result) should be(Some(andRedirectsToUrl))
+      }
+    }
+  }
+
   it should "bind successfully and redirect to the Other Address step" in {
     running(FakeApplication()) {
       val Some(result) = route(
