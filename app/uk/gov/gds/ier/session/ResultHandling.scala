@@ -7,6 +7,7 @@ import play.api.mvc.{SimpleResult, Result, Request}
 import uk.gov.gds.ier.transaction.complete.CompleteCookie
 import scala.concurrent.Future
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import uk.gov.gds.ier.model.StartupApplication
 
 trait ResultHandling extends CookieHandling {
   self: WithConfig
@@ -51,9 +52,10 @@ trait ResultHandling extends CookieHandling {
 
     def withFreshSession()(implicit request: Request[_]) = {
       val domain = getDomain(request)
-      val sessionId = java.util.UUID.randomUUID.toString
-      val resultWithToken = result storeToken SessionToken(id = Some(sessionId))
-      resultWithToken.withCookies(freshPayloadCookies(sessionId, domain):_*)
+      val sessionId = Some(java.util.UUID.randomUUID.toString)
+      val resultWithToken = result storeToken SessionToken(id = sessionId)
+      val newApplication = new StartupApplication(sessionId = sessionId)
+      resultWithToken.withCookies(payloadCookies(newApplication, domain):_*)
     }
   }
 

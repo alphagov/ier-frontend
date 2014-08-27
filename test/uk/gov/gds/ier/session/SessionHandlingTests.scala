@@ -11,6 +11,7 @@ import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.step.InprogressApplication
 import play.api.libs.concurrent.Execution.Implicits._
+import uk.gov.gds.ier.model.StartupApplication
 
 
 class SessionHandlingTests extends ControllerTestSuite {
@@ -67,7 +68,6 @@ class SessionHandlingTests extends ControllerTestSuite {
       token.latest.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
       token.latest.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 2)
       token.id.isDefined should be(true)
-      val Some(tokenSessionId) = token.id
 
       cookies(result).get("application") should not be None
       cookies(result).get("applicationIV") should not be None
@@ -75,10 +75,10 @@ class SessionHandlingTests extends ControllerTestSuite {
       val Some(appCookieIV) = cookies(result).get("applicationIV")
 
       val decryptedAppInfo = controller.encryptionService.decrypt(appCookie.value, appCookieIV.value)
-      val appToken = jsonSerialiser.fromJson[Map[String, String]](decryptedAppInfo)
-      appToken("sessionId") should not be empty
-      tokenSessionId should be(appToken("sessionId"))
+      val appToken = jsonSerialiser.fromJson[StartupApplication](decryptedAppInfo)
 
+      appToken.sessionId.isDefined should be(true)
+      appToken.sessionId should be(token.id)
     }
   }
 
@@ -116,9 +116,8 @@ class SessionHandlingTests extends ControllerTestSuite {
       val Some(initialAppCookieIV) = cookies(initialResult).get("applicationIV")
 
       val initialDecryptedAppInfo = controller.encryptionService.decrypt(initialAppCookie.value, initialAppCookieIV.value)
-      val initialAppToken = jsonSerialiser.fromJson[Map[String, String]](initialDecryptedAppInfo)
-      val initialSessionId = initialAppToken("sessionId")
-      initialSessionId should not be empty
+      val initialAppToken = jsonSerialiser.fromJson[StartupApplication](initialDecryptedAppInfo)
+      initialAppToken.sessionId.isDefined should be(true)
 
       val result = controller.index()(FakeRequest())
       status(result) should be(OK)
@@ -129,11 +128,10 @@ class SessionHandlingTests extends ControllerTestSuite {
       val Some(appCookieIV) = cookies(result).get("applicationIV")
 
       val decryptedAppInfo = controller.encryptionService.decrypt(appCookie.value, appCookieIV.value)
-      val appToken = jsonSerialiser.fromJson[Map[String, String]](decryptedAppInfo)
-      val sessionId = appToken("sessionId")
-      sessionId should not be empty
-      sessionId should not be initialSessionId
+      val appToken = jsonSerialiser.fromJson[StartupApplication](decryptedAppInfo)
 
+      appToken.sessionId.isDefined should be(true)
+      appToken.sessionId should not be(initialAppToken.sessionId)
     }
   }
 
