@@ -146,7 +146,7 @@ class RemoteAssetsTests extends UnitTestSuite {
       "/assets/stylesheets/fonts.css"
     )
 
-    remoteAssets.shouldSetNoCache(fakeRequest) should be(false)
+    remoteAssets.shouldSetNoCache(fakeRequest) should be(true)
   }
 
   it should "set PRAGMA no cache for unrecognised sha in the request" in {
@@ -158,6 +158,17 @@ class RemoteAssetsTests extends UnitTestSuite {
     )
 
     remoteAssets.shouldSetNoCache(fakeRequest) should be(true)
+  }
+
+  it should "not change response for a non asset request" in {
+    val remoteAssets = new RemoteAssets(fakeConfig)
+
+    val fakeRequest = FakeRequest(
+      "GET",
+      "/register-to-vote/country-of-residence"
+    )
+
+    remoteAssets.shouldSetNoCache(fakeRequest) should be(false)
   }
 
 }

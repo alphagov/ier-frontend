@@ -1,7 +1,7 @@
 package uk.gov.gds.ier
 
 import uk.gov.gds.ier.guice.GuiceContainer
-import com.google.inject.{Binder, AbstractModule}
+import com.google.inject.Binder
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.mustache.ErrorPageMustache
 import uk.gov.gds.ier.config.Config
@@ -12,7 +12,6 @@ import play.api.mvc.Results._
 import org.slf4j.MDC
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 trait DynamicGlobal
     extends GlobalSettings
@@ -27,15 +26,6 @@ trait DynamicGlobal
 
   lazy val remoteAssets = guice.dependency[RemoteAssets]
   lazy val config = guice.dependency[Config]
-
-  override def doFilter(action: EssentialAction) = EssentialAction { request =>
-    if(remoteAssets.shouldSetNoCache(request)){
-      logger.error(s"request with unrecognised sha: ${request.method} ${request.path}")
-      action(request).map(_.withHeaders("Pragma" -> "no-cache"))
-    } else {
-      action(request)
-    }
-  }
 
   override def onRouteRequest(request: RequestHeader): Option[Handler] = {
     logger.debug(s"routing request ${request.method} ${request.path}")
