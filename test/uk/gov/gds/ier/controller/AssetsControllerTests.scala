@@ -54,4 +54,15 @@ class AssetsControllerTests extends ControllerTestSuite {
     }
   }
 
+  it should "return a response without pragma: no-cache for a non asset request" in {
+    running(FakeApplication(withGlobal = createGlobalConfigWith("knownf1234567890knownf1234567890knownf12"))) {
+      val Some(result) = route(FakeRequest(GET, "/register-to-vote/country-of-residence")
+        .withIerSession()
+      )
+
+      status(result) should be(OK)
+      headers(result) should not contain("Pragma" -> "no-cache")
+    }
+  }
+
 }

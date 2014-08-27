@@ -160,4 +160,15 @@ class RemoteAssetsTests extends UnitTestSuite {
     remoteAssets.shouldSetNoCache(fakeRequest) should be(true)
   }
 
+  it should "not change response for a non asset request" in {
+    val remoteAssets = new RemoteAssets(fakeConfig)
+
+    val fakeRequest = FakeRequest(
+      "GET",
+      "/register-to-vote/country-of-residence"
+    )
+
+    remoteAssets.shouldSetNoCache(fakeRequest) should be(false)
+  }
+
 }
