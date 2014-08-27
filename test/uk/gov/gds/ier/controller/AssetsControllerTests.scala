@@ -40,7 +40,7 @@ class AssetsControllerTests extends ControllerTestSuite {
         "/assets/template/stylesheets/fonts.css"))
 
       status(result) should be(OK)
-      headers(result) should not contain ("Pragma" -> "no-cache")
+      headers(result) should contain ("Pragma" -> "no-cache")
     }
   }
 

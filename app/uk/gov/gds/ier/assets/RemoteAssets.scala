@@ -52,9 +52,11 @@ class RemoteAssets @Inject() (config : Config) {
   }
 
   def shouldSetNoCache(request: RequestHeader) = {
-    gitShaRegex.r.findFirstIn(request.uri) match {
-      case Some(shaMatch) => !shaMatch.contains(config.revision)
-      case _ => false
-    }
+    if(request.uri.startsWith("/assets/")) {
+      gitShaRegex.r.findFirstIn(request.uri) match {
+        case Some(shaMatch)  => !shaMatch.contains(config.revision)
+        case _ => true
+      }
+    } else false
   }
 }
