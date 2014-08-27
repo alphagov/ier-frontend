@@ -1,10 +1,8 @@
 package uk.gov.gds.ier.transaction.overseas.lastUkAddress
 
-import controllers.step.overseas.routes.{
-  LastUkAddressController,
-  DateLeftUkController}
-import controllers.step.overseas.LastUkAddressSelectController
-import com.google.inject.Inject
+import uk.gov.gds.ier.transaction.overseas.OverseasControllers
+import controllers.routes.ExitController
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
@@ -12,16 +10,17 @@ import uk.gov.gds.ier.service.{AddressService, WithAddressService}
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.form.OverseasFormImplicits
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
-import controllers.routes.ExitController
 import uk.gov.gds.ier.step.GoTo
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class LastUkAddressStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val overseas: OverseasControllers
 ) extends OverseaStep
   with LastUkAddressLookupMustache
   with LastUkAddressForms
@@ -31,10 +30,10 @@ class LastUkAddressStep @Inject() (
   val validation = lookupAddressForm
 
   val routing = Routes(
-    get = LastUkAddressController.get,
-    post = LastUkAddressController.post,
-    editGet = LastUkAddressController.editGet,
-    editPost = LastUkAddressController.editPost
+    get = routes.LastUkAddressStep.get,
+    post = routes.LastUkAddressStep.post,
+    editGet = routes.LastUkAddressStep.editGet,
+    editPost = routes.LastUkAddressStep.editPost
   )
 
   def nextStep(currentState: InprogressOverseas) = {
@@ -48,7 +47,7 @@ class LastUkAddressStep @Inject() (
         else if (addressService.isScotland(postcode))
           GoTo (ExitController.scotland)
         else
-          LastUkAddressSelectController.lastUkAddressSelectStep
+          overseas.LastUkAddressSelectStep
       }
       case None => this
     }

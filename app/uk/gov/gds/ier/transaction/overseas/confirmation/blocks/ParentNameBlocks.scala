@@ -1,7 +1,5 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
-import controllers.step.overseas.routes
-
 trait ParentNameBlocks {
   self: ConfirmationBlock =>
 
@@ -14,7 +12,7 @@ trait ParentNameBlocks {
 
     ConfirmationQuestion(
       title = "Parent's or guardian's name",
-      editLink = routes.ParentNameController.editGet.url,
+      editLink = overseas.ParentNameStep.routing.editGet.url,
       changeName = "full name",
       content = ifComplete(keys.overseasParentName.parentName) {
         List(nameStr)
@@ -36,7 +34,7 @@ trait ParentNameBlocks {
     }
     ConfirmationQuestion(
       title = "Parent's or guardian's previous name",
-      editLink = routes.ParentNameController.editGet.url,
+      editLink = overseas.ParentNameStep.routing.editGet.url,
       changeName = "previous name",
       content = ifComplete(keys.overseasParentName.parentPreviousName) {
         List(prevNameStr)

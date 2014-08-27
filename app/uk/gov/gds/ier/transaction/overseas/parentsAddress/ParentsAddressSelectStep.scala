@@ -1,8 +1,7 @@
 package uk.gov.gds.ier.transaction.overseas.parentsAddress
 
-import controllers.step.overseas.routes._
-import controllers.step.overseas.PassportCheckController
-import com.google.inject.Inject
+import uk.gov.gds.ier.transaction.overseas.OverseasControllers
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.{WithSerialiser, JsonSerialiser}
@@ -11,12 +10,14 @@ import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class ParentsAddressSelectStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val overseas: OverseasControllers
 ) extends OverseaStep
   with ParentsAddressSelectMustache
   with ParentsAddressForms
@@ -26,14 +27,14 @@ class ParentsAddressSelectStep @Inject() (
   val validation = parentsAddressForm
 
   val routing = Routes(
-    get = ParentsAddressSelectController.get,
-    post = ParentsAddressSelectController.post,
-    editGet = ParentsAddressSelectController.editGet,
-    editPost = ParentsAddressSelectController.editPost
+    get = routes.ParentsAddressSelectStep.get,
+    post = routes.ParentsAddressSelectStep.post,
+    editGet = routes.ParentsAddressSelectStep.editGet,
+    editPost = routes.ParentsAddressSelectStep.editPost
   )
 
   def nextStep(currentState: InprogressOverseas) = {
-    PassportCheckController.passportCheckStep
+    overseas.PassportCheckStep
   }
 
   override val onSuccess = TransformApplication { currentState =>

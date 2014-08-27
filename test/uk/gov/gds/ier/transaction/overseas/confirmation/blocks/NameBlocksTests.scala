@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
-import uk.gov.gds.ier.test.FormTestSuite
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.{Name, PreviousName}
 import uk.gov.gds.ier.transaction.overseas.confirmation.ConfirmationForms
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
@@ -8,7 +8,11 @@ import uk.gov.gds.ier.transaction.shared.BlockContent
 
 class NameBlocksTests
   extends FormTestSuite
+  with WithMockOverseasControllers
+  with MockitoHelpers
   with ConfirmationForms {
+
+  when(mockNameStep.routing).thenReturn(routes("/register-to-vote/overseas/edit/name"))
 
   "In-progress application form with filled name and previous name" should
     "generate confirmation mustache model with correctly rendered names and correct URLs" in {
@@ -26,7 +30,7 @@ class NameBlocksTests
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm, overseas)
 
     val nameModel = confirmation.name
     nameModel.content should be(BlockContent("John Smith"))
@@ -53,7 +57,7 @@ class NameBlocksTests
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm, overseas)
 
     val nameModel = confirmation.name
     nameModel.content should be(BlockContent("John Walker Junior Smith"))
@@ -77,7 +81,7 @@ class NameBlocksTests
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm, overseas)
 
     val nameModel = confirmation.name
     nameModel.content should be(BlockContent("John Walker Junior Smith"))
@@ -105,7 +109,7 @@ class NameBlocksTests
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm, overseas)
 
     val nameModel = confirmation.name
     nameModel.content should be(BlockContent("John Walker Junior Smith"))

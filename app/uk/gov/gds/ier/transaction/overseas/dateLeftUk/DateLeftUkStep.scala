@@ -1,36 +1,36 @@
 package uk.gov.gds.ier.transaction.overseas.dateLeftUk
 
-import com.google.inject.Inject
+import uk.gov.gds.ier.transaction.overseas.OverseasControllers
+import controllers.routes.ExitController
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import controllers.step.overseas.LastUkAddressController
-import controllers.step.overseas.ParentNameController
 import uk.gov.gds.ier.step.{OverseaStep, Routes, GoTo}
-import controllers.step.overseas.routes._
 import uk.gov.gds.ier.model._
 import org.joda.time.{Months, DateTime}
-import controllers.routes.ExitController
 import uk.gov.gds.ier.validation.DateValidator
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.assets.RemoteAssets
 
 
+@Singleton
 class DateLeftUkStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val overseas: OverseasControllers
 ) extends OverseaStep
     with DateLeftUkForms
     with DateLeftUkMustache {
 
   val validation = dateLeftUkForm
   val routing = Routes(
-    get = DateLeftUkController.get,
-    post = DateLeftUkController.post,
-    editGet = DateLeftUkController.editGet,
-    editPost = DateLeftUkController.editPost
+    get = routes.DateLeftUkStep.get,
+    post = routes.DateLeftUkStep.post,
+    editGet = routes.DateLeftUkStep.editGet,
+    editPost = routes.DateLeftUkStep.editPost
   )
 
   def nextStep(currentState: InprogressOverseas) = {
@@ -51,8 +51,8 @@ class DateLeftUkStep @Inject() (
         if (!DateValidator.dateLeftUkOver15Years(dateLeftUk) &&
           currentState.dob.isDefined &&
           !validateTooOldWhenLeftUk(dateLeftUk, dateOfBirth)) =>
-          ParentNameController.parentNameStep
-      case _ => LastUkAddressController.lastUkAddressStep
+          overseas.ParentNameStep
+      case _ => overseas.LastUkAddressStep
     }
   }
 

@@ -2,7 +2,6 @@ package uk.gov.gds.ier.transaction.overseas.nino
 
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.Nino
-import controllers.step.overseas.routes._
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class NinoMustacheTests
@@ -14,7 +13,7 @@ class NinoMustacheTests
     val emptyApplicationForm = ninoForm
     val ninoModel = mustache.data(
       emptyApplicationForm,
-      NinoController.post,
+      Call("POST", "/register-to-vote/overseas/nino"),
       InprogressOverseas()
     ).asInstanceOf[NinoModel]
 
@@ -33,7 +32,7 @@ class NinoMustacheTests
 
     val ninoModel = mustache.data(
       partiallyFilledApplicationForm,
-      NinoController.post,
+      Call("POST", "/register-to-vote/overseas/nino"),
       InprogressOverseas()
     ).asInstanceOf[NinoModel]
 
@@ -52,7 +51,7 @@ class NinoMustacheTests
 
     val ninoModel = mustache.data(
       partiallyFilledApplicationForm,
-      NinoController.post,
+      Call("POST", "/register-to-vote/overseas/nino"),
       InprogressOverseas()
     ).asInstanceOf[NinoModel]
 
@@ -71,7 +70,7 @@ class NinoMustacheTests
 
     val ninoModel = mustache.data(
       partiallyFilledApplicationForm,
-      NinoController.post,
+      Call("POST", "/register-to-vote/overseas/nino"),
       InprogressOverseas()
     ).asInstanceOf[NinoModel]
 

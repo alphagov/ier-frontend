@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
 import uk.gov.gds.ier.model._
 import org.joda.time.DateTime
-import uk.gov.gds.ier.test.FormTestSuite
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.{
   Name,
   PreviousName,
@@ -13,7 +13,13 @@ import uk.gov.gds.ier.transaction.shared.{BlockError, BlockContent}
 
 class ParentsAddressBlocksTests
   extends FormTestSuite
+  with MockitoHelpers
+  with WithMockOverseasControllers
   with ConfirmationForms {
+
+  when(mockParentsAddressStep.routing).thenReturn(routes("/register-to-vote/overseas/edit/parents-address"))
+  when(mockParentsAddressManualStep.routing).thenReturn(routes("/register-to-vote/overseas/edit/parents-address/manual"))
+  when(mockParentsAddressSelectStep.routing).thenReturn(routes("/register-to-vote/overseas/edit/parents-address/select"))
 
   behavior of "ConfirmationBlocks.parentsAddress"
   it should "return parents address" in {
@@ -32,7 +38,7 @@ class ParentsAddressBlocksTests
         ))
       )
     )
-    val confirmation = new ConfirmationBlocks(partialApplication)
+    val confirmation = new ConfirmationBlocks(partialApplication, overseas)
     val model = confirmation.parentsAddress
 
     model.title should be("Parent's or guardian's last UK address")
@@ -61,7 +67,7 @@ class ParentsAddressBlocksTests
         ))
       )
     )
-    val confirmation = new ConfirmationBlocks(partialApplication)
+    val confirmation = new ConfirmationBlocks(partialApplication, overseas)
     val model = confirmation.parentsAddress
 
     model.title should be("Parent's or guardian's last UK address")
@@ -84,7 +90,7 @@ class ParentsAddressBlocksTests
         ))
       )
     )
-    val confirmation = new ConfirmationBlocks(partialApplication)
+    val confirmation = new ConfirmationBlocks(partialApplication, overseas)
     val model = confirmation.parentsAddress
 
     model.title should be("Parent's or guardian's last UK address")

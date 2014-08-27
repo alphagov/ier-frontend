@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
-import controllers.step.overseas.routes
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.validation.constants.NationalityConstants
 
@@ -28,7 +27,7 @@ trait AddressBlocks {
     }
     ConfirmationQuestion(
       title = "Correspondence address",
-      editLink = routes.AddressController.editGet.url,
+      editLink = overseas.AddressStep.routing.editGet.url,
       changeName = "correspondence address",
       content = ifComplete(keys.overseasAddress) {
         List(addressLine, country).flatten

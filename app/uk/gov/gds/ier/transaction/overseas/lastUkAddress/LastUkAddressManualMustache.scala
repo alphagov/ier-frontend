@@ -1,10 +1,10 @@
 package uk.gov.gds.ier.transaction.overseas.lastUkAddress
 
 import uk.gov.gds.ier.step.StepTemplate
-import controllers.step.overseas.routes._
-import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.transaction.overseas.{InprogressOverseas, WithOverseasControllers}
 
 trait LastUkAddressManualMustache extends StepTemplate[InprogressOverseas] {
+  self: WithOverseasControllers =>
 
   val title = "What was the UK address where you were last registered to vote?"
   val questionNumber = ""
@@ -30,7 +30,7 @@ trait LastUkAddressManualMustache extends StepTemplate[InprogressOverseas] {
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),
-      lookupUrl = LastUkAddressController.get.url,
+      lookupUrl = overseas.LastUkAddressStep.routing.get.url,
       postcode = TextField(keys.lastUkAddress.postcode),
       maLineOne = TextField(keys.lastUkAddress.manualAddress.lineOne),
       maLineTwo = TextField(keys.lastUkAddress.manualAddress.lineTwo),

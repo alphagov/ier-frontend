@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.overseas.parentsAddress
 
-import uk.gov.gds.ier.test.MockingControllerTestSuite
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
@@ -12,7 +12,9 @@ import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.step.GoTo
 import uk.gov.gds.ier.assets.RemoteAssets
 
-class ParentsAddressStepMockedTest extends MockingControllerTestSuite {
+class ParentsAddressStepMockedTest
+  extends MockingControllerTestSuite
+  with WithMockOverseasControllers {
 
   val mockedJsonSerialiser = mock[JsonSerialiser]
   val mockedConfig = mock[Config]
@@ -21,14 +23,14 @@ class ParentsAddressStepMockedTest extends MockingControllerTestSuite {
   val mockedRemoteAssets = mock[RemoteAssets]
   val scotPostcode = "EH1 1AA"
   val englPostcode = "WR2 6NJ"
+
   when (mockedAddressService.isScotland(scotPostcode)).thenReturn(true)
   when (mockedAddressService.isScotland(englPostcode)).thenReturn(false)
+
   val applicationWithScotParentsAddress = InprogressOverseas(
     parentsAddress = Some(PartialAddress(None, None, scotPostcode, None, None)))
   val applicationWithEnglParentsAddress = InprogressOverseas(
     parentsAddress = Some(PartialAddress(None, None, englPostcode, None, None)))
-  // start Guice if it was not already started as one of the following tests does not work without it
-  running(FakeApplication()) {}
 
   behavior of "ParentsAddressStep.nextStep"
 
@@ -38,7 +40,8 @@ class ParentsAddressStepMockedTest extends MockingControllerTestSuite {
       mockedConfig,
       mockedEncryptionService,
       mockedAddressService,
-      mockedRemoteAssets
+      mockedRemoteAssets,
+      overseas
     )
     val transferedState = addressStep.nextStep(applicationWithScotParentsAddress)
     transferedState should be (GoTo(ExitController.scotland))
@@ -50,9 +53,10 @@ class ParentsAddressStepMockedTest extends MockingControllerTestSuite {
       mockedConfig,
       mockedEncryptionService,
       mockedAddressService,
-      mockedRemoteAssets
+      mockedRemoteAssets,
+      overseas
     )
     val transferedState = addressStep.nextStep(applicationWithEnglParentsAddress)
-    transferedState should be (ParentsAddressSelectController.parentsAddressSelectStep)
+    transferedState should be (mockParentsAddressSelectStep)
   }
 }

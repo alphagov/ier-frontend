@@ -1,14 +1,12 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
-import controllers.step.overseas.routes
-
 trait NinoBlocks {
   self: ConfirmationBlock =>
 
   def nino = {
     ConfirmationQuestion(
       title = "National Insurance number",
-      editLink = routes.NinoController.editGet.url,
+      editLink = overseas.NinoStep.routing.editGet.url,
       changeName = "national insurance number",
       content = ifComplete(keys.nino) {
         if(form(keys.nino.nino).value.isDefined){

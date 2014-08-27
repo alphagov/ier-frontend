@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
 import uk.gov.gds.ier.model.LastRegisteredType._
-import controllers.step.overseas.routes
 
 trait DateLeftBlocks {
   self: ConfirmationBlock =>
@@ -22,7 +21,7 @@ trait DateLeftBlocks {
 
     ConfirmationQuestion(
       title = "Left the UK",
-      editLink = routes.DateLeftUkController.editGet.url,
+      editLink = overseas.DateLeftUkStep.routing.editGet.url,
       changeName = "date you left the UK",
       content = ifComplete(keys.dateLeftUk) {
         List(yearMonth)
@@ -35,7 +34,7 @@ trait DateLeftBlocks {
 
     ConfirmationQuestion(
       title = "Left the armed forces",
-      editLink = routes.DateLeftArmyController.editGet.url,
+      editLink = overseas.DateLeftArmyStep.routing.editGet.url,
       changeName = "date you left the armed forces",
       content = ifComplete(keys.dateLeftSpecial) {
         List(yearMonth)
@@ -48,7 +47,7 @@ trait DateLeftBlocks {
 
     ConfirmationQuestion(
       title = "Date you ceased to be a Crown Servant",
-      editLink = routes.DateLeftCrownController.editGet.url,
+      editLink = overseas.DateLeftCrownStep.routing.editGet.url,
       changeName = "date you ceased to be a Crown Servant",
       content = ifComplete(keys.dateLeftSpecial) {
         List(yearMonth)
@@ -61,7 +60,7 @@ trait DateLeftBlocks {
 
     ConfirmationQuestion(
       title = "Date you left the British Council",
-      editLink = routes.DateLeftCrownController.editGet.url,
+      editLink = overseas.DateLeftCrownStep.routing.editGet.url,
       changeName = "date you left the British Council",
       content = ifComplete(keys.dateLeftSpecial) {
         List(yearMonth)

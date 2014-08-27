@@ -5,6 +5,7 @@ import uk.gov.gds.ier.test._
 
 class LastUkAddressManualTemplateTest
   extends TemplateTestSuite
+  with WithMockOverseasControllers
   with LastUkAddressManualMustache {
 
   it should "properly render" in {

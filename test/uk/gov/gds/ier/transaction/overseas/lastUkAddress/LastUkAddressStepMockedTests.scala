@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.overseas.lastUkAddress
 
-import uk.gov.gds.ier.test.MockingTestSuite
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
@@ -12,7 +12,9 @@ import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.step.GoTo
 import uk.gov.gds.ier.assets.RemoteAssets
 
-class LastUkAddressStepMockedTests extends MockingTestSuite {
+class LastUkAddressStepMockedTests
+  extends MockingTestSuite
+  with WithMockOverseasControllers {
 
   val mockedJsonSerialiser = mock[JsonSerialiser]
   val mockedConfig = mock[Config]
@@ -36,7 +38,8 @@ class LastUkAddressStepMockedTests extends MockingTestSuite {
       mockedConfig,
       mockedEncryptionService,
       mockedAddressService,
-      mockedRemoteAssets
+      mockedRemoteAssets,
+      overseas
     )
     val transferedState = addressStep.nextStep(applicationWithScotLastUkAddress)
     transferedState should be (GoTo(ExitController.scotland))
@@ -48,9 +51,10 @@ class LastUkAddressStepMockedTests extends MockingTestSuite {
       mockedConfig,
       mockedEncryptionService,
       mockedAddressService,
-      mockedRemoteAssets
+      mockedRemoteAssets,
+      overseas
     )
     val transferedState = addressStep.nextStep(applicationWithEnglLastUkAddress)
-    transferedState should be (LastUkAddressSelectController.lastUkAddressSelectStep)
+    transferedState should be (mockLastUkAddressSelectStep)
   }
 }

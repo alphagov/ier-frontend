@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
 import uk.gov.gds.ier.model.WaysToVoteType._
-import controllers.step.overseas.routes
 import uk.gov.gds.ier.model.WaysToVoteType
 
 trait WaysToVoteBlocks {
@@ -32,7 +31,7 @@ trait WaysToVoteBlocks {
 
       ConfirmationQuestion(
         title = "Voting options",
-        editLink = routes.WaysToVoteController.editGet.url,
+        editLink = overseas.WaysToVoteStep.routing.editGet.url,
         changeName = "voting",
         content = ifComplete(keys.waysToVote) {
           ways ++ postalOrProxyVote

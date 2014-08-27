@@ -8,7 +8,11 @@ import uk.gov.gds.ier.transaction.overseas.confirmation.ConfirmationForms
 
 class NinoBlocksTest
   extends FormTestSuite
+  with MockitoHelpers
+  with WithMockOverseasControllers
   with ConfirmationForms {
+
+  when(mockNinoStep.routing).thenReturn(routes("/register-to-vote/overseas/edit/nino"))
 
   behavior of "confirmationBlocks.nino"
 
@@ -21,7 +25,7 @@ class NinoBlocksTest
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm, overseas)
     confirmation.nino.content should be(BlockContent(List("AB123456")))
   }
 }

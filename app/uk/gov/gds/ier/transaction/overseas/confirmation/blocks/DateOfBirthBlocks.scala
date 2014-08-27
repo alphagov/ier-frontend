@@ -1,7 +1,5 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
-import controllers.step.overseas.routes
-
 trait DateOfBirthBlocks {
   self: ConfirmationBlock =>
 
@@ -12,7 +10,7 @@ trait DateOfBirthBlocks {
 
     ConfirmationQuestion(
       title = "Date of birth",
-      editLink = routes.DateOfBirthController.editGet.url,
+      editLink = overseas.DateOfBirthStep.routing.editGet.url,
       changeName = "date of birth",
       content = ifComplete(keys.dob) {
         List(dob)
