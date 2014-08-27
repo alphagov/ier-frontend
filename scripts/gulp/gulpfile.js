@@ -1,15 +1,12 @@
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
-var concat = require('gulp-concat');
 var deleteFiles = require('gulp-rimraf');
 var sass = require('gulp-ruby-sass');
 
 var assetsFolder = '../../assets';
+var jsVendorFolder = assetsFolder + '/javascripts/vendor';
 var jsSourceFiles = [
   assetsFolder + '/javascripts/cache-busting.js',
-  assetsFolder + '/javascripts/vendor/jquery/jquery-1.10.1.min.js',
-  assetsFolder + '/javascripts/vendor/jquery/typeahead.js',
-  assetsFolder + '/javascripts/vendor/mustache.js',
   assetsFolder + '/javascripts/core.js',
   assetsFolder + '/javascripts/countries.js',
   assetsFolder + '/javascripts/validation.js',
@@ -26,8 +23,8 @@ var cssSourceFiles = [
 ];
 
 var toolkit = '../../app/assets/govuk_frontend_toolkit/stylesheets';
-var jsTargetFile = 'application.js';
 var jsTargetFolder = '../../public/javascripts';
+var jsTargetVendorFolder = '../../public/javascripts/vendor'; 
 var cssTargetFolder = '../../public/stylesheets';
 
 gulp.task('cleanJs', function () {
@@ -55,11 +52,20 @@ gulp.task('sass', function () {
     .pipe(gulp.dest(cssTargetFolder));
 });
 
-gulp.task('js', function () {
+gulp.task('vendorjs', function () {
+  return gulp.src('*.js', { 'cwd' : jsVendorFolder + '/**' })
+    .pipe(uglify({ 'mangle' : false }))
+    .pipe(gulp.dest(jsTargetVendorFolder))
+});
+
+gulp.task('projectjs', function () {
   return gulp.src(jsSourceFiles)
-    .pipe(uglify())
-    .pipe(concat(jsTargetFile))
+    .pipe(uglify({ 'mangle' : false }))
     .pipe(gulp.dest(jsTargetFolder))
+});
+
+gulp.task('js', function () {
+  gulp.start('vendorjs', 'projectjs');
 });
 
 gulp.task('watch', ['build'], function () {
