@@ -4,7 +4,7 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.test.MockingTestSuite
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.GoTo
 import controllers.routes.ExitController
@@ -12,7 +12,9 @@ import uk.gov.gds.ier.step.Step
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.assets.RemoteAssets
 
-class AddressSelectStepMockedTests extends MockingTestSuite {
+class AddressSelectStepMockedTests
+  extends MockingTestSuite
+  with WithMockForcesControllers {
 
   it should "clear the manual address if an address is selected" in {
     val mockedJsonSerialiser = mock[JsonSerialiser]
@@ -35,7 +37,8 @@ class AddressSelectStepMockedTests extends MockingTestSuite {
       mockedConfig,
       mockedEncryptionService,
       mockedAddressService,
-      mockedRemoteAssets
+      mockedRemoteAssets,
+      forces
     )
 
     when (mockedAddressService.fillAddressLine(partialAddress)).thenReturn(partialAddress)

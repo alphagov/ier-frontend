@@ -9,12 +9,16 @@ class AddressSelectMustacheTest
   extends MustacheTestSuite
   with AddressForms
   with AddressSelectMustache
+  with WithMockForcesControllers
   with WithAddressService
   with MockitoHelpers {
 
   val addressService = mock[AddressService]
 
   when(addressService.lookupPartialAddress("WR26NJ")).thenReturn(List.empty)
+  when(mockAddressStep.routing).thenReturn(routes("/register-to-vote/forces/address"))
+  when(mockAddressManualStep.routing).thenReturn(routes("/register-to-vote/forces/address/manual"))
+  when(mockAddressSelectStep.routing).thenReturn(routes("/register-to-vote/forces/address/select"))
 
   it should "empty progress form should produce empty Model (selectData)" in {
 

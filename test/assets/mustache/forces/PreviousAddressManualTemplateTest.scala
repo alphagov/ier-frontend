@@ -5,6 +5,7 @@ import uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressManualMu
 
 class PreviousAddressManualTemplateTest
   extends TemplateTestSuite
+  with WithMockForcesControllers
   with PreviousAddressManualMustache {
 
   it should "properly render all properties from the model" in {

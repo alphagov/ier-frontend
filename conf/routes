@@ -330,137 +330,137 @@ GET         /register-to-vote/forces                                    controll
 GET         /register-to-vote/forces/start                              controllers.RegisterToVoteController.registerToVoteForcesStart
 
 #Statement Step
-GET         /register-to-vote/forces/statement                          controllers.step.forces.StatementController.get
-POST        /register-to-vote/forces/statement                          controllers.step.forces.StatementController.post
-GET         /register-to-vote/forces/edit/statement                     controllers.step.forces.StatementController.editGet
-POST        /register-to-vote/forces/edit/statement                     controllers.step.forces.StatementController.editPost
+GET         /register-to-vote/forces/statement                          @uk.gov.gds.ier.transaction.forces.statement.StatementStep.get
+POST        /register-to-vote/forces/statement                          @uk.gov.gds.ier.transaction.forces.statement.StatementStep.post
+GET         /register-to-vote/forces/edit/statement                     @uk.gov.gds.ier.transaction.forces.statement.StatementStep.editGet
+POST        /register-to-vote/forces/edit/statement                     @uk.gov.gds.ier.transaction.forces.statement.StatementStep.editPost
 
 
 #First Address Step
-GET         /register-to-vote/forces/address/first                      controllers.step.forces.AddressFirstController.get
-POST        /register-to-vote/forces/address/first                      controllers.step.forces.AddressFirstController.post
-GET         /register-to-vote/forces/edit/address/first                 controllers.step.forces.AddressFirstController.editGet
-POST        /register-to-vote/forces/edit/address/first                 controllers.step.forces.AddressFirstController.editPost
+GET         /register-to-vote/forces/address/first                      @uk.gov.gds.ier.transaction.forces.address.AddressFirstStep.get
+POST        /register-to-vote/forces/address/first                      @uk.gov.gds.ier.transaction.forces.address.AddressFirstStep.post
+GET         /register-to-vote/forces/edit/address/first                 @uk.gov.gds.ier.transaction.forces.address.AddressFirstStep.editGet
+POST        /register-to-vote/forces/edit/address/first                 @uk.gov.gds.ier.transaction.forces.address.AddressFirstStep.editPost
 
 #Address Step
-GET         /register-to-vote/forces/address                            controllers.step.forces.AddressController.get
-POST        /register-to-vote/forces/address                            controllers.step.forces.AddressController.post
-GET         /register-to-vote/forces/edit/address                       controllers.step.forces.AddressController.editGet
-POST        /register-to-vote/forces/edit/address                       controllers.step.forces.AddressController.editPost
+GET         /register-to-vote/forces/address                            @uk.gov.gds.ier.transaction.forces.address.AddressStep.get
+POST        /register-to-vote/forces/address                            @uk.gov.gds.ier.transaction.forces.address.AddressStep.post
+GET         /register-to-vote/forces/edit/address                       @uk.gov.gds.ier.transaction.forces.address.AddressStep.editGet
+POST        /register-to-vote/forces/edit/address                       @uk.gov.gds.ier.transaction.forces.address.AddressStep.editPost
 
 #Manual Address Step
-GET         /register-to-vote/forces/address/manual                     controllers.step.forces.AddressManualController.get
-POST        /register-to-vote/forces/address/manual                     controllers.step.forces.AddressManualController.post
-GET         /register-to-vote/forces/edit/address/manual                controllers.step.forces.AddressManualController.editGet
-POST        /register-to-vote/forces/edit/address/manual                controllers.step.forces.AddressManualController.editPost
+GET         /register-to-vote/forces/address/manual                     @uk.gov.gds.ier.transaction.forces.address.AddressManualStep.get
+POST        /register-to-vote/forces/address/manual                     @uk.gov.gds.ier.transaction.forces.address.AddressManualStep.post
+GET         /register-to-vote/forces/edit/address/manual                @uk.gov.gds.ier.transaction.forces.address.AddressManualStep.editGet
+POST        /register-to-vote/forces/edit/address/manual                @uk.gov.gds.ier.transaction.forces.address.AddressManualStep.editPost
 
 #Select Address Step
-GET         /register-to-vote/forces/address/select                     controllers.step.forces.AddressSelectController.get
-POST        /register-to-vote/forces/address/select                     controllers.step.forces.AddressSelectController.post
-GET         /register-to-vote/forces/edit/address/select                controllers.step.forces.AddressSelectController.editGet
-POST        /register-to-vote/forces/edit/address/select                controllers.step.forces.AddressSelectController.editPost
+GET         /register-to-vote/forces/address/select                     @uk.gov.gds.ier.transaction.forces.address.AddressSelectStep.get
+POST        /register-to-vote/forces/address/select                     @uk.gov.gds.ier.transaction.forces.address.AddressSelectStep.post
+GET         /register-to-vote/forces/edit/address/select                @uk.gov.gds.ier.transaction.forces.address.AddressSelectStep.editGet
+POST        /register-to-vote/forces/edit/address/select                @uk.gov.gds.ier.transaction.forces.address.AddressSelectStep.editPost
 
 #Previous Address Step
-GET         /register-to-vote/forces/previous-address                   controllers.step.forces.PreviousAddressFirstController.get
-POST        /register-to-vote/forces/previous-address                   controllers.step.forces.PreviousAddressFirstController.post
-GET         /register-to-vote/forces/edit/previous-address              controllers.step.forces.PreviousAddressFirstController.editGet
-POST        /register-to-vote/forces/edit/previous-address              controllers.step.forces.PreviousAddressFirstController.editPost
+GET         /register-to-vote/forces/previous-address                   @uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressFirstStep.get
+POST        /register-to-vote/forces/previous-address                   @uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressFirstStep.post
+GET         /register-to-vote/forces/edit/previous-address              @uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressFirstStep.editGet
+POST        /register-to-vote/forces/edit/previous-address              @uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressFirstStep.editPost
 
 #Previous Address Step - postcode entry (if there is a previous address)
-GET         /register-to-vote/forces/previous-address/postcode          controllers.step.forces.PreviousAddressPostcodeController.get
-POST        /register-to-vote/forces/previous-address/postcode          controllers.step.forces.PreviousAddressPostcodeController.post
-GET         /register-to-vote/forces/edit/previous-address/postcode     controllers.step.forces.PreviousAddressPostcodeController.editGet
-POST        /register-to-vote/forces/edit/previous-address/postcode     controllers.step.forces.PreviousAddressPostcodeController.editPost
+GET         /register-to-vote/forces/previous-address/postcode          @uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressPostcodeStep.get
+POST        /register-to-vote/forces/previous-address/postcode          @uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressPostcodeStep.post
+GET         /register-to-vote/forces/edit/previous-address/postcode     @uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressPostcodeStep.editGet
+POST        /register-to-vote/forces/edit/previous-address/postcode     @uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressPostcodeStep.editPost
 
 #Previous Address Step - selection from postcode
-GET         /register-to-vote/forces/previous-address/select            controllers.step.forces.PreviousAddressSelectController.get
-POST        /register-to-vote/forces/previous-address/select            controllers.step.forces.PreviousAddressSelectController.post
-GET         /register-to-vote/forces/edit/previous-address/select       controllers.step.forces.PreviousAddressSelectController.editGet
-POST        /register-to-vote/forces/edit/previous-address/select       controllers.step.forces.PreviousAddressSelectController.editPost
+GET         /register-to-vote/forces/previous-address/select            @uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressSelectStep.get
+POST        /register-to-vote/forces/previous-address/select            @uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressSelectStep.post
+GET         /register-to-vote/forces/edit/previous-address/select       @uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressSelectStep.editGet
+POST        /register-to-vote/forces/edit/previous-address/select       @uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressSelectStep.editPost
 
 #Previous Address Step - manual address
-GET         /register-to-vote/forces/previous-address/manual            controllers.step.forces.PreviousAddressManualController.get
-POST        /register-to-vote/forces/previous-address/manual            controllers.step.forces.PreviousAddressManualController.post
-GET         /register-to-vote/forces/edit/previous-address/manual       controllers.step.forces.PreviousAddressManualController.editGet
-POST        /register-to-vote/forces/edit/previous-address/manual       controllers.step.forces.PreviousAddressManualController.editPost
+GET         /register-to-vote/forces/previous-address/manual            @uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressManualStep.get
+POST        /register-to-vote/forces/previous-address/manual            @uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressManualStep.post
+GET         /register-to-vote/forces/edit/previous-address/manual       @uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressManualStep.editGet
+POST        /register-to-vote/forces/edit/previous-address/manual       @uk.gov.gds.ier.transaction.forces.previousAddress.PreviousAddressManualStep.editPost
 
 
 #Nationality Step
-GET         /register-to-vote/forces/nationality                        controllers.step.forces.NationalityController.get
-POST        /register-to-vote/forces/nationality                        controllers.step.forces.NationalityController.post
-GET         /register-to-vote/forces/edit/nationality                   controllers.step.forces.NationalityController.editGet
-POST        /register-to-vote/forces/edit/nationality                   controllers.step.forces.NationalityController.editPost
+GET         /register-to-vote/forces/nationality                        @uk.gov.gds.ier.transaction.forces.nationality.NationalityStep.get
+POST        /register-to-vote/forces/nationality                        @uk.gov.gds.ier.transaction.forces.nationality.NationalityStep.post
+GET         /register-to-vote/forces/edit/nationality                   @uk.gov.gds.ier.transaction.forces.nationality.NationalityStep.editGet
+POST        /register-to-vote/forces/edit/nationality                   @uk.gov.gds.ier.transaction.forces.nationality.NationalityStep.editPost
 
 #Date of Birth Step
-GET         /register-to-vote/forces/date-of-birth                      controllers.step.forces.DateOfBirthController.get
-POST        /register-to-vote/forces/date-of-birth                      controllers.step.forces.DateOfBirthController.post
-GET         /register-to-vote/forces/edit/date-of-birth                 controllers.step.forces.DateOfBirthController.editGet
-POST        /register-to-vote/forces/edit/date-of-birth                 controllers.step.forces.DateOfBirthController.editPost
+GET         /register-to-vote/forces/date-of-birth                      @uk.gov.gds.ier.transaction.forces.dateOfBirth.DateOfBirthStep.get
+POST        /register-to-vote/forces/date-of-birth                      @uk.gov.gds.ier.transaction.forces.dateOfBirth.DateOfBirthStep.post
+GET         /register-to-vote/forces/edit/date-of-birth                 @uk.gov.gds.ier.transaction.forces.dateOfBirth.DateOfBirthStep.editGet
+POST        /register-to-vote/forces/edit/date-of-birth                 @uk.gov.gds.ier.transaction.forces.dateOfBirth.DateOfBirthStep.editPost
 
 #Name Step
-GET         /register-to-vote/forces/name                               controllers.step.forces.NameController.get
-POST        /register-to-vote/forces/name                               controllers.step.forces.NameController.post
-GET         /register-to-vote/forces/edit/name                          controllers.step.forces.NameController.editGet
-POST        /register-to-vote/forces/edit/name                          controllers.step.forces.NameController.editPost
+GET         /register-to-vote/forces/name                               @uk.gov.gds.ier.transaction.forces.name.NameStep.get
+POST        /register-to-vote/forces/name                               @uk.gov.gds.ier.transaction.forces.name.NameStep.post
+GET         /register-to-vote/forces/edit/name                          @uk.gov.gds.ier.transaction.forces.name.NameStep.editGet
+POST        /register-to-vote/forces/edit/name                          @uk.gov.gds.ier.transaction.forces.name.NameStep.editPost
 
 #Nino Step
-GET         /register-to-vote/forces/nino                               controllers.step.forces.NinoController.get
-POST        /register-to-vote/forces/nino                               controllers.step.forces.NinoController.post
-GET         /register-to-vote/forces/edit/nino                          controllers.step.forces.NinoController.editGet
-POST        /register-to-vote/forces/edit/nino                          controllers.step.forces.NinoController.editPost
+GET         /register-to-vote/forces/nino                               @uk.gov.gds.ier.transaction.forces.nino.NinoStep.get
+POST        /register-to-vote/forces/nino                               @uk.gov.gds.ier.transaction.forces.nino.NinoStep.post
+GET         /register-to-vote/forces/edit/nino                          @uk.gov.gds.ier.transaction.forces.nino.NinoStep.editGet
+POST        /register-to-vote/forces/edit/nino                          @uk.gov.gds.ier.transaction.forces.nino.NinoStep.editPost
 
 #Service Step
-GET         /register-to-vote/forces/service                            controllers.step.forces.ServiceController.get
-POST        /register-to-vote/forces/service                            controllers.step.forces.ServiceController.post
-GET         /register-to-vote/forces/edit/service                       controllers.step.forces.ServiceController.editGet
-POST        /register-to-vote/forces/edit/service                       controllers.step.forces.ServiceController.editPost
+GET         /register-to-vote/forces/service                            @uk.gov.gds.ier.transaction.forces.service.ServiceStep.get
+POST        /register-to-vote/forces/service                            @uk.gov.gds.ier.transaction.forces.service.ServiceStep.post
+GET         /register-to-vote/forces/edit/service                       @uk.gov.gds.ier.transaction.forces.service.ServiceStep.editGet
+POST        /register-to-vote/forces/edit/service                       @uk.gov.gds.ier.transaction.forces.service.ServiceStep.editPost
 
 #Rank Step
-GET         /register-to-vote/forces/rank                               controllers.step.forces.RankController.get
-POST        /register-to-vote/forces/rank                               controllers.step.forces.RankController.post
-GET         /register-to-vote/forces/edit/rank                          controllers.step.forces.RankController.editGet
-POST        /register-to-vote/forces/edit/rank                          controllers.step.forces.RankController.editPost
+GET         /register-to-vote/forces/rank                               @uk.gov.gds.ier.transaction.forces.rank.RankStep.get
+POST        /register-to-vote/forces/rank                               @uk.gov.gds.ier.transaction.forces.rank.RankStep.post
+GET         /register-to-vote/forces/edit/rank                          @uk.gov.gds.ier.transaction.forces.rank.RankStep.editGet
+POST        /register-to-vote/forces/edit/rank                          @uk.gov.gds.ier.transaction.forces.rank.RankStep.editPost
 
 #Contact Address Step
-GET         /register-to-vote/forces/contact-address                    controllers.step.forces.ContactAddressController.get
-POST        /register-to-vote/forces/contact-address                    controllers.step.forces.ContactAddressController.post
-GET         /register-to-vote/forces/edit/contact-address               controllers.step.forces.ContactAddressController.editGet
-POST        /register-to-vote/forces/edit/contact-address               controllers.step.forces.ContactAddressController.editPost
+GET         /register-to-vote/forces/contact-address                    @uk.gov.gds.ier.transaction.forces.contactAddress.ContactAddressStep.get
+POST        /register-to-vote/forces/contact-address                    @uk.gov.gds.ier.transaction.forces.contactAddress.ContactAddressStep.post
+GET         /register-to-vote/forces/edit/contact-address               @uk.gov.gds.ier.transaction.forces.contactAddress.ContactAddressStep.editGet
+POST        /register-to-vote/forces/edit/contact-address               @uk.gov.gds.ier.transaction.forces.contactAddress.ContactAddressStep.editPost
 
 #Open Register Step
-GET         /register-to-vote/forces/open-register                     controllers.step.forces.OpenRegisterController.get
-POST        /register-to-vote/forces/open-register                     controllers.step.forces.OpenRegisterController.post
-GET         /register-to-vote/forces/edit/open-register                controllers.step.forces.OpenRegisterController.editGet
-POST        /register-to-vote/forces/edit/open-register                controllers.step.forces.OpenRegisterController.editPost
+GET         /register-to-vote/forces/open-register                      @uk.gov.gds.ier.transaction.forces.openRegister.OpenRegisterStep.get
+POST        /register-to-vote/forces/open-register                      @uk.gov.gds.ier.transaction.forces.openRegister.OpenRegisterStep.post
+GET         /register-to-vote/forces/edit/open-register                 @uk.gov.gds.ier.transaction.forces.openRegister.OpenRegisterStep.editGet
+POST        /register-to-vote/forces/edit/open-register                 @uk.gov.gds.ier.transaction.forces.openRegister.OpenRegisterStep.editPost
 
 #Ways To Vote Step
-GET         /register-to-vote/forces/ways-to-vote                      controllers.step.forces.WaysToVoteController.get
-POST        /register-to-vote/forces/ways-to-vote                      controllers.step.forces.WaysToVoteController.post
-GET         /register-to-vote/forces/edit/ways-to-vote                 controllers.step.forces.WaysToVoteController.editGet
-POST        /register-to-vote/forces/edit/ways-to-vote                 controllers.step.forces.WaysToVoteController.editPost
+GET         /register-to-vote/forces/ways-to-vote                       @uk.gov.gds.ier.transaction.forces.waysToVote.WaysToVoteStep.get
+POST        /register-to-vote/forces/ways-to-vote                       @uk.gov.gds.ier.transaction.forces.waysToVote.WaysToVoteStep.post
+GET         /register-to-vote/forces/edit/ways-to-vote                  @uk.gov.gds.ier.transaction.forces.waysToVote.WaysToVoteStep.editGet
+POST        /register-to-vote/forces/edit/ways-to-vote                  @uk.gov.gds.ier.transaction.forces.waysToVote.WaysToVoteStep.editPost
 
 #Proxy Vote Step
-GET         /register-to-vote/forces/proxy-vote                       controllers.step.forces.ProxyVoteController.get
-POST        /register-to-vote/forces/proxy-vote                       controllers.step.forces.ProxyVoteController.post
-GET         /register-to-vote/forces/edit/proxy-vote                  controllers.step.forces.ProxyVoteController.editGet
-POST        /register-to-vote/forces/edit/proxy-vote                  controllers.step.forces.ProxyVoteController.editPost
+GET         /register-to-vote/forces/proxy-vote                         @uk.gov.gds.ier.transaction.forces.applicationFormVote.ProxyVoteStep.get
+POST        /register-to-vote/forces/proxy-vote                         @uk.gov.gds.ier.transaction.forces.applicationFormVote.ProxyVoteStep.post
+GET         /register-to-vote/forces/edit/proxy-vote                    @uk.gov.gds.ier.transaction.forces.applicationFormVote.ProxyVoteStep.editGet
+POST        /register-to-vote/forces/edit/proxy-vote                    @uk.gov.gds.ier.transaction.forces.applicationFormVote.ProxyVoteStep.editPost
 
 #Postal Vote Step
-GET         /register-to-vote/forces/postal-vote                       controllers.step.forces.PostalVoteController.get
-POST        /register-to-vote/forces/postal-vote                       controllers.step.forces.PostalVoteController.post
-GET         /register-to-vote/forces/edit/postal-vote                  controllers.step.forces.PostalVoteController.editGet
-POST        /register-to-vote/forces/edit/postal-vote                  controllers.step.forces.PostalVoteController.editPost
+GET         /register-to-vote/forces/postal-vote                        @uk.gov.gds.ier.transaction.forces.applicationFormVote.PostalVoteStep.get
+POST        /register-to-vote/forces/postal-vote                        @uk.gov.gds.ier.transaction.forces.applicationFormVote.PostalVoteStep.post
+GET         /register-to-vote/forces/edit/postal-vote                   @uk.gov.gds.ier.transaction.forces.applicationFormVote.PostalVoteStep.editGet
+POST        /register-to-vote/forces/edit/postal-vote                   @uk.gov.gds.ier.transaction.forces.applicationFormVote.PostalVoteStep.editPost
 
 #Contact Step
-GET         /register-to-vote/forces/contact                           controllers.step.forces.ContactController.get
-POST        /register-to-vote/forces/contact                           controllers.step.forces.ContactController.post
-GET         /register-to-vote/forces/edit/contact                      controllers.step.forces.ContactController.editGet
-POST        /register-to-vote/forces/edit/contact                      controllers.step.forces.ContactController.editPost
+GET         /register-to-vote/forces/contact                            @uk.gov.gds.ier.transaction.forces.contact.ContactStep.get
+POST        /register-to-vote/forces/contact                            @uk.gov.gds.ier.transaction.forces.contact.ContactStep.post
+GET         /register-to-vote/forces/edit/contact                       @uk.gov.gds.ier.transaction.forces.contact.ContactStep.editGet
+POST        /register-to-vote/forces/edit/contact                       @uk.gov.gds.ier.transaction.forces.contact.ContactStep.editPost
 
 
 #Forces Confirmation
-GET         /register-to-vote/forces/confirmation                      controllers.step.forces.ConfirmationController.get
-POST        /register-to-vote/forces/confirmation                      controllers.step.forces.ConfirmationController.post
+GET         /register-to-vote/forces/confirmation                       @uk.gov.gds.ier.transaction.forces.confirmation.ConfirmationStep.get
+POST        /register-to-vote/forces/confirmation                       @uk.gov.gds.ier.transaction.forces.confirmation.ConfirmationStep.post
 
 
 ################################

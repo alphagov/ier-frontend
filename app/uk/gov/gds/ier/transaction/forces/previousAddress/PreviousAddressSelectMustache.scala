@@ -3,13 +3,13 @@ package uk.gov.gds.ier.transaction.forces.previousAddress
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model.{PossibleAddress, Addresses}
-import controllers.step.forces.routes.{PreviousAddressManualController, PreviousAddressPostcodeController}
-import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.transaction.forces.{InprogressForces, WithForcesControllers}
 import uk.gov.gds.ier.service.WithAddressService
 
 trait PreviousAddressSelectMustache
   extends StepTemplate[InprogressForces] {
     self: WithAddressService
+    with WithForcesControllers
     with WithSerialiser =>
 
   val title = "What was your previous UK address?"
@@ -89,8 +89,8 @@ trait PreviousAddressSelectMustache
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),
-      lookupUrl = PreviousAddressPostcodeController.get.url,
-      manualUrl = PreviousAddressManualController.get.url,
+      lookupUrl = forces.PreviousAddressPostcodeStep.routing.get.url,
+      manualUrl = forces.PreviousAddressManualStep.routing.get.url,
       postcode = TextField(keys.previousAddress.postcode),
       address = addressSelectWithError,  // this is model data for <select>
       possibleJsonList = HiddenField(

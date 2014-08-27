@@ -1,9 +1,7 @@
 package uk.gov.gds.ier.transaction.forces.address
 
-import controllers.step.forces.routes._
-import controllers.step.forces.{PreviousAddressFirstController, NationalityController}
-import com.google.inject.Inject
-import play.api.mvc.Call
+import uk.gov.gds.ier.transaction.forces.ForcesControllers
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{
   LastAddress,
@@ -17,13 +15,15 @@ import uk.gov.gds.ier.step.{ForcesStep, Routes}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class AddressSelectStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService,
-    val remoteAssets: RemoteAssets)
-  extends ForcesStep
+    val remoteAssets: RemoteAssets,
+    val forces: ForcesControllers
+) extends ForcesStep
   with AddressSelectMustache
   with AddressForms
   with WithAddressService {
@@ -31,10 +31,10 @@ class AddressSelectStep @Inject() (
   val validation = selectStepForm
 
   val routing = Routes(
-    get = AddressSelectController.get,
-    post = AddressSelectController.post,
-    editGet = AddressSelectController.editGet,
-    editPost = AddressSelectController.editPost
+    get = routes.AddressSelectStep.get,
+    post = routes.AddressSelectStep.post,
+    editGet = routes.AddressSelectStep.editGet,
+    editPost = routes.AddressSelectStep.editPost
   )
 
   def nextStep(currentState: InprogressForces) = {
@@ -43,9 +43,9 @@ class AddressSelectStep @Inject() (
     currentState.address flatMap {
       address => address.hasAddress
     } match {
-      case Some(YesAndLivingThere) => PreviousAddressFirstController.previousAddressFirstStep
-      case Some(YesAndNotLivingThere) => PreviousAddressFirstController.previousAddressFirstStep
-      case _ => NationalityController.nationalityStep
+      case Some(YesAndLivingThere) => forces.PreviousAddressFirstStep
+      case Some(YesAndNotLivingThere) => forces.PreviousAddressFirstStep
+      case _ => forces.NationalityStep
     }
   }
 

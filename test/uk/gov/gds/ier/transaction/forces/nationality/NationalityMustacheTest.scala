@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.transaction.forces.nationality
 
 import uk.gov.gds.ier.test._
-import controllers.step.forces.routes._
 import uk.gov.gds.ier.model.{PartialNationality}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
@@ -14,7 +13,7 @@ class NationalityMustacheTest
     val emptyApplicationForm = nationalityForm
     val nationalityModel = mustache.data(
       emptyApplicationForm,
-      NationalityController.post,
+      Call("POST", "/register-to-vote/forces/nationality"),
       InprogressForces()
     ).asInstanceOf[NationalityModel]
 
@@ -47,7 +46,7 @@ class NationalityMustacheTest
 
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
-      NationalityController.post,
+      Call("POST", "/register-to-vote/forces/nationality"),
       InprogressForces()
     ).asInstanceOf[NationalityModel]
 
@@ -78,7 +77,7 @@ class NationalityMustacheTest
 
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
-      NationalityController.post,
+      Call("POST", "/register-to-vote/forces/nationality"),
       InprogressForces()
     ).asInstanceOf[NationalityModel]
 
@@ -109,7 +108,7 @@ class NationalityMustacheTest
 
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
-      NationalityController.post,
+      Call("POST", "/register-to-vote/forces/nationality"),
       InprogressForces()
     ).asInstanceOf[NationalityModel]
 
@@ -140,7 +139,7 @@ class NationalityMustacheTest
 
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
-      NationalityController.post,
+      Call("POST", "/register-to-vote/forces/nationality"),
       InprogressForces()
     ).asInstanceOf[NationalityModel]
 
@@ -171,7 +170,7 @@ class NationalityMustacheTest
 
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
-      NationalityController.post,
+      Call("POST", "/register-to-vote/forces/nationality"),
       InprogressForces()
     ).asInstanceOf[NationalityModel]
 
@@ -204,7 +203,7 @@ class NationalityMustacheTest
 
     val nationalityModel = mustache.data(
       partiallyFilledApplicationForm,
-      NationalityController.post,
+      Call("POST", "/register-to-vote/forces/nationality"),
       InprogressForces()
     ).asInstanceOf[NationalityModel]
 

@@ -57,7 +57,7 @@ class RegisterToVoteController @Inject() (
 
   def registerToVoteForcesStart = NewSession in Action {
     request =>
-      Redirect(step.forces.routes.StatementController.get.url, request.queryString)
+      Redirect(forces.statement.routes.StatementStep.get.url, request.queryString)
   }
 
   def registerToVoteCrown = Action {

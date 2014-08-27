@@ -1,33 +1,33 @@
 package uk.gov.gds.ier.transaction.forces.service
 
-import controllers.step.forces.RankController
-import com.google.inject.Inject
+import uk.gov.gds.ier.transaction.forces.ForcesControllers
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.model._
-import controllers.step.forces.routes._
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{ForcesStep, Routes}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class ServiceStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets)
-
-  extends ForcesStep
+    val remoteAssets: RemoteAssets,
+    val forces: ForcesControllers
+) extends ForcesStep
     with ServiceForms
     with ServiceMustache {
 
   val validation = serviceForm
 
   val routing = Routes(
-    get = ServiceController.get,
-    post = ServiceController.post,
-    editGet = ServiceController.editGet,
-    editPost = ServiceController.editPost
+    get = routes.ServiceStep.get,
+    post = routes.ServiceStep.post,
+    editGet = routes.ServiceStep.editGet,
+    editPost = routes.ServiceStep.editPost
   )
 
   override val onSuccess = TransformApplication { currentState =>
@@ -41,6 +41,6 @@ class ServiceStep @Inject ()(
   } andThen GoToNextIncompleteStep()
 
   def nextStep(currentState: InprogressForces) = {
-    RankController.rankStep
+    forces.RankStep
   }
 }

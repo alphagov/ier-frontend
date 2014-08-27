@@ -2,7 +2,6 @@ package uk.gov.gds.ier.transaction.forces.statement
 
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.{Statement}
-import controllers.step.forces.routes._
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class StatementMustacheTest

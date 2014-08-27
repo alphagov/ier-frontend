@@ -1,8 +1,7 @@
 package uk.gov.gds.ier.transaction.forces.rank
 
-import controllers.step.forces.ContactAddressController
-import controllers.step.forces.routes.{ServiceController, RankController}
-import com.google.inject.Inject
+import uk.gov.gds.ier.transaction.forces.ForcesControllers
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
@@ -10,25 +9,27 @@ import uk.gov.gds.ier.step.{ForcesStep, Routes}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class RankStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets)
-  extends ForcesStep
+    val remoteAssets: RemoteAssets,
+    val forces: ForcesControllers
+) extends ForcesStep
   with RankForms
   with RankMustache {
 
   val validation = rankForm
 
   val routing = Routes(
-    get = RankController.get,
-    post = RankController.post,
-    editGet = RankController.editGet,
-    editPost = RankController.editPost
+    get = routes.RankStep.get,
+    post = routes.RankStep.post,
+    editGet = routes.RankStep.editGet,
+    editPost = routes.RankStep.editPost
   )
 
   def nextStep(currentState: InprogressForces) = {
-    ContactAddressController.contactAddressStep
+    forces.ContactAddressStep
   }
 }

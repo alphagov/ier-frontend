@@ -1,13 +1,10 @@
 package uk.gov.gds.ier.transaction.forces.dateOfBirth
 
-import controllers.step.forces.NameController
-import controllers.step.forces.routes.{DateOfBirthController, NationalityController}
+import uk.gov.gds.ier.transaction.forces.ForcesControllers
 import controllers.routes.ExitController
-import com.google.inject.Inject
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import play.api.mvc.Call
 import uk.gov.gds.ier.model.{DateOfBirth, noDOB}
-import play.api.templates.Html
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.config.Config
@@ -16,22 +13,24 @@ import uk.gov.gds.ier.step.{ForcesStep, Routes, GoTo}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class DateOfBirthStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets)
-  extends ForcesStep
+    val remoteAssets: RemoteAssets,
+    val forces: ForcesControllers
+) extends ForcesStep
   with DateOfBirthForms
   with DateOfBirthMustache{
 
   val validation = dateOfBirthForm
 
   val routing = Routes(
-    get = DateOfBirthController.get,
-    post = DateOfBirthController.post,
-    editGet = DateOfBirthController.editGet,
-    editPost = DateOfBirthController.editPost
+    get = routes.DateOfBirthStep.get,
+    post = routes.DateOfBirthStep.post,
+    editGet = routes.DateOfBirthStep.editGet,
+    editPost = routes.DateOfBirthStep.editPost
   )
 
   override val onSuccess = TransformApplication { currentState =>
@@ -57,7 +56,7 @@ class DateOfBirthStep @Inject ()(
         if range == DateOfBirthConstants.dontKnow => {
           GoTo(ExitController.dontKnow)
       }
-      case _ => NameController.nameStep
+      case _ => forces.NameStep
     }
   }
 }

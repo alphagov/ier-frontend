@@ -1,11 +1,11 @@
 package uk.gov.gds.ier.transaction.forces.address
 
 import uk.gov.gds.ier.step.StepTemplate
-import controllers.step.forces.routes.AddressController
-import uk.gov.gds.ier.transaction.forces.InprogressForces
+import uk.gov.gds.ier.transaction.forces.{InprogressForces, WithForcesControllers}
 import uk.gov.gds.ier.model.HasAddressOption
 
 trait AddressManualMustache extends StepTemplate[InprogressForces] {
+  self: WithForcesControllers =>
 
   private def pageTitle(hasUkAddress: Option[String]): String = {
     hasUkAddress map HasAddressOption.parse match {
@@ -38,7 +38,7 @@ trait AddressManualMustache extends StepTemplate[InprogressForces] {
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),
-      lookupUrl = AddressController.get.url,
+      lookupUrl = forces.AddressStep.routing.get.url,
       postcode = TextField(keys.address.address.postcode),
       maLineOne = TextField(keys.address.address.manualAddress.lineOne),
       maLineTwo = TextField(keys.address.address.manualAddress.lineTwo),

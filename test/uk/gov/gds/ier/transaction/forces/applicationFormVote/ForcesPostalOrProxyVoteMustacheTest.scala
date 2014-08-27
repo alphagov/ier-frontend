@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.transaction.forces.applicationFormVote
 
 import uk.gov.gds.ier.test._
-import controllers.step.forces.routes._
 import uk.gov.gds.ier.model.{
   PostalVoteDeliveryMethod,
   PostalOrProxyVote,
@@ -20,7 +19,7 @@ class ForcesPostalOrProxyVoteMustacheTest
     val emptyApplicationForm = postalOrProxyVoteForm
     val postalOrProxyVoteModel = mustache.data(
       emptyApplicationForm,
-      PostalVoteController.post,
+      Call("POST", "/register-to-vote/forces/postal-vote"),
       InprogressForces()
     ).asInstanceOf[PostalOrProxyVoteModel]
 
@@ -52,7 +51,7 @@ class ForcesPostalOrProxyVoteMustacheTest
 
     val postalOrProxyVoteModel = mustache.data(
       partiallyFilledApplicationForm,
-      PostalVoteController.post,
+      Call("POST", "/register-to-vote/forces/postal-vote"),
       InprogressForces()
     ).asInstanceOf[PostalOrProxyVoteModel]
 
@@ -85,7 +84,7 @@ class ForcesPostalOrProxyVoteMustacheTest
 
     val postalOrProxyVoteModel = mustache.data(
       partiallyFilledApplicationFormWithErrors,
-      PostalVoteController.post,
+      Call("POST", "/register-to-vote/forces/postal-vote"),
       InprogressForces()
     ).asInstanceOf[PostalOrProxyVoteModel]
 

@@ -12,7 +12,21 @@ class ConfirmationMustacheTest
   with ConfirmationForms
   with ConfirmationMustache
   with WithMockAddressService
+  with WithMockForcesControllers
   with MockitoHelpers {
+  
+  when(mockNameStep.routing).thenReturn(routes("/register-to-vote/forces/edit/name"))
+  when(mockDateOfBirthStep.routing).thenReturn(routes("/register-to-vote/forces/edit/date-of-birth"))
+  when(mockNationalityStep.routing).thenReturn(routes("/register-to-vote/forces/edit/nationality"))
+  when(mockNinoStep.routing).thenReturn(routes("/register-to-vote/forces/edit/nino"))
+  when(mockAddressFirstStep.routing).thenReturn(routes("/register-to-vote/forces/edit/address/first"))
+  when(mockPreviousAddressFirstStep.routing).thenReturn(routes("/register-to-vote/forces/edit/previous-address"))
+  when(mockContactAddressStep.routing).thenReturn(routes("/register-to-vote/forces/edit/contact-address"))
+  when(mockContactStep.routing).thenReturn(routes("/register-to-vote/forces/edit/contact"))
+  when(mockOpenRegisterStep.routing).thenReturn(routes("/register-to-vote/forces/edit/open-register"))
+  when(mockWaysToVoteStep.routing).thenReturn(routes("/register-to-vote/forces/edit/ways-to-vote"))
+  when(mockServiceStep.routing).thenReturn(routes("/register-to-vote/forces/edit/service"))
+  when(mockRankStep.routing).thenReturn(routes("/register-to-vote/forces/edit/rank"))
 
   "In-progress application form without a forces partner (member = true)" should
     "generate confirmation mustache model without forces partner block" in {

@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.transaction.forces.openRegister
 
 import uk.gov.gds.ier.test._
-import controllers.step.forces.routes._
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
 class OpenRegisterMustacheTests
@@ -13,7 +12,7 @@ class OpenRegisterMustacheTests
     val emptyApplicationForm = openRegisterForm
     val openRegisterModel = mustache.data(
       emptyApplicationForm,
-      OpenRegisterController.post,
+      Call("POST", "/register-to-vote/forces/open-register"),
       InprogressForces()
     ).asInstanceOf[OpenRegisterModel]
 
@@ -33,7 +32,7 @@ class OpenRegisterMustacheTests
     )
     val openRegisterModel = mustache.data(
       partiallyFilledApplicationForm,
-      OpenRegisterController.post,
+      Call("POST", "/register-to-vote/forces/open-register"),
       InprogressForces()
     ).asInstanceOf[OpenRegisterModel]
 
@@ -53,7 +52,7 @@ class OpenRegisterMustacheTests
     )
     val openRegisterModel = mustache.data(
       partiallyFilledApplicationForm,
-      OpenRegisterController.post,
+      Call("POST", "/register-to-vote/forces/open-register"),
       InprogressForces()
     ).asInstanceOf[OpenRegisterModel]
 
