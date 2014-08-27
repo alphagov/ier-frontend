@@ -190,7 +190,7 @@ class AddressStepTests extends ControllerTestSuite {
     }
   }
 
-behavior of "AddressStep.editGet"
+  behavior of "AddressStep.editGet"
   it should "display the page" in {
     running(FakeApplication()) {
       val Some(result) = route(
