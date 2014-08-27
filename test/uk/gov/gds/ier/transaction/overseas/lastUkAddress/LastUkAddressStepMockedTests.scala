@@ -7,7 +7,6 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.model.PartialAddress
 import controllers.routes._
-import controllers.step.overseas.LastUkAddressSelectController
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.step.GoTo
 import uk.gov.gds.ier.assets.RemoteAssets
