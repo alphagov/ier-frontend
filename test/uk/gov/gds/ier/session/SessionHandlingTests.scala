@@ -11,34 +11,34 @@ import uk.gov.gds.ier.guice.{WithEncryption, WithConfig}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.step.InprogressApplication
 import play.api.libs.concurrent.Execution.Implicits._
+import uk.gov.gds.ier.model.StartupApplication
 
 
 class SessionHandlingTests extends ControllerTestSuite {
 
-  case class FakeInprogress(foo:String) extends InprogressApplication[FakeInprogress] {
+  private case class FakeInprogress(foo:String, sessionId: Option[String] = None) extends InprogressApplication[FakeInprogress] {
     def merge(other:FakeInprogress) = {
       this.copy(foo + other.foo)
     }
   }
 
-  it should "successfully create a new session" in {
+  it should "successfully create a new session and application cookies" in {
     running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
       class TestController
         extends SessionHandling[FakeInprogress]
-          with SessionCleaner
-          with Controller
-          with WithSerialiser
-          with WithConfig
-          with Logging
-          with ApiResults
-          with WithEncryption {
+        with SessionCleaner
+        with Controller
+        with WithSerialiser
+        with WithConfig
+        with Logging
+        with ApiResults
+        with WithEncryption {
 
         def timeoutPage() = Call(GET, "/error/timeout")
         def factoryOfT() = FakeInprogress("")
         val serialiser = jsonSerialiser
         val config = new MockConfig
         val encryptionService = new EncryptionService (new Base64EncodingService, config)
-
 
         def index() = NewSession in Action {
           request =>
@@ -55,18 +55,83 @@ class SessionHandlingTests extends ControllerTestSuite {
       cookies(result).get("sessionKey") should not be None
       cookies(result).get("sessionKeyIV") should not be None
 
-      val Some(cookie) = cookies(result).get("sessionKey")
-      val Some(cookieIV) = cookies(result).get("sessionKeyIV")
+      val Some(sessionCookie) = cookies(result).get("sessionKey")
+      val Some(sessionCookieIV) = cookies(result).get("sessionKeyIV")
 
-      val decryptedInfo = controller.encryptionService.decrypt(cookie.value, cookieIV.value)
+      val decryptedSessionInfo = controller.encryptionService.decrypt(sessionCookie.value, sessionCookieIV.value)
 
-      val token = jsonSerialiser.fromJson[SessionToken](decryptedInfo)
+      val token = jsonSerialiser.fromJson[SessionToken](decryptedSessionInfo)
       token.latest.getDayOfMonth should be(DateTime.now.getDayOfMonth)
       token.latest.getMonthOfYear should be(DateTime.now.getMonthOfYear)
       token.latest.getYear should be(DateTime.now.getYear)
       token.latest.getHourOfDay should be(DateTime.now.getHourOfDay)
       token.latest.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
       token.latest.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 2)
+      token.id.isDefined should be(true)
+
+      cookies(result).get("application") should not be None
+      cookies(result).get("applicationIV") should not be None
+      val Some(appCookie) = cookies(result).get("application")
+      val Some(appCookieIV) = cookies(result).get("applicationIV")
+
+      val decryptedAppInfo = controller.encryptionService.decrypt(appCookie.value, appCookieIV.value)
+      val appToken = jsonSerialiser.fromJson[StartupApplication](decryptedAppInfo)
+
+      appToken.sessionId.isDefined should be(true)
+      appToken.sessionId should be(token.id)
+    }
+  }
+
+  it should "successfully a new application cookie with new id for new session" in {
+    running(FakeApplication(additionalConfiguration = Map("application.secret" -> "test"))) {
+      class TestController
+        extends SessionHandling[FakeInprogress]
+        with SessionCleaner
+        with Controller
+        with WithSerialiser
+        with WithConfig
+        with Logging
+        with ApiResults
+        with WithEncryption {
+
+        def timeoutPage() = Call(GET, "/error/timeout")
+        def factoryOfT() = FakeInprogress("")
+        val serialiser = jsonSerialiser
+        val config = new MockConfig
+        val encryptionService = new EncryptionService (new Base64EncodingService, config)
+
+        def index() = NewSession in Action {
+          request =>
+            okResult(Map("status" -> "Ok"))
+        }
+      }
+      val controller = new TestController()
+
+      val initialResult = controller.index()(FakeRequest())
+      status(initialResult) should be(OK)
+
+      cookies(initialResult).get("application") should not be None
+      cookies(initialResult).get("applicationIV") should not be None
+      val Some(initialAppCookie) = cookies(initialResult).get("application")
+      val Some(initialAppCookieIV) = cookies(initialResult).get("applicationIV")
+
+      val initialDecryptedAppInfo = controller.encryptionService.decrypt(initialAppCookie.value, initialAppCookieIV.value)
+      val initialAppToken = jsonSerialiser.fromJson[StartupApplication](initialDecryptedAppInfo)
+      initialAppToken.sessionId.isDefined should be(true)
+
+      val result = controller.index()(FakeRequest())
+      status(result) should be(OK)
+
+      cookies(result).get("application") should not be None
+      cookies(result).get("applicationIV") should not be None
+      val Some(appCookie) = cookies(result).get("application")
+      val Some(appCookieIV) = cookies(result).get("applicationIV")
+
+      val decryptedAppInfo = controller.encryptionService.decrypt(appCookie.value, appCookieIV.value)
+      val appToken = jsonSerialiser.fromJson[StartupApplication](decryptedAppInfo)
+
+      appToken.sessionId.isDefined should be(true)
+      appToken.sessionId should not be(initialAppToken.sessionId)
     }
   }
 
