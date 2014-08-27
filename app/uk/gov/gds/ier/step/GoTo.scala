@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.step
 
-import controllers.routes._
+import uk.gov.gds.ier.controller.routes._
 import play.api.mvc.Call
 import play.api.mvc.Results.Redirect
 

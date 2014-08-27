@@ -9,7 +9,7 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.transaction.ordinary.address.AddressStep
 import uk.gov.gds.ier.step.GoTo
-import controllers.routes.ExitController
+import uk.gov.gds.ier.controller.routes.ExitController
 import uk.gov.gds.ier.service.apiservice.ConcreteIerApiService
 import uk.gov.gds.ier.client.LocateApiClient
 import uk.gov.gds.ier.model.ApiResponse
@@ -53,7 +53,7 @@ class LocalAuthorityControllerTests extends MockingControllerTestSuite {
   val stubGlobal = new DynamicGlobal {
     override def bindings = { binder =>
       binder bind classOf[Config] toInstance stubConfig
-      binder bind classOf[ApiClient] toInstance mockApiClient
+      binder bind classOf[LocateApiClient] toInstance mockApiClient
     }
   }
 

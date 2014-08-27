@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.mustache
 
-import controllers.routes.RegisterToVoteController
+import uk.gov.gds.ier.controller.routes.RegisterToVoteController
 import uk.gov.gds.ier.guice.{WithRemoteAssets, WithConfig}
 import play.api.templates.Html
 

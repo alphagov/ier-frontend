@@ -14,7 +14,8 @@ import uk.gov.gds.ier.transaction.crown.{InprogressCrown, CrownControllers, With
 import uk.gov.gds.ier.model.{WaysToVoteType, ApplicationType}
 import uk.gov.gds.ier.transaction.complete.CompleteCookie
 import uk.gov.gds.ier.session.ResultHandling
-import controllers.routes.{ErrorController, CompleteController}
+import uk.gov.gds.ier.transaction.complete.routes.CompleteStep
+import uk.gov.gds.ier.controller.routes.ErrorController
 
 @Singleton
 class ConfirmationStep @Inject() (
@@ -94,7 +95,7 @@ class ConfirmationStep @Inject() (
             showBirthdayBunting =  isBirthdayToday
           )
 
-          Redirect(CompleteController.complete())
+          Redirect(CompleteStep.complete())
             .emptySession()
             .storeCompleteCookie(completeStepData)
         }

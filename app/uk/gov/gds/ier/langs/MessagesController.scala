@@ -1,7 +1,9 @@
 package uk.gov.gds.ier.langs
 
 import play.api.mvc._
+import com.google.inject.Singleton
 
+@Singleton
 class MessagesController extends Controller {
 
   def all = Action {

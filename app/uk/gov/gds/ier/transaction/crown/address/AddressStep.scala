@@ -8,7 +8,7 @@ import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{GoTo, CrownStep, Routes}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
-import controllers.routes.ExitController
+import uk.gov.gds.ier.controller.routes.ExitController
 import uk.gov.gds.ier.assets.RemoteAssets
 
 @Singleton

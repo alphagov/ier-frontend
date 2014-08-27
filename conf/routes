@@ -3,48 +3,48 @@
 # ~~~~
 
 # Home page
-GET         /template-test                                               controllers.RegisterToVoteController.templateTest
-GET         /                                                            controllers.RegisterToVoteController.redirectToOrdinary
-GET         /register-to-vote                                            controllers.RegisterToVoteController.registerToVote
-GET         /register-to-vote/start                                      controllers.RegisterToVoteController.registerToVoteStart
+GET         /template-test                                               @uk.gov.gds.ier.controller.RegisterToVoteController.templateTest
+GET         /                                                            @uk.gov.gds.ier.controller.RegisterToVoteController.redirectToOrdinary
+GET         /register-to-vote                                            @uk.gov.gds.ier.controller.RegisterToVoteController.registerToVote
+GET         /register-to-vote/start                                      @uk.gov.gds.ier.controller.RegisterToVoteController.registerToVoteStart
 
 #Complete Route
-GET         /register-to-vote/complete                                   controllers.CompleteController.complete
-GET         /register-to-vote/overseas/complete                          controllers.CompleteController.overseasComplete
+GET         /register-to-vote/complete                                   @uk.gov.gds.ier.transaction.complete.CompleteStep.complete
+GET         /register-to-vote/overseas/complete                          @uk.gov.gds.ier.transaction.complete.CompleteStep.overseasComplete
 
 #Service Routes
-GET         /register-to-vote/privacy                                    controllers.RegisterToVoteController.privacy
-GET         /register-to-vote/cookies                                    controllers.RegisterToVoteController.cookies
+GET         /register-to-vote/privacy                                    @uk.gov.gds.ier.controller.RegisterToVoteController.privacy
+GET         /register-to-vote/cookies                                    @uk.gov.gds.ier.controller.RegisterToVoteController.cookies
 
 #Exit Routes
-GET         /register-to-vote/exit/british-islands                       controllers.ExitController.britishIslands
-GET         /register-to-vote/exit/scotland                              controllers.ExitController.scotland
-GET         /register-to-vote/exit/northern-ireland                      controllers.ExitController.northernIreland
-GET         /register-to-vote/exit/under-18                              controllers.ExitController.under18
-GET         /register-to-vote/exit/dont-know                             controllers.ExitController.dontKnow
-GET         /register-to-vote/exit/too-young                             controllers.ExitController.tooYoung
-GET         /register-to-vote/exit/no-franchise                          controllers.ExitController.noFranchise
-GET         /register-to-vote/exit/overseas/left-uk-over-15-years        controllers.ExitController.leftUkOver15Years
-GET         /register-to-vote/exit/overseas/too-old-when-left-uk         controllers.ExitController.tooOldWhenLeftUk
-GET         /register-to-vote/exit/overseas/left-service-over-15-years        controllers.ExitController.leftSpecialOver15Years
+GET         /register-to-vote/exit/british-islands                       @uk.gov.gds.ier.controller.ExitController.britishIslands
+GET         /register-to-vote/exit/scotland                              @uk.gov.gds.ier.controller.ExitController.scotland
+GET         /register-to-vote/exit/northern-ireland                      @uk.gov.gds.ier.controller.ExitController.northernIreland
+GET         /register-to-vote/exit/under-18                              @uk.gov.gds.ier.controller.ExitController.under18
+GET         /register-to-vote/exit/dont-know                             @uk.gov.gds.ier.controller.ExitController.dontKnow
+GET         /register-to-vote/exit/too-young                             @uk.gov.gds.ier.controller.ExitController.tooYoung
+GET         /register-to-vote/exit/no-franchise                          @uk.gov.gds.ier.controller.ExitController.noFranchise
+GET         /register-to-vote/exit/overseas/left-uk-over-15-years        @uk.gov.gds.ier.controller.ExitController.leftUkOver15Years
+GET         /register-to-vote/exit/overseas/too-old-when-left-uk         @uk.gov.gds.ier.controller.ExitController.tooOldWhenLeftUk
+GET         /register-to-vote/exit/overseas/left-service-over-15-years        @uk.gov.gds.ier.controller.ExitController.leftSpecialOver15Years
 
 
 #Error Routes
-GET         /register-to-vote/error/timeout                              controllers.ErrorController.ordinaryTimeout
-GET         /register-to-vote/error/forces/timeout                       controllers.ErrorController.forcesTimeout
-GET         /register-to-vote/error/crown/timeout                        controllers.ErrorController.crownTimeout
-GET         /register-to-vote/error/serverError                          controllers.ErrorController.serverError
-GET         /register-to-vote/error/notFound                             controllers.ErrorController.notFound
+GET         /register-to-vote/error/timeout                              @uk.gov.gds.ier.controller.ErrorController.ordinaryTimeout
+GET         /register-to-vote/error/forces/timeout                       @uk.gov.gds.ier.controller.ErrorController.forcesTimeout
+GET         /register-to-vote/error/crown/timeout                        @uk.gov.gds.ier.controller.ErrorController.crownTimeout
+GET         /register-to-vote/error/serverError                          @uk.gov.gds.ier.controller.ErrorController.serverError
+GET         /register-to-vote/error/notFound                             @uk.gov.gds.ier.controller.ErrorController.notFound
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/messages.js                                          controllers.MessagesController.all
-GET         /assets/:lang/messages.js                                    controllers.MessagesController.forLang(lang:String)
-GET         /assets/template/*file                                       controllers.Template.at(path="/app/assets/mustache/govuk_template_inheritance/assets", file)
-GET         /assets/toolkit/*file                                        controllers.GovukToolkit.at(path="/app/assets/govuk_frontend_toolkit", file)
-GET         /assets/*file                                                controllers.Assets.at(path="/public", file)
+GET         /assets/messages.js                                          @uk.gov.gds.ier.langs.MessagesController.all
+GET         /assets/:lang/messages.js                                    @uk.gov.gds.ier.langs.MessagesController.forLang(lang:String)
+GET         /assets/template/*file                                       uk.gov.gds.ier.assets.Template.at(path="/app/assets/mustache/govuk_template_inheritance/assets", file)
+GET         /assets/toolkit/*file                                        uk.gov.gds.ier.assets.GovukToolkit.at(path="/app/assets/govuk_frontend_toolkit", file)
+GET         /assets/*file                                                uk.gov.gds.ier.assets.Assets.at(path="/public", file)
 
 # Status route
-GET         /status                                                      controllers.StatusController.status
+GET         /status                                                      @uk.gov.gds.ier.controller.StatusController.status
 
 
 
@@ -159,7 +159,7 @@ POST        /register-to-vote/edit/nino                                  @uk.gov
 
 
 #Postcode Lookup
-GET         /address/:postcode                                           controllers.PostcodeController.lookupAddress(postcode)
+GET         /address/:postcode                                           @uk.gov.gds.ier.controller.PostcodeController.lookupAddress(postcode)
 
 
 
@@ -168,7 +168,7 @@ GET         /address/:postcode                                           control
 ################################
 
 #Overseas Start page
-GET         /register-to-vote/overseas/start                             controllers.RegisterToVoteController.registerToVoteOverseasStart
+GET         /register-to-vote/overseas/start                             @uk.gov.gds.ier.controller.RegisterToVoteController.registerToVoteOverseasStart
 
 #Date of Birth Oversesas
 GET         /register-to-vote/overseas/date-of-birth                     @uk.gov.gds.ier.transaction.overseas.dateOfBirth.DateOfBirthStep.get
@@ -326,8 +326,8 @@ POST        /register-to-vote/overseas/confirmation                      @uk.gov
 ################################
 
 #Forces Start page
-GET         /register-to-vote/forces                                    controllers.RegisterToVoteController.registerToVoteForces
-GET         /register-to-vote/forces/start                              controllers.RegisterToVoteController.registerToVoteForcesStart
+GET         /register-to-vote/forces                                    @uk.gov.gds.ier.controller.RegisterToVoteController.registerToVoteForces
+GET         /register-to-vote/forces/start                              @uk.gov.gds.ier.controller.RegisterToVoteController.registerToVoteForcesStart
 
 #Statement Step
 GET         /register-to-vote/forces/statement                          @uk.gov.gds.ier.transaction.forces.statement.StatementStep.get
@@ -468,8 +468,8 @@ POST        /register-to-vote/forces/confirmation                       @uk.gov.
 ################################
 
 #Crown Start page
-GET         /register-to-vote/crown                                    controllers.RegisterToVoteController.registerToVoteCrown
-GET         /register-to-vote/crown/start                              controllers.RegisterToVoteController.registerToVoteCrownStart
+GET         /register-to-vote/crown                                    @uk.gov.gds.ier.controller.RegisterToVoteController.registerToVoteCrown
+GET         /register-to-vote/crown/start                              @uk.gov.gds.ier.controller.RegisterToVoteController.registerToVoteCrownStart
 
 #Statement Step
 GET         /register-to-vote/crown/statement                          @uk.gov.gds.ier.transaction.crown.statement.StatementStep.get
@@ -604,11 +604,11 @@ GET         /register-to-vote/crown/confirmation                       @uk.gov.g
 POST        /register-to-vote/crown/confirmation                       @uk.gov.gds.ier.transaction.crown.confirmation.ConfirmationStep.post
 
 # Zendesk proxy
-GET         /register-to-vote/feedback                                controllers.FeedbackController.get(sourcePath: Option[String] ?= None)
-POST        /register-to-vote/feedback                                controllers.FeedbackController.post(sourcePath: Option[String] ?= None)
-GET         /register-to-vote/feedback/thank-you                      controllers.FeedbackController.thankYou(sourcePath: Option[String] ?= None)
+GET         /register-to-vote/feedback                                 @uk.gov.gds.ier.feedback.FeedbackPage.get(sourcePath: Option[String] ?= None)
+POST        /register-to-vote/feedback                                 @uk.gov.gds.ier.feedback.FeedbackPage.post(sourcePath: Option[String] ?= None)
+GET         /register-to-vote/feedback/thank-you                       @uk.gov.gds.ier.feedback.FeedbackPage.thankYou(sourcePath: Option[String] ?= None)
 
 # Local Authority Lookup
-GET         /register-to-vote/local-authority/lookup                  controllers.LocalAuthorityController.showLookup(sourcePath: Option[String] ?= None)
-POST        /register-to-vote/local-authority/lookup                  controllers.LocalAuthorityController.doLookup(sourcePath: Option[String] ?= None)
-GET         /register-to-vote/local-authority/:gssCode                controllers.LocalAuthorityController.ero(gssCode:String, sourcePath: Option[String] ?= None)
+GET         /register-to-vote/local-authority/lookup                   @uk.gov.gds.ier.localAuthority.LocalAuthorityController.showLookup(sourcePath: Option[String] ?= None)
+POST        /register-to-vote/local-authority/lookup                   @uk.gov.gds.ier.localAuthority.LocalAuthorityController.doLookup(sourcePath: Option[String] ?= None)
+GET         /register-to-vote/local-authority/:gssCode                 @uk.gov.gds.ier.localAuthority.LocalAuthorityController.ero(gssCode:String, sourcePath: Option[String] ?= None)

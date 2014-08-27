@@ -1,6 +1,6 @@
 package uk.gov.gds.ier.transaction.ordinary.nationality
 
-import controllers.routes.ExitController
+import uk.gov.gds.ier.controller.routes.ExitController
 import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.validation._

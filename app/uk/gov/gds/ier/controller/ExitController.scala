@@ -11,7 +11,9 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.mustache.ExitPageMustache
 import uk.gov.gds.ier.assets.RemoteAssets
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import com.google.inject.Singleton
 
+@Singleton
 class ExitController @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,

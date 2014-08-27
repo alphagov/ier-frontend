@@ -23,7 +23,9 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.assets.RemoteAssets
 import play.api.mvc.Request
 import play.api.mvc.AnyContent
+import com.google.inject.Singleton
 
+@Singleton
 class LocalAuthorityController @Inject() (
     val ierApiService: ConcreteIerApiService,
     val addressService: AddressService,
@@ -54,13 +56,13 @@ class LocalAuthorityController @Inject() (
       hasErrors => BadRequest(LocalAuthorityPostcodePage(
         hasErrors,
         sourcePath,
-        controllers.routes.LocalAuthorityController.showLookup(sourcePath).url
+        routes.LocalAuthorityController.showLookup(sourcePath).url
       )),
       success => {
         val gssCode = addressService.lookupGssCode(success.postcode)
         gssCode match {
           case Some(gss) => Redirect(
-            controllers.routes.LocalAuthorityController.ero(gss, sourcePath)
+            routes.LocalAuthorityController.ero(gss, sourcePath)
           )
           case None => BadRequest(
             LocalAuthorityPostcodePage(
@@ -69,7 +71,7 @@ class LocalAuthorityController @Inject() (
                 "lookup_error_noneFound"
               ),
               sourcePath,
-              controllers.routes.LocalAuthorityController.showLookup(sourcePath).url
+              routes.LocalAuthorityController.showLookup(sourcePath).url
             )
           )
         }
@@ -81,12 +83,12 @@ class LocalAuthorityController @Inject() (
     getGssCode(sourcePath, request) match {
       case Some(gssCode) =>
         Redirect(
-          controllers.routes.LocalAuthorityController.ero(gssCode, sourcePath)
+          routes.LocalAuthorityController.ero(gssCode, sourcePath)
         )
       case None => Ok(LocalAuthorityPostcodePage(
         localAuthorityLookupForm,
         sourcePath,
-        controllers.routes.LocalAuthorityController.showLookup(sourcePath).url
+        routes.LocalAuthorityController.showLookup(sourcePath).url
         ))
     }
   }

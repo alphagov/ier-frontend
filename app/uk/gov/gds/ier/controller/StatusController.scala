@@ -8,7 +8,9 @@ import uk.gov.gds.ier.config.Config
 import java.lang.management.ManagementFactory._
 import scala.Some
 import uk.gov.gds.ier.client.ApiResults
+import com.google.inject.Singleton
 
+@Singleton
 class StatusController @Inject() (
     val serialiser: JsonSerialiser,
     config: Config

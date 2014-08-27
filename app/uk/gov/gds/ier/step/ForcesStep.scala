@@ -4,7 +4,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.guice.{WithRemoteAssets, WithEncryption, WithConfig}
 import uk.gov.gds.ier.transaction.forces.{InprogressForces, WithForcesControllers}
 import uk.gov.gds.ier.transaction.forces.confirmation.routes
-import controllers.routes.ErrorController
+import uk.gov.gds.ier.controller.routes.ErrorController
 
 trait ForcesStep
   extends StepController[InprogressForces]

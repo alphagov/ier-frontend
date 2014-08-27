@@ -2,7 +2,7 @@ package uk.gov.gds.ier.step
 
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.guice.{WithRemoteAssets, WithEncryption, WithConfig}
-import controllers.routes.ErrorController
+import uk.gov.gds.ier.controller.routes.ErrorController
 import uk.gov.gds.ier.transaction.overseas.{InprogressOverseas, WithOverseasControllers}
 import uk.gov.gds.ier.transaction.overseas.confirmation.routes.ConfirmationStep
 
