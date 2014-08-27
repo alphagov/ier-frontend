@@ -26,7 +26,7 @@ GET         /register-to-vote/exit/too-young                             @uk.gov
 GET         /register-to-vote/exit/no-franchise                          @uk.gov.gds.ier.controller.ExitController.noFranchise
 GET         /register-to-vote/exit/overseas/left-uk-over-15-years        @uk.gov.gds.ier.controller.ExitController.leftUkOver15Years
 GET         /register-to-vote/exit/overseas/too-old-when-left-uk         @uk.gov.gds.ier.controller.ExitController.tooOldWhenLeftUk
-GET         /register-to-vote/exit/overseas/left-service-over-15-years        @uk.gov.gds.ier.controller.ExitController.leftSpecialOver15Years
+GET         /register-to-vote/exit/overseas/left-service-over-15-years   @uk.gov.gds.ier.controller.ExitController.leftSpecialOver15Years
 
 
 #Error Routes
@@ -39,9 +39,9 @@ GET         /register-to-vote/error/notFound                             @uk.gov
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/messages.js                                          @uk.gov.gds.ier.langs.MessagesController.all
 GET         /assets/:lang/messages.js                                    @uk.gov.gds.ier.langs.MessagesController.forLang(lang:String)
-GET         /assets/template/*file                                       uk.gov.gds.ier.assets.Template.at(path="/app/assets/mustache/govuk_template_inheritance/assets", file)
-GET         /assets/toolkit/*file                                        uk.gov.gds.ier.assets.GovukToolkit.at(path="/app/assets/govuk_frontend_toolkit", file)
-GET         /assets/*file                                                uk.gov.gds.ier.assets.Assets.at(path="/public", file)
+GET         /assets/template/*file                                       @uk.gov.gds.ier.assets.Template.at(path="/app/assets/mustache/govuk_template_inheritance/assets", file)
+GET         /assets/toolkit/*file                                        @uk.gov.gds.ier.assets.GovukToolkit.at(path="/app/assets/govuk_frontend_toolkit", file)
+GET         /assets/*file                                                @uk.gov.gds.ier.assets.Assets.at(path="/public", file)
 
 # Status route
 GET         /status                                                      @uk.gov.gds.ier.controller.StatusController.status
