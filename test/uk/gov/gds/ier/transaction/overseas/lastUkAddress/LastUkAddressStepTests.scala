@@ -1,8 +1,22 @@
 package uk.gov.gds.ier.transaction.overseas.lastUkAddress
 
 import uk.gov.gds.ier.test.ControllerTestSuite
+import uk.gov.gds.ier.config.Config
+import uk.gov.gds.ier.DynamicGlobal
 
 class LastUkAddressStepTests extends ControllerTestSuite {
+
+  private def createGlobalConfigWith(availableForScotlandFlag: Boolean) = {
+    val mockConfig = new Config {
+      override def availableForScotland = availableForScotlandFlag
+    }
+
+    Some(new DynamicGlobal {
+      override def bindings = { binder =>
+        binder bind classOf[uk.gov.gds.ier.config.Config] toInstance mockConfig
+      }
+    })
+  }
 
   behavior of "LastUkAddressStep.get"
   it should "display the page" in {
@@ -71,6 +85,26 @@ class LastUkAddressStepTests extends ControllerTestSuite {
 
       status(result) should be(SEE_OTHER)
       redirectLocation(result) should be(Some("/register-to-vote/exit/northern-ireland"))
+    }
+  }
+
+  it should behave like appWithScottishAddressWith(availableForScotlandFlag = false, andRedirectsToUrl = "/register-to-vote/exit/scotland")
+  it should behave like appWithScottishAddressWith(availableForScotlandFlag = true, andRedirectsToUrl = "/register-to-vote/overseas/last-uk-address/select")
+
+  def appWithScottishAddressWith(availableForScotlandFlag: Boolean, andRedirectsToUrl: String) {
+    it should s"redirect $andRedirectsToUrl for Scottish postcode with availableForScotlandFlag: $availableForScotlandFlag" in {
+      running(FakeApplication(withGlobal = createGlobalConfigWith(availableForScotlandFlag = availableForScotlandFlag))) {
+        val Some(result) = route(
+          FakeRequest(POST, "/register-to-vote/overseas/last-uk-address")
+            .withIerSession()
+            .withFormUrlEncodedBody(
+              "lastUkAddress.postcode" -> "EH10 4AE"
+            )
+        )
+
+        status(result) should be(SEE_OTHER)
+        redirectLocation(result) should be(Some(andRedirectsToUrl))
+      }
     }
   }
 
@@ -252,6 +286,27 @@ behavior of "LastUkAddressStep.editGet"
       redirectLocation(result) should be(Some("/register-to-vote/overseas/name"))
     }
   }
+
+  it should behave like editedAppWithScottishAddressWith(availableForScotlandFlag = false, andRedirectsToUrl = "/register-to-vote/exit/scotland")
+  it should behave like editedAppWithScottishAddressWith(availableForScotlandFlag = true, andRedirectsToUrl = "/register-to-vote/overseas/last-uk-address/select")
+
+  def editedAppWithScottishAddressWith(availableForScotlandFlag: Boolean, andRedirectsToUrl: String) {
+    it should s"redirect $andRedirectsToUrl for Scottish postcode with availableForScotlandFlag: $availableForScotlandFlag" in {
+      running(FakeApplication(withGlobal = createGlobalConfigWith(availableForScotlandFlag = availableForScotlandFlag))) {
+        val Some(result) = route(
+          FakeRequest(POST, "/register-to-vote/overseas/edit/last-uk-address")
+            .withIerSession()
+            .withFormUrlEncodedBody(
+              "lastUkAddress.postcode" -> "EH10 4AE"
+            )
+        )
+
+        status(result) should be(SEE_OTHER)
+        redirectLocation(result) should be(Some(andRedirectsToUrl))
+      }
+    }
+  }
+
 
   it should "bind successfully and redirect a renewer to the Name step with manual address" in {
     running(FakeApplication()) {
