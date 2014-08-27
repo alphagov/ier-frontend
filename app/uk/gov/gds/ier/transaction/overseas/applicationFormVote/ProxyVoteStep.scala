@@ -1,25 +1,25 @@
 package uk.gov.gds.ier.transaction.overseas.applicationFormVote
 
-import com.google.inject.Inject
+import uk.gov.gds.ier.transaction.overseas.OverseasControllers
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
-import controllers.step.overseas.routes._
 import scala.Some
 import uk.gov.gds.ier.model.WaysToVoteType
-import controllers.step.overseas.ContactController
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class ProxyVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets)
-
-  extends OverseaStep
+    val remoteAssets: RemoteAssets,
+    val overseas: OverseasControllers
+) extends OverseaStep
   with PostalOrProxyVoteForms
   with PostalOrProxyVoteMustache {
 
@@ -28,14 +28,14 @@ class ProxyVoteStep @Inject ()(
   val validation = postalOrProxyVoteForm
 
   val routing = Routes(
-    get = ProxyVoteController.get,
-    post = ProxyVoteController.post,
-    editGet = ProxyVoteController.editGet,
-    editPost = ProxyVoteController.editPost
+    get = routes.ProxyVoteStep.get,
+    post = routes.ProxyVoteStep.post,
+    editGet = routes.ProxyVoteStep.editGet,
+    editPost = routes.ProxyVoteStep.editPost
   )
 
   def nextStep(currentState: InprogressOverseas) = {
-    ContactController.contactStep
+    overseas.ContactStep
   }
 
 }

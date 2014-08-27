@@ -3,13 +3,13 @@ package uk.gov.gds.ier.transaction.overseas.lastUkAddress
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.service.WithAddressService
-import controllers.step.overseas.routes._
 import uk.gov.gds.ier.model.Addresses
-import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.transaction.overseas.{InprogressOverseas, WithOverseasControllers}
 import uk.gov.gds.ier.model.PossibleAddress
 
 trait LastUkAddressSelectMustache extends StepTemplate[InprogressOverseas] {
-  self:WithAddressService
+  self: WithAddressService
+    with WithOverseasControllers
     with WithSerialiser =>
 
     val title = "What was the UK address where you were last registered to vote?"
@@ -90,8 +90,8 @@ trait LastUkAddressSelectMustache extends StepTemplate[InprogressOverseas] {
           title = title,
           errorMessages = progressForm.globalErrors.map(_.message)
         ),
-        lookupUrl = LastUkAddressController.get.url,
-        manualUrl = LastUkAddressManualController.get.url,
+        lookupUrl = overseas.LastUkAddressStep.routing.get.url,
+        manualUrl = overseas.LastUkAddressManualStep.routing.get.url,
         postcode = TextField(keys.lastUkAddress.postcode),
         address = addressSelectWithError,
         possibleJsonList = TextField(keys.possibleAddresses.jsonList).copy(

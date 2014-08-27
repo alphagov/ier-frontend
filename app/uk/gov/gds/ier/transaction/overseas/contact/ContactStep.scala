@@ -1,8 +1,7 @@
 package uk.gov.gds.ier.transaction.overseas.contact
 
-import controllers.step.overseas.routes.{ContactController, WaysToVoteController}
-import controllers.step.overseas.ConfirmationController
-import com.google.inject.Inject
+import uk.gov.gds.ier.transaction.overseas.OverseasControllers
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 
 import uk.gov.gds.ier.config.Config
@@ -11,26 +10,27 @@ import uk.gov.gds.ier.step.{OverseaStep, Routes}
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class ContactStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets)
-
-  extends OverseaStep
+    val remoteAssets: RemoteAssets,
+    val overseas: OverseasControllers
+) extends OverseaStep
   with ContactForms
   with ContactMustache {
 
   val validation = contactForm
 
   val routing = Routes(
-    get = ContactController.get,
-    post = ContactController.post,
-    editGet = ContactController.editGet,
-    editPost = ContactController.editPost
+    get = routes.ContactStep.get,
+    post = routes.ContactStep.post,
+    editGet = routes.ContactStep.editGet,
+    editPost = routes.ContactStep.editPost
   )
 
   def nextStep(currentState: InprogressOverseas) = {
-    ConfirmationController.confirmationStep
+    overseas.ConfirmationStep
   }
 }

@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.transaction.overseas.openRegister
 
 import uk.gov.gds.ier.test._
-import controllers.step.overseas.routes._
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class OpenRegisterMustacheTests
@@ -13,7 +12,7 @@ class OpenRegisterMustacheTests
     val emptyApplicationForm = openRegisterForm
     val openRegisterModel = mustache.data(
       emptyApplicationForm,
-      WaysToVoteController.post,
+      Call("POST", "/register-to-vote/overseas/ways-to-vote"),
       InprogressOverseas()
     ).asInstanceOf[OpenRegisterModel]
 
@@ -32,7 +31,7 @@ class OpenRegisterMustacheTests
     )
     val openRegisterModel = mustache.data(
       partiallyFilledApplicationForm,
-      WaysToVoteController.post,
+      Call("POST", "/register-to-vote/overseas/ways-to-vote"),
       InprogressOverseas()
     ).asInstanceOf[OpenRegisterModel]
 
@@ -50,7 +49,7 @@ class OpenRegisterMustacheTests
     )
     val openRegisterModel = mustache.data(
       partiallyFilledApplicationForm,
-      WaysToVoteController.post,
+      Call("POST", "/register-to-vote/overseas/ways-to-vote"),
       InprogressOverseas()
     ).asInstanceOf[OpenRegisterModel]
 

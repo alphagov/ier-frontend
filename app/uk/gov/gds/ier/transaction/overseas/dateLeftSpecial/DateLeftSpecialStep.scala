@@ -1,66 +1,71 @@
 package uk.gov.gds.ier.transaction.overseas.dateLeftSpecial
 
-import com.google.inject.Inject
+import uk.gov.gds.ier.transaction.overseas.OverseasControllers
+import controllers.routes.ExitController
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import controllers.step.overseas.LastUkAddressController
 import uk.gov.gds.ier.step.{OverseaStep, Routes, GoTo}
 import uk.gov.gds.ier.model._
-import controllers.step.overseas.routes._
 import org.joda.time.{Months, DateTime}
-import controllers.routes.ExitController
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class DateLeftArmyStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val overseas: OverseasControllers
 ) extends DateLeftSpecialStep {
 
   val service = "member of the armed forces"
 
   val routing = Routes(
-    get = DateLeftArmyController.get,
-    post = DateLeftArmyController.post,
-    editGet = DateLeftArmyController.editGet,
-    editPost = DateLeftArmyController.editPost
+    get = routes.DateLeftArmyStep.get,
+    post = routes.DateLeftArmyStep.post,
+    editGet = routes.DateLeftArmyStep.editGet,
+    editPost = routes.DateLeftArmyStep.editPost
   )
 }
 
+@Singleton
 class DateLeftCrownStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val overseas: OverseasControllers
 ) extends DateLeftSpecialStep {
 
   val service = "Crown Servant"
 
   val routing = Routes(
-    get = DateLeftCrownController.get,
-    post = DateLeftCrownController.post,
-    editGet = DateLeftCrownController.editGet,
-    editPost = DateLeftCrownController.editPost
+    get = routes.DateLeftCrownStep.get,
+    post = routes.DateLeftCrownStep.post,
+    editGet = routes.DateLeftCrownStep.editGet,
+    editPost = routes.DateLeftCrownStep.editPost
  )
 }
 
+@Singleton
 class DateLeftCouncilStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val overseas: OverseasControllers
 ) extends DateLeftSpecialStep {
 
  val service = "British Council employee"
 
  val routing = Routes(
-    get = DateLeftCouncilController.get,
-    post = DateLeftCouncilController.post,
-    editGet = DateLeftCouncilController.editGet,
-    editPost = DateLeftCouncilController.editPost
+    get = routes.DateLeftCouncilStep.get,
+    post = routes.DateLeftCouncilStep.post,
+    editGet = routes.DateLeftCouncilStep.editGet,
+    editPost = routes.DateLeftCouncilStep.editPost
  )
 }
 
@@ -77,7 +82,7 @@ abstract class DateLeftSpecialStep
       case Some(dateLeftSpecial) if dateLeftUkOver15Years(dateLeftSpecial.date) => {
         GoTo(ExitController.leftSpecialOver15Years)
       }
-      case _ => LastUkAddressController.lastUkAddressStep
+      case _ => overseas.LastUkAddressStep
     }
   }
 

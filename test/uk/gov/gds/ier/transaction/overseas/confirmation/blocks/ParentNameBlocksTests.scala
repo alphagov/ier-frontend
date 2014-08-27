@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.test.FormTestSuite
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.{
   Name,
   PreviousName}
@@ -12,7 +12,11 @@ import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError}
 
 class ParentNameBlocksTests
   extends FormTestSuite
+  with MockitoHelpers
+  with WithMockOverseasControllers
   with ConfirmationForms {
+
+  when(mockParentNameStep.routing).thenReturn(routes("/register-to-vote/overseas/edit/parent-name"))
 
   behavior of "confirmationBlocks.parentName"
 
@@ -27,7 +31,7 @@ class ParentNameBlocksTests
 
     partialApplication(keys.overseasParentName.parentName).hasErrors should be (true)
 
-    val confirmation = new ConfirmationBlocks(partialApplication)
+    val confirmation = new ConfirmationBlocks(partialApplication, overseas)
     val parentNameModel = confirmation.parentName
     val parentPreviousNameModel = confirmation.parentPreviousName
 
@@ -57,7 +61,7 @@ class ParentNameBlocksTests
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm, overseas)
 
     val nameModel = confirmation.parentName
     nameModel.content should be(BlockContent("John Smith"))
@@ -86,7 +90,7 @@ class ParentNameBlocksTests
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm, overseas)
 
     val parentNameModel = confirmation.parentName
     parentNameModel.content should be(BlockContent("John Walker Junior Smith"))
@@ -116,7 +120,7 @@ class ParentNameBlocksTests
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm, overseas)
 
     val parentNameModel = confirmation.parentName
     parentNameModel.content should be(BlockContent("John Walker Junior Smith"))

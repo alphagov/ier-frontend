@@ -1,10 +1,10 @@
 package uk.gov.gds.ier.transaction.overseas.parentsAddress
 
 import uk.gov.gds.ier.step.StepTemplate
-import controllers.step.overseas.routes._
-import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.transaction.overseas.{InprogressOverseas, WithOverseasControllers}
 
 trait ParentsAddressManualMustache extends StepTemplate[InprogressOverseas] {
+  self: WithOverseasControllers =>
 
   val title = "What was your parent or guardian's last UK address?"
   val questionNumber = ""
@@ -30,7 +30,7 @@ trait ParentsAddressManualMustache extends StepTemplate[InprogressOverseas] {
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),
-      lookupUrl = ParentsAddressController.get.url,
+      lookupUrl = overseas.ParentsAddressStep.routing.get.url,
       postcode = TextField(keys.parentsAddress.postcode),
       maLineOne = TextField(keys.parentsAddress.manualAddress.lineOne),
       maLineTwo = TextField(keys.parentsAddress.manualAddress.lineTwo),

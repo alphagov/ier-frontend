@@ -1,22 +1,23 @@
 package uk.gov.gds.ier.transaction.overseas.waysToVote
 
-import com.google.inject.Inject
+import uk.gov.gds.ier.transaction.overseas.OverseasControllers
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{OverseaStep, Routes}
-import controllers.step.overseas.routes.{WaysToVoteController,OpenRegisterController}
-import controllers.step.overseas.{ProxyVoteController, ContactController, PostalVoteController}
 import uk.gov.gds.ier.model.{WaysToVote, WaysToVoteType}
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.assets.RemoteAssets
 
 
+@Singleton
 class WaysToVoteStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val overseas: OverseasControllers
 ) extends OverseaStep
   with WaysToVoteForms
   with WaysToVoteMustache {
@@ -24,10 +25,10 @@ class WaysToVoteStep @Inject ()(
   val validation = waysToVoteForm
 
   val routing = Routes(
-    get = WaysToVoteController.get,
-    post = WaysToVoteController.post,
-    editGet = WaysToVoteController.editGet,
-    editPost = WaysToVoteController.editPost
+    get = routes.WaysToVoteStep.get,
+    post = routes.WaysToVoteStep.post,
+    editGet = routes.WaysToVoteStep.editGet,
+    editPost = routes.WaysToVoteStep.editPost
   )
 
   override val onSuccess = TransformApplication { application =>
@@ -43,9 +44,9 @@ class WaysToVoteStep @Inject ()(
 
   def nextStep(currentState: InprogressOverseas) = {
     currentState.waysToVote.map(_.waysToVoteType) match {
-      case Some(WaysToVoteType.InPerson) => ContactController.contactStep
-      case Some(WaysToVoteType.ByPost) => PostalVoteController.postalVoteStep
-      case Some(WaysToVoteType.ByProxy) => ProxyVoteController.proxyVoteStep
+      case Some(WaysToVoteType.InPerson) => overseas.ContactStep
+      case Some(WaysToVoteType.ByPost) => overseas.PostalVoteStep
+      case Some(WaysToVoteType.ByProxy) => overseas.ProxyVoteStep
       case _ => throw new IllegalArgumentException("unknown next step")
     }
   }

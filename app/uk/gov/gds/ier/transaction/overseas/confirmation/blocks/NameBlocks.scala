@@ -1,7 +1,5 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
-import controllers.step.overseas.routes
-
 trait NameBlocks {
   self: ConfirmationBlock =>
 
@@ -14,7 +12,7 @@ trait NameBlocks {
 
     ConfirmationQuestion(
       title = "Full name",
-      editLink = routes.NameController.editGet.url,
+      editLink = overseas.NameStep.routing.editGet.url,
       changeName = "full name",
       content = ifComplete(keys.overseasName.name) {
         List(nameStr)
@@ -43,7 +41,7 @@ trait NameBlocks {
     }
     ConfirmationQuestion(
       title = "Previous name",
-      editLink = routes.NameController.editGet.url,
+      editLink = overseas.NameStep.routing.editGet.url,
       changeName = "previous name",
       content = ifComplete(keys.overseasName.previousName) {
         prevNameContent

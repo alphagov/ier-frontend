@@ -2,7 +2,6 @@ package uk.gov.gds.ier.transaction.overseas.contact
 
 import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.{ContactDetail, Contact}
-import controllers.step.overseas.routes._
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 
 class ContactMustacheTests
@@ -14,7 +13,7 @@ class ContactMustacheTests
     val emptyApplicationForm = contactForm
     val contactModel = mustache.data(
       emptyApplicationForm,
-      ContactController.post,
+      Call("POST", "/register-to-vote/overseas/contact"),
       InprogressOverseas()
     ).asInstanceOf[ContactModel]
 
@@ -43,7 +42,7 @@ class ContactMustacheTests
 
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
-      ContactController.post,
+      Call("POST", "/register-to-vote/overseas/contact"),
       InprogressOverseas()
     ).asInstanceOf[ContactModel]
 
@@ -72,7 +71,7 @@ class ContactMustacheTests
 
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
-      ContactController.post,
+      Call("POST", "/register-to-vote/overseas/contact"),
       InprogressOverseas()
     ).asInstanceOf[ContactModel]
 
@@ -101,7 +100,7 @@ class ContactMustacheTests
 
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
-      ContactController.post,
+      Call("POST", "/register-to-vote/overseas/contact"),
       InprogressOverseas()
     ).asInstanceOf[ContactModel]
 
@@ -130,7 +129,7 @@ class ContactMustacheTests
 
     val contactModel = mustache.data(
       partiallyFilledApplicationForm,
-      ContactController.post,
+      Call("POST", "/register-to-vote/overseas/contact"),
       InprogressOverseas()
     ).asInstanceOf[ContactModel]
 

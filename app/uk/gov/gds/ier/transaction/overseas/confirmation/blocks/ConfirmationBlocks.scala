@@ -5,7 +5,7 @@ import uk.gov.gds.ier.model.ApplicationType._
 import uk.gov.gds.ier.mustache.StepMustache
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.{FormKeys, ErrorTransformForm, Key}
-import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.transaction.overseas.{InprogressOverseas, WithOverseasControllers, OverseasControllers}
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
 
 case class ConfirmationQuestion(
@@ -18,6 +18,7 @@ case class ConfirmationQuestion(
 trait ConfirmationBlock
   extends Logging
   with FormKeys
+  with WithOverseasControllers
   with OverseasFormImplicits {
 
   val form: ErrorTransformForm[InprogressOverseas]
@@ -33,8 +34,10 @@ trait ConfirmationBlock
   }
 }
 
-class ConfirmationBlocks(val form:ErrorTransformForm[InprogressOverseas])
-  extends ConfirmationBlock
+class ConfirmationBlocks (
+    val form:ErrorTransformForm[InprogressOverseas],
+    val overseas: OverseasControllers
+) extends ConfirmationBlock
   with LastRegisteredToVoteBlocks
   with LastUkAddressBlocks
   with DateLeftBlocks

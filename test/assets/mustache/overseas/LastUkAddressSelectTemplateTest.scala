@@ -6,6 +6,7 @@ import uk.gov.gds.ier.service.{AddressService, WithAddressService}
 
 class LastUkAddressSelectTemplateTest
   extends TemplateTestSuite
+  with WithMockOverseasControllers
   with LastUkAddressSelectMustache
   with WithAddressService {
 

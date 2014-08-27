@@ -3,13 +3,13 @@ package uk.gov.gds.ier.transaction.overseas.parentsAddress
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.service.WithAddressService
-import controllers.step.overseas.routes._
 import uk.gov.gds.ier.model.Addresses
-import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
+import uk.gov.gds.ier.transaction.overseas.{InprogressOverseas, WithOverseasControllers}
 import uk.gov.gds.ier.model.PossibleAddress
 
 trait ParentsAddressSelectMustache extends StepTemplate[InprogressOverseas] {
   self:WithAddressService
+    with WithOverseasControllers
     with WithSerialiser =>
 
   val title = "What was your parent or guardian's last UK address?"
@@ -90,8 +90,8 @@ trait ParentsAddressSelectMustache extends StepTemplate[InprogressOverseas] {
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),
-      lookupUrl = ParentsAddressController.get.url,
-      manualUrl = ParentsAddressManualController.get.url,
+      lookupUrl = overseas.ParentsAddressStep.routing.get.url,
+      manualUrl = overseas.ParentsAddressManualStep.routing.get.url,
       postcode = TextField(keys.parentsAddress.postcode),
       address = addressSelectWithError,
       possibleJsonList = TextField(keys.possibleAddresses.jsonList).copy(

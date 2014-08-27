@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
-import controllers.step.overseas.routes
 import uk.gov.gds.ier.form.AddressHelpers
 
 trait ParentsAddressBlocks extends AddressHelpers {
@@ -8,11 +7,11 @@ trait ParentsAddressBlocks extends AddressHelpers {
 
   def parentsAddress = {
     val editCall = if (manualAddressToOneLine(form, keys.parentsAddress.manualAddress).isDefined) {
-      routes.ParentsAddressManualController.editGet
+      overseas.ParentsAddressManualStep.routing.editGet
     } else if (form(keys.parentsAddress.uprn).value.isDefined) {
-      routes.ParentsAddressSelectController.editGet
+      overseas.ParentsAddressSelectStep.routing.editGet
     } else {
-      routes.ParentsAddressController.editGet
+      overseas.ParentsAddressStep.routing.editGet
     }
 
     ConfirmationQuestion(

@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.transaction.overseas.applicationFormVote
 
 import uk.gov.gds.ier.test._
-import controllers.step.overseas.routes._
 import uk.gov.gds.ier.model.{
   PostalVoteDeliveryMethod,
   PostalOrProxyVote,
@@ -21,7 +20,7 @@ class OverseasPostalOrProxyVoteMustacheTest
 
     val postalOrProxyVoteModel = mustache.data(
       emptyApplicationForm,
-      PostalVoteController.post,
+      Call("POST", "/register-to-vote/overseas/postal-vote"),
       InprogressOverseas()
     ).asInstanceOf[PostalOrProxyVoteModel]
 
@@ -55,7 +54,7 @@ class OverseasPostalOrProxyVoteMustacheTest
 
     val postalOrProxyVoteModel = mustache.data(
       partiallyFilledApplicationForm,
-      PostalVoteController.post,
+      Call("POST", "/register-to-vote/overseas/postal-vote"),
       InprogressOverseas()
     ).asInstanceOf[PostalOrProxyVoteModel]
 
@@ -90,7 +89,7 @@ class OverseasPostalOrProxyVoteMustacheTest
 
     val postalOrProxyVoteModel = mustache.data(
       partiallyFilledApplicationFormWithErrors,
-      PostalVoteController.post,
+      Call("POST", "/register-to-vote/overseas/postal-vote"),
       InprogressOverseas()
     ).asInstanceOf[PostalOrProxyVoteModel]
 

@@ -1,7 +1,6 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
 import uk.gov.gds.ier.model.LastRegisteredType
-import controllers.step.overseas.routes
 import uk.gov.gds.ier.transaction.shared.{BlockError, BlockContent}
 
 trait LastRegisteredToVoteBlocks {
@@ -24,7 +23,7 @@ trait LastRegisteredToVoteBlocks {
 
     ConfirmationQuestion(
       title = "Last registration",
-      editLink = routes.LastRegisteredToVoteController.editGet.url,
+      editLink = overseas.LastRegisteredToVoteStep.routing.editGet.url,
       changeName = "last registration",
       content = lastRegisteredContent
     )

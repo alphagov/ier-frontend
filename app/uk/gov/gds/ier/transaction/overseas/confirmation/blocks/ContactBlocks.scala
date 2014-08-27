@@ -1,7 +1,5 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
-import controllers.step.overseas.routes
-
 trait ContactBlocks {
   self: ConfirmationBlock =>
 
@@ -20,7 +18,7 @@ trait ContactBlocks {
   def contact = {
     ConfirmationQuestion(
       title = "How we should contact you",
-      editLink = routes.ContactController.editGet.url,
+      editLink = overseas.ContactStep.routing.editGet.url,
       changeName = "how we should contact you",
       content = ifComplete(keys.contact) {
         List(post, phone, email).flatten

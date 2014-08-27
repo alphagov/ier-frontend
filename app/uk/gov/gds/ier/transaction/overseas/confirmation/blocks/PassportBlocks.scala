@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
-import controllers.step.overseas.routes
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError}
 import org.joda.time.LocalDate
 
@@ -25,14 +24,14 @@ trait PassportBlocks {
       case (`noPassport`, `bornInUk`, `bornBefore1983`) => {
         ConfirmationQuestion(
           title = "British Passport Details",
-          editLink = routes.PassportCheckController.editGet.url,
+          editLink = overseas.PassportCheckStep.routing.editGet.url,
           changeName = "your passport details",
           content = BlockContent(List("I was born in the UK but I don't have a British passport"))
         )
       }
       case _ => ConfirmationQuestion(
         title = "British passport",
-        editLink = routes.PassportCheckController.editGet.url,
+        editLink = overseas.PassportCheckStep.routing.editGet.url,
         changeName = "your passport details",
         content = BlockContent(List(completeThisStepMessage))
       )
@@ -59,9 +58,9 @@ trait PassportBlocks {
 
 
     val route = if(form(keys.passport).hasErrors) {
-      routes.PassportCheckController.editGet
+      overseas.PassportCheckStep.routing.editGet
     } else {
-      routes.CitizenDetailsController.editGet
+      overseas.CitizenDetailsStep.routing.editGet
     }
 
     ConfirmationQuestion(
@@ -101,9 +100,9 @@ trait PassportBlocks {
     }
 
     val route = if(form(keys.passport).hasErrors) {
-      routes.PassportCheckController.editGet
+      overseas.PassportCheckStep.routing.editGet
     } else {
-      routes.PassportDetailsController.editGet
+      overseas.PassportDetailsStep.routing.editGet
     }
 
     ConfirmationQuestion(

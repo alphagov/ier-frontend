@@ -1,12 +1,7 @@
 package uk.gov.gds.ier.transaction.overseas.lastUkAddress
 
-import controllers.step.overseas.routes.{
-  LastUkAddressSelectController,
-  DateLeftUkController}
-import controllers.step.overseas.{
-  NameController,
-  PassportCheckController}
-import com.google.inject.Inject
+import uk.gov.gds.ier.transaction.overseas.OverseasControllers
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.ApplicationType
 import uk.gov.gds.ier.security.EncryptionService
@@ -17,12 +12,14 @@ import uk.gov.gds.ier.form.OverseasFormImplicits
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class LastUkAddressSelectStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val overseas: OverseasControllers
 ) extends OverseaStep
   with LastUkAddressSelectMustache
   with LastUkAddressForms
@@ -33,17 +30,17 @@ class LastUkAddressSelectStep @Inject() (
   val validation = lastUkAddressForm
 
   val routing = Routes(
-    get = LastUkAddressSelectController.get,
-    post = LastUkAddressSelectController.post,
-    editGet = LastUkAddressSelectController.editGet,
-    editPost = LastUkAddressSelectController.editPost
+    get = routes.LastUkAddressSelectStep.get,
+    post = routes.LastUkAddressSelectStep.post,
+    editGet = routes.LastUkAddressSelectStep.editGet,
+    editPost = routes.LastUkAddressSelectStep.editPost
   )
 
   def nextStep(currentState: InprogressOverseas) = {
     currentState.identifyApplication match {
-      case ApplicationType.RenewerVoter => NameController.nameStep
+      case ApplicationType.RenewerVoter => overseas.NameStep
       case ApplicationType.DontKnow => this
-      case _ => PassportCheckController.passportCheckStep
+      case _ => overseas.PassportCheckStep
     }
   }
 

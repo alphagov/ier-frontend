@@ -4,10 +4,12 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{OverseasParentName, Name, PreviousName}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.test.MockingTestSuite
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.assets.RemoteAssets
 
-class ParentNameStepTests extends MockingTestSuite {
+class ParentNameStepTests
+  extends MockingTestSuite
+  with WithMockOverseasControllers {
 
   it should "reset the previous names if the has previous is false when submitting the form successfully" in {
     val mockedJsonSerialiser = mock[JsonSerialiser]
@@ -19,7 +21,8 @@ class ParentNameStepTests extends MockingTestSuite {
       mockedJsonSerialiser,
       mockedConfig,
       mockedEncryptionService,
-      mockedRemoteAssets
+      mockedRemoteAssets,
+      overseas
     )
 
     val currentState = completeOverseasApplication.copy(overseasParentName = Some(OverseasParentName(

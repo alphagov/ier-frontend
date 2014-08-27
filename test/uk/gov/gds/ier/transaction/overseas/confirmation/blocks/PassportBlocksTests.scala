@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
 import uk.gov.gds.ier.model._
 import org.joda.time.DateTime
-import uk.gov.gds.ier.test.FormTestSuite
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.{
   Name,
   PreviousName,
@@ -13,9 +13,15 @@ import uk.gov.gds.ier.transaction.shared.{BlockError, BlockContent}
 
 class PassportBlocksTests
   extends FormTestSuite
+  with WithMockOverseasControllers
+  with MockitoHelpers
   with ConfirmationForms {
 
   behavior of "ConfirmationBlocks.passport"
+
+  when(mockPassportCheckStep.routing).thenReturn(routes("/register-to-vote/overseas/edit/passport"))
+  when(mockPassportDetailsStep.routing).thenReturn(routes("/register-to-vote/overseas/edit/passport-details"))
+  when(mockCitizenDetailsStep.routing).thenReturn(routes("/register-to-vote/overseas/edit/citizen-details"))
 
   it should "return 'complete this' message if not a renewer" in {
     val partialApplication = confirmationForm.fillAndValidate(InprogressOverseas(
@@ -24,7 +30,7 @@ class PassportBlocksTests
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(partialApplication)
+    val confirmation = new ConfirmationBlocks(partialApplication, overseas)
     val passportModel = confirmation.passport
 
     val model = passportModel
@@ -40,7 +46,7 @@ class PassportBlocksTests
       passport = Some(Passport(true, None, None, None))
     ))
 
-    val confirmation = new ConfirmationBlocks(partialApplication)
+    val confirmation = new ConfirmationBlocks(partialApplication, overseas)
     val passportModel = confirmation.passport
 
     val model = passportModel
@@ -56,7 +62,7 @@ class PassportBlocksTests
       passport = Some(Passport(false, Some(false), None, None))
     ))
 
-    val confirmation = new ConfirmationBlocks(partialApplication)
+    val confirmation = new ConfirmationBlocks(partialApplication, overseas)
     val passportModel = confirmation.passport
 
     val model = passportModel
@@ -77,7 +83,7 @@ class PassportBlocksTests
       ))
     ))
 
-    val confirmation = new ConfirmationBlocks(partialApplication)
+    val confirmation = new ConfirmationBlocks(partialApplication, overseas)
     val passportModel = confirmation.passport
 
     val model = passportModel

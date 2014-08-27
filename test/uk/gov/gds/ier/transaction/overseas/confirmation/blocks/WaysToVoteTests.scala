@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
 import uk.gov.gds.ier.model._
-import uk.gov.gds.ier.test.FormTestSuite
+import uk.gov.gds.ier.test._
 import uk.gov.gds.ier.model.{
   Name,
   PreviousName,
@@ -13,7 +13,11 @@ import uk.gov.gds.ier.transaction.shared.BlockContent
 
 class WaysToVoteBlocksTests
   extends FormTestSuite
+  with MockitoHelpers
+  with WithMockOverseasControllers
   with ConfirmationForms {
+
+  when(mockWaysToVoteStep.routing).thenReturn(routes("/register-to-vote/overseas/edit/ways-to-vote"))
 
   "application form with filled way to vote as by-post" should
     "generate confirmation mustache model with correctly rendered way to vote type" in {
@@ -28,7 +32,7 @@ class WaysToVoteBlocksTests
         ))
       ))
     ))
-    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm, overseas)
     val model = confirmation.waysToVote
     model.content should be(BlockContent(List(
       "I want to vote by post",
@@ -49,7 +53,7 @@ class WaysToVoteBlocksTests
         ))
       ))
     ))
-    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm, overseas)
     val model = confirmation.waysToVote
     model.content should be(BlockContent(List(
       "I want to vote by proxy (someone else voting for me)",
@@ -61,7 +65,7 @@ class WaysToVoteBlocksTests
     "generate confirmation mustache model with correctly rendered way to vote type" in {
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressOverseas(
       waysToVote = Some(WaysToVote(WaysToVoteType.InPerson))))
-    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm, overseas)
     val model = confirmation.waysToVote
     model.content should be(BlockContent(
       "I want to vote in person, at a polling station"))
@@ -78,7 +82,7 @@ class WaysToVoteBlocksTests
         None
       ))
     ))
-    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm, overseas)
     val model = confirmation.waysToVote
     model.content should be(BlockContent(List(
       "I want to vote in person, at a polling station",
@@ -96,7 +100,7 @@ class WaysToVoteBlocksTests
         None
       ))
     ))
-    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
+    val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm, overseas)
     val model = confirmation.waysToVote
     model.content should be(BlockContent(List(
       "I want to vote by post",

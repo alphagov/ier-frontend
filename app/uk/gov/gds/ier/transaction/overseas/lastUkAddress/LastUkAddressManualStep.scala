@@ -1,12 +1,7 @@
 package uk.gov.gds.ier.transaction.overseas.lastUkAddress
 
-import controllers.step.overseas.routes.{
-  LastUkAddressManualController,
-  DateLeftUkController}
-import controllers.step.overseas.{
-  NameController,
-  PassportCheckController}
-import com.google.inject.Inject
+import uk.gov.gds.ier.transaction.overseas.OverseasControllers
+import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.ApplicationType
 import uk.gov.gds.ier.security.EncryptionService
@@ -16,11 +11,13 @@ import uk.gov.gds.ier.form.OverseasFormImplicits
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.assets.RemoteAssets
 
+@Singleton
 class LastUkAddressManualStep @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService: EncryptionService,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val overseas: OverseasControllers
 ) extends OverseaStep
   with LastUkAddressManualMustache
   with LastUkAddressForms
@@ -29,17 +26,17 @@ class LastUkAddressManualStep @Inject() (
   val validation = manualAddressForm
 
   val routing = Routes(
-    get = LastUkAddressManualController.get,
-    post = LastUkAddressManualController.post,
-    editGet = LastUkAddressManualController.editGet,
-    editPost = LastUkAddressManualController.editPost
+    get = routes.LastUkAddressManualStep.get,
+    post = routes.LastUkAddressManualStep.post,
+    editGet = routes.LastUkAddressManualStep.editGet,
+    editPost = routes.LastUkAddressManualStep.editPost
   )
 
   def nextStep(currentState: InprogressOverseas) = {
     currentState.identifyApplication match {
-      case ApplicationType.RenewerVoter => NameController.nameStep
+      case ApplicationType.RenewerVoter => overseas.NameStep
       case ApplicationType.DontKnow => this
-      case _ => PassportCheckController.passportCheckStep
+      case _ => overseas.PassportCheckStep
     }
   }
 }

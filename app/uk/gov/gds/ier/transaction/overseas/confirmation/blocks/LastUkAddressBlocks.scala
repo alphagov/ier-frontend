@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation.blocks
 
-import controllers.step.overseas.routes
 import uk.gov.gds.ier.form.AddressHelpers
 
 trait LastUkAddressBlocks extends AddressHelpers {
@@ -10,9 +9,9 @@ trait LastUkAddressBlocks extends AddressHelpers {
     ConfirmationQuestion(
       title = "Registration address",
       editLink = if (isManualAddressDefined(form, keys.lastUkAddress.manualAddress)) {
-        routes.LastUkAddressManualController.editGet.url
+        overseas.LastUkAddressManualStep.routing.editGet.url
       } else {
-        routes.LastUkAddressSelectController.editGet.url
+        overseas.LastUkAddressSelectStep.routing.editGet.url
       },
       changeName = "your registration address",
       content = ifComplete(keys.lastUkAddress) {
