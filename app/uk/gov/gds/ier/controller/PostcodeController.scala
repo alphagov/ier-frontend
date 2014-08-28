@@ -9,7 +9,9 @@ import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
 import uk.gov.gds.ier.exception.PostcodeLookupFailedException
 import uk.gov.gds.ier.validation.IerForms
 import uk.gov.gds.ier.model.Addresses
+import com.google.inject.Singleton
 
+@Singleton
 class PostcodeController @Inject()(
     val addressService: AddressService,
     val serialiser: JsonSerialiser

@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.overseas.dateLeftUk
 
 import uk.gov.gds.ier.transaction.overseas.OverseasControllers
-import controllers.routes.ExitController
+import uk.gov.gds.ier.controller.routes.ExitController
 import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config

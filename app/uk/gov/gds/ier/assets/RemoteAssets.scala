@@ -1,8 +1,8 @@
 package uk.gov.gds.ier.assets
 
 import play.api.mvc.{RequestHeader, Call}
-import controllers.routes.{Assets => PlayAssetRouter, MessagesController}
-import controllers.routes.{Template => TemplateAssetRouter}
+import uk.gov.gds.ier.assets.routes.{Assets => PlayAssetRouter, Template => TemplateAssetRouter}
+import uk.gov.gds.ier.langs.routes.MessagesController
 import com.google.inject.Inject
 import uk.gov.gds.ier.config.Config
 

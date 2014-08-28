@@ -11,7 +11,9 @@ import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.mustache.ErrorPageMustache
 import uk.gov.gds.ier.assets.RemoteAssets
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import com.google.inject.Singleton
 
+@Singleton
 class ErrorController @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,

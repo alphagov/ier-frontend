@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.complete
 
 import uk.gov.gds.ier.test.ControllerTestSuite
-import controllers.routes._
+import uk.gov.gds.ier.controller.routes._
 import play.api.test.FakeApplication
 import uk.gov.gds.ier.service.apiservice.EroAuthorityDetails
 

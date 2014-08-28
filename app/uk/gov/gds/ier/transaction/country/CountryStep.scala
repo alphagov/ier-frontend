@@ -8,8 +8,8 @@ import uk.gov.gds.ier.model.{Country}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.{OrdinaryStep, Routes, GoTo}
-import controllers.routes.ExitController
-import controllers.routes.RegisterToVoteController
+import uk.gov.gds.ier.controller.routes.ExitController
+import uk.gov.gds.ier.controller.routes.RegisterToVoteController
 import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.assets.RemoteAssets
 

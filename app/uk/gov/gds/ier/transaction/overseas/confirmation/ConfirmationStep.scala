@@ -1,7 +1,8 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation
 
 import uk.gov.gds.ier.transaction.overseas.{OverseasControllers, WithOverseasControllers}
-import controllers.routes.{ErrorController, CompleteController}
+import uk.gov.gds.ier.controller.routes.ErrorController
+import uk.gov.gds.ier.transaction.complete.routes.CompleteStep
 import uk.gov.gds.ier.model.{WaysToVoteType, ApplicationType}
 import uk.gov.gds.ier.step.ConfirmationStepController
 import uk.gov.gds.ier.security.EncryptionService
@@ -100,7 +101,7 @@ class ConfirmationStep @Inject() (
             showBirthdayBunting =  isBirthdayToday
           )
 
-          Redirect(CompleteController.complete())
+          Redirect(CompleteStep.complete())
             .emptySession()
             .storeCompleteCookie(completeStepData)
         }

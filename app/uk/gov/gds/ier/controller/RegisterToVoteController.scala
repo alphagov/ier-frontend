@@ -13,7 +13,9 @@ import uk.gov.gds.ier.mustache.{InheritedGovukMustache, GovukMustache}
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.transaction._
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import com.google.inject.Singleton
 
+@Singleton
 class RegisterToVoteController @Inject() (
     val serialiser: JsonSerialiser,
     val config: Config,
@@ -33,7 +35,7 @@ class RegisterToVoteController @Inject() (
     Ok(TestPage())
   }
 
-  def index = Action {
+  def redirectToOrdinary = Action {
     Redirect(config.ordinaryStartUrl)
   }
 

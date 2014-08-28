@@ -25,6 +25,8 @@ class CompleteStep @Inject() (
   with Logging
   with CompleteMustache {
 
+  def overseasComplete = complete
+
   def complete = Action {
     implicit request =>
       request.getCompleteCookie match {

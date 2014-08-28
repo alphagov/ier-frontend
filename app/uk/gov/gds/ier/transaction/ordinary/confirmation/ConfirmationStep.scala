@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.confirmation
 
-import controllers.routes._
+import uk.gov.gds.ier.controller.routes.ErrorController
+import uk.gov.gds.ier.transaction.complete.routes.CompleteStep
 import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.{WithAddressService, AddressService}
@@ -119,7 +120,7 @@ class ConfirmationStep @Inject ()(
             showBirthdayBunting =  isBirthdayToday
           )
 
-          Redirect(CompleteController.complete())
+          Redirect(CompleteStep.complete())
             .emptySession()
             .storeCompleteCookie(completeStepData)
         }
