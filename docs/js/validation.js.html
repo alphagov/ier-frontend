@@ -1,4 +1,31 @@
-(function () {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: validation.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: validation.js</h1>
+
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>(function () {
   "use strict";
 
   var root = this,
@@ -53,7 +80,7 @@
           names;
 
       names = $source.data('validationSources');
-      if (names && names !== null) {
+      if (names &amp;&amp; names !== null) {
         names = names.split(' ');
         return this.validate(names, $source);
       }
@@ -118,7 +145,7 @@
           };
         },
         /**
-         * Function to generate a field object from $source & add it to the field store
+         * Function to generate a field object from $source &amp; add it to the field store
          * @function
          * @public
          * @memberof root.validation.fields
@@ -132,8 +159,8 @@
           items.push(itemObj);
         },
         /**
-         * Function to generate a fieldSet object from $source & add it to the field store
-         * <p>Fieldset objects are the fieldset object and a collection of fields directly descended from it</p>
+         * Function to generate a fieldSet object from $source &amp; add it to the field store
+         * &lt;p>Fieldset objects are the fieldset object and a collection of fields directly descended from it&lt;/p>
          * @function
          * @public
          * @memberof root.validation.fields
@@ -151,8 +178,8 @@
           items.push(itemObj);
         },
         /**
-         * Function to generate a association object from $source & add it to the field store
-         * <p>Association objects are collections of fields with no assumption of hierarchy</p>
+         * Function to generate a association object from $source &amp; add it to the field store
+         * &lt;p>Association objects are collections of fields with no assumption of hierarchy&lt;/p>
          * @function
          * @public
          * @memberof root.validation.fields
@@ -227,9 +254,9 @@
               item,
               a,b,i,j;
 
-          for (a = 0, b = names.length; a < b; a++) {
+          for (a = 0, b = names.length; a &lt; b; a++) {
             name = names[a];
-            for (i = 0, j = items.length; i < j; i++) {
+            for (i = 0, j = items.length; i &lt; j; i++) {
               if (items[i].name === name) {
                 result.push(items[i]);
               }
@@ -269,7 +296,7 @@
 
       $source = fieldObj[sourcesToMark[fieldObj.type]];
       // rules are applied in the order given
-      for (i = 0, j = fieldObj.rules.length; i < j; i++) {
+      for (i = 0, j = fieldObj.rules.length; i &lt; j; i++) {
         var rule = fieldObj.rules[i];
 
         failedRules = fieldObj[rule]();
@@ -285,7 +312,7 @@
             return (typeof obj[prop] !== 'undefined');
           };
 
-      if (exists(cascades, name) && exists(cascades[name], rule)) {
+      if (exists(cascades, name) &amp;&amp; exists(cascades[name], rule)) {
         return cascades[name][rule];
       }
       return false;
@@ -475,7 +502,7 @@
           return;
         }
       }
-      $label.append('<span class="validation-message">' + message + '</span>');
+      $label.append('&lt;span class="validation-message">' + message + '&lt;/span>');
     },
     /**
      * Function to add field and document level validation messaging
@@ -486,7 +513,7 @@
      * @param {Object} jQuery-wrapped element that triggered the validation
      */
     notify : function (invalidFields, $validationTrigger) {
-      var message = Mustache.compile('<div class="validation-message visible">{{#block}}{{message}}{{/block}}</div>'),
+      var message = Mustache.compile('&lt;div class="validation-message visible">{{#block}}{{message}}{{/block}}&lt;/div>'),
           _this = this,
           $lastElement,
           name,
@@ -569,10 +596,10 @@
           name = field.name;
           rule = field.rule;
           // only show messages if we have some defined
-          if ((typeof _this.messages[name] !== 'undefined') && (typeof _this.messages[name][rule] !== 'undefined')) {
+          if ((typeof _this.messages[name] !== 'undefined') &amp;&amp; (typeof _this.messages[name][rule] !== 'undefined')) {
             messageData.message = _this.messages[name][rule];
             // if the field is a form control, add a message to its label and link to it
-            if (field.$source && _sourceIsFormControl(field.$source) && field.$source[0].id) {
+            if (field.$source &amp;&amp; _sourceIsFormControl(field.$source) &amp;&amp; field.$source[0].id) {
               idToLinkTo = field.$source[0].id;
               _this.messageField(field.$source, _this.messages[name][rule]);
             } else {
@@ -580,7 +607,7 @@
             }
             messageData.block = function () {
               return function (message, render) {
-                return '<a href="#' + idToLinkTo + '">' + render(message) + '</a>';
+                return '&lt;a href="#' + idToLinkTo + '">' + render(message) + '&lt;/a>';
               };
             };
             // add page validation message
@@ -607,13 +634,13 @@
     },
     /**
      * Namespace for validation rules
-     * <p>Rules are called as methods on a field objects. They return arrays of invalidField objects, one for each field object rendered invalid by the rule</p>
-     * <p>InvalidField objects have the following properties:</p>
-     * <ul>
-     * <li>name {String} Name of the related field object</li>
-     * <li>rule {String} Name of the rule broken</li>
-     * <li>$source {Object} jQuery-wrapped element to mark as invalid</li>
-     * </ul>
+     * &lt;p>Rules are called as methods on a field objects. They return arrays of invalidField objects, one for each field object rendered invalid by the rule&lt;/p>
+     * &lt;p>InvalidField objects have the following properties:&lt;/p>
+     * &lt;ul>
+     * &lt;li>name {String} Name of the related field object&lt;/li>
+     * &lt;li>rule {String} Name of the rule broken&lt;/li>
+     * &lt;li>$source {Object} jQuery-wrapped element to mark as invalid&lt;/li>
+     * &lt;/ul>
      * @namespace
      * @public
      */
@@ -686,7 +713,7 @@
             $selectedRadio = false;
 
         $radios.each(function (idx, elm) {
-          if ((elm.name === radioName) && elm.checked) { $selectedRadio = $(elm); }
+          if ((elm.name === radioName) &amp;&amp; elm.checked) { $selectedRadio = $(elm); }
         });
 
         return ($selectedRadio) ? $selectedRadio.val() : '';
@@ -1031,7 +1058,7 @@
                 }
               }
               isFilledFailedRules = fieldObj[method]();
-              if (_fieldIsShowing(fieldObj) && !isFilledFailedRules.length) {
+              if (_fieldIsShowing(fieldObj) &amp;&amp; !isFilledFailedRules.length) {
                 oneFilled = true;
               }
             });
@@ -1073,7 +1100,7 @@
                   fieldType = field.$source.attr('type'),
                   invalidRules;
 
-              if ((fieldType === 'text') && hasRule) {
+              if ((fieldType === 'text') &amp;&amp; hasRule) {
                 invalidRules = field.nonEmpty();
 
                 if (invalidRules.length) {
@@ -1132,7 +1159,7 @@
             }
           },
           /**
-           * Function to check the 'Other countries' section is visible & its input is valid
+           * Function to check the 'Other countries' section is visible &amp; its input is valid
            * @function
            * @public
            * @memberof root.validation.rules.fieldset
@@ -1145,8 +1172,8 @@
                 otherCountriesFailedRules,
                 i,j;
 
-            // get checkbox &
-            for (i = 0, j = childFields.length; i < j; i++) {
+            // get checkbox &amp;
+            for (i = 0, j = childFields.length; i &lt; j; i++) {
               var fieldObj = childFields[i];
 
               if (fieldObj.name === 'otherCountries') {
@@ -1190,7 +1217,7 @@
             };
             if (!_fieldIsShowing(this)) { return []; }
             // validate against the nonEmpty rules of children
-            for (i = 0, j = childFields.length; i < j; i++) {
+            for (i = 0, j = childFields.length; i &lt; j; i++) {
               var fieldObj = childFields[i],
                   method = 'nonEmpty',
                   isFilledFailedRules;
@@ -1206,13 +1233,13 @@
               if ($.inArray(method, fieldObj.rules) === -1) { continue; }
               fieldsThatNeedInput++;
               isFilledFailedRules = fieldObj[method]();
-              if (_fieldIsShowing(fieldObj) && isFilledFailedRules.length) {
+              if (_fieldIsShowing(fieldObj) &amp;&amp; isFilledFailedRules.length) {
                 emptyFields++;
                 $.merge(childFailedRules, isFilledFailedRules);
               }
             }
             if (childFailedRules.length) {
-              if (emptyFields < fieldsThatNeedInput) {
+              if (emptyFields &lt; fieldsThatNeedInput) {
                 // message for each child field
                 rulesToReport = childFailedRules;
                 fieldsetObj = {
@@ -1255,7 +1282,7 @@
             _fieldIsShowing = function (fieldObj) {
               return !fieldObj.$source.is(':hidden');
             };
-            fieldIsInvalid = ((fieldFailedRules.length > 0) && _fieldIsShowing(field));
+            fieldIsInvalid = ((fieldFailedRules.length > 0) &amp;&amp; _fieldIsShowing(field));
             excuseIsInvalid = (excuseFailedRules.length > 0);
             if (fieldIsInvalid) {
               if (!_fieldIsShowing(excuse)) {
@@ -1345,7 +1372,7 @@
            * @function
            * @public
            * @memberof root.validation.rules.fieldset
-           * @returns {Array} Array of invalidField objects for the day, month & year fields if date is invalid or an empty array if valid
+           * @returns {Array} Array of invalidField objects for the day, month &amp; year fields if date is invalid or an empty array if valid
            */
           'correctAge' : function () {
             var children = validation.fields.getNames(this.children),
@@ -1359,7 +1386,7 @@
                 age = now - dob;
 
             age = Math.floor((((((age / 1000) / 60) / 60) / 24) / 365.25));
-            isValid = ((age >= minAge) && (age <= maxAge));
+            isValid = ((age >= minAge) &amp;&amp; (age &lt;= maxAge));
             if (!isValid) {
               return _getInvalidDataFromFields(children, 'correctAge');
             } else {
@@ -1465,7 +1492,7 @@
             _fieldIsShowing = function (fieldObj) {
               return !fieldObj.$source.is(':hidden');
             };
-            fieldsetIsInvalid = ((fieldsetFailedRules.length > 0) && _fieldIsShowing(fieldset));
+            fieldsetIsInvalid = ((fieldsetFailedRules.length > 0) &amp;&amp; _fieldIsShowing(fieldset));
             excuseIsInvalid = (excuseFailedRules.length > 0);
             if (fieldsetIsInvalid) {
               if (!_fieldIsShowing(excuse)) {
@@ -1503,11 +1530,11 @@
             };
 
             _entryInDateOfBirth = function () {
-              return dateOfBirthInvalidRules.length < 4;
+              return dateOfBirthInvalidRules.length &lt; 4;
             };
 
             _entryInExcuse = function () {
-              return excuseInvalidRules.length < 2;
+              return excuseInvalidRules.length &lt; 2;
             };
 
             if (!_entryInDateOfBirth()) {
@@ -1541,7 +1568,7 @@
               return !fieldObj.$source.is(':hidden');
             };
             // validate against the nonEmpty rules of children
-            for (i = 0, j = memberFields.length; i < j; i++) {
+            for (i = 0, j = memberFields.length; i &lt; j; i++) {
               var fieldObj = memberFields[i],
                   method = 'nonEmpty',
                   isFilledFailedRules;
@@ -1556,13 +1583,13 @@
               if ($.inArray(method, fieldObj.rules) === -1) { continue; }
               fieldsThatNeedInput++;
               isFilledFailedRules = fieldObj[method]();
-              if (_fieldIsShowing(fieldObj) && isFilledFailedRules.length) {
+              if (_fieldIsShowing(fieldObj) &amp;&amp; isFilledFailedRules.length) {
                 emptyFields++;
                 $.merge(memberFailedRules, isFilledFailedRules);
               }
             }
             if (memberFailedRules.length) {
-              if (emptyFields < fieldsThatNeedInput) {
+              if (emptyFields &lt; fieldsThatNeedInput) {
                 // message for each child field
                 rulesToReport = memberFailedRules;
                 fieldsetObj = {
@@ -1600,7 +1627,7 @@
             _fieldIsShowing = function (fieldObj) {
               return !fieldObj.$source.is(':hidden');
             };
-            for (i = 0, j = memberFields.length; i < j; i++) {
+            for (i = 0, j = memberFields.length; i &lt; j; i++) {
               fieldObj = memberFields[i];
 
               failedRules = validation.applyRules(fieldObj);
@@ -1811,3 +1838,26 @@
 
   GOVUK.registerToVote.validation = validation;
 }.call(this));
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="root.validation.html">validation</a></li><li><a href="root.validation.events.html">events</a></li><li><a href="root.validation.fields.html">fields</a></li><li><a href="root.validation.mark.html">mark</a></li><li><a href="root.validation.messages.html">messages</a></li><li><a href="root.validation.rules.html">rules</a></li><li><a href="root.validation.rules.association.html">association</a></li><li><a href="root.validation.rules.field.html">field</a></li><li><a href="root.validation.rules.fieldset.html">fieldset</a></li><li><a href="root.validation.unMark.html">unMark</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha9</a> on Thu Aug 28 2014 14:20:23 GMT+0100 (BST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
