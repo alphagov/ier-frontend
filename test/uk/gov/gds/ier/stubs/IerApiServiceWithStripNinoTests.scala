@@ -18,15 +18,14 @@ class IerApiServiceWithStripNinoTests extends MockingTestSuite {
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
     val applicationWithNino = InprogressOrdinary(nino = Some(Nino(Some("12345"), None)))
 
-    service.submitOrdinaryApplication(None, applicationWithNino, None, Some("1234"), "en", Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+    service.submitOrdinaryApplication(None, applicationWithNino, None, Some("1234"), "en")
 
     verify(concreteIerApiServiceMock).submitOrdinaryApplication(
       eq(None),
       isNot(applicationWithNino),
       eq(None),
       eq(Some("1234")),
-      eq("en"),
-      eq(Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+      eq("en")
     )
   }
 
@@ -35,14 +34,13 @@ class IerApiServiceWithStripNinoTests extends MockingTestSuite {
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
     val applicationWithNino = InprogressOverseas(nino = Some(Nino(Some("12345"), None)))
 
-    service.submitOverseasApplication(None, applicationWithNino, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+    service.submitOverseasApplication(None, applicationWithNino, None, Some("1234"))
 
     verify(concreteIerApiServiceMock).submitOverseasApplication(
       eq(None),
       isNot(applicationWithNino),
       eq(None),
-      eq(Some("1234")),
-      eq(Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+      eq(Some("1234"))
     )
   }
 
@@ -51,14 +49,13 @@ class IerApiServiceWithStripNinoTests extends MockingTestSuite {
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
     val applicationWithNino = InprogressForces(nino = Some(Nino(Some("12345"), None)))
 
-    service.submitForcesApplication(None, applicationWithNino, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+    service.submitForcesApplication(None, applicationWithNino, None, Some("1234"))
 
     verify(concreteIerApiServiceMock).submitForcesApplication(
       eq(None),
       isNot(applicationWithNino),
       eq(None),
-      eq(Some("1234")),
-      eq(Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+      eq(Some("1234"))
     )
   }
 
@@ -67,14 +64,13 @@ class IerApiServiceWithStripNinoTests extends MockingTestSuite {
     val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
     val applicationWithNino = InprogressCrown(nino = Some(Nino(Some("12345"), None)))
 
-    service.submitCrownApplication(None, applicationWithNino, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+    service.submitCrownApplication(None, applicationWithNino, None, Some("1234"))
 
     verify(concreteIerApiServiceMock).submitCrownApplication(
       eq(None),
       isNot(applicationWithNino),
       eq(None),
-      eq(Some("1234")),
-      eq(Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+      eq(Some("1234"))
     )
   }
 
@@ -95,15 +91,14 @@ class IerApiServiceWithStripNinoTests extends MockingTestSuite {
     val applicationWithNoNinoReason = InprogressOrdinary(
       nino = Some(Nino(None, Some("no nino reason"))))
 
-    service.submitOrdinaryApplication(None, applicationWithNoNinoReason, None, Some("1234"), "en", Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+    service.submitOrdinaryApplication(None, applicationWithNoNinoReason, None, Some("1234"), "en")
 
     verify(concreteIerApiServiceMock).submitOrdinaryApplication(
       None,
       applicationWithNoNinoReason,
       None,
       Some("1234"),
-      "en",
-      Some("860da84c-74df-45b0-8ff8-d2d16ef8367a")
+      "en"
     )
   }
 
@@ -124,14 +119,13 @@ class IerApiServiceWithStripNinoTests extends MockingTestSuite {
     val applicationWithNoNinoReason = InprogressOverseas(
       nino = Some(Nino(None, Some("no nino reason"))))
 
-    service.submitOverseasApplication(None, applicationWithNoNinoReason, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+    service.submitOverseasApplication(None, applicationWithNoNinoReason, None, Some("1234"))
 
     verify(concreteIerApiServiceMock).submitOverseasApplication(
       None,
       applicationWithNoNinoReason,
       None,
-      Some("1234"),
-      Some("860da84c-74df-45b0-8ff8-d2d16ef8367a")
+      Some("1234")
     )
   }
 
@@ -152,14 +146,13 @@ class IerApiServiceWithStripNinoTests extends MockingTestSuite {
     val applicationWithNoNinoReason = InprogressForces(
       nino = Some(Nino(None, Some("no nino reason"))))
 
-    service.submitForcesApplication(None, applicationWithNoNinoReason, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+    service.submitForcesApplication(None, applicationWithNoNinoReason, None, Some("1234"))
 
     verify(concreteIerApiServiceMock).submitForcesApplication(
       None,
       applicationWithNoNinoReason,
       None,
-      Some("1234"),
-      Some("860da84c-74df-45b0-8ff8-d2d16ef8367a")
+      Some("1234")
     )
   }
 
@@ -181,14 +174,13 @@ class IerApiServiceWithStripNinoTests extends MockingTestSuite {
     val applicationWithNoNinoReason = InprogressCrown(
       nino = Some(Nino(None, Some("no nino reason"))))
 
-    service.submitCrownApplication(None, applicationWithNoNinoReason, None, Some("1234"), Some("860da84c-74df-45b0-8ff8-d2d16ef8367a"))
+    service.submitCrownApplication(None, applicationWithNoNinoReason, None, Some("1234"))
 
     verify(concreteIerApiServiceMock).submitCrownApplication(
       None,
       applicationWithNoNinoReason,
       None,
-      Some("1234"),
-      Some("860da84c-74df-45b0-8ff8-d2d16ef8367a")
+      Some("1234")
     )
   }
 

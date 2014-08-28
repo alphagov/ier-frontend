@@ -51,7 +51,8 @@ case class InprogressCrown(
       waysToVote = this.waysToVote.orElse(other.waysToVote),
       postalOrProxyVote = this.postalOrProxyVote.orElse(other.postalOrProxyVote),
       contact = this.contact.orElse(other.contact),
-      possibleAddresses = None
+      possibleAddresses = None,
+      sessionId = this.sessionId.orElse(other.sessionId)
     )
   }
 

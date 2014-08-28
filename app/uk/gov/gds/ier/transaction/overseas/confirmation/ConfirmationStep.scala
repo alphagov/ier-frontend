@@ -72,8 +72,7 @@ class ConfirmationStep @Inject() (
             remoteClientIP,
             validApplication,
             Some(refNum),
-            request.getToken.map(_.timeTaken),
-            sessionId = request.getToken.flatMap(_.refreshToken.id)
+            request.getToken.map(_.timeTaken)
           )
 
           logSession()

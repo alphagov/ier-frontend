@@ -42,7 +42,8 @@ case class InprogressOrdinary(
       postalVote = this.postalVote.orElse(other.postalVote),
       contact = this.contact.orElse(other.contact),
       possibleAddresses = None,
-      country = this.country.orElse(other.country)
+      country = this.country.orElse(other.country),
+      sessionId = this.sessionId.orElse(other.sessionId)
     )
   }
 }

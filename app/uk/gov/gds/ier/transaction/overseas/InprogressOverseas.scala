@@ -42,7 +42,8 @@ case class InprogressOverseas(
       postalOrProxyVote = this.postalOrProxyVote.orElse(other.postalOrProxyVote),
       contact = this.contact.orElse(other.contact),
       passport = this.passport.orElse(other.passport),
-      possibleAddresses = None
+      possibleAddresses = None,
+      sessionId = this.sessionId.orElse(other.sessionId)
     )
   }
 }

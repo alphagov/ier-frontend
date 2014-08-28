@@ -29,32 +29,28 @@ abstract class IerApiService {
       applicant: InprogressOrdinary,
       referenceNumber: Option[String],
       timeTaken: Option[String],
-      language: String,
-      sessionId: Option[String]
+      language: String
   ): IerApiApplicationResponse
 
   def submitOverseasApplication(
       ip: Option[String],
       applicant: InprogressOverseas,
       refNum: Option[String],
-      timeTaken: Option[String],
-      sessionId: Option[String]
+      timeTaken: Option[String]
   ): IerApiApplicationResponse
 
   def submitForcesApplication (
       ip: Option[String],
       applicant: InprogressForces,
       refNum: Option[String],
-      timeTaken: Option[String],
-      sessionId: Option[String]
+      timeTaken: Option[String]
   ): IerApiApplicationResponse
 
   def submitCrownApplication (
       ip: Option[String],
       applicant: InprogressCrown,
       refNum: Option[String],
-      timeTaken: Option[String],
-      sessionId: Option[String]
+      timeTaken: Option[String]
   ): IerApiApplicationResponse
 
   def generateOrdinaryReferenceNumber(application: InprogressOrdinary): String
@@ -77,8 +73,7 @@ class ConcreteIerApiService @Inject() (
       applicant: InprogressOrdinary,
       referenceNumber: Option[String],
       timeTaken: Option[String],
-      language: String,
-      sessionId: Option[String]
+      language: String
   ) = {
 
     val isoCodes = applicant.nationality map { nationality =>
@@ -114,9 +109,7 @@ class ConcreteIerApiService @Inject() (
       ip = ipAddress,
       timeTaken = timeTaken.getOrElse("-1"),
       language = language,
-      // this has to be changed to: applicant.sessionId.getOrElse("")
-      // some time after we deployed new application cookie sessionId
-      sessionId = sessionId.getOrElse("")
+      sessionId = applicant.sessionId.getOrElse("")
     )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
@@ -128,8 +121,7 @@ class ConcreteIerApiService @Inject() (
       ip:Option[String],
       applicant: InprogressOverseas,
       refNum:Option[String],
-      timeTaken: Option[String],
-      sessionId: Option[String]
+      timeTaken: Option[String]
   ) = {
 
     val fullLastUkRegAddress = addressService.formFullAddress(applicant.lastUkAddress)
@@ -154,7 +146,7 @@ class ConcreteIerApiService @Inject() (
       referenceNumber = refNum,
       ip = ip,
       timeTaken = timeTaken.getOrElse("-1"),
-      sessionId = sessionId.getOrElse("")
+      sessionId = applicant.sessionId.getOrElse("")
     )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
@@ -166,8 +158,7 @@ class ConcreteIerApiService @Inject() (
       ipAddress: Option[String],
       applicant: InprogressForces,
       referenceNumber: Option[String],
-      timeTaken: Option[String],
-      sessionId: Option[String]
+      timeTaken: Option[String]
   ) = {
 
     val isoCodes = applicant.nationality map { nationality =>
@@ -209,7 +200,7 @@ class ConcreteIerApiService @Inject() (
       referenceNumber = referenceNumber,
       ip = ipAddress,
       timeTaken = timeTaken.getOrElse("-1"),
-      sessionId = sessionId.getOrElse(""),
+      sessionId = applicant.sessionId.getOrElse(""),
       ukAddr = residentType
     ).hackNoUkAddressToNonat(applicant.nationality, applicant.address)
 
@@ -222,8 +213,7 @@ class ConcreteIerApiService @Inject() (
       ipAddress: Option[String],
       applicant: InprogressCrown,
       referenceNumber: Option[String],
-      timeTaken: Option[String],
-      sessionId: Option[String]
+      timeTaken: Option[String]
   ) = {
 
     val isoCodes = applicant.nationality map { nationality =>
@@ -264,7 +254,7 @@ class ConcreteIerApiService @Inject() (
       referenceNumber = referenceNumber,
       ip = ipAddress,
       timeTaken = timeTaken.getOrElse("-1"),
-      sessionId = sessionId.getOrElse(""),
+      sessionId = applicant.sessionId.getOrElse(""),
       ukAddr = residentType
     ).hackNoUkAddressToNonat(applicant.nationality, applicant.address)
 
