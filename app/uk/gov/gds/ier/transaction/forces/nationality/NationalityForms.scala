@@ -103,7 +103,7 @@ trait NationalityConstraints extends FormKeys with ErrorMessages {
 
     (otherCountry, otherCountryValid) match {
       case (Some(c), false) => Invalid(
-        "This is not a valid country",
+        "This is not a valid entry",
         keys.nationality.otherCountries.item(i)
       )
       case _ => Valid

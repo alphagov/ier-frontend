@@ -54,7 +54,7 @@ i chi anfon copïau o ddogfennau adnabod drwy’r post.
 ordinary_nationality_help_heading_2=Nid wyf yn gallu nodi fy nghenedligrwydd
 ordinary_nationality_help_content_3=Pam nad oes modd i chi nodi eich cenedligrwydd?
 ordinary_nationality_error_pleaseAnswer=Atebwch y cwestiwn hwn
-ordinary_nationality_error_notValid=Nid yw’r wlad honno’n ddilys
+ordinary_nationality_error_notValid=Nid yw cofnod yn ddilys
 ordinary_nationality_error_noMoreFiveCountries=Gallwch specifiy dim mwy na pum gwlad
 
 

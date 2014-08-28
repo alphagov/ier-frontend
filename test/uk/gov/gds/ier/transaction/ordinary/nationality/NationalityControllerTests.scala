@@ -95,7 +95,7 @@ class NationalityControllerTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentAsString(result) should include("What is your nationality?")
-      contentAsString(result) should include("This is not a valid country")
+      contentAsString(result) should include("This is not a valid entry")
       contentAsString(result) should include("/register-to-vote/nationality")
     }
   }
@@ -208,7 +208,7 @@ class NationalityControllerTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentAsString(result) should include("What is your nationality?")
-      contentAsString(result) should include("This is not a valid country")
+      contentAsString(result) should include("This is not a valid entry")
       contentAsString(result) should include("/register-to-vote/edit/nationality")
     }
   }

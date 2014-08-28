@@ -52,7 +52,7 @@ through the post.
 ordinary_nationality_help_heading_2=I can’t provide my nationality
 ordinary_nationality_help_content_3=Why can’t you provide your nationality?
 ordinary_nationality_error_pleaseAnswer=Please answer this question
-ordinary_nationality_error_notValid=This is not a valid country
+ordinary_nationality_error_notValid=This is not a valid entry
 ordinary_nationality_error_noMoreFiveCountries=You can specify no more than five countries
 
 # ordinary: date of birth
