@@ -117,6 +117,7 @@ object NationalityConstants {
     "grenada" -> ISOCountry("GD", displayName = "Grenada", Franchise.commonwealth),
     "guadeloupe" -> ISOCountry("GP", displayName = "Guadeloupe"),
     "guatemala" -> ISOCountry("GT", displayName = "Guatemala"),
+    "guernsey" -> ISOCountry("GG", displayName = "Guernsey"),
     "guinea" -> ISOCountry("GN", displayName = "Guinea"),
     "guinea-bissau" -> ISOCountry("GW", displayName = "Guinea-Bissau"),
     "guyana" -> ISOCountry("GY", displayName = "Guyana", Franchise.commonwealth),
@@ -131,10 +132,12 @@ object NationalityConstants {
     "iran" -> ISOCountry("IR", displayName = "Iran"),
     "iraq" -> ISOCountry("IQ", displayName = "Iraq"),
     "ireland" -> ISOCountry("IE", displayName = "Ireland", Franchise.full, Franchise.european),
+    "isle of man" -> ISOCountry("IM", displayName = "Isle of Man"),
     "israel" -> ISOCountry("IL", displayName = "Israel"),
     "italy" -> ISOCountry("IT", displayName = "Italy", Franchise.european),
     "jamaica" -> ISOCountry("JM", displayName = "Jamaica", Franchise.commonwealth),
     "japan" -> ISOCountry("JP", displayName = "Japan"),
+    "jersey" -> ISOCountry("JE", displayName = "Jersey"),
     "jordan" -> ISOCountry("JO", displayName = "Jordan"),
     "kazakhstan" -> ISOCountry("KZ", displayName = "Kazakhstan"),
     "kenya" -> ISOCountry("KE", displayName = "Kenya", Franchise.commonwealth),
@@ -261,7 +264,14 @@ object NationalityConstants {
     "zimbabwe" -> ISOCountry("ZW", displayName = "Zimbabwe", Franchise.commonwealth)
   )
 
+
+
+
   lazy val countriesExceptUK = countryNameToCodes.filterNot {
     case (name, iso) => iso.isoCode == "GB"
+  }
+
+  lazy val validNationalitiesList = countryNameToCodes.filterNot {
+    case (name, iso) => List("GB", "GG", "IM", "JE").contains(iso.isoCode)
   }
 }
