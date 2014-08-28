@@ -36,7 +36,7 @@ class CountryStep @Inject ()(
   def nextStep(currentState: InprogressOrdinary) = {
     currentState.country match {
       case Some(Country("Northern Ireland", _)) => GoTo(ExitController.northernIreland)
-      case Some(Country("Scotland", _)) => GoTo(ExitController.scotland)
+      case Some(Country("Scotland", _)) if !config.availableForScotland => GoTo(ExitController.scotland)
       case Some(Country("British Islands", _)) => GoTo(ExitController.britishIslands)
       case Some(Country(_, true)) => GoTo(RegisterToVoteController.registerToVoteOverseasStart)
       case _ => ordinary.NationalityStep
