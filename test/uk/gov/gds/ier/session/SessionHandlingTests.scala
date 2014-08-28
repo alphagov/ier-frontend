@@ -67,7 +67,6 @@ class SessionHandlingTests extends ControllerTestSuite {
       token.latest.getHourOfDay should be(DateTime.now.getHourOfDay)
       token.latest.getMinuteOfHour should be(DateTime.now.getMinuteOfHour)
       token.latest.getSecondOfMinute should be(DateTime.now.getSecondOfMinute +- 2)
-      token.id.isDefined should be(true)
 
       cookies(result).get("application") should not be None
       cookies(result).get("applicationIV") should not be None
@@ -78,7 +77,7 @@ class SessionHandlingTests extends ControllerTestSuite {
       val appToken = jsonSerialiser.fromJson[StartupApplication](decryptedAppInfo)
 
       appToken.sessionId.isDefined should be(true)
-      appToken.sessionId should be(token.id)
+      appToken.sessionId.get should not be empty
     }
   }
 
