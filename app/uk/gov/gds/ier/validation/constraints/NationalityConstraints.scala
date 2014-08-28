@@ -34,7 +34,7 @@ trait NationalityConstraints {
       if (nationality.otherCountries.isEmpty || !nationality.hasOtherCountry.exists(b => b)) Valid
       else if (nationality.otherCountries.size != i+1) Valid
       else if (nationality.otherCountries.size > i
-        && countriesExceptUK.contains(nationality.otherCountries(i).toLowerCase)) Valid
+        && validNationalitiesList.contains(nationality.otherCountries(i).toLowerCase)) Valid
       else Invalid("This is not a valid entry", keys.nationality.otherCountries.item(i))
   }
 

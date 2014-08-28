@@ -267,8 +267,11 @@ object NationalityConstants {
 
 
 
-
   lazy val countriesExceptUK = countryNameToCodes.filterNot {
     case (name, iso) => iso.isoCode == "GB"
+  }
+
+  lazy val validNationalitiesList = countryNameToCodes.filterNot {
+    case (name, iso) => List("GB", "GG", "IM", "JE").contains(iso.isoCode)
   }
 }
