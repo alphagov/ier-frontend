@@ -46,3 +46,11 @@ All other depedencies (Play framework, Scala, sbt, etc) will be installed as par
  3. Or just `./sbt run`
  
  4. Go to `http://localhost:9000/`
+
+###Front-end development
+
+The CSS and JS files Play serves are compiled versions of those in the `./assets` folder.
+
+There are [Gulp](http://gulpjs.com/) tasks to build the compiled CSS and JS in the `./scripts/gulp` folder.
+
+The `./scripts/gulp` folder has a guide to setting up Gulp and to the tasks in its README.
