@@ -265,7 +265,7 @@ class OrdinaryApplicationTests extends UnitTestSuite {
         deliveryMethod = None
       ))
     )
-    val expected = ordinaryApplicationPayload + ("pvote" -> "false")
+    val expected = ordinaryApplicationPayload + ("pvote" -> "true")
 
     application.toApiMap should matchMap(expected)
   }
