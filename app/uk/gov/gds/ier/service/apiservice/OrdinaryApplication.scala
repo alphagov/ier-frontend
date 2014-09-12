@@ -43,7 +43,7 @@ case class OrdinaryApplication(
       otherAddress.map(_.toApiMap).getOrElse(Map.empty) ++
       openRegisterOptin.map(open => Map("opnreg" -> open.toString)).getOrElse(Map.empty) ++
       postalVote.map(postalVote => postalVote.postalVoteOption.map(
-        postalVoteOption => Map("pvote" -> postalVoteOption.postalVote.toString)).getOrElse(Map.empty)).getOrElse(Map.empty) ++
+        postalVoteOption => Map("pvote" -> postalVoteOption.apiValue.toString)).getOrElse(Map.empty)).getOrElse(Map.empty) ++
       postalVote.map(postalVote => postalVote.deliveryMethod.map(
         deliveryMethod => deliveryMethod.emailAddress.map(
         emailAddress => Map("pvoteemail" -> emailAddress)).getOrElse(Map.empty)).getOrElse(Map.empty)).getOrElse(Map.empty) ++
