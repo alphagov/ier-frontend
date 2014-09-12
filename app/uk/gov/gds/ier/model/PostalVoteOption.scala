@@ -1,15 +1,15 @@
 package uk.gov.gds.ier.model
 
-sealed case class PostalVoteOption(postalVote:Boolean, name:String)
+sealed case class PostalVoteOption(postalVote:Boolean, name:String, apiValue:Boolean)
 
 object PostalVoteOption extends ModelMapping {
   import playMappings._
 
-  val Yes = PostalVoteOption(true, "yes")
-  val NoAndVoteInPerson = PostalVoteOption(false, "no-vote-in-person")
-  val NoAndAlreadyHave = PostalVoteOption(false, "no-already-have")
+  val Yes = PostalVoteOption(true, "yes", true)
+  val NoAndVoteInPerson = PostalVoteOption(false, "no-vote-in-person", false)
+  val NoAndAlreadyHave = PostalVoteOption(false, "no-already-have", true)
 
-  val Unknown = PostalVoteOption(false, "unknown")
+  val Unknown = PostalVoteOption(false, "unknown", false)
 
   def isValid(str:String):Boolean = {
     str match {
