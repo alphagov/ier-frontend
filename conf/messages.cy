@@ -31,7 +31,7 @@ ordinary_country_error_notValidCountry=Nid yw’r wlad honno’n ddilys
 
 ordinary_nationality_title=Beth yw eich cenedligrwydd?
 ordinary_nationality_content_1=Dewiswch yr holl opsiynau sy’n berthnasol i chi.
-ordinary_nationality_british=Prydeinig
+ordinary_nationality_british=Prydeinig (gan gynnwys Saeson, Albanwyr, Cymry a phobl Gogledd Iwerddon)
 ordinary_nationality_irish=Gwyddelig
 ordinary_nationality_otherCountry=Dinesydd gwlad arall
 ordinary_nationality_whichCountry=Enw'r wlad<span class="visuallyhidden"> un</span>
