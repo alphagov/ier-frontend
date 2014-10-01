@@ -51,7 +51,9 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
       )
     }
 
-    val possibleAddresses = storedAddresses orElse postcode.map { pc =>
+    //IER0091 : Temp removing the storedAddresses section of the code checks to remove populating against the hidden input field
+    //val possibleAddresses = storedAddresses orElse postcode.map { pc =>
+    val possibleAddresses = postcode.map { pc =>
       val addresses = addressService.lookupPartialAddress(pc)
       PossibleAddress(
         jsonList = Addresses(addresses),
