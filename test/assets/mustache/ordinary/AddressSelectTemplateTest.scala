@@ -38,7 +38,7 @@ class AddressSelectTemplateTest
         possibleJsonList = Field(
           id = "possibleJsonId",
           name = "possibleJsonName",
-          value = "possibleJsonValue"
+          value = "{\"addresses\":[]}"
         ),
         possiblePostcode = Field(
           id = "possiblePostcodeId",

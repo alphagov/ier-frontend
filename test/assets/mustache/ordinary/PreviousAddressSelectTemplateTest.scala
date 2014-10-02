@@ -44,12 +44,7 @@ class PreviousAddressSelectTemplateTest
           id = "possibleJsonListId",
           name = "possibleJsonListName",
           classes = "not-used-it-is-hidden-field",
-          value = "{\"addresses\":[" +
-            "{\"addressLine\":\"2 The Cottages, Moseley Road, Hallow, Worcester, Worcestershire\"," +
-            "\"uprn\":\"26742666\",\"postcode\":\"WR2 6NJ\",\"manualAddress\":null}," +
-            "{\"addressLine\":\"Beaumont, Moseley Road, Hallow, Worcester, Worcestershire\"," +
-            "\"uprn\":\"26742627\",\"postcode\":\"WR2 6NJ\",\"manualAddress\":null}" +
-            "]}"
+          value = "{\"addresses\":[]}"
         ),
         possiblePostcode = Field(
           id = "possiblePostcodeId",
