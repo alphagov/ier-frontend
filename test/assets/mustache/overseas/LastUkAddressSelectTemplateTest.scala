@@ -40,7 +40,7 @@ class LastUkAddressSelectTemplateTest
         possibleJsonList = Field(
           id = "possibleJsonId",
           name = "possibleJsonName",
-          value = "possibleJsonValue"
+          value = "{\"addresses\":[]}"
         ),
         possiblePostcode = Field(
           id = "possiblePostcodeId",
@@ -91,7 +91,7 @@ class LastUkAddressSelectTemplateTest
 
       hiddenJsonListInput.attr("id") should be("possibleJsonId")
       hiddenJsonListInput.attr("name") should be("possibleJsonName")
-      hiddenJsonListInput.attr("value") should be("possibleJsonValue")
+      hiddenJsonListInput.attr("value") should be("{\"addresses\":[]}")
 
       hiddenPostcodeInput.attr("id") should be("possiblePostcodeId")
       hiddenPostcodeInput.attr("name") should be("possiblePostcodeName")

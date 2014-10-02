@@ -44,12 +44,7 @@ class PreviousAddressSelectTemplateTest
           id = "possibleJsonListId",
           name = "possibleJsonListName",
           classes = "not-used-it-is-hidden-field",
-          value = "{\"addresses\":[" +
-            "{\"addressLine\":\"2 The Cottages, Moseley Road, Hallow, Worcester, Worcestershire\"," +
-            "\"uprn\":\"26742666\",\"postcode\":\"WR2 6NJ\",\"manualAddress\":null}," +
-            "{\"addressLine\":\"Beaumont, Moseley Road, Hallow, Worcester, Worcestershire\"," +
-            "\"uprn\":\"26742627\",\"postcode\":\"WR2 6NJ\",\"manualAddress\":null}" +
-            "]}"
+          value = "{\"addresses\":[]}"
         ),
         possiblePostcode = Field(
           id = "possiblePostcodeId",
@@ -115,12 +110,7 @@ class PreviousAddressSelectTemplateTest
       hiddenJsonListInput should not be(null)
       hiddenJsonListInput.attr("type") should be("hidden")
       hiddenJsonListInput.attr("name") should be("possibleJsonListName")
-      hiddenJsonListInput.attr("value") should be("{\"addresses\":[" +
-        "{\"addressLine\":\"2 The Cottages, Moseley Road, Hallow, Worcester, Worcestershire\"," +
-        "\"uprn\":\"26742666\",\"postcode\":\"WR2 6NJ\",\"manualAddress\":null}," +
-        "{\"addressLine\":\"Beaumont, Moseley Road, Hallow, Worcester, Worcestershire\"," +
-        "\"uprn\":\"26742627\",\"postcode\":\"WR2 6NJ\",\"manualAddress\":null}" +
-        "]}")
+      hiddenJsonListInput.attr("value") should be("{\"addresses\":[]}")
 
       val hiddenPostcodeInput = doc.select("input#possiblePostcodeId").first()
       hiddenPostcodeInput should not be(null)

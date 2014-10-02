@@ -38,7 +38,7 @@ class AddressSelectTemplateTest
         possibleJsonList = Field(
           id = "possibleJsonId",
           name = "possibleJsonName",
-          value = "possibleJsonValue"
+          value = "{\"addresses\":[]}"
         ),
         possiblePostcode = Field(
           id = "possiblePostcodeId",
@@ -96,7 +96,7 @@ class AddressSelectTemplateTest
       hiddenJsonListInput should not be(null)
       hiddenJsonListInput.attr("type") should be("hidden")
       hiddenJsonListInput.attr("name") should be("possibleJsonName")
-      hiddenJsonListInput.attr("value") should be("possibleJsonValue")
+      hiddenJsonListInput.attr("value") should be("{\"addresses\":[]}")
 
       val hiddenPostcodeInput = doc.select("input#possiblePostcodeId").first()
       hiddenPostcodeInput should not be(null)
