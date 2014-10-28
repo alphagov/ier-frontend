@@ -17,6 +17,7 @@
   <p>
     {{messages.complete_yourRefNumberIs}}
     <span>{{refNumber}}</span>
+    {{messages.complete_registerGuidance_1}} <u>{{messages.complete_registerGuidance_2}}</u> {{messages.complete_registerGuidance_3}}
   </p>
   {{/refNumber}}
 
@@ -28,7 +29,8 @@
 
   <h2>{{messages.complete_whatHappensNext_h2}}</h2>
   <p>{{messages.complete_sentApplicationTo_p}} <strong>{{authorityName}}</strong>.</p>
-  <p>{{messages.complete_contactYouTo_p}}</p>
+  <p>{{messages.complete_contactYouTo_p1}}</p>
+  <p>{{messages.complete_contactYouTo_p2}}</p>
   <p>
     {{messages.complete_questionsContact_p1}}
     {{#authorityUrl}}<a href="{{.}}">{{/authorityUrl}}{{authorityName}}{{#authorityUrl}}</a>{{/authorityUrl}}
