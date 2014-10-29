@@ -456,17 +456,15 @@ ordinary_confirmation_error_completeThis=Cwblhewch y cam hwn
 #
 complete_step_title=Application Complete
 
-complete_applicationComplete_h1=Mae eich cais wedi dod i law ac mae’n cael ei brosesu.
+complete_applicationComplete=Mae eich cais wedi dod i law ac mae’n cael ei brosesu.
 complete_yourRefNumberIs=Eich cyfeirnod yw
-complete_registerGuidance_1=Cewch wybod pan fydd eich cofrestriad wedi’i gadarnhau. Hyd nes i chi gael cadarnhad, ni fydd eich enw’n ymddangos ar y gofrestr etholiadol.
-complete_registerGuidance_2=
-complete_registerGuidance_3=
+complete_registerGuidance=Cewch wybod pan fydd eich cofrestriad wedi’i gadarnhau. Hyd nes i chi gael cadarnhad, ni fydd eich enw’n ymddangos ar y gofrestr etholiadol.
 complete_emailConfirmation=Rydym wedi anfon e-bost atoch i gydnabod eich cais.
 complete_whatHappensNext_h2=Beth fydd yn digwydd nesaf?
-complete_sentApplicationTo_p=Rydym wedi anfon eich cais i Swyddfa Cofrestru Etholiadol
+complete_sentApplicationTo_p=Rydym wedi anfon eich cais i
 complete_contactYouTo_p1=Bydd y swyddfa honno’n cysylltu â chi’n fuan i roi gwybod i chi pa bryd y bydd eich enw’n cael ei ychwanegu at y gofrestr, neu i ofyn am ragor o wybodaeth.
 complete_contactYouTo_p2=Hyd nes i chi gael cadarnhad, ni fydd eich enw’n ymddangos ar y gofrestr etholiadol.
-complete_questionsContact_p1=Os oes gennych unrhyw gwestiwn ynghylch eich cais, cysylltwch â Swyddfa Cofrestru Etholiadol
+complete_questionsContact_p1=Os oes gennych unrhyw gwestiwn ynghylch eich cais, cysylltwch â
 complete_questionsContact_p2=
 complete_ifYouAreNotAlreadyRegistered1_p=Os nad ydych wedi cofrestru yn barod yn eich ail gyfeiriad, gallwch
 complete_ifYouAreNotAlreadyRegistered2_p=wneud cais arall

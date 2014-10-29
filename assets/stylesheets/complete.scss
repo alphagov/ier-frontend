@@ -23,22 +23,29 @@
     }
 
     h1,
+    h3,
     p {
       text-align: center;
     }
 
-    h1 {
-      @include bold-36;
+    h1,
+    h3 {
       margin: 0 auto 0.5em;
       padding-left: 24px;
-      width: 10.5em;
-      background: url('/assets/images/icon-tick.png') left center no-repeat;
       background-size: 20px;
 
       @include media(tablet) {
         padding-left: 32px;
         background-size: initial;
       }
+    }
+
+    h1 {
+      @include bold-36;
+    }
+    h3 {
+      @include bold-27;
+      background: url('/assets/images/icon-tick.png') left center no-repeat;
     }
 
     p {

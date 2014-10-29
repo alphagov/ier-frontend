@@ -439,11 +439,9 @@ ordinary_confirmation_error_completeThis=Please complete this step
 #
 complete_step_title=Application Complete
 
-complete_applicationComplete_h1=Your application has been received and is being processed
+complete_applicationComplete=Your application has been received and is being processed
 complete_yourRefNumberIs=Your reference number is
-complete_registerGuidance_1=You will be contacted when your registration is confirmed. Until then your name will
-complete_registerGuidance_2=not
-complete_registerGuidance_3=appear on the electoral register.
+complete_registerGuidance=You will be contacted when your registration is confirmed. Until then your name will not appear on the electoral register.
 complete_emailConfirmation=We have sent you an acknowledgement email.
 complete_whatHappensNext_h2=What happens next
 complete_sentApplicationTo_p=We've sent your application to
