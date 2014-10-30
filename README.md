@@ -54,3 +54,17 @@ The CSS and JS files Play serves are compiled versions of those in the `./assets
 There are [Gulp](http://gulpjs.com/) tasks to build the compiled CSS and JS in the `./scripts/gulp` folder.
 
 The `./scripts/gulp` folder has a guide to setting up Gulp and to the tasks in its README.
+
+###Running the tests
+
+Testing for the ier-frontend project is via the sbt command line as follows...
+
+ 1. In the terminal execute `./sbt` to open the SBT console
+
+ 2. In the SBT console execute `test` to begin ALL the tests
+
+ 3. Or just `./sbt test`
+
+ **NB : Make sure you follow the Bootstrap Step 5 above to make the /var/log/ier/ folder locally wriateable.**
+
+ **NB : To run a specific test rather than all of them  `test-only FULL_PATH_OF_TEST_CLASS`**
