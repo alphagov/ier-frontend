@@ -250,8 +250,8 @@ ordinary_previousAddress_yesFromUk_title=Beth oedd eich cyfeiriad blaenorol?
 ordinary_previousAddress_yesFromAbroadWasRegistered_title=Beth oedd eich cyfeiriad olaf yn y DU cyn i chi symud dramor?
 
 ordinary_previousAddress_no_option=Nac ydw
-ordinary_previousAddress_yesFromUk_option=Ie, o gyfeiriad yn y DU
-ordinary_previousAddress_yesFromAbroad_option=Ie, o dramor
+ordinary_previousAddress_yesFromUk_option=Ydw, o gyfeiriad yn y DU
+ordinary_previousAddress_yesFromAbroad_option=Ydw, o dramor
 ordinary_previousAddress_yesFromAbroad_wasRegisteredQuestion=A oeddech chi wedi’ch cofrestru fel pleidleisiwr yn etholiadau’r DU pan oeddech dramor?
 ordinary_previousAddress_yesFromAbroad_wasRegistered_yes_option=Ydw
 ordinary_previousAddress_yesFromAbroad_wasRegistered_no_option=Nac ydw
@@ -339,9 +339,9 @@ ordinary_postalVote_title=Ydych chi am wneud cais am bleidlais drwy’r post?
 ordinary_postalVote_optionsQuestion=Mae’r rhan fwyaf o bobl yn pleidleisio’n bersonol mewn gorsaf bleidleisio. Ond os yw’n well \
 gennych bleidleisio drwy’r post, gallwn anfon ffurflen gais atoch.
 ordinary_postalVote_voteInPerson_option=Nac ydw, mae’n well gennyf bleidleisio’n bersonol
-ordinary_postalVote_voteAlreadyHave_option=Na, does dim angen ffurflen gais pleidlais bost arnaf
+ordinary_postalVote_voteAlreadyHave_option=Nac ydw, mae gennyf bleidlais bost eisoes
 ordinary_postalVote_voteAlreadyHave_help=Os ydych chi wedi newid cyfeiriad, bydd angen i chi wneud cais am bleidlais bost newydd
-ordinary_postalVote_postalVote_option=Oes anfonwch ffurflen gais pleidlais bost arnaf
+ordinary_postalVote_postalVote_option=Ydw, anfonwch ffurflen gais pleidlais bost ataf
 
 ordinary_postalVote_postalVote_heading=Os ydych am gael ffurflen gais am bleidlais bost
 ordinary_postalVote_postalVote_deliveryOptionsQuestion=Bydd angen i chi lofnodi a dychwelyd y ffurflen gais pleidlais bost. Sut ddylen ni \
