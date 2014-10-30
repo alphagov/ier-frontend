@@ -106,7 +106,7 @@ class CompleteControllerTests extends ControllerTestSuite {
     contentType(result) should be(Some("text/html"))
     val renderedOutput = contentAsString(result)
 
-    renderedOutput should include("We have sent you a confirmation email.")
+    renderedOutput should include("We have sent you an acknowledgement email.")
     renderedOutput should not include("Happy Birthday")
   }
 
