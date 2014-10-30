@@ -439,12 +439,14 @@ ordinary_confirmation_error_completeThis=Please complete this step
 #
 complete_step_title=Application Complete
 
-complete_applicationComplete_h1=Application complete
+complete_applicationComplete=Your application has been received and is being processed
 complete_yourRefNumberIs=Your reference number is
-complete_emailConfirmation=We have sent you a confirmation email.
+complete_registerGuidance=You will be contacted when your registration is confirmed. Until then your name will not appear on the electoral register.
+complete_emailConfirmation=We have sent you an acknowledgement email.
 complete_whatHappensNext_h2=What happens next
 complete_sentApplicationTo_p=We've sent your application to
-complete_contactYouTo_p=They will contact you – either to confirm that you're registered to vote, or to ask for more information.
+complete_contactYouTo_p1=They will make contact with you shortly to confirm when your name will be added to the register, or to request further information.
+complete_contactYouTo_p2=Until you receive confirmation, your name will not appear on the electoral register.
 complete_questionsContact_p1=Contact
 complete_questionsContact_p2=if you have any questions about your application
 complete_ifYouAreNotAlreadyRegistered1_p=If you're not already registered at your second address, you can

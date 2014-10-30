@@ -11,12 +11,13 @@
     <img src="{{{ appAssetPath }}}images/birthdaybunting.png" alt="Happy Birthday" class="bunting-image"/>
   {{/showBirthdayBunting}}
 
-  <h1>{{messages.complete_applicationComplete_h1}}</h1>
+  <h3>{{messages.complete_applicationComplete}}</h3>
 
   {{#refNumber}}
   <p>
     {{messages.complete_yourRefNumberIs}}
     <span>{{refNumber}}</span>
+    <h1>{{messages.complete_registerGuidance}}</h1>
   </p>
   {{/refNumber}}
 
@@ -28,7 +29,8 @@
 
   <h2>{{messages.complete_whatHappensNext_h2}}</h2>
   <p>{{messages.complete_sentApplicationTo_p}} <strong>{{authorityName}}</strong>.</p>
-  <p>{{messages.complete_contactYouTo_p}}</p>
+  <p>{{messages.complete_contactYouTo_p1}}</p>
+  <p>{{messages.complete_contactYouTo_p2}}</p>
   <p>
     {{messages.complete_questionsContact_p1}}
     {{#authorityUrl}}<a href="{{.}}">{{/authorityUrl}}{{authorityName}}{{#authorityUrl}}</a>{{/authorityUrl}}
