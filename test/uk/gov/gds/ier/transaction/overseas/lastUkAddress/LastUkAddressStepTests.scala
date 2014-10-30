@@ -88,7 +88,6 @@ class LastUkAddressStepTests extends ControllerTestSuite {
     }
   }
 
-  it should behave like appWithScottishAddressWith(availableForScotlandFlag = false, andRedirectsToUrl = "/register-to-vote/exit/scotland")
   it should behave like appWithScottishAddressWith(availableForScotlandFlag = true, andRedirectsToUrl = "/register-to-vote/overseas/last-uk-address/select")
 
   def appWithScottishAddressWith(availableForScotlandFlag: Boolean, andRedirectsToUrl: String) {
@@ -287,7 +286,6 @@ behavior of "LastUkAddressStep.editGet"
     }
   }
 
-  it should behave like editedAppWithScottishAddressWith(availableForScotlandFlag = false, andRedirectsToUrl = "/register-to-vote/exit/scotland")
   it should behave like editedAppWithScottishAddressWith(availableForScotlandFlag = true, andRedirectsToUrl = "/register-to-vote/overseas/last-uk-address/select")
 
   def editedAppWithScottishAddressWith(availableForScotlandFlag: Boolean, andRedirectsToUrl: String) {

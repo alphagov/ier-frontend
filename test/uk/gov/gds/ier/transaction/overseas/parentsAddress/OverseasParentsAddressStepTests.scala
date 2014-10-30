@@ -69,7 +69,6 @@ class OverseasParentsAddressStepTests extends ControllerTestSuite {
     }
   }
 
-  it should behave like appWithScottishAddressWith(availableForScotlandFlag = false, andRedirectsToUrl = "/register-to-vote/exit/scotland")
   it should behave like appWithScottishAddressWith(availableForScotlandFlag = true, andRedirectsToUrl = "/register-to-vote/overseas/parents-address/select")
 
   def appWithScottishAddressWith(availableForScotlandFlag: Boolean, andRedirectsToUrl: String) {
@@ -178,7 +177,6 @@ class OverseasParentsAddressStepTests extends ControllerTestSuite {
     }
   }
 
-  it should behave like editedAppWithScottishAddressWith(availableForScotlandFlag = false, andRedirectsToUrl = "/register-to-vote/exit/scotland")
   it should behave like editedAppWithScottishAddressWith(availableForScotlandFlag = true, andRedirectsToUrl = "/register-to-vote/overseas/parents-address/select")
 
   def editedAppWithScottishAddressWith(availableForScotlandFlag: Boolean, andRedirectsToUrl: String) {
