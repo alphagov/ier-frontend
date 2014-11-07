@@ -6,9 +6,9 @@
       countries;
 
   countries = [
-    { "name": "AF", "value": "Afghanistan", "tokens": ["Afghanistan"] },
-    { "name": "AL", "value": "Albania", "tokens": ["Albania"] },
-    { "name": "DZ", "value": "Algeria", "tokens": ["Algeria"] },
+    //{ "name": "AF", "value": "Afghanistan", "tokens": ["Afghanistan"] },
+   // { "name": "AL", "value": "Albania", "tokens": ["Albania"] },
+    //{ "name": "DZ", "value": "Algeria", "tokens": ["Algeria"] },
     { "name": "AS", "value": "American Samoa", "tokens": ["American Samoa"] },
     { "name": "AD", "value": "Andorra", "tokens": ["Andorra"] },
     { "name": "AO", "value": "Angola", "tokens": ["Angola"] },
@@ -111,6 +111,7 @@
     { "name": "KZ", "value": "Kazakhstan", "tokens": ["Kazakhstan"] },
     { "name": "KE", "value": "Kenya", "tokens": ["Kenya"] },
     { "name": "KI", "value": "Kiribati", "tokens": ["Kiribati"] },
+    { "name": "XK", "value": "Kosovo", "tokens": ["Kosovo"] },
     { "name": "KW", "value": "Kuwait", "tokens": ["Kuwait"] },
     { "name": "kg", "value": "Kyrgyzstan", "tokens": ["Kyrgyzstan"] },
     { "name": "LA", "value": "Laos", "tokens": ["Laos"] },
