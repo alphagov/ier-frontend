@@ -124,7 +124,7 @@ object NationalityConstants {
     "haiti" -> ISOCountry("HT", displayName = "Haiti"),
     "holy see" -> ISOCountry("VA", displayName = "Holy See"),
     "honduras" -> ISOCountry("HN", displayName = "Honduras"),
-    "hong kong" -> ISOCountry("HK", displayName = "Hong Kong", Franchise.britishTerritories),
+    "hong kong" -> ISOCountry("HK", displayName = "Hong Kong", Franchise.full),
     "hungary" -> ISOCountry("HU", displayName = "Hungary", Franchise.european),
     "iceland" -> ISOCountry("IS", displayName = "Iceland"),
     "india" -> ISOCountry("IN", displayName = "India", Franchise.commonwealth),
