@@ -111,6 +111,7 @@
     { "name": "KZ", "value": "Kazakhstan", "tokens": ["Kazakhstan"] },
     { "name": "KE", "value": "Kenya", "tokens": ["Kenya"] },
     { "name": "KI", "value": "Kiribati", "tokens": ["Kiribati"] },
+    { "name": "XK", "value": "Kosovo", "tokens": ["Kosovo"] },
     { "name": "KW", "value": "Kuwait", "tokens": ["Kuwait"] },
     { "name": "kg", "value": "Kyrgyzstan", "tokens": ["Kyrgyzstan"] },
     { "name": "LA", "value": "Laos", "tokens": ["Laos"] },
