@@ -6,9 +6,9 @@
       countries;
 
   countries = [
-    //{ "name": "AF", "value": "Afghanistan", "tokens": ["Afghanistan"] },
-   // { "name": "AL", "value": "Albania", "tokens": ["Albania"] },
-    //{ "name": "DZ", "value": "Algeria", "tokens": ["Algeria"] },
+    { "name": "AF", "value": "Afghanistan", "tokens": ["Afghanistan"] },
+    { "name": "AL", "value": "Albania", "tokens": ["Albania"] },
+    { "name": "DZ", "value": "Algeria", "tokens": ["Algeria"] },
     { "name": "AS", "value": "American Samoa", "tokens": ["American Samoa"] },
     { "name": "AD", "value": "Andorra", "tokens": ["Andorra"] },
     { "name": "AO", "value": "Angola", "tokens": ["Angola"] },
