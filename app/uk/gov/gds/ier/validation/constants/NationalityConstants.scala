@@ -142,7 +142,7 @@ object NationalityConstants {
     "kazakhstan" -> ISOCountry("KZ", displayName = "Kazakhstan"),
     "kenya" -> ISOCountry("KE", displayName = "Kenya", Franchise.commonwealth),
     "kiribati" -> ISOCountry("KI", displayName = "Kiribati", Franchise.commonwealth),
-    "kosovo" -> ISOCountry("XK", displayName = "Kosovo", Franchise.european),
+    "kosovo" -> ISOCountry("XK", displayName = "Kosovo"),
     "kuwait" -> ISOCountry("KW", displayName = "Kuwait"),
     "kyrgyzstan" -> ISOCountry("KG", displayName = "Kyrgyzstan"),
     "laos" -> ISOCountry("LA", displayName = "Laos"),
