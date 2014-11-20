@@ -19,6 +19,7 @@ class LocateService @Inject() (
   lazy val partialAuthorityUrl = config.locateAuthorityUrl
   lazy val partialAddressLookupUrl = config.locateUrl
   lazy val authorizationToken = config.locateApiAuthorizationToken
+  lazy val partialAdminPostcodeUrl = config.ierAdminPostcodeLookupURL
 
 
   def lookupAddress(partialAddress: PartialAddress):Option[Address] = {
@@ -55,7 +56,7 @@ class LocateService @Inject() (
     )
     result match {
       case Success(body, _) => Some(serialiser.fromJson[LocateAuthority](body))
-      case Fail(error, _) => None
+      case Fail(error, _) => lookupAdminPostcode(postcode)
     }
   }
 
@@ -68,6 +69,19 @@ class LocateService @Inject() (
     }
 
     gssFromAuthority orElse gssFromAddress
+  }
+
+  <!--sheree-->
+  def lookupAdminPostcode(postcode: String) : Option[LocateAuthority] = {
+    val cleanPostcode = Postcode.toCleanFormat(postcode)
+    val result = apiClient.get(
+      s"$partialAdminPostcodeUrl?postcode=$cleanPostcode",
+      ("Authorization", authorizationToken)
+    )
+    result match {
+      case Success(body, _) => Some(serialiser.fromJson[LocateAuthority](body))
+      case Fail(error, _) => None
+    }
   }
 
   def beaconFire:Boolean = {
