@@ -19,7 +19,6 @@ class LocateService @Inject() (
   lazy val partialAuthorityUrl = config.locateAuthorityUrl
   lazy val partialAddressLookupUrl = config.locateUrl
   lazy val authorizationToken = config.locateApiAuthorizationToken
-  lazy val partialAdminPostcodeUrl = config.locateAdminPostcodeLookupURL
   lazy val ierAuthToken = config.ierApiToken
 
 
