@@ -19,7 +19,7 @@ class LocateService @Inject() (
   lazy val partialAuthorityUrl = config.locateAuthorityUrl
   lazy val partialAddressLookupUrl = config.locateUrl
   lazy val authorizationToken = config.locateApiAuthorizationToken
-  lazy val ierAuthToken = config.ierApiToken
+  lazy val partialIerLocalAuthorityPostcodeLookupUrl = config.ierLocalAuthorityPostcodeLookupUrl
 
 
   def lookupAddress(partialAddress: PartialAddress):Option[Address] = {
@@ -50,15 +50,26 @@ class LocateService @Inject() (
 
   def lookupAuthority(postcode: String) : Option[LocateAuthority] = {
     val cleanPostcode = Postcode.toCleanFormat(postcode)
-    val result = apiClient.get(
+    var result = apiClient.get(
       s"$partialAuthorityUrl?postcode=$cleanPostcode",
       ("Authorization", authorizationToken)
     )
-    result match {
+
+    result match{
       case Success(body, _) => Some(serialiser.fromJson[LocateAuthority](body))
-      case Fail(error, _) => None
+      case Fail(error,_) => {
+        result = apiClient.get(
+          s"$partialIerLocalAuthorityPostcodeLookupUrl?postcode=$cleanPostcode",
+          ("Authorization", "BEARER " + config.ierApiToken)
+        )
+        result match {
+          case Success(body, _) => Some(serialiser.fromJson[LocateAuthority](body))
+          case Fail(error, _) => None
+        }
+      }
     }
   }
+
 
   def lookupGssCode(postcode: String): Option[String] = {
     def gssFromAuthority = {
@@ -67,7 +78,6 @@ class LocateService @Inject() (
     def gssFromAddress = {
       lookupAddress(postcode).find(_.gssCode.isDefined).flatMap(_.gssCode)
     }
-
     gssFromAuthority orElse gssFromAddress
   }
 
