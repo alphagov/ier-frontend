@@ -50,11 +50,12 @@ class LocateService @Inject() (
 
   def lookupAuthority(postcode: String) : Option[LocateAuthority] = {
     val cleanPostcode = Postcode.toCleanFormat(postcode)
+    //Lookup locate/authority for GSSCode
     var result = apiClient.get(
       s"$partialAuthorityUrl?postcode=$cleanPostcode",
       ("Authorization", authorizationToken)
     )
-
+    //If Not Found from locate/authority, lookup ier-api Citizen/local-authority for GSSCode
     result match{
       case Success(body, _) => Some(serialiser.fromJson[LocateAuthority](body))
       case Fail(error,_) => {

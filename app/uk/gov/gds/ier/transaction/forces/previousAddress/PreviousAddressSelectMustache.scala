@@ -22,7 +22,8 @@ trait PreviousAddressSelectMustache
     address: Field,
     possibleJsonList: Field,
     possiblePostcode: Field,
-    hasAddresses: Boolean
+    hasAddresses: Boolean,
+    hasAuthority: Boolean
   ) extends MustacheData
 
   val mustache = MustacheTemplate("forces/previousAddressSelect") {
@@ -68,6 +69,8 @@ trait PreviousAddressSelectMustache
     val hasAddresses = possibleAddresses.exists { possible =>
       !possible.jsonList.addresses.isEmpty
     }
+    //IER0055: Check authority table too to allow for manual entry
+    val hasAuthority = hasAddresses || addressService.validAuthority(postcode)
 
     val addressSelect = SelectField(
       key = keys.previousAddress.uprn,
@@ -105,7 +108,8 @@ trait PreviousAddressSelectMustache
         key = keys.possibleAddresses.postcode,
         value = form(keys.previousAddress.postcode).value.getOrElse("")
       ),
-      hasAddresses = hasAddresses
+      hasAddresses = hasAddresses,
+      hasAuthority = hasAuthority
     )
   }
 }

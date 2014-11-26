@@ -9,12 +9,19 @@
             {{{messages.ordinary_previousAddress_select_postcodeChange}}}
         </a>
     </p>
-  {{^hasAddresses}}
+    {{^hasAddresses}}
     <div class="validation-message visible">
-        {{messages.ordinary_previousAddress_select_error_noAddressesFound}}
+        {{messages.ordinary_address_select_couldNotFindAnyAddresses_p}}
     </div>
-  {{/hasAddresses}}
-  {{#hasAddresses}}
+       {{#hasAuthority}}
+    <p>
+        <a href="{{manualUrl}}" class="button">
+            {{messages.ordinary_address_select_enterManually}}
+        </a>
+    </p>
+       {{/hasAuthority}}
+    {{/hasAddresses}}
+    {{#hasAddresses}}
     <fieldset>
         <input
           type="hidden"
