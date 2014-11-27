@@ -104,10 +104,12 @@ ordinary_name_error_firstNameTooLong=First name can be no longer than 35 charact
 ordinary_name_error_middleNamesTooLong=Middle names can be no longer than 100 characters
 ordinary_name_error_lastNameTooLong=Last name can be no longer than 35 characters
 
-ordinary_previousName_hasPreviousName_label=Have you changed your name in the last 12 months?
-ordinary_previousName_hasPreviousName_yes_label=Yes<span class="visuallyhidden"> I changed my name in the last 12 months</span>
-ordinary_previousName_hasPreviousName_no_label=No<span class="visuallyhidden"> I haven’t changed my name in the last 12 months</span>
+ordinary_previousName_hasPreviousName_label=Have you ever changed your name?
+ordinary_previousName_hasPreviousName_no_label=No, I haven’t changed my name<span class="visuallyhidden"> in the last 12 months</span>
+ordinary_previousName_hasPreviousName_yes_label=Yes, I changed my name in the last 12 months
+ordinary_previousName_hasPreviousName_yes_other_label=Yes, but more than a year ago
 ordinary_previousName_header=What was your previous name?
+ordinary_previousNameOther_disclaimer=As you changed your name more than a year ago you don't have to tell us your previous name, but you might need to send us copies of identity documents if you don't.
 ordinary_previousName_firstName_label=<span class="visuallyhidden">Previous</span> First name
 ordinary_previousName_middleNames_label=<span class="visuallyhidden">Previous</span> Middle names
 ordinary_previousName_lastName_label=<span class="visuallyhidden">Previous</span> Last name

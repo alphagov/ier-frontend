@@ -12,9 +12,10 @@ trait ParentNameMustache extends StepTemplate[InprogressOverseas] {
     firstName: Field,
     middleNames: Field,
     lastName: Field,
-    hasPreviousName: FieldSet,
-    hasPreviousNameTrue: Field,
-    hasPreviousNameFalse: Field,
+    hasPreviousNameOption: FieldSet,
+    hasPreviousNameOptionFalse: Field,
+    hasPreviousNameOptionTrue: Field,
+    hasPreviousNameOptionOther: Field,
     previousFirstName: Field,
     previousMiddleNames: Field,
     previousLastName: Field
@@ -30,19 +31,23 @@ trait ParentNameMustache extends StepTemplate[InprogressOverseas] {
         title = title,
         errorMessages = form.globalErrors.map { _.message }
       ),
+
       firstName = TextField(
         key = keys.overseasParentName.parentName.firstName),
       middleNames = TextField(
         key = keys.overseasParentName.parentName.middleNames),
       lastName = TextField(
         key = keys.overseasParentName.parentName.lastName),
-      hasPreviousName = FieldSet(
+
+      hasPreviousNameOption = FieldSet(
         classes = if (form(keys.overseasParentName.parentPreviousName).hasErrors) "invalid" else ""
       ),
-      hasPreviousNameTrue = RadioField(
-        key = keys.overseasParentName.parentPreviousName.hasPreviousName, value = "true"),
-      hasPreviousNameFalse = RadioField(
-        key = keys.overseasParentName.parentPreviousName.hasPreviousName, value = "false"),
+      hasPreviousNameOptionFalse = RadioField(
+        key = keys.overseasParentName.parentPreviousName.hasPreviousNameOption, value = "false"),
+      hasPreviousNameOptionTrue = RadioField(
+        key = keys.overseasParentName.parentPreviousName.hasPreviousNameOption, value = "true"),
+      hasPreviousNameOptionOther = RadioField(
+        key = keys.overseasParentName.parentPreviousName.hasPreviousNameOption, value = "other"),
 
       previousFirstName = TextField(
         key = keys.overseasParentName.parentPreviousName.previousName.firstName),

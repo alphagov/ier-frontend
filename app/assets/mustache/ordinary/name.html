@@ -60,48 +60,75 @@
     </fieldset>
 
     <fieldset
-      class="sub-section validate {{hasPreviousName.classes}}"
+      class="sub-section validate local-fix-source {{hasPreviousNameOption.classes}}"
       data-validation-name="previousQuestion"
       data-validation-type="fieldset"
       data-validation-rules="atLeastOneNonEmpty"
-      data-validation-children="previousYes previousNo">
+      data-validation-children="previousNo previousYes previousOther">
         <legend class="label">
             {{messages.ordinary_previousName_hasPreviousName_label}}
         </legend>
 
-        <label for="{{hasPreviousNameTrue.id}}" class="selectable binary">
+        <label for="{{hasPreviousNameOptionFalse.id}}" class="selectable binary">
+            <input
+                    type="radio"
+                    id="{{hasPreviousNameOptionFalse.id}}"
+                    name="{{hasPreviousNameOptionFalse.name}}"
+                    value="{{hasPreviousNameOptionFalse.value}}"
+                    class="radio  validate"
+                    data-validation-name="previousNo"
+                    data-validation-type="field"
+                    data-validation-rules="nonEmpty"
+            {{{hasPreviousNameOptionFalse.attributes}}}>
+            {{{messages.ordinary_previousName_hasPreviousName_no_label}}}
+        </label>
+
+        <label for="{{hasPreviousNameOptionTrue.id}}" class="selectable binary">
             <input
               type="radio"
-              id="{{hasPreviousNameTrue.id}}"
-              name="{{hasPreviousNameTrue.name}}"
-              value="true"
+              id="{{hasPreviousNameOptionTrue.id}}"
+              name="{{hasPreviousNameOptionTrue.name}}"
+              value="{{hasPreviousNameOptionTrue.value}}"
               class="radio validate"
               data-validation-name="previousYes"
               data-validation-type="field"
               data-validation-rules="nonEmpty"
-              {{{hasPreviousNameTrue.attributes}}}>
+              {{{hasPreviousNameOptionTrue.attributes}}}>
             {{{messages.ordinary_previousName_hasPreviousName_yes_label}}}
         </label>
 
-        <label for="{{hasPreviousNameFalse.id}}" class="selectable binary">
+        <label for="{{hasPreviousNameOptionOther.id}}" class="selectable binary">
             <input
-              type="radio"
-              id="{{hasPreviousNameFalse.id}}"
-              name="{{hasPreviousNameFalse.name}}"
-              value="false"
-              class="radio  validate"
-              data-validation-name="previousNo"
-              data-validation-type="field"
-              data-validation-rules="nonEmpty"
-              {{{hasPreviousNameFalse.attributes}}}>
-            {{{messages.ordinary_previousName_hasPreviousName_no_label}}}
+                    type="radio"
+                    id="{{hasPreviousNameOptionOther.id}}"
+                    name="{{hasPreviousNameOptionOther.name}}"
+                    value="{{hasPreviousNameOptionOther.value}}"
+                    class="radio validate"
+                    data-validation-name="previousOther"
+                    data-validation-type="field"
+                    data-validation-rules="nonEmpty"
+            {{{hasPreviousNameOptionOther.attributes}}}>
+            {{{messages.ordinary_previousName_hasPreviousName_yes_other_label}}}
         </label>
     </fieldset>
 
     <div
-      class="optional-section optional-section-core-content"
-      data-condition="previousName_hasPreviousName_true">
-        <h2>{{messages.ordinary_previousName_header}}</h2>
+            class="optional-section optional-section-core-content local-fix-target"
+            aria-hidden="true" aria-expanded="false">
+        <h2>{{{messages.ordinary_previousName_header}}}</h2>
+    </div>
+
+    <div
+            class="optional-section optional-section-core-content"
+            data-condition="{{hasPreviousNameOptionOther.id}}"
+            aria-hidden="true" aria-expanded="false">
+        <legend class="label">
+            {{{messages.ordinary_previousNameOther_disclaimer}}}
+        </legend>
+    </div>
+
+    <div
+      class="optional-section optional-section-core-content local-fix-target">
         <fieldset
           class="validate"
           data-validation-name="previousName"
