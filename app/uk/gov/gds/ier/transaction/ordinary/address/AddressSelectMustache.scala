@@ -65,7 +65,6 @@ trait AddressSelectMustache extends StepTemplate[InprogressOrdinary] {
     }
 
     val hasAddresses = possibleAddresses.exists (!_.jsonList.addresses.isEmpty)
-
     val hasAuthority = hasAddresses || addressService.validAuthority(postcode)
 
     val addressSelect = SelectField(

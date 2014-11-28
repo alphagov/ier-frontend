@@ -9,12 +9,20 @@
             Change<span class="visuallyhidden"> your postcode</span>
         </a>
     </p>
-  {{^hasAddresses}}
+    </p>
+    {{^hasAddresses}}
     <div class="validation-message visible">
-        Sorry - we couldn't find any addresses for that postcode
+        Sorry – we couldn’t find any addresses for that postcode
     </div>
-  {{/hasAddresses}}
-  {{#hasAddresses}}
+    {{#hasAuthority}}
+    <p>
+        <a href="{{manualUrl}}" class="button">
+            Enter your address manually
+        </a>
+    </p>
+    {{/hasAuthority}}
+    {{/hasAddresses}}
+    {{#hasAddresses}}
     <fieldset>
         <input
           type="hidden"
