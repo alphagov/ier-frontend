@@ -12,12 +12,12 @@
     </p>
     {{^hasAddresses}}
     <div class="validation-message visible">
-        {{messages.ordinary_address_select_couldNotFindAnyAddresses_p}}
+        Sorry – we couldn’t find any addresses for that postcode
     </div>
     {{#hasAuthority}}
     <p>
         <a href="{{manualUrl}}" class="button">
-            {{messages.ordinary_address_select_enterManually}}
+            Enter your address manually
         </a>
     </p>
     {{/hasAuthority}}
