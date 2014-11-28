@@ -52,7 +52,8 @@ class PreviousAddressSelectTemplateTest
           classes = "not-used-it-is-hidden-field",
           value = "WR26NJ"
         ),
-        hasAddresses = true
+        hasAddresses = true,
+        hasAuthority = false
       )
 
       val html = Mustache.render("ordinary/previousAddressSelect", data)
@@ -137,7 +138,8 @@ class PreviousAddressSelectTemplateTest
         ),
         possibleJsonList = Field(id = "",name = "",value = ""),
         possiblePostcode = Field(id = "",name = "",value = ""),
-        hasAddresses = false
+        hasAddresses = false,
+        hasAuthority = false
       )
 
       val html = Mustache.render("ordinary/previousAddressSelect", data)

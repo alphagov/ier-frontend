@@ -54,7 +54,9 @@ class PreviousAddressSelectTemplateTest
           classes = "not-used-it-is-hidden-field",
           value = "WR26NJ"
         ),
-        hasAddresses = true
+        hasAddresses = true,
+        hasAuthority = false
+
       )
 
       val html = Mustache.render("crown/previousAddressSelect", data)
@@ -139,7 +141,8 @@ class PreviousAddressSelectTemplateTest
         ),
         possibleJsonList = Field(id = "",name = "",value = ""),
         possiblePostcode = Field(id = "",name = "",value = ""),
-        hasAddresses = false
+        hasAddresses = false,
+        hasAuthority = false
       )
 
       val html = Mustache.render("crown/previousAddressSelect", data)
@@ -147,7 +150,7 @@ class PreviousAddressSelectTemplateTest
 
       val wrapper = doc.select("div").first()
       wrapper.html() should include(
-        "Sorry - we couldn't find any addresses for that postcode"
+        "Sorry – we couldn’t find any addresses for that postcode"
       )
 
       doc.select("select").size should be(0)
