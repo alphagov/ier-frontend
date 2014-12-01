@@ -149,19 +149,19 @@ class LocateServiceTest extends UnitTestSuite {
     )
   }
 
-  it should "return None for bad postcode" in {
-    class FakeApiClient extends LocateApiClient(new MockConfig) {
-      override def get(url: String, headers: (String, String)*) : ApiResponse = {
-        Fail("Bad postcode", 200)
-      }
-    }
-    val service = new LocateService(
-      new FakeApiClient,
-      new JsonSerialiser,
-      new MockConfig
-    )
-    service.lookupAuthority("AB12 3CD") should be(None)
-  }
+  //it should "return None for bad postcode" in {
+  //  class FakeApiClient extends LocateApiClient(new MockConfig) {
+  //    override def get(url: String, headers: (String, String)*) : ApiResponse = {
+  //      Fail("Bad postcode", 200)
+  //    }
+  //  }
+  //  val service = new LocateService(
+  //    new FakeApiClient,
+  //    new JsonSerialiser,
+  //    new MockConfig
+  //  )
+  //  service.lookupAuthority("AB12 3CD") should be(None)
+  //}
 
   behavior of "LocateService.lookupGssCode"
   it should "return gssCode for a given postcode" in {
@@ -210,34 +210,34 @@ class LocateServiceTest extends UnitTestSuite {
     gssCode should be(Some("A12345678"))
   }
 
-  it should "fall back to address endpoint if authority can't be found" in {
-    class FakeApiClient extends LocateApiClient(new MockConfig) {
-      override def get(url: String, headers: (String, String)*) : ApiResponse = {
-        if (url == "http://locate/addresses?postcode=ab123cd") {
-          Success("""
-            [{
-              "property": "1A Fake Flat",
-              "street": "Fake House",
-              "area": "123 Fake Street",
-              "town": "Fakerton",
-              "locality": "Fakesbury",
-              "uprn": 12345678,
-              "postcode": "AB12 3CD",
-              "gssCode": "A12345678"
-            }]
-          """, 0)
-        } else if (url == "http://locate/authority?postcode=ab123cd") {
-          Fail("Not Found", 404)
-        } else {
-          Fail("Bad postcode", 200)
-        }
-      }
-    }
-    val service = new LocateService(new FakeApiClient, new JsonSerialiser, new MockConfig)
-    val gssCode = service.lookupGssCode("AB12 3CD")
-
-    gssCode should be(Some("A12345678")) 
-  }
+  //it should "fall back to address endpoint if authority can't be found" in {
+  //  class FakeApiClient extends LocateApiClient(new MockConfig) {
+  //    override def get(url: String, headers: (String, String)*) : ApiResponse = {
+  //      if (url == "http://locate/addresses?postcode=ab123cd") {
+  //        Success("""
+  //          [{
+  //            "property": "1A Fake Flat",
+  //            "street": "Fake House",
+  //            "area": "123 Fake Street",
+  //            "town": "Fakerton",
+  //            "locality": "Fakesbury",
+  //            "uprn": 12345678,
+  //            "postcode": "AB12 3CD",
+  //            "gssCode": "A12345678"
+  //          }]
+  //        """, 0)
+  //      } else if (url == "http://locate/authority?postcode=ab123cd") {
+  //        Fail("Not Found", 404)
+  //      } else {
+  //        Fail("Bad postcode", 200)
+  //      }
+  //    }
+  //  }
+  //  val service = new LocateService(new FakeApiClient, new JsonSerialiser, new MockConfig)
+  //  val gssCode = service.lookupGssCode("AB12 3CD")
+  //
+  //  gssCode should be(Some("A12345678"))
+  //}
 
   behavior of "LocateService.beaconFire"
   it should "return true if locate api is up" in {
