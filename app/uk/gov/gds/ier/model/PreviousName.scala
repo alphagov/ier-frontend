@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.model
 
 case class PreviousName(hasPreviousName: Boolean,
+                        hasPreviousNameOption: String,
                         previousName: Option[Name],
                         reason: Option[String] = None) {
   def toApiMap(prefix:String = "p"):Map[String,String] = {
@@ -20,18 +21,21 @@ object PreviousName extends ModelMapping {
 
   val mapping = playMappings.mapping(
     keys.hasPreviousName.key -> boolean,
+    keys.hasPreviousNameOption.key -> text,
     keys.previousName.key -> optional(Name.mapping),
     keys.reason.key -> optional(text)
   ) (
-    (hasPreviousName, name, reason) => {
-      if (hasPreviousName)
+    (hasPreviousName, hasPreviousNameOption, name, reason) => {
+      if (hasPreviousNameOption.equalsIgnoreCase("true") | hasPreviousNameOption.equalsIgnoreCase("other"))
         PreviousName(
           hasPreviousName = true,
+          hasPreviousNameOption = hasPreviousNameOption,
           previousName = name,
           reason = reason)
       else
         PreviousName(
           hasPreviousName = false,
+          hasPreviousNameOption = hasPreviousNameOption,
           previousName = None,
           reason = None)
     }

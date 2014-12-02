@@ -79,7 +79,7 @@ trait ParentNameConstraints extends CommonConstraints {
   
   lazy val parentPreviousFirstNameNotEmpty = Constraint[Option[PreviousName]](
     keys.overseasParentName.parentPreviousName.previousName.firstName.key) {
-    case Some(PreviousName(true, Some(Name("", _, _)), _)) => Invalid(
+    case Some(PreviousName(true, "true", Some(Name("", _, _)), _)) => Invalid(
       "Please enter their previous first name",
       keys.overseasParentName.parentPreviousName.previousName.firstName)
     case _ => Valid
@@ -88,7 +88,7 @@ trait ParentNameConstraints extends CommonConstraints {
   
   lazy val parentPreviousLastNameNotEmpty = Constraint[Option[PreviousName]](
     keys.overseasParentName.parentPreviousName.previousName.lastName.key) {
-    case Some(PreviousName(true, Some(Name(_, _, "")), _)) => Invalid(
+    case Some(PreviousName(true, "true", Some(Name(_, _, "")), _)) => Invalid(
       "Please enter their previous last name",
       keys.overseasParentName.parentPreviousName.previousName.lastName)
     case _ => Valid

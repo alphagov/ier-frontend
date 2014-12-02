@@ -39,7 +39,7 @@ class ParentNameStep @Inject ()(
       case Some(OverseasParentName(optParentName, Some(parentPreviousName)))
         if (!parentPreviousName.hasPreviousName) =>
           currentState.copy(
-            overseasParentName = Some(OverseasParentName(optParentName, Some(PreviousName(false, None))))
+            overseasParentName = Some(OverseasParentName(optParentName, Some(PreviousName(false, "false", None))))
           )
       case _ => currentState
     }

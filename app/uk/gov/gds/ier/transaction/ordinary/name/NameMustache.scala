@@ -11,9 +11,10 @@ trait NameMustache extends StepTemplate[InprogressOrdinary] {
     firstName: Field,
     middleNames: Field,
     lastName: Field,
-    hasPreviousName: FieldSet,
-    hasPreviousNameTrue: Field,
-    hasPreviousNameFalse: Field,
+    hasPreviousNameOption: FieldSet,
+    hasPreviousNameOptionFalse: Field,
+    hasPreviousNameOptionTrue: Field,
+    hasPreviousNameOptionOther: Field,
     previousFirstName: Field,
     previousMiddleNames: Field,
     previousLastName: Field
@@ -29,19 +30,23 @@ trait NameMustache extends StepTemplate[InprogressOrdinary] {
         number = s"4 ${Messages("step_of")} 11",
         title = Messages("ordinary_name_title"),
         errorMessages = Messages.translatedGlobalErrors(form)),
+
       firstName = TextField(
         key = keys.name.firstName),
       middleNames = TextField(
         key = keys.name.middleNames),
       lastName = TextField(
         key = keys.name.lastName),
-      hasPreviousName = FieldSet(
+
+      hasPreviousNameOption = FieldSet(
         classes = if (form(keys.previousName).hasErrors) "invalid" else ""
       ),
-      hasPreviousNameTrue = RadioField(
-        key = keys.previousName.hasPreviousName, value = "true"),
-      hasPreviousNameFalse = RadioField(
-        key = keys.previousName.hasPreviousName, value = "false"),
+      hasPreviousNameOptionFalse = RadioField(
+        key = keys.previousName.hasPreviousNameOption, value = "false"),
+      hasPreviousNameOptionTrue = RadioField(
+        key = keys.previousName.hasPreviousNameOption, value = "true"),
+      hasPreviousNameOptionOther = RadioField(
+        key = keys.previousName.hasPreviousNameOption, value = "other"),
 
       previousFirstName = TextField(
         key = keys.previousName.previousName.firstName),
