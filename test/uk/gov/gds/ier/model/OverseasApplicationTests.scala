@@ -233,6 +233,7 @@ class OverseasApplicationTests extends UnitTestSuite {
       lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.Overseas)),
       previousName = Some(PreviousName(
         hasPreviousName = false,
+        hasPreviousNameOption = "false",
         previousName = None,
         reason = None
       ))
@@ -280,6 +281,7 @@ class OverseasApplicationTests extends UnitTestSuite {
           lastName = "Smith")),
       previousName = Some(PreviousName(
           hasPreviousName = true,
+          hasPreviousNameOption = "true",
           previousName = Some(Name(
             firstName = "James",
             middleNames = Some("John"),

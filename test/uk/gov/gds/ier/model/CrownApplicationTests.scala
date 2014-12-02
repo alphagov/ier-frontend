@@ -248,8 +248,9 @@ class CrownApplicationTests extends UnitTestSuite {
         middleNames = Some("James"),
         lastName = "Smith"
       )),
-      previousName = Some(PreviousName(
+        previousName = Some(PreviousName(
         hasPreviousName = true,
+        hasPreviousNameOption = "true",
         previousName = Some(Name(
           firstName = "George",
           middleNames = Some("Jeffrey"),
