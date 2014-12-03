@@ -27,6 +27,7 @@ class NameFormTests
         "name.middleNames" -> "joe",
         "name.lastName" -> "   ",
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.firstName" -> "   ",
         "previousName.previousName.middleNames" -> "Joe",
         "previousName.previousName.lastName" -> "   "
@@ -56,6 +57,7 @@ class NameFormTests
         "name.middleNames" -> "joe",
         "name.lastName" -> "",
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.firstName" -> "",
         "previousName.previousName.middleNames" -> "Joe",
         "previousName.previousName.lastName" -> ""
@@ -83,6 +85,7 @@ class NameFormTests
       Map(
         "name.middleNames" -> "joe",
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.middleNames" -> "joe"
       )
     )
@@ -111,7 +114,8 @@ class NameFormTests
         "name.firstName" -> "john",
         "name.middleNames" -> "joe",
         "name.lastName" -> "smith",
-        "previousName.hasPreviousName" -> "true"
+        "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true"
       )
     )
     nameForm.bind(js).fold(
@@ -142,6 +146,7 @@ class NameFormTests
         "name.firstName" -> "john",
         "name.middleNames" -> "joe",
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.middleNames" -> "joe",
         "previousName.previousName.firstName" -> "john"
       )
@@ -166,7 +171,8 @@ class NameFormTests
         "name.firstName" -> "John",
         "name.middleNames" -> "joe",
         "name.lastName" -> "Smith",
-        "previousName.hasPreviousName" -> "false"
+        "previousName.hasPreviousName" -> "false",
+        "previousName.hasPreviousNameOption" -> "false"
       )
     )
     nameForm.bind(js).fold(
@@ -183,6 +189,7 @@ class NameFormTests
         success.previousName.isDefined should be(true)
         success.previousName.get.previousName.isDefined should be(false)
         success.previousName.get.hasPreviousName should be(false)
+        success.previousName.get.hasPreviousNameOption should be("false")
       }
     )
   }
@@ -193,6 +200,7 @@ class NameFormTests
         "name.middleNames" -> "joe",
         "name.lastName" -> "Smith",
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.firstName" -> "Jonny",
         "previousName.previousName.middleNames" -> "Joe",
         "previousName.previousName.lastName" -> "Bloggs"
@@ -212,6 +220,7 @@ class NameFormTests
         success.previousName.isDefined should be(true)
         success.previousName.get.previousName.isDefined should be(true)
         success.previousName.get.hasPreviousName should be(true)
+        success.previousName.get.hasPreviousNameOption should be("true")
         val previousName = success.previousName.get.previousName.get
         previousName.firstName should be("Jonny")
         previousName.middleNames should be(Some("Joe"))
@@ -227,6 +236,7 @@ class NameFormTests
         "name.middleNames" -> "joe",
         "name.lastName" -> "Smith",
         "previousName.hasPreviousName" -> "false",
+        "previousName.hasPreviousNameOption" -> "false",
         "previousName.previousName.firstName" -> "John",
         "previousName.previousName.middleNames" -> "joe",
         "previousName.previousName.lastName" -> "Smith"
@@ -246,6 +256,7 @@ class NameFormTests
         val Some(previousName) = success.previousName
         previousName.previousName should be(None)
         previousName.hasPreviousName should be(false)
+        previousName.hasPreviousNameOption should be("false")
       }
     )
   }
@@ -257,6 +268,7 @@ class NameFormTests
         "name.middleNames" -> textTooLong,
         "name.lastName" -> textTooLong,
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.firstName" -> textTooLong,
         "previousName.previousName.middleNames" -> textTooLong,
         "previousName.previousName.lastName" -> textTooLong
@@ -284,6 +296,7 @@ class NameFormTests
         "name.middleNames" -> "some sample middle names which are not longer than permitted input text one hundred chars long total",
         "name.lastName" -> "a_name_which_contains_35_characters",
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.firstName" -> "a_name_which_contains_35_characters",
         "previousName.previousName.middleNames" -> "some sample middle names which are not longer than permitted input text one hundred chars long total",
         "previousName.previousName.lastName" -> "a_name_which_contains_35_characters"
@@ -303,6 +316,7 @@ class NameFormTests
         success.previousName.isDefined should be(true)
         success.previousName.get.previousName.isDefined should be(true)
         success.previousName.get.hasPreviousName should be(true)
+        success.previousName.get.hasPreviousNameOption should be("true")
         val previousName = success.previousName.get.previousName.get
         previousName.firstName should be("a_name_which_contains_35_characters")
         previousName.middleNames should be(Some("some sample middle names which are not longer than permitted input text one hundred chars long total"))

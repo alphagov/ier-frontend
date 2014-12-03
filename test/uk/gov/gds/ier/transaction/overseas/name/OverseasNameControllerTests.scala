@@ -32,6 +32,7 @@ class OverseasNameControllerTests extends ControllerTestSuite {
             "name.firstName" -> "John",
             "name.lastName" -> "Smith",
             "previousName.hasPreviousName" -> "true",
+            "previousName.hasPreviousNameOption" -> "true",
             "previousName.previousName.firstName" -> "John",
             "previousName.previousName.lastName" -> "Smith",
             "previousName.reason" -> "got bored")
@@ -50,7 +51,8 @@ class OverseasNameControllerTests extends ControllerTestSuite {
           .withFormUrlEncodedBody(
             "name.firstName" -> "John",
             "name.lastName" -> "Smith",
-            "previousName.hasPreviousName" -> "false")
+            "previousName.hasPreviousName" -> "false",
+            "previousName.hasPreviousNameOption" -> "false")
       )
 
       status(result) should be(SEE_OTHER)
@@ -68,6 +70,7 @@ class OverseasNameControllerTests extends ControllerTestSuite {
             "name.firstName" -> "John",
             "name.lastName" -> "Smith",
             "previousName.hasPreviousName" -> "true",
+            "previousName.hasPreviousNameOption" -> "true",
             "previousName.previousName.firstName" -> "John",
             "previousName.previousName.lastName" -> "Smith",
             "previousName.reason" -> "because I could")
@@ -135,6 +138,7 @@ class OverseasNameControllerTests extends ControllerTestSuite {
             "name.firstName" -> "John",
             "name.lastName" -> "Smith",
             "previousName.hasPreviousName" -> "true",
+            "previousName.hasPreviousNameOption" -> "true",
             "previousName.previousName.firstName" -> "John",
             "previousName.previousName.lastName" -> "Smith",
             "previousName.reason" -> "because I could")
@@ -153,7 +157,8 @@ class OverseasNameControllerTests extends ControllerTestSuite {
           .withFormUrlEncodedBody(
             "name.firstName" -> "John",
             "name.lastName" -> "Smith",
-            "previousName.hasPreviousName" -> "false")
+            "previousName.hasPreviousName" -> "false",
+            "previousName.hasPreviousNameOption" -> "false")
       )
 
       status(result) should be(SEE_OTHER)
@@ -171,6 +176,7 @@ class OverseasNameControllerTests extends ControllerTestSuite {
             "name.firstName" -> "John",
             "name.lastName" -> "Smith",
             "previousName.hasPreviousName" -> "true",
+            "previousName.hasPreviousNameOption" -> "true",
             "previousName.previousName.firstName" -> "John",
             "previousName.previousName.lastName" -> "Smith",
             "previousName.reason" -> "because I could")

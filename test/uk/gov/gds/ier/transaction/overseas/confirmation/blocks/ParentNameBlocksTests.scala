@@ -53,6 +53,7 @@ class ParentNameBlocksTests
           lastName = "Smith")),
         previousName = Some(PreviousName(
           hasPreviousName = true,
+          hasPreviousNameOption = "true",
           previousName = Some(Name(
             firstName = "Jan",
             middleNames = None,
@@ -82,6 +83,7 @@ class ParentNameBlocksTests
           lastName = "Smith")),
         previousName = Some(PreviousName(
           hasPreviousName = true,
+          hasPreviousNameOption = "true",
           previousName = Some(Name(
             firstName = "Jan",
             middleNames = Some("Janko Janik"),
@@ -115,6 +117,7 @@ class ParentNameBlocksTests
           lastName = "Smith")),
         previousName = Some(PreviousName(
           hasPreviousName = false,
+          hasPreviousNameOption = "false",
           previousName = None
         ))
       ))

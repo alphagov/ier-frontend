@@ -24,8 +24,9 @@ class NameMustacheTest
     nameModel.firstName.value should be("")
     nameModel.middleNames.value should be("")
     nameModel.lastName.value should be("")
-    nameModel.hasPreviousNameTrue.value should be("true")
-    nameModel.hasPreviousNameFalse.value should be("false")
+    nameModel.hasPreviousNameOptionFalse.value should be("false")
+    nameModel.hasPreviousNameOptionTrue.value should be("true")
+    nameModel.hasPreviousNameOptionOther.value should be("other")
     nameModel.previousFirstName.value should be("")
     nameModel.previousMiddleNames.value should be("")
     nameModel.previousLastName.value should be("")
@@ -49,8 +50,9 @@ class NameMustacheTest
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
     nameModel.lastName.value should be("Smith")
-    nameModel.hasPreviousNameTrue.value should be("true")
-    nameModel.hasPreviousNameFalse.value should be("false")
+    nameModel.hasPreviousNameOptionFalse.value should be("false")
+    nameModel.hasPreviousNameOptionTrue.value should be("true")
+    nameModel.hasPreviousNameOptionOther.value should be("other")
     nameModel.previousFirstName.value should be("")
     nameModel.previousMiddleNames.value should be("")
     nameModel.previousLastName.value should be("")
@@ -64,6 +66,7 @@ class NameMustacheTest
         lastName = "Smith")),
       previousName = Some(PreviousName(
         hasPreviousName = true,
+        hasPreviousNameOption = "true",
         previousName = Some(Name(
           firstName = "Jan",
           middleNames = None,
@@ -82,8 +85,9 @@ class NameMustacheTest
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
     nameModel.lastName.value should be("Smith")
-    nameModel.hasPreviousNameTrue.attributes should be("checked=\"checked\"")
-    nameModel.hasPreviousNameFalse.attributes should be("")
+    nameModel.hasPreviousNameOptionFalse.value should be("false")
+    nameModel.hasPreviousNameOptionTrue.value should be("true")
+    nameModel.hasPreviousNameOptionOther.value should be("other")
     nameModel.previousFirstName.value should be("Jan")
     nameModel.previousMiddleNames.value should be("")
     nameModel.previousLastName.value should be("Kovar")
@@ -107,8 +111,9 @@ class NameMustacheTest
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
     nameModel.lastName.value should be("")
-    nameModel.hasPreviousNameTrue.value should be("true")
-    nameModel.hasPreviousNameFalse.value should be("false")
+    nameModel.hasPreviousNameOptionFalse.value should be("false")
+    nameModel.hasPreviousNameOptionTrue.value should be("true")
+    nameModel.hasPreviousNameOptionOther.value should be("other")
     nameModel.previousFirstName.value should be("")
     nameModel.previousMiddleNames.value should be("")
     nameModel.previousLastName.value should be("")

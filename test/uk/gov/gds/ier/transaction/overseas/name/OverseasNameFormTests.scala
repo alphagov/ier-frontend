@@ -27,6 +27,7 @@ class OverseasNameFormTests
         "name.middleNames" -> "joe",
         "name.lastName" -> "",
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.firstName" -> "",
         "previousName.previousName.middleNames" -> "Joe",
         "previousName.previousName.lastName" -> "",
@@ -54,6 +55,7 @@ class OverseasNameFormTests
         "name.middleNames" -> "joe",
         "name.lastName" -> "   ",
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.firstName" -> "   ",
         "previousName.previousName.middleNames" -> "Joe",
         "previousName.previousName.lastName" -> "   ",
@@ -77,7 +79,8 @@ class OverseasNameFormTests
   it should "require you to enter full names" in {
     val js = Json.toJson(
       Map(
-        "previousName.hasPreviousName" -> "true"
+        "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true"
       )
     )
     nameForm.bind(js).fold(
@@ -107,6 +110,7 @@ class OverseasNameFormTests
         "name.middleNames" -> textTooLong,
         "name.lastName" -> textTooLong,
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.firstName" -> textTooLong,
         "previousName.previousName.middleNames" -> textTooLong,
         "previousName.previousName.lastName" -> textTooLong
@@ -132,6 +136,7 @@ class OverseasNameFormTests
       Map(
         "name.middleNames" -> "joe",
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.middleNames" -> "joe"
       )
     )
@@ -162,6 +167,7 @@ class OverseasNameFormTests
         "name.firstName" -> "john",
         "name.middleNames" -> "joe",
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.middleNames" -> "joe",
         "previousName.previousName.firstName" -> "john",
         "previousName.reason" -> "some reason"
@@ -184,6 +190,7 @@ class OverseasNameFormTests
         "name.firstName" -> "John",
         "name.lastName" -> "Jones",
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.firstName" -> "Johnny",
         "previousName.previousName.lastName" -> "Joneso"
       )
@@ -207,6 +214,7 @@ class OverseasNameFormTests
         "name.firstName" -> "John",
         "name.lastName" -> "Jones",
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.firstName" -> "Johnny",
         "previousName.previousName.lastName" -> "Joneso",
         "previousName.reason" -> ""
@@ -231,7 +239,8 @@ class OverseasNameFormTests
         "name.firstName" -> "John",
         "name.middleNames" -> "joe",
         "name.lastName" -> "Smith",
-        "previousName.hasPreviousName" -> "false"
+        "previousName.hasPreviousName" -> "false",
+        "previousName.hasPreviousNameOption" -> "false"
       )
     )
     nameForm.bind(js).fold(
@@ -249,6 +258,7 @@ class OverseasNameFormTests
         val previousName = success.previousName.get
         previousName.previousName.isDefined should be(false)
         previousName.hasPreviousName should be(false)
+        previousName.hasPreviousNameOption should be("false")
       }
     )
   }
@@ -259,6 +269,7 @@ class OverseasNameFormTests
         "name.middleNames" -> "joe",
         "name.lastName" -> "Smith",
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.firstName" -> "Jonny",
         "previousName.previousName.middleNames" -> "Joe",
         "previousName.previousName.lastName" -> "Bloggs",
@@ -281,6 +292,7 @@ class OverseasNameFormTests
         success.previousName match {
           case Some(previousName) => {
             previousName.hasPreviousName should be(true)
+            previousName.hasPreviousNameOption should be("true")
             previousName.reason.isDefined should be(true)
             previousName.reason.get should be("because I can")
 
@@ -308,6 +320,7 @@ class OverseasNameFormTests
       "name.firstName" -> "John",
       "name.lastName" -> "Smith",
       "previousName.hasPreviousName" -> "false",
+      "previousName.hasPreviousNameOption" -> "false",
       "previousName.firstName" -> "Jonny"
     )
     nameForm.bind(js).fold(
@@ -322,6 +335,7 @@ class OverseasNameFormTests
         val Some(previousName) = success.previousName
         previousName should have(
           'hasPreviousName (false),
+          'hasPreviousNameOption ("false"),
           'previousName (None)
         )
       }

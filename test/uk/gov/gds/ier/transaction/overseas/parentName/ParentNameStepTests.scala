@@ -27,7 +27,7 @@ class ParentNameStepTests
 
     val currentState = completeOverseasApplication.copy(overseasParentName = Some(OverseasParentName(
         name = None, previousName =
-      Some(PreviousName(false, Some(Name("john", None, "smith")))))))
+      Some(PreviousName(false, "false", Some(Name("john", None, "smith")))))))
 
     val transferedState = parentNameStep.resetParentName.apply(currentState, parentNameStep)
     transferedState._1.overseasParentName.get.previousName.isDefined should be (true)

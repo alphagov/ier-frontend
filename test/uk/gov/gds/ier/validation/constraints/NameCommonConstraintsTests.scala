@@ -63,6 +63,7 @@ class NameCommonConstraintsTests
   it should "be valid for a short name" in {
     val samplePreviousName = Some(PreviousName(
       hasPreviousName = true,
+      hasPreviousNameOption = "true",
       previousName = Some(Name("NameNotTooLong", None, "Smith"))
     ))
 
@@ -72,6 +73,7 @@ class NameCommonConstraintsTests
   it should "be invalid for a long name" in {
     val samplePreviousName = Some(PreviousName(
       hasPreviousName = true,
+      hasPreviousNameOption = "true",
       previousName = Some(Name("NameIsWayTooLongNameIsWayTooLong" +
         "NameIsWayTooLongNameIsWayTooLongNameIsWayTooLongNameIsWayTooLong" +
         "NameIsWayTooLongNameIsWayTooLongNameIsWayTooLongNameIsWayTooLong" +
@@ -90,6 +92,7 @@ class NameCommonConstraintsTests
   it should "be valid for a short name" in {
     val samplePreviousName = Some(PreviousName(
       hasPreviousName = true,
+      hasPreviousNameOption = "true",
       previousName = Some(Name("John", None, "NameNotTooLong"))
     ))
 
@@ -99,6 +102,7 @@ class NameCommonConstraintsTests
   it should "be invalid for a long name" in {
     val samplePreviousName = Some(PreviousName(
       hasPreviousName = true,
+      hasPreviousNameOption = "true",
       previousName = Some(Name("John", None, "NameNotTooLongNameNotTooLong" +
         "NameNotTooLongNameNotTooLongNameNotTooLongNameNotTooLongNameNotTooLong" +
         "NameNotTooLongNameNotTooLongNameNotTooLongNameNotTooLongNameNotTooLong" +
@@ -117,6 +121,7 @@ class NameCommonConstraintsTests
   it should "be valid for a short name" in {
     val samplePreviousName = Some(PreviousName(
       hasPreviousName = true,
+      hasPreviousNameOption = "true",
       previousName = Some(Name("John", Some("NameNotTooLong"), "Smith"))
     ))
     prevMiddleNamesNotTooLong.apply(samplePreviousName) should be(Valid)
@@ -125,6 +130,7 @@ class NameCommonConstraintsTests
   it should "be valid for a no middleName" in {
     val samplePreviousName = Some(PreviousName(
       hasPreviousName = true,
+      hasPreviousNameOption = "true",
       previousName = Some(Name("John", None, "Smith"))
     ))
 
@@ -134,6 +140,7 @@ class NameCommonConstraintsTests
   it should "be invalid for a long name" in {
     val samplePreviousName = Some(PreviousName(
       hasPreviousName = true,
+      hasPreviousNameOption = "true",
       previousName = Some(Name("John", Some("NameNotTooLongNameNotTooLong" +
         "NameNotTooLongNameNotTooLongNameNotTooLongNameNotTooLongNameNotTooLong" +
         "NameNotTooLongNameNotTooLongNameNotTooLongNameNotTooLongNameNotTooLong" +

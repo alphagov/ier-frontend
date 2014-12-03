@@ -29,15 +29,20 @@ class NameTemplateTest
           classes = "lastNameClass",
           value = "lastNameValue"
         ),
-        hasPreviousName = FieldSet(classes = "hasPreviousNameClass"),
-        hasPreviousNameTrue = Field(
-          id = "hasPreviousTrueId",
-          name = "hasPreviousTrueName",
+        hasPreviousNameOption = FieldSet(classes = "hasPreviousNameOptionClass"),
+        hasPreviousNameOptionFalse = Field(
+          id = "hasPreviousOptionFalseId",
+          name = "hasPreviousOptionFalseName",
           attributes = "foo=\"foo\""
         ),
-        hasPreviousNameFalse = Field(
-          id = "hasPreviousFalseId",
-          name = "hasPreviousFalseName",
+        hasPreviousNameOptionTrue = Field(
+          id = "hasPreviousOptionTrueId",
+          name = "hasPreviousOptionTrueName",
+          attributes = "foo=\"foo\""
+        ),
+        hasPreviousNameOptionOther = Field(
+          id = "hasPreviousOptionOtherId",
+          name = "hasPreviousOptionOtherName",
           attributes = "foo=\"foo\""
         ),
         previousFirstName = Field(
@@ -158,24 +163,32 @@ class NameTemplateTest
       previousLastNameInput.attr("class") should include("previousLastNameClass")
 
       //Has Previous Name
-      val hasPreviousFieldset = doc.select("fieldset[class*=hasPreviousNameClass").first()
-      hasPreviousFieldset.attr("class") should include("hasPreviousNameClass")
+      val hasPreviousFieldset = doc.select("fieldset[class*=hasPreviousNameOptionClass").first()
+      hasPreviousFieldset.attr("class") should include("hasPreviousNameOptionClass")
 
-      val hasPreviousTrueLabel = hasPreviousFieldset.select("label[for=hasPreviousTrueId]").first()
-      hasPreviousTrueLabel.attr("for") should be("hasPreviousTrueId")
+      val hasPreviousOptionFalseLabel = hasPreviousFieldset.select("label[for=hasPreviousOptionFalseId]").first()
+      hasPreviousOptionFalseLabel.attr("for") should be("hasPreviousOptionFalseId")
 
-      val hasPreviousTrueInput = hasPreviousTrueLabel.select("input").first()
-      hasPreviousTrueInput.attr("id") should be("hasPreviousTrueId")
-      hasPreviousTrueInput.attr("name") should be("hasPreviousTrueName")
-      hasPreviousTrueInput.attr("foo") should be("foo")
+      val hasPreviousOptionFalseInput = hasPreviousOptionFalseLabel.select("input").first()
+      hasPreviousOptionFalseInput.attr("id") should be("hasPreviousOptionFalseId")
+      hasPreviousOptionFalseInput.attr("name") should be("hasPreviousOptionFalseName")
+      hasPreviousOptionFalseInput.attr("foo") should be("foo")
 
-      val hasPreviousFalseLabel = hasPreviousFieldset.select("label[for=hasPreviousFalseId]").first()
-      hasPreviousFalseLabel.attr("for") should be("hasPreviousFalseId")
+      val hasPreviousOptionTrueLabel = hasPreviousFieldset.select("label[for=hasPreviousOptionTrueId]").first()
+      hasPreviousOptionTrueLabel.attr("for") should be("hasPreviousOptionTrueId")
 
-      val hasPreviousFalseInput = hasPreviousFalseLabel.select("input").first()
-      hasPreviousFalseInput.attr("id") should be("hasPreviousFalseId")
-      hasPreviousFalseInput.attr("name") should be("hasPreviousFalseName")
-      hasPreviousFalseInput.attr("foo") should be("foo")
+      val hasPreviousOptionTrueInput = hasPreviousOptionTrueLabel.select("input").first()
+      hasPreviousOptionTrueInput.attr("id") should be("hasPreviousOptionTrueId")
+      hasPreviousOptionTrueInput.attr("name") should be("hasPreviousOptionTrueName")
+      hasPreviousOptionTrueInput.attr("foo") should be("foo")
+
+      val hasPreviousOptionOtherLabel = hasPreviousFieldset.select("label[for=hasPreviousOptionOtherId]").first()
+      hasPreviousOptionOtherLabel.attr("for") should be("hasPreviousOptionOtherId")
+
+      val hasPreviousOptionOtherInput = hasPreviousOptionOtherLabel.select("input").first()
+      hasPreviousOptionOtherInput.attr("id") should be("hasPreviousOptionOtherId")
+      hasPreviousOptionOtherInput.attr("name") should be("hasPreviousOptionOtherName")
+      hasPreviousOptionOtherInput.attr("foo") should be("foo")
 
 
       val nameChangeReasonLabel = doc.select("label[for=nameChangeReasonId]").first()
