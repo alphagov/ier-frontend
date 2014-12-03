@@ -23,6 +23,7 @@ class NameBlocksTests
         lastName = "Smith")),
       previousName = Some(PreviousName(
         hasPreviousName = true,
+        hasPreviousNameOption = "true",
         previousName = Some(Name(
           firstName = "Jan",
           middleNames = None,
@@ -50,6 +51,7 @@ class NameBlocksTests
         lastName = "Smith")),
       previousName = Some(PreviousName(
         hasPreviousName = true,
+        hasPreviousNameOption = "true",
         previousName = Some(Name(
           firstName = "Jan",
           middleNames = Some("Janko Janik"),
@@ -77,6 +79,7 @@ class NameBlocksTests
         lastName = "Smith")),
       previousName = Some(PreviousName(
         hasPreviousName = false,
+        hasPreviousNameOption = "false",
         previousName = None
       ))
     ))
@@ -101,6 +104,7 @@ class NameBlocksTests
         lastName = "Smith")),
       previousName = Some(PreviousName(
         hasPreviousName = true,
+        hasPreviousNameOption = "true",
         previousName = Some(Name(
           firstName = "Jan",
           middleNames = Some("Janko Janik"),

@@ -174,6 +174,7 @@ class ForcesApplicationTests extends UnitTestSuite {
       )),
       previousName = Some(PreviousName(
         hasPreviousName = true,
+        hasPreviousNameOption = "true",
         previousName = Some(Name(
           firstName = "George",
           middleNames = Some("Jeffrey"),

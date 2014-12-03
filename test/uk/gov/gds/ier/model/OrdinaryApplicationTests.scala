@@ -318,6 +318,7 @@ class OrdinaryApplicationTests extends UnitTestSuite {
         lastName = "Smith")),
       previousName = Some(PreviousName(
         hasPreviousName = true,
+        hasPreviousNameOption = "true",
         previousName = Some(Name(
           firstName = "James",
           middleNames = Some("John"),

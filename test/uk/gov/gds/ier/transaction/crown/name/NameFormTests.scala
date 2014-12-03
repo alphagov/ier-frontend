@@ -27,6 +27,7 @@ class NameFormTests
         "name.middleNames" -> "joe",
         "name.lastName" -> "",
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.firstName" -> "",
         "previousName.previousName.middleNames" -> "Joe",
         "previousName.previousName.lastName" -> ""
@@ -56,6 +57,7 @@ class NameFormTests
         "name.middleNames" -> "joe",
         "name.lastName" -> "   ",
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.firstName" -> "   ",
         "previousName.previousName.middleNames" -> "Joe",
         "previousName.previousName.lastName" -> "   "
@@ -81,7 +83,8 @@ class NameFormTests
   it should "require you to enter full names" in {
     val js = Json.toJson(
       Map(
-        "previousName.hasPreviousName" -> "true"
+        "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true"
       )
     )
     nameForm.bind(js).fold(
@@ -109,6 +112,7 @@ class NameFormTests
         "name.middleNames" -> textTooLong,
         "name.lastName" -> textTooLong,
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.firstName" -> textTooLong,
         "previousName.previousName.middleNames" -> textTooLong,
         "previousName.previousName.lastName" -> textTooLong
@@ -134,6 +138,7 @@ class NameFormTests
       Map(
         "name.middleNames" -> "joe",
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.middleNames" -> "joe"
       )
     )
@@ -162,6 +167,7 @@ class NameFormTests
         "name.firstName" -> "john",
         "name.middleNames" -> "joe",
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.middleNames" -> "joe",
         "previousName.previousName.firstName" -> "john"
       )
@@ -183,7 +189,8 @@ class NameFormTests
         "name.firstName" -> "John",
         "name.middleNames" -> "joe",
         "name.lastName" -> "Smith",
-        "previousName.hasPreviousName" -> "false"
+        "previousName.hasPreviousName" -> "false",
+        "previousName.hasPreviousNameOption" -> "false"
       )
     )
     nameForm.bind(js).fold(
@@ -201,6 +208,7 @@ class NameFormTests
         val previousName = success.previousName.get
         previousName.previousName.isDefined should be(false)
         previousName.hasPreviousName should be(false)
+        previousName.hasPreviousNameOption should be("false")
       }
     )
   }
@@ -211,6 +219,7 @@ class NameFormTests
         "name.middleNames" -> "joe",
         "name.lastName" -> "Smith",
         "previousName.hasPreviousName" -> "true",
+        "previousName.hasPreviousNameOption" -> "true",
         "previousName.previousName.firstName" -> "Jonny",
         "previousName.previousName.middleNames" -> "Joe",
         "previousName.previousName.lastName" -> "Bloggs"
@@ -230,6 +239,7 @@ class NameFormTests
 
         success.previousName.isDefined should be(true)
         success.previousName.get.hasPreviousName should be(true)
+        success.previousName.get.hasPreviousNameOption should be("true")
         val previousName = success.previousName.get
         previousName.previousName.get.firstName should be("Jonny")
         previousName.previousName.get.middleNames should be(Some("Joe"))
@@ -242,6 +252,7 @@ class NameFormTests
       "name.firstName" -> "John",
       "name.lastName" -> "Smith",
       "previousName.hasPreviousName" -> "false",
+      "previousName.hasPreviousNameOption" -> "false",
       "previousName.firstName" -> "Jonny"
     )
     nameForm.bind(js).fold(
@@ -256,6 +267,7 @@ class NameFormTests
         val Some(previousName) = success.previousName
         previousName should have(
           'hasPreviousName (false),
+          'hasPreviousNameOption ("false"),
           'previousName (None)
         )
       }

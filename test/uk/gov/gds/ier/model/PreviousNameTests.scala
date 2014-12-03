@@ -8,6 +8,7 @@ class PreviousNameTests extends UnitTestSuite {
   it should "generate the expected payload with first,last and middle names" in {
     val sutPreviousName = PreviousName(
       hasPreviousName = true,
+      hasPreviousNameOption = "true",
       previousName = Some(Name(
         firstName = "John",
         middleNames = Some("James"),
@@ -28,6 +29,7 @@ class PreviousNameTests extends UnitTestSuite {
   it should "generate the expected payload with first and last names" in {
     val sutPreviousName = PreviousName(
       hasPreviousName = true,
+      hasPreviousNameOption = "true",
       previousName = Some(Name(
         firstName = "John",
         middleNames = None,
@@ -49,6 +51,7 @@ class PreviousNameTests extends UnitTestSuite {
   it should "generate the expected empty map" in {
     val sutPreviousName = PreviousName(
       hasPreviousName = false,
+      hasPreviousNameOption = "false",
       previousName = None
     )
 
@@ -58,6 +61,7 @@ class PreviousNameTests extends UnitTestSuite {
   it should "generate the expected empty map even if name and last name are not empty" in {
     val sutPreviousName = PreviousName(
       hasPreviousName = false,
+      hasPreviousNameOption = "false",
       previousName = Some(Name(
         firstName = "John",
         middleNames = None,

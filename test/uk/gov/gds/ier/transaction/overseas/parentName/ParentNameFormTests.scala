@@ -13,6 +13,7 @@ class ParentNameFormTests
         "overseasParentName.parentName.middleNames" -> "middlenames",
         "overseasParentName.parentName.lastName" -> "lastname",
         "overseasParentName.parentPreviousName.hasPreviousName" -> "true",
+        "overseasParentName.parentPreviousName.hasPreviousNameOption" -> "true",
         "overseasParentName.parentPreviousName.previousName.firstName" -> "firstname",
         "overseasParentName.parentPreviousName.previousName.middleNames" -> "middlenames",
         "overseasParentName.parentPreviousName.previousName.lastName" -> "lastname"
@@ -32,6 +33,7 @@ class ParentNameFormTests
           success.overseasParentName.get.previousName.isDefined should be(true)
           val Some(parentPreviousName) = success.overseasParentName.get.previousName
           parentPreviousName.hasPreviousName should be(true)
+          parentPreviousName.hasPreviousNameOption should be("true")
           parentPreviousName.previousName.isDefined should be(true)
           
           val Some(previousName) = parentPreviousName.previousName
@@ -49,6 +51,7 @@ class ParentNameFormTests
         "overseasParentName.parentName.middleNames" -> "",
         "overseasParentName.parentName.lastName" -> "",
         "overseasParentName.parentPreviousName.hasPreviousName" -> "",
+        "overseasParentName.parentPreviousName.hasPreviousNameOption" -> "",
         "overseasParentName.parentPreviousName.previousName.firstName" -> "",
         "overseasParentName.parentPreviousName.previousName.middleNames" -> "",
         "overseasParentName.parentPreviousName.previousName.lastName" -> ""
@@ -76,6 +79,7 @@ class ParentNameFormTests
         "overseasParentName.parentName.middleNames" -> "joe",
         "overseasParentName.parentName.lastName" -> "",
         "overseasParentName.parentPreviousName.hasPreviousName" -> "true",
+        "overseasParentName.parentPreviousName.hasPreviousNameOption" -> "true",
         "overseasParentName.parentPreviousName.previousName.firstName" -> "",
         "overseasParentName.parentPreviousName.previousName.middleNames" -> "Joe",
         "overseasParentName.parentPreviousName.previousName.lastName" -> ""
@@ -106,6 +110,7 @@ class ParentNameFormTests
         "overseasParentName.parentName.middleNames" -> textTooLong,
         "overseasParentName.parentName.lastName" -> textTooLong,
         "overseasParentName.parentPreviousName.hasPreviousName" -> "true",
+        "overseasParentName.parentPreviousName.hasPreviousNameOption" -> "true",
         "overseasParentName.parentPreviousName.previousName.firstName" -> textTooLong,
         "overseasParentName.parentPreviousName.previousName.middleNames" -> textTooLong,
         "overseasParentName.parentPreviousName.previousName.lastName" -> textTooLong
@@ -138,6 +143,7 @@ class ParentNameFormTests
         "overseasParentName.parentName.middleNames" -> "joe",
         "overseasParentName.parentName.lastName" -> "",
         "overseasParentName.parentPreviousName.hasPreviousName" -> "true",
+        "overseasParentName.parentPreviousName.hasPreviousNameOption" -> "true",
         "overseasParentName.parentPreviousName.previousName.firstName" -> "john",
         "overseasParentName.parentPreviousName.previousName.middleNames" -> "Joe",
         "overseasParentName.parentPreviousName.previousName.lastName" -> ""
@@ -159,7 +165,8 @@ class ParentNameFormTests
         "overseasParentName.parentName.firstName" -> "John",
         "overseasParentName.parentName.middleNames" -> "joe",
         "overseasParentName.parentName.lastName" -> "Smith",
-        "overseasParentName.parentPreviousName.previousName.hasPreviousName" -> "false",
+        "overseasParentName.parentPreviousName.hasPreviousName" -> "false",
+        "overseasParentName.parentPreviousName.hasPreviousNameOption" -> "false",
         "overseasParentName.parentPreviousName.previousName.firstName" -> "",
         "overseasParentName.parentPreviousName.previousName.middleNames" -> "",
         "overseasParentName.parentPreviousName.previousName.lastName" -> ""
@@ -178,6 +185,7 @@ class ParentNameFormTests
         success.overseasParentName.get.previousName.isDefined should be(true)
         success.overseasParentName.get.previousName.get.previousName.isDefined should be(false)
         success.overseasParentName.get.previousName.get.hasPreviousName should be(false)
+        success.overseasParentName.get.previousName.get.hasPreviousNameOption should be("false")
       }
     )
   }

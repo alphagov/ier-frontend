@@ -21,7 +21,7 @@ class ParentNameControllerTests extends ControllerTestSuite {
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Parent or guardian's registration details")
-      contentAsString(result) should include("Have they changed their name since they left the UK?")
+      contentAsString(result) should include("Have they changed their name since you left the UK?")
       contentAsString(result) should include("<form action=\"/register-to-vote/overseas/parent-name\"")
     }
   }
@@ -36,6 +36,7 @@ class ParentNameControllerTests extends ControllerTestSuite {
             "overseasParentName.parentName.firstName" -> "John",
             "overseasParentName.parentName.lastName" -> "Smith",
             "overseasParentName.parentPreviousName.hasPreviousName" -> "true",
+            "overseasParentName.parentPreviousName.hasPreviousNameOption" -> "true",
             "overseasParentName.parentPreviousName.previousName.firstName" -> "John",
             "overseasParentName.parentPreviousName.previousName.lastName" -> "Smith")
       )
@@ -53,7 +54,8 @@ class ParentNameControllerTests extends ControllerTestSuite {
           .withFormUrlEncodedBody(
             "overseasParentName.parentName.firstName" -> "John",
             "overseasParentName.parentName.lastName" -> "Smith",
-            "overseasParentName.parentPreviousName.hasPreviousName" -> "false")
+            "overseasParentName.parentPreviousName.hasPreviousName" -> "false",
+            "overseasParentName.parentPreviousName.hasPreviousNameOption" -> "false")
       )
 
       status(result) should be(SEE_OTHER)
@@ -71,6 +73,7 @@ class ParentNameControllerTests extends ControllerTestSuite {
             "overseasParentName.parentName.firstName" -> "John",
             "overseasParentName.parentName.lastName" -> "Smith",
             "overseasParentName.parentPreviousName.hasPreviousName" -> "true",
+            "overseasParentName.parentPreviousName.hasPreviousNameOption" -> "true",
             "overseasParentName.parentPreviousName.previousName.firstName" -> "John",
             "overseasParentName.parentPreviousName.previousName.lastName" -> "Smith")
       )
@@ -89,7 +92,7 @@ class ParentNameControllerTests extends ControllerTestSuite {
       status(result) should be(OK)
       contentAsString(result) should include("Parent or guardian's registration details")
       contentAsString(result) should include("Please enter their full name")
-      contentAsString(result) should include("Have they changed their name since they left the UK?")
+      contentAsString(result) should include("Have they changed their name since you left the UK?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("<form action=\"/register-to-vote/overseas/parent-name\"")
     }
@@ -105,7 +108,7 @@ class ParentNameControllerTests extends ControllerTestSuite {
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Parent or guardian's registration details")
-      contentAsString(result) should include("Have they changed their name since they left the UK?")
+      contentAsString(result) should include("Have they changed their name since you left the UK?")
       contentAsString(result) should include("<form action=\"/register-to-vote/overseas/edit/parent-name\"")
     }
   }
@@ -120,6 +123,7 @@ class ParentNameControllerTests extends ControllerTestSuite {
             "overseasParentName.parentName.firstName" -> "John",
             "overseasParentName.parentName.lastName" -> "Smith",
             "overseasParentName.parentPreviousName.hasPreviousName" -> "true",
+            "overseasParentName.parentPreviousName.hasPreviousNameOption" -> "true",
             "overseasParentName.parentPreviousName.previousName.firstName" -> "John",
             "overseasParentName.parentPreviousName.previousName.lastName" -> "Smith")
       )
@@ -137,7 +141,8 @@ class ParentNameControllerTests extends ControllerTestSuite {
           .withFormUrlEncodedBody(
             "overseasParentName.parentName.firstName" -> "John",
             "overseasParentName.parentName.lastName" -> "Smith",
-            "overseasParentName.parentPreviousName.hasPreviousName" -> "false")
+            "overseasParentName.parentPreviousName.hasPreviousName" -> "false",
+            "overseasParentName.parentPreviousName.hasPreviousNameOption" -> "false")
       )
 
       status(result) should be(SEE_OTHER)
@@ -155,6 +160,7 @@ class ParentNameControllerTests extends ControllerTestSuite {
             "overseasParentName.parentName.firstName" -> "John",
             "overseasParentName.parentName.lastName" -> "Smith",
             "overseasParentName.parentPreviousName.hasPreviousName" -> "true",
+            "overseasParentName.parentPreviousName.hasPreviousNameOption" -> "true",
             "overseasParentName.parentPreviousName.previousName.firstName" -> "John",
             "overseasParentName.parentPreviousName.previousName.lastName" -> "Smith")
       )
@@ -173,7 +179,7 @@ class ParentNameControllerTests extends ControllerTestSuite {
       status(result) should be(OK)
       contentAsString(result) should include("Parent or guardian's registration details")
       contentAsString(result) should include("Please enter their full name")
-      contentAsString(result) should include("Have they changed their name since they left the UK?")
+      contentAsString(result) should include("Have they changed their name since you left the UK?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("<form action=\"/register-to-vote/overseas/edit/parent-name\"")
     }

@@ -25,8 +25,9 @@ class ParentNameMustacheTest
     nameModel.firstName.value should be("")
     nameModel.middleNames.value should be("")
     nameModel.lastName.value should be("")
-    nameModel.hasPreviousNameTrue.attributes should be("")
-    nameModel.hasPreviousNameFalse.attributes should be("")
+    nameModel.hasPreviousNameOptionFalse.value should be("false")
+    nameModel.hasPreviousNameOptionTrue.value should be("true")
+    nameModel.hasPreviousNameOptionOther.value should be("other")
     nameModel.previousFirstName.value should be("")
     nameModel.previousMiddleNames.value should be("")
     nameModel.previousLastName.value should be("")
@@ -38,7 +39,7 @@ class ParentNameMustacheTest
         firstName = "John",
         middleNames = None,
         lastName = "Smith")),
-      previousName = Some(PreviousName(false, None))))))
+      previousName = Some(PreviousName(false, "false", None))))))
 
     val nameModel = mustache.data(
       partiallyFilledApplicationForm,
@@ -52,9 +53,9 @@ class ParentNameMustacheTest
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
     nameModel.lastName.value should be("Smith")
-    nameModel.hasPreviousName.classes should be("")
-    nameModel.hasPreviousNameTrue.attributes should be("")
-    nameModel.hasPreviousNameFalse.attributes should be("checked=\"checked\"")
+    nameModel.hasPreviousNameOptionFalse.value should be("false")
+    nameModel.hasPreviousNameOptionTrue.value should be("true")
+    nameModel.hasPreviousNameOptionOther.value should be("other")
     nameModel.previousFirstName.value should be("")
     nameModel.previousMiddleNames.value should be("")
     nameModel.previousLastName.value should be("")
@@ -65,14 +66,17 @@ class ParentNameMustacheTest
       overseasParentName = Some(OverseasParentName(name = Some(Name(
         firstName = "John",
         middleNames = None,
-        lastName = "Smith")),
+        lastName = "Smith"
+      )),
       previousName = Some(PreviousName(
         hasPreviousName = true,
+        hasPreviousNameOption = "true",
         previousName = Some(Name(
           firstName = "Jan",
           middleNames = None,
           lastName = "Kovar"))
-      ))))
+        ))
+      ))
     ))
 
     val nameModel = mustache.data(
@@ -87,9 +91,9 @@ class ParentNameMustacheTest
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
     nameModel.lastName.value should be("Smith")
-    nameModel.hasPreviousName.classes should be("")
-    nameModel.hasPreviousNameTrue.attributes should be("checked=\"checked\"")
-    nameModel.hasPreviousNameFalse.attributes should be("")
+    nameModel.hasPreviousNameOptionFalse.value should be("false")
+    nameModel.hasPreviousNameOptionTrue.value should be("true")
+    nameModel.hasPreviousNameOptionOther.value should be("other")
     nameModel.previousFirstName.value should be("Jan")
     nameModel.previousMiddleNames.value should be("")
     nameModel.previousLastName.value should be("Kovar")
@@ -100,7 +104,10 @@ class ParentNameMustacheTest
       overseasParentName = Some(OverseasParentName(name = Some(Name(
         firstName = "John",
         middleNames = None,
-        lastName = ""))))))
+        lastName = ""
+        ))
+      ))
+    ))
 
     val nameModel = mustache.data(
       partiallyFilledApplicationFormWithErrors,
@@ -114,9 +121,9 @@ class ParentNameMustacheTest
     nameModel.firstName.value should be("John")
     nameModel.middleNames.value should be("")
     nameModel.lastName.value should be("")
-    nameModel.hasPreviousName.classes should be("invalid")
-    nameModel.hasPreviousNameTrue.attributes should be("")
-    nameModel.hasPreviousNameFalse.attributes should be("")
+    nameModel.hasPreviousNameOptionFalse.value should be("false")
+    nameModel.hasPreviousNameOptionTrue.value should be("true")
+    nameModel.hasPreviousNameOptionOther.value should be("other")
     nameModel.previousFirstName.value should be("")
     nameModel.previousMiddleNames.value should be("")
     nameModel.previousLastName.value should be("")

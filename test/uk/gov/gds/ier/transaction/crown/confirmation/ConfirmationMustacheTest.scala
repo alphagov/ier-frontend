@@ -156,6 +156,7 @@ class ConfirmationMustacheTest
       )),
       previousName = Some(PreviousName(
         hasPreviousName = true,
+        hasPreviousNameOption = "true",
         previousName = Some(Name(
           firstName = "Jan",
           middleNames = None,
@@ -185,6 +186,7 @@ class ConfirmationMustacheTest
       )),
       previousName = Some(PreviousName(
         hasPreviousName = true,
+        hasPreviousNameOption = "true",
         previousName = Some(Name(
           firstName = "Jan",
           middleNames = Some("Janko Janik"),
