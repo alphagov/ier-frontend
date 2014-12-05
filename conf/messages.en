@@ -93,6 +93,7 @@ ordinary_dob_error_invalidDate=You have entered an invalid date
 
 # ordinary: name
 ordinary_name_title=What is your full name?
+ordinary_name_intro=Enter all your names in full - don't use initials
 ordinary_name_firstName_label=First name
 ordinary_name_middleNames_label=Middle names
 ordinary_name_lastName_label=Last name
