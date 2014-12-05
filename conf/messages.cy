@@ -101,6 +101,7 @@ ordinary_dob_error_enterDay=Nodwch eich diwrnod geni
 
 # ordinary: name
 ordinary_name_title=Beth yw eich enw llawn?
+ordinary_name_intro=Rhowch bob un o’ch enwau yn llawn – nid y llythrennau cyntaf yn unig
 ordinary_name_firstName_label=Enw cyntaf
 ordinary_name_middleNames_label=Enwau canol
 ordinary_name_lastName_label=Cyfenw
