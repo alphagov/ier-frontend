@@ -15,7 +15,7 @@ class Config extends Logging {
   def fakeLocate = configuration.getBoolean("locate.fake")
   def ierApiUrl = configuration.getString("ier.api.url")
   def ierLocalAuthorityLookupUrl = configuration.getString("ier.authority.lookup.url")
-  def ierLocalAuthorityPostcodeLookupUrl= configuration.getString("ier.authority.lookup.url")
+  def ierLocalAuthorityPostcodeLookupUrl= configuration.getString("ier.postcode.lookup.url")
   def ierApiToken = configuration.getString("ier.api.token")
   def stripNino = configuration.getBoolean("ier.nino.strip", false)
   def sessionTimeout = configuration.getInt("session.timeout", 20).toInt
