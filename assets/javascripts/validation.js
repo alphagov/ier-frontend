@@ -923,16 +923,22 @@
            * @memberof root.validation.rules.field
            * @returns {Array} Array containing one invalidField if invalid or none if not
            */
-          'prevFirstNameText' : function () {
-            var entry = _getFieldValue(this.$source),
-                maxLen = 35;
+          'prevFirstNameText': function() {
+                                  var isRequired= $('#previousName_hasPreviousName_true:checked').length > 0,
+                                      entry = _getFieldValue(this.$source),
+                                      maxLen = 35,
+                                      result = [];
 
-            if (entry.length > maxLen) {
-              return _getInvalidDataFromFields([this], 'prevFirstNameText');
-            } else {
-              return [];
-            }
-          },
+                                  if ( isRequired ) {
+                                      if ( entry.length === 0 ) {
+                                          result = _getInvalidDataFromFields([this], "nonEmpty");
+                                      }
+                                      else if ( entry.length > maxLen ) {
+                                          result = _getInvalidDataFromFields([this], "prevFirstNameText");
+                                      }
+                                  }
+                                  return result;
+                              },
           /**
            * Function to check if a field has a value with max 100 characters
            * @function
@@ -940,16 +946,10 @@
            * @memberof root.validation.rules.field
            * @returns {Array} Array containing one invalidField if invalid or none if not
            */
-          'prevMiddleNameText' : function () {
-            var entry = _getFieldValue(this.$source),
-                maxLen = 100;
-
-            if (entry.length > maxLen) {
-              return _getInvalidDataFromFields([this], 'prevMiddleNameText');
-            } else {
-              return [];
-            }
-          },
+          'prevMiddleNameText': function() {
+                                  var entry = _getFieldValue(this.$source), maxLen = 100;
+                                  return entry.length > maxLen ? _getInvalidDataFromFields([this], "prevMiddleNameText") : []
+                              },
           /**
            * Function to check if a field has a value with max 35 characters
            * @function
@@ -957,16 +957,22 @@
            * @memberof root.validation.rules.field
            * @returns {Array} Array containing one invalidField if invalid or none if not
            */
-          'prevLastNameText' : function () {
-            var entry = _getFieldValue(this.$source),
-                maxLen = 35;
+          'prevLastNameText': function() {
+                                  var isRequired= $('#previousName_hasPreviousName_true:checked').length > 0,
+                                      entry = _getFieldValue(this.$source),
+                                      maxLen = 35,
+                                      result = [];
 
-            if (entry.length > maxLen) {
-              return _getInvalidDataFromFields([this], 'prevLastNameText');
-            } else {
-              return [];
-            }
-          },
+                                  if ( isRequired ) {
+                                      if ( entry.length === 0 ) {
+                                          result = _getInvalidDataFromFields([this], "nonEmpty");
+                                      }
+                                      else if ( entry.length > maxLen ) {
+                                          result = _getInvalidDataFromFields([this], "prevLastNameText");
+                                      }
+                                  }
+                                  return result;
+                              },
           /**
            * Function to check if a field has a value that is a country listed in GOVUK.registerToVote.countries
            * @function
