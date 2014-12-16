@@ -116,7 +116,7 @@
         <fieldset class="validate"
                   data-validation-name="previousName"
                   data-validation-type="association"
-                  data-validation-rules="allNonEmpty allValid"
+                  data-validation-rules="allValid"
                   data-validation-members="previousFirstName previousMiddleName previousLastName">
 
             <label for="{{previousFirstName.id}}">
@@ -130,7 +130,7 @@
                        class="text first-name long validate {{previousFirstName.classes}}"
                        data-validation-name="previousFirstName"
                        data-validation-type="field"
-                       data-validation-rules="nonEmpty prevFirstNameText">
+                       data-validation-rules="prevFirstNameText">
             </div>
 
             <label for="{{previousMiddleNames.id}}">
@@ -156,7 +156,7 @@
                        class="text last-name long validate {{previousLastName.classes}}"
                        data-validation-name="previousLastName"
                        data-validation-type="field"
-                       data-validation-rules="nonEmpty prevLastNameText">
+                       data-validation-rules="prevLastNameText">
             </div>
         </fieldset>
     </div>
