@@ -1,6 +1,6 @@
 #IER Frontend
 
-This is the Individual Electoral Registration (aka ERTP) Frontend app. The point of it is to provide a simple Register to Vote form to the public.
+This is the Individual Electoral Registration (aka ERTP) Frontend app. The point of it is to provide a simple Register to Vote form to the public. 
 
 ###Depedencies
 
