@@ -6,7 +6,7 @@
     <fieldset class="validate" data-validation-name="job"
               data-validation-type="association"
               data-validation-rules="allNonEmpty"
-              data-validation-members="jobTitle govDepartment">
+              data-validation-members="jobTitle payrollNumber govDepartment">
 
         <label for="{{jobTitle.id}}">
             Job title or rank
@@ -18,6 +18,20 @@
                    autocomplete="off"
                    class="text long validate {{jobTitle.classes}}"
                    data-validation-name="jobTitle"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty" >
+        </div>
+
+        <label for="{{payrollNumber.id}}">
+            Payroll number/ Staff ID
+        </label>
+        <div class="validation-wrapper {{payrollNumber.classes}}">
+            <input type="text" id="{{payrollNumber.id}}"
+                   name="{{payrollNumber.name}}"
+                   value="{{payrollNumber.value}}"
+                   autocomplete="off"
+                   class="text long validate {{payrollNumber.classes}}"
+                   data-validation-name="payrollNumber"
                    data-validation-type="field"
                    data-validation-rules="nonEmpty" >
         </div>
@@ -35,8 +49,7 @@
                    data-validation-type="field"
                    data-validation-rules="nonEmpty" >
         </div>
-        
-        <p class="example">For example: FCO, MOD, DFID, British Council</p>
+        <p class="example">(For example: FCO, MOD, DFID, British Council)</p>
         
     </fieldset>
 

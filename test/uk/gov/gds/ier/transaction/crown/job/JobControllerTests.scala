@@ -26,6 +26,7 @@ class JobControllerTests extends ControllerTestSuite {
           .withIerSession()
           .withFormUrlEncodedBody(
             "job.jobTitle" -> "Doctor",
+            "job.payrollNumber" -> "123456",
             "job.govDepartment" -> "Fake Department")
       )
 
@@ -45,6 +46,7 @@ class JobControllerTests extends ControllerTestSuite {
           .withApplication(completeCrownApplication)
           .withFormUrlEncodedBody(
           "job.jobTitle" -> "Doctor",
+          "job.payrollNumber" -> "123456",
           "job.govDepartment" -> "Fake Department")
       )
 
@@ -88,6 +90,7 @@ class JobControllerTests extends ControllerTestSuite {
           .withIerSession()
           .withFormUrlEncodedBody(
           "job.jobTitle" -> "Doctor",
+          "job.payrollNumber" -> "123456",
           "job.govDepartment" -> "Fake Department")
       )
 
@@ -105,6 +108,7 @@ class JobControllerTests extends ControllerTestSuite {
           .withApplication(completeCrownApplication)
           .withFormUrlEncodedBody(
           "job.jobTitle" -> "Doctor",
+          "job.payrollNumber" -> "123456",
           "job.govDepartment" -> "Fake Department")
       )
 

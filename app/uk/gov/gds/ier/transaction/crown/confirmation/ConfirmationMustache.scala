@@ -216,6 +216,7 @@ trait ConfirmationMustache
         content = ifComplete(keys.job) {
           List(
             form(keys.job.jobTitle).value,
+            form(keys.job.payrollNumber).value,
             form(keys.job.govDepartment).value
           ).flatten
         }

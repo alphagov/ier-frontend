@@ -10,8 +10,9 @@ class JobFormTests
     val js = JsNull
     jobForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(3)
+        hasErrors.errors.size should be(4)
         hasErrors.errorMessages("job.jobTitle") should be(Seq("Please answer this question"))
+        hasErrors.errorMessages("job.payrollNumber") should be(Seq("Please answer this question"))
         hasErrors.errorMessages("job.govDepartment") should be(Seq("Please answer this question"))
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
       },
@@ -23,13 +24,15 @@ class JobFormTests
     val js = Json.toJson(
       Map(
         "job.jobTitle" -> "",
+        "job.payrollNumber" -> "",
         "job.govDepartment" -> ""
       )
     )
     jobForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(3)
+        hasErrors.errors.size should be(4)
         hasErrors.errorMessages("job.jobTitle") should be(Seq("Please answer this question"))
+        hasErrors.errorMessages("job.payrollNumber") should be(Seq("Please answer this question"))
         hasErrors.errorMessages("job.govDepartment") should be(Seq("Please answer this question"))
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
       },
@@ -40,7 +43,9 @@ class JobFormTests
   it should "error out on a missing field" in {
     val js = Json.toJson(
       Map(
-        "job.jobTitle" -> "Doctor"
+        "job.jobTitle" -> "Doctor",
+        "job.payrollNumber" -> "123456",
+        "job.govDepartment" -> ""
       )
     )
     jobForm.bind(js).fold(
@@ -58,6 +63,7 @@ class JobFormTests
     val js = Json.toJson(
       Map(
         "job.jobTitle" -> "Doctor",
+        "job.payrollNumber" -> "123456", //fake payroll number
         "job.govDepartment" -> "Fake department"
       )
     )
@@ -69,8 +75,8 @@ class JobFormTests
         success.job.isDefined should be(true)
         val job = success.job.get
         job.jobTitle should be(Some("Doctor"))
+        job.payrollNumber should be(Some("123456"))
         job.govDepartment should be(Some("Fake department"))
-
       }
     )
   }

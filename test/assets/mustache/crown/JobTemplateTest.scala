@@ -17,6 +17,12 @@ class JobTemplateTest
           classes = "jobTitleClass",
           value = "jobTitleValue"
         ),
+        payrollNumber = Field(
+          id = "payrollNumberId",
+          name = "payrollNumberName",
+          classes = "payrollNumberClass",
+          value = "payrollNumberValue"
+        ),
         govDepartment = Field(
           id = "govDepartmentId",
           name = "govDepartmentName",
@@ -39,6 +45,18 @@ class JobTemplateTest
       jobTitleInput.attr("name") should be("jobTitleName")
       jobTitleInput.attr("value") should be("jobTitleValue")
       jobTitleInput.attr("class") should include("jobTitleClass")
+
+      val payrollNumberLabel = doc.select("label[for=payrollNumberId]").first()
+      payrollNumberLabel should not be(null)
+      payrollNumberLabel.attr("for") should be("payrollNumberId")
+
+      val payrollNumberDiv = doc.select("div[class*=payrollNumberClass]").first()
+      payrollNumberDiv.attr("class") should include("payrollNumberClass")
+      val payrollNumberInput = payrollNumberDiv.select("input").first()
+      payrollNumberInput.attr("id") should be("payrollNumberId")
+      payrollNumberInput.attr("name") should be("payrollNumberName")
+      payrollNumberInput.attr("value") should be("payrollNumberValue")
+      payrollNumberInput.attr("class") should include("payrollNumberClass")
 
 
       val govDepartmentLabel = doc.select("label[for=govDepartmentId]").first()
