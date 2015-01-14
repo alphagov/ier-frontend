@@ -139,7 +139,7 @@ trait TestHelpers
     name = Some(Name("John", None, "Smith")),
     previousName = Some(PreviousName(true, "true", Some(Name("George", None, "Smith")))),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
-    job = Some(Job(Some("job title"), Some("MoJ"), Some("123456"))),
+    job = Some(Job(Some("job title"), Some("123456"), Some("MoJ"))),
     contactAddress = Some (PossibleContactAddresses(
       contactAddressType = Some("uk"),
       ukAddressLine = Some("my uk address, london"),
