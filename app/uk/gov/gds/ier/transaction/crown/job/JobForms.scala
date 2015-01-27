@@ -13,11 +13,12 @@ trait JobForms extends JobConstraints {
 
   lazy val jobMapping = mapping(
     keys.jobTitle.key -> optional(nonEmptyText),
+    keys.payrollNumber.key -> optional(nonEmptyText),
     keys.govDepartment.key -> optional(nonEmptyText)
   ) (
-    (jobTitle, govDepartment) => Job(jobTitle, govDepartment)
+    (jobTitle, payrollNumber, govDepartment) => Job(jobTitle, payrollNumber, govDepartment)
   ) (
-    job => Some(job.jobTitle, job.govDepartment)
+    job => Some(job.jobTitle, job.payrollNumber, job.govDepartment)
   ) verifying  jobTitleAndGovDepartmentRequired
 
   val jobForm = ErrorTransformForm(
@@ -40,6 +41,7 @@ trait JobConstraints {
       case None => Invalid(
         "Please answer this question",
         keys.job.jobTitle,
+        keys.job.payrollNumber,
         keys.job.govDepartment
       )
     }
@@ -47,10 +49,18 @@ trait JobConstraints {
 
   lazy val jobTitleAndGovDepartmentRequired = Constraint[Job](keys.job.key) {
     job => job match {
-      case Job(Some(jobTitle), None) =>
-        Invalid("Please answer this question",keys.job.govDepartment)
-      case Job(None, Some(govDepartment)) =>
+      case Job(Some(jobTitle), None, None) =>
+        Invalid("Please answer this question",keys.payrollNumber, keys.govDepartment)
+      case Job(Some(jobTitle), None, Some(govDepartment)) =>
+        Invalid("Please answer this question",keys.payrollNumber)
+      case Job(None, Some(payrollNumber), None) =>
+        Invalid("Please answer this question",keys.job.jobTitle, keys.payrollNumber)
+      case Job(None, None, Some(govDepartment)) =>
+        Invalid("Please answer this question",keys.job.jobTitle, keys.payrollNumber)
+      case Job(None, Some(payrollNumber), Some(govDepartment)) =>
         Invalid("Please answer this question",keys.job.jobTitle)
+      case Job(Some(jobTitle), Some(payrollNumber), None) =>
+        Invalid("Please answer this question",keys.job.govDepartment)
       case _ => Valid
     }
   }

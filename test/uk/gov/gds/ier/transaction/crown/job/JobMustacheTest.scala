@@ -22,6 +22,7 @@ class JobMustacheTest
     jobModel.question.postUrl should be("/register-to-vote/crown/job-title")
 
     jobModel.jobTitle.value should be("")
+    jobModel.payrollNumber.value should be("")
     jobModel.govDepartment.value should be("")
 
   }
@@ -31,6 +32,7 @@ class JobMustacheTest
     val partiallyFilledApplication = InprogressCrown(
       job = Some(Job(
         jobTitle = Some("Doctor"),
+        payrollNumber = Some("123456"),
         govDepartment = Some("Fake Dept")
       ))
     )
@@ -47,7 +49,7 @@ class JobMustacheTest
     jobModel.question.postUrl should be("/register-to-vote/crown/job-title")
 
     jobModel.jobTitle.value should be("Doctor")
+    jobModel.payrollNumber.value should be("123456")
     jobModel.govDepartment.value should be("Fake Dept")
-
   }
 }

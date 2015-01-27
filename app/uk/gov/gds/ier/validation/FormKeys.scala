@@ -149,6 +149,7 @@ trait FormKeys {
     lazy val contactAddress = prependNamespace(Key("contactAddress"))
     lazy val job = prependNamespace(Key("job"))
     lazy val jobTitle = prependNamespace(Key("jobTitle"))
+    lazy val payrollNumber = prependNamespace(Key("payrollNumber"))
     lazy val govDepartment = prependNamespace(Key("govDepartment"))
     lazy val serviceName = prependNamespace(Key("serviceName"))
     lazy val regiment = prependNamespace(Key("regiment"))

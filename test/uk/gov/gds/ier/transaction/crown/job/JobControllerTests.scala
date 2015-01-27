@@ -26,18 +26,18 @@ class JobControllerTests extends ControllerTestSuite {
           .withIerSession()
           .withFormUrlEncodedBody(
             "job.jobTitle" -> "Doctor",
+            "job.payrollNumber" -> "123456",
             "job.govDepartment" -> "Fake Department")
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/crown/declaration-pdf"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/nino"))
     }
   }
 
 
 
-  it should "bind successfully and redirect always to the declaration download step even with " +
-    "a complete application" in {
+  it should "bind successfully and redirect to the nino step" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/crown/job-title")
@@ -45,11 +45,12 @@ class JobControllerTests extends ControllerTestSuite {
           .withApplication(completeCrownApplication)
           .withFormUrlEncodedBody(
           "job.jobTitle" -> "Doctor",
+          "job.payrollNumber" -> "123456",
           "job.govDepartment" -> "Fake Department")
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/crown/declaration-pdf"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/nino"))
     }
   }
 
@@ -88,16 +89,16 @@ class JobControllerTests extends ControllerTestSuite {
           .withIerSession()
           .withFormUrlEncodedBody(
           "job.jobTitle" -> "Doctor",
+          "job.payrollNumber" -> "123456",
           "job.govDepartment" -> "Fake Department")
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/crown/declaration-pdf"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/nino"))
     }
   }
 
-  it should "bind successfully and redirect always to declaration form download even with " +
-    "a complete application" in {
+  it should "bind successfully and redirect to the nino step" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/crown/edit/job-title")
@@ -105,11 +106,12 @@ class JobControllerTests extends ControllerTestSuite {
           .withApplication(completeCrownApplication)
           .withFormUrlEncodedBody(
           "job.jobTitle" -> "Doctor",
+          "job.payrollNumber" -> "123456",
           "job.govDepartment" -> "Fake Department")
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/crown/declaration-pdf"))
+      redirectLocation(result) should be(Some("/register-to-vote/crown/nino"))
     }
   }
 
