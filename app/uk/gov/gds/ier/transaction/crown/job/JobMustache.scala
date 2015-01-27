@@ -10,6 +10,7 @@ trait JobMustache extends StepTemplate[InprogressCrown] {
   case class JobModel(
      question:Question,
      jobTitle: Field,
+     payrollNumber: Field,
      govDepartment: Field
   ) extends MustacheData
 
@@ -31,6 +32,9 @@ trait JobMustache extends StepTemplate[InprogressCrown] {
       ),
       jobTitle = TextField(
         key = keys.job.jobTitle
+      ),
+      payrollNumber = TextField(
+        key = keys.job.payrollNumber
       ),
       govDepartment = TextField(
         key = keys.job.govDepartment

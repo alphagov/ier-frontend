@@ -1806,6 +1806,9 @@
       'govDepartment' : {
         'nonEmpty' : 'Please enter the government department, agency or body'
       },
+      'payrollNumber' : {
+        'nonEmpty' : 'Please enter the Payroll number/ Staff ID'
+      },
       'hasUkAddress' : {
          'atLeastOneNonEmpty' : 'Please answer this question'
       },

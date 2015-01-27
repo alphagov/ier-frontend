@@ -119,6 +119,7 @@ class CrownApplicationTests extends UnitTestSuite {
       "bc" -> "false",
       "sbc" -> "false",
       "role" -> "my job title",
+      "payr" -> "123456",
       "dept" -> "MoJ",
       "pvote" -> "true",
       "opnreg" -> "false",
@@ -188,6 +189,7 @@ class CrownApplicationTests extends UnitTestSuite {
       "sbc" -> "false",
       "role" -> "my job title",
       "dept" -> "MoJ",
+      "payr" -> "123456",
       "pvote" -> "true",
       "opnreg" -> "false",
       "post" -> "true",
@@ -263,6 +265,7 @@ class CrownApplicationTests extends UnitTestSuite {
       )),
       job = Some(Job(
         jobTitle = Some("my job title"),
+        payrollNumber = Some("123456"),
         govDepartment = Some("MoJ")
       )),
       contactAddress = Some (PossibleContactAddresses(

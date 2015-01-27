@@ -34,6 +34,6 @@ class JobStep @Inject ()(
   override val onSuccess = GoToNextStep()
 
   def nextStep(currentState: InprogressCrown) = {
-    crown.DeclarationPdfStep
+    crown.NinoStep
   }
 }

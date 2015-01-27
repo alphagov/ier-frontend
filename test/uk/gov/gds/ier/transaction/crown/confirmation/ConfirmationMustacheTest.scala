@@ -363,6 +363,7 @@ class ConfirmationMustacheTest
     val partiallyFilledApplicationForm = confirmationForm.fillAndValidate(InprogressCrown(
       job = Some(Job(
         jobTitle = Some("some job title"),
+        payrollNumber = Some("123456"),
         govDepartment = Some("MoJ")
       ))
     ))
@@ -371,7 +372,7 @@ class ConfirmationMustacheTest
 
     val jobTitleModel = confirmation.jobTitle
 
-    jobTitleModel.content should be(BlockContent(List("some job title", "MoJ")))
+    jobTitleModel.content should be(BlockContent(List("some job title", "123456", "MoJ")))
     jobTitleModel.editLink should be("/register-to-vote/crown/edit/job-title")
   }
 
@@ -381,6 +382,7 @@ class ConfirmationMustacheTest
     val application = confirmationForm.fillAndValidate(InprogressCrown(
       job = Some(Job(
         jobTitle = Some("some job title"),
+        payrollNumber = Some("123456"),
         govDepartment = Some("department")
       )),
       statement = Some(CrownStatement(
@@ -395,13 +397,14 @@ class ConfirmationMustacheTest
 
     val Some(jobTitleModel) = confirmation.partnerJobTitle
 
-    jobTitleModel.content should be(BlockContent(List("some job title", "department")))
+    jobTitleModel.content should be(BlockContent(List("some job title", "123456", "department")))
   }
 
   it should "return jobTitle if displayPartnerBlock = true (crownPartner)" in {
     val application = confirmationForm.fillAndValidate(InprogressCrown(
       job = Some(Job(
         jobTitle = Some("some job title"),
+        payrollNumber = Some("123456"),
         govDepartment = Some("department")
       )),
       statement = Some(CrownStatement(
@@ -416,7 +419,7 @@ class ConfirmationMustacheTest
 
     val Some(jobTitleModel) = confirmation.partnerJobTitle
 
-    jobTitleModel.content should be(BlockContent(List("some job title", "department")))
+    jobTitleModel.content should be(BlockContent(List("some job title", "123456", "department")))
   }
 
   it should "return None if displayPartnerBlock = false (crownServant)" in {
@@ -459,6 +462,7 @@ class ConfirmationMustacheTest
     val application = confirmationForm.fillAndValidate(InprogressCrown(
       job = Some(Job(
         jobTitle = Some("some job title"),
+        payrollNumber = Some("123456"),
         govDepartment = Some("department")
       )),
       statement = Some(CrownStatement(
@@ -473,13 +477,14 @@ class ConfirmationMustacheTest
 
     val Some(jobTitleModel) = confirmation.applicantJobTitle
 
-    jobTitleModel.content should be(BlockContent(List("some job title", "department")))
+    jobTitleModel.content should be(BlockContent(List("some job title", "123456", "department")))
   }
 
   it should "return jobTitle if displayPartnerBlock = false (crownServant)" in {
     val application = confirmationForm.fillAndValidate(InprogressCrown(
       job = Some(Job(
         jobTitle = Some("some job title"),
+        payrollNumber = Some("123456"),
         govDepartment = Some("department")
       )),
       statement = Some(CrownStatement(
@@ -494,7 +499,7 @@ class ConfirmationMustacheTest
 
     val Some(jobTitleModel) = confirmation.applicantJobTitle
 
-    jobTitleModel.content should be(BlockContent(List("some job title", "department")))
+    jobTitleModel.content should be(BlockContent(List("some job title", "123456", "department")))
   }
 
   it should "return None if displayPartnerBlock = true (crownServant)" in {
