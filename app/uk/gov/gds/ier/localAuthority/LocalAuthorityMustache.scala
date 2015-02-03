@@ -34,9 +34,11 @@ trait LocalAuthorityMustache
           case _ => ""
         }
 
+        var sPath : String = ""
         if(sourcePath.isDefined) {
           sPath = toCleanFormat(sourcePath.getOrElse(""))
         }
+
 
         LocalAuthorityShowPage(localAuthorityContact, visitAuthorityPage, sPath)
       }
