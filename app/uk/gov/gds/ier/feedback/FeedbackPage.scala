@@ -23,6 +23,11 @@ class FeedbackPage @Inject ()(
 
   def get(sourcePath: Option[String]) = CacheBust {
     Action { implicit request =>
+
+      if(sourcePath.isDefined) {
+        toCleanFormat(sourcePath)
+      }
+
       Ok(FeedbackPage(
         postUrl = routes.FeedbackPage.post(sourcePath).url
       ))
@@ -31,6 +36,11 @@ class FeedbackPage @Inject ()(
 
   def post(sourcePath: Option[String]) = CacheBust {
     Action { implicit request =>
+
+      if(sourcePath.isDefined) {
+        toCleanFormat(sourcePath)
+      }
+
       feedbackForm.bindFromRequest().value.map{ feedback =>
         feedbackService.submit(feedback, sourcePath)
       }
@@ -40,10 +50,27 @@ class FeedbackPage @Inject ()(
 
   def thankYou(sourcePath: Option[String]) = CacheBust {
     Action { implicit request =>
+
+      if(sourcePath.isDefined) {
+        toCleanFormat(sourcePath)
+      }
+
       Ok(ThankYouPage(
         sourcePath = sourcePath getOrElse config.ordinaryStartUrl
       ))
     }
   }
+
+
+  def cleanFormat(sPath:String) = {
+    sPath.replaceAll("[<>|\\s\\t|''|]", "")
+
+  }
+
+  def toCleanFormat(sourcePath: Option[String]) = {
+    val sPath = sourcePath.getOrElse("").toString()
+    cleanFormat(sPath)
+  }
+
 }
 

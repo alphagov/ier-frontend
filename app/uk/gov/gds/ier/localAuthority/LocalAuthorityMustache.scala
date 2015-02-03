@@ -7,9 +7,10 @@ import uk.gov.gds.ier.mustache.MustacheModel
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.model.LocalAuthorityContactDetails
 import uk.gov.gds.ier.langs.Messages
+import uk.gov.gds.ier.logging.Logging
 
 trait LocalAuthorityMustache
-  extends InheritedGovukMustache with MustacheModel {
+  extends InheritedGovukMustache with MustacheModel with Logging {
   self: WithRemoteAssets
   with WithConfig =>
 
@@ -33,7 +34,18 @@ trait LocalAuthorityMustache
           case _ => ""
         }
 
-        LocalAuthorityShowPage(localAuthorityContact, visitAuthorityPage, sourcePath.getOrElse(""))
+
+
+        logger.info(s"FIRST SOURCEPATH : $sourcePath -------------")
+        var sPath : String = ""
+        if(sourcePath.isDefined) {
+          sPath = toCleanFormat(sourcePath.toString())
+        }
+
+
+        logger.info(s"SECOND SOURCEPATH : $sourcePath -------------")
+
+        LocalAuthorityShowPage(localAuthorityContact, visitAuthorityPage, sPath)
       }
     }
 
@@ -61,4 +73,13 @@ trait LocalAuthorityMustache
         )
       }
     }
+
+  private def cleanFormat(sPath:String) = {
+    sPath.replaceAll("[<> '']", "")
+
+  }
+
+  private def toCleanFormat(sPath: String) = {
+    cleanFormat(sPath)
+  }
 }
