@@ -47,11 +47,22 @@ class LocalAuthorityController @Inject() (
   with WithConfig {
 
   def ero(gssCode: String, sourcePath: Option[String]) = Action { implicit request =>
+
+    if(sourcePath.isDefined) {
+      toCleanFormat(sourcePath)
+      sourcePath
+    }
+
     val localAuthorityContactDetails = ierApiService.getLocalAuthorityByGssCode(gssCode).contactDetails
     Ok(LocalAuthorityShowPage(localAuthorityContactDetails, sourcePath))
   }
 
   def doLookup(sourcePath: Option[String]) = Action { implicit request =>
+    if(sourcePath.isDefined) {
+      toCleanFormat(sourcePath)
+    }
+
+
     localAuthorityLookupForm.bindFromRequest().fold(
       hasErrors => BadRequest(LocalAuthorityPostcodePage(
         hasErrors,
@@ -80,6 +91,11 @@ class LocalAuthorityController @Inject() (
   }
 
   def showLookup(sourcePath: Option[String]) = Action { implicit request =>
+    if(sourcePath.isDefined) {
+      toCleanFormat(sourcePath)
+    }
+
+
     getGssCode(sourcePath, request) match {
       case Some(gssCode) =>
         Redirect(
@@ -94,7 +110,12 @@ class LocalAuthorityController @Inject() (
   }
 
   def getGssCode(sourcePath: Option[String], request: Request[AnyContent]): Option[String] = {
-      sourcePath match {
+    if(sourcePath.isDefined) {
+      toCleanFormat(sourcePath)
+    }
+
+
+    sourcePath match {
         case Some(srcPath) if (srcPath.contains("overseas"))  =>
           request.getApplication[InprogressOverseas] flatMap (_.lastUkAddress flatMap (_.gssCode))
         case Some(srcPath) if (srcPath.contains("crown")) =>
@@ -106,5 +127,15 @@ class LocalAuthorityController @Inject() (
         case _ =>
           request.getApplication[InprogressOrdinary] flatMap (_.address flatMap (_.gssCode))
       }
+  }
+
+  def cleanFormat(sPath:String) = {
+    sPath.replaceAll("[<>|\\s\\t]", "")
+
+  }
+
+  def toCleanFormat(sourcePath: Option[String]) = {
+    val sPath = sourcePath.getOrElse("").toString()
+    cleanFormat(sPath)
   }
 }
