@@ -47,37 +47,22 @@ class LocalAuthorityController @Inject() (
   with WithConfig {
 
   def ero(gssCode: String, sourcePath: Option[String]) = Action { implicit request =>
-     logger.info(s"FIRST SOURCEPATH : $sourcePath -------------")
-    var sPath : String = ""
-
-    if(sourcePath.isDefined) {
-      sPath = toCleanFormat(sourcePath.toString())
-    }
-    logger.info(s"SECOND SOURCEPATH : $sPath -------------")
-
     val localAuthorityContactDetails = ierApiService.getLocalAuthorityByGssCode(gssCode).contactDetails
-    Ok(LocalAuthorityShowPage(localAuthorityContactDetails, Some(sPath)))
+    Ok(LocalAuthorityShowPage(localAuthorityContactDetails, sourcePath))
   }
 
   def doLookup(sourcePath: Option[String]) = Action { implicit request =>
-
-    var sPath : String = ""
-    if(sourcePath.isDefined) {
-      sPath = toCleanFormat(sourcePath.toString())
-    }
-
-
     localAuthorityLookupForm.bindFromRequest().fold(
       hasErrors => BadRequest(LocalAuthorityPostcodePage(
         hasErrors,
-        Some(sPath),
-        routes.LocalAuthorityController.showLookup(Some(sPath)).url
+        sourcePath,
+        routes.LocalAuthorityController.showLookup(sourcePath).url
       )),
       success => {
         val gssCode = addressService.lookupGssCode(success.postcode)
         gssCode match {
           case Some(gss) => Redirect(
-            routes.LocalAuthorityController.ero(gss, Some(sPath))
+            routes.LocalAuthorityController.ero(gss, sourcePath)
           )
           case None => BadRequest(
             LocalAuthorityPostcodePage(
@@ -85,8 +70,8 @@ class LocalAuthorityController @Inject() (
                 keys.postcode.key,
                 "lookup_error_noneFound"
               ),
-              Some(sPath),
-              routes.LocalAuthorityController.showLookup(Some(sPath)).url
+              sourcePath,
+              routes.LocalAuthorityController.showLookup(sourcePath).url
             )
           )
         }
@@ -95,35 +80,21 @@ class LocalAuthorityController @Inject() (
   }
 
   def showLookup(sourcePath: Option[String]) = Action { implicit request =>
-
-    var sPath : String = ""
-    if(sourcePath.isDefined) {
-      sPath = toCleanFormat(sourcePath.toString())
-    }
-
-
-    getGssCode(Some(sPath), request) match {
+    getGssCode(sourcePath, request) match {
       case Some(gssCode) =>
         Redirect(
-          routes.LocalAuthorityController.ero(gssCode, Some(sPath))
+          routes.LocalAuthorityController.ero(gssCode, sourcePath)
         )
       case None => Ok(LocalAuthorityPostcodePage(
         localAuthorityLookupForm,
-        Some(sPath),
-        routes.LocalAuthorityController.showLookup(Some(sPath)).url
+        sourcePath,
+        routes.LocalAuthorityController.showLookup(sourcePath).url
         ))
     }
   }
 
   def getGssCode(sourcePath: Option[String], request: Request[AnyContent]): Option[String] = {
-    var sPath : String = ""
-
-    if(sourcePath.isDefined) {
-      sPath = toCleanFormat(sourcePath.toString())
-    }
-
-
-    Some(sPath) match {
+      sourcePath match {
         case Some(srcPath) if (srcPath.contains("overseas"))  =>
           request.getApplication[InprogressOverseas] flatMap (_.lastUkAddress flatMap (_.gssCode))
         case Some(srcPath) if (srcPath.contains("crown")) =>
@@ -135,14 +106,5 @@ class LocalAuthorityController @Inject() (
         case _ =>
           request.getApplication[InprogressOrdinary] flatMap (_.address flatMap (_.gssCode))
       }
-  }
-
-  def cleanFormat(sPath:String) = {
-    sPath.replaceAll("[<> '']", "")
-
-  }
-
-  def toCleanFormat(sPath: String) = {
-    cleanFormat(sPath)
   }
 }

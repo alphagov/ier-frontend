@@ -34,16 +34,9 @@ trait LocalAuthorityMustache
           case _ => ""
         }
 
-
-
-        logger.info(s"FIRST SOURCEPATH : $sourcePath -------------")
-        var sPath : String = ""
         if(sourcePath.isDefined) {
-          sPath = toCleanFormat(sourcePath.toString())
+          sPath = toCleanFormat(sourcePath.getOrElse(""))
         }
-
-
-        logger.info(s"SECOND SOURCEPATH : $sourcePath -------------")
 
         LocalAuthorityShowPage(localAuthorityContact, visitAuthorityPage, sPath)
       }
@@ -75,7 +68,7 @@ trait LocalAuthorityMustache
     }
 
   private def cleanFormat(sPath:String) = {
-    sPath.replaceAll("[<> '']", "")
+    sPath.replaceAll("[<>':]", "")
 
   }
 
