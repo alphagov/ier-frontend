@@ -34,11 +34,11 @@ trait LocalAuthorityMustache
           case _ => ""
         }
 
+        //Cleaning all <>': from the URL to prevent XSS
         var sPath : String = ""
         if(sourcePath.isDefined) {
           sPath = toCleanFormat(sourcePath.getOrElse(""))
         }
-
 
         LocalAuthorityShowPage(localAuthorityContact, visitAuthorityPage, sPath)
       }
@@ -71,7 +71,6 @@ trait LocalAuthorityMustache
 
   private def cleanFormat(sPath:String) = {
     sPath.replaceAll("[<>':]", "")
-
   }
 
   private def toCleanFormat(sPath: String) = {
