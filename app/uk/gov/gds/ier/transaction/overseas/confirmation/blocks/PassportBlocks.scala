@@ -82,10 +82,7 @@ trait PassportBlocks {
       month <- form(keys.passport.passportDetails.issueDate.month).value;
       year <- form(keys.passport.passportDetails.issueDate.year).value
     ) yield {
-      new LocalDate()
-        .withDayOfMonth(day.toInt)
-        .withMonthOfYear(month.toInt)
-        .withYear(year.toInt).toString("d MMMM yyyy")
+      new LocalDate(year.toInt, month.toInt, day.toInt).toString("d MMMM yyyy")
     }
 
     val passportContent = for(
