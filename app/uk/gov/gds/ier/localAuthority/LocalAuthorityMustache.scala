@@ -7,10 +7,9 @@ import uk.gov.gds.ier.mustache.MustacheModel
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.model.LocalAuthorityContactDetails
 import uk.gov.gds.ier.langs.Messages
-import uk.gov.gds.ier.logging.Logging
 
 trait LocalAuthorityMustache
-  extends InheritedGovukMustache with MustacheModel with Logging {
+  extends InheritedGovukMustache with MustacheModel {
   self: WithRemoteAssets
   with WithConfig =>
 
