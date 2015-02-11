@@ -40,10 +40,28 @@ class FeedbackPage @Inject ()(
 
   def thankYou(sourcePath: Option[String]) = CacheBust {
     Action { implicit request =>
+    {
+      //Cleaning all <>': from the URL to prevent XSS
+      var sPath : String = ""
+      if(sourcePath.isDefined) {
+        sPath = toCleanFormat(sourcePath.getOrElse(""))
+      }
+
       Ok(ThankYouPage(
-        sourcePath = sourcePath getOrElse config.ordinaryStartUrl
+        sourcePath = Some(sPath) getOrElse config.ordinaryStartUrl
       ))
     }
+    }
   }
+
+  private def cleanFormat(sPath:String) = {
+    sPath.replaceAll("[<>':]", "")
+
+  }
+
+  private def toCleanFormat(sPath: String) = {
+    cleanFormat(sPath)
+  }
+
 }
 
