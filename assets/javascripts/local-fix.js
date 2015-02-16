@@ -4,7 +4,7 @@
 	var	root = this,
       	$ = root.jQuery,
       	//Searching for any RADIO with SELECTED against it to include it within the SOURCE/TARGET config
-      	$selectedRadioInput = $( '.selectable.binary.selected>input'),
+      	$selectedRadioInput = $( '.selectable.selected>input'),
       	selectedRadioInput = ( $selectedRadioInput.length > 0 ) ? $selectedRadioInput[0] : null,
       	$target = $( '.local-fix-target' ),
       	$source = $( '.local-fix-source' ),
