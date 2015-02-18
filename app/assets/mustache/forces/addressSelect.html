@@ -11,7 +11,13 @@
     </p>
   {{^hasAddresses}}
     <div class="validation-message visible">
-        Sorry - we couldn't find any addresses for that postcode
+        {{messages.ordinary_address_select_couldNotFindAnyAddresses_p}}
+        {{messages.ordinary_address_select_couldNotFindAnyAddresses_c}}
+        <a href="/register-to-vote/local-authority/lookup?sourcePath={{sourcePath}}"><u>
+            {{^messages.ordinary_address_select_couldNotFindAnyAddresses_c2}}contact your local Electoral Registration office{{/messages.ordinary_address_select_couldNotFindAnyAddresses_c2}}
+            {{messages.ordinary_address_select_couldNotFindAnyAddresses_c2}}</u>
+        </a>
+        {{messages.ordinary_address_select_couldNotFindAnyAddresses_c3}}
     </div>
     {{#hasAuthority}}
     <p>
