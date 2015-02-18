@@ -203,7 +203,7 @@ ordinary_address_select_title=Beth yw eich cyfeiriad?
 
 ordinary_address_select_postcode_label=Cod post
 ordinary_address_select_changeYourPostcode_a=Newid<span class="visuallyhidden"> eich cod post</span>
-ordinary_address_select_couldNotFindAnyAddresses_p=Mae’n ddrwg gennym - ni allem ddod o hyd i unrhyw gyfeiriadau ar gyfer y cod post
+ordinary_address_select_couldNotFindAnyAddresses_p=Mae’n ddrwg gennym - ni allem ddod o hyd i unrhyw gyfeiriadau ar gyfer y cod post.
 ordinary_address_select_couldNotFindAnyAddresses_c=Os yw’r cod post yn gywir,
 ordinary_address_select_couldNotFindAnyAddresses_c2=cysylltwch â’ch Swyddfa Cofrestru Etholiadol
 ordinary_address_select_couldNotFindAnyAddresses_c3=leol i gael cyngor.

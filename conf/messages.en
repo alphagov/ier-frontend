@@ -193,7 +193,7 @@ ordinary_address_select_title=What is your address?
 
 ordinary_address_select_postcode_label=Postcode
 ordinary_address_select_changeYourPostcode_a=Change<span class="visuallyhidden"> your postcode</span>
-ordinary_address_select_couldNotFindAnyAddresses_p=Sorry – we couldn’t find any addresses for that postcode
+ordinary_address_select_couldNotFindAnyAddresses_p=Sorry – we couldn’t find any addresses for that postcode.
 ordinary_address_select_couldNotFindAnyAddresses_c=If the postcode is correct,
 ordinary_address_select_couldNotFindAnyAddresses_c2=contact your local Electoral Registration office
 ordinary_address_select_couldNotFindAnyAddresses_c3=for advice.
