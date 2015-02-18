@@ -465,9 +465,9 @@ ordinary_confirmation_error_completeThis=Cwblhewch y cam hwn
 #
 complete_step_title=Application Complete
 
-complete_applicationComplete=Mae eich cais wedi dod i law ac mae’n cael ei brosesu.
+complete_applicationComplete=Anfonwyd cais
 complete_yourRefNumberIs=Eich cyfeirnod yw
-complete_registerGuidance=Cewch wybod pan fydd eich cofrestriad wedi’i gadarnhau. Hyd nes i chi gael cadarnhad, ni fydd eich enw’n ymddangos ar y gofrestr etholiadol.
+complete_registerGuidance=Nid yw eich enw ar y gofrestr etholwyr ar hyn o bryd.
 complete_emailConfirmation=Rydym wedi anfon e-bost atoch i gydnabod eich cais.
 complete_whatHappensNext_h2=Beth fydd yn digwydd nesaf
 complete_sentApplicationTo_p=Rydym wedi anfon eich cais I
