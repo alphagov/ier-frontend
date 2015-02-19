@@ -48,7 +48,7 @@ ordinary_nationality_help_content_1=If you’re not sure about your nationality,
 document like a passport or national ID card.
 ordinary_nationality_help_content_2=We need to know your nationality so we can work out which elections \
 you’re entitled to vote in. If you can’t provide your nationality, you’ll have to send copies of identity documents \
-through the post.
+through the post. This could delay your name getting on the electoral register.
 ordinary_nationality_help_heading_2=I can’t provide my nationality
 ordinary_nationality_help_content_3=Why can’t you provide your nationality?
 ordinary_nationality_error_pleaseAnswer=Please answer this question
@@ -66,8 +66,8 @@ ordinary_dob_formatExample=For example: <span class="date">31 3 1970</span>
 ordinary_dob_help_link=Help with date of birth
 ordinary_dob_help_content_1=If you don’t know your exact date of birth, use the one you put on official documents \
 (for example, your passport or driving licence).
-ordinary_dob_help_content_2=If you can’t provide your date of birth you’ll have to send copies of identity documents \
-through the post.
+ordinary_dob_help_content_2=If you can’t provide your date of birth you may have to send copies of identity documents \
+through the post. This could delay your name getting on the electoral register.
 
 ordinary_dob_help_cannotProvideDOB_link=I can’t provide my date of birth
 ordinary_dob_help_cannotProvideDOB_reasonQuestion=Why can’t you provide your date of birth?
@@ -132,7 +132,7 @@ ordinary_nino_help=I don’t know my National Insurance number
 ordinary_nino_section_1=You can:
 ordinary_nino_list_1=look for your National Insurance number on payslips or official letters about tax, pensions or benefits
 ordinary_nino_list_2=ask for a reminder through the post
-ordinary_nino_section_2=If you can’t provide a National Insurance number, you will need to explain why. And after you’ve applied, you’ll be asked to prove your identity by sending documents in the post.
+ordinary_nino_section_2=If you can’t provide a National Insurance number you will need to explain why. You’ll also need to send copies of identity documents through the post. This could delay your name getting on the electoral register.
 ordinary_nino_excuse=I can’t provide a National Insurance number
 ordinary_nino_excuse_content=Why can’t you provide a National Insurance number?
 ordinary_nino_error_noneEntered=Please enter your National Insurance number
@@ -193,7 +193,10 @@ ordinary_address_select_title=What is your address?
 
 ordinary_address_select_postcode_label=Postcode
 ordinary_address_select_changeYourPostcode_a=Change<span class="visuallyhidden"> your postcode</span>
-ordinary_address_select_couldNotFindAnyAddresses_p=Sorry – we couldn’t find any addresses for that postcode
+ordinary_address_select_couldNotFindAnyAddresses_p=Sorry – we couldn’t find any addresses for that postcode.
+ordinary_address_select_couldNotFindAnyAddresses_c=If the postcode is correct,
+ordinary_address_select_couldNotFindAnyAddresses_c2=contact your local Electoral Registration office
+ordinary_address_select_couldNotFindAnyAddresses_c3=for advice.
 ordinary_address_select_enterManually=Enter your address manually
 ordinary_address_select_selectYourAddress_p=<span class="visuallyhidden">Select your </span>Address
 ordinary_address_select_cannotFindMyAddressInTheList_a=I can’t find my address in the list<span class="visuallyhidden"> section</span>
@@ -217,6 +220,8 @@ ordinary_address_manual_townOrCity_label=Town or city
 
 ordinary_otheraddr_title=Do you also live at a second address?
 
+ordinary_otheraddr_content=We’ll remove your details from the register at your previous address. \
+So only give an address if you’ve moved out permanently.
 ordinary_otheraddr_noTwoHomes=No
 ordinary_otheraddr_yesTwoHomes=Yes, I spend time living at two homes
 ordinary_otheraddr_ifYouHaveSecondAddress_h2=If you have a second address
@@ -352,6 +357,7 @@ ordinary_postalVote_error_answerThis=Please answer this question
 
 # ordinary: contact
 ordinary_contact_title=If we have questions about your application, how should we contact you?
+ordinary_details_missing=How should we contact you?
 ordinary_contact_email_option=Email
 ordinary_contact_emailAddress=Email address
 ordinary_contact_phoneCall_option=Phone call
@@ -442,14 +448,13 @@ ordinary_confirmation_error_completeThis=Please complete this step
 #
 complete_step_title=Application Complete
 
-complete_applicationComplete=Your application has been received and is being processed
+complete_applicationComplete=Application sent
 complete_yourRefNumberIs=Your reference number is
-complete_registerGuidance=You will be contacted when your registration is confirmed. Until then your name will not appear on the electoral register.
+complete_registerGuidance=Your name is not yet on the electoral register
 complete_emailConfirmation=We have sent you an acknowledgement email.
 complete_whatHappensNext_h2=What happens next
 complete_sentApplicationTo_p=We've sent your application to
-complete_contactYouTo_p1=They will make contact with you shortly to confirm when your name will be added to the register, or to request further information.
-complete_contactYouTo_p2=Until you receive confirmation, your name will not appear on the electoral register.
+complete_contactYouTo_p1=If your application is successful, your name will appear on the next update to the electoral register.
 complete_questionsContact_p1=Contact
 complete_questionsContact_p2=if you have any questions about your application
 complete_ifYouAreNotAlreadyRegistered1_p=If you're not already registered at your second address, you can
@@ -516,7 +521,11 @@ exit_dontKnow_explanation=You can only register if you're able to confirm that y
 
 exit_nationality_noFranchise_title=Sorry, you can’t register to vote
 exit_nationality_noFranchise_content=To register to vote you have to be British, or an EU or Commonwealth citizen living in the UK.
+exit_nationality_noFranchise_content2=If your Electoral Registration Office has written to you, asking you to register to vote,
+exit_nationality_noFranchise_content3=contact them
+exit_nationality_noFranchise_content4=to tell them you’re not eligible.
 exit_nationality_noFranchise_moreAboutVoting=More about voting in the UK
+
 
 # Northern Ireland
 
