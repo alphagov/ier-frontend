@@ -50,7 +50,8 @@ ordinary_nationality_help_content_1=Os nad ydych yn siŵr beth yw eich cenedligr
 swyddogol megis pasbort neu gerdyn adnabod cenedlaethol i ddod o hyd i’r wybodaeth.
 ordinary_nationality_help_content_2=Mae angen i ni wybod eich cenedligrwydd er mwyn i ni benderfynu pa \
 etholiadau mae gennych hawl i bleidleisio ynddynt. Os nad ydych yn gallu nodi eich cenedligrwydd, bydd rhaid \
-i chi anfon copïau o ddogfennau adnabod drwy’r post.
+i chi anfon copïau o ddogfennau adnabod drwy’r post. \
+Gallai hyn achosi oedi cyn i’ch enw fynd ar y gofrestr etholwyr.
 ordinary_nationality_help_heading_2=Nid wyf yn gallu nodi fy nghenedligrwydd
 ordinary_nationality_help_content_3=Pam nad oes modd i chi nodi eich cenedligrwydd?
 ordinary_nationality_error_pleaseAnswer=Atebwch y cwestiwn hwn
@@ -69,8 +70,8 @@ ordinary_dob_formatExample=Er enghraifft: <span class="date">31 3 1970</span>
 ordinary_dob_help_link=Help gyda dyddiad geni
 ordinary_dob_help_content_1=Os nad ydych yn gwybod eich union ddyddiad geni, defnyddiwch yr un rydych yn ei roi ar \
 ddogfennau swyddogol (er enghraifft, eich pasbort neu’ch trwydded yrru).
-ordinary_dob_help_content_2=Os nad ydych yn gallu rhoi’ch dyddiad geni, bydd rhaid i chi anfon copïau o ddogfennau \
-adnabod drwy’r post.
+ordinary_dob_help_content_2=Os na allwch roi ei dyddiad geni, efallai y bydd rhaid ichi anfon copïau o ddogfennau \
+adnabod drwy'r post. Gallai hyn achosi oedi cyn i’ch enw fynd ar y gofrestr etholwyr.
 
 ordinary_dob_help_cannotProvideDOB_link=Nid wyf yn gallu rhoi fy nyddiad geni
 ordinary_dob_help_cannotProvideDOB_reasonQuestion=Pam nad oes modd i chi roi eich dyddiad geni?
@@ -140,7 +141,7 @@ ordinary_nino_help=Nid wyf yn gwybod fy rhif Yswiriant Gwladol
 ordinary_nino_section_1=Gallwch:
 ordinary_nino_list_1=chwilio am eich rhif Yswiriant Gwladol ar slipiau cyflog neu lythyrau swyddogol am drethi, pensiynau neu fudd-daliadau
 ordinary_nino_list_2=ofyn am gael eich atgoffa drwy’r post
-ordinary_nino_section_2=Os nad ydych yn gallu darparu rhif Yswiriant Gwladol, bydd angen i chi esbonio pam. Ac ar ôl i chi gyflwyno’ch cais, gofynnir i chi brofi pwy ydych chi drwy anfon dogfennau drwy’r post.
+ordinary_nino_section_2=Os na allwch roi rhif Yswiriant Gwladol, bydd angen ichi esbonio pam. Bydd angen ichi anfon copïau o ddogfennau adnabod drwy'r post hefyd. Gallai hyn achosi oedi cyn i’ch enw fynd ar y gofrestr etholwyr.
 ordinary_nino_excuse=Nid wyf yn gallu darparu rhif Yswiriant Gwladol
 ordinary_nino_excuse_content=Pam nad oes modd i chi ddarparu rhif Yswiriant Gwladol?
 ordinary_nino_error_noneEntered=Nodwch eich rhif Yswiriant Gwladol
@@ -202,7 +203,10 @@ ordinary_address_select_title=Beth yw eich cyfeiriad?
 
 ordinary_address_select_postcode_label=Cod post
 ordinary_address_select_changeYourPostcode_a=Newid<span class="visuallyhidden"> eich cod post</span>
-ordinary_address_select_couldNotFindAnyAddresses_p=Mae’n ddrwg gennym - ni allem ddod o hyd i unrhyw gyfeiriadau ar gyfer y cod post
+ordinary_address_select_couldNotFindAnyAddresses_p=Mae’n ddrwg gennym - ni allem ddod o hyd i unrhyw gyfeiriadau ar gyfer y cod post.
+ordinary_address_select_couldNotFindAnyAddresses_c=Os yw’r cod post yn gywir,
+ordinary_address_select_couldNotFindAnyAddresses_c2=cysylltwch â’ch Swyddfa Cofrestru Etholiadol
+ordinary_address_select_couldNotFindAnyAddresses_c3=leol i gael cyngor.
 ordinary_address_select_enterManually=Rhowch eich cyfeiriad llaw
 ordinary_address_select_selectYourAddress_p=<span class="visuallyhidden">Dewiswch eich </span>Cyfeiriad
 ordinary_address_select_cannotFindMyAddressInTheList_a=Nid wyf yn gallu gweld fy nghyfeiriad yn y rhestr
@@ -225,6 +229,8 @@ ordinary_address_manual_townOrCity_label=Tref neu ddinas
 # ordinary: other address
 
 ordinary_otheraddr_title=Ydych chi’n byw mewn ail gyfeiriad hefyd?
+ordinary_otheraddr_content=Byddwn yn tynnu manylion eich cyfeiriad blaenorol oddi ar y gofrestr. \
+Felly, peidiwch â rhoi cyfeiriad oni bai eich bod wedi symud allan yn barhaol.
 
 ordinary_otheraddr_noTwoHomes=Nac ydw
 ordinary_otheraddr_yesTwoHomes=Ydw, rwy’n byw mewn dau gartref
@@ -459,16 +465,15 @@ ordinary_confirmation_error_completeThis=Cwblhewch y cam hwn
 #
 complete_step_title=Application Complete
 
-complete_applicationComplete=Mae eich cais wedi dod i law ac mae’n cael ei brosesu.
+complete_applicationComplete=Anfonwyd cais
 complete_yourRefNumberIs=Eich cyfeirnod yw
-complete_registerGuidance=Cewch wybod pan fydd eich cofrestriad wedi’i gadarnhau. Hyd nes i chi gael cadarnhad, ni fydd eich enw’n ymddangos ar y gofrestr etholiadol.
+complete_registerGuidance=Nid yw eich enw ar y gofrestr etholwyr ar hyn o bryd.
 complete_emailConfirmation=Rydym wedi anfon e-bost atoch i gydnabod eich cais.
 complete_whatHappensNext_h2=Beth fydd yn digwydd nesaf
-complete_sentApplicationTo_p=Rydym wedi anfon eich cais i
-complete_contactYouTo_p1=Bydd y swyddfa honno’n cysylltu â chi’n fuan i roi gwybod i chi pa bryd y bydd eich enw’n cael ei ychwanegu at y gofrestr, neu i ofyn am ragor o wybodaeth.
-complete_contactYouTo_p2=Hyd nes i chi gael cadarnhad, ni fydd eich enw’n ymddangos ar y gofrestr etholiadol.
-complete_questionsContact_p1=Os oes gennych unrhyw gwestiwn ynghylch eich cais, cysylltwch â
-complete_questionsContact_p2=
+complete_sentApplicationTo_p=Rydym wedi anfon eich cais I
+complete_contactYouTo_p1=Os bydd eich cais yn llwyddiannus, bydd eich enw’n cael ei gynnwys yn y diweddariad nesaf i’r gofrestr etholwyr.
+complete_questionsContact_p1=Cysylltwch â
+complete_questionsContact_p2=os oes gennych unrhyw gwestiynau ynghylch eich cais
 complete_ifYouAreNotAlreadyRegistered1_p=Os nad ydych wedi cofrestru yn barod yn eich ail gyfeiriad, gallwch
 complete_ifYouAreNotAlreadyRegistered2_p=wneud cais arall
 complete_moreAboutVoting_a=Mwy o wybodaeth am y  newid i gofrestru pleidleiswyr
@@ -533,6 +538,9 @@ exit_dontKnow_explanation=Ni allwch gofrestru i bleidleisio oni bai y gallwch ga
 
 exit_nationality_noFranchise_title=Mae'n ddrwg gennym, ni allwch gofrestru i bleidleisio
 exit_nationality_noFranchise_content=I gofrestru i bleidleisio, mae'n rhaid eich bod yn ddinesydd Prydeinig, neu'n ddinesydd yr UE neu'r Gymanwlad sy'n byw yn y DU.
+exit_nationality_noFranchise_content2=Os yw eich Swyddfa Cofrestru Etholiadol wedi ysgrifennu atoch yn gofyn ichi gofrestru i bleidleisio,
+exit_nationality_noFranchise_content3=cysylltwch â nhw
+exit_nationality_noFranchise_content4=i ddweud wrthynt nad ydych yn gymwys.
 exit_nationality_noFranchise_moreAboutVoting=Mwy o wybodaeth am bleidleisio yn y DU
 
 # Northern Ireland
