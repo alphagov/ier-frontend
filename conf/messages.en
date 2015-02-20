@@ -357,7 +357,6 @@ ordinary_postalVote_error_answerThis=Please answer this question
 
 # ordinary: contact
 ordinary_contact_title=If we have questions about your application, how should we contact you?
-ordinary_details_missing=How should we contact you?
 ordinary_contact_email_option=Email
 ordinary_contact_emailAddress=Email address
 ordinary_contact_phoneCall_option=Phone call
