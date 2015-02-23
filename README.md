@@ -9,7 +9,7 @@ To run this app you will need:
  - Java 7 (we use openJDK 7)
  - Ruby 1.9.3
  - Sass
- - Bundler
+ - Bundler.
 
 All other depedencies (Play framework, Scala, sbt, etc) will be installed as part of the `sbt` start script.
 
