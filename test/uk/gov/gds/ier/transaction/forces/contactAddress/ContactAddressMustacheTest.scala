@@ -95,8 +95,7 @@ class ContactAddressMustacheTest
           addressLine2 = Some("Address line 2"),
           addressLine3 = Some("Address line 3"),
           addressLine4 = None,
-          addressLine5 = None,
-          contactAddressType = Some("bfpo")
+          addressLine5 = None
         )),
         otherContactAddress= None
       ))
@@ -145,8 +144,7 @@ class ContactAddressMustacheTest
           addressLine2 = Some("Address line 2"),
           addressLine3 = Some("Address line 3"),
           addressLine4 = None,
-          addressLine5 = None,
-          contactAddressType = Some("other")
+          addressLine5 = None
         ))
       ))
     ))

@@ -62,8 +62,7 @@ class ContactAddressFormTests
               addressLine2 = Some("address line 2, 456 - 457"),
               addressLine3 = Some("London"),
               addressLine4 = None,
-              addressLine5 = None,
-              contactAddressType = None
+              addressLine5 = None
             )),
             otherContactAddress = None
           ))
@@ -119,8 +118,7 @@ class ContactAddressFormTests
               addressLine2 = Some("Rubí"),
               addressLine3 = None,
               addressLine4 = None,
-              addressLine5 = None,
-              contactAddressType = None
+              addressLine5 = None
             ))
           ))
         )
@@ -154,8 +152,7 @@ class ContactAddressFormTests
               addressLine2 = Some("Rubí"),
               addressLine3 = None,
               addressLine4 = None,
-              addressLine5 = None,
-              contactAddressType = None
+              addressLine5 = None
             ))
           ))
         )
@@ -208,8 +205,7 @@ class ContactAddressFormTests
               addressLine2 = Some("Rubí"),
               addressLine3 = None,
               addressLine4 = None,
-              addressLine5 = None,
-              contactAddressType = None
+              addressLine5 = None
             ))
           ))
         )

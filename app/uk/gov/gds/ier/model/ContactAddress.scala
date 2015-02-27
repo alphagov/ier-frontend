@@ -7,9 +7,7 @@ case class ContactAddress(
     addressLine2: Option[String],
     addressLine3: Option[String],
     addressLine4: Option[String],
-    addressLine5: Option[String],
-    contactAddressType: Option[String]
-                           ) {
+    addressLine5: Option[String]) {
 
   def toApiMap =
     country.map(country => Map("corrcountry" -> country.toString)).getOrElse(Map.empty) ++
@@ -18,6 +16,5 @@ case class ContactAddress(
       addressLine2.map(addressLine => Map("corraddressline2" -> addressLine.toString)).getOrElse(Map.empty) ++
       addressLine3.map(addressLine => Map("corraddressline3" -> addressLine.toString)).getOrElse(Map.empty) ++
       addressLine4.map(addressLine => Map("corraddressline4" -> addressLine.toString)).getOrElse(Map.empty) ++
-      addressLine5.map(addressLine => Map("corraddressline5" -> addressLine.toString)).getOrElse(Map.empty) ++
-      contactAddressType.map(contactAddressType => Map("corraddrtype" -> contactAddressType.toString)).getOrElse(Map.empty)
+      addressLine5.map(addressLine => Map("corraddressline5" -> addressLine.toString)).getOrElse(Map.empty)
 }
