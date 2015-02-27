@@ -17,8 +17,7 @@ trait ContactAddressForms extends ContactAddressConstraints {
     keys.addressLine2.key -> optional(nonEmptyText),
     keys.addressLine3.key -> optional(nonEmptyText),
     keys.addressLine4.key -> optional(nonEmptyText),
-    keys.addressLine5.key -> optional(nonEmptyText),
-    keys.contactAddressType.key -> optional(text)
+    keys.addressLine5.key -> optional(nonEmptyText)
   ) (
     ContactAddress.apply
   ) (
