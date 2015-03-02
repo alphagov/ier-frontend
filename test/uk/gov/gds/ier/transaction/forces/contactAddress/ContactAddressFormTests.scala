@@ -59,6 +59,7 @@ class ContactAddressFormTests
               Some("address line 2, 456 - 457"),
               Some("London"),
               None,
+              None,
               None
             )),
             None
@@ -92,6 +93,7 @@ class ContactAddressFormTests
               Some("08191"),
               Some("Francisco de quevedo 54"),
               Some("Rubí"),
+              None,
               None,
               None,
               None
