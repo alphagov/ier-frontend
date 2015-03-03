@@ -227,7 +227,7 @@ object NationalityConstants {
     "St Lucia" -> ISOCountry("LC", displayName = "St Lucia", Franchise.commonwealth),
     "St Maarten" -> ISOCountry("MF", displayName = "St Maarten"),
     "St Pierre & Miquelon" -> ISOCountry("PM", displayName = "St Pierre & Miquelon"),
-    "St Vincent and the Grenadines" -> ISOCountry("VC", displayName = "St Vincent and The Grenadines", Franchise.commonwealth),
+    "St Vincent and The Grenadines" -> ISOCountry("VC", displayName = "St Vincent and The Grenadines", Franchise.commonwealth),
     "Sudan" -> ISOCountry("SD", displayName = "Sudan"),
     "Suriname" -> ISOCountry("SR", displayName = "Suriname"),
     "Swaziland" -> ISOCountry("SZ", displayName = "Swaziland", Franchise.commonwealth),
