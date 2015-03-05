@@ -10,7 +10,7 @@ case class PossibleContactAddresses(
     contactAddressType match {
       case Some("uk") => toApiMapFromUkAddress(address)
       case Some("bfpo") => bfpoContactAddress.get.toApiMap
-      case Some("other") => otherContactAddress.get.toApiMap
+      case Some("other") => otherContactAddress.get.toApiOtherMap
       case _ => throw new IllegalArgumentException
     }
   }
