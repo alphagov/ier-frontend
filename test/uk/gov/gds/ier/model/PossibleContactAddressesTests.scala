@@ -13,7 +13,7 @@ class PossibleContactAddressesTests extends UnitTestSuite {
     )
 
     val possibleAddressMap = possibleAddress.toApiMap(Some(Address(" aB1  2Cd "))).asInstanceOf[Map[String, String]]
-    possibleAddressMap should matchMap(Map("corrcountry" -> "uk", "corrpostcode" -> "AB1 2CD"))
+    possibleAddressMap should matchMap(Map("corrcountry" -> "uk", "corrpostcode" -> "AB1 2CD", "corraddrtype" -> "Registration"))
   }
 
 }

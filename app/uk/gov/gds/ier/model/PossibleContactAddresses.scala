@@ -10,7 +10,7 @@ case class PossibleContactAddresses(
     contactAddressType match {
       case Some("uk") => toApiMapFromUkAddress(address)
       case Some("bfpo") => bfpoContactAddress.get.toApiMap
-      case Some("other") => otherContactAddress.get.toApiMap
+      case Some("other") => otherContactAddress.get.toApiOtherMap
       case _ => throw new IllegalArgumentException
     }
   }
@@ -20,7 +20,8 @@ case class PossibleContactAddresses(
       val ukAddress = address.get
       Map(
         "corrcountry" -> "uk",
-        "corrpostcode" -> Postcode.toApiFormat(ukAddress.postcode)
+        "corrpostcode" -> Postcode.toApiFormat(ukAddress.postcode),
+        "corraddrtype" -> "Registration"
       ) ++
       ukAddress.lineOne.map(lineOne => Map("corraddressline1" -> lineOne.toString)).getOrElse(Map.empty) ++
       ukAddress.lineTwo.map(lineTwo => Map("corraddressline2" -> lineTwo.toString)).getOrElse(Map.empty) ++
