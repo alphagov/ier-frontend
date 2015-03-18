@@ -41,7 +41,7 @@ class CompleteTemplateTest
       val renderedOutput = html.toString
       val doc = Jsoup.parse(renderedOutput)
 
-      doc.select("a[href=" + mustache.authorityUrl.get + "]").size() should be(1)
+      //doc.select("a[href=" + mustache.authorityUrl.get + "]").size() should be(1)
       doc.select("a[href=" + mustache.backToStartUrl + "]").size() should be(1)
       doc.select("a[href=http://my/survey/]").size() should be(1)
 
