@@ -445,23 +445,23 @@ ordinary_confirmation_error_completeThis=Please complete this step
 #
 # all: complete
 #
-complete_step_title=Application Complete
 
-complete_applicationComplete=Application sent
+complete_step_title=Application Complete
+complete_applicationComplete_1=Your application has
+complete_applicationComplete_2=been received and is
+complete_applicationComplete_3=being processed
 complete_yourRefNumberIs=Your reference number is
-complete_registerGuidance=Your name is not yet on the electoral register
 complete_emailConfirmation=We have sent you an acknowledgement email.
 complete_whatHappensNext_h2=What happens next
 complete_sentApplicationTo_p=We've sent your application to
-complete_contactYouTo_p1=If your application is successful, your name will appear on the next update to the electoral register.
-complete_questionsContact_p1=Contact
-complete_questionsContact_p2=if you have any questions about your application
+complete_questionsContact_p1=Contact them if you have any questions about your application.
 complete_ifYouAreNotAlreadyRegistered1_p=If you're not already registered at your second address, you can
 complete_ifYouAreNotAlreadyRegistered2_p=make another application
 complete_moreAboutVoting_a=Why we're asking people to register on the new system
 complete_moreAboutVoting_url=http://www.gov.uk/yourvotematters
 complete_takeOurSurvey_a=What did you think of this service?
 complete_takeOurSurvey_p= (takes 30 seconds)
+complete_ackEmail=We have sent you an acknowledgement email.
 
 complete_electoralRegistrationOffice=Electoral Registration Office
 complete_unspecificElectoralRegistrationOffice=your local Electoral Registration Office
