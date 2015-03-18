@@ -481,7 +481,7 @@ complete_moreAboutVoting_a=Mwy o wybodaeth am y  newid i gofrestru pleidleiswyr
 complete_moreAboutVoting_url=https://www.gov.uk/gwybodaethamgofrestru
 complete_takeOurSurvey_a=Beth oedd eich barn am y gwasanaeth hwn?
 complete_takeOurSurvey_p= (yn cymryd 30 eiliad)
-complete_ackEmail=Rydym wedi anfon e-bost cydnabod atoch.
+complete_ackEmail=Rydym wedi anfon e-bost cydnabod atoch.c
 
 complete_electoralRegistrationOffice=Swyddfa Gofrestru Etholiadol
 complete_unspecificElectoralRegistrationOffice=eich Swyddfa Gofrestru Etholiadol leol
