@@ -445,8 +445,11 @@ ordinary_confirmation_error_completeThis=Please complete this step
 #
 # all: complete
 #
+
 complete_step_title=Application Complete
-complete_applicationComplete=Your application has been received and is being processed
+complete_applicationComplete_1=Your application has
+complete_applicationComplete_2=been received and is
+complete_applicationComplete_3=being processed
 complete_yourRefNumberIs=Your reference number is
 complete_emailConfirmation=We have sent you an acknowledgement email.
 complete_whatHappensNext_h2=What happens next
@@ -458,7 +461,7 @@ complete_moreAboutVoting_a=Why we're asking people to register on the new system
 complete_moreAboutVoting_url=http://www.gov.uk/yourvotematters
 complete_takeOurSurvey_a=What did you think of this service?
 complete_takeOurSurvey_p= (takes 30 seconds)
-complete_ackEmail=We have sent you an acknowledgement email
+complete_ackEmail=We have sent you an acknowledgement email.
 
 complete_electoralRegistrationOffice=Electoral Registration Office
 complete_unspecificElectoralRegistrationOffice=your local Electoral Registration Office

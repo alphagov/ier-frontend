@@ -465,7 +465,11 @@ ordinary_confirmation_error_completeThis=Cwblhewch y cam hwn
 #
 complete_step_title=Application Complete
 
-complete_applicationComplete=Mae eich cais wedi cael ei dderbyn, ac mae’n cael ei brosesu.
+#complete_applicationComplete=Mae eich cais wedi cael ei dderbyn, ac mae’n cael ei brosesu.
+complete_applicationComplete_1=Mae eich cais wedi
+complete_applicationComplete_2=cael ei dderbyn, ac mae’n cael
+complete_applicationComplete_3=ei brosesu.
+
 complete_yourRefNumberIs=Eich cyfeirnod yw
 complete_emailConfirmation=Rydym wedi anfon e-bost atoch i gydnabod eich cais.
 complete_whatHappensNext_h2=Beth fydd yn digwydd nesaf
@@ -477,7 +481,7 @@ complete_moreAboutVoting_a=Mwy o wybodaeth am y  newid i gofrestru pleidleiswyr
 complete_moreAboutVoting_url=https://www.gov.uk/gwybodaethamgofrestru
 complete_takeOurSurvey_a=Beth oedd eich barn am y gwasanaeth hwn?
 complete_takeOurSurvey_p= (yn cymryd 30 eiliad)
-complete_ackEmail=Rydym wedi anfon e-bost cydnabod atoch
+complete_ackEmail=Rydym wedi anfon e-bost cydnabod atoch.
 
 complete_electoralRegistrationOffice=Swyddfa Gofrestru Etholiadol
 complete_unspecificElectoralRegistrationOffice=eich Swyddfa Gofrestru Etholiadol leol
@@ -486,6 +490,7 @@ complete_social_heading=Dweud wrth eraill am y gwasanaeth hwn
 complete_social_twitter_link_text=Rhannu ar Twitter
 complete_social_twitter_url_text=I%20just%20registered%20online%20to%20vote.%20If%20you%20haven't%20already%2C%20you%20should%20too!%20%23YourVoteMatters
 complete_social_facebook_link_text=Rhannu ar Facebook
+
 
 
 # JavaScript: general
