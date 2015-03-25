@@ -453,7 +453,7 @@ ordinary_confirmation_contact_byEmail=Drwy e-bost: {0}
 ordinary_confirmation_help_h2=Anfon eich cais
 ordinary_confirmation_help_p1=Drwy anfon eich cais rydych yn cadarnhau fod y wybodaeth a ddarperir gennych yn wir.
 ordinary_confirmation_help_p2=Efallai caiff eich gwybodaeth ei rhannu gydag adrannau eraill y Llywodraeth I wirio eich hunaniaeth a bod gennych hawl i bleidleisio.
-ordinary_confirmation_help_p3=Gallech gael dirwy o hyd at £5,000 neu ddedfryd o garchar o hyd at 6 mis os rhowch gamwybodaeth gan wybod hynny yn eich cais.
+ordinary_confirmation_help_p3=Os byddwch yn rhoi gwybodaeth anwir yn eich cais gan wybod hynny, efallai y cewch ddedfryd o garchar am hyd at 6 mis, neu ddirwy.
 
 ordinary_confirmation_error_completeThis=Cwblhewch y cam hwn
 

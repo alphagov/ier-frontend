@@ -130,7 +130,7 @@ ordinary_nino_heading=What is your National Insurance number?
 ordinary_nino_example=Example: QQ 12 34 56 C
 ordinary_nino_help=I don’t know my National Insurance number
 ordinary_nino_section_1=You can look for your National Insurance number on payslips or official letters about tax, pensions or benefits.
-ordinary_nino_section_2=If you can't provide a National Insurance Number you will need to explain why. You can still apply to register to vote but you may need to send copies of identity documents through the post. This could delay your name getting on the electoral register.
+ordinary_nino_section_2=If you can't provide a National Insurance number you will need to explain why. You can still apply to register to vote but you may need to send copies of identity documents through the post. This could delay your name getting on the electoral register.
 ordinary_nino_excuse=I can’t provide a National Insurance number
 ordinary_nino_excuse_content=Why can’t you provide a National Insurance number?
 ordinary_nino_error_noneEntered=Please enter your National Insurance number
@@ -436,7 +436,7 @@ ordinary_confirmation_contact_byEmail=By email: {0}
 ordinary_confirmation_help_h2=Send your application
 ordinary_confirmation_help_p1=By sending your application you confirm that the information you have provided is true.
 ordinary_confirmation_help_p2=Your information may be shared with other government departments to check your identity and that you’re entitled to register to vote.
-ordinary_confirmation_help_p3=You could be fined up to £5,000 or go to prison for up to 6 months if you knowingly give false information in your application.
+ordinary_confirmation_help_p3=If you knowingly give false information in your application, you could go to prison for up to 6 months, or be fined.
 
 ordinary_confirmation_error_completeThis=Please complete this step
 
