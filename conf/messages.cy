@@ -370,6 +370,12 @@ ordinary_postalVote_error_enterValidEmail=Nid yw hwnnw’n gyfeiriad e-bost dily
 
 ordinary_postalVote_error_answerThis=Atebwch y cwestiwn hwn
 
+
+ordinary_postalVote_date=5pm, dydd Mawrth 21 Ebrill.
+ordinary_postalVote_submit=I gael pleidleisio drwy'r post yn yr Etholiad Cyffredinol, mae'n rhaid i chi gyflwyno cais i bleidleisio drwy'r post i'ch Swyddfa Cofrestru Etholiadol lleol cyn
+ordinary_postalVote_emailReturn=I gael pleidleisio drwy’r post yn yr Etholiad Cyffredinol, llenwch y ffurflen a’i hanfon i’ch Swyddfa Cofrestru Etholiadol lleol cyn
+ordinary_postalVote_postReturn=Mae hi’n bellach yn rhy hwyr i bostio cais atoch i gael pleidleisio drwy’r post ar gyfer yr Etholiad Cyffredinol. Er mwyn sicrhau eich bod yn gallu ei wneud mewn pryd, gallwch wneud cais amdano drwy e-bost yn lle hynny.
+
 # ordinary: contact
 ordinary_contact_title=Os bydd gennym gwestiynau am eich cais, beth yw’r ffordd orau o gysylltu â chi?
 ordinary_contact_email_option=E-bost
