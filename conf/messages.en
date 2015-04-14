@@ -354,9 +354,9 @@ ordinary_postalVote_error_enterValidEmail=Please enter a valid email address
 ordinary_postalVote_error_answerThis=Please answer this question
 
 ordinary_postalVote_date=5pm on Tuesday 21 April.
-ordinary_postalVote_submit=To vote by post at the General Election, you must submit a postal vote application to your local Electoral Registration Office before
-ordinary_postalVote_emailReturn=To vote by post at the General Election, return the completed form to your local Electoral Registration Office before
-ordinary_postalVote_postReturn=It is now too late to request your postal vote application to be posted to you for the General Election. To be sure of meeting the deadline, request it by email instead.
+ordinary_postalVote_submit=To vote by post at the general election, you must submit a postal vote application to your local Electoral Registration Office before
+ordinary_postalVote_emailReturn=To vote by post at the general election, return the completed form to your local Electoral Registration Office before
+ordinary_postalVote_postReturn=It is now too late to request your postal vote application to be posted to you for the general election. To be sure of meeting the deadline, request it by email instead.
 
 # ordinary: contact
 ordinary_contact_title=If we have questions about your application, how should we contact you?
