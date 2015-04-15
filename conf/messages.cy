@@ -495,6 +495,10 @@ complete_social_twitter_link_text=Rhannu ar Twitter
 complete_social_twitter_url_text=I%20just%20registered%20online%20to%20vote.%20If%20you%20haven't%20already%2C%20you%20should%20too!%20%23YourVoteMatters
 complete_social_facebook_link_text=Rhannu ar Facebook
 
+complete_deadline=Mae'r dyddiad cau ar gyfer cofrestru i bleidleisio yn yr etholiadau ar 7 Mai 2015 wedi mynd heibio erbyn hyn.
+complete_deadline_2=Fodd bynnag, gellir prosesu eich cais ar gyfer etholiadau eraill yn y dyfodol ac rydym wedi anfon eich cais i Swyddfa
+
+
 
 
 # JavaScript: general
