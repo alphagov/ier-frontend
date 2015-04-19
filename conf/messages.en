@@ -466,6 +466,9 @@ complete_takeOurSurvey_a=What did you think of this service?
 complete_takeOurSurvey_p= (takes 30 seconds)
 complete_ackEmail=We have sent you an acknowledgement email.
 
+complete_deadline=The deadline for registering to vote in the elections on 7 May 2015 has passed.
+complete_deadline_2=However, your application can still be processed for other future elections and we've sent your application to
+
 complete_electoralRegistrationOffice=Electoral Registration Office
 complete_unspecificElectoralRegistrationOffice=your local Electoral Registration Office
 
