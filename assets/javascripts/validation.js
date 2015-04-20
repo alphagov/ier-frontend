@@ -1767,6 +1767,9 @@
       'previousAddress' : {
         'atLeastOneNonEmpty' : message('ordinary_address_error_pleaseAnswer')
       },
+      'previousAddress' : {
+        'nonEqual' : message('ordinary_previousAddress_must_differ_error')
+      },
       'statement' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
       },
