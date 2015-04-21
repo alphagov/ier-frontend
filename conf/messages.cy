@@ -371,10 +371,9 @@ ordinary_postalVote_error_enterValidEmail=Nid yw hwnnw’n gyfeiriad e-bost dily
 ordinary_postalVote_error_answerThis=Atebwch y cwestiwn hwn
 
 
-ordinary_postalVote_date=5pm, dydd Mawrth 21 Ebrill.
-ordinary_postalVote_submit=I gael pleidleisio drwy'r post yn yr etholiadau ar 7 Mai 2015, mae'n rhaid i chi gyflwyno cais i bleidleisio drwy'r post i'ch Swyddfa Cofrestru Etholiadol lleol cyn
-ordinary_postalVote_emailReturn=I gael pleidleisio drwy’r post yn yr etholiadau ar 7 Mai 2015, llenwch y ffurflen a’i hanfon i’ch Swyddfa Cofrestru Etholiadol lleol cyn
-ordinary_postalVote_postReturn=Mae hi’n bellach yn rhy hwyr i bostio cais atoch i gael pleidleisio drwy’r post ar gyfer yr etholiadau ar 7 Mai 2015. Er mwyn sicrhau eich bod yn gallu ei wneud mewn pryd, gallwch wneud cais amdano drwy e-bost yn lle hynny.
+ordinary_postalVote_submit=Mae’n rhy hwyr yn awr i gyflwyno eich cais am bleidlais drwy’r post ar gyfer yr etholiadau ar 7 Mai 2015.
+ordinary_postalVote_emailReturn=Mae’n rhy hwyr yn awr i gyflwyno eich cais am bleidlais drwy’r post ar gyfer yr etholiadau ar 7 Mai 2015. Mae’n dal yn bosib i chi wneud cais ar gyfer etholiadau yn y dyfodol.
+ordinary_postalVote_postReturn=Mae’n rhy hwyr yn awr i gyflwyno eich cais am bleidlais drwy’r post ar gyfer yr etholiadau ar 7 Mai 2015. Mae’n dal yn bosib i chi wneud cais ar gyfer etholiadau yn y dyfodol.
 
 # ordinary: contact
 ordinary_contact_title=Os bydd gennym gwestiynau am eich cais, beth yw’r ffordd orau o gysylltu â chi?
