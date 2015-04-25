@@ -37,21 +37,25 @@ trait PreviousAddressForms
   val previousAddressForm = ErrorTransformForm(
     mapping (
       keys.previousAddress.key -> optional(PartialPreviousAddress.mapping),
+      keys.address.key -> optional(LastAddress.mapping),
       keys.possibleAddresses.key -> optional(possibleAddressesMappingForPreviousAddress)
     ) (
-      (previousAddress, possibleAddresses) => InprogressCrown(
+      (previousAddress, address, possibleAddresses) => InprogressCrown(
         previousAddress = previousAddress,
+        address = address,
         possibleAddresses = possibleAddresses
       )
     ) (
       inprogress => Some(
         inprogress.previousAddress,
+        inprogress.address,
         inprogress.possibleAddresses
       )
     ) verifying (
       postcodeIsValidForPreviousAddress,
       manualAddressLineOneRequired,
-      cityIsRequiredForPreviousAddress
+      cityIsRequiredForPreviousAddress,
+      selectedAddressIsDifferent
     )
   )
 
@@ -128,6 +132,19 @@ trait PreviousAddressConstraints extends CommonConstraints {
         }
       }
   }
+
+  lazy val selectedAddressIsDifferent = Constraint[InprogressCrown](keys.previousAddress.key) {
+    inprogress =>
+      val currentAddress = inprogress.address.flatMap(_.address).flatMap(_.uprn)
+      inprogress.previousAddress match {
+        case Some(partialAddress) if partialAddress.previousAddress.flatMap(_.uprn) !=  currentAddress => {
+          Valid
+        }
+        case Some(partialAddress) if partialAddress.previousAddress.flatMap(_.uprn) == currentAddress => {
+          Invalid("Your previous address cannot be the same as your current address", keys.previousAddress.previousAddress.address)
+        }
+      }}
+
 
   lazy val postcodeIsNotEmptyForPreviousAddress = Constraint[InprogressCrown](keys.previousAddress.key) {
     inprogress =>
