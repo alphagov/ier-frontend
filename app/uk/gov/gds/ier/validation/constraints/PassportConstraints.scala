@@ -198,16 +198,19 @@ trait PassportConstraints extends CommonConstraints{
     }
   }
 
-  lazy val passportNumberIsValid = Constraint[DOB](keys.dob.key) {
-    case DOB(issueDate)
-      if PassportNumberValidator.isValid(issueDate) => Valid
+  lazy val passportNumberIsValid = Constraint[InprogressOverseas](keys.passportNumber.key) {
+    application => application.passport match {
+    case Some(Passport(true,_,PassportDetails(_,_,_),_))
+      if PassportNumberValidator.isValid(passportNumber) => Valid
     case _ => Invalid(
-      "You have entered an invalid date",
+      "You have entered an invalid date",    //NEED ERROR MESSAGE
       keys.passport.passportDetails.issueDate.day,
       keys.passport.passportDetails.issueDate.month,
       keys.passport.passportDetails.issueDate.year
-    )
+      )
+    }
   }
+
 
 
 }

@@ -64,8 +64,7 @@ trait PassportForms extends PassportConstraints {
   val passportCheckForm = ErrorTransformForm(
     passportForm.mapping.verifying(
       passportRequired,
-      ifNoPassportBornInsideRequired,
-      passportNumberIsValid
+      ifNoPassportBornInsideRequired
     )
   )
 
@@ -75,8 +74,7 @@ trait PassportForms extends PassportConstraints {
       ifDefinedHowBecameCitizenRequired,
       ifDefinedBirthplaceRequired,
       passportRequired,
-      ifNoPassportBornInsideRequired,
-      passportNumberIsValid
+      ifNoPassportBornInsideRequired
     )
   )
 
