@@ -129,10 +129,10 @@ trait PreviousAddressForms
     inprogress =>
       val currentAddress = inprogress.address.flatMap(_.address).flatMap(_.uprn)
       inprogress.previousAddress match {
-        case Some(partialAddress) if partialAddress.previousAddress.flatMap(_.uprn) !=  currentAddress || currentAddress == null => {
+        case Some(partialAddress) if partialAddress.previousAddress.flatMap(_.uprn) !=  currentAddress => {
           Valid
         }
-        case Some(partialAddress) if partialAddress.previousAddress.flatMap(_.uprn) == currentAddress => {
+        case _ => {
           Invalid("Your previous address cannot be the same as your current address", keys.previousAddress.previousAddress.address)
         }
       }}

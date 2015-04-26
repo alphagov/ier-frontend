@@ -145,7 +145,7 @@ trait PreviousAddressConstraints extends CommonConstraints {
         case Some(partialAddress) if partialAddress.previousAddress.flatMap(_.uprn) != currentAddress => {
           Valid
         }
-        case Some(partialAddress) if partialAddress.previousAddress.flatMap(_.uprn) == currentAddress => {
+        case _ => {
           Invalid("ordinary_previousAddress_must_differ_error", keys.previousAddress.previousAddress.address)
         }
       }}
