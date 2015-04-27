@@ -200,17 +200,12 @@ trait PassportConstraints extends CommonConstraints{
 
   lazy val passportNumberIsValid = Constraint[InprogressOverseas](keys.passportNumber.key) {
     application => application.passport match {
-    case Some(Passport(true,_,PassportDetails(_,_,_),_))
+      case Some(Passport(true,_,Some(PassportDetails(passportNumber,_,_)),_))
       if PassportNumberValidator.isValid(passportNumber) => Valid
     case _ => Invalid(
-      "You have entered an invalid date",    //NEED ERROR MESSAGE
-      keys.passport.passportDetails.issueDate.day,
-      keys.passport.passportDetails.issueDate.month,
-      keys.passport.passportDetails.issueDate.year
+      "Your passport number should be 9 digits long",    //NEED ERROR MESSAGE
+      keys.passport.passportDetails.passportNumber
       )
     }
   }
-
-
-
 }
