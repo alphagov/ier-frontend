@@ -203,7 +203,7 @@ trait PassportConstraints extends CommonConstraints{
       case Some(Passport(true,_,Some(PassportDetails(passportNumber,_,_)),_))
       if PassportNumberValidator.isValid(passportNumber) => Valid
     case _ => Invalid(
-      "Your passport number should be 9 digits long",    //NEED ERROR MESSAGE
+      "Your passport number should be 9 digits long",
       keys.passport.passportDetails.passportNumber
       )
     }
