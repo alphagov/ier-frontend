@@ -24,7 +24,7 @@ class PassportNumberValidatorTest extends UnitTestSuite {
     PassportNumberValidator.isValid("") should be(false)
   }
 
-  it should "return false for postcode with hyphen (-)" in {
+  it should "return false for passport number with hyphen (-)" in {
     PassportNumberValidator.isValid("123-456-789") should be(false)
   }
 }
