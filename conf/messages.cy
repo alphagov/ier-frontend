@@ -138,8 +138,10 @@ ordinary_previousName_error_lastNameTooLong=Gall enw olaf blaenorol fod yn fwy n
 ordinary_nino_heading=Beth yw eich rhif Yswiriant Gwladol?
 ordinary_nino_example=Enghraifft: QQ 12 34 56 C
 ordinary_nino_help=Nid wyf yn gwybod fy rhif Yswiriant Gwladol
-ordinary_nino_section_1=Gallwch chwilio am eich rhif Yswiriant Gwladol ar slipiau cyflog neu lythyrau swyddogol am drethi, pensiynau neu fudd-daliadau.
-ordinary_nino_section_2=Os na allwch roi rhif Yswiriant Gwladol, bydd angen ichi esbonio pam. Gallwch wneud cais i gofrestru i bleidleisio ond efallai y bydd angen ichi anfon copïau o ddogfennau adnabod drwy'r post. Gallai hyn achosi oedi cyn i’ch enw fynd ar y gofrestr etholwyr.
+ordinary_nino_section_1=Gallwch:
+ordinary_nino_list_1=chwilio am eich rhif Yswiriant Gwladol ar slipiau cyflog neu lythyrau swyddogol am drethi, pensiynau neu fudd-daliadau
+ordinary_nino_list_2=ofyn am gael eich atgoffa drwy’r post
+ordinary_nino_section_2=Os na allwch roi rhif Yswiriant Gwladol, bydd angen ichi esbonio pam. Bydd angen ichi anfon copïau o ddogfennau adnabod drwy'r post hefyd. Gallai hyn achosi oedi cyn i’ch enw fynd ar y gofrestr etholwyr.
 ordinary_nino_excuse=Nid wyf yn gallu darparu rhif Yswiriant Gwladol
 ordinary_nino_excuse_content=Pam nad oes modd i chi ddarparu rhif Yswiriant Gwladol?
 ordinary_nino_error_noneEntered=Nodwch eich rhif Yswiriant Gwladol
@@ -371,9 +373,6 @@ ordinary_postalVote_error_enterValidEmail=Nid yw hwnnw’n gyfeiriad e-bost dily
 ordinary_postalVote_error_answerThis=Atebwch y cwestiwn hwn
 
 
-ordinary_postalVote_submit=Mae’n rhy hwyr yn awr i gyflwyno eich cais am bleidlais drwy’r post ar gyfer yr etholiadau ar 7 Mai 2015.
-ordinary_postalVote_emailReturn=Mae’n rhy hwyr yn awr i gyflwyno eich cais am bleidlais drwy’r post ar gyfer yr etholiadau ar 7 Mai 2015. Mae’n dal yn bosib i chi wneud cais ar gyfer etholiadau yn y dyfodol.
-ordinary_postalVote_postReturn=Mae’n rhy hwyr yn awr i gyflwyno eich cais am bleidlais drwy’r post ar gyfer yr etholiadau ar 7 Mai 2015. Mae’n dal yn bosib i chi wneud cais ar gyfer etholiadau yn y dyfodol.
 
 # ordinary: contact
 ordinary_contact_title=Os bydd gennym gwestiynau am eich cais, beth yw’r ffordd orau o gysylltu â chi?

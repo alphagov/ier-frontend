@@ -6,7 +6,6 @@
 
     <p>{{messages.ordinary_postalVote_optionsQuestion}}</p>
 
-    <p><b>{{messages.ordinary_postalVote_submit}}</b></p>
     <fieldset
       class="validate"
       data-validation-name="postalVote"
@@ -77,12 +76,6 @@
         {{messages.ordinary_postalVote_postalVote_deliveryEmail_option}}
 </label>
 
-        <div class="optional-section optional-section-core-content sub-section" data-condition="{{deliveryByEmail.id}}">
-        </br>
-        <legend class="paragraph">{{messages.ordinary_postalVote_emailReturn}}</legend>
-        </br>
-        </div>
-
       <div class="optional-section" data-condition="{{deliveryByEmail.id}}">
         <label for="{{emailField.id}}">{{messages.ordinary_postalVote_postalVote_emailAddress_label}}</label>
         <div class="validation-wrapper {{emailField.classes}}">
@@ -99,11 +92,6 @@
       data-validation-rules="nonEmpty" {{deliveryByPost.attributes}}>
         {{messages.ordinary_postalVote_postalVote_deliveryPost_option}}
 </label>
-
-      <div class="optional-section optional-section-core-content sub-section" data-condition="{{deliveryByPost.id}}">
-        </br>
-        <legend class="paragraph">{{messages.ordinary_postalVote_postReturn}}</legend>
-      </div>
 
       </fieldset>
       
