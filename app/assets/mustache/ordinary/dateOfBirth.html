@@ -9,7 +9,7 @@
 
     {{> shared/validationMessages }}
 
-    <fieldset class="validate inline-fields" data-validation-name="dateOfBirthDate"
+    <fieldset class="validate inline-fields auto-tabbing" data-validation-name="dateOfBirthDate"
               data-validation-type="fieldset" data-validation-rules="allNonEmpty"
               data-validation-children="day month year">
 
@@ -23,7 +23,9 @@
                class="text  day validate {{day.classes}}"
                data-validation-name="day"
                data-validation-type="field"
-               data-validation-rules="nonEmpty" >
+               data-validation-rules="nonEmpty"
+               max=2
+               onkeyup="moveOnMax(this,'{{month.id}}')"/>
       </span>
 
       <span class="month field-wrapper">
@@ -36,7 +38,9 @@
                class="text  month validate {{month.classes}}"
                data-validation-name="month"
                data-validation-type="field"
-               data-validation-rules="nonEmpty" >
+               data-validation-rules="nonEmpty"
+               max=2
+               onkeyup="moveOnMax(this,'{{year.id}}')">
       </span>
 
       <span class="year field-wrapper">
