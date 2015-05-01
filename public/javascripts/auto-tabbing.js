@@ -1,6 +1,5 @@
 function moveOnMax(field,nextFieldID){
-  if(field.value.length >= field.max){
+  if(field.value.length >= 2){
     document.getElementById(nextFieldID).focus();
-    console.log(nextFieldID);
   }
 }
