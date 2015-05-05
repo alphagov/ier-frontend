@@ -22,7 +22,8 @@
                class="text  day validate {{day.classes}}"
                data-validation-name="day"
                data-validation-type="field"
-               data-validation-rules="nonEmpty" >
+               data-validation-rules="nonEmpty"
+               onkeyup="moveOnMax(this,'{{month.id}}')" >
       </span>
 
       <span class="month field-wrapper">
@@ -34,7 +35,8 @@
                class="text  month validate {{month.classes}}"
                data-validation-name="month"
                data-validation-type="field"
-               data-validation-rules="nonEmpty" >
+               data-validation-rules="nonEmpty"
+               onkeyup="moveOnMax(this,'{{year.id}}')" >
       </span>
 
       <span class="year field-wrapper">
