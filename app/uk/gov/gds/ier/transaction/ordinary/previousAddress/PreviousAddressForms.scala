@@ -54,7 +54,7 @@ trait PreviousAddressForms extends PreviousAddressConstraints {
       postcodeIsValidForPreviousAddress,
       manualAddressLineOneRequired,
       cityIsRequiredForPreviousAddress
-    )
+      )
   )
 
   /** root validator - postcode page */
@@ -67,7 +67,8 @@ trait PreviousAddressForms extends PreviousAddressConstraints {
   /** root validator - select page */
   private[previousAddress] val selectStepForm = ErrorTransformForm(
     previousAddressForm.mapping.verifying(
-      selectedAddressIsRequiredForPreviousAddress
+      selectedAddressIsRequiredForPreviousAddress,
+      selectedAddressIsDifferent
     )
   )
 
@@ -133,6 +134,19 @@ trait PreviousAddressConstraints extends CommonConstraints {
         }
       }
   }
+
+  lazy val selectedAddressIsDifferent = Constraint[InprogressOrdinary](keys.previousAddress.key) {
+    inprogress =>
+      val currentAddress = inprogress.address.flatMap(_.uprn)
+      inprogress.previousAddress match {
+        case Some(partialAddress) if partialAddress.previousAddress.flatMap(_.uprn) != currentAddress => {
+          Valid
+        }
+        case _ => {
+          Invalid("ordinary_previousAddress_must_differ_error", keys.previousAddress.previousAddress.address)
+        }
+      }}
+
 
   lazy val postcodeIsNotEmptyForPreviousAddress = Constraint[InprogressOrdinary](keys.previousAddress.key) {
     inprogress =>
