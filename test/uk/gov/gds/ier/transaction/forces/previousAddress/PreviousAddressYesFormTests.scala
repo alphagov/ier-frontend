@@ -111,7 +111,7 @@ class PreviousAddressYesFormTests
         "previousAddress.postcode" -> "SW1A1AA"
       )
     )
-    selectAddressFormForPreviousAddress.bind(js).fold(
+    manualAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors)),
       success => {
         success.previousAddress.isDefined should be(true)
@@ -136,8 +136,8 @@ class PreviousAddressYesFormTests
 
     selectAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+        hasErrors.errors.size should be(4)
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question", "Your previous address cannot be the same as your current address"))
         hasErrors.errorMessages("previousAddress") should be(Seq("Please answer this question"))
       },
       success => fail("Should have errored out")
@@ -154,8 +154,8 @@ class PreviousAddressYesFormTests
     )
     selectAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+        hasErrors.errors.size should be(4)
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question","Your previous address cannot be the same as your current address"))
         hasErrors.errorMessages("previousAddress") should be(Seq("Please answer this question"))
       },
       success => fail("Should have errored out")
@@ -248,7 +248,7 @@ class PreviousAddressYesFormTests
         "possibleAddresses.postcode" -> "SW1A 1AA"
       )
     )
-    selectAddressFormForPreviousAddress.bind(js).fold(
+    manualAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => fail("Should not fail"),
       success => {
         success.previousAddress.isDefined should be(true)
