@@ -37,25 +37,21 @@ trait PreviousAddressForms
   val previousAddressForm = ErrorTransformForm(
     mapping (
       keys.previousAddress.key -> optional(PartialPreviousAddress.mapping),
-      keys.address.key -> optional(LastAddress.mapping),
       keys.possibleAddresses.key -> optional(possibleAddressesMappingForPreviousAddress)
     ) (
-      (previousAddress, address, possibleAddresses) => InprogressCrown(
+      (previousAddress, possibleAddresses) => InprogressCrown(
         previousAddress = previousAddress,
-        address = address,
         possibleAddresses = possibleAddresses
       )
     ) (
       inprogress => Some(
         inprogress.previousAddress,
-        inprogress.address,
         inprogress.possibleAddresses
       )
     ) verifying (
       postcodeIsValidForPreviousAddress,
       manualAddressLineOneRequired,
-      cityIsRequiredForPreviousAddress,
-      selectedAddressIsDifferent
+      cityIsRequiredForPreviousAddress
     )
   )
 
@@ -69,7 +65,8 @@ trait PreviousAddressForms
   /** root validator - select page */
   val selectStepForm = ErrorTransformForm(
     previousAddressForm.mapping.verifying(
-      selectedAddressIsRequiredForPreviousAddress
+      selectedAddressIsRequiredForPreviousAddress,
+      selectedAddressIsDifferent
     )
   )
 
