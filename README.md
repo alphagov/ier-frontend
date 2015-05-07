@@ -4,7 +4,7 @@ This is the Individual Electoral Registration (aka ERTP) Frontend app. The point
 
 ###Depedencies
 
-To run this app you will need: 
+To run this app you will need;
 
  - Java 7 (we use openJDK 7)
  - Ruby 1.9.3
