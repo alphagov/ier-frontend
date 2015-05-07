@@ -38,7 +38,7 @@ trait OverseasApplications {
       Some(PostalVoteDeliveryMethod(Some("post"),None))
     )),
     passport = Some(Passport(
-      true, None, Some(PassportDetails("123456", "UK border office", DOB(2000, 12, 1))), None)),
+      true, None, Some(PassportDetails("123456789", "UK border office", DOB(2000, 12, 1))), None)),
     contact = Some(Contact(
       post = true,
       phone = None,
