@@ -67,4 +67,7 @@ Testing for the ier-frontend project is via the sbt command line as follows...
 
  **NB : Make sure you follow the Bootstrap Step 5 above to make the /var/log/ier/ folder locally wriateable.**
 
- **NB : To run a specific test rather than all of them  `test-only FULL_PATH_OF_TEST_CLASS`**
+ **NB : To run a specific test rather than all of them  "test-only FULL_PATH_OF_TEST_CLASS"**
+
+ eg.
+ ./sbt "test-only uk.gov.gds.ier.transaction.overseas.passport.PassportFormTests"
