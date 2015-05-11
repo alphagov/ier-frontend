@@ -111,7 +111,7 @@ class PreviousAddressYesFormTests
         "previousAddress.previousAddress.postcode" -> "SW1A1AA"
       )
     )
-    selectStepForm.bind(js).fold(
+    manualStepForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors)),
       success => {
         success.previousAddress.isDefined should be(true)
@@ -136,8 +136,8 @@ class PreviousAddressYesFormTests
 
     selectStepForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+        hasErrors.errors.size should be(4)
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question", "Your previous address cannot be the same as your current address"))
         hasErrors.errorMessages("previousAddress.previousAddress.uprn") should be(Seq("Please answer this question"))
       },
       success => fail("Should have errored out")
@@ -154,8 +154,8 @@ class PreviousAddressYesFormTests
     )
     selectStepForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(2)
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+        hasErrors.errors.size should be(4)
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question", "Your previous address cannot be the same as your current address"))
         hasErrors.errorMessages("previousAddress.previousAddress.uprn") should be(Seq("Please answer this question"))
       },
       success => fail("Should have errored out")
@@ -215,10 +215,11 @@ class PreviousAddressYesFormTests
     )
     selectStepForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorsAsTextAll should be("" +
-          " -> Please answer this question\n"+
-          "previousAddress.previousAddress.uprn -> Please answer this question")
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question", "Your previous address cannot be the same as your current address"))
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousAddress.previousAddress.uprn" -> Seq("Please answer this question"),
+          "previousAddress.previousAddress.address" -> Seq("Your previous address cannot be the same as your current address")
+        ))
       },
       success => {
         fail("Should have errored out")
@@ -246,7 +247,7 @@ class PreviousAddressYesFormTests
         "possibleAddresses.postcode" -> "SW1A 1AA"
       )
     )
-    selectStepForm.bind(js).fold(
+    manualStepForm.bind(js).fold(
       hasErrors => fail("Should not fail"),
       success => {
         success.previousAddress.isDefined should be(true)
