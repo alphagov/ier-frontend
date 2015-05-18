@@ -7,6 +7,7 @@ import uk.gov.gds.ier.model.DateLeft
 
 object DateValidator {
 
+  lazy val minimumScotAge = 14
   lazy val minimumAge = 16
   lazy val maximumAge = 115
   lazy val maximumCitizenshipDuration = 115
@@ -44,7 +45,60 @@ object DateValidator {
       case ex: Exception => false
     }
   }
-  
+
+  /*
+  Is the citizen too young to vote in Scotland?
+   */
+  def isTooYoungToRegisterScottish(dateOfBirth: DOB) = {
+    try {
+      parseToDateMidnight(dateOfBirth).plusYears(minimumScotAge).isAfter(DateTime.now.toDateMidnight)
+    } catch {
+      case ex: Exception => false
+    }
+  }
+
+  /*
+  Is the citizen a valid young Scottish voter (ie. 14 or 15 years old)?
+   */
+  def isValidYoungScottishVoter(dateOfBirth: DOB) = {
+    try {
+      val fourteenYearsAgo = DateTime.now.minusYears(14).toDateMidnight
+      val sixteenYearsAgo = DateTime.now.minusYears(16).toDateMidnight
+      val dob = parseToDateMidnight(dateOfBirth)
+      (dob.isAfter(fourteenYearsAgo) || dob.isEqual(fourteenYearsAgo)) && dob.isBefore(sixteenYearsAgo)
+    } catch {
+      case ex: Exception => false
+    }
+  }
+
+  /*
+  Is the citizen aged 14 precisely?
+   */
+  def is14(dateOfBirth: DOB) = {
+    try {
+      val fourteenYearsAgo = DateTime.now.minusYears(14).toDateMidnight
+      val fifteenYearsAgo = DateTime.now.minusYears(15).toDateMidnight
+      val dob = parseToDateMidnight(dateOfBirth)
+      (dob.isAfter(fourteenYearsAgo) || dob.isEqual(fourteenYearsAgo)) && dob.isBefore(fifteenYearsAgo)
+    } catch {
+      case ex: Exception => false
+    }
+  }
+
+  /*
+  Is the citizen aged 15 precisely?
+   */
+  def is15(dateOfBirth: DOB) = {
+    try {
+      val fifteenYearsAgo = DateTime.now.minusYears(15).toDateMidnight
+      val sixteenYearsAgo = DateTime.now.minusYears(16).toDateMidnight
+      val dob = parseToDateMidnight(dateOfBirth)
+      (dob.isAfter(fifteenYearsAgo) || dob.isEqual(fifteenYearsAgo)) && dob.isBefore(sixteenYearsAgo)
+    } catch {
+      case ex: Exception => false
+    }
+  }
+
   def dateLeftUkOver15Years(dateLeftUk:DateLeft):Boolean = {
     val leftUk = new DateTime().withMonthOfYear(dateLeftUk.month).withYear(dateLeftUk.year)
     val monthDiff = Months.monthsBetween(leftUk, DateTime.now()).getMonths()

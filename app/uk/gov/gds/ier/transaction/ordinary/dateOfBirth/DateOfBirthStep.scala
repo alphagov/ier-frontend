@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.ordinary.dateOfBirth
 import uk.gov.gds.ier.controller.routes.ExitController
 import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.model.{DateOfBirth, noDOB}
+import uk.gov.gds.ier.model.{Country, DateOfBirth, noDOB}
 import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.config.Config
@@ -44,15 +44,22 @@ class DateOfBirthStep @Inject ()(
 
   def nextStep(currentState: InprogressOrdinary) = {
     currentState.dob match {
-      case Some(DateOfBirth(Some(dob), _)) if DateValidator.isTooYoungToRegister(dob) => {
+      //FOR SCOTTISH CITIZENS ONLY...
+      case Some(DateOfBirth(Some(dob), _)) if (CountryValidator.isScotland(currentState.country) && DateValidator.isTooYoungToRegisterScottish(dob) ) => {
+        GoTo(ExitController.tooYoungScotland)
+      }
+      //FOR ANY OTHER CITIZEN...
+      case Some(DateOfBirth(Some(dob), _)) if (!CountryValidator.isScotland(currentState.country) && DateValidator.isTooYoungToRegister(dob) ) => {
         GoTo(ExitController.tooYoung)
       }
+      //FOR ANY CITIZEN THAT DOES NOT PROVIDE THEIR DOB (REGARDLESS OF COUNTRY OF RESIDENCE)...
       case Some(DateOfBirth(_, Some(noDOB(Some(reason), Some(range))))) if range == DateOfBirthConstants.under18 => {
         GoTo(ExitController.under18)
       }
       case Some(DateOfBirth(_, Some(noDOB(Some(reason), Some(range))))) if range == DateOfBirthConstants.dontKnow => {
         GoTo(ExitController.dontKnow)
       }
+      //DEFAULT...
       case _ => ordinary.NameStep
     }
   }
