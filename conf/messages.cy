@@ -532,6 +532,7 @@ ordinary_address_continue=Parhau
 
 exit_tooYoung_title=Mae'n ddrwg gennym, ni allwch gofrestru i bleidleisio eto
 exit_tooYoung_explanation=Ni allwch gofrestru i bleidleisio nes eich bod yn 16 oed. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk/">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
+exit_tooYoungScotland_explanation=You can’t register to vote until you’re 14 in Scotland. In the meantime, you may be interested in the <a href="http://www.syp.org.uk/">Scottish Youth Parliament</a>.
 exit_tooYoung_moreAboutVoting=Mwy o wybodaeth am bleidleisio yn y DU.
 
 # British Islands

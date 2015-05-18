@@ -53,6 +53,11 @@ class ExitController @Inject() (
       Ok(ExitPages.TooYoung())
   }
 
+  def tooYoungScotland = ClearSession in Action {
+    implicit request =>
+      Ok(ExitPages.TooYoungScotland())
+  }
+
   def dontKnow = ClearSession in Action {
     implicit request =>
       Ok(ExitPages.DontKnow())

@@ -508,6 +508,7 @@ ordinary_address_continue=Continue
 
 exit_tooYoung_title=Sorry, you can’t register to vote yet
 exit_tooYoung_explanation=You can’t register to vote until you’re 16. In the meantime, you may be interested in the <a href="http://www.ukyouthparliament.org.uk/">UK Youth Parliament</a>.
+exit_tooYoungScotland_explanation=You can’t register to vote until you’re 14 in Scotland. In the meantime, you may be interested in the <a href="http://www.syp.org.uk/">Scottish Youth Parliament</a>.
 exit_tooYoung_moreAboutVoting=More about voting in the UK.
 
 # British Islands
