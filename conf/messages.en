@@ -157,7 +157,7 @@ ordinary_address_error_cityIsRequired=Postal town or city is required
 #
 ordinary_address_postcode_title=What is your address?
 
-ordinary_address_postcode_enterPostcodeWhenRegistering_p=Enter the postcode where you want to register to vote.
+ordinary_address_postcode_enterPostcodeWhenRegistering_p=Enter the postcode of your current address. This is where you will be registered to vote.
 ordinary_address_postcode_postcode_label=Postcode
 
 ordinary_address_postcode_dontKnowMyPostcode_h2=I don’t know what postcode to use
