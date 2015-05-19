@@ -167,7 +167,7 @@ ordinary_address_error_cityIsRequired=Mae angen enw tref neu ddinas
 #
 ordinary_address_postcode_title=Beth yw eich cyfeiriad?
 
-ordinary_address_postcode_enterPostcodeWhenRegistering_p=Nodwch god post y cyfeiriad ble rydych chi’n cofrestru i bleidleisio.
+ordinary_address_postcode_enterPostcodeWhenRegistering_p=Rhowch god post eich cyfeiriad presennol. Dyma lle byddwch wedi'ch cofrestru i bleidleisio.
 ordinary_address_postcode_postcode_label=Cod post
 
 ordinary_address_postcode_dontKnowMyPostcode_h2=Dydw i ddim yn gwybod pa god post i’w ddefnyddio
@@ -458,6 +458,8 @@ ordinary_confirmation_help_h2=Anfon eich cais
 ordinary_confirmation_help_p1=Drwy anfon eich cais rydych yn cadarnhau fod y wybodaeth a ddarperir gennych yn wir.
 ordinary_confirmation_help_p2=Efallai caiff eich gwybodaeth ei rhannu gydag adrannau eraill y Llywodraeth I wirio eich hunaniaeth a bod gennych hawl i bleidleisio.
 ordinary_confirmation_help_p3=Os byddwch yn rhoi gwybodaeth anwir yn eich cais gan wybod hynny, efallai y cewch ddedfryd o garchar am hyd at 6 mis, neu ddirwy.
+ordinary_confirmation_young_scot_14=You are 14 years old. If your application is successful, when you turn 16 you will be eligible to vote in Scottish Parliament elections and local government elections, and any other elections which use the Scottish local government franchise.
+ordinary_confirmation_young_scot_15=You are 15 years old. If your application is successful, when you turn 16 you will be eligible to vote in Scottish Parliament elections and local government elections, and any other elections which use the Scottish local government franchise.
 
 ordinary_confirmation_error_completeThis=Cwblhewch y cam hwn
 

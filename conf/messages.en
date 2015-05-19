@@ -440,6 +440,8 @@ ordinary_confirmation_help_h2=Send your application
 ordinary_confirmation_help_p1=By sending your application you confirm that the information you have provided is true.
 ordinary_confirmation_help_p2=Your information may be shared with other government departments to check your identity and that you’re entitled to register to vote.
 ordinary_confirmation_help_p3=If you knowingly give false information in your application, you could go to prison for up to 6 months, or be fined.
+ordinary_confirmation_young_scot_14=You are 14 years old. If your application is successful, when you turn 16 you will be eligible to vote in Scottish Parliament elections and local government elections, and any other elections which use the Scottish local government franchise.
+ordinary_confirmation_young_scot_15=You are 15 years old. If your application is successful, when you turn 16 you will be eligible to vote in Scottish Parliament elections and local government elections, and any other elections which use the Scottish local government franchise.
 
 ordinary_confirmation_error_completeThis=Please complete this step
 
