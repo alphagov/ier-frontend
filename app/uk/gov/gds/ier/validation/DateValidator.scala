@@ -65,7 +65,7 @@ object DateValidator {
       val fourteenYearsAgo = DateTime.now.minusYears(14).toDateMidnight
       val sixteenYearsAgo = DateTime.now.minusYears(16).toDateMidnight
       val dob = parseToDateMidnight(dateOfBirth)
-      (dob.isAfter(fourteenYearsAgo) || dob.isEqual(fourteenYearsAgo)) && dob.isBefore(sixteenYearsAgo)
+      (dob.isBefore(fourteenYearsAgo) || dob.isEqual(fourteenYearsAgo)) && dob.isAfter(sixteenYearsAgo)
     } catch {
       case ex: Exception => false
     }
@@ -79,7 +79,7 @@ object DateValidator {
       val fourteenYearsAgo = DateTime.now.minusYears(14).toDateMidnight
       val fifteenYearsAgo = DateTime.now.minusYears(15).toDateMidnight
       val dob = parseToDateMidnight(dateOfBirth)
-      (dob.isAfter(fourteenYearsAgo) || dob.isEqual(fourteenYearsAgo)) && dob.isBefore(fifteenYearsAgo)
+      (dob.isBefore(fourteenYearsAgo) || dob.isEqual(fourteenYearsAgo)) && dob.isAfter(fifteenYearsAgo)
     } catch {
       case ex: Exception => false
     }
@@ -93,7 +93,7 @@ object DateValidator {
       val fifteenYearsAgo = DateTime.now.minusYears(15).toDateMidnight
       val sixteenYearsAgo = DateTime.now.minusYears(16).toDateMidnight
       val dob = parseToDateMidnight(dateOfBirth)
-      (dob.isAfter(fifteenYearsAgo) || dob.isEqual(fifteenYearsAgo)) && dob.isBefore(sixteenYearsAgo)
+      (dob.isBefore(fifteenYearsAgo) || dob.isEqual(fifteenYearsAgo)) && dob.isAfter(sixteenYearsAgo)
     } catch {
       case ex: Exception => false
     }
