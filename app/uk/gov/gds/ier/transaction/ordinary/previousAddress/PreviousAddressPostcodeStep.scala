@@ -7,7 +7,7 @@ import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{OrdinaryStep, Routes}
-import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.validation.{DateValidator, CountryValidator, ErrorTransformForm}
 import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.assets.RemoteAssets
 
@@ -36,7 +36,13 @@ class PreviousAddressPostcodeStep @Inject() (
       _.previousAddress.exists(prevAddr => addressService.isNothernIreland(prevAddr.postcode)))
 
     if (isPreviousAddressNI) {
-      ordinary.OpenRegisterStep
+      //IF YOUNG SCOTTISH CITIZEN, SKIP THE OPEN REGISTER STEP...
+      if (CountryValidator.isScotland(currentState.country) && DateValidator.isValidYoungScottishVoter(currentState.dob.get.dob.get)) {
+        ordinary.PostalVoteStep
+      }
+      else {
+        ordinary.OpenRegisterStep
+      }
     } else {
       ordinary.PreviousAddressSelectStep
     }

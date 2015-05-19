@@ -10,6 +10,7 @@ import uk.gov.gds.ier.service.AddressService
 import uk.gov.gds.ier.step.{Routes, OrdinaryStep}
 import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.assets.RemoteAssets
+import uk.gov.gds.ier.validation.{DateValidator, CountryValidator}
 
 @Singleton
 class PreviousAddressFirstStep @Inject ()(
@@ -44,9 +45,23 @@ class PreviousAddressFirstStep @Inject ()(
 
     currentState.previousAddress.flatMap(_.movedRecently) match {
       case Some(MovedHouseOption.MovedFromAbroadRegistered) => nextAddressStep
-      case Some(MovedHouseOption.MovedFromAbroadNotRegistered) => ordinary.OpenRegisterStep
+      case Some(MovedHouseOption.MovedFromAbroadNotRegistered) =>
+        //IF YOUNG SCOTTISH CITIZEN, SKIP THE OPEN REGISTER STEP...
+        if (CountryValidator.isScotland(currentState.country) && DateValidator.isValidYoungScottishVoter(currentState.dob.get.dob.get)) {
+          ordinary.PostalVoteStep
+        }
+        else {
+          ordinary.OpenRegisterStep
+        }
       case Some(MovedHouseOption.MovedFromUk) => nextAddressStep
-      case Some(MovedHouseOption.NotMoved) => ordinary.OpenRegisterStep
+      case Some(MovedHouseOption.NotMoved) =>
+        //IF YOUNG SCOTTISH CITIZEN, SKIP THE OPEN REGISTER STEP...
+        if (CountryValidator.isScotland(currentState.country) && DateValidator.isValidYoungScottishVoter(currentState.dob.get.dob.get)) {
+          ordinary.PostalVoteStep
+        }
+        else {
+          ordinary.OpenRegisterStep
+        }
       case _ => this
     }
   }
