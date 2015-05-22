@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.ordinary.confirmation
 
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.logging.Logging
-import uk.gov.gds.ier.validation.{Key, ErrorTransformForm}
+import uk.gov.gds.ier.validation.{DateValidator, CountryValidator, Key, ErrorTransformForm}
 import uk.gov.gds.ier.model.{PostalVoteDeliveryMethod, PostalVoteOption, OtherAddress, MovedHouseOption}
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
@@ -40,11 +40,11 @@ trait ConfirmationMustache
       confirmation.previousName,
       confirmation.dateOfBirth,
       confirmation.nationality,
-      confirmation.nino,
+      confirmation.applicantNino,
       confirmation.address,
       confirmation.secondAddress,
       confirmation.previousAddress,
-      confirmation.openRegister,
+      confirmation.applicantOpenRegister,
       confirmation.postalVote,
       confirmation.contact
     ).flatten
@@ -166,7 +166,7 @@ trait ConfirmationMustache
     }
 
     def nino = {
-      Some(ConfirmationQuestion(
+      ConfirmationQuestion(
         title = Messages("ordinary_confirmation_nino_title"),
         editLink = ordinary.NinoStep.routing.editGet.url,
         changeName = Messages("ordinary_confirmation_nino_changeName"),
@@ -178,7 +178,16 @@ trait ConfirmationMustache
               form(keys.nino.noNinoReason).value.getOrElse(""))
           }
         }
-      ))
+      )
+    }
+
+    def applicantNino : Option[ConfirmationQuestion] = {
+      //IF YOUNG SCOTTISH CITIZEN, SKIP THE NINO CONFIRMATION BLOCK...
+      if (!isYoungScot) {
+        Some(nino)
+      } else {
+        None
+      }
     }
 
     def address = {
@@ -251,7 +260,7 @@ trait ConfirmationMustache
     }
 
     def openRegister = {
-      Some(ConfirmationQuestion(
+      ConfirmationQuestion(
         title = Messages("ordinary_confirmation_openRegister_title"),
         editLink = ordinary.OpenRegisterStep.routing.editGet.url,
         changeName = Messages("ordinary_confirmation_openRegister_changeName"),
@@ -262,7 +271,16 @@ trait ConfirmationMustache
             List(Messages("ordinary_confirmation_openRegister_optOut"))
           }
         }
-      ))
+      )
+    }
+
+    def applicantOpenRegister : Option[ConfirmationQuestion] = {
+      //IF YOUNG SCOTTISH CITIZEN, SKIP THE OPEN REGISTER CONFIRMATION BLOCK...
+      if (!isYoungScot) {
+        Some(openRegister)
+      } else {
+        None
+      }
     }
 
     def postalVote = {
@@ -367,6 +385,18 @@ trait ConfirmationMustache
       val isIrish = form(keys.nationality.irish).value.getOrElse("false").toBoolean
       val otherCountries = form.obtainOtherCountriesList
       (isBritish || isIrish || !otherCountries.isEmpty)
+    }
+
+    private def isYoungScot: Boolean = {
+      //IS CITIZEN REGISTERING IN SCOTLAND?...
+      val isScot = (form(keys.country.residence).value.get.equals("Scotland"))
+      //...IS CITIZEN A YOUNG VOTER?...
+      val day = form(keys.dob.dob.day).value.getOrElse("").toInt
+      val month = form(keys.dob.dob.month).value.getOrElse("").toInt
+      val year = form(keys.dob.dob.year).value.getOrElse("").toInt
+      val isYoung = DateValidator.isTooYoungToRegisterScottish(year,month,day)
+      //...ARE THEY BOTH??
+      (isScot && isYoung)
     }
 
 
