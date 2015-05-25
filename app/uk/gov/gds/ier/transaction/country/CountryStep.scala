@@ -42,4 +42,22 @@ class CountryStep @Inject ()(
       case _ => ordinary.NationalityStep
     }
   }
+
+  //TODO : VALS NOT BEING WIPED AS EXPECTED
+  override val onSuccess = TransformApplication { currentState =>
+    if (currentState.dob.isDefined) {
+      //IF YOUNG SCOT, BLANK THE NINO & OPEN REGISTER VALUES...
+      if (
+          CountryValidator.isScotland(currentState.country) &&
+          DateValidator.isTooYoungToRegisterScottish(currentState.dob.get.dob.get)
+      ) {
+        currentState.copy(
+          nino = None,
+          openRegisterOptin = None
+        )
+      }
+    }
+    currentState
+  } andThen GoToNextIncompleteStep()
+
 }
