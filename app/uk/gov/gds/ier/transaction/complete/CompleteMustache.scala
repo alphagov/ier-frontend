@@ -28,6 +28,7 @@ trait CompleteMustache {
         backToStartUrl: String,
         showEmailConfirmation: Boolean,
         showBirthdayBunting: Boolean,
+        showYoungScot: Boolean,
         surveyLink: String
     ) (
         implicit override val lang: Lang

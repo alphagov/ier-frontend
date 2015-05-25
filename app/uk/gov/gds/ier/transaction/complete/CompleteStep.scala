@@ -38,6 +38,7 @@ class CompleteStep @Inject() (
             confirmationData.backToStartUrl,
             confirmationData.showEmailConfirmation,
             confirmationData.showBirthdayBunting,
+            confirmationData.showYoungScot,
             config.completeSurveyLink
           ))
         }
