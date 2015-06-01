@@ -26,7 +26,8 @@ class IerStubApiClient @Inject() (
             addressLine2 = Some("line two"),
             addressLine3 = Some("line three"),
             addressLine4 = Some("line four"),
-            postcode = Some("SW112DR")
+            postcode = Some("SW112DR"),
+            gssCode = Some("E09000019")
           )
         )
       ), 0)

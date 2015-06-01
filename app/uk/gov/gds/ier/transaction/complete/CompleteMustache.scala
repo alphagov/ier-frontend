@@ -44,6 +44,10 @@ trait CompleteMustache {
       val authorityName = authority map {
         auth => auth.name + " " + Messages("complete_electoralRegistrationOffice")
       } getOrElse Messages("complete_unspecificElectoralRegistrationOffice")
+
+      val gssCode = authority map {
+        auth => auth.gssCode
+      }
     }
   }
 }
