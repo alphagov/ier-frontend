@@ -43,15 +43,15 @@ class DateOfBirthStep @Inject ()(
     currentState.copy(dob = dateOfBirth)
     if (currentState.dob.isDefined) {
       //IF YOUNG SCOT, BLANK THE NINO & OPEN REGISTER VALUES...
-      if (
-          CountryValidator.isScotland(currentState.country) &&
-          DateValidator.isTooYoungToRegisterScottish(currentState.dob.get.dob.get)
-      ) {
-        currentState.copy(
-          nino = None,
-          openRegisterOptin = None
-        )
-      }
+      //if (
+      //    CountryValidator.isScotland(currentState.country) &&
+      //    DateValidator.isTooYoungToRegisterScottish(currentState.dob.get.dob.get)
+      //) {
+      //  currentState.copy(
+      //    nino = None,
+      //    openRegisterOptin = None
+      //  )
+      //}
     }
     currentState
   } andThen GoToNextIncompleteStep()
@@ -62,14 +62,17 @@ class DateOfBirthStep @Inject ()(
       case Some(DateOfBirth(Some(dob), _)) if (CountryValidator.isScotland(currentState.country) && DateValidator.isTooYoungToRegisterScottish(dob) ) => {
         GoTo(ExitController.tooYoungScotland)
       }
+      case Some(DateOfBirth(_, Some(noDOB(Some(reason), Some(range))))) if range == DateOfBirthConstants.is14to15 => {
+        GoTo(ExitController.under16)
+      }
       //FOR ANY OTHER CITIZEN...
       case Some(DateOfBirth(Some(dob), _)) if (!CountryValidator.isScotland(currentState.country) && DateValidator.isTooYoungToRegister(dob) ) => {
         GoTo(ExitController.tooYoung)
       }
-      //FOR ANY CITIZEN THAT DOES NOT PROVIDE THEIR DOB (REGARDLESS OF COUNTRY OF RESIDENCE)...
       case Some(DateOfBirth(_, Some(noDOB(Some(reason), Some(range))))) if range == DateOfBirthConstants.under18 => {
         GoTo(ExitController.under18)
       }
+      //FOR ANY CITIZEN THAT DOES NOT PROVIDE THEIR DOB (REGARDLESS OF COUNTRY OF RESIDENCE)...
       case Some(DateOfBirth(_, Some(noDOB(Some(reason), Some(range))))) if range == DateOfBirthConstants.dontKnow => {
         GoTo(ExitController.dontKnow)
       }

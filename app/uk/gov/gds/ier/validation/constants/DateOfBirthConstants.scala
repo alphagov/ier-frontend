@@ -28,13 +28,19 @@ object DateOfBirthConstants {
     (now.getYear to 1899 by -1).toSeq.map(i => (i.toString, i.toString))
   }
 
+  lazy val is14to15 = "14to15"
+  lazy val is16to17 = "16to17"
   lazy val under18 = "under18"
+  lazy val over18 = "over18"
   lazy val is18to70 = "18to70"
   lazy val over70 = "over70"
   lazy val dontKnow = "dontKnow"
 
   lazy val noDobRanges = Seq(
+    is14to15,
+    is16to17,
     under18,
+    over18,
     is18to70,
     over70,
     dontKnow

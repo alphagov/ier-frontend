@@ -18,6 +18,9 @@ trait DateOfBirthMustache extends StepTemplate[InprogressOrdinary] {
       rangeUnder18: Field,
       rangeOver70: Field,
       range18to70: Field,
+      range14to15_YoungScot: Field,
+      range16to17_YoungScot: Field,
+      rangeOver18_YoungScot: Field,
       rangeDontKnow: Field,
       noDobReasonShowFlag: Text
   ) extends MustacheData
@@ -58,6 +61,18 @@ trait DateOfBirthMustache extends StepTemplate[InprogressOrdinary] {
       rangeOver70 = RadioField(
         key = keys.dob.noDob.range,
         value = "over70"
+      ),
+      range14to15_YoungScot = RadioField(
+        key = keys.dob.noDob.range,
+        value = "14to15"
+      ),
+      range16to17_YoungScot = RadioField(
+        key = keys.dob.noDob.range,
+        value = "16to17"
+      ),
+      rangeOver18_YoungScot = RadioField(
+        key = keys.dob.noDob.range,
+        value = "over18"
       ),
       rangeDontKnow = RadioField(
         key = keys.dob.noDob.range,
