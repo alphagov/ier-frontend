@@ -130,7 +130,10 @@ trait ConfirmationMustache
             case _ => ""
           }
           val ageRange = form(keys.dob.noDob.range).value match {
+            case Some("14to15") => Messages("ordinary_confirmation_dob_noDOB14to15")
+            case Some("16to17") => Messages("ordinary_confirmation_dob_noDOB16to17")
             case Some("under18") => Messages("ordinary_confirmation_dob_noDOBUnder18")
+            case Some("over18") => Messages("ordinary_confirmation_dob_noDOBOver18")
             case Some("18to70") => Messages("ordinary_confirmation_dob_noDOB18to70")
             case Some("over70") => Messages("ordinary_confirmation_dob_noDOBOver70")
             case Some("dontKnow") => Messages("ordinary_confirmation_dob_noDOBDontKnow")
@@ -391,10 +394,19 @@ trait ConfirmationMustache
       //IS CITIZEN REGISTERING IN SCOTLAND?...
       val isScot = (form(keys.country.residence).value.get.equals("Scotland"))
       //...IS CITIZEN A YOUNG VOTER?...
-      val day = form(keys.dob.dob.day).value.getOrElse("").toInt
-      val month = form(keys.dob.dob.month).value.getOrElse("").toInt
-      val year = form(keys.dob.dob.year).value.getOrElse("").toInt
-      val isYoung = DateValidator.isTooYoungToRegisterScottish(year,month,day)
+      val isYoung =
+        if (form(keys.dob.dob.day).value.isDefined) {
+          val day = form(keys.dob.dob.day).value.getOrElse("").toInt
+          val month = form(keys.dob.dob.month).value.getOrElse("").toInt
+          val year = form(keys.dob.dob.year).value.getOrElse("").toInt
+          DateValidator.isTooYoungToRegisterScottish(year,month,day)
+        } else {
+          form(keys.dob.noDob.range).value match {
+            case Some("16to17") => true
+            case _ => false
+          }
+        }
+
       //...ARE THEY BOTH??
       (isScot && isYoung)
     }
