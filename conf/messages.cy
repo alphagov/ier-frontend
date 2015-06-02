@@ -79,9 +79,9 @@ ordinary_dob_help_cannotProvideDOB_ageGroupQuestion=Beth yw eich grŵp oedran?
 ordinary_dob_help_cannotProvideDOB_ageGroup_under18_option=<span class="visuallyhidden">Rwy’n</span>Iau na 18 oed
 ordinary_dob_help_cannotProvideDOB_ageGroup_between18and70_option=<span class="visuallyhidden">Rwy’n</span>Rhwng 18 a 70 oed
 ordinary_dob_help_cannotProvideDOB_ageGroup_over70_option=<span class="visuallyhidden">Rwy’n</span>Hŷn na 70 oed
-ordinary_dob_help_cannotProvideDOB_ageGroup_14to15_option=<span class="visuallyhidden">I am</span>Between 14 and 15 years old
-ordinary_dob_help_cannotProvideDOB_ageGroup_16to17_option=<span class="visuallyhidden">I am</span>Between 16 and 17 years old
-ordinary_dob_help_cannotProvideDOB_ageGroup_over18_option=<span class="visuallyhidden">I am</span>Over 18 years old
+ordinary_dob_help_cannotProvideDOB_ageGroup_14to15_option=<span class="visuallyhidden">Rwy’n</span>Rhwng 14 a 15 oed
+ordinary_dob_help_cannotProvideDOB_ageGroup_16to17_option=<span class="visuallyhidden">Rwy’n</span>Rhwng 16 a 17 oed
+ordinary_dob_help_cannotProvideDOB_ageGroup_over18_option=<span class="visuallyhidden">Rwy’n</span>Dros 18 oed
 ordinary_dob_help_cannotProvideDOB_ageGroup_dontKnow_option=Nid wyf yn gwybod<span class="visuallyhidden"> beth yw fy ngrŵp oedran</span>
 
 ordinary_dob_error_answerThis=Atebwch y cwestiwn hwn
@@ -537,8 +537,8 @@ ordinary_address_continue=Parhau
 
 exit_tooYoung_title=Mae'n ddrwg gennym, ni allwch gofrestru i bleidleisio eto
 exit_tooYoung_explanation=Ni allwch gofrestru i bleidleisio nes eich bod yn 16 oed. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk/">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
-exit_tooYoungScotland_explanation=You can’t register to vote until you’re 14 in Scotland. In the meantime, you may be interested in the <a href="http://www.syp.org.uk/">Scottish Youth Parliament</a>.
-exit_tooYoungNotScotland_explanation=As a 14/15 year old you cannot register at an address in ENG/WAL. In the meantime, you may be interested in the <a href="http://www.ukyouthparliament.org.uk/">UK Youth Parliament</a>.
+exit_tooYoungScotland_explanation=Ni chewch gofrestru hyd nes eich bod yn 14 oed yn yr Alban. Yn y cyfamser, efallai y byddai gennych ddiddordeb yn <a href="http://www.syp.org.uk/">Senedd Ieuenctid yr Alban </a>.
+exit_tooYoungNotScotland_explanation=Fel unigolyn 14/15 oed ni allwch gofrestru mewn cyfeiriad yn Lloegr / yng Nghymru. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk/">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
 exit_tooYoung_moreAboutVoting=Mwy o wybodaeth am bleidleisio yn y DU.
 
 # British Islands
