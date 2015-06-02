@@ -20,6 +20,7 @@ GET         /register-to-vote/cookies                                    @uk.gov
 GET         /register-to-vote/exit/british-islands                       @uk.gov.gds.ier.controller.ExitController.britishIslands
 GET         /register-to-vote/exit/scotland                              @uk.gov.gds.ier.controller.ExitController.scotland
 GET         /register-to-vote/exit/northern-ireland                      @uk.gov.gds.ier.controller.ExitController.northernIreland
+GET         /register-to-vote/exit/under-16                              @uk.gov.gds.ier.controller.ExitController.under16
 GET         /register-to-vote/exit/under-18                              @uk.gov.gds.ier.controller.ExitController.under18
 GET         /register-to-vote/exit/dont-know                             @uk.gov.gds.ier.controller.ExitController.dontKnow
 GET         /register-to-vote/exit/too-young                             @uk.gov.gds.ier.controller.ExitController.tooYoung

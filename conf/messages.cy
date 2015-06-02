@@ -79,6 +79,9 @@ ordinary_dob_help_cannotProvideDOB_ageGroupQuestion=Beth yw eich grŵp oedran?
 ordinary_dob_help_cannotProvideDOB_ageGroup_under18_option=<span class="visuallyhidden">Rwy’n</span>Iau na 18 oed
 ordinary_dob_help_cannotProvideDOB_ageGroup_between18and70_option=<span class="visuallyhidden">Rwy’n</span>Rhwng 18 a 70 oed
 ordinary_dob_help_cannotProvideDOB_ageGroup_over70_option=<span class="visuallyhidden">Rwy’n</span>Hŷn na 70 oed
+ordinary_dob_help_cannotProvideDOB_ageGroup_14to15_option=<span class="visuallyhidden">I am</span>Between 14 and 15 years old
+ordinary_dob_help_cannotProvideDOB_ageGroup_16to17_option=<span class="visuallyhidden">I am</span>Between 16 and 17 years old
+ordinary_dob_help_cannotProvideDOB_ageGroup_over18_option=<span class="visuallyhidden">I am</span>Over 18 years old
 ordinary_dob_help_cannotProvideDOB_ageGroup_dontKnow_option=Nid wyf yn gwybod<span class="visuallyhidden"> beth yw fy ngrŵp oedran</span>
 
 ordinary_dob_error_answerThis=Atebwch y cwestiwn hwn
@@ -572,6 +575,11 @@ exit_scotland_explanation=Ni allwch gofrestru ar-lein eto os ydych yn byw yn yr 
 exit_scotland_instead=Yn lle hynny, gallwch lawrlwytho
 exit_scotland_registrationForm=ffurflen gofrestru
 exit_scotland_from=o'r wefan Fy Mhleidlais I.
+
+# Under 16
+exit_under16_title=Angen i chi gael gwybod eich dyddiad geni
+exit_under16_explanation=Ni allwch gofrestru i bleidleisio oni bai y gallwch gadarnhau eich bod yn 16 oed neu'n hŷn.
+exit_under16_tryToFindDOBOut=Ceisiwch ddarganfod eich dyddiad geni. Os ydych yn cael trafferth, <a href="https://www.gov.uk/get-on-electoral-register">cysylltwch â'ch Swyddfa Cofrestru Etholiadol</a> lleol am gyngor.
 
 # Under 18
 exit_under18_title=Angen i chi gael gwybod eich dyddiad geni

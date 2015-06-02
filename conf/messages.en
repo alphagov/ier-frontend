@@ -75,6 +75,9 @@ ordinary_dob_help_cannotProvideDOB_ageGroupQuestion=What age group do you belong
 ordinary_dob_help_cannotProvideDOB_ageGroup_under18_option=<span class="visuallyhidden">I am</span>Under 18 years old
 ordinary_dob_help_cannotProvideDOB_ageGroup_between18and70_option=<span class="visuallyhidden">I am</span>Between 18 and 70 years old
 ordinary_dob_help_cannotProvideDOB_ageGroup_over70_option=<span class="visuallyhidden">I am</span>Over 70 years old
+ordinary_dob_help_cannotProvideDOB_ageGroup_14to15_option=<span class="visuallyhidden">I am</span>Between 14 and 15 years old
+ordinary_dob_help_cannotProvideDOB_ageGroup_16to17_option=<span class="visuallyhidden">I am</span>Between 16 and 17 years old
+ordinary_dob_help_cannotProvideDOB_ageGroup_over18_option=<span class="visuallyhidden">I am</span>Over 18 years old
 ordinary_dob_help_cannotProvideDOB_ageGroup_dontKnow_option=Don’t know<span class="visuallyhidden"> the age group I belong to</span>
 
 ordinary_dob_error_answerThis=Please answer this question
@@ -549,6 +552,11 @@ exit_scotland_explanation=You can’t register online yet if you live in Scotlan
 exit_scotland_instead=Instead, download a
 exit_scotland_registrationForm=registration form
 exit_scotland_from=from About My Vote.
+
+# Under 16
+exit_under16_title=You need to find out your date of birth
+exit_under16_explanation=If you're under 16, you have to provide a date of birth before you can register to vote.
+exit_under16_tryToFindDOBOut=Try to find out your date of birth. If you have trouble, <a href="https://www.gov.uk/get-on-electoral-register">contact your local Electoral Registration Office</a> for advice.
 
 # Under 18
 exit_under18_title=You need to find out your date of birth
