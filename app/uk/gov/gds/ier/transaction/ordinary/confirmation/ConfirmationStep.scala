@@ -109,9 +109,10 @@ class ConfirmationStep @Inject ()(
           val hasOtherAddress = validApplication.otherAddress.exists(_.otherAddressOption.hasOtherAddress)
 
           val isBirthdayToday = validApplication.dob.exists(_.dob.exists(_.isToday))
-          val hasGssCode = validApplication.address.get.gssCode.nonEmpty
-
           var gssCode = (validApplication.address.get.gssCode)
+          val hasGssCode = !(gssCode).isEmpty
+
+
 
           val completeStepData = CompleteCookie(
             refNum = refNum,
