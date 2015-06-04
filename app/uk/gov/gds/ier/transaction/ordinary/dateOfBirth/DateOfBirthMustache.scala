@@ -1,10 +1,12 @@
 package uk.gov.gds.ier.transaction.ordinary.dateOfBirth
 
-import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.validation.{CountryValidator, ErrorTransformForm}
 import play.api.mvc.Call
 import play.api.templates.Html
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import play.api.data.validation.Constraint
+import uk.gov.gds.ier.model.Country
 
 trait DateOfBirthMustache extends StepTemplate[InprogressOrdinary] {
 
@@ -14,6 +16,7 @@ trait DateOfBirthMustache extends StepTemplate[InprogressOrdinary] {
       month: Field,
       year: Field,
       noDobReason: Field,
+      isScot: Boolean,
       rangeFieldSet: FieldSet,
       rangeUnder18: Field,
       rangeOver70: Field,
@@ -47,6 +50,8 @@ trait DateOfBirthMustache extends StepTemplate[InprogressOrdinary] {
       noDobReason = TextField(
         key = keys.dob.noDob.reason
       ),
+      //isScot = CountryValidator.isScotland(form(keys.country.residence).value),
+      isScot = true,
       rangeFieldSet = FieldSet (
         classes = if (form(keys.dob.noDob.range).hasErrors) "invalid" else ""
       ),
