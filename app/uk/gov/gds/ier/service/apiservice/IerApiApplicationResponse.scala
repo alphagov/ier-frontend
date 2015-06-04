@@ -14,6 +14,5 @@ case class EroAuthorityDetails(
   addressLine2: Option[String],
   addressLine3: Option[String],
   addressLine4: Option[String],
-  postcode: Option[String],
-  gssCode: Option[String]
+  postcode: Option[String]
 )
