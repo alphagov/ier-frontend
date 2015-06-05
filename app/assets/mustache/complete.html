@@ -33,18 +33,9 @@ class="bunting"
     <p>{{messages.complete_sentApplicationTo_p}} <strong>{{authorityName}}</strong>.</p>
     <p>{{messages.complete_contactYouTo_p2}}</p>
 
-    {{#hasGssCode}}
     <p>
     {{messages.complete_eroLink}}<a href="/register-to-vote/local-authority/{{gssCode}}?sourcePath=/register-to-vote/complete">{{authName}}</a> {{messages.complete_eroLink2}}
     </p>
-    {{/hasGssCode}}
-
-
-    {{^hasGssCode}}
-    <p>
-        {{messages.complete_eroLink}{{messages.complete_unspecificElectoralRegistrationOffice}}
-    </p>
-    {{/hasGssCode}}
 
     {{#hasOtherAddress}}
     <p>{{messages.complete_ifYouAreNotAlreadyRegistered1_p}}
