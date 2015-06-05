@@ -31,6 +31,11 @@ trait DateOfBirthMustache extends StepTemplate[InprogressOrdinary] {
   val mustache = MultilingualTemplate("ordinary/dateOfBirth") { implicit lang => (form, post) =>
     implicit val progressForm = form
 
+    val country = (form(keys.country.residence).value, form(keys.country.origin).value) match {
+      case (Some("Abroad"), origin) => Country(origin.getOrElse(""), true)
+      case (residence, _) => Country(residence.getOrElse(""), false)
+    }
+
     DateOfBirthModel(
       question = Question(
         postUrl = post.url,
@@ -50,8 +55,7 @@ trait DateOfBirthMustache extends StepTemplate[InprogressOrdinary] {
       noDobReason = TextField(
         key = keys.dob.noDob.reason
       ),
-      //isScot = CountryValidator.isScotland(form(keys.country.residence).value),
-      isScot = true,
+      isScot = CountryValidator.isScotland(Some(country)),
       rangeFieldSet = FieldSet (
         classes = if (form(keys.dob.noDob.range).hasErrors) "invalid" else ""
       ),

@@ -32,8 +32,8 @@ class DateOfBirthStep @Inject ()(
     editPost = routes.DateOfBirthStep.editPost
   )
 
-  //TODO : VALS NOT BEING WIPED AS EXPECTED
   override val onSuccess = TransformApplication { currentState =>
+    //IF AN ACTUAL DOB IS ENTERED, ENSURE NODOB IS WIPED & VICE-VERSA...
     val dateOfBirth = currentState.dob.map { currentDob =>
       if (currentDob.dob.isDefined) currentDob.copy(noDob = None)
       else {
@@ -41,19 +41,21 @@ class DateOfBirthStep @Inject ()(
       }
     }
     currentState.copy(dob = dateOfBirth)
-    if (currentState.dob.isDefined) {
-      //IF YOUNG SCOT, BLANK THE NINO & OPEN REGISTER VALUES...
-      //if (
-      //    CountryValidator.isScotland(currentState.country) &&
-      //    DateValidator.isTooYoungToRegisterScottish(currentState.dob.get.dob.get)
-      //) {
-      //  currentState.copy(
-      //    nino = None,
-      //    openRegisterOptin = None
-      //  )
-      //}
-    }
-    currentState
+
+    //IF YOUNG SCOT, BLANK THE NINO & OPEN REGISTER VALUES...
+    val currentStateNewDOB = currentState.copy(dob = dateOfBirth)
+    if (currentStateNewDOB.dob.isDefined && currentStateNewDOB.dob.get.dob.isDefined) {
+      if (
+          CountryValidator.isScotland(currentState.country) &&
+          DateValidator.isValidYoungScottishVoter(currentStateNewDOB.dob.get.dob.get)
+      ) {
+        currentStateNewDOB.copy(
+          nino = None,
+          openRegisterOptin = None
+        )
+      } else currentStateNewDOB
+    } else currentStateNewDOB
+
   } andThen GoToNextIncompleteStep()
 
   def nextStep(currentState: InprogressOrdinary) = {
