@@ -86,12 +86,23 @@ class ConfirmationStep @Inject() (
 
           val isBirthdayToday = validApplication.dob.exists(_.dob.exists(_.isToday))
 
+
+          //Get GSSCode of application if it has used addr lookup
+          var gssCode =(validApplication.address.get.address.get.gssCode)
+
+          if  (gssCode == None)
+          {
+            //if it has been a manual addr entry, pull back postcode and lookup appropriate gsscode
+            gssCode = (addressService.lookupGssCode(validApplication.address.get.address.get.postcode))
+          }
+
           val completeStepData = CompleteCookie(
             refNum = refNum,
             authority = Some(response.localAuthority),
             backToStartUrl = config.ordinaryStartUrl,
             showEmailConfirmation = (isPostalOrProxyVoteEmailPresent | isContactEmailPresent),
-            showBirthdayBunting =  isBirthdayToday
+            showBirthdayBunting =  isBirthdayToday,
+            gssCode = gssCode
           )
 
           Redirect(CompleteStep.complete())
