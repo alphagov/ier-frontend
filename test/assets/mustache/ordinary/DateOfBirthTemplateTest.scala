@@ -44,7 +44,7 @@ class DateOfBirthTemplateTest
           classes = ""
         ),
         rangeUnder18 = Field(
-          id = "rangeUnder18",
+          id = "rangeUnder18Id",
           name = "rangeUnder18Name",
           classes = "rangeUnder18Class",
           attributes = "foo=\"foo\""
