@@ -65,7 +65,7 @@ class AddressService @Inject()(locateService: LocateService, config: Config) {
   }
 
   def isScotland(postcode: String): Boolean = {
-    locateService.lookupGssCode(postcode).exists(_.startsWith("S"))
+    !config.availableForScotland && locateService.lookupGssCode(postcode).exists(_.startsWith("S"))
   }
 
   def isNothernIreland(postcode: String): Boolean = {
