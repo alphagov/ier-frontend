@@ -34,6 +34,7 @@ class CompleteTemplateTest
         backToStartUrl = "/register-to-vote/start",
         showEmailConfirmation = true,
         showBirthdayBunting = false,
+        showYoungScot = false,
         surveyLink = "http://my/survey/"
       )
 
