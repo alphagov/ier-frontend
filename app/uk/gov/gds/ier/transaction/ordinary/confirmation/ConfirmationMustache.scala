@@ -392,14 +392,20 @@ trait ConfirmationMustache
 
     private def isYoungScot: Boolean = {
       //IS CITIZEN REGISTERING IN SCOTLAND?...
-      val isScot = (form(keys.country.residence).value.get.equals("Scotland"))
+      val isScot =
+        if (form(keys.country.residence).value.isDefined) {
+          form(keys.country.residence).value.get.equals("Scotland")
+        } else {
+          false
+        }
+      //val isScot = (form(keys.country.residence).value.get.equals("Scotland"))
       //...IS CITIZEN A YOUNG VOTER?...
       val isYoung =
         if (form(keys.dob.dob.day).value.isDefined) {
           val day = form(keys.dob.dob.day).value.getOrElse("").toInt
           val month = form(keys.dob.dob.month).value.getOrElse("").toInt
           val year = form(keys.dob.dob.year).value.getOrElse("").toInt
-          DateValidator.isTooYoungToRegisterScottish(year,month,day)
+          DateValidator.isTooYoungToRegisterScottishByInt(year,month,day)
         } else {
           form(keys.dob.noDob.range).value match {
             case Some("16to17") => true

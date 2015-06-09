@@ -60,10 +60,10 @@ object DateValidator {
   /*
   Given a trio of Int year/month/day values, convert the trio into a formal DOB object and pass to the above function
    */
-  def isTooYoungToRegisterScottish(year: Int, month: Int, day: Int) = {
+  def isTooYoungToRegisterScottishByInt(year: Int, month: Int, day: Int) = {
     try {
       val dateOfBirth = new DOB(year,month,day)
-      isTooYoungToRegister(dateOfBirth)
+      isTooYoungToRegisterScottish(dateOfBirth)
     } catch {
       case ex: Exception => false
     }
