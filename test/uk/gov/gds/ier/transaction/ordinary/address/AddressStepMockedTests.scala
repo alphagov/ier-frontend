@@ -42,7 +42,7 @@ class AddressStepMockedTests extends FlatSpec with TestHelpers with Matchers wit
 
     val postcode = "L7 7AJ"
 
-    when (mockedAddressService.isScotland(postcode)).thenReturn(false)
+    when (mockedAddressService.isScotAddress(postcode)).thenReturn(false)
     val currentState = completeOrdinaryApplication.copy(
     		address = Some(PartialAddress(None, None, postcode, None, None)),
         dob = Some(DateOfBirth(
