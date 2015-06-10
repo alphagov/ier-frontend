@@ -469,6 +469,9 @@ complete_deadline_2=However, your application can still be processed for other f
 
 complete_electoralRegistrationOffice=Electoral Registration Office
 complete_unspecificElectoralRegistrationOffice=your local Electoral Registration Office
+complete_eroLink=If you have any questions about your application, you should contact
+complete_ero=Electoral Registration Office
+complete_eroLink2=with your reference number.
 
 complete_social_heading=Tell others about this service
 complete_social_twitter_link_text=Share on Twitter

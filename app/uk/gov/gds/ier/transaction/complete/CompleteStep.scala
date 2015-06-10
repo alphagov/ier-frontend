@@ -38,7 +38,8 @@ class CompleteStep @Inject() (
             confirmationData.backToStartUrl,
             confirmationData.showEmailConfirmation,
             confirmationData.showBirthdayBunting,
-            config.completeSurveyLink
+            config.completeSurveyLink,
+            confirmationData.gssCode
           ))
         }
         case None => {

@@ -28,7 +28,8 @@ trait CompleteMustache {
         backToStartUrl: String,
         showEmailConfirmation: Boolean,
         showBirthdayBunting: Boolean,
-        surveyLink: String
+        surveyLink: String,
+        gssCode: Option[String]
     ) (
         implicit override val lang: Lang
     ) extends InheritedMustachio("complete") {
@@ -44,6 +45,11 @@ trait CompleteMustache {
       val authorityName = authority map {
         auth => auth.name + " " + Messages("complete_electoralRegistrationOffice")
       } getOrElse Messages("complete_unspecificElectoralRegistrationOffice")
+
+      val authName = authority map {
+        auth => " " + auth.name + " "
+      } getOrElse Messages("complete_unspecificElectoralRegistrationOffice")
+
     }
   }
 }

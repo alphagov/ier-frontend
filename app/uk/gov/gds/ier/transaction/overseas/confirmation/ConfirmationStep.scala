@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.overseas.confirmation
 
+import uk.gov.gds.ier.service.{WithAddressService, AddressService}
 import uk.gov.gds.ier.transaction.overseas.{OverseasControllers, WithOverseasControllers}
 import uk.gov.gds.ier.controller.routes.ErrorController
 import uk.gov.gds.ier.transaction.complete.routes.CompleteStep
@@ -25,11 +26,13 @@ class ConfirmationStep @Inject() (
     val serialiser: JsonSerialiser,
     ierApi: IerApiService,
     val remoteAssets: RemoteAssets,
-    val overseas: OverseasControllers
+    val overseas: OverseasControllers,
+    val addressService: AddressService
   ) extends ConfirmationStepController[InprogressOverseas]
   with WithOverseasControllers
   with ConfirmationForms
   with ErrorPageMustache
+  with WithAddressService
   with ConfirmationMustache
   with ResultHandling
   with WithRemoteAssets {
@@ -92,12 +95,22 @@ class ConfirmationStep @Inject() (
 
           val isBirthdayToday = validApplication.dob.exists(_.isToday)
 
+          //Get GSSCode of application if it has used addr lookup
+          var gssCode =(validApplication.lastUkAddress.get.gssCode)
+
+          if  (gssCode == None)
+          {
+            //if it has been a manual addr entry, pull back postcode and lookup appropriate gsscode
+            gssCode = (addressService.lookupGssCode(validApplication.lastUkAddress.get.postcode))
+          }
+
           val completeStepData = CompleteCookie(
             refNum = refNum,
             authority = Some(response.localAuthority),
             backToStartUrl = config.ordinaryStartUrl,
             showEmailConfirmation = (isPostalOrProxyVoteEmailPresent | isContactEmailPresent),
-            showBirthdayBunting =  isBirthdayToday
+            showBirthdayBunting =  isBirthdayToday,
+            gssCode = gssCode
           )
 
           Redirect(CompleteStep.complete())

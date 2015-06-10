@@ -32,8 +32,9 @@ class="bunting"
     <h2>{{messages.complete_whatHappensNext_h2}}</h2>
     <p>{{messages.complete_sentApplicationTo_p}} <strong>{{authorityName}}</strong>.</p>
     <p>{{messages.complete_contactYouTo_p2}}</p>
+
     <p>
-        {{messages.complete_questionsContact_p1}}
+    {{messages.complete_eroLink}}{{authName}}<a href="/register-to-vote/local-authority/{{gssCode}}?sourcePath=/register-to-vote/complete">{{messages.complete_ero}}</a> {{messages.complete_eroLink2}}
     </p>
 
     {{#hasOtherAddress}}
