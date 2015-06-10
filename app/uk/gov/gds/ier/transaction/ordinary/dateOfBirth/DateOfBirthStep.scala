@@ -44,7 +44,7 @@ class DateOfBirthStep @Inject ()(
 
     //IF YOUNG SCOT, BLANK THE NINO & OPEN REGISTER VALUES...
     val currentStateNewDOB = currentState.copy(dob = dateOfBirth)
-    if (currentStateNewDOB.dob.isDefined && currentStateNewDOB.dob.get.dob.isDefined) {
+    if(currentStateNewDOB.dob.exists(_.dob.isDefined)) {
       if (
           CountryValidator.isScotland(currentState.country) &&
           DateValidator.isValidYoungScottishVoter(currentStateNewDOB.dob.get.dob.get)
