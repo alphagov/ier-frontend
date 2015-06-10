@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.ordinary.confirmation
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.validation.{DateValidator, CountryValidator, Key, ErrorTransformForm}
-import uk.gov.gds.ier.model.{PostalVoteDeliveryMethod, PostalVoteOption, OtherAddress, MovedHouseOption}
+import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
@@ -12,6 +12,10 @@ import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.form.OrdinaryFormImplicits
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.ordinary.WithOrdinaryControllers
+import uk.gov.gds.ier.validation.Key
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.shared.EitherErrorOrContent
+import scala.Some
 
 trait ConfirmationMustache
     extends StepTemplate[InprogressOrdinary] {
@@ -398,14 +402,13 @@ trait ConfirmationMustache
         } else {
           false
         }
-      //val isScot = (form(keys.country.residence).value.get.equals("Scotland"))
       //...IS CITIZEN A YOUNG VOTER?...
       val isYoung =
         if (form(keys.dob.dob.day).value.isDefined) {
           val day = form(keys.dob.dob.day).value.getOrElse("").toInt
           val month = form(keys.dob.dob.month).value.getOrElse("").toInt
           val year = form(keys.dob.dob.year).value.getOrElse("").toInt
-          DateValidator.isTooYoungToRegisterScottishByInt(year,month,day)
+          DateValidator.isValidYoungScottishVoter(new DOB(year, month, day))
         } else {
           form(keys.dob.noDob.range).value match {
             case Some("16to17") => true
