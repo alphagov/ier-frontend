@@ -34,7 +34,8 @@ class CompleteTemplateTest
         backToStartUrl = "/register-to-vote/start",
         showEmailConfirmation = true,
         showBirthdayBunting = false,
-        surveyLink = "http://my/survey/"
+        surveyLink = "http://my/survey/",
+        gssCode = None
       )
 
       val html = mustache.render()
