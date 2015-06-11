@@ -47,7 +47,7 @@ class CompleteTemplateTest
       doc.select("a[href=http://my/survey/]").size() should be(1)
 
       renderedOutput should include(mustache.refNumber)
-      renderedOutput should include(mustache.authorityName)
+      renderedOutput should include(mustache.authName)
     }
   }
 }
