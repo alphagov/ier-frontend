@@ -36,8 +36,13 @@ class PreviousAddressSelectStep @Inject() (
 
   def nextStep(currentState: InprogressOrdinary) = {
     //IF YOUNG SCOTTISH CITIZEN, SKIP THE OPEN REGISTER STEP...
-    if (CountryValidator.isScotland(currentState.country) && DateValidator.isValidYoungScottishVoter(currentState.dob.get.dob.get)) {
-      ordinary.PostalVoteStep
+    if(currentState.dob.exists(_.dob.isDefined)) {
+      if (CountryValidator.isScotland(currentState.country) && DateValidator.isValidYoungScottishVoter(currentState.dob.get.dob.get)) {
+        ordinary.PostalVoteStep
+      }
+      else {
+        ordinary.OpenRegisterStep
+      }
     }
     else {
       ordinary.OpenRegisterStep

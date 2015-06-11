@@ -16,14 +16,12 @@ trait ConfirmationForms extends OrdinaryMappings {
       keys.previousName.key -> optional(PreviousName.mapping).verifying("ordinary_confirmation_error_completeThis", _.isDefined),
       keys.dob.key -> optional(dobAndReasonMapping).verifying("ordinary_confirmation_error_completeThis", _.isDefined),
       keys.nationality.key -> optional(PartialNationality.mapping).verifying("ordinary_confirmation_error_completeThis", _.isDefined),
-      //keys.nino.key -> optional(Nino.mapping).verifying("ordinary_confirmation_error_completeThis", _.isDefined),
       keys.nino.key -> optional(Nino.mapping),
       keys.address.key -> optional(partialAddressMapping).verifying("ordinary_confirmation_error_completeThis", _.isDefined),
       keys.previousAddress.key ->
         optional(PartialPreviousAddress.mapping.verifying(previousAddressRequiredIfMoved))
         .verifying("ordinary_confirmation_error_completeThis", _.isDefined),
       keys.otherAddress.key -> optional(OtherAddress.otherAddressMapping).verifying("ordinary_confirmation_error_completeThis", _.isDefined),
-      //keys.openRegister.key -> optional(optInMapping).verifying("ordinary_confirmation_error_completeThis", _.isDefined),
       keys.openRegister.key -> optional(optInMapping),
       keys.postalVote.key -> optional(PostalVote.mapping).verifying("ordinary_confirmation_error_completeThis", _.isDefined),
       keys.contact.key -> optional(Contact.mapping).verifying("ordinary_confirmation_error_completeThis", _.isDefined),
@@ -40,35 +38,45 @@ trait ConfirmationForms extends OrdinaryMappings {
 
   lazy val ninoIsYoungScot = Constraint[InprogressOrdinary](keys.nino.key) {
     application =>
-      if (
-          CountryValidator.isScotland(application.country) &&
-          DateValidator.isValidYoungScottishVoter(application.dob.get.dob.get)
-      ) {
-        Valid
+      if(application.dob.exists(_.dob.isDefined)) {
+        if (
+            CountryValidator.isScotland(application.country) &&
+            DateValidator.isValidYoungScottishVoter(application.dob.get.dob.get)
+        ) {
+          Valid
+        }
+        else {
+          if(application.nino.isDefined) {
+            Valid
+          } else {
+            Invalid(ValidationError("ordinary_confirmation_error_completeThis", keys.nino))
+          }
+        }
       }
       else {
-        if(application.nino.isDefined) {
-          Valid
-        } else {
-          Invalid(ValidationError("ordinary_confirmation_error_completeThis", keys.nino))
-        }
+        Invalid(ValidationError("ordinary_confirmation_error_completeThis", keys.nino))
       }
   }
 
   lazy val openRegIsYoungScot = Constraint[InprogressOrdinary](keys.openRegister.key) {
     application =>
-      if (
-          CountryValidator.isScotland(application.country) &&
-          DateValidator.isValidYoungScottishVoter(application.dob.get.dob.get)
-      ) {
-        Valid
+      if(application.dob.exists(_.dob.isDefined)) {
+        if (
+            CountryValidator.isScotland(application.country) &&
+            DateValidator.isValidYoungScottishVoter(application.dob.get.dob.get)
+        ) {
+          Valid
+        }
+        else {
+          if(application.openRegisterOptin.isDefined) {
+            Valid
+          } else {
+            Invalid(ValidationError("ordinary_confirmation_error_completeThis", keys.openRegister))
+          }
+        }
       }
       else {
-        if(application.openRegisterOptin.isDefined) {
-          Valid
-        } else {
-          Invalid(ValidationError("ordinary_confirmation_error_completeThis", keys.openRegister))
-        }
+        Invalid(ValidationError("ordinary_confirmation_error_completeThis", keys.openRegister))
       }
   }
 

@@ -47,8 +47,13 @@ class PreviousAddressFirstStep @Inject ()(
       case Some(MovedHouseOption.MovedFromAbroadRegistered) => nextAddressStep
       case Some(MovedHouseOption.MovedFromAbroadNotRegistered) =>
         //IF YOUNG SCOTTISH CITIZEN, SKIP THE OPEN REGISTER STEP...
-        if (CountryValidator.isScotland(currentState.country) && DateValidator.isValidYoungScottishVoter(currentState.dob.get.dob.get)) {
-          ordinary.PostalVoteStep
+        if(currentState.dob.exists(_.dob.isDefined)) {
+          if (CountryValidator.isScotland(currentState.country) && DateValidator.isValidYoungScottishVoter(currentState.dob.get.dob.get)) {
+            ordinary.PostalVoteStep
+          }
+          else {
+            ordinary.OpenRegisterStep
+          }
         }
         else {
           ordinary.OpenRegisterStep
@@ -56,8 +61,13 @@ class PreviousAddressFirstStep @Inject ()(
       case Some(MovedHouseOption.MovedFromUk) => nextAddressStep
       case Some(MovedHouseOption.NotMoved) =>
         //IF YOUNG SCOTTISH CITIZEN, SKIP THE OPEN REGISTER STEP...
-        if (CountryValidator.isScotland(currentState.country) && DateValidator.isValidYoungScottishVoter(currentState.dob.get.dob.get)) {
-          ordinary.PostalVoteStep
+        if(currentState.dob.exists(_.dob.isDefined)) {
+          if (CountryValidator.isScotland(currentState.country) && DateValidator.isValidYoungScottishVoter(currentState.dob.get.dob.get)) {
+            ordinary.PostalVoteStep
+          }
+          else {
+            ordinary.OpenRegisterStep
+          }
         }
         else {
           ordinary.OpenRegisterStep

@@ -32,8 +32,13 @@ class NameStep @Inject ()(
 
   def nextStep(currentState: InprogressOrdinary) = {
     //IF YOUNG SCOTTISH CITIZEN, SKIP THE NINO STEP...
-    if (CountryValidator.isScotland(currentState.country) && DateValidator.isValidYoungScottishVoter(currentState.dob.get.dob.get)) {
-      ordinary.AddressStep
+    if(currentState.dob.exists(_.dob.isDefined)) {
+      if (CountryValidator.isScotland(currentState.country) && DateValidator.isValidYoungScottishVoter(currentState.dob.get.dob.get)) {
+        ordinary.AddressStep
+      }
+      else {
+        ordinary.NinoStep
+      }
     }
     else {
       ordinary.NinoStep
