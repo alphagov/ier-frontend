@@ -95,13 +95,20 @@ class ConfirmationStep @Inject() (
 
           val isBirthdayToday = validApplication.dob.exists(_.isToday)
 
-          //Get GSSCode of application if it has used addr lookup
-          var gssCode =(validApplication.lastUkAddress.get.gssCode)
 
-          if  (gssCode == None)
+          var gssCode = None: Option[String]
+          if (validApplication.parentsAddress.isDefined) {gssCode = (validApplication.parentsAddress.get.gssCode)}
+          if (validApplication.lastUkAddress.isDefined) {gssCode = (validApplication.lastUkAddress.get.gssCode)}
+
+
+
+          if (gssCode.isEmpty)
           {
-            //if it has been a manual addr entry, pull back postcode and lookup appropriate gsscode
-            gssCode = (addressService.lookupGssCode(validApplication.lastUkAddress.get.postcode))
+            if (validApplication.overseasParentName.isEmpty) {
+              gssCode = addressService.lookupGssCode(validApplication.lastUkAddress.get.postcode)
+            }
+
+            else {gssCode = addressService.lookupGssCode(validApplication.parentsAddress.get.postcode) }
           }
 
           val completeStepData = CompleteCookie(
