@@ -470,7 +470,8 @@ complete_deadline_2=However, your application can still be processed for other f
 complete_electoralRegistrationOffice=Electoral Registration Office
 complete_unspecificElectoralRegistrationOffice=your local Electoral Registration Office
 complete_ero=Electoral Registration Office
-complete_contact=Contact them with your reference number if you have any questions about your application.
+complete_contact=Contact them
+complete_contact2=with your reference number if you have any questions about your application.
 
 complete_social_heading=Tell others about this service
 complete_social_twitter_link_text=Share on Twitter
