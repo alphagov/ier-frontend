@@ -488,7 +488,8 @@ complete_ackEmail=Rydym wedi anfon e-bost cydnabod atoch.c
 complete_electoralRegistrationOffice=Swyddfa Gofrestru Etholiadol
 complete_unspecificElectoralRegistrationOffice=eich Swyddfa Gofrestru Etholiadol leol
 complete_ero=Swyddfa Cofrestru Etholiadol
-complete_contact=Cysylltwch â nhw gyda'ch cyfeirnod os oes gennych unrhyw gwestiynau ynghylch eich cais.
+complete_contact=Cysylltwch â nhw
+complete_contact2=gyda'ch cyfeirnod os oes gennych unrhyw gwestiynau ynghylch eich cais.
 
 complete_social_heading=Dweud wrth eraill am y gwasanaeth hwn
 complete_social_twitter_link_text=Rhannu ar Twitter
