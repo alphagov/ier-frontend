@@ -491,6 +491,7 @@ complete_moreAboutVoting_url=https://www.gov.uk/gwybodaethamgofrestru
 complete_takeOurSurvey_a=Beth oedd eich barn am y gwasanaeth hwn?
 complete_takeOurSurvey_p= (yn cymryd 30 eiliad)
 complete_ackEmail=Rydym wedi anfon e-bost cydnabod atoch.c
+complete_youngScot=If your application is successful, they will send you a confirmation letter and when you turn 16 you will be eligible to vote in Scottish Parliament and local government elections, and any other elections which use the Scottish local government franchise.
 
 complete_electoralRegistrationOffice=Swyddfa Gofrestru Etholiadol
 complete_unspecificElectoralRegistrationOffice=eich Swyddfa Gofrestru Etholiadol leol
