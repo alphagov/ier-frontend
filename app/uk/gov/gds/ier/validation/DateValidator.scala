@@ -86,31 +86,12 @@ object DateValidator {
   }
 
   /*
-  Is the citizen aged 14 precisely?
+    Given a DOB object, return the age in years the object is based on the current date
    */
-  def is14(dateOfBirth: DOB) = {
-    try {
-      val fourteenYearsAgo = DateTime.now.minusYears(14).toDateMidnight
-      val fifteenYearsAgo = DateTime.now.minusYears(15).toDateMidnight
-      val dob = parseToDateMidnight(dateOfBirth)
-      (dob.isBefore(fourteenYearsAgo) || dob.isEqual(fourteenYearsAgo)) && dob.isAfter(fifteenYearsAgo)
-    } catch {
-      case ex: Exception => false
-    }
-  }
-
-  /*
-  Is the citizen aged 15 precisely?
-   */
-  def is15(dateOfBirth: DOB) = {
-    try {
-      val fifteenYearsAgo = DateTime.now.minusYears(15).toDateMidnight
-      val sixteenYearsAgo = DateTime.now.minusYears(16).toDateMidnight
-      val dob = parseToDateMidnight(dateOfBirth)
-      (dob.isBefore(fifteenYearsAgo) || dob.isEqual(fifteenYearsAgo)) && dob.isAfter(sixteenYearsAgo)
-    } catch {
-      case ex: Exception => false
-    }
+  def getAge(dateOfBirth: DOB): Int = {
+    val dob = new LocalDate (dateOfBirth.year, dateOfBirth.month, dateOfBirth.day)
+    val now = new LocalDate()
+    Years.yearsBetween(dob, now).getYears
   }
 
   def dateLeftUkOver15Years(dateLeftUk:DateLeft):Boolean = {

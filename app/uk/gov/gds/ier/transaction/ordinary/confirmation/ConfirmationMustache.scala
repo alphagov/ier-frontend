@@ -67,7 +67,7 @@ trait ConfirmationMustache
       ),
       completeApplicantDetails = completeApplicantData,
       isYoungScot = isYoungScot(form),
-      youngScotMsg = Messages("ordinary_confirmation_young_scot", getYoungScotAge(getDOB(form)))
+      youngScotMsg = Messages("ordinary_confirmation_young_scot", DateValidator.getAge(getDOB(form)))
     )
 
   }
@@ -427,12 +427,6 @@ trait ConfirmationMustache
     val month = form(keys.dob.dob.month).value.getOrElse("").toInt
     val year = form(keys.dob.dob.year).value.getOrElse("").toInt
     new DOB(year,month,day)
-  }
-
-  private def getYoungScotAge(dob: DOB): Int = {
-    if(DateValidator.is14(dob)) 14
-    else if (DateValidator.is15(dob)) 15
-    else -1
   }
 
 }
