@@ -1,9 +1,11 @@
 package uk.gov.gds.ier.validation
 
 import uk.gov.gds.ier.model.DOB
-import org.joda.time.{DateTime, DateMidnight}
-import org.joda.time.Months
+import org.joda.time._
 import uk.gov.gds.ier.model.DateLeft
+import uk.gov.gds.ier.model.DateLeft
+import uk.gov.gds.ier.model.DOB
+import scala.Some
 
 object DateValidator {
 

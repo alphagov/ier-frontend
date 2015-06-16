@@ -2,7 +2,9 @@
   <header>
     <h1>{{messages.ordinary_confirmation_title}}</h1>
   </header>
-    <p>{{messages.ordinary_confirmation_young_scot}}</p>
+    {{#isYoungScot}}
+        <p>{{youngScotMsg}}</p>
+    {{/isYoungScot}}
 
     {{#completeApplicantDetails}}
     <div>

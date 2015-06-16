@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.ordinary.confirmation
 
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.logging.Logging
-import uk.gov.gds.ier.validation.{DateValidator, CountryValidator, Key, ErrorTransformForm}
+import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
@@ -12,9 +12,13 @@ import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.form.OrdinaryFormImplicits
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.ordinary.WithOrdinaryControllers
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.shared.EitherErrorOrContent
+import scala.Some
 import uk.gov.gds.ier.validation.Key
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.shared.EitherErrorOrContent
+import uk.gov.gds.ier.model.DOB
 import scala.Some
 
 trait ConfirmationMustache
@@ -33,7 +37,9 @@ trait ConfirmationMustache
 
   case class ConfirmationModel(
       question: Question,
-      completeApplicantDetails: List[ConfirmationQuestion]
+      completeApplicantDetails: List[ConfirmationQuestion],
+      isYoungScot: Boolean,
+      youngScotMsg: String
   ) extends MustacheData
 
   val mustache = MultilingualTemplate("ordinary/confirmation") { implicit lang => (form, postUrl) =>
@@ -59,7 +65,9 @@ trait ConfirmationMustache
         postUrl = postUrl.url,
         contentClasses = "confirmation"
       ),
-      completeApplicantDetails = completeApplicantData
+      completeApplicantDetails = completeApplicantData,
+      isYoungScot = isYoungScot(form),
+      youngScotMsg = Messages("ordinary_confirmation_young_scot", getYoungScotAge(getDOB(form)))
     )
 
   }
@@ -190,7 +198,7 @@ trait ConfirmationMustache
 
     def applicantNino : Option[ConfirmationQuestion] = {
       //IF YOUNG SCOTTISH CITIZEN, SKIP THE NINO CONFIRMATION BLOCK...
-      if (!isYoungScot) {
+      if (!isYoungScot(form)) {
         Some(nino)
       } else {
         None
@@ -283,7 +291,7 @@ trait ConfirmationMustache
 
     def applicantOpenRegister : Option[ConfirmationQuestion] = {
       //IF YOUNG SCOTTISH CITIZEN, SKIP THE OPEN REGISTER CONFIRMATION BLOCK...
-      if (!isYoungScot) {
+      if (!isYoungScot(form)) {
         Some(openRegister)
       } else {
         None
@@ -393,33 +401,38 @@ trait ConfirmationMustache
       val otherCountries = form.obtainOtherCountriesList
       (isBritish || isIrish || !otherCountries.isEmpty)
     }
-
-    private def isYoungScot: Boolean = {
-      //IS CITIZEN REGISTERING IN SCOTLAND?...
-      val isScot =
-        if (form(keys.country.residence).value.isDefined) {
-          form(keys.country.residence).value.get.equals("Scotland")
-        } else {
-          false
-        }
-      //...IS CITIZEN A YOUNG VOTER?...
-      val isYoung =
-        if (form(keys.dob.dob.day).value.isDefined) {
-          val day = form(keys.dob.dob.day).value.getOrElse("").toInt
-          val month = form(keys.dob.dob.month).value.getOrElse("").toInt
-          val year = form(keys.dob.dob.year).value.getOrElse("").toInt
-          DateValidator.isValidYoungScottishVoter(new DOB(year, month, day))
-        } else {
-          form(keys.dob.noDob.range).value match {
-            case Some("16to17") => true
-            case _ => false
-          }
-        }
-
-      //...ARE THEY BOTH??
-      (isScot && isYoung)
-    }
-
-
   }
+
+  private def isYoungScot(form: ErrorTransformForm[InprogressOrdinary]): Boolean = {
+    //IS CITIZEN REGISTERING IN SCOTLAND?...
+    val isScot = form(keys.country.residence).value.exists(_.equals("Scotland"))
+
+    //...IS CITIZEN A YOUNG VOTER?...
+    val isYoung =
+      if (form(keys.dob.dob.day).value.isDefined) {
+        DateValidator.isValidYoungScottishVoter(getDOB(form))
+      } else {
+        form(keys.dob.noDob.range).value match {
+          case Some("16to17") => true
+          case _ => false
+        }
+      }
+
+    //...ARE THEY BOTH??
+    (isScot && isYoung)
+  }
+
+  private def getDOB(form: ErrorTransformForm[InprogressOrdinary]): DOB = {
+    val day = form(keys.dob.dob.day).value.getOrElse("").toInt
+    val month = form(keys.dob.dob.month).value.getOrElse("").toInt
+    val year = form(keys.dob.dob.year).value.getOrElse("").toInt
+    new DOB(year,month,day)
+  }
+
+  private def getYoungScotAge(dob: DOB): Int = {
+    if(DateValidator.is14(dob)) 14
+    else if (DateValidator.is15(dob)) 15
+    else -1
+  }
+
 }
