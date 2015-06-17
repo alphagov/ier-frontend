@@ -422,11 +422,16 @@ trait ConfirmationMustache
     (isScot && isYoung)
   }
 
+  /*
+    Given the current application form object,
+    if DAY/MONTH/YEAR INTs exist, return a formal DOB object of this date...
+    ...else return a dummy 1900 DOB which is never a valid date for a YoungScot anyway.
+   */
   private def getDOB(form: ErrorTransformForm[InprogressOrdinary]): DOB = {
-    val day = form(keys.dob.dob.day).value.getOrElse("").toInt
-    val month = form(keys.dob.dob.month).value.getOrElse("").toInt
-    val year = form(keys.dob.dob.year).value.getOrElse("").toInt
-    new DOB(year,month,day)
+    (form(keys.dob.dob.day).value, form(keys.dob.dob.month).value, form(keys.dob.dob.year).value) match {
+      case(Some(day), Some(month), Some(year)) => new DOB(year.toInt, month.toInt, day.toInt)
+      case _ => DOB(1900,1,1)
+    }
   }
 
 }
