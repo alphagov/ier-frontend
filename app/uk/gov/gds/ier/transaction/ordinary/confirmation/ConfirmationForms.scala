@@ -92,7 +92,11 @@ trait ConfirmationConstraints {
         }
       }
       else {
-        Invalid(ValidationError("ordinary_confirmation_error_completeThis", keys.nino))
+        if(application.nino.isDefined) {
+          Valid
+        } else {
+          Invalid(ValidationError("ordinary_confirmation_error_completeThis", keys.nino))
+        }
       }
   }
 
@@ -115,7 +119,11 @@ trait ConfirmationConstraints {
         }
       }
       else {
-        Invalid(ValidationError("ordinary_confirmation_error_completeThis", keys.openRegister))
+        if(application.openRegisterOptin.isDefined) {
+          Valid
+        } else {
+          Invalid(ValidationError("ordinary_confirmation_error_completeThis", keys.openRegister))
+        }
       }
   }
 
