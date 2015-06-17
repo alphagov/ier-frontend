@@ -2,23 +2,26 @@ package uk.gov.gds.ier.transaction.ordinary.address
 
 import play.api.data.Forms._
 import play.api.data.validation.{Invalid, Valid, Constraint}
-import uk.gov.gds.ier.validation.{
-  ErrorTransformForm,
-  ErrorMessages,
-  FormKeys,
-  PostcodeValidator}
+import uk.gov.gds.ier.validation._
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import uk.gov.gds.ier.serialiser.WithSerialiser
-import uk.gov.gds.ier.model.Addresses
-import uk.gov.gds.ier.model.PartialAddress
-import uk.gov.gds.ier.model.PartialManualAddress
-import uk.gov.gds.ier.model.PossibleAddress
+import uk.gov.gds.ier.model._
 import scala.Some
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import scala.Some
+import uk.gov.gds.ier.service.WithAddressService
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import scala.Some
+import uk.gov.gds.ier.model.Addresses
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import scala.Some
+import uk.gov.gds.ier.model.PossibleAddress
 
 trait AddressForms extends AddressConstraints {
   self: FormKeys
   with ErrorMessages
+  //with WithAddressService
   with WithSerialiser =>
 
   // address mapping for select address page - the address part
@@ -75,17 +78,27 @@ trait AddressForms extends AddressConstraints {
     )
   )
 
+  lazy val countryMappingForAddress = mapping(
+    keys.residence.key -> optional(text),
+    keys.origin.key -> optional(text)
+  ) {
+    case (Some("Abroad"), origin) => Country(origin.getOrElse(""), true)
+    case (residence, _) => Country(residence.getOrElse(""), false)
+  } {
+    case Country(country, true) => Some(Some("Abroad"), Some(country))
+    case Country(country, false) => Some(Some(country), None)
+  }
+
   // postcodeAddressForm
   val lookupAddressForm = ErrorTransformForm(
     mapping (
-      keys.address.key -> optional(postcodeLookupMapping)
+      keys.address.key -> optional(postcodeLookupMapping) ,
+      keys.country.key -> optional(countryMappingForAddress)
     ) (
-      addr => InprogressOrdinary(
-        address = addr
-      )
+      (addr, country) => InprogressOrdinary(address = addr, country = country)
     ) (
-      inprogress => Some(inprogress.address)
-    ).verifying( postcodeIsNotEmpty )
+      inprogress => Some(inprogress.address, inprogress.country)
+    ).verifying( postcodeIsNotEmpty, cannotBeYoungVoterFromOutsideScotland )
   )
 
   // selectedAddressForm
@@ -138,6 +151,21 @@ trait AddressConstraints extends CommonConstraints {
           Invalid("ordinary_address_error_pleaseEnterYourPostcode", keys.address.postcode)
         }
         case None => Invalid("ordinary_address_error_pleaseEnterYourPostcode", keys.address.postcode)
+        case _ => Valid
+      }
+  }
+
+  lazy val cannotBeYoungVoterFromOutsideScotland = Constraint[InprogressOrdinary](keys.address.key) {
+    inprogress =>
+      inprogress.address match {
+        case Some(partialAddress)
+          if (
+              //!addressService.isScotland(partialAddress.postcode) &&
+              CountryValidator.isScotland(inprogress.country) &&
+              (inprogress.dob.exists(dobPageObj => dobPageObj.dob.exists(DateValidator.isValidYoungScottishVoter(_))))
+            ) => {
+            Invalid("MUST BE YOUNG SCOT", keys.address.postcode)
+          }
         case _ => Valid
       }
   }

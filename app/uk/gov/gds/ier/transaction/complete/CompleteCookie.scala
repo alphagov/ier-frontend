@@ -9,5 +9,6 @@ case class CompleteCookie(
     backToStartUrl: String = "",
     showEmailConfirmation: Boolean = false,
     showBirthdayBunting: Boolean = false,
-    gssCode: Option[String] = None
+    gssCode: Option[String] = None,
+    showYoungScot: Boolean = false
 )

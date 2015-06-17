@@ -79,6 +79,9 @@ ordinary_dob_help_cannotProvideDOB_ageGroupQuestion=Beth yw eich grŵp oedran?
 ordinary_dob_help_cannotProvideDOB_ageGroup_under18_option=<span class="visuallyhidden">Rwy’n</span>Iau na 18 oed
 ordinary_dob_help_cannotProvideDOB_ageGroup_between18and70_option=<span class="visuallyhidden">Rwy’n</span>Rhwng 18 a 70 oed
 ordinary_dob_help_cannotProvideDOB_ageGroup_over70_option=<span class="visuallyhidden">Rwy’n</span>Hŷn na 70 oed
+ordinary_dob_help_cannotProvideDOB_ageGroup_14to15_option=<span class="visuallyhidden">Rwy’n</span>Rhwng 14 a 15 oed
+ordinary_dob_help_cannotProvideDOB_ageGroup_16to17_option=<span class="visuallyhidden">Rwy’n</span>Rhwng 16 a 17 oed
+ordinary_dob_help_cannotProvideDOB_ageGroup_over18_option=<span class="visuallyhidden">Rwy’n</span>Dros 18 oed
 ordinary_dob_help_cannotProvideDOB_ageGroup_dontKnow_option=Nid wyf yn gwybod<span class="visuallyhidden"> beth yw fy ngrŵp oedran</span>
 
 ordinary_dob_error_answerThis=Atebwch y cwestiwn hwn
@@ -167,7 +170,7 @@ ordinary_address_error_cityIsRequired=Mae angen enw tref neu ddinas
 #
 ordinary_address_postcode_title=Beth yw eich cyfeiriad?
 
-ordinary_address_postcode_enterPostcodeWhenRegistering_p=Nodwch god post y cyfeiriad ble rydych chi’n cofrestru i bleidleisio.
+ordinary_address_postcode_enterPostcodeWhenRegistering_p=Rhowch god post eich cyfeiriad presennol. Dyma lle byddwch wedi'ch cofrestru i bleidleisio.
 ordinary_address_postcode_postcode_label=Cod post
 
 ordinary_address_postcode_dontKnowMyPostcode_h2=Dydw i ddim yn gwybod pa god post i’w ddefnyddio
@@ -403,7 +406,10 @@ ordinary_confirmation_previousName_nameNotChanged=Nid wyf wedi newid fy enw yn y
 ordinary_confirmation_dob_title=Dyddiad geni
 ordinary_confirmation_dob_changeName=dyddiad geni
 ordinary_confirmation_dob_noDOBReason=Yr ydych yn gallu darparu eich dyddiad geni oherwydd: {0}
+ordinary_confirmation_dob_noDOB14to15=I am between 14 and 15 years old
+ordinary_confirmation_dob_noDOB16to17=I am between 16 and 17 years old
 ordinary_confirmation_dob_noDOBUnder18=Rwy’n iau na 18 oed
+ordinary_confirmation_dob_noDOBOver18=I am roughly over 18
 ordinary_confirmation_dob_noDOB18to70=Rwyf rhwng 18 a 70 oed
 ordinary_confirmation_dob_noDOBOver70=Rwy’n hŷn na 70 oed
 ordinary_confirmation_dob_noDOBDontKnow=Nid wyf yn gwybod fy oed
@@ -458,6 +464,7 @@ ordinary_confirmation_help_h2=Anfon eich cais
 ordinary_confirmation_help_p1=Drwy anfon eich cais rydych yn cadarnhau fod y wybodaeth a ddarperir gennych yn wir.
 ordinary_confirmation_help_p2=Efallai caiff eich gwybodaeth ei rhannu gydag adrannau eraill y Llywodraeth I wirio eich hunaniaeth a bod gennych hawl i bleidleisio.
 ordinary_confirmation_help_p3=Os byddwch yn rhoi gwybodaeth anwir yn eich cais gan wybod hynny, efallai y cewch ddedfryd o garchar am hyd at 6 mis, neu ddirwy.
+ordinary_confirmation_young_scot=You are {0} years old. If your application is successful, when you turn 16 you will be eligible to vote in Scottish Parliament elections and local government elections, and any other elections which use the Scottish local government franchise.
 
 ordinary_confirmation_error_completeThis=Cwblhewch y cam hwn
 
@@ -484,6 +491,7 @@ complete_moreAboutVoting_url=https://www.gov.uk/gwybodaethamgofrestru
 complete_takeOurSurvey_a=Beth oedd eich barn am y gwasanaeth hwn?
 complete_takeOurSurvey_p= (yn cymryd 30 eiliad)
 complete_ackEmail=Rydym wedi anfon e-bost cydnabod atoch.c
+complete_youngScot=If your application is successful, they will send you a confirmation letter and when you turn 16 you will be eligible to vote in Scottish Parliament and local government elections, and any other elections which use the Scottish local government franchise.
 
 complete_electoralRegistrationOffice=Swyddfa Gofrestru Etholiadol
 complete_unspecificElectoralRegistrationOffice=eich Swyddfa Gofrestru Etholiadol leol
@@ -535,6 +543,8 @@ ordinary_address_continue=Parhau
 
 exit_tooYoung_title=Mae'n ddrwg gennym, ni allwch gofrestru i bleidleisio eto
 exit_tooYoung_explanation=Ni allwch gofrestru i bleidleisio nes eich bod yn 16 oed. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk/">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
+exit_tooYoungScotland_explanation=Ni chewch gofrestru hyd nes eich bod yn 14 oed yn yr Alban. Yn y cyfamser, efallai y byddai gennych ddiddordeb yn <a href="http://www.syp.org.uk/">Senedd Ieuenctid yr Alban </a>.
+exit_tooYoungNotScotland_explanation=Fel unigolyn 14/15 oed ni allwch gofrestru mewn cyfeiriad yn Lloegr / yng Nghymru. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk/">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
 exit_tooYoung_moreAboutVoting=Mwy o wybodaeth am bleidleisio yn y DU.
 
 # British Islands
@@ -571,6 +581,11 @@ exit_scotland_explanation=Ni allwch gofrestru ar-lein eto os ydych yn byw yn yr 
 exit_scotland_instead=Yn lle hynny, gallwch lawrlwytho
 exit_scotland_registrationForm=ffurflen gofrestru
 exit_scotland_from=o'r wefan Fy Mhleidlais I.
+
+# Under 16
+exit_under16_title=Angen i chi gael gwybod eich dyddiad geni
+exit_under16_explanation=Ni allwch gofrestru i bleidleisio oni bai y gallwch gadarnhau eich bod yn 16 oed neu'n hŷn.
+exit_under16_tryToFindDOBOut=Ceisiwch ddarganfod eich dyddiad geni. Os ydych yn cael trafferth, <a href="https://www.gov.uk/get-on-electoral-register">cysylltwch â'ch Swyddfa Cofrestru Etholiadol</a> lleol am gyngor.
 
 # Under 18
 exit_under18_title=Angen i chi gael gwybod eich dyddiad geni

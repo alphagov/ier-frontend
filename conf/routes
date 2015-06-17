@@ -20,9 +20,12 @@ GET         /register-to-vote/cookies                                    @uk.gov
 GET         /register-to-vote/exit/british-islands                       @uk.gov.gds.ier.controller.ExitController.britishIslands
 GET         /register-to-vote/exit/scotland                              @uk.gov.gds.ier.controller.ExitController.scotland
 GET         /register-to-vote/exit/northern-ireland                      @uk.gov.gds.ier.controller.ExitController.northernIreland
+GET         /register-to-vote/exit/under-16                              @uk.gov.gds.ier.controller.ExitController.under16
 GET         /register-to-vote/exit/under-18                              @uk.gov.gds.ier.controller.ExitController.under18
 GET         /register-to-vote/exit/dont-know                             @uk.gov.gds.ier.controller.ExitController.dontKnow
 GET         /register-to-vote/exit/too-young                             @uk.gov.gds.ier.controller.ExitController.tooYoung
+GET         /register-to-vote/exit/too-young-scotland                    @uk.gov.gds.ier.controller.ExitController.tooYoungScotland
+GET         /register-to-vote/exit/too-young-not-scotland                @uk.gov.gds.ier.controller.ExitController.tooYoungNotScotland
 GET         /register-to-vote/exit/no-franchise                          @uk.gov.gds.ier.controller.ExitController.noFranchise
 GET         /register-to-vote/exit/overseas/left-uk-over-15-years        @uk.gov.gds.ier.controller.ExitController.leftUkOver15Years
 GET         /register-to-vote/exit/overseas/too-old-when-left-uk         @uk.gov.gds.ier.controller.ExitController.tooOldWhenLeftUk

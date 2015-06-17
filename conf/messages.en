@@ -75,6 +75,9 @@ ordinary_dob_help_cannotProvideDOB_ageGroupQuestion=What age group do you belong
 ordinary_dob_help_cannotProvideDOB_ageGroup_under18_option=<span class="visuallyhidden">I am</span>Under 18 years old
 ordinary_dob_help_cannotProvideDOB_ageGroup_between18and70_option=<span class="visuallyhidden">I am</span>Between 18 and 70 years old
 ordinary_dob_help_cannotProvideDOB_ageGroup_over70_option=<span class="visuallyhidden">I am</span>Over 70 years old
+ordinary_dob_help_cannotProvideDOB_ageGroup_14to15_option=<span class="visuallyhidden">I am</span>Between 14 and 15 years old
+ordinary_dob_help_cannotProvideDOB_ageGroup_16to17_option=<span class="visuallyhidden">I am</span>Between 16 and 17 years old
+ordinary_dob_help_cannotProvideDOB_ageGroup_over18_option=<span class="visuallyhidden">I am</span>Over 18 years old
 ordinary_dob_help_cannotProvideDOB_ageGroup_dontKnow_option=Don’t know<span class="visuallyhidden"> the age group I belong to</span>
 
 ordinary_dob_error_answerThis=Please answer this question
@@ -157,7 +160,7 @@ ordinary_address_error_cityIsRequired=Postal town or city is required
 #
 ordinary_address_postcode_title=What is your address?
 
-ordinary_address_postcode_enterPostcodeWhenRegistering_p=Enter the postcode where you want to register to vote.
+ordinary_address_postcode_enterPostcodeWhenRegistering_p=Enter the postcode of your current address. This is where you will be registered to vote.
 ordinary_address_postcode_postcode_label=Postcode
 
 ordinary_address_postcode_dontKnowMyPostcode_h2=I don’t know what postcode to use
@@ -385,7 +388,10 @@ ordinary_confirmation_previousName_nameNotChanged=I have not changed my name in 
 ordinary_confirmation_dob_title=Date of birth
 ordinary_confirmation_dob_changeName=date of birth
 ordinary_confirmation_dob_noDOBReason=You are unable to provide your date of birth because: {0}
+ordinary_confirmation_dob_noDOB14to15=I am between 14 and 15 years old
+ordinary_confirmation_dob_noDOB16to17=I am between 16 and 17 years old
 ordinary_confirmation_dob_noDOBUnder18=I am roughly under 18
+ordinary_confirmation_dob_noDOBOver18=I am roughly over 18
 ordinary_confirmation_dob_noDOB18to70=I am over 18 years old
 ordinary_confirmation_dob_noDOBOver70=I am over 70 years old
 ordinary_confirmation_dob_noDOBDontKnow=I don’t know my age
@@ -440,6 +446,7 @@ ordinary_confirmation_help_h2=Send your application
 ordinary_confirmation_help_p1=By sending your application you confirm that the information you have provided is true.
 ordinary_confirmation_help_p2=Your information may be shared with other government departments to check your identity and that you’re entitled to register to vote.
 ordinary_confirmation_help_p3=If you knowingly give false information in your application, you could go to prison for up to 6 months, or be fined.
+ordinary_confirmation_young_scot=You are {0} years old. If your application is successful, when you turn 16 you will be eligible to vote in Scottish Parliament elections and local government elections, and any other elections which use the Scottish local government franchise.
 
 ordinary_confirmation_error_completeThis=Please complete this step
 
@@ -463,6 +470,7 @@ complete_moreAboutVoting_url=http://www.gov.uk/yourvotematters
 complete_takeOurSurvey_a=What did you think of this service?
 complete_takeOurSurvey_p= (takes 30 seconds)
 complete_ackEmail=We have sent you an acknowledgement email.
+complete_youngScot=If your application is successful, they will send you a confirmation letter and when you turn 16 you will be eligible to vote in Scottish Parliament and local government elections, and any other elections which use the Scottish local government franchise.
 
 complete_deadline=The deadline for registering to vote in the elections on 7 May 2015 has passed.
 complete_deadline_2=However, your application can still be processed for other future elections and we've sent your application to
@@ -511,6 +519,8 @@ ordinary_address_continue=Continue
 
 exit_tooYoung_title=Sorry, you can’t register to vote yet
 exit_tooYoung_explanation=You can’t register to vote until you’re 16. In the meantime, you may be interested in the <a href="http://www.ukyouthparliament.org.uk/">UK Youth Parliament</a>.
+exit_tooYoungScotland_explanation=You can’t register to vote until you’re 14 in Scotland. In the meantime, you may be interested in the <a href="http://www.syp.org.uk/">Scottish Youth Parliament</a>.
+exit_tooYoungNotScotland_explanation=As a 14/15 year old you cannot register at an address in ENG/WAL. In the meantime, you may be interested in the <a href="http://www.ukyouthparliament.org.uk/">UK Youth Parliament</a>.
 exit_tooYoung_moreAboutVoting=More about voting in the UK.
 
 # British Islands
@@ -548,6 +558,11 @@ exit_scotland_explanation=You can’t register online yet if you live in Scotlan
 exit_scotland_instead=Instead, download a
 exit_scotland_registrationForm=registration form
 exit_scotland_from=from About My Vote.
+
+# Under 16
+exit_under16_title=You need to find out your date of birth
+exit_under16_explanation=If you're under 16, you have to provide a date of birth before you can register to vote.
+exit_under16_tryToFindDOBOut=Try to find out your date of birth. If you have trouble, <a href="https://www.gov.uk/get-on-electoral-register">contact your local Electoral Registration Office</a> for advice.
 
 # Under 18
 exit_under18_title=You need to find out your date of birth

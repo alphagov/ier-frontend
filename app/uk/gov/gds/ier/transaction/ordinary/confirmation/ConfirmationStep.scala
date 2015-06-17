@@ -18,6 +18,7 @@ import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.model.PostalVoteOption
 import uk.gov.gds.ier.transaction.ordinary.{WithOrdinaryControllers, OrdinaryControllers}
+import uk.gov.gds.ier.validation.{DateValidator, CountryValidator}
 
 @Singleton
 class ConfirmationStep @Inject ()(
@@ -119,6 +120,8 @@ class ConfirmationStep @Inject ()(
             gssCode = (addressService.lookupGssCode(validApplication.address.get.postcode))
           }
 
+          val isYoungScot = (CountryValidator.isScotland(validApplication.country) && DateValidator.isValidYoungScottishVoter(validApplication.dob.get.dob.get))
+
           val completeStepData = CompleteCookie(
             refNum = refNum,
             authority = Some(response.localAuthority),
@@ -126,7 +129,8 @@ class ConfirmationStep @Inject ()(
             backToStartUrl = config.ordinaryStartUrl,
             showEmailConfirmation = (isPostalVoteEmailPresent || isContactEmailPresent),
             showBirthdayBunting =  isBirthdayToday,
-            gssCode = gssCode
+            gssCode = gssCode,
+            showYoungScot = isYoungScot
           )
 
           Redirect(CompleteStep.complete())
