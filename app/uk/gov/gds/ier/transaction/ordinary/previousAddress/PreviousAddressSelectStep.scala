@@ -9,7 +9,7 @@ import uk.gov.gds.ier.step.OrdinaryStep
 import uk.gov.gds.ier.model.Addresses
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.PossibleAddress
-import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.validation.{DateValidator, CountryValidator, ErrorTransformForm}
 import uk.gov.gds.ier.model.PartialPreviousAddress
 import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.assets.RemoteAssets
@@ -35,7 +35,18 @@ class PreviousAddressSelectStep @Inject() (
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
-    ordinary.OpenRegisterStep
+    //IF YOUNG SCOTTISH CITIZEN, SKIP THE OPEN REGISTER STEP...
+    if(currentState.dob.exists(_.dob.isDefined)) {
+      if (CountryValidator.isScotland(currentState.country) && DateValidator.isValidYoungScottishVoter(currentState.dob.get.dob.get)) {
+        ordinary.PostalVoteStep
+      }
+      else {
+        ordinary.OpenRegisterStep
+      }
+    }
+    else {
+      ordinary.OpenRegisterStep
+    }
   }
 
   override val onSuccess = TransformApplication { currentState =>

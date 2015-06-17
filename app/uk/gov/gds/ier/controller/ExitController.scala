@@ -43,6 +43,11 @@ class ExitController @Inject() (
       Ok(ExitPages.BritishIslands())
   }
 
+  def under16 = ClearSession in Action {
+    implicit request =>
+      Ok(ExitPages.Under16())
+  }
+
   def under18 = ClearSession in Action {
     implicit request =>
       Ok(ExitPages.Under18())
@@ -51,6 +56,16 @@ class ExitController @Inject() (
   def tooYoung = ClearSession in Action {
     implicit request =>
       Ok(ExitPages.TooYoung())
+  }
+
+  def tooYoungScotland = ClearSession in Action {
+    implicit request =>
+      Ok(ExitPages.TooYoungScotland())
+  }
+
+  def tooYoungNotScotland = ClearSession in Action {
+    implicit request =>
+      Ok(ExitPages.TooYoungNotScotland())
   }
 
   def dontKnow = ClearSession in Action {

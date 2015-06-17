@@ -3,9 +3,7 @@ package uk.gov.gds.ier.transaction.ordinary.dateOfBirth
 import uk.gov.gds.ier.validation.{DateValidator, FormKeys, ErrorMessages, ErrorTransformForm}
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import play.api.data.Forms._
-import uk.gov.gds.ier.model.DateOfBirth
-import uk.gov.gds.ier.model.noDOB
-import uk.gov.gds.ier.model.DOB
+import uk.gov.gds.ier.model.{Country, DateOfBirth, noDOB, DOB}
 import scala.Some
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
@@ -54,13 +52,25 @@ trait DateOfBirthForms {
     DateOfBirth.unapply
   ) verifying(dobOrNoDobIsFilled, ifDobEmptyRangeIsValid, ifDobEmptyReasonIsNotEmpty)
 
+  lazy val countryMappingForDOB = mapping(
+    keys.residence.key -> optional(text),
+    keys.origin.key -> optional(text)
+  ) {
+    case (Some("Abroad"), origin) => Country(origin.getOrElse(""), true)
+    case (residence, _) => Country(residence.getOrElse(""), false)
+  } {
+    case Country(country, true) => Some(Some("Abroad"), Some(country))
+    case Country(country, false) => Some(Some(country), None)
+  }
+
   val dateOfBirthForm = ErrorTransformForm(
     mapping(
-      keys.dob.key -> optional(dobAndReasonMapping)
+      keys.dob.key -> optional(dobAndReasonMapping),
+      keys.country.key -> optional(countryMappingForDOB)
     ) (
-      dob => InprogressOrdinary(dob = dob)
+      (dob, country) => InprogressOrdinary(dob = dob, country = country)
     ) (
-      inprogress => Some(inprogress.dob)
+      inprogress => Some(inprogress.dob, inprogress.country)
     ) verifying dateOfBirthRequired
   )
 

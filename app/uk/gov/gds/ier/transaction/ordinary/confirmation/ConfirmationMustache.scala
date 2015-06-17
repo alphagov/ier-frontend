@@ -2,8 +2,8 @@ package uk.gov.gds.ier.transaction.ordinary.confirmation
 
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.logging.Logging
-import uk.gov.gds.ier.validation.{Key, ErrorTransformForm}
-import uk.gov.gds.ier.model.{PostalVoteDeliveryMethod, PostalVoteOption, OtherAddress, MovedHouseOption}
+import uk.gov.gds.ier.validation._
+import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
@@ -12,6 +12,14 @@ import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.form.OrdinaryFormImplicits
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.ordinary.WithOrdinaryControllers
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.shared.EitherErrorOrContent
+import scala.Some
+import uk.gov.gds.ier.validation.Key
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.shared.EitherErrorOrContent
+import uk.gov.gds.ier.model.DOB
+import scala.Some
 
 trait ConfirmationMustache
     extends StepTemplate[InprogressOrdinary] {
@@ -29,7 +37,9 @@ trait ConfirmationMustache
 
   case class ConfirmationModel(
       question: Question,
-      completeApplicantDetails: List[ConfirmationQuestion]
+      completeApplicantDetails: List[ConfirmationQuestion],
+      isYoungScot: Boolean,
+      youngScotMsg: String
   ) extends MustacheData
 
   val mustache = MultilingualTemplate("ordinary/confirmation") { implicit lang => (form, postUrl) =>
@@ -40,11 +50,11 @@ trait ConfirmationMustache
       confirmation.previousName,
       confirmation.dateOfBirth,
       confirmation.nationality,
-      confirmation.nino,
+      confirmation.applicantNino,
       confirmation.address,
       confirmation.secondAddress,
       confirmation.previousAddress,
-      confirmation.openRegister,
+      confirmation.applicantOpenRegister,
       confirmation.postalVote,
       confirmation.contact
     ).flatten
@@ -55,7 +65,9 @@ trait ConfirmationMustache
         postUrl = postUrl.url,
         contentClasses = "confirmation"
       ),
-      completeApplicantDetails = completeApplicantData
+      completeApplicantDetails = completeApplicantData,
+      isYoungScot = isYoungScot(form),
+      youngScotMsg = Messages("ordinary_confirmation_young_scot", DateValidator.getAge(getDOB(form)))
     )
 
   }
@@ -130,7 +142,10 @@ trait ConfirmationMustache
             case _ => ""
           }
           val ageRange = form(keys.dob.noDob.range).value match {
+            case Some("14to15") => Messages("ordinary_confirmation_dob_noDOB14to15")
+            case Some("16to17") => Messages("ordinary_confirmation_dob_noDOB16to17")
             case Some("under18") => Messages("ordinary_confirmation_dob_noDOBUnder18")
+            case Some("over18") => Messages("ordinary_confirmation_dob_noDOBOver18")
             case Some("18to70") => Messages("ordinary_confirmation_dob_noDOB18to70")
             case Some("over70") => Messages("ordinary_confirmation_dob_noDOBOver70")
             case Some("dontKnow") => Messages("ordinary_confirmation_dob_noDOBDontKnow")
@@ -166,7 +181,7 @@ trait ConfirmationMustache
     }
 
     def nino = {
-      Some(ConfirmationQuestion(
+      ConfirmationQuestion(
         title = Messages("ordinary_confirmation_nino_title"),
         editLink = ordinary.NinoStep.routing.editGet.url,
         changeName = Messages("ordinary_confirmation_nino_changeName"),
@@ -178,7 +193,16 @@ trait ConfirmationMustache
               form(keys.nino.noNinoReason).value.getOrElse(""))
           }
         }
-      ))
+      )
+    }
+
+    def applicantNino : Option[ConfirmationQuestion] = {
+      //IF YOUNG SCOTTISH CITIZEN, SKIP THE NINO CONFIRMATION BLOCK...
+      if (!isYoungScot(form)) {
+        Some(nino)
+      } else {
+        None
+      }
     }
 
     def address = {
@@ -251,7 +275,7 @@ trait ConfirmationMustache
     }
 
     def openRegister = {
-      Some(ConfirmationQuestion(
+      ConfirmationQuestion(
         title = Messages("ordinary_confirmation_openRegister_title"),
         editLink = ordinary.OpenRegisterStep.routing.editGet.url,
         changeName = Messages("ordinary_confirmation_openRegister_changeName"),
@@ -262,7 +286,16 @@ trait ConfirmationMustache
             List(Messages("ordinary_confirmation_openRegister_optOut"))
           }
         }
-      ))
+      )
+    }
+
+    def applicantOpenRegister : Option[ConfirmationQuestion] = {
+      //IF YOUNG SCOTTISH CITIZEN, SKIP THE OPEN REGISTER CONFIRMATION BLOCK...
+      if (!isYoungScot(form)) {
+        Some(openRegister)
+      } else {
+        None
+      }
     }
 
     def postalVote = {
@@ -368,7 +401,37 @@ trait ConfirmationMustache
       val otherCountries = form.obtainOtherCountriesList
       (isBritish || isIrish || !otherCountries.isEmpty)
     }
-
-
   }
+
+  private def isYoungScot(form: ErrorTransformForm[InprogressOrdinary]): Boolean = {
+    //IS CITIZEN REGISTERING IN SCOTLAND?...
+    val isScot = form(keys.country.residence).value.exists(_.equals("Scotland"))
+
+    //...IS CITIZEN A YOUNG VOTER?...
+    val isYoung =
+      if (form(keys.dob.dob.day).value.isDefined) {
+        DateValidator.isValidYoungScottishVoter(getDOB(form))
+      } else {
+        form(keys.dob.noDob.range).value match {
+          case Some("16to17") => true
+          case _ => false
+        }
+      }
+
+    //...ARE THEY BOTH??
+    (isScot && isYoung)
+  }
+
+  /*
+    Given the current application form object,
+    if DAY/MONTH/YEAR INTs exist, return a formal DOB object of this date...
+    ...else return a dummy 1900 DOB which is never a valid date for a YoungScot anyway.
+   */
+  private def getDOB(form: ErrorTransformForm[InprogressOrdinary]): DOB = {
+    (form(keys.dob.dob.day).value, form(keys.dob.dob.month).value, form(keys.dob.dob.year).value) match {
+      case(Some(day), Some(month), Some(year)) => new DOB(year.toInt, month.toInt, day.toInt)
+      case _ => DOB(1900,1,1)
+    }
+  }
+
 }
