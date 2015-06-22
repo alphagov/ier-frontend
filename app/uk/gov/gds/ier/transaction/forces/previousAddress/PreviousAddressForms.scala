@@ -105,18 +105,21 @@ trait PreviousAddressForms
   val selectAddressFormForPreviousAddress = ErrorTransformForm(
     mapping (
       keys.previousAddress.key -> optional(partialAddressMappingForPreviousAddress),
+      keys.address.key -> optional(LastAddress.mapping),
       keys.possibleAddresses.key -> optional(possibleAddressesMappingForPreviousAddress)
     ) (
-      (previousAddress, possibleAddr) => InprogressForces(
+      (previousAddress, address, possibleAddr) => InprogressForces(
         previousAddress = Some(PartialPreviousAddress(
           movedRecently = Some(MovedHouseOption.Yes),
           previousAddress = previousAddress
         )),
+        address = address,
         possibleAddresses = possibleAddr
       )
     ) (
       inprogress => Some(
         inprogress.previousAddress.flatMap(_.previousAddress),
+        inprogress.address,
         inprogress.possibleAddresses)
     ).verifying( selectedAddressIsRequiredForPreviousAddress,
         selectedAddressIsDifferent )
