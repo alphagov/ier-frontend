@@ -100,16 +100,16 @@ class IerApiServiceWithStripNinoTests extends MockingTestSuite {
       Some("1234"),
       "en"
     )
+  }
 
-    it should "handle a nino=None(ie. youngScot) when generating Reference Number (ordinary)" in {
-      val concreteIerApiServiceMock = mock[ConcreteIerApiService]
-      val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
-      val applicationBlankNino = InprogressOrdinary(nino = None)
+  it should "handle a nino=None(ie. youngScot) when generating Reference Number (ordinary)" in {
+    val concreteIerApiServiceMock = mock[ConcreteIerApiService]
+    val service = new IerApiServiceWithStripNino(concreteIerApiServiceMock)
+    val applicationBlankNino = InprogressOrdinary(nino = None)
 
-      service.generateOrdinaryReferenceNumber(applicationBlankNino)
+    service.generateOrdinaryReferenceNumber(applicationBlankNino)
 
-      verify(concreteIerApiServiceMock).generateOrdinaryReferenceNumber(applicationBlankNino)
-    }
+    verify(concreteIerApiServiceMock).generateOrdinaryReferenceNumber(applicationBlankNino)
   }
 
   it should "replace a nino when generating Reference Number (overseas)" in {
