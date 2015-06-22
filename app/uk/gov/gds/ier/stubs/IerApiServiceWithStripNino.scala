@@ -35,6 +35,14 @@ class IerApiServiceWithStripNino @Inject() (ierService: ConcreteIerApiService) e
         timeTaken,
         language
       )
+      //New case covering the option of no NINO coming from the young Scot user journey
+      case None => ierService.submitOrdinaryApplication(
+        ipAddress,
+        applicant.copy(nino = Some(Nino(Some(randomNino()), None))),
+        referenceNumber,
+        timeTaken,
+        language
+      )
       case unexpectedNino => throw new IllegalArgumentException("Unexpected NINO: " + unexpectedNino)
     }
   }
@@ -115,6 +123,12 @@ class IerApiServiceWithStripNino @Inject() (ierService: ConcreteIerApiService) e
         ierService.generateOrdinaryReferenceNumber(application)
       }
       case Some(Nino(Some(nino), None)) => {
+        ierService.generateOrdinaryReferenceNumber(
+          application.copy(nino = Some(Nino(Some(randomNino()), None)))
+        )
+      }
+      //New case covering the option of no NINO coming from the young Scot user journey
+      case None => {
         ierService.generateOrdinaryReferenceNumber(
           application.copy(nino = Some(Nino(Some(randomNino()), None)))
         )
