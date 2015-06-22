@@ -58,7 +58,8 @@
                   name="{{issueDateDay.name}}"
                   value="{{issueDateDay.value}}"
                   autocomplete="off"
-                  class="text day {{issueDateDay.classes}}">
+                  class="text day {{issueDateDay.classes}}"
+                  onkeyup="moveOnMax(this,'{{issueDateMonth.id}}')">
             </span>
 
             <span class="field-wrapper month">
@@ -69,7 +70,8 @@
                   name="{{issueDateMonth.name}}"
                   value="{{issueDateMonth.value}}"
                   autocomplete="off"
-                  class="text month {{issueDateMonth.classes}}">
+                  class="text month {{issueDateMonth.classes}}"
+                  onkeyup="moveOnMax(this,'{{issueDateYear.id}}')">
             </span>
 
             <span class="field-wrapper year">
