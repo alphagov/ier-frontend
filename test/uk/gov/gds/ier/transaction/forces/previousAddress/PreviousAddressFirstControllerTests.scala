@@ -45,8 +45,8 @@ class PreviousAddressFirstControllerTests extends ControllerTestSuite {
           .withIerSession()
           .withApplication(completeForcesApplication)
           .withFormUrlEncodedBody(
-            "previousAddress.uprn" -> "123456789",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.uprn" -> "111111111",
+            "previousAddress.postcode" -> "EC1Y1AA"
           )
       )
 
@@ -150,8 +150,8 @@ class PreviousAddressFirstControllerTests extends ControllerTestSuite {
           .withApplication(completeForcesApplication)
           .withFormUrlEncodedBody(
             "previousAddress.movedRecently" -> "yes",
-            "previousAddress.uprn" -> "123456789",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.uprn" -> "111111111",
+            "previousAddress.postcode" -> "EC1Y1AA"
           )
       )
 
@@ -167,11 +167,11 @@ class PreviousAddressFirstControllerTests extends ControllerTestSuite {
             .withIerSession()
             .withFormUrlEncodedBody(
             "previousAddress.movedRecently" -> "yes",
-            "previousAddress.manualAddress.lineOne" -> "Unit 4, Elgar Business Centre",
-            "previousAddress.manualAddress.lineTwo" -> "Moseley Road",
-            "previousAddress.manualAddress.lineThree" -> "Hallow",
-            "previousAddress.manualAddress.city" -> "Worcester",
-            "previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.manualAddress.lineOne" -> "Main House",
+            "previousAddress.manualAddress.lineTwo" -> "30-35 City Rd",
+            "previousAddress.manualAddress.lineThree" -> "Westminister",
+            "previousAddress.manualAddress.city" -> "London",
+            "previousAddress.postcode" -> "EC1Y1AX"
           )
         )
 
