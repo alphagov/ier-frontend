@@ -77,7 +77,7 @@ ordinary_dob_help_cannotProvideDOB_ageGroup_between18and70_option=<span class="v
 ordinary_dob_help_cannotProvideDOB_ageGroup_over70_option=<span class="visuallyhidden">I am</span>Over 70 years old
 ordinary_dob_help_cannotProvideDOB_ageGroup_14to15_option=<span class="visuallyhidden">I am</span>Between 14 and 15 years old
 ordinary_dob_help_cannotProvideDOB_ageGroup_16to17_option=<span class="visuallyhidden">I am</span>Between 16 and 17 years old
-ordinary_dob_help_cannotProvideDOB_ageGroup_over18_option=<span class="visuallyhidden">I am</span>Over 18 years old
+ordinary_dob_help_cannotProvideDOB_ageGroup_over18_option=<span class="visuallyhidden">I am</span>18 years old or over
 ordinary_dob_help_cannotProvideDOB_ageGroup_dontKnow_option=Don’t know<span class="visuallyhidden"> the age group I belong to</span>
 
 ordinary_dob_error_answerThis=Please answer this question
@@ -446,6 +446,7 @@ ordinary_confirmation_help_h2=Send your application
 ordinary_confirmation_help_p1=By sending your application you confirm that the information you have provided is true.
 ordinary_confirmation_help_p2=Your information may be shared with other government departments to check your identity and that you’re entitled to register to vote.
 ordinary_confirmation_help_p3=If you knowingly give false information in your application, you could go to prison for up to 6 months, or be fined.
+ordinary_confirmation_help_youngScot=Only Electoral Registration Officers and their staff can usually see your details in an electoral register. Your details will not be shown in any register which is published.  But some people need names and addresses for everyone who can vote at an election.  They usually need these details about 6 weeks before the election.  These include people who run elections, and candidates, who can send information to voters.  So if you will be 16 on the date of that election, your name and address may be supplied to them.
 ordinary_confirmation_young_scot=You are {0} years old. If your application is successful, when you turn 16 you will be eligible to vote in Scottish Parliament elections and local government elections, and any other elections which use the Scottish local government franchise.
 
 ordinary_confirmation_error_completeThis=Please complete this step

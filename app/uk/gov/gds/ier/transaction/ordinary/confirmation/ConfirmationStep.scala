@@ -16,7 +16,7 @@ import uk.gov.gds.ier.session.ResultHandling
 import uk.gov.gds.ier.langs.Language
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
-import uk.gov.gds.ier.model.PostalVoteOption
+import uk.gov.gds.ier.model.{Nino, PostalVoteOption}
 import uk.gov.gds.ier.transaction.ordinary.{WithOrdinaryControllers, OrdinaryControllers}
 import uk.gov.gds.ier.validation.{DateValidator, CountryValidator}
 
@@ -80,12 +80,25 @@ class ConfirmationStep @Inject ()(
           Ok(mustache(hasErrors, routing.post, application).html).refreshToken
         },
         validApplication => {
+          val isYoungScot = CountryValidator.isScotland(validApplication.country) && validApplication.dob.exists( dob => dob.dob.exists(DateValidator.isValidYoungScottishVoter(_)))
+
           val refNum = ierApi.generateOrdinaryReferenceNumber(validApplication)
           val remoteClientIP = request.headers.get("X-Real-IP")
 
           val response = ierApi.submitOrdinaryApplication(
             ipAddress = remoteClientIP,
-            applicant = validApplication,
+            applicant = if(isYoungScot) {
+              validApplication.copy(
+                nino = Some(
+                  new Nino(
+                    nino = None,
+                    noNinoReason = Some("young-person")
+                  )
+                )
+              )
+            } else {
+              validApplication
+            },
             referenceNumber = Some(refNum),
             timeTaken = request.getToken.map(_.timeTaken),
             language = Language.getLang(request).language
@@ -119,8 +132,6 @@ class ConfirmationStep @Inject ()(
             //if it has been a manual addr entry, pull back postcode and lookup appropriate gsscode
             gssCode = (addressService.lookupGssCode(validApplication.address.get.postcode))
           }
-
-          val isYoungScot = (CountryValidator.isScotland(validApplication.country) && DateValidator.isValidYoungScottishVoter(validApplication.dob.get.dob.get))
 
           val completeStepData = CompleteCookie(
             refNum = refNum,

@@ -213,6 +213,91 @@ class ConfirmationStepTest extends ControllerTestSuite {
     )
   }
 
+  behavior of "young Scot user journey submissions"
+  it should "submit application and set all isYoungScot=TRUE values when country=Scotland and DOB=15yrs" in runningApp {
+    val Some(result) = route(
+      FakeRequest(POST, "/register-to-vote/confirmation")
+        .withIerSession()
+        .withApplication(completeOrdinaryApplication.copy(
+        country = Some(Country("Scotland",false)),
+        dob = Some(DateOfBirth(
+          dob = Some(DOB(LocalDate.now.minusYears(15).getYear, 1, 1)),
+          noDob = None
+        ))
+      ))
+    )
+
+    status(result) should be(SEE_OTHER)
+    redirectLocation(result) should be(Some("/register-to-vote/complete"))
+    val allCookies = cookies(result)
+    val completeStepData = getCompleteCookie(allCookies)
+    completeStepData should not be(None)
+    completeStepData.get.showYoungScot should be(true)
+  }
+
+  it should "submit application and set all isYoungScot=FALSE values when country!=Scotland and DOB=15yrs" in runningApp {
+    val Some(result) = route(
+      FakeRequest(POST, "/register-to-vote/confirmation")
+        .withIerSession()
+        .withApplication(completeOrdinaryApplication.copy(
+        country = Some(Country("England",false)),
+        dob = Some(DateOfBirth(
+          dob = Some(DOB(LocalDate.now.minusYears(15).getYear, 1, 1)),
+          noDob = None
+        ))
+      ))
+    )
+
+    status(result) should be(SEE_OTHER)
+    redirectLocation(result) should be(Some("/register-to-vote/complete"))
+    val allCookies = cookies(result)
+    val completeStepData = getCompleteCookie(allCookies)
+    completeStepData should not be(None)
+    completeStepData.get.showYoungScot should be(false)
+  }
+
+  it should "submit application and set all isYoungScot=FALSE values when country=Scotland and DOB!=15yrs" in runningApp {
+    val Some(result) = route(
+      FakeRequest(POST, "/register-to-vote/confirmation")
+        .withIerSession()
+        .withApplication(completeOrdinaryApplication.copy(
+        country = Some(Country("Scotland",false)),
+        dob = Some(DateOfBirth(
+          dob = Some(DOB(LocalDate.now.minusYears(20).getYear, 1, 1)),
+          noDob = None
+        ))
+      ))
+    )
+
+    status(result) should be(SEE_OTHER)
+    redirectLocation(result) should be(Some("/register-to-vote/complete"))
+    val allCookies = cookies(result)
+    val completeStepData = getCompleteCookie(allCookies)
+    completeStepData should not be(None)
+    completeStepData.get.showYoungScot should be(false)
+  }
+
+  it should "submit application and set all isYoungScot=FALSE values when country!=Scotland and DOB!=15yrs" in runningApp {
+    val Some(result) = route(
+      FakeRequest(POST, "/register-to-vote/confirmation")
+        .withIerSession()
+        .withApplication(completeOrdinaryApplication.copy(
+        country = Some(Country("England",false)),
+        dob = Some(DateOfBirth(
+          dob = Some(DOB(LocalDate.now.minusYears(20).getYear, 1, 1)),
+          noDob = None
+        ))
+      ))
+    )
+
+    status(result) should be(SEE_OTHER)
+    redirectLocation(result) should be(Some("/register-to-vote/complete"))
+    val allCookies = cookies(result)
+    val completeStepData = getCompleteCookie(allCookies)
+    completeStepData should not be(None)
+    completeStepData.get.showYoungScot should be(false)
+  }
+
   def applicationWithDateOfBirth(localDate: LocalDate, expectedBuntingFlagValue: Boolean): Unit =
     applicationWithDateOfBirth(createDoBFrom(localDate), expectedBuntingFlagValue: Boolean)
 

@@ -81,7 +81,7 @@ ordinary_dob_help_cannotProvideDOB_ageGroup_between18and70_option=<span class="v
 ordinary_dob_help_cannotProvideDOB_ageGroup_over70_option=<span class="visuallyhidden">Rwy’n</span>Hŷn na 70 oed
 ordinary_dob_help_cannotProvideDOB_ageGroup_14to15_option=<span class="visuallyhidden">Rwy’n</span>Rhwng 14 a 15 oed
 ordinary_dob_help_cannotProvideDOB_ageGroup_16to17_option=<span class="visuallyhidden">Rwy’n</span>Rhwng 16 a 17 oed
-ordinary_dob_help_cannotProvideDOB_ageGroup_over18_option=<span class="visuallyhidden">Rwy’n</span>Dros 18 oed
+ordinary_dob_help_cannotProvideDOB_ageGroup_over18_option=<span class="visuallyhidden">Rwy’n</span>18 oed neu'n hŷn
 ordinary_dob_help_cannotProvideDOB_ageGroup_dontKnow_option=Nid wyf yn gwybod<span class="visuallyhidden"> beth yw fy ngrŵp oedran</span>
 
 ordinary_dob_error_answerThis=Atebwch y cwestiwn hwn
@@ -464,6 +464,7 @@ ordinary_confirmation_help_h2=Anfon eich cais
 ordinary_confirmation_help_p1=Drwy anfon eich cais rydych yn cadarnhau fod y wybodaeth a ddarperir gennych yn wir.
 ordinary_confirmation_help_p2=Efallai caiff eich gwybodaeth ei rhannu gydag adrannau eraill y Llywodraeth I wirio eich hunaniaeth a bod gennych hawl i bleidleisio.
 ordinary_confirmation_help_p3=Os byddwch yn rhoi gwybodaeth anwir yn eich cais gan wybod hynny, efallai y cewch ddedfryd o garchar am hyd at 6 mis, neu ddirwy.
+ordinary_confirmation_help_youngScot=Only Electoral Registration Officers and their staff can usually see your details in an electoral register. Your details will not be shown in any register which is published.  But some people need names and addresses for everyone who can vote at an election.  They usually need these details about 6 weeks before the election.  These include people who run elections, and candidates, who can send information to voters.  So if you will be 16 on the date of that election, your name and address may be supplied to them.
 ordinary_confirmation_young_scot=You are {0} years old. If your application is successful, when you turn 16 you will be eligible to vote in Scottish Parliament elections and local government elections, and any other elections which use the Scottish local government franchise.
 
 ordinary_confirmation_error_completeThis=Cwblhewch y cam hwn
