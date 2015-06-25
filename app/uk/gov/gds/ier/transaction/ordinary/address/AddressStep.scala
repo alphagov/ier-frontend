@@ -11,6 +11,7 @@ import uk.gov.gds.ier.controller.routes.ExitController
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.transaction.ordinary.OrdinaryControllers
 import uk.gov.gds.ier.validation.DateValidator
+import views.html.helper.form
 
 @Singleton
 class AddressStep @Inject() (
@@ -51,7 +52,11 @@ class AddressStep @Inject() (
           //LIVING OUTSIDE SCOTLAND? > PROCEED _UNLESS_ AGE=14 OR 15
           if(currentState.dob.exists(_.dob.isDefined)) {
             if (DateValidator.isValidYoungScottishVoter(currentState.dob.get.dob.get)) {
-              GoTo(ExitController.tooYoungNotScotland)
+              if (DateValidator.getAge(currentState.dob.get.dob.get) == 14) {
+                GoTo(ExitController.tooYoungNotScotland14)
+              } else {
+                GoTo(ExitController.tooYoungNotScotland15)
+              }
             }
             else ordinary.AddressSelectStep
           }

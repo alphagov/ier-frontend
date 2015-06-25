@@ -76,7 +76,11 @@ class DateOfBirthStep @Inject ()(
       }
       //FOR ANY CITIZEN THAT DOES NOT PROVIDE THEIR DOB (REGARDLESS OF COUNTRY OF RESIDENCE)...
       case Some(DateOfBirth(_, Some(noDOB(Some(reason), Some(range))))) if range == DateOfBirthConstants.dontKnow => {
-        GoTo(ExitController.dontKnow)
+        if(CountryValidator.isScotland(currentState.country)) {
+          GoTo(ExitController.dontKnowScotland)
+        } else {
+          GoTo(ExitController.dontKnow)
+        }
       }
       //DEFAULT...
       case _ => ordinary.NameStep

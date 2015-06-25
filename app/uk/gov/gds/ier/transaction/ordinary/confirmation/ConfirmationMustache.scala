@@ -412,10 +412,7 @@ trait ConfirmationMustache
       if (form(keys.dob.dob.day).value.isDefined) {
         DateValidator.isValidYoungScottishVoter(getDOB(form))
       } else {
-        form(keys.dob.noDob.range).value match {
-          case Some("16to17") => true
-          case _ => false
-        }
+        false
       }
 
     //...ARE THEY BOTH??
