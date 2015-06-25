@@ -63,14 +63,24 @@ class ExitController @Inject() (
       Ok(ExitPages.TooYoungScotland())
   }
 
-  def tooYoungNotScotland = ClearSession in Action {
+  def tooYoungNotScotland14 = ClearSession in Action {
     implicit request =>
-      Ok(ExitPages.TooYoungNotScotland())
+      Ok(ExitPages.TooYoungNotScotland14())
+  }
+
+  def tooYoungNotScotland15 = ClearSession in Action {
+    implicit request =>
+      Ok(ExitPages.TooYoungNotScotland15())
   }
 
   def dontKnow = ClearSession in Action {
     implicit request =>
       Ok(ExitPages.DontKnow())
+  }
+
+  def dontKnowScotland = ClearSession in Action {
+    implicit request =>
+      Ok(ExitPages.DontKnowScotland())
   }
 
   def noFranchise = ClearSession in Action {

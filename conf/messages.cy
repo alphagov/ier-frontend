@@ -545,7 +545,8 @@ ordinary_address_continue=Parhau
 exit_tooYoung_title=Mae'n ddrwg gennym, ni allwch gofrestru i bleidleisio eto
 exit_tooYoung_explanation=Ni allwch gofrestru i bleidleisio nes eich bod yn 16 oed. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk/">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
 exit_tooYoungScotland_explanation=Ni chewch gofrestru hyd nes eich bod yn 14 oed yn yr Alban. Yn y cyfamser, efallai y byddai gennych ddiddordeb yn <a href="http://www.syp.org.uk/">Senedd Ieuenctid yr Alban </a>.
-exit_tooYoungNotScotland_explanation=Fel unigolyn 14/15 oed ni allwch gofrestru mewn cyfeiriad yn Lloegr / yng Nghymru. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk/">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
+exit_tooYoungNotScotland_explanation14=Fel unigolyn 14 mlwydd oed, dim ond o gyfeiriad yn yr Alban y gallwch gofrestru. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk/">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
+exit_tooYoungNotScotland_explanation15=Fel unigolyn 15 mlwydd oed, dim ond o gyfeiriad yn yr Alban y gallwch gofrestru. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk/">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
 exit_tooYoung_moreAboutVoting=Mwy o wybodaeth am bleidleisio yn y DU.
 
 # British Islands
@@ -557,6 +558,8 @@ exit_britishIslands_paperRegistration=Ond mae'n bosib y gallwch gofrestru i blei
 # Dont Know
 exit_dontKnow_title=Mae angen i chi wybod a ydych yn 18 oed neu'n hŷn
 exit_dontKnow_explanation=Ni allwch gofrestru i bleidleisio oni bai y gallwch gadarnhau eich bod yn 18 oed neu'n hŷn. Os oes anhawster gennych, <a href="https://www.gov.uk/get-on-electoral-register">cysylltwch â'ch Swyddfa Cofrestru Etholiadol</a> leol i gael cyngor.
+exit_dontKnow_title_Scotland=You need to find out whether you're 16 or over
+exit_dontKnow_explanation_Scotland=You can only register if you're able to confirm that you're 16 or over. If you have trouble, <a href="https://www.gov.uk/get-on-electoral-register">contact your local Electoral Registration Office</a> for advice.
 
 # No Franchise
 

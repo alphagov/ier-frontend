@@ -521,7 +521,8 @@ ordinary_address_continue=Continue
 exit_tooYoung_title=Sorry, you can’t register to vote yet
 exit_tooYoung_explanation=You can’t register to vote until you’re 16. In the meantime, you may be interested in the <a href="http://www.ukyouthparliament.org.uk/">UK Youth Parliament</a>.
 exit_tooYoungScotland_explanation=You can’t register to vote until you’re 14 in Scotland. In the meantime, you may be interested in the <a href="http://www.syp.org.uk/">Scottish Youth Parliament</a>.
-exit_tooYoungNotScotland_explanation=As a 14/15 year old you cannot register at an address in ENG/WAL. In the meantime, you may be interested in the <a href="http://www.ukyouthparliament.org.uk/">UK Youth Parliament</a>.
+exit_tooYoungNotScotland_explanation14=As a 14 year old you can only register from an address in Scotland. In the meantime, you may be interested in the <a href="http://www.ukyouthparliament.org.uk/">UK Youth Parliament</a>.
+exit_tooYoungNotScotland_explanation15=As a 15 year old you can only register from an address in Scotland. In the meantime, you may be interested in the <a href="http://www.ukyouthparliament.org.uk/">UK Youth Parliament</a>.
 exit_tooYoung_moreAboutVoting=More about voting in the UK.
 
 # British Islands
@@ -533,6 +534,8 @@ exit_britishIslands_paperRegistration=But you may be able to register to vote in
 # Dont Know
 exit_dontKnow_title=You need to find out whether you're 18 or over
 exit_dontKnow_explanation=You can only register if you're able to confirm that you're 18 or over. If you have trouble, <a href="https://www.gov.uk/get-on-electoral-register">contact your local Electoral Registration Office</a> for advice.
+exit_dontKnow_title_Scotland=You need to find out whether you're 16 or over
+exit_dontKnow_explanation_Scotland=You can only register if you're able to confirm that you're 16 or over. If you have trouble, <a href="https://www.gov.uk/get-on-electoral-register">contact your local Electoral Registration Office</a> for advice.
 
 # No Franchise
 
