@@ -15,6 +15,7 @@ import org.mockito.Mockito._
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.transaction.ordinary.{InprogressOrdinary, OrdinaryControllers}
 import uk.gov.gds.ier.transaction.ordinary.name.NameStep
+import org.joda.time.LocalDate
 
 /*
  * This test mock the AddressService.
@@ -23,7 +24,7 @@ import uk.gov.gds.ier.transaction.ordinary.name.NameStep
  */
 class AddressStepMockedTests extends FlatSpec with TestHelpers with Matchers with Mockito {
 
-  it should "redirect to too-young-not-scotland exit page if the gssCode starts with S & young Scot status" in {
+  it should "redirect to too-young-not-scotland-15 exit page if the gssCode starts with S & young Scot status" in {
     val mockedJsonSerialiser = mock[JsonSerialiser]
     val mockedConfig = mock[Config]
     val mockedEncryptionService = mock[EncryptionService]
@@ -46,13 +47,45 @@ class AddressStepMockedTests extends FlatSpec with TestHelpers with Matchers wit
     val currentState = completeOrdinaryApplication.copy(
     		address = Some(PartialAddress(None, None, postcode, None, None)),
         dob = Some(DateOfBirth(
-          dob = Some(DOB(2000, 1, 1)),
+          dob = Some(DOB(LocalDate.now.minusYears(15).getYear, 1, 1)),
           noDob = None
         )),
         country = Some(Country("Scotland",false))
     )
 
     val transferedState = addressStep.nextStep(currentState)
-    transferedState should be (GoTo(ExitController.tooYoungNotScotland))
+    transferedState should be (GoTo(ExitController.tooYoungNotScotland15))
+  }
+  it should "redirect to too-young-not-scotland-14 exit page if the gssCode starts with S & young Scot status" in {
+    val mockedJsonSerialiser = mock[JsonSerialiser]
+    val mockedConfig = mock[Config]
+    val mockedEncryptionService = mock[EncryptionService]
+    val mockedAddressService = mock[AddressService]
+    val mockedRemoteAssets = mock[RemoteAssets]
+    val mockedControllers = mock[OrdinaryControllers]
+
+    val addressStep = new AddressStep(
+      mockedJsonSerialiser,
+      mockedConfig,
+      mockedEncryptionService,
+      mockedAddressService,
+      mockedRemoteAssets,
+      mockedControllers
+    )
+
+    val postcode = "L7 7AJ"
+
+    when (mockedAddressService.isScotAddress(postcode)).thenReturn(false)
+    val currentState = completeOrdinaryApplication.copy(
+      address = Some(PartialAddress(None, None, postcode, None, None)),
+      dob = Some(DateOfBirth(
+        dob = Some(DOB(LocalDate.now.minusYears(14).getYear, 1, 1)),
+        noDob = None
+      )),
+      country = Some(Country("Scotland",false))
+    )
+
+    val transferedState = addressStep.nextStep(currentState)
+    transferedState should be (GoTo(ExitController.tooYoungNotScotland14))
   }
 }

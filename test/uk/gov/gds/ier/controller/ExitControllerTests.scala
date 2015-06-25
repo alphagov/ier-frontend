@@ -56,10 +56,10 @@ class ExitControllerTests extends ControllerTestSuite {
     cookies(result).get("application").get.maxAge.get should be < 0
   }
 
-  "ExitController.tooYoungNotScotland" should "display the young Non-Scotland exit page" in runningApp {
-    val Some(result) = route(FakeRequest("GET", "/register-to-vote/exit/too-young-not-scotland"))
+  "ExitController.tooYoungNotScotland14" should "display the young Non-Scotland 14yr old exit page" in runningApp {
+    val Some(result) = route(FakeRequest("GET", "/register-to-vote/exit/too-young-not-scotland-14"))
     status(result) should be(OK)
-    contentAsString(result) should include("As a 14/15 year old you cannot register at an address in ENG/WAL")
+    contentAsString(result) should include("As a 14 year old you can only register from an address in Scotland")
 
     cookies(result).get("sessionKey").isDefined should be(true)
     cookies(result).get("sessionKey").get.maxAge.get should be < 0
@@ -67,8 +67,11 @@ class ExitControllerTests extends ControllerTestSuite {
     cookies(result).get("application").get.maxAge.get should be < 0
   }
 
-  it should "clear cookies correctly" in runningApp {
-    val Some(result) = route(FakeRequest("GET", "/register-to-vote/exit/too-young-not-scotland"))
+  "ExitController.tooYoungNotScotland15" should "display the young Non-Scotland 15yr old exit page" in runningApp {
+    val Some(result) = route(FakeRequest("GET", "/register-to-vote/exit/too-young-not-scotland-15"))
+    status(result) should be(OK)
+    contentAsString(result) should include("As a 15 year old you can only register from an address in Scotland")
+
     cookies(result).get("sessionKey").isDefined should be(true)
     cookies(result).get("sessionKey").get.maxAge.get should be < 0
     cookies(result).get("application").isDefined should be(true)
