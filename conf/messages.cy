@@ -558,8 +558,8 @@ exit_britishIslands_paperRegistration=Ond mae'n bosib y gallwch gofrestru i blei
 # Dont Know
 exit_dontKnow_title=Mae angen i chi wybod a ydych yn 18 oed neu'n hŷn
 exit_dontKnow_explanation=Ni allwch gofrestru i bleidleisio oni bai y gallwch gadarnhau eich bod yn 18 oed neu'n hŷn. Os oes anhawster gennych, <a href="https://www.gov.uk/get-on-electoral-register">cysylltwch â'ch Swyddfa Cofrestru Etholiadol</a> leol i gael cyngor.
-exit_dontKnow_title_Scotland=You need to find out whether you're 16 or over
-exit_dontKnow_explanation_Scotland=You can only register if you're able to confirm that you're 16 or over. If you have trouble, <a href="https://www.gov.uk/get-on-electoral-register">contact your local Electoral Registration Office</a> for advice.
+exit_dontKnow_title_Scotland=Mae arnoch angen canfod a ydych yn 16 oed neu’n hŷn ai peidio
+exit_dontKnow_explanation_Scotland=Dim ond os gallwch gadarnhau eich bod yn 16 oed neu’n hŷn y gallwch gofrestru. Os cewch unrhyw anhawster, <a href="https://www.gov.uk/get-on-electoral-register">cysylltwch â'ch Swyddfa Cofrestru Etholiadol</a> leol i gael cyngor.
 
 # No Franchise
 
