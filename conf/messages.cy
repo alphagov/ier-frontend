@@ -464,7 +464,7 @@ ordinary_confirmation_help_h2=Anfon eich cais
 ordinary_confirmation_help_p1=Drwy anfon eich cais rydych yn cadarnhau fod y wybodaeth a ddarperir gennych yn wir.
 ordinary_confirmation_help_p2=Efallai caiff eich gwybodaeth ei rhannu gydag adrannau eraill y Llywodraeth I wirio eich hunaniaeth a bod gennych hawl i bleidleisio.
 ordinary_confirmation_help_p3=Os byddwch yn rhoi gwybodaeth anwir yn eich cais gan wybod hynny, efallai y cewch ddedfryd o garchar am hyd at 6 mis, neu ddirwy.
-ordinary_confirmation_help_youngScot=Only Electoral Registration Officers and their staff can usually see your details in an electoral register. Your details will not be shown in any register which is published.  But some people need names and addresses for everyone who can vote at an election.  They usually need these details about 6 weeks before the election.  These include people who run elections, and candidates, who can send information to voters.  So if you will be 16 on the date of that election, your name and address may be supplied to them.
+ordinary_confirmation_help_youngScot=Swyddogion Cofrestru Etholiadol a’u staff yn unig all weld eich manylion ar gofrestr etholiadol fel arfer.  Ni fydd eich manylion yn dangos ar unrhyw gofrestr gyhoeddedig.  Ond mae angen enwau a chyfeiriadau pawb sy'n gallu pleidleisio mewn etholiad ar rai pobl.  Fel arfer, mae arnynt angen y manylion hyn oddeutu 6 wythnos cyn yr etholiad.  Mae’r rhain yn cynnwys pobl sy’n rhedeg etholiadau, ac ymgeiswyr, sy’n gallu anfon gwybodaeth at y pleidleiswyr.  Felly, os byddwch yn 16 mlwydd oed ar ddyddiad yr etholiad dan sylw, efallai y rhoddir eich enw a’ch cyfeiriad iddyn nhw.
 ordinary_confirmation_young_scot=You are {0} years old. If your application is successful, when you turn 16 you will be eligible to vote in Scottish Parliament elections and local government elections, and any other elections which use the Scottish local government franchise.
 
 ordinary_confirmation_error_completeThis=Cwblhewch y cam hwn
@@ -492,7 +492,7 @@ complete_moreAboutVoting_url=https://www.gov.uk/gwybodaethamgofrestru
 complete_takeOurSurvey_a=Beth oedd eich barn am y gwasanaeth hwn?
 complete_takeOurSurvey_p= (yn cymryd 30 eiliad)
 complete_ackEmail=Rydym wedi anfon e-bost cydnabod atoch.c
-complete_youngScot=If your application is successful, they will send you a confirmation letter and when you turn 16 you will be eligible to vote in Scottish Parliament and local government elections, and any other elections which use the Scottish local government franchise.
+complete_youngScot=Os bydd eich cais yn llwyddiannus, byddant yn anfon llythyr cadarnhau atoch, a phan fyddwch yn cael eich pen-blwydd yn 16 mlwydd oed, byddwch yn gymwys i bleidleisio mewn etholiadau Senedd yr Alban ac etholiadau llywodraeth leol, ac unrhyw etholiadau sy’n defnyddio etholfraint llywodraeth leol yr Alban.
 
 complete_electoralRegistrationOffice=Swyddfa Gofrestru Etholiadol
 complete_unspecificElectoralRegistrationOffice=eich Swyddfa Gofrestru Etholiadol leol
