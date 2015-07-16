@@ -407,8 +407,8 @@ trait ConfirmationMustache
     //IS CITIZEN REGISTERING IN SCOTLAND?...
     //...EITHER FROM A SCOT POSTCODE _OR_ FROM COUNTRY = SCOTLAND
     val isScot =
-      if(form(keys.postcode).value.isDefined) {
-        addressService.isScotAddress(form(keys.postcode).value.get)
+      if(form(keys.address.postcode).value.isDefined) {
+        addressService.isScotAddress(form(keys.address.postcode).value.get)
       } else {
         form(keys.country.residence).value.exists(_.equals("Scotland"))
       }
