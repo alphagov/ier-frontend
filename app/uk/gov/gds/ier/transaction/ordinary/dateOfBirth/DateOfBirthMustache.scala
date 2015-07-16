@@ -7,6 +7,7 @@ import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import play.api.data.validation.Constraint
 import uk.gov.gds.ier.model.Country
+import uk.gov.gds.ier.service.ScotlandService
 
 trait DateOfBirthMustache extends StepTemplate[InprogressOrdinary] {
 
@@ -28,6 +29,8 @@ trait DateOfBirthMustache extends StepTemplate[InprogressOrdinary] {
       noDobReasonShowFlag: Text
   ) extends MustacheData
 
+  val scotlandService: ScotlandService
+
   val mustache = MultilingualTemplate("ordinary/dateOfBirth") { implicit lang => (form, post) =>
     implicit val progressForm = form
 
@@ -35,6 +38,8 @@ trait DateOfBirthMustache extends StepTemplate[InprogressOrdinary] {
       case (Some("Abroad"), origin) => Country(origin.getOrElse(""), true)
       case (residence, _) => Country(residence.getOrElse(""), false)
     }
+
+    val postcode = form(keys.address.postcode).value.getOrElse("").toUpperCase
 
     DateOfBirthModel(
       question = Question(
@@ -55,8 +60,8 @@ trait DateOfBirthMustache extends StepTemplate[InprogressOrdinary] {
       noDobReason = TextField(
         key = keys.dob.noDob.reason
       ),
-      isScot = CountryValidator.isScotland(Some(country)),
-      rangeFieldSet = FieldSet (
+      isScot = scotlandService.isScotByPostcodeOrCountry(postcode, country),
+        rangeFieldSet = FieldSet (
         classes = if (form(keys.dob.noDob.range).hasErrors) "invalid" else ""
       ),
       rangeUnder18 = RadioField(

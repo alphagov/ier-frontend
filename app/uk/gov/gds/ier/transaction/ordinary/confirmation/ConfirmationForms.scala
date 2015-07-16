@@ -6,6 +6,7 @@ import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.model._
 import play.api.data.validation.{Invalid, Valid, Constraint, ValidationError}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.service.WithScotlandService
 
 trait ConfirmationForms extends OrdinaryMappings
 with ConfirmationConstraints {
@@ -48,7 +49,7 @@ with ConfirmationConstraints {
   )
 
 }
-trait ConfirmationConstraints {
+trait ConfirmationConstraints extends WithScotlandService {
   self: FormKeys
     with ErrorMessages =>
 
@@ -77,10 +78,7 @@ trait ConfirmationConstraints {
   val ninoIsYoungScot = Constraint[InprogressOrdinary]("ninoIsYoungScot") {
     application =>
       if(application.dob.exists(_.dob.isDefined)) {
-        if (
-            CountryValidator.isScotland(application.country) &&
-            DateValidator.isValidYoungScottishVoter(application.dob.get.dob.get)
-        ) {
+        if ( scotlandService.isYoungScot(application)) {
           Valid
         }
         else {
@@ -104,10 +102,7 @@ trait ConfirmationConstraints {
   val openRegIsYoungScot = Constraint[InprogressOrdinary]("openRegIsYoungScot") {
     application =>
       if(application.dob.exists(_.dob.isDefined)) {
-        if (
-            CountryValidator.isScotland(application.country) &&
-            DateValidator.isValidYoungScottishVoter(application.dob.get.dob.get)
-        ) {
+        if ( scotlandService.isYoungScot(application) ) {
           Valid
         }
         else {

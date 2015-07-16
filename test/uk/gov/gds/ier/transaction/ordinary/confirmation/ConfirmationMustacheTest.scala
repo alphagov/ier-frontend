@@ -11,6 +11,7 @@ class ConfirmationMustacheTest
   extends MustacheTestSuite
   with ConfirmationForms
   with WithMockAddressService
+  with WithMockScotlandService
   with WithMockOrdinaryControllers
   with MockitoHelpers
   with ConfirmationMustache {

@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.controller
 
 import com.google.inject.Inject
-import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.service.{ScotlandService, AddressService}
 import play.api.mvc.Controller
 import play.api.mvc.Action
 import uk.gov.gds.ier.client.ApiResults
@@ -14,7 +14,8 @@ import com.google.inject.Singleton
 @Singleton
 class PostcodeController @Inject()(
     val addressService: AddressService,
-    val serialiser: JsonSerialiser
+    val serialiser: JsonSerialiser,
+    val scotlandService: ScotlandService
   ) extends Controller with ApiResults with WithSerialiser with IerForms {
 
   def lookupAddress(postcode: String) = Action {

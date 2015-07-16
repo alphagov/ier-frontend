@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.localAuthority
 
 import uk.gov.gds.ier.test.MockingControllerTestSuite
-import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.service.{AddressService, ScotlandService}
 import uk.gov.gds.ier.model.PartialAddress
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.security.EncryptionService
@@ -79,6 +79,7 @@ class LocalAuthorityControllerTests extends MockingControllerTestSuite {
       val mockedConfig = mock[Config]
       val mockedEncryptionService = mock[EncryptionService]
       val mockedRemoteAssets = mock[RemoteAssets]
+      val mockedScotlandService = mock[ScotlandService]
 
       val localAuthorityController = new LocalAuthorityController(
         mockedIerApiService,
@@ -86,7 +87,8 @@ class LocalAuthorityControllerTests extends MockingControllerTestSuite {
         mockedJsonSerialiser,
         mockedEncryptionService,
         mockedConfig,
-        mockedRemoteAssets
+        mockedRemoteAssets,
+        mockedScotlandService
       )
 
       val result = localAuthorityController.getGssCode(Some("/register-to-vote/name"), FakeRequest())

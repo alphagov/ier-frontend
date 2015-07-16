@@ -7,6 +7,7 @@ import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 class DateOfBirthMustacheTest
   extends MustacheTestSuite
   with DateOfBirthForms
+  with WithMockScotlandService
   with DateOfBirthMustache {
 
   it should "empty progress form should produce empty Model" in runningApp {

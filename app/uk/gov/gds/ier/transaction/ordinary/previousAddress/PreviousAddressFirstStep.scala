@@ -5,7 +5,7 @@ import uk.gov.gds.ier.model.{MovedHouseOption}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.service.{ScotlandService, AddressService}
 
 import uk.gov.gds.ier.step.{Routes, OrdinaryStep}
 import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
@@ -18,6 +18,7 @@ class PreviousAddressFirstStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService,
     val addressService: AddressService,
+    val scotlandService: ScotlandService,
     val remoteAssets: RemoteAssets,
     val ordinary: OrdinaryControllers
 ) extends OrdinaryStep
@@ -48,7 +49,7 @@ class PreviousAddressFirstStep @Inject ()(
       case Some(MovedHouseOption.MovedFromAbroadNotRegistered) =>
         //IF YOUNG SCOTTISH CITIZEN, SKIP THE OPEN REGISTER STEP...
         if(currentState.dob.exists(_.dob.isDefined)) {
-          if (CountryValidator.isScotland(currentState.country) && DateValidator.isValidYoungScottishVoter(currentState.dob.get.dob.get)) {
+          if (scotlandService.isYoungScot(currentState)) {
             ordinary.PostalVoteStep
           }
           else {
@@ -62,7 +63,7 @@ class PreviousAddressFirstStep @Inject ()(
       case Some(MovedHouseOption.NotMoved) =>
         //IF YOUNG SCOTTISH CITIZEN, SKIP THE OPEN REGISTER STEP...
         if(currentState.dob.exists(_.dob.isDefined)) {
-          if (CountryValidator.isScotland(currentState.country) && DateValidator.isValidYoungScottishVoter(currentState.dob.get.dob.get)) {
+          if (scotlandService.isYoungScot(currentState)) {
             ordinary.PostalVoteStep
           }
           else {
@@ -101,6 +102,5 @@ class PreviousAddressFirstStep @Inject ()(
     case Some(Some(MovedHouseOption.MovedFromUk)) => GoToNextStep()
     case _ => GoToNextIncompleteStep()
   }
-
 }
 
