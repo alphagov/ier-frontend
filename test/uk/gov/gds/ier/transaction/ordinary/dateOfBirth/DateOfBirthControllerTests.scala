@@ -46,7 +46,10 @@ class DateOfBirthControllerTests extends ControllerTestSuite {
           .withFormUrlEncodedBody(
           "dob.dob.day" -> "1",
           "dob.dob.month" -> "1",
-          "dob.dob.year" -> "1970")
+          "dob.dob.year" -> "1970",
+          "dob.address.addressLine" -> "123 Fake Street, Fakerton",
+          "dob.address.uprn" -> "123456789",
+          "dob.address.postcode" -> "WR26NJ")
       )
 
       status(result) should be(SEE_OTHER)
@@ -171,7 +174,10 @@ class DateOfBirthControllerTests extends ControllerTestSuite {
           .withFormUrlEncodedBody(
           "dob.dob.day" -> "1",
           "dob.dob.month" -> "1",
-          "dob.dob.year" -> "1970")
+          "dob.dob.year" -> "1970",
+          "dob.address.addressLine" -> "123 Fake Street, Fakerton",
+          "dob.address.uprn" -> "123456789",
+          "dob.address.postcode" -> "WR26NJ")
       )
 
       status(result) should be(SEE_OTHER)

@@ -4,7 +4,7 @@ import uk.gov.gds.ier.controller.routes.ErrorController
 import uk.gov.gds.ier.transaction.complete.routes.CompleteStep
 import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.service.{WithAddressService, AddressService}
+import uk.gov.gds.ier.service.{ScotlandService, WithAddressService, AddressService}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.ConfirmationStepController
@@ -25,6 +25,7 @@ class ConfirmationStep @Inject ()(
     val serialiser: JsonSerialiser,
     ierApi: IerApiService,
     val addressService: AddressService,
+    val scotlandService: ScotlandService,
     val config: Config,
     val encryptionService : EncryptionService,
     val remoteAssets: RemoteAssets,
@@ -80,7 +81,7 @@ class ConfirmationStep @Inject ()(
           Ok(mustache(hasErrors, routing.post, application).html).refreshToken
         },
         validApplication => {
-          val isYoungScot = CountryValidator.isScotland(validApplication.country) && validApplication.dob.exists( dob => dob.dob.exists(DateValidator.isValidYoungScottishVoter(_)))
+          val isYoungScot = scotlandService.isYoungScot(validApplication)
 
           val refNum = ierApi.generateOrdinaryReferenceNumber(validApplication)
           val remoteClientIP = request.headers.get("X-Real-IP")

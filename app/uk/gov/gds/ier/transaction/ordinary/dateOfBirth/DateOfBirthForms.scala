@@ -3,11 +3,17 @@ package uk.gov.gds.ier.transaction.ordinary.dateOfBirth
 import uk.gov.gds.ier.validation.{DateValidator, FormKeys, ErrorMessages, ErrorTransformForm}
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import play.api.data.Forms._
-import uk.gov.gds.ier.model.{Country, DateOfBirth, noDOB, DOB}
+import uk.gov.gds.ier.model._
 import scala.Some
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import org.joda.time.DateMidnight
+import uk.gov.gds.ier.model.DateOfBirth
+import uk.gov.gds.ier.model.Country
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.model.DOB
+import scala.Some
+import uk.gov.gds.ier.model.noDOB
 
 trait DateOfBirthForms {
     self:  FormKeys
@@ -66,11 +72,12 @@ trait DateOfBirthForms {
   val dateOfBirthForm = ErrorTransformForm(
     mapping(
       keys.dob.key -> optional(dobAndReasonMapping),
-      keys.country.key -> optional(countryMappingForDOB)
+      keys.country.key -> optional(countryMappingForDOB),
+      keys.address.key -> optional(PartialAddress.mapping)
     ) (
-      (dob, country) => InprogressOrdinary(dob = dob, country = country)
+      (dob, country, address) => InprogressOrdinary(dob = dob, country = country, address = address)
     ) (
-      inprogress => Some(inprogress.dob, inprogress.country)
+      inprogress => Some(inprogress.dob, inprogress.country, inprogress.address)
     ) verifying dateOfBirthRequired
   )
 

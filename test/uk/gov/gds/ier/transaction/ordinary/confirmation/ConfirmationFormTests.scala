@@ -1,14 +1,14 @@
 package uk.gov.gds.ier.transaction.ordinary.confirmation
 
-import uk.gov.gds.ier.test.FormTestSuite
+import uk.gov.gds.ier.test.{WithMockScotlandService, FormTestSuite, WithMockAddressService}
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
-import uk.gov.gds.ier.test.WithMockAddressService
 
 class ConfirmationFormTests
   extends FormTestSuite
   with ConfirmationForms
-  with WithMockAddressService {
+  with WithMockAddressService
+  with WithMockScotlandService {
 
   it should "error out on empty json" in {
     val js = JsNull

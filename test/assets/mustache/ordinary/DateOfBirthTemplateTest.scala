@@ -5,7 +5,8 @@ import uk.gov.gds.ier.test._
 
 class DateOfBirthTemplateTest
   extends TemplateTestSuite
-  with DateOfBirthMustache {
+  with DateOfBirthMustache
+  with WithMockScotlandService {
 
   it should "properly render all properties from the model" in {
 

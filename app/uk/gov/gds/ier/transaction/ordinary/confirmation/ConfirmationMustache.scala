@@ -405,7 +405,13 @@ trait ConfirmationMustache
 
   private def isYoungScot(form: ErrorTransformForm[InprogressOrdinary]): Boolean = {
     //IS CITIZEN REGISTERING IN SCOTLAND?...
-    val isScot = form(keys.country.residence).value.exists(_.equals("Scotland"))
+    //...EITHER FROM A SCOT POSTCODE _OR_ FROM COUNTRY = SCOTLAND
+    val isScot =
+      if(form(keys.address.postcode).value.isDefined) {
+        addressService.isScotAddress(form(keys.address.postcode).value.get)
+      } else {
+        form(keys.country.residence).value.exists(_.equals("Scotland"))
+      }
 
     //...IS CITIZEN A YOUNG VOTER?...
     val isYoung =

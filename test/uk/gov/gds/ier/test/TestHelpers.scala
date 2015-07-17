@@ -2,7 +2,7 @@ package uk.gov.gds.ier.test
 
 import play.api.test.FakeRequest
 import play.api.test.Helpers
-import org.joda.time.DateTime
+import org.joda.time.{LocalDate, DateTime}
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
 import uk.gov.gds.ier.validation.ErrorTransformForm
@@ -86,6 +86,22 @@ trait TestHelpers
     contact = Some(Contact(true, None, None)),
     possibleAddresses = None,
     country = Some(Country("England", false))
+  )
+
+  lazy val completeOrdinaryApplicationYoungScot = InprogressOrdinary(
+    name = Some(Name("Jock", None, "Smith")),
+    previousName = Some(PreviousName(false, "false", None)),
+    dob = Some(DateOfBirth(Some(DOB(LocalDate.now.minusYears(15).getYear, 1, 1)), None)),
+    nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
+    nino = None,
+    address = Some(PartialAddress(Some("Flat 13, 50 North Bridge, Edinburgh, City Of Edinburgh"),Some("906182367"),"EH11QN",None,Some("S12000036"))),
+    previousAddress = Some(PartialPreviousAddress(Some(MovedHouseOption.NotMoved), None)),
+    otherAddress = Some(OtherAddress(OtherAddress.NoOtherAddress)),
+    openRegisterOptin = None,
+    postalVote = Some(PostalVote(Some(PostalVoteOption.NoAndVoteInPerson),None)),
+    contact = Some(Contact(true, None, None)),
+    possibleAddresses = None,
+    country = Some(Country("Scotland", false))
   )
 
 

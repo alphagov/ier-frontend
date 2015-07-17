@@ -98,7 +98,7 @@ trait AddressForms extends AddressConstraints {
       (addr, country) => InprogressOrdinary(address = addr, country = country)
     ) (
       inprogress => Some(inprogress.address, inprogress.country)
-    ).verifying( postcodeIsNotEmpty, cannotBeYoungVoterFromOutsideScotland )
+    ).verifying( postcodeIsNotEmpty )
   )
 
   // selectedAddressForm
@@ -151,21 +151,6 @@ trait AddressConstraints extends CommonConstraints {
           Invalid("ordinary_address_error_pleaseEnterYourPostcode", keys.address.postcode)
         }
         case None => Invalid("ordinary_address_error_pleaseEnterYourPostcode", keys.address.postcode)
-        case _ => Valid
-      }
-  }
-
-  lazy val cannotBeYoungVoterFromOutsideScotland = Constraint[InprogressOrdinary](keys.address.key) {
-    inprogress =>
-      inprogress.address match {
-        case Some(partialAddress)
-          if (
-              //!addressService.isScotland(partialAddress.postcode) &&
-              CountryValidator.isScotland(inprogress.country) &&
-              (inprogress.dob.exists(dobPageObj => dobPageObj.dob.exists(DateValidator.isValidYoungScottishVoter(_))))
-            ) => {
-            Invalid("MUST BE YOUNG SCOT", keys.address.postcode)
-          }
         case _ => Valid
       }
   }
