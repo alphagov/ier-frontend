@@ -69,24 +69,11 @@ trait DateOfBirthForms {
     case Country(country, false) => Some(Some(country), None)
   }
 
-  lazy val postcodeMappingForDOB = mapping(
-    keys.postcode.key -> nonEmptyText
-  ) (
-    postcode => PartialAddress(
-      addressLine = None,
-      uprn = None,
-      postcode = postcode,
-      manualAddress = None
-    )
-  ) (
-    partial => Some(partial.postcode)
-  )
-
   val dateOfBirthForm = ErrorTransformForm(
     mapping(
       keys.dob.key -> optional(dobAndReasonMapping),
       keys.country.key -> optional(countryMappingForDOB),
-      keys.address.key -> optional(postcodeMappingForDOB)
+      keys.address.key -> optional(PartialAddress.mapping)
     ) (
       (dob, country, address) => InprogressOrdinary(dob = dob, country = country, address = address)
     ) (
