@@ -4,6 +4,7 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.model.Country
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.validation.{DateValidator, CountryValidator}
+import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 
 class ScotlandService @Inject()(
     val addressService: AddressService
@@ -76,14 +77,14 @@ class ScotlandService @Inject()(
         if(isScot(currentState)) {
           //Wipe DOB object if any non-SCO noDOB age range is currently stored
           dateOfBirthRangeOption match {
-            case "under18" | "18to70" | "over70" => return true
+            case DateOfBirthConstants.under18 | DateOfBirthConstants.is18to70 | DateOfBirthConstants.over70 => return true
             case _ => return false
           }
         }
         else {
           //Wipe DOB object if any SCO noDOB age range is currently stored
           dateOfBirthRangeOption match {
-            case "14to15" | "16to17" | "over18" => return true
+            case DateOfBirthConstants.is14to15 | DateOfBirthConstants.is16to17 | DateOfBirthConstants.over18 => return true
             case _ => return false
           }
         }
