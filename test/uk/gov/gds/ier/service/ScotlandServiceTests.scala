@@ -1,8 +1,13 @@
 package uk.gov.gds.ier.service
 
 import uk.gov.gds.ier.test.{WithMockConfig, MockingTestSuite}
-import uk.gov.gds.ier.model.{PartialAddress, DOB, DateOfBirth, Country}
+import uk.gov.gds.ier.model._
 import org.joda.time.LocalDate
+import uk.gov.gds.ier.model.DateOfBirth
+import uk.gov.gds.ier.model.Country
+import uk.gov.gds.ier.model.DOB
+import scala.Some
+import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 
 class ScotlandServiceTests extends MockingTestSuite with WithMockConfig {
 
@@ -452,6 +457,357 @@ class ScotlandServiceTests extends MockingTestSuite with WithMockConfig {
     )
 
     service.isYoungScot(currentState) should be (false)
+  }
+
+  behavior of "ScotlandService.resetNoDOBRange"
+
+  it should "return FALSE for an application with ADDRESS in ENGLAND, noDOB=ANY" in {
+    val mockAddressService = mock[AddressService]
+    val service = getScotlandService(mockAddressService)
+    when(mockAddressService.isScotAddress("EH11QN")).thenReturn(true)
+    when(mockAddressService.isScotAddress("L77AJ")).thenReturn(false)
+    when(mockAddressService.isScotAddress("")).thenReturn(false)
+    val currentState = completeOrdinaryApplicationYoungScot.copy(
+      address = Some(PartialAddress(
+        addressLine = Some("123 Fake Street, Fakerton, Fakeville"),
+        uprn =  Some("1234567890"),
+        postcode = "L77AJ",
+        manualAddress = None,
+        gssCode = None
+      )),
+      country = Some(Country("England", false)),
+      dob = Some(DateOfBirth(
+        dob = None,
+        noDob = Some(noDOB(
+          reason = Some("test reason"),
+          range = Some(DateOfBirthConstants.is18to70)
+        ))
+      ))
+    )
+
+    service.resetNoDOBRange(currentState) should be (false)
+  }
+
+  it should "return FALSE for an application with ADDRESS in SCOTLAND, noDOB=14to15" in {
+    val mockAddressService = mock[AddressService]
+    val service = getScotlandService(mockAddressService)
+    when(mockAddressService.isScotAddress("EH11QN")).thenReturn(true)
+    when(mockAddressService.isScotAddress("L77AJ")).thenReturn(false)
+    when(mockAddressService.isScotAddress("")).thenReturn(false)
+    val currentState = completeOrdinaryApplicationYoungScot.copy(
+      dob = Some(DateOfBirth(
+        dob = None,
+        noDob = Some(noDOB(
+          reason = Some("test reason"),
+          range = Some(DateOfBirthConstants.is14to15)
+        ))
+      ))
+    )
+
+    service.resetNoDOBRange(currentState) should be (false)
+  }
+
+  it should "return FALSE for an application with ADDRESS in SCOTLAND, noDOB=16to17" in {
+    val mockAddressService = mock[AddressService]
+    val service = getScotlandService(mockAddressService)
+    when(mockAddressService.isScotAddress("EH11QN")).thenReturn(true)
+    when(mockAddressService.isScotAddress("L77AJ")).thenReturn(false)
+    when(mockAddressService.isScotAddress("")).thenReturn(false)
+    val currentState = completeOrdinaryApplicationYoungScot.copy(
+      dob = Some(DateOfBirth(
+        dob = None,
+        noDob = Some(noDOB(
+          reason = Some("test reason"),
+          range = Some(DateOfBirthConstants.is16to17)
+        ))
+      ))
+    )
+
+    service.resetNoDOBRange(currentState) should be (false)
+  }
+
+  it should "return FALSE for an application with ADDRESS in SCOTLAND, noDOB=over18" in {
+    val mockAddressService = mock[AddressService]
+    val service = getScotlandService(mockAddressService)
+    when(mockAddressService.isScotAddress("EH11QN")).thenReturn(true)
+    when(mockAddressService.isScotAddress("L77AJ")).thenReturn(false)
+    when(mockAddressService.isScotAddress("")).thenReturn(false)
+    val currentState = completeOrdinaryApplicationYoungScot.copy(
+      dob = Some(DateOfBirth(
+        dob = None,
+        noDob = Some(noDOB(
+          reason = Some("test reason"),
+          range = Some(DateOfBirthConstants.over18)
+        ))
+      ))
+    )
+
+    service.resetNoDOBRange(currentState) should be (false)
+  }
+
+  it should "return FALSE for an application with ADDRESS in ENGLAND, noDOB=under18" in {
+    val mockAddressService = mock[AddressService]
+    val service = getScotlandService(mockAddressService)
+    when(mockAddressService.isScotAddress("EH11QN")).thenReturn(true)
+    when(mockAddressService.isScotAddress("L77AJ")).thenReturn(false)
+    when(mockAddressService.isScotAddress("")).thenReturn(false)
+    val currentState = completeOrdinaryApplicationYoungScot.copy(
+      address = Some(PartialAddress(
+        addressLine = Some("123 Fake Street, Fakerton, Fakeville"),
+        uprn =  Some("1234567890"),
+        postcode = "L77AJ",
+        manualAddress = None,
+        gssCode = None
+      )),
+      country = Some(Country("England", false)),
+      dob = Some(DateOfBirth(
+        dob = None,
+        noDob = Some(noDOB(
+          reason = Some("test reason"),
+          range = Some(DateOfBirthConstants.under18)
+        ))
+      ))
+    )
+
+    service.resetNoDOBRange(currentState) should be (false)
+  }
+
+  it should "return FALSE for an application with ADDRESS in ENGLAND, noDOB=18to70" in {
+    val mockAddressService = mock[AddressService]
+    val service = getScotlandService(mockAddressService)
+    when(mockAddressService.isScotAddress("EH11QN")).thenReturn(true)
+    when(mockAddressService.isScotAddress("L77AJ")).thenReturn(false)
+    when(mockAddressService.isScotAddress("")).thenReturn(false)
+    val currentState = completeOrdinaryApplicationYoungScot.copy(
+      address = Some(PartialAddress(
+        addressLine = Some("123 Fake Street, Fakerton, Fakeville"),
+        uprn =  Some("1234567890"),
+        postcode = "L77AJ",
+        manualAddress = None,
+        gssCode = None
+      )),
+      country = Some(Country("England", false)),
+      dob = Some(DateOfBirth(
+        dob = None,
+        noDob = Some(noDOB(
+          reason = Some("test reason"),
+          range = Some(DateOfBirthConstants.is18to70)
+        ))
+      ))
+    )
+
+    service.resetNoDOBRange(currentState) should be (false)
+  }
+
+  it should "return FALSE for an application with ADDRESS in ENGLAND, noDOB=over70" in {
+    val mockAddressService = mock[AddressService]
+    val service = getScotlandService(mockAddressService)
+    when(mockAddressService.isScotAddress("EH11QN")).thenReturn(true)
+    when(mockAddressService.isScotAddress("L77AJ")).thenReturn(false)
+    when(mockAddressService.isScotAddress("")).thenReturn(false)
+    val currentState = completeOrdinaryApplicationYoungScot.copy(
+      address = Some(PartialAddress(
+        addressLine = Some("123 Fake Street, Fakerton, Fakeville"),
+        uprn =  Some("1234567890"),
+        postcode = "L77AJ",
+        manualAddress = None,
+        gssCode = None
+      )),
+      country = Some(Country("England", false)),
+      dob = Some(DateOfBirth(
+        dob = None,
+        noDob = Some(noDOB(
+          reason = Some("test reason"),
+          range = Some(DateOfBirthConstants.over70)
+        ))
+      ))
+    )
+
+    service.resetNoDOBRange(currentState) should be (false)
+  }
+
+  it should "return TRUE for an application with ADDRESS in ENGLAND, noDOB=14to15" in {
+    val mockAddressService = mock[AddressService]
+    val service = getScotlandService(mockAddressService)
+    when(mockAddressService.isScotAddress("EH11QN")).thenReturn(true)
+    when(mockAddressService.isScotAddress("L77AJ")).thenReturn(false)
+    when(mockAddressService.isScotAddress("")).thenReturn(false)
+    val currentState = completeOrdinaryApplicationYoungScot.copy(
+      address = Some(PartialAddress(
+        addressLine = Some("123 Fake Street, Fakerton, Fakeville"),
+        uprn =  Some("1234567890"),
+        postcode = "L77AJ",
+        manualAddress = None,
+        gssCode = None
+      )),
+      country = Some(Country("England", false)),
+      dob = Some(DateOfBirth(
+        dob = None,
+        noDob = Some(noDOB(
+          reason = Some("test reason"),
+          range = Some(DateOfBirthConstants.is14to15)
+        ))
+      ))
+    )
+
+    service.resetNoDOBRange(currentState) should be (true)
+  }
+
+  it should "return TRUE for an application with ADDRESS in ENGLAND, noDOB=16to17" in {
+    val mockAddressService = mock[AddressService]
+    val service = getScotlandService(mockAddressService)
+    when(mockAddressService.isScotAddress("EH11QN")).thenReturn(true)
+    when(mockAddressService.isScotAddress("L77AJ")).thenReturn(false)
+    when(mockAddressService.isScotAddress("")).thenReturn(false)
+    val currentState = completeOrdinaryApplicationYoungScot.copy(
+      address = Some(PartialAddress(
+        addressLine = Some("123 Fake Street, Fakerton, Fakeville"),
+        uprn =  Some("1234567890"),
+        postcode = "L77AJ",
+        manualAddress = None,
+        gssCode = None
+      )),
+      country = Some(Country("England", false)),
+      dob = Some(DateOfBirth(
+        dob = None,
+        noDob = Some(noDOB(
+          reason = Some("test reason"),
+          range = Some(DateOfBirthConstants.is16to17)
+        ))
+      ))
+    )
+
+    service.resetNoDOBRange(currentState) should be (true)
+  }
+
+  it should "return TRUE for an application with ADDRESS in ENGLAND, noDOB=over18" in {
+    val mockAddressService = mock[AddressService]
+    val service = getScotlandService(mockAddressService)
+    when(mockAddressService.isScotAddress("EH11QN")).thenReturn(true)
+    when(mockAddressService.isScotAddress("L77AJ")).thenReturn(false)
+    when(mockAddressService.isScotAddress("")).thenReturn(false)
+    val currentState = completeOrdinaryApplicationYoungScot.copy(
+      address = Some(PartialAddress(
+        addressLine = Some("123 Fake Street, Fakerton, Fakeville"),
+        uprn =  Some("1234567890"),
+        postcode = "L77AJ",
+        manualAddress = None,
+        gssCode = None
+      )),
+      country = Some(Country("England", false)),
+      dob = Some(DateOfBirth(
+        dob = None,
+        noDob = Some(noDOB(
+          reason = Some("test reason"),
+          range = Some(DateOfBirthConstants.over18)
+        ))
+      ))
+    )
+
+    service.resetNoDOBRange(currentState) should be (true)
+  }
+
+  it should "return TRUE for an application with ADDRESS in SCOTLAND, noDOB=under18" in {
+    val mockAddressService = mock[AddressService]
+    val service = getScotlandService(mockAddressService)
+    when(mockAddressService.isScotAddress("EH11QN")).thenReturn(true)
+    when(mockAddressService.isScotAddress("L77AJ")).thenReturn(false)
+    when(mockAddressService.isScotAddress("")).thenReturn(false)
+    val currentState = completeOrdinaryApplicationYoungScot.copy(
+      dob = Some(DateOfBirth(
+        dob = None,
+        noDob = Some(noDOB(
+          reason = Some("test reason"),
+          range = Some(DateOfBirthConstants.under18)
+        ))
+      ))
+    )
+
+    service.resetNoDOBRange(currentState) should be (true)
+  }
+
+  it should "return TRUE for an application with ADDRESS in SCOTLAND, noDOB=18to70" in {
+    val mockAddressService = mock[AddressService]
+    val service = getScotlandService(mockAddressService)
+    when(mockAddressService.isScotAddress("EH11QN")).thenReturn(true)
+    when(mockAddressService.isScotAddress("L77AJ")).thenReturn(false)
+    when(mockAddressService.isScotAddress("")).thenReturn(false)
+    val currentState = completeOrdinaryApplicationYoungScot.copy(
+      dob = Some(DateOfBirth(
+        dob = None,
+        noDob = Some(noDOB(
+          reason = Some("test reason"),
+          range = Some(DateOfBirthConstants.is18to70)
+        ))
+      ))
+    )
+
+    service.resetNoDOBRange(currentState) should be (true)
+  }
+
+  it should "return TRUE for an application with ADDRESS in SCOTLAND, noDOB=over70" in {
+    val mockAddressService = mock[AddressService]
+    val service = getScotlandService(mockAddressService)
+    when(mockAddressService.isScotAddress("EH11QN")).thenReturn(true)
+    when(mockAddressService.isScotAddress("L77AJ")).thenReturn(false)
+    when(mockAddressService.isScotAddress("")).thenReturn(false)
+    val currentState = completeOrdinaryApplicationYoungScot.copy(
+      dob = Some(DateOfBirth(
+        dob = None,
+        noDob = Some(noDOB(
+          reason = Some("test reason"),
+          range = Some(DateOfBirthConstants.over70)
+        ))
+      ))
+    )
+
+    service.resetNoDOBRange(currentState) should be (true)
+  }
+
+  it should "return FALSE for an application with ADDRESS in SCOTLAND, noDOB=dontknow" in {
+    val mockAddressService = mock[AddressService]
+    val service = getScotlandService(mockAddressService)
+    when(mockAddressService.isScotAddress("EH11QN")).thenReturn(true)
+    when(mockAddressService.isScotAddress("L77AJ")).thenReturn(false)
+    when(mockAddressService.isScotAddress("")).thenReturn(false)
+    val currentState = completeOrdinaryApplicationYoungScot.copy(
+      dob = Some(DateOfBirth(
+        dob = None,
+        noDob = Some(noDOB(
+          reason = Some("test reason"),
+          range = Some(DateOfBirthConstants.dontKnow)
+        ))
+      ))
+    )
+
+    service.resetNoDOBRange(currentState) should be (false)
+  }
+
+  it should "return FALSE for an application with ADDRESS in ENGLAND, noDOB=dontknow" in {
+    val mockAddressService = mock[AddressService]
+    val service = getScotlandService(mockAddressService)
+    when(mockAddressService.isScotAddress("EH11QN")).thenReturn(true)
+    when(mockAddressService.isScotAddress("L77AJ")).thenReturn(false)
+    when(mockAddressService.isScotAddress("")).thenReturn(false)
+    val currentState = completeOrdinaryApplicationYoungScot.copy(
+      address = Some(PartialAddress(
+        addressLine = Some("123 Fake Street, Fakerton, Fakeville"),
+        uprn =  Some("1234567890"),
+        postcode = "L77AJ",
+        manualAddress = None,
+        gssCode = None
+      )),
+      country = Some(Country("England", false)),
+      dob = Some(DateOfBirth(
+        dob = None,
+        noDob = Some(noDOB(
+          reason = Some("test reason"),
+          range = Some(DateOfBirthConstants.dontKnow)
+        ))
+      ))
+    )
+
+    service.resetNoDOBRange(currentState) should be (false)
   }
 
   private def getScotlandService(addressService: AddressService = mock[AddressService]) = {

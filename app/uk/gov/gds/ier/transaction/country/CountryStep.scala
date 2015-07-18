@@ -12,13 +12,15 @@ import uk.gov.gds.ier.controller.routes.ExitController
 import uk.gov.gds.ier.controller.routes.RegisterToVoteController
 import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.assets.RemoteAssets
+import uk.gov.gds.ier.service.ScotlandService
 
 class CountryStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config:Config,
     val encryptionService : EncryptionService,
     val remoteAssets: RemoteAssets,
-    val ordinary: OrdinaryControllers
+    val ordinary: OrdinaryControllers,
+    val scotlandService: ScotlandService
 ) extends OrdinaryStep
   with CountryConstraints
   with CountryForms
@@ -42,4 +44,18 @@ class CountryStep @Inject ()(
       case _ => ordinary.NationalityStep
     }
   }
+
+  override val onSuccess = TransformApplication { currentState =>
+    //Before moving on, check the noDOB range option is accurate based on this new address selected
+    //Wipe the noDOB range option selected if it is NOT acceptable for this new address chosen
+    //(ie. the noDOB option must be of a selection appropriate for this address's country)
+    if(scotlandService.resetNoDOBRange(currentState)) {
+      val currentStateRESET = currentState.copy(
+        dob = None
+      )
+      currentStateRESET
+    }
+    else currentState
+
+  } andThen GoToNextIncompleteStep()
 }

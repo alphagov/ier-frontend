@@ -4,6 +4,7 @@ import com.google.inject.Inject
 import uk.gov.gds.ier.model.Country
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.validation.{DateValidator, CountryValidator}
+import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 
 class ScotlandService @Inject()(
     val addressService: AddressService
@@ -60,5 +61,35 @@ class ScotlandService @Inject()(
    */
   def isYoungScot(currentState: InprogressOrdinary):Boolean = {
     isScot(currentState) && isUnderageScot(currentState)
+  }
+
+  /*
+    Given a current application...
+    Check the address / country status.
+    If an actual DOB exists, then ignore this check entirely.  An actual DOB always takes presedence
+    If SCO, then any non-SCO noDOB age range options selected need to be reset to force the citizen to reenter
+    If non-SCO, then any SCO noDOB age range options selected need to be reset to force the citizen to reenter
+   */
+  def resetNoDOBRange(currentState: InprogressOrdinary): Boolean = {
+    if(currentState.dob.isDefined) {
+      if(!currentState.dob.get.dob.isDefined) {
+        val dateOfBirthRangeOption = currentState.dob.get.noDob.get.range.get
+        if(isScot(currentState)) {
+          //Wipe DOB object if any non-SCO noDOB age range is currently stored
+          dateOfBirthRangeOption match {
+            case DateOfBirthConstants.under18 | DateOfBirthConstants.is18to70 | DateOfBirthConstants.over70 => return true
+            case _ => return false
+          }
+        }
+        else {
+          //Wipe DOB object if any SCO noDOB age range is currently stored
+          dateOfBirthRangeOption match {
+            case DateOfBirthConstants.is14to15 | DateOfBirthConstants.is16to17 | DateOfBirthConstants.over18 => return true
+            case _ => return false
+          }
+        }
+      }
+    }
+    return false
   }
 }

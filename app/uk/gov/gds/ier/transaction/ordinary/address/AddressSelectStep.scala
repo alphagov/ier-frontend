@@ -7,7 +7,7 @@ import uk.gov.gds.ier.model.{
   PossibleAddress}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.service.{ScotlandService, AddressService}
 import uk.gov.gds.ier.step.{GoTo, OrdinaryStep, Routes}
 import uk.gov.gds.ier.validation.ErrorTransformForm
 import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
@@ -20,6 +20,7 @@ class AddressSelectStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService,
+    val scotlandService: ScotlandService,
     val remoteAssets: RemoteAssets,
     val ordinary: OrdinaryControllers
 ) extends OrdinaryStep
@@ -47,9 +48,21 @@ class AddressSelectStep @Inject() (
       addressService.fillAddressLine(_)
     }
 
-    currentState.copy(
+    val currentStateNEW = currentState.copy(
       address = addressWithAddressLine,
       possibleAddresses = None
     )
+
+    //Before moving on, check the noDOB range option is accurate based on this new address selected
+    //Wipe the noDOB range option selected if it is NOT acceptable for this new address chosen
+    //(ie. the noDOB option must be of a selection appropriate for this address's country)
+    if(scotlandService.resetNoDOBRange(currentState)) {
+      val currentStateRESET = currentStateNEW.copy(
+        dob = None
+      )
+      currentStateRESET
+    }
+    else currentStateNEW
+
   } andThen GoToNextIncompleteStep()
 }
