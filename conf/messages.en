@@ -244,12 +244,13 @@ can make a separate application through this service.
 ordinary_otheraddr_error_pleaseAnswer=Please answer this question
 
 # ordinary: previous address
-ordinary_previousAddress_title=Have you moved out of another address in the last 12 months?
+ordinary_previousAddress_title=Have you permanently moved out of another address in the last 12 months?
 ordinary_previousAddress_yesFromUk_title=What was your previous address?
 ordinary_previousAddress_yesFromAbroadWasRegistered_title=What was your last UK address before moving abroad?
 
 ordinary_previousAddress_no_option=No
 ordinary_previousAddress_yesFromUk_option=Yes, from a UK address
+ordinary_previousAddress_yesFromUk_option_selected_label=Only select this option if you have permanently moved out of an address in the past 12 months
 ordinary_previousAddress_yesFromAbroad_option=Yes, from abroad
 ordinary_previousAddress_yesFromAbroad_wasRegisteredQuestion=Were you registered as a UK voter when you were abroad?
 ordinary_previousAddress_yesFromAbroad_wasRegistered_yes_option=Yes
@@ -415,6 +416,7 @@ ordinary_confirmation_address_changeName=your address
 ordinary_confirmation_secondAddress_title=Second address
 ordinary_confirmation_secondAddress_changeName=second address
 ordinary_confirmation_secondAddress_haveAddress=I have a second address
+ordinary_confirmation_secondAddress_student=I am a student with home and term-time address
 ordinary_confirmation_secondAddress_dontHaveAddress=I don’t have a second address
 
 ordinary_confirmation_previousAddress_title_lastAddress=Last UK address
