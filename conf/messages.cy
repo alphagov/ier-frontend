@@ -401,7 +401,7 @@ ordinary_confirmation_name_changeName=enw llawn
 
 ordinary_confirmation_previousName_title=Enw blaenorol
 ordinary_confirmation_previousName_changeName=enw blaenorol
-ordinary_confirmation_previousName_nameNotChanged=Nid wyf wedi newid fy enw yn y 12 mis diwethaf
+ordinary_confirmation_previousName_nameNotChanged=Nid wyf wedi newid fy enw
 
 ordinary_confirmation_dob_title=Dyddiad geni
 ordinary_confirmation_dob_changeName=dyddiad geni

@@ -146,7 +146,7 @@ trait ConfirmationMustache
             form(keys.previousName.previousName.lastName).value
           ).flatten.mkString(" ")
         }
-        case _ => "I have not changed my name in the last 12 months"
+        case _ => "I have not changed my name"
       }
       Some(ConfirmationQuestion(
         title = "Previous name",

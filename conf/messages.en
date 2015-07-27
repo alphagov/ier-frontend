@@ -383,7 +383,7 @@ ordinary_confirmation_name_changeName=full name
 
 ordinary_confirmation_previousName_title=Previous name
 ordinary_confirmation_previousName_changeName=previous name
-ordinary_confirmation_previousName_nameNotChanged=I have not changed my name in the last 12 months
+ordinary_confirmation_previousName_nameNotChanged=I have not changed my name
 
 ordinary_confirmation_dob_title=Date of birth
 ordinary_confirmation_dob_changeName=date of birth
