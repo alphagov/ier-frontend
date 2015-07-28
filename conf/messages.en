@@ -370,6 +370,7 @@ ordinary_contact_emailConfirmationMessage=Enter an email address if you want an 
 ordinary_contact_error_pleaseAnswer=Please answer this question
 ordinary_contact_error_enterYourEmail=Please enter your email address
 ordinary_contact_error_enterYourPhoneNo=Please enter your phone number
+ordinary_contact_error_enterValidPhoneNo=Please enter a valid phone number
 ordinary_contact_error_pleaseEnterValidEmail=Please enter a valid email address
 
 # ordinary: confirmation
