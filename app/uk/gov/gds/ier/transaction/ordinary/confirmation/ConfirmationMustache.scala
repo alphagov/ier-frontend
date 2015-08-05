@@ -232,8 +232,9 @@ trait ConfirmationMustache
         content =
           ifComplete(keys.otherAddress) {
             form(keys.otherAddress.hasOtherAddress).value match {
-              case Some(secAddrType)
-                if OtherAddress.parse(secAddrType) != OtherAddress.NoOtherAddress =>
+              case Some(secAddrStudent) if OtherAddress.parse(secAddrStudent) == OtherAddress.StudentOtherAddress =>
+                  List(Messages("ordinary_confirmation_secondAddress_student"))
+              case Some(secAddrType) if OtherAddress.parse(secAddrType) != OtherAddress.NoOtherAddress =>
                   List(Messages("ordinary_confirmation_secondAddress_haveAddress"))
               case _ => List(Messages("ordinary_confirmation_secondAddress_dontHaveAddress"))
             }

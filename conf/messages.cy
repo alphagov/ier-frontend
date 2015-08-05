@@ -257,12 +257,13 @@ arall, gallwch wneud hynny drwy gyflwyno ail gais.
 ordinary_otheraddr_error_pleaseAnswer=Atebwch y cwestiwn hwn
 
 # ordinary: previous address
-ordinary_previousAddress_title=Ydych chi wedi symud o gyfeiriad arall yn y DU yn y 12 mis diwethaf?
+ordinary_previousAddress_title=Ydych chi wedi symud yn barhaol o gyfeiriad arall yn y 12 mis diwethaf?
 ordinary_previousAddress_yesFromUk_title=Beth oedd eich cyfeiriad blaenorol?
 ordinary_previousAddress_yesFromAbroadWasRegistered_title=Beth oedd eich cyfeiriad olaf yn y DU cyn i chi symud dramor?
 
 ordinary_previousAddress_no_option=Nac ydw
 ordinary_previousAddress_yesFromUk_option=Ydw, o gyfeiriad yn y DU
+ordinary_previousAddress_yesFromUk_option_selected_label=Dewiswch yr opsiwn hwn dim ond os ydych wedi symud yn barhaol o gyfeiriad yn y 12 mis diwethaf
 ordinary_previousAddress_yesFromAbroad_option=Ydw, o dramor
 ordinary_previousAddress_yesFromAbroad_wasRegisteredQuestion=A oeddech chi wedi’ch cofrestru fel pleidleisiwr yn etholiadau’r DU pan oeddech dramor?
 ordinary_previousAddress_yesFromAbroad_wasRegistered_yes_option=Ydw
@@ -433,6 +434,7 @@ ordinary_confirmation_address_changeName=eich cyfeiriad
 ordinary_confirmation_secondAddress_title=Ail gyfeiriad
 ordinary_confirmation_secondAddress_changeName=ail gyfeiriad
 ordinary_confirmation_secondAddress_haveAddress=Mae gen i ail gyfeiriad
+ordinary_confirmation_secondAddress_student=Rwy’n fyfyriwr gyda chyfeiriad cartref a chyfeiriad yn ystod y tymor
 ordinary_confirmation_secondAddress_dontHaveAddress=Does dim ail gyfeiriad gennyf
 
 ordinary_confirmation_previousAddress_title_lastAddress=Cyfeiriad diwethaf a DU
