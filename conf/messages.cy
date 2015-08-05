@@ -389,6 +389,7 @@ ordinary_contact_emailConfirmationMessage=Nodwch gyfeiriad e-bost os hoffech dde
 ordinary_contact_error_pleaseAnswer=Atebwch y cwestiwn hwn
 ordinary_contact_error_enterYourEmail=Rhowch eich cyfeiriad e-bost
 ordinary_contact_error_enterYourPhoneNo=Nodwch eich rhif ffôn
+ordinary_contact_error_enterValidPhoneNo=Rhowch rif ffôn dilys, os gwelwch yn dda
 ordinary_contact_error_pleaseEnterValidEmail=Nid yw hwnnw’n gyfeiriad e-bost dilys: gwiriwch yr hyn rydych wedi’i nodi
 
 # ordinary: confirmation

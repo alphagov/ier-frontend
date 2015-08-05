@@ -5,7 +5,7 @@ import uk.gov.gds.ier.model._
 import play.api.data.Forms._
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 
-import uk.gov.gds.ier.validation.{EmailValidator, FormKeys, ErrorMessages}
+import uk.gov.gds.ier.validation.{EmailValidator, TelephoneValidator, FormKeys, ErrorMessages}
 import uk.gov.gds.ier.model.{Contact, ContactDetail}
 import play.api.data.validation.{Invalid, Valid, Constraint}
 
@@ -56,6 +56,10 @@ trait ContactForms {
         "ordinary_contact_error_enterYourPhoneNo",
         keys.contact.phone.detail
       )
+      case Some(ContactDetail(true, Some(phoneNumber)))
+        if !TelephoneValidator.isValid(phoneNumber) => {
+          Invalid("ordinary_contact_error_enterValidPhoneNo", keys.contact.phone.detail)
+      }
       case _ => Valid
     }
   }
