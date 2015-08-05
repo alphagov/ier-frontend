@@ -765,7 +765,7 @@
             var entry = _getFieldValue(this.$source);
 
             if (this.$source.is(':hidden')) { return []; }
-            if (entry.replace(/[\s|\-]/g, "").match(/^\+?\d+$/) === null) {
+            if (entry.replace(/[\s\-\+\(\)\_\A-Z\a-z]/g, "").match(/^[0-9]{7,30}$/) === null) {
               return _getInvalidDataFromFields([this], 'telephone');
             } else {
               return [];
