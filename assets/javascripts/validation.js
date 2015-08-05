@@ -1709,7 +1709,8 @@
         'atLeastOneNonEmpty' : message('ordinary_contact_error_pleaseAnswer')
       },
       'phoneNumber' : {
-        'nonEmpty' : message('ordinary_contact_error_enterYourPhoneNo')
+        'nonEmpty' : message('ordinary_contact_error_enterYourPhoneNo'),
+        'telephone' : message('ordinary_contact_error_enterValidPhoneNo')
       },
       'emailAddress' : {
         'nonEmpty' : message('ordinary_contact_error_enterYourEmail'),
