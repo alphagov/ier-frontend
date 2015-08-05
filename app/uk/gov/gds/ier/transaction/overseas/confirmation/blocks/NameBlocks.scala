@@ -37,7 +37,7 @@ trait NameBlocks {
           ).flatten.mkString(" ")
         ) ++ nameChangeReason
       }
-      case _ => List("I have not changed my name in the last 12 months")
+      case _ => List("I have not changed my name")
     }
     ConfirmationQuestion(
       title = "Previous name",
