@@ -546,10 +546,10 @@ ordinary_address_continue=Parhau
 # Too Young
 
 exit_tooYoung_title=Mae'n ddrwg gennym, ni allwch gofrestru i bleidleisio eto
-exit_tooYoung_explanation=Ni allwch gofrestru i bleidleisio nes eich bod yn 16 oed. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk/" data-journey-click="Hyperlinks:Youth Parliament:UK Youth Parliament">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
-exit_tooYoungScotland_explanation=Ni chewch gofrestru hyd nes eich bod yn 14 oed yn yr Alban. Yn y cyfamser, efallai y byddai gennych ddiddordeb yn <a href="http://www.syp.org.uk/" data-journey-click="Hyperlinks:Youth Parliament:Scottish Youth Parliament">Senedd Ieuenctid yr Alban </a>.
-exit_tooYoungNotScotland_explanation14=Fel unigolyn 14 mlwydd oed, dim ond o gyfeiriad yn yr Alban y gallwch gofrestru. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk/" data-journey-click="Hyperlinks:Youth Parliament:UK Youth Parliament">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
-exit_tooYoungNotScotland_explanation15=Fel unigolyn 15 mlwydd oed, dim ond o gyfeiriad yn yr Alban y gallwch gofrestru. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk/" data-journey-click="Hyperlinks:Youth Parliament:UK Youth Parliament">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
+exit_tooYoung_explanation=Ni allwch gofrestru i bleidleisio nes eich bod yn 16 oed. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk" data-journey-click="Hyperlinks:Youth Parliament:UK Youth Parliament" rel="external">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
+exit_tooYoungScotland_explanation=Ni chewch gofrestru hyd nes eich bod yn 14 oed yn yr Alban. Yn y cyfamser, efallai y byddai gennych ddiddordeb yn <a href="http://www.syp.org.uk" data-journey-click="Hyperlinks:Youth Parliament:Scottish Youth Parliament" rel="external">Senedd Ieuenctid yr Alban </a>.
+exit_tooYoungNotScotland_explanation14=Fel unigolyn 14 mlwydd oed, dim ond o gyfeiriad yn yr Alban y gallwch gofrestru. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk" data-journey-click="Hyperlinks:Youth Parliament:UK Youth Parliament" rel="external">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
+exit_tooYoungNotScotland_explanation15=Fel unigolyn 15 mlwydd oed, dim ond o gyfeiriad yn yr Alban y gallwch gofrestru. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk" data-journey-click="Hyperlinks:Youth Parliament:UK Youth Parliament" rel="external">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
 exit_tooYoung_moreAboutVoting=Mwy o wybodaeth am bleidleisio yn y DU.
 
 # British Islands
