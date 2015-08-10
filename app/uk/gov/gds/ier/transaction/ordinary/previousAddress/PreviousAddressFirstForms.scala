@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
 import play.api.data.Forms._
-import uk.gov.gds.ier.model.{MovedHouseOption, PartialAddress, PartialPreviousAddress}
+import uk.gov.gds.ier.model.{MovedHouseOption, PartialAddress, PartialPreviousAddress, OtherAddress}
 import uk.gov.gds.ier.validation.{PostcodeValidator, ErrorMessages, FormKeys, ErrorTransformForm}
 import uk.gov.gds.ier.serialiser.WithSerialiser
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
@@ -46,13 +46,14 @@ trait PreviousAddressFirstForms
 
   val previousAddressFirstForm = ErrorTransformForm(
     mapping (
-      keys.previousAddress.key -> optional(previousAddressRegisteredAbroadMapping)
+      keys.previousAddress.key -> optional(previousAddressRegisteredAbroadMapping),
+      keys.otherAddress.key -> optional(OtherAddress.otherAddressMapping)
     ) (
-      previousAddressYesNo => InprogressOrdinary(
-        previousAddress = previousAddressYesNo
+      (previousAddressYesNo, otherAddress) => InprogressOrdinary(
+        previousAddress = previousAddressYesNo, otherAddress = otherAddress
       )
     ) (
-      inprogress => Some(inprogress.previousAddress)
+      inprogress => Some(inprogress.previousAddress, inprogress.otherAddress)
     ).verifying(
       previousAddressYesNoIsNotEmpty,
       previouslyRegisteredAbroad)

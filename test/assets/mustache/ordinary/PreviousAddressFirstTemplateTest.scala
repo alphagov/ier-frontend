@@ -51,7 +51,8 @@ class PreviousAddressFirstTemplateTest
           classes = "registeredAbroadNoClasses",
           value = "registeredAbroadNoValue",
           attributes = "foo=\"foo\""
-        )
+        ),
+        isStudent = true
       )
 
       val html = Mustache.render("ordinary/previousAddressFirst", data)
