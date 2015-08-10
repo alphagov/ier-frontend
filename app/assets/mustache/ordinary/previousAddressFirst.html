@@ -33,13 +33,14 @@
                    {{{previousYesUk.attributes}}}>
             {{messages.ordinary_previousAddress_yesFromUk_option}}
         </label>
-
+        {{#isStudent}}
         <div id="{{previousYesUk.id}}_help" class="optional-section"
              data-condition="{{previousYesUk.id}}">
 
             <p>{{messages.ordinary_previousAddress_yesFromUk_option_selected_label}}</p>
 
         </div>
+        {{/isStudent}}
 
         <label for="{{previousYesAbroad.id}}" class="selectable"  >
             <input type="radio"
