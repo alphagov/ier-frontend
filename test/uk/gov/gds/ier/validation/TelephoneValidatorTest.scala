@@ -32,8 +32,8 @@ class TelephoneValidatorTest extends UnitTestSuite {
     TelephoneValidator.isValid("abc12") should be(false)
   }
 
-  it should "return false for telephone number of 2 digits" in {
-    TelephoneValidator.isValid("12") should be(false)
+  it should "return false for telephone number of 4 digits" in {
+    TelephoneValidator.isValid("1234") should be(false)
   }
 
   it should "return false for telephone number of 31 digits" in {
