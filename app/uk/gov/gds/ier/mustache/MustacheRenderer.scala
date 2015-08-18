@@ -32,12 +32,15 @@ trait MustacheRendering[T] extends StepMustache with InheritedGovukMustache {
       val lang = Language.getLang(request)
       val model = template.data(lang, form, postUrl, application)
       val content = Mustache.render(template.mustachePath, model)
+      val htmlLang = model.question.lang.language
+      val emailLanguage = model.question.lang.language.toString()
+      Language.setLang(emailLanguage)
 
       CheapHackInheritanceIntoSteps(
         mainContent = content,
         lang = lang,
         pageTitle = model.question.title,
-        htmlLang = model.question.lang.language,
+        htmlLang = htmlLang,
         contentClasses = model.question.contentClasses,
         sourcePath = model.question.postUrl
       ).render()
