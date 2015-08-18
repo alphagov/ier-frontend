@@ -22,6 +22,7 @@ import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import play.api.libs.json.Json
 import uk.gov.gds.ier.model.LocalAuthority
+import uk.gov.gds.ier.langs.Language
 
 abstract class IerApiService {
   def submitOrdinaryApplication(
@@ -108,7 +109,7 @@ class ConcreteIerApiService @Inject() (
       referenceNumber = referenceNumber,
       ip = ipAddress,
       timeTaken = timeTaken.getOrElse("-1"),
-      language = language,
+      language = Language.emailLang,
       sessionId = applicant.sessionId.getOrElse("")
     )
 
