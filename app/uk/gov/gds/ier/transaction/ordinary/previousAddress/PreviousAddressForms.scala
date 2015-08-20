@@ -140,15 +140,26 @@ trait PreviousAddressConstraints extends CommonConstraints {
 
   lazy val selectedAddressIsDifferent = Constraint[InprogressOrdinary](keys.previousAddress.key) {
     inprogress =>
-      val currentAddress = inprogress.address.flatMap(_.uprn)
-      inprogress.previousAddress match {
-        case Some(partialAddress) if partialAddress.previousAddress.flatMap(_.uprn) != currentAddress => {
-          Valid
+      val currentAddress = inprogress.address
+      //If _BOTH_ current and previous addresses have UPRN values (ie. neither manual addresses)...
+      //...then validate that the UPRNs are different
+      if (
+        currentAddress.flatMap(_.uprn).isDefined
+        && inprogress.previousAddress.get.previousAddress.flatMap(_.uprn).isDefined
+      ) {
+        inprogress.previousAddress match {
+          case Some(partialAddress) if partialAddress.previousAddress.flatMap(_.uprn) != currentAddress.flatMap(_.uprn) => {
+            Valid
+          }
+          case _ => {
+            Invalid("ordinary_previousAddress_must_differ_error", keys.previousAddress.previousAddress.address)
+          }
         }
-        case _ => {
-          Invalid("ordinary_previousAddress_must_differ_error", keys.previousAddress.previousAddress.address)
-        }
-      }}
+      }
+      else {
+        Valid
+      }
+  }
 
 
   lazy val postcodeIsNotEmptyForPreviousAddress = Constraint[InprogressOrdinary](keys.previousAddress.key) {
