@@ -136,8 +136,8 @@ class PreviousAddressYesFormTests
 
     selectStepForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(4)
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question", "Your previous address cannot be the same as your current address"))
+        hasErrors.errors.size should be(2)
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
         hasErrors.errorMessages("previousAddress.previousAddress.uprn") should be(Seq("Please answer this question"))
       },
       success => fail("Should have errored out")
@@ -154,8 +154,8 @@ class PreviousAddressYesFormTests
     )
     selectStepForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(4)
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question", "Your previous address cannot be the same as your current address"))
+        hasErrors.errors.size should be(2)
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
         hasErrors.errorMessages("previousAddress.previousAddress.uprn") should be(Seq("Please answer this question"))
       },
       success => fail("Should have errored out")
@@ -215,10 +215,9 @@ class PreviousAddressYesFormTests
     )
     selectStepForm.bind(js).fold(
       hasErrors => {
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question", "Your previous address cannot be the same as your current address"))
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.uprn" -> Seq("Please answer this question"),
-          "previousAddress.previousAddress.address" -> Seq("Your previous address cannot be the same as your current address")
+          "previousAddress.previousAddress.uprn" -> Seq("Please answer this question")
         ))
       },
       success => {

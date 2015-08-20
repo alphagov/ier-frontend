@@ -136,8 +136,8 @@ class PreviousAddressYesFormTests
 
     selectAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(4)
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question", "Your previous address cannot be the same as your current address"))
+        hasErrors.errors.size should be(2)
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
         hasErrors.errorMessages("previousAddress") should be(Seq("Please answer this question"))
       },
       success => fail("Should have errored out")
@@ -154,8 +154,8 @@ class PreviousAddressYesFormTests
     )
     selectAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(4)
-        hasErrors.globalErrorMessages should be(Seq("Please answer this question","Your previous address cannot be the same as your current address"))
+        hasErrors.errors.size should be(2)
+        hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
         hasErrors.errorMessages("previousAddress") should be(Seq("Please answer this question"))
       },
       success => fail("Should have errored out")
@@ -254,8 +254,7 @@ class PreviousAddressYesFormTests
         success.previousAddress.isDefined should be(true)
         val Some(partialPreviousAddress) = success.previousAddress
 
-        success.possibleAddresses.isDefined should be(true)
-        val Some(possibleAddresses) = success.possibleAddresses
+        success.possibleAddresses.isDefined should be(false)
 
         partialPreviousAddress.previousAddress.isDefined should be(true)
         val previousAddress = partialPreviousAddress.previousAddress.get
@@ -269,8 +268,6 @@ class PreviousAddressYesFormTests
           ))
         )
         previousAddress.postcode should be("SW1A 1AA")
-
-        possibleAddresses.jsonList.addresses should be(List(possibleAddress))
       }
     )
   }

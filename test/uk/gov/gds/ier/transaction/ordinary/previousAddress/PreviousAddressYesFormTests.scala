@@ -137,11 +137,10 @@ class PreviousAddressYesFormTests
 
     selectStepForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(4)
-        hasErrors.globalErrorMessages should be(Seq("ordinary_previousAddress_select_error_answerThis", "ordinary_previousAddress_must_differ_error"))
+        hasErrors.errors.size should be(2)
+        hasErrors.globalErrorMessages should be(Seq("ordinary_previousAddress_select_error_answerThis"))
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.uprn" -> Seq("ordinary_previousAddress_select_error_answerThis"),
-          "previousAddress.previousAddress.address" -> Seq("ordinary_previousAddress_must_differ_error")
+          "previousAddress.previousAddress.uprn" -> Seq("ordinary_previousAddress_select_error_answerThis")
         ))
       },
       success => fail("Should have errored out")
@@ -158,11 +157,10 @@ class PreviousAddressYesFormTests
     )
     selectStepForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(4)
-        hasErrors.globalErrorMessages should be(Seq("ordinary_previousAddress_select_error_answerThis", "ordinary_previousAddress_must_differ_error"))
+        hasErrors.errors.size should be(2)
+        hasErrors.globalErrorMessages should be(Seq("ordinary_previousAddress_select_error_answerThis"))
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.uprn" -> Seq("ordinary_previousAddress_select_error_answerThis"),
-          "previousAddress.previousAddress.address" -> Seq("ordinary_previousAddress_must_differ_error")
+          "previousAddress.previousAddress.uprn" -> Seq("ordinary_previousAddress_select_error_answerThis")
         ))
       },
       success => fail("Should have errored out")
@@ -222,10 +220,9 @@ class PreviousAddressYesFormTests
     )
     selectStepForm.bind(js).fold(
       hasErrors => {
-        hasErrors.globalErrorMessages should be(Seq("ordinary_previousAddress_select_error_answerThis", "ordinary_previousAddress_must_differ_error"))
+        hasErrors.globalErrorMessages should be(Seq("ordinary_previousAddress_select_error_answerThis"))
         hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousAddress.previousAddress.uprn" -> Seq("ordinary_previousAddress_select_error_answerThis"),
-          "previousAddress.previousAddress.address" -> Seq("ordinary_previousAddress_must_differ_error")
+          "previousAddress.previousAddress.uprn" -> Seq("ordinary_previousAddress_select_error_answerThis")
         ))
       },
       success => {
