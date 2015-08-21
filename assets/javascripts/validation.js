@@ -1766,7 +1766,8 @@
         'nonEmpty' : message('ordinary_address_error_cityIsRequired')
       },
       'previousAddress' : {
-        'atLeastOneNonEmpty' : message('ordinary_address_error_pleaseAnswer')
+        'atLeastOneNonEmpty' : message('ordinary_address_error_pleaseAnswer'),
+        'nonEqual' : message('ordinary_previousAddress_must_differ_error')
       },
       'statement' : {
         'atLeastOneNonEmpty' : 'Please answer this question'
