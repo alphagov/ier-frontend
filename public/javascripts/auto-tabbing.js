@@ -1,1 +1,0 @@
-function moveOnMax(field,nextFieldID){field.value.length>=2&&document.getElementById(nextFieldID).focus()}
