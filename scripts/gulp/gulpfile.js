@@ -6,7 +6,6 @@ var sass = require('gulp-ruby-sass');
 var assetsFolder = '../../assets';
 var jsVendorFolder = assetsFolder + '/javascripts/vendor';
 var jsSourceFiles = [
-  assetsFolder + '/javascripts/auto-tabbing.js',
   assetsFolder + '/javascripts/cache-busting.js',
   assetsFolder + '/javascripts/core.js',
   assetsFolder + '/javascripts/countries.js',
