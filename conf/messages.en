@@ -273,6 +273,7 @@ ordinary_previousAddress_select_addressesFound=addresses found
 ordinary_previousAddress_select_cannotFindAddress=I can’t find my address in the list
 
 ordinary_previousAddress_select_error_answerThis=Please select your address
+ordinary_previousAddress_must_differ_error=Your previous address cannot be the same as your current address
 ordinary_previousAddress_select_error_noAddressesFound=Sorry – we couldn’t find any addresses for that postcode
 
 # ordinary: previous address manual

@@ -115,7 +115,7 @@ class PreviousAddressYesFormTests
         "previousAddress.previousAddress.postcode" -> "SW1A1AA"
       )
     )
-    selectStepForm.bind(js).fold(
+    manualStepForm.bind(js).fold(
       hasErrors => fail(hasErrors.prettyPrint.mkString(",")),
       success => {
         success.previousAddress.isDefined should be(true)
@@ -251,7 +251,7 @@ class PreviousAddressYesFormTests
         "possibleAddresses.postcode" -> "SW1A 1AA"
       )
     )
-    selectStepForm.bind(js).fold(
+    manualStepForm.bind(js).fold(
       hasErrors => fail(hasErrors.prettyPrint.mkString(",")),
       success => {
         success.previousAddress.isDefined should be(true)

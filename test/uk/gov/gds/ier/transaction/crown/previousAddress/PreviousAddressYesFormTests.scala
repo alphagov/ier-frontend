@@ -111,7 +111,7 @@ class PreviousAddressYesFormTests
         "previousAddress.previousAddress.postcode" -> "SW1A1AA"
       )
     )
-    selectStepForm.bind(js).fold(
+    manualStepForm.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors)),
       success => {
         success.previousAddress.isDefined should be(true)
@@ -215,10 +215,10 @@ class PreviousAddressYesFormTests
     )
     selectStepForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errorsAsTextAll should be("" +
-          " -> Please answer this question\n"+
-          "previousAddress.previousAddress.uprn -> Please answer this question")
         hasErrors.globalErrorMessages should be(Seq("Please answer this question"))
+        hasErrors.keyedErrorsAsMap should matchMap(Map(
+          "previousAddress.previousAddress.uprn" -> Seq("Please answer this question")
+        ))
       },
       success => {
         fail("Should have errored out")
@@ -246,7 +246,7 @@ class PreviousAddressYesFormTests
         "possibleAddresses.postcode" -> "SW1A 1AA"
       )
     )
-    selectStepForm.bind(js).fold(
+    manualStepForm.bind(js).fold(
       hasErrors => fail("Should not fail"),
       success => {
         success.previousAddress.isDefined should be(true)
