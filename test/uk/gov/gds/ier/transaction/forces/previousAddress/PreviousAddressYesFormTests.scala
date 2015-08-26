@@ -111,7 +111,7 @@ class PreviousAddressYesFormTests
         "previousAddress.postcode" -> "SW1A1AA"
       )
     )
-    selectAddressFormForPreviousAddress.bind(js).fold(
+    manualAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => fail(serialiser.toJson(hasErrors)),
       success => {
         success.previousAddress.isDefined should be(true)
@@ -248,14 +248,13 @@ class PreviousAddressYesFormTests
         "possibleAddresses.postcode" -> "SW1A 1AA"
       )
     )
-    selectAddressFormForPreviousAddress.bind(js).fold(
+    manualAddressFormForPreviousAddress.bind(js).fold(
       hasErrors => fail("Should not fail"),
       success => {
         success.previousAddress.isDefined should be(true)
         val Some(partialPreviousAddress) = success.previousAddress
 
-        success.possibleAddresses.isDefined should be(true)
-        val Some(possibleAddresses) = success.possibleAddresses
+        success.possibleAddresses.isDefined should be(false)
 
         partialPreviousAddress.previousAddress.isDefined should be(true)
         val previousAddress = partialPreviousAddress.previousAddress.get
@@ -269,8 +268,6 @@ class PreviousAddressYesFormTests
           ))
         )
         previousAddress.postcode should be("SW1A 1AA")
-
-        possibleAddresses.jsonList.addresses should be(List(possibleAddress))
       }
     )
   }

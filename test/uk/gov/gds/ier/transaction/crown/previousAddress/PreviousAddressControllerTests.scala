@@ -28,8 +28,8 @@ class PreviousAddressControllerTests extends ControllerTestSuite {
           .withIerSession()
           .withFormUrlEncodedBody(
             "previousAddress.movedRecently" -> "yes",
-            "previousAddress.previousAddress.uprn" -> "123456789",
-            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.uprn" -> "123123123",
+            "previousAddress.previousAddress.postcode" -> "EC1Y1AA"
           )
       )
 
@@ -45,8 +45,8 @@ class PreviousAddressControllerTests extends ControllerTestSuite {
           .withIerSession()
           .withApplication(completeCrownApplication)
           .withFormUrlEncodedBody(
-            "previousAddress.previousAddress.uprn" -> "123456789",
-            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.uprn" -> "111111111",
+            "previousAddress.previousAddress.postcode" -> "EC1Y1AA"
           )
       )
 
@@ -65,7 +65,7 @@ class PreviousAddressControllerTests extends ControllerTestSuite {
               "previousAddress.previousAddress.manualAddress.lineTwo" -> "Moseley Road",
               "previousAddress.previousAddress.manualAddress.lineThree" -> "Hallow",
               "previousAddress.previousAddress.manualAddress.city" -> "Worcester",
-              "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
+              "previousAddress.previousAddress.postcode" -> "EC1Y1AA"
           )
         )
 
@@ -98,8 +98,8 @@ class PreviousAddressControllerTests extends ControllerTestSuite {
           .withIerSession()
           .withApplication(completeCrownApplication.copy(previousAddress = None))
           .withFormUrlEncodedBody(
-          "address.uprn" -> "123456789",
-          "address.postcode" -> "SW1A 1AA"
+          "address.uprn" -> "111111111",
+          "address.postcode" -> "EC1Y1AA"
         )
       )
 
@@ -132,8 +132,8 @@ class PreviousAddressControllerTests extends ControllerTestSuite {
           .withIerSession()
           .withFormUrlEncodedBody(
             "previousAddress.movedRecently" -> "yes",
-            "previousAddress.previousAddress.uprn" -> "123456789",
-            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.uprn" -> "111111111",
+            "previousAddress.previousAddress.postcode" -> "EC1Y1AA"
           )
       )
 
@@ -150,8 +150,8 @@ class PreviousAddressControllerTests extends ControllerTestSuite {
           .withApplication(completeCrownApplication)
           .withFormUrlEncodedBody(
             "previousAddress.movedRecently" -> "yes",
-            "previousAddress.previousAddress.uprn" -> "123456789",
-            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.uprn" -> "111111111",
+            "previousAddress.previousAddress.postcode" -> "EC1Y1AA"
           )
       )
 
