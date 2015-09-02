@@ -159,6 +159,7 @@ ordinary_address_nAddressFound=Daethpwyd o hyd i {0} o gyfeiriadau
 
 ordinary_address_error_pleaseAnswer=Atebwch y cwestiwn hwn
 ordinary_address_error_pleaseEnterYourPostcode=Nodwch eich cod post
+ordinary_prev_address_error_pleaseEnterYourPostcode=Rhowch god post eich cyfeiriad blaenorol
 ordinary_address_error_pleaseSelectYourAddress=Dewiswch eich cyfeiriad
 ordinary_address_error_postcodeIsNotValid=Nid yw hwnnw’n gôd post dilys
 
@@ -275,7 +276,7 @@ ordinary_previousAddress_error_invalidOption=Nid yw hynny’n opsiwn dilys
 # ordinary: previous address postcode
 ordinary_previousAddress_postcode_postcode_label=Cod post
 ordinary_previousAddress_postcode_findAddress=Chwilio am gyfeiriad
-ordinary_previousAddress_postcode_error_enterPostcode=Nodwch eich cod post blaenorol
+ordinary_previousAddress_postcode_error_enterPostcode=Rhowch god post eich cyfeiriad blaenorol
 ordinary_previousAddress_postcode_error_invalidPostcode=Nid yw hwnnw’n gôd post dilys: gwiriwch yr hyn rydych wedi’i nodi
 
 # ordinary: previous address select

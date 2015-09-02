@@ -43,7 +43,7 @@ class PreviousAddressYesFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.errorMessages("previousAddress.postcode") should be(
-          Seq("Please enter your postcode")
+          Seq("Please enter the postcode of your previous address")
         )
       },
       success => fail("Should have failed out")
@@ -57,7 +57,7 @@ class PreviousAddressYesFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.errorMessages("previousAddress.postcode") should be(
-          Seq("Please enter your postcode")
+          Seq("Please enter the postcode of your previous address")
         )
       },
       success => fail("Should have failed out")
@@ -71,7 +71,7 @@ class PreviousAddressYesFormTests
       hasErrors => {
         hasErrors.errors.size should be(2)
         hasErrors.errorMessages("previousAddress.postcode") should be(
-          Seq("Please enter your postcode")
+          Seq("Please enter the postcode of your previous address")
         )
       },
       success => fail("Should have failed out")

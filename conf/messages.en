@@ -149,6 +149,7 @@ ordinary_address_nAddressFound={0} addresses found
 
 ordinary_address_error_pleaseAnswer=Please answer this question
 ordinary_address_error_pleaseEnterYourPostcode=Please enter your postcode
+ordinary_prev_address_error_pleaseEnterYourPostcode=Please enter the postcode of your previous address
 ordinary_address_error_pleaseSelectYourAddress=Please select your address
 ordinary_address_error_postcodeIsNotValid=Your postcode is not valid
 
@@ -262,7 +263,7 @@ ordinary_previousAddress_error_invalidOption=Not a valid option
 # ordinary: previous address postcode
 ordinary_previousAddress_postcode_postcode_label=Postcode
 ordinary_previousAddress_postcode_findAddress=Find address
-ordinary_previousAddress_postcode_error_enterPostcode=Please enter your postcode
+ordinary_previousAddress_postcode_error_enterPostcode=Please enter the postcode of your previous address
 ordinary_previousAddress_postcode_error_invalidPostcode=Your postcode is not valid
 
 # ordinary: previous address select

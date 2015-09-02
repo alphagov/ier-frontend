@@ -161,13 +161,13 @@ trait PreviousAddressConstraints extends CommonConstraints {
     inprogress =>
       inprogress.previousAddress match {
         case Some(PartialPreviousAddress(_,Some(partialAddress))) if (partialAddress.postcode.isEmpty) => {
-          Invalid("Please enter your postcode", keys.previousAddress.previousAddress.postcode)
+          Invalid("Please enter the postcode of your previous address", keys.previousAddress.previousAddress.postcode)
         }
         case Some(PartialPreviousAddress(_,None)) => {
-          Invalid("Please enter your postcode", keys.previousAddress.previousAddress.postcode)
+          Invalid("Please enter the postcode of your previous address", keys.previousAddress.previousAddress.postcode)
         }
         case None => {
-          Invalid("Please enter your postcode", keys.previousAddress.previousAddress.postcode)
+          Invalid("Please enter the postcode of your previous address", keys.previousAddress.previousAddress.postcode)
         }
         case _ => {
           Valid

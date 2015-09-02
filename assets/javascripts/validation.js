@@ -755,6 +755,21 @@
             }
           },
           /**
+           * Function to check if the Prev Address Postcode field has an empty value
+           * @function
+           * @public
+           * @memberof root.validation.rules.field
+           * @returns {Array} Array containing one invalidField if invalid or none if not
+           */
+          'nonEmptyPrev' : function () {
+            if (this.$source.is(':hidden')) { return []; }
+            if (_getFieldValue(this.$source) === '') {
+              return _getInvalidDataFromFields([this], 'nonEmptyPrev');
+            } else {
+              return [];
+            }
+          },
+          /**
            * Function to check if a field has a valid telephone number for its value
            * @function
            * @public
@@ -1751,6 +1766,7 @@
       },
       'postcode' : {
         'nonEmpty' : message('ordinary_address_error_pleaseEnterYourPostcode'),
+        'nonEmptyPrev' : message('ordinary_prev_address_error_pleaseEnterYourPostcode'),
         'postcode' : message('ordinary_address_error_postcodeIsNotValid')
       },
       'addressSelect' : {
