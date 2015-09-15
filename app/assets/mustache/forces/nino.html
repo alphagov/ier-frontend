@@ -21,13 +21,13 @@
     <button type="submit" id="alt-continue"
             class="button next validation-submit"
             data-validation-sources="nino">Continue</button>
-    <div class="help-content help-content{{noNinoReasonShowFlag.value}}" data-toggle-text="I don't know my National Insurance number">
+    <div class="help-content help-content{{noNinoReasonShowFlag.value}}" data-journey-click="Hyperlinks:NINO:I dont know my National Insurance Number" data-toggle-text="I don't know my National Insurance number">
         <h2>I don't know my National Insurance number</h2>
               <p>You can:</p>
               <ul>
                   <li>look for it on pay slips or official letters about tax,
                       pensions and benefits</li>
-                  <li><a href="https://www.gov.uk/lost-national-insurance-number">
+                  <li><a href="https://www.gov.uk/lost-national-insurance-number" data-journey-click="Hyperlinks:NINO:Ask for a reminder" rel="external">
                       ask for a reminder through the post</a></li>
               </ul>
               <p>If you can't provide a National Insurance number, you will need to explain why.
@@ -35,7 +35,7 @@
                   documents in the post (or providing them in person).
             This could delay your name getting on the electoral register.
         </p>
-        <div class="optional-section optional-section{{noNinoReasonShowFlag.value}}" data-toggle-text="I can't provide a National Insurance number">
+        <div class="optional-section optional-section{{noNinoReasonShowFlag.value}}" data-journey-click="Hyperlinks:NINO:I cant provide a National Insurance Number" data-toggle-text="I can't provide a National Insurance number">
             <h3>I can't provide a National Insurance number</h3>
 
             <label for="{{noNinoReason.id}}" class=""  >
