@@ -142,10 +142,12 @@ trait PreviousAddressConstraints extends CommonConstraints {
     inprogress =>
       val currentAddress = inprogress.address
       //If _BOTH_ current and previous addresses have UPRN values (ie. neither manual addresses)...
+      //...and you haven't moved recently from abroad
       //...then validate that the UPRNs are different
       if (
         currentAddress.flatMap(_.uprn).isDefined
-        && inprogress.previousAddress.get.previousAddress.flatMap(_.uprn).isDefined
+          && inprogress.previousAddress.get.previousAddress.flatMap(_.uprn).isDefined
+          && inprogress.previousAddress.get.movedRecently != Some(MovedHouseOption.MovedFromAbroadRegistered)
       ) {
         inprogress.previousAddress match {
           case Some(partialAddress) if partialAddress.previousAddress.flatMap(_.uprn) != currentAddress.flatMap(_.uprn) => {
