@@ -19,10 +19,7 @@ class AddressTemplateTest
           id = "overseasAddressCountryId",
           name = "overseasAddressCountryName",
           classes = "overseasAddressCountryClass",
-          value = "United Kingdom",
-          optionList = List(SelectOption(value = "United Kingdom", text = "United Kingdom",
-              selected = "selected=\"selected\""),
-              SelectOption(value = "France", text = "France"))
+          value = "United Kingdom"
         ),
         addressLine1 = Field(
           id = "addressLine1Id",
@@ -59,23 +56,11 @@ class AddressTemplateTest
       }
 
       { // country selector wrapper
-        doc.select("div[class*=overseasAddressCountryClass]").size() should be(1)
-      }
-
-      { // country selector
-        val e = doc.select("div[class*=overseasAddressCountryClass] select").first()
+        val e = doc.select("input[id=overseasAddressCountryId]").first()
         e should not be(null)
         e.attr("id") should be("overseasAddressCountryId")
-        e.attr("id") should be("overseasAddressCountryId")
         e.attr("name") should be("overseasAddressCountryName")
-        e.attr("class") should include("overseasAddressCountryClass")
-      }
-
-      {
-       val e = doc.select("div[class*=overseasAddressCountryClass] select option[selected]").first()
-       e should not be(null)
-       e.text should be("United Kingdom")
-       e.attr("value") should be("United Kingdom")
+        e.attr("value") should be("United Kingdom")
       }
 
       { //address details line 1 wrapper
