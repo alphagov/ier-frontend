@@ -31,6 +31,16 @@ class NinoStep @Inject ()(
     editPost = routes.NinoStep.editPost
   )
 
+  override val onSuccess = TransformApplication { currentState =>
+    val ninoValue = currentState.nino.map { currentNino =>
+      if (currentNino.nino.isDefined) currentNino.copy(noNinoReason = None)
+      else {
+        currentNino.copy(nino = None)
+      }
+    }
+    currentState.copy(nino = ninoValue)
+  } andThen GoToNextIncompleteStep()
+
   def nextStep(currentState: InprogressForces) = {
     forces.ServiceStep
   }
