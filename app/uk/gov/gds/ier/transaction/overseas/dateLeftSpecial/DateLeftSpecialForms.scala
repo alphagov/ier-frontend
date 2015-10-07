@@ -15,7 +15,7 @@ trait DateLeftSpecialForms extends DateLeftSpecialConstraints {
   def dateLeftSpecialMapping = mapping(
     keys.month.key -> text
       .verifying("Please enter the month when you left", _.nonEmpty)
-      .verifying("The month you provided is invalid", month => month.isEmpty || month.matches("\\d+")),
+      .verifying("The month you provided is invalid", month => month.isEmpty || month.matches("^(0?[1-9]|1[012])$")),
     keys.year.key -> text
       .verifying("Please enter the year when you left", _.nonEmpty)
       .verifying("The year you provided is invalid", day => day.isEmpty || day.matches("\\d+"))

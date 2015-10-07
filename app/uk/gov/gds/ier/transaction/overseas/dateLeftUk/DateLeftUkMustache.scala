@@ -1,6 +1,5 @@
 package uk.gov.gds.ier.transaction.overseas.dateLeftUk
 
-import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.step.StepTemplate
 
