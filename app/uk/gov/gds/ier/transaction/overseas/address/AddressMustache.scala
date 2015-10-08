@@ -6,7 +6,7 @@ import uk.gov.gds.ier.step.StepTemplate
 
 trait AddressMustache extends StepTemplate[InprogressOverseas] {
 
-  val title = "What is your overseas address?"
+  val title = "What is your correspondence address?"
 
   case class AddressModel(
       question:Question,
