@@ -93,6 +93,40 @@ class DateLeftUkFormsTests
     )
   }
 
+  it should "error out on invalid month - 0" in {
+    val js = Json.toJson(
+      Map(
+        "dateLeftUk.month" -> "0",
+        "dateLeftUk.year" -> "2010"
+      )
+    )
+    dateLeftUkForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("dateLeftUk.month") should be(Seq("The month you provided is invalid"))
+        hasErrors.globalErrorMessages should be(Seq("The month you provided is invalid"))
+      },
+      success => fail("Should have errored out.")
+    )
+  }
+
+  it should "error out on invalid month - 99" in {
+    val js = Json.toJson(
+      Map(
+        "dateLeftUk.month" -> "99",
+        "dateLeftUk.year" -> "2010"
+      )
+    )
+    dateLeftUkForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("dateLeftUk.month") should be(Seq("The month you provided is invalid"))
+        hasErrors.globalErrorMessages should be(Seq("The month you provided is invalid"))
+      },
+      success => fail("Should have errored out.")
+    )
+  }
+
   it should "bind successfully on valid year and month" in {
     val js = Json.toJson(
       Map(

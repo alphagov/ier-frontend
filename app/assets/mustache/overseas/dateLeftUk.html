@@ -3,28 +3,41 @@
 
     {{> shared/validationMessages }}
 
-    <fieldset class="validate {{dateLeftUkFieldSet.classes}}">
+    <fieldset
+        id="{{dateLeftUkFieldSet.id}}"
+        class="validate inline-fields section {{dateLeftUkFieldSet.classes}}">
 
-        <div class="validation-wrapper {{dateLeftUkMonth.classes}}">
+        <span class="field-wrapper month">
+            <label for="{{dateLeftUkMonth.id}}" class="">Month</label>
+            <input
+                type="number"
+                id="{{dateLeftUkMonth.id}}"
+                name="{{dateLeftUkMonth.name}}"
+                value="{{dateLeftUkMonth.value}}"
+                autocomplete="off"
+                class="text month {{dateLeftUkMonth.classes}}"
+                data-validation-name="dateLeftUkMonth"
+                data-validation-type="field"
+                data-validation-rules="nonEmpty">
+        </span>
 
-            <label for="{{dateLeftUkMonth.id}}" class="visuallyhidden">The month you left</label>
-            <select id="{{dateLeftUkMonth.id}}" name="{{dateLeftUkMonth.name}}"
-                    class="{{dateLeftUkMonth.classes}} validate" data-validation-name="dateLeftUkMonth"
-                    data-validation-type="field" data-validation-rules="nonEmpty">
+        <span class="field-wrapper year">
+            <label for="{{dateLeftUkYear.id}}" class="">Year</label>
+            <input
+                type="number"
+                id="{{dateLeftUkYear.id}}"
+                name="{{dateLeftUkYear.name}}"
+                value="{{dateLeftUkYear.value}}"
+                autocomplete="off"
+                class="text year {{dateLeftUkYear.classes}}"
+                data-validation-name="dateLeftUkYear"
+                data-validation-type="field"
+                data-validation-rules="nonEmpty">
+        </span>
 
-                {{#dateLeftUkMonth.optionList}}
-                    <option value="{{value}}" {{selected}}>{{text}}</option>
-                {{/dateLeftUkMonth.optionList}}
-            </select>
-
-            <label for="{{dateLeftUkYear.id}}" class="visuallyhidden">The year you left</label>
-            <input type="number" id="{{dateLeftUkYear.id}}" name="{{dateLeftUkYear.name}}"
-                   value="{{dateLeftUkYear.value}}" autocomplete="off"
-                   class="text  year text validate {{dateLeftUkYear.classes}}"
-                   data-validation-name="dateLeftUkYear" data-validation-type="field"
-                   data-validation-rules="nonEmpty">
-        </div>
-
+        <p class="example">
+            For example: <span class="date">12 2013</span>
+        </p>
     </fieldset>
 
 
