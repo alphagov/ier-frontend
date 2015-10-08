@@ -220,7 +220,7 @@
     { "name": "UG", "value": "Uganda", "tokens": ["Uganda"] },
     { "name": "UA", "value": "Ukraine", "tokens": ["Ukraine"] },
     { "name": "AE", "value": "United Arab Emirates", "tokens": ["United Arab Emirates"] },
-    { "name": "UK", "value": "United Kingdom", "tokens": ["United Kingdom"] },
+    { "name": "GB", "value": "United Kingdom", "tokens": ["United Kingdom"] },
     { "name": "UY", "value": "Uruguay", "tokens": ["Uruguay"] },
     { "name": "US", "value": "United States of America", "tokens": ["United States of America"] },
     { "name": "UZ", "value": "Uzbekistan", "tokens": ["Uzbekistan"] },
