@@ -67,7 +67,7 @@ class ConcreteIerApiService @Inject() (
     addressService: AddressService,
     shaHashProvider:ShaHashProvider,
     isoCountryService: IsoCountryService
-  ) extends IerApiService with Logging with SubmissionHacks {
+  ) extends IerApiService with Logging {
 
   def submitOrdinaryApplication(
       ipAddress: Option[String],
@@ -203,7 +203,7 @@ class ConcreteIerApiService @Inject() (
       timeTaken = timeTaken.getOrElse("-1"),
       sessionId = applicant.sessionId.getOrElse(""),
       ukAddr = residentType
-    ).hackNoUkAddressToNonat(applicant.nationality, applicant.address)
+    )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
 
@@ -257,7 +257,7 @@ class ConcreteIerApiService @Inject() (
       timeTaken = timeTaken.getOrElse("-1"),
       sessionId = applicant.sessionId.getOrElse(""),
       ukAddr = residentType
-    ).hackNoUkAddressToNonat(applicant.nationality, applicant.address)
+    )
 
     val apiApplicant = ApiApplication(completeApplication.toApiMap)
 
