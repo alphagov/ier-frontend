@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.nationality
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{PartialNationality}
+import uk.gov.gds.ier.model.{PartialNationality, Contact}
 import play.api.data.Forms._
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import play.api.data.validation.Constraint
@@ -14,13 +14,15 @@ trait NationalityForms extends NationalityConstraints {
 
   val nationalityForm = ErrorTransformForm(
     mapping(
-      keys.nationality.key -> PartialNationality.mapping
+      keys.nationality.key -> optional(PartialNationality.mapping),
+      keys.contact.key -> optional(Contact.mapping)
     ) (
-      nationality => InprogressOrdinary(
-        nationality = Some(nationality)
+      (nationality, contact) => InprogressOrdinary(
+        nationality = nationality,
+        contact = contact
       )
     ) (
-      inprogressApplication => inprogressApplication.nationality
+      inprogress => Some(inprogress.nationality, inprogress.contact)
     ) verifying (
       nationalityIsChosen,
       notTooManyNationalities,

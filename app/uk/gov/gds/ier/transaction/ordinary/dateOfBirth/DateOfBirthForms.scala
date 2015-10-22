@@ -10,6 +10,7 @@ import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import org.joda.time.DateMidnight
 import uk.gov.gds.ier.model.DateOfBirth
 import uk.gov.gds.ier.model.Country
+import uk.gov.gds.ier.model.Contact
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.model.DOB
 import scala.Some
@@ -73,11 +74,12 @@ trait DateOfBirthForms {
     mapping(
       keys.dob.key -> optional(dobAndReasonMapping),
       keys.country.key -> optional(countryMappingForDOB),
-      keys.address.key -> optional(PartialAddress.mapping)
+      keys.address.key -> optional(PartialAddress.mapping),
+      keys.contact.key -> optional(Contact.mapping)
     ) (
-      (dob, country, address) => InprogressOrdinary(dob = dob, country = country, address = address)
+      (dob, country, address, contact) => InprogressOrdinary(dob = dob, country = country, address = address, contact = contact)
     ) (
-      inprogress => Some(inprogress.dob, inprogress.country, inprogress.address)
+      inprogress => Some(inprogress.dob, inprogress.country, inprogress.address, inprogress.contact)
     ) verifying dateOfBirthRequired
   )
 

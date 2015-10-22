@@ -20,7 +20,7 @@ trait ContactMustache extends StepTemplate[InprogressOverseas] {
   val mustache = MustacheTemplate("overseas/contact") { (form, post) =>
 
     implicit val progressForm = form
-    val emailAddress = form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value
+    val emailAddress = form(keys.contact.email.detail).value
 
     ContactModel(
       question = Question(

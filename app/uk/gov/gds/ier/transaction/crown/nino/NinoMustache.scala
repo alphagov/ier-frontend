@@ -13,7 +13,8 @@ trait NinoMustache extends StepTemplate[InprogressCrown] {
       question:Question,
       nino: Field,
       noNinoReason: Field,
-      noNinoReasonShowFlag: Text
+      noNinoReasonShowFlag: Text,
+      emailField: Field
   ) extends MustacheData
 
   val mustache = MustacheTemplate("crown/nino") { (form, postEndpoint) =>
@@ -21,6 +22,8 @@ trait NinoMustache extends StepTemplate[InprogressCrown] {
     implicit val progressForm = form
 
     val title = "What is your National Insurance number?"
+
+    val emailAddress = form(keys.contact.email.detail).value
 
     NinoModel(
       question = Question(
@@ -36,6 +39,10 @@ trait NinoMustache extends StepTemplate[InprogressCrown] {
       ),
       noNinoReasonShowFlag = Text (
         value = progressForm(keys.nino.noNinoReason).value.fold("")(noNinoReason => "-open")
+      ),
+      emailField = TextField(
+        key = keys.contact.email.detail,
+        default = emailAddress
       )
     )
   }

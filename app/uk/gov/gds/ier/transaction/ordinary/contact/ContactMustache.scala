@@ -18,7 +18,7 @@ trait ContactMustache extends StepTemplate[InprogressOrdinary] {
   val mustache = MultilingualTemplate("ordinary/contact") { implicit lang => (form, post) =>
     implicit val progressForm = form
 
-    val emailAddress = form(keys.postalVote.deliveryMethod.emailAddress).value
+    val emailAddress = form(keys.contact.email.detail).value
 
     ContactModel(
       question = Question(

@@ -26,7 +26,8 @@ trait DateOfBirthMustache extends StepTemplate[InprogressOrdinary] {
       range16to17_YoungScot: Field,
       rangeOver18_YoungScot: Field,
       rangeDontKnow: Field,
-      noDobReasonShowFlag: Text
+      noDobReasonShowFlag: Text,
+      emailField: Field
   ) extends MustacheData
 
   val scotlandService: ScotlandService
@@ -38,6 +39,8 @@ trait DateOfBirthMustache extends StepTemplate[InprogressOrdinary] {
       case (Some("Abroad"), origin) => Country(origin.getOrElse(""), true)
       case (residence, _) => Country(residence.getOrElse(""), false)
     }
+
+    val emailAddress = form(keys.contact.email.detail).value
 
     val postcode = form(keys.address.postcode).value.getOrElse("").toUpperCase
 
@@ -94,6 +97,10 @@ trait DateOfBirthMustache extends StepTemplate[InprogressOrdinary] {
       ),
       noDobReasonShowFlag = Text (
         value = progressForm(keys.dob.noDob.reason).value.map(noDobReason => "-open").getOrElse("")
+      ),
+      emailField = TextField(
+        key = keys.contact.email.detail,
+        default = emailAddress
       )
     )
   }

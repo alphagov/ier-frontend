@@ -17,7 +17,7 @@ trait ContactMustache extends StepTemplate[InprogressCrown] {
 
   val mustache = MustacheTemplate("crown/contact") { (form, postUrl) =>
     implicit val progressForm = form
-    val emailAddress = form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value
+    val emailAddress = form(keys.contact.email.detail).value
 
     val title = "If we have questions about your application, how should we contact you?"
     ContactModel(

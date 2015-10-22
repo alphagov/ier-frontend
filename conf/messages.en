@@ -79,6 +79,7 @@ ordinary_dob_help_cannotProvideDOB_ageGroup_14to15_option=<span class="visuallyh
 ordinary_dob_help_cannotProvideDOB_ageGroup_16to17_option=<span class="visuallyhidden">I am</span>Between 16 and 17 years old
 ordinary_dob_help_cannotProvideDOB_ageGroup_over18_option=<span class="visuallyhidden">I am</span>18 years old or over
 ordinary_dob_help_cannotProvideDOB_ageGroup_dontKnow_option=Don’t know<span class="visuallyhidden"> the age group I belong to</span>
+ordinary_dob_help_cannotProvideDOB_emailQuestion=It will be quicker to contact you if you provide your email address
 
 ordinary_dob_error_answerThis=Please answer this question
 ordinary_dob_error_enterDateOfBirth=Please enter your date of birth
@@ -408,10 +409,12 @@ ordinary_confirmation_nationality_iAm=I am
 ordinary_confirmation_nationality_and=and
 ordinary_confirmation_nationality_citizenOf=a citizen of
 ordinary_confirmation_nationality_noNationalityReason=I cannot provide my nationality because:
+ordinary_confirmation_nationality_email=It will be quicker to contact you if you provide your email address
 
 ordinary_confirmation_nino_title=National Insurance number
 ordinary_confirmation_nino_changeName=national insurance number
 ordinary_confirmation_nino_noNinoReason=I cannot provide my national insurance number because:
+ordinary_confirmation_nino_email=It will be quicker to contact you if you provide your email address
 
 ordinary_confirmation_address_title=Address
 ordinary_confirmation_address_changeName=your address

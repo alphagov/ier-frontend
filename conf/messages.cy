@@ -83,6 +83,7 @@ ordinary_dob_help_cannotProvideDOB_ageGroup_14to15_option=<span class="visuallyh
 ordinary_dob_help_cannotProvideDOB_ageGroup_16to17_option=<span class="visuallyhidden">Rwy’n</span>Rhwng 16 a 17 oed
 ordinary_dob_help_cannotProvideDOB_ageGroup_over18_option=<span class="visuallyhidden">Rwy’n</span>18 oed neu'n hŷn
 ordinary_dob_help_cannotProvideDOB_ageGroup_dontKnow_option=Nid wyf yn gwybod<span class="visuallyhidden"> beth yw fy ngrŵp oedran</span>
+ordinary_dob_help_cannotProvideDOB_emailQuestion=<span class=Os byddwch yn darparu eich cyfeiriad e-bost yna gallwn gysylltu â chi'n gynt
 
 ordinary_dob_error_answerThis=Atebwch y cwestiwn hwn
 ordinary_dob_error_enterDateOfBirth=Nodwch eich dyddiad geni
@@ -426,10 +427,12 @@ ordinary_confirmation_nationality_iAm=Rwy’n
 ordinary_confirmation_nationality_and=a
 ordinary_confirmation_nationality_citizenOf=yn ddinesydd
 ordinary_confirmation_nationality_noNationalityReason=Ni allaf roi fy cenedligrwydd oherwydd:
+ordinary_confirmation_nationality_email=Os byddwch yn darparu eich cyfeiriad e-bost yna gallwn gysylltu â chi'n gynt
 
 ordinary_confirmation_nino_title=Rhif Yswiriant Gwladol
 ordinary_confirmation_nino_changeName=rhif yswiriant gwladol
 ordinary_confirmation_nino_noNinoReason=Ni allaf roi fy rhif yswiriant gwladol oherwydd:
+ordinary_confirmation_nino_email=Os byddwch yn darparu eich cyfeiriad e-bost yna gallwn gysylltu â chi'n gynt
 
 ordinary_confirmation_address_title=Cyfeiriad
 ordinary_confirmation_address_changeName=eich cyfeiriad

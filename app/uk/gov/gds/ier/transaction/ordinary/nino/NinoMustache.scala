@@ -11,13 +11,16 @@ trait NinoMustache extends StepTemplate[InprogressOrdinary] {
       question:Question,
       nino: Field,
       noNinoReason: Field,
-      noNinoReasonShowFlag: Text
+      noNinoReasonShowFlag: Text,
+      emailField: Field
   ) extends MustacheData
 
   val mustache = MultilingualTemplate("ordinary/nino") { implicit lang =>
     (form, postEndpoint) =>
 
     implicit val progressForm = form
+
+      val emailAddress = form(keys.contact.email.detail).value
 
     NinoModel(
       question = Question(
@@ -34,6 +37,10 @@ trait NinoMustache extends StepTemplate[InprogressOrdinary] {
       ),
       noNinoReasonShowFlag = Text (
         value = progressForm(keys.nino.noNinoReason).value.map(noNinoReason => "-open").getOrElse("")
+      ),
+      emailField = TextField(
+        key = keys.contact.email.detail,
+        default = emailAddress
       )
     )
   }

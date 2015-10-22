@@ -136,6 +136,11 @@
                       data-validation-rules="nonEmpty"
                       maxlength="500"
                       autocomplete="off" >{{noNationalityReason.value}}</textarea>
+            <p>{{messages.ordinary_confirmation_nationality_email}}</p>
+            <input type="email" id="{{emailField.id}}" name="{{emailField.name}}"
+                   value="{{emailField.value}}" autocomplete="off"
+                   class="text  long validate {{emailField.classes}}" data-validation-name="emailAddress"
+                   data-validation-type="field" data-validation-rules="nonEmpty email">
         </div>
     </div>
     <button type="submit"
