@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.nationality
 
-import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{PartialNationality, Contact}
+import uk.gov.gds.ier.validation.{ErrorTransformForm, EmailValidator, ErrorMessages, FormKeys}
+import uk.gov.gds.ier.model.{PartialNationality, Contact, ContactDetail}
 import play.api.data.Forms._
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import play.api.data.validation.Constraint
@@ -29,7 +29,8 @@ trait NationalityForms extends NationalityConstraints {
       otherCountry0IsValid,
       otherCountry1IsValid,
       otherCountry2IsValid,
-      atleastOneOtherCountryIfHasOtherCountry
+      atleastOneOtherCountryIfHasOtherCountry,
+      emailIsValidIfItIsProvided
     )
   )
 }
@@ -49,6 +50,17 @@ trait NationalityConstraints extends FormKeys with ErrorMessages {
         "ordinary_nationality_error_pleaseAnswer",
         keys.nationality.otherCountries
       )
+      case _ => Valid
+    }
+  }
+
+  lazy val emailIsValidIfItIsProvided = Constraint[InprogressOrdinary](keys.nationality.key, keys.contact.key) {
+    application =>
+      application.contact.flatMap(_.email).getOrElse(false) match {
+      case Some(ContactDetail(true, Some(emailAddress))) => {
+        if (EmailValidator.isValid(emailAddress)) Valid
+        else Invalid("ordinary_contact_error_pleaseEnterValidEmail", keys.contact.email.detail)
+      }
       case _ => Valid
     }
   }

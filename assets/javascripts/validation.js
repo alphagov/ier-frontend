@@ -804,6 +804,24 @@
             }
           },
           /**
+           * Function to check if a field has a valid email address for its value
+           * @function
+           * @public
+           * @memberof root.validation.rules.field
+           * @returns {Array} Array containing one invalidField if invalid or none if not
+           */
+          'emailCanBeEmpty' : function () {
+            var entry = _getFieldValue(this.$source);
+
+            if (this.$source.is(':hidden')) { return []; }
+            if (entry.length == 0) { return []; }
+            if (entry.match(/^.+@[^@.]+(\.[^@.]+)+$/) === null) {
+              return _getInvalidDataFromFields([this], 'email');
+            } else {
+              return [];
+            }
+          },
+          /**
            * Function to check if a field has a valid national insurance number for its value
            * @function
            * @public
@@ -1729,7 +1747,8 @@
       },
       'emailAddress' : {
         'nonEmpty' : message('ordinary_contact_error_enterYourEmail'),
-        'email' : message('ordinary_contact_error_pleaseEnterValidEmail')
+        'email' : message('ordinary_contact_error_pleaseEnterValidEmail'),
+        'emailCanBeEmpty' : message('ordinary_contact_error_pleaseEnterValidEmail')
       },
       'nationality' : {
         'atLeastOneNonEmpty' : message('ordinary_nationality_error_pleaseAnswer')
