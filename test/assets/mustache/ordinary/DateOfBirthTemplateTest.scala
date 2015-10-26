@@ -88,6 +88,12 @@ class DateOfBirthTemplateTest
         ),
         noDobReasonShowFlag = Text(
           value = "noDobReasonShowFlag"
+        ),
+        emailField = Field(
+          id = "emailFieldId",
+          name = "emailFieldName",
+          classes = "emailFieldClass",
+          value = "emailFieldValue"
         )
       )
 
