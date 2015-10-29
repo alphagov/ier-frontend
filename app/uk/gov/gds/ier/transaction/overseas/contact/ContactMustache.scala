@@ -14,7 +14,8 @@ trait ContactMustache extends StepTemplate[InprogressOverseas] {
       contactPhoneCheckbox: Field,
       contactPostCheckbox: Field,
       contactEmailText: Field,
-      contactPhoneText: Field
+      contactPhoneText: Field,
+      showEmailFieldFlag: Text
   ) extends MustacheData
 
   val mustache = MustacheTemplate("overseas/contact") { (form, post) =>
@@ -46,6 +47,9 @@ trait ContactMustache extends StepTemplate[InprogressOverseas] {
       ),
       contactPhoneText = TextField(
         key = keys.contact.phone.detail
+      ),
+      showEmailFieldFlag = Text (
+        value = form(keys.contact.email.detail).value.map(email => "selected").getOrElse("")
       )
     )
   }

@@ -8,7 +8,7 @@
       data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty"
               data-validation-children="emailOption phoneOption post">
 
-        <label class="selectable"  >
+        <label class="selectable {{showEmailFieldFlag.value}}"  >
             <input type="checkbox" id="{{contactEmailCheckbox.id}}" name="{{contactEmailCheckbox.name}}" 
               value="true" {{contactEmailCheckbox.attributes}} class="validate {{contactEmailCheckbox.classes}}" 
               data-validation-name="emailOption"  data-validation-type="field" data-validation-rules="nonEmpty">

@@ -25,6 +25,8 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressOverseas] {
 
     implicit val progressForm = form
 
+    val emailAddress = form(keys.contact.email.detail).value
+
     val wayToVoteName = wayToVote match {
       case WaysToVoteType.ByPost => "postal"
       case WaysToVoteType.ByProxy => "proxy"
@@ -68,7 +70,8 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressOverseas] {
         value = "post"
       ),
       voteEmailAddress = TextField (
-        key = keys.postalOrProxyVote.deliveryMethod.emailAddress
+        key = keys.postalOrProxyVote.deliveryMethod.emailAddress,
+        default = emailAddress
       ),
       voteType =  Field(
         id = keys.postalOrProxyVote.voteType.asId(),

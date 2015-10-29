@@ -12,7 +12,8 @@ trait ContactMustache extends StepTemplate[InprogressOrdinary] {
       contactPhoneCheckbox: Field,
       contactPostCheckbox: Field,
       contactEmailText: Field,
-      contactPhoneText: Field
+      contactPhoneText: Field,
+      showEmailFieldFlag: Text
   ) extends MustacheData
 
   val mustache = MultilingualTemplate("ordinary/contact") { implicit lang => (form, post) =>
@@ -49,6 +50,10 @@ trait ContactMustache extends StepTemplate[InprogressOrdinary] {
       ),
       contactPhoneText = TextField(
         key = keys.contact.phone.detail
+      ),
+      showEmailFieldFlag = Text (
+        value = if (!form(keys.contact.email.detail).value.isEmpty) "selected" else if
+        (!form(keys.postalVote.deliveryMethod.emailAddress).value.isEmpty) "selected" else ""
       )
     )
   }

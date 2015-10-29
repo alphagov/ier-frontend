@@ -10,7 +10,7 @@
               data-validation-rules="atLeastOneNonEmpty"
               data-validation-children="post phoneOption emailOption">
 
-        <label class="selectable"  >
+        <label class="selectable {{showEmailFieldFlag.value}}"  >
             <input type="checkbox" id="{{contactEmailCheckbox.id}}"
                    name="{{contactEmailCheckbox.name}}"
                    value="true"
