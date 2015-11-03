@@ -11,7 +11,8 @@
         <label class="selectable"  >
             <input type="checkbox" id="{{contactEmailCheckbox.id}}" name="{{contactEmailCheckbox.name}}" 
               value="true" {{contactEmailCheckbox.attributes}} class="validate {{contactEmailCheckbox.classes}}" 
-              data-validation-name="emailOption"  data-validation-type="field" data-validation-rules="nonEmpty">
+              data-validation-name="emailOption"  data-validation-type="field" data-validation-rules="nonEmpty"
+              data-journey-click="Contact preferences:email:email contact">
             {{messages.ordinary_contact_email_option}}
         </label>
 
@@ -30,7 +31,8 @@
         <label class="selectable"  >
            <input type="checkbox" id="{{contactPhoneCheckbox.id}}" name="{{contactPhoneCheckbox.name}}"
               value="true" {{contactPhoneCheckbox.attributes}} class=" validate {{contactPhoneCheckbox.classes}}" 
-              data-validation-name="phoneOption"  data-validation-type="field" data-validation-rules="nonEmpty">
+              data-validation-name="phoneOption"  data-validation-type="field" data-validation-rules="nonEmpty"
+              data-journey-click="Contact preferences:phone:phone contact">
            {{messages.ordinary_contact_phoneCall_option}}
         </label>
 
@@ -49,7 +51,8 @@
         <label class="selectable"  >
             <input type="checkbox" id="{{contactPostCheckbox.id}}" name="{{contactPostCheckbox.name}}" 
               value="true" {{contactPostCheckbox.attributes}} class=" validate {{contactPostCheckbox.classes}}" 
-              data-validation-name="post"  data-validation-type="field" data-validation-rules="nonEmpty" >
+              data-validation-name="post"  data-validation-type="field" data-validation-rules="nonEmpty" 
+              data-journey-click="Contact preferences:post:post contact">
             {{messages.ordinary_contact_post_option}}
         </label>
 
