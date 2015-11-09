@@ -20,7 +20,8 @@ trait NationalityMustache extends StepTemplate[InprogressOrdinary]
       otherCountries1: Field,
       otherCountries2: Field,
       noNationalityReason: Field,
-      noNationalityReasonShowFlag: String
+      noNationalityReasonShowFlag: String,
+      emailField: Field
   ) extends MustacheData
 
   val mustache = MultilingualTemplate("ordinary/nationality") { implicit lang =>
@@ -34,6 +35,8 @@ trait NationalityMustache extends StepTemplate[InprogressOrdinary]
       case Some("") | None => ""
       case _ => "-open"
     }
+
+      val emailAddress = form(keys.contact.email.detail).value
 
     val hasOtherCountryOption = CheckboxField(
       key = keys.nationality.hasOtherCountry,
@@ -64,7 +67,11 @@ trait NationalityMustache extends StepTemplate[InprogressOrdinary]
       otherCountries1 = TextField(keys.nationality.otherCountries.item(1)),
       otherCountries2 = TextField(keys.nationality.otherCountries.item(2)),
       noNationalityReason = TextField(keys.nationality.noNationalityReason),
-      noNationalityReasonShowFlag = nationalityReasonClass
+      noNationalityReasonShowFlag = nationalityReasonClass,
+      emailField = TextField(
+        key = keys.contact.email.detail,
+        default = emailAddress
+      )
     )
   }
 }

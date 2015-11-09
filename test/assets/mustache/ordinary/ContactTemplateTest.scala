@@ -42,6 +42,9 @@ class ContactTemplateTest
           id = "contactPhoneTextId",
           name = "contactPhoneTextName",
           value = "123456"
+        ),
+        showEmailFieldFlag = Text (
+          value = "selected"
         )
       )
 

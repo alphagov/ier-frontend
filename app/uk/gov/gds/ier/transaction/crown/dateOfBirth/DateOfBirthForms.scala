@@ -1,11 +1,12 @@
 package uk.gov.gds.ier.transaction.crown.dateOfBirth
 
-import uk.gov.gds.ier.validation.{FormKeys, ErrorMessages, ErrorTransformForm}
+import uk.gov.gds.ier.validation.{FormKeys, EmailValidator, ErrorMessages, ErrorTransformForm}
 import uk.gov.gds.ier.validation.constraints.DateOfBirthConstraints
 import play.api.data.Forms._
 import uk.gov.gds.ier.model.DateOfBirth
 import uk.gov.gds.ier.model.noDOB
 import uk.gov.gds.ier.model.DOB
+import uk.gov.gds.ier.model.Contact
 import scala.Some
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import uk.gov.gds.ier.transaction.crown.InprogressCrown
@@ -55,11 +56,12 @@ trait DateOfBirthForms extends DateOfBirthCrownConstraints {
 
   val dateOfBirthForm = ErrorTransformForm(
     mapping(
-      keys.dob.key -> optional(dobAndReasonMapping)
+      keys.dob.key -> optional(dobAndReasonMapping),
+      keys.contact.key -> optional(Contact.mapping)
     ) (
-      dob => InprogressCrown(dob = dob)
+      (dob, contact) => InprogressCrown(dob = dob, contact = contact)
     ) (
-      inprogress => Some(inprogress.dob)
+      inprogress => Some(inprogress.dob, inprogress.contact)
     ) verifying dateOfBirthRequiredCrown
   )
 }

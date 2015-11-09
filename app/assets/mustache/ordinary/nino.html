@@ -39,9 +39,14 @@
                       data-validation-name="ninoExcuse"  data-validation-type="field"
                       data-validation-rules="nonEmpty" maxlength="500"
                       autocomplete="off">{{noNinoReason.value}}</textarea>
+            <p>{{messages.ordinary_confirmation_nino_email}}</p>
+            <input type="email" id="{{emailField.id}}" name="{{emailField.name}}"
+                   value="{{emailField.value}}" autocomplete="off"
+                   class="text  long validate {{emailField.classes}}" data-validation-name="emailAddress"
+                   data-validation-type="field" data-validation-rules="emailCanBeEmpty">
         </div>
     </div>
     <button type="submit" id="continue"
             class="button next validation-submit"
-            data-validation-sources="nino">{{messages.step_continue}}</button>
+            data-validation-sources="nino emailAddress">{{messages.step_continue}}</button>
 </form>

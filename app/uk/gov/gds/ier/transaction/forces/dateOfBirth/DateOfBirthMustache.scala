@@ -17,13 +17,16 @@ trait DateOfBirthMustache extends StepTemplate[InprogressForces] {
       rangeOver70: Field,
       range18to70: Field,
       rangeDontKnow: Field,
-      noDobReasonShowFlag: Text
+      noDobReasonShowFlag: Text,
+      emailField: Field
   ) extends MustacheData
 
   val mustache = MustacheTemplate("forces/dateOfBirth") { (form, post) =>
     implicit val progressForm = form
 
     val title = "What is your date of birth?"
+
+    val emailAddress = form(keys.contact.email.detail).value
 
     DateOfBirthModel(
       question = Question(
@@ -64,6 +67,10 @@ trait DateOfBirthMustache extends StepTemplate[InprogressForces] {
       ),
       noDobReasonShowFlag = Text (
         value = progressForm(keys.dob.noDob.reason).value.map(noDobReason => "-open").getOrElse("")
+      ),
+      emailField = TextField(
+        key = keys.contact.email.detail,
+        default = emailAddress
       )
     )
   }

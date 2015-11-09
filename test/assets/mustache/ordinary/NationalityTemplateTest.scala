@@ -55,7 +55,13 @@ class NationalityTemplateTest
           name = "noNationalityReasonName",
           value = "noNationalityReasonValue"
         ),
-        noNationalityReasonShowFlag = "noNationalityReasonShowFlag"
+        noNationalityReasonShowFlag = "noNationalityReasonShowFlag",
+        emailField = Field(
+          id = "emailFieldId",
+          name = "emailFieldName",
+          classes = "emailFieldClass",
+          value = "emailFieldValue"
+        )
       )
 
       val html = Mustache.render("ordinary/nationality", data)

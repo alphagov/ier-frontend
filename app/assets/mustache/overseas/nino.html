@@ -31,7 +31,12 @@
                 Why can't you provide a National Insurance number?
             </label>
             <textarea name="{{noNinoReason.name}}" id="{{noNinoReason.id}}" class="small validate" data-validation-name="ninoExcuse"  data-validation-type="field"  data-validation-rules="nonEmpty" maxlength="500"  autocomplete="off">{{noNinoReason.value}}</textarea>
+            <p>It will be easier to contact you if you provide your email address (optional)</p>
+            <input type="email" id="{{emailField.id}}" name="{{emailField.name}}"
+                   value="{{emailField.value}}" autocomplete="off"
+                   class="text  long validate {{emailField.classes}}" data-validation-name="emailAddress"
+                   data-validation-type="field" data-validation-rules="emailCanBeEmpty">
         </div>
     </div>
-    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="nino">Continue</button>
+    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="nino emailAddress">Continue</button>
 </form>

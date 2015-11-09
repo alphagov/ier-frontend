@@ -2,6 +2,7 @@ package uk.gov.gds.ier.transaction.forces.applicationFormVote
 
 import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
 import uk.gov.gds.ier.model._
+import uk.gov.gds.ier.model.Contact
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.overseas.PostalOrProxyVoteConstraints
 import play.api.data.validation.{Invalid, Valid, Constraint}
@@ -41,11 +42,12 @@ trait PostalOrProxyVoteForms extends PostalOrProxyVoteForcesConstraints {
 
   val postalOrProxyVoteForm = ErrorTransformForm(
     mapping(
-      keys.postalOrProxyVote.key -> optional(postalOrProxyVoteMapping)
+      keys.postalOrProxyVote.key -> optional(postalOrProxyVoteMapping),
+      keys.contact.key -> optional(Contact.mapping)
     ) (
-        postalVote => InprogressForces (postalOrProxyVote = postalVote)
+      (postalVote, contact) => InprogressForces (postalOrProxyVote = postalVote, contact = contact)
     ) (
-        inprogress => Some(inprogress.postalOrProxyVote)
+        inprogress => Some(inprogress.postalOrProxyVote, inprogress.contact)
     ) verifying questionIsRequiredForces
   )
 }

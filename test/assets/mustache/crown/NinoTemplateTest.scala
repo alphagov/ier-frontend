@@ -27,6 +27,13 @@ class NinoTemplateTest
         ),
         noNinoReasonShowFlag = Text (
           value = "noNinoReasonShowFlag"
+        ),
+        emailField = Field(
+          id = "emailFieldId",
+          name = "emailFieldName",
+          classes = "emailFieldClass",
+          value = "emailFieldValue"
+
         )
       )
 

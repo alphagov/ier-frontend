@@ -165,11 +165,16 @@
                            {{{rangeDontKnow.attributes}}}>
                     {{{messages.ordinary_dob_help_cannotProvideDOB_ageGroup_dontKnow_option}}}
                 </label>
+                <p>{{messages.ordinary_dob_help_cannotProvideDOB_emailQuestion}}</p>
+                    <input type="email" id="{{emailField.id}}" name="{{emailField.name}}"
+                           value="{{emailField.value}}" autocomplete="off"
+                           class="text  long validate {{emailField.classes}}" data-validation-name="emailAddress"
+                           data-validation-type="field" data-validation-rules="emailCanBeEmpty">
             </fieldset>
         </div>
     </div>
     <button type="submit" id="continue"
             class="button next validation-submit"
-            data-validation-sources="dateOfBirth">{{messages.step_continue}}</button>
+            data-validation-sources="dateOfBirth emailAddress">{{messages.step_continue}}</button>
 
 </form>
