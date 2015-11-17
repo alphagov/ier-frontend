@@ -172,7 +172,7 @@ ordinary_address_error_cityIsRequired=Mae angen enw tref neu ddinas
 #
 ordinary_address_postcode_title=Beth yw eich cyfeiriad?
 
-ordinary_address_postcode_enterPostcodeWhenRegistering_p=Nodwch god post y cyfeiriad ble rydych chi’n cofrestru i bleidleisio.
+ordinary_address_postcode_enterPostcodeWhenRegistering_p=Rhowch god post lle’r ydych yn byw ac ym mhle’r hoffech chi gofrestru i bleidleisio.
 ordinary_address_postcode_postcode_label=Cod post
 
 ordinary_address_postcode_dontKnowMyPostcode_h2=Dydw i ddim yn gwybod pa god post i’w ddefnyddio
