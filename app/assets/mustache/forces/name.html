@@ -91,22 +91,22 @@
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"
             {{{hasPreviousNameOptionOther.attributes}}}>
-            Yes, but more than a year ago
+            Prefer not to say
         </label>
     </fieldset>
 
     <div
             class="optional-section optional-section-core-content local-fix-target"
             aria-hidden="true" aria-expanded="false">
-        <h2>What was your previous name?</h2>
+        <h2>What was your most recent previous name?</h2>
     </div>
 
     <div
             class="optional-section optional-section-core-content"
-            data-condition="{{hasPreviousNameOptionOther.id}}"
+            data-condition="{{hasPreviousNameOptionTrue.id}}"
             aria-hidden="true" aria-expanded="false">
         <legend class="label">
-            As you changed your name more than a year ago you don't have to tell us your previous name, but you might need to send us copies of identity documents if you don't.
+            This information will be used to verify your identity. You don't have to tell us your previous name, but you might need to send us additional personal information if you don't.
         </legend>
     </div>
 
@@ -161,7 +161,7 @@
 
     <button id="continue" type="submit"
             class="button next validation-submit"
-            data-validation-sources="fullName previousQuestion previousName">
+            data-validation-sources="fullName previousQuestion">
         Continue
     </button>
 </form>
