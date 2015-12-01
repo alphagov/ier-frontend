@@ -58,6 +58,23 @@ class NameControllerTests extends ControllerTestSuite {
     }
   }
 
+  it should "bind successfully with prefer not to say and redirect to Nino step" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/name")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "name.firstName" -> "John",
+            "name.lastName" -> "Smith",
+            "previousName.hasPreviousName" -> "true",
+            "previousName.hasPreviousNameOption" -> "other")
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/nino"))
+    }
+  }
+
   it should "bind successfully and redirect to the confirmation step with a complete application" in {
     running(FakeApplication()) {
       val Some(result) = route(
