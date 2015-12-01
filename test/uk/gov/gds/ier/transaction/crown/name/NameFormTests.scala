@@ -90,15 +90,11 @@ class NameFormTests
     nameForm.bind(js).fold(
       hasErrors => {
         hasErrors.globalErrorMessages should be(Seq(
-          "Please enter your full name",
-          "Please enter your full previous name"
+          "Please enter your full name"
         ))
         hasErrors.keyedErrorsAsMap should matchMap(Map(
           "name.firstName" -> Seq("Please enter your full name"),
-          "name.lastName" -> Seq("Please enter your full name"),
-          "previousName.previousName" -> Seq("Please enter your full previous name"),
-          "previousName.previousName.firstName" -> Seq("Please enter your full previous name"),
-          "previousName.previousName.lastName" -> Seq("Please enter your full previous name")
+          "name.lastName" -> Seq("Please enter your full name")
         ))
       },
       success => fail("Should have errored out")
