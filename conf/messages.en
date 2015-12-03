@@ -110,10 +110,11 @@ ordinary_name_error_middleNamesTooLong=Middle names can be no longer than 100 ch
 ordinary_name_error_lastNameTooLong=Last name can be no longer than 35 characters
 
 ordinary_previousName_hasPreviousName_label=Have you ever changed your name?
-ordinary_previousName_hasPreviousName_no_label=No, I haven’t changed my name<span class="visuallyhidden"> in the last 12 months</span>
-ordinary_previousName_hasPreviousName_yes_label=Yes, I changed my name in the last 12 months
-ordinary_previousName_hasPreviousName_yes_other_label=Yes, but more than a year ago
-ordinary_previousName_header=What was your previous name?
+ordinary_previousName_hasPreviousName_no_label=No, I haven’t changed my name
+ordinary_previousName_hasPreviousName_yes_label=Yes, I changed my name
+ordinary_previousName_hasPreviousName_other_label=Prefer not to say
+ordinary_previousName_header=What was your most recent previous name?
+ordinary_previousName_disclaimer=This information will be used to verify your identity. You don't have to tell us your previous name, but you might need to send us additional personal information if you don't.
 ordinary_previousNameOther_disclaimer=As you changed your name more than a year ago you don't have to tell us your previous name, but you might need to send us copies of identity documents if you don't.
 ordinary_previousName_firstName_label=<span class="visuallyhidden">Previous</span> First name
 ordinary_previousName_middleNames_label=<span class="visuallyhidden">Previous</span> Middle names
@@ -389,6 +390,8 @@ ordinary_confirmation_name_changeName=full name
 ordinary_confirmation_previousName_title=Previous name
 ordinary_confirmation_previousName_changeName=previous name
 ordinary_confirmation_previousName_nameNotChanged=I have not changed my name
+ordinary_confirmation_previousName_other=Prefer not to say
+ordinary_confirmation_previousName_notProvided=Not provided
 
 ordinary_confirmation_dob_title=Date of birth
 ordinary_confirmation_dob_changeName=date of birth
