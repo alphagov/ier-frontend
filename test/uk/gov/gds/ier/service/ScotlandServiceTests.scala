@@ -480,7 +480,7 @@ class ScotlandServiceTests extends MockingTestSuite with WithMockConfig {
         dob = None,
         noDob = Some(noDOB(
           reason = Some("test reason"),
-          range = Some(DateOfBirthConstants.is18to70)
+          range = Some(DateOfBirthConstants.is18to75)
         ))
       ))
     )
@@ -572,7 +572,7 @@ class ScotlandServiceTests extends MockingTestSuite with WithMockConfig {
     service.resetNoDOBRange(currentState) should be (false)
   }
 
-  it should "return FALSE for an application with ADDRESS in ENGLAND, noDOB=18to70" in {
+  it should "return FALSE for an application with ADDRESS in ENGLAND, noDOB=18to75" in {
     val mockAddressService = mock[AddressService]
     val service = getScotlandService(mockAddressService)
     when(mockAddressService.isScotAddress("EH11QN")).thenReturn(true)
@@ -591,7 +591,7 @@ class ScotlandServiceTests extends MockingTestSuite with WithMockConfig {
         dob = None,
         noDob = Some(noDOB(
           reason = Some("test reason"),
-          range = Some(DateOfBirthConstants.is18to70)
+          range = Some(DateOfBirthConstants.is18to75)
         ))
       ))
     )
@@ -599,7 +599,7 @@ class ScotlandServiceTests extends MockingTestSuite with WithMockConfig {
     service.resetNoDOBRange(currentState) should be (false)
   }
 
-  it should "return FALSE for an application with ADDRESS in ENGLAND, noDOB=over70" in {
+  it should "return FALSE for an application with ADDRESS in ENGLAND, noDOB=Over75" in {
     val mockAddressService = mock[AddressService]
     val service = getScotlandService(mockAddressService)
     when(mockAddressService.isScotAddress("EH11QN")).thenReturn(true)
@@ -618,7 +618,7 @@ class ScotlandServiceTests extends MockingTestSuite with WithMockConfig {
         dob = None,
         noDob = Some(noDOB(
           reason = Some("test reason"),
-          range = Some(DateOfBirthConstants.over70)
+          range = Some(DateOfBirthConstants.Over75)
         ))
       ))
     )
@@ -726,7 +726,7 @@ class ScotlandServiceTests extends MockingTestSuite with WithMockConfig {
     service.resetNoDOBRange(currentState) should be (true)
   }
 
-  it should "return TRUE for an application with ADDRESS in SCOTLAND, noDOB=18to70" in {
+  it should "return TRUE for an application with ADDRESS in SCOTLAND, noDOB=18to75" in {
     val mockAddressService = mock[AddressService]
     val service = getScotlandService(mockAddressService)
     when(mockAddressService.isScotAddress("EH11QN")).thenReturn(true)
@@ -737,7 +737,7 @@ class ScotlandServiceTests extends MockingTestSuite with WithMockConfig {
         dob = None,
         noDob = Some(noDOB(
           reason = Some("test reason"),
-          range = Some(DateOfBirthConstants.is18to70)
+          range = Some(DateOfBirthConstants.is18to75)
         ))
       ))
     )
@@ -745,7 +745,7 @@ class ScotlandServiceTests extends MockingTestSuite with WithMockConfig {
     service.resetNoDOBRange(currentState) should be (true)
   }
 
-  it should "return TRUE for an application with ADDRESS in SCOTLAND, noDOB=over70" in {
+  it should "return TRUE for an application with ADDRESS in SCOTLAND, noDOB=Over75" in {
     val mockAddressService = mock[AddressService]
     val service = getScotlandService(mockAddressService)
     when(mockAddressService.isScotAddress("EH11QN")).thenReturn(true)
@@ -756,7 +756,7 @@ class ScotlandServiceTests extends MockingTestSuite with WithMockConfig {
         dob = None,
         noDob = Some(noDOB(
           reason = Some("test reason"),
-          range = Some(DateOfBirthConstants.over70)
+          range = Some(DateOfBirthConstants.Over75)
         ))
       ))
     )

@@ -42,10 +42,10 @@ class DateOfBirthTemplateTest
         rangeFieldSet = FieldSet(
           classes = ""
         ),
-        range18to70 = Field(
-          id = "range18to70Id",
-          name = "range18to70Name",
-          classes = "range18to70Class",
+        range18to75 = Field(
+          id = "range18to75Id",
+          name = "range18to75Name",
+          classes = "range18to75Class",
           attributes = "foo=\"foo\""
         ),
         rangeDontKnow = Field(
@@ -54,10 +54,10 @@ class DateOfBirthTemplateTest
           classes = "rangeDontKnowClass",
           attributes = "foo=\"foo\""
         ),
-        rangeOver70 = Field(
-          id = "rangeOver70Id",
-          name = "rangeOver70Name",
-          classes = "rangeOver70Class",
+        rangeOver75 = Field(
+          id = "rangeOver75Id",
+          name = "rangeOver75Name",
+          classes = "rangeOver75Class",
           attributes = "foo=\"foo\""
         ),
         rangeUnder18 = Field(
@@ -115,10 +115,10 @@ class DateOfBirthTemplateTest
       rangeDontKnowInput.attr("name") should be("rangeDontKnowName")
       rangeDontKnowInput.attr("foo") should include("foo")
 
-      val rangeOver70Input = doc.select("input[id=rangeOver70Id]").first()
-      rangeOver70Input.attr("id") should be("rangeOver70Id")
-      rangeOver70Input.attr("name") should be("rangeOver70Name")
-      rangeOver70Input.attr("foo") should include("foo")
+      val rangeOver75Input = doc.select("input[id=rangeOver75Id]").first()
+      rangeOver75Input.attr("id") should be("rangeOver75Id")
+      rangeOver75Input.attr("name") should be("rangeOver75Name")
+      rangeOver75Input.attr("foo") should include("foo")
 
       val rangeUnder18Input = doc.select("input[id=rangeUnder18Id]").first()
       rangeUnder18Input.attr("id") should be("rangeUnder18Id")

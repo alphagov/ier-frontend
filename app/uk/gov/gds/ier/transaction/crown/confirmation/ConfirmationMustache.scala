@@ -142,8 +142,8 @@ trait ConfirmationMustache
           }
           val ageRange = form(keys.dob.noDob.range).value match {
             case Some("under18") => "I am roughly under 18"
-            case Some("18to70") => "I am over 18 years old"
-            case Some("over70") => "I am over 70 years old"
+            case Some("18to75") => "I am over 18 years old"
+            case Some("over75") => "I am over 70 years old"
             case Some("dontKnow") => "I don't know my age"
             case _ => ""
           }

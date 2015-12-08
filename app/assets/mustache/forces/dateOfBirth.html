@@ -88,7 +88,7 @@
                       data-validation-name="excuseAgeAttempt"
                       data-validation-type="fieldset"
                       data-validation-rules="radioNonEmpty"
-                      data-validation-children="excuseUnder18 excuse18to70 excuseOver70 excuseDontKnow">
+                      data-validation-children="excuseUnder18 excuse18to75 excuseOver75 excuseDontKnow">
 
                 <p>How old are you?</p>
                 <label for="{{rangeUnder18.id}}" class="selectable"  >
@@ -100,22 +100,22 @@
                            {{{rangeUnder18.attributes}}}>
                     <span class="visuallyhidden">I am</span>Under 18 years old
                 </label>
-                <label for="{{range18to70.id}}" class="selectable"  >
-                    <input type="radio" id="{{range18to70.id}}" name="{{range18to70.name}}"
-                           value="18to70"  class="radio  validate"
-                           data-validation-name="excuse18to70"
+                <label for="{{range18to75.id}}" class="selectable"  >
+                    <input type="radio" id="{{range18to75.id}}" name="{{range18to75.name}}"
+                           value="18to75"  class="radio  validate"
+                           data-validation-name="excuse18to75"
                            data-validation-type="field"
                            data-validation-rules="nonEmpty"
-                           {{{range18to70.attributes}}}>
+                           {{{range18to75.attributes}}}>
                     <span class="visuallyhidden">I am</span>Between 18 and 70 years old
                 </label>
-                <label for="{{rangeOver70.id}}" class="selectable"  >
-                    <input type="radio" id="{{rangeOver70.id}}" name="{{rangeOver70.name}}"
-                           value="over70"  class="radio  validate"
-                           data-validation-name="excuseOver70"
+                <label for="{{rangeOver75.id}}" class="selectable"  >
+                    <input type="radio" id="{{rangeOver75.id}}" name="{{rangeOver75.name}}"
+                           value="over75"  class="radio  validate"
+                           data-validation-name="excuseOver75"
                            data-validation-type="field"
                            data-validation-rules="nonEmpty"
-                           {{{rangeOver70.attributes}}}>
+                           {{{rangeOver75.attributes}}}>
                     <span class="visuallyhidden">I am</span>Over 70 years old
                 </label>
                 <label for="{{rangeDontKnow.id}}" class="selectable"  >

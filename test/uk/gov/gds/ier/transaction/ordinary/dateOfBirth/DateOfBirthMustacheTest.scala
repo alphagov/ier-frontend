@@ -47,7 +47,7 @@ class DateOfBirthMustacheTest
 
   it should "fully filled applicant no dob reason should produce Mustache Model with values present" in runningApp {
     val filledForm = dateOfBirthForm.fillAndValidate(InprogressOrdinary(
-      dob = Some(DateOfBirth(None, Some(noDOB(Some("dunno my birthday... ???"), Some("18to70")))))))
+      dob = Some(DateOfBirth(None, Some(noDOB(Some("dunno my birthday... ???"), Some("18to75")))))))
 
     val dateOfBirthModel = mustache.data(
         filledForm,
@@ -63,9 +63,9 @@ class DateOfBirthMustacheTest
     dateOfBirthModel.year.value should be("")
 
     dateOfBirthModel.noDobReason.value should be("dunno my birthday... ???")
-    dateOfBirthModel.range18to70.attributes should be("checked=\"checked\"")
+    dateOfBirthModel.range18to75.attributes should be("checked=\"checked\"")
     dateOfBirthModel.rangeDontKnow.attributes should be("")
-    dateOfBirthModel.rangeOver70.attributes should be("")
+    dateOfBirthModel.rangeOver75.attributes should be("")
     dateOfBirthModel.rangeUnder18.attributes should be("")
 
   }

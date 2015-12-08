@@ -32,8 +32,8 @@ object DateOfBirthConstants {
   lazy val is16to17 = "16to17"
   lazy val under18 = "under18"
   lazy val over18 = "over18"
-  lazy val is18to70 = "18to70"
-  lazy val over70 = "over70"
+  lazy val is18to75 = "18to75"
+  lazy val over75 = "over75"
   lazy val dontKnow = "dontKnow"
 
   lazy val noDobRanges = Seq(
@@ -41,8 +41,8 @@ object DateOfBirthConstants {
     is16to17,
     under18,
     over18,
-    is18to70,
-    over70,
+    is18to75,
+    over75,
     dontKnow
   )
 

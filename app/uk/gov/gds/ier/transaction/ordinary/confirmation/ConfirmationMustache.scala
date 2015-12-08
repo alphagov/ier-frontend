@@ -146,8 +146,8 @@ trait ConfirmationMustache
             case Some("16to17") => Messages("ordinary_confirmation_dob_noDOB16to17")
             case Some("under18") => Messages("ordinary_confirmation_dob_noDOBUnder18")
             case Some("over18") => Messages("ordinary_confirmation_dob_noDOBOver18")
-            case Some("18to70") => Messages("ordinary_confirmation_dob_noDOB18to70")
-            case Some("over70") => Messages("ordinary_confirmation_dob_noDOBOver70")
+            case Some("18to75") => Messages("ordinary_confirmation_dob_noDOB18to75")
+            case Some("over75") => Messages("ordinary_confirmation_dob_noDOBOver75")
             case Some("dontKnow") => Messages("ordinary_confirmation_dob_noDOBDontKnow")
             case _ => ""
           }

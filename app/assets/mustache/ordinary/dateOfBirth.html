@@ -87,7 +87,7 @@
                       data-validation-name="excuseAgeAttempt"
                       data-validation-type="fieldset"
                       data-validation-rules="radioNonEmpty"
-                      data-validation-children="excuseUnder18 excuse18to70 excuseOver70 excuse14to15 excuse16to17 excuseOver18 excuseDontKnow">
+                      data-validation-children="excuseUnder18 excuse18to75 excuseOver75 excuse14to15 excuse16to17 excuseOver18 excuseDontKnow">
 
                 <p>{{messages.ordinary_dob_help_cannotProvideDOB_ageGroupQuestion}}</p>
                 {{^isScot}}
@@ -102,25 +102,25 @@
                 </label>
                 {{/isScot}}
                 {{^isScot}}
-                <label for="{{range18to70.id}}" class="selectable"  >
-                    <input type="radio" id="{{range18to70.id}}" name="{{range18to70.name}}"
-                           value="18to70"  class="radio  validate"
-                           data-validation-name="excuse18to70"
+                <label for="{{range18to75.id}}" class="selectable"  >
+                    <input type="radio" id="{{range18to75.id}}" name="{{range18to75.name}}"
+                           value="18to75"  class="radio  validate"
+                           data-validation-name="excuse18to75"
                            data-validation-type="field"
                            data-validation-rules="nonEmpty"
-                           {{{range18to70.attributes}}}>
-                    {{{messages.ordinary_dob_help_cannotProvideDOB_ageGroup_between18and70_option}}}
+                           {{{range18to75.attributes}}}>
+                    {{{messages.ordinary_dob_help_cannotProvideDOB_ageGroup_between18and75_option}}}
                 </label>
                 {{/isScot}}
                 {{^isScot}}
-                <label for="{{rangeOver70.id}}" class="selectable"  >
-                    <input type="radio" id="{{rangeOver70.id}}" name="{{rangeOver70.name}}"
-                           value="over70"  class="radio  validate"
-                           data-validation-name="excuseOver70"
+                <label for="{{rangeOver75.id}}" class="selectable"  >
+                    <input type="radio" id="{{rangeOver75.id}}" name="{{rangeOver75.name}}"
+                           value="over75"  class="radio  validate"
+                           data-validation-name="excuseOver75"
                            data-validation-type="field"
                            data-validation-rules="nonEmpty"
-                           {{{rangeOver70.attributes}}}>
-                    {{{messages.ordinary_dob_help_cannotProvideDOB_ageGroup_over70_option}}}
+                           {{{rangeOver75.attributes}}}>
+                    {{{messages.ordinary_dob_help_cannotProvideDOB_ageGroup_Over75_option}}}
                 </label>
                 {{/isScot}}
                 {{#isScot}}
