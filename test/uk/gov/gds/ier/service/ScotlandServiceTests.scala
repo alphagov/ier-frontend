@@ -618,7 +618,7 @@ class ScotlandServiceTests extends MockingTestSuite with WithMockConfig {
         dob = None,
         noDob = Some(noDOB(
           reason = Some("test reason"),
-          range = Some(DateOfBirthConstants.Over75)
+          range = Some(DateOfBirthConstants.over75)
         ))
       ))
     )
@@ -756,7 +756,7 @@ class ScotlandServiceTests extends MockingTestSuite with WithMockConfig {
         dob = None,
         noDob = Some(noDOB(
           reason = Some("test reason"),
-          range = Some(DateOfBirthConstants.Over75)
+          range = Some(DateOfBirthConstants.over75)
         ))
       ))
     )
