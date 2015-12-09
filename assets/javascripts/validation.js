@@ -1679,6 +1679,9 @@
       'previousQuestion' : {
         'atLeastOneNonEmpty' : message('ordinary_previousName_error_answerThis')
       },
+      'changedNameBeforeLeavingUK' : {
+        'atLeastOneNonEmpty' : message('ordinary_previousName_error_answerThis')
+      },
       'previousName' : {
         'allNonEmpty' : message('ordinary_previousName_error_enterFullName')
       },
