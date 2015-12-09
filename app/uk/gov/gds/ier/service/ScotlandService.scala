@@ -77,7 +77,7 @@ class ScotlandService @Inject()(
         if(isScot(currentState)) {
           //Wipe DOB object if any non-SCO noDOB age range is currently stored
           dateOfBirthRangeOption match {
-            case DateOfBirthConstants.under18 | DateOfBirthConstants.is18to70 | DateOfBirthConstants.over70 => return true
+            case DateOfBirthConstants.under18 | DateOfBirthConstants.is18to75 | DateOfBirthConstants.over75 => return true
             case _ => return false
           }
         }

@@ -50,16 +50,16 @@ class DateOfBirthTemplateTest
           classes = "rangeUnder18Class",
           attributes = "foo=\"foo\""
         ),
-        rangeOver70 = Field(
-          id = "rangeOver70Id",
-          name = "rangeOver70Name",
-          classes = "rangeOver70Class",
+        rangeOver75 = Field(
+          id = "rangeOver75Id",
+          name = "rangeOver75Name",
+          classes = "rangeOver75Class",
           attributes = "foo=\"foo\""
         ),
-        range18to70 = Field(
-          id = "range18to70Id",
-          name = "range18to70Name",
-          classes = "range18to70Class",
+        range18to75 = Field(
+          id = "range18to75Id",
+          name = "range18to75Name",
+          classes = "range18to75Class",
           attributes = "foo=\"foo\""
         ),
         range14to15_YoungScot = Field(
@@ -153,15 +153,15 @@ class DateOfBirthTemplateTest
         rangeUnder18Input.attr("name") should be("rangeUnder18Name")
         rangeUnder18Input.attr("foo") should include("foo")
 
-        val range18to70Input = doc.select("input[id=range18to70Id]").first()
-        range18to70Input.attr("id") should be("range18to70Id")
-        range18to70Input.attr("name") should be("range18to70Name")
-        range18to70Input.attr("foo") should include("foo")
+        val range18to75Input = doc.select("input[id=range18to75Id]").first()
+        range18to75Input.attr("id") should be("range18to75Id")
+        range18to75Input.attr("name") should be("range18to75Name")
+        range18to75Input.attr("foo") should include("foo")
 
-        val rangeOver70Input = doc.select("input[id=rangeOver70Id]").first()
-        rangeOver70Input.attr("id") should be("rangeOver70Id")
-        rangeOver70Input.attr("name") should be("rangeOver70Name")
-        rangeOver70Input.attr("foo") should include("foo")
+        val rangeOver75Input = doc.select("input[id=rangeOver75Id]").first()
+        rangeOver75Input.attr("id") should be("rangeOver75Id")
+        rangeOver75Input.attr("name") should be("rangeOver75Name")
+        rangeOver75Input.attr("foo") should include("foo")
       }
 
       val rangeDontKnowInput = doc.select("input[id=rangeDontKnowId]").first()

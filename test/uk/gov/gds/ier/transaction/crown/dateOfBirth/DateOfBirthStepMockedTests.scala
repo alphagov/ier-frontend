@@ -50,7 +50,7 @@ class DateOfBirthStepMockedTests extends MockingTestSuite {
         dob = Some(DOB(1988, 1, 1)),
         noDob = Some(noDOB(
           reason = Some("test reason"),
-          range = Some(DateOfBirthConstants.is18to70)
+          range = Some(DateOfBirthConstants.is18to75)
         ))
       ))
     )
