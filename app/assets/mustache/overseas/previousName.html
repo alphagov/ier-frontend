@@ -1,0 +1,89 @@
+<form action="{{question.postUrl}}" method="POST" >
+    {{> shared/questionHeader }}
+
+    {{> shared/validationMessages }}
+
+    <!-- If the citizen changed their name while still living in the UK(ie. changedNameBeforeLeavingUKFlag=TRUE), show the optional name declaration text -->
+    {{#changedNameBeforeLeavingUKFlag}}
+    <div>
+        <legend class="label">
+            You don't have to tell us your previous name, but if you don't we might need to ask you to prove your identity in another way.
+            <br/>
+            If you changed your name more than once, enter your most recent previous name.
+        </legend>
+    </div>
+    {{/changedNameBeforeLeavingUKFlag}}
+
+    <div>
+        <fieldset class="validate"
+                  data-validation-name="previousName"
+                  data-validation-type="association"
+                  data-validation-rules="allValid"
+                  data-validation-members="previousFirstName previousMiddleName previousLastName nameChangeReason">
+
+            <label for="{{previousFirstName.id}}">
+                <span class="visuallyhidden">Previous</span> First name
+            </label>
+            <div class="validation-wrapper {{previousFirstName.classes}}">
+                <input type="text" id="{{previousFirstName.id}}"
+                       name="{{previousFirstName.name}}"
+                       value="{{previousFirstName.value}}"
+                       autocomplete="off"
+                       class="text first-name long validate {{previousFirstName.classes}}"
+                       data-validation-name="previousFirstName"
+                       data-validation-type="field"
+                       data-validation-rules="prevFirstNameText">
+            </div>
+
+            <label for="{{previousMiddleNames.id}}">
+                <span class="visuallyhidden">Previous</span> Middle names
+            </label>
+            <input type="text" id="{{previousMiddleNames.id}}"
+                   name="{{previousMiddleNames.name}}"
+                   value="{{previousMiddleNames.value}}"
+                   autocomplete="off"
+                   class="text middle-names long validate {{previousMiddleNames.classes}}"
+                   data-validation-name="previousMiddleName"
+                   data-validation-type="field"
+                   data-validation-rules="prevMiddleNameText">
+
+            <label for="{{previousLastName.id}}">
+                <span class="visuallyhidden">Previous</span> Last name
+            </label>
+            <div class="validation-wrapper {{previousLastName.classes}}">
+                <input type="text" id="{{previousLastName.id}}"
+                       name="{{previousLastName.name}}"
+                       value="{{previousLastName.value}}"
+                       autocomplete="off"
+                       class="text last-name long validate {{previousLastName.classes}}"
+                       data-validation-name="previousLastName"
+                       data-validation-type="field"
+                       data-validation-rules="prevLastNameText">
+            </div>
+
+            <!-- If the citizen changed their name after leaving the UK (ie. changedNameBeforeLeavingUKFlag=FALSE),hide the reason block -->
+            {{^changedNameBeforeLeavingUKFlag}}
+            <label for="{{nameChangeReason.id}}">
+                Reason for changing your name
+            </label>
+            <div class="validation-wrapper {{nameChangeReason.classes}}">
+                <textarea name="{{nameChangeReason.name}}"
+                          id="{{nameChangeReason.id}}"
+                          class="small validate {{nameChangeReason.classes}}"
+                          data-validation-name="nameChangeReason"
+                          data-validation-type="field"
+                          data-validation-rules="nonEmpty"
+                          maxlength="255">{{nameChangeReason.value}}</textarea>
+            </div>
+
+            <p class="example">For example: marriage, divorce</p>
+            {{/changedNameBeforeLeavingUKFlag}}
+
+        </fieldset>
+    </div>
+
+    <button id="continue" type="submit" class="button next validation-submit"
+            data-validation-sources="previousName">
+        Continue
+    </button>
+</form>

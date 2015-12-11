@@ -1,4 +1,4 @@
-package uk.gov.gds.ier.transaction.overseas.name
+package uk.gov.gds.ier.transaction.overseas.previousName
 
 import uk.gov.gds.ier.transaction.overseas.OverseasControllers
 import com.google.inject.{Inject, Singleton}
@@ -10,27 +10,26 @@ import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.assets.RemoteAssets
 
 @Singleton
-class NameStep @Inject ()(
+class PreviousNameStep @Inject ()(
     val serialiser: JsonSerialiser,
     val config: Config,
     val encryptionService : EncryptionService,
     val remoteAssets: RemoteAssets,
     val overseas: OverseasControllers
 ) extends OverseaStep
-  with NameForms
-  with NameMustache {
+  with PreviousNameForms
+  with PreviousNameMustache {
 
-  val validation = nameForm
+  val validation = previousNameForm
 
   val routing = Routes(
-    get = routes.NameStep.get,
-    post = routes.NameStep.post,
-    editGet = routes.NameStep.editGet,
-    editPost = routes.NameStep.editPost
+    get = routes.PreviousNameStep.get,
+    post = routes.PreviousNameStep.post,
+    editGet = routes.PreviousNameStep.editGet,
+    editPost = routes.PreviousNameStep.editPost
   )
 
   def nextStep(currentState: InprogressOverseas) = {
-    //overseas.NinoStep
-    overseas.PreviousNameStep
+    overseas.NinoStep
   }
 }
