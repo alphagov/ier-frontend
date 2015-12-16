@@ -18,21 +18,12 @@ trait NameMustache extends StepTemplate[InprogressOverseas] {
                         changedNameBeforeLeavingUKOption: FieldSet,
                         changedNameBeforeLeavingUKOptionFalse: Field,
                         changedNameBeforeLeavingUKOptionTrue: Field,
-                        changedNameBeforeLeavingUKOptionOther: Field,
-                        changedNameBeforeLeavingUKFlag: Boolean
+                        changedNameBeforeLeavingUKOptionOther: Field
                         ) extends MustacheData
 
   val mustache = MustacheTemplate("overseas/name") { (form, post) =>
 
     implicit val progressForm = form
-
-    var changedNameBeforeLeavingSelected = false
-
-    if (form(keys.previousName.changedNameBeforeLeavingUKOption).value.isDefined) {
-      if (form(keys.previousName.changedNameBeforeLeavingUKOption).value.get == "true") {
-        changedNameBeforeLeavingSelected = true
-      }
-    }
 
     NameModel(
       question = Question(
@@ -65,8 +56,7 @@ trait NameMustache extends StepTemplate[InprogressOverseas] {
       ),
       changedNameBeforeLeavingUKOptionOther = RadioField(
         key = keys.previousName.changedNameBeforeLeavingUKOption, value = "other"
-      ),
-      changedNameBeforeLeavingUKFlag = changedNameBeforeLeavingSelected
+      )
     )
 
 

@@ -7,13 +7,6 @@ trait PreviousNameMustache extends StepTemplate[InprogressOverseas] {
 
   case class PreviousNameModel(
                         question: Question,
-                        firstName: Field,
-                        middleNames: Field,
-                        lastName: Field,
-                        hasPreviousNameOption: FieldSet,
-                        hasPreviousNameOptionFalse: Field,
-                        hasPreviousNameOptionTrue: Field,
-                        hasPreviousNameOptionOther: Field,
                         previousFirstName: Field,
                         previousMiddleNames: Field,
                         previousLastName: Field,
@@ -25,19 +18,15 @@ trait PreviousNameMustache extends StepTemplate[InprogressOverseas] {
 
     implicit val progressForm = form
 
-    var title = "What was your previous name?"
+    var title = "What was your name when you left the UK?"
 
     var changedNameBeforeLeavingSelected = false
-
-    if (form(keys.previousName.changedNameBeforeLeavingUKOption).value.isDefined) {
-      if (form(keys.previousName.changedNameBeforeLeavingUKOption).value.get == "true") {
+    if(form(keys.previousName.changedNameBeforeLeavingUKOption).value.isDefined) {
+      if(form(keys.previousName.changedNameBeforeLeavingUKOption).value.getOrElse("").equals("true")) {
+        //If the citizen changed their name BEFORE leaving the UK (ie. TRUE), change the page title...
         changedNameBeforeLeavingSelected = true
+        title = "What was your previous name?"
       }
-    }
-
-    //If the citizen changed their name AFTER leaving the UK (ie. FALSE), change the page title...
-    if (!changedNameBeforeLeavingSelected) {
-      title = "What was your name when you left the UK?"
     }
 
     PreviousNameModel(
@@ -45,20 +34,6 @@ trait PreviousNameMustache extends StepTemplate[InprogressOverseas] {
         postUrl = post.url,
         title = title,
         errorMessages = form.globalErrors.map { _.message }),
-
-      firstName = TextField(key = keys.name.firstName),
-      middleNames = TextField(key = keys.name.middleNames),
-      lastName = TextField(key = keys.name.lastName),
-
-      hasPreviousNameOption = FieldSet(
-        classes = if (form(keys.previousName).hasErrors) "invalid" else ""
-      ),
-      hasPreviousNameOptionFalse = RadioField(
-        key = keys.previousName.hasPreviousNameOption, value = "false"),
-      hasPreviousNameOptionTrue = RadioField(
-        key = keys.previousName.hasPreviousNameOption, value = "true"),
-      hasPreviousNameOptionOther = RadioField(
-        key = keys.previousName.hasPreviousNameOption, value = "other"),
 
       previousFirstName = TextField(
         key = keys.previousName.previousName.firstName),

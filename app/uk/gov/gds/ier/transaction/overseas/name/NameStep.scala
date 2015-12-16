@@ -29,8 +29,40 @@ class NameStep @Inject ()(
     editPost = routes.NameStep.editPost
   )
 
+  override val onSuccess = TransformApplication { currentState =>
+    //If the OS citizen has selected TRUE for changed name, make sure none of the changed before options are entered.
+    val prevNameValue = currentState.previousName.map { currentPreviousName =>
+      if (currentPreviousName.hasPreviousNameOption.equalsIgnoreCase("true")) {
+        currentPreviousName.copy(changedNameBeforeLeavingUKOption = None)
+      }
+      else {
+        currentPreviousName.copy()
+      }
+    }
+    currentState.copy(previousName = prevNameValue)
+  } andThen GoToNextIncompleteStep()
+
   def nextStep(currentState: InprogressOverseas) = {
-    //overseas.NinoStep
-    overseas.PreviousNameStep
+    //Does this OS citizen have a previous name TBC??...
+    var hasPreviousName = false
+    var changedNameBeforeLeavingSelected = false
+
+    if (currentState.previousName.isDefined) {
+      hasPreviousName = currentState.previousName.get.hasPreviousName
+      if(currentState.previousName.get.changedNameBeforeLeavingUKOption.isDefined) {
+        if(currentState.previousName.get.changedNameBeforeLeavingUKOption.toString.equalsIgnoreCase("Some(true)")) {
+          changedNameBeforeLeavingSelected = true
+        }
+      }
+    }
+
+    //If either of the above are TRUE, send the OS citizen to the previous name page
+    //...else skip it and go to nino page
+    if (hasPreviousName | changedNameBeforeLeavingSelected) {
+      overseas.PreviousNameStep
+    } else {
+
+      overseas.NinoStep
+    }
   }
 }
