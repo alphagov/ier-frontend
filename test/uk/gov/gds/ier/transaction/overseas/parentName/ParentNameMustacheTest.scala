@@ -39,7 +39,7 @@ class ParentNameMustacheTest
         firstName = "John",
         middleNames = None,
         lastName = "Smith")),
-      previousName = Some(PreviousName(false, "false", None))))))
+      previousName = Some(PreviousName(false, "false", Some("false"), None))))))
 
     val nameModel = mustache.data(
       partiallyFilledApplicationForm,
