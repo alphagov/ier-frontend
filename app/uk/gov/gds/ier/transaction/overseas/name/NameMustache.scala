@@ -15,6 +15,9 @@ trait NameMustache extends StepTemplate[InprogressOverseas] {
                         hasPreviousNameOption: FieldSet,
                         hasPreviousNameOptionFalse: Field,
                         hasPreviousNameOptionTrue: Field,
+                        previousFirstName: Field,
+                        previousMiddleNames: Field,
+                        previousLastName: Field,
                         changedNameBeforeLeavingUKOption: FieldSet,
                         changedNameBeforeLeavingUKOptionFalse: Field,
                         changedNameBeforeLeavingUKOptionTrue: Field,
@@ -44,7 +47,15 @@ trait NameMustache extends StepTemplate[InprogressOverseas] {
       hasPreviousNameOptionTrue = RadioField(
         key = keys.previousName.hasPreviousNameOption, value = "true"
       ),
-
+      previousFirstName = TextField(
+        key = keys.previousName.previousName.firstName
+      ),
+      previousMiddleNames = TextField(
+        key = keys.previousName.previousName.middleNames
+      ),
+      previousLastName = TextField(
+        key = keys.previousName.previousName.lastName
+      ),
       changedNameBeforeLeavingUKOption = FieldSet(
         classes = if (form(keys.previousName.hasPreviousName).hasErrors) "invalid" else ""
       ),

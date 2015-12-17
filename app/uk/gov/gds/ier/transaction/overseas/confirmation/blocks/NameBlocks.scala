@@ -29,24 +29,15 @@ trait NameBlocks {
     }
     val prevNameContent =  hasPreviousName match {
       case Some("true") => {
-        //This OS scenario is >> YES & N/A
-        List(
-          List(
-            form(keys.previousName.previousName.firstName).value,
-            form(keys.previousName.previousName.middleNames).value,
-            form(keys.previousName.previousName.lastName).value
-          ).flatten.mkString(" ")
-        ) ++ nameChangeReason
-      }
-      case Some("false") => {
-        if(changedNameBeforeLeavingUKOption.toString().equals("Some(true)")) {
-          if(
-              form(keys.previousName).value.toString().equals("None")
-          ) {
+        if (changedNameBeforeLeavingUKOption.getOrElse("").equalsIgnoreCase("true")) {
+          if (form(keys.previousName.previousName).value.getOrElse("").equals(None)) {
             //This OS scenario is >> NO && YES(empty)
             List("Prefer not to say")
+          } else if (form(keys.previousName.previousName.firstName).value.getOrElse("").equals("") &
+            form(keys.previousName.previousName.lastName).value.getOrElse("").equals("")) {
+            List("Prefer not to say")
           } else {
-            //This OS scenario is >> NO && YES(completed)
+            //This OS scenario is >> YES && NO(completed)
             List(
               List(
                 form(keys.previousName.previousName.firstName).value,
@@ -56,14 +47,24 @@ trait NameBlocks {
             ) ++ nameChangeReason
           }
         } else {
-          if(changedNameBeforeLeavingUKOption.toString().equals("Some(other)")) {
+          //This OS scenario is >> YES & N/A
+          List(
+            List(
+              form(keys.previousName.previousName.firstName).value,
+              form(keys.previousName.previousName.middleNames).value,
+              form(keys.previousName.previousName.lastName).value
+            ).flatten.mkString(" ")
+          ) ++ nameChangeReason
+        }
+      }
+      case Some("false") => {
+          if(changedNameBeforeLeavingUKOption.getOrElse("").equalsIgnoreCase("other")) {
             //This OS scenario is >> NO && OTHER
             List("Prefer not to say")
           } else {
             //This OS scenario is >> NO && NO
             List("I have not changed my name")
           }
-        }
       }
       case _ => List("I have not changed my name")
     }

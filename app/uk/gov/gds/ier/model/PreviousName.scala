@@ -29,7 +29,7 @@ object PreviousName extends ModelMapping {
   ) (
     (hasPreviousName, hasPreviousNameOption, changedNameBeforeLeavingUKOption, name, reason) => {
       if (
-          //The citizen has a previous address if they select TRUE or OTHER (crown / forces / ordinary)
+          //The citizen has a previous name if they select TRUE or OTHER (crown / forces / ordinary)
           //...or if they select FALSE and then TRUE for the changedbeforeleavingUK question (overseas)
           hasPreviousNameOption.equalsIgnoreCase("true") |
           hasPreviousNameOption.equalsIgnoreCase("other") |

@@ -3,17 +3,6 @@
 
     {{> shared/validationMessages }}
 
-    <!-- If the citizen changed their name while still living in the UK(ie. changedNameBeforeLeavingUKFlag=TRUE), show the optional name declaration text -->
-    {{#changedNameBeforeLeavingUKFlag}}
-    <div>
-        <legend class="label">
-            You don't have to tell us your previous name, but if you don't we might need to ask you to prove your identity in another way.
-            <br/>
-            If you changed your name more than once, enter your most recent previous name.
-        </legend>
-    </div>
-    {{/changedNameBeforeLeavingUKFlag}}
-
     <div>
         <fieldset class="validate"
                   data-validation-name="previousName"
@@ -61,8 +50,6 @@
                        data-validation-rules="prevLastNameText">
             </div>
 
-            <!-- If the citizen changed their name after leaving the UK (ie. changedNameBeforeLeavingUKFlag=FALSE),hide the reason block -->
-            {{^changedNameBeforeLeavingUKFlag}}
             <label for="{{nameChangeReason.id}}">
                 Reason for changing your name
             </label>
@@ -76,7 +63,6 @@
             </div>
 
             <p class="example">For example: marriage, divorce</p>
-            {{/changedNameBeforeLeavingUKFlag}}
 
         </fieldset>
     </div>

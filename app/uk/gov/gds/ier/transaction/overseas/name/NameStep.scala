@@ -50,15 +50,16 @@ class NameStep @Inject ()(
     if (currentState.previousName.isDefined) {
       hasPreviousName = currentState.previousName.get.hasPreviousName
       if(currentState.previousName.get.changedNameBeforeLeavingUKOption.isDefined) {
-        if(currentState.previousName.get.changedNameBeforeLeavingUKOption.toString.equalsIgnoreCase("Some(true)")) {
+        if(currentState.previousName.get.changedNameBeforeLeavingUKOption.getOrElse("").equalsIgnoreCase("true")) {
           changedNameBeforeLeavingSelected = true
         }
       }
     }
 
-    //If either of the above are TRUE, send the OS citizen to the previous name page
+    //If the OS citizen has changed their name (ie. YES)
+    //...then redirect to the previous name page
     //...else skip it and go to nino page
-    if (hasPreviousName | changedNameBeforeLeavingSelected) {
+    if (hasPreviousName && !changedNameBeforeLeavingSelected) {
       overseas.PreviousNameStep
     } else {
 

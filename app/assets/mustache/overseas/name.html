@@ -53,7 +53,7 @@
         </div>
     </fieldset>
 
-    <fieldset class="sub-section validate local-fix-source {{hasPreviousNameOption.classes}}"
+    <fieldset class="sub-section validate local-fix-overseas-source {{hasPreviousNameOption.classes}}"
               data-validation-name="previousQuestion"
               data-validation-type="fieldset"
               data-validation-rules="atLeastOneNonEmpty"
@@ -132,26 +132,27 @@
     </fieldset>
 
     <div
-            class="optional-section optional-section-core-content local-fix-target"
+            class="optional-section optional-section-core-content local-fix-overseas-target"
             aria-hidden="true" aria-expanded="false">
         <h2>What was your previous name?</h2>
     </div>
 
     <div
-            class="optional-section optional-section-core-content"
-            data-condition="{{hasPreviousNameOptionOther.id}}"
+            class="optional-section optional-section-core-content local-fix-overseas-target"
             aria-hidden="true" aria-expanded="false">
         <legend class="label">
-            As you changed your name more than a year ago you don't have to tell us your previous name, but you might need to send us copies of identity documents if you don't.
+            You don't have to tell us your previous name, but if you don't we might need to ask you to prove your identity in another way.
+        <br/>
+            If you changed your name more than once, enter your most recent previous name.
         </legend>
     </div>
 
-    <div class="optional-section optional-section-core-content local-fix-target">
+    <div class="optional-section optional-section-core-content local-fix-overseas-target">
         <fieldset class="validate"
                   data-validation-name="previousName"
                   data-validation-type="association"
                   data-validation-rules="allValid"
-                  data-validation-members="previousFirstName previousMiddleName previousLastName nameChangeReason">
+                  data-validation-members="previousFirstName previousMiddleName previousLastName">
 
             <label for="{{previousFirstName.id}}">
                 <span class="visuallyhidden">Previous</span> First name

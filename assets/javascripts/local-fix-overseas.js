@@ -6,14 +6,12 @@
       	//Searching for any RADIO with SELECTED against it to include it within the SOURCE/TARGET config
       	$selectedRadioInput = $( '.selectable.selected>input'),
       	selectedRadioInput = ( $selectedRadioInput.length > 0 ) ? $selectedRadioInput[0] : null,
-      	$target = $( '.local-fix-target' ),
-      	$source = $( '.local-fix-source' ),
+      	$target = $( '.local-fix-overseas-target' ),
+      	$source = $( '.local-fix-overseas-source' ),
       	_toggleClass = 'optional-section-open',
       	_inclusionListIds = [
       	    //Array list of source action elements
-      	    'previousName_hasPreviousNameOption_true',
-            'overseasParentName_parentPreviousName_hasPreviousNameOption_true',
-            'overseasParentName_parentPreviousName_hasPreviousNameOption_other'
+      	    'previousName_changedNameBeforeLeavingUKOption_true'
         ];
 
     function _hideContent () {

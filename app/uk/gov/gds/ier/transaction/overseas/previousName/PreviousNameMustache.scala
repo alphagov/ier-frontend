@@ -10,24 +10,14 @@ trait PreviousNameMustache extends StepTemplate[InprogressOverseas] {
                         previousFirstName: Field,
                         previousMiddleNames: Field,
                         previousLastName: Field,
-                        nameChangeReason: Field,
-                        changedNameBeforeLeavingUKFlag: Boolean
+                        nameChangeReason: Field
                         ) extends MustacheData
 
   val mustache = MustacheTemplate("overseas/previousName") { (form, post) =>
 
     implicit val progressForm = form
 
-    var title = "What was your name when you left the UK?"
-
-    var changedNameBeforeLeavingSelected = false
-    if(form(keys.previousName.changedNameBeforeLeavingUKOption).value.isDefined) {
-      if(form(keys.previousName.changedNameBeforeLeavingUKOption).value.getOrElse("").equals("true")) {
-        //If the citizen changed their name BEFORE leaving the UK (ie. TRUE), change the page title...
-        changedNameBeforeLeavingSelected = true
-        title = "What was your previous name?"
-      }
-    }
+    val title = "What was your name when you left the UK?"
 
     PreviousNameModel(
       question = Question(
@@ -42,9 +32,7 @@ trait PreviousNameMustache extends StepTemplate[InprogressOverseas] {
       previousLastName = TextField(
         key = keys.previousName.previousName.lastName),
       nameChangeReason = TextField(
-        key = keys.previousName.reason),
-
-      changedNameBeforeLeavingUKFlag = changedNameBeforeLeavingSelected
+        key = keys.previousName.reason)
     )
   }
 }
