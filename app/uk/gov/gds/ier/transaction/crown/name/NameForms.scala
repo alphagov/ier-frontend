@@ -37,7 +37,6 @@ trait NameForms extends NameConstraints {
       previousNameAnswered,
       firstNameRequired,
       lastNameRequired,
-      prevNameRequiredIfHasPrevNameTrue,
       prevFirstNameRequired,
       prevLastNameRequired
     )

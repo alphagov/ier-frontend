@@ -1683,14 +1683,12 @@
         'allNonEmpty' : message('ordinary_previousName_error_enterFullName')
       },
       'previousFirstName' : {
-        'nonEmpty' : message('ordinary_previousName_error_enterFirstName'),
         'prevFirstNameText' : message('ordinary_previousName_error_firstNameTooLong')
       },
       'previousMiddleName' : {
         'prevMiddleNameText' : message('ordinary_previousName_error_middleNamesTooLong')
       },
       'previousLastName' : {
-        'nonEmpty' : message('ordinary_previousName_error_enterLastName'),
         'prevLastNameText' : message('ordinary_previousName_error_lastNameTooLong')
       },
       'nameChangeReason' : {

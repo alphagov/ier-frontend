@@ -108,7 +108,7 @@ trait ConfirmationMustache
     }
 
     def previousName = {
-      val havePreviousName = form(keys.previousName.hasPreviousName).value
+      val havePreviousName = form(keys.previousName.hasPreviousNameOption).value
       val prevNameStr =  havePreviousName match {
         case Some("true") => {
           List(
@@ -117,6 +117,7 @@ trait ConfirmationMustache
             form(keys.previousName.previousName.lastName).value
           ).flatten.mkString(" ")
         }
+        case Some("other") => Messages("ordinary_confirmation_previousName_other")
         case _ => Messages("ordinary_confirmation_previousName_nameNotChanged")
       }
       Some(ConfirmationQuestion(
@@ -124,7 +125,11 @@ trait ConfirmationMustache
         editLink = ordinary.NameStep.routing.editGet.url,
         changeName = Messages("ordinary_confirmation_previousName_changeName"),
         content = ifComplete(keys.previousName) {
-          List(prevNameStr)
+          if (prevNameStr == "") {
+            List(Messages("ordinary_confirmation_previousName_notProvided"))
+          } else {
+            List(prevNameStr)
+          }
         }
       ))
     }

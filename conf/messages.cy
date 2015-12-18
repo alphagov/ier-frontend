@@ -119,10 +119,11 @@ ordinary_name_error_middleNamesTooLong=Gall enwau canol fod yn fwy na 100 nod
 ordinary_name_error_lastNameTooLong=Gall enw olaf fod yn fwy na 35 nod
 
 ordinary_previousName_hasPreviousName_label=Ydych chi erioed wedi newid eich enw?
-ordinary_previousName_hasPreviousName_no_label=Nac ydw, Nid wyf wedi newid<span class="visuallyhidden"> fy enw yn y 12 mis diwethaf</span>
-ordinary_previousName_hasPreviousName_yes_label=Do, yn y 12 mis diwethaf
-ordinary_previousName_hasPreviousName_yes_other_label=Do, ond mwy na blwyddyn yn ôl
-ordinary_previousName_header=Enw blaenorol
+ordinary_previousName_hasPreviousName_no_label=Na, nid wyf wedi newid fy enw
+ordinary_previousName_hasPreviousName_yes_label=Do, rwyf wedi newid fy enw
+ordinary_previousName_hasPreviousName_other_label=Mae’n well gen i beidio dweud
+ordinary_previousName_header=Beth oedd eich enw blaenorol diweddaraf?
+ordinary_previousName_disclaimer=Bydd yr wybodaeth hon yn cael ei defnyddio i wirio pwy ydych chi. Does dim rhaid i chi ddweud wrthym beth oedd eich enw blaenorol, ond efallai y bydd yn rhaid i chi anfon gwybodaeth bersonol ychwanegol atom os na fyddwch yn gwneud hyn.
 ordinary_previousNameOther_disclaimer=Gan eich bod wedi newid eich enw fwy na blwyddyn yn ôl nid oes rhaid ichi ddweud wrthym beth oedd eich enw blaenorol, ond os nad ydych, efallai y bydd angen ichi anfon copïau o ddogfennau adnabod atom
 ordinary_previousName_firstName_label=Enw Cyntaf<span class="visuallyhidden"> blaenorol</span>
 ordinary_previousName_middleNames_label=Enwau Canol<span class="visuallyhidden"> blaenorol</span>
@@ -407,6 +408,8 @@ ordinary_confirmation_name_changeName=enw llawn
 ordinary_confirmation_previousName_title=Enw blaenorol
 ordinary_confirmation_previousName_changeName=enw blaenorol
 ordinary_confirmation_previousName_nameNotChanged=Nid wyf wedi newid fy enw
+ordinary_confirmation_previousName_other=Mae'n well gen i beidio dweud
+ordinary_confirmation_previousName_notProvided=Ni ddarparwyd enw
 
 ordinary_confirmation_dob_title=Dyddiad geni
 ordinary_confirmation_dob_changeName=dyddiad geni

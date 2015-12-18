@@ -12,7 +12,6 @@
       	_inclusionListIds = [
       	    //Array list of source action elements
       	    'previousName_hasPreviousNameOption_true',
-            'previousName_hasPreviousNameOption_other',
             'overseasParentName_parentPreviousName_hasPreviousNameOption_true',
             'overseasParentName_parentPreviousName_hasPreviousNameOption_other'
         ];
