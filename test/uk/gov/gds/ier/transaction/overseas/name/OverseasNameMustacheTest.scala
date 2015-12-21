@@ -25,10 +25,9 @@ class NameMustacheTest
     nameModel.lastName.value should be("")
     nameModel.hasPreviousNameOptionFalse.value should be("false")
     nameModel.hasPreviousNameOptionTrue.value should be("true")
-    nameModel.hasPreviousNameOptionOther.value should be("other")
-    nameModel.previousFirstName.value should be("")
-    nameModel.previousMiddleNames.value should be("")
-    nameModel.previousLastName.value should be("")
+//    nameModel.previousFirstName.value should be("")
+//    nameModel.previousMiddleNames.value should be("")
+//    nameModel.previousLastName.value should be("")
   }
 
   it should "progress form with filled applicant name should produce Mustache Model with name values present" in {
@@ -53,10 +52,9 @@ class NameMustacheTest
     nameModel.lastName.value should be("Smith")
     nameModel.hasPreviousNameOptionFalse.value should be("false")
     nameModel.hasPreviousNameOptionTrue.value should be("true")
-    nameModel.hasPreviousNameOptionOther.value should be("other")
-    nameModel.previousFirstName.value should be("")
-    nameModel.previousMiddleNames.value should be("")
-    nameModel.previousLastName.value should be("")
+//    nameModel.previousFirstName.value should be("")
+//    nameModel.previousMiddleNames.value should be("")
+//    nameModel.previousLastName.value should be("")
   }
 
   it should "progress form with filled applicant name and previous should produce Mustache Model with name and previous name values present" in {
@@ -91,10 +89,9 @@ class NameMustacheTest
     nameModel.lastName.value should be("Smith")
     nameModel.hasPreviousNameOptionFalse.value should be("false")
     nameModel.hasPreviousNameOptionTrue.value should be("true")
-    nameModel.hasPreviousNameOptionOther.value should be("other")
-    nameModel.previousFirstName.value should be("Jan")
-    nameModel.previousMiddleNames.value should be("")
-    nameModel.previousLastName.value should be("Kovar")
+//    nameModel.previousFirstName.value should be("Jan")
+//    nameModel.previousMiddleNames.value should be("")
+//    nameModel.previousLastName.value should be("Kovar")
   }
 
   it should "progress form with validation errors should produce Model with error list present" in {
@@ -119,10 +116,9 @@ class NameMustacheTest
     nameModel.lastName.value should be("")
     nameModel.hasPreviousNameOptionFalse.value should be("false")
     nameModel.hasPreviousNameOptionTrue.value should be("true")
-    nameModel.hasPreviousNameOptionOther.value should be("other")
-    nameModel.previousFirstName.value should be("")
-    nameModel.previousMiddleNames.value should be("")
-    nameModel.previousLastName.value should be("")
+//    nameModel.previousFirstName.value should be("")
+//    nameModel.previousMiddleNames.value should be("")
+//    nameModel.previousLastName.value should be("")
 
     nameModel.question.errorMessages.toSet should be(
       Set("Please enter your last name", "Please answer this question")
