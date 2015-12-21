@@ -236,6 +236,12 @@ POST        /register-to-vote/overseas/name                              @uk.gov
 GET         /register-to-vote/overseas/edit/name                         @uk.gov.gds.ier.transaction.overseas.name.NameStep.editGet
 POST        /register-to-vote/overseas/edit/name                         @uk.gov.gds.ier.transaction.overseas.name.NameStep.editPost
 
+#Previous Name  (voter previous name)
+GET         /register-to-vote/overseas/previous-name                     @uk.gov.gds.ier.transaction.overseas.previousName.PreviousNameStep.get
+POST        /register-to-vote/overseas/previous-name                     @uk.gov.gds.ier.transaction.overseas.previousName.PreviousNameStep.post
+GET         /register-to-vote/overseas/edit/previous-name                @uk.gov.gds.ier.transaction.overseas.previousName.PreviousNameStep.editGet
+POST        /register-to-vote/overseas/edit/previous-name                @uk.gov.gds.ier.transaction.overseas.previousName.PreviousNameStep.editPost
+
 #Nino Step
 GET         /register-to-vote/overseas/nino                              @uk.gov.gds.ier.transaction.overseas.nino.NinoStep.get
 POST        /register-to-vote/overseas/nino                              @uk.gov.gds.ier.transaction.overseas.nino.NinoStep.post

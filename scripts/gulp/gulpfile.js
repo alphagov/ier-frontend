@@ -13,6 +13,7 @@ var jsSourceFiles = [
   assetsFolder + '/javascripts/forms.js',
   assetsFolder + '/javascripts/onready.js',
   assetsFolder + '/javascripts/local-fix.js',
+  assetsFolder + '/javascripts/local-fix-overseas.js'
 ];
 var cssSourceFiles = [
   assetsFolder + '/stylesheets/print.scss',

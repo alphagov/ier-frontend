@@ -74,7 +74,7 @@ trait TestHelpers
 
   lazy val completeOrdinaryApplication = InprogressOrdinary(
     name = Some(Name("John", None, "Smith")),
-    previousName = Some(PreviousName(false, "false", None)),
+    previousName = Some(PreviousName(false, "false", Some("false"), None)),
     dob = Some(DateOfBirth(Some(DOB(1988, 1, 1)), None)),
     nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
@@ -90,7 +90,7 @@ trait TestHelpers
 
   lazy val completeOrdinaryApplicationYoungScot = InprogressOrdinary(
     name = Some(Name("Jock", None, "Smith")),
-    previousName = Some(PreviousName(false, "false", None)),
+    previousName = Some(PreviousName(false, "false", Some("false"), None)),
     dob = Some(DateOfBirth(Some(DOB(LocalDate.now.minusYears(15).getYear, 1, 1)), None)),
     nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
     nino = None,
@@ -116,7 +116,7 @@ trait TestHelpers
     nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
     dob = Some(DateOfBirth(Some(DOB(1988, 1, 1)), None)),
     name = Some(Name("John", None, "Smith")),
-    previousName = Some(PreviousName(true, "true", Some(Name("George", None, "Smith")))),
+    previousName = Some(PreviousName(true, "true", None, Some(Name("George", None, "Smith")))),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
     service = Some(Service(Some(ServiceType.RoyalAirForce), None)),
     rank = Some(Rank(Some("1234567"), Some("rank 1"))),
@@ -153,7 +153,7 @@ trait TestHelpers
     nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
     dob = Some(DateOfBirth(Some(DOB(1988, 1, 1)), None)),
     name = Some(Name("John", None, "Smith")),
-    previousName = Some(PreviousName(true, "true", Some(Name("George", None, "Smith")))),
+    previousName = Some(PreviousName(true, "true", None, Some(Name("George", None, "Smith")))),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
     job = Some(Job(Some("job title"), Some("123456"), Some("MoJ"))),
     contactAddress = Some (PossibleContactAddresses(
