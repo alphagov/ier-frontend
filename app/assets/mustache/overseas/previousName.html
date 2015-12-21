@@ -27,14 +27,19 @@
             <label for="{{previousMiddleNames.id}}">
                 <span class="visuallyhidden">Previous</span> Middle names
             </label>
-            <input type="text" id="{{previousMiddleNames.id}}"
-                   name="{{previousMiddleNames.name}}"
-                   value="{{previousMiddleNames.value}}"
-                   autocomplete="off"
-                   class="text middle-names long validate {{previousMiddleName.classes}}"
-                   data-validation-name="previousMiddleName"
-                   data-validation-type="field"
-                   data-validation-rules="prevMiddleNameText">
+
+            <div class="validation-wrapper {{previousMiddleName.classes}}">
+                <input
+                        type="text"
+                        id="{{previousMiddleNames.id}}"
+                        name="{{previousMiddleNames.name}}"
+                        value="{{previousMiddleNames.value}}"
+                        autocomplete="off"
+                        class="text middle-names long validate {{previousMiddleName.classes}}"
+                        data-validation-name="previousMiddleName"
+                        data-validation-type="field"
+                        data-validation-rules="prevMiddleNameText">
+            </div>
 
             <label for="{{previousLastName.id}}">
                 <span class="visuallyhidden">Previous</span> Last name
