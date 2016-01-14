@@ -28,13 +28,32 @@ class="bunting"
     <p class="intro email">{{messages.complete_emailConfirmation}}</p>
     {{/showEmailConfirmation}}
 
-    <h2>{{messages.complete_whatHappensNext_h2}}</h2>
+    {{#showTemplateCurrent}}
+        <h2>{{messages.complete_whatHappensNext_h2}}</h2>
+        <p>{{messages.complete_sentApplicationTo_p}}<strong>{{authName}} {{messages.complete_electoralRegistrationOffice}}</strong>.</p>
+        <p>{{messages.complete_contactYouTo_p2}}</p>
+        <p>
+            <a href="/register-to-vote/local-authority/{{gssCode}}?sourcePath=/register-to-vote/complete">{{messages.complete_contact}}</a> {{messages.complete_contact2}}
+        </p>
+    {{/showTemplateCurrent}}
+
+    {{#showTemplate1}}
+        <h2>{{messages.complete_complete_whatToDoNext_h2}}</h2>
+        <p>{{messages.complete_sentApplicationTo_p1}}<strong>{{authName}} {{messages.complete_electoralRegistrationOffice}}</strong>.</p>
+        <p>{{messages.complete_contactYouTo_p2}}</p>
+        <p>
+            <a href="/register-to-vote/local-authority/{{gssCode}}?sourcePath=/register-to-vote/complete">{{messages.complete_contact}}</a> {{messages.complete_contact2}}
+        </p>
+    {{/showTemplate1}}
+
+    {{#showTemplate3}}
+    <h2>{{messages.complete_complete_whatToDoNext_h2}}</h2>
     <p>{{messages.complete_sentApplicationTo_p}}<strong>{{authName}} {{messages.complete_electoralRegistrationOffice}}</strong>.</p>
     <p>{{messages.complete_contactYouTo_p2}}</p>
-
     <p>
-        <a href="/register-to-vote/local-authority/{{gssCode}}?sourcePath=/register-to-vote/complete">{{messages.complete_contact}}</a> {{messages.complete_contact2}}
-    </p>
+        <a href="/register-to-vote/local-authority/{{gssCode}}?sourcePath=/register-to-vote/complete">{{messages.complete_contact}}</a> {{messages.complete_contact3}}. {{messages.complete_contact6}}=</p>
+    {{/showTemplate3}}
+
     {{#showYoungScot}}
         <p>{{messages.complete_youngScot}}</p>
     {{/showYoungScot}}

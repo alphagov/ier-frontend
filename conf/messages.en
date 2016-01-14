@@ -473,7 +473,14 @@ complete_applicationComplete_3=being processed
 complete_yourRefNumberIs=Your reference number is
 complete_emailConfirmation=We have sent you an acknowledgement email.
 complete_whatHappensNext_h2=What happens next
+complete_whatToDoNext_h2=What you need to do next
 complete_sentApplicationTo_p=We've sent your application to
+complete_sentApplicationTo_p1=We've sent you an email with a
+complete_sentApplicationTo_p1_2=postal vote application form
+complete_sentApplicationTo_p1_3=attached. You'll need to
+complete_sentApplicationTo_p1_4=sign and return it
+complete_sentApplicationTo_p1_5=to
+complete_sentApplicationTo_p2=We've sent you an email with a proxy vote application form attached. You'll need to sign and return it to
 complete_questionsContact_p1=Contact them if you have any questions about your application.
 complete_ifYouAreNotAlreadyRegistered1_p=If you're not already registered at your second address, you can
 complete_ifYouAreNotAlreadyRegistered2_p=make another application
@@ -492,6 +499,15 @@ complete_unspecificElectoralRegistrationOffice=your local Electoral Registration
 complete_ero=Electoral Registration Office
 complete_contact=Contact them
 complete_contact2=with your reference number if you have any questions about your application.
+complete_contact3=They'll contact you as soon as possible to confirm you're registered to vote, or to ask for more information.
+complete_contact4=Contact them with reference number
+complete_contact5=if you have any questions about your application.
+
+complete_contact6=They'll post you a
+complete_contact7=that you'll need to
+complete_contact8=sign and return
+complete_contact9=to them. You can also download the form
+
 
 complete_social_heading=Tell others about this service
 complete_social_twitter_link_text=Share on Twitter

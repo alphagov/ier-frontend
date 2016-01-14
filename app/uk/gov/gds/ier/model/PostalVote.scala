@@ -28,6 +28,7 @@ case class PostalVoteDeliveryMethod(
   emailAddress: Option[String]) {
 
   def isEmail = deliveryMethod.exists(_ == "email")
+  def isPost = deliveryMethod.exists(_ == "post")
 }
 
 object PostalVoteDeliveryMethod extends ModelMapping {

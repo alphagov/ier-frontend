@@ -83,6 +83,32 @@ class ConfirmationStep @Inject ()(
         validApplication => {
           val isYoungScot = scotlandService.isYoungScot(validApplication)
 
+          val isTemplateCurrent = validApplication.postalVote.exists { postalVote =>
+            val isPostalOptionNoInPerson = postalVote.postalVoteOption.exists(_ == PostalVoteOption.NoAndVoteInPerson)
+            val isPostalOptionNoAlreadyHave = postalVote.postalVoteOption.exists(_ == PostalVoteOption.NoAndAlreadyHave)
+            isPostalOptionNoInPerson || isPostalOptionNoAlreadyHave
+          }
+
+          val isTemplate1 = validApplication.postalVote.exists { postalVote =>
+            val isPostalOptionSelected = postalVote.postalVoteOption.exists(_ == PostalVoteOption.Yes)
+
+            val isEmailOrPost = postalVote.deliveryMethod.exists{
+              deliveryMethod => deliveryMethod.isEmail && deliveryMethod.emailAddress.exists(_.nonEmpty)
+            }
+
+            isPostalOptionSelected && isEmailOrPost
+          }
+
+          val isTemplate3 = validApplication.postalVote.exists { postalVote =>
+            val isPostalOptionSelected = postalVote.postalVoteOption.exists(_ == PostalVoteOption.Yes)
+
+            val isEmailOrPost = postalVote.deliveryMethod.exists{
+              deliveryMethod => deliveryMethod.isPost
+            }
+
+            isPostalOptionSelected && isEmailOrPost
+          }
+
           val refNum = ierApi.generateOrdinaryReferenceNumber(validApplication)
           val remoteClientIP = request.headers.get("X-Real-IP")
 
@@ -142,7 +168,10 @@ class ConfirmationStep @Inject ()(
             showEmailConfirmation = (isPostalVoteEmailPresent || isContactEmailPresent),
             showBirthdayBunting =  isBirthdayToday,
             gssCode = gssCode,
-            showYoungScot = isYoungScot
+            showYoungScot = isYoungScot,
+            showTemplate1 = isTemplate1,
+            showTemplate3 = isTemplate3,
+            showTemplateCurrent = isTemplateCurrent
           )
 
           Redirect(CompleteStep.complete())

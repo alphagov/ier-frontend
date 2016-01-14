@@ -494,6 +494,17 @@ complete_applicationComplete_3=ei brosesu.
 complete_yourRefNumberIs=Eich cyfeirnod yw
 complete_emailConfirmation=Rydym wedi anfon e-bost atoch i gydnabod eich cais.
 complete_whatHappensNext_h2=Beth fydd yn digwydd nesaf
+complete_whatToDoNext_h2=Beth i'w wneud nesaf
+complete_sentApplicationTo_p1=Rydyn ni wedi anfon neges e-bost atoch chi sy'n cynnwys
+complete_sentApplicationTo_p1_2=ffurflen gais am bleidlais
+complete_sentApplicationTo_p1_3=bost. Bydd angen i chi
+complete_sentApplicationTo_p1_4=ei llofnodi a'i dychwelyd
+
+
+complete_contact3=Byddan nhw'n cysylltu â chi cyn gynted ag sy'n bosibl i gadarnhau eich bod wedi cael eich cofrestru i bleidleisio, neu i ofyn am ragor o wybodaeth.
+complete_contact4=Cysylltwch â nhw gyda'r cyfeirnod
+complete_contact5=os oes gennych chi unrhyw gwestiynau am eich cais
+
 complete_sentApplicationTo_p=Rydym wedi anfon eich cais I
 complete_questionsContact_p1=Cysylltwch â nhw os oes gennych chi unrhyw gwestiynau am eich cais.
 complete_ifYouAreNotAlreadyRegistered1_p=Os nad ydych wedi cofrestru yn barod yn eich ail gyfeiriad, gallwch

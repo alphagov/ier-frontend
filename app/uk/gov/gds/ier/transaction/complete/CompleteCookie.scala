@@ -10,5 +10,10 @@ case class CompleteCookie(
     showEmailConfirmation: Boolean = false,
     showBirthdayBunting: Boolean = false,
     gssCode: Option[String] = None,
-    showYoungScot: Boolean = false
+    showYoungScot: Boolean = false,
+    showTemplateCurrent: Boolean = false,
+    showTemplate1: Boolean = false,
+    showTemplate2: Boolean = false,
+    showTemplate3: Boolean = false,
+    showTemplate4: Boolean = false
 )
