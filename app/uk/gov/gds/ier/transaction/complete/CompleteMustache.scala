@@ -35,7 +35,9 @@ trait CompleteMustache {
         showTemplate1: Boolean,
         showTemplate2: Boolean,
         showTemplate3: Boolean,
-        showTemplate4: Boolean
+        showTemplate4: Boolean,
+        showEnglish: Boolean,
+        showWelsh: Boolean
     ) (
         implicit override val lang: Lang
     ) extends InheritedMustachio("complete") {

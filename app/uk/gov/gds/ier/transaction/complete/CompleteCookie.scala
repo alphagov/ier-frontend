@@ -15,5 +15,7 @@ case class CompleteCookie(
     showTemplate1: Boolean = false,
     showTemplate2: Boolean = false,
     showTemplate3: Boolean = false,
-    showTemplate4: Boolean = false
+    showTemplate4: Boolean = false,
+    showEnglish: Boolean = false,
+    showWelsh: Boolean = false
 )

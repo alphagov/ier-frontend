@@ -80,7 +80,7 @@ class ConfirmationStep @Inject ()(
         hasErrors => {
           Ok(mustache(hasErrors, routing.post, application).html).refreshToken
         },
-        validApplication => {
+        success = validApplication => {
           val isYoungScot = scotlandService.isYoungScot(validApplication)
 
           val isTemplateCurrent = validApplication.postalVote.exists { postalVote =>
@@ -92,7 +92,7 @@ class ConfirmationStep @Inject ()(
           val isTemplate1 = validApplication.postalVote.exists { postalVote =>
             val isPostalOptionSelected = postalVote.postalVoteOption.exists(_ == PostalVoteOption.Yes)
 
-            val isEmailOrPost = postalVote.deliveryMethod.exists{
+            val isEmailOrPost = postalVote.deliveryMethod.exists {
               deliveryMethod => deliveryMethod.isEmail && deliveryMethod.emailAddress.exists(_.nonEmpty)
             }
 
@@ -102,7 +102,7 @@ class ConfirmationStep @Inject ()(
           val isTemplate3 = validApplication.postalVote.exists { postalVote =>
             val isPostalOptionSelected = postalVote.postalVoteOption.exists(_ == PostalVoteOption.Yes)
 
-            val isEmailOrPost = postalVote.deliveryMethod.exists{
+            val isEmailOrPost = postalVote.deliveryMethod.exists {
               deliveryMethod => deliveryMethod.isPost
             }
 
@@ -114,7 +114,7 @@ class ConfirmationStep @Inject ()(
 
           val response = ierApi.submitOrdinaryApplication(
             ipAddress = remoteClientIP,
-            applicant = if(isYoungScot) {
+            applicant = if (isYoungScot) {
               validApplication.copy(
                 nino = Some(
                   new Nino(
@@ -136,7 +136,7 @@ class ConfirmationStep @Inject ()(
           val isPostalVoteEmailPresent = validApplication.postalVote.exists { postalVote =>
             val isPostalOptionSelected = postalVote.postalVoteOption.exists(_ == PostalVoteOption.Yes)
 
-            val isEmailDeliveryOptionValid = postalVote.deliveryMethod.exists{
+            val isEmailDeliveryOptionValid = postalVote.deliveryMethod.exists {
               deliveryMethod => deliveryMethod.isEmail && deliveryMethod.emailAddress.exists(_.nonEmpty)
             }
 
@@ -144,18 +144,21 @@ class ConfirmationStep @Inject ()(
           }
 
           val isContactEmailPresent = validApplication.contact.exists {
-            _.email.exists { emailContact => emailContact.contactMe && emailContact.detail.exists(_.nonEmpty) }
+            _.email.exists { emailContact => emailContact.contactMe && emailContact.detail.exists(_.nonEmpty)}
           }
 
           val hasOtherAddress = validApplication.otherAddress.exists(_.otherAddressOption.hasOtherAddress)
 
           val isBirthdayToday = validApplication.dob.exists(_.dob.exists(_.isToday))
 
-          //Get GSSCode of application if it has used addr lookup
-          var gssCode =(validApplication.address.get.gssCode)
+          val isEnglish = Language.emailLang.equals("en")
 
-          if  (gssCode == None)
-          {
+          val isWelsh = Language.emailLang.equals("cy")
+
+          //Get GSSCode of application if it has used addr lookup
+          var gssCode = (validApplication.address.get.gssCode)
+
+          if (gssCode == None) {
             //if it has been a manual addr entry, pull back postcode and lookup appropriate gsscode
             gssCode = (addressService.lookupGssCode(validApplication.address.get.postcode))
           }
@@ -166,12 +169,14 @@ class ConfirmationStep @Inject ()(
             hasOtherAddress = hasOtherAddress,
             backToStartUrl = config.ordinaryStartUrl,
             showEmailConfirmation = (isPostalVoteEmailPresent || isContactEmailPresent),
-            showBirthdayBunting =  isBirthdayToday,
+            showBirthdayBunting = isBirthdayToday,
             gssCode = gssCode,
             showYoungScot = isYoungScot,
             showTemplate1 = isTemplate1,
             showTemplate3 = isTemplate3,
-            showTemplateCurrent = isTemplateCurrent
+            showTemplateCurrent = isTemplateCurrent,
+            showEnglish = isEnglish,
+            showWelsh = isWelsh
           )
 
           Redirect(CompleteStep.complete())

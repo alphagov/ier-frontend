@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.crown.confirmation
 
+import uk.gov.gds.ier.langs.Language
 import uk.gov.gds.ier.step.ConfirmationStepController
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
@@ -91,7 +92,6 @@ class ConfirmationStep @Inject() (
           }
 
           val isTemplate2 = validApplication.postalOrProxyVote.exists { postalVote =>
-            val isPostalVoteOptionSelected = postalVote.postalVoteOption.exists(_ == false)
 
             val isEmailOrPost = postalVote.deliveryMethod.exists{
               deliveryMethod => deliveryMethod.isEmail && deliveryMethod.emailAddress.exists(_.nonEmpty)
@@ -101,7 +101,8 @@ class ConfirmationStep @Inject() (
               (postalVote.typeVote == WaysToVoteType.ByProxy)
             }
 
-            isPostalVoteOptionSelected && isEmailOrPost && isPostalOrProxyVote
+            isEmailOrPost && isPostalOrProxyVote
+
           }
 
           val isTemplate3 = validApplication.postalOrProxyVote.exists { postalVote =>
@@ -119,7 +120,6 @@ class ConfirmationStep @Inject() (
           }
 
           val isTemplate4 = validApplication.postalOrProxyVote.exists { postalVote =>
-            val isPostalVoteOptionSelected = postalVote.postalVoteOption.exists(_ == false)
 
             val isEmailOrPost = postalVote.deliveryMethod.exists{
               deliveryMethod => deliveryMethod.isPost
@@ -129,8 +129,12 @@ class ConfirmationStep @Inject() (
               (postalVote.typeVote == WaysToVoteType.ByProxy)
             }
 
-            isPostalVoteOptionSelected && isEmailOrPost && isPostalOrProxyVote
+            isEmailOrPost && isPostalOrProxyVote
           }
+
+          val isEnglish = Language.emailLang.equals("en")
+
+          val isWelsh = Language.emailLang.equals("cy")
 
           val isPostalOrProxyVoteEmailPresent = validApplication.postalOrProxyVote.exists { postalVote =>
             (postalVote.typeVote != WaysToVoteType.InPerson) &
@@ -168,7 +172,9 @@ class ConfirmationStep @Inject() (
             showTemplate1 = isTemplate1,
             showTemplate2 = isTemplate2,
             showTemplate3 = isTemplate3,
-            showTemplate4 = isTemplate4
+            showTemplate4 = isTemplate4,
+            showEnglish = isEnglish,
+            showWelsh = isWelsh
           )
 
           Redirect(CompleteStep.complete())

@@ -45,7 +45,9 @@ class CompleteStep @Inject() (
             confirmationData.showTemplate1,
             confirmationData.showTemplate2,
             confirmationData.showTemplate3,
-            confirmationData.showTemplate4
+            confirmationData.showTemplate4,
+            confirmationData.showEnglish,
+            confirmationData.showWelsh
           ))
         }
         case None => {
