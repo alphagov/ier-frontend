@@ -5,7 +5,7 @@ import uk.gov.gds.ier.service.{WithAddressService, AddressService}
 import uk.gov.gds.ier.transaction.overseas.{OverseasControllers, WithOverseasControllers}
 import uk.gov.gds.ier.controller.routes.ErrorController
 import uk.gov.gds.ier.transaction.complete.routes.CompleteStep
-import uk.gov.gds.ier.model.{WaysToVoteType, ApplicationType}
+import uk.gov.gds.ier.model.{PostalVoteOption, WaysToVoteType, ApplicationType}
 import uk.gov.gds.ier.step.ConfirmationStepController
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
@@ -82,9 +82,8 @@ class ConfirmationStep @Inject() (
           logSession()
 
           val isTemplateCurrent = validApplication.postalOrProxyVote.exists { postalVote =>
-            val isPostalOptionNoInPerson = (postalVote.typeVote == WaysToVoteType.InPerson)
-            isPostalOptionNoInPerson
-          }
+            postalVote.deliveryMethod.equals(None)
+          } || validApplication.postalOrProxyVote.equals(None)
 
           val isTemplate1 = validApplication.postalOrProxyVote.exists { postalVote =>
             val isPostalVoteOptionSelected = postalVote.postalVoteOption.exists(_ == true)
@@ -119,11 +118,9 @@ class ConfirmationStep @Inject() (
             val isEmailOrPost = postalVote.deliveryMethod.exists{
               deliveryMethod => deliveryMethod.isPost
             }
-
             val isPostalOrProxyVote = validApplication.postalOrProxyVote.exists { postalVote =>
               (postalVote.typeVote == WaysToVoteType.ByPost)
             }
-
             isPostalVoteOptionSelected && isEmailOrPost && isPostalOrProxyVote
           }
 

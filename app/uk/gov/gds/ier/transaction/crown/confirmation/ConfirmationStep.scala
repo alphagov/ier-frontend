@@ -72,11 +72,6 @@ class ConfirmationStep @Inject() (
 
           logSession()
 
-          val isTemplateCurrent = validApplication.postalOrProxyVote.exists { postalVote =>
-            val isPostalOptionNoInPerson = (postalVote.typeVote == WaysToVoteType.InPerson)
-            isPostalOptionNoInPerson
-          }
-
           val isTemplate1 = validApplication.postalOrProxyVote.exists { postalVote =>
             val isPostalVoteOptionSelected = postalVote.postalVoteOption.exists(_ == true)
 
@@ -131,6 +126,10 @@ class ConfirmationStep @Inject() (
 
             isEmailOrPost && isPostalOrProxyVote
           }
+
+          val isTemplateCurrent = validApplication.postalOrProxyVote.exists { postalVote =>
+            postalVote.deliveryMethod.equals(None)
+          } || validApplication.postalOrProxyVote.equals(None)
 
           val isEnglish = Language.emailLang.equals("en")
 
