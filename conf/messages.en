@@ -481,7 +481,6 @@ complete_sentApplicationTo_p1_3=attached. You'll need to
 complete_sentApplicationTo_p1_4=sign and return it
 complete_sentApplicationTo_p1_5=to
 complete_sentApplicationTo_p1_6=proxy vote application form
-complete_sentApplicationTo_p2=We've sent you an email with a proxy vote application form attached. You'll need to sign and return it to
 complete_questionsContact_p1=Contact them if you have any questions about your application.
 complete_ifYouAreNotAlreadyRegistered1_p=If you're not already registered at your second address, you can
 complete_ifYouAreNotAlreadyRegistered2_p=make another application
@@ -491,7 +490,7 @@ complete_takeOurSurvey_a=What did you think of this service?
 complete_takeOurSurvey_p= (takes 30 seconds)
 complete_ackEmail=We have sent you an acknowledgement email.
 complete_youngScot=If your application is successful, they will send you a confirmation letter and when you turn 16 you will be eligible to vote in Scottish Parliament elections after 4 April 2016 and local government elections after 4 May 2016, and any other elections which use the Scottish local government franchise.
-
+complete_sentApplicationTo_p_1=We've sent your application to
 complete_deadline=The deadline for registering to vote in the elections on 7 May 2015 has passed.
 complete_deadline_2=However, your application can still be processed for other future elections and we've sent your application to
 

@@ -102,7 +102,7 @@ class ScotlandServiceTests extends MockingTestSuite with WithMockConfig {
         dob = Some(DOB(
           LocalDate.now.minusYears(16).getYear,
           LocalDate.now.getMonthOfYear,
-          LocalDate.now.plusDays(1).getDayOfYear)
+          LocalDate.now.minusDays(1).getDayOfYear)
         ),
         noDob = None
       ))
