@@ -36,7 +36,14 @@ class CompleteTemplateTest
         showBirthdayBunting = false,
         surveyLink = "http://my/survey/",
         gssCode = None,
-        showYoungScot = false
+        showTemplateCurrent = true,
+        showYoungScot = false,
+        showTemplate1 = false,
+        showTemplate2 = false,
+        showTemplate3 = false,
+        showTemplate4 = false,
+        showEnglish = true,
+        showWelsh = false
       )
 
       val html = mustache.render()

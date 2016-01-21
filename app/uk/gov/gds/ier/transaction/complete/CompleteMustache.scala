@@ -30,7 +30,14 @@ trait CompleteMustache {
         showBirthdayBunting: Boolean,
         surveyLink: String,
         gssCode: Option[String],
-        showYoungScot: Boolean
+        showYoungScot: Boolean,
+        showTemplateCurrent: Boolean,
+        showTemplate1: Boolean,
+        showTemplate2: Boolean,
+        showTemplate3: Boolean,
+        showTemplate4: Boolean,
+        showEnglish: Boolean,
+        showWelsh: Boolean
     ) (
         implicit override val lang: Lang
     ) extends InheritedMustachio("complete") {
