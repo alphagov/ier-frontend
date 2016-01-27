@@ -11,7 +11,8 @@ trait WaysToVoteMustache extends StepTemplate[InprogressOverseas] {
     question: Question,
     byPost: Field,
     byProxy: Field,
-    inPerson: Field
+    inPerson: Field,
+    authority: String
   ) extends MustacheData
 
   val mustache = MustacheTemplate("overseas/waysToVote") { (form, post) =>
@@ -32,7 +33,8 @@ trait WaysToVoteMustache extends StepTemplate[InprogressOverseas] {
         value = "by-proxy"),
       inPerson = RadioField(
         key = keys.waysToVote.wayType,
-        value = "in-person")
+        value = "in-person"),
+      authority = "your local authority"
     )
   }
 }

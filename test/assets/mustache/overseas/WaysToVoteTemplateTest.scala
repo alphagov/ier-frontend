@@ -35,7 +35,8 @@ class WaysToVoteTemplateTest
           classes = "inPersonClass",
           value = "inPersonValue",
           attributes = "checked=\"checked3\""
-        )
+        ),
+        authority = "your local authority"
       )
 
       val html = Mustache.render("overseas/waysToVote", data)
