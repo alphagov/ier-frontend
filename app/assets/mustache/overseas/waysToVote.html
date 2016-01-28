@@ -10,21 +10,6 @@
               data-validation-children="byPost byProxy inPerson">
 
         <p>
-        <label for="{{byPost.id}}" class="selectable binary"  >
-            <input type="radio"
-                   id="{{byPost.id}}"
-                   name="{{byPost.name}}"
-                   value="{{byPost.value}}"
-                   class="radio validate {{byPost.classes}}"
-                   data-validation-name="byPost"
-                   data-validation-type="field"
-                   data-validation-rules="nonEmpty"
-                   {{{byPost.attributes}}}>
-            By post
-        </label>
-        </p>
-
-        <p>
         <label for="{{byProxy.id}}" class="selectable binary"  >
             <input type="radio"
                    id="{{byProxy.id}}"
@@ -35,8 +20,23 @@
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"
                    {{{byProxy.attributes}}}>
-            By proxy (someone else voting for you)
+            By proxy (someone you trust voting for you)
         </label>
+        </p>
+
+        <p>
+            <label for="{{byPost.id}}" class="selectable binary"  >
+                <input type="radio"
+                       id="{{byPost.id}}"
+                       name="{{byPost.name}}"
+                       value="{{byPost.value}}"
+                       class="radio validate {{byPost.classes}}"
+                       data-validation-name="byPost"
+                       data-validation-type="field"
+                       data-validation-rules="nonEmpty"
+                {{{byPost.attributes}}}>
+                By post
+            </label>
         </p>
 
         <p>or</p>
