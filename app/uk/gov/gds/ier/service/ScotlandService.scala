@@ -72,7 +72,7 @@ class ScotlandService @Inject()(
    */
   def resetNoDOBRange(currentState: InprogressOrdinary): Boolean = {
     if(currentState.dob.isDefined) {
-      if(!currentState.dob.get.dob.isDefined) {
+      if(currentState.dob.get.noDob.isDefined) {
         val dateOfBirthRangeOption = currentState.dob.get.noDob.get.range.get
         if(isScot(currentState)) {
           //Wipe DOB object if any non-SCO noDOB age range is currently stored
