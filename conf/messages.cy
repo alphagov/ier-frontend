@@ -78,7 +78,7 @@ ordinary_dob_help_cannotProvideDOB_reasonQuestion=Pam nad oes modd i chi roi eic
 ordinary_dob_help_cannotProvideDOB_ageGroupQuestion=Beth yw eich grŵp oedran?
 ordinary_dob_help_cannotProvideDOB_ageGroup_under18_option=<span class="visuallyhidden">Rwy’n</span>Iau na 18 oed
 ordinary_dob_help_cannotProvideDOB_ageGroup_between18and75_option=<span class="visuallyhidden">Rwy’n</span>Rhwng 18 a 75 oed
-ordinary_dob_help_cannotProvideDOB_ageGroup_Over75_option=<span class="visuallyhidden">Rwy’n</span>Hŷn na 75 oed
+ordinary_dob_help_cannotProvideDOB_ageGroup_Over75_option=<span class="visuallyhidden">Rwy’n</span>76 oed neu hŷn
 ordinary_dob_help_cannotProvideDOB_ageGroup_14to15_option=<span class="visuallyhidden">Rwy’n</span>Rhwng 14 a 15 oed
 ordinary_dob_help_cannotProvideDOB_ageGroup_16to17_option=<span class="visuallyhidden">Rwy’n</span>Rhwng 16 a 17 oed
 ordinary_dob_help_cannotProvideDOB_ageGroup_over18_option=<span class="visuallyhidden">Rwy’n</span>18 oed neu'n hŷn
