@@ -419,7 +419,7 @@ ordinary_confirmation_dob_noDOB16to17=I am between 16 and 17 years old
 ordinary_confirmation_dob_noDOBUnder18=Rwy’n iau na 18 oed
 ordinary_confirmation_dob_noDOBOver18=I am roughly over 18
 ordinary_confirmation_dob_noDOB18to75=Rwyf rhwng 18 a 75 oed
-ordinary_confirmation_dob_noDOBOver75=Rwy’n hŷn na 75 oed
+ordinary_confirmation_dob_noDOBOver75=Rwy’n 76 oed neu hŷn
 ordinary_confirmation_dob_noDOBDontKnow=Nid wyf yn gwybod fy oed
 
 ordinary_confirmation_nationality_title=Cenedligrwydd

@@ -401,7 +401,7 @@ ordinary_confirmation_dob_noDOB16to17=I am between 16 and 17 years old
 ordinary_confirmation_dob_noDOBUnder18=I am roughly under 18
 ordinary_confirmation_dob_noDOBOver18=I am roughly over 18
 ordinary_confirmation_dob_noDOB18to75=I am over 18 years old
-ordinary_confirmation_dob_noDOBOver75=I am over 75 years old
+ordinary_confirmation_dob_noDOBOver75=I am 76 or over
 ordinary_confirmation_dob_noDOBDontKnow=I don’t know my age
 
 ordinary_confirmation_nationality_title=Nationality
