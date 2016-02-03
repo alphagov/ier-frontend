@@ -1,7 +1,21 @@
-<form action="{{question.postUrl}}" method="POST"
+<form onsubmit= "TrackEvent()"
+      action="{{question.postUrl}}" method="POST"
       data-validation-name="nationality" data-validation-type="association"
       data-validation-rules="fieldsetOrExcuse" class="validate"
       data-validation-members="country nationalityExcuse">
+
+    <script>
+    function TrackEvent(){
+    var emailField = document.getElementById("{{emailField.id}}").value;
+    if (emailField !== '')
+        {ga('send', {
+          hitType: 'event',
+          eventCategory: 'Email Address Collection',
+          eventAction: 'Nationality Email',
+          eventLabel: 'Nationality - Email Address Provided'
+        });}
+    }
+    </script>
 
     {{> shared/questionHeader }}
 

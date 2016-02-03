@@ -1,7 +1,21 @@
-<form action="{{question.postUrl}}" method="POST" data-validation-name="nino"
+<form onsubmit= "TrackEvent()"
+      action="{{question.postUrl}}" method="POST" data-validation-name="nino"
       data-validation-type="association"
       data-validation-rules="fieldsetOrExcuse"
       class="validate" data-validation-members="ninoCode ninoExcuse">
+
+    <script>
+    function TrackEvent(){
+    var emailField = document.getElementById("{{emailField.id}}").value;
+    if (emailField !== '')
+        {ga('send', {
+          hitType: 'event',
+          eventCategory: 'Email Address Collection',
+          eventAction: 'Nationality Email',
+          eventLabel: 'NINO - Email Address Provided'
+        });}
+    }
+    </script>
 
     {{> shared/questionHeader }}
 

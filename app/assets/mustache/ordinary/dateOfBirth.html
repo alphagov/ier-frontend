@@ -1,9 +1,23 @@
-<form action="{{question.postUrl}}" method="POST"
+<form onsubmit= "TrackEvent()"
+      action="{{question.postUrl}}" method="POST"
       data-validation-name="dateOfBirth"
       data-validation-type="association"
       data-validation-rules="dateOfBirthOrExcuse" 
       data-validation-members="dateOfBirthDate dateOfBirthExcuse"
       class="validate">
+
+    <script>
+    function TrackEvent(){
+    var emailField = document.getElementById("{{emailField.id}}").value;
+    if (emailField !== '')
+        {ga('send', {
+          hitType: 'event',
+          eventCategory: 'Email Address Collection',
+          eventAction: 'Nationality Email',
+          eventLabel: 'DOB - Email Address Provided'
+        });}
+    }
+    </script>
 
     {{> shared/questionHeader }}
 
