@@ -1,5 +1,25 @@
-<form action="{{question.postUrl}}" method="POST" data-validation-name="nino" data-validation-type="association"
+<form onsubmit= "TrackEvent()"
+      action="{{question.postUrl}}" method="POST" data-validation-name="nino" data-validation-type="association"
       data-validation-rules="fieldsetOrExcuse" class="validate" data-validation-members="ninoCode ninoExcuse">
+
+    <script>
+    var prevValue;
+
+    window.onload = function CurrentEmail(){
+    prevValue = document.getElementById("{{emailField.id}}").value;
+    }
+
+    function TrackEvent(){
+    var emailField = document.getElementById("{{emailField.id}}").value;
+    if (emailField !== prevValue)
+        {ga('send', {
+          hitType: 'event',
+          eventCategory: 'Email Address Collection',
+          eventAction: 'NINO Email',
+          eventLabel: 'NINO - Email Address Provided'
+        });}
+    }
+    </script>
 
     {{> shared/questionHeader }}
 

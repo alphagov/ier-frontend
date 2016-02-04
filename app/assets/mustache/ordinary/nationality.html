@@ -5,9 +5,15 @@
       data-validation-members="country nationalityExcuse">
 
     <script>
+    var prevValue;
+
+    window.onload = function CurrentEmail(){
+    prevValue = document.getElementById("{{emailField.id}}").value;
+    }
+
     function TrackEvent(){
     var emailField = document.getElementById("{{emailField.id}}").value;
-    if (emailField !== '')
+    if (emailField !== prevValue)
         {ga('send', {
           hitType: 'event',
           eventCategory: 'Email Address Collection',
