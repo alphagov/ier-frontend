@@ -5,15 +5,15 @@
       data-validation-members="country nationalityExcuse">
 
     <script>
-    var prevValue;
+    var onLoadValue;
 
     window.onload = function CurrentEmail(){
-    prevValue = document.getElementById("{{emailField.id}}").value;
+    onLoadValue = document.getElementById("{{emailField.id}}").value;onSubmitValue
     }
 
     function TrackEvent(){
-    var emailField = document.getElementById("{{emailField.id}}").value;
-    if (emailField !== prevValue)
+    var onSubmitValue = document.getElementById("{{emailField.id}}").value;
+    if (onSubmitValue !== onLoadValue)
         {ga('send', {
           hitType: 'event',
           eventCategory: 'Email Address Collection',
