@@ -78,7 +78,7 @@ ordinary_dob_help_cannotProvideDOB_reasonQuestion=Pam nad oes modd i chi roi eic
 ordinary_dob_help_cannotProvideDOB_ageGroupQuestion=Beth yw eich grŵp oedran?
 ordinary_dob_help_cannotProvideDOB_ageGroup_under18_option=<span class="visuallyhidden">Rwy’n</span>Iau na 18 oed
 ordinary_dob_help_cannotProvideDOB_ageGroup_between18and75_option=<span class="visuallyhidden">Rwy’n</span>Rhwng 18 a 75 oed
-ordinary_dob_help_cannotProvideDOB_ageGroup_Over75_option=<span class="visuallyhidden">Rwy’n</span>Hŷn na 75 oed
+ordinary_dob_help_cannotProvideDOB_ageGroup_Over75_option=<span class="visuallyhidden">Rwy’n</span>76 oed neu hŷn
 ordinary_dob_help_cannotProvideDOB_ageGroup_14to15_option=<span class="visuallyhidden">Rwy’n</span>Rhwng 14 a 15 oed
 ordinary_dob_help_cannotProvideDOB_ageGroup_16to17_option=<span class="visuallyhidden">Rwy’n</span>Rhwng 16 a 17 oed
 ordinary_dob_help_cannotProvideDOB_ageGroup_over18_option=<span class="visuallyhidden">Rwy’n</span>18 oed neu'n hŷn
@@ -419,7 +419,7 @@ ordinary_confirmation_dob_noDOB16to17=I am between 16 and 17 years old
 ordinary_confirmation_dob_noDOBUnder18=Rwy’n iau na 18 oed
 ordinary_confirmation_dob_noDOBOver18=I am roughly over 18
 ordinary_confirmation_dob_noDOB18to75=Rwyf rhwng 18 a 75 oed
-ordinary_confirmation_dob_noDOBOver75=Rwy’n hŷn na 75 oed
+ordinary_confirmation_dob_noDOBOver75=Rwy’n 76 oed neu hŷn
 ordinary_confirmation_dob_noDOBDontKnow=Nid wyf yn gwybod fy oed
 
 ordinary_confirmation_nationality_title=Cenedligrwydd

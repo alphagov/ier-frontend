@@ -74,7 +74,7 @@ ordinary_dob_help_cannotProvideDOB_reasonQuestion=Why can’t you provide your d
 ordinary_dob_help_cannotProvideDOB_ageGroupQuestion=What age group do you belong to?
 ordinary_dob_help_cannotProvideDOB_ageGroup_under18_option=<span class="visuallyhidden">I am</span>Under 18 years old
 ordinary_dob_help_cannotProvideDOB_ageGroup_between18and75_option=<span class="visuallyhidden">I am</span>Between 18 and 75 years old
-ordinary_dob_help_cannotProvideDOB_ageGroup_Over75_option=<span class="visuallyhidden">I am</span>Over 75 years old
+ordinary_dob_help_cannotProvideDOB_ageGroup_Over75_option=<span class="visuallyhidden">I am</span>76 or over
 ordinary_dob_help_cannotProvideDOB_ageGroup_14to15_option=<span class="visuallyhidden">I am</span>Between 14 and 15 years old
 ordinary_dob_help_cannotProvideDOB_ageGroup_16to17_option=<span class="visuallyhidden">I am</span>Between 16 and 17 years old
 ordinary_dob_help_cannotProvideDOB_ageGroup_over18_option=<span class="visuallyhidden">I am</span>18 years old or over
@@ -401,7 +401,7 @@ ordinary_confirmation_dob_noDOB16to17=I am between 16 and 17 years old
 ordinary_confirmation_dob_noDOBUnder18=I am roughly under 18
 ordinary_confirmation_dob_noDOBOver18=I am roughly over 18
 ordinary_confirmation_dob_noDOB18to75=I am over 18 years old
-ordinary_confirmation_dob_noDOBOver75=I am over 75 years old
+ordinary_confirmation_dob_noDOBOver75=I am 76 or over
 ordinary_confirmation_dob_noDOBDontKnow=I don’t know my age
 
 ordinary_confirmation_nationality_title=Nationality

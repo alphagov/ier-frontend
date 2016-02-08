@@ -1,9 +1,29 @@
-<form action="{{question.postUrl}}" method="POST"
+<form onsubmit= "TrackEvent()"
+      action="{{question.postUrl}}" method="POST"
       data-validation-name="dateOfBirth"
       data-validation-type="association"
       data-validation-rules="dateOfBirthOrExcuse" 
       data-validation-members="dateOfBirthDate dateOfBirthExcuse"
       class="validate">
+
+    <script>
+    var onLoadValue;
+
+    window.onload = function CurrentEmail(){
+    onLoadValue = document.getElementById("{{emailField.id}}").value;
+    }
+
+    function TrackEvent(){
+    var onSubmitValue = document.getElementById("{{emailField.id}}").value;
+    if (onSubmitValue !== onLoadValue)
+        {ga('send', {
+          hitType: 'event',
+          eventCategory: 'Email Address Collection',
+          eventAction: 'DOB Email',
+          eventLabel: 'DOB - Email Address Provided'
+        });}
+    }
+    </script>
 
     {{> shared/questionHeader }}
 
@@ -119,7 +139,7 @@
                            data-validation-type="field"
                            data-validation-rules="nonEmpty"
                            {{{rangeOver75.attributes}}}>
-                    <span class="visuallyhidden">I am</span>Over 75 years old
+                    <span class="visuallyhidden">I am</span>76 or over
                 </label>
                 <label for="{{rangeDontKnow.id}}" class="selectable"  >
                     <input type="radio" id="{{rangeDontKnow.id}}" name="{{rangeDontKnow.name}}"
