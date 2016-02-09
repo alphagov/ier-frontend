@@ -21,7 +21,11 @@ trait ContactMustache extends StepTemplate[InprogressOverseas] {
   val mustache = MustacheTemplate("overseas/contact") { (form, post) =>
 
     implicit val progressForm = form
-    val emailAddress = form(keys.contact.email.detail).value
+    var emailAddress = form(keys.contact.email.detail).value
+
+    if (!emailAddress.isDefined){
+      emailAddress = form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value
+    }
 
     ContactModel(
       question = Question(
@@ -49,7 +53,9 @@ trait ContactMustache extends StepTemplate[InprogressOverseas] {
         key = keys.contact.phone.detail
       ),
       showEmailFieldFlag = Text (
-        value = form(keys.contact.email.detail).value.map(email => "selected").getOrElse("")
+        value = if (!form(keys.contact.email.detail).value.isEmpty) "selected" else if
+        (!form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value.isEmpty) "selected" else if
+        (!form(keys.postalVote.deliveryMethod.emailAddress).value.isEmpty) "selected" else ""
       )
     )
   }

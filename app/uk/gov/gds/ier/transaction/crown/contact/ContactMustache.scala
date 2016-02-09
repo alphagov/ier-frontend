@@ -52,6 +52,7 @@ trait ContactMustache extends StepTemplate[InprogressCrown] {
       ),
       showEmailFieldFlag = Text (
         value = if (!form(keys.contact.email.detail).value.isEmpty) "selected" else if
+        (!form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value.isEmpty) "selected" else if
         (!form(keys.postalVote.deliveryMethod.emailAddress).value.isEmpty) "selected" else ""
       )
     )
