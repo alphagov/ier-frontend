@@ -24,6 +24,7 @@ with ConfirmationConstraints {
       keys.otherAddress.key -> optional(OtherAddress.otherAddressMapping),
       keys.openRegister.key -> optional(optInMapping),
       keys.postalVote.key -> optional(PostalVote.mapping),
+      keys.soleOccupancy.key -> optional(SoleOccupancyOption.mapping),
       keys.contact.key -> optional(Contact.mapping),
       keys.possibleAddresses.key -> optional(possibleAddressesMapping),
       keys.country.key -> optional(countryMapping),
