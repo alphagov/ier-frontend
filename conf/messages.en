@@ -345,6 +345,13 @@ ordinary_postalVote_postalVote_option=Yes, send me a postal vote application for
 ordinary_postalVote_postalVote_heading=If you want a postal vote application form
 ordinary_postalVote_postalVote_deliveryOptionsQuestion=You’ll need to sign and return the postal vote application \
 form. How should we send you the form?
+ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline1=To vote by post you must submit a postal vote application form to your local Electoral Registration Office before
+ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline2=5pm on Tuesday 19 April
+ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline3=for the elections on 5 May and before
+ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline4=5pm on Wednesday 8 June
+ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline5=for the EU referendum on the 23 June.
+ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline6=How should we send you the form?
+
 ordinary_postalVote_postalVote_deliveryEmail_option=Email it to me
 ordinary_postalVote_postalVote_emailAddress_label=Email address
 ordinary_postalVote_postalVote_deliveryPost_option=Post it to me

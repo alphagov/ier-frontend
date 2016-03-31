@@ -367,6 +367,13 @@ ordinary_postalVote_postalVote_deliveryEmail_option=Drwy e-bost
 ordinary_postalVote_postalVote_emailAddress_label=Cyfeiriad e-bost
 ordinary_postalVote_postalVote_deliveryPost_option=Drwy’r post
 
+ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline1=I bleidleisio drwy’r post, mae’n rhaid i chi gyflwyno ffurflen gais i bleidleisio drwy’r post i’ch Swyddfa Cofrestru Etholiadol lleol cyn
+ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline2=5pm ar ddydd Mawrth 19 Ebrill
+ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline3=ar gyfer yr etholiadau ar 5 Mai, a chyn
+ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline4=5pm ar ddydd Mercher 8 Mehefin
+ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline5=ar gyfer y refferendwm ar yr U.E. ar 23 Mehefin.
+ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline6=Sut y dylem anfon y ffurflen atoch?
+
 ordinary_postalVote_help_link=Beth yw pleidlais drwy’r post?
 ordinary_postalVote_help_content_1=Byddwn yn anfon eich papur pleidleisio i’r cyfeiriad rydych wedi’i ddewis. Yna, bydd angen i \
 chi ei lenwi a’i ddychwelyd drwy’r post.
