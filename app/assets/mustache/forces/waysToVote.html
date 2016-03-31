@@ -21,6 +21,11 @@
                    {{{byPost.attributes}}}>
             By post
         </label>
+        <div id="{{byPost.id}}_help"
+             class="optional-section"
+             data-condition="{{byPost.id}}">
+            <p>To vote by post you must submit a postal vote application form to your local Electoral Registration Office before <b>5pm on Tuesday 19 April </b> for the elections on 5 May and before <b>5pm on Wednesday 8 June </b> for the EU Referendum on the 23 June</p>
+        </div>
         <label for="{{byProxy.id}}" class="selectable"  >
             <input type="radio"
                    id="{{byProxy.id}}"
@@ -33,7 +38,11 @@
                    {{{byProxy.attributes}}}>
             By proxy (someone else voting for you)
         </label>
-
+        <div id="{{byProxy.id}}_help"
+             class="optional-section"
+             data-condition="{{byProxy.id}}">
+            <p>To vote by proxy you must submit an application form to your local Electoral Registration Office before <b>5pm on Tuesday 26 April</b> for the elections on 5 May and before <b>5pm on Wednesday 15 June</b> for the EU Referendum on the 23 June</p>
+        </div>
         <p>or</p>
 
         <label for="{{inPerson.id}}" class="selectable"  >
