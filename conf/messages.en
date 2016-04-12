@@ -109,7 +109,7 @@ ordinary_name_error_firstNameTooLong=First name can be no longer than 35 charact
 ordinary_name_error_middleNamesTooLong=Middle names can be no longer than 100 characters
 ordinary_name_error_lastNameTooLong=Last name can be no longer than 35 characters
 
-ordinary_previousName_hasPreviousName_label=Have you ever changed your name?
+ordinary_previousName_hasPreviousName_label=Have you ever changed your name (for example: marriage, divorce)?
 ordinary_previousName_hasPreviousName_no_label=No, I haven’t changed my name
 ordinary_previousName_hasPreviousName_yes_label=Yes, I changed my name
 ordinary_previousName_hasPreviousName_other_label=Prefer not to say
