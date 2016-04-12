@@ -114,7 +114,7 @@ ordinary_previousName_hasPreviousName_no_label=No, I haven’t changed my name
 ordinary_previousName_hasPreviousName_yes_label=Yes, I changed my name
 ordinary_previousName_hasPreviousName_other_label=Prefer not to say
 ordinary_previousName_header=What was your previous name?
-ordinary_previousName_disclaimer=You don't have to tell us your previous name, but you might need to send us copies of identity documents if you don’t.<br/>If you changed your name more than once, enter your most recent previous name.
+ordinary_previousName_disclaimer=You don't have to tell us your previous name but it will help us identify you, and you might need to send us copies of identity documents if you don't.<br/>If you changed your name more than once, enter your most recent previous name.
 ordinary_previousNameOther_disclaimer=As you changed your name more than a year ago you don't have to tell us your previous name, but you might need to send us copies of identity documents if you don't.
 ordinary_previousName_firstName_label=<span class="visuallyhidden">Previous</span> First name
 ordinary_previousName_middleNames_label=<span class="visuallyhidden">Previous</span> Middle names
