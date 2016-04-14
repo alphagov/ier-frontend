@@ -31,6 +31,11 @@ class="bunting"
 
     {{#showTemplateCurrent}}
     <h2>{{messages.complete_whatHappensNext_h2}}</h2>
+
+    {{#showDeadlineText}}
+    <p><strong>{{messages.complete_deadline}}</strong></p>
+    {{/showDeadlineText}}
+
     <p>{{messages.complete_sentApplicationTo_p}}<strong>{{authName}} {{messages.complete_electoralRegistrationOffice}}</strong>.</p>
     <p>{{messages.complete_contactYouTo_p2}}</p>
     <p>

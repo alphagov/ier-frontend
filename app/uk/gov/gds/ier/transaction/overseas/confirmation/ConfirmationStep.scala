@@ -178,6 +178,7 @@ class ConfirmationStep @Inject() (
             backToStartUrl = config.ordinaryStartUrl,
             showEmailConfirmation = (isPostalOrProxyVoteEmailPresent | isContactEmailPresent),
             showBirthdayBunting =  isBirthdayToday,
+            showDeadlineText = false,
             gssCode = gssCode,
             showTemplateCurrent = isTemplateCurrent,
             showTemplate1 = isTemplate1,

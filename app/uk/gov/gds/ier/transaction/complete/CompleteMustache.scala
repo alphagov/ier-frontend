@@ -28,6 +28,7 @@ trait CompleteMustache {
         backToStartUrl: String,
         showEmailConfirmation: Boolean,
         showBirthdayBunting: Boolean,
+        showDeadlineText: Boolean,
         surveyLink: String,
         gssCode: Option[String],
         showYoungScot: Boolean,
