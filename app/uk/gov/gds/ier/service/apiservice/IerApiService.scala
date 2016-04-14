@@ -313,9 +313,11 @@ class ConcreteIerApiService @Inject() (
   private def generateReferenceNumber[T <: InprogressApplication[T]](application:T) = {
     val json = serialiser.toJson(application)
     val currentTime = currentTimeMillis()
-    val refNumber:String = java.lang.Long.toString(currentTime, 36).toUpperCase
-    refNumber.mkString
+    val badWords = List("AAA", "BBB")
+    val refNumber: String = java.lang.Long.toString(currentTime, 36).toUpperCase
+    val profanities = badWords.exists(refNumber.contains)
+    while (profanities == false){
+      refNumber.mkString
+    }
   }
 }
-
-
