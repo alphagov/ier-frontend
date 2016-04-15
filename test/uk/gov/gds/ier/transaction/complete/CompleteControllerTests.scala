@@ -28,7 +28,8 @@ class CompleteControllerTests extends ControllerTestSuite {
             hasOtherAddress = true,
             backToStartUrl = "/register-to-vote/start",
             showEmailConfirmation = true,
-            showBirthdayBunting = false
+            showBirthdayBunting = false,
+            showDeadlineText = false
           ))
           .withIerSession()
       )
@@ -63,7 +64,8 @@ class CompleteControllerTests extends ControllerTestSuite {
             hasOtherAddress = false,
             backToStartUrl = "/register-to-vote/start",
             showEmailConfirmation = true,
-            showBirthdayBunting = false
+            showBirthdayBunting = false,
+            showDeadlineText = false
           ))
           .withIerSession()
       )
@@ -97,7 +99,8 @@ class CompleteControllerTests extends ControllerTestSuite {
           hasOtherAddress = true,
           backToStartUrl = "/register-to-vote/start",
           showEmailConfirmation = true,
-          showBirthdayBunting = false
+          showBirthdayBunting = false,
+          showDeadlineText = false
         ))
         .withIerSession()
     )
@@ -129,7 +132,8 @@ class CompleteControllerTests extends ControllerTestSuite {
           hasOtherAddress = true,
           backToStartUrl = "/register-to-vote/start",
           showEmailConfirmation = false,
-          showBirthdayBunting = false
+          showBirthdayBunting = false,
+          showDeadlineText = false
         ))
         .withIerSession()
     )
@@ -162,7 +166,8 @@ class CompleteControllerTests extends ControllerTestSuite {
             hasOtherAddress = true,
             backToStartUrl = "/register-to-vote/start",
             showEmailConfirmation = false,
-            showBirthdayBunting = true
+            showBirthdayBunting = true,
+            showDeadlineText = false
           ))
           .withIerSession()
       )

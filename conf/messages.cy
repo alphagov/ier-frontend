@@ -501,6 +501,7 @@ complete_applicationComplete_3=ei brosesu.
 complete_yourRefNumberIs=Eich cyfeirnod yw
 complete_emailConfirmation=Rydym wedi anfon e-bost atoch i gydnabod eich cais.
 complete_whatHappensNext_h2=Beth fydd yn digwydd nesaf
+complete_deadline=Mae'r dyddiad cau ar gyfer cofrestru i bleidleisio yn yr etholiadau ar 5 Mai wedi bod. Fodd bynnag, gallwn brosesu eich cais o hyd ar gyfer refferendwm yr Undeb Ewropeaidd ar 23 Mehefin.
 complete_whatToDoNext_h2=Beth i'w wneud nesaf
 complete_sentApplicationTo_p1=Rydyn ni wedi anfon neges e-bost atoch chi sy'n cynnwys
 complete_sentApplicationTo_p1_2=ffurflen gais am bleidlais bost
@@ -540,9 +541,6 @@ complete_social_heading=Dweud wrth eraill am y gwasanaeth hwn
 complete_social_twitter_link_text=Rhannu ar Twitter
 complete_social_twitter_url_text=I%20just%20registered%20online%20to%20vote.%20If%20you%20haven't%20already%2C%20you%20should%20too!%20%23YourVoteMatters
 complete_social_facebook_link_text=Rhannu ar Facebook
-
-complete_deadline=Mae'r dyddiad cau ar gyfer cofrestru i bleidleisio yn yr etholiadau ar 7 Mai 2015 wedi mynd heibio erbyn hyn.
-complete_deadline_2=Fodd bynnag, gellir prosesu eich cais ar gyfer etholiadau eraill yn y dyfodol ac rydym wedi anfon eich cais i Swyddfa
 
 
 

@@ -170,6 +170,7 @@ class ConfirmationStep @Inject ()(
             backToStartUrl = config.ordinaryStartUrl,
             showEmailConfirmation = (isPostalVoteEmailPresent || isContactEmailPresent),
             showBirthdayBunting = isBirthdayToday,
+            showDeadlineText = true,
             gssCode = gssCode,
             showYoungScot = isYoungScot,
             showTemplate1 = isTemplate1,
