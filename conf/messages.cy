@@ -118,7 +118,7 @@ ordinary_name_error_firstNameTooLong=Gall enw cyntaf fod yn fwy na 35 nod
 ordinary_name_error_middleNamesTooLong=Gall enwau canol fod yn fwy na 100 nod
 ordinary_name_error_lastNameTooLong=Gall enw olaf fod yn fwy na 35 nod
 
-ordinary_previousName_hasPreviousName_label=Ydych chi erioed wedi newid eich enw?
+ordinary_previousName_hasPreviousName_label=Ydych chi erioed wedi newid eich enw (er enghraifft: priodi, ysgariad)?
 ordinary_previousName_hasPreviousName_no_label=Na, nid wyf wedi newid fy enw
 ordinary_previousName_hasPreviousName_yes_label=Do, rwyf wedi newid fy enw
 ordinary_previousName_hasPreviousName_other_label=Mae’n well gen i beidio dweud
