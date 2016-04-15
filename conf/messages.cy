@@ -118,12 +118,12 @@ ordinary_name_error_firstNameTooLong=Gall enw cyntaf fod yn fwy na 35 nod
 ordinary_name_error_middleNamesTooLong=Gall enwau canol fod yn fwy na 100 nod
 ordinary_name_error_lastNameTooLong=Gall enw olaf fod yn fwy na 35 nod
 
-ordinary_previousName_hasPreviousName_label=Ydych chi erioed wedi newid eich enw?
+ordinary_previousName_hasPreviousName_label=Ydych chi erioed wedi newid eich enw (er enghraifft: priodi, ysgariad)?
 ordinary_previousName_hasPreviousName_no_label=Na, nid wyf wedi newid fy enw
 ordinary_previousName_hasPreviousName_yes_label=Do, rwyf wedi newid fy enw
 ordinary_previousName_hasPreviousName_other_label=Mae’n well gen i beidio dweud
 ordinary_previousName_header=Beth oedd eich enw blaenorol?
-ordinary_previousName_disclaimer=Does dim rhaid i chi ddweud wrthym beth oedd eich enw blaenorol, ond efallai y bydd yn rhaid i chi anfon dogfennau sy’n nodi pwy ydych chi atom os na fyddwch yn gwneud hyn.  Os ydych wedi newid eich enw mwy nag unwaith, rhowch eich enw blaenorol diweddaraf.
+ordinary_previousName_disclaimer=Nid oes rhaid i chi ddweud wrthym beth oedd eich enw blaenorol, ond byddai’n ein helpu ni i wybod pwy ydych chi.  Os na fyddwch yn dweud wrthym beth oedd eich enw blaenorol, efallai y bydd rhaid i chi anfon copïau o ddogfennau adnabod atom. Os ydych wedi newid eich enw mwy nag unwaith, rhowch eich enw blaenorol diweddaraf.
 ordinary_previousNameOther_disclaimer=Gan eich bod wedi newid eich enw fwy na blwyddyn yn ôl nid oes rhaid ichi ddweud wrthym beth oedd eich enw blaenorol, ond os nad ydych, efallai y bydd angen ichi anfon copïau o ddogfennau adnabod atom
 ordinary_previousName_firstName_label=Enw Cyntaf<span class="visuallyhidden"> blaenorol</span>
 ordinary_previousName_middleNames_label=Enwau Canol<span class="visuallyhidden"> blaenorol</span>
@@ -501,6 +501,7 @@ complete_applicationComplete_3=ei brosesu.
 complete_yourRefNumberIs=Eich cyfeirnod yw
 complete_emailConfirmation=Rydym wedi anfon e-bost atoch i gydnabod eich cais.
 complete_whatHappensNext_h2=Beth fydd yn digwydd nesaf
+complete_deadline=Mae'r dyddiad cau ar gyfer cofrestru i bleidleisio yn yr etholiadau ar 5 Mai wedi bod. Fodd bynnag, gallwn brosesu eich cais o hyd ar gyfer refferendwm yr Undeb Ewropeaidd ar 23 Mehefin.
 complete_whatToDoNext_h2=Beth i'w wneud nesaf
 complete_sentApplicationTo_p1=Rydyn ni wedi anfon neges e-bost atoch chi sy'n cynnwys
 complete_sentApplicationTo_p1_2=ffurflen gais am bleidlais bost
@@ -540,9 +541,6 @@ complete_social_heading=Dweud wrth eraill am y gwasanaeth hwn
 complete_social_twitter_link_text=Rhannu ar Twitter
 complete_social_twitter_url_text=I%20just%20registered%20online%20to%20vote.%20If%20you%20haven't%20already%2C%20you%20should%20too!%20%23YourVoteMatters
 complete_social_facebook_link_text=Rhannu ar Facebook
-
-complete_deadline=Mae'r dyddiad cau ar gyfer cofrestru i bleidleisio yn yr etholiadau ar 7 Mai 2015 wedi mynd heibio erbyn hyn.
-complete_deadline_2=Fodd bynnag, gellir prosesu eich cais ar gyfer etholiadau eraill yn y dyfodol ac rydym wedi anfon eich cais i Swyddfa
 
 
 
