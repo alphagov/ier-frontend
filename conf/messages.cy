@@ -123,7 +123,7 @@ ordinary_previousName_hasPreviousName_no_label=Na, nid wyf wedi newid fy enw
 ordinary_previousName_hasPreviousName_yes_label=Do, rwyf wedi newid fy enw
 ordinary_previousName_hasPreviousName_other_label=Mae’n well gen i beidio dweud
 ordinary_previousName_header=Beth oedd eich enw blaenorol?
-ordinary_previousName_disclaimer=Nid oes rhaid i chi ddweud wrthym beth oedd eich enw blaenorol, ond byddai’n ein helpu ni i wybod pwy ydych chi.  Os na fyddwch yn dweud wrthym beth oedd eich enw blaenorol, efallai y bydd rhaid i chi anfon copïau o ddogfennau adnabod atom. Os ydych wedi newid eich enw mwy nag unwaith, rhowch eich enw blaenorol diweddaraf.
+ordinary_previousName_disclaimer=Does dim rhaid i chi ddweud wrthym beth oedd eich enw blaenorol, ond efallai y bydd yn rhaid i chi anfon dogfennau sy’n nodi pwy ydych chi atom os na fyddwch yn gwneud hyn. Os ydych wedi newid eich enw mwy nag unwaith, rhowch eich enw blaenorol diweddaraf.
 ordinary_previousNameOther_disclaimer=Gan eich bod wedi newid eich enw fwy na blwyddyn yn ôl nid oes rhaid ichi ddweud wrthym beth oedd eich enw blaenorol, ond os nad ydych, efallai y bydd angen ichi anfon copïau o ddogfennau adnabod atom
 ordinary_previousName_firstName_label=Enw Cyntaf<span class="visuallyhidden"> blaenorol</span>
 ordinary_previousName_middleNames_label=Enwau Canol<span class="visuallyhidden"> blaenorol</span>
