@@ -1,7 +1,5 @@
 package uk.gov.gds.ier.service.apiservice
 
-import java.lang.System._
-
 import com.google.inject.Inject
 import uk.gov.gds.ier.client.{StatsdClient, IerApiClient}
 import uk.gov.gds.ier.model.HasAddressOption._
@@ -312,9 +310,9 @@ class ConcreteIerApiService @Inject() (
 
   private def generateReferenceNumber[T <: InprogressApplication[T]](application:T) = {
     val json = serialiser.toJson(application)
-    val currentTime = currentTimeMillis()
-    val refNumber:String = java.lang.Long.toString(currentTime, 36).toUpperCase
-    refNumber.mkString
+    val encryptedBytes = shaHashProvider.getHash(json, Some(DateTime.now.toString))
+    val encryptedHex = encryptedBytes.map{ byte => "%02X" format byte }
+    encryptedHex.take(3).mkString
   }
 }
 
