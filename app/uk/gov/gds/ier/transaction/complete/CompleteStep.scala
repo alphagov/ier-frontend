@@ -48,7 +48,9 @@ class CompleteStep @Inject() (
             confirmationData.showTemplate3,
             confirmationData.showTemplate4,
             confirmationData.showEnglish,
-            confirmationData.showWelsh
+            confirmationData.showWelsh,
+            confirmationData.splitRef1,
+            confirmationData.splitRef2
           ))
         }
         case None => {
