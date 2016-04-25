@@ -41,6 +41,7 @@
               data-validation-children="deliveryMethodEmail deliveryMethodPost">
               
         <legend>How should we send you the form?</legend>
+        <p>It is now too late to submit your proxy vote application form for the elections on the 5 May 2016. You can still apply for the EU referendum on 23 June.</p>
         
         <label for="{{voteDeliveryMethodEmail.id}}" class="selectable"  >
             <input type="radio" id="{{voteDeliveryMethodEmail.id}}"
@@ -54,7 +55,6 @@
 
         <div class="optional-section"
              data-condition="{{voteDeliveryMethodEmail.id}}">
-
             <label for="{{voteEmailAddress.id}}">Email address</label>
             <div class="validation-wrapper {{voteEmailAddress.classes}}">
                 <input type="email" id="{{voteEmailAddress.id}}"
@@ -68,15 +68,16 @@
             </div>
         </div>
 
-        <label for="{{voteDeliveryMethodPost.id}}" class="selectable"  >
-            <input type="radio" id="{{voteDeliveryMethodPost.id}}"
-                   name="{{voteDeliveryMethodPost.name}}"
-                   value="post" {{{voteDeliveryMethodPost.attributes}}}
-                   class="radio  validate"
-                   data-validation-name="deliveryMethodPost"
-                   data-validation-type="field"
-                   data-validation-rules="nonEmpty" />Post it to me
-        </label>
+
+            <label for="{{voteDeliveryMethodPost.id}}" class="selectable"  >
+                <input type="radio" id="{{voteDeliveryMethodPost.id}}"
+                       name="{{voteDeliveryMethodPost.name}}"
+                       value="post" {{{voteDeliveryMethodPost.attributes}}}
+                       class="radio  validate"
+                       data-validation-name="deliveryMethodPost"
+                       data-validation-type="field"
+                       data-validation-rules="nonEmpty" />Post it to me
+            </label>
     </fieldset>
 
     <input type="hidden" id="{{voteType.id}}"
