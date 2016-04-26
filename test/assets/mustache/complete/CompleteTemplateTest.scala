@@ -44,9 +44,7 @@ class CompleteTemplateTest
         showTemplate3 = false,
         showTemplate4 = false,
         showEnglish = true,
-        showWelsh = false,
-        splitRef1 = "12345",
-        splitRef2 = "67891"
+        showWelsh = false
       )
 
       val html = mustache.render()
@@ -57,8 +55,7 @@ class CompleteTemplateTest
       doc.select("a[href=" + mustache.backToStartUrl + "]").size() should be(1)
       doc.select("a[href=http://my/survey/]").size() should be(1)
 
-      renderedOutput should include(mustache.splitRef1)
-      renderedOutput should include(mustache.splitRef2)
+      renderedOutput should include(mustache.refNumber)
       renderedOutput should include(mustache.authName)
     }
   }

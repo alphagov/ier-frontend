@@ -18,7 +18,5 @@ case class CompleteCookie(
     showTemplate3: Boolean = false,
     showTemplate4: Boolean = false,
     showEnglish: Boolean = false,
-    showWelsh: Boolean = false,
-    splitRef1:String = "",
-    splitRef2:String = ""
+    showWelsh: Boolean = false
 )
