@@ -111,9 +111,6 @@ class ConfirmationStep @Inject ()(
 
           val refNum = ierApi.generateOrdinaryReferenceNumber(validApplication)
           val remoteClientIP = request.headers.get("X-Real-IP")
-          val len:Int = refNum.length();
-          val splitRef1:String = refNum.substring(0, len/2);
-          val splitRef2:String = refNum.substring(len/2,len );
 
           val response = ierApi.submitOrdinaryApplication(
             ipAddress = remoteClientIP,
@@ -180,9 +177,7 @@ class ConfirmationStep @Inject ()(
             showTemplate3 = isTemplate3,
             showTemplateCurrent = isTemplateCurrent,
             showEnglish = isEnglish,
-            showWelsh = isWelsh,
-            splitRef1 = splitRef1,
-            splitRef2 = splitRef2
+            showWelsh = isWelsh
           )
 
           Redirect(CompleteStep.complete())
