@@ -14,6 +14,8 @@ class CompleteControllerTests extends ControllerTestSuite {
         FakeRequest(GET, "/register-to-vote/complete")
           .withCompleteCookie(CompleteCookie(
             refNum = "123457689013",
+            splitRef1 = "12345",
+            splitRef2 = "67891",
             authority = Some(EroAuthorityDetails(
               name = "Hornsey Council",
               urls = List(),
@@ -38,7 +40,8 @@ class CompleteControllerTests extends ControllerTestSuite {
       contentType(result) should be(Some("text/html"))
       val renderedOutput = contentAsString(result)
 
-      renderedOutput should include("123457689013")
+      renderedOutput should include("12345")
+      renderedOutput should include("67891")
       renderedOutput should include("/register-to-vote/start")
       renderedOutput should not include("Happy Birthday")
     }
@@ -50,6 +53,8 @@ class CompleteControllerTests extends ControllerTestSuite {
         FakeRequest(GET, "/register-to-vote/complete")
           .withCompleteCookie(CompleteCookie(
             refNum = "123457689013",
+            splitRef1 = "12345",
+            splitRef2 = "67891",
             authority = Some(EroAuthorityDetails(
               name = "Hornsey Council",
               urls = List(),
@@ -73,8 +78,8 @@ class CompleteControllerTests extends ControllerTestSuite {
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       val renderedOutput = contentAsString(result)
-
-      renderedOutput should include("123457689013")
+      renderedOutput should include("12345")
+      renderedOutput should include("67891")
       renderedOutput should not include("/register-to-vote/start")
       renderedOutput should not include("Happy Birthday")
     }
@@ -85,6 +90,8 @@ class CompleteControllerTests extends ControllerTestSuite {
       FakeRequest(GET, "/register-to-vote/complete")
         .withCompleteCookie(CompleteCookie(
           refNum = "123457689013",
+          splitRef1 = "12345",
+          splitRef2 = "67891",
           authority = Some(EroAuthorityDetails(
             name = "Hornsey Council",
             urls = List(),
@@ -118,6 +125,8 @@ class CompleteControllerTests extends ControllerTestSuite {
       FakeRequest(GET, "/register-to-vote/complete")
         .withCompleteCookie(CompleteCookie(
           refNum = "123457689013",
+          splitRef1 = "12345",
+          splitRef2 = "67891",
           authority = Some(EroAuthorityDetails(
             name = "Hornsey Council",
             urls = List(),
@@ -152,6 +161,8 @@ class CompleteControllerTests extends ControllerTestSuite {
         FakeRequest(GET, "/register-to-vote/complete")
           .withCompleteCookie(CompleteCookie(
             refNum = "123457689013",
+            splitRef1 = "12345",
+            splitRef2 = "67891",
             authority = Some(EroAuthorityDetails(
               name = "Hornsey Council",
               urls = List(),
