@@ -67,7 +67,7 @@
       data-condition="{{postCheckboxYes.id}}" data-validation-name="deliveryMethod"
       data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty" 
       data-validation-children="deliveryMethodEmail deliveryMethodPost">
-      <legend class="paragraph">{{messages.ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline1}} {{messages.ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline2}} <b>{{messages.ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline3}}</b></legend>
+      <legend class="paragraph">{{messages.ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline}}</b></legend>
 
 <label for="{{deliveryByEmail.id}}" class="selectable" style="margin-bottom: 16px;">
     <input type="radio" id="{{deliveryByEmail.id}}" name="{{deliveryByEmail.name}}" value="{{deliveryByEmail.value}}" class="radio  
@@ -75,11 +75,6 @@
       data-validation-rules="nonEmpty" {{deliveryByEmail.attributes}}>
         {{messages.ordinary_postalVote_postalVote_deliveryEmail_option}}
 </label>
-
-      <div class="optional-section" data-condition="{{deliveryByEmail.id}}">
-          <legend class="paragraph">{{messages.ordinary_postalVote_postalVote_deliveryEmail_option_deadline1}}</legend>
-        <label for="{{emailField.id}}">{{messages.ordinary_postalVote_postalVote_emailAddress_label}}</label>
-        <div class="validation-wrapper {{emailField.classes}}">
 
 
 <input type="email" id="{{emailField.id}}" name="{{emailField.name}}" value="{{emailField.value}}"
@@ -94,11 +89,6 @@
       data-validation-rules="nonEmpty" {{deliveryByPost.attributes}}>
         {{messages.ordinary_postalVote_postalVote_deliveryPost_option}}
 </label>
-
-        <div class="optional-section" data-condition="{{deliveryByPost.id}}">
-            <legend class="paragraph">{{messages.ordinary_postalVote_postalVote_deliveryPost_option_deadline1}}</legend>
-        </div>
-
       </fieldset>
       
       <button type="submit" id="alt-continue" class="button next validation-submit" 

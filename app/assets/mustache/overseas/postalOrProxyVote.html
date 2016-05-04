@@ -42,6 +42,8 @@
               data-validation-children="deliveryMethodEmail deliveryMethodPost">
 
         <legend>How should we send you the form?</legend>
+        <p>{{warning.value}}</p>
+
         <label for="{{voteDeliveryMethodEmail.id}}" class="selectable"  >
             <input type="radio" id="{{voteDeliveryMethodEmail.id}}"
                    name="{{voteDeliveryMethodEmail.name}}"

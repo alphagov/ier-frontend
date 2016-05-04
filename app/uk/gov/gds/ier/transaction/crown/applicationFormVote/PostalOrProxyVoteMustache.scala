@@ -14,6 +14,7 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressCrown] {
   case class PostalOrProxyVoteModel(
       question:Question,
       description: Text,
+      warning: Text,
       voteFieldSet: FieldSet,
       voteOptInTrue: Field,
       voteOptInFalse: Field,
@@ -27,6 +28,18 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressCrown] {
     (form, postUrl) =>
 
     implicit val progressForm = form
+
+    val postalOrProxy = wayToVote match {
+      case WaysToVoteType.ByPost => "post"
+      case WaysToVoteType.ByProxy => "proxy"
+      case _ => ""
+    }
+
+    val date = wayToVote match {
+      case WaysToVoteType.ByPost => "Wednesday 8 June"
+      case WaysToVoteType.ByProxy => "Wednesday 15 June"
+      case _ => ""
+    }
 
     val wayToVoteName = wayToVote match {
       case WaysToVoteType.ByPost => "postal"
@@ -47,6 +60,11 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressCrown] {
         value = s"If this is your first time using a $wayToVoteName"
           +" vote, or your details have changed, you need to sign"
           +" and return an application form."
+      ),
+      warning = Text (
+        value = s"To vote by $postalOrProxy"
+          +" in the EU referendum on the 23 June, your postal vote application must reach your local Electoral Registration Office by 5pm on "
+          +s"$date."
       ),
       voteFieldSet = FieldSet(
         classes = if (progressForm(keys.postalOrProxyVote.optIn).hasErrors)

@@ -118,7 +118,7 @@ ordinary_name_error_firstNameTooLong=Gall enw cyntaf fod yn fwy na 35 nod
 ordinary_name_error_middleNamesTooLong=Gall enwau canol fod yn fwy na 100 nod
 ordinary_name_error_lastNameTooLong=Gall enw olaf fod yn fwy na 35 nod
 
-ordinary_previousName_hasPreviousName_label=Ydych chi erioed wedi newid eich enw (er enghraifft: priodi, ysgariad)?
+ordinary_previousName_hasPreviousName_label=Ydych chi erioed wedi newid eich enw? Er enghraifft drwy briodas, gweithred newid enw
 ordinary_previousName_hasPreviousName_no_label=Na, nid wyf wedi newid fy enw
 ordinary_previousName_hasPreviousName_yes_label=Do, rwyf wedi newid fy enw
 ordinary_previousName_hasPreviousName_other_label=Mae’n well gen i beidio dweud
@@ -363,16 +363,10 @@ ordinary_postalVote_postalVote_option=Ydw, anfonwch ffurflen gais pleidlais bost
 ordinary_postalVote_postalVote_heading=Os ydych am gael ffurflen gais am bleidlais bost
 ordinary_postalVote_postalVote_deliveryOptionsQuestion=Bydd angen i chi lofnodi a dychwelyd y ffurflen gais pleidlais bost. Sut ddylen ni \
 anfon y ffurflen atoch?
-ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline1=Mae hi’n rhy hwyr erbyn hyn i gyflwyno cais am bleidlais bost ar gyfer yr etholiadau ar 5 Mai.
-ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline2=I bleidleisio drwy'r post yn refferendwm yr Undeb Ewropeaidd ar 23 Mehefin, mae'n rhaid i chi gyflwyno ffurflen gais cyn
-ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline3=5pm ddydd Mercher 8 Mehefin.
-
+ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline=
 ordinary_postalVote_postalVote_deliveryEmail_option=Drwy e-bost
-ordinary_postalVote_postalVote_deliveryEmail_option_deadline1=Mae hi’n rhy hwyr erbyn hyn i ofyn am eich ffurflen gais pleidlais bost ar gyfer yr etholiadau ar 5 Mai. Fodd bynnag, gallwch wneud cais o hyd am ffurflen ar gyfer refferendwm yr Undeb Ewropeaidd ar 23 Mehefin.
 ordinary_postalVote_postalVote_emailAddress_label=Cyfeiriad e-bost
 ordinary_postalVote_postalVote_deliveryPost_option=Drwy’r post
-ordinary_postalVote_postalVote_deliveryPost_option_deadline1=Mae hi’n rhy hwyr erbyn hyn i ofyn am eich ffurflen gais pleidlais bost ar gyfer yr etholiadau ar 5 Mai. Fodd bynnag, gallwch wneud cais o hyd am ffurflen ar gyfer refferendwm yr Undeb Ewropeaidd ar 23 Mehefin.
-
 
 
 ordinary_postalVote_help_link=Beth yw pleidlais drwy’r post?
