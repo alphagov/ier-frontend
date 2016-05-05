@@ -363,7 +363,7 @@ ordinary_postalVote_postalVote_option=Ydw, anfonwch ffurflen gais pleidlais bost
 ordinary_postalVote_postalVote_heading=Os ydych am gael ffurflen gais am bleidlais bost
 ordinary_postalVote_postalVote_deliveryOptionsQuestion=Bydd angen i chi lofnodi a dychwelyd y ffurflen gais pleidlais bost. Sut ddylen ni \
 anfon y ffurflen atoch?
-ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline=
+ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline=I bleidleisio drwy’r post yn refferendwm yr Undeb Ewropeaidd ar 23 Mehefin, mae’n rhaid i’ch cais am bleidlais drwy’r post gyrraedd eich Swyddfa Cofrestru Etholaeth leol dim hwyrach na 5pm, dydd Mercher 8 Mehefin.
 ordinary_postalVote_postalVote_deliveryEmail_option=Drwy e-bost
 ordinary_postalVote_postalVote_emailAddress_label=Cyfeiriad e-bost
 ordinary_postalVote_postalVote_deliveryPost_option=Drwy’r post
