@@ -60,7 +60,7 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressOverseas] {
       ),
       warning = Text (
         value = s"To vote by $postalOrProxy"
-          +" in the EU referendum on the 23 June, your postal vote application must reach your local Electoral Registration Office by 5pm on "
+          +" in the EU referendum on the 23 June, your " + wayToVoteName + " vote application must reach your local Electoral Registration Office by 5pm on "
           +s"$date."
       ),
       voteFieldSet = FieldSet(
