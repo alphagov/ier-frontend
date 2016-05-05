@@ -12,7 +12,7 @@ trait SoleOccupancyForms extends SoleOccupancyConstraints {
 
   val soleOccupancyForm = ErrorTransformForm(
     mapping(
-      keys.soleOccupancy.key -> optional(SoleOccupancyOption.mapping)
+      keys.soleOccupancy.optIn.key -> optional(SoleOccupancyOption.mapping)
     )(
       (soleOccupancy) => InprogressOrdinary(soleOccupancy = soleOccupancy)
     )(
@@ -22,7 +22,7 @@ trait SoleOccupancyForms extends SoleOccupancyConstraints {
 }
 
 trait SoleOccupancyConstraints extends CommonConstraints with FormKeys {
-  lazy val soleOccupancyDefined = Constraint[InprogressOrdinary](keys.soleOccupancy.key) {
+  lazy val soleOccupancyDefined = Constraint[InprogressOrdinary](keys.soleOccupancy.optIn.key) {
     application =>
       if (application.soleOccupancy.isDefined) {
         Valid
