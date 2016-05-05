@@ -22,7 +22,7 @@ trait SoleOccupancyMustache extends StepTemplate[InprogressOrdinary] {
       SoleOccupancyModel(
         question = Question(
           postUrl = postUrl.url,
-          number = s"10 ${Messages("step_of")} 11",
+          number = s"11 ${Messages("step_of")} 12",
           title = Messages("ordinary_soleOccupancy_title"),
           errorMessages = Messages.translatedGlobalErrors(form)),
 
