@@ -14,7 +14,7 @@ class AddressStepTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("What is your correspondence address?")
+      contentAsString(result) should include("What is your overseas address?")
       contentAsString(result) should include("/register-to-vote/overseas/address")
     }
   }
@@ -57,7 +57,7 @@ class AddressStepTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("What is your correspondence address?")
+      contentAsString(result) should include("What is your overseas address?")
       contentAsString(result) should include("/register-to-vote/overseas/edit/address")
     }
   }
