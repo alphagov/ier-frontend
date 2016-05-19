@@ -1,14 +1,14 @@
 package uk.gov.gds.ier.model
 
-sealed case class SoleOccupancyOption(soleOccupancy:Boolean, name:String, apiValue:Boolean)
+sealed case class SoleOccupancyOption(soleOccupancy:Boolean, name:String)
 
 object SoleOccupancyOption extends ModelMapping {
   import playMappings._
 
-  val Yes = SoleOccupancyOption(true, "yes", true)
-  val No = SoleOccupancyOption(false, "no", false)
-  val NotSure = SoleOccupancyOption(false, "not-sure", false)
-  val SkipThisQuestion = SoleOccupancyOption(false, "skip-this-question", false)
+  val Yes = SoleOccupancyOption(false, "yes")
+  val No = SoleOccupancyOption(true, "no")
+  val NotSure = SoleOccupancyOption(false, "not-sure")
+  val SkipThisQuestion = SoleOccupancyOption(false, "skip-this-question")
 
   def isValid(str:String):Boolean = {
     str match {

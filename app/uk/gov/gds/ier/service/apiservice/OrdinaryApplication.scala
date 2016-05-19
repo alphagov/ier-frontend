@@ -48,7 +48,7 @@ case class OrdinaryApplication(
       postalVote.map(postalVote => postalVote.deliveryMethod.map(
         deliveryMethod => deliveryMethod.emailAddress.map(
         emailAddress => Map("pvoteemail" -> emailAddress)).getOrElse(Map.empty)).getOrElse(Map.empty)).getOrElse(Map.empty) ++
-      soleOccupancy.map(soleOccupancy => Map("soleoccupancy" -> soleOccupancy.apiValue.toString)).getOrElse(Map.empty) ++
+      soleOccupancy.map(soleOccupancy => Map("soleoccupancy" -> soleOccupancy.soleOccupancy.toString)).getOrElse(Map.empty) ++
       contact.map(_.toApiMap).getOrElse(Map.empty) ++
       referenceNumber.map(refNum => Map("refNum" -> refNum)).getOrElse(Map.empty) ++
       address.flatMap(_.gssCode.map(gssCode => Map("gssCode" -> gssCode))).getOrElse(Map.empty)  ++
