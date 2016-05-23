@@ -5,8 +5,8 @@ sealed case class SoleOccupancyOption(soleOccupancy:Boolean, name:String)
 object SoleOccupancyOption extends ModelMapping {
   import playMappings._
 
-  val Yes = SoleOccupancyOption(false, "yes")
-  val No = SoleOccupancyOption(true, "no")
+  val Yes = SoleOccupancyOption(true, "yes")
+  val No = SoleOccupancyOption(false, "no")
   val NotSure = SoleOccupancyOption(false, "not-sure")
   val SkipThisQuestion = SoleOccupancyOption(false, "skip-this-question")
 

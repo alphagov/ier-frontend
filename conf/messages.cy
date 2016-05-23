@@ -380,7 +380,21 @@ ordinary_postalVote_error_enterValidEmail=Nid yw hwnnw’n gyfeiriad e-bost dily
 
 ordinary_postalVote_error_answerThis=Atebwch y cwestiwn hwn
 
+# ordinary: Sole Occupancy
+ordinary_soleOccupancy_title=Ai chi yw’r unig un 16 oed neu hŷn sy’n byw yn eich cyfeiriad presennol? (dewisol)
 
+ordinary_soleOccupancy_yes_option=Ie
+ordinary_soleOccupancy_no_option=Nage
+ordinary_soleOccupancy_notSure_option=Ddim yn siŵr
+ordinary_soleOccupancy_skipThisQuestion_option=Mae’n well gen i beidio dweud
+
+ordinary_soleOccupancy_help_link=Pam rydych chi’n gofyn y cwestiwn hwn?
+ordinary_soleOccupancy_help_content_1=Yn ystod y flwyddyn, mae awdurdodau lleol yn anfon llythyrau i bob aelwyd yn gwahodd y rhai sy’n gymwys i gofrestru i bleidleisio. \
+Mae’n bosib na fydd yn rhaid i’ch awdurdod lleol anfon y llythyrau hyn atoch yn y dyfodol agos, os byddwch chi’n rhoi gwybod iddynt mai chi yw’r unig un 16 oed neu hŷn sy’n /
+byw yn eich cyfeiriad.
+
+
+ordinary_soleOccupancy_error_answerThis=Atebwch y cwestiwn hwn
 
 # ordinary: contact
 ordinary_contact_title=Os bydd gennym gwestiynau am eich cais, beth yw’r ffordd orau o gysylltu â chi?

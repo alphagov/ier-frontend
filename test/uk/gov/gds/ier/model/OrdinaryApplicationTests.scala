@@ -385,6 +385,7 @@ class OrdinaryApplicationTests extends UnitTestSuite {
       ip = Some("256.256.256.256"),
       timeTaken = "1234",
       language = "en",
-      sessionId = "860da84c-74df-45b0-8ff8-d2d16ef8367a"
+      sessionId = "860da84c-74df-45b0-8ff8-d2d16ef8367a",
+      soleOccupancy = Some(SoleOccupancyOption.Yes)
     )
 }
