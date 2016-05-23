@@ -13,6 +13,8 @@ trait PostalOrProxyVoteMustache
       question:Question,
       description: Text,
       warning: Text,
+      warning2: Text,
+      warning3: Text,
       voteFieldSet: FieldSet,
       voteOptInTrue: Field,
       voteOptInFalse: Field,
@@ -48,6 +50,13 @@ trait PostalOrProxyVoteMustache
         case WaysToVoteType.ByProxy => "proxy"
         case _ => ""
       }
+
+      val postalTiming = wayToVote match {
+        case WaysToVoteType.ByPost => "Delivery timing for ballot packs overseas can’t be guaranteed. With the deadline so close, consider voting by proxy instead."
+        case WaysToVoteType.ByProxy => ""
+        case _ => ""
+      }
+
       val title = s"Do you want us to send you a $wayToVoteName vote application form?"
 
       PostalOrProxyVoteModel(
@@ -63,8 +72,14 @@ trait PostalOrProxyVoteMustache
         ),
         warning = Text (
           value = s"To vote by $postalOrProxy"
-            +s" in the EU referendum on the 23 June, your $wayToVoteName vote application must reach your local Electoral Registration Office by 5pm on "
+            +" in the EU referendum on the 23 June, your " + wayToVoteName + " vote application must reach your local Electoral Registration Office by"
+        ),
+        warning2 = Text (
+          value = " 5pm on "
             +s"$date."
+        ),
+        warning3 = Text (
+          value = s"$postalTiming"
         ),
         voteFieldSet = FieldSet(
           classes = if (progressForm(keys.postalOrProxyVote.optIn).hasErrors)
