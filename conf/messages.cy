@@ -476,6 +476,12 @@ ordinary_confirmation_postalVote_mailDelivery=Rwyf am i chi i bostio ffurflen ga
 ordinary_confirmation_postalVote_dontWant=Dydw i ddim eisiau gwneud cais am bleidlais drwy’r post
 ordinary_confirmation_postalVote_alreadyHave=Mae gen i bleidlais bost yn barod
 
+ordinary_confirmation_soleOccupancy_title=Ai chi yw’r unig un 16 oed neu hŷn sy’n byw yn eich cyfeiriad presennol?
+ordinary_confirmation_soleOccupancy_yes_option=Ie
+ordinary_confirmation_soleOccupancy_no_option=Nage
+ordinary_confirmation_soleOccupancy_notSure_option=Ddim yn siŵr
+ordinary_confirmation_soleOccupancy_skipThisQuestion_option=Mae’n well gen i beidio dweud
+
 ordinary_confirmation_contact_title=Sut dylem gysylltu â chi
 ordinary_confirmation_contact_changeName=sut dylem gysylltu â chi
 ordinary_confirmation_contact_byPost=Drwy’r post

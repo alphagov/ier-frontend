@@ -459,6 +459,12 @@ ordinary_confirmation_postalVote_mailDelivery=I want you to mail me a postal vot
 ordinary_confirmation_postalVote_dontWant=I don’t want to apply for a postal vote
 ordinary_confirmation_postalVote_alreadyHave=I already have a postal vote
 
+ordinary_confirmation_soleOccupancy_title=Are you the only person aged 16 or over living at this address
+ordinary_confirmation_soleOccupancy_yes_option=Yes
+ordinary_confirmation_soleOccupancy_no_option=No
+ordinary_confirmation_soleOccupancy_notSure_option=I am not sure
+ordinary_confirmation_soleOccupancy_skipThisQuestion_option=I would prefer not to say
+
 ordinary_confirmation_contact_title=How we should contact you
 ordinary_confirmation_contact_changeName=how we should contact you
 ordinary_confirmation_contact_byPost=By post
