@@ -14,7 +14,8 @@ trait SoleOccupancyMustache extends StepTemplate[InprogressOrdinary] with Addres
                               soleOccupancyNotSure: Field,
                               soleOccupancySkipThisQuestion: Field,
                               addressLine: String,
-                              postcode: String
+                              postcode: String,
+                              displayAddress: Boolean
                               ) extends MustacheData
 
   val mustache = MultilingualTemplate("ordinary/soleOccupancy") { implicit lang =>
@@ -46,8 +47,9 @@ trait SoleOccupancyMustache extends StepTemplate[InprogressOrdinary] with Addres
         soleOccupancySkipThisQuestion = RadioField(
           key = keys.soleOccupancy.optIn,
           value = SoleOccupancyOption.SkipThisQuestion.name),
-        addressLine = "",
-        postcode = ""
+        addressLine = addressLine,
+        postcode = postcode,
+        displayAddress = !addressLine.isEmpty
       )
   }
 }

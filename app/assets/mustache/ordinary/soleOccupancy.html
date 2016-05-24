@@ -2,7 +2,9 @@
 
     {{> shared/questionHeader }}
 
-    <p>**ADDRESS GOES HERE**</p>
+    {{#displayAddress}}
+    <p>{{addressLine}}<br />{{postcode}}</p>
+    {{/displayAddress}}
 
     {{> shared/validationMessages }}
 

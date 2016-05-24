@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.ordinary.soleOccupancy
 
 import uk.gov.gds.ier.validation._
 import play.api.data.Forms._
-import uk.gov.gds.ier.model.{SoleOccupancyOption, Nino, Contact}
+import uk.gov.gds.ier.model.{Contact, Nino, PartialAddress, SoleOccupancyOption}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import play.api.data.validation.ValidationError
@@ -12,11 +12,12 @@ trait SoleOccupancyForms extends SoleOccupancyConstraints {
 
   val soleOccupancyForm = ErrorTransformForm(
     mapping(
-      keys.soleOccupancy.optIn.key -> optional(SoleOccupancyOption.mapping)
+      keys.soleOccupancy.optIn.key -> optional(SoleOccupancyOption.mapping),
+      keys.address.key -> optional(PartialAddress.mapping)
     )(
-      (soleOccupancy) => InprogressOrdinary(soleOccupancy = soleOccupancy)
+      (soleOccupancy, address) => InprogressOrdinary(soleOccupancy = soleOccupancy, address = address)
     )(
-      inprogress => Some(inprogress.soleOccupancy)
+      inprogress => Some(inprogress.soleOccupancy, inprogress.address)
     ) verifying (soleOccupancyDefined)
   )
 }
