@@ -102,7 +102,8 @@ trait TestHelpers
     postalVote = Some(PostalVote(Some(PostalVoteOption.NoAndVoteInPerson),None)),
     contact = Some(Contact(true, None, None)),
     possibleAddresses = None,
-    country = Some(Country("Scotland", false))
+    country = Some(Country("Scotland", false)),
+    soleOccupancy = Some(SoleOccupancyOption(true, "yes"))
   )
 
 
