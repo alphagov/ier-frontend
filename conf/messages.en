@@ -462,8 +462,8 @@ ordinary_confirmation_postalVote_alreadyHave=I already have a postal vote
 ordinary_confirmation_soleOccupancy_title=Other people aged 16 or over live at your address
 ordinary_confirmation_soleOccupancy_yes_option=Yes
 ordinary_confirmation_soleOccupancy_no_option=No
-ordinary_confirmation_soleOccupancy_notSure_option=I'm not sure
-ordinary_confirmation_soleOccupancy_skipThisQuestion_option=I'd prefer not to say
+ordinary_confirmation_soleOccupancy_notSure_option=I’m not sure
+ordinary_confirmation_soleOccupancy_skipThisQuestion_option=I’d prefer not to say
 
 ordinary_confirmation_contact_title=How we should contact you
 ordinary_confirmation_contact_changeName=how we should contact you
