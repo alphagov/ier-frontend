@@ -365,7 +365,7 @@ ordinary_postalVote_error_enterValidEmail=Please enter a valid email address
 ordinary_postalVote_error_answerThis=Please answer this question
 
 # ordinary: Sole Occupancy
-ordinary_soleOccupancy_title=Are you the only person aged 16 or over living at this address (optional)
+ordinary_soleOccupancy_title=Are you the only person aged 16 or over living at this address? (optional)
 
 ordinary_soleOccupancy_yes_option=Yes
 ordinary_soleOccupancy_no_option=No
