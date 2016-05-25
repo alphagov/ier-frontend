@@ -109,12 +109,12 @@ ordinary_name_error_firstNameTooLong=First name can be no longer than 35 charact
 ordinary_name_error_middleNamesTooLong=Middle names can be no longer than 100 characters
 ordinary_name_error_lastNameTooLong=Last name can be no longer than 35 characters
 
-ordinary_previousName_hasPreviousName_label=Have you ever changed your name?
+ordinary_previousName_hasPreviousName_label=Have you ever changed your name? For example: marriage, deed poll
 ordinary_previousName_hasPreviousName_no_label=No, I haven’t changed my name
 ordinary_previousName_hasPreviousName_yes_label=Yes, I changed my name
 ordinary_previousName_hasPreviousName_other_label=Prefer not to say
 ordinary_previousName_header=What was your previous name?
-ordinary_previousName_disclaimer=You don't have to tell us your previous name, but you might need to send us copies of identity documents if you don’t.<br/>If you changed your name more than once, enter your most recent previous name.
+ordinary_previousName_disclaimer=You don't have to tell us your previous name but it will help us identify you, and you might need to send us copies of identity documents if you don't.<br/>If you changed your name more than once, enter your most recent previous name.
 ordinary_previousNameOther_disclaimer=As you changed your name more than a year ago you don't have to tell us your previous name, but you might need to send us copies of identity documents if you don't.
 ordinary_previousName_firstName_label=<span class="visuallyhidden">Previous</span> First name
 ordinary_previousName_middleNames_label=<span class="visuallyhidden">Previous</span> Middle names
@@ -136,7 +136,7 @@ ordinary_nino_example=Example: QQ 12 34 56 C
 ordinary_nino_help=I don’t know my National Insurance number
 ordinary_nino_section_1=You can:
 ordinary_nino_list_1=look for your National Insurance number on payslips or official letters about tax, pensions or benefits
-ordinary_nino_list_2=ask for a reminder through the post
+ordinary_nino_list_2=I need help finding my National Insurance number
 ordinary_nino_section_2=If you can’t provide a National Insurance number you will need to explain why. You’ll also need to send copies of identity documents through the post. This could delay your name getting on the electoral register.
 ordinary_nino_excuse=I can’t provide a National Insurance number
 ordinary_nino_excuse_content=Why can’t you provide a National Insurance number?
@@ -345,10 +345,11 @@ ordinary_postalVote_postalVote_option=Yes, send me a postal vote application for
 ordinary_postalVote_postalVote_heading=If you want a postal vote application form
 ordinary_postalVote_postalVote_deliveryOptionsQuestion=You’ll need to sign and return the postal vote application \
 form. How should we send you the form?
+ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline=To vote by post in the EU referendum on the 23 June, your postal vote application must reach your local Electoral Registration Office by 5pm on Wednesday 8 June.
+
 ordinary_postalVote_postalVote_deliveryEmail_option=Email it to me
 ordinary_postalVote_postalVote_emailAddress_label=Email address
 ordinary_postalVote_postalVote_deliveryPost_option=Post it to me
-
 ordinary_postalVote_help_link=What is a postal vote?
 ordinary_postalVote_help_content_1=We’ll send your ballot paper to the address you choose. Then you fill it in \
 and return it by post.
@@ -491,6 +492,7 @@ complete_applicationComplete_3=being processed
 complete_yourRefNumberIs=Your reference number is
 complete_emailConfirmation=We have sent you an acknowledgement email.
 complete_whatHappensNext_h2=What happens next
+complete_deadline=The deadline for registering to vote in the elections on 5 May has passed. However, your application can still be processed for the EU referendum on 23 June.
 complete_whatToDoNext_h2=What you need to do next
 complete_sentApplicationTo_p=We've sent your application to
 complete_sentApplicationTo_p1=We've sent you an email with a
@@ -509,8 +511,6 @@ complete_takeOurSurvey_p= (takes 30 seconds)
 complete_ackEmail=We have sent you an acknowledgement email.
 complete_youngScot=If your application is successful, they will send you a confirmation letter and when you turn 16 you will be eligible to vote in Scottish Parliament elections after 4 April 2016 and local government elections after 4 May 2016, and any other elections which use the Scottish local government franchise.
 complete_sentApplicationTo_p_1=We've sent your application to
-complete_deadline=The deadline for registering to vote in the elections on 7 May 2015 has passed.
-complete_deadline_2=However, your application can still be processed for other future elections and we've sent your application to
 
 complete_electoralRegistrationOffice=Electoral Registration Office
 complete_unspecificElectoralRegistrationOffice=your local Electoral Registration Office

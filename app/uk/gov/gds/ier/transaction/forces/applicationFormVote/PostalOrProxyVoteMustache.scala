@@ -12,6 +12,9 @@ trait PostalOrProxyVoteMustache
   case class PostalOrProxyVoteModel(
       question:Question,
       description: Text,
+      warning: Text,
+      warning2: Text,
+      warning3: Text,
       voteFieldSet: FieldSet,
       voteOptInTrue: Field,
       voteOptInFalse: Field,
@@ -30,11 +33,30 @@ trait PostalOrProxyVoteMustache
 
       val emailAddress = form(keys.contact.email.detail).value
 
+      val postalOrProxy = wayToVote match {
+        case WaysToVoteType.ByPost => "post"
+        case WaysToVoteType.ByProxy => "proxy"
+        case _ => ""
+      }
+
+      val date = wayToVote match {
+        case WaysToVoteType.ByPost => "Wednesday 8 June"
+        case WaysToVoteType.ByProxy => "Wednesday 15 June"
+        case _ => ""
+      }
+
       val wayToVoteName = wayToVote match {
         case WaysToVoteType.ByPost => "postal"
         case WaysToVoteType.ByProxy => "proxy"
         case _ => ""
       }
+
+      val postalTiming = wayToVote match {
+        case WaysToVoteType.ByPost => "Delivery timing for ballot packs overseas can’t be guaranteed. With the deadline so close, consider voting by proxy instead."
+        case WaysToVoteType.ByProxy => ""
+        case _ => ""
+      }
+
       val title = s"Do you want us to send you a $wayToVoteName vote application form?"
 
       PostalOrProxyVoteModel(
@@ -47,6 +69,17 @@ trait PostalOrProxyVoteMustache
           value = s"If this is your first time using a $wayToVoteName"
             +" vote, or your details have changed, you need to sign"
             +" and return an application form."
+        ),
+        warning = Text (
+          value = s"To vote by $postalOrProxy"
+            +" in the EU referendum on the 23 June, your " + wayToVoteName + " vote application must reach your local Electoral Registration Office by"
+        ),
+        warning2 = Text (
+          value = " 5pm on "
+            +s"$date."
+        ),
+        warning3 = Text (
+          value = s"$postalTiming"
         ),
         voteFieldSet = FieldSet(
           classes = if (progressForm(keys.postalOrProxyVote.optIn).hasErrors)

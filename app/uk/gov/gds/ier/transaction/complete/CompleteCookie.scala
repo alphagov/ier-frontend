@@ -9,6 +9,7 @@ case class CompleteCookie(
     backToStartUrl: String = "",
     showEmailConfirmation: Boolean = false,
     showBirthdayBunting: Boolean = false,
+    showDeadlineText: Boolean = false,
     gssCode: Option[String] = None,
     showYoungScot: Boolean = false,
     showTemplateCurrent: Boolean = false,
@@ -17,5 +18,7 @@ case class CompleteCookie(
     showTemplate3: Boolean = false,
     showTemplate4: Boolean = false,
     showEnglish: Boolean = false,
-    showWelsh: Boolean = false
+    showWelsh: Boolean = false,
+    splitRef1:String = "",
+    splitRef2:String = ""
 )

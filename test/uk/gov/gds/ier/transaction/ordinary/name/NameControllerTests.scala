@@ -16,7 +16,7 @@ class NameControllerTests extends ControllerTestSuite {
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 4")
       contentAsString(result) should include("What is your full name?")
-      contentAsString(result) should include("Have you ever changed your name?")
+      contentAsString(result) should include("Have you ever changed your name? For example: marriage, deed poll")
       contentAsString(result) should include("<form action=\"/register-to-vote/name\"")
     }
   }
@@ -104,7 +104,7 @@ class NameControllerTests extends ControllerTestSuite {
       status(result) should be(OK)
       contentAsString(result) should include("What is your full name?")
       contentAsString(result) should include("Please enter your full name")
-      contentAsString(result) should include("Have you ever changed your name?")
+      contentAsString(result) should include("Have you ever changed your name? For example: marriage, deed poll")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("<form action=\"/register-to-vote/name\"")
     }
@@ -138,7 +138,7 @@ class NameControllerTests extends ControllerTestSuite {
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("Question 4")
       contentAsString(result) should include("What is your full name?")
-      contentAsString(result) should include("Have you ever changed your name?")
+      contentAsString(result) should include("Have you ever changed your name? For example: marriage, deed poll")
       contentAsString(result) should include("<form action=\"/register-to-vote/edit/name\"")
     }
   }
@@ -209,7 +209,7 @@ class NameControllerTests extends ControllerTestSuite {
       status(result) should be(OK)
       contentAsString(result) should include("What is your full name?")
       contentAsString(result) should include("Please enter your full name")
-      contentAsString(result) should include("Have you ever changed your name?")
+      contentAsString(result) should include("Have you ever changed your name? For example: marriage, deed poll")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("<form action=\"/register-to-vote/edit/name\"")
     }

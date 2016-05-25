@@ -58,7 +58,7 @@
           data-validation-type="fieldset"
           data-validation-rules="atLeastOneNonEmpty"
           data-validation-children="previousNo previousYes">
-    <legend class="label">Have you changed your name since you left the UK?</legend>
+    <legend class="label">Have you changed your name <b>since</b> you left the UK?</legend>
 
     <label for="{{hasPreviousNameOptionFalse.id}}" class="selectable">
         <input type="radio" id="{{hasPreviousNameOptionFalse.id}}"
@@ -68,7 +68,7 @@
                data-validation-type="field"
                data-validation-rules="nonEmpty"
         {{{hasPreviousNameOptionFalse.attributes}}}>
-        No, I haven't changed my name
+        No, I haven't changed my name since I left the UK
     </label>
 
     <div class="optional-section " data-condition="{{hasPreviousNameOptionFalse.id}}">
@@ -79,7 +79,7 @@
                   data-validation-rules="atLeastOneNonEmpty"
                   data-validation-children="changeNameNo changeNameYes changeNameOther">
 
-            <legend class="label">Have you changed it before you left the UK?</legend>
+            <legend class="label">Did you change it <b>before</b> you left the UK?</legend>
 
             <label for="{{changedNameBeforeLeavingUKOptionFalse.id}}" class="selectable">
                 <input type="radio" id="{{changedNameBeforeLeavingUKOptionFalse.id}}"
@@ -126,7 +126,7 @@
                data-validation-type="field"
                data-validation-rules="nonEmpty"
         {{{hasPreviousNameOptionTrue.attributes}}}>
-        Yes, I changed my name
+        Yes, I changed my name since I left the UK
     </label>
 
 </fieldset>

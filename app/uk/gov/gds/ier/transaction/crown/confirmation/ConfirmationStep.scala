@@ -62,6 +62,9 @@ class ConfirmationStep @Inject() (
         validApplication => {
           val refNum = ierApi.generateCrownReferenceNumber(validApplication)
           val remoteClientIP = request.headers.get("X-Real-IP")
+          val len:Int = refNum.length();
+          val splitRef1:String = refNum.substring(0, len/2);
+          val splitRef2:String = refNum.substring(len/2,len );
 
           val response = ierApi.submitCrownApplication(
             remoteClientIP,
@@ -166,6 +169,7 @@ class ConfirmationStep @Inject() (
             backToStartUrl = config.ordinaryStartUrl,
             showEmailConfirmation = (isPostalOrProxyVoteEmailPresent | isContactEmailPresent),
             showBirthdayBunting =  isBirthdayToday,
+            showDeadlineText = true,
             gssCode = gssCode,
             showTemplateCurrent = isTemplateCurrent,
             showTemplate1 = isTemplate1,
@@ -173,7 +177,9 @@ class ConfirmationStep @Inject() (
             showTemplate3 = isTemplate3,
             showTemplate4 = isTemplate4,
             showEnglish = isEnglish,
-            showWelsh = isWelsh
+            showWelsh = isWelsh,
+            splitRef1 = splitRef1,
+            splitRef2 = splitRef2
           )
 
           Redirect(CompleteStep.complete())

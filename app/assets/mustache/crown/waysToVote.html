@@ -9,6 +9,24 @@
               data-validation-rules="atLeastOneNonEmpty"
               data-validation-children="byPost byProxy inPerson">
 
+        <label for="{{byProxy.id}}" class="selectable"  >
+            <input type="radio"
+                   id="{{byProxy.id}}"
+                   name="{{byProxy.name}}"
+                   value="{{byProxy.value}}"
+                   class="radio  validate"
+                   data-validation-name="byProxy"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty"
+            {{{byProxy.attributes}}}>
+            By proxy (someone you trust voting for you)
+        </label>
+        <div id="{{byProxy.id}}_help"
+             class="optional-section"
+             data-condition="{{byProxy.id}}">
+            <p>To vote by proxy in the EU referendum on the 23 June, your proxy vote application must reach your local Electoral Registration Office by 5pm on Wednesday 15 June.</p>
+        </div>
+
         <label for="{{byPost.id}}" class="selectable"  >
             <input type="radio"
                    id="{{byPost.id}}"
@@ -21,19 +39,13 @@
                    {{{byPost.attributes}}}>
             By post
         </label>
+        <div id="{{byPost.id}}_help"
+             class="optional-section"
+             data-condition="{{byPost.id}}">
+            <p>To vote by post in the EU referendum on the 23 June, your postal vote application must reach your local Electoral Registration Office by <b>5pm on Wednesday 8 June.</b></p>
+            <p>Delivery timing for ballot packs overseas can’t be guaranteed. With the deadline so close, consider voting by proxy instead.</p>
+        </div>
 
-        <label for="{{byProxy.id}}" class="selectable"  >
-            <input type="radio"
-                   id="{{byProxy.id}}"
-                   name="{{byProxy.name}}"
-                   value="{{byProxy.value}}"
-                   class="radio  validate"
-                   data-validation-name="byProxy"
-                   data-validation-type="field"
-                   data-validation-rules="nonEmpty"
-                   {{{byProxy.attributes}}}>
-            By proxy (someone else voting for you)
-        </label>
 
         <p>or</p>
 

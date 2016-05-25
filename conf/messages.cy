@@ -118,12 +118,12 @@ ordinary_name_error_firstNameTooLong=Gall enw cyntaf fod yn fwy na 35 nod
 ordinary_name_error_middleNamesTooLong=Gall enwau canol fod yn fwy na 100 nod
 ordinary_name_error_lastNameTooLong=Gall enw olaf fod yn fwy na 35 nod
 
-ordinary_previousName_hasPreviousName_label=Ydych chi erioed wedi newid eich enw?
+ordinary_previousName_hasPreviousName_label=Ydych chi erioed wedi newid eich enw? Er enghraifft drwy briodas, gweithred newid enw
 ordinary_previousName_hasPreviousName_no_label=Na, nid wyf wedi newid fy enw
 ordinary_previousName_hasPreviousName_yes_label=Do, rwyf wedi newid fy enw
 ordinary_previousName_hasPreviousName_other_label=Mae’n well gen i beidio dweud
 ordinary_previousName_header=Beth oedd eich enw blaenorol?
-ordinary_previousName_disclaimer=Does dim rhaid i chi ddweud wrthym beth oedd eich enw blaenorol, ond efallai y bydd yn rhaid i chi anfon dogfennau sy’n nodi pwy ydych chi atom os na fyddwch yn gwneud hyn.  Os ydych wedi newid eich enw mwy nag unwaith, rhowch eich enw blaenorol diweddaraf.
+ordinary_previousName_disclaimer=Does dim rhaid i chi ddweud wrthym beth oedd eich enw blaenorol, ond efallai y bydd yn rhaid i chi anfon dogfennau sy’n nodi pwy ydych chi atom os na fyddwch yn gwneud hyn. Os ydych wedi newid eich enw mwy nag unwaith, rhowch eich enw blaenorol diweddaraf.
 ordinary_previousNameOther_disclaimer=Gan eich bod wedi newid eich enw fwy na blwyddyn yn ôl nid oes rhaid ichi ddweud wrthym beth oedd eich enw blaenorol, ond os nad ydych, efallai y bydd angen ichi anfon copïau o ddogfennau adnabod atom
 ordinary_previousName_firstName_label=Enw Cyntaf<span class="visuallyhidden"> blaenorol</span>
 ordinary_previousName_middleNames_label=Enwau Canol<span class="visuallyhidden"> blaenorol</span>
@@ -145,7 +145,7 @@ ordinary_nino_example=Enghraifft: QQ 12 34 56 C
 ordinary_nino_help=Nid wyf yn gwybod fy rhif Yswiriant Gwladol
 ordinary_nino_section_1=Gallwch:
 ordinary_nino_list_1=chwilio am eich rhif Yswiriant Gwladol ar slipiau cyflog neu lythyrau swyddogol am drethi, pensiynau neu fudd-daliadau
-ordinary_nino_list_2=ofyn am gael eich atgoffa drwy’r post
+ordinary_nino_list_2=Mae angen cymorth arnaf i ddod o hyd i fy Rhif Yswiriant Gwladol
 ordinary_nino_section_2=Os na allwch roi rhif Yswiriant Gwladol, bydd angen ichi esbonio pam. Bydd angen ichi anfon copïau o ddogfennau adnabod drwy'r post hefyd. Gallai hyn achosi oedi cyn i’ch enw fynd ar y gofrestr etholwyr.
 ordinary_nino_excuse=Nid wyf yn gallu darparu rhif Yswiriant Gwladol
 ordinary_nino_excuse_content=Pam nad oes modd i chi ddarparu rhif Yswiriant Gwladol?
@@ -363,9 +363,11 @@ ordinary_postalVote_postalVote_option=Ydw, anfonwch ffurflen gais pleidlais bost
 ordinary_postalVote_postalVote_heading=Os ydych am gael ffurflen gais am bleidlais bost
 ordinary_postalVote_postalVote_deliveryOptionsQuestion=Bydd angen i chi lofnodi a dychwelyd y ffurflen gais pleidlais bost. Sut ddylen ni \
 anfon y ffurflen atoch?
+ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline=I bleidleisio drwy’r post yn refferendwm yr Undeb Ewropeaidd ar 23 Mehefin, mae’n rhaid i’ch cais am bleidlais drwy’r post gyrraedd eich Swyddfa Cofrestru Etholaeth leol dim hwyrach na 5pm, dydd Mercher 8 Mehefin.
 ordinary_postalVote_postalVote_deliveryEmail_option=Drwy e-bost
 ordinary_postalVote_postalVote_emailAddress_label=Cyfeiriad e-bost
 ordinary_postalVote_postalVote_deliveryPost_option=Drwy’r post
+
 
 ordinary_postalVote_help_link=Beth yw pleidlais drwy’r post?
 ordinary_postalVote_help_content_1=Byddwn yn anfon eich papur pleidleisio i’r cyfeiriad rydych wedi’i ddewis. Yna, bydd angen i \
@@ -511,6 +513,7 @@ complete_applicationComplete_3=ei brosesu.
 complete_yourRefNumberIs=Eich cyfeirnod yw
 complete_emailConfirmation=Rydym wedi anfon e-bost atoch i gydnabod eich cais.
 complete_whatHappensNext_h2=Beth fydd yn digwydd nesaf
+complete_deadline=Mae'r dyddiad cau ar gyfer cofrestru i bleidleisio yn yr etholiadau ar 5 Mai wedi bod. Fodd bynnag, gallwn brosesu eich cais o hyd ar gyfer refferendwm yr Undeb Ewropeaidd ar 23 Mehefin.
 complete_whatToDoNext_h2=Beth i'w wneud nesaf
 complete_sentApplicationTo_p1=Rydyn ni wedi anfon neges e-bost atoch chi sy'n cynnwys
 complete_sentApplicationTo_p1_2=ffurflen gais am bleidlais bost
@@ -550,9 +553,6 @@ complete_social_heading=Dweud wrth eraill am y gwasanaeth hwn
 complete_social_twitter_link_text=Rhannu ar Twitter
 complete_social_twitter_url_text=I%20just%20registered%20online%20to%20vote.%20If%20you%20haven't%20already%2C%20you%20should%20too!%20%23YourVoteMatters
 complete_social_facebook_link_text=Rhannu ar Facebook
-
-complete_deadline=Mae'r dyddiad cau ar gyfer cofrestru i bleidleisio yn yr etholiadau ar 7 Mai 2015 wedi mynd heibio erbyn hyn.
-complete_deadline_2=Fodd bynnag, gellir prosesu eich cais ar gyfer etholiadau eraill yn y dyfodol ac rydym wedi anfon eich cais i Swyddfa
 
 
 

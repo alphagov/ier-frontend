@@ -23,6 +23,7 @@ import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import play.api.libs.json.Json
 import uk.gov.gds.ier.model.LocalAuthority
 import uk.gov.gds.ier.langs.Language
+import System.currentTimeMillis
 
 abstract class IerApiService {
   def submitOrdinaryApplication(
@@ -309,11 +310,21 @@ class ConcreteIerApiService @Inject() (
     generateReferenceNumber(application)
   }
 
-  private def generateReferenceNumber[T <: InprogressApplication[T]](application:T) = {
+  private def generateReferenceNumber[T <: InprogressApplication[T]](application: T) = {
     val json = serialiser.toJson(application)
-    val encryptedBytes = shaHashProvider.getHash(json, Some(DateTime.now.toString))
-    val encryptedHex = encryptedBytes.map{ byte => "%02X" format byte }
-    encryptedHex.take(3).mkString
+    var currentTime: Long = currentTimeMillis()
+    val characterSet = "123456789BCDFGHJKLMNPQRSTVWXYZ"
+    var refNumber: StringBuilder = new StringBuilder()
+    var i: Long = 0
+    var counter = 9
+    while (currentTime != 0 && counter > 0) {
+      counter -= 1
+      i = currentTime % 30
+      currentTime = (currentTime - i) / 30
+      refNumber.append(characterSet.charAt(i.toInt))
+    }
+    refNumber.append("A")
+    refNumber.reverse.toString
   }
 }
 
