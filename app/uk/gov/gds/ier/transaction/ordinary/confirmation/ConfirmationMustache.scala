@@ -56,6 +56,7 @@ trait ConfirmationMustache
       confirmation.previousAddress,
       confirmation.applicantOpenRegister,
       confirmation.postalVote,
+      confirmation.soleOccupancy,
       confirmation.contact
     ).flatten
 
@@ -246,6 +247,7 @@ trait ConfirmationMustache
           }
       ))
     }
+
     def previousAddress = {
       val movedHouse = form(keys.previousAddress.movedRecently).value.map {
         MovedHouseOption.parse(_)
@@ -334,6 +336,25 @@ trait ConfirmationMustache
             case PostalVoteOption.Yes => postalVoteContent
             case PostalVoteOption.NoAndAlreadyHave => alreadyHaveContent
             case PostalVoteOption.NoAndVoteInPerson => noPostalVoteContent
+            case _ => List(completeThisStepMessage)
+          }
+        }
+      ))
+    }
+
+    def soleOccupancy = {
+      //val soleOccupancyOption = SoleOccupancyOption.parse(form(keys.soleOccupancy.optIn).value.getOrElse(""))
+
+      Some(ConfirmationQuestion(
+        title = Messages("ordinary_confirmation_soleOccupancy_title"),
+        editLink = ordinary.SoleOccupancyStep.routing.editGet.url,
+        changeName = Messages("ordinary_confirmation_soleOccupancy_title"),
+        content = ifComplete(keys.soleOccupancy) {
+          SoleOccupancyOption.parse(form(keys.soleOccupancy.optIn).value.getOrElse("")) match {
+            case SoleOccupancyOption.Yes => List(Messages("ordinary_confirmation_soleOccupancy_yes_option"))
+            case SoleOccupancyOption.No => List(Messages("ordinary_confirmation_soleOccupancy_no_option"))
+            case SoleOccupancyOption.NotSure => List(Messages("ordinary_confirmation_soleOccupancy_notSure_option"))
+            case SoleOccupancyOption.SkipThisQuestion => List(Messages("ordinary_confirmation_soleOccupancy_skipThisQuestion_option"))
             case _ => List(completeThisStepMessage)
           }
         }

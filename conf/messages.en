@@ -364,6 +364,18 @@ ordinary_postalVote_error_enterValidEmail=Please enter a valid email address
 
 ordinary_postalVote_error_answerThis=Please answer this question
 
+# ordinary: Sole Occupancy
+ordinary_soleOccupancy_title=Are you the only person aged 16 or over living at this address? (optional)
+
+ordinary_soleOccupancy_yes_option=Yes
+ordinary_soleOccupancy_no_option=No
+ordinary_soleOccupancy_notSure_option=Not sure
+ordinary_soleOccupancy_skipThisQuestion_option=Prefer not to say
+
+ordinary_soleOccupancy_help_link=Why are you asking this question?
+ordinary_soleOccupancy_help_content_1=Throughout the year, local authorities send letters to every household inviting those eleigible to register to vote.  Your local authority may not need to send these letter to you in the near future if you let them know that you are the only person aged 16 or over residing at your address.
+
+ordinary_soleOccupancy_error_answerThis=Please answer this question
 
 # ordinary: contact
 ordinary_contact_title=If we have questions about your application, how should we contact you?
@@ -447,6 +459,12 @@ ordinary_confirmation_postalVote_emailDelivery=I want you to email a postal vote
 ordinary_confirmation_postalVote_mailDelivery=I want you to mail me a postal vote application form
 ordinary_confirmation_postalVote_dontWant=I don’t want to apply for a postal vote
 ordinary_confirmation_postalVote_alreadyHave=I already have a postal vote
+
+ordinary_confirmation_soleOccupancy_title=Other people aged 16 or over live at your address
+ordinary_confirmation_soleOccupancy_yes_option=Yes
+ordinary_confirmation_soleOccupancy_no_option=No
+ordinary_confirmation_soleOccupancy_notSure_option=I’m not sure
+ordinary_confirmation_soleOccupancy_skipThisQuestion_option=I’d prefer not to say
 
 ordinary_confirmation_contact_title=How we should contact you
 ordinary_confirmation_contact_changeName=how we should contact you

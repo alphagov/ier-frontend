@@ -5,6 +5,7 @@ import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.model.DateOfBirth
 import uk.gov.gds.ier.model.PartialNationality
 import uk.gov.gds.ier.model.PostalVote
+import uk.gov.gds.ier.model.SoleOccupancyOption
 import uk.gov.gds.ier.model.Name
 import uk.gov.gds.ier.model.PossibleAddress
 import uk.gov.gds.ier.model.PreviousName
@@ -22,6 +23,7 @@ case class InprogressOrdinary(
     otherAddress: Option[OtherAddress] = None,
     openRegisterOptin: Option[Boolean] = None,
     postalVote: Option[PostalVote] = None,
+    soleOccupancy: Option[SoleOccupancyOption] = None,
     contact: Option[Contact] = None,
     possibleAddresses: Option[PossibleAddress] = None,
     country: Option[Country] = None,
@@ -40,6 +42,7 @@ case class InprogressOrdinary(
       otherAddress = this.otherAddress.orElse(other.otherAddress),
       openRegisterOptin = this.openRegisterOptin.orElse(other.openRegisterOptin),
       postalVote = this.postalVote.orElse(other.postalVote),
+      soleOccupancy = this.soleOccupancy.orElse(other.soleOccupancy),
       contact = this.contact.orElse(other.contact),
       possibleAddresses = None,
       country = this.country.orElse(other.country),
