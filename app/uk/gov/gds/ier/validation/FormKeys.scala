@@ -93,7 +93,6 @@ trait FormKeys {
     lazy val methodName = prependNamespace(Key("methodName"))
     lazy val emailAddress = prependNamespace(Key("emailAddress"))
     lazy val voteType = prependNamespace(Key("voteType"))
-    lazy val soleOccupancy = prependNamespace(Key("soleOccupancy"))
 
     lazy val contact = prependNamespace(Key("contact"))
     lazy val contactType = prependNamespace(Key("contactType"))

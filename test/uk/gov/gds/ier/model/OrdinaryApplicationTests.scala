@@ -47,8 +47,7 @@ class OrdinaryApplicationTests extends UnitTestSuite {
       "pgssCode" -> "E09000032",
       "timeTaken" -> "1234",
       "lang" -> "en",
-      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a",
-      "soleoccupancy" -> "true"
+      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
 
     val apiMap = application.toApiMap
@@ -101,8 +100,7 @@ class OrdinaryApplicationTests extends UnitTestSuite {
       "lastcategory" -> "overseas",
       "timeTaken" -> "1234",
       "lang" -> "en",
-      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a",
-      "soleoccupancy" -> "true"
+      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
 
     val apiMap = application.toApiMap
@@ -150,8 +148,7 @@ class OrdinaryApplicationTests extends UnitTestSuite {
       "pgssCode" -> "E09000032",
       "timeTaken" -> "1234",
       "lang" -> "cy",
-      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a",
-      "soleoccupancy" -> "true"
+      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
 
     val apiMap = application.toApiMap
@@ -209,8 +206,7 @@ class OrdinaryApplicationTests extends UnitTestSuite {
       "pgssCode" -> "E09000032",
       "timeTaken" -> "1234",
       "lang" -> "en",
-      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a",
-      "soleoccupancy" -> "true"
+      "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
 
 
@@ -311,8 +307,7 @@ class OrdinaryApplicationTests extends UnitTestSuite {
     "pgssCode" -> "E09000032",
     "timeTaken" -> "1234",
     "lang" -> "en",
-    "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a",
-    "soleoccupancy" -> "true"
+    "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
   )
 
   private def createOrdinaryApplication =
@@ -390,7 +385,6 @@ class OrdinaryApplicationTests extends UnitTestSuite {
       ip = Some("256.256.256.256"),
       timeTaken = "1234",
       language = "en",
-      sessionId = "860da84c-74df-45b0-8ff8-d2d16ef8367a",
-      soleOccupancy = Some(SoleOccupancyOption.Yes)
+      sessionId = "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
 }

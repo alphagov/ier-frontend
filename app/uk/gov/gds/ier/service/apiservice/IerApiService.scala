@@ -106,7 +106,6 @@ class ConcreteIerApiService @Inject() (
       otherAddress = applicant.otherAddress,
       openRegisterOptin = applicant.openRegisterOptin,
       postalVote = applicant.postalVote,
-      soleOccupancy = applicant.soleOccupancy,
       contact = applicant.contact,
       referenceNumber = referenceNumber,
       ip = ipAddress,

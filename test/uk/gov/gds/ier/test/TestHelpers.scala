@@ -85,8 +85,7 @@ trait TestHelpers
     postalVote = Some(PostalVote(Some(PostalVoteOption.NoAndVoteInPerson),None)),
     contact = Some(Contact(true, None, None)),
     possibleAddresses = None,
-    country = Some(Country("England", false)),
-    soleOccupancy = Some(SoleOccupancyOption.Yes)
+    country = Some(Country("England", false))
   )
 
   lazy val completeOrdinaryApplicationYoungScot = InprogressOrdinary(
@@ -102,8 +101,7 @@ trait TestHelpers
     postalVote = Some(PostalVote(Some(PostalVoteOption.NoAndVoteInPerson),None)),
     contact = Some(Contact(true, None, None)),
     possibleAddresses = None,
-    country = Some(Country("Scotland", false)),
-    soleOccupancy = Some(SoleOccupancyOption(true, "yes"))
+    country = Some(Country("Scotland", false))
   )
 
 

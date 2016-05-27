@@ -27,7 +27,7 @@ trait NameMustache extends StepTemplate[InprogressOrdinary] {
     NameModel(
       question = Question(
         postUrl = post.url,
-        number = s"4 ${Messages("step_of")} 12",
+        number = s"4 ${Messages("step_of")} 11",
         title = Messages("ordinary_name_title"),
         errorMessages = Messages.translatedGlobalErrors(form)),
 
