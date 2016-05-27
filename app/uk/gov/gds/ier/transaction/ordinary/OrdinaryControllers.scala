@@ -12,7 +12,6 @@ class OrdinaryControllers @Inject()(
   lazy val AddressSelectStep = injector.dependency[address.AddressSelectStep]
 
   lazy val ContactStep = injector.dependency[contact.ContactStep]
-  lazy val SoleOccupancyStep = injector.dependency[soleOccupancy.SoleOccupancyStep]
   lazy val DateOfBirthStep = injector.dependency[dateOfBirth.DateOfBirthStep]
   lazy val NameStep = injector.dependency[name.NameStep]
   lazy val NationalityStep = injector.dependency[nationality.NationalityStep]

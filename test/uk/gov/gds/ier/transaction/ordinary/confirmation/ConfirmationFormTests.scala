@@ -26,9 +26,8 @@ class ConfirmationFormTests
         hasErrors.errorMessages("openRegister") should be(errorMessage)
         hasErrors.errorMessages("postalVote") should be(errorMessage)
         hasErrors.errorMessages("contact") should be(errorMessage)
-        hasErrors.errorMessages("soleOccupancy") should be(errorMessage)
-        hasErrors.globalErrorMessages.count(_ == "ordinary_confirmation_error_completeThis") should be(12)
-        hasErrors.errors.size should be(24)
+        hasErrors.globalErrorMessages.count(_ == "ordinary_confirmation_error_completeThis") should be(11)
+        hasErrors.errors.size should be(22)
       },
       success => fail("Should have errored out.")
     )
@@ -50,9 +49,8 @@ class ConfirmationFormTests
         hasErrors.errorMessages("openRegister") should be(errorMessage)
         hasErrors.errorMessages("postalVote") should be(errorMessage)
         hasErrors.errorMessages("contact") should be(errorMessage)
-        hasErrors.errorMessages("soleOccupancy") should be(errorMessage)
-        hasErrors.globalErrorMessages.count(_ == "ordinary_confirmation_error_completeThis") should be(12)
-        hasErrors.errors.size should be(24)
+        hasErrors.globalErrorMessages.count(_ == "ordinary_confirmation_error_completeThis") should be(11)
+        hasErrors.errors.size should be(22)
       },
       success => fail("Should have errored out.")
     )

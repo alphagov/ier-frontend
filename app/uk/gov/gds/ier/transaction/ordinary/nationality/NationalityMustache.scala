@@ -47,7 +47,7 @@ trait NationalityMustache extends StepTemplate[InprogressOrdinary]
       question = Question(
         postUrl = postEndpoint.url,
         errorMessages = Messages.translatedGlobalErrors(form),
-        number = "2 " + Messages("step_of") + " 12",
+        number = "2 " + Messages("step_of") + " 11",
         title = Messages("ordinary_nationality_title")
       ),
       nationality = FieldSet(keys.nationality),

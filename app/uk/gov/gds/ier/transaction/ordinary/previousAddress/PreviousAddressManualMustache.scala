@@ -32,7 +32,7 @@ trait PreviousAddressManualMustache extends StepTemplate[InprogressOrdinary] {
     ManualModel(
       question = Question(
         postUrl = post.url,
-        number = s"8 ${Messages("step_of")} 12",
+        number = s"8 ${Messages("step_of")} 11",
         title = title,
         errorMessages = Messages.translatedGlobalErrors(form)
       ),

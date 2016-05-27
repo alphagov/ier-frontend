@@ -27,7 +27,7 @@ trait PreviousAddressPostcodeMustache extends StepTemplate[InprogressOrdinary] {
     PostcodeModel(
       question = Question(
         postUrl = post.url,
-        number = s"8 ${Messages("step_of")} 12",
+        number = s"8 ${Messages("step_of")} 11",
         title = title,
         errorMessages = Messages.translatedGlobalErrors(form)
       ),

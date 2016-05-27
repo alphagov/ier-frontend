@@ -51,7 +51,7 @@ class PostalVoteStep @Inject ()(
   override val onSuccess = resetPostalVote andThen GoToNextIncompleteStep()
 
   def nextStep(currentState: InprogressOrdinary) = {
-    ordinary.SoleOccupancyStep
+    ordinary.ContactStep
   }
 }
 
