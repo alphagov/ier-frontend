@@ -17,13 +17,25 @@ trait SoleOccupancyForms {
   val soleOccupancyForm = ErrorTransformForm(
     mapping(
       keys.soleOccupancy.optIn.key -> optional(SoleOccupancyOption.mapping),
-      keys.address.key -> optional(PartialAddress.mapping)
+      keys.address.key -> optional(PartialAddress.mapping),
+      keys.country.key -> optional(countryMappingForSoleOccupancy)
     )(
-      (soleOccupancy, address) => InprogressOrdinary(soleOccupancy = soleOccupancy, address = address)
+      (soleOccupancy, address, country) => InprogressOrdinary(soleOccupancy = soleOccupancy, address = address, country = country)
     )(
-      inprogress => Some(inprogress.soleOccupancy, inprogress.address)
+      inprogress => Some(inprogress.soleOccupancy, inprogress.address, inprogress.country)
     ) verifying (soleOccupancyDefined)
   )
+
+  lazy val countryMappingForSoleOccupancy = mapping(
+    keys.residence.key -> optional(text),
+    keys.origin.key -> optional(text)
+  ) {
+    case (Some("Abroad"), origin) => Country(origin.getOrElse(""), true)
+    case (residence, _) => Country(residence.getOrElse(""), false)
+  } {
+    case Country(country, true) => Some(Some("Abroad"), Some(country))
+    case Country(country, false) => Some(Some(country), None)
+  }
 
   lazy val soleOccupancyDefined = Constraint[InprogressOrdinary](keys.soleOccupancy.optIn.key) {
     application =>

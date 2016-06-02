@@ -12,7 +12,7 @@
             class="validate"
             data-validation-name="soleOccupancy"
             data-validation-type="fieldset"
-            data-validation-rules="atLeastOneNonEmpty"
+            data-validation-rules="{{#questionIsMandatory}}atLeastOneNonEmpty{{/questionIsMandatory}}"
             data-validation-children="soleOccupancyYes soleOccupancyNo soleOccupancyNotSure soleOccupancySkipThisQuestion">
 
         <label for="{{soleOccupancyYes.id}}" class="selectable">
