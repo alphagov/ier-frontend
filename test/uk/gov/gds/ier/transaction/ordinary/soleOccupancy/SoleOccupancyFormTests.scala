@@ -1,11 +1,12 @@
 package uk.gov.gds.ier.transaction.ordinary.soleOccupancy
 
-import uk.gov.gds.ier.model.{ SoleOccupancyOption }
-import uk.gov.gds.ier.test.FormTestSuite
+import uk.gov.gds.ier.model.SoleOccupancyOption
+import uk.gov.gds.ier.test.{FormTestSuite, WithMockScotlandService}
 
 class SoleOccupancyFormTests
   extends FormTestSuite
-  with SoleOccupancyForms {
+  with SoleOccupancyForms
+  with WithMockScotlandService {
 
   it should "bind successfully on sole occupancy yes" in {
     val js = Json.toJson(

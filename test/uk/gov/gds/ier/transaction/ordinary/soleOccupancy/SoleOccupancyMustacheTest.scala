@@ -7,7 +7,8 @@ import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 class SoleOccupancyMustacheTest
   extends MustacheTestSuite
   with SoleOccupancyForms
-  with SoleOccupancyMustache {
+  with SoleOccupancyMustache
+  with WithMockScotlandService {
 
   it should "empty progress form should produce empty Model" in runningApp {
     val emptyApplicationForm = soleOccupancyForm
