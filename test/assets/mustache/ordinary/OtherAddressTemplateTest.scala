@@ -14,7 +14,6 @@ class OtherAddressTemplateTest
       implicit val lang = Lang("en")
       val data = OtherAddressModel(
         question = Question(postUrl = "/whatever-url",
-          number = "1",
           title = Messages("has other address title (test)")
         ),
         hasOtherAddress = FieldSet(

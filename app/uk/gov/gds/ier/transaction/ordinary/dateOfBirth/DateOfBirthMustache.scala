@@ -48,7 +48,6 @@ trait DateOfBirthMustache extends StepTemplate[InprogressOrdinary] {
       question = Question(
         postUrl = post.url,
         errorMessages =  Messages.translatedGlobalErrors(form),
-        number = s"3 ${Messages("step_of")} 12",
         title = Messages("ordinary_dob_title")
       ),
       day = TextField(

@@ -12,7 +12,6 @@ class PostalVoteTemplateTest
     running(FakeApplication()) {
       val data = PostalVoteModel(
         question = Question(postUrl = "/whatever-url",
-        number = "1",
         title = "postal vote title"
         ),
         postCheckboxYes = Field(

@@ -12,7 +12,6 @@ class ContactTemplateTest
     running(FakeApplication()) {
       val data = ContactModel(
         question = Question(postUrl = "/whatever-url",
-        number = "1",
         title = "contact title"
         ),
         contactFieldSet = FieldSet(

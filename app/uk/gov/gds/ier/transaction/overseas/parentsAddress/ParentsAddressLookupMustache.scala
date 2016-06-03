@@ -20,7 +20,6 @@ trait ParentsAddressLookupMustache extends StepTemplate[InprogressOverseas] {
     LookupModel(
       question = Question(
         postUrl = post.url,
-        number = questionNumber,
         title = title,
         errorMessages = form.globalErrors.map(_.message)
       ),

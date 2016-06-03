@@ -26,7 +26,6 @@ trait NinoMustache extends StepTemplate[InprogressOrdinary] {
       question = Question(
         postUrl = postEndpoint.url,
         errorMessages = Messages.translatedGlobalErrors(form),
-        number = "5 " + Messages("step_of") + " 12",
         title = Messages("ordinary_nino_heading")
       ),
       nino = TextField(

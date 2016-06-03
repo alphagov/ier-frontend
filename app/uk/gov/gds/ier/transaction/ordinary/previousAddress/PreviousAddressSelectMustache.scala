@@ -92,7 +92,6 @@ trait PreviousAddressSelectMustache extends StepTemplate[InprogressOrdinary] {
     SelectModel(
       question = Question(
         postUrl = post.url,
-        number = s"8 ${Messages("step_of")} 12",
         title = title,
         errorMessages = Messages.translatedGlobalErrors(form)
       ),

@@ -29,7 +29,6 @@ trait ContactMustache extends StepTemplate[InprogressOrdinary] {
       question = Question(
         postUrl = post.url,
         errorMessages = Messages.translatedGlobalErrors(form),
-        number = s"12 ${Messages("step_of")} 12",
         title = Messages("ordinary_contact_title")
       ),
       contactFieldSet = FieldSet(

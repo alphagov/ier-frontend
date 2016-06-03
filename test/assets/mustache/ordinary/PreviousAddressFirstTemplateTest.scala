@@ -13,7 +13,6 @@ class PreviousAddressFirstTemplateTest
       val data = new PreviousAddressFirstModel(
         question = Question(
           postUrl = "http://some.server/post_url",
-          number = "123",
           title = "Page title ABC"
         ),
         registeredAbroad = FieldSet(),
