@@ -58,7 +58,6 @@ class ContactTemplateTest
 
       val h = doc.select("header").first()
       h should not be(null)
-      h.text should include ("1")
       h.text should include ("contact title")
 
       val emailCheckBox = doc.select("input#contactEmailCheckboxId").first()

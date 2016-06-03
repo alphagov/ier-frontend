@@ -13,7 +13,6 @@ class NinoControllerTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 5")
       contentAsString(result) should include("What is your National Insurance number?")
       contentAsString(result) should include("/register-to-vote/nino")
     }
@@ -86,7 +85,6 @@ class NinoControllerTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 5")
       contentAsString(result) should include("What is your National Insurance number?")
       contentAsString(result) should include("/register-to-vote/edit/nino")
     }

@@ -76,7 +76,6 @@ class AddressFirstTemplateTest
 
         val h = doc.select("header").first() // there should be only one header in the template
         h should not be(null)
-        h.text should include ("123")
         h.text should include ("Page title ABC")
       }
     }

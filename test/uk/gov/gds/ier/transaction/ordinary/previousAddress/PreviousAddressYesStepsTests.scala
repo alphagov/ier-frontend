@@ -17,7 +17,6 @@ class PreviousAddressYesStepsTests extends ControllerTestSuite {
       contentAsString(result) should include(
         "What was your previous address?"
       )
-      contentAsString(result) should include("Question 8 of 12")
       contentAsString(result) should include("<form action=\"/register-to-vote/previous-address/postcode\"")
     }
   }
@@ -140,7 +139,6 @@ class PreviousAddressYesStepsTests extends ControllerTestSuite {
       contentAsString(result) should include(
         "What was your previous address?"
       )
-      contentAsString(result) should include("Question 8 of 12")
       contentAsString(result) should include("<form action=\"/register-to-vote/edit/previous-address/postcode\"")
     }
   }
