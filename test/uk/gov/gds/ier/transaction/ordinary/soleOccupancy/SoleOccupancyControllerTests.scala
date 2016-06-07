@@ -13,7 +13,7 @@ class SoleOccupancyControllerTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Are you the only person aged 16 or over living at this address? (optional)")
+      contentAsString(result) should include("Are you the only person aged 16 or over living at this address?")
       contentAsString(result) should include("/register-to-vote/sole-occupancy")
     }
   }
@@ -62,7 +62,7 @@ class SoleOccupancyControllerTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentAsString(result) should include("Please answer this question")
-      contentAsString(result) should include("Are you the only person aged 16 or over living at this address? (optional)")
+      contentAsString(result) should include("Are you the only person aged 16 or over living at this address?")
       contentAsString(result) should include("/register-to-vote/sole-occupancy")
     }
   }
@@ -93,7 +93,7 @@ class SoleOccupancyControllerTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Are you the only person aged 16 or over living at this address? (optional)")
+      contentAsString(result) should include("Are you the only person aged 16 or over living at this address?")
       contentAsString(result) should include("/register-to-vote/edit/sole-occupancy")
     }
   }
