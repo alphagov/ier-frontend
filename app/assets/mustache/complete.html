@@ -32,7 +32,7 @@ class="bunting"
     {{#showTemplateCurrent}}
     <h2>{{messages.complete_whatHappensNext_h2}}</h2>
 
-    {{#showDeadlineText}}
+    {{^showDeadlineText}}
     <p><strong>{{messages.complete_deadline}}</strong></p>
     {{/showDeadlineText}}
 
@@ -45,7 +45,7 @@ class="bunting"
 
     {{#showTemplate1}}
     <h2>{{messages.complete_whatToDoNext_h2}}</h2>
-    {{#showDeadlineText}}
+    {{^showDeadlineText}}
     <p><strong>{{messages.complete_deadline}}</strong></p>
     {{/showDeadlineText}}
     <p>{{messages.complete_sentApplicationTo_p1}} <strong>{{messages.complete_sentApplicationTo_p1_2}}{{#showWelsh}}.{{/showWelsh}}</strong>
@@ -58,7 +58,7 @@ class="bunting"
 
     {{#showTemplate2}}
     <h2>{{messages.complete_whatToDoNext_h2}}</h2>
-    {{#showDeadlineText}}
+    {{^showDeadlineText}}
     <p><strong>{{messages.complete_deadline}}</strong></p>
     {{/showDeadlineText}}
     <p>{{messages.complete_sentApplicationTo_p1}} <strong>{{messages.complete_sentApplicationTo_p1_6}}</strong>
@@ -71,7 +71,7 @@ class="bunting"
 
     {{#showTemplate3}}
     <h2>{{messages.complete_whatToDoNext_h2}}</h2>
-    {{#showDeadlineText}}
+    {{^showDeadlineText}}
     <p><strong>{{messages.complete_deadline}}</strong></p>
     {{/showDeadlineText}}
     <p>{{#showEnglish}}{{messages.complete_sentApplicationTo_p}}<strong><a href="/register-to-vote/local-authority/{{gssCode}}?sourcePath=/register-to-vote/complete">{{authName}}</a></strong> {{messages.complete_electoralRegistrationOffice}}.{{/showEnglish}}
@@ -83,7 +83,7 @@ class="bunting"
 
     {{#showTemplate4}}
     <h2>{{messages.complete_whatToDoNext_h2}}</h2>
-    {{#showDeadlineText}}
+    {{^showDeadlineText}}
     <p><strong>{{messages.complete_deadline}}</strong></p>
     {{/showDeadlineText}}
     <p>{{#showEnglish}}{{messages.complete_sentApplicationTo_p}}<strong><a href="/register-to-vote/local-authority/{{gssCode}}?sourcePath=/register-to-vote/complete">{{authName}}</a></strong> {{messages.complete_electoralRegistrationOffice}}.{{/showEnglish}}
