@@ -49,14 +49,14 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressOverseas] {
           +" vote, or your details have changed, you need to sign and return an application form."
       ),
       warning1 = Text (
-        value = if (wayToVoteName.equals("postal")) s"It is now too late to submit your postal vote application for the EU referendum on 23 June." else if
-        (wayToVoteName.equals("proxy")) s"To vote by proxy in the EU referendum on the 23 June, your proxy vote application must reach your local Electoral Registration Office by " else ""
+        value = if (wayToVoteName.equals("postal")) s"It is now too late to submit your postal vote application for the EU referendum on 23 June. You can still apply for future elections." else if
+        (wayToVoteName.equals("proxy")) s"It is now too late to submit your proxy vote application for the EU referendum on 23 June. You can still apply for future elections." else ""
       ),
       warning2 = Text (
-        value = if (wayToVoteName.equals("proxy")) s"5pm on Wednesday 15 June." else ""
+        value = ""
       ),
       warning3 = Text (
-        value = if (wayToVoteName.equals("postal")) s"You can still apply for a proxy vote for the EU referendum until the 15 June." else ""
+        value = ""
       ),
       voteFieldSet = FieldSet(
         classes = if (progressForm(keys.postalOrProxyVote.optIn).hasErrors)
