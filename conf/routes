@@ -2,6 +2,10 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# Metrics
+GET         /admin/metrics                                              com.kenshoo.play.metrics.MetricsController.metrics
+
+
 # Home page
 GET         /template-test                                               @uk.gov.gds.ier.controller.RegisterToVoteController.templateTest
 GET         /                                                            @uk.gov.gds.ier.controller.RegisterToVoteController.redirectToOrdinary

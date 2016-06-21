@@ -1,1 +1,2 @@
 1500:org.jba.MustachePlugin
+1000:com.kenshoo.play.metrics.MetricsPlugin

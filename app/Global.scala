@@ -7,6 +7,7 @@ import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.service.apiservice.{ConcreteIerApiService, IerApiService}
 import uk.gov.gds.ier.stubs.{FeedbackStubClient, LocateStubApiClient, IerStubApiClient, IerApiServiceWithStripNino}
 import play.api.mvc._
+import com.kenshoo.play.metrics.MetricsFilter
 
 
 object Global extends DynamicGlobal with Logging {
@@ -43,3 +44,6 @@ object Global extends DynamicGlobal with Logging {
     Filters(super.doFilter(next), StatsdFilter, ResultFilter, new AssetsCacheFilter(remoteAssets))
   }
 }
+
+object GlobalMetrics extends WithFilters(MetricsFilter)
+
