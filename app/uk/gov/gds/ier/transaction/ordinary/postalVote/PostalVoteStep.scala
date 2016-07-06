@@ -4,7 +4,6 @@ import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.model._
 import play.api.templates.Html
-
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.OrdinaryStep
@@ -12,9 +11,11 @@ import play.api.mvc.Call
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.model.PostalVote
 import uk.gov.gds.ier.validation.ErrorTransformForm
+
 import scala.Some
-import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
+import uk.gov.gds.ier.transaction.ordinary.{InprogressOrdinary, OrdinaryControllers}
 import uk.gov.gds.ier.assets.RemoteAssets
+import uk.gov.gds.ier.service.ScotlandService
 
 @Singleton
 class PostalVoteStep @Inject ()(
@@ -22,7 +23,8 @@ class PostalVoteStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService,
     val remoteAssets: RemoteAssets,
-    val ordinary: OrdinaryControllers
+    val ordinary: OrdinaryControllers,
+    val scotlandService: ScotlandService
 ) extends OrdinaryStep
   with PostalVoteForms
   with PostalVoteMustache {
@@ -51,7 +53,8 @@ class PostalVoteStep @Inject ()(
   override val onSuccess = resetPostalVote andThen GoToNextIncompleteStep()
 
   def nextStep(currentState: InprogressOrdinary) = {
-    ordinary.ContactStep
+    if(scotlandService.isScot(currentState)) ordinary.ContactStep
+    else ordinary.SoleOccupancyStep
   }
 }
 

@@ -7,18 +7,20 @@ import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
-import uk.gov.gds.ier.service.WithAddressService
+import uk.gov.gds.ier.service.{WithAddressService, WithScotlandService}
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.form.OrdinaryFormImplicits
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.ordinary.WithOrdinaryControllers
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.shared.EitherErrorOrContent
+
 import scala.Some
 import uk.gov.gds.ier.validation.Key
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.shared.EitherErrorOrContent
 import uk.gov.gds.ier.model.DOB
+
 import scala.Some
 
 trait ConfirmationMustache
@@ -56,6 +58,7 @@ trait ConfirmationMustache
       confirmation.previousAddress,
       confirmation.applicantOpenRegister,
       confirmation.postalVote,
+      if(isScottish(form)) None else confirmation.soleOccupancy,
       confirmation.contact
     ).flatten
 
@@ -410,15 +413,6 @@ trait ConfirmationMustache
   }
 
   private def isYoungScot(form: ErrorTransformForm[InprogressOrdinary]): Boolean = {
-    //IS CITIZEN REGISTERING IN SCOTLAND?...
-    //...EITHER FROM A SCOT POSTCODE _OR_ FROM COUNTRY = SCOTLAND
-    val isScot =
-      if(form(keys.address.postcode).value.isDefined) {
-        addressService.isScotAddress(form(keys.address.postcode).value.get)
-      } else {
-        form(keys.country.residence).value.exists(_.equals("Scotland"))
-      }
-
     //...IS CITIZEN A YOUNG VOTER?...
     val isYoung =
       if (form(keys.dob.dob.day).value.isDefined) {
@@ -427,8 +421,13 @@ trait ConfirmationMustache
         false
       }
 
-    //...ARE THEY BOTH??
-    (isScot && isYoung)
+    //...ARE THEY BOTH SCOTTISH AND YOUNG??
+    (isScottish(form) && isYoung)
+  }
+
+  private def isScottish(form: ErrorTransformForm[InprogressOrdinary]): Boolean = {
+    if(form(keys.address.postcode).value.isDefined) addressService.isScotAddress(form(keys.address.postcode).value.get)
+    else form(keys.country.residence).value.exists(_.equals("Scotland"))
   }
 
   /*

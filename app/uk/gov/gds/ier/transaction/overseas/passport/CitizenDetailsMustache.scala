@@ -27,7 +27,6 @@ trait CitizenDetailsMustache extends StepTemplate[InprogressOverseas] {
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
-        number = "7",
         title = title
       ),
       hasPassport =      TextField(keys.passport.hasPassport),

@@ -12,7 +12,6 @@ class AddressTemplateTest
     running(FakeApplication()) {
       val data = AddressModel(
         question = Question(postUrl = "/register-to-vote/overseas/address",
-        number = "11",
         title = "Where do you live?"
         ),
         countrySelect = Field(

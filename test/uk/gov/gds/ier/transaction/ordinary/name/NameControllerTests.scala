@@ -14,7 +14,6 @@ class NameControllerTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 4")
       contentAsString(result) should include("What is your full name?")
       contentAsString(result) should include("Have you ever changed your name? For example: marriage, deed poll")
       contentAsString(result) should include("<form action=\"/register-to-vote/name\"")
@@ -136,7 +135,6 @@ class NameControllerTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 4")
       contentAsString(result) should include("What is your full name?")
       contentAsString(result) should include("Have you ever changed your name? For example: marriage, deed poll")
       contentAsString(result) should include("<form action=\"/register-to-vote/edit/name\"")

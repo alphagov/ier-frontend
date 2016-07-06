@@ -25,7 +25,6 @@ trait PassportCheckMustache extends StepTemplate[InprogressOverseas] {
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
-        number = "",
         title = title
       ),
       hasPassport = Field(

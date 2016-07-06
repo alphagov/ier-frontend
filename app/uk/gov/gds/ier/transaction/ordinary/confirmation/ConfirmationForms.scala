@@ -42,6 +42,7 @@ with ConfirmationConstraints {
         otherAddressStepRequired,
         postalVoteStepRequired,
         contactStepRequired,
+        soleOccupancyRequiredIfNotScottish,
         //...and validate these with special isYoungScot validation conditionals...
         ninoIsYoungScot,
         openRegIsYoungScot
@@ -62,6 +63,14 @@ trait ConfirmationConstraints extends WithScotlandService {
   val otherAddressStepRequired = requireThis(keys.otherAddress) { _.otherAddress }
   val postalVoteStepRequired = requireThis(keys.postalVote) { _.postalVote }
   val contactStepRequired = requireThis(keys.contact) { _.contact }
+  val soleOccupancyRequiredIfNotScottish = Constraint[InprogressOrdinary]("soleOccupancyRequired") {
+    application =>
+      if (scotlandService.isScot(application)) Valid
+      else application.soleOccupancy match {
+        case Some(_) => Valid
+        case None => Invalid("ordinary_confirmation_error_completeThis", keys.soleOccupancy)
+      }
+  }
 
   //Given a key, validate that the object is completed or throw the standard error prompt onscreen
   def requireThis[T](key: Key)(extractT: InprogressOrdinary => Option[T]) = {

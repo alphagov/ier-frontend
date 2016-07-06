@@ -12,7 +12,6 @@ class ServiceTemplateTest
     running(FakeApplication()) {
       val data = ServiceModel(
         question = Question(postUrl = "/whatever-url",
-        number = "7",
         title = "service title"
         ),
         serviceFieldSet = FieldSet(
