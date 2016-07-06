@@ -1,13 +1,18 @@
 import uk.gov.gds.ier.client._
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.DynamicGlobal
-import uk.gov.gds.ier.feedback.{FeedbackClientImpl, FeedbackClient}
+import uk.gov.gds.ier.feedback.{FeedbackClient, FeedbackClientImpl}
 import uk.gov.gds.ier.filter.{AssetsCacheFilter, ResultFilter, StatsdFilter}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.service.apiservice.{ConcreteIerApiService, IerApiService}
-import uk.gov.gds.ier.stubs.{FeedbackStubClient, LocateStubApiClient, IerStubApiClient, IerApiServiceWithStripNino}
+import uk.gov.gds.ier.stubs.{FeedbackStubClient, IerApiServiceWithStripNino, IerStubApiClient, LocateStubApiClient}
 import play.api.mvc._
-import com.kenshoo.play.metrics.MetricsFilter
+import com.kenshoo.play.metrics.{MetricsFilter, MetricsRegistry, MetricsController}
+import java.util.concurrent.TimeUnit
+import java.net.InetSocketAddress
+
+import com.codahale.metrics.{ConsoleReporter, MetricFilter}
+import com.codahale.metrics.graphite.{Graphite, GraphiteReporter}
 
 
 object Global extends DynamicGlobal with Logging {
@@ -45,5 +50,20 @@ object Global extends DynamicGlobal with Logging {
   }
 }
 
-object GlobalMetrics extends WithFilters(MetricsFilter)
+object GlobalMetrics {
+
+  val metricRegistry = new com.codahale.metrics.MetricRegistry()
+
+  val hostedGraphiteService = new Graphite(new InetSocketAddress("carbon.hostedgraphite.com", 2003))
+  val apiKey = "<API-KEY>"
+
+  val graphiteReporter = GraphiteReporter.forRegistry(metricRegistry)
+    .prefixedWith(apiKey)
+    .convertRatesTo(TimeUnit.SECONDS)
+    .convertDurationsTo(TimeUnit.MILLISECONDS)
+    .filter(MetricFilter.ALL)
+    .build(hostedGraphiteService)
+
+}
+
 
