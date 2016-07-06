@@ -141,6 +141,8 @@ trait FormKeys {
 
     lazy val parentsAddress = prependNamespace(Key("parentsAddress"))
 
+    lazy val soleOccupancy = prependNamespace(Key("soleOccupancy"))
+
     lazy val statement = prependNamespace(Key("statement"))
     lazy val forcesMember = prependNamespace(Key("forcesMember"))
     lazy val partnerForcesMember = prependNamespace(Key("partnerForcesMember"))
