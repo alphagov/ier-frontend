@@ -363,7 +363,7 @@ ordinary_postalVote_postalVote_option=Ydw, anfonwch ffurflen gais pleidlais bost
 ordinary_postalVote_postalVote_heading=Os ydych am gael ffurflen gais am bleidlais bost
 ordinary_postalVote_postalVote_deliveryOptionsQuestion=Bydd angen i chi lofnodi a dychwelyd y ffurflen gais pleidlais bost. Sut ddylen ni \
 anfon y ffurflen atoch?
-ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline=Mae’n rhy hwyr yn awr i gyflwyno ffurflen gais am bleidlais drwy’r post ar gyfer y refferendwm ar yr UE ar 23 Mehefin. Gallwch wneud cais ar gyfer etholiadau yn y dyfodol o hyd.
+ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline=I bleidleisio drwy’r post yn refferendwm yr Undeb Ewropeaidd ar 23 Mehefin, mae’n rhaid i’ch cais am bleidlais drwy’r post gyrraedd eich Swyddfa Cofrestru Etholaeth leol dim hwyrach na 5pm, dydd Mercher 8 Mehefin.
 ordinary_postalVote_postalVote_deliveryEmail_option=Drwy e-bost
 ordinary_postalVote_postalVote_emailAddress_label=Cyfeiriad e-bost
 ordinary_postalVote_postalVote_deliveryPost_option=Drwy’r post
@@ -382,7 +382,18 @@ ordinary_postalVote_error_enterValidEmail=Nid yw hwnnw’n gyfeiriad e-bost dily
 
 ordinary_postalVote_error_answerThis=Atebwch y cwestiwn hwn
 
+# ordinary: Sole Occupancy
+ordinary_soleOccupancy_title=Ai chi yw’r unig un 16 oed neu hŷn sy’n byw yn eich cyfeiriad presennol? (dewisol)
 
+ordinary_soleOccupancy_yes_option=Ie
+ordinary_soleOccupancy_no_option=Nage
+ordinary_soleOccupancy_notSure_option=Ddim yn siŵr
+ordinary_soleOccupancy_skipThisQuestion_option=Mae’n well gen i beidio dweud
+
+ordinary_soleOccupancy_help_link=Pam rydych chi’n gofyn y cwestiwn hwn?
+ordinary_soleOccupancy_help_content_1=Yn ystod y flwyddyn, mae awdurdodau lleol yn anfon llythyrau i bob aelwyd yn gwahodd y rhai sy’n gymwys i gofrestru i bleidleisio. Mae’n bosib na fydd yn rhaid i’ch awdurdod lleol anfon y llythyrau hyn atoch yn y dyfodol agos, os byddwch chi’n rhoi gwybod iddynt mai chi yw’r unig un 16 oed neu hŷn sy’n byw yn eich cyfeiriad.
+
+ordinary_soleOccupancy_error_answerThis=Atebwch y cwestiwn hwn
 
 # ordinary: contact
 ordinary_contact_title=Os bydd gennym gwestiynau am eich cais, beth yw’r ffordd orau o gysylltu â chi?
@@ -467,6 +478,12 @@ ordinary_confirmation_postalVote_mailDelivery=Rwyf am i chi i bostio ffurflen ga
 ordinary_confirmation_postalVote_dontWant=Dydw i ddim eisiau gwneud cais am bleidlais drwy’r post
 ordinary_confirmation_postalVote_alreadyHave=Mae gen i bleidlais bost yn barod
 
+ordinary_confirmation_soleOccupancy_title=Ai chi yw’r unig un 16 oed neu hŷn sy’n byw yn eich cyfeiriad presennol?
+ordinary_confirmation_soleOccupancy_yes_option=Ie
+ordinary_confirmation_soleOccupancy_no_option=Nage
+ordinary_confirmation_soleOccupancy_notSure_option=Ddim yn siŵr
+ordinary_confirmation_soleOccupancy_skipThisQuestion_option=Mae’n well gen i beidio dweud
+
 ordinary_confirmation_contact_title=Sut dylem gysylltu â chi
 ordinary_confirmation_contact_changeName=sut dylem gysylltu â chi
 ordinary_confirmation_contact_byPost=Drwy’r post
@@ -496,7 +513,7 @@ complete_applicationComplete_3=ei brosesu.
 complete_yourRefNumberIs=Eich cyfeirnod yw
 complete_emailConfirmation=Rydym wedi anfon e-bost atoch i gydnabod eich cais.
 complete_whatHappensNext_h2=Beth fydd yn digwydd nesaf
-complete_deadline=Mae'r dyddiad cau ar gyfer cofrestru i bleidleisio yn y refferendwm ar yr UE ar 23 Mehefin wedi bod. Fodd bynnag, gallwn brosesu eich cais o hyd ar gyfer etholiadau yn y dyfodol.
+complete_deadline=Mae'r dyddiad cau ar gyfer cofrestru i bleidleisio yn yr etholiadau ar 5 Mai wedi bod. Fodd bynnag, gallwn brosesu eich cais o hyd ar gyfer refferendwm yr Undeb Ewropeaidd ar 23 Mehefin.
 complete_whatToDoNext_h2=Beth i'w wneud nesaf
 complete_sentApplicationTo_p1=Rydyn ni wedi anfon neges e-bost atoch chi sy'n cynnwys
 complete_sentApplicationTo_p1_2=ffurflen gais am bleidlais bost

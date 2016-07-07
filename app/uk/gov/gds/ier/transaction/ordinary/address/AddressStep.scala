@@ -67,7 +67,13 @@ class AddressStep @Inject() (
     }
   }
 
+  def clearSoleOccupancyIfScottish = TransformApplication {
+    currentState =>
+      if (addressService.isScotAddress(currentState.address.get.postcode)) currentState.copy(soleOccupancy = None)
+      else currentState
+  }
+
   override val onSuccess = {
-     GoToNextStep()
+     clearSoleOccupancyIfScottish andThen GoToNextStep()
   }
 }

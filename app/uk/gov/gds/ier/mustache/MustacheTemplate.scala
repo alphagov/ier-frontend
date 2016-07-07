@@ -7,7 +7,6 @@ import play.api.i18n.Lang
 
 case class Question (
     postUrl:String = "",
-    number:String = "",
     title:String = "",
     contentClasses:String = "",
     errorMessages:Seq[String] = Seq.empty

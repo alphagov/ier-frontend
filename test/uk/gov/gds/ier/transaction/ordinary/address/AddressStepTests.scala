@@ -28,7 +28,6 @@ class AddressStepTests extends ControllerTestSuite {
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("What is your address?")
-      contentAsString(result) should include("Question 6")
       contentAsString(result) should include("/register-to-vote/address")
     }
   }
@@ -41,8 +40,8 @@ class AddressStepTests extends ControllerTestSuite {
         FakeRequest(POST, "/register-to-vote/address")
           .withIerSession()
           .withFormUrlEncodedBody(
-          "address.postcode" -> "SW1A 1AA"
-        )
+            "address.postcode" -> "SW1A 1AA"
+          )
       )
 
       status(result) should be(SEE_OTHER)
@@ -57,7 +56,7 @@ class AddressStepTests extends ControllerTestSuite {
           .withIerSession()
           .withFormUrlEncodedBody(
             "address.postcode" -> "BT15EQ"
-        )
+          )
       )
 
       status(result) should be(SEE_OTHER)
@@ -113,7 +112,7 @@ class AddressStepTests extends ControllerTestSuite {
             "address.manualAddress.lineThree" -> "Hallow",
             "address.manualAddress.city" -> "Worcester",
             "address.postcode" -> "SW1A 1AA"
-        )
+          )
       )
 
       status(result) should be(SEE_OTHER)
@@ -178,7 +177,6 @@ class AddressStepTests extends ControllerTestSuite {
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("What is your address?")
-      contentAsString(result) should include("Question 6")
       contentAsString(result) should include("<form action=\"/register-to-vote/edit/address\"")
     }
   }
@@ -244,7 +242,7 @@ class AddressStepTests extends ControllerTestSuite {
             "address.manualAddress.lineThree" -> "Hallow",
             "address.manualAddress.city" -> "Worcester",
             "address.postcode" -> "SW1A 1AA"
-        )
+          )
       )
 
       status(result) should be(SEE_OTHER)

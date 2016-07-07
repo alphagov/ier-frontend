@@ -38,7 +38,6 @@ trait PreviousAddressFirstMustache extends StepTemplate[InprogressOrdinary] {
     PreviousAddressFirstModel(
       question = Question(
         postUrl = post.url,
-        number = s"8 ${Messages("step_of")} 11",
         title = Messages("ordinary_previousAddress_title"),
         errorMessages = Messages.translatedGlobalErrors(form)
       ),

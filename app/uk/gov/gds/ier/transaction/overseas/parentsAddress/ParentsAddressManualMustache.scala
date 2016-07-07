@@ -26,7 +26,6 @@ trait ParentsAddressManualMustache extends StepTemplate[InprogressOverseas] {
     ManualModel(
       question = Question(
         postUrl = post.url,
-        number = questionNumber,
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),
