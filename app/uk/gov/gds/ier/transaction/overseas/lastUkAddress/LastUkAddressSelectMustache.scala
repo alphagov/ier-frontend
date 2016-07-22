@@ -13,7 +13,6 @@ trait LastUkAddressSelectMustache extends StepTemplate[InprogressOverseas] {
     with WithSerialiser =>
 
     val title = "What was the UK address where you were last registered to vote?"
-    val questionNumber = ""
 
     case class SelectModel (
         question: Question,
@@ -88,7 +87,6 @@ trait LastUkAddressSelectMustache extends StepTemplate[InprogressOverseas] {
       SelectModel(
         question = Question(
           postUrl = post.url,
-          number = questionNumber,
           title = title,
           errorMessages = progressForm.globalErrors.map(_.message)
         ),

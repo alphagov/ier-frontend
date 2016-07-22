@@ -12,9 +12,6 @@ trait PostalOrProxyVoteMustache
   case class PostalOrProxyVoteModel(
       question:Question,
       description: Text,
-      warning1: Text,
-      warning2: Text,
-      warning3: Text,
       voteFieldSet: FieldSet,
       voteOptInTrue: Field,
       voteOptInFalse: Field,
@@ -51,16 +48,6 @@ trait PostalOrProxyVoteMustache
           value = s"If this is your first time using a $wayToVoteName"
             +" vote, or your details have changed, you need to sign"
             +" and return an application form."
-        ),
-        warning1 = Text (
-          value = if (wayToVoteName.equals("postal")) s"It is now too late to submit your postal vote application for the EU referendum on 23 June. You can still apply for future elections." else if
-          (wayToVoteName.equals("proxy")) s"It is now too late to submit your proxy vote application for the EU referendum on 23 June. You can still apply for future elections." else ""
-        ),
-        warning2 = Text (
-          value = ""
-        ),
-        warning3 = Text (
-          value = ""
         ),
         voteFieldSet = FieldSet(
           classes = if (progressForm(keys.postalOrProxyVote.optIn).hasErrors)

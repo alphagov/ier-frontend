@@ -27,7 +27,6 @@ class CountryControllerTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 1")
       contentAsString(result) should not include("<a class=\"back-to-previous\"")
       contentAsString(result) should include("Where do you live?")
       contentAsString(result) should include("/register-to-vote/country-of-residence")
@@ -223,7 +222,6 @@ class CountryControllerTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 1")
       contentAsString(result) should not include("<a class=\"back-to-previous\"")
       contentAsString(result) should include("Where do you live?")
       contentAsString(result) should include("/register-to-vote/edit/country-of-residence")

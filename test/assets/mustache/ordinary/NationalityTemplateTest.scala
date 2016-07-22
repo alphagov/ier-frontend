@@ -12,7 +12,6 @@ class NationalityTemplateTest
     running(FakeApplication()) {
       val data = NationalityModel(
         question = Question(postUrl = "/whatever-url",
-        number = "1",
         title = "nationality title"
         ),
         nationality = FieldSet("nationalityClass"),

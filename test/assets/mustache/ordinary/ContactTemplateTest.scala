@@ -12,7 +12,6 @@ class ContactTemplateTest
     running(FakeApplication()) {
       val data = ContactModel(
         question = Question(postUrl = "/whatever-url",
-        number = "1",
         title = "contact title"
         ),
         contactFieldSet = FieldSet(
@@ -58,7 +57,6 @@ class ContactTemplateTest
 
       val h = doc.select("header").first()
       h should not be(null)
-      h.text should include ("1")
       h.text should include ("contact title")
 
       val emailCheckBox = doc.select("input#contactEmailCheckboxId").first()

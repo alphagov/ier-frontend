@@ -13,7 +13,6 @@ class PostalVoteControllerTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 10")
       contentAsString(result) should include("Do you want to apply for a postal vote?")
       contentAsString(result) should include("/register-to-vote/postal-vote")
     }
@@ -25,7 +24,7 @@ class PostalVoteControllerTests extends ControllerTestSuite {
   it should behave like appWithPostalVote("no-already-have")
 
   def appWithPostalVote(postalVoteOption: String) {
-    it should s"bind successfully and redirect to the Contact step for vote option: $postalVoteOption" in {
+    it should s"bind successfully and redirect to the sole occupancy step for vote option: $postalVoteOption" in {
       running(FakeApplication()) {
         val Some(result) = route(
           FakeRequest(POST, "/register-to-vote/postal-vote")
@@ -37,7 +36,7 @@ class PostalVoteControllerTests extends ControllerTestSuite {
         )
 
         status(result) should be(SEE_OTHER)
-        redirectLocation(result) should be(Some("/register-to-vote/contact"))
+        redirectLocation(result) should be(Some("/register-to-vote/sole-occupancy"))
       }
     }
   }
@@ -98,7 +97,6 @@ class PostalVoteControllerTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 10")
       contentAsString(result) should include("Do you want to apply for a postal vote?")
       contentAsString(result) should include("/register-to-vote/edit/postal-vote")
     }
@@ -110,7 +108,7 @@ class PostalVoteControllerTests extends ControllerTestSuite {
   it should behave like editedAppWithPostalVote("no-already-have")
 
   def editedAppWithPostalVote(postalVoteOption: String) {
-    it should s"bind successfully and redirect to the incomplete Contact step for vote option: $postalVoteOption" in {
+    it should s"bind successfully and redirect to the incomplete sole occupancy step for vote option: $postalVoteOption" in {
       running(FakeApplication()) {
         val Some(result) = route(
           FakeRequest(POST, "/register-to-vote/edit/postal-vote")
@@ -122,7 +120,7 @@ class PostalVoteControllerTests extends ControllerTestSuite {
         )
 
         status(result) should be(SEE_OTHER)
-        redirectLocation(result) should be(Some("/register-to-vote/contact"))
+        redirectLocation(result) should be(Some("/register-to-vote/sole-occupancy"))
       }
     }
 

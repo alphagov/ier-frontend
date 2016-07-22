@@ -170,7 +170,11 @@ POST        /register-to-vote/edit/nino                                  @uk.gov
 #Postcode Lookup
 GET         /address/:postcode                                           @uk.gov.gds.ier.controller.PostcodeController.lookupAddress(postcode)
 
-
+#Sole Occupancy Step
+GET         /register-to-vote/sole-occupancy                            @uk.gov.gds.ier.transaction.ordinary.soleOccupancy.SoleOccupancyStep.get
+POST        /register-to-vote/sole-occupancy                            @uk.gov.gds.ier.transaction.ordinary.soleOccupancy.SoleOccupancyStep.post
+GET         /register-to-vote/edit/sole-occupancy                       @uk.gov.gds.ier.transaction.ordinary.soleOccupancy.SoleOccupancyStep.editGet
+POST        /register-to-vote/edit/sole-occupancy                       @uk.gov.gds.ier.transaction.ordinary.soleOccupancy.SoleOccupancyStep.editPost
 
 ################################
 ## Overseas Routes

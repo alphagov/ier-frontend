@@ -12,7 +12,6 @@ class NinoTemplateTest
     running(FakeApplication()) {
       val data = NinoModel(
         question = Question(postUrl = "/whatever-url",
-        number = "6",
         title = "nino title"
         ),
         nino = Field(

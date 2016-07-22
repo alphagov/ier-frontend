@@ -1,11 +1,12 @@
 package uk.gov.gds.ier.transaction.ordinary.postalVote
 
 import uk.gov.gds.ier.config.Config
-import uk.gov.gds.ier.model.{PostalVoteOption, PostalVote, PostalVoteDeliveryMethod}
+import uk.gov.gds.ier.model.{PostalVote, PostalVoteDeliveryMethod, PostalVoteOption}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.test.MockingTestSuite
 import uk.gov.gds.ier.assets.RemoteAssets
+import uk.gov.gds.ier.service.ScotlandService
 import uk.gov.gds.ier.transaction.ordinary.OrdinaryControllers
 
 class PostalVoteStepTests extends MockingTestSuite {
@@ -16,13 +17,15 @@ class PostalVoteStepTests extends MockingTestSuite {
     val mockedEncryptionService = mock[EncryptionService]
     val mockedRemoteAssets = mock[RemoteAssets]
     val mockedControllers = mock[OrdinaryControllers]
+    val mockedScotlandService = mock[ScotlandService]
 
     val postalVoteStep = new PostalVoteStep(
       mockedJsonSerialiser,
       mockedConfig,
       mockedEncryptionService,
       mockedRemoteAssets,
-      mockedControllers
+      mockedControllers,
+      mockedScotlandService
     )
 
     val currentState = completeOrdinaryApplication.copy(postalVote = Some(PostalVote(
