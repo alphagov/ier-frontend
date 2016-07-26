@@ -43,6 +43,10 @@ class Config extends Logging {
 
   def availableForScotland = configuration.getBoolean("ier.availableForScotland", false)
 
+  def graphiteUrl = configuration.getString("graphite.url")
+  def graphitePort = configuration.getString("graphite.port")
+  def graphiteApiKey = configuration.getString("graphite.api.key")
+
   def logConfiguration() = {
     logger.debug(s"apiTimeout:$apiTimeout")
     logger.debug(s"locateUrl:$locateUrl")
