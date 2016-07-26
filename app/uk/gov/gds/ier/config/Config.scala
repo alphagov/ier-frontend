@@ -46,6 +46,7 @@ class Config extends Logging {
   def graphiteUrl = configuration.getString("graphite.url")
   def graphitePort = configuration.getString("graphite.port")
   def graphiteApiKey = configuration.getString("graphite.api.key")
+  def graphiteInterval = configuration.getString("graphite.interval")
 
   def logConfiguration() = {
     logger.debug(s"apiTimeout:$apiTimeout")

@@ -53,6 +53,7 @@ object Global extends WithFilters(MetricsFilter) with DynamicGlobal with GlobalS
     def graphiteUrl = config.graphiteUrl
     def graphitePort = config.graphitePort
     def graphiteApiKey = config.graphiteApiKey
+    def graphiteInterval = config.graphiteInterval
 
     val metricRegistry = MetricsRegistry.default
 
@@ -64,7 +65,7 @@ object Global extends WithFilters(MetricsFilter) with DynamicGlobal with GlobalS
       .convertDurationsTo(TimeUnit.MILLISECONDS)
       .build(hostedGraphiteService)
 
-    graphiteReporter.start(5, TimeUnit.SECONDS)
+    graphiteReporter.start(graphiteInterval.toInt, TimeUnit.SECONDS)
   }
 }
 
