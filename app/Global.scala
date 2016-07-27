@@ -1,15 +1,20 @@
 import uk.gov.gds.ier.client._
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.DynamicGlobal
-import uk.gov.gds.ier.feedback.{FeedbackClientImpl, FeedbackClient}
+import uk.gov.gds.ier.feedback.{FeedbackClient, FeedbackClientImpl}
 import uk.gov.gds.ier.filter.{AssetsCacheFilter, ResultFilter, StatsdFilter}
 import uk.gov.gds.ier.logging.Logging
 import uk.gov.gds.ier.service.apiservice.{ConcreteIerApiService, IerApiService}
-import uk.gov.gds.ier.stubs.{FeedbackStubClient, LocateStubApiClient, IerStubApiClient, IerApiServiceWithStripNino}
-import play.api.mvc._
+import uk.gov.gds.ier.stubs.{FeedbackStubClient, IerApiServiceWithStripNino, IerStubApiClient, LocateStubApiClient}
+import com.kenshoo.play.metrics._
+import play.api.{Application, GlobalSettings}
+import play.api.mvc.{WithFilters, _}
+import java.util.concurrent.TimeUnit
+import java.net.InetSocketAddress
 
+import com.codahale.metrics.graphite.{Graphite, GraphiteReporter}
 
-object Global extends DynamicGlobal with Logging {
+object Global extends WithFilters(MetricsFilter) with DynamicGlobal with GlobalSettings with Logging {
 
   override def bindings = {
     binder =>
@@ -42,4 +47,26 @@ object Global extends DynamicGlobal with Logging {
   override def doFilter(next: EssentialAction): EssentialAction = {
     Filters(super.doFilter(next), StatsdFilter, ResultFilter, new AssetsCacheFilter(remoteAssets))
   }
+
+  override def onStart(app: Application) {
+
+    def graphiteUrl = config.graphiteUrl
+    def graphitePort = config.graphitePort
+    def graphiteApiKey = config.graphiteApiKey
+    def graphiteInterval = config.graphiteInterval
+
+    val metricRegistry = MetricsRegistry.default
+
+    val hostedGraphiteService = new Graphite(new InetSocketAddress(graphiteUrl,graphitePort.toInt))
+
+    val graphiteReporter = GraphiteReporter.forRegistry(metricRegistry)
+      .prefixedWith(graphiteApiKey)
+      .convertRatesTo(TimeUnit.SECONDS)
+      .convertDurationsTo(TimeUnit.MILLISECONDS)
+      .build(hostedGraphiteService)
+
+    graphiteReporter.start(graphiteInterval.toInt, TimeUnit.SECONDS)
+  }
 }
+
+
