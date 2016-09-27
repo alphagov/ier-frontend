@@ -14,6 +14,37 @@ class StatusControllerTests extends ControllerTestSuite {
 
   behavior of "StatusController.status"
 
+  /*running(FakeApplication(withGlobal = Some(stubGlobal))) {
+    val Some(result) = route(FakeRequest(GET, "/status"))
+    it should "200 OK" in {
+      status(result) should be(OK)
+      contentType(result) should be(Some("application/json"))
+    }
+    it should "return a git sha" in {
+      contentAsString(result) should include("\"revision\":\"a1b2c3d54\"")
+    }
+    it should "return a build date" in {
+      contentAsString(result) should include("\"build date\":\"12/01/2012\"")
+    }
+    it should "return a build number" in {
+      contentAsString(result) should include("\"build number\":\"0001\"")
+    }
+    it should "return a branch" in {
+      contentAsString(result) should include("\"branch\":\"master\"")
+    }
+    it should "return an uptime" in {
+      contentAsString(result) should fullyMatch regex ".*\"uptime\":\"\\d+:\\d+\".*".r
+    }
+    it should "return a process id" in {
+      contentAsString(result) should fullyMatch regex ".*\"process id\":\"\\d+\".*".r
+    }
+    it should "return a started date and time" in {
+      contentAsString(result) should fullyMatch regex ".*\"started\":\".+ \\d+:\\d+:\\d+ \\d+\".*".r
+    }
+    it should "claim to be up" in {
+      contentAsString(result) should fullyMatch regex ".*\"status\":\"up\".*".r
+    }
+  }*/
 }
 
 class MockConfig extends Config {
