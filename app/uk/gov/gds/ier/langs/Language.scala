@@ -14,11 +14,21 @@ object Language {
   }
 
   def setEmailLang(request:Request[Any]){
-    if ((request.cookies.get("sessionKey").get.domain.getOrElse("") contains "cymraeg") || (request.cookies.get("sessionKey").get.domain.getOrElse("") contains "welsh")) {
-      emailLang="cy"
-    }
-    else {
-      emailLang="en"
+    if (isWelsh(request)) emailLang="cy" else  emailLang="en"
+  }
+
+  def isWelsh(request: Request[Any]): Boolean = {
+    val domain = getDomain(request).toString
+    if ((domain contains "cymraeg") || (domain contains "welsh")) true else false
+  }
+
+  def getDomain(request: Request[Any]) = {
+    request.headers.get("host") filterNot {
+      _ startsWith "localhost"
+    } filterNot {
+      _ == ""
+    } map {
+      _.split(":").head
     }
   }
 }
