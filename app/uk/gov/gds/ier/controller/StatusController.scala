@@ -54,10 +54,11 @@ class StatusController @Inject() (
       }
     }
   }
+
   def status = Action {
     _ =>
       if (
         testMongo == "up" & testPostgres == "up" & pidAsString == "up"
-      ) Ok else InternalServerError
+      ) Ok else ServiceUnavailable
   }
 }
