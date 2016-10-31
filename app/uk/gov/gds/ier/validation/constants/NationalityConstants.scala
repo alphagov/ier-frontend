@@ -108,7 +108,7 @@ object NationalityConstants {
     "French Guiana" -> ISOCountry("GF", displayName = "French Guiana"),
     "French Polynesia" -> ISOCountry("PF", displayName = "French Polynesia"),
     "Gabon" -> ISOCountry("GA", displayName = "Gabon"),
-    "Gambia" -> ISOCountry("GM", displayName = "Gambia", Franchise.commonwealth),
+    "Gambia" -> ISOCountry("GM", displayName = "Gambia"),
     "Georgia" -> ISOCountry("GE", displayName = "Georgia"),
     "Germany" -> ISOCountry("DE", displayName = "Germany", Franchise.european),
     "Ghana" -> ISOCountry("GH", displayName = "Ghana", Franchise.commonwealth),
