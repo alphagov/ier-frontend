@@ -4,7 +4,7 @@ import play.modules.statsd.api.Statsd
 import java.net.InetAddress
 
 object StatsdClient {
-  private var hostName = InetAddress.getLocalHost.getHostName
+  private val hostName = InetAddress.getLocalHost.getHostName
 
   def timing(statName: String, timeInMs: Long) = {
     if (!statName.contains("assets"))
