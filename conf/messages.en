@@ -597,6 +597,11 @@ exit_northernIreland_instead=Instead, download and complete a
 exit_northernIreland_paperRegistration=registration form
 exit_northernIreland_postItTo=then post it to your
 exit_northernIreland_yourElectoralOffice=local area electoral office
+exit_northernIrelandOverseas_title=Overseas elector registration
+exit_northernIrelandOverseas_instead=To register as an overseas elector in Northern Ireland you will need to complete a
+exit_northernIrelandOverseas_paperRegistration=paper application form
+exit_northernIrelandOverseas_postItTo= and then post it to the
+exit_northernIrelandOverseas_yourElectoralOffice=Electoral Office for Northern Ireland.
 
 # Scotland
 exit_scotland_title=Voter registration forms for Scotland
