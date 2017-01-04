@@ -164,7 +164,7 @@ class CountryControllerTests extends ControllerTestSuite {
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/exit/northern-ireland"))
+      redirectLocation(result) should be(Some("/register-to-vote/exit/northern-ireland-overseas"))
     }
   }
 
@@ -318,7 +318,7 @@ class CountryControllerTests extends ControllerTestSuite {
       )
 
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/exit/northern-ireland"))
+      redirectLocation(result) should be(Some("/register-to-vote/exit/northern-ireland-overseas"))
     }
   }
 

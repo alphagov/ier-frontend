@@ -38,6 +38,11 @@ class ExitController @Inject() (
       Ok(ExitPages.NorthernIreland())
   }
 
+  def niOverseas = ClearSession in Action {
+    implicit request =>
+      Ok(ExitPages.Nioverseas())
+  }
+
   def britishIslands = ClearSession in Action {
     implicit request =>
       Ok(ExitPages.BritishIslands())

@@ -624,6 +624,11 @@ exit_northernIreland_instead=Yn lle hynny, gallwch lawrlwytho a llenwi
 exit_northernIreland_paperRegistration=ffurflen gofrestru
 exit_northernIreland_postItTo=ac yna a'i hanfon drwy'r post i'ch
 exit_northernIreland_yourElectoralOffice=swyddfa etholiadau leol
+exit_northernIrelandOverseas_title=Cofrestri fel pleidleisiwr tramor
+exit_northernIrelandOverseas_instead=I gofrestri fel pleidleisiwr tramor yng Ngogledd Iwerddon, byddech angen cwblhau
+exit_northernIrelandOverseas_paperRegistration=ffurflen gais ar bapur
+exit_northernIrelandOverseas_postItTo=a’i bostio i’r
+exit_northernIrelandOverseas_yourElectoralOffice=Swyddfa Etholiadol ar gyfer Gogledd Iwerddon (EONI).
 
 # Scotland
 exit_scotland_title=Ffurflenni cofrestru pleidleisiwr yn yr Alban
