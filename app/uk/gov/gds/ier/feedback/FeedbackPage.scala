@@ -44,7 +44,12 @@ class FeedbackPage @Inject ()(
       //Cleaning all <>': from the URL to prevent XSS
       var sPath : String = ""
       if(sourcePath.isDefined) {
-        sPath = toCleanFormat(sourcePath.getOrElse(""))
+        if(sourcePath.get.startsWith("/register-to-vote/")){
+          sPath = toCleanFormat(sourcePath.getOrElse(""))
+        }else{
+          sPath = config.ordinaryStartUrl
+        }
+
       }
 
       Ok(ThankYouPage(
