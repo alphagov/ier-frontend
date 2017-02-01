@@ -1,5 +1,5 @@
 [repositories]
   local
-  artifactory-ivy: http://build-1/artifactory/repos-ivy, [organization]/[module]/[revision]/[type]s/[artifact](-[classifier]).[ext]
-  artifactory-ivy-sbt: http://build-1/artifactory/repos-ivy, [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext]
+  artifactory-ivy: https://build.dev-mgmt.ierdev.org.uk/artifactory/repos-ivy, [organization]/[module]/[revision]/[type]s/[artifact](-[classifier]).[ext]
+  artifactory-ivy-sbt: https://build.dev-mgmt.ierdev.org.uk/artifactory/repos-ivy, [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext]
   artifactory: http://build-1/artifactory/repo
