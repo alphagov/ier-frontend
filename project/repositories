@@ -1,5 +1,5 @@
 [repositories]
   local
-  artifactory-ivy: https://external-build.registertovote.service.gov.uk/artifactory/repos-ivy, [organization]/[module]/[revision]/[type]s/[artifact](-[classifier]).[ext]
-  artifactory-ivy-sbt: https://external-build.registertovote.service.gov.uk/artifactory/repos-ivy, [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext]
-  artifactory: https://external-build.registertovote.service.gov.uk/artifactory/repo
+  artifactory-ivy: https://build.dev-mgmt.ierdev.org.uk/artifactory/repos-ivy, [organization]/[module]/[revision]/[type]s/[artifact](-[classifier]).[ext]
+  artifactory-ivy-sbt: https://build.dev-mgmt.ierdev.org.uk/artifactory/repos-ivy, [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext]
+  artifactory: https://build.dev-mgmt.ierdev.org.uk/artifactory/repo
