@@ -18,11 +18,30 @@ All other depedencies (Play framework, Scala, sbt, etc) will be installed as par
  1. `git clone git@github.gds:gds/ier-frontend.git`
 
  2. In a terminal execute `./sbt` to open the Play console
- 
+
  3. Wait (Downloading the entire internet)
- 
+
  4. In the SBT console execute `compile` to compile the app
- 
+
+ If you encounter SSL handshake errors this will probably be caused by the 'Lets Encrypt' certs used on the build server.
+ Add the Lets Encrypt certs into your local JAVA Keystore, usually located here:
+
+ ```
+
+ /Library/Java/JavaVirtualMachines/jdk<version>.jdk/Contents/Home/jre/lib/security/
+
+ ```
+
+ You can grab the root and intermediate certs from https://letsencrypt.org/certificates/
+
+ And install each like so (remember to use a different alias each time)
+
+ ```
+
+ sudo keytool -importcert -alias letsencryptroot -file /Users/<username>/Downloads/isrgrootx1.der -keystore cacerts
+
+ ```
+
  5. Create directory `/var/log/ier` with write access rights for the current user, e.g:   
 
     ```
@@ -32,19 +51,19 @@ All other depedencies (Play framework, Scala, sbt, etc) will be installed as par
     ```
 
  6. In the SBT console execute `run` to start the app
- 
+
  7. Go to [http://localhost:9000/](http://localhost:9000/)  
 
-    \[Note: I got an internal error had to re- `gem install sass` to fix it \]
- 
+    \[Note: I got an internal error had to re- `gem install sass` to fix it \]   
+
 ###Running the service
 
  1. In a terminal execute `./sbt` to open the SBT console
 
  2. In the SBT console execute `run` to start the app
- 
+
  3. Or just `./sbt run`
- 
+
  4. Go to `http://localhost:9000/`
 
 ###Front-end development
