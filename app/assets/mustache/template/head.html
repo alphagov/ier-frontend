@@ -4,6 +4,9 @@
 <!--[if IE 7]><link href="{{ appAssetPath }}stylesheets/application-ie7.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
 <!--[if IE 8]><link href="{{ appAssetPath }}stylesheets/application-ie8.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
 
+{{#throttle}}
+<input type="hidden" id="throttleRatio" value="{{throttleRatio}}">
 <script src="{{ appAssetPath }}javascripts/throttle.js"></script>
+{{/throttle}}
 
 <link href="{{ appAssetPath }}stylesheets/print.css" media="print" rel="stylesheet" type="text/css" />

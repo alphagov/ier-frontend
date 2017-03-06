@@ -1,16 +1,23 @@
 var random = Math.random();
 var currentPage = window.location.href;
 var cookieValue = getCookieValue("throttle");
+var throttleRatio = document.getElementById("throttleRatio");
 
-if (cookieValue !== null && currentPage.includes('register-to-vote/country-of-residence')){
-    window.location.href = '/register-to-vote/exit/too-busy';
+if (!throttleRatio){
+    throttleRatio = 1;
 }else{
-    if (random >= 0.8){
-        setCookie("throttle",true,5);
-    }
-    if (random < 0.8){
+    throttleRatio = throttleRatio.value;
+}
 
+if (random >= throttleRatio){
+    if (!cookieValue && currentPage.includes('register-to-vote/country-of-residence')){
+        setCookie("throttle",true,5);
+        window.location.href = '/register-to-vote/exit/too-busy';
     }
+}
+
+if (cookieValue && currentPage.includes('register-to-vote/country-of-residence')){
+    window.location.href = '/register-to-vote/exit/too-busy';
 }
 
 function getCookieValue(name){
@@ -27,4 +34,3 @@ function setCookie(name,value,expiry_mins){
       + (!expiry_mins ? "" : "; expires="+expiry_date.toUTCString());
       ;
 }
-

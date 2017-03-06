@@ -37,6 +37,8 @@ trait InheritedGovukMustache extends StepMustache {
     val assetPath = remoteAssets.templatePath
     val appAssetPath = remoteAssets.assetsPath
     val startUrl = config.ordinaryStartUrl
+    val throttle = config.throttle
+    val throttleRatio = config.throttleRatio
     val cookieUrl = RegisterToVoteController.cookies.url
     val privacyUrl = RegisterToVoteController.privacy.url
   }
