@@ -359,6 +359,8 @@ ordinary_postalVote_voteInPerson_option=Nac ydw, mae’n well gennyf bleidleisio
 ordinary_postalVote_voteAlreadyHave_option=Nac ydw, mae gennyf bleidlais bost eisoes
 ordinary_postalVote_voteAlreadyHave_help=Os ydych chi wedi newid cyfeiriad, bydd angen i chi wneud cais am bleidlais bost newydd
 ordinary_postalVote_postalVote_option=Ydw, anfonwch ffurflen gais pleidlais bost ataf
+ordinary_postalVote_deadline=To vote by post in the 4 May elections, your local Electoral Registration Office must receive your application by
+ordinary_postalVote_deadline2=5pm on Tuesday 18 April 2017.
 
 ordinary_postalVote_postalVote_heading=Os ydych am gael ffurflen gais am bleidlais bost
 ordinary_postalVote_postalVote_deliveryOptionsQuestion=Bydd angen i chi lofnodi a dychwelyd y ffurflen gais pleidlais bost. Sut ddylen ni \

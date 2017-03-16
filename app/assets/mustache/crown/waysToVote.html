@@ -22,7 +22,16 @@
             By proxy (someone you trust voting for you)
         </label>
 
-        <label for="{{byPost.id}}" class="selectable"  >
+        <div class="optional-section optional-section-core-content"
+             data-condition="{{byProxy.id}}"
+             aria-hidden="true" aria-expanded="false">
+            <legend class="label">
+                <p>To vote by proxy in the 4 May elections, your local Electoral Registration Office must receive your application by
+                    <b>5pm on Tuesday 25 April 2017.</b></p>
+            </legend>
+        </div>
+
+        <p></p><label for="{{byPost.id}}" class="selectable"  >
             <input type="radio"
                    id="{{byPost.id}}"
                    name="{{byPost.name}}"
@@ -35,6 +44,14 @@
             By post
         </label>
 
+        <div class="optional-section optional-section-core-content"
+                data-condition="{{byPost.id}}"
+                aria-hidden="true" aria-expanded="false">
+            <legend class="label">
+                <p>To vote by post in the 4 May elections, your local Electoral Registration Office must receive your application by
+                <b>5pm on Tuesday 18 April 2017.</b></p>
+            </legend>
+        </div><p></p>
 
         <p>or</p>
 
