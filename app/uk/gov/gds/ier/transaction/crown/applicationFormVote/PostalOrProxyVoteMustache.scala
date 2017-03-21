@@ -63,7 +63,7 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressCrown] {
       warning4 = Text (
             value = if (wayToVoteName.equals("postal")) s"5pm on 25 April 2017." else if
             (wayToVoteName.equals("proxy")) s"" else ""
-        ),
+      ),
       description = Text (
           value = s"If this is your first time using a $wayToVoteName"
            +" vote, or your details have changed, you need to sign"
