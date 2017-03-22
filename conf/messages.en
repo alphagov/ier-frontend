@@ -591,7 +591,8 @@ exit_nationality_noFranchise_moreAboutVoting=More about voting in the UK
 # Too Busy
 exit_too_busy_title=Sorry, we are currently too busy
 exit_too_busy_content=The Register to Vote service is currently experiencing high load.
-exit_too_busy_content2=Please return later to try again.
+exit_too_busy_content2=Please return in
+exit_too_busy_content3=to try again.
 
 
 # Northern Ireland

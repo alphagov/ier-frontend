@@ -32,6 +32,8 @@ class Config extends Logging {
 
   def throttle = configuration.getBoolean("throttle")
   def throttleRatio = configuration.getDouble("throttleRatio")
+  def expiryMinutes = configuration.getInt("expiryMinutes")
+  def redirectURL = configuration.getString("redirectURL")
 
   def ordinaryStartUrl = configuration.getString("ier.start.ordinary")
   def crownStartUrl = configuration.getString("ier.start.crown")
