@@ -60,7 +60,12 @@ class ScotlandService @Inject()(
     Else return false
    */
   def isYoungScot(currentState: InprogressOrdinary):Boolean = {
-    isScot(currentState) && isUnderageScot(currentState)
+    if(currentState.dob.get.noDob.isDefined) {
+      isScot(currentState)
+    }
+    else{
+      isScot(currentState) && isUnderageScot(currentState)
+    }
   }
 
   /*
