@@ -19,6 +19,10 @@ trait PostalOrProxyVoteMustache
       voteDeliveryMethodEmail: Field,
       voteDeliveryMethodPost: Field,
       voteEmailAddress: Field,
+      warning1: Text,
+      warning2: Text,
+      warning3: Text,
+      warning4: Text,
       voteType: Field
   ) extends MustacheData
 
@@ -43,6 +47,22 @@ trait PostalOrProxyVoteMustache
           postUrl = postUrl.url,
           errorMessages = form.globalErrors.map{ _.message },
           title = title
+        ),
+        warning1 = Text (
+          value = if (wayToVoteName.equals("postal")) s"Postal" else if
+          (wayToVoteName.equals("proxy")) s"Proxy" else ""
+        ),
+        warning2 = Text (
+          value = if (wayToVoteName.equals("postal")) s"5pm on 18 April 2017" else if
+          (wayToVoteName.equals("proxy")) s"5pm on the 25 April 2017" else ""
+        ),
+        warning3 = Text (
+          value = if (wayToVoteName.equals("postal")) s"to be able to vote in the in the election on 4 May 2017. You can apply for a proxy vote until" else if
+          (wayToVoteName.equals("proxy")) s"to be able to vote in the in the election on 4 May 2017." else ""
+        ),
+        warning4 = Text (
+          value = if (wayToVoteName.equals("postal")) s"5pm on 25 April 2017." else if
+          (wayToVoteName.equals("proxy")) s"" else ""
         ),
         description = Text (
           value = s"If this is your first time using a $wayToVoteName"
