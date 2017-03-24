@@ -12,9 +12,6 @@ if (redirectURL) {redirectURL = redirectURL.value} else {redirectURL = "/registe
 if (random >= throttleRatio){
     if (!cookieValue && currentPage.includes("register-to-vote/country-of-residence")){
         setCookie("throttle",true,expiryMinutes);
-        var expiry=new Date();
-        expiry=new Date(expiry.getTime() + expiryMinutes * 60000).getTime();
-        setCookie("expiry",expiry,expiryMinutes);
         window.location.href = redirectURL;
     }
 }

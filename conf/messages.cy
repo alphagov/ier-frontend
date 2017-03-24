@@ -616,12 +616,6 @@ exit_nationality_noFranchise_content3=cysylltwch â nhw
 exit_nationality_noFranchise_content4=i ddweud wrthynt nad ydych yn gymwys.
 exit_nationality_noFranchise_moreAboutVoting=Mwy o wybodaeth am bleidleisio yn y DU
 
-# Too Busy
-exit_too_busy_title=Sorry, we are currently too busy
-exit_too_busy_content=The Register to Vote service is currently experiencing high load.
-exit_too_busy_content2=Please return in
-exit_too_busy_content3=to try again.
-
 # Northern Ireland
 
 exit_northernIreland_title=Ffurflen canfasio pleidleisiwr ar gyfer Gogledd Iwerddon.

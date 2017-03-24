@@ -4,39 +4,14 @@
 
 {{$main}}
 
-<script>
-var countDownDate = getCookieValue("expiry");
-
-var x = setInterval(function() {
-
-  var now = new Date().getTime();
-  var distance = countDownDate - now;
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  document.getElementById("countdown").innerHTML = minutes + "m " + seconds + "s ";
-
-  if (distance < 0) {
-    clearInterval(x);
-    document.getElementById("countdown").innerHTML = "0m 0s";
-  }
-}, 1000);
-
-function getCookieValue(name){
-    var re = new RegExp(name + "=([^;]+)");
-    var value = re.exec(document.cookie);
-    return (value != null) ? unescape(value[1]) : null;
-}
-</script>
-
 <header>
-    <h1>{{messages.exit_too_busy_title}}</h1>
+    <h1>Sorry, we are currently very busy</h1>
 </header>
 <article>
     <p class="summary">
-        {{messages.exit_too_busy_content}}
-        {{messages.exit_too_busy_content2}} <span id="countdown"></span> {{messages.exit_too_busy_content3}}
+        Due to high levels of customers using the register to vote service we are only allowing a certain number of people to register at once.
     </p>
+    <p>Please wait a few minutes before <a href="/register-to-vote/start">starting your application again</a>.</p>
 
 </article>
 
