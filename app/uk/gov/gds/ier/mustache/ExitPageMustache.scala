@@ -25,6 +25,10 @@ trait ExitPageMustache extends InheritedGovukMustache {
       implicit override val lang: Lang
     ) extends ArticleMustachio("exit/noFranchise")
 
+    case class TooBusy() (
+      implicit override val lang: Lang
+    ) extends ArticleMustachio("exit/tooBusy")
+
     case class NorthernIreland() (
         implicit override val lang: Lang
     ) extends ArticleMustachio("exit/northernIreland")
