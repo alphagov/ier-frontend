@@ -4,7 +4,6 @@ import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.model.{Country, SoleOccupancyOption}
-import uk.gov.gds.ier.service.ScotlandService
 
 trait SoleOccupancyMustache extends StepTemplate[InprogressOrdinary] with AddressHelpers {
 
@@ -20,7 +19,6 @@ trait SoleOccupancyMustache extends StepTemplate[InprogressOrdinary] with Addres
                               questionIsMandatory: Boolean
                               ) extends MustacheData
 
-  val scotlandService: ScotlandService
 
   val mustache = MultilingualTemplate("ordinary/soleOccupancy") { implicit lang =>
     (form, postUrl) =>
@@ -59,7 +57,7 @@ trait SoleOccupancyMustache extends StepTemplate[InprogressOrdinary] with Addres
         addressLine = addressLine,
         postcode = postcode,
         displayAddress = !addressLine.isEmpty,
-        questionIsMandatory = !scotlandService.isScotByPostcodeOrCountry(postcode, country)
+        questionIsMandatory = true
       )
   }
 }

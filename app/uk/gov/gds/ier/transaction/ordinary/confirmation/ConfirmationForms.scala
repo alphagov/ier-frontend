@@ -43,7 +43,6 @@ with ConfirmationConstraints {
         otherAddressStepRequired,
         postalVoteStepRequired,
         contactStepRequired,
-        soleOccupancyRequiredIfNotScottish,
         //...and validate these with special isYoungScot validation conditionals...
         ninoIsYoungScot,
         openRegIsYoungScot

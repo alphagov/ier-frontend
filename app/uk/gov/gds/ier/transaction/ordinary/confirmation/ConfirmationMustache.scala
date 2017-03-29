@@ -58,7 +58,7 @@ trait ConfirmationMustache
       confirmation.previousAddress,
       confirmation.applicantOpenRegister,
       confirmation.postalVote,
-      if(isScottish(form)) None else confirmation.soleOccupancy,
+      confirmation.soleOccupancy,
       confirmation.contact
     ).flatten
 

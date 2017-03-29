@@ -15,7 +15,6 @@ import uk.gov.gds.ier.validation.ErrorTransformForm
 import scala.Some
 import uk.gov.gds.ier.transaction.ordinary.{InprogressOrdinary, OrdinaryControllers}
 import uk.gov.gds.ier.assets.RemoteAssets
-import uk.gov.gds.ier.service.ScotlandService
 
 @Singleton
 class PostalVoteStep @Inject ()(
@@ -23,8 +22,7 @@ class PostalVoteStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService,
     val remoteAssets: RemoteAssets,
-    val ordinary: OrdinaryControllers,
-    val scotlandService: ScotlandService
+    val ordinary: OrdinaryControllers
 ) extends OrdinaryStep
   with PostalVoteForms
   with PostalVoteMustache {
@@ -53,8 +51,7 @@ class PostalVoteStep @Inject ()(
   override val onSuccess = resetPostalVote andThen GoToNextIncompleteStep()
 
   def nextStep(currentState: InprogressOrdinary) = {
-    if(scotlandService.isScot(currentState)) ordinary.ContactStep
-    else ordinary.SoleOccupancyStep
+    ordinary.SoleOccupancyStep
   }
 }
 
