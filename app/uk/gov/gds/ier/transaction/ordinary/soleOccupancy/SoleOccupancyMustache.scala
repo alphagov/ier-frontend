@@ -4,6 +4,7 @@ import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.model.{Country, SoleOccupancyOption}
+import uk.gov.gds.ier.service.ScotlandService
 
 trait SoleOccupancyMustache extends StepTemplate[InprogressOrdinary] with AddressHelpers {
 
@@ -16,9 +17,11 @@ trait SoleOccupancyMustache extends StepTemplate[InprogressOrdinary] with Addres
                               addressLine: String,
                               postcode: String,
                               displayAddress: Boolean,
-                              questionIsMandatory: Boolean
+                              questionIsMandatory: Boolean,
+                              isScottish: Boolean
                               ) extends MustacheData
 
+  val scotlandService: ScotlandService
 
   val mustache = MultilingualTemplate("ordinary/soleOccupancy") { implicit lang =>
     (form, postUrl) =>
@@ -36,10 +39,12 @@ trait SoleOccupancyMustache extends StepTemplate[InprogressOrdinary] with Addres
         case (residence, _) => Country(residence.getOrElse(""), false)
       }
 
+      val isScottish = scotlandService.isScotByPostcodeOrCountry(postcode, country)
+
       SoleOccupancyModel(
         question = Question(
           postUrl = postUrl.url,
-          title = Messages("ordinary_soleOccupancy_title"),
+          title = if (!isScottish) Messages("ordinary_soleOccupancy_title") else "Are you the only person aged 14 or over living at this address?",
           errorMessages = Messages.translatedGlobalErrors(form)),
 
         soleOccupancyYes = RadioField(
@@ -57,7 +62,8 @@ trait SoleOccupancyMustache extends StepTemplate[InprogressOrdinary] with Addres
         addressLine = addressLine,
         postcode = postcode,
         displayAddress = !addressLine.isEmpty,
-        questionIsMandatory = true
+        questionIsMandatory = true,
+        isScottish = isScottish
       )
   }
 }
