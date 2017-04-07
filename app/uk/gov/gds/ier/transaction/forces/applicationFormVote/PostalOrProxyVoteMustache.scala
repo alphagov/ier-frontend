@@ -21,8 +21,6 @@ trait PostalOrProxyVoteMustache
       voteEmailAddress: Field,
       warning1: Text,
       warning2: Text,
-      warning3: Text,
-      warning4: Text,
       voteType: Field
   ) extends MustacheData
 
@@ -49,20 +47,12 @@ trait PostalOrProxyVoteMustache
           title = title
         ),
         warning1 = Text (
-          value = if (wayToVoteName.equals("postal")) s"Postal" else if
-          (wayToVoteName.equals("proxy")) s"Proxy" else ""
+          value = if (wayToVoteName.equals("postal")) s"It is now too late to apply to vote by post for the elections on 4 May 2017; you can still apply for a proxy vote until " else if
+          (wayToVoteName.equals("proxy")) s"Proxy vote application forms need to be received by your Local Electoral Registration Office by" else ""
         ),
         warning2 = Text (
-          value = if (wayToVoteName.equals("postal")) s"5pm on 18 April 2017" else if
-          (wayToVoteName.equals("proxy")) s"5pm on the 25 April 2017" else ""
-        ),
-        warning3 = Text (
-          value = if (wayToVoteName.equals("postal")) s"to be able to vote in the in the election on 4 May 2017. You can apply for a proxy vote until" else if
-          (wayToVoteName.equals("proxy")) s"to be able to vote in the in the election on 4 May 2017." else ""
-        ),
-        warning4 = Text (
-          value = if (wayToVoteName.equals("postal")) s"5pm on 25 April 2017." else if
-          (wayToVoteName.equals("proxy")) s"" else ""
+          value = if (wayToVoteName.equals("postal")) s"." else if
+          (wayToVoteName.equals("proxy")) s" to be able to vote in the in the election on 4 May 2017." else ""
         ),
         description = Text (
           value = s"If this is your first time using a $wayToVoteName"
