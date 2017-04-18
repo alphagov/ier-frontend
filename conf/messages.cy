@@ -359,8 +359,9 @@ ordinary_postalVote_voteInPerson_option=Nac ydw, mae’n well gennyf bleidleisio
 ordinary_postalVote_voteAlreadyHave_option=Nac ydw, mae gennyf bleidlais bost eisoes
 ordinary_postalVote_voteAlreadyHave_help=Os ydych chi wedi newid cyfeiriad, bydd angen i chi wneud cais am bleidlais bost newydd
 ordinary_postalVote_postalVote_option=Ydw, anfonwch ffurflen gais pleidlais bost ataf
-ordinary_postalVote_deadline=Er mwyn pleidleisio drwy'r post yn yr etholiadau ar 4 Mai, mae’n rhaid i’ch Swyddfa Cofrestru Etholiadol leol dderbyn eich cais erbyn
-ordinary_postalVote_deadline2=5pm ddydd Mawrth, 18 Ebrill 2017.
+ordinary_postalVote_deadline=Mae hi’n rhy hwyr erbyn hyn i wneud cais am bleidleisio drwy’r post yn yr etholiadau ar 4 Mai 2017; gallwch gofrestru ar gyfer etholiadau’r dyfodol o hyd.
+ordinary_postalVote_postalVote_deliveryEmail_option_deadline=Mae hi’n rhy hwyr erbyn hyn i wneud cais am bleidleisio drwy’r post yn yr etholiadau ar 4 Mai 2017; gallwch gofrestru ar gyfer etholiadau’r dyfodol o hyd.
+ordinary_postalVote_postalVote_deliveryPost_option_deadline=Mae hi’n rhy hwyr erbyn hyn i wneud cais am bleidleisio drwy’r post yn yr etholiadau ar 4 Mai 2017; gallwch gofrestru ar gyfer etholiadau’r dyfodol o hyd.
 
 ordinary_postalVote_postalVote_heading=Os ydych am gael ffurflen gais am bleidlais bost
 ordinary_postalVote_postalVote_deliveryOptionsQuestion=Bydd angen i chi lofnodi a dychwelyd y ffurflen gais pleidlais bost. Sut ddylen ni \

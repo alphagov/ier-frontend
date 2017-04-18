@@ -16,8 +16,6 @@ class PostalOrProxyVoteTemplateTest
         question = Question(),
         warning1 = Text("warning text 1"),
         warning2 = Text("warning text 2"),
-        warning3 = Text("warning text 3"),
-        warning4 = Text("warning text 4"),
         description = Text("description text"),
         voteFieldSet = FieldSet(
           classes = "voteFieldSetClasses"
