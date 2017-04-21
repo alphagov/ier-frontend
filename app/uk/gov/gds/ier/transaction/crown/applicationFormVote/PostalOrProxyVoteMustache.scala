@@ -22,7 +22,6 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressCrown] {
       voteDeliveryMethodPost: Field,
       voteEmailAddress: Field,
       warning1: Text,
-      warning2: Text,
       voteType: Field) extends MustacheData
 
   val mustache = MustacheTemplate("crown/postalOrProxyVote") {
@@ -47,13 +46,9 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressCrown] {
         title = title
       ),
       warning1 = Text (
-          value = if (wayToVoteName.equals("postal")) s"It is now too late to apply to vote by post for the elections on 4 May 2017; you can still apply for a proxy vote until " else if
-          (wayToVoteName.equals("proxy")) s"Proxy vote application forms need to be received by your Local Electoral Registration Office by" else ""
+          value = if (wayToVoteName.equals("postal")) s"postal" else if
+          (wayToVoteName.equals("proxy")) s"proxy" else ""
       ),
-      warning2 = Text (
-            value = if (wayToVoteName.equals("postal")) s"." else if
-            (wayToVoteName.equals("proxy")) s" to be able to vote in the in the election on 4 May 2017." else ""
-        ),
       description = Text (
           value = s"If this is your first time using a $wayToVoteName"
            +" vote, or your details have changed, you need to sign"
