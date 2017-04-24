@@ -386,12 +386,11 @@ ordinary_postalVote_error_answerThis=Atebwch y cwestiwn hwn
 
 # ordinary: Sole Occupancy
 ordinary_soleOccupancy_title=Ai chi yw’r unig un 16 oed neu hŷn sy’n byw yn eich cyfeiriad presennol? (dewisol)
-
+ordinary_soleOccupancy_title_scotland=Ai chi yw’r unig un 14 oed neu hŷn sy’n byw yn eich cyfeiriad presennol? (dewisol)
 ordinary_soleOccupancy_yes_option=Ie
 ordinary_soleOccupancy_no_option=Nage
 ordinary_soleOccupancy_notSure_option=Ddim yn siŵr
 ordinary_soleOccupancy_skipThisQuestion_option=Mae’n well gen i beidio dweud
-
 ordinary_soleOccupancy_help_link=Pam rydych chi’n gofyn y cwestiwn hwn?
 ordinary_soleOccupancy_help_content_1=Yn ystod y flwyddyn, mae awdurdodau lleol yn anfon llythyrau i bob aelwyd yn gwahodd y rhai sy’n gymwys i gofrestru i bleidleisio. Mae’n bosib na fydd yn rhaid i’ch awdurdod lleol anfon y llythyrau hyn atoch yn y dyfodol agos, os byddwch chi’n rhoi gwybod iddynt mai chi yw’r unig un 16 oed neu hŷn sy’n byw yn eich cyfeiriad.
 ordinary_soleOccupancy_help_content_1_scotland=Yn ystod y flwyddyn, mae awdurdodau lleol yn anfon llythyrau i bob aelwyd yn gwahodd y rhai sy’n gymwys i gofrestru i bleidleisio. Mae’n bosib na fydd yn rhaid i’ch awdurdod lleol anfon y llythyrau hyn atoch yn y dyfodol agos, os byddwch chi’n rhoi gwybod iddynt mai chi yw’r unig un 14 oed neu hŷn sy’n byw yn eich cyfeiriad.
@@ -481,6 +480,7 @@ ordinary_confirmation_postalVote_dontWant=Dydw i ddim eisiau gwneud cais am blei
 ordinary_confirmation_postalVote_alreadyHave=Mae gen i bleidlais bost yn barod
 
 ordinary_confirmation_soleOccupancy_title=Ai chi yw’r unig un 16 oed neu hŷn sy’n byw yn eich cyfeiriad presennol?
+ordinary_confirmation_soleOccupancy_title_scotland=Ai chi yw’r unig un 14 oed neu hŷn sy’n byw yn eich cyfeiriad presennol?
 ordinary_confirmation_soleOccupancy_yes_option=Ie
 ordinary_confirmation_soleOccupancy_no_option=Nage
 ordinary_confirmation_soleOccupancy_notSure_option=Ddim yn siŵr

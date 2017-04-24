@@ -368,6 +368,7 @@ ordinary_postalVote_error_answerThis=Please answer this question
 
 # ordinary: Sole Occupancy
 ordinary_soleOccupancy_title=Are you the only person aged 16 or over living at this address?
+ordinary_soleOccupancy_title_scotland=Are you the only person aged 14 or over living at this address?
 ordinary_soleOccupancy_yes_option=Yes
 ordinary_soleOccupancy_no_option=No
 ordinary_soleOccupancy_notSure_option=Not sure
@@ -461,6 +462,7 @@ ordinary_confirmation_postalVote_dontWant=I don’t want to apply for a postal v
 ordinary_confirmation_postalVote_alreadyHave=I already have a postal vote
 
 ordinary_confirmation_soleOccupancy_title=You are the only person 16 or over living at your address
+ordinary_confirmation_soleOccupancy_title_scotland=You are the only person 14 or over living at your address
 ordinary_confirmation_soleOccupancy_yes_option=Yes
 ordinary_confirmation_soleOccupancy_no_option=No
 ordinary_confirmation_soleOccupancy_notSure_option=I’m not sure

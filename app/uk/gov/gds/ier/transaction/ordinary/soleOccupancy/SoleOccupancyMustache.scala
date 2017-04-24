@@ -44,7 +44,7 @@ trait SoleOccupancyMustache extends StepTemplate[InprogressOrdinary] with Addres
       SoleOccupancyModel(
         question = Question(
           postUrl = postUrl.url,
-          title = if (!isScottish) Messages("ordinary_soleOccupancy_title") else "Are you the only person aged 14 or over living at this address?",
+          title = if (!isScottish) Messages("ordinary_soleOccupancy_title") else Messages("ordinary_soleOccupancy_title_scotland"),
           errorMessages = Messages.translatedGlobalErrors(form)),
 
         soleOccupancyYes = RadioField(

@@ -372,9 +372,9 @@ trait ConfirmationMustache
       //val soleOccupancyOption = SoleOccupancyOption.parse(form(keys.soleOccupancy.optIn).value.getOrElse(""))
 
       Some(ConfirmationQuestion(
-        title = if (!isScottish(form)) Messages("ordinary_confirmation_soleOccupancy_title") else "You are the only person 14 or over living at your address",
+        title = if (!isScottish(form)) Messages("ordinary_confirmation_soleOccupancy_title") else Messages("ordinary_confirmation_soleOccupancy_title_scotland"),
         editLink = ordinary.SoleOccupancyStep.routing.editGet.url,
-        changeName = if (!isScottish(form)) Messages("ordinary_confirmation_soleOccupancy_title") else "You are the only person 14 or over living at your address",
+        changeName = if (!isScottish(form)) Messages("ordinary_confirmation_soleOccupancy_title") else Messages("ordinary_confirmation_soleOccupancy_title_scotland"),
         content = ifComplete(keys.soleOccupancy) {
           SoleOccupancyOption.parse(form(keys.soleOccupancy.optIn).value.getOrElse("")) match {
             case SoleOccupancyOption.Yes => List(Messages("ordinary_confirmation_soleOccupancy_yes_option"))
