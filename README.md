@@ -1,7 +1,9 @@
+# This code is retired
+
 #IER Frontend
 
 
-This is a snapshot of the frontend web code for Register To Vote. The code is pubilished here for informational purposes, and is not the latest version that is currently running in production. 
+This is a snapshot of the frontend web code that runs Register To Vote. This repository is not under development and the code is not the version that is currently running in production; this code is retired.
 
 
 
