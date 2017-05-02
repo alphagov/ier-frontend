@@ -1,9 +1,15 @@
 #IER Frontend
 
+
+This is a snapshot of the frontend web code for Register To Vote. The code is pubilished here for informational purposes, and is not the latest version that is currently running in production. 
+
+
+
+
 This is the Individual Electoral Registration (aka ERTP) Frontend app. The point of it is to provide a simple Register to Vote form to the public. 
 
 ***
-Please note that this source code will not run as is, as it has API dependencies which are not open sourced. This code is presented for informational purposes only.
+Please note that this source code will not run as is, as it has API dependencies which are not open sourced. 
 ***
 
 ###Depedencies
