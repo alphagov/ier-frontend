@@ -41,17 +41,34 @@
               data-validation-rules="atLeastOneNonEmpty"
               data-validation-children="deliveryMethodEmail deliveryMethodPost">
 
+        <legend class="label">
+        <p>{{warning11.value}}<b>{{warning12.value}}</b>{{warning3.value}}<b>{{warning4.value}}</b><br><br>{{warning5.value}}</p>
+        </legend>
+
         <legend>How should we send you the form?</legend>
 
         <label for="{{voteDeliveryMethodEmail.id}}" class="selectable"  >
             <input type="radio" id="{{voteDeliveryMethodEmail.id}}"
                    name="{{voteDeliveryMethodEmail.name}}"
                    value="email" {{{voteDeliveryMethodEmail.attributes}}}
-                   class="radio  validate"
-                   data-validation-name="deliveryMethodEmail"
-                   data-validation-type="field"
-                   data-validation-rules="nonEmpty" />Email it to me
+            class="radio  validate"
+            data-validation-name="deliveryMethodEmail"
+            data-validation-type="field"
+            data-validation-rules="nonEmpty" />Email it to me
         </label>
+
+
+
+        <div class="optional-section optional-section-core-content"
+             data-condition="{{voteDeliveryMethodEmail.id}}"
+             aria-hidden="true" aria-expanded="false">
+            <legend class="label"><br>
+                <p>
+                    {{warning1.value}}<b>{{warning2.value}}</b>{{warning9.value}}{{warning3.value}}<b>{{warning4.value}}</b>
+                    <br><br>{{warning6.value}}{{warning7.value}}
+                    <br><br>{{warning8.value}}</p>
+            </legend>
+        </div>
 
         <div class="optional-section"
              data-condition="postalOrProxyVote_deliveryMethod_methodName_email">
@@ -73,10 +90,19 @@
             <input type="radio" id="{{voteDeliveryMethodPost.id}}"
                    name="{{voteDeliveryMethodPost.name}}"
                    value="post" {{{voteDeliveryMethodPost.attributes}}}
-                   class="radio  validate"
-                   data-validation-name="deliveryMethodPost"
-                   data-validation-type="field"
-                   data-validation-rules="nonEmpty" />Post it to me
+            class="radio  validate"
+            data-validation-name="deliveryMethodPost"
+            data-validation-type="field"
+            data-validation-rules="nonEmpty" />Post it to me
+        </label>
+        <div class="optional-section optional-section-core-content"
+             data-condition="{{voteDeliveryMethodPost.id}}"
+             aria-hidden="true" aria-expanded="false">
+            <legend class="label"><br>
+                <p>
+                    {{warning1.value}}<b>{{warning2.value}}</b>{{warning9.value}}{{warning3.value}}<b>{{warning4.value}}</b>
+                    <br><br>{{warning6.value}}{{warning7.value}}<br><br>{{warning8.value}}{{warning10.value}}</p>
+            </legend>
         </label>
     </fieldset>
 
