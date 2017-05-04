@@ -93,8 +93,8 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressCrown] {
         (wayToVoteName.equals("proxy")) s"to be able to vote in the UK General Election on 8 June 2017." else ""
       ),
       warning10 = Text (
-        value = if (wayToVoteName.equals("postal")) s"You will receive your application sooner if you choose the email option. Your application needs to be printed, signed and returned to your local Electoral Registration Office." else if
-        (wayToVoteName.equals("proxy")) s"You will receive your application sooner if you choose the email option. Your application needs to be printed, signed and returned to your local Electoral Registration Office." else ""
+        value = if (wayToVoteName.equals("postal")) s"You will receive your application sooner if you choose the email option." else if
+        (wayToVoteName.equals("proxy")) s"You will receive your application sooner if you choose the email option." else ""
       ),
       warning11 = Text (
         value = if (wayToVoteName.equals("postal")) s"To vote by post in the UK General Election on 8 June 2017, your local Electoral Registration Office must receive your application no later than " else if
