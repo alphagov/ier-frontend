@@ -356,6 +356,7 @@ ordinary_postalVote_postalVote_deliveryEmail_option_deadline3=You can apply for 
 ordinary_postalVote_postalVote_deliveryEmail_option_deadline4=5pm on 31 May 2017.
 ordinary_postalVote_postalVote_deliveryEmail_option_deadline5=Please allow adequate time for your Electoral Registration Office to process your application and issue your Ballot.
 ordinary_postalVote_postalVote_deliveryEmail_option_deadline6=Please be aware that you need to complete a separate application form when you apply for a postal vote.
+ordinary_postalVote_postalVote_deliveryEmail_option_deadline7=Your application needs to be printed, signed and returned to your local Electoral Registration Office.
 
 ordinary_postalVote_postalVote_emailAddress_label=Email address
 ordinary_postalVote_postalVote_deliveryPost_option=Post it to me
