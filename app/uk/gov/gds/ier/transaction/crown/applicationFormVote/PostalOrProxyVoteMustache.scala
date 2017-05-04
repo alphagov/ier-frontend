@@ -78,14 +78,14 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressCrown] {
       ),
       warning6 = Text (
         value = if (wayToVoteName.equals("postal")) s"" else if
-        (wayToVoteName.equals("proxy")) s"Please ensure you allow sufficient time for your proxy vote application to reach your local Electoral Registration Office." else ""
+        (wayToVoteName.equals("proxy")) s"Please ensure you allow sufficient time for your proxy vote application to reach your local Electoral Registration Office. Your application needs to be printed, signed and returned to your local Electoral Registration Office." else ""
       ),
       warning7 = Text (
         value = if (wayToVoteName.equals("postal")) s"Please allow adequate time for your Electoral Registration Office to process your application and issue your Ballot." else if
         (wayToVoteName.equals("proxy")) s"" else ""
       ),
       warning8 = Text (
-        value = if (wayToVoteName.equals("postal")) s"Please be aware that you need to complete a separate application form when you apply for a postal vote.          " else if
+        value = if (wayToVoteName.equals("postal")) s"Please be aware that you need to complete a separate application form when you apply for a postal vote. Your application needs to be printed, signed and returned to your local Electoral Registration Office." else if
         (wayToVoteName.equals("proxy")) s"" else ""
       ),
       warning9 = Text (
