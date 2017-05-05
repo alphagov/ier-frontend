@@ -1,0 +1,17 @@
+<form action="{{question.postUrl}}" method="POST" >
+    <fieldset>
+        <p>
+            {{messages.ordinary_alreadyRegistered_p1}} <a href= {{messages.ordinary_alreadyRegistered_hyperlink}}> {{messages.ordinary_alreadyRegistered_hyperlink_text}}</a>
+            {{messages.ordinary_alreadyRegistered_p2}}
+        </p><br>
+        <p>
+            {{messages.ordinary_alreadyRegistered_p3}}</p><br>
+        <p>{{messages.ordinary_alreadyRegistered_p4}}</p>
+
+        <div class="container">
+        <button type="submit" id="continue" class="button">{{messages.step_continue}}</button>
+        <input type="button" value={{messages.ordinary_alreadyRegistered_exit}} onclick="window.location.href='https://www.gov.uk/'" class="button"></button>        </div>
+        <br>
+    </fieldset>
+</form>
+
