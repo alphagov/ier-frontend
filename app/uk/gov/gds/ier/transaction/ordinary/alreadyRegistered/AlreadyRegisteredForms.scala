@@ -8,17 +8,17 @@ trait AlreadyRegisteredForms {
   self:  FormKeys
     with ErrorMessages =>
 
-  lazy val openRegisterOptInMapping = single(
-    keys.optIn.key -> default(boolean, true)
+  lazy val alreadyRegisteredMapping = single(
+    keys.alreadyRegistered.key -> default(boolean, true)
   )
 
   val alreadyRegisteredForm = ErrorTransformForm(
     mapping(
-      keys.openRegister.key -> default(openRegisterOptInMapping, true)
+      keys.alreadyRegistered.key -> default(alreadyRegisteredMapping, true)
     ) (
-      openRegister => InprogressOrdinary(openRegisterOptin = Some(openRegister))
+      alreadyRegistered => InprogressOrdinary(alreadyRegistered = Some(alreadyRegistered))
     ) (
-      inprogress => inprogress.openRegisterOptin
+      inprogress => inprogress.alreadyRegistered
     )
 
   )

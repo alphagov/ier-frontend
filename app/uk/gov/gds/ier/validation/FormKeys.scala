@@ -89,6 +89,7 @@ trait FormKeys {
     lazy val postalVote = prependNamespace(Key("postalVote"))
     lazy val postalOrProxyVote = prependNamespace(Key("postalOrProxyVote"))
     lazy val optIn = prependNamespace(Key("optIn"))
+    lazy val alreadyRegistered = prependNamespace(Key("alreadyRegistered"))
     lazy val deliveryMethod = prependNamespace(Key("deliveryMethod"))
     lazy val methodName = prependNamespace(Key("methodName"))
     lazy val emailAddress = prependNamespace(Key("emailAddress"))
