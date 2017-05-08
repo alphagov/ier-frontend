@@ -52,7 +52,7 @@ class LocalAuthorityController @Inject() (
     Ok(LocalAuthorityShowPage(localAuthorityContactDetails, sourcePath))
   }
 
-  def doLookup(sourcePath: Option[String]) = Action { implicit request =>
+  /*def doLookup(sourcePath: Option[String]) = Action { implicit request =>
     localAuthorityLookupForm.bindFromRequest().fold(
       hasErrors => BadRequest(LocalAuthorityPostcodePage(
         hasErrors,
@@ -92,7 +92,7 @@ class LocalAuthorityController @Inject() (
         routes.LocalAuthorityController.showLookup(sourcePath).url
         ))
     }
-  }
+  }*/
 
   def getGssCode(sourcePath: Option[String], request: Request[AnyContent]): Option[String] = {
       sourcePath match {
