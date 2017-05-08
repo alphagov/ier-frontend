@@ -376,14 +376,14 @@ ordinary_postalVote_postalVote_deliveryEmail_option_deadline2=5pm ddydd Mawrth, 
 ordinary_postalVote_postalVote_deliveryEmail_option_deadline3=Gallwch wneud cais am bleidleisio drwy ddirprwy tan
 ordinary_postalVote_postalVote_deliveryEmail_option_deadline4=5pm ar 31 Mai 2017.
 ordinary_postalVote_postalVote_deliveryEmail_option_deadline5=Gwnewch yn siŵr eich bod yn caniatáu digon o amser i’ch cais am bleidlais bost gyrraedd eich Swyddfa Cofrestru Etholiadol leol.
-ordinary_postalVote_postalVote_deliveryEmail_option_deadline6=Bydd angen cwblhau ffurflen gais ar wahân os rydych yn ceisio am bleidlais drwy’r post. Bydd angen i’r ffurflen gael ei brintio, arwyddo a’i ddychwelyd i’ch Swyddfa Cofrestru Etholiadol leol.
+ordinary_postalVote_postalVote_deliveryEmail_option_deadline6=Bydd angen cwblhau ffurflen gais ar wahân os rydych yn ceisio am bleidlais drwy’r post.
 ordinary_postalVote_postalVote_deliveryEmail_option_deadline7=Bydd angen i’r ffurflen gael ei brintio, arwyddo a’i ddychwelyd i’ch Swyddfa Cofrestru Etholiadol leol.
 
 ordinary_postalVote_postalVote_deliveryPost_option_deadline=Er mwyn pleidleisio drwy'r post yn yr Etholiad Cyffredinol ar 8 Mehefin 2017, mae’n rhaid i’ch Swyddfa Cofrestru Etholiadol leol dderbyn eich cais erbyn
 ordinary_postalVote_postalVote_deliveryPost_option_deadline2=5pm ddydd Mawrth, 23 Mai 2017.
 ordinary_postalVote_postalVote_deliveryPost_option_deadline3=Gallwch wneud cais am bleidleisio drwy ddirprwy tan
 ordinary_postalVote_postalVote_deliveryPost_option_deadline4=5pm ar 31 Mai 2017.
-ordinary_postalVote_postalVote_deliveryPost_option_deadline7=Cewch dderbyn eich cais yng nghynt os dewiswch yr opsiwn e-bost.
+ordinary_postalVote_postalVote_deliveryPost_option_deadline7=Cewch dderbyn eich cais yng nghynt os dewiswch yr opsiwn e-bost. Bydd angen i’ch ffurflen gael ei arwyddo a’i ddychwelyd i’ch Swyddfa Cofrestru Etholiadol leol.
 ordinary_postalVote_postalVote_deliveryPost_option_deadline5=Gwnewch yn siŵr eich bod yn caniatáu digon o amser i’ch cais am bleidlais bost gyrraedd eich Swyddfa Cofrestru Etholiadol leol, er mwyn cael ei brosesu ac i’ch papur pleidleisio gael ei ddanfon.
 
 ordinary_postalVote_postalVote_heading=Os ydych am gael ffurflen gais am bleidlais bost
