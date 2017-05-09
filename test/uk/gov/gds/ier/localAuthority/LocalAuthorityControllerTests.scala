@@ -57,7 +57,7 @@ class LocalAuthorityControllerTests extends MockingControllerTestSuite {
     }
   }
 
-  behavior of "LocalAuthorityController.showLookup"
+  /*behavior of "LocalAuthorityController.showLookup"
   it should "display the lookup page" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -123,6 +123,6 @@ class LocalAuthorityControllerTests extends MockingControllerTestSuite {
       contentAsString(result) should include("form action=\"/register-to-vote/local-authority/lookup\"")
 
     }
-  }
+  }*/
 }
 
