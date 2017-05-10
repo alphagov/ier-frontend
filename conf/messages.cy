@@ -20,7 +20,7 @@ ordinary_alreadyRegistered_p1=Rhaid i chi fod yn ddinesydd
 ordinary_alreadyRegistered_hyperlink_text=cymwys
 ordinary_alreadyRegistered_hyperlink=https://www.yourvotematters.co.uk/cymru/can-i-vote/who-can-register-to-vote
 ordinary_alreadyRegistered_p2=Prydeinig, y Gymanwlad neu Weriniaeth Iwerddon, ac yn 18 oed neu'n hŷn ar 8fed o Fehefin 2017, er mwyn pleidleisio yn Etholiad Cyffredinol y DU.
-ordinary_alreadyRegistered_p3=Os ydych yn ymwybodol eich bod wedi cofrestri i bleidleisio yn eich cyfeiriad presennol (e.e. os derbyniwyd cerdyn pleidleisio ar gyfer yr etholiadau lleol a gynhaliwyd mewn mannau o'r Deyrnas Unedig ar 4ydd o Fai), nid oes angen i chi gofrestri eto ar gyfer yr Etholiad Cyffredinol.
+ordinary_alreadyRegistered_p3=Os ydych yn ymwybodol eich bod wedi cofrestri i bleidleisio yn eich cyfeiriad presennol (e.e. os ydych wedi derbyn cerdyn pleidleisio ar gyfer yr Etholiad Cyffredinol), nid oes angen i chi gofrestri eto.
 ordinary_alreadyRegistered_p4=Os nag ydych yn siŵr os rydych wedi cofrestri, neu os hoffech newid eich manylion neu ddewisiadau pleidleisio, dewiswch 'parhau' ar waelod y dudalen er mwyn cofrestri.
 ordinary_alreadyRegistered_exit=Cau
 
