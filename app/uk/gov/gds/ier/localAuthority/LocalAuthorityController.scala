@@ -92,7 +92,7 @@ class LocalAuthorityController @Inject() (
         routes.LocalAuthorityController.showLookup(sourcePath).url
         ))
     }
-  }*/
+  }
 
   def getGssCode(sourcePath: Option[String], request: Request[AnyContent]): Option[String] = {
       sourcePath match {
@@ -107,5 +107,5 @@ class LocalAuthorityController @Inject() (
         case _ =>
           request.getApplication[InprogressOrdinary] flatMap (_.address flatMap (_.gssCode))
       }
-  }
+  }*/
 }
