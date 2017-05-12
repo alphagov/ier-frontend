@@ -634,6 +634,3 @@ POST        /register-to-vote/crown/confirmation                       @uk.gov.g
 GET         /register-to-vote/feedback                                 @uk.gov.gds.ier.feedback.FeedbackPage.get(sourcePath: Option[String] ?= None)
 POST        /register-to-vote/feedback                                 @uk.gov.gds.ier.feedback.FeedbackPage.post(sourcePath: Option[String] ?= None)
 GET         /register-to-vote/feedback/thank-you                       @uk.gov.gds.ier.feedback.FeedbackPage.thankYou(sourcePath: Option[String] ?= None)
-
-# Local Authority Lookup
-GET         /register-to-vote/local-authority/:gssCode                 @uk.gov.gds.ier.localAuthority.LocalAuthorityController.ero(gssCode:String, sourcePath: Option[String] ?= None)
