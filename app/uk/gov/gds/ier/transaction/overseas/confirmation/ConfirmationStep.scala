@@ -70,7 +70,7 @@ class ConfirmationStep @Inject() (
         },
         validApplication => {
           val refNum = ierApi.generateOverseasReferenceNumber(validApplication)
-          val remoteClientIP = request.headers.get("X-Real-IP")
+          val remoteClientIP = request.headers.get("True-Client-IP")
           val len:Int = refNum.length();
           val splitRef1:String = refNum.substring(0, len/2);
           val splitRef2:String = refNum.substring(len/2,len );
