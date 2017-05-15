@@ -611,7 +611,7 @@ exit_dontKnow_explanation_Scotland=You can only register if you're able to confi
 
 exit_nationality_noFranchise_content=To register to vote you must be an
 exit_nationality_noFranchise_hyperlink_text=eligible
-exit_nationality_noFranchise_content2=British, Irish or qualifying Commonwealth citizen. If your Electoral Registration Office has written to you, asking you to register to vote,
+exit_nationality_noFranchise_content2=British, Irish, EU or qualifying Commonwealth citizen. If your Electoral Registration Office has written to you, asking you to register to vote,
 exit_nationality_noFranchise_title=Sorry, you can’t register to vote
 exit_nationality_noFranchise_content3=contact them
 exit_nationality_noFranchise_content4=to tell them you’re not eligible.

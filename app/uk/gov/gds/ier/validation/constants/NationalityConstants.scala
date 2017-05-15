@@ -159,7 +159,7 @@ object NationalityConstants {
     "Madagascar" -> ISOCountry("MG", displayName = "Madagascar"),
     "Malawi" -> ISOCountry("MW", displayName = "Malawi", Franchise.commonwealth),
     "Malaysia" -> ISOCountry("MY", displayName = "Malaysia", Franchise.commonwealth),
-    "Maldives" -> ISOCountry("MV", displayName = "Maldives", Franchise.commonwealth),
+    "Maldives" -> ISOCountry("MV", displayName = "Maldives"),
     "Mali" -> ISOCountry("ML", displayName = "Mali"),
     "Malta" -> ISOCountry("MT", displayName = "Malta", Franchise.european, Franchise.commonwealth),
     "Marshall Islands" -> ISOCountry("MH", displayName = "Marshall Islands"),

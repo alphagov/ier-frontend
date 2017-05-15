@@ -637,7 +637,7 @@ exit_dontKnow_explanation_Scotland=Dim ond os gallwch gadarnhau eich bod yn 16 o
 
 exit_nationality_noFranchise_content=I gofrestru i bleidleisio, Rhaid i chi fod yn ddinesydd
 exit_nationality_noFranchise_hyperlink_text=cymwys
-exit_nationality_noFranchise_content2=Prydeinig, y Gymanwlad neu Weriniaeth Iwerddon. Os yw eich Swyddfa Cofrestru Etholiadol wedi ysgrifennu atoch yn gofyn ichi gofrestru i bleidleisio,
+exit_nationality_noFranchise_content2=Prydeinig, EU, y Gymanwlad neu Weriniaeth Iwerddon. Os yw eich Swyddfa Cofrestru Etholiadol wedi ysgrifennu atoch yn gofyn ichi gofrestru i bleidleisio,
 exit_nationality_noFranchise_title=Mae'n ddrwg gennym, ni allwch gofrestru i bleidleisio
 exit_nationality_noFranchise_content3=cysylltwch â nhw
 exit_nationality_noFranchise_content4=i ddweud wrthynt nad ydych yn gymwys.
