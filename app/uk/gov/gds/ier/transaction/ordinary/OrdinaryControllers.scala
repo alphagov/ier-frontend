@@ -2,8 +2,6 @@ package uk.gov.gds.ier.transaction.ordinary
 
 import com.google.inject.Inject
 import uk.gov.gds.ier.guice.Injector
-import uk.gov.gds.ier.transaction.country
-
 class OrdinaryControllers @Inject()(
     injector: Injector
 ) {
@@ -29,6 +27,4 @@ class OrdinaryControllers @Inject()(
   lazy val PreviousAddressManualStep = injector.dependency[previousAddress.PreviousAddressManualStep]
 
   lazy val ConfirmationStep = injector.dependency[confirmation.ConfirmationStep]
-  lazy val CountryStep = injector.dependency[country.CountryStep]
-
 }

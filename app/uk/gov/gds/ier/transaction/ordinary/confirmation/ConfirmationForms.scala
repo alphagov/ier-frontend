@@ -23,7 +23,6 @@ with ConfirmationConstraints {
       keys.previousAddress.key -> optional(PartialPreviousAddress.mapping.verifying(previousAddressRequiredIfMoved)),
       keys.otherAddress.key -> optional(OtherAddress.otherAddressMapping),
       keys.openRegister.key -> optional(optInMapping),
-      keys.alreadyRegistered.key -> optional(alreadyRegisteredMapping),
       keys.postalVote.key -> optional(PostalVote.mapping),
       keys.soleOccupancy.optIn.key -> optional(SoleOccupancyOption.mapping),
       keys.contact.key -> optional(Contact.mapping),

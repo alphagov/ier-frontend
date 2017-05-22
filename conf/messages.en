@@ -8,14 +8,6 @@ service_footer_contactEro=Contact your local Electoral Registration Office
 service_footer_forHelp=for help using this service
 service_footer_supportLinks=Support links
 
-ordinary_alreadyRegistered_title=Already Registered to vote?
-ordinary_alreadyRegistered_p1=You must be an
-ordinary_alreadyRegistered_hyperlink_text=eligible
-ordinary_alreadyRegistered_hyperlink=https://www.gov.uk/elections-in-the-uk/general-election
-ordinary_alreadyRegistered_p2=British, Irish or qualifying Commonwealth citizen aged 18 or over on 8 June 2017 to vote in the UK General Election.
-ordinary_alreadyRegistered_p3=If you know that you are registered to vote at your current address (e.g. if you have received a poll card for the UK General Election on 8 June) you do not need to register again for the UK General Election.
-ordinary_alreadyRegistered_p4=If you are not sure whether you are registered or wish to update your details or voting preferences 'continue' at the bottom of the page to apply to register now.
-ordinary_alreadyRegistered_exit=Exit
 
 # general
 step_of=of
