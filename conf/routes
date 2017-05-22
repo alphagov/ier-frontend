@@ -96,12 +96,6 @@ POST        /register-to-vote/open-register                              @uk.gov
 GET         /register-to-vote/edit/open-register                         @uk.gov.gds.ier.transaction.ordinary.openRegister.OpenRegisterStep.editGet
 POST        /register-to-vote/edit/open-register                         @uk.gov.gds.ier.transaction.ordinary.openRegister.OpenRegisterStep.editPost
 
-#Already Registered Step
-GET         /register-to-vote/already-registered                         @uk.gov.gds.ier.transaction.ordinary.alreadyRegistered.AlreadyRegisteredStep.get
-POST        /register-to-vote/already-registered                         @uk.gov.gds.ier.transaction.ordinary.alreadyRegistered.AlreadyRegisteredStep.post
-GET         /register-to-vote/edit/already-registered                    @uk.gov.gds.ier.transaction.ordinary.alreadyRegistered.AlreadyRegisteredStep.editGet
-POST        /register-to-vote/edit/already-registered                    @uk.gov.gds.ier.transaction.ordinary.alreadyRegistered.AlreadyRegisteredStep.editPost
-
 #Other Address Step
 GET         /register-to-vote/other-address                              @uk.gov.gds.ier.transaction.ordinary.otherAddress.OtherAddressStep.get
 POST        /register-to-vote/other-address                              @uk.gov.gds.ier.transaction.ordinary.otherAddress.OtherAddressStep.post

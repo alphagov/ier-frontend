@@ -15,14 +15,6 @@ step_a_of_b={0} o {1}
 step_continue=Parhau
 step_question=Cwestiwn
 
-ordinary_alreadyRegistered_title=Cofrestredig Eisoes i bleidleisio?
-ordinary_alreadyRegistered_p1=Rhaid i chi fod yn ddinesydd
-ordinary_alreadyRegistered_hyperlink_text=cymwys
-ordinary_alreadyRegistered_hyperlink=https://www.yourvotematters.co.uk/cymru/can-i-vote/who-can-register-to-vote
-ordinary_alreadyRegistered_p2=Prydeinig, y Gymanwlad neu Weriniaeth Iwerddon, ac yn 18 oed neu'n hŷn ar 8fed o Fehefin 2017, er mwyn pleidleisio yn Etholiad Cyffredinol y DU.
-ordinary_alreadyRegistered_p3=Os ydych yn ymwybodol eich bod wedi cofrestri i bleidleisio yn eich cyfeiriad presennol (e.e. os ydych wedi derbyn cerdyn pleidleisio ar gyfer yr Etholiad Cyffredinol), nid oes angen i chi gofrestri eto.
-ordinary_alreadyRegistered_p4=Os nag ydych yn siŵr os rydych wedi cofrestri, neu os hoffech newid eich manylion neu ddewisiadau pleidleisio, dewiswch 'parhau' ar waelod y dudalen er mwyn cofrestri.
-ordinary_alreadyRegistered_exit=Cau
 
 # ordinary: country of residence
 ordinary_country_heading=Ble rydych chi’n byw?

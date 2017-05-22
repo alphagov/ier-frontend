@@ -40,8 +40,4 @@ trait OrdinaryMappings
     keys.optIn.key -> boolean
   )
 
-  val alreadyRegisteredMapping = single(
-    keys.alreadyRegistered.key -> boolean
-  )
-
 }

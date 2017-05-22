@@ -15,7 +15,6 @@ import uk.gov.gds.ier.transaction._
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import com.google.inject.Singleton
 
-
 @Singleton
 class RegisterToVoteController @Inject() (
     val serialiser: JsonSerialiser,
@@ -46,7 +45,7 @@ class RegisterToVoteController @Inject() (
 
   def registerToVoteStart = NewSession in Action {
     request =>
-      Redirect(ordinary.alreadyRegistered.routes.AlreadyRegisteredStep.get.url, request.queryString)
+      Redirect(country.routes.CountryStep.get.url, request.queryString)
   }
 
   def registerToVoteOverseasStart = NewSession in Action {

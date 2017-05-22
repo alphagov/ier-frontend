@@ -13,11 +13,11 @@ class RegisterToVoteControllerTests extends ControllerTestSuite {
   }
 
   behavior of "RegisterToVoteController.registerToVoteStart"
-  it should "redirect to register-to-vote/already-registered" in {
+  it should "redirect to register-to-vote/country-of-residence" in {
     running(FakeApplication()) {
       val Some(result) = route(FakeRequest(GET, "/register-to-vote/start"))
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/already-registered"))
+      redirectLocation(result) should be(Some("/register-to-vote/country-of-residence"))
     }
   }
 
@@ -25,7 +25,7 @@ class RegisterToVoteControllerTests extends ControllerTestSuite {
     running(FakeApplication()) {
       val Some(result) = route(FakeRequest(GET, "/register-to-vote/start?_ga=1234.TEST.4321"))
       status(result) should be(SEE_OTHER)
-      redirectLocation(result) should be(Some("/register-to-vote/already-registered?_ga=1234.TEST.4321"))
+      redirectLocation(result) should be(Some("/register-to-vote/country-of-residence?_ga=1234.TEST.4321"))
     }
   }
 
