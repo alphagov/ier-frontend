@@ -342,8 +342,10 @@ ordinary_postalVote_voteInPerson_option=No, I prefer to vote in person
 ordinary_postalVote_voteAlreadyHave_option=No, I already have a postal vote
 ordinary_postalVote_voteAlreadyHave_help=If you've changed address you'll need to apply for a new postal vote
 ordinary_postalVote_postalVote_option=Yes, send me a postal vote application form
-ordinary_postalVote_deadline=To vote by post in the UK General Election on 8 June 2017, your local Electoral Registration Office must receive your application no later than
-ordinary_postalVote_deadline2=5pm on Tuesday 23 May 2017.
+ordinary_postalVote_deadline=It is now too late to apply to vote by post for the UK General Election on 8 June 2017; you can still apply for a proxy vote until
+ordinary_postalVote_deadline2=5pm on 31 May 2017.
+ordinary_postalVote_deadline3=You will need to contact your local Electoral Registration Office to request a proxy application.
+
 
 
 ordinary_postalVote_postalVote_heading=If you want a postal vote application form
@@ -351,23 +353,12 @@ ordinary_postalVote_postalVote_deliveryOptionsQuestion=You’ll need to sign and
 form. How should we send you the form?
 ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline=It is now too late to submit a postal vote application form for the EU referendum on 23 June. You can still apply for other future elections.
 ordinary_postalVote_postalVote_deliveryEmail_option=Email it to me
-ordinary_postalVote_postalVote_deliveryEmail_option_deadline=To vote by post in the UK General Election on 8 June 2017, your local Electoral Registration Office must receive your application no later than
-ordinary_postalVote_postalVote_deliveryEmail_option_deadline2=5pm on Tuesday 23 May 2017.
-ordinary_postalVote_postalVote_deliveryEmail_option_deadline3=You can apply for a proxy vote until
-ordinary_postalVote_postalVote_deliveryEmail_option_deadline4=5pm on 31 May 2017.
-ordinary_postalVote_postalVote_deliveryEmail_option_deadline5=Please allow adequate time for your Electoral Registration Office to process your application and issue your Ballot.
-ordinary_postalVote_postalVote_deliveryEmail_option_deadline6=Please be aware that you need to complete a separate application form when you apply for a postal vote.
-ordinary_postalVote_postalVote_deliveryEmail_option_deadline7=Your application needs to be printed, signed and returned to your local Electoral Registration Office.
-
 ordinary_postalVote_postalVote_emailAddress_label=Email address
 ordinary_postalVote_postalVote_deliveryPost_option=Post it to me
 
-ordinary_postalVote_postalVote_deliveryPost_option_deadline=To vote by post in the UK General Election on 8 June 2017, your local Electoral Registration Office must receive your application no later than
-ordinary_postalVote_postalVote_deliveryPost_option_deadline2=5pm on Tuesday 23 May 2017.
-ordinary_postalVote_postalVote_deliveryPost_option_deadline3=You can apply for a proxy vote until
-ordinary_postalVote_postalVote_deliveryPost_option_deadline4=5pm on 31 May 2017.
-ordinary_postalVote_postalVote_deliveryPost_option_deadline7=You will receive your application sooner if you choose the email option. Your application needs to be signed and returned to your local Electoral Registration Office.
-ordinary_postalVote_postalVote_deliveryPost_option_deadline5=Please allow adequate time for your Electoral Registration Office to process your application and issue your Ballot.
+ordinary_postalVote_postalVote_deliveryPost_option_deadline=It is now too late to apply to vote by post for the UK General Election on 8 June 2017; you can still apply for a proxy vote until
+ordinary_postalVote_postalVote_deliveryPost_option_deadline2=5pm on 31 May 2017.
+ordinary_postalVote_postalVote_deliveryPost_option_deadline3=You will need to contact your local Electoral Registration Office to request a proxy application.
 
 ordinary_postalVote_help_link=What is a postal vote?
 ordinary_postalVote_help_content_1=We’ll send your ballot paper to the address you choose. Then you fill it in \
