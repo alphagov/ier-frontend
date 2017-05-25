@@ -53,7 +53,7 @@ class ConfirmationStep @Inject() (
   def get = ValidSession in Action {
     implicit request =>
       application.identifyApplication match {
-        case ApplicationType.DontKnow => NotFound(ErrorPage.NotFound(request.path))
+        case ApplicationType.DontKnow => InternalServerError(ErrorPage.ServerError())
         case _ => {
           val filledForm = validation.fillAndValidate(application)
           val html = mustache(filledForm, routing.post, application).html
