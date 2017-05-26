@@ -110,7 +110,7 @@ trait OverseasFormImplicits {
       lastRegistered: Option[LastRegisteredType]):ApplicationType = {
 
     val under18WhenLeft = for(dateOfBirth <- dob; whenLeft <- dateLeft) yield {
-      Years.yearsBetween(dateOfBirth, whenLeft).getYears() < 18
+      Years.yearsBetween(dateOfBirth, whenLeft).getYears() <= 18
     }
 
     if (lastRegistered.exists(_ == LastRegisteredType.Overseas)) {

@@ -17,7 +17,8 @@ trait SoleOccupancyMustache extends StepTemplate[InprogressOrdinary] with Addres
                               addressLine: String,
                               postcode: String,
                               displayAddress: Boolean,
-                              questionIsMandatory: Boolean
+                              questionIsMandatory: Boolean,
+                              isScottish: Boolean
                               ) extends MustacheData
 
   val scotlandService: ScotlandService
@@ -38,10 +39,12 @@ trait SoleOccupancyMustache extends StepTemplate[InprogressOrdinary] with Addres
         case (residence, _) => Country(residence.getOrElse(""), false)
       }
 
+      val isScottish = scotlandService.isScotByPostcodeOrCountry(postcode, country)
+
       SoleOccupancyModel(
         question = Question(
           postUrl = postUrl.url,
-          title = Messages("ordinary_soleOccupancy_title"),
+          title = if (!isScottish) Messages("ordinary_soleOccupancy_title") else Messages("ordinary_soleOccupancy_title_scotland"),
           errorMessages = Messages.translatedGlobalErrors(form)),
 
         soleOccupancyYes = RadioField(
@@ -59,7 +62,8 @@ trait SoleOccupancyMustache extends StepTemplate[InprogressOrdinary] with Addres
         addressLine = addressLine,
         postcode = postcode,
         displayAddress = !addressLine.isEmpty,
-        questionIsMandatory = !scotlandService.isScotByPostcodeOrCountry(postcode, country)
+        questionIsMandatory = true,
+        isScottish = isScottish
       )
   }
 }

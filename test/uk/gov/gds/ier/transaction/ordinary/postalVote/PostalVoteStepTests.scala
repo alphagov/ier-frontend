@@ -17,15 +17,13 @@ class PostalVoteStepTests extends MockingTestSuite {
     val mockedEncryptionService = mock[EncryptionService]
     val mockedRemoteAssets = mock[RemoteAssets]
     val mockedControllers = mock[OrdinaryControllers]
-    val mockedScotlandService = mock[ScotlandService]
 
     val postalVoteStep = new PostalVoteStep(
       mockedJsonSerialiser,
       mockedConfig,
       mockedEncryptionService,
       mockedRemoteAssets,
-      mockedControllers,
-      mockedScotlandService
+      mockedControllers
     )
 
     val currentState = completeOrdinaryApplication.copy(postalVote = Some(PostalVote(

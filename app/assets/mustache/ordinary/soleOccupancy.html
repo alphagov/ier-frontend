@@ -71,7 +71,12 @@
 
     <div class="help-content" data-toggle-text="{{messages.ordinary_soleOccupancy_help_link}}">
         <h2>{{messages.ordinary_soleOccupancy_help_link}}</h2>
+        {{^isScottish}}
         <p>{{messages.ordinary_soleOccupancy_help_content_1}}</p>
+        {{/isScottish}}
+        {{#isScottish}}
+        <p>{{messages.ordinary_soleOccupancy_help_content_1_scotland}}</p>
+        {{/isScottish}}
     </div>
     <button type="submit" id="continue" class="button next validation-submit"
             data-validation-sources="soleOccupancy">{{messages.step_continue}}</button>
