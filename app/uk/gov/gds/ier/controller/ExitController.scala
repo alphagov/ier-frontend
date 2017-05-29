@@ -93,11 +93,6 @@ class ExitController @Inject() (
       Ok(ExitPages.NoFranchise())
   }
 
-  def tooBusy = ClearSession in Action {
-    implicit request =>
-      Ok(ExitPages.TooBusy())
-  }
-
   def leftUkOver15Years = ClearSession in Action {
     request =>
       Ok(ExitPages.LeftUk())
