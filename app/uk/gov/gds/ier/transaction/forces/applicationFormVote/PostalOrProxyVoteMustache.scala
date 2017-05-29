@@ -20,14 +20,6 @@ trait PostalOrProxyVoteMustache
       voteDeliveryMethodPost: Field,
       voteEmailAddress: Field,
       warning1: Text,
-      warning2: Text,
-      warning4: Text,
-      warning5: Text,
-      warning6: Text,
-      warning8: Text,
-      warning9: Text,
-      warning11: Text,
-      warning12: Text,
       voteType: Field
   ) extends MustacheData
 
@@ -54,40 +46,8 @@ trait PostalOrProxyVoteMustache
           title = title
         ),
         warning1 = Text (
-          value = if (wayToVoteName.equals("postal")) s"It is now too late to apply to vote by post for the UK General Election on 8 June 2017; you can still apply for a proxy vote but your local Electoral Registration Office must receive your application no later than " else if
-          (wayToVoteName.equals("proxy")) s"Proxy vote application forms need to be received by your local Electoral Registration Office no later than  " else ""
-        ),
-        warning2 = Text (
-          value = if (wayToVoteName.equals("postal")) s"" else if
-          (wayToVoteName.equals("proxy")) s"5pm on 31 May 2017 " else ""
-        ),
-        warning4 = Text (
-          value = if (wayToVoteName.equals("postal")) s"5pm on 31 May 2017." else if
-          (wayToVoteName.equals("proxy")) s"" else ""
-        ),
-        warning5 = Text (
-          value = if (wayToVoteName.equals("postal")) s"" else if
-          (wayToVoteName.equals("proxy")) s"Please be aware you need to complete a separate paper application form when you apply for a proxy vote." else ""
-        ),
-        warning6 = Text (
-          value = if (wayToVoteName.equals("postal")) s"" else if
-          (wayToVoteName.equals("proxy")) s"Please ensure you allow sufficient time for your proxy vote application to reach your local Electoral Registration Office. " else ""
-        ),
-        warning8 = Text (
-          value = if (wayToVoteName.equals("postal")) s"Please be aware that you need to complete a separate application form when you apply for a postal vote. " else if
-          (wayToVoteName.equals("proxy")) s"" else ""
-        ),
-        warning9 = Text (
-          value = if (wayToVoteName.equals("postal")) s"" else if
-          (wayToVoteName.equals("proxy")) s"to be able to vote in the UK General Election on 8 June 2017." else ""
-        ),
-        warning11 = Text (
-          value = if (wayToVoteName.equals("postal")) s"It is now too late to apply to vote by post for the UK General Election on 8 June 2017; you can still apply for a proxy vote but your local Electoral Registration Office must receive your application no later than " else if
-          (wayToVoteName.equals("proxy")) s"To vote by proxy in the UK General Election on 8 June 2017, your local Electoral Registration Office must receive your application no later than" else ""
-        ),
-        warning12 = Text (
-          value = if (wayToVoteName.equals("postal")) s"" else if
-          (wayToVoteName.equals("proxy")) s"5pm on Tuesday 31 May 2017." else ""
+          value = if (wayToVoteName.equals("postal")) s"It is now too late to apply to vote by post for the UK General Election on 8 June 2017; you can still apply to vote for future elections." else if
+          (wayToVoteName.equals("proxy")) s"It is now too late to apply to vote by proxy for the UK General Election on 8 June 2017; you can still apply to vote for future elections." else ""
         ),
         description = Text (
           value = s"If this is your first time using a $wayToVoteName"
