@@ -342,9 +342,8 @@ ordinary_postalVote_voteInPerson_option=No, I prefer to vote in person
 ordinary_postalVote_voteAlreadyHave_option=No, I already have a postal vote
 ordinary_postalVote_voteAlreadyHave_help=If you've changed address you'll need to apply for a new postal vote
 ordinary_postalVote_postalVote_option=Yes, send me a postal vote application form
-ordinary_postalVote_deadline=It is now too late to apply to vote by post for the UK General Election on 8 June 2017; you can still apply for a proxy vote until
-ordinary_postalVote_deadline2=5pm on 31 May 2017.
-ordinary_postalVote_deadline3=You will need to contact your local Electoral Registration Office to request a proxy application.
+ordinary_postalVote_deadline=It’s too late to apply to register to vote for the UK General Election on 8 June 2017. You can still apply to register to vote for future elections.
+
 
 
 

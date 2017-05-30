@@ -360,9 +360,8 @@ ordinary_postalVote_voteInPerson_option=Nac ydw, mae’n well gennyf bleidleisio
 ordinary_postalVote_voteAlreadyHave_option=Nac ydw, mae gennyf bleidlais bost eisoes
 ordinary_postalVote_voteAlreadyHave_help=Os ydych chi wedi newid cyfeiriad, bydd angen i chi wneud cais am bleidlais bost newydd
 ordinary_postalVote_postalVote_option=Ydw, anfonwch ffurflen gais pleidlais bost ataf
-ordinary_postalVote_deadline=Mae hi’n rhy hwyr erbyn hyn i gyflwyno cais am bleidleisio drwy'r post yn Etholiad Cyffredinol y DU ar 8 Mehefin 2017; gallwch wneud cais am bleidlais drwy ddirprwy tan
-ordinary_postalVote_deadline2=5pm ar 31 Mai 2017.
-ordinary_postalVote_deadline3=Bydd yn rhaid i chi gysylltu â’ch Swyddfa Cofrestru Etholiadol leol i ofyn am ffurflen gais pleidlais drwy ddirprwy.
+ordinary_postalVote_deadline=Mae hi’n rhy hwyr erbyn hyn i chi wneud cais am bleidleisio yn Etholiad Cyffredinol y DU ar 8 Mehefin 2017. Gallwch wneud cais am gofrestru i bleidleisio ar gyfer etholiadau’r dyfodol o hyd.
+
 
 
 ordinary_postalVote_postalVote_deliveryPost_option_deadline=Mae hi’n rhy hwyr erbyn hyn i gyflwyno cais am bleidleisio drwy'r post yn Etholiad Cyffredinol y DU ar 8 Mehefin 2017; gallwch wneud cais am bleidlais drwy ddirprwy tan

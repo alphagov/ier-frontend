@@ -15,14 +15,6 @@ class PostalOrProxyVoteTemplateTest
       val data = new PostalOrProxyVoteModel(
         question = Question(),
         warning1 = Text("warning text 1"),
-        warning2 = Text("warning text 2"),
-        warning4 = Text("warning text 4"),
-        warning5 = Text("warning text 5"),
-        warning6 = Text("warning text 6"),
-        warning8 = Text("warning text 8"),
-        warning9 = Text("warning text 9"),
-        warning11 = Text("warning text 11"),
-        warning12 = Text("warning text 12"),
         description = Text("description text"),
         voteFieldSet = FieldSet(
           classes = "voteFieldSetClasses"
