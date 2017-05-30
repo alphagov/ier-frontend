@@ -34,7 +34,6 @@ GET         /register-to-vote/exit/too-young-scotland                    @uk.gov
 GET         /register-to-vote/exit/too-young-not-scotland-14             @uk.gov.gds.ier.controller.ExitController.tooYoungNotScotland14
 GET         /register-to-vote/exit/too-young-not-scotland-15             @uk.gov.gds.ier.controller.ExitController.tooYoungNotScotland15
 GET         /register-to-vote/exit/no-franchise                          @uk.gov.gds.ier.controller.ExitController.noFranchise
-GET         /register-to-vote/exit/too-busy                              @uk.gov.gds.ier.controller.ExitController.tooBusy
 GET         /register-to-vote/exit/overseas/left-uk-over-15-years        @uk.gov.gds.ier.controller.ExitController.leftUkOver15Years
 GET         /register-to-vote/exit/overseas/too-old-when-left-uk         @uk.gov.gds.ier.controller.ExitController.tooOldWhenLeftUk
 GET         /register-to-vote/exit/overseas/left-service-over-15-years   @uk.gov.gds.ier.controller.ExitController.leftSpecialOver15Years
