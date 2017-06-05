@@ -63,9 +63,6 @@
         <div class="optional-section optional-section-core-content"
                 data-condition="{{postCheckboxYes.id}}"
                 aria-hidden="true" aria-expanded="false">
-            <legend class="label">
-                <p>{{messages.ordinary_postalVote_deadline}}</p>
-            </legend>
         </div>
 
         <p></p>
@@ -85,7 +82,6 @@
 </label>
 
         <div class="optional-section" data-condition="{{deliveryByEmail.id}}">
-            <p>{{messages.ordinary_postalVote_deadline}}</p>
             <label for="{{emailField.id}}">{{messages.ordinary_postalVote_postalVote_emailAddress_label}}</label>
         <div class="validation-wrapper {{emailField.classes}}">
 
@@ -101,10 +97,6 @@
       data-validation-rules="nonEmpty" {{deliveryByPost.attributes}}>
         {{messages.ordinary_postalVote_postalVote_deliveryPost_option}}
 </label>
-
-        <div class="optional-section" data-condition="{{deliveryByPost.id}}">
-            <p>{{messages.ordinary_postalVote_deadline}}</p>
-            <div class="validation-wrapper {{emailField.classes}}">
 
       </fieldset>
       

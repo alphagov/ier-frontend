@@ -18,7 +18,6 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressOverseas] {
       voteDeliveryMethodEmail: Field,
       voteDeliveryMethodPost: Field,
       voteEmailAddress: Field,
-      warning1: Text,
       voteType: Field
   ) extends MustacheData
 
@@ -41,10 +40,6 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressOverseas] {
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
         title = title
-      ),
-      warning1 = Text (
-        value = if (wayToVoteName.equals("postal")) s"It is now too late to apply to vote by post for the UK General Election on 8 June 2017; you can still apply to vote for future elections." else if
-        (wayToVoteName.equals("proxy")) s"It is now too late to apply to vote by proxy for the UK General Election on 8 June 2017; you can still apply to vote for future elections." else ""
       ),
       description = Text (
         value = "If this is your first time using a "+wayToVoteName
