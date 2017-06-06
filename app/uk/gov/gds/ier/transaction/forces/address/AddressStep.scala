@@ -35,7 +35,8 @@ class AddressStep @Inject() (
 
   def nextStep(currentState: InprogressForces) = {
 
-    if (currentState.address.exists(_.address.exists(_.postcode.startsWith("BT"))))
+
+    if (currentState.address.exists(_.address.exists(_.postcode.trim.toUpperCase.startsWith("BT"))))
       GoTo (ExitController.northernIreland)
     else if (currentState.address.exists(_.address.exists(addr => addressService.isScotland(addr.postcode))))
       GoTo (ExitController.scotland)
