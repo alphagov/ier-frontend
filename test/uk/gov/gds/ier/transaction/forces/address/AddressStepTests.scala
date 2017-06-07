@@ -161,7 +161,7 @@ class AddressStepTests extends ControllerTestSuite {
     }
   }
 
-  it should "redirect exit page for Northern Ireland when a postcode starts with BT" in {
+  it should "redirect exit page for Northern Ireland when a postcode starts with uppercase BT" in {
     running(FakeApplication()) {
       val Some(result) = route(
         FakeRequest(POST, "/register-to-vote/forces/address")
@@ -169,6 +169,21 @@ class AddressStepTests extends ControllerTestSuite {
           .withFormUrlEncodedBody(
             "address.address.postcode" -> "BT15EQ"
         )
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/exit/northern-ireland"))
+    }
+  }
+
+  it should "redirect exit page for Northern Ireland when a postcode starts with lowercase BT" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/forces/address")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "address.address.postcode" -> "bt15eq"
+          )
       )
 
       status(result) should be(SEE_OTHER)
