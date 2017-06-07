@@ -41,10 +41,6 @@
               data-validation-rules="atLeastOneNonEmpty"
               data-validation-children="deliveryMethodEmail deliveryMethodPost">
 
-        <legend class="label">
-            <p>{{warning1.value}}</p>
-        </legend>
-
         <legend>How should we send you the form?</legend>
 
         <label for="{{voteDeliveryMethodEmail.id}}" class="selectable"  >
@@ -56,17 +52,6 @@
             data-validation-type="field"
             data-validation-rules="nonEmpty" />Email it to me
         </label>
-
-
-
-        <div class="optional-section optional-section-core-content"
-             data-condition="{{voteDeliveryMethodEmail.id}}"
-             aria-hidden="true" aria-expanded="false">
-            <legend class="label"><br>
-                <p>
-                    {{warning1.value}}</p>
-            </legend>
-        </div>
 
         <div class="optional-section"
              data-condition="postalOrProxyVote_deliveryMethod_methodName_email">
@@ -92,14 +77,6 @@
             data-validation-name="deliveryMethodPost"
             data-validation-type="field"
             data-validation-rules="nonEmpty" />Post it to me
-        </label>
-        <div class="optional-section optional-section-core-content"
-             data-condition="{{voteDeliveryMethodPost.id}}"
-             aria-hidden="true" aria-expanded="false">
-            <legend class="label"><br>
-                <p>
-                    {{warning1.value}}</p>
-            </legend>
         </label>
     </fieldset>
 

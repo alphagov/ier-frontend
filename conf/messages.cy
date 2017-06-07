@@ -360,18 +360,13 @@ ordinary_postalVote_voteInPerson_option=Nac ydw, mae’n well gennyf bleidleisio
 ordinary_postalVote_voteAlreadyHave_option=Nac ydw, mae gennyf bleidlais bost eisoes
 ordinary_postalVote_voteAlreadyHave_help=Os ydych chi wedi newid cyfeiriad, bydd angen i chi wneud cais am bleidlais bost newydd
 ordinary_postalVote_postalVote_option=Ydw, anfonwch ffurflen gais pleidlais bost ataf
-ordinary_postalVote_deadline=Mae hi’n rhy hwyr erbyn hyn i chi wneud cais am bleidleisio yn Etholiad Cyffredinol y DU ar 8 Mehefin 2017. Gallwch wneud cais am gofrestru i bleidleisio ar gyfer etholiadau’r dyfodol o hyd.
 
 
 
-ordinary_postalVote_postalVote_deliveryPost_option_deadline=Mae hi’n rhy hwyr erbyn hyn i gyflwyno cais am bleidleisio drwy'r post yn Etholiad Cyffredinol y DU ar 8 Mehefin 2017; gallwch wneud cais am bleidlais drwy ddirprwy tan
-ordinary_postalVote_postalVote_deliveryPost_option_deadline2=5pm ar 31 Mai 2017.
-ordinary_postalVote_postalVote_deliveryPost_option_deadline3=Bydd yn rhaid i chi gysylltu â’ch Swyddfa Cofrestru Etholiadol leol i ofyn am ffurflen gais pleidlais drwy ddirprwy.
 
 ordinary_postalVote_postalVote_heading=Os ydych am gael ffurflen gais am bleidlais bost
 ordinary_postalVote_postalVote_deliveryOptionsQuestion=Bydd angen i chi lofnodi a dychwelyd y ffurflen gais pleidlais bost. Sut ddylen ni \
 anfon y ffurflen atoch?
-ordinary_postalVote_postalVote_deliveryOptionsQuestionDeadline=I bleidleisio drwy’r post yn refferendwm yr Undeb Ewropeaidd ar 23 Mehefin, mae’n rhaid i’ch cais am bleidlais drwy’r post gyrraedd eich Swyddfa Cofrestru Etholaeth leol dim hwyrach na 5pm, dydd Mercher 8 Mehefin.
 ordinary_postalVote_postalVote_deliveryEmail_option=Drwy e-bost
 ordinary_postalVote_postalVote_emailAddress_label=Cyfeiriad e-bost
 ordinary_postalVote_postalVote_deliveryPost_option=Drwy’r post
