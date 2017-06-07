@@ -48,7 +48,7 @@ class AddressManualStep @Inject() (
   def clearAddressAndUprn(currentState: InprogressForces)= {
     val clearedAddress = currentState.address.map {addr =>
       addr.copy (address = addr.address.map(
-        _.copy(uprn = None, addressLine = None)))
+        _.copy(uprn = None, addressLine = None, gssCode = None)))
       }
 
     currentState.copy(
