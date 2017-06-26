@@ -42,6 +42,7 @@ trait FormKeys {
     lazy val previousName = prependNamespace(Key("previousName"))
     lazy val hasPreviousName = prependNamespace(Key("hasPreviousName"))
     lazy val hasPreviousNameOption = prependNamespace(Key("hasPreviousNameOption"))
+    lazy val changedNameBeforeLeavingUKOption = prependNamespace(Key("changedNameBeforeLeavingUKOption"))
     lazy val firstName = prependNamespace(Key("firstName"))
     lazy val middleNames = prependNamespace(Key("middleNames"))
     lazy val lastName = prependNamespace(Key("lastName"))
@@ -92,6 +93,7 @@ trait FormKeys {
     lazy val methodName = prependNamespace(Key("methodName"))
     lazy val emailAddress = prependNamespace(Key("emailAddress"))
     lazy val voteType = prependNamespace(Key("voteType"))
+    lazy val soleOccupancy = prependNamespace(Key("soleOccupancy"))
 
     lazy val contact = prependNamespace(Key("contact"))
     lazy val contactType = prependNamespace(Key("contactType"))

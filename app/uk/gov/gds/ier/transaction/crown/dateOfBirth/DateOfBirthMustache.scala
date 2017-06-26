@@ -14,16 +14,19 @@ trait DateOfBirthMustache extends StepTemplate[InprogressCrown] {
       noDobReason: Field,
       rangeFieldSet: FieldSet,
       rangeUnder18: Field,
-      rangeOver70: Field,
-      range18to70: Field,
+      rangeOver75: Field,
+      range18to75: Field,
       rangeDontKnow: Field,
-      noDobReasonShowFlag: Text
+      noDobReasonShowFlag: Text,
+      emailField: Field
   ) extends MustacheData
 
   val mustache = MustacheTemplate("crown/dateOfBirth") { (form, post) =>
     implicit val progressForm = form
 
     val title = "What is your date of birth?"
+
+    val emailAddress = form(keys.contact.email.detail).value
 
     DateOfBirthModel(
       question = Question(
@@ -50,13 +53,13 @@ trait DateOfBirthMustache extends StepTemplate[InprogressCrown] {
         key = keys.dob.noDob.range,
         value = "under18"
       ),
-      range18to70 = RadioField(
+      range18to75 = RadioField(
         key = keys.dob.noDob.range,
-        value = "18to70"
+        value = "18to75"
       ),
-      rangeOver70 = RadioField(
+      rangeOver75 = RadioField(
         key = keys.dob.noDob.range,
-        value = "over70"
+        value = "over75"
       ),
       rangeDontKnow = RadioField(
         key = keys.dob.noDob.range,
@@ -64,6 +67,10 @@ trait DateOfBirthMustache extends StepTemplate[InprogressCrown] {
       ),
       noDobReasonShowFlag = Text (
         value = progressForm(keys.dob.noDob.reason).value.map(noDobReason => "-open").getOrElse("")
+      ),
+      emailField = TextField(
+        key = keys.contact.email.detail,
+        default = emailAddress
       )
     )
   }

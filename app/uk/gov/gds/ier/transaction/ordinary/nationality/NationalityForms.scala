@@ -1,7 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.nationality
 
-import uk.gov.gds.ier.validation.{ErrorTransformForm, ErrorMessages, FormKeys}
-import uk.gov.gds.ier.model.{PartialNationality}
+import uk.gov.gds.ier.validation.{ErrorTransformForm, EmailValidator, ErrorMessages, FormKeys}
+import uk.gov.gds.ier.model.{PartialNationality, Contact, ContactDetail}
 import play.api.data.Forms._
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import play.api.data.validation.Constraint
@@ -14,20 +14,23 @@ trait NationalityForms extends NationalityConstraints {
 
   val nationalityForm = ErrorTransformForm(
     mapping(
-      keys.nationality.key -> PartialNationality.mapping
+      keys.nationality.key -> optional(PartialNationality.mapping),
+      keys.contact.key -> optional(Contact.mapping)
     ) (
-      nationality => InprogressOrdinary(
-        nationality = Some(nationality)
+      (nationality, contact) => InprogressOrdinary(
+        nationality = nationality,
+        contact = contact
       )
     ) (
-      inprogressApplication => inprogressApplication.nationality
+      inprogress => Some(inprogress.nationality, inprogress.contact)
     ) verifying (
       nationalityIsChosen,
       notTooManyNationalities,
       otherCountry0IsValid,
       otherCountry1IsValid,
       otherCountry2IsValid,
-      atleastOneOtherCountryIfHasOtherCountry
+      atleastOneOtherCountryIfHasOtherCountry,
+      emailIsValidIfItIsProvided
     )
   )
 }
@@ -47,6 +50,17 @@ trait NationalityConstraints extends FormKeys with ErrorMessages {
         "ordinary_nationality_error_pleaseAnswer",
         keys.nationality.otherCountries
       )
+      case _ => Valid
+    }
+  }
+
+  lazy val emailIsValidIfItIsProvided = Constraint[InprogressOrdinary](keys.nationality.key, keys.contact.key) {
+    application =>
+      application.contact.flatMap(_.email).getOrElse(false) match {
+      case Some(ContactDetail(true, Some(emailAddress))) => {
+        if (EmailValidator.isValid(emailAddress)) Valid
+        else Invalid("ordinary_contact_error_pleaseEnterValidEmail", keys.contact.email.detail)
+      }
       case _ => Valid
     }
   }
@@ -98,7 +112,7 @@ trait NationalityConstraints extends FormKeys with ErrorMessages {
   ) { application =>
     val otherCountry = application.nationality.flatMap(_.otherCountries.lift(i))
     val otherCountryValid = otherCountry.exists { country =>
-      NationalityConstants.validNationalitiesList.contains(country.toLowerCase)
+      NationalityConstants.validNationalitiesList.contains(country)
     }
 
     (otherCountry, otherCountryValid) match {

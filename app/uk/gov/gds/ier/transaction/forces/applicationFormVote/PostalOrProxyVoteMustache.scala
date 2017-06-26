@@ -28,11 +28,14 @@ trait PostalOrProxyVoteMustache
 
       implicit val progressForm = form
 
+      val emailAddress = form(keys.contact.email.detail).value
+
       val wayToVoteName = wayToVote match {
         case WaysToVoteType.ByPost => "postal"
         case WaysToVoteType.ByProxy => "proxy"
         case _ => ""
       }
+
       val title = s"Do you want us to send you a $wayToVoteName vote application form?"
 
       PostalOrProxyVoteModel(
@@ -74,7 +77,8 @@ trait PostalOrProxyVoteMustache
           value = "post"
         ),
         voteEmailAddress = TextField (
-          key = keys.postalOrProxyVote.deliveryMethod.emailAddress
+          key = keys.postalOrProxyVote.deliveryMethod.emailAddress,
+          default = emailAddress
         ),
         voteType =  Field(
           id = keys.postalOrProxyVote.voteType.asId(),

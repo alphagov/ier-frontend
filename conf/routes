@@ -2,6 +2,10 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# Metrics
+GET         /admin/metrics                                              com.kenshoo.play.metrics.MetricsController.metrics
+
+
 # Home page
 GET         /template-test                                               @uk.gov.gds.ier.controller.RegisterToVoteController.templateTest
 GET         /                                                            @uk.gov.gds.ier.controller.RegisterToVoteController.redirectToOrdinary
@@ -20,9 +24,15 @@ GET         /register-to-vote/cookies                                    @uk.gov
 GET         /register-to-vote/exit/british-islands                       @uk.gov.gds.ier.controller.ExitController.britishIslands
 GET         /register-to-vote/exit/scotland                              @uk.gov.gds.ier.controller.ExitController.scotland
 GET         /register-to-vote/exit/northern-ireland                      @uk.gov.gds.ier.controller.ExitController.northernIreland
+GET         /register-to-vote/exit/northern-ireland-overseas             @uk.gov.gds.ier.controller.ExitController.niOverseas
+GET         /register-to-vote/exit/under-16                              @uk.gov.gds.ier.controller.ExitController.under16
 GET         /register-to-vote/exit/under-18                              @uk.gov.gds.ier.controller.ExitController.under18
 GET         /register-to-vote/exit/dont-know                             @uk.gov.gds.ier.controller.ExitController.dontKnow
+GET         /register-to-vote/exit/dont-know-scotland                    @uk.gov.gds.ier.controller.ExitController.dontKnowScotland
 GET         /register-to-vote/exit/too-young                             @uk.gov.gds.ier.controller.ExitController.tooYoung
+GET         /register-to-vote/exit/too-young-scotland                    @uk.gov.gds.ier.controller.ExitController.tooYoungScotland
+GET         /register-to-vote/exit/too-young-not-scotland-14             @uk.gov.gds.ier.controller.ExitController.tooYoungNotScotland14
+GET         /register-to-vote/exit/too-young-not-scotland-15             @uk.gov.gds.ier.controller.ExitController.tooYoungNotScotland15
 GET         /register-to-vote/exit/no-franchise                          @uk.gov.gds.ier.controller.ExitController.noFranchise
 GET         /register-to-vote/exit/overseas/left-uk-over-15-years        @uk.gov.gds.ier.controller.ExitController.leftUkOver15Years
 GET         /register-to-vote/exit/overseas/too-old-when-left-uk         @uk.gov.gds.ier.controller.ExitController.tooOldWhenLeftUk
@@ -161,7 +171,11 @@ POST        /register-to-vote/edit/nino                                  @uk.gov
 #Postcode Lookup
 GET         /address/:postcode                                           @uk.gov.gds.ier.controller.PostcodeController.lookupAddress(postcode)
 
-
+#Sole Occupancy Step
+GET         /register-to-vote/sole-occupancy                            @uk.gov.gds.ier.transaction.ordinary.soleOccupancy.SoleOccupancyStep.get
+POST        /register-to-vote/sole-occupancy                            @uk.gov.gds.ier.transaction.ordinary.soleOccupancy.SoleOccupancyStep.post
+GET         /register-to-vote/edit/sole-occupancy                       @uk.gov.gds.ier.transaction.ordinary.soleOccupancy.SoleOccupancyStep.editGet
+POST        /register-to-vote/edit/sole-occupancy                       @uk.gov.gds.ier.transaction.ordinary.soleOccupancy.SoleOccupancyStep.editPost
 
 ################################
 ## Overseas Routes
@@ -230,6 +244,12 @@ GET         /register-to-vote/overseas/name                              @uk.gov
 POST        /register-to-vote/overseas/name                              @uk.gov.gds.ier.transaction.overseas.name.NameStep.post
 GET         /register-to-vote/overseas/edit/name                         @uk.gov.gds.ier.transaction.overseas.name.NameStep.editGet
 POST        /register-to-vote/overseas/edit/name                         @uk.gov.gds.ier.transaction.overseas.name.NameStep.editPost
+
+#Previous Name  (voter previous name)
+GET         /register-to-vote/overseas/previous-name                     @uk.gov.gds.ier.transaction.overseas.previousName.PreviousNameStep.get
+POST        /register-to-vote/overseas/previous-name                     @uk.gov.gds.ier.transaction.overseas.previousName.PreviousNameStep.post
+GET         /register-to-vote/overseas/edit/previous-name                @uk.gov.gds.ier.transaction.overseas.previousName.PreviousNameStep.editGet
+POST        /register-to-vote/overseas/edit/previous-name                @uk.gov.gds.ier.transaction.overseas.previousName.PreviousNameStep.editPost
 
 #Nino Step
 GET         /register-to-vote/overseas/nino                              @uk.gov.gds.ier.transaction.overseas.nino.NinoStep.get
@@ -607,8 +627,3 @@ POST        /register-to-vote/crown/confirmation                       @uk.gov.g
 GET         /register-to-vote/feedback                                 @uk.gov.gds.ier.feedback.FeedbackPage.get(sourcePath: Option[String] ?= None)
 POST        /register-to-vote/feedback                                 @uk.gov.gds.ier.feedback.FeedbackPage.post(sourcePath: Option[String] ?= None)
 GET         /register-to-vote/feedback/thank-you                       @uk.gov.gds.ier.feedback.FeedbackPage.thankYou(sourcePath: Option[String] ?= None)
-
-# Local Authority Lookup
-GET         /register-to-vote/local-authority/lookup                   @uk.gov.gds.ier.localAuthority.LocalAuthorityController.showLookup(sourcePath: Option[String] ?= None)
-POST        /register-to-vote/local-authority/lookup                   @uk.gov.gds.ier.localAuthority.LocalAuthorityController.doLookup(sourcePath: Option[String] ?= None)
-GET         /register-to-vote/local-authority/:gssCode                 @uk.gov.gds.ier.localAuthority.LocalAuthorityController.ero(gssCode:String, sourcePath: Option[String] ?= None)

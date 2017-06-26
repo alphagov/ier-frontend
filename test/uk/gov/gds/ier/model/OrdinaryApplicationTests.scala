@@ -47,6 +47,7 @@ class OrdinaryApplicationTests extends UnitTestSuite {
       "pgssCode" -> "E09000032",
       "timeTaken" -> "1234",
       "lang" -> "en",
+      "soleoccupancy" -> "true",
       "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
 
@@ -100,6 +101,7 @@ class OrdinaryApplicationTests extends UnitTestSuite {
       "lastcategory" -> "overseas",
       "timeTaken" -> "1234",
       "lang" -> "en",
+      "soleoccupancy" -> "true",
       "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
 
@@ -148,6 +150,7 @@ class OrdinaryApplicationTests extends UnitTestSuite {
       "pgssCode" -> "E09000032",
       "timeTaken" -> "1234",
       "lang" -> "cy",
+      "soleoccupancy" -> "true",
       "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
 
@@ -206,6 +209,7 @@ class OrdinaryApplicationTests extends UnitTestSuite {
       "pgssCode" -> "E09000032",
       "timeTaken" -> "1234",
       "lang" -> "en",
+      "soleoccupancy" -> "true",
       "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
     )
 
@@ -307,6 +311,7 @@ class OrdinaryApplicationTests extends UnitTestSuite {
     "pgssCode" -> "E09000032",
     "timeTaken" -> "1234",
     "lang" -> "en",
+    "soleoccupancy" -> "true",
     "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a"
   )
 
@@ -370,6 +375,7 @@ class OrdinaryApplicationTests extends UnitTestSuite {
         postalVoteOption = Some(PostalVoteOption.NoAndVoteInPerson),
         deliveryMethod = None
       )),
+      soleOccupancy = Some(SoleOccupancyOption(true, "yes")),
       contact = Some(Contact(
         post = true,
         email = Some(ContactDetail(

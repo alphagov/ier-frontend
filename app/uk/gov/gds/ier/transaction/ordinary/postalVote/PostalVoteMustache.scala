@@ -30,7 +30,6 @@ trait PostalVoteMustache extends StepTemplate[InprogressOrdinary] {
     PostalVoteModel(
       question = Question(
         postUrl = postUrl.url,
-        number = s"10 ${Messages("step_of")} 11",
         title = Messages("ordinary_postalVote_title"),
         errorMessages = Messages.translatedGlobalErrors(form)),
 

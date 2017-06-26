@@ -1,9 +1,29 @@
-<form action="{{question.postUrl}}" method="POST"
+<form onsubmit= "TrackEvent()"
+      action="{{question.postUrl}}" method="POST"
       data-validation-name="dateOfBirth"
       data-validation-type="association"
       data-validation-rules="dateOfBirthOrExcuse" 
       data-validation-members="dateOfBirthDate dateOfBirthExcuse"
       class="validate">
+
+    <script>
+    var onLoadValue;
+
+    window.onload = function CurrentEmail(){
+    onLoadValue = document.getElementById("{{emailField.id}}").value;
+    }
+
+    function TrackEvent(){
+    var onSubmitValue = document.getElementById("{{emailField.id}}").value;
+    if (onSubmitValue !== onLoadValue)
+        {ga('send', {
+          hitType: 'event',
+          eventCategory: 'Email Address Collection',
+          eventAction: 'DOB Email',
+          eventLabel: 'DOB - Email Address Provided'
+        });}
+    }
+    </script>
 
     {{> shared/questionHeader }}
 
@@ -23,7 +43,7 @@
                class="text  day validate {{day.classes}}"
                data-validation-name="day"
                data-validation-type="field"
-               data-validation-rules="nonEmpty" >
+               data-validation-rules="nonEmpty"/>
       </span>
 
       <span class="month field-wrapper">
@@ -36,7 +56,7 @@
                class="text  month validate {{month.classes}}"
                data-validation-name="month"
                data-validation-type="field"
-               data-validation-rules="nonEmpty" >
+               data-validation-rules="nonEmpty">
       </span>
 
       <span class="year field-wrapper">
@@ -87,9 +107,10 @@
                       data-validation-name="excuseAgeAttempt"
                       data-validation-type="fieldset"
                       data-validation-rules="radioNonEmpty"
-                      data-validation-children="excuseUnder18 excuse18to70 excuseOver70 excuseDontKnow">
+                      data-validation-children="excuseUnder18 excuse18to75 excuseOver75 excuse14to15 excuse16to17 excuseOver18 excuseDontKnow">
 
                 <p>{{messages.ordinary_dob_help_cannotProvideDOB_ageGroupQuestion}}</p>
+                {{^isScot}}
                 <label for="{{rangeUnder18.id}}" class="selectable"  >
                     <input type="radio" id="{{rangeUnder18.id}}" name="{{rangeUnder18.name}}"
                            value="under18"  class="radio  validate"
@@ -99,24 +120,62 @@
                            {{{rangeUnder18.attributes}}}>
                     {{{messages.ordinary_dob_help_cannotProvideDOB_ageGroup_under18_option}}}
                 </label>
-                <label for="{{range18to70.id}}" class="selectable"  >
-                    <input type="radio" id="{{range18to70.id}}" name="{{range18to70.name}}"
-                           value="18to70"  class="radio  validate"
-                           data-validation-name="excuse18to70"
+                {{/isScot}}
+                {{^isScot}}
+                <label for="{{range18to75.id}}" class="selectable"  >
+                    <input type="radio" id="{{range18to75.id}}" name="{{range18to75.name}}"
+                           value="18to75"  class="radio  validate"
+                           data-validation-name="excuse18to75"
                            data-validation-type="field"
                            data-validation-rules="nonEmpty"
-                           {{{range18to70.attributes}}}>
-                    {{{messages.ordinary_dob_help_cannotProvideDOB_ageGroup_between18and70_option}}}
+                           {{{range18to75.attributes}}}>
+                    {{{messages.ordinary_dob_help_cannotProvideDOB_ageGroup_between18and75_option}}}
                 </label>
-                <label for="{{rangeOver70.id}}" class="selectable"  >
-                    <input type="radio" id="{{rangeOver70.id}}" name="{{rangeOver70.name}}"
-                           value="over70"  class="radio  validate"
-                           data-validation-name="excuseOver70"
+                {{/isScot}}
+                {{^isScot}}
+                <label for="{{rangeOver75.id}}" class="selectable"  >
+                    <input type="radio" id="{{rangeOver75.id}}" name="{{rangeOver75.name}}"
+                           value="over75"  class="radio  validate"
+                           data-validation-name="excuseOver75"
                            data-validation-type="field"
                            data-validation-rules="nonEmpty"
-                           {{{rangeOver70.attributes}}}>
-                    {{{messages.ordinary_dob_help_cannotProvideDOB_ageGroup_over70_option}}}
+                           {{{rangeOver75.attributes}}}>
+                    {{{messages.ordinary_dob_help_cannotProvideDOB_ageGroup_Over75_option}}}
                 </label>
+                {{/isScot}}
+                {{#isScot}}
+                    <label for="{{range14to15_YoungScot.id}}" class="selectable"  >
+                        <input type="radio" id="{{range14to15_YoungScot.id}}" name="{{range14to15_YoungScot.name}}"
+                               value="14to15"  class="radio  validate"
+                               data-validation-name="excuse14to15"
+                               data-validation-type="field"
+                               data-validation-rules="nonEmpty"
+                        {{{range14to15_YoungScot.attributes}}}>
+                        {{{messages.ordinary_dob_help_cannotProvideDOB_ageGroup_14to15_option}}}
+                    </label>
+                {{/isScot}}
+                {{#isScot}}
+                <label for="{{range16to17_YoungScot.id}}" class="selectable"  >
+                    <input type="radio" id="{{range16to17_YoungScot.id}}" name="{{range16to17_YoungScot.name}}"
+                           value="16to17"  class="radio  validate"
+                           data-validation-name="excuse16to17"
+                           data-validation-type="field"
+                           data-validation-rules="nonEmpty"
+                    {{{range16to17_YoungScot.attributes}}}>
+                    {{{messages.ordinary_dob_help_cannotProvideDOB_ageGroup_16to17_option}}}
+                </label>
+                {{/isScot}}
+                {{#isScot}}
+                <label for="{{rangeOver18_YoungScot.id}}" class="selectable"  >
+                    <input type="radio" id="{{rangeOver18_YoungScot.id}}" name="{{rangeOver18_YoungScot.name}}"
+                           value="over18"  class="radio  validate"
+                           data-validation-name="excuseOver18"
+                           data-validation-type="field"
+                           data-validation-rules="nonEmpty"
+                    {{{rangeOver18_YoungScot.attributes}}}>
+                    {{{messages.ordinary_dob_help_cannotProvideDOB_ageGroup_over18_option}}}
+                </label>
+                {{/isScot}}
                 <label for="{{rangeDontKnow.id}}" class="selectable"  >
                     <input type="radio" id="{{rangeDontKnow.id}}" name="{{rangeDontKnow.name}}"
                            value="dontKnow"  class="radio  validate"
@@ -126,11 +185,16 @@
                            {{{rangeDontKnow.attributes}}}>
                     {{{messages.ordinary_dob_help_cannotProvideDOB_ageGroup_dontKnow_option}}}
                 </label>
+                <p>{{messages.ordinary_dob_help_cannotProvideDOB_emailQuestion}}</p>
+                    <input type="email" id="{{emailField.id}}" name="{{emailField.name}}"
+                           value="{{emailField.value}}" autocomplete="off"
+                           class="text  long validate {{emailField.classes}}" data-validation-name="emailAddress"
+                           data-validation-type="field" data-validation-rules="emailCanBeEmpty">
             </fieldset>
         </div>
     </div>
     <button type="submit" id="continue"
             class="button next validation-submit"
-            data-validation-sources="dateOfBirth">{{messages.step_continue}}</button>
+            data-validation-sources="dateOfBirth emailAddress">{{messages.step_continue}}</button>
 
 </form>

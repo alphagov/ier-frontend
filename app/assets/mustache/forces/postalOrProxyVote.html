@@ -41,6 +41,7 @@
               data-validation-children="deliveryMethodEmail deliveryMethodPost">
 
         <legend>How should we send you the form?</legend>
+
         <label for="{{voteDeliveryMethodEmail.id}}" class="selectable"  >
             <input type="radio" id="{{voteDeliveryMethodEmail.id}}"
                    name="{{voteDeliveryMethodEmail.name}}"
@@ -50,10 +51,8 @@
                    data-validation-type="field"
                    data-validation-rules="nonEmpty" />Email it to me
         </label>
-
         <div class="optional-section"
              data-condition="postalOrProxyVote_deliveryMethod_methodName_email">
-
             <label for="{{voteEmailAddress.id}}">Email address</label>
             <div class="validation-wrapper {{voteEmailAddress.classes}}">
                 <input type="email" id="{{voteEmailAddress.id}}"

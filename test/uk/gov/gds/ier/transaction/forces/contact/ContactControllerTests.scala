@@ -72,7 +72,7 @@ class ContactControllerTests extends ControllerTestSuite {
           .withIerSession()
           .withFormUrlEncodedBody(
             "contact.phone.contactMe" -> "true",
-            "contact.phone.detail" -> "01234 123 456")
+            "contact.phone.detail" -> "(+44)01234 123 456")
       )
 
       status(result) should be(SEE_OTHER)

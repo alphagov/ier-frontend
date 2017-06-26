@@ -2,7 +2,7 @@ package uk.gov.gds.ier.test
 
 import play.api.test.FakeRequest
 import play.api.test.Helpers
-import org.joda.time.DateTime
+import org.joda.time.{LocalDate, DateTime}
 import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.serialiser.{JsonSerialiser, WithSerialiser}
 import uk.gov.gds.ier.validation.ErrorTransformForm
@@ -74,7 +74,7 @@ trait TestHelpers
 
   lazy val completeOrdinaryApplication = InprogressOrdinary(
     name = Some(Name("John", None, "Smith")),
-    previousName = Some(PreviousName(false, "false", None)),
+    previousName = Some(PreviousName(false, "false", Some("false"), None)),
     dob = Some(DateOfBirth(Some(DOB(1988, 1, 1)), None)),
     nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
@@ -85,7 +85,25 @@ trait TestHelpers
     postalVote = Some(PostalVote(Some(PostalVoteOption.NoAndVoteInPerson),None)),
     contact = Some(Contact(true, None, None)),
     possibleAddresses = None,
-    country = Some(Country("England", false))
+    country = Some(Country("England", false)),
+    soleOccupancy = Some(SoleOccupancyOption.Yes)
+  )
+
+  lazy val completeOrdinaryApplicationYoungScot = InprogressOrdinary(
+    name = Some(Name("Jock", None, "Smith")),
+    previousName = Some(PreviousName(false, "false", Some("false"), None)),
+    dob = Some(DateOfBirth(Some(DOB(LocalDate.now.minusYears(15).getYear, 1, 1)), None)),
+    nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
+    nino = None,
+    address = Some(PartialAddress(Some("Flat 13, 50 North Bridge, Edinburgh, City Of Edinburgh"),Some("906182367"),"EH11QN",None,Some("S12000036"))),
+    previousAddress = Some(PartialPreviousAddress(Some(MovedHouseOption.NotMoved), None)),
+    otherAddress = Some(OtherAddress(OtherAddress.NoOtherAddress)),
+    openRegisterOptin = None,
+    postalVote = Some(PostalVote(Some(PostalVoteOption.NoAndVoteInPerson),None)),
+    contact = Some(Contact(true, None, None)),
+    possibleAddresses = None,
+    country = Some(Country("Scotland", false)),
+    soleOccupancy = Some(SoleOccupancyOption(true, "yes"))
   )
 
 
@@ -100,7 +118,7 @@ trait TestHelpers
     nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
     dob = Some(DateOfBirth(Some(DOB(1988, 1, 1)), None)),
     name = Some(Name("John", None, "Smith")),
-    previousName = Some(PreviousName(true, "true", Some(Name("George", None, "Smith")))),
+    previousName = Some(PreviousName(true, "true", None, Some(Name("George", None, "Smith")))),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
     service = Some(Service(Some(ServiceType.RoyalAirForce), None)),
     rank = Some(Rank(Some("1234567"), Some("rank 1"))),
@@ -137,7 +155,7 @@ trait TestHelpers
     nationality = Some(PartialNationality(Some(true), None, None, List.empty, None)),
     dob = Some(DateOfBirth(Some(DOB(1988, 1, 1)), None)),
     name = Some(Name("John", None, "Smith")),
-    previousName = Some(PreviousName(true, "true", Some(Name("George", None, "Smith")))),
+    previousName = Some(PreviousName(true, "true", None, Some(Name("George", None, "Smith")))),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
     job = Some(Job(Some("job title"), Some("123456"), Some("MoJ"))),
     contactAddress = Some (PossibleContactAddresses(

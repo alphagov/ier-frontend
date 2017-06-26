@@ -21,14 +21,14 @@ class AddressManualStepMockedTests
   extends MockingTestSuite
   with WithMockForcesControllers {
 
-  it should "clear the address line and uprn if an manual address is filled in" in {
+  it should "clear the address line, uprn and gsscode if an manual address is filled in" in {
     val mockedJsonSerialiser = mock[JsonSerialiser]
     val mockedConfig = mock[Config]
     val mockedEncryptionService = mock[EncryptionService]
     val mockedRemoteAssets = mock[RemoteAssets]
 
     val partialAddress = PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ",
-        Some(PartialManualAddress(Some("line1"), Some("line2"), Some("line3"), Some("city"))))
+        Some(PartialManualAddress(Some("line1"), Some("line2"), Some("line3"), Some("city"))), Some("E99999999"))
 
     val currentState = completeForcesApplication.copy(
       address = Some(LastAddress(
@@ -47,7 +47,7 @@ class AddressManualStepMockedTests
     val result = addressManualStep.clearAddressAndUprn(currentState)
     val expected = result.address.exists{addr =>
       addr.address.exists{pAddr =>
-        pAddr.addressLine.isEmpty && pAddr.uprn.isEmpty
+        pAddr.addressLine.isEmpty && pAddr.uprn.isEmpty && pAddr.gssCode.isEmpty
       }
     }
 

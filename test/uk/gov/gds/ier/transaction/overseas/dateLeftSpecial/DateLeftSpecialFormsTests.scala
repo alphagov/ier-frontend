@@ -111,4 +111,38 @@ class DateLeftSpecialFormsTests
       }
     )
   }
+
+  it should "error out on invalid month - 0" in {
+    val js = Json.toJson(
+      Map(
+        "dateLeftSpecial.month" -> "0",
+        "dateLeftSpecial.year" -> "2010"
+      )
+    )
+    dateLeftSpecialForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("dateLeftSpecial.month") should be(Seq("The month you provided is invalid"))
+        hasErrors.globalErrorMessages should be(Seq("The month you provided is invalid"))
+      },
+      success => fail("Should have errored out.")
+    )
+  }
+
+  it should "error out on invalid month - 99" in {
+    val js = Json.toJson(
+      Map(
+        "dateLeftSpecial.month" -> "99",
+        "dateLeftSpecial.year" -> "2010"
+      )
+    )
+    dateLeftSpecialForm.bind(js).fold(
+      hasErrors => {
+        hasErrors.errors.size should be(2)
+        hasErrors.errorMessages("dateLeftSpecial.month") should be(Seq("The month you provided is invalid"))
+        hasErrors.globalErrorMessages should be(Seq("The month you provided is invalid"))
+      },
+      success => fail("Should have errored out.")
+    )
+  }
 }

@@ -9,7 +9,7 @@ class NameTemplateTest
 
   it should "properly render all properties from the model" in {
     running(FakeApplication()) {
-      val data = new NameModel(
+        val data = new NameModel(
         question = Question(),
         firstName = Field(
           id = "firstNameId",
@@ -40,11 +40,6 @@ class NameTemplateTest
           name = "hasPreviousOptionTrueName",
           attributes = "foo=\"foo\""
         ),
-        hasPreviousNameOptionOther = Field(
-          id = "hasPreviousOptionOtherId",
-          name = "hasPreviousOptionOtherName",
-          attributes = "foo=\"foo\""
-        ),
         previousFirstName = Field(
           id = "previousFirstNameId",
           name = "previousFirstNameName",
@@ -63,11 +58,21 @@ class NameTemplateTest
           classes = "previousLastNameClass",
           value = "previousLastNameValue"
         ),
-        nameChangeReason = Field(
-          id = "nameChangeReasonId",
-          name = "nameChangeReasonName",
-          classes = "nameChangeReasonClass",
-          value = "nameChangeReasonValue"
+        changedNameBeforeLeavingUKOption = FieldSet(classes = "changedNameBeforeLeavingUKOptionClass"),
+        changedNameBeforeLeavingUKOptionFalse = Field(
+          id = "changedNameBeforeLeavingUKOptionFalseId",
+          name = "changedNameBeforeLeavingUKOptionFalseName",
+          attributes = "foo=\"foo\""
+        ),
+        changedNameBeforeLeavingUKOptionTrue = Field(
+          id = "changedNameBeforeLeavingUKOptionTrueId",
+          name = "changedNameBeforeLeavingUKOptionTrueName",
+          attributes = "foo=\"foo\""
+        ),
+          changedNameBeforeLeavingUKOptionOther = Field(
+          id = "changedNameBeforeLeavingUKOptionOtherId",
+          name = "changedNameBeforeLeavingUKOptionOtherName",
+          attributes = "foo=\"foo\""
         )
       )
 
@@ -117,50 +122,33 @@ class NameTemplateTest
       lastNameInput.attr("value") should be("lastNameValue")
       lastNameInput.attr("class") should include("lastNameClass")
 
-      //Previous First Name
-      doc
-        .select("label[for=previousFirstNameId]")
-        .first()
-        .attr("for") should be("previousFirstNameId")
+      //Changed Name Before Leaving UK Option
+      val changedNameBeforeLeavingUKOptionFieldset = doc.select("fieldset[class*=changedNameBeforeLeavingUKOptionClass").first()
+      changedNameBeforeLeavingUKOptionFieldset.attr("class") should include("changedNameBeforeLeavingUKOptionClass")
 
-      val previousFirstNameDiv = doc.select("div[class*=previousFirstNameClass]").first()
-      previousFirstNameDiv.attr("class") should include("previousFirstNameClass")
+      val changedNameBeforeLeavingUKOptionFalseLabel = changedNameBeforeLeavingUKOptionFieldset.select("label[for=changedNameBeforeLeavingUKOptionFalseId]").first()
+      changedNameBeforeLeavingUKOptionFalseLabel.attr("for") should be("changedNameBeforeLeavingUKOptionFalseId")
 
-      val previousFirstNameInput = previousFirstNameDiv.select("input").first()
+      val changedNameBeforeLeavingUKOptionFalseInput = changedNameBeforeLeavingUKOptionFalseLabel.select("input").first()
+      changedNameBeforeLeavingUKOptionFalseInput.attr("id") should be("changedNameBeforeLeavingUKOptionFalseId")
+      changedNameBeforeLeavingUKOptionFalseInput.attr("name") should be("changedNameBeforeLeavingUKOptionFalseName")
+      changedNameBeforeLeavingUKOptionFalseInput.attr("foo") should be("foo")
 
-      previousFirstNameInput.attr("id") should be("previousFirstNameId")
-      previousFirstNameInput.attr("name") should be("previousFirstNameName")
-      previousFirstNameInput.attr("value") should be("previousFirstNameValue")
-      previousFirstNameInput.attr("class") should include("previousFirstNameClass")
+      val changedNameBeforeLeavingUKOptionTrueLabel = changedNameBeforeLeavingUKOptionFieldset.select("label[for=changedNameBeforeLeavingUKOptionTrueId]").first()
+      changedNameBeforeLeavingUKOptionTrueLabel.attr("for") should be("changedNameBeforeLeavingUKOptionTrueId")
 
+      val changedNameBeforeLeavingUKOptionTrueInput = changedNameBeforeLeavingUKOptionTrueLabel.select("input").first()
+      changedNameBeforeLeavingUKOptionTrueInput.attr("id") should be("changedNameBeforeLeavingUKOptionTrueId")
+      changedNameBeforeLeavingUKOptionTrueInput.attr("name") should be("changedNameBeforeLeavingUKOptionTrueName")
+      changedNameBeforeLeavingUKOptionTrueInput.attr("foo") should be("foo")
 
-      //Previous Middle Name
-      doc
-        .select("label[for=previousMiddleNameId]")
-        .first()
-        .attr("for") should be("previousMiddleNameId")
+      val changedNameBeforeLeavingUKOptionOtherLabel = changedNameBeforeLeavingUKOptionFieldset.select("label[for=changedNameBeforeLeavingUKOptionOtherId]").first()
+      changedNameBeforeLeavingUKOptionOtherLabel.attr("for") should be("changedNameBeforeLeavingUKOptionOtherId")
 
-      val previousMiddleNameInput = doc.select("input[id=previousMiddleNameId]").first()
-      previousMiddleNameInput.attr("id") should be("previousMiddleNameId")
-      previousMiddleNameInput.attr("name") should be("previousMiddleNameName")
-      previousMiddleNameInput.attr("value") should be("previousMiddleNameValue")
-      previousMiddleNameInput.attr("class") should include("previousMiddleNameClass")
-
-
-      //Previous Last Name
-      doc
-        .select("label[for=previousLastNameId]")
-        .first()
-        .attr("for") should be("previousLastNameId")
-
-      val previousLastNameDiv =doc.select("div[class*=previousLastNameClass]").first()
-      previousLastNameDiv.attr("class") should include("previousLastNameClass")
-
-      val previousLastNameInput = previousLastNameDiv.select("input").first()
-      previousLastNameInput.attr("id") should be("previousLastNameId")
-      previousLastNameInput.attr("name") should be("previousLastNameName")
-      previousLastNameInput.attr("value") should be("previousLastNameValue")
-      previousLastNameInput.attr("class") should include("previousLastNameClass")
+      val changedNameBeforeLeavingUKOptionOtherInput = changedNameBeforeLeavingUKOptionOtherLabel.select("input").first()
+      changedNameBeforeLeavingUKOptionOtherInput.attr("id") should be("changedNameBeforeLeavingUKOptionOtherId")
+      changedNameBeforeLeavingUKOptionOtherInput.attr("name") should be("changedNameBeforeLeavingUKOptionOtherName")
+      changedNameBeforeLeavingUKOptionOtherInput.attr("foo") should be("foo")
 
       //Has Previous Name
       val hasPreviousFieldset = doc.select("fieldset[class*=hasPreviousNameOptionClass").first()
@@ -181,26 +169,6 @@ class NameTemplateTest
       hasPreviousOptionTrueInput.attr("id") should be("hasPreviousOptionTrueId")
       hasPreviousOptionTrueInput.attr("name") should be("hasPreviousOptionTrueName")
       hasPreviousOptionTrueInput.attr("foo") should be("foo")
-
-      val hasPreviousOptionOtherLabel = hasPreviousFieldset.select("label[for=hasPreviousOptionOtherId]").first()
-      hasPreviousOptionOtherLabel.attr("for") should be("hasPreviousOptionOtherId")
-
-      val hasPreviousOptionOtherInput = hasPreviousOptionOtherLabel.select("input").first()
-      hasPreviousOptionOtherInput.attr("id") should be("hasPreviousOptionOtherId")
-      hasPreviousOptionOtherInput.attr("name") should be("hasPreviousOptionOtherName")
-      hasPreviousOptionOtherInput.attr("foo") should be("foo")
-
-
-      val nameChangeReasonLabel = doc.select("label[for=nameChangeReasonId]").first()
-      nameChangeReasonLabel.attr("for") should be("nameChangeReasonId")
-
-      val nameChangeReasonDiv = doc.select("div[class*=nameChangeReasonClass]").first()
-
-      val nameChangeReasonInput = nameChangeReasonDiv.select("textarea").first()
-      nameChangeReasonInput.attr("id") should be("nameChangeReasonId")
-      nameChangeReasonInput.attr("name") should be("nameChangeReasonName")
-      nameChangeReasonInput.html should be("nameChangeReasonValue")
-      nameChangeReasonInput.attr("class") should include("nameChangeReasonClass")
 
     }
   }

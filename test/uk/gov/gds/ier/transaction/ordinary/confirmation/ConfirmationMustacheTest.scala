@@ -11,6 +11,7 @@ class ConfirmationMustacheTest
   extends MustacheTestSuite
   with ConfirmationForms
   with WithMockAddressService
+  with WithMockScotlandService
   with WithMockOrdinaryControllers
   with MockitoHelpers
   with ConfirmationMustache {
@@ -120,7 +121,7 @@ class ConfirmationMustacheTest
         dob = None,
         noDob = Some(noDOB(
           reason = Some("I have no idea!"),
-          range = Some("18to70")
+          range = Some("18to75")
         ))))
     ))
 
@@ -227,7 +228,7 @@ class ConfirmationMustacheTest
 
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
-    val Some(ninoModel) = confirmation.nino
+    val Some(ninoModel) = confirmation.applicantNino
     ninoModel.content should be(BlockContent(List("AB123456C")))
     ninoModel.editLink should be("/register-to-vote/edit/nino")
   }
@@ -243,7 +244,7 @@ class ConfirmationMustacheTest
 
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
-    val Some(ninoModel) = confirmation.nino
+    val Some(ninoModel) = confirmation.applicantNino
     ninoModel.content should be(BlockContent(List(
       "I cannot provide my national insurance number because:",
       "Recently arrived to the UK")))
@@ -447,7 +448,7 @@ class ConfirmationMustacheTest
 
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
-    val Some(openRegisterModel) = confirmation.openRegister
+    val Some(openRegisterModel) = confirmation.applicantOpenRegister
     openRegisterModel.content should be(
         BlockContent(List("I want to include my name and address on the open register")))
     openRegisterModel.editLink should be("/register-to-vote/edit/open-register")
@@ -461,7 +462,7 @@ class ConfirmationMustacheTest
 
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
 
-    val Some(openRegisterModel) = confirmation.openRegister
+    val Some(openRegisterModel) = confirmation.applicantOpenRegister
     openRegisterModel.content should be(
         BlockContent(List("I don’t want my name and address on the open register")))
     openRegisterModel.editLink should be("/register-to-vote/edit/open-register")
@@ -844,6 +845,6 @@ class ConfirmationMustacheTest
     ))
 
     val confirmation = new ConfirmationBlocks(partiallyFilledApplicationForm)
-    confirmation.nino.get.content should be(BlockContent(List("AB123456")))
+    confirmation.applicantNino.get.content should be(BlockContent(List("AB123456")))
   }
 }

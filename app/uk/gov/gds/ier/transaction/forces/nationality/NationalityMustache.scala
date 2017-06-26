@@ -19,13 +19,16 @@ trait NationalityMustache extends StepTemplate[InprogressForces] {
       otherCountries1: Field,
       otherCountries2: Field,
       noNationalityReason: Field,
-      noNationalityReasonShowFlag: String
+      noNationalityReasonShowFlag: String,
+      emailField: Field
   ) extends MustacheData
 
   val mustache = MustacheTemplate("forces/nationality") { (form, postUrl) =>
     implicit val progressForm = form
 
     val title = "What is your nationality?"
+
+    val emailAddress = form(keys.contact.email.detail).value
 
     val nationalityReason = form(keys.nationality.noNationalityReason).value
 
@@ -58,7 +61,11 @@ trait NationalityMustache extends StepTemplate[InprogressForces] {
       otherCountries1 = TextField(keys.nationality.otherCountries.item(1)),
       otherCountries2 = TextField(keys.nationality.otherCountries.item(2)),
       noNationalityReason = TextField(keys.nationality.noNationalityReason),
-      noNationalityReasonShowFlag = nationalityReasonClass
+      noNationalityReasonShowFlag = nationalityReasonClass,
+      emailField = TextField(
+        key = keys.contact.email.detail,
+        default = emailAddress
+      )
     )
   }
 }

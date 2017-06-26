@@ -14,7 +14,6 @@ class DateOfBirthControllerTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 3")
       contentAsString(result) should include("What is your date of birth?")
       contentAsString(result) should include("/register-to-vote/date-of-birth")
     }
@@ -46,7 +45,10 @@ class DateOfBirthControllerTests extends ControllerTestSuite {
           .withFormUrlEncodedBody(
           "dob.dob.day" -> "1",
           "dob.dob.month" -> "1",
-          "dob.dob.year" -> "1970")
+          "dob.dob.year" -> "1970",
+          "dob.address.addressLine" -> "123 Fake Street, Fakerton",
+          "dob.address.uprn" -> "123456789",
+          "dob.address.postcode" -> "WR26NJ")
       )
 
       status(result) should be(SEE_OTHER)
@@ -139,7 +141,6 @@ class DateOfBirthControllerTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 3")
       contentAsString(result) should include("What is your date of birth?")
       contentAsString(result) should include("/register-to-vote/edit/date-of-birth")
     }
@@ -171,7 +172,10 @@ class DateOfBirthControllerTests extends ControllerTestSuite {
           .withFormUrlEncodedBody(
           "dob.dob.day" -> "1",
           "dob.dob.month" -> "1",
-          "dob.dob.year" -> "1970")
+          "dob.dob.year" -> "1970",
+          "dob.address.addressLine" -> "123 Fake Street, Fakerton",
+          "dob.address.uprn" -> "123456789",
+          "dob.address.postcode" -> "WR26NJ")
       )
 
       status(result) should be(SEE_OTHER)

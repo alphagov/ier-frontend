@@ -3,13 +3,31 @@
 
     {{> shared/validationMessages }}
 
-    <fieldset class="sub-section validate {{waysToVote.classes}}"
+    <fieldset class="validate {{waysToVote.classes}}"
               data-validation-name="waysToVote"
               data-validation-type="fieldset"
               data-validation-rules="atLeastOneNonEmpty"
               data-validation-children="byPost byProxy inPerson">
 
-        <label for="{{byPost.id}}" class="selectable"  >
+        <label for="{{byProxy.id}}" class="selectable"  >
+            <input type="radio"
+                   id="{{byProxy.id}}"
+                   name="{{byProxy.name}}"
+                   value="{{byProxy.value}}"
+                   class="radio  validate {{byProxy.classes}}"
+                   data-validation-name="byProxy"
+                   data-validation-type="field"
+                   data-validation-rules="nonEmpty"
+            {{{byProxy.attributes}}}>
+            By proxy (someone you trust voting for you)
+        </label>
+
+        <div class="optional-section optional-section-core-content"
+             data-condition="{{byProxy.id}}"
+             aria-hidden="true" aria-expanded="false">
+        </div>
+
+        <p></p><label for="{{byPost.id}}" class="selectable"  >
             <input type="radio"
                    id="{{byPost.id}}"
                    name="{{byPost.name}}"
@@ -21,18 +39,11 @@
                    {{{byPost.attributes}}}>
             By post
         </label>
-        <label for="{{byProxy.id}}" class="selectable"  >
-            <input type="radio"
-                   id="{{byProxy.id}}"
-                   name="{{byProxy.name}}"
-                   value="{{byProxy.value}}"
-                   class="radio  validate {{byProxy.classes}}"
-                   data-validation-name="byProxy"
-                   data-validation-type="field"
-                   data-validation-rules="nonEmpty"
-                   {{{byProxy.attributes}}}>
-            By proxy (someone else voting for you)
-        </label>
+
+        <div class="optional-section optional-section-core-content"
+             data-condition="{{byPost.id}}"
+             aria-hidden="true" aria-expanded="false">
+        </div><p></p>
 
         <p>or</p>
 

@@ -1,9 +1,29 @@
-<form action="{{question.postUrl}}" method="POST"
+<form onsubmit= "TrackEvent()"
+      action="{{question.postUrl}}" method="POST"
       data-validation-name="dateOfBirth"
       data-validation-type="association"
       data-validation-rules="dateOfBirthOrExcuse" 
       data-validation-members="dateOfBirthDate dateOfBirthExcuse"
       class="validate">
+
+    <script>
+    var onLoadValue;
+
+    window.onload = function CurrentEmail(){
+    onLoadValue = document.getElementById("{{emailField.id}}").value;
+    }
+
+    function TrackEvent(){
+    var onSubmitValue = document.getElementById("{{emailField.id}}").value;
+    if (onSubmitValue !== onLoadValue)
+        {ga('send', {
+          hitType: 'event',
+          eventCategory: 'Email Address Collection',
+          eventAction: 'DOB Email',
+          eventLabel: 'DOB - Email Address Provided'
+        });}
+    }
+    </script>
 
     {{> shared/questionHeader }}
 
@@ -23,7 +43,7 @@
                class="text  day validate {{day.classes}}"
                data-validation-name="day"
                data-validation-type="field"
-               data-validation-rules="nonEmpty" >
+               data-validation-rules="nonEmpty">
       </span>
 
       <span class="month field-wrapper">
@@ -36,7 +56,7 @@
                class="text  month validate {{month.classes}}"
                data-validation-name="month"
                data-validation-type="field"
-               data-validation-rules="nonEmpty" >
+               data-validation-rules="nonEmpty">
       </span>
 
       <span class="year field-wrapper">
@@ -63,7 +83,8 @@
             (for example, your passport or driving licence).</p>
         <p>If you can’t provide your date of birth, you'll need to explain why. And after
             you've applied, you'll be asked to prove your identity by sending documents in
-            the post (or providing them in person).</p>
+            the post (or providing them in person). This could delay your name getting on
+            the electoral register.</p>
 
         <div class="optional-section validate optional-section{{noDobReasonShowFlag.value}}"
              id="no-date-of-birth"
@@ -90,7 +111,7 @@
                       data-validation-name="excuseAgeAttempt"
                       data-validation-type="fieldset"
                       data-validation-rules="radioNonEmpty"
-                      data-validation-children="excuseUnder18 excuse18to70 excuseOver70 excuseDontKnow">
+                      data-validation-children="excuseUnder18 excuse18to75 excuseOver75 excuseDontKnow">
 
                 <p>How old are you?</p>
                 <label for="{{rangeUnder18.id}}" class="selectable"  >
@@ -102,23 +123,23 @@
                            {{{rangeUnder18.attributes}}}>
                     <span class="visuallyhidden">I am</span>Under 18 years old
                 </label>
-                <label for="{{range18to70.id}}" class="selectable"  >
-                    <input type="radio" id="{{range18to70.id}}" name="{{range18to70.name}}"
-                           value="18to70"  class="radio  validate"
-                           data-validation-name="excuse18to70"
+                <label for="{{range18to75.id}}" class="selectable"  >
+                    <input type="radio" id="{{range18to75.id}}" name="{{range18to75.name}}"
+                           value="18to75"  class="radio  validate"
+                           data-validation-name="excuse18to75"
                            data-validation-type="field"
                            data-validation-rules="nonEmpty"
-                           {{{range18to70.attributes}}}>
-                    <span class="visuallyhidden">I am</span>Between 18 and 70 years old
+                           {{{range18to75.attributes}}}>
+                    <span class="visuallyhidden">I am</span>Between 18 and 75 years old
                 </label>
-                <label for="{{rangeOver70.id}}" class="selectable"  >
-                    <input type="radio" id="{{rangeOver70.id}}" name="{{rangeOver70.name}}"
-                           value="over70"  class="radio  validate"
-                           data-validation-name="excuseOver70"
+                <label for="{{rangeOver75.id}}" class="selectable"  >
+                    <input type="radio" id="{{rangeOver75.id}}" name="{{rangeOver75.name}}"
+                           value="over75"  class="radio  validate"
+                           data-validation-name="excuseOver75"
                            data-validation-type="field"
                            data-validation-rules="nonEmpty"
-                           {{{rangeOver70.attributes}}}>
-                    <span class="visuallyhidden">I am</span>Over 70 years old
+                           {{{rangeOver75.attributes}}}>
+                    <span class="visuallyhidden">I am</span>76 or over
                 </label>
                 <label for="{{rangeDontKnow.id}}" class="selectable"  >
                     <input type="radio" id="{{rangeDontKnow.id}}" name="{{rangeDontKnow.name}}"
@@ -129,11 +150,16 @@
                            {{{rangeDontKnow.attributes}}}>
                     I don't know<span class="visuallyhidden"> how old I am</span>
                 </label>
+                <p>It will be easier to contact you if you provide your email address (optional)</p>
+                <input type="email" id="{{emailField.id}}" name="{{emailField.name}}"
+                       value="{{emailField.value}}" autocomplete="off"
+                       class="text  long validate {{emailField.classes}}" data-validation-name="emailAddress"
+                       data-validation-type="field" data-validation-rules="emailCanBeEmpty">
             </fieldset>
         </div>
     </div>
     <button type="submit" id="continue"
             class="button next validation-submit"
-            data-validation-sources="dateOfBirth">Continue</button>
+            data-validation-sources="dateOfBirth emailAddress">Continue</button>
 
 </form>

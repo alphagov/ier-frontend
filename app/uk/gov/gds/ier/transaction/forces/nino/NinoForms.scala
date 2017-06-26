@@ -3,7 +3,7 @@ package uk.gov.gds.ier.transaction.forces.nino
 import uk.gov.gds.ier.validation._
 import play.api.data.Forms._
 import uk.gov.gds.ier.validation.constraints.NinoConstraints
-import uk.gov.gds.ier.model.{Nino}
+import uk.gov.gds.ier.model.{Nino, Contact}
 import play.api.data.validation.{Invalid, Valid, Constraint}
 import uk.gov.gds.ier.transaction.forces.InprogressForces
 
@@ -22,11 +22,13 @@ trait NinoForms extends NinoForcesConstraints {
   ).verifying(ninoIsValidIfProvided)
 
   val ninoForm = ErrorTransformForm(
-    mapping(keys.nino.key -> optional(ninoMapping))
+    mapping(
+      keys.nino.key -> optional(ninoMapping),
+      keys.contact.key -> optional(Contact.mapping))
     (
-      nino => InprogressForces(nino = nino)
+        (nino, contact) => InprogressForces(nino = nino, contact = contact)
     ) (
-      inprogress => Some(inprogress.nino)
+      inprogress => Some(inprogress.nino, inprogress.contact)
     ) verifying (ninoOrNoNinoReasonDefinedForces)
   )
 }

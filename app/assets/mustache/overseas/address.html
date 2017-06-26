@@ -12,18 +12,18 @@
         Country
     </label>
 
-    <div class="validation-wrapper {{countrySelect.classes}}">
 
-        <select id="{{countrySelect.id}}" name="{{countrySelect.name}}"
-            class="lonely validate {{countrySelect.classes}}"
-            data-validation-name="countrySelect"
-            data-validation-type="field"
-            data-validation-rules="nonEmpty">
-            {{#countrySelect.optionList}}
-                <option value="{{value}}" {{{selected}}}>{{text}}</option>
-            {{/countrySelect.optionList}}
-        </select>
 
+    <div class="validation-wrapper">
+        <input type="text"
+               id="{{countrySelect.id}}"
+               name="{{countrySelect.name}}"
+               value="{{countrySelect.value}}"
+               autocomplete="off"
+               class="text  country-autocomplete long validate {{countrySelect.classes}}"
+               data-validation-name="added-country-0"
+               data-validation-type="field"
+               data-validation-rules="nonEmpty validCountry" />
     </div>
 
     <fieldset class="validate"

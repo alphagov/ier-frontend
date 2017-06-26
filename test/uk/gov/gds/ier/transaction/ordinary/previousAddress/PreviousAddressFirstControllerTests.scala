@@ -14,11 +14,10 @@ class PreviousAddressFirstControllerTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 8")
       contentAsString(result) should include(
         "<form action=\"/register-to-vote/previous-address\"")
       contentAsString(result) should include("" +
-        "Have you moved out of another address in the last 12 months?")
+        "Have you permanently moved out of another address in the last 12 months?")
     }
   }
 
@@ -93,8 +92,8 @@ class PreviousAddressFirstControllerTests extends ControllerTestSuite {
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "previousAddress.previousAddress.uprn" -> "123456789",
-            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.uprn" -> "1111111111",
+            "previousAddress.previousAddress.postcode" -> "EC1Y1AA"
           )
       )
 
@@ -129,7 +128,7 @@ class PreviousAddressFirstControllerTests extends ControllerTestSuite {
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("Have you moved out of another address in the last 12 months?")
+      contentAsString(result) should include("Have you permanently moved out of another address in the last 12 months?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("/register-to-vote/previous-address")
     }
@@ -146,7 +145,7 @@ class PreviousAddressFirstControllerTests extends ControllerTestSuite {
       )
 
       status(result) should be(OK)
-      contentAsString(result) should include("Have you moved out of another address in the last 12 months?")
+      contentAsString(result) should include("Have you permanently moved out of another address in the last 12 months?")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("/register-to-vote/previous-address")
     }
@@ -178,9 +177,8 @@ class PreviousAddressFirstControllerTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 8")
       contentAsString(result) should include("" +
-        "Have you moved out of another address in the last 12 months?")
+        "Have you permanently moved out of another address in the last 12 months?")
       contentAsString(result) should include("" +
         "<form action=\"/register-to-vote/edit/previous-address\"")
     }
@@ -325,8 +323,8 @@ class PreviousAddressFirstControllerTests extends ControllerTestSuite {
           .withIerSession()
           .withApplication(completeOrdinaryApplication)
           .withFormUrlEncodedBody(
-            "previousAddress.previousAddress.uprn" -> "123456789",
-            "previousAddress.previousAddress.postcode" -> "SW1A 1AA"
+            "previousAddress.previousAddress.uprn" -> "111111111",
+            "previousAddress.previousAddress.postcode" -> "EC1Y1AA"
           )
       )
 

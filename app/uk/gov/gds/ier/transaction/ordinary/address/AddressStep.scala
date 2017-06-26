@@ -10,6 +10,8 @@ import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.controller.routes.ExitController
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.transaction.ordinary.OrdinaryControllers
+import uk.gov.gds.ier.validation.DateValidator
+import views.html.helper.form
 
 @Singleton
 class AddressStep @Inject() (
@@ -42,15 +44,27 @@ class AddressStep @Inject() (
           this
         else if (postcode.startsWith("BT"))
           GoTo (ExitController.northernIreland)
-        else if (addressService.isScotland(postcode))
-          GoTo (ExitController.scotland)
-        else ordinary.AddressSelectStep
+        else if (addressService.isScotAddress(postcode)) {
+          //LIVING IN SCOTLAND? > CARRY ON
+          ordinary.AddressSelectStep
+        }
+        else {
+          //LIVING OUTSIDE SCOTLAND? > PROCEED _UNLESS_ AGE=14 OR 15
+          if(currentState.dob.exists(_.dob.isDefined)) {
+            if (DateValidator.isValidYoungScottishVoter(currentState.dob.get.dob.get)) {
+              if (DateValidator.getAge(currentState.dob.get.dob.get) == 14) {
+                GoTo(ExitController.tooYoungNotScotland14)
+              } else {
+                GoTo(ExitController.tooYoungNotScotland15)
+              }
+            }
+            else ordinary.AddressSelectStep
+          }
+          else ordinary.AddressSelectStep
+        }
       }
       case None => this
     }
   }
 
-  override val onSuccess = {
-     GoToNextStep()
-  }
 }

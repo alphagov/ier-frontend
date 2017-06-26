@@ -29,7 +29,6 @@ trait CountryMustache extends StepTemplate[InprogressOrdinary] {
     CountryModel(
       question = Question(
         title = Messages("ordinary_country_heading"),
-        number = "1",
         postUrl = post.url,
         errorMessages = Messages.translatedGlobalErrors(form)
       ),

@@ -10,21 +10,6 @@
               data-validation-children="byPost byProxy inPerson">
 
         <p>
-        <label for="{{byPost.id}}" class="selectable binary"  >
-            <input type="radio"
-                   id="{{byPost.id}}"
-                   name="{{byPost.name}}"
-                   value="{{byPost.value}}"
-                   class="radio validate {{byPost.classes}}"
-                   data-validation-name="byPost"
-                   data-validation-type="field"
-                   data-validation-rules="nonEmpty"
-                   {{{byPost.attributes}}}>
-            By post
-        </label>
-        </p>
-
-        <p>
         <label for="{{byProxy.id}}" class="selectable binary"  >
             <input type="radio"
                    id="{{byProxy.id}}"
@@ -35,8 +20,23 @@
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"
                    {{{byProxy.attributes}}}>
-            By proxy (someone else voting for you)
+            By proxy (someone you trust voting for you)
         </label>
+        </p>
+
+        <p>
+            <label for="{{byPost.id}}" class="selectable binary"  >
+                <input type="radio"
+                       id="{{byPost.id}}"
+                       name="{{byPost.name}}"
+                       value="{{byPost.value}}"
+                       class="radio validate {{byPost.classes}}"
+                       data-validation-name="byPost"
+                       data-validation-type="field"
+                       data-validation-rules="nonEmpty"
+                {{{byPost.attributes}}}>
+                By post
+            </label>
         </p>
 
         <p>or</p>
@@ -57,6 +57,27 @@
         </p>
 
     </fieldset>
+
+    <div class="help-content" data-toggle-text="Help with proxy or postal voting">
+        <h2>Help with proxy or postal voting</h2>
+        <p>If this is your first time voting by proxy or post, or your details have changed, you’ll need to:</p>
+        <ol>
+            <li>Complete and sign a form</li>
+            <li>Return it by email or post to {{authority}}</li>
+        </ol>
+
+        <p>You can scan the form and <strong>return it by email</strong>, as long as all of its parts are visible and the signature is clear,
+            or your vote may not be counted.</p>
+
+        <p><strong>Voting by proxy</strong> - If you are unable to vote in person, someone you trust who’s registered to vote, can vote for you.
+            Your proxy can either go to your local polling station to vote on your behalf, or can apply to vote for you by post.
+            Voting by proxy can be useful particularly if you are living in a country too far away to send back a postal vote on time for an election.</p>
+
+        <p><strong>Voting by post</strong> - We’ll send your postal vote to the address you choose. Then you fill it in and return it by post.
+            Your ballot paper will only be sent out no earlier than 16 days before elections,
+            so as you live abroad there may not be enough time to receive and return your ballot paper by election day.
+            If possible, appoint a proxy to vote on your behalf.</p>
+    </div>
 
     <button id="continue"
             type="submit"

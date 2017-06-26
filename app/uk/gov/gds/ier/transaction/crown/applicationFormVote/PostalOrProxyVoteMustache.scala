@@ -33,7 +33,10 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressCrown] {
       case WaysToVoteType.ByProxy => "proxy"
       case _ => ""
     }
+
     val title = s"Do you want us to send you a $wayToVoteName vote application form?"
+
+      val emailAddress = form(keys.contact.email.detail).value
 
     PostalOrProxyVoteModel(
       question = Question(
@@ -42,9 +45,9 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressCrown] {
         title = title
       ),
       description = Text (
-        value = s"If this is your first time using a $wayToVoteName"
-          +" vote, or your details have changed, you need to sign"
-          +" and return an application form."
+          value = s"If this is your first time using a $wayToVoteName"
+           +" vote, or your details have changed, you need to sign"
+           +" and return an application form."
       ),
       voteFieldSet = FieldSet(
         classes = if (progressForm(keys.postalOrProxyVote.optIn).hasErrors)
@@ -74,7 +77,8 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressCrown] {
         value = "post"
       ),
       voteEmailAddress = TextField (
-        key = keys.postalOrProxyVote.deliveryMethod.emailAddress
+        key = keys.postalOrProxyVote.deliveryMethod.emailAddress,
+        default = emailAddress
       ),
       voteType =  Field(
         id = keys.postalOrProxyVote.voteType.asId(),

@@ -9,6 +9,7 @@ import uk.gov.gds.ier.step.{OrdinaryStep, Routes}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.assets.RemoteAssets
 import uk.gov.gds.ier.transaction.ordinary.OrdinaryControllers
+import uk.gov.gds.ier.service.{ScotlandService, AddressService}
 
 @Singleton
 class NameStep @Inject ()(
@@ -16,7 +17,9 @@ class NameStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService,
     val remoteAssets: RemoteAssets,
-    val ordinary: OrdinaryControllers)
+    val ordinary: OrdinaryControllers,
+    val addressService: AddressService,
+    val scotlandService: ScotlandService)
   extends OrdinaryStep
   with NameForms
   with NameMustache {
@@ -31,6 +34,17 @@ class NameStep @Inject ()(
   )
 
   def nextStep(currentState: InprogressOrdinary) = {
-    ordinary.NinoStep
+    //IF YOUNG SCOTTISH CITIZEN, SKIP THE NINO STEP...
+    if(currentState.dob.exists(_.dob.isDefined)) {
+      if (scotlandService.isYoungScot(currentState)) {
+        ordinary.AddressStep
+      }
+      else {
+        ordinary.NinoStep
+      }
+    }
+    else {
+      ordinary.NinoStep
+    }
   }
 }

@@ -1,5 +1,6 @@
 package uk.gov.gds.ier.transaction.forces.confirmation
 
+import uk.gov.gds.ier.langs.Language
 import uk.gov.gds.ier.transaction.forces.ForcesControllers
 import uk.gov.gds.ier.controller.routes.{ExitController, ErrorController}
 import uk.gov.gds.ier.transaction.complete.routes.CompleteStep
@@ -63,6 +64,9 @@ class ConfirmationStep @Inject() (
         validApplication => {
           val refNum = ierApi.generateForcesReferenceNumber(validApplication)
           val remoteClientIP = request.headers.get("X-Real-IP")
+          val len:Int = refNum.length();
+          val splitRef1:String = refNum.substring(0, len/2);
+          val splitRef2:String = refNum.substring(len/2,len );
 
           val response = ierApi.submitForcesApplication(
             remoteClientIP,
@@ -72,6 +76,68 @@ class ConfirmationStep @Inject() (
           )
 
           logSession()
+
+          val isTemplateCurrent = validApplication.postalOrProxyVote.exists { postalVote =>
+            postalVote.deliveryMethod.equals(None)
+          } || validApplication.postalOrProxyVote.equals(None)
+
+          val isTemplate1 = validApplication.postalOrProxyVote.exists { postalVote =>
+            val isPostalVoteOptionSelected = postalVote.postalVoteOption.exists(_ == true)
+
+            val isEmailOrPost = postalVote.deliveryMethod.exists{
+              deliveryMethod => deliveryMethod.isEmail && deliveryMethod.emailAddress.exists(_.nonEmpty)
+            }
+
+            val isPostalOrProxyVote = validApplication.postalOrProxyVote.exists { postalVote =>
+              (postalVote.typeVote == WaysToVoteType.ByPost)
+            }
+
+            isPostalVoteOptionSelected && isEmailOrPost && isPostalOrProxyVote
+          }
+
+          val isTemplate2 = validApplication.postalOrProxyVote.exists { postalVote =>
+
+            val isEmailOrPost = postalVote.deliveryMethod.exists{
+              deliveryMethod => deliveryMethod.isEmail && deliveryMethod.emailAddress.exists(_.nonEmpty)
+            }
+
+            val isPostalOrProxyVote = validApplication.postalOrProxyVote.exists { postalVote =>
+              (postalVote.typeVote == WaysToVoteType.ByProxy)
+            }
+
+            isEmailOrPost && isPostalOrProxyVote
+          }
+
+          val isTemplate3 = validApplication.postalOrProxyVote.exists { postalVote =>
+            val isPostalVoteOptionSelected = postalVote.postalVoteOption.exists(_ == true)
+
+            val isEmailOrPost = postalVote.deliveryMethod.exists{
+              deliveryMethod => deliveryMethod.isPost
+            }
+
+            val isPostalOrProxyVote = validApplication.postalOrProxyVote.exists { postalVote =>
+              (postalVote.typeVote == WaysToVoteType.ByPost)
+            }
+
+            isPostalVoteOptionSelected && isEmailOrPost && isPostalOrProxyVote
+          }
+
+          val isTemplate4 = validApplication.postalOrProxyVote.exists { postalVote =>
+
+            val isEmailOrPost = postalVote.deliveryMethod.exists{
+              deliveryMethod => deliveryMethod.isPost
+            }
+
+            val isPostalOrProxyVote = validApplication.postalOrProxyVote.exists { postalVote =>
+              (postalVote.typeVote == WaysToVoteType.ByProxy)
+            }
+
+            isEmailOrPost && isPostalOrProxyVote
+          }
+
+          val isEnglish = Language.emailLang.equals("en")
+
+          val isWelsh = Language.emailLang.equals("cy")
 
           val isPostalOrProxyVoteEmailPresent = validApplication.postalOrProxyVote.exists { postalVote =>
             (postalVote.typeVote != WaysToVoteType.InPerson) &
@@ -88,12 +154,32 @@ class ConfirmationStep @Inject() (
 
           val isBirthdayToday = validApplication.dob.exists(_.dob.exists(_.isToday))
 
+          //Get GSSCode of application if it has used addr lookup
+          var gssCode =(validApplication.address.get.address.get.gssCode)
+
+          if  (gssCode == None)
+          {
+            //if it has been a manual addr entry, pull back postcode and lookup appropriate gsscode
+            gssCode = (addressService.lookupGssCode(validApplication.address.get.address.get.postcode))
+          }
+
           val completeStepData = CompleteCookie(
             refNum = refNum,
             authority = Some(response.localAuthority),
             backToStartUrl = config.ordinaryStartUrl,
             showEmailConfirmation = (isPostalOrProxyVoteEmailPresent | isContactEmailPresent),
-            showBirthdayBunting =  isBirthdayToday
+            showBirthdayBunting =  isBirthdayToday,
+            showDeadlineText = true,
+            gssCode = gssCode,
+            showTemplateCurrent = isTemplateCurrent,
+            showTemplate1 = isTemplate1,
+            showTemplate2 = isTemplate2,
+            showTemplate3 = isTemplate3,
+            showTemplate4 = isTemplate4,
+            showEnglish = isEnglish,
+            showWelsh = isWelsh,
+            splitRef1 = splitRef1,
+            splitRef2 = splitRef2
           )
 
           Redirect(CompleteStep.complete())

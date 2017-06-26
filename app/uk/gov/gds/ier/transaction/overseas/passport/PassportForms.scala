@@ -84,7 +84,8 @@ trait PassportForms extends PassportConstraints {
       ifDefinedPassportNumberRequired,
       ifDefinedAuthorityRequired,
       passportRequired,
-      ifNoPassportBornInsideRequired
+      ifNoPassportBornInsideRequired,
+      passportNumberIsValid
     )
   )
 }

@@ -13,7 +13,6 @@ class OpenRegisterControllerTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 9")
       contentAsString(result) should include("Do you want to include your name and address on the open register?")
       contentAsString(result) should include("/register-to-vote/open-register")
     }
@@ -84,7 +83,6 @@ class OpenRegisterControllerTests extends ControllerTestSuite {
 
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
-      contentAsString(result) should include("Question 9")
       contentAsString(result) should include("Do you want to include your name and address on the open register?")
       contentAsString(result) should include("/register-to-vote/edit/open-register")
     }

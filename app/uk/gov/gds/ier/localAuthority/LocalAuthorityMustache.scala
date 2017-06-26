@@ -33,7 +33,17 @@ trait LocalAuthorityMustache
           case _ => ""
         }
 
-        LocalAuthorityShowPage(localAuthorityContact, visitAuthorityPage, sourcePath.getOrElse(""))
+        //Cleaning all <>': from the URL to prevent XSS
+        var sPath : String = ""
+        if(sourcePath.isDefined) {
+          if(sourcePath.get.startsWith("/register-to-vote/")){
+            sPath = toCleanFormat(sourcePath.getOrElse(""))
+          }else{
+            sPath = config.ordinaryStartUrl
+          }
+        }
+
+        LocalAuthorityShowPage(localAuthorityContact, visitAuthorityPage, sPath)
       }
     }
 
@@ -61,4 +71,12 @@ trait LocalAuthorityMustache
         )
       }
     }
+
+  private def cleanFormat(sPath:String) = {
+    sPath.replaceAll("[<>':]", "")
+  }
+
+  private def toCleanFormat(sPath: String) = {
+    cleanFormat(sPath)
+  }
 }

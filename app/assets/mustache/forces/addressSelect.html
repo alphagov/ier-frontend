@@ -9,18 +9,31 @@
             Change<span class="visuallyhidden"> your postcode</span>
         </a>
     </p>
-  {{^hasAddresses}}
+
+    {{^hasAddresses}}
+    {{^hasAuthority}}
     <div class="validation-message visible">
-        Sorry - we couldn't find any addresses for that postcode
+        Sorry – we couldn’t find any addresses for that postcode.
+        If the postcode is correct,
+        contact your local Electoral Registration Office
+        for advice.
     </div>
+    {{/hasAuthority}}
+    {{/hasAddresses}}
+
+    {{^hasAddresses}}
     {{#hasAuthority}}
+    <div class="validation-message visible">
+        Sorry – we couldn’t find any addresses for that postcode.
+    </div>
     <p>
         <a href="{{manualUrl}}" class="button">
             Enter your address manually
         </a>
     </p>
     {{/hasAuthority}}
-  {{/hasAddresses}}
+    {{/hasAddresses}}
+
   {{#hasAddresses}}
     <fieldset>
         <input

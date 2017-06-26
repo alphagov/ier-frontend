@@ -12,7 +12,6 @@ class NinoTemplateTest
     running(FakeApplication()) {
       val data = NinoModel(
         question = Question(postUrl = "/whatever-url",
-        number = "6",
         title = "nino title"
         ),
         nino = Field(
@@ -27,6 +26,13 @@ class NinoTemplateTest
         ),
         noNinoReasonShowFlag = Text (
           value = "noNinoReasonShowFlag"
+        ),
+        emailField = Field(
+          id = "emailFieldId",
+          name = "emailFieldName",
+          classes = "emailFieldClass",
+          value = "emailFieldValue"
+
         )
       )
 

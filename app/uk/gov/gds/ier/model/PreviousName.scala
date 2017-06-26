@@ -2,6 +2,7 @@ package uk.gov.gds.ier.model
 
 case class PreviousName(hasPreviousName: Boolean,
                         hasPreviousNameOption: String,
+                        changedNameBeforeLeavingUKOption: Option[String] = None,
                         previousName: Option[Name],
                         reason: Option[String] = None) {
   def toApiMap(prefix:String = "p"):Map[String,String] = {
@@ -22,20 +23,29 @@ object PreviousName extends ModelMapping {
   val mapping = playMappings.mapping(
     keys.hasPreviousName.key -> boolean,
     keys.hasPreviousNameOption.key -> text,
+    keys.changedNameBeforeLeavingUKOption.key -> optional(text),
     keys.previousName.key -> optional(Name.mapping),
     keys.reason.key -> optional(text)
   ) (
-    (hasPreviousName, hasPreviousNameOption, name, reason) => {
-      if (hasPreviousNameOption.equalsIgnoreCase("true") | hasPreviousNameOption.equalsIgnoreCase("other"))
+    (hasPreviousName, hasPreviousNameOption, changedNameBeforeLeavingUKOption, name, reason) => {
+      if (
+          //The citizen has a previous name if they select TRUE or OTHER (crown / forces / ordinary)
+          //...or if they select FALSE and then TRUE for the changedbeforeleavingUK question (overseas)
+          hasPreviousNameOption.equalsIgnoreCase("true") |
+          hasPreviousNameOption.equalsIgnoreCase("other") |
+          changedNameBeforeLeavingUKOption.getOrElse("").equalsIgnoreCase("true")
+        )
         PreviousName(
           hasPreviousName = true,
           hasPreviousNameOption = hasPreviousNameOption,
+          changedNameBeforeLeavingUKOption = changedNameBeforeLeavingUKOption,
           previousName = name,
           reason = reason)
       else
         PreviousName(
           hasPreviousName = false,
           hasPreviousNameOption = hasPreviousNameOption,
+          changedNameBeforeLeavingUKOption = changedNameBeforeLeavingUKOption,
           previousName = None,
           reason = None)
     }

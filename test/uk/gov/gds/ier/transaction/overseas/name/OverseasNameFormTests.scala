@@ -27,21 +27,14 @@ class OverseasNameFormTests
         "name.middleNames" -> "joe",
         "name.lastName" -> "",
         "previousName.hasPreviousName" -> "true",
-        "previousName.hasPreviousNameOption" -> "true",
-        "previousName.previousName.firstName" -> "",
-        "previousName.previousName.middleNames" -> "Joe",
-        "previousName.previousName.lastName" -> "",
-        "previousName.previousName.reason" -> ""
+        "previousName.hasPreviousNameOption" -> "true"
       )
     )
     nameForm.bind(js).fold(
       hasErrors => {
         hasErrors.keyedErrorsAsMap should matchMap(Map(
           "name.firstName" -> Seq("Please enter your first name"),
-          "name.lastName" -> Seq("Please enter your last name"),
-          "previousName.previousName.firstName" -> Seq("Please enter your previous first name"),
-          "previousName.previousName.lastName" -> Seq("Please enter your previous last name"),
-          "previousName.reason" -> Seq("Please provide a reason for changing your name")
+          "name.lastName" -> Seq("Please enter your last name")
         ))
       },
       success => fail("Should have errored out")
@@ -55,21 +48,14 @@ class OverseasNameFormTests
         "name.middleNames" -> "joe",
         "name.lastName" -> "   ",
         "previousName.hasPreviousName" -> "true",
-        "previousName.hasPreviousNameOption" -> "true",
-        "previousName.previousName.firstName" -> "   ",
-        "previousName.previousName.middleNames" -> "Joe",
-        "previousName.previousName.lastName" -> "   ",
-        "previousName.previousName.reason" -> "  "
+        "previousName.hasPreviousNameOption" -> "true"
       )
     )
     nameForm.bind(js).fold(
       hasErrors => {
         hasErrors.keyedErrorsAsMap should matchMap(Map(
           "name.firstName" -> Seq("Please enter your first name"),
-          "name.lastName" -> Seq("Please enter your last name"),
-          "previousName.previousName.firstName" -> Seq("Please enter your previous first name"),
-          "previousName.previousName.lastName" -> Seq("Please enter your previous last name"),
-          "previousName.reason" -> Seq("Please provide a reason for changing your name")
+          "name.lastName" -> Seq("Please enter your last name")
         ))
       },
       success => fail("Should have errored out")
@@ -86,17 +72,11 @@ class OverseasNameFormTests
     nameForm.bind(js).fold(
       hasErrors => {
         hasErrors.globalErrorMessages should be(Seq(
-          "Please enter your full name",
-          "Please enter your full previous name",
-          "Please provide a reason for changing your name"
+          "Please enter your full name"
         ))
         hasErrors.keyedErrorsAsMap should matchMap(Map(
           "name.firstName" -> Seq("Please enter your full name"),
-          "name.lastName" -> Seq("Please enter your full name"),
-          "previousName.previousName" -> Seq("Please enter your full previous name"),
-          "previousName.previousName.firstName" -> Seq("Please enter your full previous name"),
-          "previousName.previousName.lastName" -> Seq("Please enter your full previous name"),
-          "previousName.reason" -> Seq("Please provide a reason for changing your name")
+          "name.lastName" -> Seq("Please enter your full name")
         ))
       },
       success => fail("Should have errored out")
@@ -144,17 +124,11 @@ class OverseasNameFormTests
       hasErrors => {
         hasErrors.globalErrorMessages should be(Seq(
           "Please enter your first name",
-          "Please enter your last name",
-          "Please enter your previous first name",
-          "Please enter your previous last name",
-          "Please provide a reason for changing your name"
+          "Please enter your last name"
         ))
         hasErrors.keyedErrorsAsMap should matchMap(Map(
           "name.firstName" -> Seq("Please enter your first name"),
-          "name.lastName" -> Seq("Please enter your last name"),
-          "previousName.previousName.firstName" -> Seq("Please enter your previous first name"),
-          "previousName.previousName.lastName" -> Seq("Please enter your previous last name"),
-          "previousName.reason" -> Seq("Please provide a reason for changing your name")
+          "name.lastName" -> Seq("Please enter your last name")
         ))
       },
       success => fail("Should have errored out")
@@ -167,67 +141,14 @@ class OverseasNameFormTests
         "name.firstName" -> "john",
         "name.middleNames" -> "joe",
         "previousName.hasPreviousName" -> "true",
-        "previousName.hasPreviousNameOption" -> "true",
-        "previousName.previousName.middleNames" -> "joe",
-        "previousName.previousName.firstName" -> "john",
-        "previousName.reason" -> "some reason"
+        "previousName.hasPreviousNameOption" -> "true"
       )
     )
     nameForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(4)
+        hasErrors.errors.size should be(2)
         hasErrors.errorMessages("name.lastName") should be(Seq("Please enter your last name"))
-        hasErrors.errorMessages("previousName.previousName.lastName") should be(Seq("Please enter your previous last name"))
-        hasErrors.globalErrorMessages should be(Seq("Please enter your last name","Please enter your previous last name"))
-      },
-      success => fail("Should have errored out")
-    )
-  }
-
-  it should "error out on missing reason for previous name change" in {
-    val js = Json.toJson(
-      Map(
-        "name.firstName" -> "John",
-        "name.lastName" -> "Jones",
-        "previousName.hasPreviousName" -> "true",
-        "previousName.hasPreviousNameOption" -> "true",
-        "previousName.previousName.firstName" -> "Johnny",
-        "previousName.previousName.lastName" -> "Joneso"
-      )
-    )
-    nameForm.bind(js).fold(
-      hasErrors => {
-        hasErrors.globalErrorMessages should be(Seq(
-          "Please provide a reason for changing your name"
-        ))
-        hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousName.reason" -> Seq("Please provide a reason for changing your name")
-        ))
-      },
-      success => fail("Should have errored out")
-    )
-  }
-
-  it should "error out on empty reason for previous name change" in {
-    val js = Json.toJson(
-      Map(
-        "name.firstName" -> "John",
-        "name.lastName" -> "Jones",
-        "previousName.hasPreviousName" -> "true",
-        "previousName.hasPreviousNameOption" -> "true",
-        "previousName.previousName.firstName" -> "Johnny",
-        "previousName.previousName.lastName" -> "Joneso",
-        "previousName.reason" -> ""
-      )
-    )
-    nameForm.bind(js).fold(
-      hasErrors => {
-        hasErrors.globalErrorMessages should be(Seq(
-          "Please provide a reason for changing your name"
-        ))
-        hasErrors.keyedErrorsAsMap should matchMap(Map(
-          "previousName.reason" -> Seq("Please provide a reason for changing your name")
-        ))
+        hasErrors.globalErrorMessages should be(Seq("Please enter your last name"))
       },
       success => fail("Should have errored out")
     )

@@ -1,0 +1,80 @@
+<form action="{{question.postUrl}}" method="POST" >
+    {{> shared/questionHeader }}
+
+    {{> shared/validationMessages }}
+
+    <div>
+        <fieldset class="validate"
+                  data-validation-name="previousName"
+                  data-validation-type="association"
+                  data-validation-rules="allValid"
+                  data-validation-members="previousFirstName previousMiddleName previousLastName nameChangeReason">
+
+            <label for="{{previousFirstName.id}}">
+                <span class="visuallyhidden">Previous</span> First name
+            </label>
+            <div class="validation-wrapper {{previousFirstName.classes}}">
+                <input type="text" id="{{previousFirstName.id}}"
+                       name="{{previousFirstName.name}}"
+                       value="{{previousFirstName.value}}"
+                       autocomplete="off"
+                       class="text first-name long validate {{previousFirstName.classes}}"
+                       data-validation-name="previousFirstName"
+                       data-validation-type="field"
+                       data-validation-rules="prevFirstNameText">
+            </div>
+
+            <label for="{{previousMiddleNames.id}}">
+                <span class="visuallyhidden">Previous</span> Middle names
+            </label>
+
+            <div class="validation-wrapper {{previousMiddleName.classes}}">
+                <input
+                        type="text"
+                        id="{{previousMiddleNames.id}}"
+                        name="{{previousMiddleNames.name}}"
+                        value="{{previousMiddleNames.value}}"
+                        autocomplete="off"
+                        class="text middle-names long validate {{previousMiddleName.classes}}"
+                        data-validation-name="previousMiddleName"
+                        data-validation-type="field"
+                        data-validation-rules="prevMiddleNameText">
+            </div>
+
+            <label for="{{previousLastName.id}}">
+                <span class="visuallyhidden">Previous</span> Last name
+            </label>
+            <div class="validation-wrapper {{previousLastName.classes}}">
+                <input type="text" id="{{previousLastName.id}}"
+                       name="{{previousLastName.name}}"
+                       value="{{previousLastName.value}}"
+                       autocomplete="off"
+                       class="text last-name long validate {{previousLastName.classes}}"
+                       data-validation-name="previousLastName"
+                       data-validation-type="field"
+                       data-validation-rules="prevLastNameText">
+            </div>
+
+            <label for="{{nameChangeReason.id}}">
+                Reason for changing your name
+            </label>
+            <div class="validation-wrapper {{nameChangeReason.classes}}">
+                <textarea name="{{nameChangeReason.name}}"
+                          id="{{nameChangeReason.id}}"
+                          class="small validate {{nameChangeReason.classes}}"
+                          data-validation-name="nameChangeReason"
+                          data-validation-type="field"
+                          data-validation-rules="nonEmpty"
+                          maxlength="255">{{nameChangeReason.value}}</textarea>
+            </div>
+
+            <p class="example">For example: marriage, divorce</p>
+
+        </fieldset>
+    </div>
+
+    <button id="continue" type="submit" class="button next validation-submit"
+            data-validation-sources="previousName">
+        Continue
+    </button>
+</form>

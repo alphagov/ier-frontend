@@ -2,58 +2,121 @@
 
 {{$main}}
 <header
-    {{#showBirthdayBunting}}
-        class="bunting"
-    {{/showBirthdayBunting}}
-    >
+{{#showBirthdayBunting}}
+class="bunting"
+{{/showBirthdayBunting}}
+>
 
-  {{#showBirthdayBunting}}
-    <img src="{{{ appAssetPath }}}images/birthdaybunting.png" alt="Happy Birthday" class="bunting-image"/>
-  {{/showBirthdayBunting}}
+{{#showBirthdayBunting}}
+<img src="{{{ appAssetPath }}}images/birthdaybunting.png" alt="Happy Birthday" class="bunting-image"/>
+{{/showBirthdayBunting}}
 
-  <h3>{{messages.complete_applicationComplete}}</h3>
+<h3>{{messages.complete_applicationComplete_1}} </br>
+{{messages.complete_applicationComplete_2}}     </br>
+{{messages.complete_applicationComplete_3}}
+</h3>
 
-  {{#refNumber}}
-  <p>
+{{#refNumber}}
+<p class="reference-number-small">
     {{messages.complete_yourRefNumberIs}}
-    <span>{{refNumber}}</span>
-    <h1>{{messages.complete_registerGuidance}}</h1>
-  </p>
-  {{/refNumber}}
+    <span>{{splitRef1}}&nbsp;&nbsp;{{splitRef2}}</span>
+</p>
+{{/refNumber}}
 
 </header>
 <article>
-  {{#showEmailConfirmation}}
-  <p class="intro email">{{messages.complete_emailConfirmation}}</p>
-  {{/showEmailConfirmation}}
+    {{#showEmailConfirmation}}
+    <p class="intro email">{{messages.complete_emailConfirmation}}</p>
+    {{/showEmailConfirmation}}
 
-  <h2>{{messages.complete_whatHappensNext_h2}}</h2>
-  <p>{{messages.complete_sentApplicationTo_p}} <strong>{{authorityName}}</strong>.</p>
-  <p>{{messages.complete_contactYouTo_p1}}</p>
-  <p>{{messages.complete_contactYouTo_p2}}</p>
-  <p>
-    {{messages.complete_questionsContact_p1}}
-    {{#authorityUrl}}<a href="{{.}}">{{/authorityUrl}}{{authorityName}}{{#authorityUrl}}</a>{{/authorityUrl}}
-    {{messages.complete_questionsContact_p2}}.
-  </p>
+    {{#showTemplateCurrent}}
+    <h2>{{messages.complete_whatHappensNext_h2}}</h2>
 
-  {{#hasOtherAddress}}
-  <p>{{messages.complete_ifYouAreNotAlreadyRegistered1_p}}
-  <a href="{{backToStartUrl}}">{{messages.complete_ifYouAreNotAlreadyRegistered2_p}}</a>.</p>
-  {{/hasOtherAddress}}
-  <div class="footnote">
-    <h3>{{messages.complete_social_heading}}</h3>
-    <ul class="sharing-links">
-      <li><a href="https://twitter.com/intent/tweet?text={{messages.complete_social_twitter_url_text}}&url=https%3A%2F%2Fwww.gov.uk%2Fregister-to-vote" data-journey-click="Social media sharing:Click share link:Twitter" rel="external"><img src="{{{ appAssetPath }}}images/icon-social-twitter.png" alt="" />{{messages.complete_social_twitter_link_text}}</a></li>
-      <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.gov.uk%2Fregister-to-vote" data-journey-click="Social media sharing:Click share link:Facebook" rel="external"><img src="{{{ appAssetPath }}}images/icon-social-facebook.png" alt="" />{{messages.complete_social_facebook_link_text}}</a></li>
-    </ul>
-  </div>  
-  <div class="footnote">
-    {{#surveyLink}}
-    <p><a href="{{surveyLink}}">{{messages.complete_takeOurSurvey_a}}</a> {{messages.complete_takeOurSurvey_p}}</p>
-    {{/surveyLink}}
-    <p><a href="{{messages.complete_moreAboutVoting_url}}">{{messages.complete_moreAboutVoting_a}}</a></p>
-  </div>
+    {{^showDeadlineText}}
+    <p><strong>{{messages.complete_deadline}}</strong></p>
+    {{/showDeadlineText}}
+
+    <p>{{messages.complete_sentApplicationTo_p}}<strong>{{authName}} {{messages.complete_electoralRegistrationOffice}}</strong>.</p>
+    <p>{{messages.complete_contactYouTo_p2}}</p>
+    <p>
+        <a href="https://www.gov.uk/get-on-electoral-register">{{messages.complete_contact}}</a> {{messages.complete_contact2}}
+    </p>
+    {{/showTemplateCurrent}}
+
+    {{#showTemplate1}}
+    <h2>{{messages.complete_whatToDoNext_h2}}</h2>
+    {{^showDeadlineText}}
+    <p><strong>{{messages.complete_deadline}}</strong></p>
+    {{/showDeadlineText}}
+    <p>{{messages.complete_sentApplicationTo_p1}} <strong>{{messages.complete_sentApplicationTo_p1_2}}{{#showWelsh}}.{{/showWelsh}}</strong>
+       {{#showEnglish}}{{messages.complete_sentApplicationTo_p1_3}} <strong>{{messages.complete_sentApplicationTo_p1_4}}</strong> {{messages.complete_sentApplicationTo_p1_5}}<strong><a href="https://www.gov.uk/get-on-electoral-register">{{authName}}</a></strong> {{messages.complete_electoralRegistrationOffice}}.</p>{{/showEnglish}}
+       {{#showWelsh}}{{messages.complete_sentApplicationTo_p1_3}} <strong>{{messages.complete_sentApplicationTo_p1_4}}</strong> {{messages.complete_sentApplicationTo_p1_5}} <strong><a href="https://www.gov.uk/get-on-electoral-register">{{authName}}</a></strong></p>{{/showWelsh}}
+    <p>{{messages.complete_contactYouTo_p2}}</p>
+    <p>{{messages.complete_contact3}}</p>
+    <p>{{messages.complete_contact4}} {{refNumber}} {{messages.complete_contact5}}</p>
+    {{/showTemplate1}}
+
+    {{#showTemplate2}}
+    <h2>{{messages.complete_whatToDoNext_h2}}</h2>
+    {{^showDeadlineText}}
+    <p><strong>{{messages.complete_deadline}}</strong></p>
+    {{/showDeadlineText}}
+    <p>{{messages.complete_sentApplicationTo_p1}} <strong>{{messages.complete_sentApplicationTo_p1_6}}</strong>
+       {{#showEnglish}}{{messages.complete_sentApplicationTo_p1_3}} <strong>{{messages.complete_sentApplicationTo_p1_4}}</strong> {{messages.complete_sentApplicationTo_p1_5}}<strong><a href="https://www.gov.uk/get-on-electoral-register">{{authName}}</a></strong> {{messages.complete_electoralRegistrationOffice}}.</p>{{/showEnglish}}
+       {{#showWelsh}}{{messages.complete_sentApplicationTo_p1_3}} <strong>{{messages.complete_sentApplicationTo_p1_4}}</strong> {{messages.complete_sentApplicationTo_p1_5}} <strong><a href="https://www.gov.uk/get-on-electoral-register">{{authName}}</a></strong></p>{{/showWelsh}}
+    <p>{{messages.complete_contactYouTo_p2}}</p>
+    <p>{{messages.complete_contact3}}</p>
+    <p>{{messages.complete_contact4}} {{refNumber}} {{messages.complete_contact5}}</p>
+    {{/showTemplate2}}
+
+    {{#showTemplate3}}
+    <h2>{{messages.complete_whatToDoNext_h2}}</h2>
+    {{^showDeadlineText}}
+    <p><strong>{{messages.complete_deadline}}</strong></p>
+    {{/showDeadlineText}}
+    <p>{{#showEnglish}}{{messages.complete_sentApplicationTo_p}}<strong><a href="https://www.gov.uk/get-on-electoral-register">{{authName}}</a></strong> {{messages.complete_electoralRegistrationOffice}}.{{/showEnglish}}
+       {{#showWelsh}}{{messages.complete_sentApplicationTo_p_1}}<strong><a href="https://www.gov.uk/get-on-electoral-register">{{authName}}</a></strong> {{/showWelsh}}
+       </p>
+    <p>{{messages.complete_contact3}} {{messages.complete_contact6}} <strong>{{messages.complete_sentApplicationTo_p1_2}}</strong> {{messages.complete_contact7}} <strong>{{messages.complete_contact8}}</strong> {{messages.complete_contact9}} <strong><a href=https://www.gov.uk/government/publications/apply-for-a-postal-vote>{{messages.complete_contact10}}</a></strong>.</p>
+    <p>{{messages.complete_contact4}} {{refNumber}} {{messages.complete_contact5}}</p>
+    {{/showTemplate3}}
+
+    {{#showTemplate4}}
+    <h2>{{messages.complete_whatToDoNext_h2}}</h2>
+    {{^showDeadlineText}}
+    <p><strong>{{messages.complete_deadline}}</strong></p>
+    {{/showDeadlineText}}
+    <p>{{#showEnglish}}{{messages.complete_sentApplicationTo_p}}<strong><a href="https://www.gov.uk/get-on-electoral-register">{{authName}}</a></strong> {{messages.complete_electoralRegistrationOffice}}.{{/showEnglish}}
+        {{#showWelsh}}{{messages.complete_sentApplicationTo_p_1}}<strong><a href="https://www.gov.uk/get-on-electoral-register">{{authName}}</a></strong> {{/showWelsh}}
+    </p>
+    <p>{{messages.complete_contact3}} {{messages.complete_contact6}} <strong>{{messages.complete_sentApplicationTo_p1_6}}</strong> {{messages.complete_contact7}} <strong>{{messages.complete_contact8}}</strong> {{messages.complete_contact9}} <strong><a href=https://www.gov.uk/government/publications/proxy-voting-application-forms>{{messages.complete_contact10}}</a></strong>.</p>
+    <p>{{messages.complete_contact4}} {{refNumber}} {{messages.complete_contact5}}</p>
+    {{/showTemplate4}}
+
+    {{#showYoungScot}}
+        <p>{{messages.complete_youngScot}}</p>
+    {{/showYoungScot}}
+
+
+
+    {{#hasOtherAddress}}
+    <p>{{messages.complete_ifYouAreNotAlreadyRegistered1_p}}
+        <a href="{{backToStartUrl}}">{{messages.complete_ifYouAreNotAlreadyRegistered2_p}}</a>.</p>
+    {{/hasOtherAddress}}
+
+    <div class="footnote">
+        <h3>{{messages.complete_social_heading}}</h3>
+        <ul class="sharing-links">
+            <li><a href="https://twitter.com/intent/tweet?text={{messages.complete_social_twitter_url_text}}&url=https%3A%2F%2Fwww.gov.uk%2Fregister-to-vote" data-journey-click="Social media sharing:Click share link:Twitter" rel="external"><img src="{{{ appAssetPath }}}images/icon-social-twitter.png" alt="" />{{messages.complete_social_twitter_link_text}}</a></li>
+            <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.gov.uk%2Fregister-to-vote" data-journey-click="Social media sharing:Click share link:Facebook" rel="external"><img src="{{{ appAssetPath }}}images/icon-social-facebook.png" alt="" />{{messages.complete_social_facebook_link_text}}</a></li>
+        </ul>
+    </div>
+    <div class="footnote">
+        {{#surveyLink}}
+        <p><a href="{{surveyLink}}">{{messages.complete_takeOurSurvey_a}}</a> {{messages.complete_takeOurSurvey_p}}</p>
+        {{/surveyLink}}
+        <p><a href="{{messages.complete_moreAboutVoting_url}}">{{messages.complete_moreAboutVoting_a}}</a></p>
+    </div>
 </article>
 {{/main}}
 

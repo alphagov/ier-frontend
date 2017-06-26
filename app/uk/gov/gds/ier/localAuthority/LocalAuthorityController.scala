@@ -16,7 +16,7 @@ import uk.gov.gds.ier.transaction.crown.InprogressCrown
 import uk.gov.gds.ier.transaction.overseas.InprogressOverseas
 import uk.gov.gds.ier.validation.FormKeys
 import uk.gov.gds.ier.logging.Logging
-import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.service.{ScotlandService, AddressService}
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.guice.WithConfig
 import uk.gov.gds.ier.config.Config
@@ -32,7 +32,8 @@ class LocalAuthorityController @Inject() (
     val serialiser: JsonSerialiser,
     val encryptionService: EncryptionService,
     val config: Config,
-    val remoteAssets: RemoteAssets
+    val remoteAssets: RemoteAssets,
+    val scotlandService: ScotlandService
 ) extends Controller
   with ApiResults
   with WithSerialiser
@@ -51,7 +52,7 @@ class LocalAuthorityController @Inject() (
     Ok(LocalAuthorityShowPage(localAuthorityContactDetails, sourcePath))
   }
 
-  def doLookup(sourcePath: Option[String]) = Action { implicit request =>
+  /*def doLookup(sourcePath: Option[String]) = Action { implicit request =>
     localAuthorityLookupForm.bindFromRequest().fold(
       hasErrors => BadRequest(LocalAuthorityPostcodePage(
         hasErrors,
@@ -106,5 +107,5 @@ class LocalAuthorityController @Inject() (
         case _ =>
           request.getApplication[InprogressOrdinary] flatMap (_.address flatMap (_.gssCode))
       }
-  }
+  }*/
 }

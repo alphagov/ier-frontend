@@ -39,7 +39,7 @@ class AddressStep @Inject() (
 
     val address = currentState.address.flatMap(_.address)
     val postcode = address.exists(!_.postcode.trim.toUpperCase.isEmpty)
-    val ni = address.exists(_.postcode.startsWith("BT"))
+    val ni = address.exists(_.postcode.trim.toUpperCase.startsWith("BT"))
     val scot = address.exists(addr => addressService.isScotland(addr.postcode))
 
     (postcode, ni, scot) match {

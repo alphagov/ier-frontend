@@ -2,7 +2,7 @@ package uk.gov.gds.ier.transaction.ordinary.nino
 
 import uk.gov.gds.ier.validation._
 import play.api.data.Forms._
-import uk.gov.gds.ier.model.{Nino}
+import uk.gov.gds.ier.model.{Nino, Contact}
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.validation.constraints.CommonConstraints
 import play.api.data.validation.ValidationError
@@ -11,17 +11,19 @@ trait NinoForms extends NinoConstraints {
   self:  FormKeys =>
 
   val ninoForm = ErrorTransformForm(
-    mapping(keys.nino.key -> optional(Nino.mapping))
-    (
-      nino => InprogressOrdinary(nino = nino)
-    ) (
-      inprogress => Some(inprogress.nino)
+    mapping(
+      keys.nino.key -> optional(Nino.mapping),
+      keys.contact.key -> optional(Contact.mapping)
+    )(
+      (nino, contact) => InprogressOrdinary(nino = nino, contact = contact)
+    )(
+      inprogress => Some(inprogress.nino, inprogress.contact)
     ) verifying (ninoOrNoNinoReasonDefined, ninoIsValidIfProvided, ninoReasonMaxLength)
   )
 }
 
 trait NinoConstraints extends CommonConstraints with FormKeys {
-  lazy val ninoOrNoNinoReasonDefined = Constraint[InprogressOrdinary](keys.nino.key) {
+  lazy val ninoOrNoNinoReasonDefined = Constraint[InprogressOrdinary](keys.nino.key, keys.contact.key) {
     application =>
       if (application.nino.isDefined) {
         Valid

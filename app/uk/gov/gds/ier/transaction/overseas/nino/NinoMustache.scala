@@ -11,12 +11,15 @@ trait NinoMustache extends StepTemplate[InprogressOverseas] {
   case class NinoModel(
       question:Question,
       nino: Field,
-      noNinoReason: Field
+      noNinoReason: Field,
+      emailField: Field
   ) extends MustacheData
 
   val mustache = MustacheTemplate("overseas/nino") { (form, post) =>
 
     implicit val progressForm = form
+
+    val emailAddress = form(keys.contact.email.detail).value
 
     NinoModel(
       question = Question(
@@ -29,6 +32,10 @@ trait NinoMustache extends StepTemplate[InprogressOverseas] {
       ),
       noNinoReason = TextField(
         key = keys.nino.noNinoReason
+      ),
+      emailField = TextField(
+        key = keys.contact.email.detail,
+        default = emailAddress
       )
     )
   }

@@ -88,7 +88,6 @@ trait ParentsAddressSelectMustache extends StepTemplate[InprogressOverseas] {
     SelectModel(
       question = Question(
         postUrl = post.url,
-        number = questionNumber,
         title = title,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),

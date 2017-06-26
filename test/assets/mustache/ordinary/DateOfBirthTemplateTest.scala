@@ -5,14 +5,14 @@ import uk.gov.gds.ier.test._
 
 class DateOfBirthTemplateTest
   extends TemplateTestSuite
-  with DateOfBirthMustache {
+  with DateOfBirthMustache
+  with WithMockScotlandService {
 
   it should "properly render all properties from the model" in {
 
     running(FakeApplication()) {
       val data = DateOfBirthModel(
         question = Question(postUrl = "/register-to-vote/date-of-birth",
-        number = "1",
         title = "What is your date of birth?"
         ),
         day = Field(
@@ -39,13 +39,44 @@ class DateOfBirthTemplateTest
           classes = "noDobReasonClass",
           value = "noDobReasonValue"
         ),
+        isScot = false,
         rangeFieldSet = FieldSet(
           classes = ""
         ),
-        range18to70 = Field(
-          id = "range18to70Id",
-          name = "range18to70Name",
-          classes = "range18to70Class",
+        rangeUnder18 = Field(
+          id = "rangeUnder18Id",
+          name = "rangeUnder18Name",
+          classes = "rangeUnder18Class",
+          attributes = "foo=\"foo\""
+        ),
+        rangeOver75 = Field(
+          id = "rangeOver75Id",
+          name = "rangeOver75Name",
+          classes = "rangeOver75Class",
+          attributes = "foo=\"foo\""
+        ),
+        range18to75 = Field(
+          id = "range18to75Id",
+          name = "range18to75Name",
+          classes = "range18to75Class",
+          attributes = "foo=\"foo\""
+        ),
+        range14to15_YoungScot = Field(
+          id = "range14to15Id",
+          name = "range14to15Name",
+          classes = "range14to15Class",
+          attributes = "foo=\"foo\""
+        ),
+        range16to17_YoungScot = Field(
+          id = "range16to17Id",
+          name = "range16to17Name",
+          classes = "range16to17Class",
+          attributes = "foo=\"foo\""
+        ),
+        rangeOver18_YoungScot = Field(
+          id = "rangeOver18Id",
+          name = "rangeOver18Name",
+          classes = "rangeOver18Class",
           attributes = "foo=\"foo\""
         ),
         rangeDontKnow = Field(
@@ -54,20 +85,14 @@ class DateOfBirthTemplateTest
           classes = "rangeDontKnowClass",
           attributes = "foo=\"foo\""
         ),
-        rangeOver70 = Field(
-          id = "rangeOver70Id",
-          name = "rangeOver70Name",
-          classes = "rangeOver70Class",
-          attributes = "foo=\"foo\""
-        ),
-        rangeUnder18 = Field(
-          id = "rangeUnder18Id",
-          name = "rangeUnder18Name",
-          classes = "rangeUnder18Class",
-          attributes = "foo=\"foo\""
-        ),
         noDobReasonShowFlag = Text(
           value = "noDobReasonShowFlag"
+        ),
+        emailField = Field(
+          id = "emailFieldId",
+          name = "emailFieldName",
+          classes = "emailFieldClass",
+          value = "emailFieldValue"
         )
       )
 
@@ -104,20 +129,45 @@ class DateOfBirthTemplateTest
       noDobReasonTextArea.text() should be("noDobReasonValue")
       noDobReasonTextArea.attr("class") should include("noDobReasonClass")
 
+      if (data.isScot) {
+        val range14to15Input = doc.select("input[id=range14to15Id]").first()
+        range14to15Input.attr("id") should be("range14to15Id")
+        range14to15Input.attr("name") should be("range14to15Name")
+        range14to15Input.attr("foo") should include("foo")
+
+        val range16to17Input = doc.select("input[id=range16to17Id]").first()
+        range16to17Input.attr("id") should be("range16to17Id")
+        range16to17Input.attr("name") should be("range16to17Name")
+        range16to17Input.attr("foo") should include("foo")
+
+        val rangeOver18Input = doc.select("input[id=rangeOver18Id]").first()
+        rangeOver18Input.attr("id") should be("rangeOver18Id")
+        rangeOver18Input.attr("name") should be("rangeOver18Name")
+        rangeOver18Input.attr("foo") should include("foo")
+
+      } else {
+
+        val rangeUnder18Input = doc.select("input[id=rangeUnder18Id]").first()
+        rangeUnder18Input.attr("id") should be("rangeUnder18Id")
+        rangeUnder18Input.attr("name") should be("rangeUnder18Name")
+        rangeUnder18Input.attr("foo") should include("foo")
+
+        val range18to75Input = doc.select("input[id=range18to75Id]").first()
+        range18to75Input.attr("id") should be("range18to75Id")
+        range18to75Input.attr("name") should be("range18to75Name")
+        range18to75Input.attr("foo") should include("foo")
+
+        val rangeOver75Input = doc.select("input[id=rangeOver75Id]").first()
+        rangeOver75Input.attr("id") should be("rangeOver75Id")
+        rangeOver75Input.attr("name") should be("rangeOver75Name")
+        rangeOver75Input.attr("foo") should include("foo")
+      }
+
       val rangeDontKnowInput = doc.select("input[id=rangeDontKnowId]").first()
       rangeDontKnowInput.attr("id") should be("rangeDontKnowId")
       rangeDontKnowInput.attr("name") should be("rangeDontKnowName")
       rangeDontKnowInput.attr("foo") should include("foo")
 
-      val rangeOver70Input = doc.select("input[id=rangeOver70Id]").first()
-      rangeOver70Input.attr("id") should be("rangeOver70Id")
-      rangeOver70Input.attr("name") should be("rangeOver70Name")
-      rangeOver70Input.attr("foo") should include("foo")
-
-      val rangeUnder18Input = doc.select("input[id=rangeUnder18Id]").first()
-      rangeUnder18Input.attr("id") should be("rangeUnder18Id")
-      rangeUnder18Input.attr("name") should be("rangeUnder18Name")
-      rangeUnder18Input.attr("foo") should include("foo")
     }
   }
 }

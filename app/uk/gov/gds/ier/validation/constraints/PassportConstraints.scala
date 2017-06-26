@@ -197,4 +197,15 @@ trait PassportConstraints extends CommonConstraints{
       )
     }
   }
+
+  lazy val passportNumberIsValid = Constraint[InprogressOverseas](keys.passportNumber.key) {
+    application => application.passport match {
+      case Some(Passport(true,_,Some(PassportDetails(passportNumber,_,_)),_))
+        if PassportNumberValidator.isValid(passportNumber) => Valid
+      case _ => Invalid(
+        "Your passport number should be 9 digits long",
+        keys.passport.passportDetails.passportNumber
+      )
+    }
+  }
 }

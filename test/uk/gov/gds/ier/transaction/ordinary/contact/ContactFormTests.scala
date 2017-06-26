@@ -11,7 +11,7 @@ class ContactFormTests
     val js = Json.toJson(
       Map(
         "contact.post.contactMe" -> "true",
-        "contact.phone.detail" -> "1234567890",
+        "contact.phone.detail" -> "1234567890ext123",
         "contact.phone.contactMe" -> "true",
         "contact.email.detail" -> "fake@fake.com",
         "contact.email.contactMe" -> "true"
@@ -23,7 +23,7 @@ class ContactFormTests
         success.contact.isDefined should be(true)
         val contact = success.contact.get
         contact.post should be(true)
-        contact.phone should be(Some(ContactDetail(true, Some("1234567890"))))
+        contact.phone should be(Some(ContactDetail(true, Some("1234567890ext123"))))
         contact.email should be(Some(ContactDetail(true, Some("fake@fake.com"))))
       }
     )
@@ -50,7 +50,7 @@ class ContactFormTests
   it should "bind successfully (phone)" in {
     val js = Json.toJson(
       Map(
-        "contact.phone.detail" -> "1234567890",
+        "contact.phone.detail" -> "(+44)1234567890",
         "contact.phone.contactMe" -> "true"
       )
     )
@@ -59,7 +59,7 @@ class ContactFormTests
       success => {
         success.contact.isDefined should be(true)
         val contact = success.contact.get
-        contact.phone should be(Some(ContactDetail(true,Some("1234567890"))))
+        contact.phone should be(Some(ContactDetail(true,Some("(+44)1234567890"))))
         contact.post should be(false)
         contact.email should be(None)
       }

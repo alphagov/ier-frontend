@@ -232,7 +232,7 @@ class ConfirmationMustacheTest
         dob = None,
         noDob = Some(noDOB(
           reason = Some("I have no idea!"),
-          range = Some("18to70")
+          range = Some("18to75")
         ))))
     ))
 

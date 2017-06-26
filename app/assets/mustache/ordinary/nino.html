@@ -1,7 +1,27 @@
-<form action="{{question.postUrl}}" method="POST" data-validation-name="nino"
+<form onsubmit= "TrackEvent()"
+      action="{{question.postUrl}}" method="POST" data-validation-name="nino"
       data-validation-type="association"
       data-validation-rules="fieldsetOrExcuse"
       class="validate" data-validation-members="ninoCode ninoExcuse">
+
+    <script>
+    var onLoadValue;
+
+    window.onload = function CurrentEmail(){
+    onLoadValue = document.getElementById("{{emailField.id}}").value;
+    }
+
+    function TrackEvent(){
+    var onSubmitValue = document.getElementById("{{emailField.id}}").value;
+    if (onSubmitValue !== onLoadValue)
+        {ga('send', {
+          hitType: 'event',
+          eventCategory: 'Email Address Collection',
+          eventAction: 'NINO Email',
+          eventLabel: 'NINO - Email Address Provided'
+        });}
+    }
+    </script>
 
     {{> shared/questionHeader }}
 
@@ -21,15 +41,15 @@
     <button type="submit" id="alt-continue"
             class="button next validation-submit"
             data-validation-sources="nino">{{messages.step_continue}}</button>
-    <div class="help-content help-content{{noNinoReasonShowFlag.value}}" data-toggle-text="{{messages.ordinary_nino_help}}">
+    <div class="help-content help-content{{noNinoReasonShowFlag.value}}" data-journey-click="Hyperlinks:NINO:I dont know my National Insurance Number" data-toggle-text="{{messages.ordinary_nino_help}}">
         <h2>{{messages.ordinary_nino_help}}</h2>
         <p>{{messages.ordinary_nino_section_1}}</p>
-        <ul>
-            <li>{{messages.ordinary_nino_list_1}}</li>
-            <li><a href="https://www.gov.uk/lost-national-insurance-number">{{messages.ordinary_nino_list_2}}</a></li>
-        </ul>
+              <ul>
+                  <li>{{messages.ordinary_nino_list_1}}</li>
+                  <li><a href="https://www.gov.uk/lost-national-insurance-number" data-journey-click="Hyperlinks:NINO:Ask for a reminder" rel="external">{{messages.ordinary_nino_list_2}}</a></li>
+              </ul>
         <p>{{messages.ordinary_nino_section_2}}</p>
-        <div class="optional-section optional-section{{noNinoReasonShowFlag.value}}" data-toggle-text="{{messages.ordinary_nino_excuse}}">
+        <div class="optional-section optional-section{{noNinoReasonShowFlag.value}}" data-journey-click="Hyperlinks:NINO:I cant provide a National Insurance Number" data-toggle-text="{{messages.ordinary_nino_excuse}}">
             <h3>{{messages.ordinary_nino_excuse}}</h3>
 
             <label for="{{noNinoReason.id}}" class=""  >
@@ -39,9 +59,14 @@
                       data-validation-name="ninoExcuse"  data-validation-type="field"
                       data-validation-rules="nonEmpty" maxlength="500"
                       autocomplete="off">{{noNinoReason.value}}</textarea>
+            <p>{{messages.ordinary_confirmation_nino_email}}</p>
+            <input type="email" id="{{emailField.id}}" name="{{emailField.name}}"
+                   value="{{emailField.value}}" autocomplete="off"
+                   class="text  long validate {{emailField.classes}}" data-validation-name="emailAddress"
+                   data-validation-type="field" data-validation-rules="emailCanBeEmpty">
         </div>
     </div>
     <button type="submit" id="continue"
             class="button next validation-submit"
-            data-validation-sources="nino">{{messages.step_continue}}</button>
+            data-validation-sources="nino emailAddress">{{messages.step_continue}}</button>
 </form>

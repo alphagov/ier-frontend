@@ -21,6 +21,7 @@ class OverseasControllers @Inject()(
   lazy val LastUkAddressManualStep = injector.dependency[lastUkAddress.LastUkAddressManualStep]
   lazy val LastUkAddressSelectStep = injector.dependency[lastUkAddress.LastUkAddressSelectStep]
   lazy val NameStep = injector.dependency[name.NameStep]
+  lazy val PreviousNameStep = injector.dependency[previousName.PreviousNameStep]
   lazy val NinoStep = injector.dependency[nino.NinoStep]
   lazy val OpenRegisterStep = injector.dependency[openRegister.OpenRegisterStep]
   lazy val ParentNameStep = injector.dependency[parentName.ParentNameStep]
